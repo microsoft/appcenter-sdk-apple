@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 
 #import "MSAlertController.h"
-#import "MSAppDelegate.h"
+#import "MSUIAppDelegate.h"
 #import "MSDistribute.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -32,6 +32,7 @@ static NSString *const kMSURLQueryReleaseHashKey = @"release_hash";
 static NSString *const kMSURLQueryRedirectIdKey = @"redirect_id";
 static NSString *const kMSURLQueryRequestIdKey = @"request_id";
 static NSString *const kMSURLQueryUpdateTokenKey = @"update_token";
+static NSString *const kMSURLQueryDistributionGroupIdKey = @"distribution_group_id";
 
 /**
  * Distribute url query parameter value strings.
@@ -67,6 +68,11 @@ static NSString *const kMSMandatoryReleaseKey = @"MSMandatoryRelease";
  * The keychain key for update token.
  */
 static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
+
+/**
+ * The storage key for distribution group ID.
+ */
+static NSString *const kMSDistributionGroupIdKey = @"MSDistributionGroupId";
 
 @interface MSDistribute ()
 
@@ -139,17 +145,18 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
 /**
  * Send a request to get the latest release.
  *
- * @param updateToken The update token stored in keychain.
+ * @param updateToken The update token stored in keychain. This value can be nil if it is public distribution.
+ * @param distributionGroupId The distribution group Id in keychain.
  * @param releaseHash The release hash of the current version.
  */
-- (void)checkLatestRelease:(NSString *)updateToken releaseHash:(NSString *)releaseHash;
+- (void)checkLatestRelease:(nullable NSString *)updateToken distributionGroupId:(NSString *)distributionGroupId releaseHash:(NSString *)releaseHash;
 
 /**
- * Send a request to get update token.
+ * Send a request to get information for installation.
  *
  * @param releaseHash The release hash of the current version.
  */
-- (void)requestUpdateToken:(NSString *)releaseHash;
+- (void)requestInstallInformationWith:(NSString *)releaseHash;
 
 /**
  * Update workflow to make a decision based on release details.

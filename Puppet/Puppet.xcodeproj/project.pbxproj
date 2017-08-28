@@ -21,7 +21,6 @@
 		380A4DC61DD68D1000E99219 /* libMobileCenterCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E82E1B811D1CA62900D281C1 /* libMobileCenterCrashes.a */; };
 		380A4DC81DD68D2B00E99219 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A201D4151A00016C325 /* CrashReporter.framework */; };
 		380A4DC91DD68D3F00E99219 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A271D4152FA0016C325 /* libc++.tbd */; };
-		382346321E8B013F001C3A76 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 382346311E8B013F001C3A76 /* MobileCoreServices.framework */; };
 		38484F6D1E53D57E00C5631C /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38484F691E537B9300C5631C /* SafariServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		38E1B65A1DDCDDF4000EFED1 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E1B6591DDCDDF4000EFED1 /* MSAlertController.m */; };
 		5C2BD19B1ED5D44400FB20C8 /* MSAnalyticsResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C2BD19A1ED5D44400FB20C8 /* MSAnalyticsResultViewController.m */; };
@@ -59,19 +58,75 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		0446C04E1F3D307B007CBE39 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 048A76B51E9EC2D50075A6D6 /* MobileCenterPush.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0469640D1F2A558300F9D31F;
+			remoteInfo = MobileCenterPushMacOS;
+		};
+		0446C0501F3D307B007CBE39 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 048A76B51E9EC2D50075A6D6 /* MobileCenterPush.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 046964251F2A559C00F9D31F;
+			remoteInfo = MobileCenterPushMacOSTests;
+		};
+		04685E651EE776AC00A1592F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E82E1B821D1CA63000D281C1 /* MobileCenter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 043120DA1EE0BCF9007054C5;
+			remoteInfo = MobileCenterTVOS;
+		};
+		04685E6F1EE776AC00A1592F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E85547FB1D2D6C8D002DF6E2 /* MobileCenterAnalytics.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0431216C1EE0C20A007054C5;
+			remoteInfo = MobileCenterAnalyticsTVOS;
+		};
+		046AEA991ECA509000CBE511 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E82E1B821D1CA63000D281C1 /* MobileCenter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 04754FAB1EA98182002CBA46;
+			remoteInfo = MobileCenterMacOS;
+		};
+		046AEAA01ECA509000CBE511 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E85547FB1D2D6C8D002DF6E2 /* MobileCenterAnalytics.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0485AF851EAA79E300C10CAF;
+			remoteInfo = MobileCenterAnalyticsMacOS;
+		};
+		046AEAA81ECA509000CBE511 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E82E1B7C1D1CA62900D281C1 /* MobileCenterCrashes.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0485AFD31EAA887500C10CAF;
+			remoteInfo = MobileCenterCrashesMacOS;
+		};
+		046AEAAA1ECA509000CBE511 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E82E1B7C1D1CA62900D281C1 /* MobileCenterCrashes.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 049327961ECA170D00D0187A;
+			remoteInfo = MobileCenterCrashesMacOSTests;
+		};
 		0471B92E1E4550670022F951 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0471B91E1E4550670022F951 /* MobileCenterDistribute.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 04FD4A1C1E451E12009B4468;
-			remoteInfo = MobileCenterDistribute;
+			remoteInfo = MobileCenterDistributeIOS;
 		};
 		0471B9301E4550670022F951 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0471B91E1E4550670022F951 /* MobileCenterDistribute.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 04FD4A311E453531009B4468;
-			remoteInfo = MobileCenterDistributeTests;
+			remoteInfo = MobileCenterDistributeIOSTests;
 		};
 		0471B9471E455B630022F951 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -87,6 +142,20 @@
 			remoteGlobalIDString = 04FD4A1B1E451E12009B4468;
 			remoteInfo = MobileCenterDistribute;
 		};
+		048494D01ECCD9E40020B0FC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E82E1B821D1CA63000D281C1 /* MobileCenter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 046AEAF61ECA562A00CBE511;
+			remoteInfo = MobileCenterMacOSTests;
+		};
+		048494D81ECCD9E40020B0FC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E85547FB1D2D6C8D002DF6E2 /* MobileCenterAnalytics.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 046AEAC61ECA51AF00CBE511;
+			remoteInfo = MobileCenterAnalyticsMacOSTests;
+		};
 		048A76A11E9EC0240075A6D6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E82E1B571D1CA58D00D281C1 /* Project object */;
@@ -99,14 +168,14 @@
 			containerPortal = 048A76B51E9EC2D50075A6D6 /* MobileCenterPush.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = D33A94511E5B11BB003966DB;
-			remoteInfo = MobileCenterPush;
+			remoteInfo = MobileCenterPushIOS;
 		};
 		048A76BE1E9EC2D50075A6D6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 048A76B51E9EC2D50075A6D6 /* MobileCenterPush.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = D3AD5EC01E5C4F6A001627AB;
-			remoteInfo = MobileCenterPushTests;
+			remoteInfo = MobileCenterPushIOSTests;
 		};
 		048A76C01E9EC2EF0075A6D6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -114,6 +183,27 @@
 			proxyType = 1;
 			remoteGlobalIDString = D33A94501E5B11BB003966DB;
 			remoteInfo = MobileCenterPush;
+		};
+		04A140D01ECE8ECF001CEE94 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E82E1B821D1CA63000D281C1 /* MobileCenter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6E2395781D22EF4F00E543C8;
+			remoteInfo = MobileCenterIOSTests;
+		};
+		04A140DE1ECE8ECF001CEE94 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E82E1B7C1D1CA62900D281C1 /* MobileCenterCrashes.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6E171AE11D22F781000DC480;
+			remoteInfo = MobileCenterCrashesIOSTests;
+		};
+		04EBBF1B1F01CCBE0006B8AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E82E1B7C1D1CA62900D281C1 /* MobileCenterCrashes.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 04EBBEE81F01C0C90006B8AE;
+			remoteInfo = MobileCenterCrashesTVOS;
 		};
 		380A4DA21DD6892F00E99219 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -169,21 +259,14 @@
 			containerPortal = E82E1B7C1D1CA62900D281C1 /* MobileCenterCrashes.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 6E0401331D1C98690051BCFA;
-			remoteInfo = MobileCenterCrashes;
+			remoteInfo = MobileCenterCrashesIOS;
 		};
 		E82E1B871D1CA63000D281C1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E82E1B821D1CA63000D281C1 /* MobileCenter.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 6E0401031D1C98220051BCFA;
-			remoteInfo = MobileCenter;
-		};
-		E82E1B891D1CA63000D281C1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E82E1B821D1CA63000D281C1 /* MobileCenter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 6E04015E1D1C9DF40051BCFA;
-			remoteInfo = MobileCenterTests;
+			remoteInfo = MobileCenterIOS;
 		};
 		E82E1B8B1D1CA65600D281C1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -204,14 +287,14 @@
 			containerPortal = E85547FB1D2D6C8D002DF6E2 /* MobileCenterAnalytics.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = E85547C01D2D6253002DF6E2;
-			remoteInfo = MobileCenterAnalytics;
+			remoteInfo = MobileCenterAnalyticsIOS;
 		};
 		E85548041D2D6C8D002DF6E2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E85547FB1D2D6C8D002DF6E2 /* MobileCenterAnalytics.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = E85547D51D2D6723002DF6E2;
-			remoteInfo = MobileCenterAnalyticsTests;
+			remoteInfo = MobileCenterAnalyticsIOSTests;
 		};
 		E85548061D2D6C98002DF6E2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -219,13 +302,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = E85547BF1D2D6253002DF6E2;
 			remoteInfo = MobileCenterAnalytics;
-		};
-		E8DF1C2B1D21A8F5006310CF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E82E1B7C1D1CA62900D281C1 /* MobileCenterCrashes.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 6E3729681D1DE7EC00F1E4AE;
-			remoteInfo = MobileCenterCrashesTests;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -271,7 +347,6 @@
 		380A4D9C1DD6892F00E99219 /* TodayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodayViewController.m; sourceTree = "<group>"; };
 		380A4D9F1DD6892F00E99219 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		380A4DA11DD6892F00E99219 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		382346311E8B013F001C3A76 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		38484F691E537B9300C5631C /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		384959D81D4972DA008F6B3A /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		38E1B6581DDCDDF4000EFED1 /* MSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAlertController.h; sourceTree = "<group>"; };
@@ -292,10 +367,10 @@
 		6EC99A201D4151A00016C325 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = ../../Vendor/PLCrashReporter/CrashReporter.framework; sourceTree = "<group>"; };
 		6EC99A251D4152EB0016C325 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		6EC99A271D4152FA0016C325 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
-		808A10F81EF312A000DFD41B /* MSPropertiesTableDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSPropertiesTableDataSource.h; path = ../../Vendor/Utils/MSPropertiesTableDataSource.h; sourceTree = "<group>"; };
-		808A10F91EF312A000DFD41B /* MSPropertiesTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSPropertiesTableDataSource.m; path = ../../Vendor/Utils/MSPropertiesTableDataSource.m; sourceTree = "<group>"; };
-		808A10FA1EF312A000DFD41B /* MSPropertyViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSPropertyViewCell.h; path = ../../Vendor/Utils/MSPropertyViewCell.h; sourceTree = "<group>"; };
-		808A10FB1EF312A000DFD41B /* MSPropertyViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSPropertyViewCell.m; path = ../../Vendor/Utils/MSPropertyViewCell.m; sourceTree = "<group>"; };
+		808A10F81EF312A000DFD41B /* MSPropertiesTableDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSPropertiesTableDataSource.h; path = ../../Vendor/Common/Utils/MSPropertiesTableDataSource.h; sourceTree = "<group>"; };
+		808A10F91EF312A000DFD41B /* MSPropertiesTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSPropertiesTableDataSource.m; path = ../../Vendor/Common/Utils/MSPropertiesTableDataSource.m; sourceTree = "<group>"; };
+		808A10FA1EF312A000DFD41B /* MSPropertyViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSPropertyViewCell.h; path = ../../Vendor/Common/Utils/MSPropertyViewCell.h; sourceTree = "<group>"; };
+		808A10FB1EF312A000DFD41B /* MSPropertyViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSPropertyViewCell.m; path = ../../Vendor/Common/Utils/MSPropertyViewCell.m; sourceTree = "<group>"; };
 		B21B26C51DDE490400FF0378 /* MSCrashesDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashesDetailViewController.h; sourceTree = "<group>"; };
 		B21B26C61DDE490400FF0378 /* MSCrashesDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCrashesDetailViewController.m; sourceTree = "<group>"; };
 		B27397A31DE3D27700AC7761 /* CrashLibIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -354,7 +429,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B2F3FA8B1E96DB5A0065A3BE /* libsqlite3.tbd in Frameworks */,
-				382346321E8B013F001C3A76 /* MobileCoreServices.framework in Frameworks */,
 				38484F6D1E53D57E00C5631C /* SafariServices.framework in Frameworks */,
 				6EC99A281D4152FA0016C325 /* libc++.tbd in Frameworks */,
 				6EC99A211D4151A00016C325 /* CrashReporter.framework in Frameworks */,
@@ -395,6 +469,8 @@
 			children = (
 				048A76BD1E9EC2D50075A6D6 /* libMobileCenterPush.a */,
 				048A76BF1E9EC2D50075A6D6 /* MobileCenterPush.xctest */,
+				0446C04F1F3D307B007CBE39 /* libMobileCenterPush.a */,
+				0446C0511F3D307B007CBE39 /* MobileCenterPush.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -403,7 +479,7 @@
 			isa = PBXGroup;
 			children = (
 				B2F3FA8A1E96DB5A0065A3BE /* libsqlite3.tbd */,
-				382346311E8B013F001C3A76 /* MobileCoreServices.framework */,
+				B27397A31DE3D27700AC7761 /* CrashLibIOS.framework */,
 				38F2606E1E649FE5004F0FDC /* Security.framework */,
 				38484F691E537B9300C5631C /* SafariServices.framework */,
 				380A4D981DD6892F00E99219 /* NotificationCenter.framework */,
@@ -430,7 +506,7 @@
 				38E1B6591DDCDDF4000EFED1 /* MSAlertController.m */,
 			);
 			name = MSAlertController;
-			path = ../../Vendor/MSAlertController;
+			path = ../../Vendor/iOS/MSAlertController;
 			sourceTree = "<group>";
 		};
 		5C2BD1A01ED5DE2100FB20C8 /* Utils */ = {
@@ -470,7 +546,6 @@
 		E82E1B561D1CA58D00D281C1 = {
 			isa = PBXGroup;
 			children = (
-				B27397A31DE3D27700AC7761 /* CrashLibIOS.framework */,
 				6EC99A271D4152FA0016C325 /* libc++.tbd */,
 				6EC99A251D4152EB0016C325 /* libz.tbd */,
 				E82E1B611D1CA58D00D281C1 /* Puppet */,
@@ -534,7 +609,10 @@
 			isa = PBXGroup;
 			children = (
 				E82E1B811D1CA62900D281C1 /* libMobileCenterCrashes.a */,
-				E8DF1C2C1D21A8F5006310CF /* MobileCenterCrashes.xctest */,
+				04A140DF1ECE8ECF001CEE94 /* MobileCenterCrashes.xctest */,
+				046AEAA91ECA509000CBE511 /* libMobileCenterCrashes.a */,
+				046AEAAB1ECA509000CBE511 /* MobileCenterCrashes.xctest */,
+				04EBBF1C1F01CCBE0006B8AE /* libMobileCenterCrashes.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -543,7 +621,10 @@
 			isa = PBXGroup;
 			children = (
 				E82E1B881D1CA63000D281C1 /* libMobileCenter.a */,
-				E82E1B8A1D1CA63000D281C1 /* MobileCenter.xctest */,
+				04A140D11ECE8ECF001CEE94 /* MobileCenter.xctest */,
+				046AEA9A1ECA509000CBE511 /* libMobileCenter.a */,
+				048494D11ECCD9E40020B0FC /* MobileCenter.xctest */,
+				04685E661EE776AC00A1592F /* libMobileCenter.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -553,6 +634,9 @@
 			children = (
 				E85548031D2D6C8D002DF6E2 /* libMobileCenterAnalytics.a */,
 				E85548051D2D6C8D002DF6E2 /* MobileCenterAnalytics.xctest */,
+				046AEAA11ECA509000CBE511 /* libMobileCenterAnalytics.a */,
+				048494D91ECCD9E40020B0FC /* MobileCenterAnalytics.xctest */,
+				04685E701EE776AC00A1592F /* libMobileCenterAnalytics.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -664,8 +748,8 @@
 				E82E1B8E1D1CA65600D281C1 /* PBXTargetDependency */,
 				0471B9481E455B630022F951 /* PBXTargetDependency */,
 				048A76C11E9EC2EF0075A6D6 /* PBXTargetDependency */,
-				380A4DA31DD6892F00E99219 /* PBXTargetDependency */,
 				B2C070CE1E5F59A90076D6A9 /* PBXTargetDependency */,
+				380A4DA31DD6892F00E99219 /* PBXTargetDependency */,
 				048A76A21E9EC0240075A6D6 /* PBXTargetDependency */,
 			);
 			name = Puppet;
@@ -755,6 +839,62 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		0446C04F1F3D307B007CBE39 /* libMobileCenterPush.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libMobileCenterPush.a;
+			remoteRef = 0446C04E1F3D307B007CBE39 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0446C0511F3D307B007CBE39 /* MobileCenterPush.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MobileCenterPush.xctest;
+			remoteRef = 0446C0501F3D307B007CBE39 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		04685E661EE776AC00A1592F /* libMobileCenter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libMobileCenter.a;
+			remoteRef = 04685E651EE776AC00A1592F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		04685E701EE776AC00A1592F /* libMobileCenterAnalytics.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libMobileCenterAnalytics.a;
+			remoteRef = 04685E6F1EE776AC00A1592F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		046AEA9A1ECA509000CBE511 /* libMobileCenter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libMobileCenter.a;
+			remoteRef = 046AEA991ECA509000CBE511 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		046AEAA11ECA509000CBE511 /* libMobileCenterAnalytics.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libMobileCenterAnalytics.a;
+			remoteRef = 046AEAA01ECA509000CBE511 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		046AEAA91ECA509000CBE511 /* libMobileCenterCrashes.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libMobileCenterCrashes.a;
+			remoteRef = 046AEAA81ECA509000CBE511 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		046AEAAB1ECA509000CBE511 /* MobileCenterCrashes.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MobileCenterCrashes.xctest;
+			remoteRef = 046AEAAA1ECA509000CBE511 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		0471B92F1E4550670022F951 /* libMobileCenterDistribute.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -769,6 +909,20 @@
 			remoteRef = 0471B9301E4550670022F951 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		048494D11ECCD9E40020B0FC /* MobileCenter.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MobileCenter.xctest;
+			remoteRef = 048494D01ECCD9E40020B0FC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		048494D91ECCD9E40020B0FC /* MobileCenterAnalytics.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MobileCenterAnalytics.xctest;
+			remoteRef = 048494D81ECCD9E40020B0FC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		048A76BD1E9EC2D50075A6D6 /* libMobileCenterPush.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -781,6 +935,27 @@
 			fileType = wrapper.cfbundle;
 			path = MobileCenterPush.xctest;
 			remoteRef = 048A76BE1E9EC2D50075A6D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		04A140D11ECE8ECF001CEE94 /* MobileCenter.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MobileCenter.xctest;
+			remoteRef = 04A140D01ECE8ECF001CEE94 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		04A140DF1ECE8ECF001CEE94 /* MobileCenterCrashes.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MobileCenterCrashes.xctest;
+			remoteRef = 04A140DE1ECE8ECF001CEE94 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		04EBBF1C1F01CCBE0006B8AE /* libMobileCenterCrashes.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libMobileCenterCrashes.a;
+			remoteRef = 04EBBF1B1F01CCBE0006B8AE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		B2C070CB1E5F59A90076D6A9 /* MobileCenterDistributeResources.bundle */ = {
@@ -804,13 +979,6 @@
 			remoteRef = E82E1B871D1CA63000D281C1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		E82E1B8A1D1CA63000D281C1 /* MobileCenter.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = MobileCenter.xctest;
-			remoteRef = E82E1B891D1CA63000D281C1 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		E85548031D2D6C8D002DF6E2 /* libMobileCenterAnalytics.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -823,13 +991,6 @@
 			fileType = wrapper.cfbundle;
 			path = MobileCenterAnalytics.xctest;
 			remoteRef = E85548041D2D6C8D002DF6E2 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		E8DF1C2C1D21A8F5006310CF /* MobileCenterCrashes.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = MobileCenterCrashes.xctest;
-			remoteRef = E8DF1C2B1D21A8F5006310CF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1061,7 +1222,6 @@
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = PuppetWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
@@ -1080,7 +1240,6 @@
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = PuppetWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
@@ -1160,8 +1319,8 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SRCROOT)/../CrashLibIOS/CrashLibIOS",
-					"$(SRCROOT)/../Vendor/**",
+					"$(SRCROOT)/../CrashLib/CrashLib",
+					"$(SRCROOT)/../Vendor/iOS/**",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1217,8 +1376,8 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SRCROOT)/../CrashLibIOS/CrashLibIOS",
-					"$(SRCROOT)/../Vendor/**",
+					"$(SRCROOT)/../CrashLib/CrashLib",
+					"$(SRCROOT)/../Vendor/iOS/**",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1248,11 +1407,10 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../CrashLibIOS/CrashLibIOS";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../CrashLib/CrashLib";
 				INFOPLIST_FILE = Puppet/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1276,10 +1434,9 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../CrashLibIOS/CrashLibIOS";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../CrashLib/CrashLib";
 				INFOPLIST_FILE = Puppet/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

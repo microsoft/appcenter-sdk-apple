@@ -1,4 +1,3 @@
-#import <UIKit/UIKit.h>
 #import "MSPushDelegate.h"
 #import "MSServiceAbstract.h"
 
@@ -22,6 +21,26 @@ NS_ASSUME_NONNULL_BEGIN
  * @param error Error of unsuccessful registration.
  */
 + (void)didFailToRegisterForRemoteNotificationsWithError:(NSError *)error;
+
+#if TARGET_OS_OSX
+/**
+ * Callback for notification with notification on macOS.
+ *
+ * @param notification The notification that triggered the application launch.
+ *
+ * @return YES if the notification was sent via Mobile Center.
+ */
++ (BOOL)didReceiveNotification:(NSNotification *)notification;
+
+/**
+ * Callback for notification with user notification on macOS.
+ *
+ * @param notification The received user notification.
+ *
+ * @return YES if the notification was sent via Mobile Center.
+ */
++ (BOOL)didReceiveUserNotification:(NSUserNotification *)notification;
+#endif
 
 /**
  * Callback for notification with user info.

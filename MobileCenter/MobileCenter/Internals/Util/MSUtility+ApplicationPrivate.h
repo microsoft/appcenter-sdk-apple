@@ -15,6 +15,10 @@
  * which makes the UIApplication not mockable. This method is meant to be stubbed in tests to inject the desired
  * application states.
  */
+#if TARGET_OS_OSX
++ (MSApplicationState)sharedAppState;
+#else
 + (UIApplicationState)sharedAppState;
+#endif
 
 @end

@@ -1,12 +1,10 @@
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <OCMock/OCMock.h>
-#import <XCTest/XCTest.h>
 #import "MSDevice.h"
 #import "MSDeviceHistoryInfo.h"
 #import "MSDeviceInternal.h"
 #import "MSDeviceTracker.h"
 #import "MSDeviceTrackerPrivate.h"
 #import "MSMockUserDefaults.h"
+#import "MSTestFrameworks.h"
 #import "MSUtility+Date.h"
 #import "MSWrapperSdkInternal.h"
 
@@ -88,12 +86,22 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 - (void)testDeviceOSName {
 
   // If
+
+#if TARGET_OS_OSX
+  NSString *expected = @"macOS";
+#else
   NSString *expected = @"iMock OS";
   UIDevice *deviceMock = OCMClassMock([UIDevice class]);
   OCMStub([deviceMock systemName]).andReturn(expected);
+#endif
 
   // When
+
+#if TARGET_OS_OSX
+  NSString *osName = [self.sut osName];
+#else
   NSString *osName = [self.sut osName:deviceMock];
+#endif
 
   // Then
   assertThat(osName, is(expected));
@@ -103,11 +111,37 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
   // If
   NSString *expected = @"4.5.6";
+
+#if TARGET_OS_OSX
+#if __MAC_OS_X_VERSION_MAX_ALLOWED > 1090
+  id processInfoMock = OCMClassMock([NSProcessInfo class]);
+  OCMStub([processInfoMock processInfo]).andReturn(processInfoMock);
+  NSOperatingSystemVersion osSystemVersionMock;
+  osSystemVersionMock.majorVersion = 4;
+  osSystemVersionMock.minorVersion = 5;
+  osSystemVersionMock.patchVersion = 6;
+  OCMStub([processInfoMock operatingSystemVersion]).andReturn(osSystemVersionMock);
+#else
+
+// TODO: No way to mock C-style functions like Gestalt. Skip the test on machine running on macOS version <= 10.9.
+#endif
+#else
   UIDevice *deviceMock = OCMClassMock([UIDevice class]);
   OCMStub([deviceMock systemVersion]).andReturn(expected);
+#endif
 
   // When
+#if TARGET_OS_OSX
+#if __MAC_OS_X_VERSION_MAX_ALLOWED > 1090
+  NSString *osVersion = [self.sut osVersion];
+#else
+
+  // TODO: No way to mock C-style functions like Gestalt. Skip the test on machine running on macOS version <= 10.9.
+  NSString *osVersion = expected;
+#endif
+#else
   NSString *osVersion = [self.sut osVersion:deviceMock];
+#endif
 
   // Then
   assertThat(osVersion, is(expected));
@@ -117,14 +151,14 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
   // If
   NSString *expected = @"en-US";
-  UIDevice *deviceMock = OCMClassMock([UIDevice class]);
-  OCMStub([deviceMock systemVersion]).andReturn(expected);
+  NSLocale *localeMock = OCMClassMock([NSLocale class]);
+  OCMStub([localeMock objectForKey:NSLocaleIdentifier]).andReturn(expected);
 
   // When
-  NSString *osVersion = [self.sut osVersion:deviceMock];
+  NSString *locale = [self.sut locale:localeMock];
 
   // Then
-  assertThat(osVersion, is(expected));
+  assertThat(locale, is(expected));
 }
 
 - (void)testDeviceTimezoneOffset {
@@ -151,6 +185,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   assertThatInteger([screenSize length], greaterThan(@(0)));
 }
 
+#if TARGET_OS_IOS
 - (void)testCarrierName {
 
   // If
@@ -164,7 +199,9 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   // Then
   assertThat(carrierName, is(expected));
 }
+#endif
 
+#if TARGET_OS_IOS
 - (void)testNoCarrierName {
 
   // If
@@ -177,7 +214,9 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   // Then
   assertThat(carrierName, nilValue());
 }
+#endif
 
+#if TARGET_OS_IOS
 - (void)testCarrierCountry {
 
   // If
@@ -191,7 +230,9 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   // Then
   assertThat(carrierCountry, is(expected));
 }
+#endif
 
+#if TARGET_OS_IOS
 - (void)testNoCarrierCountry {
 
   // If
@@ -204,6 +245,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   // Then
   assertThat(carrierCountry, nilValue());
 }
+#endif
 
 - (void)testAppVersion {
 
@@ -327,7 +369,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   XCTAssertNotEqual(expected, self.sut.device);
 }
 
-//FIXME: build falls each time because of this test. 
+// FIXME: build falls each time because of this test.
 - (void)clearingDeviceHistoryWorks {
 
   MSMockUserDefaults *defaults = [MSMockUserDefaults new];
@@ -415,7 +457,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   [tracker clearDevices];
 
   // When
-  MSDevice *actual = [tracker deviceForToffset:@1];
+  MSDevice *actual = [tracker deviceForTimestamp:[NSDate dateWithTimeIntervalSince1970:1]];
 
   // Then
   XCTAssertTrue([actual isEqual:tracker.device]);
@@ -429,14 +471,13 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   MSDevice *third = [tracker device];
 
   // When
-  actual = [tracker deviceForToffset:@1];
+  actual = [tracker deviceForTimestamp:[NSDate dateWithTimeIntervalSince1970:1]];
 
   // Then
   XCTAssertTrue([actual isEqual:first]);
 
   // When
-  NSNumber *now = [NSNumber numberWithLongLong:(long long)([MSUtility nowInMilliseconds])];
-  actual = [tracker deviceForToffset:now];
+  actual = [tracker deviceForTimestamp:[NSDate date]];
 
   // Then
   XCTAssertTrue([actual isEqual:third]);

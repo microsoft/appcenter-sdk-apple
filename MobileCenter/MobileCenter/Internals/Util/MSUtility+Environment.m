@@ -10,6 +10,10 @@ NSString *MSUtilityEnvironmentCategory;
 + (MSEnvironment)currentAppEnvironment {
 #if TARGET_OS_SIMULATOR
   return MSEnvironmentOther;
+#elif TARGET_OS_OSX
+
+  // TODO: This is not implemented for macOS.
+  return MSEnvironmentOther;
 #else
 
   // MobilePovision profiles are a clear indicator for Ad-Hoc distribution.

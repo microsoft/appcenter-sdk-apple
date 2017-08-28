@@ -1,8 +1,7 @@
-#import <OCMock/OCMock.h>
-
-#import "MobileCenter.h"
 #import "MSDistributeTestUtil.h"
+#import "MSTestFrameworks.h"
 #import "MSUtility+Environment.h"
+#import "MobileCenter.h"
 
 static id _mobileCenterMock;
 static id _utilMock;

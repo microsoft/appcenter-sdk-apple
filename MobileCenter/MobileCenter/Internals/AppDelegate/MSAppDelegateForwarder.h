@@ -1,6 +1,9 @@
 #import <Foundation/Foundation.h>
-
-#import "MSAppDelegate.h"
+#if TARGET_OS_OSX
+#import "MSNSAppDelegate.h"
+#else
+#import "MSUIAppDelegate.h"
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 

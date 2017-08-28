@@ -34,20 +34,25 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     _apiPath = apiPath;
 
     // Construct the URL string with the query string.
-    NSString *urlString = [baseUrl stringByAppendingString:apiPath];
-    NSURLComponents *components = [NSURLComponents componentsWithString:urlString];
-    NSMutableArray *queryItemArray = [NSMutableArray array];
+    NSMutableString *urlString = [NSMutableString stringWithFormat:@"%@%@", baseUrl, apiPath];
+    __block NSMutableString *queryStringForEncoding = [NSMutableString new];
 
     // Set query parameter.
     [queryStrings enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id _Nonnull queryString,
                                                       __attribute__((unused)) BOOL *_Nonnull stop) {
-      NSURLQueryItem *queryItem = [NSURLQueryItem queryItemWithName:key value:queryString];
-      [queryItemArray addObject:queryItem];
+      [queryStringForEncoding
+          appendString:[NSString stringWithFormat:@"%@%@=%@", [queryStringForEncoding length] > 0 ? @"&" : @"", key,
+                                                  queryString]];
     }];
-    components.queryItems = queryItemArray;
+    if ([queryStringForEncoding length] > 0) {
+      [urlString appendFormat:@"?%@",
+                              [queryStringForEncoding
+                                  stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet
+                                                                                         URLQueryAllowedCharacterSet]]];
+    }
 
     // Set send URL which can't be null
-    _sendURL = (NSURL * _Nonnull)components.URL;
+    _sendURL = (NSURL * _Nonnull)[NSURL URLWithString:urlString];
 
     // Hookup to reachability.
     [MS_NOTIFICATION_CENTER addObserver:self
@@ -88,7 +93,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
       self.enabled = isEnabled;
       if (isEnabled) {
         [self.reachability startNotifier];
-        
+
         // Apply current network state, this will resume if network state allows it.
         [self networkStateChanged];
       } else {
@@ -206,6 +211,8 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
             @synchronized(self) {
               NSString *payload = nil;
               NSInteger statusCode = [MSSenderUtil getStatusCode:response];
+              
+              // Trying to format json for log. Don't need to log json error here.
               if (data) {
 
                 // Error instance for JSON parsing.
@@ -257,19 +264,18 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     [self.pendingCalls removeObjectForKey:callId];
     MSLogInfo([MSMobileCenter logTag], @"Removed call id:%@ from pending calls:%@", callId,
               [self.pendingCalls description]);
-    
+
     // Process fatal error.
     if (fatalError) {
-      
+
       // Disable and delete data.
       [self setEnabled:NO andDeleteDataOnDisabled:YES];
-      
+
       // Notify delegates.
       [self enumerateDelegatesForSelector:@selector(senderDidReceiveFatalError:)
                                 withBlock:^(id<MSSenderDelegate> delegate) {
                                   [delegate senderDidReceiveFatalError:self];
                                 }];
-
     }
   }
 }

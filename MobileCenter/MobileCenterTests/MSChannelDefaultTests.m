@@ -1,7 +1,4 @@
 #import <Foundation/Foundation.h>
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <OCMock/OCMock.h>
-#import <XCTest/XCTest.h>
 
 #import "MSAbstractLogInternal.h"
 #import "MSChannelConfiguration.h"
@@ -11,6 +8,7 @@
 #import "MSHttpSender.h"
 #import "MSLogContainer.h"
 #import "MSMobileCenterErrors.h"
+#import "MSTestFrameworks.h"
 #import "MSUtility.h"
 
 static NSString *const kMSTestGroupId = @"GroupId";
@@ -149,7 +147,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  assertThat(logContainer.batchId, is(expectedBatchId));
                                  assertThat(logContainer.logs, is(@[ expectedLog ]));
                                  assertThatBool(sut.pendingBatchQueueFull, isFalse());
-                                 assertThatUnsignedInt(sut.pendingBatchIds.count, equalToInt(0));
+                                 assertThatUnsignedLong(sut.pendingBatchIds.count, equalToUnsignedLong(0));
                                  OCMVerifyAll(delegateMock);
                                  OCMVerifyAll(storageMock);
                                  if (error) {
@@ -238,7 +236,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  assertThat(logContainer.batchId, is(expectedBatchId));
                                  assertThat(logContainer.logs, is(@[ expectedLog ]));
                                  assertThatBool(sut.pendingBatchQueueFull, isFalse());
-                                 assertThatUnsignedInt(sut.pendingBatchIds.count, equalToInt(0));
+                                 assertThatUnsignedLong(sut.pendingBatchIds.count, equalToUnsignedLong(0));
                                  OCMVerifyAll(delegateMock);
                                  OCMVerifyAll(storageMock);
                                  if (error) {

@@ -1,9 +1,8 @@
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <OCMock/OCMock.h>
-#import <XCTest/XCTest.h>
+#import <Foundation/Foundation.h>
 
 #import "MSCustomPropertiesLog.h"
 #import "MSDevice.h"
+#import "MSTestFrameworks.h"
 
 @interface MSCustomPropertiesLogTests : XCTestCase
 
@@ -93,7 +92,7 @@
   // If
   self.sut.device = OCMClassMock([MSDevice class]);
   OCMStub([self.sut.device isValid]).andReturn(YES);
-  self.sut.toffset = @(3);
+  self.sut.timestamp = [NSDate dateWithTimeIntervalSince1970:42];
   self.sut.sid = @"1234567890";
   
   // When

@@ -97,15 +97,14 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
       _device = [self updatedDevice];
 
       // Create new MSDeviceHistoryInfo.
-      NSNumber *tOffset = [NSNumber numberWithLongLong:(long long)([MSUtility nowInMilliseconds])];
-      MSDeviceHistoryInfo *deviceHistoryInfo = [[MSDeviceHistoryInfo alloc] initWithTOffset:tOffset andDevice:_device];
+      MSDeviceHistoryInfo *deviceHistoryInfo = [[MSDeviceHistoryInfo alloc] initWithTimestamp:[NSDate date] andDevice:_device];
 
       // Insert new MSDeviceHistoryInfo at the proper index to keep self.deviceHistory sorted.
       NSUInteger newIndex = [self.deviceHistory indexOfObject:deviceHistoryInfo
           inSortedRange:(NSRange) { 0, [self.deviceHistory count] }
           options:NSBinarySearchingInsertionIndex
-          usingComparator:^(id a, id b) {
-            return [((MSDeviceHistoryInfo *)a).tOffset compare:((MSDeviceHistoryInfo *)b).tOffset];
+          usingComparator:^(MSDeviceHistoryInfo *a, MSDeviceHistoryInfo *b) {
+            return [a.timestamp compare:b.timestamp];
           }];
       [self.deviceHistory insertObject:deviceHistoryInfo atIndex:newIndex];
 
@@ -128,22 +127,36 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
 - (MSDevice *)updatedDevice {
   @synchronized(self) {
     MSDevice *newDevice = [[MSDevice alloc] init];
+#if TARGET_OS_IOS
     CTCarrier *carrier = [[[CTTelephonyNetworkInfo alloc] init] subscriberCellularProvider];
+#endif
 
     // Collect device properties.
     newDevice.sdkName = [self sdkName:mobilecenter_library_info.ms_name];
     newDevice.sdkVersion = [self sdkVersion:mobilecenter_library_info.ms_version];
     newDevice.model = [self deviceModel];
     newDevice.oemName = kMSDeviceManufacturer;
+#if TARGET_OS_OSX
+    newDevice.osName = [self osName];
+    newDevice.osVersion = [self osVersion];
+#else
     newDevice.osName = [self osName:MS_DEVICE];
     newDevice.osVersion = [self osVersion:MS_DEVICE];
+#endif
     newDevice.osBuild = [self osBuild];
     newDevice.locale = [self locale:MS_LOCALE];
     newDevice.timeZoneOffset = [self timeZoneOffset:[NSTimeZone localTimeZone]];
     newDevice.screenSize = [self screenSize];
     newDevice.appVersion = [self appVersion:MS_APP_MAIN_BUNDLE];
+#if TARGET_OS_IOS
     newDevice.carrierCountry = [self carrierCountry:carrier];
     newDevice.carrierName = [self carrierName:carrier];
+#else
+
+    // Carrier information is not available on macOS/tvOS.
+    newDevice.carrierCountry = nil;
+    newDevice.carrierName = nil;
+#endif
     newDevice.appBuild = [self appBuild:MS_APP_MAIN_BUNDLE];
     newDevice.appNamespace = [self appNamespace:MS_APP_MAIN_BUNDLE];
 
@@ -172,37 +185,37 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
   }
 }
 
-- (MSDevice *)deviceForToffset:(NSNumber *)toffset {
-  if (!toffset || self.deviceHistory.count == 0) {
+- (MSDevice *)deviceForTimestamp:(NSDate *)timestamp {
+  if (!timestamp || self.deviceHistory.count == 0) {
 
-    // Return a new device in case we don't have a device in our history or toffset is nil.
+    // Return a new device in case we don't have a device in our history or timestamp is nil.
     return [self device];
   } else {
 
     // This implements a binary search with complexity O(log n).
-    MSDeviceHistoryInfo *find = [[MSDeviceHistoryInfo alloc] initWithTOffset:toffset andDevice:nil];
+    MSDeviceHistoryInfo *find = [[MSDeviceHistoryInfo alloc] initWithTimestamp:timestamp andDevice:nil];
     NSUInteger index =
         [self.deviceHistory indexOfObject:find
                             inSortedRange:NSMakeRange(0, self.deviceHistory.count)
                                   options:NSBinarySearchingFirstEqual | NSBinarySearchingInsertionIndex
-                          usingComparator:^(id a, id b) {
-                            return [((MSDeviceHistoryInfo *)a).tOffset compare:((MSDeviceHistoryInfo *)b).tOffset];
+                          usingComparator:^(MSDeviceHistoryInfo *a, MSDeviceHistoryInfo *b) {
+                            return [a.timestamp compare:b.timestamp];
                           }];
 
     /*
-     * All tOffsets are larger.
+     * All timestamps are larger.
      * For now, the SDK picks up the oldest which is closer to the device info at the crash time.
      */
     if (index == 0) {
       return self.deviceHistory[0].device;
     }
 
-    // All toffsets are smaller.
+    // All timestamps are smaller.
     else if (index == self.deviceHistory.count) {
       return [self.deviceHistory lastObject].device;
     }
 
-    // [index - 1] should be the right index for the toffset.
+    // [index - 1] should be the right index for the timestamp.
     else {
       return self.deviceHistory[index - 1].device;
     }
@@ -233,24 +246,65 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
 
 - (NSString *)deviceModel {
   size_t size;
-  sysctlbyname("hw.machine", NULL, &size, NULL, 0);
+#if TARGET_OS_OSX
+  const char *name = "hw.model";
+#else
+  const char *name = "hw.machine";
+#endif
+  sysctlbyname(name, NULL, &size, NULL, 0);
   char *answer = (char *)malloc(size);
   if (answer == NULL) {
     return nil;
   }
-  sysctlbyname("hw.machine", answer, &size, NULL, 0);
+  sysctlbyname(name, answer, &size, NULL, 0);
   NSString *model = [NSString stringWithCString:answer encoding:NSUTF8StringEncoding];
   free(answer);
   return model;
 }
 
+#if TARGET_OS_OSX
+- (NSString *)osName {
+  return @"macOS";
+}
+#else
 - (NSString *)osName:(UIDevice *)device {
   return device.systemName;
 }
+#endif
 
+#if TARGET_OS_OSX
+
+- (NSString *)osVersion {
+  NSString *osVersion = nil;
+
+#if __MAC_OS_X_VERSION_MAX_ALLOWED > 1090
+  if ([[NSProcessInfo processInfo] respondsToSelector:@selector(operatingSystemVersion)]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpartial-availability"
+    NSOperatingSystemVersion osSystemVersion = [[NSProcessInfo processInfo] operatingSystemVersion];
+    osVersion = [NSString stringWithFormat:@"%ld.%ld.%ld", (long)osSystemVersion.majorVersion,
+                                           (long)osSystemVersion.minorVersion, (long)osSystemVersion.patchVersion];
+#pragma clang diagnostic pop
+  }
+#else
+  SInt32 major, minor, bugfix;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+  OSErr err1 = Gestalt(gestaltSystemVersionMajor, &major);
+  OSErr err2 = Gestalt(gestaltSystemVersionMinor, &minor);
+  OSErr err3 = Gestalt(gestaltSystemVersionBugFix, &bugfix);
+  if ((!err1) && (!err2) && (!err3)) {
+    osVersion = [NSString stringWithFormat:@"%ld.%ld.%ld", (long)major, (long)minor, (long)bugfix];
+  }
+#pragma clang diagnostic pop
+#endif
+  return osVersion;
+}
+#else
 - (NSString *)osVersion:(UIDevice *)device {
   return device.systemVersion;
 }
+#endif
 
 - (NSString *)osBuild {
   size_t size;
@@ -274,11 +328,19 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
 }
 
 - (NSString *)screenSize {
+
+#if TARGET_OS_OSX
+  NSScreen *focusScreen = [NSScreen mainScreen];
+  CGFloat scale = focusScreen.backingScaleFactor;
+  CGSize screenSize = [focusScreen frame].size;
+#else
   CGFloat scale = [UIScreen mainScreen].scale;
   CGSize screenSize = [UIScreen mainScreen].bounds.size;
+#endif
   return [NSString stringWithFormat:@"%dx%d", (int)(screenSize.height * scale), (int)(screenSize.width * scale)];
 }
 
+#if TARGET_OS_IOS
 - (NSString *)carrierName:(CTCarrier *)carrier {
   return ([carrier.carrierName length] > 0) ? carrier.carrierName : nil;
 }
@@ -286,6 +348,7 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
 - (NSString *)carrierCountry:(CTCarrier *)carrier {
   return ([carrier.isoCountryCode length] > 0) ? carrier.isoCountryCode : nil;
 }
+#endif
 
 - (NSString *)appVersion:(NSBundle *)appBundle {
   return [appBundle infoDictionary][@"CFBundleShortVersionString"];

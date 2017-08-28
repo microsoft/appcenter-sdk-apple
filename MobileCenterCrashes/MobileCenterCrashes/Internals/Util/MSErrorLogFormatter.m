@@ -33,7 +33,6 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import <CrashReporter/CrashReporter.h>
 #import <mach-o/dyld.h>
 #import <mach-o/getsect.h>
 #import <mach-o/ldsyms.h>
@@ -47,6 +46,7 @@
 #import "MSAppleErrorLog.h"
 #import "MSBinary.h"
 #import "MSCrashesInternal.h"
+#import "MSCrashReporter.h"
 #import "MSErrorLogFormatter.h"
 #import "MSErrorReportPrivate.h"
 #import "MSException.h"
@@ -219,14 +219,9 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   // All errors are fatal for now, until we add support for handled exceptions.
   errorLog.fatal = YES;
 
-  /*
-   * appLaunchTOffset - the difference between crashtime and initialization time, so the "age" of the crashreport before
-   * it's forwarded to the channel.
-   * We don't care about a negative difference (will happen if the user's time on the device changes to a time before
-   * the crashTime and the time the error is processed).
-   */
-  errorLog.appLaunchTOffset = [self calculateAppLaunchTOffsetFromReport:report];
-  errorLog.toffset = [self calculateTOffsetFromReport:report];
+  // Application launch and crash timestamps
+  errorLog.appLaunchTimestamp = [self getAppLaunchTimeFromReport:report];
+  errorLog.timestamp = [self getCrashTimeFromReport:report];
 
   // CPU Type and Subtype for the crash. We need to query the binary images for that.
   NSArray *images = report.images;
@@ -257,7 +252,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
   // The registers of the crashed thread might contain the last method call, this can be very helpful.
   errorLog.selectorRegisterValue =
-  [self selectorRegisterValueFromReport:report ofCrashedThread:crashedThread is64bit:is64bit];
+      [self selectorRegisterValueFromReport:report ofCrashedThread:crashedThread is64bit:is64bit];
 
   // Extract all threads and registers.
   errorLog.threads = [self extractThreadsFromReport:report crashedThread:crashedThread is64bit:is64bit];
@@ -271,10 +266,11 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
    * Set the device here to make sure we don't use the current device information but the one from history that matches
    * the time of our crash.
    */
-  errorLog.device = [[MSDeviceTracker new] deviceForToffset:errorLog.toffset];
+  errorLog.device = [[MSDeviceTracker new] deviceForTimestamp:errorLog.timestamp];
 
   // Set the exception from the wrapper SDK.
-  MSWrapperException* wrapperException = [MSWrapperExceptionManager loadWrapperExceptionWithUUIDString:[self uuidRefToString:report.uuidRef]];
+  MSWrapperException *wrapperException =
+      [MSWrapperExceptionManager loadWrapperExceptionWithUUIDString:[self uuidRefToString:report.uuidRef]];
   if (wrapperException) {
     errorLog.exception = wrapperException.modelException;
   }
@@ -304,21 +300,14 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   NSString *signal = errorLog.osExceptionType;
   NSString *exceptionReason = errorLog.exceptionReason;
   NSString *exceptionName = errorLog.exceptionType;
-
-  /*
-   * errorlog.toffset represents the timestamp when the app crashed, appLaunchTOffset is the difference/offset between
-   * the moment the app was launched and when the app crashed.
-   */
-  NSDate *appStartTime = [NSDate
-      dateWithTimeIntervalSince1970:(([errorLog.toffset doubleValue] - [errorLog.appLaunchTOffset doubleValue]) /
-                                     1000)];
-  NSDate *appErrorTime = [NSDate dateWithTimeIntervalSince1970:([errorLog.toffset doubleValue] / 1000)];
+  NSDate *appStartTime = errorLog.appLaunchTimestamp;
+  NSDate *appErrorTime = errorLog.timestamp;
 
   // Retrieve the process' id.
   NSUInteger processId = [errorLog.processId unsignedIntegerValue];
 
   // Retrieve the device that correlates with the time of a crash.
-  MSDevice *device = [[MSDeviceTracker sharedInstance] deviceForToffset:errorLog.toffset];
+  MSDevice *device = [[MSDeviceTracker sharedInstance] deviceForTimestamp:errorLog.timestamp];
 
   // Finally create the MSErrorReport instance.
   errorReport = [[MSErrorReport alloc] initWithErrorId:errorId
@@ -363,7 +352,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
       NSString *processPath = crashReport.processInfo.processPath;
 
 // Remove username from the path
-#if TARGET_OS_SIMULATOR
+#if TARGET_OS_SIMULATOR || TARGET_OS_OSX
       processPath = [self anonymizedPathFromPath:processPath];
 #endif
       errorLog.applicationPath = processPath;
@@ -379,24 +368,12 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   return errorLog;
 }
 
-+ (NSNumber *)calculateAppLaunchTOffsetFromReport:(MSPLCrashReport *)report {
-  NSDate *crashTime = report.systemInfo.timestamp;
-  NSTimeInterval difference;
-  if (report.processInfo) {
-    NSDate *startTime = report.processInfo.processStartTime;
-    difference = ([crashTime timeIntervalSinceDate:startTime] * 1000);
-  } else {
-
-    // Use difference between now and crashtime as appLaunchTOffset as fallback.
-    difference = ([[NSDate date] timeIntervalSinceDate:crashTime] * 1000);
-  }
-  return @(difference);
++ (NSDate *)getAppLaunchTimeFromReport:(MSPLCrashReport *)report {
+  return report.processInfo ? report.processInfo.processStartTime : report.systemInfo.timestamp;
 }
 
-+ (NSNumber *)calculateTOffsetFromReport:(MSPLCrashReport *)report {
-  NSDate *crashTime = report.systemInfo.timestamp;
-  long long difference = (long long)([crashTime timeIntervalSince1970] * 1000);
-  return @(difference);
++ (NSDate *)getCrashTimeFromReport:(MSPLCrashReport *)report {
+  return report.systemInfo.timestamp;
 }
 
 + (NSArray<MSThread *> *)extractThreadsFromReport:(MSPLCrashReport *)report
@@ -496,7 +473,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
       if (report.systemInfo.operatingSystem == PLCrashReportOperatingSystemiPhoneSimulator) {
         symbolName = [symbolName substringFromIndex:1];
       } else {
-        NSLog(@"Symbol prefix rules are unknown for this OS!");
+        MSLogWarning([MSCrashes logTag], @"Symbol prefix rules are unknown for this OS!");
       }
     }
 
@@ -593,13 +570,13 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
     if (binaryIsInAddresses || (imageType != MSBinaryImageTypeOther)) {
       NSString *imagePath = @"";
       if (imageInfo.imageName && [imageInfo.imageName length] > 0) {
-#if TARGET_IPHONE_SIMULATOR
+#if TARGET_OS_SIMULATOR
         imagePath = [imageInfo.imageName stringByAbbreviatingWithTildeInPath];
 #else
         imagePath = imageInfo.imageName;
 #endif
       }
-#if TARGET_IPHONE_SIMULATOR
+#if TARGET_OS_SIMULATOR || TARGET_OS_OSX
       imagePath = [self anonymizedPathFromPath:imagePath];
 #endif
 
@@ -647,16 +624,18 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
   if (([path length] > 0) && [path hasPrefix:@"/Users/"]) {
     NSError *error = nil;
-    NSRegularExpression *regex =
-        [NSRegularExpression regularExpressionWithPattern:@"(/Users/[^/]+/)" options:0 error:&error];
+    NSString *regexPattern = @"(/Users/[^/]+/)";
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexPattern options:0 error:&error];
+    if (!regex) {
+      MSLogError([MSCrashes logTag], @"Couldn't create regular expression with pattern\"%@\": %@", regexPattern,
+                 error.localizedDescription);
+      return anonymizedProcessPath;
+    }
     anonymizedProcessPath = [regex stringByReplacingMatchesInString:path
                                                             options:0
                                                               range:NSMakeRange(0, [path length])
                                                        withTemplate:@"/Users/USER/"];
-    if (error) {
-      MSLogError([MSCrashes logTag], @"String replacing failed - %@", error.localizedDescription);
-    }
-  } else if (([path length] > 0) && (![path containsString:@"Users"])) {
+  } else if (([path length] > 0) && ([path rangeOfString:@"Users"].length == 0)) {
     return path;
   }
   return anonymizedProcessPath;

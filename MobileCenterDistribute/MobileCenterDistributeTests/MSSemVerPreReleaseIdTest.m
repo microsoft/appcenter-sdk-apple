@@ -1,7 +1,5 @@
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <XCTest/XCTest.h>
-
 #import "MSSemVerPreReleaseId.h"
+#import "MSTestFrameworks.h"
 
 @interface MSSemVerPreReleaseIdTests : XCTestCase
 
@@ -159,5 +157,23 @@
    * Then
    */
   assertThatInt(result, equalToInt(NSOrderedAscending));
+
+  /*
+   * If
+   */
+
+  // The pre-release numeric identifier is lower precedence.
+  preReleaseIdA = [MSSemVerPreReleaseId identifierWithString:@"A"];
+  preReleaseIdB = [MSSemVerPreReleaseId identifierWithString:@"10"];
+
+  /*
+   * When
+   */
+  result = [preReleaseIdA compare:preReleaseIdB];
+
+  /*
+   * Then
+   */
+  assertThatInt(result, equalToInt(NSOrderedDescending));
 }
 @end
