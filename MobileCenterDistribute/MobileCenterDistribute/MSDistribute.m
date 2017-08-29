@@ -214,9 +214,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     if (url) {
 
 /*
- * iOS 9+ only, check for `SFSafariViewController` availability. `SafariServices` framework MUST be weakly linked.
- * We can't use `NSClassFromString` here to avoid the warning.
- * It doesn't detect the class correctly unless the application explicitly imports the related framework.
+ * Only iOS 9.x and 10.x will download the update after users click the "Install" button. 
+ * We need to force-exit the application for other versions or for any versions when the update is mandatory.
  */
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpartial-availability"
