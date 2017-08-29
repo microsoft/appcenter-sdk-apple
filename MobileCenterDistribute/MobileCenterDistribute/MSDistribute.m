@@ -222,7 +222,11 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 #pragma clang diagnostic ignored "-Wpartial-availability"
       Class clazz = [SFSafariViewController class];
 #pragma clang diagnostic pop
-      if (clazz) {
+      /*
+       * TODO Checking operating system version is a workaround for iOS 11 where SFSafariViewController can't read Safari's cookies.
+       * Revert this change when SFAuthenticationSession will be ready.
+       */
+      if (clazz && ![NSProcessInfo.processInfo isOperatingSystemAtLeastVersion:(NSOperatingSystemVersion){11, 0, 0}]) {
 
         // Manipulate App UI on the main queue.
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -753,7 +757,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       [MSKeychainUtil deleteStringForKey:kMSUpdateTokenKey];
     }
     if (queryUpdateToken || queryDistributionGroupId) {
-      [self checkLatestRelease:queryUpdateToken distributionGroupId:queryDistributionGroupId releaseHash:MSPackageHash()];
+      [self checkLatestRelease:queryUpdateToken
+           distributionGroupId:queryDistributionGroupId
+                   releaseHash:MSPackageHash()];
     } else {
       MSLogError([MSDistribute logTag], @"Cannot find either update token or distribution group id.");
     }
