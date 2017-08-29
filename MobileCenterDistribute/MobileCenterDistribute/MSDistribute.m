@@ -672,11 +672,13 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         }
 
         /*
-         * We've seen the behavior on iOS 8.x devices in HockeyApp that it doesn't download until the application
-         * goes in background by pressing home button. Simply exit the app to start the update process.
-         * For iOS version >= 9.0, we still need to exit the app if it is a mandatory update.
+         * On iOS 8.x and >= iOS 11.0 devices the update download doesn't start until the application goes
+         * in background by pressing home button. Simply exit the app to start the update process.
+         * For iOS version >= 9.0 and < iOS 11.0, we still need to exit the app if it is a mandatory update.
          */
-        if ((floor(NSFoundationVersionNumber) < NSFoundationVersionNumber_iOS_9_0) || details.mandatoryUpdate) {
+        if ((floor(NSFoundationVersionNumber) < NSFoundationVersionNumber_iOS_9_0) ||
+            [NSProcessInfo.processInfo isOperatingSystemAtLeastVersion:(NSOperatingSystemVersion){11, 0, 0}] ||
+            details.mandatoryUpdate) {
           [self closeApp];
         }
       }];
@@ -753,7 +755,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       [MSKeychainUtil deleteStringForKey:kMSUpdateTokenKey];
     }
     if (queryUpdateToken || queryDistributionGroupId) {
-      [self checkLatestRelease:queryUpdateToken distributionGroupId:queryDistributionGroupId releaseHash:MSPackageHash()];
+      [self checkLatestRelease:queryUpdateToken
+           distributionGroupId:queryDistributionGroupId
+                   releaseHash:MSPackageHash()];
     } else {
       MSLogError([MSDistribute logTag], @"Cannot find either update token or distribution group id.");
     }
