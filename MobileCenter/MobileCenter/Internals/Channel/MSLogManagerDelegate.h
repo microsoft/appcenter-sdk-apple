@@ -9,6 +9,14 @@
 @optional
 
 /**
+ * A callback that is called when a log is ready to enqueue.
+ *
+ * @param log The log.
+ * @param internalId An internal Id that can be used to keep track of logs.
+ */
+- (void)onPreparedLog:(id<MSLog>)log withInternalId:(NSString *)internalId;
+
+/**
  * A callback that is called when a log has been enqueued, before a log has been forwarded to persistence, etc.
  *
  * @param log The log.
