@@ -11,7 +11,6 @@ This version contains bug fixes.
 ### MobileCenterDistribute
 
 * **[Fix]** Workaraound a bug on iOS 11 where the Safari in-app page remains stuck activating in-app update. It is now opening the Safari app.
-
 * **[Fix]** Fixed update won't start until the app is explicitly closed on iOS 11.
 
 ## Version 0.12.0
