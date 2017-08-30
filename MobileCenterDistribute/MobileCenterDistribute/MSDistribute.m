@@ -214,9 +214,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     if (url) {
 
 /*
- * iOS 9+ only, check for `SFSafariViewController` availability. `SafariServices` framework MUST be weakly linked.
- * We can't use `NSClassFromString` here to avoid the warning.
- * It doesn't detect the class correctly unless the application explicitly imports the related framework.
+ * Only iOS 9.x and 10.x will download the update after users click the "Install" button. 
+ * We need to force-exit the application for other versions or for any versions when the update is mandatory.
  */
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpartial-availability"
@@ -676,11 +675,13 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         }
 
         /*
-         * We've seen the behavior on iOS 8.x devices in HockeyApp that it doesn't download until the application
-         * goes in background by pressing home button. Simply exit the app to start the update process.
-         * For iOS version >= 9.0, we still need to exit the app if it is a mandatory update.
+         * On iOS 8.x and >= iOS 11.0 devices the update download doesn't start until the application goes
+         * in background by pressing home button. Simply exit the app to start the update process.
+         * For iOS version >= 9.0 and < iOS 11.0, we still need to exit the app if it is a mandatory update.
          */
-        if ((floor(NSFoundationVersionNumber) < NSFoundationVersionNumber_iOS_9_0) || details.mandatoryUpdate) {
+        if ((floor(NSFoundationVersionNumber) < NSFoundationVersionNumber_iOS_9_0) ||
+            [NSProcessInfo.processInfo isOperatingSystemAtLeastVersion:(NSOperatingSystemVersion){11, 0, 0}] ||
+            details.mandatoryUpdate) {
           [self closeApp];
         }
       }];
