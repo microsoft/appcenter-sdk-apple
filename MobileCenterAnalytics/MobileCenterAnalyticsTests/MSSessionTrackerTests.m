@@ -208,7 +208,7 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
   XCTAssertNil(log.timestamp);
 
   // When
-  [self.sut onEnqueuingLog:log withInternalId:nil];
+  [self.sut onPreparedLog:log withInternalId:nil];
 
   // Then
   XCTAssertNil(log.timestamp);
@@ -217,7 +217,7 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
   // When
   NSDate *timestamp = [NSDate dateWithTimeIntervalSince1970:42];
   log.timestamp = timestamp;
-  [self.sut onEnqueuingLog:log withInternalId:nil];
+  [self.sut onPreparedLog:log withInternalId:nil];
 
   // Then
   XCTAssertEqual(timestamp, log.timestamp);
@@ -234,7 +234,7 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
   XCTAssertNil(log.timestamp);
 
   // When
-  [self.sut onEnqueuingLog:log withInternalId:nil];
+  [self.sut onPreparedLog:log withInternalId:nil];
 
   // Then
   XCTAssertNil(log.timestamp);
@@ -248,7 +248,7 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
   XCTAssertNil(sessionLog.timestamp);
 
   // When
-  [self.sut onEnqueuingLog:sessionLog withInternalId:nil];
+  [self.sut onPreparedLog:sessionLog withInternalId:nil];
 
   // Then
   XCTAssertNil(sessionLog.timestamp);
@@ -262,7 +262,7 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
   XCTAssertNil(serviceLog.timestamp);
 
   // When
-  [self.sut onEnqueuingLog:serviceLog withInternalId:nil];
+  [self.sut onPreparedLog:serviceLog withInternalId:nil];
 
   // Then
   XCTAssertNil(serviceLog.timestamp);
