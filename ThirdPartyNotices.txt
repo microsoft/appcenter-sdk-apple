@@ -9,6 +9,7 @@ Microsoft Mobile Center SDK for iOS incorporates third party material from the p
 3.  OCMock (https://github.com/erikdoe/ocmock)
 4.  PLCrashReporter (https://www.plcrashreporter.org)
 5.  Reachability (https://developer.apple.com/library/content/samplecode/Reachability/Introduction/Intro.html#//apple_ref/doc/uid/DTS40007324-Intro-DontLinkElementID_2)
+6.  isAppEncrypted function (http://landonf.org/2009/02/index.html)
 
 
 %% Jazzy NOTICES, INFORMATION, AND LICENSE BEGIN HERE
@@ -393,3 +394,26 @@ POSSIBILITY OF SUCH DAMAGE.
 
 =========================================
 END OF Reachability NOTICES, INFORMATION, AND LICENSE
+
+%% isAppEncrypted function NOTICES, INFORMATION, AND LICENSE BEGIN HERE
+=========================================
+Copyright (c) 2017 Landon J. Fuller <landon(at)landonf.org>
+All rights reserved.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+and associated documentation files (the "Software"), to deal in the Software without
+restriction, including without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or
+substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+=========================================
+END OF isAppEncrypted function NOTICES, INFORMATION, AND LICENSE

@@ -1,5 +1,7 @@
 #import "MSUtility+Environment.h"
 
+#import <mach-o/dyld.h>
+
 /*
  * Workaround for exporting symbols from category object files.
  */
@@ -11,8 +13,9 @@ NSString *MSUtilityEnvironmentCategory;
 #if TARGET_OS_SIMULATOR
   return MSEnvironmentOther;
 #elif TARGET_OS_OSX
-
-  // TODO: This is not implemented for macOS.
+  if (isAppEncrypted()) {
+    return MSEnvironmentAppStore;
+  }
   return MSEnvironmentOther;
 #else
 
@@ -52,5 +55,50 @@ NSString *MSUtilityEnvironmentCategory;
   return isSandboxReceipt;
 #endif
 }
+
+#if TARGET_OS_OSX
+static BOOL isAppEncrypted() {
+  const struct mach_header *executableHeader = NULL;
+  for (uint32_t i = 0; i < _dyld_image_count(); i++) {
+    const struct mach_header *header = _dyld_get_image_header(i);
+    if (header && header->filetype == MH_EXECUTE) {
+      executableHeader = header;
+      break;
+    }
+  }
+
+  if (!executableHeader) {
+    return NO;
+  }
+
+  BOOL is64bit = (executableHeader->magic == MH_MAGIC_64);
+  uintptr_t cursor = (uintptr_t)executableHeader +
+  (is64bit ? sizeof(struct mach_header_64) : sizeof(struct mach_header));
+  const struct segment_command *segmentCommand = NULL;
+  uint32_t i = 0;
+
+  while (i++ < executableHeader->ncmds) {
+    segmentCommand = (struct segment_command *)cursor;
+
+    if (!segmentCommand) {
+      continue;
+    }
+
+    if ((!is64bit && segmentCommand->cmd == LC_ENCRYPTION_INFO) ||
+        (is64bit && segmentCommand->cmd == LC_ENCRYPTION_INFO_64)) {
+      if (is64bit) {
+        const struct encryption_info_command_64 *cryptCmd = (const struct encryption_info_command_64 *)segmentCommand;
+        return cryptCmd && cryptCmd->cryptid != 0;
+      } else {
+        const struct encryption_info_command *cryptCmd = (const struct encryption_info_command *)segmentCommand;
+        return cryptCmd && cryptCmd->cryptid != 0;
+      }
+    }
+    cursor += segmentCommand->cmdsize;
+  }
+
+  return NO;
+}
+#endif
 
 @end
