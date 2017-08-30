@@ -494,7 +494,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   XCTAssertTrue([[MSCrashes sharedInstance] initializationPriority] == MSInitializationPriorityMax);
 }
 
-// TODO: Mach exception handler is not supported on tvOS.
+// The Mach exception handler is not supported on tvOS.
 #if !TARGET_OS_TV
 - (void)testDisableMachExceptionWorks {
 
@@ -515,6 +515,14 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // Then
   XCTAssertFalse([self.sut isMachExceptionHandlerEnabled]);
+}
+#endif
+
+#if TARGET_OS_TV
+- (void) testMachExceptionHandlerDisabledOnTvOS {
+  
+  // Then
+  XCTAssertFalse([[MSCrashes sharedInstance] isMachExceptionHandlerEnabled]);  
 }
 #endif
 

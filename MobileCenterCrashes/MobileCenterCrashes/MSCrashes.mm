@@ -229,13 +229,15 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   return [[self sharedInstance] getLastSessionCrashReport];
 }
 
-/* This can never be binded to Xamarin */
-// TODO: Mach exception handler is not supported on tvOS.
-#if !TARGET_OS_TV
+/*
+ * This can never be bound to Xamarin.
+ *
+ * This method is not part of the publicly available on tvOS as Mach exception handling is not possible on tvOS. 
+ * The property is NO by default there.
+ */
 + (void)disableMachExceptionHandler {
   [[self sharedInstance] setEnableMachExceptionHandler:NO];
 }
-#endif
 
 + (void)setDelegate:(_Nullable id<MSCrashesDelegate>)delegate {
   [[self sharedInstance] setDelegate:delegate];
@@ -252,7 +254,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     _analyzerInProgressFile = [_crashesDir URLByAppendingPathComponent:kMSAnalyzerFilename];
     _didCrashInLastSession = NO;
 
-    // TODO: Mach exception handler is not supported on tvOS.
 #if !TARGET_OS_TV
     _enableMachExceptionHandler = YES;
 #endif
@@ -389,6 +390,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 - (MSInitializationPriority)initializationPriority {
   return MSInitializationPriorityMax;
+}
+
+- (void)setEnableMachExceptionHandler:(BOOL)enableMachExceptionHandler {
+  _enableMachExceptionHandler = enableMachExceptionHandler;
 }
 
 #pragma mark - MSLogManagerDelegate
@@ -561,7 +566,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
   PLCrashReporterSignalHandlerType signalHandlerType = PLCrashReporterSignalHandlerTypeBSD;
 
-  // TODO: Mach exception handler is not supported on tvOS.
 #if !TARGET_OS_TV
   if (self.isMachExceptionHandlerEnabled) {
     signalHandlerType = PLCrashReporterSignalHandlerTypeMach;
