@@ -13,6 +13,8 @@ This version contains bug fixes.
 * **[Fix]** Workaraound a bug on iOS 11 where the Safari in-app page remains stuck activating in-app update. It is now opening the Safari app.
 * **[Fix]** Fixed update won't start until the app is explicitly closed on iOS 11.
 
+___
+
 ## Version 0.12.0
 
 This version contains bug fixes, an improvement and a new feature. When you update to this release, there will be **potential data loss** if an application installed with previous versions of MobileCenter SDK on devices that has pending logs which are not sent to server yet at the time of the application is being updated.
