@@ -19,7 +19,7 @@
   [self setupPush];
 
   // Start MobileCenter.
-  [MSMobileCenter start:@"8649b73e-6df0-4985-a039-8ab1453d44f3"
+  [MSMobileCenter start:@"7c9bde90-6f08-438d-af98-d8c6cc92afd2"
            withServices:@[ [MSAnalytics class], [MSCrashes class], [MSPush class] ]];
   [MobileCenterProvider shared].mobileCenter = [[MobileCenterDelegateObjC alloc] init];
   return self;
