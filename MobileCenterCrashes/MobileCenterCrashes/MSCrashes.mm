@@ -232,7 +232,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 /*
  * This can never be bound to Xamarin.
  *
- * This method is not part of the publicly available on tvOS as Mach exception handling is not possible on tvOS. 
+ * This method is not part of the publicly available APIs on tvOS as Mach exception handling is not possible on tvOS. 
  * The property is NO by default there.
  */
 + (void)disableMachExceptionHandler {
