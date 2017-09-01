@@ -13,7 +13,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate, MSCrashesDelegate {
 
     // Override point for customization after application launch.
     MSMobileCenter.setLogLevel(MSLogLevel.verbose);
-    MSMobileCenter.start("0dbca56b-b9ae-4d53-856a-7c2856137d85", withServices : [MSAnalytics.self, MSCrashes.self]);
+    MSMobileCenter.start("fbdeeff6-a549-4653-9f6d-f97dfe7f07b4", withServices : [MSAnalytics.self, MSCrashes.self]);
 
     // Crashes Delegate.
     MSCrashes.setDelegate(self)
