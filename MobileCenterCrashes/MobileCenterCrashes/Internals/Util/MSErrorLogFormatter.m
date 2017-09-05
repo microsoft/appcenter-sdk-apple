@@ -223,6 +223,12 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   errorLog.appLaunchTimestamp = [self getAppLaunchTimeFromReport:report];
   errorLog.timestamp = [self getCrashTimeFromReport:report];
 
+  // FIXME: PLCrashReporter doesn't support millisecond precision, here is a workaround to fill 999 for its millisecond.
+  double timestampInSeconds = [errorLog.timestamp timeIntervalSince1970];
+  if (timestampInSeconds - (int)timestampInSeconds == 0) {
+    errorLog.timestamp = [NSDate dateWithTimeIntervalSince1970:(timestampInSeconds + 0.999)];
+  }
+
   // CPU Type and Subtype for the crash. We need to query the binary images for that.
   NSArray *images = report.images;
   for (MSPLCrashReportBinaryImageInfo *image in images) {

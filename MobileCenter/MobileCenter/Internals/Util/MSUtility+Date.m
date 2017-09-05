@@ -17,7 +17,7 @@ NSString *MSUtilityDateCategory;
     dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setLocale:[NSLocale systemLocale]];
     [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"];
   }
   return [dateFormatter stringFromDate:date];
 }
