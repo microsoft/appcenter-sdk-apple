@@ -522,7 +522,7 @@ static BOOL _enabled = YES;
     [self.traceBuffer removeAllObjects];
   });
 }
-  
+
 #pragma mark - Testing
 
 + (void)reset {
