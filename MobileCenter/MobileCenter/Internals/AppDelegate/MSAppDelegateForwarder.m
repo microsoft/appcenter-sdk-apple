@@ -522,5 +522,13 @@ static BOOL _enabled = YES;
     [self.traceBuffer removeAllObjects];
   });
 }
+  
+#pragma mark - Testing
+
++ (void)reset {
+  [self.delegates removeAllObjects];
+  [self.originalImplementations removeAllObjects];
+  [self.selectorsToSwizzle removeAllObjects];
+}
 
 @end
