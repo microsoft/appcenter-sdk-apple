@@ -188,7 +188,7 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
 
 #pragma mark - MSLogManagerDelegate
 
-- (void)onEnqueuingLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
+- (void)onPreparedLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
   (void)internalId;
 
   /*

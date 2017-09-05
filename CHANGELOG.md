@@ -1,10 +1,44 @@
 # Mobile Center SDK for iOS Change Log
 
+## Version 0.12.1
+
+This version contains bug fixes.
+
+### MobileCenterCrashes
+
+* **[Fix]** Fixed missing logs sent to server on crash.
+
+### MobileCenterDistribute
+
+* **[Fix]** Workaraound a bug on iOS 11 where the Safari in-app page remains stuck activating in-app update. It is now opening the Safari app.
+* **[Fix]** Fixed update won't start until the app is explicitly closed on iOS 11.
+
+___
+
+## Version 0.12.0
+
+This version contains bug fixes, an improvement and a new feature. When you update to this release, there will be **potential data loss** if an application installed with previous versions of MobileCenter SDK on devices that has pending logs which are not sent to server yet at the time of the application is being updated.
+
+### MobileCenter
+
+* **[Improvement]** Changed to send one crash or error attachment log at a time to prevent HTTP requests become bigger.
+* **[Fix]** Fixed database access failure when an application contains other SQLite libraries for custom database.
+
+### MobileCenterCrashes
+
+* **[Fix]** Fixed duplicated logs sent to server on crash.
+
+### MobileCenterDistribute
+
+* **[Feature]** New feature that allows to share your applications to anyone with public link.
+
+___
+
 ## Version 0.11.2
 
 This version contains a bug fix that wasn't properly fixed in the previous release.
 
-## MobileCenterCrashes
+### MobileCenterCrashes
 
 * **[Fix]** Fixed a bug that the Crashes picked up one next session after previous crash.
 
@@ -14,15 +48,15 @@ ___
 
 This version contains bug fixes and an improvement that changes the current behavior.
 
-## MobileCenter
+### MobileCenter
 
 * **[Fix]** Fix bugs that sent multiple or empty service start logs at launch time.
 
-## MobileCenterAnalytics
+### MobileCenterAnalytics
 
 * **[Improvement]** Send truncated event name and properties instead of skipping it if its lengths are beyond the limits.
 
-## MobileCenterCrashes
+### MobileCenterCrashes
 
 * **[Fix]** Fixes two bugs that caused error logs to be assiciated with wrong session information.
 

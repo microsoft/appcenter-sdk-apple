@@ -1,5 +1,8 @@
+#include <Foundation/Foundation.h>
+#if !TARGET_OS_TV
 #import "MSCustomProperties.h"
 #import "MSCustomPropertiesLog.h"
+#endif
 #import "MSLogManagerDefault.h"
 #import "MSMobileCenter.h"
 #import "MSMobileCenterInternal.h"
@@ -144,6 +147,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   XCTAssertTrue([[[MSMobileCenter sharedInstance] logUrl] isEqualToString:@"https://in.mobile.azure.com"]);
 }
 
+#if !TARGET_OS_TV
 - (void)testSetCustomProperties {
 
   // If
@@ -170,6 +174,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   // Then
   OCMVerifyAll(logManager);
 }
+#endif
 
 - (void)testConfigureWithAppSecret {
   [MSMobileCenter configureWithAppSecret:@"App-Secret"];

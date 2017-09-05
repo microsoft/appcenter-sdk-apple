@@ -156,6 +156,10 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecent
   }
 
   // Notify delegates.
+  [self enumerateDelegatesForSelector:@selector(onPreparedLog:withInternalId:)
+                            withBlock:^(id<MSLogManagerDelegate> delegate) {
+                              [delegate onPreparedLog:log withInternalId:internalLogId];
+                            }];
   [self enumerateDelegatesForSelector:@selector(onEnqueuingLog:withInternalId:)
                             withBlock:^(id<MSLogManagerDelegate> delegate) {
                               [delegate onEnqueuingLog:log withInternalId:internalLogId];

@@ -16,7 +16,7 @@
 
   [MSMobileCenter setLogLevel:MSLogLevelVerbose];
   [MSMobileCenter setLogUrl:@"https://in-integration.dev.avalanch.es"];
-  [MSMobileCenter start:@"7ee5f412-02f7-45ea-a49c-b4ebf2911325" withServices:@[ [MSAnalytics class], [MSCrashes class] ]];
+  [MSMobileCenter start:@"68065a02-edbb-4fc3-a323-3b8ca2beae80" withServices:@[ [MSAnalytics class], [MSCrashes class] ]];
   [self crashes];
   [self setMobileCenterDelegate];
   return YES;
