@@ -43,7 +43,10 @@
   XCTAssertEqual(errorReport.signal, crashReport.signalInfo.name);
   XCTAssertEqual(errorReport.exceptionName, nil);
   XCTAssertEqual(errorReport.exceptionReason, nil);
-  assertThat(errorReport.appErrorTime, equalTo(crashReport.systemInfo.timestamp));
+
+  // FIXME: PLCrashReporter doesn't support millisecond precision, here is a workaround to fill 999 for its millisecond.
+  XCTAssertEqual([errorReport.appErrorTime timeIntervalSince1970],
+                 [crashReport.systemInfo.timestamp timeIntervalSince1970] + 0.999);
   assertThat(errorReport.appStartTime, equalTo(crashReport.processInfo.processStartTime));
 
   /*
@@ -68,7 +71,10 @@
   XCTAssertEqual(errorReport.signal, crashReport.signalInfo.name);
   assertThat(errorReport.exceptionName, equalTo(crashReport.exceptionInfo.exceptionName));
   assertThat(errorReport.exceptionReason, equalTo(crashReport.exceptionInfo.exceptionReason));
-  assertThat(errorReport.appErrorTime, equalTo(crashReport.systemInfo.timestamp));
+
+  // FIXME: PLCrashReporter doesn't support millisecond precision, here is a workaround to fill 999 for its millisecond.
+  XCTAssertEqual([errorReport.appErrorTime timeIntervalSince1970],
+                 [crashReport.systemInfo.timestamp timeIntervalSince1970] + 0.999);
   assertThat(errorReport.appStartTime, equalTo(crashReport.processInfo.processStartTime));
 
   /*
@@ -424,7 +430,10 @@
   assertThat(errorLog.parentProcessId, equalTo(@(crashReport.processInfo.parentProcessID)));
   assertThat(errorLog.parentProcessName, equalTo(crashReport.processInfo.parentProcessName));
   assertThat(errorLog.errorThreadId, equalTo(@(crashedThread.threadNumber)));
-  assertThat(errorLog.timestamp, equalTo(crashReport.systemInfo.timestamp));
+
+  // FIXME: PLCrashReporter doesn't support millisecond precision, here is a workaround to fill 999 for its millisecond.
+  XCTAssertEqual([errorLog.timestamp timeIntervalSince1970],
+                 [crashReport.systemInfo.timestamp timeIntervalSince1970] + 0.999);
   assertThat(errorLog.appLaunchTimestamp, equalTo(crashReport.processInfo.processStartTime));
 
   NSArray *images = crashReport.images;
