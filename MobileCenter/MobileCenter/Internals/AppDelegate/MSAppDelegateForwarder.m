@@ -94,10 +94,10 @@ static BOOL _enabled = YES;
 
 + (NSDictionary<NSString *, NSString *> *)deprecatedSelectors {
   if (!_deprecatedSelectors) {
-#if !TARGET_OS_OSX
-    _deprecatedSelectors = @{kMSOpenURLOptions : kMSOpenURLSourceApplicationAnnotation};
-#else
+#if TARGET_OS_OSX
     _deprecatedSelectors = @{};
+#else
+    _deprecatedSelectors = @{kMSOpenURLOptions : kMSOpenURLSourceApplicationAnnotation};
 #endif
   }
   return _deprecatedSelectors;
@@ -211,8 +211,10 @@ static BOOL _enabled = YES;
     if (deprecatedSelectorStr &&
         [originalClass instancesRespondToSelector:NSSelectorFromString(deprecatedSelectorStr)]) {
 
-      // An implementation for the deprecated selector exists. Don't add the new method, it might eclipse the original
-      // implementation.
+      /*
+       * An implementation for the deprecated selector exists. Don't add the new method, it might eclipse the original
+       * implementation.
+       */
       warningMsg = [NSString
           stringWithFormat:
               @"No implementation found for this selector, though an implementation of its deprecated API '%@' exists.",
