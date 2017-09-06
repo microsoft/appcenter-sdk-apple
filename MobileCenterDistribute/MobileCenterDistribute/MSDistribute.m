@@ -40,9 +40,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 @synthesize channelConfiguration = _channelConfiguration;
 
-
-
-
 #pragma mark - Service initialization
 
 - (instancetype)init {
@@ -230,9 +227,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         if(authClazz) {
           
           // Manipulate App UI on the main queue.
-//          dispatch_async(dispatch_get_main_queue(), ^{
+          dispatch_async(dispatch_get_main_queue(), ^{
             [self openURLInAuthenticationSessionWith:url fromClass:authClazz];
-//          });
+          });
         } else {
           // iOS 9 and 10
           
