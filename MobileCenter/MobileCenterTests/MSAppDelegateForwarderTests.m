@@ -564,48 +564,6 @@
   [self waitForExpectations:@[ originalCalledExpectation, customCalledExpectation ] timeout:1];
 }
 
-#if !TARGET_OS_OSX
-- (void)testDontForwardSelectorsNotToOverrideIfAlreadyImplementedByOriginalDelegate {
-
-  // If
-  NSDictionary *expectedUserInfo = @{ @"key" : @"value" };
-  void (^expectedCompletionHandler)(UIBackgroundFetchResult result) =
-      ^(__attribute__((unused)) UIBackgroundFetchResult result) {
-      };
-  MSApplication *appMock = self.appMock;
-  XCTestExpectation *originalCalledExpectation = [self expectationWithDescription:@"Original delegate called."];
-  SEL didReceiveRemoteNotificationSel = @selector(application:didReceiveRemoteNotification:fetchCompletionHandler:);
-  NSString *didReceiveRemoteNotificationStr = NSStringFromSelector(didReceiveRemoteNotificationSel);
-  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:didReceiveRemoteNotificationSel];
-  self.originalAppDelegateMock.delegateValidators[didReceiveRemoteNotificationStr] =
-      ^(MSApplication *application, NSDictionary *userInfo, void (^completionHandler)(UIBackgroundFetchResult result)) {
-
-        // Then
-        assertThat(application, is(appMock));
-        assertThat(userInfo, is(expectedUserInfo));
-        assertThat(completionHandler, is(expectedCompletionHandler));
-        [originalCalledExpectation fulfill];
-      };
-  self.customAppDelegateMock.delegateValidators[didReceiveRemoteNotificationStr] =
-      ^(__attribute__((unused)) MSApplication *application, __attribute__((unused)) NSData *deviceToken) {
-
-        // Then
-        XCTFail(@"This method is already implemented in the original delegate and is marked not to be swizzled.");
-      };
-  [MSAppDelegateForwarder addDelegate:self.customAppDelegateMock];
-
-  // When
-  [self.originalAppDelegateMock application:appMock
-               didReceiveRemoteNotification:expectedUserInfo
-                     fetchCompletionHandler:expectedCompletionHandler];
-
-  // Then
-  assertThatBool([MSAppDelegateForwarder.selectorsNotToOverride containsObject:didReceiveRemoteNotificationStr],
-                 isTrue());
-  [self waitForExpectations:@[ originalCalledExpectation ] timeout:1];
-}
-#endif
-
 #if TARGET_OS_IOS
 - (void)testWithMultipleCustomOpenURLDelegates {
 

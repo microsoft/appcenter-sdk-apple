@@ -17,11 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, class, readonly) NSMutableSet<NSString *> *selectorsToSwizzle;
 
 /**
- * List of original selectors not to override if already implemented in the original application delegate.
- */
-@property(nonatomic, class, readonly) NSArray<NSString *> *selectorsNotToOverride;
-
-/**
  * Keep track of the original delegate's method implementations.
  */
 @property(nonatomic, class, readonly) NSMutableDictionary<NSString *, NSValue *> *originalImplementations;

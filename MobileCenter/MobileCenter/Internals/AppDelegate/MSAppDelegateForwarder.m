@@ -19,7 +19,6 @@ static NSString *const kMSIsAppDelegateForwarderEnabledKey = @"MobileCenterAppDe
 
 static NSHashTable<id<MSAppDelegate>> *_delegates = nil;
 static NSMutableSet<NSString *> *_selectorsToSwizzle = nil;
-static NSArray<NSString *> *_selectorsNotToOverride = nil;
 static NSMutableDictionary<NSString *, NSValue *> *_originalImplementations = nil;
 static NSMutableArray<dispatch_block_t> *_traceBuffer = nil;
 static IMP _originalSetDelegateImp = NULL;
@@ -74,16 +73,6 @@ static BOOL _enabled = YES;
 
 + (NSMutableSet<NSString *> *)selectorsToSwizzle {
   return _selectorsToSwizzle ?: (_selectorsToSwizzle = [NSMutableSet new]);
-}
-
-+ (NSArray<NSString *> *)selectorsNotToOverride {
-  if (!_selectorsNotToOverride) {
-#if !TARGET_OS_OSX
-    _selectorsNotToOverride =
-        @[ NSStringFromSelector(@selector(application:didReceiveRemoteNotification:fetchCompletionHandler:)) ];
-#endif
-  }
-  return _selectorsNotToOverride;
 }
 
 + (NSMutableDictionary<NSString *, NSValue *> *)originalImplementations {
@@ -173,15 +162,7 @@ static BOOL _enabled = YES;
 
   // Replace original implementation by the custom one.
   if (originalMethod) {
-
-    /*
-     * Also, some selectors should not be overridden mostly because the original implementation highly
-     * depend on the SDK return value for its own logic so customers already have to call the SDK API
-     * in their implementation which makes swizzling useless.
-     */
-    if (![self.selectorsNotToOverride containsObject:originalSelectorString]) {
-      originalImp = method_setImplementation(originalMethod, customImp);
-    }
+    originalImp = method_setImplementation(originalMethod, customImp);
   } else if (![originalClass instancesRespondToSelector:originalSelector]) {
 
     /*
