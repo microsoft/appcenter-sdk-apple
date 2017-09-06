@@ -1,9 +1,15 @@
 #import <Foundation/Foundation.h>
+#if TARGET_OS_OSX
+#import <AppKit/AppKit.h>
+#else
 #import <UIKit/UIKit.h>
+#endif
 
 #import "MSUtility.h"
 
+#if !TARGET_OS_OSX
 #define MS_DEVICE [UIDevice currentDevice]
+#endif
 
 /*
  * Workaround for exporting symbols from category object files.
@@ -15,20 +21,32 @@ extern NSString *MSUtilityApplicationCategory;
  */
 typedef NS_ENUM(NSInteger, MSApplicationState) {
 
-  /**
-   * Application is active.
-   */
+/**
+ * Application is active.
+ */
+#if TARGET_OS_OSX
+  MSApplicationStateActive,
+#else
   MSApplicationStateActive = UIApplicationStateActive,
+#endif
 
-  /**
-   * Application is inactive.
-   */
+/**
+ * Application is inactive.
+ */
+#if TARGET_OS_OSX
+  MSApplicationStateInactive,
+#else
   MSApplicationStateInactive = UIApplicationStateInactive,
+#endif
 
-  /**
-   * Application is in background.
-   */
+/**
+ * Application is in background.
+ */
+#if TARGET_OS_OSX
+  MSApplicationStateBackground,
+#else
   MSApplicationStateBackground = UIApplicationStateBackground,
+#endif
 
   /**
    * Application state can't be determined.
@@ -65,7 +83,11 @@ typedef NS_ENUM(NSInteger, MSOpenURLState) {
  *
  * @return The delegate of the app object or nil if not accessible.
  */
+#if TARGET_OS_OSX
++ (id<NSApplicationDelegate>)sharedAppDelegate;
+#else
 + (id<UIApplicationDelegate>)sharedAppDelegate;
+#endif
 
 /**
  * Get current application state.

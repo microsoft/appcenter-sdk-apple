@@ -91,6 +91,7 @@ typedef NS_ENUM(NSUInteger, MSUserConfirmation) {
 /// @name Configuration
 ///-----------------------------------------------------------------------------
 
+#if !TARGET_OS_TV
 /**
  * Disable the Mach exception server.
  *
@@ -106,10 +107,14 @@ typedef NS_ENUM(NSUInteger, MSUserConfirmation) {
  * `MSCrashes.disableMachExceptionHandler()`
  * `MSMobileCenter.start("YOUR_APP_ID", withServices: [MSAnalytics.self, MSCrashes.self])`
  *
- * @discussion This can be useful to disable the Mach exception handler when you are debugging the Crashes service while
+ * tvOS does not support the Mach exception handler, thus crashes that are caused by stack overflows cannot
+ * be detected. As a result, disabling the Mach exception server is not available in the tvOS SDK.
+ *
+ * @discussion It can be useful to disable the Mach exception handler when you are debugging the Crashes service while
  * developing, especially when you attach the debugger to your application after launch.
  */
 + (void)disableMachExceptionHandler;
+#endif
 
 /**
  * Set the delegate

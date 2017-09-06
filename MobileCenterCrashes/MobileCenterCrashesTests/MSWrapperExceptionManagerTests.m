@@ -1,12 +1,8 @@
-#import <Foundation/Foundation.h>
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <OCMock/OCMock.h>
-#import <XCTest/XCTest.h>
-
 #import "MSCrashes.h"
 #import "MSCrashesUtil.h"
 #import "MSErrorReport.h"
 #import "MSException.h"
+#import "MSTestFrameworks.h"
 #import "MSUtility+File.h"
 #import "MSWrapperException.h"
 #import "MSWrapperExceptionManagerInternal.h"

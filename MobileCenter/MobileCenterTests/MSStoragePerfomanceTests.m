@@ -1,6 +1,6 @@
-#import <XCTest/XCTest.h>
-#import "MSStartServiceLog.h"
 #import "MSLogDBStorage.h"
+#import "MSStartServiceLog.h"
+#import "MSTestFrameworks.h"
 
 static const int kMSNumLogs = 50;
 static const int kMSNumServices = 5;

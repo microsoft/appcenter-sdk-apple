@@ -1,14 +1,10 @@
-#import <Foundation/Foundation.h>
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <OCMock/OCMock.h>
-#import <XCTest/XCTest.h>
-
 #import "MSAbstractLogInternal.h"
 #import "MSChannelConfiguration.h"
 #import "MSChannelDefault.h"
 #import "MSHttpSenderPrivate.h"
 #import "MSLogManagerDefault.h"
 #import "MSLogManagerDefaultPrivate.h"
+#import "MSTestFrameworks.h"
 
 @interface MSLogManagerDefaultTests : XCTestCase
 
@@ -86,6 +82,7 @@
   [sut processLog:log forGroupId:groupId];
 
   // Then
+  OCMVerify([mockDelegate onPreparedLog:log withInternalId:OCMOCK_ANY]);
   OCMVerify([mockDelegate onEnqueuingLog:log withInternalId:OCMOCK_ANY]);
 }
 

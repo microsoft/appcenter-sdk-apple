@@ -1,18 +1,18 @@
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <OCMock/OCMock.h>
-#import <XCTest/XCTest.h>
-
+#include <Foundation/Foundation.h>
+#if !TARGET_OS_TV
+#import "MSCustomProperties.h"
+#import "MSCustomPropertiesLog.h"
+#endif
+#import "MSLogManagerDefault.h"
 #import "MSMobileCenter.h"
 #import "MSMobileCenterInternal.h"
 #import "MSMobileCenterPrivate.h"
+#import "MSMockService.h"
 #import "MSMockCustomAppDelegate.h"
 #import "MSMockOriginalAppDelegate.h"
-#import "MSMockService.h"
 #import "MSMockUserDefaults.h"
-#import "MSLogManagerDefault.h"
-#import "MSCustomProperties.h"
-#import "MSCustomPropertiesLog.h"
 #import "MSStartServiceLog.h"
+#import "MSTestFrameworks.h"
 
 static NSString *const kMSInstallIdStringExample = @"F18499DA-5C3D-4F05-B4E8-D8C9C06A6F09";
 
@@ -149,12 +149,13 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   XCTAssertTrue([[[MSMobileCenter sharedInstance] logUrl] isEqualToString:@"https://in.mobile.azure.com"]);
 }
 
+#if !TARGET_OS_TV
 - (void)testSetCustomProperties {
 
   // If
   [MSMobileCenter start:MS_UUID_STRING withServices:nil];
   id logManager = OCMProtocolMock(@protocol(MSLogManager));
-  OCMStub([logManager processLog:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]] forGroupId:[OCMArg any]])
+  OCMStub([logManager processLog:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]] forGroupId:OCMOCK_ANY])
       .andDo(nil);
   [MSMobileCenter sharedInstance].logManager = logManager;
 
@@ -164,14 +165,18 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   [MSMobileCenter setCustomProperties:customProperties];
 
   // Then
-  OCMVerify([logManager processLog:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]] forGroupId:[OCMArg any]]);
+  OCMVerify([logManager processLog:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]] forGroupId:OCMOCK_ANY]);
 
   // When
   // Not allow processLog more
-  OCMReject([logManager processLog:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]] forGroupId:[OCMArg any]]);
+  OCMReject([logManager processLog:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]] forGroupId:OCMOCK_ANY]);
   [MSMobileCenter setCustomProperties:nil];
   [MSMobileCenter setCustomProperties:[MSCustomProperties new]];
+  
+  // Then
+  OCMVerifyAll(logManager);
 }
+#endif
 
 - (void)testConfigureWithAppSecret {
   [MSMobileCenter configureWithAppSecret:@"App-Secret"];
@@ -211,7 +216,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   // If
   [MSMobileCenter start:MS_UUID_STRING withServices:nil];
   id logManager = OCMProtocolMock(@protocol(MSLogManager));
-  OCMStub([logManager processLog:[OCMArg isKindOfClass:[MSStartServiceLog class]] forGroupId:[OCMArg any]])
+  OCMStub([logManager processLog:[OCMArg isKindOfClass:[MSStartServiceLog class]] forGroupId:OCMOCK_ANY])
   .andDo(nil);
   [MSMobileCenter sharedInstance].logManager = logManager;
 
@@ -219,7 +224,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   [MSMobileCenter startService:MSMockService.class];
   
   // Then
-  OCMVerify([logManager processLog:[OCMArg isKindOfClass:[MSStartServiceLog class]] forGroupId:[OCMArg any]]);
+  OCMVerify([logManager processLog:[OCMArg isKindOfClass:[MSStartServiceLog class]] forGroupId:OCMOCK_ANY]);
 }
 
 - (void)testSortingServicesWorks {
@@ -250,8 +255,13 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   self.sut.logManager = logManager;
 
   // When
-  [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidEnterBackgroundNotification
-                                                      object:self.sut];
+  [[NSNotificationCenter defaultCenter]
+#if TARGET_OS_OSX
+      postNotificationName:NSApplicationDidHideNotification
+#else
+      postNotificationName:UIApplicationDidEnterBackgroundNotification
+#endif
+                    object:self.sut];
   // Then
   OCMVerify([logManager suspend]);
 }
@@ -264,8 +274,14 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   self.sut.logManager = logManager;
 
   // When
-  [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillEnterForegroundNotification
-                                                      object:self.sut];
+  [[NSNotificationCenter defaultCenter]
+#if TARGET_OS_OSX
+      postNotificationName:NSApplicationDidUnhideNotification
+#else
+      postNotificationName:UIApplicationWillEnterForegroundNotification
+#endif
+
+                    object:self.sut];
   // Then
   OCMVerify([logManager resume]);
 }

@@ -1,8 +1,3 @@
-#import <Foundation/Foundation.h>
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <OCMock/OCMock.h>
-#import <XCTest/XCTest.h>
-
 #import "MSAppleErrorLog.h"
 #import "MSChannelDefault.h"
 #import "MSCrashesDelegate.h"
@@ -20,6 +15,7 @@
 #import "MSMockCrashesDelegate.h"
 #import "MSServiceAbstractPrivate.h"
 #import "MSServiceAbstractProtected.h"
+#import "MSTestFrameworks.h"
 #import "MSWrapperExceptionManagerInternal.h"
 #import "MSWrapperCrashesHelper.h"
 
@@ -125,7 +121,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   NSMutableDictionary *channelsInLogManager =
       (static_cast<MSLogManagerDefault *>([MSCrashes sharedInstance].logManager)).channels;
   MSChannelDefault *channelMock = channelsInLogManager[groupId] = OCMPartialMock(channelsInLogManager[groupId]);
-  OCMStub([channelMock enqueueItem:[OCMArg any] withCompletion:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
+  OCMStub([channelMock enqueueItem:OCMOCK_ANY withCompletion:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     id<MSLog> log = nil;
     [invocation getArgument:&log atIndex:2];
     for (id<MSChannelDelegate> delegate in channelMock.delegates) {
@@ -264,19 +260,19 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
     [self attachmentWithAttachmentId:validString attachmentData:validData contentType:nil],
     [self attachmentWithAttachmentId:validString attachmentData:validData contentType:@""]
   ];
+  for(NSUInteger i = 0; i < invalidLogs.count; i++) {
+    OCMReject([logManagerMock processLog:invalidLogs[i] forGroupId:OCMOCK_ANY]);
+  }
   MSErrorAttachmentLog *validLog = [self attachmentWithAttachmentId:validString attachmentData:validData contentType:validString];
   NSMutableArray *logs = invalidLogs.mutableCopy;
   [logs addObject:validLog];
   id crashesDelegateMock = OCMProtocolMock(@protocol(MSCrashesDelegate));
-  OCMStub([crashesDelegateMock attachmentsWithCrashes:[OCMArg any] forErrorReport:[OCMArg any]]).andReturn(logs);
-  OCMStub([crashesDelegateMock crashes:[OCMArg any] shouldProcessErrorReport:[OCMArg any]]).andReturn(YES);
+  OCMStub([crashesDelegateMock attachmentsWithCrashes:OCMOCK_ANY forErrorReport:OCMOCK_ANY]).andReturn(logs);
+  OCMStub([crashesDelegateMock crashes:OCMOCK_ANY shouldProcessErrorReport:OCMOCK_ANY]).andReturn(YES);
   [[MSCrashes sharedInstance] setDelegate:crashesDelegateMock];
 
   //Then
-  for(NSUInteger i = 0; i < invalidLogs.count; i++) {
-    OCMReject([logManagerMock processLog:invalidLogs[i] forGroupId:[OCMArg any]]);
-  }
-  OCMExpect([logManagerMock processLog:validLog forGroupId:[OCMArg any]]);
+  OCMExpect([logManagerMock processLog:validLog forGroupId:OCMOCK_ANY]);
   [[MSCrashes sharedInstance] startCrashProcessing];
   OCMVerifyAll(logManagerMock);
 }
@@ -300,7 +296,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // If
   id settingsMock = OCMClassMock([NSUserDefaults class]);
-  OCMStub([settingsMock objectForKey:[OCMArg any]]).andReturn(@YES);
+  OCMStub([settingsMock objectForKey:OCMOCK_ANY]).andReturn(@YES);
   self.sut.storage = settingsMock;
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
   [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
@@ -318,7 +314,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // If
   id settingsMock = OCMClassMock([NSUserDefaults class]);
-  OCMStub([settingsMock objectForKey:[OCMArg any]]).andReturn(@NO);
+  OCMStub([settingsMock objectForKey:OCMOCK_ANY]).andReturn(@NO);
   self.sut.storage = settingsMock;
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
   [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
@@ -381,7 +377,11 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   NSString *filePath = [[self.sut.logBufferDir path]
       stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
 
+#if TARGET_OS_OSX
+  [someData writeToFile:filePath atomically:YES];
+#else
   [someData writeToFile:filePath options:NSDataWritingFileProtectionNone error:nil];
+#endif
 
   // When
   BOOL success = [[NSFileManager defaultManager] fileExistsAtPath:filePath];
@@ -494,26 +494,36 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   XCTAssertTrue([[MSCrashes sharedInstance] initializationPriority] == MSInitializationPriorityMax);
 }
 
+// The Mach exception handler is not supported on tvOS.
+#if TARGET_OS_TV
+- (void) testMachExceptionHandlerDisabledOnTvOS {
+  
+  // Then
+  XCTAssertFalse([[MSCrashes sharedInstance] isMachExceptionHandlerEnabled]);  
+}
+#else
 - (void)testDisableMachExceptionWorks {
-
+  
   // Then
   XCTAssertTrue([[MSCrashes sharedInstance] isMachExceptionHandlerEnabled]);
-
+  
   // When
   [MSCrashes disableMachExceptionHandler];
-
+  
   // Then
   XCTAssertFalse([[MSCrashes sharedInstance] isMachExceptionHandlerEnabled]);
-
+  
   // Then
   XCTAssertTrue([self.sut isMachExceptionHandlerEnabled]);
-
+  
   // When
   [self.sut setEnableMachExceptionHandler:NO];
-
+  
   // Then
   XCTAssertFalse([self.sut isMachExceptionHandlerEnabled]);
 }
+
+#endif
 
 - (void)testAbstractErrorLogSerialization {
   MSAbstractErrorLog *log = [MSAbstractErrorLog new];
@@ -579,7 +589,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   for(unsigned int i = 0; i < kMaxAttachmentsPerCrashReport + 1; ++i) {
     NSString *text = [NSString stringWithFormat:@"%d", i];
     MSErrorAttachmentLog *log = [[MSErrorAttachmentLog alloc] initWithFilename:text attachmentText:text];
-    log.toffset = [NSNumber numberWithInt:0];
+    log.timestamp = [NSDate dateWithTimeIntervalSince1970:42];
     log.device = deviceMock;
     [logs addObject:log];
   }

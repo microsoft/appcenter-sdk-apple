@@ -1,36 +1,124 @@
 #import "AppDelegate.h"
+#import "MobileCenterDelegateObjC.h"
+#import "MSAlertController.h"
 
-@interface AppDelegate ()
+@import MobileCenter;
+@import MobileCenterAnalytics;
+@import MobileCenterCrashes;
+
+@interface AppDelegate () <MSCrashesDelegate>
 
 @end
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-  // Override point for customization after application launch.
+
+  [MSMobileCenter setLogLevel:MSLogLevelVerbose];
+  [MSMobileCenter setLogUrl:@"https://in-integration.dev.avalanch.es"];
+  [MSMobileCenter start:@"68065a02-edbb-4fc3-a323-3b8ca2beae80" withServices:@[ [MSAnalytics class], [MSCrashes class] ]];
+  [self crashes];
+  [self setMobileCenterDelegate];
   return YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
-  // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-  // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-  // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-  // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-  // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-  // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-  // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+#pragma mark - Private
+
+- (void)crashes {
+    if ([MSCrashes hasCrashedInLastSession]) {
+        MSErrorReport *errorReport = [MSCrashes lastSessionCrashReport];
+        NSLog(@"We crashed with Signal: %@", errorReport.signal);
+        MSDevice *device = [errorReport device];
+        NSString *osVersion = [device osVersion];
+        NSString *appVersion = [device appVersion];
+        NSString *appBuild = [device appBuild];
+        NSLog(@"OS Version is: %@", osVersion);
+        NSLog(@"App Version is: %@", appVersion);
+        NSLog(@"App Build is: %@", appBuild);
+    }
+
+    [MSCrashes setDelegate:self];
+    [MSCrashes setUserConfirmationHandler:(^(NSArray<MSErrorReport *> *errorReports) {
+
+        /*
+         * Use MSAlertViewController to show a dialog to the user where they can choose if they want to provide a
+         * crash report.
+         */
+        MSAlertController *alertController = [MSAlertController
+                                              alertControllerWithTitle:@"Sorry about that!"
+                                              message:@"Do you want to send an anonymous crash report so we can fix the issue?"];
+
+        // Add a "No"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationDontSend.
+        [alertController addCancelActionWithTitle:@"Don't Send"
+                                          handler:^(UIAlertAction *action) {
+                                              [MSCrashes notifyWithUserConfirmation:MSUserConfirmationDontSend];
+                                          }];
+
+        // Add a "Yes"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationSend.
+        [alertController addDefaultActionWithTitle:@"Send"
+                                           handler:^(UIAlertAction *action) {
+                                               [MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
+                                           }];
+
+        // Add a "Always"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationAlways.
+        [alertController addDefaultActionWithTitle:@"Always Send"
+                                           handler:^(UIAlertAction *action) {
+                                               [MSCrashes notifyWithUserConfirmation:MSUserConfirmationAlways];
+                                           }];
+        // Show the alert controller.
+        [alertController show];
+
+        return YES;
+    })];
+}
+
+- (void)setMobileCenterDelegate {
+  MobileCenterViewController *sasquatchController = (MobileCenterViewController *)[[self window] rootViewController];
+  sasquatchController.mobileCenter = [[MobileCenterDelegateObjC alloc] init];
+}
+
+#pragma mark - MSCrashesDelegate
+
+- (BOOL)crashes:(MSCrashes *)crashes shouldProcessErrorReport:(MSErrorReport *)errorReport {
+    NSLog(@"Should process error report with: %@", errorReport.exceptionReason);
+    return YES;
+}
+
+- (void)crashes:(MSCrashes *)crashes willSendErrorReport:(MSErrorReport *)errorReport {
+    NSLog(@"Will send error report with: %@", errorReport.exceptionReason);
+}
+
+- (void)crashes:(MSCrashes *)crashes didSucceedSendingErrorReport:(MSErrorReport *)errorReport {
+    NSLog(@"Did succeed error report sending with: %@", errorReport.exceptionReason);
+}
+
+- (void)crashes:(MSCrashes *)crashes didFailSendingErrorReport:(MSErrorReport *)errorReport withError:(NSError *)error {
+    NSLog(@"Did fail sending report with: %@, and error: %@", errorReport.exceptionReason, error.localizedDescription);
+}
+
+- (NSArray<MSErrorAttachmentLog *> *)attachmentsWithCrashes:(MSCrashes *)crashes
+                                             forErrorReport:(MSErrorReport *)errorReport {
+    MSErrorAttachmentLog *attachment1 = [MSErrorAttachmentLog attachmentWithText:@"Hello world!" filename:@"hello.txt"];
+    MSErrorAttachmentLog *attachment2 =
+    [MSErrorAttachmentLog attachmentWithBinary:[@"Fake image" dataUsingEncoding:NSUTF8StringEncoding]
+                                      filename:@"fake_image.jpeg"
+                                   contentType:@"image/jpeg"];
+    return @[ attachment1, attachment2 ];
 }
 
 @end

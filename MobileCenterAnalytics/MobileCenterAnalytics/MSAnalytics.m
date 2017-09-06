@@ -152,18 +152,18 @@ static const int maxPropertyValueLength = 64;
 
 #pragma mark - Private methods
 
-- (BOOL)validateEventName:(NSString *)eventName forLogType:(NSString *)logType {
+- (NSString *)validateEventName:(NSString *)eventName forLogType:(NSString *)logType {
   if (!eventName || [eventName length] < minEventNameLength) {
     MSLogError([MSAnalytics logTag],
                @"%@ name cannot be null or empty", logType);
-    return NO;
+    return nil;
   }
   if ([eventName length] > maxEventNameLength) {
-    MSLogError([MSAnalytics logTag],
-               @"%@ '%@' : name length cannot be longer than %d characters", logType, eventName, maxEventNameLength);
-    return NO;
+    MSLogWarning([MSAnalytics logTag],
+               @"%@ '%@' : name length cannot be longer than %d characters. Name will be truncated.", logType, eventName, maxEventNameLength);
+    eventName = [eventName substringToIndex:maxEventNameLength];
   }
-  return YES;
+  return eventName;
 }
 
 - (NSDictionary<NSString *, NSString *> *)validateProperties:(NSDictionary<NSString *, NSString *> *)properties
@@ -196,30 +196,28 @@ static const int maxPropertyValueLength = 64;
     }
     if ([strKey length] > maxPropertyKeyLength) {
       MSLogWarning([MSAnalytics logTag],
-                   @"%@ '%@' : property %@ : property key length cannot be longer than %d characters. Property %@ will be skipped.",
+                   @"%@ '%@' : property %@ : property key length cannot be longer than %d characters. Property key will be truncated.",
                    logType,
                    logName,
                    strKey,
-                   maxPropertyKeyLength,
-                   strKey);
-      continue;
+                   maxPropertyKeyLength);
+      strKey = [strKey substringToIndex:maxPropertyKeyLength];
     }
 
     // Validate value.
     NSString *value = properties[key];
     if([value length] > maxPropertyValueLength) {
       MSLogWarning([MSAnalytics logTag],
-                   @"%@ '%@' : property '%@' : property value cannot be longer than %d characters. Property %@ will be skipped.",
+                   @"%@ '%@' : property '%@' : property value cannot be longer than %d characters. Property value will be truncated.",
                    logType,
                    logName,
                    strKey,
-                   maxPropertyValueLength,
-                   strKey);
-      continue;
+                   maxPropertyValueLength);
+      value = [value substringToIndex:maxPropertyValueLength];
     }
 
     // Save valid properties.
-    [validProperties setObject:value forKey:key];
+    [validProperties setObject:value forKey:strKey];
   }
   return validProperties;
 }
@@ -232,12 +230,13 @@ static const int maxPropertyValueLength = 64;
   MSEventLog *log = [MSEventLog new];
 
   // Validate event name.
-  if (![self validateEventName:eventName forLogType:log.type]) {
+  NSString *validName = [self validateEventName:eventName forLogType:log.type];
+  if (!validName) {
     return;
   }
 
   // Set properties of the event log.
-  log.name = eventName;
+  log.name = validName;
   log.eventId = MS_UUID_STRING;
   if (properties && properties.count > 0) {
 
@@ -257,12 +256,13 @@ static const int maxPropertyValueLength = 64;
   MSPageLog *log = [MSPageLog new];
 
   // Validate event name.
-  if (![self validateEventName:pageName forLogType:log.type]) {
+  NSString *validName = [self validateEventName:pageName forLogType:log.type];
+  if (!validName) {
     return;
   }
 
   // Set properties of the event log.
-  log.name = pageName;
+  log.name = validName;
   if (properties && properties.count > 0) {
 
     // Send only valid properties.

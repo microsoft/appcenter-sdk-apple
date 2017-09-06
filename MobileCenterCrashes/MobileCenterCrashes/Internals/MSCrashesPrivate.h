@@ -1,9 +1,9 @@
-#import <CrashReporter/CrashReporter.h>
 #import <string>
 #import <array>
 #import <unordered_map>
 
 #import "MSCrashes.h"
+#import "MSCrashReporter.h"
 
 @class MSMPLCrashReporter;
 

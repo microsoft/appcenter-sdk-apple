@@ -1,11 +1,16 @@
+#import <objc/runtime.h>
+
 #import "MSAnalyticsCategory.h"
 #import "MSAnalyticsInternal.h"
-#import <objc/runtime.h>
 
 static NSString *const kMSViewControllerSuffix = @"ViewController";
 static NSString *MSMissedPageViewName;
 
+#if TARGET_OS_OSX
+@implementation NSViewController (PageViewLogging)
+#else
 @implementation UIViewController (PageViewLogging)
+#endif
 
 + (void)swizzleViewWillAppear {
   static dispatch_once_t onceToken;
@@ -13,7 +18,7 @@ static NSString *MSMissedPageViewName;
     Class class = [self class];
 
     // Get selectors.
-    SEL originalSelector = @selector(viewWillAppear:);
+    SEL originalSelector = NSSelectorFromString(@"viewWillAppear:");
     SEL swizzledSelector = @selector(ms_viewWillAppear:);
 
     Method originalMethod = class_getInstanceMethod(class, originalSelector);
@@ -62,16 +67,21 @@ static NSString *MSMissedPageViewName;
 
 @end
 
+#if TARGET_OS_OSX
+BOOL ms_shouldTrackPageView(NSViewController *viewController) {
+#else
 BOOL ms_shouldTrackPageView(UIViewController *viewController) {
+#endif
 
-  // For container view controllers, auto page tracking is disabled(to avoid
-  // noise).
+  // For container view controllers, auto page tracking is disabled(to avoid noise).
   NSSet *viewControllerSet = [NSSet setWithArray:@[
-    @"UINavigationController",
-    @"UITabBarController",
-    @"UISplitViewController",
-    @"UIInputWindowController",
+#if TARGET_OS_OSX
+    @"NSNavigationController", @"NSTabBarController", @"NSSplitViewController", @"NSInputWindowController",
+    @"NSPageViewController"
+#else
+    @"UINavigationController", @"UITabBarController", @"UISplitViewController", @"UIInputWindowController",
     @"UIPageViewController"
+#endif
   ]];
   NSString *className = NSStringFromClass([viewController class]);
 
@@ -81,7 +91,11 @@ BOOL ms_shouldTrackPageView(UIViewController *viewController) {
 @implementation MSAnalyticsCategory
 
 + (void)activateCategory {
+#if TARGET_OS_OSX
+  [NSViewController swizzleViewWillAppear];
+#else
   [UIViewController swizzleViewWillAppear];
+#endif
 }
 
 + (NSString *)missedPageViewName {

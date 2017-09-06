@@ -1,10 +1,7 @@
-#import <Foundation/Foundation.h>
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <XCTest/XCTest.h>
-
 #import "MSErrorReportPrivate.h"
 #import "MSDevice.h"
 #import "MSDeviceInternal.h"
+#import "MSTestFrameworks.h"
 #import "MSWrapperSdkInternal.h"
 
 @interface MSErrorReportTests : XCTestCase

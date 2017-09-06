@@ -9,6 +9,11 @@
 @implementation MSWrapperExceptionManager : NSObject
 
 static NSString* const kMSLastWrapperExceptionFileName = @"last_saved_wrapper_exception";
+static NSMutableDictionary* unprocessedWrapperExceptions;
+
++ (void) load {
+  unprocessedWrapperExceptions = [NSMutableDictionary new];
+}
 
 #pragma mark Public Methods
 
@@ -16,7 +21,8 @@ static NSString* const kMSLastWrapperExceptionFileName = @"last_saved_wrapper_ex
  * Gets a wrapper exception with a given UUID.
  */
 + (MSWrapperException *)loadWrapperExceptionWithUUIDString:(NSString *)uuidString {
-  return [self loadWrapperExceptionWithBaseFilename:uuidString];
+  MSWrapperException *foundException = [unprocessedWrapperExceptions objectForKey:uuidString];
+  return foundException ? foundException : [self loadWrapperExceptionWithBaseFilename:uuidString];
 }
 
 /**
@@ -65,6 +71,9 @@ static NSString* const kMSLastWrapperExceptionFileName = @"last_saved_wrapper_ex
     }
   }
   if (correspondingReport) {
+
+    // As soon as the wrapper exception is correlated, store it in memory and save it to disk
+    unprocessedWrapperExceptions[correspondingReport.incidentIdentifier] = lastSavedWrapperException;
     [self saveWrapperException:lastSavedWrapperException withBaseFilename:correspondingReport.incidentIdentifier];
   }
 }

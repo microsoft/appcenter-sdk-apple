@@ -1,3 +1,5 @@
+#import <Foundation/Foundation.h>
+
 #import "MSAppDelegateForwarder.h"
 #import "MSConstants+Internal.h"
 #import "MSDeviceTracker.h"
@@ -7,9 +9,11 @@
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
 #import "MSStartServiceLog.h"
+#if !TARGET_OS_TV
 #import "MSCustomProperties.h"
 #import "MSCustomPropertiesLog.h"
 #import "MSCustomPropertiesPrivate.h"
+#endif
 
 // Singleton
 static MSMobileCenter *sharedInstance = nil;
@@ -107,9 +111,11 @@ static NSString *const kMSGroupId = @"MobileCenter";
   [[MSDeviceTracker sharedInstance] setWrapperSdk:wrapperSdk];
 }
 
+#if !TARGET_OS_TV
 + (void)setCustomProperties:(MSCustomProperties *)customProperties {
   [[self sharedInstance] setCustomProperties:customProperties];
 }
+#endif
 
 /**
  * Check if the debugger is attached
@@ -280,6 +286,7 @@ static NSString *const kMSGroupId = @"MobileCenter";
   }
 }
 
+#if !TARGET_OS_TV
 - (void)setCustomProperties:(MSCustomProperties *)customProperties {
   if (!customProperties || customProperties.properties == 0) {
     MSLogError([MSMobileCenter logTag], @"Custom properties may not be null or empty");
@@ -287,6 +294,7 @@ static NSString *const kMSGroupId = @"MobileCenter";
   }
   [self sendCustomPropertiesLog:customProperties.properties];
 }
+#endif
 
 - (void)setEnabled:(BOOL)isEnabled {
   self.enabledStateUpdating = YES;
@@ -326,13 +334,22 @@ static NSString *const kMSGroupId = @"MobileCenter";
 
   // Hookup to application life-cycle events
   if (isEnabled) {
+
     [MS_NOTIFICATION_CENTER addObserver:self
                                selector:@selector(applicationDidEnterBackground)
+#if TARGET_OS_OSX
+                                   name:NSApplicationDidHideNotification
+#else
                                    name:UIApplicationDidEnterBackgroundNotification
+#endif
                                  object:nil];
     [MS_NOTIFICATION_CENTER addObserver:self
                                selector:@selector(applicationWillEnterForeground)
+#if TARGET_OS_OSX
+                                   name:NSApplicationDidUnhideNotification
+#else
                                    name:UIApplicationWillEnterForegroundNotification
+#endif
                                  object:nil];
   } else {
 
@@ -396,6 +413,7 @@ static NSString *const kMSGroupId = @"MobileCenter";
   [self.logManager processLog:serviceLog forGroupId:kMSGroupId];
 }
 
+#if !TARGET_OS_TV
 - (void)sendCustomPropertiesLog:(NSDictionary<NSString *, NSObject *> *)properties {
   MSCustomPropertiesLog *customPropertiesLog = [MSCustomPropertiesLog new];
   customPropertiesLog.properties = properties;
@@ -403,6 +421,7 @@ static NSString *const kMSGroupId = @"MobileCenter";
   // FIXME: withPriority parameter need to be removed on merge.
   [self.logManager processLog:customPropertiesLog forGroupId:kMSGroupId];
 }
+#endif
 
 + (void)resetSharedInstance {
   onceToken = 0; // resets the once_token so dispatch_once will run again

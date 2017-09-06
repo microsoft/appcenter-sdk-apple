@@ -1,0 +1,18 @@
+#include "./Global.xcconfig"
+
+// :Mark: Architectures
+ONLY_ACTIVE_ARCH = NO
+
+// :Mark: Build Options
+DEBUG_INFORMATION_FORMAT = dwarf-with-dsym
+ENABLE_TESTABILITY = NO
+VALIDATE_PRODUCT = YES
+
+// :Mark: Apple LLVM 8.1 - Code Generation
+GCC_OPTIMIZATION_LEVEL = s
+
+// :Mark: Apple LLVM 8.1 - Preprocessing
+ENABLE_NS_ASSERTIONS = NO
+
+// :Mark: User-Defined
+MTL_ENABLE_DEBUG_INFO = NO

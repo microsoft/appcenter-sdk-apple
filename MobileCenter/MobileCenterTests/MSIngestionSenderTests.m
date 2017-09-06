@@ -1,6 +1,3 @@
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <OCMock/OCMock.h>
-#import <XCTest/XCTest.h>
 #import "MSDevice.h"
 #import "MSDeviceInternal.h"
 #import "MSHttpSenderPrivate.h"
@@ -10,6 +7,7 @@
 #import "MSMockLog.h"
 #import "MSSenderCall.h"
 #import "MSSenderDelegate.h"
+#import "MSTestFrameworks.h"
 #import "MobileCenter+Internal.h"
 
 static NSTimeInterval const kMSTestTimeout = 5.0;
@@ -352,8 +350,8 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 
   OCMStub([mockedCall sender:self.sut
               callCompletedWithStatus:MSHTTPCodesNo500InternalServerError
-                                 data:[OCMArg any]
-                                error:[OCMArg any]])
+                                 data:OCMOCK_ANY
+                                error:OCMOCK_ANY])
       .andForwardToRealObject()
       .andDo(^(__attribute__((unused)) NSInvocation *invocation) {
         [responseReceivedExcpectation fulfill];
@@ -395,7 +393,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 
   MSAbstractLog *log = [MSAbstractLog new];
   log.sid = MS_UUID_STRING;
-  log.toffset = [NSNumber numberWithLongLong:(long long)([MSUtility nowInMilliseconds])];
+  log.timestamp = [NSDate date];
 
   // Log does not have device info, therefore, it's an invalid log
   MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:@"1" andLogs:(NSArray<id<MSLog>> *)@[ log ]];
@@ -651,12 +649,12 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 
   MSMockLog *log1 = [[MSMockLog alloc] init];
   log1.sid = MS_UUID_STRING;
-  log1.toffset = [NSNumber numberWithLongLong:(long long)([MSUtility nowInMilliseconds])];
+  log1.timestamp = [NSDate date];
   log1.device = deviceMock;
 
   MSMockLog *log2 = [[MSMockLog alloc] init];
   log2.sid = MS_UUID_STRING;
-  log2.toffset = [NSNumber numberWithLongLong:(long long)([MSUtility nowInMilliseconds])];
+  log2.timestamp = [NSDate date];
   log2.device = deviceMock;
 
   MSLogContainer *logContainer =

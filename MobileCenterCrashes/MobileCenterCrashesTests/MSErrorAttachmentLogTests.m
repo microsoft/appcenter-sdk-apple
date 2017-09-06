@@ -1,12 +1,8 @@
-#import <Foundation/Foundation.h>
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <OCMock/OCMock.h>
-#import <XCTest/XCTest.h>
-
 #import "MSDevice.h"
 #import "MSErrorAttachmentLog.h"
 #import "MSErrorAttachmentLog+Utility.h"
 #import "MSErrorAttachmentLogInternal.h"
+#import "MSTestFrameworks.h"
 #import "MSUtility.h"
 
 @interface MSErrorAttachmentLogTests : XCTestCase
@@ -189,7 +185,7 @@
 #pragma mark - Utility
 
 - (void)setDummyParentProperties:(MSErrorAttachmentLog *)attachment {
-  attachment.toffset = @(1);
+  attachment.timestamp = [NSDate dateWithTimeIntervalSince1970:42];
   attachment.sid = MS_UUID_STRING;
   attachment.device = OCMClassMock([MSDevice class]);
   OCMStub([attachment.device isValid]).andReturn(YES);

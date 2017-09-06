@@ -20,7 +20,8 @@ NSString *kMSReachabilityChangedNotification = @"kMSNetworkReachabilityChangedNo
 
 #define kShouldPrintReachabilityFlags 0
 
-static void PrintReachabilityFlags(__attribute__((unused)) SCNetworkReachabilityFlags flags, __attribute__((unused)) const char *comment) {
+static void PrintReachabilityFlags(__attribute__((unused)) SCNetworkReachabilityFlags flags,
+                                   __attribute__((unused)) const char *comment) {
 #if kShouldPrintReachabilityFlags
 
   NSLog(@"Reachability Flag Status: %c%c %c%c%c%c%c%c%c %s\n", (flags & kSCNetworkReachabilityFlagsIsWWAN) ? 'W' : '-',
@@ -66,7 +67,7 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 @implementation MS_Reachability {
 }
 
-//It's based on Apple's sample code. Disable an one warning type for this function
+// It's based on Apple's sample code. Disable an one warning type for this function
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wnullable-to-nonnull-conversion"
 
@@ -198,11 +199,17 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
     }
   }
 
+/*
+ * This flag indicates that the specified nodename or address can be reached via an EDGE, GPRS, or other "cell"
+ * connection. Not available on macOS.
+ */
+#if !TARGET_OS_OSX
   if ((flags & kSCNetworkReachabilityFlagsIsWWAN) == kSCNetworkReachabilityFlagsIsWWAN) {
 
     // ... but WWAN connections are OK if the calling application is using the CFNetwork APIs.
     returnValue = ReachableViaWWAN;
   }
+#endif
 
   return returnValue;
 }

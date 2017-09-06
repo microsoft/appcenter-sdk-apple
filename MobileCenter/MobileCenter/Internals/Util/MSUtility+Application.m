@@ -9,13 +9,22 @@ NSString *MSUtilityApplicationCategory;
 
 + (MSApplicationState)applicationState {
 
-  // App extentions must not access sharedApplication.
+  // App extensions must not access sharedApplication.
   if (!MS_IS_APP_EXTENSION) {
     return (MSApplicationState)[[self class] sharedAppState];
   }
   return MSApplicationStateUnknown;
 }
 
+#if TARGET_OS_OSX
++ (NSApplication *)sharedApp {
+
+  // Compute selector at runtime for more discretion.
+  SEL sharedAppSel = NSSelectorFromString(@"sharedApplication");
+  return ((NSApplication * (*)(id, SEL))[[NSApplication class] methodForSelector:sharedAppSel])([NSApplication class],
+                                                                                                sharedAppSel);
+}
+#else
 + (UIApplication *)sharedApp {
 
   // Compute selector at runtime for more discretion.
@@ -23,18 +32,43 @@ NSString *MSUtilityApplicationCategory;
   return ((UIApplication * (*)(id, SEL))[[UIApplication class] methodForSelector:sharedAppSel])([UIApplication class],
                                                                                                 sharedAppSel);
 }
+#endif
 
+#if TARGET_OS_OSX
++ (id<NSApplicationDelegate>)sharedAppDelegate {
+  return [self sharedApp].delegate;
+}
+#else
 + (id<UIApplicationDelegate>)sharedAppDelegate {
   return [self sharedApp].delegate;
 }
+#endif
 
+#if TARGET_OS_OSX
++ (MSApplicationState)sharedAppState {
+  return [[[self class] sharedApp] isHidden] ? MSApplicationStateBackground : MSApplicationStateActive;
+}
+#else
 + (UIApplicationState)sharedAppState {
   return [[[[self class] sharedApp] valueForKey:@"applicationState"] longValue];
 }
+#endif
 
 + (void)sharedAppOpenUrl:(NSURL *)url
                  options:(NSDictionary<NSString *, id> *)options
        completionHandler:(void (^)(MSOpenURLState state))completion {
+#if TARGET_OS_OSX
+  (void)options;
+
+  /*
+   * TODO: iOS SDK has an issue that openURL returns NO even though it was able to open a browser. Need to make sure
+   * openURL returns YES/NO on macOS properly.
+   */
+  // Dispatch the open url call to the next loop to avoid freezing the App new instance start up.
+  dispatch_async(dispatch_get_main_queue(), ^{
+    completion([[NSWorkspace sharedWorkspace] openURL:url]);
+  });
+#else
   UIApplication *sharedApp = [[self class] sharedApp];
 
   // FIXME: App extensions does support openURL through NSExtensionContest, we may use this somehow.
@@ -71,6 +105,7 @@ NSString *MSUtilityApplicationCategory;
       }
     }
   });
+#endif
 }
 
 @end

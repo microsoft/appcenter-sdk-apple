@@ -1,5 +1,3 @@
-
-
 #import <sqlite3.h>
 
 #import "MSDBStoragePrivate.h"
@@ -17,7 +15,12 @@
     NSMutableDictionary *dbColumnsIndexes = [NSMutableDictionary new];
 
     // Path to the database.
-    NSURL *appSupportURL = [[[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory
+#if TARGET_OS_TV
+    NSSearchPathDirectory directory = NSCachesDirectory;
+#else
+    NSSearchPathDirectory directory = NSApplicationSupportDirectory;
+#endif
+    NSURL *appSupportURL = [[[NSFileManager defaultManager] URLsForDirectory:directory
                                                                    inDomains:NSUserDomainMask] lastObject];
     if (appSupportURL) {
       NSURL *fileURL =
@@ -25,6 +28,9 @@
       [MSUtility createFileAtURL:fileURL];
       _filePath = fileURL.absoluteString;
     }
+
+    // If it is custom SQLite library we need to turn on URI filename capability.
+    sqlite3_config(SQLITE_CONFIG_URI, 1);
 
     // Browse tables.
     for (NSString *tableName in schema) {

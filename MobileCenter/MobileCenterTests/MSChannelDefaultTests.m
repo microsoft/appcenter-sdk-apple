@@ -1,7 +1,4 @@
 #import <Foundation/Foundation.h>
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
-#import <OCMock/OCMock.h>
-#import <XCTest/XCTest.h>
 
 #import "MSAbstractLogInternal.h"
 #import "MSChannelConfiguration.h"
@@ -11,6 +8,7 @@
 #import "MSHttpSender.h"
 #import "MSLogContainer.h"
 #import "MSMobileCenterErrors.h"
+#import "MSTestFrameworks.h"
 #import "MSUtility.h"
 
 static NSString *const kMSTestGroupId = @"GroupId";
@@ -85,7 +83,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // Init mocks.
   id senderMock = OCMProtocolMock(@protocol(MSSender));
-  OCMStub([senderMock sendAsync:[OCMArg any] completionHandler:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
+  OCMStub([senderMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
 
     // Get sender bloc for later call.
     [invocation retainArguments];
@@ -95,7 +93,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // Stub the storage load for that log.
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
-  OCMStub([storageMock loadLogsWithGroupId:kMSTestGroupId limit:batchSizeLimit withCompletion:([OCMArg any])])
+  OCMStub([storageMock loadLogsWithGroupId:kMSTestGroupId limit:batchSizeLimit withCompletion:(OCMOCK_ANY)])
       .andDo(^(NSInvocation *invocation) {
         MSLoadDataCompletionBlock loadCallback;
 
@@ -149,7 +147,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  assertThat(logContainer.batchId, is(expectedBatchId));
                                  assertThat(logContainer.logs, is(@[ expectedLog ]));
                                  assertThatBool(sut.pendingBatchQueueFull, isFalse());
-                                 assertThatUnsignedInt(sut.pendingBatchIds.count, equalToInt(0));
+                                 assertThatUnsignedLong(sut.pendingBatchIds.count, equalToUnsignedLong(0));
                                  OCMVerifyAll(delegateMock);
                                  OCMVerifyAll(storageMock);
                                  if (error) {
@@ -174,7 +172,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // Init mocks.
   id senderMock = OCMProtocolMock(@protocol(MSSender));
-  OCMStub([senderMock sendAsync:[OCMArg any] completionHandler:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
+  OCMStub([senderMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
 
     // Get sender bloc for later call.
     [invocation retainArguments];
@@ -184,7 +182,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // Stub the storage load for that log.
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
-  OCMStub([storageMock loadLogsWithGroupId:kMSTestGroupId limit:batchSizeLimit withCompletion:([OCMArg any])])
+  OCMStub([storageMock loadLogsWithGroupId:kMSTestGroupId limit:batchSizeLimit withCompletion:(OCMOCK_ANY)])
       .andDo(^(NSInvocation *invocation) {
         MSLoadDataCompletionBlock loadCallback;
 
@@ -238,7 +236,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  assertThat(logContainer.batchId, is(expectedBatchId));
                                  assertThat(logContainer.logs, is(@[ expectedLog ]));
                                  assertThatBool(sut.pendingBatchQueueFull, isFalse());
-                                 assertThatUnsignedInt(sut.pendingBatchIds.count, equalToInt(0));
+                                 assertThatUnsignedLong(sut.pendingBatchIds.count, equalToUnsignedLong(0));
                                  OCMVerifyAll(delegateMock);
                                  OCMVerifyAll(storageMock);
                                  if (error) {
@@ -321,7 +319,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // Set up mock and stubs.
   id senderMock = OCMProtocolMock(@protocol(MSSender));
-  OCMStub([senderMock sendAsync:[OCMArg any] completionHandler:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
+  OCMStub([senderMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     MSLogContainer *container;
     [invocation getArgument:&container atIndex:2];
     if (container) {
@@ -329,7 +327,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
     }
   });
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
-  OCMStub([storageMock loadLogsWithGroupId:kMSTestGroupId limit:batchSizeLimit withCompletion:([OCMArg any])])
+  OCMStub([storageMock loadLogsWithGroupId:kMSTestGroupId limit:batchSizeLimit withCompletion:(OCMOCK_ANY)])
       .andDo(^(NSInvocation *invocation) {
         MSLoadDataCompletionBlock loadCallback;
 
@@ -384,7 +382,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // Init mocks.
   id senderMock = OCMProtocolMock(@protocol(MSSender));
-  OCMStub([senderMock sendAsync:[OCMArg any] completionHandler:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
+  OCMStub([senderMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
 
     // Get sender bloc for later call.
     [invocation retainArguments];
@@ -394,7 +392,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // Stub the storage load for that log.
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
-  OCMStub([storageMock loadLogsWithGroupId:kMSTestGroupId limit:batchSizeLimit withCompletion:([OCMArg any])])
+  OCMStub([storageMock loadLogsWithGroupId:kMSTestGroupId limit:batchSizeLimit withCompletion:(OCMOCK_ANY)])
       .andDo(^(NSInvocation *invocation) {
         MSLoadDataCompletionBlock loadCallback;
 
@@ -467,7 +465,8 @@ static NSString *const kMSTestGroupId = @"GroupId";
   int batchSizeLimit = 1;
   id mockLog = [self getValidMockLog];
   id senderMock = OCMProtocolMock(@protocol(MSSender));
-  OCMStub([senderMock sendAsync:[OCMArg any] completionHandler:[OCMArg any]]);
+  OCMReject([senderMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  OCMStub([senderMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
   OCMStub([storageMock
       loadLogsWithGroupId:kMSTestGroupId
@@ -495,9 +494,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
    */
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
-
-                                 // Get sure it hasn't been sent.
-                                 OCMReject([senderMock sendAsync:[OCMArg any] completionHandler:[OCMArg any]]);
+                                 OCMVerifyAll(senderMock);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
@@ -548,7 +545,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // If
   [self initChannelEndJobExpectation];
   id mockLog = [self getValidMockLog];
-  OCMReject([self.storageMock saveLog:[OCMArg any] withGroupId:[OCMArg any]]);
+  OCMReject([self.storageMock saveLog:OCMOCK_ANY withGroupId:OCMOCK_ANY]);
 
   // When
   [self.sut setEnabled:NO andDeleteDataOnDisabled:YES];
@@ -585,7 +582,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
                                  assertThatBool(self.sut.discardLogs, isFalse());
-                                 OCMVerify([self.storageMock saveLog:mockLog withGroupId:[OCMArg any]]);
+                                 OCMVerify([self.storageMock saveLog:mockLog withGroupId:OCMOCK_ANY]);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
@@ -606,7 +603,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
                                  assertThatBool(self.sut.discardLogs, isFalse());
-                                 OCMVerify([self.storageMock saveLog:mockLog withGroupId:[OCMArg any]]);
+                                 OCMVerify([self.storageMock saveLog:mockLog withGroupId:OCMOCK_ANY]);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }

@@ -2,7 +2,7 @@
 #import "MSMobileCenter.h"
 #import "MSMobileCenterInternal.h"
 #import "MSMobileCenterPrivate.h"
-#import <XCTest/XCTest.h>
+#import "MSTestFrameworks.h"
 
 @interface MSLoggerTests : XCTestCase
 

@@ -65,14 +65,14 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
       // Record session.
       MSSessionHistoryInfo *sessionInfo = [[MSSessionHistoryInfo alloc] init];
       sessionInfo.sessionId = _sessionId;
-      sessionInfo.toffset = [NSNumber numberWithDouble:[MSUtility nowInMilliseconds]];
+      sessionInfo.timestamp = [NSDate date];
 
       // Insert new MSSessionHistoryInfo at the proper index to keep pastSessions sorted.
       NSUInteger newIndex = [self.pastSessions indexOfObject:sessionInfo
           inSortedRange:(NSRange) { 0, [self.pastSessions count] }
           options:NSBinarySearchingInsertionIndex
-          usingComparator:^(id a, id b) {
-            return [((MSSessionHistoryInfo *)a).toffset compare:((MSSessionHistoryInfo *)b).toffset];
+          usingComparator:^(MSSessionHistoryInfo *a, MSSessionHistoryInfo *b) {
+            return [a.timestamp compare:b.timestamp];
           }];
       [self.pastSessions insertObject:sessionInfo atIndex:newIndex];
 
@@ -107,11 +107,19 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
     // Hookup to application events.
     [MS_NOTIFICATION_CENTER addObserver:self
                                selector:@selector(applicationDidEnterBackground)
+#if TARGET_OS_OSX
+                                   name:NSApplicationDidResignActiveNotification
+#else
                                    name:UIApplicationDidEnterBackgroundNotification
+#endif
                                  object:nil];
     [MS_NOTIFICATION_CENTER addObserver:self
                                selector:@selector(applicationWillEnterForeground)
+#if TARGET_OS_OSX
+                                   name:NSApplicationWillBecomeActiveNotification
+#else
                                    name:UIApplicationWillEnterForegroundNotification
+#endif
                                  object:nil];
     self.started = YES;
   }
@@ -180,7 +188,7 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
 
 #pragma mark - MSLogManagerDelegate
 
-- (void)onEnqueuingLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
+- (void)onPreparedLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
   (void)internalId;
 
   /*
@@ -192,34 +200,29 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
     return;
 
   // Attach corresponding session id.
-  if (log.toffset) {
-    MSSessionHistoryInfo *find = [[MSSessionHistoryInfo alloc] initWithTOffset:log.toffset andSessionId:nil];
+  if (log.timestamp) {
+    MSSessionHistoryInfo *find = [[MSSessionHistoryInfo alloc] initWithTimestamp:log.timestamp andSessionId:nil];
     NSUInteger index =
         [self.pastSessions indexOfObject:find
                            inSortedRange:NSMakeRange(0, self.pastSessions.count)
                                  options:(NSBinarySearchingFirstEqual | NSBinarySearchingInsertionIndex)
-                         usingComparator:^(id a, id b) {
-                           return [((MSSessionHistoryInfo *)a).toffset compare:((MSSessionHistoryInfo *)b).toffset];
+                         usingComparator:^(MSSessionHistoryInfo *a, MSSessionHistoryInfo *b) {
+                           return [a.timestamp compare:b.timestamp];
                          }];
 
-    // All toffsets are larger.
+    // All timestamps are larger.
     if (index == 0) {
       log.sid = self.sessionId;
     }
 
-    // All toffsets are smaller.
+    // All timestamps are smaller.
     else if (index == self.pastSessions.count) {
       log.sid = [self.pastSessions lastObject].sessionId;
     }
 
-    // Either the pastSessions contains the exact toffset or we pick the smallest delta.
+    // [index - 1] should be the right index for the timestamp.
     else {
-      long long leftDifference = [log.toffset longLongValue] - [self.pastSessions[index - 1].toffset longLongValue];
-      long long rightDifference = [self.pastSessions[index].toffset longLongValue] - [log.toffset longLongValue];
-      if (leftDifference < rightDifference) {
-        --index;
-      }
-      log.sid = self.pastSessions[index].sessionId;
+      log.sid = self.pastSessions[index - 1].sessionId;
     }
   }
 

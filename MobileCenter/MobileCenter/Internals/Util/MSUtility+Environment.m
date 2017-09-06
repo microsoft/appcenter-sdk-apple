@@ -8,7 +8,7 @@ NSString *MSUtilityEnvironmentCategory;
 @implementation MSUtility (Environment)
 
 + (MSEnvironment)currentAppEnvironment {
-#if TARGET_OS_SIMULATOR
+#if TARGET_OS_SIMULATOR || TARGET_OS_OSX
   return MSEnvironmentOther;
 #else
 
