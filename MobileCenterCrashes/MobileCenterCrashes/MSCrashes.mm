@@ -424,6 +424,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       NSNumberFormatter *timestampFormatter = [[NSNumberFormatter alloc] init];
       timestampFormatter.numberStyle = NSNumberFormatterDecimalStyle;
       long indexToDelete = 0;
+      MSLogVerbose([MSCrashes logTag], @"Storing a log to Crashes Buffer: (sid: %@, type: %@)", log.sid, log.type);
       for (auto it = msCrashesLogBuffer.begin(), end = msCrashesLogBuffer.end(); it != end; ++it) {
 
         // We've found an empty element, buffer our log.
@@ -482,15 +483,15 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 - (void)onFinishedPersistingLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
   (void)log;
-  [self deleteBufferedLogWithInternalId:internalId];
+  [self deleteBufferedLog:log withInternalId:internalId];
 }
 
 - (void)onFailedPersistingLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
   (void)log;
-  [self deleteBufferedLogWithInternalId:internalId];
+  [self deleteBufferedLog:log withInternalId:internalId];
 }
 
-- (void)deleteBufferedLogWithInternalId:(NSString *)internalId {
+- (void)deleteBufferedLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
   @synchronized(self) {
     for (auto it = msCrashesLogBuffer.begin(), end = msCrashesLogBuffer.end(); it != end; ++it) {
       NSString *bufferId = [NSString stringWithCString:it->internalId.c_str() encoding:NSUTF8StringEncoding];
@@ -506,6 +507,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
            * delete the buffer file.
            */
           unlink(it->bufferPath.c_str());
+          MSLogVerbose([MSCrashes logTag], @"Deleted a log from Crashes Buffer (sid: %@, type: %@)", log.sid, log.type);
           MSLogVerbose([MSCrashes logTag], @"Deleted crash buffer file: %@.",
                        [NSString stringWithCString:it->bufferPath.c_str() encoding:[NSString defaultCStringEncoding]]);
         }
