@@ -17,6 +17,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, class, readonly) NSMutableSet<NSString *> *selectorsToSwizzle;
 
 /**
+ * Dictionary of deprecated original selectors indexed by their new equivalent.
+ */
+@property(nonatomic, class, readonly) NSDictionary<NSString *, NSString *> *deprecatedSelectors;
+
+/**
  * Keep track of the original delegate's method implementations.
  */
 @property(nonatomic, class, readonly) NSMutableDictionary<NSString *, NSValue *> *originalImplementations;
@@ -43,6 +48,11 @@ NS_ASSUME_NONNULL_BEGIN
  * @param originalDelegate The original application delegate.
  */
 + (void)swizzleOriginalDelegate:(id<MSApplicationDelegate>)originalDelegate;
+
+/**
+ * Reset the app delegate forwarder, used for testing only.
+ */
++ (void)reset;
 
 @end
 
