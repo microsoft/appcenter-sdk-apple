@@ -6,31 +6,18 @@
 
 #pragma mark - MSAppDelegate
 
-#if TARGET_OS_OSX
-- (void)application:(__attribute__((unused))NSApplication *)application
-#else
-- (void)application:(__attribute__((unused))UIApplication *)application
-#endif
+- (void)application:(__attribute__((unused))MSOriginalApplication *)application
     didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
   [MSPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 
-#if TARGET_OS_OSX
-- (void)application:(__attribute__((unused))NSApplication *)application
-#else
-- (void)application:(__attribute__((unused))UIApplication *)application
-#endif
+- (void)application:(__attribute__((unused))MSOriginalApplication *)application
     didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
   [MSPush didFailToRegisterForRemoteNotificationsWithError:error];
 }
 
-#if TARGET_OS_OSX
-- (void)application:(__attribute__((unused))NSApplication *)application
-#else
-
-// Workaround for iOS 10 bug. See https://forums.developer.apple.com/thread/54332
-- (void)application:(__attribute__((unused))UIApplication *)application
-#endif
+// Callback for macOS + workaround for iOS 10 bug. See https://forums.developer.apple.com/thread/54332
+- (void)application:(__attribute__((unused))MSOriginalApplication *)application
     didReceiveRemoteNotification:(NSDictionary *)userInfo {
   [MSPush didReceiveRemoteNotification:userInfo];
 }
@@ -55,6 +42,10 @@
   [MSPush didReceiveNotification:notification];
 }
 
+/*
+ * TODO This one is not an app delegate method but rather an NSUserNotificationCenter delegate method,
+ * we can either have 2 classes or rename this one.
+ */
 - (void)userNotificationCenter:(NSUserNotificationCenter *)__unused center
        didActivateNotification:(NSUserNotification *)notification {
   [MSPush didReceiveUserNotification:notification];

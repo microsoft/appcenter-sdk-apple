@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param originalDelegate The original application delegate.
  */
-+ (void)swizzleOriginalDelegate:(id<MSApplicationDelegate>)originalDelegate;
++ (void)swizzleOriginalDelegate:(id<MSOriginalAppDelegate>)originalDelegate;
 
 /**
  * Reset the app delegate forwarder, used for testing only.

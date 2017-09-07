@@ -1,13 +1,7 @@
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
-#if TARGET_OS_OSX
-#import <AppKit/AppKit.h>
-#import "MSNSAppDelegate.h"
-#else
-#import <UIKit/UIKit.h>
-#import "MSUIAppDelegate.h"
-#endif
 
+#import "MSAppDelegate.h"
 #import "MSAppDelegateForwarderPrivate.h"
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
@@ -144,7 +138,7 @@ static BOOL _enabled = YES;
 
 #pragma mark - Swizzling
 
-+ (void)swizzleOriginalDelegate:(id<MSApplicationDelegate>)originalDelegate {
++ (void)swizzleOriginalDelegate:(id<MSOriginalAppDelegate>)originalDelegate {
   IMP originalImp = NULL;
   Class delegateClass = [originalDelegate class];
   SEL originalSelector, customSelector;
@@ -269,7 +263,7 @@ static BOOL _enabled = YES;
 
 #pragma mark - Custom Application
 
-- (void)custom_setDelegate:(id<MSApplicationDelegate>)delegate {
+- (void)custom_setDelegate:(id<MSOriginalAppDelegate>)delegate {
 
   // Swizzle only once.
   static dispatch_once_t delegateSwizzleOnceToken;
@@ -282,7 +276,7 @@ static BOOL _enabled = YES;
   // Forward to the original `setDelegate:` implementation.
   IMP originalImp = MSAppDelegateForwarder.originalSetDelegateImp;
   if (originalImp) {
-    ((void (*)(id, SEL, id<MSApplicationDelegate>))originalImp)(self, _cmd, delegate);
+    ((void (*)(id, SEL, id<MSOriginalAppDelegate>))originalImp)(self, _cmd, delegate);
   }
 }
 
@@ -338,22 +332,14 @@ static BOOL _enabled = YES;
 }
 #endif
 
-#if TARGET_OS_OSX
-- (void)custom_application:(NSApplication *)application
-#else
-- (void)custom_application:(UIApplication *)application
-#endif
+- (void)custom_application:(MSOriginalApplication *)application
     didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
   IMP originalImp = NULL;
 
   // Forward to the original delegate.
   [MSAppDelegateForwarder.originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
   if (originalImp) {
-#if TARGET_OS_OSX
-    ((void (*)(id, SEL, NSApplication *, NSData *))originalImp)(self, _cmd, application, deviceToken);
-#else
-    ((void (*)(id, SEL, UIApplication *, NSData *))originalImp)(self, _cmd, application, deviceToken);
-#endif
+    ((void (*)(id, SEL, MSOriginalApplication *, NSData *))originalImp)(self, _cmd, application, deviceToken);
   }
 
   // Forward to custom delegates.
@@ -361,22 +347,14 @@ static BOOL _enabled = YES;
       didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 
-#if TARGET_OS_OSX
-- (void)custom_application:(NSApplication *)application
-#else
-- (void)custom_application:(UIApplication *)application
-#endif
+- (void)custom_application:(MSOriginalApplication *)application
     didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
   IMP originalImp = NULL;
 
   // Forward to the original delegate.
   [MSAppDelegateForwarder.originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
   if (originalImp) {
-#if TARGET_OS_OSX
-    ((void (*)(id, SEL, NSApplication *, NSError *))originalImp)(self, _cmd, application, error);
-#else
-    ((void (*)(id, SEL, UIApplication *, NSError *))originalImp)(self, _cmd, application, error);
-#endif
+    ((void (*)(id, SEL, MSOriginalApplication *, NSError *))originalImp)(self, _cmd, application, error);
   }
 
   // Forward to custom delegates.
@@ -399,21 +377,13 @@ static BOOL _enabled = YES;
 }
 #endif
 
-#if TARGET_OS_OSX
-- (void)custom_application:(NSApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-#else
-- (void)custom_application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-#endif
+- (void)custom_application:(MSOriginalApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
   IMP originalImp = NULL;
 
   // Forward to the original delegate.
   [MSAppDelegateForwarder.originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
   if (originalImp) {
-#if TARGET_OS_OSX
-    ((void (*)(id, SEL, NSApplication *, NSDictionary *))originalImp)(self, _cmd, application, userInfo);
-#else
-    ((void (*)(id, SEL, UIApplication *, NSDictionary *))originalImp)(self, _cmd, application, userInfo);
-#endif
+    ((void (*)(id, SEL, MSOriginalApplication *, NSDictionary *))originalImp)(self, _cmd, application, userInfo);
   }
 
   // Forward to custom delegates.

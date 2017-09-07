@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 
 #import "MSAlertController.h"
-#import "MSUIAppDelegate.h"
+#import "MSAppDelegate.h"
 #import "MSDistribute.h"
 
 NS_ASSUME_NONNULL_BEGIN
