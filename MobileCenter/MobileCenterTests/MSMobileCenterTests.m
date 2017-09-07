@@ -8,8 +8,6 @@
 #import "MSMobileCenterInternal.h"
 #import "MSMobileCenterPrivate.h"
 #import "MSMockService.h"
-#import "MSMockCustomAppDelegate.h"
-#import "MSMockOriginalAppDelegate.h"
 #import "MSMockUserDefaults.h"
 #import "MSStartServiceLog.h"
 #import "MSTestFrameworks.h"
