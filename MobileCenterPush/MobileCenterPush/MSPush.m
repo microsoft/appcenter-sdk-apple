@@ -97,12 +97,6 @@ static dispatch_once_t onceToken;
   [[self sharedInstance] didFailToRegisterForRemoteNotificationsWithError:error];
 }
 
-#if TARGET_OS_OSX
-+ (BOOL)didReceiveUserNotification:(NSUserNotification *)notification {
-  return [[self sharedInstance] didReceiveUserNotification:notification];
-}
-#endif
-
 + (BOOL)didReceiveRemoteNotification:(NSDictionary *)userInfo {
   return [[self sharedInstance] didReceiveRemoteNotification:userInfo fromUserNotification:NO];
 }
@@ -227,7 +221,7 @@ static dispatch_once_t onceToken;
 
 - (void)userNotificationCenter:(NSUserNotificationCenter *)__unused center
        didActivateNotification:(NSUserNotification *)notification {
-  [MSPush didReceiveUserNotification:notification];
+  [self didReceiveUserNotification:notification];
 }
 #endif
 
