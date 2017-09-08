@@ -25,8 +25,8 @@
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
 static NSString *const kMSCrashesServiceName = @"Crashes";
 static NSString *const kMSFatal = @"fatal";
-static unsigned int kMaxAttachmentsPerCrashReport = 2;
 static NSString *const kMSTypeHandledError = @"handled_error";
+static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
 @interface MSCrashes ()
 
@@ -589,13 +589,13 @@ static NSString *const kMSTypeHandledError = @"handled_error";
   __block MSException *exception;
   id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
   OCMStub([logManagerMock processLog:[OCMArg isKindOfClass:[MSAbstractLog class]] forGroupId:OCMOCK_ANY])
-  .andDo(^(NSInvocation *invocation) {
-    MSHandledErrorLog *log;
-    [invocation getArgument:&log atIndex:2];
-    type = log.type;
-    errorId = log.errorId;
-    exception = log.exception;
-  });
+      .andDo(^(NSInvocation *invocation) {
+        MSHandledErrorLog *log;
+        [invocation getArgument:&log atIndex:2];
+        type = log.type;
+        errorId = log.errorId;
+        exception = log.exception;
+      });
   [MSMobileCenter configureWithAppSecret:kMSTestAppSecret];
   [[MSCrashes sharedInstance] startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
 

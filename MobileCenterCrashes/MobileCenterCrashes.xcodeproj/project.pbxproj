@@ -993,13 +993,13 @@
 				6E7D5C651D3E9321009EC9AC /* MSBinary.h */,
 				6E7D5C661D3E9321009EC9AC /* MSBinary.m */,
 				6E7D5C691D3E9332009EC9AC /* MSAppleErrorLog.h */,
-				922446821F621D4500E4034A /* MSHandledErrorLog.h */,
 				6E7D5C6A1D3E9332009EC9AC /* MSAppleErrorLog.m */,
+				922446821F621D4500E4034A /* MSHandledErrorLog.h */,
+				922446831F621F3A00E4034A /* MSHandledErrorLog.m */,
 				B2F120DF1D657CF10060DED7 /* MSErrorReport.m */,
 				B2F120E61D657F4F0060DED7 /* MSErrorReportPrivate.h */,
 				6E7D5C711D3E9381009EC9AC /* MSThread.h */,
 				6E7D5C721D3E9381009EC9AC /* MSThread.m */,
-				922446831F621F3A00E4034A /* MSHandledErrorLog.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";

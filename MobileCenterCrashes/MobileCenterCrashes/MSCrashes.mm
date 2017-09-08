@@ -8,11 +8,11 @@
 #import "MSErrorAttachmentLog.h"
 #import "MSErrorAttachmentLogInternal.h"
 #import "MSErrorLogFormatter.h"
+#import "MSHandledErrorLog.h"
 #import "MSMobileCenterInternal.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSWrapperExceptionManagerInternal.h"
 #import "MSWrapperCrashesHelper.h"
-#import "MSHandledErrorLog.h"
 
 /**
  * Service name for initialization.
@@ -230,7 +230,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   return [[self sharedInstance] getLastSessionCrashReport];
 }
 
-/*
+/**
  * This can never be bound to Xamarin.
  *
  * This method is not part of the publicly available APIs on tvOS as Mach exception handling is not possible on tvOS. 
@@ -244,7 +244,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   [[self sharedInstance] setDelegate:delegate];
 }
 
-/*
+/**
  * Track handled exception directly as model form.
  * This API is not public and is used by wrapper SDKs.
  */
