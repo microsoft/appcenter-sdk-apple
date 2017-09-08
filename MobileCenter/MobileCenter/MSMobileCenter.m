@@ -334,23 +334,7 @@ static NSString *const kMSGroupId = @"MobileCenter";
 
   // Hookup to application life-cycle events
   if (isEnabled) {
-
-    [MS_NOTIFICATION_CENTER addObserver:self
-                               selector:@selector(applicationDidEnterBackground)
-#if TARGET_OS_OSX
-                                   name:NSApplicationDidHideNotification
-#else
-                                   name:UIApplicationDidEnterBackgroundNotification
-#endif
-                                 object:nil];
-    [MS_NOTIFICATION_CENTER addObserver:self
-                               selector:@selector(applicationWillEnterForeground)
-#if TARGET_OS_OSX
-                                   name:NSApplicationDidUnhideNotification
-#else
-                                   name:UIApplicationWillEnterForegroundNotification
-#endif
-                                 object:nil];
+    [self addObservers];
   } else {
 
     // Clean device history in case we are disabled.
@@ -442,6 +426,45 @@ static NSString *const kMSGroupId = @"MobileCenter";
  */
 - (void)applicationDidEnterBackground {
   [self.logManager suspend];
+}
+
+- (void)dealloc {
+  [self removeObservers];
+}
+
+#pragma mark - Background notification observers
+
+- (void) addObservers {
+#if TARGET_OS_OSX
+    [MS_NOTIFICATION_CENTER addObserver:self
+                               selector:@selector(applicationDidEnterBackground)
+                                   name:NSApplicationDidHideNotification
+                                 object:nil];
+    
+    [MS_NOTIFICATION_CENTER addObserver:self
+                               selector:@selector(applicationWillEnterForeground)
+                                   name: NSApplicationDidUnhideNotification
+                                 object:nil];
+#else
+    [MS_NOTIFICATION_CENTER addObserver:self
+                               selector:@selector(applicationDidEnterBackground)
+                                   name:UIApplicationDidEnterBackgroundNotification
+                                 object:nil];
+    [MS_NOTIFICATION_CENTER addObserver:self
+                               selector:@selector(applicationWillEnterForeground)
+                                   name: UIApplicationWillEnterForegroundNotification
+                              object:nil];
+#endif
+}
+
+- (void) removeObservers {
+#if TARGET_OS_OSX
+  [MS_NOTIFICATION_CENTER removeObserver:self name:NSApplicationDidHideNotification object:nil];
+  [MS_NOTIFICATION_CENTER removeObserver:self name:NSApplicationDidUnhideNotification object:nil];
+#else
+  [MS_NOTIFICATION_CENTER removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
+  [MS_NOTIFICATION_CENTER removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
+#endif
 }
 
 @end
