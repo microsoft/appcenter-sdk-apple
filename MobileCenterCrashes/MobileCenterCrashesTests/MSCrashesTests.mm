@@ -9,6 +9,7 @@
 #import "MSErrorAttachmentLogInternal.h"
 #import "MSErrorLogFormatter.h"
 #import "MSException.h"
+#import "MSHandledErrorLog.h"
 #import "MSLogManagerDefault.h"
 #import "MSMobileCenter.h"
 #import "MSMobileCenterInternal.h"
@@ -18,7 +19,6 @@
 #import "MSTestFrameworks.h"
 #import "MSWrapperExceptionManagerInternal.h"
 #import "MSWrapperCrashesHelper.h"
-#import "MSHandledErrorLog.h"
 
 @class MSMockCrashesDelegate;
 
