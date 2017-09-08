@@ -343,6 +343,8 @@
 		9224468C1F62276C00E4034A /* MSHandledErrorLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 922446851F6222EC00E4034A /* MSHandledErrorLogTests.m */; };
 		9224468D1F62277400E4034A /* MSHandledErrorLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 922446851F6222EC00E4034A /* MSHandledErrorLogTests.m */; };
 		9224468E1F62277500E4034A /* MSHandledErrorLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 922446851F6222EC00E4034A /* MSHandledErrorLogTests.m */; };
+		9224468F1F634AD200E4034A /* MSHandledErrorLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 922446831F621F3A00E4034A /* MSHandledErrorLog.m */; };
+		922446901F634AD600E4034A /* MSHandledErrorLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 922446831F621F3A00E4034A /* MSHandledErrorLog.m */; };
 		B24F3F0F1D93368F00827213 /* MSErrorLogFormatterTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = B24F3F0E1D93368F00827213 /* MSErrorLogFormatterTests.mm */; };
 		B24F3F121D9341BC00827213 /* MSErrorLogFormatterPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = B24F3F101D93417B00827213 /* MSErrorLogFormatterPrivate.h */; };
 		B2A0A71C1D9C2AE700729A58 /* MSCrashesTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = B2A0A71B1D9C2AE700729A58 /* MSCrashesTestUtil.m */; };
@@ -1552,6 +1554,7 @@
 			files = (
 				0485AFA11EAA887500C10CAF /* MSErrorReport.m in Sources */,
 				0485AFA21EAA887500C10CAF /* MSCrashesCXXExceptionHandler.mm in Sources */,
+				9224468F1F634AD200E4034A /* MSHandledErrorLog.m in Sources */,
 				0485AFA31EAA887500C10CAF /* MSAbstractErrorLog.m in Sources */,
 				0485AFA41EAA887500C10CAF /* MSException.m in Sources */,
 				0499F8751EDFAE1D00C3EDDA /* MSErrorAttachmentLog+Utility.m in Sources */,
@@ -1600,6 +1603,7 @@
 			files = (
 				04EBBEB21F01C0C90006B8AE /* MSErrorReport.m in Sources */,
 				04EBBEB31F01C0C90006B8AE /* MSCrashesCXXExceptionHandler.mm in Sources */,
+				922446901F634AD600E4034A /* MSHandledErrorLog.m in Sources */,
 				04EBBEB41F01C0C90006B8AE /* MSAbstractErrorLog.m in Sources */,
 				04EBBEB51F01C0C90006B8AE /* MSException.m in Sources */,
 				04EBBEB61F01C0C90006B8AE /* MSErrorAttachmentLog+Utility.m in Sources */,
