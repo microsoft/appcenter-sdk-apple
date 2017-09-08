@@ -339,6 +339,10 @@
 		6EC99A3C1D416CCF0016C325 /* live_report_xamarin.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A351D416CCF0016C325 /* live_report_xamarin.plcrash */; };
 		6EC99A3D1D416CCF0016C325 /* log_report_xamarin in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A361D416CCF0016C325 /* log_report_xamarin */; };
 		8024743B1EAE077800AEC284 /* MSErrorAttachmentLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 8024743A1EAE077800AEC284 /* MSErrorAttachmentLog.m */; };
+		922446841F621F3A00E4034A /* MSHandledErrorLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 922446831F621F3A00E4034A /* MSHandledErrorLog.m */; };
+		9224468C1F62276C00E4034A /* MSHandledErrorLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 922446851F6222EC00E4034A /* MSHandledErrorLogTests.m */; };
+		9224468D1F62277400E4034A /* MSHandledErrorLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 922446851F6222EC00E4034A /* MSHandledErrorLogTests.m */; };
+		9224468E1F62277500E4034A /* MSHandledErrorLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 922446851F6222EC00E4034A /* MSHandledErrorLogTests.m */; };
 		B24F3F0F1D93368F00827213 /* MSErrorLogFormatterTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = B24F3F0E1D93368F00827213 /* MSErrorLogFormatterTests.mm */; };
 		B24F3F121D9341BC00827213 /* MSErrorLogFormatterPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = B24F3F101D93417B00827213 /* MSErrorLogFormatterPrivate.h */; };
 		B2A0A71C1D9C2AE700729A58 /* MSCrashesTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = B2A0A71B1D9C2AE700729A58 /* MSCrashesTestUtil.m */; };
@@ -566,6 +570,9 @@
 		6EC99A351D416CCF0016C325 /* live_report_xamarin.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_xamarin.plcrash; sourceTree = "<group>"; };
 		6EC99A361D416CCF0016C325 /* log_report_xamarin */ = {isa = PBXFileReference; fileEncoding = 1; lastKnownFileType = text; path = log_report_xamarin; sourceTree = "<group>"; };
 		8024743A1EAE077800AEC284 /* MSErrorAttachmentLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSErrorAttachmentLog.m; sourceTree = "<group>"; };
+		922446821F621D4500E4034A /* MSHandledErrorLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSHandledErrorLog.h; sourceTree = "<group>"; };
+		922446831F621F3A00E4034A /* MSHandledErrorLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSHandledErrorLog.m; sourceTree = "<group>"; };
+		922446851F6222EC00E4034A /* MSHandledErrorLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSHandledErrorLogTests.m; sourceTree = "<group>"; };
 		B24F3F0E1D93368F00827213 /* MSErrorLogFormatterTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MSErrorLogFormatterTests.mm; sourceTree = "<group>"; };
 		B24F3F101D93417B00827213 /* MSErrorLogFormatterPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorLogFormatterPrivate.h; sourceTree = "<group>"; };
 		B2A0A71A1D9C2AE700729A58 /* MSCrashesTestUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashesTestUtil.h; sourceTree = "<group>"; };
@@ -908,6 +915,7 @@
 				6E7D5C811D3EC06C009EC9AC /* MSConstants.h */,
 				350B29F31F1E6F1D009B91CF /* MSWrapperExceptionTests.m */,
 				B2FF130B1DD12F61003DC677 /* MSAppleErrorLogTests.m */,
+				922446851F6222EC00E4034A /* MSHandledErrorLogTests.m */,
 				B2F120D41D6546740060DED7 /* MSErrorAttachmentLogTests.m */,
 				6E7D5C7F1D3EAEB5009EC9AC /* MSBinaryTests.m */,
 				59493B275715F01438B2E6FD /* MSCrashesUtilTests.m */,
@@ -983,11 +991,13 @@
 				6E7D5C651D3E9321009EC9AC /* MSBinary.h */,
 				6E7D5C661D3E9321009EC9AC /* MSBinary.m */,
 				6E7D5C691D3E9332009EC9AC /* MSAppleErrorLog.h */,
+				922446821F621D4500E4034A /* MSHandledErrorLog.h */,
 				6E7D5C6A1D3E9332009EC9AC /* MSAppleErrorLog.m */,
 				B2F120DF1D657CF10060DED7 /* MSErrorReport.m */,
 				B2F120E61D657F4F0060DED7 /* MSErrorReportPrivate.h */,
 				6E7D5C711D3E9381009EC9AC /* MSThread.h */,
 				6E7D5C721D3E9381009EC9AC /* MSThread.m */,
+				922446831F621F3A00E4034A /* MSHandledErrorLog.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1528,6 +1538,7 @@
 				0446DF721F3B977100C8E338 /* MSErrorLogFormatterTests.mm in Sources */,
 				0446DF731F3B977100C8E338 /* MSCrashesTestUtil.m in Sources */,
 				0446DF741F3B977100C8E338 /* MSBinaryTests.m in Sources */,
+				9224468E1F62277500E4034A /* MSHandledErrorLogTests.m in Sources */,
 				0446DF751F3B977100C8E338 /* MSWrapperExceptionManagerTests.m in Sources */,
 				0446DF761F3B977100C8E338 /* MSErrorAttachmentLogTests.m in Sources */,
 				0446DF771F3B977100C8E338 /* MSMockCrashesDelegate.m in Sources */,
@@ -1575,6 +1586,7 @@
 				0493276C1ECA170D00D0187A /* MSErrorLogFormatterTests.mm in Sources */,
 				0493276D1ECA170D00D0187A /* MSCrashesTestUtil.m in Sources */,
 				0493276E1ECA170D00D0187A /* MSBinaryTests.m in Sources */,
+				9224468D1F62277400E4034A /* MSHandledErrorLogTests.m in Sources */,
 				049327701ECA170D00D0187A /* MSWrapperExceptionManagerTests.m in Sources */,
 				049327711ECA170D00D0187A /* MSErrorAttachmentLogTests.m in Sources */,
 				049327721ECA170D00D0187A /* MSMockCrashesDelegate.m in Sources */,
@@ -1612,6 +1624,7 @@
 			files = (
 				B2F120E51D657CF10060DED7 /* MSErrorReport.m in Sources */,
 				6E73FE6B1D402F79008CDC15 /* MSCrashesCXXExceptionHandler.mm in Sources */,
+				922446841F621F3A00E4034A /* MSHandledErrorLog.m in Sources */,
 				B2CD3BFA1D80EE49000A8A91 /* MSAbstractErrorLog.m in Sources */,
 				3858A21A1E93F3B400535A69 /* MSErrorAttachmentLog+Utility.m in Sources */,
 				6E7D5C701D3E9346009EC9AC /* MSException.m in Sources */,
@@ -1646,6 +1659,7 @@
 				B24F3F0F1D93368F00827213 /* MSErrorLogFormatterTests.mm in Sources */,
 				B2A0A71C1D9C2AE700729A58 /* MSCrashesTestUtil.m in Sources */,
 				6E7D5C801D3EAEB5009EC9AC /* MSBinaryTests.m in Sources */,
+				9224468C1F62276C00E4034A /* MSHandledErrorLogTests.m in Sources */,
 				35EF18E01DDBCF6C00731CA8 /* MSWrapperExceptionManagerTests.m in Sources */,
 				B2F120D51D6546740060DED7 /* MSErrorAttachmentLogTests.m in Sources */,
 				BA682CFA6F4C5A8841507CF7 /* MSMockCrashesDelegate.m in Sources */,
