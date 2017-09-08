@@ -36,8 +36,6 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 - (void)didFailToRegisterForRemoteNotificationsWithError:(NSError *)error;
 
 #if TARGET_OS_OSX
-- (BOOL)didReceiveNotification:(NSNotification *)notification;
-
 - (BOOL)didReceiveUserNotification:(NSUserNotification *)notification;
 #endif
 
@@ -190,9 +188,9 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   OCMStub([userNotificationUserInfoMock userInfo]).andReturn(userInfo);
 #endif
 
-  // When
+// When
 #if TARGET_OS_OSX
-  BOOL result = [MSPush didReceiveNotification:notificationMock];
+  [self.sut applicationDidFinishLaunching:notificationMock];
 #else
   BOOL result = [MSPush didReceiveRemoteNotification:userInfo];
 #endif
@@ -204,7 +202,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
 #if TARGET_OS_OSX
-                                 OCMVerify([pushMock didReceiveNotification:notificationMock]);
+                                 OCMVerify([pushMock didReceiveUserNotification:userNotificationUserInfoMock]);
 #else
                                  OCMVerify([pushMock didReceiveRemoteNotification:userInfo]);
 #endif
@@ -217,7 +215,9 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
+#if !TARGET_OS_OSX
   XCTAssertTrue(result);
+#endif
   [pushMock stopMocking];
 }
 
@@ -245,9 +245,9 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   OCMStub([userNotificationUserInfoMock userInfo]).andReturn(userInfo);
 #endif
 
-  // When
+// When
 #if TARGET_OS_OSX
-  BOOL result = [MSPush didReceiveNotification:notificationMock];
+  [self.sut applicationDidFinishLaunching:notificationMock];
 #else
   BOOL result = [MSPush didReceiveRemoteNotification:userInfo];
 #endif
@@ -259,7 +259,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
 #if TARGET_OS_OSX
-                                 OCMVerify([pushMock didReceiveNotification:notificationMock]);
+                                 OCMVerify([pushMock didReceiveUserNotification:userNotificationUserInfoMock]);
 #else
                                  OCMVerify([pushMock didReceiveRemoteNotification:userInfo]);
 #endif
@@ -272,7 +272,9 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
+#if !TARGET_OS_OSX
   XCTAssertTrue(result);
+#endif
   [pushMock stopMocking];
 }
 
@@ -302,11 +304,11 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 
 // When
 #if TARGET_OS_OSX
-  BOOL result = [MSPush didReceiveNotification:notificationMock];
+  [self.sut applicationDidFinishLaunching:notificationMock];
 #else
   BOOL result = [MSPush didReceiveRemoteNotification:invalidUserInfo];
-#endif
   XCTAssertFalse(result);
+#endif
   dispatch_async(dispatch_get_main_queue(), ^{
     [notificationReceived fulfill];
   });
@@ -314,7 +316,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
-                                 
+
                                  // Then
                                  OCMVerifyAll(pushDelegateMock);
                                  XCTAssertNil(pushNotification);
@@ -326,7 +328,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 }
 
 - (void)testPushAppDelegateCallbacks {
-  
+
   // If
 #if TARGET_OS_OSX
   id applicationMock = OCMClassMock([NSApplication class]);
@@ -337,64 +339,43 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   OCMStub([pushMock sharedInstance]).andReturn(pushMock);
   [MSPush resetSharedInstance];
   MSPushAppDelegate *delegate = [MSPushAppDelegate new];
-  
+
   // When
   id deviceTokenMock = OCMClassMock([NSData class]);
   [delegate application:applicationMock didRegisterForRemoteNotificationsWithDeviceToken:deviceTokenMock];
-  
+
   // Then
   OCMVerify([pushMock didRegisterForRemoteNotificationsWithDeviceToken:deviceTokenMock]);
-    
+
   // When
   id errorMock = OCMClassMock([NSError class]);
   [delegate application:applicationMock didFailToRegisterForRemoteNotificationsWithError:errorMock];
-  
+
   // Then
   OCMVerify([pushMock didFailToRegisterForRemoteNotificationsWithError:errorMock]);
-  
+
   // When
   id userInfoMock = OCMClassMock([NSDictionary class]);
   [delegate application:applicationMock didReceiveRemoteNotification:userInfoMock];
-  
+
   // Then
   OCMVerify([pushMock didReceiveRemoteNotification:userInfoMock]);
-  
+
 #if !TARGET_OS_OSX
-  
+
   // When
   XCTestExpectation *notificationReceived = [self expectationWithDescription:@"Valid notification received."];
-  [delegate application:applicationMock didReceiveRemoteNotification:userInfoMock fetchCompletionHandler:^(__unused UIBackgroundFetchResult result) {
-    [notificationReceived fulfill];
-  }];
-  
+  [delegate application:applicationMock
+      didReceiveRemoteNotification:userInfoMock
+            fetchCompletionHandler:^(__unused UIBackgroundFetchResult result) {
+              [notificationReceived fulfill];
+            }];
+
   // Then
   OCMVerify([pushMock didReceiveRemoteNotification:userInfoMock]);
   [self waitForExpectations:@[ notificationReceived ] timeout:0];
-  
 #endif
-  
-#if TARGET_OS_OSX
-  
-  // If
-  id userNotificationCenterMock = OCMClassMock([NSUserNotificationCenter class]);
-  OCMStub([userNotificationCenterMock defaultUserNotificationCenter]).andReturn(userNotificationCenterMock);
-  id notificationMock = OCMClassMock([NSNotification class]);
 
-  // When
-  [delegate applicationDidFinishLaunching:notificationMock];
-  
-  // Then
-  OCMVerify([userNotificationCenterMock setDelegate:delegate]);
-  OCMVerify([pushMock didReceiveNotification:notificationMock]);
-
-  // When
-  [delegate userNotificationCenter:userNotificationCenterMock didActivateNotification: notificationMock];
-  
-  // Then
-  OCMVerify([pushMock didReceiveUserNotification:notificationMock]);
-  
-#endif
-  
   [pushMock stopMocking];
 }
 
