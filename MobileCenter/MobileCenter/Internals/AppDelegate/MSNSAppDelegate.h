@@ -52,14 +52,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)application:(NSApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo;
 
-/**
- * Sent by the default notification center after the application has been launched and initialized but before it has
- * received its first event.
- *
- * @param notification A notification that caused the application launch.
- */
-- (void)applicationDidFinishLaunching:(NSNotification *)notification;
-
 @end
 
 NS_ASSUME_NONNULL_END

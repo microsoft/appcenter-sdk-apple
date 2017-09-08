@@ -406,21 +406,6 @@ static BOOL _enabled = YES;
 }
 
 #if TARGET_OS_OSX
-- (void)custom_applicationDidFinishLaunching:(NSNotification *)notification {
-  IMP originalImp = NULL;
-
-  // Forward to the original delegate.
-  [MSAppDelegateForwarder.originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
-  if (originalImp) {
-    ((void (*)(id, SEL, NSNotification *))originalImp)(self, _cmd, notification);
-  }
-
-  // Forward to custom delegates.
-  [[MSAppDelegateForwarder sharedInstance] applicationDidFinishLaunching:(NSNotification *)notification];
-}
-#endif
-
-#if TARGET_OS_OSX
 - (void)custom_application:(NSApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
 #else
 - (void)custom_application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {

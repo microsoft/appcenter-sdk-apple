@@ -4,7 +4,11 @@
 
 @protocol MSAppDelegate;
 
+#if TARGET_OS_OSX
+@interface MSPush () <NSUserNotificationCenterDelegate>
+#else
 @interface MSPush ()
+#endif
 
 @property(nonatomic) id<MSPushDelegate> delegate;
 
