@@ -101,7 +101,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecent
                             withBlock:^(id<MSLogManagerDelegate> delegate) {
 
                               /*
-                               * If the delegate doesn't have groupId implementation, it assumes that the delegate is
+                               * If the delegate doesn't have a groupId implementation, it assumes that the delegate is
                                * interested in all kinds of logs. Otherwise, compare groupId.
                                */
                               if (![delegate respondsToSelector:@selector(groupId)] ||
@@ -116,7 +116,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecent
                             withBlock:^(id<MSLogManagerDelegate> delegate) {
 
                               /*
-                               * If the delegate doesn't have groupId implementation, it assumes that the delegate is
+                               * If the delegate doesn't have a groupId implementation, it assumes that the delegate is
                                * interested in all kinds of logs. Otherwise, compare groupId.
                                */
                               if (![delegate respondsToSelector:@selector(groupId)] ||
