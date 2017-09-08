@@ -43,9 +43,11 @@
  */
 - (void)registerForRemoteNotifications;
 
+#if TARGET_OS_OSX
 /**
  * Observer to register user notification center delegate when application launches.
  */
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
+#endif
 
 @end
