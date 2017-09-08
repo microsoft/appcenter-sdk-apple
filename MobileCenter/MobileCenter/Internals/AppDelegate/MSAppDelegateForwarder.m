@@ -17,9 +17,16 @@ static NSString *const kMSCustomSelectorPrefix = @"custom_";
 static NSString *const kMSReturnedValueSelectorPart = @"returnedValue:";
 static NSString *const kMSIsAppDelegateForwarderEnabledKey = @"MobileCenterAppDelegateForwarderEnabled";
 
+// Original selectors with special handling.
+static NSString *const kMSDidReceiveRemoteNotificationFetchHandler =
+    @"application:didReceiveRemoteNotification:fetchCompletionHandler:";
+static NSString *const kMSOpenURLSourceApplicationAnnotation = @"application:openURL:sourceApplication:annotation:";
+static NSString *const kMSOpenURLOptions = @"application:openURL:options:";
+
 static NSHashTable<id<MSAppDelegate>> *_delegates = nil;
 static NSMutableSet<NSString *> *_selectorsToSwizzle = nil;
 static NSArray<NSString *> *_selectorsNotToOverride = nil;
+static NSDictionary<NSString *, NSString *> *_deprecatedSelectors = nil;
 static NSMutableDictionary<NSString *, NSValue *> *_originalImplementations = nil;
 static NSMutableArray<dispatch_block_t> *_traceBuffer = nil;
 static IMP _originalSetDelegateImp = NULL;
@@ -79,11 +86,21 @@ static BOOL _enabled = YES;
 + (NSArray<NSString *> *)selectorsNotToOverride {
   if (!_selectorsNotToOverride) {
 #if !TARGET_OS_OSX
-    _selectorsNotToOverride =
-        @[ NSStringFromSelector(@selector(application:didReceiveRemoteNotification:fetchCompletionHandler:)) ];
+    _selectorsNotToOverride = @[ kMSDidReceiveRemoteNotificationFetchHandler ];
 #endif
   }
   return _selectorsNotToOverride;
+}
+
++ (NSDictionary<NSString *, NSString *> *)deprecatedSelectors {
+  if (!_deprecatedSelectors) {
+#if TARGET_OS_OSX
+    _deprecatedSelectors = @{};
+#else
+    _deprecatedSelectors = @{kMSOpenURLOptions : kMSOpenURLSourceApplicationAnnotation};
+#endif
+  }
+  return _deprecatedSelectors;
 }
 
 + (NSMutableDictionary<NSString *, NSValue *> *)originalImplementations {
@@ -144,8 +161,6 @@ static BOOL _enabled = YES;
 
   // Swizzle all registered selectors.
   for (NSString *selectorString in self.selectorsToSwizzle) {
-
-    // The same selector is used on both forwarder and delegate.
     originalSelector = NSSelectorFromString(selectorString);
     customSelector = NSSelectorFromString([kMSCustomSelectorPrefix stringByAppendingString:selectorString]);
     originalImp =
@@ -165,11 +180,15 @@ static BOOL _enabled = YES;
                  originalClass:(Class)originalClass {
 
   // Replace original implementation
-  NSString *originalSelectorString = NSStringFromSelector(originalSelector);
+  NSString *originalSelectorStr = NSStringFromSelector(originalSelector);
   Method originalMethod = class_getInstanceMethod(originalClass, originalSelector);
   IMP customImp = class_getMethodImplementation(self, customSelector);
   IMP originalImp = NULL;
   BOOL methodAdded = NO;
+  BOOL skipped = NO;
+  NSString *warningMsg;
+  NSString *remediationMsg = @"You need to explicitly call the Mobile Center API"
+                             @" from your app delegate implementation.";
 
   // Replace original implementation by the custom one.
   if (originalMethod) {
@@ -179,17 +198,42 @@ static BOOL _enabled = YES;
      * depend on the SDK return value for its own logic so customers already have to call the SDK API
      * in their implementation which makes swizzling useless.
      */
-    if (![self.selectorsNotToOverride containsObject:originalSelectorString]) {
+    if (![self.selectorsNotToOverride containsObject:originalSelectorStr]) {
       originalImp = method_setImplementation(originalMethod, customImp);
+    } else {
+      warningMsg =
+          [NSString stringWithFormat:@"This selector is not supported when already implemented. %@", remediationMsg];
     }
   } else if (![originalClass instancesRespondToSelector:originalSelector]) {
 
-    /*
-     * The original class may not implement the selector (e.g.: optional method from protocol),
-     * add the method to the original class and associate it with the custom implementation.
-     */
-    Method customMethod = class_getInstanceMethod(self, customSelector);
-    methodAdded = class_addMethod(originalClass, originalSelector, customImp, method_getTypeEncoding(customMethod));
+    // Check for deprecation.
+    NSString *deprecatedSelectorStr = self.deprecatedSelectors[originalSelectorStr];
+    if (deprecatedSelectorStr &&
+        [originalClass instancesRespondToSelector:NSSelectorFromString(deprecatedSelectorStr)]) {
+
+      /*
+       * An implementation for the deprecated selector exists. Don't add the new method, it might eclipse the original
+       * implementation.
+       */
+      warningMsg = [NSString
+          stringWithFormat:
+              @"No implementation found for this selector, though an implementation of its deprecated API '%@' exists.",
+              deprecatedSelectorStr];
+    } else {
+
+      // Skip this selector if it's deprecated and doesn't have an implementation.
+      if ([self.deprecatedSelectors.allValues containsObject:originalSelectorStr]) {
+        skipped = YES;
+      } else {
+
+        /*
+         * The original class may not implement the selector (e.g.: optional method from protocol),
+         * add the method to the original class and associate it with the custom implementation.
+         */
+        Method customMethod = class_getInstanceMethod(self, customSelector);
+        methodAdded = class_addMethod(originalClass, originalSelector, customImp, method_getTypeEncoding(customMethod));
+      }
+    }
   }
 
   /*
@@ -199,18 +243,23 @@ static BOOL _enabled = YES;
    */
 
   // Validate swizzling.
-  if (!originalImp && !methodAdded) {
-    [self.traceBuffer addObject:^{
-      MSLogError([MSMobileCenter logTag],
-                 @"Cannot swizzle selector '%@' of class '%@'. You will have to explicitly call APIs from "
-                 @"Mobile Center in your app delegate implementation.",
-                 originalSelectorString, originalClass);
-    }];
-  } else {
-    [self.traceBuffer addObject:^{
-      MSLogDebug([MSMobileCenter logTag], @"Selector '%@' of class '%@' is swizzled.", originalSelectorString,
-                 originalClass);
-    }];
+  if (!skipped) {
+    if (!originalImp && !methodAdded) {
+      [self.traceBuffer addObject:^{
+        NSString *message = [NSString
+            stringWithFormat:@"Cannot swizzle selector '%@' of class '%@'.", originalSelectorStr, originalClass];
+        if (warningMsg) {
+          MSLogWarning([MSMobileCenter logTag], @"%@ %@", message, warningMsg);
+        } else {
+          MSLogError([MSMobileCenter logTag], @"%@ %@", message, remediationMsg);
+        }
+      }];
+    } else {
+      [self.traceBuffer addObject:^{
+        MSLogDebug([MSMobileCenter logTag], @"Selector '%@' of class '%@' is swizzled.", originalSelectorStr,
+                   originalClass);
+      }];
+    }
   }
   return originalImp;
 }
@@ -474,6 +523,14 @@ static BOOL _enabled = YES;
     }
     [self.traceBuffer removeAllObjects];
   });
+}
+
+#pragma mark - Testing
+
++ (void)reset {
+  [self.delegates removeAllObjects];
+  [self.originalImplementations removeAllObjects];
+  [self.selectorsToSwizzle removeAllObjects];
 }
 
 @end

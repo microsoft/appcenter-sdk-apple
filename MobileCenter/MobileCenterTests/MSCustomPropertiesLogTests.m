@@ -46,7 +46,7 @@
   NSArray *actualProperties = actual[@"properties"];
   assertThat(actualProperties, hasCountOf(5));
   NSArray *needProperties = @[@{@"name": @"t1", @"type": @"string", @"value": string},
-                              @{@"name": @"t2", @"type": @"date_time", @"value": @"1970-01-01T00:00:00Z"},
+                              @{@"name": @"t2", @"type": @"date_time", @"value": @"1970-01-01T00:00:00.000Z"},
                               @{@"name": @"t3", @"type": @"number", @"value": number},
                               @{@"name": @"t4", @"type": @"boolean", @"value": boolean},
                               @{@"name": @"t5", @"type": @"clear"}];

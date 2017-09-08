@@ -84,7 +84,7 @@
   assertThat(actual[@"error_thread_id"], equalTo(self.sut.errorThreadId));
   assertThat(actual[@"error_thread_name"], equalTo(self.sut.errorThreadName));
   XCTAssertEqual([actual[@"fatal"] boolValue], self.sut.fatal);
-  assertThat(actual[@"app_launch_timestamp"], equalTo(@"1970-01-01T00:00:42Z"));
+  assertThat(actual[@"app_launch_timestamp"], equalTo(@"1970-01-01T00:00:42.000Z"));
   assertThat(actual[@"architecture"], equalTo(self.sut.architecture));
 
   // Exception fields.
