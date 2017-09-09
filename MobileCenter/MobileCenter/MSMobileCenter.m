@@ -418,38 +418,27 @@ static NSString *const kMSGroupId = @"MobileCenter";
  *  The application will go to the foreground.
  */
 - (void)applicationWillEnterForeground {
+  
+  /**
+   * Triggering a resume here to make sure our pipeline is working. While it won't be suspended when going into the
+   * background anymore, it might be suspended because we're offline or it failed to send events.
+   */
   [self.logManager resume];
-}
-
-/**
- *  The application will go to the background.
- */
-- (void)applicationDidEnterBackground {
-  [self.logManager suspend];
 }
 
 - (void)dealloc {
   [self removeObservers];
 }
 
-#pragma mark - Background notification observers
+#pragma mark - Observers
 
 - (void) addObservers {
 #if TARGET_OS_OSX
-    [MS_NOTIFICATION_CENTER addObserver:self
-                               selector:@selector(applicationDidEnterBackground)
-                                   name:NSApplicationDidHideNotification
-                                 object:nil];
-    
     [MS_NOTIFICATION_CENTER addObserver:self
                                selector:@selector(applicationWillEnterForeground)
                                    name: NSApplicationDidUnhideNotification
                                  object:nil];
 #else
-    [MS_NOTIFICATION_CENTER addObserver:self
-                               selector:@selector(applicationDidEnterBackground)
-                                   name:UIApplicationDidEnterBackgroundNotification
-                                 object:nil];
     [MS_NOTIFICATION_CENTER addObserver:self
                                selector:@selector(applicationWillEnterForeground)
                                    name: UIApplicationWillEnterForegroundNotification
@@ -459,10 +448,8 @@ static NSString *const kMSGroupId = @"MobileCenter";
 
 - (void) removeObservers {
 #if TARGET_OS_OSX
-  [MS_NOTIFICATION_CENTER removeObserver:self name:NSApplicationDidHideNotification object:nil];
   [MS_NOTIFICATION_CENTER removeObserver:self name:NSApplicationDidUnhideNotification object:nil];
 #else
-  [MS_NOTIFICATION_CENTER removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
   [MS_NOTIFICATION_CENTER removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
 #endif
 }

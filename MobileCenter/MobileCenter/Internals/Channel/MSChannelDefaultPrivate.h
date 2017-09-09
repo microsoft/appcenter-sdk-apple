@@ -26,4 +26,15 @@
  */
 @property(nonatomic) BOOL discardLogs;
 
+/**
+ * A property to hold the observer to get notified once the app goes into the background. It will trigger a call to
+ * flush the queue and send events to the backend.
+ */
+@property (nonatomic, weak, nullable)  id appDidEnterBackgroundObserver;
+
+/**
+ * Trigger flushing the queue, which will result in logs being sent.
+ */
+- (void)flushQueue;
+
 @end

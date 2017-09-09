@@ -73,8 +73,7 @@ static NSURL *sfURL;
 
 @end
 
-@implementation MSDistributeTests
-
+  
 - (void)setUp {
   [super setUp];
   [MSKeychainUtil clear];

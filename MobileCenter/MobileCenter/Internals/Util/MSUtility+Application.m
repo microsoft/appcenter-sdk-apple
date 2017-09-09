@@ -17,7 +17,7 @@ NSString *MSUtilityApplicationCategory;
 }
 
 #if TARGET_OS_OSX
-+ (NSApplication *)sharedApp {
++ (NSApplication *)sharedApplication {
 
   // Compute selector at runtime for more discretion.
   SEL sharedAppSel = NSSelectorFromString(@"sharedApplication");
@@ -25,32 +25,39 @@ NSString *MSUtilityApplicationCategory;
                                                                                                 sharedAppSel);
 }
 #else
-+ (UIApplication *)sharedApp {
++ (UIApplication *)sharedApplication {
 
   // Compute selector at runtime for more discretion.
   SEL sharedAppSel = NSSelectorFromString(@"sharedApplication");
-  return ((UIApplication * (*)(id, SEL))[[UIApplication class] methodForSelector:sharedAppSel])([UIApplication class],
+  if([[UIApplication class] instancesRespondToSelector:sharedAppSel]) {
+    return ((UIApplication * (*)(id, SEL))[[UIApplication class] methodForSelector:sharedAppSel])([UIApplication class],
                                                                                                 sharedAppSel);
+  }
+  else {
+    
+    // Return nil in case of iOS app extensions.
+    return nil;
+  }
 }
 #endif
 
 #if TARGET_OS_OSX
 + (id<NSApplicationDelegate>)sharedAppDelegate {
-  return [self sharedApp].delegate;
+  return [self sharedApplication].delegate;
 }
 #else
 + (id<UIApplicationDelegate>)sharedAppDelegate {
-  return [self sharedApp].delegate;
+  return [self sharedApplication].delegate;
 }
 #endif
 
 #if TARGET_OS_OSX
 + (MSApplicationState)sharedAppState {
-  return [[[self class] sharedApp] isHidden] ? MSApplicationStateBackground : MSApplicationStateActive;
+  return [[[self class] sharedApplication] isHidden] ? MSApplicationStateBackground : MSApplicationStateActive;
 }
 #else
 + (UIApplicationState)sharedAppState {
-  return [[[[self class] sharedApp] valueForKey:@"applicationState"] longValue];
+  return [[[[self class] sharedApplication] valueForKey:@"applicationState"] longValue];
 }
 #endif
 
@@ -69,7 +76,7 @@ NSString *MSUtilityApplicationCategory;
     completion([[NSWorkspace sharedWorkspace] openURL:url]);
   });
 #else
-  UIApplication *sharedApp = [[self class] sharedApp];
+  UIApplication *sharedApp = [[self class] sharedApplication];
 
   // FIXME: App extensions does support openURL through NSExtensionContest, we may use this somehow.
   if (MS_IS_APP_EXTENSION || ![sharedApp canOpenURL:url]) {

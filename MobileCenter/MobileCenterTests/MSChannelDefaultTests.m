@@ -64,6 +64,9 @@ static NSString *const kMSTestGroupId = @"GroupId";
   assertThat(self.sut.configuration, equalTo(self.configMock));
   assertThat(self.sut.sender, equalTo(self.senderMock));
   assertThat(self.sut.storage, equalTo(self.storageMock));
+#if !TARGET_OS_OSX
+  assertThat(self.sut.appDidEnterBackgroundObserver, notNilValue());
+#endif
   assertThatUnsignedLong(self.sut.itemsCount, equalToInt(0));
 }
 
@@ -812,6 +815,51 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  }
                                }];
 }
+
+#if !TARGET_OS_OSX
+- (void)testAppIsBackgrounded {
+
+  // When
+  MSChannelDefault *mockChannelDefault = OCMPartialMock(self.sut);
+  // Configure channel.
+  MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithGroupId:kMSTestGroupId
+                                                                          priority:MSPriorityDefault
+                                                                     flushInterval:5.0
+                                                                    batchSizeLimit:20
+                                                               pendingBatchesLimit:10];
+//  self.sut.configuration = config;
+  mockChannelDefault.configuration = config;
+  int itemsToAdd = 3;
+  XCTestExpectation *expectation = [self expectationWithDescription:@"All items enqueued"];
+  
+  // When
+  for (int i = 1; i <= itemsToAdd; i++) {
+    
+    [mockChannelDefault enqueueItem:[self getValidMockLog]
+           withCompletion:^(__attribute__((unused)) BOOL success) {
+             if (i == itemsToAdd) {
+               [expectation fulfill];
+             }
+           }];
+  }
+  [self enqueueChannelEndJobExpectation];
+  
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                [[NSNotificationCenter defaultCenter]
+                                 postNotificationName:UIApplicationDidEnterBackgroundNotification
+                                 object:mockChannelDefault];
+                                
+                                 // Verify flushQueue was called.
+                                 OCMVerify([mockChannelDefault flushQueue]);
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+
+}
+#endif
 
 #pragma mark - Helper
 

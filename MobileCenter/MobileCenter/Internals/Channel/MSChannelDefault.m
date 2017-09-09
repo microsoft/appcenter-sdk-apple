@@ -2,6 +2,7 @@
 #import "MSChannelDefaultPrivate.h"
 #import "MSMobileCenterErrors.h"
 #import "MSMobileCenterInternal.h"
+#import "MSUtility+Application.h"
 
 @implementation MSChannelDefault
 
@@ -16,8 +17,8 @@
     _pendingBatchQueueFull = NO;
     _availableBatchFromStorage = NO;
     _enabled = YES;
-
     _delegates = [NSHashTable weakObjectsHashTable];
+    [self addObservers];
   }
   return self;
 }
@@ -41,6 +42,12 @@
     }
   }
   return self;
+}
+
+#pragma mark - Dealloc
+
+- (void)dealloc {
+  [self removeObservers];
 }
 
 #pragma mark - MSChannelDelegate
@@ -389,6 +396,55 @@
     // Call didFailSendingLog
     if (delegate && [delegate respondsToSelector:@selector(channel:didFailSendingLog:withError:)])
       [delegate channel:self didFailSendingLog:item withError:error];
+  }
+}
+
+#pragma mark – Observers
+
+- (void)addObservers {
+  
+  // There is no need to do trigger sending on macOS because we can just continue to execute tasks there.
+#if !TARGET_OS_OSX
+  if(!MS_IS_APP_EXTENSION) {
+    __weak typeof(self) weakSelf = self;
+    if(self.appDidEnterBackgroundObserver == nil) {
+      void (^notificationBlock)(NSNotification *note) = ^(NSNotification __unused *note) {
+        typeof(self) strongSelf = weakSelf;
+        if (self.timerSource != nil) {
+          [strongSelf flushQueue];
+          
+          /**
+           * From the documentation for applicationDidEnterBackground:
+           * "It's likely any background tasks you start in applicationDidEnterBackground: will not run until after that
+           * method exits, you should request additional background execution time before starting those tasks.
+           * In other words, first call beginBackgroundTaskWithExpirationHandler: and then run the task on a
+           * dispatch queue or secondary thread.
+           */
+          UIApplication *sharedApplication = [MSUtility sharedApplication];
+          
+          // Checking is sharedApplication is != nil as it can be nil on extensions.
+          if(sharedApplication) {
+            __block UIBackgroundTaskIdentifier _backgroundTask = [sharedApplication beginBackgroundTaskWithExpirationHandler:^{
+              [sharedApplication endBackgroundTask:_backgroundTask];
+              _backgroundTask = UIBackgroundTaskInvalid;
+            }];
+          }
+        }
+      };
+      self.appDidEnterBackgroundObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidEnterBackgroundNotification
+                                                                                             object:nil
+                                                                                              queue:NSOperationQueue.mainQueue
+                                                                                         usingBlock:notificationBlock];
+    }
+  }
+#endif
+}
+
+- (void)removeObservers {
+  id strongObserver = self.appDidEnterBackgroundObserver;
+  if(strongObserver) {
+    [[NSNotificationCenter defaultCenter] removeObserver:strongObserver];
+    self.appDidEnterBackgroundObserver = nil;
   }
 }
 
