@@ -27,6 +27,6 @@
  * Track handled exception directly as model form.
  * This API is not public and is used by wrapper SDKs.
  */
-+ (void)trackModelException:(MSException *)exception;
+- (void)trackModelException:(MSException *)exception;
 
 @end

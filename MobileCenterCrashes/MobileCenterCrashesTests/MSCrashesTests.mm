@@ -597,14 +597,14 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
         exception = log.exception;
       });
   [MSMobileCenter configureWithAppSecret:kMSTestAppSecret];
-  [[MSCrashes sharedInstance] startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
+  [self.sut startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
 
   // When
   MSException *expectedException = [MSException new];
   expectedException.message = @"Oh this is wrong...";
   expectedException.stackTrace = @"mock strace";
   expectedException.type = @"Some.Exception";
-  [MSCrashes trackModelException:expectedException];
+  [self.sut trackModelException:expectedException];
 
   // Then
   assertThat(type, is(kMSTypeHandledError));
