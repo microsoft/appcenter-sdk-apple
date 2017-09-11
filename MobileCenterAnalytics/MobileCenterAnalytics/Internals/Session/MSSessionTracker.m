@@ -166,10 +166,10 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
                              selector:@selector(applicationDidEnterBackground)
                                  name:NSApplicationDidResignActiveNotification
                                object:nil];
-  
+
   [MS_NOTIFICATION_CENTER addObserver:self
                              selector:@selector(applicationWillEnterForeground)
-                                 name: NSApplicationWillBecomeActiveNotification
+                                 name:NSApplicationWillBecomeActiveNotification
                                object:nil];
 #else
   [MS_NOTIFICATION_CENTER addObserver:self
@@ -178,7 +178,7 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
                                object:nil];
   [MS_NOTIFICATION_CENTER addObserver:self
                              selector:@selector(applicationWillEnterForeground)
-                                 name: UIApplicationWillEnterForegroundNotification
+                                 name:UIApplicationWillEnterForegroundNotification
                                object:nil];
 #endif
 }
@@ -220,13 +220,12 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
   // Attach corresponding session id.
   if (log.timestamp) {
     MSSessionHistoryInfo *find = [[MSSessionHistoryInfo alloc] initWithTimestamp:log.timestamp andSessionId:nil];
-    NSUInteger index =
-        [self.pastSessions indexOfObject:find
-                           inSortedRange:NSMakeRange(0, self.pastSessions.count)
-                                 options:(NSBinarySearchingFirstEqual | NSBinarySearchingInsertionIndex)
-                         usingComparator:^(MSSessionHistoryInfo *a, MSSessionHistoryInfo *b) {
-                           return [a.timestamp compare:b.timestamp];
-                         }];
+    NSUInteger index = [self.pastSessions indexOfObject:find
+                                          inSortedRange:NSMakeRange(0, self.pastSessions.count)
+                                                options:(NSBinarySearchingFirstEqual | NSBinarySearchingInsertionIndex)
+                                        usingComparator:^(MSSessionHistoryInfo *a, MSSessionHistoryInfo *b) {
+                                          return [a.timestamp compare:b.timestamp];
+                                        }];
 
     // All timestamps are larger.
     if (index == 0) {

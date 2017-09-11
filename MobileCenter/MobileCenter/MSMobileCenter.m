@@ -418,7 +418,7 @@ static NSString *const kMSGroupId = @"MobileCenter";
  *  The application will go to the foreground.
  */
 - (void)applicationWillEnterForeground {
-  
+
   /**
    * Triggering a resume here to make sure our pipeline is working. While it won't be suspended when going into the
    * background anymore, it might be suspended because we're offline or it failed to send events.
@@ -432,21 +432,21 @@ static NSString *const kMSGroupId = @"MobileCenter";
 
 #pragma mark - Observers
 
-- (void) addObservers {
+- (void)addObservers {
 #if TARGET_OS_OSX
-    [MS_NOTIFICATION_CENTER addObserver:self
-                               selector:@selector(applicationWillEnterForeground)
-                                   name: NSApplicationDidUnhideNotification
-                                 object:nil];
+  [MS_NOTIFICATION_CENTER addObserver:self
+                             selector:@selector(applicationWillEnterForeground)
+                                 name:NSApplicationDidUnhideNotification
+                               object:nil];
 #else
-    [MS_NOTIFICATION_CENTER addObserver:self
-                               selector:@selector(applicationWillEnterForeground)
-                                   name: UIApplicationWillEnterForegroundNotification
-                              object:nil];
+  [MS_NOTIFICATION_CENTER addObserver:self
+                             selector:@selector(applicationWillEnterForeground)
+                                 name:UIApplicationWillEnterForegroundNotification
+                               object:nil];
 #endif
 }
 
-- (void) removeObservers {
+- (void)removeObservers {
 #if TARGET_OS_OSX
   [MS_NOTIFICATION_CENTER removeObserver:self name:NSApplicationDidUnhideNotification object:nil];
 #else

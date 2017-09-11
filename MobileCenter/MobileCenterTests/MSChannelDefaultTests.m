@@ -830,26 +830,26 @@ static NSString *const kMSTestGroupId = @"GroupId";
   mockChannelDefault.configuration = config;
   int itemsToAdd = 3;
   XCTestExpectation *expectation = [self expectationWithDescription:@"All items enqueued"];
-  
+
   // When
   for (int i = 1; i <= itemsToAdd; i++) {
-    
+
     [mockChannelDefault enqueueItem:[self getValidMockLog]
-           withCompletion:^(__attribute__((unused)) BOOL success) {
-             if (i == itemsToAdd) {
-               [expectation fulfill];
-             }
-           }];
+                     withCompletion:^(__attribute__((unused)) BOOL success) {
+                       if (i == itemsToAdd) {
+                         [expectation fulfill];
+                       }
+                     }];
   }
   [self enqueueChannelEndJobExpectation];
-  
+
   // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
-                                [[NSNotificationCenter defaultCenter]
-                                 postNotificationName:UIApplicationDidEnterBackgroundNotification
-                                 object:mockChannelDefault];
-                                
+                                 [[NSNotificationCenter defaultCenter]
+                                     postNotificationName:UIApplicationDidEnterBackgroundNotification
+                                                   object:mockChannelDefault];
+
                                  // Verify flushQueue was called.
                                  OCMVerify([mockChannelDefault flushQueue]);
                                  if (error) {

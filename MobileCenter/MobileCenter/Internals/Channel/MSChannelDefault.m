@@ -402,8 +402,8 @@
 #pragma mark – Observers
 
 - (void)addObservers {
-  
-  // There is no need to do trigger sending on macOS because we can just continue to execute tasks there.
+
+// There is no need to do trigger sending on macOS because we can just continue to execute tasks there.
 #if !TARGET_OS_OSX
   if (!MS_IS_APP_EXTENSION) {
     __weak typeof(self) weakSelf = self;
@@ -412,7 +412,7 @@
         typeof(self) strongSelf = weakSelf;
         if (self.timerSource != nil) {
           [strongSelf flushQueue];
-          
+
           /**
            * From the documentation for applicationDidEnterBackground:
            * "It's likely any background tasks you start in applicationDidEnterBackground: will not run until after that
@@ -421,20 +421,22 @@
            * dispatch queue or secondary thread.
            */
           UIApplication *sharedApplication = [MSUtility sharedApplication];
-          
+
           // Checking is sharedApplication is != nil as it can be nil on extensions.
-          if(sharedApplication) {
-            __block UIBackgroundTaskIdentifier _backgroundTask = [sharedApplication beginBackgroundTaskWithExpirationHandler:^{
-              [sharedApplication endBackgroundTask:_backgroundTask];
-              _backgroundTask = UIBackgroundTaskInvalid;
-            }];
+          if (sharedApplication) {
+            __block UIBackgroundTaskIdentifier _backgroundTask =
+                [sharedApplication beginBackgroundTaskWithExpirationHandler:^{
+                  [sharedApplication endBackgroundTask:_backgroundTask];
+                  _backgroundTask = UIBackgroundTaskInvalid;
+                }];
           }
         }
       };
-      self.appDidEnterBackgroundObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidEnterBackgroundNotification
-                                                                                             object:nil
-                                                                                              queue:NSOperationQueue.mainQueue
-                                                                                         usingBlock:notificationBlock];
+      self.appDidEnterBackgroundObserver =
+          [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidEnterBackgroundNotification
+                                                            object:nil
+                                                             queue:NSOperationQueue.mainQueue
+                                                        usingBlock:notificationBlock];
     }
   }
 #endif
@@ -442,7 +444,7 @@
 
 - (void)removeObservers {
   id strongObserver = self.appDidEnterBackgroundObserver;
-  if(strongObserver) {
+  if (strongObserver) {
     [[NSNotificationCenter defaultCenter] removeObserver:strongObserver];
     self.appDidEnterBackgroundObserver = nil;
   }
