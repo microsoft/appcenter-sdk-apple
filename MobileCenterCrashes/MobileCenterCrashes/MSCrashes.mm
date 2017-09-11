@@ -8,6 +8,7 @@
 #import "MSErrorAttachmentLog.h"
 #import "MSErrorAttachmentLogInternal.h"
 #import "MSErrorLogFormatter.h"
+#import "MSHandledErrorLog.h"
 #import "MSMobileCenterInternal.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSWrapperExceptionManagerInternal.h"
@@ -229,7 +230,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   return [[self sharedInstance] getLastSessionCrashReport];
 }
 
-/*
+/**
  * This can never be bound to Xamarin.
  *
  * This method is not part of the publicly available APIs on tvOS as Mach exception handling is not possible on tvOS. 
@@ -241,6 +242,18 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 + (void)setDelegate:(_Nullable id<MSCrashesDelegate>)delegate {
   [[self sharedInstance] setDelegate:delegate];
+}
+
+/**
+ * Track handled exception directly as model form.
+ * This API is not public and is used by wrapper SDKs.
+ */
++ (void)trackModelException:(MSException *)exception {
+  @synchronized(self) {
+    if ([[self sharedInstance] canBeUsed]) {
+      [[self sharedInstance] trackModelException:exception];
+    }
+  }
 }
 
 #pragma mark - Service initialization
@@ -1016,6 +1029,23 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   BOOL contentTypeValid = attachment.contentType && ([attachment.contentType length] > 0);
 
   return errorIdValid && attachmentIdValid && attachmentDataValid && contentTypeValid;
+}
+
+#pragma mark - Handled exceptions
+
+- (void)trackModelException:(MSException *)exception {
+  if (![self isEnabled])
+    return;
+
+  // Create an error log.
+  MSHandledErrorLog *log = [MSHandledErrorLog new];
+
+  // Set properties of the error log.
+  log.errorId = MS_UUID_STRING;
+  log.exception = exception;
+
+  // Send log to log manager.
+  [self.logManager processLog:log forGroupId:self.groupId];
 }
 
 @end
