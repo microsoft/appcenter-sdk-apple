@@ -7,6 +7,14 @@
 #import "MSMobileCenterInternal.h"
 #import "MSUtility+Application.h"
 
+// Enum used to represent all kind of executors running the completion handler.
+typedef NS_OPTIONS(NSUInteger, MSCompletionExecutor) {
+  MSCompletionExecutorNone = (1 << 0),
+  MSCompletionExecutorOriginal = (1 << 1),
+  MSCompletionExecutorCustom = (1 << 2),
+  MSCompletionExecutorForwarder = (1 << 3)
+};
+
 static NSString *const kMSCustomSelectorPrefix = @"custom_";
 static NSString *const kMSReturnedValueSelectorPart = @"returnedValue:";
 static NSString *const kMSIsAppDelegateForwarderEnabledKey = @"MobileCenterAppDelegateForwarderEnabled";
@@ -152,8 +160,7 @@ static BOOL _enabled = YES;
     if (originalImp) {
 
       // Save the original implementation for later use.
-      MSAppDelegateForwarder.originalImplementations[selectorString] =
-          [NSValue valueWithBytes:&originalImp objCType:@encode(IMP)];
+      self.originalImplementations[selectorString] = [NSValue valueWithBytes:&originalImp objCType:@encode(IMP)];
     }
   }
   [self.selectorsToSwizzle removeAllObjects];
@@ -283,6 +290,7 @@ static BOOL _enabled = YES;
 #pragma mark - Custom UIApplicationDelegate
 
 #if !TARGET_OS_OSX
+
 /*
  * Those methods will never get called but their implementation will be used by swizzling.
  * Those implementations will run within the delegate context. Meaning that `self` will point
@@ -394,29 +402,88 @@ static BOOL _enabled = YES;
 - (void)custom_application:(UIApplication *)application
     didReceiveRemoteNotification:(NSDictionary *)userInfo
           fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+  __block IMP originalImp = NULL;
+  __block UIBackgroundFetchResult actualFetchResult = UIBackgroundFetchResultNoData;
+  __block short customHandlerCalledCount = 0;
+  __block short customDelegateToCallCount = 0;
+  __block MSCompletionExecutor executors = MSCompletionExecutorNone;
 
-  // Collect `UIBackgroundFetchResult` from delegates in order to call the original completion handler later.
-  __block UIBackgroundFetchResult forwardedFetchResult = UIBackgroundFetchResultNoData;
-  void (^forwardedCompletionHandler)(UIBackgroundFetchResult) = ^(UIBackgroundFetchResult fetchResult) {
-    forwardedFetchResult = fetchResult;
+  // This handler will be used by all the delegates, it unifies the results and execte the real handler at the end.
+  void (^commonCompletionHandler)(UIBackgroundFetchResult, MSCompletionExecutor) =
+      ^(UIBackgroundFetchResult fetchResult, MSCompletionExecutor executor) {
+
+        /*
+         * As per the Apple dicumentation:
+         * https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623013-application
+         * The `fetchCompletionHandler` is used to let the app the background time for processing the notification and
+         * download any data that will be displayed to the end users when the app will start again. There can only be
+         * one
+         * `UIBackgroundFetchResult` in the end so there is a need for triage while comparing results from delegates.
+         *
+         * Priorities are:
+         * `UIBackgroundFetchResultNewData`>`UIBackgroundFetchResultFailed`>`UIBackgroundFetchResultNoData`.
+         *  - `UIBackgroundFetchResultNewData` means at least one of the delegates did download something successfully.
+         *  - `UIBackgroundFetchResultFailed` means there was one/several downloads among the delegates but they failed.
+         *  - `UIBackgroundFetchResultNoData` means that none of the delegates had anything to download.
+         */
+        if (fetchResult != actualFetchResult &&
+            (fetchResult == UIBackgroundFetchResultNewData || actualFetchResult == UIBackgroundFetchResultNoData)) {
+          actualFetchResult = fetchResult;
+        }
+
+        // This executor is running its completion handler, remembering it.
+        executors = executors | executor;
+
+        // Count all custom executors who already ran their completion handler.
+        if (executor == MSCompletionExecutorCustom) {
+          customHandlerCalledCount++;
+        }
+
+        // Be sure original delegate and/or custom delegates and/or the app forwarder executed their completion handler.
+        if ((customHandlerCalledCount == customDelegateToCallCount &&
+             (executors & MSCompletionExecutorOriginal || !originalImp)) ||
+            (executor == MSCompletionExecutorForwarder)) {
+          completionHandler(actualFetchResult);
+        }
+      };
+
+  // Completion handler dedicated to custom delegates.
+  id customCompletionHandler = ^(UIBackgroundFetchResult fetchResult) {
+    commonCompletionHandler(fetchResult, MSCompletionExecutorCustom);
   };
 
-  /*
-   * FIXME: We still need to chain the forwardedFetchResult somehow in case of multiple custom delegate implementing
-   * this selector.
-   */
+  // Block any addition/deletion of custom delegates since delegate count must remain the same.
+  @synchronized([MSAppDelegateForwarder class]) {
 
-  /*
-   * Forward to custom delegates. This method doesn't override original the delegate implementation so there is no need
-   * to forward to the original implementation. As a consequence customers must call the corresponding APIs in the SDK
-   * if they implement this selector in their delegate.
-   */
-  [[MSAppDelegateForwarder sharedInstance] application:application
-                          didReceiveRemoteNotification:userInfo
-                                fetchCompletionHandler:forwardedCompletionHandler];
+    // Count how many custom delegates will respond to the selector.
+    for (id<MSAppDelegate> delegate in MSAppDelegateForwarder.delegates) {
+      if ([delegate respondsToSelector:_cmd]) {
+        customDelegateToCallCount++;
+      }
+    }
 
-  // Must call the original completion handler.
-  completionHandler(forwardedFetchResult);
+    // Forward to the original delegate.
+    [MSAppDelegateForwarder.originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
+    if (originalImp) {
+
+      // Completion handler dedicated to the original delegate.
+      id originalCompletionHandler = ^(UIBackgroundFetchResult fetchResult) {
+        commonCompletionHandler(fetchResult, MSCompletionExecutorOriginal);
+      };
+      ((void (*)(id, SEL, UIApplication *, NSDictionary *, void (^)(UIBackgroundFetchResult)))originalImp)(
+          self, _cmd, application, userInfo, originalCompletionHandler);
+    } else if (customDelegateToCallCount == 0) {
+
+      // There is no one to handle this selector but iOS requires to call the completion handler anyway.
+      commonCompletionHandler(UIBackgroundFetchResultNoData, MSCompletionExecutorForwarder);
+      return;
+    }
+
+    // Forward to custom delegates.
+    [[MSAppDelegateForwarder sharedInstance] application:application
+                            didReceiveRemoteNotification:userInfo
+                                  fetchCompletionHandler:customCompletionHandler];
+  }
 }
 #endif
 
