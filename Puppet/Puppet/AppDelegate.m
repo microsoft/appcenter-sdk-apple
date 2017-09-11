@@ -82,12 +82,8 @@ static UIViewController *crashResultViewController = nil;
 - (void)application:(UIApplication *)application
     didReceiveRemoteNotification:(NSDictionary *)userInfo
           fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-  BOOL result = [MSPush didReceiveRemoteNotification:userInfo];
-  if (result) {
-    completionHandler(UIBackgroundFetchResultNewData);
-  } else {
-    completionHandler(UIBackgroundFetchResultNoData);
-  }
+  NSLog(@"%@ Did receive or did click notification with userInfo: %@.", kPUPLogTag, userInfo);
+  completionHandler(UIBackgroundFetchResultNoData);
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
