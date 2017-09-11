@@ -405,9 +405,9 @@
   
   // There is no need to do trigger sending on macOS because we can just continue to execute tasks there.
 #if !TARGET_OS_OSX
-  if(!MS_IS_APP_EXTENSION) {
+  if (!MS_IS_APP_EXTENSION) {
     __weak typeof(self) weakSelf = self;
-    if(self.appDidEnterBackgroundObserver == nil) {
+    if (self.appDidEnterBackgroundObserver == nil) {
       void (^notificationBlock)(NSNotification *note) = ^(NSNotification __unused *note) {
         typeof(self) strongSelf = weakSelf;
         if (self.timerSource != nil) {

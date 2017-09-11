@@ -827,7 +827,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                                                      flushInterval:5.0
                                                                     batchSizeLimit:20
                                                                pendingBatchesLimit:10];
-//  self.sut.configuration = config;
   mockChannelDefault.configuration = config;
   int itemsToAdd = 3;
   XCTestExpectation *expectation = [self expectationWithDescription:@"All items enqueued"];
@@ -857,7 +856,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
-
 }
 #endif
 

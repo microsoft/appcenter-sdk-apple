@@ -73,6 +73,11 @@ static NSURL *sfURL;
 
 @end
 
+@implementation MSDistributeTests
+
+<#methods#>
+
+@end
   
 - (void)setUp {
   [super setUp];
