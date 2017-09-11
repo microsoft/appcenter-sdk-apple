@@ -46,7 +46,7 @@
   NSArray *actualProperties = actual[@"properties"];
   assertThat(actualProperties, hasCountOf(5));
   NSArray *needProperties = @[@{@"name": @"t1", @"type": @"string", @"value": string},
-                              @{@"name": @"t2", @"type": @"date_time", @"value": @"1970-01-01T00:00:00Z"},
+                              @{@"name": @"t2", @"type": @"date_time", @"value": @"1970-01-01T00:00:00.000Z"},
                               @{@"name": @"t3", @"type": @"number", @"value": number},
                               @{@"name": @"t4", @"type": @"boolean", @"value": boolean},
                               @{@"name": @"t5", @"type": @"clear"}];
@@ -92,7 +92,7 @@
   // If
   self.sut.device = OCMClassMock([MSDevice class]);
   OCMStub([self.sut.device isValid]).andReturn(YES);
-  self.sut.toffset = @(3);
+  self.sut.timestamp = [NSDate dateWithTimeIntervalSince1970:42];
   self.sut.sid = @"1234567890";
   
   // When

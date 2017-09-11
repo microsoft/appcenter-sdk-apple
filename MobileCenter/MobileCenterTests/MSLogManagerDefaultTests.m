@@ -82,6 +82,7 @@
   [sut processLog:log forGroupId:groupId];
 
   // Then
+  OCMVerify([mockDelegate onPreparedLog:log withInternalId:OCMOCK_ANY]);
   OCMVerify([mockDelegate onEnqueuingLog:log withInternalId:OCMOCK_ANY]);
 }
 

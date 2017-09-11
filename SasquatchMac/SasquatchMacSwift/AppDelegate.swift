@@ -35,7 +35,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
     // Start MobileCenter.
     MSMobileCenter.setLogLevel(MSLogLevel.verbose)
     MSMobileCenter.setLogUrl("https://in-integration.dev.avalanch.es")
-    MSMobileCenter.start("7ee5f412-02f7-45ea-a49c-b4ebf2911325", withServices : [ MSAnalytics.self, MSCrashes.self, MSPush.self ])
+    MSMobileCenter.start("c62b8db6-191e-496a-b1a1-267b9bf326c4", withServices : [ MSAnalytics.self, MSCrashes.self, MSPush.self ])
 
     MobileCenterProvider.shared().mobileCenter = MobileCenterDelegateSwift()
     updateMobileCenterState()

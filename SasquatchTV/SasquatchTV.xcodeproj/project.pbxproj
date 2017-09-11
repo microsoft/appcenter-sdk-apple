@@ -204,8 +204,8 @@
 			isa = PBXGroup;
 			children = (
 				D322EFC41E8E97A100A8EDA5 /* SasquatchTV */,
-				D322EFD91E8E97C800A8EDA5 /* SasquatchTVSwift */,
 				D322EFEC1E8E97DF00A8EDA5 /* SasquatchTVObjC */,
+				D322EFD91E8E97C800A8EDA5 /* SasquatchTVSwift */,
 				5C2CC6EE1EE6BE5500E2BDA4 /* SasquatchTVUITests */,
 				D322EFC31E8E97A100A8EDA5 /* Products */,
 				D322F0061E8E98DF00A8EDA5 /* Frameworks */,

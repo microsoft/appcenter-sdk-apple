@@ -88,7 +88,7 @@ static NSString *const kMSPackageHashes = @"package_hashes";
     }
     if (dictionary[kMSDistributionGroups]) {
 
-      // TODO: Implement here. There is no spec for DistributionGroup data model.
+      // TODO: DistributionGroup has no properties so skip it until it has properties.
     }
     if (dictionary[kMSPackageHashes]) {
       self.packageHashes = dictionary[kMSPackageHashes];
@@ -151,7 +151,7 @@ static NSString *const kMSPackageHashes = @"package_hashes";
   }
   if (self.distributionGroups) {
 
-    // TODO: Implement here. There is no spec for DistributionGroup data model.
+    // TODO: DistributionGroup has no properties so skip it until it has properties.
   }
   if (self.packageHashes) {
     dictionary[kMSPackageHashes] = self.packageHashes;

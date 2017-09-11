@@ -1,13 +1,13 @@
 #import "MSDeviceHistoryInfo.h"
 
 static NSString *const kMSDeviceKey = @"deviceKey";
-static NSString *const kMSToffsetKey = @"toffsetKey";
+static NSString *const kMSTimestampKey = @"timestampKey";
 
 @implementation MSDeviceHistoryInfo
 
-- (instancetype)initWithTOffset:(NSNumber *)tOffset andDevice:(MSDevice *)device {
+- (instancetype)initWithTimestamp:(NSDate *)timestamp andDevice:(MSDevice *)device {
   if ((self = [super init])) {
-    _tOffset = tOffset;
+    _timestamp = timestamp;
     _device = device;
   }
   return self;
@@ -18,7 +18,7 @@ static NSString *const kMSToffsetKey = @"toffsetKey";
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super init];
   if (self) {
-    self.tOffset = [coder decodeObjectForKey:kMSToffsetKey];
+    self.timestamp = [coder decodeObjectForKey:kMSTimestampKey];
     self.device = [coder decodeObjectForKey:kMSDeviceKey];
   }
 
@@ -26,7 +26,7 @@ static NSString *const kMSToffsetKey = @"toffsetKey";
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
-  [coder encodeObject:self.tOffset forKey:kMSToffsetKey];
+  [coder encodeObject:self.timestamp forKey:kMSTimestampKey];
   [coder encodeObject:self.device forKey:kMSDeviceKey];
 }
 
