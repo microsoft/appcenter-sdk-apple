@@ -115,9 +115,10 @@
   for (NSString *key in pushNotification.customData) {
     message = [NSString stringWithFormat:@"%@\n%@: %@", message, key, [pushNotification.customData objectForKey:key]];
   }
-  MSAlertController *alertController = [MSAlertController alertControllerWithTitle:pushNotification.title
-                                                                           message:message
-                                                                             style:NSAlertStyleInformational];
+  MSAlertController *alertController = [MSAlertController
+      alertControllerWithTitle:(pushNotification.title ? pushNotification.title : @"Push notification received")
+                       message:message
+                         style:NSAlertStyleInformational];
   [alertController addActionWithTitle:@"OK"
                               handler:^(){
                               }];
