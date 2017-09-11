@@ -117,7 +117,7 @@ static BOOL _enabled = YES;
       static dispatch_once_t onceToken = 0;
       dispatch_once(&onceToken, ^{
         [traceBuffer addObject:^{
-          MSLogVerbose([MSMobileCenter logTag], @"Trace buffer started.");
+          MSLogVerbose([MSMobileCenter logTag], @"Start buffering traces.");
         }];
       });
       [traceBuffer addObject:block];
@@ -530,19 +530,16 @@ static BOOL _enabled = YES;
 #pragma mark - Logging
 
 + (void)flushTraceBuffer {
-
-  // Only trace once.
-  static dispatch_once_t traceOnceToken;
-  dispatch_once(&traceOnceToken, ^{
+  if (traceBuffer) {
     @synchronized(traceBuffer) {
       for (dispatch_block_t traceBlock in traceBuffer) {
         traceBlock();
       }
       [traceBuffer removeAllObjects];
       traceBuffer = nil;
-      MSLogVerbose([MSMobileCenter logTag], @"Flushed trace buffer.");
+      MSLogVerbose([MSMobileCenter logTag], @"Stop buffering traces, flushed.");
     }
-  });
+  }
 }
 
 #pragma mark - Testing
