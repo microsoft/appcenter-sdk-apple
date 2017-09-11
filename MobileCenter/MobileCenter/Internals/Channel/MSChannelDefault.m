@@ -1,4 +1,4 @@
-#import "MSChannelDefault.h"
+#import "MSAbstractLogInternal.h"
 #import "MSChannelDefaultPrivate.h"
 #import "MSMobileCenterErrors.h"
 #import "MSMobileCenterInternal.h"
@@ -140,9 +140,17 @@
                  self.pendingBatchQueueFull = YES;
                }
                MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:batchId andLogs:logArray];
-               MSLogDebug([MSMobileCenter logTag], @"Sending %lu log(s), group Id: %@, batch Id:%@, payload:\n%@",
-                          (unsigned long)[container.logs count], self.configuration.groupId, batchId,
-                          [container serializeLogWithPrettyPrinting:YES]);
+
+               // Optimization. If the current log level is greater than MSLogLevelDebug, we can skip it.
+               if ([MSMobileCenter logLevel] <= MSLogLevelDebug) {
+                 unsigned long count = [container.logs count];
+                 for (unsigned long i = 0; i < count; i++) {
+                   MSLogDebug([MSMobileCenter logTag],
+                              @"Sending %lu/%lu log(s), group Id: %@, batch Id:%@, payload:\n%@", (i + 1), count,
+                              self.configuration.groupId, batchId,
+                              [(MSAbstractLog *)container.logs[i] serializeLogWithPrettyPrinting:YES]);
+                 }
+               }
 
                // Notify delegates.
                [self enumerateDelegatesForSelector:@selector(channel:willSendLog:)
