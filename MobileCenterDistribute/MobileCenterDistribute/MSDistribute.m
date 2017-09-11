@@ -214,7 +214,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     if (url) {
 
 /*
- * Only iOS 9.x and 10.x will download the update after users click the "Install" button. 
+ * Only iOS 9.x and 10.x will download the update after users click the "Install" button.
  * We need to force-exit the application for other versions or for any versions when the update is mandatory.
  */
 #pragma clang diagnostic push
@@ -222,22 +222,23 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       Class clazz = [SFSafariViewController class];
       if (clazz && ![NSProcessInfo.processInfo isOperatingSystemAtLeastVersion:(NSOperatingSystemVersion){11, 0, 0}]) {
 
-        // iOS 11
         Class authClazz = [SFAuthenticationSession class];
-        if(authClazz) {
-          
+
+        // iOS 11
+        if (authClazz) {
+
           // Manipulate App UI on the main queue.
           dispatch_async(dispatch_get_main_queue(), ^{
             [self openURLInAuthenticationSessionWith:url fromClass:authClazz];
           });
         } else {
           // iOS 9 and 10
-          
+
           // Manipulate App UI on the main queue.
           dispatch_async(dispatch_get_main_queue(), ^{
-            [self openURLInEmbeddedSafari:url fromClass:clazz];
+            [self openURLInSafariViewControllerWithUrl:url fromClass:clazz];
           });
-        }  
+        }
 #pragma clang diagnostic pop
       } else {
 
@@ -456,34 +457,36 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 - (void)openURLInAuthenticationSessionWith:(NSURL *)url fromClass:(Class)clazz {
   MSLogDebug([MSDistribute logTag], @"Using SFAuthenticationSession to open URL: %@", url);
-  
+
   NSString *callbackUrlScheme = [NSString stringWithFormat:kMSDefaultCustomSchemeFormat, self.appSecret];
-  
+
   if (@available(iOS 11.0, *)) {
-    SFAuthenticationSession *session = [[clazz alloc] initWithURL:url callbackURLScheme:callbackUrlScheme completionHandler:^(NSURL *callbackUrl, NSError *error) {
-      
-      self.authenticationSession = nil;
-      MSLogDebug([MSDistribute logTag], @"Called %@ with errror: %@", callbackUrl, error.localizedDescription);
-      
-      if(error.code == SFAuthenticationErrorCanceledLogin) {
-        MSLogError([MSDistribute logTag], @"Authentication session was cancelled by user or failed.");
-      }
-      
-      if(callbackUrl) {
-        [self openURL:callbackUrl];
-      }
-    }];
+    SFAuthenticationSession *session = [[clazz alloc]
+              initWithURL:url
+        callbackURLScheme:callbackUrlScheme
+        completionHandler:^(NSURL *callbackUrl, NSError *error) {
+
+          self.authenticationSession = nil;
+          if (error != nil) {
+            MSLogDebug([MSDistribute logTag], @"Called %@ with errror: %@", callbackUrl, error.localizedDescription);
+          }
+          if (error.code == SFAuthenticationErrorCanceledLogin) {
+            MSLogError([MSDistribute logTag], @"Authentication session was cancelled by user or failed.");
+          }
+          if (callbackUrl) {
+            [self openURL:callbackUrl];
+          }
+        }];
     self.authenticationSession = session;
 
     BOOL success = [session start];
-    if(success) {
+    if (success) {
       MSLogDebug([MSDistribute logTag], @"Authentication Session Started, showing confirmation dialog");
     }
   }
 }
 
-// TODO: rename method
-- (void)openURLInEmbeddedSafari:(NSURL *)url fromClass:(Class)clazz {
+- (void)openURLInSafariViewControllerWithUrl:(NSURL *)url fromClass:(Class)clazz {
   MSLogDebug([MSDistribute logTag], @"Using SFSafariViewController to open URL: %@", url);
 
   // Init safari controller with the install URL.
@@ -593,13 +596,13 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 }
 
 - (BOOL)checkForUpdatesAllowed {
-  
-// Check if we are not in AppStore or TestFlight environments.
-BOOL environmentOkay = [MSUtility currentAppEnvironment] == MSEnvironmentOther;
 
-// Check if a debugger is attached.
-BOOL noDebuggerAttached = ![MSMobileCenter isDebuggerAttached];
-return environmentOkay && noDebuggerAttached;
+  // Check if we are not in AppStore or TestFlight environments.
+  BOOL environmentOkay = [MSUtility currentAppEnvironment] == MSEnvironmentOther;
+
+  // Check if a debugger is attached.
+  BOOL noDebuggerAttached = ![MSMobileCenter isDebuggerAttached];
+  return environmentOkay && noDebuggerAttached;
 }
 
 - (BOOL)isNewerVersion:(MSReleaseDetails *)details {

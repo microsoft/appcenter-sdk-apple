@@ -38,7 +38,7 @@ static NSURL *sfURL;
 @implementation SFSafariViewController
 
 - (instancetype)initWithURL:(NSURL *)url {
-  if ((self = [super init])) {
+  if ((self = [self init])) {
     [[self class] setUrl:url];
   }
   return self;
@@ -130,7 +130,7 @@ static NSURL *sfURL;
   OCMStub([self.bundleMock objectForInfoDictionaryKey:@"CFBundleURLTypes"]).andReturn(bundleArray);
   OCMStub([self.bundleMock objectForInfoDictionaryKey:@"MSAppName"]).andReturn(@"Something");
   id distributeMock = OCMPartialMock(self.sut);
-  OCMStub([distributeMock openURLInEmbeddedSafari:OCMOCK_ANY fromClass:OCMOCK_ANY]).andDo(nil);
+  OCMStub([distributeMock openURLInSafariViewControllerWithUrl:OCMOCK_ANY fromClass:OCMOCK_ANY]).andDo(nil);
 
   // Disable for now to bypass initializing sender.
   [distributeMock setEnabled:NO];
@@ -222,14 +222,18 @@ static NSURL *sfURL;
   [appMock stopMocking];
 }
 
-- (void)testOpenURLInEmbeddedSafari {
+- (void)testOpenURLInSafariViewControllerWithUrl {
 
   // If
   NSURL *url = [NSURL URLWithString:@"https://contoso.com"];
 
   // When
   @try {
-    [self.sut openURLInEmbeddedSafari:url fromClass:[SFSafariViewController class]];
+    if (@available(iOS 9.0, *)) {
+      [self.sut openURLInSafariViewControllerWithUrl:url fromClass:[SFSafariViewController class]];
+    } else {
+      // Fallback on earlier versions
+    }
   } @catch (__attribute__((unused)) NSException *ex) {
 
     /**
@@ -239,7 +243,11 @@ static NSURL *sfURL;
   }
 
   // Then
-  assertThat(SFSafariViewController.url, is(url));
+  if (@available(iOS 9.0, *)) {
+    assertThat(SFSafariViewController.url, is(url));
+  } else {
+    // Fallback on earlier versions
+  }
 }
 
 - (void)testSetApiUrlWorks {
@@ -1196,7 +1204,7 @@ static NSURL *sfURL;
   OCMReject([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:kMSTestReleaseHash]);
 
   // We should not touch UI in a unit testing environment.
-  OCMStub([distributeMock openURLInEmbeddedSafari:OCMOCK_ANY fromClass:OCMOCK_ANY]).andDo(nil);
+  OCMStub([distributeMock openURLInSafariViewControllerWithUrl:OCMOCK_ANY fromClass:OCMOCK_ANY]).andDo(nil);
 
   // When
   [distributeMock requestInstallInformationWith:kMSTestReleaseHash];

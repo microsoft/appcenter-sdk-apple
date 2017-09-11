@@ -132,12 +132,12 @@ static NSString *const kMSDistributionGroupIdKey = @"MSDistributionGroupId";
 - (nullable NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret releaseHash:(NSString *)releaseHash;
 
 /**
- * Open the given URL using an `SFSafariViewController`. Must run on the UI thread! iOS 9+ only.
+ * Open the given URL using an `SFSafariViewController`. Must run on the UI thread! iOS 9 and 10 only.
  *
  * @param url URL to open.
  * @param clazz `SFSafariViewController` class.
  */
-- (void)openURLInEmbeddedSafari:(NSURL *)url fromClass:(Class)clazz;
+- (void)openURLInSafariViewControllerWithUrl:(NSURL *)url fromClass:(Class)clazz;
 
 /**
  * Open the given URL using the Safari application. iOS 8.x only.
@@ -162,7 +162,9 @@ static NSString *const kMSDistributionGroupIdKey = @"MSDistributionGroupId";
  * @param distributionGroupId The distribution group Id in keychain.
  * @param releaseHash The release hash of the current version.
  */
-- (void)checkLatestRelease:(nullable NSString *)updateToken distributionGroupId:(NSString *)distributionGroupId releaseHash:(NSString *)releaseHash;
+- (void)checkLatestRelease:(nullable NSString *)updateToken
+       distributionGroupId:(NSString *)distributionGroupId
+               releaseHash:(NSString *)releaseHash;
 
 /**
  * Send a request to get information for installation.
