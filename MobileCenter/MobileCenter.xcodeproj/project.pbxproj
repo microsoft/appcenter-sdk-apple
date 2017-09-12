@@ -2058,6 +2058,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 			};
 			name = Debug;
 		};
@@ -2065,6 +2066,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0469D1B11F4DF89A00A43A8E /* MobileCenter Release.xcconfig */;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 			};
 			name = Release;
 		};
