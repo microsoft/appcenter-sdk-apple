@@ -193,6 +193,7 @@ static NSURL *sfURL;
   id appMock = OCMClassMock([UIApplication class]);
   OCMStub([appMock sharedApplication]).andReturn(appMock);
   OCMStub([appMock canOpenURL:url]).andReturn(YES);
+  OCMStub([appMock instancesRespondToSelector:NSSelectorFromString(@"sharedApplication")]).andReturn(YES);
   SEL selector = NSSelectorFromString(@"openURL:options:completionHandler:");
   BOOL newOpenURL = [appMock respondsToSelector:selector];
   if (newOpenURL) {
