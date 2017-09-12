@@ -1019,48 +1019,7 @@
 }
 #endif
 
-#if TARGET_OS_OSX
-- (void)testDidReceiveNotification {
-
-  // If
-  id userNotificationUserInfoMock = OCMClassMock([NSUserNotification class]);
-  id notificationMock = OCMClassMock([NSNotification class]);
-  NSDictionary *notificationUserInfo = @{NSApplicationLaunchUserNotificationKey : userNotificationUserInfoMock};
-  NSDictionary *expectedUserInfo = @{ @"aKey" : @"aThingBehindADoor" };
-  OCMStub([notificationMock userInfo]).andReturn(notificationUserInfo);
-  OCMStub([userNotificationUserInfoMock userInfo]).andReturn(expectedUserInfo);
-  XCTestExpectation *customCalledExpectation = [self expectationWithDescription:@"Custom delegate called."];
-
-  // Setup an empty original delegate.
-  id<MSApplicationDelegate> originalAppDelegate =
-      [self createInstanceConformingToProtocol:@protocol(MSApplicationDelegate)];
-  SEL applicationDidFinishLaunchingSel = @selector(applicationDidFinishLaunching:);
-  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:applicationDidFinishLaunchingSel];
-
-  // Setup a custom delegate.
-  id<MSAppDelegate> customAppDelegate = [self createInstanceConformingToProtocol:@protocol(MSAppDelegate)];
-  id applicationDidFinishLaunchingImp = ^(__attribute__((unused)) id itSelf, NSNotification *notification) {
-
-    // Then
-    XCTAssertNotNil(notification);
-    NSUserNotification *userNotification = [notification.userInfo objectForKey:NSApplicationLaunchUserNotificationKey];
-    XCTAssertNotNil(userNotification);
-    assertThat(userNotification.userInfo, is(expectedUserInfo));
-    [customCalledExpectation fulfill];
-  };
-  [self addSelector:applicationDidFinishLaunchingSel
-      implementation:applicationDidFinishLaunchingImp
-          toInstance:customAppDelegate];
-  [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
-  [MSAppDelegateForwarder addDelegate:customAppDelegate];
-
-  // When
-  [originalAppDelegate applicationDidFinishLaunching:notificationMock];
-
-  // Then
-  [self waitForExpectations:@[ customCalledExpectation ] timeout:1];
-}
-#elif TARGET_OS_IOS
+#if TARGET_OS_IOS
 
 // TODO: Push doesn't support tvOS. Temporaily disable the test.
 - (void)testDidReceiveRemoteNotification {
