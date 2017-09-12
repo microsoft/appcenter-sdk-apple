@@ -211,31 +211,30 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     // Most failures here require an app update. Thus, it will be retried only on next App instance.
     url = [self buildTokenRequestURLWithAppSecret:self.appSecret releaseHash:releaseHash];
     if (url) {
-      
-      /*
-       * Only iOS 9.x and 10.x will download the update after users click the "Install" button.
-       * We need to force-exit the application for other versions or for any versions when the update is mandatory.
-       */
+
+/*
+ * Only iOS 9.x and 10.x will download the update after users click the "Install" button.
+ * We need to force-exit the application for other versions or for any versions when the update is mandatory.
+ */
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpartial-availability"
-      if(@available(iOS 9.0, *)) {
-        Class clazz = [SFSafariViewController class];
-        if(@available(iOS 11.0, *)) {
-          
+      if (@available(iOS 9.0, *)) {
+        if (@available(iOS 11.0, *)) {
+
           // iOS 11
+          Class clazz = [SFAuthenticationSession class];
           dispatch_async(dispatch_get_main_queue(), ^{
-            [self openURLInAuthenticationSessionWith:url fromClass:clazz];
+            [self openURLInAuthenticationSession:url fromClass:clazz];
           });
-        }
-        else {
-          
+        } else {
+
           // iOS 9 and 10
+          Class clazz = [SFSafariViewController class];
           dispatch_async(dispatch_get_main_queue(), ^{
             [self openURLInSafariViewControllerWithUrl:url fromClass:clazz];
           });
         }
-      }
-      else {
+      } else {
         // iOS 8.x.
         [self openURLInSafariApp:url];
       }
@@ -450,7 +449,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   return components.URL;
 }
 
-- (void)openURLInAuthenticationSessionWith:(NSURL *)url fromClass:(Class)clazz {
+- (void)openURLInAuthenticationSession:(NSURL *)url fromClass:(Class)clazz {
   MSLogDebug([MSDistribute logTag], @"Using SFAuthenticationSession to open URL: %@", url);
 
   NSString *callbackUrlScheme = [NSString stringWithFormat:kMSDefaultCustomSchemeFormat, self.appSecret];
