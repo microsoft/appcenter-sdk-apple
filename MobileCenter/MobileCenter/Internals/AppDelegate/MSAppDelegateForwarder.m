@@ -29,11 +29,15 @@ static NSHashTable<id<MSAppDelegate>> *_delegates = nil;
 static NSMutableSet<NSString *> *_selectorsToSwizzle = nil;
 static NSDictionary<NSString *, NSString *> *_deprecatedSelectors = nil;
 static NSMutableDictionary<NSString *, NSValue *> *_originalImplementations = nil;
-static NSMutableArray<dispatch_block_t> *_traceBuffer = nil;
+static NSMutableArray<dispatch_block_t> *traceBuffer = nil;
 static IMP _originalSetDelegateImp = NULL;
 static BOOL _enabled = YES;
 
 @implementation MSAppDelegateForwarder
+
++ (void)initialize {
+  traceBuffer = [NSMutableArray new];
+}
 
 + (void)load {
 
@@ -51,11 +55,11 @@ static BOOL _enabled = YES;
 
   // Swizzle `setDelegate:` of Application class.
   if (MSAppDelegateForwarder.enabled) {
-    [MSAppDelegateForwarder.traceBuffer addObject:^{
+    [self addTraceBlock:^{
       MSLogDebug([MSMobileCenter logTag], @"Application delegate forwarder is enabled. It may use swizzling.");
     }];
   } else {
-    [MSAppDelegateForwarder.traceBuffer addObject:^{
+    [self addTraceBlock:^{
       MSLogDebug([MSMobileCenter logTag], @"Application delegate forwarder is disabled. It won't use swizzling.");
     }];
   }
@@ -99,8 +103,20 @@ static BOOL _enabled = YES;
   return _originalImplementations ?: (_originalImplementations = [NSMutableDictionary new]);
 }
 
-+ (NSMutableArray<dispatch_block_t> *)traceBuffer {
-  return _traceBuffer ?: (_traceBuffer = [NSMutableArray new]);
++ (void)addTraceBlock:(void (^)())block {
+  @synchronized(traceBuffer) {
+    if (traceBuffer) {
+      static dispatch_once_t onceToken = 0;
+      dispatch_once(&onceToken, ^{
+        [traceBuffer addObject:^{
+          MSLogVerbose([MSMobileCenter logTag], @"Start buffering traces.");
+        }];
+      });
+      [traceBuffer addObject:block];
+    } else {
+      block();
+    }
+  }
 }
 
 + (IMP)originalSetDelegateImp {
@@ -225,7 +241,7 @@ static BOOL _enabled = YES;
   // Validate swizzling.
   if (!skipped) {
     if (!originalImp && !methodAdded) {
-      [self.traceBuffer addObject:^{
+      [self addTraceBlock:^{
         NSString *message = [NSString
             stringWithFormat:@"Cannot swizzle selector '%@' of class '%@'.", originalSelectorStr, originalClass];
         if (warningMsg) {
@@ -235,7 +251,7 @@ static BOOL _enabled = YES;
         }
       }];
     } else {
-      [self.traceBuffer addObject:^{
+      [self addTraceBlock:^{
         MSLogDebug([MSMobileCenter logTag], @"Selector '%@' of class '%@' is swizzled.", originalSelectorStr,
                    originalClass);
       }];
@@ -369,21 +385,6 @@ static BOOL _enabled = YES;
   [[MSAppDelegateForwarder sharedInstance] application:application
       didFailToRegisterForRemoteNotificationsWithError:error];
 }
-
-#if TARGET_OS_OSX
-- (void)custom_applicationDidFinishLaunching:(NSNotification *)notification {
-  IMP originalImp = NULL;
-
-  // Forward to the original delegate.
-  [MSAppDelegateForwarder.originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
-  if (originalImp) {
-    ((void (*)(id, SEL, NSNotification *))originalImp)(self, _cmd, notification);
-  }
-
-  // Forward to custom delegates.
-  [[MSAppDelegateForwarder sharedInstance] applicationDidFinishLaunching:(NSNotification *)notification];
-}
-#endif
 
 - (void)custom_application:(MSOriginalApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
   IMP originalImp = NULL;
@@ -530,15 +531,16 @@ static BOOL _enabled = YES;
 #pragma mark - Logging
 
 + (void)flushTraceBuffer {
-
-  // Only trace once.
-  static dispatch_once_t traceOnceToken;
-  dispatch_once(&traceOnceToken, ^{
-    for (dispatch_block_t traceBlock in self.traceBuffer) {
-      traceBlock();
+  if (traceBuffer) {
+    @synchronized(traceBuffer) {
+      for (dispatch_block_t traceBlock in traceBuffer) {
+        traceBlock();
+      }
+      [traceBuffer removeAllObjects];
+      traceBuffer = nil;
+      MSLogVerbose([MSMobileCenter logTag], @"Stop buffering traces, flushed.");
     }
-    [self.traceBuffer removeAllObjects];
-  });
+  }
 }
 
 #pragma mark - Testing

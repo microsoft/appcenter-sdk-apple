@@ -35,24 +35,6 @@
 }
 #endif
 
-#if TARGET_OS_OSX
-- (void)applicationDidFinishLaunching:(NSNotification *)notification {
-  NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
-  center.delegate = self;
-  [MSPush didReceiveNotification:notification];
-}
-
-/*
- * TODO This one is not an app delegate method but rather an NSUserNotificationCenter delegate method,
- * we can either have 2 classes or rename this one.
- */
-- (void)userNotificationCenter:(NSUserNotificationCenter *)__unused center
-       didActivateNotification:(NSUserNotification *)notification {
-  [MSPush didReceiveUserNotification:notification];
-}
-
-#endif
-
 @end
 
 #pragma mark - Swizzling
@@ -65,9 +47,7 @@
   [self addAppDelegateSelectorToSwizzle:@selector(application:didRegisterForRemoteNotificationsWithDeviceToken:)];
   [self addAppDelegateSelectorToSwizzle:@selector(application:didFailToRegisterForRemoteNotificationsWithError:)];
   [self addAppDelegateSelectorToSwizzle:@selector(application:didReceiveRemoteNotification:)];
-#if TARGET_OS_OSX
-  [self addAppDelegateSelectorToSwizzle:@selector(applicationDidFinishLaunching:)];
-#else
+#if !TARGET_OS_OSX
   [self addAppDelegateSelectorToSwizzle:@selector(application:didReceiveRemoteNotification:fetchCompletionHandler:)];
 #endif
 }

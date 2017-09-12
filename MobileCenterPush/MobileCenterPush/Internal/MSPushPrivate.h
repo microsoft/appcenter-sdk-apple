@@ -4,7 +4,11 @@
 
 @protocol MSAppDelegate;
 
+#if TARGET_OS_OSX
+@interface MSPush () <NSUserNotificationCenterDelegate>
+#else
 @interface MSPush ()
+#endif
 
 @property(nonatomic) id<MSPushDelegate> delegate;
 
@@ -38,5 +42,12 @@
  * Method registers notification settings and an application for remote notifications.
  */
 - (void)registerForRemoteNotifications;
+
+#if TARGET_OS_OSX
+/**
+ * Observer to register user notification center delegate when application launches.
+ */
+- (void)applicationDidFinishLaunching:(NSNotification *)notification;
+#endif
 
 @end
