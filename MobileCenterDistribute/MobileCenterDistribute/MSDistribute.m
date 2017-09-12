@@ -1,5 +1,4 @@
 #import <Foundation/Foundation.h>
-#import <SafariServices/SafariServices.h>
 
 #import "MSAppDelegateForwarder.h"
 #import "MSDistribute.h"
@@ -212,39 +211,35 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     // Most failures here require an app update. Thus, it will be retried only on next App instance.
     url = [self buildTokenRequestURLWithAppSecret:self.appSecret releaseHash:releaseHash];
     if (url) {
-
-/*
- * Only iOS 9.x and 10.x will download the update after users click the "Install" button.
- * We need to force-exit the application for other versions or for any versions when the update is mandatory.
- */
+      
+      /*
+       * Only iOS 9.x and 10.x will download the update after users click the "Install" button.
+       * We need to force-exit the application for other versions or for any versions when the update is mandatory.
+       */
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpartial-availability"
-      Class clazz = [SFSafariViewController class];
-      if (clazz && ![NSProcessInfo.processInfo isOperatingSystemAtLeastVersion:(NSOperatingSystemVersion){11, 0, 0}]) {
-
-        Class authClazz = [SFAuthenticationSession class];
-
-        // iOS 11
-        if (authClazz) {
-
-          // Manipulate App UI on the main queue.
+      if(@available(iOS 9.0, *)) {
+        Class clazz = [SFSafariViewController class];
+        if(@available(iOS 11.0, *)) {
+          
+          // iOS 11
           dispatch_async(dispatch_get_main_queue(), ^{
-            [self openURLInAuthenticationSessionWith:url fromClass:authClazz];
+            [self openURLInAuthenticationSessionWith:url fromClass:clazz];
           });
-        } else {
+        }
+        else {
+          
           // iOS 9 and 10
-
-          // Manipulate App UI on the main queue.
           dispatch_async(dispatch_get_main_queue(), ^{
             [self openURLInSafariViewControllerWithUrl:url fromClass:clazz];
           });
         }
-#pragma clang diagnostic pop
-      } else {
-
+      }
+      else {
         // iOS 8.x.
         [self openURLInSafariApp:url];
       }
+#pragma clang diagnostic pop
     }
   } else {
 

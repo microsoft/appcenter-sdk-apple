@@ -112,7 +112,7 @@ static NSString *const kMSDistributionGroupIdKey = @"MSDistributionGroupId";
 #pragma clang diagnostic ignored "-Wpartial-availability"
 @property(nullable, nonatomic) SFAuthenticationSession *authenticationSession;
 #pragma clang diagnostic pop
-#endif // __IPHONE_OS_VERSION_MAX_ALLOWED >= 110000
+#endif
 
 /**
  * Returns the singleton instance. Meant for testing/demo apps only.
