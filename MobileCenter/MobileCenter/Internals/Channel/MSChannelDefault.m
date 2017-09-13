@@ -422,12 +422,13 @@
            */
           UIApplication *sharedApplication = [MSUtility sharedApplication];
 
-          // Checking is sharedApplication is != nil as it can be nil on extensions.
+          // Checking if sharedApplication is != nil as it can be nil for extensions.
           if (sharedApplication) {
             __block UIBackgroundTaskIdentifier _backgroundTask =
                 [sharedApplication beginBackgroundTaskWithExpirationHandler:^{
                   [sharedApplication endBackgroundTask:_backgroundTask];
                   _backgroundTask = UIBackgroundTaskInvalid;
+                  [strongSelf suspend];
                 }];
           }
         }
