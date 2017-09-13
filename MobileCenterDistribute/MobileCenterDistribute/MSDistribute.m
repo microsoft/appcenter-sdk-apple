@@ -1,5 +1,5 @@
 #import <Foundation/Foundation.h>
-
+#import <SafariServices/SafariServices.h>
 #import "MSAppDelegateForwarder.h"
 #import "MSDistribute.h"
 #import "MSDistributeAppDelegate.h"
@@ -218,23 +218,32 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
  */
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpartial-availability"
-      if (@available(iOS 9.0, *)) {
+      Class clazz = [SFSafariViewController class];
+      if (clazz) {
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_11_0
         if (@available(iOS 11.0, *)) {
 
           // iOS 11
-          Class clazz = [SFAuthenticationSession class];
+          Class authClazz = [SFAuthenticationSession class];
           dispatch_async(dispatch_get_main_queue(), ^{
-            [self openURLInAuthenticationSession:url fromClass:clazz];
+            [self openURLInAuthenticationSessionWith:url fromClass:authClazz];
           });
         } else {
 
-          // iOS 9 and 10
-          Class clazz = [SFSafariViewController class];
+          // Compiling against iOS 11 but running on iOS 9 and 10.
           dispatch_async(dispatch_get_main_queue(), ^{
-            [self openURLInSafariViewControllerWithUrl:url fromClass:clazz];
+            [self openURLInSafariViewControllerWith:url fromClass:clazz];
           });
         }
+#else
+
+        // The app is not compiled against the iOS 11 SDK, use the logic for iOS 9 and 10.
+        dispatch_async(dispatch_get_main_queue(), ^{
+          [self openURLInSafariViewControllerWith:url fromClass:clazz];
+        });
+#endif
       } else {
+        
         // iOS 8.x.
         [self openURLInSafariApp:url];
       }
@@ -449,11 +458,10 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   return components.URL;
 }
 
-- (void)openURLInAuthenticationSession:(NSURL *)url fromClass:(Class)clazz {
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_11_0
+- (void)openURLInAuthenticationSessionWith:(NSURL *)url fromClass:(Class)clazz {
   MSLogDebug([MSDistribute logTag], @"Using SFAuthenticationSession to open URL: %@", url);
-
   NSString *callbackUrlScheme = [NSString stringWithFormat:kMSDefaultCustomSchemeFormat, self.appSecret];
-
   if (@available(iOS 11.0, *)) {
     SFAuthenticationSession *session = [[clazz alloc]
               initWithURL:url
@@ -479,8 +487,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     }
   }
 }
+#endif
 
-- (void)openURLInSafariViewControllerWithUrl:(NSURL *)url fromClass:(Class)clazz {
+- (void)openURLInSafariViewControllerWith:(NSURL *)url fromClass:(Class)clazz {
   MSLogDebug([MSDistribute logTag], @"Using SFSafariViewController to open URL: %@", url);
 
   // Init safari controller with the install URL.
@@ -590,13 +599,13 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 }
 
 - (BOOL)checkForUpdatesAllowed {
-
-  // Check if we are not in AppStore or TestFlight environments.
-  BOOL environmentOkay = [MSUtility currentAppEnvironment] == MSEnvironmentOther;
-
-  // Check if a debugger is attached.
-  BOOL noDebuggerAttached = ![MSMobileCenter isDebuggerAttached];
-  return environmentOkay && noDebuggerAttached;
+  return YES;
+  //  // Check if we are not in AppStore or TestFlight environments.
+  //  BOOL environmentOkay = [MSUtility currentAppEnvironment] == MSEnvironmentOther;
+  //
+  //  // Check if a debugger is attached.
+  //  BOOL noDebuggerAttached = ![MSMobileCenter isDebuggerAttached];
+  //  return environmentOkay && noDebuggerAttached;
 }
 
 - (BOOL)isNewerVersion:(MSReleaseDetails *)details {
