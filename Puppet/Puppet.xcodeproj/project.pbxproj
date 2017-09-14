@@ -32,6 +32,7 @@
 		5CE60DF11EDF0B670060303A /* MSCrashResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CE60DF01EDF0B670060303A /* MSCrashResultViewController.m */; };
 		6EC99A211D4151A00016C325 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A201D4151A00016C325 /* CrashReporter.framework */; };
 		6EC99A281D4152FA0016C325 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A271D4152FA0016C325 /* libc++.tbd */; };
+		80493AB71F6A701900E6E895 /* MSPushViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 80493AB61F6A701900E6E895 /* MSPushViewController.m */; };
 		808A10FC1EF312A000DFD41B /* MSPropertiesTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 808A10F91EF312A000DFD41B /* MSPropertiesTableDataSource.m */; };
 		808A10FD1EF312A000DFD41B /* MSPropertyViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 808A10FB1EF312A000DFD41B /* MSPropertyViewCell.m */; };
 		B21B26C71DDE490400FF0378 /* MSCrashesDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B21B26C61DDE490400FF0378 /* MSCrashesDetailViewController.m */; };
@@ -240,6 +241,27 @@
 			remoteGlobalIDString = E82E1B5E1D1CA58D00D281C1;
 			remoteInfo = Puppet;
 		};
+		80493AC31F6A701A00E6E895 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E82E1B821D1CA63000D281C1 /* MobileCenter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0446DF2B1F3B864600C8E338;
+			remoteInfo = MobileCenterTVOSTests;
+		};
+		80493AD01F6A701A00E6E895 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E85547FB1D2D6C8D002DF6E2 /* MobileCenterAnalytics.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0446DF541F3B8E6300C8E338;
+			remoteInfo = MobileCenterAnalyticsTVOSTests;
+		};
+		80493ADD1F6A701A00E6E895 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E82E1B7C1D1CA62900D281C1 /* MobileCenterCrashes.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0446DF9D1F3B977100C8E338;
+			remoteInfo = MobileCenterCrashesTVOSTests;
+		};
 		B2C070CA1E5F59A90076D6A9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0471B91E1E4550670022F951 /* MobileCenterDistribute.xcodeproj */;
@@ -367,6 +389,8 @@
 		6EC99A201D4151A00016C325 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = ../../Vendor/PLCrashReporter/CrashReporter.framework; sourceTree = "<group>"; };
 		6EC99A251D4152EB0016C325 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		6EC99A271D4152FA0016C325 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		80493AB51F6A701900E6E895 /* MSPushViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSPushViewController.h; sourceTree = "<group>"; };
+		80493AB61F6A701900E6E895 /* MSPushViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSPushViewController.m; sourceTree = "<group>"; };
 		808A10F81EF312A000DFD41B /* MSPropertiesTableDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSPropertiesTableDataSource.h; path = ../../Vendor/Common/Utils/MSPropertiesTableDataSource.h; sourceTree = "<group>"; };
 		808A10F91EF312A000DFD41B /* MSPropertiesTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSPropertiesTableDataSource.m; path = ../../Vendor/Common/Utils/MSPropertiesTableDataSource.m; sourceTree = "<group>"; };
 		808A10FA1EF312A000DFD41B /* MSPropertyViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSPropertyViewCell.h; path = ../../Vendor/Common/Utils/MSPropertyViewCell.h; sourceTree = "<group>"; };
@@ -613,6 +637,7 @@
 				046AEAA91ECA509000CBE511 /* libMobileCenterCrashes.a */,
 				046AEAAB1ECA509000CBE511 /* MobileCenterCrashes.xctest */,
 				04EBBF1C1F01CCBE0006B8AE /* libMobileCenterCrashes.a */,
+				80493ADE1F6A701A00E6E895 /* MobileCenterCrashes.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -625,6 +650,7 @@
 				046AEA9A1ECA509000CBE511 /* libMobileCenter.a */,
 				048494D11ECCD9E40020B0FC /* MobileCenter.xctest */,
 				04685E661EE776AC00A1592F /* libMobileCenter.a */,
+				80493AC41F6A701A00E6E895 /* MobileCenter.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -637,6 +663,7 @@
 				046AEAA11ECA509000CBE511 /* libMobileCenterAnalytics.a */,
 				048494D91ECCD9E40020B0FC /* MobileCenterAnalytics.xctest */,
 				04685E701EE776AC00A1592F /* libMobileCenterAnalytics.a */,
+				80493AD11F6A701A00E6E895 /* MobileCenterAnalytics.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -668,6 +695,8 @@
 				B2E611F41DDE72BA00A9DF86 /* MSFakeCXXClass.mm */,
 				E89E6A2A1D396D7900CAA2CD /* MSMainViewController.h */,
 				E89E6A2B1D396D7900CAA2CD /* MSMainViewController.m */,
+				80493AB51F6A701900E6E895 /* MSPushViewController.h */,
+				80493AB61F6A701900E6E895 /* MSPushViewController.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -958,6 +987,27 @@
 			remoteRef = 04EBBF1B1F01CCBE0006B8AE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		80493AC41F6A701A00E6E895 /* MobileCenter.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MobileCenter.xctest;
+			remoteRef = 80493AC31F6A701A00E6E895 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		80493AD11F6A701A00E6E895 /* MobileCenterAnalytics.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MobileCenterAnalytics.xctest;
+			remoteRef = 80493AD01F6A701A00E6E895 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		80493ADE1F6A701A00E6E895 /* MobileCenterCrashes.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MobileCenterCrashes.xctest;
+			remoteRef = 80493ADD1F6A701A00E6E895 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		B2C070CB1E5F59A90076D6A9 /* MobileCenterDistributeResources.bundle */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
@@ -1077,6 +1127,7 @@
 				808A10FC1EF312A000DFD41B /* MSPropertiesTableDataSource.m in Sources */,
 				E89E6A301D39704900CAA2CD /* MSAnalyticsViewController.m in Sources */,
 				E82E1B641D1CA58D00D281C1 /* main.m in Sources */,
+				80493AB71F6A701900E6E895 /* MSPushViewController.m in Sources */,
 				808A10FD1EF312A000DFD41B /* MSPropertyViewCell.m in Sources */,
 				BA6827C9F0410233C245D989 /* MSDistributeViewController.m in Sources */,
 				5CE60DF11EDF0B670060303A /* MSCrashResultViewController.m in Sources */,
