@@ -3,6 +3,7 @@
 @import MobileCenter;
 @import MobileCenterAnalytics;
 @import MobileCenterCrashes;
+@import MobileCenterPush;
 
 /**
  * MobileCenterDelegate implementation in Objective C.
@@ -40,11 +41,17 @@
 - (BOOL)isCrashesEnabled {
   return [MSCrashes isEnabled];
 }
+- (BOOL)isPushEnabled {
+  return [MSPush isEnabled];
+}
 - (void)setAnalyticsEnabled:(BOOL)isEnabled {
   return [MSAnalytics setEnabled:isEnabled];
 }
 - (void)setCrashesEnabled:(BOOL)isEnabled {
   return [MSCrashes setEnabled:isEnabled];
+}
+- (void)setPushEnabled:(BOOL)isEnabled {
+  return [MSPush setEnabled:isEnabled];
 }
 
 #pragma mark - MSAnalytics section.
