@@ -25,7 +25,7 @@ static NSString *const kMSTestReleaseHash = @"RELEASEHASH";
 static NSString *const kMSDistributeServiceName = @"Distribute";
 
 // Mocked SFSafariViewController for url validation.
-@interface SFSafariViewController : UIViewController
+@interface SFSafariViewControllerMock : UIViewController
 
 @property(class, nonatomic) NSURL *url;
 
@@ -35,7 +35,7 @@ static NSString *const kMSDistributeServiceName = @"Distribute";
 
 static NSURL *sfURL;
 
-@implementation SFSafariViewController
+@implementation SFSafariViewControllerMock
 
 - (instancetype)initWithURL:(NSURL *)url {
   if ((self = [self init])) {
@@ -229,7 +229,7 @@ static NSURL *sfURL;
 
   // When
   @try {
-    [self.sut openURLInSafariViewControllerWith:url fromClass:[SFSafariViewController class]];
+    [self.sut openURLInSafariViewControllerWith:url fromClass:[SFSafariViewControllerMock class]];
   } @catch (__attribute__((unused)) NSException *ex) {
 
     /**
@@ -239,7 +239,7 @@ static NSURL *sfURL;
   }
 
   // Then
-  assertThat(SFSafariViewController.url, is(url));
+  assertThat(SFSafariViewControllerMock.url, is(url));
 }
 
 - (void)testSetApiUrlWorks {
