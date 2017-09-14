@@ -167,6 +167,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   XCTestExpectation *notificationReceived = [self expectationWithDescription:@"Valid notification received."];
   id pushMock = OCMPartialMock(self.sut);
   OCMStub([pushMock sharedInstance]).andReturn(pushMock);
+  OCMStub([pushMock canBeUsed]).andReturn(YES);
   [MSPush resetSharedInstance];
   id pushDelegateMock = OCMProtocolMock(@protocol(MSPushDelegate));
   __block MSPushNotification *pushNotification = nil;
@@ -188,7 +189,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   OCMStub([userNotificationUserInfoMock userInfo]).andReturn(userInfo);
 #endif
 
-// When
+  // When
 #if TARGET_OS_OSX
   [self.sut applicationDidFinishLaunching:notificationMock];
 #else
@@ -227,6 +228,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   XCTestExpectation *notificationReceived = [self expectationWithDescription:@"Valid notification received."];
   id pushMock = OCMPartialMock(self.sut);
   OCMStub([pushMock sharedInstance]).andReturn(pushMock);
+  OCMStub([pushMock canBeUsed]).andReturn(YES);
   [MSPush resetSharedInstance];
   id pushDelegateMock = OCMProtocolMock(@protocol(MSPushDelegate));
   __block MSPushNotification *pushNotification = nil;
@@ -245,7 +247,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   OCMStub([userNotificationUserInfoMock userInfo]).andReturn(userInfo);
 #endif
 
-// When
+  // When
 #if TARGET_OS_OSX
   [self.sut applicationDidFinishLaunching:notificationMock];
 #else
@@ -378,5 +380,64 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 
   [pushMock stopMocking];
 }
+
+#if TARGET_OS_OSX
+
+- (void)testUserNotificationCenterDelegateBeforePushStart {
+
+  // If
+  id userNotificationMock = OCMClassMock([NSUserNotification class]);
+  id userNotificationCenterDelegateMock = OCMProtocolMock(@protocol(NSUserNotificationCenterDelegate));
+  id userNotificationCenterMock = OCMClassMock([NSUserNotificationCenter class]);
+  OCMStub([userNotificationCenterMock defaultUserNotificationCenter]).andReturn(userNotificationCenterMock);
+  OCMStub([userNotificationCenterMock delegate]).andReturn(userNotificationCenterDelegateMock);
+
+  // When
+  self.sut = [MSPush new];
+  id pushMock = OCMPartialMock(self.sut);
+  [pushMock userNotificationCenter:userNotificationCenterMock didActivateNotification:userNotificationMock];
+
+  // Then
+  OCMVerify([pushMock didReceiveUserNotification:userNotificationMock]);
+  OCMVerify([userNotificationCenterDelegateMock userNotificationCenter:userNotificationCenterMock
+                                               didActivateNotification:userNotificationMock]);
+
+  [pushMock stopMocking];
+}
+
+- (void)testUserNotificationCenterDelegateAfterPushStart {
+
+  // If
+  id userNotificationMock = OCMClassMock([NSUserNotification class]);
+  id userNotificationCenterDelegateMock = OCMProtocolMock(@protocol(NSUserNotificationCenterDelegate));
+  id userNotificationCenterMock = OCMClassMock([NSUserNotificationCenter class]);
+  OCMStub([userNotificationCenterMock defaultUserNotificationCenter]).andReturn(userNotificationCenterMock);
+
+  // When
+  self.sut = [MSPush new];
+  id pushMock = OCMPartialMock(self.sut);
+  [pushMock userNotificationCenter:userNotificationCenterMock didActivateNotification:userNotificationMock];
+
+  // Then
+  OCMVerify([pushMock didReceiveUserNotification:userNotificationMock]);
+
+  // When
+  [pushMock observeValueForKeyPath:@"delegate"
+                          ofObject:nil
+                            change:@{
+                              @"new" : userNotificationCenterDelegateMock
+                            }
+                           context:[MSPush userNotificationCenterDelegateContext]];
+  [pushMock userNotificationCenter:userNotificationCenterMock didActivateNotification:userNotificationMock];
+
+  // Then
+  OCMVerify([pushMock didReceiveUserNotification:userNotificationMock]);
+  OCMVerify([userNotificationCenterDelegateMock userNotificationCenter:userNotificationCenterMock
+                                               didActivateNotification:userNotificationMock]);
+
+  [pushMock stopMocking];
+}
+
+#endif
 
 @end

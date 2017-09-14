@@ -114,6 +114,11 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
     [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
   }
 }
+
++ (void *)userNotificationCenterDelegateContext {
+  return UserNotificationCenterDelegateContext;
+}
+
 #endif
 
 #pragma mark - MSServiceInternal
@@ -318,7 +323,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
   if (customData) {
 
     // If Push is disabled, discard the notification.
-    if (![MSPush isEnabled]) {
+    if (![[self class] isEnabled]) {
       MSLogVerbose(
           [MSPush logTag],
           @"Notification received while Push was enabled but Push is not disabled now, discard the notification.");
