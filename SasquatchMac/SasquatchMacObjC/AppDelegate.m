@@ -7,6 +7,8 @@
 @import MobileCenterCrashes;
 @import MobileCenterPush;
 
+static NSString *const kSMLogTag = @"[SasquatchMac]";
+
 @implementation AppDelegate
 
 - (instancetype)init {
@@ -30,14 +32,14 @@
 - (void)setupCrashes {
   if ([MSCrashes hasCrashedInLastSession]) {
     MSErrorReport *errorReport = [MSCrashes lastSessionCrashReport];
-    NSLog(@"We crashed with Signal: %@", errorReport.signal);
+    NSLog(@"%@ We crashed with Signal: %@", kSMLogTag, errorReport.signal);
     MSDevice *device = [errorReport device];
     NSString *osVersion = [device osVersion];
     NSString *appVersion = [device appVersion];
     NSString *appBuild = [device appBuild];
-    NSLog(@"OS Version is: %@", osVersion);
-    NSLog(@"App Version is: %@", appVersion);
-    NSLog(@"App Build is: %@", appBuild);
+    NSLog(@"%@ OS Version is: %@", kSMLogTag, osVersion);
+    NSLog(@"%@ App Version is: %@", kSMLogTag, appVersion);
+    NSLog(@"%@ App Build is: %@", kSMLogTag, appBuild);
   }
 
   [MSCrashes setDelegate:self];
@@ -77,28 +79,49 @@
 
 - (void)setupPush {
   [MSPush setDelegate:self];
+  [NSUserNotificationCenter defaultUserNotificationCenter].delegate = self;
 }
 
 #pragma mark - MSCrashesDelegate
 
 - (BOOL)crashes:(MSCrashes *)crashes shouldProcessErrorReport:(MSErrorReport *)errorReport {
-  NSLog(@"Should process error report with: %@", errorReport.exceptionReason);
+  NSLog(@"%@ Should process error report with: %@", kSMLogTag, errorReport.exceptionReason);
   return YES;
 }
 
 - (void)crashes:(MSCrashes *)crashes willSendErrorReport:(MSErrorReport *)errorReport {
-  NSLog(@"Will send error report with: %@", errorReport.exceptionReason);
+  NSLog(@"%@ Will send error report with: %@", kSMLogTag, errorReport.exceptionReason);
 }
 
 - (void)crashes:(MSCrashes *)crashes didSucceedSendingErrorReport:(MSErrorReport *)errorReport {
-  NSLog(@"Did succeed error report sending with: %@", errorReport.exceptionReason);
+  NSLog(@"%@ Did succeed error report sending with: %@", kSMLogTag, errorReport.exceptionReason);
 }
 
 - (void)crashes:(MSCrashes *)crashes didFailSendingErrorReport:(MSErrorReport *)errorReport withError:(NSError *)error {
-  NSLog(@"Did fail sending report with: %@, and error: %@", errorReport.exceptionReason, error.localizedDescription);
+  NSLog(@"%@ Did fail sending report with: %@, and error: %@", kSMLogTag, errorReport.exceptionReason,
+        error.localizedDescription);
 }
 
 #pragma mark - MSPushDelegate
+
+- (void)application:(NSApplication *)application
+    didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+  NSLog(@"%@ Did register for remote notifications with device token.", kSMLogTag);
+}
+
+- (void)application:(NSApplication *)application
+    didFailToRegisterForRemoteNotificationsWithError:(nonnull NSError *)error {
+  NSLog(@"%@ Did fail to register for remote notifications with error %@.", kSMLogTag, [error localizedDescription]);
+}
+
+- (void)application:(NSApplication *)application didReceiveRemoteNotification:(NSDictionary<NSString *, id> *)userInfo {
+  NSLog(@"%@ Did receive remote notification", kSMLogTag);
+}
+
+- (void)userNotificationCenter:(NSUserNotificationCenter *)center
+       didActivateNotification:(NSUserNotification *)notification {
+  NSLog(@"%@ Did receive user notification", kSMLogTag);
+}
 
 - (void)push:(MSPush *)push didReceivePushNotification:(MSPushNotification *)pushNotification {
 

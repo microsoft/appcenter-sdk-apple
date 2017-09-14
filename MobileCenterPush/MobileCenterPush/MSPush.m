@@ -38,10 +38,19 @@ static NSString *const kMSPushNotificationMessageKey = @"body";
 static NSString *const kMSPushNotificationCustomDataKey = @"mobile_center";
 
 /**
+ * Key for NSUserNotificationCenter delegate property.
+ */
+static NSString *const kMSUserNotificationCenterDelegateKey = @"delegate";
+
+/**
  * Singleton
  */
 static MSPush *sharedInstance = nil;
 static dispatch_once_t onceToken;
+#if TARGET_OS_OSX
+static id<NSUserNotificationCenterDelegate> userNotificationCenterDelegate;
+static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDelegateContext;
+#endif
 
 @implementation MSPush
 
@@ -55,9 +64,57 @@ static dispatch_once_t onceToken;
     // Init channel configuration.
     _channelConfiguration = [[MSChannelConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
     _appDelegate = [MSPushAppDelegate new];
+
+#if TARGET_OS_OSX
+    NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
+
+    /*
+     * If there is a user notification center delegate already set by a customer before starting Push, assign the
+     * delegate to custom user notification center delegate.
+     */
+    if (center.delegate) {
+      userNotificationCenterDelegate = center.delegate;
+    }
+
+    // Set a delegate that will forward notifications to Push as well as a customer's delegate.
+    center.delegate = self;
+
+    // Observe delegate property changes.
+    [center addObserver:self
+             forKeyPath:kMSUserNotificationCenterDelegateKey
+                options:NSKeyValueObservingOptionNew
+                context:UserNotificationCenterDelegateContext];
+#endif
   }
   return self;
 }
+
+#if TARGET_OS_OSX
+- (void)dealloc {
+  [[NSUserNotificationCenter defaultUserNotificationCenter] removeObserver:self
+                                                                forKeyPath:kMSUserNotificationCenterDelegateKey
+                                                                   context:UserNotificationCenterDelegateContext];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context {
+  if (context == UserNotificationCenterDelegateContext &&
+      [keyPath isEqualToString:kMSUserNotificationCenterDelegateKey]) {
+    userNotificationCenterDelegate = [change objectForKey:NSKeyValueChangeNewKey];
+    NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
+    [center removeObserver:self forKeyPath:keyPath];
+    center.delegate = self;
+    [center addObserver:self
+             forKeyPath:keyPath
+                options:NSKeyValueObservingOptionNew
+                context:UserNotificationCenterDelegateContext];
+  } else {
+    [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+  }
+}
+#endif
 
 #pragma mark - MSServiceInternal
 
@@ -111,7 +168,6 @@ static dispatch_once_t onceToken;
   [super applyEnabledState:isEnabled];
   if (isEnabled) {
 #if TARGET_OS_OSX
-    [NSUserNotificationCenter defaultUserNotificationCenter].delegate = self;
     [MS_NOTIFICATION_CENTER addObserver:self
                                selector:@selector(applicationDidFinishLaunching:)
                                    name:NSApplicationDidFinishLaunchingNotification
@@ -124,7 +180,6 @@ static dispatch_once_t onceToken;
     MSLogInfo([MSPush logTag], @"Push service has been enabled.");
   } else {
 #if TARGET_OS_OSX
-    [NSUserNotificationCenter defaultUserNotificationCenter].delegate = nil;
     [MS_NOTIFICATION_CENTER removeObserver:self name:NSApplicationDidFinishLaunchingNotification object:nil];
 #endif
     [MSAppDelegateForwarder removeDelegate:self.appDelegate];
@@ -219,9 +274,12 @@ static dispatch_once_t onceToken;
   [self didReceiveUserNotification:[notification.userInfo objectForKey:NSApplicationLaunchUserNotificationKey]];
 }
 
-- (void)userNotificationCenter:(NSUserNotificationCenter *)__unused center
+- (void)userNotificationCenter:(NSUserNotificationCenter *)center
        didActivateNotification:(NSUserNotification *)notification {
   [self didReceiveUserNotification:notification];
+  if ([userNotificationCenterDelegate respondsToSelector:@selector(userNotificationCenter:didActivateNotification:)]) {
+    [userNotificationCenterDelegate userNotificationCenter:center didActivateNotification:notification];
+  }
 }
 #endif
 
@@ -258,6 +316,15 @@ static dispatch_once_t onceToken;
   // The notification is not for Mobile Center if customData is nil. Ignore the notification.
   NSDictionary *customData = [userInfo objectForKey:kMSPushNotificationCustomDataKey];
   if (customData) {
+
+    // If Push is disabled, discard the notification.
+    if (![MSPush isEnabled]) {
+      MSLogVerbose(
+          [MSPush logTag],
+          @"Notification received while Push was enabled but Push is not disabled now, discard the notification.");
+      return YES;
+    }
+
     MSLogDebug([MSPush logTag], @"Notification received.\nTitle: %@\nMessage:%@\nCustom data: %@", title, message,
                [customData description]);
 
