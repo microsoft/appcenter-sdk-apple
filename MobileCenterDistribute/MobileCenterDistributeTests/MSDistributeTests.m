@@ -1055,7 +1055,8 @@ static NSURL *sfURL;
   OCMVerify([distributeMock requestInstallInformationWith:kMSTestReleaseHash]);
 
   // If, private distribution
-  [MSKeychainUtil storeString:@"UpdateToken" forKey:kMSUpdateTokenKey];
+  id keychainUtilMock = OCMClassMock([MSKeychainUtil class]);
+  OCMStub([keychainUtilMock stringForKey:kMSUpdateTokenKey]).andReturn(@"UpdateToken");
   [self.settingsMock setObject:@"DistributionGroupId" forKey:kMSDistributionGroupIdKey];
 
   // When
