@@ -1,6 +1,7 @@
 import MobileCenter
 import MobileCenterAnalytics
 import MobileCenterCrashes
+import MobileCenterPush
 
 /**
  * MobileCenterDelegate implementation in Swift.
@@ -38,11 +39,17 @@ class MobileCenterDelegateSwift : MobileCenterDelegate {
   func isCrashesEnabled() -> Bool {
     return MSCrashes.isEnabled()
   }
+  func isPushEnabled() -> Bool {
+    return MSPush.isEnabled()
+  }
   func setAnalyticsEnabled(_ isEnabled: Bool) {
     MSAnalytics.setEnabled(isEnabled)
   }
   func setCrashesEnabled(_ isEnabled: Bool) {
     MSCrashes.setEnabled(isEnabled)
+  }
+  func setPushEnabled(_ isEnabled: Bool) {
+    MSPush.setEnabled(isEnabled)
   }
 
   //MARK: MSAnalytics section.
