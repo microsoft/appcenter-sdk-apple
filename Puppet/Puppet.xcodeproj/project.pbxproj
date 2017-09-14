@@ -233,6 +233,27 @@
 			remoteGlobalIDString = 6E0401321D1C98690051BCFA;
 			remoteInfo = MobileCenterCrashes;
 		};
+		388CCA081F699BFF00780C59 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E82E1B821D1CA63000D281C1 /* MobileCenter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0446DF2B1F3B864600C8E338;
+			remoteInfo = MobileCenterTVOSTests;
+		};
+		388CCA151F699BFF00780C59 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E85547FB1D2D6C8D002DF6E2 /* MobileCenterAnalytics.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0446DF541F3B8E6300C8E338;
+			remoteInfo = MobileCenterAnalyticsTVOSTests;
+		};
+		388CCA221F699BFF00780C59 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E82E1B7C1D1CA62900D281C1 /* MobileCenterCrashes.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0446DF9D1F3B977100C8E338;
+			remoteInfo = MobileCenterCrashesTVOSTests;
+		};
 		5CE2583C1EA5097100DA8FB9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E82E1B571D1CA58D00D281C1 /* Project object */;
@@ -613,6 +634,7 @@
 				046AEAA91ECA509000CBE511 /* libMobileCenterCrashes.a */,
 				046AEAAB1ECA509000CBE511 /* MobileCenterCrashes.xctest */,
 				04EBBF1C1F01CCBE0006B8AE /* libMobileCenterCrashes.a */,
+				388CCA231F699BFF00780C59 /* MobileCenterCrashes.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -625,6 +647,7 @@
 				046AEA9A1ECA509000CBE511 /* libMobileCenter.a */,
 				048494D11ECCD9E40020B0FC /* MobileCenter.xctest */,
 				04685E661EE776AC00A1592F /* libMobileCenter.a */,
+				388CCA091F699BFF00780C59 /* MobileCenter.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -637,6 +660,7 @@
 				046AEAA11ECA509000CBE511 /* libMobileCenterAnalytics.a */,
 				048494D91ECCD9E40020B0FC /* MobileCenterAnalytics.xctest */,
 				04685E701EE776AC00A1592F /* libMobileCenterAnalytics.a */,
+				388CCA161F699BFF00780C59 /* MobileCenterAnalytics.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -788,6 +812,9 @@
 						DevelopmentTeam = L4RARDNZ2Y;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.Push = {
 								enabled = 1;
 							};
@@ -956,6 +983,27 @@
 			fileType = archive.ar;
 			path = libMobileCenterCrashes.a;
 			remoteRef = 04EBBF1B1F01CCBE0006B8AE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		388CCA091F699BFF00780C59 /* MobileCenter.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MobileCenter.xctest;
+			remoteRef = 388CCA081F699BFF00780C59 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		388CCA161F699BFF00780C59 /* MobileCenterAnalytics.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MobileCenterAnalytics.xctest;
+			remoteRef = 388CCA151F699BFF00780C59 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		388CCA231F699BFF00780C59 /* MobileCenterCrashes.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MobileCenterCrashes.xctest;
+			remoteRef = 388CCA221F699BFF00780C59 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		B2C070CB1E5F59A90076D6A9 /* MobileCenterDistributeResources.bundle */ = {
