@@ -13,7 +13,10 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
     crashesTableView.dataSource = self
     crashesTableView.delegate = self
     mobileCenter = MobileCenterProvider.shared().mobileCenter
-    setEnabledButton?.state = mobileCenter!.isCrashesEnabled() ? 1 : 0
+  }
+
+  override func viewWillAppear() {
+    setEnabledButton?.state = mobileCenter!.isCrashesEnabled() ? 1 : 0;
   }
 
   @IBAction func setEnabled(sender : NSButton) {
