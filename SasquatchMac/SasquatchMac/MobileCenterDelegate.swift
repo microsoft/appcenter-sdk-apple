@@ -18,8 +18,10 @@ import Foundation
   // Modules section.
   func isAnalyticsEnabled() -> Bool
   func isCrashesEnabled() -> Bool
+  func isPushEnabled() -> Bool
   func setAnalyticsEnabled(_ isEnabled: Bool)
   func setCrashesEnabled(_ isEnabled: Bool)
+  func setPushEnabled(_ isEnabled: Bool)
   
   // MSAnalytics section.
   func trackEvent(_ eventName: String)
