@@ -21,22 +21,17 @@
   [MSMobileCenter start:@"4b3f7d94-c64b-4aac-94f5-894c55c64bfe"
            withServices:@[ [MSAnalytics class], [MSCrashes class], [MSPush class] ]];
   [MobileCenterProvider shared].mobileCenter = [[MobileCenterDelegateObjC alloc] init];
-  [self updateMobileCenterState];
+
+  [self initUI];
 }
 
 #pragma mark - Private
 
-- (void)updateMobileCenterState {
-  NSTabViewController *tabViewController = (NSTabViewController *) NSApplication.sharedApplication.mainWindow.contentViewController;
-  for (NSTabViewItem *tabViewItem in tabViewController.tabViewItems) {
-    if ([tabViewItem.viewController isKindOfClass:[MobileCenterViewController class]]) {
-      [((MobileCenterViewController *) tabViewItem.viewController) updateMCState];
-    } else if ([tabViewItem.viewController isKindOfClass:[AnalyticsViewController class]]) {
-      [((AnalyticsViewController *) tabViewItem.viewController) updateMCState];
-    } else {
-      [((CrashesViewController *) tabViewItem.viewController) updateMCState];
-    }
-  }
+- (void)initUI {
+  NSStoryboard *mainStoryboard = [NSStoryboard storyboardWithName:@"SasquatchMac" bundle:nil];
+  NSWindowController *rootController = (NSWindowController *)[mainStoryboard instantiateControllerWithIdentifier:@"rootController"];
+  [rootController showWindow:self];
+  [rootController.window makeKeyAndOrderFront:self];
 }
 
 - (void)setupCrashes {

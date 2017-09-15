@@ -38,17 +38,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
     MSMobileCenter.start("c62b8db6-191e-496a-b1a1-267b9bf326c4", withServices : [ MSAnalytics.self, MSCrashes.self, MSPush.self ])
 
     MobileCenterProvider.shared().mobileCenter = MobileCenterDelegateSwift()
-    updateMobileCenterState()
+    
+    initUI()
   }
 
-  func updateMobileCenterState() {
-    if let sasquatchMacView = NSApplication.shared().mainWindow?.contentViewController as? NSTabViewController {
-      for tabViewItem in sasquatchMacView.tabViewItems {
-        (tabViewItem.viewController as? MobileCenterViewController)?.updateMCState()
-        (tabViewItem.viewController as? AnalyticsViewController)?.updateMCState()
-        (tabViewItem.viewController as? CrashesViewController)?.updateMCState()
-      }
-    }
+  func initUI() {
+    let mainStoryboard = NSStoryboard.init(name: "SasquatchMac", bundle: nil)
+    let rootController = mainStoryboard.instantiateController(withIdentifier: "rootController") as! NSWindowController
+    rootController.showWindow(self)
+    rootController.window?.makeKeyAndOrderFront(self)
   }
 
   // Crashes Delegate
