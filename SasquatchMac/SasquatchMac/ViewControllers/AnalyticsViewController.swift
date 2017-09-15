@@ -4,145 +4,138 @@ import Cocoa
 class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTableViewDelegate {
 
   private enum CellIdentifiers {
-    static let keyCellId = "keyCellId";
-    static let valueCellId = "valueCellId";
+    static let keyCellId = "keyCellId"
+    static let valueCellId = "valueCellId"
   }
 
-  var mobileCenter: MobileCenterDelegate?;
+  var mobileCenter: MobileCenterDelegate = MobileCenterProvider.shared().mobileCenter!
 
-  @IBOutlet var setEnabledButton : NSButton?;
-  @IBOutlet var table : NSTableView?;
+  @IBOutlet var setEnabledButton : NSButton?
+  @IBOutlet var table : NSTableView?
 
-  private var properties : [String : String] = [String : String]();
-  private var textBeforeEditing : String = "";
-  private var totalPropsCounter : Int = 0;
+  private var properties : [String : String] = [String : String]()
+  private var textBeforeEditing : String = ""
+  private var totalPropsCounter : Int = 0
 
   override func viewDidLoad() {
-    super.viewDidLoad();
-    updateMCState();
-    table?.delegate = self;
-    table?.dataSource = self;
-    NotificationCenter.default.addObserver(self, selector: #selector(self.editingDidBegin), name: .NSControlTextDidBeginEditing, object: nil);
-    NotificationCenter.default.addObserver(self, selector: #selector(self.editingDidEnd), name: .NSControlTextDidEndEditing, object: nil);
-  }
-
-  func updateMCState() {
-    mobileCenter = MobileCenterProvider.shared().mobileCenter;
-    setEnabledButton?.state = (mobileCenter?.isAnalyticsEnabled() ?? false) ? 1 : 0;
+    super.viewDidLoad()
+    setEnabledButton?.state = mobileCenter.isAnalyticsEnabled() ? 1 : 0
+    table?.delegate = self
+    table?.dataSource = self
+    NotificationCenter.default.addObserver(self, selector: #selector(self.editingDidBegin), name: .NSControlTextDidBeginEditing, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(self.editingDidEnd), name: .NSControlTextDidEndEditing, object: nil)
   }
 
   override func viewDidDisappear() {
-    super.viewDidDisappear();
-    NotificationCenter.default.removeObserver(self);
+    super.viewDidDisappear()
+    NotificationCenter.default.removeObserver(self)
   }
 
   @IBAction func trackEvent(_ : AnyObject) {
-    if let `mobileCenter` = mobileCenter {
-      mobileCenter.trackEvent("myEvent", withProperties: properties);
-    }
+    mobileCenter.trackEvent("myEvent", withProperties: properties)
   }
 
   @IBAction func trackPage(_ : AnyObject) {
-    NSLog("trackPageWithProperties: %d", properties.count);
+    NSLog("trackPageWithProperties: %d", properties.count)
   }
 
   @IBAction func addProperty(_ : AnyObject) {
-    let newKey = String(format:"key%d",totalPropsCounter);
-    let newValue = String(format:"value%d",totalPropsCounter);
+    let newKey = String(format:"key%d",totalPropsCounter)
+    let newValue = String(format:"value%d",totalPropsCounter)
 
-    self.properties.updateValue(newValue, forKey: newKey);
-    table?.reloadData();
+    self.properties.updateValue(newValue, forKey: newKey)
+    table?.reloadData()
 
-    totalPropsCounter+=1;
+    totalPropsCounter+=1
   }
 
   @IBAction func deleteProperty(_ : AnyObject) {
     if properties.isEmpty {
-      return;
+      return
     }
     guard let `table` = table else {
-      return;
+      return
     }
     if (table.selectedRow < 0) {
-      _ = properties.popFirst();
+      _ = properties.popFirst()
     } else {
-      let key : String = Array(properties.keys)[table.selectedRow];
-      _ = properties.removeValue(forKey: key);
+      let key : String = Array(properties.keys)[table.selectedRow]
+      _ = properties.removeValue(forKey: key)
     }
-    table.reloadData();
+    table.reloadData()
   }
 
   @IBAction func setEnabled(sender : NSButton) {
-    mobileCenter?.setAnalyticsEnabled(sender.state == 1)
-    sender.state = mobileCenter!.isAnalyticsEnabled() ? 1 : 0
+    mobileCenter.setAnalyticsEnabled(sender.state == 1)
+    sender.state = mobileCenter.isAnalyticsEnabled() ? 1 : 0
   }
 
   //MARK: Table view source delegate
 
   func numberOfRows(in tableView: NSTableView) -> Int {
-    return properties.count;
+    return properties.count
   }
 
   //MARK: Table view delegate
   
   func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
     guard let `tableColumn` = tableColumn else {
-      return nil;
+      return nil
     }
 
-    var cellValue : String = "";
-    var cellId : String = "";
-    let key : String = Array(properties.keys)[row];
+    var cellValue : String = ""
+    var cellId : String = ""
+    let key : String = Array(properties.keys)[row]
 
     if (tableColumn == tableView.tableColumns[0]) {
-      cellValue = key;
-      cellId = CellIdentifiers.keyCellId;
+      cellValue = key
+      cellId = CellIdentifiers.keyCellId
     } else if (tableColumn == tableView.tableColumns[1]) {
-      cellValue = properties[key]!;
-      cellId = CellIdentifiers.valueCellId;
+      cellValue = properties[key]!
+      cellId = CellIdentifiers.valueCellId
     }
 
     if let cell = tableView.make(withIdentifier: cellId, owner: nil) as? NSTableCellView {
-      cell.textField?.stringValue = cellValue;
-      cell.textField?.isEditable = true;
-      return cell;
+      cell.textField?.stringValue = cellValue
+      cell.textField?.isEditable = true
+      return cell
     }
 
-    return nil;
+    return nil
   }
 
   //MARK: Text field events
 
   func editingDidBegin(notification : NSNotification) {
     guard let textField = notification.object as? NSTextField else {
-      return;
+      return
     }
-    textBeforeEditing = textField.stringValue;
+    textBeforeEditing = textField.stringValue
   }
 
   func editingDidEnd(notification : NSNotification) {
     guard let textField = notification.object as? NSTextField else {
-      return;
+      return
     }
 
     // If key
     if (properties.keys.contains(textBeforeEditing)) {
-      let oldKey : String = textBeforeEditing;
-      let newKey : String = textField.stringValue;
+      let oldKey : String = textBeforeEditing
+      let newKey : String = textField.stringValue
       if let value = properties.removeValue(forKey: oldKey) {
-        properties.updateValue(value, forKey: newKey);
+        properties.updateValue(value, forKey: newKey)
       }
     }
 
     // If value
     else {
       guard let row = table?.row(for: textField) else {
-        return;
+        return
       }
-      let key : String = Array(properties.keys)[row];
-      properties.updateValue(textField.stringValue, forKey: key);
+      let key : String = Array(properties.keys)[row]
+      properties.updateValue(textField.stringValue, forKey: key)
     }
 
-    table?.reloadData();
+    table?.reloadData()
   }
 }
