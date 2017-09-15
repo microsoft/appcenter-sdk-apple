@@ -26,6 +26,10 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
     NotificationCenter.default.addObserver(self, selector: #selector(self.editingDidEnd), name: .NSControlTextDidEndEditing, object: nil)
   }
 
+  override func viewWillAppear() {
+    setEnabledButton?.state = mobileCenter.isAnalyticsEnabled() ? 1 : 0;
+  }
+
   override func viewDidDisappear() {
     super.viewDidDisappear()
     NotificationCenter.default.removeObserver(self)
