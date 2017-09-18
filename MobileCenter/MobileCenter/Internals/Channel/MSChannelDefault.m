@@ -428,7 +428,9 @@
                 [sharedApplication beginBackgroundTaskWithExpirationHandler:^{
                   [sharedApplication endBackgroundTask:_backgroundTask];
                   _backgroundTask = UIBackgroundTaskInvalid;
-                  [strongSelf suspend];
+                  
+                  // Suspend the sender, don't suspend the channel itself.
+                  [strongSelf.sender suspend];
                 }];
           }
         }
