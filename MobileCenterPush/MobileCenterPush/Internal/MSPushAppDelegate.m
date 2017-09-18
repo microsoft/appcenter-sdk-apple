@@ -6,18 +6,18 @@
 
 #pragma mark - MSAppDelegate
 
-- (void)application:(__attribute__((unused))MSOriginalApplication *)application
+- (void)application:(__attribute__((unused))MSApplication *)application
     didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
   [MSPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 
-- (void)application:(__attribute__((unused))MSOriginalApplication *)application
+- (void)application:(__attribute__((unused))MSApplication *)application
     didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
   [MSPush didFailToRegisterForRemoteNotificationsWithError:error];
 }
 
 // Callback for macOS + workaround for iOS 10 bug. See https://forums.developer.apple.com/thread/54332
-- (void)application:(__attribute__((unused))MSOriginalApplication *)application
+- (void)application:(__attribute__((unused))MSApplication *)application
     didReceiveRemoteNotification:(NSDictionary *)userInfo {
   [MSPush didReceiveRemoteNotification:userInfo];
 }

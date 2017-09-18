@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
  * when it sends a notification to a device. The APNS servers require a binary format for performance reasons.
  * The size of a device token is 32 bytes.
  */
-- (void)application:(MSOriginalApplication *)application
+- (void)application:(MSApplication *)application
     didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken;
 
 /**
@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param error An NSError object that encapsulates information why registration did not succeed. The application can
  * display this information to the user.
  */
-- (void)application:(MSOriginalApplication *)application
+- (void)application:(MSApplication *)application
     didFailToRegisterForRemoteNotificationsWithError:(NSError *)error;
 
 /**
@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
  * and custom data. The provider originates it as a JSON-defined dictionary that iOS converts to an @see NSDictionary
  * object; the dictionary may contain only property-list objects plus @see NSNull.
  */
-- (void)application:(MSOriginalApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo;
+- (void)application:(MSApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo;
 
 #if !TARGET_OS_OSX
 
