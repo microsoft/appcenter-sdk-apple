@@ -97,7 +97,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
   }
 
   func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-    MSPush.didReceiveRemoteNotification(userInfo)
+    let result: Bool = MSPush.didReceiveRemoteNotification(userInfo)
+    if result {
+      completionHandler(.newData)
+    }
+    else {
+      completionHandler(.noData)
+    }
   }
 
   func applicationWillResignActive(_ application: UIApplication) {
@@ -157,12 +163,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
   // Push Delegate
 
   func push(_ push: MSPush!, didReceive pushNotification: MSPushNotification!) {
-    var message: String = pushNotification.message
+    let title: String? = pushNotification.title
+    var message: String = pushNotification.message ?? ""
+    var customData: String = ""
     for item in pushNotification.customData {
-      message = String(format: "%@\n%@: %@", message, item.key, item.value)
+      customData =  ((customData.isEmpty) ? "" : "\(customData), ") + "\(item.key): \(item.value)"
     }
-    let alert = UIAlertView(title: pushNotification.title, message: message, delegate: self, cancelButtonTitle: "OK")
-    alert.show()
+    if (UIApplication.shared.applicationState == .background) {
+      NSLog("Notification received in background, title: \"\(title ?? "")\", message: \"\(message)\", custom data: \"\(customData)\"");
+    } else {
+      message =  message + ((customData.isEmpty) ? "" : "\n\(customData)")
+      let alert = UIAlertView(title: title, message: message, delegate: self, cancelButtonTitle: "OK")
+      alert.show()
+    }
   }
 }
 
