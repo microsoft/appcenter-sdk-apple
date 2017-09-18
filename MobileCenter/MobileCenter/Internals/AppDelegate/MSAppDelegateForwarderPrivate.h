@@ -1,5 +1,3 @@
-#import <Foundation/Foundation.h>
-
 #import "MSAppDelegateForwarder.h"
 
 NS_ASSUME_NONNULL_BEGIN
