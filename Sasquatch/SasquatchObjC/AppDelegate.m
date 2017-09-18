@@ -130,9 +130,9 @@
                                              forErrorReport:(MSErrorReport *)errorReport {
   MSErrorAttachmentLog *attachment1 = [MSErrorAttachmentLog attachmentWithText:@"Hello world!" filename:@"hello.txt"];
   MSErrorAttachmentLog *attachment2 =
-  [MSErrorAttachmentLog attachmentWithBinary:[@"Fake image" dataUsingEncoding:NSUTF8StringEncoding]
-                                    filename:@"fake_image.jpeg"
-                                 contentType:@"image/jpeg"];
+      [MSErrorAttachmentLog attachmentWithBinary:[@"Fake image" dataUsingEncoding:NSUTF8StringEncoding]
+                                        filename:@"fake_image.jpeg"
+                                     contentType:@"image/jpeg"];
   return @[ attachment1, attachment2 ];
 }
 
@@ -165,16 +165,26 @@
 #pragma mark - MSPushDelegate
 
 - (void)push:(MSPush *)push didReceivePushNotification:(MSPushNotification *)pushNotification {
+  NSString *title = pushNotification.title;
   NSString *message = pushNotification.message;
+  NSMutableString *customData = nil;
   for (NSString *key in pushNotification.customData) {
-    message = [NSString stringWithFormat:@"%@\n%@: %@", message, key, [pushNotification.customData objectForKey:key]];
+    ([customData length] == 0) ? customData = [NSMutableString new] : [customData appendString:@", "];
+    [customData appendFormat:@"%@: %@", key, [pushNotification.customData objectForKey:key]];
   }
-  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:pushNotification.title
-                                                  message:message
-                                                 delegate:self
-                                        cancelButtonTitle:@"OK"
-                                        otherButtonTitles:nil];
-  [alert show];
+  if (UIApplication.sharedApplication.applicationState == UIApplicationStateBackground) {
+    NSLog(@"Notification received in background, title: \"%@\", message: \"%@\", custom data: \"%@\"", title, message,
+          customData);
+  } else {
+    message = [NSString stringWithFormat:@"%@%@%@", (message ? message : @""), (message && customData ? @"\n" : @""),
+                                         (customData ? customData : @"")];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
+                                                    message:message
+                                                   delegate:self
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil];
+    [alert show];
+  }
 }
 
 @end
