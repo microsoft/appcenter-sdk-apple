@@ -20,11 +20,14 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
   override func viewDidLoad() {
     super.viewDidLoad();
     mobileCenter = MobileCenterProvider.shared().mobileCenter;
-    setEnabledButton?.state = mobileCenter!.isAnalyticsEnabled() ? 1 : 0;
     table?.delegate = self;
     table?.dataSource = self;
     NotificationCenter.default.addObserver(self, selector: #selector(self.editingDidBegin), name: .NSControlTextDidBeginEditing, object: nil);
     NotificationCenter.default.addObserver(self, selector: #selector(self.editingDidEnd), name: .NSControlTextDidEndEditing, object: nil);
+  }
+
+  override func viewWillAppear() {
+    setEnabledButton?.state = mobileCenter!.isAnalyticsEnabled() ? 1 : 0;
   }
 
   override func viewDidDisappear() {
