@@ -323,7 +323,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
     if (![[self class] isEnabled]) {
       MSLogVerbose(
           [MSPush logTag],
-          @"Notification received while Push was enabled but Push is not disabled now, discard the notification.");
+          @"Notification received while Push was enabled but it is disabled now, discard the notification.");
       return YES;
     }
 
