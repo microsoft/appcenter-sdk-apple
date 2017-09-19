@@ -18,6 +18,8 @@
 		5CE258921EA5F62E00DA8FB9 /* AnalyticsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE258791EA5F5DF00DA8FB9 /* AnalyticsUITests.swift */; };
 		5CE258931EA5F62E00DA8FB9 /* CrashesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE2587B1EA5F5EB00DA8FB9 /* CrashesUITests.swift */; };
 		5CE258941EA5F62E00DA8FB9 /* DistributeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE2587D1EA5F5FC00DA8FB9 /* DistributeUITests.swift */; };
+		803CFF271F6A7E1D0072B9BA /* MSPushViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803CFF261F6A7E1D0072B9BA /* MSPushViewController.swift */; };
+		803CFF281F6A7E1D0072B9BA /* MSPushViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803CFF261F6A7E1D0072B9BA /* MSPushViewController.swift */; };
 		808A11021EF3130A00DFD41B /* MSPropertiesTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 808A10FF1EF3130A00DFD41B /* MSPropertiesTableDataSource.m */; };
 		808A11031EF3130A00DFD41B /* MSPropertyViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 808A11011EF3130A00DFD41B /* MSPropertyViewCell.m */; };
 		808A11041EF31D2500DFD41B /* MSPropertiesTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 808A10FF1EF3130A00DFD41B /* MSPropertiesTableDataSource.m */; };
@@ -206,6 +208,7 @@
 		5CE2587D1EA5F5FC00DA8FB9 /* DistributeUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DistributeUITests.swift; path = SasquatchUITests/DistributeUITests.swift; sourceTree = SOURCE_ROOT; };
 		5CE258871EA5F62400DA8FB9 /* SasquatchObjCUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchObjCUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CE258961EA5FAE100DA8FB9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		803CFF261F6A7E1D0072B9BA /* MSPushViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSPushViewController.swift; sourceTree = "<group>"; };
 		808A10FE1EF3130A00DFD41B /* MSPropertiesTableDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSPropertiesTableDataSource.h; path = ../../Vendor/Common/Utils/MSPropertiesTableDataSource.h; sourceTree = "<group>"; };
 		808A10FF1EF3130A00DFD41B /* MSPropertiesTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSPropertiesTableDataSource.m; path = ../../Vendor/Common/Utils/MSPropertiesTableDataSource.m; sourceTree = "<group>"; };
 		808A11001EF3130A00DFD41B /* MSPropertyViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSPropertyViewCell.h; path = ../../Vendor/Common/Utils/MSPropertyViewCell.h; sourceTree = "<group>"; };
@@ -430,6 +433,7 @@
 				84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */,
 				84D63FF61E8BA838004C9F86 /* MSCrashesDetailViewController.swift */,
 				B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */,
+				803CFF261F6A7E1D0072B9BA /* MSPushViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -890,6 +894,7 @@
 			files = (
 				84D63FF71E8BA838004C9F86 /* MSCrashesDetailViewController.swift in Sources */,
 				84226D0D1E891FEF00798417 /* MSAlertController.m in Sources */,
+				803CFF271F6A7E1D0072B9BA /* MSPushViewController.swift in Sources */,
 				849A3E721E8A9922008711CB /* MobileCenterProtocol.swift in Sources */,
 				845964AD1E8A7E9700BABA51 /* MSMainViewController.swift in Sources */,
 				84A0FF691E8A87C9000E7A28 /* MSAnalyticsViewController.swift in Sources */,
@@ -909,6 +914,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				803CFF281F6A7E1D0072B9BA /* MSPushViewController.swift in Sources */,
 				849A3E731E8A9922008711CB /* MobileCenterProtocol.swift in Sources */,
 				84A0FF671E8A87B4000E7A28 /* MSCrashesViewController.swift in Sources */,
 				84A0FF6A1E8A87C9000E7A28 /* MSAnalyticsViewController.swift in Sources */,
