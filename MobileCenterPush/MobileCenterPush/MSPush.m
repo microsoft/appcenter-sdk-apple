@@ -102,14 +102,11 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
                        context:(void *)context {
   if (context == UserNotificationCenterDelegateContext &&
       [keyPath isEqualToString:kMSUserNotificationCenterDelegateKey]) {
-    userNotificationCenterDelegate = [change objectForKey:NSKeyValueChangeNewKey];
-    NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
-    [center removeObserver:self forKeyPath:keyPath];
-    center.delegate = self;
-    [center addObserver:self
-             forKeyPath:keyPath
-                options:NSKeyValueObservingOptionNew
-                context:UserNotificationCenterDelegateContext];
+    id delegate = [change objectForKey:NSKeyValueChangeNewKey];
+    if (delegate != self) {
+      userNotificationCenterDelegate = delegate;
+      [NSUserNotificationCenter defaultUserNotificationCenter].delegate = self;
+    }
   } else {
     [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
   }
