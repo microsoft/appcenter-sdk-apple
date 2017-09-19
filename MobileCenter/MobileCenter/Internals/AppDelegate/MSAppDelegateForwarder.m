@@ -417,8 +417,8 @@ static BOOL _enabled = YES;
          * https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623013-application
          * The `fetchCompletionHandler` is used to let the app the background time for processing the notification and
          * download any data that will be displayed to the end users when the app will start again. There can only be
-         * one
-         * `UIBackgroundFetchResult` in the end so there is a need for triage while comparing results from delegates.
+         * one `UIBackgroundFetchResult` in the end so there is a need for triage while comparing results from
+         * delegates.
          *
          * Priorities are:
          * `UIBackgroundFetchResultNewData`>`UIBackgroundFetchResultFailed`>`UIBackgroundFetchResultNoData`.
@@ -426,8 +426,7 @@ static BOOL _enabled = YES;
          *  - `UIBackgroundFetchResultFailed` means there was one/several downloads among the delegates but they failed.
          *  - `UIBackgroundFetchResultNoData` means that none of the delegates had anything to download.
          */
-        if (fetchResult != actualFetchResult &&
-            (fetchResult == UIBackgroundFetchResultNewData || actualFetchResult == UIBackgroundFetchResultNoData)) {
+        if (fetchResult == UIBackgroundFetchResultNewData || actualFetchResult == UIBackgroundFetchResultNoData) {
           actualFetchResult = fetchResult;
         }
 
