@@ -277,11 +277,29 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 }
 
 - (void)userNotificationCenter:(NSUserNotificationCenter *)center
+        didDeliverNotification:(NSUserNotification *)notification {
+  if ([userNotificationCenterDelegate respondsToSelector:@selector(userNotificationCenter:didDeliverNotification:)]) {
+    [userNotificationCenterDelegate userNotificationCenter:center didDeliverNotification:notification];
+  }
+}
+
+- (void)userNotificationCenter:(NSUserNotificationCenter *)center
        didActivateNotification:(NSUserNotification *)notification {
   [self didReceiveUserNotification:notification];
   if ([userNotificationCenterDelegate respondsToSelector:@selector(userNotificationCenter:didActivateNotification:)]) {
     [userNotificationCenterDelegate userNotificationCenter:center didActivateNotification:notification];
   }
+}
+
+- (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center
+     shouldPresentNotification:(NSUserNotification *)notification {
+  if ([userNotificationCenterDelegate
+          respondsToSelector:@selector(userNotificationCenter:shouldPresentNotification:)]) {
+    return [userNotificationCenterDelegate userNotificationCenter:center shouldPresentNotification:notification];
+  }
+
+  // This method is called when the user notification center has decided not to present your notification. Return NO.
+  return NO;
 }
 #endif
 
@@ -321,9 +339,8 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 
     // If Push is disabled, discard the notification.
     if (![[self class] isEnabled]) {
-      MSLogVerbose(
-          [MSPush logTag],
-          @"Notification received while Push was enabled but it is disabled now, discard the notification.");
+      MSLogVerbose([MSPush logTag],
+                   @"Notification received while Push was enabled but it is disabled now, discard the notification.");
       return YES;
     }
 
