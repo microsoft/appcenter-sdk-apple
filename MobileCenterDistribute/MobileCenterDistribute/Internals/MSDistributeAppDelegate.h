@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 
-#import "MSAppDelegate.h"
+#import "MSCustomApplicationDelegate.h"
 
-@interface MSDistributeAppDelegate : NSObject <MSAppDelegate>
+@interface MSDistributeAppDelegate : NSObject <MSCustomApplicationDelegate>
 
 @end

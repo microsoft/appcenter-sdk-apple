@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 
 #import "MSAlertController.h"
-#import "MSAppDelegate.h"
+#import "MSCustomApplicationDelegate.h"
 #import "MSDistribute.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -99,7 +99,7 @@ static NSString *const kMSDistributionGroupIdKey = @"MSDistributionGroupId";
 /**
  * Custom application delegate dedicated to Distribute.
  */
-@property(nonatomic) id<MSAppDelegate> appDelegate;
+@property(nonatomic) id<MSCustomApplicationDelegate> appDelegate;
 
 /**
  * Returns the singleton instance. Meant for testing/demo apps only.

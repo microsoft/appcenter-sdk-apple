@@ -7,7 +7,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Hash table containing all the delegates as weak references.
  */
-@property(nonatomic, class) NSHashTable<id<MSAppDelegate>> *delegates;
+@property(nonatomic, class) NSHashTable<id<MSCustomApplicationDelegate>> *delegates;
 
 /**
  * Keep track of original selectors to swizzle.
@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param originalDelegate The original application delegate.
  */
-+ (void)swizzleOriginalDelegate:(id<MSOriginalAppDelegate>)originalDelegate;
++ (void)swizzleOriginalDelegate:(id<MSApplicationDelegate>)originalDelegate;
 
 /**
  * Reset the app delegate forwarder, used for testing only.

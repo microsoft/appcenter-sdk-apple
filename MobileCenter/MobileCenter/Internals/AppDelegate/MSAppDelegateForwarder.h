@@ -1,8 +1,8 @@
-#import "MSAppDelegate.h"
+#import "MSCustomApplicationDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MSAppDelegateForwarder : NSObject <MSAppDelegate>
+@interface MSAppDelegateForwarder : NSObject <MSCustomApplicationDelegate>
 
 /**
  * Enable/Disable Application forwarding.
@@ -14,14 +14,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param delegate A delegate.
  */
-+ (void)addDelegate:(id<MSAppDelegate>)delegate;
++ (void)addDelegate:(id<MSCustomApplicationDelegate>)delegate;
 
 /**
  * Remove a delegate. This method is thread safe.
  *
  * @param delegate A delegate.
  */
-+ (void)removeDelegate:(id<MSAppDelegate>)delegate;
++ (void)removeDelegate:(id<MSCustomApplicationDelegate>)delegate;
 
 /**
  * Add an app delegate selector to swizzle.

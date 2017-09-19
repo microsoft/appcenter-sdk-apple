@@ -2,7 +2,7 @@
 #import "MSPushDelegate.h"
 #import "MSServiceInternal.h"
 
-@protocol MSAppDelegate;
+@protocol MSCustomApplicationDelegate;
 
 #if TARGET_OS_OSX
 @interface MSPush () <NSUserNotificationCenterDelegate>
@@ -17,7 +17,7 @@
 /**
  * Custom application delegate dedicated to Push.
  */
-@property(nonatomic) id<MSAppDelegate> appDelegate;
+@property(nonatomic) id<MSCustomApplicationDelegate> appDelegate;
 
 /**
  * Method to reset the singleton when running unit tests only. So calling sharedInstance returns a fresh instance.

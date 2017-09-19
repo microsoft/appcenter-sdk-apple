@@ -10,7 +10,7 @@ NS_ASSUME_NONNULL_BEGIN
  * each custom delegate must sign up for selectors to swizzle within the `load` method of a category over
  * the @see MSAppDelegateForwarder class.
  */
-@protocol MSAppDelegate <NSObject>
+@protocol MSCustomApplicationDelegate <NSObject>
 
 @optional
 

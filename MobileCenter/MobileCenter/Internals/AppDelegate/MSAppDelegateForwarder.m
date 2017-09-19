@@ -1,6 +1,6 @@
 #import <objc/runtime.h>
 
-#import "MSAppDelegate.h"
+#import "MSCustomApplicationDelegate.h"
 #import "MSAppDelegateForwarderPrivate.h"
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
@@ -24,7 +24,7 @@ static NSString *const kMSDidReceiveRemoteNotificationFetchHandler =
 static NSString *const kMSOpenURLSourceApplicationAnnotation = @"application:openURL:sourceApplication:annotation:";
 static NSString *const kMSOpenURLOptions = @"application:openURL:options:";
 
-static NSHashTable<id<MSAppDelegate>> *_delegates = nil;
+static NSHashTable<id<MSCustomApplicationDelegate>> *_delegates = nil;
 static NSMutableSet<NSString *> *_selectorsToSwizzle = nil;
 static NSDictionary<NSString *, NSString *> *_deprecatedSelectors = nil;
 static NSMutableDictionary<NSString *, NSValue *> *_originalImplementations = nil;
@@ -75,11 +75,11 @@ static BOOL _enabled = YES;
 
 #pragma mark - Accessors
 
-+ (NSHashTable<id<MSAppDelegate>> *)delegates {
++ (NSHashTable<id<MSCustomApplicationDelegate>> *)delegates {
   return _delegates ?: (_delegates = [NSHashTable weakObjectsHashTable]);
 }
 
-+ (void)setDelegates:(NSHashTable<id<MSAppDelegate>> *)delegates {
++ (void)setDelegates:(NSHashTable<id<MSCustomApplicationDelegate>> *)delegates {
   _delegates = delegates;
 }
 
@@ -143,7 +143,7 @@ static BOOL _enabled = YES;
 
 #pragma mark - Delegates
 
-+ (void)addDelegate:(id<MSAppDelegate>)delegate {
++ (void)addDelegate:(id<MSCustomApplicationDelegate>)delegate {
   @synchronized(self) {
     if (self.enabled) {
       [self.delegates addObject:delegate];
@@ -151,7 +151,7 @@ static BOOL _enabled = YES;
   }
 }
 
-+ (void)removeDelegate:(id<MSAppDelegate>)delegate {
++ (void)removeDelegate:(id<MSCustomApplicationDelegate>)delegate {
   @synchronized(self) {
     if (self.enabled) {
       [self.delegates removeObject:delegate];
@@ -161,7 +161,7 @@ static BOOL _enabled = YES;
 
 #pragma mark - Swizzling
 
-+ (void)swizzleOriginalDelegate:(id<MSOriginalAppDelegate>)originalDelegate {
++ (void)swizzleOriginalDelegate:(id<MSApplicationDelegate>)originalDelegate {
   IMP originalImp = NULL;
   Class delegateClass = [originalDelegate class];
   SEL originalSelector, customSelector;
@@ -285,7 +285,7 @@ static BOOL _enabled = YES;
 
 #pragma mark - Custom Application
 
-- (void)custom_setDelegate:(id<MSOriginalAppDelegate>)delegate {
+- (void)custom_setDelegate:(id<MSApplicationDelegate>)delegate {
 
   // Swizzle only once.
   static dispatch_once_t delegateSwizzleOnceToken;
@@ -298,7 +298,7 @@ static BOOL _enabled = YES;
   // Forward to the original `setDelegate:` implementation.
   IMP originalImp = MSAppDelegateForwarder.originalSetDelegateImp;
   if (originalImp) {
-    ((void (*)(id, SEL, id<MSOriginalAppDelegate>))originalImp)(self, _cmd, delegate);
+    ((void (*)(id, SEL, id<MSApplicationDelegate>))originalImp)(self, _cmd, delegate);
   }
 }
 
@@ -455,7 +455,7 @@ static BOOL _enabled = YES;
   @synchronized([MSAppDelegateForwarder class]) {
 
     // Count how many custom delegates will respond to the selector.
-    for (id<MSAppDelegate> delegate in MSAppDelegateForwarder.delegates) {
+    for (id<MSCustomApplicationDelegate> delegate in MSAppDelegateForwarder.delegates) {
       if ([delegate respondsToSelector:_cmd]) {
         customDelegateToCallCount++;
       }
@@ -504,7 +504,7 @@ static BOOL _enabled = YES;
     }
 
     // Forward to delegates executing a custom method.
-    for (id<MSAppDelegate> delegate in [self class].delegates) {
+    for (id<MSCustomApplicationDelegate> delegate in [self class].delegates) {
       if ([delegate respondsToSelector:invocation.selector]) {
         [invocation invokeWithTarget:delegate];
 
