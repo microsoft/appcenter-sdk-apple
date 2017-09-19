@@ -25,7 +25,7 @@ static NSString *const kMSTestReleaseHash = @"RELEASEHASH";
 static NSString *const kMSDistributeServiceName = @"Distribute";
 
 // Mocked SFSafariViewController for url validation.
-@interface SFSafariViewController : UIViewController
+@interface SFSafariViewControllerMock : UIViewController
 
 @property(class, nonatomic) NSURL *url;
 
@@ -35,10 +35,10 @@ static NSString *const kMSDistributeServiceName = @"Distribute";
 
 static NSURL *sfURL;
 
-@implementation SFSafariViewController
+@implementation SFSafariViewControllerMock
 
 - (instancetype)initWithURL:(NSURL *)url {
-  if ((self = [super init])) {
+  if ((self = [self init])) {
     [[self class] setUrl:url];
   }
   return self;
@@ -130,7 +130,7 @@ static NSURL *sfURL;
   OCMStub([self.bundleMock objectForInfoDictionaryKey:@"CFBundleURLTypes"]).andReturn(bundleArray);
   OCMStub([self.bundleMock objectForInfoDictionaryKey:@"MSAppName"]).andReturn(@"Something");
   id distributeMock = OCMPartialMock(self.sut);
-  OCMStub([distributeMock openURLInEmbeddedSafari:OCMOCK_ANY fromClass:OCMOCK_ANY]).andDo(nil);
+  OCMStub([distributeMock openURLInSafariViewControllerWith:OCMOCK_ANY fromClass:OCMOCK_ANY]).andDo(nil);
 
   // Disable for now to bypass initializing sender.
   [distributeMock setEnabled:NO];
@@ -222,14 +222,14 @@ static NSURL *sfURL;
   [appMock stopMocking];
 }
 
-- (void)testOpenURLInEmbeddedSafari {
+- (void)testOpenURLInSafariViewControllerWithUrl {
 
   // If
   NSURL *url = [NSURL URLWithString:@"https://contoso.com"];
 
   // When
   @try {
-    [self.sut openURLInEmbeddedSafari:url fromClass:[SFSafariViewController class]];
+    [self.sut openURLInSafariViewControllerWith:url fromClass:[SFSafariViewControllerMock class]];
   } @catch (__attribute__((unused)) NSException *ex) {
 
     /**
@@ -239,7 +239,7 @@ static NSURL *sfURL;
   }
 
   // Then
-  assertThat(SFSafariViewController.url, is(url));
+  assertThat(SFSafariViewControllerMock.url, is(url));
 }
 
 - (void)testSetApiUrlWorks {
@@ -1196,7 +1196,7 @@ static NSURL *sfURL;
   OCMReject([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:kMSTestReleaseHash]);
 
   // We should not touch UI in a unit testing environment.
-  OCMStub([distributeMock openURLInEmbeddedSafari:OCMOCK_ANY fromClass:OCMOCK_ANY]).andDo(nil);
+  OCMStub([distributeMock openURLInSafariViewControllerWith:OCMOCK_ANY fromClass:OCMOCK_ANY]).andDo(nil);
 
   // When
   [distributeMock requestInstallInformationWith:kMSTestReleaseHash];
