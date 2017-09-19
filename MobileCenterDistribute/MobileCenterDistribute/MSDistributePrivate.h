@@ -10,12 +10,7 @@
 #import "MSAlertController.h"
 #import "MSUIAppDelegate.h"
 #import "MSDistribute.h"
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_11_0
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wpartial-availability"
 #import <SafariServices/SafariServices.h>
-#pragma clang diagnostic pop
-#endif
 
 NS_ASSUME_NONNULL_BEGIN
 

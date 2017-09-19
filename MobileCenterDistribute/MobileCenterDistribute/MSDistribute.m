@@ -118,7 +118,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     MSLogDebug([MSDistribute logTag], @"The release has already been processed.");
     return;
   }
-
   switch (action) {
   case MSUpdateActionUpdate:
 #if TARGET_OS_SIMULATOR
@@ -243,7 +242,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         });
 #endif
       } else {
-        
+
         // iOS 8.x.
         [self openURLInSafariApp:url];
       }
@@ -599,12 +598,13 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 }
 
 - (BOOL)checkForUpdatesAllowed {
-  //  // Check if we are not in AppStore or TestFlight environments.
-    BOOL environmentOkay = [MSUtility currentAppEnvironment] == MSEnvironmentOther;
-  
-    // Check if a debugger is attached.
-    BOOL noDebuggerAttached = ![MSMobileCenter isDebuggerAttached];
-    return environmentOkay && noDebuggerAttached;
+
+  // Check if we are not in AppStore or TestFlight environments.
+  BOOL environmentOkay = [MSUtility currentAppEnvironment] == MSEnvironmentOther;
+
+  // Check if a debugger is attached.
+  BOOL noDebuggerAttached = ![MSMobileCenter isDebuggerAttached];
+  return environmentOkay && noDebuggerAttached;
 }
 
 - (BOOL)isNewerVersion:(MSReleaseDetails *)details {
