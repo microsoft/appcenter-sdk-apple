@@ -262,27 +262,6 @@
 			remoteGlobalIDString = E82E1B5E1D1CA58D00D281C1;
 			remoteInfo = Puppet;
 		};
-		80493AC31F6A701A00E6E895 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E82E1B821D1CA63000D281C1 /* MobileCenter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0446DF2B1F3B864600C8E338;
-			remoteInfo = MobileCenterTVOSTests;
-		};
-		80493AD01F6A701A00E6E895 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E85547FB1D2D6C8D002DF6E2 /* MobileCenterAnalytics.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0446DF541F3B8E6300C8E338;
-			remoteInfo = MobileCenterAnalyticsTVOSTests;
-		};
-		80493ADD1F6A701A00E6E895 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E82E1B7C1D1CA62900D281C1 /* MobileCenterCrashes.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0446DF9D1F3B977100C8E338;
-			remoteInfo = MobileCenterCrashesTVOSTests;
-		};
 		B2C070CA1E5F59A90076D6A9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0471B91E1E4550670022F951 /* MobileCenterDistribute.xcodeproj */;
