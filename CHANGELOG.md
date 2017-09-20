@@ -2,7 +2,7 @@
 
 ## Version 0.12.2
 
-This version contains improvements. **Verified all functionalities against iOS 11 GM.**
+This version contains a buf fix and improvements. **Verified all functionalities against iOS 11 GM.**
 
 ### MobileCenterCrashes
 
@@ -11,6 +11,7 @@ This version contains improvements. **Verified all functionalities against iOS 1
 ### MobileCenterDistribute
 
 * **[Improvement]** Improved swizzling behavior for deprecated `openURL` method if it is used by applications.
+* **[Fix]** Fixed being stuck on activating in-app update. It is back to open Safari in-app page for activation.
 
 ___
 
