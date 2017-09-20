@@ -1,5 +1,19 @@
 # Mobile Center SDK for iOS Change Log
 
+## Version 0.12.2
+
+This version contains improvements. **Verified all functionalities against iOS 11 GM.**
+
+### MobileCenterCrashes
+
+* **[Improvement]** Added a millisecond precision to crash logs for more accurate log time.
+
+### MobileCenterDistribute
+
+* **[Improvement]** Improved swizzling behavior for deprecated `openURL` method if it is used by applications.
+
+___
+
 ## Version 0.12.1
 
 This version contains bug fixes.
