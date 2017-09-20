@@ -97,16 +97,6 @@ static dispatch_once_t onceToken;
   [[self sharedInstance] didFailToRegisterForRemoteNotificationsWithError:error];
 }
 
-#if TARGET_OS_OSX
-+ (BOOL)didReceiveNotification:(NSNotification *)notification {
-  return [[self sharedInstance] didReceiveNotification:notification];
-}
-
-+ (BOOL)didReceiveUserNotification:(NSUserNotification *)notification {
-  return [[self sharedInstance] didReceiveUserNotification:notification];
-}
-#endif
-
 + (BOOL)didReceiveRemoteNotification:(NSDictionary *)userInfo {
   return [[self sharedInstance] didReceiveRemoteNotification:userInfo fromUserNotification:NO];
 }
@@ -120,12 +110,23 @@ static dispatch_once_t onceToken;
 - (void)applyEnabledState:(BOOL)isEnabled {
   [super applyEnabledState:isEnabled];
   if (isEnabled) {
+#if TARGET_OS_OSX
+    [NSUserNotificationCenter defaultUserNotificationCenter].delegate = self;
+    [MS_NOTIFICATION_CENTER addObserver:self
+                               selector:@selector(applicationDidFinishLaunching:)
+                                   name:NSApplicationDidFinishLaunchingNotification
+                                 object:nil];
+#endif
     [MSAppDelegateForwarder addDelegate:self.appDelegate];
     if (!self.pushTokenHasBeenSent) {
       [self registerForRemoteNotifications];
     }
     MSLogInfo([MSPush logTag], @"Push service has been enabled.");
   } else {
+#if TARGET_OS_OSX
+    [NSUserNotificationCenter defaultUserNotificationCenter].delegate = nil;
+    [MS_NOTIFICATION_CENTER removeObserver:self name:NSApplicationDidFinishLaunchingNotification object:nil];
+#endif
     [MSAppDelegateForwarder removeDelegate:self.appDelegate];
     MSLogInfo([MSPush logTag], @"Push service has been disabled.");
   }
@@ -170,18 +171,6 @@ static dispatch_once_t onceToken;
 #endif
 }
 
-#if TARGET_OS_OSX
-
-// TODO: Implement macOS. Seems it is dead code.
-#else
-- (void)application:(UIApplication *)application
-    didRegisterUserNotificationSettings:(UIUserNotificationSettings *)__unused notificationSettings {
-
-  // register to receive notifications
-  [application registerForRemoteNotifications];
-}
-#endif
-
 - (NSString *)convertTokenToString:(NSData *)token {
   if (!token)
     return nil;
@@ -215,10 +204,6 @@ static dispatch_once_t onceToken;
 }
 
 #if TARGET_OS_OSX
-- (BOOL)didReceiveNotification:(NSNotification *)notification {
-  return [self didReceiveUserNotification:[notification.userInfo objectForKey:NSApplicationLaunchUserNotificationKey]];
-}
-
 - (BOOL)didReceiveUserNotification:(NSUserNotification *)notification {
   if (notification && [self didReceiveRemoteNotification:notification.userInfo fromUserNotification:YES]) {
     NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
@@ -228,6 +213,15 @@ static dispatch_once_t onceToken;
     return YES;
   }
   return NO;
+}
+
+- (void)applicationDidFinishLaunching:(NSNotification *)notification {
+  [self didReceiveUserNotification:[notification.userInfo objectForKey:NSApplicationLaunchUserNotificationKey]];
+}
+
+- (void)userNotificationCenter:(NSUserNotificationCenter *)__unused center
+       didActivateNotification:(NSUserNotification *)notification {
+  [self didReceiveUserNotification:notification];
 }
 #endif
 

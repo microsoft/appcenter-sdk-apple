@@ -10,4 +10,6 @@
 #import "MSServiceAbstract.h"
 #import "MSWrapperSdk.h"
 #import "MSMobileCenterErrors.h"
+#if !TARGET_OS_TV
 #import "MSCustomProperties.h"
+#endif

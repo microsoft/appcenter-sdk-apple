@@ -9,6 +9,7 @@
 #import "MSErrorAttachmentLogInternal.h"
 #import "MSErrorLogFormatter.h"
 #import "MSException.h"
+#import "MSHandledErrorLog.h"
 #import "MSLogManagerDefault.h"
 #import "MSMobileCenter.h"
 #import "MSMobileCenterInternal.h"
@@ -24,6 +25,7 @@
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
 static NSString *const kMSCrashesServiceName = @"Crashes";
 static NSString *const kMSFatal = @"fatal";
+static NSString *const kMSTypeHandledError = @"handled_error";
 static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
 @interface MSCrashes ()
@@ -494,28 +496,35 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   XCTAssertTrue([[MSCrashes sharedInstance] initializationPriority] == MSInitializationPriorityMax);
 }
 
-// TODO: Mach exception handler is not supported on tvOS.
-#if !TARGET_OS_TV
+// The Mach exception handler is not supported on tvOS.
+#if TARGET_OS_TV
+- (void) testMachExceptionHandlerDisabledOnTvOS {
+  
+  // Then
+  XCTAssertFalse([[MSCrashes sharedInstance] isMachExceptionHandlerEnabled]);  
+}
+#else
 - (void)testDisableMachExceptionWorks {
-
+  
   // Then
   XCTAssertTrue([[MSCrashes sharedInstance] isMachExceptionHandlerEnabled]);
-
+  
   // When
   [MSCrashes disableMachExceptionHandler];
-
+  
   // Then
   XCTAssertFalse([[MSCrashes sharedInstance] isMachExceptionHandlerEnabled]);
-
+  
   // Then
   XCTAssertTrue([self.sut isMachExceptionHandlerEnabled]);
-
+  
   // When
   [self.sut setEnableMachExceptionHandler:NO];
-
+  
   // Then
   XCTAssertFalse([self.sut isMachExceptionHandlerEnabled]);
 }
+
 #endif
 
 - (void)testAbstractErrorLogSerialization {
@@ -570,6 +579,37 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   [[MSCrashes sharedInstance] startCrashProcessing];
 
   XCTAssertTrue(warningMessageHasBeenPrinted);
+}
+
+- (void)testTrackModelException {
+
+  // If
+  __block NSString *type;
+  __block NSString *errorId;
+  __block MSException *exception;
+  id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
+  OCMStub([logManagerMock processLog:[OCMArg isKindOfClass:[MSAbstractLog class]] forGroupId:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        MSHandledErrorLog *log;
+        [invocation getArgument:&log atIndex:2];
+        type = log.type;
+        errorId = log.errorId;
+        exception = log.exception;
+      });
+  [MSMobileCenter configureWithAppSecret:kMSTestAppSecret];
+  [self.sut startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
+
+  // When
+  MSException *expectedException = [MSException new];
+  expectedException.message = @"Oh this is wrong...";
+  expectedException.stackTrace = @"mock strace";
+  expectedException.type = @"Some.Exception";
+  [self.sut trackModelException:expectedException];
+
+  // Then
+  assertThat(type, is(kMSTypeHandledError));
+  assertThat(errorId, notNilValue());
+  assertThat(exception, is(expectedException));
 }
 
 #pragma clang diagnostic push

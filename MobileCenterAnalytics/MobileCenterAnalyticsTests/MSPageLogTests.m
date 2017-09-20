@@ -49,7 +49,7 @@
   assertThat(actual[@"type"], equalTo(typeName));
   assertThat(actual[@"properties"], equalTo(properties));
   assertThat(actual[@"device"], notNilValue());
-  assertThat(actual[@"timestamp"], equalTo(@"1970-01-01T00:00:42Z"));
+  assertThat(actual[@"timestamp"], equalTo(@"1970-01-01T00:00:42.000Z"));
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {

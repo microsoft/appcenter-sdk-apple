@@ -41,9 +41,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Flush debugging traces accumulated until now.
- * TODO: We should find a way for customers to set the log level in their configuration somehow so that it'll be set at
- * the time of the swizzling. This will allow having swizzling traces in real time, in that case we can remove the whole
- * trace buffer mechanism.
  */
 + (void)flushTraceBuffer;
 

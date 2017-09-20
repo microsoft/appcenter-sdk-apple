@@ -1,6 +1,5 @@
 #import <Foundation/Foundation.h>
 #import <SafariServices/SafariServices.h>
-
 #import "MSAppDelegateForwarder.h"
 #import "MSDistribute.h"
 #import "MSDistributeAppDelegate.h"
@@ -119,7 +118,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     MSLogDebug([MSDistribute logTag], @"The release has already been processed.");
     return;
   }
-
   switch (action) {
   case MSUpdateActionUpdate:
 #if TARGET_OS_SIMULATOR
@@ -214,28 +212,41 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     if (url) {
 
 /*
- * Only iOS 9.x and 10.x will download the update after users click the "Install" button. 
+ * Only iOS 9.x and 10.x will download the update after users click the "Install" button.
  * We need to force-exit the application for other versions or for any versions when the update is mandatory.
  */
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpartial-availability"
       Class clazz = [SFSafariViewController class];
-#pragma clang diagnostic pop
-      /*
-       * TODO Checking operating system version is a workaround for iOS 11 where SFSafariViewController can't read Safari's cookies.
-       * Revert this change when SFAuthenticationSession will be ready.
-       */
-      if (clazz && ![NSProcessInfo.processInfo isOperatingSystemAtLeastVersion:(NSOperatingSystemVersion){11, 0, 0}]) {
+      if (clazz) {
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_11_0
+        if (@available(iOS 11.0, *)) {
 
-        // Manipulate App UI on the main queue.
+          // iOS 11
+          Class authClazz = [SFAuthenticationSession class];
+          dispatch_async(dispatch_get_main_queue(), ^{
+            [self openURLInAuthenticationSessionWith:url fromClass:authClazz];
+          });
+        } else {
+
+          // Compiling against iOS 11 but running on iOS 9 and 10.
+          dispatch_async(dispatch_get_main_queue(), ^{
+            [self openURLInSafariViewControllerWith:url fromClass:clazz];
+          });
+        }
+#else
+
+        // The app is not compiled against the iOS 11 SDK, use the logic for iOS 9 and 10.
         dispatch_async(dispatch_get_main_queue(), ^{
-          [self openURLInEmbeddedSafari:url fromClass:clazz];
+          [self openURLInSafariViewControllerWith:url fromClass:clazz];
         });
+#endif
       } else {
 
         // iOS 8.x.
         [self openURLInSafariApp:url];
       }
+#pragma clang diagnostic pop
     }
   } else {
 
@@ -446,7 +457,38 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   return components.URL;
 }
 
-- (void)openURLInEmbeddedSafari:(NSURL *)url fromClass:(Class)clazz {
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_11_0
+- (void)openURLInAuthenticationSessionWith:(NSURL *)url fromClass:(Class)clazz {
+  MSLogDebug([MSDistribute logTag], @"Using SFAuthenticationSession to open URL: %@", url);
+  NSString *callbackUrlScheme = [NSString stringWithFormat:kMSDefaultCustomSchemeFormat, self.appSecret];
+  if (@available(iOS 11.0, *)) {
+    SFAuthenticationSession *session = [[clazz alloc]
+              initWithURL:url
+        callbackURLScheme:callbackUrlScheme
+        completionHandler:^(NSURL *callbackUrl, NSError *error) {
+
+          self.authenticationSession = nil;
+          if (error != nil) {
+            MSLogDebug([MSDistribute logTag], @"Called %@ with errror: %@", callbackUrl, error.localizedDescription);
+          }
+          if (error.code == SFAuthenticationErrorCanceledLogin) {
+            MSLogError([MSDistribute logTag], @"Authentication session was cancelled by user or failed.");
+          }
+          if (callbackUrl) {
+            [self openURL:callbackUrl];
+          }
+        }];
+    self.authenticationSession = session;
+
+    BOOL success = [session start];
+    if (success) {
+      MSLogDebug([MSDistribute logTag], @"Authentication Session Started, showing confirmation dialog");
+    }
+  }
+}
+#endif
+
+- (void)openURLInSafariViewControllerWith:(NSURL *)url fromClass:(Class)clazz {
   MSLogDebug([MSDistribute logTag], @"Using SFSafariViewController to open URL: %@", url);
 
   // Init safari controller with the install URL.

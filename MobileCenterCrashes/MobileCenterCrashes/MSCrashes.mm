@@ -8,6 +8,7 @@
 #import "MSErrorAttachmentLog.h"
 #import "MSErrorAttachmentLogInternal.h"
 #import "MSErrorLogFormatter.h"
+#import "MSHandledErrorLog.h"
 #import "MSMobileCenterInternal.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSWrapperExceptionManagerInternal.h"
@@ -229,16 +230,30 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   return [[self sharedInstance] getLastSessionCrashReport];
 }
 
-/* This can never be binded to Xamarin */
-// TODO: Mach exception handler is not supported on tvOS.
-#if !TARGET_OS_TV
+/**
+ * This can never be bound to Xamarin.
+ *
+ * This method is not part of the publicly available APIs on tvOS as Mach exception handling is not possible on tvOS. 
+ * The property is NO by default there.
+ */
 + (void)disableMachExceptionHandler {
   [[self sharedInstance] setEnableMachExceptionHandler:NO];
 }
-#endif
 
 + (void)setDelegate:(_Nullable id<MSCrashesDelegate>)delegate {
   [[self sharedInstance] setDelegate:delegate];
+}
+
+/**
+ * Track handled exception directly as model form.
+ * This API is not public and is used by wrapper SDKs.
+ */
++ (void)trackModelException:(MSException *)exception {
+  @synchronized(self) {
+    if ([[self sharedInstance] canBeUsed]) {
+      [[self sharedInstance] trackModelException:exception];
+    }
+  }
 }
 
 #pragma mark - Service initialization
@@ -252,7 +267,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     _analyzerInProgressFile = [_crashesDir URLByAppendingPathComponent:kMSAnalyzerFilename];
     _didCrashInLastSession = NO;
 
-    // TODO: Mach exception handler is not supported on tvOS.
 #if !TARGET_OS_TV
     _enableMachExceptionHandler = YES;
 #endif
@@ -391,6 +405,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   return MSInitializationPriorityMax;
 }
 
+- (void)setEnableMachExceptionHandler:(BOOL)enableMachExceptionHandler {
+  _enableMachExceptionHandler = enableMachExceptionHandler;
+}
+
 #pragma mark - MSLogManagerDelegate
 
 /**
@@ -419,6 +437,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       NSNumberFormatter *timestampFormatter = [[NSNumberFormatter alloc] init];
       timestampFormatter.numberStyle = NSNumberFormatterDecimalStyle;
       long indexToDelete = 0;
+      MSLogVerbose([MSCrashes logTag], @"Storing a log to Crashes Buffer: (sid: %@, type: %@)", log.sid, log.type);
       for (auto it = msCrashesLogBuffer.begin(), end = msCrashesLogBuffer.end(); it != end; ++it) {
 
         // We've found an empty element, buffer our log.
@@ -477,15 +496,15 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 - (void)onFinishedPersistingLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
   (void)log;
-  [self deleteBufferedLogWithInternalId:internalId];
+  [self deleteBufferedLog:log withInternalId:internalId];
 }
 
 - (void)onFailedPersistingLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
   (void)log;
-  [self deleteBufferedLogWithInternalId:internalId];
+  [self deleteBufferedLog:log withInternalId:internalId];
 }
 
-- (void)deleteBufferedLogWithInternalId:(NSString *)internalId {
+- (void)deleteBufferedLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
   @synchronized(self) {
     for (auto it = msCrashesLogBuffer.begin(), end = msCrashesLogBuffer.end(); it != end; ++it) {
       NSString *bufferId = [NSString stringWithCString:it->internalId.c_str() encoding:NSUTF8StringEncoding];
@@ -501,6 +520,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
            * delete the buffer file.
            */
           unlink(it->bufferPath.c_str());
+          MSLogVerbose([MSCrashes logTag], @"Deleted a log from Crashes Buffer (sid: %@, type: %@)", log.sid, log.type);
           MSLogVerbose([MSCrashes logTag], @"Deleted crash buffer file: %@.",
                        [NSString stringWithCString:it->bufferPath.c_str() encoding:[NSString defaultCStringEncoding]]);
         }
@@ -561,7 +581,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
   PLCrashReporterSignalHandlerType signalHandlerType = PLCrashReporterSignalHandlerTypeBSD;
 
-  // TODO: Mach exception handler is not supported on tvOS.
 #if !TARGET_OS_TV
   if (self.isMachExceptionHandlerEnabled) {
     signalHandlerType = PLCrashReporterSignalHandlerTypeMach;
@@ -1010,6 +1029,23 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   BOOL contentTypeValid = attachment.contentType && ([attachment.contentType length] > 0);
 
   return errorIdValid && attachmentIdValid && attachmentDataValid && contentTypeValid;
+}
+
+#pragma mark - Handled exceptions
+
+- (void)trackModelException:(MSException *)exception {
+  if (![self isEnabled])
+    return;
+
+  // Create an error log.
+  MSHandledErrorLog *log = [MSHandledErrorLog new];
+
+  // Set properties of the error log.
+  log.errorId = MS_UUID_STRING;
+  log.exception = exception;
+
+  // Send log to log manager.
+  [self.logManager processLog:log forGroupId:self.groupId];
 }
 
 @end
