@@ -37,10 +37,12 @@ static NSString *const kMSPushNotificationTitleKey = @"title";
 static NSString *const kMSPushNotificationMessageKey = @"body";
 static NSString *const kMSPushNotificationCustomDataKey = @"mobile_center";
 
+#if TARGET_OS_OSX
 /**
  * Key for NSUserNotificationCenter delegate property.
  */
 static NSString *const kMSUserNotificationCenterDelegateKey = @"delegate";
+#endif
 
 /**
  * Singleton
