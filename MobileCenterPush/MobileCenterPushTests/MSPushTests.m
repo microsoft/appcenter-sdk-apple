@@ -395,26 +395,12 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   id pushMock = OCMPartialMock(self.sut);
 
   // When
-  [pushMock userNotificationCenter:userNotificationCenterMock didDeliverNotification:userNotificationMock];
-
-  // Then
-  OCMVerify([userNotificationCenterDelegateMock userNotificationCenter:userNotificationCenterMock
-                                                didDeliverNotification:userNotificationMock]);
-
-  // When
   [pushMock userNotificationCenter:userNotificationCenterMock didActivateNotification:userNotificationMock];
 
   // Then
   OCMVerify([pushMock didReceiveUserNotification:userNotificationMock]);
   OCMVerify([userNotificationCenterDelegateMock userNotificationCenter:userNotificationCenterMock
                                                didActivateNotification:userNotificationMock]);
-
-  // When
-  [pushMock userNotificationCenter:userNotificationCenterMock shouldPresentNotification:userNotificationMock];
-
-  // Then
-  OCMVerify([userNotificationCenterDelegateMock userNotificationCenter:userNotificationCenterMock
-                                             shouldPresentNotification:userNotificationMock]);
 
   [pushMock stopMocking];
 }
