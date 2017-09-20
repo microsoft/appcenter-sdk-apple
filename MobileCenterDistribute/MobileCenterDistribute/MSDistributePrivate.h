@@ -1,8 +1,16 @@
 #import <Foundation/Foundation.h>
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wreserved-id-macro"
+#ifndef __IPHONE_11_0
+#define __IPHONE_11_0    110000
+#endif
+#pragma clang diagnostic pop
+
 #import "MSAlertController.h"
 #import "MSUIAppDelegate.h"
 #import "MSDistribute.h"
+#import <SafariServices/SafariServices.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -101,6 +109,13 @@ static NSString *const kMSDistributionGroupIdKey = @"MSDistributionGroupId";
  */
 @property(nonatomic) id<MSAppDelegate> appDelegate;
 
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_11_0
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpartial-availability"
+@property(nullable, nonatomic) SFAuthenticationSession *authenticationSession;
+#pragma clang diagnostic pop
+#endif
+
 /**
  * Returns the singleton instance. Meant for testing/demo apps only.
  *
@@ -118,13 +133,23 @@ static NSString *const kMSDistributionGroupIdKey = @"MSDistributionGroupId";
  */
 - (nullable NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret releaseHash:(NSString *)releaseHash;
 
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_11_0
 /**
- * Open the given URL using an `SFSafariViewController`. Must run on the UI thread! iOS 9+ only.
+ * Open the given URL using an `SFAuthenticationSession`. Must run on the UI thread! iOS 11 only.
+ *
+ * @param url URL to open.
+ * @param clazz `SFAuthenticationSession` class.
+ */
+- (void)openURLInAuthenticationSessionWith:(NSURL *)url fromClass:(Class)clazz;
+#endif
+
+/**
+ * Open the given URL using an `SFSafariViewController`. Must run on the UI thread! iOS 9 and 10 only.
  *
  * @param url URL to open.
  * @param clazz `SFSafariViewController` class.
  */
-- (void)openURLInEmbeddedSafari:(NSURL *)url fromClass:(Class)clazz;
+- (void)openURLInSafariViewControllerWith:(NSURL *)url fromClass:(Class)clazz;
 
 /**
  * Open the given URL using the Safari application. iOS 8.x only.
@@ -149,7 +174,9 @@ static NSString *const kMSDistributionGroupIdKey = @"MSDistributionGroupId";
  * @param distributionGroupId The distribution group Id in keychain.
  * @param releaseHash The release hash of the current version.
  */
-- (void)checkLatestRelease:(nullable NSString *)updateToken distributionGroupId:(NSString *)distributionGroupId releaseHash:(NSString *)releaseHash;
+- (void)checkLatestRelease:(nullable NSString *)updateToken
+       distributionGroupId:(NSString *)distributionGroupId
+               releaseHash:(NSString *)releaseHash;
 
 /**
  * Send a request to get information for installation.
