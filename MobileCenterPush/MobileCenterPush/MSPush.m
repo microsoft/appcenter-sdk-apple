@@ -48,7 +48,6 @@ static NSString *const kMSUserNotificationCenterDelegateKey = @"delegate";
 static MSPush *sharedInstance = nil;
 static dispatch_once_t onceToken;
 #if TARGET_OS_OSX
-static id<NSUserNotificationCenterDelegate> userNotificationCenterDelegate;
 static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDelegateContext;
 #endif
 
@@ -73,7 +72,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
      * delegate to custom user notification center delegate.
      */
     if (center.delegate) {
-      userNotificationCenterDelegate = center.delegate;
+      _originalUserNotificationCenterDelegate = center.delegate;
     }
 
     // Set a delegate that will forward notifications to Push as well as a customer's delegate.
@@ -104,7 +103,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
       [keyPath isEqualToString:kMSUserNotificationCenterDelegateKey]) {
     id delegate = [change objectForKey:NSKeyValueChangeNewKey];
     if (delegate != self) {
-      userNotificationCenterDelegate = delegate;
+      self.originalUserNotificationCenterDelegate = delegate;
       [NSUserNotificationCenter defaultUserNotificationCenter].delegate = self;
     }
   } else {
@@ -277,29 +276,20 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 }
 
 - (void)userNotificationCenter:(NSUserNotificationCenter *)center
-        didDeliverNotification:(NSUserNotification *)notification {
-  if ([userNotificationCenterDelegate respondsToSelector:@selector(userNotificationCenter:didDeliverNotification:)]) {
-    [userNotificationCenterDelegate userNotificationCenter:center didDeliverNotification:notification];
-  }
-}
-
-- (void)userNotificationCenter:(NSUserNotificationCenter *)center
        didActivateNotification:(NSUserNotification *)notification {
   [self didReceiveUserNotification:notification];
-  if ([userNotificationCenterDelegate respondsToSelector:@selector(userNotificationCenter:didActivateNotification:)]) {
-    [userNotificationCenterDelegate userNotificationCenter:center didActivateNotification:notification];
+  if ([self.originalUserNotificationCenterDelegate
+          respondsToSelector:@selector(userNotificationCenter:didActivateNotification:)]) {
+    [self.originalUserNotificationCenterDelegate userNotificationCenter:center didActivateNotification:notification];
   }
 }
 
-- (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center
-     shouldPresentNotification:(NSUserNotification *)notification {
-  if ([userNotificationCenterDelegate
-          respondsToSelector:@selector(userNotificationCenter:shouldPresentNotification:)]) {
-    return [userNotificationCenterDelegate userNotificationCenter:center shouldPresentNotification:notification];
+- (void)forwardInvocation:(NSInvocation *)anInvocation {
+  if ([self.originalUserNotificationCenterDelegate respondsToSelector:[anInvocation selector]]) {
+    [anInvocation invokeWithTarget:self.originalUserNotificationCenterDelegate];
+  } else {
+    [super forwardInvocation:anInvocation];
   }
-
-  // This method is called when the user notification center has decided not to present your notification. Return NO.
-  return NO;
 }
 #endif
 

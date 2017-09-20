@@ -14,6 +14,10 @@
 
 @property(nonatomic) BOOL pushTokenHasBeenSent;
 
+#if TARGET_OS_OSX
+@property(nonatomic) id<NSUserNotificationCenterDelegate> originalUserNotificationCenterDelegate;
+#endif
+
 /**
  * Custom application delegate dedicated to Push.
  */
