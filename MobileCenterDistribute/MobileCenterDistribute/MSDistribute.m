@@ -219,28 +219,20 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 #pragma clang diagnostic ignored "-Wpartial-availability"
       Class clazz = [SFSafariViewController class];
       if (clazz) {
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_11_0
-        if (@available(iOS 11.0, *)) {
 
-          // iOS 11
-          Class authClazz = [SFAuthenticationSession class];
+        // iOS 11
+        Class authClazz = NSClassFromString(@"SFAuthenticationSession");
+        if (authClazz) {
           dispatch_async(dispatch_get_main_queue(), ^{
             [self openURLInAuthenticationSessionWith:url fromClass:authClazz];
           });
         } else {
 
-          // Compiling against iOS 11 but running on iOS 9 and 10.
+          // iOS 9 and 10
           dispatch_async(dispatch_get_main_queue(), ^{
             [self openURLInSafariViewControllerWith:url fromClass:clazz];
           });
         }
-#else
-
-        // The app is not compiled against the iOS 11 SDK, use the logic for iOS 9 and 10.
-        dispatch_async(dispatch_get_main_queue(), ^{
-          [self openURLInSafariViewControllerWith:url fromClass:clazz];
-        });
-#endif
       } else {
 
         // iOS 8.x.
@@ -457,36 +449,57 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   return components.URL;
 }
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_11_0
-- (void)openURLInAuthenticationSessionWith:(NSURL *)url fromClass:(Class)clazz {
+- (void)openURLInAuthenticationSessionWith:(NSURL *)url fromClass:(Class)sessionClazz {
   MSLogDebug([MSDistribute logTag], @"Using SFAuthenticationSession to open URL: %@", url);
   NSString *callbackUrlScheme = [NSString stringWithFormat:kMSDefaultCustomSchemeFormat, self.appSecret];
-  if (@available(iOS 11.0, *)) {
-    SFAuthenticationSession *session = [[clazz alloc]
-              initWithURL:url
-        callbackURLScheme:callbackUrlScheme
-        completionHandler:^(NSURL *callbackUrl, NSError *error) {
 
-          self.authenticationSession = nil;
-          if (error != nil) {
-            MSLogDebug([MSDistribute logTag], @"Called %@ with errror: %@", callbackUrl, error.localizedDescription);
-          }
-          if (error.code == SFAuthenticationErrorCanceledLogin) {
-            MSLogError([MSDistribute logTag], @"Authentication session was cancelled by user or failed.");
-          }
-          if (callbackUrl) {
-            [self openURL:callbackUrl];
-          }
-        }];
+  // Check once more if we have the correct class.
+  if (sessionClazz) {
+
+    id session = [sessionClazz alloc];
+
+    // Create selector for [instanceOfSFAuthenticationSession initWithURL: callbackURLScheme: completionHandler:].
+    SEL initSelector = NSSelectorFromString(@"initWithURL:callbackURLScheme:completionHandler:");
+
+    // The completion block that we need to invoke.
+    typedef void (^MSCompletionBlockForAuthSession)(NSURL *callbackUrl, NSError *error);
+    MSCompletionBlockForAuthSession authCompletionBlock = ^(NSURL *callbackUrl, NSError *error) {
+      self.authenticationSession = nil;
+      if (error != nil) {
+        MSLogDebug([MSDistribute logTag], @"Called %@ with errror: %@", callbackUrl, error.localizedDescription);
+      }
+
+      // This is error.code == SFAuthenticationErrorCanceledLogin which we can't use to retain backward compatibility.
+      if (error.code == 1) {
+        MSLogError([MSDistribute logTag], @"Authentication session was cancelled by user or failed.");
+      }
+      if (callbackUrl) {
+        [self openURL:callbackUrl];
+      }
+    };
+
+    // Initialize the SFAuthenticationsession.
+    typedef void (*MSInitSFAuthenticationSession)(id, SEL, NSURL *, NSString *, MSCompletionBlockForAuthSession);
+    MSInitSFAuthenticationSession initMethodCall;
+    initMethodCall = (MSInitSFAuthenticationSession)[session methodForSelector:initSelector];
+    initMethodCall(session, initSelector, url, callbackUrlScheme, authCompletionBlock);
+
+    // Retain the session.
     self.authenticationSession = session;
 
-    BOOL success = [session start];
+    // Create selector for [instanceOfSFAuthenticationSession start].
+    SEL startSelector = NSSelectorFromString(@"start");
+    
+    // Call [SFAuthenticationSession start] dynamically.
+    typedef BOOL (*MSStartSFAuthenticationSession)(id, SEL);
+    MSStartSFAuthenticationSession startMethodCall;
+    startMethodCall = (MSStartSFAuthenticationSession)[session methodForSelector:startSelector];
+    BOOL success = startMethodCall(session, @selector(start));
     if (success) {
       MSLogDebug([MSDistribute logTag], @"Authentication Session Started, showing confirmation dialog");
     }
   }
 }
-#endif
 
 - (void)openURLInSafariViewControllerWith:(NSURL *)url fromClass:(Class)clazz {
   MSLogDebug([MSDistribute logTag], @"Using SFSafariViewController to open URL: %@", url);
