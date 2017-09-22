@@ -41,6 +41,7 @@ static NSString *const kMSURLQueryRedirectIdKey = @"redirect_id";
 static NSString *const kMSURLQueryRequestIdKey = @"request_id";
 static NSString *const kMSURLQueryUpdateTokenKey = @"update_token";
 static NSString *const kMSURLQueryDistributionGroupIdKey = @"distribution_group_id";
+static NSString *const kMSURLQueryUpdateSetupFailedKey = @"update_setup_failed";
 
 /**
  * Distribute url query parameter value strings.
@@ -81,6 +82,16 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
  * The storage key for distribution group ID.
  */
 static NSString *const kMSDistributionGroupIdKey = @"MSDistributionGroupId";
+
+/**
+ * The storage key for update setup failure error message.
+ */
+static NSString *const kMSUpdateSetupFailedMessageKey = @"MSUpdateSetupFailedMessage";
+
+/**
+ * The storage key for update setup failure package hash.
+ */
+static NSString *const kMSUpdateSetupFailedPackageHashKey = @"MSUpdateSetupFailedPackageHash";
 
 @interface MSDistribute ()
 

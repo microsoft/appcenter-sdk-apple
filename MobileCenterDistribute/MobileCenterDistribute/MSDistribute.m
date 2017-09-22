@@ -204,6 +204,26 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
           @"The device lost its internet connection. The SDK will retry to get an update token in the next launch.");
       return;
     }
+    
+    // If failed to enable in-app updates on the same app build before, don't try again.
+    // Only if the app build is different (different package hash), try enabling in-app updates again.
+    NSString *updateSetupFailedMessage = [MS_USER_DEFAULTS objectForKey:kMSUpdateSetupFailedMessageKey];
+    NSString *updateSetupFailedPackageHash = [MS_USER_DEFAULTS objectForKey:kMSUpdateSetupFailedPackageHashKey];
+    if (updateSetupFailedMessage) {
+      if ([updateSetupFailedPackageHash isEqualToString:releaseHash]) {
+        MSLogDebug(
+                   [MSDistribute logTag],
+                   @"Skipping in-app updates setup, because it already failed on this release before.");
+        return;
+      } else {
+        MSLogDebug(
+                   [MSDistribute logTag],
+                   @"Re-attempting in-app updates setup and cleaning up failure info from storage.");
+        [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateSetupFailedMessageKey];
+        [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateSetupFailedPackageHashKey];
+      }
+    }
+    
     NSURL *url;
     MSLogInfo([MSDistribute logTag], @"Request information of initial installation.");
 
@@ -694,6 +714,16 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   });
 }
 
+- (void)showUpdateSetupFailedAlert:(NSString *)errorMessage {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    MSAlertController *alertController =
+    [MSAlertController alertControllerWithTitle:MSDistributeLocalizedString(@"MSDistributeUpdateSetupFailed")
+                                        message:errorMessage];
+    [alertController addCancelActionWithTitle:MSDistributeLocalizedString(@"MSDistributeClose") handler:nil];
+    [alertController show];
+  });
+}
+
 - (void)startDownload:(nullable MSReleaseDetails *)details {
   [MSUtility sharedAppOpenUrl:details.installUrl
       options:@{}
@@ -752,6 +782,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     NSString *queryRequestId = nil;
     NSString *queryDistributionGroupId = nil;
     NSString *queryUpdateToken = nil;
+    NSString *queryUpdateSetupFailed = nil;
     NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
 
     // Read mandatory parameters from URL query string.
@@ -762,7 +793,22 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         queryDistributionGroupId = item.value;
       } else if ([item.name isEqualToString:kMSURLQueryUpdateTokenKey]) {
         queryUpdateToken = item.value;
+      } else if ([item.name isEqualToString:kMSURLQueryUpdateSetupFailedKey]) {
+        queryUpdateSetupFailed = item.value;
       }
+    }
+    
+    /*
+     * If the in-app updates setup failed, store the error message and which also store
+     * the package hash that the failure occurred on, so the setup can be re-attempted
+     * the next time the app gets updated.
+     */
+    if (queryUpdateSetupFailed) {
+      MSLogDebug([MSDistribute logTag],
+                 @"In-app updates setup failure detected. Store the failure message and package hash to storage.");
+      [MS_USER_DEFAULTS setObject:queryUpdateSetupFailed forKey:kMSUpdateSetupFailedMessageKey];
+      [MS_USER_DEFAULTS setObject:MSPackageHash() forKey:kMSUpdateSetupFailedPackageHashKey];
+      [self showUpdateSetupFailedAlert:queryUpdateSetupFailed];
     }
 
     // If the request ID doesn't match, ignore.

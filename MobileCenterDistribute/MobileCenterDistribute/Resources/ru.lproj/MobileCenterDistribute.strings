@@ -13,3 +13,4 @@
 "MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "Вышло обязательное обновление. Вам необходимо обновиться до %@ %@ (%@).";
 "MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@ (%@) доступно для загрузки и установки.";
 "MSDistributeInAppUpdatesAreDisabled" = "Обновления из приложения отключены.";
+"MSDistributeUpdateSetupFailed" = "Failed to enable in-app updates.";
