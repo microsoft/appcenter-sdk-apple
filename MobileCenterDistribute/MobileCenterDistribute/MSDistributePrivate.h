@@ -41,6 +41,7 @@ static NSString *const kMSURLQueryRedirectIdKey = @"redirect_id";
 static NSString *const kMSURLQueryRequestIdKey = @"request_id";
 static NSString *const kMSURLQueryUpdateTokenKey = @"update_token";
 static NSString *const kMSURLQueryDistributionGroupIdKey = @"distribution_group_id";
+static NSString *const kMSURLQueryEnableUpdateSetupFailureRedirectKey = @"enable_failure_redirect";
 static NSString *const kMSURLQueryUpdateSetupFailedKey = @"update_setup_failed";
 
 /**

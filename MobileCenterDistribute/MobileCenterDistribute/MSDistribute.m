@@ -463,6 +463,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   [items addObject:[NSURLQueryItem queryItemWithName:kMSURLQueryRedirectIdKey value:scheme]];
   [items addObject:[NSURLQueryItem queryItemWithName:kMSURLQueryRequestIdKey value:requestId]];
   [items addObject:[NSURLQueryItem queryItemWithName:kMSURLQueryPlatformKey value:kMSURLQueryPlatformValue]];
+  [items addObject:[NSURLQueryItem queryItemWithName:kMSURLQueryEnableUpdateSetupFailureRedirectKey value:@"true"]];
   components.queryItems = items;
 
   // Check URL validity.
