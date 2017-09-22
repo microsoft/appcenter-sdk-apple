@@ -111,11 +111,9 @@ Class Cl_Culture
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 Function Unzip ($zipfile,$outpath)
 {
-    #Remove the content of the outpath folder if it exists
     write-Host "We are unzipping the zip file $zipfile to $outpath"
 
-    $zipfile = $ExecutionContext.InvokeCommand.ExpandString($zipfile)
-
+    #Remove the content of the outpath folder if it exists
     if ((Test-Path -Path $outpath) -and $outpath.Contains("Unzip"))
     {
         write-host "Deleting the file"
@@ -127,8 +125,6 @@ Function Unzip ($zipfile,$outpath)
 
 Function GetCulture($CultureFile,$CultureToSearch)
 {
-    write-host $CultureFile
-
     $Cultures = Import-CSV $CultureFile 
 
     ForEach ($culture in $Cultures)
@@ -172,43 +168,38 @@ $fileBinary
 --$boundary--
 "@
 
-    write-host "Before IRM"
-    write-host "BODY: $body"
-
     Invoke-RestMethod -Uri "http://tdbuild/api/teams/$teamId/LocalizableFiles" -Method Put -UseDefaultCredentials -ContentType "multipart/form-data; boundary=$boundary" -Body $body -OutFile $outFilePath
-
-    write-host "After IRM"
 }
 
-Function binplace ($UnzipFileto,$relativeFilePath,$TargetPath,$LanguageSet)
+Function binplace ($UnzipFileTo,$relativeFilePath,$TargetPath,$LanguageSet)
 {
     $Langs = $LanguageSet.split(";")
+    
+    write-host "the culture file is: $CultureFile"
 
     foreach($Language in $Langs)
-    { 
-        write-host "the culture file is:"
-        write-host $CultureFile
-
+    {
         $OCulture = GetCulture $CultureSettingFile $Language
         $Culture = $OCulture.Culture
+        write-host "OCulture: $OCulture"
 
-        $LocalizedFile = $UnzipFileto + "\" + $OCulture.Lsbuild  + $relativeFilePath
-        $TargetPathLoc = $ExecutionContext.InvokeCommand.ExpandString($TargetPath)
-        $TargetPathDir = $TargetPathLoc.Substring(0,$TargetPathLoc.LastIndexOf("\"))
+        $LocalizedFile = $UnzipFileTo + "\" + $OCulture.Lsbuild  + $relativeFilePath
+        $TargetPathDir = $TargetPath.Substring(0,$TargetPath.LastIndexOf("\"))
 
-        write-host $LocalizedFile
-        write-host $TargetPathLoc
+        write-host "Loc File:   $LocalizedFile"
+        write-host "TargetPath: $TargetPath"
+        write-host "Copying Loc file to TargetPath"
 
         if(!(Test-Path -Path $TargetPathDir )){
             New-Item $TargetPathDir -type directory
         }
-        Copy-Item $LocalizedFile $TargetPathLoc 
+
+        Copy-Item $LocalizedFile $TargetPath
     }
 }
 
 Function AddFiletoRepo ($TargetPath,$LanguageSet)
 {
-
     $Langs = $LanguageSet.split(";")
 
     foreach($Language in $Langs)
@@ -217,11 +208,7 @@ Function AddFiletoRepo ($TargetPath,$LanguageSet)
 
         #We pull out here the culture that might be used during the string expansion.
         $Culture = $OCulture.Culture
-
-        $TargetPathLoc = $ExecutionContext.InvokeCommand.ExpandString($TargetPath)
-
-        $FileToCheckin = $TargetPathLoc
-        $Argument = "add " + $FileToCheckin
+        $Argument = "add " + $TargetPath
 
         write-host $Argument
 
@@ -248,14 +235,16 @@ Function RefreshTDFiles
 
         $outFilePath      = $ExecutionContext.InvokeCommand.ExpandString($outFilePath)
         $absoluteFilePath = $ExecutionContext.InvokeCommand.ExpandString($absoluteFilePath)
+        $TargetPath       = $ExecutionContext.InvokeCommand.ExpandString($TargetPath)
 
         write-host "-----TOUCHDOWN TRANSACTION-----"
         TouchDownTransaction $absoluteFilePath $outFilePath $relativeFilePath $teamId $LanguageSet
 
-        $UnzipFileTo = $outFilePath + "\Unzip\"
-        Unzip $outFilePath $UnzipFileTo
+        $UnzipFolderLocation = $SrcRoot + "\Localization\Unzip"
 
-        binplace $UnzipFileto $relativeFilePath $TargetPath $LanguageSet
+        Unzip $outFilePath $UnzipFolderLocation
+
+        binplace $UnzipFolderLocation $relativeFilePath $TargetPath $LanguageSet
 
         AddFiletoRepo $TargetPath $LanguageSet
     }

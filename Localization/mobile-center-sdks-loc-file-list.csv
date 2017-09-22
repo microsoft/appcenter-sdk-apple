@@ -1,4 +1,4 @@
 absoluteFilePath,outFilePath,relativeFilePath,TargetPath,LanguageSet
-$SrcRoot\MobileCenterDistribute\MobileCenterDistribute\Resources\en.lproj\MobileCenterDistribute.strings,$SrcRoot\Localization\MobileCenterDistribute.zip,..\MobileCenterDistribute\MobileCenterDistribute\Resources\en.lproj\MobileCenterDistribute.strings,$SrcRoot\Localization,enu;fra;deu;ita;esn;chs;cht;jpn;kor;rus;csy;plk;ptb;trk
-$SrcRoot\Sasquatch\Sasquatch\Main.strings,$SrcRoot\Localization\Sasquatch.zip,..\Sasquatch\Sasquatch\Main.strings,$SrcRoot\Localization,enu;fra;deu;ita;esn;chs;cht;jpn;kor;rus;csy;plk;ptb;trk
-$SrcRoot\Puppet\Puppet\Main.strings,$SrcRoot\Localization\Puppet.zip,..\Puppet\Puppet\Main.strings,$SrcRoot\Localization,enu;fra;deu;ita;esn;chs;cht;jpn;kor;rus;csy;plk;ptb;trk
+$SrcRoot\MobileCenterDistribute\MobileCenterDistribute\Resources\en.lproj\MobileCenterDistribute.strings,$SrcRoot\Localization\MobileCenterDistribute.zip,\MobileCenterDistribute.strings,$SrcRoot\Localization\MobileCenterDistribute,cs-CZ;de-DE;es-ES;fr-FR;it-IT;ja-JP;ko-KR;pl-PL;pt-BR;ru-RU;tr-TR;zh-CN;zh-TW
+$SrcRoot\Sasquatch\Sasquatch\Main.strings,$SrcRoot\Localization\Sasquatch.zip,\Main.strings,$SrcRoot\Localization\Sasquatch,cs-CZ;de-DE;es-ES;fr-FR;it-IT;ja-JP;ko-KR;pl-PL;pt-BR;ru-RU;tr-TR;zh-CN;zh-TW
+$SrcRoot\Puppet\Puppet\Main.strings,$SrcRoot\Localization\Puppet.zip,\Main.strings,$SrcRoot\Localization\Puppet,cs-CZ;de-DE;es-ES;fr-FR;it-IT;ja-JP;ko-KR;pl-PL;pt-BR;ru-RU;tr-TR;zh-CN;zh-TW
