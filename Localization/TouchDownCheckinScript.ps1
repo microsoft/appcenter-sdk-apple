@@ -38,7 +38,7 @@ $Guid = [GUID]::NewGuid()
 $TempLocBranch = "TouchDownCheckin_" +  $Guid
 $repoPath = $SrcRoot
 $LogFile = "C:\TouchDown\TDCheckin\log.txt"
-$DefaultRepoBranch = "master"
+$DefaultRepoBranch = "localization"
 $teamId = "272" #ID for iOS
 $git = "git"
 
@@ -71,15 +71,12 @@ Function InitializeRepoForCheckin
 
     $Argument = "reset --hard HEAD"
     ProcessStart $git $Argument $repoPath
-    #Start-Process $git $Argument -WorkingDirectory $repoPath -NoNewWindow
 
     $Argument = "pull"
     ProcessStart $git $Argument $repoPath
-    #Start-Process $git $Argument -WorkingDirectory $repoPath -NoNewWindow
 
     $Argument = "checkout -b" + $TempLocBranch
     ProcessStart $git $Argument $repoPath
-    #Start-Process $git $Argument -WorkingDirectory $repoPath -NoNewWindow -redirectstandardoutput $logfile 
 }
 
 Function CheckinFilesIntoRepo
@@ -175,26 +172,27 @@ Function binplace ($UnzipFileTo,$relativeFilePath,$TargetPath,$LanguageSet)
 {
     $Langs = $LanguageSet.split(";")
     
-    write-host "the culture file is: $CultureFile"
+    write-host "the culture file is: $CultureSettingsFile"
 
     foreach($Language in $Langs)
     {
         $OCulture = GetCulture $CultureSettingFile $Language
-        $Culture = $OCulture.Culture
-        write-host "OCulture: $OCulture"
+        $Culture = $OCulture.LSBUILD
 
-        $LocalizedFile = $UnzipFileTo + "\" + $OCulture.Lsbuild  + $relativeFilePath
-        $TargetPathDir = $TargetPath.Substring(0,$TargetPath.LastIndexOf("\"))
-
-        write-host "Loc File:   $LocalizedFile"
-        write-host "TargetPath: $TargetPath"
-        write-host "Copying Loc file to TargetPath"
-
-        if(!(Test-Path -Path $TargetPathDir )){
-            New-Item $TargetPathDir -type directory
+        $LocalizedFile = $UnzipFileTo + "\" + $OCulture.LSBUILD + $relativeFilePath
+        #$TargetPathDir = $TargetPath.Substring(0,$TargetPath.LastIndexOf("\"))
+        $TargetPathDir = $TargetPath + "\" + $OCulture.LSBUILD
+        
+        if(!(Test-Path -Path $TargetPathDir)){
+            New-Item -Path $TargetPathDir -ItemType directory
         }
 
-        Copy-Item $LocalizedFile $TargetPath
+        $targetFile = $TargetPath + "\" + $OCulture.LSBUILD + $relativeFilePath
+        write-host "Loc File:   $LocalizedFile"
+        write-host "TargetPath: $targetFile"
+        write-host "Copying Loc file to TargetPath"
+
+        Copy-Item $LocalizedFile $targetFile
     }
 }
 
