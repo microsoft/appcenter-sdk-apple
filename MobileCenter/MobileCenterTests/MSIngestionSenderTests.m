@@ -1,6 +1,3 @@
-
-
-
 #import "MSDevice.h"
 #import "MSDeviceInternal.h"
 #import "MSHttpSenderPrivate.h"
@@ -673,4 +670,3 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 }
 
 @end
-d
