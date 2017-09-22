@@ -458,8 +458,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
     id session = [sessionClazz alloc];
 
-    // The selector we want to invoke.
-    SEL theSelector = NSSelectorFromString(@"initWithURL:callbackURLScheme:completionHandler:");
+    // Create selector for [instanceOfSFAuthenticationSession initWithURL: callbackURLScheme: completionHandler:].
+    SEL initSelector = NSSelectorFromString(@"initWithURL:callbackURLScheme:completionHandler:");
 
     // The completion block that we need to invoke.
     typedef void (^MSCompletionBlockForAuthSession)(NSURL *callbackUrl, NSError *error);
@@ -480,15 +480,20 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
     // Initialize the SFAuthenticationsession
     typedef void (*MSInitSFAuthenticationSession)(id, SEL, NSURL *, NSString *, MSCompletionBlockForAuthSession);
-    MSInitSFAuthenticationSession initMethodToCall = NULL;
-    initMethodToCall(session, theSelector, url, callbackUrlScheme, authCompletionBlock);
+    MSInitSFAuthenticationSession initMethodCall;
+    initMethodCall = (MSInitSFAuthenticationSession)[session methodForSelector:initSelector];
+    initMethodCall(session, initSelector, url, callbackUrlScheme, authCompletionBlock);
 
     // Retain the session.
     self.authenticationSession = session;
 
+    // Create selector for [instanceOfSFAuthenticationSession start];
+    SEL startSelector = NSSelectorFromString(@"start");
+    
     // Call [SFAuthenticationSession start] dynamically.
     typedef BOOL (*MSStartSFAuthenticationSession)(id, SEL);
-    MSStartSFAuthenticationSession startMethodCall = NULL;
+    MSStartSFAuthenticationSession startMethodCall;
+    startMethodCall = (MSStartSFAuthenticationSession)[session methodForSelector:startSelector];
     BOOL success = startMethodCall(session, @selector(start));
     if (success) {
       MSLogDebug([MSDistribute logTag], @"Authentication Session Started, showing confirmation dialog");
@@ -607,12 +612,13 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 - (BOOL)checkForUpdatesAllowed {
 
-  // Check if we are not in AppStore or TestFlight environments.
-  BOOL environmentOkay = [MSUtility currentAppEnvironment] == MSEnvironmentOther;
-
-  // Check if a debugger is attached.
-  BOOL noDebuggerAttached = ![MSMobileCenter isDebuggerAttached];
-  return environmentOkay && noDebuggerAttached;
+  return YES;
+//  // Check if we are not in AppStore or TestFlight environments.
+//  BOOL environmentOkay = [MSUtility currentAppEnvironment] == MSEnvironmentOther;
+//
+//  // Check if a debugger is attached.
+//  BOOL noDebuggerAttached = ![MSMobileCenter isDebuggerAttached];
+//  return environmentOkay && noDebuggerAttached;
 }
 
 - (BOOL)isNewerVersion:(MSReleaseDetails *)details {
