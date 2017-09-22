@@ -1,3 +1,6 @@
+
+
+
 #import "MSDevice.h"
 #import "MSDeviceInternal.h"
 #import "MSHttpSenderPrivate.h"
@@ -112,7 +115,14 @@ static NSString *const kMSBaseUrl = @"https://test.com";
         XCTAssertEqual(error.code, kMSMCConnectionHttpErrorCode);
         XCTAssertEqual(error.localizedDescription, kMSMCConnectionHttpErrorDesc);
         XCTAssertTrue([error.userInfo[kMSMCConnectionHttpCodeErrorKey] isEqual:@(MSHTTPCodesNo404NotFound)]);
-        [expectation fulfill];
+
+        /*
+         * FIXME: This unit test failes intermittently because of timing issue. Wait a little bit of time
+         * here so that [MSSender call:completedWithFatalError:] can be invoked right after this completion handler.
+         */
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+          [expectation fulfill];
+        });
       }];
 
   // Then
@@ -663,3 +673,4 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 }
 
 @end
+d
