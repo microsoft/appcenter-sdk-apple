@@ -207,9 +207,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     
     // If failed to enable in-app updates on the same app build before, don't try again.
     // Only if the app build is different (different package hash), try enabling in-app updates again.
-    NSString *updateSetupFailedMessage = [MS_USER_DEFAULTS objectForKey:kMSUpdateSetupFailedMessageKey];
     NSString *updateSetupFailedPackageHash = [MS_USER_DEFAULTS objectForKey:kMSUpdateSetupFailedPackageHashKey];
-    if (updateSetupFailedMessage) {
+    if (updateSetupFailedPackageHash) {
       if ([updateSetupFailedPackageHash isEqualToString:releaseHash]) {
         MSLogDebug(
                    [MSDistribute logTag],
