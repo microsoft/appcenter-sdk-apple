@@ -13,4 +13,3 @@
 "MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "Das Update auf Version %@ %@ (%@) ist ein verpflichtendes Update.";
 "MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@ (%@) steht zum Download bereit.";
 "MSDistributeInAppUpdatesAreDisabled" = "In-app-updates wurden deaktiviert.";
-"MSDistributeUpdateSetupFailed" = "Failed to enable in-app updates.";

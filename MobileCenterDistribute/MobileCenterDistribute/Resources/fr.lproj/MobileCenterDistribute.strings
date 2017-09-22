@@ -13,4 +13,3 @@
 "MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "Les développeurs de cette application vous demande de mettre jour vers %@ %@ (%@).";
 "MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@ (%@) est disponible au téléchargement et à l'installation.";
 "MSDistributeInAppUpdatesAreDisabled" = "Les mises à jour depuis l'application sont désactivées.";
-"MSDistributeUpdateSetupFailed" = "Failed to enable in-app updates.";

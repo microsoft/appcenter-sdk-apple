@@ -717,7 +717,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 - (void)showUpdateSetupFailedAlert:(NSString *)errorMessage {
   dispatch_async(dispatch_get_main_queue(), ^{
     MSAlertController *alertController =
-    [MSAlertController alertControllerWithTitle:MSDistributeLocalizedString(@"MSDistributeUpdateSetupFailed")
+    [MSAlertController alertControllerWithTitle:MSDistributeLocalizedString(@"MSDistributeInAppUpdatesAreDisabled")
                                         message:errorMessage];
     [alertController addCancelActionWithTitle:MSDistributeLocalizedString(@"MSDistributeClose") handler:nil];
     [alertController show];
@@ -797,19 +797,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         queryUpdateSetupFailed = item.value;
       }
     }
-    
-    /*
-     * If the in-app updates setup failed, store the error message and which also store
-     * the package hash that the failure occurred on, so the setup can be re-attempted
-     * the next time the app gets updated.
-     */
-    if (queryUpdateSetupFailed) {
-      MSLogDebug([MSDistribute logTag],
-                 @"In-app updates setup failure detected. Store the failure message and package hash to storage.");
-      [MS_USER_DEFAULTS setObject:queryUpdateSetupFailed forKey:kMSUpdateSetupFailedMessageKey];
-      [MS_USER_DEFAULTS setObject:MSPackageHash() forKey:kMSUpdateSetupFailedPackageHashKey];
-      [self showUpdateSetupFailedAlert:queryUpdateSetupFailed];
-    }
 
     // If the request ID doesn't match, ignore.
     if (!(requestedId && queryRequestId && [requestedId isEqualToString:queryRequestId])) {
@@ -851,6 +838,19 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                    releaseHash:MSPackageHash()];
     } else {
       MSLogError([MSDistribute logTag], @"Cannot find either update token or distribution group id.");
+    }
+    
+    /*
+     * If the in-app updates setup failed, store the error message and which also store
+     * the package hash that the failure occurred on, so the setup can be re-attempted
+     * the next time the app gets updated.
+     */
+    if (queryUpdateSetupFailed) {
+      MSLogDebug([MSDistribute logTag],
+                 @"In-app updates setup failure detected. Store the failure message and package hash to storage.");
+      [MS_USER_DEFAULTS setObject:queryUpdateSetupFailed forKey:kMSUpdateSetupFailedMessageKey];
+      [MS_USER_DEFAULTS setObject:MSPackageHash() forKey:kMSUpdateSetupFailedPackageHashKey];
+      [self showUpdateSetupFailedAlert:queryUpdateSetupFailed];
     }
   } else {
     MSLogDebug([MSDistribute logTag], @"Distribute service has been disabled, ignore request.");
