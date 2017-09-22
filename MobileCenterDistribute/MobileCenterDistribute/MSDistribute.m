@@ -478,7 +478,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       }
     };
 
-    // Initialize the SFAuthenticationsession
+    // Initialize the SFAuthenticationsession.
     typedef void (*MSInitSFAuthenticationSession)(id, SEL, NSURL *, NSString *, MSCompletionBlockForAuthSession);
     MSInitSFAuthenticationSession initMethodCall;
     initMethodCall = (MSInitSFAuthenticationSession)[session methodForSelector:initSelector];
@@ -487,7 +487,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     // Retain the session.
     self.authenticationSession = session;
 
-    // Create selector for [instanceOfSFAuthenticationSession start];
+    // Create selector for [instanceOfSFAuthenticationSession start].
     SEL startSelector = NSSelectorFromString(@"start");
     
     // Call [SFAuthenticationSession start] dynamically.
