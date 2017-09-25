@@ -1,0 +1,15 @@
+/*
+ * Update dialog buttons
+ */
+"MSDistributeUpdateNow" = "立即更新";
+"MSDistributeAskMeInADay" = "一天内询问我";
+"MSDistributeViewReleaseNotes" = "查看发行说明";
+"MSDistributeClose" = "关闭";
+
+/*
+ * Update dialog titles/messages
+ */
+"MSDistributeAppUpdateAvailable" = "可用的应用更新";
+"MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "此应用的开发人员要求用户更新为 %@ %@ (%@)。";
+"MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@ (%@) 可供下载和安装。";
+"MSDistributeInAppUpdatesAreDisabled" = "已禁用应用内更新。";
