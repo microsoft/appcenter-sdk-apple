@@ -121,12 +121,7 @@ static NSString *const kMSUpdateSetupFailedPackageHashKey = @"MSUpdateSetupFaile
  */
 @property(nonatomic) id<MSAppDelegate> appDelegate;
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_11_0
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wpartial-availability"
-@property(nullable, nonatomic) SFAuthenticationSession *authenticationSession;
-#pragma clang diagnostic pop
-#endif
+@property(nonatomic) id _Nullable authenticationSession;
 
 /**
  * Returns the singleton instance. Meant for testing/demo apps only.
@@ -153,15 +148,13 @@ static NSString *const kMSUpdateSetupFailedPackageHashKey = @"MSUpdateSetupFaile
  */
 - (void)openUrlInSafari:(NSURL *)url;
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_11_0
 /**
  * Open the given URL using an `SFAuthenticationSession`. Must run on the UI thread! iOS 11 only.
  *
  * @param url URL to open.
- * @param clazz `SFAuthenticationSession` class.
+ * @param sessionClazz `SFAuthenticationSession` class.
  */
-- (void)openURLInAuthenticationSessionWith:(NSURL *)url fromClass:(Class)clazz;
-#endif
+- (void)openURLInAuthenticationSessionWith:(NSURL *)url fromClass:(Class)sessionClazz;
 
 /**
  * Open the given URL using an `SFSafariViewController`. Must run on the UI thread! iOS 9 and 10 only.
