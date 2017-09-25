@@ -5,6 +5,7 @@
 "MSDistributeAskMeInADay" = "Ask me in a day";
 "MSDistributeViewReleaseNotes" = "View release notes";
 "MSDistributeClose" = "Close";
+"MSDistributeReinstall" = "Re-install";
 
 /*
  * Update dialog titles/messages

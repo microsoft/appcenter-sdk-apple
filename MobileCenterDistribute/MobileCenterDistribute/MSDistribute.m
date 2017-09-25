@@ -229,43 +229,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     // Most failures here require an app update. Thus, it will be retried only on next App instance.
     url = [self buildTokenRequestURLWithAppSecret:self.appSecret releaseHash:releaseHash];
     if (url) {
-
-/*
- * Only iOS 9.x and 10.x will download the update after users click the "Install" button.
- * We need to force-exit the application for other versions or for any versions when the update is mandatory.
- */
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wpartial-availability"
-      Class clazz = [SFSafariViewController class];
-      if (clazz) {
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_11_0
-        if (@available(iOS 11.0, *)) {
-
-          // iOS 11
-          Class authClazz = [SFAuthenticationSession class];
-          dispatch_async(dispatch_get_main_queue(), ^{
-            [self openURLInAuthenticationSessionWith:url fromClass:authClazz];
-          });
-        } else {
-
-          // Compiling against iOS 11 but running on iOS 9 and 10.
-          dispatch_async(dispatch_get_main_queue(), ^{
-            [self openURLInSafariViewControllerWith:url fromClass:clazz];
-          });
-        }
-#else
-
-        // The app is not compiled against the iOS 11 SDK, use the logic for iOS 9 and 10.
-        dispatch_async(dispatch_get_main_queue(), ^{
-          [self openURLInSafariViewControllerWith:url fromClass:clazz];
-        });
-#endif
-      } else {
-
-        // iOS 8.x.
-        [self openURLInSafariApp:url];
-      }
-#pragma clang diagnostic pop
+      [self openUrlInSafari:url];
     }
   } else {
 
@@ -475,6 +439,41 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     return nil;
   }
   return components.URL;
+}
+
+- (void)openUrlInSafari:(NSURL *)url {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpartial-availability"
+  Class clazz = [SFSafariViewController class];
+  if (clazz) {
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_11_0
+    if (@available(iOS 11.0, *)) {
+      
+      // iOS 11
+      Class authClazz = [SFAuthenticationSession class];
+      dispatch_async(dispatch_get_main_queue(), ^{
+        [self openURLInAuthenticationSessionWith:url fromClass:authClazz];
+      });
+    } else {
+      
+      // Compiling against iOS 11 but running on iOS 9 and 10.
+      dispatch_async(dispatch_get_main_queue(), ^{
+        [self openURLInSafariViewControllerWith:url fromClass:clazz];
+      });
+    }
+#else
+    
+    // The app is not compiled against the iOS 11 SDK, use the logic for iOS 9 and 10.
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [self openURLInSafariViewControllerWith:url fromClass:clazz];
+    });
+#endif
+  } else {
+    
+    // iOS 8.x.
+    [self openURLInSafariApp:url];
+  }
+#pragma clang diagnostic pop
 }
 
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_11_0
@@ -719,7 +718,16 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     MSAlertController *alertController =
     [MSAlertController alertControllerWithTitle:MSDistributeLocalizedString(@"MSDistributeInAppUpdatesAreDisabled")
                                         message:errorMessage];
-    [alertController addCancelActionWithTitle:MSDistributeLocalizedString(@"MSDistributeClose") handler:nil];
+    [alertController addDefaultActionWithTitle:MSDistributeLocalizedString(@"MSDistributeReinstall") handler:^(__attribute__((unused)) UIAlertAction *action) {
+      NSURL *installUrl = [NSURL URLWithString:[self installUrl]];
+      [self openUrlInSafari:installUrl];
+      [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateSetupFailedMessageKey];
+      [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateSetupFailedPackageHashKey];
+    }];
+    [alertController addCancelActionWithTitle:MSDistributeLocalizedString(@"MSDistributeClose") handler:^(__attribute__((unused)) UIAlertAction *action) {
+      [MS_USER_DEFAULTS setObject:errorMessage forKey:kMSUpdateSetupFailedMessageKey];
+      [MS_USER_DEFAULTS setObject:MSPackageHash() forKey:kMSUpdateSetupFailedPackageHashKey];
+    }];
     [alertController show];
   });
 }
@@ -848,8 +856,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     if (queryUpdateSetupFailed) {
       MSLogDebug([MSDistribute logTag],
                  @"In-app updates setup failure detected. Store the failure message and package hash to storage.");
-      [MS_USER_DEFAULTS setObject:queryUpdateSetupFailed forKey:kMSUpdateSetupFailedMessageKey];
-      [MS_USER_DEFAULTS setObject:MSPackageHash() forKey:kMSUpdateSetupFailedPackageHashKey];
       [self showUpdateSetupFailedAlert:queryUpdateSetupFailed];
     }
   } else {

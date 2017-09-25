@@ -5,6 +5,7 @@
 "MSDistributeAskMeInADay" = "Спросить завтра";
 "MSDistributeViewReleaseNotes" = "Просмотреть примечания к обновлению";
 "MSDistributeClose" = "Закрыть";
+"MSDistributeReinstall" = "Re-install";
 
 /*
  * Update dialog titles/messages
