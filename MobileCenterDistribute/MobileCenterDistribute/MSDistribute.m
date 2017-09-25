@@ -724,7 +724,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateSetupFailedMessageKey];
       [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateSetupFailedPackageHashKey];
     }];
-    [alertController addCancelActionWithTitle:MSDistributeLocalizedString(@"MSDistributeClose") handler:^(__attribute__((unused)) UIAlertAction *action) {
+    [alertController addCancelActionWithTitle:MSDistributeLocalizedString(@"MSDistributeIgnore") handler:^(__attribute__((unused)) UIAlertAction *action) {
       [MS_USER_DEFAULTS setObject:errorMessage forKey:kMSUpdateSetupFailedMessageKey];
       [MS_USER_DEFAULTS setObject:MSPackageHash() forKey:kMSUpdateSetupFailedPackageHashKey];
     }];
