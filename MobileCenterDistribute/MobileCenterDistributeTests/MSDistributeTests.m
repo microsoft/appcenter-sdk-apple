@@ -1019,7 +1019,7 @@ static NSURL *sfURL;
   // If
   NSString *scheme = [NSString stringWithFormat:kMSDefaultCustomSchemeFormat, kMSTestAppSecret];
   NSString *requestId = @"FIRST-REQUEST";
-  NSString *updateSetupFailureMessage = @"test";
+  NSString *updateSetupFailureMessage = @"in-app updates setup failed";
   id distributeMock = OCMPartialMock(self.sut);
   OCMReject([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY]);
   OCMStub([distributeMock sharedInstance]).andReturn(distributeMock);
@@ -1029,7 +1029,8 @@ static NSURL *sfURL;
   
   // If
   NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?request_id=%@&update_setup_failed=%@", scheme,
-                                     requestId, updateSetupFailureMessage]];
+                                     requestId, [updateSetupFailureMessage stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]]
+                                     ]];
   
   // When
   [self.settingsMock setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
