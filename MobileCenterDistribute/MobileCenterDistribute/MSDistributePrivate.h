@@ -226,6 +226,13 @@ static NSString *const kMSUpdateSetupFailedPackageHashKey = @"MSUpdateSetupFaile
 - (void)showDistributeDisabledAlert;
 
 /**
+ * Show a dialog to the user in case in-app updates are disabled due to update setup failure.
+ *
+ * @param errorMessage An error message to show in the dialog.
+ */
+- (void)showUpdateSetupFailedAlert:(NSString *)errorMessage;
+
+/**
  * Check whether release details contain a newer version of release than current version.
  */
 - (BOOL)isNewerVersion:(MSReleaseDetails *)details;
