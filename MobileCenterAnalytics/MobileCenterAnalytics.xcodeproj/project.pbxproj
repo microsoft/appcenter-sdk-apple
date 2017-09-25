@@ -264,6 +264,9 @@
 		0431216C1EE0C20A007054C5 /* libMobileCenterAnalytics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileCenterAnalytics.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		043121721EE0C248007054C5 /* tvOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = tvOS.modulemap; sourceTree = "<group>"; };
 		043121731EE0C248007054C5 /* tvOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = tvOS.xcconfig; sourceTree = "<group>"; };
+		043B74181F7991EB00DF2C8D /* macOS Framework.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "macOS Framework.xcconfig"; sourceTree = "<group>"; };
+		043B74191F7991EB00DF2C8D /* iOS Framework.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "iOS Framework.xcconfig"; sourceTree = "<group>"; };
+		043B741A1F7991EB00DF2C8D /* tvOS Framework.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "tvOS Framework.xcconfig"; sourceTree = "<group>"; };
 		0446DF541F3B8E6300C8E338 /* MobileCenterAnalytics.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileCenterAnalytics.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0446DF5E1F3B8FBA00C8E338 /* libMobileCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenter.a; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-atgozldoovnqvrcmynluxwlivwkq/Build/Products/Debug-appletvsimulator/libMobileCenter.a"; sourceTree = "<group>"; };
 		0446DF611F3B95EB00C8E338 /* libMobileCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenter.a; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-atgozldoovnqvrcmynluxwlivwkq/Build/Products/Debug/libMobileCenter.a"; sourceTree = "<group>"; };
@@ -565,10 +568,13 @@
 				B2812EF21DA3148000307DCE /* MobileCenterAnalytics Debug.xcconfig */,
 				0469D1B21F4DFE4C00A43A8E /* MobileCenterAnalytics Release.xcconfig */,
 				049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */,
+				043B74191F7991EB00DF2C8D /* iOS Framework.xcconfig */,
 				04ED31EB1EAAD3390033BAAE /* iOS.modulemap */,
 				049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */,
+				043B74181F7991EB00DF2C8D /* macOS Framework.xcconfig */,
 				04ED31E91EAAD32B0033BAAE /* macOS.modulemap */,
 				043121731EE0C248007054C5 /* tvOS.xcconfig */,
+				043B741A1F7991EB00DF2C8D /* tvOS Framework.xcconfig */,
 				043121721EE0C248007054C5 /* tvOS.modulemap */,
 			);
 			path = Support;
@@ -1066,14 +1072,14 @@
 		};
 		043121701EE0C213007054C5 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 043121731EE0C248007054C5 /* tvOS.xcconfig */;
+			baseConfigurationReference = 043B741A1F7991EB00DF2C8D /* tvOS Framework.xcconfig */;
 			buildSettings = {
 			};
 			name = Debug;
 		};
 		043121711EE0C213007054C5 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 043121731EE0C248007054C5 /* tvOS.xcconfig */;
+			baseConfigurationReference = 043B741A1F7991EB00DF2C8D /* tvOS Framework.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;
@@ -1122,14 +1128,14 @@
 		};
 		0485AFF21EAAADAC00C10CAF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */;
+			baseConfigurationReference = 043B74181F7991EB00DF2C8D /* macOS Framework.xcconfig */;
 			buildSettings = {
 			};
 			name = Debug;
 		};
 		0485AFF31EAAADAC00C10CAF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */;
+			baseConfigurationReference = 043B74181F7991EB00DF2C8D /* macOS Framework.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;
@@ -1210,14 +1216,14 @@
 		};
 		E85547E61D2D681F002DF6E2 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */;
+			baseConfigurationReference = 043B74191F7991EB00DF2C8D /* iOS Framework.xcconfig */;
 			buildSettings = {
 			};
 			name = Debug;
 		};
 		E85547E71D2D681F002DF6E2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */;
+			baseConfigurationReference = 043B74191F7991EB00DF2C8D /* iOS Framework.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;
