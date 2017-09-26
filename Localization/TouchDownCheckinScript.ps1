@@ -37,7 +37,6 @@ $ProjectInfo = "mobile-center-sdks-loc-file-list.csv"
 $Guid = [GUID]::NewGuid()
 $TempLocBranch = "TouchDownCheckin_" +  $Guid
 $repoPath = $SrcRoot
-$LogFile = "C:\TouchDown\TDCheckin\log.txt"
 $DefaultRepoBranch = "localization"
 $teamId = "272" #ID for iOS
 $git = "git"
