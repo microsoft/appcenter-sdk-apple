@@ -1,7 +1,13 @@
 #import "MSConstants+Internal.h"
 #import "MSHttpTestUtil.h"
 
-static NSTimeInterval const kMSStubbedResponseTimeout = UID_MAX;
+/*
+ * TODO: We need to reduce this response time from UID_MAX to 2.0 because [OHHTTPStubs removeAllStubs] is called before
+ * timeout and it results a crash with succeeded test. Testing on Xcode 8 doesn't have any issues on it but Xcode 9
+ * complains. Keep in mind that 2 sec timeout is not somewhat we get from accurate testing, it is a heuristic number and
+ * it might fail any unit tests.
+ */
+static NSTimeInterval const kMSStubbedResponseTimeout = 2.0;
 static NSString *const kMSStub500Name = @"httpStub_500";
 static NSString *const kMSStub404Name = @"httpStub_404";
 static NSString *const kMSStub200Name = @"httpStub_200";
