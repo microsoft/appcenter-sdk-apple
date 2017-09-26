@@ -1,8 +1,14 @@
 # Mobile Center SDK for iOS Change Log
 
+## Version 0.12.3
+
+This version contains a bug fix when the frameworks are integrated on applications which are built on Xcode 8
+
+___
+
 ## Version 0.12.2
 
-This version contains a buf fix and improvements. **Verified all functionalities against iOS 11 GM.**
+This version contains a bug fix and improvements. **Verified all functionalities against iOS 11 GM.**
 
 ### MobileCenterCrashes
 
