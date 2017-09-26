@@ -1,7 +1,8 @@
 ﻿param([String]$SrcRoot="undefined")
 
-#to Run the script simply run the following commnand from a PowerShell prompt
-#Here is a PowerShell script to process the file from the TouchDown project
+# This script will upload the files which need to be localized to the Touchdown servers and they will automatically be translated by Bing translate
+
+# Usage: .\TouchDownCheckinScript.ps1 absolute\path\to\reporoot
 
 #What would be the standard steps to enable check in process
 #  -Sync the Localized File on the machine
@@ -10,26 +11,11 @@
 #  -Create a Temp loc branch
 #  -Set the Flag (ChangesAreDetected = false)
 #  -Call TD
-#  -Extract the ZIP file
+#  -Extract the ZIP file from TD
 #  -Map the extracted file to the Local file
 #  -Compare the localized File with File in the Repo, if those files are different then run the command sd add
 #  -Set the Flag (ChangesAreDetected = True)
 #  -Run a Git push (Integrate the TempLocBranch to your working branch)
-
-#Let generate the Command Line to pull our the Touch Down file
-#Here are the variables needed
-#  $absoluteFilePath
-#  $outFilePath
-#  $relativeFilePath
-#  $teamId  (can be defined as a Global Variable)
-#At first it will place those either in a CSV file or XML file
-#You can provide the $Srcroot from the command line. If you add those variable in your path from the script, those will be automatically replaced
-#The Language can also specified so that you have a very flexible way of binplacing the Localized file.
-
-# we need to build a command line that is like this:
-
-#Here is an example of Command line
-#Invoke-RestMethod -Uri "http://tdbuild/api/teams/$teamId/LocalizableFiles" -Method Put -UseDefaultCredentials -ContentType "multipart/form-data; boundary=$boundary" -Body $body -OutFile $outFilePath
 
 $CultureSettingFile= "mobile-center-cultures.csv"
 $ProjectInfo = "mobile-center-sdks-loc-file-list.csv"
