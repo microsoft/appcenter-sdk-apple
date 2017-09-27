@@ -205,8 +205,10 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       return;
     }
     
-    // If failed to enable in-app updates on the same app build before, don't try again.
-    // Only if the app build is different (different package hash), try enabling in-app updates again.
+    /*
+     * If failed to enable in-app updates on the same app build before, don't try again.
+     * Only if the app build is different (different package hash), try enabling in-app updates again.
+     */
     NSString *updateSetupFailedPackageHash = [MS_USER_DEFAULTS objectForKey:kMSUpdateSetupFailedPackageHashKey];
     if (updateSetupFailedPackageHash) {
       if ([updateSetupFailedPackageHash isEqualToString:releaseHash]) {
@@ -229,7 +231,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     // Most failures here require an app update. Thus, it will be retried only on next App instance.
     url = [self buildTokenRequestURLWithAppSecret:self.appSecret releaseHash:releaseHash];
     if (url) {
-      [self openUrlInSafari:url];
+      [self openUrlInAuthenticationSessionOrSafari:url];
     }
   } else {
 
@@ -441,7 +443,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   return components.URL;
 }
 
-- (void)openUrlInSafari:(NSURL *)url {
+- (void)openUrlInAuthenticationSessionOrSafari:(NSURL *)url {
 /*
  * Only iOS 9.x and 10.x will download the update after users click the "Install" button.
  * We need to force-exit the application for other versions or for any versions when the update is mandatory.
@@ -737,7 +739,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                                         message:errorMessage];
     [alertController addDefaultActionWithTitle:MSDistributeLocalizedString(@"MSDistributeReinstall") handler:^(__attribute__((unused)) UIAlertAction *action) {
       NSURL *installUrl = [NSURL URLWithString:[self installUrl]];
-      [self openUrlInSafari:installUrl];
+      [self openUrlInAuthenticationSessionOrSafari:installUrl];
       [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateSetupFailedMessageKey];
       [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateSetupFailedPackageHashKey];
     }];
@@ -866,13 +868,13 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     }
     
     /*
-     * If the in-app updates setup failed, store the error message and which also store
-     * the package hash that the failure occurred on, so the setup can be re-attempted
-     * the next time the app gets updated.
+     * If the in-app updates setup failed, and user ignores the failure, store the error
+     * message and also store the package hash that the failure occurred on. The setup
+     * will only be re-attempted the next time the app gets updated (and package hash changes).
      */
     if (queryUpdateSetupFailed) {
       MSLogDebug([MSDistribute logTag],
-                 @"In-app updates setup failure detected. Store the failure message and package hash to storage.");
+                 @"In-app updates setup failure detected.");
       [self showUpdateSetupFailedAlert:queryUpdateSetupFailed];
     }
   } else {

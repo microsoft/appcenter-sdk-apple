@@ -146,7 +146,7 @@ static NSString *const kMSUpdateSetupFailedPackageHashKey = @"MSUpdateSetupFaile
  *
  * @param url URL to open.
  */
-- (void)openUrlInSafari:(NSURL *)url;
+- (void)openUrlInAuthenticationSessionOrSafari:(NSURL *)url;
 
 /**
  * Open the given URL using an `SFAuthenticationSession`. Must run on the UI thread! iOS 11 only.
