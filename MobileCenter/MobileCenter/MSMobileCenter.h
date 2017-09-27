@@ -138,4 +138,9 @@
  */
 + (BOOL)isDebuggerAttached;
 
+/**
+ * Get the current version of MobileCenter SDK.
+ */
++ (NSString *)getSdkVersion;
+
 @end

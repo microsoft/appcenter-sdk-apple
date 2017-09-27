@@ -56,21 +56,10 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   assertThat(self.sut.device.carrierCountry, nilValue());
   assertThat(self.sut.device.carrierName, nilValue());
 
-  // Can't access a valid main bundle from test context so we can't test for App namespace (bundle ID), version and
-  // build.
-}
-
-- (void)testSDKVersion {
-
-  // If
-  NSString *expected = @"1.2.3";
-  const char *versionMock = [expected UTF8String];
-
-  // When
-  NSString *sdkVersion = [self.sut sdkVersion:versionMock];
-
-  // Then
-  assertThat(sdkVersion, is(expected));
+  /*
+   * Can't access a valid main bundle from test context so we can't test for App namespace (bundle ID), version and
+   * build.
+   */
 }
 
 - (void)testDeviceModel {

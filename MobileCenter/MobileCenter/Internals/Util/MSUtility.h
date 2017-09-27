@@ -14,4 +14,15 @@
  * Basic part.
  */
 @interface MSUtility : NSObject
+
+/**
+ * Get the name of MobileCenter SDK.
+ */
++ (NSString *)getSdkName;
+
+/**
+ * Get the current version of MobileCenter SDK.
+ */
++ (NSString *)getSdkVersion;
+
 @end

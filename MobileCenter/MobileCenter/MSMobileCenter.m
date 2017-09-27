@@ -9,6 +9,7 @@
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
 #import "MSStartServiceLog.h"
+#import "MSUtility.h"
 #if !TARGET_OS_TV
 #import "MSCustomProperties.h"
 #import "MSCustomPropertiesLog.h"
@@ -150,6 +151,10 @@ static NSString *const kMSGroupId = @"MobileCenter";
   });
 
   return debuggerIsAttached;
+}
+
++ (NSString *)getSdkVersion {
+  return [MSUtility getSdkVersion];
 }
 
 + (NSString *)logTag {

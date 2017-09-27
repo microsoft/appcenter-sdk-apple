@@ -175,4 +175,14 @@
   XCTAssertTrue([result isEqualToString:@"6dd79f2770a0bb38073b814a5ff000647b37be5abbde71ec9176c6ce0cb32a27"]);
 }
 
+- (void)testGetSdkName {
+  NSString *name = [NSString stringWithUTF8String:MOBILE_CENTER_C_NAME];
+  XCTAssertTrue([[MSUtility getSdkName] isEqualToString:name]);
+}
+
+- (void)testGetSdkVersion {
+  NSString *version = [NSString stringWithUTF8String:MOBILE_CENTER_C_VERSION];
+  XCTAssertTrue([[MSUtility getSdkVersion] isEqualToString:version]);
+}
+
 @end

@@ -4,6 +4,21 @@
 #import "MSUtility+File.h"
 #import "MSUtility+StringFormatting.h"
 
+// SDK versioning struct. Needs to be big enough to hold the info.
+typedef struct {
+  uint8_t info_version;
+  const char ms_name[32];
+  const char ms_version[32];
+  const char ms_build[32];
+} ms_info_t;
+
+// SDK versioning.
+static ms_info_t mobilecenter_library_info
+__attribute__((section("__TEXT,__ms_ios,regular,no_dead_strip"))) = {.info_version = 1,
+  .ms_name = MOBILE_CENTER_C_NAME,
+  .ms_version = MOBILE_CENTER_C_VERSION,
+  .ms_build = MOBILE_CENTER_C_BUILD};
+
 @implementation MSUtility
 
 /**
@@ -16,4 +31,11 @@ __attribute__((used)) static void importCategories() {
                              MSUtilityDateCategory, MSUtilityStringFormattingCategory, MSUtilityFileCategory];
 }
 
++ (NSString *)getSdkName {
+  return [NSString stringWithUTF8String:mobilecenter_library_info.ms_name];
+}
+
++ (NSString *)getSdkVersion {
+  return [NSString stringWithUTF8String:mobilecenter_library_info.ms_version];
+}
 @end
