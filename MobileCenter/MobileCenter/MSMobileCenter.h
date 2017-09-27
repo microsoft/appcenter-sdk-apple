@@ -140,6 +140,8 @@
 
 /**
  * Get the current version of MobileCenter SDK.
+ *
+ * @return The current version of MobileCenter SDK.
  */
 + (NSString *)sdkVersion;
 
