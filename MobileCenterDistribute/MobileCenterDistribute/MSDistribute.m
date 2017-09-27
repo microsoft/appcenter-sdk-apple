@@ -737,16 +737,33 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     MSAlertController *alertController =
     [MSAlertController alertControllerWithTitle:MSDistributeLocalizedString(@"MSDistributeInAppUpdatesAreDisabled")
                                         message:errorMessage];
-    [alertController addDefaultActionWithTitle:MSDistributeLocalizedString(@"MSDistributeReinstall") handler:^(__attribute__((unused)) UIAlertAction *action) {
+    
+    [alertController addDefaultActionWithTitle:MSDistributeLocalizedString(@"MSDistributeIgnore") handler:^(__attribute__((unused)) UIAlertAction *action) {
+      [MS_USER_DEFAULTS setObject:errorMessage forKey:kMSUpdateSetupFailedMessageKey];
+      [MS_USER_DEFAULTS setObject:MSPackageHash() forKey:kMSUpdateSetupFailedPackageHashKey];
+    }];
+    
+    [alertController addPreferredActionWithTitle:MSDistributeLocalizedString(@"MSDistributeReinstall") handler:^(__attribute__((unused)) UIAlertAction *action) {
+      
       NSURL *installUrl = [NSURL URLWithString:[self installUrl]];
+      // Add a flag to the install url to indicate that the update setup failed, to show a help page
+      NSURLComponents *components = [[NSURLComponents alloc] initWithURL:installUrl resolvingAgainstBaseURL:NO];
+      NSURLQueryItem *newQueryItem = [[NSURLQueryItem alloc] initWithName:kMSURLQueryUpdateSetupFailedKey value:@"true"];
+      NSMutableArray *newQueryItems = [NSMutableArray arrayWithCapacity:[components.queryItems count] + 1];
+      for (NSURLQueryItem *qi in components.queryItems) {
+        if (![qi.name isEqual:newQueryItem.name]) {
+          [newQueryItems addObject:qi];
+        }
+      }
+      [newQueryItems addObject:newQueryItem];
+      [components setQueryItems:newQueryItems];
+      
+      installUrl = [components URL];
       [self openUrlInAuthenticationSessionOrSafari:installUrl];
       [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateSetupFailedMessageKey];
       [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateSetupFailedPackageHashKey];
     }];
-    [alertController addCancelActionWithTitle:MSDistributeLocalizedString(@"MSDistributeIgnore") handler:^(__attribute__((unused)) UIAlertAction *action) {
-      [MS_USER_DEFAULTS setObject:errorMessage forKey:kMSUpdateSetupFailedMessageKey];
-      [MS_USER_DEFAULTS setObject:MSPackageHash() forKey:kMSUpdateSetupFailedPackageHashKey];
-    }];
+    
     [alertController show];
   });
 }

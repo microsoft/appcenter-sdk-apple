@@ -6,7 +6,7 @@
 "MSDistributeViewReleaseNotes" = "Voir les notes de version";
 "MSDistributeClose" = "Fermer";
 "MSDistributeIgnore" = "Ignore";
-"MSDistributeReinstall" = "Reinstall";
+"MSDistributeReinstall" = "Reinstall App";
 
 /*
  * Update dialog titles/messages
