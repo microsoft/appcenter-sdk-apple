@@ -233,7 +233,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 /**
  * This can never be bound to Xamarin.
  *
- * This method is not part of the publicly available APIs on tvOS as Mach exception handling is not possible on tvOS. 
+ * This method is not part of the publicly available APIs on tvOS as Mach exception handling is not possible on tvOS.
  * The property is NO by default there.
  */
 + (void)disableMachExceptionHandler {
@@ -644,7 +644,17 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 - (void)startDelayedCrashProcessing {
   [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(startCrashProcessing) object:nil];
-  [self performSelector:@selector(startCrashProcessing) withObject:nil afterDelay:0.5];
+
+  /*
+   * FIXME: If application is crashed and relaunched from multitasking view, the SDK starts faster than normal launch
+   * and application state is not updated from inactive to active at this time. Give more delay here for a workaround
+   * but we need to fix it eventually. This can also be happen if application is launched from Xcode and stoped by
+   * clicking stop button on Xcode.
+   * In addition to that, we also need it to be delayed because
+   * 1. it sometimes needs to "warm up" internet connection on iOS 8,
+   * 2. giving some time to start and let all Crashes initialization happen before processing crashes.
+   */
+  [self performSelector:@selector(startCrashProcessing) withObject:nil afterDelay:1];
 }
 
 - (void)startCrashProcessing {
