@@ -18,11 +18,11 @@
 /**
  * Get the name of MobileCenter SDK.
  */
-+ (NSString *)getSdkName;
++ (NSString *)sdkName;
 
 /**
  * Get the current version of MobileCenter SDK.
  */
-+ (NSString *)getSdkVersion;
++ (NSString *)sdkVersion;
 
 @end

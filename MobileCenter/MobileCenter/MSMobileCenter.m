@@ -153,8 +153,8 @@ static NSString *const kMSGroupId = @"MobileCenter";
   return debuggerIsAttached;
 }
 
-+ (NSString *)getSdkVersion {
-  return [MSUtility getSdkVersion];
++ (NSString *)sdkVersion {
+  return [MSUtility sdkVersion];
 }
 
 + (NSString *)logTag {

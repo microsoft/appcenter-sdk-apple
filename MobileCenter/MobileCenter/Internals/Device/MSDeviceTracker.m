@@ -118,8 +118,8 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
 #endif
 
     // Collect device properties.
-    newDevice.sdkName = [MSUtility getSdkName];
-    newDevice.sdkVersion = [MSUtility getSdkVersion];
+    newDevice.sdkName = [MSUtility sdkName];
+    newDevice.sdkVersion = [MSUtility sdkVersion];
     newDevice.model = [self deviceModel];
     newDevice.oemName = kMSDeviceManufacturer;
 #if TARGET_OS_OSX

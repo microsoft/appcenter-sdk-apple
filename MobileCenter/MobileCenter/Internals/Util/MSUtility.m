@@ -31,11 +31,11 @@ __attribute__((used)) static void importCategories() {
                              MSUtilityDateCategory, MSUtilityStringFormattingCategory, MSUtilityFileCategory];
 }
 
-+ (NSString *)getSdkName {
++ (NSString *)sdkName {
   return [NSString stringWithUTF8String:mobilecenter_library_info.ms_name];
 }
 
-+ (NSString *)getSdkVersion {
++ (NSString *)sdkVersion {
   return [NSString stringWithUTF8String:mobilecenter_library_info.ms_version];
 }
 @end
