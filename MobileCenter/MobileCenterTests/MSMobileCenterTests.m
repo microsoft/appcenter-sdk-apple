@@ -147,6 +147,11 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   XCTAssertTrue([[[MSMobileCenter sharedInstance] logUrl] isEqualToString:@"https://in.mobile.azure.com"]);
 }
 
+- (void)testSdkVersion {
+  NSString *version = [NSString stringWithUTF8String:MOBILE_CENTER_C_VERSION];
+  XCTAssertTrue([[MSMobileCenter sdkVersion] isEqualToString:version]);
+}
+
 #if !TARGET_OS_TV
 - (void)testSetCustomProperties {
 

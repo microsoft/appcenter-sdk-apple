@@ -37,15 +37,6 @@ static NSString *const kMSPastDevicesKey = @"pastDevicesKey";
 - (void)clearDevices;
 
 /**
- * Get the SDK version.
- *
- * @param version SDK version as const char.
- *
- * @return The SDK version as an NSString.
- */
-- (NSString *)sdkVersion:(const char[])version;
-
-/**
  * Get device model.
  *
  * @return The device model as an NSString.
