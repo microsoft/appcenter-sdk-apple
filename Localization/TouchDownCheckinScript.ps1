@@ -67,11 +67,11 @@ Function InitializeRepoForCheckin
 Function CheckinFilesIntoRepo
 {
     #Commit the changes
-    $Argument = 'commit  -m "Latest localized files from touchdown"'
+    $Argument = 'commit -m "Latest localized files from touchdown"'
     ProcessStart $git $Argument $repoPath
 
-    #Push the Changes to the  git server you still need to merge the changes
-    $Argument = "push -u origin " + $TempLocBranch
+    #Push the Changes to the git server you still need to merge the changes
+    $Argument = "push origin " + $TempLocBranch
     ProcessStart $git $Argument $repoPath
 }
 
@@ -229,9 +229,11 @@ Function RefreshTDFiles
 
         binplace $UnzipFolderLocation $relativeFilePath $TargetPath $LanguageSet
 
+        write-host "-----ADD FILES TO REPO-----"
         AddFiletoRepo $TargetPath $LanguageSet
     }
 
+    write-host "-----CHECK IN FILES TO REPO-----"
     CheckinFilesIntoRepo
 }
 
