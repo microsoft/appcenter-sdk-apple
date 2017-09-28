@@ -738,14 +738,16 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     [MSAlertController alertControllerWithTitle:MSDistributeLocalizedString(@"MSDistributeInAppUpdatesAreDisabled")
                                         message:errorMessage];
     
+    // Add "Ignore" button to the dialog
     [alertController addDefaultActionWithTitle:MSDistributeLocalizedString(@"MSDistributeIgnore") handler:^(__attribute__((unused)) UIAlertAction *action) {
       [MS_USER_DEFAULTS setObject:errorMessage forKey:kMSUpdateSetupFailedMessageKey];
       [MS_USER_DEFAULTS setObject:MSPackageHash() forKey:kMSUpdateSetupFailedPackageHashKey];
     }];
     
+    // Add "Reinstall" button to the dialog
     [alertController addPreferredActionWithTitle:MSDistributeLocalizedString(@"MSDistributeReinstall") handler:^(__attribute__((unused)) UIAlertAction *action) {
-      
       NSURL *installUrl = [NSURL URLWithString:[self installUrl]];
+      
       // Add a flag to the install url to indicate that the update setup failed, to show a help page
       NSURLComponents *components = [[NSURLComponents alloc] initWithURL:installUrl resolvingAgainstBaseURL:NO];
       NSURLQueryItem *newQueryItem = [[NSURLQueryItem alloc] initWithName:kMSURLQueryUpdateSetupFailedKey value:@"true"];
@@ -758,8 +760,11 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       [newQueryItems addObject:newQueryItem];
       [components setQueryItems:newQueryItems];
       
+      // Open the install URL with query parameter update_setup_failed=true
       installUrl = [components URL];
       [self openUrlInAuthenticationSessionOrSafari:installUrl];
+      
+      // Clear the update setup failure info from storage, to re-attempt setup on reinstall
       [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateSetupFailedMessageKey];
       [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateSetupFailedPackageHashKey];
     }];
