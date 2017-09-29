@@ -33,6 +33,9 @@ static NSString *const kMSPushServiceStorageKey = @"pushServiceStorageKey";
  */
 static NSString *const kMSPushNotificationApsKey = @"aps";
 static NSString *const kMSPushNotificationAlertKey = @"alert";
+#if TARGET_OS_OSX
+static NSString *const kMSPushNotificationContentAvailableKey = @"content-available";
+#endif
 static NSString *const kMSPushNotificationTitleKey = @"title";
 static NSString *const kMSPushNotificationMessageKey = @"body";
 static NSString *const kMSPushNotificationCustomDataKey = @"mobile_center";
@@ -245,13 +248,11 @@ static dispatch_once_t onceToken;
      * though MobileCenterPush doesn't support String value for "alert".
      */
     alert = [aps valueForKey:kMSPushNotificationAlertKey];
+    title = nil;
     if ([alert isKindOfClass:[NSString class]]) {
-      title = @"";
       message = (NSString *)alert;
     } else {
-
-      // "alert" value is not a supported type.
-      return NO;
+      message = nil;
     }
   }
 
@@ -263,12 +264,15 @@ static dispatch_once_t onceToken;
 
 #if TARGET_OS_OSX
 
+    // Check if the payload has a silent push flag.
+    BOOL silentPushFlag = [[aps objectForKey:kMSPushNotificationContentAvailableKey] boolValue];
+
     /*
      * Only call the push delegate if the app is in topmost foreground and the notification is a remote notification or
      * it is a user notification. Otherwise, convert a remote notification to a user notification and handle the
      * notification when a user clicks it from notification center.
      */
-    if ([NSApp isActive] || userNotification) {
+    if ([NSApp isActive] || userNotification || silentPushFlag) {
 #endif
 
       // Initialize push notification model.
