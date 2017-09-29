@@ -78,7 +78,7 @@ Function CheckinFilesIntoRepo
     }
     else {
         #Authorized
-        $Argument = "push origin " + $TempLocBranch + " -c http.extraheader=`"Authorization: Bearer " + $AuthToken + "`""
+        $Argument = "-c http.extraheader=`"Authorization: Bearer " + $AuthToken + "`" push origin " + $TempLocBranch
         ProcessStart $git $Argument $repoPath
     }
 }
