@@ -74,13 +74,13 @@ Function CheckinFilesIntoRepo
     if ($AuthToken -eq "") {
         #Unauthorized
         $Argument = "push origin " + $TempLocBranch
-        ProcessStart $git $Argument $repoPath
     }
     else {
         #Authorized
         $Argument = "-c http.extraheader=`"Authorization: Bearer " + $AuthToken + "`" push origin " + $TempLocBranch
-        ProcessStart $git $Argument $repoPath
     }
+
+    ProcessStart $git $Argument $repoPath
 }
 
 Class Cl_Culture 
