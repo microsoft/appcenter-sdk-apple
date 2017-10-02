@@ -149,11 +149,14 @@ fi
 ## III. Upload binary
 cd $BITRISE_DEPLOY_DIR # This is required, file upload via curl doesn't properly work with absolute path
 echo "Upload binaries"
+
+# Replace the latest binary in Azure Storage
+echo "Y" | azure storage blob upload $BINARY_FILE sdk
+
+# Upload binary to Azure Storage
 upload_url="$(echo $REQUEST_UPLOAD_URL_TEMPLATE | sed 's/{id}/'$id'/g')"
 filename=$(echo $BINARY_FILE | sed 's/.zip/-'${publish_version}'.zip/g')
 mv $BINARY_FILE $filename
-
-# Upload binary to Azure Storage
 resp="$(echo "N" | azure storage blob upload ${filename} sdk | grep overwrite)"
 if [ "$resp" ]; then
   echo "${filename} already exists"
