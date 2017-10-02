@@ -7,6 +7,12 @@
 @import MobileCenterCrashes;
 @import MobileCenterPush;
 
+@interface AppDelegate()
+
+@property NSWindowController *rootController;
+
+@end
+
 @implementation AppDelegate
 
 - (void) applicationDidFinishLaunching:(NSNotification *)notification {
@@ -29,9 +35,9 @@
 
 - (void)initUI {
   NSStoryboard *mainStoryboard = [NSStoryboard storyboardWithName:@"SasquatchMac" bundle:nil];
-  NSWindowController *rootController = (NSWindowController *)[mainStoryboard instantiateControllerWithIdentifier:@"rootController"];
-  [rootController showWindow:self];
-  [rootController.window makeKeyAndOrderFront:self];
+  self.rootController = (NSWindowController *)[mainStoryboard instantiateControllerWithIdentifier:@"rootController"];
+  [self.rootController showWindow:self];
+  [self.rootController.window makeKeyAndOrderFront:self];
 }
 
 - (void)setupCrashes {

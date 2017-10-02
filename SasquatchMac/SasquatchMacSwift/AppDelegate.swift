@@ -9,6 +9,8 @@ import MobileCenterPush
 @objc(AppDelegate)
 class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDelegate {
 
+  var rootController: NSWindowController!
+
   func applicationDidFinishLaunching(_ notification: Notification) {
     // Crashes Delegate.
     MSCrashes.setDelegate(self);
@@ -44,7 +46,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
 
   func initUI() {
     let mainStoryboard = NSStoryboard.init(name: "SasquatchMac", bundle: nil)
-    let rootController = mainStoryboard.instantiateController(withIdentifier: "rootController") as! NSWindowController
+    rootController = mainStoryboard.instantiateController(withIdentifier: "rootController") as! NSWindowController
     rootController.showWindow(self)
     rootController.window?.makeKeyAndOrderFront(self)
   }
