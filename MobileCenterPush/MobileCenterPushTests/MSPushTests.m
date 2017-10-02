@@ -438,6 +438,47 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   [pushMock stopMocking];
 }
 
+- (void)testForwardInvocationWithUserNotificationCenterDelegateSelector {
+
+  // If
+  id invocationMock = OCMClassMock([NSInvocation class]);
+  OCMStub([invocationMock selector]).andReturn(@selector(userNotificationCenter:didDeliverNotification:));
+  id userNotificationCenterDelegateMock = OCMProtocolMock(@protocol(NSUserNotificationCenterDelegate));
+  id userNotificationCenterMock = OCMClassMock([NSUserNotificationCenter class]);
+  OCMStub([userNotificationCenterMock defaultUserNotificationCenter]).andReturn(userNotificationCenterMock);
+  OCMStub([userNotificationCenterMock delegate]).andReturn(userNotificationCenterDelegateMock);
+
+  // forwardInvocation is used by OCMock. Shouldn't mock MSPush for success test.
+  self.sut = [MSPush new];
+
+  // When
+  [self.sut forwardInvocation:invocationMock];
+
+  // Then
+  OCMVerify([invocationMock invokeWithTarget:userNotificationCenterDelegateMock]);
+
+  [invocationMock stopMocking];
+}
+
+- (void)testForwardInvocationWithInvalidSelector {
+
+  // If
+  id invocationMock = OCMClassMock([NSInvocation class]);
+  OCMStub([invocationMock selector]).andReturn(NSSelectorFromString(@"something:"));
+  id userNotificationCenterDelegateMock = OCMProtocolMock(@protocol(NSUserNotificationCenterDelegate));
+  id userNotificationCenterMock = OCMClassMock([NSUserNotificationCenter class]);
+  OCMStub([userNotificationCenterMock defaultUserNotificationCenter]).andReturn(userNotificationCenterMock);
+  OCMStub([userNotificationCenterMock delegate]).andReturn(userNotificationCenterDelegateMock);
+
+  // forwardInvocation is used by OCMock. Shouldn't mock MSPush for success test.
+  self.sut = [MSPush new];
+
+  // When/Then
+  XCTAssertThrows([self.sut forwardInvocation:invocationMock]);
+
+  [invocationMock stopMocking];
+}
+
 #endif
 
 @end

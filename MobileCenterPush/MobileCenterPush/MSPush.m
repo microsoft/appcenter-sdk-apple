@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
 #if TARGET_OS_OSX
 #import <AppKit/AppKit.h>
+#import <objc/runtime.h>
 #else
 #import <UserNotifications/UserNotifications.h>
 #endif
@@ -287,7 +288,10 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 }
 
 - (void)forwardInvocation:(NSInvocation *)anInvocation {
-  if ([self.originalUserNotificationCenterDelegate respondsToSelector:[anInvocation selector]]) {
+
+  // Testing if the selector is defined in NSUserNotificationCenterDelegate or not.
+  struct objc_method_description hasMethod = protocol_getMethodDescription(@protocol(NSUserNotificationCenterDelegate), [anInvocation selector], NO, YES);
+  if (hasMethod.name != nil && [self.originalUserNotificationCenterDelegate respondsToSelector:[anInvocation selector]]) {
     [anInvocation invokeWithTarget:self.originalUserNotificationCenterDelegate];
   } else {
     [super forwardInvocation:anInvocation];
