@@ -147,6 +147,11 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   XCTAssertTrue([[[MSMobileCenter sharedInstance] logUrl] isEqualToString:@"https://in.mobile.azure.com"]);
 }
 
+- (void)testSdkVersion {
+  NSString *version = [NSString stringWithUTF8String:MOBILE_CENTER_C_VERSION];
+  XCTAssertTrue([[MSMobileCenter sdkVersion] isEqualToString:version]);
+}
+
 #if !TARGET_OS_TV
 - (void)testSetCustomProperties {
 
@@ -245,6 +250,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   XCTAssertTrue([sorted[1] initializationPriority] == MSInitializationPriorityDefault);
 }
 
+#if !TARGET_OS_OSX
 - (void)testAppIsBackgrounded {
 
   // If
@@ -254,11 +260,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // When
   [[NSNotificationCenter defaultCenter]
-#if TARGET_OS_OSX
-      postNotificationName:NSApplicationDidHideNotification
-#else
       postNotificationName:UIApplicationDidEnterBackgroundNotification
-#endif
                     object:self.sut];
   // Then
   OCMVerify([logManager suspend]);
@@ -273,15 +275,12 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // When
   [[NSNotificationCenter defaultCenter]
-#if TARGET_OS_OSX
-      postNotificationName:NSApplicationDidUnhideNotification
-#else
       postNotificationName:UIApplicationWillEnterForegroundNotification
-#endif
 
                     object:self.sut];
   // Then
   OCMVerify([logManager resume]);
 }
+#endif
 
 @end
