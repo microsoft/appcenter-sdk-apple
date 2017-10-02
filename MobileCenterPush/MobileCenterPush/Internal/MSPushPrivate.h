@@ -14,6 +14,10 @@
 
 @property(nonatomic) BOOL pushTokenHasBeenSent;
 
+#if TARGET_OS_OSX
+@property(nonatomic) id<NSUserNotificationCenterDelegate> originalUserNotificationCenterDelegate;
+#endif
+
 /**
  * Custom application delegate dedicated to Push.
  */
@@ -44,10 +48,24 @@
 - (void)registerForRemoteNotifications;
 
 #if TARGET_OS_OSX
+
+/**
+ * Method to return a context for observing delegate changes.
+ */
++ (void *)userNotificationCenterDelegateContext;
+
 /**
  * Observer to register user notification center delegate when application launches.
  */
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
+
+/**
+ * Method that is called by NSUserNotificationCenter when its delegate changes.
+ */
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context;
 #endif
 
 @end
