@@ -142,6 +142,13 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   OCMVerify([pushMock didRegisterForRemoteNotificationsWithDeviceToken:deviceToken]);
   OCMVerify([pushMock convertTokenToString:deviceToken]);
   OCMVerify([pushMock sendPushToken:pushToken]);
+  
+  // When
+  OCMReject([pushMock sendPushToken:OCMOCK_ANY]);
+  [MSPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+  
+  // Then
+  [pushMock verify];
   [pushMock stopMocking];
 }
 
@@ -302,7 +309,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   OCMStub([userNotificationUserInfoMock userInfo]).andReturn(invalidUserInfo);
 #endif
 
-// When
+  // When
 #if TARGET_OS_OSX
   [self.sut applicationDidFinishLaunching:notificationMock];
 #else
