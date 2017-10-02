@@ -172,8 +172,9 @@ static dispatch_once_t onceToken;
 }
 
 - (NSString *)convertTokenToString:(NSData *)token {
-  if (!token)
+  if (!token) {
     return nil;
+  }
   const unsigned char *dataBuffer = token.bytes;
   NSMutableString *stringBuffer = [NSMutableString stringWithCapacity:(token.length * 2)];
   for (NSUInteger i = 0; i < token.length; ++i) {
@@ -192,6 +193,9 @@ static dispatch_once_t onceToken;
 #pragma mark - Register callbacks
 
 - (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+  if (self.pushTokenHasBeenSent) {
+    return;
+  }
   MSLogVerbose([MSPush logTag], @"Registering for push notifications has been finished successfully");
   NSString *strPushToken = [self convertTokenToString:deviceToken];
   [MS_USER_DEFAULTS setObject:strPushToken forKey:kMSPushServiceStorageKey];
