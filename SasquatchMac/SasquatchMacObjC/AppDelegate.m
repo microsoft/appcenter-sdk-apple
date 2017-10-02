@@ -9,10 +9,15 @@
 
 static NSString *const kSMLogTag = @"[SasquatchMac]";
 
+@interface AppDelegate()
+
+@property NSWindowController *rootController;
+
+@end
+
 @implementation AppDelegate
 
-- (instancetype)init {
-  self = [super init];
+- (void) applicationDidFinishLaunching:(NSNotification *)notification {
   [MSMobileCenter setLogLevel:MSLogLevelVerbose];
   [MSMobileCenter setLogUrl:@"https://in-integration.dev.avalanch.es"];
 
@@ -24,10 +29,18 @@ static NSString *const kSMLogTag = @"[SasquatchMac]";
   [MSMobileCenter start:@"4b3f7d94-c64b-4aac-94f5-894c55c64bfe"
            withServices:@[ [MSAnalytics class], [MSCrashes class], [MSPush class] ]];
   [MobileCenterProvider shared].mobileCenter = [[MobileCenterDelegateObjC alloc] init];
-  return self;
+
+  [self initUI];
 }
 
 #pragma mark - Private
+
+- (void)initUI {
+  NSStoryboard *mainStoryboard = [NSStoryboard storyboardWithName:@"SasquatchMac" bundle:nil];
+  self.rootController = (NSWindowController *)[mainStoryboard instantiateControllerWithIdentifier:@"rootController"];
+  [self.rootController showWindow:self];
+  [self.rootController.window makeKeyAndOrderFront:self];
+}
 
 - (void)setupCrashes {
   if ([MSCrashes hasCrashedInLastSession]) {

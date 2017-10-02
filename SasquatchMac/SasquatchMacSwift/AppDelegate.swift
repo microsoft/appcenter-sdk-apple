@@ -9,9 +9,9 @@ import MobileCenterPush
 @objc(AppDelegate)
 class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDelegate {
 
-  override init(){
-    super.init()
+  var rootController: NSWindowController!
 
+  func applicationDidFinishLaunching(_ notification: Notification) {
     // Crashes Delegate.
     MSCrashes.setDelegate(self);
     MSCrashes.setUserConfirmationHandler({ (errorReports: [MSErrorReport]) in
@@ -40,6 +40,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
     MSMobileCenter.start("c62b8db6-191e-496a-b1a1-267b9bf326c4", withServices : [ MSAnalytics.self, MSCrashes.self, MSPush.self ])
 
     MobileCenterProvider.shared().mobileCenter = MobileCenterDelegateSwift()
+    
+    initUI()
+  }
+
+  func initUI() {
+    let mainStoryboard = NSStoryboard.init(name: "SasquatchMac", bundle: nil)
+    rootController = mainStoryboard.instantiateController(withIdentifier: "rootController") as! NSWindowController
+    rootController.showWindow(self)
+    rootController.window?.makeKeyAndOrderFront(self)
   }
 
   // Crashes Delegate

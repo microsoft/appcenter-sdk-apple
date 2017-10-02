@@ -2,7 +2,7 @@ import Cocoa
 
 class MobileCenterViewController : NSViewController {
 
-  var mobileCenter: MobileCenterDelegate?
+  var mobileCenter: MobileCenterDelegate = MobileCenterProvider.shared().mobileCenter!
 
   @IBOutlet var installIdLabel : NSTextField?
   @IBOutlet var appSecretLabel : NSTextField?
@@ -11,15 +11,14 @@ class MobileCenterViewController : NSViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    mobileCenter = MobileCenterProvider.shared().mobileCenter
-    installIdLabel?.stringValue = mobileCenter!.installId()
-    appSecretLabel?.stringValue = mobileCenter!.appSecret()
-    logURLLabel?.stringValue = mobileCenter!.logUrl()
-    setEnabledButton?.state = mobileCenter!.isMobileCenterEnabled() ? 1 : 0
+    installIdLabel?.stringValue = mobileCenter.installId()
+    appSecretLabel?.stringValue = mobileCenter.appSecret()
+    logURLLabel?.stringValue = mobileCenter.logUrl()
+    setEnabledButton?.state = mobileCenter.isMobileCenterEnabled() ? 1 : 0
   }
 
   @IBAction func setEnabled(sender : NSButton) {
-    mobileCenter?.setMobileCenterEnabled(sender.state == 1)
-    sender.state = mobileCenter!.isMobileCenterEnabled() ? 1 : 0
+    mobileCenter.setMobileCenterEnabled(sender.state == 1)
+    sender.state = mobileCenter.isMobileCenterEnabled() ? 1 : 0
   }
 }
