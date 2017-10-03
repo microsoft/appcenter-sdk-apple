@@ -178,7 +178,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
                                  object:nil];
 #endif
     [MSAppDelegateForwarder addDelegate:self.appDelegate];
-    if (!self.pushTokenHasBeenSent) {
+    if (!self.pushToken) {
       [self registerForRemoteNotifications];
     }
     MSLogInfo([MSPush logTag], @"Push service has been enabled.");
@@ -231,8 +231,9 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 }
 
 - (NSString *)convertTokenToString:(NSData *)token {
-  if (!token)
+  if (!token) {
     return nil;
+  }
   const unsigned char *dataBuffer = token.bytes;
   NSMutableString *stringBuffer = [NSMutableString stringWithCapacity:(token.length * 2)];
   for (NSUInteger i = 0; i < token.length; ++i) {
@@ -245,16 +246,19 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
   MSPushLog *log = [MSPushLog new];
   log.pushToken = token;
   [self.logManager processLog:log forGroupId:self.groupId];
-  self.pushTokenHasBeenSent = YES;
 }
 
 #pragma mark - Register callbacks
 
 - (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
   MSLogVerbose([MSPush logTag], @"Registering for push notifications has been finished successfully");
-  NSString *strPushToken = [self convertTokenToString:deviceToken];
-  [MS_USER_DEFAULTS setObject:strPushToken forKey:kMSPushServiceStorageKey];
-  [self sendPushToken:strPushToken];
+  NSString *pushToken = [self convertTokenToString:deviceToken];
+  if ([pushToken isEqualToString:self.pushToken]) {
+    return;
+  }
+  self.pushToken = pushToken;
+  [MS_USER_DEFAULTS setObject:pushToken forKey:kMSPushServiceStorageKey];
+  [self sendPushToken:pushToken];
 }
 
 - (void)didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {

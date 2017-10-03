@@ -12,7 +12,7 @@
 
 @property(nonatomic) id<MSPushDelegate> delegate;
 
-@property(nonatomic) BOOL pushTokenHasBeenSent;
+@property(nonatomic) NSString *pushToken;
 
 #if TARGET_OS_OSX
 @property(nonatomic) id<NSUserNotificationCenterDelegate> originalUserNotificationCenterDelegate;
