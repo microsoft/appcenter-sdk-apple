@@ -7,7 +7,6 @@
 #import "MSWrapperException.h"
 #import "MSWrapperExceptionManagerInternal.h"
 
-
 // Copied from MSWrapperExceptionManager.m
 static NSString* const kMSLastWrapperExceptionFileName = @"last_saved_wrapper_exception";
 
