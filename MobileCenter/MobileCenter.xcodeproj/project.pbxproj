@@ -559,6 +559,9 @@
 		043120701EE0BCC4007054C5 /* tvOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = tvOS.modulemap; sourceTree = "<group>"; };
 		043120711EE0BCC4007054C5 /* tvOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = tvOS.xcconfig; sourceTree = "<group>"; };
 		043120DA1EE0BCF9007054C5 /* libMobileCenter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileCenter.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		043B74121F79918900DF2C8D /* iOS Framework.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "iOS Framework.xcconfig"; sourceTree = "<group>"; };
+		043B74131F79918900DF2C8D /* macOS Framework.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "macOS Framework.xcconfig"; sourceTree = "<group>"; };
+		043B74141F79918900DF2C8D /* tvOS Framework.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "tvOS Framework.xcconfig"; sourceTree = "<group>"; };
 		0446DF2B1F3B864600C8E338 /* MobileCenter.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MobileCenter.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		045660FA1D99EEEB002F7055 /* MSLogWithPropertiesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLogWithPropertiesTests.m; sourceTree = "<group>"; };
 		045BC3161E3FD88600B6C960 /* MSKeychainUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSKeychainUtil.m; sourceTree = "<group>"; };
@@ -1009,10 +1012,13 @@
 				6E0401841D1CAD810051BCFA /* MobileCenter Debug.xcconfig */,
 				0469D1B11F4DF89A00A43A8E /* MobileCenter Release.xcconfig */,
 				049BC8281ECE3A5200FB6719 /* iOS.xcconfig */,
+				043B74121F79918900DF2C8D /* iOS Framework.xcconfig */,
 				0485AFEE1EAAAD0000C10CAF /* iOS.modulemap */,
 				049BC8291ECE3A5A00FB6719 /* macOS.xcconfig */,
+				043B74131F79918900DF2C8D /* macOS Framework.xcconfig */,
 				0485AFEC1EAAAC3B00C10CAF /* macOS.modulemap */,
 				043120711EE0BCC4007054C5 /* tvOS.xcconfig */,
+				043B74141F79918900DF2C8D /* tvOS Framework.xcconfig */,
 				043120701EE0BCC4007054C5 /* tvOS.modulemap */,
 			);
 			path = Support;
@@ -1614,7 +1620,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenter\nTGT_NAME=${FMK_NAME}TVOS\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-Apple/tvOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-appletvos\nSIMULATOR_DIR=${WRK_DIR}/Release-appletvsimulator\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" CLANG_MODULES_AUTOLINK=NO -sdk appletvos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" CLANG_MODULES_AUTOLINK=NO -sdk appletvsimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/tvOS.modulemap\" \"${INSTALL_DIR}/Modules/module.modulemap\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-appletvos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + arm64) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"\n\n# Copy license and readme\ncp -f \"${SRCROOT}/../LICENSE\" \"${PRODUCTS_DIR}\"\ncp -f \"${SRCROOT}/../README.md\" \"${PRODUCTS_DIR}\"\ncp -f \"${SRCROOT}/../CHANGELOG.md\" \"${PRODUCTS_DIR}\"\n";
+			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenter\nTGT_NAME=${FMK_NAME}TVOS\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-Apple/tvOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-appletvos\nSIMULATOR_DIR=${WRK_DIR}/Release-appletvsimulator\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" -sdk appletvos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" -sdk appletvsimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/tvOS.modulemap\" \"${INSTALL_DIR}/Modules/module.modulemap\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-appletvos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + arm64) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"\n\n# Copy license and readme\ncp -f \"${SRCROOT}/../LICENSE\" \"${PRODUCTS_DIR}\"\ncp -f \"${SRCROOT}/../README.md\" \"${PRODUCTS_DIR}\"\ncp -f \"${SRCROOT}/../CHANGELOG.md\" \"${PRODUCTS_DIR}\"\n";
 		};
 		0485AFE71EAA937000C10CAF /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1627,7 +1633,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenter\nTGT_NAME=${FMK_NAME}MacOS\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-Apple/macOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" CLANG_MODULES_AUTOLINK=NO\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/macOS.modulemap\" \"${INSTALL_DIR}/Modules/module.modulemap\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n# Uses the Lipo Tool to copy binary file (x86_64) into final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"\n\n# Copy license and readme\ncp -f \"${SRCROOT}/../LICENSE\" \"${PRODUCTS_DIR}\"\ncp -f \"${SRCROOT}/../README.md\" \"${PRODUCTS_DIR}\"\ncp -f \"${SRCROOT}/../CHANGELOG.md\" \"${PRODUCTS_DIR}\"\n";
+			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenter\nTGT_NAME=${FMK_NAME}MacOS\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-Apple/macOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\"\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/macOS.modulemap\" \"${INSTALL_DIR}/Modules/module.modulemap\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n# Uses the Lipo Tool to copy binary file (x86_64) into final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"\n\n# Copy license and readme\ncp -f \"${SRCROOT}/../LICENSE\" \"${PRODUCTS_DIR}\"\ncp -f \"${SRCROOT}/../README.md\" \"${PRODUCTS_DIR}\"\ncp -f \"${SRCROOT}/../CHANGELOG.md\" \"${PRODUCTS_DIR}\"\n";
 		};
 		04FD114F1EF2F5F0000C5A5C /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1666,7 +1672,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenter\nTGT_NAME=${FMK_NAME}IOS\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-Apple/iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" CLANG_MODULES_AUTOLINK=NO -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" CLANG_MODULES_AUTOLINK=NO -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/iOS.modulemap\" \"${INSTALL_DIR}/Modules/module.modulemap\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7/armv7s/arm64) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"\n\n# Copy license and readme\ncp -f \"${SRCROOT}/../LICENSE\" \"${PRODUCTS_DIR}\"\ncp -f \"${SRCROOT}/../README.md\" \"${PRODUCTS_DIR}\"\ncp -f \"${SRCROOT}/../CHANGELOG.md\" \"${PRODUCTS_DIR}\"\n";
+			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenter\nTGT_NAME=${FMK_NAME}IOS\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-Apple/iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/iOS.modulemap\" \"${INSTALL_DIR}/Modules/module.modulemap\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7/armv7s/arm64) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"\n\n# Copy license and readme\ncp -f \"${SRCROOT}/../LICENSE\" \"${PRODUCTS_DIR}\"\ncp -f \"${SRCROOT}/../README.md\" \"${PRODUCTS_DIR}\"\ncp -f \"${SRCROOT}/../CHANGELOG.md\" \"${PRODUCTS_DIR}\"\n";
 		};
 		6E6BFC351D234FBF00DF7617 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1954,14 +1960,14 @@
 		};
 		0431214C1EE0BFC7007054C5 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 043120711EE0BCC4007054C5 /* tvOS.xcconfig */;
+			baseConfigurationReference = 043B74141F79918900DF2C8D /* tvOS Framework.xcconfig */;
 			buildSettings = {
 			};
 			name = Debug;
 		};
 		0431214D1EE0BFC7007054C5 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 043120711EE0BCC4007054C5 /* tvOS.xcconfig */;
+			baseConfigurationReference = 043B74141F79918900DF2C8D /* tvOS Framework.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;
@@ -2010,14 +2016,14 @@
 		};
 		0485AFE91EAA937000C10CAF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC8291ECE3A5A00FB6719 /* macOS.xcconfig */;
+			baseConfigurationReference = 043B74131F79918900DF2C8D /* macOS Framework.xcconfig */;
 			buildSettings = {
 			};
 			name = Debug;
 		};
 		0485AFEA1EAA937000C10CAF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC8291ECE3A5A00FB6719 /* macOS.xcconfig */;
+			baseConfigurationReference = 043B74131F79918900DF2C8D /* macOS Framework.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;
@@ -2084,14 +2090,14 @@
 		};
 		6E04017E1D1CAC710051BCFA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
+			baseConfigurationReference = 043B74121F79918900DF2C8D /* iOS Framework.xcconfig */;
 			buildSettings = {
 			};
 			name = Debug;
 		};
 		6E04017F1D1CAC710051BCFA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
+			baseConfigurationReference = 043B74121F79918900DF2C8D /* iOS Framework.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;

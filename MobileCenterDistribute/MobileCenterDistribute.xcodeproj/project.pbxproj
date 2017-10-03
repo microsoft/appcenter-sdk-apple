@@ -40,6 +40,7 @@
 		040AF0331E52859F005C1174 /* MSSender.h in Headers */ = {isa = PBXBuildFile; fileRef = 040AF0321E52859F005C1174 /* MSSender.h */; };
 		0415974B1E9D639D00EC6BDA /* MSDistributionGroupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0415974A1E9D639D00EC6BDA /* MSDistributionGroupTests.m */; };
 		0420A69C1ECA7C8E00915619 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420A69B1ECA7C8E00915619 /* OCMock.framework */; };
+		043B741C1F79924900DF2C8D /* iOS Framework.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 043B741B1F79924900DF2C8D /* iOS Framework.xcconfig */; };
 		043E2AB41F4E024300615AD9 /* MobileCenterDistribute Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 043E2AB31F4E024300615AD9 /* MobileCenterDistribute Release.xcconfig */; };
 		046EF5891EAEB524002F6436 /* MSDistributeDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 046EF5881EAEB524002F6436 /* MSDistributeDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		046FDBD31E5682FA00AF9DD1 /* MSAlertController.h in Headers */ = {isa = PBXBuildFile; fileRef = 046FDBD11E5682FA00AF9DD1 /* MSAlertController.h */; };
@@ -142,6 +143,7 @@
 		041CFFA31ECD0E0E00B4654B /* Tests iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests iOS.xcconfig"; path = "../../Config/Tests iOS.xcconfig"; sourceTree = "<group>"; };
 		0420A69B1ECA7C8E00915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../iOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
 		04311FF71EE0871D007054C5 /* MSTestFrameworks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSTestFrameworks.h; path = ../../../MobileCenter/MobileCenterTests/Util/MSTestFrameworks.h; sourceTree = "<group>"; };
+		043B741B1F79924900DF2C8D /* iOS Framework.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "iOS Framework.xcconfig"; sourceTree = "<group>"; };
 		043E2AB31F4E024300615AD9 /* MobileCenterDistribute Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "MobileCenterDistribute Release.xcconfig"; sourceTree = "<group>"; };
 		046EF5881EAEB524002F6436 /* MSDistributeDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDistributeDelegate.h; sourceTree = "<group>"; };
 		046FDBD11E5682FA00AF9DD1 /* MSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAlertController.h; path = ../../Vendor/iOS/MSAlertController/MSAlertController.h; sourceTree = "<group>"; };
@@ -279,6 +281,7 @@
 				0471B5F41E45466F0022F951 /* MobileCenterDistribute Debug.xcconfig */,
 				043E2AB31F4E024300615AD9 /* MobileCenterDistribute Release.xcconfig */,
 				049BC8221ECE349200FB6719 /* iOS.xcconfig */,
+				043B741B1F79924900DF2C8D /* iOS Framework.xcconfig */,
 				049BC8271ECE387A00FB6719 /* iOS.modulemap */,
 			);
 			path = Support;
@@ -611,6 +614,7 @@
 			files = (
 				B2C070C51E5E6A200076D6A9 /* MobileCenterDistributeResources.bundle in Resources */,
 				043E2AB41F4E024300615AD9 /* MobileCenterDistribute Release.xcconfig in Resources */,
+				043B741C1F79924900DF2C8D /* iOS Framework.xcconfig in Resources */,
 				040AF0121E523AC2005C1174 /* release_details.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -629,7 +633,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenterDistribute\nTGT_NAME=${FMK_NAME}IOS\nFMK_RESOURCE_BUNDLE=MobileCenterDistributeResources\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-Apple/iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" CLANG_MODULES_AUTOLINK=NO -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" CLANG_MODULES_AUTOLINK=NO -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/iOS.modulemap\" \"${INSTALL_DIR}/Modules/module.modulemap\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/${FMK_RESOURCE_BUNDLE}.bundle\" \"${PRODUCTS_DIR}\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"";
+			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenterDistribute\nTGT_NAME=${FMK_NAME}IOS\nFMK_RESOURCE_BUNDLE=MobileCenterDistributeResources\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-Apple/iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/iOS.modulemap\" \"${INSTALL_DIR}/Modules/module.modulemap\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/${FMK_RESOURCE_BUNDLE}.bundle\" \"${PRODUCTS_DIR}\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"";
 		};
 		04FD4A401E4536B0009B4468 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -767,14 +771,14 @@
 		};
 		04FD4A2A1E451E90009B4468 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC8221ECE349200FB6719 /* iOS.xcconfig */;
+			baseConfigurationReference = 043B741B1F79924900DF2C8D /* iOS Framework.xcconfig */;
 			buildSettings = {
 			};
 			name = Debug;
 		};
 		04FD4A2B1E451E90009B4468 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC8221ECE349200FB6719 /* iOS.xcconfig */;
+			baseConfigurationReference = 043B741B1F79924900DF2C8D /* iOS Framework.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;
