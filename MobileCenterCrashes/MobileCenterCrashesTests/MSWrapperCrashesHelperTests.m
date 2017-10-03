@@ -1,11 +1,17 @@
 #import "MSCrashHandlerSetupDelegate.h"
 #import "MSTestFrameworks.h"
 #import "MSWrapperCrashesHelper.h"
+#import "MSCrashesTestUtil.h"
+#import "MSErrorAttachmentLog.h"
+#import "MSChannelDefault.h"
+#import "MSLogManagerDefault.h"
 
 @interface MSWrapperCrashesHelperTests : XCTestCase
 @end
 
 @implementation MSWrapperCrashesHelperTests
+
+static NSString* const kMSTestAppSecret = @"app secret";
 
 #pragma mark - Test
 
@@ -29,7 +35,7 @@
   [reports removeObjectAtIndex:0];
 
   // When
-  [MSWrapperExceptionManager sendCrashReportsOrAwaitUserConfirmationForFilteredList:reports];
+  [MSWrapperCrashesHelper sendCrashReportsOrAwaitUserConfirmationForFilteredList:reports];
 
   // Then
   XCTAssertEqual([reports count], numInvocations);
@@ -48,7 +54,7 @@
   [reports removeObjectAtIndex:0];
 
   // When
-  [MSWrapperExceptionManager sendCrashReportsOrAwaitUserConfirmationForFilteredList:reports];
+  [MSWrapperCrashesHelper sendCrashReportsOrAwaitUserConfirmationForFilteredList:reports];
 
   // Then
   XCTAssertEqual([reports count], 0);
@@ -73,7 +79,7 @@
   [reports removeObjectAtIndex:0];
 
   // When
-  [MSWrapperExceptionManager sendCrashReportsOrAwaitUserConfirmationForFilteredList:reports];
+  [MSWrapperCrashesHelper sendCrashReportsOrAwaitUserConfirmationForFilteredList:reports];
 
   // Then
   XCTAssertEqual(0, numInvocations);
@@ -88,7 +94,7 @@
 - (void)testSendOrAwaitWhenAlwaysSendIsFalseAndNotifyDontSend {
 
   // If
-  [MSWrapperExceptionManager setAutomaticProcessing:false];
+  [MSWrapperCrashesHelper setAutomaticProcessing:false];
   [self setAlwaysSendWithValue:false];
   [self setEnqueueImplementation:(^(NSInvocation *invocation) {
     numInvocations++;
@@ -98,7 +104,7 @@
   [reports removeObjectAtIndex:0];
 
   // When
-  [MSWrapperExceptionManager sendCrashReportsOrAwaitUserConfirmationForFilteredList:reports];
+  [MSWrapperCrashesHelper sendCrashReportsOrAwaitUserConfirmationForFilteredList:reports];
   [MSCrashes notifyWithUserConfirmation:MSUserConfirmationDontSend];
 
   // Then
@@ -108,7 +114,7 @@
 - (void)testGetUnprocessedCrashReportsWhenThereAreNone {
 
   // If
-  [MSWrapperExceptionManager setAutomaticProcessing:false];
+  [MSWrapperCrashesHelper setAutomaticProcessing:false];
   [self startCrashesWithReports:NO];
 
   // When
@@ -121,7 +127,7 @@
 - (void)testSendErrorAttachments {
 
   // If
-  [MSWrapperExceptionManager setAutomaticProcessing:false];
+  [MSWrapperCrashesHelper setAutomaticProcessing:false];
   MSErrorReport *report = OCMPartialMock([MSErrorReport new]);
   NSUInteger numInvocations = 0;
   NSMutableArray<MSErrorAttachmentLog *> *attachments = [[NSMutableArray alloc] init];
@@ -142,7 +148,7 @@
   [attachments addObject:OCMPartialMock([MSErrorAttachmentLog new])];
   [attachments addObject:OCMPartialMock([MSErrorAttachmentLog new])];
   [attachments addObject:OCMPartialMock([MSErrorAttachmentLog new])];
-  [MSWrapperExceptionManager sendErrorAttachments:attachments forErrorReport:report];
+  [MSWrapperCrashesHelper sendErrorAttachments:attachments forErrorReport:report];
 
   // Then
   XCTAssertEqual([attachments count], numInvocations);
@@ -151,7 +157,7 @@
 - (void)testGetUnprocessedCrashReports {
 
   // If
-  [MSWrapperExceptionManager setAutomaticProcessing:false];
+  [MSWrapperCrashesHelper setAutomaticProcessing:false];
   int numReports = 3;
   NSArray<MSErrorReport *> *reports = [self startCrashesWithReportCount:numReports];
 

@@ -3,17 +3,13 @@
 #import "MSErrorReport.h"
 #import "MSException.h"
 #import "MSTestFrameworks.h"
-#import "MSLogManagerDefault.h"
-#import "MSChannelDefault.h"
 #import "MSUtility+File.h"
 #import "MSWrapperException.h"
 #import "MSWrapperExceptionManagerInternal.h"
-#import "MSCrashesTestUtil.h"
-#import "MSErrorAttachmentLog.h"
+
 
 // Copied from MSWrapperExceptionManager.m
 static NSString* const kMSLastWrapperExceptionFileName = @"last_saved_wrapper_exception";
-static NSString* const kMSTestAppSecret = @"app secret";
 
 @interface MSWrapperExceptionManagerTests : XCTestCase
 
