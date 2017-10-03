@@ -1,7 +1,6 @@
 #import <Foundation/Foundation.h>
 
 @class MSWrapperException;
-@class MSErrorAttachmentLog;
 
 /**
  * This class helps wrapper SDKs augment crash reports with additional data.

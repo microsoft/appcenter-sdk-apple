@@ -1,4 +1,5 @@
 #import "MSWrapperCrashesHelper.h"
+#import "MSCrashesInternal.h"
 
 @interface MSWrapperCrashesHelper ()
 

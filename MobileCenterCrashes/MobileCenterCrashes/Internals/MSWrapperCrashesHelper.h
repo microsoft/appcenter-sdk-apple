@@ -1,6 +1,9 @@
 #import <Foundation/Foundation.h>
 #import "MSCrashHandlerSetupDelegate.h"
 
+@class MSErrorReport;
+@class MSErrorAttachmentLog;
+
 /**
  * This general class allows wrappers to supplement the Crashes SDK with their own
  * behavior.

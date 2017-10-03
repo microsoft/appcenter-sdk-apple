@@ -2,6 +2,7 @@
 #import "MSServiceInternal.h"
 
 @class MSException;
+@class MSErrorAttachmentLog;
 
 @interface MSCrashes () <MSServiceInternal>
 

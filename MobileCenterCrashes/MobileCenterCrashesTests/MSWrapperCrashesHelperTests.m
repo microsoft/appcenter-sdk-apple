@@ -5,6 +5,8 @@
 #import "MSErrorAttachmentLog.h"
 #import "MSChannelDefault.h"
 #import "MSLogManagerDefault.h"
+#import "MSCrashesInternal.h"
+#import "MSCrashesDelegate.h"
 
 @interface MSWrapperCrashesHelperTests : XCTestCase
 @end
