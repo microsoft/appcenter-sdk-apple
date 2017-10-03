@@ -70,11 +70,17 @@ static dispatch_queue_t alertsQueue;
 
 - (void)addPreferredActionWithTitle:(NSString *)title handler:(void (^)(UIAlertAction *))handler {
 
-  // Use cancel style to render button text in bold.
-  UIAlertAction *preferredAction = [MSAlertAction cancelActionWithTitle:title handler:handler];
-  [self addAction:preferredAction];
+  UIAlertAction *preferredAction;
+  // setPreferredAction is only available after iOS 9.0
   if ([self respondsToSelector:@selector(setPreferredAction:)]) {
+    // Use default style to put button (auto-bolded with setPreferredAction) on the right
+    preferredAction = [MSAlertAction defaultActionWithTitle:title handler:handler];
+    [self addAction:preferredAction];
     [self performSelector:@selector(setPreferredAction:) withObject:preferredAction];
+  } else {
+    // Use cancel style to render button text in bold.
+    preferredAction = [MSAlertAction cancelActionWithTitle:title handler:handler];
+    [self addAction:preferredAction];
   }
 }
 
