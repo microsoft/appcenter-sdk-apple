@@ -166,7 +166,8 @@ static NSURL *sfURL;
                                      is([NSString stringWithFormat:kMSDefaultCustomSchemeFormat, kMSTestAppSecret]));
                                  assertThat(queryStrings[kMSURLQueryRequestIdKey], notNilValue());
                                  assertThat(queryStrings[kMSURLQueryReleaseHashKey], equalTo(kMSTestReleaseHash));
-                                 assertThat(queryStrings[kMSURLQueryEnableUpdateSetupFailureRedirectKey], equalTo(@"true"));
+                                 assertThat(queryStrings[kMSURLQueryEnableUpdateSetupFailureRedirectKey],
+                                            equalTo(@"true"));
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
@@ -1015,7 +1016,7 @@ static NSURL *sfURL;
 }
 
 - (void)testOpenUrlWithUpdateSetupFailure {
-  
+
   // If
   NSString *scheme = [NSString stringWithFormat:kMSDefaultCustomSchemeFormat, kMSTestAppSecret];
   NSString *requestId = @"FIRST-REQUEST";
@@ -1026,20 +1027,22 @@ static NSURL *sfURL;
   id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
   OCMStub([mobileCenterMock isConfigured]).andReturn(YES);
   [distributeMock startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
-  
+
   // If
-  NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?request_id=%@&update_setup_failed=%@", scheme,
-                                     requestId, [updateSetupFailureMessage stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]]
-                                     ]];
-  
+  NSURL *url = [NSURL
+      URLWithString:[NSString
+                        stringWithFormat:@"%@://?request_id=%@&update_setup_failed=%@", scheme, requestId,
+                                         [updateSetupFailureMessage stringByAddingPercentEncodingWithAllowedCharacters:
+                                                                        [NSCharacterSet URLHostAllowedCharacterSet]]]];
+
   // When
   [self.settingsMock setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
   BOOL result = [MSDistribute openURL:url];
-  
+
   // Then
   assertThatBool(result, isTrue());
   OCMVerify([distributeMock showUpdateSetupFailedAlert:updateSetupFailureMessage]);
-  
+
   // Clear
   [distributeMock stopMocking];
   [mobileCenterMock stopMocking];
@@ -1190,36 +1193,36 @@ static NSURL *sfURL;
 }
 
 - (void)testSetupUpdatesWithPreviousFailureOnSamePackageHash {
-  
+
   // If
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
   id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
   id distributeMock = OCMPartialMock(self.sut);
   OCMStub([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY])
-  .andDo(nil);
+      .andDo(nil);
   id utilityMock = [self mockMSPackageHash];
-  
+
   // When
   OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(NO);
   OCMStub([utilityMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
-  
+
   // Then
   XCTAssertTrue([self.sut checkForUpdatesAllowed]);
-  
+
   // If
   [self.settingsMock setObject:kMSTestReleaseHash forKey:kMSUpdateSetupFailedPackageHashKey];
-  
+
   // Then
   XCTAssertEqual([self.settingsMock objectForKey:kMSUpdateSetupFailedPackageHashKey], kMSTestReleaseHash);
-  
+
   // When
   [distributeMock applyEnabledState:YES];
-  
+
   // Then
   OCMVerify([distributeMock requestInstallInformationWith:kMSTestReleaseHash]);
   OCMReject([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:kMSTestReleaseHash]);
   XCTAssertEqual([self.settingsMock objectForKey:kMSUpdateSetupFailedPackageHashKey], kMSTestReleaseHash);
-  
+
   // Clear
   [distributeMock stopMocking];
   [mobileCenterMock stopMocking];
@@ -1227,37 +1230,37 @@ static NSURL *sfURL;
 }
 
 - (void)testSetupUpdatesWithPreviousFailureOnDifferentPackageHash {
-  
+
   // If
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
   id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
   id distributeMock = OCMPartialMock(self.sut);
   OCMStub([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY])
-  .andDo(nil);
+      .andDo(nil);
   id utilityMock = [self mockMSPackageHash];
-  
+
   // When
   OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(NO);
   OCMStub([utilityMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
-  
+
   // Then
   XCTAssertTrue([self.sut checkForUpdatesAllowed]);
-  
+
   // If
   [self.settingsMock setObject:@"different-release-hash" forKey:kMSUpdateSetupFailedPackageHashKey];
-  
+
   // Then
   XCTAssertNotNil([self.settingsMock objectForKey:kMSUpdateSetupFailedPackageHashKey]);
   XCTAssertNotEqual([self.settingsMock objectForKey:kMSUpdateSetupFailedPackageHashKey], kMSTestReleaseHash);
-  
+
   // When
   [distributeMock applyEnabledState:YES];
-  
+
   // Then
   OCMVerify([distributeMock requestInstallInformationWith:kMSTestReleaseHash]);
   OCMVerify([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:kMSTestReleaseHash]);
   XCTAssertNil([self.settingsMock objectForKey:kMSUpdateSetupFailedPackageHashKey]);
-  
+
   // Clear
   [distributeMock stopMocking];
   [mobileCenterMock stopMocking];

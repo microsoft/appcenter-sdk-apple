@@ -3,7 +3,7 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wreserved-id-macro"
 #ifndef __IPHONE_11_0
-#define __IPHONE_11_0    110000
+#define __IPHONE_11_0 110000
 #endif
 #pragma clang diagnostic pop
 
@@ -141,7 +141,7 @@ static NSString *const kMSUpdateSetupFailedPackageHashKey = @"MSUpdateSetupFaile
 - (nullable NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret releaseHash:(NSString *)releaseHash;
 
 /**
- * Open the given URL using either SFAuthenticationSession, SFSafariViewController, or the Safari app 
+ * Open the given URL using either SFAuthenticationSession, SFSafariViewController, or the Safari app
  * based on which iOS version is used.
  *
  * @param url URL to open.
