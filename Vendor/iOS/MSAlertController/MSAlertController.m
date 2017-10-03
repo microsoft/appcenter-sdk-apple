@@ -73,7 +73,7 @@ static dispatch_queue_t alertsQueue;
   UIAlertAction *preferredAction;
   // setPreferredAction is only available after iOS 9.0
   if ([self respondsToSelector:@selector(setPreferredAction:)]) {
-    // Use default style to put button (auto-bolded with setPreferredAction) on the right
+    // Use default style to allow button to be on right side (bolded with setPreferredAction).
     preferredAction = [MSAlertAction defaultActionWithTitle:title handler:handler];
     [self addAction:preferredAction];
     [self performSelector:@selector(setPreferredAction:) withObject:preferredAction];
