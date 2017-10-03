@@ -6,7 +6,7 @@ This version contains bug fixes, a new API and improvements.
 
 ### MobileCenter
 
-* **[Feature]** Added an `sdkVersion` method to get a current version of Mobile Center SDK programmatically.
+* **[Feature]** Added an `sdkVersion` method to get the current version of Mobile Center SDK programmatically.
 * **[Fix]** Fixed a database open failure when Mobile Center SDK is used with any other SQLite related libraries.
 
 ### MobileCenterCrashes
