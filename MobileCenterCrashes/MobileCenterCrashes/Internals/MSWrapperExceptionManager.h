@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
 
 @class MSWrapperException;
+@class MSErrorAttachmentLog;
 
 /**
  * This class helps wrapper SDKs augment crash reports with additional data.
@@ -38,5 +39,25 @@
  * Load a wrapper exception from disk with a given UUID.
  */
 +(MSWrapperException *)loadWrapperExceptionWithUUIDString:(NSString *)uuidString;
+
+/**
+ * Disables automatic crash processing. Causes SDK not to send reports, even if ALWAYS_SEND is set.
+ */
++(void)setAutomaticProcessing:(BOOL)automaticProcessing;
+
+/**
+ * Gets a list of unprocessed crash reports.
+ */
++(NSArray<MSErrorReport *> *)getUnprocessedCrashReports;
+
+/**
+ * Resumes processing for a list of error reports that is a subset of the unprocessed reports.
+ */
++(void)sendCrashReportsOrAwaitUserConfirmationForFilteredList:(NSArray<MSErrorReport *> *)filteredList;
+
+/**
+ * Sends error attachments for a particular error report.
+ */
++(void)sendErrorAttachments:(NSArray<MSErrorAttachmentLog *> *)errorAttachments forErrorReport:(MSErrorReport *)errorReport;
 
 @end
