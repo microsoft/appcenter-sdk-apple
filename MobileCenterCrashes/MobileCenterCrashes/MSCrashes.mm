@@ -801,6 +801,35 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   }
 }
 
+/**
+ * Disables automatic crash processing. Causes SDK not to send reports, even if ALWAYS_SEND is set.
+ */
+- (void)setAutomaticProcessing:(BOOL)automaticProcessing {
+  //TODO implement this
+}
+
+/**
+ * Gets a list of unprocessed crash reports.
+ */
+- (NSArray<MSErrorReport *> *)getUnprocessedCrashReports {
+  //TODO implement this
+  return nil;
+}
+
+/**
+ * Resumes processing for a list of error reports that is a subset of the unprocessed reports.
+ */
+- (void)sendCrashReportsOrAwaitUserConfirmationForFilteredList:(NSArray<MSErrorReport *> *)filteredList {
+  //TODO implement this
+}
+
+/**
+ * Sends error attachments for a particular error report.
+ */
+- (void)sendErrorAttachments:(NSArray<MSErrorAttachmentLog *> *)errorAttachments forErrorReport:(MSErrorReport *)errorReport {
+  //TODO implement this
+}
+
 #pragma mark - Helper
 
 - (void)deleteAllFromCrashesDirectory {
