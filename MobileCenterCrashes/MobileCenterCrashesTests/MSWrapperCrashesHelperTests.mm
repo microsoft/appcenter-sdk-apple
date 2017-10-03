@@ -7,6 +7,10 @@
 #import "MSLogManagerDefault.h"
 #import "MSCrashesInternal.h"
 #import "MSCrashesDelegate.h"
+#import "MSUtility.h"
+#import "MSUserDefaults.h"
+#import "MSErrorLogFormatter.h"
+#import "MSCrashReporter.h"
 
 @interface MSWrapperCrashesHelperTests : XCTestCase
 @end
@@ -27,8 +31,9 @@ static NSString* const kMSTestAppSecret = @"app secret";
 - (void)testSendOrAwaitWhenAlwaysSendIsTrue {
 
   // If
-  [MSWrapperExceptionManager setAutomaticProcessing:false];
+  [MSWrapperCrashesHelper setAutomaticProcessing:false];
   [self setAlwaysSendWithValue:true];
+  __block NSUInteger numInvocations = 0;
   [self setEnqueueImplementation:(^(NSInvocation *invocation) {
     numInvocations++;
   })];
@@ -46,8 +51,9 @@ static NSString* const kMSTestAppSecret = @"app secret";
 - (void)testSendOrAwaitWhenAlwaysSendIsFalseAndNotifyAlwaysSend {
 
   // If
-  [MSWrapperExceptionManager setAutomaticProcessing:false];
+  [MSWrapperCrashesHelper setAutomaticProcessing:false];
   [self setAlwaysSendWithValue:false];
+  __block NSUInteger numInvocations = 0;
   [self setEnqueueImplementation:(^(NSInvocation *invocation) {
     numInvocations++;
   })];
@@ -59,7 +65,7 @@ static NSString* const kMSTestAppSecret = @"app secret";
   [MSWrapperCrashesHelper sendCrashReportsOrAwaitUserConfirmationForFilteredList:reports];
 
   // Then
-  XCTAssertEqual([reports count], 0);
+  XCTAssertEqual(numInvocations, (NSUInteger)0);
 
   // When
   [MSCrashes notifyWithUserConfirmation:MSUserConfirmationAlways];
@@ -71,8 +77,9 @@ static NSString* const kMSTestAppSecret = @"app secret";
 - (void)testSendOrAwaitWhenAlwaysSendIsFalseAndNotifySend {
 
   // If
-  [MSWrapperExceptionManager setAutomaticProcessing:false];
+  [MSWrapperCrashesHelper setAutomaticProcessing:false];
   [self setAlwaysSendWithValue:false];
+  __block NSUInteger numInvocations = 0;
   [self setEnqueueImplementation:(^(NSInvocation *invocation) {
     numInvocations++;
   })];
@@ -84,7 +91,7 @@ static NSString* const kMSTestAppSecret = @"app secret";
   [MSWrapperCrashesHelper sendCrashReportsOrAwaitUserConfirmationForFilteredList:reports];
 
   // Then
-  XCTAssertEqual(0, numInvocations);
+  XCTAssertEqual((NSUInteger)0, numInvocations);
 
   // When
   [MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
@@ -98,6 +105,7 @@ static NSString* const kMSTestAppSecret = @"app secret";
   // If
   [MSWrapperCrashesHelper setAutomaticProcessing:false];
   [self setAlwaysSendWithValue:false];
+  __block NSUInteger numInvocations = 0;
   [self setEnqueueImplementation:(^(NSInvocation *invocation) {
     numInvocations++;
   })];
@@ -110,7 +118,7 @@ static NSString* const kMSTestAppSecret = @"app secret";
   [MSCrashes notifyWithUserConfirmation:MSUserConfirmationDontSend];
 
   // Then
-  XCTAssertEqual(0, numInvocations);
+  XCTAssertEqual((NSUInteger)0, numInvocations);
 }
 
 - (void)testGetUnprocessedCrashReportsWhenThereAreNone {
@@ -120,7 +128,7 @@ static NSString* const kMSTestAppSecret = @"app secret";
   [self startCrashesWithReports:NO];
 
   // When
-  NSArray<MSErrorReport *> *reports = [MSWrapperExceptionManager getUnprocessedCrashReports];
+  NSArray<MSErrorReport *> *reports = [MSWrapperCrashesHelper getUnprocessedCrashReports];
 
   // Then
   XCTAssertNil(reports);
@@ -131,20 +139,16 @@ static NSString* const kMSTestAppSecret = @"app secret";
   // If
   [MSWrapperCrashesHelper setAutomaticProcessing:false];
   MSErrorReport *report = OCMPartialMock([MSErrorReport new]);
-  NSUInteger numInvocations = 0;
+  __block NSUInteger numInvocations = 0;
+  __block NSMutableArray<MSErrorAttachmentLog *> *foundAttachments = [[NSMutableArray alloc] init];
   NSMutableArray<MSErrorAttachmentLog *> *attachments = [[NSMutableArray alloc] init];
-  NSMutableArray<MSErrorAttachmentLog *> *foundAttachments = [[NSMutableArray alloc] init];
   [self setEnqueueImplementation:(^(NSInvocation *invocation) {
     numInvocations++;
-    MSErrorAttachmentLog log = nil;
-    [invocation getArgument:&log atIndex:2];
-
-    // Ensure that the log corresponds to exactly one of the logs in the list that was passed
-    XCTAssertFalse([foundAttachments containsObject:log]);
-    [foundAttachments addObject:log];
-    XCTAssertTrue([attachments containsObject:log]);
+    MSErrorAttachmentLog *attachmentLog;
+    [invocation getArgument:&attachmentLog atIndex:2];
+    [foundAttachments addObject:attachmentLog];
   })];
-  NSArray<MSErrorReport *> *reports = [self startCrashesWithReports:NO];
+  [self startCrashesWithReports:NO];
 
   // When
   [attachments addObject:OCMPartialMock([MSErrorAttachmentLog new])];
@@ -154,35 +158,45 @@ static NSString* const kMSTestAppSecret = @"app secret";
 
   // Then
   XCTAssertEqual([attachments count], numInvocations);
+  for (MSErrorAttachmentLog *log : foundAttachments) {
+    [attachments containsObject:log];
+  }
 }
 
 - (void)testGetUnprocessedCrashReports {
 
   // If
   [MSWrapperCrashesHelper setAutomaticProcessing:false];
-  int numReports = 3;
-  NSArray<MSErrorReport *> *reports = [self startCrashesWithReportCount:numReports];
+  NSArray<MSErrorReport *> *reports = [self startCrashesWithReports:YES];
 
   // When
-  NSArray<MSErrorReport *> *retrievedReports = [MSWrapperExceptionManager getUnprocessedCrashReports];
+  NSArray<MSErrorReport *> *retrievedReports = [MSWrapperCrashesHelper getUnprocessedCrashReports];
 
   // Then
   XCTAssertEqual([reports count], [retrievedReports count]);
-  for (auto report in retrievedReports) {
-    XCAssertTrue([reports containsObject:report]);
+  for (MSErrorReport* report : retrievedReports) {
+    XCTAssertTrue([reports containsObject:report]);
   }
 }
 
-- (NSArray<MSErrorReport *> *)startCrashesWithReports:(BOOL)startWithReports {
-  if (startWithReports) {
-    assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
-    assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_signal"], isTrue());
-    assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_empty"], isTrue());
-    assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_xamarin"], isTrue());
-    assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception_marketing"], isTrue());
-  }
+- (NSMutableArray<MSErrorReport *> *)startCrashesWithReports:(BOOL)startWithReports {
+  NSMutableArray<MSErrorReport *> *reports = [NSMutableArray<MSErrorReport*> new];
 
+  if (startWithReports) {
+    for (NSString* fileName : @[@"live_report_exception",
+                                @"live_report_signal",
+                                @"live_report_empty",
+                                @"live_report_xamarin",
+                                @"live_report_exception_marketing"]) {
+      assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:fileName], isTrue());
+      NSData *data = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:fileName];
+      NSError *error;
+      MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:data error:&error];
+      [reports addObject:[MSErrorLogFormatter errorReportFromCrashReport:report]];
+    }
+  }
   [[MSCrashes sharedInstance] startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+  return reports;
 }
 
 // TODO: refactor these into utility if they can also be used by MSCrashesTests.
