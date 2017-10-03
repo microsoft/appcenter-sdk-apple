@@ -1,2 +1,0 @@
-#include "./iOS.xcconfig"
-#include "../../../Config/Framework.xcconfig"
