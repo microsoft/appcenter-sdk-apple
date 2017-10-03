@@ -12,7 +12,7 @@
 
 @property(nonatomic) id<MSPushDelegate> delegate;
 
-@property(nonatomic) BOOL pushTokenHasBeenSent;
+@property(nonatomic) NSString *pushToken;
 
 /**
  * Custom application delegate dedicated to Push.

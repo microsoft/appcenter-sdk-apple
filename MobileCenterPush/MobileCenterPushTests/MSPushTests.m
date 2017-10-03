@@ -96,18 +96,6 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   XCTAssertTrue(self.sut.initializationPriority == MSInitializationPriorityDefault);
 }
 
-- (void)testSendPushTokenMethod {
-
-  // Then
-  XCTAssertFalse(self.sut.pushTokenHasBeenSent);
-
-  // When
-  [self.sut sendPushToken:kMSTestPushToken];
-
-  // Then
-  XCTAssertTrue(self.sut.pushTokenHasBeenSent);
-}
-
 - (void)testConvertTokenToString {
 
   // If
@@ -135,10 +123,26 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   NSString *pushToken = @"ConvertedPushToken";
   OCMStub([pushMock convertTokenToString:deviceToken]).andReturn(pushToken);
 
+  // Then
+  XCTAssertNil(self.sut.pushToken);
+  
   // When
   [MSPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 
   // Then
+  XCTAssertEqualObjects(self.sut.pushToken, pushToken);
+  OCMVerify([pushMock didRegisterForRemoteNotificationsWithDeviceToken:deviceToken]);
+  OCMVerify([pushMock convertTokenToString:deviceToken]);
+  OCMVerify([pushMock sendPushToken:pushToken]);
+  
+  // When
+  deviceToken = [@"otherToken" dataUsingEncoding:NSUTF8StringEncoding];
+  pushToken = @"ConvertedOtherToken";
+  OCMStub([pushMock convertTokenToString:deviceToken]).andReturn(pushToken);
+  [MSPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+  
+  // Then
+  XCTAssertEqualObjects(self.sut.pushToken, pushToken);
   OCMVerify([pushMock didRegisterForRemoteNotificationsWithDeviceToken:deviceToken]);
   OCMVerify([pushMock convertTokenToString:deviceToken]);
   OCMVerify([pushMock sendPushToken:pushToken]);
