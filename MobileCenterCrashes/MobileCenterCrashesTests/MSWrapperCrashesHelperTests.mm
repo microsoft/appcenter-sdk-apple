@@ -19,7 +19,7 @@
 
 static NSString* const kMSTestAppSecret = @"app secret";
 
-#pragma mark - Test
+#pragma mark - General Tests
 
 - (void)testSettingAndGettingDelegateWorks {
   id<MSCrashHandlerSetupDelegate> delegateMock = OCMProtocolMock(@protocol(MSCrashHandlerSetupDelegate));
@@ -27,6 +27,8 @@ static NSString* const kMSTestAppSecret = @"app secret";
   id<MSCrashHandlerSetupDelegate> retrievedDelegate = [MSWrapperCrashesHelper getCrashHandlerSetupDelegate];
   assertThat(delegateMock, equalTo(retrievedDelegate));
 }
+
+#pragma mark - Automatic Processing Tests
 
 - (void)testSendOrAwaitWhenAlwaysSendIsTrue {
 
@@ -140,13 +142,13 @@ static NSString* const kMSTestAppSecret = @"app secret";
   [MSWrapperCrashesHelper setAutomaticProcessing:false];
   MSErrorReport *report = OCMPartialMock([MSErrorReport new]);
   __block NSUInteger numInvocations = 0;
-  __block NSMutableArray<MSErrorAttachmentLog *> *foundAttachments = [[NSMutableArray alloc] init];
+  __block NSMutableArray<MSErrorAttachmentLog *> *enqueuedAttachments = [[NSMutableArray alloc] init];
   NSMutableArray<MSErrorAttachmentLog *> *attachments = [[NSMutableArray alloc] init];
   [self setEnqueueImplementation:(^(NSInvocation *invocation) {
     numInvocations++;
     MSErrorAttachmentLog *attachmentLog;
     [invocation getArgument:&attachmentLog atIndex:2];
-    [foundAttachments addObject:attachmentLog];
+    [enqueuedAttachments addObject:attachmentLog];
   })];
   [self startCrashesWithReports:NO];
 
@@ -158,13 +160,14 @@ static NSString* const kMSTestAppSecret = @"app secret";
 
   // Then
   XCTAssertEqual([attachments count], numInvocations);
-  for (MSErrorAttachmentLog *log : foundAttachments) {
+  for (MSErrorAttachmentLog *log : enqueuedAttachments) {
     [attachments containsObject:log];
   }
 }
 
 - (void)testGetUnprocessedCrashReports {
-
+    //TODO: verify that callbacks aren't invoked?
+    
   // If
   [MSWrapperCrashesHelper setAutomaticProcessing:false];
   NSArray<MSErrorReport *> *reports = [self startCrashesWithReports:YES];
