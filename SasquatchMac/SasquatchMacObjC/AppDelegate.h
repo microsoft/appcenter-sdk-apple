@@ -3,6 +3,6 @@
 @import MobileCenterCrashes;
 @import MobileCenterPush;
 
-@interface AppDelegate : NSObject <NSApplicationDelegate, MSCrashesDelegate, MSPushDelegate>
+@interface AppDelegate : NSObject <NSApplicationDelegate, MSCrashesDelegate, MSPushDelegate, NSUserNotificationCenterDelegate>
 
 @end

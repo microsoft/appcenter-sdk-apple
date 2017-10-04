@@ -9,6 +9,7 @@
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
 #import "MSStartServiceLog.h"
+#import "MSUtility.h"
 #if !TARGET_OS_TV
 #import "MSCustomProperties.h"
 #import "MSCustomPropertiesLog.h"
@@ -150,6 +151,10 @@ static NSString *const kMSGroupId = @"MobileCenter";
   });
 
   return debuggerIsAttached;
+}
+
++ (NSString *)sdkVersion {
+  return [MSUtility sdkVersion];
 }
 
 + (NSString *)logTag {
@@ -334,23 +339,16 @@ static NSString *const kMSGroupId = @"MobileCenter";
 
   // Hookup to application life-cycle events
   if (isEnabled) {
-
+#if !TARGET_OS_OSX
     [MS_NOTIFICATION_CENTER addObserver:self
                                selector:@selector(applicationDidEnterBackground)
-#if TARGET_OS_OSX
-                                   name:NSApplicationDidHideNotification
-#else
                                    name:UIApplicationDidEnterBackgroundNotification
-#endif
                                  object:nil];
     [MS_NOTIFICATION_CENTER addObserver:self
                                selector:@selector(applicationWillEnterForeground)
-#if TARGET_OS_OSX
-                                   name:NSApplicationDidUnhideNotification
-#else
                                    name:UIApplicationWillEnterForegroundNotification
-#endif
                                  object:nil];
+#endif
   } else {
 
     // Clean device history in case we are disabled.
@@ -430,6 +428,7 @@ static NSString *const kMSGroupId = @"MobileCenter";
 
 #pragma mark - Application life cycle
 
+#if !TARGET_OS_OSX
 /**
  *  The application will go to the foreground.
  */
@@ -443,5 +442,6 @@ static NSString *const kMSGroupId = @"MobileCenter";
 - (void)applicationDidEnterBackground {
   [self.logManager suspend];
 }
+#endif
 
 @end

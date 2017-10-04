@@ -92,7 +92,7 @@
 - (BOOL)executeNonSelectionQuery:(NSString *)query {
   sqlite3 *db = NULL;
   int result = SQLITE_OK;
-  result = sqlite3_open_v2([self.filePath UTF8String], &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, NULL);
+  result = sqlite3_open_v2([self.filePath UTF8String], &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_URI, NULL);
   if (result == SQLITE_OK) {
     char *errMsg;
     result = sqlite3_exec(db, [query UTF8String], NULL, NULL, &errMsg);
@@ -112,7 +112,7 @@
   sqlite3 *db = NULL;
   sqlite3_stmt *statement = NULL;
   int result = 0;
-  result = sqlite3_open_v2([self.filePath UTF8String], &db, SQLITE_OPEN_READONLY, NULL);
+  result = sqlite3_open_v2([self.filePath UTF8String], &db, SQLITE_OPEN_READONLY | SQLITE_OPEN_URI, NULL);
   if (result == SQLITE_OK) {
     result = sqlite3_prepare_v2(db, [query UTF8String], -1, &statement, NULL);
     if (result == SQLITE_OK) {

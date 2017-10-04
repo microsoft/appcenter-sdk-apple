@@ -66,25 +66,41 @@ static NSString *const kMSPackageHashes = @"package_hashes";
     }
     if (dictionary[kMSUploadedAt]) {
       NSDateFormatter *formatter = [NSDateFormatter new];
-      [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZZZ"];
+      [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"];
       NSString *_Nonnull uploadedAt = (NSString * _Nonnull)dictionary[kMSUploadedAt];
       self.uploadedAt = [formatter dateFromString:uploadedAt];
     }
     if (dictionary[kMSDownloadUrl]) {
-      NSString *_Nonnull downloadUrl = (NSString * _Nonnull)dictionary[kMSDownloadUrl];
-      self.downloadUrl = [NSURL URLWithString:downloadUrl];
+      if ([dictionary[kMSDownloadUrl] isKindOfClass:[NSNull class]]) {
+        self.downloadUrl = nil;
+      } else {
+        NSString *_Nonnull downloadUrl = (NSString * _Nonnull)dictionary[kMSDownloadUrl];
+        self.downloadUrl = [NSURL URLWithString:downloadUrl];
+      }
     }
     if (dictionary[kMSAppIconUrl]) {
-      NSString *_Nonnull appIconUrl = (NSString * _Nonnull)dictionary[kMSAppIconUrl];
-      self.appIconUrl = [NSURL URLWithString:appIconUrl];
+      if ([dictionary[kMSAppIconUrl] isKindOfClass:[NSNull class]]) {
+        self.appIconUrl = nil;
+      } else {
+        NSString *_Nonnull appIconUrl = (NSString * _Nonnull)dictionary[kMSAppIconUrl];
+        self.appIconUrl = [NSURL URLWithString:appIconUrl];
+      }
     }
     if (dictionary[kMSInstallUrl]) {
-      NSString *_Nonnull installUrl = (NSString * _Nonnull)dictionary[kMSInstallUrl];
-      self.installUrl = [NSURL URLWithString:installUrl];
+      if ([dictionary[kMSInstallUrl] isKindOfClass:[NSNull class]]) {
+        self.installUrl = nil;
+      } else {
+        NSString *_Nonnull installUrl = (NSString * _Nonnull)dictionary[kMSInstallUrl];
+        self.installUrl = [NSURL URLWithString:installUrl];
+      }
     }
     if (dictionary[kMSReleaseNotesUrl]) {
-      NSString *_Nonnull releaseNotesUrl = (NSString * _Nonnull)dictionary[kMSReleaseNotesUrl];
-      self.releaseNotesUrl = [NSURL URLWithString:releaseNotesUrl];
+      if ([dictionary[kMSReleaseNotesUrl] isKindOfClass:[NSNull class]]) {
+        self.releaseNotesUrl = nil;
+      } else {
+        NSString *_Nonnull releaseNotesUrl = (NSString * _Nonnull)dictionary[kMSReleaseNotesUrl];
+        self.releaseNotesUrl = [NSURL URLWithString:releaseNotesUrl];
+      }
     }
     if (dictionary[kMSDistributionGroups]) {
 
@@ -134,7 +150,7 @@ static NSString *const kMSPackageHashes = @"package_hashes";
   }
   if (self.uploadedAt) {
     NSDateFormatter *formatter = [NSDateFormatter new];
-    [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZZZ"];
+    [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"];
     dictionary[kMSUploadedAt] = [formatter stringFromDate:(NSDate * _Nonnull)self.uploadedAt];
   }
   if (self.downloadUrl) {
