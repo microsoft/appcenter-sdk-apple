@@ -92,7 +92,7 @@
 		0446DF6B1F3B977100C8E338 /* MSWrapperExceptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 350B29F31F1E6F1D009B91CF /* MSWrapperExceptionTests.m */; };
 		0446DF6C1F3B977100C8E338 /* MSExceptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C891D3EC504009EC9AC /* MSExceptionTests.m */; };
 		0446DF6D1F3B977100C8E338 /* MSErrorReportTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120D61D65469D0060DED7 /* MSErrorReportTests.m */; };
-		0446DF6E1F3B977100C8E338 /* MSWrapperCrashesHelperTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 352B1D6E1F27C36300684A7F /* MSWrapperCrashesHelperTests.mm */; };
+		0446DF6E1F3B977100C8E338 /* MSWrapperCrashesHelperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 352B1D6E1F27C36300684A7F /* MSWrapperCrashesHelperTests.m */; };
 		0446DF6F1F3B977100C8E338 /* MSStackFrameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C861D3EC332009EC9AC /* MSStackFrameTests.m */; };
 		0446DF701F3B977100C8E338 /* MSCrashesCXXExceptionTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = F851DAEC1E81867D00525570 /* MSCrashesCXXExceptionTests.mm */; };
 		0446DF711F3B977100C8E338 /* MSThreadTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C831D3EC0F7009EC9AC /* MSThreadTests.m */; };
@@ -235,7 +235,7 @@
 		04CC3B871F3528C300F7D92A /* MSCrashHandlerSetupDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 350B29E71F192554009B91CF /* MSCrashHandlerSetupDelegate.h */; };
 		04CC3B881F3528C400F7D92A /* MSCrashHandlerSetupDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 350B29E71F192554009B91CF /* MSCrashHandlerSetupDelegate.h */; };
 		04CC3B891F3528DA00F7D92A /* MSWrapperExceptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 350B29F31F1E6F1D009B91CF /* MSWrapperExceptionTests.m */; };
-		04CC3B8A1F3528E200F7D92A /* MSWrapperCrashesHelperTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 352B1D6E1F27C36300684A7F /* MSWrapperCrashesHelperTests.mm */; };
+		04CC3B8A1F3528E200F7D92A /* MSWrapperCrashesHelperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 352B1D6E1F27C36300684A7F /* MSWrapperCrashesHelperTests.m */; };
 		04EBBEB21F01C0C90006B8AE /* MSErrorReport.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120DF1D657CF10060DED7 /* MSErrorReport.m */; };
 		04EBBEB31F01C0C90006B8AE /* MSCrashesCXXExceptionHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6E73FE691D402F79008CDC15 /* MSCrashesCXXExceptionHandler.mm */; };
 		04EBBEB41F01C0C90006B8AE /* MSAbstractErrorLog.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD3BF81D80EE49000A8A91 /* MSAbstractErrorLog.m */; };
@@ -287,7 +287,7 @@
 		350B29F21F1D67EE009B91CF /* MSWrapperCrashesHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 350B29F11F1D67EE009B91CF /* MSWrapperCrashesHelper.m */; };
 		350B29F41F1E6F1D009B91CF /* MSWrapperExceptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 350B29F31F1E6F1D009B91CF /* MSWrapperExceptionTests.m */; };
 		3515F9C11DD63EC9005E6E27 /* MSCrashesInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3515F9C01DD63EC9005E6E27 /* MSCrashesInternal.h */; };
-		352B1D6F1F27C36300684A7F /* MSWrapperCrashesHelperTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 352B1D6E1F27C36300684A7F /* MSWrapperCrashesHelperTests.mm */; };
+		352B1D6F1F27C36300684A7F /* MSWrapperCrashesHelperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 352B1D6E1F27C36300684A7F /* MSWrapperCrashesHelperTests.m */; };
 		353FD1611F29209000E1DF78 /* MSWrapperException.h in Headers */ = {isa = PBXBuildFile; fileRef = 353FD15E1F29209000E1DF78 /* MSWrapperException.h */; };
 		353FD1621F29209000E1DF78 /* MSWrapperException.m in Sources */ = {isa = PBXBuildFile; fileRef = 353FD15F1F29209000E1DF78 /* MSWrapperException.m */; };
 		353FD1631F29209000E1DF78 /* MSWrapperExceptionInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 353FD1601F29209000E1DF78 /* MSWrapperExceptionInternal.h */; };
@@ -516,7 +516,7 @@
 		350B29F11F1D67EE009B91CF /* MSWrapperCrashesHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSWrapperCrashesHelper.m; sourceTree = "<group>"; };
 		350B29F31F1E6F1D009B91CF /* MSWrapperExceptionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSWrapperExceptionTests.m; sourceTree = "<group>"; };
 		3515F9C01DD63EC9005E6E27 /* MSCrashesInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashesInternal.h; sourceTree = "<group>"; };
-		352B1D6E1F27C36300684A7F /* MSWrapperCrashesHelperTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MSWrapperCrashesHelperTests.mm; sourceTree = "<group>"; };
+		352B1D6E1F27C36300684A7F /* MSWrapperCrashesHelperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSWrapperCrashesHelperTests.m; sourceTree = "<group>"; };
 		353FD15E1F29209000E1DF78 /* MSWrapperException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSWrapperException.h; sourceTree = "<group>"; };
 		353FD15F1F29209000E1DF78 /* MSWrapperException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSWrapperException.m; sourceTree = "<group>"; };
 		353FD1601F29209000E1DF78 /* MSWrapperExceptionInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSWrapperExceptionInternal.h; sourceTree = "<group>"; };
@@ -931,7 +931,7 @@
 				F851DAEC1E81867D00525570 /* MSCrashesCXXExceptionTests.mm */,
 				6EC99A2D1D4166C50016C325 /* MSCrashesTests.mm */,
 				B24F3F0E1D93368F00827213 /* MSErrorLogFormatterTests.mm */,
-				352B1D6E1F27C36300684A7F /* MSWrapperCrashesHelperTests.mm */,
+				352B1D6E1F27C36300684A7F /* MSWrapperCrashesHelperTests.m */,
 				6EC99A2F1D416CCF0016C325 /* Fixtures */,
 				6E171AEC1D22F7AB000DC480 /* Frameworks */,
 				04A140B31ECE8249001CEE94 /* Model */,
@@ -1531,7 +1531,7 @@
 				0446DF6B1F3B977100C8E338 /* MSWrapperExceptionTests.m in Sources */,
 				0446DF6C1F3B977100C8E338 /* MSExceptionTests.m in Sources */,
 				0446DF6D1F3B977100C8E338 /* MSErrorReportTests.m in Sources */,
-				0446DF6E1F3B977100C8E338 /* MSWrapperCrashesHelperTests.mm in Sources */,
+				0446DF6E1F3B977100C8E338 /* MSWrapperCrashesHelperTests.m in Sources */,
 				043281671F74A677002F7205 /* MSMockUserDefaults.m in Sources */,
 				0446DF6F1F3B977100C8E338 /* MSStackFrameTests.m in Sources */,
 				0446DF701F3B977100C8E338 /* MSCrashesCXXExceptionTests.mm in Sources */,
@@ -1581,7 +1581,7 @@
 				04CC3B891F3528DA00F7D92A /* MSWrapperExceptionTests.m in Sources */,
 				049327671ECA170D00D0187A /* MSExceptionTests.m in Sources */,
 				049327681ECA170D00D0187A /* MSErrorReportTests.m in Sources */,
-				04CC3B8A1F3528E200F7D92A /* MSWrapperCrashesHelperTests.mm in Sources */,
+				04CC3B8A1F3528E200F7D92A /* MSWrapperCrashesHelperTests.m in Sources */,
 				043281661F74A675002F7205 /* MSMockUserDefaults.m in Sources */,
 				049327691ECA170D00D0187A /* MSStackFrameTests.m in Sources */,
 				0493276A1ECA170D00D0187A /* MSCrashesCXXExceptionTests.mm in Sources */,
@@ -1656,7 +1656,7 @@
 				350B29F41F1E6F1D009B91CF /* MSWrapperExceptionTests.m in Sources */,
 				6E7D5C8A1D3EC504009EC9AC /* MSExceptionTests.m in Sources */,
 				B2F120D71D65469D0060DED7 /* MSErrorReportTests.m in Sources */,
-				352B1D6F1F27C36300684A7F /* MSWrapperCrashesHelperTests.mm in Sources */,
+				352B1D6F1F27C36300684A7F /* MSWrapperCrashesHelperTests.m in Sources */,
 				043281651F74A673002F7205 /* MSMockUserDefaults.m in Sources */,
 				6E7D5C871D3EC332009EC9AC /* MSStackFrameTests.m in Sources */,
 				F851DAED1E81867D00525570 /* MSCrashesCXXExceptionTests.mm in Sources */,

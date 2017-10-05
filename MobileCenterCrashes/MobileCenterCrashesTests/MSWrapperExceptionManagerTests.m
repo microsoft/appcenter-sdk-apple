@@ -12,9 +12,6 @@
 static NSString* const kMSLastWrapperExceptionFileName = @"last_saved_wrapper_exception";
 
 @interface MSWrapperExceptionManagerTests : XCTestCase
-
-@property(nonatomic) MSCrashes *crashInstance;
-
 @end
 
 // Expose private methods for use in tests
