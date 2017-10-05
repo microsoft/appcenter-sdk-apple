@@ -2,7 +2,7 @@
 
 ## Version 0.13.0
 
-This version contains bug fixes, a new API and improvements.
+This version contains bug fixes and a new API.
 
 ### MobileCenter
 
@@ -13,10 +13,6 @@ This version contains bug fixes, a new API and improvements.
 
 * **[Fix]** Fixed not sending crash logs when an application is crashed and relaunched from multitasking view.
 
-### MobileCenterDistribute
-
-* **[Improvement]** Added 11 more languages to Distribute UI.
-
 ### MobileCenterPush
 
 * **[Fix]** Fixed sending push installation log twice after fresh install.
@@ -25,7 +21,7 @@ ___
 
 ## Version 0.12.3
 
-This version contains a bug fix when the frameworks are integrated on applications which are built on Xcode 8
+This version contains a bug fix when the frameworks are integrated on applications which are built on Xcode 8.
 
 ___
 
