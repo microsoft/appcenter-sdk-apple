@@ -21,11 +21,9 @@ static NSString* const kMSLastWrapperExceptionFileName = @"last_saved_wrapper_ex
 
 @end
 
-
 @implementation MSWrapperExceptionManagerTests
 
 #pragma mark - Housekeeping
-
 
 -(void)tearDown {
   [super tearDown];
