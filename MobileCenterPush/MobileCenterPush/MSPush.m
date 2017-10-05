@@ -262,8 +262,8 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 }
 
 - (void)didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-  MSLogVerbose([MSPush logTag], @"Registering for push notifications has been finished with error: %@",
-               error.description);
+  MSLogWarning([MSPush logTag], @"Registering for push notifications has been finished with error: %@",
+               error.localizedDescription);
 }
 
 #if TARGET_OS_OSX
