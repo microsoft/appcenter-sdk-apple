@@ -119,6 +119,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
  */
 @property(nonatomic) dispatch_queue_t bufferFileQueue;
 
+@property dispatch_group_t startProcessingGroup;
+@property BOOL hasStartedProcessing;
+
 @end
 
 @implementation MSCrashes
@@ -253,7 +256,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     _logBufferDir = [MSCrashesUtil logBufferDir];
     _analyzerInProgressFile = [_crashesDir URLByAppendingPathComponent:kMSAnalyzerFilename];
     _didCrashInLastSession = NO;
-    
+    _startProcessingGroup = dispatch_group_create();
+    _hasStartedProcessing = NO;
 #if !TARGET_OS_TV
     _enableMachExceptionHandler = YES;
 #endif
@@ -630,8 +634,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 #pragma mark - Crash processing
 
 - (void)startDelayedCrashProcessing {
-  [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(startCrashProcessing) object:nil];
-  
   /*
    * FIXME: If application is crashed and relaunched from multitasking view, the SDK starts faster than normal launch
    * and application state is not updated from inactive to active at this time. Give more delay here for a workaround
@@ -641,11 +643,26 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
    * 1. it sometimes needs to "warm up" internet connection on iOS 8,
    * 2. giving some time to start and let all Crashes initialization happen before processing crashes.
    */
-  [self performSelector:@selector(startCrashProcessing) withObject:nil afterDelay:1];
+  // Instead of cancel logic, use a flag.
+  @synchronized(self) {
+    if (self.hasStartedProcessing) {
+      return;
+    }
+    self.hasStartedProcessing = YES;
+  }
+  
+  // This must be performed asynchronously to prevent a deadlock with getUnprocessedCrashReports.
+  dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW,(1 * NSEC_PER_SEC));
+  dispatch_after(delay,
+                 dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                   dispatch_group_async(self.startProcessingGroup,
+                                        dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                                          [self startCrashProcessing];
+                                        });
+                 });
 }
 
 - (void)startCrashProcessing {
-  
   // FIXME: There is no life cycle for app extensions yet so force start crash processing until then.
   if ([MSUtility applicationState] != MSApplicationStateActive &&
       [MSUtility applicationState] != MSApplicationStateUnknown) {
@@ -750,7 +767,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 }
 
 - (void)processLogBufferAfterCrash {
-  
+
   // Iterate over each file in it with the kMSLogBufferFileExtension and send the log if a log can be deserialized.
   NSError *error = nil;
   NSArray *files = [self.fileManager contentsOfDirectoryAtURL:self.logBufferDir
@@ -784,6 +801,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
  * Gets a list of unprocessed crashes as MSErrorReports.
  */
 - (NSArray<MSErrorReport *> *)getUnprocessedCrashReports {
+  dispatch_group_wait(self.startProcessingGroup, DISPATCH_TIME_FOREVER);
   return self.unprocessedReports;
 }
 
@@ -791,6 +809,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
  * Resumes processing for a list of error reports that is a subset of the unprocessed reports.
  */
 - (void)sendCrashReportsOrAwaitUserConfirmationForFilteredList:(NSArray<MSErrorReport *> *)filteredList {
+  
+  // No need to wait for semaphore because it's safe to assume that processing has already occurred.
   NSMutableArray *filteredOutLogs = [[NSMutableArray alloc] init];
   NSMutableArray *filteredOutReports = [[NSMutableArray alloc] init];
   NSMutableArray *filteredOutFilePaths = [[NSMutableArray alloc] init];
@@ -824,6 +844,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
  * Sends error attachments for a particular error report.
  */
 - (void)sendErrorAttachments:(NSArray<MSErrorAttachmentLog *> *)errorAttachments forErrorReport:(MSErrorReport *)errorReport {
+  
+  // No need to wait for semaphore because it's safe to assume that processing has already occurred.
   [MSCrashes sendErrorAttachments:errorAttachments forErrorReport:errorReport withCrashes:self];
 }
 

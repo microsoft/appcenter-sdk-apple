@@ -77,7 +77,6 @@
   [fm copyItemAtPath:filePath
               toPath:[plcrCrashesDir stringByAppendingPathComponent:@"live_report.plcrash"]
                error:&error];
-  
   return error == nil;
 }
 
