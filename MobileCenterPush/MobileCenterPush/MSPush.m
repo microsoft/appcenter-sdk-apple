@@ -205,7 +205,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 
 #if TARGET_OS_OSX
   [NSApp registerForRemoteNotificationTypes:(NSRemoteNotificationTypeSound | NSRemoteNotificationTypeBadge)];
-#elif TARGET_OS_IOS && !TARGET_OS_SIMULATOR
+#elif TARGET_OS_IOS
   if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_9_x_Max) {
     UIUserNotificationType allNotificationTypes = (UIUserNotificationType)(
         UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge);
