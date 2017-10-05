@@ -119,8 +119,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
  */
 @property(nonatomic) dispatch_queue_t bufferFileQueue;
 
-@property dispatch_group_t startProcessingGroup;
-@property BOOL hasStartedProcessing;
+/**
+ * Semaphore for exclusion with "startDelayedCrashProcessing" method.
+ */
+@property dispatch_semaphore_t delayedProcessingSemaphore;
 
 @end
 
@@ -164,56 +166,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 }
 
 + (void)notifyWithUserConfirmation:(MSUserConfirmation)userConfirmation {
-  MSCrashes *crashes = [self sharedInstance];
-  NSArray<MSErrorAttachmentLog *> *attachments;
-  
-  // Check for user confirmation.
-  if (userConfirmation == MSUserConfirmationDontSend) {
-    
-    // Don't send logs, clean up the files.
-    for (NSUInteger i = 0; i < [crashes.unprocessedFilePaths count]; i++) {
-      NSURL *fileURL = crashes.unprocessedFilePaths[i];
-      MSErrorReport *report = crashes.unprocessedReports[i];
-      [crashes deleteCrashReportWithFileURL:fileURL];
-      [MSWrapperExceptionManager deleteWrapperExceptionWithUUIDString:report.incidentIdentifier];
-      [crashes.crashFiles removeObject:fileURL];
-    }
-    
-    // Return and do not continue with crash processing.
-    return;
-  } else if (userConfirmation == MSUserConfirmationAlways) {
-    
-    /*
-     * Always send logs. Set the flag YES to bypass user confirmation next time.
-     * Continue crash processing afterwards.
-     */
-    [MS_USER_DEFAULTS setObject:[[NSNumber alloc] initWithBool:YES] forKey:kMSUserConfirmationKey];
-  }
-  
-  // Process crashes logs.
-  for (NSUInteger i = 0; i < [crashes.unprocessedReports count]; i++) {
-    MSAppleErrorLog *log = crashes.unprocessedLogs[i];
-    MSErrorReport *report = crashes.unprocessedReports[i];
-    NSURL *fileURL = crashes.unprocessedFilePaths[i];
-    
-    // Get error attachments.
-    if ([crashes delegateImplementsAttachmentCallback]) {
-      attachments = [crashes.delegate attachmentsWithCrashes:crashes forErrorReport:report];
-    } else {
-      MSLogDebug([MSCrashes logTag], @"attachmentsWithCrashes is not implemented");
-    }
-    
-    // First, send crash log to log manager.
-    [crashes.logManager processLog:log forGroupId:crashes.groupId];
-    
-    // Send error attachments.
-    [MSCrashes sendErrorAttachments:attachments forErrorReport:report withCrashes:crashes];
-    
-    // Clean up.
-    [crashes deleteCrashReportWithFileURL:fileURL];
-    [MSWrapperExceptionManager deleteWrapperExceptionWithUUIDString:report.incidentIdentifier];
-    [crashes.crashFiles removeObject:fileURL];
-  }
+  [[MSCrashes sharedInstance] notifyWithUserConfirmation:userConfirmation];
 }
 
 + (MSErrorReport *_Nullable)lastSessionCrashReport {
@@ -256,8 +209,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     _logBufferDir = [MSCrashesUtil logBufferDir];
     _analyzerInProgressFile = [_crashesDir URLByAppendingPathComponent:kMSAnalyzerFilename];
     _didCrashInLastSession = NO;
-    _startProcessingGroup = dispatch_group_create();
-    _hasStartedProcessing = NO;
+    _delayedProcessingSemaphore = dispatch_semaphore_create(1);
 #if !TARGET_OS_TV
     _enableMachExceptionHandler = YES;
 #endif
@@ -643,22 +595,14 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
    * 1. it sometimes needs to "warm up" internet connection on iOS 8,
    * 2. giving some time to start and let all Crashes initialization happen before processing crashes.
    */
-  // Instead of cancel logic, use a flag.
-  @synchronized(self) {
-    if (self.hasStartedProcessing) {
-      return;
-    }
-    self.hasStartedProcessing = YES;
-  }
   
   // This must be performed asynchronously to prevent a deadlock with getUnprocessedCrashReports.
-  dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW,(1 * NSEC_PER_SEC));
+  dispatch_semaphore_wait(self.delayedProcessingSemaphore, DISPATCH_TIME_FOREVER);
+  dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, (1 * NSEC_PER_SEC));
   dispatch_after(delay,
                  dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                   dispatch_group_async(self.startProcessingGroup,
-                                        dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                                          [self startCrashProcessing];
-                                        });
+                   [self startCrashProcessing];
+                   dispatch_semaphore_signal(self.delayedProcessingSemaphore);
                  });
 }
 
@@ -767,7 +711,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 }
 
 - (void)processLogBufferAfterCrash {
-
+  
   // Iterate over each file in it with the kMSLogBufferFileExtension and send the log if a log can be deserialized.
   NSError *error = nil;
   NSArray *files = [self.fileManager contentsOfDirectoryAtURL:self.logBufferDir
@@ -801,7 +745,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
  * Gets a list of unprocessed crashes as MSErrorReports.
  */
 - (NSArray<MSErrorReport *> *)getUnprocessedCrashReports {
-  dispatch_group_wait(self.startProcessingGroup, DISPATCH_TIME_FOREVER);
+  dispatch_semaphore_wait(self.delayedProcessingSemaphore, DISPATCH_TIME_FOREVER);
+  dispatch_semaphore_signal(self.delayedProcessingSemaphore);
   return self.unprocessedReports;
 }
 
@@ -809,15 +754,23 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
  * Resumes processing for a list of error reports that is a subset of the unprocessed reports.
  */
 - (void)sendCrashReportsOrAwaitUserConfirmationForFilteredList:(NSArray<MSErrorReport *> *)filteredList {
-  
-  // No need to wait for semaphore because it's safe to assume that processing has already occurred.
   NSMutableArray *filteredOutLogs = [[NSMutableArray alloc] init];
   NSMutableArray *filteredOutReports = [[NSMutableArray alloc] init];
   NSMutableArray *filteredOutFilePaths = [[NSMutableArray alloc] init];
   for (NSUInteger i = 0; i < [self.unprocessedReports count]; i++) {
     MSErrorReport *report = self.unprocessedReports[i];
-    //TODO is this going to work? Will reports returned from wrapper sdk register as being equal? As a fallback, can use incidentidentifier.
-    if (![filteredList containsObject:report]) {
+    MSErrorReport *foundReport = nil;
+    for (MSErrorReport* filteredReport in filteredList) {
+      if ([filteredReport.incidentIdentifier isEqualToString:report.incidentIdentifier]) {
+        foundReport = filteredReport;
+        break;
+      }
+    }
+    
+    // Use the report from the list in case it was modified at all.
+    if (foundReport) {
+      self.unprocessedReports[i] = foundReport;
+    } else {
       MSAppleErrorLog *log = self.unprocessedLogs[i];
       NSURL *filePath = self.unprocessedFilePaths[i];
       [filteredOutReports addObject:report];
@@ -845,8 +798,21 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
  */
 - (void)sendErrorAttachments:(NSArray<MSErrorAttachmentLog *> *)errorAttachments forErrorReport:(MSErrorReport *)errorReport {
   
-  // No need to wait for semaphore because it's safe to assume that processing has already occurred.
-  [MSCrashes sendErrorAttachments:errorAttachments forErrorReport:errorReport withCrashes:self];
+  // Send attachements log to log manager.
+  unsigned int totalProcessedAttachments = 0;
+  for (MSErrorAttachmentLog *attachment in errorAttachments) {
+    attachment.errorId = errorReport.incidentIdentifier;
+    if (![MSCrashes validatePropertiesForAttachment:attachment]) {
+      MSLogError([MSCrashes logTag], @"Not all required fields are present in MSErrorAttachmentLog.");
+      continue;
+    }
+    [self.logManager processLog:attachment forGroupId:self.groupId];
+    ++totalProcessedAttachments;
+  }
+  if (totalProcessedAttachments > kMaxAttachmentsPerCrashReport) {
+    MSLogWarning([MSCrashes logTag], @"A limit of %u attachments per error report might be enforced by server.",
+                 kMaxAttachmentsPerCrashReport);
+  }
 }
 
 #pragma mark - Helper
@@ -1099,14 +1065,17 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     // User confirmation is set to MSUserConfirmationAlways.
     MSLogDebug([MSCrashes logTag],
                @"The flag for user confirmation is set to MSUserConfirmationAlways, continue sending logs");
-    [MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
+    [self notifyWithUserConfirmation:MSUserConfirmationSend];
     return;
-  } else if (!self.userConfirmationHandler || !self.userConfirmationHandler(self.unprocessedReports)) {
+  } else if (self.automaticProcessing && !(self.userConfirmationHandler && self.userConfirmationHandler(self.unprocessedReports))) {
     
     // User confirmation handler doesn't exist or returned NO which means 'want to process'.
     MSLogDebug([MSCrashes logTag],
                @"The user confirmation handler is not implemented or returned NO, continue sending logs");
-    [MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
+    [self notifyWithUserConfirmation:MSUserConfirmationSend];
+  } else if (!self.automaticProcessing) {
+    MSLogDebug([MSCrashes logTag],
+               @"Automatic crash processing is disabled and \"AlwaysSend\" is false. Awaiting user confirmation.");
   }
 }
 
@@ -1118,21 +1087,59 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 /**
  * Sends error attachments for a particular error report.
  */
-+ (void)sendErrorAttachments:(NSArray<MSErrorAttachmentLog *> *)errorAttachments forErrorReport:(MSErrorReport *)errorReport withCrashes:(MSCrashes*)crashes {
-  // Then, send attachements log to log manager.
-  unsigned int totalProcessedAttachments = 0;
-  for (MSErrorAttachmentLog *attachment in errorAttachments) {
-    attachment.errorId = errorReport.incidentIdentifier;
-    if (![self validatePropertiesForAttachment:attachment]) {
-      MSLogError([MSCrashes logTag], @"Not all required fields are present in MSErrorAttachmentLog.");
-      continue;
++ (void)sendErrorAttachments:(NSArray<MSErrorAttachmentLog *> *)errorAttachments forErrorReport:(MSErrorReport *)errorReport {
+  [[MSCrashes sharedInstance] sendErrorAttachments:errorAttachments forErrorReport:errorReport];
+}
+
+- (void)notifyWithUserConfirmation:(MSUserConfirmation)userConfirmation {
+  NSArray<MSErrorAttachmentLog *> *attachments;
+  
+  // Check for user confirmation.
+  if (userConfirmation == MSUserConfirmationDontSend) {
+    
+    // Don't send logs, clean up the files.
+    for (NSUInteger i = 0; i < [self.unprocessedFilePaths count]; i++) {
+      NSURL *fileURL = self.unprocessedFilePaths[i];
+      MSErrorReport *report = self.unprocessedReports[i];
+      [self deleteCrashReportWithFileURL:fileURL];
+      [MSWrapperExceptionManager deleteWrapperExceptionWithUUIDString:report.incidentIdentifier];
+      [self.crashFiles removeObject:fileURL];
     }
-    [crashes.logManager processLog:attachment forGroupId:crashes.groupId];
-    ++totalProcessedAttachments;
+    
+    // Return and do not continue with crash processing.
+    return;
+  } else if (userConfirmation == MSUserConfirmationAlways) {
+    
+    /*
+     * Always send logs. Set the flag YES to bypass user confirmation next time.
+     * Continue crash processing afterwards.
+     */
+    [MS_USER_DEFAULTS setObject:[[NSNumber alloc] initWithBool:YES] forKey:kMSUserConfirmationKey];
   }
-  if (totalProcessedAttachments > kMaxAttachmentsPerCrashReport) {
-    MSLogWarning([MSCrashes logTag], @"A limit of %u attachments per error report might be enforced by server.",
-                 kMaxAttachmentsPerCrashReport);
+  
+  // Process crashes logs.
+  for (NSUInteger i = 0; i < [self.unprocessedReports count]; i++) {
+    MSAppleErrorLog *log = self.unprocessedLogs[i];
+    MSErrorReport *report = self.unprocessedReports[i];
+    NSURL *fileURL = self.unprocessedFilePaths[i];
+    
+    // Get error attachments.
+    if ([self delegateImplementsAttachmentCallback]) {
+      attachments = [self.delegate attachmentsWithCrashes:self forErrorReport:report];
+    } else {
+      MSLogDebug([MSCrashes logTag], @"attachmentsWithCrashes is not implemented");
+    }
+    
+    // First, send crash log to log manager.
+    [self.logManager processLog:log forGroupId:self.groupId];
+    
+    // Send error attachments.
+    [self sendErrorAttachments:attachments forErrorReport:report];
+    
+    // Clean up.
+    [self deleteCrashReportWithFileURL:fileURL];
+    [MSWrapperExceptionManager deleteWrapperExceptionWithUUIDString:report.incidentIdentifier];
+    [self.crashFiles removeObject:fileURL];
   }
 }
 
