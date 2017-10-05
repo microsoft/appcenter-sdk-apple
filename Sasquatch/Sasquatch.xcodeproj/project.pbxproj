@@ -38,6 +38,9 @@
 		047D13721EAFBDBE00D699BA /* MobileCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 047D13711EAFBDBE00D699BA /* MobileCenterDistributeResources.bundle */; };
 		047D13781EAFD77E00D699BA /* Main.strings in Resources */ = {isa = PBXBuildFile; fileRef = 047D13771EAFD77E00D699BA /* Main.strings */; };
 		047D13791EAFD77E00D699BA /* Main.strings in Resources */ = {isa = PBXBuildFile; fileRef = 047D13771EAFD77E00D699BA /* Main.strings */; };
+		048EB9A11F86F4B7007620A0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 048EB9A01F86F4B7007620A0 /* LaunchScreen.storyboard */; };
+		048EB9A21F86F4B7007620A0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 048EB9A01F86F4B7007620A0 /* LaunchScreen.storyboard */; };
+		048EB9A31F86F4B7007620A0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 048EB9A01F86F4B7007620A0 /* LaunchScreen.storyboard */; };
 		5CE2587F1EA5F60200DA8FB9 /* DistributeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE2587D1EA5F5FC00DA8FB9 /* DistributeUITests.swift */; };
 		5CE258801EA5F60500DA8FB9 /* CrashesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE2587B1EA5F5EB00DA8FB9 /* CrashesUITests.swift */; };
 		5CE258811EA5F60900DA8FB9 /* AnalyticsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE258791EA5F5DF00DA8FB9 /* AnalyticsUITests.swift */; };
@@ -240,6 +243,7 @@
 		046790451E8DA8DD0033FDEC /* SasquatchObjC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchObjC.entitlements; sourceTree = "<group>"; };
 		047D13711EAFBDBE00D699BA /* MobileCenterDistributeResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = MobileCenterDistributeResources.bundle; path = "../MobileCenter-SDK-Apple/iOS/MobileCenterDistributeResources.bundle"; sourceTree = "<group>"; };
 		047D13771EAFD77E00D699BA /* Main.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Main.strings; sourceTree = "<group>"; };
+		048EB9A01F86F4B7007620A0 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5CD700E51EA4B74500FC5D12 /* SasquatchSwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchSwiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CE258791EA5F5DF00DA8FB9 /* AnalyticsUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnalyticsUITests.swift; path = SasquatchUITests/AnalyticsUITests.swift; sourceTree = SOURCE_ROOT; };
 		5CE2587B1EA5F5EB00DA8FB9 /* CrashesUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CrashesUITests.swift; path = SasquatchUITests/CrashesUITests.swift; sourceTree = SOURCE_ROOT; };
@@ -494,6 +498,7 @@
 			isa = PBXGroup;
 			children = (
 				845964A91E8A7E6600BABA51 /* Main.storyboard */,
+				048EB9A01F86F4B7007620A0 /* LaunchScreen.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -876,6 +881,7 @@
 				044B0BBC1F7D8B000023D0A9 /* Assets.xcassets in Resources */,
 				044B0BBD1F7D8B000023D0A9 /* Main.strings in Resources */,
 				044B0BBE1F7D8B000023D0A9 /* MobileCenterDistributeResources.bundle in Resources */,
+				048EB9A31F86F4B7007620A0 /* LaunchScreen.storyboard in Resources */,
 				044B0BBF1F7D8B000023D0A9 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -901,6 +907,7 @@
 				84226C561E88FF4A00798417 /* Assets.xcassets in Resources */,
 				047D13781EAFD77E00D699BA /* Main.strings in Resources */,
 				047D13721EAFBDBE00D699BA /* MobileCenterDistributeResources.bundle in Resources */,
+				048EB9A11F86F4B7007620A0 /* LaunchScreen.storyboard in Resources */,
 				845964AB1E8A7E6600BABA51 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -912,6 +919,7 @@
 				B27424851EF2193E00F591E5 /* MobileCenterDistributeResources.bundle in Resources */,
 				047D13791EAFD77E00D699BA /* Main.strings in Resources */,
 				84226C8A1E8908CA00798417 /* Assets.xcassets in Resources */,
+				048EB9A21F86F4B7007620A0 /* LaunchScreen.storyboard in Resources */,
 				84D63FF91E8BAA90004C9F86 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
