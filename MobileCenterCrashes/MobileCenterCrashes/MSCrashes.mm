@@ -796,12 +796,12 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 /**
  * Sends error attachments for a particular error report.
  */
-- (void)sendErrorAttachments:(NSArray<MSErrorAttachmentLog *> *)errorAttachments forErrorReport:(MSErrorReport *)errorReport {
+- (void)sendErrorAttachments:(NSArray<MSErrorAttachmentLog *> *)errorAttachments withIncidentIdentifier:(NSString *)incidentIdentifier {
   
   // Send attachements log to log manager.
   unsigned int totalProcessedAttachments = 0;
   for (MSErrorAttachmentLog *attachment in errorAttachments) {
-    attachment.errorId = errorReport.incidentIdentifier;
+    attachment.errorId = incidentIdentifier;
     if (![MSCrashes validatePropertiesForAttachment:attachment]) {
       MSLogError([MSCrashes logTag], @"Not all required fields are present in MSErrorAttachmentLog.");
       continue;
@@ -1087,8 +1087,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 /**
  * Sends error attachments for a particular error report.
  */
-+ (void)sendErrorAttachments:(NSArray<MSErrorAttachmentLog *> *)errorAttachments forErrorReport:(MSErrorReport *)errorReport {
-  [[MSCrashes sharedInstance] sendErrorAttachments:errorAttachments forErrorReport:errorReport];
++ (void)sendErrorAttachments:(NSArray<MSErrorAttachmentLog *> *)errorAttachments withIncidentIdentifier:(NSString *)incidentIdentifier {
+  [[MSCrashes sharedInstance] sendErrorAttachments:errorAttachments withIncidentIdentifier:incidentIdentifier];
 }
 
 - (void)notifyWithUserConfirmation:(MSUserConfirmation)userConfirmation {
@@ -1134,7 +1134,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     [self.logManager processLog:log forGroupId:self.groupId];
     
     // Send error attachments.
-    [self sendErrorAttachments:attachments forErrorReport:report];
+    [self sendErrorAttachments:attachments withIncidentIdentifier:report.incidentIdentifier];
     
     // Clean up.
     [self deleteCrashReportWithFileURL:fileURL];

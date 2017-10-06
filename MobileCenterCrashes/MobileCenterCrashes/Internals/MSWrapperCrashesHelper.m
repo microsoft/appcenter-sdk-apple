@@ -53,8 +53,8 @@
 /**
  * Sends error attachments for a particular error report.
  */
-+ (void)sendErrorAttachments:(NSArray<MSErrorAttachmentLog *> *)errorAttachments forErrorReport:(MSErrorReport *)errorReport {
-  [[MSCrashes sharedInstance] sendErrorAttachments:errorAttachments forErrorReport:errorReport];
++ (void)sendErrorAttachments:(NSArray<MSErrorAttachmentLog *> *)errorAttachments withIncidentIdentifier:(NSString*)incidentIdentifier {
+  [[MSCrashes sharedInstance] sendErrorAttachments:errorAttachments withIncidentIdentifier:incidentIdentifier];
 }
 
 @end

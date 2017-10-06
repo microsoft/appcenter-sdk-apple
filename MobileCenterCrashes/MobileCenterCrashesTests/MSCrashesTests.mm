@@ -748,7 +748,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   [attachments addObject:[[MSErrorAttachmentLog alloc] initWithFilename:@"name" attachmentText:@"text1"]];
   [attachments addObject:[[MSErrorAttachmentLog alloc] initWithFilename:@"name" attachmentText:@"text2"]];
   [attachments addObject:[[MSErrorAttachmentLog alloc] initWithFilename:@"name" attachmentText:@"text3"]];
-  [self.sut sendErrorAttachments:attachments forErrorReport:report];
+  [self.sut sendErrorAttachments:attachments withIncidentIdentifier:report.incidentIdentifier];
   
   // Then
   XCTAssertEqual([attachments count], numInvocations);
