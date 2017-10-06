@@ -407,6 +407,7 @@
 #if !TARGET_OS_OSX
   if (!MS_IS_APP_EXTENSION) {
     __weak typeof(self) weakSelf = self;
+    __block UIBackgroundTaskIdentifier _backgroundTask = UIBackgroundTaskInvalid;
     if (self.appDidEnterBackgroundObserver == nil) {
       void (^notificationBlock)(NSNotification *note) = ^(NSNotification __unused *note) {
         typeof(self) strongSelf = weakSelf;
@@ -423,8 +424,8 @@
           UIApplication *sharedApplication = [MSUtility sharedApplication];
 
           // Checking if sharedApplication is != nil as it can be nil for extensions.
-          if (sharedApplication) {
-            __block UIBackgroundTaskIdentifier _backgroundTask =
+          if (sharedApplication && _backgroundTask == UIBackgroundTaskInvalid) {
+            _backgroundTask =
                 [sharedApplication beginBackgroundTaskWithExpirationHandler:^{
                   [sharedApplication endBackgroundTask:_backgroundTask];
                   _backgroundTask = UIBackgroundTaskInvalid;
