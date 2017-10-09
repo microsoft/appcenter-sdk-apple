@@ -1,15 +1,15 @@
 /*
  * Update dialog buttons
  */
-"MSDistributeUpdateNow" = "Обновить сейчас";
-"MSDistributeAskMeInADay" = "Спросить завтра";
-"MSDistributeViewReleaseNotes" = "Просмотреть примечания к обновлению";
+"MSDistributeUpdateNow" = "Обновить";
+"MSDistributeAskMeInADay" = "Спросить через день";
+"MSDistributeViewReleaseNotes" = "Просмотреть заметки о выпуске";
 "MSDistributeClose" = "Закрыть";
 
 /*
  * Update dialog titles/messages
  */
-"MSDistributeAppUpdateAvailable" = "Доступно обновление";
-"MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "Вышло обязательное обновление. Вам необходимо обновиться до %@ %@ (%@).";
-"MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@ (%@) доступно для загрузки и установки.";
-"MSDistributeInAppUpdatesAreDisabled" = "Обновления из приложения отключены.";
+"MSDistributeAppUpdateAvailable" = "Доступно обновление приложения";
+"MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "Разработчики этого приложения требуют выполнить обновление до %@ %@ (%@).";
+"MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "Обновление %@ %@ (%@) доступно для скачивания и установки.";
+"MSDistributeInAppUpdatesAreDisabled" = "Обновления в приложении отключены.";
