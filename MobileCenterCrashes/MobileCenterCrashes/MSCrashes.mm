@@ -210,6 +210,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     _analyzerInProgressFile = [_crashesDir URLByAppendingPathComponent:kMSAnalyzerFilename];
     _didCrashInLastSession = NO;
     _delayedProcessingSemaphore = dispatch_semaphore_create(1);
+    _automaticProcessing = YES;
 #if !TARGET_OS_TV
     _enableMachExceptionHandler = YES;
 #endif
