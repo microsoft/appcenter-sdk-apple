@@ -103,6 +103,12 @@ class MobileCenterDelegateSwift: MobileCenterDelegate {
     alert?.addDefaultAction(withTitle: "Ok", handler: nil)
     alert?.show()
   }
+  func showCustomConfirmationAlert() {
+    let alert = MSAlertController(title: "Info",
+                                  message: "This is custom confirmation alert!")
+    alert?.addDefaultAction(withTitle: "Ok", handler: nil)
+    alert?.show()
+  }
   
   // Last crash report section.
   func lastCrashReportIncidentIdentifier() -> String?{

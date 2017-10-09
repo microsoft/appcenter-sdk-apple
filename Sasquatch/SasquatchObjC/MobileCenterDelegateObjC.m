@@ -111,6 +111,15 @@
   [alertController show];
 }
 
+- (void) showCustomConfirmationAlert{
+  MSAlertController *alertController = [MSAlertController
+                                        alertControllerWithTitle:@"Info"
+                                        message:@"This is custom confirmation alert!"];
+  [alertController addDefaultActionWithTitle:@"Ok"
+                                     handler:nil];
+  [alertController show];
+}
+
 #pragma mark - Last crash report section.
 - (NSString *) lastCrashReportIncidentIdentifier{
   return [[MSCrashes lastSessionCrashReport] incidentIdentifier];
