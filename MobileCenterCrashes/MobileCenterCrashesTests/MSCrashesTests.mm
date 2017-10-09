@@ -194,56 +194,62 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   
   // When
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
-  [[MSCrashes sharedInstance] startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+  [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
   
   // Then
-  assertThat([MSCrashes sharedInstance].crashFiles, hasCountOf(1));
+  assertThat(self.sut.crashFiles, hasCountOf(1));
   
   // When
-  [MS_USER_DEFAULTS setObject:@YES forKey:kMSUserConfirmationKey];
-  [[MSCrashes sharedInstance] startCrashProcessing];
-  [MS_USER_DEFAULTS removeObjectForKey:kMSUserConfirmationKey];
-  
+  id crashMock = OCMClassMock([MSCrashes class]);
+  OCMStub(ClassMethod([crashMock shouldAlwaysSend])).andReturn(YES);
+  [self.sut startCrashProcessing];
+  OCMStub(ClassMethod([crashMock shouldAlwaysSend])).andReturn(NO);
+
   // Then
-  assertThat([MSCrashes sharedInstance].crashFiles, hasCountOf(0));
+  assertThat(self.sut.crashFiles, hasCountOf(0));
   
   // When
+  self.sut = [MSCrashes new];
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
-  [[MSCrashes sharedInstance] startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+  [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
   
   // Then
-  assertThat([MSCrashes sharedInstance].crashFiles, hasCountOf(1));
+  assertThat(self.sut.crashFiles, hasCountOf(1));
   
   // When
+  self.sut = [MSCrashes new];
   MSUserConfirmationHandler userConfirmationHandlerYES =
   ^BOOL(__attribute__((unused)) NSArray<MSErrorReport *> *_Nonnull errorReports) {
     return YES;
   };
-  [MSCrashes setUserConfirmationHandler:userConfirmationHandlerYES];
-  [[MSCrashes sharedInstance] startCrashProcessing];
-  [MSCrashes notifyWithUserConfirmation:MSUserConfirmationDontSend];
-  [MSCrashes setUserConfirmationHandler:nil];
-  
+
+  self.sut.userConfirmationHandler = userConfirmationHandlerYES;
+  [self.sut startCrashProcessing];
+  [self.sut notifyWithUserConfirmation:MSUserConfirmationDontSend];
+  self.sut.userConfirmationHandler = nil;
+
   // Then
-  assertThat([MSCrashes sharedInstance].crashFiles, hasCountOf(0));
+  assertThat(self.sut.crashFiles, hasCountOf(0));
   
   // When
+  self.sut = [MSCrashes new];
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
-  [[MSCrashes sharedInstance] startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+  [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
   
   // Then
-  assertThat([MSCrashes sharedInstance].crashFiles, hasCountOf(1));
+  assertThat(self.sut.crashFiles, hasCountOf(1));
   
   // When
+  self.sut = [MSCrashes new];
   MSUserConfirmationHandler userConfirmationHandlerNO =
   ^BOOL(__attribute__((unused)) NSArray<MSErrorReport *> *_Nonnull errorReports) {
     return NO;
   };
-  [MSCrashes setUserConfirmationHandler:userConfirmationHandlerNO];
-  [[MSCrashes sharedInstance] startCrashProcessing];
+  self.sut.userConfirmationHandler = userConfirmationHandlerNO;
+  [self.sut startCrashProcessing];
   
   // Then
-  assertThat([MSCrashes sharedInstance].crashFiles, hasCountOf(0));
+  assertThat(self.sut.crashFiles, hasCountOf(0));
 }
 
 - (void)testProcessCrashesWithErrorAttachments {

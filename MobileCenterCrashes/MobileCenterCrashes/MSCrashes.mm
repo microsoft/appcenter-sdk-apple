@@ -165,6 +165,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   crashes.userConfirmationHandler = userConfirmationHandler;
 }
 
+
+
 + (void)notifyWithUserConfirmation:(MSUserConfirmation)userConfirmation {
   [[MSCrashes sharedInstance] notifyWithUserConfirmation:userConfirmation];
 }
