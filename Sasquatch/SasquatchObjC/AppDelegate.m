@@ -142,17 +142,17 @@
 
   // Show a dialog to the user where they can choose if they want to update.
   MSAlertController *alertController = [MSAlertController
-      alertControllerWithTitle:NSLocalizedStringFromTable(@"distribute_alert_title", @"Main", @"")
-                       message:NSLocalizedStringFromTable(@"distribute_alert_message", @"Main", @"")];
+      alertControllerWithTitle:NSLocalizedStringFromTable(@"distribute_alert_title", @"Sasquatch", @"")
+                       message:NSLocalizedStringFromTable(@"distribute_alert_message", @"Sasquatch", @"")];
 
   // Add a "Yes"-Button and call the notifyUpdateAction-callback with MSUpdateActionUpdate
-  [alertController addCancelActionWithTitle:NSLocalizedStringFromTable(@"distribute_alert_yes", @"Main", @"")
+  [alertController addCancelActionWithTitle:NSLocalizedStringFromTable(@"distribute_alert_yes", @"Sasquatch", @"")
                                     handler:^(UIAlertAction *action) {
                                       [MSDistribute notifyUpdateAction:MSUpdateActionUpdate];
                                     }];
 
   // Add a "No"-Button and call the notifyUpdateAction-callback with MSUpdateActionPostpone
-  [alertController addDefaultActionWithTitle:NSLocalizedStringFromTable(@"distribute_alert_no", @"Main", @"")
+  [alertController addDefaultActionWithTitle:NSLocalizedStringFromTable(@"distribute_alert_no", @"Sasquatch", @"")
                                      handler:^(UIAlertAction *action) {
                                        [MSDistribute notifyUpdateAction:MSUpdateActionPostpone];
                                      }];
