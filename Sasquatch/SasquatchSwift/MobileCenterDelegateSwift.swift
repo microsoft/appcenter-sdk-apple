@@ -42,6 +42,9 @@ class MobileCenterDelegateSwift: MobileCenterDelegate {
     // return MSMobileCenter.sharedInstance().logUrl()
     return "Internal"
   }
+  func sdkVersion() ->String {
+    return MSMobileCenter.sdkVersion()
+  }
   func isDebuggerAttached() -> Bool{
     return MSMobileCenter.isDebuggerAttached()
   }

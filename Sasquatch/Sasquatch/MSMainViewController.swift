@@ -6,6 +6,7 @@ class MSMainViewController: UITableViewController, MobileCenterProtocol {
   @IBOutlet weak var installId: UILabel!
   @IBOutlet weak var appSecret: UILabel!
   @IBOutlet weak var logUrl: UILabel!
+  @IBOutlet weak var sdkVersion: UILabel!
   var mobileCenter: MobileCenterDelegate!
   
   override func viewDidLoad() {
@@ -14,6 +15,7 @@ class MSMainViewController: UITableViewController, MobileCenterProtocol {
     self.installId.text = mobileCenter.installId()
     self.appSecret.text = mobileCenter.appSecret()
     self.logUrl.text = mobileCenter.logUrl()
+    self.sdkVersion.text = mobileCenter.sdkVersion()
   }
   
   @IBAction func enabledSwitchUpdated(_ sender: UISwitch) {
