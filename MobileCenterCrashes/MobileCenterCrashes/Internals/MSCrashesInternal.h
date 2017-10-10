@@ -17,9 +17,9 @@
 - (NSArray<MSErrorReport *> *)getUnprocessedCrashReports;
 
 /**
- * Resumes processing for a list of error reports that is a subset of the unprocessed reports.
+ * Resumes processing for a given subset of the unprocessed reports.
  */
-- (void)sendCrashReportsOrAwaitUserConfirmationForFilteredList:(NSArray<MSErrorReport *> *)filteredList;
+- (void)sendCrashReportsOrAwaitUserConfirmationForFilteredIds:(NSArray<NSString *> *)filteredIds;
 
 /**
  * Sends error attachments for a particular error report.

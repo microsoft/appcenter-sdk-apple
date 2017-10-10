@@ -44,10 +44,10 @@
 }
 
 /**
- * Resumes processing for a list of error reports that is a subset of the unprocessed reports.
+ * Resumes processing for a given subset of the unprocessed reports.
  */
-+ (void)sendCrashReportsOrAwaitUserConfirmationForFilteredList:(NSArray<MSErrorReport *> *)filteredList {
-  [[MSCrashes sharedInstance] sendCrashReportsOrAwaitUserConfirmationForFilteredList:filteredList];
++ (void)sendCrashReportsOrAwaitUserConfirmationForFilteredIds:(NSArray<NSString *> *)filteredIds {
+  [[MSCrashes sharedInstance] sendCrashReportsOrAwaitUserConfirmationForFilteredIds:filteredIds];
 }
 
 /**

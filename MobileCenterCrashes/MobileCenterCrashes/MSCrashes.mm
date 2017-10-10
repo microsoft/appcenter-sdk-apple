@@ -754,18 +754,18 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 }
 
 /**
- * Resumes processing for a list of error reports that is a subset of the unprocessed reports.
+ * Resumes processing for a given subset of the unprocessed reports.
  */
-- (void)sendCrashReportsOrAwaitUserConfirmationForFilteredList:(NSArray<MSErrorReport *> *)filteredList {
+- (void)sendCrashReportsOrAwaitUserConfirmationForFilteredIds:(NSArray<NSString *> *)filteredIds {
   NSMutableArray *filteredOutLogs = [[NSMutableArray alloc] init];
   NSMutableArray *filteredOutReports = [[NSMutableArray alloc] init];
   NSMutableArray *filteredOutFilePaths = [[NSMutableArray alloc] init];
   for (NSUInteger i = 0; i < [self.unprocessedReports count]; i++) {
     MSErrorReport *report = self.unprocessedReports[i];
     MSErrorReport *foundReport = nil;
-    for (MSErrorReport* filteredReport in filteredList) {
-      if ([filteredReport.incidentIdentifier isEqualToString:report.incidentIdentifier]) {
-        foundReport = filteredReport;
+    for (NSString* filteredReportId in filteredIds) {
+      if ([report.incidentIdentifier isEqualToString:filteredReportId]) {
+        foundReport = report;
         break;
       }
     }

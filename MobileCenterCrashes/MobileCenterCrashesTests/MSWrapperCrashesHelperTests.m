@@ -59,13 +59,13 @@
   
   // If
   MSCrashes *crashesMock = [self getSharedCrashesMock];
-  NSArray *filteredList = @[];
+  NSArray *filteredIds = @[];
   
   // When
-  [MSWrapperCrashesHelper sendCrashReportsOrAwaitUserConfirmationForFilteredList:filteredList];
+  [MSWrapperCrashesHelper sendCrashReportsOrAwaitUserConfirmationForFilteredIds:filteredIds];
   
   // Then
-  OCMVerify([crashesMock sendCrashReportsOrAwaitUserConfirmationForFilteredList:filteredList]);
+  OCMVerify([crashesMock sendCrashReportsOrAwaitUserConfirmationForFilteredIds:filteredIds]);
 }
 
 - (void)testsendErrorAttachmentsWithIncidentIdentifier {
