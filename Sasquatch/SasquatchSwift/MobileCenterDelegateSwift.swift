@@ -5,6 +5,16 @@ import MobileCenterDistribute
 import MobileCenterPush
 
 /**
+ * Selectors for reflection.
+ */
+@objc protocol Selectors {
+  func sharedInstance() -> MSDistribute
+  func showConfirmationAlert(_ releaseDetails: MSReleaseDetails)
+  func showDistributeDisabledAlert()
+  func delegate() -> MSDistributeDelegate
+}
+
+/**
  * MobileCenterDelegate implementation in Swift.
  */
 class MobileCenterDelegateSwift: MobileCenterDelegate {
@@ -88,26 +98,39 @@ class MobileCenterDelegateSwift: MobileCenterDelegate {
   
   // MSDistribute section
   func showConfirmationAlert() {
-    // TODO: Uncomment when showConfirmationAlert is moved from internal to public module
-    // MSDistribute.sharedInstance().showConfirmationUrl()
-    let alert = MSAlertController(title: "Info",
-                                  message: "ConfirmationAlert is private!")
-    alert?.addDefaultAction(withTitle: "Ok", handler: nil)
-    alert?.show()
+    let sharedInstanceSelector = #selector(Selectors.sharedInstance)
+    let confirmationAlertSelector = #selector(Selectors.showConfirmationAlert(_:))
+    let releaseDetails = MSReleaseDetails();
+    releaseDetails.version = "10";
+    releaseDetails.shortVersion = "1.0";
+    if (MSDistribute.responds(to: sharedInstanceSelector)) {
+      let distributeInstance = MSDistribute.perform(sharedInstanceSelector).takeUnretainedValue()
+      if (distributeInstance.responds(to: confirmationAlertSelector)) {
+        _ = distributeInstance.perform(confirmationAlertSelector, with: releaseDetails)
+      }
+    }
   }
   func showDistributeDisabledAlert() {
-    // TODO: Uncomment when showDistributeDisabledAlert is moved from internal to public module
-    // MSDistribute.sharedInstance().showDistributeDisabledAlert()
-    let alert = MSAlertController(title: "Info",
-                                  message: "DistributeDisabledAlert is private!")
-    alert?.addDefaultAction(withTitle: "Ok", handler: nil)
-    alert?.show()
+    let sharedInstanceSelector = #selector(Selectors.sharedInstance)
+    let disabledAlertSelector = #selector(Selectors.showDistributeDisabledAlert)
+    if (MSDistribute.responds(to: sharedInstanceSelector)) {
+      let distributeInstance = MSDistribute.perform(sharedInstanceSelector).takeUnretainedValue()
+      if (distributeInstance.responds(to: disabledAlertSelector)) {
+        _ = distributeInstance.perform(disabledAlertSelector)
+      }
+    }
   }
   func showCustomConfirmationAlert() {
-    let alert = MSAlertController(title: "Info",
-                                  message: "This is custom confirmation alert!")
-    alert?.addDefaultAction(withTitle: "Ok", handler: nil)
-    alert?.show()
+    let sharedInstanceSelector = #selector(Selectors.sharedInstance)
+    let delegateSelector = #selector(Selectors.delegate)
+    let releaseDetails = MSReleaseDetails();
+    releaseDetails.version = "10";
+    releaseDetails.shortVersion = "1.0";
+    if (MSDistribute.responds(to: sharedInstanceSelector)) {
+      let distributeInstance = MSDistribute.perform(sharedInstanceSelector).takeUnretainedValue()
+      let distriuteDelegate = distributeInstance.perform(delegateSelector).takeUnretainedValue()
+      _ = distriuteDelegate.distribute?(distributeInstance as! MSDistribute, releaseAvailableWith: releaseDetails)
+    }
   }
   
   // Last crash report section.
