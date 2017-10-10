@@ -39,6 +39,7 @@ import MobileCenter
   // MSDistribute section
   func showConfirmationAlert()
   func showDistributeDisabledAlert()
+  func showCustomConfirmationAlert()
   
   // Last crash report section.
   func lastCrashReportIncidentIdentifier() -> String?
