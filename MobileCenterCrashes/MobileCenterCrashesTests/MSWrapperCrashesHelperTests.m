@@ -90,4 +90,5 @@
   OCMStub(ClassMethod([crashesClassMock sharedInstance])).andReturn(crashesMock);
   return crashesMock;
 }
+
 @end
