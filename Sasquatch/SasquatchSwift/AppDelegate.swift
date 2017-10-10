@@ -157,12 +157,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
   // Distribute Delegate
 
   func distribute(_ distribute: MSDistribute!, releaseAvailableWith details: MSReleaseDetails!) -> Bool {
-    let alert = MSAlertController(title: NSLocalizedString("distribute_alert_title", tableName: "Main", comment: ""),
-                                message: NSLocalizedString("distribute_alert_message", tableName: "Main", comment: ""))
-    alert?.addDefaultAction(withTitle: NSLocalizedString("distribute_alert_yes", tableName: "Main", comment: ""), handler: { (alert) in
+    let alert = MSAlertController(title: NSLocalizedString("distribute_alert_title", tableName: "Sasquatch", comment: ""),
+                                message: NSLocalizedString("distribute_alert_message", tableName: "Sasquatch", comment: ""))
+    alert?.addDefaultAction(withTitle: NSLocalizedString("distribute_alert_yes", tableName: "Sasquatch", comment: ""), handler: { (alert) in
       MSDistribute.notify(MSUpdateAction.update)
     })
-    alert?.addCancelAction(withTitle: NSLocalizedString("distribute_alert_no", tableName: "Main", comment: ""), handler: { (alert) in
+    alert?.addCancelAction(withTitle: NSLocalizedString("distribute_alert_no", tableName: "Sasquatch", comment: ""), handler: { (alert) in
       MSDistribute.notify(MSUpdateAction.postpone)
     })
     alert?.show()
