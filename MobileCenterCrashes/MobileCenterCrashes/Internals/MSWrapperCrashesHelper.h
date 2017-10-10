@@ -31,9 +31,9 @@
 + (NSArray<MSErrorReport *> *)getUnprocessedCrashReports;
 
 /**
- * Resumes processing for a given subset of the unprocessed reports.
+ * Resumes processing for a given subset of the unprocessed reports. Returns YES if should "AlwaysSend".
  */
-+ (void)sendCrashReportsOrAwaitUserConfirmationForFilteredIds:(NSArray<NSString *> *)filteredIds;
++ (BOOL)sendCrashReportsOrAwaitUserConfirmationForFilteredIds:(NSArray<NSString *> *)filteredIds;
 
 /**
  * Sends error attachments for a particular error report.

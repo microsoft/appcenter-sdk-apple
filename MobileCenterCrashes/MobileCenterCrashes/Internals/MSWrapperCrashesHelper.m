@@ -44,10 +44,10 @@
 }
 
 /**
- * Resumes processing for a given subset of the unprocessed reports.
+ * Resumes processing for a given subset of the unprocessed reports. Returns YES if should "AlwaysSend".
  */
-+ (void)sendCrashReportsOrAwaitUserConfirmationForFilteredIds:(NSArray<NSString *> *)filteredIds {
-  [[MSCrashes sharedInstance] sendCrashReportsOrAwaitUserConfirmationForFilteredIds:filteredIds];
++ (BOOL)sendCrashReportsOrAwaitUserConfirmationForFilteredIds:(NSArray<NSString *> *)filteredIds {
+  return [[MSCrashes sharedInstance] sendCrashReportsOrAwaitUserConfirmationForFilteredIds:filteredIds];
 }
 
 /**

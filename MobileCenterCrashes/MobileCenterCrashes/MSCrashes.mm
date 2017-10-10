@@ -754,9 +754,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 }
 
 /**
- * Resumes processing for a given subset of the unprocessed reports.
+ * Resumes processing for a given subset of the unprocessed reports. Returns YES if should "AlwaysSend".
  */
-- (void)sendCrashReportsOrAwaitUserConfirmationForFilteredIds:(NSArray<NSString *> *)filteredIds {
+- (BOOL)sendCrashReportsOrAwaitUserConfirmationForFilteredIds:(NSArray<NSString *> *)filteredIds {
   NSMutableArray *filteredOutLogs = [[NSMutableArray alloc] init];
   NSMutableArray *filteredOutReports = [[NSMutableArray alloc] init];
   NSMutableArray *filteredOutFilePaths = [[NSMutableArray alloc] init];
@@ -793,7 +793,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   [self.unprocessedReports removeObjectsInArray:filteredOutReports];
   
   // Send or await user confirmation.
-  [self sendCrashReportsOrAwaitUserConfirmation];
+  return [self sendCrashReportsOrAwaitUserConfirmation];
 }
 
 /**
@@ -1058,10 +1058,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   return errorIdValid && attachmentIdValid && attachmentDataValid && contentTypeValid;
 }
 
-- (void)sendCrashReportsOrAwaitUserConfirmation {
+- (BOOL)sendCrashReportsOrAwaitUserConfirmation {
   // Get a user confirmation if there are crash logs that need to be processed.
   if ([self.unprocessedReports count] == 0) {
-    return;
+    return NO;
   }
   if ([MSCrashes shouldAlwaysSend]) {
     
@@ -1069,7 +1069,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     MSLogDebug([MSCrashes logTag],
                @"The flag for user confirmation is set to MSUserConfirmationAlways, continue sending logs");
     [self notifyWithUserConfirmation:MSUserConfirmationSend];
-    return;
+    return YES;
   } else if (self.automaticProcessing && !(self.userConfirmationHandler && self.userConfirmationHandler(self.unprocessedReports))) {
     
     // User confirmation handler doesn't exist or returned NO which means 'want to process'.
@@ -1080,6 +1080,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     MSLogDebug([MSCrashes logTag],
                @"Automatic crash processing is disabled and \"AlwaysSend\" is false. Awaiting user confirmation.");
   }
+    return NO;
 }
 
 + (BOOL)shouldAlwaysSend {

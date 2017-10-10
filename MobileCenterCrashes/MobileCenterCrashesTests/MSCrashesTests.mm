@@ -637,10 +637,11 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   NSMutableArray *reportIds = [self idListFromReports:[self.sut getUnprocessedCrashReports]];
   
   // When
-  [self.sut sendCrashReportsOrAwaitUserConfirmationForFilteredIds:reportIds];
+  BOOL alwaysSendVal = [self.sut sendCrashReportsOrAwaitUserConfirmationForFilteredIds:reportIds];
   
   // Then
   XCTAssertEqual([reportIds count], numInvocations);
+  XCTAssertTrue(alwaysSendVal);
 }
 
 - (void)testSendOrAwaitWhenAlwaysSendIsFalseAndNotifyAlwaysSend {
@@ -659,11 +660,12 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   NSMutableArray *reports = [self idListFromReports:[self.sut getUnprocessedCrashReports]];
   
   // When
-  [self.sut sendCrashReportsOrAwaitUserConfirmationForFilteredIds:reports];
+  BOOL alwaysSendVal = [self.sut sendCrashReportsOrAwaitUserConfirmationForFilteredIds:reports];
   
   // Then
   XCTAssertEqual(numInvocations, 0U);
-  
+  XCTAssertFalse(alwaysSendVal);
+
   // When
   [self.sut notifyWithUserConfirmation:MSUserConfirmationAlways];
   
@@ -686,10 +688,11 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   OCMStub(ClassMethod([crashMock shouldAlwaysSend])).andReturn(NO);
   
   // When
-  [self.sut sendCrashReportsOrAwaitUserConfirmationForFilteredIds:reportIds];
+  BOOL alwaysSendVal = [self.sut sendCrashReportsOrAwaitUserConfirmationForFilteredIds:reportIds];
   
   // Then
   XCTAssertEqual(0U, numInvocations);
+  XCTAssertFalse(alwaysSendVal);
   
   // When
   [self.sut notifyWithUserConfirmation:MSUserConfirmationSend];
@@ -712,11 +715,12 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   NSMutableArray *reportIds = [self idListFromReports:[self.sut getUnprocessedCrashReports]];
 
   // When
-  [self.sut sendCrashReportsOrAwaitUserConfirmationForFilteredIds:reportIds];
+  BOOL alwaysSendVal = [self.sut sendCrashReportsOrAwaitUserConfirmationForFilteredIds:reportIds];
   [self.sut notifyWithUserConfirmation:MSUserConfirmationDontSend];
   
   // Then
   XCTAssertEqual(0, numInvocations);
+  XCTAssertFalse(alwaysSendVal);
 }
 
 - (void)testGetUnprocessedCrashReportsWhenThereAreNone {
