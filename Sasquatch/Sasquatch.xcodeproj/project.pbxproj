@@ -36,6 +36,8 @@
 		046790421E8DA7D80033FDEC /* MobileCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046790411E8DA7D80033FDEC /* MobileCenterPush.framework */; };
 		046790431E8DA7E90033FDEC /* MobileCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046790411E8DA7D80033FDEC /* MobileCenterPush.framework */; };
 		047D13721EAFBDBE00D699BA /* MobileCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 047D13711EAFBDBE00D699BA /* MobileCenterDistributeResources.bundle */; };
+		048933621F8D395900C38A87 /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
+		048933631F8D395A00C38A87 /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
 		048EB9A11F86F4B7007620A0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 048EB9A01F86F4B7007620A0 /* LaunchScreen.storyboard */; };
 		048EB9A21F86F4B7007620A0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 048EB9A01F86F4B7007620A0 /* LaunchScreen.storyboard */; };
 		048EB9A31F86F4B7007620A0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 048EB9A01F86F4B7007620A0 /* LaunchScreen.storyboard */; };
@@ -900,6 +902,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				048933621F8D395900C38A87 /* Sasquatch.strings in Resources */,
 				044B0BBC1F7D8B000023D0A9 /* Assets.xcassets in Resources */,
 				044B0BBE1F7D8B000023D0A9 /* MobileCenterDistributeResources.bundle in Resources */,
 				048EB9A31F86F4B7007620A0 /* LaunchScreen.storyboard in Resources */,
@@ -937,6 +940,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				048933631F8D395A00C38A87 /* Sasquatch.strings in Resources */,
 				B27424851EF2193E00F591E5 /* MobileCenterDistributeResources.bundle in Resources */,
 				84226C8A1E8908CA00798417 /* Assets.xcassets in Resources */,
 				048EB9A21F86F4B7007620A0 /* LaunchScreen.storyboard in Resources */,
