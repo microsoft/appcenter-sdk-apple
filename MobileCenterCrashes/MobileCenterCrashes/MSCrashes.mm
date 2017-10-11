@@ -999,13 +999,14 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 }
 
 - (void)createBufferFileAtURL:(NSURL *)fileURL {
+  BOOL success = NO;
   @synchronized(self) {
-    BOOL success = [[NSData data] writeToURL:fileURL atomically:NO];
-    if (success) {
-      MSLogVerbose([MSCrashes logTag], @"Created file for log buffer: %@", [fileURL absoluteString]);
-    } else {
-      MSLogError([MSCrashes logTag], @"Couldn't create file for log buffer.");
-    }
+    success = [[NSData data] writeToURL:fileURL atomically:NO];
+  }
+  if (success) {
+    MSLogVerbose([MSCrashes logTag], @"Created file for log buffer: %@", [fileURL absoluteString]);
+  } else {
+    MSLogError([MSCrashes logTag], @"Couldn't create file for log buffer.");
   }
 }
 
@@ -1059,17 +1060,19 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 }
 
 - (BOOL)sendCrashReportsOrAwaitUserConfirmation {
+  BOOL alwaysSend = [self shouldAlwaysSend];
+
   // Get a user confirmation if there are crash logs that need to be processed.
   if ([self.unprocessedReports count] == 0) {
-    return NO;
+    return alwaysSend;
   }
-  if ([MSCrashes shouldAlwaysSend]) {
+  if (alwaysSend) {
     
     // User confirmation is set to MSUserConfirmationAlways.
     MSLogDebug([MSCrashes logTag],
                @"The flag for user confirmation is set to MSUserConfirmationAlways, continue sending logs");
     [self notifyWithUserConfirmation:MSUserConfirmationSend];
-    return YES;
+    return alwaysSend;
   } else if (self.automaticProcessing && !(self.userConfirmationHandler && self.userConfirmationHandler(self.unprocessedReports))) {
     
     // User confirmation handler doesn't exist or returned NO which means 'want to process'.
@@ -1080,10 +1083,11 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     MSLogDebug([MSCrashes logTag],
                @"Automatic crash processing is disabled and \"AlwaysSend\" is false. Awaiting user confirmation.");
   }
-    return NO;
+    return alwaysSend;
 }
 
-+ (BOOL)shouldAlwaysSend {
+// This is an instance method to make testing easier.
+- (BOOL)shouldAlwaysSend {
   NSNumber *flag = [MS_USER_DEFAULTS objectForKey:kMSUserConfirmationKey];
   return flag && [flag boolValue];
 }
