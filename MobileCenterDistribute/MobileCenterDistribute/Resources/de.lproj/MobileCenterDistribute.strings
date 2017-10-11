@@ -2,14 +2,14 @@
  * Update dialog buttons
  */
 "MSDistributeUpdateNow" = "Jetzt aktualisieren";
-"MSDistributeAskMeInADay" = "In einem Tag erneut nachfragen";
-"MSDistributeViewReleaseNotes" = "Release Notes anzeigen";
+"MSDistributeAskMeInADay" = "In einem Tag nachfragen";
+"MSDistributeViewReleaseNotes" = "Anmerkungen zu dieser Version anzeigen";
 "MSDistributeClose" = "Schließen";
 
 /*
  * Update dialog titles/messages
  */
-"MSDistributeAppUpdateAvailable" = "App update verfügbar";
-"MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "Das Update auf Version %@ %@ (%@) ist ein verpflichtendes Update.";
-"MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@ (%@) steht zum Download bereit.";
-"MSDistributeInAppUpdatesAreDisabled" = "In-app-updates wurden deaktiviert.";
+"MSDistributeAppUpdateAvailable" = "App-Update verfügbar";
+"MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "Die Entwickler dieser App verlangen, dass Sie %@ %@ (%@) aktualisieren.";
+"MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@ (%@) ist zum Herunterladen und Installieren verfügbar.";
+"MSDistributeInAppUpdatesAreDisabled" = "In-App-Updates sind deaktiviert.";
