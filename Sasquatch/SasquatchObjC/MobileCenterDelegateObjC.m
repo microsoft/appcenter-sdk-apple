@@ -32,6 +32,9 @@
   // return [[MSMobileCenter sharedInstance] logUrl];
   return @"Internal";
 }
+- (NSString *) sdkVersion{
+  return [MSMobileCenter sdkVersion];
+}
 - (BOOL) isDebuggerAttached{
   return [MSMobileCenter isDebuggerAttached];
 }

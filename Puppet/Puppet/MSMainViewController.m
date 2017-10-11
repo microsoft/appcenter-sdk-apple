@@ -12,6 +12,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *installId;
 @property (weak, nonatomic) IBOutlet UILabel *appSecret;
 @property (weak, nonatomic) IBOutlet UILabel *logUrl;
+@property (weak, nonatomic) IBOutlet UILabel *sdkVersion;
 
 @end
 
@@ -26,6 +27,7 @@
   self.installId.text = [[MSMobileCenter installId] UUIDString];
   self.appSecret.text = [[MSMobileCenter sharedInstance] appSecret];
   self.logUrl.text = [[MSMobileCenter sharedInstance] logUrl];
+  self.sdkVersion.text = [MSMobileCenter sdkVersion];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {

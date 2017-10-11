@@ -14,6 +14,7 @@ import MobileCenter
   func installId() -> String
   func appSecret() -> String
   func logUrl() -> String
+  func sdkVersion() -> String
   func isDebuggerAttached() -> Bool
   
   // Modules section.
