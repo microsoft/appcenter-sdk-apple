@@ -21,7 +21,7 @@
 + (id<MSCrashHandlerSetupDelegate>)getCrashHandlerSetupDelegate;
 
 /**
- * Disables automatic crash processing. Causes SDK not to send reports, even if ALWAYS_SEND is set.
+ * Enables or disables automatic crash processing. Setting to 'NO' causes SDK not to send reports immediately, even if ALWAYS_SEND is set.
  */
 + (void)setAutomaticProcessing:(BOOL)automaticProcessing;
 
