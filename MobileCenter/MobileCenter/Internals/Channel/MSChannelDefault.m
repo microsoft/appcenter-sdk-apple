@@ -412,7 +412,6 @@
       void (^notificationBlock)(NSNotification *note) = ^(NSNotification __unused *note) {
         typeof(self) strongSelf = weakSelf;
         if (self.timerSource != nil) {
-          [strongSelf flushQueue];
 
           /**
            * From the documentation for applicationDidEnterBackground:
@@ -434,6 +433,9 @@
                   [strongSelf.sender suspend];
                 }];
           }
+          
+          // We've requested additional background time and are now flushing our queue.
+          [strongSelf flushQueue];
         }
       };
       self.appDidEnterBackgroundObserver =
