@@ -14,6 +14,7 @@ import MobileCenter
   func installId() -> String
   func appSecret() -> String
   func logUrl() -> String
+  func sdkVersion() -> String
   func isDebuggerAttached() -> Bool
   
   // Modules section.
@@ -39,6 +40,7 @@ import MobileCenter
   // MSDistribute section
   func showConfirmationAlert()
   func showDistributeDisabledAlert()
+  func showCustomConfirmationAlert()
   
   // Last crash report section.
   func lastCrashReportIncidentIdentifier() -> String?

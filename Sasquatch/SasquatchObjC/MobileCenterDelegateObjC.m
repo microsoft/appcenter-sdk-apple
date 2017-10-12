@@ -32,6 +32,9 @@
   // return [[MSMobileCenter sharedInstance] logUrl];
   return @"Internal";
 }
+- (NSString *) sdkVersion{
+  return [MSMobileCenter sdkVersion];
+}
 - (BOOL) isDebuggerAttached{
   return [MSMobileCenter isDebuggerAttached];
 }
@@ -90,25 +93,39 @@
 }
 
 #pragma mark - MSDistribute section.
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
 - (void) showConfirmationAlert{
-  // TODO: Uncomment when showConfirmationAlert is moved from internal to public module
-  // [[MSDistribute sharedInstance] showConfirmationAlert:nil];
-  MSAlertController *alertController = [MSAlertController
-                                        alertControllerWithTitle:@"Info"
-                                        message:@"ConfirmationAlert is private!"];
-  [alertController addDefaultActionWithTitle:@"Ok"
-                                     handler:nil];
-  [alertController show];
+  MSReleaseDetails *releaseDetails = [MSReleaseDetails new];
+  releaseDetails.version = @"10";
+  releaseDetails.shortVersion = @"1.0";
+  if ([MSDistribute respondsToSelector:@selector(sharedInstance)]) {
+    id distributeInstance = [MSDistribute performSelector:@selector(sharedInstance)];
+    if ([distributeInstance respondsToSelector:@selector(showConfirmationAlert:)]) {
+      [distributeInstance performSelector:@selector(showConfirmationAlert:) withObject:releaseDetails];
+    }
+  }
 }
+#pragma clang diagnostic pop
+
 - (void) showDistributeDisabledAlert{
-  // TODO: Uncomment when showDistributeDisabledAlert is moved from internal to public module
-  // [[MSDistribute sharedInstance] showDistributeDisabledAlert];
-  MSAlertController *alertController = [MSAlertController
-                                        alertControllerWithTitle:@"Info"
-                                        message:@"DistributeDisabledAlert is private!"];
-  [alertController addDefaultActionWithTitle:@"Ok"
-                                     handler:nil];
-  [alertController show];
+  if ([MSDistribute respondsToSelector:@selector(sharedInstance)]) {
+    id distributeInstance = [MSDistribute performSelector:@selector(sharedInstance)];
+    if ([distributeInstance respondsToSelector:@selector(showDistributeDisabledAlert)]) {
+      [distributeInstance performSelector:@selector(showDistributeDisabledAlert)];
+    }
+  }
+}
+
+- (void) showCustomConfirmationAlert{
+  MSReleaseDetails *releaseDetails = [MSReleaseDetails new];
+  releaseDetails.version = @"10";
+  releaseDetails.shortVersion = @"1.0";
+  if ([MSDistribute respondsToSelector:@selector(sharedInstance)]) {
+    id distributeInstance = [MSDistribute performSelector:@selector(sharedInstance)];
+    [[distributeInstance delegate] distribute:distributeInstance releaseAvailableWithDetails:releaseDetails];
+  }
 }
 
 #pragma mark - Last crash report section.

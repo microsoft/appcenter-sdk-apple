@@ -2,7 +2,7 @@ import Cocoa
 
 class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableViewDelegate {
 
-  var mobileCenter: MobileCenterDelegate?
+  var mobileCenter: MobileCenterDelegate = MobileCenterProvider.shared().mobileCenter!
   var crashes = [Any]()
   @IBOutlet var setEnabledButton : NSButton?
   @IBOutlet weak var crashesTableView: NSTableView!
@@ -12,16 +12,15 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
     loadAllCrashes()
     crashesTableView.dataSource = self
     crashesTableView.delegate = self
-    mobileCenter = MobileCenterProvider.shared().mobileCenter
   }
 
   override func viewWillAppear() {
-    setEnabledButton?.state = mobileCenter!.isCrashesEnabled() ? 1 : 0;
+    setEnabledButton?.state = mobileCenter.isCrashesEnabled() ? 1 : 0
   }
 
   @IBAction func setEnabled(sender : NSButton) {
-    mobileCenter?.setCrashesEnabled(sender.state == 1)
-    sender.state = mobileCenter!.isCrashesEnabled() ? 1 : 0
+    mobileCenter.setCrashesEnabled(sender.state == 1)
+    sender.state = mobileCenter.isCrashesEnabled() ? 1 : 0
   }
 
   func numberOfRows(in tableView: NSTableView) -> Int {
@@ -97,7 +96,7 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
     let classList = objc_copyClassList(&count)
     MSCrash.removeAllCrashes()
     for i in 0..<Int(count){
-      let className = classList![i]!
+      let className: AnyClass = classList![i]!
       if class_getSuperclass(className) == MSCrash.self && className != MSCrash.self{
         MSCrash.register((className as! MSCrash.Type).init())
       }

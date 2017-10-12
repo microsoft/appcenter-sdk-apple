@@ -9,6 +9,7 @@
 #import "MSLogger.h"
 #import "MSMobileCenterInternal.h"
 #import "MSStartServiceLog.h"
+#import "MSUtility.h"
 #if !TARGET_OS_TV
 #import "MSCustomProperties.h"
 #import "MSCustomPropertiesLog.h"
@@ -150,6 +151,10 @@ static NSString *const kMSGroupId = @"MobileCenter";
   });
 
   return debuggerIsAttached;
+}
+
++ (NSString *)sdkVersion {
+  return [MSUtility sdkVersion];
 }
 
 + (NSString *)logTag {
@@ -439,6 +444,10 @@ static NSString *const kMSGroupId = @"MobileCenter";
                                  name:NSApplicationDidUnhideNotification
                                object:nil];
 #else
+  [MS_NOTIFICATION_CENTER addObserver:self
+                             selector:@selector(applicationDidEnterBackground)
+                                 name:UIApplicationDidEnterBackgroundNotification
+                               object:nil];
   [MS_NOTIFICATION_CENTER addObserver:self
                              selector:@selector(applicationWillEnterForeground)
                                  name:UIApplicationWillEnterForegroundNotification

@@ -17,6 +17,7 @@
   [MSKeychainUtil clear];
 }
 
+#if !TARGET_OS_TV
 - (void)testKeychain {
 
   // If
@@ -31,5 +32,6 @@
   XCTAssertFalse([MSKeychainUtil stringForKey:key]);
   XCTAssertNil([MSKeychainUtil deleteStringForKey:key]);
 }
+#endif
 
 @end

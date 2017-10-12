@@ -56,21 +56,10 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   assertThat(self.sut.device.carrierCountry, nilValue());
   assertThat(self.sut.device.carrierName, nilValue());
 
-  // Can't access a valid main bundle from test context so we can't test for App namespace (bundle ID), version and
-  // build.
-}
-
-- (void)testSDKVersion {
-
-  // If
-  NSString *expected = @"1.2.3";
-  const char *versionMock = [expected UTF8String];
-
-  // When
-  NSString *sdkVersion = [self.sut sdkVersion:versionMock];
-
-  // Then
-  assertThat(sdkVersion, is(expected));
+  /*
+   * Can't access a valid main bundle from test context so we can't test for App namespace (bundle ID), version and
+   * build.
+   */
 }
 
 - (void)testDeviceModel {
@@ -86,7 +75,6 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 - (void)testDeviceOSName {
 
   // If
-
 #if TARGET_OS_OSX
   NSString *expected = @"macOS";
 #else
@@ -96,7 +84,6 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 #endif
 
   // When
-
 #if TARGET_OS_OSX
   NSString *osName = [self.sut osName];
 #else
@@ -145,6 +132,10 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
   // Then
   assertThat(osVersion, is(expected));
+
+#if TARGET_OS_OSX && __MAC_OS_X_VERSION_MAX_ALLOWED > 1090
+  [processInfoMock stopMocking];
+#endif
 }
 
 - (void)testDeviceLocale {

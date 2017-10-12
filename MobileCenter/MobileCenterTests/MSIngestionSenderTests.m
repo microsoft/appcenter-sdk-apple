@@ -112,7 +112,14 @@ static NSString *const kMSBaseUrl = @"https://test.com";
         XCTAssertEqual(error.code, kMSMCConnectionHttpErrorCode);
         XCTAssertEqual(error.localizedDescription, kMSMCConnectionHttpErrorDesc);
         XCTAssertTrue([error.userInfo[kMSMCConnectionHttpCodeErrorKey] isEqual:@(MSHTTPCodesNo404NotFound)]);
-        [expectation fulfill];
+
+        /*
+         * FIXME: This unit test failes intermittently because of timing issue. Wait a little bit of time
+         * here so that [MSSender call:completedWithFatalError:] can be invoked right after this completion handler.
+         */
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+          [expectation fulfill];
+        });
       }];
 
   // Then
@@ -220,6 +227,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   // If
   XCTestExpectation *tasksListedExpectation = [self expectationWithDescription:@"URL Session tasks listed."];
   __block NSArray<NSURLSessionDataTask *> *tasks;
+  __block BOOL testFinished = NO;
   [MSHttpTestUtil stubLongTimeOutResponse];
   MSLogContainer *container1 = [self createLogContainerWithId:@"1"];
   MSLogContainer *container2 = [self createLogContainerWithId:@"2"];
@@ -228,12 +236,20 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   [self.sut sendAsync:container1
       completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
                           __attribute__((unused)) NSData *data, __attribute__((unused)) NSError *error) {
-        XCTFail(@"Completion handler shouldn't be called as test will finish before the response timeout.");
+        @synchronized(tasks) {
+          if (!testFinished) {
+            XCTFail(@"Completion handler shouldn't be called as test will finish before the response timeout.");
+          }
+        }
       }];
   [self.sut sendAsync:container2
       completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
                           __attribute__((unused)) NSData *data, __attribute__((unused)) NSError *error) {
-        XCTFail(@"Completion handler shouldn't be called as test will finish before the response timeout.");
+        @synchronized(tasks) {
+          if (!testFinished) {
+            XCTFail(@"Completion handler shouldn't be called as test will finish before the response timeout.");
+          }
+        }
       }];
 
   // When
@@ -249,25 +265,28 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   // Then
   [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
+                                 @synchronized(tasks) {
 
-                                 // Must be only two tasks
-                                 assertThatInteger(tasks.count, equalToInteger(2));
+                                   // Must be only two tasks
+                                   assertThatInteger(tasks.count, equalToInteger(2));
 
-                                 // Tasks must be suspended.
-                                 [tasks enumerateObjectsUsingBlock:^(__kindof NSURLSessionTask *_Nonnull task,
-                                                                     __attribute__((unused)) NSUInteger idx,
-                                                                     __attribute__((unused)) BOOL *_Nonnull stop) {
-                                   assertThatInteger(task.state, equalToInteger(NSURLSessionTaskStateSuspended));
-                                 }];
+                                   // Tasks must be suspended.
+                                   [tasks enumerateObjectsUsingBlock:^(__kindof NSURLSessionTask *_Nonnull task,
+                                                                       __attribute__((unused)) NSUInteger idx,
+                                                                       __attribute__((unused)) BOOL *_Nonnull stop) {
+                                     assertThatInteger(task.state, equalToInteger(NSURLSessionTaskStateSuspended));
+                                   }];
 
-                                 // Sender must be suspended.
-                                 assertThatBool(self.sut.suspended, isTrue());
+                                   // Sender must be suspended.
+                                   assertThatBool(self.sut.suspended, isTrue());
 
-                                 // Calls must still be in the pending calls, intended to be resumed later.
-                                 assertThatUnsignedLong(self.sut.pendingCalls.count, equalToInt(2));
+                                   // Calls must still be in the pending calls, intended to be resumed later.
+                                   assertThatUnsignedLong(self.sut.pendingCalls.count, equalToInt(2));
 
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                   if (error) {
+                                     XCTFail(@"Expectation Failed with error: %@", error);
+                                   }
+                                   testFinished = YES;
                                  }
                                }];
 }
@@ -277,6 +296,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   // If
   XCTestExpectation *tasksListedExpectation = [self expectationWithDescription:@"Container 1 sent."];
   __block NSArray<NSURLSessionDataTask *> *tasks;
+  __block BOOL testFinished = NO;
   [MSHttpTestUtil stubLongTimeOutResponse];
   MSLogContainer *container1 = [self createLogContainerWithId:@"1"];
   MSLogContainer *container2 = [self createLogContainerWithId:@"2"];
@@ -285,12 +305,20 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   [self.sut sendAsync:container1
       completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
                           __attribute__((unused)) NSData *data, __attribute__((unused)) NSError *error) {
-        XCTFail(@"Completion handler shouldn't be called as test will finish before the response timeout.");
+        @synchronized(tasks) {
+          if (!testFinished) {
+            XCTFail(@"Completion handler shouldn't be called as test will finish before the response timeout.");
+          }
+        }
       }];
   [self.sut sendAsync:container2
       completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
                           __attribute__((unused)) NSData *data, __attribute__((unused)) NSError *error) {
-        XCTFail(@"Completion handler shouldn't be called as test will finish before the response timeout.");
+        @synchronized(tasks) {
+          if (!testFinished) {
+            XCTFail(@"Completion handler shouldn't be called as test will finish before the response timeout.");
+          }
+        }
       }];
   [self.sut suspend];
 
@@ -308,25 +336,29 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   // Then
   [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 @synchronized(tasks) {
+                                   if (error) {
+                                     XCTFail(@"Expectation Failed with error: %@", error);
+                                   }
+
+                                   // Must be only two tasks
+                                   assertThatInteger(tasks.count, equalToInteger(2));
+
+                                   // Tasks must have been resumed.
+                                   [tasks enumerateObjectsUsingBlock:^(__kindof NSURLSessionDataTask *_Nonnull task,
+                                                                       __attribute__((unused)) NSUInteger idx,
+                                                                       __attribute__((unused)) BOOL *_Nonnull stop) {
+                                     assertThatInteger(task.state, equalToInteger(NSURLSessionTaskStateRunning));
+                                   }];
+
+                                   // Sender must be suspended.
+                                   assertThatBool(self.sut.suspended, isFalse());
+
+                                   // Calls must still be in the pending calls, not yet timed out.
+                                   assertThatUnsignedLong(self.sut.pendingCalls.count, equalToInt(2));
+
+                                   testFinished = YES;
                                  }
-
-                                 // Must be only two tasks
-                                 assertThatInteger(tasks.count, equalToInteger(2));
-
-                                 // Tasks must have been resumed.
-                                 [tasks enumerateObjectsUsingBlock:^(__kindof NSURLSessionDataTask *_Nonnull task,
-                                                                     __attribute__((unused)) NSUInteger idx,
-                                                                     __attribute__((unused)) BOOL *_Nonnull stop) {
-                                   assertThatInteger(task.state, equalToInteger(NSURLSessionTaskStateRunning));
-                                 }];
-
-                                 // Sender must be suspended.
-                                 assertThatBool(self.sut.suspended, isFalse());
-
-                                 // Calls must still be in the pending calls, not yet timed out.
-                                 assertThatUnsignedLong(self.sut.pendingCalls.count, equalToInt(2));
                                }];
 }
 
