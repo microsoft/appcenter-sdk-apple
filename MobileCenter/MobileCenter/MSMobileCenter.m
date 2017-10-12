@@ -445,10 +445,6 @@ static NSString *const kMSGroupId = @"MobileCenter";
                                object:nil];
 #else
   [MS_NOTIFICATION_CENTER addObserver:self
-                             selector:@selector(applicationDidEnterBackground)
-                                 name:UIApplicationDidEnterBackgroundNotification
-                               object:nil];
-  [MS_NOTIFICATION_CENTER addObserver:self
                              selector:@selector(applicationWillEnterForeground)
                                  name:UIApplicationWillEnterForegroundNotification
                                object:nil];
