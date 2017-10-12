@@ -633,7 +633,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
     numInvocations++;
   }) withLogManager:logManagerMock withCrashes:crashes];
   [self startCrashes:crashes withReports:YES withLogManager:logManagerMock];
-  NSMutableArray *reportIds = [self idListFromReports:[crashes getUnprocessedCrashReports]];
+  NSMutableArray *reportIds = [self idListFromReports:[crashes unprocessedCrashReports]];
   
   // When
   BOOL alwaysSendVal = [crashes sendCrashReportsOrAwaitUserConfirmationForFilteredIds:reportIds];
@@ -655,7 +655,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
     numInvocations++;
   }) withLogManager:logManagerMock withCrashes:crashes];
   [self startCrashes:crashes withReports:YES withLogManager:logManagerMock];
-  NSMutableArray *reports = [self idListFromReports:[crashes getUnprocessedCrashReports]];
+  NSMutableArray *reports = [self idListFromReports:[crashes unprocessedCrashReports]];
   
   // When
   BOOL alwaysSendVal = [crashes sendCrashReportsOrAwaitUserConfirmationForFilteredIds:reports];
@@ -683,7 +683,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
     numInvocations++;
   }) withLogManager:logManagerMock withCrashes:crashes];
   [self startCrashes:crashes withReports:YES withLogManager:logManagerMock];
-  NSMutableArray *reportIds = [self idListFromReports:[crashes getUnprocessedCrashReports]];
+  NSMutableArray *reportIds = [self idListFromReports:[crashes unprocessedCrashReports]];
 
   // When
   BOOL alwaysSendVal = [crashes sendCrashReportsOrAwaitUserConfirmationForFilteredIds:reportIds];
@@ -710,7 +710,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   [self setProcessLogImplementation:(^(NSInvocation *) {
     numInvocations++;
   }) withLogManager:logManagerMock withCrashes:crashes];
-  NSMutableArray *reportIds = [self idListFromReports:[crashes getUnprocessedCrashReports]];
+  NSMutableArray *reportIds = [self idListFromReports:[crashes unprocessedCrashReports]];
 
   // When
   BOOL alwaysSendVal = [crashes sendCrashReportsOrAwaitUserConfirmationForFilteredIds:reportIds];
@@ -730,7 +730,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   [self startCrashes:crashes withReports:NO withLogManager:logManagerMock];
   
   // When
-  NSArray<MSErrorReport *> *reports = [crashes getUnprocessedCrashReports];
+  NSArray<MSErrorReport *> *reports = [crashes unprocessedCrashReports];
   
   // Then
   XCTAssertEqual([reports count], 0U);
@@ -777,7 +777,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   NSArray *reports = [self startCrashes:crashes withReports:YES withLogManager:logManagerMock];
   
   // When
-  NSArray *retrievedReports = [crashes getUnprocessedCrashReports];
+  NSArray *retrievedReports = [crashes unprocessedCrashReports];
   
   // Then
   XCTAssertEqual([reports count], [retrievedReports count]);
@@ -802,7 +802,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   NSArray *reports = [self startCrashes:crashes withReports:YES withLogManager:logManagerMock];
   
   // When
-  NSArray *retrievedReports = [crashes getUnprocessedCrashReports];
+  NSArray *retrievedReports = [crashes unprocessedCrashReports];
   
   // Then
   XCTAssertEqual([reports count], [retrievedReports count]);

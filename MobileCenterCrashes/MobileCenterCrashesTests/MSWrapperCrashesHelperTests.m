@@ -45,13 +45,13 @@
   // If
   MSCrashes *crashesMock = [self getSharedCrashesMock];
   NSArray *unprocessedReports = @[];
-  OCMStub([crashesMock getUnprocessedCrashReports]).andReturn(unprocessedReports);
+  OCMStub([crashesMock unprocessedCrashReports]).andReturn(unprocessedReports);
   
   // When
-  NSArray *retrievedReports = [MSWrapperCrashesHelper getUnprocessedCrashReports];
+  NSArray *retrievedReports = [MSWrapperCrashesHelper unprocessedCrashReports];
   
   // Then
-  OCMVerify([crashesMock getUnprocessedCrashReports]);
+  OCMVerify([crashesMock unprocessedCrashReports]);
   XCTAssertEqual(unprocessedReports, retrievedReports);
 }
 

@@ -599,7 +599,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
    * 2. giving some time to start and let all Crashes initialization happen before processing crashes.
    */
   
-  // This must be performed asynchronously to prevent a deadlock with getUnprocessedCrashReports.
+  // This must be performed asynchronously to prevent a deadlock with 'unprocessedCrashReports'.
   dispatch_semaphore_wait(self.delayedProcessingSemaphore, DISPATCH_TIME_FOREVER);
   dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, (1 * NSEC_PER_SEC));
   dispatch_after(delay,
@@ -747,7 +747,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 /**
  * Gets a list of unprocessed crashes as MSErrorReports.
  */
-- (NSArray<MSErrorReport *> *)getUnprocessedCrashReports {
+- (NSArray<MSErrorReport *> *)unprocessedCrashReports {
   dispatch_semaphore_wait(self.delayedProcessingSemaphore, DISPATCH_TIME_FOREVER);
   dispatch_semaphore_signal(self.delayedProcessingSemaphore);
   return self.unprocessedReports;

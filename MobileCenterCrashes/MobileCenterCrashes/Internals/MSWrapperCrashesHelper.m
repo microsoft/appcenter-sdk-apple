@@ -39,8 +39,8 @@
 /**
  * Gets a list of unprocessed crash reports.
  */
-+ (NSArray<MSErrorReport *> *)getUnprocessedCrashReports {
-  return [[MSCrashes sharedInstance] getUnprocessedCrashReports];
++ (NSArray<MSErrorReport *> *)unprocessedCrashReports {
+  return [[MSCrashes sharedInstance] unprocessedCrashReports];
 }
 
 /**
