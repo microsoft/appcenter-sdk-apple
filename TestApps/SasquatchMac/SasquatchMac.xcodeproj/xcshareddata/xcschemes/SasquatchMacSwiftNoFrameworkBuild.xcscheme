@@ -17,63 +17,7 @@
                BlueprintIdentifier = "8065B5771F4C3FF4004FF622"
                BuildableName = "CrashLibMac.framework"
                BlueprintName = "CrashLibMac"
-               ReferencedContainer = "container:../CrashLib/CrashLib.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0485AFE61EAA937000C10CAF"
-               BuildableName = "MobileCenterMacOSFramework"
-               BlueprintName = "MobileCenterMacOSFramework"
-               ReferencedContainer = "container:../MobileCenter/MobileCenter.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0485AFEF1EAAADAC00C10CAF"
-               BuildableName = "MobileCenterAnalyticsMacOSFramework"
-               BlueprintName = "MobileCenterAnalyticsMacOSFramework"
-               ReferencedContainer = "container:../MobileCenterAnalytics/MobileCenterAnalytics.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0485AFF91EAAB27E00C10CAF"
-               BuildableName = "MobileCenterCrashesMacOSFramework"
-               BlueprintName = "MobileCenterCrashesMacOSFramework"
-               ReferencedContainer = "container:../MobileCenterCrashes/MobileCenterCrashes.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0469640E1F2A558F00F9D31F"
-               BuildableName = "MobileCenterPushMacOSFramework"
-               BlueprintName = "MobileCenterPushMacOSFramework"
-               ReferencedContainer = "container:../MobileCenterPush/MobileCenterPush.xcodeproj">
+               ReferencedContainer = "container:../../CrashLib/CrashLib.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
