@@ -1,9 +1,9 @@
 #!/bin/bash
 
 ## I. Check parameter
-if [ -z $1 ] || ( [ "$1" != "internal" ] && [ "$1" != "external" ] ); then
+if [ -z $1 ] || ( [ "$1" != "internal" ] && [ "$1" != "external" ] && [ "$1" != "test" ] ); then
   echo "Invalid parameter.";
-  echo "  Usage: $0 {internal|external}";
+  echo "  Usage: $0 {internal|external|test}";
   exit 1;
 fi
 
@@ -11,13 +11,33 @@ fi
 publish_version="$(grep "VERSION_STRING" $BITRISE_SOURCE_DIR/$VERSION_FILENAME | head -1 | awk -F "[= ]" '{print $4}')"
 echo "Publishing podspec for version" $publish_version
 
-if [ "$1" == "internal" ]; then
+if [ "$1" == "internal" ] || [ "$1" == "test" ]; then
+
+  if [ "$1" == "internal" ]; then
+
+    local_spec_repo_name=$GIT_SPEC_REPO_NAME
+
+  else
+
+    local_spec_repo_name=$VSTS_SPEC_REPO_NAME
+
+    # Revert podspec change for other platforms
+    git revert 8a6f317172421c84ef50a62675b3ba64aca53344
+
+    # Add build number to podspec version
+    sed "s/\(s\.version[[:space:]]*=[[:space:]]\)\'.*\'$/\1'$SDK_PUBLISH_VERSION'/1" MobileCenter.podspec > MobileCenter.podspec.tmp; mv MobileCenter.podspec.tmp MobileCenter.podspec
+
+    # Change download URL in podspec
+    sed "s/https:\/\/github\.com\/microsoft\/mobile-center-sdk-ios\/releases\/download\/#{s.version}/https:\/\/mobilecentersdkdev\.blob\.core\.windows\.net\/sdk/1" MobileCenter.podspec > MobileCenter.podspec.tmp; mv MobileCenter.podspec.tmp MobileCenter.podspec
+
+  fi
 
   ## 1. Get path of internal podspec local repo
-  local_repo_path="$(pod repo | grep "$GIT_SPEC_REPO_NAME" | grep Path | head -1 | awk -F ": " '{print $2}')"
+  local_repo_path="$(pod repo | grep "$local_spec_repo_name" | grep Path | head -1 | awk -F ": " '{print $2}')"
 
   ## 2. Update podspec to the internal podspec local repo
-  resp="$(pod repo push $GIT_SPEC_REPO_NAME $BITRISE_SOURCE_DIR/$PODSPEC_FILENAME)"
+  resp="$(pod repo push $local_spec_repo_name $BITRISE_SOURCE_DIR/$PODSPEC_FILENAME)"
+
   echo $resp
 
   # Check error from the response
@@ -32,7 +52,7 @@ if [ "$1" == "internal" ]; then
   git push
   cd $BITRISE_SOURCE_DIR
 
-  echo "Podspec published to internal repo successfully"
+  echo "Podspec published to $1 repo successfully"
 
 else
 
