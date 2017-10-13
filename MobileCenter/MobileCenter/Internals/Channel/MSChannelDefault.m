@@ -199,6 +199,9 @@
                                 [self flushQueue];
                               }
                             }
+
+                            // Stop background activity if applicable.
+                            [self stopBackgroundActivity];
                           }
 
                           // Failure.
@@ -226,6 +229,9 @@
                               self.pendingBatchQueueFull = NO;
                             }
                           }
+
+                          // Stop background activity if applicable.
+                          [self stopBackgroundActivity];
                         } else
                           MSLogWarning([MSMobileCenter logTag], @"Batch Id %@ not expected, ignore.", senderBatchId);
                       });
@@ -399,6 +405,28 @@
   }
 }
 
+- (void)stopBackgroundActivity {
+#if !TARGET_OS_OSX
+  if (!MS_IS_APP_EXTENSION) {
+    /*
+     * If flushQueue was called while running in the background AND we don't have any pending
+     * batches, we disable the sender and stop our background activity.
+     */
+    if (self.isInBackground && (self.pendingBatchIds.count == 0)) {
+      MSLogDebug([MSMobileCenter logTag], @"No more logs to flush while the app is in "
+                                          @"background. Invalidating background task and "
+                                          @"suspending sender.");
+      [self.sender suspend];
+      UIApplication *sharedApplication = [MSUtility sharedApplication];
+      if (sharedApplication) {
+        [sharedApplication endBackgroundTask:self.backgroundTaskIdentifier];
+        self.backgroundTaskIdentifier = UIBackgroundTaskInvalid;
+      }
+    }
+  }
+#endif
+}
+
 #pragma mark – Observers
 
 - (void)addObservers {
@@ -406,11 +434,12 @@
 // There is no need to do trigger sending on macOS because we can just continue to execute tasks there.
 #if !TARGET_OS_OSX
   if (!MS_IS_APP_EXTENSION) {
+    self.backgroundTaskIdentifier = UIBackgroundTaskInvalid;
     __weak typeof(self) weakSelf = self;
-    __block UIBackgroundTaskIdentifier _backgroundTask = UIBackgroundTaskInvalid;
     if (self.appDidEnterBackgroundObserver == nil) {
       void (^notificationBlock)(NSNotification *note) = ^(NSNotification __unused *note) {
         typeof(self) strongSelf = weakSelf;
+        strongSelf.isInBackground = YES;
         if (self.timerSource != nil) {
 
           /**
@@ -423,36 +452,52 @@
           UIApplication *sharedApplication = [MSUtility sharedApplication];
 
           // Checking if sharedApplication is != nil as it can be nil for extensions.
-          if (sharedApplication && _backgroundTask == UIBackgroundTaskInvalid) {
-            _backgroundTask =
-                [sharedApplication beginBackgroundTaskWithExpirationHandler:^{
-                  [sharedApplication endBackgroundTask:_backgroundTask];
-                  _backgroundTask = UIBackgroundTaskInvalid;
-                  
-                  // Suspend the sender, don't suspend the channel itself.
-                  [strongSelf.sender suspend];
-                }];
+          if (sharedApplication && self.backgroundTaskIdentifier == UIBackgroundTaskInvalid) {
+            self.backgroundTaskIdentifier = [sharedApplication beginBackgroundTaskWithExpirationHandler:^{
+
+              MSLogDebug([MSMobileCenter logTag], @"Background task has expired, invalidating it and suspend sender.");
+
+              [sharedApplication endBackgroundTask:self.backgroundTaskIdentifier];
+              self.backgroundTaskIdentifier = UIBackgroundTaskInvalid;
+
+              // Suspend the sender, don't suspend the channel itself.
+              [strongSelf.sender suspend];
+            }];
           }
-          
+
           // We've requested additional background time and are now flushing our queue.
           [strongSelf flushQueue];
         }
       };
       self.appDidEnterBackgroundObserver =
-          [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidEnterBackgroundNotification
-                                                            object:nil
-                                                             queue:NSOperationQueue.mainQueue
-                                                        usingBlock:notificationBlock];
+          [MS_NOTIFICATION_CENTER addObserverForName:UIApplicationDidEnterBackgroundNotification
+                                              object:nil
+                                               queue:NSOperationQueue.mainQueue
+                                          usingBlock:notificationBlock];
     }
+
+    self.appWillEnterForegroundObserver =
+        [MS_NOTIFICATION_CENTER addObserverForName:UIApplicationWillEnterForegroundNotification
+                                            object:nil
+                                             queue:NSOperationQueue.mainQueue
+                                        usingBlock:^(NSNotification __unused *note) {
+                                          typeof(self) strongSelf = weakSelf;
+                                          strongSelf.isInBackground = NO;
+                                        }];
   }
 #endif
 }
 
 - (void)removeObservers {
-  id strongObserver = self.appDidEnterBackgroundObserver;
-  if (strongObserver) {
-    [[NSNotificationCenter defaultCenter] removeObserver:strongObserver];
+  id strongBackgroundObserver = self.appDidEnterBackgroundObserver;
+  if (strongBackgroundObserver) {
+    [[NSNotificationCenter defaultCenter] removeObserver:strongBackgroundObserver];
     self.appDidEnterBackgroundObserver = nil;
+  }
+  id strongForegroundObserver = self.appWillEnterForegroundObserver;
+  if (strongForegroundObserver) {
+    [[NSNotificationCenter defaultCenter] removeObserver:strongForegroundObserver];
+    self.appWillEnterForegroundObserver = nil;
   }
 }
 

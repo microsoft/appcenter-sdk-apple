@@ -32,9 +32,35 @@
  */
 @property(nonatomic, weak, nullable) id appDidEnterBackgroundObserver;
 
+#if !TARGET_OS_OSX
+
+// Properties that are necessary to allow sending events at the time the app is backgrounded. Not needed on macOS.
+
+/**
+ * A property to hold the observer to get notified once the app enters the foreground again.
+ */
+@property(nonatomic, weak, nullable) id appWillEnterForegroundObserver;
+
+/**
+ * Identifier for the background task for flushing our queue in case the app is backgrounded. We're not using
+ * UIBackgroundTaskIdentifier as it is not available on macOS and it's a typedef for NSUInteger anyway.
+ */
+@property(nonatomic) NSUInteger backgroundTaskIdentifier;
+
+/**
+ * Flag to indicate if the app is in the background. Required to suspend the sender in case there are no logs.
+ */
+@property(nonatomic) BOOL isInBackground;
+#endif
+
 /**
  * Trigger flushing the queue, which will result in logs being sent.
  */
 - (void)flushQueue;
+
+/**
+ * Method to invalide the background task that sends events and suspend the sender once there is nothing to send.
+ */
+- (void)stopBackgroundActivity;
 
 @end

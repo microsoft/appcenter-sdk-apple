@@ -66,6 +66,9 @@ static NSString *const kMSTestGroupId = @"GroupId";
   assertThat(self.sut.storage, equalTo(self.storageMock));
 #if !TARGET_OS_OSX
   assertThat(self.sut.appDidEnterBackgroundObserver, notNilValue());
+  assertThat(self.sut.appWillEnterForegroundObserver, notNilValue());
+  XCTAssertFalse(self.sut.isInBackground);
+
 #endif
   assertThatUnsignedLong(self.sut.itemsCount, equalToInt(0));
 }
@@ -821,6 +824,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // When
   MSChannelDefault *mockChannelDefault = OCMPartialMock(self.sut);
+  
   // Configure channel.
   MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithGroupId:kMSTestGroupId
                                                                           priority:MSPriorityDefault
@@ -830,10 +834,9 @@ static NSString *const kMSTestGroupId = @"GroupId";
   mockChannelDefault.configuration = config;
   int itemsToAdd = 3;
   XCTestExpectation *expectation = [self expectationWithDescription:@"All items enqueued"];
-
+  
   // When
   for (int i = 1; i <= itemsToAdd; i++) {
-
     [mockChannelDefault enqueueItem:[self getValidMockLog]
                      withCompletion:^(__attribute__((unused)) BOOL success) {
                        if (i == itemsToAdd) {
@@ -852,6 +855,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
                                  // Verify flushQueue was called.
                                  OCMVerify([mockChannelDefault flushQueue]);
+                                 XCTAssertTrue(mockChannelDefault.isInBackground);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
