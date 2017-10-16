@@ -5,6 +5,9 @@
       location = "group:../CrashLib/CrashLib.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:Sasquatch/Sasquatch.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:SasquatchMac/SasquatchMac.xcodeproj">
    </FileRef>
    <FileRef
