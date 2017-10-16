@@ -438,12 +438,7 @@ static NSString *const kMSGroupId = @"MobileCenter";
 #pragma mark - Observers
 
 - (void)addObservers {
-#if TARGET_OS_OSX
-  [MS_NOTIFICATION_CENTER addObserver:self
-                             selector:@selector(applicationWillEnterForeground)
-                                 name:NSApplicationDidUnhideNotification
-                               object:nil];
-#else
+#if !TARGET_OS_OSX
   [MS_NOTIFICATION_CENTER addObserver:self
                              selector:@selector(applicationWillEnterForeground)
                                  name:UIApplicationWillEnterForegroundNotification
@@ -452,9 +447,7 @@ static NSString *const kMSGroupId = @"MobileCenter";
 }
 
 - (void)removeObservers {
-#if TARGET_OS_OSX
-  [MS_NOTIFICATION_CENTER removeObserver:self name:NSApplicationDidUnhideNotification object:nil];
-#else
+#if !TARGET_OS_OSX
   [MS_NOTIFICATION_CENTER removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
 #endif
 }
