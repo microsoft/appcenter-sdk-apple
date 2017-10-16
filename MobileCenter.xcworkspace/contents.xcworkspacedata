@@ -26,9 +26,9 @@
       location = "group:Sasquatch/Sasquatch.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:SasquatchTV/SasquatchTV.xcodeproj">
+      location = "group:SasquatchMac/SasquatchMac.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:SasquatchMac/SasquatchMac.xcodeproj">
+      location = "group:SasquatchTV/SasquatchTV.xcodeproj">
    </FileRef>
 </Workspace>
