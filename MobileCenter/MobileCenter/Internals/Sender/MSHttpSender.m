@@ -112,6 +112,9 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
         }
       }
     }
+    
+    // In case the sender was suspended, trigger a resume.
+    [self resume];
   }
 }
 
