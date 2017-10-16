@@ -408,21 +408,29 @@
 - (void)stopBackgroundActivity {
 #if !TARGET_OS_OSX
   if (!MS_IS_APP_EXTENSION) {
-    
+    @synchronized(self) {
+      
     /*
      * If flushQueue was called while running in the background AND we don't have any pending
      * batches, we disable the sender and stop our background activity.
      */
-    if (self.isInBackground && (self.pendingBatchIds.count == 0)) {
-      MSLogDebug([MSMobileCenter logTag], @"No more logs to flush while the app is in "
-                                          @"background. Invalidating background task and "
-                                          @"suspending sender.");
-      [self.sender suspend];
+    if (self.pendingBatchIds.count == 0) {
+      
+      // Invalidate background task if applicable
       UIApplication *sharedApplication = [MSUtility sharedApplication];
-      if (sharedApplication) {
+      if (sharedApplication && (self.backgroundTaskIdentifier != UIBackgroundTaskInvalid)) {
         [sharedApplication endBackgroundTask:self.backgroundTaskIdentifier];
         self.backgroundTaskIdentifier = UIBackgroundTaskInvalid;
       }
+      
+      // Suspend the sender if the app is in the background
+      if(self.isInBackground) {
+        MSLogDebug([MSMobileCenter logTag], @"No more logs to flush while the app is in "
+                   @"background. Invalidating background task and "
+                   @"suspending sender.");
+        [self.sender suspend];
+      }
+    }
     }
   }
 #endif
