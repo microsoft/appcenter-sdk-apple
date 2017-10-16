@@ -166,9 +166,9 @@
 			children = (
 				042496831EC3CE2F00502B62 /* MobileCenterDelegate.swift */,
 				042496841EC3CE2F00502B62 /* MobileCenterProvider.swift */,
+				043121971EE0DB2C007054C5 /* MSAlertController */,
 				D3C31C6F1E8E772E00B288CE /* Storyboards */,
 				D3C31C701E8E774000B288CE /* Supporting Files */,
-				043121971EE0DB2C007054C5 /* MSAlertController */,
 				D3C31C711E8E775100B288CE /* ViewControllers */,
 			);
 			path = SasquatchMac;
