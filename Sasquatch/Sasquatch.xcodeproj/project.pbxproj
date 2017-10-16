@@ -1213,8 +1213,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "b8c245f8-1006-4557-ac65-25b69c980aba";
-				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch ObjC App - App Store";
+				PROVISIONING_PROFILE = "beb51fb5-8898-409b-842d-bd2d805bfe0c";
+				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch ObjC App Ad Hoc";
 				SWIFT_OBJC_BRIDGING_HEADER = "../TestApps/Sasquatch/Sasquatch/Sasquatch-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "SasquatchObjC-Swift.h";
 				SWIFT_VERSION = 3.0;
@@ -1423,8 +1423,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "b8c245f8-1006-4557-ac65-25b69c980aba";
-				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch ObjC App - App Store";
+				PROVISIONING_PROFILE = "bf5b4b00-7e87-4fb6-9993-14fabba85a1f";
+				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch ObjC App Ad Hoc";
 				SWIFT_OBJC_BRIDGING_HEADER = "../TestApps/Sasquatch/Sasquatch/Sasquatch-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
@@ -1459,8 +1459,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "7ca2cf6d-133e-4969-8264-ef9e821806e1";
-				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch Swift App - App Store";
+				PROVISIONING_PROFILE = "13e7b9d4-8a81-45c8-8731-bd23e4d74f0c";
+				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch Swift App Ad Hoc";
 				SWIFT_OBJC_BRIDGING_HEADER = "../TestApps/Sasquatch/Sasquatch/Sasquatch-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
@@ -1539,8 +1539,8 @@
 				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchWatchObjC/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "adce92ed-ca8e-44b1-a0f1-1ef3e6c8726d";
-				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch Watch ObjC App - App Store";
+				PROVISIONING_PROFILE = "fe65b1d5-85ae-418b-beac-62c7337d3574";
+				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch Watch ObjC App Ad Hoc";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -1582,8 +1582,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
-				PROVISIONING_PROFILE = "43652b7a-6e26-4cb9-b4ea-291e1be295f7";
-				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch Watch Swift Ext - App Store";
+				PROVISIONING_PROFILE = "aeb45969-2f56-45a0-84b3-4ff45b840342";
+				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch Watch Swift Ext Ad Hoc";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
@@ -1624,8 +1624,8 @@
 				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchWatchSwift/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ad7a0832-65b1-4ce2-b020-b9a649008adf";
-				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch Watch Swift App - App Store";
+				PROVISIONING_PROFILE = "a584dd50-5c8a-49fc-8c87-7e6360150a6c";
+				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch Watch Swift App Ad Hoc";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
