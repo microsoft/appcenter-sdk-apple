@@ -99,12 +99,12 @@
 		04EBBEFA1F01C88D0006B8AE /* MobileCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterCrashes.framework; path = "../MobileCenter-SDK-Apple/tvOS/MobileCenterCrashes.framework"; sourceTree = "<group>"; };
 		5C2CC6ED1EE6BE5400E2BDA4 /* SasquatchTVObjCUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchTVObjCUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C2CC6FB1EE6BEE000E2BDA4 /* SasquatchTVSwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchTVSwiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		5C2CC7051EE6C08600E2BDA4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5C2CC7061EE6C08600E2BDA4 /* AnalyticsUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsUITests.swift; sourceTree = "<group>"; };
+		5C2CC7051EE6C08600E2BDA4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = SasquatchTVUITests/Info.plist; sourceTree = SOURCE_ROOT; };
+		5C2CC7061EE6C08600E2BDA4 /* AnalyticsUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnalyticsUITests.swift; path = SasquatchTVUITests/AnalyticsUITests.swift; sourceTree = SOURCE_ROOT; };
 		5C481B991EE5794A009329DD /* AnalyticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsViewController.swift; sourceTree = "<group>"; };
 		5C481B9A1EE5794A009329DD /* MobileCenterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileCenterViewController.swift; sourceTree = "<group>"; };
 		5C481BA31EE586D2009329DD /* MobileCenterProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileCenterProtocol.swift; sourceTree = "<group>"; };
-		5C4F92611EE83E08003140BF /* MobileCenterUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileCenterUITests.swift; sourceTree = "<group>"; };
+		5C4F92611EE83E08003140BF /* MobileCenterUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MobileCenterUITests.swift; path = SasquatchTVUITests/MobileCenterUITests.swift; sourceTree = SOURCE_ROOT; };
 		5C4F92691EE84260003140BF /* MSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAlertController.h; sourceTree = "<group>"; };
 		5C4F926A1EE84260003140BF /* MSAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAlertController.m; sourceTree = "<group>"; };
 		5C5A41811EE5AEE800C377A7 /* MobileCenterDelegateSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileCenterDelegateSwift.swift; sourceTree = "<group>"; };
@@ -178,8 +178,7 @@
 				5C2CC7061EE6C08600E2BDA4 /* AnalyticsUITests.swift */,
 				5C4F92611EE83E08003140BF /* MobileCenterUITests.swift */,
 			);
-			name = SasquatchTVUITests;
-			path = ../TestApps/SasquatchTV/SasquatchTVUITests;
+			path = SasquatchTVUITests;
 			sourceTree = "<group>";
 		};
 		5C481BAB1EE58922009329DD /* MSAlertController */ = {
@@ -233,8 +232,7 @@
 				D322F0031E8E985B00A8EDA5 /* Supporting Files */,
 				D322F0021E8E984400A8EDA5 /* ViewControllers */,
 			);
-			name = SasquatchTV;
-			path = ../TestApps/SasquatchTV/SasquatchTV;
+			path = SasquatchTV;
 			sourceTree = "<group>";
 		};
 		D322EFD91E8E97C800A8EDA5 /* SasquatchTVSwift */ = {
@@ -244,8 +242,7 @@
 				5C5A41811EE5AEE800C377A7 /* MobileCenterDelegateSwift.swift */,
 				D322EFFF1E8E981800A8EDA5 /* Supporting Files */,
 			);
-			name = SasquatchTVSwift;
-			path = ../TestApps/SasquatchTV/SasquatchTVSwift;
+			path = SasquatchTVSwift;
 			sourceTree = "<group>";
 		};
 		D322EFEC1E8E97DF00A8EDA5 /* SasquatchTVObjC */ = {
@@ -257,8 +254,7 @@
 				D322EFF11E8E97DF00A8EDA5 /* AppDelegate.m */,
 				D322EFED1E8E97DF00A8EDA5 /* Supporting Files */,
 			);
-			name = SasquatchTVObjC;
-			path = ../TestApps/SasquatchTV/SasquatchTVObjC;
+			path = SasquatchTVObjC;
 			sourceTree = "<group>";
 		};
 		D322EFED1E8E97DF00A8EDA5 /* Supporting Files */ = {
@@ -576,7 +572,7 @@
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				DEVELOPMENT_TEAM = UBF8T346G9;
-				INFOPLIST_FILE = ../TestApps/SasquatchTV/SasquatchTVUITests/Info.plist;
+				INFOPLIST_FILE = SasquatchTVUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.SasquatchTVObjCUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -591,7 +587,7 @@
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				DEVELOPMENT_TEAM = UBF8T346G9;
-				INFOPLIST_FILE = ../TestApps/SasquatchTV/SasquatchTVUITests/Info.plist;
+				INFOPLIST_FILE = SasquatchTVUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.SasquatchTVObjCUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -606,7 +602,7 @@
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				DEVELOPMENT_TEAM = UBF8T346G9;
-				INFOPLIST_FILE = ../TestApps/SasquatchTV/SasquatchTVUITests/Info.plist;
+				INFOPLIST_FILE = SasquatchTVUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.SasquatchTVSwiftUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -621,7 +617,7 @@
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				DEVELOPMENT_TEAM = UBF8T346G9;
-				INFOPLIST_FILE = ../TestApps/SasquatchTV/SasquatchTVUITests/Info.plist;
+				INFOPLIST_FILE = SasquatchTVUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.SasquatchTVSwiftUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -657,7 +653,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-Apple/tvOS/**";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../../MobileCenter-SDK-Apple/tvOS/**";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -672,7 +668,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../CrashLib/CrashLib";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../CrashLib/CrashLib";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = appletvos;
@@ -709,7 +705,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-Apple/tvOS/**";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../../MobileCenter-SDK-Apple/tvOS/**";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -718,7 +714,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../CrashLib/CrashLib";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../CrashLib/CrashLib";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = appletvos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -734,13 +730,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				INFOPLIST_FILE = ../TestApps/SasquatchTV/SasquatchTVSwift/Info.plist;
+				INFOPLIST_FILE = SasquatchTVSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift.tv;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "a971cd25-b836-44af-82e2-904a8a5d7fb4";
 				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch TV Swift App";
-				SWIFT_OBJC_BRIDGING_HEADER = "../TestApps/SasquatchTV/SasquatchTV/SasquatchTV-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "SasquatchTV/SasquatchTV-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -751,13 +747,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				INFOPLIST_FILE = ../TestApps/SasquatchTV/SasquatchTVSwift/Info.plist;
+				INFOPLIST_FILE = SasquatchTVSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift.tv;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "a971cd25-b836-44af-82e2-904a8a5d7fb4";
 				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch TV Swift App";
-				SWIFT_OBJC_BRIDGING_HEADER = "../TestApps/SasquatchTV/SasquatchTV/SasquatchTV-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "SasquatchTV/SasquatchTV-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -768,13 +764,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				INFOPLIST_FILE = ../TestApps/SasquatchTV/SasquatchTVObjC/Info.plist;
+				INFOPLIST_FILE = SasquatchTVObjC/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc.tv;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "6d1797a5-923e-4fd1-bab8-c88ff9830855";
 				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch TV ObjC App";
-				SWIFT_OBJC_BRIDGING_HEADER = "../TestApps/SasquatchTV/SasquatchTV/SasquatchTV-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "SasquatchTV/SasquatchTV-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -785,13 +781,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				INFOPLIST_FILE = ../TestApps/SasquatchTV/SasquatchTVObjC/Info.plist;
+				INFOPLIST_FILE = SasquatchTVObjC/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc.tv;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "6d1797a5-923e-4fd1-bab8-c88ff9830855";
 				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch TV ObjC App";
-				SWIFT_OBJC_BRIDGING_HEADER = "../TestApps/SasquatchTV/SasquatchTV/SasquatchTV-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "SasquatchTV/SasquatchTV-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
