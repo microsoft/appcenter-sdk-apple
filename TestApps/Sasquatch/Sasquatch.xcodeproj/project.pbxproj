@@ -8,39 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		041A4BB11F8C28A3009E1B6C /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
-		044B0BA51F7D8B000023D0A9 /* MSCrashesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D63FF61E8BA838004C9F86 /* MSCrashesDetailViewController.swift */; };
-		044B0BA61F7D8B000023D0A9 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226D0B1E891FBA00798417 /* MSAlertController.m */; };
-		044B0BA71F7D8B000023D0A9 /* MSPushViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803CFF261F6A7E1D0072B9BA /* MSPushViewController.swift */; };
-		044B0BA81F7D8B000023D0A9 /* MobileCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849A3E711E8A9922008711CB /* MobileCenterProtocol.swift */; };
-		044B0BA91F7D8B000023D0A9 /* MSMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845964AC1E8A7E9700BABA51 /* MSMainViewController.swift */; };
-		044B0BAA1F7D8B000023D0A9 /* MSAnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */; };
-		044B0BAB1F7D8B000023D0A9 /* MobileCenterDelegateObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226D411E8953F100798417 /* MobileCenterDelegateObjC.m */; };
-		044B0BAC1F7D8B000023D0A9 /* MSCrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */; };
-		044B0BAD1F7D8B000023D0A9 /* MSPropertyViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 808A11011EF3130A00DFD41B /* MSPropertyViewCell.m */; };
-		044B0BAE1F7D8B000023D0A9 /* MSPropertiesTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 808A10FF1EF3130A00DFD41B /* MSPropertiesTableDataSource.m */; };
-		044B0BAF1F7D8B000023D0A9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226C4D1E88FF4A00798417 /* AppDelegate.m */; };
-		044B0BB01F7D8B000023D0A9 /* MSCustomPropertiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */; };
-		044B0BB11F7D8B000023D0A9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226C4A1E88FF4A00798417 /* main.m */; };
-		044B0BB21F7D8B000023D0A9 /* MSDistributeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */; };
-		044B0BB31F7D8B000023D0A9 /* MobileCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226D3A1E8937FF00798417 /* MobileCenterDelegate.swift */; };
-		044B0BB51F7D8B000023D0A9 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F89D79081E93DA3A0094521F /* CrashLibIOS.framework */; };
-		044B0BB61F7D8B000023D0A9 /* MobileCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D2E1E89301A00798417 /* MobileCenter.framework */; };
-		044B0BB71F7D8B000023D0A9 /* MobileCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D2F1E89301B00798417 /* MobileCenterAnalytics.framework */; };
-		044B0BB81F7D8B000023D0A9 /* MobileCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D301E89301B00798417 /* MobileCenterCrashes.framework */; };
-		044B0BB91F7D8B000023D0A9 /* MobileCenterDistribute.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D311E89301B00798417 /* MobileCenterDistribute.framework */; };
-		044B0BBA1F7D8B000023D0A9 /* MobileCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046790411E8DA7D80033FDEC /* MobileCenterPush.framework */; };
-		044B0BBC1F7D8B000023D0A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C551E88FF4A00798417 /* Assets.xcassets */; };
-		044B0BBE1F7D8B000023D0A9 /* MobileCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 047D13711EAFBDBE00D699BA /* MobileCenterDistributeResources.bundle */; };
-		044B0BBF1F7D8B000023D0A9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845964A91E8A7E6600BABA51 /* Main.storyboard */; };
-		044B0BC11F7D8B000023D0A9 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F89D79081E93DA3A0094521F /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		046790421E8DA7D80033FDEC /* MobileCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046790411E8DA7D80033FDEC /* MobileCenterPush.framework */; };
 		046790431E8DA7E90033FDEC /* MobileCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046790411E8DA7D80033FDEC /* MobileCenterPush.framework */; };
 		047D13721EAFBDBE00D699BA /* MobileCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 047D13711EAFBDBE00D699BA /* MobileCenterDistributeResources.bundle */; };
-		048933621F8D395900C38A87 /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
 		048933631F8D395A00C38A87 /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
 		048EB9A11F86F4B7007620A0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 048EB9A01F86F4B7007620A0 /* LaunchScreen.storyboard */; };
 		048EB9A21F86F4B7007620A0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 048EB9A01F86F4B7007620A0 /* LaunchScreen.storyboard */; };
-		048EB9A31F86F4B7007620A0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 048EB9A01F86F4B7007620A0 /* LaunchScreen.storyboard */; };
 		5CE2587F1EA5F60200DA8FB9 /* DistributeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE2587D1EA5F5FC00DA8FB9 /* DistributeUITests.swift */; };
 		5CE258801EA5F60500DA8FB9 /* CrashesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE2587B1EA5F5EB00DA8FB9 /* CrashesUITests.swift */; };
 		5CE258811EA5F60900DA8FB9 /* AnalyticsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE258791EA5F5DF00DA8FB9 /* AnalyticsUITests.swift */; };
@@ -157,17 +130,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		044B0BC01F7D8B000023D0A9 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				044B0BC11F7D8B000023D0A9 /* CrashLibIOS.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		D31EF94E1E9517B600450162 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -250,7 +212,6 @@
 		041A4BBB1F8C2A7B009E1B6C /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Sasquatch.strings; sourceTree = "<group>"; };
 		041A4BBC1F8C2A84009E1B6C /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Sasquatch.strings"; sourceTree = "<group>"; };
 		041A4BBD1F8C2A8B009E1B6C /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Sasquatch.strings"; sourceTree = "<group>"; };
-		044B0BC71F7D8B000023D0A9 /* SasquatchObjCMobileCenterBuild.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchObjCMobileCenterBuild.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		046790411E8DA7D80033FDEC /* MobileCenterPush.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterPush.framework; path = "../MobileCenter-SDK-Apple/iOS/MobileCenterPush.framework"; sourceTree = "<group>"; };
 		046790441E8DA8D50033FDEC /* SasquatchSwift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchSwift.entitlements; sourceTree = "<group>"; };
 		046790451E8DA8DD0033FDEC /* SasquatchObjC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchObjC.entitlements; sourceTree = "<group>"; };
@@ -326,19 +287,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		044B0BB41F7D8B000023D0A9 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				044B0BB51F7D8B000023D0A9 /* CrashLibIOS.framework in Frameworks */,
-				044B0BB61F7D8B000023D0A9 /* MobileCenter.framework in Frameworks */,
-				044B0BB71F7D8B000023D0A9 /* MobileCenterAnalytics.framework in Frameworks */,
-				044B0BB81F7D8B000023D0A9 /* MobileCenterCrashes.framework in Frameworks */,
-				044B0BB91F7D8B000023D0A9 /* MobileCenterDistribute.framework in Frameworks */,
-				044B0BBA1F7D8B000023D0A9 /* MobileCenterPush.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		5CE258841EA5F62400DA8FB9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -439,7 +387,6 @@
 				D31EF9601E9517C600450162 /* SasquatchWatchSwift Extension.appex */,
 				5CD700E51EA4B74500FC5D12 /* SasquatchSwiftUITests.xctest */,
 				5CE258871EA5F62400DA8FB9 /* SasquatchObjCUITests.xctest */,
-				044B0BC71F7D8B000023D0A9 /* SasquatchObjCMobileCenterBuild.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -626,24 +573,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		044B0BA11F7D8B000023D0A9 /* SasquatchObjCMobileCenterBuild */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 044B0BC41F7D8B000023D0A9 /* Build configuration list for PBXNativeTarget "SasquatchObjCMobileCenterBuild" */;
-			buildPhases = (
-				044B0BA41F7D8B000023D0A9 /* Sources */,
-				044B0BB41F7D8B000023D0A9 /* Frameworks */,
-				044B0BBB1F7D8B000023D0A9 /* Resources */,
-				044B0BC01F7D8B000023D0A9 /* Embed Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = SasquatchObjCMobileCenterBuild;
-			productName = SasquatchObjC;
-			productReference = 044B0BC71F7D8B000023D0A9 /* SasquatchObjCMobileCenterBuild.app */;
-			productType = "com.apple.product-type.application";
-		};
 		5CD700E41EA4B74500FC5D12 /* SasquatchSwiftUITests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5CD700EE1EA4B74600FC5D12 /* Build configuration list for PBXNativeTarget "SasquatchSwiftUITests" */;
@@ -797,9 +726,6 @@
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Microsoft Corp.";
 				TargetAttributes = {
-					044B0BA11F7D8B000023D0A9 = {
-						DevelopmentTeam = L4RARDNZ2Y;
-					};
 					5CD700E41EA4B74500FC5D12 = {
 						CreatedOnToolsVersion = 8.3.1;
 						DevelopmentTeam = L4RARDNZ2Y;
@@ -893,24 +819,11 @@
 				D31EF95F1E9517C600450162 /* SasquatchWatchSwift Extension */,
 				5CD700E41EA4B74500FC5D12 /* SasquatchSwiftUITests */,
 				5CE258861EA5F62400DA8FB9 /* SasquatchObjCUITests */,
-				044B0BA11F7D8B000023D0A9 /* SasquatchObjCMobileCenterBuild */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		044B0BBB1F7D8B000023D0A9 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				048933621F8D395900C38A87 /* Sasquatch.strings in Resources */,
-				044B0BBC1F7D8B000023D0A9 /* Assets.xcassets in Resources */,
-				044B0BBE1F7D8B000023D0A9 /* MobileCenterDistributeResources.bundle in Resources */,
-				048EB9A31F86F4B7007620A0 /* LaunchScreen.storyboard in Resources */,
-				044B0BBF1F7D8B000023D0A9 /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		5CD700E31EA4B74500FC5D12 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -986,28 +899,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		044B0BA41F7D8B000023D0A9 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				044B0BA51F7D8B000023D0A9 /* MSCrashesDetailViewController.swift in Sources */,
-				044B0BA61F7D8B000023D0A9 /* MSAlertController.m in Sources */,
-				044B0BA71F7D8B000023D0A9 /* MSPushViewController.swift in Sources */,
-				044B0BA81F7D8B000023D0A9 /* MobileCenterProtocol.swift in Sources */,
-				044B0BA91F7D8B000023D0A9 /* MSMainViewController.swift in Sources */,
-				044B0BAA1F7D8B000023D0A9 /* MSAnalyticsViewController.swift in Sources */,
-				044B0BAB1F7D8B000023D0A9 /* MobileCenterDelegateObjC.m in Sources */,
-				044B0BAC1F7D8B000023D0A9 /* MSCrashesViewController.swift in Sources */,
-				044B0BAD1F7D8B000023D0A9 /* MSPropertyViewCell.m in Sources */,
-				044B0BAE1F7D8B000023D0A9 /* MSPropertiesTableDataSource.m in Sources */,
-				044B0BAF1F7D8B000023D0A9 /* AppDelegate.m in Sources */,
-				044B0BB01F7D8B000023D0A9 /* MSCustomPropertiesViewController.swift in Sources */,
-				044B0BB11F7D8B000023D0A9 /* main.m in Sources */,
-				044B0BB21F7D8B000023D0A9 /* MSDistributeViewController.swift in Sources */,
-				044B0BB31F7D8B000023D0A9 /* MobileCenterDelegate.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		5CD700E11EA4B74500FC5D12 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1174,46 +1065,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		044B0BC51F7D8B000023D0A9 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = SasquatchObjC/SasquatchObjC.entitlements;
-				DEFINES_MODULE = NO;
-				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				INFOPLIST_FILE = SasquatchObjC/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d8be61aa-f111-41ee-b5c9-e2e9f07b7b25";
-				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch ObjC App";
-				SWIFT_OBJC_BRIDGING_HEADER = "Sasquatch/Sasquatch-Bridging-Header.h";
-				SWIFT_OBJC_INTERFACE_HEADER_NAME = "SasquatchObjC-Swift.h";
-				SWIFT_VERSION = 3.0;
-			};
-			name = Debug;
-		};
-		044B0BC61F7D8B000023D0A9 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = SasquatchObjC/SasquatchObjC.entitlements;
-				DEFINES_MODULE = NO;
-				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				INFOPLIST_FILE = SasquatchObjC/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "b8c245f8-1006-4557-ac65-25b69c980aba";
-				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch ObjC App - App Store";
-				SWIFT_OBJC_BRIDGING_HEADER = "Sasquatch/Sasquatch-Bridging-Header.h";
-				SWIFT_OBJC_INTERFACE_HEADER_NAME = "SasquatchObjC-Swift.h";
-				SWIFT_VERSION = 3.0;
-			};
-			name = Release;
-		};
 		5CD700EC1EA4B74600FC5D12 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1630,15 +1481,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		044B0BC41F7D8B000023D0A9 /* Build configuration list for PBXNativeTarget "SasquatchObjCMobileCenterBuild" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				044B0BC51F7D8B000023D0A9 /* Debug */,
-				044B0BC61F7D8B000023D0A9 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		5CD700EE1EA4B74600FC5D12 /* Build configuration list for PBXNativeTarget "SasquatchSwiftUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

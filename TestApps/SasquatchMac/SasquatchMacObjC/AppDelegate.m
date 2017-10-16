@@ -19,14 +19,13 @@ static NSString *const kSMLogTag = @"[SasquatchMac]";
 
 - (void) applicationDidFinishLaunching:(NSNotification *)notification {
   [MSMobileCenter setLogLevel:MSLogLevelVerbose];
-  [MSMobileCenter setLogUrl:@"https://in-integration.dev.avalanch.es"];
 
   // Customize services.
   [self setupCrashes];
   [self setupPush];
 
   // Start MobileCenter.
-  [MSMobileCenter start:@"4b3f7d94-c64b-4aac-94f5-894c55c64bfe"
+  [MSMobileCenter start:@"d80aae71-af34-4e0c-af61-2381391c4a7a"
            withServices:@[ [MSAnalytics class], [MSCrashes class], [MSPush class] ]];
   [MobileCenterProvider shared].mobileCenter = [[MobileCenterDelegateObjC alloc] init];
 
