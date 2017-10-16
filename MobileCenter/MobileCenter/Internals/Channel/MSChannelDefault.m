@@ -416,7 +416,7 @@
      */
     if (self.pendingBatchIds.count == 0) {
       
-      // Invalidate background task if applicable
+      // Invalidate and end the background task as we don't have any pending batches.
       UIApplication *sharedApplication = [MSUtility sharedApplication];
       if (sharedApplication && (self.backgroundTaskIdentifier != UIBackgroundTaskInvalid)) {
         [sharedApplication endBackgroundTask:self.backgroundTaskIdentifier];
@@ -424,7 +424,7 @@
       }
       
       // Suspend the sender if the app is in the background
-      if(self.isInBackground) {
+      if(self.isInBackground && (self.backgroundTaskIdentifier == UIBackgroundTaskInvalid) && !self.sender.suspended) {
         MSLogDebug([MSMobileCenter logTag], @"No more logs to flush while the app is in "
                    @"background. Invalidating background task and "
                    @"suspending sender.");
@@ -490,6 +490,7 @@
                                         usingBlock:^(NSNotification __unused *note) {
                                           typeof(self) strongSelf = weakSelf;
                                           strongSelf.isInBackground = NO;
+                                          [self stopBackgroundActivity];
                                         }];
   }
 #endif
