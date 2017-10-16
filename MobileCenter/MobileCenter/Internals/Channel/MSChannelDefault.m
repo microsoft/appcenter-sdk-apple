@@ -408,6 +408,7 @@
 - (void)stopBackgroundActivity {
 #if !TARGET_OS_OSX
   if (!MS_IS_APP_EXTENSION) {
+    
     /*
      * If flushQueue was called while running in the background AND we don't have any pending
      * batches, we disable the sender and stop our background activity.
@@ -454,9 +455,7 @@
           // Checking if sharedApplication is != nil as it can be nil for extensions.
           if (sharedApplication && self.backgroundTaskIdentifier == UIBackgroundTaskInvalid) {
             self.backgroundTaskIdentifier = [sharedApplication beginBackgroundTaskWithExpirationHandler:^{
-
               MSLogDebug([MSMobileCenter logTag], @"Background task has expired, invalidating it and suspend sender.");
-
               [sharedApplication endBackgroundTask:self.backgroundTaskIdentifier];
               self.backgroundTaskIdentifier = UIBackgroundTaskInvalid;
 

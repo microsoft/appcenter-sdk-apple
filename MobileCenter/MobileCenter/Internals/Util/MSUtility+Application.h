@@ -88,6 +88,7 @@ typedef NS_ENUM(NSInteger, MSOpenURLState) {
 #else
 + (id<UIApplicationDelegate>)sharedAppDelegate;
 #endif
+
 #if TARGET_OS_OSX
 + (NSApplication *)sharedApplication;
 #else
