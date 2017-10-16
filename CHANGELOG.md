@@ -1,8 +1,27 @@
 # Mobile Center SDK for iOS Change Log
 
+## Version 0.13.0
+
+This version contains bug fixes and a new API.
+
+### MobileCenter
+
+* **[Feature]** Added an `sdkVersion` method to get the current version of Mobile Center SDK programmatically.
+* **[Fix]** Fixed a database open failure when Mobile Center SDK is used with any other SQLite related libraries.
+
+### MobileCenterCrashes
+
+* **[Fix]** Fixed not sending crash logs when an application is crashed and relaunched from multitasking view.
+
+### MobileCenterPush
+
+* **[Fix]** Fixed sending push installation log twice after fresh install.
+
+___
+
 ## Version 0.12.3
 
-This version contains a bug fix when the frameworks are integrated on applications which are built on Xcode 8
+This version contains a bug fix when the frameworks are integrated on applications which are built on Xcode 8.
 
 ___
 

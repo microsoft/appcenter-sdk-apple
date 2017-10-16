@@ -128,23 +128,23 @@ static UIViewController *crashResultViewController = nil;
 
         // Show a dialog to the user where they can choose if they want to provide a crash report.
         MSAlertController *alertController = [MSAlertController
-            alertControllerWithTitle:NSLocalizedStringFromTable(@"crash_alert_title", @"Main", @"")
-                             message:NSLocalizedStringFromTable(@"crash_alert_message", @"Main", @"")];
+            alertControllerWithTitle:NSLocalizedStringFromTable(@"crash_alert_title", @"Puppet", @"")
+                             message:NSLocalizedStringFromTable(@"crash_alert_message", @"Puppet", @"")];
 
         // Add a "No"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationDontSend
-        [alertController addCancelActionWithTitle:NSLocalizedStringFromTable(@"crash_alert_do_not_send", @"Main", @"")
+        [alertController addCancelActionWithTitle:NSLocalizedStringFromTable(@"crash_alert_do_not_send", @"Puppet", @"")
                                           handler:^(UIAlertAction *action) {
                                             [MSCrashes notifyWithUserConfirmation:MSUserConfirmationDontSend];
                                           }];
 
         // Add a "Yes"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationSend
-        [alertController addDefaultActionWithTitle:NSLocalizedStringFromTable(@"crash_alert_send", @"Main", @"")
+        [alertController addDefaultActionWithTitle:NSLocalizedStringFromTable(@"crash_alert_send", @"Puppet", @"")
                                            handler:^(UIAlertAction *action) {
                                              [MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
                                            }];
 
         // Add a "No"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationAlways
-        [alertController addDefaultActionWithTitle:NSLocalizedStringFromTable(@"crash_alert_always_send", @"Main", @"")
+        [alertController addDefaultActionWithTitle:NSLocalizedStringFromTable(@"crash_alert_always_send", @"Puppet", @"")
                                            handler:^(UIAlertAction *action) {
                                              [MSCrashes notifyWithUserConfirmation:MSUserConfirmationAlways];
                                            }];
@@ -197,17 +197,17 @@ static UIViewController *crashResultViewController = nil;
 
     // Show a dialog to the user where they can choose if they want to update.
     MSAlertController *alertController = [MSAlertController
-        alertControllerWithTitle:NSLocalizedStringFromTable(@"distribute_alert_title", @"Main", @"")
-                         message:NSLocalizedStringFromTable(@"distribute_alert_message", @"Main", @"")];
+        alertControllerWithTitle:NSLocalizedStringFromTable(@"distribute_alert_title", @"Puppet", @"")
+                         message:NSLocalizedStringFromTable(@"distribute_alert_message", @"Puppet", @"")];
 
     // Add a "Yes"-Button and call the notifyUpdateAction-callback with MSUpdateActionUpdate
-    [alertController addCancelActionWithTitle:NSLocalizedStringFromTable(@"distribute_alert_yes", @"Main", @"")
+    [alertController addCancelActionWithTitle:NSLocalizedStringFromTable(@"distribute_alert_yes", @"Puppet", @"")
                                       handler:^(UIAlertAction *action) {
                                         [MSDistribute notifyUpdateAction:MSUpdateActionUpdate];
                                       }];
 
     // Add a "No"-Button and call the notifyUpdateAction-callback with MSUpdateActionPostpone
-    [alertController addDefaultActionWithTitle:NSLocalizedStringFromTable(@"distribute_alert_no", @"Main", @"")
+    [alertController addDefaultActionWithTitle:NSLocalizedStringFromTable(@"distribute_alert_no", @"Puppet", @"")
                                        handler:^(UIAlertAction *action) {
                                          [MSDistribute notifyUpdateAction:MSUpdateActionPostpone];
                                        }];

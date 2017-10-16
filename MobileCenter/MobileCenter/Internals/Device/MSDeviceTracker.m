@@ -4,23 +4,9 @@
 #import "MSDeviceTrackerPrivate.h"
 #import "MSWrapperSdkInternal.h"
 #import "MSUserDefaults.h"
+#import "MSUtility.h"
 #import "MSUtility+Application.h"
 #import "MSUtility+Date.h"
-
-// SDK versioning struct. Needs to be big enough to hold the info.
-typedef struct {
-  uint8_t info_version;
-  const char ms_name[32];
-  const char ms_version[32];
-  const char ms_build[32];
-} ms_info_t;
-
-// SDK versioning.
-static ms_info_t mobilecenter_library_info
-    __attribute__((section("__TEXT,__ms_ios,regular,no_dead_strip"))) = {.info_version = 1,
-                                                                         .ms_name = MOBILE_CENTER_C_NAME,
-                                                                         .ms_version = MOBILE_CENTER_C_VERSION,
-                                                                         .ms_build = MOBILE_CENTER_C_BUILD};
 
 static NSUInteger const kMSMaxDevicesHistoryCount = 5;
 
@@ -132,8 +118,8 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
 #endif
 
     // Collect device properties.
-    newDevice.sdkName = [self sdkName:mobilecenter_library_info.ms_name];
-    newDevice.sdkVersion = [self sdkVersion:mobilecenter_library_info.ms_version];
+    newDevice.sdkName = [MSUtility sdkName];
+    newDevice.sdkVersion = [MSUtility sdkVersion];
     newDevice.model = [self deviceModel];
     newDevice.oemName = kMSDeviceManufacturer;
 #if TARGET_OS_OSX
@@ -235,14 +221,6 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
 }
 
 #pragma mark - Helpers
-
-- (NSString *)sdkName:(const char[])name {
-  return [NSString stringWithUTF8String:name];
-}
-
-- (NSString *)sdkVersion:(const char[])version {
-  return [NSString stringWithUTF8String:version];
-}
 
 - (NSString *)deviceModel {
   size_t size;

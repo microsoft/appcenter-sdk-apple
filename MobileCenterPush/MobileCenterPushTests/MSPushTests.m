@@ -1,6 +1,8 @@
 #import <Foundation/Foundation.h>
 #if TARGET_OS_OSX
 #import <AppKit/AppKit.h>
+#else
+#import <UserNotifications/UserNotifications.h>
 #endif
 #import "MSService.h"
 #import "MSServiceAbstract.h"
@@ -56,6 +58,19 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 - (void)setUp {
   [super setUp];
   self.sut = [MSPush new];
+  
+  // Mock UNUserNotificationCenter since it not supported during tests.
+#if TARGET_OS_IOS
+  if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_9_x_Max) {
+  
+  // Ignore the partial availability warning as the compiler doesn't get that we checked for pre-iOS 10 already.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpartial-availability"
+    id notificationCenterMock = OCMClassMock([UNUserNotificationCenter class]);
+    OCMStub(ClassMethod([notificationCenterMock currentNotificationCenter])).andReturn(nil);
+#pragma clang diagnostic pop
+  }
+#endif
 }
 
 - (void)tearDown {
@@ -96,18 +111,6 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   XCTAssertTrue(self.sut.initializationPriority == MSInitializationPriorityDefault);
 }
 
-- (void)testSendPushTokenMethod {
-
-  // Then
-  XCTAssertFalse(self.sut.pushTokenHasBeenSent);
-
-  // When
-  [self.sut sendPushToken:kMSTestPushToken];
-
-  // Then
-  XCTAssertTrue(self.sut.pushTokenHasBeenSent);
-}
-
 - (void)testConvertTokenToString {
 
   // If
@@ -135,13 +138,36 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   NSString *pushToken = @"ConvertedPushToken";
   OCMStub([pushMock convertTokenToString:deviceToken]).andReturn(pushToken);
 
+  // Then
+  XCTAssertNil(self.sut.pushToken);
+  
   // When
   [MSPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 
   // Then
+  XCTAssertEqualObjects(self.sut.pushToken, pushToken);
   OCMVerify([pushMock didRegisterForRemoteNotificationsWithDeviceToken:deviceToken]);
   OCMVerify([pushMock convertTokenToString:deviceToken]);
   OCMVerify([pushMock sendPushToken:pushToken]);
+  
+  // When
+  deviceToken = [@"otherToken" dataUsingEncoding:NSUTF8StringEncoding];
+  pushToken = @"ConvertedOtherToken";
+  OCMStub([pushMock convertTokenToString:deviceToken]).andReturn(pushToken);
+  [MSPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+  
+  // Then
+  XCTAssertEqualObjects(self.sut.pushToken, pushToken);
+  OCMVerify([pushMock didRegisterForRemoteNotificationsWithDeviceToken:deviceToken]);
+  OCMVerify([pushMock convertTokenToString:deviceToken]);
+  OCMVerify([pushMock sendPushToken:pushToken]);
+  
+  // When
+  OCMReject([pushMock sendPushToken:OCMOCK_ANY]);
+  [MSPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+  
+  // Then
+  [pushMock verify];
   [pushMock stopMocking];
 }
 
@@ -167,6 +193,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   XCTestExpectation *notificationReceived = [self expectationWithDescription:@"Valid notification received."];
   id pushMock = OCMPartialMock(self.sut);
   OCMStub([pushMock sharedInstance]).andReturn(pushMock);
+  OCMStub([pushMock canBeUsed]).andReturn(YES);
   [MSPush resetSharedInstance];
   id pushDelegateMock = OCMProtocolMock(@protocol(MSPushDelegate));
   __block MSPushNotification *pushNotification = nil;
@@ -188,7 +215,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   OCMStub([userNotificationUserInfoMock userInfo]).andReturn(userInfo);
 #endif
 
-// When
+  // When
 #if TARGET_OS_OSX
   [self.sut applicationDidFinishLaunching:notificationMock];
 #else
@@ -227,6 +254,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   XCTestExpectation *notificationReceived = [self expectationWithDescription:@"Valid notification received."];
   id pushMock = OCMPartialMock(self.sut);
   OCMStub([pushMock sharedInstance]).andReturn(pushMock);
+  OCMStub([pushMock canBeUsed]).andReturn(YES);
   [MSPush resetSharedInstance];
   id pushDelegateMock = OCMProtocolMock(@protocol(MSPushDelegate));
   __block MSPushNotification *pushNotification = nil;
@@ -245,7 +273,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   OCMStub([userNotificationUserInfoMock userInfo]).andReturn(userInfo);
 #endif
 
-// When
+  // When
 #if TARGET_OS_OSX
   [self.sut applicationDidFinishLaunching:notificationMock];
 #else
@@ -302,7 +330,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   OCMStub([userNotificationUserInfoMock userInfo]).andReturn(invalidUserInfo);
 #endif
 
-// When
+  // When
 #if TARGET_OS_OSX
   [self.sut applicationDidFinishLaunching:notificationMock];
 #else
@@ -378,5 +406,105 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 
   [pushMock stopMocking];
 }
+
+#if TARGET_OS_OSX
+
+- (void)testUserNotificationCenterDelegateBeforePushStart {
+
+  // If
+  id userNotificationMock = OCMClassMock([NSUserNotification class]);
+  id userNotificationCenterDelegateMock = OCMProtocolMock(@protocol(NSUserNotificationCenterDelegate));
+  id userNotificationCenterMock = OCMClassMock([NSUserNotificationCenter class]);
+  OCMStub([userNotificationCenterMock defaultUserNotificationCenter]).andReturn(userNotificationCenterMock);
+  OCMStub([userNotificationCenterMock delegate]).andReturn(userNotificationCenterDelegateMock);
+  self.sut = [MSPush new];
+  id pushMock = OCMPartialMock(self.sut);
+
+  // When
+  [pushMock userNotificationCenter:userNotificationCenterMock didActivateNotification:userNotificationMock];
+
+  // Then
+  OCMVerify([pushMock didReceiveUserNotification:userNotificationMock]);
+  OCMVerify([userNotificationCenterDelegateMock userNotificationCenter:userNotificationCenterMock
+                                               didActivateNotification:userNotificationMock]);
+
+  [pushMock stopMocking];
+}
+
+- (void)testUserNotificationCenterDelegateAfterPushStart {
+
+  // If
+  id userNotificationMock = OCMClassMock([NSUserNotification class]);
+  id userNotificationCenterDelegateMock = OCMProtocolMock(@protocol(NSUserNotificationCenterDelegate));
+  id userNotificationCenterMock = OCMClassMock([NSUserNotificationCenter class]);
+  OCMStub([userNotificationCenterMock defaultUserNotificationCenter]).andReturn(userNotificationCenterMock);
+  self.sut = [MSPush new];
+  id pushMock = OCMPartialMock(self.sut);
+
+  // When
+  [pushMock userNotificationCenter:userNotificationCenterMock didActivateNotification:userNotificationMock];
+
+  // Then
+  OCMVerify([pushMock didReceiveUserNotification:userNotificationMock]);
+
+  // When
+  [pushMock observeValueForKeyPath:@"delegate"
+                          ofObject:nil
+                            change:@{
+                              @"new" : userNotificationCenterDelegateMock
+                            }
+                           context:[MSPush userNotificationCenterDelegateContext]];
+  [pushMock userNotificationCenter:userNotificationCenterMock didActivateNotification:userNotificationMock];
+
+  // Then
+  OCMVerify([pushMock didReceiveUserNotification:userNotificationMock]);
+  OCMVerify([userNotificationCenterDelegateMock userNotificationCenter:userNotificationCenterMock
+                                               didActivateNotification:userNotificationMock]);
+
+  [pushMock stopMocking];
+}
+
+- (void)testForwardInvocationWithUserNotificationCenterDelegateSelector {
+
+  // If
+  id invocationMock = OCMClassMock([NSInvocation class]);
+  OCMStub([invocationMock selector]).andReturn(@selector(userNotificationCenter:didDeliverNotification:));
+  id userNotificationCenterDelegateMock = OCMProtocolMock(@protocol(NSUserNotificationCenterDelegate));
+  id userNotificationCenterMock = OCMClassMock([NSUserNotificationCenter class]);
+  OCMStub([userNotificationCenterMock defaultUserNotificationCenter]).andReturn(userNotificationCenterMock);
+  OCMStub([userNotificationCenterMock delegate]).andReturn(userNotificationCenterDelegateMock);
+
+  // forwardInvocation is used by OCMock. Shouldn't mock MSPush for success test.
+  self.sut = [MSPush new];
+
+  // When
+  [self.sut forwardInvocation:invocationMock];
+
+  // Then
+  OCMVerify([invocationMock invokeWithTarget:userNotificationCenterDelegateMock]);
+
+  [invocationMock stopMocking];
+}
+
+- (void)testForwardInvocationWithInvalidSelector {
+
+  // If
+  id invocationMock = OCMClassMock([NSInvocation class]);
+  OCMStub([invocationMock selector]).andReturn(NSSelectorFromString(@"something:"));
+  id userNotificationCenterDelegateMock = OCMProtocolMock(@protocol(NSUserNotificationCenterDelegate));
+  id userNotificationCenterMock = OCMClassMock([NSUserNotificationCenter class]);
+  OCMStub([userNotificationCenterMock defaultUserNotificationCenter]).andReturn(userNotificationCenterMock);
+  OCMStub([userNotificationCenterMock delegate]).andReturn(userNotificationCenterDelegateMock);
+
+  // forwardInvocation is used by OCMock. Shouldn't mock MSPush for success test.
+  self.sut = [MSPush new];
+
+  // When/Then
+  XCTAssertThrows([self.sut forwardInvocation:invocationMock]);
+
+  [invocationMock stopMocking];
+}
+
+#endif
 
 @end

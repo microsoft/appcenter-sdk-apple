@@ -69,3 +69,6 @@ iOSInjectionProject/
 # Mac
 #
 .DS_Store
+
+Localization/*.zip
+Localization/Unzip/
