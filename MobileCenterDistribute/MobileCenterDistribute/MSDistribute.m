@@ -218,7 +218,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       } else {
         MSLogDebug([MSDistribute logTag],
                    @"Re-attempting in-app updates setup and cleaning up failure info from storage.");
-        [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateSetupFailedMessageKey];
         [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateSetupFailedPackageHashKey];
       }
     }
@@ -740,7 +739,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     [alertController
         addDefaultActionWithTitle:MSDistributeLocalizedString(@"MSDistributeIgnore")
                           handler:^(__attribute__((unused)) UIAlertAction *action) {
-                            [MS_USER_DEFAULTS setObject:errorMessage forKey:kMSUpdateSetupFailedMessageKey];
                             [MS_USER_DEFAULTS setObject:MSPackageHash() forKey:kMSUpdateSetupFailedPackageHashKey];
                           }];
 
@@ -773,7 +771,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                               [self openUrlInAuthenticationSessionOrSafari:installUrl];
 
                               // Clear the update setup failure info from storage, to re-attempt setup on reinstall
-                              [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateSetupFailedMessageKey];
                               [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateSetupFailedPackageHashKey];
                             }];
 

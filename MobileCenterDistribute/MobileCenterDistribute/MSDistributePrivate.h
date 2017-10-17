@@ -85,11 +85,6 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
 static NSString *const kMSDistributionGroupIdKey = @"MSDistributionGroupId";
 
 /**
- * The storage key for update setup failure error message.
- */
-static NSString *const kMSUpdateSetupFailedMessageKey = @"MSUpdateSetupFailedMessage";
-
-/**
  * The storage key for update setup failure package hash.
  */
 static NSString *const kMSUpdateSetupFailedPackageHashKey = @"MSUpdateSetupFailedPackageHash";
