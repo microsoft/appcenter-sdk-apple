@@ -1,0 +1,8 @@
+/*
+  Sasquatch.strings
+  Sasquatch
+*/
+"distribute_alert_title" = "New update available!";
+"distribute_alert_message" = "This is a customized dialog. - Korean";
+"distribute_alert_yes" = "Yes";
+"distribute_alert_no" = "No";

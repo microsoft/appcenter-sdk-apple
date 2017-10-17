@@ -49,6 +49,7 @@ if [ "$1" == "internal" ]; then
 
   publish_version=$publish_version-$build_number
   echo "New version:" $publish_version
+  envman add --key SDK_PUBLISH_VERSION --value "$publish_version"
 
   ## 2. Update version file
   echo {\"version\":\"$publish_version\"} > ios_version.txt

@@ -205,7 +205,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 
 #if TARGET_OS_OSX
   [NSApp registerForRemoteNotificationTypes:(NSRemoteNotificationTypeSound | NSRemoteNotificationTypeBadge)];
-#elif TARGET_OS_IOS && !TARGET_OS_SIMULATOR
+#elif TARGET_OS_IOS
   if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_9_x_Max) {
     UIUserNotificationType allNotificationTypes = (UIUserNotificationType)(
         UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge);
@@ -221,8 +221,8 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
     UNAuthorizationOptions authOptions =
         (UNAuthorizationOptions)(UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge);
     [center requestAuthorizationWithOptions:authOptions
-                          completionHandler:^(__attribute__((unused)) BOOL granted,
-                                              __attribute__((unused)) NSError *_Nullable error){
+                          completionHandler:^(__unused BOOL granted,
+                                              __unused NSError *_Nullable error) {
                           }];
 #pragma clang diagnostic pop
   }
@@ -262,8 +262,8 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 }
 
 - (void)didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-  MSLogVerbose([MSPush logTag], @"Registering for push notifications has been finished with error: %@",
-               error.description);
+  MSLogWarning([MSPush logTag], @"Registering for push notifications has been finished with error: %@",
+               error.localizedDescription);
 }
 
 #if TARGET_OS_OSX
