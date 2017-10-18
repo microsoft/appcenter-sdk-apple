@@ -409,28 +409,29 @@
 #if !TARGET_OS_OSX
   if (!MS_IS_APP_EXTENSION) {
     @synchronized(self) {
-      
-    /*
-     * If flushQueue was called while running in the background AND we don't have any pending
-     * batches, we disable the sender and stop our background activity.
-     */
-    if (self.pendingBatchIds.count == 0) {
-      
-      // Invalidate and end the background task as we don't have any pending batches.
-      UIApplication *sharedApplication = [MSUtility sharedApplication];
-      if (sharedApplication && (self.backgroundTaskIdentifier != UIBackgroundTaskInvalid)) {
-        [sharedApplication endBackgroundTask:self.backgroundTaskIdentifier];
-        self.backgroundTaskIdentifier = UIBackgroundTaskInvalid;
+
+      /*
+       * If flushQueue was called while running in the background AND we don't have any pending
+       * batches, we disable the sender and stop our background activity.
+       */
+      if (self.pendingBatchIds.count == 0) {
+
+        // Invalidate and end the background task as we don't have any pending batches.
+        UIApplication *sharedApplication = [MSUtility sharedApplication];
+        if (sharedApplication && (self.backgroundTaskIdentifier != UIBackgroundTaskInvalid)) {
+          [sharedApplication endBackgroundTask:self.backgroundTaskIdentifier];
+          self.backgroundTaskIdentifier = UIBackgroundTaskInvalid;
+        }
+
+        // Suspend the sender if the app is in the background
+        if (self.isInBackground && (self.backgroundTaskIdentifier == UIBackgroundTaskInvalid) &&
+            !self.sender.suspended) {
+          MSLogDebug([MSMobileCenter logTag], @"No more logs to flush while the app is in "
+                                              @"background. Invalidating background task and "
+                                              @"suspending sender.");
+          [self.sender suspend];
+        }
       }
-      
-      // Suspend the sender if the app is in the background
-      if(self.isInBackground && (self.backgroundTaskIdentifier == UIBackgroundTaskInvalid) && !self.sender.suspended) {
-        MSLogDebug([MSMobileCenter logTag], @"No more logs to flush while the app is in "
-                   @"background. Invalidating background task and "
-                   @"suspending sender.");
-        [self.sender suspend];
-      }
-    }
     }
   }
 #endif
@@ -497,16 +498,20 @@
 }
 
 - (void)removeObservers {
-  id strongBackgroundObserver = self.appDidEnterBackgroundObserver;
-  if (strongBackgroundObserver) {
-    [[NSNotificationCenter defaultCenter] removeObserver:strongBackgroundObserver];
-    self.appDidEnterBackgroundObserver = nil;
+#if !TARGET_OS_OSX
+  if (!MS_IS_APP_EXTENSION) {
+    id strongBackgroundObserver = self.appDidEnterBackgroundObserver;
+    if (strongBackgroundObserver) {
+      [[NSNotificationCenter defaultCenter] removeObserver:strongBackgroundObserver];
+      self.appDidEnterBackgroundObserver = nil;
+    }
+    id strongForegroundObserver = self.appWillEnterForegroundObserver;
+    if (strongForegroundObserver) {
+      [[NSNotificationCenter defaultCenter] removeObserver:strongForegroundObserver];
+      self.appWillEnterForegroundObserver = nil;
+    }
   }
-  id strongForegroundObserver = self.appWillEnterForegroundObserver;
-  if (strongForegroundObserver) {
-    [[NSNotificationCenter defaultCenter] removeObserver:strongForegroundObserver];
-    self.appWillEnterForegroundObserver = nil;
+#endif
   }
-}
 
-@end
+  @end
