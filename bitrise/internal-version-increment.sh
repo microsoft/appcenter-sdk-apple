@@ -2,6 +2,7 @@
 
 ## 1. Get the latest version
 echo "Get the latest version to determine a build number"
+publish_version="$(grep "VERSION_STRING" $BITRISE_SOURCE_DIR/$VERSION_FILENAME | head -1 | awk -F "[= ]" '{print $4}')"
 build_number=0
 resp="$(curl -s $INTERNAL_RELEASE_VERSION_FILENAME)"
 version="$(echo $resp | jq -r '.version')"
