@@ -6,7 +6,6 @@ GITHUB_API_URL_TEMPLATE="https://%s.github.com/repos/%s/%s?access_token=%s%s"
 GITHUB_API_HOST="api"
 GITHUB_UPLOAD_HOST="uploads"
 BINARY_FILE="MobileCenter-SDK-Apple.zip"
-JQ_COMMAND=$BITRISE_DEPLOY_DIR/jq
 
 # GitHub API endpoints
 REQUEST_URL_REF_TAG="$(printf $GITHUB_API_URL_TEMPLATE $GITHUB_API_HOST $REPOSITORY 'git/refs/tags' $GITHUB_ACCESS_TOKEN)"
@@ -28,34 +27,9 @@ echo "Publish version:" $publish_version
 
 if [ "$1" == "internal" ]; then
 
-  ## 1. Get the latest version
-  echo "Get the latest version to determine a build number"
-  build_number=0
-  resp="$(curl -s $INTERNAL_RELEASE_VERSION_FILENAME)"
-  version="$(echo $resp | $JQ_COMMAND -r '.version')"
-
-  # Exit if response doesn't contain an array
-  if [ -z $version ] || [ "$version" == "" ] || [ "$version" == "null" ]; then
-    echo "Cannot retrieve the latest version"
-    echo "Response:" $resp
-    exit 1
-  fi
-
-  # Determine the next version
-  if [[ "$version" == $publish_version-* ]]; then
-    build_number="$(echo $version | awk -F "[-]" '{print $2}')"
-    build_number=$(($build_number + 1))
-  fi
-
-  publish_version=$publish_version-$build_number
-  echo "New version:" $publish_version
-  envman add --key SDK_PUBLISH_VERSION --value "$publish_version"
-
-  ## 2. Update version file
-  echo {\"version\":\"$publish_version\"} > ios_version.txt
-  azure telemetry --disable
-  echo "Y" | azure storage blob upload ios_version.txt sdk
-  rm ios_version.txt
+  ## Change publish version to internal version
+  publish_version = $SDK_PUBLISH_VERSION
+  echo "Detected internal release. Publish version is updated to " $publish_version
 
 else
 
@@ -96,7 +70,7 @@ else
       "type": "commit",
       "object": "'${GIT_CLONE_COMMIT_HASH}'"
     }')"
-  sha="$(echo $resp | $JQ_COMMAND -r '.sha')"
+  sha="$(echo $resp | jq -r '.sha')"
 
   # Exit if response doesn't contain "sha" key
   if [ -z $sha ] || [ "$sha" == "" ] || [ "$sha" == "null" ]; then
@@ -113,7 +87,7 @@ else
       "ref": "refs/tags/'${publish_version}'",
       "sha": "'${sha}'"
     }')"
-  ref="$(echo $resp | $JQ_COMMAND -r '.ref')"
+  ref="$(echo $resp | jq -r '.ref')"
 
   # Exit if response doesn't contain "ref" key
   if [ -z $ref ] || [ "$ref" == "" ] || [ "$ref" == "null" ]; then
@@ -134,7 +108,7 @@ else
       "draft": true,
       "prerelease": true
     }')"
-  id="$(echo $resp | $JQ_COMMAND -r '.id')"
+  id="$(echo $resp | jq -r '.id')"
 
   # Exit if response doesn't contain "id" key
   if [ -z $id ] || [ "$id" == "" ] || [ "$id" == "null" ]; then
@@ -168,7 +142,7 @@ fi
 if [ "$1" == "external" ]; then
   url="$(echo $upload_url | sed 's/{filename}/'${filename}'/g')"
   resp="$(curl -s -X POST -H 'Content-Type: application/zip' --data-binary @$filename $url)"
-  id="$(echo $resp | $JQ_COMMAND -r '.id')"
+  id="$(echo $resp | jq -r '.id')"
 
   # Log error if response doesn't contain "id" key
   if [ -z $id ] || [ "$id" == "" ] || [ "$id" == "null" ]; then
@@ -180,6 +154,3 @@ if [ "$1" == "external" ]; then
 fi
 
 echo $filename "Uploaded successfully"
-
-## Clean up
-rm -rf $JQ_COMMAND
