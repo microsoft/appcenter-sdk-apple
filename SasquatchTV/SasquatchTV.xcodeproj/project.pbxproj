@@ -96,6 +96,7 @@
 /* Begin PBXFileReference section */
 		043121781EE0C65B007054C5 /* MobileCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenter.framework; path = "../MobileCenter-SDK-iOS/tvOS/MobileCenter.framework"; sourceTree = "<group>"; };
 		043121791EE0C65B007054C5 /* MobileCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterAnalytics.framework; path = "../MobileCenter-SDK-iOS/tvOS/MobileCenterAnalytics.framework"; sourceTree = "<group>"; };
+		045A94811F97C863002B7CB1 /* App.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = App.xcconfig; path = ../../../Config/App.xcconfig; sourceTree = "<group>"; };
 		04EBBEFA1F01C88D0006B8AE /* MobileCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterCrashes.framework; path = "../MobileCenter-SDK-Apple/tvOS/MobileCenterCrashes.framework"; sourceTree = "<group>"; };
 		5C2CC6ED1EE6BE5400E2BDA4 /* SasquatchTVObjCUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchTVObjCUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C2CC6FB1EE6BEE000E2BDA4 /* SasquatchTVSwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchTVSwiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -304,6 +305,7 @@
 		D322F0031E8E985B00A8EDA5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				045A94811F97C863002B7CB1 /* App.xcconfig */,
 				5CB338991EE58EBC0089A60B /* SasquatchTV-Bridging-Header.h */,
 			);
 			name = "Supporting Files";
@@ -633,6 +635,7 @@
 		};
 		D322EFCF1E8E97A100A8EDA5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 045A94811F97C863002B7CB1 /* App.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -685,6 +688,7 @@
 		};
 		D322EFD01E8E97A100A8EDA5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 045A94811F97C863002B7CB1 /* App.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;

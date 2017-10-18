@@ -356,10 +356,10 @@
 /* Begin PBXFileReference section */
 		0413F35A1E7D057600AFEBD0 /* PuppetWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PuppetWidget.entitlements; sourceTree = "<group>"; };
 		041A4B761F8C2628009E1B6C /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Puppet/Base.lproj/Puppet.strings; sourceTree = "<group>"; };
+		041A4BA31F8C2649009E1B6C /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = Puppet/fr.lproj/Puppet.strings; sourceTree = "<group>"; };
 		041A4BA41F8C271E009E1B6C /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = Puppet/cs.lproj/Puppet.strings; sourceTree = "<group>"; };
 		041A4BA51F8C273D009E1B6C /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = Puppet/de.lproj/Puppet.strings; sourceTree = "<group>"; };
 		041A4BA61F8C2749009E1B6C /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = Puppet/es.lproj/Puppet.strings; sourceTree = "<group>"; };
-		041A4BA31F8C2649009E1B6C /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = Puppet/fr.lproj/Puppet.strings; sourceTree = "<group>"; };
 		041A4BA71F8C275C009E1B6C /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = Puppet/it.lproj/Puppet.strings; sourceTree = "<group>"; };
 		041A4BA81F8C2765009E1B6C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = Puppet/ja.lproj/Puppet.strings; sourceTree = "<group>"; };
 		041A4BA91F8C276C009E1B6C /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = Puppet/ko.lproj/Puppet.strings; sourceTree = "<group>"; };
@@ -375,6 +375,7 @@
 		048A769E1E9EC0240075A6D6 /* NotificationService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationService.m; sourceTree = "<group>"; };
 		048A76A01E9EC0240075A6D6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		048A76B51E9EC2D50075A6D6 /* MobileCenterPush.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MobileCenterPush.xcodeproj; path = ../../MobileCenterPush/MobileCenterPush.xcodeproj; sourceTree = "<group>"; };
+		04A229E41F97C52A000AD6C1 /* App.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = App.xcconfig; path = ../../Config/App.xcconfig; sourceTree = "<group>"; };
 		380A4D961DD6892F00E99219 /* PuppetWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PuppetWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		380A4D981DD6892F00E99219 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		380A4D9B1DD6892F00E99219 /* TodayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayViewController.h; sourceTree = "<group>"; };
@@ -619,6 +620,7 @@
 		E82E1B621D1CA58D00D281C1 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				04A229E41F97C52A000AD6C1 /* App.xcconfig */,
 				E82E1B6B1D1CA58D00D281C1 /* Main.storyboard */,
 				E82E1B6E1D1CA58D00D281C1 /* Assets.xcassets */,
 				E82E1B701D1CA58D00D281C1 /* LaunchScreen.storyboard */,
@@ -1389,6 +1391,7 @@
 		};
 		E82E1B741D1CA58D00D281C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 04A229E41F97C52A000AD6C1 /* App.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1447,6 +1450,7 @@
 		};
 		E82E1B751D1CA58D00D281C1 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 04A229E41F97C52A000AD6C1 /* App.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;

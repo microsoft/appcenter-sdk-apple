@@ -17,6 +17,7 @@
 		0424968B1EC3D29900502B62 /* MobileCenterDelegateObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0424968A1EC3D29900502B62 /* MobileCenterDelegateObjC.m */; };
 		0431219A1EE0DB4D007054C5 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 043121991EE0DB4D007054C5 /* MSAlertController.m */; };
 		0431219B1EE0DB5D007054C5 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 043121991EE0DB4D007054C5 /* MSAlertController.m */; };
+		045A94701F97C752002B7CB1 /* App.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 045A946F1F97C752002B7CB1 /* App.xcconfig */; };
 		046964561F2A607D00F9D31F /* MobileCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046964551F2A607D00F9D31F /* MobileCenterPush.framework */; };
 		046964581F2A74E600F9D31F /* MobileCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046964551F2A607D00F9D31F /* MobileCenterPush.framework */; };
 		04ED31E61EAAD1B30033BAAE /* MobileCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D31EAAC7510033BAAE /* MobileCenterAnalytics.framework */; };
@@ -77,6 +78,7 @@
 		0424968A1EC3D29900502B62 /* MobileCenterDelegateObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MobileCenterDelegateObjC.m; sourceTree = "<group>"; };
 		043121981EE0DB4D007054C5 /* MSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAlertController.h; sourceTree = "<group>"; };
 		043121991EE0DB4D007054C5 /* MSAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAlertController.m; sourceTree = "<group>"; };
+		045A946F1F97C752002B7CB1 /* App.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = App.xcconfig; path = ../../../Config/App.xcconfig; sourceTree = "<group>"; };
 		046964541F2A5EE600F9D31F /* SasquatchMacObjC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchMacObjC.entitlements; sourceTree = "<group>"; };
 		046964551F2A607D00F9D31F /* MobileCenterPush.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterPush.framework; path = "../MobileCenter-SDK-Apple/macOS/MobileCenterPush.framework"; sourceTree = "<group>"; };
 		046964571F2A721100F9D31F /* SasquatchMacSwift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchMacSwift.entitlements; sourceTree = "<group>"; };
@@ -219,6 +221,7 @@
 		D3C31C701E8E774000B288CE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				045A946F1F97C752002B7CB1 /* App.xcconfig */,
 				80A3A89A1F0BF30100FBE3B6 /* SasquatchMac-Bridging-Header.h */,
 			);
 			name = "Supporting Files";
@@ -352,6 +355,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				045A94701F97C752002B7CB1 /* App.xcconfig in Resources */,
 				D3C31C811E8E7BEE00B288CE /* SasquatchMac.storyboard in Resources */,
 				D3C31C2E1E8E75B300B288CE /* Assets.xcassets in Resources */,
 			);
@@ -418,6 +422,7 @@
 /* Begin XCBuildConfiguration section */
 		D3C31C191E8E757300B288CE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 045A946F1F97C752002B7CB1 /* App.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -472,6 +477,7 @@
 		};
 		D3C31C1A1E8E757300B288CE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 045A946F1F97C752002B7CB1 /* App.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
