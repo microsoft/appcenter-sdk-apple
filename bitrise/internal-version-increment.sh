@@ -31,4 +31,6 @@ echo "Y" | azure storage blob upload ios_version.txt sdk
 rm ios_version.txt
 
 ## 3. Update version for frameworks
-sed "s/\(VERSION_STRING[[:space:]]*=[[:space:]]*\).*/\1$publish_version/g" Config/Version.xcconfig > Config/Version.xcconfig.tmp; mv Config/Version.xcconfig.tmp Config/Version.xcconfig
+if [ "$INCREMENT_VERSION" == "true" ] && [ "$BITRISE_GIT_BRANCH" != "master" ]; then
+  sed "s/\(VERSION_STRING[[:space:]]*=[[:space:]]*\).*/\1$publish_version/g" Config/Version.xcconfig > Config/Version.xcconfig.tmp; mv Config/Version.xcconfig.tmp Config/Version.xcconfig
+fi
