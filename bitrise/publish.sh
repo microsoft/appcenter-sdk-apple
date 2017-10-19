@@ -28,7 +28,7 @@ echo "Publish version:" $publish_version
 if [ "$1" == "internal" ]; then
 
   ## Change publish version to internal version
-  publish_version = $SDK_PUBLISH_VERSION
+  publish_version=$SDK_PUBLISH_VERSION
   echo "Detected internal release. Publish version is updated to " $publish_version
 
 else
