@@ -250,6 +250,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   XCTAssertTrue([sorted[1] initializationPriority] == MSInitializationPriorityDefault);
 }
 
+#if !TARGET_OS_OSX
 - (void)testAppIsForegrounded {
 
   // If
@@ -258,17 +259,15 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   self.sut.logManager = logManager;
 
   // When
-#if TARGET_OS_OSX
-  [[NSNotificationCenter defaultCenter]
-   postNotificationName:NSApplicationDidUnhideNotification
-   object:self.sut];
-#else
+
   [[NSNotificationCenter defaultCenter]
    postNotificationName:UIApplicationWillEnterForegroundNotification
    object:self.sut];
-#endif
+  
   // Then
   OCMVerify([logManager resume]);
 }
+#endif
+
 
 @end
