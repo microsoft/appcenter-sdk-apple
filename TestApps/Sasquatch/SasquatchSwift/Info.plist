@@ -16,34 +16,25 @@
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>${VERSION_STRING}</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>None</string>
 			<key>CFBundleURLName</key>
-			<string>com.microsoft.azure.mobile.puppet</string>
+			<string>com.microsoft.azure.mobile.sasquatchswift</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>mobilecenter-7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7</string>
+				<string>mobilecenter-0dbca56b-b9ae-4d53-856a-7c2856137d85</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>${BUILD_NUMBER}</string>
-	<key>LSApplicationCategoryType</key>
-	<string></string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>MSAppName</key>
-	<string>puppet-ios</string>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-	</dict>
+	<key>MobileCenterAppDelegateForwarderEnabled</key>
+	<false/>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
@@ -61,7 +52,13 @@
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UISupportedInterfaceOrientations~ipad</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 </dict>
 </plist>

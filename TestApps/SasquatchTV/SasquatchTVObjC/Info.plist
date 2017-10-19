@@ -4,8 +4,6 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
-	<key>CFBundleDisplayName</key>
-	<string>PuppetWidget</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -15,19 +13,20 @@
 	<key>CFBundleName</key>
 	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundlePackageType</key>
-	<string>XPC!</string>
+	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>${VERSION_STRING}</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>{BUILD_NUMBER}</string>
-	<key>NSExtension</key>
-	<dict>
-		<key>NSExtensionMainStoryboard</key>
-		<string>MainInterface</string>
-		<key>NSExtensionPointIdentifier</key>
-		<string>com.apple.widget-extension</string>
-	</dict>
+	<string>${BUILD_NUMBER}</string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>UIMainStoryboardFile</key>
+	<string>SasquatchTV</string>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>arm64</string>
+	</array>
+	<key>UIUserInterfaceStyle</key>
+	<string>Automatic</string>
 </dict>
 </plist>

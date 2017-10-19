@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		041A4BB11F8C28A3009E1B6C /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
+		045A94721F97C769002B7CB1 /* App.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 045A94711F97C769002B7CB1 /* App.xcconfig */; };
 		046790421E8DA7D80033FDEC /* MobileCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046790411E8DA7D80033FDEC /* MobileCenterPush.framework */; };
 		046790431E8DA7E90033FDEC /* MobileCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046790411E8DA7D80033FDEC /* MobileCenterPush.framework */; };
 		047D13721EAFBDBE00D699BA /* MobileCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 047D13711EAFBDBE00D699BA /* MobileCenterDistributeResources.bundle */; };
@@ -69,7 +70,6 @@
 		D31EF9411E9517B600450162 /* ExtensionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D31EF9401E9517B600450162 /* ExtensionDelegate.m */; };
 		D31EF9441E9517B600450162 /* NotificationController.m in Sources */ = {isa = PBXBuildFile; fileRef = D31EF9431E9517B600450162 /* NotificationController.m */; };
 		D31EF9461E9517B600450162 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D31EF9451E9517B600450162 /* Assets.xcassets */; };
-		D31EF94A1E9517B600450162 /* SasquatchWatchObjC.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = D31EF9291E9517B500450162 /* SasquatchWatchObjC.app */; };
 		D31EF9581E9517C500450162 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D31EF9561E9517C500450162 /* Interface.storyboard */; };
 		D31EF95A1E9517C500450162 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D31EF9591E9517C500450162 /* Assets.xcassets */; };
 		D31EF9611E9517C600450162 /* SasquatchWatchSwift Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = D31EF9601E9517C600450162 /* SasquatchWatchSwift Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -77,7 +77,6 @@
 		D31EF96A1E9517C600450162 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31EF9691E9517C600450162 /* ExtensionDelegate.swift */; };
 		D31EF96C1E9517C600450162 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31EF96B1E9517C600450162 /* NotificationController.swift */; };
 		D31EF96E1E9517C600450162 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D31EF96D1E9517C600450162 /* Assets.xcassets */; };
-		D31EF9721E9517C600450162 /* SasquatchWatchSwift.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = D31EF9541E9517C500450162 /* SasquatchWatchSwift.app */; };
 		F89D79091E93DA3A0094521F /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F89D79081E93DA3A0094521F /* CrashLibIOS.framework */; };
 		F89D790A1E93DA3A0094521F /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F89D79081E93DA3A0094521F /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F89D790C1E93DA500094521F /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F89D79081E93DA3A0094521F /* CrashLibIOS.framework */; };
@@ -106,26 +105,12 @@
 			remoteGlobalIDString = D31EF9341E9517B600450162;
 			remoteInfo = "SasquatchWatchObjC Extension";
 		};
-		D31EF9481E9517B600450162 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 84226C0A1E88FEFC00798417 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = D31EF9281E9517B500450162;
-			remoteInfo = SasquatchWatchObjC;
-		};
 		D31EF9621E9517C600450162 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 84226C0A1E88FEFC00798417 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = D31EF95F1E9517C600450162;
 			remoteInfo = "SasquatchWatchSwift Extension";
-		};
-		D31EF9701E9517C600450162 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 84226C0A1E88FEFC00798417 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = D31EF9531E9517C500450162;
-			remoteInfo = SasquatchWatchSwift;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -150,28 +135,6 @@
 				D31EF9611E9517C600450162 /* SasquatchWatchSwift Extension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D36AD6EE1E94FF6B003D34E7 /* Embed Watch Content */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
-			dstSubfolderSpec = 16;
-			files = (
-				D31EF94A1E9517B600450162 /* SasquatchWatchObjC.app in Embed Watch Content */,
-			);
-			name = "Embed Watch Content";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D36AD7171E94FF98003D34E7 /* Embed Watch Content */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
-			dstSubfolderSpec = 16;
-			files = (
-				D31EF9721E9517C600450162 /* SasquatchWatchSwift.app in Embed Watch Content */,
-			);
-			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		F89D790B1E93DA3B0094521F /* Embed Frameworks */ = {
@@ -212,16 +175,16 @@
 		041A4BBB1F8C2A7B009E1B6C /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Sasquatch.strings; sourceTree = "<group>"; };
 		041A4BBC1F8C2A84009E1B6C /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Sasquatch.strings"; sourceTree = "<group>"; };
 		041A4BBD1F8C2A8B009E1B6C /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Sasquatch.strings"; sourceTree = "<group>"; };
-		045A947D1F97C840002B7CB1 /* App.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = App.xcconfig; path = ../../../Config/App.xcconfig; sourceTree = "<group>"; };
+		045A94711F97C769002B7CB1 /* App.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = App.xcconfig; path = ../../../Config/App.xcconfig; sourceTree = "<group>"; };
 		046790411E8DA7D80033FDEC /* MobileCenterPush.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterPush.framework; path = "../MobileCenter-SDK-Apple/iOS/MobileCenterPush.framework"; sourceTree = "<group>"; };
 		046790441E8DA8D50033FDEC /* SasquatchSwift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchSwift.entitlements; sourceTree = "<group>"; };
 		046790451E8DA8DD0033FDEC /* SasquatchObjC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchObjC.entitlements; sourceTree = "<group>"; };
-		047D13711EAFBDBE00D699BA /* MobileCenterDistributeResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = MobileCenterDistributeResources.bundle; path = "../MobileCenter-SDK-Apple/iOS/MobileCenterDistributeResources.bundle"; sourceTree = "<group>"; };
+		047D13711EAFBDBE00D699BA /* MobileCenterDistributeResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = MobileCenterDistributeResources.bundle; path = "../../MobileCenter-SDK-Apple/iOS/MobileCenterDistributeResources.bundle"; sourceTree = "<group>"; };
 		048EB9A01F86F4B7007620A0 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5CD700E51EA4B74500FC5D12 /* SasquatchSwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchSwiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		5CE258791EA5F5DF00DA8FB9 /* AnalyticsUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsUITests.swift; sourceTree = "<group>"; };
-		5CE2587B1EA5F5EB00DA8FB9 /* CrashesUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashesUITests.swift; sourceTree = "<group>"; };
-		5CE2587D1EA5F5FC00DA8FB9 /* DistributeUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistributeUITests.swift; sourceTree = "<group>"; };
+		5CE258791EA5F5DF00DA8FB9 /* AnalyticsUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnalyticsUITests.swift; path = SasquatchUITests/AnalyticsUITests.swift; sourceTree = SOURCE_ROOT; };
+		5CE2587B1EA5F5EB00DA8FB9 /* CrashesUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CrashesUITests.swift; path = SasquatchUITests/CrashesUITests.swift; sourceTree = SOURCE_ROOT; };
+		5CE2587D1EA5F5FC00DA8FB9 /* DistributeUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DistributeUITests.swift; path = SasquatchUITests/DistributeUITests.swift; sourceTree = SOURCE_ROOT; };
 		5CE258871EA5F62400DA8FB9 /* SasquatchObjCUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchObjCUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CE258961EA5FAE100DA8FB9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		803CFF261F6A7E1D0072B9BA /* MSPushViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSPushViewController.swift; sourceTree = "<group>"; };
@@ -347,7 +310,7 @@
 				5CE258961EA5FAE100DA8FB9 /* Info.plist */,
 			);
 			name = SasquatchUITests;
-			path = ../TestApps/Sasquatch/SasquatchUITests;
+			path = SasquatchSwiftUITests;
 			sourceTree = "<group>";
 		};
 		808A10E81EF30FD600DFD41B /* Utils */ = {
@@ -397,14 +360,13 @@
 			children = (
 				84226D3A1E8937FF00798417 /* MobileCenterDelegate.swift */,
 				849A3E711E8A9922008711CB /* MobileCenterProtocol.swift */,
-				84226CB11E8909F700798417 /* Storyboards */,
-				84226CB01E8909EA00798417 /* ViewControllers */,
-				808A10E81EF30FD600DFD41B /* Utils */,
 				84226D081E891FA300798417 /* MSAlertController */,
+				84226CB11E8909F700798417 /* Storyboards */,
+				808A10E81EF30FD600DFD41B /* Utils */,
 				84226CB21E8909FF00798417 /* Supporting Files */,
+				84226CB01E8909EA00798417 /* ViewControllers */,
 			);
-			name = Sasquatch;
-			path = ../TestApps/Sasquatch/Sasquatch;
+			path = Sasquatch;
 			sourceTree = "<group>";
 		};
 		84226C481E88FF4A00798417 /* SasquatchObjC */ = {
@@ -417,13 +379,13 @@
 				84226D411E8953F100798417 /* MobileCenterDelegateObjC.m */,
 				84226C491E88FF4A00798417 /* Supporting Files */,
 			);
-			name = SasquatchObjC;
-			path = ../TestApps/Sasquatch/SasquatchObjC;
+			path = SasquatchObjC;
 			sourceTree = "<group>";
 		};
 		84226C491E88FF4A00798417 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				045A94711F97C769002B7CB1 /* App.xcconfig */,
 				84226C551E88FF4A00798417 /* Assets.xcassets */,
 				84226C5A1E88FF4A00798417 /* Info.plist */,
 				84226C4A1E88FF4A00798417 /* main.m */,
@@ -439,8 +401,7 @@
 				84226D3E1E8939B700798417 /* MobileCenterDelegateSwift.swift */,
 				84C7EA8C1E8968B900FAFE15 /* Supporting Files */,
 			);
-			name = SasquatchSwift;
-			path = ../TestApps/Sasquatch/SasquatchSwift;
+			path = SasquatchSwift;
 			sourceTree = "<group>";
 		};
 		84226CB01E8909EA00798417 /* ViewControllers */ = {
@@ -469,7 +430,6 @@
 		84226CB21E8909FF00798417 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				045A947D1F97C840002B7CB1 /* App.xcconfig */,
 				84226C1C1E88FEFC00798417 /* Assets.xcassets */,
 				041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */,
 				84226D091E891FB900798417 /* Sasquatch-Bridging-Header.h */,
@@ -517,8 +477,7 @@
 				D31EF92E1E9517B600450162 /* Assets.xcassets */,
 				D31EF9301E9517B600450162 /* Info.plist */,
 			);
-			name = SasquatchWatchObjC;
-			path = ../TestApps/Sasquatch/SasquatchWatchObjC;
+			path = SasquatchWatchObjC;
 			sourceTree = "<group>";
 		};
 		D31EF9391E9517B600450162 /* SasquatchWatchObjC Extension */ = {
@@ -532,8 +491,7 @@
 				D31EF9431E9517B600450162 /* NotificationController.m */,
 				D31EF93A1E9517B600450162 /* Supporting Files */,
 			);
-			name = "SasquatchWatchObjC Extension";
-			path = "../TestApps/Sasquatch/SasquatchWatchObjC Extension";
+			path = "SasquatchWatchObjC Extension";
 			sourceTree = "<group>";
 		};
 		D31EF93A1E9517B600450162 /* Supporting Files */ = {
@@ -553,8 +511,7 @@
 				D31EF9591E9517C500450162 /* Assets.xcassets */,
 				D31EF95B1E9517C500450162 /* Info.plist */,
 			);
-			name = SasquatchWatchSwift;
-			path = ../TestApps/Sasquatch/SasquatchWatchSwift;
+			path = SasquatchWatchSwift;
 			sourceTree = "<group>";
 		};
 		D31EF9641E9517C600450162 /* SasquatchWatchSwift Extension */ = {
@@ -565,8 +522,7 @@
 				D31EF96B1E9517C600450162 /* NotificationController.swift */,
 				D31EF9651E9517C600450162 /* Supporting Files */,
 			);
-			name = "SasquatchWatchSwift Extension";
-			path = "../TestApps/Sasquatch/SasquatchWatchSwift Extension";
+			path = "SasquatchWatchSwift Extension";
 			sourceTree = "<group>";
 		};
 		D31EF9651E9517C600450162 /* Supporting Files */ = {
@@ -625,12 +581,10 @@
 				84226C441E88FF4A00798417 /* Frameworks */,
 				84226C451E88FF4A00798417 /* Resources */,
 				F89D790B1E93DA3B0094521F /* Embed Frameworks */,
-				D36AD6EE1E94FF6B003D34E7 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				D31EF9491E9517B600450162 /* PBXTargetDependency */,
 			);
 			name = SasquatchObjC;
 			productName = SasquatchObjC;
@@ -645,12 +599,10 @@
 				84226C7D1E8908C900798417 /* Frameworks */,
 				84226C7E1E8908C900798417 /* Resources */,
 				F89D790E1E93DA500094521F /* Embed Frameworks */,
-				D36AD7171E94FF98003D34E7 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				D31EF9711E9517C600450162 /* PBXTargetDependency */,
 			);
 			name = SasquatchSwift;
 			productName = SasquatchSwift;
@@ -851,6 +803,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				045A94721F97C769002B7CB1 /* App.xcconfig in Resources */,
 				041A4BB11F8C28A3009E1B6C /* Sasquatch.strings in Resources */,
 				84226C561E88FF4A00798417 /* Assets.xcassets in Resources */,
 				047D13721EAFBDBE00D699BA /* MobileCenterDistributeResources.bundle in Resources */,
@@ -1009,20 +962,10 @@
 			target = D31EF9341E9517B600450162 /* SasquatchWatchObjC Extension */;
 			targetProxy = D31EF9371E9517B600450162 /* PBXContainerItemProxy */;
 		};
-		D31EF9491E9517B600450162 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = D31EF9281E9517B500450162 /* SasquatchWatchObjC */;
-			targetProxy = D31EF9481E9517B600450162 /* PBXContainerItemProxy */;
-		};
 		D31EF9631E9517C600450162 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D31EF95F1E9517C600450162 /* SasquatchWatchSwift Extension */;
 			targetProxy = D31EF9621E9517C600450162 /* PBXContainerItemProxy */;
-		};
-		D31EF9711E9517C600450162 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = D31EF9531E9517C500450162 /* SasquatchWatchSwift */;
-			targetProxy = D31EF9701E9517C600450162 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1079,7 +1022,7 @@
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchUITests/Info.plist;
+				INFOPLIST_FILE = SasquatchUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.SasquatchSwiftUITests;
@@ -1094,7 +1037,7 @@
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchUITests/Info.plist;
+				INFOPLIST_FILE = SasquatchUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.SasquatchSwiftUITests;
@@ -1109,7 +1052,7 @@
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchUITests/Info.plist;
+				INFOPLIST_FILE = SasquatchUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.SasquatchObjCUITests;
@@ -1124,7 +1067,7 @@
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchUITests/Info.plist;
+				INFOPLIST_FILE = SasquatchUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.SasquatchObjCUITests;
@@ -1136,7 +1079,7 @@
 		};
 		84226C381E88FEFC00798417 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 045A947D1F97C840002B7CB1 /* App.xcconfig */;
+			baseConfigurationReference = 045A94711F97C769002B7CB1 /* App.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1168,7 +1111,7 @@
 				DEFINES_MODULE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-Apple/iOS/**";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../../MobileCenter-SDK-Apple/iOS/**";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1183,7 +1126,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../CrashLib/CrashLib";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../CrashLib/CrashLib";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1196,7 +1139,7 @@
 		};
 		84226C391E88FEFC00798417 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 045A947D1F97C840002B7CB1 /* App.xcconfig */;
+			baseConfigurationReference = 045A94711F97C769002B7CB1 /* App.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1228,7 +1171,7 @@
 				DEFINES_MODULE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-Apple/iOS/**";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../../MobileCenter-SDK-Apple/iOS/**";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -1237,7 +1180,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../CrashLib/CrashLib";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../CrashLib/CrashLib";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
@@ -1251,17 +1194,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = ../TestApps/Sasquatch/SasquatchObjC/SasquatchObjC.entitlements;
+				CODE_SIGN_ENTITLEMENTS = SasquatchObjC/SasquatchObjC.entitlements;
 				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchObjC/Info.plist;
+				INFOPLIST_FILE = SasquatchObjC/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "d8be61aa-f111-41ee-b5c9-e2e9f07b7b25";
 				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch ObjC App";
-				SWIFT_OBJC_BRIDGING_HEADER = "../TestApps/Sasquatch/Sasquatch/Sasquatch-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Sasquatch/Sasquatch-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -1270,17 +1213,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = ../TestApps/Sasquatch/SasquatchObjC/SasquatchObjC.entitlements;
+				CODE_SIGN_ENTITLEMENTS = SasquatchObjC/SasquatchObjC.entitlements;
 				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchObjC/Info.plist;
+				INFOPLIST_FILE = SasquatchObjC/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "bf5b4b00-7e87-4fb6-9993-14fabba85a1f";
 				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch ObjC App Ad Hoc";
-				SWIFT_OBJC_BRIDGING_HEADER = "../TestApps/Sasquatch/Sasquatch/Sasquatch-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Sasquatch/Sasquatch-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -1289,16 +1232,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = ../TestApps/Sasquatch/SasquatchSwift/SasquatchSwift.entitlements;
+				CODE_SIGN_ENTITLEMENTS = SasquatchSwift/SasquatchSwift.entitlements;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchSwift/Info.plist;
+				INFOPLIST_FILE = SasquatchSwift/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "330f70fc-98c3-461f-9a7a-526f7f1865a3";
 				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch Swift App";
-				SWIFT_OBJC_BRIDGING_HEADER = "../TestApps/Sasquatch/Sasquatch/Sasquatch-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Sasquatch/Sasquatch-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -1307,16 +1250,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = ../TestApps/Sasquatch/SasquatchSwift/SasquatchSwift.entitlements;
+				CODE_SIGN_ENTITLEMENTS = SasquatchSwift/SasquatchSwift.entitlements;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchSwift/Info.plist;
+				INFOPLIST_FILE = SasquatchSwift/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "13e7b9d4-8a81-45c8-8731-bd23e4d74f0c";
 				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch Swift App Ad Hoc";
-				SWIFT_OBJC_BRIDGING_HEADER = "../TestApps/Sasquatch/Sasquatch/Sasquatch-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Sasquatch/Sasquatch-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -1329,7 +1272,7 @@
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				INFOPLIST_FILE = "../TestApps/Sasquatch/SasquatchWatchObjC Extension/Info.plist";
+				INFOPLIST_FILE = "SasquatchWatchObjC Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
@@ -1350,12 +1293,12 @@
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				INFOPLIST_FILE = "../TestApps/Sasquatch/SasquatchWatchObjC Extension/Info.plist";
+				INFOPLIST_FILE = "SasquatchWatchObjC Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
-				PROVISIONING_PROFILE = "a8ae4444-8c7e-4d03-b55b-d8ac64722461";
-				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch Watch ObjC Ext - App Store";
+				PROVISIONING_PROFILE = "9bc00550-10da-4108-80a6-0dc3670ad7a4";
+				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch Watch ObjC Extension Ad Hoc";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -1371,7 +1314,7 @@
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				IBSC_MODULE = SasquatchWatchObjC_Extension;
-				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchWatchObjC/Info.plist;
+				INFOPLIST_FILE = SasquatchWatchObjC/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "1657f08f-c937-477b-b91c-3e77bec3f728";
@@ -1391,7 +1334,7 @@
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				IBSC_MODULE = SasquatchWatchObjC_Extension;
-				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchWatchObjC/Info.plist;
+				INFOPLIST_FILE = SasquatchWatchObjC/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "fe65b1d5-85ae-418b-beac-62c7337d3574";
@@ -1411,7 +1354,7 @@
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				INFOPLIST_FILE = "../TestApps/Sasquatch/SasquatchWatchSwift Extension/Info.plist";
+				INFOPLIST_FILE = "SasquatchWatchSwift Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
@@ -1433,7 +1376,7 @@
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				INFOPLIST_FILE = "../TestApps/Sasquatch/SasquatchWatchSwift Extension/Info.plist";
+				INFOPLIST_FILE = "SasquatchWatchSwift Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
@@ -1455,7 +1398,7 @@
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				IBSC_MODULE = SasquatchWatchSwift_Extension;
-				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchWatchSwift/Info.plist;
+				INFOPLIST_FILE = SasquatchWatchSwift/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "78baa111-ff48-4e7c-b27c-d6d6b51f325d";
@@ -1476,7 +1419,7 @@
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				IBSC_MODULE = SasquatchWatchSwift_Extension;
-				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchWatchSwift/Info.plist;
+				INFOPLIST_FILE = SasquatchWatchSwift/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "a584dd50-5c8a-49fc-8c87-7e6360150a6c";
