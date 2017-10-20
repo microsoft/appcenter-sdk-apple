@@ -20,8 +20,7 @@
 $CultureSettingFile= "mobile-center-cultures.csv"
 $ProjectInfo = "mobile-center-sdks-loc-file-list.csv"
 
-$Guid = [GUID]::NewGuid()
-$TempLocBranch = "TouchDownCheckin_" +  $Guid
+$TempLocBranch = "translatedFiles"
 $repoPath = $SrcRoot
 $DefaultRepoBranch = "develop"
 $teamId = "272" #ID for iOS
@@ -57,10 +56,13 @@ Function InitializeRepoForCheckin
     $Argument = "reset --hard HEAD"
     ProcessStart $git $Argument $repoPath
 
-    $Argument = "pull"
+    $Argument = "pull origin " + $DefaultRepoBranch
     ProcessStart $git $Argument $repoPath
 
-    $Argument = "checkout -b" + $TempLocBranch
+    $Argument = "branch -D " + $TempLocBranch
+    ProcessStart $git $Argument
+
+    $Argument = "checkout -b " + $TempLocBranch
     ProcessStart $git $Argument $repoPath
 }
 
