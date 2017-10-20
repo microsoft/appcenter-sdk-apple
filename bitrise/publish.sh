@@ -33,6 +33,23 @@ if [ "$1" == "internal" ]; then
 
 else
 
+  ## 0. Download prerelease binary
+  prerelease_prefix=$(echo $BINARY_FILE | sed 's/.zip/-'$PRERELEASE_VERSION'/g')
+  resp="$(echo "Y" | azure storage blob list sdk ${prerelease_prefix})"
+  prerelease="$(echo $resp | sed 's/.*data:[[:space:]]\('$prerelease_prefix'-.\{40\}\.zip\).*/\1/1')"
+  if [[ $prerelease != $prerelease_prefix-*.zip ]]; then
+    if [ -z $PRERELEASE_VERSION ]; then
+      echo "You didn't provide a prerelease version to the build."
+      echo "If you didn't provide the prerelease version, add PRERELEASE_VERSION as a key and version as a value in Custom Environment Variables."
+    else
+      echo "Cannot find ("$PRERELEASE_VERSION") in Azure Blob Storage. Make sure you have provided a prerelease version to the build."
+    fi
+    exit 1
+  fi
+  commit_hash="$(echo $resp | sed 's/.*data:[[:space:]]'$prerelease_prefix'-\(.\{40\}\)\.zip.*/\1/1')"
+  echo "Y" | azure storage blob download sdk $prerelease
+  mv $prerelease $BITRISE_DEPLOY_DIR/$BINARY_FILE
+
   ## 1. Extract change log
   change_log_found=false
   change_log=""
@@ -63,12 +80,12 @@ else
   echo "Change log:" "$change_log"
 
   ## 2. Create a tag
-  echo "Create a tag ($publish_version) for the commit ($GIT_CLONE_COMMIT_HASH)"
+  echo "Create a tag ($publish_version) for the commit ($commit_hash)"
   resp="$(curl -s -X POST $REQUEST_URL_TAG -d '{
       "tag": "'${publish_version}'",
       "message": "'${publish_version}'",
       "type": "commit",
-      "object": "'${GIT_CLONE_COMMIT_HASH}'"
+      "object": "'${commit_hash}'"
     }')"
   sha="$(echo $resp | jq -r '.sha')"
 
@@ -125,22 +142,29 @@ fi
 cd $BITRISE_DEPLOY_DIR # This is required, file upload via curl doesn't properly work with absolute path
 echo "Upload binaries"
 
-# Determine the filename for the release
-filename=$(echo $BINARY_FILE | sed 's/.zip/-'${publish_version}'-'$BITRISE_GIT_COMMIT'.zip/g')
+if [ "$1" == "internal" ]; then
 
-# Replace the latest binary in Azure Storage
-echo "Y" | azure storage blob upload $BINARY_FILE sdk
+  # Determine the filename for the release
+  filename=$(echo $BINARY_FILE | sed 's/.zip/-'${publish_version}'-'$BITRISE_GIT_COMMIT'.zip/g')
 
-# Upload binary to Azure Storage
-mv $BINARY_FILE $filename
-resp="$(echo "N" | azure storage blob upload ${filename} sdk | grep overwrite)"
-if [ "$resp" ]; then
-  echo "${filename} already exists"
-  exit 1
-fi
+  # Replace the latest binary in Azure Storage
+  echo "Y" | azure storage blob upload $BINARY_FILE sdk
 
-# Upload binary to GitHub for external release
-if [ "$1" == "external" ]; then
+  # Upload binary to Azure Storage
+  mv $BINARY_FILE $filename
+  resp="$(echo "N" | azure storage blob upload ${filename} sdk | grep overwrite)"
+  if [ "$resp" ]; then
+    echo "${filename} already exists"
+    exit 1
+  fi
+
+else
+
+  # Determine the filename for the release
+  filename=$(echo $BINARY_FILE | sed 's/.zip/-'${publish_version}'.zip/g')
+
+  # Upload binary to GitHub for external release
+  mv $BINARY_FILE $filename
   upload_url="$(echo $REQUEST_UPLOAD_URL_TEMPLATE | sed 's/{id}/'$id'/g')"
   url="$(echo $upload_url | sed 's/{filename}/'${filename}'/g')"
   resp="$(curl -s -X POST -H 'Content-Type: application/zip' --data-binary @$filename $url)"
@@ -153,6 +177,7 @@ if [ "$1" == "external" ]; then
     echo "Response:" $resp
     exit 1
   fi
+
 fi
 
 echo $filename "Uploaded successfully"
