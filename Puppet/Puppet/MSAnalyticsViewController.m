@@ -63,8 +63,7 @@
   case 1: {
     switch (indexPath.row) {
     case 0: {
-      for(int i = 0; i < 300; i++)
-      [MSAnalytics trackEvent:[NSString stringWithFormat:@"myEvent %i", i] withProperties:self.propertiesSource.properties];
+      [MSAnalytics trackEvent:@"myEvent" withProperties:self.propertiesSource.properties];
       break;
     }
     case 1: {
