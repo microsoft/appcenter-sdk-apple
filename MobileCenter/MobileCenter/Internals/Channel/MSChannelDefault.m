@@ -416,20 +416,19 @@
        */
       if (self.pendingBatchIds.count == 0) {
 
+        // Suspend the sender if the app is in the background
+        if (self.isInBackground) {
+          [self.sender suspend];
+          MSLogDebug([MSMobileCenter logTag], @"No more logs to flush while the app is in background. Suspending the "
+                                              @"sender and invalidating the background task.");
+        }
+
         // Invalidate and end the background task as we don't have any pending batches.
         UIApplication *sharedApplication = [MSUtility sharedApplication];
         if (sharedApplication && (self.backgroundTaskIdentifier != UIBackgroundTaskInvalid)) {
           [sharedApplication endBackgroundTask:self.backgroundTaskIdentifier];
           self.backgroundTaskIdentifier = UIBackgroundTaskInvalid;
-        }
-
-        // Suspend the sender if the app is in the background
-        if (self.isInBackground && (self.backgroundTaskIdentifier == UIBackgroundTaskInvalid) &&
-            !self.sender.suspended) {
-          MSLogDebug([MSMobileCenter logTag], @"No more logs to flush while the app is in "
-                                              @"background. Invalidating background task and "
-                                              @"suspending sender.");
-          [self.sender suspend];
+          MSLogDebug([MSMobileCenter logTag], @"No more logs to flush, invalidating the background task.");
         }
       }
     }
@@ -512,6 +511,6 @@
     }
   }
 #endif
-  }
+}
 
-  @end
+@end
