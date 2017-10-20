@@ -408,30 +408,32 @@
 - (void)stopBackgroundActivity {
 #if !TARGET_OS_OSX
   if (!MS_IS_APP_EXTENSION) {
-    @synchronized(self) {
+    dispatch_async(self.logsDispatchQueue, ^{
+      @synchronized(self) {
 
-      /*
-       * If flushQueue was called while running in the background AND we don't have any pending
-       * batches, we disable the sender and stop our background activity.
-       */
-      if (self.pendingBatchIds.count == 0) {
+        /*
+         * If flushQueue was called while running in the background AND we don't have any pending
+         * batches, we disable the sender and stop our background activity.
+         */
+        if (self.pendingBatchIds.count == 0) {
 
-        // Suspend the sender if the app is in the background
-        if (self.isInBackground) {
-          [self.sender suspend];
-          MSLogDebug([MSMobileCenter logTag], @"No more logs to flush while the app is in background. Suspending the "
-                                              @"sender and invalidating the background task.");
-        }
+          // Suspend the sender if the app is in the background
+          if (self.isInBackground) {
+            [self.sender suspend];
+            MSLogDebug([MSMobileCenter logTag], @"No more logs to flush while the app is in background. Suspending the "
+                                                @"sender and invalidating the background task.");
+          }
 
-        // Invalidate and end the background task as we don't have any pending batches.
-        UIApplication *sharedApplication = [MSUtility sharedApplication];
-        if (sharedApplication && (self.backgroundTaskIdentifier != UIBackgroundTaskInvalid)) {
-          [sharedApplication endBackgroundTask:self.backgroundTaskIdentifier];
-          self.backgroundTaskIdentifier = UIBackgroundTaskInvalid;
-          MSLogDebug([MSMobileCenter logTag], @"No more logs to flush, invalidating the background task.");
+          // Invalidate and end the background task as we don't have any pending batches.
+          UIApplication *sharedApplication = [MSUtility sharedApplication];
+          if (sharedApplication && (self.backgroundTaskIdentifier != UIBackgroundTaskInvalid)) {
+            [sharedApplication endBackgroundTask:self.backgroundTaskIdentifier];
+            self.backgroundTaskIdentifier = UIBackgroundTaskInvalid;
+            MSLogDebug([MSMobileCenter logTag], @"No more logs to flush, invalidating the background task.");
+          }
         }
       }
-    }
+    });
   }
 #endif
 }
