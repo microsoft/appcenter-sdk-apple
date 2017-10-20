@@ -422,17 +422,30 @@
           MSLogDebug([MSMobileCenter logTag], @"No more logs to flush while the app is in background. Suspending the "
                                               @"sender and invalidating the background task.");
         }
-      }
 
-      // Invalidate and end the background task as we don't have any pending batches.
-      UIApplication *sharedApplication = [MSUtility sharedApplication];
-      if (sharedApplication && (self.backgroundTaskIdentifier != UIBackgroundTaskInvalid)) {
-        [sharedApplication endBackgroundTask:self.backgroundTaskIdentifier];
-        self.backgroundTaskIdentifier = UIBackgroundTaskInvalid;
-        MSLogDebug([MSMobileCenter logTag],
-                   @"Invalidating the background task as the app is no longer in the background.");
+        // Invalidate and end the background task whenever we have no pending batch Ids.
+        [self endAndCancelBackgroundTask];
+      } else {
+
+        // Invalidate and end background tasks if in foreground. We don't care about pending batches in this case.
+        if (!self.isInBackground) {
+          [self endAndCancelBackgroundTask];
+        }
       }
     });
+  }
+#endif
+}
+
+- (void)endAndCancelBackgroundTask {
+#if !TARGET_OS_OSX
+  if (!MS_IS_APP_EXTENSION) {
+    UIApplication *sharedApplication = [MSUtility sharedApplication];
+    if (sharedApplication && (self.backgroundTaskIdentifier != UIBackgroundTaskInvalid)) {
+      [sharedApplication endBackgroundTask:self.backgroundTaskIdentifier];
+      self.backgroundTaskIdentifier = UIBackgroundTaskInvalid;
+      MSLogDebug([MSMobileCenter logTag], @"Invalidating the background task.");
+    }
   }
 #endif
 }
