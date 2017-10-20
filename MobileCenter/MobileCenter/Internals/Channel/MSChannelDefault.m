@@ -429,7 +429,8 @@
       if (sharedApplication && (self.backgroundTaskIdentifier != UIBackgroundTaskInvalid)) {
         [sharedApplication endBackgroundTask:self.backgroundTaskIdentifier];
         self.backgroundTaskIdentifier = UIBackgroundTaskInvalid;
-        MSLogDebug([MSMobileCenter logTag], @"No more logs to flush, invalidating the background task.");
+        MSLogDebug([MSMobileCenter logTag],
+                   @"Invalidating the background task as the app is no longer in the background.");
       }
     });
   }
