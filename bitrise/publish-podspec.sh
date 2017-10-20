@@ -2,9 +2,9 @@
 
 ## I. Check parameter
 if [ -z $1 ] || ( [ "$1" != "internal" ] && [ "$1" != "external" ] && [ "$1" != "test" ] ); then
-  echo "Invalid parameter.";
-  echo "  Usage: $0 {internal|external|test}";
-  exit 1;
+  echo "Invalid parameter."
+  echo "  Usage: $0 {internal|external|test}"
+  exit 1
 fi
 
 ## II. Get publish version for information

@@ -16,9 +16,9 @@ REQUEST_UPLOAD_URL_TEMPLATE="$(printf $GITHUB_API_URL_TEMPLATE $GITHUB_UPLOAD_HO
 
 ## I. Check parameter
 if [ -z $1 ] || ( [ "$1" != "internal" ] && [ "$1" != "external" ] ); then
-  echo "Invalid parameter.";
-  echo "  Usage: $0 {internal|external}";
-  exit 1;
+  echo "Invalid parameter."
+  echo "  Usage: $0 {internal|external}"
+  exit 1
 fi
 
 ## II. Get publish version
