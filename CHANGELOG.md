@@ -2,12 +2,12 @@
 
 ## Version 0.14.0
 
-This version contains features.
+This version contains improvements and a feature.
 
 ### MobileCenterDistribute
 
-* **[Improvement]** Limit in-app updates failure to once per release.
-* **[Feature]** Add more languages to localized texts.
+* **[Improvement]** More languages supported for localized texts, see [this folder](https://github.com/Microsoft/mobile-center-sdk-ios/tree/develop/MobileCenterDistribute/MobileCenterDistribute/Resources) for a list of supported languages.
+* **[Improvement]** When in-app updates are disabled because of side-loading, a new dialog will inform user instead of being stuck on a web page. Dialog actions offer ignoring in-app updates or following a link to re-install from the portal. This new dialog has texts that are not localized yet.
 
 ### MobileCenterPush
 
