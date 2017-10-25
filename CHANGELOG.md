@@ -1,5 +1,20 @@
 # Mobile Center SDK for iOS Change Log
 
+## Version 0.14.0
+
+This version contains improvements and a feature.
+
+### MobileCenterDistribute
+
+* **[Improvement]** More languages supported for localized texts, see [this folder](https://github.com/Microsoft/mobile-center-sdk-ios/tree/develop/MobileCenterDistribute/MobileCenterDistribute/Resources) for a list of supported languages.
+* **[Improvement]** When in-app updates are disabled because of side-loading, a new dialog will inform user instead of being stuck on a web page. Dialog actions offer ignoring in-app updates or following a link to re-install from the portal. This new dialog has texts that are not localized yet.
+
+### MobileCenterPush
+
+* **[Feature]** Push now registers notifications on device simulators even though iOS won't produce a push token.
+
+___
+
 ## Version 0.13.0
 
 This version contains bug fixes and a new API.
