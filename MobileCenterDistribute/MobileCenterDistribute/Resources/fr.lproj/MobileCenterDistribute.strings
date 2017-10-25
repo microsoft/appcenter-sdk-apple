@@ -5,6 +5,8 @@
 "MSDistributeAskMeInADay" = "Me le demander dans un jour";
 "MSDistributeViewReleaseNotes" = "Afficher les notes de publication";
 "MSDistributeClose" = "Fermer";
+"MSDistributeIgnore" = "Ignore";
+"MSDistributeReinstall" = "Reinstall app";
 
 /*
  * Update dialog titles/messages

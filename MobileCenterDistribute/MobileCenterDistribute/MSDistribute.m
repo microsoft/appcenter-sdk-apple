@@ -204,41 +204,31 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
           @"The device lost its internet connection. The SDK will retry to get an update token in the next launch.");
       return;
     }
+
+    /*
+     * If failed to enable in-app updates on the same app build before, don't try again.
+     * Only if the app build is different (different package hash), try enabling in-app updates again.
+     */
+    NSString *updateSetupFailedPackageHash = [MS_USER_DEFAULTS objectForKey:kMSUpdateSetupFailedPackageHashKey];
+    if (updateSetupFailedPackageHash) {
+      if ([updateSetupFailedPackageHash isEqualToString:releaseHash]) {
+        MSLogDebug([MSDistribute logTag],
+                   @"Skipping in-app updates setup, because it already failed on this release before.");
+        return;
+      } else {
+        MSLogDebug([MSDistribute logTag],
+                   @"Re-attempting in-app updates setup and cleaning up failure info from storage.");
+        [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateSetupFailedPackageHashKey];
+      }
+    }
+
     NSURL *url;
     MSLogInfo([MSDistribute logTag], @"Request information of initial installation.");
 
     // Most failures here require an app update. Thus, it will be retried only on next App instance.
     url = [self buildTokenRequestURLWithAppSecret:self.appSecret releaseHash:releaseHash];
     if (url) {
-
-/*
- * Only iOS 9.x and 10.x will download the update after users click the "Install" button.
- * We need to force-exit the application for other versions or for any versions when the update is mandatory.
- */
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wpartial-availability"
-      Class clazz = [SFSafariViewController class];
-      if (clazz) {
-
-        // iOS 11
-        Class authClazz = NSClassFromString(@"SFAuthenticationSession");
-        if (authClazz) {
-          dispatch_async(dispatch_get_main_queue(), ^{
-            [self openURLInAuthenticationSessionWith:url fromClass:authClazz];
-          });
-        } else {
-
-          // iOS 9 and 10
-          dispatch_async(dispatch_get_main_queue(), ^{
-            [self openURLInSafariViewControllerWith:url fromClass:clazz];
-          });
-        }
-      } else {
-
-        // iOS 8.x.
-        [self openURLInSafariApp:url];
-      }
-#pragma clang diagnostic pop
+      [self openUrlInAuthenticationSessionOrSafari:url];
     }
   } else {
 
@@ -435,6 +425,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   [items addObject:[NSURLQueryItem queryItemWithName:kMSURLQueryRedirectIdKey value:scheme]];
   [items addObject:[NSURLQueryItem queryItemWithName:kMSURLQueryRequestIdKey value:requestId]];
   [items addObject:[NSURLQueryItem queryItemWithName:kMSURLQueryPlatformKey value:kMSURLQueryPlatformValue]];
+  [items addObject:[NSURLQueryItem queryItemWithName:kMSURLQueryEnableUpdateSetupFailureRedirectKey value:@"true"]];
   components.queryItems = items;
 
   // Check URL validity.
@@ -447,6 +438,37 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     return nil;
   }
   return components.URL;
+}
+
+- (void)openUrlInAuthenticationSessionOrSafari:(NSURL *)url {
+/*
+ * Only iOS 9.x and 10.x will download the update after users click the "Install" button.
+ * We need to force-exit the application for other versions or for any versions when the update is mandatory.
+ */
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpartial-availability"
+  Class clazz = [SFSafariViewController class];
+  if (clazz) {
+
+    // iOS 11
+    Class authClazz = NSClassFromString(@"SFAuthenticationSession");
+    if (authClazz) {
+      dispatch_async(dispatch_get_main_queue(), ^{
+        [self openURLInAuthenticationSessionWith:url fromClass:authClazz];
+      });
+    } else {
+
+      // iOS 9 and 10
+      dispatch_async(dispatch_get_main_queue(), ^{
+        [self openURLInSafariViewControllerWith:url fromClass:clazz];
+      });
+    }
+  } else {
+
+    // iOS 8.x.
+    [self openURLInSafariApp:url];
+  }
+#pragma clang diagnostic pop
 }
 
 - (void)openURLInAuthenticationSessionWith:(NSURL *)url fromClass:(Class)sessionClazz {
@@ -489,7 +511,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
     // Create selector for [instanceOfSFAuthenticationSession start].
     SEL startSelector = NSSelectorFromString(@"start");
-    
+
     // Call [SFAuthenticationSession start] dynamically.
     typedef BOOL (*MSStartSFAuthenticationSession)(id, SEL);
     MSStartSFAuthenticationSession startMethodCall;
@@ -707,6 +729,55 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   });
 }
 
+- (void)showUpdateSetupFailedAlert:(NSString *)errorMessage {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    MSAlertController *alertController =
+        [MSAlertController alertControllerWithTitle:MSDistributeLocalizedString(@"MSDistributeInAppUpdatesAreDisabled")
+                                            message:errorMessage];
+
+    // Add "Ignore" button to the dialog
+    [alertController
+        addDefaultActionWithTitle:MSDistributeLocalizedString(@"MSDistributeIgnore")
+                          handler:^(__attribute__((unused)) UIAlertAction *action) {
+                            [MS_USER_DEFAULTS setObject:MSPackageHash() forKey:kMSUpdateSetupFailedPackageHashKey];
+                          }];
+
+    // Add "Reinstall" button to the dialog
+    [alertController
+        addPreferredActionWithTitle:MSDistributeLocalizedString(@"MSDistributeReinstall")
+                            handler:^(__attribute__((unused)) UIAlertAction *action) {
+                              NSURL *installUrl = [NSURL URLWithString:[self installUrl]];
+
+                              /*
+                               * Add a flag to the install url to indicate that the update setup failed, to show a help
+                               * page
+                               */
+                              NSURLComponents *components =
+                                  [[NSURLComponents alloc] initWithURL:installUrl resolvingAgainstBaseURL:NO];
+                              NSURLQueryItem *newQueryItem =
+                                  [[NSURLQueryItem alloc] initWithName:kMSURLQueryUpdateSetupFailedKey value:@"true"];
+                              NSMutableArray *newQueryItems =
+                                  [NSMutableArray arrayWithCapacity:[components.queryItems count] + 1];
+                              for (NSURLQueryItem *qi in components.queryItems) {
+                                if (![qi.name isEqual:newQueryItem.name]) {
+                                  [newQueryItems addObject:qi];
+                                }
+                              }
+                              [newQueryItems addObject:newQueryItem];
+                              [components setQueryItems:newQueryItems];
+
+                              // Open the install URL with query parameter update_setup_failed=true
+                              installUrl = [components URL];
+                              [self openUrlInAuthenticationSessionOrSafari:installUrl];
+
+                              // Clear the update setup failure info from storage, to re-attempt setup on reinstall
+                              [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateSetupFailedPackageHashKey];
+                            }];
+
+    [alertController show];
+  });
+}
+
 - (void)startDownload:(nullable MSReleaseDetails *)details {
   [MSUtility sharedAppOpenUrl:details.installUrl
       options:@{}
@@ -765,6 +836,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     NSString *queryRequestId = nil;
     NSString *queryDistributionGroupId = nil;
     NSString *queryUpdateToken = nil;
+    NSString *queryUpdateSetupFailed = nil;
     NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
 
     // Read mandatory parameters from URL query string.
@@ -775,6 +847,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         queryDistributionGroupId = item.value;
       } else if ([item.name isEqualToString:kMSURLQueryUpdateTokenKey]) {
         queryUpdateToken = item.value;
+      } else if ([item.name isEqualToString:kMSURLQueryUpdateSetupFailedKey]) {
+        queryUpdateSetupFailed = item.value;
       }
     }
 
@@ -818,6 +892,16 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                    releaseHash:MSPackageHash()];
     } else {
       MSLogError([MSDistribute logTag], @"Cannot find either update token or distribution group id.");
+    }
+
+    /*
+     * If the in-app updates setup failed, and user ignores the failure, store the error
+     * message and also store the package hash that the failure occurred on. The setup
+     * will only be re-attempted the next time the app gets updated (and package hash changes).
+     */
+    if (queryUpdateSetupFailed) {
+      MSLogDebug([MSDistribute logTag], @"In-app updates setup failure detected.");
+      [self showUpdateSetupFailedAlert:queryUpdateSetupFailed];
     }
   } else {
     MSLogDebug([MSDistribute logTag], @"Distribute service has been disabled, ignore request.");
