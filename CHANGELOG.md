@@ -1,5 +1,20 @@
 # Mobile Center SDK for iOS Change Log
 
+## Version 0.14.0
+
+This version contains features.
+
+### MobileCenterDistribute
+
+* **[Feature]** Limit in-app updates failure to once per release.
+* **[Feature]** Add more languages to localized texts.
+
+### MobileCenterPush
+
+* **[Feature]** Device simulators now ask for push registration.
+
+___
+
 ## Version 0.13.0
 
 This version contains bug fixes and a new API.
