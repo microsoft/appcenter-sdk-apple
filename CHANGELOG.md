@@ -6,12 +6,12 @@ This version contains features.
 
 ### MobileCenterDistribute
 
-* **[Feature]** Limit in-app updates failure to once per release.
+* **[Improvement]** Limit in-app updates failure to once per release.
 * **[Feature]** Add more languages to localized texts.
 
 ### MobileCenterPush
 
-* **[Feature]** Device simulators now ask for push registration.
+* **[Feature]** Push now registers notifications on device simulators even though iOS won't produce a push token.
 
 ___
 
