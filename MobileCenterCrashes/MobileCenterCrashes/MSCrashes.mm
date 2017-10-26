@@ -1073,7 +1073,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                @"The flag for user confirmation is set to MSUserConfirmationAlways, continue sending logs");
     [self notifyWithUserConfirmation:MSUserConfirmationSend];
     return alwaysSend;
-  } else if (self.automaticProcessing && !(self.userConfirmationHandler && self.userConfirmationHandler(self.unprocessedReports))) {
+  } else if (self.automaticProcessing && !(self.userConfirmationHandler && [self userPromptedForConfirmation])) {
     
     // User confirmation handler doesn't exist or returned NO which means 'want to process'.
     MSLogDebug([MSCrashes logTag],
@@ -1084,6 +1084,20 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                @"Automatic crash processing is disabled and \"AlwaysSend\" is false. Awaiting user confirmation.");
   }
     return alwaysSend;
+}
+
+-(BOOL)userPromptedForConfirmation{
+  
+  // User confirmation handler may contain UI so we have to run it in the main thread.
+  __block BOOL userPromptedForConfirmation;
+  if ([NSThread isMainThread]) {
+    userPromptedForConfirmation = self.userConfirmationHandler(self.unprocessedReports);
+  } else {
+    dispatch_sync(dispatch_get_main_queue(), ^{
+      userPromptedForConfirmation = self.userConfirmationHandler(self.unprocessedReports);
+    });
+  }
+  return userPromptedForConfirmation;
 }
 
 // This is an instance method to make testing easier.
