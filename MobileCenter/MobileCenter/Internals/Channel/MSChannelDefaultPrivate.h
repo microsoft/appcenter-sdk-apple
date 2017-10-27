@@ -48,9 +48,9 @@
 @property(nonatomic) NSUInteger backgroundTaskIdentifier;
 
 /**
- * Flag to indicate if the app is in the background. Required to suspend the sender in case there are no logs.
+ * Lock token for background task synchronization.
  */
-@property(nonatomic) BOOL isInBackground;
+@property(nonatomic, nonnull) NSObject *backgroundTaskLockToken;
 #endif
 
 /**

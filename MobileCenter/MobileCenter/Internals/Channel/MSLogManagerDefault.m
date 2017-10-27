@@ -224,9 +224,8 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecent
 }
 
 #pragma mark - Suspend / Resume
-
 - (void)suspend {
-
+  
   // Disable sender, sending log will not be possible but they'll still be stored.
   [self.sender setEnabled:NO andDeleteDataOnDisabled:NO];
 }

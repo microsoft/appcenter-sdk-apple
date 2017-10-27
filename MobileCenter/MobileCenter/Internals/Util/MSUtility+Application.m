@@ -34,8 +34,6 @@ NSString *MSUtilityApplicationCategory;
     return ((UIApplication * (*)(id, SEL))[[UIApplication class] methodForSelector:sharedAppSel])([UIApplication class],
                                                                                                   sharedAppSel);
   } else {
-
-    // Return nil in case of iOS app extensions.
     return nil;
   }
 }

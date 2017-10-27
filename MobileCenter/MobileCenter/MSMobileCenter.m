@@ -424,6 +424,8 @@ static NSString *const kMSGroupId = @"MobileCenter";
  */
 - (void)applicationWillEnterForeground {
 
+  // TODO this should be made in the logmanager directly.
+  
   /**
    * Triggering a resume here to make sure our pipeline is working. While it won't be suspended when going into the
    * background anymore, it might be suspended because we're offline or it failed to send events.
