@@ -1,6 +1,6 @@
 #import "MSLogDBStoragePrivate.h"
 #import "MSLogger.h"
-#import "MSMobileCenterInternal.h"
+#import "MSAppCenterInternal.h"
 #import "MSUtility.h"
 
 @implementation MSLogDBStorage
@@ -53,7 +53,7 @@
   if (succeeded && logCount > self.capacity) {
     NSUInteger overflowCount = logCount - self.capacity;
     [self deleteOldestLogsWithCount:overflowCount];
-    MSLogDebug([MSMobileCenter logTag], @"Log storage was over capacity, %ld oldest log(s) deleted.",
+    MSLogDebug([MSAppCenter logTag], @"Log storage was over capacity, %ld oldest log(s) deleted.",
                (long)overflowCount);
   }
   return succeeded;
@@ -199,7 +199,7 @@
     if (!log || exception) {
 
       // The archived log is not valid.
-      MSLogError([MSMobileCenter logTag], @"Deserialization failed for log with Id %@: %@", dbId,
+      MSLogError([MSAppCenter logTag], @"Deserialization failed for log with Id %@: %@", dbId,
                  exception ? exception.reason : @"The log deserialized to NULL.");
       [self deleteLogFromDBWithId:dbId];
       continue;
@@ -235,9 +235,9 @@
 
   // Execute.
   if ([self executeNonSelectionQuery:deleteLogsQuery]) {
-    MSLogVerbose([MSMobileCenter logTag], @"%@ %@", deletionTrace, @"succeeded.");
+    MSLogVerbose([MSAppCenter logTag], @"%@ %@", deletionTrace, @"succeeded.");
   } else {
-    MSLogError([MSMobileCenter logTag], @"%@ %@", deletionTrace, @"failed.");
+    MSLogError([MSAppCenter logTag], @"%@ %@", deletionTrace, @"failed.");
   }
 }
 

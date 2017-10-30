@@ -1,4 +1,4 @@
-#import "MobileCenter+Internal.h"
+#import "AppCenter+Internal.h"
 #import "MSChannelDefault.h"
 #import "MSChannelDelegate.h"
 #import "MSHttpSender.h"
@@ -6,8 +6,8 @@
 #import "MSLogDBStorage.h"
 #import "MSLogManagerDefault.h"
 #import "MSLogManagerDefaultPrivate.h"
-#import "MSMobileCenterErrors.h"
-#import "MSMobileCenterInternal.h"
+#import "MSAppCenterErrors.h"
+#import "MSAppCenterInternal.h"
 
 static char *const kMSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecenter.LogManagerQueue";
 
@@ -136,7 +136,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecent
   // Get the channel.
   id<MSChannel> channel = self.channels[groupId];
   if (!channel) {
-    MSLogWarning([MSMobileCenter logTag], @"Channel has not been initialized for the group Id: %@", groupId);
+    MSLogWarning([MSAppCenter logTag], @"Channel has not been initialized for the group Id: %@", groupId);
     return;
   }
 
@@ -219,7 +219,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecent
   if (self.channels[groupId]) {
     [self.channels[groupId] setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
   } else {
-    MSLogWarning([MSMobileCenter logTag], @"Channel has not been initialized for the group Id: %@", groupId);
+    MSLogWarning([MSAppCenter logTag], @"Channel has not been initialized for the group Id: %@", groupId);
   }
 }
 

@@ -1,4 +1,4 @@
-#import "MobileCenter+Internal.h"
+#import "AppCenter+Internal.h"
 #import "MSAbstractLogInternal.h"
 #import "MSLogContainer.h"
 #import "MSTestFrameworks.h"

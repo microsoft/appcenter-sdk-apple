@@ -1,6 +1,6 @@
 import XCTest
 
-class MobileCenterUITests: XCTestCase {
+class AppCenterUITests: XCTestCase {
   private var app : XCUIApplication?;
   private let AnalyticsCellIndex : UInt = 0;
 

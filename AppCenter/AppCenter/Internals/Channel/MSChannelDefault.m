@@ -1,7 +1,7 @@
 #import "MSAbstractLogInternal.h"
 #import "MSChannelDefaultPrivate.h"
-#import "MSMobileCenterErrors.h"
-#import "MSMobileCenterInternal.h"
+#import "MSAppCenterErrors.h"
+#import "MSAppCenterInternal.h"
 
 @implementation MSChannelDefault
 
@@ -64,7 +64,7 @@
   // Return fast in case our item is empty or we are discarding logs right now.
   dispatch_async(self.logsDispatchQueue, ^{
     if (!item || ![item isValid]) {
-      MSLogWarning([MSMobileCenter logTag], @"Log is not valid.");
+      MSLogWarning([MSAppCenter logTag], @"Log is not valid.");
 
       // Don't forget to execute completion block.
       if (completion) {
@@ -72,7 +72,7 @@
       }
       return;
     } else if (self.discardLogs) {
-      MSLogWarning([MSMobileCenter logTag], @"Channel disabled in log discarding mode, discard this log.");
+      MSLogWarning([MSAppCenter logTag], @"Channel disabled in log discarding mode, discard this log.");
       NSError *error = [NSError errorWithDomain:kMSMCErrorDomain
                                            code:kMSMCConnectionSuspendedErrorCode
                                        userInfo:@{NSLocalizedDescriptionKey : kMSMCConnectionSuspendedErrorDesc}];
@@ -86,7 +86,7 @@
     }
 
     // Save the log first.
-    MSLogDebug([MSMobileCenter logTag], @"Saving log, type: %@.", item.type);
+    MSLogDebug([MSAppCenter logTag], @"Saving log, type: %@.", item.type);
     BOOL success = [self.storage saveLog:item withGroupId:self.configuration.groupId];
     self.itemsCount += 1;
 
@@ -142,10 +142,10 @@
                MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:batchId andLogs:logArray];
 
                // Optimization. If the current log level is greater than MSLogLevelDebug, we can skip it.
-               if ([MSMobileCenter logLevel] <= MSLogLevelDebug) {
+               if ([MSAppCenter logLevel] <= MSLogLevelDebug) {
                  unsigned long count = [container.logs count];
                  for (unsigned long i = 0; i < count; i++) {
-                   MSLogDebug([MSMobileCenter logTag],
+                   MSLogDebug([MSAppCenter logTag],
                               @"Sending %lu/%lu log(s), group Id: %@, batch Id:%@, payload:\n%@", (i + 1), count,
                               self.configuration.groupId, batchId,
                               [(MSAbstractLog *)container.logs[i] serializeLogWithPrettyPrinting:YES]);
@@ -169,7 +169,7 @@
 
                           // Success.
                           if (statusCode == MSHTTPCodesNo200OK) {
-                            MSLogDebug([MSMobileCenter logTag], @"Log(s) sent with success, batch Id:%@.",
+                            MSLogDebug([MSAppCenter logTag], @"Log(s) sent with success, batch Id:%@.",
                                        senderBatchId);
 
                             // Notify delegates.
@@ -196,7 +196,7 @@
 
                           // Failure.
                           else {
-                            MSLogDebug([MSMobileCenter logTag],
+                            MSLogDebug([MSAppCenter logTag],
                                        @"Log(s) sent with failure, batch Id:%@, status code:%lu", senderBatchId,
                                        (unsigned long)statusCode);
 
@@ -220,7 +220,7 @@
                             }
                           }
                         } else
-                          MSLogWarning([MSMobileCenter logTag], @"Batch Id %@ not expected, ignore.", senderBatchId);
+                          MSLogWarning([MSAppCenter logTag], @"Batch Id %@ not expected, ignore.", senderBatchId);
                       });
                     }];
              }
@@ -284,7 +284,7 @@
 
     // Even if it's already disabled we might also want to delete logs this time.
     if (!isEnabled && deleteData) {
-      MSLogDebug([MSMobileCenter logTag], @"Delete all logs for goup Id %@", self.configuration.groupId);
+      MSLogDebug([MSAppCenter logTag], @"Delete all logs for goup Id %@", self.configuration.groupId);
       NSError *error = [NSError errorWithDomain:kMSMCErrorDomain
                                            code:kMSMCConnectionSuspendedErrorCode
                                        userInfo:@{NSLocalizedDescriptionKey : kMSMCConnectionSuspendedErrorDesc}];
@@ -307,7 +307,7 @@
 
 - (void)suspend {
   if (!self.suspended) {
-    MSLogDebug([MSMobileCenter logTag], @"Suspend channel for group Id %@.", self.configuration.groupId);
+    MSLogDebug([MSAppCenter logTag], @"Suspend channel for group Id %@.", self.configuration.groupId);
     self.suspended = YES;
     [self resetTimer];
   }
@@ -315,7 +315,7 @@
 
 - (void)resume {
   if (self.suspended && self.enabled) {
-    MSLogDebug([MSMobileCenter logTag], @"Resume channel for group Id %@.", self.configuration.groupId);
+    MSLogDebug([MSAppCenter logTag], @"Resume channel for group Id %@.", self.configuration.groupId);
     self.suspended = NO;
     [self flushQueue];
   }

@@ -7,7 +7,7 @@
 #endif
 
 #import "MSAppDelegateForwarder.h"
-#import "MSMobileCenterInternal.h"
+#import "MSAppCenterInternal.h"
 #import "MSPush.h"
 #import "MSPushAppDelegate.h"
 #import "MSPushLog.h"
@@ -322,7 +322,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 
     /*
      * "alert" value type can be either Dictionary or String. Try one more time if it is a String value even
-     * though MobileCenterPush doesn't support String value for "alert".
+     * though AppCenterPush doesn't support String value for "alert".
      */
     alert = [aps valueForKey:kMSPushNotificationAlertKey];
     if ([alert isKindOfClass:[NSString class]]) {

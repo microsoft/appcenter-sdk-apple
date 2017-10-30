@@ -12,14 +12,14 @@ NSBundle *MSDistributeBundle(void) {
   static dispatch_once_t predicate;
   dispatch_once(&predicate, ^{
 
-    // The resource bundle is part of the main app bundle, e.g. .../Puppet.app/MobileCenterDistribute.bundle
+    // The resource bundle is part of the main app bundle, e.g. .../Puppet.app/AppCenterDistribute.bundle
     NSString *mainBundlePath = [[NSBundle bundleForClass:[MSDistribute class]] resourcePath];
     NSString *frameworkBundlePath = [mainBundlePath stringByAppendingPathComponent:MOBILE_CENTER_DISTRIBUTE_BUNDLE];
     bundle = [NSBundle bundleWithPath:frameworkBundlePath];
 
     // Log to console in case the bundle is nil.
     if (!bundle) {
-      MSLogError([MSDistribute logTag], @"The MobileCenterDistributeResources.bundle file could not be found in your"
+      MSLogError([MSDistribute logTag], @"The AppCenterDistributeResources.bundle file could not be found in your"
                                          " app. Please add it to your project as described in our readme.");
     }
   });
@@ -42,7 +42,7 @@ NSString *MSDistributeLocalizedString(NSString *stringToken) {
     return appSpecificLocalizationString;
   } else if (MSDistributeBundle()) {
     NSString *bundleSpecificLocalizationString =
-        NSLocalizedStringFromTableInBundle(stringToken, @"MobileCenterDistribute", MSDistributeBundle(), @"");
+        NSLocalizedStringFromTableInBundle(stringToken, @"AppCenterDistribute", MSDistributeBundle(), @"");
     if (bundleSpecificLocalizationString)
       return bundleSpecificLocalizationString;
     return stringToken;

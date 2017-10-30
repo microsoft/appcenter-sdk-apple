@@ -16,7 +16,7 @@ custom_categories:
     children:
     - Installation
 
-umbrella_header: ../../../MobileCenter-SDK-Apple/macOS/AppCenterPush.framework/Headers/MobileCenterPush.h
+umbrella_header: ../../../MobileCenter-SDK-Apple/macOS/AppCenterPush.framework/Headers/AppCenterPush.h
 framework_root: ../../../MobileCenter-SDK-Apple/macOS/
 exclude: [../../../MobileCenter-SDK-Apple/macOS/AppCenterPush.framework/Headers/MSService.h, ../../../MobileCenter-SDK-Apple/macOS/AppCenterPush.framework/Headers/MSServiceAbstract.h]
 

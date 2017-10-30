@@ -1,7 +1,7 @@
 #import <sqlite3.h>
 
 #import "MSDBStoragePrivate.h"
-#import "MSMobileCenterInternal.h"
+#import "MSAppCenterInternal.h"
 #import "MSStorage.h"
 #import "MSUtility+File.h"
 
@@ -97,11 +97,11 @@
     char *errMsg;
     result = sqlite3_exec(db, [query UTF8String], NULL, NULL, &errMsg);
     if (result != SQLITE_OK) {
-      MSLogError([MSMobileCenter logTag], @"Query \"%@\" failed with error: %d - %@", query, result,
+      MSLogError([MSAppCenter logTag], @"Query \"%@\" failed with error: %d - %@", query, result,
                  [[NSString alloc] initWithUTF8String:errMsg]);
     }
   } else {
-    MSLogError([MSMobileCenter logTag], @"Failed to open database for non-selection query with result: %d.", result);
+    MSLogError([MSAppCenter logTag], @"Failed to open database for non-selection query with result: %d.", result);
   }
   sqlite3_close(db);
   return SQLITE_OK == result;
@@ -146,11 +146,11 @@
       }
       sqlite3_finalize(statement);
     } else {
-      MSLogError([MSMobileCenter logTag], @"Query \"%@\" failed with error: %d - %@", query, result,
+      MSLogError([MSAppCenter logTag], @"Query \"%@\" failed with error: %d - %@", query, result,
                  [[NSString alloc] initWithUTF8String:sqlite3_errmsg(db)]);
     }
   } else {
-    MSLogError([MSMobileCenter logTag], @"Failed to open database for non-selection query with result: %d.", result);
+    MSLogError([MSAppCenter logTag], @"Failed to open database for non-selection query with result: %d.", result);
   }
   sqlite3_close(db);
   return entries;

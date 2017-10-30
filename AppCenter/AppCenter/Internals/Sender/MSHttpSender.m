@@ -1,6 +1,6 @@
 #import "MSHttpSender.h"
 #import "MSHttpSenderPrivate.h"
-#import "MSMobileCenterInternal.h"
+#import "MSAppCenterInternal.h"
 #import "MSSenderCall.h"
 
 static NSTimeInterval kRequestTimeout = 60.0;
@@ -118,7 +118,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 - (void)suspend {
   @synchronized(self) {
     if (!self.suspended) {
-      MSLogInfo([MSMobileCenter logTag], @"Suspend sender.");
+      MSLogInfo([MSAppCenter logTag], @"Suspend sender.");
       self.suspended = YES;
 
       // Suspend all tasks.
@@ -156,7 +156,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 
     // Resume only while enabled.
     if (self.suspended && self.enabled) {
-      MSLogInfo([MSMobileCenter logTag], @"Resume sender.");
+      MSLogInfo([MSAppCenter logTag], @"Resume sender.");
       self.suspended = NO;
 
       // Resume existing calls.
@@ -237,7 +237,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
                   }
                 }
               }
-              MSLogDebug([MSMobileCenter logTag], @"HTTP response received with status code=%lu and payload=%@",
+              MSLogDebug([MSAppCenter logTag], @"HTTP response received with status code=%lu and payload=%@",
                          (unsigned long)statusCode, payload);
 
               // Call handles the completion.
@@ -258,11 +258,11 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   @synchronized(self) {
     NSString *callId = call.callId;
     if (callId.length == 0) {
-      MSLogWarning([MSMobileCenter logTag], @"Call object is invalid");
+      MSLogWarning([MSAppCenter logTag], @"Call object is invalid");
       return;
     }
     [self.pendingCalls removeObjectForKey:callId];
-    MSLogInfo([MSMobileCenter logTag], @"Removed call id:%@ from pending calls:%@", callId,
+    MSLogInfo([MSAppCenter logTag], @"Removed call id:%@ from pending calls:%@", callId,
               [self.pendingCalls description]);
 
     // Process fatal error.
@@ -305,7 +305,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
           [components setValue:[partialURL valueForKey:propertyName] forKey:propertyName];
         }
       } @catch (NSException *ex) {
-        MSLogInfo([MSMobileCenter logTag], @"Error while updating HTTP URL %@ with %@: \n%@",
+        MSLogInfo([MSAppCenter logTag], @"Error while updating HTTP URL %@ with %@: \n%@",
                   self.sendURL.absoluteString, baseURL, ex);
       }
 
@@ -318,17 +318,17 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 
     // Notify failure.
     if (!success) {
-      MSLogInfo([MSMobileCenter logTag], @"Failed to update HTTP URL %@ with %@", self.sendURL.absoluteString, baseURL);
+      MSLogInfo([MSAppCenter logTag], @"Failed to update HTTP URL %@ with %@", self.sendURL.absoluteString, baseURL);
     }
   }
 }
 
 - (void)networkStateChanged {
   if ([self.reachability currentReachabilityStatus] == NotReachable) {
-    MSLogInfo([MSMobileCenter logTag], @"Internet connection is down.");
+    MSLogInfo([MSAppCenter logTag], @"Internet connection is down.");
     [self suspend];
   } else {
-    MSLogInfo([MSMobileCenter logTag], @"Internet connection is up.");
+    MSLogInfo([MSAppCenter logTag], @"Internet connection is up.");
     [self resume];
   }
 }

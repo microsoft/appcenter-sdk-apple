@@ -1,6 +1,6 @@
 #import "MSFileUtil.h"
 #import "MSLogger.h"
-#import "MSMobileCenterInternal.h"
+#import "MSAppCenterInternal.h"
 
 /**
  * Private declarations.
@@ -51,10 +51,10 @@
 
   NSError *error;
   if ([data writeToURL:file.fileURL options:NSDataWritingAtomic error:&error]) {
-    MSLogVerbose([MSMobileCenter logTag], @"File %@: has been successfully written", file.fileURL);
+    MSLogVerbose([MSAppCenter logTag], @"File %@: has been successfully written", file.fileURL);
     return YES;
   } else {
-    MSLogError([MSMobileCenter logTag], @"Error writing file %@: %@", file.fileURL, error.localizedDescription);
+    MSLogError([MSAppCenter logTag], @"Error writing file %@: %@", file.fileURL, error.localizedDescription);
     return NO;
   }
 }
@@ -66,10 +66,10 @@
 
   NSError *error;
   if ([self.fileManager removeItemAtURL:file.fileURL error:&error]) {
-    MSLogVerbose([MSMobileCenter logTag], @"File %@: has been successfully deleted", file.fileURL);
+    MSLogVerbose([MSAppCenter logTag], @"File %@: has been successfully deleted", file.fileURL);
     return YES;
   } else {
-    MSLogError([MSMobileCenter logTag], @"Couldn't delete file \"%@\": %@", file.fileURL, error.localizedDescription);
+    MSLogError([MSAppCenter logTag], @"Couldn't delete file \"%@\": %@", file.fileURL, error.localizedDescription);
     return NO;
   }
 }
@@ -82,9 +82,9 @@
   NSError *error;
   NSData *data = [NSData dataWithContentsOfURL:file.fileURL options:nil error:&error];
   if (error) {
-    MSLogError([MSMobileCenter logTag], @"Error writing file %@: %@", file.fileURL, error.localizedDescription);
+    MSLogError([MSAppCenter logTag], @"Error writing file %@: %@", file.fileURL, error.localizedDescription);
   } else {
-    MSLogVerbose([MSMobileCenter logTag], @"File %@: has been successfully written", file.fileURL);
+    MSLogVerbose([MSAppCenter logTag], @"File %@: has been successfully written", file.fileURL);
   }
   return data;
 }
@@ -110,7 +110,7 @@
                                                     options:(NSDirectoryEnumerationOptions)0
                                                       error:&error];
   if (error) {
-    MSLogError([MSMobileCenter logTag], @"Couldn't read %@-files for directory %@: %@", fileExtension, directoryURL,
+    MSLogError([MSAppCenter logTag], @"Couldn't read %@-files for directory %@: %@", fileExtension, directoryURL,
                 error.localizedDescription);
     return nil;
   } else {
@@ -142,7 +142,7 @@
       [self disableBackupForDirectoryURL:directoryURL];
       return YES;
     } else {
-      MSLogError([MSMobileCenter logTag], @"Couldn't create directory at %@: %@", directoryURL, error.localizedDescription);
+      MSLogError([MSAppCenter logTag], @"Couldn't create directory at %@: %@", directoryURL, error.localizedDescription);
     }
   }
   return NO;
@@ -161,7 +161,7 @@
     if ([[NSData data] writeToURL:fileURL atomically:NO]) {
       return YES;
     } else {
-      MSLogError([MSMobileCenter logTag], @"Couldn't create new file at path %@", fileURL);
+      MSLogError([MSAppCenter logTag], @"Couldn't create new file at path %@", fileURL);
     }
   }
   return NO;
@@ -170,7 +170,7 @@
 + (BOOL)disableBackupForDirectoryURL:(nonnull NSURL *)directoryURL {
   NSError *error = nil;
   if (!directoryURL || ![directoryURL setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:&error]) {
-    MSLogError([MSMobileCenter logTag], @"Error excluding %@ from backup %@", directoryURL, error.localizedDescription);
+    MSLogError([MSAppCenter logTag], @"Error excluding %@ from backup %@", directoryURL, error.localizedDescription);
     return NO;
   } else {
     return YES;

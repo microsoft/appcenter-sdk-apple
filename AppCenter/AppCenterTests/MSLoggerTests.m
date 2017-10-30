@@ -1,7 +1,7 @@
 #import "MSLogger.h"
-#import "MSMobileCenter.h"
-#import "MSMobileCenterInternal.h"
-#import "MSMobileCenterPrivate.h"
+#import "MSAppCenter.h"
+#import "MSAppCenterInternal.h"
+#import "MSAppCenterPrivate.h"
 #import "MSTestFrameworks.h"
 
 @interface MSLoggerTests : XCTestCase
@@ -22,13 +22,13 @@
 }
 
 - (void)testDefaultLogLevels {
-  // Check default loglevel before MSMobileCenter was started.
+  // Check default loglevel before MSAppCenter was started.
   XCTAssertTrue([MSLogger currentLogLevel] == MSLogLevelAssert);
   // Need to set sdkConfigured to NO to make sure the start-logic goes through once, otherwise this test will fail
   // randomly as other tests might call start:withServices, too.
-  [MSMobileCenter resetSharedInstance];
-  [MSMobileCenter sharedInstance].sdkConfigured = NO;
-  [MSMobileCenter start:MS_UUID_STRING withServices:nil];
+  [MSAppCenter resetSharedInstance];
+  [MSAppCenter sharedInstance].sdkConfigured = NO;
+  [MSAppCenter start:MS_UUID_STRING withServices:nil];
 
   XCTAssertTrue([MSLogger currentLogLevel] == MSLogLevelWarning);
 }

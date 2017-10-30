@@ -1,5 +1,5 @@
 #import <Foundation/Foundation.h>
-#import "MobileCenter+Internal.h"
+#import "AppCenter+Internal.h"
 
 @class MSStackFrame;
 @class MSException;

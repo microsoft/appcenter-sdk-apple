@@ -16,7 +16,7 @@ custom_categories:
     children:
     - Installation
 
-umbrella_header: ../../../MobileCenter-SDK-Apple/iOS/AppCenterDistribute.framework/Headers/MobileCenterDistribute.h
+umbrella_header: ../../../MobileCenter-SDK-Apple/iOS/AppCenterDistribute.framework/Headers/AppCenterDistribute.h
 framework_root: ../../../MobileCenter-SDK-Apple/iOS/
 exclude: [../../../MobileCenter-SDK-Apple/iOS/AppCenterDistribute.framework/Headers/MSService.h, ../../../MobileCenter-SDK-Apple/iOS/AppCenterDistribute.framework/Headers/MSServiceAbstract.h]
 

@@ -4,9 +4,9 @@
 #import "MSCustomPropertiesLog.h"
 #endif
 #import "MSLogManagerDefault.h"
-#import "MSMobileCenter.h"
-#import "MSMobileCenterInternal.h"
-#import "MSMobileCenterPrivate.h"
+#import "MSAppCenter.h"
+#import "MSAppCenterInternal.h"
+#import "MSAppCenterPrivate.h"
 #import "MSMockService.h"
 #import "MSMockUserDefaults.h"
 #import "MSStartServiceLog.h"
@@ -17,21 +17,21 @@ static NSString *const kMSInstallIdStringExample = @"F18499DA-5C3D-4F05-B4E8-D8C
 // NSUUID can return this nullified InstallId while creating a UUID from a nil string, we want to avoid this.
 static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-000000000000";
 
-@interface MSMobileCenterTest : XCTestCase
+@interface MSAppCenterTest : XCTestCase
 
-@property(nonatomic) MSMobileCenter *sut;
+@property(nonatomic) MSAppCenter *sut;
 @property(nonatomic) MSMockUserDefaults *settingsMock;
 @property(nonatomic) NSString *installId;
 
 @end
 
-@implementation MSMobileCenterTest
+@implementation MSAppCenterTest
 
 - (void)setUp {
   [super setUp];
 
   // System Under Test.
-  self.sut = [[MSMobileCenter alloc] init];
+  self.sut = [[MSAppCenter alloc] init];
 
   self.settingsMock = [MSMockUserDefaults new];
 }
@@ -125,7 +125,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // When
   NSUUID *installId1 = self.sut.installId;
-  self.sut = [[MSMobileCenter alloc] init];
+  self.sut = [[MSAppCenter alloc] init];
   NSUUID *installId2 = self.sut.installId;
 
   // Then
@@ -134,38 +134,38 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 }
 
 - (void)testSetLogUrl {
-  [MSMobileCenter resetSharedInstance];
+  [MSAppCenter resetSharedInstance];
   NSString *fakeUrl = @"http://testUrl:1234";
-  [MSMobileCenter setLogUrl:fakeUrl];
-  [MSMobileCenter start:MS_UUID_STRING withServices:nil];
-  XCTAssertTrue([[[MSMobileCenter sharedInstance] logUrl] isEqualToString:fakeUrl]);
+  [MSAppCenter setLogUrl:fakeUrl];
+  [MSAppCenter start:MS_UUID_STRING withServices:nil];
+  XCTAssertTrue([[[MSAppCenter sharedInstance] logUrl] isEqualToString:fakeUrl]);
 }
 
 - (void)testDefaultLogUrl {
-  [MSMobileCenter resetSharedInstance];
-  [MSMobileCenter start:MS_UUID_STRING withServices:nil];
-  XCTAssertTrue([[[MSMobileCenter sharedInstance] logUrl] isEqualToString:@"https://in.mobile.azure.com"]);
+  [MSAppCenter resetSharedInstance];
+  [MSAppCenter start:MS_UUID_STRING withServices:nil];
+  XCTAssertTrue([[[MSAppCenter sharedInstance] logUrl] isEqualToString:@"https://in.mobile.azure.com"]);
 }
 
 - (void)testSdkVersion {
   NSString *version = [NSString stringWithUTF8String:MOBILE_CENTER_C_VERSION];
-  XCTAssertTrue([[MSMobileCenter sdkVersion] isEqualToString:version]);
+  XCTAssertTrue([[MSAppCenter sdkVersion] isEqualToString:version]);
 }
 
 #if !TARGET_OS_TV
 - (void)testSetCustomProperties {
 
   // If
-  [MSMobileCenter start:MS_UUID_STRING withServices:nil];
+  [MSAppCenter start:MS_UUID_STRING withServices:nil];
   id logManager = OCMProtocolMock(@protocol(MSLogManager));
   OCMStub([logManager processLog:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]] forGroupId:OCMOCK_ANY])
       .andDo(nil);
-  [MSMobileCenter sharedInstance].logManager = logManager;
+  [MSAppCenter sharedInstance].logManager = logManager;
 
   // When
   MSCustomProperties *customProperties = [MSCustomProperties new];
   [customProperties setString:@"test" forKey:@"test"];
-  [MSMobileCenter setCustomProperties:customProperties];
+  [MSAppCenter setCustomProperties:customProperties];
 
   // Then
   OCMVerify([logManager processLog:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]] forGroupId:OCMOCK_ANY]);
@@ -173,8 +173,8 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   // When
   // Not allow processLog more
   OCMReject([logManager processLog:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]] forGroupId:OCMOCK_ANY]);
-  [MSMobileCenter setCustomProperties:nil];
-  [MSMobileCenter setCustomProperties:[MSCustomProperties new]];
+  [MSAppCenter setCustomProperties:nil];
+  [MSAppCenter setCustomProperties:[MSCustomProperties new]];
   
   // Then
   OCMVerifyAll(logManager);
@@ -182,16 +182,16 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 #endif
 
 - (void)testConfigureWithAppSecret {
-  [MSMobileCenter configureWithAppSecret:@"App-Secret"];
-  XCTAssertTrue([MSMobileCenter isConfigured]);
+  [MSAppCenter configureWithAppSecret:@"App-Secret"];
+  XCTAssertTrue([MSAppCenter isConfigured]);
 }
 
 - (void)testStartServiceWithInvalidValues {
-  NSUInteger servicesCount = [[MSMobileCenter sharedInstance] services].count;
-  [MSMobileCenter startService:[MSMobileCenter class]];
-  [MSMobileCenter startService:[NSString class]];
-  [MSMobileCenter startService:nil];
-  XCTAssertEqual(servicesCount, [[MSMobileCenter sharedInstance] services].count);
+  NSUInteger servicesCount = [[MSAppCenter sharedInstance] services].count;
+  [MSAppCenter startService:[MSAppCenter class]];
+  [MSAppCenter startService:[NSString class]];
+  [MSAppCenter startService:nil];
+  XCTAssertEqual(servicesCount, [[MSAppCenter sharedInstance] services].count);
 }
 
 - (void)testStartWithoutServices {
@@ -205,7 +205,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   OCMReject([logManager processLog:[OCMArg isKindOfClass:[MSStartServiceLog class]] forGroupId:[OCMArg any]]);
   
   // When
-  [MSMobileCenter start:MS_UUID_STRING withServices:nil];
+  [MSAppCenter start:MS_UUID_STRING withServices:nil];
   
   // Then
   OCMVerifyAll(logManager);
@@ -217,14 +217,14 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 - (void)testStartServiceLogIsSentAfterStartService {
 
   // If
-  [MSMobileCenter start:MS_UUID_STRING withServices:nil];
+  [MSAppCenter start:MS_UUID_STRING withServices:nil];
   id logManager = OCMProtocolMock(@protocol(MSLogManager));
   OCMStub([logManager processLog:[OCMArg isKindOfClass:[MSStartServiceLog class]] forGroupId:OCMOCK_ANY])
   .andDo(nil);
-  [MSMobileCenter sharedInstance].logManager = logManager;
+  [MSAppCenter sharedInstance].logManager = logManager;
 
   // When
-  [MSMobileCenter startService:MSMockService.class];
+  [MSAppCenter startService:MSMockService.class];
   
   // Then
   OCMVerify([logManager processLog:[OCMArg isKindOfClass:[MSStartServiceLog class]] forGroupId:OCMOCK_ANY]);

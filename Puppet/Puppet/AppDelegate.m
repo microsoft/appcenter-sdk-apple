@@ -8,11 +8,11 @@
 #import "EventLog.h"
 #import "MSErrorAttachmentLog.h"
 #import "MSErrorAttachmentLog+Utility.h"
-#import "MobileCenter.h"
-#import "MobileCenterAnalytics.h"
-#import "MobileCenterCrashes.h"
-#import "MobileCenterDistribute.h"
-#import "MobileCenterPush.h"
+#import "AppCenter.h"
+#import "AppCenterAnalytics.h"
+#import "AppCenterCrashes.h"
+#import "AppCenterDistribute.h"
+#import "AppCenterPush.h"
 #import "MSAlertController.h"
 #import "MSAnalyticsDelegate.h"
 #import "MSAnalyticsInternal.h"
@@ -36,16 +36,16 @@ static UIViewController *crashResultViewController = nil;
   [MSDistribute setDelegate:self];
   [MSPush setDelegate:self];
   [MSAnalytics setDelegate:self];
-  [MSMobileCenter setLogLevel:MSLogLevelVerbose];
+  [MSAppCenter setLogLevel:MSLogLevelVerbose];
 
   // Start Mobile Center SDK.
-  [MSMobileCenter start:@"7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7"
+  [MSAppCenter start:@"7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7"
            withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class] ]];
 
   [self crashes];
 
   // Print the install Id.
-  NSLog(@"%@ Install Id: %@", kPUPLogTag, [[MSMobileCenter installId] UUIDString]);
+  NSLog(@"%@ Install Id: %@", kPUPLogTag, [[MSAppCenter installId] UUIDString]);
   return YES;
 }
 

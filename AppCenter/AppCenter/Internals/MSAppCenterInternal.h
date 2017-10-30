@@ -1,15 +1,15 @@
 #import <Foundation/Foundation.h>
 
 #import "MSLogManager.h"
-#import "MSMobileCenter.h"
+#import "MSAppCenter.h"
 #import "MSServiceInternal.h"
-#import "MobileCenter+Internal.h"
+#import "AppCenter+Internal.h"
 
 // Persisted storage keys.
 static NSString *const kMSInstallIdKey = @"MSInstallId";
-static NSString *const kMSMobileCenterIsEnabledKey = @"MSMobileCenterIsEnabled";
+static NSString *const kMSAppCenterIsEnabledKey = @"MSAppCenterIsEnabled";
 
-@interface MSMobileCenter ()
+@interface MSAppCenter ()
 
 @property(nonatomic) id<MSLogManager> logManager;
 @property(nonatomic) NSMutableArray<NSObject<MSServiceInternal> *> *services;
@@ -27,7 +27,7 @@ static NSString *const kMSMobileCenterIsEnabledKey = @"MSMobileCenterIsEnabled";
 - (NSString *)appSecret;
 
 /**
- * Enable or disable the SDK as a whole. In addition to MobileCenter resources, it will also enable or
+ * Enable or disable the SDK as a whole. In addition to AppCenter resources, it will also enable or
  * disable all registered services.
  *
  * @param isEnabled YES to enable, NO to disable.
@@ -44,9 +44,9 @@ static NSString *const kMSMobileCenterIsEnabledKey = @"MSMobileCenterIsEnabled";
 - (BOOL)isEnabled;
 
 /**
- * Get the log tag for the MobileCenter service.
+ * Get the log tag for the AppCenter service.
  *
- * @return A name of logger tag for the MobileCenter service.
+ * @return A name of logger tag for the AppCenter service.
  */
 + (NSString *)logTag;
 

@@ -11,8 +11,8 @@
 #import "MSException.h"
 #import "MSHandledErrorLog.h"
 #import "MSLogManagerDefault.h"
-#import "MSMobileCenter.h"
-#import "MSMobileCenterInternal.h"
+#import "MSAppCenter.h"
+#import "MSAppCenterInternal.h"
 #import "MSMockCrashesDelegate.h"
 #import "MSServiceAbstractPrivate.h"
 #import "MSServiceAbstractProtected.h"
@@ -120,8 +120,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   // If
   NSString *groupId = [[MSCrashes sharedInstance] groupId];
   id<MSCrashesDelegate> delegateMock = OCMProtocolMock(@protocol(MSCrashesDelegate));
-  [MSMobileCenter sharedInstance].sdkConfigured = NO;
-  [MSMobileCenter start:kMSTestAppSecret withServices:@[ [MSCrashes class] ]];
+  [MSAppCenter sharedInstance].sdkConfigured = NO;
+  [MSAppCenter start:kMSTestAppSecret withServices:@[ [MSCrashes class] ]];
   NSMutableDictionary *channelsInLogManager =
   (static_cast<MSLogManagerDefault *>([MSCrashes sharedInstance].logManager)).channels;
   MSChannelDefault *channelMock = channelsInLogManager[groupId] = OCMPartialMock(channelsInLogManager[groupId]);
@@ -603,7 +603,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
     errorId = log.errorId;
     exception = log.exception;
   });
-  [MSMobileCenter configureWithAppSecret:kMSTestAppSecret];
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
   [self.sut startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
   
   // When

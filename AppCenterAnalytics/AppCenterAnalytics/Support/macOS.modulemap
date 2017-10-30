@@ -1,5 +1,5 @@
 framework module AppCenterAnalytics {
-  umbrella header "MobileCenterAnalytics.h"
+  umbrella header "AppCenterAnalytics.h"
   
   export *
   module * { export * }

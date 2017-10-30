@@ -1,8 +1,9 @@
 #import "MSHttpSenderPrivate.h"
 #import "MSIngestionSender.h"
 #import "MSLogger.h"
-#import "MSMobileCenterInternal.h"
-#import "MobileCenter.h"
+#import "MSAppCenterInternal.h"
+// TODO: Why is this here?
+#import "AppCenter.h"
 
 @implementation MSIngestionSender
 
@@ -40,7 +41,7 @@ static NSString *const kMSApiPath = @"/logs";
     NSDictionary *userInfo = @{NSLocalizedDescriptionKey : kMSMCLogInvalidContainerErrorDesc};
     NSError *error =
         [NSError errorWithDomain:kMSMCErrorDomain code:kMSMCLogInvalidContainerErrorCode userInfo:userInfo];
-    MSLogError([MSMobileCenter logTag], @"%@", [error localizedDescription]);
+    MSLogError([MSAppCenter logTag], @"%@", [error localizedDescription]);
     handler(batchId, nil, nil, error);
     return;
   }
@@ -67,8 +68,8 @@ static NSString *const kMSApiPath = @"/logs";
 
   // Don't loose time pretty printing headers if not going to be printed.
   if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
-    MSLogVerbose([MSMobileCenter logTag], @"URL: %@", request.URL);
-    MSLogVerbose([MSMobileCenter logTag], @"Headers: %@", [super prettyPrintHeaders:request.allHTTPHeaderFields]);
+    MSLogVerbose([MSAppCenter logTag], @"URL: %@", request.URL);
+    MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [super prettyPrintHeaders:request.allHTTPHeaderFields]);
   }
   return request;
 }

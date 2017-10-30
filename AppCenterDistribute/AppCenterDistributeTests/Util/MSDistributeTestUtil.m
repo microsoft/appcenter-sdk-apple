@@ -1,7 +1,7 @@
 #import "MSDistributeTestUtil.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+Environment.h"
-#import "MobileCenter.h"
+#import "AppCenter.h"
 
 static id _mobileCenterMock;
 static id _utilMock;
@@ -9,7 +9,7 @@ static id _utilMock;
 @implementation MSDistributeTestUtil
 
 + (void)mockUpdatesAllowedConditions {
-  self.mobileCenterMock = OCMClassMock([MSMobileCenter class]);
+  self.mobileCenterMock = OCMClassMock([MSAppCenter class]);
   OCMStub([self.mobileCenterMock isDebuggerAttached]).andReturn(NO);
   self.utilMock = OCMClassMock([MSUtility class]);
   OCMStub([self.utilMock currentAppEnvironment]).andReturn(MSEnvironmentOther);

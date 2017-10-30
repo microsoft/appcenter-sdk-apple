@@ -1,5 +1,5 @@
 #import "MSLogger.h"
-#import "MSMobileCenterInternal.h"
+#import "MSAppCenterInternal.h"
 #import "MSUtility+File.h"
 
 /*
@@ -27,7 +27,7 @@ NSString *MSUtilityFileCategory;
     if ([[NSData data] writeToURL:fileURL atomically:NO]) {
       return YES;
     } else {
-      MSLogError([MSMobileCenter logTag], @"Couldn't create new file at path %@", fileURL);
+      MSLogError([MSAppCenter logTag], @"Couldn't create new file at path %@", fileURL);
     }
   }
   return NO;
@@ -45,7 +45,7 @@ NSString *MSUtilityFileCategory;
       [self disableBackupForDirectoryURL:directoryURL];
       return YES;
     } else {
-      MSLogError([MSMobileCenter logTag], @"Couldn't create directory at %@: %@", directoryURL,
+      MSLogError([MSAppCenter logTag], @"Couldn't create directory at %@: %@", directoryURL,
                  error.localizedDescription);
     }
   }
@@ -57,7 +57,7 @@ NSString *MSUtilityFileCategory;
   BOOL succeeded;
   succeeded = [[NSFileManager defaultManager] removeItemAtURL:itemURL error:&error];
   if (error) {
-    MSLogError([MSMobileCenter logTag], @"Couldn't remove item at %@: %@", itemURL, error.localizedDescription);
+    MSLogError([MSAppCenter logTag], @"Couldn't remove item at %@: %@", itemURL, error.localizedDescription);
   }
   return succeeded;
 }
@@ -67,7 +67,7 @@ NSString *MSUtilityFileCategory;
 
   // SDK files shouldn't be backed up in iCloud.
   if (!directoryURL || ![directoryURL setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:&error]) {
-    MSLogError([MSMobileCenter logTag], @"Error excluding %@ from iCloud backup %@", directoryURL,
+    MSLogError([MSAppCenter logTag], @"Error excluding %@ from iCloud backup %@", directoryURL,
                error.localizedDescription);
     return NO;
   } else {

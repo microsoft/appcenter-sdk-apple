@@ -3,13 +3,13 @@
 #import "MSReleaseDetailsPrivate.h"
 #import "MSTestFrameworks.h"
 
-@interface MobileCenterDistributeTests : XCTestCase
+@interface MSDistributeTests : XCTestCase
 
 @property(nonatomic) id parserMock;
 
 @end
 
-@implementation MobileCenterDistributeTests
+@implementation MSDistributeTests
 
 - (void)testGetMainBundle {
 

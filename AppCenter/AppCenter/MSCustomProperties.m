@@ -1,6 +1,6 @@
 #import "MSCustomProperties.h"
 #import "MSCustomPropertiesPrivate.h"
-#import "MSMobileCenterInternal.h"
+#import "MSAppCenterInternal.h"
 
 static NSString *const kKeyPattern = @"^[a-zA-Z][a-zA-Z0-9]*$";
 static const int maxPropertiesCount = 60;
@@ -54,22 +54,22 @@ static const int maxPropertyValueLength = 128;
     NSError *error = nil;
     regex = [NSRegularExpression regularExpressionWithPattern:kKeyPattern options:(NSRegularExpressionOptions)0 error:&error];
     if (!regex) {
-      MSLogError([MSMobileCenter logTag], @"Couldn't create regular expression with pattern\"%@\": %@", kKeyPattern, error.localizedDescription);
+      MSLogError([MSAppCenter logTag], @"Couldn't create regular expression with pattern\"%@\": %@", kKeyPattern, error.localizedDescription);
       return NO;
     }
   }
   if (!key || ![regex matchesInString:key options:(NSMatchingOptions)0 range:NSMakeRange(0, key.length)].count) {
-    MSLogError([MSMobileCenter logTag], @"Custom property \"%@\" must match \"%@\"", key, kKeyPattern);
+    MSLogError([MSAppCenter logTag], @"Custom property \"%@\" must match \"%@\"", key, kKeyPattern);
     return NO;
   }
   if (key.length > maxPropertyKeyLength) {
-    MSLogError([MSMobileCenter logTag], @"Custom property \"%@\" length cannot be longer than \"%d\" characters.", key, maxPropertyKeyLength);
+    MSLogError([MSAppCenter logTag], @"Custom property \"%@\" length cannot be longer than \"%d\" characters.", key, maxPropertyKeyLength);
     return NO;
   }
   if ([self.properties objectForKey:key]) {
-    MSLogWarning([MSMobileCenter logTag], @"Custom property \"%@\" is already set or cleared and will be overridden.", key);
+    MSLogWarning([MSAppCenter logTag], @"Custom property \"%@\" is already set or cleared and will be overridden.", key);
   } else if ([self properties].count >= maxPropertiesCount) {
-    MSLogError([MSMobileCenter logTag], @"Custom properties cannot contain more than \"%d\" items.", maxPropertiesCount);
+    MSLogError([MSAppCenter logTag], @"Custom properties cannot contain more than \"%d\" items.", maxPropertiesCount);
     return NO;
   }
   return YES;
@@ -80,12 +80,12 @@ static const int maxPropertyValueLength = 128;
     if ([value isKindOfClass:[NSString class]]) {
       NSString *stringValue = (NSString *) value;
       if (stringValue.length > maxPropertyValueLength) {
-        MSLogError([MSMobileCenter logTag], @"Custom property value length cannot be longer than \"%d\" characters.", maxPropertyValueLength);
+        MSLogError([MSAppCenter logTag], @"Custom property value length cannot be longer than \"%d\" characters.", maxPropertyValueLength);
         return NO;
       }
     }
   } else {
-    MSLogError([MSMobileCenter logTag], @"Custom property value cannot be null, did you mean to call clear?");
+    MSLogError([MSAppCenter logTag], @"Custom property value cannot be null, did you mean to call clear?");
     return NO;
   }
   return YES;

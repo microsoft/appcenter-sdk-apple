@@ -10,7 +10,7 @@
 #import "MSErrorDetails.h"
 #import "MSKeychainUtil.h"
 #import "MSLogger.h"
-#import "MSMobileCenterInternal.h"
+#import "MSAppCenterInternal.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSUtility+Date.h"
 
@@ -638,7 +638,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   BOOL environmentOkay = [MSUtility currentAppEnvironment] == MSEnvironmentOther;
 
   // Check if a debugger is attached.
-  BOOL noDebuggerAttached = ![MSMobileCenter isDebuggerAttached];
+  BOOL noDebuggerAttached = ![MSAppCenter isDebuggerAttached];
   return environmentOkay && noDebuggerAttached;
 }
 

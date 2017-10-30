@@ -8,7 +8,7 @@
 #import "MSDeviceTrackerPrivate.h"
 #import "MSErrorLogFormatterPrivate.h"
 #import "MSException.h"
-#import "MSMobileCenterInternal.h"
+#import "MSAppCenterInternal.h"
 #import "MSMockUserDefaults.h"
 #import "MSTestFrameworks.h"
 #import "MSThread.h"
@@ -41,7 +41,7 @@
   MSErrorReport *errorReport = [MSErrorLogFormatter errorReportFromCrashReport:crashReport];
   XCTAssertNotNil(errorReport);
   XCTAssertNotNil(errorReport.incidentIdentifier);
-  assertThat(errorReport.reporterKey, equalTo([[MSMobileCenter installId] UUIDString]));
+  assertThat(errorReport.reporterKey, equalTo([[MSAppCenter installId] UUIDString]));
   XCTAssertEqual(errorReport.signal, crashReport.signalInfo.name);
   XCTAssertEqual(errorReport.exceptionName, nil);
   XCTAssertEqual(errorReport.exceptionReason, nil);
@@ -62,7 +62,7 @@
   errorReport = [MSErrorLogFormatter errorReportFromCrashReport:crashReport];
   XCTAssertNotNil(errorReport);
   XCTAssertNotNil(errorReport.incidentIdentifier);
-  assertThat(errorReport.reporterKey, equalTo([[MSMobileCenter installId] UUIDString]));
+  assertThat(errorReport.reporterKey, equalTo([[MSAppCenter installId] UUIDString]));
   XCTAssertEqual(errorReport.signal, crashReport.signalInfo.name);
   assertThat(errorReport.exceptionName, equalTo(crashReport.exceptionInfo.exceptionName));
   assertThat(errorReport.exceptionReason, equalTo(crashReport.exceptionInfo.exceptionReason));

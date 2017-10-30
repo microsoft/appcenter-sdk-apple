@@ -1,5 +1,5 @@
 framework module AppCenterPush {
-  umbrella header "MobileCenterPush.h"
+  umbrella header "AppCenterPush.h"
   
   export *
   module * { export * }

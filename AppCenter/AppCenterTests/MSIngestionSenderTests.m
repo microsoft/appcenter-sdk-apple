@@ -3,12 +3,12 @@
 #import "MSHttpSenderPrivate.h"
 #import "MSHttpTestUtil.h"
 #import "MSIngestionSender.h"
-#import "MSMobileCenterErrors.h"
+#import "MSAppCenterErrors.h"
 #import "MSMockLog.h"
 #import "MSSenderCall.h"
 #import "MSSenderDelegate.h"
 #import "MSTestFrameworks.h"
-#import "MobileCenter+Internal.h"
+#import "AppCenter+Internal.h"
 
 static NSTimeInterval const kMSTestTimeout = 5.0;
 static NSString *const kMSBaseUrl = @"https://test.com";

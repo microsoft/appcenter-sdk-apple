@@ -50,7 +50,7 @@
 #import "MSErrorLogFormatter.h"
 #import "MSErrorReportPrivate.h"
 #import "MSException.h"
-#import "MSMobileCenterInternal.h"
+#import "MSAppCenterInternal.h"
 #import "MSStackFrame.h"
 #import "MSThread.h"
 #import "MSDeviceTrackerPrivate.h"
@@ -299,9 +299,9 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
   /*
    * There should always be an installId. Leaving the empty string out of paranoia as [UUID UUID] – used in
-   * [MSMobileCenter installId] – might, in theory, return nil.
+   * [MSAppCenter installId] – might, in theory, return nil.
    */
-  NSString *reporterKey = [[MSMobileCenter installId] UUIDString] ?: @"";
+  NSString *reporterKey = [[MSAppCenter installId] UUIDString] ?: @"";
 
   NSString *signal = errorLog.osExceptionType;
   NSString *exceptionReason = errorLog.exceptionReason;

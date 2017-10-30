@@ -90,11 +90,11 @@
 		043121551EE0C20A007054C5 /* MSEventLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3E2CC61D359D5E00B1EE50 /* MSEventLog.m */; };
 		043121561EE0C20A007054C5 /* MSStartSessionLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E8E48FA11D51670100A8C1B0 /* MSStartSessionLog.m */; };
 		0431215A1EE0C20A007054C5 /* MSSessionTrackerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E89B33EB1D5A8F3500FDE8FB /* MSSessionTrackerDelegate.h */; };
-		0431215B1EE0C20A007054C5 /* MobileCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CF1D2D6521002DF6E2 /* MobileCenter+Internal.h */; };
+		0431215B1EE0C20A007054C5 /* AppCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CF1D2D6521002DF6E2 /* AppCenter+Internal.h */; };
 		0431215C1EE0C20A007054C5 /* MSPageLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E3E2CC71D359D5E00B1EE50 /* MSPageLog.h */; };
 		0431215D1EE0C20A007054C5 /* MSStartSessionLog.h in Headers */ = {isa = PBXBuildFile; fileRef = E8E48FA01D51670100A8C1B0 /* MSStartSessionLog.h */; };
 		0431215E1EE0C20A007054C5 /* MSAnalyticsCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = 0485AF8D1EAA852A00C10CAF /* MSAnalyticsCategory.h */; };
-		0431215F1EE0C20A007054C5 /* MobileCenterAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CC1D2D63EF002DF6E2 /* MobileCenterAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0431215F1EE0C20A007054C5 /* AppCenterAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CC1D2D63EF002DF6E2 /* AppCenterAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		043121601EE0C20A007054C5 /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C77041D6CC39400D68CC1 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		043121611EE0C20A007054C5 /* MSLogManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E8AEE97F1D596C8B00C0FF6C /* MSLogManager.h */; };
 		043121621EE0C20A007054C5 /* MSAnalyticsInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3813B9641DBFE68200831214 /* MSAnalyticsInternal.h */; };
@@ -131,10 +131,10 @@
 		0485AF6D1EAA79E300C10CAF /* MSEventLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3E2CC61D359D5E00B1EE50 /* MSEventLog.m */; };
 		0485AF6F1EAA79E300C10CAF /* MSStartSessionLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E8E48FA11D51670100A8C1B0 /* MSStartSessionLog.m */; };
 		0485AF731EAA79E300C10CAF /* MSSessionTrackerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E89B33EB1D5A8F3500FDE8FB /* MSSessionTrackerDelegate.h */; };
-		0485AF741EAA79E300C10CAF /* MobileCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CF1D2D6521002DF6E2 /* MobileCenter+Internal.h */; };
+		0485AF741EAA79E300C10CAF /* AppCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CF1D2D6521002DF6E2 /* AppCenter+Internal.h */; };
 		0485AF751EAA79E300C10CAF /* MSPageLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E3E2CC71D359D5E00B1EE50 /* MSPageLog.h */; };
 		0485AF761EAA79E300C10CAF /* MSStartSessionLog.h in Headers */ = {isa = PBXBuildFile; fileRef = E8E48FA01D51670100A8C1B0 /* MSStartSessionLog.h */; };
-		0485AF781EAA79E300C10CAF /* MobileCenterAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CC1D2D63EF002DF6E2 /* MobileCenterAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0485AF781EAA79E300C10CAF /* AppCenterAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CC1D2D63EF002DF6E2 /* AppCenterAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0485AF791EAA79E300C10CAF /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C77041D6CC39400D68CC1 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0485AF7A1EAA79E300C10CAF /* MSLogManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E8AEE97F1D596C8B00C0FF6C /* MSLogManager.h */; };
 		0485AF7B1EAA79E300C10CAF /* MSAnalyticsInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3813B9641DBFE68200831214 /* MSAnalyticsInternal.h */; };
@@ -166,9 +166,9 @@
 		E81591321D526C3B003D5F3C /* MSSessionTrackerUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = E81591311D526C3B003D5F3C /* MSSessionTrackerUtil.m */; };
 		E85547C61D2D6253002DF6E2 /* MSAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E85547C51D2D6253002DF6E2 /* MSAnalytics.m */; };
 		E85547DA1D2D6723002DF6E2 /* libAppCenterAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E85547C01D2D6253002DF6E2 /* libAppCenterAnalytics.a */; };
-		E85547F71D2D6A7D002DF6E2 /* MobileCenterAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CC1D2D63EF002DF6E2 /* MobileCenterAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E85547F71D2D6A7D002DF6E2 /* AppCenterAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CC1D2D63EF002DF6E2 /* AppCenterAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E85547F81D2D6A7D002DF6E2 /* MSAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547C31D2D6253002DF6E2 /* MSAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E85547F91D2D6A9B002DF6E2 /* MobileCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CF1D2D6521002DF6E2 /* MobileCenter+Internal.h */; };
+		E85547F91D2D6A9B002DF6E2 /* AppCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CF1D2D6521002DF6E2 /* AppCenter+Internal.h */; };
 		E85547FA1D2D6A9E002DF6E2 /* MSAnalyticsPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CE1D2D64F0002DF6E2 /* MSAnalyticsPrivate.h */; };
 		E89B33E71D5A526D00FDE8FB /* MSSessionHistoryInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = E89B33E51D5A526D00FDE8FB /* MSSessionHistoryInfo.h */; };
 		E89B33E81D5A526D00FDE8FB /* MSSessionHistoryInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = E89B33E61D5A526D00FDE8FB /* MSSessionHistoryInfo.m */; };
@@ -303,9 +303,9 @@
 		E85547C01D2D6253002DF6E2 /* libAppCenterAnalytics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppCenterAnalytics.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E85547C31D2D6253002DF6E2 /* MSAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAnalytics.h; sourceTree = "<group>"; };
 		E85547C51D2D6253002DF6E2 /* MSAnalytics.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSAnalytics.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		E85547CC1D2D63EF002DF6E2 /* MobileCenterAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MobileCenterAnalytics.h; sourceTree = "<group>"; };
+		E85547CC1D2D63EF002DF6E2 /* AppCenterAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppCenterAnalytics.h; sourceTree = "<group>"; };
 		E85547CE1D2D64F0002DF6E2 /* MSAnalyticsPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsPrivate.h; sourceTree = "<group>"; };
-		E85547CF1D2D6521002DF6E2 /* MobileCenter+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "MobileCenter+Internal.h"; path = "../../../AppCenter/AppCenter/Internals/MobileCenter+Internal.h"; sourceTree = "<group>"; };
+		E85547CF1D2D6521002DF6E2 /* AppCenter+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "AppCenter+Internal.h"; path = "../../../AppCenter/AppCenter/Internals/AppCenter+Internal.h"; sourceTree = "<group>"; };
 		E85547D51D2D6723002DF6E2 /* AppCenterAnalytics.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterAnalytics.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E85547D91D2D6723002DF6E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E89B33E51D5A526D00FDE8FB /* MSSessionHistoryInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSSessionHistoryInfo.h; sourceTree = "<group>"; };
@@ -536,7 +536,7 @@
 		E85547C21D2D6253002DF6E2 /* AppCenterAnalytics */ = {
 			isa = PBXGroup;
 			children = (
-				E85547CC1D2D63EF002DF6E2 /* MobileCenterAnalytics.h */,
+				E85547CC1D2D63EF002DF6E2 /* AppCenterAnalytics.h */,
 				E85547C31D2D6253002DF6E2 /* MSAnalytics.h */,
 				E85547C51D2D6253002DF6E2 /* MSAnalytics.m */,
 				E85547CD1D2D64B0002DF6E2 /* Internals */,
@@ -548,7 +548,7 @@
 		E85547CD1D2D64B0002DF6E2 /* Internals */ = {
 			isa = PBXGroup;
 			children = (
-				E85547CF1D2D6521002DF6E2 /* MobileCenter+Internal.h */,
+				E85547CF1D2D6521002DF6E2 /* AppCenter+Internal.h */,
 				E85547CE1D2D64F0002DF6E2 /* MSAnalyticsPrivate.h */,
 				3813B9641DBFE68200831214 /* MSAnalyticsInternal.h */,
 				35BF19E21DF9C43F00193027 /* MSAnalyticsDelegate.h */,
@@ -611,11 +611,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				0431215A1EE0C20A007054C5 /* MSSessionTrackerDelegate.h in Headers */,
-				0431215B1EE0C20A007054C5 /* MobileCenter+Internal.h in Headers */,
+				0431215B1EE0C20A007054C5 /* AppCenter+Internal.h in Headers */,
 				0431215C1EE0C20A007054C5 /* MSPageLog.h in Headers */,
 				0431215D1EE0C20A007054C5 /* MSStartSessionLog.h in Headers */,
 				0431215E1EE0C20A007054C5 /* MSAnalyticsCategory.h in Headers */,
-				0431215F1EE0C20A007054C5 /* MobileCenterAnalytics.h in Headers */,
+				0431215F1EE0C20A007054C5 /* AppCenterAnalytics.h in Headers */,
 				043121601EE0C20A007054C5 /* MSServiceAbstract.h in Headers */,
 				043121611EE0C20A007054C5 /* MSLogManager.h in Headers */,
 				043121621EE0C20A007054C5 /* MSAnalyticsInternal.h in Headers */,
@@ -634,10 +634,10 @@
 			files = (
 				0485AF731EAA79E300C10CAF /* MSSessionTrackerDelegate.h in Headers */,
 				04A1409D1ECE728B001CEE94 /* MSAnalyticsCategory.h in Headers */,
-				0485AF741EAA79E300C10CAF /* MobileCenter+Internal.h in Headers */,
+				0485AF741EAA79E300C10CAF /* AppCenter+Internal.h in Headers */,
 				0485AF751EAA79E300C10CAF /* MSPageLog.h in Headers */,
 				0485AF761EAA79E300C10CAF /* MSStartSessionLog.h in Headers */,
-				0485AF781EAA79E300C10CAF /* MobileCenterAnalytics.h in Headers */,
+				0485AF781EAA79E300C10CAF /* AppCenterAnalytics.h in Headers */,
 				0485AF791EAA79E300C10CAF /* MSServiceAbstract.h in Headers */,
 				0485AF7A1EAA79E300C10CAF /* MSLogManager.h in Headers */,
 				0485AF7B1EAA79E300C10CAF /* MSAnalyticsInternal.h in Headers */,
@@ -655,11 +655,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				E89B33EC1D5A8F3500FDE8FB /* MSSessionTrackerDelegate.h in Headers */,
-				E85547F91D2D6A9B002DF6E2 /* MobileCenter+Internal.h in Headers */,
+				E85547F91D2D6A9B002DF6E2 /* AppCenter+Internal.h in Headers */,
 				6E3E2CCD1D359D5E00B1EE50 /* MSPageLog.h in Headers */,
 				E8E48FA21D51670100A8C1B0 /* MSStartSessionLog.h in Headers */,
 				0485AF8F1EAA852A00C10CAF /* MSAnalyticsCategory.h in Headers */,
-				E85547F71D2D6A7D002DF6E2 /* MobileCenterAnalytics.h in Headers */,
+				E85547F71D2D6A7D002DF6E2 /* AppCenterAnalytics.h in Headers */,
 				387C77051D6CC39400D68CC1 /* MSServiceAbstract.h in Headers */,
 				E8AEE9801D596C8B00C0FF6C /* MSLogManager.h in Headers */,
 				3813B9651DBFE68200831214 /* MSAnalyticsInternal.h in Headers */,

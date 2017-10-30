@@ -1,4 +1,4 @@
-#import "MSMobileCenterErrors.h"
+#import "MSAppCenterErrors.h"
 
 #define MS_MOBILE_CENTER_BASE_DOMAIN @"com.Microsoft.Azure.Mobile.MobileCenter."
 

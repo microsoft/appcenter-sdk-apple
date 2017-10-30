@@ -1,5 +1,5 @@
 framework module AppCenterCrashes {
-  umbrella header "MobileCenterCrashes.h"
+  umbrella header "AppCenterCrashes.h"
   
   export *
   module * { export * }

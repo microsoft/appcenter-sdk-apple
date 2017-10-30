@@ -10,7 +10,7 @@
 
 #import "MSAppDelegateForwarderPrivate.h"
 #import "MSLogger.h"
-#import "MSMobileCenterInternal.h"
+#import "MSAppCenterInternal.h"
 #import "MSUtility+Application.h"
 
 static NSString *const kMSCustomSelectorPrefix = @"custom_";
@@ -55,11 +55,11 @@ static BOOL _enabled = YES;
   // Swizzle `setDelegate:` of Application class.
   if (MSAppDelegateForwarder.enabled) {
     [self addTraceBlock:^{
-      MSLogDebug([MSMobileCenter logTag], @"Application delegate forwarder is enabled. It may use swizzling.");
+      MSLogDebug([MSAppCenter logTag], @"Application delegate forwarder is enabled. It may use swizzling.");
     }];
   } else {
     [self addTraceBlock:^{
-      MSLogDebug([MSMobileCenter logTag], @"Application delegate forwarder is disabled. It won't use swizzling.");
+      MSLogDebug([MSAppCenter logTag], @"Application delegate forwarder is disabled. It won't use swizzling.");
     }];
   }
 }
@@ -117,7 +117,7 @@ static BOOL _enabled = YES;
       static dispatch_once_t onceToken = 0;
       dispatch_once(&onceToken, ^{
         [traceBuffer addObject:^{
-          MSLogVerbose([MSMobileCenter logTag], @"Start buffering traces.");
+          MSLogVerbose([MSAppCenter logTag], @"Start buffering traces.");
         }];
       });
       [traceBuffer addObject:block];
@@ -265,14 +265,14 @@ static BOOL _enabled = YES;
         NSString *message = [NSString
             stringWithFormat:@"Cannot swizzle selector '%@' of class '%@'.", originalSelectorStr, originalClass];
         if (warningMsg) {
-          MSLogWarning([MSMobileCenter logTag], @"%@ %@", message, warningMsg);
+          MSLogWarning([MSAppCenter logTag], @"%@ %@", message, warningMsg);
         } else {
-          MSLogError([MSMobileCenter logTag], @"%@ %@", message, remediationMsg);
+          MSLogError([MSAppCenter logTag], @"%@ %@", message, remediationMsg);
         }
       }];
     } else {
       [self addTraceBlock:^{
-        MSLogDebug([MSMobileCenter logTag], @"Selector '%@' of class '%@' is swizzled.", originalSelectorStr,
+        MSLogDebug([MSAppCenter logTag], @"Selector '%@' of class '%@' is swizzled.", originalSelectorStr,
                    originalClass);
       }];
     }
@@ -522,7 +522,7 @@ static BOOL _enabled = YES;
       }
       [traceBuffer removeAllObjects];
       traceBuffer = nil;
-      MSLogVerbose([MSMobileCenter logTag], @"Stop buffering traces, flushed.");
+      MSLogVerbose([MSAppCenter logTag], @"Stop buffering traces, flushed.");
     }
   }
 }

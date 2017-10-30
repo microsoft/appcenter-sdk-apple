@@ -9,7 +9,7 @@
 #import "MSDistributeTestUtil.h"
 #import "MSDistributeUtil.h"
 #import "MSKeychainUtil.h"
-#import "MSMobileCenter.h"
+#import "MSAppCenter.h"
 #import "MSMockUserDefaults.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSTestFrameworks.h"
@@ -882,7 +882,7 @@ static NSURL *sfURL;
   id distributeMock = OCMPartialMock(self.sut);
   OCMReject([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY]);
   OCMStub([distributeMock sharedInstance]).andReturn(distributeMock);
-  id mobileCeneterMock = OCMClassMock([MSMobileCenter class]);
+  id mobileCeneterMock = OCMClassMock([MSAppCenter class]);
   OCMStub([mobileCeneterMock isConfigured]).andReturn(YES);
   id utilityMock = [self mockMSPackageHash];
 
@@ -961,7 +961,7 @@ static NSURL *sfURL;
   OCMStub([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:kMSTestReleaseHash])
       .andDo(nil);
   OCMStub([distributeMock sharedInstance]).andReturn(distributeMock);
-  id mobileCeneterMock = OCMClassMock([MSMobileCenter class]);
+  id mobileCeneterMock = OCMClassMock([MSAppCenter class]);
   OCMStub([mobileCeneterMock isConfigured]).andReturn(YES);
   id utilityMock = [self mockMSPackageHash];
 
@@ -1024,7 +1024,7 @@ static NSURL *sfURL;
   id distributeMock = OCMPartialMock(self.sut);
   OCMReject([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY]);
   OCMStub([distributeMock sharedInstance]).andReturn(distributeMock);
-  id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
+  id mobileCenterMock = OCMClassMock([MSAppCenter class]);
   OCMStub([mobileCenterMock isConfigured]).andReturn(YES);
   [distributeMock startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
 
@@ -1134,7 +1134,7 @@ static NSURL *sfURL;
 
   // If
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
-  id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
+  id mobileCenterMock = OCMClassMock([MSAppCenter class]);
   id distributeMock = OCMPartialMock(self.sut);
   OCMStub([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY])
       .andDo(nil);
@@ -1164,7 +1164,7 @@ static NSURL *sfURL;
 
   // When
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
-  id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
+  id mobileCenterMock = OCMClassMock([MSAppCenter class]);
   id utilityMock = OCMClassMock([MSUtility class]);
   OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(YES);
   OCMStub([utilityMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
@@ -1180,7 +1180,7 @@ static NSURL *sfURL;
 
   // When
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
-  id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
+  id mobileCenterMock = OCMClassMock([MSAppCenter class]);
   id utilityMock = OCMClassMock([MSUtility class]);
   OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(NO);
   OCMStub([utilityMock currentAppEnvironment]).andReturn(MSEnvironmentTestFlight);
@@ -1196,7 +1196,7 @@ static NSURL *sfURL;
 
   // If
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
-  id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
+  id mobileCenterMock = OCMClassMock([MSAppCenter class]);
   id distributeMock = OCMPartialMock(self.sut);
   OCMStub([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY])
       .andDo(nil);
@@ -1233,7 +1233,7 @@ static NSURL *sfURL;
 
   // If
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
-  id mobileCenterMock = OCMClassMock([MSMobileCenter class]);
+  id mobileCenterMock = OCMClassMock([MSAppCenter class]);
   id distributeMock = OCMPartialMock(self.sut);
   OCMStub([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY])
       .andDo(nil);

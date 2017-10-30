@@ -1,5 +1,5 @@
-#import "MSMobileCenterErrors.h"
-#import "MSMobileCenterInternal.h"
+#import "MSAppCenterErrors.h"
+#import "MSAppCenterInternal.h"
 #import "MSSenderCall.h"
 
 @implementation MSSenderCall
@@ -39,7 +39,7 @@
   // Create queue.
   self.timerSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, DISPATCH_TARGET_QUEUE_DEFAULT);
   int64_t delta = NSEC_PER_SEC * [self delayForRetryCount:self.retryCount];
-  MSLogDebug([MSMobileCenter logTag], @"Call attempt #%lu failed, it will be retried in %.f ms.",
+  MSLogDebug([MSAppCenter logTag], @"Call attempt #%lu failed, it will be retried in %.f ms.",
              (unsigned long)self.retryCount, round(delta / 1000000));
   self.retryCount++;
   dispatch_source_set_timer(self.timerSource, dispatch_walltime(NULL, delta), 1ull * NSEC_PER_SEC, 1ull * NSEC_PER_SEC);
@@ -78,7 +78,7 @@
     // Reset the retry count, will retry once the (secure) connection is established again.
     [self resetRetry];
     NSString *logMessage = internetIsDown ? @"Internet connection is down." : @"Could not establish secure connection.";
-    MSLogInfo([MSMobileCenter logTag],logMessage);
+    MSLogInfo([MSAppCenter logTag],logMessage);
     [sender suspend];
   }
 

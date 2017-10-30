@@ -16,7 +16,7 @@ custom_categories:
     children:
     - Installation
 
-umbrella_header: ../../../MobileCenter-SDK-Apple/tvOS/AppCenterAnalytics.framework/Headers/MobileCenterAnalytics.h
+umbrella_header: ../../../MobileCenter-SDK-Apple/tvOS/AppCenterAnalytics.framework/Headers/AppCenterAnalytics.h
 framework_root: ../../../MobileCenter-SDK-Apple/tvOS/
 exclude: [../../../MobileCenter-SDK-Apple/tvOS/AppCenterAnalytics.framework/Headers/MSService.h, ../../../MobileCenter-SDK-Apple/tvOS/AppCenterAnalytics.framework/Headers/MSServiceAbstract.h]
 

@@ -46,7 +46,7 @@
 		046FDBD41E5682FA00AF9DD1 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 046FDBD21E5682FA00AF9DD1 /* MSAlertController.m */; };
 		0471B5E41E4544000022F951 /* libAppCenterDistribute.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04FD4A1C1E451E12009B4468 /* libAppCenterDistribute.a */; };
 		0471B8991E4547480022F951 /* MSDistribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 0471B8981E4547480022F951 /* MSDistribute.m */; };
-		0471B9331E4555F20022F951 /* MobileCenterDistribute.h in Headers */ = {isa = PBXBuildFile; fileRef = 04FD4A1F1E451E12009B4468 /* MobileCenterDistribute.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0471B9331E4555F20022F951 /* AppCenterDistribute.h in Headers */ = {isa = PBXBuildFile; fileRef = 04FD4A1F1E451E12009B4468 /* AppCenterDistribute.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0471B9341E45560C0022F951 /* MSDistribute.h in Headers */ = {isa = PBXBuildFile; fileRef = 0471B89A1E4547750022F951 /* MSDistribute.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0471B93C1E4557620022F951 /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 0471B93B1E4557620022F951 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0471B93E1E4557820022F951 /* MSLogManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0471B93D1E4557820022F951 /* MSLogManager.h */; };
@@ -175,7 +175,7 @@
 		04DC2EC81E78A3B4003F23B5 /* error_details.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_details.json; sourceTree = "<group>"; };
 		04DC2ECA1E78A3E3003F23B5 /* MSErrorDetailsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSErrorDetailsTests.m; sourceTree = "<group>"; };
 		04FD4A1C1E451E12009B4468 /* libAppCenterDistribute.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppCenterDistribute.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		04FD4A1F1E451E12009B4468 /* MobileCenterDistribute.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MobileCenterDistribute.h; sourceTree = "<group>"; };
+		04FD4A1F1E451E12009B4468 /* AppCenterDistribute.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppCenterDistribute.h; sourceTree = "<group>"; };
 		04FD4A311E453531009B4468 /* AppCenterDistribute.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterDistribute.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		04FD4A331E453531009B4468 /* MSDistributeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDistributeTests.m; sourceTree = "<group>"; };
 		04FD4A351E453531009B4468 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -370,7 +370,7 @@
 		04FD4A1E1E451E12009B4468 /* AppCenterDistribute */ = {
 			isa = PBXGroup;
 			children = (
-				04FD4A1F1E451E12009B4468 /* MobileCenterDistribute.h */,
+				04FD4A1F1E451E12009B4468 /* AppCenterDistribute.h */,
 				0471B89A1E4547750022F951 /* MSDistribute.h */,
 				0471B8981E4547480022F951 /* MSDistribute.m */,
 				046EF5881EAEB524002F6436 /* MSDistributeDelegate.h */,
@@ -487,7 +487,7 @@
 				B25895AA1E4E9FD400123632 /* MSDistributeInternal.h in Headers */,
 				0471B93C1E4557620022F951 /* MSServiceAbstract.h in Headers */,
 				B2C070A51E5E62330076D6A9 /* MSDistributeUtil.h in Headers */,
-				0471B9331E4555F20022F951 /* MobileCenterDistribute.h in Headers */,
+				0471B9331E4555F20022F951 /* AppCenterDistribute.h in Headers */,
 				048BB3071E60A40D009D92C2 /* MSDistributeSender.h in Headers */,
 				046FDBD31E5682FA00AF9DD1 /* MSAlertController.h in Headers */,
 				0471B9341E45560C0022F951 /* MSDistribute.h in Headers */,

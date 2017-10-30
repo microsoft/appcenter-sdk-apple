@@ -16,7 +16,7 @@ custom_categories:
     children:
     - Installation
 
-umbrella_header: ../../../MobileCenter-SDK-Apple/macOS/AppCenterCrashes.framework/Headers/MobileCenterCrashes.h
+umbrella_header: ../../../MobileCenter-SDK-Apple/macOS/AppCenterCrashes.framework/Headers/AppCenterCrashes.h
 framework_root: ../../../MobileCenter-SDK-Apple/macOS/
 exclude: [../../../MobileCenter-SDK-Apple/macOS/AppCenterCrashes.framework/Headers/MSService.h, ../../../MobileCenter-SDK-Apple/macOS/AppCenterCrashes.framework/Headers/MSServiceAbstract.h]
 

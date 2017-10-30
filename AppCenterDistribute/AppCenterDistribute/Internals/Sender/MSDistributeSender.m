@@ -2,8 +2,8 @@
 #import "MSDistributeSender.h"
 #import "MSHttpSenderPrivate.h"
 #import "MSLogger.h"
-#import "MSMobileCenter.h"
-#import "MSMobileCenterInternal.h"
+#import "MSAppCenter.h"
+#import "MSAppCenterInternal.h"
 
 @implementation MSDistributeSender
 
@@ -60,8 +60,8 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat =
     NSString *url =
         [request.URL.absoluteString stringByReplacingOccurrencesOfString:self.appSecret
                                                               withString:[MSSenderUtil hideSecret:self.appSecret]];
-    MSLogVerbose([MSMobileCenter logTag], @"URL: %@", url);
-    MSLogVerbose([MSMobileCenter logTag], @"Headers: %@", [super prettyPrintHeaders:request.allHTTPHeaderFields]);
+    MSLogVerbose([MSAppCenter logTag], @"URL: %@", url);
+    MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [super prettyPrintHeaders:request.allHTTPHeaderFields]);
   }
 
   return request;

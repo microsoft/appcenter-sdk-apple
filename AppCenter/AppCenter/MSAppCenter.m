@@ -7,7 +7,7 @@
 #import "MSHttpSender.h"
 #import "MSLogManagerDefault.h"
 #import "MSLogger.h"
-#import "MSMobileCenterInternal.h"
+#import "MSAppCenterInternal.h"
 #import "MSStartServiceLog.h"
 #import "MSUtility.h"
 #if !TARGET_OS_TV
@@ -17,7 +17,7 @@
 #endif
 
 // Singleton
-static MSMobileCenter *sharedInstance = nil;
+static MSAppCenter *sharedInstance = nil;
 static dispatch_once_t onceToken;
 
 /**
@@ -31,7 +31,7 @@ static NSString *const kMSServiceName = @"MobileCenter";
 // The group Id for storage.
 static NSString *const kMSGroupId = @"MobileCenter";
 
-@implementation MSMobileCenter
+@implementation MSAppCenter
 
 @synthesize installId = _installId;
 
@@ -176,12 +176,12 @@ static NSString *const kMSGroupId = @"MobileCenter";
   @synchronized(self) {
     BOOL success = false;
     if (self.sdkConfigured) {
-      MSLogAssert([MSMobileCenter logTag], @"Mobile Center SDK has already been configured.");
+      MSLogAssert([MSAppCenter logTag], @"Mobile Center SDK has already been configured.");
     }
 
     // Validate and set the app secret.
     else if ([appSecret length] == 0) {
-      MSLogAssert([MSMobileCenter logTag], @"AppSecret is invalid.");
+      MSLogAssert([MSAppCenter logTag], @"AppSecret is invalid.");
     } else {
       self.appSecret = appSecret;
 
@@ -200,11 +200,11 @@ static NSString *const kMSGroupId = @"MobileCenter";
        * we set the default loglevel to MSLogLevelWarning.
        */
       if ((![MSLogger isUserDefinedLogLevel]) && ([MSUtility currentAppEnvironment] == MSEnvironmentOther)) {
-        [MSMobileCenter setLogLevel:MSLogLevelWarning];
+        [MSAppCenter setLogLevel:MSLogLevelWarning];
       }
       success = true;
     }
-    MSLogAssert([MSMobileCenter logTag], @"Mobile Center SDK %@",
+    MSLogAssert([MSAppCenter logTag], @"Mobile Center SDK %@",
                 (success) ? @"configured successfully." : @"configuration failed.");
     return success;
   }
@@ -225,7 +225,7 @@ static NSString *const kMSGroupId = @"MobileCenter";
       if ([servicesNames count] > 0) {
         [self sendStartServiceLog:servicesNames];
       } else {
-        MSLogDebug([MSMobileCenter logTag], @"No services have been started.");
+        MSLogDebug([MSAppCenter logTag], @"No services have been started.");
       }
     }
   }
@@ -256,7 +256,7 @@ static NSString *const kMSGroupId = @"MobileCenter";
 
     // Check if clazz is valid class
     if (![clazz conformsToProtocol:@protocol(MSServiceCommon)]) {
-      MSLogError([MSMobileCenter logTag], @"Cannot start service %@. Provided value is nil or invalid.", clazz);
+      MSLogError([MSAppCenter logTag], @"Cannot start service %@. Provided value is nil or invalid.", clazz);
       return NO;
     }
     id<MSServiceInternal> service = [clazz sharedInstance];
@@ -294,7 +294,7 @@ static NSString *const kMSGroupId = @"MobileCenter";
 #if !TARGET_OS_TV
 - (void)setCustomProperties:(MSCustomProperties *)customProperties {
   if (!customProperties || customProperties.properties == 0) {
-    MSLogError([MSMobileCenter logTag], @"Custom properties may not be null or empty");
+    MSLogError([MSAppCenter logTag], @"Custom properties may not be null or empty");
     return;
   }
   [self sendCustomPropertiesLog:customProperties.properties];
@@ -309,7 +309,7 @@ static NSString *const kMSGroupId = @"MobileCenter";
     [self applyPipelineEnabledState:isEnabled];
 
     // Persist the enabled status.
-    [MS_USER_DEFAULTS setObject:@(isEnabled) forKey:kMSMobileCenterIsEnabledKey];
+    [MS_USER_DEFAULTS setObject:@(isEnabled) forKey:kMSAppCenterIsEnabledKey];
   }
 
   // Propagate enable/disable on all services.
@@ -317,7 +317,7 @@ static NSString *const kMSGroupId = @"MobileCenter";
     [[service class] setEnabled:isEnabled];
   }
   self.enabledStateUpdating = NO;
-  MSLogInfo([MSMobileCenter logTag], @"Mobile Center SDK %@.", isEnabled ? @"enabled" : @"disabled");
+  MSLogInfo([MSAppCenter logTag], @"Mobile Center SDK %@.", isEnabled ? @"enabled" : @"disabled");
 }
 
 - (BOOL)isEnabled {
@@ -326,7 +326,7 @@ static NSString *const kMSGroupId = @"MobileCenter";
    * Get isEnabled value from persistence.
    * No need to cache the value in a property, user settings already have their cache mechanism.
    */
-  NSNumber *isEnabledNumber = [MS_USER_DEFAULTS objectForKey:kMSMobileCenterIsEnabledKey];
+  NSNumber *isEnabledNumber = [MS_USER_DEFAULTS objectForKey:kMSAppCenterIsEnabledKey];
 
   // Return the persisted value otherwise it's enabled by default.
   return (isEnabledNumber) ? [isEnabledNumber boolValue] : YES;
@@ -399,7 +399,7 @@ static NSString *const kMSGroupId = @"MobileCenter";
 - (BOOL)canBeUsed {
   BOOL canBeUsed = self.sdkConfigured;
   if (!canBeUsed) {
-    MSLogError([MSMobileCenter logTag], @"Mobile Center SDK hasn't been configured. You need to call [MSMobileCenter "
+    MSLogError([MSAppCenter logTag], @"Mobile Center SDK hasn't been configured. You need to call [MSAppCenter "
                                         @"start:YOUR_APP_SECRET withServices:LIST_OF_SERVICES] first.");
   }
   return canBeUsed;

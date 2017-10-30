@@ -100,12 +100,12 @@ typedef NS_ENUM(NSUInteger, MSUserConfirmation) {
  * the SDK. Your typical setup code would look like this:
  *
  * `[MSCrashes disableMachExceptionHandler]`;
- * `[MSMobileCenter start:@"YOUR_APP_ID" withServices:@[[MSCrashes class]]];`
+ * `[MSAppCenter start:@"YOUR_APP_ID" withServices:@[[MSCrashes class]]];`
  *
  * or if you are using Swift:
  *
  * `MSCrashes.disableMachExceptionHandler()`
- * `MSMobileCenter.start("YOUR_APP_ID", withServices: [MSAnalytics.self, MSCrashes.self])`
+ * `MSAppCenter.start("YOUR_APP_ID", withServices: [MSAnalytics.self, MSCrashes.self])`
  *
  * tvOS does not support the Mach exception handler, thus crashes that are caused by stack overflows cannot
  * be detected. As a result, disabling the Mach exception server is not available in the tvOS SDK.

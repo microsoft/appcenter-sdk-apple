@@ -7,10 +7,10 @@
 @class MSCustomProperties;
 #endif
 
-@interface MSMobileCenter : NSObject
+@interface MSAppCenter : NSObject
 
 /**
- * Returns the singleton instance of MSMobileCenter.
+ * Returns the singleton instance of MSAppCenter.
  */
 + (instancetype)sharedInstance;
 

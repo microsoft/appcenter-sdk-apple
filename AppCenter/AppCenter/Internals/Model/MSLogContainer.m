@@ -1,6 +1,6 @@
 #import "MSLogContainer.h"
 #import "MSLogger.h"
-#import "MSMobileCenterInternal.h"
+#import "MSAppCenterInternal.h"
 #import "MSSerializableObject.h"
 
 static NSString *const kMSLogs = @"logs";
@@ -38,7 +38,7 @@ static NSString *const kMSLogs = @"logs";
   NSData *jsonData = [NSJSONSerialization dataWithJSONObject:logContainer options:printOptions error:&error];
 
   if (!jsonData) {
-    MSLogError([MSMobileCenter logTag], @"Couldn't serialize log container to json: %@", error.localizedDescription);
+    MSLogError([MSAppCenter logTag], @"Couldn't serialize log container to json: %@", error.localizedDescription);
   } else {
     jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     /*

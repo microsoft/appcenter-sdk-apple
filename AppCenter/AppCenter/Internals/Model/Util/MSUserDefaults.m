@@ -1,6 +1,6 @@
 #import "MSLogger.h"
 #import "MSUserDefaults.h"
-#import "MSMobileCenterInternal.h"
+#import "MSAppCenterInternal.h"
 
 static NSString *const kMSUserDefaultsTs = @"_ts";
 
@@ -33,7 +33,7 @@ static NSString *const kMSUserDefaultsTs = @"_ts";
   // Get from local store.
   NSDictionary *store = [[NSUserDefaults standardUserDefaults] dictionaryForKey:key];
   CFAbsoluteTime ts = [store[kMSUserDefaultsTs] doubleValue];
-  MSLogVerbose([MSMobileCenter logTag], @"Settings:store[%@]=%@", key, store);
+  MSLogVerbose([MSAppCenter logTag], @"Settings:store[%@]=%@", key, store);
 
   // Force update if timestamp expiration is reached.
   if (ts <= 0.0 || expiration <= 0.0f || fabs(CFAbsoluteTimeGetCurrent() - ts) < (double)expiration) {
@@ -47,7 +47,7 @@ static NSString *const kMSUserDefaultsTs = @"_ts";
 
   // If still values to update.
   if ([update count] > 0) {
-    MSLogDebug([MSMobileCenter logTag], @"Settings:update[%@]=%@", key, update);
+    MSLogDebug([MSAppCenter logTag], @"Settings:update[%@]=%@", key, update);
 
     // Copy store as a mutable version.
     NSMutableDictionary *d = [store mutableCopy];

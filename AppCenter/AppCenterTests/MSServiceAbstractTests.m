@@ -1,9 +1,9 @@
 #import "MSConstants+Internal.h"
 #import "MSLogManager.h"
 #import "MSLogManagerDefault.h"
-#import "MSMobileCenter.h"
-#import "MSMobileCenterInternal.h"
-#import "MSMobileCenterPrivate.h"
+#import "MSAppCenter.h"
+#import "MSAppCenterInternal.h"
+#import "MSAppCenterPrivate.h"
 #import "MSMockUserDefaults.h"
 #import "MSServiceAbstractPrivate.h"
 #import "MSServiceAbstractProtected.h"
@@ -189,24 +189,24 @@
 }
 
 - (void)testCanBeUsed {
-  [MSMobileCenter resetSharedInstance];
+  [MSAppCenter resetSharedInstance];
 
   assertThatBool([[MSServiceAbstractImplementation sharedInstance] canBeUsed], isFalse());
 
-  [MSMobileCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
+  [MSAppCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
 
   assertThatBool([[MSServiceAbstractImplementation sharedInstance] canBeUsed], isTrue());
 }
 
 - (void)testEnableServiceOnCoreDisabled {
-  OCMStub([self.settingsMock objectForKey:[OCMArg isEqual:@"MSMobileCenterIsEnabled"]])
+  OCMStub([self.settingsMock objectForKey:[OCMArg isEqual:@"MSAppCenterIsEnabled"]])
       .andReturn([NSNumber numberWithBool:NO]);
 
   // If
-  [MSMobileCenter resetSharedInstance];
-  [self.settingsMock setObject:@NO forKey:kMSMobileCenterIsEnabledKey];
+  [MSAppCenter resetSharedInstance];
+  [self.settingsMock setObject:@NO forKey:kMSAppCenterIsEnabledKey];
   [self.settingsMock setObject:@NO forKey:self.abstractService.isEnabledKey];
-  [MSMobileCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
+  [MSAppCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
 
   // When
   [[MSServiceAbstractImplementation class] setEnabled:YES];
@@ -218,10 +218,10 @@
 - (void)testDisableServiceOnCoreEnabled {
 
   // If
-  [MSMobileCenter resetSharedInstance];
-  [self.settingsMock setObject:@YES forKey:kMSMobileCenterIsEnabledKey];
+  [MSAppCenter resetSharedInstance];
+  [self.settingsMock setObject:@YES forKey:kMSAppCenterIsEnabledKey];
   [self.settingsMock setObject:@YES forKey:self.abstractService.isEnabledKey];
-  [MSMobileCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
+  [MSAppCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
 
   // When
   [[MSServiceAbstractImplementation class] setEnabled:NO];
@@ -233,10 +233,10 @@
 - (void)testEnableServiceOnCoreEnabled {
 
   // If
-  [MSMobileCenter resetSharedInstance];
-  [self.settingsMock setObject:@YES forKey:kMSMobileCenterIsEnabledKey];
+  [MSAppCenter resetSharedInstance];
+  [self.settingsMock setObject:@YES forKey:kMSAppCenterIsEnabledKey];
   [self.settingsMock setObject:@NO forKey:self.abstractService.isEnabledKey];
-  [MSMobileCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
+  [MSAppCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
 
   // When
   [[MSServiceAbstractImplementation class] setEnabled:YES];
@@ -248,12 +248,12 @@
 - (void)testReenableCoreOnServiceDisabled {
 
   // If
-  [self.settingsMock setObject:@YES forKey:kMSMobileCenterIsEnabledKey];
+  [self.settingsMock setObject:@YES forKey:kMSAppCenterIsEnabledKey];
   [self.settingsMock setObject:@NO forKey:self.abstractService.isEnabledKey];
-  [MSMobileCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
+  [MSAppCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
 
   // When
-  [MSMobileCenter setEnabled:YES];
+  [MSAppCenter setEnabled:YES];
 
   // Then
   assertThatBool([[MSServiceAbstractImplementation class] isEnabled], isTrue());
@@ -262,12 +262,12 @@
 - (void)testReenableCoreOnServiceEnabled {
 
   // If
-  [self.settingsMock setObject:@YES forKey:kMSMobileCenterIsEnabledKey];
+  [self.settingsMock setObject:@YES forKey:kMSAppCenterIsEnabledKey];
   [self.settingsMock setObject:@YES forKey:self.abstractService.isEnabledKey];
-  [MSMobileCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
+  [MSAppCenter start:MS_UUID_STRING withServices:@[ [MSServiceAbstractImplementation class] ]];
 
   // When
-  [MSMobileCenter setEnabled:YES];
+  [MSAppCenter setEnabled:YES];
 
   // Then
   assertThatBool([[MSServiceAbstractImplementation class] isEnabled], isTrue());

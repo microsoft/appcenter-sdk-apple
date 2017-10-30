@@ -1,5 +1,5 @@
-#import "MSMobileCenter.h"
-#import "MSMobileCenterInternal.h"
+#import "MSAppCenter.h"
+#import "MSAppCenterInternal.h"
 #import "MSServiceAbstract.h"
 #import "MSServiceInternal.h"
 
@@ -225,8 +225,8 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   OCMReject([delegateMock analytics:[MSAnalytics sharedInstance] willSendEventLog:eventLog]);
   OCMReject([delegateMock analytics:[MSAnalytics sharedInstance] didSucceedSendingEventLog:eventLog]);
   OCMReject([delegateMock analytics:[MSAnalytics sharedInstance] didFailSendingEventLog:eventLog withError:nil]);
-  [MSMobileCenter sharedInstance].sdkConfigured = NO;
-  [MSMobileCenter start:kMSTestAppSecret withServices:@[ [MSAnalytics class] ]];
+  [MSAppCenter sharedInstance].sdkConfigured = NO;
+  [MSAppCenter start:kMSTestAppSecret withServices:@[ [MSAnalytics class] ]];
   NSMutableDictionary *channelsInLogManager =
       ((MSLogManagerDefault *)([MSAnalytics sharedInstance].logManager)).channels;
   MSChannelDefault *channelMock = channelsInLogManager[groupId] = OCMPartialMock(channelsInLogManager[groupId]);
@@ -255,8 +255,8 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [MSAnalytics resetSharedInstance];
   NSString *groupId = [[MSAnalytics sharedInstance] groupId];
   id<MSAnalyticsDelegate> delegateMock = OCMProtocolMock(@protocol(MSAnalyticsDelegate));
-  [MSMobileCenter sharedInstance].sdkConfigured = NO;
-  [MSMobileCenter start:kMSTestAppSecret withServices:@[ [MSAnalytics class] ]];
+  [MSAppCenter sharedInstance].sdkConfigured = NO;
+  [MSAppCenter start:kMSTestAppSecret withServices:@[ [MSAnalytics class] ]];
   NSMutableDictionary *channelsInLogManager =
       ((MSLogManagerDefault *)([MSAnalytics sharedInstance].logManager)).channels;
   MSChannelDefault *channelMock = channelsInLogManager[groupId] = OCMPartialMock(channelsInLogManager[groupId]);
@@ -297,7 +297,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
         type = log.type;
         name = log.name;
       });
-  [MSMobileCenter configureWithAppSecret:kMSTestAppSecret];
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
   [[MSAnalytics sharedInstance] startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
 
   // When
@@ -325,7 +325,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
         name = log.name;
         properties = log.properties;
       });
-  [MSMobileCenter configureWithAppSecret:kMSTestAppSecret];
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
   [[MSAnalytics sharedInstance] startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
 
   // When
@@ -351,7 +351,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
         type = log.type;
         name = log.name;
       });
-  [MSMobileCenter configureWithAppSecret:kMSTestAppSecret];
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
   [[MSAnalytics sharedInstance] startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
 
   // When
@@ -379,7 +379,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
         name = log.name;
         properties = log.properties;
       });
-  [MSMobileCenter configureWithAppSecret:kMSTestAppSecret];
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
   [[MSAnalytics sharedInstance] startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
 
   // When

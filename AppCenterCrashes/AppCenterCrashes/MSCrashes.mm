@@ -9,7 +9,7 @@
 #import "MSErrorAttachmentLogInternal.h"
 #import "MSErrorLogFormatter.h"
 #import "MSHandledErrorLog.h"
-#import "MSMobileCenterInternal.h"
+#import "MSAppCenterInternal.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSWrapperExceptionManagerInternal.h"
 #import "MSWrapperCrashesHelper.h"
@@ -139,7 +139,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   @synchronized([self sharedInstance]) {
     if ([[self sharedInstance] canBeUsed]) {
       if ([MSUtility currentAppEnvironment] != MSEnvironmentAppStore) {
-        if ([MSMobileCenter isDebuggerAttached]) {
+        if ([MSAppCenter isDebuggerAttached]) {
           MSLogWarning([MSCrashes logTag],
                        @"The debugger is attached. The following crash cannot be detected by the SDK!");
         }
@@ -290,7 +290,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     }
     
     // More details on log if a debugger is attached.
-    if ([MSMobileCenter isDebuggerAttached]) {
+    if ([MSAppCenter isDebuggerAttached]) {
       MSLogInfo([MSCrashes logTag], @"Crashes service has been enabled but the service cannot detect crashes due to "
                 "running the application with a debugger attached.");
     } else {
@@ -546,7 +546,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
    * the following part when a debugger is attached no matter which signal
    * handler type is set.
    */
-  if ([MSMobileCenter isDebuggerAttached]) {
+  if ([MSAppCenter isDebuggerAttached]) {
     MSLogWarning([MSCrashes logTag],
                  @"Detecting crashes is NOT enabled due to running the app with a debugger attached.");
   } else {
