@@ -57,8 +57,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E85547E41D2D681F002DF6E2"
-               BuildableName = "MobileCenterAnalyticsIOSFramework"
-               BlueprintName = "MobileCenterAnalyticsIOSFramework"
+               BuildableName = "AppCenterAnalyticsIOSFramework"
+               BlueprintName = "AppCenterAnalyticsIOSFramework"
                ReferencedContainer = "container:../MobileCenterAnalytics/AppCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -71,8 +71,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6E3729771D1DE83200F1E4AE"
-               BuildableName = "MobileCenterCrashesIOSFramework"
-               BlueprintName = "MobileCenterCrashesIOSFramework"
+               BuildableName = "AppCenterCrashesIOSFramework"
+               BlueprintName = "AppCenterCrashesIOSFramework"
                ReferencedContainer = "container:../MobileCenterCrashes/AppCenterCrashes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

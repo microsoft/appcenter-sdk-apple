@@ -24,7 +24,7 @@ GCC_C_LANGUAGE_STANDARD = gnu99
 
 // :Mark: Search paths
 ALWAYS_SEARCH_USER_PATHS = NO
-USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../MobileCenter/MobileCenter"/**
+USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../AppCenter/AppCenter"/**
 
 // :Mark: Code signing
 CODE_SIGN_IDENTITY = 

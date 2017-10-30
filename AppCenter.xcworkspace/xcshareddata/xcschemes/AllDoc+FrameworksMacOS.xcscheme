@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "04FD114C1EF2F5F0000C5A5C"
-               BuildableName = "MobileCenterMacOSDoc"
-               BlueprintName = "MobileCenterMacOSDoc"
-               ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
+               BuildableName = "AppCenterMacOSDoc"
+               BlueprintName = "AppCenterMacOSDoc"
+               ReferencedContainer = "container:AppCenter/AppCenter.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "04FD11551EF2F818000C5A5C"
-               BuildableName = "MobileCenterAnalyticsMacOSDoc"
-               BlueprintName = "MobileCenterAnalyticsMacOSDoc"
-               ReferencedContainer = "container:MobileCenterAnalytics/AppCenterAnalytics.xcodeproj">
+               BuildableName = "AppCenterAnalyticsMacOSDoc"
+               BlueprintName = "AppCenterAnalyticsMacOSDoc"
+               ReferencedContainer = "container:AppCenterAnalytics/AppCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -43,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "04FD115E1EF2FA04000C5A5C"
-               BuildableName = "MobileCenterCrashesMacOSDoc"
-               BlueprintName = "MobileCenterCrashesMacOSDoc"
-               ReferencedContainer = "container:MobileCenterCrashes/AppCenterCrashes.xcodeproj">
+               BuildableName = "AppCenterCrashesMacOSDoc"
+               BlueprintName = "AppCenterCrashesMacOSDoc"
+               ReferencedContainer = "container:AppCenterCrashes/AppCenterCrashes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -57,9 +57,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "046964271F2A55A600F9D31F"
-               BuildableName = "MobileCenterPushMacOSDoc"
-               BlueprintName = "MobileCenterPushMacOSDoc"
-               ReferencedContainer = "container:MobileCenterPush/AppCenterPush.xcodeproj">
+               BuildableName = "AppCenterPushMacOSDoc"
+               BlueprintName = "AppCenterPushMacOSDoc"
+               ReferencedContainer = "container:AppCenterPush/AppCenterPush.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -77,9 +77,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "04FD114C1EF2F5F0000C5A5C"
-            BuildableName = "MobileCenterMacOSDoc"
-            BlueprintName = "MobileCenterMacOSDoc"
-            ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
+            BuildableName = "AppCenterMacOSDoc"
+            BlueprintName = "AppCenterMacOSDoc"
+            ReferencedContainer = "container:AppCenter/AppCenter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -100,9 +100,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "04FD114C1EF2F5F0000C5A5C"
-            BuildableName = "MobileCenterMacOSDoc"
-            BlueprintName = "MobileCenterMacOSDoc"
-            ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
+            BuildableName = "AppCenterMacOSDoc"
+            BlueprintName = "AppCenterMacOSDoc"
+            ReferencedContainer = "container:AppCenter/AppCenter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -118,9 +118,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "04FD114C1EF2F5F0000C5A5C"
-            BuildableName = "MobileCenterMacOSDoc"
-            BlueprintName = "MobileCenterMacOSDoc"
-            ReferencedContainer = "container:MobileCenter/MobileCenter.xcodeproj">
+            BuildableName = "AppCenterMacOSDoc"
+            BlueprintName = "AppCenterMacOSDoc"
+            ReferencedContainer = "container:AppCenter/AppCenter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
