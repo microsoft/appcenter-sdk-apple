@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:/Users/jaelim/Source/MobileCenter/vsts/appcenter-sdk-apple/MobileCenter/AppCenter.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/jaelim/Source/MobileCenter/vsts/appcenter-sdk-apple/MobileCenterAnalytics/AppCenterAnalytics.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/jaelim/Source/MobileCenter/vsts/appcenter-sdk-apple/MobileCenterCrashes/AppCenterCrashes.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/jaelim/Source/MobileCenter/vsts/appcenter-sdk-apple/MobileCenterDistribute/AppCenterDistribute.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/jaelim/Source/MobileCenter/vsts/appcenter-sdk-apple/MobileCenterPush/AppCenterPush.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Puppet/Puppet.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:CrashLib/CrashLib.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Sasquatch/Sasquatch.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:SasquatchMac/SasquatchMac.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:SasquatchTV/SasquatchTV.xcodeproj">
+   </FileRef>
+</Workspace>

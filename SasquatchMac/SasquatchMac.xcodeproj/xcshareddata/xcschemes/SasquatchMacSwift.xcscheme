@@ -45,7 +45,7 @@
                BlueprintIdentifier = "0485AFEF1EAAADAC00C10CAF"
                BuildableName = "MobileCenterAnalyticsMacOSFramework"
                BlueprintName = "MobileCenterAnalyticsMacOSFramework"
-               ReferencedContainer = "container:../MobileCenterAnalytics/MobileCenterAnalytics.xcodeproj">
+               ReferencedContainer = "container:../MobileCenterAnalytics/AppCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -59,7 +59,7 @@
                BlueprintIdentifier = "0485AFF91EAAB27E00C10CAF"
                BuildableName = "MobileCenterCrashesMacOSFramework"
                BlueprintName = "MobileCenterCrashesMacOSFramework"
-               ReferencedContainer = "container:../MobileCenterCrashes/MobileCenterCrashes.xcodeproj">
+               ReferencedContainer = "container:../MobileCenterCrashes/AppCenterCrashes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -73,7 +73,7 @@
                BlueprintIdentifier = "0469640E1F2A558F00F9D31F"
                BuildableName = "MobileCenterPushMacOSFramework"
                BlueprintName = "MobileCenterPushMacOSFramework"
-               ReferencedContainer = "container:../MobileCenterPush/MobileCenterPush.xcodeproj">
+               ReferencedContainer = "container:../MobileCenterPush/AppCenterPush.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -96,6 +96,7 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      language = ""
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
@@ -115,6 +116,7 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      language = ""
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"

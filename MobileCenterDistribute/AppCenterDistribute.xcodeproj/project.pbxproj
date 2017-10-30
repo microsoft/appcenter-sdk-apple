@@ -1,0 +1,939 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		04FD4A281E451E90009B4468 /* AppCenterDistributeIOSFramework */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 04FD4A291E451E90009B4468 /* Build configuration list for PBXAggregateTarget "AppCenterDistributeIOSFramework" */;
+			buildPhases = (
+				04FD4A2C1E453159009B4468 /* ShellScript */,
+			);
+			dependencies = (
+				B2C070C31E5E69E70076D6A9 /* PBXTargetDependency */,
+			);
+			name = AppCenterDistributeIOSFramework;
+			productName = "Fat Framework";
+		};
+		04FD4A3C1E453640009B4468 /* AppCenterDistributeIOSDoc */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 04FD4A3D1E453640009B4468 /* Build configuration list for PBXAggregateTarget "AppCenterDistributeIOSDoc" */;
+			buildPhases = (
+				04FD4A401E4536B0009B4468 /* Run Script */,
+			);
+			dependencies = (
+				0471B9361E4556570022F951 /* PBXTargetDependency */,
+			);
+			name = AppCenterDistributeIOSDoc;
+			productName = "Jazzy Docs";
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		040AF0121E523AC2005C1174 /* release_details.json in Resources */ = {isa = PBXBuildFile; fileRef = 040AF0111E523AC2005C1174 /* release_details.json */; };
+		040AF0251E523B80005C1174 /* MSReleaseDetailsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 040AF0231E523B80005C1174 /* MSReleaseDetailsTests.m */; };
+		040AF02A1E52748D005C1174 /* MSDistributeSenderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 040AF0291E52748D005C1174 /* MSDistributeSenderTests.m */; };
+		040AF0331E52859F005C1174 /* MSSender.h in Headers */ = {isa = PBXBuildFile; fileRef = 040AF0321E52859F005C1174 /* MSSender.h */; };
+		0415974B1E9D639D00EC6BDA /* MSDistributionGroupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0415974A1E9D639D00EC6BDA /* MSDistributionGroupTests.m */; };
+		0420A69C1ECA7C8E00915619 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420A69B1ECA7C8E00915619 /* OCMock.framework */; };
+		043E2AB41F4E024300615AD9 /* MobileCenterDistribute Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 043E2AB31F4E024300615AD9 /* MobileCenterDistribute Release.xcconfig */; };
+		046EF5891EAEB524002F6436 /* MSDistributeDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 046EF5881EAEB524002F6436 /* MSDistributeDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		046FDBD31E5682FA00AF9DD1 /* MSAlertController.h in Headers */ = {isa = PBXBuildFile; fileRef = 046FDBD11E5682FA00AF9DD1 /* MSAlertController.h */; };
+		046FDBD41E5682FA00AF9DD1 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 046FDBD21E5682FA00AF9DD1 /* MSAlertController.m */; };
+		0471B5E41E4544000022F951 /* libAppCenterDistribute.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04FD4A1C1E451E12009B4468 /* libAppCenterDistribute.a */; };
+		0471B8991E4547480022F951 /* MSDistribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 0471B8981E4547480022F951 /* MSDistribute.m */; };
+		0471B9331E4555F20022F951 /* MobileCenterDistribute.h in Headers */ = {isa = PBXBuildFile; fileRef = 04FD4A1F1E451E12009B4468 /* MobileCenterDistribute.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0471B9341E45560C0022F951 /* MSDistribute.h in Headers */ = {isa = PBXBuildFile; fileRef = 0471B89A1E4547750022F951 /* MSDistribute.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0471B93C1E4557620022F951 /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 0471B93B1E4557620022F951 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0471B93E1E4557820022F951 /* MSLogManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0471B93D1E4557820022F951 /* MSLogManager.h */; };
+		047D137F1EAFF87500D699BA /* MSReleaseDetailsPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 047D137E1EAFF87500D699BA /* MSReleaseDetailsPrivate.h */; };
+		048BB3031E60A40D009D92C2 /* MSReleaseDetails.h in Headers */ = {isa = PBXBuildFile; fileRef = 048BB2FC1E60A40D009D92C2 /* MSReleaseDetails.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		048BB3041E60A40D009D92C2 /* MSReleaseDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 048BB2FD1E60A40D009D92C2 /* MSReleaseDetails.m */; };
+		048BB3051E60A40D009D92C2 /* MSDistributionGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 048BB2FF1E60A40D009D92C2 /* MSDistributionGroup.h */; };
+		048BB3061E60A40D009D92C2 /* MSDistributionGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 048BB3001E60A40D009D92C2 /* MSDistributionGroup.m */; };
+		048BB3071E60A40D009D92C2 /* MSDistributeSender.h in Headers */ = {isa = PBXBuildFile; fileRef = 048BB3011E60A40D009D92C2 /* MSDistributeSender.h */; };
+		048BB3081E60A40D009D92C2 /* MSDistributeSender.m in Sources */ = {isa = PBXBuildFile; fileRef = 048BB3021E60A40D009D92C2 /* MSDistributeSender.m */; };
+		04A0820A1F74BBB100DC776D /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A082091F74BBB100DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04A140C91ECE89BD001CEE94 /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A140C61ECE89B2001CEE94 /* MSMockUserDefaults.m */; };
+		04DC2EC91E78A3B4003F23B5 /* error_details.json in Resources */ = {isa = PBXBuildFile; fileRef = 04DC2EC81E78A3B4003F23B5 /* error_details.json */; };
+		04DC2ECB1E78A3E3003F23B5 /* MSErrorDetailsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DC2ECA1E78A3E3003F23B5 /* MSErrorDetailsTests.m */; };
+		04FD4A341E453531009B4468 /* MSDistributeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FD4A331E453531009B4468 /* MSDistributeTests.m */; };
+		04FD4A4B1E453930009B4468 /* libMobileCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04FD4A4A1E453930009B4468 /* libMobileCenter.a */; };
+		383A2FE41EBA308700817742 /* MSDistributeAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 383A2FE31EBA308700817742 /* MSDistributeAppDelegate.h */; };
+		383A2FE61EBA30B300817742 /* MSDistributeAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 383A2FE51EBA30B300817742 /* MSDistributeAppDelegate.m */; };
+		388B559B1E64B3FD00E4F1D7 /* MSBasicMachOParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 388B55991E64B3FD00E4F1D7 /* MSBasicMachOParser.m */; };
+		388B559C1E64B3FD00E4F1D7 /* MSBasicMachOParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 388B559A1E64B3FD00E4F1D7 /* MSBasicMachOParser.h */; };
+		389638A41E79F59D007C3809 /* MSDistributeTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 389638A31E79F59D007C3809 /* MSDistributeTestUtil.m */; };
+		38A6835E1E774D9F00A63BC8 /* MSSemVerPreReleaseId.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A6835A1E774D9F00A63BC8 /* MSSemVerPreReleaseId.m */; };
+		38A6835F1E774D9F00A63BC8 /* MSSemVerPreReleaseId.h in Headers */ = {isa = PBXBuildFile; fileRef = 38A6835B1E774D9F00A63BC8 /* MSSemVerPreReleaseId.h */; };
+		38A683601E774D9F00A63BC8 /* MSSemVer.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A6835C1E774D9F00A63BC8 /* MSSemVer.m */; };
+		38A683611E774D9F00A63BC8 /* MSSemVer.h in Headers */ = {isa = PBXBuildFile; fileRef = 38A6835D1E774D9F00A63BC8 /* MSSemVer.h */; };
+		38A683641E774DCE00A63BC8 /* MSSemVerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A683621E774DCE00A63BC8 /* MSSemVerTests.m */; };
+		38A683651E774DCE00A63BC8 /* MSSemVerPreReleaseIdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A683631E774DCE00A63BC8 /* MSSemVerPreReleaseIdTest.m */; };
+		38C9C56C1E565BF600B0FA0D /* MSDistributePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C9C56B1E565BF600B0FA0D /* MSDistributePrivate.h */; };
+		38D25E391E7B0AAC00033FC4 /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 380304421E7B007E006A55FB /* OCHamcrestIOS.framework */; };
+		80324E301F4DC81F005F4E11 /* MSDistributeAppDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 80324E2F1F4DC81E005F4E11 /* MSDistributeAppDelegateTests.m */; };
+		848860451E6EC32B003A9B96 /* MSBasicMachOParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 848860441E6EC32B003A9B96 /* MSBasicMachOParserTests.m */; };
+		B20DE7B71E5F97330023075C /* MSDistributeUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B20DE7B61E5F97330023075C /* MSDistributeUtilTests.m */; };
+		B25895AA1E4E9FD400123632 /* MSDistributeInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B25895A91E4E9BA100123632 /* MSDistributeInternal.h */; };
+		B270108D1E5FA2E4008552EF /* release_details.json in Resources */ = {isa = PBXBuildFile; fileRef = 040AF0111E523AC2005C1174 /* release_details.json */; };
+		B2C070A51E5E62330076D6A9 /* MSDistributeUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = B2C070A31E5E62330076D6A9 /* MSDistributeUtil.h */; };
+		B2C070A61E5E62330076D6A9 /* MSDistributeUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = B2C070A41E5E62330076D6A9 /* MSDistributeUtil.m */; };
+		B2C070C01E5E69AD0076D6A9 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B2C070B81E5E68540076D6A9 /* AppCenterDistributeResources.bundle */; };
+		B2C070C11E5E69D00076D6A9 /* MobileCenterDistribute.strings in Resources */ = {isa = PBXBuildFile; fileRef = B29CE3471E5E5F9A00CEB04D /* MobileCenterDistribute.strings */; };
+		B2C070C51E5E6A200076D6A9 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B2C070B81E5E68540076D6A9 /* AppCenterDistributeResources.bundle */; };
+		BA682AC831677E0806CA2359 /* MSErrorDetails.h in Headers */ = {isa = PBXBuildFile; fileRef = BA6820A043C816916AF34A04 /* MSErrorDetails.h */; };
+		BA682C81BA750CA5FCB63A51 /* MSErrorDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6826E3C58372A269A6B43A /* MSErrorDetails.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0471B9351E4556570022F951 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04FD4A141E451E12009B4468 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04FD4A281E451E90009B4468;
+			remoteInfo = "Fat Framework";
+		};
+		04FD4A371E453531009B4468 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04FD4A141E451E12009B4468 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04FD4A1B1E451E12009B4468;
+			remoteInfo = MobileCenterDistributeIOS;
+		};
+		B2C070BE1E5E697C0076D6A9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04FD4A141E451E12009B4468 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B2C070B71E5E68540076D6A9;
+			remoteInfo = MobileCenterDistributeResources;
+		};
+		B2C070C21E5E69E70076D6A9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04FD4A141E451E12009B4468 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B2C070B71E5E68540076D6A9;
+			remoteInfo = MobileCenterDistributeResources;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		04FD4A1A1E451E12009B4468 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		040AF0111E523AC2005C1174 /* release_details.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = release_details.json; sourceTree = "<group>"; };
+		040AF0231E523B80005C1174 /* MSReleaseDetailsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSReleaseDetailsTests.m; sourceTree = "<group>"; };
+		040AF0291E52748D005C1174 /* MSDistributeSenderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistributeSenderTests.m; sourceTree = "<group>"; };
+		040AF0321E52859F005C1174 /* MSSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSSender.h; path = ../MobileCenter/MobileCenter/Internals/Sender/MSSender.h; sourceTree = "<group>"; };
+		0415974A1E9D639D00EC6BDA /* MSDistributionGroupTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistributionGroupTests.m; sourceTree = "<group>"; };
+		041CFFA31ECD0E0E00B4654B /* Tests iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests iOS.xcconfig"; path = "../../Config/Tests iOS.xcconfig"; sourceTree = "<group>"; };
+		0420A69B1ECA7C8E00915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../iOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
+		04311FF71EE0871D007054C5 /* MSTestFrameworks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSTestFrameworks.h; path = ../../../MobileCenter/MobileCenterTests/Util/MSTestFrameworks.h; sourceTree = "<group>"; };
+		043E2AB31F4E024300615AD9 /* MobileCenterDistribute Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "MobileCenterDistribute Release.xcconfig"; sourceTree = "<group>"; };
+		046BE6481F8C1A7900310886 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "Resources/zh-Hans.lproj/MobileCenterDistribute.strings"; sourceTree = "<group>"; };
+		046BE6491F8C1A9900310886 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "Resources/zh-Hant.lproj/MobileCenterDistribute.strings"; sourceTree = "<group>"; };
+		046BE64A1F8C1AB600310886 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = Resources/ko.lproj/MobileCenterDistribute.strings; sourceTree = "<group>"; };
+		046BE64B1F8C1ACE00310886 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = Resources/ja.lproj/MobileCenterDistribute.strings; sourceTree = "<group>"; };
+		046BE64C1F8C1AE100310886 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = Resources/it.lproj/MobileCenterDistribute.strings; sourceTree = "<group>"; };
+		046BE64D1F8C1AF200310886 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = Resources/pl.lproj/MobileCenterDistribute.strings; sourceTree = "<group>"; };
+		046BE64E1F8C1B0900310886 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = Resources/es.lproj/MobileCenterDistribute.strings; sourceTree = "<group>"; };
+		046BE64F1F8C1B1E00310886 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = Resources/cs.lproj/MobileCenterDistribute.strings; sourceTree = "<group>"; };
+		046BE6501F8C1B9900310886 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = Resources/tr.lproj/MobileCenterDistribute.strings; sourceTree = "<group>"; };
+		046EF5881EAEB524002F6436 /* MSDistributeDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDistributeDelegate.h; sourceTree = "<group>"; };
+		046FDBD11E5682FA00AF9DD1 /* MSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAlertController.h; path = ../../Vendor/iOS/MSAlertController/MSAlertController.h; sourceTree = "<group>"; };
+		046FDBD21E5682FA00AF9DD1 /* MSAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSAlertController.m; path = ../../Vendor/iOS/MSAlertController/MSAlertController.m; sourceTree = "<group>"; };
+		0471B5F41E45466F0022F951 /* MobileCenterDistribute Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "MobileCenterDistribute Debug.xcconfig"; sourceTree = "<group>"; };
+		0471B8981E4547480022F951 /* MSDistribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistribute.m; sourceTree = "<group>"; };
+		0471B89A1E4547750022F951 /* MSDistribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDistribute.h; sourceTree = "<group>"; };
+		0471B93B1E4557620022F951 /* MSServiceAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSServiceAbstract.h; path = ../MobileCenter/MobileCenter/MSServiceAbstract.h; sourceTree = "<group>"; };
+		0471B93D1E4557820022F951 /* MSLogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSLogManager.h; path = ../MobileCenter/MobileCenter/Internals/Channel/MSLogManager.h; sourceTree = "<group>"; };
+		047D137E1EAFF87500D699BA /* MSReleaseDetailsPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSReleaseDetailsPrivate.h; sourceTree = "<group>"; };
+		048BB2FC1E60A40D009D92C2 /* MSReleaseDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSReleaseDetails.h; sourceTree = "<group>"; };
+		048BB2FD1E60A40D009D92C2 /* MSReleaseDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSReleaseDetails.m; sourceTree = "<group>"; };
+		048BB2FF1E60A40D009D92C2 /* MSDistributionGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSDistributionGroup.h; path = ../Sender/MSDistributionGroup.h; sourceTree = "<group>"; };
+		048BB3001E60A40D009D92C2 /* MSDistributionGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSDistributionGroup.m; path = ../Sender/MSDistributionGroup.m; sourceTree = "<group>"; };
+		048BB3011E60A40D009D92C2 /* MSDistributeSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDistributeSender.h; sourceTree = "<group>"; };
+		048BB3021E60A40D009D92C2 /* MSDistributeSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistributeSender.m; sourceTree = "<group>"; };
+		049BC8221ECE349200FB6719 /* iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
+		049BC8271ECE387A00FB6719 /* iOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = iOS.modulemap; sourceTree = "<group>"; };
+		04A082091F74BBB100DC776D /* MSService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSService.h; path = ../MobileCenter/MobileCenter/MSService.h; sourceTree = "<group>"; };
+		04A140C51ECE89B2001CEE94 /* MSMockUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSMockUserDefaults.h; path = ../../../MobileCenter/MobileCenterTests/Util/MSMockUserDefaults.h; sourceTree = "<group>"; };
+		04A140C61ECE89B2001CEE94 /* MSMockUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSMockUserDefaults.m; path = ../../../MobileCenter/MobileCenterTests/Util/MSMockUserDefaults.m; sourceTree = "<group>"; };
+		04DC2EC81E78A3B4003F23B5 /* error_details.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_details.json; sourceTree = "<group>"; };
+		04DC2ECA1E78A3E3003F23B5 /* MSErrorDetailsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSErrorDetailsTests.m; sourceTree = "<group>"; };
+		04FD4A1C1E451E12009B4468 /* libAppCenterDistribute.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppCenterDistribute.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		04FD4A1F1E451E12009B4468 /* MobileCenterDistribute.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MobileCenterDistribute.h; sourceTree = "<group>"; };
+		04FD4A311E453531009B4468 /* AppCenterDistribute.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterDistribute.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		04FD4A331E453531009B4468 /* MSDistributeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDistributeTests.m; sourceTree = "<group>"; };
+		04FD4A351E453531009B4468 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		04FD4A4A1E453930009B4468 /* libMobileCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileCenter.a; path = "../../../../Library/Developer/Xcode/DerivedData/MobileCenter-cxbmzrupyysdsehdxmozcvjphajr/Build/Products/Debug-iphonesimulator/libMobileCenter.a"; sourceTree = "<group>"; };
+		380304421E7B007E006A55FB /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OCHamcrestIOS.framework; sourceTree = "<group>"; };
+		383A2FE31EBA308700817742 /* MSDistributeAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDistributeAppDelegate.h; sourceTree = "<group>"; };
+		383A2FE51EBA30B300817742 /* MSDistributeAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistributeAppDelegate.m; sourceTree = "<group>"; };
+		388B55991E64B3FD00E4F1D7 /* MSBasicMachOParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSBasicMachOParser.m; path = ../MSBasicMachOParser.m; sourceTree = "<group>"; };
+		388B559A1E64B3FD00E4F1D7 /* MSBasicMachOParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSBasicMachOParser.h; path = ../MSBasicMachOParser.h; sourceTree = "<group>"; };
+		389638A31E79F59D007C3809 /* MSDistributeTestUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistributeTestUtil.m; sourceTree = "<group>"; };
+		389638A51E79F60F007C3809 /* MSDistributeTestUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDistributeTestUtil.h; sourceTree = "<group>"; };
+		38A6835A1E774D9F00A63BC8 /* MSSemVerPreReleaseId.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSemVerPreReleaseId.m; sourceTree = "<group>"; };
+		38A6835B1E774D9F00A63BC8 /* MSSemVerPreReleaseId.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSSemVerPreReleaseId.h; sourceTree = "<group>"; };
+		38A6835C1E774D9F00A63BC8 /* MSSemVer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSemVer.m; sourceTree = "<group>"; };
+		38A6835D1E774D9F00A63BC8 /* MSSemVer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSSemVer.h; sourceTree = "<group>"; };
+		38A683621E774DCE00A63BC8 /* MSSemVerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSemVerTests.m; sourceTree = "<group>"; };
+		38A683631E774DCE00A63BC8 /* MSSemVerPreReleaseIdTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSemVerPreReleaseIdTest.m; sourceTree = "<group>"; };
+		38C9C56B1E565BF600B0FA0D /* MSDistributePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSDistributePrivate.h; path = ../MSDistributePrivate.h; sourceTree = "<group>"; };
+		80324E2F1F4DC81E005F4E11 /* MSDistributeAppDelegateTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistributeAppDelegateTests.m; sourceTree = "<group>"; };
+		807432C31EE20731003295BA /* MSBasicMachOParserPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MSBasicMachOParserPrivate.h; path = ../MSBasicMachOParserPrivate.h; sourceTree = "<group>"; };
+		848860441E6EC32B003A9B96 /* MSBasicMachOParserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSBasicMachOParserTests.m; sourceTree = "<group>"; };
+		B20DE7B61E5F97330023075C /* MSDistributeUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistributeUtilTests.m; sourceTree = "<group>"; };
+		B25895A91E4E9BA100123632 /* MSDistributeInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSDistributeInternal.h; sourceTree = "<group>"; };
+		B29CE3481E5E5F9A00CEB04D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = MobileCenterDistribute/Resources/en.lproj/MobileCenterDistribute.strings; sourceTree = SOURCE_ROOT; };
+		B29CE3491E5E5FBB00CEB04D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = MobileCenterDistribute/Resources/fr.lproj/MobileCenterDistribute.strings; sourceTree = SOURCE_ROOT; };
+		B2C070A21E5E61830076D6A9 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = Resources/de.lproj/MobileCenterDistribute.strings; sourceTree = "<group>"; };
+		B2C070A31E5E62330076D6A9 /* MSDistributeUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSDistributeUtil.h; path = ../MSDistributeUtil.h; sourceTree = "<group>"; };
+		B2C070A41E5E62330076D6A9 /* MSDistributeUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSDistributeUtil.m; path = ../MSDistributeUtil.m; sourceTree = "<group>"; };
+		B2C070B81E5E68540076D6A9 /* AppCenterDistributeResources.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterDistributeResources.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		B2C070BA1E5E68540076D6A9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BA6820A043C816916AF34A04 /* MSErrorDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorDetails.h; sourceTree = "<group>"; };
+		BA6826E3C58372A269A6B43A /* MSErrorDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSErrorDetails.m; sourceTree = "<group>"; };
+		F8646E651F349C6D006080AC /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = Resources/ru.lproj/MobileCenterDistribute.strings; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		04FD4A191E451E12009B4468 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04FD4A2E1E453531009B4468 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04FD4A4B1E453930009B4468 /* libMobileCenter.a in Frameworks */,
+				0471B5E41E4544000022F951 /* libAppCenterDistribute.a in Frameworks */,
+				38D25E391E7B0AAC00033FC4 /* OCHamcrestIOS.framework in Frameworks */,
+				0420A69C1ECA7C8E00915619 /* OCMock.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B2C070B51E5E68540076D6A9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		040AF0101E523AC2005C1174 /* Fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				04DC2EC81E78A3B4003F23B5 /* error_details.json */,
+				040AF0111E523AC2005C1174 /* release_details.json */,
+			);
+			path = Fixtures;
+			sourceTree = "<group>";
+		};
+		0420A69D1ECA7CAD00915619 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				0420A69B1ECA7C8E00915619 /* OCMock.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		04690E841E4E39850056B916 /* Internals */ = {
+			isa = PBXGroup;
+			children = (
+				048BB2FB1E60A40D009D92C2 /* Model */,
+				048BB2FE1E60A40D009D92C2 /* Sender */,
+				389D8BC61E72396D0027B9DA /* Version */,
+				B2C070A71E5E62440076D6A9 /* Util */,
+				B25895A91E4E9BA100123632 /* MSDistributeInternal.h */,
+				38C9C56B1E565BF600B0FA0D /* MSDistributePrivate.h */,
+				383A2FE31EBA308700817742 /* MSDistributeAppDelegate.h */,
+				383A2FE51EBA30B300817742 /* MSDistributeAppDelegate.m */,
+			);
+			path = Internals;
+			sourceTree = "<group>";
+		};
+		046FDBD51E56830400AF9DD1 /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				046FDBD11E5682FA00AF9DD1 /* MSAlertController.h */,
+				046FDBD21E5682FA00AF9DD1 /* MSAlertController.m */,
+			);
+			name = Vendor;
+			path = MobileCenterDistribute;
+			sourceTree = "<group>";
+		};
+		0471B5F31E45466F0022F951 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				0471B5F41E45466F0022F951 /* MobileCenterDistribute Debug.xcconfig */,
+				043E2AB31F4E024300615AD9 /* MobileCenterDistribute Release.xcconfig */,
+				049BC8221ECE349200FB6719 /* iOS.xcconfig */,
+				049BC8271ECE387A00FB6719 /* iOS.modulemap */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		048BB2FB1E60A40D009D92C2 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				BA6820A043C816916AF34A04 /* MSErrorDetails.h */,
+				BA6826E3C58372A269A6B43A /* MSErrorDetails.m */,
+				048BB2FC1E60A40D009D92C2 /* MSReleaseDetails.h */,
+				047D137E1EAFF87500D699BA /* MSReleaseDetailsPrivate.h */,
+				048BB2FD1E60A40D009D92C2 /* MSReleaseDetails.m */,
+				048BB2FF1E60A40D009D92C2 /* MSDistributionGroup.h */,
+				048BB3001E60A40D009D92C2 /* MSDistributionGroup.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		048BB2FE1E60A40D009D92C2 /* Sender */ = {
+			isa = PBXGroup;
+			children = (
+				048BB3011E60A40D009D92C2 /* MSDistributeSender.h */,
+				048BB3021E60A40D009D92C2 /* MSDistributeSender.m */,
+			);
+			path = Sender;
+			sourceTree = "<group>";
+		};
+		04A140BE1ECE84B7001CEE94 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				040AF0231E523B80005C1174 /* MSReleaseDetailsTests.m */,
+				04DC2ECA1E78A3E3003F23B5 /* MSErrorDetailsTests.m */,
+				0415974A1E9D639D00EC6BDA /* MSDistributionGroupTests.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		04A140BF1ECE84C9001CEE94 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				041CFFA31ECD0E0E00B4654B /* Tests iOS.xcconfig */,
+			);
+			name = Support;
+			sourceTree = "<group>";
+		};
+		04BED71D1ECB659700E20975 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				380304421E7B007E006A55FB /* OCHamcrestIOS.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		04FD4A131E451E12009B4468 = {
+			isa = PBXGroup;
+			children = (
+				04A082091F74BBB100DC776D /* MSService.h */,
+				0471B93B1E4557620022F951 /* MSServiceAbstract.h */,
+				0471B93D1E4557820022F951 /* MSLogManager.h */,
+				040AF0321E52859F005C1174 /* MSSender.h */,
+				04FD4A1E1E451E12009B4468 /* MobileCenterDistribute */,
+				04FD4A321E453531009B4468 /* MobileCenterDistributeTests */,
+				B2C070B91E5E68540076D6A9 /* Resources */,
+				04FD4A1D1E451E12009B4468 /* Products */,
+				046FDBD51E56830400AF9DD1 /* Vendor */,
+			);
+			sourceTree = "<group>";
+		};
+		04FD4A1D1E451E12009B4468 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				04FD4A1C1E451E12009B4468 /* libAppCenterDistribute.a */,
+				04FD4A311E453531009B4468 /* AppCenterDistribute.xctest */,
+				B2C070B81E5E68540076D6A9 /* AppCenterDistributeResources.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		04FD4A1E1E451E12009B4468 /* MobileCenterDistribute */ = {
+			isa = PBXGroup;
+			children = (
+				04FD4A1F1E451E12009B4468 /* MobileCenterDistribute.h */,
+				0471B89A1E4547750022F951 /* MSDistribute.h */,
+				0471B8981E4547480022F951 /* MSDistribute.m */,
+				046EF5881EAEB524002F6436 /* MSDistributeDelegate.h */,
+				04690E841E4E39850056B916 /* Internals */,
+				0471B5F31E45466F0022F951 /* Support */,
+			);
+			path = MobileCenterDistribute;
+			sourceTree = "<group>";
+		};
+		04FD4A321E453531009B4468 /* MobileCenterDistributeTests */ = {
+			isa = PBXGroup;
+			children = (
+				04FD4A351E453531009B4468 /* Info.plist */,
+				848860441E6EC32B003A9B96 /* MSBasicMachOParserTests.m */,
+				04FD4A331E453531009B4468 /* MSDistributeTests.m */,
+				B20DE7B61E5F97330023075C /* MSDistributeUtilTests.m */,
+				040AF0291E52748D005C1174 /* MSDistributeSenderTests.m */,
+				38A683631E774DCE00A63BC8 /* MSSemVerPreReleaseIdTest.m */,
+				38A683621E774DCE00A63BC8 /* MSSemVerTests.m */,
+				80324E2F1F4DC81E005F4E11 /* MSDistributeAppDelegateTests.m */,
+				040AF0101E523AC2005C1174 /* Fixtures */,
+				04FD4A491E453930009B4468 /* Frameworks */,
+				04A140BE1ECE84B7001CEE94 /* Model */,
+				04A140BF1ECE84C9001CEE94 /* Support */,
+				389638A21E79F557007C3809 /* Util */,
+			);
+			path = MobileCenterDistributeTests;
+			sourceTree = "<group>";
+		};
+		04FD4A491E453930009B4468 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				04FD4A4A1E453930009B4468 /* libMobileCenter.a */,
+				380304401E7B007E006A55FB /* OCHamcrest */,
+				380304321E7B007E006A55FB /* OCMock */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		380304321E7B007E006A55FB /* OCMock */ = {
+			isa = PBXGroup;
+			children = (
+				0420A69D1ECA7CAD00915619 /* iOS */,
+			);
+			name = OCMock;
+			path = ../../Vendor/Common/OCMock;
+			sourceTree = "<group>";
+		};
+		380304401E7B007E006A55FB /* OCHamcrest */ = {
+			isa = PBXGroup;
+			children = (
+				04BED71D1ECB659700E20975 /* iOS */,
+			);
+			name = OCHamcrest;
+			path = ../../Vendor/iOS/OCHamcrest;
+			sourceTree = "<group>";
+		};
+		389638A21E79F557007C3809 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				389638A51E79F60F007C3809 /* MSDistributeTestUtil.h */,
+				389638A31E79F59D007C3809 /* MSDistributeTestUtil.m */,
+				04A140C51ECE89B2001CEE94 /* MSMockUserDefaults.h */,
+				04A140C61ECE89B2001CEE94 /* MSMockUserDefaults.m */,
+				04311FF71EE0871D007054C5 /* MSTestFrameworks.h */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
+		389D8BC61E72396D0027B9DA /* Version */ = {
+			isa = PBXGroup;
+			children = (
+				38A6835A1E774D9F00A63BC8 /* MSSemVerPreReleaseId.m */,
+				38A6835B1E774D9F00A63BC8 /* MSSemVerPreReleaseId.h */,
+				38A6835C1E774D9F00A63BC8 /* MSSemVer.m */,
+				38A6835D1E774D9F00A63BC8 /* MSSemVer.h */,
+			);
+			path = Version;
+			sourceTree = "<group>";
+		};
+		B2C070A71E5E62440076D6A9 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				388B559A1E64B3FD00E4F1D7 /* MSBasicMachOParser.h */,
+				388B55991E64B3FD00E4F1D7 /* MSBasicMachOParser.m */,
+				807432C31EE20731003295BA /* MSBasicMachOParserPrivate.h */,
+				B2C070A31E5E62330076D6A9 /* MSDistributeUtil.h */,
+				B2C070A41E5E62330076D6A9 /* MSDistributeUtil.m */,
+			);
+			name = Util;
+			sourceTree = "<group>";
+		};
+		B2C070B91E5E68540076D6A9 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B29CE3471E5E5F9A00CEB04D /* MobileCenterDistribute.strings */,
+				B2C070BA1E5E68540076D6A9 /* Info.plist */,
+			);
+			name = Resources;
+			path = MobileCenterDistributeResources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		0471B9321E4555EA0022F951 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				048BB3051E60A40D009D92C2 /* MSDistributionGroup.h in Headers */,
+				0471B93E1E4557820022F951 /* MSLogManager.h in Headers */,
+				38A683611E774D9F00A63BC8 /* MSSemVer.h in Headers */,
+				38C9C56C1E565BF600B0FA0D /* MSDistributePrivate.h in Headers */,
+				B25895AA1E4E9FD400123632 /* MSDistributeInternal.h in Headers */,
+				0471B93C1E4557620022F951 /* MSServiceAbstract.h in Headers */,
+				B2C070A51E5E62330076D6A9 /* MSDistributeUtil.h in Headers */,
+				0471B9331E4555F20022F951 /* MobileCenterDistribute.h in Headers */,
+				048BB3071E60A40D009D92C2 /* MSDistributeSender.h in Headers */,
+				046FDBD31E5682FA00AF9DD1 /* MSAlertController.h in Headers */,
+				0471B9341E45560C0022F951 /* MSDistribute.h in Headers */,
+				040AF0331E52859F005C1174 /* MSSender.h in Headers */,
+				048BB3031E60A40D009D92C2 /* MSReleaseDetails.h in Headers */,
+				383A2FE41EBA308700817742 /* MSDistributeAppDelegate.h in Headers */,
+				38A6835F1E774D9F00A63BC8 /* MSSemVerPreReleaseId.h in Headers */,
+				388B559C1E64B3FD00E4F1D7 /* MSBasicMachOParser.h in Headers */,
+				047D137F1EAFF87500D699BA /* MSReleaseDetailsPrivate.h in Headers */,
+				046EF5891EAEB524002F6436 /* MSDistributeDelegate.h in Headers */,
+				04A0820A1F74BBB100DC776D /* MSService.h in Headers */,
+				BA682AC831677E0806CA2359 /* MSErrorDetails.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		04FD4A1B1E451E12009B4468 /* AppCenterDistributeIOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 04FD4A251E451E12009B4468 /* Build configuration list for PBXNativeTarget "AppCenterDistributeIOS" */;
+			buildPhases = (
+				04FD4A181E451E12009B4468 /* Sources */,
+				04FD4A191E451E12009B4468 /* Frameworks */,
+				04FD4A1A1E451E12009B4468 /* CopyFiles */,
+				0471B9321E4555EA0022F951 /* Headers */,
+				B2C070C41E5E6A160076D6A9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B2C070BF1E5E697C0076D6A9 /* PBXTargetDependency */,
+			);
+			name = AppCenterDistributeIOS;
+			productName = MobileCenterDistribute;
+			productReference = 04FD4A1C1E451E12009B4468 /* libAppCenterDistribute.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		04FD4A301E453531009B4468 /* AppCenterDistributeIOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 04FD4A391E453531009B4468 /* Build configuration list for PBXNativeTarget "AppCenterDistributeIOSTests" */;
+			buildPhases = (
+				04FD4A2D1E453531009B4468 /* Sources */,
+				04FD4A2E1E453531009B4468 /* Frameworks */,
+				04FD4A2F1E453531009B4468 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				04FD4A381E453531009B4468 /* PBXTargetDependency */,
+			);
+			name = AppCenterDistributeIOSTests;
+			productName = MobileCenterDistributeTests;
+			productReference = 04FD4A311E453531009B4468 /* AppCenterDistribute.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		B2C070B71E5E68540076D6A9 /* AppCenterDistributeResources */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B2C070BB1E5E68540076D6A9 /* Build configuration list for PBXNativeTarget "AppCenterDistributeResources" */;
+			buildPhases = (
+				B2C070B41E5E68540076D6A9 /* Sources */,
+				B2C070B51E5E68540076D6A9 /* Frameworks */,
+				B2C070B61E5E68540076D6A9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AppCenterDistributeResources;
+			productName = MobileCenterDistributeResources;
+			productReference = B2C070B81E5E68540076D6A9 /* AppCenterDistributeResources.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		04FD4A141E451E12009B4468 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = MS;
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = Microsoft;
+			};
+			buildConfigurationList = 04FD4A171E451E12009B4468 /* Build configuration list for PBXProject "AppCenterDistribute" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				cs,
+				de,
+				en,
+				es,
+				fr,
+				it,
+				ja,
+				ko,
+				pl,
+				ru,
+				tr,
+				"zh-Hans",
+				"zh-Hant",
+			);
+			mainGroup = 04FD4A131E451E12009B4468;
+			productRefGroup = 04FD4A1D1E451E12009B4468 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				04FD4A1B1E451E12009B4468 /* AppCenterDistributeIOS */,
+				04FD4A281E451E90009B4468 /* AppCenterDistributeIOSFramework */,
+				04FD4A301E453531009B4468 /* AppCenterDistributeIOSTests */,
+				04FD4A3C1E453640009B4468 /* AppCenterDistributeIOSDoc */,
+				B2C070B71E5E68540076D6A9 /* AppCenterDistributeResources */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		04FD4A2F1E453531009B4468 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B270108D1E5FA2E4008552EF /* release_details.json in Resources */,
+				B2C070C01E5E69AD0076D6A9 /* AppCenterDistributeResources.bundle in Resources */,
+				04DC2EC91E78A3B4003F23B5 /* error_details.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B2C070B61E5E68540076D6A9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B2C070C11E5E69D00076D6A9 /* MobileCenterDistribute.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B2C070C41E5E6A160076D6A9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B2C070C51E5E6A200076D6A9 /* AppCenterDistributeResources.bundle in Resources */,
+				043E2AB41F4E024300615AD9 /* MobileCenterDistribute Release.xcconfig in Resources */,
+				040AF0121E523AC2005C1174 /* release_details.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		04FD4A2C1E453159009B4468 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=MobileCenterDistribute\nTGT_NAME=${FMK_NAME}IOS\nFMK_RESOURCE_BUNDLE=MobileCenterDistributeResources\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-Apple/iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/iOS.modulemap\" \"${INSTALL_DIR}/Modules/module.modulemap\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/${FMK_RESOURCE_BUNDLE}.bundle\" \"${PRODUCTS_DIR}\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"";
+		};
+		04FD4A401E4536B0009B4468 /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ ! -x \"$(command -v jazzy)\" ]\nthen\necho \"Couldn't find jazzy. Install jazzy before building frameworks\"\nexit 1\nfi\n\njazzy --config ../Documentation/iOS/MobileCenterDistribute/.jazzy.yaml\n\nFMK_NAME=MobileCenterDistribute\n\nPRODUCTS_DIR=${SRCROOT}/../MobileCenter-SDK-Apple/iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\nDOCUMENTATION_DIR=${PRODUCTS_DIR}/Documentation/${FMK_NAME}\n\n# Create Documentation directory within folder.\nif [ ! -d \"${DOCUMENTATION_DIR}\" ]\nthen\nmkdir -p \"${DOCUMENTATION_DIR}\"\nfi\n\n# Copy generated documentation into the documentation folder\ncp -R \"${SRCROOT}/../Documentation/iOS/${FMK_NAME}/Generated/\" \"${DOCUMENTATION_DIR}\"";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		04FD4A181E451E12009B4468 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				38A6835E1E774D9F00A63BC8 /* MSSemVerPreReleaseId.m in Sources */,
+				B2C070A61E5E62330076D6A9 /* MSDistributeUtil.m in Sources */,
+				048BB3041E60A40D009D92C2 /* MSReleaseDetails.m in Sources */,
+				048BB3061E60A40D009D92C2 /* MSDistributionGroup.m in Sources */,
+				388B559B1E64B3FD00E4F1D7 /* MSBasicMachOParser.m in Sources */,
+				0471B8991E4547480022F951 /* MSDistribute.m in Sources */,
+				38A683601E774D9F00A63BC8 /* MSSemVer.m in Sources */,
+				046FDBD41E5682FA00AF9DD1 /* MSAlertController.m in Sources */,
+				383A2FE61EBA30B300817742 /* MSDistributeAppDelegate.m in Sources */,
+				048BB3081E60A40D009D92C2 /* MSDistributeSender.m in Sources */,
+				BA682C81BA750CA5FCB63A51 /* MSErrorDetails.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04FD4A2D1E453531009B4468 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				040AF0251E523B80005C1174 /* MSReleaseDetailsTests.m in Sources */,
+				B20DE7B71E5F97330023075C /* MSDistributeUtilTests.m in Sources */,
+				040AF02A1E52748D005C1174 /* MSDistributeSenderTests.m in Sources */,
+				04DC2ECB1E78A3E3003F23B5 /* MSErrorDetailsTests.m in Sources */,
+				04FD4A341E453531009B4468 /* MSDistributeTests.m in Sources */,
+				04A140C91ECE89BD001CEE94 /* MSMockUserDefaults.m in Sources */,
+				38A683651E774DCE00A63BC8 /* MSSemVerPreReleaseIdTest.m in Sources */,
+				80324E301F4DC81F005F4E11 /* MSDistributeAppDelegateTests.m in Sources */,
+				848860451E6EC32B003A9B96 /* MSBasicMachOParserTests.m in Sources */,
+				389638A41E79F59D007C3809 /* MSDistributeTestUtil.m in Sources */,
+				0415974B1E9D639D00EC6BDA /* MSDistributionGroupTests.m in Sources */,
+				38A683641E774DCE00A63BC8 /* MSSemVerTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B2C070B41E5E68540076D6A9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0471B9361E4556570022F951 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04FD4A281E451E90009B4468 /* AppCenterDistributeIOSFramework */;
+			targetProxy = 0471B9351E4556570022F951 /* PBXContainerItemProxy */;
+		};
+		04FD4A381E453531009B4468 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04FD4A1B1E451E12009B4468 /* AppCenterDistributeIOS */;
+			targetProxy = 04FD4A371E453531009B4468 /* PBXContainerItemProxy */;
+		};
+		B2C070BF1E5E697C0076D6A9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B2C070B71E5E68540076D6A9 /* AppCenterDistributeResources */;
+			targetProxy = B2C070BE1E5E697C0076D6A9 /* PBXContainerItemProxy */;
+		};
+		B2C070C31E5E69E70076D6A9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B2C070B71E5E68540076D6A9 /* AppCenterDistributeResources */;
+			targetProxy = B2C070C21E5E69E70076D6A9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		B29CE3471E5E5F9A00CEB04D /* MobileCenterDistribute.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				046BE64F1F8C1B1E00310886 /* cs */,
+				B2C070A21E5E61830076D6A9 /* de */,
+				B29CE3481E5E5F9A00CEB04D /* en */,
+				046BE64E1F8C1B0900310886 /* es */,
+				B29CE3491E5E5FBB00CEB04D /* fr */,
+				046BE64C1F8C1AE100310886 /* it */,
+				046BE64B1F8C1ACE00310886 /* ja */,
+				046BE64A1F8C1AB600310886 /* ko */,
+				046BE64D1F8C1AF200310886 /* pl */,
+				F8646E651F349C6D006080AC /* ru */,
+				046BE6501F8C1B9900310886 /* tr */,
+				046BE6481F8C1A7900310886 /* zh-Hans */,
+				046BE6491F8C1A9900310886 /* zh-Hant */,
+			);
+			name = MobileCenterDistribute.strings;
+			path = ../MobileCenterDistribute;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		04FD4A231E451E12009B4468 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0471B5F41E45466F0022F951 /* MobileCenterDistribute Debug.xcconfig */;
+			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+			};
+			name = Debug;
+		};
+		04FD4A241E451E12009B4468 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 043E2AB31F4E024300615AD9 /* MobileCenterDistribute Release.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		04FD4A261E451E12009B4468 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8221ECE349200FB6719 /* iOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = AppCenterDistribute;
+			};
+			name = Debug;
+		};
+		04FD4A271E451E12009B4468 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8221ECE349200FB6719 /* iOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = AppCenterDistribute;
+			};
+			name = Release;
+		};
+		04FD4A2A1E451E90009B4468 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8221ECE349200FB6719 /* iOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = AppCenterDistribute;
+			};
+			name = Debug;
+		};
+		04FD4A2B1E451E90009B4468 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8221ECE349200FB6719 /* iOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = AppCenterDistribute;
+			};
+			name = Release;
+		};
+		04FD4A3A1E453531009B4468 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 041CFFA31ECD0E0E00B4654B /* Tests iOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = AppCenterDistribute;
+			};
+			name = Debug;
+		};
+		04FD4A3B1E453531009B4468 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 041CFFA31ECD0E0E00B4654B /* Tests iOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = AppCenterDistribute;
+			};
+			name = Release;
+		};
+		04FD4A3E1E453640009B4468 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8221ECE349200FB6719 /* iOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = AppCenterDistribute;
+			};
+			name = Debug;
+		};
+		04FD4A3F1E453640009B4468 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8221ECE349200FB6719 /* iOS.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = AppCenterDistribute;
+			};
+			name = Release;
+		};
+		B2C070BC1E5E68540076D6A9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = MobileCenterDistributeResources/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.distribute.resources.ios;
+				PRODUCT_NAME = AppCenterDistributeResources;
+				SKIP_INSTALL = YES;
+				USER_HEADER_SEARCH_PATHS = "";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		B2C070BD1E5E68540076D6A9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = MobileCenterDistributeResources/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.distribute.resources.ios;
+				PRODUCT_NAME = AppCenterDistributeResources;
+				SKIP_INSTALL = YES;
+				USER_HEADER_SEARCH_PATHS = "";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		04FD4A171E451E12009B4468 /* Build configuration list for PBXProject "AppCenterDistribute" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04FD4A231E451E12009B4468 /* Debug */,
+				04FD4A241E451E12009B4468 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		04FD4A251E451E12009B4468 /* Build configuration list for PBXNativeTarget "AppCenterDistributeIOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04FD4A261E451E12009B4468 /* Debug */,
+				04FD4A271E451E12009B4468 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		04FD4A291E451E90009B4468 /* Build configuration list for PBXAggregateTarget "AppCenterDistributeIOSFramework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04FD4A2A1E451E90009B4468 /* Debug */,
+				04FD4A2B1E451E90009B4468 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		04FD4A391E453531009B4468 /* Build configuration list for PBXNativeTarget "AppCenterDistributeIOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04FD4A3A1E453531009B4468 /* Debug */,
+				04FD4A3B1E453531009B4468 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		04FD4A3D1E453640009B4468 /* Build configuration list for PBXAggregateTarget "AppCenterDistributeIOSDoc" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04FD4A3E1E453640009B4468 /* Debug */,
+				04FD4A3F1E453640009B4468 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B2C070BB1E5E68540076D6A9 /* Build configuration list for PBXNativeTarget "AppCenterDistributeResources" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B2C070BC1E5E68540076D6A9 /* Debug */,
+				B2C070BD1E5E68540076D6A9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 04FD4A141E451E12009B4468 /* Project object */;
+}
