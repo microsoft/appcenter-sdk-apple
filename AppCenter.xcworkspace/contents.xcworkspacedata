@@ -2,19 +2,19 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Users/jaelim/Source/MobileCenter/vsts/appcenter-sdk-apple/AppCenter/AppCenter.xcodeproj">
+      location = "group:AppCenter/AppCenter.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:/Users/jaelim/Source/MobileCenter/vsts/appcenter-sdk-apple/AppCenterAnalytics/AppCenterAnalytics.xcodeproj">
+      location = "group:AppCenterAnalytics/AppCenterAnalytics.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:/Users/jaelim/Source/MobileCenter/vsts/appcenter-sdk-apple/AppCenterCrashes/AppCenterCrashes.xcodeproj">
+      location = "group:AppCenterCrashes/AppCenterCrashes.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:/Users/jaelim/Source/MobileCenter/vsts/appcenter-sdk-apple/AppCenterDistribute/AppCenterDistribute.xcodeproj">
+      location = "group:AppCenterDistribute/AppCenterDistribute.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:/Users/jaelim/Source/MobileCenter/vsts/appcenter-sdk-apple/AppCenterPush/AppCenterPush.xcodeproj">
+      location = "group:AppCenterPush/AppCenterPush.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Puppet/Puppet.xcodeproj">

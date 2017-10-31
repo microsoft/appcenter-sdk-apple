@@ -782,7 +782,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8221ECE349200FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = AppCenterDistribute;
 			};
 			name = Debug;
 		};
@@ -790,7 +789,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8221ECE349200FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = AppCenterDistribute;
 			};
 			name = Release;
 		};
@@ -798,7 +796,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8221ECE349200FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = AppCenterDistribute;
 			};
 			name = Debug;
 		};
@@ -806,7 +803,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8221ECE349200FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = AppCenterDistribute;
 			};
 			name = Release;
 		};
@@ -814,7 +810,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 041CFFA31ECD0E0E00B4654B /* Tests iOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = AppCenterDistribute;
 			};
 			name = Debug;
 		};
@@ -822,7 +817,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 041CFFA31ECD0E0E00B4654B /* Tests iOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = AppCenterDistribute;
 			};
 			name = Release;
 		};
@@ -830,7 +824,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8221ECE349200FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = AppCenterDistribute;
 			};
 			name = Debug;
 		};
@@ -838,7 +831,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8221ECE349200FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = AppCenterDistribute;
 			};
 			name = Release;
 		};
@@ -852,7 +844,7 @@
 				INFOPLIST_FILE = AppCenterDistributeResources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.distribute.resources.ios;
-				PRODUCT_NAME = AppCenterDistributeResources;
+				PRODUCT_NAME = "${PROJECT_NAME}Resources";
 				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = bundle;
@@ -869,7 +861,7 @@
 				INFOPLIST_FILE = AppCenterDistributeResources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.distribute.resources.ios;
-				PRODUCT_NAME = AppCenterDistributeResources;
+				PRODUCT_NAME = "${PROJECT_NAME}Resources";
 				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = bundle;

@@ -1,9 +1,7 @@
+#import "MSAppCenterInternal.h"
 #import "MSHttpSenderPrivate.h"
 #import "MSIngestionSender.h"
 #import "MSLogger.h"
-#import "MSAppCenterInternal.h"
-// TODO: Why is this here?
-#import "AppCenter.h"
 
 @implementation MSIngestionSender
 
