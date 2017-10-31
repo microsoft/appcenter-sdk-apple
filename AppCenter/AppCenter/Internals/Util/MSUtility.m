@@ -13,7 +13,7 @@ typedef struct {
 } ms_info_t;
 
 // SDK versioning.
-static ms_info_t mobilecenter_library_info
+static ms_info_t appcenter_library_info
 __attribute__((section("__TEXT,__ms_ios,regular,no_dead_strip"))) = {.info_version = 1,
   .ms_name = APP_CENTER_C_NAME,
   .ms_version = APP_CENTER_C_VERSION,
@@ -32,10 +32,10 @@ __attribute__((used)) static void importCategories() {
 }
 
 + (NSString *)sdkName {
-  return [NSString stringWithUTF8String:mobilecenter_library_info.ms_name];
+  return [NSString stringWithUTF8String:appcenter_library_info.ms_name];
 }
 
 + (NSString *)sdkVersion {
-  return [NSString stringWithUTF8String:mobilecenter_library_info.ms_version];
+  return [NSString stringWithUTF8String:appcenter_library_info.ms_version];
 }
 @end

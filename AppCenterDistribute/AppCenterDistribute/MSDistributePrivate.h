@@ -52,7 +52,7 @@ static NSString *const kMSURLQueryPlatformValue = @"iOS";
 /**
  * Distribute custom URL scheme format.
  */
-static NSString *const kMSDefaultCustomSchemeFormat = @"mobilecenter-%@";
+static NSString *const kMSDefaultCustomSchemeFormat = @"appcenter-%@";
 
 /**
  * The storage key for postponed timestamp.

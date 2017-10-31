@@ -28,7 +28,7 @@ Xamarin Exception Stack:
   at Xamarin.Forms.Platform.iOS.ButtonRenderer.OnButtonTouchUpInside (System.Object sender, System.EventArgs eventArgs) <0x1b149bd8 + 0x00028> in <filename unknown>:0 
   at UIKit.UIControlEventProxy.Activated () [0x00007] in /Users/builder/data/lanes/3051/5f11db87/source/maccore/src/UIKit/UIControl.cs:37 
   at (wrapper managed-to-native) UIKit.UIApplication:UIApplicationMain (int,string[],intptr,intptr)
-  at UIKit.UIApplication.Main (System.String[] args, IntPtr principal, IntPtr mobilecenterDelegate) [0x00005] in /Users/builder/data/lanes/3051/5f11db87/source/maccore/src/UIKit/UIApplication.cs:77
+  at UIKit.UIApplication.Main (System.String[] args, IntPtr principal, IntPtr appCenterDelegate) [0x00005] in /Users/builder/data/lanes/3051/5f11db87/source/maccore/src/UIKit/UIApplication.cs:77
   at UIKit.UIApplication.Main (System.String[] args, System.String principalClassName, System.String delegateClassName) [0x0001c] in /Users/builder/data/lanes/3051/5f11db87/source/maccore/src/UIKit/UIApplication.cs:60 
   at HockeySDKXamarinDemo.Application.Main (System.String[] args) [0x00008] in /Users/myUser/Documents/Workspace/HockeySDK-XamarinDemo/iOS/Main.cs:17 
 ---> (Inner Exception #0) HockeySDKXamarinDemo.TestAppHubException: This is the first basic exception.

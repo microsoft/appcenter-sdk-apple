@@ -125,7 +125,7 @@ static NSURL *sfURL;
   // If
   XCTestExpectation *openURLCalledExpectation = [self expectationWithDescription:@"openURL Called."];
   NSArray *bundleArray = @[
-    @{ @"CFBundleURLSchemes" : @[ [NSString stringWithFormat:@"mobilecenter-%@", kMSTestAppSecret] ] }
+    @{ @"CFBundleURLSchemes" : @[ [NSString stringWithFormat:@"appcenter-%@", kMSTestAppSecret] ] }
   ];
   OCMStub([self.bundleMock objectForInfoDictionaryKey:@"CFBundleURLTypes"]).andReturn(bundleArray);
   OCMStub([self.bundleMock objectForInfoDictionaryKey:@"MSAppName"]).andReturn(@"Something");
@@ -260,7 +260,7 @@ static NSURL *sfURL;
   // If
   NSString *testUrl = @"https://example.com";
   NSArray *bundleArray = @[
-    @{ @"CFBundleURLSchemes" : @[ [NSString stringWithFormat:@"mobilecenter-%@", kMSTestAppSecret] ] }
+    @{ @"CFBundleURLSchemes" : @[ [NSString stringWithFormat:@"appcenter-%@", kMSTestAppSecret] ] }
   ];
   OCMStub([self.bundleMock objectForInfoDictionaryKey:@"CFBundleURLTypes"]).andReturn(bundleArray);
 
@@ -278,7 +278,7 @@ static NSURL *sfURL;
 
   // If
   NSArray *bundleArray = @[
-    @{ @"CFBundleURLSchemes" : @[ [NSString stringWithFormat:@"mobilecenter-%@", kMSTestAppSecret] ] }
+    @{ @"CFBundleURLSchemes" : @[ [NSString stringWithFormat:@"appcenter-%@", kMSTestAppSecret] ] }
   ];
   OCMStub([self.bundleMock objectForInfoDictionaryKey:@"CFBundleURLTypes"]).andReturn(bundleArray);
 
@@ -1574,7 +1574,7 @@ static NSURL *sfURL;
 - (void)testUpdateURLWithUnregisteredScheme {
 
   // If
-  NSArray *bundleArray = @[ @{ @"CFBundleURLSchemes" : @[ @"mobilecenter-IAMSUPERSECRET" ] } ];
+  NSArray *bundleArray = @[ @{ @"CFBundleURLSchemes" : @[ @"appcenter-IAMSUPERSECRET" ] } ];
   OCMStub([self.bundleMock objectForInfoDictionaryKey:@"CFBundleURLTypes"]).andReturn(bundleArray);
 
   // When

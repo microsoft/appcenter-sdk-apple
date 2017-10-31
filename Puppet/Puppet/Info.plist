@@ -27,7 +27,7 @@
 			<string>com.microsoft.azure.mobile.puppet</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>mobilecenter-7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7</string>
+				<string>appcenter-7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7</string>
 			</array>
 		</dict>
 	</array>
