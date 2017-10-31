@@ -176,12 +176,12 @@
 }
 
 - (void)testSdkName {
-  NSString *name = [NSString stringWithUTF8String:MOBILE_CENTER_C_NAME];
+  NSString *name = [NSString stringWithUTF8String:APP_CENTER_C_NAME];
   XCTAssertTrue([[MSUtility sdkName] isEqualToString:name]);
 }
 
 - (void)testSdkVersion {
-  NSString *version = [NSString stringWithUTF8String:MOBILE_CENTER_C_VERSION];
+  NSString *version = [NSString stringWithUTF8String:APP_CENTER_C_VERSION];
   XCTAssertTrue([[MSUtility sdkVersion] isEqualToString:version]);
 }
 

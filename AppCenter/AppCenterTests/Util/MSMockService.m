@@ -37,7 +37,7 @@ static MSMockService *sharedInstance = nil;
 }
 
 + (NSString *)logTag {
-  return @"MobileCenterTest";
+  return @"AppCenterTest";
 }
 
 - (void)applyEnabledState:(BOOL) __unused isEnabled {

@@ -26,10 +26,10 @@ static dispatch_once_t onceToken;
 static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 
 // Service name for initialization.
-static NSString *const kMSServiceName = @"MobileCenter";
+static NSString *const kMSServiceName = @"AppCenter";
 
 // The group Id for storage.
-static NSString *const kMSGroupId = @"MobileCenter";
+static NSString *const kMSGroupId = @"AppCenter";
 
 @implementation MSAppCenter
 

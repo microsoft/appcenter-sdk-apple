@@ -4,11 +4,11 @@
 
 @implementation MSKeychainUtil
 
-static NSString *MobileCenterKeychainServiceName(void) {
+static NSString *AppCenterKeychainServiceName(void) {
   static NSString *serviceName = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-    serviceName = [NSString stringWithFormat:@"%@.MobileCenter", [MS_APP_MAIN_BUNDLE bundleIdentifier]];
+    serviceName = [NSString stringWithFormat:@"%@.AppCenter", [MS_APP_MAIN_BUNDLE bundleIdentifier]];
   });
   return serviceName;
 }
@@ -51,7 +51,7 @@ static NSString *MobileCenterKeychainServiceName(void) {
 + (BOOL)clear {
   NSMutableDictionary *item = [NSMutableDictionary new];
   item[(__bridge id)kSecClass] = (__bridge id)kSecClassGenericPassword;
-  item[(__bridge id)kSecAttrService] = MobileCenterKeychainServiceName();
+  item[(__bridge id)kSecAttrService] = AppCenterKeychainServiceName();
 
   OSStatus status = SecItemDelete((__bridge CFDictionaryRef)item);
   return status == noErr;
@@ -60,7 +60,7 @@ static NSString *MobileCenterKeychainServiceName(void) {
 + (NSMutableDictionary *)generateItem:(NSString *)key {
   NSMutableDictionary *item = [NSMutableDictionary new];
   item[(__bridge id)kSecClass] = (__bridge id)kSecClassGenericPassword;
-  item[(__bridge id)kSecAttrService] = MobileCenterKeychainServiceName();
+  item[(__bridge id)kSecAttrService] = AppCenterKeychainServiceName();
   item[(__bridge id)kSecAttrAccount] = key;
   return item;
 }

@@ -34,7 +34,7 @@
 - (void)testInitNewChannel {
 
   // If
-  NSString *groupId = @"MobileCenter";
+  NSString *groupId = @"AppCenter";
   MSPriority priority = MSPriorityDefault;
   float flushInterval = 1.0;
   NSUInteger batchSizeLimit = 10;
@@ -65,7 +65,7 @@
 
   // If
   MSPriority priority = MSPriorityDefault;
-  NSString *groupId = @"MobileCenter";
+  NSString *groupId = @"AppCenter";
   MSLogManagerDefault *sut = [[MSLogManagerDefault alloc] initWithSender:OCMProtocolMock(@protocol(MSSender))
                                                                  storage:OCMProtocolMock(@protocol(MSStorage))];
   id mockDelegate = OCMProtocolMock(@protocol(MSLogManagerDelegate));
@@ -89,7 +89,7 @@
 - (void)testDelegatesConcurrentAccess {
   
   // If
-  NSString *groupId = @"MobileCenter";
+  NSString *groupId = @"AppCenter";
   MSLogManagerDefault *sut = [[MSLogManagerDefault alloc] initWithSender:OCMProtocolMock(@protocol(MSSender))
                                                                  storage:OCMProtocolMock(@protocol(MSStorage))];
   MSAbstractLog *log = [MSAbstractLog new];
