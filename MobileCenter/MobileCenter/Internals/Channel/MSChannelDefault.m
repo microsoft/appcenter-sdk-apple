@@ -288,7 +288,7 @@
     if (self.enabled != isEnabled) {
       self.enabled = isEnabled;
       if (isEnabled) {
-        [self resume];
+        [self resumeSync];
       } else {
         [self suspend];
       }
@@ -326,6 +326,14 @@
 }
 
 - (void)resume {
+  __weak typeof(self) weakSelf = self;
+  dispatch_async(self.logsDispatchQueue, ^{
+    typeof(self) strongSelf = weakSelf;
+    [strongSelf resumeSync];
+  });
+}
+
+- (void)resumeSync {
   if (!self.sender.suspended && self.suspended && self.enabled) {
     MSLogDebug([MSMobileCenter logTag], @"Resume channel for group Id %@.", self.configuration.groupId);
     self.suspended = NO;
@@ -403,9 +411,7 @@
 
 - (void)senderDidResume:(id<MSSender>)sender {
   (void)sender;
-  dispatch_async(self.logsDispatchQueue, ^{
-    [self resume];
-  });
+  [self resume];
 }
 
 - (void)senderDidReceiveFatalError:(id<MSSender>)sender {
