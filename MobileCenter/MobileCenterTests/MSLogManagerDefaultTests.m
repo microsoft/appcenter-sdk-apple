@@ -5,6 +5,7 @@
 #import "MSLogManagerDefault.h"
 #import "MSLogManagerDefaultPrivate.h"
 #import "MSTestFrameworks.h"
+#import "MSUtility+Application.h"
 
 @interface MSLogManagerDefaultTests : XCTestCase
 
@@ -29,6 +30,7 @@
   assertThat(sut.channels, isEmpty());
   assertThat(sut.sender, equalTo(senderMock));
   assertThat(sut.storage, equalTo(storageMock));
+  assertThatInt(sut.backgroundTaskIdentifier, equalToInt(UIBackgroundTaskInvalid));
 }
 
 - (void)testInitNewChannel {
@@ -112,35 +114,200 @@
   XCTAssertNoThrow(block());
 }
 
-- (void)testResume{
+#if !TARGET_OS_OSX
+
+- (void)testAppBackgroundedAndChannelsWillFinishFlushing {
+  
+  /*
+   * The app is going to the background, logmanager should request channels to notify it when the are done flushing.
+   * Logmanager should make sure all channels are done flushing before cancelling the background task.
+   * Then, disable sender so it can't react to network events in background in case other tasks from the app are still running.
+   */
   
   // If
-  MSHttpSender *senderMock = OCMClassMock([MSHttpSender class]);
+  id utilityMock = OCMClassMock([MSUtility class]);
+  id appMock = OCMClassMock([UIApplication class]);
+  OCMStub([utilityMock sharedApplication]).andReturn(appMock);
+  OCMStub([appMock beginBackgroundTaskWithExpirationHandler:OCMOCK_ANY]).andReturn(UIBackgroundTaskInvalid+1);
+  __block BOOL isSenderDisabled = NO;
+  id senderMock = OCMProtocolMock(@protocol(MSSender));
+  OCMStub([senderMock setEnabled:NO andDeleteDataOnDisabled:NO]).andDo(^(__attribute__((unused)) NSInvocation *invocation) {
+    isSenderDisabled = YES;
+  });
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
-  
-  // When
   MSLogManagerDefault *sut = [[MSLogManagerDefault alloc] initWithSender:senderMock storage:storageMock];
   
+  // Init 2 channels.
+  __block MSDoneFlushingCompletionBlock completionBlockChannel1;
+  __block MSDoneFlushingCompletionBlock completionBlockChannel2;
+  MSChannelDefault *channel1 = OCMClassMock([MSChannelDefault class]);
+  MSChannelDefault *channel2 = OCMClassMock([MSChannelDefault class]);
+  OCMStub([channel1 notifyWhenDoneFlushingWithCompletion:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    [invocation retainArguments];
+    
+    // Remember the completion block.
+    [invocation getArgument:&completionBlockChannel1 atIndex:2];
+  });
+  OCMStub([channel2 notifyWhenDoneFlushingWithCompletion:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    [invocation retainArguments];
+    
+    // Remember the completion block.
+    [invocation getArgument:&completionBlockChannel2 atIndex:2];
+  });
+  
+  // Add channels.
+  sut.channels[@"channel1"] = channel1;
+  sut.channels[@"channel2"] = channel2;
+
   // When
-  [sut resume];
+  [[NSNotificationCenter defaultCenter]
+   postNotificationName:UIApplicationDidEnterBackgroundNotification
+                 object:sut];
   
   // Then
-  OCMVerify([senderMock setEnabled:YES andDeleteDataOnDisabled:NO]);
+  assertThatInt(sut.flushedChannelsCount, equalToInt(0));
+  completionBlockChannel1();
+  assertThatInt(sut.flushedChannelsCount, equalToInt(1));
+  assertThatBool(isSenderDisabled, isFalse());
+  assertThatInt(sut.backgroundTaskIdentifier, equalToInt(UIBackgroundTaskInvalid+1));
+  completionBlockChannel2();
+  assertThatInt(sut.flushedChannelsCount, equalToInt(0));
+  assertThatBool(isSenderDisabled, isTrue());
+  assertThatInt(sut.backgroundTaskIdentifier, equalToInt(UIBackgroundTaskInvalid));
+
+  // Explicitly unmock MSUtility since it's stubbing a class method.
+  [utilityMock stopMocking];
 }
 
-- (void)testSuspend{
+- (void)testAppBackgroundedAndChannelsWontFinishFlushing {
+  
+  /*
+   * The app is going to the background, logmanager should request channels to notify it when the are done flushing.
+   * Channel won't fininsh flushing before background will finish.
+   * In this case, logmanager must disable sender.
+   */
   
   // If
-  MSHttpSender *senderMock = OCMClassMock([MSHttpSender class]);
+  id utilityMock = OCMClassMock([MSUtility class]);
+  __block id expirationBlock = nil;
+  id appMock = OCMClassMock([UIApplication class]);
+  OCMStub([utilityMock sharedApplication]).andReturn(appMock);
+  OCMStub([appMock beginBackgroundTaskWithExpirationHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    long long bgNumber = UIBackgroundTaskInvalid+1;
+    [invocation retainArguments];
+    [invocation getArgument:&expirationBlock atIndex:2];
+    [invocation setReturnValue:&bgNumber];
+  });
+  __block BOOL isSenderDisabled = NO;
+  id senderMock = OCMProtocolMock(@protocol(MSSender));
+  OCMStub([senderMock setEnabled:NO andDeleteDataOnDisabled:NO]).andDo(^(__attribute__((unused)) NSInvocation *invocation) {
+    isSenderDisabled = YES;
+  });
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
-  
-  // When
   MSLogManagerDefault *sut = [[MSLogManagerDefault alloc] initWithSender:senderMock storage:storageMock];
   
+  // Init 2 channels.
+  __block MSDoneFlushingCompletionBlock completionBlockChannel1;
+  __block MSDoneFlushingCompletionBlock completionBlockChannel2;
+  id channel1 = OCMClassMock([MSChannelDefault class]);
+  id channel2 = OCMClassMock([MSChannelDefault class]);
+  OCMStub([channel1 notifyWhenDoneFlushingWithCompletion:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    [invocation retainArguments];
+    
+    // Remember the completion block.
+    [invocation getArgument:&completionBlockChannel1 atIndex:2];
+  });
+  OCMStub([channel2 notifyWhenDoneFlushingWithCompletion:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    [invocation retainArguments];
+    
+    // Remember the completion block.
+    [invocation getArgument:&completionBlockChannel2 atIndex:2];
+  });
+  
+  // Add channels.
+  sut.channels[@"channel1"] = channel1;
+  sut.channels[@"channel2"] = channel2;
+  
+  // Simulate background.
+  [[NSNotificationCenter defaultCenter]
+   postNotificationName:UIApplicationDidEnterBackgroundNotification
+   object:sut];
+  
   // When
-  [sut suspend];
+  ((void(^)())expirationBlock)();
   
   // Then
-  OCMVerify([senderMock setEnabled:NO andDeleteDataOnDisabled:NO]);
+  assertThatInt(sut.backgroundTaskIdentifier, equalToInt(UIBackgroundTaskInvalid+1));
+  assertThatInt(sut.flushedChannelsCount, equalToInt(0));
+  assertThatBool(isSenderDisabled, isTrue());
+  completionBlockChannel1();
+  completionBlockChannel2();
+  assertThatInt(sut.flushedChannelsCount, equalToInt(0));
+
+  // Explicitly unmock MSUtility since it's stubbing a class method.
+  [utilityMock stopMocking];
 }
+
+- (void)testAppBackgroundedThenForegroundedAndChannelsWontFinishFlushing {
+  
+  /*
+   * The app is going to the background, logmanager should request channels to notify it when the are done flushing.
+   * Channel won't fininsh flushing before background will finish.
+   * In this case, logmanager must disable sender.
+   */
+  
+  // If
+  id utilityMock = OCMClassMock([MSUtility class]);
+  __block id expirationBlock = nil;
+  id appMock = OCMClassMock([UIApplication class]);
+  OCMStub([utilityMock sharedApplication]).andReturn(appMock);
+  OCMStub([appMock beginBackgroundTaskWithExpirationHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    long long bgNumber = UIBackgroundTaskInvalid+1;
+    [invocation retainArguments];
+    [invocation getArgument:&expirationBlock atIndex:2];
+    [invocation setReturnValue:&bgNumber];
+  });
+  __block BOOL isSenderDisabled = YES;
+  id senderMock = OCMProtocolMock(@protocol(MSSender));
+  OCMStub([senderMock setEnabled:YES andDeleteDataOnDisabled:NO]).andDo(^(__attribute__((unused)) NSInvocation *invocation) {
+    isSenderDisabled = NO;
+  });
+  id storageMock = OCMProtocolMock(@protocol(MSStorage));
+  MSLogManagerDefault *sut = [[MSLogManagerDefault alloc] initWithSender:senderMock storage:storageMock];
+  
+  // Init 2 channels.
+  id channel1 = OCMClassMock([MSChannelDefault class]);
+  id channel2 = OCMClassMock([MSChannelDefault class]);
+  OCMExpect([channel1 cancelNotifyingWhenDoneFlushing]);
+  OCMExpect([channel2 cancelNotifyingWhenDoneFlushing]);
+  OCMStub([channel1 notifyWhenDoneFlushingWithCompletion:OCMOCK_ANY]);
+  OCMStub([channel2 notifyWhenDoneFlushingWithCompletion:OCMOCK_ANY]);
+  
+  // Add channels.
+  sut.channels[@"channel1"] = channel1;
+  sut.channels[@"channel2"] = channel2;
+  
+  // Simulate background.
+  [[NSNotificationCenter defaultCenter]
+   postNotificationName:UIApplicationDidEnterBackgroundNotification
+   object:sut];
+  
+  // When
+  [[NSNotificationCenter defaultCenter]
+   postNotificationName:UIApplicationWillEnterForegroundNotification
+   object:sut];
+  
+  // Then
+  assertThatInt(sut.backgroundTaskIdentifier, equalToInt(UIBackgroundTaskInvalid));
+  assertThatInt(sut.flushedChannelsCount, equalToInt(0));
+  assertThatBool(isSenderDisabled, isFalse());
+  OCMVerifyAll(channel1);
+  OCMVerifyAll(channel2);
+  
+  // Explicitly unmock MSUtility since it's stubbing a class method.
+  [utilityMock stopMocking];
+}
+
+#endif
+
 @end

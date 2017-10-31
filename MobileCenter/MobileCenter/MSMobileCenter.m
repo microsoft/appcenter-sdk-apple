@@ -338,9 +338,7 @@ static NSString *const kMSGroupId = @"MobileCenter";
   [MS_NOTIFICATION_CENTER removeObserver:self];
 
   // Hookup to application life-cycle events
-  if (isEnabled) {
-    [self addObservers];
-  } else {
+  if (!isEnabled) {
 
     // Clean device history in case we are disabled.
     [[MSDeviceTracker sharedInstance] clearDevices];
@@ -415,43 +413,6 @@ static NSString *const kMSGroupId = @"MobileCenter";
 + (void)resetSharedInstance {
   onceToken = 0; // resets the once_token so dispatch_once will run again
   sharedInstance = nil;
-}
-
-#pragma mark - Application life cycle
-
-/**
- *  The application will go to the foreground.
- */
-- (void)applicationWillEnterForeground {
-
-  // TODO this should be made in the logmanager directly.
-  
-  /**
-   * Triggering a resume here to make sure our pipeline is working. While it won't be suspended when going into the
-   * background anymore, it might be suspended because we're offline or it failed to send events.
-   */
-  [self.logManager resume];
-}
-
-- (void)dealloc {
-  [self removeObservers];
-}
-
-#pragma mark - Observers
-
-- (void)addObservers {
-#if !TARGET_OS_OSX
-  [MS_NOTIFICATION_CENTER addObserver:self
-                             selector:@selector(applicationWillEnterForeground)
-                                 name:UIApplicationWillEnterForegroundNotification
-                               object:nil];
-#endif
-}
-
-- (void)removeObservers {
-#if !TARGET_OS_OSX
-  [MS_NOTIFICATION_CENTER removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
-#endif
 }
 
 @end

@@ -66,9 +66,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   assertThat(self.sut.sender, equalTo(self.senderMock));
   assertThat(self.sut.storage, equalTo(self.storageMock));
 #if !TARGET_OS_OSX
-  assertThat(self.sut.appDidEnterBackgroundObserver, notNilValue());
-  assertThat(self.sut.appWillEnterForegroundObserver, notNilValue());
-  XCTAssertTrue(self.sut.backgroundTaskIdentifier == UIBackgroundTaskInvalid);
+  assertThat(self.sut.doneFlushingCompletion, notNilValue());
 #endif
   assertThatUnsignedLong(self.sut.itemsCount, equalToInt(0));
 }
@@ -821,23 +819,19 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
 #if !TARGET_OS_OSX
 
-- (void)testAppIsBackgroundedWithNoLogsToSend {
+- (void)testAppDoneFlushingWithNoLogsToSend {
   
   /*
-   * The app is going to the background and the channel don't have any logs to send.
-   * The sender must be suspended ASAP.
+   * The channel is asked to notify when done flushing and don't have any logs to send.
+   * The channel must be suspended and notify ASAP.
    */
   
   // If
   MSChannelDefault *channelMock = OCMPartialMock(self.sut);
   short batchSizeLimit = 20;
-  id mockLog = [self getValidMockLog];
   [self initChannelEndJobExpectation];
-  id utilityMock = OCMClassMock([MSUtility class]);
-  id appMock = OCMClassMock([UIApplication class]);
-  OCMStub([utilityMock sharedApplication]).andReturn(appMock);
-  OCMStub([appMock beginBackgroundTaskWithExpirationHandler:OCMOCK_ANY]).andReturn(UIBackgroundTaskInvalid+1);
   OCMExpect([self.senderMock suspend]);
+  __block BOOL completionExecuted = NO;
   
   // Mock empty storage.
   OCMStub([self.storageMock
@@ -854,59 +848,172 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                                                     batchSizeLimit:batchSizeLimit
                                                                pendingBatchesLimit:10];
   channelMock.configuration = config;
+  [channelMock setEnabled:YES];
+  
+  // When
+  [channelMock notifyWhenDoneFlushingWithCompletion:^(){
+    if (completionExecuted){
+      XCTFail(@"Completion block must not be executed twice");
+    }else{
+      completionExecuted = YES;
+      [self enqueueChannelEndJobExpectation];
+    }
+  }];
+  
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 
+                                 // Verify flushQueue was called and channel is suspended.
+                                 OCMVerify([channelMock flushQueue]);
+                                 assertThatBool(channelMock.suspended, isTrue());
+                                 
+                                 // Completion happened so must now be an empty block, calling it won't hurt.
+                                 channelMock.doneFlushingCompletion();
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)testDoneFlushingWithALogToSend {
+  
+  /*
+   * The channel is asked to notify when done flushing but still have a log to send.
+   * A 200 response is received so it must suspend and notify.
+   */
+
+  // If
+  MSChannelDefault *channelMock = OCMPartialMock(self.sut);
+  short batchSizeLimit = 20;
+  id mockLog = [self getValidMockLog];
+  [self initChannelEndJobExpectation];
+  __block MSSendAsyncCompletionHandler senderBlock;
+  __block BOOL completionExecuted = NO;
+  OCMExpect([self.senderMock suspend]);
+  OCMStub([self.senderMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    MSSendAsyncCompletionHandler block;
+    [invocation retainArguments];
+    [invocation getArgument:&block atIndex:3];
+    senderBlock = block;
+  });
+  
+  // Load a log from the storage.
+  OCMStub([self.storageMock
+           loadLogsWithGroupId:OCMOCK_ANY
+           limit: batchSizeLimit
+           withCompletion:([OCMArg invokeBlockWithArgs:((NSArray<id<MSLog>> *)@[ mockLog ]), @"1", nil])]);
+  MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithGroupId:kMSTestGroupId
+                                                                          priority:MSPriorityDefault
+                                                                     flushInterval:5.0
+                                                                    batchSizeLimit:batchSizeLimit
+                                                               pendingBatchesLimit:10];
+  // Configure channel not to flush to quickly.
+  channelMock.configuration = config;
+  
+  // When
+  [channelMock enqueueItem:mockLog
+                    withCompletion:^(__attribute__((unused)) BOOL success) {
+                       [channelMock notifyWhenDoneFlushingWithCompletion:^(){
+                         if (completionExecuted){
+                           XCTFail(@"Completion block must not be executed twice");
+                         }else{
+                           completionExecuted = YES;
+                           [self enqueueChannelEndJobExpectation];
+                         }
+                       }];
+                      dispatch_async(self.logsDispatchQueue, ^{
+                          senderBlock([@(1) stringValue], 200, nil, nil);
+                      });
+                    }];
+  
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+
+                                 // Verify flushQueue was called and channel is suspended.
+                                 OCMVerify([channelMock flushQueue]);
+                                 assertThatBool(channelMock.suspended, isTrue());
+                                 
+                                 // Completion happened so must now be an empty block, calling it won't hurt.
+                                 channelMock.doneFlushingCompletion();
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)testDoneFlushingWithALogToSendButNetworkWontAnswer {
+  
+  /*
+   * The channel is asked to notify when done flushing but still have a log to send.
+   * No response from the network, channel won't suspend or notify yet.
+   */
+  
+  // If
+  MSChannelDefault *channelMock = OCMPartialMock(self.sut);
+  short batchSizeLimit = 20;
+  id mockLog = [self getValidMockLog];
+  [self initChannelEndJobExpectation];
+  OCMStub([self.senderMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(__attribute__((unused)) NSInvocation *invocation){
+    [self enqueueChannelEndJobExpectation];
+  });
+  
+  // Load a log from the storage.
+  OCMStub([self.storageMock
+           loadLogsWithGroupId:OCMOCK_ANY
+           limit: batchSizeLimit
+           withCompletion:([OCMArg invokeBlockWithArgs:((NSArray<id<MSLog>> *)@[ mockLog ]), @"1", nil])]);
+  
+  // Configure channel not to flush to quickly.
+  MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithGroupId:kMSTestGroupId
+                                                                          priority:MSPriorityDefault
+                                                                     flushInterval:5.0
+                                                                    batchSizeLimit:batchSizeLimit
+                                                               pendingBatchesLimit:10];
+  channelMock.configuration = config;
+  [channelMock setEnabled:YES];
   
   // When
   [channelMock enqueueItem:mockLog
             withCompletion:^(__attribute__((unused)) BOOL success) {
-              
-              // Simulate background event.
-              [[NSNotificationCenter defaultCenter]
-               postNotificationName:UIApplicationDidEnterBackgroundNotification
-               object:channelMock];
-              XCTAssertTrue(channelMock.backgroundTaskIdentifier != UIBackgroundTaskInvalid);
-              [self enqueueChannelEndJobExpectation];
+              [channelMock notifyWhenDoneFlushingWithCompletion: ^(){
+                XCTFail(@"Channel did not finish flushing logs.");
+              }];
             }];
   
   // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
                                  
-                                 // Verify flushQueue was called and sender is suspended.
+                                 // Verify flushQueue was called but channel is not suspended.
                                  OCMVerify([channelMock flushQueue]);
-                                 OCMVerify([self.senderMock suspend]);
-                                 XCTAssertTrue(channelMock.backgroundTaskIdentifier == UIBackgroundTaskInvalid);
+                                 assertThatBool(channelMock.suspended, isFalse());
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
-                                 
-                                 // Explicitly unmock MSUtility since it's stubbing a class method.
-                                 [utilityMock stopMocking];
                                }];
 }
 
-- (void)testAppIsBackgroundedWithALogToSend {
+- (void)testDoneFlushingWithALogToSendButIsCancelled {
   
   /*
-   * The app is going to the background while the channel still have a log to send.
-   * A 200 response is received while still in background aknowledging this last log so sender must be suspended.
+   * The channel is asked to notify when done flushing, still have a log to send but "done flushing" notification
+   * is cancelled before the 200 response. Channel must not suspend or notify.
    */
-
+  
   // If
   MSChannelDefault *channelMock = OCMPartialMock(self.sut);
   short batchSizeLimit = 20;
   id mockLog = [self getValidMockLog];
   [self initChannelEndJobExpectation];
-  id utilityMock = OCMClassMock([MSUtility class]);
-  id appMock = OCMClassMock([UIApplication class]);
-  OCMStub([utilityMock sharedApplication]).andReturn(appMock);
-  OCMStub([appMock beginBackgroundTaskWithExpirationHandler:OCMOCK_ANY]).andReturn(UIBackgroundTaskInvalid+1);
+  __block MSSendAsyncCompletionHandler senderBlock;
   OCMExpect([self.senderMock suspend]);
   OCMStub([self.senderMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
-    MSSendAsyncCompletionHandler senderBlock;
+    MSSendAsyncCompletionHandler block;
     [invocation retainArguments];
-    [invocation getArgument:&senderBlock atIndex:3];
-    senderBlock([@(1) stringValue], 200, nil, nil);
-    [self enqueueChannelEndJobExpectation];
+    [invocation getArgument:&block atIndex:3];
+    senderBlock = block;
   });
   
   // Load a log from the storage.
@@ -920,111 +1027,39 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                                                     batchSizeLimit:batchSizeLimit
                                                                pendingBatchesLimit:10];
   // Configure channel not to flush to quickly.
-  channelMock.configuration = config;
-  
-  // When
-  [channelMock enqueueItem:mockLog
-                     withCompletion:^(__attribute__((unused)) BOOL success) {
-                       
-                       // Simulate background event.
-                         [[NSNotificationCenter defaultCenter]
-                          postNotificationName:UIApplicationDidEnterBackgroundNotification
-                          object:channelMock];
-                       XCTAssertTrue(channelMock.backgroundTaskIdentifier != UIBackgroundTaskInvalid);
-                    }];
-
-  // Then
-  [self waitForExpectationsWithTimeout:500
-                               handler:^(NSError *error) {
-
-                                 // Verify flushQueue was called and sender is suspended.
-                                 OCMVerify([channelMock flushQueue]);
-                                 OCMVerify([self.senderMock suspend]);
-                                 XCTAssertTrue(channelMock.backgroundTaskIdentifier == UIBackgroundTaskInvalid);
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@", error);
-                                 }
-                                 
-                                 // Explicitly unmock MSUtility since it's stubbing a class method.
-                                 [utilityMock stopMocking];
-                               }];
-}
-
-- (void)testAppIsBackgroundedWithALogToSendButNetworkWontAnswer {
-  
-  /*
-   * The app is going to the background while the channel still have a log to send.
-   * No response from the network until the expiration of the background task,
-   * sender must only be suspended at the time of the expiration.
-   */
-  
-  // If
-  MSChannelDefault *channelMock = OCMPartialMock(self.sut);
-  short batchSizeLimit = 20;
-  id mockLog = [self getValidMockLog];
-  __block id expBlock;
-  [self initChannelEndJobExpectation];
-  id utilityMock = OCMClassMock([MSUtility class]);
-  id appMock = OCMClassMock([UIApplication class]);
-  OCMStub([utilityMock sharedApplication]).andReturn(appMock);
-  OCMStub([appMock beginBackgroundTaskWithExpirationHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
-    long long bgNumber = UIBackgroundTaskInvalid+1;
-    [invocation retainArguments];
-    [invocation getArgument:&expBlock atIndex:2];
-    [invocation setReturnValue:&bgNumber];
-  });
-  OCMExpect([self.senderMock suspend]);
-  OCMStub([self.senderMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(__attribute__((unused)) NSInvocation *invocation){
-    
-    // Trigger the background task expiration before the network response.
-    dispatch_async(self.logsDispatchQueue, ^{
-      ((void(^)())expBlock)();
-    });
-    [self enqueueChannelEndJobExpectation];
-  });
-  
-  // Load a log from the storage.
-  OCMStub([self.storageMock
-           loadLogsWithGroupId:OCMOCK_ANY
-           limit: batchSizeLimit
-           withCompletion:([OCMArg invokeBlockWithArgs:((NSArray<id<MSLog>> *)@[ mockLog ]), @"1", nil])]);
-  
-  // Configure channel not to flush to quickly.
-  MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithGroupId:kMSTestGroupId
-                                                                          priority:MSPriorityDefault
-                                                                     flushInterval:5.0
-                                                                    batchSizeLimit:batchSizeLimit
-                                                               pendingBatchesLimit:10];
   channelMock.configuration = config;
   
   // When
   [channelMock enqueueItem:mockLog
             withCompletion:^(__attribute__((unused)) BOOL success) {
+              [channelMock notifyWhenDoneFlushingWithCompletion:^(){
+                XCTFail(@"Completion block must not be executed twice");
+              }];
               
-              // Simulate background event.
-              [[NSNotificationCenter defaultCenter]
-               postNotificationName:UIApplicationDidEnterBackgroundNotification
-               object:channelMock];
-              XCTAssertTrue(channelMock.backgroundTaskIdentifier != UIBackgroundTaskInvalid);
+              // Cancel "done flushing" notification.
+              [channelMock cancelNotifyingWhenDoneFlushing];
+              dispatch_async(self.logsDispatchQueue, ^{
+                senderBlock([@(1) stringValue], 200, nil, nil);
+                [self enqueueChannelEndJobExpectation];
+              });
             }];
   
   // Then
-  [self waitForExpectationsWithTimeout:500
+  [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
                                  
-                                 // Verify flushQueue was called and sender is suspended.
+                                 // Verify flushQueue was called and channel is suspended.
                                  OCMVerify([channelMock flushQueue]);
-                                 OCMVerify([self.senderMock suspend]);
-                                 XCTAssertTrue(channelMock.backgroundTaskIdentifier == UIBackgroundTaskInvalid);
+                                 assertThatBool(channelMock.suspended, isFalse());
+                                 
+                                 // Completion happened so must now be an empty block, calling it won't hurt.
+                                 channelMock.doneFlushingCompletion();
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
-                                 
-                                 // Explicitly unmock MSUtility since it's stubbing a class method.
-                                 [utilityMock stopMocking];
                                }];
-}
 
+}
 #endif
 
 #pragma mark - Helper

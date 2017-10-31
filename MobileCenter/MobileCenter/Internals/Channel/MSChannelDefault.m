@@ -16,13 +16,12 @@
     _pendingBatchIds = [NSMutableArray new];
     _pendingBatchQueueFull = NO;
     _availableBatchFromStorage = NO;
-    _enabled = NO;
-    _suspended = YES;
+    _enabled = YES;
+    _suspended = NO;
     _delegates = [NSHashTable weakObjectsHashTable];
-#if !TARGET_OS_OSX
-    _backgroundTaskIdentifier = UIBackgroundTaskInvalid;
-    _backgroundTaskLockToken = [NSObject new];
-#endif
+    
+    // Init with an empty block so executing it won't harm.
+    _doneFlushingCompletion = kMSEmptyDoneFlushingCompletion;
   }
   return self;
 }
@@ -48,12 +47,6 @@
   return self;
 }
 
-#pragma mark - Dealloc
-
-- (void)dealloc {
-  [self removeObservers];
-}
-
 #pragma mark - MSChannelDelegate
 
 - (void)addDelegate:(id<MSChannelDelegate>)delegate {
@@ -70,7 +63,7 @@
 
 #pragma mark - Managing queue
 
-- (void)enqueueItem:(id<MSLog>)item withCompletion:(enqueueCompletionBlock)completion {
+- (void)enqueueItem:(id<MSLog>)item withCompletion:(MSEnqueueCompletionBlock)completion {
 
   // Return fast in case our item is empty or we are discarding logs right now.
   dispatch_async(self.logsDispatchQueue, ^{
@@ -135,8 +128,8 @@
       self.itemsCount = 0;
     }
 
-    // Stop background activity if applicable.
-    [self stopBackgroundActivity];
+    // Perhaps notify done flushing.
+    [self perhapsNotifyDoneFlushing];
     return;
   }
 
@@ -237,14 +230,14 @@
                           MSLogWarning([MSMobileCenter logTag], @"Batch Id %@ not expected, ignore.", senderBatchId);
                         }
 
-                        // Stop background activity if applicable.
-                        [self stopBackgroundActivity];
+                        // Perhaps notify done flushing.
+                        [self perhapsNotifyDoneFlushing];
                       });
                     }];
              } else {
 
-               // Stop background activity if applicable.
-               [self stopBackgroundActivity];
+               // Perhaps notify done flushing.
+               [self perhapsNotifyDoneFlushing];
              }
            }];
 
@@ -258,7 +251,6 @@
 
 - (void)startTimer {
   [self resetTimer];
-
   self.timerSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, self.logsDispatchQueue);
 
   /**
@@ -296,12 +288,8 @@
     if (self.enabled != isEnabled) {
       self.enabled = isEnabled;
       if (isEnabled) {
-        if (!self.sender.suspended) {
-          [self resume];
-          [self addObservers];
-        }
+        [self resume];
       } else {
-        [self removeObservers];
         [self suspend];
       }
     }
@@ -334,16 +322,49 @@
     MSLogDebug([MSMobileCenter logTag], @"Suspend channel for group Id %@.", self.configuration.groupId);
     self.suspended = YES;
     [self resetTimer];
-    [self endAndCancelBackgroundTask];
   }
 }
 
 - (void)resume {
-  if (self.suspended && self.enabled) {
+  if (!self.sender.suspended && self.suspended && self.enabled) {
     MSLogDebug([MSMobileCenter logTag], @"Resume channel for group Id %@.", self.configuration.groupId);
     self.suspended = NO;
+    self.doneFlushingCompletion = kMSEmptyDoneFlushingCompletion;
     [self flushQueue];
   }
+}
+
+- (void)notifyWhenDoneFlushingWithCompletion:(MSDoneFlushingCompletionBlock)completion
+{
+  __weak typeof(self) weakSelf = self;
+  dispatch_async(self.logsDispatchQueue, ^{
+    typeof(self) strongSelf = weakSelf;
+    
+    // Decorate the block to execute.
+    strongSelf.doneFlushingCompletion = ^(){
+      typeof(self) toughSelf = weakSelf;
+      if (toughSelf){
+        
+        // Channel is done flushing and is now suspending.
+        [toughSelf suspend];
+        
+        // Notify.
+        completion();
+      
+        // The block shouldn't execute twice.
+        toughSelf.doneFlushingCompletion = kMSEmptyDoneFlushingCompletion;
+      }
+    };
+    
+    // Trigger a flush now.
+    [strongSelf flushQueue];
+  });
+}
+
+- (void)cancelNotifyingWhenDoneFlushing{
+  dispatch_async(self.logsDispatchQueue, ^{
+    self.doneFlushingCompletion = kMSEmptyDoneFlushingCompletion;
+  });
 }
 
 #pragma mark - Storage
@@ -417,128 +438,15 @@
   }
 }
 
-- (void)stopBackgroundActivity {
-#if !TARGET_OS_OSX
-  if (!MS_IS_APP_EXTENSION) {
-    @synchronized(self.backgroundTaskLockToken) {
+- (void)perhapsNotifyDoneFlushing {
 
-      /*
-       * If flushQueue was called while running in the background AND we don't have any pending
-       * batches or we are suspended, we disable the sender and stop our background activity.
-       */
-      if (self.pendingBatchIds.count == 0 || self.suspended) {
-
-        // Suspend the sender if the app is in the background.
-        if (self.backgroundTaskIdentifier != UIBackgroundTaskInvalid) {
-          MSLogDebug([MSMobileCenter logTag], @"No more logs or channel suspended while app is in background.");
-          [self.sender suspend];
-          [self endAndCancelBackgroundTask];
-        }
-      }
-    }
+  /*
+   * If the channel is expected to be done flushing and don't have any pending
+   * batches or is suspended then it can notify that it's done flushing.
+   */
+  if (self.pendingBatchIds.count == 0 || self.suspended) {
+    self.doneFlushingCompletion();
   }
-#endif
-}
-
-- (void)endAndCancelBackgroundTask {
-#if !TARGET_OS_OSX
-  if (!MS_IS_APP_EXTENSION) {
-    @synchronized(self.backgroundTaskLockToken) {
-
-      UIApplication *sharedApplication = [MSUtility sharedApplication];
-      if (sharedApplication && (self.backgroundTaskIdentifier != UIBackgroundTaskInvalid)) {
-        MSLogDebug([MSMobileCenter logTag], @"Invalidating the background task for group Id %@.",
-                   self.configuration.groupId);
-        [sharedApplication endBackgroundTask:self.backgroundTaskIdentifier];
-        self.backgroundTaskIdentifier = UIBackgroundTaskInvalid;
-      }
-    }
-  }
-#endif
-}
-
-#pragma mark – Observers
-
-- (void)addObservers {
-
-// There is no need to do trigger sending on macOS because we can just continue to execute tasks there.
-#if !TARGET_OS_OSX
-  if (!MS_IS_APP_EXTENSION) {
-    @synchronized(self.backgroundTaskLockToken) {
-      self.backgroundTaskIdentifier = UIBackgroundTaskInvalid;
-      __weak typeof(self) weakSelf = self;
-      if (self.appDidEnterBackgroundObserver == nil) {
-        void (^notificationBlock)(NSNotification *note) = ^(NSNotification __unused *note) {
-          typeof(self) strongSelf = weakSelf;
-          if (strongSelf) {
-
-            /*
-             * From the documentation for applicationDidEnterBackground:
-             * "It's likely any background tasks you start in applicationDidEnterBackground: will not run until after
-             * that method exits, you should request additional background execution time before starting those tasks.
-             * In other words, first call beginBackgroundTaskWithExpirationHandler: and then run the task on a
-             * dispatch queue or secondary thread.
-             */
-            UIApplication *sharedApplication = [MSUtility sharedApplication];
-
-            // Checking if sharedApplication is != nil as it can be nil for extensions.
-            if (sharedApplication && self.backgroundTaskIdentifier == UIBackgroundTaskInvalid) {
-              self.backgroundTaskIdentifier = [sharedApplication beginBackgroundTaskWithExpirationHandler:^{
-                MSLogDebug([MSMobileCenter logTag], @"Background task has expired for group Id %@.",
-                           strongSelf.configuration.groupId);
-
-                // Suspend the sender, don't suspend the channel itself.
-                dispatch_async(self.logsDispatchQueue, ^{
-                  [strongSelf.sender suspend];
-                  [strongSelf endAndCancelBackgroundTask];
-                });
-              }];
-            }
-
-            // We've requested additional background time and are now flushing our queue back in its thread.
-            dispatch_async(self.logsDispatchQueue, ^{
-              [strongSelf flushQueue];
-            });
-          }
-        };
-        self.appDidEnterBackgroundObserver =
-            [MS_NOTIFICATION_CENTER addObserverForName:UIApplicationDidEnterBackgroundNotification
-                                                object:nil
-                                                 queue:NSOperationQueue.mainQueue
-                                            usingBlock:notificationBlock];
-      }
-      self.appWillEnterForegroundObserver =
-          [MS_NOTIFICATION_CENTER addObserverForName:UIApplicationWillEnterForegroundNotification
-                                              object:nil
-                                               queue:NSOperationQueue.mainQueue
-                                          usingBlock:^(NSNotification __unused *note) {
-                                            typeof(self) strongSelf = weakSelf;
-                                            if (strongSelf) {
-
-                                              // In foreground now, cancel any pending background task.
-                                              [strongSelf endAndCancelBackgroundTask];
-                                            }
-                                          }];
-    }
-  }
-#endif
-}
-
-- (void)removeObservers {
-#if !TARGET_OS_OSX
-  if (!MS_IS_APP_EXTENSION) {
-    id strongBackgroundObserver = self.appDidEnterBackgroundObserver;
-    if (strongBackgroundObserver) {
-      [[NSNotificationCenter defaultCenter] removeObserver:strongBackgroundObserver];
-      self.appDidEnterBackgroundObserver = nil;
-    }
-    id strongForegroundObserver = self.appWillEnterForegroundObserver;
-    if (strongForegroundObserver) {
-      [[NSNotificationCenter defaultCenter] removeObserver:strongForegroundObserver];
-      self.appWillEnterForegroundObserver = nil;
-    }
-  }
-#endif
 }
 
 @end

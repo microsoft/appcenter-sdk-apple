@@ -1,5 +1,9 @@
 #import "MSChannelDefault.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
+static const MSDoneFlushingCompletionBlock kMSEmptyDoneFlushingCompletion = ^(){};
+
 /**
  * Private declarations.
  */
@@ -26,31 +30,15 @@
  */
 @property(nonatomic) BOOL discardLogs;
 
-/**
- * A property to hold the observer to get notified once the app goes into the background. It will trigger a call to
- * flush the queue and send events to the backend.
- */
-@property(nonatomic, weak, nullable) id appDidEnterBackgroundObserver;
-
 #if !TARGET_OS_OSX
 
 // Properties that are necessary to allow sending events at the time the app is backgrounded. Not needed on macOS.
 
 /**
- * A property to hold the observer to get notified once the app enters the foreground again.
+ * Completion block executed when done flushing logs.
  */
-@property(nonatomic, weak, nullable) id appWillEnterForegroundObserver;
+@property(nonatomic, nullable) MSDoneFlushingCompletionBlock doneFlushingCompletion;
 
-/**
- * Identifier for the background task for flushing our queue in case the app is backgrounded. We're not using
- * UIBackgroundTaskIdentifier as it is not available on macOS and it's a typedef for NSUInteger anyway.
- */
-@property(nonatomic) NSUInteger backgroundTaskIdentifier;
-
-/**
- * Lock token for background task synchronization.
- */
-@property(nonatomic, nonnull) NSObject *backgroundTaskLockToken;
 #endif
 
 /**
@@ -58,9 +46,7 @@
  */
 - (void)flushQueue;
 
-/**
- * Method to invalide the background task that sends events and suspend the sender once there is nothing to send.
- */
-- (void)stopBackgroundActivity;
-
 @end
+
+NS_ASSUME_NONNULL_END
+
