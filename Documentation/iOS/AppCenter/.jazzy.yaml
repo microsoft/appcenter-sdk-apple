@@ -16,8 +16,8 @@ custom_categories:
     children:
     - Installation
 
-umbrella_header: ../../../MobileCenter-SDK-Apple/iOS/AppCenter.framework/Headers/AppCenter.h
-framework_root: ../../../MobileCenter-SDK-Apple/iOS/
+umbrella_header: ../../../AppCenter-SDK-Apple/iOS/AppCenter.framework/Headers/AppCenter.h
+framework_root: ../../../AppCenter-SDK-Apple/iOS/
 
 root_url: http://docs.mobile.azure.com/sdk/ios
 github_url: https://github.com/Microsoft/mobile-center-sdk-ios

@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-  s.name              = 'MobileCenter'
+  s.name              = 'AppCenter'
   s.version           = '0.14.0'
 
   s.summary           = 'Mobile Center is mission control for mobile apps. Get faster release cycles, higher-quality apps, and the insights to build what users want.'
@@ -26,48 +26,48 @@ Pod::Spec.new do |s|
   s.homepage          = 'https://mobile.azure.com'
   s.documentation_url = "https://docs.mobile.azure.com/sdk/ios/"
 
-  s.license           = { :type => 'MIT',  :file => 'MobileCenter-SDK-Apple/LICENSE'}
+  s.license           = { :type => 'MIT',  :file => 'AppCenter-SDK-Apple/LICENSE'}
   s.author            = { 'Microsoft' => 'mobilecentersdk@microsoft.com' }
 
   s.platform          = :ios, '8.0'
-  s.source = { :http => "https://github.com/microsoft/mobile-center-sdk-ios/releases/download/#{s.version}/MobileCenter-SDK-Apple-#{s.version}.zip" }
+  s.source = { :http => "https://github.com/microsoft/mobile-center-sdk-ios/releases/download/#{s.version}/AppCenter-SDK-Apple-#{s.version}.zip" }
 
-  s.preserve_path = "MobileCenter-SDK-Apple/LICENSE"
+  s.preserve_path = "AppCenter-SDK-Apple/LICENSE"
 
   s.default_subspecs = 'Analytics', 'Crashes'
 
   s.subspec 'Core' do |ss|
     ss.frameworks = 'Foundation', 'SystemConfiguration', 'CoreTelephony', 'UIKit'
-    ss.vendored_frameworks = "MobileCenter-SDK-Apple/iOS/MobileCenter.framework"
+    ss.vendored_frameworks = "AppCenter-SDK-Apple/iOS/AppCenter.framework"
     ss.libraries = 'sqlite3'
   end
 
  s.subspec 'Analytics' do |ss|
     ss.frameworks = 'Foundation', 'UIKit'
-    ss.dependency 'MobileCenter/Core'
-    ss.vendored_frameworks = "MobileCenter-SDK-Apple/iOS/MobileCenterAnalytics.framework"
+    ss.dependency 'AppCenter/Core'
+    ss.vendored_frameworks = "AppCenter-SDK-Apple/iOS/AppCenterAnalytics.framework"
   end
 
   s.subspec 'Crashes' do |ss|
     ss.frameworks = 'Foundation'
     ss.libraries = 'z', 'c++'
-    ss.dependency 'MobileCenter/Core'
-    ss.vendored_frameworks = "MobileCenter-SDK-Apple/iOS/MobileCenterCrashes.framework"
+    ss.dependency 'AppCenter/Core'
+    ss.vendored_frameworks = "AppCenter-SDK-Apple/iOS/AppCenterCrashes.framework"
   end
 
  s.subspec 'Distribute' do |ss|
     ss.frameworks = 'Foundation', 'UIKit'
     ss.weak_frameworks = 'SafariServices'
-    ss.dependency 'MobileCenter/Core'
-    ss.resource_bundle = { 'MobileCenterDistributeResources' => ['MobileCenter-SDK-Apple/iOS/MobileCenterDistributeResources.bundle/*.lproj'] }
-    ss.vendored_frameworks = "MobileCenter-SDK-Apple/iOS/MobileCenterDistribute.framework"
+    ss.dependency 'AppCenter/Core'
+    ss.resource_bundle = { 'AppCenterDistributeResources' => ['AppCenter-SDK-Apple/iOS/AppCenterDistributeResources.bundle/*.lproj'] }
+    ss.vendored_frameworks = "AppCenter-SDK-Apple/iOS/AppCenterDistribute.framework"
  end
 
  s.subspec 'Push' do |ss|
     ss.frameworks = 'Foundation', 'UIKit'
     ss.weak_frameworks = 'UserNotifications'
-    ss.dependency 'MobileCenter/Core'
-    ss.vendored_frameworks = "MobileCenter-SDK-Apple/iOS/MobileCenterPush.framework"
+    ss.dependency 'AppCenter/Core'
+    ss.vendored_frameworks = "AppCenter-SDK-Apple/iOS/AppCenterPush.framework"
  end
 
 end
