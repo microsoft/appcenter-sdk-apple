@@ -30,16 +30,12 @@ static const MSDoneFlushingCompletionBlock kMSEmptyDoneFlushingCompletion = ^(){
  */
 @property(nonatomic) BOOL discardLogs;
 
-#if !TARGET_OS_OSX
-
 // Properties that are necessary to allow sending events at the time the app is backgrounded. Not needed on macOS.
 
 /**
  * Completion block executed when done flushing logs.
  */
 @property(nonatomic, nullable) MSDoneFlushingCompletionBlock doneFlushingCompletion;
-
-#endif
 
 /**
  * Trigger flushing the queue, which will result in logs being sent.

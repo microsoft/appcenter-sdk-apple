@@ -817,8 +817,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                }];
 }
 
-#if !TARGET_OS_OSX
-
 - (void)testAppDoneFlushingWithNoLogsToSend {
   
   /*
@@ -1060,7 +1058,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                }];
 
 }
-#endif
 
 #pragma mark - Helper
 

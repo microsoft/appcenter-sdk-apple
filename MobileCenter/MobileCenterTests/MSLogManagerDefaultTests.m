@@ -30,7 +30,9 @@
   assertThat(sut.channels, isEmpty());
   assertThat(sut.sender, equalTo(senderMock));
   assertThat(sut.storage, equalTo(storageMock));
+#if !TARGET_OS_OSX
   assertThatInt(sut.backgroundTaskIdentifier, equalToInt(UIBackgroundTaskInvalid));
+#endif
 }
 
 - (void)testInitNewChannel {
