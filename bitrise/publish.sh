@@ -163,8 +163,15 @@ else
   # Determine the filename for the release
   filename=$(echo $BINARY_FILE | sed 's/.zip/-'${publish_version}'.zip/g')
 
-  # Upload binary to GitHub for external release
+  # Upload binary to Azure Storage
   mv $BINARY_FILE $filename
+  resp="$(echo "N" | azure storage blob upload ${filename} sdk | grep overwrite)"
+  if [ "$resp" ]; then
+    echo "${filename} already exists"
+    exit 1
+  fi
+
+  # Upload binary to GitHub for external release
   upload_url="$(echo $REQUEST_UPLOAD_URL_TEMPLATE | sed 's/{id}/'$id'/g')"
   url="$(echo $upload_url | sed 's/{filename}/'${filename}'/g')"
   resp="$(curl -s -X POST -H 'Content-Type: application/zip' --data-binary @$filename $url)"

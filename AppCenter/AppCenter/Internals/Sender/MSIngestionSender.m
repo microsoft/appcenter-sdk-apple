@@ -1,7 +1,10 @@
+#import "MSAppCenterErrors.h"
 #import "MSAppCenterInternal.h"
+#import "MSConstants+Internal.h"
 #import "MSHttpSenderPrivate.h"
 #import "MSIngestionSender.h"
 #import "MSLogger.h"
+#import "MSLogContainer.h"
 
 @implementation MSIngestionSender
 
