@@ -203,7 +203,7 @@ static BOOL _enabled = YES;
   BOOL methodAdded = NO;
   BOOL skipped = NO;
   NSString *warningMsg;
-  NSString *remediationMsg = @"You need to explicitly call the Mobile Center API"
+  NSString *remediationMsg = @"You need to explicitly call the App Center API"
                              @" from your app delegate implementation.";
 
   // Replace original implementation by the custom one.

@@ -92,7 +92,7 @@
 
 /**
  * Set wrapper SDK information to use when building device properties. This is intended in case you are building a SDK
- * that uses the Mobile Center SDK under the hood, e.g. our Xamarin SDK or ReactNative SDk.
+ * that uses the App Center SDK under the hood, e.g. our Xamarin SDK or ReactNative SDk.
  *
  * @param wrapperSdk Wrapper SDK information.
  */
