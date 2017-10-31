@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D3AD5F221E5C9562001627AB"
-               BuildableName = "MobileCenterPushIOSFramework"
-               BlueprintName = "MobileCenterPushIOSFramework"
-               ReferencedContainer = "container:../MobileCenterPush/MobileCenterPush.xcodeproj">
+               BuildableName = "AppCenterPushIOSFramework"
+               BlueprintName = "AppCenterPushIOSFramework"
+               ReferencedContainer = "container:../MobileCenterPush/AppCenterPush.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -43,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E85547E41D2D681F002DF6E2"
-               BuildableName = "MobileCenterAnalyticsIOSFramework"
-               BlueprintName = "MobileCenterAnalyticsIOSFramework"
-               ReferencedContainer = "container:../MobileCenterAnalytics/MobileCenterAnalytics.xcodeproj">
+               BuildableName = "AppCenterAnalyticsIOSFramework"
+               BlueprintName = "AppCenterAnalyticsIOSFramework"
+               ReferencedContainer = "container:../MobileCenterAnalytics/AppCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -57,9 +57,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6E3729771D1DE83200F1E4AE"
-               BuildableName = "MobileCenterCrashesIOSFramework"
-               BlueprintName = "MobileCenterCrashesIOSFramework"
-               ReferencedContainer = "container:../MobileCenterCrashes/MobileCenterCrashes.xcodeproj">
+               BuildableName = "AppCenterCrashesIOSFramework"
+               BlueprintName = "AppCenterCrashesIOSFramework"
+               ReferencedContainer = "container:../MobileCenterCrashes/AppCenterCrashes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -71,9 +71,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "04FD4A281E451E90009B4468"
-               BuildableName = "MobileCenterDistributeIOSFramework"
-               BlueprintName = "MobileCenterDistributeIOSFramework"
-               ReferencedContainer = "container:../MobileCenterDistribute/MobileCenterDistribute.xcodeproj">
+               BuildableName = "AppCenterDistributeIOSFramework"
+               BlueprintName = "AppCenterDistributeIOSFramework"
+               ReferencedContainer = "container:../MobileCenterDistribute/AppCenterDistribute.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry

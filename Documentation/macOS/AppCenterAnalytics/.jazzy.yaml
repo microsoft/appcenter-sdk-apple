@@ -1,0 +1,29 @@
+objc: true
+clean: true
+sdk: macosx
+
+theme: ../../Themes/apple
+
+module: AppCenterAnalytics
+module_version: 0.14.1
+author: Microsoft Corp
+author_url: http://www.microsoft.com
+
+readme: Guides/Analytics.md
+documentation: ../../Guides/[^index]*.md
+custom_categories:
+  - name: Guides
+    children:
+    - Installation
+
+umbrella_header: ../../../MobileCenter-SDK-Apple/macOS/AppCenterAnalytics.framework/Headers/AppCenterAnalytics.h
+framework_root: ../../../MobileCenter-SDK-Apple/macOS/
+exclude: [../../../MobileCenter-SDK-Apple/macOS/AppCenterAnalytics.framework/Headers/MSService.h, ../../../MobileCenter-SDK-Apple/macOS/AppCenterAnalytics.framework/Headers/MSServiceAbstract.h]
+
+root_url: http://docs.mobile.azure.com/sdk/ios/
+github_url: https://github.com/Microsoft/mobile-center-sdk-ios
+github_file_prefix: "https://github.com/Microsoft/mobile-center-sdk-ios"
+
+skip_undocumented: true
+
+output: Generated/

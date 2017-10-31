@@ -1,0 +1,29 @@
+objc: true
+clean: true
+sdk: iphonesimulator
+
+theme: ../../Themes/apple
+
+module: AppCenterCrashes
+module_version: 0.14.1
+author: Microsoft Corp
+author_url: http://www.microsoft.com
+
+readme: Guides/Crashes.md
+documentation: ../../Guides/[^index]*.md
+custom_categories:
+  - name: Guides
+    children:
+    - Installation
+
+umbrella_header: ../../../MobileCenter-SDK-Apple/iOS/AppCenterCrashes.framework/Headers/AppCenterCrashes.h
+framework_root: ../../../MobileCenter-SDK-Apple/iOS/
+exclude: [../../../MobileCenter-SDK-Apple/iOS/AppCenterCrashes.framework/Headers/MSService.h, ../../../MobileCenter-SDK-Apple/iOS/AppCenterCrashes.framework/Headers/MSServiceAbstract.h]
+
+root_url: http://docs.mobile.azure.com/sdk/ios
+github_url: https://github.com/Microsoft/mobile-center-sdk-ios
+github_file_prefix: "https://github.com/Microsoft/mobile-center-sdk-ios"
+
+skip_undocumented: true
+
+output: Generated/

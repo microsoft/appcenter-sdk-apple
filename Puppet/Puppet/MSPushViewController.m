@@ -3,7 +3,7 @@
  */
 
 #import "MSPushViewController.h"
-#import "MobileCenterPush.h"
+#import "AppCenterPush.h"
 
 @interface MSPushViewController ()
 
