@@ -1054,7 +1054,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 043121731EE0C248007054C5 /* tvOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = AppCenterAnalytics;
 			};
 			name = Debug;
 		};
@@ -1062,7 +1061,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 043121731EE0C248007054C5 /* tvOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = AppCenterAnalytics;
 			};
 			name = Release;
 		};
@@ -1070,7 +1068,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 043121731EE0C248007054C5 /* tvOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = AppCenterAnalytics;
 			};
 			name = Debug;
 		};
@@ -1078,7 +1075,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 043121731EE0C248007054C5 /* tvOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = AppCenterAnalytics;
 			};
 			name = Release;
 		};
@@ -1086,7 +1082,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0484DD601F3910FF0092B777 /* Tests tvOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = AppCenterAnalytics;
 			};
 			name = Debug;
 		};
@@ -1094,7 +1089,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0484DD601F3910FF0092B777 /* Tests tvOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = AppCenterAnalytics;
 			};
 			name = Release;
 		};
@@ -1102,7 +1096,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC82C1ECE3CF000FB6719 /* Tests macOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = AppCenterAnalytics;
 			};
 			name = Debug;
 		};
@@ -1110,7 +1103,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC82C1ECE3CF000FB6719 /* Tests macOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = AppCenterAnalytics;
 			};
 			name = Release;
 		};
@@ -1118,7 +1110,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = AppCenterAnalytics;
 			};
 			name = Debug;
 		};
@@ -1126,7 +1117,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = AppCenterAnalytics;
 			};
 			name = Release;
 		};
@@ -1134,7 +1124,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = AppCenterAnalytics;
 			};
 			name = Debug;
 		};
@@ -1142,7 +1131,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = AppCenterAnalytics;
 			};
 			name = Release;
 		};
@@ -1150,7 +1138,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = AppCenterAnalytics;
 			};
 			name = Debug;
 		};
@@ -1158,7 +1145,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = AppCenterAnalytics;
 			};
 			name = Release;
 		};
@@ -1166,7 +1152,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 043121731EE0C248007054C5 /* tvOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = AppCenterAnalytics;
 			};
 			name = Debug;
 		};
@@ -1174,7 +1159,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 043121731EE0C248007054C5 /* tvOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = AppCenterAnalytics;
 			};
 			name = Release;
 		};
@@ -1200,7 +1184,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = AppCenterAnalytics;
 			};
 			name = Debug;
 		};
@@ -1208,7 +1191,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = AppCenterAnalytics;
 			};
 			name = Release;
 		};
@@ -1216,7 +1198,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 041CFF8B1ECCFF6700B4654B /* Tests iOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = AppCenterAnalytics;
 			};
 			name = Debug;
 		};
@@ -1224,7 +1205,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 041CFF8B1ECCFF6700B4654B /* Tests iOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = AppCenterAnalytics;
 			};
 			name = Release;
 		};
@@ -1232,7 +1212,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = AppCenterAnalytics;
 			};
 			name = Debug;
 		};
@@ -1240,7 +1219,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = AppCenterAnalytics;
 			};
 			name = Release;
 		};
@@ -1248,7 +1226,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = AppCenterAnalytics;
 			};
 			name = Debug;
 		};
@@ -1256,7 +1233,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = AppCenterAnalytics;
 			};
 			name = Release;
 		};
