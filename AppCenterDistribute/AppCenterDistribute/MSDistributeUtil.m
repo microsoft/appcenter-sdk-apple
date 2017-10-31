@@ -14,7 +14,7 @@ NSBundle *MSDistributeBundle(void) {
 
     // The resource bundle is part of the main app bundle, e.g. .../Puppet.app/AppCenterDistribute.bundle
     NSString *mainBundlePath = [[NSBundle bundleForClass:[MSDistribute class]] resourcePath];
-    NSString *frameworkBundlePath = [mainBundlePath stringByAppendingPathComponent:MOBILE_CENTER_DISTRIBUTE_BUNDLE];
+    NSString *frameworkBundlePath = [mainBundlePath stringByAppendingPathComponent:APP_CENTER_DISTRIBUTE_BUNDLE];
     bundle = [NSBundle bundleWithPath:frameworkBundlePath];
 
     // Log to console in case the bundle is nil.

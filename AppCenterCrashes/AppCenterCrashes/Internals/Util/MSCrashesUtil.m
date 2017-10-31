@@ -4,10 +4,10 @@
 #import "MSLogger.h"
 #import "MSUtility.h"
 
-static NSString *const kMSCrashesDirectory = @"com.microsoft.azure.mobile.mobilecenter/crashes";
-static NSString *const kMSLogBufferDirectory = @"com.microsoft.azure.mobile.mobilecenter/crasheslogbuffer";
+static NSString *const kMSCrashesDirectory = @"com.microsoft.appcenter/crashes";
+static NSString *const kMSLogBufferDirectory = @"com.microsoft.appcenter/crasheslogbuffer";
 static NSString *const kMSWrapperExceptionsDirectory =
-    @"com.microsoft.azure.mobile.mobilecenter/crasheswrapperexceptions";
+    @"com.microsoft.appcenter/crasheswrapperexceptions";
 
 @interface MSCrashesUtil ()
 

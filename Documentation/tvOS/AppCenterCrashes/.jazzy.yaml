@@ -16,9 +16,9 @@ custom_categories:
     children:
     - Installation
 
-umbrella_header: ../../../MobileCenter-SDK-Apple/tvOS/AppCenterCrashes.framework/Headers/AppCenterCrashes.h
-framework_root: ../../../MobileCenter-SDK-Apple/tvOS/
-exclude: [../../../MobileCenter-SDK-Apple/tvOS/AppCenterCrashes.framework/Headers/MSService.h, ../../../MobileCenter-SDK-Apple/tvOS/AppCenterCrashes.framework/Headers/MSServiceAbstract.h]
+umbrella_header: ../../../AppCenter-SDK-Apple/tvOS/AppCenterCrashes.framework/Headers/AppCenterCrashes.h
+framework_root: ../../../AppCenter-SDK-Apple/tvOS/
+exclude: [../../../AppCenter-SDK-Apple/tvOS/AppCenterCrashes.framework/Headers/MSService.h, ../../../AppCenter-SDK-Apple/tvOS/AppCenterCrashes.framework/Headers/MSServiceAbstract.h]
 
 root_url: http://docs.mobile.azure.com/sdk/ios
 github_url: https://github.com/Microsoft/mobile-center-sdk-ios

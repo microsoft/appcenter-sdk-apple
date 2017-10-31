@@ -1,5 +1,5 @@
 {
-  "bundle_identifier": "com.microsoft.azure.mobile.xamarin.forms.puppet",
+  "bundle_identifier": "com.microsoft.appcenter.xamarin.forms.puppet",
   "distribution_group_id": "1379041b-0de4-471b-a46b-04b4f754684f",
   "device_family": "iPhone/iPod/iPad",
   "status": "available",

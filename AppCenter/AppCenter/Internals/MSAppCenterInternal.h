@@ -20,7 +20,7 @@ static NSString *const kMSAppCenterIsEnabledKey = @"MSAppCenterIsEnabled";
 @property BOOL enabledStateUpdating;
 
 /**
- * Returns the singleton instance of Mobile Center.
+ * Returns the singleton instance of App Center.
  */
 + (instancetype)sharedInstance;
 - (NSString *)logUrl;

@@ -107,7 +107,7 @@
                          @"/Users/builder/data/lanes/3969/44931ae8/source/xamarin-macios/src/UIKit/"
                          @"UIApplication.cs:63 \n   at HockeySDKXamarinDemo.Application.Main (System.String[] args) "
                          @"[0x00008] in /Users/benny/Repositories/MS/HockeySDK-XamarinDemo/iOS/Main.cs:17";
-  NSString *wrapperSdkName = @"mobilecenter.xamarin";
+  NSString *wrapperSdkName = @"appcenter.xamarin";
   MSStackFrame *frame = [MSStackFrame new];
   frame.address = @"frameAddress";
   frame.code = @"frameSymbol";

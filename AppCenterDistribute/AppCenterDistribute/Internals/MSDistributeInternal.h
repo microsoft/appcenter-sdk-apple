@@ -5,7 +5,7 @@
 #import "MSSender.h"
 #import "MSServiceInternal.h"
 
-#define MOBILE_CENTER_DISTRIBUTE_BUNDLE @"AppCenterDistributeResources.bundle"
+#define APP_CENTER_DISTRIBUTE_BUNDLE @"AppCenterDistributeResources.bundle"
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -9,7 +9,7 @@
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterInternal.h"
 
-static char *const kMSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecenter.LogManagerQueue";
+static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQueue";
 
 /**
  * Private declaration of the log manager.

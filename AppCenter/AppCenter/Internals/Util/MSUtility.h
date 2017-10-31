@@ -16,12 +16,12 @@
 @interface MSUtility : NSObject
 
 /**
- * Get the name of MobileCenter SDK.
+ * Get the name of AppCenter SDK.
  */
 + (NSString *)sdkName;
 
 /**
- * Get the current version of MobileCenter SDK.
+ * Get the current version of AppCenter SDK.
  */
 + (NSString *)sdkVersion;
 
