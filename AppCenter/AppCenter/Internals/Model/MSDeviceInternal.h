@@ -6,7 +6,7 @@
 @interface MSDevice () <MSSerializableObject>
 
 /*
- * Name of the SDK. Consists of the name of the SDK and the platform, e.g. "mobilecenter.ios", "mobilecenter.android"
+ * Name of the SDK. Consists of the name of the SDK and the platform, e.g. "appcenter.ios", "appcenter.android"
  */
 @property(nonatomic, copy) NSString *sdkName;
 

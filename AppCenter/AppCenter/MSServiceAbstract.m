@@ -86,7 +86,7 @@
   @synchronized([self sharedInstance]) {
     if ([[self sharedInstance] canBeUsed]) {
       if (![MSAppCenter isEnabled] && ![MSAppCenter sharedInstance].enabledStateUpdating) {
-        MSLogError([MSAppCenter logTag], @"The SDK is disabled. Re-enable the whole SDK from MobileCenter "
+        MSLogError([MSAppCenter logTag], @"The SDK is disabled. Re-enable the whole SDK from AppCenter "
                                             @"first before enabling %@ service.",
                    MS_CLASS_NAME_WITHOUT_PREFIX);
       } else {

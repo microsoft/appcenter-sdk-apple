@@ -148,7 +148,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 }
 
 - (void)testSdkVersion {
-  NSString *version = [NSString stringWithUTF8String:MOBILE_CENTER_C_VERSION];
+  NSString *version = [NSString stringWithUTF8String:APP_CENTER_C_VERSION];
   XCTAssertTrue([[MSAppCenter sdkVersion] isEqualToString:version]);
 }
 

@@ -53,7 +53,7 @@
 + (void)setLogUrl:(NSString *)logUrl;
 
 /**
- * Enable or disable the SDK as a whole. In addition to MobileCenter resources, it will also enable or
+ * Enable or disable the SDK as a whole. In addition to AppCenter resources, it will also enable or
  * disable all registered services.
  *
  * @param isEnabled YES to enable, NO to disable.
@@ -92,7 +92,7 @@
 
 /**
  * Set wrapper SDK information to use when building device properties. This is intended in case you are building a SDK
- * that uses the Mobile Center SDK under the hood, e.g. our Xamarin SDK or ReactNative SDk.
+ * that uses the App Center SDK under the hood, e.g. our Xamarin SDK or ReactNative SDk.
  *
  * @param wrapperSdk Wrapper SDK information.
  */
@@ -117,7 +117,7 @@
  * should be disabled if you or one of your third party SDK is doing message forwarding on the application delegate.
  * Message forwarding usually implies the implementation of @see NSObject#forwardingTargetForSelector: or @see
  * NSObject#forwardInvocation: methods.
- * To disable the application delegate forwarder just add the `MobileCenterAppDelegateForwarderEnabled` tag to your
+ * To disable the application delegate forwarder just add the `AppCenterAppDelegateForwarderEnabled` tag to your
  * Info.plist
  * file and set it to `0`. Then you will have to forward any application delegate needed by the SDK manually.
  */
@@ -139,9 +139,9 @@
 + (BOOL)isDebuggerAttached;
 
 /**
- * Get the current version of MobileCenter SDK.
+ * Get the current version of AppCenter SDK.
  *
- * @return The current version of MobileCenter SDK.
+ * @return The current version of AppCenter SDK.
  */
 + (NSString *)sdkVersion;
 

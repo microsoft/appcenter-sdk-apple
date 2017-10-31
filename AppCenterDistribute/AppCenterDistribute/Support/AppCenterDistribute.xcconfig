@@ -1,4 +1,4 @@
-PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterdistribute
+PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.distribute
 
 OTHER_LDFLAGS=$(inherited) -framework Foundation -weak_framework SafariServices
 

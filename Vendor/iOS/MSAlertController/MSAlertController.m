@@ -3,7 +3,7 @@
 
 #import "MSAlertController.h"
 
-static char *const MSAlertsDispatchQueue = "com.microsoft.azure.mobilecenter.alertsQueue";
+static char *const MSAlertsDispatchQueue = "com.microsoft.appcenter.alertsQueue";
 
 @implementation MSAlertAction
 

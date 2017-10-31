@@ -26,10 +26,10 @@ static dispatch_once_t onceToken;
 static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
 
 // Service name for initialization.
-static NSString *const kMSServiceName = @"MobileCenter";
+static NSString *const kMSServiceName = @"AppCenter";
 
 // The group Id for storage.
-static NSString *const kMSGroupId = @"MobileCenter";
+static NSString *const kMSGroupId = @"AppCenter";
 
 @implementation MSAppCenter
 
@@ -176,7 +176,7 @@ static NSString *const kMSGroupId = @"MobileCenter";
   @synchronized(self) {
     BOOL success = false;
     if (self.sdkConfigured) {
-      MSLogAssert([MSAppCenter logTag], @"Mobile Center SDK has already been configured.");
+      MSLogAssert([MSAppCenter logTag], @"App Center SDK has already been configured.");
     }
 
     // Validate and set the app secret.
@@ -204,7 +204,7 @@ static NSString *const kMSGroupId = @"MobileCenter";
       }
       success = true;
     }
-    MSLogAssert([MSAppCenter logTag], @"Mobile Center SDK %@",
+    MSLogAssert([MSAppCenter logTag], @"App Center SDK %@",
                 (success) ? @"configured successfully." : @"configuration failed.");
     return success;
   }
@@ -266,7 +266,7 @@ static NSString *const kMSGroupId = @"MobileCenter";
       return NO;
     }
 
-    // Set mobileCenterDelegate.
+    // Set appCenterDelegate.
     [self.services addObject:service];
 
     // Start service with log manager.
@@ -317,7 +317,7 @@ static NSString *const kMSGroupId = @"MobileCenter";
     [[service class] setEnabled:isEnabled];
   }
   self.enabledStateUpdating = NO;
-  MSLogInfo([MSAppCenter logTag], @"Mobile Center SDK %@.", isEnabled ? @"enabled" : @"disabled");
+  MSLogInfo([MSAppCenter logTag], @"App Center SDK %@.", isEnabled ? @"enabled" : @"disabled");
 }
 
 - (BOOL)isEnabled {
@@ -399,7 +399,7 @@ static NSString *const kMSGroupId = @"MobileCenter";
 - (BOOL)canBeUsed {
   BOOL canBeUsed = self.sdkConfigured;
   if (!canBeUsed) {
-    MSLogError([MSAppCenter logTag], @"Mobile Center SDK hasn't been configured. You need to call [MSAppCenter "
+    MSLogError([MSAppCenter logTag], @"App Center SDK hasn't been configured. You need to call [MSAppCenter "
                                         @"start:YOUR_APP_SECRET withServices:LIST_OF_SERVICES] first.");
   }
   return canBeUsed;

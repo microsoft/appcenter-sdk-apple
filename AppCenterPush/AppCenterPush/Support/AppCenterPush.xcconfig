@@ -1,4 +1,4 @@
-PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.mobilecenterpush
+PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.push
 
 APPLICATION_EXTENSION_API_ONLY = NO;
 

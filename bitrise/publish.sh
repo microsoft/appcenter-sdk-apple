@@ -5,7 +5,7 @@ REPOSITORY="$(echo $GIT_REPOSITORY_URL | awk -F "[:]" '{print $2}' | awk -F "[.]
 GITHUB_API_URL_TEMPLATE="https://%s.github.com/repos/%s/%s?access_token=%s%s"
 GITHUB_API_HOST="api"
 GITHUB_UPLOAD_HOST="uploads"
-BINARY_FILE="MobileCenter-SDK-Apple.zip"
+BINARY_FILE="AppCenter-SDK-Apple.zip"
 
 # GitHub API endpoints
 REQUEST_URL_REF_TAG="$(printf $GITHUB_API_URL_TEMPLATE $GITHUB_API_HOST $REPOSITORY 'git/refs/tags' $GITHUB_ACCESS_TOKEN)"
@@ -163,8 +163,15 @@ else
   # Determine the filename for the release
   filename=$(echo $BINARY_FILE | sed 's/.zip/-'${publish_version}'.zip/g')
 
-  # Upload binary to GitHub for external release
+  # Upload binary to Azure Storage
   mv $BINARY_FILE $filename
+  resp="$(echo "N" | azure storage blob upload ${filename} sdk | grep overwrite)"
+  if [ "$resp" ]; then
+    echo "${filename} already exists"
+    exit 1
+  fi
+
+  # Upload binary to GitHub for external release
   upload_url="$(echo $REQUEST_UPLOAD_URL_TEMPLATE | sed 's/{id}/'$id'/g')"
   url="$(echo $upload_url | sed 's/{filename}/'${filename}'/g')"
   resp="$(curl -s -X POST -H 'Content-Type: application/zip' --data-binary @$filename $url)"
