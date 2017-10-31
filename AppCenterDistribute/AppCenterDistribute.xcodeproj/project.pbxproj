@@ -851,7 +851,7 @@
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = AppCenterDistributeResources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.distribute.resources.ios;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.distribute.resources.ios;
 				PRODUCT_NAME = AppCenterDistributeResources;
 				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "";
@@ -868,7 +868,7 @@
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = AppCenterDistributeResources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.distribute.resources.ios;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.distribute.resources.ios;
 				PRODUCT_NAME = AppCenterDistributeResources;
 				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = "";

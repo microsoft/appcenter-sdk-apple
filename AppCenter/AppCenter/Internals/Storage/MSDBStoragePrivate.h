@@ -2,7 +2,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString *const kMSStorageDirectory = @"com.microsoft.azure.mobile.mobilecenter";
+static NSString *const kMSStorageDirectory = @"com.microsoft.appcenter";
 
 @interface MSDBStorage ()
 

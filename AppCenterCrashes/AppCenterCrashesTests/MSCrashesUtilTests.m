@@ -33,9 +33,9 @@
   NSString *expectedDir;
   XCTAssertNotNil(crashesDir);
 #if TARGET_OS_OSX
-  expectedDir = @"/Library/Caches/com.test.app/com.microsoft.azure.mobile.mobilecenter/crashes";
+  expectedDir = @"/Library/Caches/com.test.app/com.microsoft.appcenter/crashes";
 #else
-  expectedDir = @"/Library/Caches/com.microsoft.azure.mobile.mobilecenter/crashes";
+  expectedDir = @"/Library/Caches/com.microsoft.appcenter/crashes";
 #endif
   XCTAssertTrue([crashesDir containsString:expectedDir]);
   BOOL isDir = YES;
@@ -48,9 +48,9 @@
   NSString *expectedDir;
   XCTAssertNotNil(bufferDir);
 #if TARGET_OS_OSX
-  expectedDir = @"/Library/Caches/com.test.app/com.microsoft.azure.mobile.mobilecenter/crasheslogbuffer";
+  expectedDir = @"/Library/Caches/com.test.app/com.microsoft.appcenter/crasheslogbuffer";
 #else
-  expectedDir = @"/Library/Caches/com.microsoft.azure.mobile.mobilecenter/crasheslogbuffer";
+  expectedDir = @"/Library/Caches/com.microsoft.appcenter/crasheslogbuffer";
 #endif
   XCTAssertTrue([bufferDir containsString:expectedDir]);
   BOOL isDir = YES;
