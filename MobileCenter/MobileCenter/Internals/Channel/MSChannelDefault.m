@@ -21,7 +21,7 @@
     _delegates = [NSHashTable weakObjectsHashTable];
 
     // Init with an empty block so executing it won't harm.
-    _doneFlushingCompletion = kMSEmptyDoneFlushingCompletion;
+    _stopFlushingCompletion = kMSEmptyStopFlushingCompletion;
   }
   return self;
 }
@@ -127,9 +127,7 @@
       self.availableBatchFromStorage = YES;
       self.itemsCount = 0;
     }
-
-    // Perhaps notify done flushing.
-    [self perhapsNotifyDoneFlushing];
+    [self stopFlushingIfApplicable];
     return;
   }
 
@@ -229,15 +227,11 @@
                         } else {
                           MSLogWarning([MSMobileCenter logTag], @"Batch Id %@ not expected, ignore.", senderBatchId);
                         }
-
-                        // Perhaps notify done flushing.
-                        [self perhapsNotifyDoneFlushing];
+                        [self stopFlushingIfApplicable];
                       });
                     }];
              } else {
-
-               // Perhaps notify done flushing.
-               [self perhapsNotifyDoneFlushing];
+               [self stopFlushingIfApplicable];
              }
            }];
 
@@ -337,29 +331,29 @@
   if (!self.sender.suspended && self.suspended && self.enabled) {
     MSLogDebug([MSMobileCenter logTag], @"Resume channel for group Id %@.", self.configuration.groupId);
     self.suspended = NO;
-    self.doneFlushingCompletion = kMSEmptyDoneFlushingCompletion;
+    self.stopFlushingCompletion = kMSEmptyStopFlushingCompletion;
     [self flushQueue];
   }
 }
 
-- (void)notifyWhenDoneFlushingWithCompletion:(MSDoneFlushingCompletionBlock)completion {
+- (void)stopFlushingWithCompletion:(MSStopFlushingCompletionBlock)completion {
   __weak typeof(self) weakSelf = self;
   dispatch_async(self.logsDispatchQueue, ^{
     typeof(self) strongSelf = weakSelf;
 
     // Decorate the block to execute.
-    strongSelf.doneFlushingCompletion = ^() {
+    strongSelf.stopFlushingCompletion = ^() {
       typeof(self) toughSelf = weakSelf;
       if (toughSelf) {
 
-        // Channel is done flushing and is now suspending.
+        // Channel has stopped flushing and is now suspending.
         [toughSelf suspend];
 
         // Notify.
         completion();
 
         // The block shouldn't execute twice.
-        toughSelf.doneFlushingCompletion = kMSEmptyDoneFlushingCompletion;
+        toughSelf.stopFlushingCompletion = kMSEmptyStopFlushingCompletion;
       }
     };
 
@@ -368,9 +362,9 @@
   });
 }
 
-- (void)cancelNotifyingWhenDoneFlushing {
+- (void)cancelStopFlushing {
   dispatch_async(self.logsDispatchQueue, ^{
-    self.doneFlushingCompletion = kMSEmptyDoneFlushingCompletion;
+    self.stopFlushingCompletion = kMSEmptyStopFlushingCompletion;
   });
 }
 
@@ -443,14 +437,14 @@
   }
 }
 
-- (void)perhapsNotifyDoneFlushing {
+- (void)stopFlushingIfApplicable {
 
   /*
-   * If the channel is expected to be done flushing and doesn't have any pending
-   * batches or is suspended then it can notify that it's done flushing.
+   * If the channel is expected to stop flushing and doesn't have any pending
+   * batches or is suspended then it can notify that it has stopped flushing.
    */
   if (self.pendingBatchIds.count == 0 || self.suspended) {
-    self.doneFlushingCompletion();
+    self.stopFlushingCompletion();
   }
 }
 

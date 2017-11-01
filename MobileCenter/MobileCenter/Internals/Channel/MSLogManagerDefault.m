@@ -283,8 +283,8 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecent
               }];
             }
 
-            // Init block to handle all the channels "done flushing" notifications.
-            MSDoneFlushingCompletionBlock completion = ^() {
+            // Init block to handle all the channels "stop flushing" notifications.
+            MSStopFlushingCompletionBlock completion = ^() {
               typeof(self) toughSelf = weakSelf;
               if (toughSelf) {
                 @synchronized(toughSelf.backgroundTaskLockToken) {
@@ -307,7 +307,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecent
 
             // There is now extended time to flush the last few logs from the channels.
             for (NSString *groupId in strongSelf.channels) {
-              [strongSelf.channels[groupId] notifyWhenDoneFlushingWithCompletion:completion];
+              [strongSelf.channels[groupId] stopFlushingWithCompletion:completion];
             }
           }
         };
@@ -344,7 +344,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.azure.mobile.mobilecent
                                                  * not suspended yet.
                                                  */
                                                 for (NSString *groupId in self.channels) {
-                                                  [self.channels[groupId] cancelNotifyingWhenDoneFlushing];
+                                                  [self.channels[groupId] cancelStopFlushing];
                                                   [self.channels[groupId] resume];
                                                 }
                                               }

@@ -2,7 +2,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static const MSDoneFlushingCompletionBlock kMSEmptyDoneFlushingCompletion = ^() {
+static const MSStopFlushingCompletionBlock kMSEmptyStopFlushingCompletion = ^() {
 };
 
 /**
@@ -32,9 +32,9 @@ static const MSDoneFlushingCompletionBlock kMSEmptyDoneFlushingCompletion = ^() 
 @property(nonatomic) BOOL discardLogs;
 
 /**
- * Completion block executed when done flushing logs.
+ * Completion block executed when stopped flushing logs.
  */
-@property(nonatomic, nullable) MSDoneFlushingCompletionBlock doneFlushingCompletion;
+@property(nonatomic, nullable) MSStopFlushingCompletionBlock stopFlushingCompletion;
 
 /**
  * Trigger flushing the queue, which will result in logs being sent.

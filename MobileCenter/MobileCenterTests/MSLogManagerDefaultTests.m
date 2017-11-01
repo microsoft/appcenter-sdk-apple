@@ -121,8 +121,8 @@
 - (void)testAppBackgroundedAndChannelsWillFinishFlushing {
 
   /*
-   * The app is going to the background, logmanager should request channels to notify it when the are done flushing.
-   * Logmanager should make sure all channels are done flushing before cancelling the background task.
+   * The app is going to the background, logmanager should request to be notified by channels when they stopped flushing.
+   * Logmanager should make sure all channels stopped flushing before cancelling the background task.
    * Then, disable sender so it can't react to network events in background in case other tasks from the app are still
    * running.
    */
@@ -142,17 +142,17 @@
   MSLogManagerDefault *sut = [[MSLogManagerDefault alloc] initWithSender:senderMock storage:storageMock];
 
   // Init 2 channels.
-  __block MSDoneFlushingCompletionBlock completionBlockChannel1;
-  __block MSDoneFlushingCompletionBlock completionBlockChannel2;
+  __block MSStopFlushingCompletionBlock completionBlockChannel1;
+  __block MSStopFlushingCompletionBlock completionBlockChannel2;
   MSChannelDefault *channel1 = OCMClassMock([MSChannelDefault class]);
   MSChannelDefault *channel2 = OCMClassMock([MSChannelDefault class]);
-  OCMStub([channel1 notifyWhenDoneFlushingWithCompletion:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+  OCMStub([channel1 stopFlushingWithCompletion:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     [invocation retainArguments];
 
     // Remember the completion block.
     [invocation getArgument:&completionBlockChannel1 atIndex:2];
   });
-  OCMStub([channel2 notifyWhenDoneFlushingWithCompletion:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+  OCMStub([channel2 stopFlushingWithCompletion:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     [invocation retainArguments];
 
     // Remember the completion block.
@@ -184,7 +184,7 @@
 - (void)testAppBackgroundedAndChannelsWontFinishFlushing {
 
   /*
-   * The app is going to the background, logmanager should request channels to notify it when the are done flushing.
+   * The app is going to the background, logmanager should request to be notified by channels when they stopped flushing.
    * Channel won't fininsh flushing before background will finish.
    * In this case, logmanager must disable sender.
    */
@@ -210,17 +210,17 @@
   MSLogManagerDefault *sut = [[MSLogManagerDefault alloc] initWithSender:senderMock storage:storageMock];
 
   // Init 2 channels.
-  __block MSDoneFlushingCompletionBlock completionBlockChannel1;
-  __block MSDoneFlushingCompletionBlock completionBlockChannel2;
+  __block MSStopFlushingCompletionBlock completionBlockChannel1;
+  __block MSStopFlushingCompletionBlock completionBlockChannel2;
   id channel1 = OCMClassMock([MSChannelDefault class]);
   id channel2 = OCMClassMock([MSChannelDefault class]);
-  OCMStub([channel1 notifyWhenDoneFlushingWithCompletion:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+  OCMStub([channel1 stopFlushingWithCompletion:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     [invocation retainArguments];
 
     // Remember the completion block.
     [invocation getArgument:&completionBlockChannel1 atIndex:2];
   });
-  OCMStub([channel2 notifyWhenDoneFlushingWithCompletion:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+  OCMStub([channel2 stopFlushingWithCompletion:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     [invocation retainArguments];
 
     // Remember the completion block.
@@ -252,7 +252,7 @@
 - (void)testAppBackgroundedThenForegroundedAndChannelsWontFinishFlushing {
 
   /*
-   * The app is going to the background, logmanager should request channels to notify it when the are done flushing.
+   * The app is going to the background, logmanager should request to be notified by channels when they stopped flushing.
    * Channel won't fininsh flushing before background will finish.
    * In this case, logmanager must disable sender.
    */
@@ -280,10 +280,10 @@
   // Init 2 channels.
   id channel1 = OCMClassMock([MSChannelDefault class]);
   id channel2 = OCMClassMock([MSChannelDefault class]);
-  OCMExpect([channel1 cancelNotifyingWhenDoneFlushing]);
-  OCMExpect([channel2 cancelNotifyingWhenDoneFlushing]);
-  OCMStub([channel1 notifyWhenDoneFlushingWithCompletion:OCMOCK_ANY]);
-  OCMStub([channel2 notifyWhenDoneFlushingWithCompletion:OCMOCK_ANY]);
+  OCMExpect([channel1 cancelStopFlushing]);
+  OCMExpect([channel2 cancelStopFlushing]);
+  OCMStub([channel1 stopFlushingWithCompletion:OCMOCK_ANY]);
+  OCMStub([channel2 stopFlushingWithCompletion:OCMOCK_ANY]);
 
   // Add channels.
   sut.channels[@"channel1"] = channel1;
