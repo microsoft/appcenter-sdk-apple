@@ -161,6 +161,11 @@ typedef struct MSCrashesCallbacks {
 - (void)setupLogBuffer;
 
 /**
+ * Sends crashes when given MSUserConfirmationSend.
+ */
+- (void)notifyWithUserConfirmation:(MSUserConfirmation)userConfirmation;
+
+/**
  * Returns a file that can be used to save a buffered event log at crash time and triggers creation of a file if
  * it doesn't exist.
  *

@@ -20,8 +20,7 @@
 $CultureSettingFile= "mobile-center-cultures.csv"
 $ProjectInfo = "mobile-center-sdks-loc-file-list.csv"
 
-$Guid = [GUID]::NewGuid()
-$TempLocBranch = "TouchDownCheckin_" +  $Guid
+$TempLocBranch = "translatedFiles"
 $repoPath = $SrcRoot
 $DefaultRepoBranch = "develop"
 $teamId = "272" #ID for iOS
@@ -57,8 +56,11 @@ Function InitializeRepoForCheckin
     $Argument = "reset --hard HEAD"
     ProcessStart $git $Argument $repoPath
 
-    $Argument = "pull"
+    $Argument = "pull origin " + $DefaultRepoBranch
     ProcessStart $git $Argument $repoPath
+
+    $Argument = "branch -D" + $TempLocBranch
+    ProcessStart $git $Argument
 
     $Argument = "checkout -b" + $TempLocBranch
     ProcessStart $git $Argument $repoPath
@@ -79,7 +81,7 @@ Function CheckinFilesIntoRepo
         #Authorized
         $Argument = "-c http.extraheader=`"Authorization: Bearer " + $AuthToken + "`" push origin " + $TempLocBranch
     }
-
+    
     ProcessStart $git $Argument $repoPath
 }
 
@@ -161,7 +163,7 @@ $fileBinary
     Invoke-RestMethod -Uri "http://tdbuild/api/teams/$teamId/LocalizableFiles" -Method Put -UseDefaultCredentials -ContentType "multipart/form-data; boundary=$boundary" -Body $body -OutFile $outFilePath
 }
 
-Function binplace ($UnzipFileTo,$relativeFilePath,$TargetPath,$LanguageSet)
+Function BinPlace ($UnzipFileTo,$relativeFilePath,$TargetPath,$LanguageSet)
 {
     $Langs = $LanguageSet.split(";")
     
@@ -170,17 +172,22 @@ Function binplace ($UnzipFileTo,$relativeFilePath,$TargetPath,$LanguageSet)
     foreach($Language in $Langs)
     {
         $OCulture = GetCulture $CultureSettingFile $Language
-        $Culture = $OCulture.LSBUILD
-
         $LocalizedFile = $UnzipFileTo + "\" + $OCulture.LSBUILD + $relativeFilePath
-        #$TargetPathDir = $TargetPath.Substring(0,$TargetPath.LastIndexOf("\"))
-        $TargetPathDir = $TargetPath + "\" + $OCulture.LSBUILD
+        $LocDir = ""
+
+        # Chinese (zh) regions use a different directory structure
+        if ($OCulture.Culture -eq "zh") {
+            $LocDir = $TargetPath + $OCulture.Culture + $(if ($Language.split("-")[1] -eq "CN") {"-Hans"} else {"-Hant"}) + ".lproj"
+        } else {
+            $LocDir = $TargetPath + $OCulture.Culture + ".lproj"
+        }
         
-        if(!(Test-Path -Path $TargetPathDir)){
-            New-Item -Path $TargetPathDir -ItemType directory
+        if(!(Test-Path -Path $LocDir)){
+            New-Item -Path $LocDir -ItemType directory
         }
 
-        $targetFile = $TargetPath + "\" + $OCulture.LSBUILD + $relativeFilePath
+        $targetFile = $LocDir + $relativeFilePath
+
         write-host "Loc File:   $LocalizedFile"
         write-host "TargetPath: $targetFile"
         write-host "Copying Loc file to TargetPath"
@@ -196,14 +203,16 @@ Function AddFiletoRepo ($TargetPath,$LanguageSet)
     foreach($Language in $Langs)
     {
         $OCulture = GetCulture $CultureSettingFile $Language
+        if ($OCulture.Culture -eq "zh") {
+            $LocDir = $TargetPath + $OCulture.Culture + $(if ($Language.split("-")[1] -eq "CN") {"-Hans"} else {"-Hant"}) + ".lproj"
+        } else {
+            $LocDir = $TargetPath + $OCulture.Culture + ".lproj"
+        }
 
-        #We pull out here the culture that might be used during the string expansion.
-        $Culture = $OCulture.Culture
-        $Argument = "add " + $TargetPath
+        $Argument = "add " + $LocDir
 
         write-host $Argument
 
-        #Start-Process $git $Argument -WorkingDirectory $repoPath
         ProcessStart $git $Argument $repoPath
     }
 }
@@ -235,7 +244,7 @@ Function RefreshTDFiles
 
         Unzip $outFilePath $UnzipFolderLocation
 
-        binplace $UnzipFolderLocation $relativeFilePath $TargetPath $LanguageSet
+        BinPlace $UnzipFolderLocation $relativeFilePath $TargetPath $LanguageSet
 
         write-host "-----ADD FILES TO REPO-----"
         AddFiletoRepo $TargetPath $LanguageSet
@@ -243,6 +252,9 @@ Function RefreshTDFiles
 
     write-host "-----CHECK IN FILES TO REPO-----"
     CheckinFilesIntoRepo
+
+    # Remove temporary files after they have been dropped in resources
+    Remove-Item "mobile-center-distribute -recurse"
 }
 
 RefreshTDFiles

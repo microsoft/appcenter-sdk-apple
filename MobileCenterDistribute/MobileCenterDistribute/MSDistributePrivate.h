@@ -3,7 +3,7 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wreserved-id-macro"
 #ifndef __IPHONE_11_0
-#define __IPHONE_11_0    110000
+#define __IPHONE_11_0 110000
 #endif
 #pragma clang diagnostic pop
 
@@ -41,6 +41,8 @@ static NSString *const kMSURLQueryRedirectIdKey = @"redirect_id";
 static NSString *const kMSURLQueryRequestIdKey = @"request_id";
 static NSString *const kMSURLQueryUpdateTokenKey = @"update_token";
 static NSString *const kMSURLQueryDistributionGroupIdKey = @"distribution_group_id";
+static NSString *const kMSURLQueryEnableUpdateSetupFailureRedirectKey = @"enable_failure_redirect";
+static NSString *const kMSURLQueryUpdateSetupFailedKey = @"update_setup_failed";
 
 /**
  * Distribute url query parameter value strings.
@@ -81,6 +83,11 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
  * The storage key for distribution group ID.
  */
 static NSString *const kMSDistributionGroupIdKey = @"MSDistributionGroupId";
+
+/**
+ * The storage key for update setup failure package hash.
+ */
+static NSString *const kMSUpdateSetupFailedPackageHashKey = @"MSUpdateSetupFailedPackageHash";
 
 @interface MSDistribute ()
 
@@ -127,6 +134,14 @@ static NSString *const kMSDistributionGroupIdKey = @"MSDistributionGroupId";
  * @return The finale install URL to request the token or nil if an error occurred.
  */
 - (nullable NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret releaseHash:(NSString *)releaseHash;
+
+/**
+ * Open the given URL using either SFAuthenticationSession, SFSafariViewController, or the Safari app
+ * based on which iOS version is used.
+ *
+ * @param url URL to open.
+ */
+- (void)openUrlInAuthenticationSessionOrSafari:(NSURL *)url;
 
 /**
  * Open the given URL using an `SFAuthenticationSession`. Must run on the UI thread! iOS 11 only.
@@ -205,6 +220,13 @@ static NSString *const kMSDistributionGroupIdKey = @"MSDistributionGroupId";
  * Show a dialog to the user in case MSDistribute was disabled while the updates-alert is shown.
  */
 - (void)showDistributeDisabledAlert;
+
+/**
+ * Show a dialog to the user in case in-app updates are disabled due to update setup failure.
+ *
+ * @param errorMessage An error message to show in the dialog.
+ */
+- (void)showUpdateSetupFailedAlert:(NSString *)errorMessage;
 
 /**
  * Check whether release details contain a newer version of release than current version.

@@ -6,6 +6,7 @@
 #import "MSUtility+File.h"
 #import "MSWrapperException.h"
 #import "MSWrapperExceptionManagerInternal.h"
+#import "MSErrorReport.h"
 
 // Copied from MSWrapperExceptionManager.m
 static NSString* const kMSLastWrapperExceptionFileName = @"last_saved_wrapper_exception";
@@ -19,7 +20,6 @@ static NSString* const kMSLastWrapperExceptionFileName = @"last_saved_wrapper_ex
 + (MSWrapperException *)loadWrapperExceptionWithBaseFilename:(NSString *)baseFilename;
 
 @end
-
 
 @implementation MSWrapperExceptionManagerTests
 

@@ -2,9 +2,9 @@
 
 ## I. Check parameter
 if [ -z $1 ] || ( [ "$1" != "vsts" ] && [ "$1" != "github" ] ); then
-  echo "Invalid parameter.";
-  echo "  Usage: $0 {vsts|github}";
-  exit 1;
+  echo "Invalid parameter."
+  echo "  Usage: $0 {vsts|github}"
+  exit 1
 fi
 
 ## II. Add private pod spec repo

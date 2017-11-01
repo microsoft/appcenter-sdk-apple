@@ -5,7 +5,7 @@ sdk: appletvsimulator
 theme: ../../Themes/apple
 
 module: Crashes
-module_version: 0.13.1
+module_version: 0.14.1
 author: Microsoft Corp
 author_url: http://www.microsoft.com
 
