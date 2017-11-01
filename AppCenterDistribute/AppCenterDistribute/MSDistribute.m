@@ -1,5 +1,7 @@
 #import <Foundation/Foundation.h>
 #import <SafariServices/SafariServices.h>
+
+#import "MSAppCenterInternal.h"
 #import "MSAppDelegateForwarder.h"
 #import "MSDistribute.h"
 #import "MSDistributeAppDelegate.h"
@@ -10,7 +12,6 @@
 #import "MSErrorDetails.h"
 #import "MSKeychainUtil.h"
 #import "MSLogger.h"
-#import "MSAppCenterInternal.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSUtility+Date.h"
 

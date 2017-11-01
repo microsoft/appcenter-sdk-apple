@@ -37,7 +37,8 @@
   assertThat(
       details.installUrl,
       equalTo([NSURL URLWithString:@"itms-service://?action=download-manifest&url=contoso.com/release/filename"]));
-  assertThat(details.releaseNotesUrl, equalTo([NSURL URLWithString:@"https://contoso.com/path/release/notes?skip_registration=true"]));
+  assertThat(details.releaseNotesUrl,
+             equalTo([NSURL URLWithString:@"https://contoso.com/path/release/notes?skip_registration=true"]));
   assertThat(details.packageHashes, equalTo(@[ @"buildId1", @"buildId2" ]));
   assertThat(details.distributionGroups, equalTo(nil));
 }

@@ -2,6 +2,7 @@
 
 #import "MS_Reachability.h"
 #import "MSAlertController.h"
+#import "MSAppCenter.h"
 #import "MSBasicMachOParser.h"
 #import "MSDistribute.h"
 #import "MSDistributeInternal.h"
@@ -9,7 +10,6 @@
 #import "MSDistributeTestUtil.h"
 #import "MSDistributeUtil.h"
 #import "MSKeychainUtil.h"
-#import "MSAppCenter.h"
 #import "MSMockUserDefaults.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSTestFrameworks.h"

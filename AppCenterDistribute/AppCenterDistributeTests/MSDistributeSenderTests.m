@@ -44,7 +44,11 @@
   [MSLogger setCurrentLogLevel:MSLogLevelVerbose];
   id distributeMock = OCMPartialMock([MSDistribute sharedInstance]);
   OCMStub([distributeMock appSecret]).andReturn(@"secret");
-  MSDistributeSender *sender1 = [[MSDistributeSender alloc] initWithBaseUrl:baseUrl appSecret:appSecret updateToken:updateToken distributionGroupId:distributionGroupId queryStrings:@{}];
+  MSDistributeSender *sender1 = [[MSDistributeSender alloc] initWithBaseUrl:baseUrl
+                                                                  appSecret:appSecret
+                                                                updateToken:updateToken
+                                                        distributionGroupId:distributionGroupId
+                                                               queryStrings:@{}];
 
   // When
   NSURLRequest *request1 = [sender1 createRequest:[NSData new]];

@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
-#import <XCTest/XCTest.h>
+
 #import "MSDistributionGroup.h"
+#import "MSTestFrameworks.h"
 
 @interface MSDistributionGroupTests : XCTestCase
 

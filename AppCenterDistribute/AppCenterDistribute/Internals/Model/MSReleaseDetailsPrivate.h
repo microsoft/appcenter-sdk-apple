@@ -1,5 +1,7 @@
 #import <Foundation/Foundation.h>
+
 #import "MSReleaseDetails.h"
+
 @class MSDistributionGroup;
 
 /**

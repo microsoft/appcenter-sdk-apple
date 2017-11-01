@@ -5,6 +5,6 @@
 /*
  * Clear dictionary
  */
--(void)stopMocking;
+- (void)stopMocking;
 
 @end
