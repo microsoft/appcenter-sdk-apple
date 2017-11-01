@@ -1,5 +1,10 @@
 #import "MSChannelDefault.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
+static const MSStopFlushingCompletionBlock kMSEmptyStopFlushingCompletion = ^() {
+};
+
 /**
  * Private declarations.
  */
@@ -26,4 +31,16 @@
  */
 @property(nonatomic) BOOL discardLogs;
 
+/**
+ * Completion block executed when stopped flushing logs.
+ */
+@property(nonatomic, nullable) MSStopFlushingCompletionBlock stopFlushingCompletion;
+
+/**
+ * Trigger flushing the queue, which will result in logs being sent.
+ */
+- (void)flushQueue;
+
 @end
+
+NS_ASSUME_NONNULL_END
