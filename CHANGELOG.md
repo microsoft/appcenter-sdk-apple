@@ -10,7 +10,7 @@ This version contains an improvement and a bug fix.
 
 ### MobileCenterPush
 
-* **[Fix]** Receiving a notification without message now forwards the message as a `nil` string  instead of an `NSNull` object to the `MSPush` delegate.
+* **[Fix]** Receiving a notification without message now forwards the message as a `nil` string instead of an `NSNull` object to the `MSPush` delegate.
 
 ___
 
