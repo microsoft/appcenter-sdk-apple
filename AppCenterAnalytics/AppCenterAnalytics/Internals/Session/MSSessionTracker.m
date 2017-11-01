@@ -202,13 +202,12 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
   // Attach corresponding session id.
   if (log.timestamp) {
     MSSessionHistoryInfo *find = [[MSSessionHistoryInfo alloc] initWithTimestamp:log.timestamp andSessionId:nil];
-    NSUInteger index =
-        [self.pastSessions indexOfObject:find
-                           inSortedRange:NSMakeRange(0, self.pastSessions.count)
-                                 options:(NSBinarySearchingFirstEqual | NSBinarySearchingInsertionIndex)
-                         usingComparator:^(MSSessionHistoryInfo *a, MSSessionHistoryInfo *b) {
-                           return [a.timestamp compare:b.timestamp];
-                         }];
+    NSUInteger index = [self.pastSessions indexOfObject:find
+                                          inSortedRange:NSMakeRange(0, self.pastSessions.count)
+                                                options:(NSBinarySearchingFirstEqual | NSBinarySearchingInsertionIndex)
+                                        usingComparator:^(MSSessionHistoryInfo *a, MSSessionHistoryInfo *b) {
+                                          return [a.timestamp compare:b.timestamp];
+                                        }];
 
     // All timestamps are larger.
     if (index == 0) {
