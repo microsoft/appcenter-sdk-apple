@@ -459,7 +459,7 @@ static NSURL *sfURL;
   // If
   NSString *appName = @"Test App";
   OCMStub([self.bundleMock objectForInfoDictionaryKey:@"CFBundleDisplayName"]).andReturn(appName);
-  id mobileCenterMock = OCMPartialMock(self.sut);
+  id appCenterMock = OCMPartialMock(self.sut);
   MSReleaseDetails *details = [MSReleaseDetails new];
   details.shortVersion = @"2.5";
   details.version = @"11";
@@ -475,7 +475,7 @@ static NSURL *sfURL;
 
   // When
   XCTestExpectation *expection = [self expectationWithDescription:@"Confirmation alert has been displayed"];
-  [mobileCenterMock showConfirmationAlert:details];
+  [appCenterMock showConfirmationAlert:details];
   dispatch_async(dispatch_get_main_queue(), ^{
     [expection fulfill];
   });
@@ -499,7 +499,7 @@ static NSURL *sfURL;
                                  OCMVerify([self.alertControllerMock addPreferredActionWithTitle:OCMOCK_ANY
                                                                                          handler:OCMOCK_ANY]);
                                }];
-  [mobileCenterMock stopMocking];
+  [appCenterMock stopMocking];
 }
 
 - (void)testShowConfirmationAlertWithoutViewReleaseNotesButton {
@@ -507,7 +507,7 @@ static NSURL *sfURL;
   // If
   NSString *appName = @"Test App";
   OCMStub([self.bundleMock objectForInfoDictionaryKey:@"CFBundleDisplayName"]).andReturn(appName);
-  id mobileCenterMock = OCMPartialMock(self.sut);
+  id appCenterMock = OCMPartialMock(self.sut);
   OCMReject([self.alertControllerMock
       addDefaultActionWithTitle:MSDistributeLocalizedString(@"MSDistributeViewReleaseNotes")
                         handler:OCMOCK_ANY]);
@@ -524,7 +524,7 @@ static NSURL *sfURL;
 
   // When
   XCTestExpectation *expection = [self expectationWithDescription:@"Confirmation alert has been displayed"];
-  [mobileCenterMock showConfirmationAlert:details];
+  [appCenterMock showConfirmationAlert:details];
   dispatch_async(dispatch_get_main_queue(), ^{
     [expection fulfill];
   });
@@ -545,7 +545,7 @@ static NSURL *sfURL;
                                                                                          handler:OCMOCK_ANY]);
                                  OCMVerifyAll(self.alertControllerMock);
                                }];
-  [mobileCenterMock stopMocking];
+  [appCenterMock stopMocking];
 }
 
 - (void)testShowConfirmationAlertForMandatoryUpdate {
@@ -553,7 +553,7 @@ static NSURL *sfURL;
   // If
   NSString *appName = @"Test App";
   OCMStub([self.bundleMock objectForInfoDictionaryKey:@"CFBundleDisplayName"]).andReturn(appName);
-  id mobileCenterMock = OCMPartialMock(self.sut);
+  id appCenterMock = OCMPartialMock(self.sut);
   OCMReject([self.alertControllerMock addDefaultActionWithTitle:MSDistributeLocalizedString(@"MSDistributeAskMeInADay")
                                                         handler:OCMOCK_ANY]);
   MSReleaseDetails *details = [MSReleaseDetails new];
@@ -571,7 +571,7 @@ static NSURL *sfURL;
 
   // When
   XCTestExpectation *expection = [self expectationWithDescription:@"Confirmation alert has been displayed"];
-  [mobileCenterMock showConfirmationAlert:details];
+  [appCenterMock showConfirmationAlert:details];
   dispatch_async(dispatch_get_main_queue(), ^{
     [expection fulfill];
   });
@@ -593,7 +593,7 @@ static NSURL *sfURL;
                                                                                          handler:OCMOCK_ANY]);
                                  OCMVerifyAll(self.alertControllerMock);
                                }];
-  [mobileCenterMock stopMocking];
+  [appCenterMock stopMocking];
 }
 
 - (void)testShowConfirmationAlertWithoutViewReleaseNotesButtonForMandatoryUpdate {
@@ -601,7 +601,7 @@ static NSURL *sfURL;
   // If
   NSString *appName = @"Test App";
   OCMStub([self.bundleMock objectForInfoDictionaryKey:@"CFBundleDisplayName"]).andReturn(appName);
-  id mobileCenterMock = OCMPartialMock(self.sut);
+  id appCenterMock = OCMPartialMock(self.sut);
   OCMReject([self.alertControllerMock addDefaultActionWithTitle:MSDistributeLocalizedString(@"MSDistributeAskMeInADay")
                                                         handler:OCMOCK_ANY]);
   OCMReject([self.alertControllerMock
@@ -620,7 +620,7 @@ static NSURL *sfURL;
 
   // When
   XCTestExpectation *expection = [self expectationWithDescription:@"Confirmation alert has been displayed"];
-  [mobileCenterMock showConfirmationAlert:details];
+  [appCenterMock showConfirmationAlert:details];
   dispatch_async(dispatch_get_main_queue(), ^{
     [expection fulfill];
   });
@@ -638,7 +638,7 @@ static NSURL *sfURL;
                                                                                          handler:OCMOCK_ANY]);
                                  OCMVerifyAll(self.alertControllerMock);
                                }];
-  [mobileCenterMock stopMocking];
+  [appCenterMock stopMocking];
 }
 
 - (void)testShowConfirmationAlertForMandatoryUpdateWhileNoNetwork {
@@ -882,8 +882,8 @@ static NSURL *sfURL;
   id distributeMock = OCMPartialMock(self.sut);
   OCMReject([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY]);
   OCMStub([distributeMock sharedInstance]).andReturn(distributeMock);
-  id mobileCeneterMock = OCMClassMock([MSAppCenter class]);
-  OCMStub([mobileCeneterMock isConfigured]).andReturn(YES);
+  id appCenterMock = OCMClassMock([MSAppCenter class]);
+  OCMStub([appCenterMock isConfigured]).andReturn(YES);
   id utilityMock = [self mockMSPackageHash];
 
   // When
@@ -946,7 +946,7 @@ static NSURL *sfURL;
 
   // Clear
   [distributeMock stopMocking];
-  [mobileCeneterMock stopMocking];
+  [appCenterMock stopMocking];
   [utilityMock stopMocking];
 }
 
@@ -961,8 +961,8 @@ static NSURL *sfURL;
   OCMStub([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:kMSTestReleaseHash])
       .andDo(nil);
   OCMStub([distributeMock sharedInstance]).andReturn(distributeMock);
-  id mobileCeneterMock = OCMClassMock([MSAppCenter class]);
-  OCMStub([mobileCeneterMock isConfigured]).andReturn(YES);
+  id appCenterMock = OCMClassMock([MSAppCenter class]);
+  OCMStub([appCenterMock isConfigured]).andReturn(YES);
   id utilityMock = [self mockMSPackageHash];
 
   // Disable for now to bypass initializing sender.
@@ -1011,7 +1011,7 @@ static NSURL *sfURL;
 
   // Clear
   [distributeMock stopMocking];
-  [mobileCeneterMock stopMocking];
+  [appCenterMock stopMocking];
   [utilityMock stopMocking];
 }
 
@@ -1024,8 +1024,8 @@ static NSURL *sfURL;
   id distributeMock = OCMPartialMock(self.sut);
   OCMReject([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY]);
   OCMStub([distributeMock sharedInstance]).andReturn(distributeMock);
-  id mobileCenterMock = OCMClassMock([MSAppCenter class]);
-  OCMStub([mobileCenterMock isConfigured]).andReturn(YES);
+  id appCenterMock = OCMClassMock([MSAppCenter class]);
+  OCMStub([appCenterMock isConfigured]).andReturn(YES);
   [distributeMock startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
 
   // If
@@ -1045,7 +1045,7 @@ static NSURL *sfURL;
 
   // Clear
   [distributeMock stopMocking];
-  [mobileCenterMock stopMocking];
+  [appCenterMock stopMocking];
 }
 
 - (void)testApplyEnabledStateTrueForDebugConfig {
@@ -1134,7 +1134,7 @@ static NSURL *sfURL;
 
   // If
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
-  id mobileCenterMock = OCMClassMock([MSAppCenter class]);
+  id appCenterMock = OCMClassMock([MSAppCenter class]);
   id distributeMock = OCMPartialMock(self.sut);
   OCMStub([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY])
       .andDo(nil);
@@ -1142,7 +1142,7 @@ static NSURL *sfURL;
   id utilityMock = [self mockMSPackageHash];
 
   // When
-  OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(NO);
+  OCMStub([appCenterMock isDebuggerAttached]).andReturn(NO);
   OCMStub([utilityMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
 
   // Then
@@ -1156,7 +1156,7 @@ static NSURL *sfURL;
 
   // Clear
   [distributeMock stopMocking];
-  [mobileCenterMock stopMocking];
+  [appCenterMock stopMocking];
   [utilityMock stopMocking];
 }
 
@@ -1164,46 +1164,46 @@ static NSURL *sfURL;
 
   // When
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
-  id mobileCenterMock = OCMClassMock([MSAppCenter class]);
+  id appCenterMock = OCMClassMock([MSAppCenter class]);
   id utilityMock = OCMClassMock([MSUtility class]);
-  OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(YES);
+  OCMStub([appCenterMock isDebuggerAttached]).andReturn(YES);
   OCMStub([utilityMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
 
   // Then
   XCTAssertFalse([self.sut checkForUpdatesAllowed]);
 
   // Clear
-  [mobileCenterMock stopMocking];
+  [appCenterMock stopMocking];
 }
 
 - (void)testCheckForUpdatesInvalidEnvironment {
 
   // When
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
-  id mobileCenterMock = OCMClassMock([MSAppCenter class]);
+  id appCenterMock = OCMClassMock([MSAppCenter class]);
   id utilityMock = OCMClassMock([MSUtility class]);
-  OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(NO);
+  OCMStub([appCenterMock isDebuggerAttached]).andReturn(NO);
   OCMStub([utilityMock currentAppEnvironment]).andReturn(MSEnvironmentTestFlight);
 
   // Then
   XCTAssertFalse([self.sut checkForUpdatesAllowed]);
 
   // Clear
-  [mobileCenterMock stopMocking];
+  [appCenterMock stopMocking];
 }
 
 - (void)testSetupUpdatesWithPreviousFailureOnSamePackageHash {
 
   // If
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
-  id mobileCenterMock = OCMClassMock([MSAppCenter class]);
+  id appCenterMock = OCMClassMock([MSAppCenter class]);
   id distributeMock = OCMPartialMock(self.sut);
   OCMStub([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY])
       .andDo(nil);
   id utilityMock = [self mockMSPackageHash];
 
   // When
-  OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(NO);
+  OCMStub([appCenterMock isDebuggerAttached]).andReturn(NO);
   OCMStub([utilityMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
 
   // Then
@@ -1225,7 +1225,7 @@ static NSURL *sfURL;
 
   // Clear
   [distributeMock stopMocking];
-  [mobileCenterMock stopMocking];
+  [appCenterMock stopMocking];
   [utilityMock stopMocking];
 }
 
@@ -1233,14 +1233,14 @@ static NSURL *sfURL;
 
   // If
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
-  id mobileCenterMock = OCMClassMock([MSAppCenter class]);
+  id appCenterMock = OCMClassMock([MSAppCenter class]);
   id distributeMock = OCMPartialMock(self.sut);
   OCMStub([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY])
       .andDo(nil);
   id utilityMock = [self mockMSPackageHash];
 
   // When
-  OCMStub([mobileCenterMock isDebuggerAttached]).andReturn(NO);
+  OCMStub([appCenterMock isDebuggerAttached]).andReturn(NO);
   OCMStub([utilityMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
 
   // Then
@@ -1263,7 +1263,7 @@ static NSURL *sfURL;
 
   // Clear
   [distributeMock stopMocking];
-  [mobileCenterMock stopMocking];
+  [appCenterMock stopMocking];
   [utilityMock stopMocking];
 }
 
@@ -1497,11 +1497,11 @@ static NSURL *sfURL;
 - (void)testShowDistributeDisabledAlert {
 
   // If
-  id mobileCenterMock = OCMPartialMock(self.sut);
+  id appCenterMock = OCMPartialMock(self.sut);
 
   // When
   XCTestExpectation *expection = [self expectationWithDescription:@"Distribute disabled alert has been displayed"];
-  [mobileCenterMock showDistributeDisabledAlert];
+  [appCenterMock showDistributeDisabledAlert];
   dispatch_async(dispatch_get_main_queue(), ^{
     [expection fulfill];
   });
@@ -1514,7 +1514,7 @@ static NSURL *sfURL;
                                  OCMVerify(
                                      [self.alertControllerMock addCancelActionWithTitle:OCMOCK_ANY handler:OCMOCK_ANY]);
                                }];
-  [mobileCenterMock stopMocking];
+  [appCenterMock stopMocking];
 }
 
 - (void)testStartDownload {

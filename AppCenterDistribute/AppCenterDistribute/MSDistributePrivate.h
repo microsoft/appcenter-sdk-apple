@@ -171,7 +171,7 @@ static NSString *const kMSUpdateSetupFailedPackageHashKey = @"MSUpdateSetupFaile
  *
  * @param url  The url with parameters.
  *
- * @return `YES` if the URL is intended for Mobile Center Distribute and the current application, `NO` otherwise.
+ * @return `YES` if the URL is intended for App Center Distribute and the current application, `NO` otherwise.
  */
 - (BOOL)openURL:(NSURL *)url;
 

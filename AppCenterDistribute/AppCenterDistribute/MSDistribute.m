@@ -85,7 +85,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 }
 
 + (NSString *)logTag {
-  return @"MobileCenterDistribute";
+  return @"AppCenterDistribute";
 }
 
 - (NSString *)groupId {
@@ -821,7 +821,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
   /*
    * Ignore if app secret not set, can't test scheme.
-   * Also ignore if request is not for Mobile Center Distribute and this app.
+   * Also ignore if request is not for App Center Distribute and this app.
    */
   if (!self.appSecret ||
       ![[url scheme] isEqualToString:[NSString stringWithFormat:kMSDefaultCustomSchemeFormat, self.appSecret]]) {

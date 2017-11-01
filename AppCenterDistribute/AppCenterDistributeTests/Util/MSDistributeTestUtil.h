@@ -3,12 +3,12 @@
 @interface MSDistributeTestUtil : NSObject
 
 /**
- * Mobile Center mock.
+ * App Center mock.
  */
-@property(class, nonatomic) id mobileCenterMock;
+@property(class, nonatomic) id appCenterMock;
 
 /**
- * Mobile Center util mock.
+ * App Center util mock.
  */
 @property(class, nonatomic) id utilMock;
 
