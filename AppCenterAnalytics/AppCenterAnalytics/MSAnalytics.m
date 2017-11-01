@@ -71,7 +71,7 @@ static const int maxPropertyValueLength = 64;
 }
 
 + (NSString *)logTag {
-  return @"MobileCenterAnalytics";
+  return @"AppCenterAnalytics";
 }
 
 - (NSString *)groupId {

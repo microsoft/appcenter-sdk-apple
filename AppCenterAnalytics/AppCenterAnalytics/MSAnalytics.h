@@ -3,7 +3,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * Mobile Center analytics service.
+ * App Center analytics service.
  */
 @interface MSAnalytics : MSServiceAbstract
 
