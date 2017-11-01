@@ -311,32 +311,15 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
   (void)userNotification;
 #endif
   MSLogVerbose([MSPush logTag], @"User info for notification was forwarded to Push: %@", [userInfo description]);
-  NSString *title;
-  NSString *message;
+  id title;
+  id message;
+  id customData;
   NSDictionary *aps = [userInfo objectForKey:kMSPushNotificationApsKey];
-  NSObject *alert = [aps objectForKey:kMSPushNotificationAlertKey];
-  if ([alert isKindOfClass:[NSDictionary class]]) {
-    title = [alert valueForKey:kMSPushNotificationTitleKey];
-    message = [alert valueForKey:kMSPushNotificationMessageKey];
-  } else {
-
-    /*
-     * "alert" value type can be either Dictionary or String. Try one more time if it is a String value even
-     * though MobileCenterPush doesn't support String value for "alert".
-     */
-    alert = [aps valueForKey:kMSPushNotificationAlertKey];
-    if ([alert isKindOfClass:[NSString class]]) {
-      title = @"";
-      message = (NSString *)alert;
-    } else {
-
-      // "alert" value is not a supported type.
-      return NO;
-    }
-  }
+  NSObject *alert;
 
   // The notification is not for Mobile Center if customData is nil. Ignore the notification.
-  NSDictionary *customData = [userInfo objectForKey:kMSPushNotificationCustomDataKey];
+  customData = [userInfo objectForKey:kMSPushNotificationCustomDataKey];
+  customData = ([customData isKindOfClass:[NSDictionary<NSString *, NSString *> class]]) ? customData : nil;
   if (customData) {
 
     // If Push is disabled, discard the notification.
@@ -345,7 +328,32 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
                    @"Notification received while Push was enabled but it is disabled now, discard the notification.");
       return YES;
     }
-
+    alert = [aps objectForKey:kMSPushNotificationAlertKey];
+    
+    // Retreive notification payload.
+    if ([alert isKindOfClass:[NSDictionary class]]) {
+      title = [alert valueForKey:kMSPushNotificationTitleKey];
+      message = [alert valueForKey:kMSPushNotificationMessageKey];
+    } else {
+      
+      /*
+       * "alert" value type can be either Dictionary or String. Try one more time if it is a String value even
+       * though MobileCenterPush doesn't support String value for "alert".
+       */
+      alert = [aps valueForKey:kMSPushNotificationAlertKey];
+      if ([alert isKindOfClass:[NSString class]]) {
+        title = @"";
+        message = (NSString *)alert;
+      } else {
+        
+        // "alert" value is not a supported type.
+        return NO;
+      }
+    }
+    
+    // Clean values, sometimes we get NSNull from the info dictionary as object type on optional fields.
+    title = ([title isKindOfClass:[NSString class]]) ? title : nil;
+    message = ([message isKindOfClass:[NSString class]]) ? message : nil;
     MSLogDebug([MSPush logTag], @"Notification received.\nTitle: %@\nMessage:%@\nCustom data: %@", title, message,
                [customData description]);
 
