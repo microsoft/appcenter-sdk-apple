@@ -86,7 +86,8 @@ typedef void (^MSDoneFlushingCompletionBlock)();
 - (void)cancelNotifyingWhenDoneFlushing;
 
 /**
- * Resume the channel, it resume normal activity. A channel can't be resumed if it's disabled or the sender is still supsended.
+ * Resume the channel. It will resume it's normal activity. A channel can't be resumed if it's disabled or the sender is
+ * still supsended.
  */
 - (void)resume;
 

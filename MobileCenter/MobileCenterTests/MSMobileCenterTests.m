@@ -175,7 +175,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   OCMReject([logManager processLog:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]] forGroupId:OCMOCK_ANY]);
   [MSMobileCenter setCustomProperties:nil];
   [MSMobileCenter setCustomProperties:[MSCustomProperties new]];
-  
+
   // Then
   OCMVerifyAll(logManager);
 }
@@ -195,21 +195,21 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 }
 
 - (void)testStartWithoutServices {
-  
+
   // If
   id logManager = OCMClassMock([MSLogManagerDefault class]);
   OCMStub([logManager alloc]).andReturn(logManager);
   OCMStub([logManager initWithAppSecret:[OCMArg any] installId:[OCMArg any] logUrl:[OCMArg any]]).andReturn(logManager);
-  
+
   // Not allow processLog
   OCMReject([logManager processLog:[OCMArg isKindOfClass:[MSStartServiceLog class]] forGroupId:[OCMArg any]]);
-  
+
   // When
   [MSMobileCenter start:MS_UUID_STRING withServices:nil];
-  
+
   // Then
   OCMVerifyAll(logManager);
-  
+
   // Clear
   [logManager stopMocking];
 }
@@ -219,13 +219,12 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   // If
   [MSMobileCenter start:MS_UUID_STRING withServices:nil];
   id logManager = OCMProtocolMock(@protocol(MSLogManager));
-  OCMStub([logManager processLog:[OCMArg isKindOfClass:[MSStartServiceLog class]] forGroupId:OCMOCK_ANY])
-  .andDo(nil);
+  OCMStub([logManager processLog:[OCMArg isKindOfClass:[MSStartServiceLog class]] forGroupId:OCMOCK_ANY]).andDo(nil);
   [MSMobileCenter sharedInstance].logManager = logManager;
 
   // When
   [MSMobileCenter startService:MSMockService.class];
-  
+
   // Then
   OCMVerify([logManager processLog:[OCMArg isKindOfClass:[MSStartServiceLog class]] forGroupId:OCMOCK_ANY]);
 }

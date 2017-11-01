@@ -2,7 +2,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static const MSDoneFlushingCompletionBlock kMSEmptyDoneFlushingCompletion = ^(){};
+static const MSDoneFlushingCompletionBlock kMSEmptyDoneFlushingCompletion = ^() {
+};
 
 /**
  * Private declarations.
@@ -30,8 +31,6 @@ static const MSDoneFlushingCompletionBlock kMSEmptyDoneFlushingCompletion = ^(){
  */
 @property(nonatomic) BOOL discardLogs;
 
-// Properties that are necessary to allow sending events at the time the app is backgrounded. Not needed on macOS.
-
 /**
  * Completion block executed when done flushing logs.
  */
@@ -45,4 +44,3 @@ static const MSDoneFlushingCompletionBlock kMSEmptyDoneFlushingCompletion = ^(){
 @end
 
 NS_ASSUME_NONNULL_END
-

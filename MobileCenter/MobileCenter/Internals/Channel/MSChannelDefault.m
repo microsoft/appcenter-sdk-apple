@@ -19,7 +19,7 @@
     _enabled = YES;
     _suspended = NO;
     _delegates = [NSHashTable weakObjectsHashTable];
-    
+
     // Init with an empty block so executing it won't harm.
     _doneFlushingCompletion = kMSEmptyDoneFlushingCompletion;
   }
@@ -342,34 +342,33 @@
   }
 }
 
-- (void)notifyWhenDoneFlushingWithCompletion:(MSDoneFlushingCompletionBlock)completion
-{
+- (void)notifyWhenDoneFlushingWithCompletion:(MSDoneFlushingCompletionBlock)completion {
   __weak typeof(self) weakSelf = self;
   dispatch_async(self.logsDispatchQueue, ^{
     typeof(self) strongSelf = weakSelf;
-    
+
     // Decorate the block to execute.
-    strongSelf.doneFlushingCompletion = ^(){
+    strongSelf.doneFlushingCompletion = ^() {
       typeof(self) toughSelf = weakSelf;
-      if (toughSelf){
-        
+      if (toughSelf) {
+
         // Channel is done flushing and is now suspending.
         [toughSelf suspend];
-        
+
         // Notify.
         completion();
-      
+
         // The block shouldn't execute twice.
         toughSelf.doneFlushingCompletion = kMSEmptyDoneFlushingCompletion;
       }
     };
-    
+
     // Trigger a flush now.
     [strongSelf flushQueue];
   });
 }
 
-- (void)cancelNotifyingWhenDoneFlushing{
+- (void)cancelNotifyingWhenDoneFlushing {
   dispatch_async(self.logsDispatchQueue, ^{
     self.doneFlushingCompletion = kMSEmptyDoneFlushingCompletion;
   });
@@ -447,7 +446,7 @@
 - (void)perhapsNotifyDoneFlushing {
 
   /*
-   * If the channel is expected to be done flushing and don't have any pending
+   * If the channel is expected to be done flushing and doesn't have any pending
    * batches or is suspended then it can notify that it's done flushing.
    */
   if (self.pendingBatchIds.count == 0 || self.suspended) {
