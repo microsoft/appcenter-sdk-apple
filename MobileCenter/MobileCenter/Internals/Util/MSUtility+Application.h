@@ -89,6 +89,11 @@ typedef NS_ENUM(NSInteger, MSOpenURLState) {
 + (id<UIApplicationDelegate>)sharedAppDelegate;
 #endif
 
+#if TARGET_OS_OSX
++ (NSApplication *)sharedApplication;
+#else
++ (UIApplication *)sharedApplication;
+#endif
 /**
  * Get current application state.
  *
