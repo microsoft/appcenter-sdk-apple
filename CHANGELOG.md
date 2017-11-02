@@ -1,5 +1,15 @@
 # Mobile Center SDK for iOS Change Log
 
+## Version 0.14.1
+
+This version contains a bug fix.
+
+### MobileCenterPush
+
+* **[Fix]** Receiving a notification without message now forwards the message as a `nil` string instead of an `NSNull` object to the `MSPush` delegate.
+
+___
+
 ## Version 0.14.0
 
 This version contains improvements and a feature.
