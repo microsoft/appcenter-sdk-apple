@@ -40,7 +40,7 @@ static MSMockService *sharedInstance = nil;
   return @"AppCenterTest";
 }
 
-- (void)applyEnabledState:(BOOL) __unused isEnabled {
+- (void)applyEnabledState:(BOOL)__unused isEnabled {
 }
 
 @end

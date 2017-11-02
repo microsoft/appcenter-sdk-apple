@@ -10,12 +10,12 @@
 /**
  * The moment in time for the device history.
  */
-@property (nonatomic) NSDate *timestamp;
+@property(nonatomic) NSDate *timestamp;
 
 /**
  * Instance of MSDevice.
  */
-@property (nonatomic) MSDevice *device;
+@property(nonatomic) MSDevice *device;
 
 - (instancetype)initWithTimestamp:(NSDate *)timestamp andDevice:(MSDevice *)device;
 

@@ -1,6 +1,6 @@
+#import "MSLogManager.h"
 #import "MSService.h"
 #import "MSServiceCommon.h"
-#import "MSLogManager.h"
 
 /**
  *  Protocol declaring all the logic of a service. This is what concrete services needs to conform to.

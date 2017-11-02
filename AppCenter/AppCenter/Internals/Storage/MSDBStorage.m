@@ -1,27 +1,27 @@
 #import <sqlite3.h>
 
-#import "MSDBStoragePrivate.h"
 #import "MSAppCenterInternal.h"
+#import "MSDBStoragePrivate.h"
 #import "MSStorage.h"
 #import "MSUtility+File.h"
 
 @implementation MSDBStorage
 
 - (instancetype)initWithSchema:(MSDBSchema *)schema filename:(NSString *)filename {
-  
+
   // TODO: Introduce a versioning / data migration system in case of updates on the schema.
   if ((self = [super init])) {
     NSMutableArray *tableQueries = [NSMutableArray new];
     NSMutableDictionary *dbColumnsIndexes = [NSMutableDictionary new];
 
-    // Path to the database.
+// Path to the database.
 #if TARGET_OS_TV
     NSSearchPathDirectory directory = NSCachesDirectory;
 #else
     NSSearchPathDirectory directory = NSApplicationSupportDirectory;
 #endif
-    NSURL *appSupportURL = [[[NSFileManager defaultManager] URLsForDirectory:directory
-                                                                   inDomains:NSUserDomainMask] lastObject];
+    NSURL *appSupportURL =
+        [[[NSFileManager defaultManager] URLsForDirectory:directory inDomains:NSUserDomainMask] lastObject];
     if (appSupportURL) {
       NSURL *fileURL =
           [appSupportURL URLByAppendingPathComponent:[kMSStorageDirectory stringByAppendingPathComponent:filename]];
@@ -92,7 +92,8 @@
 - (BOOL)executeNonSelectionQuery:(NSString *)query {
   sqlite3 *db = NULL;
   int result = SQLITE_OK;
-  result = sqlite3_open_v2([self.filePath UTF8String], &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_URI, NULL);
+  result = sqlite3_open_v2([self.filePath UTF8String], &db,
+                           SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_URI, NULL);
   if (result == SQLITE_OK) {
     char *errMsg;
     result = sqlite3_exec(db, [query UTF8String], NULL, NULL, &errMsg);
@@ -116,7 +117,7 @@
   if (result == SQLITE_OK) {
     result = sqlite3_prepare_v2(db, [query UTF8String], -1, &statement, NULL);
     if (result == SQLITE_OK) {
-      
+
       // Loop on rows.
       while (sqlite3_step(statement) == SQLITE_ROW) {
         NSMutableArray *entry = [NSMutableArray new];

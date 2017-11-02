@@ -1,6 +1,6 @@
+#import "MSAppCenterInternal.h"
 #import "MSLogContainer.h"
 #import "MSLogger.h"
-#import "MSAppCenterInternal.h"
 #import "MSSerializableObject.h"
 
 static NSString *const kMSLogs = @"logs";

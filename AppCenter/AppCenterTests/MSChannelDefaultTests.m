@@ -1,13 +1,13 @@
 #import <Foundation/Foundation.h>
 
 #import "MSAbstractLogInternal.h"
+#import "MSAppCenterErrors.h"
 #import "MSChannelConfiguration.h"
 #import "MSChannelDefault.h"
 #import "MSChannelDefaultPrivate.h"
 #import "MSChannelDelegate.h"
 #import "MSHttpSender.h"
 #import "MSLogContainer.h"
-#import "MSAppCenterErrors.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility.h"
 

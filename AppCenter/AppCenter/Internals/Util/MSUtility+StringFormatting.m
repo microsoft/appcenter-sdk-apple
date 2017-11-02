@@ -1,6 +1,6 @@
-#import "MSUtility+StringFormatting.h"
-
 #import <CommonCrypto/CommonDigest.h>
+
+#import "MSUtility+StringFormatting.h"
 
 /*
  * Workaround for exporting symbols from category object files.
@@ -15,7 +15,7 @@ NSString *MSUtilityStringFormattingCategory;
   const char *encodedString = [string cStringUsingEncoding:NSASCIIStringEncoding];
   unsigned char hashedData[CC_SHA256_DIGEST_LENGTH];
   CC_SHA256(encodedString, (CC_LONG)strlen(encodedString), hashedData);
-  
+
   // Convert hashed data to NSString.
   NSData *data = [NSData dataWithBytes:hashedData length:sizeof(hashedData)];
   NSMutableString *stringBuffer = [NSMutableString stringWithCapacity:([data length] * 2)];

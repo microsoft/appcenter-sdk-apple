@@ -1,7 +1,7 @@
-#import "MSLogger.h"
 #import "MSAppCenter.h"
 #import "MSAppCenterInternal.h"
 #import "MSAppCenterPrivate.h"
+#import "MSLogger.h"
 #import "MSTestFrameworks.h"
 
 @interface MSLoggerTests : XCTestCase

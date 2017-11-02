@@ -1,6 +1,6 @@
+#import "MSAppCenterInternal.h"
 #import "MSLogDBStoragePrivate.h"
 #import "MSLogger.h"
-#import "MSAppCenterInternal.h"
 #import "MSUtility.h"
 
 @implementation MSLogDBStorage
@@ -53,8 +53,7 @@
   if (succeeded && logCount > self.capacity) {
     NSUInteger overflowCount = logCount - self.capacity;
     [self deleteOldestLogsWithCount:overflowCount];
-    MSLogDebug([MSAppCenter logTag], @"Log storage was over capacity, %ld oldest log(s) deleted.",
-               (long)overflowCount);
+    MSLogDebug([MSAppCenter logTag], @"Log storage was over capacity, %ld oldest log(s) deleted.", (long)overflowCount);
   }
   return succeeded;
 }
