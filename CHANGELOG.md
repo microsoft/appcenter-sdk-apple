@@ -2,7 +2,11 @@
 
 ## Version 0.14.1
 
-This version contains a bug fix.
+This version contains bug fixes.
+
+### MobileCenterCrashes
+
+* **[Fix]** PLCrashReporter updated to v1.2.3, it fixes a recursion when processing exceptions.
 
 ### MobileCenterPush
 
