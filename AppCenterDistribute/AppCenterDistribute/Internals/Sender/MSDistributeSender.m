@@ -1,9 +1,9 @@
+#import "MSAppCenter.h"
+#import "MSAppCenterInternal.h"
 #import "MSDistribute.h"
 #import "MSDistributeSender.h"
 #import "MSHttpSenderPrivate.h"
 #import "MSLogger.h"
-#import "MSAppCenter.h"
-#import "MSAppCenterInternal.h"
 
 @implementation MSDistributeSender
 

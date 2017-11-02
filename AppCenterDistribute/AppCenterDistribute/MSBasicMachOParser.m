@@ -181,8 +181,7 @@ static NSString *const kMSCantReadErrorDescFormat = @"Cannot read data from file
     arch.align = CFSwapInt32BigToHost(arch.align);
     *(archs + i) = arch;
   }
-  const struct fat_arch *p =
-      NXFindBestFatArch(myArch->cputype, myArch->cpusubtype, archs, nArch);
+  const struct fat_arch *p = NXFindBestFatArch(myArch->cputype, myArch->cpusubtype, archs, nArch);
   if (!p) {
     MSLogError([MSDistribute logTag], @"Cannot find the best match fat architecture.");
   } else {

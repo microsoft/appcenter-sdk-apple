@@ -47,7 +47,6 @@ NSComparisonResult MSCompareCurrentReleaseWithRelease(MSReleaseDetails *release)
  */
 NSString *MSPackageHash(void);
 
-
 @interface MSDistributeUtil : NSObject
 
 @end

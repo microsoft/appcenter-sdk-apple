@@ -1,6 +1,6 @@
-#import "MSTestFrameworks.h"
 #import "MSDistributePrivate.h"
 #import "MSDistributeAppDelegate.h"
+#import "MSTestFrameworks.h"
 
 @interface MSDistributeAppDelegateTests : XCTestCase
 
@@ -20,13 +20,17 @@
   NSURL *url = [[NSURL alloc] init];
 
   // When
-  [appDelegate application: [UIApplication sharedApplication] openURL: url options:@{} returnedValue:YES];
+  [appDelegate application:[UIApplication sharedApplication] openURL:url options:@{} returnedValue:YES];
 
   // Then
   OCMVerify([distributeMock openURL:url]);
 
   // When
-  [appDelegate application:[UIApplication sharedApplication] openURL:url sourceApplication:@"" annotation:@"" returnedValue:YES];
+  [appDelegate application:[UIApplication sharedApplication]
+                   openURL:url
+         sourceApplication:@""
+                annotation:@""
+             returnedValue:YES];
 
   // Then
   OCMVerify([distributeMock openURL:url]);

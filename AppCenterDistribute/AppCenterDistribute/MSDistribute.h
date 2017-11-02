@@ -4,7 +4,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * Mobile Center Distribute service.
+ * App Center Distribute service.
  */
 @interface MSDistribute : MSServiceAbstract
 
@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param url  The url with parameters.
  *
- * @return `YES` if the URL is intended for Mobile Center Distribute and your application, `NO` otherwise.
+ * @return `YES` if the URL is intended for App Center Distribute and your application, `NO` otherwise.
  *
  * @discussion Place this method call into your app delegate's openURL method.
  */
