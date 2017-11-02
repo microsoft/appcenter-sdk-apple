@@ -338,18 +338,7 @@ static NSString *const kMSGroupId = @"MobileCenter";
   [MS_NOTIFICATION_CENTER removeObserver:self];
 
   // Hookup to application life-cycle events
-  if (isEnabled) {
-#if !TARGET_OS_OSX
-    [MS_NOTIFICATION_CENTER addObserver:self
-                               selector:@selector(applicationDidEnterBackground)
-                                   name:UIApplicationDidEnterBackgroundNotification
-                                 object:nil];
-    [MS_NOTIFICATION_CENTER addObserver:self
-                               selector:@selector(applicationWillEnterForeground)
-                                   name:UIApplicationWillEnterForegroundNotification
-                                 object:nil];
-#endif
-  } else {
+  if (!isEnabled) {
 
     // Clean device history in case we are disabled.
     [[MSDeviceTracker sharedInstance] clearDevices];
@@ -425,23 +414,5 @@ static NSString *const kMSGroupId = @"MobileCenter";
   onceToken = 0; // resets the once_token so dispatch_once will run again
   sharedInstance = nil;
 }
-
-#pragma mark - Application life cycle
-
-#if !TARGET_OS_OSX
-/**
- *  The application will go to the foreground.
- */
-- (void)applicationWillEnterForeground {
-  [self.logManager resume];
-}
-
-/**
- *  The application will go to the background.
- */
-- (void)applicationDidEnterBackground {
-  [self.logManager suspend];
-}
-#endif
 
 @end

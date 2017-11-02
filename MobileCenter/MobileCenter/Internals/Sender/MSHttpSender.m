@@ -211,7 +211,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
             @synchronized(self) {
               NSString *payload = nil;
               NSInteger statusCode = [MSSenderUtil getStatusCode:response];
-              
+
               // Trying to format json for log. Don't need to log json error here.
               if (data) {
 
@@ -376,7 +376,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 - (void)sendAsync:(NSObject *)data callId:(NSString *)callId completionHandler:(MSSendAsyncCompletionHandler)handler {
   @synchronized(self) {
 
-    // Check if call has already been created(retry scenario).
+    // Check if call has already been created (retry scenario).
     MSSenderCall *call = self.pendingCalls[callId];
     if (call == nil) {
       call = [[MSSenderCall alloc] initWithRetryIntervals:self.callsRetryIntervals];
