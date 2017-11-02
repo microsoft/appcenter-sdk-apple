@@ -1,7 +1,6 @@
-#import <XCTest/XCTest.h>
-
 #import "MSCrashesCXXExceptionHandler.h"
 #import "MSCrashesCXXExceptionWrapperException.h"
+#import "MSTestFrameworks.h"
 
 static void handler1(__attribute__((unused)) const MSCrashesUncaughtCXXExceptionInfo *__nonnull info) {}
 
