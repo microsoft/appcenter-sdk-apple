@@ -43,19 +43,19 @@
 #define SEL_NAME_SECT "__cstring"
 #endif
 
+#import "MSAppCenterInternal.h"
 #import "MSAppleErrorLog.h"
 #import "MSBinary.h"
 #import "MSCrashesInternal.h"
 #import "MSCrashReporter.h"
+#import "MSDeviceTrackerPrivate.h"
 #import "MSErrorLogFormatter.h"
 #import "MSErrorReportPrivate.h"
 #import "MSException.h"
-#import "MSAppCenterInternal.h"
 #import "MSStackFrame.h"
 #import "MSThread.h"
-#import "MSDeviceTrackerPrivate.h"
-#import "MSWrapperExceptionManagerInternal.h"
 #import "MSWrapperException.h"
+#import "MSWrapperExceptionManagerInternal.h"
 
 static NSString *unknownString = @"???";
 

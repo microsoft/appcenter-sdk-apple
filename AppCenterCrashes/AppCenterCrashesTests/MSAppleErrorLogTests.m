@@ -2,8 +2,8 @@
 #import "MSBinary.h"
 #import "MSCrashesTestUtil.h"
 #import "MSException.h"
-#import "MSThread.h"
 #import "MSTestFrameworks.h"
+#import "MSThread.h"
 
 @interface MSAppleErrorLogTests : XCTestCase
 

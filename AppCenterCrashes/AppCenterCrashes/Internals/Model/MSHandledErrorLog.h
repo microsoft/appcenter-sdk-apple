@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+
 #import "MSAbstractErrorLog.h"
 
 @class MSException;

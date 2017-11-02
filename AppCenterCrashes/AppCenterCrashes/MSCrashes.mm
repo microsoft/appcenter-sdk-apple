@@ -1,15 +1,15 @@
+#import "MSAppCenterInternal.h"
 #import "MSAppleErrorLog.h"
 #import "MSCrashesCXXExceptionWrapperException.h"
 #import "MSCrashesDelegate.h"
-#import "MSCrashHandlerSetupDelegate.h"
 #import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
 #import "MSCrashesUtil.h"
+#import "MSCrashHandlerSetupDelegate.h"
 #import "MSErrorAttachmentLog.h"
 #import "MSErrorAttachmentLogInternal.h"
 #import "MSErrorLogFormatter.h"
 #import "MSHandledErrorLog.h"
-#import "MSAppCenterInternal.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSWrapperExceptionManagerInternal.h"
 #import "MSWrapperCrashesHelper.h"
@@ -340,7 +340,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 }
 
 + (NSString *)logTag {
-  return @"MobileCenterCrashes";
+  return @"AppCenterCrashes";
 }
 
 - (NSString *)groupId {
@@ -625,7 +625,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     
     /**
      * If the top level error handler differs from our own, at least another one was added.
-     * This could cause exception crashes not to be reported to Mobile Center. Print out
+     * This could cause exception crashes not to be reported to App Center. Print out
      * log message for details.
      */
     if (self.exceptionHandler != currentHandler) {
@@ -633,7 +633,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                    @"this invokes any kind of exit() after processing the "
                    @"exception, which causes any subsequent error handler "
                    @"not to be invoked, these crashes will NOT be reported "
-                   @"to Mobile Center!");
+                   @"to App Center!");
     }
   }
   if (!self.sendingInProgress && self.crashFiles.count > 0) {
