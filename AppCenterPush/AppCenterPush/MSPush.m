@@ -36,7 +36,7 @@ static NSString *const kMSPushNotificationApsKey = @"aps";
 static NSString *const kMSPushNotificationAlertKey = @"alert";
 static NSString *const kMSPushNotificationTitleKey = @"title";
 static NSString *const kMSPushNotificationMessageKey = @"body";
-static NSString *const kMSPushNotificationCustomDataKey = @"mobile_center";
+static NSString *const kMSPushNotificationCustomDataKey = @"app_center";
 
 #if TARGET_OS_OSX
 /**
@@ -141,7 +141,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 }
 
 + (NSString *)logTag {
-  return @"MobileCenterPush";
+  return @"AppCenterPush";
 }
 
 - (NSString *)groupId {
@@ -221,8 +221,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
     UNAuthorizationOptions authOptions =
         (UNAuthorizationOptions)(UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge);
     [center requestAuthorizationWithOptions:authOptions
-                          completionHandler:^(__unused BOOL granted,
-                                              __unused NSError *_Nullable error) {
+                          completionHandler:^(__unused BOOL granted, __unused NSError *_Nullable error){
                           }];
 #pragma clang diagnostic pop
   }
@@ -335,7 +334,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
     }
   }
 
-  // The notification is not for Mobile Center if customData is nil. Ignore the notification.
+  // The notification is not for App Center if customData is nil. Ignore the notification.
   NSDictionary *customData = [userInfo objectForKey:kMSPushNotificationCustomDataKey];
   if (customData) {
 

@@ -4,7 +4,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * Mobile Center push service.
+ * App Center push service.
  */
 @interface MSPush : MSServiceAbstract
 
@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param userInfo The user info for the remote notification.
  *
- * @return YES if the notification was sent via Mobile Center.
+ * @return YES if the notification was sent via App Center.
  */
 + (BOOL)didReceiveRemoteNotification:(NSDictionary *)userInfo;
 

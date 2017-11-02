@@ -58,12 +58,12 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 - (void)setUp {
   [super setUp];
   self.sut = [MSPush new];
-  
-  // Mock UNUserNotificationCenter since it not supported during tests.
+
+// Mock UNUserNotificationCenter since it not supported during tests.
 #if TARGET_OS_IOS
   if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_9_x_Max) {
-  
-  // Ignore the partial availability warning as the compiler doesn't get that we checked for pre-iOS 10 already.
+
+// Ignore the partial availability warning as the compiler doesn't get that we checked for pre-iOS 10 already.
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpartial-availability"
     id notificationCenterMock = OCMClassMock([UNUserNotificationCenter class]);
@@ -140,7 +140,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 
   // Then
   XCTAssertNil(self.sut.pushToken);
-  
+
   // When
   [MSPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 
@@ -149,23 +149,23 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   OCMVerify([pushMock didRegisterForRemoteNotificationsWithDeviceToken:deviceToken]);
   OCMVerify([pushMock convertTokenToString:deviceToken]);
   OCMVerify([pushMock sendPushToken:pushToken]);
-  
+
   // When
   deviceToken = [@"otherToken" dataUsingEncoding:NSUTF8StringEncoding];
   pushToken = @"ConvertedOtherToken";
   OCMStub([pushMock convertTokenToString:deviceToken]).andReturn(pushToken);
   [MSPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
-  
+
   // Then
   XCTAssertEqualObjects(self.sut.pushToken, pushToken);
   OCMVerify([pushMock didRegisterForRemoteNotificationsWithDeviceToken:deviceToken]);
   OCMVerify([pushMock convertTokenToString:deviceToken]);
   OCMVerify([pushMock sendPushToken:pushToken]);
-  
+
   // When
   OCMReject([pushMock sendPushToken:OCMOCK_ANY]);
   [MSPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
-  
+
   // Then
   [pushMock verify];
   [pushMock stopMocking];
@@ -206,7 +206,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   __block NSDictionary *customData = @{ @"key" : @"value" };
   NSDictionary *userInfo =
       @{ @"aps" : @{@"alert" : @{@"title" : title, @"body" : message}},
-         @"mobile_center" : customData };
+         @"app_center" : customData };
 #if TARGET_OS_OSX
   id userNotificationUserInfoMock = OCMClassMock([NSUserNotification class]);
   id notificationMock = OCMClassMock([NSNotification class]);
@@ -215,7 +215,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   OCMStub([userNotificationUserInfoMock userInfo]).andReturn(userInfo);
 #endif
 
-  // When
+// When
 #if TARGET_OS_OSX
   [self.sut applicationDidFinishLaunching:notificationMock];
 #else
@@ -264,7 +264,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   [MSPush setDelegate:pushDelegateMock];
   __block NSString *message = @"notificationMessage";
   __block NSDictionary *customData = @{ @"key" : @"value" };
-  NSDictionary *userInfo = @{ @"aps" : @{@"alert" : message}, @"mobile_center" : customData };
+  NSDictionary *userInfo = @{ @"aps" : @{@"alert" : message}, @"app_center" : customData };
 #if TARGET_OS_OSX
   id userNotificationUserInfoMock = OCMClassMock([NSUserNotification class]);
   id notificationMock = OCMClassMock([NSNotification class]);
@@ -273,7 +273,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   OCMStub([userNotificationUserInfoMock userInfo]).andReturn(userInfo);
 #endif
 
-  // When
+// When
 #if TARGET_OS_OSX
   [self.sut applicationDidFinishLaunching:notificationMock];
 #else
@@ -306,7 +306,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   [pushMock stopMocking];
 }
 
-- (void)testNotificationReceivedForNonMobileCenterNotification {
+- (void)testNotificationReceivedForNonAppCenterNotification {
 
   // If
   XCTestExpectation *notificationReceived = [self expectationWithDescription:@"Invalid notification received."];
@@ -330,7 +330,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   OCMStub([userNotificationUserInfoMock userInfo]).andReturn(invalidUserInfo);
 #endif
 
-  // When
+// When
 #if TARGET_OS_OSX
   [self.sut applicationDidFinishLaunching:notificationMock];
 #else
@@ -357,7 +357,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 
 - (void)testPushAppDelegateCallbacks {
 
-  // If
+// If
 #if TARGET_OS_OSX
   id applicationMock = OCMClassMock([NSApplication class]);
 #else
