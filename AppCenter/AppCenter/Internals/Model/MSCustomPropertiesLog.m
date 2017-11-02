@@ -19,7 +19,7 @@ static NSString *const kMSPropertyTypeString = @"string";
 
 - (instancetype)init {
   self = [super init];
-  if( self ) {
+  if (self) {
     self.type = kMSCustomProperties;
   }
   return self;
@@ -45,14 +45,15 @@ static NSString *const kMSPropertyTypeString = @"string";
     NSMutableArray *propertiesArray = [NSMutableArray array];
     for (NSString *key in self.properties) {
       NSObject *value = [self.properties objectForKey:key];
-      NSMutableDictionary *property = [MSCustomPropertiesLog serializeProperty: value];
+      NSMutableDictionary *property = [MSCustomPropertiesLog serializeProperty:value];
       if (property) {
         [property setObject:key forKey:kMSPropertyName];
         [propertiesArray addObject:property];
       }
     }
     dict[kMSProperties] = propertiesArray;
-  }  return dict;
+  }
+  return dict;
 }
 
 /**
@@ -63,7 +64,7 @@ static NSString *const kMSPropertyTypeString = @"string";
   if ([value isKindOfClass:[NSNull class]]) {
     [property setObject:kMSPropertyTypeClear forKey:kMSPropertyType];
   } else if ([value isKindOfClass:[NSNumber class]]) {
-    
+
     /**
      * NSNumber is “toll-free bridged” with its Core Foundation counterparts:
      * CFNumber for integer and floating point values, and CFBoolean for Boolean values.

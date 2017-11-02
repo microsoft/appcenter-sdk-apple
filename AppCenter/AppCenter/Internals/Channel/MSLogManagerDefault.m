@@ -1,4 +1,6 @@
 #import "AppCenter+Internal.h"
+#import "MSAppCenterErrors.h"
+#import "MSAppCenterInternal.h"
 #import "MSChannelDefault.h"
 #import "MSChannelDelegate.h"
 #import "MSHttpSender.h"
@@ -6,8 +8,6 @@
 #import "MSLogDBStorage.h"
 #import "MSLogManagerDefault.h"
 #import "MSLogManagerDefaultPrivate.h"
-#import "MSAppCenterErrors.h"
-#import "MSAppCenterInternal.h"
 
 static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQueue";
 
@@ -145,8 +145,8 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
 
   /*
    * Set common log info.
-   * Only add timestamp and device info in case the log doesn't have one. In case the log is restored after a crash or for
-   * crashes, we don't want the timestamp and the device information to be updated but want the old one preserved.
+   * Only add timestamp and device info in case the log doesn't have one. In case the log is restored after a crash or
+   * for crashes, we don't want the timestamp and the device information to be updated but want the old one preserved.
    */
   if (!log.timestamp) {
     log.timestamp = [NSDate date];

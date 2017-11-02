@@ -74,7 +74,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
 - (void)testDeviceOSName {
 
-  // If
+// If
 #if TARGET_OS_OSX
   NSString *expected = @"macOS";
 #else
@@ -83,7 +83,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   OCMStub([deviceMock systemName]).andReturn(expected);
 #endif
 
-  // When
+// When
 #if TARGET_OS_OSX
   NSString *osName = [self.sut osName];
 #else
@@ -117,7 +117,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   OCMStub([deviceMock systemVersion]).andReturn(expected);
 #endif
 
-  // When
+// When
 #if TARGET_OS_OSX
 #if __MAC_OS_X_VERSION_MAX_ALLOWED > 1090
   NSString *osVersion = [self.sut osVersion];

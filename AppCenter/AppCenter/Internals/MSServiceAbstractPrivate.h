@@ -1,5 +1,6 @@
-#import "MSUserDefaults.h"
 #import <Foundation/Foundation.h>
+
+#import "MSUserDefaults.h"
 
 /**
  *  Private declarations for MSServiceAbstract.
@@ -24,4 +25,5 @@
  *  @return A service with common logic already implemented.
  */
 - (instancetype)initWithStorage:(MSUserDefaults *)storage;
+
 @end

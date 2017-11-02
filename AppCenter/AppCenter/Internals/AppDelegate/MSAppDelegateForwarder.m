@@ -9,8 +9,8 @@
 #endif
 
 #import "MSAppDelegateForwarderPrivate.h"
-#import "MSLogger.h"
 #import "MSAppCenterInternal.h"
+#import "MSLogger.h"
 #import "MSUtility+Application.h"
 
 static NSString *const kMSCustomSelectorPrefix = @"custom_";
