@@ -1,5 +1,6 @@
 #import <Foundation/Foundation.h>
 
+#import "MSAppCenterInternal.h"
 #import "MSAppDelegateForwarder.h"
 #import "MSConstants+Internal.h"
 #import "MSDeviceTracker.h"
@@ -7,7 +8,6 @@
 #import "MSHttpSender.h"
 #import "MSLogManagerDefault.h"
 #import "MSLogger.h"
-#import "MSAppCenterInternal.h"
 #import "MSStartServiceLog.h"
 #import "MSUtility.h"
 #if !TARGET_OS_TV
@@ -400,7 +400,7 @@ static NSString *const kMSGroupId = @"AppCenter";
   BOOL canBeUsed = self.sdkConfigured;
   if (!canBeUsed) {
     MSLogError([MSAppCenter logTag], @"App Center SDK hasn't been configured. You need to call [MSAppCenter "
-                                        @"start:YOUR_APP_SECRET withServices:LIST_OF_SERVICES] first.");
+                                     @"start:YOUR_APP_SECRET withServices:LIST_OF_SERVICES] first.");
   }
   return canBeUsed;
 }

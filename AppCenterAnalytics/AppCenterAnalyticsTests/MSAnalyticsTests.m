@@ -1,15 +1,14 @@
+#import "MSAnalytics.h"
+#import "MSAnalyticsInternal.h"
+#import "MSAnalyticsPrivate.h"
 #import "MSAppCenter.h"
 #import "MSAppCenterInternal.h"
-#import "MSServiceAbstract.h"
-#import "MSServiceInternal.h"
-
-#import "MSAnalytics.h"
-#import "MSAnalyticsPrivate.h"
-#import "MSAnalyticsInternal.h"
 #import "MSChannelDefault.h"
 #import "MSEventLog.h"
 #import "MSLogManagerDefault.h"
 #import "MSMockAnalyticsDelegate.h"
+#import "MSServiceAbstract.h"
+#import "MSServiceInternal.h"
 #import "MSTestFrameworks.h"
 
 static NSString *const kMSTypeEvent = @"event";
@@ -50,24 +49,34 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   // If
   NSString *validEventName = @"validEventName";
   NSString *shortEventName = @"e";
-  NSString *eventName256 = [NSString stringWithFormat:@"%@%@",
-                            @"_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256",
-                            @"_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_265_256_256_256_256_256_256"];
+  NSString *eventName256 =
+      [NSString stringWithFormat:@"%@%@", @"_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_"
+                                          @"256_256_256_256_256_256_256_256_256_256_256_256_256_256_256",
+                                 @"_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_"
+                                 @"256_256_256_256_265_256_256_256_256_256_256"];
   NSString *nullableEventName = nil;
   NSString *emptyEventName = @"";
-  NSString *tooLongEventName = [NSString stringWithFormat:@"%@%@%@%@",
-                                @"tooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventName",
-                                @"tooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventName",
-                                @"tooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventName",
-                                @"tooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventName"];
+  NSString *tooLongEventName =
+      [NSString stringWithFormat:@"%@%@%@%@", @"tooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLong"
+                                              @"EventNametooLongEventNametooLongEventNametooLongEventName",
+                                 @"tooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventNametooL"
+                                 @"ongEventNametooLongEventNametooLongEventName",
+                                 @"tooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventNametooL"
+                                 @"ongEventNametooLongEventNametooLongEventName",
+                                 @"tooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventNametooL"
+                                 @"ongEventNametooLongEventNametooLongEventName"];
 
   // When
-  NSString* valid = [[MSAnalytics sharedInstance] validateEventName:validEventName forLogType:kMSTypeEvent];
-  NSString* validShortEventName = [[MSAnalytics sharedInstance] validateEventName:shortEventName forLogType:kMSTypeEvent];
-  NSString* validEventName256 = [[MSAnalytics sharedInstance] validateEventName:eventName256 forLogType:kMSTypeEvent];
-  NSString* validNullableEventName = [[MSAnalytics sharedInstance] validateEventName:nullableEventName forLogType:kMSTypeEvent];
-  NSString* validEmptyEventName = [[MSAnalytics sharedInstance] validateEventName:emptyEventName forLogType:kMSTypeEvent];
-  NSString* validTooLongEventName = [[MSAnalytics sharedInstance] validateEventName:tooLongEventName forLogType:kMSTypeEvent];
+  NSString *valid = [[MSAnalytics sharedInstance] validateEventName:validEventName forLogType:kMSTypeEvent];
+  NSString *validShortEventName =
+      [[MSAnalytics sharedInstance] validateEventName:shortEventName forLogType:kMSTypeEvent];
+  NSString *validEventName256 = [[MSAnalytics sharedInstance] validateEventName:eventName256 forLogType:kMSTypeEvent];
+  NSString *validNullableEventName =
+      [[MSAnalytics sharedInstance] validateEventName:nullableEventName forLogType:kMSTypeEvent];
+  NSString *validEmptyEventName =
+      [[MSAnalytics sharedInstance] validateEventName:emptyEventName forLogType:kMSTypeEvent];
+  NSString *validTooLongEventName =
+      [[MSAnalytics sharedInstance] validateEventName:tooLongEventName forLogType:kMSTypeEvent];
 
   // Then
   XCTAssertNotNil(valid);
@@ -125,10 +134,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
   // Test invalid properties
   // If
-  NSDictionary *invalidKeysInProperties =
-      @{ @"Key1" : @"Value1",
-         @(2) : @"Value2",
-         @"" : @"Value4" };
+  NSDictionary *invalidKeysInProperties = @{ @"Key1" : @"Value1", @(2) : @"Value2", @"" : @"Value4" };
 
   // When
   validatedProperties = [[MSAnalytics sharedInstance] validateProperties:invalidKeysInProperties
@@ -140,7 +146,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
   // Test invalid values
   // If
-  NSDictionary *invalidValuesInProperties = @{ @"Key1" : @"Value1", @"Key2" : @(2)};
+  NSDictionary *invalidValuesInProperties = @{ @"Key1" : @"Value1", @"Key2" : @(2) };
 
   // When
   validatedProperties = [[MSAnalytics sharedInstance] validateProperties:invalidValuesInProperties
@@ -152,7 +158,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
   // Test long keys and values are truncated.
   // If
-  NSDictionary *tooLongKeysAndValuesInProperties = @{longStringValue:longStringValue};
+  NSDictionary *tooLongKeysAndValuesInProperties = @{longStringValue : longStringValue};
 
   // When
   validatedProperties = [[MSAnalytics sharedInstance] validateProperties:tooLongKeysAndValuesInProperties
@@ -244,7 +250,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
   // When
   [[MSAnalytics sharedInstance].logManager processLog:eventLog forGroupId:groupId];
-  
+
   // Then
   OCMVerifyAll(delegateMock);
 }

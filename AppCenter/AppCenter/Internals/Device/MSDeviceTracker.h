@@ -1,4 +1,3 @@
-
 @class MSDevice;
 
 /**
@@ -10,7 +9,6 @@
  * Current device log. This will be updated on app launch.
  */
 @property(nonatomic, readonly) MSDevice *device;
-
 
 /**
  * Returns singleton instance of MSDeviceTracker.

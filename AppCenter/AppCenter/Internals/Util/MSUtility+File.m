@@ -1,5 +1,5 @@
-#import "MSLogger.h"
 #import "MSAppCenterInternal.h"
+#import "MSLogger.h"
 #import "MSUtility+File.h"
 
 /*

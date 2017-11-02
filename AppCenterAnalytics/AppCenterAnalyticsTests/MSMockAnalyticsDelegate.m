@@ -2,4 +2,5 @@
 
 @implementation MSMockAnalyticsDelegate {
 }
+
 @end

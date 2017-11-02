@@ -1,6 +1,6 @@
+#import "MSAppCenterInternal.h"
 #import "MSHttpSender.h"
 #import "MSHttpSenderPrivate.h"
-#import "MSAppCenterInternal.h"
 #import "MSSenderCall.h"
 
 static NSTimeInterval kRequestTimeout = 60.0;
@@ -211,7 +211,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
             @synchronized(self) {
               NSString *payload = nil;
               NSInteger statusCode = [MSSenderUtil getStatusCode:response];
-              
+
               // Trying to format json for log. Don't need to log json error here.
               if (data) {
 
@@ -305,8 +305,8 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
           [components setValue:[partialURL valueForKey:propertyName] forKey:propertyName];
         }
       } @catch (NSException *ex) {
-        MSLogInfo([MSAppCenter logTag], @"Error while updating HTTP URL %@ with %@: \n%@",
-                  self.sendURL.absoluteString, baseURL, ex);
+        MSLogInfo([MSAppCenter logTag], @"Error while updating HTTP URL %@ with %@: \n%@", self.sendURL.absoluteString,
+                  baseURL, ex);
       }
 
       // Update full URL.

@@ -52,7 +52,7 @@
   BOOL canBeUsed = [MSAppCenter sharedInstance].sdkConfigured && self.started;
   if (!canBeUsed) {
     MSLogError([MSAppCenter logTag], @"%@ service hasn't been started. You need to call "
-                                        @"[MSAppCenter start:YOUR_APP_SECRET withServices:LIST_OF_SERVICES] first.",
+                                     @"[MSAppCenter start:YOUR_APP_SECRET withServices:LIST_OF_SERVICES] first.",
                MS_CLASS_NAME_WITHOUT_PREFIX);
   }
   return canBeUsed;
@@ -87,7 +87,7 @@
     if ([[self sharedInstance] canBeUsed]) {
       if (![MSAppCenter isEnabled] && ![MSAppCenter sharedInstance].enabledStateUpdating) {
         MSLogError([MSAppCenter logTag], @"The SDK is disabled. Re-enable the whole SDK from AppCenter "
-                                            @"first before enabling %@ service.",
+                                         @"first before enabling %@ service.",
                    MS_CLASS_NAME_WITHOUT_PREFIX);
       } else {
         [[self sharedInstance] setEnabled:isEnabled];

@@ -1,7 +1,7 @@
+#import <Foundation/Foundation.h>
+
 #import "MSAbstractLogInternal.h"
 #import "MSDevice.h"
-
-#import <Foundation/Foundation.h>
 
 @interface MSDevice () <MSSerializableObject>
 
