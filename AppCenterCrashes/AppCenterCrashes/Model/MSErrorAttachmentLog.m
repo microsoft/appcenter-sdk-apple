@@ -15,7 +15,7 @@ static NSString *const kMSData = @"data";
 
 @implementation MSErrorAttachmentLog
 
-/**
+/*
  * @discussion
  * Workaround for exporting symbols from category object files. See article
  * https://medium.com/ios-os-x-development/categories-in-static-libraries-78e41f8ddb96#.aedfl1kl0

@@ -441,7 +441,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   return formattedThreads;
 }
 
-/**
+/*
  * Format a stack frame for display in a thread backtrace.
  *
  * @param frameInfo The stack frame to format
@@ -615,7 +615,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   return NO;
 }
 
-/**
+/*
  *  Remove the user's name from a crash's process path.
  *  This is only necessary when sending crashes from the simulator as the path
  *  then contains the username of the Mac the simulator is running on.
@@ -647,7 +647,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   return anonymizedProcessPath;
 }
 
-/**
+/*
  * Return the selector string of a given register name
  *
  * @param regName The name of the register to use for getting the address

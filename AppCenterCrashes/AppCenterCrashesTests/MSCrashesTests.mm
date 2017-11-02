@@ -833,7 +833,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
 #pragma mark Helper
 
-/**
+/*
  * Start Crashes (self.sut) with zero or one crash files on disk.
  */
 - (NSMutableArray<MSErrorReport *> *)startCrashes:(MSCrashes *)crashes
@@ -856,7 +856,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   return reports;
 }
 
-/**
+/*
  * Attaches the given block to the given logManager's "processLog" method when invoked with Crash's groupId.
  */
 - (void)setProcessLogImplementation:(void (^)(NSInvocation *))invocation

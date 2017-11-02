@@ -14,28 +14,28 @@
 #import "MSWrapperExceptionManagerInternal.h"
 #import "MSWrapperCrashesHelper.h"
 
-/**
+/*
  * Service name for initialization.
  */
 static NSString *const kMSServiceName = @"Crashes";
 
-/**
+/*
  * The group Id for storage.
  */
 static NSString *const kMSGroupId = @"Crashes";
 
-/**
+/*
  * The group Id for log buffer.
  */
 static NSString *const kMSBufferGroupId = @"CrashesBuffer";
 
-/**
+/*
  * Name for the AnalyzerInProgress file. Some background info here: writing the file to signal that we are processing
  * crashes proved to be faster and more reliable as e.g. storing a flag in the NSUserDefaults.
  */
 static NSString *const kMSAnalyzerFilename = @"MSCrashes.analyzer";
 
-/**
+/*
  * File extension for buffer files. Files will have a GUID as the file name and a .mscrasheslogbuffer as file
  * extension.
  */
@@ -84,20 +84,22 @@ static void plcr_post_crash_callback(siginfo_t *info, ucontext_t *uap, void *con
 static PLCrashReporterCallbacks plCrashCallbacks = {
     .version = 0, .context = NULL, .handleSignal = plcr_post_crash_callback};
 
-/**
+/*
  * C++ Exception Handler
  */
 __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionInfo *info) {
 
-  // This relies on a LOT of sneaky internal knowledge of how PLCR works and
-  // should not be considered a long-term solution.
+  /*
+   * This relies on a LOT of sneaky internal knowledge of how PLCR works and should not be considered a long-term
+   * solution.
+   */
   NSGetUncaughtExceptionHandler()([[MSCrashesCXXExceptionWrapperException alloc] initWithCXXExceptionInfo:info]);
   abort();
 }
 
 @interface MSCrashes ()
 
-/**
+/*
  * Indicates if the app crashed in the previous session.
  *
  * Use this on startup, to check if the app starts the first time after it crashed previously. You can use this also to
@@ -109,17 +111,17 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
  */
 @property BOOL didCrashInLastSession;
 
-/**
+/*
  * Detail information about the last crash.
  */
 @property(getter=getLastSessionCrashReport) MSErrorReport *lastSessionCrashReport;
 
-/**
+/*
  * Queue with high priority that will be used to create the log buffer files. The default main queue is too slow.
  */
 @property(nonatomic) dispatch_queue_t bufferFileQueue;
 
-/**
+/*
  * Semaphore for exclusion with "startDelayedCrashProcessing" method.
  */
 @property dispatch_semaphore_t delayedProcessingSemaphore;
@@ -173,7 +175,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   return [[self sharedInstance] getLastSessionCrashReport];
 }
 
-/**
+/*
  * This can never be bound to Xamarin.
  *
  * This method is not part of the publicly available APIs on tvOS as Mach exception handling is not possible on tvOS.
@@ -187,7 +189,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   [[self sharedInstance] setDelegate:delegate];
 }
 
-/**
+/*
  * Track handled exception directly as model form.
  * This API is not public and is used by wrapper SDKs.
  */
@@ -221,14 +223,14 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                                                         pendingBatchesLimit:3];
 
 #if TARGET_OS_OSX
-    /**
+    /*
      * AppKit is preventing applications from crashing on macOS so PLCrashReport cannot catch any crashes.
      * Setting this flag will let application crash on uncaught exceptions.
      */
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{ @"NSApplicationCrashOnExceptions" : @YES }];
 #endif
 
-    /**
+    /*
      * Using our own queue with high priority as the default main queue is slower and we want the files to be created
      * as quickly as possible in case the app is crashing fast.
      */
@@ -355,7 +357,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 #pragma mark - MSLogManagerDelegate
 
-/**
+/*
  * Why are we doing the event-buffering inside crashes?
  * The reason is, only Crashes has the chance to execute code at crash time and only with the following constraints:
  * 1. Don't execute any Objective-C code when crashing.
@@ -538,7 +540,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                           shouldRegisterUncaughtExceptionHandler:enableUncaughtExceptionHandler];
   self.plCrashReporter = [[MSPLCrashReporter alloc] initWithConfiguration:config];
 
-  /**
+  /*
    * The actual signal and mach handlers are only registered when invoking
    * `enableCrashReporterAndReturnError`, so it is safe enough to only disable
    * the following part when a debugger is attached no matter which signal
@@ -549,7 +551,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                  @"Detecting crashes is NOT enabled due to running the app with a debugger attached.");
   } else {
 
-    /**
+    /*
      * Multiple exception handlers can be set, but we can only query the top
      * level error handler (uncaught exception handler). To check if
      * PLCrashReporter's error handler is successfully added, we compare the top
@@ -620,7 +622,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     // Get the current top level error handler
     NSUncaughtExceptionHandler *currentHandler = NSGetUncaughtExceptionHandler();
 
-    /**
+    /*
      * If the top level error handler differs from our own, at least another one was added.
      * This could cause exception crashes not to be reported to App Center. Print out
      * log message for details.
@@ -741,7 +743,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   }
 }
 
-/**
+/*
  * Gets a list of unprocessed crashes as MSErrorReports.
  */
 - (NSArray<MSErrorReport *> *)unprocessedCrashReports {
@@ -750,7 +752,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   return self.unprocessedReports;
 }
 
-/**
+/*
  * Resumes processing for a given subset of the unprocessed reports. Returns YES if should "AlwaysSend".
  */
 - (BOOL)sendCrashReportsOrAwaitUserConfirmationForFilteredIds:(NSArray<NSString *> *)filteredIds {
@@ -793,7 +795,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   return [self sendCrashReportsOrAwaitUserConfirmation];
 }
 
-/**
+/*
  * Sends error attachments for a particular error report.
  */
 - (void)sendErrorAttachments:(NSArray<MSErrorAttachmentLog *> *)errorAttachments
@@ -959,7 +961,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       // We need to convert the NSURL to NSString as we cannot safe NSURL to our async-safe log buffer.
       NSString *path = files[i].path;
 
-      /**
+      /*
        * Some explanation into what actually happens, courtesy of Gwynne:
        * "Passing nil does not initialize anything to nil here, what actually happens is an exploit of the Objective-C
        * send-to-nil-returns-zero rule, so that the effective initialization becomes `buffer(&(0)[0], &(0)[0])`, and
@@ -1106,7 +1108,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   return flag && [flag boolValue];
 }
 
-/**
+/*
  * Sends error attachments for a particular error report.
  */
 + (void)sendErrorAttachments:(NSArray<MSErrorAttachmentLog *> *)errorAttachments
@@ -1133,7 +1135,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     return;
   } else if (userConfirmation == MSUserConfirmationAlways) {
 
-    /**
+    /*
      * Always send logs. Set the flag YES to bypass user confirmation next time.
      * Continue crash processing afterwards.
      */

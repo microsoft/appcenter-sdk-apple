@@ -4,7 +4,7 @@
 
 @implementation MSCrashesTestUtil
 
-/**
+/*
  * loads test fixture from json file
  * http://blog.roberthoglund.com/2010/12/ios-unit-testing-loading-bundle.html
  */

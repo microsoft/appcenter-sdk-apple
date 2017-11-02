@@ -61,7 +61,9 @@ typedef void (*MSCrashesPostCrashSignalCallback)(void *context);
  */
 typedef struct MSCrashesCallbacks {
 
-  /** An arbitrary user-supplied context value. This value may be NULL. */
+  /**
+   * An arbitrary user-supplied context value. This value may be NULL.
+   */
   void *context;
 
   /**
