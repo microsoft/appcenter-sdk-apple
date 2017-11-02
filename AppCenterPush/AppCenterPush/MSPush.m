@@ -221,8 +221,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
     UNAuthorizationOptions authOptions =
         (UNAuthorizationOptions)(UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge);
     [center requestAuthorizationWithOptions:authOptions
-                          completionHandler:^(__unused BOOL granted,
-                                              __unused NSError *_Nullable error) {
+                          completionHandler:^(__unused BOOL granted, __unused NSError *_Nullable error){
                           }];
 #pragma clang diagnostic pop
   }
