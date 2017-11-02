@@ -7,7 +7,6 @@
  */
 
 #import <arpa/inet.h>
-
 #import <CoreFoundation/CoreFoundation.h>
 
 #import "MS_Reachability.h"

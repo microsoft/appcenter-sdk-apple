@@ -55,7 +55,7 @@
 
 - (void)testAppActive {
 
-  // If
+// If
 #if TARGET_OS_OSX
   MSApplicationState expectedState = MSApplicationStateActive;
   OCMStub([self.utils sharedAppState]).andReturn(expectedState);
@@ -88,7 +88,7 @@
 
 - (void)testAppInBackground {
 
-  // If
+// If
 #if TARGET_OS_OSX
   MSApplicationState expectedState = MSApplicationStateBackground;
   OCMStub([self.utils sharedAppState]).andReturn(expectedState);

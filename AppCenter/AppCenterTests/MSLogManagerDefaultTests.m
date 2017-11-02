@@ -87,7 +87,7 @@
 }
 
 - (void)testDelegatesConcurrentAccess {
-  
+
   // If
   NSString *groupId = @"AppCenter";
   MSLogManagerDefault *sut = [[MSLogManagerDefault alloc] initWithSender:OCMProtocolMock(@protocol(MSSender))
@@ -97,7 +97,7 @@
     id mockDelegate = OCMProtocolMock(@protocol(MSLogManagerDelegate));
     [sut addDelegate:mockDelegate];
   }
-  
+
   // When
   void (^block)() = ^{
     for (int i = 0; i < 10; i++) {
@@ -107,39 +107,39 @@
       [sut addDelegate:OCMProtocolMock(@protocol(MSLogManagerDelegate))];
     }
   };
-  
+
   // Then
   XCTAssertNoThrow(block());
 }
 
-- (void)testResume{
-  
+- (void)testResume {
+
   // If
   MSHttpSender *senderMock = OCMClassMock([MSHttpSender class]);
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
-  
+
   // When
   MSLogManagerDefault *sut = [[MSLogManagerDefault alloc] initWithSender:senderMock storage:storageMock];
-  
+
   // When
   [sut resume];
-  
+
   // Then
   OCMVerify([senderMock setEnabled:YES andDeleteDataOnDisabled:NO]);
 }
 
-- (void)testSuspend{
-  
+- (void)testSuspend {
+
   // If
   MSHttpSender *senderMock = OCMClassMock([MSHttpSender class]);
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
-  
+
   // When
   MSLogManagerDefault *sut = [[MSLogManagerDefault alloc] initWithSender:senderMock storage:storageMock];
-  
+
   // When
   [sut suspend];
-  
+
   // Then
   OCMVerify([senderMock setEnabled:NO andDeleteDataOnDisabled:NO]);
 }

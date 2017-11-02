@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+
 #import "MSHttpSender.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -14,9 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A sender instance.
  */
-- (id)initWithBaseUrl:(NSString *)baseUrl
-            appSecret:(NSString *)appSecret
-            installId:(NSString *)installId;
+- (id)initWithBaseUrl:(NSString *)baseUrl appSecret:(NSString *)appSecret installId:(NSString *)installId;
 
 @end
 

@@ -1,7 +1,7 @@
 #import "MSAbstractLogInternal.h"
-#import "MSChannelDefaultPrivate.h"
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterInternal.h"
+#import "MSChannelDefaultPrivate.h"
 
 @implementation MSChannelDefault
 
@@ -145,9 +145,8 @@
                if ([MSAppCenter logLevel] <= MSLogLevelDebug) {
                  unsigned long count = [container.logs count];
                  for (unsigned long i = 0; i < count; i++) {
-                   MSLogDebug([MSAppCenter logTag],
-                              @"Sending %lu/%lu log(s), group Id: %@, batch Id:%@, payload:\n%@", (i + 1), count,
-                              self.configuration.groupId, batchId,
+                   MSLogDebug([MSAppCenter logTag], @"Sending %lu/%lu log(s), group Id: %@, batch Id:%@, payload:\n%@",
+                              (i + 1), count, self.configuration.groupId, batchId,
                               [(MSAbstractLog *)container.logs[i] serializeLogWithPrettyPrinting:YES]);
                  }
                }
@@ -169,8 +168,7 @@
 
                           // Success.
                           if (statusCode == MSHTTPCodesNo200OK) {
-                            MSLogDebug([MSAppCenter logTag], @"Log(s) sent with success, batch Id:%@.",
-                                       senderBatchId);
+                            MSLogDebug([MSAppCenter logTag], @"Log(s) sent with success, batch Id:%@.", senderBatchId);
 
                             // Notify delegates.
                             [self enumerateDelegatesForSelector:@selector(channel:didSucceedSendingLog:)
@@ -196,9 +194,8 @@
 
                           // Failure.
                           else {
-                            MSLogDebug([MSAppCenter logTag],
-                                       @"Log(s) sent with failure, batch Id:%@, status code:%lu", senderBatchId,
-                                       (unsigned long)statusCode);
+                            MSLogDebug([MSAppCenter logTag], @"Log(s) sent with failure, batch Id:%@, status code:%lu",
+                                       senderBatchId, (unsigned long)statusCode);
 
                             // Notify delegates.
                             [self

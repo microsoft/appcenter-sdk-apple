@@ -78,7 +78,7 @@
     // Reset the retry count, will retry once the (secure) connection is established again.
     [self resetRetry];
     NSString *logMessage = internetIsDown ? @"Internet connection is down." : @"Could not establish secure connection.";
-    MSLogInfo([MSAppCenter logTag],logMessage);
+    MSLogInfo([MSAppCenter logTag], logMessage);
     [sender suspend];
   }
 
@@ -99,7 +99,7 @@
       };
       error = [NSError errorWithDomain:kMSMCErrorDomain code:kMSMCConnectionHttpErrorCode userInfo:userInfo];
     }
-    
+
     // Detect fatal error.
     fatalError = (error && error.code != NSURLErrorCancelled);
 

@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+
 #import "MSLog.h"
 
 @interface MSLogContainer : NSObject

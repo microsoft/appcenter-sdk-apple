@@ -11,19 +11,19 @@
 @implementation MSCustomPropertiesTests
 
 - (void)testKeyValidate {
-  
+
   // If
   NSString *string = @"test";
   NSDate *date = [NSDate dateWithTimeIntervalSince1970:0];
   NSNumber *number = @0;
   BOOL boolean = NO;
-  
+
   // When
   MSCustomProperties *customProperties = [MSCustomProperties new];
-  
+
   // Then
   assertThat([customProperties properties], hasCountOf(0));
-  
+
   // Null key.
   // When
   NSString *nullKey = nil;
@@ -32,10 +32,10 @@
   [customProperties setNumber:number forKey:nullKey];
   [customProperties setBool:boolean forKey:nullKey];
   [customProperties clearPropertyForKey:nullKey];
-  
+
   // Then
   assertThat([customProperties properties], hasCountOf(0));
-  
+
   // Invalid key.
   // When
   NSString *invalidKey = @"!";
@@ -44,13 +44,13 @@
   [customProperties setNumber:number forKey:invalidKey];
   [customProperties setBool:boolean forKey:invalidKey];
   [customProperties clearPropertyForKey:invalidKey];
-  
+
   // Then
   assertThat([customProperties properties], hasCountOf(0));
 
   // Too long key.
   // When
-  NSString *tooLongKey = [@"" stringByPaddingToLength:129 withString: @"a" startingAtIndex:0];
+  NSString *tooLongKey = [@"" stringByPaddingToLength:129 withString:@"a" startingAtIndex:0];
   [customProperties setString:string forKey:tooLongKey];
   [customProperties setDate:date forKey:tooLongKey];
   [customProperties setNumber:number forKey:tooLongKey];
@@ -62,17 +62,17 @@
 
   // Normal keys.
   // When
-  NSString *maxLongKey = [@"" stringByPaddingToLength:128 withString: @"a" startingAtIndex:0];
+  NSString *maxLongKey = [@"" stringByPaddingToLength:128 withString:@"a" startingAtIndex:0];
   [customProperties setString:string forKey:@"t1"];
   [customProperties setDate:date forKey:@"t2"];
   [customProperties setNumber:number forKey:@"t3"];
   [customProperties setBool:boolean forKey:@"t4"];
   [customProperties clearPropertyForKey:@"t5"];
   [customProperties setString:string forKey:maxLongKey];
-  
+
   // Then
   assertThat([customProperties properties], hasCountOf(6));
-  
+
   // Already contains keys.
   // When
   [customProperties setString:string forKey:@"t1"];
@@ -81,12 +81,12 @@
   [customProperties setBool:boolean forKey:@"t4"];
   [customProperties clearPropertyForKey:@"t5"];
   [customProperties setString:string forKey:maxLongKey];
-  
+
   // Then
   assertThat([customProperties properties], hasCountOf(6));
 }
 
-- (void) testMaxPropertiesCount {
+- (void)testMaxPropertiesCount {
 
   // If
   const int maxPropertiesCount = 60;
@@ -116,27 +116,27 @@
 }
 
 - (void)testSetString {
-  
+
   // If
   NSString *key = @"test";
-  
+
   // When
   MSCustomProperties *customProperties = [MSCustomProperties new];
-  
+
   // Then
   assertThat([customProperties properties], hasCountOf(0));
-  
+
   // Null value.
   // When
   NSString *nullValue = nil;
   [customProperties setString:nullValue forKey:key];
-  
+
   // Then
   assertThat([customProperties properties], hasCountOf(0));
 
   // Too long value.
   // When
-  NSString *tooLongValue = [@"" stringByPaddingToLength:129 withString: @"a" startingAtIndex:0];
+  NSString *tooLongValue = [@"" stringByPaddingToLength:129 withString:@"a" startingAtIndex:0];
   [customProperties setString:tooLongValue forKey:key];
 
   // Then
@@ -146,23 +146,23 @@
   // When
   NSString *emptyValue = @"";
   [customProperties setString:emptyValue forKey:key];
-  
+
   // Then
   assertThat([customProperties properties], hasCountOf(1));
   assertThat([customProperties properties][key], is(emptyValue));
-  
+
   // Normal value.
   // When
   NSString *normalValue = @"test";
   [customProperties setString:normalValue forKey:key];
-  
+
   // Then
   assertThat([customProperties properties], hasCountOf(1));
   assertThat([customProperties properties][key], is(normalValue));
 
   // Normal value with maximum length.
   // When
-  NSString *maxLongValue = [@"" stringByPaddingToLength:128 withString: @"a" startingAtIndex:0];
+  NSString *maxLongValue = [@"" stringByPaddingToLength:128 withString:@"a" startingAtIndex:0];
   [customProperties setString:maxLongValue forKey:key];
 
   // Then
@@ -171,51 +171,51 @@
 }
 
 - (void)testSetDate {
-  
+
   // If
   NSString *key = @"test";
-  
+
   // When
   MSCustomProperties *customProperties = [MSCustomProperties new];
-  
+
   // Then
   assertThat([customProperties properties], hasCountOf(0));
-  
+
   // Null value.
   // When
   NSDate *nullValue = nil;
   [customProperties setDate:nullValue forKey:key];
   assertThat([customProperties properties], hasCountOf(0));
-  
+
   // Normal value.
   // When
   NSDate *normalValue = [NSDate dateWithTimeIntervalSince1970:0];
   [customProperties setDate:normalValue forKey:key];
-  
+
   // Then
   assertThat([customProperties properties], hasCountOf(1));
   assertThat([customProperties properties][key], is(normalValue));
 }
 
 - (void)testSetNumber {
-  
+
   // If
   NSString *key = @"test";
-  
+
   // When
   MSCustomProperties *customProperties = [MSCustomProperties new];
-  
+
   // Then
   assertThat([customProperties properties], hasCountOf(0));
-  
+
   // Null value.
   // When
   NSNumber *nullValue = nil;
   [customProperties setNumber:nullValue forKey:key];
-  
+
   // Then
   assertThat([customProperties properties], hasCountOf(0));
-  
+
   // Normal value.
   // When
   NSNumber *normalValue = @0;
@@ -227,40 +227,40 @@
 }
 
 - (void)testSetBool {
-  
+
   // If
   NSString *key = @"test";
-  
+
   // When
   MSCustomProperties *customProperties = [MSCustomProperties new];
-  
+
   // Then
   assertThat([customProperties properties], hasCountOf(0));
-  
+
   // Normal value.
   // When
   BOOL normalValue = NO;
   [customProperties setBool:normalValue forKey:key];
-  
+
   // Then
   assertThat([customProperties properties], hasCountOf(1));
   assertThat([customProperties properties][key], is(@(normalValue)));
 }
 
 - (void)testClear {
-  
+
   // If
   NSString *key = @"test";
-  
+
   // When
   MSCustomProperties *customProperties = [MSCustomProperties new];
-  
+
   // Then
   assertThat([customProperties properties], hasCountOf(0));
-  
+
   // When
   [customProperties clearPropertyForKey:key];
-  
+
   // Then
   assertThat([customProperties properties], hasCountOf(1));
   assertThat([customProperties properties][key], is([NSNull null]));

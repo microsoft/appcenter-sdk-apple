@@ -2,11 +2,11 @@
 #import "MSDeviceHistoryInfo.h"
 #import "MSDeviceTracker.h"
 #import "MSDeviceTrackerPrivate.h"
-#import "MSWrapperSdkInternal.h"
 #import "MSUserDefaults.h"
 #import "MSUtility.h"
 #import "MSUtility+Application.h"
 #import "MSUtility+Date.h"
+#import "MSWrapperSdkInternal.h"
 
 static NSUInteger const kMSMaxDevicesHistoryCount = 5;
 
@@ -83,7 +83,8 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
       _device = [self updatedDevice];
 
       // Create new MSDeviceHistoryInfo.
-      MSDeviceHistoryInfo *deviceHistoryInfo = [[MSDeviceHistoryInfo alloc] initWithTimestamp:[NSDate date] andDevice:_device];
+      MSDeviceHistoryInfo *deviceHistoryInfo =
+          [[MSDeviceHistoryInfo alloc] initWithTimestamp:[NSDate date] andDevice:_device];
 
       // Insert new MSDeviceHistoryInfo at the proper index to keep self.deviceHistory sorted.
       NSUInteger newIndex = [self.deviceHistory indexOfObject:deviceHistoryInfo
@@ -180,13 +181,12 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
 
     // This implements a binary search with complexity O(log n).
     MSDeviceHistoryInfo *find = [[MSDeviceHistoryInfo alloc] initWithTimestamp:timestamp andDevice:nil];
-    NSUInteger index =
-        [self.deviceHistory indexOfObject:find
-                            inSortedRange:NSMakeRange(0, self.deviceHistory.count)
-                                  options:NSBinarySearchingFirstEqual | NSBinarySearchingInsertionIndex
-                          usingComparator:^(MSDeviceHistoryInfo *a, MSDeviceHistoryInfo *b) {
-                            return [a.timestamp compare:b.timestamp];
-                          }];
+    NSUInteger index = [self.deviceHistory indexOfObject:find
+                                           inSortedRange:NSMakeRange(0, self.deviceHistory.count)
+                                                 options:NSBinarySearchingFirstEqual | NSBinarySearchingInsertionIndex
+                                         usingComparator:^(MSDeviceHistoryInfo *a, MSDeviceHistoryInfo *b) {
+                                           return [a.timestamp compare:b.timestamp];
+                                         }];
 
     /*
      * All timestamps are larger.

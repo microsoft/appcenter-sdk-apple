@@ -1,7 +1,7 @@
 #import "MSAbstractLogInternal.h"
 #import "MSDevice.h"
-#import "MSLogger.h"
 #import "MSDeviceInternal.h"
+#import "MSLogger.h"
 #import "MSUtility+Date.h"
 
 static NSString *const kMSSid = @"sid";
@@ -74,7 +74,8 @@ static NSString *const kMSType = @"type";
 - (NSString *)serializeLogWithPrettyPrinting:(BOOL)prettyPrint {
   NSString *jsonString;
   NSJSONWritingOptions printOptions = prettyPrint ? NSJSONWritingPrettyPrinted : (NSJSONWritingOptions)0;
-  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[self serializeToDictionary] options:printOptions error:nil];
+  NSData *jsonData =
+      [NSJSONSerialization dataWithJSONObject:[self serializeToDictionary] options:printOptions error:nil];
 
   if (jsonData) {
     jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
