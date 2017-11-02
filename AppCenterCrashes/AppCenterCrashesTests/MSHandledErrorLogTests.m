@@ -19,7 +19,7 @@
 }
 
 - (void)tearDown {
-    [super tearDown];
+  [super tearDown];
 }
 
 #pragma mark - Helper
@@ -55,22 +55,22 @@
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {
-    
+
   // When
   NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.sut];
   id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
-    
+
   // Then
   assertThat(actual, notNilValue());
   assertThat(actual, instanceOf([MSHandledErrorLog class]));
-    
+
   // The MSHandledErrorLog.
   MSHandledErrorLog *actualLog = actual;
   assertThat(actualLog, equalTo(self.sut));
   XCTAssertTrue([actualLog isEqual:self.sut]);
   assertThat(actualLog.type, equalTo(self.sut.type));
   assertThat(actualLog.errorId, equalTo(self.sut.errorId));
-    
+
   // The exception field.
   MSException *actualException = actualLog.exception;
   assertThat(actualException.type, equalTo(self.sut.exception.type));
@@ -79,23 +79,23 @@
 }
 
 - (void)testIsEqual {
-    
+
   // When
   MSHandledErrorLog *first = [self handledErrorLog];
   MSHandledErrorLog *second = [self handledErrorLog];
-    
+
   // Then
   XCTAssertTrue([first isEqual:second]);
-    
+
   // When
   second.errorId = MS_UUID_STRING;
-    
+
   // Then
   XCTAssertFalse([first isEqual:second]);
 }
 
 - (void)testIsValid {
-    
+
   // When
   MSHandledErrorLog *log = [MSHandledErrorLog new];
   log.device = OCMClassMock([MSDevice class]);
@@ -104,19 +104,19 @@
   log.timestamp = [NSDate dateWithTimeIntervalSince1970:42];
   log.errorId = @"errorId";
   log.sid = MS_UUID_STRING;
-    
+
   // Then
   XCTAssertFalse([log isValid]);
-  
+
   // When
   log.errorId = MS_UUID_STRING;
-  
+
   // Then
   XCTAssertFalse([log isValid]);
-  
+
   // When
   log.exception = [MSCrashesTestUtil exception];
-    
+
   // Then
   XCTAssertTrue([log isValid]);
 }

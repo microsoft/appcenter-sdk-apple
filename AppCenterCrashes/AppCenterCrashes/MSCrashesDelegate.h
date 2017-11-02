@@ -32,7 +32,7 @@
  * Callback method that will be called in case the SDK was unable to send an error report to the server.
  *
  * @param crashes The instance of MSCrashes.
- * @param errorReport The errorReport that Mobile Center sent.
+ * @param errorReport The errorReport that App Center sent.
  *
  * @discussion Use this method to hide your custom UI.
  */
@@ -42,7 +42,7 @@
  * Callback method that will be called in case the SDK was unable to send an error report to the server.
  *
  * @param crashes The instance of MSCrashes.
- * @param errorReport The errorReport that Mobile Center tried to send.
+ * @param errorReport The errorReport that App Center tried to send.
  * @param error The error that occurred.
  */
 - (void)crashes:(MSCrashes *)crashes didFailSendingErrorReport:(MSErrorReport *)errorReport withError:(NSError *)error;
@@ -59,6 +59,6 @@
  * @discussion Implement this method if you want attachments to the given error report.
  */
 - (NSArray<MSErrorAttachmentLog *> *)attachmentsWithCrashes:(MSCrashes *)crashes
-                                            forErrorReport:(MSErrorReport *)errorReport;
+                                             forErrorReport:(MSErrorReport *)errorReport;
 
 @end

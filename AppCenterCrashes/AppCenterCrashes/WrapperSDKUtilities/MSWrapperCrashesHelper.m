@@ -1,5 +1,5 @@
-#import "MSWrapperCrashesHelper.h"
 #import "MSCrashesInternal.h"
+#import "MSWrapperCrashesHelper.h"
 
 @interface MSWrapperCrashesHelper ()
 
@@ -30,7 +30,8 @@
 }
 
 /**
- * Enables or disables automatic crash processing. Setting to 'NO'causes SDK not to send reports immediately, even if ALWAYS_SEND is set.
+ * Enables or disables automatic crash processing. Setting to 'NO'causes SDK not to send reports immediately, even if
+ * ALWAYS_SEND is set.
  */
 + (void)setAutomaticProcessing:(BOOL)automaticProcessing {
   [[MSCrashes sharedInstance] setAutomaticProcessing:automaticProcessing];
@@ -53,7 +54,8 @@
 /**
  * Sends error attachments for a particular error report.
  */
-+ (void)sendErrorAttachments:(NSArray<MSErrorAttachmentLog *> *)errorAttachments withIncidentIdentifier:(NSString*)incidentIdentifier {
++ (void)sendErrorAttachments:(NSArray<MSErrorAttachmentLog *> *)errorAttachments
+      withIncidentIdentifier:(NSString *)incidentIdentifier {
   [[MSCrashes sharedInstance] sendErrorAttachments:errorAttachments withIncidentIdentifier:incidentIdentifier];
 }
 

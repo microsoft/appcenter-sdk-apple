@@ -8,10 +8,10 @@
 
 @implementation MSWrapperExceptionManager : NSObject
 
-static NSString* const kMSLastWrapperExceptionFileName = @"last_saved_wrapper_exception";
-static NSMutableDictionary* unprocessedWrapperExceptions;
+static NSString *const kMSLastWrapperExceptionFileName = @"last_saved_wrapper_exception";
+static NSMutableDictionary *unprocessedWrapperExceptions;
 
-+ (void) load {
++ (void)load {
   unprocessedWrapperExceptions = [NSMutableDictionary new];
 }
 
@@ -46,7 +46,7 @@ static NSMutableDictionary* unprocessedWrapperExceptions;
  */
 + (void)deleteAllWrapperExceptions {
   NSString *directoryPath = [[MSCrashesUtil wrapperExceptionsDir] absoluteString];
-  for (NSString* path in [[NSFileManager defaultManager] enumeratorAtPath:directoryPath]) {
+  for (NSString *path in [[NSFileManager defaultManager] enumeratorAtPath:directoryPath]) {
     [MSUtility removeItemAtURL:[NSURL URLWithString:path]];
   }
 }
@@ -56,8 +56,9 @@ static NSMutableDictionary* unprocessedWrapperExceptions;
  * corresponding report in the given array. Pairing is based on the process
  * id of the error report.
  */
-+ (void)correlateLastSavedWrapperExceptionToReport:(NSArray<MSErrorReport*> *)reports {
-  MSWrapperException *lastSavedWrapperException = [self loadWrapperExceptionWithBaseFilename:kMSLastWrapperExceptionFileName];
++ (void)correlateLastSavedWrapperExceptionToReport:(NSArray<MSErrorReport *> *)reports {
+  MSWrapperException *lastSavedWrapperException =
+      [self loadWrapperExceptionWithBaseFilename:kMSLastWrapperExceptionFileName];
 
   // Delete the last saved exception from disk if it exists.
   if (lastSavedWrapperException) {
@@ -98,8 +99,7 @@ static NSMutableDictionary* unprocessedWrapperExceptions;
 /**
  * Deletes a wrapper exception with a given file name.
  */
-+ (void)deleteWrapperExceptionWithBaseFilename:(NSString *)baseFilename
-{
++ (void)deleteWrapperExceptionWithBaseFilename:(NSString *)baseFilename {
   NSURL *exceptionFileURL = [self getAbsoluteFileURL:baseFilename];
   [MSUtility removeItemAtURL:exceptionFileURL];
 }
@@ -116,8 +116,7 @@ static NSMutableDictionary* unprocessedWrapperExceptions;
   MSWrapperException *wrapperException = nil;
   @try {
     wrapperException = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-  }
-  @catch (__attribute__((unused)) NSException *exception) {
+  } @catch (__attribute__((unused)) NSException *exception) {
     MSLogError([MSCrashes logTag], @"Could not read exception data stored on disk with file name %@", baseFilename);
     [self deleteWrapperExceptionWithBaseFilename:baseFilename];
   }

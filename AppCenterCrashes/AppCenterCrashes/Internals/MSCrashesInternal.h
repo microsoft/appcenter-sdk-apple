@@ -32,7 +32,8 @@
  * @param errorAttachments An array of error attachments that should be sent.
  * @param incidentIdentifier The identifier of the error report that the attachments will be associated with.
  */
-- (void)sendErrorAttachments:(NSArray<MSErrorAttachmentLog *> *)errorAttachments withIncidentIdentifier:(NSString *)incidentIdentifier;
+- (void)sendErrorAttachments:(NSArray<MSErrorAttachmentLog *> *)errorAttachments
+      withIncidentIdentifier:(NSString *)incidentIdentifier;
 
 /**
  * Configure PLCrashreporter.
@@ -46,7 +47,7 @@
  * Registering our own UncaughtExceptionHandler will cause the Xamarin debugger to not work properly: The debugger will
  * not stop for NSExceptions and it's impossible to handle them in a C# try-catch block. On Xamarin runtime, if we don't
  * register our own exception handler, the Xamarin runtime will catch NSExceptions and re-throw them as .Net-exceptions
- * which can be handled and are then reported by Mobile Center Crashes properly. Just as a reminder: this doesn't mean
+ * which can be handled and are then reported by App Center Crashes properly. Just as a reminder: this doesn't mean
  * that we are not using PLCrashReporter to catch crashes, it just means that we disable its ability to catch
  * crashes caused by NSExceptions, only those for the reasons mentioned in this paragraph.
  */

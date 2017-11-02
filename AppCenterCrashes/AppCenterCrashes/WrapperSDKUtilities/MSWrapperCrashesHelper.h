@@ -1,12 +1,12 @@
 #import <Foundation/Foundation.h>
+
 #import "MSCrashHandlerSetupDelegate.h"
 
 @class MSErrorReport;
 @class MSErrorAttachmentLog;
 
 /**
- * This general class allows wrappers to supplement the Crashes SDK with their own
- * behavior.
+ * This general class allows wrappers to supplement the Crashes SDK with their own behavior.
  */
 @interface MSWrapperCrashesHelper : NSObject
 
@@ -52,6 +52,7 @@
  * @param errorAttachments An array of error attachments that should be sent.
  * @param incidentIdentifier The identifier of the error report that the attachments will be associated with.
  */
-+ (void)sendErrorAttachments:(NSArray<MSErrorAttachmentLog *> *)errorAttachments withIncidentIdentifier:(NSString *)incidentIdentifier;
++ (void)sendErrorAttachments:(NSArray<MSErrorAttachmentLog *> *)errorAttachments
+      withIncidentIdentifier:(NSString *)incidentIdentifier;
 
 @end

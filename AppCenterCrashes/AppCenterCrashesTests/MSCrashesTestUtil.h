@@ -14,6 +14,6 @@
 
 + (MSException *)exception;
 
-+ (void) deleteAllFilesInDirectory:(NSString *)directoryPath;
++ (void)deleteAllFilesInDirectory:(NSString *)directoryPath;
 
 @end

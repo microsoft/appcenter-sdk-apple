@@ -43,23 +43,23 @@
 #define SEL_NAME_SECT "__cstring"
 #endif
 
+#import "MSAppCenterInternal.h"
 #import "MSAppleErrorLog.h"
 #import "MSBinary.h"
 #import "MSCrashesInternal.h"
 #import "MSCrashReporter.h"
+#import "MSDeviceTrackerPrivate.h"
 #import "MSErrorLogFormatter.h"
 #import "MSErrorReportPrivate.h"
 #import "MSException.h"
-#import "MSAppCenterInternal.h"
 #import "MSStackFrame.h"
 #import "MSThread.h"
-#import "MSDeviceTrackerPrivate.h"
-#import "MSWrapperExceptionManagerInternal.h"
 #import "MSWrapperException.h"
+#import "MSWrapperExceptionManagerInternal.h"
 
 static NSString *unknownString = @"???";
 
-/*
+/**
  * Sort PLCrashReportBinaryImageInfo instances by their starting address.
  */
 static NSInteger bit_binaryImageSort(id binary1, id binary2, void *__unused context) {
@@ -74,7 +74,7 @@ static NSInteger bit_binaryImageSort(id binary1, id binary2, void *__unused cont
     return NSOrderedSame;
 }
 
-/*
+/**
  * Validates that the given @a string terminates prior to @a limit.
  */
 static const char *safer_string_read(const char *string, const char *limit) {
@@ -93,7 +93,7 @@ static NSString *formatted_address_matching_architecture(uint64_t address, BOOL 
   return [NSString stringWithFormat:@"0x%0*" PRIx64, 8 << !!is64bit, address];
 }
 
-/*
+/**
  * The relativeAddress should be `<ecx/rsi/r1/x1 ...> - <image base>`, extracted
  * from the crash report's thread
  * and binary image list.
@@ -187,7 +187,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
 @implementation MSErrorLogFormatter
 
-/*
+/**
  * Formats the provided report as human-readable text in the given @a textFormat, and return the formatted result as a
  * string.
  *

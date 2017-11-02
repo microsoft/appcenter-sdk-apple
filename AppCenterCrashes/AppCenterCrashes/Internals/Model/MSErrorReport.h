@@ -20,8 +20,7 @@
 @property(nonatomic, copy, readonly) NSString *signal;
 
 /**
- * Exception name that triggered the crash, nil if the crash was not caused by
- * an exception.
+ * Exception name that triggered the crash, nil if the crash was not caused by an exception.
  */
 @property(nonatomic, copy, readonly) NSString *exceptionName;
 

@@ -1,4 +1,3 @@
-#import "MSCrashesCXXExceptionHandler.h"
 #import <cxxabi.h>
 #import <dlfcn.h>
 #import <exception>
@@ -9,6 +8,8 @@
 #import <string>
 #import <typeinfo>
 #import <vector>
+
+#import "MSCrashesCXXExceptionHandler.h"
 
 // FIXME: Temporarily disable deprecated warning.
 #pragma GCC diagnostic push
@@ -29,8 +30,10 @@ static pthread_key_t _MSCrashesCXXExceptionInfoTSDKey = 0;
 
 @implementation MSCrashesUncaughtCXXExceptionHandlerManager
 
-extern "C" void __attribute__((noreturn)) __cxa_throw(void *exception_object, std::type_info *tinfo, void (*dest)(void *)) {
-  /**
+extern "C" void __attribute__((noreturn))
+__cxa_throw(void *exception_object, std::type_info *tinfo, void (*dest)(void *)) {
+  
+  /*
    * Purposely do not take a lock in this function. The aim is to be as fast as
    * possible. While we could really use some of the info set up by the real
    * __cxa_throw, if we call through we never get control back - the function is
@@ -43,7 +46,6 @@ extern "C" void __attribute__((noreturn)) __cxa_throw(void *exception_object, st
    * implementation changing in a future version. (Or not existing in an earlier
    * version).
    */
-
   typedef void (*cxa_throw_func)(void *, std::type_info *, void (*)(void *)) __attribute__((noreturn));
   static dispatch_once_t predicate = 0;
   static cxa_throw_func __original__cxa_throw = nullptr;
@@ -54,7 +56,7 @@ extern "C" void __attribute__((noreturn)) __cxa_throw(void *exception_object, st
     __real_objc_ehtype_vtable = reinterpret_cast<const void **>(dlsym(RTLD_DEFAULT, "objc_ehtype_vtable"));
   });
 
-  /**
+  /*
    *   Actually check for Objective-C exceptions.
    */
   if (tinfo && __real_objc_ehtype_vtable && // Guard from an ABI change
@@ -62,7 +64,7 @@ extern "C" void __attribute__((noreturn)) __cxa_throw(void *exception_object, st
     goto callthrough;
   }
 
-  /**
+  /*
    * Any other exception that came here has to be C++, since Objective-C is the
    * only (known) runtime that hijacks the C++ ABI this way. We need to save off
    * a backtrace.
@@ -125,7 +127,8 @@ static void MSCrashesUncaughtCXXTerminateHandler(void) {
         info.exception_frames_count = recorded_info->num_frames - 1;
         info.exception_frames = &recorded_info->call_stack[1];
       } else {
-        /**
+        
+        /*
          * There's no backtrace, grab this function's trace instead. Probably
          * means the exception came from a dynamically loaded library.
          */
@@ -137,36 +140,47 @@ static void MSCrashesUncaughtCXXTerminateHandler(void) {
 
       try {
         std::rethrow_exception(p);
-      } catch (const std::exception &e) { // C++ exception.
+      } catch (const std::exception &e) {
+        
+        // C++ exception.
         info.exception_message = e.what();
         MSCrashesIterateExceptionHandlers_unlocked(info);
-      } catch (const std::exception *e) { // C++ exception by pointer.
+      } catch (const std::exception *e) {
+        
+        // C++ exception by pointer.
         info.exception_message = e->what();
         MSCrashesIterateExceptionHandlers_unlocked(info);
-      } catch (const std::string &e) { // C++ string as exception.
+      } catch (const std::string &e) {
+        
+        // C++ string as exception.
         info.exception_message = e.c_str();
         MSCrashesIterateExceptionHandlers_unlocked(info);
-      } catch (const std::string *e) { // C++ string pointer as exception.
+      } catch (const std::string *e) {
+        
+        // C++ string pointer as exception.
         info.exception_message = e->c_str();
         MSCrashesIterateExceptionHandlers_unlocked(info);
       } catch (const char *e) { // Plain string as exception.
         info.exception_message = e;
         MSCrashesIterateExceptionHandlers_unlocked(info);
-      } catch (__attribute__((unused)) id e) { // Objective-C exception. Pass it on to Foundation.
+      } catch (__attribute__((unused)) id e) {
+        
+        // Objective-C exception. Pass it on to Foundation.
         OSSpinLockUnlock(&_MSCrashesCXXExceptionHandlingLock);
         if (_MSCrashesOriginalTerminateHandler != nullptr) {
           _MSCrashesOriginalTerminateHandler();
         }
         return;
-      } catch (...) { // Any other kind of exception. No message.
+      } catch (...) {
+        
+        // Any other kind of exception. No message.
         MSCrashesIterateExceptionHandlers_unlocked(info);
       }
     }
   }
-  OSSpinLockUnlock(&_MSCrashesCXXExceptionHandlingLock); // In case terminate is
-                                                          // called reentrantly by
-                                                          // pasing it on
-
+  OSSpinLockUnlock(&_MSCrashesCXXExceptionHandlingLock);
+  
+  // In case terminate is called reentrantly by passing it on.
   if (_MSCrashesOriginalTerminateHandler != nullptr) {
     _MSCrashesOriginalTerminateHandler();
   } else {
@@ -177,7 +191,7 @@ static void MSCrashesUncaughtCXXTerminateHandler(void) {
 + (void)addCXXExceptionHandler:(MSCrashesUncaughtCXXExceptionHandler)handler {
   static dispatch_once_t key_predicate = 0;
 
-  /**
+  /*
    * This only EVER has to be done once, since we don't delete the TSD later
    * (there's no reason to delete it).
    */
@@ -225,9 +239,7 @@ static void MSCrashesUncaughtCXXTerminateHandler(void) {
 + (NSUInteger)countCXXExceptionHandler {
   NSUInteger count = 0;
   OSSpinLockLock(&_MSCrashesCXXExceptionHandlingLock);
-  {
-    count = _MSCrashesUncaughtExceptionHandlerList.size();
-  }
+  { count = _MSCrashesUncaughtExceptionHandlerList.size(); }
   OSSpinLockUnlock(&_MSCrashesCXXExceptionHandlingLock);
   return count;
 }
