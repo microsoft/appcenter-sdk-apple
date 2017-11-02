@@ -73,7 +73,9 @@ static void ms_save_log_buffer_callback(__attribute__((unused)) siginfo_t *info,
   }
 }
 
-// Proxy implementation for PLCrashReporter to keep our interface stable while this can change.
+/**
+ * Proxy implementation for PLCrashReporter to keep our interface stable while this can change.
+ */
 static void plcr_post_crash_callback(siginfo_t *info, ucontext_t *uap, void *context) {
   ms_save_log_buffer_callback(info, uap, context);
   if (msCrashesCallbacks.handleSignal != NULL) {
@@ -361,7 +363,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 #pragma mark - MSLogManagerDelegate
 
-/*
+/**
  * Why are we doing the event-buffering inside crashes?
  * The reason is, only Crashes has the chance to execute code at crash time and only with the following constraints:
  * 1. Don't execute any Objective-C code when crashing.
@@ -749,7 +751,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   }
 }
 
-/*
+/**
  * Gets a list of unprocessed crashes as MSErrorReports.
  */
 - (NSArray<MSErrorReport *> *)unprocessedCrashReports {
@@ -758,7 +760,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   return self.unprocessedReports;
 }
 
-/*
+/**
  * Resumes processing for a given subset of the unprocessed reports. Returns YES if should "AlwaysSend".
  */
 - (BOOL)sendCrashReportsOrAwaitUserConfirmationForFilteredIds:(NSArray<NSString *> *)filteredIds {
@@ -801,7 +803,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   return [self sendCrashReportsOrAwaitUserConfirmation];
 }
 
-/*
+/**
  * Sends error attachments for a particular error report.
  */
 - (void)sendErrorAttachments:(NSArray<MSErrorAttachmentLog *> *)errorAttachments
@@ -1108,13 +1110,15 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   return userPromptedForConfirmation;
 }
 
-// This is an instance method to make testing easier.
+/**
+ * This is an instance method to make testing easier.
+ */
 - (BOOL)shouldAlwaysSend {
   NSNumber *flag = [MS_USER_DEFAULTS objectForKey:kMSUserConfirmationKey];
   return flag && [flag boolValue];
 }
 
-/*
+/**
  * Sends error attachments for a particular error report.
  */
 + (void)sendErrorAttachments:(NSArray<MSErrorAttachmentLog *> *)errorAttachments

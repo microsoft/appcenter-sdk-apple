@@ -1,5 +1,3 @@
-#import "MSCrashesCXXExceptionHandler.h"
-
 #import <cxxabi.h>
 #import <dlfcn.h>
 #import <exception>
@@ -10,6 +8,8 @@
 #import <string>
 #import <typeinfo>
 #import <vector>
+
+#import "MSCrashesCXXExceptionHandler.h"
 
 // FIXME: Temporarily disable deprecated warning.
 #pragma GCC diagnostic push
