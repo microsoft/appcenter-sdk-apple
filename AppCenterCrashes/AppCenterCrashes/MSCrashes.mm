@@ -14,28 +14,28 @@
 #import "MSWrapperExceptionManagerInternal.h"
 #import "MSWrapperCrashesHelper.h"
 
-/*
+/**
  * Service name for initialization.
  */
 static NSString *const kMSServiceName = @"Crashes";
 
-/*
+/**
  * The group Id for storage.
  */
 static NSString *const kMSGroupId = @"Crashes";
 
-/*
+/**
  * The group Id for log buffer.
  */
 static NSString *const kMSBufferGroupId = @"CrashesBuffer";
 
-/*
+/**
  * Name for the AnalyzerInProgress file. Some background info here: writing the file to signal that we are processing
  * crashes proved to be faster and more reliable as e.g. storing a flag in the NSUserDefaults.
  */
 static NSString *const kMSAnalyzerFilename = @"MSCrashes.analyzer";
 
-/*
+/**
  * File extension for buffer files. Files will have a GUID as the file name and a .mscrasheslogbuffer as file
  * extension.
  */
@@ -84,7 +84,7 @@ static void plcr_post_crash_callback(siginfo_t *info, ucontext_t *uap, void *con
 static PLCrashReporterCallbacks plCrashCallbacks = {
     .version = 0, .context = NULL, .handleSignal = plcr_post_crash_callback};
 
-/*
+/**
  * C++ Exception Handler
  */
 __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCrashesUncaughtCXXExceptionInfo *info) {
@@ -99,7 +99,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 @interface MSCrashes ()
 
-/*
+/**
  * Indicates if the app crashed in the previous session.
  *
  * Use this on startup, to check if the app starts the first time after it crashed previously. You can use this also to
@@ -111,17 +111,17 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
  */
 @property BOOL didCrashInLastSession;
 
-/*
+/**
  * Detail information about the last crash.
  */
 @property(getter=getLastSessionCrashReport) MSErrorReport *lastSessionCrashReport;
 
-/*
+/**
  * Queue with high priority that will be used to create the log buffer files. The default main queue is too slow.
  */
 @property(nonatomic) dispatch_queue_t bufferFileQueue;
 
-/*
+/**
  * Semaphore for exclusion with "startDelayedCrashProcessing" method.
  */
 @property dispatch_semaphore_t delayedProcessingSemaphore;
@@ -175,7 +175,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   return [[self sharedInstance] getLastSessionCrashReport];
 }
 
-/*
+/**
  * This can never be bound to Xamarin.
  *
  * This method is not part of the publicly available APIs on tvOS as Mach exception handling is not possible on tvOS.
@@ -189,7 +189,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   [[self sharedInstance] setDelegate:delegate];
 }
 
-/*
+/**
  * Track handled exception directly as model form.
  * This API is not public and is used by wrapper SDKs.
  */
@@ -268,8 +268,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       [crashSetupDelegate didSetUpCrashHandlers];
     }
 
-    // PLCrashReporter keeps collecting crash reports even when the SDK is disabled,
-    // delete them only if current state is disabled.
+    /*
+     * PLCrashReporter keeps collecting crash reports even when the SDK is disabled,
+     * delete them only if current state is disabled.
+     */
     if (!self.isEnabled) {
       [self.plCrashReporter purgePendingCrashReport];
     }
@@ -283,8 +285,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     // Get persisted crash reports.
     self.crashFiles = [self persistedCrashReports];
 
-    // Process PLCrashReports, this will format the PLCrashReport into our schema and then trigger sending. This mostly
-    // happens on the start of the service.
+    /*
+     * Process PLCrashReports, this will format the PLCrashReport into our schema and then trigger sending. This mostly
+     * happens on the start of the service.
+     */
     if (self.crashFiles.count > 0) {
       [self startDelayedCrashProcessing];
     }
@@ -589,6 +593,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 #pragma mark - Crash processing
 
 - (void)startDelayedCrashProcessing {
+  
   /*
    * FIXME: If application is crashed and relaunched from multitasking view, the SDK starts faster than normal launch
    * and application state is not updated from inactive to active at this time. Give more delay here for a workaround
@@ -609,6 +614,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 }
 
 - (void)startCrashProcessing {
+  
   // FIXME: There is no life cycle for app extensions yet so force start crash processing until then.
   if ([MSUtility applicationState] != MSApplicationStateActive &&
       [MSUtility applicationState] != MSApplicationStateUnknown) {

@@ -59,7 +59,7 @@
 
 static NSString *unknownString = @"???";
 
-/*
+/**
  * Sort PLCrashReportBinaryImageInfo instances by their starting address.
  */
 static NSInteger bit_binaryImageSort(id binary1, id binary2, void *__unused context) {
@@ -74,7 +74,7 @@ static NSInteger bit_binaryImageSort(id binary1, id binary2, void *__unused cont
     return NSOrderedSame;
 }
 
-/*
+/**
  * Validates that the given @a string terminates prior to @a limit.
  */
 static const char *safer_string_read(const char *string, const char *limit) {
@@ -93,7 +93,7 @@ static NSString *formatted_address_matching_architecture(uint64_t address, BOOL 
   return [NSString stringWithFormat:@"0x%0*" PRIx64, 8 << !!is64bit, address];
 }
 
-/*
+/**
  * The relativeAddress should be `<ecx/rsi/r1/x1 ...> - <image base>`, extracted
  * from the crash report's thread
  * and binary image list.
@@ -187,7 +187,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
 @implementation MSErrorLogFormatter
 
-/*
+/**
  * Formats the provided report as human-readable text in the given @a textFormat, and return the formatted result as a
  * string.
  *
@@ -441,7 +441,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   return formattedThreads;
 }
 
-/*
+/**
  * Format a stack frame for display in a thread backtrace.
  *
  * @param frameInfo The stack frame to format
@@ -615,7 +615,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   return NO;
 }
 
-/*
+/**
  *  Remove the user's name from a crash's process path.
  *  This is only necessary when sending crashes from the simulator as the path
  *  then contains the username of the Mac the simulator is running on.
@@ -647,7 +647,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   return anonymizedProcessPath;
 }
 
-/*
+/**
  * Return the selector string of a given register name
  *
  * @param regName The name of the register to use for getting the address
