@@ -32,7 +32,8 @@
  * @param errorAttachments An array of error attachments that should be sent.
  * @param incidentIdentifier The identifier of the error report that the attachments will be associated with.
  */
-- (void)sendErrorAttachments:(NSArray<MSErrorAttachmentLog *> *)errorAttachments withIncidentIdentifier:(NSString *)incidentIdentifier;
+- (void)sendErrorAttachments:(NSArray<MSErrorAttachmentLog *> *)errorAttachments
+      withIncidentIdentifier:(NSString *)incidentIdentifier;
 
 /**
  * Configure PLCrashreporter.

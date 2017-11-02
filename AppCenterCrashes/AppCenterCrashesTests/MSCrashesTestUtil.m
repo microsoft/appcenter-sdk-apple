@@ -4,7 +4,7 @@
 
 @implementation MSCrashesTestUtil
 
-/*
+/**
  * loads test fixture from json file
  * http://blog.roberthoglund.com/2010/12/ios-unit-testing-loading-bundle.html
  */
@@ -72,7 +72,7 @@
   NSString *filePath = [[NSBundle bundleForClass:self.class] pathForResource:filename ofType:@"plcrash"];
   if (!filePath)
     return NO;
-  
+
   NSError *error = nil;
   [fm copyItemAtPath:filePath
               toPath:[plcrCrashesDir stringByAppendingPathComponent:@"live_report.plcrash"]

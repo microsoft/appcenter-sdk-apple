@@ -57,17 +57,19 @@
   assertThat(self.sut.contentType, is(expectedMimeType));
 
   // When
-  self.sut = [[MSErrorAttachmentLog alloc] initWithFilename:nil attachmentBinary:expectedData contentType:expectedMimeType];
+  self.sut =
+      [[MSErrorAttachmentLog alloc] initWithFilename:nil attachmentBinary:expectedData contentType:expectedMimeType];
 
   // Then
   assertThat(self.sut.attachmentId, notNilValue());
   assertThat(self.sut.filename, nilValue());
   assertThat(self.sut.data, is(expectedData));
   assertThat(self.sut.contentType, is(expectedMimeType));
-  
+
   // When
-  self.sut = [[MSErrorAttachmentLog alloc] initWithFilename:@"" attachmentBinary:expectedData contentType:expectedMimeType];
-  
+  self.sut =
+      [[MSErrorAttachmentLog alloc] initWithFilename:@"" attachmentBinary:expectedData contentType:expectedMimeType];
+
   // Then
   assertThat(self.sut.attachmentId, notNilValue());
   assertThat(self.sut.filename, notNilValue());
@@ -96,9 +98,9 @@
   self.sut = [MSErrorAttachmentLog attachmentWithBinary:data filename:filename contentType:mimeType];
   MSErrorAttachmentLog *other2 = [MSErrorAttachmentLog
       attachmentWithBinary:[@"<file><request>Please attach me</request><reason>I am a nice data.</reason></file>"
-                                   dataUsingEncoding:NSUTF8StringEncoding]
-                      filename:@"niceFile.xml"
-                   contentType:@"text/xml"];
+                               dataUsingEncoding:NSUTF8StringEncoding]
+                  filename:@"niceFile.xml"
+               contentType:@"text/xml"];
   other2.attachmentId = self.sut.attachmentId;
 
   // Then
@@ -117,7 +119,7 @@
   // If
   NSString *text = @"Please attach me, I am a nice text.";
   NSString *filename = @"niceFile.txt";
-  
+
   // When
   self.sut = [MSErrorAttachmentLog attachmentWithText:text filename:filename];
   [self setDummyParentProperties:self.sut];
@@ -166,7 +168,8 @@
   // Then
   assertThat(actual, notNilValue());
   assertThat(actual[@"file_name"], equalTo(self.sut.filename));
-  assertThat(actual[@"data"], equalTo([self.sut.data base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithCarriageReturn]));
+  assertThat(actual[@"data"],
+             equalTo([self.sut.data base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithCarriageReturn]));
   assertThat(actual[@"content_type"], equalTo(self.sut.contentType));
 }
 

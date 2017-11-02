@@ -15,7 +15,7 @@
 
   // If
   MSException *sut = [MSCrashesTestUtil exception];
-  sut.innerExceptions = @[[MSCrashesTestUtil exception]];
+  sut.innerExceptions = @[ [MSCrashesTestUtil exception] ];
 
   // When
   NSMutableDictionary *actual = [sut serializeToDictionary];
@@ -32,11 +32,10 @@
 
   // If
   MSException *sut = [MSCrashesTestUtil exception];
-  sut.innerExceptions = @[[MSCrashesTestUtil exception]];
+  sut.innerExceptions = @[ [MSCrashesTestUtil exception] ];
 
   // When
-  NSData *serializedEvent =
-          [NSKeyedArchiver archivedDataWithRootObject:sut];
+  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:sut];
   id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
 
   // Then
@@ -54,6 +53,5 @@
   assertThat(actualException.frames.firstObject.address, equalTo(@"frameAddress"));
   assertThat(actualException.frames.firstObject.code, equalTo(@"frameSymbol"));
 }
-
 
 @end

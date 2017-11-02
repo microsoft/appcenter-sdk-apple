@@ -59,6 +59,6 @@
  * @discussion Implement this method if you want attachments to the given error report.
  */
 - (NSArray<MSErrorAttachmentLog *> *)attachmentsWithCrashes:(MSCrashes *)crashes
-                                            forErrorReport:(MSErrorReport *)errorReport;
+                                             forErrorReport:(MSErrorReport *)errorReport;
 
 @end

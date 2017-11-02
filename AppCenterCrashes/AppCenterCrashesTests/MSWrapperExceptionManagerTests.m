@@ -9,7 +9,7 @@
 #import "MSErrorReport.h"
 
 // Copied from MSWrapperExceptionManager.m
-static NSString* const kMSLastWrapperExceptionFileName = @"last_saved_wrapper_exception";
+static NSString *const kMSLastWrapperExceptionFileName = @"last_saved_wrapper_exception";
 
 @interface MSWrapperExceptionManagerTests : XCTestCase
 @end
@@ -25,25 +25,25 @@ static NSString* const kMSLastWrapperExceptionFileName = @"last_saved_wrapper_ex
 
 #pragma mark - Housekeeping
 
--(void)tearDown {
+- (void)tearDown {
   [super tearDown];
   [MSWrapperExceptionManager deleteAllWrapperExceptions];
 }
 
 #pragma mark - Helper
 
-- (MSException*)getModelException {
+- (MSException *)getModelException {
   MSException *exception = [[MSException alloc] init];
   exception.message = @"a message";
   exception.type = @"a type";
   return exception;
 }
 
-- (NSData*)getData {
+- (NSData *)getData {
   return [@"some string" dataUsingEncoding:NSUTF8StringEncoding];
 }
 
-- (MSWrapperException*)getWrapperException {
+- (MSWrapperException *)getWrapperException {
   MSWrapperException *wrapperException = [[MSWrapperException alloc] init];
   wrapperException.modelException = [self getModelException];
   wrapperException.exceptionData = [self getData];
@@ -51,7 +51,7 @@ static NSString* const kMSLastWrapperExceptionFileName = @"last_saved_wrapper_ex
   return wrapperException;
 }
 
-- (void)assertWrapperException:(MSWrapperException*)wrapperException isEqualToOther:(MSWrapperException*)other {
+- (void)assertWrapperException:(MSWrapperException *)wrapperException isEqualToOther:(MSWrapperException *)other {
 
   // Test that the exceptions are the same.
   assertThat(other.processId, equalTo(wrapperException.processId));
@@ -73,14 +73,15 @@ static NSString* const kMSLastWrapperExceptionFileName = @"last_saved_wrapper_ex
 
   // When
   [MSWrapperExceptionManager saveWrapperException:wrapperException];
-  MSWrapperException *loadedException = [MSWrapperExceptionManager loadWrapperExceptionWithBaseFilename:kMSLastWrapperExceptionFileName];
+  MSWrapperException *loadedException =
+      [MSWrapperExceptionManager loadWrapperExceptionWithBaseFilename:kMSLastWrapperExceptionFileName];
 
   // Then
   XCTAssertNotNil(loadedException);
   [self assertWrapperException:wrapperException isEqualToOther:loadedException];
 }
 
-- (void) testSaveCorrelateWrapperExceptionWhenExists {
+- (void)testSaveCorrelateWrapperExceptionWhenExists {
 
   // If
   int numReports = 4;
@@ -98,14 +99,15 @@ static NSString* const kMSLastWrapperExceptionFileName = @"last_saved_wrapper_ex
   // When
   [MSWrapperExceptionManager saveWrapperException:wrapperException];
   [MSWrapperExceptionManager correlateLastSavedWrapperExceptionToReport:mockReports];
-  MSWrapperException *loadedException = [MSWrapperExceptionManager loadWrapperExceptionWithUUIDString:[report incidentIdentifier]];
+  MSWrapperException *loadedException =
+      [MSWrapperExceptionManager loadWrapperExceptionWithUUIDString:[report incidentIdentifier]];
 
   // Then
   XCTAssertNotNil(loadedException);
   [self assertWrapperException:wrapperException isEqualToOther:loadedException];
 }
 
-- (void) testSaveCorrelateWrapperExceptionWhenNotExists {
+- (void)testSaveCorrelateWrapperExceptionWhenNotExists {
 
   // If
   MSWrapperException *wrapperException = [self getWrapperException];
@@ -113,7 +115,7 @@ static NSString* const kMSLastWrapperExceptionFileName = @"last_saved_wrapper_ex
   NSMutableArray *mockReports = [NSMutableArray new];
   id reportMock = OCMPartialMock([MSErrorReport new]);
   OCMStub([reportMock appProcessIdentifier]).andReturn(9);
-  NSString* uuidString = [[NSUUID UUID] UUIDString];
+  NSString *uuidString = [[NSUUID UUID] UUIDString];
   OCMStub([reportMock incidentIdentifier]).andReturn(uuidString);
   [mockReports addObject:reportMock];
 

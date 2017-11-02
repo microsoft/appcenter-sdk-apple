@@ -60,12 +60,11 @@ typedef NS_ENUM(NSUInteger, MSUserConfirmation) {
  *
  * The best way to use this is to trigger the crash with a button action.
  *
- * Make sure not to let the app crash in `applicationDidFinishLaunching` or any
- * other startup method! Since otherwise the app would crash before the SDK could
- * process it.
+ * Make sure not to let the app crash in `applicationDidFinishLaunching` or any other startup method! Since otherwise
+ * the app would crash before the SDK could process it.
  *
- * Note that our SDK provides support for handling crashes that happen early on
- * startup. Check the documentation for more information on how to use this.
+ * Note that our SDK provides support for handling crashes that happen early on startup. Check the documentation for
+ * more information on how to use this.
  *
  * If the SDK detects an App Store environment, it will _NOT_ cause the app to crash!
  */
@@ -107,8 +106,8 @@ typedef NS_ENUM(NSUInteger, MSUserConfirmation) {
  * `MSCrashes.disableMachExceptionHandler()`
  * `MSAppCenter.start("YOUR_APP_ID", withServices: [MSAnalytics.self, MSCrashes.self])`
  *
- * tvOS does not support the Mach exception handler, thus crashes that are caused by stack overflows cannot
- * be detected. As a result, disabling the Mach exception server is not available in the tvOS SDK.
+ * tvOS does not support the Mach exception handler, thus crashes that are caused by stack overflows cannot be detected.
+ * As a result, disabling the Mach exception server is not available in the tvOS SDK.
  *
  * @discussion It can be useful to disable the Mach exception handler when you are debugging the Crashes service while
  * developing, especially when you attach the debugger to your application after launch.
@@ -119,16 +118,15 @@ typedef NS_ENUM(NSUInteger, MSUserConfirmation) {
 /**
  * Set the delegate
  *
- * Defines the class that implements the optional protocol
- * `MSCrashesDelegate`.
+ * Defines the class that implements the optional protocol `MSCrashesDelegate`.
  *
  * @see MSCrashesDelegate
  */
 + (void)setDelegate:(_Nullable id<MSCrashesDelegate>)delegate;
 
 /**
- * Set a user confirmation handler that is invoked right before processing crash reports to
- * determine whether sending crash reports or not.
+ * Set a user confirmation handler that is invoked right before processing crash reports to determine whether sending
+ * crash reports or not.
  *
  * @param userConfirmationHandler A handler for user confirmation.
  * @see MSUserConfirmationHandler

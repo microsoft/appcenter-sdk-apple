@@ -30,7 +30,8 @@ static pthread_key_t _MSCrashesCXXExceptionInfoTSDKey = 0;
 
 @implementation MSCrashesUncaughtCXXExceptionHandlerManager
 
-extern "C" void __attribute__((noreturn)) __cxa_throw(void *exception_object, std::type_info *tinfo, void (*dest)(void *)) {
+extern "C" void __attribute__((noreturn))
+__cxa_throw(void *exception_object, std::type_info *tinfo, void (*dest)(void *)) {
   /**
    * Purposely do not take a lock in this function. The aim is to be as fast as
    * possible. While we could really use some of the info set up by the real
@@ -164,9 +165,7 @@ static void MSCrashesUncaughtCXXTerminateHandler(void) {
       }
     }
   }
-  OSSpinLockUnlock(&_MSCrashesCXXExceptionHandlingLock); // In case terminate is
-                                                          // called reentrantly by
-                                                          // pasing it on
+  OSSpinLockUnlock(&_MSCrashesCXXExceptionHandlingLock); // In case terminate is called reentrantly by passing it on.
 
   if (_MSCrashesOriginalTerminateHandler != nullptr) {
     _MSCrashesOriginalTerminateHandler();
@@ -226,9 +225,7 @@ static void MSCrashesUncaughtCXXTerminateHandler(void) {
 + (NSUInteger)countCXXExceptionHandler {
   NSUInteger count = 0;
   OSSpinLockLock(&_MSCrashesCXXExceptionHandlingLock);
-  {
-    count = _MSCrashesUncaughtExceptionHandlerList.size();
-  }
+  { count = _MSCrashesUncaughtExceptionHandlerList.size(); }
   OSSpinLockUnlock(&_MSCrashesCXXExceptionHandlingLock);
   return count;
 }

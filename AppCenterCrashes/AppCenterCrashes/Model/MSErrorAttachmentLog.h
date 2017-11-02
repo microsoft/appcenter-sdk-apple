@@ -31,7 +31,9 @@
  *
  * @return An instance of `MSErrorAttachmentLog`.
  */
-- (instancetype)initWithFilename:(NSString *)filename attachmentBinary:(NSData *)data contentType:(NSString *)contentType;
+- (instancetype)initWithFilename:(NSString *)filename
+                attachmentBinary:(NSData *)data
+                     contentType:(NSString *)contentType;
 
 /**
  * Initialize an attachment with a given filename and text.
