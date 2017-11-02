@@ -1,8 +1,8 @@
 #import "MSAnalytics.h"
+#import "MSAnalyticsDelegate.h"
 #import "MSServiceInternal.h"
 #import "MSSessionTracker.h"
 #import "MSSessionTrackerDelegate.h"
-#import "MSAnalyticsDelegate.h"
 
 @interface MSAnalytics () <MSSessionTrackerDelegate>
 

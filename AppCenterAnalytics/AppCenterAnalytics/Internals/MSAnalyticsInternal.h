@@ -1,7 +1,7 @@
 #import "MSAnalytics.h"
-#import "MSServiceInternal.h"
 #import "MSAnalyticsDelegate.h"
 #import "MSLogManagerDelegate.h"
+#import "MSServiceInternal.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
                                                   forLogName:(NSString *)logName
                                                      andType:(NSString *)logType;
 
-+ (void)setDelegate:(nullable id <MSAnalyticsDelegate>)delegate;
++ (void)setDelegate:(nullable id<MSAnalyticsDelegate>)delegate;
 
 @end
 
