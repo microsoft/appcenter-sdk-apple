@@ -206,7 +206,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   __block NSDictionary *customData = @{ @"key" : @"value" };
   NSDictionary *userInfo =
       @{ @"aps" : @{@"alert" : @{@"title" : title, @"body" : message}},
-         @"mobile_center" : customData };
+         @"app_center" : customData };
 #if TARGET_OS_OSX
   id userNotificationUserInfoMock = OCMClassMock([NSUserNotification class]);
   id notificationMock = OCMClassMock([NSNotification class]);
@@ -264,7 +264,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   [MSPush setDelegate:pushDelegateMock];
   __block NSString *message = @"notificationMessage";
   __block NSDictionary *customData = @{ @"key" : @"value" };
-  NSDictionary *userInfo = @{ @"aps" : @{@"alert" : message}, @"mobile_center" : customData };
+  NSDictionary *userInfo = @{ @"aps" : @{@"alert" : message}, @"app_center" : customData };
 #if TARGET_OS_OSX
   id userNotificationUserInfoMock = OCMClassMock([NSUserNotification class]);
   id notificationMock = OCMClassMock([NSNotification class]);
@@ -306,7 +306,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   [pushMock stopMocking];
 }
 
-- (void)testNotificationReceivedForNonMobileCenterNotification {
+- (void)testNotificationReceivedForNonAppCenterNotification {
 
   // If
   XCTestExpectation *notificationReceived = [self expectationWithDescription:@"Invalid notification received."];
