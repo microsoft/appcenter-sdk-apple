@@ -43,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6E04017D1D1CAC710051BCFA"
-               BuildableName = "MobileCenterIOSFramework"
-               BlueprintName = "MobileCenterIOSFramework"
-               ReferencedContainer = "container:../MobileCenter/MobileCenter.xcodeproj">
+               BuildableName = "AppCenterIOSFramework"
+               BlueprintName = "AppCenterIOSFramework"
+               ReferencedContainer = "container:../AppCenter/AppCenter.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -59,7 +59,7 @@
                BlueprintIdentifier = "E85547E41D2D681F002DF6E2"
                BuildableName = "AppCenterAnalyticsIOSFramework"
                BlueprintName = "AppCenterAnalyticsIOSFramework"
-               ReferencedContainer = "container:../MobileCenterAnalytics/AppCenterAnalytics.xcodeproj">
+               ReferencedContainer = "container:../AppCenterAnalytics/AppCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -73,7 +73,7 @@
                BlueprintIdentifier = "6E3729771D1DE83200F1E4AE"
                BuildableName = "AppCenterCrashesIOSFramework"
                BlueprintName = "AppCenterCrashesIOSFramework"
-               ReferencedContainer = "container:../MobileCenterCrashes/AppCenterCrashes.xcodeproj">
+               ReferencedContainer = "container:../AppCenterCrashes/AppCenterCrashes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -87,7 +87,7 @@
                BlueprintIdentifier = "04FD4A281E451E90009B4468"
                BuildableName = "AppCenterDistributeIOSFramework"
                BlueprintName = "AppCenterDistributeIOSFramework"
-               ReferencedContainer = "container:../MobileCenterDistribute/AppCenterDistribute.xcodeproj">
+               ReferencedContainer = "container:../AppCenterDistribute/AppCenterDistribute.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
