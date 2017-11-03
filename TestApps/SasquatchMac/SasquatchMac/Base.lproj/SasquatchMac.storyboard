@@ -686,7 +686,7 @@
             <objects>
                 <tabViewController selectedTabViewItemIndex="0" id="OMO-f4-RlH" sceneMemberID="viewController">
                     <tabViewItems>
-                        <tabViewItem label="Mobile Center" id="Ap3-Sy-ruD"/>
+                        <tabViewItem label="App Center" id="Ap3-Sy-ruD"/>
                         <tabViewItem label="Analytics" id="ffY-hS-eWq"/>
                         <tabViewItem label="Crashes" id="iER-DJ-FGF"/>
                         <tabViewItem label="Push" id="JWj-Ge-FfC"/>
@@ -712,17 +712,17 @@
             </objects>
             <point key="canvasLocation" x="75" y="713"/>
         </scene>
-        <!--Mobile Center View Controller-->
+        <!--App Center View Controller-->
         <scene sceneID="mgg-cM-79L">
             <objects>
-                <viewController id="O3Z-WH-pbf" customClass="MobileCenterViewController" customModule="SasquatchMacObjC" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="O3Z-WH-pbf" customClass="AppCenterViewController" customModule="SasquatchMacObjC" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="k9u-4S-Pzy">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="R4D-X9-Nms">
                                 <rect key="frame" x="179" y="263" width="93" height="17"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Mobile Center" id="Sm7-l2-kz7">
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="App Center" id="Sm7-l2-kz7">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>

@@ -1,9 +1,9 @@
 import Cocoa
 
-import MobileCenter
-import MobileCenterAnalytics
-import MobileCenterCrashes
-import MobileCenterPush
+import AppCenter
+import AppCenterAnalytics
+import AppCenterCrashes
+import AppCenterPush
 
 @NSApplicationMain
 @objc(AppDelegate)
@@ -34,11 +34,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
     // Push Delegate.
     MSPush.setDelegate(self);
 
-    // Start MobileCenter.
-    MSMobileCenter.setLogLevel(MSLogLevel.verbose)
-    MSMobileCenter.start("7e873482-108f-4609-8ef2-c4cebd7418c0", withServices : [ MSAnalytics.self, MSCrashes.self, MSPush.self ])
+    // Start AppCenter.
+    MSAppCenter.setLogLevel(MSLogLevel.verbose)
+    MSAppCenter.start("7e873482-108f-4609-8ef2-c4cebd7418c0", withServices : [ MSAnalytics.self, MSCrashes.self, MSPush.self ])
 
-    MobileCenterProvider.shared().mobileCenter = MobileCenterDelegateSwift()
+    AppCenterProvider.shared().appCenter = AppCenterDelegateSwift()
     
     initUI()
   }

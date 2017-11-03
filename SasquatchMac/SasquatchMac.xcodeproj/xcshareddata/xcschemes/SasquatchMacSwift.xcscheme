@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0485AFE61EAA937000C10CAF"
-               BuildableName = "MobileCenterMacOSFramework"
-               BlueprintName = "MobileCenterMacOSFramework"
-               ReferencedContainer = "container:../MobileCenter/MobileCenter.xcodeproj">
+               BuildableName = "AppCenterMacOSFramework"
+               BlueprintName = "AppCenterMacOSFramework"
+               ReferencedContainer = "container:../AppCenter/AppCenter.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -45,7 +45,7 @@
                BlueprintIdentifier = "0485AFEF1EAAADAC00C10CAF"
                BuildableName = "AppCenterAnalyticsMacOSFramework"
                BlueprintName = "AppCenterAnalyticsMacOSFramework"
-               ReferencedContainer = "container:../MobileCenterAnalytics/AppCenterAnalytics.xcodeproj">
+               ReferencedContainer = "container:../AppCenterAnalytics/AppCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -59,7 +59,7 @@
                BlueprintIdentifier = "0485AFF91EAAB27E00C10CAF"
                BuildableName = "AppCenterCrashesMacOSFramework"
                BlueprintName = "AppCenterCrashesMacOSFramework"
-               ReferencedContainer = "container:../MobileCenterCrashes/AppCenterCrashes.xcodeproj">
+               ReferencedContainer = "container:../AppCenterCrashes/AppCenterCrashes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -73,7 +73,7 @@
                BlueprintIdentifier = "0469640E1F2A558F00F9D31F"
                BuildableName = "AppCenterPushMacOSFramework"
                BlueprintName = "AppCenterPushMacOSFramework"
-               ReferencedContainer = "container:../MobileCenterPush/AppCenterPush.xcodeproj">
+               ReferencedContainer = "container:../AppCenterPush/AppCenterPush.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry

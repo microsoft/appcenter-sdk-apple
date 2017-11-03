@@ -2,7 +2,7 @@ import Cocoa
 
 class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableViewDelegate {
 
-  var mobileCenter: MobileCenterDelegate = MobileCenterProvider.shared().mobileCenter!
+  var appCenter: AppCenterDelegate = AppCenterProvider.shared().appCenter!
   var crashes = [Any]()
   @IBOutlet var setEnabledButton : NSButton?
   @IBOutlet weak var crashesTableView: NSTableView!
@@ -15,12 +15,12 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
   }
 
   override func viewWillAppear() {
-    setEnabledButton?.state = mobileCenter.isCrashesEnabled() ? 1 : 0
+    setEnabledButton?.state = appCenter.isCrashesEnabled() ? 1 : 0
   }
 
   @IBAction func setEnabled(sender : NSButton) {
-    mobileCenter.setCrashesEnabled(sender.state == 1)
-    sender.state = mobileCenter.isCrashesEnabled() ? 1 : 0
+    appCenter.setCrashesEnabled(sender.state == 1)
+    sender.state = appCenter.isCrashesEnabled() ? 1 : 0
   }
 
   func numberOfRows(in tableView: NSTableView) -> Int {
