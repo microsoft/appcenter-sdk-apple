@@ -1,7 +1,7 @@
 #import <Cocoa/Cocoa.h>
 
-@import MobileCenterCrashes;
-@import MobileCenterPush;
+@import AppCenterCrashes;
+@import AppCenterPush;
 
 @interface AppDelegate : NSObject <NSApplicationDelegate, MSCrashesDelegate, MSPushDelegate, NSUserNotificationCenterDelegate>
 

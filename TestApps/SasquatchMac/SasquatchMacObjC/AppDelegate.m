@@ -1,11 +1,11 @@
 #import "AppDelegate.h"
 #import "MSAlertController.h"
-#import "MobileCenterDelegateObjC.h"
+#import "AppCenterDelegateObjC.h"
 
-@import MobileCenter;
-@import MobileCenterAnalytics;
-@import MobileCenterCrashes;
-@import MobileCenterPush;
+@import AppCenter;
+@import AppCenterAnalytics;
+@import AppCenterCrashes;
+@import AppCenterPush;
 
 static NSString *const kSMLogTag = @"[SasquatchMac]";
 
@@ -18,16 +18,16 @@ static NSString *const kSMLogTag = @"[SasquatchMac]";
 @implementation AppDelegate
 
 - (void) applicationDidFinishLaunching:(NSNotification *)notification {
-  [MSMobileCenter setLogLevel:MSLogLevelVerbose];
+  [MSAppCenter setLogLevel:MSLogLevelVerbose];
 
   // Customize services.
   [self setupCrashes];
   [self setupPush];
 
-  // Start MobileCenter.
-  [MSMobileCenter start:@"d80aae71-af34-4e0c-af61-2381391c4a7a"
+  // Start AppCenter.
+  [MSAppCenter start:@"d80aae71-af34-4e0c-af61-2381391c4a7a"
            withServices:@[ [MSAnalytics class], [MSCrashes class], [MSPush class] ]];
-  [MobileCenterProvider shared].mobileCenter = [[MobileCenterDelegateObjC alloc] init];
+  [AppCenterProvider shared].appCenter = [[AppCenterDelegateObjC alloc] init];
 
   [self initUI];
 }

@@ -7,34 +7,34 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		042319CD1EAAD720008FACA0 /* MobileCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 042319CC1EAAD720008FACA0 /* MobileCenterCrashes.framework */; };
-		042319CE1EAAD73F008FACA0 /* MobileCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D31EAAC7510033BAAE /* MobileCenterAnalytics.framework */; };
-		042319CF1EAAD73F008FACA0 /* MobileCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 042319CC1EAAD720008FACA0 /* MobileCenterCrashes.framework */; };
-		042496851EC3CE2F00502B62 /* MobileCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042496831EC3CE2F00502B62 /* MobileCenterDelegate.swift */; };
-		042496861EC3CE2F00502B62 /* MobileCenterProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042496841EC3CE2F00502B62 /* MobileCenterProvider.swift */; };
-		042496871EC3CE3500502B62 /* MobileCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042496831EC3CE2F00502B62 /* MobileCenterDelegate.swift */; };
-		042496881EC3CE3700502B62 /* MobileCenterProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042496841EC3CE2F00502B62 /* MobileCenterProvider.swift */; };
-		0424968B1EC3D29900502B62 /* MobileCenterDelegateObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0424968A1EC3D29900502B62 /* MobileCenterDelegateObjC.m */; };
+		042319CD1EAAD720008FACA0 /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 042319CC1EAAD720008FACA0 /* AppCenterCrashes.framework */; };
+		042319CE1EAAD73F008FACA0 /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D31EAAC7510033BAAE /* AppCenterAnalytics.framework */; };
+		042319CF1EAAD73F008FACA0 /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 042319CC1EAAD720008FACA0 /* AppCenterCrashes.framework */; };
+		042496851EC3CE2F00502B62 /* AppCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042496831EC3CE2F00502B62 /* AppCenterDelegate.swift */; };
+		042496861EC3CE2F00502B62 /* AppCenterProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042496841EC3CE2F00502B62 /* AppCenterProvider.swift */; };
+		042496871EC3CE3500502B62 /* AppCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042496831EC3CE2F00502B62 /* AppCenterDelegate.swift */; };
+		042496881EC3CE3700502B62 /* AppCenterProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042496841EC3CE2F00502B62 /* AppCenterProvider.swift */; };
+		0424968B1EC3D29900502B62 /* AppCenterDelegateObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0424968A1EC3D29900502B62 /* AppCenterDelegateObjC.m */; };
 		0431219A1EE0DB4D007054C5 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 043121991EE0DB4D007054C5 /* MSAlertController.m */; };
 		0431219B1EE0DB5D007054C5 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 043121991EE0DB4D007054C5 /* MSAlertController.m */; };
-		046964561F2A607D00F9D31F /* MobileCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046964551F2A607D00F9D31F /* MobileCenterPush.framework */; };
-		046964581F2A74E600F9D31F /* MobileCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046964551F2A607D00F9D31F /* MobileCenterPush.framework */; };
-		04ED31E61EAAD1B30033BAAE /* MobileCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D31EAAC7510033BAAE /* MobileCenterAnalytics.framework */; };
-		04ED31E71EAAD1B30033BAAE /* MobileCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D41EAAC7510033BAAE /* MobileCenter.framework */; };
+		046964561F2A607D00F9D31F /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046964551F2A607D00F9D31F /* AppCenterPush.framework */; };
+		046964581F2A74E600F9D31F /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046964551F2A607D00F9D31F /* AppCenterPush.framework */; };
+		04ED31E61EAAD1B30033BAAE /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D31EAAC7510033BAAE /* AppCenterAnalytics.framework */; };
+		04ED31E71EAAD1B30033BAAE /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D41EAAC7510033BAAE /* AppCenter.framework */; };
 		5C6F9BAD1EB8B730009E52D8 /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F9BAC1EB8B730009E52D8 /* AnalyticsViewController.swift */; };
 		5C6F9BB61EB8EEFC009E52D8 /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F9BAC1EB8B730009E52D8 /* AnalyticsViewController.swift */; };
 		5C6F9BB81EB8F2E9009E52D8 /* CrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F9BB71EB8F2E9009E52D8 /* CrashesViewController.swift */; };
 		5C6F9BB91EB8F2E9009E52D8 /* CrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F9BB71EB8F2E9009E52D8 /* CrashesViewController.swift */; };
-		5C6F9BCD1EB8FBE6009E52D8 /* MobileCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D41EAAC7510033BAAE /* MobileCenter.framework */; };
-		5C9BBC811EC4829200CA77A3 /* MobileCenterDelegateSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9BBC801EC4829200CA77A3 /* MobileCenterDelegateSwift.swift */; };
-		5CD6257A1ECDA4280053DC6C /* MobileCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD625791ECDA4280053DC6C /* MobileCenterViewController.swift */; };
+		5C6F9BCD1EB8FBE6009E52D8 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D41EAAC7510033BAAE /* AppCenter.framework */; };
+		5C9BBC811EC4829200CA77A3 /* AppCenterDelegateSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9BBC801EC4829200CA77A3 /* AppCenterDelegateSwift.swift */; };
+		5CD6257A1ECDA4280053DC6C /* AppCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD625791ECDA4280053DC6C /* AppCenterViewController.swift */; };
 		803CFF381F6A87180072B9BA /* PushViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803CFF371F6A87180072B9BA /* PushViewController.swift */; };
 		803CFF391F6A87180072B9BA /* PushViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803CFF371F6A87180072B9BA /* PushViewController.swift */; };
 		8065B5BB1F4C4169004FF622 /* CrashLibMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8065B5BA1F4C4169004FF622 /* CrashLibMac.framework */; };
 		8065B5BC1F4C4169004FF622 /* CrashLibMac.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8065B5BA1F4C4169004FF622 /* CrashLibMac.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8065B5BD1F4C6778004FF622 /* CrashLibMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8065B5BA1F4C4169004FF622 /* CrashLibMac.framework */; };
 		8065B5BE1F4C6778004FF622 /* CrashLibMac.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8065B5BA1F4C4169004FF622 /* CrashLibMac.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		C2A4A2691EE7684A0080FD22 /* MobileCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD625791ECDA4280053DC6C /* MobileCenterViewController.swift */; };
+		C2A4A2691EE7684A0080FD22 /* AppCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD625791ECDA4280053DC6C /* AppCenterViewController.swift */; };
 		D3C31C261E8E75B300B288CE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C31C251E8E75B300B288CE /* AppDelegate.m */; };
 		D3C31C291E8E75B300B288CE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C31C281E8E75B300B288CE /* main.m */; };
 		D3C31C2E1E8E75B300B288CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3C31C2D1E8E75B300B288CE /* Assets.xcassets */; };
@@ -70,23 +70,23 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		042319CC1EAAD720008FACA0 /* MobileCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterCrashes.framework; path = "../MobileCenter-SDK-Apple/macOS/MobileCenterCrashes.framework"; sourceTree = "<group>"; };
-		042496831EC3CE2F00502B62 /* MobileCenterDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileCenterDelegate.swift; sourceTree = "<group>"; };
-		042496841EC3CE2F00502B62 /* MobileCenterProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileCenterProvider.swift; sourceTree = "<group>"; };
-		042496891EC3D29900502B62 /* MobileCenterDelegateObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobileCenterDelegateObjC.h; sourceTree = "<group>"; };
-		0424968A1EC3D29900502B62 /* MobileCenterDelegateObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MobileCenterDelegateObjC.m; sourceTree = "<group>"; };
+		042319CC1EAAD720008FACA0 /* AppCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterCrashes.framework; path = "../AppCenter-SDK-Apple/macOS/AppCenterCrashes.framework"; sourceTree = "<group>"; };
+		042496831EC3CE2F00502B62 /* AppCenterDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCenterDelegate.swift; sourceTree = "<group>"; };
+		042496841EC3CE2F00502B62 /* AppCenterProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCenterProvider.swift; sourceTree = "<group>"; };
+		042496891EC3D29900502B62 /* AppCenterDelegateObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppCenterDelegateObjC.h; sourceTree = "<group>"; };
+		0424968A1EC3D29900502B62 /* AppCenterDelegateObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppCenterDelegateObjC.m; sourceTree = "<group>"; };
 		043121981EE0DB4D007054C5 /* MSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAlertController.h; sourceTree = "<group>"; };
 		043121991EE0DB4D007054C5 /* MSAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAlertController.m; sourceTree = "<group>"; };
 		045A947F1F97C855002B7CB1 /* App.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = App.xcconfig; path = ../../../Config/App.xcconfig; sourceTree = "<group>"; };
 		046964541F2A5EE600F9D31F /* SasquatchMacObjC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchMacObjC.entitlements; sourceTree = "<group>"; };
-		046964551F2A607D00F9D31F /* MobileCenterPush.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterPush.framework; path = "../MobileCenter-SDK-Apple/macOS/MobileCenterPush.framework"; sourceTree = "<group>"; };
+		046964551F2A607D00F9D31F /* AppCenterPush.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterPush.framework; path = "../AppCenter-SDK-Apple/macOS/AppCenterPush.framework"; sourceTree = "<group>"; };
 		046964571F2A721100F9D31F /* SasquatchMacSwift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchMacSwift.entitlements; sourceTree = "<group>"; };
-		04ED31D31EAAC7510033BAAE /* MobileCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterAnalytics.framework; path = "../MobileCenter-SDK-Apple/macOS/MobileCenterAnalytics.framework"; sourceTree = "<group>"; };
-		04ED31D41EAAC7510033BAAE /* MobileCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenter.framework; path = "../MobileCenter-SDK-Apple/macOS/MobileCenter.framework"; sourceTree = "<group>"; };
+		04ED31D31EAAC7510033BAAE /* AppCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterAnalytics.framework; path = "../AppCenter-SDK-Apple/macOS/AppCenterAnalytics.framework"; sourceTree = "<group>"; };
+		04ED31D41EAAC7510033BAAE /* AppCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenter.framework; path = "../AppCenter-SDK-Apple/macOS/AppCenter.framework"; sourceTree = "<group>"; };
 		5C6F9BAC1EB8B730009E52D8 /* AnalyticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsViewController.swift; sourceTree = "<group>"; };
 		5C6F9BB71EB8F2E9009E52D8 /* CrashesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashesViewController.swift; sourceTree = "<group>"; };
-		5C9BBC801EC4829200CA77A3 /* MobileCenterDelegateSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileCenterDelegateSwift.swift; sourceTree = "<group>"; };
-		5CD625791ECDA4280053DC6C /* MobileCenterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileCenterViewController.swift; sourceTree = "<group>"; };
+		5C9BBC801EC4829200CA77A3 /* AppCenterDelegateSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCenterDelegateSwift.swift; sourceTree = "<group>"; };
+		5CD625791ECDA4280053DC6C /* AppCenterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCenterViewController.swift; sourceTree = "<group>"; };
 		803CFF371F6A87180072B9BA /* PushViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushViewController.swift; sourceTree = "<group>"; };
 		8065B5BA1F4C4169004FF622 /* CrashLibMac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibMac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80A3A89A1F0BF30100FBE3B6 /* SasquatchMac-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SasquatchMac-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -109,10 +109,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04ED31E71EAAD1B30033BAAE /* MobileCenter.framework in Frameworks */,
-				04ED31E61EAAD1B30033BAAE /* MobileCenterAnalytics.framework in Frameworks */,
-				042319CD1EAAD720008FACA0 /* MobileCenterCrashes.framework in Frameworks */,
-				046964561F2A607D00F9D31F /* MobileCenterPush.framework in Frameworks */,
+				04ED31E71EAAD1B30033BAAE /* AppCenter.framework in Frameworks */,
+				04ED31E61EAAD1B30033BAAE /* AppCenterAnalytics.framework in Frameworks */,
+				042319CD1EAAD720008FACA0 /* AppCenterCrashes.framework in Frameworks */,
+				046964561F2A607D00F9D31F /* AppCenterPush.framework in Frameworks */,
 				8065B5BD1F4C6778004FF622 /* CrashLibMac.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -121,10 +121,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5C6F9BCD1EB8FBE6009E52D8 /* MobileCenter.framework in Frameworks */,
-				042319CE1EAAD73F008FACA0 /* MobileCenterAnalytics.framework in Frameworks */,
-				042319CF1EAAD73F008FACA0 /* MobileCenterCrashes.framework in Frameworks */,
-				046964581F2A74E600F9D31F /* MobileCenterPush.framework in Frameworks */,
+				5C6F9BCD1EB8FBE6009E52D8 /* AppCenter.framework in Frameworks */,
+				042319CE1EAAD73F008FACA0 /* AppCenterAnalytics.framework in Frameworks */,
+				042319CF1EAAD73F008FACA0 /* AppCenterCrashes.framework in Frameworks */,
+				046964581F2A74E600F9D31F /* AppCenterPush.framework in Frameworks */,
 				8065B5BB1F4C4169004FF622 /* CrashLibMac.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -165,8 +165,8 @@
 		D3C31C0E1E8E757300B288CE /* SasquatchMac */ = {
 			isa = PBXGroup;
 			children = (
-				042496831EC3CE2F00502B62 /* MobileCenterDelegate.swift */,
-				042496841EC3CE2F00502B62 /* MobileCenterProvider.swift */,
+				042496831EC3CE2F00502B62 /* AppCenterDelegate.swift */,
+				042496841EC3CE2F00502B62 /* AppCenterProvider.swift */,
 				D3C31C6F1E8E772E00B288CE /* Storyboards */,
 				D3C31C701E8E774000B288CE /* Supporting Files */,
 				043121971EE0DB2C007054C5 /* MSAlertController */,
@@ -182,8 +182,8 @@
 				046964541F2A5EE600F9D31F /* SasquatchMacObjC.entitlements */,
 				D3C31C241E8E75B300B288CE /* AppDelegate.h */,
 				D3C31C251E8E75B300B288CE /* AppDelegate.m */,
-				042496891EC3D29900502B62 /* MobileCenterDelegateObjC.h */,
-				0424968A1EC3D29900502B62 /* MobileCenterDelegateObjC.m */,
+				042496891EC3D29900502B62 /* AppCenterDelegateObjC.h */,
+				0424968A1EC3D29900502B62 /* AppCenterDelegateObjC.m */,
 				D3C31C271E8E75B300B288CE /* Supporting Files */,
 			);
 			name = SasquatchMacObjC;
@@ -205,7 +205,7 @@
 			children = (
 				046964571F2A721100F9D31F /* SasquatchMacSwift.entitlements */,
 				D3C31C621E8E763600B288CE /* AppDelegate.swift */,
-				5C9BBC801EC4829200CA77A3 /* MobileCenterDelegateSwift.swift */,
+				5C9BBC801EC4829200CA77A3 /* AppCenterDelegateSwift.swift */,
 				D3C31C721E8E77BE00B288CE /* Supporting Files */,
 			);
 			name = SasquatchMacSwift;
@@ -234,7 +234,7 @@
 			children = (
 				5C6F9BAC1EB8B730009E52D8 /* AnalyticsViewController.swift */,
 				5C6F9BB71EB8F2E9009E52D8 /* CrashesViewController.swift */,
-				5CD625791ECDA4280053DC6C /* MobileCenterViewController.swift */,
+				5CD625791ECDA4280053DC6C /* AppCenterViewController.swift */,
 				803CFF371F6A87180072B9BA /* PushViewController.swift */,
 			);
 			path = ViewControllers;
@@ -254,10 +254,10 @@
 			children = (
 				B2CD74CF1F22C3150070E7DF /* libsqlite3.tbd */,
 				8065B5BA1F4C4169004FF622 /* CrashLibMac.framework */,
-				046964551F2A607D00F9D31F /* MobileCenterPush.framework */,
-				042319CC1EAAD720008FACA0 /* MobileCenterCrashes.framework */,
-				04ED31D31EAAC7510033BAAE /* MobileCenterAnalytics.framework */,
-				04ED31D41EAAC7510033BAAE /* MobileCenter.framework */,
+				046964551F2A607D00F9D31F /* AppCenterPush.framework */,
+				042319CC1EAAD720008FACA0 /* AppCenterCrashes.framework */,
+				04ED31D31EAAC7510033BAAE /* AppCenterAnalytics.framework */,
+				04ED31D41EAAC7510033BAAE /* AppCenter.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -378,16 +378,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				042496861EC3CE2F00502B62 /* MobileCenterProvider.swift in Sources */,
+				042496861EC3CE2F00502B62 /* AppCenterProvider.swift in Sources */,
 				5C6F9BB81EB8F2E9009E52D8 /* CrashesViewController.swift in Sources */,
-				042496851EC3CE2F00502B62 /* MobileCenterDelegate.swift in Sources */,
+				042496851EC3CE2F00502B62 /* AppCenterDelegate.swift in Sources */,
 				D3C31C291E8E75B300B288CE /* main.m in Sources */,
 				D3C31C261E8E75B300B288CE /* AppDelegate.m in Sources */,
 				0431219A1EE0DB4D007054C5 /* MSAlertController.m in Sources */,
-				5CD6257A1ECDA4280053DC6C /* MobileCenterViewController.swift in Sources */,
+				5CD6257A1ECDA4280053DC6C /* AppCenterViewController.swift in Sources */,
 				5C6F9BAD1EB8B730009E52D8 /* AnalyticsViewController.swift in Sources */,
 				803CFF381F6A87180072B9BA /* PushViewController.swift in Sources */,
-				0424968B1EC3D29900502B62 /* MobileCenterDelegateObjC.m in Sources */,
+				0424968B1EC3D29900502B62 /* AppCenterDelegateObjC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -395,15 +395,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5C9BBC811EC4829200CA77A3 /* MobileCenterDelegateSwift.swift in Sources */,
-				C2A4A2691EE7684A0080FD22 /* MobileCenterViewController.swift in Sources */,
-				042496881EC3CE3700502B62 /* MobileCenterProvider.swift in Sources */,
+				5C9BBC811EC4829200CA77A3 /* AppCenterDelegateSwift.swift in Sources */,
+				C2A4A2691EE7684A0080FD22 /* AppCenterViewController.swift in Sources */,
+				042496881EC3CE3700502B62 /* AppCenterProvider.swift in Sources */,
 				D3C31C631E8E763600B288CE /* AppDelegate.swift in Sources */,
 				5C6F9BB91EB8F2E9009E52D8 /* CrashesViewController.swift in Sources */,
 				803CFF391F6A87180072B9BA /* PushViewController.swift in Sources */,
 				0431219B1EE0DB5D007054C5 /* MSAlertController.m in Sources */,
 				5C6F9BB61EB8EEFC009E52D8 /* AnalyticsViewController.swift in Sources */,
-				042496871EC3CE3500502B62 /* MobileCenterDelegate.swift in Sources */,
+				042496871EC3CE3500502B62 /* AppCenterDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -449,7 +449,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-Apple/macOS/**";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../AppCenter-SDK-Apple/macOS/**";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -503,7 +503,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-Apple/macOS/**";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../AppCenter-SDK-Apple/macOS/**";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

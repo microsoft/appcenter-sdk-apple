@@ -8,7 +8,7 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
     static let valueCellId = "valueCellId"
   }
 
-  var mobileCenter: MobileCenterDelegate = MobileCenterProvider.shared().mobileCenter!
+  var appCenter: AppCenterDelegate = AppCenterProvider.shared().appCenter!
 
   @IBOutlet var setEnabledButton : NSButton?
   @IBOutlet var table : NSTableView?
@@ -19,7 +19,7 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    setEnabledButton?.state = mobileCenter.isAnalyticsEnabled() ? 1 : 0
+    setEnabledButton?.state = appCenter.isAnalyticsEnabled() ? 1 : 0
     table?.delegate = self
     table?.dataSource = self
     NotificationCenter.default.addObserver(self, selector: #selector(self.editingDidBegin), name: .NSControlTextDidBeginEditing, object: nil)
@@ -27,7 +27,7 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
   }
 
   override func viewWillAppear() {
-    setEnabledButton?.state = mobileCenter.isAnalyticsEnabled() ? 1 : 0;
+    setEnabledButton?.state = appCenter.isAnalyticsEnabled() ? 1 : 0;
   }
 
   override func viewDidDisappear() {
@@ -36,7 +36,7 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
   }
 
   @IBAction func trackEvent(_ : AnyObject) {
-    mobileCenter.trackEvent("myEvent", withProperties: properties)
+    appCenter.trackEvent("myEvent", withProperties: properties)
   }
 
   @IBAction func trackPage(_ : AnyObject) {
@@ -70,8 +70,8 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
   }
 
   @IBAction func setEnabled(sender : NSButton) {
-    mobileCenter.setAnalyticsEnabled(sender.state == 1)
-    sender.state = mobileCenter.isAnalyticsEnabled() ? 1 : 0
+    appCenter.setAnalyticsEnabled(sender.state == 1)
+    sender.state = appCenter.isAnalyticsEnabled() ? 1 : 0
   }
 
   //MARK: Table view source delegate
