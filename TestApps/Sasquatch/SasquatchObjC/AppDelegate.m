@@ -1,12 +1,12 @@
+#import "AppCenterDelegateObjC.h"
 #import "AppDelegate.h"
 #import "MSAlertController.h"
-#import "MobileCenterDelegateObjC.h"
 
-@import MobileCenter;
-@import MobileCenterAnalytics;
-@import MobileCenterCrashes;
-@import MobileCenterDistribute;
-@import MobileCenterPush;
+@import AppCenter;
+@import AppCenterAnalytics;
+@import AppCenterCrashes;
+@import AppCenterDistribute;
+@import AppCenterPush;
 
 @interface AppDelegate () <MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate>
 
@@ -16,22 +16,22 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-  // Cusomize Mobile Center SDK.
+  // Cusomize App Center SDK.
   [MSDistribute setDelegate:self];
   [MSPush setDelegate:self];
-  [MSMobileCenter setLogLevel:MSLogLevelVerbose];
+  [MSAppCenter setLogLevel:MSLogLevelVerbose];
 
-// Start Mobile Center SDK.
+// Start App Center SDK.
 #if DEBUG
-  [MSMobileCenter start:@"3ccfe7f5-ec01-4de5-883c-f563bbbe147a"
+  [MSAppCenter start:@"3ccfe7f5-ec01-4de5-883c-f563bbbe147a"
            withServices:@[ [MSAnalytics class], [MSCrashes class], [MSPush class] ]];
 #else
-  [MSMobileCenter start:@"3ccfe7f5-ec01-4de5-883c-f563bbbe147a"
+  [MSAppCenter start:@"3ccfe7f5-ec01-4de5-883c-f563bbbe147a"
            withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class] ]];
 #endif
 
   [self crashes];
-  [self setMobileCenterDelegate];
+  [self setAppCenterDelegate];
   return YES;
 }
 
@@ -101,10 +101,10 @@
              })];
 }
 
-- (void)setMobileCenterDelegate {
+- (void)setAppCenterDelegate {
   MSMainViewController *sasquatchController =
       (MSMainViewController *)[(UINavigationController *)[[self window] rootViewController] topViewController];
-  sasquatchController.mobileCenter = [[MobileCenterDelegateObjC alloc] init];
+  sasquatchController.appCenter = [[AppCenterDelegateObjC alloc] init];
 }
 
 #pragma mark - MSCrashesDelegate

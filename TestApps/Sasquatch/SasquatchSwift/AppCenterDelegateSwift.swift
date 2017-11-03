@@ -1,8 +1,8 @@
-import MobileCenter
-import MobileCenterAnalytics
-import MobileCenterCrashes
-import MobileCenterDistribute
-import MobileCenterPush
+import AppCenter
+import AppCenterAnalytics
+import AppCenterCrashes
+import AppCenterDistribute
+import AppCenterPush
 
 /**
  * Selectors for reflection.
@@ -15,38 +15,38 @@ import MobileCenterPush
 }
 
 /**
- * MobileCenterDelegate implementation in Swift.
+ * AppCenterDelegate implementation in Swift.
  */
-class MobileCenterDelegateSwift: MobileCenterDelegate {
+class AppCenterDelegateSwift: AppCenterDelegate {
   
-  // MSMobileCenter section.
-  func isMobileCenterEnabled() -> Bool{
-    return MSMobileCenter.isEnabled()
+  // MSAppCenter section.
+  func isAppCenterEnabled() -> Bool{
+    return MSAppCenter.isEnabled()
   }
-  func setMobileCenterEnabled(_ isEnabled: Bool){
-    MSMobileCenter.setEnabled(isEnabled)
+  func setAppCenterEnabled(_ isEnabled: Bool){
+    MSAppCenter.setEnabled(isEnabled)
   }
   func setCustomProperties(_ customProperties: MSCustomProperties){
-    MSMobileCenter.setCustomProperties(customProperties)
+    MSAppCenter.setCustomProperties(customProperties)
   }
   func installId() -> String{
-    return MSMobileCenter.installId().uuidString
+    return MSAppCenter.installId().uuidString
   }
   func appSecret() -> String{
     // TODO: Uncomment when appSecret is moved from internal to public
-    // return MSMobileCenter.sharedInstance().appSecret()
+    // return MSAppCenter.sharedInstance().appSecret()
     return "Internal"
   }
   func logUrl() -> String{
     // TODO: Uncomment when logUrl is moved from internal to public
-    // return MSMobileCenter.sharedInstance().logUrl()
+    // return MSAppCenter.sharedInstance().logUrl()
     return "Internal"
   }
   func sdkVersion() ->String {
-    return MSMobileCenter.sdkVersion()
+    return MSAppCenter.sdkVersion()
   }
   func isDebuggerAttached() -> Bool{
-    return MSMobileCenter.isDebuggerAttached()
+    return MSAppCenter.isDebuggerAttached()
   }
   
   // Modules section.
