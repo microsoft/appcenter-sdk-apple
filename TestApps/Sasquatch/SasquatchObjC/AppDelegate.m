@@ -1,6 +1,6 @@
+#import "AppCenterDelegateObjC.h"
 #import "AppDelegate.h"
 #import "MSAlertController.h"
-#import "AppCenterDelegateObjC.h"
 
 @import AppCenter;
 @import AppCenterAnalytics;
