@@ -1,45 +1,45 @@
 #import "MSAlertController.h"
-#import "MobileCenterDelegateObjC.h"
+#import "AppCenterDelegateObjC.h"
 
-@import MobileCenter;
-@import MobileCenterAnalytics;
-@import MobileCenterCrashes;
-@import MobileCenterDistribute;
-@import MobileCenterPush;
+@import AppCenter;
+@import AppCenterAnalytics;
+@import AppCenterCrashes;
+@import AppCenterDistribute;
+@import AppCenterPush;
 
 /**
- * MobileCenterDelegate implementation in Objective C.
+ * AppCenterDelegate implementation in Objective C.
  */
-@implementation MobileCenterDelegateObjC
+@implementation AppCenterDelegateObjC
 
-#pragma mark - MSMobileCenter section.
-- (BOOL) isMobileCenterEnabled{
-  return [MSMobileCenter isEnabled];
+#pragma mark - MSAppCenter section.
+- (BOOL) isAppCenterEnabled{
+  return [MSAppCenter isEnabled];
 }
-- (void) setMobileCenterEnabled:(BOOL)isEnabled{
-  return [MSMobileCenter setEnabled:isEnabled];
+- (void) setAppCenterEnabled:(BOOL)isEnabled{
+  return [MSAppCenter setEnabled:isEnabled];
 }
 - (NSString *) installId{
-  return [[MSMobileCenter installId] UUIDString];
+  return [[MSAppCenter installId] UUIDString];
 }
 - (NSString *) appSecret{
   // TODO: Uncomment when appSecret is moved from internal to public
-  // return [[MSMobileCenter sharedInstance] appSecret];
+  // return [[MSAppCenter sharedInstance] appSecret];
   return @"Internal";
 }
 - (NSString *) logUrl{
   // TODO: Uncomment when logUrl is moved from internal to public
-  // return [[MSMobileCenter sharedInstance] logUrl];
+  // return [[MSAppCenter sharedInstance] logUrl];
   return @"Internal";
 }
 - (NSString *) sdkVersion{
-  return [MSMobileCenter sdkVersion];
+  return [MSAppCenter sdkVersion];
 }
 - (BOOL) isDebuggerAttached{
-  return [MSMobileCenter isDebuggerAttached];
+  return [MSAppCenter isDebuggerAttached];
 }
 - (void) setCustomProperties:(MSCustomProperties *)customProperties {
-  [MSMobileCenter setCustomProperties:customProperties];
+  [MSAppCenter setCustomProperties:customProperties];
 }
 
 #pragma mark - Modules section.

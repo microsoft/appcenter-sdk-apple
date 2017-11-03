@@ -1,15 +1,15 @@
 import UIKit
 
-class MSAnalyticsViewController: UITableViewController, MobileCenterProtocol {
+class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   
   @IBOutlet weak var propertiesTable: UITableView!
   @IBOutlet weak var enabled: UISwitch!
-  var mobileCenter: MobileCenterDelegate!
+  var appCenter: AppCenterDelegate!
   var propertiesSource: MSPropertiesTableDataSource?
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.enabled.isOn = mobileCenter.isAnalyticsEnabled()
+    self.enabled.isOn = appCenter.isAnalyticsEnabled()
     propertiesSource = MSPropertiesTableDataSource.init(table: propertiesTable)
   }
 
@@ -28,9 +28,9 @@ class MSAnalyticsViewController: UITableViewController, MobileCenterProtocol {
     case 1:
       switch indexPath.row {
       case 0:
-        mobileCenter.trackEvent("myEvent", withProperties: propertiesSource?.properties() as! Dictionary<String, String>)
+        appCenter.trackEvent("myEvent", withProperties: propertiesSource?.properties() as! Dictionary<String, String>)
       case 1:
-        mobileCenter.trackPage("myPage", withProperties: propertiesSource?.properties() as! Dictionary<String, String>)
+        appCenter.trackPage("myPage", withProperties: propertiesSource?.properties() as! Dictionary<String, String>)
       default: ()
       }
       break
@@ -39,7 +39,7 @@ class MSAnalyticsViewController: UITableViewController, MobileCenterProtocol {
   }
   
   @IBAction func enabledSwitchUpdated(_ sender: UISwitch) {
-    mobileCenter.setAnalyticsEnabled(sender.isOn)
-    sender.isOn = mobileCenter.isAnalyticsEnabled()
+    appCenter.setAnalyticsEnabled(sender.isOn)
+    sender.isOn = appCenter.isAnalyticsEnabled()
   }
 }

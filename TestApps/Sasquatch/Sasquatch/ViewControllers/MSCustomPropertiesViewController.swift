@@ -1,8 +1,8 @@
 import UIKit
-import MobileCenter
+import AppCenter
 
-class MSCustomPropertiesViewController : UITableViewController, MobileCenterProtocol {
-  var mobileCenter: MobileCenterDelegate!
+class MSCustomPropertiesViewController : UITableViewController, AppCenterProtocol {
+  var appCenter: AppCenterDelegate!
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -20,25 +20,25 @@ class MSCustomPropertiesViewController : UITableViewController, MobileCenterProt
       // Set String
       case 0:
         customProperties.setString("test", forKey: "test")
-        mobileCenter.setCustomProperties(customProperties)
+        appCenter.setCustomProperties(customProperties)
         break
         
       // Set Number
       case 1:
         customProperties.setNumber(42, forKey: "test")
-        mobileCenter.setCustomProperties(customProperties)
+        appCenter.setCustomProperties(customProperties)
         break
         
       // Set Boolean
       case 2:
         customProperties.setBool(false, forKey: "test")
-        mobileCenter.setCustomProperties(customProperties)
+        appCenter.setCustomProperties(customProperties)
         break
         
       // Set Date
       case 3:
         customProperties.setDate(Date(), forKey: "test")
-        mobileCenter.setCustomProperties(customProperties)
+        appCenter.setCustomProperties(customProperties)
         break
         
       // Set Mutliple
@@ -47,13 +47,13 @@ class MSCustomPropertiesViewController : UITableViewController, MobileCenterProt
         customProperties.setDate(Date(), forKey: "t2")
         customProperties.setNumber(42, forKey: "t3")
         customProperties.setBool(false, forKey: "t4")
-        mobileCenter.setCustomProperties(customProperties)
+        appCenter.setCustomProperties(customProperties)
         break
         
       // Clear
       case 5:
         customProperties.clearProperty(forKey: "test")
-        mobileCenter.setCustomProperties(customProperties)
+        appCenter.setCustomProperties(customProperties)
         break
         
       default: break

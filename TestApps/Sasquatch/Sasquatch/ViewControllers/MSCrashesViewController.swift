@@ -1,9 +1,9 @@
 import UIKit
 
-class MSCrashesViewController: UITableViewController, MobileCenterProtocol {
+class MSCrashesViewController: UITableViewController, AppCenterProtocol {
   
   var categories = [String: [MSCrash]]()
-  var mobileCenter: MobileCenterDelegate!
+  var appCenter: AppCenterDelegate!
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -64,7 +64,7 @@ class MSCrashesViewController: UITableViewController, MobileCenterProtocol {
     if isLast{
       for view in cell.contentView.subviews {
         if let switchView = view as? UISwitch{
-          switchView.isOn = mobileCenter.isCrashesEnabled()
+          switchView.isOn = appCenter.isCrashesEnabled()
         }
       }
     } else {
@@ -75,8 +75,8 @@ class MSCrashesViewController: UITableViewController, MobileCenterProtocol {
   }
   
   @IBAction func enabledSwitchUpdated(_ sender: UISwitch) {
-    mobileCenter.setCrashesEnabled(sender.isOn)
-    sender.isOn = mobileCenter.isCrashesEnabled()
+    appCenter.setCrashesEnabled(sender.isOn)
+    sender.isOn = appCenter.isCrashesEnabled()
   }
   
   private func pokeAllCrashes(){

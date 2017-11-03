@@ -1,10 +1,10 @@
 import UIKit
 
-import MobileCenter
-import MobileCenterAnalytics
-import MobileCenterCrashes
-import MobileCenterDistribute
-import MobileCenterPush
+import AppCenter
+import AppCenterAnalytics
+import AppCenterCrashes
+import AppCenterDistribute
+import AppCenterPush
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate {
@@ -13,17 +13,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
-    // Customize Mobile Center SDK.
+    // Customize App Center SDK.
     MSCrashes.setDelegate(self)
     MSDistribute.setDelegate(self)
     MSPush.setDelegate(self)
-    MSMobileCenter.setLogLevel(MSLogLevel.verbose)
+    MSAppCenter.setLogLevel(MSLogLevel.verbose)
 
-    // Start Mobile Center SDK.
+    // Start App Center SDK.
     #if DEBUG
-      MSMobileCenter.start("0dbca56b-b9ae-4d53-856a-7c2856137d85", withServices: [MSAnalytics.self, MSCrashes.self, MSPush.self])
+      MSAppCenter.start("0dbca56b-b9ae-4d53-856a-7c2856137d85", withServices: [MSAnalytics.self, MSCrashes.self, MSPush.self])
     #else
-      MSMobileCenter.start("0dbca56b-b9ae-4d53-856a-7c2856137d85", withServices: [MSAnalytics.self, MSCrashes.self, MSDistribute.self, MSPush.self])
+      MSAppCenter.start("0dbca56b-b9ae-4d53-856a-7c2856137d85", withServices: [MSAnalytics.self, MSCrashes.self, MSDistribute.self, MSPush.self])
     #endif
     
     // Crashes Delegate.
@@ -43,14 +43,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
       return true
     })
     
-    setMobileCenterDelegate()
+    setAppCenterDelegate()
     
     return true
   }
   
-  private func setMobileCenterDelegate(){
+  private func setAppCenterDelegate(){
     let sasquatchController = (window?.rootViewController as! UINavigationController).topViewController as! MSMainViewController
-    sasquatchController.mobileCenter = MobileCenterDelegateSwift()
+    sasquatchController.appCenter = AppCenterDelegateSwift()
   }
   
   /**
