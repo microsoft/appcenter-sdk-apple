@@ -218,6 +218,8 @@
 		046790451E8DA8DD0033FDEC /* SasquatchObjC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchObjC.entitlements; sourceTree = "<group>"; };
 		047D13711EAFBDBE00D699BA /* MobileCenterDistributeResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = MobileCenterDistributeResources.bundle; path = "../MobileCenter-SDK-Apple/iOS/MobileCenterDistributeResources.bundle"; sourceTree = "<group>"; };
 		048EB9A01F86F4B7007620A0 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		384929201FACF5DA003F8736 /* SasquatchWatchObjC Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SasquatchWatchObjC Extension.entitlements"; sourceTree = SOURCE_ROOT; };
+		384929211FACF5F3003F8736 /* SasquatchWatchSwift Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SasquatchWatchSwift Extension.entitlements"; sourceTree = SOURCE_ROOT; };
 		5CD700E51EA4B74500FC5D12 /* SasquatchSwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchSwiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CE258791EA5F5DF00DA8FB9 /* AnalyticsUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsUITests.swift; sourceTree = "<group>"; };
 		5CE2587B1EA5F5EB00DA8FB9 /* CrashesUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashesUITests.swift; sourceTree = "<group>"; };
@@ -524,6 +526,7 @@
 		D31EF9391E9517B600450162 /* SasquatchWatchObjC Extension */ = {
 			isa = PBXGroup;
 			children = (
+				384929201FACF5DA003F8736 /* SasquatchWatchObjC Extension.entitlements */,
 				D31EF93C1E9517B600450162 /* InterfaceController.h */,
 				D31EF93D1E9517B600450162 /* InterfaceController.m */,
 				D31EF93F1E9517B600450162 /* ExtensionDelegate.h */,
@@ -560,6 +563,7 @@
 		D31EF9641E9517C600450162 /* SasquatchWatchSwift Extension */ = {
 			isa = PBXGroup;
 			children = (
+				384929211FACF5F3003F8736 /* SasquatchWatchSwift Extension.entitlements */,
 				D31EF9671E9517C600450162 /* InterfaceController.swift */,
 				D31EF9691E9517C600450162 /* ExtensionDelegate.swift */,
 				D31EF96B1E9517C600450162 /* NotificationController.swift */,
@@ -782,6 +786,11 @@
 						CreatedOnToolsVersion = 8.3;
 						DevelopmentTeam = L4RARDNZ2Y;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					D31EF9531E9517C500450162 = {
 						CreatedOnToolsVersion = 8.3;
@@ -792,6 +801,11 @@
 						CreatedOnToolsVersion = 8.3;
 						DevelopmentTeam = L4RARDNZ2Y;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -1336,6 +1350,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = "SasquatchWatchObjC Extension.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
@@ -1359,6 +1374,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = "SasquatchWatchObjC Extension.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
@@ -1426,6 +1442,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = "SasquatchWatchSwift Extension.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
@@ -1450,6 +1467,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = "SasquatchWatchSwift Extension.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
