@@ -1,11 +1,11 @@
 import Foundation
 
-class EditPropertyViewController : UIViewController, MobileCenterProtocol {
+class EditPropertyViewController : UIViewController, AppCenterProtocol {
 
   @IBOutlet weak var keyTextField : UITextField?;
   @IBOutlet weak var valueTextField : UITextField?;
 
-  var mobileCenter : MobileCenterDelegate!;
+  var appCenter: AppCenterDelegate!;
 
   var oldKey : String = "";
   var oldValue : String = "";
@@ -25,7 +25,7 @@ class EditPropertyViewController : UIViewController, MobileCenterProtocol {
     properties.updateValue(value, forKey: key);
     
     if let destination = segue.destination as? AnalyticsViewController {
-      destination.mobileCenter = mobileCenter;
+      destination.appCenter = appCenter;
       destination.properties = properties;
     }
   }

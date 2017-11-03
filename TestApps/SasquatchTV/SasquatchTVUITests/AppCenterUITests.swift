@@ -1,6 +1,6 @@
 import XCTest;
 
-class MobileCenterCUITests : XCTestCase {
+class AppCenterCUITests : XCTestCase {
 
   private var app : XCUIApplication?;
 
@@ -31,12 +31,12 @@ class MobileCenterCUITests : XCTestCase {
       return;
     }
 
-    // Check Mobile Center status.
+    // Check App Center status.
     let mcCell = app.cells.element(boundBy: 4);
     let mcStatus = mcCell.staticTexts.element(boundBy: 1);
     XCTAssertTrue(mcStatus.label == "Enabled");
 
-    // Disable Mobile Center.
+    // Disable App Center.
     press(button: .down, times: 4);
     XCUIRemote.shared().press(.select);
     XCTAssertTrue(mcStatus.label == "Disabled");
@@ -53,7 +53,7 @@ class MobileCenterCUITests : XCTestCase {
     // Go back.
     press(button: .menu, times: 1);
 
-    // Enable Mobile Center.
+    // Enable App Center.
     press(button: .down, times: 4);
     XCUIRemote.shared().press(.select);
     XCTAssertTrue(mcStatus.label == "Enabled");

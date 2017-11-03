@@ -1,7 +1,7 @@
 import UIKit;
-import MobileCenter;
-import MobileCenterAnalytics;
-import MobileCenterCrashes;
+import AppCenter;
+import AppCenterAnalytics;
+import AppCenterCrashes;
 
 @UIApplicationMain
 
@@ -12,8 +12,8 @@ class AppDelegate : UIResponder, UIApplicationDelegate, MSCrashesDelegate {
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
     // Override point for customization after application launch.
-    MSMobileCenter.setLogLevel(MSLogLevel.verbose);
-    MSMobileCenter.start("fbdeeff6-a549-4653-9f6d-f97dfe7f07b4", withServices : [MSAnalytics.self, MSCrashes.self]);
+    MSAppCenter.setLogLevel(MSLogLevel.verbose);
+    MSAppCenter.start("fbdeeff6-a549-4653-9f6d-f97dfe7f07b4", withServices : [MSAnalytics.self, MSCrashes.self]);
 
     // Crashes Delegate.
     MSCrashes.setDelegate(self)
@@ -33,7 +33,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate, MSCrashesDelegate {
       return true
     })
 
-    setMobileCenterDelegate();
+    setAppCenterDelegate();
     return true;
   }
 
@@ -52,9 +52,9 @@ class AppDelegate : UIResponder, UIApplicationDelegate, MSCrashesDelegate {
   func applicationWillTerminate(_ application : UIApplication) {
   }
 
-  private func setMobileCenterDelegate() {
-    let sasquatchController = self.window?.rootViewController as! MobileCenterViewController;
-    sasquatchController.mobileCenter = MobileCenterDelegateSwift();
+  private func setAppCenterDelegate() {
+    let sasquatchController = self.window?.rootViewController as! AppCenterViewController;
+    sasquatchController.appCenter = AppCenterDelegateSwift();
   }
 
   // Crashes Delegate

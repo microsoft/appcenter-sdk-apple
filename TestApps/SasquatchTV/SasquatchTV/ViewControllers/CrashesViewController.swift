@@ -1,9 +1,9 @@
 import UIKit
 
-class CrashesViewController: UITableViewController, MobileCenterProtocol {
+class CrashesViewController: UITableViewController, AppCenterProtocol {
 
   var categories = [String: [MSCrash]]()
-  var mobileCenter: MobileCenterDelegate!
+  var appCenter: AppCenterDelegate!
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -62,7 +62,7 @@ class CrashesViewController: UITableViewController, MobileCenterProtocol {
     let cellIdentifier = isLast ? "enable" : "crash"
     let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)!
     if isLast{
-      cell.detailTextLabel?.text = mobileCenter.isCrashesEnabled() ? "Enabled" : "Disabled";
+      cell.detailTextLabel?.text = appCenter.isCrashesEnabled() ? "Enabled" : "Disabled";
     } else {
       let crash = categories[categoryForSection(indexPath.section)]![indexPath.row]
       cell.textLabel?.text = crash.title;
@@ -74,7 +74,7 @@ class CrashesViewController: UITableViewController, MobileCenterProtocol {
     tableView.deselectRow(at : indexPath, animated : true);
     let isLast = indexPath.section == tableView.numberOfSections - 1
     if isLast {
-      mobileCenter.setCrashesEnabled(!mobileCenter.isCrashesEnabled());
+      appCenter.setCrashesEnabled(!appCenter.isCrashesEnabled());
       tableView.reloadData();
     }
   }
