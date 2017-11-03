@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.AppleTV.Storyboard" version="3.0" toolsVersion="12121" systemVersion="17A291m" targetRuntime="AppleTV" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="wbN-fX-l8N">
+<document type="com.apple.InterfaceBuilder.AppleTV.Storyboard" version="3.0" toolsVersion="12121" systemVersion="16G1036" targetRuntime="AppleTV" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="wbN-fX-l8N">
     <device id="appleTV" orientation="landscape">
         <adaptation id="light"/>
     </device>
@@ -10,10 +10,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Mobile Center-->
+        <!--App Center-->
         <scene sceneID="pYc-cF-mJL">
             <objects>
-                <tableViewController id="wbN-fX-l8N" customClass="MobileCenterViewController" customModule="SasquatchTVObjC" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="wbN-fX-l8N" customClass="AppCenterViewController" customModule="SasquatchTVObjC" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" layoutMarginsFollowReadableWidth="YES" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="66" sectionHeaderHeight="7" sectionFooterHeight="7" id="lQN-rF-3WT">
                         <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -174,7 +174,7 @@
                             <outlet property="delegate" destination="wbN-fX-l8N" id="MMm-UP-6ti"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Mobile Center" id="rda-Fk-KRi"/>
+                    <tabBarItem key="tabBarItem" title="App Center" id="rda-Fk-KRi"/>
                     <connections>
                         <outlet property="appSecretLabel" destination="68h-sn-sa2" id="c8X-e8-BmU"/>
                         <outlet property="installIdLabel" destination="6S0-je-LUb" id="H2c-l6-4Tn"/>
@@ -420,8 +420,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pTM-UL-0yn">
-                                <rect key="frame" x="20" y="19" width="1880" height="69"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pTM-UL-0yn">
+                                <rect key="frame" x="20" y="20" width="1880" height="69"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -465,6 +465,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="C5w-SA-SD6"/>
+        <segue reference="BHf-aW-Q0l"/>
     </inferredMetricsTieBreakers>
 </document>

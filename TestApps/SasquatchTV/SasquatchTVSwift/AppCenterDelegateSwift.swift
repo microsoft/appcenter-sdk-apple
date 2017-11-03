@@ -1,27 +1,27 @@
-import MobileCenter;
-import MobileCenterAnalytics;
-import MobileCenterCrashes;
+import AppCenter;
+import AppCenterAnalytics;
+import AppCenterCrashes;
 
 /**
- * MobileCenterDelegate implementation in Swift.
+ * AppCenterDelegate implementation in Swift.
  */
-class MobileCenterDelegateSwift : MobileCenterDelegate {
+class AppCenterDelegateSwift : AppCenterDelegate {
 
-  // MARK: MSMobileCenter section.
-  func isMobileCenterEnabled()->Bool { return MSMobileCenter.isEnabled(); }
-  func setMobileCenterEnabled(_ isEnabled : Bool) { MSMobileCenter.setEnabled(isEnabled); }
-  func installId()->String { return MSMobileCenter.installId().uuidString; }
+  // MARK: MSAppCenter section.
+  func isAppCenterEnabled()->Bool { return MSAppCenter.isEnabled(); }
+  func setAppCenterEnabled(_ isEnabled : Bool) { MSAppCenter.setEnabled(isEnabled); }
+  func installId()->String { return MSAppCenter.installId().uuidString; }
   func appSecret()->String {
     // TODO: Uncomment when appSecret is moved from internal to public.
-    // return MSMobileCenter.sharedInstance().appSecret()
+    // return MSAppCenter.sharedInstance().appSecret()
     return "Internal";
   }
   func logUrl()->String {
     // TODO: Uncomment when logUrl is moved from internal to public.
-    // return MSMobileCenter.sharedInstance().logUrl()
+    // return MSAppCenter.sharedInstance().logUrl()
     return "Internal";
   }
-  func isDebuggerAttached()->Bool { return MSMobileCenter.isDebuggerAttached(); }
+  func isDebuggerAttached()->Bool { return MSAppCenter.isDebuggerAttached(); }
 
   // MARK: MSAnalytics section.
   func isAnalyticsEnabled()->Bool { return MSAnalytics.isEnabled(); }

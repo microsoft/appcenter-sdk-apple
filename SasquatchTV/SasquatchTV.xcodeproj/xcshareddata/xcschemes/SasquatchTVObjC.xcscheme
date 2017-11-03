@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "043121491EE0BFC7007054C5"
-               BuildableName = "MobileCenterTVOSFramework"
-               BlueprintName = "MobileCenterTVOSFramework"
-               ReferencedContainer = "container:../MobileCenter/MobileCenter.xcodeproj">
+               BuildableName = "AppCenterTVOSFramework"
+               BlueprintName = "AppCenterTVOSFramework"
+               ReferencedContainer = "container:../AppCenter/AppCenter.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -45,7 +45,7 @@
                BlueprintIdentifier = "0431216D1EE0C213007054C5"
                BuildableName = "AppCenterAnalyticsTVOSFramework"
                BlueprintName = "AppCenterAnalyticsTVOSFramework"
-               ReferencedContainer = "container:../MobileCenterAnalytics/AppCenterAnalytics.xcodeproj">
+               ReferencedContainer = "container:../AppCenterAnalytics/AppCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -59,7 +59,7 @@
                BlueprintIdentifier = "04EBBEE91F01C0E10006B8AE"
                BuildableName = "AppCenterCrashesTVOSFramework"
                BlueprintName = "AppCenterCrashesTVOSFramework"
-               ReferencedContainer = "container:../MobileCenterCrashes/AppCenterCrashes.xcodeproj">
+               ReferencedContainer = "container:../AppCenterCrashes/AppCenterCrashes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry

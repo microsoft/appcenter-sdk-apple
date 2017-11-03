@@ -1,15 +1,15 @@
 import Foundation;
 
 /**
- * Protocol for interacting with MobileCenter SDK.
+ * Protocol for interacting with App Center SDK.
  * Swift and Objective C implement this protocol
- * to show usage of MobileCenter SDK in a language specific way.
+ * to show usage of App Center SDK in a language specific way.
  */
-@objc protocol MobileCenterDelegate {
+@objc protocol AppCenterDelegate {
 
-  // MARK: MSMobileCenter section.
-  func isMobileCenterEnabled()->Bool;
-  func setMobileCenterEnabled(_ isEnabled : Bool);
+  // MARK: MSAppCenter section.
+  func isAppCenterEnabled()->Bool;
+  func setAppCenterEnabled(_ isEnabled : Bool);
   func installId()->String;
   func appSecret()->String;
   func logUrl()->String;

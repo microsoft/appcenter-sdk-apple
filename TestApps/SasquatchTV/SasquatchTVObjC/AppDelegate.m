@@ -1,10 +1,10 @@
 #import "AppDelegate.h"
-#import "MobileCenterDelegateObjC.h"
+#import "AppCenterDelegateObjC.h"
 #import "MSAlertController.h"
 
-@import MobileCenter;
-@import MobileCenterAnalytics;
-@import MobileCenterCrashes;
+@import AppCenter;
+@import AppCenterAnalytics;
+@import AppCenterCrashes;
 
 @interface AppDelegate () <MSCrashesDelegate>
 
@@ -14,11 +14,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-  [MSMobileCenter setLogLevel:MSLogLevelVerbose];
-  [MSMobileCenter setLogUrl:@"https://in-integration.dev.avalanch.es"];
-  [MSMobileCenter start:@"68065a02-edbb-4fc3-a323-3b8ca2beae80" withServices:@[ [MSAnalytics class], [MSCrashes class] ]];
+  [MSAppCenter setLogLevel:MSLogLevelVerbose];
+  [MSAppCenter setLogUrl:@"https://in-integration.dev.avalanch.es"];
+  [MSAppCenter start:@"68065a02-edbb-4fc3-a323-3b8ca2beae80" withServices:@[ [MSAnalytics class], [MSCrashes class] ]];
   [self crashes];
-  [self setMobileCenterDelegate];
+  [self setAppCenterCenterDelegate];
   return YES;
 }
 
@@ -87,9 +87,9 @@
     })];
 }
 
-- (void)setMobileCenterDelegate {
-  MobileCenterViewController *sasquatchController = (MobileCenterViewController *)[[self window] rootViewController];
-  sasquatchController.mobileCenter = [[MobileCenterDelegateObjC alloc] init];
+- (void)setAppCenterCenterDelegate {
+  AppCenterViewController *sasquatchController = (AppCenterViewController *)[[self window] rootViewController];
+  sasquatchController.appCenter = [[AppCenterDelegateObjC alloc] init];
 }
 
 #pragma mark - MSCrashesDelegate
