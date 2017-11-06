@@ -1,5 +1,19 @@
 # Mobile Center SDK for iOS Change Log
 
+## Version 0.14.1
+
+This version contains bug fixes.
+
+### MobileCenterCrashes
+
+* **[Fix]** PLCrashReporter updated to v1.2.3, it fixes a recursion when processing exceptions.
+
+### MobileCenterPush
+
+* **[Fix]** Receiving a notification without message now forwards the message as a `nil` string instead of an `NSNull` object to the `MSPush` delegate.
+
+___
+
 ## Version 0.14.0
 
 This version contains improvements and a feature.
