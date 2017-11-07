@@ -1,14 +1,14 @@
 #import "MSAbstractErrorLog.h"
 
 static NSString *const kMSId = @"id";
-static NSString *const kMSProcessId = @"process_id";
-static NSString *const kMSProcessName = @"process_name";
-static NSString *const kMSParentProcessId = @"parent_process_id";
-static NSString *const kMSParentProcessName = @"parent_process_name";
-static NSString *const kMSErrorThreadId = @"error_thread_id";
-static NSString *const kMSErrorThreadName = @"error_thread_name";
+static NSString *const kMSProcessId = @"processId";
+static NSString *const kMSProcessName = @"processName";
+static NSString *const kMSParentProcessId = @"parentProcessId";
+static NSString *const kMSParentProcessName = @"parentProcessName";
+static NSString *const kMSErrorThreadId = @"errorThreadId";
+static NSString *const kMSErrorThreadName = @"errorThreadName";
 static NSString *const kMSFatal = @"fatal";
-static NSString *const kMSAppLaunchTimestamp = @"app_launch_timestamp";
+static NSString *const kMSAppLaunchTimestamp = @"appLaunchTimestamp";
 static NSString *const kMSArchitecture = @"architecture";
 
 @implementation MSAbstractErrorLog

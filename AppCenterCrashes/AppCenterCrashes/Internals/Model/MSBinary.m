@@ -1,13 +1,13 @@
 #import "MSBinary.h"
 
 static NSString *const kMSId = @"id";
-static NSString *const kMSStartAddress = @"start_address";
-static NSString *const kMSEndAddress = @"end_address";
+static NSString *const kMSStartAddress = @"startAddress";
+static NSString *const kMSEndAddress = @"endAddress";
 static NSString *const kMSName = @"name";
 static NSString *const kMSPath = @"path";
 static NSString *const kMSArchitecture = @"architecture";
-static NSString *const kMSPrimaryArchitectureId = @"primary_architecture_id";
-static NSString *const kMSArchitectureVariantId = @"architecture_variant_id";
+static NSString *const kMSPrimaryArchitectureId = @"primaryArchitectureId";
+static NSString *const kMSArchitectureVariantId = @"architectureVariantId";
 
 @implementation MSBinary
 
