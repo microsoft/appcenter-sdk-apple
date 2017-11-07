@@ -28,7 +28,7 @@ if [ "$1" == "internal" ] || [ "$1" == "test" ]; then
     sed "s/\(s\.version[[:space:]]*=[[:space:]]\)\'.*\'$/\1'$SDK_PUBLISH_VERSION'/1" MobileCenter.podspec > MobileCenter.podspec.tmp; mv MobileCenter.podspec.tmp MobileCenter.podspec
 
     # Change download URL in podspec
-    sed "s/https:\/\/github\.com\/microsoft\/mobile-center-sdk-ios\/releases\/download\/#{s.version}\(\/AppCenter-SDK-Apple-\)\(\#{s.version}\)\(.zip\)/https:\/\/mobilecentersdkdev\.blob\.core\.windows\.net\/sdk\1\2-$BITRISE_GIT_COMMIT\3/1" MobileCenter.podspec > MobileCenter.podspec.tmp; mv MobileCenter.podspec.tmp MobileCenter.podspec
+    sed "s/https:\/\/github\.com\/microsoft\/mobile-center-sdk-ios\/releases\/download\/#{s.version}\(\/AppCenter-SDK-Apple-\)\(\#{s.version}\)\(.zip\)/https:\/\/mobilecentersdkdev\.blob\.core\.windows\.net\/sdk\1\2+$BITRISE_GIT_COMMIT\3/1" MobileCenter.podspec > MobileCenter.podspec.tmp; mv MobileCenter.podspec.tmp MobileCenter.podspec
 
   fi
 
