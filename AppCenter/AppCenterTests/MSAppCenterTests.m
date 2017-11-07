@@ -249,35 +249,4 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   XCTAssertTrue([sorted[1] initializationPriority] == MSInitializationPriorityDefault);
 }
 
-#if !TARGET_OS_OSX
-- (void)testAppIsBackgrounded {
-
-  // If
-  id<MSLogManager> logManager = OCMProtocolMock(@protocol(MSLogManager));
-  [self.sut configure:@"AnAppSecret"];
-  self.sut.logManager = logManager;
-
-  // When
-  [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidEnterBackgroundNotification
-                                                      object:self.sut];
-  // Then
-  OCMVerify([logManager suspend]);
-}
-
-- (void)testAppIsForegrounded {
-
-  // If
-  id<MSLogManager> logManager = OCMProtocolMock(@protocol(MSLogManager));
-  [self.sut configure:@"AnAppSecret"];
-  self.sut.logManager = logManager;
-
-  // When
-  [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillEnterForegroundNotification
-
-                                                      object:self.sut];
-  // Then
-  OCMVerify([logManager resume]);
-}
-#endif
-
 @end

@@ -9,10 +9,12 @@
 #import "MSStorage.h"
 
 @protocol MSChannelDelegate;
+@protocol MSChannel;
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^enqueueCompletionBlock)(BOOL);
+typedef void (^MSEnqueueCompletionBlock)(BOOL);
+typedef void (^MSStopFlushingCompletionBlock)();
 
 /**
  Defines a channel which manages a queue of log items.
@@ -48,7 +50,7 @@ typedef void (^enqueueCompletionBlock)(BOOL);
  * @param item The log item that should be enqueued.
  * @param completion A completion block that gets called after the item was enqueued.
  */
-- (void)enqueueItem:(id<MSLog>)item withCompletion:(nullable enqueueCompletionBlock)completion;
+- (void)enqueueItem:(id<MSLog>)item withCompletion:(nullable MSEnqueueCompletionBlock)completion;
 
 /**
  * Delete all logs from storage.
@@ -70,6 +72,24 @@ typedef void (^enqueueCompletionBlock)(BOOL);
  *  @param delegate delegate.
  */
 - (void)removeDelegate:(id<MSChannelDelegate>)delegate;
+
+/**
+ * Stop flushing logs.
+ *
+ * @param completion Completion block to be called when stopped flushing logs.
+ */
+- (void)stopFlushingWithCompletion:(MSStopFlushingCompletionBlock)completion;
+
+/**
+ * Cancel stopping logs flushing;
+ */
+- (void)cancelStopFlushing;
+
+/**
+ * Resume the channel. It will resume it's normal activity. A channel can't be resumed if it's disabled or the sender is
+ * still supsended.
+ */
+- (void)resume;
 
 @end
 
