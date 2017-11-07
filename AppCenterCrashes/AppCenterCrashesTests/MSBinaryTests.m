@@ -104,8 +104,8 @@
 - (MSBinary *)binary {
   MSBinary *binary = [MSBinary new];
   binary.binaryId = @"binaryId";
-  binary.startAddress = @"start_address";
-  binary.endAddress = @"end_address";
+  binary.startAddress = @"startAddress";
+  binary.endAddress = @"endAddress";
   binary.name = @"name";
   binary.path = @"path";
   binary.architecture = @"architecture";
