@@ -12,6 +12,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
   var rootController: NSWindowController!
 
   func applicationDidFinishLaunching(_ notification: Notification) {
+    
+    // Use integration endpoints.
+    MSAppCenter.setLogUrl("https://in-integration.dev.avalanch.es");
+    
     // Crashes Delegate.
     MSCrashes.setDelegate(self);
     MSCrashes.setUserConfirmationHandler({ (errorReports: [MSErrorReport]) in
@@ -36,7 +40,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
 
     // Start AppCenter.
     MSAppCenter.setLogLevel(MSLogLevel.verbose)
-    MSAppCenter.start("7e873482-108f-4609-8ef2-c4cebd7418c0", withServices : [ MSAnalytics.self, MSCrashes.self, MSPush.self ])
+    MSAppCenter.start("c62b8db6-191e-496a-b1a1-267b9bf326c4", withServices : [ MSAnalytics.self, MSCrashes.self, MSPush.self ])
 
     AppCenterProvider.shared().appCenter = AppCenterDelegateSwift()
     
