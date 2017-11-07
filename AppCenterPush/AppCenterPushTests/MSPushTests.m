@@ -267,7 +267,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   __block NSDictionary *customData = @{};
   NSDictionary *userInfo =
   @{ @"aps" : @{@"alert" : @{@"body" : message}},
-     @"mobile_center" : customData };
+     @"app_center" : customData };
 #if TARGET_OS_OSX
   id userNotificationUserInfoMock = OCMClassMock([NSUserNotification class]);
   id notificationMock = OCMClassMock([NSNotification class]);
