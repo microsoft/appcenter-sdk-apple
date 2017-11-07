@@ -24,7 +24,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>None</string>
 			<key>CFBundleURLName</key>
-			<string>com.microsoft.azure.mobile.puppet</string>
+			<string>com.microsoft.appcenter.puppet</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>appcenter-65dc3680-7325-4000-a0e7-dbd2276eafd1</string>
