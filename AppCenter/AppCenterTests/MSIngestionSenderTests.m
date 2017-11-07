@@ -32,7 +32,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
     @"Install-ID" : MS_UUID_STRING
   };
 
-  NSDictionary *queryStrings = @{ @"api_version" : @"1.0.0-preview20160914" };
+  NSDictionary *queryStrings = @{ @"api-version" : @"1.0.0" };
 
   // Mock reachability.
   self.reachabilityMock = OCMClassMock([MS_Reachability class]);
