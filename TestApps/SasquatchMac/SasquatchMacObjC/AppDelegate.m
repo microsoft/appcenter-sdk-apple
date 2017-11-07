@@ -23,9 +23,12 @@ static NSString *const kSMLogTag = @"[SasquatchMac]";
   // Customize services.
   [self setupCrashes];
   [self setupPush];
+  
+  // Use integration endpoints.
+  [MSAppCenter setLogUrl:@"https://in-integration.dev.avalanch.es"];
 
   // Start AppCenter.
-  [MSAppCenter start:@"d80aae71-af34-4e0c-af61-2381391c4a7a"
+  [MSAppCenter start:@"4b3f7d94-c64b-4aac-94f5-894c55c64bfe"
            withServices:@[ [MSAnalytics class], [MSCrashes class], [MSPush class] ]];
   [AppCenterProvider shared].appCenter = [[AppCenterDelegateObjC alloc] init];
 
