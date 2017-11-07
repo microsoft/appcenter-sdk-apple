@@ -22,7 +22,7 @@ if [ "$1" == "internal" ] || [ "$1" == "test" ]; then
     local_spec_repo_name=$VSTS_SPEC_REPO_NAME
 
     # Revert podspec change for other platforms
-    git revert 8a6f317172421c84ef50a62675b3ba64aca53344
+    git revert $REVERT_COMMIT
 
     # Add build number to podspec version
     sed "s/\(s\.version[[:space:]]*=[[:space:]]\)\'.*\'$/\1'$SDK_PUBLISH_VERSION'/1" AppCenter.podspec > AppCenter.podspec.tmp; mv AppCenter.podspec.tmp AppCenter.podspec
