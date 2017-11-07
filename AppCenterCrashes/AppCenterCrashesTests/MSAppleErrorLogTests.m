@@ -67,24 +67,24 @@
   NSDictionary *actual = [self.sut serializeToDictionary];
   XCTAssertNotNil(actual);
   assertThat(actual[@"type"], equalTo(self.sut.type));
-  assertThat(actual[@"primary_architecture_id"], equalTo(self.sut.primaryArchitectureId));
-  assertThat(actual[@"architecture_variant_id"], equalTo(self.sut.architectureVariantId));
-  assertThat(actual[@"application_path"], equalTo(self.sut.applicationPath));
-  assertThat(actual[@"os_exception_type"], equalTo(self.sut.osExceptionType));
-  assertThat(actual[@"os_exception_code"], equalTo(self.sut.osExceptionCode));
-  assertThat(actual[@"os_exception_address"], equalTo(self.sut.osExceptionAddress));
-  assertThat(actual[@"exception_type"], equalTo(self.sut.exceptionType));
-  assertThat(actual[@"exception_reason"], equalTo(self.sut.exceptionReason));
-  assertThat(actual[@"selector_register_value"], equalTo(self.sut.selectorRegisterValue));
+  assertThat(actual[@"primaryArchitectureId"], equalTo(self.sut.primaryArchitectureId));
+  assertThat(actual[@"architectureVariantId"], equalTo(self.sut.architectureVariantId));
+  assertThat(actual[@"applicationPath"], equalTo(self.sut.applicationPath));
+  assertThat(actual[@"osExceptionType"], equalTo(self.sut.osExceptionType));
+  assertThat(actual[@"osExceptionCode"], equalTo(self.sut.osExceptionCode));
+  assertThat(actual[@"osExceptionAddress"], equalTo(self.sut.osExceptionAddress));
+  assertThat(actual[@"exceptionType"], equalTo(self.sut.exceptionType));
+  assertThat(actual[@"exceptionReason"], equalTo(self.sut.exceptionReason));
+  assertThat(actual[@"selectorRegisterValue"], equalTo(self.sut.selectorRegisterValue));
   assertThat(actual[@"id"], equalTo(self.sut.errorId));
-  assertThat(actual[@"process_id"], equalTo(self.sut.processId));
-  assertThat(actual[@"process_name"], equalTo(self.sut.processName));
-  assertThat(actual[@"parent_process_id"], equalTo(self.sut.parentProcessId));
-  assertThat(actual[@"parent_process_name"], equalTo(self.sut.parentProcessName));
-  assertThat(actual[@"error_thread_id"], equalTo(self.sut.errorThreadId));
-  assertThat(actual[@"error_thread_name"], equalTo(self.sut.errorThreadName));
+  assertThat(actual[@"processId"], equalTo(self.sut.processId));
+  assertThat(actual[@"processName"], equalTo(self.sut.processName));
+  assertThat(actual[@"parentProcessId"], equalTo(self.sut.parentProcessId));
+  assertThat(actual[@"parentProcessName"], equalTo(self.sut.parentProcessName));
+  assertThat(actual[@"errorThreadId"], equalTo(self.sut.errorThreadId));
+  assertThat(actual[@"errorThreadName"], equalTo(self.sut.errorThreadName));
   XCTAssertEqual([actual[@"fatal"] boolValue], self.sut.fatal);
-  assertThat(actual[@"app_launch_timestamp"], equalTo(@"1970-01-01T00:00:42.000Z"));
+  assertThat(actual[@"appLaunchTimestamp"], equalTo(@"1970-01-01T00:00:42.000Z"));
   assertThat(actual[@"architecture"], equalTo(self.sut.architecture));
 
   // Exception fields.
@@ -92,7 +92,7 @@
   XCTAssertNotNil(exceptionDictionary);
   assertThat(exceptionDictionary[@"type"], equalTo(self.sut.exception.type));
   assertThat(exceptionDictionary[@"message"], equalTo(self.sut.exception.message));
-  assertThat(exceptionDictionary[@"wrapper_sdk_name"], equalTo(self.sut.exception.wrapperSdkName));
+  assertThat(exceptionDictionary[@"wrapperSdkName"], equalTo(self.sut.exception.wrapperSdkName));
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {

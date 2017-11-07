@@ -25,7 +25,7 @@
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
 static NSString *const kMSCrashesServiceName = @"Crashes";
 static NSString *const kMSFatal = @"fatal";
-static NSString *const kMSTypeHandledError = @"handled_error";
+static NSString *const kMSTypeHandledError = @"handledError";
 static NSString *const kMSUserConfirmationKey = @"MSUserConfirmation";
 static unsigned int kMaxAttachmentsPerCrashReport = 2;
 

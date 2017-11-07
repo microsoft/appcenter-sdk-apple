@@ -1,7 +1,7 @@
 #import "MSException.h"
 #import "MSHandledErrorLog.h"
 
-static NSString *const kMSTypeError = @"handled_error";
+static NSString *const kMSTypeError = @"handledError";
 static NSString *const kMSId = @"id";
 static NSString *const kMSException = @"exception";
 
