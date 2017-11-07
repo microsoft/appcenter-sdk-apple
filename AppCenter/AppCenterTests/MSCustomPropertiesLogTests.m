@@ -51,7 +51,7 @@
        @"type" : @"string",
        @"value" : string },
     @{ @"name" : @"t2",
-       @"type" : @"date_time",
+       @"type" : @"dateTime",
        @"value" : @"1970-01-01T00:00:00.000Z" },
     @{ @"name" : @"t3",
        @"type" : @"number",

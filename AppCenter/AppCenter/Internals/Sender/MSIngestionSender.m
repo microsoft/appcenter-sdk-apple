@@ -8,8 +8,8 @@
 
 @implementation MSIngestionSender
 
-static NSString *const kMSAPIVersion = @"1.0.0-preview20160914";
-static NSString *const kMSAPIVersionKey = @"api_version";
+static NSString *const kMSAPIVersion = @"1.0.0";
+static NSString *const kMSAPIVersionKey = @"api-version";
 static NSString *const kMSApiPath = @"/logs";
 
 - (id)initWithBaseUrl:(NSString *)baseUrl appSecret:(NSString *)appSecret installId:(NSString *)installId {

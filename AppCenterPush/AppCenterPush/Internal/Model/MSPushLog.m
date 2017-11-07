@@ -1,7 +1,7 @@
 #import "MSPushLog.h"
 
-static NSString *const kMSTypePushInstallationType = @"push_installation";
-static NSString *const kMSPushToken = @"push_token";
+static NSString *const kMSTypePushInstallationType = @"pushInstallation";
+static NSString *const kMSPushToken = @"pushToken";
 
 @implementation MSPushLog
 
