@@ -19,9 +19,7 @@
     _enabled = YES;
     _suspended = NO;
     _delegates = [NSHashTable weakObjectsHashTable];
-
-    // Init with an empty block so executing it won't harm.
-    _stopFlushingCompletion = kMSEmptyStopFlushingCompletion;
+    _stopFlushingCompletion = [NSMutableArray new];
   }
   return self;
 }
@@ -287,7 +285,7 @@
 
     // Even if it's already disabled we might also want to delete logs this time.
     if (!isEnabled && deleteData) {
-      MSLogDebug([MSAppCenter logTag], @"Delete all logs for goup Id %@", self.configuration.groupId);
+      MSLogDebug([MSAppCenter logTag], @"Delete all logs for group Id %@", self.configuration.groupId);
       NSError *error = [NSError errorWithDomain:kMSMCErrorDomain
                                            code:kMSMCConnectionSuspendedErrorCode
                                        userInfo:@{NSLocalizedDescriptionKey : kMSMCConnectionSuspendedErrorDesc}];
@@ -328,7 +326,6 @@
   if (!self.sender.suspended && self.enabled) {
     MSLogDebug([MSAppCenter logTag], @"Resume channel for group Id %@.", self.configuration.groupId);
     self.suspended = NO;
-    self.stopFlushingCompletion = kMSEmptyStopFlushingCompletion;
     [self flushQueue];
   }
 }
@@ -337,31 +334,12 @@
   __weak typeof(self) weakSelf = self;
   dispatch_async(self.logsDispatchQueue, ^{
     typeof(self) strongSelf = weakSelf;
-
-    // Decorate the block to execute.
-    strongSelf.stopFlushingCompletion = ^() {
-      typeof(self) toughSelf = weakSelf;
-      if (toughSelf) {
-
-        // Channel has stopped flushing and is now suspending.
-        [toughSelf suspend];
-
-        // Notify.
-        completion();
-
-        // The block shouldn't execute twice.
-        toughSelf.stopFlushingCompletion = kMSEmptyStopFlushingCompletion;
-      }
-    };
+    
+    // Add completion block.
+    [strongSelf.stopFlushingCompletion addObject:completion];
 
     // Trigger a flush now.
     [strongSelf flushQueue];
-  });
-}
-
-- (void)cancelStopFlushing {
-  dispatch_async(self.logsDispatchQueue, ^{
-    self.stopFlushingCompletion = kMSEmptyStopFlushingCompletion;
   });
 }
 
@@ -441,7 +419,10 @@
    * batches or is suspended then it can notify that it has stopped flushing.
    */
   if (self.pendingBatchIds.count == 0 || self.suspended) {
-    self.stopFlushingCompletion();
+    for (MSStopFlushingCompletionBlock completion in self.stopFlushingCompletion) {
+      completion();
+    }
+    [self.stopFlushingCompletion removeAllObjects];
   }
 }
 

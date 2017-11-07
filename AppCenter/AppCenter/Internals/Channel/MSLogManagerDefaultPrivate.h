@@ -49,9 +49,9 @@ static short *const kMSStorageMaxCapacity = 300;
 @property(nonatomic, weak, nullable) id appDidEnterBackgroundObserver;
 
 /**
- * Keep track of the number of channels that stopped flushing.
+ * Keep track of the number of channels that flushing.
  */
-@property(nonatomic) ushort flushedChannelsCount;
+@property(nonatomic) ushort remainedChannelsCount;
 
 @end
 
