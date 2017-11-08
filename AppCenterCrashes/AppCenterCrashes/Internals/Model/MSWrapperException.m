@@ -3,9 +3,9 @@
 
 @implementation MSWrapperException
 
-static NSString* const kMSModelException = @"model_exception";
-static NSString* const kMSExceptionData = @"exception_data";
-static NSString* const KMSProcessId = @"process_id";
+static NSString* const kMSModelException = @"modelException";
+static NSString* const kMSExceptionData = @"exceptionData";
+static NSString* const KMSProcessId = @"processId";
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [NSMutableDictionary new];

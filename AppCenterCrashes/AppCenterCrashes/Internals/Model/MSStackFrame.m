@@ -2,10 +2,10 @@
 
 static NSString *const kMSAddress = @"address";
 static NSString *const kMSCode = @"code";
-static NSString *const kMSClassName = @"class_name";
-static NSString *const kMSMethodName = @"method_name";
-static NSString *const kMSLineNumber = @"line_number";
-static NSString *const kMSFileName = @"file_name";
+static NSString *const kMSClassName = @"className";
+static NSString *const kMSMethodName = @"methodName";
+static NSString *const kMSLineNumber = @"lineNumber";
+static NSString *const kMSFileName = @"fileName";
 
 @implementation MSStackFrame
 

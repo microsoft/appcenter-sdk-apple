@@ -39,15 +39,15 @@
 - (void)testSerializationToDictionaryWorks {
   NSDictionary *actual = [self.sut serializeToDictionary];
   XCTAssertNotNil(actual);
-  assertThat(actual[@"process_id"], equalTo(self.sut.processId));
-  assertThat(actual[@"exception_data"], equalTo(self.sut.exceptionData));
+  assertThat(actual[@"processId"], equalTo(self.sut.processId));
+  assertThat(actual[@"exceptionData"], equalTo(self.sut.exceptionData));
 
   // Exception fields.
-  NSDictionary *exceptionDictionary = actual[@"model_exception"];
+  NSDictionary *exceptionDictionary = actual[@"modelException"];
   XCTAssertNotNil(exceptionDictionary);
   assertThat(exceptionDictionary[@"type"], equalTo(self.sut.modelException.type));
   assertThat(exceptionDictionary[@"message"], equalTo(self.sut.modelException.message));
-  assertThat(exceptionDictionary[@"wrapper_sdk_name"], equalTo(self.sut.modelException.wrapperSdkName));
+  assertThat(exceptionDictionary[@"wrapperSdkName"], equalTo(self.sut.modelException.wrapperSdkName));
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {

@@ -6,11 +6,11 @@
 static NSString *const kMSTextType = @"text/plain";
 
 // API property names.
-static NSString *const kMSTypeAttachment = @"error_attachment";
+static NSString *const kMSTypeAttachment = @"errorAttachment";
 static NSString *const kMSId = @"id";
-static NSString *const kMSErrorId = @"error_id";
-static NSString *const kMSContentType = @"content_type";
-static NSString *const kMSFileName = @"file_name";
+static NSString *const kMSErrorId = @"errorId";
+static NSString *const kMSContentType = @"contentType";
+static NSString *const kMSFileName = @"fileName";
 static NSString *const kMSData = @"data";
 
 @implementation MSErrorAttachmentLog

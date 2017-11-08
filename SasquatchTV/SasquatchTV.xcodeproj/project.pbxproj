@@ -580,7 +580,7 @@
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				INFOPLIST_FILE = ../TestApps/SasquatchTV/SasquatchTVUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.SasquatchTVObjCUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.SasquatchTVObjCUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = SasquatchTVObjC;
@@ -595,7 +595,7 @@
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				INFOPLIST_FILE = ../TestApps/SasquatchTV/SasquatchTVUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.SasquatchTVObjCUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.SasquatchTVObjCUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = SasquatchTVObjC;
@@ -610,7 +610,7 @@
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				INFOPLIST_FILE = ../TestApps/SasquatchTV/SasquatchTVUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.SasquatchTVSwiftUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.SasquatchTVSwiftUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = SasquatchTVSwift;
@@ -625,7 +625,7 @@
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
 				INFOPLIST_FILE = ../TestApps/SasquatchTV/SasquatchTVUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.SasquatchTVSwiftUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.SasquatchTVSwiftUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = SasquatchTVSwift;
