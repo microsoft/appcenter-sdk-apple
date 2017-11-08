@@ -204,8 +204,6 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
 #endif
 }
 
-
-
 #pragma mark - Enable / Disable
 
 - (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData {
