@@ -39,9 +39,9 @@ static NSString *const kMSApiPath = @"/logs";
    */
   // Verify container.
   if (!container || ![container isValid]) {
-    NSDictionary *userInfo = @{NSLocalizedDescriptionKey : kMSMCLogInvalidContainerErrorDesc};
+    NSDictionary *userInfo = @{NSLocalizedDescriptionKey : kMSACLogInvalidContainerErrorDesc};
     NSError *error =
-        [NSError errorWithDomain:kMSMCErrorDomain code:kMSMCLogInvalidContainerErrorCode userInfo:userInfo];
+        [NSError errorWithDomain:kMSACErrorDomain code:kMSACLogInvalidContainerErrorCode userInfo:userInfo];
     MSLogError([MSAppCenter logTag], @"%@", [error localizedDescription]);
     handler(batchId, nil, nil, error);
     return;
