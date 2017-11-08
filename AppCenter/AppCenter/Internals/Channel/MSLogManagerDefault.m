@@ -193,6 +193,11 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
           }
         }];
   
+  /*
+   * If the app in the background we need:
+   * - Immediately stop flushing the channel;
+   * - Keep background task while sending;
+   */
 #if !TARGET_OS_OSX
   if (!MS_IS_APP_EXTENSION) {
     UIApplication *sharedApplication = [MSUtility sharedApplication];
