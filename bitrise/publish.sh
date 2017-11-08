@@ -36,8 +36,8 @@ else
   ## 0. Download prerelease binary
   prerelease_prefix=$(echo $BINARY_FILE | sed 's/.zip/-'$PRERELEASE_VERSION'/g')
   resp="$(echo "Y" | azure storage blob list sdk ${prerelease_prefix})"
-  prerelease="$(echo $resp | sed 's/.*data:[[:space:]]\('$prerelease_prefix'-.\{40\}\.zip\).*/\1/1')"
-  if [[ $prerelease != $prerelease_prefix-*.zip ]]; then
+  prerelease="$(echo $resp | sed 's/.*data:[[:space:]]\('$prerelease_prefix'+.\{40\}\.zip\).*/\1/1')"
+  if [[ $prerelease != $prerelease_prefix+*.zip ]]; then
     if [ -z $PRERELEASE_VERSION ]; then
       echo "You didn't provide a prerelease version to the build."
       echo "If you didn't provide the prerelease version, add PRERELEASE_VERSION as a key and version as a value in Custom Environment Variables."
@@ -46,7 +46,7 @@ else
     fi
     exit 1
   fi
-  commit_hash="$(echo $resp | sed 's/.*data:[[:space:]]'$prerelease_prefix'-\(.\{40\}\)\.zip.*/\1/1')"
+  commit_hash="$(echo $resp | sed 's/.*data:[[:space:]]'$prerelease_prefix'+\(.\{40\}\)\.zip.*/\1/1')"
   echo "Y" | azure storage blob download sdk $prerelease
   mv $prerelease $BITRISE_DEPLOY_DIR/$BINARY_FILE
 
@@ -145,7 +145,7 @@ echo "Upload binaries"
 if [ "$1" == "internal" ]; then
 
   # Determine the filename for the release
-  filename=$(echo $BINARY_FILE | sed 's/.zip/-'${publish_version}'-'$BITRISE_GIT_COMMIT'.zip/g')
+  filename=$(echo $BINARY_FILE | sed 's/.zip/-'${publish_version}'+'$BITRISE_GIT_COMMIT'.zip/g')
 
   # Replace the latest binary in Azure Storage
   echo "Y" | azure storage blob upload $BINARY_FILE sdk
