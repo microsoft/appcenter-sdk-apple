@@ -22,9 +22,9 @@ class AppCenterUITests: XCTestCase {
     }
 
     // Enable SDK (we need it in case SDK was disabled by the test, which then failed and didn't enabled SDK back).
-    let mobileCenterButton : XCUIElement = app.switches["Set Enabled"];
-    if (mobileCenterButton.value as! String == "0") {
-      mobileCenterButton.tap();
+    let appCenterButton : XCUIElement = app.switches["Set Enabled"];
+    if (appCenterButton.value as! String == "0") {
+      appCenterButton.tap();
     }
   }
 
@@ -32,49 +32,49 @@ class AppCenterUITests: XCTestCase {
     guard let `app` = app else {
       return;
     }
-    let mobileCenterButton : XCUIElement = app.switches.element(boundBy: 0);
+    let appCenterButton : XCUIElement = app.switches.element(boundBy: 0);
 
     // SDK should be enabled.
-    XCTAssertEqual("1", mobileCenterButton.value as! String);
+    XCTAssertEqual("1", appCenterButton.value as! String);
 
     // Disable SDK.
-    mobileCenterButton.tap();
+    appCenterButton.tap();
 
     // All services should be disabled.
     // Analytics.
     app.tables.cells.element(boundBy: 0).tap();
     XCTAssertEqual("0", app.switches.element(boundBy: 0).value as! String);
-    app.buttons["Mobile Center"].tap();
+    app.buttons["App Center"].tap();
 
     // Crashes.
     app.tables.cells.element(boundBy: 1).tap();
     XCTAssertEqual("0", app.switches.element(boundBy: 0).value as! String);
-    app.buttons["Mobile Center"].tap();
+    app.buttons["App Center"].tap();
 
     // Distribute.
     app.tables.cells.element(boundBy: 2).tap();
     let distributeSwitchButton : XCUIElement = app.switches.element(matching: XCUIElementType.switch, identifier: "Set Enabled");
     XCTAssertEqual("0", distributeSwitchButton.value as! String);
-    app.buttons["Mobile Center"].tap();
+    app.buttons["App Center"].tap();
 
     // Enable SDK.
-    mobileCenterButton.tap();
+    appCenterButton.tap();
 
     // All services should be enabled.
     // Analytics.
     app.tables.cells.element(boundBy: 0).tap();
     XCTAssertEqual("1", app.switches.element(boundBy: 0).value as! String);
-    app.buttons["Mobile Center"].tap();
+    app.buttons["App Center"].tap();
 
     // Crashes.
     app.tables.cells.element(boundBy: 1).tap();
     XCTAssertEqual("1", app.switches.element(boundBy: 0).value as! String);
-    app.buttons["Mobile Center"].tap();
+    app.buttons["App Center"].tap();
 
     // Distribute.
     app.tables.cells.element(boundBy: 2).tap();
     XCTAssertEqual("1", distributeSwitchButton.value as! String);
-    app.buttons["Mobile Center"].tap();
+    app.buttons["App Center"].tap();
   }
 
   func testMiscellaneousInfo() {
@@ -89,7 +89,7 @@ class AppCenterUITests: XCTestCase {
     for cellIndex in 0..<app.cells.count {
       app.cells.element(boundBy: cellIndex).tap();
     }
-    app.buttons["Mobile Center"].tap();
+    app.buttons["App Center"].tap();
 
     // Go to device info page.
     app.cells.element(boundBy: 4).tap();
@@ -100,7 +100,7 @@ class AppCenterUITests: XCTestCase {
       let deviceInfo : String = cell.staticTexts.element(boundBy: 1).label;
       XCTAssertNotNil(deviceInfo);
     }
-    app.buttons["Mobile Center"].tap();
+    app.buttons["App Center"].tap();
 
     // Check install id.
     let installIdCell : XCUIElement = app.cells.element(boundBy: 5);

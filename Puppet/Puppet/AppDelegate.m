@@ -37,13 +37,13 @@ static UIViewController *crashResultViewController = nil;
   [MSDistribute setApiUrl:@"https://asgard-int.trafficmanager.net/api/v0.1"];
   [MSDistribute setInstallUrl:@"https://install.asgard-int.trafficmanager.net"];
 
-  // Customize Mobile Center SDK.
+  // Customize App Center SDK.
   [MSDistribute setDelegate:self];
   [MSPush setDelegate:self];
   [MSAnalytics setDelegate:self];
   [MSAppCenter setLogLevel:MSLogLevelVerbose];
 
-  // Start Mobile Center SDK.
+  // Start App Center SDK.
   [MSAppCenter start:@"65dc3680-7325-4000-a0e7-dbd2276eafd1"
            withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class] ]];
 

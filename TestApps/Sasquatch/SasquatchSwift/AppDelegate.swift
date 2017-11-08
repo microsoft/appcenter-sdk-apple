@@ -25,11 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     MSAppCenter.setLogLevel(MSLogLevel.verbose)
 
     // Start App Center SDK.
-    #if DEBUG
-      MSAppCenter.start("ac2176f2-3324-4d7d-8782-9095627cc909", withServices: [MSAnalytics.self, MSCrashes.self, MSPush.self])
-    #else
       MSAppCenter.start("ac2176f2-3324-4d7d-8782-9095627cc909", withServices: [MSAnalytics.self, MSCrashes.self, MSDistribute.self, MSPush.self])
-    #endif
     
     // Crashes Delegate.
     MSCrashes.setUserConfirmationHandler({ (errorReports: [MSErrorReport]) in
