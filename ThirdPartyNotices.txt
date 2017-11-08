@@ -2,7 +2,7 @@
 THIRD-PARTY SOFTWARE NOTICES AND INFORMATION
 Do Not Translate or Localize
 
-Microsoft Mobile Center SDK for iOS incorporates third party material from the projects listed below. The original copyright notice and the license under which Microsoft received such third party material are set forth below. Microsoft reserves all other rights not expressly granted, whether by implication, estoppel or otherwise.  
+Microsoft App Center SDK for iOS incorporates third party material from the projects listed below. The original copyright notice and the license under which Microsoft received such third party material are set forth below. Microsoft reserves all other rights not expressly granted, whether by implication, estoppel or otherwise.  
 
 1.  Jazzy (https://github.com/realm/jazzy)
 2.  OCHamcrest (https://github.com/hamcrest/OCHamcrest)

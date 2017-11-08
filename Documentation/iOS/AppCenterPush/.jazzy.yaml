@@ -20,9 +20,9 @@ umbrella_header: ../../../AppCenter-SDK-Apple/iOS/AppCenterPush.framework/Header
 framework_root: ../../../AppCenter-SDK-Apple/iOS/
 exclude: [../../../AppCenter-SDK-Apple/iOS/AppCenterPush.framework/Headers/MSService.h, ../../../AppCenter-SDK-Apple/iOS/AppCenterPush.framework/Headers/MSServiceAbstract.h]
 
-root_url: http://docs.mobile.azure.com/sdk/ios/
-github_url: https://github.com/Microsoft/mobile-center-sdk-ios
-github_file_prefix: "https://github.com/Microsoft/mobile-center-sdk-ios"
+root_url: https://docs.microsoft.com/appcenter/sdk/ios
+github_url: https://github.com/Microsoft/AppCenter-SDK-Apple
+github_file_prefix: "https://github.com/Microsoft/AppCenter-SDK-Apple"
 
 skip_undocumented: true
 
