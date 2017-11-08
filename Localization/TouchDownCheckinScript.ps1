@@ -17,8 +17,8 @@
 #  -Set the Flag (ChangesAreDetected = True)
 #  -Run a Git push (Integrate the TempLocBranch to your working branch)
 
-$CultureSettingFile= "mobile-center-cultures.csv"
-$ProjectInfo = "mobile-center-sdks-loc-file-list.csv"
+$CultureSettingFile= "appcenter-cultures.csv"
+$ProjectInfo = "appcenter-sdks-loc-file-list.csv"
 
 $TempLocBranch = "translatedFiles"
 $repoPath = $SrcRoot
