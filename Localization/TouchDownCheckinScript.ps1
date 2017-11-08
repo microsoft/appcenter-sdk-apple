@@ -1,8 +1,8 @@
-﻿param([String]$SrcRoot="undefined",[String]$AuthToken="")
+﻿param([String]$SrcRoot="undefined",[String]$AuthToken="",[String]$Branch="")
 
 # This script will upload the files which need to be localized to the Touchdown servers and they will automatically be translated by Bing translate
 
-# Usage: .\TouchDownCheckinScript.ps1 absolute\path\to\reporoot
+# Usage: .\TouchDownCheckinScript.ps1 absolute\path\to\reporoot branch_to_base_off
 
 #What would be the standard steps to enable check in process
 #  -Sync the Localized File on the machine
@@ -50,6 +50,10 @@ Function ProcessStart($AppToRun,$Argument,$WorkingDir)
 
 Function InitializeRepoForCheckin
 {
+    if (!($Branch -eq "")) {
+        $DefaultRepoBranch = $Branch
+    }
+
     $Argument = "checkout " + $DefaultRepoBranch 
     ProcessStart $git $Argument $repoPath
 
@@ -59,10 +63,10 @@ Function InitializeRepoForCheckin
     $Argument = "pull origin " + $DefaultRepoBranch
     ProcessStart $git $Argument $repoPath
 
-    $Argument = "branch -D" + $TempLocBranch
+    $Argument = "branch -D " + $TempLocBranch
     ProcessStart $git $Argument
 
-    $Argument = "checkout -b" + $TempLocBranch
+    $Argument = "checkout -b " + $TempLocBranch
     ProcessStart $git $Argument $repoPath
 }
 
@@ -252,9 +256,6 @@ Function RefreshTDFiles
 
     write-host "-----CHECK IN FILES TO REPO-----"
     CheckinFilesIntoRepo
-
-    # Remove temporary files after they have been dropped in resources
-    Remove-Item "mobile-center-distribute -recurse"
 }
 
 RefreshTDFiles
