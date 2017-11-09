@@ -4,7 +4,7 @@
 [![CocoaPods](https://img.shields.io/cocoapods/dt/AppCenter.svg)](https://cocoapods.org/pods/AppCenter)
 [![license](https://img.shields.io/badge/license-MIT%20License-00AAAA.svg)](https://github.com/Microsoft/AppCenter-SDK-Apple/blob/master/LICENSE)
 
-# App Center SDK for iOS and macOS
+# Visual Studio App Center SDK for iOS and macOS
 
 App Center is your continuous integration, delivery and learning solution for iOS and macOS apps.
 Get faster release cycles, higher-quality apps, and the insights to build what users want.

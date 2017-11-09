@@ -2,9 +2,9 @@ Pod::Spec.new do |s|
   s.name              = 'AppCenter'
   s.version           = '0.14.1'
 
-  s.summary           = 'App Center is your continuous integration, delivery and learning solution for iOS, Android, Windows, and macOS apps. Get faster release cycles, higher-quality apps, and the insights to build what users want.'
+  s.summary           = 'Visual Studio App Center is your continuous integration, delivery and learning solution for iOS and macOS apps.'
   s.description       = <<-DESC
-                      App Center is mission control for mobile apps.
+                      Visual Studio App Center is your continuous integration, delivery and learning solution for iOS and macOS apps.
                       Get faster release cycles, higher-quality apps, and the insights to build what users want.
 
                       The App Center SDK uses a modular architecture so you can use any or all of the following services:
