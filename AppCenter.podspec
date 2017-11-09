@@ -9,10 +9,10 @@ Pod::Spec.new do |s|
 
                       The App Center SDK uses a modular architecture so you can use any or all of the following services:
 
-                      1. App Center Analytics (iOS and macOS):
+                      1. App Center Analytics (iOS, macOS and tvOS):
                       App Center Analytics helps you understand user behavior and customer engagement to improve your app. The SDK automatically captures session count, device properties like model, OS version, etc. You can define your own custom events to measure things that matter to you. All the information captured is available in the App Center portal for you to analyze the data.
 
-                      2. App Center Crashes (iOS and macOS):
+                      2. App Center Crashes (iOS, macOS and tvOS):
                       App Center Crashes will automatically generate a crash log every time your app crashes. The log is first written to the device's storage and when the user starts the app again, the crash report will be sent to App Center. Collecting crashes works for both beta and live apps, i.e. those submitted to the App Store. Crash logs contain valuable information for you to help fix the crash.
 
                       3. App Center Distribute (iOS only):
@@ -31,6 +31,7 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = '8.0'
   s.osx.deployment_target = '10.9'
+  s.tvos.deployment_target = '10.0'
   s.source = { :http => "https://github.com/microsoft/app-center-sdk-ios/releases/download/#{s.version}/AppCenter-SDK-Apple-#{s.version}.zip" }
 
   s.preserve_path = "AppCenter-SDK-Apple/LICENSE"
@@ -41,8 +42,10 @@ Pod::Spec.new do |s|
     ss.frameworks = 'Foundation', 'SystemConfiguration'
     ss.ios.frameworks = 'CoreTelephony', 'UIKit'
     ss.osx.frameworks = 'AppKit'
+    ss.tvos.frameworks = 'UIKit'
     ss.ios.vendored_frameworks = "AppCenter-SDK-Apple/iOS/AppCenter.framework"
     ss.osx.vendored_frameworks = "AppCenter-SDK-Apple/macOS/AppCenter.framework"
+    ss.tvos.vendored_frameworks = "AppCenter-SDK-Apple/tvOS/AppCenter.framework"
     ss.libraries = 'sqlite3'
   end
 
@@ -51,8 +54,10 @@ Pod::Spec.new do |s|
     ss.frameworks = 'Foundation'
     ss.ios.frameworks = 'UIKit'
     ss.osx.frameworks = 'AppKit'
+    ss.tvos.frameworks = 'UIKit'
     ss.ios.vendored_frameworks = "AppCenter-SDK-Apple/iOS/AppCenterAnalytics.framework"
     ss.osx.vendored_frameworks = "AppCenter-SDK-Apple/macOS/AppCenterAnalytics.framework"
+    ss.tvos.vendored_frameworks = "AppCenter-SDK-Apple/tvOS/AppCenterAnalytics.framework"
   end
 
   s.subspec 'Crashes' do |ss|
@@ -61,6 +66,7 @@ Pod::Spec.new do |s|
     ss.libraries = 'z', 'c++'
     ss.ios.vendored_frameworks = "AppCenter-SDK-Apple/iOS/AppCenterCrashes.framework"
     ss.osx.vendored_frameworks = "AppCenter-SDK-Apple/macOS/AppCenterCrashes.framework"
+    ss.tvos.vendored_frameworks = "AppCenter-SDK-Apple/tvOS/AppCenterCrashes.framework"
   end
 
  s.subspec 'Distribute' do |ss|
