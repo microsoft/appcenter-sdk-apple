@@ -23,7 +23,7 @@ static dispatch_once_t onceToken;
 /**
  * Base URL for HTTP Ingestion backend API calls.
  */
-static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
+static NSString *const kMSDefaultBaseUrl = @"https://in.appcenter.ms";
 
 // Service name for initialization.
 static NSString *const kMSServiceName = @"AppCenter";
