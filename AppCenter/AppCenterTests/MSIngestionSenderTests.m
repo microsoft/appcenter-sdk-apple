@@ -108,10 +108,10 @@ static NSString *const kMSBaseUrl = @"https://test.com";
         // Then
         XCTAssertEqual(containerId, batchId);
         XCTAssertEqual((MSHTTPCodesNo)statusCode, MSHTTPCodesNo404NotFound);
-        XCTAssertEqual(error.domain, kMSMCErrorDomain);
-        XCTAssertEqual(error.code, kMSMCConnectionHttpErrorCode);
-        XCTAssertEqual(error.localizedDescription, kMSMCConnectionHttpErrorDesc);
-        XCTAssertTrue([error.userInfo[kMSMCConnectionHttpCodeErrorKey] isEqual:@(MSHTTPCodesNo404NotFound)]);
+        XCTAssertEqual(error.domain, kMSACErrorDomain);
+        XCTAssertEqual(error.code, kMSACConnectionHttpErrorCode);
+        XCTAssertEqual(error.localizedDescription, kMSACConnectionHttpErrorDesc);
+        XCTAssertTrue([error.userInfo[kMSACConnectionHttpCodeErrorKey] isEqual:@(MSHTTPCodesNo404NotFound)]);
 
         /*
          * FIXME: This unit test failes intermittently because of timing issue. Wait a little bit of time
@@ -434,8 +434,8 @@ static NSString *const kMSBaseUrl = @"https://test.com";
       completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
                           __attribute__((unused)) NSData *data, NSError *error) {
 
-        XCTAssertEqual(error.domain, kMSMCErrorDomain);
-        XCTAssertEqual(error.code, kMSMCLogInvalidContainerErrorCode);
+        XCTAssertEqual(error.domain, kMSACErrorDomain);
+        XCTAssertEqual(error.code, kMSACLogInvalidContainerErrorCode);
       }];
 
   XCTAssertEqual([self.sut.pendingCalls count], (unsigned long)0);
