@@ -12,11 +12,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
   var window: UIWindow?
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-    
-    // Use integration endpoints.
-    MSAppCenter.setLogUrl("https://in-integration.dev.avalanch.es");
-    MSDistribute.setApiUrl("https://asgard-int.trafficmanager.net/api/v0.1");
-    MSDistribute.setInstallUrl("https://install.asgard-int.trafficmanager.net");
 
     // Customize App Center SDK.
     MSCrashes.setDelegate(self)
@@ -25,7 +20,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     MSAppCenter.setLogLevel(MSLogLevel.verbose)
 
     // Start App Center SDK.
-      MSAppCenter.start("ac2176f2-3324-4d7d-8782-9095627cc909", withServices: [MSAnalytics.self, MSCrashes.self, MSDistribute.self, MSPush.self])
+    #if DEBUG
+      MSAppCenter.start("0dbca56b-b9ae-4d53-856a-7c2856137d85", withServices: [MSAnalytics.self, MSCrashes.self, MSPush.self])
+    #else
+      MSAppCenter.start("0dbca56b-b9ae-4d53-856a-7c2856137d85", withServices: [MSAnalytics.self, MSCrashes.self, MSDistribute.self, MSPush.self])
+    #endif
     
     // Crashes Delegate.
     MSCrashes.setUserConfirmationHandler({ (errorReports: [MSErrorReport]) in

@@ -31,11 +31,6 @@ static UIViewController *crashResultViewController = nil;
   // View controller should register in NSNotificationCenter before SDK start.
   crashResultViewController =
       [[[[self window] rootViewController] storyboard] instantiateViewControllerWithIdentifier:@"crashResult"];
-  
-  // Use integration endpoints.
-  [MSAppCenter setLogUrl:@"https://in-integration.dev.avalanch.es"];
-  [MSDistribute setApiUrl:@"https://asgard-int.trafficmanager.net/api/v0.1"];
-  [MSDistribute setInstallUrl:@"https://install.asgard-int.trafficmanager.net"];
 
   // Customize App Center SDK.
   [MSDistribute setDelegate:self];
@@ -43,8 +38,8 @@ static UIViewController *crashResultViewController = nil;
   [MSAnalytics setDelegate:self];
   [MSAppCenter setLogLevel:MSLogLevelVerbose];
 
-  // Start App Center SDK.
-  [MSAppCenter start:@"65dc3680-7325-4000-a0e7-dbd2276eafd1"
+  // Start Mobile Center SDK.
+  [MSAppCenter start:@"7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7"
            withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class] ]];
 
   [self crashes];
