@@ -201,7 +201,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   OCMStub([logManager alloc]).andReturn(logManager);
   OCMStub([logManager initWithAppSecret:[OCMArg any] installId:[OCMArg any] logUrl:[OCMArg any]]).andReturn(logManager);
 
-  // Not allow processLog
+  // Not allow processLog.
   OCMReject([logManager processLog:[OCMArg isKindOfClass:[MSStartServiceLog class]] forGroupId:[OCMArg any]]);
 
   // When
@@ -227,6 +227,28 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // Then
   OCMVerify([logManager processLog:[OCMArg isKindOfClass:[MSStartServiceLog class]] forGroupId:OCMOCK_ANY]);
+}
+
+- (void)testStartServiceLogWithDisabledCore {
+  
+  // If
+  id logManager = OCMClassMock([MSLogManagerDefault class]);
+  OCMStub([logManager alloc]).andReturn(logManager);
+  OCMStub([logManager initWithAppSecret:[OCMArg any] installId:[OCMArg any] logUrl:[OCMArg any]]).andReturn(logManager);
+  
+  // Not allow processLog.
+  OCMReject([logManager processLog:[OCMArg isKindOfClass:[MSStartServiceLog class]] forGroupId:[OCMArg any]]);
+  
+  // When
+  [MSAppCenter start:MS_UUID_STRING withServices:nil];
+  [MSAppCenter setEnabled:NO];
+  [MSAppCenter startService:MSMockService.class];
+  
+  // Then
+  OCMVerifyAll(logManager);
+  
+  // Clear
+  [logManager stopMocking];
 }
 
 - (void)testSortingServicesWorks {

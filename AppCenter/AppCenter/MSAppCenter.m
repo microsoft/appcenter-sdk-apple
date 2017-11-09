@@ -406,9 +406,11 @@ static NSString *const kMSGroupId = @"AppCenter";
 }
 
 - (void)sendStartServiceLog:(NSArray<NSString *> *)servicesNames {
-  MSStartServiceLog *serviceLog = [MSStartServiceLog new];
-  serviceLog.services = servicesNames;
-  [self.logManager processLog:serviceLog forGroupId:kMSGroupId];
+  if (self.isEnabled) {
+    MSStartServiceLog *serviceLog = [MSStartServiceLog new];
+    serviceLog.services = servicesNames;
+    [self.logManager processLog:serviceLog forGroupId:kMSGroupId];
+  }
 }
 
 #if !TARGET_OS_TV
