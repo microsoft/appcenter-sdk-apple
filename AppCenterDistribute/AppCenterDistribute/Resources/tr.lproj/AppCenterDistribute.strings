@@ -5,6 +5,8 @@
 "MSDistributeAskMeInADay" = "Bir gün içinde sor";
 "MSDistributeViewReleaseNotes" = "Sürüm notlarını görüntüle";
 "MSDistributeClose" = "Kapat";
+"MSDistributeIgnore" = "Ignore";
+"MSDistributeReinstall" = "Reinstall app";
 
 /*
  * Update dialog titles/messages
