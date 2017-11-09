@@ -5,6 +5,8 @@
 "MSDistributeAskMeInADay" = "Zeptat se za den";
 "MSDistributeViewReleaseNotes" = "Zobrazit zprávu k vydání verze";
 "MSDistributeClose" = "Zavřít";
+"MSDistributeIgnore" = "Ignore";
+"MSDistributeReinstall" = "Reinstall app";
 
 /*
  * Update dialog titles/messages

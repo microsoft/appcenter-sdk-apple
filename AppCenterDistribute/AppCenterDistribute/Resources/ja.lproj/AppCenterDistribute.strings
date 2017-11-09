@@ -5,6 +5,8 @@
 "MSDistributeAskMeInADay" = "明日また知らせる";
 "MSDistributeViewReleaseNotes" = "リリース ノートの表示";
 "MSDistributeClose" = "閉じる";
+"MSDistributeIgnore" = "Ignore";
+"MSDistributeReinstall" = "Reinstall app";
 
 /*
  * Update dialog titles/messages
