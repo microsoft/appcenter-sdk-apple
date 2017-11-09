@@ -5,6 +5,8 @@
 "MSDistributeAskMeInADay" = "一天後詢問我";
 "MSDistributeViewReleaseNotes" = "檢視版本資訊";
 "MSDistributeClose" = "關閉";
+"MSDistributeIgnore" = "Ignore";
+"MSDistributeReinstall" = "Reinstall app";
 
 /*
  * Update dialog titles/messages

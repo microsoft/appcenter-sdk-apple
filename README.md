@@ -1,12 +1,12 @@
 [![Build Status](https://www.bitrise.io/app/e5b1a2ef546331fb.svg?token=Orwi_AVAExLTuN1ZAzvbFQ&branch=develop)](https://www.bitrise.io/app/e5b1a2ef546331fb)
-[![codecov](https://codecov.io/gh/Microsoft/app-center-sdk-ios/branch/develop/graph/badge.svg?token=6dlCB5riVi)](https://codecov.io/gh/Microsoft/app-center-sdk-ios)
+[![codecov](https://codecov.io/gh/Microsoft/AppCenter-SDK-Apple/branch/develop/graph/badge.svg?token=6dlCB5riVi)](https://codecov.io/gh/Microsoft/AppCenter-SDK-Apple)
 [![CocoaPods](https://img.shields.io/cocoapods/v/AppCenter.svg)](https://cocoapods.org/pods/AppCenter)
 [![CocoaPods](https://img.shields.io/cocoapods/dt/AppCenter.svg)](https://cocoapods.org/pods/AppCenter)
-[![license](https://img.shields.io/badge/license-MIT%20License-00AAAA.svg)](https://github.com/Microsoft/app-center-sdk-ios/blob/master/LICENSE)
+[![license](https://img.shields.io/badge/license-MIT%20License-00AAAA.svg)](https://github.com/Microsoft/AppCenter-SDK-Apple/blob/master/LICENSE)
 
 # App Center SDK for iOS and macOS
 
-App Center is mission control for mobile apps.
+App Center is your continuous integration, delivery and learning solution for iOS and macOS apps.
 Get faster release cycles, higher-quality apps, and the insights to build what users want.
 
 The App Center SDK uses a modular architecture so you can use any or all of the following services:
