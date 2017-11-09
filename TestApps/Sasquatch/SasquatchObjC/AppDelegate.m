@@ -20,18 +20,13 @@
   [MSDistribute setDelegate:self];
   [MSPush setDelegate:self];
   [MSAppCenter setLogLevel:MSLogLevelVerbose];
-  
-  // Use integration endpoints.
-  [MSAppCenter setLogUrl:@"https://in-integration.dev.avalanch.es"];
-  [MSDistribute setApiUrl:@"https://asgard-int.trafficmanager.net/api/v0.1"];
-  [MSDistribute setInstallUrl:@"https://install.asgard-int.trafficmanager.net"];
 
 // Start App Center SDK.
 #if DEBUG
-  [MSAppCenter start:@"bb29fdee-f432-49d4-b521-efd9724c0e35"
+  [MSAppCenter start:@"3ccfe7f5-ec01-4de5-883c-f563bbbe147a"
            withServices:@[ [MSAnalytics class], [MSCrashes class], [MSPush class] ]];
 #else
-  [MSAppCenter start:@"bb29fdee-f432-49d4-b521-efd9724c0e35"
+  [MSAppCenter start:@"3ccfe7f5-ec01-4de5-883c-f563bbbe147a"
            withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class] ]];
 #endif
 
