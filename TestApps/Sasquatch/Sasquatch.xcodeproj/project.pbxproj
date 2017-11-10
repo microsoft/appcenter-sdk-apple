@@ -32,8 +32,6 @@
 		84226C561E88FF4A00798417 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C551E88FF4A00798417 /* Assets.xcassets */; };
 		84226C831E8908CA00798417 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226C821E8908CA00798417 /* AppDelegate.swift */; };
 		84226C8A1E8908CA00798417 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C891E8908CA00798417 /* Assets.xcassets */; };
-		84226D0D1E891FEF00798417 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226D0B1E891FBA00798417 /* MSAlertController.m */; };
-		84226D0E1E891FF100798417 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226D0B1E891FBA00798417 /* MSAlertController.m */; };
 		84226D321E89301B00798417 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D2E1E89301A00798417 /* AppCenter.framework */; };
 		84226D331E89301B00798417 /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D2F1E89301B00798417 /* AppCenterAnalytics.framework */; };
 		84226D341E89301B00798417 /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D301E89301B00798417 /* AppCenterCrashes.framework */; };
@@ -181,6 +179,7 @@
 		046790451E8DA8DD0033FDEC /* SasquatchObjC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchObjC.entitlements; sourceTree = "<group>"; };
 		047D13711EAFBDBE00D699BA /* AppCenterDistributeResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AppCenterDistributeResources.bundle; path = "../../AppCenter-SDK-Apple/iOS/AppCenterDistributeResources.bundle"; sourceTree = "<group>"; };
 		048EB9A01F86F4B7007620A0 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		04AB77691FB627CD00EC6074 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		5CD700E51EA4B74500FC5D12 /* SasquatchSwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchSwiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CE258791EA5F5DF00DA8FB9 /* AnalyticsUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnalyticsUITests.swift; path = SasquatchUITests/AnalyticsUITests.swift; sourceTree = SOURCE_ROOT; };
 		5CE2587B1EA5F5EB00DA8FB9 /* CrashesUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CrashesUITests.swift; path = SasquatchUITests/CrashesUITests.swift; sourceTree = SOURCE_ROOT; };
@@ -204,8 +203,6 @@
 		84226C891E8908CA00798417 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		84226C8E1E8908CA00798417 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		84226D091E891FB900798417 /* Sasquatch-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Sasquatch-Bridging-Header.h"; sourceTree = "<group>"; };
-		84226D0A1E891FBA00798417 /* MSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAlertController.h; sourceTree = "<group>"; };
-		84226D0B1E891FBA00798417 /* MSAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAlertController.m; sourceTree = "<group>"; };
 		84226D2E1E89301A00798417 /* AppCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenter.framework; path = "../AppCenter-SDK-Apple/iOS/AppCenter.framework"; sourceTree = "<group>"; };
 		84226D2F1E89301B00798417 /* AppCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterAnalytics.framework; path = "../AppCenter-SDK-Apple/iOS/AppCenterAnalytics.framework"; sourceTree = "<group>"; };
 		84226D301E89301B00798417 /* AppCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterCrashes.framework; path = "../AppCenter-SDK-Apple/iOS/AppCenterCrashes.framework"; sourceTree = "<group>"; };
@@ -360,7 +357,7 @@
 			children = (
 				84226D3A1E8937FF00798417 /* AppCenterDelegate.swift */,
 				849A3E711E8A9922008711CB /* AppCenterProtocol.swift */,
-				84226D081E891FA300798417 /* MSAlertController */,
+				04AB77691FB627CD00EC6074 /* Constants.h */,
 				84226CB11E8909F700798417 /* Storyboards */,
 				808A10E81EF30FD600DFD41B /* Utils */,
 				84226CB21E8909FF00798417 /* Supporting Files */,
@@ -409,10 +406,10 @@
 			children = (
 				845964AC1E8A7E9700BABA51 /* MSMainViewController.swift */,
 				84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */,
-				84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */,
 				84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */,
 				84D63FF61E8BA838004C9F86 /* MSCrashesDetailViewController.swift */,
 				B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */,
+				84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */,
 				803CFF261F6A7E1D0072B9BA /* MSPushViewController.swift */,
 			);
 			path = ViewControllers;
@@ -435,16 +432,6 @@
 				84226D091E891FB900798417 /* Sasquatch-Bridging-Header.h */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		84226D081E891FA300798417 /* MSAlertController */ = {
-			isa = PBXGroup;
-			children = (
-				84226D0A1E891FBA00798417 /* MSAlertController.h */,
-				84226D0B1E891FBA00798417 /* MSAlertController.m */,
-			);
-			name = MSAlertController;
-			path = ../../../Vendor/iOS/MSAlertController;
 			sourceTree = "<group>";
 		};
 		84226D0F1E8921DE00798417 /* Frameworks */ = {
@@ -886,7 +873,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				84D63FF71E8BA838004C9F86 /* MSCrashesDetailViewController.swift in Sources */,
-				84226D0D1E891FEF00798417 /* MSAlertController.m in Sources */,
 				803CFF271F6A7E1D0072B9BA /* MSPushViewController.swift in Sources */,
 				849A3E721E8A9922008711CB /* AppCenterProtocol.swift in Sources */,
 				845964AD1E8A7E9700BABA51 /* MSMainViewController.swift in Sources */,
@@ -914,7 +900,6 @@
 				84226D3D1E8938D200798417 /* AppCenterDelegate.swift in Sources */,
 				808A11041EF31D2500DFD41B /* MSPropertiesTableDataSource.m in Sources */,
 				B2B36CE31EEF49C400230341 /* MSCustomPropertiesViewController.swift in Sources */,
-				84226D0E1E891FF100798417 /* MSAlertController.m in Sources */,
 				845178ED1E8A8B0D004A0A6F /* MSMainViewController.swift in Sources */,
 				808A11051EF31D2800DFD41B /* MSPropertyViewCell.m in Sources */,
 				84226D3F1E8939B700798417 /* AppCenterDelegateSwift.swift in Sources */,
