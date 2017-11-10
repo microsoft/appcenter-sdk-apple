@@ -151,7 +151,7 @@ static NSString *const kSMLogTag = @"[SasquatchMac]";
   }
 
   // Show alert for the notification.
-  NSString *title = pushNotification.title ? pushNotification.title : @"";
+  NSString *title = pushNotification.title ?: @"";
   NSString *message = pushNotification.message;
   NSMutableString *customData = nil;
   for (NSString *key in pushNotification.customData) {

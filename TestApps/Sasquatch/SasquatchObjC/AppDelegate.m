@@ -180,7 +180,7 @@
 #pragma mark - MSPushDelegate
 
 - (void)push:(MSPush *)push didReceivePushNotification:(MSPushNotification *)pushNotification {
-  NSString *title = pushNotification.title ? pushNotification.title : @"";
+  NSString *title = pushNotification.title ?: @"";
   NSString *message = pushNotification.message;
   NSMutableString *customData = nil;
   for (NSString *key in pushNotification.customData) {
