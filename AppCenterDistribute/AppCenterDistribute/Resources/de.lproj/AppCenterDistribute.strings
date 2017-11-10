@@ -6,7 +6,7 @@
 "MSDistributeViewReleaseNotes" = "Anmerkungen zu dieser Version anzeigen";
 "MSDistributeClose" = "Schließen";
 "MSDistributeIgnore" = "Ignorieren";
-"MSDistributeReinstall" = "Installieren Sie App";
+"MSDistributeReinstall" = "App erneut installieren";
 
 /*
  * Update dialog titles/messages
