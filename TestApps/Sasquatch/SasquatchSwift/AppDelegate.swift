@@ -35,7 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
                                               preferredStyle:.alert)
 
       // Add a "Don't send"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationDontSend
-      alertController.addAction(UIAlertAction(title: "Don't send", style: .cancel){_ in
+      alertController.addAction(UIAlertAction(title: "Don't send", style: .cancel) {_ in
         MSCrashes.notify(with: .dontSend)
       })
 
@@ -50,7 +50,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
       })
 
       // Show the alert controller.
-      self.window?.rootViewController?.present(alertController, animated: true, completion: nil)
+      self.window?.rootViewController?.present(alertController, animated: true)
 
       return true
     })
@@ -175,7 +175,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
                                               preferredStyle:.alert)
 
       // Add a "Yes"-Button and call the notifyUpdateAction-callback with MSUserAction.update
-      alertController.addAction(UIAlertAction(title:NSLocalizedString("distribute_alert_yes", tableName: "Sasquatch", comment: ""), style: .cancel){_ in
+      alertController.addAction(UIAlertAction(title: NSLocalizedString("distribute_alert_yes", tableName: "Sasquatch", comment: ""), style: .cancel) {_ in
         MSDistribute.notify(.update)
       })
 
@@ -185,7 +185,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
       })
 
       // Show the alert controller.
-      self.window?.rootViewController?.present(alertController, animated: true, completion: nil)
+      self.window?.rootViewController?.present(alertController, animated: true)
       return true
     }
     return false
@@ -204,8 +204,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
       NSLog("Notification received in background, title: \"\(title)\", message: \"\(message)\", custom data: \"\(customData)\"");
     } else {
       message =  message + ((customData.isEmpty) ? "" : "\n\(customData)")
-      let alert = UIAlertView(title: title, message: message, delegate: self, cancelButtonTitle: "OK")
-      alert.show()
+
+      let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+      alertController.addAction(UIAlertAction(title: "OK", style: .cancel))
+
+      // Show the alert controller.
+      self.window?.rootViewController?.present(alertController, animated: true)
     }
   }
 }
