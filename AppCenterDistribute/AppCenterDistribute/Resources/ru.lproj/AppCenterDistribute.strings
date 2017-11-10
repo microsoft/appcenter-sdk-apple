@@ -5,8 +5,8 @@
 "MSDistributeAskMeInADay" = "Спросить через день";
 "MSDistributeViewReleaseNotes" = "Просмотреть заметки о выпуске";
 "MSDistributeClose" = "Закрыть";
-"MSDistributeIgnore" = "Ignore";
-"MSDistributeReinstall" = "Reinstall app";
+"MSDistributeIgnore" = "Игнорировать";
+"MSDistributeReinstall" = "Переустановка приложения";
 
 /*
  * Update dialog titles/messages

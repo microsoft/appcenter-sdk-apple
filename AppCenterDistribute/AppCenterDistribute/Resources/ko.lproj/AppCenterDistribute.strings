@@ -5,8 +5,8 @@
 "MSDistributeAskMeInADay" = "하루동안 열지 않기";
 "MSDistributeViewReleaseNotes" = "릴리스 정보 보기";
 "MSDistributeClose" = "닫기";
-"MSDistributeIgnore" = "Ignore";
-"MSDistributeReinstall" = "Reinstall app";
+"MSDistributeIgnore" = "무시";
+"MSDistributeReinstall" = "앱 재설치";
 
 /*
  * Update dialog titles/messages
