@@ -8,9 +8,9 @@ import AppCenterPush
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate {
-  
+
   var window: UIWindow?
-  
+
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
     // Customize App Center SDK.
@@ -25,34 +25,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     #else
       MSAppCenter.start("0dbca56b-b9ae-4d53-856a-7c2856137d85", withServices: [MSAnalytics.self, MSCrashes.self, MSDistribute.self, MSPush.self])
     #endif
-    
+
     // Crashes Delegate.
     MSCrashes.setUserConfirmationHandler({ (errorReports: [MSErrorReport]) in
-      let alert = MSAlertController(title: "Sorry about that!",
-                                    message: "Do you want to send an anonymous crash report so we can fix the issue?")
-      alert?.addDefaultAction(withTitle: "Send", handler: { (alert) in
-        MSCrashes.notify(with: MSUserConfirmation.send)
+
+      // Show a dialog to the user where they can choose if they want to update.
+      let alertController = UIAlertController(title: "Sorry about that!",
+                                              message: "Do you want to send an anonymous crash report so we can fix the issue?",
+                                              preferredStyle:.alert)
+
+      // Add a "Don't send"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationDontSend
+      alertController.addAction(UIAlertAction(title: "Don't send", style: .cancel){_ in
+        MSCrashes.notify(with: .dontSend)
       })
-      alert?.addDefaultAction(withTitle: "Always Send", handler: { (alert) in
-        MSCrashes.notify(with: MSUserConfirmation.always)
+
+      // Add a "Send"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationSend
+      alertController.addAction(UIAlertAction(title: "Send", style: .default) {_ in
+        MSCrashes.notify(with: .send)
       })
-      alert?.addCancelAction(withTitle: "Don't Send", handler: { (alert) in
-        MSCrashes.notify(with: MSUserConfirmation.dontSend)
+
+      // Add a "Always send"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationAlways
+      alertController.addAction(UIAlertAction(title: "Always send", style: .default) {_ in
+        MSCrashes.notify(with: .always)
       })
-      alert?.show()
+
+      // Show the alert controller.
+      self.window?.rootViewController?.present(alertController, animated: true, completion: nil)
+
       return true
     })
-    
+
     setAppCenterDelegate()
-    
+
     return true
   }
-  
+
   private func setAppCenterDelegate(){
     let sasquatchController = (window?.rootViewController as! UINavigationController).topViewController as! MSMainViewController
     sasquatchController.appCenter = AppCenterDelegateSwift()
   }
-  
+
   /**
    * (iOS 8) Asks the delegate to open a resource specified by a URL, and provides a dictionary of launch options.
    *
@@ -69,7 +81,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     // Forward the URL to MSDistribute.
     return MSDistribute.open(url)
   }
-  
+
   /**
    * (iOS 9+) Asks the delegate to open a resource specified by a URL, and provides a dictionary of launch options.
    *
@@ -110,42 +122,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
   }
-  
+
   func applicationDidEnterBackground(_ application: UIApplication) {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
   }
-  
+
   func applicationWillEnterForeground(_ application: UIApplication) {
     // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
   }
-  
+
   func applicationDidBecomeActive(_ application: UIApplication) {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
   }
-  
+
   func applicationWillTerminate(_ application: UIApplication) {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
   }
 
   // Crashes Delegate
-  
+
   func crashes(_ crashes: MSCrashes!, shouldProcessErrorReport errorReport: MSErrorReport!) -> Bool {
 
     // return true if the crash report should be processed, otherwise false.
     return true
   }
-  
+
   func crashes(_ crashes: MSCrashes!, willSend errorReport: MSErrorReport!) {
-    
   }
   
   func crashes(_ crashes: MSCrashes!, didSucceedSending errorReport: MSErrorReport!) {
-    
   }
   
   func crashes(_ crashes: MSCrashes!, didFailSending errorReport: MSErrorReport!, withError error: Error!) {
-    
   }
   
   func attachments(with crashes: MSCrashes, for errorReport: MSErrorReport) -> [MSErrorAttachmentLog] {
@@ -153,33 +162,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     let attachment2 = MSErrorAttachmentLog.attachment(withBinary: "Fake image".data(using: String.Encoding.utf8), filename: nil, contentType: "image/jpeg")
     return [attachment1!, attachment2!]
   }
-  
+
   // Distribute Delegate
 
   func distribute(_ distribute: MSDistribute!, releaseAvailableWith details: MSReleaseDetails!) -> Bool {
-    let alert = MSAlertController(title: NSLocalizedString("distribute_alert_title", tableName: "Sasquatch", comment: ""),
-                                message: NSLocalizedString("distribute_alert_message", tableName: "Sasquatch", comment: ""))
-    alert?.addDefaultAction(withTitle: NSLocalizedString("distribute_alert_yes", tableName: "Sasquatch", comment: ""), handler: { (alert) in
-      MSDistribute.notify(MSUpdateAction.update)
-    })
-    alert?.addCancelAction(withTitle: NSLocalizedString("distribute_alert_no", tableName: "Sasquatch", comment: ""), handler: { (alert) in
-      MSDistribute.notify(MSUpdateAction.postpone)
-    })
-    alert?.show()
-    return true
+
+    if UserDefaults.standard.bool(forKey: kSASCustomizedUpdateAlertKey) {
+
+      // Show a dialog to the user where they can choose if they want to update.
+      let alertController = UIAlertController(title: NSLocalizedString("distribute_alert_title", tableName: "Sasquatch", comment: ""),
+                                              message: NSLocalizedString("distribute_alert_message", tableName: "Sasquatch", comment: ""),
+                                              preferredStyle:.alert)
+
+      // Add a "Yes"-Button and call the notifyUpdateAction-callback with MSUserAction.update
+      alertController.addAction(UIAlertAction(title:NSLocalizedString("distribute_alert_yes", tableName: "Sasquatch", comment: ""), style: .cancel){_ in
+        MSDistribute.notify(.update)
+      })
+
+      // Add a "No"-Button and call the notifyUpdateAction-callback with MSUserAction.postpone
+      alertController.addAction(UIAlertAction(title: NSLocalizedString("distribute_alert_no", tableName: "Sasquatch", comment: ""), style: .default) {_ in
+        MSDistribute.notify(.postpone)
+      })
+
+      // Show the alert controller.
+      self.window?.rootViewController?.present(alertController, animated: true, completion: nil)
+      return true
+    }
+    return false
   }
 
   // Push Delegate
 
   func push(_ push: MSPush!, didReceive pushNotification: MSPushNotification!) {
-    let title: String? = pushNotification.title
+    let title: String = pushNotification.title ?? ""
     var message: String = pushNotification.message ?? ""
     var customData: String = ""
     for item in pushNotification.customData {
       customData =  ((customData.isEmpty) ? "" : "\(customData), ") + "\(item.key): \(item.value)"
     }
     if (UIApplication.shared.applicationState == .background) {
-      NSLog("Notification received in background, title: \"\(title ?? "")\", message: \"\(message)\", custom data: \"\(customData)\"");
+      NSLog("Notification received in background, title: \"\(title)\", message: \"\(message)\", custom data: \"\(customData)\"");
     } else {
       message =  message + ((customData.isEmpty) ? "" : "\n\(customData)")
       let alert = UIAlertView(title: title, message: message, delegate: self, cancelButtonTitle: "OK")

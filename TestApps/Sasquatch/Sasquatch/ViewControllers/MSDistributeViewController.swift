@@ -2,15 +2,13 @@ import UIKit
 
 class MSDistributeViewController: UITableViewController, AppCenterProtocol {
 
-  let kCustomizedUpdateAlertKey = "kCustomizedUpdateAlertKey"
-
   @IBOutlet weak var enabled: UISwitch!
   @IBOutlet weak var customized: UISwitch!
   var appCenter: AppCenterDelegate!
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.customized.isOn = UserDefaults.init().bool(forKey: kCustomizedUpdateAlertKey)
+    self.customized.isOn = UserDefaults.init().bool(forKey: kSASCustomizedUpdateAlertKey)
     self.enabled.isOn = appCenter.isDistributeEnabled()
   }
   
@@ -40,6 +38,6 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
   }
 
   @IBAction func customizedSwitchUpdated(_ sender: UISwitch) {
-    UserDefaults.init().set(sender.isOn ? true : false, forKey: kCustomizedUpdateAlertKey)
+    UserDefaults.init().set(sender.isOn ? true : false, forKey: kSASCustomizedUpdateAlertKey)
   }
 }
