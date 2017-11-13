@@ -574,7 +574,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     [self.plCrashReporter setCrashCallbacks:&plCrashCallbacks];
     if (![self.plCrashReporter enableCrashReporterAndReturnError:&error])
       MSLogError([MSCrashes logTag], @"Could not enable crash reporter: %@", [error localizedDescription]);
-    NSUncaughtExceptionHandler *currentHandler = NSGetUncaughtExceptionHandler();
+      NSUncaughtExceptionHandler *currentHandler = NSGetUncaughtExceptionHandler();
     if (currentHandler && currentHandler != initialHandler) {
       self.exceptionHandler = currentHandler;
       MSLogDebug([MSCrashes logTag], @"Exception handler successfully initialized.");
@@ -643,7 +643,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                                        @"to App Center!");
     }
   }
-  if (!self.sendingInProgress && self.crashFiles.count > 0) {
+  if (self.crashFiles.count > 0) {
     [self processCrashReports];
   }
 }
