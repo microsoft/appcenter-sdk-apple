@@ -110,6 +110,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
     [MS_USER_DEFAULTS removeObjectForKey:kMSPostponedTimestampKey];
     [MS_USER_DEFAULTS removeObjectForKey:kMSMandatoryReleaseKey];
+    [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateSetupFailedPackageHashKey];
     MSLogInfo([MSDistribute logTag], @"Distribute service has been disabled.");
   }
 }
@@ -358,6 +359,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                    [MS_USER_DEFAULTS removeObjectForKey:kMSSDKHasLaunchedWithDistribute];
                    [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
                    [MS_USER_DEFAULTS removeObjectForKey:kMSPostponedTimestampKey];
+                   [MS_USER_DEFAULTS removeObjectForKey:kMSDistributionGroupIdKey];
                  }
                }
                if (!jsonString) {
