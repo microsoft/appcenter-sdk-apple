@@ -25,9 +25,9 @@ class AnalyticsUITests: XCTestCase {
     }
 
     // Enable SDK (we need it in case SDK was disabled by the test, which then failed and didn't enabled SDK back).
-    let mobileCenterButton : XCUIElement = app.switches["Set Enabled"];
-    if (mobileCenterButton.value as! String == "0") {
-      mobileCenterButton.tap();
+    let appCenterButton : XCUIElement = app.switches["Set Enabled"];
+    if (appCenterButton.value as! String == "0") {
+      appCenterButton.tap();
     }
 
     // Enable Analytics
@@ -38,7 +38,7 @@ class AnalyticsUITests: XCTestCase {
     }
 
     // Go back
-    app.buttons["Mobile Center"].tap();
+    app.buttons["App Center"].tap();
   }
 
   func testAnalytics() {
@@ -61,14 +61,14 @@ class AnalyticsUITests: XCTestCase {
     XCTAssertEqual("0", analyticsButton.value as! String);
 
     // Go back to start page and disable SDK.
-    app.buttons["Mobile Center"].tap();
-    let mobileCenterButton : XCUIElement = app.switches.element(boundBy: 0);
+    app.buttons["App Center"].tap();
+    let appCenterButton : XCUIElement = app.switches.element(boundBy: 0);
 
     // SDK should be enabled.
-    XCTAssertEqual("1", mobileCenterButton.value as! String);
+    XCTAssertEqual("1", appCenterButton.value as! String);
 
     // Disable SDK.
-    mobileCenterButton.tap();
+    appCenterButton.tap();
 
     // Go to analytics page.
     app.tables.cells.element(boundBy: AnalyticsCellIndex).tap();
@@ -77,10 +77,10 @@ class AnalyticsUITests: XCTestCase {
     XCTAssertEqual("0", analyticsButton.value as! String);
 
     // Go back and enable SDK.
-    app.buttons["Mobile Center"].tap();
+    app.buttons["App Center"].tap();
 
     // Enable SDK.
-    mobileCenterButton.tap();
+    appCenterButton.tap();
 
     // Go to analytics page.
     app.tables.cells.element(boundBy: AnalyticsCellIndex).tap();

@@ -1,4 +1,4 @@
-# Mobile Center SDK for iOS Change Log
+# App Center SDK for iOS and macOS Change Log
 
 ## Version 0.14.1
 
