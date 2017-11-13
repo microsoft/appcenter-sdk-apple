@@ -5,7 +5,7 @@ sdk: iphonesimulator
 theme: ../../Themes/apple
 
 module: Distribute
-module_version: 0.14.1
+module_version: 0.15.0
 author: Microsoft Corp
 author_url: http://www.microsoft.com
 
