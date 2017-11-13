@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name              = 'MobileCenter'
-  s.version           = '0.14.1'
+  s.version           = '0.15.0'
 
   s.summary           = 'Mobile Center is mission control for mobile apps. Get faster release cycles, higher-quality apps, and the insights to build what users want.'
   s.description       = <<-DESC
@@ -35,6 +35,9 @@ Pod::Spec.new do |s|
   s.preserve_path = "MobileCenter-SDK-Apple/LICENSE"
 
   s.default_subspecs = 'Analytics', 'Crashes'
+
+  s.deprecated = true
+  s.deprecated_in_favor_of = 'AppCenter'
 
   s.subspec 'Core' do |ss|
     ss.frameworks = 'Foundation', 'SystemConfiguration', 'CoreTelephony', 'UIKit'
