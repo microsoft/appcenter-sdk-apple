@@ -83,8 +83,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   assertThat(self.sut.analyzerInProgressFile, notNilValue());
   XCTAssertTrue(msCrashesLogBuffer.size() == ms_crashes_log_buffer_size);
 
-  // Creation of buffer files is done asynchronously, we need to give it some time to create the files.
-  [NSThread sleepForTimeInterval:0.05];
+  // Wait for creation of buffers.
+  dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
   NSError *error = [NSError errorWithDomain:@"MSTestingError" code:-57 userInfo:nil];
   NSArray *files = [[NSFileManager defaultManager]
       contentsOfDirectoryAtPath:reinterpret_cast<NSString *_Nonnull>([self.sut.logBufferDir path])
@@ -361,8 +361,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 - (void)testSetupLogBufferWorks {
 
   // If
-  // Creation of buffer files is done asynchronously, we need to give it some time to create the files.
-  [NSThread sleepForTimeInterval:0.05];
+  // Wait for creation of buffers.
+  dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
 
   // Then
   NSError *error = [NSError errorWithDomain:@"MSTestingError" code:-57 userInfo:nil];
