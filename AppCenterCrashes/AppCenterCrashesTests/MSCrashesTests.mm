@@ -32,6 +32,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 @interface MSCrashes ()
 
 + (void)notifyWithUserConfirmation:(MSUserConfirmation)userConfirmation;
+- (void)startDelayedCrashProcessing;
 - (void)startCrashProcessing;
 - (void)shouldAlwaysSend;
 - (void)emptyLogBufferFiles;
@@ -193,6 +194,10 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
 - (void)testProcessCrashes {
 
+  // If
+  self.sut = OCMPartialMock(self.sut);
+  OCMStub([self.sut startDelayedCrashProcessing]).andDo(nil);
+  
   // When
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
   [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
@@ -209,7 +214,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   assertThat(self.sut.crashFiles, hasCountOf(0));
 
   // When
-  self.sut = [MSCrashes new];
+  self.sut = OCMPartialMock([MSCrashes new]);
+  OCMStub([self.sut startDelayedCrashProcessing]).andDo(nil);
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
   [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
 
@@ -217,7 +223,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   assertThat(self.sut.crashFiles, hasCountOf(1));
 
   // When
-  self.sut = [MSCrashes new];
+  self.sut = OCMPartialMock([MSCrashes new]);
+  OCMStub([self.sut startDelayedCrashProcessing]).andDo(nil);
   MSUserConfirmationHandler userConfirmationHandlerYES =
       ^BOOL(__attribute__((unused)) NSArray<MSErrorReport *> *_Nonnull errorReports) {
         return YES;
@@ -232,7 +239,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   assertThat(self.sut.crashFiles, hasCountOf(0));
 
   // When
-  self.sut = [MSCrashes new];
+  self.sut = OCMPartialMock([MSCrashes new]);
+  OCMStub([self.sut startDelayedCrashProcessing]).andDo(nil);
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
   [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
 
@@ -240,7 +248,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   assertThat(self.sut.crashFiles, hasCountOf(1));
 
   // When
-  self.sut = [MSCrashes new];
+  self.sut = OCMPartialMock([MSCrashes new]);
+  OCMStub([self.sut startDelayedCrashProcessing]).andDo(nil);
   MSUserConfirmationHandler userConfirmationHandlerNO =
       ^BOOL(__attribute__((unused)) NSArray<MSErrorReport *> *_Nonnull errorReports) {
         return NO;
@@ -254,10 +263,14 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
 - (void)testProcessCrashesWithErrorAttachments {
 
+  // If
+  self.sut = OCMPartialMock(self.sut);
+  OCMStub([self.sut startDelayedCrashProcessing]).andDo(nil);
+  
   // When
   id logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
-  [[MSCrashes sharedInstance] startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
+  [self.sut startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
   NSString *validString = @"valid";
   NSData *validData = [validString dataUsingEncoding:NSUTF8StringEncoding];
   NSData *emptyData = [@"" dataUsingEncoding:NSUTF8StringEncoding];
@@ -279,11 +292,11 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   id crashesDelegateMock = OCMProtocolMock(@protocol(MSCrashesDelegate));
   OCMStub([crashesDelegateMock attachmentsWithCrashes:OCMOCK_ANY forErrorReport:OCMOCK_ANY]).andReturn(logs);
   OCMStub([crashesDelegateMock crashes:OCMOCK_ANY shouldProcessErrorReport:OCMOCK_ANY]).andReturn(YES);
-  [[MSCrashes sharedInstance] setDelegate:crashesDelegateMock];
+  [self.sut setDelegate:crashesDelegateMock];
 
   // Then
   OCMExpect([logManagerMock processLog:validLog forGroupId:OCMOCK_ANY]);
-  [[MSCrashes sharedInstance] startCrashProcessing];
+  [self.sut startCrashProcessing];
   OCMVerifyAll(logManagerMock);
 }
 
@@ -582,11 +595,15 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   }];
 #pragma clang diagnostic pop
 
+  // If
+  self.sut = OCMPartialMock(self.sut);
+  OCMStub([self.sut startDelayedCrashProcessing]).andDo(nil);
+  
   // When
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
-  [[MSCrashes sharedInstance] setDelegate:self];
-  [[MSCrashes sharedInstance] startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
-  [[MSCrashes sharedInstance] startCrashProcessing];
+  [self.sut setDelegate:self];
+  [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+  [self.sut startCrashProcessing];
 
   XCTAssertTrue(warningMessageHasBeenPrinted);
 }
