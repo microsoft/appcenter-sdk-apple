@@ -37,6 +37,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 - (void)shouldAlwaysSend;
 - (void)emptyLogBufferFiles;
 
+@property(nonatomic) dispatch_group_t bufferFileGroup;
+
 @end
 
 @interface MSCrashesTests : XCTestCase <MSCrashesDelegate>
@@ -56,6 +58,11 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
 - (void)tearDown {
   [super tearDown];
+  
+  // Wait for creation of buffers.
+  dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
+  
+  // Delete all files.
   [self.sut deleteAllFromCrashesDirectory];
   [MSCrashesTestUtil deleteAllFilesInDirectory:[[self.sut logBufferDir] path]];
 }
