@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name              = 'MobileCenter'
-  s.version           = '0.14.1'
+  s.version           = '0.15.0'
 
   s.summary           = 'Mobile Center is mission control for mobile apps. Get faster release cycles, higher-quality apps, and the insights to build what users want.'
   s.description       = <<-DESC
@@ -31,6 +31,8 @@ Pod::Spec.new do |s|
 
   s.platform          = :ios, '8.0'
   s.source = { :http => "https://github.com/microsoft/mobile-center-sdk-ios/releases/download/#{s.version}/MobileCenter-SDK-Apple-#{s.version}.zip" }
+
+  s.deprecated = true
 
   s.preserve_path = "MobileCenter-SDK-Apple/LICENSE"
 
