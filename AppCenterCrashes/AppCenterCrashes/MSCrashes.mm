@@ -643,7 +643,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                                        @"to App Center!");
     }
   }
-  if (!self.sendingInProgress && self.crashFiles.count > 0) {
+  if (self.crashFiles.count > 0) {
     [self processCrashReports];
   }
 }
