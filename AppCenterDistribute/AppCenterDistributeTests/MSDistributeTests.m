@@ -82,6 +82,9 @@ static NSURL *sfURL;
   self.sut = [MSDistribute new];
   self.settingsMock = [MSMockUserDefaults new];
 
+  // Mock network.
+  [MSHttpTestUtil stubHttp200Response];
+  
   // Mock NSBundle
   self.bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([self.bundleMock mainBundle]).andReturn(self.bundleMock);
@@ -113,6 +116,7 @@ static NSURL *sfURL;
   [self waitForExpectations:@[ expection ] timeout:1];
 
   // Clear
+  [OHHTTPStubs removeAllStubs];
   [MSKeychainUtil clear];
   [self.parserMock stopMocking];
   [self.settingsMock stopMocking];
@@ -875,7 +879,6 @@ static NSURL *sfURL;
   [distributeMock stopMocking];
   [keychainMock stopMocking];
   [reachabilityMock stopMocking];
-  [OHHTTPStubs removeAllStubs];
 }
 
 - (void)testCheckLatestReleaseOnRecoverableError {
@@ -925,7 +928,6 @@ static NSURL *sfURL;
   [distributeMock stopMocking];
   [keychainMock stopMocking];
   [reachabilityMock stopMocking];
-  [OHHTTPStubs removeAllStubs];
 }
 
 - (void)testPersistLastestMandatoryUpdate {
