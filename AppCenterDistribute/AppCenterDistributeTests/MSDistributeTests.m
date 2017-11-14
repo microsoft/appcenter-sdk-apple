@@ -859,6 +859,10 @@ static NSURL *sfURL;
                                  OCMVerify([self.settingsMock removeObjectForKey:kMSUpdateTokenRequestIdKey]);
                                  OCMVerify([self.settingsMock removeObjectForKey:kMSPostponedTimestampKey]);
                                  OCMVerify([self.settingsMock removeObjectForKey:kMSDistributionGroupIdKey]);
+                                 XCTAssertNil([self.settingsMock objectForKey:kMSSDKHasLaunchedWithDistribute]);
+                                 XCTAssertNil([self.settingsMock objectForKey:kMSUpdateTokenRequestIdKey]);
+                                 XCTAssertNil([self.settingsMock objectForKey:kMSPostponedTimestampKey]);
+                                 XCTAssertNil([self.settingsMock objectForKey:kMSDistributionGroupIdKey]);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
@@ -867,6 +871,53 @@ static NSURL *sfURL;
   // Clear
   [keychainMock stopMocking];
   [reachabilityMock stopMocking];
+  [OHHTTPStubs removeAllStubs];
+}
+
+- (void)testCheckLatestReleaseOnRecoverableError {
+  
+  // If
+  id keychainMock = OCMClassMock([MSKeychainUtil class]);
+  id reachabilityMock = OCMClassMock([MS_Reachability class]);
+  OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
+  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
+  
+  // Recoverable error.
+  [MSHttpTestUtil stubHttp500Response];
+  
+  // When
+  OCMReject([keychainMock deleteStringForKey:kMSUpdateTokenKey]);
+  [self.settingsMock setObject:@1 forKey:kMSSDKHasLaunchedWithDistribute];
+  [self.settingsMock setObject:@1 forKey:kMSUpdateTokenRequestIdKey];
+  [self.settingsMock setObject:@1 forKey:kMSPostponedTimestampKey];
+  [self.settingsMock setObject:@1 forKey:kMSDistributionGroupIdKey];
+  [self.sut checkLatestRelease:@"token"
+           distributionGroupId:@"groupId"
+                   releaseHash:@"releaseHash"];
+  
+  // Then
+  XCTestExpectation *expection = [self expectationWithDescription:@"checkLatestRelease"];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [expection fulfill];
+  });
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 
+                                 // Then
+                                 OCMVerifyAll(keychainMock);
+                                 XCTAssertNotNil([self.settingsMock objectForKey:kMSSDKHasLaunchedWithDistribute]);
+                                 XCTAssertNotNil([self.settingsMock objectForKey:kMSUpdateTokenRequestIdKey]);
+                                 XCTAssertNotNil([self.settingsMock objectForKey:kMSPostponedTimestampKey]);
+                                 XCTAssertNotNil([self.settingsMock objectForKey:kMSDistributionGroupIdKey]);
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+  
+  // Clear
+  [keychainMock stopMocking];
+  [reachabilityMock stopMocking];
+  [OHHTTPStubs removeAllStubs];
 }
 
 - (void)testPersistLastestMandatoryUpdate {
