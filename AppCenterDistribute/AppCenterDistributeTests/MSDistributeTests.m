@@ -832,6 +832,8 @@ static NSURL *sfURL;
 - (void)testCheckLatestReleaseRemoveKeysOnNonRecoverableError {
   
   // If
+  id distributeMock = OCMPartialMock(self.sut);
+  OCMReject([distributeMock handleUpdate:OCMOCK_ANY]);
   id keychainMock = OCMClassMock([MSKeychainUtil class]);
   id reachabilityMock = OCMClassMock([MS_Reachability class]);
   OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
@@ -854,6 +856,7 @@ static NSURL *sfURL;
                                handler:^(NSError *error) {
                                  
                                  // Then
+                                 OCMVerifyAll(distributeMock);
                                  OCMVerify([keychainMock deleteStringForKey:kMSUpdateTokenKey]);
                                  OCMVerify([self.settingsMock removeObjectForKey:kMSSDKHasLaunchedWithDistribute]);
                                  OCMVerify([self.settingsMock removeObjectForKey:kMSUpdateTokenRequestIdKey]);
@@ -869,6 +872,7 @@ static NSURL *sfURL;
                                }];
   
   // Clear
+  [distributeMock stopMocking];
   [keychainMock stopMocking];
   [reachabilityMock stopMocking];
   [OHHTTPStubs removeAllStubs];
@@ -877,7 +881,10 @@ static NSURL *sfURL;
 - (void)testCheckLatestReleaseOnRecoverableError {
   
   // If
+  id distributeMock = OCMPartialMock(self.sut);
+  OCMReject([distributeMock handleUpdate:OCMOCK_ANY]);
   id keychainMock = OCMClassMock([MSKeychainUtil class]);
+  OCMReject([keychainMock deleteStringForKey:kMSUpdateTokenKey]);
   id reachabilityMock = OCMClassMock([MS_Reachability class]);
   OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
@@ -886,7 +893,6 @@ static NSURL *sfURL;
   [MSHttpTestUtil stubHttp500Response];
   
   // When
-  OCMReject([keychainMock deleteStringForKey:kMSUpdateTokenKey]);
   [self.settingsMock setObject:@1 forKey:kMSSDKHasLaunchedWithDistribute];
   [self.settingsMock setObject:@1 forKey:kMSUpdateTokenRequestIdKey];
   [self.settingsMock setObject:@1 forKey:kMSPostponedTimestampKey];
@@ -904,6 +910,7 @@ static NSURL *sfURL;
                                handler:^(NSError *error) {
                                  
                                  // Then
+                                 OCMVerifyAll(distributeMock);
                                  OCMVerifyAll(keychainMock);
                                  XCTAssertNotNil([self.settingsMock objectForKey:kMSSDKHasLaunchedWithDistribute]);
                                  XCTAssertNotNil([self.settingsMock objectForKey:kMSUpdateTokenRequestIdKey]);
@@ -915,6 +922,7 @@ static NSURL *sfURL;
                                }];
   
   // Clear
+  [distributeMock stopMocking];
   [keychainMock stopMocking];
   [reachabilityMock stopMocking];
   [OHHTTPStubs removeAllStubs];
