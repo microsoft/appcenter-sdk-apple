@@ -114,6 +114,12 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 @property BOOL didCrashInLastSession;
 
 /**
+ * Indicates if the delayedProcessingSemaphore will need to be released
+ * anymore. Useful for preventing overflows.
+ */
+@property BOOL shouldReleaseProcessingSemaphore;
+
+/**
  * Detail information about the last crash.
  */
 @property(getter=getLastSessionCrashReport) MSErrorReport *lastSessionCrashReport;
@@ -215,6 +221,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     _didCrashInLastSession = NO;
     _delayedProcessingSemaphore = dispatch_semaphore_create(0);
     _automaticProcessing = YES;
+    _shouldReleaseProcessingSemaphore = YES;
 #if !TARGET_OS_TV
     _enableMachExceptionHandler = YES;
 #endif
@@ -611,9 +618,15 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   // This must be performed asynchronously to prevent a deadlock with 'unprocessedCrashReports'.
   dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, (1 * NSEC_PER_SEC));
   dispatch_after(delay, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-      [self startCrashProcessing];
+    [self startCrashProcessing];
 
-      dispatch_semaphore_signal(self.delayedProcessingSemaphore);
+    // Only release once to avoid releasing an unbounded number of times.
+    @synchronized(self) {
+      if (self.shouldReleaseProcessingSemaphore) {
+        dispatch_semaphore_signal(self.delayedProcessingSemaphore);
+        self.shouldReleaseProcessingSemaphore = NO;
+      }
+    }
   });
 }
 
@@ -895,7 +908,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     // Purge the report marker at the end of the routine.
     [self removeAnalyzerFile];
   }
-
   [self.plCrashReporter purgePendingCrashReport];
 }
 
