@@ -95,10 +95,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		043121781EE0C65B007054C5 /* AppCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenter.framework; path = "../AppCenter-SDK-iOS/tvOS/AppCenter.framework"; sourceTree = "<group>"; };
-		043121791EE0C65B007054C5 /* AppCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterAnalytics.framework; path = "../AppCenter-SDK-iOS/tvOS/AppCenterAnalytics.framework"; sourceTree = "<group>"; };
+		043121781EE0C65B007054C5 /* AppCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenter.framework; path = "../../AppCenter-SDK-iOS/tvOS/AppCenter.framework"; sourceTree = "<group>"; };
+		043121791EE0C65B007054C5 /* AppCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterAnalytics.framework; path = "../../AppCenter-SDK-iOS/tvOS/AppCenterAnalytics.framework"; sourceTree = "<group>"; };
 		045A946D1F97C730002B7CB1 /* App.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = App.xcconfig; path = ../../../Config/App.xcconfig; sourceTree = "<group>"; };
-		04EBBEFA1F01C88D0006B8AE /* AppCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterCrashes.framework; path = "../AppCenter-SDK-Apple/tvOS/AppCenterCrashes.framework"; sourceTree = "<group>"; };
+		04EBBEFA1F01C88D0006B8AE /* AppCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterCrashes.framework; path = "../../AppCenter-SDK-Apple/tvOS/AppCenterCrashes.framework"; sourceTree = "<group>"; };
 		5C2CC6ED1EE6BE5400E2BDA4 /* SasquatchTVObjCUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchTVObjCUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C2CC6FB1EE6BEE000E2BDA4 /* SasquatchTVSwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchTVSwiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C2CC7051EE6C08600E2BDA4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = SasquatchTVUITests/Info.plist; sourceTree = SOURCE_ROOT; };
