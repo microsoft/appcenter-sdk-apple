@@ -245,7 +245,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 #pragma mark - MSServiceAbstract
 
 - (void)applyEnabledState:(BOOL)isEnabled {
-
+  [super applyEnabledState:isEnabled];
+  
   // Enabling.
   if (isEnabled) {
     id<MSCrashHandlerSetupDelegate> crashSetupDelegate = [MSWrapperCrashesHelper getCrashHandlerSetupDelegate];
@@ -610,17 +611,17 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   // This must be performed asynchronously to prevent a deadlock with 'unprocessedCrashReports'.
   dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, (1 * NSEC_PER_SEC));
   dispatch_after(delay, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    @try {
       [self startCrashProcessing];
-    }
-    @finally {
+
       dispatch_semaphore_signal(self.delayedProcessingSemaphore);
-    }
   });
 }
 
 - (void)startCrashProcessing {
   // FIXME: There is no life cycle for app extensions yet so force start crash processing until then.
+  // Also force start crash processing when automatic processing is disabled. Though it sounds
+  // counterintuitive, this is important because there are scenarios in some wrappers (i.e. RN) where
+  // the application state is not ready by the time crash processing needs to happen.
   if (self.automaticProcessing &&
       ([MSUtility applicationState] != MSApplicationStateActive &&
        [MSUtility applicationState] != MSApplicationStateUnknown)) {

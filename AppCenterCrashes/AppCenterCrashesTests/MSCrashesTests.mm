@@ -840,9 +840,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
     [crashes startWithLogManager:logManager appSecret:kMSTestAppSecret];
   });
 
-  //  [crashes startWithLogManager:logManager appSecret:kMSTestAppSecret];
   if (startWithReports) {
-    //assertThat(crashes.crashFiles, hasCountOf(1));
+    assertThat(crashes.crashFiles, hasCountOf(1));
   }
   return reports;
 }
