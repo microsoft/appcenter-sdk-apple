@@ -6,28 +6,28 @@ enum AnalyticsActionsRows : Int {
   case trackEvent = 0; case trackPage = 1; case addProperty = 2; case clearProperty = 3;
 }
 
-class AnalyticsViewController : UIViewController, UITableViewDataSource, MobileCenterProtocol {
+class AnalyticsViewController : UIViewController, UITableViewDataSource, AppCenterProtocol {
 
   @IBOutlet weak var serviceStatus : UISegmentedControl?;
   @IBOutlet weak var table : UITableView?;
 
-  var mobileCenter : MobileCenterDelegate!;
+  var appCenter : AppCenterDelegate!;
   var properties : [String : String] = [String : String]();
 
   override func viewDidLoad() {
     super.viewDidLoad();
     table?.dataSource = self;
     table?.allowsSelection = true;
-    serviceStatus?.selectedSegmentIndex = mobileCenter.isAnalyticsEnabled() ? 0 : 1;
+    serviceStatus?.selectedSegmentIndex = appCenter.isAnalyticsEnabled() ? 0 : 1;
     serviceStatus?.addTarget(self, action: #selector(self.switchAnalyticsStatus), for: .valueChanged);
   }
 
   @IBAction func trackEvent(_ : Any) {
-    mobileCenter.trackEvent("tvOS Event", withProperties : properties);
+    appCenter.trackEvent("tvOS Event", withProperties : properties);
   }
 
   @IBAction func trackPage(_ : Any) {
-    mobileCenter.trackPage("tvOS Page", withProperties : properties);
+    appCenter.trackPage("tvOS Page", withProperties : properties);
   }
 
   @IBAction func addProperty(_ : Any) {
@@ -43,8 +43,8 @@ class AnalyticsViewController : UIViewController, UITableViewDataSource, MobileC
   }
 
   func switchAnalyticsStatus(_ : Any) {
-    mobileCenter.setAnalyticsEnabled(serviceStatus?.selectedSegmentIndex == 0);
-    serviceStatus?.selectedSegmentIndex = mobileCenter.isAnalyticsEnabled() ? 0 : 1;
+    appCenter.setAnalyticsEnabled(serviceStatus?.selectedSegmentIndex == 0);
+    serviceStatus?.selectedSegmentIndex = appCenter.isAnalyticsEnabled() ? 0 : 1;
   }
 
   //MARK: Table view data source
@@ -77,6 +77,6 @@ class AnalyticsViewController : UIViewController, UITableViewDataSource, MobileC
     editPropertyViewController.oldKey = key;
     editPropertyViewController.oldValue = value;
     editPropertyViewController.properties = properties;
-    editPropertyViewController.mobileCenter = mobileCenter;
+    editPropertyViewController.appCenter = appCenter;
   }
 }

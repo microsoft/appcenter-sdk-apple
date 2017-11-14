@@ -1,17 +1,17 @@
 import UIKit
 
-class MSPushViewController: UITableViewController, MobileCenterProtocol {
+class MSPushViewController: UITableViewController, AppCenterProtocol {
 
   @IBOutlet weak var enabled: UISwitch!
-  var mobileCenter: MobileCenterDelegate!
+  var appCenter: AppCenterDelegate!
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.enabled.isOn = mobileCenter.isPushEnabled()
+    self.enabled.isOn = appCenter.isPushEnabled()
   }
 
   @IBAction func enabledSwitchUpdated(_ sender: UISwitch) {
-    mobileCenter.setPushEnabled(sender.isOn)
-    sender.isOn = mobileCenter.isPushEnabled()
+    appCenter.setPushEnabled(sender.isOn)
+    sender.isOn = appCenter.isPushEnabled()
   }
 }

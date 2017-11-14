@@ -34,62 +34,6 @@
                ReferencedContainer = "container:Sasquatch.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6E04017D1D1CAC710051BCFA"
-               BuildableName = "MobileCenterIOSFramework"
-               BlueprintName = "MobileCenterIOSFramework"
-               ReferencedContainer = "container:../MobileCenter/MobileCenter.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E85547E41D2D681F002DF6E2"
-               BuildableName = "MobileCenterAnalyticsIOSFramework"
-               BlueprintName = "MobileCenterAnalyticsIOSFramework"
-               ReferencedContainer = "container:../MobileCenterAnalytics/MobileCenterAnalytics.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6E3729771D1DE83200F1E4AE"
-               BuildableName = "MobileCenterCrashesIOSFramework"
-               BlueprintName = "MobileCenterCrashesIOSFramework"
-               ReferencedContainer = "container:../MobileCenterCrashes/MobileCenterCrashes.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "04FD4A281E451E90009B4468"
-               BuildableName = "MobileCenterDistributeIOSFramework"
-               BlueprintName = "MobileCenterDistributeIOSFramework"
-               ReferencedContainer = "container:../MobileCenterDistribute/MobileCenterDistribute.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -121,7 +65,7 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES"
-      notificationPayloadFile = "SasquatchWatchObjC Extension/PushNotificationPayload.apns">
+      notificationPayloadFile = "../TestApps/Sasquatch/SasquatchWatchObjC Extension/PushNotificationPayload.apns">
       <RemoteRunnable
          runnableDebuggingMode = "2"
          BundleIdentifier = "com.apple.Carousel"

@@ -1,0 +1,17 @@
+/*
+ * Update dialog buttons
+ */
+"MSDistributeUpdateNow" = "지금 업데이트";
+"MSDistributeAskMeInADay" = "하루동안 열지 않기";
+"MSDistributeViewReleaseNotes" = "릴리스 정보 보기";
+"MSDistributeClose" = "닫기";
+"MSDistributeIgnore" = "무시";
+"MSDistributeReinstall" = "앱 재설치";
+
+/*
+ * Update dialog titles/messages
+ */
+"MSDistributeAppUpdateAvailable" = "앱 업데이트 사용 가능";
+"MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "이 앱의 개발자가 %@ %@(%@)(으)로 업데이트를 요구합니다.";
+"MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@(%@)을(를) 다운로드하여 설치할 수 있습니다.";
+"MSDistributeInAppUpdatesAreDisabled" = "인앱 업데이트 비활성";

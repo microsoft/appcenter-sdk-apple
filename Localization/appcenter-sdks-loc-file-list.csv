@@ -1,0 +1,2 @@
+absoluteFilePath,outFilePath,relativeFilePath,TargetPath,LanguageSet
+$SrcRoot\AppCenterDistribute\AppCenterDistribute\Resources\en.lproj\AppCenterDistribute.strings,$SrcRoot\Localization\AppCenterDistribute.zip,\AppCenterDistribute.strings,$SrcRoot\AppCenterDistribute\AppCenterDistribute\Resources\,cs-CZ;de-DE;es-ES;fr-FR;it-IT;ja-JP;ko-KR;pl-PL;pt-BR;ru-RU;tr-TR;zh-CN;zh-TW

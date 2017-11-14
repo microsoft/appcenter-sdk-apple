@@ -1,0 +1,29 @@
+objc: true
+clean: true
+sdk: appletvsimulator
+
+theme: ../../Themes/apple
+
+module: AppCenterAnalytics
+module_version: 1.0.0
+author: Microsoft Corp
+author_url: http://www.microsoft.com
+
+readme: Guides/Analytics.md
+documentation: ../../Guides/[^index]*.md
+custom_categories:
+  - name: Guides
+    children:
+    - Installation
+
+umbrella_header: ../../../AppCenter-SDK-Apple/tvOS/AppCenterAnalytics.framework/Headers/AppCenterAnalytics.h
+framework_root: ../../../AppCenter-SDK-Apple/tvOS/
+exclude: [../../../AppCenter-SDK-Apple/tvOS/AppCenterAnalytics.framework/Headers/MSService.h, ../../../AppCenter-SDK-Apple/tvOS/AppCenterAnalytics.framework/Headers/MSServiceAbstract.h]
+
+root_url: https://docs.microsoft.com/appcenter/sdk/ios
+github_url: https://github.com/Microsoft/AppCenter-SDK-Apple
+github_file_prefix: "https://github.com/Microsoft/AppCenter-SDK-Apple"
+
+skip_undocumented: true
+
+output: Generated/

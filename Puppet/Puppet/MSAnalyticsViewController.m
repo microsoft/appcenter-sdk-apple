@@ -4,7 +4,7 @@
 
 #import "MSAnalyticsViewController.h"
 #import "MSAnalyticsResultViewController.h"
-#import "MobileCenterAnalytics.h"
+#import "AppCenterAnalytics.h"
 // trackPage has been hidden in MSAnalytics temporarily. Use internal until the feature comes back.
 #import "MSAnalyticsInternal.h"
 #import "MSPropertiesTableDataSource.h"

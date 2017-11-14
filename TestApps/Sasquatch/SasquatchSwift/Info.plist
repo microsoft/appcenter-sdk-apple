@@ -22,10 +22,10 @@
 			<key>CFBundleTypeRole</key>
 			<string>None</string>
 			<key>CFBundleURLName</key>
-			<string>com.microsoft.azure.mobile.sasquatchswift</string>
+			<string>com.microsoft.appcenter.sasquatchswift</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>mobilecenter-0dbca56b-b9ae-4d53-856a-7c2856137d85</string>
+				<string>appcenter-0dbca56b-b9ae-4d53-856a-7c2856137d85</string>
 			</array>
 		</dict>
 	</array>
@@ -33,7 +33,7 @@
 	<string>${BUILD_NUMBER}</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>MobileCenterAppDelegateForwarderEnabled</key>
+	<key>AppCenterAppDelegateForwarderEnabled</key>
 	<false/>
 	<key>UIBackgroundModes</key>
 	<array>

@@ -1,4 +1,34 @@
-# Mobile Center SDK for iOS Change Log
+# App Center SDK for iOS and macOS Change Log
+
+## Version 1.0.0
+
+### General Availability (GA) Announcement.
+This version contains **breaking changes** due to the renaming from Mobile Center to App Center. When you update to this release, existing telemetry and crash log information will not be migrated and will be discarded. This version introduces macOS support (preview).
+
+### AppCenter
+
+* **[Feature]** Now supports macOS (preview).
+* **[Fix]** Don't send  startService log while SDK is disabled.
+
+### AppCenterAnalytics
+
+* **[Feature]** Now supports macOS (preview).
+
+### AppCenterCrashes
+
+* **[Feature]** Now supports macOS (preview).
+
+### AppCenterPush
+
+* **[Feature]** Now supports macOS (preview).
+
+### AppCenterDistribute
+
+* **[Fix]** Fix a bug where unrecoverable HTTP error wouldn't popup the reinstall app dialog after an app restart.
+* **[Improvement]** Adding missing translations.
+* **[Known bug]** Checking for last updates will fail if the app was updating from a Mobile Center app. A pop up will show next time the app is restarted to ask for reinstallation.
+
+___
 
 ## Version 0.14.1
 

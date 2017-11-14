@@ -4,7 +4,7 @@
 
 #import "MSAnalytics.h"
 #import "MSCrashes.h"
-#import "MSMobileCenter.h"
+#import "MSAppCenter.h"
 #import "TodayViewController.h"
 #import <NotificationCenter/NotificationCenter.h>
 
@@ -12,18 +12,18 @@
 
 @end
 
-static BOOL MobileCenterSDKIsSarted = NO;
+static BOOL AppCenterSDKIsSarted = NO;
 
 @implementation TodayViewController
 
 - (void)viewDidLoad {
   [super viewDidLoad];
 
-  if (!MobileCenterSDKIsSarted) {
-    [MSMobileCenter setLogLevel:MSLogLevelVerbose];
-    [MSMobileCenter start:@"7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7"
+  if (!AppCenterSDKIsSarted) {
+    [MSAppCenter setLogLevel:MSLogLevelVerbose];
+    [MSAppCenter start:@"7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7"
              withServices:@[ [MSAnalytics class], [MSCrashes class] ]];
-    MobileCenterSDKIsSarted = YES;
+    AppCenterSDKIsSarted = YES;
   }
   // Do any additional setup after loading the view from its nib.
 }

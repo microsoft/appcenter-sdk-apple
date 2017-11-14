@@ -56,10 +56,10 @@ class AnalyticsCUITests : XCTestCase {
     let texts = cell.children(matching: .staticText);
     XCTAssertTrue(texts.element(boundBy: 1).label == "Enabled");
 
-    // Select Mobile Center status cell.
+    // Select App Center status cell.
     press(button: .down, times: 4);
 
-    // Disable mobile center.
+    // Disable App Center.
     XCUIRemote.shared().press(.select);
 
     // Go to Analytics page.
@@ -73,7 +73,7 @@ class AnalyticsCUITests : XCTestCase {
     // Without this delay the app doesn't have time to go back and the test fails.
     sleep(1);
 
-    // Go back and enable Mobile Center.
+    // Go back and enable App Center.
     XCUIRemote.shared().press(.menu);
 
     // Without this delay the app doesn't have time to go down and the test fails.

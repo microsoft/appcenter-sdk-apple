@@ -1,12 +1,12 @@
+#import "AppCenterDelegateObjC.h"
 #import "AppDelegate.h"
-#import "MSAlertController.h"
-#import "MobileCenterDelegateObjC.h"
+#import "Constants.h"
 
-@import MobileCenter;
-@import MobileCenterAnalytics;
-@import MobileCenterCrashes;
-@import MobileCenterDistribute;
-@import MobileCenterPush;
+@import AppCenter;
+@import AppCenterAnalytics;
+@import AppCenterCrashes;
+@import AppCenterDistribute;
+@import AppCenterPush;
 
 @interface AppDelegate () <MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate>
 
@@ -16,22 +16,22 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-  // Cusomize Mobile Center SDK.
+  // Cusomize App Center SDK.
   [MSDistribute setDelegate:self];
   [MSPush setDelegate:self];
-  [MSMobileCenter setLogLevel:MSLogLevelVerbose];
+  [MSAppCenter setLogLevel:MSLogLevelVerbose];
 
-// Start Mobile Center SDK.
+// Start App Center SDK.
 #if DEBUG
-  [MSMobileCenter start:@"3ccfe7f5-ec01-4de5-883c-f563bbbe147a"
-           withServices:@[ [MSAnalytics class], [MSCrashes class], [MSPush class] ]];
+  [MSAppCenter start:@"3ccfe7f5-ec01-4de5-883c-f563bbbe147a"
+        withServices:@[ [MSAnalytics class], [MSCrashes class], [MSPush class] ]];
 #else
-  [MSMobileCenter start:@"3ccfe7f5-ec01-4de5-883c-f563bbbe147a"
-           withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class] ]];
+  [MSAppCenter start:@"3ccfe7f5-ec01-4de5-883c-f563bbbe147a"
+        withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class] ]];
 #endif
 
   [self crashes];
-  [self setMobileCenterDelegate];
+  [self setAppCenterDelegate];
   return YES;
 }
 
@@ -71,40 +71,46 @@
   [MSCrashes setUserConfirmationHandler:(^(NSArray<MSErrorReport *> *errorReports) {
 
                // Use MSAlertViewController to show a dialog to the user where they can choose if they want to provide a
-               // crash
-               // report.
-               MSAlertController *alertController = [MSAlertController
+               // crash report.
+               UIAlertController *alertController = [UIAlertController
                    alertControllerWithTitle:@"Sorry about that!"
-                                    message:@"Do you want to send an anonymous crash report so we can fix the issue?"];
+                                    message:@"Do you want to send an anonymous crash report so we can fix the issue?"
+                             preferredStyle:UIAlertControllerStyleAlert];
 
-               // Add a "No"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationDontSend
-               [alertController addCancelActionWithTitle:@"Don't Send"
-                                                 handler:^(UIAlertAction *action) {
-                                                   [MSCrashes notifyWithUserConfirmation:MSUserConfirmationDontSend];
-                                                 }];
+               // Add a "Don't send"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationDontSend
+               [alertController
+                   addAction:[UIAlertAction actionWithTitle:@"Don't send"
+                                                      style:UIAlertActionStyleCancel
+                                                    handler:^(UIAlertAction *action) {
+                                                      [MSCrashes notifyWithUserConfirmation:MSUserConfirmationDontSend];
+                                                    }]];
 
-               // Add a "Yes"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationSend
-               [alertController addDefaultActionWithTitle:@"Send"
-                                                  handler:^(UIAlertAction *action) {
-                                                    [MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
-                                                  }];
+               // Add a "Send"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationSend
+               [alertController
+                   addAction:[UIAlertAction actionWithTitle:@"Send"
+                                                      style:UIAlertActionStyleDefault
+                                                    handler:^(UIAlertAction *action) {
+                                                      [MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
+                                                    }]];
 
-               // Add a "Always"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationAlways
-               [alertController addDefaultActionWithTitle:@"Always Send"
-                                                  handler:^(UIAlertAction *action) {
-                                                    [MSCrashes notifyWithUserConfirmation:MSUserConfirmationAlways];
-                                                  }];
+               // Add a "Always send"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationAlways
+               [alertController
+                   addAction:[UIAlertAction actionWithTitle:@"Always send"
+                                                      style:UIAlertActionStyleDefault
+                                                    handler:^(UIAlertAction *action) {
+                                                      [MSCrashes notifyWithUserConfirmation:MSUserConfirmationAlways];
+                                                    }]];
                // Show the alert controller.
-               [alertController show];
+               [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
 
                return YES;
              })];
 }
 
-- (void)setMobileCenterDelegate {
+- (void)setAppCenterDelegate {
   MSMainViewController *sasquatchController =
       (MSMainViewController *)[(UINavigationController *)[[self window] rootViewController] topViewController];
-  sasquatchController.mobileCenter = [[MobileCenterDelegateObjC alloc] init];
+  sasquatchController.appCenter = [[AppCenterDelegateObjC alloc] init];
 }
 
 #pragma mark - MSCrashesDelegate
@@ -140,32 +146,41 @@
 
 - (BOOL)distribute:(MSDistribute *)distribute releaseAvailableWithDetails:(MSReleaseDetails *)details {
 
-  // Show a dialog to the user where they can choose if they want to update.
-  MSAlertController *alertController = [MSAlertController
-      alertControllerWithTitle:NSLocalizedStringFromTable(@"distribute_alert_title", @"Sasquatch", @"")
-                       message:NSLocalizedStringFromTable(@"distribute_alert_message", @"Sasquatch", @"")];
+  if ([[[NSUserDefaults new] objectForKey:kSASCustomizedUpdateAlertKey] isEqual:@1]) {
 
-  // Add a "Yes"-Button and call the notifyUpdateAction-callback with MSUpdateActionUpdate
-  [alertController addCancelActionWithTitle:NSLocalizedStringFromTable(@"distribute_alert_yes", @"Sasquatch", @"")
-                                    handler:^(UIAlertAction *action) {
-                                      [MSDistribute notifyUpdateAction:MSUpdateActionUpdate];
-                                    }];
+    // Show a dialog to the user where they can choose if they want to update.
+    UIAlertController *alertController = [UIAlertController
+        alertControllerWithTitle:NSLocalizedStringFromTable(@"distribute_alert_title", @"Sasquatch", @"")
+                         message:NSLocalizedStringFromTable(@"distribute_alert_message", @"Sasquatch", @"")
+                  preferredStyle:UIAlertControllerStyleAlert];
 
-  // Add a "No"-Button and call the notifyUpdateAction-callback with MSUpdateActionPostpone
-  [alertController addDefaultActionWithTitle:NSLocalizedStringFromTable(@"distribute_alert_no", @"Sasquatch", @"")
-                                     handler:^(UIAlertAction *action) {
-                                       [MSDistribute notifyUpdateAction:MSUpdateActionPostpone];
-                                     }];
+    // Add a "Yes"-Button and call the notifyUpdateAction-callback with MSUpdateActionUpdate
+    [alertController
+        addAction:[UIAlertAction actionWithTitle:NSLocalizedStringFromTable(@"distribute_alert_yes", @"Sasquatch", @"")
+                                           style:UIAlertActionStyleCancel
+                                         handler:^(UIAlertAction *action) {
+                                           [MSDistribute notifyUpdateAction:MSUpdateActionUpdate];
+                                         }]];
 
-  // Show the alert controller.
-  [alertController show];
-  return YES;
+    // Add a "No"-Button and call the notifyUpdateAction-callback with MSUpdateActionPostpone
+    [alertController
+        addAction:[UIAlertAction actionWithTitle:NSLocalizedStringFromTable(@"distribute_alert_no", @"Sasquatch", @"")
+                                           style:UIAlertActionStyleDefault
+                                         handler:^(UIAlertAction *action) {
+                                           [MSDistribute notifyUpdateAction:MSUpdateActionPostpone];
+                                         }]];
+
+    // Show the alert controller.
+    [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
+    return YES;
+  }
+  return NO;
 }
 
 #pragma mark - MSPushDelegate
 
 - (void)push:(MSPush *)push didReceivePushNotification:(MSPushNotification *)pushNotification {
-  NSString *title = pushNotification.title;
+  NSString *title = pushNotification.title ?: @"";
   NSString *message = pushNotification.message;
   NSMutableString *customData = nil;
   for (NSString *key in pushNotification.customData) {
@@ -178,12 +193,13 @@
   } else {
     message = [NSString stringWithFormat:@"%@%@%@", (message ? message : @""), (message && customData ? @"\n" : @""),
                                          (customData ? customData : @"")];
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                    message:message
-                                                   delegate:self
-                                          cancelButtonTitle:@"OK"
-                                          otherButtonTitles:nil];
-    [alert show];
+
+    UIAlertController *alertController =
+        [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
+
+    // Show the alert controller.
+    [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
   }
 }
 
