@@ -12,6 +12,8 @@
 #import "MSHttpTestUtil.h"
 #import "MSKeychainUtil.h"
 #import "MSMockUserDefaults.h"
+#import "MSLogger.h"
+#import "MSSenderCall.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSTestFrameworks.h"
 #import "MSUserDefaults.h"
@@ -62,6 +64,12 @@ static NSURL *sfURL;
 
 @end
 
+@interface MSSenderCall ()
+
+- (void)startTimer;
+
+@end
+
 static NSURL *sfURL;
 
 @interface MSDistributeTests : XCTestCase
@@ -78,6 +86,7 @@ static NSURL *sfURL;
 
 - (void)setUp {
   [super setUp];
+  [MSLogger setCurrentLogLevel:MSLogLevelVerbose];
   [MSKeychainUtil clear];
   self.sut = [MSDistribute new];
   self.settingsMock = [MSMockUserDefaults new];
@@ -464,7 +473,6 @@ static NSURL *sfURL;
   // If
   NSString *appName = @"Test App";
   OCMStub([self.bundleMock objectForInfoDictionaryKey:@"CFBundleDisplayName"]).andReturn(appName);
-  id appCenterMock = OCMPartialMock(self.sut);
   MSReleaseDetails *details = [MSReleaseDetails new];
   details.shortVersion = @"2.5";
   details.version = @"11";
@@ -480,7 +488,7 @@ static NSURL *sfURL;
 
   // When
   XCTestExpectation *expection = [self expectationWithDescription:@"Confirmation alert has been displayed"];
-  [appCenterMock showConfirmationAlert:details];
+  [self.sut showConfirmationAlert:details];
   dispatch_async(dispatch_get_main_queue(), ^{
     [expection fulfill];
   });
@@ -504,7 +512,6 @@ static NSURL *sfURL;
                                  OCMVerify([self.alertControllerMock addPreferredActionWithTitle:OCMOCK_ANY
                                                                                          handler:OCMOCK_ANY]);
                                }];
-  [appCenterMock stopMocking];
 }
 
 - (void)testShowConfirmationAlertWithoutViewReleaseNotesButton {
@@ -512,7 +519,6 @@ static NSURL *sfURL;
   // If
   NSString *appName = @"Test App";
   OCMStub([self.bundleMock objectForInfoDictionaryKey:@"CFBundleDisplayName"]).andReturn(appName);
-  id appCenterMock = OCMPartialMock(self.sut);
   OCMReject([self.alertControllerMock
       addDefaultActionWithTitle:MSDistributeLocalizedString(@"MSDistributeViewReleaseNotes")
                         handler:OCMOCK_ANY]);
@@ -529,7 +535,7 @@ static NSURL *sfURL;
 
   // When
   XCTestExpectation *expection = [self expectationWithDescription:@"Confirmation alert has been displayed"];
-  [appCenterMock showConfirmationAlert:details];
+  [self.sut showConfirmationAlert:details];
   dispatch_async(dispatch_get_main_queue(), ^{
     [expection fulfill];
   });
@@ -550,7 +556,6 @@ static NSURL *sfURL;
                                                                                          handler:OCMOCK_ANY]);
                                  OCMVerifyAll(self.alertControllerMock);
                                }];
-  [appCenterMock stopMocking];
 }
 
 - (void)testShowConfirmationAlertForMandatoryUpdate {
@@ -558,7 +563,6 @@ static NSURL *sfURL;
   // If
   NSString *appName = @"Test App";
   OCMStub([self.bundleMock objectForInfoDictionaryKey:@"CFBundleDisplayName"]).andReturn(appName);
-  id appCenterMock = OCMPartialMock(self.sut);
   OCMReject([self.alertControllerMock addDefaultActionWithTitle:MSDistributeLocalizedString(@"MSDistributeAskMeInADay")
                                                         handler:OCMOCK_ANY]);
   MSReleaseDetails *details = [MSReleaseDetails new];
@@ -576,7 +580,7 @@ static NSURL *sfURL;
 
   // When
   XCTestExpectation *expection = [self expectationWithDescription:@"Confirmation alert has been displayed"];
-  [appCenterMock showConfirmationAlert:details];
+  [self.sut showConfirmationAlert:details];
   dispatch_async(dispatch_get_main_queue(), ^{
     [expection fulfill];
   });
@@ -598,7 +602,6 @@ static NSURL *sfURL;
                                                                                          handler:OCMOCK_ANY]);
                                  OCMVerifyAll(self.alertControllerMock);
                                }];
-  [appCenterMock stopMocking];
 }
 
 - (void)testShowConfirmationAlertWithoutViewReleaseNotesButtonForMandatoryUpdate {
@@ -606,7 +609,6 @@ static NSURL *sfURL;
   // If
   NSString *appName = @"Test App";
   OCMStub([self.bundleMock objectForInfoDictionaryKey:@"CFBundleDisplayName"]).andReturn(appName);
-  id appCenterMock = OCMPartialMock(self.sut);
   OCMReject([self.alertControllerMock addDefaultActionWithTitle:MSDistributeLocalizedString(@"MSDistributeAskMeInADay")
                                                         handler:OCMOCK_ANY]);
   OCMReject([self.alertControllerMock
@@ -625,7 +627,7 @@ static NSURL *sfURL;
 
   // When
   XCTestExpectation *expection = [self expectationWithDescription:@"Confirmation alert has been displayed"];
-  [appCenterMock showConfirmationAlert:details];
+  [self.sut showConfirmationAlert:details];
   dispatch_async(dispatch_get_main_queue(), ^{
     [expection fulfill];
   });
@@ -643,7 +645,6 @@ static NSURL *sfURL;
                                                                                          handler:OCMOCK_ANY]);
                                  OCMVerifyAll(self.alertControllerMock);
                                }];
-  [appCenterMock stopMocking];
 }
 
 - (void)testShowConfirmationAlertForMandatoryUpdateWhileNoNetwork {
@@ -838,10 +839,23 @@ static NSURL *sfURL;
   // If
   id distributeMock = OCMPartialMock(self.sut);
   OCMReject([distributeMock handleUpdate:OCMOCK_ANY]);
+  self.sut.appSecret = kMSTestAppSecret;
   id keychainMock = OCMClassMock([MSKeychainUtil class]);
   id reachabilityMock = OCMClassMock([MS_Reachability class]);
   OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
+  XCTestExpectation *expection = [self expectationWithDescription:@"Request completed."];
+  id senderCallMock = OCMPartialMock([MSSenderCall alloc]);
+  OCMStub([senderCallMock alloc]).andReturn(senderCallMock);
+  OCMReject([senderCallMock startTimer]);
+  OCMStub([senderCallMock sender:OCMOCK_ANY
+         callCompletedWithStatus:MSHTTPCodesNo404NotFound
+                            data:OCMOCK_ANY
+                           error:OCMOCK_ANY])
+    .andForwardToRealObject()
+    .andDo(^(__unused NSInvocation *invocation) {
+      [expection fulfill];
+    });
   
   // Non recoverable error.
   [MSHttpTestUtil stubHttp404Response];
@@ -852,15 +866,12 @@ static NSURL *sfURL;
                    releaseHash:@"releaseHash"];
   
   // Then
-  XCTestExpectation *expection = [self expectationWithDescription:@"checkLatestRelease"];
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [expection fulfill];
-  });
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
                                  
                                  // Then
                                  OCMVerifyAll(distributeMock);
+                                 OCMVerifyAll(senderCallMock);
                                  OCMVerify([keychainMock deleteStringForKey:kMSUpdateTokenKey]);
                                  OCMVerify([self.settingsMock removeObjectForKey:kMSSDKHasLaunchedWithDistribute]);
                                  OCMVerify([self.settingsMock removeObjectForKey:kMSUpdateTokenRequestIdKey]);
@@ -879,6 +890,7 @@ static NSURL *sfURL;
   [distributeMock stopMocking];
   [keychainMock stopMocking];
   [reachabilityMock stopMocking];
+  [senderCallMock stopMocking];
 }
 
 - (void)testCheckLatestReleaseOnRecoverableError {
@@ -886,11 +898,24 @@ static NSURL *sfURL;
   // If
   id distributeMock = OCMPartialMock(self.sut);
   OCMReject([distributeMock handleUpdate:OCMOCK_ANY]);
+  self.sut.appSecret = kMSTestAppSecret;
   id keychainMock = OCMClassMock([MSKeychainUtil class]);
   OCMReject([keychainMock deleteStringForKey:kMSUpdateTokenKey]);
   id reachabilityMock = OCMClassMock([MS_Reachability class]);
   OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
+  XCTestExpectation *expection = [self expectationWithDescription:@"Request completed."];
+  id senderCallMock = OCMPartialMock([MSSenderCall alloc]);
+  OCMStub([senderCallMock alloc]).andReturn(senderCallMock);
+  OCMStub([senderCallMock startTimer]).andDo(nil);
+  OCMStub([senderCallMock sender:OCMOCK_ANY
+         callCompletedWithStatus:MSHTTPCodesNo500InternalServerError
+                            data:OCMOCK_ANY
+                           error:OCMOCK_ANY])
+  .andForwardToRealObject()
+  .andDo(^(__unused NSInvocation *invocation) {
+    [expection fulfill];
+  });
   
   // Recoverable error.
   [MSHttpTestUtil stubHttp500Response];
@@ -905,16 +930,13 @@ static NSURL *sfURL;
                    releaseHash:@"releaseHash"];
   
   // Then
-  XCTestExpectation *expection = [self expectationWithDescription:@"checkLatestRelease"];
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [expection fulfill];
-  });
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
                                  
                                  // Then
                                  OCMVerifyAll(distributeMock);
                                  OCMVerifyAll(keychainMock);
+                                 OCMVerify([senderCallMock startTimer]);
                                  XCTAssertNotNil([self.settingsMock objectForKey:kMSSDKHasLaunchedWithDistribute]);
                                  XCTAssertNotNil([self.settingsMock objectForKey:kMSUpdateTokenRequestIdKey]);
                                  XCTAssertNotNil([self.settingsMock objectForKey:kMSPostponedTimestampKey]);
@@ -928,6 +950,7 @@ static NSURL *sfURL;
   [distributeMock stopMocking];
   [keychainMock stopMocking];
   [reachabilityMock stopMocking];
+  [senderCallMock stopMocking];
 }
 
 - (void)testPersistLastestMandatoryUpdate {
@@ -1547,7 +1570,7 @@ static NSURL *sfURL;
   id distributeMock = OCMPartialMock(self.sut);
   OCMStub([distributeMock sharedInstance]).andReturn(distributeMock);
   OCMStub([distributeMock isEnabled]).andReturn(YES);
-  ((MSDistribute *)distributeMock).appSecret = kMSTestAppSecret;
+  self.sut.appSecret = kMSTestAppSecret;
   [MS_USER_DEFAULTS setObject:@"FIRST-REQUEST" forKey:kMSUpdateTokenRequestIdKey];
   NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1" };
   OCMStub([self.bundleMock infoDictionary]).andReturn(plist);
@@ -1604,12 +1627,9 @@ static NSURL *sfURL;
 
 - (void)testShowDistributeDisabledAlert {
 
-  // If
-  id appCenterMock = OCMPartialMock(self.sut);
-
   // When
   XCTestExpectation *expection = [self expectationWithDescription:@"Distribute disabled alert has been displayed"];
-  [appCenterMock showDistributeDisabledAlert];
+  [self.sut showDistributeDisabledAlert];
   dispatch_async(dispatch_get_main_queue(), ^{
     [expection fulfill];
   });
@@ -1622,7 +1642,6 @@ static NSURL *sfURL;
                                  OCMVerify(
                                      [self.alertControllerMock addCancelActionWithTitle:OCMOCK_ANY handler:OCMOCK_ANY]);
                                }];
-  [appCenterMock stopMocking];
 }
 
 - (void)testStartDownload {

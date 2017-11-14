@@ -33,7 +33,7 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat =
                         queryStrings:queryStrings
                         reachability:[MS_Reachability reachabilityForInternetConnection]
                       retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]])) {
-    self.appSecret = [[MSDistribute sharedInstance] appSecret];
+    _appSecret = appSecret;
   }
 
   return self;
