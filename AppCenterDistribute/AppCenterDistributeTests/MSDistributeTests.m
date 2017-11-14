@@ -1068,6 +1068,8 @@ static NSURL *sfURL;
 
   // Then
   XCTAssertNil([self.settingsMock objectForKey:kMSUpdateTokenRequestIdKey]);
+  XCTAssertNil([self.settingsMock objectForKey:kMSSDKHasLaunchedWithDistribute]);
+  XCTAssertNil([self.settingsMock objectForKey:kMSPostponedTimestampKey]);
 
   // Clear
   [distributeMock stopMocking];
@@ -1093,6 +1095,7 @@ static NSURL *sfURL;
   // If, private distribution
   id keychainUtilMock = OCMClassMock([MSKeychainUtil class]);
   OCMStub([keychainUtilMock stringForKey:kMSUpdateTokenKey]).andReturn(@"UpdateToken");
+  OCMExpect([keychainUtilMock deleteStringForKey:kMSUpdateTokenKey]);
   [self.settingsMock setObject:@"DistributionGroupId" forKey:kMSDistributionGroupIdKey];
 
   // When
@@ -1125,6 +1128,9 @@ static NSURL *sfURL;
 
   // Then
   XCTAssertNil([self.settingsMock objectForKey:kMSUpdateTokenRequestIdKey]);
+  XCTAssertNil([self.settingsMock objectForKey:kMSSDKHasLaunchedWithDistribute]);
+  XCTAssertNil([self.settingsMock objectForKey:kMSPostponedTimestampKey]);
+  OCMVerify([keychainUtilMock deleteStringForKey:kMSUpdateTokenKey]);
 
   // Clear
   [distributeMock stopMocking];

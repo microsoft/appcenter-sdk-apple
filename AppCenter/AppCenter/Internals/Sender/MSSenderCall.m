@@ -94,10 +94,10 @@
     // Wrap the status code in an error whenever the call failed.
     if (!error && statusCode != MSHTTPCodesNo200OK) {
       NSDictionary *userInfo = @{
-        NSLocalizedDescriptionKey : kMSMCConnectionHttpErrorDesc,
-        kMSMCConnectionHttpCodeErrorKey : @(statusCode)
+        NSLocalizedDescriptionKey : kMSACConnectionHttpErrorDesc,
+        kMSACConnectionHttpCodeErrorKey : @(statusCode)
       };
-      error = [NSError errorWithDomain:kMSMCErrorDomain code:kMSMCConnectionHttpErrorCode userInfo:userInfo];
+      error = [NSError errorWithDomain:kMSACErrorDomain code:kMSACConnectionHttpErrorCode userInfo:userInfo];
     }
 
     // Detect fatal error.

@@ -23,7 +23,7 @@ static dispatch_once_t onceToken;
 /**
  * Base URL for HTTP Ingestion backend API calls.
  */
-static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
+static NSString *const kMSDefaultBaseUrl = @"https://in.appcenter.ms";
 
 // Service name for initialization.
 static NSString *const kMSServiceName = @"AppCenter";
@@ -395,9 +395,11 @@ static NSString *const kMSGroupId = @"AppCenter";
 }
 
 - (void)sendStartServiceLog:(NSArray<NSString *> *)servicesNames {
-  MSStartServiceLog *serviceLog = [MSStartServiceLog new];
-  serviceLog.services = servicesNames;
-  [self.logManager processLog:serviceLog forGroupId:kMSGroupId];
+  if (self.isEnabled) {
+    MSStartServiceLog *serviceLog = [MSStartServiceLog new];
+    serviceLog.services = servicesNames;
+    [self.logManager processLog:serviceLog forGroupId:kMSGroupId];
+  }
 }
 
 #if !TARGET_OS_TV

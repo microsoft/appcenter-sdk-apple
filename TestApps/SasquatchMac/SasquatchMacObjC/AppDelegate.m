@@ -1,5 +1,4 @@
 #import "AppDelegate.h"
-#import "MSAlertController.h"
 #import "AppCenterDelegateObjC.h"
 
 @import AppCenter;
@@ -9,7 +8,7 @@
 
 static NSString *const kSMLogTag = @"[SasquatchMac]";
 
-@interface AppDelegate()
+@interface AppDelegate ()
 
 @property NSWindowController *rootController;
 
@@ -17,19 +16,16 @@ static NSString *const kSMLogTag = @"[SasquatchMac]";
 
 @implementation AppDelegate
 
-- (void) applicationDidFinishLaunching:(NSNotification *)notification {
+- (void)applicationDidFinishLaunching:(NSNotification *)notification {
   [MSAppCenter setLogLevel:MSLogLevelVerbose];
 
   // Customize services.
   [self setupCrashes];
   [self setupPush];
-  
-  // Use integration endpoints.
-  [MSAppCenter setLogUrl:@"https://in-integration.dev.avalanch.es"];
 
   // Start AppCenter.
-  [MSAppCenter start:@"4b3f7d94-c64b-4aac-94f5-894c55c64bfe"
-           withServices:@[ [MSAnalytics class], [MSCrashes class], [MSPush class] ]];
+  [MSAppCenter start:@"d80aae71-af34-4e0c-af61-2381391c4a7a"
+        withServices:@[ [MSAnalytics class], [MSCrashes class], [MSPush class] ]];
   [AppCenterProvider shared].appCenter = [[AppCenterDelegateObjC alloc] init];
 
   [self initUI];
@@ -62,31 +58,27 @@ static NSString *const kSMLogTag = @"[SasquatchMac]";
 
                // Use MSAlertViewController to show a dialog to the user where they can choose if they want to provide a
                // crash report.
-               MSAlertController *alertController = [MSAlertController
-                   alertControllerWithTitle:@"Sorry about that!"
-                                    message:@"Do you want to send an anonymous crash report so we can fix the issue?"
-                                      style:NSAlertStyleWarning];
+               NSAlert *alert = [[NSAlert alloc] init];
+               [alert setMessageText:@"Sorry about that!"];
+               [alert setInformativeText:@"Do you want to send an anonymous crash report so we can fix the issue?"];
+               [alert addButtonWithTitle:@"Always send"];
+               [alert addButtonWithTitle:@"Send"];
+               [alert addButtonWithTitle:@"Don't send"];
+               [alert setAlertStyle:NSWarningAlertStyle];
 
-               // Add a "Always"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationAlways
-               [alertController addActionWithTitle:@"Always Send"
-                                           handler:^() {
-                                             [MSCrashes notifyWithUserConfirmation:MSUserConfirmationAlways];
-                                           }];
-
-               // Add a "Yes"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationSend
-               [alertController addActionWithTitle:@"Send"
-                                           handler:^() {
-                                             [MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
-                                           }];
-
-               // Add a "No"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationDontSend
-               [alertController addActionWithTitle:@"Don't Send"
-                                           handler:^() {
-                                             [MSCrashes notifyWithUserConfirmation:MSUserConfirmationDontSend];
-                                           }];
-
-               // Show the alert controller.
-               [alertController show];
+               switch ([alert runModal]) {
+               case NSAlertFirstButtonReturn:
+                 [MSCrashes notifyWithUserConfirmation:MSUserConfirmationAlways];
+                 break;
+               case NSAlertSecondButtonReturn:
+                 [MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
+                 break;
+               case NSAlertThirdButtonReturn:
+                 [MSCrashes notifyWithUserConfirmation:MSUserConfirmationDontSend];
+                 break;
+               default:
+                 break;
+               }
 
                return YES;
              })];
@@ -115,6 +107,16 @@ static NSString *const kSMLogTag = @"[SasquatchMac]";
 - (void)crashes:(MSCrashes *)crashes didFailSendingErrorReport:(MSErrorReport *)errorReport withError:(NSError *)error {
   NSLog(@"%@ Did fail sending report with: %@, and error: %@", kSMLogTag, errorReport.exceptionReason,
         error.localizedDescription);
+}
+
+- (NSArray<MSErrorAttachmentLog *> *)attachmentsWithCrashes:(MSCrashes *)crashes
+                                             forErrorReport:(MSErrorReport *)errorReport {
+  MSErrorAttachmentLog *attachment1 = [MSErrorAttachmentLog attachmentWithText:@"Hello world!" filename:@"hello.txt"];
+  MSErrorAttachmentLog *attachment2 =
+      [MSErrorAttachmentLog attachmentWithBinary:[@"Fake image" dataUsingEncoding:NSUTF8StringEncoding]
+                                        filename:@"fake_image.jpeg"
+                                     contentType:@"image/jpeg"];
+  return @[ attachment1, attachment2 ];
 }
 
 #pragma mark - MSPushDelegate
@@ -149,20 +151,20 @@ static NSString *const kSMLogTag = @"[SasquatchMac]";
   }
 
   // Show alert for the notification.
+  NSString *title = pushNotification.title ?: @"";
   NSString *message = pushNotification.message;
+  NSMutableString *customData = nil;
   for (NSString *key in pushNotification.customData) {
-    message = [NSString stringWithFormat:@"%@\n%@: %@", message, key, [pushNotification.customData objectForKey:key]];
+    ([customData length] == 0) ? customData = [NSMutableString new] : [customData appendString:@", "];
+    [customData appendFormat:@"%@: %@", key, [pushNotification.customData objectForKey:key]];
   }
-  MSAlertController *alertController = [MSAlertController
-      alertControllerWithTitle:(pushNotification.title ? pushNotification.title : @"Push notification received")
-                       message:message
-                         style:NSAlertStyleInformational];
-  [alertController addActionWithTitle:@"OK"
-                              handler:^(){
-                              }];
-
-  // Show the alert controller.
-  [alertController show];
+  message = [NSString stringWithFormat:@"%@%@%@", (message ? message : @""), (message && customData ? @"\n" : @""),
+                                       (customData ? customData : @"")];
+  NSAlert *alert = [[NSAlert alloc] init];
+  [alert setMessageText:title];
+  [alert setInformativeText:message];
+  [alert addButtonWithTitle:@"OK"];
+  [alert runModal];
 }
 
 @end

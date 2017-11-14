@@ -307,7 +307,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
   NSDictionary *aps = [userInfo objectForKey:kMSPushNotificationApsKey];
   NSObject *alert;
 
-  // The notification is not for Mobile Center if customData is nil. Ignore the notification.
+  // The notification is not for App Center if customData is nil. Ignore the notification.
   customData = [userInfo objectForKey:kMSPushNotificationCustomDataKey]?:[userInfo objectForKey:kMSPushNotificationOldCustomDataKey];
   customData = ([customData isKindOfClass:[NSDictionary<NSString *, NSString *> class]]) ? customData : nil;
   if (customData) {

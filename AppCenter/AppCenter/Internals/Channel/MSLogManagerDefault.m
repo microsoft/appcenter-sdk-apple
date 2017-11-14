@@ -236,9 +236,9 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
       NSArray<NSString *> *runningChannels = self.channels.allKeys;
       for (NSString *groupId in runningChannels) {
         if (![runningChannels containsObject:groupId]) {
-          NSError *error = [NSError errorWithDomain:kMSMCErrorDomain
-                                               code:kMSMCConnectionSuspendedErrorCode
-                                           userInfo:@{NSLocalizedDescriptionKey : kMSMCConnectionSuspendedErrorDesc}];
+          NSError *error = [NSError errorWithDomain:kMSACErrorDomain
+                                               code:kMSACConnectionSuspendedErrorCode
+                                           userInfo:@{NSLocalizedDescriptionKey : kMSACConnectionSuspendedErrorDesc}];
           [self.channels[groupId] deleteAllLogsWithError:error];
         }
       }
