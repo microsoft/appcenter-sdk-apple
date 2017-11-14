@@ -659,22 +659,25 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
 - (void)testSendOrAwaitWhenAlwaysSendIsTrue {
 
+  // Wait for creation of buffers to avoid corruption on OCMPartialMock.
+  dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
+  
   // If
-  MSCrashes *crashes = OCMPartialMock([MSCrashes new]);
+  self.sut = OCMPartialMock(self.sut);
   id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
-  [crashes setAutomaticProcessing:NO];
-  OCMStub([crashes shouldAlwaysSend]).andReturn(YES);
+  [self.sut setAutomaticProcessing:NO];
+  OCMStub([self.sut shouldAlwaysSend]).andReturn(YES);
   __block NSUInteger numInvocations = 0;
   [self setProcessLogImplementation:(^(NSInvocation *) {
           numInvocations++;
         })
                      withLogManager:logManagerMock
-                        withCrashes:crashes];
-  [self startCrashes:crashes withReports:YES withLogManager:logManagerMock];
-  NSMutableArray *reportIds = [self idListFromReports:[crashes unprocessedCrashReports]];
+                        withCrashes:self.sut];
+  [self startCrashes:self.sut withReports:YES withLogManager:logManagerMock];
+  NSMutableArray *reportIds = [self idListFromReports:[self.sut unprocessedCrashReports]];
 
   // When
-  BOOL alwaysSendVal = [crashes sendCrashReportsOrAwaitUserConfirmationForFilteredIds:reportIds];
+  BOOL alwaysSendVal = [self.sut sendCrashReportsOrAwaitUserConfirmationForFilteredIds:reportIds];
 
   // Then
   XCTAssertEqual([reportIds count], numInvocations);
@@ -683,29 +686,32 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
 - (void)testSendOrAwaitWhenAlwaysSendIsFalseAndNotifyAlwaysSend {
 
+  // Wait for creation of buffers to avoid corruption on OCMPartialMock.
+  dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
+  
   // If
-  MSCrashes *crashes = OCMPartialMock([MSCrashes new]);
+  self.sut = OCMPartialMock(self.sut);
   id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
-  [crashes setAutomaticProcessing:NO];
-  OCMStub([crashes shouldAlwaysSend]).andReturn(NO);
+  [self.sut setAutomaticProcessing:NO];
+  OCMStub([self.sut shouldAlwaysSend]).andReturn(NO);
   __block NSUInteger numInvocations = 0;
   [self setProcessLogImplementation:(^(NSInvocation *) {
           numInvocations++;
         })
                      withLogManager:logManagerMock
-                        withCrashes:crashes];
-  [self startCrashes:crashes withReports:YES withLogManager:logManagerMock];
-  NSMutableArray *reports = [self idListFromReports:[crashes unprocessedCrashReports]];
+                        withCrashes:self.sut];
+  [self startCrashes:self.sut withReports:YES withLogManager:logManagerMock];
+  NSMutableArray *reports = [self idListFromReports:[self.sut unprocessedCrashReports]];
 
   // When
-  BOOL alwaysSendVal = [crashes sendCrashReportsOrAwaitUserConfirmationForFilteredIds:reports];
+  BOOL alwaysSendVal = [self.sut sendCrashReportsOrAwaitUserConfirmationForFilteredIds:reports];
 
   // Then
   XCTAssertEqual(numInvocations, 0U);
   XCTAssertFalse(alwaysSendVal);
 
   // When
-  [crashes notifyWithUserConfirmation:MSUserConfirmationAlways];
+  [self.sut notifyWithUserConfirmation:MSUserConfirmationAlways];
 
   // Then
   XCTAssertEqual([reports count], numInvocations);
@@ -713,29 +719,32 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
 - (void)testSendOrAwaitWhenAlwaysSendIsFalseAndNotifySend {
 
+  // Wait for creation of buffers to avoid corruption on OCMPartialMock.
+  dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
+  
   // If
-  MSCrashes *crashes = OCMPartialMock([MSCrashes new]);
+  self.sut = OCMPartialMock(self.sut);
   id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
-  [crashes setAutomaticProcessing:NO];
-  OCMStub([crashes shouldAlwaysSend]).andReturn(NO);
+  [self.sut setAutomaticProcessing:NO];
+  OCMStub([self.sut shouldAlwaysSend]).andReturn(NO);
   __block NSUInteger numInvocations = 0;
   [self setProcessLogImplementation:(^(NSInvocation *) {
           numInvocations++;
         })
                      withLogManager:logManagerMock
-                        withCrashes:crashes];
-  [self startCrashes:crashes withReports:YES withLogManager:logManagerMock];
-  NSMutableArray *reportIds = [self idListFromReports:[crashes unprocessedCrashReports]];
+                        withCrashes:self.sut];
+  [self startCrashes:self.sut withReports:YES withLogManager:logManagerMock];
+  NSMutableArray *reportIds = [self idListFromReports:[self.sut unprocessedCrashReports]];
 
   // When
-  BOOL alwaysSendVal = [crashes sendCrashReportsOrAwaitUserConfirmationForFilteredIds:reportIds];
+  BOOL alwaysSendVal = [self.sut sendCrashReportsOrAwaitUserConfirmationForFilteredIds:reportIds];
 
   // Then
   XCTAssertEqual(0U, numInvocations);
   XCTAssertFalse(alwaysSendVal);
 
   // When
-  [crashes notifyWithUserConfirmation:MSUserConfirmationSend];
+  [self.sut notifyWithUserConfirmation:MSUserConfirmationSend];
 
   // Then
   XCTAssertEqual([reportIds count], numInvocations);
@@ -743,22 +752,25 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
 - (void)testSendOrAwaitWhenAlwaysSendIsFalseAndNotifyDontSend {
 
+  // Wait for creation of buffers to avoid corruption on OCMPartialMock.
+  dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
+  
   // If
-  MSCrashes *crashes = OCMPartialMock([MSCrashes new]);
+  self.sut = OCMPartialMock(self.sut);
   id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
-  [crashes setAutomaticProcessing:NO];
-  OCMStub([crashes shouldAlwaysSend]).andReturn(NO);
+  [self.sut setAutomaticProcessing:NO];
+  OCMStub([self.sut shouldAlwaysSend]).andReturn(NO);
   __block int numInvocations = 0;
   [self setProcessLogImplementation:(^(NSInvocation *) {
           numInvocations++;
         })
                      withLogManager:logManagerMock
-                        withCrashes:crashes];
-  NSMutableArray *reportIds = [self idListFromReports:[crashes unprocessedCrashReports]];
+                        withCrashes:self.sut];
+  NSMutableArray *reportIds = [self idListFromReports:[self.sut unprocessedCrashReports]];
 
   // When
-  BOOL alwaysSendVal = [crashes sendCrashReportsOrAwaitUserConfirmationForFilteredIds:reportIds];
-  [crashes notifyWithUserConfirmation:MSUserConfirmationDontSend];
+  BOOL alwaysSendVal = [self.sut sendCrashReportsOrAwaitUserConfirmationForFilteredIds:reportIds];
+  [self.sut notifyWithUserConfirmation:MSUserConfirmationDontSend];
 
   // Then
   XCTAssertFalse(alwaysSendVal);
@@ -767,14 +779,17 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
 - (void)testGetUnprocessedCrashReportsWhenThereAreNone {
 
+  // Wait for creation of buffers to avoid corruption on OCMPartialMock.
+  dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
+  
   // If
-  MSCrashes *crashes = OCMPartialMock([MSCrashes new]);
+  self.sut = OCMPartialMock(self.sut);
   id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
-  [crashes setAutomaticProcessing:NO];
-  [self startCrashes:crashes withReports:NO withLogManager:logManagerMock];
+  [self.sut setAutomaticProcessing:NO];
+  [self startCrashes:self.sut withReports:NO withLogManager:logManagerMock];
 
   // When
-  NSArray<MSErrorReport *> *reports = [crashes unprocessedCrashReports];
+  NSArray<MSErrorReport *> *reports = [self.sut unprocessedCrashReports];
 
   // Then
   XCTAssertEqual([reports count], 0U);
@@ -782,10 +797,13 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
 - (void)testSendErrorAttachments {
 
+  // Wait for creation of buffers to avoid corruption on OCMPartialMock.
+  dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
+  
   // If
-  MSCrashes *crashes = OCMPartialMock([MSCrashes new]);
+  self.sut = OCMPartialMock(self.sut);
   id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
-  [crashes setAutomaticProcessing:NO];
+  [self.sut setAutomaticProcessing:NO];
   MSErrorReport *report = OCMPartialMock([MSErrorReport new]);
   OCMStub([report incidentIdentifier]).andReturn(@"incidentId");
   __block NSUInteger numInvocations = 0;
@@ -798,14 +816,14 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
           [enqueuedAttachments addObject:attachmentLog];
         })
                      withLogManager:logManagerMock
-                        withCrashes:crashes];
-  [self startCrashes:crashes withReports:NO withLogManager:logManagerMock];
+                        withCrashes:self.sut];
+  [self startCrashes:self.sut withReports:NO withLogManager:logManagerMock];
 
   // When
   [attachments addObject:[[MSErrorAttachmentLog alloc] initWithFilename:@"name" attachmentText:@"text1"]];
   [attachments addObject:[[MSErrorAttachmentLog alloc] initWithFilename:@"name" attachmentText:@"text2"]];
   [attachments addObject:[[MSErrorAttachmentLog alloc] initWithFilename:@"name" attachmentText:@"text3"]];
-  [crashes sendErrorAttachments:attachments withIncidentIdentifier:report.incidentIdentifier];
+  [self.sut sendErrorAttachments:attachments withIncidentIdentifier:report.incidentIdentifier];
 
   // Then
   XCTAssertEqual([attachments count], numInvocations);
@@ -816,14 +834,17 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
 - (void)testGetUnprocessedCrashReports {
 
+  // Wait for creation of buffers to avoid corruption on OCMPartialMock.
+  dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
+  
   // If
-  MSCrashes *crashes = OCMPartialMock([MSCrashes new]);
+  self.sut = OCMPartialMock(self.sut);
   id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
-  [crashes setAutomaticProcessing:NO];
-  NSArray *reports = [self startCrashes:crashes withReports:YES withLogManager:logManagerMock];
+  [self.sut setAutomaticProcessing:NO];
+  NSArray *reports = [self startCrashes:self.sut withReports:YES withLogManager:logManagerMock];
 
   // When
-  NSArray *retrievedReports = [crashes unprocessedCrashReports];
+  NSArray *retrievedReports = [self.sut unprocessedCrashReports];
 
   // Then
   XCTAssertEqual([reports count], [retrievedReports count]);
@@ -841,14 +862,17 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
 - (void)testStartingCrashesWithoutAutomaticProcessing {
 
+  // Wait for creation of buffers to avoid corruption on OCMPartialMock.
+  dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
+  
   // If
-  MSCrashes *crashes = OCMPartialMock([MSCrashes new]);
+  self.sut = OCMPartialMock(self.sut);
   id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
-  [crashes setAutomaticProcessing:NO];
-  NSArray *reports = [self startCrashes:crashes withReports:YES withLogManager:logManagerMock];
+  [self.sut setAutomaticProcessing:NO];
+  NSArray *reports = [self startCrashes:self.sut withReports:YES withLogManager:logManagerMock];
 
   // When
-  NSArray *retrievedReports = [crashes unprocessedCrashReports];
+  NSArray *retrievedReports = [self.sut unprocessedCrashReports];
 
   // Then
   XCTAssertEqual([reports count], [retrievedReports count]);
