@@ -26,7 +26,7 @@ This version contains **breaking changes** due to the renaming from Mobile Cente
 
 * **[Fix]** Fix a bug where unrecoverable HTTP error wouldn't popup the reinstall app dialog after an app restart.
 * **[Improvement]** Adding missing translations.
-* **[Known bug]** Checking last updates will fail if the app was updating from a MobileCenter app. A pop up will show next time the app is restarted to ask for reinstallation.
+* **[Known bug]** Checking for last updates will fail if the app was updating from a Mobile Center app. A pop up will show next time the app is restarted to ask for reinstallation.
 
 ___
 
