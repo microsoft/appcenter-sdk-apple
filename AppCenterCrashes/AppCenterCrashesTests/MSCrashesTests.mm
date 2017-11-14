@@ -200,6 +200,9 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 }
 
 - (void)testProcessCrashes {
+  
+  // Wait for creation of buffers to avoid corruption on OCMPartialMock.
+  dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
 
   // If
   self.sut = OCMPartialMock(self.sut);
@@ -269,6 +272,9 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 }
 
 - (void)testProcessCrashesWithErrorAttachments {
+  
+  // Wait for creation of buffers to avoid corruption on OCMPartialMock.
+  dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
 
   // If
   self.sut = OCMPartialMock(self.sut);
@@ -601,6 +607,9 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
     warningMessageHasBeenPrinted = [message isEqualToString:expectedMessage];
   }];
 #pragma clang diagnostic pop
+  
+  // Wait for creation of buffers to avoid corruption on OCMPartialMock.
+  dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
 
   // If
   self.sut = OCMPartialMock(self.sut);
