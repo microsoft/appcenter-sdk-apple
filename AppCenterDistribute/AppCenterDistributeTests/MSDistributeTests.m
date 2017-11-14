@@ -9,6 +9,7 @@
 #import "MSDistributePrivate.h"
 #import "MSDistributeTestUtil.h"
 #import "MSDistributeUtil.h"
+#import "MSHttpTestUtil.h"
 #import "MSKeychainUtil.h"
 #import "MSMockUserDefaults.h"
 #import "MSServiceAbstractProtected.h"
@@ -825,6 +826,46 @@ static NSURL *sfURL;
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
+  [reachabilityMock stopMocking];
+}
+
+- (void)testCheckLatestReleaseRemoveKeysOnNonRecoverableError {
+  
+  // If
+  id keychainMock = OCMClassMock([MSKeychainUtil class]);
+  id reachabilityMock = OCMClassMock([MS_Reachability class]);
+  OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
+  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
+  
+  // Non recoverable error.
+  [MSHttpTestUtil stubHttp404Response];
+  
+  // When
+  [self.sut checkLatestRelease:@"token"
+           distributionGroupId:@"groupId"
+                   releaseHash:@"releaseHash"];
+  
+  // Then
+  XCTestExpectation *expection = [self expectationWithDescription:@"checkLatestRelease"];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [expection fulfill];
+  });
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 
+                                 // Then
+                                 OCMVerify([keychainMock deleteStringForKey:kMSUpdateTokenKey]);
+                                 OCMVerify([self.settingsMock removeObjectForKey:kMSSDKHasLaunchedWithDistribute]);
+                                 OCMVerify([self.settingsMock removeObjectForKey:kMSUpdateTokenRequestIdKey]);
+                                 OCMVerify([self.settingsMock removeObjectForKey:kMSPostponedTimestampKey]);
+                                 OCMVerify([self.settingsMock removeObjectForKey:kMSDistributionGroupIdKey]);
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+  
+  // Clear
+  [keychainMock stopMocking];
   [reachabilityMock stopMocking];
 }
 
