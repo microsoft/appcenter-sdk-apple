@@ -11,7 +11,7 @@ This version contains a bugfix that is specifically for the App Center SDK for R
 ## Version 1.0.0
 
 ### General Availability (GA) Announcement.
-This version contains **breaking changes** due to the renaming from Mobile Center to App Center. When you update to this release, existing telemetry and crash log information will not be migrated and will be discarded. This version introduces macOS support (preview).
+This version contains **breaking changes** due to the renaming from Mobile Center to App Center. In the unlikely event there was data on the device not sent prior to the update, that data will be discarded. This version introduces macOS support (preview).
 
 ### AppCenter
 
