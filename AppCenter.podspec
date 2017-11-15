@@ -26,14 +26,15 @@ Pod::Spec.new do |s|
   s.homepage          = 'https://appcenter.ms'
   s.documentation_url = "https://docs.microsoft.com/en-us/appcenter/sdk"
 
-  s.license           = { :type => 'MIT',  :file => 'AppCenter-SDK-Apple/LICENSE'}
+  s.license           = { :type => 'MIT' }
   s.author            = { 'Microsoft' => 'appcentersdk@microsoft.com' }
 
   s.ios.deployment_target = '8.0'
   s.osx.deployment_target = '10.9'
   s.source = { :http => "https://github.com/microsoft/AppCenter-SDK-Apple/releases/download/#{s.version}/AppCenter-SDK-Apple-#{s.version}.zip" }
 
-  s.preserve_path = "AppCenter-SDK-Apple/LICENSE"
+  s.ios.preserve_paths = "AppCenter-SDK-Apple/iOS/README.md"
+  s.osx.preserve_paths = "AppCenter-SDK-Apple/macOS/README.md"
 
   s.default_subspecs = 'Analytics', 'Crashes'
 
