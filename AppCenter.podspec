@@ -33,8 +33,8 @@ Pod::Spec.new do |s|
   s.osx.deployment_target = '10.9'
   s.source = { :http => "https://github.com/microsoft/AppCenter-SDK-Apple/releases/download/#{s.version}/AppCenter-SDK-Apple-#{s.version}.zip" }
 
-  s.ios.preserve_paths = "AppCenter-SDK-Apple/iOS/README.md"
-  s.osx.preserve_paths = "AppCenter-SDK-Apple/macOS/README.md"
+  s.ios.preserve_path = 'AppCenter-SDK-Apple/iOS/README.md'
+  s.osx.preserve_path = 'AppCenter-SDK-Apple/macOS/README.md'
 
   s.default_subspecs = 'Analytics', 'Crashes'
 
