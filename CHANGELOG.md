@@ -2,7 +2,7 @@
 
 ## Version 1.0.1
 
-This version contains a bugfix that is specifically for the AppCenter SDK for React Native.
+This version contains a bugfix that is specifically for the App Center SDK for React Native.
 
 ### AppCenterCrashes
 
