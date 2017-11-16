@@ -88,6 +88,8 @@
 		B2C070C51E5E6A200076D6A9 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B2C070B81E5E68540076D6A9 /* AppCenterDistributeResources.bundle */; };
 		BA682AC831677E0806CA2359 /* MSErrorDetails.h in Headers */ = {isa = PBXBuildFile; fileRef = BA6820A043C816916AF34A04 /* MSErrorDetails.h */; };
 		BA682C81BA750CA5FCB63A51 /* MSErrorDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6826E3C58372A269A6B43A /* MSErrorDetails.m */; };
+		F8BEA3CA1FBB0A6E00D4DE37 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8BEA3C81FBB0A5900D4DE37 /* OHHTTPStubs.framework */; };
+		F8BEA3CF1FBB0BE400D4DE37 /* MSHttpTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = F8BEA3CB1FBB0BDE00D4DE37 /* MSHttpTestUtil.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -209,6 +211,9 @@
 		BA6820A043C816916AF34A04 /* MSErrorDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorDetails.h; sourceTree = "<group>"; };
 		BA6826E3C58372A269A6B43A /* MSErrorDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSErrorDetails.m; sourceTree = "<group>"; };
 		F8646E651F349C6D006080AC /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = Resources/ru.lproj/AppCenterDistribute.strings; sourceTree = "<group>"; };
+		F8BEA3C81FBB0A5900D4DE37 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OHHTTPStubs.framework; sourceTree = "<group>"; };
+		F8BEA3CB1FBB0BDE00D4DE37 /* MSHttpTestUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSHttpTestUtil.m; path = ../../../AppCenter/AppCenterTests/Util/MSHttpTestUtil.m; sourceTree = "<group>"; };
+		F8BEA3CC1FBB0BDE00D4DE37 /* MSHttpTestUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSHttpTestUtil.h; path = ../../../AppCenter/AppCenterTests/Util/MSHttpTestUtil.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -227,6 +232,7 @@
 				0471B5E41E4544000022F951 /* libAppCenterDistribute.a in Frameworks */,
 				38D25E391E7B0AAC00033FC4 /* OCHamcrestIOS.framework in Frameworks */,
 				0420A69C1ECA7C8E00915619 /* OCMock.framework in Frameworks */,
+				F8BEA3CA1FBB0A6E00D4DE37 /* OHHTTPStubs.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -354,6 +360,7 @@
 				B2C070B91E5E68540076D6A9 /* Resources */,
 				04FD4A1D1E451E12009B4468 /* Products */,
 				046FDBD51E56830400AF9DD1 /* Vendor */,
+				F8BEA3C01FBB08BF00D4DE37 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -406,6 +413,7 @@
 				04FD4A4A1E453930009B4468 /* libAppCenter.a */,
 				380304401E7B007E006A55FB /* OCHamcrest */,
 				380304321E7B007E006A55FB /* OCMock */,
+				F8BEA3BD1FBB08A900D4DE37 /* OHHTTPStubs */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -431,6 +439,8 @@
 		389638A21E79F557007C3809 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				F8BEA3CC1FBB0BDE00D4DE37 /* MSHttpTestUtil.h */,
+				F8BEA3CB1FBB0BDE00D4DE37 /* MSHttpTestUtil.m */,
 				389638A51E79F60F007C3809 /* MSDistributeTestUtil.h */,
 				389638A31E79F59D007C3809 /* MSDistributeTestUtil.m */,
 				04A140C51ECE89B2001CEE94 /* MSMockUserDefaults.h */,
@@ -471,6 +481,30 @@
 			);
 			name = Resources;
 			path = AppCenterDistributeResources;
+			sourceTree = "<group>";
+		};
+		F8BEA3BD1FBB08A900D4DE37 /* OHHTTPStubs */ = {
+			isa = PBXGroup;
+			children = (
+				F8BEA3C71FBB0A5900D4DE37 /* iOS */,
+			);
+			name = OHHTTPStubs;
+			path = ../../Vendor/iOS/OHHTTPStubs;
+			sourceTree = "<group>";
+		};
+		F8BEA3C01FBB08BF00D4DE37 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F8BEA3C71FBB0A5900D4DE37 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				F8BEA3C81FBB0A5900D4DE37 /* OHHTTPStubs.framework */,
+			);
+			name = iOS;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -691,6 +725,7 @@
 				040AF0251E523B80005C1174 /* MSReleaseDetailsTests.m in Sources */,
 				B20DE7B71E5F97330023075C /* MSDistributeUtilTests.m in Sources */,
 				040AF02A1E52748D005C1174 /* MSDistributeSenderTests.m in Sources */,
+				F8BEA3CF1FBB0BE400D4DE37 /* MSHttpTestUtil.m in Sources */,
 				04DC2ECB1E78A3E3003F23B5 /* MSErrorDetailsTests.m in Sources */,
 				04FD4A341E453531009B4468 /* MSDistributeTests.m in Sources */,
 				04A140C91ECE89BD001CEE94 /* MSMockUserDefaults.m in Sources */,
