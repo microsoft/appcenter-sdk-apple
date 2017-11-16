@@ -26,7 +26,7 @@ Pod::Spec.new do |s|
   s.homepage          = 'https://appcenter.ms'
   s.documentation_url = "https://docs.microsoft.com/en-us/appcenter/sdk"
 
-  s.license           = { :type => 'MIT' }
+  s.license           = { :type => 'MIT', :file => 'AppCenter-SDK-Apple/iOS/LICENSE' }
   s.author            = { 'Microsoft' => 'appcentersdk@microsoft.com' }
 
   s.ios.deployment_target = '8.0'
@@ -35,7 +35,7 @@ Pod::Spec.new do |s|
 
   s.ios.preserve_path = 'AppCenter-SDK-Apple/iOS/README.md'
   s.osx.preserve_path = 'AppCenter-SDK-Apple/macOS/README.md'
-
+  
   s.default_subspecs = 'Analytics', 'Crashes'
 
   s.subspec 'Core' do |ss|
