@@ -1,3 +1,4 @@
+#import <OHHTTPStubs/OHHTTPStubs.h>
 #import "MSConstants+Internal.h"
 #import "MSHttpTestUtil.h"
 
@@ -26,6 +27,10 @@ static NSString *const kMSStubLongResponseTimeOutName = @"httpStub_LongResponseT
 
 + (void)stubHttp200Response {
   [[self class] stubResponseWithCode:MSHTTPCodesNo200OK name:kMSStub200Name];
+}
+
++ (void)removeAllStubs {
+  [OHHTTPStubs removeAllStubs];
 }
 
 + (void)stubNetworkDownResponse {

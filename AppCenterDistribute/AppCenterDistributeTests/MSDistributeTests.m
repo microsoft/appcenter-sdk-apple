@@ -116,7 +116,7 @@ static NSURL *sfURL;
   [self waitForExpectations:@[ expection ] timeout:1];
 
   // Clear
-  [OHHTTPStubs removeAllStubs];
+  [MSHttpTestUtil removeAllStubs];
   [MSKeychainUtil clear];
   [self.parserMock stopMocking];
   [self.settingsMock stopMocking];

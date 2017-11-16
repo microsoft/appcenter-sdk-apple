@@ -1,5 +1,4 @@
 #import <Foundation/Foundation.h>
-#import <OHHTTPStubs/OHHTTPStubs.h>
 
 @interface MSHttpTestUtil : NSObject
 
@@ -8,5 +7,6 @@
 + (void)stubHttp200Response;
 + (void)stubNetworkDownResponse;
 + (void)stubLongTimeOutResponse;
++ (void)removeAllStubs;
 
 @end
