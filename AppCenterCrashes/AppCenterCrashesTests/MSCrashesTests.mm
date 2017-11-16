@@ -759,6 +759,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   self.sut = OCMPartialMock(self.sut);
   id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
   [self.sut setAutomaticProcessing:NO];
+  [self.sut applyEnabledState:YES];
   OCMStub([self.sut shouldAlwaysSend]).andReturn(NO);
   __block int numInvocations = 0;
   [self setProcessLogImplementation:(^(NSInvocation *) {
@@ -890,7 +891,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
 #pragma mark Helper
 
-/*
+/**
  * Start Crashes (self.sut) with zero or one crash files on disk.
  */
 - (NSMutableArray<MSErrorReport *> *)startCrashes:(MSCrashes *)crashes
@@ -906,14 +907,26 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
       [reports addObject:[MSErrorLogFormatter errorReportFromCrashReport:report]];
     }
   }
-  [crashes startWithLogManager:logManager appSecret:kMSTestAppSecret];
-  if (startWithReports) {
-    assertThat(crashes.crashFiles, hasCountOf(1));
-  }
+
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Start the Crashes module"];
+  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    [crashes startWithLogManager:logManager appSecret:kMSTestAppSecret];
+    [expectation fulfill];
+  });
+  [self waitForExpectationsWithTimeout:1.0
+                               handler:^(NSError *error) {
+                                 if (startWithReports) {
+                                   assertThat(crashes.crashFiles, hasCountOf(1));
+                                 }
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+
   return reports;
 }
 
-/*
+/**
  * Attaches the given block to the given logManager's "processLog" method when invoked with Crash's groupId.
  */
 - (void)setProcessLogImplementation:(void (^)(NSInvocation *))invocation

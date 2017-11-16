@@ -84,7 +84,7 @@ static void plcr_post_crash_callback(siginfo_t *info, ucontext_t *uap, void *con
 }
 
 static PLCrashReporterCallbacks plCrashCallbacks = {
-    .version = 0, .context = NULL, .handleSignal = plcr_post_crash_callback};
+  .version = 0, .context = NULL, .handleSignal = plcr_post_crash_callback};
 
 /**
  * C++ Exception Handler
@@ -112,6 +112,12 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
  * @see lastSessionCrashReport
  */
 @property BOOL didCrashInLastSession;
+
+/**
+ * Indicates if the delayedProcessingSemaphore will need to be released
+ * anymore. Useful for preventing overflows.
+ */
+@property BOOL shouldReleaseProcessingSemaphore;
 
 /**
  * Detail information about the last crash.
@@ -158,7 +164,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       }
     } else {
       MSLogWarning([MSCrashes logTag], @"GenerateTestCrash was just called in an App Store environment. The call will "
-                                       @"be ignored");
+                   @"be ignored");
     }
   }
 }
@@ -218,8 +224,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     _logBufferDir = [MSCrashesUtil logBufferDir];
     _analyzerInProgressFile = [_crashesDir URLByAppendingPathComponent:kMSAnalyzerFilename];
     _didCrashInLastSession = NO;
-    _delayedProcessingSemaphore = dispatch_semaphore_create(1);
+    _delayedProcessingSemaphore = dispatch_semaphore_create(0);
     _automaticProcessing = YES;
+    _shouldReleaseProcessingSemaphore = YES;
 #if !TARGET_OS_TV
     _enableMachExceptionHandler = YES;
 #endif
@@ -252,7 +259,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 - (void)applyEnabledState:(BOOL)isEnabled {
   [super applyEnabledState:isEnabled];
-
+  
   // Enabling.
   if (isEnabled) {
     id<MSCrashHandlerSetupDelegate> crashSetupDelegate = [MSWrapperCrashesHelper getCrashHandlerSetupDelegate];
@@ -300,11 +307,14 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     if (self.crashFiles.count > 0) {
       [self startDelayedCrashProcessing];
     }
+    else {
+      dispatch_semaphore_signal(self.delayedProcessingSemaphore);
+    }
 
     // More details on log if a debugger is attached.
     if ([MSAppCenter isDebuggerAttached]) {
       MSLogInfo([MSCrashes logTag], @"Crashes service has been enabled but the service cannot detect crashes due to "
-                                     "running the application with a debugger attached.");
+                "running the application with a debugger attached.");
     } else {
       MSLogInfo([MSCrashes logTag], @"Crashes service has been enabled.");
     }
@@ -439,12 +449,12 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
       // Overwrite the oldest buffered log.
       msCrashesLogBuffer[indexToDelete].buffer =
-          std::string(&reinterpret_cast<const char *>(serializedLog.bytes)[0],
-                      &reinterpret_cast<const char *>(serializedLog.bytes)[serializedLog.length]);
+      std::string(&reinterpret_cast<const char *>(serializedLog.bytes)[0],
+                  &reinterpret_cast<const char *>(serializedLog.bytes)[serializedLog.length]);
       msCrashesLogBuffer[indexToDelete].internalId = internalId.UTF8String;
       NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
       msCrashesLogBuffer[indexToDelete].timestamp =
-          [[NSString stringWithFormat:@"%f", now] cStringUsingEncoding:NSUTF8StringEncoding];
+      [[NSString stringWithFormat:@"%f", now] cStringUsingEncoding:NSUTF8StringEncoding];
       MSLogVerbose([MSCrashes logTag], @"Overwrote buffered log at index %ld.", indexToDelete);
 
       // We're done, no need to iterate any more. But no need to `return;` as we're at the end of the buffer.
@@ -547,9 +557,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 #endif
   PLCrashReporterSymbolicationStrategy symbolicationStrategy = PLCrashReporterSymbolicationStrategyNone;
   MSPLCrashReporterConfig *config =
-      [[MSPLCrashReporterConfig alloc] initWithSignalHandlerType:signalHandlerType
-                                           symbolicationStrategy:symbolicationStrategy
-                          shouldRegisterUncaughtExceptionHandler:enableUncaughtExceptionHandler];
+  [[MSPLCrashReporterConfig alloc] initWithSignalHandlerType:signalHandlerType
+                                       symbolicationStrategy:symbolicationStrategy
+                      shouldRegisterUncaughtExceptionHandler:enableUncaughtExceptionHandler];
   self.plCrashReporter = [[MSPLCrashReporter alloc] initWithConfiguration:config];
 
   /*
@@ -601,7 +611,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 #pragma mark - Crash processing
 
 - (void)startDelayedCrashProcessing {
-  
   /*
    * FIXME: If application is crashed and relaunched from multitasking view, the SDK starts faster than normal launch
    * and application state is not updated from inactive to active at this time. Give more delay here for a workaround
@@ -613,21 +622,30 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
    */
 
   // This must be performed asynchronously to prevent a deadlock with 'unprocessedCrashReports'.
-  dispatch_semaphore_wait(self.delayedProcessingSemaphore, DISPATCH_TIME_FOREVER);
   dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, (1 * NSEC_PER_SEC));
   dispatch_after(delay, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     [self startCrashProcessing];
-    dispatch_semaphore_signal(self.delayedProcessingSemaphore);
+
+    // Only release once to avoid releasing an unbounded number of times.
+    @synchronized(self) {
+      if (self.shouldReleaseProcessingSemaphore) {
+        dispatch_semaphore_signal(self.delayedProcessingSemaphore);
+        self.shouldReleaseProcessingSemaphore = NO;
+      }
+    }
   });
 }
 
 - (void)startCrashProcessing {
-  
   // FIXME: There is no life cycle for app extensions yet so force start crash processing until then.
-  if ([MSUtility applicationState] != MSApplicationStateActive &&
-      [MSUtility applicationState] != MSApplicationStateUnknown) {
-    return;
-  }
+  // Also force start crash processing when automatic processing is disabled. Though it sounds
+  // counterintuitive, this is important because there are scenarios in some wrappers (i.e. RN) where
+  // the application state is not ready by the time crash processing needs to happen.
+  if (self.automaticProcessing &&
+      ([MSUtility applicationState] != MSApplicationStateActive &&
+       [MSUtility applicationState] != MSApplicationStateUnknown)) {
+        return;
+      }
   MSLogDebug([MSCrashes logTag], @"Start delayed CrashManager processing");
 
   // Was our own exception handler successfully added?
@@ -643,10 +661,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
      */
     if (self.exceptionHandler != currentHandler) {
       MSLogWarning([MSCrashes logTag], @"Another exception handler was added. If "
-                                       @"this invokes any kind of exit() after processing the "
-                                       @"exception, which causes any subsequent error handler "
-                                       @"not to be invoked, these crashes will NOT be reported "
-                                       @"to App Center!");
+                   @"this invokes any kind of exit() after processing the "
+                   @"exception, which causes any subsequent error handler "
+                   @"not to be invoked, these crashes will NOT be reported "
+                   @"to App Center!");
     }
   }
   if (self.crashFiles.count > 0) {
@@ -875,7 +893,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
     // Try loading the crash report
     NSData *crashData =
-        [[NSData alloc] initWithData:[self.plCrashReporter loadPendingCrashReportDataAndReturnError:&error]];
+    [[NSData alloc] initWithData:[self.plCrashReporter loadPendingCrashReportDataAndReturnError:&error]];
     if (crashData == nil) {
       MSLogError([MSCrashes logTag], @"Couldn't load crash report: %@", error.localizedDescription);
     } else {
@@ -896,7 +914,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     // Purge the report marker at the end of the routine.
     [self removeAnalyzerFile];
   }
-
   [self.plCrashReporter purgePendingCrashReport];
 }
 
@@ -906,10 +923,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
   if ([self.crashesDir checkResourceIsReachableAndReturnError:nil]) {
     NSArray *files =
-        [self.fileManager contentsOfDirectoryAtURL:self.crashesDir
-                        includingPropertiesForKeys:@[ NSURLNameKey, NSURLFileSizeKey, NSURLIsRegularFileKey ]
-                                           options:NSDirectoryEnumerationOptions(0)
-                                             error:&error];
+    [self.fileManager contentsOfDirectoryAtURL:self.crashesDir
+                    includingPropertiesForKeys:@[ NSURLNameKey, NSURLFileSizeKey, NSURLIsRegularFileKey ]
+                                       options:NSDirectoryEnumerationOptions(0)
+                                         error:&error];
     if (!files) {
       MSLogError([MSCrashes logTag], @"Couldn't get files in the directory \"%@\": %@", self.crashesDir,
                  error.localizedDescription);
@@ -1202,3 +1219,4 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 }
 
 @end
+
