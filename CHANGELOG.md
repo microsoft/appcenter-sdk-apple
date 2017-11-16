@@ -1,14 +1,22 @@
 # App Center SDK for iOS and macOS Change Log
 
+## Version 1.0.1
+
+This version contains a bugfix that is specifically for the App Center SDK for React Native.
+
+### AppCenterCrashes
+
+* **[Fix]** Fixes an issue that impacted the App Center SDK for React Native.
+
 ## Version 1.0.0
 
 ### General Availability (GA) Announcement.
-This version contains **breaking changes** due to the renaming from Mobile Center to App Center. When you update to this release, existing telemetry and crash log information will not be migrated and will be discarded. This version introduces macOS support (preview).
+This version contains **breaking changes** due to the renaming from Mobile Center to App Center. In the unlikely event there was data on the device not sent prior to the update, that data will be discarded. This version introduces macOS support (preview).
 
 ### AppCenter
 
 * **[Feature]** Now supports macOS (preview).
-* **[Fix]** Don't send  startService log while SDK is disabled.
+* **[Fix]** Don't send startService log while SDK is disabled.
 
 ### AppCenterAnalytics
 
