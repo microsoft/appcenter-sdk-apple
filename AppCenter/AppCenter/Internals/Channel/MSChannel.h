@@ -82,7 +82,7 @@ typedef void (^MSStopFlushingCompletionBlock)();
 
 /**
  * Resume the channel. It will resume it's normal activity. A channel can't be resumed if it's disabled or the sender is
- * still supsended.
+ * still suspended.
  */
 - (void)resume;
 

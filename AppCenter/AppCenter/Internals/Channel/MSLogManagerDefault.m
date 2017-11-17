@@ -194,7 +194,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
         }];
   
   /*
-   * If the app in the background we need:
+   * If the app is in the background we need:
    * - Immediately stop flushing the channel;
    * - Keep background task while sending;
    */
