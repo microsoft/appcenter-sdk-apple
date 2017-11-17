@@ -205,6 +205,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
 
   // If
+  NSString *crashesPath = [self.sut.crashesDir path];
   self.sut = OCMPartialMock(self.sut);
   OCMStub([self.sut startDelayedCrashProcessing]).andDo(nil);
   
@@ -231,6 +232,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // Then
   assertThat(self.sut.crashFiles, hasCountOf(1));
+  assertThatLong([self.sut.fileManager contentsOfDirectoryAtPath:crashesPath error:nil].count,
+                 equalToLong(1));
 
   // When
   self.sut = OCMPartialMock([MSCrashes new]);
@@ -241,12 +244,15 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
       };
 
   self.sut.userConfirmationHandler = userConfirmationHandlerYES;
+  [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
   [self.sut startCrashProcessing];
   [self.sut notifyWithUserConfirmation:MSUserConfirmationDontSend];
   self.sut.userConfirmationHandler = nil;
 
   // Then
   assertThat(self.sut.crashFiles, hasCountOf(0));
+  assertThatLong([self.sut.fileManager contentsOfDirectoryAtPath:crashesPath error:nil].count,
+                 equalToLong(0));
 
   // When
   self.sut = OCMPartialMock([MSCrashes new]);
@@ -256,6 +262,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // Then
   assertThat(self.sut.crashFiles, hasCountOf(1));
+  assertThatLong([self.sut.fileManager contentsOfDirectoryAtPath:crashesPath error:nil].count,
+                 equalToLong(1));
 
   // When
   self.sut = OCMPartialMock([MSCrashes new]);
@@ -265,10 +273,13 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
         return NO;
       };
   self.sut.userConfirmationHandler = userConfirmationHandlerNO;
+  [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
   [self.sut startCrashProcessing];
 
   // Then
   assertThat(self.sut.crashFiles, hasCountOf(0));
+  assertThatLong([self.sut.fileManager contentsOfDirectoryAtPath:crashesPath error:nil].count,
+                 equalToLong(0));
 }
 
 - (void)testProcessCrashesWithErrorAttachments {
