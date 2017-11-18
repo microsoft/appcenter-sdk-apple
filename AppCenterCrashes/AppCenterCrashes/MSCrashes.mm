@@ -130,6 +130,11 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 @property(nonatomic) dispatch_queue_t bufferFileQueue;
 
 /**
+ * A group to wait for creation of buffers in the test.
+ */
+@property(nonatomic) dispatch_group_t bufferFileGroup;
+
+/**
  * Semaphore for exclusion with "startDelayedCrashProcessing" method.
  */
 @property dispatch_semaphore_t delayedProcessingSemaphore;
@@ -244,6 +249,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
      * as quickly as possible in case the app is crashing fast.
      */
     _bufferFileQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
+    _bufferFileGroup = dispatch_group_create();
     [self setupLogBuffer];
   }
   return self;
@@ -584,7 +590,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     [self.plCrashReporter setCrashCallbacks:&plCrashCallbacks];
     if (![self.plCrashReporter enableCrashReporterAndReturnError:&error])
       MSLogError([MSCrashes logTag], @"Could not enable crash reporter: %@", [error localizedDescription]);
-    NSUncaughtExceptionHandler *currentHandler = NSGetUncaughtExceptionHandler();
+      NSUncaughtExceptionHandler *currentHandler = NSGetUncaughtExceptionHandler();
     if (currentHandler && currentHandler != initialHandler) {
       self.exceptionHandler = currentHandler;
       MSLogDebug([MSCrashes logTag], @"Exception handler successfully initialized.");
@@ -1015,7 +1021,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   if (![fileURL checkResourceIsReachableAndReturnError:nil]) {
 
     // Create files asynchronously. We don't really care as they are only ever used post-crash.
-    dispatch_async(self.bufferFileQueue, ^{
+    dispatch_group_async(self.bufferFileGroup, self.bufferFileQueue, ^{
       [self createBufferFileAtURL:fileURL];
     });
     return fileURL;

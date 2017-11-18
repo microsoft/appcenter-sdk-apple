@@ -125,7 +125,7 @@ static NSURL *sfURL;
   [self waitForExpectations:@[ expection ] timeout:1];
 
   // Clear
-  [OHHTTPStubs removeAllStubs];
+  [MSHttpTestUtil removeAllStubs];
   [MSKeychainUtil clear];
   [self.parserMock stopMocking];
   [self.settingsMock stopMocking];
@@ -649,9 +649,7 @@ static NSURL *sfURL;
 
 - (void)testShowConfirmationAlertForMandatoryUpdateWhileNoNetwork {
 
-  /*
-   * If
-   */
+  // If
   XCTestExpectation *expection =
       [self expectationWithDescription:@"Confirmation alert for private distribution has been displayed"];
 
@@ -697,9 +695,7 @@ static NSURL *sfURL;
   // Persist release to be picked up.
   [MS_USER_DEFAULTS setObject:[details serializeToDictionary] forKey:kMSMandatoryReleaseKey];
 
-  /*
-   * When
-   */
+  // When
   [self.sut checkLatestRelease:@"whateverToken"
            distributionGroupId:@"whateverGroupId"
                    releaseHash:@"whateverReleaseHash"];
@@ -712,9 +708,7 @@ static NSURL *sfURL;
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
 
-                                 /*
-                                  * Then
-                                  */
+                                 // Then
                                  OCMVerify(
                                      [self.alertControllerMock alertControllerWithTitle:OCMOCK_ANY message:message]);
                                  OCMVerify([self.alertControllerMock
@@ -726,14 +720,10 @@ static NSURL *sfURL;
                                  OCMVerifyAll(self.alertControllerMock);
                                }];
 
-  /*
-   * If
-   */
+  // If
   expection = [self expectationWithDescription:@"Confirmation alert for public distribution has been displayed"];
 
-  /*
-   * When
-   */
+  // When
   [self.sut checkLatestRelease:nil distributionGroupId:@"whateverGroupId" releaseHash:@"whateverReleaseHash"];
   dispatch_async(dispatch_get_main_queue(), ^{
     [expection fulfill];
@@ -744,9 +734,7 @@ static NSURL *sfURL;
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
 
-                                 /*
-                                  * Then
-                                  */
+                                 // Then
                                  OCMVerify(
                                      [self.alertControllerMock alertControllerWithTitle:OCMOCK_ANY message:message]);
                                  OCMVerify([self.alertControllerMock
@@ -764,9 +752,7 @@ static NSURL *sfURL;
 
 - (void)testDontShowConfirmationAlertIfNoMandatoryReleaseWhileNoNetwork {
 
-  /*
-   * If
-   */
+  // If
   XCTestExpectation *expection =
       [self expectationWithDescription:@"Confirmation alert for private distribution has been displayed"];
 
@@ -783,9 +769,7 @@ static NSURL *sfURL;
     [invocation setReturnValue:&test];
   });
 
-  /*
-   * When
-   */
+  // When
   [self.sut checkLatestRelease:@"whateverToken"
            distributionGroupId:@"whateverGroupId"
                    releaseHash:@"whateverReleaseHash"];
@@ -793,9 +777,7 @@ static NSURL *sfURL;
     [expection fulfill];
   });
 
-  /*
-   * Then
-   */
+  // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
 
@@ -806,22 +788,16 @@ static NSURL *sfURL;
                                  }
                                }];
 
-  /*
-   * If
-   */
+  // If
   expection = [self expectationWithDescription:@"Confirmation alert for public distribution has been displayed"];
 
-  /*
-   * When
-   */
+  // When
   [self.sut checkLatestRelease:nil distributionGroupId:@"whateverGroupId" releaseHash:@"whateverReleaseHash"];
   dispatch_async(dispatch_get_main_queue(), ^{
     [expection fulfill];
   });
 
-  /*
-   * Then
-   */
+  // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
 
@@ -1363,6 +1339,9 @@ static NSURL *sfURL;
 - (void)testSetupUpdatesWithPreviousFailureOnDifferentPackageHash {
 
   // If
+  id reachabilityMock = OCMClassMock([MS_Reachability class]);
+  OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
+  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
   id appCenterMock = OCMClassMock([MSAppCenter class]);
   id distributeMock = OCMPartialMock(self.sut);
@@ -1385,7 +1364,7 @@ static NSURL *sfURL;
   XCTAssertNotEqual([self.settingsMock objectForKey:kMSUpdateSetupFailedPackageHashKey], kMSTestReleaseHash);
 
   // When
-  [distributeMock applyEnabledState:YES];
+  [self.sut applyEnabledState:YES];
 
   // Then
   OCMVerify([distributeMock requestInstallInformationWith:kMSTestReleaseHash]);

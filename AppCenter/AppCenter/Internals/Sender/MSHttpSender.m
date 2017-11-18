@@ -351,6 +351,13 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
     sessionConfiguration.timeoutIntervalForRequest = kRequestTimeout;
     _session = [NSURLSession sessionWithConfiguration:sessionConfiguration];
+    
+    /*
+     * Limit callbacks execution concurrency to avoid race condition. This queue is used only for
+     * delegate method calls and completion handlers.
+     * See https://developer.apple.com/documentation/foundation/nsurlsession/1411571-delegatequeue
+     */
+    _session.delegateQueue.maxConcurrentOperationCount = 1;
   }
   return _session;
 }
