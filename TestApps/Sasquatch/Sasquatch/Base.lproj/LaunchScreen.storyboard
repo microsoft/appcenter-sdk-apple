@@ -33,7 +33,7 @@ Puppet Test Application
 
 </string>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launch_icon" translatesAutoresizingMaskIntoConstraints="NO" id="lM4-fW-KQo">
@@ -43,7 +43,7 @@ Puppet Test Application
                                 </constraints>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="lM4-fW-KQo" firstAttribute="top" secondItem="tYG-Rd-uMs" secondAttribute="bottom" constant="100" id="9JP-90-isC"/>
                             <constraint firstItem="ASe-Tr-X1Z" firstAttribute="top" secondItem="lM4-fW-KQo" secondAttribute="bottom" constant="50" id="9PC-Xf-NfX"/>
