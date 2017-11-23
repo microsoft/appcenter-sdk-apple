@@ -9,7 +9,7 @@
 #import "CrashLib.h"
 #import <objc/runtime.h>
 
-@interface MSCrashesViewController ()
+@interface MSCrashesViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (strong, nonatomic) NSDictionary *knownCrashes;
 
@@ -96,7 +96,7 @@
 
   // Settings section.
   if (section == [tableView numberOfSections] - 1) {
-    return 1;
+    return 3;
   }
 
   // Crash result section.
@@ -125,7 +125,11 @@
 
   // Settings cell id.
   if (indexPath.section == [tableView numberOfSections] - 1) {
-    CellIdentifier = @"enable";
+    if (indexPath.row == 0) {
+      CellIdentifier = @"enable";
+    } else {
+      CellIdentifier = @"attachment";
+    }
   }
 
   // Crash result cell id.
@@ -140,15 +144,31 @@
 
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 
-  // Settings cell.
+  // Settings cells.
   if (indexPath.section == [tableView numberOfSections] - 1) {
-
-    // Find switch in subviews.
-    for(id view in cell.contentView.subviews) {
-      if([view isKindOfClass:[UISwitch class]]){
-        ((UISwitch *)view).on = [MSCrashes isEnabled];
-        break;
+    
+    // Enable.
+    if (indexPath.row == 0) {
+      
+      // Find switch in subviews.
+      for (id view in cell.contentView.subviews) {
+        if([view isKindOfClass:[UISwitch class]]){
+          ((UISwitch *)view).on = [MSCrashes isEnabled];
+          break;
+        }
       }
+      
+    // Text attachment.
+    } else if (indexPath.row == 1) {
+      cell.textLabel.text = @"Text attachment";
+      cell.detailTextLabel.text = @"Empty";
+      
+    // Binary attachment.
+    } else if (indexPath.row == 2) {
+      cell.textLabel.text = @"Binary attachment";
+      NSURL *referenceUrl = [[NSUserDefaults standardUserDefaults] URLForKey:@"fileAttachment"];
+      cell.detailTextLabel.text = referenceUrl ? [referenceUrl absoluteString] : @"Empty";
+      
     }
   }
 
@@ -193,6 +213,35 @@
   else if (indexPath.section == [tableView numberOfSections] - 2) {
     [self.navigationController pushViewController:[AppDelegate crashResultViewController] animated:true];
   }
+  
+  // Settings cells.
+  else if (indexPath.section == [tableView numberOfSections] - 1) {
+    
+    // Text attachment.
+    if (indexPath.row == 1) {
+      
+    // Binary attachment.
+    } else if (indexPath.row == 2) {
+      UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+      picker.delegate = self;
+      [self presentViewController:picker animated:YES completion:nil];
+    }
+  }
+}
+
+#pragma mark - UIImagePickerControllerDelegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+  [picker dismissViewControllerAnimated:YES completion:NULL];
+  NSURL *referenceUrl = info[UIImagePickerControllerReferenceURL];
+  if (referenceUrl) {
+    [[NSUserDefaults standardUserDefaults] setURL:referenceUrl forKey:@"fileAttachment"];
+  }
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+  [picker dismissViewControllerAnimated:YES completion:NULL];
+  [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"fileAttachment"];
 }
 
 @end
