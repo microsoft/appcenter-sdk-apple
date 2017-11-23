@@ -5,7 +5,6 @@
 #import "AppDelegate.h"
 #import "MSCrashes.h"
 #import "MSCrashesViewController.h"
-#import "MSCrashesDetailViewController.h"
 
 #import "CrashLib.h"
 #import <objc/runtime.h>
@@ -83,6 +82,10 @@
   sender.on = [MSCrashes isEnabled];
 }
 
+- (MSCrash *)crashByIndexPath:(NSIndexPath *)indexPath {
+  return (MSCrash *)(((NSArray *)self.knownCrashes[self.sortedAllKeys[(NSUInteger)indexPath.section]])[(NSUInteger)indexPath.row]);
+}
+
 #pragma mark - Tableview datasource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -151,27 +154,44 @@
 
   // Crash cell.
   else if (indexPath.section < [tableView numberOfSections] - 2) {
-    MSCrash *crash = (MSCrash *)(((NSArray *)self.knownCrashes[self.sortedAllKeys[(NSUInteger)indexPath.section]])[(NSUInteger)indexPath.row]);
+    MSCrash *crash = [self crashByIndexPath:indexPath];
     cell.textLabel.text = crash.title;
   }
   return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-  if (![cell.reuseIdentifier isEqualToString:@"crashResult"]) {
-    return;
+  
+  // Crash cell.
+  if (indexPath.section < [tableView numberOfSections] - 2) {
+    __block MSCrash *crash = [self crashByIndexPath:indexPath];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:crash.title
+                                                                   message:crash.desc
+                                                            preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *crashAction = [UIAlertAction actionWithTitle:@"Crash"
+                                                          style:UIAlertActionStyleDestructive
+                                                        handler:^(UIAlertAction *action) {
+                                                          [crash crash];
+                                                        }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
+                                                           style:UIAlertActionStyleCancel
+                                                         handler:^(UIAlertAction *action) {
+                                                           [alert dismissViewControllerAnimated:YES completion:nil];
+                                                           [tableView deselectRowAtIndexPath:indexPath animated:YES];
+                                                         }];
+    [alert addAction:crashAction];
+    [alert addAction:cancelAction];
+    
+    // Support display in iPad.
+    alert.popoverPresentationController.sourceView = tableView;
+    alert.popoverPresentationController.sourceRect = [tableView rectForRowAtIndexPath:indexPath];
+    
+    [self presentViewController:alert animated:YES completion:nil];
   }
-  [self.navigationController pushViewController:[AppDelegate crashResultViewController] animated:true];
-}
 
-#pragma mark - Navigation
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-  if ([[segue identifier] isEqualToString:@"crash-detail"]) {
-    NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-    MSCrash *crash = (MSCrash *)(((NSArray *)self.knownCrashes[self.sortedAllKeys[(NSUInteger)indexPath.section]])[(NSUInteger)indexPath.row]);
-    ((MSCrashesDetailViewController *)segue.destinationViewController).detailItem = crash;
+  // Crash result cell id.
+  else if (indexPath.section == [tableView numberOfSections] - 2) {
+    [self.navigationController pushViewController:[AppDelegate crashResultViewController] animated:true];
   }
 }
 
