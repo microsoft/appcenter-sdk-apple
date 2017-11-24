@@ -1,3 +1,5 @@
+#import <MobileCoreServices/MobileCoreServices.h>
+#import <Photos/Photos.h>
 #import "AppCenterDelegateObjC.h"
 #import "AppDelegate.h"
 #import "Constants.h"
@@ -134,12 +136,38 @@
 
 - (NSArray<MSErrorAttachmentLog *> *)attachmentsWithCrashes:(MSCrashes *)crashes
                                              forErrorReport:(MSErrorReport *)errorReport {
-  MSErrorAttachmentLog *attachment1 = [MSErrorAttachmentLog attachmentWithText:@"Hello world!" filename:@"hello.txt"];
-  MSErrorAttachmentLog *attachment2 =
-      [MSErrorAttachmentLog attachmentWithBinary:[@"Fake image" dataUsingEncoding:NSUTF8StringEncoding]
-                                        filename:@"fake_image.jpeg"
-                                     contentType:@"image/jpeg"];
-  return @[ attachment1, attachment2 ];
+  NSMutableArray *attachments = [[NSMutableArray alloc] init];
+  
+  // Text attachment.
+  NSString *text = [[NSUserDefaults standardUserDefaults] objectForKey:@"textAttachment"];
+  if (text != nil && text.length > 0) {
+    MSErrorAttachmentLog *textAttachment = [MSErrorAttachmentLog attachmentWithText:text
+                                                                           filename:@"user.log"];
+    [attachments addObject:textAttachment];
+  }
+  
+  // Binary attachment.
+  NSURL *referenceUrl = [[NSUserDefaults standardUserDefaults] URLForKey:@"fileAttachment"];
+  if (referenceUrl) {
+    PHAsset *asset = [[PHAsset fetchAssetsWithALAssetURLs:@[referenceUrl] options:nil] lastObject];
+    if (asset) {
+      PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
+      options.synchronous = YES;
+      [[PHImageManager defaultManager]
+       requestImageDataForAsset:asset
+       options:options
+       resultHandler:^(NSData *_Nullable imageData, NSString *_Nullable dataUTI,
+                       __unused UIImageOrientation orientation, __unused NSDictionary *_Nullable info) {
+         CFStringRef UTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef)[dataUTI pathExtension], nil);
+         NSString* MIMEType = (__bridge_transfer NSString*)UTTypeCopyPreferredTagWithClass(UTI, kUTTagClassMIMEType);
+         CFRelease(UTI);
+         MSErrorAttachmentLog *binaryAttachment = [MSErrorAttachmentLog attachmentWithBinary:imageData filename:dataUTI contentType:MIMEType];
+         [attachments addObject:binaryAttachment];
+         NSLog(@"Add binary attachment with %lu bytes", [imageData length]);
+       }];
+    }
+  }
+  return attachments;
 }
 
 #pragma mark - MSDistributeDelegate

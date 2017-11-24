@@ -1,3 +1,5 @@
+import MobileCoreServices
+import Photos
 import UIKit
 
 import AppCenter
@@ -158,9 +160,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
   }
   
   func attachments(with crashes: MSCrashes, for errorReport: MSErrorReport) -> [MSErrorAttachmentLog] {
-    let attachment1 = MSErrorAttachmentLog.attachment(withText: "Hello world!", filename: "hello.txt")
-    let attachment2 = MSErrorAttachmentLog.attachment(withBinary: "Fake image".data(using: String.Encoding.utf8), filename: nil, contentType: "image/jpeg")
-    return [attachment1!, attachment2!]
+    var attachments = [MSErrorAttachmentLog]()
+    
+    // Text attachment.
+    let text = UserDefaults.standard.string(forKey: "textAttachment")
+    if text != nil && text!.count > 0 {
+      let textAttachment = MSErrorAttachmentLog.attachment(withText: text, filename: "user.log")!
+      attachments.append(textAttachment)
+    }
+    
+    // Binary attachment.
+    let referenceUrl = UserDefaults.standard.url(forKey: "fileAttachment")
+    if referenceUrl != nil {
+      let asset = PHAsset.fetchAssets(withALAssetURLs: [referenceUrl!], options: nil).lastObject
+      if asset != nil {
+        let options = PHImageRequestOptions()
+        options.isSynchronous = true
+        PHImageManager.default().requestImageData(for: asset!, options: options, resultHandler: {(imageData, dataUTI, orientation, info) -> Void in
+          let pathExtension = NSURL(fileURLWithPath: dataUTI!).pathExtension
+          let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension! as NSString, nil)?.takeRetainedValue()
+          let mime = UTTypeCopyPreferredTagWithClass(uti!, kUTTagClassMIMEType)?.takeRetainedValue() as NSString?
+          let binaryAttachment = MSErrorAttachmentLog.attachment(withBinary: imageData, filename: dataUTI, contentType: mime! as String)!
+          attachments.append(binaryAttachment)
+          print("Add binary attachment with \(imageData?.count ?? 0) bytes")
+        })
+      }
+    }
+    return attachments
   }
 
   // Distribute Delegate
