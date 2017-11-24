@@ -52,8 +52,6 @@
 		84A0FF6A1E8A87C9000E7A28 /* MSAnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */; };
 		84A0FF6C1E8A87E1000E7A28 /* MSDistributeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */; };
 		84A0FF6D1E8A87E1000E7A28 /* MSDistributeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */; };
-		84D63FF71E8BA838004C9F86 /* MSCrashesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D63FF61E8BA838004C9F86 /* MSCrashesDetailViewController.swift */; };
-		84D63FF81E8BA838004C9F86 /* MSCrashesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D63FF61E8BA838004C9F86 /* MSCrashesDetailViewController.swift */; };
 		84D63FF91E8BAA90004C9F86 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845964A91E8A7E6600BABA51 /* Main.storyboard */; };
 		B27424851EF2193E00F591E5 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 047D13711EAFBDBE00D699BA /* AppCenterDistributeResources.bundle */; };
 		B2B36CE21EEF49B700230341 /* MSCustomPropertiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */; };
@@ -255,7 +253,6 @@
 		84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSCrashesViewController.swift; sourceTree = "<group>"; };
 		84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSAnalyticsViewController.swift; sourceTree = "<group>"; };
 		84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSDistributeViewController.swift; sourceTree = "<group>"; };
-		84D63FF61E8BA838004C9F86 /* MSCrashesDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSCrashesDetailViewController.swift; sourceTree = "<group>"; };
 		B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSCustomPropertiesViewController.swift; sourceTree = "<group>"; };
 		D31EF9291E9517B500450162 /* SasquatchWatchObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchWatchObjC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D31EF92C1E9517B600450162 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
@@ -449,7 +446,6 @@
 				84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */,
 				84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */,
 				84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */,
-				84D63FF61E8BA838004C9F86 /* MSCrashesDetailViewController.swift */,
 				B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */,
 				803CFF261F6A7E1D0072B9BA /* MSPushViewController.swift */,
 			);
@@ -933,7 +929,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84D63FF71E8BA838004C9F86 /* MSCrashesDetailViewController.swift in Sources */,
 				803CFF271F6A7E1D0072B9BA /* MSPushViewController.swift in Sources */,
 				849A3E721E8A9922008711CB /* AppCenterProtocol.swift in Sources */,
 				845964AD1E8A7E9700BABA51 /* MSMainViewController.swift in Sources */,
@@ -964,7 +959,6 @@
 				845178ED1E8A8B0D004A0A6F /* MSMainViewController.swift in Sources */,
 				808A11051EF31D2800DFD41B /* MSPropertyViewCell.m in Sources */,
 				84226D3F1E8939B700798417 /* AppCenterDelegateSwift.swift in Sources */,
-				84D63FF81E8BA838004C9F86 /* MSCrashesDetailViewController.swift in Sources */,
 				84A0FF6D1E8A87E1000E7A28 /* MSDistributeViewController.swift in Sources */,
 				84226C831E8908CA00798417 /* AppDelegate.swift in Sources */,
 			);
