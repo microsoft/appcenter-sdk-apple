@@ -152,7 +152,7 @@
       
       // Find switch in subviews.
       for (id view in cell.contentView.subviews) {
-        if([view isKindOfClass:[UISwitch class]]){
+        if ([view isKindOfClass:[UISwitch class]]) {
           ((UISwitch *)view).on = [MSCrashes isEnabled];
           break;
         }
@@ -161,7 +161,8 @@
     // Text attachment.
     } else if (indexPath.row == 1) {
       cell.textLabel.text = @"Text attachment";
-      cell.detailTextLabel.text = @"Empty";
+      NSString *text = [[NSUserDefaults standardUserDefaults] objectForKey:@"textAttachment"];
+      cell.detailTextLabel.text = text != nil && text.length > 0 ? text : @"Empty";
       
     // Binary attachment.
     } else if (indexPath.row == 2) {
@@ -219,6 +220,30 @@
     
     // Text attachment.
     if (indexPath.row == 1) {
+      UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Text attachment"
+                                                                     message:nil
+                                                              preferredStyle:UIAlertControllerStyleAlert];
+      UIAlertAction *crashAction = [UIAlertAction actionWithTitle:@"OK"
+                                                            style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction *action) {
+                                                            NSString *result = alert.textFields[0].text;
+                                                            if (result != nil && result.length > 0) {
+                                                              [[NSUserDefaults standardUserDefaults] setObject:result forKey:@"textAttachment"];
+                                                            } else {
+                                                              [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"textAttachment"];
+                                                            }
+                                                            [tableView reloadData];
+                                                          }];
+      UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
+                                                             style:UIAlertActionStyleCancel
+                                                           handler:nil];
+      [alert addAction:crashAction];
+      [alert addAction:cancelAction];
+      [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"textAttachment"];
+      }];
+      
+      [self presentViewController:alert animated:YES completion:nil];
       
     // Binary attachment.
     } else if (indexPath.row == 2) {

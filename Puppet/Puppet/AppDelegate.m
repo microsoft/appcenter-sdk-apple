@@ -185,10 +185,12 @@ static UIViewController *crashResultViewController = nil;
   NSMutableArray *attachments = [[NSMutableArray alloc] init];
   
   // Text attachment.
-  NSString *text = [NSString stringWithFormat:@"Text attachement for crash #%@", errorReport.incidentIdentifier];
-  MSErrorAttachmentLog *attachment1 =
-  [MSErrorAttachmentLog attachmentWithText:text filename:@"pup-crash-attachment.log"];
-  [attachments addObject:attachment1];
+  NSString *text = [[NSUserDefaults standardUserDefaults] objectForKey:@"textAttachment"];
+  if (text != nil && text.length > 0) {
+    MSErrorAttachmentLog *textAttachment = [MSErrorAttachmentLog attachmentWithText:text
+                                                                           filename:@"user.log"];
+    [attachments addObject:textAttachment];
+  }
   
   // Binary attachment.
   NSURL *referenceUrl = [[NSUserDefaults standardUserDefaults] URLForKey:@"fileAttachment"];
