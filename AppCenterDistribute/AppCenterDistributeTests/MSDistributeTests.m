@@ -66,7 +66,7 @@ static NSURL *sfURL;
 
 @interface MSSenderCall ()
 
-- (void)startTimer;
+- (void)startRetryTimerWith:(NSUInteger)statusCode;
 
 @end
 
@@ -93,7 +93,7 @@ static NSURL *sfURL;
 
   // Mock network.
   [MSHttpTestUtil stubHttp200Response];
-  
+
   // Mock NSBundle
   self.bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([self.bundleMock mainBundle]).andReturn(self.bundleMock);
@@ -811,7 +811,7 @@ static NSURL *sfURL;
 }
 
 - (void)testCheckLatestReleaseRemoveKeysOnNonRecoverableError {
-  
+
   // If
   id distributeMock = OCMPartialMock(self.sut);
   OCMReject([distributeMock handleUpdate:OCMOCK_ANY]);
@@ -825,26 +825,24 @@ static NSURL *sfURL;
   OCMStub([senderCallMock alloc]).andReturn(senderCallMock);
   OCMReject([senderCallMock startTimer]);
   OCMStub([senderCallMock sender:OCMOCK_ANY
-         callCompletedWithStatus:MSHTTPCodesNo404NotFound
-                            data:OCMOCK_ANY
-                           error:OCMOCK_ANY])
-    .andForwardToRealObject()
-    .andDo(^(__unused NSInvocation *invocation) {
-      [expection fulfill];
-    });
-  
+              callCompletedWithStatus:MSHTTPCodesNo404NotFound
+                                 data:OCMOCK_ANY
+                                error:OCMOCK_ANY])
+      .andForwardToRealObject()
+      .andDo(^(__unused NSInvocation *invocation) {
+        [expection fulfill];
+      });
+
   // Non recoverable error.
   [MSHttpTestUtil stubHttp404Response];
-  
+
   // When
-  [self.sut checkLatestRelease:@"token"
-           distributionGroupId:@"groupId"
-                   releaseHash:@"releaseHash"];
-  
+  [self.sut checkLatestRelease:@"token" distributionGroupId:@"groupId" releaseHash:@"releaseHash"];
+
   // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
-                                 
+
                                  // Then
                                  OCMVerifyAll(distributeMock);
                                  OCMVerifyAll(senderCallMock);
@@ -861,7 +859,7 @@ static NSURL *sfURL;
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
-  
+
   // Clear
   [distributeMock stopMocking];
   [keychainMock stopMocking];
@@ -870,7 +868,7 @@ static NSURL *sfURL;
 }
 
 - (void)testCheckLatestReleaseOnRecoverableError {
-  
+
   // If
   id distributeMock = OCMPartialMock(self.sut);
   OCMReject([distributeMock handleUpdate:OCMOCK_ANY]);
@@ -885,30 +883,28 @@ static NSURL *sfURL;
   OCMStub([senderCallMock alloc]).andReturn(senderCallMock);
   OCMStub([senderCallMock startTimer]).andDo(nil);
   OCMStub([senderCallMock sender:OCMOCK_ANY
-         callCompletedWithStatus:MSHTTPCodesNo500InternalServerError
-                            data:OCMOCK_ANY
-                           error:OCMOCK_ANY])
-  .andForwardToRealObject()
-  .andDo(^(__unused NSInvocation *invocation) {
-    [expection fulfill];
-  });
-  
+              callCompletedWithStatus:MSHTTPCodesNo500InternalServerError
+                                 data:OCMOCK_ANY
+                                error:OCMOCK_ANY])
+      .andForwardToRealObject()
+      .andDo(^(__unused NSInvocation *invocation) {
+        [expection fulfill];
+      });
+
   // Recoverable error.
   [MSHttpTestUtil stubHttp500Response];
-  
+
   // When
   [self.settingsMock setObject:@1 forKey:kMSSDKHasLaunchedWithDistribute];
   [self.settingsMock setObject:@1 forKey:kMSUpdateTokenRequestIdKey];
   [self.settingsMock setObject:@1 forKey:kMSPostponedTimestampKey];
   [self.settingsMock setObject:@1 forKey:kMSDistributionGroupIdKey];
-  [self.sut checkLatestRelease:@"token"
-           distributionGroupId:@"groupId"
-                   releaseHash:@"releaseHash"];
-  
+  [self.sut checkLatestRelease:@"token" distributionGroupId:@"groupId" releaseHash:@"releaseHash"];
+
   // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
-                                 
+
                                  // Then
                                  OCMVerifyAll(distributeMock);
                                  OCMVerifyAll(keychainMock);
@@ -921,7 +917,7 @@ static NSURL *sfURL;
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
-  
+
   // Clear
   [distributeMock stopMocking];
   [keychainMock stopMocking];

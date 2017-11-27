@@ -237,7 +237,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
                   }
                 }
               }
-              MSLogDebug([MSAppCenter logTag], @"HTTP response received with status code=%lu and payload=%@",
+              MSLogVerbose([MSAppCenter logTag], @"HTTP response received with status code=%lu and payload=%@",
                          (unsigned long)statusCode, payload);
 
               // Call handles the completion.
