@@ -823,7 +823,7 @@ static NSURL *sfURL;
   XCTestExpectation *expection = [self expectationWithDescription:@"Request completed."];
   id senderCallMock = OCMPartialMock([MSSenderCall alloc]);
   OCMStub([senderCallMock alloc]).andReturn(senderCallMock);
-  OCMReject([senderCallMock startTimer]);
+  OCMReject([senderCallMock startRetryTimerWith:404]);
   OCMStub([senderCallMock sender:OCMOCK_ANY
               callCompletedWithStatus:MSHTTPCodesNo404NotFound
                                  data:OCMOCK_ANY
@@ -881,7 +881,7 @@ static NSURL *sfURL;
   XCTestExpectation *expection = [self expectationWithDescription:@"Request completed."];
   id senderCallMock = OCMPartialMock([MSSenderCall alloc]);
   OCMStub([senderCallMock alloc]).andReturn(senderCallMock);
-  OCMStub([senderCallMock startTimer]).andDo(nil);
+  OCMStub([senderCallMock startRetryTimerWith:500]).andDo(nil);
   OCMStub([senderCallMock sender:OCMOCK_ANY
               callCompletedWithStatus:MSHTTPCodesNo500InternalServerError
                                  data:OCMOCK_ANY
@@ -908,7 +908,7 @@ static NSURL *sfURL;
                                  // Then
                                  OCMVerifyAll(distributeMock);
                                  OCMVerifyAll(keychainMock);
-                                 OCMVerify([senderCallMock startTimer]);
+                                 OCMVerify([senderCallMock startRetryTimerWith:500]);
                                  XCTAssertNotNil([self.settingsMock objectForKey:kMSSDKHasLaunchedWithDistribute]);
                                  XCTAssertNotNil([self.settingsMock objectForKey:kMSUpdateTokenRequestIdKey]);
                                  XCTAssertNotNil([self.settingsMock objectForKey:kMSPostponedTimestampKey]);
