@@ -7,6 +7,7 @@
 #import "MSCrashesViewController.h"
 
 #import "CrashLib.h"
+#import <Photos/Photos.h>
 #import <objc/runtime.h>
 
 @interface MSCrashesViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
@@ -247,9 +248,13 @@
       
     // Binary attachment.
     } else if (indexPath.row == 2) {
-      UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-      picker.delegate = self;
-      [self presentViewController:picker animated:YES completion:nil];
+      [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+        if (status == PHAuthorizationStatusAuthorized) {
+          UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+          picker.delegate = self;
+          [self presentViewController:picker animated:YES completion:nil];
+        }
+      }];
     }
   }
 }
@@ -257,16 +262,18 @@
 #pragma mark - UIImagePickerControllerDelegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
-  [picker dismissViewControllerAnimated:YES completion:NULL];
   NSURL *referenceUrl = info[UIImagePickerControllerReferenceURL];
   if (referenceUrl) {
     [[NSUserDefaults standardUserDefaults] setURL:referenceUrl forKey:@"fileAttachment"];
+    [self.tableView reloadData];
   }
+  [picker dismissViewControllerAnimated:YES completion:NULL];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-  [picker dismissViewControllerAnimated:YES completion:NULL];
   [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"fileAttachment"];
+  [self.tableView reloadData];
+  [picker dismissViewControllerAnimated:YES completion:NULL];
 }
 
 @end

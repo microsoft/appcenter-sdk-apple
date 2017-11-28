@@ -1,3 +1,4 @@
+import Photos
 import UIKit
 
 class MSCrashesViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, AppCenterProtocol {
@@ -137,24 +138,30 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
         
         // Binary attachment.
       } else if indexPath.row == 2 {
-        let picker = UIImagePickerController()
-        picker.delegate = self
-        present(picker, animated: true)
+        PHPhotoLibrary.requestAuthorization({ (status: PHAuthorizationStatus) -> Void in ()
+          if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.authorized {
+            let picker = UIImagePickerController()
+            picker.delegate = self
+            self.present(picker, animated: true)
+          }
+        })
       }
     }
   }
   
-  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-    picker.dismiss(animated: true)
+  @objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
     let referenceUrl = info[UIImagePickerControllerReferenceURL] as? URL
     if referenceUrl != nil {
       UserDefaults.standard.set(referenceUrl, forKey: "fileAttachment")
+      tableView.reloadData()
     }
+    picker.dismiss(animated: true, completion: nil)
   }
   
-  func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-    picker.dismiss(animated: true)
+  @objc func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
     UserDefaults.standard.removeObject(forKey: "fileAttachment")
+    tableView.reloadData()
+    picker.dismiss(animated: true, completion: nil)
   }
   
   @IBAction func enabledSwitchUpdated(_ sender: UISwitch) {
