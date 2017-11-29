@@ -214,7 +214,9 @@ static NSString *const kMSGroupId = @"AppCenter";
   @synchronized(self) {
     BOOL configured = [self configure:appSecret];
     if (configured && services) {
+      MSLogVerbose([MSAppCenter logTag], @"Prepare to start services: %@", [services componentsJoinedByString:@", "]);
       NSArray *sortedServices = [self sortServices:services];
+      MSLogVerbose([MSAppCenter logTag], @"Start services %@", [sortedServices componentsJoinedByString:@", "]);
       NSMutableArray<NSString *> *servicesNames = [NSMutableArray arrayWithCapacity:sortedServices.count];
 
       for (Class service in sortedServices) {
