@@ -33,7 +33,7 @@
   return delay;
 }
 
-- (void)startRetryTimerWith:(NSUInteger)statusCode {
+- (void)startRetryTimerWithStatusCode:(NSUInteger)statusCode {
   [self resetTimer];
 
   // Create queue.
@@ -84,7 +84,7 @@
 
   // Retry.
   else if ([MSSenderUtil isRecoverableError:statusCode] && ![self hasReachedMaxRetries]) {
-    [self startRetryTimerWith:statusCode];
+    [self startRetryTimerWithStatusCode:statusCode];
   }
 
   // Callback to Channel.
