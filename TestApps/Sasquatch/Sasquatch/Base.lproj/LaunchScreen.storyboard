@@ -29,7 +29,7 @@
                                     <constraint firstAttribute="height" constant="41" id="rb3-0k-9WO"/>
                                 </constraints>
                                 <string key="text">Starting Visual Studio App Center
-Puppet Test Application
+Sasquatch Test Application
 
 </string>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
