@@ -15,6 +15,15 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
     crashesTableView.dataSource = self
     crashesTableView.delegate = self
     textAttachmentView.delegate = self
+    
+    let text = UserDefaults.standard.string(forKey: "textAttachment")
+    if (text?.characters.count ?? 0) > 0 {
+      textAttachmentView.string = text;
+    }
+    let referenceUrl = UserDefaults.standard.url(forKey: "fileAttachment")
+    if referenceUrl != nil {
+      fileAttachmentLabel.stringValue = self.fileAttachmentDescription(url: referenceUrl)
+    }
   }
 
   override func viewWillAppear() {
@@ -29,15 +38,23 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
   @IBAction func browseFileAttachment(_ sender: Any) {
     let openPanel = NSOpenPanel()
     openPanel.begin(completionHandler: { (result) -> Void in
-      if result == NSFileHandlingPanelOKButton {
-        self.fileAttachmentLabel.stringValue = openPanel.url?.lastPathComponent ?? "Empty";
+      let url = result == NSFileHandlingPanelOKButton && openPanel.url != nil ? openPanel.url : nil
+      if url != nil {
+        UserDefaults.standard.set(url, forKey: "fileAttachment")
       } else {
-        self.fileAttachmentLabel.stringValue = "Empty";
+        UserDefaults.standard.removeObject(forKey: "fileAttachment")
       }
+      self.fileAttachmentLabel.stringValue = self.fileAttachmentDescription(url: url)
     })
   }
 
   func textDidChange(_ notification: Notification) {
+    let text = textAttachmentView.string;
+    if (text?.characters.count ?? 0) > 0 {
+      UserDefaults.standard.set(text, forKey: "textAttachment")
+    } else {
+      UserDefaults.standard.removeObject(forKey: "textAttachment")
+    }
   }
   
   func numberOfRows(in tableView: NSTableView) -> Int {
@@ -118,5 +135,9 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
         MSCrash.register((className as! MSCrash.Type).init())
       }
     }
+  }
+  
+  private func fileAttachmentDescription(url: URL?) -> String {
+    return url?.lastPathComponent ?? "Empty"
   }
 }

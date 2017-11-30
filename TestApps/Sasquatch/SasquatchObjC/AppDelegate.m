@@ -154,17 +154,18 @@
       PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
       options.synchronous = YES;
       [[PHImageManager defaultManager]
-       requestImageDataForAsset:asset
-       options:options
-       resultHandler:^(NSData *_Nullable imageData, NSString *_Nullable dataUTI,
-                       __unused UIImageOrientation orientation, __unused NSDictionary *_Nullable info) {
-         CFStringRef UTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef)[dataUTI pathExtension], nil);
-         NSString* MIMEType = (__bridge_transfer NSString*)UTTypeCopyPreferredTagWithClass(UTI, kUTTagClassMIMEType);
-         CFRelease(UTI);
-         MSErrorAttachmentLog *binaryAttachment = [MSErrorAttachmentLog attachmentWithBinary:imageData filename:dataUTI contentType:MIMEType];
-         [attachments addObject:binaryAttachment];
-         NSLog(@"Add binary attachment with %lu bytes", [imageData length]);
-       }];
+          requestImageDataForAsset:asset
+                           options:options
+                     resultHandler:^(NSData *_Nullable imageData, NSString *_Nullable dataUTI,
+                                     __unused UIImageOrientation orientation, __unused NSDictionary *_Nullable info) {
+                       CFStringRef UTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef)[dataUTI pathExtension], nil);
+                       NSString *MIMEType = (__bridge_transfer NSString *)UTTypeCopyPreferredTagWithClass(UTI, kUTTagClassMIMEType);
+                       CFRelease(UTI);
+                       MSErrorAttachmentLog *binaryAttachment =
+                           [MSErrorAttachmentLog attachmentWithBinary:imageData filename:dataUTI contentType:MIMEType];
+                       [attachments addObject:binaryAttachment];
+                       NSLog(@"Add binary attachment with %lu bytes", [imageData length]);
+                     }];
     }
   }
   return attachments;

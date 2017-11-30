@@ -87,9 +87,30 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
   }
 
   func attachments(with crashes: MSCrashes, for errorReport: MSErrorReport) -> [MSErrorAttachmentLog] {
-    let attachment1 = MSErrorAttachmentLog.attachment(withText: "Hello world!", filename: "hello.txt")
-    let attachment2 = MSErrorAttachmentLog.attachment(withBinary: "Fake image".data(using: String.Encoding.utf8), filename: nil, contentType: "image/jpeg")
-    return [attachment1!, attachment2!]
+    var attachments = [MSErrorAttachmentLog]()
+    
+    // Text attachment.
+    let text = UserDefaults.standard.string(forKey: "textAttachment")
+    if (text?.characters.count ?? 0) > 0 {
+      let textAttachment = MSErrorAttachmentLog.attachment(withText: text, filename: "user.log")!
+      attachments.append(textAttachment)
+    }
+    
+    // Binary attachment.
+    let referenceUrl = UserDefaults.standard.url(forKey: "fileAttachment")
+    if referenceUrl != nil {
+      do {
+        let data = try Data(contentsOf: referenceUrl!)
+        let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, referenceUrl!.pathExtension as NSString, nil)?.takeRetainedValue()
+        let mime = UTTypeCopyPreferredTagWithClass(uti!, kUTTagClassMIMEType)?.takeRetainedValue() as NSString?
+        let binaryAttachment = MSErrorAttachmentLog.attachment(withBinary: data, filename: referenceUrl?.lastPathComponent, contentType: mime! as String)!
+        attachments.append(binaryAttachment)
+        print("Add binary attachment with \(data.count) bytes")
+      } catch {
+        print(error)
+      }
+    }
+    return attachments
   }
 
   // Push Delegate
