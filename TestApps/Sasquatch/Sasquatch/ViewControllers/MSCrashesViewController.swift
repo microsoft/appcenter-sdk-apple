@@ -94,7 +94,7 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
           }
         }
       }
-    } else {	
+    } else {
       let crash = categories[categoryForSection(indexPath.section)]![indexPath.row]
       cell.textLabel?.text = crash.title;
     }
