@@ -138,6 +138,18 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
   }
   
   private func fileAttachmentDescription(url: URL?) -> String {
-    return url?.lastPathComponent ?? "Empty"
+    if url != nil {
+      var desc = "File: \(url!.lastPathComponent)"
+      do {
+        let attr = try FileManager.default.attributesOfItem(atPath: url!.path)
+        let fileSize = ByteCountFormatter.string(fromByteCount: Int64(attr[FileAttributeKey.size] as! UInt64), countStyle: .binary)
+        desc += " Size: \(fileSize)"
+      } catch {
+        print(error)
+      }
+      return desc
+    } else {
+      return "Empty"
+    }
   }
 }
