@@ -1,17 +1,20 @@
 import Cocoa
 
-class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableViewDelegate {
+class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableViewDelegate, NSTextViewDelegate {
 
   var appCenter: AppCenterDelegate = AppCenterProvider.shared().appCenter!
   var crashes = [Any]()
   @IBOutlet var setEnabledButton : NSButton?
   @IBOutlet weak var crashesTableView: NSTableView!
+  @IBOutlet weak var fileAttachmentLabel: NSTextField!
+  @IBOutlet var textAttachmentView: NSTextView!
   
   override func viewDidLoad() {
     super.viewDidLoad()
     loadAllCrashes()
     crashesTableView.dataSource = self
     crashesTableView.delegate = self
+    textAttachmentView.delegate = self
   }
 
   override func viewWillAppear() {
@@ -22,7 +25,21 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
     appCenter.setCrashesEnabled(sender.state == 1)
     sender.state = appCenter.isCrashesEnabled() ? 1 : 0
   }
+  
+  @IBAction func browseFileAttachment(_ sender: Any) {
+    let openPanel = NSOpenPanel()
+    openPanel.begin(completionHandler: { (result) -> Void in
+      if result == NSFileHandlingPanelOKButton {
+        self.fileAttachmentLabel.stringValue = openPanel.url?.lastPathComponent ?? "Empty";
+      } else {
+        self.fileAttachmentLabel.stringValue = "Empty";
+      }
+    })
+  }
 
+  func textDidChange(_ notification: Notification) {
+  }
+  
   func numberOfRows(in tableView: NSTableView) -> Int {
     return crashes.count;
   }
@@ -63,7 +80,7 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
   func crashButtonPressed(_ sender: Any) {
     (crashes[(sender as! NSButton).tag] as! MSCrash).crash()
   }
-
+  
   private func isHeader(row: Int) -> Bool {
     return crashes[row] is String
   }
