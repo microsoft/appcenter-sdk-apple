@@ -171,6 +171,23 @@
       NSURL *referenceUrl = [[NSUserDefaults standardUserDefaults] URLForKey:@"fileAttachment"];
       cell.detailTextLabel.text = referenceUrl ? [referenceUrl absoluteString] : @"Empty";
       
+      // Read async to display size instead of url.
+      if (referenceUrl) {
+        PHAsset *asset = [[PHAsset fetchAssetsWithALAssetURLs:@[referenceUrl] options:nil] lastObject];
+        if (asset) {
+          [[PHImageManager defaultManager]
+              requestImageDataForAsset:asset
+                               options:nil
+                         resultHandler:^(NSData *_Nullable imageData,
+                                         __unused NSString *_Nullable dataUTI,
+                                         __unused UIImageOrientation orientation,
+                                         __unused NSDictionary *_Nullable info) {
+                           cell.detailTextLabel.text =
+                               [NSByteCountFormatter stringFromByteCount:[imageData length]
+                                                              countStyle:NSByteCountFormatterCountStyleBinary];
+                         }];
+        }
+      }
     }
   }
 

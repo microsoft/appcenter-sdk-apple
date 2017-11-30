@@ -84,8 +84,17 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
         let referenceUrl = UserDefaults.standard.url(forKey: "fileAttachment")
         cell.detailTextLabel?.text = referenceUrl != nil ? referenceUrl!.absoluteString : "Empty";
         
+        // Read async to display size instead of url.
+        if referenceUrl != nil {
+          let asset = PHAsset.fetchAssets(withALAssetURLs: [referenceUrl!], options: nil).lastObject
+          if asset != nil {
+            PHImageManager.default().requestImageData(for: asset!, options: nil, resultHandler: {(imageData, dataUTI, orientation, info) -> Void in
+              cell.detailTextLabel?.text = ByteCountFormatter.string(fromByteCount: Int64(imageData?.count ?? 0), countStyle: .binary)
+            })
+          }
+        }
       }
-    } else {
+    } else {	
       let crash = categories[categoryForSection(indexPath.section)]![indexPath.row]
       cell.textLabel?.text = crash.title;
     }
