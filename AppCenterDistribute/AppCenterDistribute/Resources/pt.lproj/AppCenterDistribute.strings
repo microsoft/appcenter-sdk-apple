@@ -1,0 +1,17 @@
+/*
+ * Update dialog buttons
+ */
+"MSDistributeUpdateNow" = "Atualizar agora";
+"MSDistributeAskMeInADay" = "Pergunte-me em um dia";
+"MSDistributeViewReleaseNotes" = "Exibir notas de versão";
+"MSDistributeClose" = "Perto";
+"MSDistributeIgnore" = "Ignorar";
+"MSDistributeReinstall" = "Reinstale o app";
+
+/*
+ * Update dialog titles/messages
+ */
+"MSDistributeAppUpdateAvailable" = "Atualização do aplicativo disponível";
+"MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "Os desenvolvedores desse aplicativo exigem a atualização para %@ %@ (%@).";
+"MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@ (%@) está disponível para download e instalação.";
+"MSDistributeInAppUpdatesAreDisabled" = "Atualizações no aplicativo desabilitadas";

@@ -9,6 +9,6 @@
 "crash_alert_send" = "Send";
 
 "distribute_alert_title" = "New update available!!!!";
-"distribute_alert_message" = "This is a customized dialog";
+"distribute_alert_message" = "This is a customized dialog.";
 "distribute_alert_yes" = "Yes";
 "distribute_alert_no" = "No";
