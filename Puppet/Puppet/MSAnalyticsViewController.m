@@ -13,6 +13,8 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *propertiesTable;
 @property (weak, nonatomic) IBOutlet UISwitch *enabled;
+@property (weak, nonatomic) IBOutlet UITextField *eventName;
+@property (weak, nonatomic) IBOutlet UITextField *pageName;
 @property (nonatomic) MSAnalyticsResultViewController *analyticsResult;
 @property (nonatomic) MSPropertiesTableDataSource *propertiesSource;
 
@@ -38,6 +40,14 @@
   }
 }
 
+- (IBAction)trackEvent {
+  [MSAnalytics trackEvent:self.eventName.text withProperties:self.propertiesSource.properties];
+}
+
+- (IBAction)trackPage {
+  [MSAnalytics trackPage:self.pageName.text withProperties:self.propertiesSource.properties];
+}
+
 - (IBAction)enabledSwitchUpdated:(UISwitch *)sender {
   [MSAnalytics setEnabled:sender.on];
   sender.on = [MSAnalytics isEnabled];
@@ -49,37 +59,6 @@
 
 - (IBAction)onDeleteProperty {
   [self.propertiesSource deleteProperty];
-}
-
-#pragma mark - Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  [tableView deselectRowAtIndexPath:indexPath animated:YES];
-
-  [self.propertiesSource updateProperties];
-  switch ([indexPath section]) {
-
-  // Actions
-  case 1: {
-    switch (indexPath.row) {
-    case 0: {
-      [MSAnalytics trackEvent:@"myEvent" withProperties:self.propertiesSource.properties];
-      break;
-    }
-    case 1: {
-      [MSAnalytics trackPage:@"myPage" withProperties:self.propertiesSource.properties];
-      break;
-    }
-    case 2: {
-      [self.navigationController pushViewController:self.analyticsResult animated:true];
-      break;
-    }
-    default:
-      break;
-    }
-    break;
-    }
-  }
 }
 
 @end

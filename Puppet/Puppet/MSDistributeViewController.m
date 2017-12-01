@@ -38,7 +38,7 @@
   switch ([indexPath section]) {
 
   // Section with alerts.
-  case 0: {
+  case 1: {
     switch (indexPath.row) {
     case 0: {
       MSReleaseDetails *details = [MSReleaseDetails new];
