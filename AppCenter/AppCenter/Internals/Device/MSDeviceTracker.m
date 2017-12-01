@@ -298,7 +298,30 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
 }
 
 - (NSString *)locale:(NSLocale *)currentLocale {
-  return [currentLocale objectForKey:NSLocaleIdentifier];
+
+  /*
+   * [currentLocale objectForKey:NSLocaleIdentifier] will return an alternate language if a language set in system is
+   * not supported by applications. If system language is set to en_US but an application doesn't support en_US, for
+   * example, the OS will return the next application supported language in Preferred Language Order list unless there
+   * is only one language in the list. The method will return the first language in the list to prevent from the above
+   * scenario.
+   *
+   * In addition to that;
+   *     1. preferred language returns "-" instead of "_" as a delimiter of language code and country code, the method
+   * will concatenate language code and country code with "_" and return it.
+   *     2. some languages can be set without country code so region code can be returned in this case.
+   *     3. some langugaes have script code which differentiate languages. E.g. zh-Hans and zh-Hant. This is a possible
+   * scenario in Apple platforms that a locale can be zh_CN for Traditional Chinese. The method will return zh-Hant_CN
+   * in this case to make sure system language is Traditional Chinese even though region is set to China.
+   */
+  NSLocale *preferredLanguage = [[NSLocale alloc] initWithLocaleIdentifier:[NSLocale preferredLanguages][0]];
+  NSString *languageCode = [preferredLanguage objectForKey:NSLocaleLanguageCode];
+  NSString *scriptCode = [preferredLanguage objectForKey:NSLocaleScriptCode];
+  NSString *countryCode = [preferredLanguage objectForKey:NSLocaleCountryCode];
+  NSString *locale = [NSString stringWithFormat:@"%@%@_%@", languageCode,
+                                                (scriptCode ? [NSString stringWithFormat:@"-%@", scriptCode] : @""),
+                                                countryCode ?: [currentLocale objectForKey:NSLocaleCountryCode]];
+  return locale;
 }
 
 - (NSNumber *)timeZoneOffset:(NSTimeZone *)timeZone {
