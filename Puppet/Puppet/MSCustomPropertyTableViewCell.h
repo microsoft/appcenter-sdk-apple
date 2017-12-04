@@ -3,6 +3,7 @@
  */
 
 #import <UIKit/UIKit.h>
+#import "AppCenter.h"
 
 @interface MSCustomPropertyTableViewCell : UITableViewCell
 
@@ -12,5 +13,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *valueTextField;
 @property (weak, nonatomic) IBOutlet UISwitch *boolValue;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *valueBottomConstraint;
+
+- (void)setPropertyTo:(MSCustomProperties *)properties;
 
 @end

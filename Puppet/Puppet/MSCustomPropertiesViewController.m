@@ -9,7 +9,7 @@
 
 @interface MSCustomPropertiesViewController ()
 
-@property (nonatomic) NSMutableArray *properties;
+@property (nonatomic) NSInteger propertiesCount;
 
 @end
 
@@ -19,20 +19,15 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  self.properties = [NSMutableArray new];
   [self.tableView setEditing:YES animated:NO];
 }
 
 - (IBAction)send {
   MSCustomProperties *customProperties = [MSCustomProperties new];
-  [customProperties setString:@"test" forKey:@"test"];
-  
-  //[customProperties setString:string forKey:invalidKey];
-  //[customProperties setDate:date forKey:invalidKey];
-  //[customProperties setNumber:number forKey:invalidKey];
-  //[customProperties setBool:boolean forKey:invalidKey];
-  //[customProperties clearPropertyForKey:invalidKey];
-
+  for (int i = 0; i < self.propertiesCount; i++) {
+    MSCustomPropertyTableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+    [cell setPropertyTo:customProperties];
+  }
   [MSAppCenter setCustomProperties:customProperties];
 }
 
@@ -49,10 +44,10 @@
     commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
      forRowAtIndexPath:(NSIndexPath *)indexPath {
   if (editingStyle == UITableViewCellEditingStyleDelete) {
-    [self.properties removeObjectAtIndex:indexPath.row];
+    self.propertiesCount--;
     [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
   } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-    [self.properties addObject:[NSNull null]];
+    self.propertiesCount++;
     [tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
   }
 }
@@ -95,7 +90,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   if ([self isPropertiesRowSection:section]) {
-    return self.properties.count + 1;
+    return self.propertiesCount + 1;
   } else {
     return 1;
   }

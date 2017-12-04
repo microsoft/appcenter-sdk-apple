@@ -17,6 +17,13 @@
   [super awakeFromNib];
   
   self.typeTextField.delegate = self;
+  [self prepareForReuse];
+}
+
+- (void)prepareForReuse {
+  [super prepareForReuse];
+  
+  self.keyTextField.text = @"";
   self.typeTextField.text = MSCustomPropertyTableViewCell.types[0];
   self.typeTextField.tintColor = [UIColor clearColor];
   
@@ -179,6 +186,41 @@
     view = [view superview];
   }
   return (UITableView *)view;
+}
+
+- (void)setPropertyTo:(MSCustomProperties *)properties {
+  NSInteger selectedType = [MSCustomPropertyTableViewCell.types indexOfObject:self.typeTextField.text];
+  switch (selectedType) {
+      
+    // Clear.
+    case 0:
+      [properties clearPropertyForKey:self.keyTextField.text];
+      break;
+      
+    // String.
+    case 1:
+      [properties setString:self.valueTextField.text forKey:self.keyTextField.text];
+      break;
+      
+    // Number.
+    case 2:
+      {
+        NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+        formatter.numberStyle = NSNumberFormatterDecimalStyle;
+        [properties setNumber:[formatter numberFromString:self.valueTextField.text] forKey:self.keyTextField.text];
+      }
+      break;
+      
+    // Boolean.
+    case 3:
+      [properties setBool:self.boolValue.isOn forKey:self.keyTextField.text];
+      break;
+      
+    // DateTime.
+    case 4:
+      [properties setDate:self.datePickerView.date forKey:self.keyTextField.text];
+      break;
+  }
 }
 
 + (NSArray *)types {
