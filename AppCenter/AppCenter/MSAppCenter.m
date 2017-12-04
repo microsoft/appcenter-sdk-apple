@@ -10,7 +10,6 @@
 #import "MSLogger.h"
 #import "MSStartServiceLog.h"
 #import "MSUtility.h"
-#import "MSUtility+DisableSettings.h"
 #if !TARGET_OS_TV
 #import "MSCustomProperties.h"
 #import "MSCustomPropertiesLog.h"
@@ -270,7 +269,7 @@ static NSString *const kMSGroupId = @"AppCenter";
     }
 
     // Check if service should be disabled
-    if ([MSUtility shouldDisable:[clazz serviceName]]) {
+    if ([self shouldDisable:[clazz serviceName]]) {
       MSLogDebug([MSAppCenter logTag], @"Environment variable to disable service has been set; not starting service %@", clazz);
       return NO;
     }
@@ -454,5 +453,25 @@ static NSString *const kMSGroupId = @"AppCenter";
   [self.logManager suspend];
 }
 #endif
+
+#pragma mark - Disable services for test cloud
+
+/**
+ * Determines whether a service should be disabled.
+ *
+ * @param serviceName The service name to consider for disabling.
+ *
+ * @return YES if the service should be disabled.
+ */
+- (BOOL)shouldDisable:(NSString*)serviceName {
+  NSDictionary *environmentVariables = [[NSProcessInfo processInfo] environment];
+  NSString *disabledServices = environmentVariables[@"APP_CENTER_DISABLE"];
+  if (!disabledServices) {
+    return NO;
+  }
+  NSArray* disabledServicesList = [disabledServices componentsSeparatedByString:@","];
+  return  [disabledServicesList containsObject:serviceName] ||
+  [disabledServicesList containsObject:@"All"];
+}
 
 @end

@@ -304,7 +304,6 @@
 		04F21A071ECB74200074978D /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04F21A041ECB73EE0074978D /* OHHTTPStubs.framework */; };
 		04FD126B1E4103CC007ABFE7 /* MSKeychainUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FD126A1E4103CC007ABFE7 /* MSKeychainUtilTests.m */; };
 		04FD126F1E415697007ABFE7 /* MSLogManagerDefaultPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 04FD126E1E415697007ABFE7 /* MSLogManagerDefaultPrivate.h */; };
-		3565DFF71FD5BE19006A61BE /* MSUtility+DisableSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 3565DFF61FD5BE19006A61BE /* MSUtility+DisableSettings.m */; };
 		3592ABA71DC90E3600EF4592 /* MSLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 3592ABA51DC90E3600EF4592 /* MSLogger.h */; };
 		3592ABA81DC90E3600EF4592 /* MSLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3592ABA61DC90E3600EF4592 /* MSLogger.m */; };
 		35D0B7531DDFABFD003EACCD /* MSWrapperLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 35D0B7511DDFABFD003EACCD /* MSWrapperLogger.h */; };
@@ -586,8 +585,6 @@
 		04F21A041ECB73EE0074978D /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = ../../macOS/OHHTTPStubs/OHHTTPStubs.framework; sourceTree = "<group>"; };
 		04FD126A1E4103CC007ABFE7 /* MSKeychainUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSKeychainUtilTests.m; sourceTree = "<group>"; };
 		04FD126E1E415697007ABFE7 /* MSLogManagerDefaultPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLogManagerDefaultPrivate.h; sourceTree = "<group>"; };
-		3565DFF61FD5BE19006A61BE /* MSUtility+DisableSettings.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "MSUtility+DisableSettings.m"; sourceTree = "<group>"; };
-		3565DFF81FD5BE25006A61BE /* MSUtility+DisableSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MSUtility+DisableSettings.h"; sourceTree = "<group>"; };
 		3592ABA51DC90E3600EF4592 /* MSLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLogger.h; sourceTree = "<group>"; };
 		3592ABA61DC90E3600EF4592 /* MSLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLogger.m; sourceTree = "<group>"; };
 		35D0B7511DDFABFD003EACCD /* MSWrapperLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSWrapperLogger.h; sourceTree = "<group>"; };
@@ -991,8 +988,6 @@
 				B2CD74911F22BE270070E7DF /* MSUtility.m */,
 				B2CD74921F22BE270070E7DF /* MSUtility+Application.h */,
 				B2CD74931F22BE270070E7DF /* MSUtility+Application.m */,
-				3565DFF81FD5BE25006A61BE /* MSUtility+DisableSettings.h */,
-				3565DFF61FD5BE19006A61BE /* MSUtility+DisableSettings.m */,
 				B2CD74941F22BE270070E7DF /* MSUtility+ApplicationPrivate.h */,
 				B2CD74951F22BE270070E7DF /* MSUtility+Date.h */,
 				B2CD74961F22BE270070E7DF /* MSUtility+Date.m */,
@@ -1863,7 +1858,6 @@
 				B2CD745A1F22BB710070E7DF /* MSWrapperSdk.m in Sources */,
 				3844FF201E8C2716003E9194 /* MSDevice.m in Sources */,
 				6E0684641D36BC8D00A8CC6C /* MSChannelDefault.m in Sources */,
-				3565DFF71FD5BE19006A61BE /* MSUtility+DisableSettings.m in Sources */,
 				38C447231ECE5352002E1B11 /* MSAppDelegateForwarder.m in Sources */,
 				E80EB1081D50273700C9003F /* MSSenderCall.m in Sources */,
 				E83283C71D46C62E000B029E /* MS_Reachability.m in Sources */,
