@@ -10,6 +10,7 @@
 #import "MSLogger.h"
 #import "MSStartServiceLog.h"
 #import "MSUtility.h"
+#import "MSUtility+DisableSettings.h"
 #if !TARGET_OS_TV
 #import "MSCustomProperties.h"
 #import "MSCustomPropertiesLog.h"
@@ -265,6 +266,12 @@ static NSString *const kMSGroupId = @"AppCenter";
     if (service.isAvailable) {
 
       // Service already works, we shouldn't send log with this service name
+      return NO;
+    }
+
+    // Check if service should be disabled
+    if ([MSUtility shouldDisable:[clazz serviceName]]) {
+      MSLogDebug([MSAppCenter logTag], @"Environment variable to disable service has been set; not starting service %@", clazz);
       return NO;
     }
 
