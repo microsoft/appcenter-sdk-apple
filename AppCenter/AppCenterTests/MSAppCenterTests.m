@@ -8,6 +8,7 @@
 #import "MSAppCenterPrivate.h"
 #import "MSLogManagerDefault.h"
 #import "MSMockService.h"
+#import "MSMockSecondService.h"
 #import "MSMockUserDefaults.h"
 #import "MSStartServiceLog.h"
 #import "MSTestFrameworks.h"
@@ -152,6 +153,46 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   XCTAssertTrue([[MSAppCenter sdkVersion] isEqualToString:version]);
 }
 
+- (void)testDisableServicesWithEnvironmentVariable {
+  // If
+  setenv("APP_CENTER_DISABLE", "All", 1);
+  [[MSMockService sharedInstance] setStarted:NO];
+  [[MSMockSecondService sharedInstance] setStarted:NO];
+
+  // When
+  [MSAppCenter start:@"AppSecret" withServices:@[MSMockService.class, MSMockSecondService.class]];
+
+  // Then
+  XCTAssertFalse([[MSMockService sharedInstance] started]);
+  XCTAssertFalse([[MSMockSecondService sharedInstance] started]);
+
+  // If
+  setenv("APP_CENTER_DISABLE", "MSMockService", 1);
+  [[MSMockService sharedInstance] setStarted:NO];
+  [[MSMockSecondService sharedInstance] setStarted:NO];
+  [MSAppCenter resetSharedInstance];
+
+  // When
+  [MSAppCenter start:@"AppSecret" withServices:@[MSMockService.class, MSMockSecondService.class]];
+
+  // Then
+  XCTAssertFalse([[MSMockService sharedInstance] started]);
+  XCTAssertTrue([[MSMockSecondService sharedInstance] started]);
+
+  // If
+  setenv("APP_CENTER_DISABLE", "MSMockService,SomeOtherService,MSMockSecondService", 1);
+  [[MSMockService sharedInstance] setStarted:NO];
+  [[MSMockSecondService sharedInstance] setStarted:NO];
+  [MSAppCenter resetSharedInstance];
+
+  // When
+  [MSAppCenter start:@"AppSecret" withServices:@[MSMockService.class, MSMockSecondService.class]];
+
+  // Then
+  XCTAssertFalse([[MSMockService sharedInstance] started]);
+  XCTAssertFalse([[MSMockSecondService sharedInstance] started]);
+}
+      
 #if !TARGET_OS_TV
 - (void)testSetCustomProperties {
 
