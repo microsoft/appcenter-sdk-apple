@@ -25,12 +25,12 @@ static long long const kMSDayInMillisecond =
 /**
  * Base URL for HTTP Distribute install API calls.
  */
-static NSString *const kMSDefaultInstallUrl = @"https://install.mobile.azure.com";
+static NSString *const kMSDefaultInstallUrl = @"https://install.appcenter.ms";
 
 /**
  * Base URL for HTTP Distribute update API calls.
  */
-static NSString *const kMSDefaultApiUrl = @"https://api.mobile.azure.com/v0.1";
+static NSString *const kMSDefaultApiUrl = @"https://api.appcenter.ms/v0.1";
 
 /**
  * Distribute url query parameter key strings.

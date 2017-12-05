@@ -5,6 +5,8 @@
 "MSDistributeAskMeInADay" = "一天内询问我";
 "MSDistributeViewReleaseNotes" = "查看发布说明";
 "MSDistributeClose" = "关闭";
+"MSDistributeIgnore" = "忽略";
+"MSDistributeReinstall" = "重新安装应用程序";
 
 /*
  * Update dialog titles/messages
@@ -13,3 +15,4 @@
 "MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "应用被要求更新为 %@ %@ (%@)。";
 "MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@ (%@) 可供下载和安装。";
 "MSDistributeInAppUpdatesAreDisabled" = "已禁用应用内更新。";
+"MSDistributeInstallFailedMessage" = "此版本要么是侧面加载, 要么是在专用模式下使用浏览器下载的。";

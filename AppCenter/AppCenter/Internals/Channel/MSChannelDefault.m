@@ -77,9 +77,9 @@
       return;
     } else if (self.discardLogs) {
       MSLogWarning([MSAppCenter logTag], @"Channel disabled in log discarding mode, discard this log.");
-      NSError *error = [NSError errorWithDomain:kMSMCErrorDomain
-                                           code:kMSMCConnectionSuspendedErrorCode
-                                       userInfo:@{NSLocalizedDescriptionKey : kMSMCConnectionSuspendedErrorDesc}];
+      NSError *error = [NSError errorWithDomain:kMSACErrorDomain
+                                           code:kMSACConnectionSuspendedErrorCode
+                                       userInfo:@{NSLocalizedDescriptionKey : kMSACConnectionSuspendedErrorDesc}];
       [self notifyFailureBeforeSendingForItem:item withError:error];
 
       // Don't forget to execute the completion block.
@@ -199,7 +199,7 @@
 
                           // Failure.
                           else {
-                            MSLogDebug([MSAppCenter logTag], @"Log(s) sent with failure, batch Id:%@, status code:%lu",
+                            MSLogError([MSAppCenter logTag], @"Log(s) sent with failure, batch Id:%@, status code:%lu",
                                        senderBatchId, (unsigned long)statusCode);
 
                             // Notify delegates.
@@ -288,9 +288,9 @@
     // Even if it's already disabled we might also want to delete logs this time.
     if (!isEnabled && deleteData) {
       MSLogDebug([MSAppCenter logTag], @"Delete all logs for goup Id %@", self.configuration.groupId);
-      NSError *error = [NSError errorWithDomain:kMSMCErrorDomain
-                                           code:kMSMCConnectionSuspendedErrorCode
-                                       userInfo:@{NSLocalizedDescriptionKey : kMSMCConnectionSuspendedErrorDesc}];
+      NSError *error = [NSError errorWithDomain:kMSACErrorDomain
+                                           code:kMSACConnectionSuspendedErrorCode
+                                       userInfo:@{NSLocalizedDescriptionKey : kMSACConnectionSuspendedErrorDesc}];
       [self deleteAllLogsWithErrorSync:error];
 
       // Reset states.

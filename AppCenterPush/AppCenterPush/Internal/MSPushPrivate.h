@@ -2,6 +2,18 @@
 #import "MSPushDelegate.h"
 #import "MSServiceInternal.h"
 
+/**
+ * Keys for payload in push notification.
+ */
+static NSString *const kMSPushNotificationApsKey = @"aps";
+static NSString *const kMSPushNotificationAlertKey = @"alert";
+static NSString *const kMSPushNotificationTitleKey = @"title";
+static NSString *const kMSPushNotificationMessageKey = @"body";
+static NSString *const kMSPushNotificationCustomDataKey = @"appCenter";
+
+// TODO remove this one as soon as the push backend removes it.
+static NSString *const kMSPushNotificationOldCustomDataKey = @"mobile_center";
+
 @protocol MSAppDelegate;
 
 #if TARGET_OS_OSX

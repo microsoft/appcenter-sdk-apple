@@ -42,10 +42,10 @@
   assertThat(actual, notNilValue());
   assertThat(actual[@"address"], equalTo(sut.address));
   assertThat(actual[@"code"], equalTo(sut.code));
-  assertThat(actual[@"class_name"], equalTo(sut.className));
-  assertThat(actual[@"method_name"], equalTo(sut.methodName));
-  assertThat(actual[@"line_number"], equalTo(sut.lineNumber));
-  assertThat(actual[@"file_name"], equalTo(sut.fileName));
+  assertThat(actual[@"className"], equalTo(sut.className));
+  assertThat(actual[@"methodName"], equalTo(sut.methodName));
+  assertThat(actual[@"lineNumber"], equalTo(sut.lineNumber));
+  assertThat(actual[@"fileName"], equalTo(sut.fileName));
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {

@@ -23,7 +23,7 @@ static dispatch_once_t onceToken;
 /**
  * Base URL for HTTP Ingestion backend API calls.
  */
-static NSString *const kMSDefaultBaseUrl = @"https://in.mobile.azure.com";
+static NSString *const kMSDefaultBaseUrl = @"https://in.appcenter.ms";
 
 // Service name for initialization.
 static NSString *const kMSServiceName = @"AppCenter";
@@ -214,7 +214,9 @@ static NSString *const kMSGroupId = @"AppCenter";
   @synchronized(self) {
     BOOL configured = [self configure:appSecret];
     if (configured && services) {
+      MSLogVerbose([MSAppCenter logTag], @"Prepare to start services: %@", [services componentsJoinedByString:@", "]);
       NSArray *sortedServices = [self sortServices:services];
+      MSLogVerbose([MSAppCenter logTag], @"Start services %@", [sortedServices componentsJoinedByString:@", "]);
       NSMutableArray<NSString *> *servicesNames = [NSMutableArray arrayWithCapacity:sortedServices.count];
 
       for (Class service in sortedServices) {
@@ -395,9 +397,11 @@ static NSString *const kMSGroupId = @"AppCenter";
 }
 
 - (void)sendStartServiceLog:(NSArray<NSString *> *)servicesNames {
-  MSStartServiceLog *serviceLog = [MSStartServiceLog new];
-  serviceLog.services = servicesNames;
-  [self.logManager processLog:serviceLog forGroupId:kMSGroupId];
+  if (self.isEnabled) {
+    MSStartServiceLog *serviceLog = [MSStartServiceLog new];
+    serviceLog.services = servicesNames;
+    [self.logManager processLog:serviceLog forGroupId:kMSGroupId];
+  }
 }
 
 #if !TARGET_OS_TV

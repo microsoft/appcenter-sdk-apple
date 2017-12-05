@@ -35,7 +35,6 @@
 		80493AB71F6A701900E6E895 /* MSPushViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 80493AB61F6A701900E6E895 /* MSPushViewController.m */; };
 		808A10FC1EF312A000DFD41B /* MSPropertiesTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 808A10F91EF312A000DFD41B /* MSPropertiesTableDataSource.m */; };
 		808A10FD1EF312A000DFD41B /* MSPropertyViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 808A10FB1EF312A000DFD41B /* MSPropertyViewCell.m */; };
-		B21B26C71DDE490400FF0378 /* MSCrashesDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B21B26C61DDE490400FF0378 /* MSCrashesDetailViewController.m */; };
 		B27397A41DE3D27700AC7761 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B27397A31DE3D27700AC7761 /* CrashLibIOS.framework */; };
 		B27397A51DE3D27700AC7761 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B27397A31DE3D27700AC7761 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B296D4211E5F5DEF0089F013 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B2C070CB1E5F59A90076D6A9 /* AppCenterDistributeResources.bundle */; };
@@ -364,6 +363,7 @@
 		041A4BA81F8C2765009E1B6C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = Puppet/ja.lproj/Puppet.strings; sourceTree = "<group>"; };
 		041A4BA91F8C276C009E1B6C /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = Puppet/ko.lproj/Puppet.strings; sourceTree = "<group>"; };
 		041A4BAA1F8C2775009E1B6C /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = Puppet/pl.lproj/Puppet.strings; sourceTree = "<group>"; };
+		048210561FD0B421006824F7 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = Puppet/pt.lproj/Puppet.strings; sourceTree = "<group>"; };
 		041A4BAB1F8C277D009E1B6C /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = Puppet/ru.lproj/Puppet.strings; sourceTree = "<group>"; };
 		041A4BAC1F8C2787009E1B6C /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = Puppet/tr.lproj/Puppet.strings; sourceTree = "<group>"; };
 		041A4BAD1F8C2791009E1B6C /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "Puppet/zh-Hans.lproj/Puppet.strings"; sourceTree = "<group>"; };
@@ -409,8 +409,6 @@
 		808A10F91EF312A000DFD41B /* MSPropertiesTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSPropertiesTableDataSource.m; path = ../../Vendor/Common/Utils/MSPropertiesTableDataSource.m; sourceTree = "<group>"; };
 		808A10FA1EF312A000DFD41B /* MSPropertyViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSPropertyViewCell.h; path = ../../Vendor/Common/Utils/MSPropertyViewCell.h; sourceTree = "<group>"; };
 		808A10FB1EF312A000DFD41B /* MSPropertyViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSPropertyViewCell.m; path = ../../Vendor/Common/Utils/MSPropertyViewCell.m; sourceTree = "<group>"; };
-		B21B26C51DDE490400FF0378 /* MSCrashesDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashesDetailViewController.h; sourceTree = "<group>"; };
-		B21B26C61DDE490400FF0378 /* MSCrashesDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCrashesDetailViewController.m; sourceTree = "<group>"; };
 		B27397A31DE3D27700AC7761 /* CrashLibIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2E611F41DDE72BA00A9DF86 /* MSFakeCXXClass.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MSFakeCXXClass.mm; sourceTree = "<group>"; };
 		B2E611F51DDE72BA00A9DF86 /* MSFakeCXXClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSFakeCXXClass.h; sourceTree = "<group>"; };
@@ -695,8 +693,6 @@
 				5C2BD19A1ED5D44400FB20C8 /* MSAnalyticsResultViewController.m */,
 				E89E6A2E1D39704900CAA2CD /* MSAnalyticsViewController.h */,
 				E89E6A2F1D39704900CAA2CD /* MSAnalyticsViewController.m */,
-				B21B26C51DDE490400FF0378 /* MSCrashesDetailViewController.h */,
-				B21B26C61DDE490400FF0378 /* MSCrashesDetailViewController.m */,
 				E89E6A281D396D7900CAA2CD /* MSCrashesViewController.h */,
 				E89E6A291D396D7900CAA2CD /* MSCrashesViewController.m */,
 				5CE60DE01EDF0B3C0060303A /* MSCrashResultViewController.h */,
@@ -868,6 +864,7 @@
 				ja,
 				ko,
 				pl,
+				pt,
 				ru,
 				tr,
 				"zh-Hans",
@@ -1160,7 +1157,6 @@
 				E82E1B671D1CA58D00D281C1 /* AppDelegate.m in Sources */,
 				F8FF73DD1E922C9100D2B67D /* MSCustomPropertiesViewController.m in Sources */,
 				E89E6A2D1D396D7900CAA2CD /* MSMainViewController.m in Sources */,
-				B21B26C71DDE490400FF0378 /* MSCrashesDetailViewController.m in Sources */,
 				5C2BD1A31ED5DE5700FB20C8 /* EventLog.m in Sources */,
 				5C2BD19B1ED5D44400FB20C8 /* MSAnalyticsResultViewController.m in Sources */,
 				B2E611F61DDE72BA00A9DF86 /* MSFakeCXXClass.mm in Sources */,
@@ -1258,6 +1254,7 @@
 				041A4BA81F8C2765009E1B6C /* ja */,
 				041A4BA91F8C276C009E1B6C /* ko */,
 				041A4BAA1F8C2775009E1B6C /* pl */,
+				048210561FD0B421006824F7 /* pt */,
 				041A4BAB1F8C277D009E1B6C /* ru */,
 				041A4BAC1F8C2787009E1B6C /* tr */,
 				041A4BAD1F8C2791009E1B6C /* zh-Hans */,
@@ -1387,7 +1384,7 @@
 				INFOPLIST_FILE = PuppetUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.PuppetUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.PuppetUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1405,7 +1402,7 @@
 				INFOPLIST_FILE = PuppetUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.PuppetUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.PuppetUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;

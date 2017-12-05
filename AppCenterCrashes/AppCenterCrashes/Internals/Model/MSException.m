@@ -4,9 +4,9 @@
 static NSString *const kMSExceptionType = @"type";
 static NSString *const kMSMessage = @"message";
 static NSString *const kMSFrames = @"frames";
-static NSString *const kMSStackTrace = @"stack_trace";
-static NSString *const kMSInnerExceptions = @"inner_exceptions";
-static NSString *const kMSWrapperSDKName = @"wrapper_sdk_name";
+static NSString *const kMSStackTrace = @"stackTrace";
+static NSString *const kMSInnerExceptions = @"innerExceptions";
+static NSString *const kMSWrapperSDKName = @"wrapperSdkName";
 
 @implementation MSException
 

@@ -1,5 +1,6 @@
 #import "MSReleaseDetailsPrivate.h"
 #import "MSTestFrameworks.h"
+#import "MSUtility+Date.h"
 
 @interface MSReleaseDetailsTests : XCTestCase
 
@@ -31,7 +32,7 @@
   assertThat(details.minOs, equalTo(@"8.0"));
   assertThatBool(details.mandatoryUpdate, equalToLong(YES));
   assertThat(details.fingerprint, equalTo(@"b10a8db164e0754105b7a99be72e3fe5"));
-  assertThat(details.uploadedAt, equalTo([NSDate dateWithTimeIntervalSince1970:(1483257600)]));
+  assertThat(details.uploadedAt, equalTo([NSDate dateWithTimeIntervalSince1970:(1483228800)]));
   assertThat(details.downloadUrl, equalTo([NSURL URLWithString:@"https://contoso.com/path/download/filename"]));
   XCTAssertNil(details.appIconUrl);
   assertThat(
@@ -58,9 +59,7 @@
   details.minOs = @"iOS 8.0";
   details.mandatoryUpdate = YES;
   details.fingerprint = @"b10a8db164e0754105b7a99be72e3fe5";
-  NSDateFormatter *formatter = [NSDateFormatter new];
-  [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"];
-  details.uploadedAt = [formatter dateFromString:@"2017-01-01T00:00:00.000Z"];
+  details.uploadedAt = [MSUtility dateFromISO8601:@"2017-01-01T00:00:00.000Z"];
   details.downloadUrl = [NSURL URLWithString:@"https://contoso.com/path/download/filename"];
   details.appIconUrl = [NSURL URLWithString:@"https://contoso.com/path/icon/filename"];
   details.installUrl =

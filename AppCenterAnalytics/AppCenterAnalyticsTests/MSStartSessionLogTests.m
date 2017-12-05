@@ -26,7 +26,7 @@
 
   // If
   MSDevice *device = [MSDevice new];
-  NSString *typeName = @"start_session";
+  NSString *typeName = @"startSession";
   NSString *sessionId = @"1234567890";
   NSDate *timestamp = [NSDate dateWithTimeIntervalSince1970:42];
 
@@ -48,7 +48,7 @@
 
   // If
   MSDevice *device = [MSDevice new];
-  NSString *typeName = @"start_session";
+  NSString *typeName = @"startSession";
   NSString *sessionId = @"1234567890";
   NSDate *timestamp = [NSDate dateWithTimeIntervalSince1970:42];
 

@@ -167,10 +167,10 @@
 
   // Then
   assertThat(actual, notNilValue());
-  assertThat(actual[@"file_name"], equalTo(self.sut.filename));
+  assertThat(actual[@"fileName"], equalTo(self.sut.filename));
   assertThat(actual[@"data"],
              equalTo([self.sut.data base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithCarriageReturn]));
-  assertThat(actual[@"content_type"], equalTo(self.sut.contentType));
+  assertThat(actual[@"contentType"], equalTo(self.sut.contentType));
 }
 
 - (void)testNSCodingSerializationAndDeserialization {

@@ -33,14 +33,14 @@
   return delay;
 }
 
-- (void)startTimer {
+- (void)startRetryTimerWithStatusCode:(NSUInteger)statusCode {
   [self resetTimer];
 
   // Create queue.
   self.timerSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, DISPATCH_TARGET_QUEUE_DEFAULT);
   int64_t delta = NSEC_PER_SEC * [self delayForRetryCount:self.retryCount];
-  MSLogDebug([MSAppCenter logTag], @"Call attempt #%lu failed, it will be retried in %.f ms.",
-             (unsigned long)self.retryCount, round(delta / 1000000));
+  MSLogWarning([MSAppCenter logTag], @"Call attempt #%lu failed with status code: %lu, it will be retried in %.f ms.",
+               (unsigned long)self.retryCount, (unsigned long)statusCode, round(delta / 1000000));
   self.retryCount++;
   dispatch_source_set_timer(self.timerSource, dispatch_walltime(NULL, delta), 1ull * NSEC_PER_SEC, 1ull * NSEC_PER_SEC);
   __weak typeof(self) weakSelf = self;
@@ -84,7 +84,7 @@
 
   // Retry.
   else if ([MSSenderUtil isRecoverableError:statusCode] && ![self hasReachedMaxRetries]) {
-    [self startTimer];
+    [self startRetryTimerWithStatusCode:statusCode];
   }
 
   // Callback to Channel.
@@ -94,10 +94,10 @@
     // Wrap the status code in an error whenever the call failed.
     if (!error && statusCode != MSHTTPCodesNo200OK) {
       NSDictionary *userInfo = @{
-        NSLocalizedDescriptionKey : kMSMCConnectionHttpErrorDesc,
-        kMSMCConnectionHttpCodeErrorKey : @(statusCode)
+        NSLocalizedDescriptionKey : kMSACConnectionHttpErrorDesc,
+        kMSACConnectionHttpCodeErrorKey : @(statusCode)
       };
-      error = [NSError errorWithDomain:kMSMCErrorDomain code:kMSMCConnectionHttpErrorCode userInfo:userInfo];
+      error = [NSError errorWithDomain:kMSACErrorDomain code:kMSACConnectionHttpErrorCode userInfo:userInfo];
     }
 
     // Detect fatal error.

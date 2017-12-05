@@ -1,4 +1,3 @@
-#import "MSAlertController.h"
 #import "AppCenterDelegateObjC.h"
 
 @import AppCenter;

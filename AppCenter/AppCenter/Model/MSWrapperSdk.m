@@ -1,12 +1,12 @@
 #import "MSWrapperSdk.h"
 #import "MSWrapperSdkInternal.h"
 
-static NSString *const kMSWrapperSdkVersion = @"wrapper_sdk_version";
-static NSString *const kMSWrapperSdkName = @"wrapper_sdk_name";
-static NSString *const kMSWrapperRuntimeVersion = @"wrapper_runtime_version";
-static NSString *const kMSLiveUpdateReleaseLabel = @"live_update_release_label";
-static NSString *const kMSLiveUpdateDeploymentKey = @"live_update_deployment_key";
-static NSString *const kMSLiveUpdatePackageHash = @"live_update_package_hash";
+static NSString *const kMSWrapperSdkVersion = @"wrapperSdkVersion";
+static NSString *const kMSWrapperSdkName = @"wrapperSdkName";
+static NSString *const kMSWrapperRuntimeVersion = @"wrapperRuntimeVersion";
+static NSString *const kMSLiveUpdateReleaseLabel = @"liveUpdateReleaseLabel";
+static NSString *const kMSLiveUpdateDeploymentKey = @"liveUpdateDeploymentKey";
+static NSString *const kMSLiveUpdatePackageHash = @"liveUpdatePackageHash";
 
 @implementation MSWrapperSdk
 

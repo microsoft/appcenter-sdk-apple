@@ -20,13 +20,13 @@
   // Then
   assertThat(actual, notNilValue());
   assertThat(actual[@"id"], equalTo(sut.binaryId));
-  assertThat(actual[@"start_address"], equalTo(sut.startAddress));
-  assertThat(actual[@"end_address"], equalTo(sut.endAddress));
+  assertThat(actual[@"startAddress"], equalTo(sut.startAddress));
+  assertThat(actual[@"endAddress"], equalTo(sut.endAddress));
   assertThat(actual[@"name"], equalTo(sut.name));
   assertThat(actual[@"path"], equalTo(sut.path));
   assertThat(actual[@"architecture"], equalTo(sut.architecture));
-  assertThat(actual[@"primary_architecture_id"], equalTo(sut.primaryArchitectureId));
-  assertThat(actual[@"architecture_variant_id"], equalTo(sut.architectureVariantId));
+  assertThat(actual[@"primaryArchitectureId"], equalTo(sut.primaryArchitectureId));
+  assertThat(actual[@"architectureVariantId"], equalTo(sut.architectureVariantId));
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {
@@ -104,8 +104,8 @@
 - (MSBinary *)binary {
   MSBinary *binary = [MSBinary new];
   binary.binaryId = @"binaryId";
-  binary.startAddress = @"start_address";
-  binary.endAddress = @"end_address";
+  binary.startAddress = @"startAddress";
+  binary.endAddress = @"endAddress";
   binary.name = @"name";
   binary.path = @"path";
   binary.architecture = @"architecture";

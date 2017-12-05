@@ -164,12 +164,15 @@
 }
 
 - (void)testSelectorForRegisterWithName {
-  NSData *crashData = [[[MSCrashes sharedInstance] plCrashReporter] generateLiveReport];
+  
+  // If
+  NSData *crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:@"live_report_exception"];
   XCTAssertNotNil(crashData);
+  
+  // When
   NSError *error = nil;
   MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
   MSPLCrashReportThreadInfo *crashedThread = [MSErrorLogFormatter findCrashedThreadInReport:report];
-
   MSPLCrashReportRegisterInfo *reg = crashedThread.registers[0];
   [MSErrorLogFormatter selectorForRegisterWithName:reg.registerName ofThread:crashedThread report:report];
 
@@ -178,15 +181,18 @@
 }
 
 - (void)testAddProcessInfoAndApplicationPath {
+  
+  // If
   NSData *crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:@"live_report_exception"];
   XCTAssertNotNil(crashData);
-
+  
+  // When
   NSError *error = nil;
   MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
-
   MSAppleErrorLog *actual = [MSAppleErrorLog new];
   actual = [MSErrorLogFormatter addProcessInfoAndApplicationPathTo:actual fromCrashReport:report];
 
+  // Then
   assertThat(actual.processId, equalTo(@(report.processInfo.processID)));
   XCTAssertEqual(actual.processName, report.processInfo.processName);
   XCTAssertNotNil(actual.applicationPath);

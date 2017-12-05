@@ -8,8 +8,8 @@
 
 @implementation MSIngestionSender
 
-static NSString *const kMSAPIVersion = @"1.0.0-preview20160914";
-static NSString *const kMSAPIVersionKey = @"api_version";
+static NSString *const kMSAPIVersion = @"1.0.0";
+static NSString *const kMSAPIVersionKey = @"api-version";
 static NSString *const kMSApiPath = @"/logs";
 
 - (id)initWithBaseUrl:(NSString *)baseUrl appSecret:(NSString *)appSecret installId:(NSString *)installId {
@@ -39,9 +39,9 @@ static NSString *const kMSApiPath = @"/logs";
    */
   // Verify container.
   if (!container || ![container isValid]) {
-    NSDictionary *userInfo = @{NSLocalizedDescriptionKey : kMSMCLogInvalidContainerErrorDesc};
+    NSDictionary *userInfo = @{NSLocalizedDescriptionKey : kMSACLogInvalidContainerErrorDesc};
     NSError *error =
-        [NSError errorWithDomain:kMSMCErrorDomain code:kMSMCLogInvalidContainerErrorCode userInfo:userInfo];
+        [NSError errorWithDomain:kMSACErrorDomain code:kMSACLogInvalidContainerErrorCode userInfo:userInfo];
     MSLogError([MSAppCenter logTag], @"%@", [error localizedDescription]);
     handler(batchId, nil, nil, error);
     return;

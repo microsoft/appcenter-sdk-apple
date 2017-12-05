@@ -110,6 +110,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
     [MS_USER_DEFAULTS removeObjectForKey:kMSPostponedTimestampKey];
     [MS_USER_DEFAULTS removeObjectForKey:kMSMandatoryReleaseKey];
+    [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateSetupFailedPackageHashKey];
     MSLogInfo([MSDistribute logTag], @"Distribute service has been disabled.");
   }
 }
@@ -358,6 +359,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                    [MS_USER_DEFAULTS removeObjectForKey:kMSSDKHasLaunchedWithDistribute];
                    [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
                    [MS_USER_DEFAULTS removeObjectForKey:kMSPostponedTimestampKey];
+                   [MS_USER_DEFAULTS removeObjectForKey:kMSDistributionGroupIdKey];
                  }
                }
                if (!jsonString) {
@@ -731,10 +733,13 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 }
 
 - (void)showUpdateSetupFailedAlert:(NSString *)errorMessage {
+
+  // Not using the error message coming from backend due to non-localized text.
+  (void)errorMessage;
   dispatch_async(dispatch_get_main_queue(), ^{
     MSAlertController *alertController =
         [MSAlertController alertControllerWithTitle:MSDistributeLocalizedString(@"MSDistributeInAppUpdatesAreDisabled")
-                                            message:errorMessage];
+                                            message:MSDistributeLocalizedString(@"MSDistributeInstallFailedMessage")];
 
     // Add "Ignore" button to the dialog
     [alertController

@@ -24,8 +24,8 @@
   assertThat(actual, notNilValue());
   assertThat(actual[@"type"], equalTo(sut.type));
   assertThat(actual[@"message"], equalTo(sut.message));
-  assertThat(actual[@"stack_trace"], equalTo(sut.stackTrace));
-  assertThat(actual[@"wrapper_sdk_name"], equalTo(sut.wrapperSdkName));
+  assertThat(actual[@"stackTrace"], equalTo(sut.stackTrace));
+  assertThat(actual[@"wrapperSdkName"], equalTo(sut.wrapperSdkName));
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {

@@ -27,7 +27,7 @@
 - (void)testSerializingPushLogToDictionaryWorks {
 
   // If
-  NSString *typeName = @"push_installation";
+  NSString *typeName = @"pushInstallation";
   NSString *pushToken = MS_UUID_STRING;
   self.sut.pushToken = pushToken;
 
@@ -37,13 +37,13 @@
   // Then
   XCTAssertNotNil(pushLogDictionary);
   assertThat(pushLogDictionary[@"type"], equalTo(typeName));
-  assertThat(pushLogDictionary[@"push_token"], equalTo(pushToken));
+  assertThat(pushLogDictionary[@"pushToken"], equalTo(pushToken));
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {
 
   // If
-  NSString *typeName = @"push_installation";
+  NSString *typeName = @"pushInstallation";
   NSString *pushToken = MS_UUID_STRING;
   self.sut.pushToken = pushToken;
 

@@ -26,7 +26,7 @@
 
 - (MSHandledErrorLog *)handledErrorLog {
   MSHandledErrorLog *handledErrorLog = [MSHandledErrorLog new];
-  handledErrorLog.type = @"handled_error";
+  handledErrorLog.type = @"handledError";
   handledErrorLog.exception = [MSCrashesTestUtil exception];
   handledErrorLog.errorId = @"123";
   return handledErrorLog;
@@ -51,7 +51,7 @@
   XCTAssertNotNil(exceptionDictionary);
   assertThat(exceptionDictionary[@"type"], equalTo(self.sut.exception.type));
   assertThat(exceptionDictionary[@"message"], equalTo(self.sut.exception.message));
-  assertThat(exceptionDictionary[@"wrapper_sdk_name"], equalTo(self.sut.exception.wrapperSdkName));
+  assertThat(exceptionDictionary[@"wrapperSdkName"], equalTo(self.sut.exception.wrapperSdkName));
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {

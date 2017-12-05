@@ -4,26 +4,26 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Domain
 
-extern NSString *const kMSMCErrorDomain;
+extern NSString *const kMSACErrorDomain;
 
 #pragma mark - Log
 
 // Error codes
-NS_ENUM(NSInteger){kMSMCLogInvalidContainerErrorCode = 1};
+NS_ENUM(NSInteger){kMSACLogInvalidContainerErrorCode = 1};
 
 // Error descriptions
-extern NSString const *kMSMCLogInvalidContainerErrorDesc;
+extern NSString const *kMSACLogInvalidContainerErrorDesc;
 
 #pragma mark - Connection
 
 // Error codes
-NS_ENUM(NSInteger){kMSMCConnectionSuspendedErrorCode = 100, kMSMCConnectionHttpErrorCode = 101};
+NS_ENUM(NSInteger){kMSACConnectionSuspendedErrorCode = 100, kMSACConnectionHttpErrorCode = 101};
 
 // Error descriptions
-extern NSString const *kMSMCConnectionHttpErrorDesc;
-extern NSString const *kMSMCConnectionSuspendedErrorDesc;
+extern NSString const *kMSACConnectionHttpErrorDesc;
+extern NSString const *kMSACConnectionSuspendedErrorDesc;
 
 // Error user info keys
-extern NSString const *kMSMCConnectionHttpCodeErrorKey;
+extern NSString const *kMSACConnectionHttpCodeErrorKey;
 
 NS_ASSUME_NONNULL_END

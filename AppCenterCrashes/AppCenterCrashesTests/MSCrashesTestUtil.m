@@ -96,7 +96,7 @@
 }
 
 + (MSException *)exception {
-  NSString *type = @"exception_type";
+  NSString *type = @"exceptionType";
   NSString *message = @"message";
   NSString *stackTrace = @"at (wrapper managed-to-native) UIKit.UIApplication:UIApplicationMain "
                          @"(int,string[],intptr,intptr) \n at UIKit.UIApplication.Main (System.String[] args, "

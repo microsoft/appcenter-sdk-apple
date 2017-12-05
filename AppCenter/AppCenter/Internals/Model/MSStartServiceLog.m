@@ -1,6 +1,6 @@
 #import "MSStartServiceLog.h"
 
-static NSString *const kMSStartService = @"start_service";
+static NSString *const kMSStartService = @"startService";
 static NSString *const kMSServices = @"services";
 
 @implementation MSStartServiceLog

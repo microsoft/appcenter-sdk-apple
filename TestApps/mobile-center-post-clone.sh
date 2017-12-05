@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
-# Download Mobile Center SDK frameworks
-curl -O https://mobilecentersdkdev.blob.core.windows.net/sdk/MobileCenter-SDK-Apple.zip
+# Change directory to repository root
+cd ..
+
+# Download App Center SDK frameworks
+curl -O https://mobilecentersdkdev.blob.core.windows.net/sdk/AppCenter-SDK-Apple.zip
 
 # Unzip files to framework location
-unzip MobileCenter-SDK-Apple.zip
+unzip AppCenter-SDK-Apple.zip

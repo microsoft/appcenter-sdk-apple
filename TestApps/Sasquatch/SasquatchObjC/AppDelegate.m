@@ -1,6 +1,8 @@
+#import <MobileCoreServices/MobileCoreServices.h>
+#import <Photos/Photos.h>
 #import "AppCenterDelegateObjC.h"
 #import "AppDelegate.h"
-#import "MSAlertController.h"
+#import "Constants.h"
 
 @import AppCenter;
 @import AppCenterAnalytics;
@@ -20,19 +22,14 @@
   [MSDistribute setDelegate:self];
   [MSPush setDelegate:self];
   [MSAppCenter setLogLevel:MSLogLevelVerbose];
-  
-  // Use integration endpoints.
-  [MSAppCenter setLogUrl:@"https://in-integration.dev.avalanch.es"];
-  [MSDistribute setApiUrl:@"https://asgard-int.trafficmanager.net/api/v0.1"];
-  [MSDistribute setInstallUrl:@"https://install.asgard-int.trafficmanager.net"];
 
 // Start App Center SDK.
 #if DEBUG
-  [MSAppCenter start:@"bb29fdee-f432-49d4-b521-efd9724c0e35"
-           withServices:@[ [MSAnalytics class], [MSCrashes class], [MSPush class] ]];
+  [MSAppCenter start:@"3ccfe7f5-ec01-4de5-883c-f563bbbe147a"
+        withServices:@[ [MSAnalytics class], [MSCrashes class], [MSPush class] ]];
 #else
-  [MSAppCenter start:@"bb29fdee-f432-49d4-b521-efd9724c0e35"
-           withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class] ]];
+  [MSAppCenter start:@"3ccfe7f5-ec01-4de5-883c-f563bbbe147a"
+        withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class] ]];
 #endif
 
   [self crashes];
@@ -76,31 +73,37 @@
   [MSCrashes setUserConfirmationHandler:(^(NSArray<MSErrorReport *> *errorReports) {
 
                // Use MSAlertViewController to show a dialog to the user where they can choose if they want to provide a
-               // crash
-               // report.
-               MSAlertController *alertController = [MSAlertController
+               // crash report.
+               UIAlertController *alertController = [UIAlertController
                    alertControllerWithTitle:@"Sorry about that!"
-                                    message:@"Do you want to send an anonymous crash report so we can fix the issue?"];
+                                    message:@"Do you want to send an anonymous crash report so we can fix the issue?"
+                             preferredStyle:UIAlertControllerStyleAlert];
 
-               // Add a "No"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationDontSend
-               [alertController addCancelActionWithTitle:@"Don't Send"
-                                                 handler:^(UIAlertAction *action) {
-                                                   [MSCrashes notifyWithUserConfirmation:MSUserConfirmationDontSend];
-                                                 }];
+               // Add a "Don't send"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationDontSend
+               [alertController
+                   addAction:[UIAlertAction actionWithTitle:@"Don't send"
+                                                      style:UIAlertActionStyleCancel
+                                                    handler:^(UIAlertAction *action) {
+                                                      [MSCrashes notifyWithUserConfirmation:MSUserConfirmationDontSend];
+                                                    }]];
 
-               // Add a "Yes"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationSend
-               [alertController addDefaultActionWithTitle:@"Send"
-                                                  handler:^(UIAlertAction *action) {
-                                                    [MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
-                                                  }];
+               // Add a "Send"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationSend
+               [alertController
+                   addAction:[UIAlertAction actionWithTitle:@"Send"
+                                                      style:UIAlertActionStyleDefault
+                                                    handler:^(UIAlertAction *action) {
+                                                      [MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
+                                                    }]];
 
-               // Add a "Always"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationAlways
-               [alertController addDefaultActionWithTitle:@"Always Send"
-                                                  handler:^(UIAlertAction *action) {
-                                                    [MSCrashes notifyWithUserConfirmation:MSUserConfirmationAlways];
-                                                  }];
+               // Add a "Always send"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationAlways
+               [alertController
+                   addAction:[UIAlertAction actionWithTitle:@"Always send"
+                                                      style:UIAlertActionStyleDefault
+                                                    handler:^(UIAlertAction *action) {
+                                                      [MSCrashes notifyWithUserConfirmation:MSUserConfirmationAlways];
+                                                    }]];
                // Show the alert controller.
-               [alertController show];
+               [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
 
                return YES;
              })];
@@ -133,44 +136,80 @@
 
 - (NSArray<MSErrorAttachmentLog *> *)attachmentsWithCrashes:(MSCrashes *)crashes
                                              forErrorReport:(MSErrorReport *)errorReport {
-  MSErrorAttachmentLog *attachment1 = [MSErrorAttachmentLog attachmentWithText:@"Hello world!" filename:@"hello.txt"];
-  MSErrorAttachmentLog *attachment2 =
-      [MSErrorAttachmentLog attachmentWithBinary:[@"Fake image" dataUsingEncoding:NSUTF8StringEncoding]
-                                        filename:@"fake_image.jpeg"
-                                     contentType:@"image/jpeg"];
-  return @[ attachment1, attachment2 ];
+  NSMutableArray *attachments = [[NSMutableArray alloc] init];
+  
+  // Text attachment.
+  NSString *text = [[NSUserDefaults standardUserDefaults] objectForKey:@"textAttachment"];
+  if (text != nil && text.length > 0) {
+    MSErrorAttachmentLog *textAttachment = [MSErrorAttachmentLog attachmentWithText:text
+                                                                           filename:@"user.log"];
+    [attachments addObject:textAttachment];
+  }
+  
+  // Binary attachment.
+  NSURL *referenceUrl = [[NSUserDefaults standardUserDefaults] URLForKey:@"fileAttachment"];
+  if (referenceUrl) {
+    PHAsset *asset = [[PHAsset fetchAssetsWithALAssetURLs:@[referenceUrl] options:nil] lastObject];
+    if (asset) {
+      PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
+      options.synchronous = YES;
+      [[PHImageManager defaultManager]
+          requestImageDataForAsset:asset
+                           options:options
+                     resultHandler:^(NSData *_Nullable imageData, NSString *_Nullable dataUTI,
+                                     __unused UIImageOrientation orientation, __unused NSDictionary *_Nullable info) {
+                       CFStringRef UTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef)[dataUTI pathExtension], nil);
+                       NSString *MIMEType = (__bridge_transfer NSString *)UTTypeCopyPreferredTagWithClass(UTI, kUTTagClassMIMEType);
+                       CFRelease(UTI);
+                       MSErrorAttachmentLog *binaryAttachment =
+                           [MSErrorAttachmentLog attachmentWithBinary:imageData filename:dataUTI contentType:MIMEType];
+                       [attachments addObject:binaryAttachment];
+                       NSLog(@"Add binary attachment with %lu bytes", [imageData length]);
+                     }];
+    }
+  }
+  return attachments;
 }
 
 #pragma mark - MSDistributeDelegate
 
 - (BOOL)distribute:(MSDistribute *)distribute releaseAvailableWithDetails:(MSReleaseDetails *)details {
 
-  // Show a dialog to the user where they can choose if they want to update.
-  MSAlertController *alertController = [MSAlertController
-      alertControllerWithTitle:NSLocalizedStringFromTable(@"distribute_alert_title", @"Sasquatch", @"")
-                       message:NSLocalizedStringFromTable(@"distribute_alert_message", @"Sasquatch", @"")];
+  if ([[[NSUserDefaults new] objectForKey:kSASCustomizedUpdateAlertKey] isEqual:@1]) {
 
-  // Add a "Yes"-Button and call the notifyUpdateAction-callback with MSUpdateActionUpdate
-  [alertController addCancelActionWithTitle:NSLocalizedStringFromTable(@"distribute_alert_yes", @"Sasquatch", @"")
-                                    handler:^(UIAlertAction *action) {
-                                      [MSDistribute notifyUpdateAction:MSUpdateActionUpdate];
-                                    }];
+    // Show a dialog to the user where they can choose if they want to update.
+    UIAlertController *alertController = [UIAlertController
+        alertControllerWithTitle:NSLocalizedStringFromTable(@"distribute_alert_title", @"Sasquatch", @"")
+                         message:NSLocalizedStringFromTable(@"distribute_alert_message", @"Sasquatch", @"")
+                  preferredStyle:UIAlertControllerStyleAlert];
 
-  // Add a "No"-Button and call the notifyUpdateAction-callback with MSUpdateActionPostpone
-  [alertController addDefaultActionWithTitle:NSLocalizedStringFromTable(@"distribute_alert_no", @"Sasquatch", @"")
-                                     handler:^(UIAlertAction *action) {
-                                       [MSDistribute notifyUpdateAction:MSUpdateActionPostpone];
-                                     }];
+    // Add a "Yes"-Button and call the notifyUpdateAction-callback with MSUpdateActionUpdate
+    [alertController
+        addAction:[UIAlertAction actionWithTitle:NSLocalizedStringFromTable(@"distribute_alert_yes", @"Sasquatch", @"")
+                                           style:UIAlertActionStyleCancel
+                                         handler:^(UIAlertAction *action) {
+                                           [MSDistribute notifyUpdateAction:MSUpdateActionUpdate];
+                                         }]];
 
-  // Show the alert controller.
-  [alertController show];
-  return YES;
+    // Add a "No"-Button and call the notifyUpdateAction-callback with MSUpdateActionPostpone
+    [alertController
+        addAction:[UIAlertAction actionWithTitle:NSLocalizedStringFromTable(@"distribute_alert_no", @"Sasquatch", @"")
+                                           style:UIAlertActionStyleDefault
+                                         handler:^(UIAlertAction *action) {
+                                           [MSDistribute notifyUpdateAction:MSUpdateActionPostpone];
+                                         }]];
+
+    // Show the alert controller.
+    [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
+    return YES;
+  }
+  return NO;
 }
 
 #pragma mark - MSPushDelegate
 
 - (void)push:(MSPush *)push didReceivePushNotification:(MSPushNotification *)pushNotification {
-  NSString *title = pushNotification.title;
+  NSString *title = pushNotification.title ?: @"";
   NSString *message = pushNotification.message;
   NSMutableString *customData = nil;
   for (NSString *key in pushNotification.customData) {
@@ -183,12 +222,13 @@
   } else {
     message = [NSString stringWithFormat:@"%@%@%@", (message ? message : @""), (message && customData ? @"\n" : @""),
                                          (customData ? customData : @"")];
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                    message:message
-                                                   delegate:self
-                                          cancelButtonTitle:@"OK"
-                                          otherButtonTitles:nil];
-    [alert show];
+
+    UIAlertController *alertController =
+        [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
+
+    // Show the alert controller.
+    [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
   }
 }
 

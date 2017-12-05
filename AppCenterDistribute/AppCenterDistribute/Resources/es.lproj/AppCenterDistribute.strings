@@ -5,6 +5,8 @@
 "MSDistributeAskMeInADay" = "Preguntarme dentro de un día";
 "MSDistributeViewReleaseNotes" = "Ver notas de la versión";
 "MSDistributeClose" = "Cerrar";
+"MSDistributeIgnore" = "Ignorar";
+"MSDistributeReinstall" = "Volver a instalar la aplicación";
 
 /*
  * Update dialog titles/messages
@@ -13,3 +15,4 @@
 "MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "Los desarrolladores de esta aplicación indican que debe actualizar a %@ %@ (%@).";
 "MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@ (%@) está disponible para descargarlo e instalarlo.";
 "MSDistributeInAppUpdatesAreDisabled" = "Las actualizaciones en la aplicación están deshabilitadas.";
+"MSDistributeInstallFailedMessage" = "Esta versión se cargó a un lado o se descargó usando un navegador en modo privado.";

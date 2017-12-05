@@ -117,11 +117,6 @@ typedef struct MSCrashesCallbacks {
 @property(nonatomic) NSUncaughtExceptionHandler *exceptionHandler;
 
 /**
- * A flag that indicates that crashes are currently sent to the backend.
- */
-@property(nonatomic) BOOL sendingInProgress;
-
-/**
  * Temporary storage for crashes logs to handle user confirmation and callbacks.
  */
 @property NSMutableArray *unprocessedLogs;

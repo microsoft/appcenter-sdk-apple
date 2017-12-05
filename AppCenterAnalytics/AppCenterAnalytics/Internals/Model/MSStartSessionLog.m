@@ -1,6 +1,6 @@
 #import "MSStartSessionLog.h"
 
-static NSString *const kMSTypeEndSession = @"start_session";
+static NSString *const kMSTypeEndSession = @"startSession";
 
 @implementation MSStartSessionLog
 

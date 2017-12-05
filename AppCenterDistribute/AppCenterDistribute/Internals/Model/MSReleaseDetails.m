@@ -1,5 +1,6 @@
 #import "MSDistributionGroup.h"
 #import "MSReleaseDetailsPrivate.h"
+#import "MSUtility+Date.h"
 
 static NSString *const kMSId = @"id";
 static NSString *const kMSStatus = @"status";
@@ -65,10 +66,8 @@ static NSString *const kMSPackageHashes = @"package_hashes";
       self.fingerprint = dictionary[kMSFingerprint];
     }
     if (dictionary[kMSUploadedAt]) {
-      NSDateFormatter *formatter = [NSDateFormatter new];
-      [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"];
       NSString *_Nonnull uploadedAt = (NSString * _Nonnull)dictionary[kMSUploadedAt];
-      self.uploadedAt = [formatter dateFromString:uploadedAt];
+      self.uploadedAt = [MSUtility dateFromISO8601:uploadedAt];
     }
     if (dictionary[kMSDownloadUrl]) {
       if ([dictionary[kMSDownloadUrl] isKindOfClass:[NSNull class]]) {
@@ -149,9 +148,7 @@ static NSString *const kMSPackageHashes = @"package_hashes";
     dictionary[kMSFingerprint] = self.fingerprint;
   }
   if (self.uploadedAt) {
-    NSDateFormatter *formatter = [NSDateFormatter new];
-    [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"];
-    dictionary[kMSUploadedAt] = [formatter stringFromDate:(NSDate * _Nonnull)self.uploadedAt];
+    dictionary[kMSUploadedAt] = [MSUtility dateToISO8601:(NSDate * _Nonnull)self.uploadedAt];
   }
   if (self.downloadUrl) {
     dictionary[kMSDownloadUrl] = [self.downloadUrl absoluteString];

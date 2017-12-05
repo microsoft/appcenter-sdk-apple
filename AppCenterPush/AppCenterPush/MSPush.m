@@ -29,15 +29,6 @@ static NSString *const kMSGroupId = @"Push";
  */
 static NSString *const kMSPushServiceStorageKey = @"pushServiceStorageKey";
 
-/**
- * Keys for payload in push notification.
- */
-static NSString *const kMSPushNotificationApsKey = @"aps";
-static NSString *const kMSPushNotificationAlertKey = @"alert";
-static NSString *const kMSPushNotificationTitleKey = @"title";
-static NSString *const kMSPushNotificationMessageKey = @"body";
-static NSString *const kMSPushNotificationCustomDataKey = @"app_center";
-
 #if TARGET_OS_OSX
 /**
  * Key for NSUserNotificationCenter delegate property.
@@ -316,8 +307,8 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
   NSDictionary *aps = [userInfo objectForKey:kMSPushNotificationApsKey];
   NSObject *alert;
 
-  // The notification is not for Mobile Center if customData is nil. Ignore the notification.
-  customData = [userInfo objectForKey:kMSPushNotificationCustomDataKey];
+  // The notification is not for App Center if customData is nil. Ignore the notification.
+  customData = [userInfo objectForKey:kMSPushNotificationCustomDataKey]?:[userInfo objectForKey:kMSPushNotificationOldCustomDataKey];
   customData = ([customData isKindOfClass:[NSDictionary<NSString *, NSString *> class]]) ? customData : nil;
   if (customData) {
 

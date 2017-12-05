@@ -1,7 +1,7 @@
 #import "MSCustomPropertiesLog.h"
 #import "MSUtility+Date.h"
 
-static NSString *const kMSCustomProperties = @"custom_properties";
+static NSString *const kMSCustomProperties = @"customProperties";
 static NSString *const kMSProperties = @"properties";
 static NSString *const kMSPropertyType = @"type";
 static NSString *const kMSPropertyName = @"name";
@@ -9,7 +9,7 @@ static NSString *const kMSPropertyValue = @"value";
 static NSString *const kMSPropertyTypeClear = @"clear";
 static NSString *const kMSPropertyTypeBoolean = @"boolean";
 static NSString *const kMSPropertyTypeNumber = @"number";
-static NSString *const kMSPropertyTypeDateTime = @"date_time";
+static NSString *const kMSPropertyTypeDateTime = @"dateTime";
 static NSString *const kMSPropertyTypeString = @"string";
 
 @implementation MSCustomPropertiesLog

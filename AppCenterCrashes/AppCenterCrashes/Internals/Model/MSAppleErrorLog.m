@@ -3,16 +3,16 @@
 #import "MSException.h"
 #import "MSThread.h"
 
-static NSString *const kMSTypeError = @"apple_error";
-static NSString *const kMSPrimaryArchitectureId = @"primary_architecture_id";
-static NSString *const kMSArchitectureVariantId = @"architecture_variant_id";
-static NSString *const kMSApplicationPath = @"application_path";
-static NSString *const kMSOsExceptionType = @"os_exception_type";
-static NSString *const kMSOsExceptionCode = @"os_exception_code";
-static NSString *const kMSOsExceptionAddress = @"os_exception_address";
-static NSString *const kMSExceptionType = @"exception_type";
-static NSString *const kMSExceptionReason = @"exception_reason";
-static NSString *const kMSSelectorRegisterValue = @"selector_register_value";
+static NSString *const kMSTypeError = @"appleError";
+static NSString *const kMSPrimaryArchitectureId = @"primaryArchitectureId";
+static NSString *const kMSArchitectureVariantId = @"architectureVariantId";
+static NSString *const kMSApplicationPath = @"applicationPath";
+static NSString *const kMSOsExceptionType = @"osExceptionType";
+static NSString *const kMSOsExceptionCode = @"osExceptionCode";
+static NSString *const kMSOsExceptionAddress = @"osExceptionAddress";
+static NSString *const kMSExceptionType = @"exceptionType";
+static NSString *const kMSExceptionReason = @"exceptionReason";
+static NSString *const kMSSelectorRegisterValue = @"selectorRegisterValue";
 static NSString *const kMSThreads = @"threads";
 static NSString *const kMSBinaries = @"binaries";
 static NSString *const kMSRegisters = @"registers";

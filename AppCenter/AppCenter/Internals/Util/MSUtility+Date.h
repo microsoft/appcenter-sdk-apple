@@ -32,4 +32,11 @@ extern NSString *MSUtilityDateCategory;
  */
 + (NSString *)dateToISO8601:(NSDate *)date;
 
+/**
+ * Convert an ISO 8601 formatted string to a date object.
+ *
+ * @return a date object.
+ */
++ (NSDate *)dateFromISO8601:(NSString *)string;
+
 @end

@@ -4,18 +4,18 @@
 
 #pragma mark - Domain
 
-NSString *const kMSMCErrorDomain = MS_APP_CENTER_BASE_DOMAIN @"ErrorDomain";
+NSString *const kMSACErrorDomain = MS_APP_CENTER_BASE_DOMAIN @"ErrorDomain";
 
 #pragma mark - Log
 
 // Error descriptions
-NSString const *kMSMCLogInvalidContainerErrorDesc = @"Invalid log container";
+NSString const *kMSACLogInvalidContainerErrorDesc = @"Invalid log container";
 
 #pragma mark - Connection
 
 // Error descriptions
-NSString const *kMSMCConnectionHttpErrorDesc = @"An HTTP error occured.";
-NSString const *kMSMCConnectionSuspendedErrorDesc = @"Cancelled, connection suspended with log deletion.";
+NSString const *kMSACConnectionHttpErrorDesc = @"An HTTP error occured.";
+NSString const *kMSACConnectionSuspendedErrorDesc = @"Cancelled, connection suspended with log deletion.";
 
 // Error user info keys
-NSString const *kMSMCConnectionHttpCodeErrorKey = MS_APP_CENTER_BASE_DOMAIN "HttpCodeKey";
+NSString const *kMSACConnectionHttpCodeErrorKey = MS_APP_CENTER_BASE_DOMAIN "HttpCodeKey";
