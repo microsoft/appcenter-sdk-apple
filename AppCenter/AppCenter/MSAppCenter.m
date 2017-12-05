@@ -338,8 +338,6 @@ static NSString *const kMSGroupId = @"AppCenter";
 
   // Remove all notification handlers
   [MS_NOTIFICATION_CENTER removeObserver:self];
-
-  // Hookup to application life-cycle events
   if (!isEnabled) {
 
     // Clean device history in case we are disabled.

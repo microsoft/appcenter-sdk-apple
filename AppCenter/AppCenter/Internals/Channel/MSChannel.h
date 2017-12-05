@@ -8,8 +8,8 @@
 #import "MSSenderDelegate.h"
 #import "MSStorage.h"
 
-@protocol MSChannelDelegate;
 @protocol MSChannel;
+@protocol MSChannelDelegate;
 
 NS_ASSUME_NONNULL_BEGIN
 
