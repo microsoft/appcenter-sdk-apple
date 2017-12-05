@@ -12,8 +12,6 @@
 		046790431E8DA7E90033FDEC /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046790411E8DA7D80033FDEC /* AppCenterPush.framework */; };
 		047D13721EAFBDBE00D699BA /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 047D13711EAFBDBE00D699BA /* AppCenterDistributeResources.bundle */; };
 		048933631F8D395A00C38A87 /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
-		048EB9A11F86F4B7007620A0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 048EB9A01F86F4B7007620A0 /* LaunchScreen.storyboard */; };
-		048EB9A21F86F4B7007620A0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 048EB9A01F86F4B7007620A0 /* LaunchScreen.storyboard */; };
 		5CE2587F1EA5F60200DA8FB9 /* DistributeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE2587D1EA5F5FC00DA8FB9 /* DistributeUITests.swift */; };
 		5CE258801EA5F60500DA8FB9 /* CrashesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE2587B1EA5F5EB00DA8FB9 /* CrashesUITests.swift */; };
 		5CE258811EA5F60900DA8FB9 /* AnalyticsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE258791EA5F5DF00DA8FB9 /* AnalyticsUITests.swift */; };
@@ -54,8 +52,6 @@
 		84A0FF6A1E8A87C9000E7A28 /* MSAnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */; };
 		84A0FF6C1E8A87E1000E7A28 /* MSDistributeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */; };
 		84A0FF6D1E8A87E1000E7A28 /* MSDistributeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */; };
-		84D63FF71E8BA838004C9F86 /* MSCrashesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D63FF61E8BA838004C9F86 /* MSCrashesDetailViewController.swift */; };
-		84D63FF81E8BA838004C9F86 /* MSCrashesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D63FF61E8BA838004C9F86 /* MSCrashesDetailViewController.swift */; };
 		84D63FF91E8BAA90004C9F86 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845964A91E8A7E6600BABA51 /* Main.storyboard */; };
 		B27424851EF2193E00F591E5 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 047D13711EAFBDBE00D699BA /* AppCenterDistributeResources.bundle */; };
 		B2B36CE21EEF49B700230341 /* MSCustomPropertiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */; };
@@ -76,6 +72,8 @@
 		D31EF96C1E9517C600450162 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31EF96B1E9517C600450162 /* NotificationController.swift */; };
 		D31EF96E1E9517C600450162 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D31EF96D1E9517C600450162 /* Assets.xcassets */; };
 		D31EF9721E9517C600450162 /* SasquatchWatchSwift.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = D31EF9541E9517C500450162 /* SasquatchWatchSwift.app */; };
+		F809D5041FC6DA2B005E0F83 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F809D5021FC6DA2B005E0F83 /* LaunchScreen.storyboard */; };
+		F809D5051FC6DD80005E0F83 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F809D5021FC6DA2B005E0F83 /* LaunchScreen.storyboard */; };
 		F89D79091E93DA3A0094521F /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F89D79081E93DA3A0094521F /* CrashLibIOS.framework */; };
 		F89D790A1E93DA3A0094521F /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F89D79081E93DA3A0094521F /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F89D790C1E93DA500094521F /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F89D79081E93DA3A0094521F /* CrashLibIOS.framework */; };
@@ -206,6 +204,7 @@
 		041A4BB71F8C2A5A009E1B6C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Sasquatch.strings; sourceTree = "<group>"; };
 		041A4BB81F8C2A60009E1B6C /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Sasquatch.strings; sourceTree = "<group>"; };
 		041A4BB91F8C2A69009E1B6C /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Sasquatch.strings; sourceTree = "<group>"; };
+		0482105C1FD0B611006824F7 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Sasquatch.strings; sourceTree = "<group>"; };
 		041A4BBA1F8C2A74009E1B6C /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Sasquatch.strings; sourceTree = "<group>"; };
 		041A4BBB1F8C2A7B009E1B6C /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Sasquatch.strings; sourceTree = "<group>"; };
 		041A4BBC1F8C2A84009E1B6C /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Sasquatch.strings"; sourceTree = "<group>"; };
@@ -216,7 +215,6 @@
 		046790441E8DA8D50033FDEC /* SasquatchSwift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchSwift.entitlements; sourceTree = "<group>"; };
 		046790451E8DA8DD0033FDEC /* SasquatchObjC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchObjC.entitlements; sourceTree = "<group>"; };
 		047D13711EAFBDBE00D699BA /* AppCenterDistributeResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AppCenterDistributeResources.bundle; path = "../AppCenter-SDK-Apple/iOS/AppCenterDistributeResources.bundle"; sourceTree = "<group>"; };
-		048EB9A01F86F4B7007620A0 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		384929201FACF5DA003F8736 /* SasquatchWatchObjC Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SasquatchWatchObjC Extension.entitlements"; sourceTree = SOURCE_ROOT; };
 		384929211FACF5F3003F8736 /* SasquatchWatchSwift Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SasquatchWatchSwift Extension.entitlements"; sourceTree = SOURCE_ROOT; };
 		5CD700E51EA4B74500FC5D12 /* SasquatchSwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchSwiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -256,7 +254,6 @@
 		84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSCrashesViewController.swift; sourceTree = "<group>"; };
 		84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSAnalyticsViewController.swift; sourceTree = "<group>"; };
 		84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSDistributeViewController.swift; sourceTree = "<group>"; };
-		84D63FF61E8BA838004C9F86 /* MSCrashesDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSCrashesDetailViewController.swift; sourceTree = "<group>"; };
 		B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSCustomPropertiesViewController.swift; sourceTree = "<group>"; };
 		D31EF9291E9517B500450162 /* SasquatchWatchObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchWatchObjC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D31EF92C1E9517B600450162 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
@@ -283,6 +280,7 @@
 		D31EF96B1E9517C600450162 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		D31EF96D1E9517C600450162 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D31EF96F1E9517C600450162 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F809D5031FC6DA2B005E0F83 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F89D79081E93DA3A0094521F /* CrashLibIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -449,7 +447,6 @@
 				84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */,
 				84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */,
 				84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */,
-				84D63FF61E8BA838004C9F86 /* MSCrashesDetailViewController.swift */,
 				B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */,
 				803CFF261F6A7E1D0072B9BA /* MSPushViewController.swift */,
 			);
@@ -459,8 +456,8 @@
 		84226CB11E8909F700798417 /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
+				F809D5021FC6DA2B005E0F83 /* LaunchScreen.storyboard */,
 				845964A91E8A7E6600BABA51 /* Main.storyboard */,
-				048EB9A01F86F4B7007620A0 /* LaunchScreen.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -811,6 +808,7 @@
 				ja,
 				ko,
 				pl,
+				pt,
 				ru,
 				tr,
 				"zh-Hans",
@@ -855,7 +853,7 @@
 				041A4BB11F8C28A3009E1B6C /* Sasquatch.strings in Resources */,
 				84226C561E88FF4A00798417 /* Assets.xcassets in Resources */,
 				047D13721EAFBDBE00D699BA /* AppCenterDistributeResources.bundle in Resources */,
-				048EB9A11F86F4B7007620A0 /* LaunchScreen.storyboard in Resources */,
+				F809D5041FC6DA2B005E0F83 /* LaunchScreen.storyboard in Resources */,
 				845964AB1E8A7E6600BABA51 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -867,7 +865,7 @@
 				048933631F8D395A00C38A87 /* Sasquatch.strings in Resources */,
 				B27424851EF2193E00F591E5 /* AppCenterDistributeResources.bundle in Resources */,
 				84226C8A1E8908CA00798417 /* Assets.xcassets in Resources */,
-				048EB9A21F86F4B7007620A0 /* LaunchScreen.storyboard in Resources */,
+				F809D5051FC6DD80005E0F83 /* LaunchScreen.storyboard in Resources */,
 				84D63FF91E8BAA90004C9F86 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -933,7 +931,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84D63FF71E8BA838004C9F86 /* MSCrashesDetailViewController.swift in Sources */,
 				803CFF271F6A7E1D0072B9BA /* MSPushViewController.swift in Sources */,
 				849A3E721E8A9922008711CB /* AppCenterProtocol.swift in Sources */,
 				845964AD1E8A7E9700BABA51 /* MSMainViewController.swift in Sources */,
@@ -964,7 +961,6 @@
 				845178ED1E8A8B0D004A0A6F /* MSMainViewController.swift in Sources */,
 				808A11051EF31D2800DFD41B /* MSPropertyViewCell.m in Sources */,
 				84226D3F1E8939B700798417 /* AppCenterDelegateSwift.swift in Sources */,
-				84D63FF81E8BA838004C9F86 /* MSCrashesDetailViewController.swift in Sources */,
 				84A0FF6D1E8A87E1000E7A28 /* MSDistributeViewController.swift in Sources */,
 				84226C831E8908CA00798417 /* AppDelegate.swift in Sources */,
 			);
@@ -1038,6 +1034,7 @@
 				041A4BB71F8C2A5A009E1B6C /* ja */,
 				041A4BB81F8C2A60009E1B6C /* ko */,
 				041A4BB91F8C2A69009E1B6C /* pl */,
+				0482105C1FD0B611006824F7 /* pt */,
 				041A4BBA1F8C2A74009E1B6C /* ru */,
 				041A4BBB1F8C2A7B009E1B6C /* tr */,
 				041A4BBC1F8C2A84009E1B6C /* zh-Hans */,
@@ -1068,6 +1065,14 @@
 				D31EF9571E9517C500450162 /* Base */,
 			);
 			name = Interface.storyboard;
+			sourceTree = "<group>";
+		};
+		F809D5021FC6DA2B005E0F83 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F809D5031FC6DA2B005E0F83 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

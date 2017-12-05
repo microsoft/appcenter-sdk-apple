@@ -15,3 +15,4 @@
 "MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "이 앱의 개발자가 %@ %@(%@)(으)로 업데이트를 요구합니다.";
 "MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@(%@)을(를) 다운로드하여 설치할 수 있습니다.";
 "MSDistributeInAppUpdatesAreDisabled" = "인앱 업데이트 비활성";
+"MSDistributeInstallFailedMessage" = "이 릴리스는 사이드 로딩 또는 개인정보 보호 브라우징 모드에서 다운로드 되었습니다.";

@@ -141,9 +141,38 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 - (void)testDeviceLocale {
 
   // If
-  NSString *expected = @"en-US";
-  NSLocale *localeMock = OCMClassMock([NSLocale class]);
-  OCMStub([localeMock objectForKey:NSLocaleIdentifier]).andReturn(expected);
+  NSString *expected = @"en_US";
+  id localeMock = OCMClassMock([NSLocale class]);
+  OCMStub([localeMock preferredLanguages]).andReturn(@[ @"en-US" ]);
+
+  // When
+  NSString *locale = [self.sut locale:localeMock];
+
+  // Then
+  assertThat(locale, is(expected));
+}
+
+- (void)testDeviceLocaleWithScriptCode {
+
+  // If
+  NSString *expected = @"zh-Hans_CN";
+  id localeMock = OCMClassMock([NSLocale class]);
+  OCMStub([localeMock preferredLanguages]).andReturn(@[ @"zh-Hans-CN" ]);
+
+  // When
+  NSString *locale = [self.sut locale:localeMock];
+
+  // Then
+  assertThat(locale, is(expected));
+}
+
+- (void)testDeviceLocaleWithoutCountryCode {
+
+  // If
+  NSString *expected = @"zh-Hant_CN";
+  id localeMock = OCMClassMock([NSLocale class]);
+  OCMStub([localeMock preferredLanguages]).andReturn(@[ @"zh-Hant" ]);
+  OCMStub([localeMock objectForKey:NSLocaleCountryCode]).andReturn(@"CN");
 
   // When
   NSString *locale = [self.sut locale:localeMock];

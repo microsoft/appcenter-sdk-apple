@@ -15,3 +15,4 @@
 "MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "Bu uygulamanın geliştiricileri %@ %@ (%@) sürümüne güncelleştirmenizi gerektiriyor.";
 "MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@ (%@), indirme ve yükleme için hazır.";
 "MSDistributeInAppUpdatesAreDisabled" = "Uygulama içi güncelleştirmeler devre dışı.";
+"MSDistributeInstallFailedMessage" = "Bu sürüm ya yan yüklenen veya özel modda bir tarayıcı kullanılarak indirilmiş.";

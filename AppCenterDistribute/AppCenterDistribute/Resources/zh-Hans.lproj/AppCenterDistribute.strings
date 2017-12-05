@@ -15,3 +15,4 @@
 "MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "应用被要求更新为 %@ %@ (%@)。";
 "MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@ (%@) 可供下载和安装。";
 "MSDistributeInAppUpdatesAreDisabled" = "已禁用应用内更新。";
+"MSDistributeInstallFailedMessage" = "此版本要么是侧面加载, 要么是在专用模式下使用浏览器下载的。";
