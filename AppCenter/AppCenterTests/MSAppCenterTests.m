@@ -167,7 +167,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   XCTAssertFalse([[MSMockSecondService sharedInstance] started]);
 
   // If
-  setenv("APP_CENTER_DISABLE", "MSMockService", 1);
+  setenv("APP_CENTER_DISABLE", "MockService", 1);
   [[MSMockService sharedInstance] setStarted:NO];
   [[MSMockSecondService sharedInstance] setStarted:NO];
   [MSAppCenter resetSharedInstance];
@@ -180,7 +180,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   XCTAssertTrue([[MSMockSecondService sharedInstance] started]);
 
   // If
-  setenv("APP_CENTER_DISABLE", "MSMockService,SomeOtherService,MSMockSecondService", 1);
+  setenv("APP_CENTER_DISABLE", "MockService,SomeOtherService,MockSecondService", 1);
   [[MSMockService sharedInstance] setStarted:NO];
   [[MSMockSecondService sharedInstance] setStarted:NO];
   [MSAppCenter resetSharedInstance];
@@ -191,6 +191,8 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   // Then
   XCTAssertFalse([[MSMockService sharedInstance] started]);
   XCTAssertFalse([[MSMockSecondService sharedInstance] started]);
+
+  setenv("APP_CENTER_DISABLE", "", 1);
 }
       
 #if !TARGET_OS_TV
