@@ -31,12 +31,6 @@ static NSString *const kMSServiceName = @"AppCenter";
 // The group Id for storage.
 static NSString *const kMSGroupId = @"AppCenter";
 
-// Name of the environment variable to check for which services should be disabled.
-static NSString *const kMSDisableVariable = @"APP_CENTER_DISABLE";
-
-// Value that would cause all services to be disabled.
-static NSString *const kMSDisableAll = @"All";
-
 @implementation MSAppCenter
 
 @synthesize installId = _installId;
@@ -475,6 +469,7 @@ static NSString *const kMSDisableAll = @"All";
   if (!disabledServices) {
     return NO;
   }
+  disabledServices = [disabledServices stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
   NSArray* disabledServicesList = [disabledServices componentsSeparatedByString:@","];
   return [disabledServicesList containsObject:serviceName] || [disabledServicesList containsObject:kMSDisableAll];
 }
