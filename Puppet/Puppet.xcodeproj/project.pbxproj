@@ -54,6 +54,7 @@
 		E89E6A2D1D396D7900CAA2CD /* MSMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89E6A2B1D396D7900CAA2CD /* MSMainViewController.m */; };
 		E89E6A301D39704900CAA2CD /* MSAnalyticsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89E6A2F1D39704900CAA2CD /* MSAnalyticsViewController.m */; };
 		F85AAE251E890226006797CA /* MSDeviceInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F85AAE241E890226006797CA /* MSDeviceInfoViewController.m */; };
+		F8F73BD41FD803C200CB7144 /* MSCustomPropertyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F8F73BD31FD803C200CB7144 /* MSCustomPropertyTableViewCell.m */; };
 		F8FF73DD1E922C9100D2B67D /* MSCustomPropertiesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F8FF73DC1E922C9100D2B67D /* MSCustomPropertiesViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -434,6 +435,8 @@
 		E89E6A2F1D39704900CAA2CD /* MSAnalyticsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAnalyticsViewController.m; sourceTree = "<group>"; };
 		F85AAE231E890226006797CA /* MSDeviceInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDeviceInfoViewController.h; sourceTree = "<group>"; };
 		F85AAE241E890226006797CA /* MSDeviceInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDeviceInfoViewController.m; sourceTree = "<group>"; };
+		F8F73BA71FD803C200CB7144 /* MSCustomPropertyTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCustomPropertyTableViewCell.h; sourceTree = "<group>"; };
+		F8F73BD31FD803C200CB7144 /* MSCustomPropertyTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCustomPropertyTableViewCell.m; sourceTree = "<group>"; };
 		F8FF73DB1E922C9100D2B67D /* MSCustomPropertiesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCustomPropertiesViewController.h; sourceTree = "<group>"; };
 		F8FF73DC1E922C9100D2B67D /* MSCustomPropertiesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCustomPropertiesViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -699,6 +702,8 @@
 				5CE60DF01EDF0B670060303A /* MSCrashResultViewController.m */,
 				F8FF73DB1E922C9100D2B67D /* MSCustomPropertiesViewController.h */,
 				F8FF73DC1E922C9100D2B67D /* MSCustomPropertiesViewController.m */,
+				F8F73BA71FD803C200CB7144 /* MSCustomPropertyTableViewCell.h */,
+				F8F73BD31FD803C200CB7144 /* MSCustomPropertyTableViewCell.m */,
 				F85AAE231E890226006797CA /* MSDeviceInfoViewController.h */,
 				F85AAE241E890226006797CA /* MSDeviceInfoViewController.m */,
 				BA68238A942EEAA10612D006 /* MSDistributeViewController.h */,
@@ -1152,6 +1157,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8F73BD41FD803C200CB7144 /* MSCustomPropertyTableViewCell.m in Sources */,
 				F85AAE251E890226006797CA /* MSDeviceInfoViewController.m in Sources */,
 				38E1B65A1DDCDDF4000EFED1 /* MSAlertController.m in Sources */,
 				E82E1B671D1CA58D00D281C1 /* AppDelegate.m in Sources */,
