@@ -469,8 +469,14 @@ static NSString *const kMSGroupId = @"AppCenter";
   if (!disabledServices) {
     return NO;
   }
-  disabledServices = [disabledServices stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-  NSArray* disabledServicesList = [disabledServices componentsSeparatedByString:@","];
+  NSMutableArray* disabledServicesList = [NSMutableArray arrayWithArray:[disabledServices componentsSeparatedByString:@","]];
+
+  // Trim whitespace characters.
+  for (NSUInteger i = 0; i < [disabledServicesList count]; ++i) {
+    NSString *service = [disabledServicesList objectAtIndex:i];
+    service = [service stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    [disabledServicesList replaceObjectAtIndex:i withObject:service];
+  }
   return [disabledServicesList containsObject:serviceName] || [disabledServicesList containsObject:kMSDisableAll];
 }
 
