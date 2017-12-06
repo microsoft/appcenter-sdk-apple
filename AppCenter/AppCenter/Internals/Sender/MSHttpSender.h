@@ -33,9 +33,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  *  Send data to backend
- * @param data A data instance that will be transformed request body.
- * @param callId A unique ID that identify a request.
- * @param handler Completion handler
+ * @param data A data instance that will be transformed into a request body.
+ * @param callId A unique ID that identifies a request.
+ * @param handler The completion handler that will be executed.
  */
 - (void)sendAsync:(NSObject *)data callId:(NSString *)callId completionHandler:(MSSendAsyncCompletionHandler)handler;
 

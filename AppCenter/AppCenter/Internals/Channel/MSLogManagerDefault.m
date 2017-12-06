@@ -39,6 +39,14 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
     _delegates = [NSHashTable weakObjectsHashTable];
     _sender = sender;
     _storage = storage;
+    _remainedChannelsCount = 0;
+#if !TARGET_OS_OSX
+    _backgroundTaskIdentifier = UIBackgroundTaskInvalid;
+    _backgroundTaskLockToken = [NSObject new];
+    _appDidEnterBackgroundObserver = nil;
+    _appWillEnterForegroundObserver = nil;
+    [self addObservers];
+#endif
   }
   return self;
 }
@@ -101,7 +109,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
                             withBlock:^(id<MSLogManagerDelegate> delegate) {
 
                               /*
-                               * If the delegate doesn't have groupId implementation, it assumes that the delegate is
+                               * If the delegate doesn't have a groupId implementation, it assumes that the delegate is
                                * interested in all kinds of logs. Otherwise, compare groupId.
                                */
                               if (![delegate respondsToSelector:@selector(groupId)] ||
@@ -116,7 +124,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
                             withBlock:^(id<MSLogManagerDelegate> delegate) {
 
                               /*
-                               * If the delegate doesn't have groupId implementation, it assumes that the delegate is
+                               * If the delegate doesn't have a groupId implementation, it assumes that the delegate is
                                * interested in all kinds of logs. Otherwise, compare groupId.
                                */
                               if (![delegate respondsToSelector:@selector(groupId)] ||
@@ -184,6 +192,21 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
                                       }];
           }
         }];
+  
+  /*
+   * If the app is in the background we need:
+   * - Immediately stop flushing the channel;
+   * - Keep background task while sending;
+   */
+#if !TARGET_OS_OSX
+  if (!MS_IS_APP_EXTENSION) {
+    UIApplication *sharedApplication = [MSUtility sharedApplication];
+    if (sharedApplication && sharedApplication.applicationState == MSApplicationStateBackground) {
+      [self beginBackgroundActivity];
+      [self stopFlushingChannel:groupId];
+    }
+  }
+#endif
 }
 
 #pragma mark - Enable / Disable
@@ -198,6 +221,14 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
     // Propagate to initialized channels.
     for (NSString *groupId in self.channels) {
       [self.channels[groupId] setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
+    }
+
+    // Own enable logic.
+    if (isEnabled) {
+      [self addObservers];
+    } else {
+      [self endBackgroundActivity];
+      [self removeObservers];
     }
 
     // If requested, also delete logs from not started services.
@@ -223,24 +254,155 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
   }
 }
 
-#pragma mark - Suspend / Resume
+#pragma mark - Object life cycle
 
-- (void)suspend {
-
-  // Disable sender, sending log will not be possible but they'll still be stored.
-  [self.sender setEnabled:NO andDeleteDataOnDisabled:NO];
+- (void)dealloc {
+  [self removeObservers];
 }
 
-- (void)resume {
+#pragma mark – Observers
 
-  // Resume sender, logs can be sent again. Pending logs are sent.
-  [self.sender setEnabled:YES andDeleteDataOnDisabled:NO];
+- (void)addObservers {
+
+// There is no need to do trigger sending on macOS because we can just continue to execute tasks there.
+#if !TARGET_OS_OSX
+  if (!MS_IS_APP_EXTENSION) {
+    @synchronized(self.backgroundTaskLockToken) {
+      self.backgroundTaskIdentifier = UIBackgroundTaskInvalid;
+      __weak typeof(self) weakSelf = self;
+      if (self.appDidEnterBackgroundObserver == nil) {
+        void (^notificationBlock)(NSNotification *note) = ^(NSNotification __unused *note) {
+          typeof(self) strongSelf = weakSelf;
+          if (!strongSelf) {
+            return;
+          }
+          [strongSelf beginBackgroundActivity];
+
+          // There is now extended time to flush the last few logs from the channels.
+          for (NSString *groupId in strongSelf.channels) {
+            [strongSelf stopFlushingChannel:groupId];
+          }
+        };
+        self.appDidEnterBackgroundObserver =
+          [MS_NOTIFICATION_CENTER addObserverForName:UIApplicationDidEnterBackgroundNotification
+                                              object:nil
+                                               queue:NSOperationQueue.mainQueue
+                                          usingBlock:notificationBlock];
+      }
+      if (self.appWillEnterForegroundObserver == nil) {
+        void (^notificationBlock)(NSNotification *note) = ^(NSNotification __unused *note) {
+          dispatch_async(self.logsDispatchQueue, ^{
+            typeof(self) strongSelf = weakSelf;
+            if (strongSelf) {
+              @synchronized(strongSelf.backgroundTaskLockToken) {
+                
+                // In foreground now, cancel any pending background task.
+                [strongSelf endBackgroundActivity];
+              }
+            }
+          });
+        };
+        self.appWillEnterForegroundObserver =
+            [MS_NOTIFICATION_CENTER addObserverForName:UIApplicationWillEnterForegroundNotification
+                                                object:nil
+                                                 queue:NSOperationQueue.mainQueue
+                                            usingBlock:notificationBlock];
+      }
+    }
+  }
+#endif
+}
+
+- (void)removeObservers {
+#if !TARGET_OS_OSX
+  if (!MS_IS_APP_EXTENSION) {
+    id strongBackgroundObserver = self.appDidEnterBackgroundObserver;
+    if (strongBackgroundObserver) {
+      [MS_NOTIFICATION_CENTER removeObserver:strongBackgroundObserver];
+      self.appDidEnterBackgroundObserver = nil;
+    }
+    id strongForegroundObserver = self.appWillEnterForegroundObserver;
+    if (strongForegroundObserver) {
+      [MS_NOTIFICATION_CENTER removeObserver:strongForegroundObserver];
+      self.appWillEnterForegroundObserver = nil;
+    }
+  }
+#endif
 }
 
 #pragma mark - Other public methods
 
 - (void)setLogUrl:(NSString *)logUrl {
   self.sender.baseURL = logUrl;
+}
+
+#pragma mark - Other private methods
+
+- (void)stopFlushingChannel:(NSString *)groupId {
+  __weak typeof(self) weakSelf = self;
+  self.remainedChannelsCount++;
+  MSLogDebug([MSAppCenter logTag], @"Stop flushing channel: %@", groupId);
+  [self.channels[groupId] stopFlushingWithCompletion:^() {
+    typeof(self) strongSelf = weakSelf;
+    if (!strongSelf) {
+      return;
+    }
+    self.remainedChannelsCount--;
+
+    // All channels have finished flushing.
+    if (strongSelf.remainedChannelsCount == 0) {
+      @synchronized(strongSelf.backgroundTaskLockToken) {
+        [strongSelf endBackgroundActivity];
+      }
+    }
+  }];
+}
+
+- (void)beginBackgroundActivity {
+#if !TARGET_OS_OSX
+  if (!MS_IS_APP_EXTENSION) {
+    __weak typeof(self) weakSelf = self;
+
+    /*
+     * From the documentation for applicationDidEnterBackground:
+     * It's likely any background tasks you start in applicationDidEnterBackground: will not run until after
+     * that method exits, you should request additional background execution time before starting those tasks.
+     * In other words, first call beginBackgroundTaskWithExpirationHandler: and then run the task on a
+     * dispatch queue or secondary thread.
+     */
+    UIApplication *sharedApplication = [MSUtility sharedApplication];
+
+    // Checking if sharedApplication is != nil as it can be nil for extensions.
+    if (sharedApplication && self.backgroundTaskIdentifier == UIBackgroundTaskInvalid) {
+      self.backgroundTaskIdentifier = [sharedApplication beginBackgroundTaskWithExpirationHandler:^{
+        typeof(self) strongSelf = weakSelf;
+        if (!strongSelf) {
+          return;
+        }
+        @synchronized(strongSelf.backgroundTaskLockToken) {
+          MSLogDebug([MSAppCenter logTag], @"Background task has expired.");
+          [strongSelf endBackgroundActivity];
+        }
+      }];
+      MSLogDebug([MSAppCenter logTag], @"Background task has began.");
+    }
+  }
+#endif
+}
+
+- (void)endBackgroundActivity {
+#if !TARGET_OS_OSX
+  if (!MS_IS_APP_EXTENSION) {
+
+    // Invalidate background task.
+    UIApplication *sharedApplication = [MSUtility sharedApplication];
+    if (sharedApplication && (self.backgroundTaskIdentifier != UIBackgroundTaskInvalid)) {
+      [sharedApplication endBackgroundTask:self.backgroundTaskIdentifier];
+      self.backgroundTaskIdentifier = UIBackgroundTaskInvalid;
+      MSLogDebug([MSAppCenter logTag], @"Background task invalidated.");
+    }
+  }
+#endif
 }
 
 @end

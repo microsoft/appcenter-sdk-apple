@@ -9,7 +9,7 @@
 #import "MSHttpSender.h"
 #import "MSLogContainer.h"
 #import "MSTestFrameworks.h"
-#import "MSUtility.h"
+#import "MSUtility+Application.h"
 
 static NSString *const kMSTestGroupId = @"GroupId";
 
@@ -54,6 +54,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 - (void)tearDown {
   // Put teardown code here. This method is called after the invocation of each
   // test method in the class.
+  self.channelEndJobExpectation = nil;
   [super tearDown];
 }
 
@@ -64,6 +65,9 @@ static NSString *const kMSTestGroupId = @"GroupId";
   assertThat(self.sut.configuration, equalTo(self.configMock));
   assertThat(self.sut.sender, equalTo(self.senderMock));
   assertThat(self.sut.storage, equalTo(self.storageMock));
+#if !TARGET_OS_OSX
+  assertThat(self.sut.stopFlushingCompletion, notNilValue());
+#endif
   assertThatUnsignedLong(self.sut.itemsCount, equalToInt(0));
 }
 
@@ -807,6 +811,242 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  // Check the callbacks were invoked for logs.
                                  OCMVerify([delegateMock channel:sut willSendLog:mockLog]);
                                  OCMVerify([delegateMock channel:sut didFailSendingLog:mockLog withError:anything()]);
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)testStopFlushingWithNoLogsToSend {
+
+  /*
+   * The channel is asked to stop flushing and doesn't have any logs to send.
+   * The channel must be not suspended and notify ASAP.
+   */
+
+  // If
+  MSChannelDefault *channelMock = OCMPartialMock(self.sut);
+  short batchSizeLimit = 20;
+  [self initChannelEndJobExpectation];
+  OCMExpect([self.senderMock suspend]);
+  __block BOOL completionExecuted = NO;
+
+  // Mock empty storage.
+  OCMStub([self.storageMock loadLogsWithGroupId:OCMOCK_ANY limit:batchSizeLimit withCompletion:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        MSLoadDataCompletionBlock loadCallback;
+        [invocation getArgument:&loadCallback atIndex:4];
+        loadCallback(nil, nil);
+      });
+  MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithGroupId:kMSTestGroupId
+                                                                          priority:MSPriorityDefault
+                                                                     flushInterval:5.0
+                                                                    batchSizeLimit:batchSizeLimit
+                                                               pendingBatchesLimit:10];
+  channelMock.configuration = config;
+  [channelMock setEnabled:YES];
+
+  // When
+  [channelMock stopFlushingWithCompletion:^() {
+    if (completionExecuted) {
+      XCTFail(@"Completion block must not be executed twice");
+    } else {
+      completionExecuted = YES;
+      [self enqueueChannelEndJobExpectation];
+    }
+  }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+
+                                 // Verify flushQueue was called and channel isn't suspended.
+                                 OCMVerify([channelMock flushQueue]);
+                                 assertThatBool(channelMock.suspended, isFalse());
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)testStopFlushingWithALogToSend {
+
+  /*
+   * The channel is asked to stop flushing but still has a log to send.
+   * A 200 response is received so it must be not suspended and notify.
+   */
+
+  // If
+  MSChannelDefault *channelMock = OCMPartialMock(self.sut);
+  short batchSizeLimit = 20;
+  id mockLog = [self getValidMockLog];
+  [self initChannelEndJobExpectation];
+  __block MSSendAsyncCompletionHandler senderBlock;
+  __block BOOL completionExecuted = NO;
+  OCMExpect([self.senderMock suspend]);
+  OCMStub([self.senderMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    MSSendAsyncCompletionHandler block;
+    [invocation retainArguments];
+    [invocation getArgument:&block atIndex:3];
+    senderBlock = block;
+  });
+
+  // Load a log from the storage.
+  OCMStub([self.storageMock
+      loadLogsWithGroupId:OCMOCK_ANY
+                    limit:batchSizeLimit
+           withCompletion:([OCMArg invokeBlockWithArgs:((NSArray<id<MSLog>> *)@[ mockLog ]), @"1", nil])]);
+  MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithGroupId:kMSTestGroupId
+                                                                          priority:MSPriorityDefault
+                                                                     flushInterval:5.0
+                                                                    batchSizeLimit:batchSizeLimit
+                                                               pendingBatchesLimit:10];
+  // Configure channel not to flush to quickly.
+  channelMock.configuration = config;
+
+  // When
+  [channelMock enqueueItem:mockLog
+            withCompletion:^(__unused BOOL success) {
+              [channelMock stopFlushingWithCompletion:^() {
+                if (completionExecuted) {
+                  XCTFail(@"Completion block must not be executed twice");
+                } else {
+                  completionExecuted = YES;
+                  [self enqueueChannelEndJobExpectation];
+                }
+              }];
+              dispatch_async(self.logsDispatchQueue, ^{
+                senderBlock([@(1) stringValue], 200, nil, nil);
+              });
+            }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+
+                                 // Verify flushQueue was called and channel isn't suspended.
+                                 OCMVerify([channelMock flushQueue]);
+                                 assertThatBool(channelMock.suspended, isFalse());
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)testStopFlushingWithALogToSendButNetworkWontAnswer {
+
+  /*
+   * The channel is asked to stop flushing but still has a log to send.
+   * No response from the network, channel won't suspend or notify yet.
+   */
+
+  // If
+  MSChannelDefault *channelMock = OCMPartialMock(self.sut);
+  short batchSizeLimit = 20;
+  id mockLog = [self getValidMockLog];
+  [self initChannelEndJobExpectation];
+  OCMStub([self.senderMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY])
+      .andDo(^(__unused NSInvocation *invocation) {
+        [self enqueueChannelEndJobExpectation];
+      });
+
+  // Load a log from the storage.
+  OCMStub([self.storageMock
+      loadLogsWithGroupId:OCMOCK_ANY
+                    limit:batchSizeLimit
+           withCompletion:([OCMArg invokeBlockWithArgs:((NSArray<id<MSLog>> *)@[ mockLog ]), @"1", nil])]);
+
+  // Configure channel not to flush to quickly.
+  MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithGroupId:kMSTestGroupId
+                                                                          priority:MSPriorityDefault
+                                                                     flushInterval:5.0
+                                                                    batchSizeLimit:batchSizeLimit
+                                                               pendingBatchesLimit:10];
+  channelMock.configuration = config;
+  [channelMock setEnabled:YES];
+
+  // When
+  [channelMock enqueueItem:mockLog
+            withCompletion:^(__attribute__((unused)) BOOL success) {
+              [channelMock stopFlushingWithCompletion:^() {
+                XCTFail(@"Channel did not finish flushing logs.");
+              }];
+            }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+
+                                 // Verify flushQueue was called but channel is not suspended.
+                                 OCMVerify([channelMock flushQueue]);
+                                 assertThatBool(channelMock.suspended, isFalse());
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)testStopFlushingWhenItsAlreadyGoing {
+  
+  /*
+   * The channel is asked to stop flushing twice in row.
+   * All calls must be notified.
+   */
+  
+  // If
+  MSChannelDefault *channelMock = OCMPartialMock(self.sut);
+  short batchSizeLimit = 20;
+  id mockLog = [self getValidMockLog];
+  [self initChannelEndJobExpectation];
+  __block MSSendAsyncCompletionHandler senderBlock;
+  __block NSInteger completionExecuted1 = 0;
+  __block NSInteger completionExecuted2 = 0;
+  OCMExpect([self.senderMock suspend]);
+  OCMStub([self.senderMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    MSSendAsyncCompletionHandler block;
+    [invocation retainArguments];
+    [invocation getArgument:&block atIndex:3];
+    senderBlock = block;
+  });
+  
+  // Load a log from the storage.
+  OCMStub([self.storageMock
+      loadLogsWithGroupId:OCMOCK_ANY
+                    limit:batchSizeLimit
+           withCompletion:([OCMArg invokeBlockWithArgs:((NSArray<id<MSLog>> *)@[ mockLog ]), @"1", nil])]);
+  MSChannelConfiguration *config = [[MSChannelConfiguration alloc] initWithGroupId:kMSTestGroupId
+                                                                          priority:MSPriorityDefault
+                                                                     flushInterval:5.0
+                                                                    batchSizeLimit:batchSizeLimit
+                                                               pendingBatchesLimit:10];
+  channelMock.configuration = config;
+  
+  // When
+  [channelMock enqueueItem:mockLog
+            withCompletion:^(__unused BOOL success) {
+              [channelMock stopFlushingWithCompletion:^() {
+                completionExecuted1++;
+              }];
+              [channelMock stopFlushingWithCompletion:^() {
+                completionExecuted2++;
+              }];
+              dispatch_async(self.logsDispatchQueue, ^{
+                senderBlock([@(1) stringValue], 200, nil, nil);
+                [self enqueueChannelEndJobExpectation];
+              });
+            }];
+  
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 
+                                 // Verify flushQueue was called and channel isn't suspended.
+                                 OCMVerify([channelMock flushQueue]);
+                                 assertThatBool(channelMock.suspended, isFalse());
+                                 
+                                 // Verify completion block execution.
+                                 assertThatLong(completionExecuted1, equalToInt(1));
+                                 assertThatLong(completionExecuted2, equalToInt(1));
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }

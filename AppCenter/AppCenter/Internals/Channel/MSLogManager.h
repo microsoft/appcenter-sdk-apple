@@ -63,16 +63,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData forGroupId:(NSString *)groupId;
 
-/**
- * Suspend log manager, logs will not be sent but still stored.
- */
-- (void)suspend;
-
-/**
- * Resume log manager, logs can be sent again.
- */
-- (void)resume;
-
 @end
 
 NS_ASSUME_NONNULL_END

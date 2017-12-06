@@ -2,6 +2,7 @@
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterInternal.h"
 #import "MSChannelDefaultPrivate.h"
+#import "MSUtility+Application.h"
 
 @implementation MSChannelDefault
 
@@ -16,8 +17,9 @@
     _pendingBatchQueueFull = NO;
     _availableBatchFromStorage = NO;
     _enabled = YES;
-
+    _suspended = NO;
     _delegates = [NSHashTable weakObjectsHashTable];
+    _stopFlushingCompletion = [NSMutableArray new];
   }
   return self;
 }
@@ -59,7 +61,7 @@
 
 #pragma mark - Managing queue
 
-- (void)enqueueItem:(id<MSLog>)item withCompletion:(enqueueCompletionBlock)completion {
+- (void)enqueueItem:(id<MSLog>)item withCompletion:(MSEnqueueCompletionBlock)completion {
 
   // Return fast in case our item is empty or we are discarding logs right now.
   dispatch_async(self.logsDispatchQueue, ^{
@@ -123,6 +125,7 @@
       self.availableBatchFromStorage = YES;
       self.itemsCount = 0;
     }
+    [self stopFlushingIfApplicable];
     return;
   }
 
@@ -216,10 +219,14 @@
                               self.pendingBatchQueueFull = NO;
                             }
                           }
-                        } else
+                        } else {
                           MSLogWarning([MSAppCenter logTag], @"Batch Id %@ not expected, ignore.", senderBatchId);
+                        }
+                        [self stopFlushingIfApplicable];
                       });
                     }];
+             } else {
+               [self stopFlushingIfApplicable];
              }
            }];
 
@@ -233,7 +240,6 @@
 
 - (void)startTimer {
   [self resetTimer];
-
   self.timerSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, self.logsDispatchQueue);
 
   /**
@@ -271,9 +277,7 @@
     if (self.enabled != isEnabled) {
       self.enabled = isEnabled;
       if (isEnabled) {
-        if (!self.sender.suspended) {
-          [self resume];
-        }
+        [self resumeSync];
       } else {
         [self suspend];
       }
@@ -281,7 +285,7 @@
 
     // Even if it's already disabled we might also want to delete logs this time.
     if (!isEnabled && deleteData) {
-      MSLogDebug([MSAppCenter logTag], @"Delete all logs for goup Id %@", self.configuration.groupId);
+      MSLogDebug([MSAppCenter logTag], @"Delete all logs for group Id %@", self.configuration.groupId);
       NSError *error = [NSError errorWithDomain:kMSACErrorDomain
                                            code:kMSACConnectionSuspendedErrorCode
                                        userInfo:@{NSLocalizedDescriptionKey : kMSACConnectionSuspendedErrorDesc}];
@@ -311,11 +315,32 @@
 }
 
 - (void)resume {
-  if (self.suspended && self.enabled) {
+  __weak typeof(self) weakSelf = self;
+  dispatch_async(self.logsDispatchQueue, ^{
+    typeof(self) strongSelf = weakSelf;
+    [strongSelf resumeSync];
+  });
+}
+
+- (void)resumeSync {
+  if (!self.sender.suspended && self.enabled) {
     MSLogDebug([MSAppCenter logTag], @"Resume channel for group Id %@.", self.configuration.groupId);
     self.suspended = NO;
     [self flushQueue];
   }
+}
+
+- (void)stopFlushingWithCompletion:(MSStopFlushingCompletionBlock)completion {
+  __weak typeof(self) weakSelf = self;
+  dispatch_async(self.logsDispatchQueue, ^{
+    typeof(self) strongSelf = weakSelf;
+    
+    // Add completion block.
+    [strongSelf.stopFlushingCompletion addObject:completion];
+
+    // Trigger a flush now.
+    [strongSelf flushQueue];
+  });
 }
 
 #pragma mark - Storage
@@ -354,9 +379,7 @@
 
 - (void)senderDidResume:(id<MSSender>)sender {
   (void)sender;
-  dispatch_async(self.logsDispatchQueue, ^{
-    [self resume];
-  });
+  [self resume];
 }
 
 - (void)senderDidReceiveFatalError:(id<MSSender>)sender {
@@ -386,6 +409,20 @@
     // Call didFailSendingLog
     if (delegate && [delegate respondsToSelector:@selector(channel:didFailSendingLog:withError:)])
       [delegate channel:self didFailSendingLog:item withError:error];
+  }
+}
+
+- (void)stopFlushingIfApplicable {
+
+  /*
+   * If the channel is expected to stop flushing and doesn't have any pending
+   * batches or is suspended then it can notify that it has stopped flushing.
+   */
+  if (self.pendingBatchIds.count == 0 || self.suspended) {
+    for (MSStopFlushingCompletionBlock completion in self.stopFlushingCompletion) {
+      completion();
+    }
+    [self.stopFlushingCompletion removeAllObjects];
   }
 }
 
