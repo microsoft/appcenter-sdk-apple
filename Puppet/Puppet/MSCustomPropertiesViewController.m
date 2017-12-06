@@ -7,6 +7,8 @@
 #import "MSCustomPropertiesViewController.h"
 #import "MSCustomPropertyTableViewCell.h"
 
+static NSInteger kPropertiesSection = 0;
+
 @interface MSCustomPropertiesViewController ()
 
 @property (nonatomic) NSInteger propertiesCount;
@@ -25,31 +27,10 @@
 - (IBAction)send {
   MSCustomProperties *customProperties = [MSCustomProperties new];
   for (int i = 0; i < self.propertiesCount; i++) {
-    MSCustomPropertyTableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+    MSCustomPropertyTableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:kPropertiesSection]];
     [cell setPropertyTo:customProperties];
   }
   [MSAppCenter setCustomProperties:customProperties];
-}
-
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView
-           editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-  if ([self isInsertRowAtIndexPath:indexPath]) {
-    return UITableViewCellEditingStyleInsert;
-  } else {
-    return UITableViewCellEditingStyleDelete;
-  }
-}
-
-- (void)tableView:(UITableView *)tableView
-    commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
-     forRowAtIndexPath:(NSIndexPath *)indexPath {
-  if (editingStyle == UITableViewCellEditingStyleDelete) {
-    self.propertiesCount--;
-    [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-  } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-    self.propertiesCount++;
-    [tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-  }
 }
 
 - (NSString *)cellIdentifierForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -65,15 +46,24 @@
 }
 
 - (BOOL)isInsertRowAtIndexPath:(NSIndexPath *)indexPath {
-  return indexPath.section == 0 &&
+  return indexPath.section == kPropertiesSection &&
          indexPath.row == [self tableView:self.tableView numberOfRowsInSection:indexPath.section] - 1;
 }
 
 - (BOOL)isPropertiesRowSection:(NSInteger)section {
-  return section == 0;
+  return section == kPropertiesSection;
 }
 
 #pragma mark - Table view delegate
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView
+           editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+  if ([self isInsertRowAtIndexPath:indexPath]) {
+    return UITableViewCellEditingStyleInsert;
+  } else {
+    return UITableViewCellEditingStyleDelete;
+  }
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -107,11 +97,23 @@
   return [self isPropertiesRowSection:indexPath.section];
 }
 
+- (void)tableView:(UITableView *)tableView
+    commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
+     forRowAtIndexPath:(NSIndexPath *)indexPath {
+  if (editingStyle == UITableViewCellEditingStyleDelete) {
+    self.propertiesCount--;
+    [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+  } else if (editingStyle == UITableViewCellEditingStyleInsert) {
+    self.propertiesCount++;
+    [tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+  }
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   NSString *cellIdentifier = [self cellIdentifierForRowAtIndexPath:indexPath];
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
   if (cell == nil) {
-    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
+    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
   }
   return cell;
 }
