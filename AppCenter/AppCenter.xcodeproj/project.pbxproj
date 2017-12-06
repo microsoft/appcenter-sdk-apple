@@ -306,6 +306,9 @@
 		04FD126F1E415697007ABFE7 /* MSLogManagerDefaultPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 04FD126E1E415697007ABFE7 /* MSLogManagerDefaultPrivate.h */; };
 		3592ABA71DC90E3600EF4592 /* MSLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 3592ABA51DC90E3600EF4592 /* MSLogger.h */; };
 		3592ABA81DC90E3600EF4592 /* MSLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3592ABA61DC90E3600EF4592 /* MSLogger.m */; };
+		35C0E3CB1FD6146A004E841E /* MSMockSecondService.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C0E3C91FD6146A004E841E /* MSMockSecondService.m */; };
+		35C0E3CC1FD6146A004E841E /* MSMockSecondService.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C0E3C91FD6146A004E841E /* MSMockSecondService.m */; };
+		35C0E3CD1FD6146A004E841E /* MSMockSecondService.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C0E3C91FD6146A004E841E /* MSMockSecondService.m */; };
 		35D0B7531DDFABFD003EACCD /* MSWrapperLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 35D0B7511DDFABFD003EACCD /* MSWrapperLogger.h */; };
 		35D0B7541DDFABFD003EACCD /* MSWrapperLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D0B7521DDFABFD003EACCD /* MSWrapperLogger.m */; };
 		380A4DCB1DD6908A00E99219 /* MSUtilityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 380A4DCA1DD6908A00E99219 /* MSUtilityTests.m */; };
@@ -587,6 +590,8 @@
 		04FD126E1E415697007ABFE7 /* MSLogManagerDefaultPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLogManagerDefaultPrivate.h; sourceTree = "<group>"; };
 		3592ABA51DC90E3600EF4592 /* MSLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLogger.h; sourceTree = "<group>"; };
 		3592ABA61DC90E3600EF4592 /* MSLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLogger.m; sourceTree = "<group>"; };
+		35C0E3C91FD6146A004E841E /* MSMockSecondService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSMockSecondService.m; sourceTree = "<group>"; };
+		35C0E3CA1FD6146A004E841E /* MSMockSecondService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSMockSecondService.h; sourceTree = "<group>"; };
 		35D0B7511DDFABFD003EACCD /* MSWrapperLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSWrapperLogger.h; sourceTree = "<group>"; };
 		35D0B7521DDFABFD003EACCD /* MSWrapperLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSWrapperLogger.m; sourceTree = "<group>"; };
 		380A4DCA1DD6908A00E99219 /* MSUtilityTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSUtilityTests.m; sourceTree = "<group>"; };
@@ -1115,6 +1120,8 @@
 				D377A30C1E83A05900B2C97A /* MSMockUserDefaults.m */,
 				805F3F691F209C8A00B489E4 /* MSMockService.h */,
 				805F3F6A1F209C9D00B489E4 /* MSMockService.m */,
+				35C0E3CA1FD6146A004E841E /* MSMockSecondService.h */,
+				35C0E3C91FD6146A004E841E /* MSMockSecondService.m */,
 				04311FEE1EE083C2007054C5 /* MSTestFrameworks.h */,
 			);
 			path = Util;
@@ -1748,6 +1755,7 @@
 				0446DF171F3B864600C8E338 /* MSServiceAbstractTests.m in Sources */,
 				0446DF181F3B864600C8E338 /* MSChannelConfigurationTests.m in Sources */,
 				0446DF191F3B864600C8E338 /* MSLoggerTests.m in Sources */,
+				35C0E3CB1FD6146A004E841E /* MSMockSecondService.m in Sources */,
 				0446DF1B1F3B864600C8E338 /* MSSenderUtilTests.m in Sources */,
 				0446DF1C1F3B864600C8E338 /* MSMockLog.m in Sources */,
 				0446DF1D1F3B864600C8E338 /* MSLogManagerDefaultTests.m in Sources */,
@@ -1772,6 +1780,7 @@
 				04A140891ECE63C3001CEE94 /* MSLoggerTests.m in Sources */,
 				046AEAE31ECA562A00CBE511 /* MSKeychainUtilTests.m in Sources */,
 				04A1408B1ECE63CB001CEE94 /* MSIngestionSenderTests.m in Sources */,
+				35C0E3CC1FD6146A004E841E /* MSMockSecondService.m in Sources */,
 				046AEAE41ECA562A00CBE511 /* MSStartServiceLogTests.m in Sources */,
 				0446DF331F3B870A00C8E338 /* MSLogDBStorageTests.m in Sources */,
 				046AEAE61ECA562A00CBE511 /* MSChannelConfigurationTests.m in Sources */,
@@ -1887,6 +1896,7 @@
 				B2FD53651E567BCF0050F909 /* MSDeviceHistoryInfoTests.m in Sources */,
 				380A4DCB1DD6908A00E99219 /* MSUtilityTests.m in Sources */,
 				3849BA7E1EF3489D0072E3E0 /* MSDBStorageTests.m in Sources */,
+				35C0E3CD1FD6146A004E841E /* MSMockSecondService.m in Sources */,
 				E829E4231D25C8BA00F19DA1 /* MSIngestionSenderTests.m in Sources */,
 				805F3F6B1F209C9D00B489E4 /* MSMockService.m in Sources */,
 				E88EBBFB1D2C8CC7007E7785 /* MSLogContainerTests.m in Sources */,

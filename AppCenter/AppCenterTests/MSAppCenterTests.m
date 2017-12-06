@@ -8,6 +8,7 @@
 #import "MSAppCenterPrivate.h"
 #import "MSLogManagerDefault.h"
 #import "MSMockService.h"
+#import "MSMockSecondService.h"
 #import "MSMockUserDefaults.h"
 #import "MSStartServiceLog.h"
 #import "MSTestFrameworks.h"
@@ -152,6 +153,68 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   XCTAssertTrue([[MSAppCenter sdkVersion] isEqualToString:version]);
 }
 
+- (void)testDisableServicesWithEnvironmentVariable {
+  const char* disableVariableCstr = [kMSDisableVariable UTF8String];
+  const char* disableAllCstr = [kMSDisableAll UTF8String];
+  
+  // If
+  setenv(disableVariableCstr, disableAllCstr, 1);
+  [[MSMockService sharedInstance] setStarted:NO];
+  [[MSMockSecondService sharedInstance] setStarted:NO];
+
+  // When
+  [MSAppCenter start:@"AppSecret" withServices:@[MSMockService.class, MSMockSecondService.class]];
+
+  // Then
+  XCTAssertFalse([[MSMockService sharedInstance] started]);
+  XCTAssertFalse([[MSMockSecondService sharedInstance] started]);
+
+  // If
+  setenv(disableVariableCstr, [[MSMockService serviceName] UTF8String], 1);
+  [[MSMockService sharedInstance] setStarted:NO];
+  [[MSMockSecondService sharedInstance] setStarted:NO];
+  [MSAppCenter resetSharedInstance];
+
+  // When
+  [MSAppCenter start:@"AppSecret" withServices:@[MSMockService.class, MSMockSecondService.class]];
+
+  // Then
+  XCTAssertFalse([[MSMockService sharedInstance] started]);
+  XCTAssertTrue([[MSMockSecondService sharedInstance] started]);
+  
+  // If
+  NSString* disableList = [NSString stringWithFormat:@"%@,SomeService,%@", [MSMockService serviceName], [MSMockSecondService serviceName]];
+  setenv(disableVariableCstr, [disableList UTF8String], 1);
+  [[MSMockService sharedInstance] setStarted:NO];
+  [[MSMockSecondService sharedInstance] setStarted:NO];
+  [MSAppCenter resetSharedInstance];
+
+  // When
+  [MSAppCenter start:@"AppSecret" withServices:@[MSMockService.class, MSMockSecondService.class]];
+
+  // Then
+  XCTAssertFalse([[MSMockService sharedInstance] started]);
+  XCTAssertFalse([[MSMockSecondService sharedInstance] started]);
+
+  // Repeat previous test but with some whitespace.
+  // If
+  disableList = [NSString stringWithFormat:@" %@ , SomeService,%@ ", [MSMockService serviceName], [MSMockSecondService serviceName]];
+  setenv(disableVariableCstr, [disableList UTF8String], 1);
+  [[MSMockService sharedInstance] setStarted:NO];
+  [[MSMockSecondService sharedInstance] setStarted:NO];
+  [MSAppCenter resetSharedInstance];
+  
+  // When
+  [MSAppCenter start:@"AppSecret" withServices:@[MSMockService.class, MSMockSecondService.class]];
+  
+  // Then
+  XCTAssertFalse([[MSMockService sharedInstance] started]);
+  XCTAssertFalse([[MSMockSecondService sharedInstance] started]);
+  
+  // Special tear down.
+  setenv(disableVariableCstr, "", 1);
+}
+      
 #if !TARGET_OS_TV
 - (void)testSetCustomProperties {
 
