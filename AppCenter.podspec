@@ -35,7 +35,7 @@ Pod::Spec.new do |s|
 
   s.ios.preserve_path = 'AppCenter-SDK-Apple/iOS/README.md'
   s.osx.preserve_path = 'AppCenter-SDK-Apple/macOS/README.md'
-  
+
   s.default_subspecs = 'Analytics', 'Crashes'
 
   s.subspec 'Core' do |ss|
