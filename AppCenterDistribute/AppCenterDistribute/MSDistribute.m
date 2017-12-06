@@ -10,6 +10,7 @@
 #import "MSDistributePrivate.h"
 #import "MSDistributeUtil.h"
 #import "MSErrorDetails.h"
+#import "MSKeychainUtil+DistributeMigration.h"
 #import "MSKeychainUtil.h"
 #import "MSLogger.h"
 #import "MSServiceAbstractProtected.h"
@@ -66,6 +67,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                                selector:@selector(applicationWillEnterForeground)
                                    name:UIApplicationWillEnterForegroundNotification
                                  object:nil];
+
+    // Migrate data from previous versions.
+    [MSKeychainUtil migrateDistributeData];
   }
   return self;
 }
