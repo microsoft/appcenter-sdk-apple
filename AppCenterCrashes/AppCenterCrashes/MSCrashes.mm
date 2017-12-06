@@ -139,6 +139,11 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
  */
 @property dispatch_semaphore_t delayedProcessingSemaphore;
 
+/**
+ * Track handled exception directly as model form. This API is not public and is used by wrapper SDKs.
+ */
++ (void)trackModelException:(MSException *)exception;
+
 @end
 
 @implementation MSCrashes
