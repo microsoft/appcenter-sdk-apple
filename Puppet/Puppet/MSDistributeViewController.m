@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ */
+
 #import "Constants.h"
 #import "MSDistributePrivate.h"
 #import "MSDistributeViewController.h"
