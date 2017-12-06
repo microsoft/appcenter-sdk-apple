@@ -328,7 +328,6 @@
   if (!self.sender.suspended && self.enabled) {
     MSLogDebug([MSAppCenter logTag], @"Resume channel for group Id %@.", self.configuration.groupId);
     self.suspended = NO;
-    self.stopFlushingCompletion = kMSEmptyStopFlushingCompletion;
     [self flushQueue];
   }
 }
