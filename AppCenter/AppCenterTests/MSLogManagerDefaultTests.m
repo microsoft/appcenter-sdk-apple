@@ -307,6 +307,9 @@
   // When
   [MS_NOTIFICATION_CENTER postNotificationName:UIApplicationWillEnterForegroundNotification object:sut];
 
+  // Wait queue.
+  dispatch_sync(sut.logsDispatchQueue, ^{});
+  
   // Then
   assertThatUnsignedLong(sut.backgroundTaskIdentifier, equalToUnsignedLong(UIBackgroundTaskInvalid));
   assertThatInt(sut.remainedChannelsCount, equalToInt(2));

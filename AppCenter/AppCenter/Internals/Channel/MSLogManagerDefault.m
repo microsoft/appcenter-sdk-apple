@@ -289,20 +289,25 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
                                                queue:NSOperationQueue.mainQueue
                                           usingBlock:notificationBlock];
       }
-      self.appWillEnterForegroundObserver =
-          [MS_NOTIFICATION_CENTER addObserverForName:UIApplicationWillEnterForegroundNotification
-                                              object:nil
-                                               queue:NSOperationQueue.mainQueue
-                                          usingBlock:^(NSNotification __unused *note) {
-                                            typeof(self) strongSelf = weakSelf;
-                                            if (strongSelf) {
-                                              @synchronized(strongSelf.backgroundTaskLockToken) {
-
-                                                // In foreground now, cancel any pending background task.
-                                                [strongSelf endBackgroundActivity];
-                                              }
-                                            }
-                                          }];
+      if (self.appWillEnterForegroundObserver == nil) {
+        void (^notificationBlock)(NSNotification *note) = ^(NSNotification __unused *note) {
+          dispatch_async(self.logsDispatchQueue, ^{
+            typeof(self) strongSelf = weakSelf;
+            if (strongSelf) {
+              @synchronized(strongSelf.backgroundTaskLockToken) {
+                
+                // In foreground now, cancel any pending background task.
+                [strongSelf endBackgroundActivity];
+              }
+            }
+          });
+        };
+        self.appWillEnterForegroundObserver =
+            [MS_NOTIFICATION_CENTER addObserverForName:UIApplicationWillEnterForegroundNotification
+                                                object:nil
+                                                 queue:NSOperationQueue.mainQueue
+                                            usingBlock:notificationBlock];
+      }
     }
   }
 #endif
