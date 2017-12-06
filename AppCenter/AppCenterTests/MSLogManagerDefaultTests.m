@@ -31,7 +31,7 @@
   assertThat(sut.sender, equalTo(senderMock));
   assertThat(sut.storage, equalTo(storageMock));
 #if !TARGET_OS_OSX
-  assertThatInt(sut.backgroundTaskIdentifier, equalToInt(UIBackgroundTaskInvalid));
+  assertThatUnsignedLong(sut.backgroundTaskIdentifier, equalToUnsignedLong(UIBackgroundTaskInvalid));
 #endif
 }
 
@@ -171,11 +171,11 @@
   completionBlockChannel1();
   assertThatInt(sut.flushedChannelsCount, equalToInt(1));
   assertThatBool(isSenderDisabled, isFalse());
-  assertThatInt(sut.backgroundTaskIdentifier, equalToInt(UIBackgroundTaskInvalid + 1));
+  assertThatUnsignedLong(sut.backgroundTaskIdentifier, equalToUnsignedLong(UIBackgroundTaskInvalid + 1));
   completionBlockChannel2();
   assertThatInt(sut.flushedChannelsCount, equalToInt(0));
   assertThatBool(isSenderDisabled, isTrue());
-  assertThatInt(sut.backgroundTaskIdentifier, equalToInt(UIBackgroundTaskInvalid));
+  assertThatUnsignedLong(sut.backgroundTaskIdentifier, equalToUnsignedLong(UIBackgroundTaskInvalid));
 
   // Explicitly unmock MSUtility since it's stubbing a class method.
   [utilityMock stopMocking];
@@ -238,7 +238,7 @@
   ((void (^)())expirationBlock)();
 
   // Then
-  assertThatInt(sut.backgroundTaskIdentifier, equalToInt(UIBackgroundTaskInvalid + 1));
+  assertThatUnsignedLong(sut.backgroundTaskIdentifier, equalToUnsignedLong(UIBackgroundTaskInvalid + 1));
   assertThatInt(sut.flushedChannelsCount, equalToInt(0));
   assertThatBool(isSenderDisabled, isTrue());
   completionBlockChannel1();
@@ -295,8 +295,11 @@
   // When
   [MS_NOTIFICATION_CENTER postNotificationName:UIApplicationWillEnterForegroundNotification object:sut];
 
+  // Wait queue.
+  dispatch_sync(sut.logsDispatchQueue, ^{});
+  
   // Then
-  assertThatInt(sut.backgroundTaskIdentifier, equalToInt(UIBackgroundTaskInvalid));
+  assertThatUnsignedLong(sut.backgroundTaskIdentifier, equalToUnsignedLong(UIBackgroundTaskInvalid));
   assertThatInt(sut.flushedChannelsCount, equalToInt(0));
   assertThatBool(isSenderDisabled, isFalse());
   OCMVerifyAll(channel1);

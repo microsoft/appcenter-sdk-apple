@@ -317,39 +317,44 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
                                                  queue:NSOperationQueue.mainQueue
                                             usingBlock:notificationBlock];
       }
-      self.appWillEnterForegroundObserver =
-          [MS_NOTIFICATION_CENTER addObserverForName:UIApplicationWillEnterForegroundNotification
-                                              object:nil
-                                               queue:NSOperationQueue.mainQueue
-                                          usingBlock:^(NSNotification __unused *note) {
-                                            typeof(self) strongSelf = weakSelf;
-                                            if (strongSelf) {
-                                              @synchronized(strongSelf.backgroundTaskLockToken) {
-
-                                                // In foreground now, cancel any pending background task.
-                                                [strongSelf endBackgroundActivity];
-
-                                                // Re-enable sender.
-                                                [strongSelf.sender setEnabled:YES andDeleteDataOnDisabled:NO];
-
-                                                /**
-                                                 * TODO: Needs some refactoring, sender is coupled to too many objects.
-                                                 * It's hard to follow what's enabled or not.
-                                                 * I think it should only be coupled to chanels, and perhaps having a
-                                                 * sender per channel would simplify things.
-                                                 *
-                                                 * The sender may not be disabled because the app as been forgrounded
-                                                 * before all the channels finished flushing,
-                                                 * so we still have to resume the suspended channels and cancel the ones
-                                                 * not suspended yet.
-                                                 */
-                                                for (NSString *groupId in self.channels) {
-                                                  [self.channels[groupId] cancelStopFlushing];
-                                                  [self.channels[groupId] resume];
-                                                }
-                                              }
-                                            }
-                                          }];
+      if (self.appWillEnterForegroundObserver == nil) {
+        void (^notificationBlock)(NSNotification *note) = ^(NSNotification __unused *note) {
+          dispatch_async(self.logsDispatchQueue, ^{
+            typeof(self) strongSelf = weakSelf;
+            if (strongSelf) {
+              @synchronized(strongSelf.backgroundTaskLockToken) {
+                
+                // In foreground now, cancel any pending background task.
+                [strongSelf endBackgroundActivity];
+                
+                // Re-enable sender.
+                [strongSelf.sender setEnabled:YES andDeleteDataOnDisabled:NO];
+                
+                /**
+                 * TODO: Needs some refactoring, sender is coupled to too many objects.
+                 * It's hard to follow what's enabled or not.
+                 * I think it should only be coupled to chanels, and perhaps having a
+                 * sender per channel would simplify things.
+                 *
+                 * The sender may not be disabled because the app as been forgrounded
+                 * before all the channels finished flushing,
+                 * so we still have to resume the suspended channels and cancel the ones
+                 * not suspended yet.
+                 */
+                for (NSString *groupId in self.channels) {
+                  [self.channels[groupId] cancelStopFlushing];
+                  [self.channels[groupId] resume];
+                }
+              }
+            }
+          });
+        };
+        self.appWillEnterForegroundObserver =
+            [MS_NOTIFICATION_CENTER addObserverForName:UIApplicationWillEnterForegroundNotification
+                                                object:nil
+                                                 queue:NSOperationQueue.mainQueue
+                                            usingBlock:notificationBlock];
+      }
     }
   }
 #endif
