@@ -29,7 +29,7 @@
   
   // If
   NSString *mcToken = @"TokTok";
-  NSString *mcServiceName = [NSString stringWithFormat:@"%@.%@", @"MobileCenter", [MS_APP_MAIN_BUNDLE bundleIdentifier]];
+  NSString *mcServiceName = [NSString stringWithFormat:@"%@.%@", [MS_APP_MAIN_BUNDLE bundleIdentifier], @"MobileCenter"];
   
   // When
   [MSDistributeDataMigration migrateKeychain];

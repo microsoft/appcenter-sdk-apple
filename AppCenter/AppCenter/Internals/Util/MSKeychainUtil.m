@@ -9,7 +9,7 @@ static NSString *AppCenterKeychainServiceName(NSString *suffix) {
   static NSString *serviceName = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-    serviceName = [NSString stringWithFormat:@"%@.%@", suffix, [MS_APP_MAIN_BUNDLE bundleIdentifier]];
+    serviceName = [NSString stringWithFormat:@"%@.%@", [MS_APP_MAIN_BUNDLE bundleIdentifier], suffix];
   });
   return serviceName;
 }
