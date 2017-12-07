@@ -5,12 +5,12 @@
 #import "MSAppDelegateForwarder.h"
 #import "MSDistribute.h"
 #import "MSDistributeAppDelegate.h"
+#import "MSDistributeDataMigration.h"
 #import "MSDistributeDelegate.h"
 #import "MSDistributeInternal.h"
 #import "MSDistributePrivate.h"
 #import "MSDistributeUtil.h"
 #import "MSErrorDetails.h"
-#import "MSKeychainUtil+DistributeMigration.h"
 #import "MSKeychainUtil.h"
 #import "MSLogger.h"
 #import "MSServiceAbstractProtected.h"
@@ -45,6 +45,11 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 - (instancetype)init {
   if ((self = [super init])) {
+    
+    // Migrate data from previous versions.
+    [MSDistributeDataMigration migrateKeychain];
+    
+    // Init.
     _apiUrl = kMSDefaultApiUrl;
     _installUrl = kMSDefaultInstallUrl;
     _channelConfiguration = [[MSChannelConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
@@ -67,9 +72,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                                selector:@selector(applicationWillEnterForeground)
                                    name:UIApplicationWillEnterForegroundNotification
                                  object:nil];
-
-    // Migrate data from previous versions.
-    [MSKeychainUtil migrateDistributeData];
   }
   return self;
 }
