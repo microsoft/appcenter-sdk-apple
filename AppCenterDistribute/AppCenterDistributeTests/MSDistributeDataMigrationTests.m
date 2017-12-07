@@ -24,42 +24,43 @@
 
 #if !TARGET_OS_TV
 - (void)testDistributeDataMigration {
-  
+
   // No Token.
-  
+
   // If
   NSString *mcToken = @"TokTok";
-  NSString *mcServiceName = [NSString stringWithFormat:@"%@.%@", [MS_APP_MAIN_BUNDLE bundleIdentifier], @"MobileCenter"];
-  
+  NSString *mcServiceName =
+      [NSString stringWithFormat:@"%@.%@", [MS_APP_MAIN_BUNDLE bundleIdentifier], @"MobileCenter"];
+
   // When
   [MSDistributeDataMigration migrateKeychain];
-  
+
   // Then
   assertThat([MSKeychainUtil stringForKey:kMSUpdateTokenKey], is(nilValue()));
   assertThat([MSKeychainUtil stringForKey:kMSUpdateTokenKey withServiceName:mcServiceName], is(nilValue()));
-  
+
   // Just the Mobile Center token.
-  
+
   // If
   XCTAssertTrue([MSKeychainUtil storeString:mcToken forKey:kMSUpdateTokenKey withServiceName:mcServiceName]);
-  
+
   // When
   [MSDistributeDataMigration migrateKeychain];
-  
+
   // Then
   assertThat([MSKeychainUtil stringForKey:kMSUpdateTokenKey], is(mcToken));
   assertThat([MSKeychainUtil stringForKey:kMSUpdateTokenKey withServiceName:mcServiceName], is(nilValue()));
-  
+
   // Just the App Center token.
-  
+
   // If
   NSString *acToken = @"TokTokAC";
   [MSKeychainUtil clear];
   XCTAssertTrue([MSKeychainUtil storeString:acToken forKey:kMSUpdateTokenKey]);
-  
+
   // When
   [MSDistributeDataMigration migrateKeychain];
-  
+
   // Then
   assertThat([MSKeychainUtil stringForKey:kMSUpdateTokenKey], is(acToken));
   assertThat([MSKeychainUtil stringForKey:kMSUpdateTokenKey withServiceName:mcServiceName], is(nilValue()));
@@ -68,10 +69,10 @@
 
   // If
   XCTAssertTrue([MSKeychainUtil storeString:mcToken forKey:kMSUpdateTokenKey withServiceName:mcServiceName]);
-  
+
   // When
   [MSDistributeDataMigration migrateKeychain];
-  
+
   // Then
   assertThat([MSKeychainUtil stringForKey:kMSUpdateTokenKey], is(acToken));
   assertThat([MSKeychainUtil stringForKey:kMSUpdateTokenKey withServiceName:mcServiceName], is(nilValue()));

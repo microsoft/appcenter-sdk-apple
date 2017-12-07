@@ -7,7 +7,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Migrate Distribute data from previous versions in keychain.
  */
-+(void)migrateKeychain;
++ (void)migrateKeychain;
 
 @end
 
