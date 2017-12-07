@@ -137,6 +137,9 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
       guard let row = table?.row(for: textField) else {
         return
       }
+      if row < 0 {
+        return
+      }
       let key : String = Array(properties.keys)[row]
       properties.updateValue(textField.stringValue, forKey: key)
     }
