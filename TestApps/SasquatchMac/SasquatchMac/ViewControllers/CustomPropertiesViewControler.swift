@@ -74,7 +74,6 @@ class CustomPropertiesViewControler: NSViewController {
       }
     }
     appCenter.setCustomProperties(customProperties)
-    print("send")
   }
   
   override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
