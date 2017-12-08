@@ -1,82 +1,60 @@
 import Cocoa
 
-class CustomPropertiesViewControler: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
+class CustomProperty : NSObject {
+  var key: String? = nil
+  var type: String = "Clear"
+  var value: Any? = nil
+}
 
+class CustomPropertiesViewControler: NSViewController, NSTableViewDataSource, NSTableViewDelegate, NSComboBoxDelegate {
+
+  @IBOutlet var arrayController: NSArrayController!
   @IBOutlet weak var tableView: NSTableView!
-  var properties: [[String: Any]] = [
-    ["key": "key1", "type": "Clear"],
-    ["key": "key2", "type": "String", "value": "string"]
-  ]
+  dynamic var properties = [CustomProperty]()
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    tableView.delegate = self
-    tableView.dataSource = self
   }
   
   @IBAction func addProperty(_ sender: Any) {
-    properties.append(["key": "", "type": "Clear"])
-    tableView.reloadData()
+    let property = CustomProperty()
+    property.addObserver(self, forKeyPath: #keyPath(CustomProperty.type), options: .new, context: nil)
+    arrayController.addObject(property)
   }
   
   @IBAction func deleteProperty(_ sender: Any) {
-    if properties.isEmpty {
-      return
+    if let selectedProperty = arrayController.selectedObjects.first as? CustomProperty {
+      arrayController.removeObject(selectedProperty)
     }
-    if (tableView.selectedRow < 0) {
-      properties.remove(at: properties.count - 1)
-    } else {
-      properties.remove(at: tableView.selectedRow)
-    }
-    tableView.reloadData()
   }
   
   @IBAction func send(_ sender: Any) {
+    print("send")
   }
   
-  //MARK: Table view source delegate
-  
-  func numberOfRows(in tableView: NSTableView) -> Int {
-    return properties.count
-  }
-  
-  //MARK: Table view delegate
-  
-  func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-    guard let `tableColumn` = tableColumn else {
-      return nil
+  override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    guard let property = object as? CustomProperty else {
+      return
     }
-    let key: String = properties[row]["key"] as! String
-    let type: String = properties[row]["type"] as! String
-    let value = properties[row]["value"]
-    if let cell = tableView.make(withIdentifier: tableColumn.identifier, owner: self) as? NSTableCellView {
-      switch tableColumn.identifier {
-      case "key":
-        cell.textField?.stringValue = key
-      case "type":
-        let comboBox = cell.subviews[0] as! NSComboBox
-        comboBox.selectItem(withObjectValue: type)
-      case "value":
-        switch type {
-        case "Clear":
-          cell.isHidden = true
-        case "String":
-          cell.isHidden = false
-          cell.textField?.stringValue = value as! String
-        case "Number":
-          cell.isHidden = false
-        case "Boolean":
-          cell.isHidden = false
-        case "DateTime":
-          cell.isHidden = false
-        default: ()
-        }
-      default: ()
-      }
-      
-      return cell
+    guard let row = properties.index(of: property) else {
+      return
     }
-    return nil
+    let column = tableView.column(withIdentifier: "value")
+    guard let cell = tableView.view(atColumn: column, row: row, makeIfNecessary: false) as? NSTableCellView else {
+      return
+    }
+    updateValue(property: property, cell: cell)
   }
   
+  func updateValue(property: CustomProperty, cell: NSTableCellView) {
+    cell.isHidden = false
+    switch property.type {
+    case "String": ()
+    case "Number": ()
+    case "Boolean": ()
+    case "DateTime": ()
+    default:
+      cell.isHidden = true
+    }
+  }
 }

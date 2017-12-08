@@ -890,7 +890,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="iKN-Nv-kfg" viewBased="YES" id="NGD-n2-KNP">
-                                            <rect key="frame" x="0.0" y="-70" width="408" height="156"/>
+                                            <rect key="frame" x="0.0" y="-139" width="408" height="156"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1343,7 +1343,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="22" headerView="QQk-B0-wlz" viewBased="YES" id="osf-6i-QQe">
-                                            <rect key="frame" x="0.0" y="-8" width="408" height="195"/>
+                                            <rect key="frame" x="0.0" y="-77" width="408" height="195"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1362,22 +1362,29 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="key" misplaced="YES" id="xgr-a1-u9C">
-                                                            <rect key="frame" x="1" y="1" width="116" height="22"/>
+                                                        <tableCellView identifier="key" id="xgr-a1-u9C">
+                                                            <rect key="frame" x="1" y="1" width="116" height="21"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PpV-Zg-CGq">
-                                                                    <rect key="frame" x="0.0" y="3" width="120" height="18"/>
+                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="PpV-Zg-CGq">
+                                                                    <rect key="frame" x="0.0" y="3" width="120" height="17"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" placeholderString="Key" id="9rC-Lq-egg">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
+                                                                    <connections>
+                                                                        <binding destination="xgr-a1-u9C" name="value" keyPath="objectValue.key" id="sJk-eI-efU">
+                                                                            <dictionary key="options">
+                                                                                <string key="NSNullPlaceholder">Key</string>
+                                                                            </dictionary>
+                                                                        </binding>
+                                                                    </connections>
                                                                 </textField>
                                                             </subviews>
                                                             <constraints>
-                                                                <constraint firstItem="PpV-Zg-CGq" firstAttribute="top" secondItem="xgr-a1-u9C" secondAttribute="top" constant="2" id="hNR-vI-4WD"/>
-                                                                <constraint firstAttribute="bottom" secondItem="PpV-Zg-CGq" secondAttribute="bottom" constant="2" id="j8j-f3-UJX"/>
+                                                                <constraint firstItem="PpV-Zg-CGq" firstAttribute="top" secondItem="xgr-a1-u9C" secondAttribute="top" constant="1" id="hNR-vI-4WD"/>
+                                                                <constraint firstAttribute="bottom" secondItem="PpV-Zg-CGq" secondAttribute="bottom" constant="3" id="j8j-f3-UJX"/>
                                                                 <constraint firstAttribute="trailing" secondItem="PpV-Zg-CGq" secondAttribute="trailing" constant="-2" id="nY3-Fb-nRb"/>
                                                                 <constraint firstItem="PpV-Zg-CGq" firstAttribute="leading" secondItem="xgr-a1-u9C" secondAttribute="leading" constant="2" id="tRc-gJ-bu0"/>
                                                             </constraints>
@@ -1415,9 +1422,12 @@
                                                                             <string>String</string>
                                                                             <string>Number</string>
                                                                             <string>Boolean</string>
-                                                                            <string>Item</string>
+                                                                            <string>DateTime</string>
                                                                         </objectValues>
                                                                     </comboBoxCell>
+                                                                    <connections>
+                                                                        <binding destination="7rS-uT-A8L" name="value" keyPath="objectValue.type" id="VqN-Go-Jr3"/>
+                                                                    </connections>
                                                                 </comboBox>
                                                             </subviews>
                                                             <constraints>
@@ -1442,17 +1452,24 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="value" misplaced="YES" id="aYv-Cn-5QP">
-                                                            <rect key="frame" x="212" y="1" width="194" height="22"/>
+                                                        <tableCellView identifier="value" hidden="YES" id="aYv-Cn-5QP">
+                                                            <rect key="frame" x="212" y="1" width="194" height="21"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YqD-JS-r3f">
-                                                                    <rect key="frame" x="0.0" y="2" width="198" height="18"/>
+                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="YqD-JS-r3f">
+                                                                    <rect key="frame" x="0.0" y="2" width="198" height="17"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" placeholderString="Value" id="PRQ-8b-ODL">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
+                                                                    <connections>
+                                                                        <binding destination="aYv-Cn-5QP" name="value" keyPath="objectValue.value" id="OaA-Ta-DbJ">
+                                                                            <dictionary key="options">
+                                                                                <string key="NSNullPlaceholder">Value</string>
+                                                                            </dictionary>
+                                                                        </binding>
+                                                                    </connections>
                                                                 </textField>
                                                             </subviews>
                                                             <constraints>
@@ -1468,6 +1485,10 @@
                                                     </prototypeCellViews>
                                                 </tableColumn>
                                             </tableColumns>
+                                            <connections>
+                                                <binding destination="go4-GZ-5dN" name="content" keyPath="arrangedObjects" id="Qid-ZT-ttQ"/>
+                                                <binding destination="go4-GZ-5dN" name="selectionIndexes" keyPath="selectionIndexes" previousBinding="Qid-ZT-ttQ" id="FLy-Bw-9Y4"/>
+                                            </connections>
                                         </tableView>
                                     </subviews>
                                 </clipView>
@@ -1510,10 +1531,16 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="arrayController" destination="go4-GZ-5dN" id="FeQ-Jw-pXl"/>
                         <outlet property="tableView" destination="osf-6i-QQe" id="WB3-ok-qwV"/>
                     </connections>
                 </viewController>
                 <customObject id="s7m-Am-TZ2" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <arrayController objectClassName="" id="go4-GZ-5dN" userLabel="Custom Properties Array Controller" colorLabel="IBBuiltInLabel-Orange">
+                    <connections>
+                        <binding destination="T7p-q2-ie2" name="contentArray" keyPath="self.properties" id="FFV-U8-gnP"/>
+                    </connections>
+                </arrayController>
             </objects>
             <point key="canvasLocation" x="-549" y="1116"/>
         </scene>
