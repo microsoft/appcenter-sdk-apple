@@ -1452,13 +1452,13 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="value" hidden="YES" id="aYv-Cn-5QP">
-                                                            <rect key="frame" x="212" y="1" width="194" height="21"/>
+                                                        <tableCellView identifier="value" hidden="YES" misplaced="YES" id="aYv-Cn-5QP">
+                                                            <rect key="frame" x="212" y="1" width="194" height="22"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="YqD-JS-r3f">
+                                                                <textField identifier="String" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="YqD-JS-r3f">
                                                                     <rect key="frame" x="0.0" y="2" width="198" height="17"/>
-                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" placeholderString="Value" id="PRQ-8b-ODL">
+                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" title="String" placeholderString="Value" id="PRQ-8b-ODL">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -1471,11 +1471,64 @@
                                                                         </binding>
                                                                     </connections>
                                                                 </textField>
+                                                                <textField identifier="Number" verticalHuggingPriority="750" tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="lXB-N6-xMi">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="194" height="21"/>
+                                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" title="Number" placeholderString="Value" drawsBackground="YES" id="2sf-q3-tvW">
+                                                                        <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="yz5-xX-cbO"/>
+                                                                        <font key="font" metaFont="system"/>
+                                                                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                    <connections>
+                                                                        <binding destination="aYv-Cn-5QP" name="value" keyPath="objectValue.value" id="Jyz-fE-aG8">
+                                                                            <dictionary key="options">
+                                                                                <string key="NSNullPlaceholder">Value</string>
+                                                                            </dictionary>
+                                                                        </binding>
+                                                                    </connections>
+                                                                </textField>
+                                                                <button verticalHuggingPriority="750" tag="3" translatesAutoresizingMaskIntoConstraints="NO" id="4jc-kH-bps">
+                                                                    <rect key="frame" x="-2" y="-2" width="198" height="25"/>
+                                                                    <buttonCell key="cell" type="check" bezelStyle="regularSquare" imagePosition="only" inset="2" id="5fl-VW-o2Q">
+                                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                        <font key="font" metaFont="system"/>
+                                                                    </buttonCell>
+                                                                    <connections>
+                                                                        <binding destination="aYv-Cn-5QP" name="value" keyPath="objectValue" id="H9w-Qc-zrH"/>
+                                                                    </connections>
+                                                                </button>
+                                                                <datePicker identifier="DateTime" verticalHuggingPriority="750" tag="4" translatesAutoresizingMaskIntoConstraints="NO" id="UFf-ZN-WTL" userLabel="DateTime">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="197" height="25"/>
+                                                                    <datePickerCell key="cell" borderStyle="bezel" alignment="left" id="9ba-f8-yHE">
+                                                                        <font key="font" metaFont="system"/>
+                                                                        <date key="date" timeIntervalSinceReferenceDate="504954000">
+                                                                            <!--2017-01-01 09:00:00 +0000-->
+                                                                        </date>
+                                                                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                        <datePickerElements key="datePickerElements" year="YES" month="YES" day="YES" hour="YES" minute="YES" second="YES"/>
+                                                                    </datePickerCell>
+                                                                    <connections>
+                                                                        <binding destination="aYv-Cn-5QP" name="value" keyPath="objectValue.value" id="1tU-sI-W0K"/>
+                                                                    </connections>
+                                                                </datePicker>
                                                             </subviews>
                                                             <constraints>
                                                                 <constraint firstAttribute="bottom" secondItem="YqD-JS-r3f" secondAttribute="bottom" constant="2" id="0px-yy-zDE"/>
+                                                                <constraint firstItem="lXB-N6-xMi" firstAttribute="top" secondItem="aYv-Cn-5QP" secondAttribute="top" id="1a8-cA-cCU"/>
+                                                                <constraint firstItem="lXB-N6-xMi" firstAttribute="leading" secondItem="aYv-Cn-5QP" secondAttribute="leading" id="30D-jB-M1m"/>
                                                                 <constraint firstAttribute="trailing" secondItem="YqD-JS-r3f" secondAttribute="trailing" constant="-2" id="H9m-9e-JjK"/>
+                                                                <constraint firstAttribute="bottom" secondItem="4jc-kH-bps" secondAttribute="bottom" id="Hkn-Uq-c81"/>
+                                                                <constraint firstAttribute="trailing" secondItem="lXB-N6-xMi" secondAttribute="trailing" id="SXj-cg-t8y"/>
+                                                                <constraint firstItem="UFf-ZN-WTL" firstAttribute="leading" secondItem="aYv-Cn-5QP" secondAttribute="leading" id="SqB-7t-KQl"/>
+                                                                <constraint firstAttribute="bottom" secondItem="UFf-ZN-WTL" secondAttribute="bottom" id="U8z-Md-Nos"/>
+                                                                <constraint firstAttribute="trailing" secondItem="4jc-kH-bps" secondAttribute="trailing" id="aEd-UC-44i"/>
                                                                 <constraint firstItem="YqD-JS-r3f" firstAttribute="top" secondItem="aYv-Cn-5QP" secondAttribute="top" constant="2" id="aGj-sV-Ygp"/>
+                                                                <constraint firstItem="4jc-kH-bps" firstAttribute="top" secondItem="aYv-Cn-5QP" secondAttribute="top" id="bDw-es-OPS"/>
+                                                                <constraint firstAttribute="bottom" secondItem="lXB-N6-xMi" secondAttribute="bottom" id="dBT-vb-cNV"/>
+                                                                <constraint firstItem="UFf-ZN-WTL" firstAttribute="top" secondItem="aYv-Cn-5QP" secondAttribute="top" id="gDz-Iv-nhZ"/>
+                                                                <constraint firstItem="4jc-kH-bps" firstAttribute="leading" secondItem="aYv-Cn-5QP" secondAttribute="leading" id="mez-CS-WjI"/>
+                                                                <constraint firstAttribute="trailing" secondItem="UFf-ZN-WTL" secondAttribute="trailing" id="sCm-4I-jl9"/>
                                                                 <constraint firstItem="YqD-JS-r3f" firstAttribute="leading" secondItem="aYv-Cn-5QP" secondAttribute="leading" constant="2" id="ywS-0F-6TR"/>
                                                             </constraints>
                                                             <connections>

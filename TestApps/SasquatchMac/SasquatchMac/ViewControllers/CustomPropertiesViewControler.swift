@@ -1,13 +1,26 @@
 import Cocoa
+import AppCenter
 
-class CustomProperty : NSObject {
-  var key: String? = nil
-  var type: String = "Clear"
-  var value: Any? = nil
-}
-
-class CustomPropertiesViewControler: NSViewController, NSTableViewDataSource, NSTableViewDelegate, NSComboBoxDelegate {
-
+class CustomPropertiesViewControler: NSViewController {
+  
+  enum CustomPropertyType : String {
+    case Clear = "Clear"
+    case String = "String"
+    case Number = "Number"
+    case Boolean = "Boolean"
+    case DateTime = "DateTime"
+    
+     static let allValues = [Clear, String, Number, Boolean, DateTime]
+  }
+  
+  class CustomProperty : NSObject {
+    var key: String? = nil
+    var type: String = CustomPropertyType.Clear.rawValue
+    var value: Any? = nil
+  }
+  
+  var appCenter: AppCenterDelegate = AppCenterProvider.shared().appCenter!
+  
   @IBOutlet var arrayController: NSArrayController!
   @IBOutlet weak var tableView: NSTableView!
   dynamic var properties = [CustomProperty]()
@@ -47,13 +60,17 @@ class CustomPropertiesViewControler: NSViewController, NSTableViewDataSource, NS
   }
   
   func updateValue(property: CustomProperty, cell: NSTableCellView) {
+    property.value = nil
     cell.isHidden = false
-    switch property.type {
-    case "String": ()
-    case "Number": ()
-    case "Boolean": ()
-    case "DateTime": ()
-    default:
+    for subview in cell.subviews {
+      subview.isHidden = true
+    }
+    guard let type = CustomPropertyType(rawValue: property.type) else {
+      return
+    }
+    if let view = cell.viewWithTag(CustomPropertyType.allValues.index(of: type)!) {
+      view.isHidden = false
+    } else {
       cell.isHidden = true
     }
   }
