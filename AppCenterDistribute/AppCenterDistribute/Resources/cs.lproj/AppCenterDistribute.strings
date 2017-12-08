@@ -15,3 +15,4 @@
 "MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "Vývojáři této aplikace vyžadují, abyste si nainstalovali aktualizaci %@ %@ (%@).";
 "MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@ (%@) je k dispozici ke stažení a instalaci.";
 "MSDistributeInAppUpdatesAreDisabled" = "Aktualizace v aplikaci jsou zakázány.";
+"MSDistributeInstallFailedMessage" = "Tato verze byla buď strana-naložený nebo stáhnout pomocí prohlížeče v soukromém režimu.";

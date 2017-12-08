@@ -15,3 +15,4 @@
 "MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "Gli sviluppatori di questa app richiedono che venga eseguito l'aggiornamento a %@ %@ (%@).";
 "MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@ (%@) è disponibile per il download e l'installazione.";
 "MSDistributeInAppUpdatesAreDisabled" = "Gli aggiornamenti in-app sono disabilitati.";
+"MSDistributeInstallFailedMessage" = "Questa versione è stata caricata a lato o scaricata utilizzando un browser in modalità privata.";

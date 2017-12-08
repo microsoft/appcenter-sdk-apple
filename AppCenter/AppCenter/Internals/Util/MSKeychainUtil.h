@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A string data that was deleted.
  */
-+ (NSString *)deleteStringForKey:(NSString *)key;
++ (NSString *_Nullable)deleteStringForKey:(NSString *)key;
 
 /**
  * Get a string from Keychain with the given key.

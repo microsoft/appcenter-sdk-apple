@@ -15,3 +15,4 @@
 "MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "このアプリの開発者から、%@ %@ (%@) に更新するよう求められています。";
 "MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@ (%@) をダウンロードしてインストールできます。";
 "MSDistributeInAppUpdatesAreDisabled" = "アプリ内更新は無効です。";
+"MSDistributeInstallFailedMessage" = "このリリースは、プライベートモードでブラウザを使用してサイドローディングまたはダウンロードされました。";

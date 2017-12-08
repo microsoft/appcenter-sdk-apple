@@ -44,6 +44,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Select photo for attachment</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>

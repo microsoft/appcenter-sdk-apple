@@ -214,7 +214,9 @@ static NSString *const kMSGroupId = @"AppCenter";
   @synchronized(self) {
     BOOL configured = [self configure:appSecret];
     if (configured && services) {
+      MSLogVerbose([MSAppCenter logTag], @"Prepare to start services: %@", [services componentsJoinedByString:@", "]);
       NSArray *sortedServices = [self sortServices:services];
+      MSLogVerbose([MSAppCenter logTag], @"Start services %@", [sortedServices componentsJoinedByString:@", "]);
       NSMutableArray<NSString *> *servicesNames = [NSMutableArray arrayWithCapacity:sortedServices.count];
 
       for (Class service in sortedServices) {
@@ -263,6 +265,12 @@ static NSString *const kMSGroupId = @"AppCenter";
     if (service.isAvailable) {
 
       // Service already works, we shouldn't send log with this service name
+      return NO;
+    }
+
+    // Check if service should be disabled
+    if ([self shouldDisable:[clazz serviceName]]) {
+      MSLogDebug([MSAppCenter logTag], @"Environment variable to disable service has been set; not starting service %@", clazz);
       return NO;
     }
 
@@ -445,5 +453,31 @@ static NSString *const kMSGroupId = @"AppCenter";
   [self.logManager suspend];
 }
 #endif
+
+#pragma mark - Disable services for test cloud
+
+/**
+ * Determines whether a service should be disabled.
+ *
+ * @param serviceName The service name to consider for disabling.
+ *
+ * @return YES if the service should be disabled.
+ */
+- (BOOL)shouldDisable:(NSString*)serviceName {
+  NSDictionary *environmentVariables = [[NSProcessInfo processInfo] environment];
+  NSString *disabledServices = environmentVariables[kMSDisableVariable];
+  if (!disabledServices) {
+    return NO;
+  }
+  NSMutableArray* disabledServicesList = [NSMutableArray arrayWithArray:[disabledServices componentsSeparatedByString:@","]];
+
+  // Trim whitespace characters.
+  for (NSUInteger i = 0; i < [disabledServicesList count]; ++i) {
+    NSString *service = [disabledServicesList objectAtIndex:i];
+    service = [service stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    [disabledServicesList replaceObjectAtIndex:i withObject:service];
+  }
+  return [disabledServicesList containsObject:serviceName] || [disabledServicesList containsObject:kMSDisableAll];
+}
 
 @end

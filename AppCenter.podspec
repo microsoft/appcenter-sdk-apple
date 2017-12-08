@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name              = 'AppCenter'
-  s.version           = '1.0.1'
+  s.version           = '1.1.0'
 
   s.summary           = 'Visual Studio App Center is your continuous integration, delivery and learning solution for iOS and macOS apps.'
   s.description       = <<-DESC
@@ -35,7 +35,7 @@ Pod::Spec.new do |s|
 
   s.ios.preserve_path = 'AppCenter-SDK-Apple/iOS/README.md'
   s.osx.preserve_path = 'AppCenter-SDK-Apple/macOS/README.md'
-  
+
   s.default_subspecs = 'Analytics', 'Crashes'
 
   s.subspec 'Core' do |ss|

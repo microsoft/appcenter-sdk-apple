@@ -384,7 +384,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   id senderMock = OCMProtocolMock(@protocol(MSSender));
   OCMStub([senderMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
 
-    // Get sender bloc for later call.
+    // Get sender block for later call.
     [invocation retainArguments];
     [invocation getArgument:&senderBlock atIndex:3];
     [invocation getArgument:&lastBatchLogContainer atIndex:2];

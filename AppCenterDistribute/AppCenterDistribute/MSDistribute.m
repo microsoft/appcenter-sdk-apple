@@ -5,6 +5,7 @@
 #import "MSAppDelegateForwarder.h"
 #import "MSDistribute.h"
 #import "MSDistributeAppDelegate.h"
+#import "MSDistributeDataMigration.h"
 #import "MSDistributeDelegate.h"
 #import "MSDistributeInternal.h"
 #import "MSDistributePrivate.h"
@@ -44,6 +45,11 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 - (instancetype)init {
   if ((self = [super init])) {
+
+    // Migrate data from previous versions.
+    [MSDistributeDataMigration migrateKeychain];
+
+    // Init.
     _apiUrl = kMSDefaultApiUrl;
     _installUrl = kMSDefaultInstallUrl;
     _channelConfiguration = [[MSChannelConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
@@ -733,10 +739,13 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 }
 
 - (void)showUpdateSetupFailedAlert:(NSString *)errorMessage {
+
+  // Not using the error message coming from backend due to non-localized text.
+  (void)errorMessage;
   dispatch_async(dispatch_get_main_queue(), ^{
     MSAlertController *alertController =
         [MSAlertController alertControllerWithTitle:MSDistributeLocalizedString(@"MSDistributeInAppUpdatesAreDisabled")
-                                            message:errorMessage];
+                                            message:MSDistributeLocalizedString(@"MSDistributeInstallFailedMessage")];
 
     // Add "Ignore" button to the dialog
     [alertController

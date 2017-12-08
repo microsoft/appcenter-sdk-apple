@@ -1,6 +1,7 @@
+import Photos
 import UIKit
 
-class MSCrashesViewController: UITableViewController, AppCenterProtocol {
+class MSCrashesViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, AppCenterProtocol {
   
   var categories = [String: [MSCrash]]()
   var appCenter: AppCenterDelegate!
@@ -11,7 +12,7 @@ class MSCrashesViewController: UITableViewController, AppCenterProtocol {
     
     var crashes = MSCrash.allCrashes() as! [MSCrash]
     crashes = crashes.sorted { (crash1, crash2) -> Bool in
-      if crash1.category == crash2.category{
+      if crash1.category == crash2.category {
         return crash1.title > crash2.title
       } else {
         return crash1.category > crash2.category
@@ -19,19 +20,10 @@ class MSCrashesViewController: UITableViewController, AppCenterProtocol {
     }
     
     for crash in crashes {
-      if categories[crash.category] == nil{
+      if categories[crash.category] == nil {
         categories[crash.category] = [MSCrash]()
       }
       categories[crash.category]!.append(crash)
-    }
-  }
-  
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if segue.identifier == "crash-detail"{
-      if let selectedRow = tableView.indexPathForSelectedRow{
-        let crash = categories[categoryForSection(selectedRow.section)]![selectedRow.row]
-        (segue.destination as! MSCrashesDetailViewController).crash = crash;
-      }
     }
   }
   
@@ -41,8 +33,8 @@ class MSCrashesViewController: UITableViewController, AppCenterProtocol {
   
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     let isLast = section == tableView.numberOfSections - 1
-    if isLast{
-      return 1
+    if isLast {
+      return 3
     } else {
       return categories[categoryForSection(section)]!.count
     }
@@ -50,7 +42,7 @@ class MSCrashesViewController: UITableViewController, AppCenterProtocol {
   
   override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
     let isLast = section == tableView.numberOfSections - 1
-    if isLast{
+    if isLast {
       return "Settings"
     } else {
       return categoryForSection(section)
@@ -59,12 +51,47 @@ class MSCrashesViewController: UITableViewController, AppCenterProtocol {
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let isLast = indexPath.section == tableView.numberOfSections - 1
-    let cellIdentifier = isLast ? "enable" : "crash"
+    var cellIdentifier = "crash"
+    if isLast {
+      if indexPath.row == 0 {
+        cellIdentifier = "enable";
+      } else {
+        cellIdentifier = "attachment";
+      }
+    }
     let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)!
-    if isLast{
-      for view in cell.contentView.subviews {
-        if let switchView = view as? UISwitch{
-          switchView.isOn = appCenter.isCrashesEnabled()
+    if isLast {
+      
+      // Enable.
+      if (indexPath.row == 0) {
+        
+        // Find switch in subviews.
+        for view in cell.contentView.subviews {
+          if let switchView = view as? UISwitch {
+            switchView.isOn = appCenter.isCrashesEnabled()
+          }
+        }
+        
+        // Text attachment.
+      } else if (indexPath.row == 1) {
+        cell.textLabel?.text = "Text attachment";
+        let text = UserDefaults.standard.string(forKey: "textAttachment")
+        cell.detailTextLabel?.text = (text?.characters.count ?? 0) > 0 ? text : "Empty";
+        
+        // Binary attachment.
+      } else if (indexPath.row == 2) {
+        cell.textLabel?.text = "Binary attachment";
+        let referenceUrl = UserDefaults.standard.url(forKey: "fileAttachment")
+        cell.detailTextLabel?.text = referenceUrl != nil ? referenceUrl!.absoluteString : "Empty";
+        
+        // Read async to display size instead of url.
+        if referenceUrl != nil {
+          let asset = PHAsset.fetchAssets(withALAssetURLs: [referenceUrl!], options: nil).lastObject
+          if asset != nil {
+            PHImageManager.default().requestImageData(for: asset!, options: nil, resultHandler: {(imageData, dataUTI, orientation, info) -> Void in
+              cell.detailTextLabel?.text = ByteCountFormatter.string(fromByteCount: Int64(imageData?.count ?? 0), countStyle: .binary)
+            })
+          }
         }
       }
     } else {
@@ -74,12 +101,84 @@ class MSCrashesViewController: UITableViewController, AppCenterProtocol {
     return cell;
   }
   
+  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) -> Void {
+    let isLast = indexPath.section == tableView.numberOfSections - 1
+    if !isLast {
+      
+      // Crash cell.
+      let crash = categories[categoryForSection(indexPath.section)]![indexPath.row]
+      let alert = UIAlertController(title: crash.title, message: crash.desc, preferredStyle: .actionSheet)
+      let crashAction = UIAlertAction(title: "Crash", style: .destructive, handler: {(_ action: UIAlertAction) -> Void in
+        crash.crash()
+      })
+      let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {(_ action: UIAlertAction) -> Void in
+        alert.dismiss(animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
+      })
+      alert.addAction(crashAction)
+      alert.addAction(cancelAction)
+      
+      // Support display in iPad.
+      alert.popoverPresentationController?.sourceView = tableView
+      alert.popoverPresentationController?.sourceRect = tableView.rectForRow(at: indexPath)
+      
+      present(alert, animated: true)
+    } else {
+      
+      // Text attachment.
+      if indexPath.row == 1 {
+        let alert = UIAlertController(title: "Text attachment", message: nil, preferredStyle: .alert)
+        let crashAction = UIAlertAction(title: "OK", style: .default, handler: {(_ action: UIAlertAction) -> Void in
+          let result: String? = alert.textFields?[0].text
+          if (result?.characters.count ?? 0) > 0 {
+            UserDefaults.standard.set(result, forKey: "textAttachment")
+          } else {
+            UserDefaults.standard.removeObject(forKey: "textAttachment")
+          }
+          tableView.reloadData()
+        })
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alert.addAction(crashAction)
+        alert.addAction(cancelAction)
+        alert.addTextField(configurationHandler: {(_ textField: UITextField) -> Void in
+          textField.text = UserDefaults.standard.string(forKey: "textAttachment")
+        })
+        present(alert, animated: true)
+        
+        // Binary attachment.
+      } else if indexPath.row == 2 {
+        PHPhotoLibrary.requestAuthorization({ (status: PHAuthorizationStatus) -> Void in ()
+          if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.authorized {
+            let picker = UIImagePickerController()
+            picker.delegate = self
+            self.present(picker, animated: true)
+          }
+        })
+      }
+    }
+  }
+  
+  @objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    let referenceUrl = info[UIImagePickerControllerReferenceURL] as? URL
+    if referenceUrl != nil {
+      UserDefaults.standard.set(referenceUrl, forKey: "fileAttachment")
+      tableView.reloadData()
+    }
+    picker.dismiss(animated: true, completion: nil)
+  }
+  
+  @objc func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+    UserDefaults.standard.removeObject(forKey: "fileAttachment")
+    tableView.reloadData()
+    picker.dismiss(animated: true, completion: nil)
+  }
+  
   @IBAction func enabledSwitchUpdated(_ sender: UISwitch) {
     appCenter.setCrashesEnabled(sender.isOn)
     sender.isOn = appCenter.isCrashesEnabled()
   }
   
-  private func pokeAllCrashes(){
+  private func pokeAllCrashes() {
     var count = UInt32(0)
     let classList = objc_copyClassList(&count)
     MSCrash.removeAllCrashes()
@@ -95,3 +194,4 @@ class MSCrashesViewController: UITableViewController, AppCenterProtocol {
     return categories.keys.sorted()[section]
   }
 }
+

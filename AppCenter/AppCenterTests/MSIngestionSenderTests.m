@@ -54,7 +54,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 - (void)tearDown {
   [super tearDown];
 
-  [OHHTTPStubs removeAllStubs];
+  [MSHttpTestUtil removeAllStubs];
 
   /*
    * Setting the variable to nil. We are experiencing test failure on Xcode 9 beta because the instance that was used

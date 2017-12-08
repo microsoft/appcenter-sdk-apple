@@ -1,17 +1,29 @@
 import Cocoa
 
-class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableViewDelegate {
+class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableViewDelegate, NSTextViewDelegate {
 
   var appCenter: AppCenterDelegate = AppCenterProvider.shared().appCenter!
   var crashes = [Any]()
   @IBOutlet var setEnabledButton : NSButton?
   @IBOutlet weak var crashesTableView: NSTableView!
+  @IBOutlet weak var fileAttachmentLabel: NSTextField!
+  @IBOutlet var textAttachmentView: NSTextView!
   
   override func viewDidLoad() {
     super.viewDidLoad()
     loadAllCrashes()
     crashesTableView.dataSource = self
     crashesTableView.delegate = self
+    textAttachmentView.delegate = self
+    
+    let text = UserDefaults.standard.string(forKey: "textAttachment")
+    if (text?.characters.count ?? 0) > 0 {
+      textAttachmentView.string = text;
+    }
+    let referenceUrl = UserDefaults.standard.url(forKey: "fileAttachment")
+    if referenceUrl != nil {
+      fileAttachmentLabel.stringValue = self.fileAttachmentDescription(url: referenceUrl)
+    }
   }
 
   override func viewWillAppear() {
@@ -22,7 +34,29 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
     appCenter.setCrashesEnabled(sender.state == 1)
     sender.state = appCenter.isCrashesEnabled() ? 1 : 0
   }
+  
+  @IBAction func browseFileAttachment(_ sender: Any) {
+    let openPanel = NSOpenPanel()
+    openPanel.begin(completionHandler: { (result) -> Void in
+      let url = result == NSFileHandlingPanelOKButton && openPanel.url != nil ? openPanel.url : nil
+      if url != nil {
+        UserDefaults.standard.set(url, forKey: "fileAttachment")
+      } else {
+        UserDefaults.standard.removeObject(forKey: "fileAttachment")
+      }
+      self.fileAttachmentLabel.stringValue = self.fileAttachmentDescription(url: url)
+    })
+  }
 
+  func textDidChange(_ notification: Notification) {
+    let text = textAttachmentView.string;
+    if (text?.characters.count ?? 0) > 0 {
+      UserDefaults.standard.set(text, forKey: "textAttachment")
+    } else {
+      UserDefaults.standard.removeObject(forKey: "textAttachment")
+    }
+  }
+  
   func numberOfRows(in tableView: NSTableView) -> Int {
     return crashes.count;
   }
@@ -63,7 +97,7 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
   func crashButtonPressed(_ sender: Any) {
     (crashes[(sender as! NSButton).tag] as! MSCrash).crash()
   }
-
+  
   private func isHeader(row: Int) -> Bool {
     return crashes[row] is String
   }
@@ -100,6 +134,22 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
       if class_getSuperclass(className) == MSCrash.self && className != MSCrash.self{
         MSCrash.register((className as! MSCrash.Type).init())
       }
+    }
+  }
+  
+  private func fileAttachmentDescription(url: URL?) -> String {
+    if url != nil {
+      var desc = "File: \(url!.lastPathComponent)"
+      do {
+        let attr = try FileManager.default.attributesOfItem(atPath: url!.path)
+        let fileSize = ByteCountFormatter.string(fromByteCount: Int64(attr[FileAttributeKey.size] as! UInt64), countStyle: .binary)
+        desc += " Size: \(fileSize)"
+      } catch {
+        print(error)
+      }
+      return desc
+    } else {
+      return "Empty"
     }
   }
 }

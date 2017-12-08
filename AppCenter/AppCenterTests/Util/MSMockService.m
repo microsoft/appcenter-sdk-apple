@@ -40,6 +40,10 @@ static MSMockService *sharedInstance = nil;
   return @"AppCenterTest";
 }
 
+- (void)startWithLogManager:(id<MSLogManager>)__unused logManager appSecret:(NSString *)__unused appSecret {
+  [self setStarted:YES];
+}
+
 - (void)applyEnabledState:(BOOL)__unused isEnabled {
 }
 

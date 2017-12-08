@@ -9,6 +9,12 @@
 static NSString *const kMSInstallIdKey = @"MSInstallId";
 static NSString *const kMSAppCenterIsEnabledKey = @"MSAppCenterIsEnabled";
 
+// Name of the environment variable to check for which services should be disabled.
+static NSString *const kMSDisableVariable = @"APP_CENTER_DISABLE";
+
+// Value that would cause all services to be disabled.
+static NSString *const kMSDisableAll = @"All";
+
 @interface MSAppCenter ()
 
 @property(nonatomic) id<MSLogManager> logManager;

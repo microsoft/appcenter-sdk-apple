@@ -194,7 +194,7 @@
 
                           // Failure.
                           else {
-                            MSLogDebug([MSAppCenter logTag], @"Log(s) sent with failure, batch Id:%@, status code:%lu",
+                            MSLogError([MSAppCenter logTag], @"Log(s) sent with failure, batch Id:%@, status code:%lu",
                                        senderBatchId, (unsigned long)statusCode);
 
                             // Notify delegates.
