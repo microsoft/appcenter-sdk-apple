@@ -1,11 +1,11 @@
-#import "MSMockService.h"
+#import "MSMockSecondService.h"
 #import "MSChannelConfiguration.h"
 
-static NSString *const kMSServiceName = @"MSMockService";
-static NSString *const kMSGroupId = @"MSMock";
-static MSMockService *sharedInstance = nil;
+static NSString *const kMSServiceName = @"MSMockSecondService";
+static NSString *const kMSGroupId = @"MSSecondMock";
+static MSMockSecondService *sharedInstance = nil;
 
-@implementation MSMockService
+@implementation MSMockSecondService
 
 @synthesize appSecret;
 @synthesize available;

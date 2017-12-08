@@ -1,7 +1,7 @@
 #import "MSServiceAbstract.h"
 #import "MSServiceInternal.h"
 
-@interface MSMockService : MSServiceAbstract <MSServiceInternal>
+@interface MSMockSecondService : MSServiceAbstract <MSServiceInternal>
 
 @property BOOL started;
 
