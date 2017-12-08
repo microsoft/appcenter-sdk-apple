@@ -890,7 +890,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="iKN-Nv-kfg" viewBased="YES" id="NGD-n2-KNP">
-                                            <rect key="frame" x="0.0" y="-139" width="408" height="156"/>
+                                            <rect key="frame" x="0.0" y="-162" width="408" height="156"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1343,7 +1343,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="22" headerView="QQk-B0-wlz" viewBased="YES" id="osf-6i-QQe">
-                                            <rect key="frame" x="0.0" y="-77" width="408" height="195"/>
+                                            <rect key="frame" x="0.0" y="-100" width="408" height="195"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1452,11 +1452,11 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="value" hidden="YES" misplaced="YES" id="aYv-Cn-5QP">
-                                                            <rect key="frame" x="212" y="1" width="194" height="22"/>
+                                                        <tableCellView identifier="value" hidden="YES" id="aYv-Cn-5QP">
+                                                            <rect key="frame" x="212" y="1" width="194" height="21"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <textField identifier="String" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="YqD-JS-r3f">
+                                                                <textField identifier="String" hidden="YES" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="YqD-JS-r3f">
                                                                     <rect key="frame" x="0.0" y="2" width="198" height="17"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" title="String" placeholderString="Value" id="PRQ-8b-ODL">
                                                                         <font key="font" metaFont="system"/>
@@ -1464,14 +1464,14 @@
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                     <connections>
-                                                                        <binding destination="aYv-Cn-5QP" name="value" keyPath="objectValue.value" id="OaA-Ta-DbJ">
+                                                                        <binding destination="aYv-Cn-5QP" name="value" keyPath="objectValue.string" id="Iu8-Vv-PCi">
                                                                             <dictionary key="options">
                                                                                 <string key="NSNullPlaceholder">Value</string>
                                                                             </dictionary>
                                                                         </binding>
                                                                     </connections>
                                                                 </textField>
-                                                                <textField identifier="Number" verticalHuggingPriority="750" tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="lXB-N6-xMi">
+                                                                <textField identifier="Number" hidden="YES" verticalHuggingPriority="750" tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="lXB-N6-xMi">
                                                                     <rect key="frame" x="0.0" y="0.0" width="194" height="21"/>
                                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" title="Number" placeholderString="Value" drawsBackground="YES" id="2sf-q3-tvW">
                                                                         <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="yz5-xX-cbO"/>
@@ -1480,24 +1480,24 @@
                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                     <connections>
-                                                                        <binding destination="aYv-Cn-5QP" name="value" keyPath="objectValue.value" id="Jyz-fE-aG8">
+                                                                        <binding destination="aYv-Cn-5QP" name="value" keyPath="objectValue.number" id="BsK-F3-Dw7">
                                                                             <dictionary key="options">
                                                                                 <string key="NSNullPlaceholder">Value</string>
                                                                             </dictionary>
                                                                         </binding>
                                                                     </connections>
                                                                 </textField>
-                                                                <button verticalHuggingPriority="750" tag="3" translatesAutoresizingMaskIntoConstraints="NO" id="4jc-kH-bps">
+                                                                <button hidden="YES" verticalHuggingPriority="750" tag="3" translatesAutoresizingMaskIntoConstraints="NO" id="4jc-kH-bps">
                                                                     <rect key="frame" x="-2" y="-2" width="198" height="25"/>
                                                                     <buttonCell key="cell" type="check" bezelStyle="regularSquare" imagePosition="only" inset="2" id="5fl-VW-o2Q">
                                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                         <font key="font" metaFont="system"/>
                                                                     </buttonCell>
                                                                     <connections>
-                                                                        <binding destination="aYv-Cn-5QP" name="value" keyPath="objectValue" id="H9w-Qc-zrH"/>
+                                                                        <binding destination="aYv-Cn-5QP" name="value" keyPath="objectValue.boolean" id="QlX-1U-64H"/>
                                                                     </connections>
                                                                 </button>
-                                                                <datePicker identifier="DateTime" verticalHuggingPriority="750" tag="4" translatesAutoresizingMaskIntoConstraints="NO" id="UFf-ZN-WTL" userLabel="DateTime">
+                                                                <datePicker identifier="DateTime" hidden="YES" verticalHuggingPriority="750" tag="4" translatesAutoresizingMaskIntoConstraints="NO" id="UFf-ZN-WTL" userLabel="DateTime">
                                                                     <rect key="frame" x="0.0" y="0.0" width="197" height="25"/>
                                                                     <datePickerCell key="cell" borderStyle="bezel" alignment="left" id="9ba-f8-yHE">
                                                                         <font key="font" metaFont="system"/>
@@ -1509,7 +1509,7 @@
                                                                         <datePickerElements key="datePickerElements" year="YES" month="YES" day="YES" hour="YES" minute="YES" second="YES"/>
                                                                     </datePickerCell>
                                                                     <connections>
-                                                                        <binding destination="aYv-Cn-5QP" name="value" keyPath="objectValue.value" id="1tU-sI-W0K"/>
+                                                                        <binding destination="aYv-Cn-5QP" name="value" keyPath="objectValue.dateTime" id="T7k-iN-5sZ"/>
                                                                     </connections>
                                                                 </datePicker>
                                                             </subviews>

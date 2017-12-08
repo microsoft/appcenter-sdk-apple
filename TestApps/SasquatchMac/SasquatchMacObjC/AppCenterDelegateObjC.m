@@ -17,6 +17,9 @@
 - (void)setAppCenterEnabled:(BOOL)isEnabled {
   return [MSAppCenter setEnabled:isEnabled];
 }
+- (void) setCustomProperties:(MSCustomProperties *)customProperties {
+  [MSAppCenter setCustomProperties:customProperties];
+}
 - (NSString *)installId {
   return [[MSAppCenter installId] UUIDString];
 }

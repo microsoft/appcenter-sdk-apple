@@ -16,7 +16,10 @@ class CustomPropertiesViewControler: NSViewController {
   class CustomProperty : NSObject {
     var key: String? = nil
     var type: String = CustomPropertyType.Clear.rawValue
-    var value: Any? = nil
+    var string: String? = nil
+    var number: NSNumber? = nil
+    var boolean: Bool = false
+    var dateTime: Date? = nil
   }
   
   var appCenter: AppCenterDelegate = AppCenterProvider.shared().appCenter!
@@ -42,6 +45,35 @@ class CustomPropertiesViewControler: NSViewController {
   }
   
   @IBAction func send(_ sender: Any) {
+    let customProperties = MSCustomProperties()
+    for property in properties {
+      guard let key = property.key else {
+        continue
+      }
+      guard let type = CustomPropertyType(rawValue: property.type) else {
+        continue
+      }
+      switch type {
+      case .Clear:
+        customProperties.clearProperty(forKey: key)
+      case .String:
+        if let value = property.string {
+          customProperties.setString(value, forKey: key)
+        }
+      case .Number:
+        if let value = property.number {
+          customProperties.setNumber(value, forKey: key)
+        }
+      case .Boolean:
+        let value = property.boolean
+        customProperties.setBool(value, forKey: key)
+      case .DateTime:
+        if let value = property.dateTime {
+          customProperties.setDate(value, forKey: key)
+        }
+      }
+    }
+    appCenter.setCustomProperties(customProperties)
     print("send")
   }
   
@@ -60,7 +92,6 @@ class CustomPropertiesViewControler: NSViewController {
   }
   
   func updateValue(property: CustomProperty, cell: NSTableCellView) {
-    property.value = nil
     cell.isHidden = false
     for subview in cell.subviews {
       subview.isHidden = true
