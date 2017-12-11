@@ -28,7 +28,7 @@ if [ "$repo_root" == "" ] || [ "$new_version" == "" ]; then
 fi
 
 document_folder=$repo_root/Documentation
-version_config=$repo_root/$VERSION_FILENAME
+version_config=$repo_root/Config/Version.xcconfig
 
 sed -i '' 's/\(VERSION_STRING[[:space:]]=[[:space:]]\).*/\1'$new_version'/g' $version_config
 
