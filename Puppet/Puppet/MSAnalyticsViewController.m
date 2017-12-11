@@ -13,7 +13,6 @@ static NSInteger kPropertiesSection = 3;
 
 @interface MSAnalyticsViewController ()
 
-@property (weak, nonatomic) IBOutlet UITableView *propertiesTable;
 @property (weak, nonatomic) IBOutlet UISwitch *enabled;
 @property (weak, nonatomic) IBOutlet UITextField *eventName;
 @property (weak, nonatomic) IBOutlet UITextField *pageName;
@@ -59,7 +58,7 @@ static NSInteger kPropertiesSection = 3;
   NSMutableDictionary *properties = [NSMutableDictionary new];
   for (int i = 0; i < self.propertiesCount; i++) {
     MSAnalyticsPropertyTableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:kPropertiesSection]];
-    [properties setObject:cell.keyField.text forKey:cell.valueField.text];
+    [properties setObject:cell.valueField.text forKey:cell.keyField.text];
   }
   return properties;
 }

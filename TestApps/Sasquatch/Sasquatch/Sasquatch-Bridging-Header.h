@@ -4,5 +4,3 @@
 
 #import "Constants.h"
 #import "CrashLib.h"
-#import "MSPropertyViewCell.h"
-#import "MSPropertiesTableDataSource.h"
