@@ -3,6 +3,7 @@
  */
 
 #import "AppCenter.h"
+#import "MSAlertController.h"
 #import "MSAppCenterPrivate.h"
 #import "MSCustomPropertiesViewController.h"
 #import "MSCustomPropertyTableViewCell.h"
@@ -32,9 +33,16 @@ static NSInteger kPropertiesSection = 0;
   }
   [MSAppCenter setCustomProperties:customProperties];
   
-  // Clear the list
+  // Clear the list.
   self.propertiesCount = 0;
   [self.tableView reloadData];
+  
+  // Display a dialog.
+  MSAlertController *alertController =
+      [MSAlertController alertControllerWithTitle:@"The custom properties log is queued"
+                                          message:nil];
+  [alertController addCancelActionWithTitle:@"OK" handler:nil];
+  [alertController show];
 }
 
 - (NSString *)cellIdentifierForRowAtIndexPath:(NSIndexPath *)indexPath {

@@ -21,9 +21,16 @@ class MSCustomPropertiesViewController : UITableViewController, AppCenterProtoco
     }
     appCenter.setCustomProperties(customProperties)
     
-    // Clear the list
+    // Clear the list.
     propertiesCount = 0
     tableView.reloadData()
+    
+    // Display a dialog.
+    let alertController = UIAlertController(title: "The custom properties log is queued",
+                                            message: nil,
+                                            preferredStyle:.alert)
+    alertController.addAction(UIAlertAction(title: "OK", style: .default))
+    present(alertController, animated: true)
   }
   
   func cellIdentifierForRow(at indexPath: IndexPath) -> String {
