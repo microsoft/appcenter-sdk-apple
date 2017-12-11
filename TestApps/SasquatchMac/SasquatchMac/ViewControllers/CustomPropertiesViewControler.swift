@@ -1,7 +1,7 @@
 import Cocoa
 import AppCenter
 
-class CustomPropertiesViewControler: NSViewController {
+class CustomPropertiesViewControler: NSViewController, NSTableViewDelegate {
   
   enum CustomPropertyType : String {
     case Clear = "Clear"
@@ -14,12 +14,12 @@ class CustomPropertiesViewControler: NSViewController {
   }
   
   class CustomProperty : NSObject {
-    var key: String? = nil
+    var key: String = ""
     var type: String = CustomPropertyType.Clear.rawValue
-    var string: String? = nil
-    var number: NSNumber? = nil
+    var string: String = ""
+    var number: NSNumber = 0
     var boolean: Bool = false
-    var dateTime: Date? = nil
+    var dateTime: Date = Date.init()
   }
   
   var appCenter: AppCenterDelegate = AppCenterProvider.shared().appCenter!
@@ -30,6 +30,7 @@ class CustomPropertiesViewControler: NSViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    tableView.delegate = self
   }
   
   @IBAction func addProperty(_ sender: Any) {
@@ -47,9 +48,7 @@ class CustomPropertiesViewControler: NSViewController {
   @IBAction func send(_ sender: Any) {
     let customProperties = MSCustomProperties()
     for property in properties {
-      guard let key = property.key else {
-        continue
-      }
+      let key = property.key
       guard let type = CustomPropertyType(rawValue: property.type) else {
         continue
       }
@@ -57,23 +56,27 @@ class CustomPropertiesViewControler: NSViewController {
       case .Clear:
         customProperties.clearProperty(forKey: key)
       case .String:
-        if let value = property.string {
-          customProperties.setString(value, forKey: key)
-        }
+        customProperties.setString(property.string, forKey: key)
       case .Number:
-        if let value = property.number {
-          customProperties.setNumber(value, forKey: key)
-        }
+        customProperties.setNumber(property.number, forKey: key)
       case .Boolean:
-        let value = property.boolean
-        customProperties.setBool(value, forKey: key)
+        customProperties.setBool(property.boolean, forKey: key)
       case .DateTime:
-        if let value = property.dateTime {
-          customProperties.setDate(value, forKey: key)
-        }
+        customProperties.setDate(property.dateTime, forKey: key)
       }
     }
     appCenter.setCustomProperties(customProperties)
+  }
+  
+  func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+    guard let identifier = tableColumn?.identifier else {
+      return nil
+    }
+    let view = tableView.make(withIdentifier: identifier, owner: self)
+    if (identifier == "value") {
+      updateValue(property: properties[row], cell: view as! NSTableCellView)
+    }
+    return view
   }
   
   override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
