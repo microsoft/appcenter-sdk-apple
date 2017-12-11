@@ -78,7 +78,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="131.5"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Key" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1yC-YH-ABG" userLabel="Key Label">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1yC-YH-ABG" userLabel="Key Label">
                                             <rect key="frame" x="16" y="0.0" width="60" height="44.5"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="44" id="Ccp-gF-1sZ"/>
@@ -88,7 +88,7 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h8g-Yl-tlA" userLabel="Type Label">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Key" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h8g-Yl-tlA" userLabel="Type Label">
                                             <rect key="frame" x="16" y="44.5" width="60" height="44"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="60" id="23l-uw-mHf"/>
@@ -108,23 +108,23 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Key" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BhR-cQ-Pif">
+                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BhR-cQ-Pif" userLabel="Type Text Field">
                                             <rect key="frame" x="80" y="0.0" width="279" height="44"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="44" id="0c0-xW-tJR"/>
                                             </constraints>
                                             <nil key="textColor"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <textInputTraits key="textInputTraits" keyboardType="alphabet"/>
+                                            <textInputTraits key="textInputTraits"/>
                                         </textField>
-                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JOx-oC-0In" userLabel="Type Text Field">
+                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Key" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JOx-oC-0In" userLabel="Key Text Field">
                                             <rect key="frame" x="80" y="44" width="279" height="44"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="44" id="cOq-Kd-dFP"/>
                                             </constraints>
                                             <nil key="textColor"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <textInputTraits key="textInputTraits"/>
+                                            <textInputTraits key="textInputTraits" keyboardType="alphabet"/>
                                         </textField>
                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Value" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TMR-2O-O4o" userLabel="Value Text Field">
                                             <rect key="frame" x="80" y="88" width="279" height="44"/>
@@ -165,8 +165,8 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="boolValue" destination="wxs-YS-vBL" id="xMn-iO-cb6"/>
-                                    <outlet property="keyTextField" destination="BhR-cQ-Pif" id="Q2r-er-jBI"/>
-                                    <outlet property="typeTextField" destination="JOx-oC-0In" id="CdW-nL-fow"/>
+                                    <outlet property="keyTextField" destination="JOx-oC-0In" id="a2x-Vr-7hH"/>
+                                    <outlet property="typeTextField" destination="BhR-cQ-Pif" id="LVu-Q8-udb"/>
                                     <outlet property="valueBottomConstraint" destination="OMX-CO-9xf" id="Xen-DY-ddn"/>
                                     <outlet property="valueLabel" destination="GwB-r2-vuT" id="ZYn-fB-EEG"/>
                                     <outlet property="valueTextField" destination="TMR-2O-O4o" id="Itr-75-h9Y"/>
