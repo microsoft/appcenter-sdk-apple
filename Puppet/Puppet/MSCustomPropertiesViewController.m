@@ -31,6 +31,10 @@ static NSInteger kPropertiesSection = 0;
     [cell setPropertyTo:customProperties];
   }
   [MSAppCenter setCustomProperties:customProperties];
+  
+  // Clear the list
+  self.propertiesCount = 0;
+  [self.tableView reloadData];
 }
 
 - (NSString *)cellIdentifierForRowAtIndexPath:(NSIndexPath *)indexPath {
