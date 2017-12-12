@@ -1,0 +1,18 @@
+/*
+ * Update dialog buttons
+ */
+"MSDistributeUpdateNow" = "Aktualizuj teraz";
+"MSDistributeAskMeInADay" = "Zapytaj mnie jutro";
+"MSDistributeViewReleaseNotes" = "Wyświetl informacje o wersji";
+"MSDistributeClose" = "Zamknij";
+"MSDistributeIgnore" = "Zignorować";
+"MSDistributeReinstall" = "Zainstaluj ponownie aplikację";
+
+/*
+ * Update dialog titles/messages
+ */
+"MSDistributeAppUpdateAvailable" = "Dostępna jest aktualizacja aplikacji";
+"MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "Deweloperzy tej aplikacji wymagają przeprowadzenia aktualizacji do: %@ %@ (%@).";
+"MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "Aplikacja %@ %@ (%@) jest dostępna do pobrania i zainstalowania.";
+"MSDistributeInAppUpdatesAreDisabled" = "Aktualizacje w aplikacji są wyłączone.";
+"MSDistributeInstallFailedMessage" = "To wydanie zostało albo po stronie-załadowany lub pobrany za pomocą przeglądarki w trybie prywatnym.";

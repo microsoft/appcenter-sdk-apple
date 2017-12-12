@@ -1,0 +1,18 @@
+/*
+ * Update dialog buttons
+ */
+"MSDistributeUpdateNow" = "Обновить";
+"MSDistributeAskMeInADay" = "Спросить через день";
+"MSDistributeViewReleaseNotes" = "Просмотреть заметки о выпуске";
+"MSDistributeClose" = "Закрыть";
+"MSDistributeIgnore" = "Игнорировать";
+"MSDistributeReinstall" = "Переустановить приложение";
+
+/*
+ * Update dialog titles/messages
+ */
+"MSDistributeAppUpdateAvailable" = "Доступно обновление приложения";
+"MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "Разработчики этого приложения требуют выполнить обновление до %@ %@ (%@).";
+"MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "Обновление %@ %@ (%@) доступно для скачивания и установки.";
+"MSDistributeInAppUpdatesAreDisabled" = "Обновления в приложении отключены.";
+"MSDistributeInstallFailedMessage" = "Эта версия была либо загружена, либо загружена с помощью браузера в частном режиме.";

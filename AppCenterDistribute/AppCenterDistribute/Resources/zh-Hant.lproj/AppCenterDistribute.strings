@@ -1,0 +1,18 @@
+/*
+ * Update dialog buttons
+ */
+"MSDistributeUpdateNow" = "立即更新";
+"MSDistributeAskMeInADay" = "一天後詢問我";
+"MSDistributeViewReleaseNotes" = "檢視版本資訊";
+"MSDistributeClose" = "關閉";
+"MSDistributeIgnore" = "忽略";
+"MSDistributeReinstall" = "重新安裝應用程式";
+
+/*
+ * Update dialog titles/messages
+ */
+"MSDistributeAppUpdateAvailable" = "應用程式更新已可使用";
+"MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "此應用程式的開發人員要求您更新為 %@ %@ (%@)。";
+"MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@ (%@) 已可下載及安裝。";
+"MSDistributeInAppUpdatesAreDisabled" = "應用程式內部的更新已停用。";
+"MSDistributeInstallFailedMessage" = "此版本要麼是側面載入, 要麼是在專用模式下使用瀏覽器下載的。";

@@ -1,0 +1,18 @@
+/*
+ * Update dialog buttons
+ */
+"MSDistributeUpdateNow" = "Aktualizovat";
+"MSDistributeAskMeInADay" = "Zeptat se za den";
+"MSDistributeViewReleaseNotes" = "Zobrazit zprávu k vydání verze";
+"MSDistributeClose" = "Zavřít";
+"MSDistributeIgnore" = "Ignorovat";
+"MSDistributeReinstall" = "Znovu nainstalujte aplikaci";
+
+/*
+ * Update dialog titles/messages
+ */
+"MSDistributeAppUpdateAvailable" = "K dispozici je aktualizace aplikace.";
+"MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "Vývojáři této aplikace vyžadují, abyste si nainstalovali aktualizaci %@ %@ (%@).";
+"MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@ (%@) je k dispozici ke stažení a instalaci.";
+"MSDistributeInAppUpdatesAreDisabled" = "Aktualizace v aplikaci jsou zakázány.";
+"MSDistributeInstallFailedMessage" = "Tato verze byla buď strana-naložený nebo stáhnout pomocí prohlížeče v soukromém režimu.";

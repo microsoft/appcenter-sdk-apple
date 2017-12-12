@@ -1,0 +1,18 @@
+/*
+ * Update dialog buttons
+ */
+"MSDistributeUpdateNow" = "今すぐ更新";
+"MSDistributeAskMeInADay" = "明日また知らせる";
+"MSDistributeViewReleaseNotes" = "リリース ノートの表示";
+"MSDistributeClose" = "閉じる";
+"MSDistributeIgnore" = "無視";
+"MSDistributeReinstall" = "アプリの再インストール";
+
+/*
+ * Update dialog titles/messages
+ */
+"MSDistributeAppUpdateAvailable" = "アプリの更新プログラムが利用可能です";
+"MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "このアプリの開発者から、%@ %@ (%@) に更新するよう求められています。";
+"MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@ (%@) をダウンロードしてインストールできます。";
+"MSDistributeInAppUpdatesAreDisabled" = "アプリ内更新は無効です。";
+"MSDistributeInstallFailedMessage" = "このリリースは、プライベートモードでブラウザを使用してサイドローディングまたはダウンロードされました。";

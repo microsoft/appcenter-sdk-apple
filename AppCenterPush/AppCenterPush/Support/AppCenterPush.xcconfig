@@ -1,0 +1,5 @@
+PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.push
+
+APPLICATION_EXTENSION_API_ONLY = NO;
+
+OTHER_LDFLAGS=$(inherited) -framework Foundation

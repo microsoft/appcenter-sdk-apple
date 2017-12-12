@@ -1,0 +1,18 @@
+/*
+ * Update dialog buttons
+ */
+"MSDistributeUpdateNow" = "Şimdi güncelleştir";
+"MSDistributeAskMeInADay" = "Bir gün içinde sor";
+"MSDistributeViewReleaseNotes" = "Sürüm notlarını görüntüle";
+"MSDistributeClose" = "Kapat";
+"MSDistributeIgnore" = "Görmezden";
+"MSDistributeReinstall" = "Uygulamayı yeniden yükle";
+
+/*
+ * Update dialog titles/messages
+ */
+"MSDistributeAppUpdateAvailable" = "Uygulama güncelleştirmesi kullanılabilir";
+"MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "Bu uygulamanın geliştiricileri %@ %@ (%@) sürümüne güncelleştirmenizi gerektiriyor.";
+"MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@ (%@), indirme ve yükleme için hazır.";
+"MSDistributeInAppUpdatesAreDisabled" = "Uygulama içi güncelleştirmeler devre dışı.";
+"MSDistributeInstallFailedMessage" = "Bu sürüm ya yan yüklenen veya özel modda bir tarayıcı kullanılarak indirilmiş.";

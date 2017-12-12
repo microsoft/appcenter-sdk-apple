@@ -1,4 +1,127 @@
-# Mobile Center SDK for iOS Change Log
+# App Center SDK for iOS and macOS Change Log
+
+## Version 1.1.0
+
+This version contains a bug fix and improvements.
+
+### AppCenter
+
+* **[Fix]** Fix a locale issue that doesn't properly report system locale if an application doesn't support current language.
+* **[Improvement]** Change log level to make HTTP failures more visible, and add more logs.
+
+### MobileCenterDistribute
+
+* **[Improvement]** Add Portuguese to supported languages, see [this folder](https://github.com/Microsoft/AppCenter-SDK-Apple/tree/develop/AppCenterDistribute/AppCenterDistribute/Resources) for a list of supported languages.
+* **[Improvement]** Users with app versions that still use Mobile Center can directly upgrade to versions that use this version of App Center, without the need to reinstall.
+
+___
+
+## Version 1.0.1
+
+This version contains a bug fix that is specifically for the App Center SDK for React Native.
+
+### AppCenterCrashes
+
+* **[Fix]** Fix an issue that impacted the App Center SDK for React Native.
+
+## Version 1.0.0
+
+### General Availability (GA) Announcement.
+This version contains **breaking changes** due to the renaming from Mobile Center to App Center. In the unlikely event there was data on the device not sent prior to the update, that data will be discarded. This version introduces macOS support (preview).
+
+### AppCenter
+
+* **[Feature]** Now supports macOS (preview).
+* **[Fix]** Don't send startService log while SDK is disabled.
+
+### AppCenterAnalytics
+
+* **[Feature]** Now supports macOS (preview).
+
+### AppCenterCrashes
+
+* **[Feature]** Now supports macOS (preview).
+
+### AppCenterPush
+
+* **[Feature]** Now supports macOS (preview).
+
+### AppCenterDistribute
+
+* **[Fix]** Fix a bug where unrecoverable HTTP error wouldn't popup the reinstall app dialog after an app restart.
+* **[Improvement]** Adding missing translations.
+* **[Known bug]** Checking for last updates will fail if the app was updating from a Mobile Center app. A pop up will show next time the app is restarted to ask for reinstallation.
+
+___
+
+## Version 0.14.1
+
+This version contains bug fixes.
+
+### MobileCenterCrashes
+
+* **[Fix]** PLCrashReporter updated to v1.2.3, it fixes a recursion when processing exceptions.
+
+### MobileCenterPush
+
+* **[Fix]** Receiving a notification without message now forwards the message as a `nil` string instead of an `NSNull` object to the `MSPush` delegate.
+
+___
+
+## Version 0.14.0
+
+This version contains improvements and a feature.
+
+### MobileCenterDistribute
+
+* **[Improvement]** More languages supported for localized texts, see [this folder](https://github.com/Microsoft/mobile-center-sdk-ios/tree/develop/MobileCenterDistribute/MobileCenterDistribute/Resources) for a list of supported languages.
+* **[Improvement]** When in-app updates are disabled because of side-loading, a new dialog will inform user instead of being stuck on a web page. Dialog actions offer ignoring in-app updates or following a link to re-install from the portal. This new dialog has texts that are not localized yet.
+
+### MobileCenterPush
+
+* **[Feature]** Push now registers notifications on device simulators even though iOS won't produce a push token.
+
+___
+
+## Version 0.13.0
+
+This version contains bug fixes and a new API.
+
+### MobileCenter
+
+* **[Feature]** Added an `sdkVersion` method to get the current version of Mobile Center SDK programmatically.
+* **[Fix]** Fixed a database open failure when Mobile Center SDK is used with any other SQLite related libraries.
+
+### MobileCenterCrashes
+
+* **[Fix]** Fixed not sending crash logs when an application is crashed and relaunched from multitasking view.
+
+### MobileCenterPush
+
+* **[Fix]** Fixed sending push installation log twice after fresh install.
+
+___
+
+## Version 0.12.3
+
+This version contains a bug fix when the frameworks are integrated on applications which are built on Xcode 8.
+
+___
+
+## Version 0.12.2
+
+This version contains a bug fix and improvements. **Verified all functionalities against iOS 11 GM.**
+
+### MobileCenterCrashes
+
+* **[Improvement]** Added a millisecond precision to crash logs for more accurate log time.
+
+### MobileCenterDistribute
+
+* **[Improvement]** Improved swizzling behavior for deprecated `openURL` method if it is used by applications.
+* **[Fix]** Fixed being stuck on activating in-app update. It is back to open Safari in-app page for activation.
+
+___
 
 ## Version 0.12.1
 

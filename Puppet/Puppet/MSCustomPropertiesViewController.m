@@ -1,6 +1,6 @@
 #import "MSCustomPropertiesViewController.h"
-#import "MobileCenter.h"
-#import "MSMobileCenterPrivate.h"
+#import "AppCenter.h"
+#import "MSAppCenterPrivate.h"
 
 @interface MSCustomPropertiesViewController ()
 
@@ -29,7 +29,7 @@
       case 0: {
         MSCustomProperties *customProperties = [MSCustomProperties new];
         [customProperties setString:@"test" forKey:@"test"];
-        [MSMobileCenter setCustomProperties:customProperties];
+        [MSAppCenter setCustomProperties:customProperties];
         break;
       }
         
@@ -37,7 +37,7 @@
       case 1: {
         MSCustomProperties *customProperties = [MSCustomProperties new];
         [customProperties setNumber:@42 forKey:@"test"];
-        [MSMobileCenter setCustomProperties:customProperties];
+        [MSAppCenter setCustomProperties:customProperties];
         break;
       }
         
@@ -45,7 +45,7 @@
       case 2: {
         MSCustomProperties *customProperties = [MSCustomProperties new];
         [customProperties setBool:NO forKey:@"test"];
-        [MSMobileCenter setCustomProperties:customProperties];
+        [MSAppCenter setCustomProperties:customProperties];
         break;
       }
         
@@ -53,7 +53,7 @@
       case 3: {
         MSCustomProperties *customProperties = [MSCustomProperties new];
         [customProperties setDate:[NSDate date] forKey:@"test"];
-        [MSMobileCenter setCustomProperties:customProperties];
+        [MSAppCenter setCustomProperties:customProperties];
         break;
       }
         
@@ -64,7 +64,7 @@
         [customProperties setDate:[NSDate date] forKey:@"t2"];
         [customProperties setNumber:@42 forKey:@"t3"];
         [customProperties setBool:NO forKey:@"t4"];
-        [MSMobileCenter setCustomProperties:customProperties];
+        [MSAppCenter setCustomProperties:customProperties];
         break;
       }
         
@@ -72,7 +72,7 @@
       case 5: {
         MSCustomProperties *customProperties = [MSCustomProperties new];
         [customProperties clearPropertyForKey:@"test"];
-        [MSMobileCenter setCustomProperties:customProperties];
+        [MSAppCenter setCustomProperties:customProperties];
         break;
       }
         

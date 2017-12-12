@@ -2,7 +2,7 @@
 #import "MSDistributePrivate.h"
 #import "MSDistributeViewController.h"
 #import "MSReleaseDetails.h"
-#import "MobileCenterDistribute.h"
+#import "AppCenterDistribute.h"
 
 @interface MSDistributeViewController ()
 

@@ -17,9 +17,9 @@ class CrashesUITests: XCTestCase {
     // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
 
     // Enable SDK (we need it in case SDK was disabled by the test, which then failed and didn't enabled SDK back).
-    if let mobileCenterButton : XCUIElement = app?.switches["Set Enabled"] {
-      if (mobileCenterButton.value as! String == "0") {
-        mobileCenterButton.tap();
+    if let appCenterButton : XCUIElement = app?.switches["Set Enabled"] {
+      if (appCenterButton.value as! String == "0") {
+        appCenterButton.tap();
       }
     }
   }
@@ -44,14 +44,14 @@ class CrashesUITests: XCTestCase {
     XCTAssertEqual("0", crashesButton.value as! String);
 
     // Go back to start page.
-    app.buttons["Mobile Center"].tap();
-    let mobileCenterButton : XCUIElement = app.switches.element(boundBy: 0);
+    app.buttons["App Center"].tap();
+    let appCenterButton : XCUIElement = app.switches.element(boundBy: 0);
 
     // SDK should be enabled.
-    XCTAssertEqual("1", mobileCenterButton.value as! String);
+    XCTAssertEqual("1", appCenterButton.value as! String);
 
     // Disable SDK.
-    mobileCenterButton.tap();
+    appCenterButton.tap();
 
     // Go to crash page again.
     app.cells.element(boundBy: CrashesCellIndex).tap();
@@ -60,10 +60,10 @@ class CrashesUITests: XCTestCase {
     XCTAssertEqual("0", crashesButton.value as! String);
 
     // Go back and enable SDK.
-    app.buttons["Mobile Center"].tap();
+    app.buttons["App Center"].tap();
 
     // Enable SDK.
-    mobileCenterButton.tap();
+    appCenterButton.tap();
 
     // Go to crashes page.
     app.tables.cells.element(boundBy: CrashesCellIndex).tap();

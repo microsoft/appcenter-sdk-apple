@@ -3,8 +3,8 @@
  */
 
 #import "MSMainViewController.h"
-#import "MSMobileCenter.h"
-#import "MSMobileCenterInternal.h"
+#import "MSAppCenter.h"
+#import "MSAppCenterInternal.h"
 
 @interface MSMainViewController ()
 
@@ -12,6 +12,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *installId;
 @property (weak, nonatomic) IBOutlet UILabel *appSecret;
 @property (weak, nonatomic) IBOutlet UILabel *logUrl;
+@property (weak, nonatomic) IBOutlet UILabel *sdkVersion;
 
 @end
 
@@ -22,10 +23,11 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   
-  self.enabled.on = [MSMobileCenter isEnabled];
-  self.installId.text = [[MSMobileCenter installId] UUIDString];
-  self.appSecret.text = [[MSMobileCenter sharedInstance] appSecret];
-  self.logUrl.text = [[MSMobileCenter sharedInstance] logUrl];
+  self.enabled.on = [MSAppCenter isEnabled];
+  self.installId.text = [[MSAppCenter installId] UUIDString];
+  self.appSecret.text = [[MSAppCenter sharedInstance] appSecret];
+  self.logUrl.text = [[MSAppCenter sharedInstance] logUrl];
+  self.sdkVersion.text = [MSAppCenter sdkVersion];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
@@ -37,8 +39,8 @@
 }
 
 - (IBAction)enabledSwitchUpdated:(UISwitch *)sender {
-  [MSMobileCenter setEnabled:sender.on];
-  sender.on = [MSMobileCenter isEnabled];
+  [MSAppCenter setEnabled:sender.on];
+  sender.on = [MSAppCenter isEnabled];
 }
 
 @end

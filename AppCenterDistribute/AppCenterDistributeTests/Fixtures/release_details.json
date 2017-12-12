@@ -1,0 +1,36 @@
+{
+  "bundle_identifier": "com.microsoft.appcenter.xamarin.forms.puppet",
+  "distribution_group_id": "1379041b-0de4-471b-a46b-04b4f754684f",
+  "device_family": "iPhone/iPod/iPad",
+  "status": "available",
+  "is_latest": true,
+  "app_name": "Unit test",
+  "install_url": "itms-service://?action=download-manifest&url=contoso.com/release/filename",
+  "app_display_name": "xamarin puppet ios",
+  "destination_type": "group",
+  "min_os": "8.0",
+  "mandatory_update": true,
+  "version": "1.0",
+  "app_icon_url": null,
+  "short_version": "1",
+  "size": 1234567,
+  "fingerprint": "b10a8db164e0754105b7a99be72e3fe5",
+  "id": 1,
+  "uploaded_at": "2017-01-01T00:00:00.000Z",
+  "download_url": "https://contoso.com/path/download/filename",
+  "distribution_groups": [
+    {
+      "id": "1379041b-0de4-471b-a46b-04b4f754684f",
+      "name": "inappupdate"
+    }
+  ],
+  "provisioning_profile_type": "adhoc",
+  "package_hashes": [
+    "buildId1",
+    "buildId2"
+  ],
+  "app_os": "iOS",
+  "release_notes": "This is a release note for test",
+  "release_notes_url": "https://contoso.com/path/release/notes?skip_registration=true",
+  "provisioning_profile_name": "Unit test provisioning profile"
+}

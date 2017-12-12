@@ -1,6 +1,6 @@
 #!/bin/bash
-file=MobileCenter-SDK-Apple.zip
-folder=MobileCenter-SDK-Apple/
+file=AppCenter-SDK-Apple.zip
+folder=AppCenter-SDK-Apple/
 
 # Copy LICENSE, README and CHANGELOG
 cp LICENSE $folder

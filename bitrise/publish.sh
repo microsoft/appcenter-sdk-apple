@@ -5,8 +5,7 @@ REPOSITORY="$(echo $GIT_REPOSITORY_URL | awk -F "[:]" '{print $2}' | awk -F "[.]
 GITHUB_API_URL_TEMPLATE="https://%s.github.com/repos/%s/%s?access_token=%s%s"
 GITHUB_API_HOST="api"
 GITHUB_UPLOAD_HOST="uploads"
-BINARY_FILE="MobileCenter-SDK-Apple.zip"
-JQ_COMMAND=$BITRISE_DEPLOY_DIR/jq
+BINARY_FILE="AppCenter-SDK-Apple.zip"
 
 # GitHub API endpoints
 REQUEST_URL_REF_TAG="$(printf $GITHUB_API_URL_TEMPLATE $GITHUB_API_HOST $REPOSITORY 'git/refs/tags' $GITHUB_ACCESS_TOKEN)"
@@ -17,9 +16,9 @@ REQUEST_UPLOAD_URL_TEMPLATE="$(printf $GITHUB_API_URL_TEMPLATE $GITHUB_UPLOAD_HO
 
 ## I. Check parameter
 if [ -z $1 ] || ( [ "$1" != "internal" ] && [ "$1" != "external" ] ); then
-  echo "Invalid parameter.";
-  echo "  Usage: $0 {internal|external}";
-  exit 1;
+  echo "Invalid parameter."
+  echo "  Usage: $0 {internal|external}"
+  exit 1
 fi
 
 ## II. Get publish version
@@ -28,35 +27,28 @@ echo "Publish version:" $publish_version
 
 if [ "$1" == "internal" ]; then
 
-  ## 1. Get the latest version
-  echo "Get the latest version to determine a build number"
-  build_number=0
-  resp="$(curl -s $INTERNAL_RELEASE_VERSION_FILENAME)"
-  version="$(echo $resp | $JQ_COMMAND -r '.version')"
-
-  # Exit if response doesn't contain an array
-  if [ -z $version ] || [ "$version" == "" ] || [ "$version" == "null" ]; then
-    echo "Cannot retrieve the latest version"
-    echo "Response:" $resp
-    exit 1
-  fi
-
-  # Determine the next version
-  if [[ "$version" == $publish_version-* ]]; then
-    build_number="$(echo $version | awk -F "[-]" '{print $2}')"
-    build_number=$(($build_number + 1))
-  fi
-
-  publish_version=$publish_version-$build_number
-  echo "New version:" $publish_version
-
-  ## 2. Update version file
-  echo {\"version\":\"$publish_version\"} > ios_version.txt
-  azure telemetry --disable
-  echo "Y" | azure storage blob upload ios_version.txt sdk
-  rm ios_version.txt
+  ## Change publish version to internal version
+  publish_version=$SDK_PUBLISH_VERSION
+  echo "Detected internal release. Publish version is updated to " $publish_version
 
 else
+
+  ## 0. Download prerelease binary
+  prerelease_prefix=$(echo $BINARY_FILE | sed 's/.zip/-'$PRERELEASE_VERSION'/g')
+  resp="$(echo "Y" | azure storage blob list sdk ${prerelease_prefix})"
+  prerelease="$(echo $resp | sed 's/.*data:[[:space:]]\('$prerelease_prefix'+.\{40\}\.zip\).*/\1/1')"
+  if [[ $prerelease != $prerelease_prefix+*.zip ]]; then
+    if [ -z $PRERELEASE_VERSION ]; then
+      echo "You didn't provide a prerelease version to the build."
+      echo "If you didn't provide the prerelease version, add PRERELEASE_VERSION as a key and version as a value in Custom Environment Variables."
+    else
+      echo "Cannot find ("$PRERELEASE_VERSION") in Azure Blob Storage. Make sure you have provided a prerelease version to the build."
+    fi
+    exit 1
+  fi
+  commit_hash="$(echo $resp | sed 's/.*data:[[:space:]]'$prerelease_prefix'+\(.\{40\}\)\.zip.*/\1/1')"
+  echo "Y" | azure storage blob download sdk $prerelease
+  mv $prerelease $BITRISE_DEPLOY_DIR/$BINARY_FILE
 
   ## 1. Extract change log
   change_log_found=false
@@ -88,14 +80,14 @@ else
   echo "Change log:" "$change_log"
 
   ## 2. Create a tag
-  echo "Create a tag ($publish_version) for the commit ($GIT_CLONE_COMMIT_HASH)"
+  echo "Create a tag ($publish_version) for the commit ($commit_hash)"
   resp="$(curl -s -X POST $REQUEST_URL_TAG -d '{
       "tag": "'${publish_version}'",
       "message": "'${publish_version}'",
       "type": "commit",
-      "object": "'${GIT_CLONE_COMMIT_HASH}'"
+      "object": "'${commit_hash}'"
     }')"
-  sha="$(echo $resp | $JQ_COMMAND -r '.sha')"
+  sha="$(echo $resp | jq -r '.sha')"
 
   # Exit if response doesn't contain "sha" key
   if [ -z $sha ] || [ "$sha" == "" ] || [ "$sha" == "null" ]; then
@@ -112,7 +104,7 @@ else
       "ref": "refs/tags/'${publish_version}'",
       "sha": "'${sha}'"
     }')"
-  ref="$(echo $resp | $JQ_COMMAND -r '.ref')"
+  ref="$(echo $resp | jq -r '.ref')"
 
   # Exit if response doesn't contain "ref" key
   if [ -z $ref ] || [ "$ref" == "" ] || [ "$ref" == "null" ]; then
@@ -133,7 +125,7 @@ else
       "draft": true,
       "prerelease": true
     }')"
-  id="$(echo $resp | $JQ_COMMAND -r '.id')"
+  id="$(echo $resp | jq -r '.id')"
 
   # Exit if response doesn't contain "id" key
   if [ -z $id ] || [ "$id" == "" ] || [ "$id" == "null" ]; then
@@ -149,22 +141,41 @@ fi
 ## III. Upload binary
 cd $BITRISE_DEPLOY_DIR # This is required, file upload via curl doesn't properly work with absolute path
 echo "Upload binaries"
-upload_url="$(echo $REQUEST_UPLOAD_URL_TEMPLATE | sed 's/{id}/'$id'/g')"
-filename=$(echo $BINARY_FILE | sed 's/.zip/-'${publish_version}'.zip/g')
-mv $BINARY_FILE $filename
 
-# Upload binary to Azure Storage
-resp="$(echo "N" | azure storage blob upload ${filename} sdk | grep overwrite)"
-if [ "$resp" ]; then
-  echo "${filename} already exists"
-  exit 1
-fi
+if [ "$1" == "internal" ]; then
 
-# Upload binary to GitHub for external release
-if [ "$1" == "external" ]; then
+  # Determine the filename for the release
+  filename=$(echo $BINARY_FILE | sed 's/.zip/-'${publish_version}'+'$BITRISE_GIT_COMMIT'.zip/g')
+
+  # Replace the latest binary in Azure Storage
+  echo "Y" | azure storage blob upload $BINARY_FILE sdk
+
+  # Upload binary to Azure Storage
+  mv $BINARY_FILE $filename
+  resp="$(echo "N" | azure storage blob upload ${filename} sdk | grep overwrite)"
+  if [ "$resp" ]; then
+    echo "${filename} already exists"
+    exit 1
+  fi
+
+else
+
+  # Determine the filename for the release
+  filename=$(echo $BINARY_FILE | sed 's/.zip/-'${publish_version}'.zip/g')
+
+  # Upload binary to Azure Storage
+  mv $BINARY_FILE $filename
+  resp="$(echo "N" | azure storage blob upload ${filename} sdk | grep overwrite)"
+  if [ "$resp" ]; then
+    echo "${filename} already exists"
+    exit 1
+  fi
+
+  # Upload binary to GitHub for external release
+  upload_url="$(echo $REQUEST_UPLOAD_URL_TEMPLATE | sed 's/{id}/'$id'/g')"
   url="$(echo $upload_url | sed 's/{filename}/'${filename}'/g')"
   resp="$(curl -s -X POST -H 'Content-Type: application/zip' --data-binary @$filename $url)"
-  id="$(echo $resp | $JQ_COMMAND -r '.id')"
+  id="$(echo $resp | jq -r '.id')"
 
   # Log error if response doesn't contain "id" key
   if [ -z $id ] || [ "$id" == "" ] || [ "$id" == "null" ]; then
@@ -173,9 +184,7 @@ if [ "$1" == "external" ]; then
     echo "Response:" $resp
     exit 1
   fi
+
 fi
 
 echo $filename "Uploaded successfully"
-
-## Clean up
-rm -rf $JQ_COMMAND

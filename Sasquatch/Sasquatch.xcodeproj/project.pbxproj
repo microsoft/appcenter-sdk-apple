@@ -7,17 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		046790421E8DA7D80033FDEC /* MobileCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046790411E8DA7D80033FDEC /* MobileCenterPush.framework */; };
-		046790431E8DA7E90033FDEC /* MobileCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046790411E8DA7D80033FDEC /* MobileCenterPush.framework */; };
-		047D13721EAFBDBE00D699BA /* MobileCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 047D13711EAFBDBE00D699BA /* MobileCenterDistributeResources.bundle */; };
-		047D13781EAFD77E00D699BA /* Main.strings in Resources */ = {isa = PBXBuildFile; fileRef = 047D13771EAFD77E00D699BA /* Main.strings */; };
-		047D13791EAFD77E00D699BA /* Main.strings in Resources */ = {isa = PBXBuildFile; fileRef = 047D13771EAFD77E00D699BA /* Main.strings */; };
+		041A4BB11F8C28A3009E1B6C /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
+		046790421E8DA7D80033FDEC /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046790411E8DA7D80033FDEC /* AppCenterPush.framework */; };
+		046790431E8DA7E90033FDEC /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046790411E8DA7D80033FDEC /* AppCenterPush.framework */; };
+		047D13721EAFBDBE00D699BA /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 047D13711EAFBDBE00D699BA /* AppCenterDistributeResources.bundle */; };
+		048933631F8D395A00C38A87 /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
 		5CE2587F1EA5F60200DA8FB9 /* DistributeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE2587D1EA5F5FC00DA8FB9 /* DistributeUITests.swift */; };
 		5CE258801EA5F60500DA8FB9 /* CrashesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE2587B1EA5F5EB00DA8FB9 /* CrashesUITests.swift */; };
 		5CE258811EA5F60900DA8FB9 /* AnalyticsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE258791EA5F5DF00DA8FB9 /* AnalyticsUITests.swift */; };
 		5CE258921EA5F62E00DA8FB9 /* AnalyticsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE258791EA5F5DF00DA8FB9 /* AnalyticsUITests.swift */; };
 		5CE258931EA5F62E00DA8FB9 /* CrashesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE2587B1EA5F5EB00DA8FB9 /* CrashesUITests.swift */; };
 		5CE258941EA5F62E00DA8FB9 /* DistributeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE2587D1EA5F5FC00DA8FB9 /* DistributeUITests.swift */; };
+		803CFF271F6A7E1D0072B9BA /* MSPushViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803CFF261F6A7E1D0072B9BA /* MSPushViewController.swift */; };
+		803CFF281F6A7E1D0072B9BA /* MSPushViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803CFF261F6A7E1D0072B9BA /* MSPushViewController.swift */; };
 		808A11021EF3130A00DFD41B /* MSPropertiesTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 808A10FF1EF3130A00DFD41B /* MSPropertiesTableDataSource.m */; };
 		808A11031EF3130A00DFD41B /* MSPropertyViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 808A11011EF3130A00DFD41B /* MSPropertyViewCell.m */; };
 		808A11041EF31D2500DFD41B /* MSPropertiesTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 808A10FF1EF3130A00DFD41B /* MSPropertiesTableDataSource.m */; };
@@ -27,35 +29,31 @@
 		84226C561E88FF4A00798417 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C551E88FF4A00798417 /* Assets.xcassets */; };
 		84226C831E8908CA00798417 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226C821E8908CA00798417 /* AppDelegate.swift */; };
 		84226C8A1E8908CA00798417 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C891E8908CA00798417 /* Assets.xcassets */; };
-		84226D0D1E891FEF00798417 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226D0B1E891FBA00798417 /* MSAlertController.m */; };
-		84226D0E1E891FF100798417 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226D0B1E891FBA00798417 /* MSAlertController.m */; };
-		84226D321E89301B00798417 /* MobileCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D2E1E89301A00798417 /* MobileCenter.framework */; };
-		84226D331E89301B00798417 /* MobileCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D2F1E89301B00798417 /* MobileCenterAnalytics.framework */; };
-		84226D341E89301B00798417 /* MobileCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D301E89301B00798417 /* MobileCenterCrashes.framework */; };
-		84226D351E89301B00798417 /* MobileCenterDistribute.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D311E89301B00798417 /* MobileCenterDistribute.framework */; };
-		84226D361E89302900798417 /* MobileCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D2E1E89301A00798417 /* MobileCenter.framework */; };
-		84226D371E89302900798417 /* MobileCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D2F1E89301B00798417 /* MobileCenterAnalytics.framework */; };
-		84226D381E89302900798417 /* MobileCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D301E89301B00798417 /* MobileCenterCrashes.framework */; };
-		84226D391E89302900798417 /* MobileCenterDistribute.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D311E89301B00798417 /* MobileCenterDistribute.framework */; };
-		84226D3C1E8938D100798417 /* MobileCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226D3A1E8937FF00798417 /* MobileCenterDelegate.swift */; };
-		84226D3D1E8938D200798417 /* MobileCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226D3A1E8937FF00798417 /* MobileCenterDelegate.swift */; };
-		84226D3F1E8939B700798417 /* MobileCenterDelegateSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226D3E1E8939B700798417 /* MobileCenterDelegateSwift.swift */; };
-		84226D421E8953F100798417 /* MobileCenterDelegateObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226D411E8953F100798417 /* MobileCenterDelegateObjC.m */; };
+		84226D321E89301B00798417 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D2E1E89301A00798417 /* AppCenter.framework */; };
+		84226D331E89301B00798417 /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D2F1E89301B00798417 /* AppCenterAnalytics.framework */; };
+		84226D341E89301B00798417 /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D301E89301B00798417 /* AppCenterCrashes.framework */; };
+		84226D351E89301B00798417 /* AppCenterDistribute.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D311E89301B00798417 /* AppCenterDistribute.framework */; };
+		84226D361E89302900798417 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D2E1E89301A00798417 /* AppCenter.framework */; };
+		84226D371E89302900798417 /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D2F1E89301B00798417 /* AppCenterAnalytics.framework */; };
+		84226D381E89302900798417 /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D301E89301B00798417 /* AppCenterCrashes.framework */; };
+		84226D391E89302900798417 /* AppCenterDistribute.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D311E89301B00798417 /* AppCenterDistribute.framework */; };
+		84226D3C1E8938D100798417 /* AppCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226D3A1E8937FF00798417 /* AppCenterDelegate.swift */; };
+		84226D3D1E8938D200798417 /* AppCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226D3A1E8937FF00798417 /* AppCenterDelegate.swift */; };
+		84226D3F1E8939B700798417 /* AppCenterDelegateSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226D3E1E8939B700798417 /* AppCenterDelegateSwift.swift */; };
+		84226D421E8953F100798417 /* AppCenterDelegateObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226D411E8953F100798417 /* AppCenterDelegateObjC.m */; };
 		845178ED1E8A8B0D004A0A6F /* MSMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845964AC1E8A7E9700BABA51 /* MSMainViewController.swift */; };
 		845964AB1E8A7E6600BABA51 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845964A91E8A7E6600BABA51 /* Main.storyboard */; };
 		845964AD1E8A7E9700BABA51 /* MSMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845964AC1E8A7E9700BABA51 /* MSMainViewController.swift */; };
-		849A3E721E8A9922008711CB /* MobileCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849A3E711E8A9922008711CB /* MobileCenterProtocol.swift */; };
-		849A3E731E8A9922008711CB /* MobileCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849A3E711E8A9922008711CB /* MobileCenterProtocol.swift */; };
+		849A3E721E8A9922008711CB /* AppCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849A3E711E8A9922008711CB /* AppCenterProtocol.swift */; };
+		849A3E731E8A9922008711CB /* AppCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849A3E711E8A9922008711CB /* AppCenterProtocol.swift */; };
 		84A0FF661E8A87B4000E7A28 /* MSCrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */; };
 		84A0FF671E8A87B4000E7A28 /* MSCrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */; };
 		84A0FF691E8A87C9000E7A28 /* MSAnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */; };
 		84A0FF6A1E8A87C9000E7A28 /* MSAnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */; };
 		84A0FF6C1E8A87E1000E7A28 /* MSDistributeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */; };
 		84A0FF6D1E8A87E1000E7A28 /* MSDistributeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */; };
-		84D63FF71E8BA838004C9F86 /* MSCrashesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D63FF61E8BA838004C9F86 /* MSCrashesDetailViewController.swift */; };
-		84D63FF81E8BA838004C9F86 /* MSCrashesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D63FF61E8BA838004C9F86 /* MSCrashesDetailViewController.swift */; };
 		84D63FF91E8BAA90004C9F86 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845964A91E8A7E6600BABA51 /* Main.storyboard */; };
-		B27424851EF2193E00F591E5 /* MobileCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 047D13711EAFBDBE00D699BA /* MobileCenterDistributeResources.bundle */; };
+		B27424851EF2193E00F591E5 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 047D13711EAFBDBE00D699BA /* AppCenterDistributeResources.bundle */; };
 		B2B36CE21EEF49B700230341 /* MSCustomPropertiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */; };
 		B2B36CE31EEF49C400230341 /* MSCustomPropertiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */; };
 		D31EF92D1E9517B600450162 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D31EF92B1E9517B600450162 /* Interface.storyboard */; };
@@ -74,6 +72,8 @@
 		D31EF96C1E9517C600450162 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31EF96B1E9517C600450162 /* NotificationController.swift */; };
 		D31EF96E1E9517C600450162 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D31EF96D1E9517C600450162 /* Assets.xcassets */; };
 		D31EF9721E9517C600450162 /* SasquatchWatchSwift.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = D31EF9541E9517C500450162 /* SasquatchWatchSwift.app */; };
+		F809D5041FC6DA2B005E0F83 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F809D5021FC6DA2B005E0F83 /* LaunchScreen.storyboard */; };
+		F809D5051FC6DD80005E0F83 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F809D5021FC6DA2B005E0F83 /* LaunchScreen.storyboard */; };
 		F89D79091E93DA3A0094521F /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F89D79081E93DA3A0094521F /* CrashLibIOS.framework */; };
 		F89D790A1E93DA3A0094521F /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F89D79081E93DA3A0094521F /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F89D790C1E93DA500094521F /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F89D79081E93DA3A0094521F /* CrashLibIOS.framework */; };
@@ -195,21 +195,39 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		046790411E8DA7D80033FDEC /* MobileCenterPush.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterPush.framework; path = "../MobileCenter-SDK-Apple/iOS/MobileCenterPush.framework"; sourceTree = "<group>"; };
+		041A4BB01F8C28A3009E1B6C /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Sasquatch.strings; sourceTree = "<group>"; };
+		041A4BB21F8C29E7009E1B6C /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Sasquatch.strings; sourceTree = "<group>"; };
+		041A4BB31F8C2A33009E1B6C /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Sasquatch.strings; sourceTree = "<group>"; };
+		041A4BB41F8C2A3F009E1B6C /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Sasquatch.strings; sourceTree = "<group>"; };
+		041A4BB51F8C2A47009E1B6C /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Sasquatch.strings; sourceTree = "<group>"; };
+		041A4BB61F8C2A51009E1B6C /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Sasquatch.strings; sourceTree = "<group>"; };
+		041A4BB71F8C2A5A009E1B6C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Sasquatch.strings; sourceTree = "<group>"; };
+		041A4BB81F8C2A60009E1B6C /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Sasquatch.strings; sourceTree = "<group>"; };
+		041A4BB91F8C2A69009E1B6C /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Sasquatch.strings; sourceTree = "<group>"; };
+		0482105C1FD0B611006824F7 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Sasquatch.strings; sourceTree = "<group>"; };
+		041A4BBA1F8C2A74009E1B6C /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Sasquatch.strings; sourceTree = "<group>"; };
+		041A4BBB1F8C2A7B009E1B6C /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Sasquatch.strings; sourceTree = "<group>"; };
+		041A4BBC1F8C2A84009E1B6C /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Sasquatch.strings"; sourceTree = "<group>"; };
+		041A4BBD1F8C2A8B009E1B6C /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Sasquatch.strings"; sourceTree = "<group>"; };
+		041E2BEE1FB6465000793316 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		045A947D1F97C840002B7CB1 /* App.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = App.xcconfig; path = ../../../Config/App.xcconfig; sourceTree = "<group>"; };
+		046790411E8DA7D80033FDEC /* AppCenterPush.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterPush.framework; path = "../AppCenter-SDK-Apple/iOS/AppCenterPush.framework"; sourceTree = "<group>"; };
 		046790441E8DA8D50033FDEC /* SasquatchSwift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchSwift.entitlements; sourceTree = "<group>"; };
 		046790451E8DA8DD0033FDEC /* SasquatchObjC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchObjC.entitlements; sourceTree = "<group>"; };
-		047D13711EAFBDBE00D699BA /* MobileCenterDistributeResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = MobileCenterDistributeResources.bundle; path = "../MobileCenter-SDK-Apple/iOS/MobileCenterDistributeResources.bundle"; sourceTree = "<group>"; };
-		047D13771EAFD77E00D699BA /* Main.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Main.strings; sourceTree = "<group>"; };
+		047D13711EAFBDBE00D699BA /* AppCenterDistributeResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AppCenterDistributeResources.bundle; path = "../AppCenter-SDK-Apple/iOS/AppCenterDistributeResources.bundle"; sourceTree = "<group>"; };
+		384929201FACF5DA003F8736 /* SasquatchWatchObjC Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SasquatchWatchObjC Extension.entitlements"; sourceTree = SOURCE_ROOT; };
+		384929211FACF5F3003F8736 /* SasquatchWatchSwift Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SasquatchWatchSwift Extension.entitlements"; sourceTree = SOURCE_ROOT; };
 		5CD700E51EA4B74500FC5D12 /* SasquatchSwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchSwiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		5CE258791EA5F5DF00DA8FB9 /* AnalyticsUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnalyticsUITests.swift; path = SasquatchUITests/AnalyticsUITests.swift; sourceTree = SOURCE_ROOT; };
-		5CE2587B1EA5F5EB00DA8FB9 /* CrashesUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CrashesUITests.swift; path = SasquatchUITests/CrashesUITests.swift; sourceTree = SOURCE_ROOT; };
-		5CE2587D1EA5F5FC00DA8FB9 /* DistributeUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DistributeUITests.swift; path = SasquatchUITests/DistributeUITests.swift; sourceTree = SOURCE_ROOT; };
+		5CE258791EA5F5DF00DA8FB9 /* AnalyticsUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsUITests.swift; sourceTree = "<group>"; };
+		5CE2587B1EA5F5EB00DA8FB9 /* CrashesUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashesUITests.swift; sourceTree = "<group>"; };
+		5CE2587D1EA5F5FC00DA8FB9 /* DistributeUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistributeUITests.swift; sourceTree = "<group>"; };
 		5CE258871EA5F62400DA8FB9 /* SasquatchObjCUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchObjCUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CE258961EA5FAE100DA8FB9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		808A10FE1EF3130A00DFD41B /* MSPropertiesTableDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSPropertiesTableDataSource.h; path = ../../Vendor/Common/Utils/MSPropertiesTableDataSource.h; sourceTree = "<group>"; };
-		808A10FF1EF3130A00DFD41B /* MSPropertiesTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSPropertiesTableDataSource.m; path = ../../Vendor/Common/Utils/MSPropertiesTableDataSource.m; sourceTree = "<group>"; };
-		808A11001EF3130A00DFD41B /* MSPropertyViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSPropertyViewCell.h; path = ../../Vendor/Common/Utils/MSPropertyViewCell.h; sourceTree = "<group>"; };
-		808A11011EF3130A00DFD41B /* MSPropertyViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSPropertyViewCell.m; path = ../../Vendor/Common/Utils/MSPropertyViewCell.m; sourceTree = "<group>"; };
+		803CFF261F6A7E1D0072B9BA /* MSPushViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSPushViewController.swift; sourceTree = "<group>"; };
+		808A10FE1EF3130A00DFD41B /* MSPropertiesTableDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSPropertiesTableDataSource.h; path = ../../../Vendor/Common/Utils/MSPropertiesTableDataSource.h; sourceTree = "<group>"; };
+		808A10FF1EF3130A00DFD41B /* MSPropertiesTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSPropertiesTableDataSource.m; path = ../../../Vendor/Common/Utils/MSPropertiesTableDataSource.m; sourceTree = "<group>"; };
+		808A11001EF3130A00DFD41B /* MSPropertyViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSPropertyViewCell.h; path = ../../../Vendor/Common/Utils/MSPropertyViewCell.h; sourceTree = "<group>"; };
+		808A11011EF3130A00DFD41B /* MSPropertyViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSPropertyViewCell.m; path = ../../../Vendor/Common/Utils/MSPropertyViewCell.m; sourceTree = "<group>"; };
 		84226C1C1E88FEFC00798417 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		84226C471E88FF4A00798417 /* SasquatchObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchObjC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84226C4A1E88FF4A00798417 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -222,23 +240,20 @@
 		84226C891E8908CA00798417 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		84226C8E1E8908CA00798417 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		84226D091E891FB900798417 /* Sasquatch-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Sasquatch-Bridging-Header.h"; sourceTree = "<group>"; };
-		84226D0A1E891FBA00798417 /* MSAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAlertController.h; path = ../../Vendor/iOS/MSAlertController/MSAlertController.h; sourceTree = "<group>"; };
-		84226D0B1E891FBA00798417 /* MSAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSAlertController.m; path = ../../Vendor/iOS/MSAlertController/MSAlertController.m; sourceTree = "<group>"; };
-		84226D2E1E89301A00798417 /* MobileCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenter.framework; path = "../MobileCenter-SDK-Apple/iOS/MobileCenter.framework"; sourceTree = "<group>"; };
-		84226D2F1E89301B00798417 /* MobileCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterAnalytics.framework; path = "../MobileCenter-SDK-Apple/iOS/MobileCenterAnalytics.framework"; sourceTree = "<group>"; };
-		84226D301E89301B00798417 /* MobileCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterCrashes.framework; path = "../MobileCenter-SDK-Apple/iOS/MobileCenterCrashes.framework"; sourceTree = "<group>"; };
-		84226D311E89301B00798417 /* MobileCenterDistribute.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCenterDistribute.framework; path = "../MobileCenter-SDK-Apple/iOS/MobileCenterDistribute.framework"; sourceTree = "<group>"; };
-		84226D3A1E8937FF00798417 /* MobileCenterDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileCenterDelegate.swift; sourceTree = "<group>"; };
-		84226D3E1E8939B700798417 /* MobileCenterDelegateSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileCenterDelegateSwift.swift; sourceTree = "<group>"; };
-		84226D401E89538D00798417 /* MobileCenterDelegateObjC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MobileCenterDelegateObjC.h; sourceTree = "<group>"; };
-		84226D411E8953F100798417 /* MobileCenterDelegateObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MobileCenterDelegateObjC.m; sourceTree = "<group>"; };
+		84226D2E1E89301A00798417 /* AppCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenter.framework; path = "../AppCenter-SDK-Apple/iOS/AppCenter.framework"; sourceTree = "<group>"; };
+		84226D2F1E89301B00798417 /* AppCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterAnalytics.framework; path = "../AppCenter-SDK-Apple/iOS/AppCenterAnalytics.framework"; sourceTree = "<group>"; };
+		84226D301E89301B00798417 /* AppCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterCrashes.framework; path = "../AppCenter-SDK-Apple/iOS/AppCenterCrashes.framework"; sourceTree = "<group>"; };
+		84226D311E89301B00798417 /* AppCenterDistribute.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterDistribute.framework; path = "../AppCenter-SDK-Apple/iOS/AppCenterDistribute.framework"; sourceTree = "<group>"; };
+		84226D3A1E8937FF00798417 /* AppCenterDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCenterDelegate.swift; sourceTree = "<group>"; };
+		84226D3E1E8939B700798417 /* AppCenterDelegateSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCenterDelegateSwift.swift; sourceTree = "<group>"; };
+		84226D401E89538D00798417 /* AppCenterDelegateObjC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppCenterDelegateObjC.h; sourceTree = "<group>"; };
+		84226D411E8953F100798417 /* AppCenterDelegateObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppCenterDelegateObjC.m; sourceTree = "<group>"; };
 		845964AA1E8A7E6600BABA51 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		845964AC1E8A7E9700BABA51 /* MSMainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSMainViewController.swift; sourceTree = "<group>"; };
-		849A3E711E8A9922008711CB /* MobileCenterProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileCenterProtocol.swift; sourceTree = "<group>"; };
+		849A3E711E8A9922008711CB /* AppCenterProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCenterProtocol.swift; sourceTree = "<group>"; };
 		84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSCrashesViewController.swift; sourceTree = "<group>"; };
 		84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSAnalyticsViewController.swift; sourceTree = "<group>"; };
 		84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSDistributeViewController.swift; sourceTree = "<group>"; };
-		84D63FF61E8BA838004C9F86 /* MSCrashesDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSCrashesDetailViewController.swift; sourceTree = "<group>"; };
 		B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSCustomPropertiesViewController.swift; sourceTree = "<group>"; };
 		D31EF9291E9517B500450162 /* SasquatchWatchObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchWatchObjC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D31EF92C1E9517B600450162 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
@@ -265,6 +280,7 @@
 		D31EF96B1E9517C600450162 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		D31EF96D1E9517C600450162 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D31EF96F1E9517C600450162 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F809D5031FC6DA2B005E0F83 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F89D79081E93DA3A0094521F /* CrashLibIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -281,11 +297,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				F89D79091E93DA3A0094521F /* CrashLibIOS.framework in Frameworks */,
-				84226D361E89302900798417 /* MobileCenter.framework in Frameworks */,
-				84226D371E89302900798417 /* MobileCenterAnalytics.framework in Frameworks */,
-				84226D381E89302900798417 /* MobileCenterCrashes.framework in Frameworks */,
-				84226D391E89302900798417 /* MobileCenterDistribute.framework in Frameworks */,
-				046790421E8DA7D80033FDEC /* MobileCenterPush.framework in Frameworks */,
+				84226D361E89302900798417 /* AppCenter.framework in Frameworks */,
+				84226D371E89302900798417 /* AppCenterAnalytics.framework in Frameworks */,
+				84226D381E89302900798417 /* AppCenterCrashes.framework in Frameworks */,
+				84226D391E89302900798417 /* AppCenterDistribute.framework in Frameworks */,
+				046790421E8DA7D80033FDEC /* AppCenterPush.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,11 +310,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				F89D790C1E93DA500094521F /* CrashLibIOS.framework in Frameworks */,
-				84226D321E89301B00798417 /* MobileCenter.framework in Frameworks */,
-				84226D331E89301B00798417 /* MobileCenterAnalytics.framework in Frameworks */,
-				84226D341E89301B00798417 /* MobileCenterCrashes.framework in Frameworks */,
-				84226D351E89301B00798417 /* MobileCenterDistribute.framework in Frameworks */,
-				046790431E8DA7E90033FDEC /* MobileCenterPush.framework in Frameworks */,
+				84226D321E89301B00798417 /* AppCenter.framework in Frameworks */,
+				84226D331E89301B00798417 /* AppCenterAnalytics.framework in Frameworks */,
+				84226D341E89301B00798417 /* AppCenterCrashes.framework in Frameworks */,
+				84226D351E89301B00798417 /* AppCenterDistribute.framework in Frameworks */,
+				046790431E8DA7E90033FDEC /* AppCenterPush.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,7 +344,7 @@
 				5CE258961EA5FAE100DA8FB9 /* Info.plist */,
 			);
 			name = SasquatchUITests;
-			path = SasquatchSwiftUITests;
+			path = ../TestApps/Sasquatch/SasquatchUITests;
 			sourceTree = "<group>";
 		};
 		808A10E81EF30FD600DFD41B /* Utils */ = {
@@ -376,15 +392,16 @@
 		84226C141E88FEFC00798417 /* Sasquatch */ = {
 			isa = PBXGroup;
 			children = (
-				84226D3A1E8937FF00798417 /* MobileCenterDelegate.swift */,
-				849A3E711E8A9922008711CB /* MobileCenterProtocol.swift */,
+				84226D3A1E8937FF00798417 /* AppCenterDelegate.swift */,
+				849A3E711E8A9922008711CB /* AppCenterProtocol.swift */,
+				041E2BEE1FB6465000793316 /* Constants.h */,
 				84226CB11E8909F700798417 /* Storyboards */,
 				84226CB01E8909EA00798417 /* ViewControllers */,
 				808A10E81EF30FD600DFD41B /* Utils */,
-				84226D081E891FA300798417 /* MSAlertController */,
 				84226CB21E8909FF00798417 /* Supporting Files */,
 			);
-			path = Sasquatch;
+			name = Sasquatch;
+			path = ../TestApps/Sasquatch/Sasquatch;
 			sourceTree = "<group>";
 		};
 		84226C481E88FF4A00798417 /* SasquatchObjC */ = {
@@ -393,11 +410,12 @@
 				046790451E8DA8DD0033FDEC /* SasquatchObjC.entitlements */,
 				84226C4C1E88FF4A00798417 /* AppDelegate.h */,
 				84226C4D1E88FF4A00798417 /* AppDelegate.m */,
-				84226D401E89538D00798417 /* MobileCenterDelegateObjC.h */,
-				84226D411E8953F100798417 /* MobileCenterDelegateObjC.m */,
+				84226D401E89538D00798417 /* AppCenterDelegateObjC.h */,
+				84226D411E8953F100798417 /* AppCenterDelegateObjC.m */,
 				84226C491E88FF4A00798417 /* Supporting Files */,
 			);
-			path = SasquatchObjC;
+			name = SasquatchObjC;
+			path = ../TestApps/Sasquatch/SasquatchObjC;
 			sourceTree = "<group>";
 		};
 		84226C491E88FF4A00798417 /* Supporting Files */ = {
@@ -415,10 +433,11 @@
 			children = (
 				046790441E8DA8D50033FDEC /* SasquatchSwift.entitlements */,
 				84226C821E8908CA00798417 /* AppDelegate.swift */,
-				84226D3E1E8939B700798417 /* MobileCenterDelegateSwift.swift */,
+				84226D3E1E8939B700798417 /* AppCenterDelegateSwift.swift */,
 				84C7EA8C1E8968B900FAFE15 /* Supporting Files */,
 			);
-			path = SasquatchSwift;
+			name = SasquatchSwift;
+			path = ../TestApps/Sasquatch/SasquatchSwift;
 			sourceTree = "<group>";
 		};
 		84226CB01E8909EA00798417 /* ViewControllers */ = {
@@ -428,15 +447,16 @@
 				84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */,
 				84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */,
 				84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */,
-				84D63FF61E8BA838004C9F86 /* MSCrashesDetailViewController.swift */,
 				B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */,
+				803CFF261F6A7E1D0072B9BA /* MSPushViewController.swift */,
 			);
-			name = ViewControllers;
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 		84226CB11E8909F700798417 /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
+				F809D5021FC6DA2B005E0F83 /* LaunchScreen.storyboard */,
 				845964A91E8A7E6600BABA51 /* Main.storyboard */,
 			);
 			name = Storyboards;
@@ -445,32 +465,24 @@
 		84226CB21E8909FF00798417 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				045A947D1F97C840002B7CB1 /* App.xcconfig */,
 				84226C1C1E88FEFC00798417 /* Assets.xcassets */,
-				047D13771EAFD77E00D699BA /* Main.strings */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		84226D081E891FA300798417 /* MSAlertController */ = {
-			isa = PBXGroup;
-			children = (
-				84226D0A1E891FBA00798417 /* MSAlertController.h */,
-				84226D0B1E891FBA00798417 /* MSAlertController.m */,
+				041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */,
 				84226D091E891FB900798417 /* Sasquatch-Bridging-Header.h */,
 			);
-			name = MSAlertController;
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		84226D0F1E8921DE00798417 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				F89D79081E93DA3A0094521F /* CrashLibIOS.framework */,
-				047D13711EAFBDBE00D699BA /* MobileCenterDistributeResources.bundle */,
-				046790411E8DA7D80033FDEC /* MobileCenterPush.framework */,
-				84226D2E1E89301A00798417 /* MobileCenter.framework */,
-				84226D2F1E89301B00798417 /* MobileCenterAnalytics.framework */,
-				84226D301E89301B00798417 /* MobileCenterCrashes.framework */,
-				84226D311E89301B00798417 /* MobileCenterDistribute.framework */,
+				047D13711EAFBDBE00D699BA /* AppCenterDistributeResources.bundle */,
+				046790411E8DA7D80033FDEC /* AppCenterPush.framework */,
+				84226D2E1E89301A00798417 /* AppCenter.framework */,
+				84226D2F1E89301B00798417 /* AppCenterAnalytics.framework */,
+				84226D301E89301B00798417 /* AppCenterCrashes.framework */,
+				84226D311E89301B00798417 /* AppCenterDistribute.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -491,12 +503,14 @@
 				D31EF92E1E9517B600450162 /* Assets.xcassets */,
 				D31EF9301E9517B600450162 /* Info.plist */,
 			);
-			path = SasquatchWatchObjC;
+			name = SasquatchWatchObjC;
+			path = ../TestApps/Sasquatch/SasquatchWatchObjC;
 			sourceTree = "<group>";
 		};
 		D31EF9391E9517B600450162 /* SasquatchWatchObjC Extension */ = {
 			isa = PBXGroup;
 			children = (
+				384929201FACF5DA003F8736 /* SasquatchWatchObjC Extension.entitlements */,
 				D31EF93C1E9517B600450162 /* InterfaceController.h */,
 				D31EF93D1E9517B600450162 /* InterfaceController.m */,
 				D31EF93F1E9517B600450162 /* ExtensionDelegate.h */,
@@ -505,7 +519,8 @@
 				D31EF9431E9517B600450162 /* NotificationController.m */,
 				D31EF93A1E9517B600450162 /* Supporting Files */,
 			);
-			path = "SasquatchWatchObjC Extension";
+			name = "SasquatchWatchObjC Extension";
+			path = "../TestApps/Sasquatch/SasquatchWatchObjC Extension";
 			sourceTree = "<group>";
 		};
 		D31EF93A1E9517B600450162 /* Supporting Files */ = {
@@ -525,18 +540,21 @@
 				D31EF9591E9517C500450162 /* Assets.xcassets */,
 				D31EF95B1E9517C500450162 /* Info.plist */,
 			);
-			path = SasquatchWatchSwift;
+			name = SasquatchWatchSwift;
+			path = ../TestApps/Sasquatch/SasquatchWatchSwift;
 			sourceTree = "<group>";
 		};
 		D31EF9641E9517C600450162 /* SasquatchWatchSwift Extension */ = {
 			isa = PBXGroup;
 			children = (
+				384929211FACF5F3003F8736 /* SasquatchWatchSwift Extension.entitlements */,
 				D31EF9671E9517C600450162 /* InterfaceController.swift */,
 				D31EF9691E9517C600450162 /* ExtensionDelegate.swift */,
 				D31EF96B1E9517C600450162 /* NotificationController.swift */,
 				D31EF9651E9517C600450162 /* Supporting Files */,
 			);
-			path = "SasquatchWatchSwift Extension";
+			name = "SasquatchWatchSwift Extension";
+			path = "../TestApps/Sasquatch/SasquatchWatchSwift Extension";
 			sourceTree = "<group>";
 		};
 		D31EF9651E9517C600450162 /* Supporting Files */ = {
@@ -720,8 +738,11 @@
 					84226C461E88FF4A00798417 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = L4RARDNZ2Y;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.Push = {
 								enabled = 1;
 							};
@@ -730,8 +751,11 @@
 					84226C7F1E8908C900798417 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = L4RARDNZ2Y;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.Push = {
 								enabled = 1;
 							};
@@ -740,22 +764,32 @@
 					D31EF9281E9517B500450162 = {
 						CreatedOnToolsVersion = 8.3;
 						DevelopmentTeam = L4RARDNZ2Y;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 					D31EF9341E9517B600450162 = {
 						CreatedOnToolsVersion = 8.3;
 						DevelopmentTeam = L4RARDNZ2Y;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					D31EF9531E9517C500450162 = {
 						CreatedOnToolsVersion = 8.3;
 						DevelopmentTeam = L4RARDNZ2Y;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 					D31EF95F1E9517C600450162 = {
 						CreatedOnToolsVersion = 8.3;
 						DevelopmentTeam = L4RARDNZ2Y;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -766,6 +800,19 @@
 			knownRegions = (
 				en,
 				Base,
+				cs,
+				de,
+				es,
+				fr,
+				it,
+				ja,
+				ko,
+				pl,
+				pt,
+				ru,
+				tr,
+				"zh-Hans",
+				"zh-Hant",
 			);
 			mainGroup = 84226C091E88FEFC00798417;
 			productRefGroup = 84226C131E88FEFC00798417 /* Products */;
@@ -803,9 +850,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				041A4BB11F8C28A3009E1B6C /* Sasquatch.strings in Resources */,
 				84226C561E88FF4A00798417 /* Assets.xcassets in Resources */,
-				047D13781EAFD77E00D699BA /* Main.strings in Resources */,
-				047D13721EAFBDBE00D699BA /* MobileCenterDistributeResources.bundle in Resources */,
+				047D13721EAFBDBE00D699BA /* AppCenterDistributeResources.bundle in Resources */,
+				F809D5041FC6DA2B005E0F83 /* LaunchScreen.storyboard in Resources */,
 				845964AB1E8A7E6600BABA51 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -814,9 +862,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B27424851EF2193E00F591E5 /* MobileCenterDistributeResources.bundle in Resources */,
-				047D13791EAFD77E00D699BA /* Main.strings in Resources */,
+				048933631F8D395A00C38A87 /* Sasquatch.strings in Resources */,
+				B27424851EF2193E00F591E5 /* AppCenterDistributeResources.bundle in Resources */,
 				84226C8A1E8908CA00798417 /* Assets.xcassets in Resources */,
+				F809D5051FC6DD80005E0F83 /* LaunchScreen.storyboard in Resources */,
 				84D63FF91E8BAA90004C9F86 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -882,12 +931,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84D63FF71E8BA838004C9F86 /* MSCrashesDetailViewController.swift in Sources */,
-				84226D0D1E891FEF00798417 /* MSAlertController.m in Sources */,
-				849A3E721E8A9922008711CB /* MobileCenterProtocol.swift in Sources */,
+				803CFF271F6A7E1D0072B9BA /* MSPushViewController.swift in Sources */,
+				849A3E721E8A9922008711CB /* AppCenterProtocol.swift in Sources */,
 				845964AD1E8A7E9700BABA51 /* MSMainViewController.swift in Sources */,
 				84A0FF691E8A87C9000E7A28 /* MSAnalyticsViewController.swift in Sources */,
-				84226D421E8953F100798417 /* MobileCenterDelegateObjC.m in Sources */,
+				84226D421E8953F100798417 /* AppCenterDelegateObjC.m in Sources */,
 				84A0FF661E8A87B4000E7A28 /* MSCrashesViewController.swift in Sources */,
 				808A11031EF3130A00DFD41B /* MSPropertyViewCell.m in Sources */,
 				808A11021EF3130A00DFD41B /* MSPropertiesTableDataSource.m in Sources */,
@@ -895,7 +943,7 @@
 				B2B36CE21EEF49B700230341 /* MSCustomPropertiesViewController.swift in Sources */,
 				84226C4B1E88FF4A00798417 /* main.m in Sources */,
 				84A0FF6C1E8A87E1000E7A28 /* MSDistributeViewController.swift in Sources */,
-				84226D3C1E8938D100798417 /* MobileCenterDelegate.swift in Sources */,
+				84226D3C1E8938D100798417 /* AppCenterDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -903,17 +951,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				849A3E731E8A9922008711CB /* MobileCenterProtocol.swift in Sources */,
+				803CFF281F6A7E1D0072B9BA /* MSPushViewController.swift in Sources */,
+				849A3E731E8A9922008711CB /* AppCenterProtocol.swift in Sources */,
 				84A0FF671E8A87B4000E7A28 /* MSCrashesViewController.swift in Sources */,
 				84A0FF6A1E8A87C9000E7A28 /* MSAnalyticsViewController.swift in Sources */,
-				84226D3D1E8938D200798417 /* MobileCenterDelegate.swift in Sources */,
+				84226D3D1E8938D200798417 /* AppCenterDelegate.swift in Sources */,
 				808A11041EF31D2500DFD41B /* MSPropertiesTableDataSource.m in Sources */,
 				B2B36CE31EEF49C400230341 /* MSCustomPropertiesViewController.swift in Sources */,
-				84226D0E1E891FF100798417 /* MSAlertController.m in Sources */,
 				845178ED1E8A8B0D004A0A6F /* MSMainViewController.swift in Sources */,
 				808A11051EF31D2800DFD41B /* MSPropertyViewCell.m in Sources */,
-				84226D3F1E8939B700798417 /* MobileCenterDelegateSwift.swift in Sources */,
-				84D63FF81E8BA838004C9F86 /* MSCrashesDetailViewController.swift in Sources */,
+				84226D3F1E8939B700798417 /* AppCenterDelegateSwift.swift in Sources */,
 				84A0FF6D1E8A87E1000E7A28 /* MSDistributeViewController.swift in Sources */,
 				84226C831E8908CA00798417 /* AppDelegate.swift in Sources */,
 			);
@@ -975,6 +1022,27 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				041A4BB01F8C28A3009E1B6C /* Base */,
+				041A4BB21F8C29E7009E1B6C /* cs */,
+				041A4BB31F8C2A33009E1B6C /* de */,
+				041A4BB41F8C2A3F009E1B6C /* es */,
+				041A4BB51F8C2A47009E1B6C /* fr */,
+				041A4BB61F8C2A51009E1B6C /* it */,
+				041A4BB71F8C2A5A009E1B6C /* ja */,
+				041A4BB81F8C2A60009E1B6C /* ko */,
+				041A4BB91F8C2A69009E1B6C /* pl */,
+				0482105C1FD0B611006824F7 /* pt */,
+				041A4BBA1F8C2A74009E1B6C /* ru */,
+				041A4BBB1F8C2A7B009E1B6C /* tr */,
+				041A4BBC1F8C2A84009E1B6C /* zh-Hans */,
+				041A4BBD1F8C2A8B009E1B6C /* zh-Hant */,
+			);
+			name = Sasquatch.strings;
+			sourceTree = "<group>";
+		};
 		845964A91E8A7E6600BABA51 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -999,6 +1067,14 @@
 			name = Interface.storyboard;
 			sourceTree = "<group>";
 		};
+		F809D5021FC6DA2B005E0F83 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F809D5031FC6DA2B005E0F83 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -1007,10 +1083,10 @@
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				INFOPLIST_FILE = SasquatchUITests/Info.plist;
+				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.SasquatchSwiftUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.SasquatchSwiftUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = SasquatchSwift;
@@ -1022,10 +1098,10 @@
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				INFOPLIST_FILE = SasquatchUITests/Info.plist;
+				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.SasquatchSwiftUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.SasquatchSwiftUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = SasquatchSwift;
@@ -1037,10 +1113,10 @@
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				INFOPLIST_FILE = SasquatchUITests/Info.plist;
+				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.SasquatchObjCUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.SasquatchObjCUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = SasquatchObjC;
@@ -1052,10 +1128,10 @@
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				INFOPLIST_FILE = SasquatchUITests/Info.plist;
+				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.SasquatchObjCUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.SasquatchObjCUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = SasquatchObjC;
@@ -1064,12 +1140,15 @@
 		};
 		84226C381E88FEFC00798417 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 045A947D1F97C840002B7CB1 /* App.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = (
 					"$(ARCHS_STANDARD)",
 					armv7s,
 				);
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -1087,16 +1166,13 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/../MobileCenter-SDK-Apple/iOS/**",
-					"$(SRCROOT)/../CrashLib/CrashLib",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../AppCenter-SDK-Apple/iOS/**";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1111,6 +1187,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../CrashLib/CrashLib";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1123,12 +1200,15 @@
 		};
 		84226C391E88FEFC00798417 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 045A947D1F97C840002B7CB1 /* App.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = (
 					"$(ARCHS_STANDARD)",
 					armv7s,
 				);
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -1146,16 +1226,13 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Piyush Joshi (L4RARDNZ2Y)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/../MobileCenter-SDK-Apple/iOS/**",
-					"$(SRCROOT)/../CrashLib/CrashLib",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../AppCenter-SDK-Apple/iOS/**";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -1164,6 +1241,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../CrashLib/CrashLib";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
@@ -1177,19 +1255,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = SasquatchObjC/SasquatchObjC.entitlements;
+				CODE_SIGN_ENTITLEMENTS = ../TestApps/Sasquatch/SasquatchObjC/SasquatchObjC.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = NO;
-				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../CrashLib/CrashLib";
-				INFOPLIST_FILE = SasquatchObjC/Info.plist;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchObjC/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d8be61aa-f111-41ee-b5c9-e2e9f07b7b25";
-				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch ObjC App";
-				SWIFT_OBJC_BRIDGING_HEADER = "Sasquatch/Sasquatch-Bridging-Header.h";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "../TestApps/Sasquatch/Sasquatch/Sasquatch-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -1198,19 +1276,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = SasquatchObjC/SasquatchObjC.entitlements;
+				CODE_SIGN_ENTITLEMENTS = ../TestApps/Sasquatch/SasquatchObjC/SasquatchObjC.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = NO;
-				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../CrashLib/CrashLib";
-				INFOPLIST_FILE = SasquatchObjC/Info.plist;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchObjC/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d8be61aa-f111-41ee-b5c9-e2e9f07b7b25";
-				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch ObjC App";
-				SWIFT_OBJC_BRIDGING_HEADER = "Sasquatch/Sasquatch-Bridging-Header.h";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "../TestApps/Sasquatch/Sasquatch/Sasquatch-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -1219,18 +1297,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = SasquatchSwift/SasquatchSwift.entitlements;
-				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-Apple/iOS/**";
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../CrashLib/CrashLib";
-				INFOPLIST_FILE = SasquatchSwift/Info.plist;
+				CODE_SIGN_ENTITLEMENTS = ../TestApps/Sasquatch/SasquatchSwift/SasquatchSwift.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchSwift/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "330f70fc-98c3-461f-9a7a-526f7f1865a3";
-				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch Swift App";
-				SWIFT_OBJC_BRIDGING_HEADER = "Sasquatch/Sasquatch-Bridging-Header.h";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "../TestApps/Sasquatch/Sasquatch/Sasquatch-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -1239,18 +1317,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = SasquatchSwift/SasquatchSwift.entitlements;
-				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../MobileCenter-SDK-Apple/iOS/**";
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../CrashLib/CrashLib";
-				INFOPLIST_FILE = SasquatchSwift/Info.plist;
+				CODE_SIGN_ENTITLEMENTS = ../TestApps/Sasquatch/SasquatchSwift/SasquatchSwift.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchSwift/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "330f70fc-98c3-461f-9a7a-526f7f1865a3";
-				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch Swift App";
-				SWIFT_OBJC_BRIDGING_HEADER = "Sasquatch/Sasquatch-Bridging-Header.h";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "../TestApps/Sasquatch/Sasquatch/Sasquatch-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -1258,16 +1336,20 @@
 		D31EF94C1E9517B600450162 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				INFOPLIST_FILE = "SasquatchWatchObjC Extension/Info.plist";
+				CODE_SIGN_ENTITLEMENTS = "SasquatchWatchObjC Extension.entitlements";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = "../TestApps/Sasquatch/SasquatchWatchObjC Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc.watchkitapp.watchkitextension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
-				PROVISIONING_PROFILE = "1717e4c9-547f-4b57-8720-a38d51f555f7";
-				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch Watch ObjC Extension";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -1278,16 +1360,20 @@
 		D31EF94D1E9517B600450162 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				INFOPLIST_FILE = "SasquatchWatchObjC Extension/Info.plist";
+				CODE_SIGN_ENTITLEMENTS = "SasquatchWatchObjC Extension.entitlements";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = "../TestApps/Sasquatch/SasquatchWatchObjC Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc.watchkitapp.watchkitextension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
-				PROVISIONING_PROFILE = "1717e4c9-547f-4b57-8720-a38d51f555f7";
-				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch Watch ObjC Extension";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -1301,13 +1387,15 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				DEVELOPMENT_TEAM = L4RARDNZ2Y;
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				IBSC_MODULE = SasquatchWatchObjC_Extension;
-				INFOPLIST_FILE = SasquatchWatchObjC/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc.watchkitapp;
+				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchWatchObjC/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "1657f08f-c937-477b-b91c-3e77bec3f728";
-				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch Watch ObjC App";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -1321,13 +1409,15 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				DEVELOPMENT_TEAM = L4RARDNZ2Y;
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				IBSC_MODULE = SasquatchWatchObjC_Extension;
-				INFOPLIST_FILE = SasquatchWatchObjC/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchobjc.watchkitapp;
+				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchWatchObjC/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "1657f08f-c937-477b-b91c-3e77bec3f728";
-				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch Watch ObjC App";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -1338,16 +1428,20 @@
 		D31EF9741E9517C600450162 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				INFOPLIST_FILE = "SasquatchWatchSwift Extension/Info.plist";
+				CODE_SIGN_ENTITLEMENTS = "SasquatchWatchSwift Extension.entitlements";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = "../TestApps/Sasquatch/SasquatchWatchSwift Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift.watchkitapp.watchkitextension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
-				PROVISIONING_PROFILE = "f8916a7a-bdf2-43a9-aa3a-ed5132cf2d05";
-				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch Watch Swift Extension";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
@@ -1359,16 +1453,20 @@
 		D31EF9751E9517C600450162 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				DEVELOPMENT_TEAM = L4RARDNZ2Y;
-				INFOPLIST_FILE = "SasquatchWatchSwift Extension/Info.plist";
+				CODE_SIGN_ENTITLEMENTS = "SasquatchWatchSwift Extension.entitlements";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = "../TestApps/Sasquatch/SasquatchWatchSwift Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift.watchkitapp.watchkitextension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
-				PROVISIONING_PROFILE = "f8916a7a-bdf2-43a9-aa3a-ed5132cf2d05";
-				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch Watch Swift Extension";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
@@ -1380,17 +1478,18 @@
 		D31EF9781E9517C600450162 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				DEVELOPMENT_TEAM = L4RARDNZ2Y;
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				IBSC_MODULE = SasquatchWatchSwift_Extension;
-				INFOPLIST_FILE = SasquatchWatchSwift/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift.watchkitapp;
+				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchWatchSwift/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "78baa111-ff48-4e7c-b27c-d6d6b51f325d";
-				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch Watch Swift App";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
@@ -1402,17 +1501,18 @@
 		D31EF9791E9517C600450162 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				DEVELOPMENT_TEAM = L4RARDNZ2Y;
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				IBSC_MODULE = SasquatchWatchSwift_Extension;
-				INFOPLIST_FILE = SasquatchWatchSwift/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.azure.mobile.sasquatchswift.watchkitapp;
+				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchWatchSwift/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "78baa111-ff48-4e7c-b27c-d6d6b51f325d";
-				PROVISIONING_PROFILE_SPECIFIER = "MobileCenter Sasquatch Watch Swift App";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;

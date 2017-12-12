@@ -20,22 +20,22 @@
   
   self.data = [[[MSDeviceTracker sharedInstance] device] performSelector:@selector(serializeToDictionary)];
   self.desc = @{
-                @"sdk_name": @"Name of the SDK. Consists of the name of the SDK and the platform",
-                @"sdk_version": @"Version of the SDK in semver format",
+                @"sdkName": @"Name of the SDK. Consists of the name of the SDK and the platform",
+                @"sdkVersion": @"Version of the SDK in semver format",
                 @"model": @"Device model",
-                @"oem_name": @"Device manufacturer",
-                @"os_name": @"OS name",
-                @"os_version": @"OS version",
-                @"os_build": @"OS build code",
-                @"os_api_level": @"API level when applicable like in Android",
+                @"oemName": @"Device manufacturer",
+                @"osName": @"OS name",
+                @"osVersion": @"OS version",
+                @"osBuild": @"OS build code",
+                @"osApiLevel": @"API level when applicable like in Android",
                 @"locale": @"Language code",
-                @"time_zone_offset": @"The offset in minutes from UTC for the device time zone",
-                @"screen_size": @"Screen size of the device in pixels",
-                @"app_version": @"Application version name",
-                @"carrier_name": @"Carrier name (for mobile devices)",
-                @"carrier_country": @"Carrier country code (for mobile devices)",
-                @"app_build": @"The app's build number",
-                @"app_namespace": @"The bundle/package identifier, or namespace"
+                @"timeZoneOffset": @"The offset in minutes from UTC for the device time zone",
+                @"screenSize": @"Screen size of the device in pixels",
+                @"appVersion": @"Application version name",
+                @"carrierName": @"Carrier name (for mobile devices)",
+                @"carrierCountry": @"Carrier country code (for mobile devices)",
+                @"appBuild": @"The app's build number",
+                @"appNamespace": @"The bundle/package identifier, or namespace"
                 };
   self.keys = [self.data allKeys];
 }

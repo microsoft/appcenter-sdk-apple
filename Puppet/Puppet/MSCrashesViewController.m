@@ -5,12 +5,12 @@
 #import "AppDelegate.h"
 #import "MSCrashes.h"
 #import "MSCrashesViewController.h"
-#import "MSCrashesDetailViewController.h"
 
 #import "CrashLib.h"
+#import <Photos/Photos.h>
 #import <objc/runtime.h>
 
-@interface MSCrashesViewController ()
+@interface MSCrashesViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (strong, nonatomic) NSDictionary *knownCrashes;
 
@@ -83,6 +83,10 @@
   sender.on = [MSCrashes isEnabled];
 }
 
+- (MSCrash *)crashByIndexPath:(NSIndexPath *)indexPath {
+  return (MSCrash *)(((NSArray *)self.knownCrashes[self.sortedAllKeys[(NSUInteger)indexPath.section]])[(NSUInteger)indexPath.row]);
+}
+
 #pragma mark - Tableview datasource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -93,7 +97,7 @@
 
   // Settings section.
   if (section == [tableView numberOfSections] - 1) {
-    return 1;
+    return 3;
   }
 
   // Crash result section.
@@ -122,7 +126,11 @@
 
   // Settings cell id.
   if (indexPath.section == [tableView numberOfSections] - 1) {
-    CellIdentifier = @"enable";
+    if (indexPath.row == 0) {
+      CellIdentifier = @"enable";
+    } else {
+      CellIdentifier = @"attachment";
+    }
   }
 
   // Crash result cell id.
@@ -137,42 +145,152 @@
 
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 
-  // Settings cell.
+  // Settings cells.
   if (indexPath.section == [tableView numberOfSections] - 1) {
-
-    // Find switch in subviews.
-    for(id view in cell.contentView.subviews) {
-      if([view isKindOfClass:[UISwitch class]]){
-        ((UISwitch *)view).on = [MSCrashes isEnabled];
-        break;
+    
+    // Enable.
+    if (indexPath.row == 0) {
+      
+      // Find switch in subviews.
+      for (id view in cell.contentView.subviews) {
+        if ([view isKindOfClass:[UISwitch class]]) {
+          ((UISwitch *)view).on = [MSCrashes isEnabled];
+          break;
+        }
+      }
+      
+    // Text attachment.
+    } else if (indexPath.row == 1) {
+      cell.textLabel.text = @"Text attachment";
+      NSString *text = [[NSUserDefaults standardUserDefaults] objectForKey:@"textAttachment"];
+      cell.detailTextLabel.text = text != nil && text.length > 0 ? text : @"Empty";
+      
+    // Binary attachment.
+    } else if (indexPath.row == 2) {
+      cell.textLabel.text = @"Binary attachment";
+      NSURL *referenceUrl = [[NSUserDefaults standardUserDefaults] URLForKey:@"fileAttachment"];
+      cell.detailTextLabel.text = referenceUrl ? [referenceUrl absoluteString] : @"Empty";
+      
+      // Read async to display size instead of url.
+      if (referenceUrl) {
+        PHAsset *asset = [[PHAsset fetchAssetsWithALAssetURLs:@[referenceUrl] options:nil] lastObject];
+        if (asset) {
+          [[PHImageManager defaultManager]
+              requestImageDataForAsset:asset
+                               options:nil
+                         resultHandler:^(NSData *_Nullable imageData,
+                                         __unused NSString *_Nullable dataUTI,
+                                         __unused UIImageOrientation orientation,
+                                         __unused NSDictionary *_Nullable info) {
+                           cell.detailTextLabel.text =
+                               [NSByteCountFormatter stringFromByteCount:[imageData length]
+                                                              countStyle:NSByteCountFormatterCountStyleBinary];
+                         }];
+        }
       }
     }
   }
 
   // Crash cell.
   else if (indexPath.section < [tableView numberOfSections] - 2) {
-    MSCrash *crash = (MSCrash *)(((NSArray *)self.knownCrashes[self.sortedAllKeys[(NSUInteger)indexPath.section]])[(NSUInteger)indexPath.row]);
+    MSCrash *crash = [self crashByIndexPath:indexPath];
     cell.textLabel.text = crash.title;
   }
   return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-  if (![cell.reuseIdentifier isEqualToString:@"crashResult"]) {
-    return;
+  
+  // Crash cell.
+  if (indexPath.section < [tableView numberOfSections] - 2) {
+    __block MSCrash *crash = [self crashByIndexPath:indexPath];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:crash.title
+                                                                   message:crash.desc
+                                                            preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *crashAction = [UIAlertAction actionWithTitle:@"Crash"
+                                                          style:UIAlertActionStyleDestructive
+                                                        handler:^(UIAlertAction *action) {
+                                                          [crash crash];
+                                                        }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
+                                                           style:UIAlertActionStyleCancel
+                                                         handler:^(UIAlertAction *action) {
+                                                           [alert dismissViewControllerAnimated:YES completion:nil];
+                                                           [tableView deselectRowAtIndexPath:indexPath animated:YES];
+                                                         }];
+    [alert addAction:crashAction];
+    [alert addAction:cancelAction];
+    
+    // Support display in iPad.
+    alert.popoverPresentationController.sourceView = tableView;
+    alert.popoverPresentationController.sourceRect = [tableView rectForRowAtIndexPath:indexPath];
+    
+    [self presentViewController:alert animated:YES completion:nil];
   }
-  [self.navigationController pushViewController:[AppDelegate crashResultViewController] animated:true];
+
+  // Crash result cell id.
+  else if (indexPath.section == [tableView numberOfSections] - 2) {
+    [self.navigationController pushViewController:[AppDelegate crashResultViewController] animated:true];
+  }
+  
+  // Settings cells.
+  else if (indexPath.section == [tableView numberOfSections] - 1) {
+    
+    // Text attachment.
+    if (indexPath.row == 1) {
+      UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Text attachment"
+                                                                     message:nil
+                                                              preferredStyle:UIAlertControllerStyleAlert];
+      UIAlertAction *crashAction = [UIAlertAction actionWithTitle:@"OK"
+                                                            style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction *action) {
+                                                            NSString *result = alert.textFields[0].text;
+                                                            if (result != nil && result.length > 0) {
+                                                              [[NSUserDefaults standardUserDefaults] setObject:result forKey:@"textAttachment"];
+                                                            } else {
+                                                              [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"textAttachment"];
+                                                            }
+                                                            [tableView reloadData];
+                                                          }];
+      UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
+                                                             style:UIAlertActionStyleCancel
+                                                           handler:nil];
+      [alert addAction:crashAction];
+      [alert addAction:cancelAction];
+      [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"textAttachment"];
+      }];
+      
+      [self presentViewController:alert animated:YES completion:nil];
+      
+    // Binary attachment.
+    } else if (indexPath.row == 2) {
+      [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+        if (status == PHAuthorizationStatusAuthorized) {
+          UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+          picker.delegate = self;
+          [self presentViewController:picker animated:YES completion:nil];
+        }
+      }];
+    }
+  }
 }
 
-#pragma mark - Navigation
+#pragma mark - UIImagePickerControllerDelegate
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-  if ([[segue identifier] isEqualToString:@"crash-detail"]) {
-    NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-    MSCrash *crash = (MSCrash *)(((NSArray *)self.knownCrashes[self.sortedAllKeys[(NSUInteger)indexPath.section]])[(NSUInteger)indexPath.row]);
-    ((MSCrashesDetailViewController *)segue.destinationViewController).detailItem = crash;
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+  NSURL *referenceUrl = info[UIImagePickerControllerReferenceURL];
+  if (referenceUrl) {
+    [[NSUserDefaults standardUserDefaults] setURL:referenceUrl forKey:@"fileAttachment"];
+    [self.tableView reloadData];
   }
+  [picker dismissViewControllerAnimated:YES completion:NULL];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+  [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"fileAttachment"];
+  [self.tableView reloadData];
+  [picker dismissViewControllerAnimated:YES completion:NULL];
 }
 
 @end
