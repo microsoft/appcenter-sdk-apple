@@ -42,6 +42,7 @@ class CustomPropertiesViewControler: NSViewController, NSTableViewDelegate {
   @IBAction func deleteProperty(_ sender: Any) {
     if let selectedProperty = arrayController.selectedObjects.first as? CustomProperty {
       arrayController.removeObject(selectedProperty)
+      selectedProperty.removeObserver(self, forKeyPath: #keyPath(CustomProperty.type), context: nil)
     }
   }
   
