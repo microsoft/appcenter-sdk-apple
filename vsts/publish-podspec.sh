@@ -88,7 +88,7 @@ if [ "$mode" == "internal" ] || [ "$mode" == "test" ]; then
     sed -i '' "s/\(s\.version[[:space:]]*=[[:space:]]\)\'.*\'$/\1'$SDK_PUBLISH_VERSION'/1" $PODSPEC_FILENAME
 
     # Change download URL in podspec
-    sed -i '' 's/https:\/\/github\.com\/microsoft\/AppCenter-SDK-Apple\/releases\/download\/#{s.version}\(\/AppCenter-SDK-Apple-\)\(\#{s.version}\)\(.zip\)/https:\/\/mobilecentersdkdev\.blob\.core\.windows\.net\/sdk\1\2+$BUILD_SOURCEVERSION\3/1' $PODSPEC_FILENAME
+    sed -i '' "s/https:\/\/github\.com\/microsoft\/AppCenter-SDK-Apple\/releases\/download\/#{s.version}\(\/AppCenter-SDK-Apple-\)\(\#{s.version}\)\(.zip\)/https:\/\/mobilecentersdkdev\.blob\.core\.windows\.net\/sdk\1\2+$BUILD_SOURCEVERSION\3/1" $PODSPEC_FILENAME
 
   fi
 
