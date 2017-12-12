@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ */
+
 #import "Constants.h"
 #import "MSDistributePrivate.h"
 #import "MSDistributeViewController.h"
@@ -38,7 +42,7 @@
   switch ([indexPath section]) {
 
   // Section with alerts.
-  case 0: {
+  case 1: {
     switch (indexPath.row) {
     case 0: {
       MSReleaseDetails *details = [MSReleaseDetails new];

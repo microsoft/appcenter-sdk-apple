@@ -20,10 +20,6 @@
 		5CE258941EA5F62E00DA8FB9 /* DistributeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE2587D1EA5F5FC00DA8FB9 /* DistributeUITests.swift */; };
 		803CFF271F6A7E1D0072B9BA /* MSPushViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803CFF261F6A7E1D0072B9BA /* MSPushViewController.swift */; };
 		803CFF281F6A7E1D0072B9BA /* MSPushViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803CFF261F6A7E1D0072B9BA /* MSPushViewController.swift */; };
-		808A11021EF3130A00DFD41B /* MSPropertiesTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 808A10FF1EF3130A00DFD41B /* MSPropertiesTableDataSource.m */; };
-		808A11031EF3130A00DFD41B /* MSPropertyViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 808A11011EF3130A00DFD41B /* MSPropertyViewCell.m */; };
-		808A11041EF31D2500DFD41B /* MSPropertiesTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 808A10FF1EF3130A00DFD41B /* MSPropertiesTableDataSource.m */; };
-		808A11051EF31D2800DFD41B /* MSPropertyViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 808A11011EF3130A00DFD41B /* MSPropertyViewCell.m */; };
 		84226C4B1E88FF4A00798417 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226C4A1E88FF4A00798417 /* main.m */; };
 		84226C4E1E88FF4A00798417 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226C4D1E88FF4A00798417 /* AppDelegate.m */; };
 		84226C561E88FF4A00798417 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C551E88FF4A00798417 /* Assets.xcassets */; };
@@ -74,6 +70,12 @@
 		D31EF9721E9517C600450162 /* SasquatchWatchSwift.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = D31EF9541E9517C500450162 /* SasquatchWatchSwift.app */; };
 		F809D5041FC6DA2B005E0F83 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F809D5021FC6DA2B005E0F83 /* LaunchScreen.storyboard */; };
 		F809D5051FC6DD80005E0F83 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F809D5021FC6DA2B005E0F83 /* LaunchScreen.storyboard */; };
+		F87E96141FDED64900AF2717 /* MSAnalyticsPropertyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F87E96121FDED64900AF2717 /* MSAnalyticsPropertyTableViewCell.swift */; };
+		F87E96151FDED64900AF2717 /* MSAnalyticsPropertyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F87E96121FDED64900AF2717 /* MSAnalyticsPropertyTableViewCell.swift */; };
+		F87E96161FDED64900AF2717 /* MSAnalyticsPropertyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F87E96131FDED64900AF2717 /* MSAnalyticsPropertyTableViewCell.xib */; };
+		F87E96171FDED64900AF2717 /* MSAnalyticsPropertyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F87E96131FDED64900AF2717 /* MSAnalyticsPropertyTableViewCell.xib */; };
+		F87E96191FDEEA0900AF2717 /* MSCustomPropertyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F87E96181FDEEA0900AF2717 /* MSCustomPropertyTableViewCell.swift */; };
+		F87E961A1FDEEA0900AF2717 /* MSCustomPropertyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F87E96181FDEEA0900AF2717 /* MSCustomPropertyTableViewCell.swift */; };
 		F89D79091E93DA3A0094521F /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F89D79081E93DA3A0094521F /* CrashLibIOS.framework */; };
 		F89D790A1E93DA3A0094521F /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F89D79081E93DA3A0094521F /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F89D790C1E93DA500094521F /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F89D79081E93DA3A0094521F /* CrashLibIOS.framework */; };
@@ -224,10 +226,6 @@
 		5CE258871EA5F62400DA8FB9 /* SasquatchObjCUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchObjCUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CE258961EA5FAE100DA8FB9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		803CFF261F6A7E1D0072B9BA /* MSPushViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSPushViewController.swift; sourceTree = "<group>"; };
-		808A10FE1EF3130A00DFD41B /* MSPropertiesTableDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSPropertiesTableDataSource.h; path = ../../../Vendor/Common/Utils/MSPropertiesTableDataSource.h; sourceTree = "<group>"; };
-		808A10FF1EF3130A00DFD41B /* MSPropertiesTableDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSPropertiesTableDataSource.m; path = ../../../Vendor/Common/Utils/MSPropertiesTableDataSource.m; sourceTree = "<group>"; };
-		808A11001EF3130A00DFD41B /* MSPropertyViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSPropertyViewCell.h; path = ../../../Vendor/Common/Utils/MSPropertyViewCell.h; sourceTree = "<group>"; };
-		808A11011EF3130A00DFD41B /* MSPropertyViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSPropertyViewCell.m; path = ../../../Vendor/Common/Utils/MSPropertyViewCell.m; sourceTree = "<group>"; };
 		84226C1C1E88FEFC00798417 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		84226C471E88FF4A00798417 /* SasquatchObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchObjC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84226C4A1E88FF4A00798417 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -281,6 +279,9 @@
 		D31EF96D1E9517C600450162 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D31EF96F1E9517C600450162 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F809D5031FC6DA2B005E0F83 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		F87E96121FDED64900AF2717 /* MSAnalyticsPropertyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAnalyticsPropertyTableViewCell.swift; sourceTree = "<group>"; };
+		F87E96131FDED64900AF2717 /* MSAnalyticsPropertyTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MSAnalyticsPropertyTableViewCell.xib; sourceTree = "<group>"; };
+		F87E96181FDEEA0900AF2717 /* MSCustomPropertyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSCustomPropertyTableViewCell.swift; sourceTree = "<group>"; };
 		F89D79081E93DA3A0094521F /* CrashLibIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -347,17 +348,6 @@
 			path = ../TestApps/Sasquatch/SasquatchUITests;
 			sourceTree = "<group>";
 		};
-		808A10E81EF30FD600DFD41B /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				808A10FE1EF3130A00DFD41B /* MSPropertiesTableDataSource.h */,
-				808A10FF1EF3130A00DFD41B /* MSPropertiesTableDataSource.m */,
-				808A11001EF3130A00DFD41B /* MSPropertyViewCell.h */,
-				808A11011EF3130A00DFD41B /* MSPropertyViewCell.m */,
-			);
-			name = Utils;
-			sourceTree = "<group>";
-		};
 		84226C091E88FEFC00798417 = {
 			isa = PBXGroup;
 			children = (
@@ -397,7 +387,6 @@
 				041E2BEE1FB6465000793316 /* Constants.h */,
 				84226CB11E8909F700798417 /* Storyboards */,
 				84226CB01E8909EA00798417 /* ViewControllers */,
-				808A10E81EF30FD600DFD41B /* Utils */,
 				84226CB21E8909FF00798417 /* Supporting Files */,
 			);
 			name = Sasquatch;
@@ -444,10 +433,13 @@
 			isa = PBXGroup;
 			children = (
 				845964AC1E8A7E9700BABA51 /* MSMainViewController.swift */,
+				F87E96121FDED64900AF2717 /* MSAnalyticsPropertyTableViewCell.swift */,
+				F87E96131FDED64900AF2717 /* MSAnalyticsPropertyTableViewCell.xib */,
 				84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */,
 				84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */,
 				84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */,
 				B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */,
+				F87E96181FDEEA0900AF2717 /* MSCustomPropertyTableViewCell.swift */,
 				803CFF261F6A7E1D0072B9BA /* MSPushViewController.swift */,
 			);
 			path = ViewControllers;
@@ -855,6 +847,7 @@
 				047D13721EAFBDBE00D699BA /* AppCenterDistributeResources.bundle in Resources */,
 				F809D5041FC6DA2B005E0F83 /* LaunchScreen.storyboard in Resources */,
 				845964AB1E8A7E6600BABA51 /* Main.storyboard in Resources */,
+				F87E96161FDED64900AF2717 /* MSAnalyticsPropertyTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -867,6 +860,7 @@
 				84226C8A1E8908CA00798417 /* Assets.xcassets in Resources */,
 				F809D5051FC6DD80005E0F83 /* LaunchScreen.storyboard in Resources */,
 				84D63FF91E8BAA90004C9F86 /* Main.storyboard in Resources */,
+				F87E96171FDED64900AF2717 /* MSAnalyticsPropertyTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -932,13 +926,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				803CFF271F6A7E1D0072B9BA /* MSPushViewController.swift in Sources */,
+				F87E96141FDED64900AF2717 /* MSAnalyticsPropertyTableViewCell.swift in Sources */,
+				F87E96191FDEEA0900AF2717 /* MSCustomPropertyTableViewCell.swift in Sources */,
 				849A3E721E8A9922008711CB /* AppCenterProtocol.swift in Sources */,
 				845964AD1E8A7E9700BABA51 /* MSMainViewController.swift in Sources */,
 				84A0FF691E8A87C9000E7A28 /* MSAnalyticsViewController.swift in Sources */,
 				84226D421E8953F100798417 /* AppCenterDelegateObjC.m in Sources */,
 				84A0FF661E8A87B4000E7A28 /* MSCrashesViewController.swift in Sources */,
-				808A11031EF3130A00DFD41B /* MSPropertyViewCell.m in Sources */,
-				808A11021EF3130A00DFD41B /* MSPropertiesTableDataSource.m in Sources */,
 				84226C4E1E88FF4A00798417 /* AppDelegate.m in Sources */,
 				B2B36CE21EEF49B700230341 /* MSCustomPropertiesViewController.swift in Sources */,
 				84226C4B1E88FF4A00798417 /* main.m in Sources */,
@@ -952,15 +946,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				803CFF281F6A7E1D0072B9BA /* MSPushViewController.swift in Sources */,
+				F87E96151FDED64900AF2717 /* MSAnalyticsPropertyTableViewCell.swift in Sources */,
 				849A3E731E8A9922008711CB /* AppCenterProtocol.swift in Sources */,
 				84A0FF671E8A87B4000E7A28 /* MSCrashesViewController.swift in Sources */,
 				84A0FF6A1E8A87C9000E7A28 /* MSAnalyticsViewController.swift in Sources */,
 				84226D3D1E8938D200798417 /* AppCenterDelegate.swift in Sources */,
-				808A11041EF31D2500DFD41B /* MSPropertiesTableDataSource.m in Sources */,
 				B2B36CE31EEF49C400230341 /* MSCustomPropertiesViewController.swift in Sources */,
 				845178ED1E8A8B0D004A0A6F /* MSMainViewController.swift in Sources */,
-				808A11051EF31D2800DFD41B /* MSPropertyViewCell.m in Sources */,
 				84226D3F1E8939B700798417 /* AppCenterDelegateSwift.swift in Sources */,
+				F87E961A1FDEEA0900AF2717 /* MSCustomPropertyTableViewCell.swift in Sources */,
 				84A0FF6D1E8A87E1000E7A28 /* MSDistributeViewController.swift in Sources */,
 				84226C831E8908CA00798417 /* AppDelegate.swift in Sources */,
 			);
