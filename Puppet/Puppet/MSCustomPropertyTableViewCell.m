@@ -137,7 +137,7 @@
       self.valueBottomConstraint.active = YES;
       self.valueLabel.hidden = NO;
       self.valueTextField.hidden = NO;
-      self.valueTextField.keyboardType = UIKeyboardTypeNumberPad;
+      self.valueTextField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
       self.boolValue.hidden = YES;
       break;
       

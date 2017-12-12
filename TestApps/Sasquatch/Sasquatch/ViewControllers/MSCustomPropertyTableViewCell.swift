@@ -132,7 +132,7 @@ import AppCenter
       valueBottomConstraint.isActive = true
       valueLabel.isHidden = false
       valueTextField.isHidden = false
-      valueTextField.keyboardType = .numberPad
+      valueTextField.keyboardType = .numbersAndPunctuation
       boolValue.isHidden = true
     case .Boolean:
       valueBottomConstraint.isActive = true
