@@ -12,11 +12,6 @@
 @property(nonatomic) id<MSSessionTrackerDelegate> delegate;
 
 /**
- * Current session id.
- */
-@property(nonatomic, copy, readonly) NSString *sessionId;
-
-/**
  *  Session timeout time.
  */
 @property(nonatomic) NSTimeInterval sessionTimeout;
@@ -37,11 +32,6 @@
 @property(nonatomic) NSDate *lastEnteredBackgroundTime;
 
 /**
- *  Sorted array of session histories.
- */
-@property(nonatomic) NSMutableArray<MSSessionHistoryInfo *> *pastSessions;
-
-/**
  *  Start session tracking.
  */
 - (void)start;
@@ -50,10 +40,5 @@
  *  Stop session tracking.
  */
 - (void)stop;
-
-/**
- *  Clear cached sessions.
- */
-- (void)clearSessions;
 
 @end

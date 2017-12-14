@@ -8,6 +8,7 @@
 #import "MSHttpSender.h"
 #import "MSLogManagerDefault.h"
 #import "MSLogger.h"
+#import "MSSessionContext.h"
 #import "MSStartServiceLog.h"
 #import "MSUtility.h"
 #if !TARGET_OS_TV
@@ -202,6 +203,10 @@ static NSString *const kMSGroupId = @"AppCenter";
       if ((![MSLogger isUserDefinedLogLevel]) && ([MSUtility currentAppEnvironment] == MSEnvironmentOther)) {
         [MSAppCenter setLogLevel:MSLogLevelWarning];
       }
+
+      // Initialize session.
+      [MSSessionContext setSessionId:nil];
+
       success = true;
     }
     MSLogAssert([MSAppCenter logTag], @"App Center SDK %@",
