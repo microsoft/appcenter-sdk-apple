@@ -283,8 +283,8 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
               }];
             }
 
-            // Init block to handle all the channels "stop flushing" notifications.
-            MSStopFlushingCompletionBlock completion = ^() {
+            // Init block to handle all the channels flushing notifications.
+            MSForceFlushCompletionBlock completion = ^() {
               typeof(self) toughSelf = weakSelf;
               if (toughSelf) {
                 @synchronized(toughSelf.backgroundTaskLockToken) {
@@ -307,7 +307,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
 
             // There is now extended time to flush the last few logs from the channels.
             for (NSString *groupId in strongSelf.channels) {
-              [strongSelf.channels[groupId] stopFlushingWithCompletion:completion];
+              [strongSelf.channels[groupId] forceFlushWithCompletion:completion];
             }
           }
         };
@@ -342,8 +342,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
                  * not suspended yet.
                  */
                 for (NSString *groupId in self.channels) {
-                  [self.channels[groupId] cancelStopFlushing];
-                  [self.channels[groupId] resume];
+                  [self.channels[groupId] cancelForceFlushing];
                 }
               }
             }
@@ -388,6 +387,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
 - (void)endBackgroundActivity {
 #if !TARGET_OS_OSX
   if (!MS_IS_APP_EXTENSION) {
+
     // Reset flushed channels count.
     self.flushedChannelsCount = 0;
 

@@ -4,6 +4,9 @@
 #import "MSChannelDefaultPrivate.h"
 #import "MSUtility+Application.h"
 
+static const MSForceFlushCompletionBlock kMSEmptyForceFlushCompletion = ^() {
+};
+
 @implementation MSChannelDefault
 
 @synthesize configuration = _configuration;
@@ -21,7 +24,7 @@
     _delegates = [NSHashTable weakObjectsHashTable];
 
     // Init with an empty block so executing it won't harm.
-    _stopFlushingCompletion = kMSEmptyStopFlushingCompletion;
+    _forceFlushCompletion = kMSEmptyForceFlushCompletion;
   }
   return self;
 }
@@ -127,7 +130,7 @@
       self.availableBatchFromStorage = YES;
       self.itemsCount = 0;
     }
-    [self stopFlushingIfApplicable];
+    [self forceFlushIfApplicable];
     return;
   }
 
@@ -224,11 +227,11 @@
                         } else {
                           MSLogWarning([MSAppCenter logTag], @"Batch Id %@ not expected, ignore.", senderBatchId);
                         }
-                        [self stopFlushingIfApplicable];
+                        [self forceFlushIfApplicable];
                       });
                     }];
              } else {
-               [self stopFlushingIfApplicable];
+               [self forceFlushIfApplicable];
              }
            }];
 
@@ -332,13 +335,13 @@
   }
 }
 
-- (void)stopFlushingWithCompletion:(MSStopFlushingCompletionBlock)completion {
+- (void)forceFlushWithCompletion:(MSForceFlushCompletionBlock)completion {
   __weak typeof(self) weakSelf = self;
   dispatch_async(self.logsDispatchQueue, ^{
     typeof(self) strongSelf = weakSelf;
 
     // Decorate the block to execute.
-    strongSelf.stopFlushingCompletion = ^() {
+    strongSelf.forceFlushCompletion = ^() {
       typeof(self) toughSelf = weakSelf;
       if (toughSelf) {
 
@@ -349,7 +352,7 @@
         completion();
 
         // The block shouldn't execute twice.
-        toughSelf.stopFlushingCompletion = kMSEmptyStopFlushingCompletion;
+        toughSelf.forceFlushCompletion = kMSEmptyForceFlushCompletion;
       }
     };
 
@@ -358,9 +361,12 @@
   });
 }
 
-- (void)cancelStopFlushing {
+- (void)cancelForceFlushing {
+  __weak typeof(self) weakSelf = self;
   dispatch_async(self.logsDispatchQueue, ^{
-    self.stopFlushingCompletion = kMSEmptyStopFlushingCompletion;
+    typeof(self) strongSelf = weakSelf;
+    strongSelf.forceFlushCompletion = kMSEmptyForceFlushCompletion;
+    [strongSelf resumeSync];
   });
 }
 
@@ -433,14 +439,14 @@
   }
 }
 
-- (void)stopFlushingIfApplicable {
+- (void)forceFlushIfApplicable {
 
   /*
    * If the channel is expected to stop flushing and doesn't have any pending
    * batches or is suspended then it can notify that it has stopped flushing.
    */
   if (self.pendingBatchIds.count == 0 || self.suspended) {
-    self.stopFlushingCompletion();
+    self.forceFlushCompletion();
   }
 }
 

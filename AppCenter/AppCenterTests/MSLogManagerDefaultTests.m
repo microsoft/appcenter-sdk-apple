@@ -142,17 +142,17 @@
   MSLogManagerDefault *sut = [[MSLogManagerDefault alloc] initWithSender:senderMock storage:storageMock];
 
   // Init 2 channels.
-  __block MSStopFlushingCompletionBlock completionBlockChannel1;
-  __block MSStopFlushingCompletionBlock completionBlockChannel2;
+  __block MSForceFlushCompletionBlock completionBlockChannel1;
+  __block MSForceFlushCompletionBlock completionBlockChannel2;
   MSChannelDefault *channel1 = OCMClassMock([MSChannelDefault class]);
   MSChannelDefault *channel2 = OCMClassMock([MSChannelDefault class]);
-  OCMStub([channel1 stopFlushingWithCompletion:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+  OCMStub([channel1 forceFlushWithCompletion:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     [invocation retainArguments];
 
     // Remember the completion block.
     [invocation getArgument:&completionBlockChannel1 atIndex:2];
   });
-  OCMStub([channel2 stopFlushingWithCompletion:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+  OCMStub([channel2 forceFlushWithCompletion:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     [invocation retainArguments];
 
     // Remember the completion block.
@@ -210,17 +210,17 @@
   MSLogManagerDefault *sut = [[MSLogManagerDefault alloc] initWithSender:senderMock storage:storageMock];
   
   // Init 2 channels.
-  __block MSStopFlushingCompletionBlock completionBlockChannel1;
-  __block MSStopFlushingCompletionBlock completionBlockChannel2;
+  __block MSForceFlushCompletionBlock completionBlockChannel1;
+  __block MSForceFlushCompletionBlock completionBlockChannel2;
   id channel1 = OCMClassMock([MSChannelDefault class]);
   id channel2 = OCMClassMock([MSChannelDefault class]);
-  OCMStub([channel1 stopFlushingWithCompletion:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+  OCMStub([channel1 forceFlushWithCompletion:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     [invocation retainArguments];
 
     // Remember the completion block.
     [invocation getArgument:&completionBlockChannel1 atIndex:2];
   });
-  OCMStub([channel2 stopFlushingWithCompletion:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+  OCMStub([channel2 forceFlushWithCompletion:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     [invocation retainArguments];
 
     // Remember the completion block.
@@ -280,10 +280,10 @@
   // Init 2 channels.
   id channel1 = OCMClassMock([MSChannelDefault class]);
   id channel2 = OCMClassMock([MSChannelDefault class]);
-  OCMExpect([channel1 cancelStopFlushing]);
-  OCMExpect([channel2 cancelStopFlushing]);
-  OCMStub([channel1 stopFlushingWithCompletion:OCMOCK_ANY]);
-  OCMStub([channel2 stopFlushingWithCompletion:OCMOCK_ANY]);
+  OCMExpect([channel1 cancelForceFlushing]);
+  OCMExpect([channel2 cancelForceFlushing]);
+  OCMStub([channel1 forceFlushWithCompletion:OCMOCK_ANY]);
+  OCMStub([channel2 forceFlushWithCompletion:OCMOCK_ANY]);
 
   // Add channels.
   sut.channels[@"channel1"] = channel1;

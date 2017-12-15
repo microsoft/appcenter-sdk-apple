@@ -66,7 +66,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   assertThat(self.sut.sender, equalTo(self.senderMock));
   assertThat(self.sut.storage, equalTo(self.storageMock));
 #if !TARGET_OS_OSX
-  assertThat(self.sut.stopFlushingCompletion, notNilValue());
+  assertThat(self.sut.forceFlushCompletion, notNilValue());
 #endif
   assertThatUnsignedLong(self.sut.itemsCount, equalToInt(0));
 }
@@ -847,7 +847,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [channelMock setEnabled:YES];
 
   // When
-  [channelMock stopFlushingWithCompletion:^() {
+  [channelMock forceFlushWithCompletion:^() {
     if (completionExecuted) {
       XCTFail(@"Completion block must not be executed twice");
     } else {
@@ -865,7 +865,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  assertThatBool(channelMock.suspended, isTrue());
 
                                  // Completion happened so must now be an empty block, calling it won't hurt.
-                                 channelMock.stopFlushingCompletion();
+                                 channelMock.forceFlushCompletion();
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
@@ -910,7 +910,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // When
   [channelMock enqueueItem:mockLog
             withCompletion:^(__attribute__((unused)) BOOL success) {
-              [channelMock stopFlushingWithCompletion:^() {
+              [channelMock forceFlushWithCompletion:^() {
                 if (completionExecuted) {
                   XCTFail(@"Completion block must not be executed twice");
                 } else {
@@ -932,7 +932,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  assertThatBool(channelMock.suspended, isTrue());
 
                                  // Completion happened so must now be an empty block, calling it won't hurt.
-                                 channelMock.stopFlushingCompletion();
+                                 channelMock.forceFlushCompletion();
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
@@ -974,7 +974,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // When
   [channelMock enqueueItem:mockLog
             withCompletion:^(__attribute__((unused)) BOOL success) {
-              [channelMock stopFlushingWithCompletion:^() {
+              [channelMock forceFlushWithCompletion:^() {
                 XCTFail(@"Channel did not finish flushing logs.");
               }];
             }];
@@ -1029,12 +1029,12 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // When
   [channelMock enqueueItem:mockLog
             withCompletion:^(__attribute__((unused)) BOOL success) {
-              [channelMock stopFlushingWithCompletion:^() {
+              [channelMock forceFlushWithCompletion:^() {
                 XCTFail(@"Completion block must not be executed twice");
               }];
 
               // Cancel "stop flushing" notification.
-              [channelMock cancelStopFlushing];
+              [channelMock cancelForceFlushing];
               dispatch_async(self.logsDispatchQueue, ^{
                 senderBlock([@(1) stringValue], 200, nil, nil);
                 [self enqueueChannelEndJobExpectation];
@@ -1050,7 +1050,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  assertThatBool(channelMock.suspended, isFalse());
 
                                  // Completion happened so must now be an empty block, calling it won't hurt.
-                                 channelMock.stopFlushingCompletion();
+                                 channelMock.forceFlushCompletion();
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }

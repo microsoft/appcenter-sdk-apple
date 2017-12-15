@@ -14,7 +14,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef void (^MSEnqueueCompletionBlock)(BOOL);
-typedef void (^MSStopFlushingCompletionBlock)();
+typedef void (^MSForceFlushCompletionBlock)();
 
 /**
  Defines a channel which manages a queue of log items.
@@ -74,22 +74,17 @@ typedef void (^MSStopFlushingCompletionBlock)();
 - (void)removeDelegate:(id<MSChannelDelegate>)delegate;
 
 /**
- * Stop flushing logs.
+ * Force flush logs.
  *
- * @param completion Completion block to be called when stopped flushing logs.
+ * @param completion Completion block to be called when flush logs process is completed.
  */
-- (void)stopFlushingWithCompletion:(MSStopFlushingCompletionBlock)completion;
+- (void)forceFlushWithCompletion:(MSForceFlushCompletionBlock)completion;
 
 /**
  * Cancel stopping logs flushing;
  */
-- (void)cancelStopFlushing;
+- (void)cancelForceFlushing;
 
-/**
- * Resume the channel. It will resume it's normal activity. A channel can't be resumed if it's disabled or the sender is
- * still supsended.
- */
-- (void)resume;
 
 @end
 
