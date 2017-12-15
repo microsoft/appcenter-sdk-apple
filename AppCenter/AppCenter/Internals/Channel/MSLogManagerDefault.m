@@ -14,7 +14,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
 /**
  * Private declaration of the log manager.
  */
-@interface MSLogManagerDefault (MSChannelDelegate)
+@interface MSLogManagerDefault () <MSChannelDelegate, MSSenderDelegate>
 
 @end
 
@@ -38,7 +38,14 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
     _channels = [NSMutableDictionary<NSString *, id<MSChannel>> new];
     _delegates = [NSHashTable weakObjectsHashTable];
     _sender = sender;
+    [sender addDelegate:self];
     _storage = storage;
+    _flushedChannelsCount = 0;
+    _backgroundTaskIdentifier = UIBackgroundTaskInvalid;
+    _backgroundTaskLockToken = [NSObject new];
+    _appDidEnterBackgroundObserver = nil;
+    _appWillEnterForegroundObserver = nil;
+    [self addObservers];
   }
   return self;
 }
@@ -50,9 +57,15 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
                                                storage:self.storage
                                          configuration:configuration
                                      logsDispatchQueue:self.logsDispatchQueue];
-    [channel addDelegate:(id<MSChannelDelegate>)self];
+    [channel addDelegate:self];
     self.channels[configuration.groupId] = channel;
   }
+}
+
+#pragma mark - Object life cycle
+
+- (void)dealloc {
+  [self removeObservers];
 }
 
 #pragma mark - Delegate
@@ -101,7 +114,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
                             withBlock:^(id<MSLogManagerDelegate> delegate) {
 
                               /*
-                               * If the delegate doesn't have groupId implementation, it assumes that the delegate is
+                               * If the delegate doesn't have a groupId implementation, it assumes that the delegate is
                                * interested in all kinds of logs. Otherwise, compare groupId.
                                */
                               if (![delegate respondsToSelector:@selector(groupId)] ||
@@ -116,7 +129,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
                             withBlock:^(id<MSLogManagerDelegate> delegate) {
 
                               /*
-                               * If the delegate doesn't have groupId implementation, it assumes that the delegate is
+                               * If the delegate doesn't have a groupId implementation, it assumes that the delegate is
                                * interested in all kinds of logs. Otherwise, compare groupId.
                                */
                               if (![delegate respondsToSelector:@selector(groupId)] ||
@@ -124,6 +137,19 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
                                 [delegate didFailSendingLog:log withError:error];
                               }
                             }];
+}
+
+#pragma mark - Sender Delegate
+
+- (void)senderDidSuspend:(id<MSSender>)sender {
+  (void)sender;
+  
+  // Cancel the background task if the connection was lost.
+#if !TARGET_OS_OSX
+  @synchronized(self.backgroundTaskLockToken) {
+    [self endBackgroundActivity];
+  }
+#endif
 }
 
 #pragma mark - Process items
@@ -200,6 +226,16 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
       [self.channels[groupId] setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
     }
 
+    // Own enable logic.
+    if (isEnabled) {
+      [self addObservers];
+    } else {
+#if !TARGET_OS_OSX
+      [self endBackgroundActivity];
+#endif
+      [self removeObservers];
+    }
+
     // If requested, also delete logs from not started services.
     if (!isEnabled && deleteData) {
       NSArray<NSString *> *runningChannels = self.channels.allKeys;
@@ -223,24 +259,183 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
   }
 }
 
-#pragma mark - Suspend / Resume
+#pragma mark – Observers
 
-- (void)suspend {
+- (void)addObservers {
 
-  // Disable sender, sending log will not be possible but they'll still be stored.
-  [self.sender setEnabled:NO andDeleteDataOnDisabled:NO];
+// There is no need to do trigger sending on macOS because we can just continue to execute tasks there.
+#if !TARGET_OS_OSX
+  if (!MS_IS_APP_EXTENSION) {
+    @synchronized(self.backgroundTaskLockToken) {
+      self.backgroundTaskIdentifier = UIBackgroundTaskInvalid;
+      __weak typeof(self) weakSelf = self;
+      if (self.appDidEnterBackgroundObserver == nil) {
+        self.appDidEnterBackgroundObserver =
+            [MS_NOTIFICATION_CENTER addObserverForName:UIApplicationDidEnterBackgroundNotification
+                                                object:nil
+                                                 queue:NSOperationQueue.mainQueue
+                                            usingBlock:^(NSNotification __unused *note) {
+                                              typeof(self) strongSelf = weakSelf;
+                                              if (strongSelf) {
+                                                [strongSelf applicationDidEnterBackground];
+                                              }
+                                            }];
+      }
+      if (self.appWillEnterForegroundObserver == nil) {
+        self.appWillEnterForegroundObserver =
+            [MS_NOTIFICATION_CENTER addObserverForName:UIApplicationWillEnterForegroundNotification
+                                                object:nil
+                                                 queue:NSOperationQueue.mainQueue
+                                            usingBlock:^(NSNotification __unused *note) {
+                                              dispatch_async(self.logsDispatchQueue, ^{
+                                                typeof(self) strongSelf = weakSelf;
+                                                if (strongSelf) {
+                                                  [strongSelf applicationWillEnterForeground];
+                                                }
+                                              });
+                                            }];
+      }
+    }
+  }
+#endif
 }
 
-- (void)resume {
-
-  // Resume sender, logs can be sent again. Pending logs are sent.
-  [self.sender setEnabled:YES andDeleteDataOnDisabled:NO];
+- (void)removeObservers {
+#if !TARGET_OS_OSX
+  if (!MS_IS_APP_EXTENSION) {
+    id strongBackgroundObserver = self.appDidEnterBackgroundObserver;
+    if (strongBackgroundObserver) {
+      [MS_NOTIFICATION_CENTER removeObserver:strongBackgroundObserver];
+      self.appDidEnterBackgroundObserver = nil;
+    }
+    id strongForegroundObserver = self.appWillEnterForegroundObserver;
+    if (strongForegroundObserver) {
+      [MS_NOTIFICATION_CENTER removeObserver:strongForegroundObserver];
+      self.appWillEnterForegroundObserver = nil;
+    }
+  }
+#endif
 }
+
+#pragma mark - Application life cycle
+
+#if !TARGET_OS_OSX
+/**
+ *  The application will go to the background.
+ */
+- (void)applicationDidEnterBackground {
+  
+  /*
+   * From the documentation for applicationDidEnterBackground:
+   * "It's likely any background tasks you start in applicationDidEnterBackground: will not run until after
+   * that method exits, you should request additional background execution time before starting those tasks.
+   * In other words, first call beginBackgroundTaskWithExpirationHandler: and then run the task on a
+   * dispatch queue or secondary thread.
+   */
+  UIApplication *sharedApplication = [MSUtility sharedApplication];
+  
+  // Checking if sharedApplication is != nil as it can be nil for extensions.
+  if (sharedApplication && self.backgroundTaskIdentifier == UIBackgroundTaskInvalid) {
+    self.backgroundTaskIdentifier = [sharedApplication beginBackgroundTaskWithExpirationHandler:^{
+      
+      // Suspend the sender, it will also suspend all channels.
+      @synchronized(self.backgroundTaskLockToken) {
+        MSLogDebug([MSAppCenter logTag], @"Background task has expired.");
+        
+        // Disable sender so that network changes in background won't affect his state.
+        [self.sender setEnabled:NO andDeleteDataOnDisabled:NO];
+      }
+    }];
+  }
+  
+  // Init block to handle all the channels flushing notifications.
+  __weak typeof(self) weakSelf = self;
+  MSForceFlushCompletionBlock completion = ^() {
+    typeof(self) strongSelf = weakSelf;
+    if (strongSelf) {
+      [strongSelf channelForceFlushingCompleted];
+    }
+  };
+  
+  // There is now extended time to flush the last few logs from the channels.
+  for (NSString *groupId in self.channels) {
+    [self.channels[groupId] forceFlushWithCompletion:completion];
+  }
+}
+
+/**
+ *  The application will go to the foreground.
+ */
+- (void)applicationWillEnterForeground {
+  @synchronized(self.backgroundTaskLockToken) {
+    
+    // In foreground now, cancel any pending background task.
+    [self endBackgroundActivity];
+    
+    // Re-enable sender.
+    [self.sender setEnabled:YES andDeleteDataOnDisabled:NO];
+    
+    /**
+     * TODO: Needs some refactoring, sender is coupled to too many objects.
+     * It's hard to follow what's enabled or not.
+     * I think it should only be coupled to chanels, and perhaps having a
+     * sender per channel would simplify things.
+     *
+     * The sender may not be disabled because the app as been forgrounded
+     * before all the channels finished flushing,
+     * so we still have to resume the suspended channels and cancel the ones
+     * not suspended yet.
+     */
+    for (NSString *groupId in self.channels) {
+      [self.channels[groupId] cancelForceFlushing];
+    }
+  }
+}
+#endif
+
 
 #pragma mark - Other public methods
 
 - (void)setLogUrl:(NSString *)logUrl {
   self.sender.baseURL = logUrl;
 }
+
+#pragma mark - Other private methods
+
+#if !TARGET_OS_OSX
+- (void)channelForceFlushingCompleted {
+  @synchronized(self.backgroundTaskLockToken) {
+    
+    // Background task is still going on.
+    if (self.backgroundTaskIdentifier != UIBackgroundTaskInvalid) {
+      self.flushedChannelsCount++;
+      
+      // All channels have finished flushing.
+      if (self.channels.count == self.flushedChannelsCount) {
+        
+        // Disable sender so that network changes in background won't affect his state.
+        [self.sender setEnabled:NO andDeleteDataOnDisabled:NO];
+        [self endBackgroundActivity];
+      }
+    }
+  }
+}
+
+- (void)endBackgroundActivity {
+  if (!MS_IS_APP_EXTENSION) {
+
+    // Reset flushed channels count.
+    self.flushedChannelsCount = 0;
+
+    // Invalidate background task.
+    UIApplication *sharedApplication = [MSUtility sharedApplication];
+    if (sharedApplication && self.backgroundTaskIdentifier != UIBackgroundTaskInvalid) {
+      [sharedApplication endBackgroundTask:self.backgroundTaskIdentifier];
+      self.backgroundTaskIdentifier = UIBackgroundTaskInvalid;
+      MSLogDebug([MSAppCenter logTag], @"Background task invalidated.");
+    }
+  }
+}
+#endif
 
 @end

@@ -105,29 +105,14 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
     }
 
     // Hookup to application events.
-    [MS_NOTIFICATION_CENTER addObserver:self
-                               selector:@selector(applicationDidEnterBackground)
-#if TARGET_OS_OSX
-                                   name:NSApplicationDidResignActiveNotification
-#else
-                                   name:UIApplicationDidEnterBackgroundNotification
-#endif
-                                 object:nil];
-    [MS_NOTIFICATION_CENTER addObserver:self
-                               selector:@selector(applicationWillEnterForeground)
-#if TARGET_OS_OSX
-                                   name:NSApplicationWillBecomeActiveNotification
-#else
-                                   name:UIApplicationWillEnterForegroundNotification
-#endif
-                                 object:nil];
+    [self addObservers];
     self.started = YES;
   }
 }
 
 - (void)stop {
   if (self.started) {
-    [MS_NOTIFICATION_CENTER removeObserver:self];
+    [self removeObservers];
     self.started = NO;
   }
 }
@@ -173,6 +158,39 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
                                     : false;
     return noLogSentForLong && (isBackgroundForLong || wasBackgroundForLong);
   }
+}
+
+- (void)addObservers {
+#if TARGET_OS_OSX
+  [MS_NOTIFICATION_CENTER addObserver:self
+                             selector:@selector(applicationDidEnterBackground)
+                                 name:NSApplicationDidResignActiveNotification
+                               object:nil];
+
+  [MS_NOTIFICATION_CENTER addObserver:self
+                             selector:@selector(applicationWillEnterForeground)
+                                 name:NSApplicationWillBecomeActiveNotification
+                               object:nil];
+#else
+  [MS_NOTIFICATION_CENTER addObserver:self
+                             selector:@selector(applicationDidEnterBackground)
+                                 name:UIApplicationDidEnterBackgroundNotification
+                               object:nil];
+  [MS_NOTIFICATION_CENTER addObserver:self
+                             selector:@selector(applicationWillEnterForeground)
+                                 name:UIApplicationWillEnterForegroundNotification
+                               object:nil];
+#endif
+}
+
+- (void)removeObservers {
+#if TARGET_OS_OSX
+  [MS_NOTIFICATION_CENTER removeObserver:self name:NSApplicationDidResignActiveNotification object:nil];
+  [MS_NOTIFICATION_CENTER removeObserver:self name:NSApplicationWillBecomeActiveNotification object:nil];
+#else
+  [MS_NOTIFICATION_CENTER removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
+  [MS_NOTIFICATION_CENTER removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
+#endif
 }
 
 - (void)applicationDidEnterBackground {

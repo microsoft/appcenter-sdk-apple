@@ -1,5 +1,7 @@
 #import "MSChannelDefault.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  * Private declarations.
  */
@@ -26,4 +28,16 @@
  */
 @property(nonatomic) BOOL discardLogs;
 
+/**
+ * Completion block executed when stopped flushing logs.
+ */
+@property(nonatomic, nullable) MSForceFlushCompletionBlock forceFlushCompletion;
+
+/**
+ * Trigger flushing the queue, which will result in logs being sent.
+ */
+- (void)flushQueue;
+
 @end
+
+NS_ASSUME_NONNULL_END

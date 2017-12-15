@@ -2,6 +2,10 @@
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterInternal.h"
 #import "MSChannelDefaultPrivate.h"
+#import "MSUtility+Application.h"
+
+static const MSForceFlushCompletionBlock kMSEmptyForceFlushCompletion = ^() {
+};
 
 @implementation MSChannelDefault
 
@@ -16,8 +20,11 @@
     _pendingBatchQueueFull = NO;
     _availableBatchFromStorage = NO;
     _enabled = YES;
-
+    _suspended = NO;
     _delegates = [NSHashTable weakObjectsHashTable];
+
+    // Init with an empty block so executing it won't harm.
+    _forceFlushCompletion = kMSEmptyForceFlushCompletion;
   }
   return self;
 }
@@ -59,7 +66,7 @@
 
 #pragma mark - Managing queue
 
-- (void)enqueueItem:(id<MSLog>)item withCompletion:(enqueueCompletionBlock)completion {
+- (void)enqueueItem:(id<MSLog>)item withCompletion:(MSEnqueueCompletionBlock)completion {
 
   // Return fast in case our item is empty or we are discarding logs right now.
   dispatch_async(self.logsDispatchQueue, ^{
@@ -123,6 +130,7 @@
       self.availableBatchFromStorage = YES;
       self.itemsCount = 0;
     }
+    [self forceFlushIfApplicable];
     return;
   }
 
@@ -216,10 +224,14 @@
                               self.pendingBatchQueueFull = NO;
                             }
                           }
-                        } else
+                        } else {
                           MSLogWarning([MSAppCenter logTag], @"Batch Id %@ not expected, ignore.", senderBatchId);
+                        }
+                        [self forceFlushIfApplicable];
                       });
                     }];
+             } else {
+               [self forceFlushIfApplicable];
              }
            }];
 
@@ -233,7 +245,6 @@
 
 - (void)startTimer {
   [self resetTimer];
-
   self.timerSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, self.logsDispatchQueue);
 
   /**
@@ -271,9 +282,7 @@
     if (self.enabled != isEnabled) {
       self.enabled = isEnabled;
       if (isEnabled) {
-        if (!self.sender.suspended) {
-          [self resume];
-        }
+        [self resumeSync];
       } else {
         [self suspend];
       }
@@ -311,11 +320,54 @@
 }
 
 - (void)resume {
-  if (self.suspended && self.enabled) {
+  __weak typeof(self) weakSelf = self;
+  dispatch_async(self.logsDispatchQueue, ^{
+    typeof(self) strongSelf = weakSelf;
+    [strongSelf resumeSync];
+  });
+}
+
+- (void)resumeSync {
+  if (!self.sender.suspended && self.enabled) {
     MSLogDebug([MSAppCenter logTag], @"Resume channel for group Id %@.", self.configuration.groupId);
     self.suspended = NO;
     [self flushQueue];
   }
+}
+
+- (void)forceFlushWithCompletion:(MSForceFlushCompletionBlock)completion {
+  __weak typeof(self) weakSelf = self;
+  dispatch_async(self.logsDispatchQueue, ^{
+    typeof(self) strongSelf = weakSelf;
+
+    // Decorate the block to execute.
+    strongSelf.forceFlushCompletion = ^() {
+      typeof(self) toughSelf = weakSelf;
+      if (toughSelf) {
+
+        // Channel has stopped flushing and is now suspending.
+        [toughSelf suspend];
+
+        // Notify.
+        completion();
+
+        // The block shouldn't execute twice.
+        toughSelf.forceFlushCompletion = kMSEmptyForceFlushCompletion;
+      }
+    };
+
+    // Trigger a flush now.
+    [strongSelf flushQueue];
+  });
+}
+
+- (void)cancelForceFlushing {
+  __weak typeof(self) weakSelf = self;
+  dispatch_async(self.logsDispatchQueue, ^{
+    typeof(self) strongSelf = weakSelf;
+    strongSelf.forceFlushCompletion = kMSEmptyForceFlushCompletion;
+    [strongSelf resumeSync];
+  });
 }
 
 #pragma mark - Storage
@@ -354,9 +406,7 @@
 
 - (void)senderDidResume:(id<MSSender>)sender {
   (void)sender;
-  dispatch_async(self.logsDispatchQueue, ^{
-    [self resume];
-  });
+  [self resume];
 }
 
 - (void)senderDidReceiveFatalError:(id<MSSender>)sender {
@@ -386,6 +436,17 @@
     // Call didFailSendingLog
     if (delegate && [delegate respondsToSelector:@selector(channel:didFailSendingLog:withError:)])
       [delegate channel:self didFailSendingLog:item withError:error];
+  }
+}
+
+- (void)forceFlushIfApplicable {
+
+  /*
+   * If the channel is expected to stop flushing and doesn't have any pending
+   * batches or is suspended then it can notify that it has stopped flushing.
+   */
+  if (self.pendingBatchIds.count == 0 || self.suspended) {
+    self.forceFlushCompletion();
   }
 }
 
