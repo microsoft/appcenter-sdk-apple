@@ -40,13 +40,11 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
     _sender = sender;
     _storage = storage;
     _flushedChannelsCount = 0;
-#if !TARGET_OS_OSX
     _backgroundTaskIdentifier = UIBackgroundTaskInvalid;
     _backgroundTaskLockToken = [NSObject new];
     _appDidEnterBackgroundObserver = nil;
     _appWillEnterForegroundObserver = nil;
     [self addObservers];
-#endif
   }
   return self;
 }
@@ -212,7 +210,9 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
     if (isEnabled) {
       [self addObservers];
     } else {
+#if !TARGET_OS_OSX
       [self endBackgroundActivity];
+#endif
       [self removeObservers];
     }
 
@@ -256,103 +256,30 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
       self.backgroundTaskIdentifier = UIBackgroundTaskInvalid;
       __weak typeof(self) weakSelf = self;
       if (self.appDidEnterBackgroundObserver == nil) {
-        void (^notificationBlock)(NSNotification *note) = ^(NSNotification __unused *note) {
-          typeof(self) strongSelf = weakSelf;
-          if (strongSelf) {
-
-            /*
-             * From the documentation for applicationDidEnterBackground:
-             * "It's likely any background tasks you start in applicationDidEnterBackground: will not run until after
-             * that method exits, you should request additional background execution time before starting those tasks.
-             * In other words, first call beginBackgroundTaskWithExpirationHandler: and then run the task on a
-             * dispatch queue or secondary thread.
-             */
-            UIApplication *sharedApplication = [MSUtility sharedApplication];
-
-            // Checking if sharedApplication is != nil as it can be nil for extensions.
-            if (sharedApplication && strongSelf.backgroundTaskIdentifier == UIBackgroundTaskInvalid) {
-              strongSelf.backgroundTaskIdentifier = [sharedApplication beginBackgroundTaskWithExpirationHandler:^{
-
-                // Suspend the sender, it will also suspend all channels.
-                @synchronized(strongSelf.backgroundTaskLockToken) {
-                  MSLogDebug([MSAppCenter logTag], @"Background task has expired.");
-
-                  // Disable sender so that network changes in background won't affect his state.
-                  [strongSelf.sender setEnabled:NO andDeleteDataOnDisabled:NO];
-                }
-              }];
-            }
-
-            // Init block to handle all the channels flushing notifications.
-            MSForceFlushCompletionBlock completion = ^() {
-              typeof(self) toughSelf = weakSelf;
-              if (toughSelf) {
-                @synchronized(toughSelf.backgroundTaskLockToken) {
-
-                  // Background task is still going on.
-                  if (toughSelf.backgroundTaskIdentifier != UIBackgroundTaskInvalid) {
-                    toughSelf.flushedChannelsCount++;
-
-                    // All channels have finished flushing.
-                    if (toughSelf.channels.count == toughSelf.flushedChannelsCount) {
-
-                      // Disable sender so that network changes in background won't affect his state.
-                      [toughSelf.sender setEnabled:NO andDeleteDataOnDisabled:NO];
-                      [toughSelf endBackgroundActivity];
-                    }
-                  }
-                }
-              }
-            };
-
-            // There is now extended time to flush the last few logs from the channels.
-            for (NSString *groupId in strongSelf.channels) {
-              [strongSelf.channels[groupId] forceFlushWithCompletion:completion];
-            }
-          }
-        };
         self.appDidEnterBackgroundObserver =
             [MS_NOTIFICATION_CENTER addObserverForName:UIApplicationDidEnterBackgroundNotification
                                                 object:nil
                                                  queue:NSOperationQueue.mainQueue
-                                            usingBlock:notificationBlock];
+                                            usingBlock:^(NSNotification __unused *note) {
+                                              typeof(self) strongSelf = weakSelf;
+                                              if (strongSelf) {
+                                                [strongSelf applicationDidEnterBackground];
+                                              }
+                                            }];
       }
       if (self.appWillEnterForegroundObserver == nil) {
-        void (^notificationBlock)(NSNotification *note) = ^(NSNotification __unused *note) {
-          dispatch_async(self.logsDispatchQueue, ^{
-            typeof(self) strongSelf = weakSelf;
-            if (strongSelf) {
-              @synchronized(strongSelf.backgroundTaskLockToken) {
-                
-                // In foreground now, cancel any pending background task.
-                [strongSelf endBackgroundActivity];
-                
-                // Re-enable sender.
-                [strongSelf.sender setEnabled:YES andDeleteDataOnDisabled:NO];
-                
-                /**
-                 * TODO: Needs some refactoring, sender is coupled to too many objects.
-                 * It's hard to follow what's enabled or not.
-                 * I think it should only be coupled to chanels, and perhaps having a
-                 * sender per channel would simplify things.
-                 *
-                 * The sender may not be disabled because the app as been forgrounded
-                 * before all the channels finished flushing,
-                 * so we still have to resume the suspended channels and cancel the ones
-                 * not suspended yet.
-                 */
-                for (NSString *groupId in self.channels) {
-                  [self.channels[groupId] cancelForceFlushing];
-                }
-              }
-            }
-          });
-        };
         self.appWillEnterForegroundObserver =
             [MS_NOTIFICATION_CENTER addObserverForName:UIApplicationWillEnterForegroundNotification
                                                 object:nil
                                                  queue:NSOperationQueue.mainQueue
-                                            usingBlock:notificationBlock];
+                                            usingBlock:^(NSNotification __unused *note) {
+                                              dispatch_async(self.logsDispatchQueue, ^{
+                                                typeof(self) strongSelf = weakSelf;
+                                                if (strongSelf) {
+                                                  [strongSelf applicationWillEnterForeground];
+                                                }
+                                              });
+                                            }];
       }
     }
   }
@@ -376,6 +303,83 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
 #endif
 }
 
+#pragma mark - Application life cycle
+
+#if !TARGET_OS_OSX
+/**
+ *  The application will go to the background.
+ */
+- (void)applicationDidEnterBackground {
+  
+  /*
+   * From the documentation for applicationDidEnterBackground:
+   * "It's likely any background tasks you start in applicationDidEnterBackground: will not run until after
+   * that method exits, you should request additional background execution time before starting those tasks.
+   * In other words, first call beginBackgroundTaskWithExpirationHandler: and then run the task on a
+   * dispatch queue or secondary thread.
+   */
+  UIApplication *sharedApplication = [MSUtility sharedApplication];
+  
+  // Checking if sharedApplication is != nil as it can be nil for extensions.
+  if (sharedApplication && self.backgroundTaskIdentifier == UIBackgroundTaskInvalid) {
+    self.backgroundTaskIdentifier = [sharedApplication beginBackgroundTaskWithExpirationHandler:^{
+      
+      // Suspend the sender, it will also suspend all channels.
+      @synchronized(self.backgroundTaskLockToken) {
+        MSLogDebug([MSAppCenter logTag], @"Background task has expired.");
+        
+        // Disable sender so that network changes in background won't affect his state.
+        [self.sender setEnabled:NO andDeleteDataOnDisabled:NO];
+      }
+    }];
+  }
+  
+  // Init block to handle all the channels flushing notifications.
+  __weak typeof(self) weakSelf = self;
+  MSForceFlushCompletionBlock completion = ^() {
+    typeof(self) strongSelf = weakSelf;
+    if (strongSelf) {
+      [strongSelf channelForceFlushingCompleted];
+    }
+  };
+  
+  // There is now extended time to flush the last few logs from the channels.
+  for (NSString *groupId in self.channels) {
+    [self.channels[groupId] forceFlushWithCompletion:completion];
+  }
+}
+
+/**
+ *  The application will go to the foreground.
+ */
+- (void)applicationWillEnterForeground {
+  @synchronized(self.backgroundTaskLockToken) {
+    
+    // In foreground now, cancel any pending background task.
+    [self endBackgroundActivity];
+    
+    // Re-enable sender.
+    [self.sender setEnabled:YES andDeleteDataOnDisabled:NO];
+    
+    /**
+     * TODO: Needs some refactoring, sender is coupled to too many objects.
+     * It's hard to follow what's enabled or not.
+     * I think it should only be coupled to chanels, and perhaps having a
+     * sender per channel would simplify things.
+     *
+     * The sender may not be disabled because the app as been forgrounded
+     * before all the channels finished flushing,
+     * so we still have to resume the suspended channels and cancel the ones
+     * not suspended yet.
+     */
+    for (NSString *groupId in self.channels) {
+      [self.channels[groupId] cancelForceFlushing];
+    }
+  }
+}
+#endif
+
+
 #pragma mark - Other public methods
 
 - (void)setLogUrl:(NSString *)logUrl {
@@ -384,8 +388,26 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
 
 #pragma mark - Other private methods
 
-- (void)endBackgroundActivity {
 #if !TARGET_OS_OSX
+- (void)channelForceFlushingCompleted {
+  @synchronized(self.backgroundTaskLockToken) {
+    
+    // Background task is still going on.
+    if (self.backgroundTaskIdentifier != UIBackgroundTaskInvalid) {
+      self.flushedChannelsCount++;
+      
+      // All channels have finished flushing.
+      if (self.channels.count == self.flushedChannelsCount) {
+        
+        // Disable sender so that network changes in background won't affect his state.
+        [self.sender setEnabled:NO andDeleteDataOnDisabled:NO];
+        [self endBackgroundActivity];
+      }
+    }
+  }
+}
+
+- (void)endBackgroundActivity {
   if (!MS_IS_APP_EXTENSION) {
 
     // Reset flushed channels count.
@@ -399,7 +421,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
       MSLogDebug([MSAppCenter logTag], @"Background task invalidated.");
     }
   }
-#endif
 }
+#endif
 
 @end
