@@ -14,7 +14,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
 /**
  * Private declaration of the log manager.
  */
-@interface MSLogManagerDefault (MSChannelDelegate)
+@interface MSLogManagerDefault () <MSChannelDelegate, MSSenderDelegate>
 
 @end
 
@@ -38,6 +38,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
     _channels = [NSMutableDictionary<NSString *, id<MSChannel>> new];
     _delegates = [NSHashTable weakObjectsHashTable];
     _sender = sender;
+    [sender addDelegate:self];
     _storage = storage;
     _flushedChannelsCount = 0;
     _backgroundTaskIdentifier = UIBackgroundTaskInvalid;
@@ -56,9 +57,15 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
                                                storage:self.storage
                                          configuration:configuration
                                      logsDispatchQueue:self.logsDispatchQueue];
-    [channel addDelegate:(id<MSChannelDelegate>)self];
+    [channel addDelegate:self];
     self.channels[configuration.groupId] = channel;
   }
+}
+
+#pragma mark - Object life cycle
+
+- (void)dealloc {
+  [self removeObservers];
 }
 
 #pragma mark - Delegate
@@ -130,6 +137,19 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
                                 [delegate didFailSendingLog:log withError:error];
                               }
                             }];
+}
+
+#pragma mark - Sender Delegate
+
+- (void)senderDidSuspend:(id<MSSender>)sender {
+  (void)sender;
+  
+  // Cancel the background task if the connection was lost.
+#if !TARGET_OS_OSX
+  @synchronized(self.backgroundTaskLockToken) {
+    [self endBackgroundActivity];
+  }
+#endif
 }
 
 #pragma mark - Process items
@@ -237,12 +257,6 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
   } else {
     MSLogWarning([MSAppCenter logTag], @"Channel has not been initialized for the group Id: %@", groupId);
   }
-}
-
-#pragma mark - Object life cycle
-
-- (void)dealloc {
-  [self removeObservers];
 }
 
 #pragma mark – Observers
@@ -415,7 +429,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
 
     // Invalidate background task.
     UIApplication *sharedApplication = [MSUtility sharedApplication];
-    if (sharedApplication && (self.backgroundTaskIdentifier != UIBackgroundTaskInvalid)) {
+    if (sharedApplication && self.backgroundTaskIdentifier != UIBackgroundTaskInvalid) {
       [sharedApplication endBackgroundTask:self.backgroundTaskIdentifier];
       self.backgroundTaskIdentifier = UIBackgroundTaskInvalid;
       MSLogDebug([MSAppCenter logTag], @"Background task invalidated.");
