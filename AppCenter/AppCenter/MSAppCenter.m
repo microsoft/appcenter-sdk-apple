@@ -425,24 +425,6 @@ static NSString *const kMSGroupId = @"AppCenter";
   sharedInstance = nil;
 }
 
-#pragma mark - Application life cycle
-
-#if !TARGET_OS_OSX
-/**
- *  The application will go to the foreground.
- */
-- (void)applicationWillEnterForeground {
-  [self.logManager resume];
-}
-
-/**
- *  The application will go to the background.
- */
-- (void)applicationDidEnterBackground {
-  [self.logManager suspend];
-}
-#endif
-
 #pragma mark - Disable services for test cloud
 
 /**
