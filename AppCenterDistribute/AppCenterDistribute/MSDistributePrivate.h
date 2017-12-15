@@ -75,11 +75,6 @@ static NSString *const kMSSDKHasLaunchedWithDistribute = @"MSSDKHasLaunchedWithD
 static NSString *const kMSMandatoryReleaseKey = @"MSMandatoryRelease";
 
 /**
- * The keychain key for update token.
- */
-static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
-
-/**
  * The storage key for distribution group ID.
  */
 static NSString *const kMSDistributionGroupIdKey = @"MSDistributionGroupId";

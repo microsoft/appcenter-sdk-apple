@@ -268,6 +268,12 @@ static NSString *const kMSGroupId = @"AppCenter";
       return NO;
     }
 
+    // Check if service should be disabled
+    if ([self shouldDisable:[clazz serviceName]]) {
+      MSLogDebug([MSAppCenter logTag], @"Environment variable to disable service has been set; not starting service %@", clazz);
+      return NO;
+    }
+
     // Set appCenterDelegate.
     [self.services addObject:service];
 
@@ -417,6 +423,50 @@ static NSString *const kMSGroupId = @"AppCenter";
 + (void)resetSharedInstance {
   onceToken = 0; // resets the once_token so dispatch_once will run again
   sharedInstance = nil;
+}
+
+#pragma mark - Application life cycle
+
+#if !TARGET_OS_OSX
+/**
+ *  The application will go to the foreground.
+ */
+- (void)applicationWillEnterForeground {
+  [self.logManager resume];
+}
+
+/**
+ *  The application will go to the background.
+ */
+- (void)applicationDidEnterBackground {
+  [self.logManager suspend];
+}
+#endif
+
+#pragma mark - Disable services for test cloud
+
+/**
+ * Determines whether a service should be disabled.
+ *
+ * @param serviceName The service name to consider for disabling.
+ *
+ * @return YES if the service should be disabled.
+ */
+- (BOOL)shouldDisable:(NSString*)serviceName {
+  NSDictionary *environmentVariables = [[NSProcessInfo processInfo] environment];
+  NSString *disabledServices = environmentVariables[kMSDisableVariable];
+  if (!disabledServices) {
+    return NO;
+  }
+  NSMutableArray* disabledServicesList = [NSMutableArray arrayWithArray:[disabledServices componentsSeparatedByString:@","]];
+
+  // Trim whitespace characters.
+  for (NSUInteger i = 0; i < [disabledServicesList count]; ++i) {
+    NSString *service = [disabledServicesList objectAtIndex:i];
+    service = [service stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    [disabledServicesList replaceObjectAtIndex:i withObject:service];
+  }
+  return [disabledServicesList containsObject:serviceName] || [disabledServicesList containsObject:kMSDisableAll];
 }
 
 @end

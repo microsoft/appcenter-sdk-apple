@@ -1,12 +1,28 @@
 # App Center SDK for iOS and macOS Change Log
 
+## Version 1.1.0
+
+This version contains a bug fix and improvements.
+
+### AppCenter
+
+* **[Fix]** Fix a locale issue that doesn't properly report system locale if an application doesn't support current language.
+* **[Improvement]** Change log level to make HTTP failures more visible, and add more logs.
+
+### AppCenterDistribute
+
+* **[Improvement]** Add Portuguese to supported languages, see [this folder](https://github.com/Microsoft/AppCenter-SDK-Apple/tree/develop/AppCenterDistribute/AppCenterDistribute/Resources) for a list of supported languages.
+* **[Improvement]** Users with app versions that still use Mobile Center can directly upgrade to versions that use this version of App Center, without the need to reinstall.
+
+___
+
 ## Version 1.0.1
 
-This version contains a bugfix that is specifically for the App Center SDK for React Native.
+This version contains a bug fix that is specifically for the App Center SDK for React Native.
 
 ### AppCenterCrashes
 
-* **[Fix]** Fixes an issue that impacted the App Center SDK for React Native.
+* **[Fix]** Fix an issue that impacted the App Center SDK for React Native.
 
 ## Version 1.0.0
 

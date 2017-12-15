@@ -10,6 +10,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ * The keychain key for update token.
+ */
+static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
+
 @interface MSDistribute () <MSServiceInternal>
 
 /**
