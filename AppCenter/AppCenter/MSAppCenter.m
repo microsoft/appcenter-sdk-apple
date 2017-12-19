@@ -187,12 +187,7 @@ static NSString *const kMSGroupId = @"AppCenter";
 
       // Init the main pipeline.
       [self initializeLogManager];
-
-      // Enable pipeline as needed.
-      if (self.isEnabled) {
-        [self applyPipelineEnabledState:self.isEnabled];
-      }
-
+      [self applyPipelineEnabledState:self.isEnabled];
       self.sdkConfigured = YES;
 
       /*

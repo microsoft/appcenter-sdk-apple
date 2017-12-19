@@ -33,7 +33,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
 - (instancetype)initWithSender:(MSHttpSender *)sender storage:(id<MSStorage>)storage {
   if ((self = [self init])) {
     dispatch_queue_t serialQueue = dispatch_queue_create(kMSlogsDispatchQueue, DISPATCH_QUEUE_SERIAL);
-    _enabled = NO;
+    _enabled = YES;
     _logsDispatchQueue = serialQueue;
     _channels = [NSMutableDictionary<NSString *, id<MSChannel>> new];
     _delegates = [NSHashTable weakObjectsHashTable];

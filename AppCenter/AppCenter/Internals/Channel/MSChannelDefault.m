@@ -15,8 +15,8 @@
     _pendingBatchIds = [NSMutableArray new];
     _pendingBatchQueueFull = NO;
     _availableBatchFromStorage = NO;
-    _enabled = NO;
-    _suspended = YES;
+    _enabled = YES;
+    _suspended = NO;
     _discardLogs = NO;
 
     _delegates = [NSHashTable weakObjectsHashTable];
