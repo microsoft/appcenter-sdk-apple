@@ -15,7 +15,9 @@
     _pendingBatchIds = [NSMutableArray new];
     _pendingBatchQueueFull = NO;
     _availableBatchFromStorage = NO;
-    _enabled = YES;
+    _enabled = NO;
+    _suspended = YES;
+    _discardLogs = NO;
 
     _delegates = [NSHashTable weakObjectsHashTable];
   }
@@ -94,6 +96,11 @@
     if (completion) {
       completion(success);
     }
+    
+    // Don't flush while disabled.
+    if (!self.enabled) {
+      return;
+    }
 
     // Flush now if current batch is full or delay to later.
     if (self.itemsCount >= self.configuration.batchSizeLimit) {
@@ -109,6 +116,11 @@
 }
 
 - (void)flushQueue {
+  
+  // Don't flush while disabled.
+  if (!self.enabled) {
+    return;
+  }
 
   // Cancel any timer.
   [self resetTimer];
@@ -232,8 +244,16 @@
 #pragma mark - Timer
 
 - (void)startTimer {
+  
+  // Don't start timer while disabled.
+  if (!self.enabled) {
+    return;
+  }
+  
+  // Cancel any timer.
   [self resetTimer];
-
+  
+  // Create new timer.
   self.timerSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, self.logsDispatchQueue);
 
   /**
