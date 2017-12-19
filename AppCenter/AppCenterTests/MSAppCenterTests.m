@@ -7,6 +7,7 @@
 #import "MSAppCenterInternal.h"
 #import "MSAppCenterPrivate.h"
 #import "MSLogManagerDefault.h"
+#import "MSHttpSenderPrivate.h"
 #import "MSMockService.h"
 #import "MSMockSecondService.h"
 #import "MSMockUserDefaults.h"
@@ -30,6 +31,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
 - (void)setUp {
   [super setUp];
+  [MSAppCenter resetSharedInstance];
 
   // System Under Test.
   self.sut = [[MSAppCenter alloc] init];
@@ -134,8 +136,41 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   assertThat([installId1 UUIDString], is([installId2 UUIDString]));
 }
 
+- (void)testSetEnabled {
+  
+  // If
+  [MSAppCenter start:MS_UUID_STRING withServices:@[MSMockService.class]];
+  
+  // When
+  [self.settingsMock setObject:@NO forKey:kMSAppCenterIsEnabledKey];
+  
+  // Then
+  XCTAssertFalse([MSAppCenter isEnabled]);
+  
+  // When
+  [self.settingsMock setObject:@YES forKey:kMSAppCenterIsEnabledKey];
+  
+  // Then
+  XCTAssertTrue([MSAppCenter isEnabled]);
+  
+  // When
+  [MSAppCenter setEnabled:NO];
+  
+  // Then
+  XCTAssertFalse([MSAppCenter isEnabled]);
+  XCTAssertFalse([MSMockService isEnabled]);
+  XCTAssertFalse(((NSNumber *)[self.settingsMock objectForKey:kMSAppCenterIsEnabledKey]).boolValue);
+  
+  // When
+  [MSAppCenter setEnabled:YES];
+  
+  // Then
+  XCTAssertTrue([MSAppCenter isEnabled]);
+  XCTAssertTrue([MSMockService isEnabled]);
+  XCTAssertTrue(((NSNumber *)[self.settingsMock objectForKey:kMSAppCenterIsEnabledKey]).boolValue);
+}
+
 - (void)testSetLogUrl {
-  [MSAppCenter resetSharedInstance];
   NSString *fakeUrl = @"http://testUrl:1234";
   [MSAppCenter setLogUrl:fakeUrl];
   [MSAppCenter start:MS_UUID_STRING withServices:nil];
@@ -143,7 +178,6 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 }
 
 - (void)testDefaultLogUrl {
-  [MSAppCenter resetSharedInstance];
   [MSAppCenter start:MS_UUID_STRING withServices:nil];
   XCTAssertTrue([[[MSAppCenter sharedInstance] logUrl] isEqualToString:@"https://in.appcenter.ms"]);
 }
@@ -292,6 +326,34 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   OCMVerify([logManager processLog:[OCMArg isKindOfClass:[MSStartServiceLog class]] forGroupId:OCMOCK_ANY]);
 }
 
+- (void)testDisabledCoreStatus {
+  
+  // When
+  [MSAppCenter start:MS_UUID_STRING withServices:@[MSMockService.class]];
+  [MSAppCenter setEnabled:NO];
+  
+  // Then
+  MSLogManagerDefault *logManager = [MSAppCenter sharedInstance].logManager;
+  XCTAssertFalse(logManager.enabled);
+  XCTAssertFalse(logManager.sender.enabled);
+  XCTAssertFalse([MSMockService isEnabled]);
+}
+
+- (void)testDisabledCorePersistedStatus {
+  
+  // If
+  [self.settingsMock setObject:@NO forKey:kMSAppCenterIsEnabledKey];
+  
+  // When
+  [MSAppCenter start:MS_UUID_STRING withServices:@[MSMockService.class]];
+ 
+  // Then
+  MSLogManagerDefault *logManager = [MSAppCenter sharedInstance].logManager;
+  XCTAssertFalse(logManager.enabled);
+  XCTAssertFalse(logManager.sender.enabled);
+  XCTAssertFalse([MSMockService isEnabled]);
+}
+
 - (void)testStartServiceLogWithDisabledCore {
   
   // If
@@ -308,6 +370,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   [MSAppCenter startService:MSMockService.class];
   
   // Then
+  XCTAssertFalse([MSMockService isEnabled]);
   OCMVerifyAll(logManager);
   
   // Clear
