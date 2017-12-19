@@ -16,13 +16,11 @@
 #import "MSCustomPropertiesPrivate.h"
 #endif
 
-// Singleton
+// Singleton.
 static MSAppCenter *sharedInstance = nil;
 static dispatch_once_t onceToken;
 
-/**
- * Base URL for HTTP Ingestion backend API calls.
- */
+// Base URL for HTTP Ingestion backend API calls.
 static NSString *const kMSDefaultBaseUrl = @"https://in.appcenter.ms";
 
 // Service name for initialization.
@@ -313,11 +311,11 @@ static NSString *const kMSGroupId = @"AppCenter";
   self.enabledStateUpdating = YES;
   if ([self isEnabled] != isEnabled) {
 
-    // Enable/disable pipeline.
-    [self applyPipelineEnabledState:isEnabled];
-
     // Persist the enabled status.
     [MS_USER_DEFAULTS setObject:@(isEnabled) forKey:kMSAppCenterIsEnabledKey];
+    
+    // Enable/disable pipeline.
+    [self applyPipelineEnabledState:isEnabled];
   }
 
   // Propagate enable/disable on all services.
@@ -342,10 +340,10 @@ static NSString *const kMSGroupId = @"AppCenter";
 
 - (void)applyPipelineEnabledState:(BOOL)isEnabled {
 
-  // Remove all notification handlers
+  // Remove all notification handlers.
   [MS_NOTIFICATION_CENTER removeObserver:self];
 
-  // Hookup to application life-cycle events
+  // Hookup to application life-cycle events.
   if (isEnabled) {
 #if !TARGET_OS_OSX
     [MS_NOTIFICATION_CENTER addObserver:self
@@ -365,6 +363,12 @@ static NSString *const kMSGroupId = @"AppCenter";
 
   // Propagate to log manager.
   [self.logManager setEnabled:isEnabled andDeleteDataOnDisabled:YES];
+  
+  // Send started services.
+  if (self.startedServicesNamesToLog && isEnabled) {
+    [self sendStartServiceLog:self.startedServicesNamesToLog];
+    self.startedServicesNamesToLog = nil;
+  }
 }
 
 - (void)initializeLogManager {
@@ -414,11 +418,16 @@ static NSString *const kMSGroupId = @"AppCenter";
 }
 
 - (void)sendStartServiceLog:(NSArray<NSString *> *)servicesNames {
-  
-  // Process log even in a disabled state to store it and send later.
-  MSStartServiceLog *serviceLog = [MSStartServiceLog new];
-  serviceLog.services = servicesNames;
-  [self.logManager processLog:serviceLog forGroupId:kMSGroupId];
+  if (self.isEnabled) {
+    MSStartServiceLog *serviceLog = [MSStartServiceLog new];
+    serviceLog.services = servicesNames;
+    [self.logManager processLog:serviceLog forGroupId:kMSGroupId];
+  } else {
+    if (self.startedServicesNamesToLog == nil) {
+      self.startedServicesNamesToLog = [NSMutableArray new];
+    }
+    [self.startedServicesNamesToLog addObjectsFromArray:servicesNames];
+  }
 }
 
 #if !TARGET_OS_TV
