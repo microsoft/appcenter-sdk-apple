@@ -69,9 +69,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
 - (void)testLogsSentWithSuccess {
 
-  /*
-   * If
-   */
+  // If
   [self initChannelEndJobExpectation];
   id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
   __block MSSendAsyncCompletionHandler senderBlock;
@@ -120,26 +118,23 @@ static NSString *const kMSTestGroupId = @"GroupId";
   OCMExpect([delegateMock channel:sut didSucceedSendingLog:expectedLog]);
   OCMExpect([storageMock deleteLogsWithBatchId:expectedBatchId groupId:kMSTestGroupId]);
 
-  /*
-   * When
-   */
+  // When
   [sut enqueueItem:[self getValidMockLog] withCompletion:nil];
 
   // Try to release one batch.
   dispatch_async(self.logsDispatchQueue, ^{
-    senderBlock([@(1) stringValue], 200, nil, nil);
+    XCTAssertNotNil(senderBlock);
+    if (senderBlock) {
+      senderBlock([@(1) stringValue], 200, nil, nil);
+    }
 
-    /*
-     * Then
-     */
+    // Then
     dispatch_async(self.logsDispatchQueue, ^{
       [self enqueueChannelEndJobExpectation];
     });
   });
 
-  /*
-   * Then
-   */
+  // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
 
@@ -158,9 +153,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
 - (void)testLogsSentWithFailure {
 
-  /*
-   * If
-   */
+  // If
   [self initChannelEndJobExpectation];
   id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
   __block MSSendAsyncCompletionHandler senderBlock;
@@ -209,26 +202,23 @@ static NSString *const kMSTestGroupId = @"GroupId";
   OCMReject([delegateMock channel:sut didSucceedSendingLog:OCMOCK_ANY]);
   OCMExpect([storageMock deleteLogsWithBatchId:expectedBatchId groupId:kMSTestGroupId]);
 
-  /*
-   * When
-   */
+  // When
   [sut enqueueItem:[self getValidMockLog] withCompletion:nil];
 
   // Try to release one batch.
   dispatch_async(self.logsDispatchQueue, ^{
-    senderBlock([@(1) stringValue], 300, nil, nil);
+    XCTAssertNotNil(senderBlock);
+    if (senderBlock) {
+      senderBlock([@(1) stringValue], 300, nil, nil);
+    }
 
-    /*
-     * Then
-     */
+    // Then
     dispatch_async(self.logsDispatchQueue, ^{
       [self enqueueChannelEndJobExpectation];
     });
   });
 
-  /*
-   * Then
-   */
+  // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
 
@@ -370,9 +360,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
 - (void)testNextBatchSentIfPendingQueueGotRoomAgain {
 
-  /*
-   * If
-   */
+  // If
   [self initChannelEndJobExpectation];
   XCTestExpectation *oneLogSentExpectation = [self expectationWithDescription:@"One log sent"];
   __block MSSendAsyncCompletionHandler senderBlock;
@@ -415,28 +403,21 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                                      configuration:config
                                                  logsDispatchQueue:dispatch_get_main_queue()];
 
-  /*
-   * When
-   */
+  // When
   [sut enqueueItem:[self getValidMockLog] withCompletion:nil];
 
   // Try to release one batch.
   dispatch_async(self.logsDispatchQueue, ^{
     senderBlock([@(1) stringValue], 200, nil, nil);
 
-    /*
-     * Then
-     */
+    // Then
     dispatch_async(self.logsDispatchQueue, ^{
 
       // Batch queue should not be full;
       assertThatBool(sut.pendingBatchQueueFull, isFalse());
       [oneLogSentExpectation fulfill];
 
-      /*
-       * When
-       */
-
+      // When
       // Send another batch.
       currentBatchId++;
       [sut enqueueItem:[self getValidMockLog] withCompletion:nil];
@@ -444,9 +425,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
     });
   });
 
-  /*
-   * Then
-   */
+  // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
 
@@ -482,16 +461,12 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                                            storage:storageMock
                                                      configuration:config
                                                  logsDispatchQueue:dispatch_get_main_queue()];
-  /*
-   * When
-   */
+  // When
   [sut setEnabled:NO andDeleteDataOnDisabled:NO];
   [sut enqueueItem:mockLog withCompletion:nil];
   [self enqueueChannelEndJobExpectation];
 
-  /*
-   * Then
-   */
+  // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
                                  OCMVerifyAll(senderMock);
