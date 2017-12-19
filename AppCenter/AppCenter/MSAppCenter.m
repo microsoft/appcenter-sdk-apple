@@ -414,19 +414,17 @@ static NSString *const kMSGroupId = @"AppCenter";
 }
 
 - (void)sendStartServiceLog:(NSArray<NSString *> *)servicesNames {
-  if (self.isEnabled) {
-    MSStartServiceLog *serviceLog = [MSStartServiceLog new];
-    serviceLog.services = servicesNames;
-    [self.logManager processLog:serviceLog forGroupId:kMSGroupId];
-  }
+  
+  // Process log even in a disabled state to store it and send later.
+  MSStartServiceLog *serviceLog = [MSStartServiceLog new];
+  serviceLog.services = servicesNames;
+  [self.logManager processLog:serviceLog forGroupId:kMSGroupId];
 }
 
 #if !TARGET_OS_TV
 - (void)sendCustomPropertiesLog:(NSDictionary<NSString *, NSObject *> *)properties {
   MSCustomPropertiesLog *customPropertiesLog = [MSCustomPropertiesLog new];
   customPropertiesLog.properties = properties;
-
-  // FIXME: withPriority parameter need to be removed on merge.
   [self.logManager processLog:customPropertiesLog forGroupId:kMSGroupId];
 }
 #endif
