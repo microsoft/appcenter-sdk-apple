@@ -36,6 +36,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, class) IMP originalSetDelegateImp;
 
 /**
+ * Returns the singleton instance of MSAppDelegateForwarder.
+ */
++ (instancetype)sharedInstance;
+
+/**
  * Register swizzling for the given original application delegate.
  *
  * @param originalDelegate The original application delegate.
