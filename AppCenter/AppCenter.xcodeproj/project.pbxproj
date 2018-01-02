@@ -298,6 +298,10 @@
 		04873E831F2FCE3E00A13AFF /* MSAppDelegateForwarder.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C4471F1ECE5352002E1B11 /* MSAppDelegateForwarder.m */; };
 		04873E841F2FCF9000A13AFF /* MSAppDelegateForwarderPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C447201ECE5352002E1B11 /* MSAppDelegateForwarderPrivate.h */; };
 		04873E871F2FDDEC00A13AFF /* MSAppDelegateForwarderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38641B041EB0F40800B2CE73 /* MSAppDelegateForwarderTests.m */; };
+		049378391FE44539000ADBAF /* MSSessionContextPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 049378381FE44539000ADBAF /* MSSessionContextPrivate.h */; };
+		049378411FE4914B000ADBAF /* MSSessionContextTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0493783F1FE4913C000ADBAF /* MSSessionContextTests.m */; };
+		049378421FE4914D000ADBAF /* MSSessionContextTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0493783F1FE4913C000ADBAF /* MSSessionContextTests.m */; };
+		049378431FE4914E000ADBAF /* MSSessionContextTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0493783F1FE4913C000ADBAF /* MSSessionContextTests.m */; };
 		0499F8551EDF979700C3EDDA /* MSLogWithProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 3844FF191E8C2716003E9194 /* MSLogWithProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0499F8561EDF979A00C3EDDA /* MSDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3844FF1A1E8C2716003E9194 /* MSDevice.m */; };
 		0499F8571EDF979D00C3EDDA /* MSDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 3844FF1B1E8C2716003E9194 /* MSDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -601,6 +605,8 @@
 		0485AFEC1EAAAC3B00C10CAF /* macOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = macOS.modulemap; sourceTree = "<group>"; };
 		0485AFEE1EAAAD0000C10CAF /* iOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = iOS.modulemap; sourceTree = "<group>"; };
 		04873E801F2FCDCB00A13AFF /* MSNSAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSNSAppDelegate.h; sourceTree = "<group>"; };
+		049378381FE44539000ADBAF /* MSSessionContextPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSSessionContextPrivate.h; sourceTree = "<group>"; };
+		0493783F1FE4913C000ADBAF /* MSSessionContextTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSessionContextTests.m; sourceTree = "<group>"; };
 		049BC8281ECE3A5200FB6719 /* iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
 		049BC8291ECE3A5A00FB6719 /* macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		04B7BBEE1E5FAD4D001A0CE1 /* MSSenderUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSenderUtilTests.m; sourceTree = "<group>"; };
@@ -809,6 +815,7 @@
 			isa = PBXGroup;
 			children = (
 				045C850F1FE0B1D900089540 /* MSSessionContext.h */,
+				049378381FE44539000ADBAF /* MSSessionContextPrivate.h */,
 				045C85131FE0B31600089540 /* MSSessionContext.m */,
 				047EBB9C1FE30842009BB1C8 /* MSSessionHistoryInfo.h */,
 				047EBB9B1FE30842009BB1C8 /* MSSessionHistoryInfo.m */,
@@ -1123,6 +1130,7 @@
 				B24F3F161D93A3FF00827213 /* MSLoggerTests.m */,
 				6E48A5A61D383893006E8B5F /* MSLogManagerDefaultTests.m */,
 				045660FA1D99EEEB002F7055 /* MSLogWithPropertiesTests.m */,
+				0493783F1FE4913C000ADBAF /* MSSessionContextTests.m */,
 				387C75951D64EE1900D68CC1 /* MSServiceAbstractTests.m */,
 				D38024111E7130C700466558 /* MSStartServiceLogTests.m */,
 				D36136821E7BB338004AE043 /* MSStoragePerfomanceTests.m */,
@@ -1479,6 +1487,7 @@
 				59493FB23FC790090683581A /* MSChannelDelegate.h in Headers */,
 				BA68281EA947BB6E7F78354F /* MSIngestionSender.h in Headers */,
 				38FD798F1EB7B0B800DE2FB3 /* MSAppCenter.h in Headers */,
+				049378391FE44539000ADBAF /* MSSessionContextPrivate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1782,6 +1791,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				049378431FE4914E000ADBAF /* MSSessionContextTests.m in Sources */,
 				0446DF041F3B864600C8E338 /* MSMockUserDefaults.m in Sources */,
 				0446DF051F3B864600C8E338 /* MSLogWithPropertiesTests.m in Sources */,
 				0446DF061F3B864600C8E338 /* MSDeviceLogTests.m in Sources */,
@@ -1840,6 +1850,7 @@
 				B2CD74CE1F22BFD00070E7DF /* MSMockService.m in Sources */,
 				04873E871F2FDDEC00A13AFF /* MSAppDelegateForwarderTests.m in Sources */,
 				046AEAEB1ECA562A00CBE511 /* MSMockLog.m in Sources */,
+				049378421FE4914D000ADBAF /* MSSessionContextTests.m in Sources */,
 				046AEAEC1ECA562A00CBE511 /* MSLogManagerDefaultTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1960,6 +1971,7 @@
 				F803BC381E8E6927004B1E7A /* MSCustomPropertiesTests.m in Sources */,
 				04B7BBEF1E5FAD4D001A0CE1 /* MSSenderUtilTests.m in Sources */,
 				E88D17061D35B6B500A5EA57 /* MSMockLog.m in Sources */,
+				049378411FE4914B000ADBAF /* MSSessionContextTests.m in Sources */,
 				6E48A5A71D383893006E8B5F /* MSLogManagerDefaultTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

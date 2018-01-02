@@ -9,12 +9,17 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The current session info.
  */
-@property (nonatomic, copy) MSSessionHistoryInfo *currentSessionInfo;
+@property (nonatomic) MSSessionHistoryInfo *currentSessionInfo;
 
 /**
  * The session history that contains session Id and timestamp as an item.
  */
-@property (nonatomic, copy) NSMutableArray<MSSessionHistoryInfo *> *sessionHistory;
+@property (nonatomic) NSMutableArray<MSSessionHistoryInfo *> *sessionHistory;
+
+/**
+ * Get singleton instance.
+ */
++ (instancetype)sharedInstance;
 
 /**
  * Set current session Id.

@@ -1,6 +1,6 @@
 #import "MSAppCenterInternal.h"
 #import "MSLogger.h"
-#import "MSSessionContext.h"
+#import "MSSessionContextPrivate.h"
 #import "MSUtility.h"
 
 /**
@@ -37,20 +37,25 @@ static dispatch_once_t onceToken;
   return sharedInstance;
 }
 
++ (void)resetSharedInstance {
+  onceToken = 0;
+  sharedInstance = nil;
+}
+
 + (void)setSessionId:(nullable NSString *)sessionId {
-  [sharedInstance setSessionId:sessionId];
+  [[self sharedInstance] setSessionId:sessionId];
 }
 
 + (NSString *)sessionId {
-  return sharedInstance.currentSessionInfo.sessionId;
+  return [[self sharedInstance] currentSessionInfo].sessionId;
 }
 
 + (NSString *)sessionIdAt:(NSDate *)date {
-  return [sharedInstance sessionIdAt:date];
+  return [[self sharedInstance] sessionIdAt:date];
 }
 
 + (void)clearSessionHistory {
-  [sharedInstance clearSessionHistory];
+  [[self sharedInstance] clearSessionHistory];
 }
 
 - (void)setSessionId:(nullable NSString *)sessionId {

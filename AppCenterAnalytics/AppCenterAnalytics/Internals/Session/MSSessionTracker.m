@@ -41,23 +41,26 @@ static NSString *const kMSPastSessionsKey = @"pastSessionsKey";
 
 - (void)renewSessionId {
   @synchronized(self) {
+    if (self.started) {
 
-    // Check if new session id is required.
-    if ([MSSessionContext sessionId] == nil || [self hasSessionTimedOut]) {
-      NSString *sessionId = MS_UUID_STRING;
-      [MSSessionContext setSessionId:sessionId];
-      MSLogInfo([MSAnalytics logTag], @"New session ID: %@", sessionId);
+      // Check if new session id is required.
+      if ([MSSessionContext sessionId] == nil || [self hasSessionTimedOut]) {
+        NSString *sessionId = MS_UUID_STRING;
+        [MSSessionContext setSessionId:sessionId];
+        MSLogInfo([MSAnalytics logTag], @"New session ID: %@", sessionId);
 
-      // Create a start session log.
-      MSStartSessionLog *log = [[MSStartSessionLog alloc] init];
-      log.sid = sessionId;
-      [self.delegate sessionTracker:self processLog:log];
+        // Create a start session log.
+        MSStartSessionLog *log = [[MSStartSessionLog alloc] init];
+        log.sid = sessionId;
+        [self.delegate sessionTracker:self processLog:log];
+      }
     }
   }
 }
 
 - (void)start {
   if (!self.started) {
+    self.started = YES;
 
     // Request a new session id depending on the application state.
     if ([MSUtility applicationState] == MSApplicationStateInactive ||
@@ -82,7 +85,6 @@ static NSString *const kMSPastSessionsKey = @"pastSessionsKey";
                                    name:UIApplicationWillEnterForegroundNotification
 #endif
                                  object:nil];
-    self.started = YES;
   }
 }
 
@@ -92,6 +94,10 @@ static NSString *const kMSPastSessionsKey = @"pastSessionsKey";
     self.started = NO;
     [MSSessionContext setSessionId:nil];
   }
+}
+
+- (void)dealloc {
+  [MS_NOTIFICATION_CENTER removeObserver:self];
 }
 
 #pragma mark - private methods
