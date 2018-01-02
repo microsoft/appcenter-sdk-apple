@@ -121,8 +121,7 @@ static NSString *const kMSPastSessionsKey = @"pastSessionsKey";
         ([self.lastEnteredBackgroundTime compare:self.lastEnteredForegroundTime] == NSOrderedDescending) &&
         ([now timeIntervalSinceDate:self.lastEnteredBackgroundTime] >= self.sessionTimeout);
 
-    // Verify if app was in the background for a longer time than the session
-    // timeout time.
+    // Verify if app was in the background for a longer time than the session timeout time.
     BOOL wasBackgroundForLong = (self.lastEnteredBackgroundTime)
                                     ? [self.lastEnteredForegroundTime
                                           timeIntervalSinceDate:self.lastEnteredBackgroundTime] >= self.sessionTimeout
@@ -155,7 +154,7 @@ static NSString *const kMSPastSessionsKey = @"pastSessionsKey";
       [((NSObject *)log) isKindOfClass:[MSStartServiceLog class]])
     return;
 
-  // If log is not required to add session.
+  // If the log requires session Id.
   if (![(NSObject *)log conformsToProtocol:@protocol(MSNoAutoAssignSessionIdLog)]) {
     log.sid = [MSSessionContext sessionId];
   }
