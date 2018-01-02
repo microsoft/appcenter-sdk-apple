@@ -32,27 +32,27 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
   }
   
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    let isLast = section == tableView.numberOfSections - 1
-    if isLast {
+    let isFirst = section == 0
+    if isFirst {
       return 3
     } else {
-      return categories[categoryForSection(section)]!.count
+      return categories[categoryForSection(section - 1)]!.count
     }
   }
   
   override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-    let isLast = section == tableView.numberOfSections - 1
-    if isLast {
-      return "Settings"
+    let isFirst = section == 0
+    if isFirst {
+      return "Crashes Settings"
     } else {
-      return categoryForSection(section)
+      return categoryForSection(section - 1)
     }
   }
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let isLast = indexPath.section == tableView.numberOfSections - 1
+    let isFirst = indexPath.section == 0
     var cellIdentifier = "crash"
-    if isLast {
+    if isFirst {
       if indexPath.row == 0 {
         cellIdentifier = "enable";
       } else {
@@ -60,7 +60,7 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
       }
     }
     let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)!
-    if isLast {
+    if isFirst {
       
       // Enable.
       if (indexPath.row == 0) {
@@ -74,13 +74,13 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
         
         // Text attachment.
       } else if (indexPath.row == 1) {
-        cell.textLabel?.text = "Text attachment";
+        cell.textLabel?.text = "Text Attachment";
         let text = UserDefaults.standard.string(forKey: "textAttachment")
         cell.detailTextLabel?.text = (text?.characters.count ?? 0) > 0 ? text : "Empty";
         
         // Binary attachment.
       } else if (indexPath.row == 2) {
-        cell.textLabel?.text = "Binary attachment";
+        cell.textLabel?.text = "Binary Attachment";
         let referenceUrl = UserDefaults.standard.url(forKey: "fileAttachment")
         cell.detailTextLabel?.text = referenceUrl != nil ? referenceUrl!.absoluteString : "Empty";
         
@@ -95,18 +95,18 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
         }
       }
     } else {
-      let crash = categories[categoryForSection(indexPath.section)]![indexPath.row]
+      let crash = crashByIndexPath(indexPath)
       cell.textLabel?.text = crash.title;
     }
     return cell;
   }
   
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) -> Void {
-    let isLast = indexPath.section == tableView.numberOfSections - 1
-    if !isLast {
+    let isFirst = indexPath.section == 0
+    if !isFirst {
       
       // Crash cell.
-      let crash = categories[categoryForSection(indexPath.section)]![indexPath.row]
+      let crash = crashByIndexPath(indexPath)
       let alert = UIAlertController(title: crash.title, message: crash.desc, preferredStyle: .actionSheet)
       let crashAction = UIAlertAction(title: "Crash", style: .destructive, handler: {(_ action: UIAlertAction) -> Void in
         crash.crash()
@@ -127,7 +127,7 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
       
       // Text attachment.
       if indexPath.row == 1 {
-        let alert = UIAlertController(title: "Text attachment", message: nil, preferredStyle: .alert)
+        let alert = UIAlertController(title: "Text Attachment", message: nil, preferredStyle: .alert)
         let crashAction = UIAlertAction(title: "OK", style: .default, handler: {(_ action: UIAlertAction) -> Void in
           let result: String? = alert.textFields?[0].text
           if (result?.characters.count ?? 0) > 0 {
@@ -184,14 +184,18 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
     MSCrash.removeAllCrashes()
     for i in 0..<Int(count){
       let className: AnyClass = classList![i]!
-      if class_getSuperclass(className) == MSCrash.self && className != MSCrash.self{
+      if class_getSuperclass(className) == MSCrash.self && className != MSCrash.self {
         MSCrash.register((className as! MSCrash.Type).init())
       }
     }
   }
   
-  private func categoryForSection(_ section: Int) -> String{
+  private func categoryForSection(_ section: Int) -> String {
     return categories.keys.sorted()[section]
+  }
+  
+  private func crashByIndexPath(_ indexPath: IndexPath) -> MSCrash {
+    return categories[categoryForSection(indexPath.section - 1)]![indexPath.row]
   }
 }
 

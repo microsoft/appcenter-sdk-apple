@@ -15,6 +15,9 @@ class AppCenterDelegateSwift : AppCenterDelegate {
   func setAppCenterEnabled(_ isEnabled: Bool) {
     MSAppCenter.setEnabled(isEnabled)
   }
+  func setCustomProperties(_ customProperties: MSCustomProperties){
+    MSAppCenter.setCustomProperties(customProperties)
+  }
   func installId() -> String {
     return MSAppCenter.installId().uuidString
   }

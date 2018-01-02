@@ -58,5 +58,5 @@ rm $AZURE_APPLE_VERSION_FILE
 ## IV. Update version for frameworks
 
 if [ "$BUILD_SOURCEBRANCHNAME" != "master" ]; then
-  sed "s/\(VERSION_STRING[[:space:]]*=[[:space:]]*\).*/\1$publish_version/g" $VERSION_FILENAME > $VERSION_FILENAME.tmp; mv $VERSION_FILENAME.tmp $VERSION_FILENAME
+  sed -i '' 's/\(VERSION_STRING[[:space:]]*=[[:space:]]*\).*/\1'$publish_version'/g' $VERSION_FILENAME
 fi
