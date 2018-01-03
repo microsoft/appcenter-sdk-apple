@@ -2,13 +2,14 @@
 
 #import "AppCenter+Internal.h"
 #import "MSAbstractErrorLog.h"
+#import "MSNoAutoAssignSessionIdLog.h"
 
 @class MSThread, MSBinary, MSException;
 
 /*
  * Error log for Apple platforms.
  */
-@interface MSAppleErrorLog : MSAbstractErrorLog
+@interface MSAppleErrorLog : MSAbstractErrorLog <MSNoAutoAssignSessionIdLog>
 
 /*
  * CPU primary architecture.
