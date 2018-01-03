@@ -27,6 +27,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, class, readonly) NSDictionary<NSString *, NSString *> *deprecatedSelectors;
 
 /**
+ * Dictionary of deprecated original selectors and whether they are already implemented by the original delegate or not,
+ * nil if the check didn't happen yet.
+ */
+@property(nonatomic, class, readonly)
+    NSMutableDictionary<NSString *, NSNumber *> *deprecatedSelectorsImplementationCheck;
+
+/**
  * Keep track of the original delegate's method implementations.
  */
 @property(nonatomic, class, readonly) NSMutableDictionary<NSString *, NSValue *> *originalImplementations;

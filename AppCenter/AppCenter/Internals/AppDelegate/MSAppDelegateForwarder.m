@@ -27,6 +27,7 @@ static NSHashTable<id<MSAppDelegate>> *_delegates = nil;
 static NSMutableSet<NSString *> *_selectorsToSwizzle = nil;
 static NSArray<NSString *> *_selectorsNotToOverride = nil;
 static NSDictionary<NSString *, NSString *> *_deprecatedSelectors = nil;
+static NSMutableDictionary<NSString *, NSNumber *> *_deprecatedSelectorsImplementationCheck = nil;
 static NSMutableDictionary<NSString *, NSValue *> *_originalImplementations = nil;
 static NSMutableArray<dispatch_block_t> *traceBuffer = nil;
 static IMP _originalSetDelegateImp = NULL;
@@ -105,6 +106,11 @@ static BOOL _enabled = YES;
 #endif
   }
   return _deprecatedSelectors;
+}
+
++ (NSMutableDictionary<NSString *, NSNumber *> *)deprecatedSelectorsImplementationCheck {
+  return _deprecatedSelectorsImplementationCheck
+             ?: (_deprecatedSelectorsImplementationCheck = [NSMutableDictionary new]);
 }
 
 + (NSMutableDictionary<NSString *, NSValue *> *)originalImplementations {
@@ -188,7 +194,10 @@ static BOOL _enabled = YES;
           [NSValue valueWithBytes:&originalImp objCType:@encode(IMP)];
     }
   }
+
+  // Clean up.
   [self.selectorsToSwizzle removeAllObjects];
+  [self.deprecatedSelectorsImplementationCheck removeAllObjects];
 }
 
 + (IMP)swizzleOriginalSelector:(SEL)originalSelector
@@ -201,7 +210,6 @@ static BOOL _enabled = YES;
   IMP customImp = class_getMethodImplementation(self, customSelector);
   IMP originalImp = NULL;
   BOOL methodAdded = NO;
-  BOOL skipped = NO;
   NSString *warningMsg;
   NSString *remediationMsg = @"You need to explicitly call the App Center API"
                              @" from your app delegate implementation.";
@@ -220,12 +228,21 @@ static BOOL _enabled = YES;
       warningMsg =
           [NSString stringWithFormat:@"This selector is not supported when already implemented. %@", remediationMsg];
     }
+
+    // Check if this selector is deprecated.
+    if ([self.deprecatedSelectors.allValues containsObject:originalSelectorStr]) {
+
+      // This deprecated selector is also implemented in the original delegate.
+      [self.deprecatedSelectorsImplementationCheck setObject:@(YES) forKey:originalSelectorStr];
+    }
   } else if (![originalClass instancesRespondToSelector:originalSelector]) {
 
-    // Check for deprecation.
+    // Check if any associated deprecated selector is implemented by the original delegate.
     NSString *deprecatedSelectorStr = self.deprecatedSelectors[originalSelectorStr];
     if (deprecatedSelectorStr &&
-        [originalClass instancesRespondToSelector:NSSelectorFromString(deprecatedSelectorStr)]) {
+        ([self.deprecatedSelectorsImplementationCheck[deprecatedSelectorStr] boolValue] ||
+         (!self.deprecatedSelectorsImplementationCheck[deprecatedSelectorStr] &&
+          [originalClass instancesRespondToSelector:NSSelectorFromString(deprecatedSelectorStr)]))) {
 
       /*
        * An implementation for the deprecated selector exists. Don't add the new method, it might eclipse the original
@@ -237,17 +254,18 @@ static BOOL _enabled = YES;
               deprecatedSelectorStr];
     } else {
 
-      // Skip this selector if it's deprecated and doesn't have an implementation.
-      if ([self.deprecatedSelectors.allValues containsObject:originalSelectorStr]) {
-        skipped = YES;
-      } else {
+      /*
+       * The original class may not implement the selector (e.g.: optional method from protocol),
+       * add the method to the original class and associate it with the custom implementation.
+       */
+      Method customMethod = class_getInstanceMethod(self, customSelector);
+      methodAdded = class_addMethod(originalClass, originalSelector, customImp, method_getTypeEncoding(customMethod));
 
-        /*
-         * The original class may not implement the selector (e.g.: optional method from protocol),
-         * add the method to the original class and associate it with the custom implementation.
-         */
-        Method customMethod = class_getInstanceMethod(self, customSelector);
-        methodAdded = class_addMethod(originalClass, originalSelector, customImp, method_getTypeEncoding(customMethod));
+      // Check if this selector is deprecated.
+      if ([self.deprecatedSelectors.allValues containsObject:originalSelectorStr]) {
+
+        // This deprecated selector has only been implemented by us.
+        [self.deprecatedSelectorsImplementationCheck setObject:@(NO) forKey:originalSelectorStr];
       }
     }
   }
@@ -259,23 +277,20 @@ static BOOL _enabled = YES;
    */
 
   // Validate swizzling.
-  if (!skipped) {
-    if (!originalImp && !methodAdded) {
-      [self addTraceBlock:^{
-        NSString *message = [NSString
-            stringWithFormat:@"Cannot swizzle selector '%@' of class '%@'.", originalSelectorStr, originalClass];
-        if (warningMsg) {
-          MSLogWarning([MSAppCenter logTag], @"%@ %@", message, warningMsg);
-        } else {
-          MSLogError([MSAppCenter logTag], @"%@ %@", message, remediationMsg);
-        }
-      }];
-    } else {
-      [self addTraceBlock:^{
-        MSLogDebug([MSAppCenter logTag], @"Selector '%@' of class '%@' is swizzled.", originalSelectorStr,
-                   originalClass);
-      }];
-    }
+  if (!originalImp && !methodAdded) {
+    [self addTraceBlock:^{
+      NSString *message = [NSString
+          stringWithFormat:@"Cannot swizzle selector '%@' of class '%@'.", originalSelectorStr, originalClass];
+      if (warningMsg) {
+        MSLogWarning([MSAppCenter logTag], @"%@ %@", message, warningMsg);
+      } else {
+        MSLogError([MSAppCenter logTag], @"%@ %@", message, remediationMsg);
+      }
+    }];
+  } else {
+    [self addTraceBlock:^{
+      MSLogDebug([MSAppCenter logTag], @"Selector '%@' of class '%@' is swizzled.", originalSelectorStr, originalClass);
+    }];
   }
   return originalImp;
 }

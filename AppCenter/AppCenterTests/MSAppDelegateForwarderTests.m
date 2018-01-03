@@ -1,3 +1,31 @@
+ 
+                                                                                                                                           
+                                                                                                                                         
+                                                                                                                                        
+                                                                                                                
+                                                                                                              
+                                                                     
+                                                                    
+                                                      
+                                                     
+                                                 
+                                               
+                                            
+                                          
+                                 
+                                
+                               
+                            
+                           
+                     
+                  
+                
+            
+          
+        
+      
+    
+  
 #import <Foundation/Foundation.h>
 #if TARGET_OS_OSX
 #import <AppKit/AppKit.h>
@@ -1120,7 +1148,41 @@
    * Then
    */
   assertThatBool([originalAppDelegate respondsToSelector:newSelector], isTrue());
-  assertThatBool([originalAppDelegate respondsToSelector:deprecatedSelector], isFalse());
+  assertThatBool([originalAppDelegate respondsToSelector:deprecatedSelector], isTrue());
+  OCMVerify([customDelegate application:self.appMock openURL:expectedURL options:expectedOptions returnedValue:NO]);
+}
+
+- (void)testDontSwizzleDeprecatedAPIIfNoAPIImplementedButDeprecatedOneRegisteredFirst {
+
+  /*
+   * If
+   */
+
+  // Mock a custom app delegate.
+  id<MSAppDelegate> customDelegate = OCMProtocolMock(@protocol(MSAppDelegate));
+  [MSAppDelegateForwarder addDelegate:customDelegate];
+  NSURL *expectedURL = [NSURL URLWithString:@"https://www.contoso.com/sending-positive-waves"];
+  id expectedOptions = @{};
+  OCMExpect([customDelegate application:self.appMock openURL:expectedURL options:expectedOptions returnedValue:NO]);
+
+  // App delegate not implementing any API.
+  SEL deprecatedSelector = @selector(application:openURL:sourceApplication:annotation:);
+  SEL newSelector = @selector(application:openURL:options:);
+  id<MSApplicationDelegate> originalAppDelegate = [self createOriginalAppDelegateInstance];
+  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:newSelector];
+  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:deprecatedSelector];
+
+  /*
+   * When
+   */
+  [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
+  [originalAppDelegate application:self.appMock openURL:expectedURL options:expectedOptions];
+
+  /*
+   * Then
+   */
+  assertThatBool([originalAppDelegate respondsToSelector:newSelector], isTrue());
+  assertThatBool([originalAppDelegate respondsToSelector:deprecatedSelector], isTrue());
   OCMVerify([customDelegate application:self.appMock openURL:expectedURL options:expectedOptions returnedValue:NO]);
 }
 
@@ -1208,7 +1270,7 @@
   /*
    * Then
    */
-  assertThatBool([originalAppDelegate respondsToSelector:deprecatedSelector], isFalse());
+  assertThatBool([originalAppDelegate respondsToSelector:deprecatedSelector], isTrue());
   assertThatBool([originalAppDelegate respondsToSelector:newSelector], isTrue());
   assertThatShort(nbCalls, equalToShort(1));
   OCMVerify([customDelegate application:self.appMock openURL:expectedURL options:expectedOptions returnedValue:YES]);
