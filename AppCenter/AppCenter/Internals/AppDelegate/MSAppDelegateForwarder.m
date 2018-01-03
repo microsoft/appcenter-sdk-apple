@@ -409,42 +409,41 @@ static BOOL _enabled = YES;
   __block MSCompletionExecutor executors = MSCompletionExecutorNone;
 
   // This handler will be used by all the delegates, it unifies the results and execte the real handler at the end.
-  void (^commonCompletionHandler)(UIBackgroundFetchResult, MSCompletionExecutor) =
-      ^(UIBackgroundFetchResult fetchResult, MSCompletionExecutor executor) {
+  void (^commonCompletionHandler)(UIBackgroundFetchResult, MSCompletionExecutor) = ^(
+      UIBackgroundFetchResult fetchResult, MSCompletionExecutor executor) {
 
-        /*
-         * As per the Apple dicumentation:
-         * https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623013-application
-         * The `fetchCompletionHandler` is used to let the app the background time for processing the notification and
-         * download any data that will be displayed to the end users when the app will start again. There can only be
-         * one `UIBackgroundFetchResult` in the end so there is a need for triage while comparing results from
-         * delegates.
-         *
-         * Priorities are:
-         * `UIBackgroundFetchResultNewData`>`UIBackgroundFetchResultFailed`>`UIBackgroundFetchResultNoData`.
-         *  - `UIBackgroundFetchResultNewData` means at least one of the delegates did download something successfully.
-         *  - `UIBackgroundFetchResultFailed` means there was one/several downloads among the delegates but they failed.
-         *  - `UIBackgroundFetchResultNoData` means that none of the delegates had anything to download.
-         */
-        if (fetchResult == UIBackgroundFetchResultNewData || actualFetchResult == UIBackgroundFetchResultNoData) {
-          actualFetchResult = fetchResult;
-        }
+    /*
+     * As per the Apple dicumentation:
+     * https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623013-application
+     * The `fetchCompletionHandler` is used to let the app the background time for processing the notification and
+     * download any data that will be displayed to the end users when the app will start again. There can only be
+     * one `UIBackgroundFetchResult` in the end so there is a need for triage while comparing results from
+     * delegates.
+     *
+     * Priorities are:
+     * `UIBackgroundFetchResultNewData`>`UIBackgroundFetchResultFailed`>`UIBackgroundFetchResultNoData`.
+     *  - `UIBackgroundFetchResultNewData` means at least one of the delegates did download something successfully.
+     *  - `UIBackgroundFetchResultFailed` means there was one/several downloads among the delegates but they failed.
+     *  - `UIBackgroundFetchResultNoData` means that none of the delegates had anything to download.
+     */
+    if (fetchResult == UIBackgroundFetchResultNewData || actualFetchResult == UIBackgroundFetchResultNoData) {
+      actualFetchResult = fetchResult;
+    }
 
-        // This executor is running its completion handler, remembering it.
-        executors = executors | executor;
+    // This executor is running its completion handler, remembering it.
+    executors = executors | executor;
 
-        // Count all custom executors who already ran their completion handler.
-        if (executor == MSCompletionExecutorCustom) {
-          customHandlerCalledCount++;
-        }
+    // Count all custom executors who already ran their completion handler.
+    if (executor == MSCompletionExecutorCustom) {
+      customHandlerCalledCount++;
+    }
 
-        // Be sure original delegate and/or custom delegates and/or the app forwarder executed their completion handler.
-        if ((customHandlerCalledCount == customDelegateToCallCount &&
-             (executors & MSCompletionExecutorOriginal || !originalImp)) ||
-            (executor == MSCompletionExecutorForwarder)) {
-          completionHandler(actualFetchResult);
-        }
-      };
+    // Be sure original delegate and/or custom delegates and/or the app forwarder executed their completion handler.
+    if ((executor == MSCompletionExecutorForwarder) || (customHandlerCalledCount == customDelegateToCallCount &&
+                                                        (executors & MSCompletionExecutorOriginal || !originalImp))) {
+      completionHandler(actualFetchResult);
+    }
+  };
 
   // Completion handler dedicated to custom delegates.
   id customCompletionHandler = ^(UIBackgroundFetchResult fetchResult) {
