@@ -11,7 +11,6 @@ static NSString *const kMSReturnedValueSelectorPart = @"returnedValue:";
 static NSString *const kMSIsAppDelegateForwarderEnabledKey = @"AppCenterAppDelegateForwarderEnabled";
 
 // Original selectors with special handling.
-
 static NSString *const kMSOpenURLSourceApplicationAnnotation = @"application:openURL:sourceApplication:annotation:";
 static NSString *const kMSOpenURLOptions = @"application:openURL:options:";
 
