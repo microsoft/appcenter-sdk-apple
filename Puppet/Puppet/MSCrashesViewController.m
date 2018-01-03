@@ -70,12 +70,10 @@
 
 - (NSArray *)sortedAllKeys {
   NSMutableArray *result = [NSMutableArray arrayWithArray:self.knownCrashes.allKeys];
-  
   [result sortUsingComparator:^NSComparisonResult(NSString *obj1, NSString *obj2) {
     return [obj1 compare:obj2];
   }];
-  
-  return [result copy];
+  return result;
 }
 
 - (IBAction)enabledSwitchUpdated:(UISwitch *)sender {
@@ -84,58 +82,43 @@
 }
 
 - (MSCrash *)crashByIndexPath:(NSIndexPath *)indexPath {
-  return (MSCrash *)(((NSArray *)self.knownCrashes[self.sortedAllKeys[(NSUInteger)indexPath.section]])[(NSUInteger)indexPath.row]);
+  return (MSCrash *)(((NSArray *)self.knownCrashes[self.sortedAllKeys[(NSUInteger)indexPath.section - 1]])[(NSUInteger)indexPath.row]);
 }
 
 #pragma mark - Tableview datasource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-  return (NSInteger)self.knownCrashes.count + 2;
+  return (NSInteger)self.knownCrashes.count + 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
   // Settings section.
-  if (section == [tableView numberOfSections] - 1) {
+  if (section == 0) {
     return 3;
   }
-
-  // Crash result section.
-  if (section == [tableView numberOfSections] - 2) {
-    return 1;
-  }
-  return (NSInteger)((NSArray *)self.knownCrashes[self.sortedAllKeys[(NSUInteger)section]]).count;
+  return (NSInteger)((NSArray *)self.knownCrashes[self.sortedAllKeys[(NSUInteger)section - 1]]).count;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 
   // Settings section.
-  if (section == [tableView numberOfSections] - 1) {
-    return @"Settings";
+  if (section == 0) {
+    return @"Crashes Settings";
   }
-
-  // Crash result section.
-  if (section == [tableView numberOfSections] - 2) {
-    return @"Crash result";
-  }
-  return self.sortedAllKeys[(NSUInteger)section];
+  return self.sortedAllKeys[(NSUInteger)section - 1];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   NSString *CellIdentifier = nil;
 
   // Settings cell id.
-  if (indexPath.section == [tableView numberOfSections] - 1) {
+  if (indexPath.section == 0) {
     if (indexPath.row == 0) {
       CellIdentifier = @"enable";
     } else {
       CellIdentifier = @"attachment";
     }
-  }
-
-  // Crash result cell id.
-  else if (indexPath.section == [tableView numberOfSections] - 2) {
-    CellIdentifier = @"crashResult";
   }
 
   // Crash cell id.
@@ -146,7 +129,7 @@
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 
   // Settings cells.
-  if (indexPath.section == [tableView numberOfSections] - 1) {
+  if (indexPath.section == 0) {
     
     // Enable.
     if (indexPath.row == 0) {
@@ -161,15 +144,15 @@
       
     // Text attachment.
     } else if (indexPath.row == 1) {
-      cell.textLabel.text = @"Text attachment";
+      cell.textLabel.text = @"Text Attachment";
       NSString *text = [[NSUserDefaults standardUserDefaults] objectForKey:@"textAttachment"];
-      cell.detailTextLabel.text = text != nil && text.length > 0 ? text : @"Empty";
+      cell.detailTextLabel.text = text != nil && text.length > 0 ? text : @" ";
       
     // Binary attachment.
     } else if (indexPath.row == 2) {
-      cell.textLabel.text = @"Binary attachment";
+      cell.textLabel.text = @"Binary Attachment";
       NSURL *referenceUrl = [[NSUserDefaults standardUserDefaults] URLForKey:@"fileAttachment"];
-      cell.detailTextLabel.text = referenceUrl ? [referenceUrl absoluteString] : @"Empty";
+      cell.detailTextLabel.text = referenceUrl ? [referenceUrl absoluteString] : @" ";
       
       // Read async to display size instead of url.
       if (referenceUrl) {
@@ -192,7 +175,7 @@
   }
 
   // Crash cell.
-  else if (indexPath.section < [tableView numberOfSections] - 2) {
+  else if (indexPath.section > 0) {
     MSCrash *crash = [self crashByIndexPath:indexPath];
     cell.textLabel.text = crash.title;
   }
@@ -202,7 +185,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   
   // Crash cell.
-  if (indexPath.section < [tableView numberOfSections] - 2) {
+  if (indexPath.section > 0) {
     __block MSCrash *crash = [self crashByIndexPath:indexPath];
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:crash.title
                                                                    message:crash.desc
@@ -228,13 +211,8 @@
     [self presentViewController:alert animated:YES completion:nil];
   }
 
-  // Crash result cell id.
-  else if (indexPath.section == [tableView numberOfSections] - 2) {
-    [self.navigationController pushViewController:[AppDelegate crashResultViewController] animated:true];
-  }
-  
   // Settings cells.
-  else if (indexPath.section == [tableView numberOfSections] - 1) {
+  else if (indexPath.section == 0) {
     
     // Text attachment.
     if (indexPath.row == 1) {

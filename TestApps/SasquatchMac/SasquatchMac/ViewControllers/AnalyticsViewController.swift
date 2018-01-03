@@ -10,6 +10,7 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
 
   var appCenter: AppCenterDelegate = AppCenterProvider.shared().appCenter!
 
+  @IBOutlet weak var name: NSTextField!
   @IBOutlet var setEnabledButton : NSButton?
   @IBOutlet var table : NSTableView?
 
@@ -36,7 +37,7 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
   }
 
   @IBAction func trackEvent(_ : AnyObject) {
-    appCenter.trackEvent("myEvent", withProperties: properties)
+    appCenter.trackEvent(name.stringValue, withProperties: properties)
   }
 
   @IBAction func trackPage(_ : AnyObject) {
@@ -134,6 +135,9 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
     // If value
     else {
       guard let row = table?.row(for: textField) else {
+        return
+      }
+      if row < 0 {
         return
       }
       let key : String = Array(properties.keys)[row]

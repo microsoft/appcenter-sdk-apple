@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ */
+
 #import "MSDeviceInfoViewController.h"
 #import "MSDeviceTracker.h"
 #import "MSDevice.h"
@@ -5,9 +9,9 @@
 
 @interface MSDeviceInfoViewController ()
 
-@property(nonatomic,strong) NSArray *keys;
+@property(nonatomic, strong) NSArray *keys;
 @property(nonatomic, strong) NSDictionary *desc;
-@property(nonatomic,strong) NSDictionary *data;
+@property(nonatomic, strong) NSDictionary *data;
 
 @end
 

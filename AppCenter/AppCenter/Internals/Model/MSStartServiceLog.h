@@ -1,8 +1,9 @@
 #import <Foundation/Foundation.h>
 
 #import "MSAbstractLogInternal.h"
+#import "MSNoAutoAssignSessionIdLog.h"
 
-@interface MSStartServiceLog : MSAbstractLog
+@interface MSStartServiceLog : MSAbstractLog <MSNoAutoAssignSessionIdLog>
 
 /**
  * Services which started with SDK
