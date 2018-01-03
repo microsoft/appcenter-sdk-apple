@@ -11,6 +11,7 @@
 #import "MSErrorLogFormatter.h"
 #import "MSHandledErrorLog.h"
 #import "MSServiceAbstractProtected.h"
+#import "MSSessionContext.h"
 #import "MSWrapperExceptionManagerInternal.h"
 #import "MSWrapperCrashesHelper.h"
 
@@ -306,9 +307,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
      */
     if (self.crashFiles.count > 0) {
       [self startDelayedCrashProcessing];
-    }
-    else {
+    } else {
       dispatch_semaphore_signal(self.delayedProcessingSemaphore);
+      [MSSessionContext clearSessionHistory];
     }
 
     // More details on log if a debugger is attached.
@@ -327,6 +328,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     [self emptyLogBufferFiles];
     [self removeAnalyzerFile];
     [self.plCrashReporter purgePendingCrashReport];
+    [MSSessionContext clearSessionHistory];
     MSLogInfo([MSCrashes logTag], @"Crashes service has been disabled.");
   }
 }
@@ -611,6 +613,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 #pragma mark - Crash processing
 
 - (void)startDelayedCrashProcessing {
+
   /*
    * FIXME: If application is crashed and relaunched from multitasking view, the SDK starts faster than normal launch
    * and application state is not updated from inactive to active at this time. Give more delay here for a workaround
@@ -637,10 +640,13 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 }
 
 - (void)startCrashProcessing {
-  // FIXME: There is no life cycle for app extensions yet so force start crash processing until then.
-  // Also force start crash processing when automatic processing is disabled. Though it sounds
-  // counterintuitive, this is important because there are scenarios in some wrappers (i.e. RN) where
-  // the application state is not ready by the time crash processing needs to happen.
+
+  /*
+   * FIXME: There is no life cycle for app extensions yet so force start crash processing until then.
+   * Also force start crash processing when automatic processing is disabled. Though it sounds
+   * counterintuitive, this is important because there are scenarios in some wrappers (i.e. RN) where
+   * the application state is not ready by the time crash processing needs to happen.
+   */
   if (self.automaticProcessing &&
       ([MSUtility applicationState] != MSApplicationStateActive &&
        [MSUtility applicationState] != MSApplicationStateUnknown)) {
@@ -667,9 +673,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                    @"to App Center!");
     }
   }
-  if (self.crashFiles.count > 0) {
-    [self processCrashReports];
-  }
+  [self processCrashReports];
 }
 
 - (void)processCrashReports {
@@ -764,7 +768,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
         id<MSLog> item = [NSKeyedUnarchiver unarchiveObjectWithData:serializedLog];
         if (item) {
 
-          // Buffered logs are used sending their own channel. It will never contain more than 20 logs
+          // Buffered logs are used sending their own channel. It will never contain more than 60 logs
           [self.logManager processLog:item forGroupId:kMSBufferGroupId];
         }
       }
@@ -1165,6 +1169,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     }
 
     // Return and do not continue with crash processing.
+    [MSSessionContext clearSessionHistory];
     return;
   } else if (userConfirmation == MSUserConfirmationAlways) {
 
@@ -1188,7 +1193,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       MSLogDebug([MSCrashes logTag], @"attachmentsWithCrashes is not implemented");
     }
 
-    // First, send crash log to log manager.
+    // First, get corelated session Id.
+    log.sid = [MSSessionContext sessionIdAt:log.timestamp];
+
+    // Then, send crash log to log manager.
     [self.logManager processLog:log forGroupId:self.groupId];
 
     // Send error attachments.
@@ -1199,6 +1207,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     [MSWrapperExceptionManager deleteWrapperExceptionWithUUIDString:report.incidentIdentifier];
     [self.crashFiles removeObject:fileURL];
   }
+  [MSSessionContext clearSessionHistory];
 }
 
 #pragma mark - Handled exceptions
