@@ -4,17 +4,14 @@
 #import "MSSessionHistoryInfo.h"
 #import "MSSessionTrackerDelegate.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface MSSessionTracker : NSObject <MSLogManagerDelegate>
 
 /**
  *  Session tracker delegate.
  */
 @property(nonatomic) id<MSSessionTrackerDelegate> delegate;
-
-/**
- * Current session id.
- */
-@property(nonatomic, copy, readonly) NSString *sessionId;
 
 /**
  *  Session timeout time.
@@ -37,11 +34,6 @@
 @property(nonatomic) NSDate *lastEnteredBackgroundTime;
 
 /**
- *  Sorted array of session histories.
- */
-@property(nonatomic) NSMutableArray<MSSessionHistoryInfo *> *pastSessions;
-
-/**
  *  Start session tracking.
  */
 - (void)start;
@@ -51,9 +43,6 @@
  */
 - (void)stop;
 
-/**
- *  Clear cached sessions.
- */
-- (void)clearSessions;
-
 @end
+
+NS_ASSUME_NONNULL_END

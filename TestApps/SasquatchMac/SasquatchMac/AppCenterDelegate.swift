@@ -1,4 +1,4 @@
-import Foundation
+import AppCenter
 
 /**
  * Protocol for interacting with AppCenter SDK.
@@ -10,6 +10,7 @@ import Foundation
   // MSAppCenter section.
   func isAppCenterEnabled() -> Bool
   func setAppCenterEnabled(_ isEnabled: Bool)
+  func setCustomProperties(_ customProperties: MSCustomProperties)
   func installId() -> String
   func appSecret() -> String
   func logUrl() -> String

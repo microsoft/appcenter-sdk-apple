@@ -9,7 +9,7 @@ This version contains a bug fix and improvements.
 * **[Fix]** Fix a locale issue that doesn't properly report system locale if an application doesn't support current language.
 * **[Improvement]** Change log level to make HTTP failures more visible, and add more logs.
 
-### MobileCenterDistribute
+### AppCenterDistribute
 
 * **[Improvement]** Add Portuguese to supported languages, see [this folder](https://github.com/Microsoft/AppCenter-SDK-Apple/tree/develop/AppCenterDistribute/AppCenterDistribute/Resources) for a list of supported languages.
 * **[Improvement]** Users with app versions that still use Mobile Center can directly upgrade to versions that use this version of App Center, without the need to reinstall.

@@ -1,4 +1,5 @@
 #import "MSAnalyticsInternal.h"
+#import "MSSessionContext.h"
 #import "MSSessionTracker.h"
 #import "MSStartSessionLog.h"
 #import "MSStartServiceLog.h"
@@ -6,14 +7,8 @@
 
 static NSTimeInterval const kMSSessionTimeOut = 20;
 static NSString *const kMSPastSessionsKey = @"pastSessionsKey";
-static NSUInteger const kMSMaxSessionHistoryCount = 5;
 
 @interface MSSessionTracker ()
-
-/**
- * Current session id.
- */
-@property(nonatomic, copy) NSString *sessionId;
 
 /**
  * Flag to indicate if session tracking has started or not.
@@ -35,19 +30,8 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
   if ((self = [super init])) {
     _sessionTimeout = kMSSessionTimeOut;
 
-    // Restore past sessions from NSUserDefaults.
-    NSData *sessions = [MS_USER_DEFAULTS objectForKey:kMSPastSessionsKey];
-    if (sessions != nil) {
-      NSArray *arrayFromData = [NSKeyedUnarchiver unarchiveObjectWithData:sessions];
-
-      // If array is not nil, create a mutable version.
-      if (arrayFromData)
-        _pastSessions = [NSMutableArray arrayWithArray:arrayFromData];
-    }
-
-    // Create new array.
-    if (_pastSessions == nil)
-      _pastSessions = [NSMutableArray<MSSessionHistoryInfo *> new];
+    // Remove old session history.
+    [MS_USER_DEFAULTS removeObjectForKey:kMSPastSessionsKey];
 
     // Session tracking is not started by default.
     _started = NO;
@@ -55,53 +39,33 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
   return self;
 }
 
-- (NSString *)sessionId {
+- (void)renewSessionId {
   @synchronized(self) {
+    if (self.started) {
 
-    // Check if new session id is required.
-    if (_sessionId == nil || [self hasSessionTimedOut]) {
-      _sessionId = MS_UUID_STRING;
+      // Check if new session id is required.
+      if ([MSSessionContext sessionId] == nil || [self hasSessionTimedOut]) {
+        NSString *sessionId = MS_UUID_STRING;
+        [MSSessionContext setSessionId:sessionId];
+        MSLogInfo([MSAnalytics logTag], @"New session ID: %@", sessionId);
 
-      // Record session.
-      MSSessionHistoryInfo *sessionInfo = [[MSSessionHistoryInfo alloc] init];
-      sessionInfo.sessionId = _sessionId;
-      sessionInfo.timestamp = [NSDate date];
-
-      // Insert new MSSessionHistoryInfo at the proper index to keep pastSessions sorted.
-      NSUInteger newIndex = [self.pastSessions indexOfObject:sessionInfo
-          inSortedRange:(NSRange) { 0, [self.pastSessions count] }
-          options:NSBinarySearchingInsertionIndex
-          usingComparator:^(MSSessionHistoryInfo *a, MSSessionHistoryInfo *b) {
-            return [a.timestamp compare:b.timestamp];
-          }];
-      [self.pastSessions insertObject:sessionInfo atIndex:newIndex];
-
-      // Remove first (the oldest) item if reached max limit.
-      if ([self.pastSessions count] > kMSMaxSessionHistoryCount)
-        [self.pastSessions removeObjectAtIndex:0];
-
-      // Persist the session history in NSData format.
-      [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.pastSessions]
-                           forKey:kMSPastSessionsKey];
-      NSString *session = _sessionId;
-      MSLogInfo([MSAnalytics logTag], @"New session ID: %@", session);
-
-      // Create a start session log.
-      MSStartSessionLog *log = [[MSStartSessionLog alloc] init];
-      log.sid = _sessionId;
-      [self.delegate sessionTracker:self processLog:log];
+        // Create a start session log.
+        MSStartSessionLog *log = [[MSStartSessionLog alloc] init];
+        log.sid = sessionId;
+        [self.delegate sessionTracker:self processLog:log];
+      }
     }
-    return _sessionId;
   }
 }
 
 - (void)start {
   if (!self.started) {
+    self.started = YES;
 
     // Request a new session id depending on the application state.
     if ([MSUtility applicationState] == MSApplicationStateInactive ||
         [MSUtility applicationState] == MSApplicationStateActive) {
-      [self sessionId];
+      [self renewSessionId];
     }
 
     // Hookup to application events.
@@ -121,7 +85,6 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
                                    name:UIApplicationWillEnterForegroundNotification
 #endif
                                  object:nil];
-    self.started = YES;
   }
 }
 
@@ -129,19 +92,12 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
   if (self.started) {
     [MS_NOTIFICATION_CENTER removeObserver:self];
     self.started = NO;
+    [MSSessionContext setSessionId:nil];
   }
 }
 
-- (void)clearSessions {
-  @synchronized(self) {
-
-    // Clear persistence.
-    [MS_USER_DEFAULTS removeObjectForKey:kMSPastSessionsKey];
-
-    // Clear cache.
-    self.sessionId = nil;
-    [self.pastSessions removeAllObjects];
-  }
+- (void)dealloc {
+  [MS_NOTIFICATION_CENTER removeObserver:self];
 }
 
 #pragma mark - private methods
@@ -165,8 +121,7 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
         ([self.lastEnteredBackgroundTime compare:self.lastEnteredForegroundTime] == NSOrderedDescending) &&
         ([now timeIntervalSinceDate:self.lastEnteredBackgroundTime] >= self.sessionTimeout);
 
-    // Verify if app was in the background for a longer time than the session
-    // timeout time.
+    // Verify if app was in the background for a longer time than the session timeout time.
     BOOL wasBackgroundForLong = (self.lastEnteredBackgroundTime)
                                     ? [self.lastEnteredForegroundTime
                                           timeIntervalSinceDate:self.lastEnteredBackgroundTime] >= self.sessionTimeout
@@ -183,7 +138,7 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
   self.lastEnteredForegroundTime = [NSDate date];
 
   // Trigger session renewal.
-  [self sessionId];
+  [self renewSessionId];
 }
 
 #pragma mark - MSLogManagerDelegate
@@ -199,35 +154,9 @@ static NSUInteger const kMSMaxSessionHistoryCount = 5;
       [((NSObject *)log) isKindOfClass:[MSStartServiceLog class]])
     return;
 
-  // Attach corresponding session id.
-  if (log.timestamp) {
-    MSSessionHistoryInfo *find = [[MSSessionHistoryInfo alloc] initWithTimestamp:log.timestamp andSessionId:nil];
-    NSUInteger index = [self.pastSessions indexOfObject:find
-                                          inSortedRange:NSMakeRange(0, self.pastSessions.count)
-                                                options:(NSBinarySearchingFirstEqual | NSBinarySearchingInsertionIndex)
-                                        usingComparator:^(MSSessionHistoryInfo *a, MSSessionHistoryInfo *b) {
-                                          return [a.timestamp compare:b.timestamp];
-                                        }];
-
-    // All timestamps are larger.
-    if (index == 0) {
-      log.sid = self.sessionId;
-    }
-
-    // All timestamps are smaller.
-    else if (index == self.pastSessions.count) {
-      log.sid = [self.pastSessions lastObject].sessionId;
-    }
-
-    // [index - 1] should be the right index for the timestamp.
-    else {
-      log.sid = self.pastSessions[index - 1].sessionId;
-    }
-  }
-
-  // If log is not correlated to a past session.
-  if (log.sid == nil) {
-    log.sid = self.sessionId;
+  // If the log requires session Id.
+  if (![(NSObject *)log conformsToProtocol:@protocol(MSNoAutoAssignSessionIdLog)]) {
+    log.sid = [MSSessionContext sessionId];
   }
 
   // Update last created log time stamp.
