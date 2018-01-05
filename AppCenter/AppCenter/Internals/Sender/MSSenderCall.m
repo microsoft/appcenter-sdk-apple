@@ -23,8 +23,9 @@
 }
 
 - (uint32_t)delayForRetryCount:(NSUInteger)retryCount {
-  if (retryCount >= self.retryIntervals.count)
+  if (retryCount >= self.retryIntervals.count) {
     return 0;
+  }
 
   // Create a random delay.
   uint32_t delay = [self.retryIntervals[retryCount] unsignedIntValue] / 2;
@@ -81,10 +82,20 @@
     MSLogInfo([MSAppCenter logTag], logMessage);
     [sender suspend];
   }
-
-  // Retry.
-  else if ([MSSenderUtil isRecoverableError:statusCode] && ![self hasReachedMaxRetries]) {
-    [self startRetryTimerWithStatusCode:statusCode];
+  else if ([MSSenderUtil isRecoverableError:statusCode]) {
+    
+    // Reset the retry count, will retry once app goes to foreground again.
+    if ([self hasReachedMaxRetries]) {
+      [self resetRetry];
+      NSString *logMessage = @"Received recoverable error but reached max. number of retries.";
+      MSLogInfo([MSAppCenter logTag], logMessage);
+      [sender suspend];
+    }
+    
+    // Retry.
+    else {
+      [self startRetryTimerWithStatusCode:statusCode];
+    }
   }
 
   // Callback to Channel.
