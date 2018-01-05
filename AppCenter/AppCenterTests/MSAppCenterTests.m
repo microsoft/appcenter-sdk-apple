@@ -311,6 +311,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   [MSAppCenter start:MS_UUID_STRING withServices:nil];
   [MSAppCenter setEnabled:NO];
   [MSAppCenter startService:MSMockService.class];
+  [MSAppCenter startService:MSMockSecondService.class];
   
   // Then
   assertThatInteger(logsProcessed, equalToInteger(0));
@@ -322,7 +323,8 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   // Then
   assertThatInteger(logsProcessed, equalToInteger(1));
   XCTAssertNotNil(log);
-  XCTAssertTrue([log.services isEqual:@[@"MSMockService"]]);
+  NSArray *expected = @[@"MSMockService", @"MSMockSecondService"];
+  XCTAssertTrue([log.services isEqual:expected]);
   
   // Clear
   [logManager stopMocking];
