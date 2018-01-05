@@ -96,11 +96,6 @@
     if (completion) {
       completion(success);
     }
-    
-    // Don't flush while disabled.
-    if (!self.enabled) {
-      return;
-    }
 
     // Flush now if current batch is full or delay to later.
     if (self.itemsCount >= self.configuration.batchSizeLimit) {
