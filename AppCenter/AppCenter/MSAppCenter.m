@@ -17,17 +17,25 @@
 #import "MSCustomPropertiesPrivate.h"
 #endif
 
-// Singleton.
+/**
+ * Singleton.
+ */
 static MSAppCenter *sharedInstance = nil;
 static dispatch_once_t onceToken;
 
-// Base URL for HTTP Ingestion backend API calls.
+/**
+ * Base URL for HTTP Ingestion backend API calls.
+ */
 static NSString *const kMSDefaultBaseUrl = @"https://in.appcenter.ms";
 
-// Service name for initialization.
+/**
+ * Service name for initialization.
+ */
 static NSString *const kMSServiceName = @"AppCenter";
 
-// The group Id for storage.
+/**
+ * The group Id for storage.
+ */
 static NSString *const kMSGroupId = @"AppCenter";
 
 @implementation MSAppCenter
@@ -371,9 +379,9 @@ static NSString *const kMSGroupId = @"AppCenter";
   [self.logManager setEnabled:isEnabled andDeleteDataOnDisabled:YES];
   
   // Send started services.
-  if (self.startedServicesNamesToLog && isEnabled) {
-    [self sendStartServiceLog:self.startedServicesNamesToLog];
-    self.startedServicesNamesToLog = nil;
+  if (self.startedServiceNames && isEnabled) {
+    [self sendStartServiceLog:self.startedServiceNames];
+    self.startedServiceNames = nil;
   }
 }
 
@@ -429,10 +437,10 @@ static NSString *const kMSGroupId = @"AppCenter";
     serviceLog.services = servicesNames;
     [self.logManager processLog:serviceLog forGroupId:kMSGroupId];
   } else {
-    if (self.startedServicesNamesToLog == nil) {
-      self.startedServicesNamesToLog = [NSMutableArray new];
+    if (self.startedServiceNames == nil) {
+      self.startedServiceNames = [NSMutableArray new];
     }
-    [self.startedServicesNamesToLog addObjectsFromArray:servicesNames];
+    [self.startedServiceNames addObjectsFromArray:servicesNames];
   }
 }
 

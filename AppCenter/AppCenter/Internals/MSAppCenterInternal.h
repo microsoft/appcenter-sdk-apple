@@ -19,7 +19,7 @@ static NSString *const kMSDisableAll = @"All";
 
 @property(nonatomic) id<MSLogManager> logManager;
 @property(nonatomic) NSMutableArray<NSObject<MSServiceInternal> *> *services;
-@property(nonatomic) NSMutableArray<NSString *> * startedServicesNamesToLog;
+@property(nonatomic) NSMutableArray<NSString *> * startedServiceNames;
 @property(nonatomic, copy) NSString *appSecret;
 @property(nonatomic, copy) NSString *logUrl;
 @property(nonatomic, readonly) NSUUID *installId;
