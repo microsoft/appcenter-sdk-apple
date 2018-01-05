@@ -1,5 +1,7 @@
 #import <Foundation/Foundation.h>
 
+#import "MSUserDefaults.h"
+
 #define MS_USER_DEFAULTS [MSUserDefaults shared]
 #define MS_NOTIFICATION_CENTER [NSNotificationCenter defaultCenter]
 #define MS_UUID_STRING [[NSUUID UUID] UUIDString]

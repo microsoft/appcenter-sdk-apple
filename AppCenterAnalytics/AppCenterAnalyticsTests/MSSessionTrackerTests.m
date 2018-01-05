@@ -1,6 +1,7 @@
 #import "MSAnalytics.h"
 #import "MSConstants+Internal.h"
-#import "MSSessionTracker.h"
+#import "MSSessionContextPrivate.h"
+#import "MSSessionTrackerPrivate.h"
 #import "MSSessionTrackerUtil.h"
 #import "MSStartSessionLog.h"
 #import "MSStartServiceLog.h"
@@ -11,6 +12,7 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
 @interface MSSessionTrackerTests : XCTestCase
 
 @property(nonatomic) MSSessionTracker *sut;
+@property(nonatomic) id context;
 
 @end
 
@@ -19,54 +21,79 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
 - (void)setUp {
   [super setUp];
 
+  // FIXME: sharedInstance: in MSSessionContext is not called without this mocking.
+  self.context = OCMPartialMock([[MSSessionContext alloc] init]);
+  OCMClassMock([MSSessionContext class]);
+  OCMStub(ClassMethod([MSSessionContext sharedInstance])).andReturn(self.context);
+
   self.sut = [[MSSessionTracker alloc] init];
   [self.sut setSessionTimeout:kMSTestSessionTimeout];
   [self.sut start];
-
-  [MSSessionTrackerUtil simulateDidEnterBackgroundNotification];
-  [NSThread sleepForTimeInterval:0.1];
-  [MSSessionTrackerUtil simulateWillEnterForegroundNotification];
 }
 
 - (void)tearDown {
   [super tearDown];
+  [MSSessionContext resetSharedInstance];
+
+  // This is required to remove observers in dealloc.
+  self.sut = nil;
 }
 
 - (void)testSession {
 
-  NSString *expectedSid;
+  // When
+  [self.sut renewSessionId];
+  NSString *expectedSid = [MSSessionContext sessionId];
 
-  // Verify the creation of sid and device log
-  {
-    expectedSid = self.sut.sessionId;
+  // Then
+  XCTAssertNotNil(expectedSid);
 
-    XCTAssertNotNil(expectedSid);
-  }
+  // When
+  [self.sut renewSessionId];
+  NSString *sid = [MSSessionContext sessionId];
 
-  // Verify reuse of the same session id on next get
-  {
-    NSString *sid = self.sut.sessionId;
-
-    XCTAssertEqual(expectedSid, sid);
-  }
+  // Then
+  XCTAssertEqual(expectedSid, sid);
 }
 
 // Apps is in foreground for longer than the timeout time, still same session
 - (void)testLongForegroundSession {
-  NSString *expectedSid = self.sut.sessionId;
-  // mock a log creation
+
+  // If
+  [self.sut renewSessionId];
+  NSString *expectedSid = [MSSessionContext sessionId];
+
+  // Then
+  XCTAssertNotNil(expectedSid);
+
+  // When
+
+  // Mock a log creation
   self.sut.lastCreatedLogTime = [NSDate date];
 
   // Wait for longer than timeout in foreground
   [NSThread sleepForTimeInterval:kMSTestSessionTimeout + 1];
 
-  NSString *sid = self.sut.sessionId;
+  // Get a session
+  [self.sut renewSessionId];
+  NSString *sid = [MSSessionContext sessionId];
+
+  // Then
   XCTAssertEqual(expectedSid, sid);
 }
 
 - (void)testShortBackgroundSession {
-  NSString *expectedSid = self.sut.sessionId;
-  // mock a log creation
+
+  // If
+  [self.sut renewSessionId];
+  NSString *expectedSid = [MSSessionContext sessionId];
+
+  // Then
+  XCTAssertNotNil(expectedSid);
+
+  // When
+
+  // Mock a log creation
   self.sut.lastCreatedLogTime = [NSDate date];
 
   // Enter background
@@ -78,20 +105,27 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
   // Enter foreground
   [MSSessionTrackerUtil simulateWillEnterForegroundNotification];
 
-  NSString *sid = self.sut.sessionId;
+  // Get a session
+  [self.sut renewSessionId];
+  NSString *sid = [MSSessionContext sessionId];
 
+  // Then
   XCTAssertEqual(expectedSid, sid);
 }
 
 - (void)testLongBackgroundSession {
-  NSString *expectedSid = self.sut.sessionId;
-  // mock a log creation
-  self.sut.lastCreatedLogTime = [NSDate date];
 
-  // mock a log creation
-  self.sut.lastCreatedLogTime = [NSDate date];
+  // If
+  [self.sut renewSessionId];
+  NSString *expectedSid = [MSSessionContext sessionId];
 
+  // Then
   XCTAssertNotNil(expectedSid);
+
+  // When
+
+  // Mock a log creation
+  self.sut.lastCreatedLogTime = [NSDate date];
 
   // Enter background
   [MSSessionTrackerUtil simulateDidEnterBackgroundNotification];
@@ -102,20 +136,34 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
   // Enter foreground
   [MSSessionTrackerUtil simulateWillEnterForegroundNotification];
 
-  NSString *sid = self.sut.sessionId;
+  // Get a session
+  [self.sut renewSessionId];
+  NSString *sid = [MSSessionContext sessionId];
+
+  // Then
   XCTAssertNotEqual(expectedSid, sid);
 }
 
 - (void)testLongBackgroundSessionWithSessionTrackingStopped {
 
+  // If
+
   // Stop session tracking
   [self.sut stop];
 
-  NSString *expectedSid = self.sut.sessionId;
-  // mock a log creation
+  // When
+
+  // Mock a log creation
   self.sut.lastCreatedLogTime = [NSDate date];
 
-  XCTAssertNotNil(expectedSid);
+  // Get a session
+  [self.sut renewSessionId];
+  NSString *expectedSid = [MSSessionContext sessionId];
+
+  // Then
+  XCTAssertNil(expectedSid);
+
+  // When
 
   // Enter background
   [MSSessionTrackerUtil simulateDidEnterBackgroundNotification];
@@ -131,14 +179,19 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
 #endif
                     object:self];
 
-  NSString *sid = self.sut.sessionId;
-  XCTAssertEqual(expectedSid, sid);
+  // Get a session
+  [self.sut renewSessionId];
+  NSString *sid = [MSSessionContext sessionId];
+
+  // Then
+  XCTAssertNil(sid);
 }
 
 - (void)testTooLongInBackground {
 
   // If
-  NSString *expectedSid = self.sut.sessionId;
+  [self.sut renewSessionId];
+  NSString *expectedSid = [MSSessionContext sessionId];
 
   // Then
   XCTAssertNotNil(expectedSid);
@@ -150,31 +203,40 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
   // Enter background
   [MSSessionTrackerUtil simulateDidEnterBackgroundNotification];
 
-  // mock a log creation while app is in background
+  // Mock a log creation while app is in background
   self.sut.lastCreatedLogTime = [NSDate date];
+
+  // Wait for longer than timeout in background
   [NSThread sleepForTimeInterval:kMSTestSessionTimeout + 1];
-  NSString *sid = self.sut.sessionId;
+
+  // Get a session
+  [self.sut renewSessionId];
+  NSString *sid = [MSSessionContext sessionId];
 
   // Then
+  XCTAssertNotNil(sid);
   XCTAssertNotEqual(expectedSid, sid);
 }
 
 - (void)testStartSessionOnStart {
 
+  // Clean up session context and stop session tracker which is initialized in setUp.
+  [MSSessionContext resetSharedInstance];
+  [self.sut stop];
+
   // If
   id analyticsMock = OCMClassMock([MSAnalytics class]);
   OCMStub([analyticsMock isAvailable]).andReturn(YES);
   OCMStub([analyticsMock sharedInstance]).andReturn(analyticsMock);
-  MSSessionTracker *sut = [[MSSessionTracker alloc] init];
-  [sut setSessionTimeout:kMSTestSessionTimeout];
+  [self.sut setSessionTimeout:kMSTestSessionTimeout];
   id<MSSessionTrackerDelegate> delegateMock = OCMProtocolMock(@protocol(MSSessionTrackerDelegate));
-  sut.delegate = delegateMock;
+  self.sut.delegate = delegateMock;
 
   // When
-  [sut start];
+  [self.sut start];
 
   // Then
-  OCMVerify([delegateMock sessionTracker:sut processLog:[OCMArg isKindOfClass:[MSStartSessionLog class]]]);
+  OCMVerify([delegateMock sessionTracker:self.sut processLog:[OCMArg isKindOfClass:[MSStartSessionLog class]]]);
 }
 
 - (void)testStartSessionOnAppForegrounded {
@@ -212,16 +274,7 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
 
   // Then
   XCTAssertNil(log.timestamp);
-  XCTAssertEqual(log.sid, self.sut.sessionId);
-
-  // When
-  NSDate *timestamp = [NSDate dateWithTimeIntervalSince1970:42];
-  log.timestamp = timestamp;
-  [self.sut onPreparedLog:log withInternalId:nil];
-
-  // Then
-  XCTAssertEqual(timestamp, log.timestamp);
-  XCTAssertEqual(log.sid, [self.sut.pastSessions lastObject].sessionId);
+  XCTAssertEqual(log.sid, [MSSessionContext sessionId]);
 }
 
 - (void)testNoStartSessionWithStartSessionLog {
@@ -238,7 +291,7 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
 
   // Then
   XCTAssertNil(log.timestamp);
-  XCTAssertEqual(log.sid, self.sut.sessionId);
+  XCTAssertEqual(log.sid, [MSSessionContext sessionId]);
 
   // If
   MSStartSessionLog *sessionLog = [MSStartSessionLog new];

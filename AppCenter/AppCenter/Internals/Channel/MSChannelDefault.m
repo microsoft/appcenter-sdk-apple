@@ -157,8 +157,8 @@
                if ([MSAppCenter logLevel] <= MSLogLevelDebug) {
                  unsigned long count = [container.logs count];
                  for (unsigned long i = 0; i < count; i++) {
-                   MSLogDebug([MSAppCenter logTag], @"Sending %lu/%lu log(s), group Id: %@, batch Id:%@, payload:\n%@",
-                              (i + 1), count, self.configuration.groupId, batchId,
+                   MSLogDebug([MSAppCenter logTag], @"Sending %lu/%lu log, group Id: %@, batch Id: %@, session Id: %@, payload:\n%@",
+                              (i + 1), count, self.configuration.groupId, batchId, container.logs[i].sid,
                               [(MSAbstractLog *)container.logs[i] serializeLogWithPrettyPrinting:YES]);
                  }
                }

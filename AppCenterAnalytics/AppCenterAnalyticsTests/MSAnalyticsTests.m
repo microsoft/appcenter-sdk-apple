@@ -34,10 +34,19 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
 @end
 
+/*
+ * FIXME
+ * Log manager mock is holding sessionTracker instance even after dealloc and this causes session tracker test failures.
+ * There is a PR in OCMock that seems a related issue. https://github.com/erikdoe/ocmock/pull/348
+ * Stopping session tracker after applyEnabledState calls for hack to avoid failures.
+ */
 @implementation MSAnalyticsTests
 
 - (void)tearDown {
   [super tearDown];
+
+  // Make sure sessionTracker removes all observers.
+  [MSAnalytics sharedInstance].sessionTracker = nil;
   [MSAnalytics resetSharedInstance];
 }
 
@@ -213,6 +222,9 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
   [service setEnabled:YES];
   XCTAssertTrue([service isEnabled]);
+
+  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
+  [[MSAnalytics sharedInstance].sessionTracker stop];
 }
 
 - (void)testSettingDelegateWorks {
@@ -306,6 +318,9 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
   [[MSAnalytics sharedInstance] startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
 
+  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
+  [[MSAnalytics sharedInstance].sessionTracker stop];
+
   // When
   [MSAnalytics trackEvent:expectedName];
 
@@ -334,6 +349,9 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
   [[MSAnalytics sharedInstance] startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
 
+  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
+  [[MSAnalytics sharedInstance].sessionTracker stop];
+
   // When
   [MSAnalytics trackEvent:expectedName withProperties:expectedProperties];
 
@@ -359,6 +377,9 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
       });
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
   [[MSAnalytics sharedInstance] startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
+
+  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
+  [[MSAnalytics sharedInstance].sessionTracker stop];
 
   // When
   [MSAnalytics trackPage:expectedName];
@@ -387,6 +408,9 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
       });
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
   [[MSAnalytics sharedInstance] startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
+
+  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
+  [[MSAnalytics sharedInstance].sessionTracker stop];
 
   // When
   [MSAnalytics trackPage:expectedName withProperties:expectedProperties];
