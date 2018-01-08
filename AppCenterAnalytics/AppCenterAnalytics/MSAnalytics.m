@@ -16,15 +16,15 @@ static NSString *const kMSGroupId = @"Analytics";
 static MSAnalytics *sharedInstance = nil;
 static dispatch_once_t onceToken;
 
-// Events values limitations
-static const int minEventNameLength = 1;
-static const int maxEventNameLength = 256;
-static const int maxPropertiesPerEvent = 5;
-static const int minPropertyKeyLength = 1;
-static const int maxPropertyKeyLength = 64;
-static const int maxPropertyValueLength = 64;
-
 @implementation MSAnalytics
+
+// Events values limitations
++ (NSUInteger) minEventNameLength { return 1; }
++ (NSUInteger) maxEventNameLength { return 256; }
++ (NSUInteger) maxPropertiesPerEvent { return 5; }
++ (NSUInteger) minPropertyKeyLength { return 1; }
++ (NSUInteger) maxPropertyKeyLength { return 64; }
++ (NSUInteger) maxPropertyValueLength { return 64; }
 
 @synthesize autoPageTrackingEnabled = _autoPageTrackingEnabled;
 @synthesize channelConfiguration = _channelConfiguration;
@@ -153,15 +153,15 @@ static const int maxPropertyValueLength = 64;
 #pragma mark - Private methods
 
 - (NSString *)validateEventName:(NSString *)eventName forLogType:(NSString *)logType {
-  if (!eventName || [eventName length] < minEventNameLength) {
+  if (!eventName || [eventName length] < [MSAnalytics minEventNameLength]) {
     MSLogError([MSAnalytics logTag], @"%@ name cannot be null or empty", logType);
     return nil;
   }
-  if ([eventName length] > maxEventNameLength) {
+  if ([eventName length] > [MSAnalytics maxEventNameLength]) {
     MSLogWarning([MSAnalytics logTag],
-                 @"%@ '%@' : name length cannot be longer than %d characters. Name will be truncated.", logType,
-                 eventName, maxEventNameLength);
-    eventName = [eventName substringToIndex:maxEventNameLength];
+                 @"%@ '%@' : name length cannot be longer than %lu characters. Name will be truncated.", logType,
+                 eventName, [MSAnalytics maxEventNameLength]);
+    eventName = [eventName substringToIndex:[MSAnalytics maxEventNameLength]];
   }
   return eventName;
 }
@@ -173,10 +173,10 @@ static const int maxPropertyValueLength = 64;
   for (id key in properties) {
 
     // Don't send more properties than we can.
-    if ([validProperties count] >= maxPropertiesPerEvent) {
+    if ([validProperties count] >= [MSAnalytics maxPropertiesPerEvent]) {
       MSLogWarning([MSAnalytics logTag],
-                   @"%@ '%@' : properties cannot contain more than %d items. Skipping other properties.", logType,
-                   logName, maxPropertiesPerEvent);
+                   @"%@ '%@' : properties cannot contain more than %lu items. Skipping other properties.", logType,
+                   logName, [MSAnalytics maxPropertiesPerEvent]);
       break;
     }
     if (![key isKindOfClass:[NSString class]] || ![properties[key] isKindOfClass:[NSString class]]) {
@@ -185,25 +185,25 @@ static const int maxPropertyValueLength = 64;
 
     // Validate key.
     NSString *strKey = key;
-    if ([strKey length] < minPropertyKeyLength) {
+    if ([strKey length] < [MSAnalytics minPropertyKeyLength]) {
       MSLogWarning([MSAnalytics logTag], @"%@ '%@' : a property key cannot be null or empty. Property will be skipped.",
                    logType, logName);
       continue;
     }
-    if ([strKey length] > maxPropertyKeyLength) {
-      MSLogWarning([MSAnalytics logTag], @"%@ '%@' : property %@ : property key length cannot be longer than %d "
+    if ([strKey length] > [MSAnalytics maxPropertyKeyLength]) {
+      MSLogWarning([MSAnalytics logTag], @"%@ '%@' : property %@ : property key length cannot be longer than %lu "
                                          @"characters. Property key will be truncated.",
-                   logType, logName, strKey, maxPropertyKeyLength);
-      strKey = [strKey substringToIndex:maxPropertyKeyLength];
+                   logType, logName, strKey, [MSAnalytics maxPropertyKeyLength]);
+      strKey = [strKey substringToIndex:[MSAnalytics maxPropertyKeyLength]];
     }
 
     // Validate value.
     NSString *value = properties[key];
-    if ([value length] > maxPropertyValueLength) {
-      MSLogWarning([MSAnalytics logTag], @"%@ '%@' : property '%@' : property value cannot be longer than %d "
+    if ([value length] > [MSAnalytics maxPropertyValueLength]) {
+      MSLogWarning([MSAnalytics logTag], @"%@ '%@' : property '%@' : property value cannot be longer than %lu "
                                          @"characters. Property value will be truncated.",
-                   logType, logName, strKey, maxPropertyValueLength);
-      value = [value substringToIndex:maxPropertyValueLength];
+                   logType, logName, strKey, [MSAnalytics maxPropertyValueLength]);
+      value = [value substringToIndex:[MSAnalytics maxPropertyValueLength]];
     }
 
     // Save valid properties.
