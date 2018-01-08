@@ -17,7 +17,9 @@
 #import "MSCustomPropertiesPrivate.h"
 #endif
 
-// Singleton
+/**
+ * Singleton.
+ */
 static MSAppCenter *sharedInstance = nil;
 static dispatch_once_t onceToken;
 
@@ -26,10 +28,14 @@ static dispatch_once_t onceToken;
  */
 static NSString *const kMSDefaultBaseUrl = @"https://in.appcenter.ms";
 
-// Service name for initialization.
+/**
+ * Service name for initialization.
+ */
 static NSString *const kMSServiceName = @"AppCenter";
 
-// The group Id for storage.
+/**
+ * The group Id for storage.
+ */
 static NSString *const kMSGroupId = @"AppCenter";
 
 @implementation MSAppCenter
@@ -319,11 +325,11 @@ static NSString *const kMSGroupId = @"AppCenter";
   self.enabledStateUpdating = YES;
   if ([self isEnabled] != isEnabled) {
 
-    // Enable/disable pipeline.
-    [self applyPipelineEnabledState:isEnabled];
-
     // Persist the enabled status.
     [MS_USER_DEFAULTS setObject:@(isEnabled) forKey:kMSAppCenterIsEnabledKey];
+    
+    // Enable/disable pipeline.
+    [self applyPipelineEnabledState:isEnabled];
   }
 
   // Propagate enable/disable on all services.
@@ -348,10 +354,10 @@ static NSString *const kMSGroupId = @"AppCenter";
 
 - (void)applyPipelineEnabledState:(BOOL)isEnabled {
 
-  // Remove all notification handlers
+  // Remove all notification handlers.
   [MS_NOTIFICATION_CENTER removeObserver:self];
 
-  // Hookup to application life-cycle events
+  // Hookup to application life-cycle events.
   if (isEnabled) {
 #if !TARGET_OS_OSX
     [MS_NOTIFICATION_CENTER addObserver:self
@@ -371,6 +377,12 @@ static NSString *const kMSGroupId = @"AppCenter";
 
   // Propagate to log manager.
   [self.logManager setEnabled:isEnabled andDeleteDataOnDisabled:YES];
+  
+  // Send started services.
+  if (self.startedServiceNames && isEnabled) {
+    [self sendStartServiceLog:self.startedServiceNames];
+    self.startedServiceNames = nil;
+  }
 }
 
 - (void)initializeLogManager {
@@ -424,6 +436,11 @@ static NSString *const kMSGroupId = @"AppCenter";
     MSStartServiceLog *serviceLog = [MSStartServiceLog new];
     serviceLog.services = servicesNames;
     [self.logManager processLog:serviceLog forGroupId:kMSGroupId];
+  } else {
+    if (self.startedServiceNames == nil) {
+      self.startedServiceNames = [NSMutableArray new];
+    }
+    [self.startedServiceNames addObjectsFromArray:servicesNames];
   }
 }
 
@@ -431,8 +448,6 @@ static NSString *const kMSGroupId = @"AppCenter";
 - (void)sendCustomPropertiesLog:(NSDictionary<NSString *, NSObject *> *)properties {
   MSCustomPropertiesLog *customPropertiesLog = [MSCustomPropertiesLog new];
   customPropertiesLog.properties = properties;
-
-  // FIXME: withPriority parameter need to be removed on merge.
   [self.logManager processLog:customPropertiesLog forGroupId:kMSGroupId];
 }
 #endif
