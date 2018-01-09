@@ -398,6 +398,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
                                  XCTAssertTrue(self.sut.suspended);
+                                 XCTAssertTrue([self.sut.pendingCalls count] == 0);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
