@@ -194,12 +194,7 @@ static NSString *const kMSGroupId = @"AppCenter";
 
       // Init the main pipeline.
       [self initializeLogManager];
-
-      // Enable pipeline as needed.
-      if (self.isEnabled) {
-        [self applyPipelineEnabledState:self.isEnabled];
-      }
-
+      [self applyPipelineEnabledState:self.isEnabled];
       self.sdkConfigured = YES;
 
       /*
@@ -291,6 +286,13 @@ static NSString *const kMSGroupId = @"AppCenter";
 
     // Start service with log manager.
     [service startWithLogManager:self.logManager appSecret:self.appSecret];
+    
+    // Disable service if AppCenter is disabled.
+    if ([clazz isEnabled] && !self.isEnabled) {
+      self.enabledStateUpdating = YES;
+      [clazz setEnabled:NO];
+      self.enabledStateUpdating = NO;
+    }
 
     // Send start service log.
     if (sendLog) {

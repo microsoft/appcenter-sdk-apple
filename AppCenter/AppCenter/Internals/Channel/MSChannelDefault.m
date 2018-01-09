@@ -16,6 +16,8 @@
     _pendingBatchQueueFull = NO;
     _availableBatchFromStorage = NO;
     _enabled = YES;
+    _suspended = NO;
+    _discardLogs = NO;
 
     _delegates = [NSHashTable weakObjectsHashTable];
   }
@@ -109,6 +111,11 @@
 }
 
 - (void)flushQueue {
+  
+  // Don't flush while disabled.
+  if (!self.enabled) {
+    return;
+  }
 
   // Cancel any timer.
   [self resetTimer];
@@ -232,8 +239,16 @@
 #pragma mark - Timer
 
 - (void)startTimer {
+  
+  // Don't start timer while disabled.
+  if (!self.enabled) {
+    return;
+  }
+  
+  // Cancel any timer.
   [self resetTimer];
-
+  
+  // Create new timer.
   self.timerSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, self.logsDispatchQueue);
 
   /**

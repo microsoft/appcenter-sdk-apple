@@ -193,16 +193,19 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 
 - (void)sendCallAsync:(MSSenderCall *)call {
   @synchronized(self) {
-    if (self.suspended)
+    if (self.suspended || !self.enabled) {
       return;
+    }
 
-    if (!call)
+    if (!call) {
       return;
+    }
 
     // Create the request.
     NSURLRequest *request = [self createRequest:call.data];
-    if (!request)
+    if (!request) {
       return;
+    }
 
     // Create a task for the request.
     NSURLSessionDataTask *task = [self.session
