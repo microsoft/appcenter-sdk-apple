@@ -1,5 +1,20 @@
 # App Center SDK for iOS and macOS Change Log
 
+## Version 1.2.0
+
+This version has a **breaking change** with a bug fix and improvements.
+
+### AppCenterCrashes
+
+* **[Improvement]** Improve session tracking to get appropriate session information for crashes if an application also uses Analytics.
+
+### AppCenterPush
+
+* **[Fix]** Fix "Missing Push Notification Entitlement" warning message after uploading an application to TestFlight and publishing to App Store.
+* **[Improvement]** Application delegate forwarder supports `application:didReceiveRemoteNotification:fetchCompletionHandler` method to forward push notifications automatically. This is a **breaking change** and push notification will be delivered twice to push callback if `application:didReceiveRemoteNotification:fetchCompletionHandler` forwards `userInfo` dictionary to `MSPush` manually. Remove the forwarding call in `application:didReceiveRemoteNotification:fetchCompletionHandler` or entire method if it exists.
+
+___
+
 ## Version 1.1.0
 
 This version contains a bug fix and improvements.
