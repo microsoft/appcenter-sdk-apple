@@ -51,7 +51,7 @@
                  [crashReport.systemInfo.timestamp timeIntervalSince1970] + 0.999);
   assertThat(errorReport.appStartTime, equalTo(crashReport.processInfo.processStartTime));
 
-  XCTAssertTrue([errorReport.device isEqual:device]);
+  XCTAssertEqualObjects(errorReport.device, device);
   XCTAssertEqual(errorReport.appProcessIdentifier, crashReport.processInfo.processID);
 
   crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:@"live_report_exception"];
@@ -71,7 +71,7 @@
   XCTAssertEqual([errorReport.appErrorTime timeIntervalSince1970],
                  [crashReport.systemInfo.timestamp timeIntervalSince1970] + 0.999);
   assertThat(errorReport.appStartTime, equalTo(crashReport.processInfo.processStartTime));
-  XCTAssertTrue([errorReport.device isEqual:device]);
+  XCTAssertEqualObjects(errorReport.device, device);
   XCTAssertEqual(errorReport.appProcessIdentifier, crashReport.processInfo.processID);
   [defaults stopMocking];
 }
@@ -248,7 +248,7 @@
              @"Containers/Bundle/Application/8CC7B5B5-7841-45C4-BAC2-6AA1B944A5E1/Puppet.app/Puppet";
   actual = [MSErrorLogFormatter anonymizedPathFromPath:testPath];
   assertThat(actual, equalTo(expected));
-  XCTAssertFalse([actual containsString:@"someone"]);
+  XCTAssertFalse([actual hasPrefix:@"/Users/someone"]);
   XCTAssertTrue([actual hasPrefix:@"/Users/USER/"]);
 }
 

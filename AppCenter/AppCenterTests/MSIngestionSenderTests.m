@@ -229,11 +229,12 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   __block NSArray<NSURLSessionDataTask *> *tasks;
   __block BOOL testFinished = NO;
   [MSHttpTestUtil stubLongTimeOutResponse];
-  MSLogContainer *container1 = [self createLogContainerWithId:@"1"];
-  MSLogContainer *container2 = [self createLogContainerWithId:@"2"];
+  NSArray<MSLogContainer *> *containers =
+      @[ [self createLogContainerWithId:@"1"], [self createLogContainerWithId:@"2"] ];
 
   // Send logs
-  [self.sut sendAsync:container1
+  for (NSUInteger i = 0; i < [containers count]; i++) {
+    [self.sut sendAsync:containers[i]
       completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
                           __attribute__((unused)) NSData *data, __attribute__((unused)) NSError *error) {
         @synchronized(tasks) {
@@ -242,15 +243,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
           }
         }
       }];
-  [self.sut sendAsync:container2
-      completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
-                          __attribute__((unused)) NSData *data, __attribute__((unused)) NSError *error) {
-        @synchronized(tasks) {
-          if (!testFinished) {
-            XCTFail(@"Completion handler shouldn't be called as test will finish before the response timeout.");
-          }
-        }
-      }];
+  }
 
   // When
   [self.sut suspend];
@@ -298,28 +291,24 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   __block NSArray<NSURLSessionDataTask *> *tasks;
   __block BOOL testFinished = NO;
   [MSHttpTestUtil stubLongTimeOutResponse];
-  MSLogContainer *container1 = [self createLogContainerWithId:@"1"];
-  MSLogContainer *container2 = [self createLogContainerWithId:@"2"];
+  NSArray<MSLogContainer *> *containers =
+      @[ [self createLogContainerWithId:@"1"], [self createLogContainerWithId:@"2"] ];
 
   // Send logs
-  [self.sut sendAsync:container1
-      completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
-                          __attribute__((unused)) NSData *data, __attribute__((unused)) NSError *error) {
-        @synchronized(tasks) {
-          if (!testFinished) {
-            XCTFail(@"Completion handler shouldn't be called as test will finish before the response timeout.");
+  for (NSUInteger i = 0; i < [containers count]; i++) {
+    [self.sut sendAsync:containers[i]
+        completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
+                            __attribute__((unused)) NSData *data, __attribute__((unused)) NSError *error) {
+          @synchronized(tasks) {
+            if (!testFinished) {
+              XCTFail(@"Completion handler shouldn't be called as test will finish before the response timeout.");
+            }
           }
-        }
-      }];
-  [self.sut sendAsync:container2
-      completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
-                          __attribute__((unused)) NSData *data, __attribute__((unused)) NSError *error) {
-        @synchronized(tasks) {
-          if (!testFinished) {
-            XCTFail(@"Completion handler shouldn't be called as test will finish before the response timeout.");
-          }
-        }
-      }];
+        }];
+  }
+
+  // Make sure all log containers are enqueued before suspending sender.
+  [NSThread sleepForTimeInterval:0.5];
   [self.sut suspend];
 
   // When
@@ -328,6 +317,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
                         NSArray<NSURLSessionDataTask *> *_Nonnull dataTasks,
                         __attribute__((unused)) NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
                         __attribute__((unused)) NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
+
     // Capture tasks state.
     tasks = dataTasks;
     [tasksListedExpectation fulfill];
