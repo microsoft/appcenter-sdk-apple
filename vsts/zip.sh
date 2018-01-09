@@ -1,10 +1,9 @@
 #!/bin/bash
-folder=AppCenter-SDK-Apple/
 
 # Copy LICENSE, README and CHANGELOG
-cp LICENSE $folder
-cp README.md $folder
-cp CHANGELOG.md $folder
+cp LICENSE $FRAMEWORKS_ZIP_FOLDER
+cp README.md $FRAMEWORKS_ZIP_FOLDER
+cp CHANGELOG.md $FRAMEWORKS_ZIP_FOLDER
 
 # Zip the folder
-zip -r $FRAMEWORKS_ZIP_FILENAME $folder
+zip -r $FRAMEWORKS_ZIP_FILENAME $FRAMEWORKS_ZIP_FOLDER

@@ -42,7 +42,6 @@ REPOSITORY="$(echo $BUILD_REPOSITORY_URI | awk -F "[:]" '{print $2}' | awk -F "[
 GITHUB_API_URL_TEMPLATE="https://%s.github.com/repos/%s/%s?access_token=%s%s"
 GITHUB_API_HOST="api"
 GITHUB_UPLOAD_HOST="uploads"
-BINARY_FILE="AppCenter-SDK-Apple.zip"
 
 ## III. GitHub API endpoints
 REQUEST_URL_REF_TAG="$(printf $GITHUB_API_URL_TEMPLATE $GITHUB_API_HOST $REPOSITORY 'git/refs/tags' $github_access_token)"
@@ -64,7 +63,7 @@ if [ "$mode" == "internal" ]; then
 else
 
   ## 0. Download prerelease binary
-  prerelease_prefix=$(echo $BINARY_FILE | sed 's/.zip/-'$PRERELEASE_VERSION'/g')
+  prerelease_prefix=$(echo $FRAMEWORKS_ZIP_FILENAME | sed 's/.zip/-'$PRERELEASE_VERSION'/g')
   resp="$(echo "Y" | azure storage blob list sdk ${prerelease_prefix})"
   prerelease="$(echo $resp | sed 's/.*data:[[:space:]]\('$prerelease_prefix'+.\{40\}\.zip\).*/\1/1')"
   if [[ $prerelease != $prerelease_prefix+*.zip ]]; then
@@ -78,7 +77,15 @@ else
   fi
   commit_hash="$(echo $resp | sed 's/.*data:[[:space:]]'$prerelease_prefix'+\(.\{40\}\)\.zip.*/\1/1')"
   echo "Y" | azure storage blob download sdk $prerelease
-  mv $prerelease $BINARY_FILE
+
+  ### Temporarily remove tvOS framework from binary
+  unzip $prerelease
+  rm -rf $prerelease
+  rm -rf $FRAMEWORKS_ZIP_FOLDER/tvOS
+  zip -r $FRAMEWORKS_ZIP_FILENAME $FRAMEWORKS_ZIP_FOLDER/
+
+### Once we support tvOS, we just need to rename the file.
+#  mv $prerelease $FRAMEWORKS_ZIP_FILENAME
 
   ## 1. Extract change log
   change_log_found=false
@@ -173,13 +180,13 @@ echo "Upload binaries"
 if [ "$mode" == "internal" ]; then
 
   # Determine the filename for the release
-  filename=$(echo $BINARY_FILE | sed 's/.zip/-'${publish_version}'+'$BUILD_SOURCEVERSION'.zip/g')
+  filename=$(echo $FRAMEWORKS_ZIP_FILENAME | sed 's/.zip/-'${publish_version}'+'$BUILD_SOURCEVERSION'.zip/g')
 
   # Replace the latest binary in Azure Storage
-  echo "Y" | azure storage blob upload $BINARY_FILE sdk
+  echo "Y" | azure storage blob upload $FRAMEWORKS_ZIP_FILENAME sdk
 
   # Upload binary to Azure Storage
-  mv $BINARY_FILE $filename
+  mv $FRAMEWORKS_ZIP_FILENAME $filename
   resp="$(echo "N" | azure storage blob upload ${filename} sdk | grep overwrite)"
   if [ "$resp" ]; then
     echo "${filename} already exists"
@@ -189,10 +196,10 @@ if [ "$mode" == "internal" ]; then
 else
 
   # Determine the filename for the release
-  filename=$(echo $BINARY_FILE | sed 's/.zip/-'${publish_version}'.zip/g')
+  filename=$(echo $FRAMEWORKS_ZIP_FILENAME | sed 's/.zip/-'${publish_version}'.zip/g')
 
   # Upload binary to Azure Storage
-  mv $BINARY_FILE $filename
+  mv $FRAMEWORKS_ZIP_FILENAME $filename
   resp="$(echo "N" | azure storage blob upload ${filename} sdk | grep overwrite)"
   if [ "$resp" ]; then
     echo "${filename} already exists"
