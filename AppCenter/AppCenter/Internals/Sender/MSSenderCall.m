@@ -87,8 +87,7 @@
     // Reset the retry count, will retry once app goes to foreground again.
     if ([self hasReachedMaxRetries]) {
       [self resetRetry];
-      NSString *logMessage = @"Received recoverable error but reached max. number of retries.";
-      MSLogInfo([MSAppCenter logTag], logMessage);
+      MSLogInfo([MSAppCenter logTag], @"Received recoverable error but reached max. number of retries.");
       [sender suspend];
     }
     
