@@ -2,7 +2,12 @@
 
 ## Version 1.2.0
 
-This version has a **breaking change** with a bug fix and improvements.
+This version has a **breaking change** with bug fixes and improvements.
+
+### AppCenter
+
+* **[Fix]** Fix an issue that enables internal services even if App Center was disabled in previous sessions.
+* **[Fix]** Fix an issue not to delete pending logs after maximum retries.
 
 ### AppCenterCrashes
 
@@ -11,7 +16,7 @@ This version has a **breaking change** with a bug fix and improvements.
 ### AppCenterPush
 
 * **[Fix]** Fix "Missing Push Notification Entitlement" warning message after uploading an application to TestFlight and publishing to App Store.
-* **[Improvement]** Application delegate forwarder supports `application:didReceiveRemoteNotification:fetchCompletionHandler` method to forward push notifications automatically. This is a **breaking change** and push notification will be delivered twice to push callback if `application:didReceiveRemoteNotification:fetchCompletionHandler` forwards `userInfo` dictionary to `MSPush` manually. Remove the forwarding call in `application:didReceiveRemoteNotification:fetchCompletionHandler` or entire method if it exists.
+* **[Improvement]** Application delegate forwarder supports `application:didReceiveRemoteNotification:fetchCompletionHandler` method to forward push notifications automatically when it is enabled. This is a **breaking change** and push notification will be delivered twice to push callback if `application:didReceiveRemoteNotification:fetchCompletionHandler` in your AppDelegate class forwards `userInfo` dictionary to `MSPush` manually as described in old documentation. If this is your case you have to remove the forwarding call in `application:didReceiveRemoteNotification:fetchCompletionHandler` or entire method if you don't have anything other than forwarding, to make sure you don't get duplicate push notifications in push callback.
 
 ___
 
