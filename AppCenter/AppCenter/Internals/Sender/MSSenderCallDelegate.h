@@ -15,6 +15,7 @@
  *  Call completed callback.
  *
  *  @param call Call object.
+ *  @param fatalError Flag indicating a fatal error.
  */
 - (void)call:(MSSenderCall *)call completedWithFatalError:(BOOL)fatalError;
 

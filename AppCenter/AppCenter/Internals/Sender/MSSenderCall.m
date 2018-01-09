@@ -23,8 +23,9 @@
 }
 
 - (uint32_t)delayForRetryCount:(NSUInteger)retryCount {
-  if (retryCount >= self.retryIntervals.count)
+  if (retryCount >= self.retryIntervals.count) {
     return 0;
+  }
   
   // Create a random delay.
   uint32_t delay = [self.retryIntervals[retryCount] unsignedIntValue] / 2;
