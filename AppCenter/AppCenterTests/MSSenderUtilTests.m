@@ -122,4 +122,21 @@
   XCTAssertFalse([MSSenderUtil isSSLConnectionError:error]);
 }
 
+- (void)testIsRecoverableError {
+  for (int i = 100; i < 530; i++) {
+
+    // When
+    BOOL result = [MSSenderUtil isRecoverableError:i];
+
+    // Then
+    if (i >= 500) {
+      XCTAssertTrue(result);
+    } else if (i == 408) {
+      XCTAssertTrue(result);
+    } else {
+      XCTAssertFalse(result);
+    }
+  }
+}
+
 @end

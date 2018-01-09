@@ -1,5 +1,3 @@
-#import <Foundation/Foundation.h>
-
 #import "MSAppDelegateForwarder.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -9,17 +7,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Hash table containing all the delegates as weak references.
  */
-@property(nonatomic, class) NSHashTable<id<MSAppDelegate>> *delegates;
+@property(nonatomic, class) NSHashTable<id<MSCustomApplicationDelegate>> *delegates;
 
 /**
  * Keep track of original selectors to swizzle.
  */
 @property(nonatomic, class, readonly) NSMutableSet<NSString *> *selectorsToSwizzle;
-
-/**
- * List of original selectors not to override if already implemented in the original application delegate.
- */
-@property(nonatomic, class, readonly) NSArray<NSString *> *selectorsNotToOverride;
 
 /**
  * Dictionary of deprecated original selectors indexed by their new equivalent.
@@ -41,6 +34,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 #endif
 @property(nonatomic, class) IMP originalSetDelegateImp;
+
+/**
+ * Returns the singleton instance of MSAppDelegateForwarder.
+ */
++ (instancetype)sharedInstance;
 
 /**
  * Register swizzling for the given original application delegate.
