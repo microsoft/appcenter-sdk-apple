@@ -1,15 +1,7 @@
 #import <Foundation/Foundation.h>
-#if TARGET_OS_OSX
-#import <AppKit/AppKit.h>
-#import "MSNSAppDelegate.h"
-#define MSApplication NSApplication
-#else
-#import <UIKit/UIKit.h>
-#import "MSUIAppDelegate.h"
-#define MSApplication UIApplication
-#endif
 
 #import "MSAppDelegateForwarderPrivate.h"
+#import "MSAppDelegateUtil.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+Application.h"
 
@@ -72,147 +64,6 @@
   [MSAppDelegateForwarder.selectorsToSwizzle removeObject:expectedSelectorStr];
 }
 
-- (void)testSwizzleOriginalPushDelegate {
-
-  /*
-   * If
-   */
-
-  // Mock a custom app delegate.
-  id<MSAppDelegate> customDelegate = OCMProtocolMock(@protocol(MSAppDelegate));
-  [MSAppDelegateForwarder addDelegate:customDelegate];
-  NSError *expectedError = [[NSError alloc] initWithDomain:NSItemProviderErrorDomain code:123 userInfo:@{}];
-
-  // App delegate not implementing any selector.
-  id<MSApplicationDelegate> originalAppDelegate = [self createOriginalAppDelegateInstance];
-  SEL selectorToSwizzle = @selector(application:didFailToRegisterForRemoteNotificationsWithError:);
-  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:selectorToSwizzle];
-
-  /*
-   * When
-   */
-  [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
-  [originalAppDelegate application:self.appMock didFailToRegisterForRemoteNotificationsWithError:expectedError];
-
-  /*
-   * Then
-   */
-  assertThatBool([originalAppDelegate respondsToSelector:selectorToSwizzle], isTrue());
-  OCMVerify([customDelegate application:self.appMock didFailToRegisterForRemoteNotificationsWithError:expectedError]);
-
-  /*
-   * If
-   */
-
-  // App delegate implementing the selector directly.
-  originalAppDelegate = [self createOriginalAppDelegateInstance];
-  __block BOOL wasCalled = NO;
-  id selectorImp = ^{
-    wasCalled = YES;
-  };
-  [self addSelector:selectorToSwizzle implementation:selectorImp toInstance:originalAppDelegate];
-  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:selectorToSwizzle];
-
-  /*
-   * When
-   */
-  [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
-  [originalAppDelegate application:self.appMock didFailToRegisterForRemoteNotificationsWithError:expectedError];
-
-  /*
-   * Then
-   */
-  assertThatBool([originalAppDelegate respondsToSelector:selectorToSwizzle], isTrue());
-  assertThatBool(wasCalled, isTrue());
-  OCMVerify([customDelegate application:self.appMock didFailToRegisterForRemoteNotificationsWithError:expectedError]);
-
-  /*
-   * If
-   */
-
-  // App delegate implementing the selector indirectly.
-  id originalBaseAppDelegate = [self createOriginalAppDelegateInstance];
-  [self addSelector:selectorToSwizzle implementation:selectorImp toInstance:originalBaseAppDelegate];
-  originalAppDelegate = [self createInstanceWithBaseClass:[originalBaseAppDelegate class] andConformItToProtocol:nil];
-  wasCalled = NO;
-  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:selectorToSwizzle];
-
-  /*
-   * When
-   */
-  [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
-  [originalAppDelegate application:self.appMock didFailToRegisterForRemoteNotificationsWithError:expectedError];
-
-  /*
-   * Then
-   */
-  assertThatBool([originalAppDelegate respondsToSelector:selectorToSwizzle], isTrue());
-  assertThatBool(wasCalled, isTrue());
-  OCMVerify([customDelegate application:self.appMock didFailToRegisterForRemoteNotificationsWithError:expectedError]);
-
-  /*
-   * If
-   */
-
-  // App delegate implementing the selector directly and indirectly.
-  wasCalled = NO;
-  __block BOOL baseWasCalled = NO;
-  id baseSelectorImp = ^{
-    baseWasCalled = YES;
-  };
-  originalBaseAppDelegate = [self createOriginalAppDelegateInstance];
-  [self addSelector:selectorToSwizzle implementation:baseSelectorImp toInstance:originalBaseAppDelegate];
-  originalAppDelegate = [self createInstanceWithBaseClass:[originalBaseAppDelegate class] andConformItToProtocol:nil];
-  [self addSelector:selectorToSwizzle implementation:selectorImp toInstance:originalAppDelegate];
-  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:selectorToSwizzle];
-
-  /*
-   * When
-   */
-  [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
-  [originalAppDelegate application:self.appMock didFailToRegisterForRemoteNotificationsWithError:expectedError];
-
-  /*
-   * Then
-   */
-  assertThatBool([originalAppDelegate respondsToSelector:selectorToSwizzle], isTrue());
-  assertThatBool(wasCalled, isTrue());
-  assertThatBool(baseWasCalled, isFalse());
-  OCMVerify([customDelegate application:self.appMock didFailToRegisterForRemoteNotificationsWithError:expectedError]);
-
-  /*
-   * If
-   */
-
-  // App delegate not implementing any selector still responds to selector.
-  originalAppDelegate = [self createOriginalAppDelegateInstance];
-  SEL instancesRespondToSelector = @selector(instancesRespondToSelector:);
-  id instancesRespondToSelectorImp = ^{
-    return YES;
-  };
-
-  // Adding a class method to a class requires its meta class. A meta class is the superclass of a class.
-  [self addSelector:instancesRespondToSelector
-      implementation:instancesRespondToSelectorImp
-             toClass:object_getClass([originalAppDelegate class])];
-  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:selectorToSwizzle];
-
-  /*
-   * When
-   */
-  [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
-
-  /*
-   * Then
-   */
-
-  // Original delegate still responding to selector.
-  assertThatBool([[originalAppDelegate class] instancesRespondToSelector:selectorToSwizzle], isTrue());
-
-  // Swizzling did not happened so no method added/replaced for this selector.
-  assertThatBool(class_getInstanceMethod([originalAppDelegate class], selectorToSwizzle) == NULL, isTrue());
-}
-
 #if !TARGET_OS_OSX
 - (void)testSwizzleOriginalOpenURLDelegate {
 
@@ -221,7 +72,7 @@
    */
 
   // Mock a custom app delegate.
-  id<MSAppDelegate> customDelegate = OCMProtocolMock(@protocol(MSAppDelegate));
+  id<MSCustomApplicationDelegate> customDelegate = OCMProtocolMock(@protocol(MSCustomApplicationDelegate));
   [MSAppDelegateForwarder addDelegate:customDelegate];
   NSURL *expectedURL = [NSURL URLWithString:@"https://www.contoso.com/sending-positive-waves"];
   NSDictionary *expectedOptions = @{};
@@ -473,7 +324,7 @@
       };
   [self addSelector:originalOpenURLiOS90Sel implementation:originalOpenURLiOS90Imp toInstance:originalAppDelegate];
   SEL customOpenURLiOS90Sel = @selector(application:openURL:options:returnedValue:);
-  id<MSAppDelegate> customAppDelegate = [self createCustomAppDelegateInstance];
+  id<MSCustomApplicationDelegate> customAppDelegate = [self createCustomAppDelegateInstance];
   id customOpenURLiOS90Imp =
       ^(__attribute__((unused)) id itSelf, MSApplication *application, NSURL *url, id options, BOOL returnedValue) {
 
@@ -495,101 +346,6 @@
   // Then
   assertThatBool(returnedValue, is(@(expectedReturnedValue)));
   [self waitForExpectations:@[ originalCalledExpectation, customCalledExpectation ] timeout:1];
-}
-#endif
-
-- (void)testWithOneCustomDelegateNotReturningValue {
-
-  // If
-  NSData *expectedToken = [@"Device token" dataUsingEncoding:NSUTF8StringEncoding];
-  MSApplication *appMock = self.appMock;
-  XCTestExpectation *originalCalledExpectation = [self expectationWithDescription:@"Original delegate called."];
-  XCTestExpectation *customCalledExpectation = [self expectationWithDescription:@"Custom delegate called."];
-  SEL didRegisterNotificationSel = @selector(application:didRegisterForRemoteNotificationsWithDeviceToken:);
-  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:didRegisterNotificationSel];
-  id<MSApplicationDelegate> originalAppDelegate = [self createOriginalAppDelegateInstance];
-  id originalDidRegisterNotificationImp =
-      ^(__attribute__((unused)) id itSelf, MSApplication *application, NSData *deviceToken) {
-
-        // Then
-        assertThat(application, is(appMock));
-        assertThat(deviceToken, is(expectedToken));
-        [originalCalledExpectation fulfill];
-      };
-  [self addSelector:didRegisterNotificationSel
-      implementation:originalDidRegisterNotificationImp
-          toInstance:originalAppDelegate];
-  id<MSAppDelegate> customAppDelegate = [self createCustomAppDelegateInstance];
-  id customDidRegisterNotificationImp =
-      ^(__attribute__((unused)) id itSelf, MSApplication *application, NSData *deviceToken) {
-
-        // Then
-        assertThat(application, is(appMock));
-        assertThat(deviceToken, is(expectedToken));
-        [customCalledExpectation fulfill];
-      };
-  [self addSelector:didRegisterNotificationSel
-      implementation:customDidRegisterNotificationImp
-          toInstance:customAppDelegate];
-  [MSAppDelegateForwarder addDelegate:customAppDelegate];
-  [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
-
-  // When
-  [originalAppDelegate application:appMock didRegisterForRemoteNotificationsWithDeviceToken:expectedToken];
-
-  // Then
-  [self waitForExpectations:@[ originalCalledExpectation, customCalledExpectation ] timeout:1];
-}
-
-#if !TARGET_OS_OSX
-- (void)testDontForwardSelectorsNotToOverrideIfAlreadyImplementedByOriginalDelegate {
-
-  // If
-  NSDictionary *expectedUserInfo = @{ @"key" : @"value" };
-  void (^expectedCompletionHandler)(UIBackgroundFetchResult result) =
-      ^(__attribute__((unused)) UIBackgroundFetchResult result) {
-      };
-  MSApplication *appMock = self.appMock;
-  XCTestExpectation *originalCalledExpectation = [self expectationWithDescription:@"Original delegate called."];
-  SEL didReceiveRemoteNotificationSel = @selector(application:didReceiveRemoteNotification:fetchCompletionHandler:);
-  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:didReceiveRemoteNotificationSel];
-  id<MSApplicationDelegate> originalAppDelegate = [self createOriginalAppDelegateInstance];
-  id originalDidReceiveRemoteNotificationImp =
-      ^(__attribute__((unused)) id itSelf, MSApplication *application, NSDictionary *userInfo,
-        void (^completionHandler)(UIBackgroundFetchResult result)) {
-
-        // Then
-        assertThat(application, is(appMock));
-        assertThat(userInfo, is(expectedUserInfo));
-        assertThat(completionHandler, is(expectedCompletionHandler));
-        [originalCalledExpectation fulfill];
-      };
-  [self addSelector:didReceiveRemoteNotificationSel
-      implementation:originalDidReceiveRemoteNotificationImp
-          toInstance:originalAppDelegate];
-  id<MSAppDelegate> customAppDelegate = [self createCustomAppDelegateInstance];
-  id customDidReceiveRemoteNotificationImp =
-      ^(__attribute__((unused)) id itSelf, __attribute__((unused)) MSApplication *application,
-        __attribute__((unused)) NSData *deviceToken) {
-
-        // Then
-        XCTFail(@"This method is already implemented in the original delegate and is marked not to be swizzled.");
-      };
-  [self addSelector:didReceiveRemoteNotificationSel
-      implementation:customDidReceiveRemoteNotificationImp
-          toInstance:customAppDelegate];
-  [MSAppDelegateForwarder addDelegate:customAppDelegate];
-
-  // When
-  [originalAppDelegate application:appMock
-      didReceiveRemoteNotification:expectedUserInfo
-            fetchCompletionHandler:expectedCompletionHandler];
-
-  // Then
-  assertThatBool([MSAppDelegateForwarder.selectorsNotToOverride
-                     containsObject:NSStringFromSelector(didReceiveRemoteNotificationSel)],
-                 isTrue());
-  [self waitForExpectations:@[ originalCalledExpectation ] timeout:1];
 }
 #endif
 
@@ -619,7 +375,7 @@
       };
   [self addSelector:originalOpenURLiOS90Sel implementation:originalOpenURLiOS90Imp toInstance:originalAppDelegate];
   SEL customOpenURLiOS90Sel = @selector(application:openURL:options:returnedValue:);
-  id<MSAppDelegate> customAppDelegate1 = [self createCustomAppDelegateInstance];
+  id<MSCustomApplicationDelegate> customAppDelegate1 = [self createCustomAppDelegateInstance];
   id customOpenURLiOS90Imp1 =
       ^(__attribute__((unused)) id itSelf, MSApplication *application, NSURL *url, id options, BOOL returnedValue) {
 
@@ -632,7 +388,7 @@
         return expectedReturnedValue;
       };
   [self addSelector:customOpenURLiOS90Sel implementation:customOpenURLiOS90Imp1 toInstance:customAppDelegate1];
-  id<MSAppDelegate> customAppDelegate2 = [self createCustomAppDelegateInstance];
+  id<MSCustomApplicationDelegate> customAppDelegate2 = [self createCustomAppDelegateInstance];
   id customOpenURLiOS90Imp2 =
       ^(__attribute__((unused)) id itSelf, MSApplication *application, NSURL *url, id options, BOOL returnedValue) {
 
@@ -659,67 +415,6 @@
 }
 #endif
 
-- (void)testWithMultipleCustomPushDelegates {
-
-  // If
-  NSData *expectedToken = [@"Device token" dataUsingEncoding:NSUTF8StringEncoding];
-  XCTestExpectation *originalCalledExpectation = [self expectationWithDescription:@"Original delegate called."];
-  XCTestExpectation *customCalledExpectation1 = [self expectationWithDescription:@"Custom delegate 1 called."];
-  XCTestExpectation *customCalledExpectation2 = [self expectationWithDescription:@"Custom delegate 2 called."];
-  MSApplication *appMock = self.appMock;
-  SEL originalDidRegisterForRemoteNotificationWithDeviceTokenSel =
-      @selector(application:didRegisterForRemoteNotificationsWithDeviceToken:);
-  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:originalDidRegisterForRemoteNotificationWithDeviceTokenSel];
-  id<MSApplicationDelegate> originalAppDelegate = [self createOriginalAppDelegateInstance];
-  id originalDidRegisterForRemoteNotificationWithDeviceTokenImp =
-      ^(__attribute__((unused)) id itSelf, MSApplication *application, NSData *deviceToken) {
-
-        // Then
-        assertThat(application, is(appMock));
-        assertThat(deviceToken, is(expectedToken));
-        [originalCalledExpectation fulfill];
-      };
-  [self addSelector:originalDidRegisterForRemoteNotificationWithDeviceTokenSel
-      implementation:originalDidRegisterForRemoteNotificationWithDeviceTokenImp
-          toInstance:originalAppDelegate];
-  SEL customDidRegisterForRemoteNotificationWithDeviceTokenSel =
-      @selector(application:didRegisterForRemoteNotificationsWithDeviceToken:);
-  id<MSAppDelegate> customAppDelegate1 = [self createCustomAppDelegateInstance];
-  id customDidRegisterForRemoteNotificationWithDeviceTokenImp1 =
-      ^(__attribute__((unused)) id itSelf, MSApplication *application, NSData *deviceToken) {
-
-        // Then
-        assertThat(application, is(appMock));
-        assertThat(deviceToken, is(expectedToken));
-        [customCalledExpectation1 fulfill];
-      };
-  [self addSelector:customDidRegisterForRemoteNotificationWithDeviceTokenSel
-      implementation:customDidRegisterForRemoteNotificationWithDeviceTokenImp1
-          toInstance:customAppDelegate1];
-  id<MSAppDelegate> customAppDelegate2 = [self createCustomAppDelegateInstance];
-  id customDidRegisterForRemoteNotificationWithDeviceTokenImp2 =
-      ^(__attribute__((unused)) id itSelf, MSApplication *application, NSData *deviceToken) {
-
-        // Then
-        assertThat(application, is(appMock));
-        assertThat(deviceToken, is(expectedToken));
-        [customCalledExpectation2 fulfill];
-      };
-  [self addSelector:customDidRegisterForRemoteNotificationWithDeviceTokenSel
-      implementation:customDidRegisterForRemoteNotificationWithDeviceTokenImp2
-          toInstance:customAppDelegate2];
-  [MSAppDelegateForwarder addDelegate:customAppDelegate1];
-  [MSAppDelegateForwarder addDelegate:customAppDelegate2];
-  [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
-
-  // When
-  [originalAppDelegate application:self.appMock didRegisterForRemoteNotificationsWithDeviceToken:expectedToken];
-
-  // Then
-  [self waitForExpectations:@[ originalCalledExpectation, customCalledExpectation1, customCalledExpectation2 ]
-                    timeout:1];
-}
-
 #if TARGET_OS_IOS
 - (void)testWithRemovedCustomOpenURLDelegate {
 
@@ -745,7 +440,7 @@
   };
   [self addSelector:originalOpenURLiOS42Sel implementation:originalOpenURLiOS42Imp toInstance:originalAppDelegate];
   SEL customOpenURLiOS42Sel = @selector(application:openURL:sourceApplication:annotation:returnedValue:);
-  id<MSAppDelegate> customAppDelegate = [self createCustomAppDelegateInstance];
+  id<MSCustomApplicationDelegate> customAppDelegate = [self createCustomAppDelegateInstance];
   id customOpenURLiOS42Imp = ^(__attribute__((unused)) id itSelf, __attribute__((unused)) MSApplication *application,
                                __attribute__((unused)) NSURL *url, __attribute__((unused)) NSString *sApplication,
                                __attribute__((unused)) id annotation, __attribute__((unused)) BOOL returnedValue) {
@@ -769,50 +464,6 @@
   [self waitForExpectations:@[ originalCalledExpectation ] timeout:1];
 }
 #endif
-
-- (void)testWithRemovedCustomDidRegisterForRemoteNotificationWithDeviceTokenDelegate {
-
-  // If
-  NSData *expectedToken = [@"Device token" dataUsingEncoding:NSUTF8StringEncoding];
-  MSApplication *appMock = self.appMock;
-  XCTestExpectation *originalCalledExpectation = [self expectationWithDescription:@"Original delegate called."];
-  SEL originalDidRegisterForRemoteNotificationWithDeviceTokenSel =
-      @selector(application:didRegisterForRemoteNotificationsWithDeviceToken:);
-  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:originalDidRegisterForRemoteNotificationWithDeviceTokenSel];
-  id<MSApplicationDelegate> originalAppDelegate = [self createOriginalAppDelegateInstance];
-  id originalDidRegisterForRemoteNotificationWithDeviceTokenImp =
-      ^(__attribute__((unused)) id itSelf, MSApplication *application, NSData *deviceToken) {
-
-        // Then
-        assertThat(application, is(appMock));
-        assertThat(deviceToken, is(expectedToken));
-        [originalCalledExpectation fulfill];
-      };
-  [self addSelector:originalDidRegisterForRemoteNotificationWithDeviceTokenSel
-      implementation:originalDidRegisterForRemoteNotificationWithDeviceTokenImp
-          toInstance:originalAppDelegate];
-  SEL customDidRegisterForRemoteNotificationWithDeviceTokenSel =
-      @selector(application:didRegisterForRemoteNotificationsWithDeviceToken:);
-  id<MSAppDelegate> customAppDelegate = [self createCustomAppDelegateInstance];
-  id customDidRegisterForRemoteNotificationWithDeviceTokenImp =
-      ^(__attribute__((unused)) id itSelf, __attribute__((unused)) MSApplication *application,
-        __attribute__((unused)) NSData *deviceToken) {
-
-        // Then
-        XCTFail(@"Custom delegate got called but is removed.");
-      };
-  [self addSelector:customDidRegisterForRemoteNotificationWithDeviceTokenSel
-      implementation:customDidRegisterForRemoteNotificationWithDeviceTokenImp
-          toInstance:customAppDelegate];
-  [MSAppDelegateForwarder addDelegate:customAppDelegate];
-  [MSAppDelegateForwarder removeDelegate:customAppDelegate];
-
-  // When
-  [originalAppDelegate application:self.appMock didRegisterForRemoteNotificationsWithDeviceToken:expectedToken];
-
-  // Then
-  [self waitForExpectations:@[ originalCalledExpectation ] timeout:1];
-}
 
 #if TARGET_OS_IOS
 - (void)testDontForwardOpenURLOnDisable {
@@ -839,7 +490,7 @@
   };
   [self addSelector:originalOpenURLiOS42Sel implementation:originalOpenURLiOS42Imp toInstance:originalAppDelegate];
   SEL customOpenURLiOS42Sel = @selector(application:openURL:sourceApplication:annotation:returnedValue:);
-  id<MSAppDelegate> customAppDelegate = [self createCustomAppDelegateInstance];
+  id<MSCustomApplicationDelegate> customAppDelegate = [self createCustomAppDelegateInstance];
   id customOpenURLiOS42Imp = ^(__attribute__((unused)) id itSelf, __attribute__((unused)) MSApplication *application,
                                __attribute__((unused)) NSURL *url, __attribute__((unused)) NSString *sApplication,
                                __attribute__((unused)) id annotation, __attribute__((unused)) BOOL returnedValue) {
@@ -864,51 +515,6 @@
   MSAppDelegateForwarder.enabled = YES;
 }
 #endif
-
-- (void)testDontForwardDidRegisterForRemoteNotificationWithDeviceTokenOnDisable {
-
-  // If
-  NSData *expectedToken = [@"Device token" dataUsingEncoding:NSUTF8StringEncoding];
-  MSApplication *appMock = self.appMock;
-  XCTestExpectation *originalCalledExpectation = [self expectationWithDescription:@"Original delegate called."];
-  SEL originalDidRegisterForRemoteNotificationWithDeviceTokenSel =
-      @selector(application:didRegisterForRemoteNotificationsWithDeviceToken:);
-  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:originalDidRegisterForRemoteNotificationWithDeviceTokenSel];
-  id<MSApplicationDelegate> originalAppDelegate = [self createOriginalAppDelegateInstance];
-  id originalDidRegisterForRemoteNotificationWithDeviceTokenImp =
-      ^(__attribute__((unused)) id itSelf, MSApplication *application, NSData *deviceToken) {
-
-        // Then
-        assertThat(application, is(appMock));
-        assertThat(deviceToken, is(expectedToken));
-        [originalCalledExpectation fulfill];
-      };
-  [self addSelector:originalDidRegisterForRemoteNotificationWithDeviceTokenSel
-      implementation:originalDidRegisterForRemoteNotificationWithDeviceTokenImp
-          toInstance:originalAppDelegate];
-  SEL customDidRegisterForRemoteNotificationWithDeviceTokenSel =
-      @selector(application:didRegisterForRemoteNotificationsWithDeviceToken:);
-  id<MSAppDelegate> customAppDelegate = [self createCustomAppDelegateInstance];
-  id customDidRegisterForRemoteNotificationWithDeviceTokenImp =
-      ^(__attribute__((unused)) id itSelf, __attribute__((unused)) MSApplication *application,
-        __attribute__((unused)) NSData *deviceToken) {
-
-        // Then
-        XCTFail(@"Custom delegate got called but is removed.");
-      };
-  [self addSelector:customDidRegisterForRemoteNotificationWithDeviceTokenSel
-      implementation:customDidRegisterForRemoteNotificationWithDeviceTokenImp
-          toInstance:customAppDelegate];
-  [MSAppDelegateForwarder addDelegate:customAppDelegate];
-  MSAppDelegateForwarder.enabled = NO;
-
-  // When
-  [originalAppDelegate application:self.appMock didRegisterForRemoteNotificationsWithDeviceToken:expectedToken];
-
-  // Then
-  [self waitForExpectations:@[ originalCalledExpectation ] timeout:1];
-  MSAppDelegateForwarder.enabled = YES;
-}
 
 #if TARGET_OS_IOS
 - (void)testReturnValueChaining {
@@ -939,7 +545,7 @@
   };
   [self addSelector:originalOpenURLiOS42Sel implementation:originalOpenURLiOS42Imp toInstance:originalAppDelegate];
   SEL customOpenURLiOS42Sel = @selector(application:openURL:sourceApplication:annotation:returnedValue:);
-  id<MSAppDelegate> customAppDelegate1 = [self createCustomAppDelegateInstance];
+  id<MSCustomApplicationDelegate> customAppDelegate1 = [self createCustomAppDelegateInstance];
   id customOpenURLiOS42Imp1 = ^(__attribute__((unused)) id itSelf, MSApplication *application, NSURL *url,
                                 NSString *sApplication, id annotation, BOOL returnedValue) {
 
@@ -954,7 +560,7 @@
     return expectedReturnedValue;
   };
   [self addSelector:customOpenURLiOS42Sel implementation:customOpenURLiOS42Imp1 toInstance:customAppDelegate1];
-  id<MSAppDelegate> customAppDelegate2 = [self createCustomAppDelegateInstance];
+  id<MSCustomApplicationDelegate> customAppDelegate2 = [self createCustomAppDelegateInstance];
   id customOpenURLiOS42Imp2 = ^(__attribute__((unused)) id itSelf, MSApplication *application, NSURL *url,
                                 NSString *sApplication, id annotation, BOOL returnedValue) {
 
@@ -984,110 +590,41 @@
   [self waitForExpectations:@[ originalCalledExpectation, customCalledExpectation1, customCalledExpectation2 ]
                     timeout:1];
 }
-#endif
 
-#if !TARGET_OS_OSX
-- (void)testOpenURLForwardMethodNotImplementedByOriginalDelegate {
+- (void)testOpenURLMethodNotImplementedByOriginalDelegate {
 
   // If
-  NSError *expectedError = [NSError errorWithDomain:@"Don't worry, not a real error." code:404 userInfo:nil];
+  NSURL *expectedURL = [NSURL URLWithString:@"https://www.contoso.com/sending-positive-waves"];
+  NSDictionary *expectedOptions = @{};
+  BOOL expectedReturnedValue = YES;
   MSApplication *appMock = self.appMock;
   XCTestExpectation *customCalledExpectation = [self expectationWithDescription:@"Custom delegate called."];
-  SEL didFailToRegisterForNotifSel = @selector(application:didFailToRegisterForRemoteNotificationsWithError:);
-  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:didFailToRegisterForNotifSel];
+  SEL originalOpenURLiOS90Sel = @selector(application:openURL:options:);
+  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:originalOpenURLiOS90Sel];
   id<MSApplicationDelegate> originalAppDelegate = [self createOriginalAppDelegateInstance];
-  id<MSAppDelegate> customAppDelegate = [self createCustomAppDelegateInstance];
-  id didFailToRegisterForNotifImp = ^(__attribute__((unused)) id itSelf, MSApplication *application, NSError *error) {
-
-    // Then
-    assertThat(application, is(appMock));
-    assertThat(error, is(expectedError));
-    [customCalledExpectation fulfill];
-  };
-
-  [self addSelector:didFailToRegisterForNotifSel
-      implementation:didFailToRegisterForNotifImp
-          toInstance:customAppDelegate];
-  [MSAppDelegateForwarder addDelegate:customAppDelegate];
-  [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
-
-  // When
-  [originalAppDelegate application:self.appMock didFailToRegisterForRemoteNotificationsWithError:expectedError];
-
-  // Then
-  [self waitForExpectations:@[ customCalledExpectation ] timeout:1];
-}
-#endif
-
-#if TARGET_OS_IOS
-
-// TODO: Push doesn't support tvOS. Temporaily disable the test.
-- (void)testDidReceiveRemoteNotification {
-
-  // If
-  // Track fetch result.
-  __block UIBackgroundFetchResult forwardedFetchResult = UIBackgroundFetchResultFailed;
-  UIBackgroundFetchResult expectedFetchResult = UIBackgroundFetchResultNewData;
-  __block BOOL isOriginalHandlerCalled = NO;
-  void (^expectedFetchHandler)(UIBackgroundFetchResult) = ^(UIBackgroundFetchResult fetchResult) {
-    forwardedFetchResult = fetchResult;
-    isOriginalHandlerCalled = YES;
-  };
-  NSDictionary *expectedUserInfo = @{ @"aKey" : @"aThingBehindADoor" };
-  MSApplication *appMock = self.appMock;
-  XCTestExpectation *customCalledExpectation = [self expectationWithDescription:@"Custom delegate called."];
-
-  // Setup an empty original delegate.
-  id<MSApplicationDelegate> originalAppDelegate = [self createOriginalAppDelegateInstance];
-  SEL didReceiveRemoteNotificationSel1 = @selector(application:didReceiveRemoteNotification:);
-  SEL didReceiveRemoteNotificationSel2 = @selector(application:didReceiveRemoteNotification:fetchCompletionHandler:);
-  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:didReceiveRemoteNotificationSel1];
-  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:didReceiveRemoteNotificationSel2];
-
-  // Setup a custom delegate.
-  id<MSAppDelegate> customAppDelegate = [self createCustomAppDelegateInstance];
-  id didReceiveRemoteNotificationImp1 =
-      ^(__attribute__((unused)) id itSelf, MSApplication *application, NSDictionary *userInfo) {
+  SEL customOpenURLiOS90Sel = @selector(application:openURL:options:returnedValue:);
+  id<MSCustomApplicationDelegate> customAppDelegate = [self createCustomAppDelegateInstance];
+  id customOpenURLiOS90Imp =
+      ^(__attribute__((unused)) id itSelf, MSApplication *application, NSURL *url, id options, BOOL returnedValue) {
 
         // Then
         assertThat(application, is(appMock));
-        assertThat(userInfo, is(expectedUserInfo));
+        assertThat(url, is(expectedURL));
+        assertThat(options, is(expectedOptions));
+        assertThatBool(returnedValue, is(@(NO)));
+        [customCalledExpectation fulfill];
+        return expectedReturnedValue;
       };
-  [self addSelector:didReceiveRemoteNotificationSel1
-      implementation:didReceiveRemoteNotificationImp1
-          toInstance:customAppDelegate];
-  id didReceiveRemoteNotificationImp2 = ^(__attribute__((unused)) id itSelf, MSApplication *application,
-                                          NSDictionary *userInfo, void (^fetchHandler)(UIBackgroundFetchResult)) {
-
-    // Then
-    assertThat(application, is(appMock));
-    assertThat(userInfo, is(expectedUserInfo));
-    assertThat(fetchHandler, is(fetchHandler));
-
-    // The original handler must only be called after all delegate did run.
-    assertThatBool(isOriginalHandlerCalled, isFalse());
-    fetchHandler(expectedFetchResult);
-    assertThatBool(isOriginalHandlerCalled, isFalse());
-    [customCalledExpectation fulfill];
-  };
-  [self addSelector:didReceiveRemoteNotificationSel2
-      implementation:didReceiveRemoteNotificationImp2
-          toInstance:customAppDelegate];
-  [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
+  [self addSelector:customOpenURLiOS90Sel implementation:customOpenURLiOS90Imp toInstance:customAppDelegate];
   [MSAppDelegateForwarder addDelegate:customAppDelegate];
+  [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
 
   // When
-  [originalAppDelegate application:appMock didReceiveRemoteNotification:expectedUserInfo];
-  [originalAppDelegate application:appMock
-      didReceiveRemoteNotification:expectedUserInfo
-            fetchCompletionHandler:expectedFetchHandler];
+  BOOL returnedValue = [originalAppDelegate application:self.appMock openURL:expectedURL options:expectedOptions];
 
   // Then
   [self waitForExpectations:@[ customCalledExpectation ] timeout:1];
-
-  // In the end the completion handler must be called with the forwarded value.
-  assertThatBool(isOriginalHandlerCalled, isTrue());
-  assertThatInteger(forwardedFetchResult, equalToInteger(expectedFetchResult));
+  assertThatBool(returnedValue, is(@(expectedReturnedValue)));
 }
 
 - (void)testDontSwizzleDeprecatedAPIIfNoAPIImplemented {
@@ -1097,7 +634,7 @@
    */
 
   // Mock a custom app delegate.
-  id<MSAppDelegate> customDelegate = OCMProtocolMock(@protocol(MSAppDelegate));
+  id<MSCustomApplicationDelegate> customDelegate = OCMProtocolMock(@protocol(MSCustomApplicationDelegate));
   [MSAppDelegateForwarder addDelegate:customDelegate];
   NSURL *expectedURL = [NSURL URLWithString:@"https://www.contoso.com/sending-positive-waves"];
   id expectedOptions = @{};
@@ -1131,7 +668,7 @@
    */
 
   // Mock a custom app delegate.
-  id<MSAppDelegate> customDelegate = OCMProtocolMock(@protocol(MSAppDelegate));
+  id<MSCustomApplicationDelegate> customDelegate = OCMProtocolMock(@protocol(MSCustomApplicationDelegate));
   [MSAppDelegateForwarder addDelegate:customDelegate];
   NSURL *expectedURL = [NSURL URLWithString:@"https://www.contoso.com/sending-positive-waves"];
   id expectedAnotation = @{};
@@ -1180,7 +717,7 @@
    */
 
   // Mock a custom app delegate.
-  id<MSAppDelegate> customDelegate = OCMProtocolMock(@protocol(MSAppDelegate));
+  id<MSCustomApplicationDelegate> customDelegate = OCMProtocolMock(@protocol(MSCustomApplicationDelegate));
   [MSAppDelegateForwarder addDelegate:customDelegate];
   NSURL *expectedURL = [NSURL URLWithString:@"https://www.contoso.com/sending-positive-waves"];
   id expectedOptions = @{};
@@ -1221,7 +758,7 @@
    */
 
   // Mock a custom app delegate.
-  id<MSAppDelegate> customDelegate = OCMProtocolMock(@protocol(MSAppDelegate));
+  id<MSCustomApplicationDelegate> customDelegate = OCMProtocolMock(@protocol(MSCustomApplicationDelegate));
   [MSAppDelegateForwarder addDelegate:customDelegate];
   NSURL *expectedURL = [NSURL URLWithString:@"https://www.contoso.com/sending-positive-waves"];
   id expectedAnotation = @{};
@@ -1299,11 +836,11 @@
 }
 
     - (id<MSApplicationDelegate>)createOriginalAppDelegateInstance {
-  return [self createInstanceConformingToProtocol:@protocol(MSAppDelegate)];
+  return [self createInstanceConformingToProtocol:@protocol(MSCustomApplicationDelegate)];
 }
 
-- (id<MSAppDelegate>)createCustomAppDelegateInstance {
-  return [self createInstanceConformingToProtocol:@protocol(MSAppDelegate)];
+- (id<MSCustomApplicationDelegate>)createCustomAppDelegateInstance {
+  return [self createInstanceConformingToProtocol:@protocol(MSCustomApplicationDelegate)];
 }
 
 - (void)addSelector:(SEL)selector implementation:(id)block toInstance:(id)instance {

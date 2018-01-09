@@ -30,6 +30,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
 - (void)setUp {
   [super setUp];
+  [MSAppCenter resetSharedInstance];
 
   // System Under Test.
   self.sut = [[MSAppCenter alloc] init];
@@ -297,18 +298,33 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   // If
   id logManager = OCMClassMock([MSLogManagerDefault class]);
   OCMStub([logManager alloc]).andReturn(logManager);
-  OCMStub([logManager initWithAppSecret:[OCMArg any] installId:[OCMArg any] logUrl:[OCMArg any]]).andReturn(logManager);
-  
-  // Not allow processLog.
-  OCMReject([logManager processLog:[OCMArg isKindOfClass:[MSStartServiceLog class]] forGroupId:[OCMArg any]]);
+  OCMStub([logManager initWithAppSecret:OCMOCK_ANY installId:OCMOCK_ANY logUrl:OCMOCK_ANY]).andReturn(logManager);
+  __block NSInteger logsProcessed = 0;
+  __block MSStartServiceLog *log = nil;
+  OCMStub([logManager processLog:[OCMArg isKindOfClass:[MSStartServiceLog class]] forGroupId:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        [invocation getArgument:&log atIndex:2];
+        logsProcessed++;
+      });
   
   // When
   [MSAppCenter start:MS_UUID_STRING withServices:nil];
   [MSAppCenter setEnabled:NO];
   [MSAppCenter startService:MSMockService.class];
+  [MSAppCenter startService:MSMockSecondService.class];
   
   // Then
-  OCMVerifyAll(logManager);
+  assertThatInteger(logsProcessed, equalToInteger(0));
+  XCTAssertNil(log);
+  
+  // When
+  [MSAppCenter setEnabled:YES];
+  
+  // Then
+  assertThatInteger(logsProcessed, equalToInteger(1));
+  XCTAssertNotNil(log);
+  NSArray *expected = @[@"MSMockService", @"MSMockSecondService"];
+  XCTAssertTrue([log.services isEqual:expected]);
   
   // Clear
   [logManager stopMocking];

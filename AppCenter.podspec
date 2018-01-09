@@ -25,6 +25,7 @@ Pod::Spec.new do |s|
 
   s.homepage          = 'https://appcenter.ms'
   s.documentation_url = "https://docs.microsoft.com/en-us/appcenter/sdk"
+  s.social_media_url = 'https://twitter.com/vsappcenter'
 
   s.license           = { :type => 'MIT', :file => 'AppCenter-SDK-Apple/iOS/LICENSE' }
   s.author            = { 'Microsoft' => 'appcentersdk@microsoft.com' }

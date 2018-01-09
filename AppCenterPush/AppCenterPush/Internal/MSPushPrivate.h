@@ -14,7 +14,7 @@ static NSString *const kMSPushNotificationCustomDataKey = @"appCenter";
 // TODO remove this one as soon as the push backend removes it.
 static NSString *const kMSPushNotificationOldCustomDataKey = @"mobile_center";
 
-@protocol MSAppDelegate;
+@protocol MSCustomApplicationDelegate;
 
 #if TARGET_OS_OSX
 @interface MSPush () <NSUserNotificationCenterDelegate>
@@ -33,7 +33,7 @@ static NSString *const kMSPushNotificationOldCustomDataKey = @"mobile_center";
 /**
  * Custom application delegate dedicated to Push.
  */
-@property(nonatomic) id<MSAppDelegate> appDelegate;
+@property(nonatomic) id<MSCustomApplicationDelegate> appDelegate;
 
 /**
  * Method to reset the singleton when running unit tests only. So calling sharedInstance returns a fresh instance.

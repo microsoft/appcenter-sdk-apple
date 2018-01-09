@@ -1,13 +1,18 @@
-#import <Foundation/Foundation.h>
-#if TARGET_OS_OSX
-#import "MSNSAppDelegate.h"
-#else
-#import "MSUIAppDelegate.h"
-#endif
+#import "MSCustomApplicationDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MSAppDelegateForwarder : NSObject <MSAppDelegate>
+/**
+ * Enum used to represent all kind of executors running the completion handler.
+ */
+typedef NS_OPTIONS(NSUInteger, MSCompletionExecutor) {
+  MSCompletionExecutorNone = (1 << 0),
+  MSCompletionExecutorOriginal = (1 << 1),
+  MSCompletionExecutorCustom = (1 << 2),
+  MSCompletionExecutorForwarder = (1 << 3)
+};
+
+@interface MSAppDelegateForwarder : NSObject <MSCustomApplicationDelegate>
 
 /**
  * Enable/Disable Application forwarding.
@@ -19,14 +24,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param delegate A delegate.
  */
-+ (void)addDelegate:(id<MSAppDelegate>)delegate;
++ (void)addDelegate:(id<MSCustomApplicationDelegate>)delegate;
 
 /**
  * Remove a delegate. This method is thread safe.
  *
  * @param delegate A delegate.
  */
-+ (void)removeDelegate:(id<MSAppDelegate>)delegate;
++ (void)removeDelegate:(id<MSCustomApplicationDelegate>)delegate;
 
 /**
  * Add an app delegate selector to swizzle.
