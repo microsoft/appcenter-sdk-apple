@@ -279,7 +279,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     }
 
     // Remove call from pending call. This needs to happen after calling setEnabled:andDeleteDataOnDisabled:
-    // FIXME: Refactor ependency between calling setEnabled:andDeleteDataOnDisabled: and suspending the sender.
+    // FIXME: Refactor dependency between calling setEnabled:andDeleteDataOnDisabled: and suspending the sender.
     NSString *callId = call.callId;
     if (callId.length == 0) {
       MSLogWarning([MSAppCenter logTag], @"Call object is invalid");
