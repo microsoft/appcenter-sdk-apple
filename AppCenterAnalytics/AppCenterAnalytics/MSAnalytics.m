@@ -107,7 +107,6 @@ static const int maxPropertyValueLength = 64;
     [self.logManager removeDelegate:self.sessionTracker];
     [self.logManager removeDelegate:self];
     [self.sessionTracker stop];
-    [self.sessionTracker clearSessions];
     MSLogInfo([MSAnalytics logTag], @"Analytics service has been disabled.");
   }
 }

@@ -193,16 +193,19 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 
 - (void)sendCallAsync:(MSSenderCall *)call {
   @synchronized(self) {
-    if (self.suspended)
+    if (self.suspended || !self.enabled) {
       return;
+    }
 
-    if (!call)
+    if (!call) {
       return;
+    }
 
     // Create the request.
     NSURLRequest *request = [self createRequest:call.data];
-    if (!request)
+    if (!request) {
       return;
+    }
 
     // Create a task for the request.
     NSURLSessionDataTask *task = [self.session
@@ -238,7 +241,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
                 }
               }
               MSLogVerbose([MSAppCenter logTag], @"HTTP response received with status code=%lu and payload=%@",
-                         (unsigned long)statusCode, payload);
+                           (unsigned long)statusCode, payload);
 
               // Call handles the completion.
               if (call) {
@@ -254,19 +257,10 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   }
 }
 
-- (void)call:(MSSenderCall *)call completedWithFatalError:(BOOL)fatalError {
+- (void)call:(MSSenderCall *)call completedWithResult:(MSSenderCallResult)result {
   @synchronized(self) {
-    NSString *callId = call.callId;
-    if (callId.length == 0) {
-      MSLogWarning([MSAppCenter logTag], @"Call object is invalid");
-      return;
-    }
-    [self.pendingCalls removeObjectForKey:callId];
-    MSLogInfo([MSAppCenter logTag], @"Removed call id:%@ from pending calls:%@", callId,
-              [self.pendingCalls description]);
-
-    // Process fatal error.
-    if (fatalError) {
+    switch (result) {
+    case MSSenderCallResultFatalError: {
 
       // Disable and delete data.
       [self setEnabled:NO andDeleteDataOnDisabled:YES];
@@ -276,7 +270,27 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
                                 withBlock:^(id<MSSenderDelegate> delegate) {
                                   [delegate senderDidReceiveFatalError:self];
                                 }];
+      break;
     }
+    case MSSenderCallResultRecoverableError:
+
+      // Disable and do not delete data. Do not notify the delegates as this will cause data to be deleted.
+      [self setEnabled:NO andDeleteDataOnDisabled:NO];
+      break;
+    case MSSenderCallResultSuccess:
+      break;
+    }
+
+    // Remove call from pending call. This needs to happen after calling setEnabled:andDeleteDataOnDisabled:
+    // FIXME: Refactor dependency between calling setEnabled:andDeleteDataOnDisabled: and suspending the sender.
+    NSString *callId = call.callId;
+    if (callId.length == 0) {
+      MSLogWarning([MSAppCenter logTag], @"Call object is invalid");
+      return;
+    }
+    [self.pendingCalls removeObjectForKey:callId];
+    MSLogInfo([MSAppCenter logTag], @"Removed call id:%@ from pending calls:%@", callId,
+              [self.pendingCalls description]);
   }
 }
 
@@ -351,7 +365,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
     sessionConfiguration.timeoutIntervalForRequest = kRequestTimeout;
     _session = [NSURLSession sessionWithConfiguration:sessionConfiguration];
-    
+
     /*
      * Limit callbacks execution concurrency to avoid race condition. This queue is used only for
      * delegate method calls and completion handlers.

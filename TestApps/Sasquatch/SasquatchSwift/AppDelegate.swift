@@ -114,8 +114,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     let result: Bool = MSPush.didReceiveRemoteNotification(userInfo)
     if result {
       completionHandler(.newData)
-    }
-    else {
+    } else {
       completionHandler(.noData)
     }
   }

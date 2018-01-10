@@ -1,5 +1,7 @@
 #import <Foundation/Foundation.h>
 
+#import "MSConstants+Internal.h"
+
 @class MSSenderCall;
 
 @protocol MSSenderCallDelegate <NSObject>
@@ -15,7 +17,8 @@
  *  Call completed callback.
  *
  *  @param call Call object.
+ *  @param result Enum indicating the result of the call.
  */
-- (void)call:(MSSenderCall *)call completedWithFatalError:(BOOL)fatalError;
+- (void)call:(MSSenderCall *)call completedWithResult:(MSSenderCallResult)result;
 
 @end

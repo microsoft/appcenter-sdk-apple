@@ -229,11 +229,12 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   __block NSArray<NSURLSessionDataTask *> *tasks;
   __block BOOL testFinished = NO;
   [MSHttpTestUtil stubLongTimeOutResponse];
-  MSLogContainer *container1 = [self createLogContainerWithId:@"1"];
-  MSLogContainer *container2 = [self createLogContainerWithId:@"2"];
+  NSArray<MSLogContainer *> *containers =
+      @[ [self createLogContainerWithId:@"1"], [self createLogContainerWithId:@"2"] ];
 
   // Send logs
-  [self.sut sendAsync:container1
+  for (NSUInteger i = 0; i < [containers count]; i++) {
+    [self.sut sendAsync:containers[i]
       completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
                           __attribute__((unused)) NSData *data, __attribute__((unused)) NSError *error) {
         @synchronized(tasks) {
@@ -242,15 +243,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
           }
         }
       }];
-  [self.sut sendAsync:container2
-      completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
-                          __attribute__((unused)) NSData *data, __attribute__((unused)) NSError *error) {
-        @synchronized(tasks) {
-          if (!testFinished) {
-            XCTFail(@"Completion handler shouldn't be called as test will finish before the response timeout.");
-          }
-        }
-      }];
+  }
 
   // When
   [self.sut suspend];
@@ -298,28 +291,24 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   __block NSArray<NSURLSessionDataTask *> *tasks;
   __block BOOL testFinished = NO;
   [MSHttpTestUtil stubLongTimeOutResponse];
-  MSLogContainer *container1 = [self createLogContainerWithId:@"1"];
-  MSLogContainer *container2 = [self createLogContainerWithId:@"2"];
+  NSArray<MSLogContainer *> *containers =
+      @[ [self createLogContainerWithId:@"1"], [self createLogContainerWithId:@"2"] ];
 
   // Send logs
-  [self.sut sendAsync:container1
-      completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
-                          __attribute__((unused)) NSData *data, __attribute__((unused)) NSError *error) {
-        @synchronized(tasks) {
-          if (!testFinished) {
-            XCTFail(@"Completion handler shouldn't be called as test will finish before the response timeout.");
+  for (NSUInteger i = 0; i < [containers count]; i++) {
+    [self.sut sendAsync:containers[i]
+        completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
+                            __attribute__((unused)) NSData *data, __attribute__((unused)) NSError *error) {
+          @synchronized(tasks) {
+            if (!testFinished) {
+              XCTFail(@"Completion handler shouldn't be called as test will finish before the response timeout.");
+            }
           }
-        }
-      }];
-  [self.sut sendAsync:container2
-      completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
-                          __attribute__((unused)) NSData *data, __attribute__((unused)) NSError *error) {
-        @synchronized(tasks) {
-          if (!testFinished) {
-            XCTFail(@"Completion handler shouldn't be called as test will finish before the response timeout.");
-          }
-        }
-      }];
+        }];
+  }
+
+  // Make sure all log containers are enqueued before suspending sender.
+  [NSThread sleepForTimeInterval:0.5];
   [self.sut suspend];
 
   // When
@@ -328,6 +317,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
                         NSArray<NSURLSessionDataTask *> *_Nonnull dataTasks,
                         __attribute__((unused)) NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
                         __attribute__((unused)) NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
+
     // Capture tasks state.
     tasks = dataTasks;
     [tasksListedExpectation fulfill];
@@ -358,6 +348,59 @@ static NSString *const kMSBaseUrl = @"https://test.com";
                                    assertThatUnsignedLong(self.sut.pendingCalls.count, equalToInt(2));
 
                                    testFinished = YES;
+                                 }
+                               }];
+}
+
+- (void)testSuspendWhenAllRetriesUsed {
+
+  // If
+  XCTestExpectation *responseReceivedExcpectation = [self expectationWithDescription:@"Used all retries."];
+  NSString *containerId = @"1";
+  MSLogContainer *container = [self createLogContainerWithId:containerId];
+
+  // Mock the call to intercept the retry.
+  NSArray *intervals = @[ @(0.5), @(1) ];
+  MSSenderCall *mockedCall = OCMPartialMock([[MSSenderCall alloc] initWithRetryIntervals:intervals]);
+  mockedCall.delegate = self.sut;
+  mockedCall.data = container;
+  mockedCall.callId = container.batchId;
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
+  mockedCall.completionHandler = nil;
+#pragma clang diagnostic pop
+
+  OCMStub([mockedCall sender:self.sut
+              callCompletedWithStatus:MSHTTPCodesNo500InternalServerError
+                                 data:OCMOCK_ANY
+                                error:OCMOCK_ANY])
+  .andForwardToRealObject()
+  .andDo(^(__attribute__((unused)) NSInvocation *invocation) {
+    
+    /*
+     * Don't fulfill the expectation immediatelly as the sender won't be suspended yet. Instead of using a delay to wait
+     * for the retries, we use the retryCount as it retryCount will only be 0 before the first failed sending and after
+     * we've exhausted the retry attempts. The first one won't be the case during unit tests as the request will fail
+     * immediatelly, so the expectation will only by fulfilled once retries have been exhausted.
+     */
+    if(mockedCall.retryCount == 0) {
+      [responseReceivedExcpectation fulfill];
+    }
+  });
+  self.sut.pendingCalls[containerId] = mockedCall;
+
+  // Respond with a retryable error.
+  [MSHttpTestUtil stubHttp500Response];
+
+  // Send the call.
+  [self.sut sendCallAsync:mockedCall];
+  [self waitForExpectationsWithTimeout:20
+                               handler:^(NSError *error) {
+                                 XCTAssertTrue(self.sut.suspended);
+                                 XCTAssertTrue([self.sut.pendingCalls count] == 0);
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
 }

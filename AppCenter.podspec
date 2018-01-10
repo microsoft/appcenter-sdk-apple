@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name              = 'AppCenter'
-  s.version           = '1.1.0'
+  s.version           = '1.2.0'
 
   s.summary           = 'Visual Studio App Center is your continuous integration, delivery and learning solution for iOS and macOS apps.'
   s.description       = <<-DESC
@@ -25,6 +25,7 @@ Pod::Spec.new do |s|
 
   s.homepage          = 'https://appcenter.ms'
   s.documentation_url = "https://docs.microsoft.com/en-us/appcenter/sdk"
+  s.social_media_url = 'https://twitter.com/vsappcenter'
 
   s.license           = { :type => 'MIT', :file => 'AppCenter-SDK-Apple/iOS/LICENSE' }
   s.author            = { 'Microsoft' => 'appcentersdk@microsoft.com' }

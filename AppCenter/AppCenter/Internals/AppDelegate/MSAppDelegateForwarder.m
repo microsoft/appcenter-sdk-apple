@@ -1,13 +1,6 @@
-#import <Foundation/Foundation.h>
 #import <objc/runtime.h>
-#if TARGET_OS_OSX
-#import <AppKit/AppKit.h>
-#import "MSNSAppDelegate.h"
-#else
-#import <UIKit/UIKit.h>
-#import "MSUIAppDelegate.h"
-#endif
 
+#import "MSCustomApplicationDelegate.h"
 #import "MSAppDelegateForwarderPrivate.h"
 #import "MSAppCenterInternal.h"
 #import "MSLogger.h"
@@ -18,14 +11,11 @@ static NSString *const kMSReturnedValueSelectorPart = @"returnedValue:";
 static NSString *const kMSIsAppDelegateForwarderEnabledKey = @"AppCenterAppDelegateForwarderEnabled";
 
 // Original selectors with special handling.
-static NSString *const kMSDidReceiveRemoteNotificationFetchHandler =
-    @"application:didReceiveRemoteNotification:fetchCompletionHandler:";
 static NSString *const kMSOpenURLSourceApplicationAnnotation = @"application:openURL:sourceApplication:annotation:";
 static NSString *const kMSOpenURLOptions = @"application:openURL:options:";
 
-static NSHashTable<id<MSAppDelegate>> *_delegates = nil;
+static NSHashTable<id<MSCustomApplicationDelegate>> *_delegates = nil;
 static NSMutableSet<NSString *> *_selectorsToSwizzle = nil;
-static NSArray<NSString *> *_selectorsNotToOverride = nil;
 static NSDictionary<NSString *, NSString *> *_deprecatedSelectors = nil;
 static NSMutableDictionary<NSString *, NSValue *> *_originalImplementations = nil;
 static NSMutableArray<dispatch_block_t> *traceBuffer = nil;
@@ -75,25 +65,16 @@ static BOOL _enabled = YES;
 
 #pragma mark - Accessors
 
-+ (NSHashTable<id<MSAppDelegate>> *)delegates {
++ (NSHashTable<id<MSCustomApplicationDelegate>> *)delegates {
   return _delegates ?: (_delegates = [NSHashTable weakObjectsHashTable]);
 }
 
-+ (void)setDelegates:(NSHashTable<id<MSAppDelegate>> *)delegates {
++ (void)setDelegates:(NSHashTable<id<MSCustomApplicationDelegate>> *)delegates {
   _delegates = delegates;
 }
 
 + (NSMutableSet<NSString *> *)selectorsToSwizzle {
   return _selectorsToSwizzle ?: (_selectorsToSwizzle = [NSMutableSet new]);
-}
-
-+ (NSArray<NSString *> *)selectorsNotToOverride {
-  if (!_selectorsNotToOverride) {
-#if !TARGET_OS_OSX
-    _selectorsNotToOverride = @[ kMSDidReceiveRemoteNotificationFetchHandler ];
-#endif
-  }
-  return _selectorsNotToOverride;
 }
 
 + (NSDictionary<NSString *, NSString *> *)deprecatedSelectors {
@@ -152,7 +133,7 @@ static BOOL _enabled = YES;
 
 #pragma mark - Delegates
 
-+ (void)addDelegate:(id<MSAppDelegate>)delegate {
++ (void)addDelegate:(id<MSCustomApplicationDelegate>)delegate {
   @synchronized(self) {
     if (self.enabled) {
       [self.delegates addObject:delegate];
@@ -160,7 +141,7 @@ static BOOL _enabled = YES;
   }
 }
 
-+ (void)removeDelegate:(id<MSAppDelegate>)delegate {
++ (void)removeDelegate:(id<MSCustomApplicationDelegate>)delegate {
   @synchronized(self) {
     if (self.enabled) {
       [self.delegates removeObject:delegate];
@@ -184,8 +165,7 @@ static BOOL _enabled = YES;
     if (originalImp) {
 
       // Save the original implementation for later use.
-      MSAppDelegateForwarder.originalImplementations[selectorString] =
-          [NSValue valueWithBytes:&originalImp objCType:@encode(IMP)];
+      self.originalImplementations[selectorString] = [NSValue valueWithBytes:&originalImp objCType:@encode(IMP)];
     }
   }
   [self.selectorsToSwizzle removeAllObjects];
@@ -208,18 +188,7 @@ static BOOL _enabled = YES;
 
   // Replace original implementation by the custom one.
   if (originalMethod) {
-
-    /*
-     * Also, some selectors should not be overridden mostly because the original implementation highly
-     * depend on the SDK return value for its own logic so customers already have to call the SDK API
-     * in their implementation which makes swizzling useless.
-     */
-    if (![self.selectorsNotToOverride containsObject:originalSelectorStr]) {
-      originalImp = method_setImplementation(originalMethod, customImp);
-    } else {
-      warningMsg =
-          [NSString stringWithFormat:@"This selector is not supported when already implemented. %@", remediationMsg];
-    }
+    originalImp = method_setImplementation(originalMethod, customImp);
   } else if (![originalClass instancesRespondToSelector:originalSelector]) {
 
     // Check for deprecation.
@@ -326,6 +295,7 @@ static BOOL _enabled = YES;
 #pragma mark - Custom UIApplicationDelegate
 
 #if !TARGET_OS_OSX
+
 /*
  * Those methods will never get called but their implementation will be used by swizzling.
  * Those implementations will run within the delegate context. Meaning that `self` will point
@@ -375,103 +345,6 @@ static BOOL _enabled = YES;
 }
 #endif
 
-#if TARGET_OS_OSX
-- (void)custom_application:(NSApplication *)application
-#else
-- (void)custom_application:(UIApplication *)application
-#endif
-    didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-  IMP originalImp = NULL;
-
-  // Forward to the original delegate.
-  [MSAppDelegateForwarder.originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
-  if (originalImp) {
-#if TARGET_OS_OSX
-    ((void (*)(id, SEL, NSApplication *, NSData *))originalImp)(self, _cmd, application, deviceToken);
-#else
-    ((void (*)(id, SEL, UIApplication *, NSData *))originalImp)(self, _cmd, application, deviceToken);
-#endif
-  }
-
-  // Forward to custom delegates.
-  [[MSAppDelegateForwarder sharedInstance] application:application
-      didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
-}
-
-#if TARGET_OS_OSX
-- (void)custom_application:(NSApplication *)application
-#else
-- (void)custom_application:(UIApplication *)application
-#endif
-    didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-  IMP originalImp = NULL;
-
-  // Forward to the original delegate.
-  [MSAppDelegateForwarder.originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
-  if (originalImp) {
-#if TARGET_OS_OSX
-    ((void (*)(id, SEL, NSApplication *, NSError *))originalImp)(self, _cmd, application, error);
-#else
-    ((void (*)(id, SEL, UIApplication *, NSError *))originalImp)(self, _cmd, application, error);
-#endif
-  }
-
-  // Forward to custom delegates.
-  [[MSAppDelegateForwarder sharedInstance] application:application
-      didFailToRegisterForRemoteNotificationsWithError:error];
-}
-
-#if TARGET_OS_OSX
-- (void)custom_application:(NSApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-#else
-- (void)custom_application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-#endif
-  IMP originalImp = NULL;
-
-  // Forward to the original delegate.
-  [MSAppDelegateForwarder.originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
-  if (originalImp) {
-#if TARGET_OS_OSX
-    ((void (*)(id, SEL, NSApplication *, NSDictionary *))originalImp)(self, _cmd, application, userInfo);
-#else
-    ((void (*)(id, SEL, UIApplication *, NSDictionary *))originalImp)(self, _cmd, application, userInfo);
-#endif
-  }
-
-  // Forward to custom delegates.
-  [[MSAppDelegateForwarder sharedInstance] application:application didReceiveRemoteNotification:userInfo];
-}
-
-#if !TARGET_OS_OSX
-- (void)custom_application:(UIApplication *)application
-    didReceiveRemoteNotification:(NSDictionary *)userInfo
-          fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-
-  // Collect `UIBackgroundFetchResult` from delegates in order to call the original completion handler later.
-  __block UIBackgroundFetchResult forwardedFetchResult = UIBackgroundFetchResultNoData;
-  void (^forwardedCompletionHandler)(UIBackgroundFetchResult) = ^(UIBackgroundFetchResult fetchResult) {
-    forwardedFetchResult = fetchResult;
-  };
-
-  /*
-   * FIXME: We still need to chain the forwardedFetchResult somehow in case of multiple custom delegate implementing
-   * this selector.
-   */
-
-  /*
-   * Forward to custom delegates. This method doesn't override original the delegate implementation so there is no need
-   * to forward to the original implementation. As a consequence customers must call the corresponding APIs in the SDK
-   * if they implement this selector in their delegate.
-   */
-  [[MSAppDelegateForwarder sharedInstance] application:application
-                          didReceiveRemoteNotification:userInfo
-                                fetchCompletionHandler:forwardedCompletionHandler];
-
-  // Must call the original completion handler.
-  completionHandler(forwardedFetchResult);
-}
-#endif
-
 #pragma mark - Forwarding
 
 - (void)forwardInvocation:(NSInvocation *)invocation {
@@ -490,7 +363,7 @@ static BOOL _enabled = YES;
     }
 
     // Forward to delegates executing a custom method.
-    for (id<MSAppDelegate> delegate in [self class].delegates) {
+    for (id<MSCustomApplicationDelegate> delegate in [self class].delegates) {
       if ([delegate respondsToSelector:invocation.selector]) {
         [invocation invokeWithTarget:delegate];
 

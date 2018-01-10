@@ -8,7 +8,7 @@
 #pragma clang diagnostic pop
 
 #import "MSAlertController.h"
-#import "MSUIAppDelegate.h"
+#import "MSCustomApplicationDelegate.h"
 #import "MSDistribute.h"
 #import <SafariServices/SafariServices.h>
 
@@ -109,7 +109,7 @@ static NSString *const kMSUpdateSetupFailedPackageHashKey = @"MSUpdateSetupFaile
 /**
  * Custom application delegate dedicated to Distribute.
  */
-@property(nonatomic) id<MSAppDelegate> appDelegate;
+@property(nonatomic) id<MSCustomApplicationDelegate> appDelegate;
 
 @property(nonatomic) id _Nullable authenticationSession;
 

@@ -24,7 +24,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   }
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if let destination = segue.destination as? AppCenterProtocol{
+    if let destination = segue.destination as? AppCenterProtocol {
       destination.appCenter = appCenter
     }
   }
