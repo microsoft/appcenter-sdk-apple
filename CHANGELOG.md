@@ -16,7 +16,33 @@ This version has a **breaking change** with bug fixes and improvements.
 ### AppCenterPush
 
 * **[Fix]** Fix "Missing Push Notification Entitlement" warning message after uploading an application to TestFlight and publishing to App Store.
-* **[Improvement]** Application delegate forwarder supports `application:didReceiveRemoteNotification:fetchCompletionHandler` method to forward push notifications automatically when it is enabled. This is a **breaking change** and push notification will be delivered twice to push callback if `application:didReceiveRemoteNotification:fetchCompletionHandler` in your AppDelegate class forwards `userInfo` dictionary to `MSPush` manually as described in old documentation. If this is your case you have to remove the forwarding call in `application:didReceiveRemoteNotification:fetchCompletionHandler` or entire method if you don't have anything other than forwarding, to make sure you don't get duplicate push notifications in push callback.
+* **[Improvement]** In previous versions, it was required to add code to `application:didReceiveRemoteNotification:fetchCompletionHandler` callback in your application delegate if you or 3rd party libraries already implemented this callback. This is no longer necessary.
+    This is a **breaking change** for some use cases because it required modifications in your code. Not changing your implementation might cause push notifications to be received twice.
+    * If you don't see any implementation of `application:didReceiveRemoteNotification:fetchCompletionHandler` callback in your application delegate, you don't need to do anything, there is no breaking change for you.
+    * If you want to keep automatic forwarding disabled, you also don't need to do anything.
+    * If your application delegate contains implementation of `application:didReceiveRemoteNotification:fetchCompletionHandler`, you need to remove the following code from your implementation of the callback. This is typically the case when you or your 3rd party libraries implement the callback.
+
+
+      **Objective-C**
+      ```objc
+      BOOL result = [MSPush didReceiveRemoteNotification:userInfo];
+      if (result) {
+          completionHandler(UIBackgroundFetchResultNewData);
+      } else {
+          completionHandler(UIBackgroundFetchResultNoData);
+      }
+      ```
+
+      **Swift**
+      ```swift
+      let result: Bool = MSPush.didReceiveRemoteNotification(userInfo)
+      if result {
+          completionHandler(.newData)
+      }
+      else {
+          completionHandler(.noData)
+      }
+      ```
 
 ___
 
