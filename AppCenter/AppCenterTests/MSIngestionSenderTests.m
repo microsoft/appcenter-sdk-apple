@@ -352,6 +352,59 @@ static NSString *const kMSBaseUrl = @"https://test.com";
                                }];
 }
 
+- (void)testSuspendWhenAllRetriesUsed {
+
+  // If
+  XCTestExpectation *responseReceivedExcpectation = [self expectationWithDescription:@"Used all retries."];
+  NSString *containerId = @"1";
+  MSLogContainer *container = [self createLogContainerWithId:containerId];
+
+  // Mock the call to intercept the retry.
+  NSArray *intervals = @[ @(0.5), @(1) ];
+  MSSenderCall *mockedCall = OCMPartialMock([[MSSenderCall alloc] initWithRetryIntervals:intervals]);
+  mockedCall.delegate = self.sut;
+  mockedCall.data = container;
+  mockedCall.callId = container.batchId;
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
+  mockedCall.completionHandler = nil;
+#pragma clang diagnostic pop
+
+  OCMStub([mockedCall sender:self.sut
+              callCompletedWithStatus:MSHTTPCodesNo500InternalServerError
+                                 data:OCMOCK_ANY
+                                error:OCMOCK_ANY])
+  .andForwardToRealObject()
+  .andDo(^(__attribute__((unused)) NSInvocation *invocation) {
+    
+    /*
+     * Don't fulfill the expectation immediatelly as the sender won't be suspended yet. Instead of using a delay to wait
+     * for the retries, we use the retryCount as it retryCount will only be 0 before the first failed sending and after
+     * we've exhausted the retry attempts. The first one won't be the case during unit tests as the request will fail
+     * immediatelly, so the expectation will only by fulfilled once retries have been exhausted.
+     */
+    if(mockedCall.retryCount == 0) {
+      [responseReceivedExcpectation fulfill];
+    }
+  });
+  self.sut.pendingCalls[containerId] = mockedCall;
+
+  // Respond with a retryable error.
+  [MSHttpTestUtil stubHttp500Response];
+
+  // Send the call.
+  [self.sut sendCallAsync:mockedCall];
+  [self waitForExpectationsWithTimeout:20
+                               handler:^(NSError *error) {
+                                 XCTAssertTrue(self.sut.suspended);
+                                 XCTAssertTrue([self.sut.pendingCalls count] == 0);
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
 - (void)testRetryStoppedWhileSuspended {
 
   // If

@@ -23,8 +23,9 @@
 }
 
 - (uint32_t)delayForRetryCount:(NSUInteger)retryCount {
-  if (retryCount >= self.retryIntervals.count)
+  if (retryCount >= self.retryIntervals.count) {
     return 0;
+  }
 
   // Create a random delay.
   uint32_t delay = [self.retryIntervals[retryCount] unsignedIntValue] / 2;
@@ -73,6 +74,7 @@
                       error:(NSError *)error {
   BOOL internetIsDown = [MSSenderUtil isNoInternetConnectionError:error];
   BOOL couldNotEstablishSecureConnection = [MSSenderUtil isSSLConnectionError:error];
+
   if (internetIsDown || couldNotEstablishSecureConnection) {
 
     // Reset the retry count, will retry once the (secure) connection is established again.
@@ -87,9 +89,8 @@
     [self startRetryTimerWithStatusCode:statusCode];
   }
 
-  // Callback to Channel.
+  // Call was a) successful, b) we exhausted retries for a recoverable error or c) have an unrecoverable error.
   else {
-    BOOL fatalError;
 
     // Wrap the status code in an error whenever the call failed.
     if (!error && statusCode != MSHTTPCodesNo200OK) {
@@ -100,14 +101,30 @@
       error = [NSError errorWithDomain:kMSACErrorDomain code:kMSACConnectionHttpErrorCode userInfo:userInfo];
     }
 
-    // Detect fatal error.
-    fatalError = (error && error.code != NSURLErrorCancelled);
+    // Check for error.
+    BOOL recoverableError = ([MSSenderUtil isRecoverableError:statusCode] && [self hasReachedMaxRetries]);
+    BOOL fatalError;
+    fatalError = recoverableError ? NO : (error && error.code != NSURLErrorCancelled);
 
-    // Call completion.
-    self.completionHandler(self.callId, statusCode, data, error);
+    // Call completion handler.
+    if (self.completionHandler) {
+      self.completionHandler(self.callId, statusCode, data, error);
+    }
 
-    // Remove call from sender.
-    [sender call:self completedWithFatalError:fatalError];
+    // Handle recoverable error.
+    if (recoverableError) {
+      [sender call:self completedWithResult:MSSenderCallResultRecoverableError];
+    }
+    
+    // Handle fatal error.
+    else if (fatalError) {
+      [sender call:self completedWithResult:MSSenderCallResultFatalError];
+    }
+    
+    // Handle success case.
+    else {
+      [sender call:self completedWithResult:MSSenderCallResultSuccess];
+    }
   }
 }
 
