@@ -123,3 +123,12 @@ typedef NS_ENUM(NSInteger, MSHTTPCodesNo) {
   MSHTTPCodesNo598NetworkReadTimeoutErrorUnknown = 598,
   MSHTTPCodesNo599NetworkConnectTimeoutErrorUnknown = 599
 };
+
+/**
+ * Enum indicating result of a MSSenderCall.
+ */
+typedef NS_ENUM(NSInteger, MSSenderCallResult) {
+  MSSenderCallResultSuccess = 100,
+  MSSenderCallResultRecoverableError = 500,
+  MSSenderCallResultFatalError = 999
+};

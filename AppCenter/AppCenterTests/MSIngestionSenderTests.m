@@ -395,7 +395,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 
   // Send the call.
   [self.sut sendCallAsync:mockedCall];
-  [self waitForExpectationsWithTimeout:kMSTestTimeout
+  [self waitForExpectationsWithTimeout:20
                                handler:^(NSError *error) {
                                  XCTAssertTrue(self.sut.suspended);
                                  XCTAssertTrue([self.sut.pendingCalls count] == 0);

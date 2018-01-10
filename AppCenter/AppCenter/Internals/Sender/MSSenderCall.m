@@ -26,17 +26,17 @@
   if (retryCount >= self.retryIntervals.count) {
     return 0;
   }
-  
+
   // Create a random delay.
   uint32_t delay = [self.retryIntervals[retryCount] unsignedIntValue] / 2;
   delay += arc4random_uniform(delay);
-  
+
   return delay;
 }
 
 - (void)startRetryTimerWithStatusCode:(NSUInteger)statusCode {
   [self resetTimer];
-  
+
   // Create queue.
   self.timerSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, DISPATCH_TARGET_QUEUE_DEFAULT);
   int64_t delta = NSEC_PER_SEC * [self delayForRetryCount:self.retryCount];
@@ -47,7 +47,7 @@
   __weak typeof(self) weakSelf = self;
   dispatch_source_set_event_handler(self.timerSource, ^{
     typeof(self) strongSelf = weakSelf;
-    
+
     // Do send.
     if (strongSelf) {
       [self.delegate sendCallAsync:self];
@@ -69,55 +69,62 @@
 }
 
 - (void)sender:(id<MSSender>)sender
-callCompletedWithStatus:(NSUInteger)statusCode
-          data:(NSData *)data
-         error:(NSError *)error {
+    callCompletedWithStatus:(NSUInteger)statusCode
+                       data:(NSData *)data
+                      error:(NSError *)error {
   BOOL internetIsDown = [MSSenderUtil isNoInternetConnectionError:error];
   BOOL couldNotEstablishSecureConnection = [MSSenderUtil isSSLConnectionError:error];
-  
+
   if (internetIsDown || couldNotEstablishSecureConnection) {
-    
+
     // Reset the retry count, will retry once the (secure) connection is established again.
     [self resetRetry];
     NSString *logMessage = internetIsDown ? @"Internet connection is down." : @"Could not establish secure connection.";
     MSLogInfo([MSAppCenter logTag], logMessage);
     [sender suspend];
   }
-  
+
   // Retry.
   else if ([MSSenderUtil isRecoverableError:statusCode] && ![self hasReachedMaxRetries]) {
     [self startRetryTimerWithStatusCode:statusCode];
   }
-  
-  // Exhausted retries or have unrecoverable error.
+
+  // Call was a) successful, b) we exhausted retries for a recoverable error or c) have an unrecoverable error.
   else {
-    
+
     // Wrap the status code in an error whenever the call failed.
     if (!error && statusCode != MSHTTPCodesNo200OK) {
       NSDictionary *userInfo = @{
-                                 NSLocalizedDescriptionKey : kMSACConnectionHttpErrorDesc,
-                                 kMSACConnectionHttpCodeErrorKey : @(statusCode)
-                                 };
+        NSLocalizedDescriptionKey : kMSACConnectionHttpErrorDesc,
+        kMSACConnectionHttpCodeErrorKey : @(statusCode)
+      };
       error = [NSError errorWithDomain:kMSACErrorDomain code:kMSACConnectionHttpErrorCode userInfo:userInfo];
     }
-    
-    // Fatal or recoverable error.
+
+    // Check for error.
     BOOL recoverableError = ([MSSenderUtil isRecoverableError:statusCode] && [self hasReachedMaxRetries]);
     BOOL fatalError;
     fatalError = recoverableError ? NO : (error && error.code != NSURLErrorCancelled);
-    
-    // Call completion.
-    if(self.completionHandler) {
+
+    // Call completion handler.
+    if (self.completionHandler) {
       self.completionHandler(self.callId, statusCode, data, error);
     }
-  
-    // Suspend sender for recoverable error
-    if(recoverableError) {
-      [sender setEnabled:NO andDeleteDataOnDisabled:NO];
+
+    // Handle recoverable error.
+    if (recoverableError) {
+      [sender call:self completedWithResult:MSSenderCallResultRecoverableError];
     }
     
-    // Remove call from sender.
-    [sender call:self completedWithFatalError:fatalError];
+    // Handle fatal error.
+    else if (fatalError) {
+      [sender call:self completedWithResult:MSSenderCallResultFatalError];
+    }
+    
+    // Handle success case.
+    else {
+      [sender call:self completedWithResult:MSSenderCallResultSuccess];
+    }
   }
 }
 

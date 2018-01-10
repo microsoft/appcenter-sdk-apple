@@ -254,8 +254,29 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   }
 }
 
-- (void)call:(MSSenderCall *)call completedWithFatalError:(BOOL)fatalError {
+- (void)call:(MSSenderCall *)call completedWithResult:(MSSenderCallResult)result {
   @synchronized(self) {
+    switch (result) {
+    case MSSenderCallResultFatalError: {
+      
+      // Disable and delete data.
+      [self setEnabled:NO andDeleteDataOnDisabled:YES];
+      
+      // Notify delegates.
+      [self enumerateDelegatesForSelector:@selector(senderDidReceiveFatalError:)
+                                withBlock:^(id<MSSenderDelegate> delegate) {
+                                  [delegate senderDidReceiveFatalError:self];
+                                }];
+      break;
+    }
+    case MSSenderCallResultRecoverableError:
+        
+      // Disable and do not delete data. Do not notify the delegates as this will cause data to be deleted.
+      [self setEnabled:NO andDeleteDataOnDisabled:NO];
+      break;
+    case MSSenderCallResultSuccess:
+      break;
+    }
     NSString *callId = call.callId;
     if (callId.length == 0) {
       MSLogWarning([MSAppCenter logTag], @"Call object is invalid");
@@ -264,19 +285,6 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     [self.pendingCalls removeObjectForKey:callId];
     MSLogInfo([MSAppCenter logTag], @"Removed call id:%@ from pending calls:%@", callId,
               [self.pendingCalls description]);
-
-    // Process fatal error.
-    if (fatalError) {
-
-      // Disable and delete data.
-      [self setEnabled:NO andDeleteDataOnDisabled:YES];
-
-      // Notify delegates.
-      [self enumerateDelegatesForSelector:@selector(senderDidReceiveFatalError:)
-                                withBlock:^(id<MSSenderDelegate> delegate) {
-                                  [delegate senderDidReceiveFatalError:self];
-                                }];
-    }
   }
 }
 

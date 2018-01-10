@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+#import "MSConstants+Internal.h"
 
 @class MSSenderCall;
 
@@ -15,8 +16,8 @@
  *  Call completed callback.
  *
  *  @param call Call object.
- *  @param fatalError Flag indicating a fatal error.
+ *  @param result Enum indicating the result of the call.
  */
-- (void)call:(MSSenderCall *)call completedWithFatalError:(BOOL)fatalError;
+- (void)call:(MSSenderCall *)call completedWithResult:(MSSenderCallResult)result;
 
 @end
