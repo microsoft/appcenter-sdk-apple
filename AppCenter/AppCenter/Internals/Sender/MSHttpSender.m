@@ -238,7 +238,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
                 }
               }
               MSLogVerbose([MSAppCenter logTag], @"HTTP response received with status code=%lu and payload=%@",
-                         (unsigned long)statusCode, payload);
+                           (unsigned long)statusCode, payload);
 
               // Call handles the completion.
               if (call) {
@@ -258,10 +258,10 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   @synchronized(self) {
     switch (result) {
     case MSSenderCallResultFatalError: {
-      
+
       // Disable and delete data.
       [self setEnabled:NO andDeleteDataOnDisabled:YES];
-      
+
       // Notify delegates.
       [self enumerateDelegatesForSelector:@selector(senderDidReceiveFatalError:)
                                 withBlock:^(id<MSSenderDelegate> delegate) {
@@ -270,13 +270,16 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
       break;
     }
     case MSSenderCallResultRecoverableError:
-        
+
       // Disable and do not delete data. Do not notify the delegates as this will cause data to be deleted.
       [self setEnabled:NO andDeleteDataOnDisabled:NO];
       break;
     case MSSenderCallResultSuccess:
       break;
     }
+
+    // Remove call from pending call. This needs to happen after calling setEnabled:andDeleteDataOnDisabled:
+    // FIXME: Refactor ependency between calling setEnabled:andDeleteDataOnDisabled: and suspending the sender.
     NSString *callId = call.callId;
     if (callId.length == 0) {
       MSLogWarning([MSAppCenter logTag], @"Call object is invalid");
@@ -359,7 +362,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
     sessionConfiguration.timeoutIntervalForRequest = kRequestTimeout;
     _session = [NSURLSession sessionWithConfiguration:sessionConfiguration];
-    
+
     /*
      * Limit callbacks execution concurrency to avoid race condition. This queue is used only for
      * delegate method calls and completion handlers.
