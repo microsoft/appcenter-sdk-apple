@@ -1,5 +1,51 @@
 # App Center SDK for iOS and macOS Change Log
 
+## Version 1.2.0
+
+This version has a **breaking change** with bug fixes and improvements.
+
+### AppCenter
+
+* **[Fix]** Fix an issue that enables internal services even if App Center was disabled in previous sessions.
+* **[Fix]** Fix an issue not to delete pending logs after maximum retries.
+
+### AppCenterCrashes
+
+* **[Improvement]** Improve session tracking to get appropriate session information for crashes if an application also uses Analytics.
+
+### AppCenterPush
+
+* **[Fix]** Fix "Missing Push Notification Entitlement" warning message after uploading an application to TestFlight and publishing to App Store.
+* **[Improvement]** In previous versions, it was required to add code to `application:didReceiveRemoteNotification:fetchCompletionHandler` callback in your application delegate if you or 3rd party libraries already implemented this callback. This is no longer necessary.
+    This is a **breaking change** for some use cases because it required modifications in your code. Not changing your implementation might cause push notifications to be received twice.
+    * If you don't see any implementation of `application:didReceiveRemoteNotification:fetchCompletionHandler` callback in your application delegate, you don't need to do anything, there is no breaking change for you.
+    * If you want to keep automatic forwarding disabled, you also don't need to do anything.
+    * If your application delegate contains implementation of `application:didReceiveRemoteNotification:fetchCompletionHandler`, you need to remove the following code from your implementation of the callback. This is typically the case when you or your 3rd party libraries implement the callback.
+
+
+      **Objective-C**
+      ```objc
+      BOOL result = [MSPush didReceiveRemoteNotification:userInfo];
+      if (result) {
+          completionHandler(UIBackgroundFetchResultNewData);
+      } else {
+          completionHandler(UIBackgroundFetchResultNoData);
+      }
+      ```
+
+      **Swift**
+      ```swift
+      let result: Bool = MSPush.didReceiveRemoteNotification(userInfo)
+      if result {
+          completionHandler(.newData)
+      }
+      else {
+          completionHandler(.noData)
+      }
+      ```
+
+___
+
 ## Version 1.1.0
 
 This version contains a bug fix and improvements.
