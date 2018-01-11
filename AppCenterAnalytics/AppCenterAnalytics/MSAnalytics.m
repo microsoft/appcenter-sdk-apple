@@ -159,7 +159,7 @@ static dispatch_once_t onceToken;
   }
   if ([eventName length] > [MSAnalytics maxEventNameLength]) {
     MSLogWarning([MSAnalytics logTag],
-                 @"%@ '%@' : name length cannot be longer than %lu characters. Name will be truncated.", logType,
+                 @"%@ '%@' : name length cannot be longer than %tu characters. Name will be truncated.", logType,
                  eventName, [MSAnalytics maxEventNameLength]);
     eventName = [eventName substringToIndex:[MSAnalytics maxEventNameLength]];
   }
@@ -175,7 +175,7 @@ static dispatch_once_t onceToken;
     // Don't send more properties than we can.
     if ([validProperties count] >= [MSAnalytics maxPropertiesPerEvent]) {
       MSLogWarning([MSAnalytics logTag],
-                   @"%@ '%@' : properties cannot contain more than %lu items. Skipping other properties.", logType,
+                   @"%@ '%@' : properties cannot contain more than %tu items. Skipping other properties.", logType,
                    logName, [MSAnalytics maxPropertiesPerEvent]);
       break;
     }
@@ -191,7 +191,7 @@ static dispatch_once_t onceToken;
       continue;
     }
     if ([strKey length] > [MSAnalytics maxPropertyKeyLength]) {
-      MSLogWarning([MSAnalytics logTag], @"%@ '%@' : property %@ : property key length cannot be longer than %lu "
+      MSLogWarning([MSAnalytics logTag], @"%@ '%@' : property %@ : property key length cannot be longer than %tu "
                                          @"characters. Property key will be truncated.",
                    logType, logName, strKey, [MSAnalytics maxPropertyKeyLength]);
       strKey = [strKey substringToIndex:[MSAnalytics maxPropertyKeyLength]];
@@ -200,7 +200,7 @@ static dispatch_once_t onceToken;
     // Validate value.
     NSString *value = properties[key];
     if ([value length] > [MSAnalytics maxPropertyValueLength]) {
-      MSLogWarning([MSAnalytics logTag], @"%@ '%@' : property '%@' : property value cannot be longer than %lu "
+      MSLogWarning([MSAnalytics logTag], @"%@ '%@' : property '%@' : property value cannot be longer than %tu "
                                          @"characters. Property value will be truncated.",
                    logType, logName, strKey, [MSAnalytics maxPropertyValueLength]);
       value = [value substringToIndex:[MSAnalytics maxPropertyValueLength]];
