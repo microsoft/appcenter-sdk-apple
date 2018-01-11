@@ -101,7 +101,7 @@ else
 
       # Append the line
       else
-        change_log="$change_log\n$line"
+        change_log="$change_log\n${line//\"/\\\"}"
       fi
 
     # If it didn't find changelog for the version
@@ -109,7 +109,7 @@ else
 
       # If it is the first line of change log for the version
       if [[ "$line" =~ "## Version $publish_version" ]]; then
-        change_log="$line"
+        change_log="${line//\"/\\\"}"
         change_log_found=true
       fi
     fi
