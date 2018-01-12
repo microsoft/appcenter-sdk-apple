@@ -10,6 +10,8 @@ class MSCustomPropertiesViewController : UITableViewController, AppCenterProtoco
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    tableView.rowHeight = UITableViewAutomaticDimension
+    tableView.estimatedRowHeight = 88.0
     tableView.setEditing(true, animated: false)
   }
   
