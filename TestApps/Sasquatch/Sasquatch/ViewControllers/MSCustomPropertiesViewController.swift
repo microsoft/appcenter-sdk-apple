@@ -2,6 +2,7 @@ import UIKit
 import AppCenter
 
 private var kPropertiesSection: Int = 0
+private var kEstimatedRowHeight: CGFloat = 88.0
 
 class MSCustomPropertiesViewController : UITableViewController, AppCenterProtocol {
   
@@ -11,7 +12,7 @@ class MSCustomPropertiesViewController : UITableViewController, AppCenterProtoco
   override func viewDidLoad() {
     super.viewDidLoad()
     tableView.rowHeight = UITableViewAutomaticDimension
-    tableView.estimatedRowHeight = 88.0
+    tableView.estimatedRowHeight = kEstimatedRowHeight
     tableView.setEditing(true, animated: false)
   }
   

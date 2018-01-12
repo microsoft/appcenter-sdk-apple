@@ -9,6 +9,7 @@
 #import "MSCustomPropertyTableViewCell.h"
 
 static NSInteger kPropertiesSection = 0;
+static CGFloat kEstimatedRowHeight = 88.0;
 
 @interface MSCustomPropertiesViewController ()
 
@@ -23,7 +24,7 @@ static NSInteger kPropertiesSection = 0;
 - (void)viewDidLoad {
   [super viewDidLoad];
   [self.tableView setRowHeight:UITableViewAutomaticDimension];
-  [self.tableView setEstimatedRowHeight:88.0];
+  [self.tableView setEstimatedRowHeight:kEstimatedRowHeight];
   [self.tableView setEditing:YES animated:NO];
 }
 
