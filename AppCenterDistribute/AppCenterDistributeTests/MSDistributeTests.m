@@ -392,8 +392,13 @@ static NSURL *sfURL;
   // If
   id distributeMock = OCMPartialMock(self.sut);
   __block int isNewerVersionCounter = 0;
-  OCMStub([distributeMock isNewerVersion:OCMOCK_ANY]).andDo(^(__attribute((unused)) NSInvocation *invocation) {
+  OCMStub([distributeMock isNewerVersion:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     isNewerVersionCounter++;
+
+    // Return NO and exit the method.
+    BOOL enabled = NO;
+    NSValue *returnValue = [NSValue valueWithBytes:&enabled objCType:@encode(BOOL)];
+    [invocation setReturnValue:&returnValue];
   });
   int actualCounter = 0;
   MSReleaseDetails *details = [self generateReleaseDetailsWithVersion:@"1" andShortVersion:@"1.0"];
@@ -409,7 +414,7 @@ static NSURL *sfURL;
 
   // Then
   XCTAssertFalse(result);
-  XCTAssertEqual(isNewerVersionCounter, 0);
+  XCTAssertEqual(isNewerVersionCounter, actualCounter++);
 
   // If
   details.mandatoryUpdate = true;
@@ -418,7 +423,7 @@ static NSURL *sfURL;
   [distributeMock handleUpdate:details];
 
   // Then
-  XCTAssertEqual(isNewerVersionCounter, ++actualCounter);
+  XCTAssertEqual(isNewerVersionCounter, actualCounter++);
 
   // If
   details.mandatoryUpdate = false;
@@ -428,7 +433,7 @@ static NSURL *sfURL;
   [distributeMock handleUpdate:details];
 
   // Then
-  XCTAssertEqual(isNewerVersionCounter, ++actualCounter);
+  XCTAssertEqual(isNewerVersionCounter, actualCounter++);
 
   // If
   details.mandatoryUpdate = true;
@@ -438,7 +443,7 @@ static NSURL *sfURL;
   [distributeMock handleUpdate:details];
 
   // Then
-  XCTAssertEqual(isNewerVersionCounter, ++actualCounter);
+  XCTAssertEqual(isNewerVersionCounter, actualCounter++);
 
   // If
   details.mandatoryUpdate = false;
@@ -450,7 +455,7 @@ static NSURL *sfURL;
   [distributeMock handleUpdate:details];
 
   // Then
-  XCTAssertEqual(isNewerVersionCounter, ++actualCounter);
+  XCTAssertEqual(isNewerVersionCounter, actualCounter++);
 
   // If
   details.mandatoryUpdate = true;
@@ -462,7 +467,7 @@ static NSURL *sfURL;
   [distributeMock handleUpdate:details];
 
   // Then
-  XCTAssertEqual(isNewerVersionCounter, ++actualCounter);
+  XCTAssertEqual(isNewerVersionCounter, actualCounter++);
 
   // Clear
   [distributeMock stopMocking];
