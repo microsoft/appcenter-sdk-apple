@@ -7,6 +7,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface MSAnalytics : MSServiceAbstract
 
+// Events values limitations
+@property (class, nonatomic, assign, readonly) NSUInteger minEventNameLength; //: 1;
+@property (class, nonatomic, assign, readonly) NSUInteger maxEventNameLength; //: 256;
+@property (class, nonatomic, assign, readonly) NSUInteger maxPropertiesPerEvent; //: 5;
+@property (class, nonatomic, assign, readonly) NSUInteger minPropertyKeyLength; //: 1;
+@property (class, nonatomic, assign, readonly) NSUInteger maxPropertyKeyLength; //: 64;
+@property (class, nonatomic, assign, readonly) NSUInteger maxPropertyValueLength; //: 64;
+
 /**
  * Track an event.
  *
