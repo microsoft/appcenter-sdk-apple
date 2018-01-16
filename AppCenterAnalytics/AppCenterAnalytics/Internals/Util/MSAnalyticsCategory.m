@@ -81,8 +81,7 @@ BOOL ms_shouldTrackPageView(UIViewController *viewController) {
   // For container view controllers, auto page tracking is disabled(to avoid noise).
   NSSet *viewControllerSet = [NSSet setWithArray:@[
 #if TARGET_OS_OSX
-    @"NSNavigationController", @"NSTabBarController", @"NSSplitViewController", @"NSInputWindowController",
-    @"NSPageViewController"
+    @"NSTabViewController", @"NSSplitViewController", @"NSPageController"
 #else
     @"UINavigationController", @"UITabBarController", @"UISplitViewController", @"UIInputWindowController",
     @"UIPageViewController"
