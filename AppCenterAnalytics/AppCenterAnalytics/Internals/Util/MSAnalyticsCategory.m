@@ -18,7 +18,12 @@ static NSString *MSMissedPageViewName;
     Class class = [self class];
 
     // Get selectors.
+#if TARGET_OS_OSX
+    SEL originalSelector = NSSelectorFromString(@"viewWillAppear");
+#else
     SEL originalSelector = NSSelectorFromString(@"viewWillAppear:");
+#endif
+
     SEL swizzledSelector = @selector(ms_viewWillAppear:);
 
     Method originalMethod = class_getInstanceMethod(class, originalSelector);
