@@ -275,15 +275,20 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                                                     updateToken:updateToken
                                             distributionGroupId:distributionGroupId
                                                    queryStrings:@{kMSURLQueryReleaseHashKey : releaseHash}];
+      __weak typeof(self) weakSelf = self;
       [self.sender sendAsync:nil
-           completionHandler:^(__attribute__((unused)) NSString *callId, NSUInteger statusCode, NSData *data,
-                               __attribute__((unused)) NSError *error) {
+           completionHandler:^(__unused NSString *callId, NSUInteger statusCode, NSData *data,
+                               __unused NSError *error) {
+             typeof(self) strongSelf = weakSelf;
+             if (!strongSelf) {
+               return;
+             }
 
              // Release sender instance.
-             self.sender = nil;
+             strongSelf.sender = nil;
 
              // Ignore the response if the service is disabled.
-             if (![self isEnabled]) {
+             if (![strongSelf isEnabled]) {
                return;
              }
 
@@ -318,7 +323,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                   * In the end fixing this edge case adds too much complexity for no worthy advantages,
                   * keeping it as it is for now.
                   */
-                 [self handleUpdate:details];
+                 [strongSelf handleUpdate:details];
                }
              }
 
