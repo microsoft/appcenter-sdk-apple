@@ -87,6 +87,7 @@
  * Callback method that will determine if a log should be filtered out from the
  * usual processing pipeline. If any delegate returns true, the log is filtered.
  *
+ * @param log The log to be filtered or not.
  * @return `true` if the log should be filtered out.
  */
 - (BOOL)shouldFilterLog:(id<MSLog>)log;
