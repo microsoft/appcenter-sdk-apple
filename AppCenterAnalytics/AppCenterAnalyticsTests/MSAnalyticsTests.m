@@ -568,9 +568,12 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   // When
 #if TARGET_OS_OSX
   NSViewController *viewController = [[NSViewController alloc] init];
-  if (@available(macOS 10.10, *)) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunguarded-availability"
+  if ([viewController respondsToSelector:@selector(viewWillAppear)]) {
     [viewController viewWillAppear];
   }
+#pragma clang diagnostic pop
 #else
   UIViewController *viewController = [[UIViewController alloc] init];
   [viewController viewWillAppear: NO];
@@ -597,9 +600,12 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   // When
 #if TARGET_OS_OSX
   NSViewController *viewController = [[NSViewController alloc] init];
-  if (@available(macOS 10.10, *)) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunguarded-availability"
+  if ([viewController respondsToSelector:@selector(viewWillAppear)]) {
     [viewController viewWillAppear];
   }
+#pragma clang diagnostic pop
 #else
   UIViewController *viewController = [[UIViewController alloc] init];
   [viewController viewWillAppear: NO];
@@ -626,9 +632,12 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   OCMReject([analyticsMock isAvailable]);
 #if TARGET_OS_OSX
   NSPageController *containerController = [[NSPageController alloc] init];
-  if (@available(macOS 10.10, *)) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunguarded-availability"
+  if ([containerController respondsToSelector:@selector(viewWillAppear)]) {
     [containerController viewWillAppear];
   }
+#pragma clang diagnostic pop
 #else
   UIPageViewController *containerController = [[UIPageViewController alloc] init];
   [containerController viewWillAppear: NO];
