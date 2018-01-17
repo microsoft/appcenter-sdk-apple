@@ -59,6 +59,9 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 - (void)tearDown {
   [super tearDown];
   
+  // Make sure sessionTracker removes all observers.
+  [MSCrashes resetSharedInstance];
+  
   // Wait for creation of buffers.
   dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
   
@@ -635,7 +638,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   XCTAssertTrue(warningMessageHasBeenPrinted);
 }
 
-- (void)testTrackModelException {
+- (void)testTrackModelExceptionWithoutProperties {
 
   // If
   __block NSString *type;
@@ -651,19 +654,161 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
         exception = log.exception;
       });
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
-  [self.sut startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
+  [[MSCrashes sharedInstance] startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
 
   // When
   MSException *expectedException = [MSException new];
   expectedException.message = @"Oh this is wrong...";
   expectedException.stackTrace = @"mock strace";
   expectedException.type = @"Some.Exception";
-  [self.sut trackModelException:expectedException];
+  [MSCrashes trackModelException:expectedException];
 
   // Then
   assertThat(type, is(kMSTypeHandledError));
   assertThat(errorId, notNilValue());
   assertThat(exception, is(expectedException));
+}
+
+- (void)testTrackModelExceptionWithProperties {
+  
+  // If
+  __block NSString *type;
+  __block NSString *errorId;
+  __block MSException *exception;
+  __block NSDictionary<NSString *, NSString *> *properties;
+  id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
+  OCMStub([logManagerMock processLog:[OCMArg isKindOfClass:[MSAbstractLog class]] forGroupId:OCMOCK_ANY])
+  .andDo(^(NSInvocation *invocation) {
+    MSHandledErrorLog *log;
+    [invocation getArgument:&log atIndex:2];
+    type = log.type;
+    errorId = log.errorId;
+    exception = log.exception;
+    properties = log.properties;
+  });
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  [[MSCrashes sharedInstance] startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
+  
+  // When
+  MSException *expectedException = [MSException new];
+  expectedException.message = @"Oh this is wrong...";
+  expectedException.stackTrace = @"mock strace";
+  expectedException.type = @"Some.Exception";
+  NSDictionary *expectedProperties = @{ @"milk" : @"yes", @"cookie" : @"of course" };
+  [MSCrashes trackModelException:expectedException withProperties:expectedProperties];
+  
+  // Then
+  assertThat(type, is(kMSTypeHandledError));
+  assertThat(errorId, notNilValue());
+  assertThat(exception, is(expectedException));
+  assertThat(properties, is(expectedProperties));
+}
+
+- (void)testValidatePropertyType {
+  const int maxPropertriesPerEvent = 5;
+  const int maxPropertyKeyLength = 64;
+  const int maxPropertyValueLength = 64;
+  NSString *longStringValue =
+  [NSString stringWithFormat:@"%@", @"valueValueValueValueValueValueValueValueValueValueValueValueValue"];
+  NSString *stringValue64 =
+  [NSString stringWithFormat:@"%@", @"valueValueValueValueValueValueValueValueValueValueValueValueValu"];
+  
+  // Test valid properties
+  // If
+  NSDictionary *validProperties =
+  @{ @"Key1" : @"Value1",
+     stringValue64 : @"Value2",
+     @"Key3" : stringValue64,
+     @"Key4" : @"Value4",
+     @"Key5" : @"" };
+  
+  // When
+  NSDictionary *validatedProperties =
+  [[MSCrashes sharedInstance] validateProperties:validProperties andType:kMSTypeHandledError];
+  
+  // Then
+  XCTAssertTrue([validatedProperties count] == [validProperties count]);
+  
+  // Test too many properties in one event
+  // If
+  NSDictionary *tooManyProperties = @{
+                                      @"Key1" : @"Value1",
+                                      @"Key2" : @"Value2",
+                                      @"Key3" : @"Value3",
+                                      @"Key4" : @"Value4",
+                                      @"Key5" : @"Value5",
+                                      @"Key6" : @"Value6",
+                                      @"Key7" : @"Value7"
+                                      };
+  
+  // When
+  validatedProperties =
+  [[MSCrashes sharedInstance] validateProperties:tooManyProperties andType:kMSTypeHandledError];
+  
+  // Then
+  XCTAssertTrue([validatedProperties count] == maxPropertriesPerEvent);
+  
+  // Test invalid properties
+  // If
+  NSDictionary *invalidKeysInProperties = @{ @"Key1" : @"Value1", @(2) : @"Value2", @"" : @"Value4" };
+  
+  // When
+  validatedProperties = [[MSCrashes sharedInstance] validateProperties:invalidKeysInProperties
+                                                                 andType:kMSTypeHandledError];
+  
+  // Then
+  XCTAssertTrue([validatedProperties count] == 1);
+  
+  // Test invalid values
+  // If
+  NSDictionary *invalidValuesInProperties = @{ @"Key1" : @"Value1", @"Key2" : @(2) };
+  
+  // When
+  validatedProperties = [[MSCrashes sharedInstance] validateProperties:invalidValuesInProperties
+                                                                 andType:kMSTypeHandledError];
+  
+  // Then
+  XCTAssertTrue([validatedProperties count] == 1);
+  
+  // Test long keys and values are truncated.
+  // If
+  NSDictionary *tooLongKeysAndValuesInProperties = @{longStringValue : longStringValue};
+  
+  // When
+  validatedProperties = [[MSCrashes sharedInstance] validateProperties:tooLongKeysAndValuesInProperties
+                                                                 andType:kMSTypeHandledError];
+  
+  // Then
+  NSString *truncatedKey = (NSString *)[[validatedProperties allKeys] firstObject];
+  NSString *truncatedValue = (NSString *)[[validatedProperties allValues] firstObject];
+  XCTAssertTrue([validatedProperties count] == 1);
+  XCTAssertEqual([truncatedKey length], maxPropertyKeyLength);
+  XCTAssertEqual([truncatedValue length], maxPropertyValueLength);
+  
+  // Test mixed variant
+  // If
+  NSDictionary *mixedEventProperties = @{
+                                         @"Key1" : @"Value1",
+                                         @(2) : @"Value2",
+                                         stringValue64 : @"Value3",
+                                         @"Key4" : stringValue64,
+                                         @"Key5" : @"Value5",
+                                         @"Key6" : @(2),
+                                         @"Key7" : longStringValue,
+                                         };
+  
+  // When
+  validatedProperties = [[MSCrashes sharedInstance] validateProperties:mixedEventProperties
+                                                                 andType:kMSTypeHandledError];
+  
+  // Then
+  XCTAssertTrue([validatedProperties count] == maxPropertriesPerEvent);
+  XCTAssertNotNil([validatedProperties objectForKey:@"Key1"]);
+  XCTAssertNotNil([validatedProperties objectForKey:stringValue64]);
+  XCTAssertNotNil([validatedProperties objectForKey:@"Key4"]);
+  XCTAssertNotNil([validatedProperties objectForKey:@"Key5"]);
+  XCTAssertNil([validatedProperties objectForKey:@"Key6"]);
+  XCTAssertNotNil([validatedProperties objectForKey:@"Key7"]);
 }
 
 #pragma mark - Automatic Processing Tests
