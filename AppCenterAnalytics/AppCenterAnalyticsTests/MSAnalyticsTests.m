@@ -1,6 +1,7 @@
 #import "MSAnalytics.h"
 #import "MSAnalyticsInternal.h"
 #import "MSAnalyticsPrivate.h"
+#import "MSAnalyticsCategory.h"
 #import "MSAppCenter.h"
 #import "MSAppCenterInternal.h"
 #import "MSChannelDefault.h"
@@ -227,6 +228,32 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [[MSAnalytics sharedInstance].sessionTracker stop];
 }
 
+- (void)testApplyEnabledStateWithAutoPageTrackingEnabled {
+  
+  // If
+  id analyticsMock = OCMPartialMock([MSAnalytics sharedInstance]);
+  id analyticsCategoryMock = OCMClassMock([MSAnalyticsCategory class]);
+  NSString *testPageName = @"TestPage";
+  OCMStub([analyticsCategoryMock missedPageViewName]).andReturn(testPageName);
+  [MSAnalytics setAutoPageTrackingEnabled:YES];
+  MSServiceAbstract *service = [MSAnalytics sharedInstance];
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  
+  // When
+  [[MSAnalytics sharedInstance] startWithLogManager:OCMProtocolMock(@protocol(MSLogManager))
+                                          appSecret:kMSTestAppSecret];
+
+  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
+  [[MSAnalytics sharedInstance].sessionTracker stop];
+
+  // Run main loop to let the block in applyEnabledState to be dispatched.
+  [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
+
+  // Then
+  XCTAssertTrue([service isEnabled]);
+  OCMVerify([analyticsMock trackPage:testPageName withProperties:nil]);
+}
+
 - (void)testSettingDelegateWorks {
   id<MSAnalyticsDelegate> delegateMock = OCMProtocolMock(@protocol(MSAnalyticsDelegate));
   [MSAnalytics setDelegate:delegateMock];
@@ -329,6 +356,45 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   assertThat(name, is(expectedName));
 }
 
+- (void)testTrackEventWhenAnalyticsDisabled {
+
+  // If
+  id analyticsMock = OCMPartialMock([MSAnalytics sharedInstance]);
+  id logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
+  OCMStub([analyticsMock isEnabled]).andReturn(NO);
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  [[MSAnalytics sharedInstance] startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
+
+  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
+  [[MSAnalytics sharedInstance].sessionTracker stop];
+
+  // When
+  OCMReject([logManagerMock processLog:OCMOCK_ANY forGroupId:OCMOCK_ANY]);
+  [[MSAnalytics sharedInstance] trackEvent:@"Some event" withProperties:nil];
+
+  // Then
+  OCMVerifyAll(logManagerMock);
+}
+
+- (void)testTrackEventWithInvalidName {
+
+  // If
+  NSString *invalidEventName = nil;
+  id logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  [[MSAnalytics sharedInstance] startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
+
+  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
+  [[MSAnalytics sharedInstance].sessionTracker stop];
+
+  // When
+  OCMReject([logManagerMock processLog:OCMOCK_ANY forGroupId:OCMOCK_ANY]);
+  [[MSAnalytics sharedInstance] trackEvent:invalidEventName withProperties:nil];
+
+  // Then
+  OCMVerifyAll(logManagerMock);
+}
+
 - (void)testTrackEventWithProperties {
 
   // If
@@ -421,6 +487,45 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   assertThat(properties, is(expectedProperties));
 }
 
+- (void)testTrackPageWhenAnalyticsDisabled {
+
+  // If
+  id analyticsMock = OCMPartialMock([MSAnalytics sharedInstance]);
+  id logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
+  OCMStub([analyticsMock isEnabled]).andReturn(NO);
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  [[MSAnalytics sharedInstance] startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
+
+  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
+  [[MSAnalytics sharedInstance].sessionTracker stop];
+
+  // When
+  OCMReject([logManagerMock processLog:OCMOCK_ANY forGroupId:OCMOCK_ANY]);
+  [[MSAnalytics sharedInstance] trackPage:@"Some page" withProperties:nil];
+
+  // Then
+  OCMVerifyAll(logManagerMock);
+}
+
+- (void)testTrackPageWithInvalidName {
+
+  // If
+  NSString *invalidPageName = nil;
+  id logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  [[MSAnalytics sharedInstance] startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
+
+  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
+  [[MSAnalytics sharedInstance].sessionTracker stop];
+
+  // When
+  OCMReject([logManagerMock processLog:OCMOCK_ANY forGroupId:OCMOCK_ANY]);
+  [[MSAnalytics sharedInstance] trackPage:invalidPageName withProperties:nil];
+
+  // Then
+  OCMVerifyAll(logManagerMock);
+}
+
 - (void)testAutoPageTracking {
 
   // For now auto page tracking is disabled by default
@@ -445,6 +550,101 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
 - (void)testServiceNameIsCorrect {
   XCTAssertEqual([MSAnalytics serviceName], kMSAnalyticsServiceName);
+}
+
+- (void) testViewWillAppearSwizzlingWithAnalyticsAvailable {
+  
+  // If
+  id analyticsMock = OCMPartialMock([MSAnalytics sharedInstance]);
+  OCMStub([analyticsMock isAutoPageTrackingEnabled]).andReturn(YES);
+  OCMStub([analyticsMock isAvailable]).andReturn(YES);
+  id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  [[MSAnalytics sharedInstance] startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
+
+  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
+  [[MSAnalytics sharedInstance].sessionTracker stop];
+  
+  // When
+#if TARGET_OS_OSX
+  NSViewController *viewController = [[NSViewController alloc] init];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunguarded-availability"
+  if ([viewController respondsToSelector:@selector(viewWillAppear)]) {
+    [viewController viewWillAppear];
+  }
+#pragma clang diagnostic pop
+#else
+  UIViewController *viewController = [[UIViewController alloc] init];
+  [viewController viewWillAppear: NO];
+#endif
+
+  // Then
+  OCMVerify([analyticsMock isAutoPageTrackingEnabled]);
+  XCTAssertNil([MSAnalyticsCategory missedPageViewName]);
+}
+
+- (void) testViewWillAppearSwizzlingWithAnalyticsNotAvailable {
+
+  // If
+  id analyticsMock = OCMPartialMock([MSAnalytics sharedInstance]);
+  OCMStub([analyticsMock isAutoPageTrackingEnabled]).andReturn(YES);
+  OCMStub([analyticsMock isAvailable]).andReturn(NO);
+  id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  [[MSAnalytics sharedInstance] startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
+
+  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
+  [[MSAnalytics sharedInstance].sessionTracker stop];
+
+  // When
+#if TARGET_OS_OSX
+  NSViewController *viewController = [[NSViewController alloc] init];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunguarded-availability"
+  if ([viewController respondsToSelector:@selector(viewWillAppear)]) {
+    [viewController viewWillAppear];
+  }
+#pragma clang diagnostic pop
+#else
+  UIViewController *viewController = [[UIViewController alloc] init];
+  [viewController viewWillAppear: NO];
+#endif
+
+  // Then
+  OCMVerify([analyticsMock isAutoPageTrackingEnabled]);
+  XCTAssertNotNil([MSAnalyticsCategory missedPageViewName]);
+}
+
+- (void) testViewWillAppearSwizzlingWithShouldTrackPageDisabled {
+
+  // If
+  id analyticsMock = OCMPartialMock([MSAnalytics sharedInstance]);
+  id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  [[MSAnalytics sharedInstance] startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
+
+  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
+  [[MSAnalytics sharedInstance].sessionTracker stop];
+
+  // When
+  OCMExpect([analyticsMock isAutoPageTrackingEnabled]).andReturn(YES);
+  OCMReject([analyticsMock isAvailable]);
+#if TARGET_OS_OSX
+  NSPageController *containerController = [[NSPageController alloc] init];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunguarded-availability"
+  if ([containerController respondsToSelector:@selector(viewWillAppear)]) {
+    [containerController viewWillAppear];
+  }
+#pragma clang diagnostic pop
+#else
+  UIPageViewController *containerController = [[UIPageViewController alloc] init];
+  [containerController viewWillAppear: NO];
+#endif
+
+  // Then
+  OCMVerifyAll(analyticsMock);
 }
 
 @end
