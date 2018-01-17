@@ -61,6 +61,68 @@
   assertThatUnsignedLong(channel.configuration.pendingBatchesLimit, equalToUnsignedLong(pendingBatchesLimit));
 }
 
+- (void)testProcessingLogWillFilterIfShouldFilter {
+
+  // If
+  NSString *groupId = @"AppCenter";
+  MSPriority priority = MSPriorityDefault;
+  MSLogManagerDefault *sut = [[MSLogManagerDefault alloc] initWithSender:OCMProtocolMock(@protocol(MSSender))
+                                                                 storage:OCMProtocolMock(@protocol(MSStorage))];
+  [sut initChannelWithConfiguration:[[MSChannelConfiguration alloc] initWithGroupId:groupId
+                                                                           priority:priority
+                                                                      flushInterval:1.0
+                                                                     batchSizeLimit:10
+                                                                pendingBatchesLimit:3]];
+  MSAbstractLog *log = [MSAbstractLog new];
+  id<MSLogManagerDelegate> mockDelegate = OCMProtocolMock(@protocol(MSLogManagerDelegate));
+  OCMStub([mockDelegate shouldFilterLog:log]).andReturn(YES);
+  [sut addDelegate:mockDelegate];
+  OCMReject([mockDelegate onPreparedLog:log withInternalId:OCMOCK_ANY]);
+
+  // When
+  [sut processLog:log forGroupId:groupId];
+
+  // Then
+  // Method invocation was not rejected.
+
+  // If
+  // Add another filter that returns NO.
+  id<MSLogManagerDelegate> mockDelegate2 = OCMProtocolMock(@protocol(MSLogManagerDelegate));
+  OCMStub([mockDelegate2 shouldFilterLog:log]).andReturn(NO);
+  [sut addDelegate:mockDelegate2];
+  OCMReject([mockDelegate2 onPreparedLog:log withInternalId:OCMOCK_ANY]);
+
+  // When
+  [sut processLog:log forGroupId:groupId];
+
+  // Then
+  // Method invocation was not rejected.
+}
+
+- (void)testProcessingLogWillNotFilterIfShouldNotFilter {
+
+  // If
+  NSString *groupId = @"AppCenter";
+  MSPriority priority = MSPriorityDefault;
+  MSLogManagerDefault *sut = [[MSLogManagerDefault alloc] initWithSender:OCMProtocolMock(@protocol(MSSender))
+                                                                 storage:OCMProtocolMock(@protocol(MSStorage))];
+  [sut initChannelWithConfiguration:[[MSChannelConfiguration alloc] initWithGroupId:groupId
+                                                                           priority:priority
+                                                                      flushInterval:1.0
+                                                                     batchSizeLimit:10
+                                                                pendingBatchesLimit:3]];
+  MSAbstractLog *log = [MSAbstractLog new];
+  id<MSLogManagerDelegate> mockDelegate = OCMProtocolMock(@protocol(MSLogManagerDelegate));
+  OCMStub([mockDelegate shouldFilterLog:log]).andReturn(NO);
+  [sut addDelegate:mockDelegate];
+
+  // When
+  [sut processLog:log forGroupId:groupId];
+
+  // Then
+  OCMVerify([mockDelegate onPreparedLog:log withInternalId:OCMOCK_ANY]);
+}
+
 - (void)testProcessingLogWillTriggerOnProcessingCall {
 
   // If

@@ -83,4 +83,12 @@
  */
 - (NSString *)groupId;
 
+/**
+ * Callback method that will determine if a log should be filtered out from the
+ * usual processing pipeline. If any delegate returns true, the log is filtered.
+ *
+ * @return `true` if the log should be filtered out.
+ */
+- (BOOL)shouldFilterLog:(id<MSLog>)log;
+
 @end

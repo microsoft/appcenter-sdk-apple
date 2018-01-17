@@ -155,6 +155,16 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
     log.device = [[MSDeviceTracker sharedInstance] device];
   }
 
+  // Check if the logs should be filtered out.
+  __block BOOL shouldFilter = NO;
+  [self enumerateDelegatesForSelector:@selector(shouldFilterLog:)
+                            withBlock:^(id<MSLogManagerDelegate> delegate) {
+                              shouldFilter = shouldFilter || [delegate shouldFilterLog:log];
+                            }];
+  if (shouldFilter) {
+    return;
+  }
+
   // Notify delegates.
   [self enumerateDelegatesForSelector:@selector(onPreparedLog:withInternalId:)
                             withBlock:^(id<MSLogManagerDelegate> delegate) {
