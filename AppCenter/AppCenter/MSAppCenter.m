@@ -211,8 +211,11 @@ static NSString *const kMSGroupId = @"AppCenter";
 
       success = true;
     }
-    MSLogAssert([MSAppCenter logTag], @"App Center SDK %@",
-                (success) ? @"configured successfully." : @"configuration failed.");
+    if (success) {
+      MSLogInfo([MSAppCenter logTag], @"App Center SDK configured successfully.");
+    } else {
+      MSLogAssert([MSAppCenter logTag], @"App Center SDK configuration failed.");
+    }
     return success;
   }
 }
