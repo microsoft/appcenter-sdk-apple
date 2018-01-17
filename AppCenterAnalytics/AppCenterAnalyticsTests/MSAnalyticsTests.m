@@ -246,12 +246,21 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
   [[MSAnalytics sharedInstance].sessionTracker stop];
 
-  // Run main loop to let the block in applyEnabledState to be dispatched.
-  [[NSRunLoop mainRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
+  XCTestExpectation *expection = [self expectationWithDescription:@"Wait for block in applyEnabledState to be dispatched"];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [expection fulfill];
+  });
 
-  // Then
-  XCTAssertTrue([service isEnabled]);
-  OCMVerify([analyticsMock trackPage:testPageName withProperties:nil]);
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+
+                                 // Then
+                                 XCTAssertTrue([service isEnabled]);
+                                 OCMVerify([analyticsMock trackPage:testPageName withProperties:nil]);
+                               }];
 }
 
 - (void)testSettingDelegateWorks {
