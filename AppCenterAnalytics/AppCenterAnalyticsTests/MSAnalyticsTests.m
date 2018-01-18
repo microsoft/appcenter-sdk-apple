@@ -378,17 +378,21 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [[MSAnalytics sharedInstance].sessionTracker stop];
 
   // When
+  OCMReject([analyticsMock validateEventName:OCMOCK_ANY forLogType:OCMOCK_ANY]);
+  OCMReject([analyticsMock validateProperties:OCMOCK_ANY forLogName:OCMOCK_ANY andType:OCMOCK_ANY]);
   OCMReject([logManagerMock processLog:OCMOCK_ANY forGroupId:OCMOCK_ANY]);
   [[MSAnalytics sharedInstance] trackEvent:@"Some event" withProperties:nil];
 
   // Then
   OCMVerifyAll(logManagerMock);
+  OCMVerifyAll(analyticsMock);
 }
 
 - (void)testTrackEventWithInvalidName {
 
   // If
   NSString *invalidEventName = nil;
+  id analyticsMock = OCMPartialMock([MSAnalytics sharedInstance]);
   id logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
   [[MSAnalytics sharedInstance] startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
@@ -397,11 +401,14 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [[MSAnalytics sharedInstance].sessionTracker stop];
 
   // When
+  OCMExpect([analyticsMock validateEventName:OCMOCK_ANY forLogType:OCMOCK_ANY]);
   OCMReject([logManagerMock processLog:OCMOCK_ANY forGroupId:OCMOCK_ANY]);
+  OCMReject([analyticsMock validateProperties:OCMOCK_ANY forLogName:OCMOCK_ANY andType:OCMOCK_ANY]);
   [[MSAnalytics sharedInstance] trackEvent:invalidEventName withProperties:nil];
 
   // Then
   OCMVerifyAll(logManagerMock);
+  OCMVerifyAll(analyticsMock);
 }
 
 - (void)testTrackEventWithProperties {
@@ -509,17 +516,21 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [[MSAnalytics sharedInstance].sessionTracker stop];
 
   // When
+  OCMReject([analyticsMock validateEventName:OCMOCK_ANY forLogType:OCMOCK_ANY]);
+  OCMReject([analyticsMock validateProperties:OCMOCK_ANY forLogName:OCMOCK_ANY andType:OCMOCK_ANY]);
   OCMReject([logManagerMock processLog:OCMOCK_ANY forGroupId:OCMOCK_ANY]);
   [[MSAnalytics sharedInstance] trackPage:@"Some page" withProperties:nil];
 
   // Then
   OCMVerifyAll(logManagerMock);
+  OCMVerifyAll(analyticsMock);
 }
 
 - (void)testTrackPageWithInvalidName {
 
   // If
   NSString *invalidPageName = nil;
+  id analyticsMock = OCMPartialMock([MSAnalytics sharedInstance]);
   id logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
   [[MSAnalytics sharedInstance] startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
@@ -528,11 +539,14 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [[MSAnalytics sharedInstance].sessionTracker stop];
 
   // When
+  OCMExpect([analyticsMock validateEventName:OCMOCK_ANY forLogType:OCMOCK_ANY]);
+  OCMReject([analyticsMock validateProperties:OCMOCK_ANY forLogName:OCMOCK_ANY andType:OCMOCK_ANY]);
   OCMReject([logManagerMock processLog:OCMOCK_ANY forGroupId:OCMOCK_ANY]);
   [[MSAnalytics sharedInstance] trackPage:invalidPageName withProperties:nil];
 
   // Then
   OCMVerifyAll(logManagerMock);
+  OCMVerifyAll(analyticsMock);
 }
 
 - (void)testAutoPageTracking {
