@@ -155,7 +155,13 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
     log.device = [[MSDeviceTracker sharedInstance] device];
   }
 
-  // Check if the logs should be filtered out.
+  // Notify delegates.
+  [self enumerateDelegatesForSelector:@selector(onPreparedLog:withInternalId:)
+                            withBlock:^(id<MSLogManagerDelegate> delegate) {
+                              [delegate onPreparedLog:log withInternalId:internalLogId];
+                            }];
+
+  // Check if the log should be filtered out. If so, don't enqueue it.
   __block BOOL shouldFilter = NO;
   [self enumerateDelegatesForSelector:@selector(shouldFilterLog:)
                             withBlock:^(id<MSLogManagerDelegate> delegate) {
@@ -165,11 +171,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
     return;
   }
 
-  // Notify delegates.
-  [self enumerateDelegatesForSelector:@selector(onPreparedLog:withInternalId:)
-                            withBlock:^(id<MSLogManagerDelegate> delegate) {
-                              [delegate onPreparedLog:log withInternalId:internalLogId];
-                            }];
+  // Notify delegates of enqueuing and enqueue the log.
   [self enumerateDelegatesForSelector:@selector(onEnqueuingLog:withInternalId:)
                             withBlock:^(id<MSLogManagerDelegate> delegate) {
                               [delegate onEnqueuingLog:log withInternalId:internalLogId];

@@ -61,7 +61,7 @@
   assertThatUnsignedLong(channel.configuration.pendingBatchesLimit, equalToUnsignedLong(pendingBatchesLimit));
 }
 
-- (void)testProcessingLogWillFilterIfShouldFilter {
+- (void)testProcessingLogDoesNotEnqueueFilteredLogs {
 
   // If
   NSString *groupId = @"AppCenter";
@@ -77,29 +77,31 @@
   id<MSLogManagerDelegate> mockDelegate = OCMProtocolMock(@protocol(MSLogManagerDelegate));
   OCMStub([mockDelegate shouldFilterLog:log]).andReturn(YES);
   [sut addDelegate:mockDelegate];
-  OCMReject([mockDelegate onPreparedLog:log withInternalId:OCMOCK_ANY]);
+  OCMReject([mockDelegate onEnqueuingLog:log withInternalId:OCMOCK_ANY]);
 
   // When
   [sut processLog:log forGroupId:groupId];
 
   // Then
-  // Method invocation was not rejected.
+  // onEnqueuingLog was not called, but onPreparedLog was called.
+  OCMVerify([mockDelegate onPreparedLog:log withInternalId:OCMOCK_ANY]);
 
   // If
-  // Add another filter that returns NO.
+  // Add another filter that returns NO. The log should still be filtered because of mockDelegate.
   id<MSLogManagerDelegate> mockDelegate2 = OCMProtocolMock(@protocol(MSLogManagerDelegate));
   OCMStub([mockDelegate2 shouldFilterLog:log]).andReturn(NO);
   [sut addDelegate:mockDelegate2];
-  OCMReject([mockDelegate2 onPreparedLog:log withInternalId:OCMOCK_ANY]);
+  OCMReject([mockDelegate2 onEnqueuingLog:log withInternalId:OCMOCK_ANY]);
 
   // When
   [sut processLog:log forGroupId:groupId];
 
   // Then
-  // Method invocation was not rejected.
+  // onEnqueuingLog was not called, but onPreparedLog was called.
+  OCMVerify([mockDelegate2 onPreparedLog:log withInternalId:OCMOCK_ANY]);
 }
 
-- (void)testProcessingLogWillNotFilterIfShouldNotFilter {
+- (void)testProcessingLogEnqueuesUnfilteredLogs {
 
   // If
   NSString *groupId = @"AppCenter";
@@ -121,6 +123,7 @@
 
   // Then
   OCMVerify([mockDelegate onPreparedLog:log withInternalId:OCMOCK_ANY]);
+  OCMVerify([mockDelegate onEnqueuingLog:log withInternalId:OCMOCK_ANY]);
 }
 
 - (void)testProcessingLogWillTriggerOnProcessingCall {
