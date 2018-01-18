@@ -45,22 +45,22 @@ static NSString *const kMSLogBufferFileExtension = @"mscrasheslogbuffer";
 static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
 /**
- * Maxinum properties per event
+ * Maximum properties per event
  */
 static const int maxPropertiesPerEvent = 5;
 
 /**
- * Mininum properties key length
+ * Minimum properties key length
  */
 static const int minPropertyKeyLength = 1;
 
 /**
- * Maxinum properties key length
+ * Maximum properties key length
  */
 static const int maxPropertyKeyLength = 64;
 
 /**
- * Maxinum properties value length
+ * Maximum properties value length
  */
 static const int maxPropertyValueLength = 64;
 
@@ -1301,7 +1301,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 - (void)trackModelException:(MSException *)exception
              withProperties:(NSDictionary<NSString *, NSString *> *)properties {
   if (![self isEnabled])
-      return;
+    return;
   
   // Create an error log.
   MSHandledErrorLog *log = [MSHandledErrorLog new];
@@ -1310,6 +1310,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   log.errorId = MS_UUID_STRING;
   log.exception = exception;
   if (properties && properties.count > 0) {
+
     // Send only valid properties.
     log.properties = [self validateProperties:properties andType:log.type];
   }

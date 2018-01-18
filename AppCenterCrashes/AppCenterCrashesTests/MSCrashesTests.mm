@@ -713,7 +713,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   NSString *stringValue64 =
   [NSString stringWithFormat:@"%@", @"valueValueValueValueValueValueValueValueValueValueValueValueValu"];
   
-  // Test valid properties
+  // Test valid properties.
   // If
   NSDictionary *validProperties =
   @{ @"Key1" : @"Value1",
@@ -729,7 +729,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   // Then
   XCTAssertTrue([validatedProperties count] == [validProperties count]);
   
-  // Test too many properties in one event
+  // Test too many properties in one event.
   // If
   NSDictionary *tooManyProperties = @{
                                       @"Key1" : @"Value1",
@@ -748,7 +748,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   // Then
   XCTAssertTrue([validatedProperties count] == maxPropertriesPerEvent);
   
-  // Test invalid properties
+  // Test invalid properties.
   // If
   NSDictionary *invalidKeysInProperties = @{ @"Key1" : @"Value1", @(2) : @"Value2", @"" : @"Value4" };
   
@@ -759,7 +759,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   // Then
   XCTAssertTrue([validatedProperties count] == 1);
   
-  // Test invalid values
+  // Test invalid values.
   // If
   NSDictionary *invalidValuesInProperties = @{ @"Key1" : @"Value1", @"Key2" : @(2) };
   
@@ -785,7 +785,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   XCTAssertEqual([truncatedKey length], maxPropertyKeyLength);
   XCTAssertEqual([truncatedValue length], maxPropertyValueLength);
   
-  // Test mixed variant
+  // Test mixed variant.
   // If
   NSDictionary *mixedEventProperties = @{
                                          @"Key1" : @"Value1",
