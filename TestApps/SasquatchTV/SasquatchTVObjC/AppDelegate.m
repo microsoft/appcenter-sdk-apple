@@ -1,6 +1,7 @@
 #import "AppDelegate.h"
 #import "AppCenterDelegateObjC.h"
 #import "MSAlertController.h"
+#import "MSLogFilter.h"
 
 @import AppCenter;
 @import AppCenterAnalytics;
@@ -16,7 +17,7 @@
 
   [MSAppCenter setLogLevel:MSLogLevelVerbose];
   [MSAppCenter setLogUrl:@"https://in-integration.dev.avalanch.es"];
-  [MSAppCenter start:@"68065a02-edbb-4fc3-a323-3b8ca2beae80" withServices:@[ [MSAnalytics class], [MSCrashes class] ]];
+  [MSAppCenter start:@"68065a02-edbb-4fc3-a323-3b8ca2beae80" withServices:@[ [MSAnalytics class], [MSCrashes class], [MSLogFilter class] ]];
   [self crashes];
   [self setAppCenterCenterDelegate];
   return YES;

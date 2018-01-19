@@ -4,3 +4,4 @@
 
 #import "CrashLib.h"
 #import "MSAlertController.h"
+#import "MSLogFilter.h"
