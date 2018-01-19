@@ -146,4 +146,21 @@ class AppCenterDelegateSwift : AppCenterDelegate {
   func lastCrashReportDeviceAppNamespace() -> String? {
     return MSCrashes.lastSessionCrashReport()?.device.appNamespace
   }
+
+  //MARK: MSLogFilter section.
+  func isLogFilterEnabled() -> Bool{
+    return MSLogFilter.isEnabled();
+  }
+  func setLogFilterEnabled(_ isEnabled: Bool){
+    MSLogFilter.setEnabled(isEnabled);
+  }
+  func filterLogType(_ logType: String){
+    MSLogFilter.filterLogType(logType);
+  }
+  func unfilterLogType(_ logType: String){
+    MSLogFilter.unfilterLogType(logType);
+  }
+  func isFilteringLogType(_ logType: String) -> Bool {
+    return MSLogFilter.isFilteringLogType(logType)
+  }
 }

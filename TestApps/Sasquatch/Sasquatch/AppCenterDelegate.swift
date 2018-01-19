@@ -72,5 +72,4 @@ import AppCenter
   func filterLogType(_ logType: String)
   func unfilterLogType(_ logType: String)
   func isFilteringLogType(_ logType: String) -> Bool
-
 }

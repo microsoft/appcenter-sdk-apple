@@ -1,10 +1,13 @@
 import UIKit
 
-
+/**
+ * It's only possible to filter event logs for now,
+ * but it's designed to make adding other filters simple.
+ */
 class MSLogFiltersViewController: UITableViewController, UINavigationControllerDelegate, AppCenterProtocol {
   var appCenter: AppCenterDelegate!
 
-  // Log types. Only possible to filter event logs for now, but it is relatively simple to add other types.
+  // Log type names.
   static let eventLogTypeName = "event"
 
   @IBOutlet weak var enabled: UISwitch!
