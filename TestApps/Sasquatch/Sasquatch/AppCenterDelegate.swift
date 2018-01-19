@@ -26,7 +26,7 @@ import AppCenter
   func setCrashesEnabled(_ isEnabled: Bool)
   func setDistributeEnabled(_ isEnabled: Bool)
   func setPushEnabled(_ isEnabled: Bool)
-  
+
   // MSAnalytics section.
   func trackEvent(_ eventName: String)
   func trackEvent(_ eventName: String, withProperties: Dictionary<String, String>)
@@ -65,4 +65,12 @@ import AppCenter
   func lastCrashReportDeviceCarrierName() -> String?
   func lastCrashReportDeviceCarrierCountry() -> String?
   func lastCrashReportDeviceAppNamespace() -> String?
+
+  // MSLogFilter section.
+  func isLogFilterEnabled() -> Bool
+  func setLogFilterEnabled(_ isEnabled: Bool)
+  func filterLogType(_ logType: String)
+  func unfilterLogType(_ logType: String)
+  func isFilteringLogType(_ logType: String) -> Bool
+
 }
