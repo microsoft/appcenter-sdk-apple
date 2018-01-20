@@ -1,13 +1,29 @@
 #import <Foundation/Foundation.h>
 
-#import "MSChannel.h"
+#import "MSChannelUnitProtocol.h"
 #import "MSChannelConfiguration.h"
 #import "MSSender.h"
 #import "MSStorage.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MSChannelDefault : NSObject <MSChannel>
+@interface MSChannelUnitDefault : NSObject <MSChannelUnitProtocol, MSSenderProtocol>
+
+/**
+ * Initializes a new `MSChannelUnitDefault` instance.
+ *
+ * @param sender A sender instance that is used to send batches of log items to
+ * the backend.
+ * @param storage A storage instance to store and read enqueued log items.
+ * @param configuration The configuration used by this channel.
+ * @param logsDispatchQueue Queue used to process logs.
+ *
+ * @return A new `MSChannelUnitDefault` instance.
+ */
+- (instancetype)initWithSender:(id<MSSender>)sender
+                       storage:(id<MSStorage>)storage
+                 configuration:(MSChannelConfiguration *)configuration
+             logsDispatchQueue:(dispatch_queue_t)logsDispatchQueue;
 
 /**
  * Queue used to process logs.

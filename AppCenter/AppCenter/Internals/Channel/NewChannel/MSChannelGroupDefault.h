@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 
-#import "MSChannel.h"
+#import "MSChannelGroupProtocol.h"
 #import "MSDeviceTracker.h"
 #import "MSEnable.h"
 #import "MSLogManager.h"
@@ -21,16 +21,16 @@ NS_ASSUME_NONNULL_BEGIN
  * persistence layer what to do with a pending batch based on the status code
  * returned by the sender
  */
-@interface MSLogManagerDefault : NSObject <MSLogManager>
+@interface MSChannelGroupDefault : NSObject <MSChannelGroupProtocol>
 
 /**
- * Initializes a new `MSLogManager` instance.
+ * Initializes a new `MSChannelGroupDefault` instance.
  *
  * @param appSecret A unique and secret key used to identify the application.
  * @param installId A unique installation identifier.
  * @param logUrl A base URL to use for backend communication.
  *
- * @return A new `MSLogManager` instance.
+ * @return A new `MSChannelGroupDefault` instance.
  */
 - (instancetype)initWithAppSecret:(NSString *)appSecret installId:(NSUUID *)installId logUrl:(NSString *)logUrl;
 
@@ -40,9 +40,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property BOOL enabled;
 
 /**
- * Hash table of log manager delegate.
+ * Hash table of channel delegates.
  */
-@property(nonatomic) NSHashTable<id<MSLogManagerDelegate>> *delegates;
+@property(nonatomic) NSHashTable<id<MSChannelDelegate>> *delegates;
 
 /**
  * A sender instance that is used to send batches of log items to the backend.
@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * A dictionary containing priority keys and their channel.
  */
-@property(nonatomic, copy) NSMutableDictionary<NSString *, id<MSChannel>> *channels;
+@property(nonatomic, copy) NSMutableArray *channels;
 
 @end
 

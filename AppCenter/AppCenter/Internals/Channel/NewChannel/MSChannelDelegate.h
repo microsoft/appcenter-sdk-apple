@@ -1,20 +1,37 @@
 #import <Foundation/Foundation.h>
 
-#import "MSConstants+Internal.h"
-#import "MSLog.h"
+#import "MSChannelUnitProtocol.h"
 
-// TODO: We need to pass a sender instance in delegate methods or changing method name with a prefix of sender.
-@protocol MSLogManagerDelegate <NSObject>
+@class MSLog;
+
+@protocol MSChannelDelegate <NSObject>
 
 @optional
 
 /**
- * A callback that is called when a log is ready to enqueue.
+ * Callback method that will be called before each log will be send to the server.
  *
- * @param log The log.
- * @param internalId An internal Id that can be used to keep track of logs.
+ * @param channel Instance of MSChannel.
+ * @param log The log to be sent.
  */
-- (void)onPreparedLog:(id<MSLog>)log withInternalId:(NSString *)internalId;
+- (void)channel:(id<MSChannelUnitProtocol>)channel willSendLog:(id<MSLog>)log;
+
+/**
+ * Callback method that will be called in case the SDK was able to send a log.
+ *
+ * @param channel Instance of MSChannel.
+ * @param log The log to be sent.
+ */
+- (void)channel:(id<MSChannelUnitProtocol>)channel didSucceedSendingLog:(id<MSLog>)log;
+
+/**
+ * Callback method that will be called in case the SDK was unable to send a log.
+ *
+ * @param channel Instance of MSChannel.
+ * @param log The log to be sent.
+ * @param error The error that occured.
+ */
+- (void)channel:(id<MSChannelUnitProtocol>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error;
 
 /**
  * A callback that is called when a log has been enqueued, before a log has been forwarded to persistence, etc.
@@ -53,34 +70,5 @@
  * log.
  */
 - (void)onFailedPersistingLog:(id<MSLog>)log withInternalId:(NSString *)internalId;
-
-/**
- * Callback method that will be called before each log will be sent to the server.
- *
- * @param log The log to be sent.
- */
-- (void)willSendLog:(id<MSLog>)log;
-
-/**
- * Callback method that will be called in case the SDK was able to send a log.
- *
- * @param log The log to be sent.
- */
-- (void)didSucceedSendingLog:(id<MSLog>)log;
-
-/**
- * Callback method that will be called in case the SDK was unable to send a log.
- *
- * @param log The log to be sent.
- * @param error The error that occured.
- */
-- (void)didFailSendingLog:(id<MSLog>)log withError:(NSError *)error;
-
-/**
- * Get a unique identifier for processing logs.
- *
- * @return A group ID for the logs.
- */
-- (NSString *)groupId;
 
 @end

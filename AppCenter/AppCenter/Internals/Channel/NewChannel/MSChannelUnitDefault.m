@@ -1,9 +1,9 @@
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterInternal.h"
-#import "MSChannelDefaultPrivate.h"
+#import "MSChannelUnitDefault"
 
-@implementation MSChannelDefault
+@implementation MSChannelUnitDefault
 
 @synthesize configuration = _configuration;
 
@@ -62,18 +62,35 @@
 #pragma mark - Managing queue
 
 - (void)enqueueItem:(id<MSLog>)item withCompletion:(enqueueCompletionBlock)completion {
+  if (!item || ![item isValid]) {
+    MSLogWarning([MSAppCenter logTag], @"Log is not valid.");
+    
+    // Don't forget to execute completion block.
+    // TODO is this guaranteed to be executed asynchronously? If so, put in an async block.
+    if (completion) {
+      completion(NO);
+    }
+    return;
+  }
+
+  // Internal ID to keep track of logs between modules.
+  NSString *internalLogId = MS_UUID_STRING;
+
+  /*
+   * Set common log info.
+   * Only add timestamp and device info in case the log doesn't have one. In case the log is restored after a crash or
+   * for crashes, we don't want the timestamp and the device information to be updated but want the old one preserved.
+   */
+  if (!item.timestamp) {
+    log.timestamp = [NSDate date];
+  }
+  if (!item.device) {
+    log.device = [[MSDeviceTracker sharedInstance] device];
+  }
 
   // Return fast in case our item is empty or we are discarding logs right now.
   dispatch_async(self.logsDispatchQueue, ^{
-    if (!item || ![item isValid]) {
-      MSLogWarning([MSAppCenter logTag], @"Log is not valid.");
-
-      // Don't forget to execute completion block.
-      if (completion) {
-        completion(NO);
-      }
-      return;
-    } else if (self.discardLogs) {
+    if (self.discardLogs) {
       MSLogWarning([MSAppCenter logTag], @"Channel disabled in log discarding mode, discard this log.");
       NSError *error = [NSError errorWithDomain:kMSACErrorDomain
                                            code:kMSACConnectionSuspendedErrorCode
@@ -86,6 +103,12 @@
       }
       return;
     }
+
+    // Notify delegates.
+    [self enumerateDelegatesForSelector:@selector(onEnqueuingLog:withInternalId:)
+                              withBlock:^(id<MSChannelDelegate> delegate) {
+                                [delegate onEnqueuingLog:log withInternalId:internalLogId];
+                              }];
 
     // Save the log first.
     MSLogDebug([MSAppCenter logTag], @"Saving log, type: %@.", item.type);
@@ -401,6 +424,16 @@
     // Call didFailSendingLog
     if (delegate && [delegate respondsToSelector:@selector(channel:didFailSendingLog:withError:)])
       [delegate channel:self didFailSendingLog:item withError:error];
+  }
+}
+
+- (void)enumerateDelegatesForSelector:(SEL)selector withBlock:(void (^)(id<MSChannelDelegate> delegate))block {
+  @synchronized(self) {
+    for (id<MSChannelDelegate> delegate in self.delegates) {
+      if (delegate && [delegate respondsToSelector:selector]) {
+        block(delegate);
+      }
+    }
   }
 }
 

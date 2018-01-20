@@ -9,7 +9,7 @@
 #import "MSLogManagerDefault.h"
 #import "MSLogManagerDefaultPrivate.h"
 
-static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQueue";
+static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQueue";
 
 /**
  * Private declaration of the log manager.
@@ -129,31 +129,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.LogManagerQue
 #pragma mark - Process items
 
 - (void)processLog:(id<MSLog>)log forGroupId:(NSString *)groupId {
-  if (!log) {
-    return;
-  }
 
-  // Get the channel.
-  id<MSChannel> channel = self.channels[groupId];
-  if (!channel) {
-    MSLogWarning([MSAppCenter logTag], @"Channel has not been initialized for the group Id: %@", groupId);
-    return;
-  }
-
-  // Internal ID to keep track of logs between modules.
-  NSString *internalLogId = MS_UUID_STRING;
-
-  /*
-   * Set common log info.
-   * Only add timestamp and device info in case the log doesn't have one. In case the log is restored after a crash or
-   * for crashes, we don't want the timestamp and the device information to be updated but want the old one preserved.
-   */
-  if (!log.timestamp) {
-    log.timestamp = [NSDate date];
-  }
-  if (!log.device) {
-    log.device = [[MSDeviceTracker sharedInstance] device];
-  }
 
   // Notify delegates.
   [self enumerateDelegatesForSelector:@selector(onPreparedLog:withInternalId:)
