@@ -705,7 +705,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 }
 
 - (void)testValidatePropertyType {
-  const int maxPropertriesPerEvent = 5;
+  const int maxPropertiesPerHandledException = 5;
   const int maxPropertyKeyLength = 64;
   const int maxPropertyValueLength = 64;
   NSString *longStringValue =
@@ -729,7 +729,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   // Then
   XCTAssertTrue([validatedProperties count] == [validProperties count]);
   
-  // Test too many properties in one event.
+  // Test too many properties in one handled exception.
   // If
   NSDictionary *tooManyProperties = @{
                                       @"Key1" : @"Value1",
@@ -746,7 +746,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   [[MSCrashes sharedInstance] validateProperties:tooManyProperties andType:kMSTypeHandledError];
   
   // Then
-  XCTAssertTrue([validatedProperties count] == maxPropertriesPerEvent);
+  XCTAssertTrue([validatedProperties count] == maxPropertiesPerHandledException);
   
   // Test invalid properties.
   // If
@@ -787,7 +787,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   
   // Test mixed variant.
   // If
-  NSDictionary *mixedEventProperties = @{
+  NSDictionary *mixedProperties = @{
                                          @"Key1" : @"Value1",
                                          @(2) : @"Value2",
                                          stringValue64 : @"Value3",
@@ -798,11 +798,11 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
                                          };
   
   // When
-  validatedProperties = [[MSCrashes sharedInstance] validateProperties:mixedEventProperties
+  validatedProperties = [[MSCrashes sharedInstance] validateProperties:mixedProperties
                                                                  andType:kMSTypeHandledError];
   
   // Then
-  XCTAssertTrue([validatedProperties count] == maxPropertriesPerEvent);
+  XCTAssertTrue([validatedProperties count] == maxPropertiesPerHandledException);
   XCTAssertNotNil([validatedProperties objectForKey:@"Key1"]);
   XCTAssertNotNil([validatedProperties objectForKey:stringValue64]);
   XCTAssertNotNil([validatedProperties objectForKey:@"Key4"]);
