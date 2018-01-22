@@ -7,7 +7,7 @@
 /**
  * Handled Error log for managed platforms (such as Xamarin, Unity, Android Dalvik/ART).
  */
-@interface MSHandledErrorLog : MSAbstractLog
+@interface MSHandledErrorLog : MSLogWithProperties
 
 /**
  * Unique identifier for this error.
