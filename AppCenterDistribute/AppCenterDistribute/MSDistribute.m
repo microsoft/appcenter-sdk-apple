@@ -53,7 +53,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     // Init.
     _apiUrl = kMSDefaultApiUrl;
     _installUrl = kMSDefaultInstallUrl;
-    _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:kMSGroupId];
+    _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
     _appDelegate = [MSDistributeAppDelegate new];
 
     /*
@@ -94,6 +94,10 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 + (NSString *)logTag {
   return @"AppCenterDistribute";
+}
+
++ (NSString *)groupId {
+  return kMSGroupId;
 }
 
 #pragma mark - MSServiceAbstract

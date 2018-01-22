@@ -169,6 +169,10 @@ static NSString *const kMSGroupId = @"AppCenter";
   return kMSServiceName;
 }
 
++ (NSString *)groupId {
+  return kMSGroupId;
+}
+
 #pragma mark - private
 
 - (instancetype)init {

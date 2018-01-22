@@ -1,9 +1,8 @@
 #import "MSAbstractLogInternal.h"
-#import "MSChannelConfiguration.h"
-#import "MSChannelDefault.h"
+#import "MSChannelUnitConfiguration.h"
+#import "MSChannelUnitDefault.h"
 #import "MSHttpSenderPrivate.h"
-#import "MSLogManagerDefault.h"
-#import "MSLogManagerDefaultPrivate.h"
+#import "MSChannelGroupDefault.h"
 #import "MSTestFrameworks.h"
 
 @interface MSLogManagerDefaultTests : XCTestCase
@@ -21,7 +20,7 @@
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
 
   // When
-  MSLogManagerDefault *sut = [[MSLogManagerDefault alloc] initWithSender:senderMock storage:storageMock];
+  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock storage:storageMock];
 
   // Then
   assertThat(sut, notNilValue());
@@ -31,7 +30,7 @@
   assertThat(sut.storage, equalTo(storageMock));
 }
 
-- (void)testInitNewChannel {
+- (void)testAddNewChannel {
 
   // If
   NSString *groupId = @"AppCenter";
@@ -39,26 +38,27 @@
   float flushInterval = 1.0;
   NSUInteger batchSizeLimit = 10;
   NSUInteger pendingBatchesLimit = 3;
-  MSLogManagerDefault *sut = [[MSLogManagerDefault alloc] initWithSender:OCMProtocolMock(@protocol(MSSender))
+  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:OCMProtocolMock(@protocol(MSSender))
                                                                  storage:OCMProtocolMock(@protocol(MSStorage))];
 
   // Then
   assertThat(sut.channels, isEmpty());
 
   // When
-  [sut initChannelWithConfiguration:[[MSChannelConfiguration alloc] initWithGroupId:groupId
-                                                                           priority:priority
-                                                                      flushInterval:flushInterval
-                                                                     batchSizeLimit:batchSizeLimit
-                                                                pendingBatchesLimit:pendingBatchesLimit]];
+  id<MSChannelUnitProtocol> addedChannel = [sut addChannelUnitWithConfiguration:
+                                            [[MSChannelUnitConfiguration alloc] initWithGroupId:groupId
+                                                                                       priority:priority
+                                                                                  flushInterval:flushInterval
+                                                                                 batchSizeLimit:batchSizeLimit
+                                                                            pendingBatchesLimit:pendingBatchesLimit]];
 
   // Then
-  MSChannelDefault *channel = sut.channels[groupId];
-  assertThat(channel, notNilValue());
-  XCTAssertTrue(channel.configuration.priority == priority);
-  assertThatFloat(channel.configuration.flushInterval, equalToFloat(flushInterval));
-  assertThatUnsignedLong(channel.configuration.batchSizeLimit, equalToUnsignedLong(batchSizeLimit));
-  assertThatUnsignedLong(channel.configuration.pendingBatchesLimit, equalToUnsignedLong(pendingBatchesLimit));
+  XCTAssertTrue([sut.channels containsObject:addedChannel]);
+  assertThat(addedChannel, notNilValue());
+  XCTAssertTrue(addedChannel.configuration.priority == priority);
+  assertThatFloat(addedChannel.configuration.flushInterval, equalToFloat(flushInterval));
+  assertThatUnsignedLong(addedChannel.configuration.batchSizeLimit, equalToUnsignedLong(batchSizeLimit));
+  assertThatUnsignedLong(addedChannel.configuration.pendingBatchesLimit, equalToUnsignedLong(pendingBatchesLimit));
 }
 
 - (void)testProcessingLogWillTriggerOnProcessingCall {
@@ -66,23 +66,22 @@
   // If
   MSPriority priority = MSPriorityDefault;
   NSString *groupId = @"AppCenter";
-  MSLogManagerDefault *sut = [[MSLogManagerDefault alloc] initWithSender:OCMProtocolMock(@protocol(MSSender))
+  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:OCMProtocolMock(@protocol(MSSender))
                                                                  storage:OCMProtocolMock(@protocol(MSStorage))];
-  id mockDelegate = OCMProtocolMock(@protocol(MSLogManagerDelegate));
+  id mockDelegate = OCMProtocolMock(@protocol(MSChannelDelegate));
   [sut addDelegate:mockDelegate];
-  [sut initChannelWithConfiguration:[[MSChannelConfiguration alloc] initWithGroupId:groupId
-                                                                           priority:priority
-                                                                      flushInterval:1.0
-                                                                     batchSizeLimit:10
-                                                                pendingBatchesLimit:3]];
-
+  id<MSChannelUnitProtocol> addedChannel = [sut addChannelUnitWithConfiguration:
+                                            [[MSChannelUnitConfiguration alloc] initWithGroupId:groupId
+                                                                                       priority:priority
+                                                                                  flushInterval:1.0
+                                                                                 batchSizeLimit:10
+                                                                            pendingBatchesLimit:3]];
   MSAbstractLog *log = [MSAbstractLog new];
 
   // When
-  [sut processLog:log forGroupId:groupId];
+  [addedChannel enqueueItem:log];
 
   // Then
-  OCMVerify([mockDelegate onPreparedLog:log withInternalId:OCMOCK_ANY]);
   OCMVerify([mockDelegate onEnqueuingLog:log withInternalId:OCMOCK_ANY]);
 }
 
@@ -90,21 +89,27 @@
 
   // If
   NSString *groupId = @"AppCenter";
-  MSLogManagerDefault *sut = [[MSLogManagerDefault alloc] initWithSender:OCMProtocolMock(@protocol(MSSender))
+  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:OCMProtocolMock(@protocol(MSSender))
                                                                  storage:OCMProtocolMock(@protocol(MSStorage))];
   MSAbstractLog *log = [MSAbstractLog new];
   for (int j = 0; j < 10; j++) {
-    id mockDelegate = OCMProtocolMock(@protocol(MSLogManagerDelegate));
+    id mockDelegate = OCMProtocolMock(@protocol(MSChannelDelegate));
     [sut addDelegate:mockDelegate];
   }
+  id<MSChannelUnitProtocol> addedChannel = [sut addChannelUnitWithConfiguration:
+                                            [[MSChannelUnitConfiguration alloc] initWithGroupId:groupId
+                                                                                       priority:MSPriorityDefault
+                                                                                  flushInterval:1.0
+                                                                                 batchSizeLimit:10
+                                                                            pendingBatchesLimit:3]];
 
   // When
   void (^block)() = ^{
     for (int i = 0; i < 10; i++) {
-      [sut processLog:log forGroupId:groupId];
+      [addedChannel enqueueItem:log];
     }
     for (int i = 0; i < 100; i++) {
-      [sut addDelegate:OCMProtocolMock(@protocol(MSLogManagerDelegate))];
+      [sut addDelegate:OCMProtocolMock(@protocol(MSChannelDelegate))];
     }
   };
 
@@ -119,7 +124,7 @@
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
 
   // When
-  MSLogManagerDefault *sut = [[MSLogManagerDefault alloc] initWithSender:senderMock storage:storageMock];
+  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock storage:storageMock];
 
   // When
   [sut resume];
@@ -135,7 +140,7 @@
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
 
   // When
-  MSLogManagerDefault *sut = [[MSLogManagerDefault alloc] initWithSender:senderMock storage:storageMock];
+  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock storage:storageMock];
 
   // When
   [sut suspend];

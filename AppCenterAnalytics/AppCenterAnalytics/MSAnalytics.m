@@ -42,7 +42,7 @@ static const int maxPropertyValueLength = 64;
     _sessionTracker.delegate = self;
 
     // Init channel configuration.
-    _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:kMSGroupId];
+    _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
   }
   return self;
 }
@@ -72,6 +72,10 @@ static const int maxPropertyValueLength = 64;
 
 + (NSString *)logTag {
   return @"AppCenterAnalytics";
+}
+
++ (NSString *)groupId {
+  return kMSGroupId;
 }
 
 #pragma mark - MSServiceAbstract

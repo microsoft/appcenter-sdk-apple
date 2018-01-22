@@ -95,6 +95,27 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
                             }];
 }
 
+- (void)onEnqueuingLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
+  [self enumerateDelegatesForSelector:@selector(onEnqueuingLog:withInternalId:)
+                            withBlock:^(id<MSChannelDelegate> delegate) {
+                              [delegate onEnqueuingLog:log withInternalId:internalId];
+                            }];
+}
+
+- (void)onFinishedPersistingLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
+  [self enumerateDelegatesForSelector:@selector(onFinishedPersistingLog:withInternalId:)
+                            withBlock:^(id<MSChannelDelegate> delegate) {
+                              [delegate onFinishedPersistingLog:log withInternalId:internalId];
+                            }];
+}
+
+- (void)onFailedPersistingLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
+  [self enumerateDelegatesForSelector:@selector(onFailedPersistingLog:withInternalId:)
+                            withBlock:^(id<MSChannelDelegate> delegate) {
+                              [delegate onFailedPersistingLog:log withInternalId:internalId];
+                            }];
+}
+
 #pragma mark - Enable / Disable
 
 - (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData {

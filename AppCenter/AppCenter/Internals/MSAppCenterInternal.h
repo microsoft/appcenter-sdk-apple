@@ -58,6 +58,13 @@ static NSString *const kMSDisableAll = @"All";
 + (NSString *)logTag;
 
 /**
+ * Get the group ID for the AppCenter service.
+ *
+ * @return A storage identifier for the AppCenter service.
+ */
++ (NSString *)groupId;
+
+/**
  * Sort the array of services in descending order based on their priority.
  *
  * @return The array of services in descending order.

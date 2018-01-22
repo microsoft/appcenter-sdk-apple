@@ -57,7 +57,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
   if ((self = [super init])) {
 
     // Init channel configuration.
-    _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:kMSGroupId];
+    _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
     _appDelegate = [MSPushAppDelegate new];
 
 #if TARGET_OS_OSX
@@ -135,6 +135,10 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 
 + (NSString *)logTag {
   return @"AppCenterPush";
+}
+
++ (NSString *)groupId {
+  return kMSGroupId;
 }
 
 #pragma mark - MSPush

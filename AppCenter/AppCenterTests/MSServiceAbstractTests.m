@@ -2,8 +2,7 @@
 #import "MSAppCenterInternal.h"
 #import "MSAppCenterPrivate.h"
 #import "MSConstants+Internal.h"
-#import "MSLogManager.h"
-#import "MSLogManagerDefault.h"
+#import "MSChannelGroupDefault.h"
 #import "MSMockUserDefaults.h"
 #import "MSServiceAbstractPrivate.h"
 #import "MSServiceAbstractProtected.h"
@@ -15,7 +14,7 @@
 
 @implementation MSServiceAbstractImplementation
 
-@synthesize channelConfiguration = _channelConfiguration;
+@synthesize channelUnitConfiguration = _channelUnitConfiguration;
 
 + (instancetype)sharedInstance {
   static id sharedInstance = nil;
@@ -28,7 +27,7 @@
 
 - (instancetype)init {
   if ((self = [super init])) {
-    _channelConfiguration = [[MSChannelConfiguration alloc] initWithGroupId:[self groupId]
+    _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initWithGroupId:[self groupId]
                                                                    priority:MSPriorityDefault
                                                               flushInterval:3.0
                                                              batchSizeLimit:50
@@ -41,12 +40,8 @@
   return @"Service";
 }
 
-- (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret {
-  [super startWithLogManager:logManager appSecret:appSecret];
-}
-
-- (NSString *)groupId {
-  return @"MSServiceAbstractImplementation";
+- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret {
+  [super startWithChannelGroup:channelGroup appSecret:appSecret];
 }
 
 - (MSInitializationPriority)initializationPriority {
@@ -55,6 +50,10 @@
 
 + (NSString *)logTag {
   return @"MSServiceAbstractTest";
+}
+
++ (NSString *)groupId {
+  return @"groupId";
 }
 
 @end
@@ -275,55 +274,58 @@
 
 - (void)testLogDeletedOnDisabled {
 
-  /**
-   *  If
-   */
+  // If
   __block NSString *groupId;
   __block BOOL deleteLogs;
   __block BOOL forwardedEnabled;
-  id<MSLogManager> logManagerMock = OCMClassMock([MSLogManagerDefault class]);
-  OCMStub([logManagerMock setEnabled:NO andDeleteDataOnDisabled:YES forGroupId:self.abstractService.groupId])
+  id channelGroup = OCMClassMock([MSChannelGroupDefault class]);
+  id channelUnit = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub([channelGroup alloc]).andReturn(channelGroup);
+  OCMStub([channelGroup initWithAppSecret:OCMOCK_ANY installId:OCMOCK_ANY logUrl:OCMOCK_ANY]).andReturn(channelGroup);
+  OCMStub([channelGroup addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnit);
+
+  OCMStub([channelUnit setEnabled:NO andDeleteDataOnDisabled:YES])
       .andDo(^(NSInvocation *invocation) {
         [invocation getArgument:&groupId atIndex:4];
         [invocation getArgument:&deleteLogs atIndex:3];
         [invocation getArgument:&forwardedEnabled atIndex:2];
       });
-  self.abstractService.logManager = logManagerMock;
+  self.abstractService.channelGroup = channelGroup;
+  self.abstractService.channelUnit = channelUnit;
   [self.settingsMock setObject:@YES forKey:self.abstractService.isEnabledKey];
 
-  /**
-   *  When
-   */
+  // When
   [self.abstractService setEnabled:NO];
 
-  /**
-   *  Then
-   */
+  //Then
 
   // Check that log deletion has been triggered.
-  OCMVerify([logManagerMock setEnabled:NO andDeleteDataOnDisabled:YES forGroupId:self.abstractService.groupId]);
+  OCMVerify([channelUnit setEnabled:NO andDeleteDataOnDisabled:YES]);
 
   // GroupId from the service must match the groupId used to delete logs.
-  XCTAssertTrue(self.abstractService.groupId == groupId);
+  XCTAssertTrue(self.abstractService.channelUnitConfiguration.groupId == groupId);
 
   // Must request for deletion.
   XCTAssertTrue(deleteLogs);
 
   // Must request for disabling.
   XCTAssertFalse(forwardedEnabled);
+
+  // Clear
+  [channelGroup stopMocking];
 }
 
-- (void)testEnableLogManagerOnStartWithLogManager {
+- (void)testEnableChannelUnitOnStartWithChannelGroup {
 
   // If
-  id<MSLogManager> logManagerMock = OCMClassMock([MSLogManagerDefault class]);
-  self.abstractService.logManager = logManagerMock;
+  id<MSChannelGroupProtocol> channelGroup = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  self.abstractService.channelGroup = channelGroup;
 
   // When
-  [self.abstractService startWithLogManager:logManagerMock appSecret:@"TestAppSecret"];
+  [self.abstractService startWithChannelGroup:channelGroup appSecret:@"TestAppSecret"];
 
   // Then
-  OCMVerify([logManagerMock setEnabled:YES andDeleteDataOnDisabled:YES forGroupId:self.abstractService.groupId]);
+  OCMVerify([self.abstractService.channelUnit setEnabled:YES andDeleteDataOnDisabled:YES]);
 }
 
 - (void)testInitializationPriorityCorrect {

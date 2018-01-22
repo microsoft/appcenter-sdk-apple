@@ -232,7 +232,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 #if !TARGET_OS_TV
     _enableMachExceptionHandler = YES;
 #endif
-    _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSGroupId
+    _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initWithGroupId:[self groupId]
                                                                    priority:MSPriorityHigh
                                                               flushInterval:1.0
                                                              batchSizeLimit:1
@@ -366,6 +366,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 + (NSString *)logTag {
   return @"AppCenterCrashes";
+}
+
++ (NSString *)groupId {
+  return kMSGroupId;
 }
 
 - (MSInitializationPriority)initializationPriority {

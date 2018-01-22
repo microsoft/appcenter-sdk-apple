@@ -10,17 +10,6 @@ static NSString *const kMSHeaderContentTypeKey = @"Content-Type";
 static NSString *const kMSContentType = @"application/json";
 
 /**
- * The priority by which the modules are initialized.
- *  MSPriorityMax is reserved for only 1 module and this needs to be Crashes. Crashes needs to be initialized first to
- *  catch crashes in our other SDK Modules (which will hopefully never happen) and to avoid losing any log at crash
- * time.
- */
-typedef NS_ENUM(NSInteger, MSInitializationPriority) {
-  MSInitializationPriorityDefault = 500,
-  MSInitializationPriorityMax = 999
-};
-
-/**
  * Enum with the different HTTP status codes.
  */
 typedef NS_ENUM(NSInteger, MSHTTPCodesNo) {

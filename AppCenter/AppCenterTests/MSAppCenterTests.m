@@ -6,7 +6,8 @@
 #import "MSAppCenter.h"
 #import "MSAppCenterInternal.h"
 #import "MSAppCenterPrivate.h"
-#import "MSLogManagerDefault.h"
+#import "MSChannelUnitDefault.h"
+#import "MSChannelGroupDefault.h"
 #import "MSHttpSenderPrivate.h"
 #import "MSMockService.h"
 #import "MSMockSecondService.h"
@@ -254,10 +255,10 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // If
   [MSAppCenter start:MS_UUID_STRING withServices:nil];
-  id logManager = OCMProtocolMock(@protocol(MSLogManager));
-  OCMStub([logManager processLog:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]] forGroupId:OCMOCK_ANY])
+  id channelUnit = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub([channelUnit enqueueItem:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]]])
       .andDo(nil);
-  [MSAppCenter sharedInstance].logManager = logManager;
+  [MSAppCenter sharedInstance].channelUnit = channelUnit;
 
   // When
   MSCustomProperties *customProperties = [MSCustomProperties new];
@@ -265,16 +266,16 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   [MSAppCenter setCustomProperties:customProperties];
 
   // Then
-  OCMVerify([logManager processLog:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]] forGroupId:OCMOCK_ANY]);
+  OCMVerify([channelUnit enqueueItem:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]]]);
 
   // When
   // Not allow processLog more
-  OCMReject([logManager processLog:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]] forGroupId:OCMOCK_ANY]);
+  OCMReject([channelUnit enqueueItem:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]]]);
   [MSAppCenter setCustomProperties:nil];
   [MSAppCenter setCustomProperties:[MSCustomProperties new]];
 
   // Then
-  OCMVerifyAll(logManager);
+  OCMVerifyAll(channelUnit);
 }
 #endif
 
@@ -294,36 +295,38 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 - (void)testStartWithoutServices {
 
   // If
-  id logManager = OCMClassMock([MSLogManagerDefault class]);
-  OCMStub([logManager alloc]).andReturn(logManager);
-  OCMStub([logManager initWithAppSecret:[OCMArg any] installId:[OCMArg any] logUrl:[OCMArg any]]).andReturn(logManager);
+  id channelGroup = OCMClassMock([MSChannelGroupDefault class]);
+  id channelUnit = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub([channelGroup alloc]).andReturn(channelGroup);
+  OCMStub([channelGroup initWithAppSecret:OCMOCK_ANY installId:OCMOCK_ANY logUrl:OCMOCK_ANY]).andReturn(channelGroup);
+  OCMStub([channelGroup addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnit);
 
   // Not allow processLog.
-  OCMReject([logManager processLog:[OCMArg isKindOfClass:[MSStartServiceLog class]] forGroupId:[OCMArg any]]);
+  OCMReject([channelUnit enqueueItem:[OCMArg isKindOfClass:[MSStartServiceLog class]]]);
 
   // When
   [MSAppCenter start:MS_UUID_STRING withServices:nil];
 
   // Then
-  OCMVerifyAll(logManager);
+  OCMVerifyAll(channelUnit);
 
   // Clear
-  [logManager stopMocking];
+  [channelGroup stopMocking];
 }
 
 - (void)testStartServiceLogIsSentAfterStartService {
 
   // If
   [MSAppCenter start:MS_UUID_STRING withServices:nil];
-  id logManager = OCMProtocolMock(@protocol(MSLogManager));
-  OCMStub([logManager processLog:[OCMArg isKindOfClass:[MSStartServiceLog class]] forGroupId:OCMOCK_ANY]).andDo(nil);
-  [MSAppCenter sharedInstance].logManager = logManager;
+  id channelUnit = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub([channelUnit enqueueItem:[OCMArg isKindOfClass:[MSStartServiceLog class]]]).andDo(nil);
+  [MSAppCenter sharedInstance].channelUnit = channelUnit;
 
   // When
   [MSAppCenter startService:MSMockService.class];
 
   // Then
-  OCMVerify([logManager processLog:[OCMArg isKindOfClass:[MSStartServiceLog class]] forGroupId:OCMOCK_ANY]);
+  OCMVerify([channelUnit enqueueItem:[OCMArg isKindOfClass:[MSStartServiceLog class]]]);
 }
 
 - (void)testDisabledCoreStatus {
@@ -333,9 +336,9 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   [MSAppCenter setEnabled:NO];
   
   // Then
-  MSLogManagerDefault *logManager = [MSAppCenter sharedInstance].logManager;
-  XCTAssertFalse(logManager.enabled);
-  XCTAssertFalse(logManager.sender.enabled);
+  MSChannelGroupDefault *channelGroup = [MSAppCenter sharedInstance].channelGroup;
+  XCTAssertFalse(channelGroup.enabled);
+  XCTAssertFalse(channelGroup.sender.enabled);
   XCTAssertFalse([MSMockService isEnabled]);
 }
 
@@ -348,21 +351,23 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   [MSAppCenter start:MS_UUID_STRING withServices:@[MSMockService.class]];
  
   // Then
-  MSLogManagerDefault *logManager = [MSAppCenter sharedInstance].logManager;
-  XCTAssertFalse(logManager.enabled);
-  XCTAssertFalse(logManager.sender.enabled);
+  MSChannelGroupDefault *channelGroup = [MSAppCenter sharedInstance].channelGroup;
+  XCTAssertFalse(channelGroup.enabled);
+  XCTAssertFalse(channelGroup.sender.enabled);
   XCTAssertFalse([MSMockService isEnabled]);
 }
 
 - (void)testStartServiceLogWithDisabledCore {
   
   // If
-  id logManager = OCMClassMock([MSLogManagerDefault class]);
-  OCMStub([logManager alloc]).andReturn(logManager);
-  OCMStub([logManager initWithAppSecret:OCMOCK_ANY installId:OCMOCK_ANY logUrl:OCMOCK_ANY]).andReturn(logManager);
+  id channelGroup = OCMClassMock([MSChannelGroupDefault class]);
+  id channelUnit = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub([channelGroup alloc]).andReturn(channelGroup);
+  OCMStub([channelGroup initWithAppSecret:OCMOCK_ANY installId:OCMOCK_ANY logUrl:OCMOCK_ANY]).andReturn(channelGroup);
+  OCMStub([channelGroup addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnit);
   __block NSInteger logsProcessed = 0;
   __block MSStartServiceLog *log = nil;
-  OCMStub([logManager processLog:[OCMArg isKindOfClass:[MSStartServiceLog class]] forGroupId:OCMOCK_ANY])
+  OCMStub([channelUnit enqueueItem:[OCMArg isKindOfClass:[MSStartServiceLog class]]])
       .andDo(^(NSInvocation *invocation) {
         [invocation getArgument:&log atIndex:2];
         logsProcessed++;
@@ -390,7 +395,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   XCTAssertTrue([log.services isEqual:expected]);
   
   // Clear
-  [logManager stopMocking];
+  [channelGroup stopMocking];
 }
 
 - (void)testSortingServicesWorks {
@@ -417,30 +422,30 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 - (void)testAppIsBackgrounded {
 
   // If
-  id<MSLogManager> logManager = OCMProtocolMock(@protocol(MSLogManager));
+  id<MSChannelGroupProtocol> channelGroup = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
   [self.sut configure:@"AnAppSecret"];
-  self.sut.logManager = logManager;
+  self.sut.channelGroup = channelGroup;
 
   // When
   [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidEnterBackgroundNotification
                                                       object:self.sut];
   // Then
-  OCMVerify([logManager suspend]);
+  OCMVerify([channelGroup suspend]);
 }
 
 - (void)testAppIsForegrounded {
 
   // If
-  id<MSLogManager> logManager = OCMProtocolMock(@protocol(MSLogManager));
+  id<MSChannelGroupProtocol> channelGroup = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
   [self.sut configure:@"AnAppSecret"];
-  self.sut.logManager = logManager;
+  self.sut.channelGroup = channelGroup;
 
   // When
   [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillEnterForegroundNotification
 
                                                       object:self.sut];
   // Then
-  OCMVerify([logManager resume]);
+  OCMVerify([channelGroup resume]);
 }
 #endif
 
