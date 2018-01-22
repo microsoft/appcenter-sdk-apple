@@ -27,7 +27,7 @@ static const int maxPropertyValueLength = 64;
 @implementation MSAnalytics
 
 @synthesize autoPageTrackingEnabled = _autoPageTrackingEnabled;
-@synthesize channelConfiguration = _channelConfiguration;
+@synthesize channelUnitConfiguration = _channelUnitConfiguration;
 
 #pragma mark - Service initialization
 
@@ -42,7 +42,7 @@ static const int maxPropertyValueLength = 64;
     _sessionTracker.delegate = self;
 
     // Init channel configuration.
-    _channelConfiguration = [[MSChannelConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
+    _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:kMSGroupId];
   }
   return self;
 }
@@ -62,8 +62,8 @@ static const int maxPropertyValueLength = 64;
   return kMSServiceName;
 }
 
-- (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret {
-  [super startWithLogManager:logManager appSecret:appSecret];
+- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret {
+  [super startWithChannelGroup:channelGroup appSecret:appSecret];
 
   // Set up swizzling for auto page tracking.
   [MSAnalyticsCategory activateCategory];
@@ -72,10 +72,6 @@ static const int maxPropertyValueLength = 64;
 
 + (NSString *)logTag {
   return @"AppCenterAnalytics";
-}
-
-- (NSString *)groupId {
-  return kMSGroupId;
 }
 
 #pragma mark - MSServiceAbstract
@@ -88,8 +84,8 @@ static const int maxPropertyValueLength = 64;
     [self.sessionTracker start];
 
     // Add delegates to log manager.
-    [self.logManager addDelegate:self.sessionTracker];
-    [self.logManager addDelegate:self];
+    [self.channelGroup addDelegate:self.sessionTracker];
+    [self.channelGroup addDelegate:self];
 
     // Report current page while auto page tracking is on.
     if (self.autoPageTrackingEnabled) {
@@ -104,8 +100,8 @@ static const int maxPropertyValueLength = 64;
 
     MSLogInfo([MSAnalytics logTag], @"Analytics service has been enabled.");
   } else {
-    [self.logManager removeDelegate:self.sessionTracker];
-    [self.logManager removeDelegate:self];
+    [self.channelGroup removeDelegate:self.sessionTracker];
+    [self.channelGroup removeDelegate:self];
     [self.sessionTracker stop];
     MSLogInfo([MSAnalytics logTag], @"Analytics service has been disabled.");
   }
@@ -273,7 +269,7 @@ static const int maxPropertyValueLength = 64;
 - (void)sendLog:(id<MSLog>)log {
 
   // Send log to log manager.
-  [self.logManager processLog:log forGroupId:self.groupId];
+  [self.channelUnit enqueueItem:log];
 }
 
 + (void)resetSharedInstance {

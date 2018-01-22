@@ -3,6 +3,7 @@
 
 #import "MSAppCenterInternal.h"
 #import "MSAppDelegateForwarder.h"
+#import "MSChannelUnitConfiguration.h"
 #import "MSDistribute.h"
 #import "MSDistributeAppDelegate.h"
 #import "MSDistributeDataMigration.h"
@@ -39,7 +40,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 @implementation MSDistribute
 
-@synthesize channelConfiguration = _channelConfiguration;
+@synthesize channelUnitConfiguration = _channelUnitConfiguration;
 
 #pragma mark - Service initialization
 
@@ -52,7 +53,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     // Init.
     _apiUrl = kMSDefaultApiUrl;
     _installUrl = kMSDefaultInstallUrl;
-    _channelConfiguration = [[MSChannelConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
+    _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:kMSGroupId];
     _appDelegate = [MSDistributeAppDelegate new];
 
     /*
@@ -93,10 +94,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 + (NSString *)logTag {
   return @"AppCenterDistribute";
-}
-
-- (NSString *)groupId {
-  return kMSGroupId;
 }
 
 #pragma mark - MSServiceAbstract
@@ -156,8 +153,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   self.releaseDetails = nil;
 }
 
-- (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret {
-  [super startWithLogManager:logManager appSecret:appSecret];
+- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret {
+  [super startWithChannelGroup:channelGroup appSecret:appSecret];
   MSLogVerbose([MSDistribute logTag], @"Started Distribute service.");
 }
 

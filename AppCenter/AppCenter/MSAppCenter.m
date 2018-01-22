@@ -1,12 +1,13 @@
 #import <Foundation/Foundation.h>
 
 #import "MSAppCenterInternal.h"
+#import "MSAppCenterPrivate.h"
 #import "MSAppDelegateForwarder.h"
 #import "MSConstants+Internal.h"
 #import "MSDeviceTracker.h"
 #import "MSDeviceTrackerPrivate.h"
 #import "MSHttpSender.h"
-#import "MSLogManagerDefault.h"
+#import "MSChannelGroupDefault.h"
 #import "MSLogger.h"
 #import "MSSessionContext.h"
 #import "MSStartServiceLog.h"
@@ -193,7 +194,7 @@ static NSString *const kMSGroupId = @"AppCenter";
       self.appSecret = appSecret;
 
       // Init the main pipeline.
-      [self initializeLogManager];
+      [self initializeChannelGroup];
       [self applyPipelineEnabledState:self.isEnabled];
       self.sdkConfigured = YES;
 
@@ -288,7 +289,7 @@ static NSString *const kMSGroupId = @"AppCenter";
     [self.services addObject:service];
 
     // Start service with log manager.
-    [service startWithLogManager:self.logManager appSecret:self.appSecret];
+    [service startWithChannelGroup:self.channelGroup appSecret:self.appSecret];
     
     // Disable service if AppCenter is disabled.
     if ([clazz isEnabled] && !self.isEnabled) {
@@ -310,8 +311,8 @@ static NSString *const kMSGroupId = @"AppCenter";
 - (void)setLogUrl:(NSString *)logUrl {
   @synchronized(self) {
     _logUrl = logUrl;
-    if (self.logManager) {
-      [self.logManager setLogUrl:logUrl];
+    if (self.channelGroup) {
+      [self.channelGroup setLogUrl:logUrl];
     }
   }
 }
@@ -381,7 +382,7 @@ static NSString *const kMSGroupId = @"AppCenter";
   }
 
   // Propagate to log manager.
-  [self.logManager setEnabled:isEnabled andDeleteDataOnDisabled:YES];
+  [self.channelGroup setEnabled:isEnabled andDeleteDataOnDisabled:YES];
   
   // Send started services.
   if (self.startedServiceNames && isEnabled) {
@@ -390,15 +391,15 @@ static NSString *const kMSGroupId = @"AppCenter";
   }
 }
 
-- (void)initializeLogManager {
+- (void)initializeChannelGroup {
 
   // Construct log manager.
-  self.logManager =
-      [[MSLogManagerDefault alloc] initWithAppSecret:self.appSecret installId:self.installId logUrl:self.logUrl];
+  self.channelGroup =
+      [[MSChannelGroupDefault alloc] initWithAppSecret:self.appSecret installId:self.installId logUrl:self.logUrl];
 
   // Initialize a channel for start service logs.
-  [self.logManager
-      initChannelWithConfiguration:[[MSChannelConfiguration alloc] initDefaultConfigurationWithGroupId:kMSGroupId]];
+  self.channelUnit = [self.channelGroup
+      addChannelUnitWithConfiguration:[[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:kMSGroupId]];
 }
 
 - (NSString *)appSecret {
@@ -440,7 +441,7 @@ static NSString *const kMSGroupId = @"AppCenter";
   if (self.isEnabled) {
     MSStartServiceLog *serviceLog = [MSStartServiceLog new];
     serviceLog.services = servicesNames;
-    [self.logManager processLog:serviceLog forGroupId:kMSGroupId];
+    [self.channelUnit enqueueItem:serviceLog];
   } else {
     if (self.startedServiceNames == nil) {
       self.startedServiceNames = [NSMutableArray new];
@@ -453,7 +454,7 @@ static NSString *const kMSGroupId = @"AppCenter";
 - (void)sendCustomPropertiesLog:(NSDictionary<NSString *, NSObject *> *)properties {
   MSCustomPropertiesLog *customPropertiesLog = [MSCustomPropertiesLog new];
   customPropertiesLog.properties = properties;
-  [self.logManager processLog:customPropertiesLog forGroupId:kMSGroupId];
+  [self.channelUnit enqueueItem:customPropertiesLog];
 }
 #endif
 
@@ -469,14 +470,14 @@ static NSString *const kMSGroupId = @"AppCenter";
  *  The application will go to the foreground.
  */
 - (void)applicationWillEnterForeground {
-  [self.logManager resume];
+  [self.channelGroup resume];
 }
 
 /**
  *  The application will go to the background.
  */
 - (void)applicationDidEnterBackground {
-  [self.logManager suspend];
+  [self.channelGroup suspend];
 }
 #endif
 

@@ -9,7 +9,6 @@
 
 // Channel
 #import "Channel/MSChannelDelegate.h"
-#import "Channel/MSLogManagerDelegate.h"
 
 // Model
 #import "Model/MSAbstractLogInternal.h"

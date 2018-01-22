@@ -1,8 +1,9 @@
 #import <Foundation/Foundation.h>
 
+#import "MSChannelDelegate.h"
 #import "MSEnable.h"
 
-@class MSChannelDelegate;
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  * TODO add some comments
@@ -35,3 +36,5 @@
 - (void)resume;
 
 @end
+
+NS_ASSUME_NONNULL_END

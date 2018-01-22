@@ -45,3 +45,11 @@ typedef NSString * (^MSLogMessageProvider)(void);
 typedef void (^MSLogHandler)(MSLogMessageProvider messageProvider, MSLogLevel logLevel, NSString *tag, const char *file,
                              const char *function, uint line);
 
+/**
+ * Channel priorities, check the kMSPriorityCount if you add a new value.
+ * The order matters here! Values NEED to range from low priority to high priority.
+ */
+typedef NS_ENUM(NSInteger, MSPriority) { MSPriorityBackground, MSPriorityDefault, MSPriorityHigh };
+static short const kMSPriorityCount = MSPriorityHigh + 1;
+
+

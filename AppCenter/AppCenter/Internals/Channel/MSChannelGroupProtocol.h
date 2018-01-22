@@ -2,8 +2,10 @@
 
 #import "MSChannelProtocol.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol MSChannelUnitProtocol;
-@class MSChannelConfiguration;
+@class MSChannelUnitConfiguration;
 
 /**
  * TODO add some comments
@@ -15,7 +17,7 @@
  *
  * @param configuration channel configuration.
  */
-- (id<MSChannelUnitProtocol>)initChannelUnitWithConfiguration:(MSChannelConfiguration *)configuration;
+- (id<MSChannelUnitProtocol>)addChannelUnitWithConfiguration:(MSChannelUnitConfiguration *)configuration;
 
 /**
  * Change the base URL (schema + authority + port only) used to communicate with the backend.
@@ -25,3 +27,5 @@
 - (void)setLogUrl:(NSString *)logUrl;
 
 @end
+
+NS_ASSUME_NONNULL_END

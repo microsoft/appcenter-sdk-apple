@@ -2,6 +2,8 @@
 
 @interface MSAppCenter ()
 
+@property(nonatomic) id<MSChannelUnitProtocol> channelUnit;
+
 /**
  * Method to reset the singleton when running unit tests only. So calling sharedInstance returns a fresh instance.
  */

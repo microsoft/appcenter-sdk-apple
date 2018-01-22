@@ -3,7 +3,8 @@
 
 @implementation MSServiceAbstract
 
-@synthesize logManager = _logManager;
+@synthesize channelGroup = _channelGroup;
+@synthesize channelUnit = _channelUnit;
 @synthesize appSecret = _appSecret;
 
 - (instancetype)init {
@@ -45,7 +46,7 @@
 - (void)applyEnabledState:(BOOL)isEnabled {
 
   // Propagate isEnabled and delete logs on disabled.
-  [self.logManager setEnabled:isEnabled andDeleteDataOnDisabled:YES forGroupId:self.groupId];
+  [self.channelUnit setEnabled:isEnabled andDeleteDataOnDisabled:YES];
 }
 
 - (BOOL)canBeUsed {
@@ -68,13 +69,13 @@
 
 #pragma mark : - MSService
 
-- (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret {
+- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret {
   self.started = YES;
-  self.logManager = logManager;
+  self.channelGroup = channelGroup;
   self.appSecret = appSecret;
 
-  // Initialize channel for the service in log manager.
-  [self.logManager initChannelWithConfiguration:self.channelConfiguration];
+  // Initialize channel unit for the service in log manager.
+  self.channelUnit = [self.channelGroup addChannelUnitWithConfiguration:self.channelUnitConfiguration];
 
   // Enable this service as needed.
   if (self.isEnabled) {

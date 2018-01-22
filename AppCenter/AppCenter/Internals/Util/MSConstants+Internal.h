@@ -9,12 +9,6 @@ static NSString *const kMSHeaderInstallIDKey = @"Install-ID";
 static NSString *const kMSHeaderContentTypeKey = @"Content-Type";
 static NSString *const kMSContentType = @"application/json";
 
-/** Channel priorities, check the kMSPriorityCount if you add a new value.
- * The order matters here! Values NEED to range from low priority to high priority.
- */
-typedef NS_ENUM(NSInteger, MSPriority) { MSPriorityBackground, MSPriorityDefault, MSPriorityHigh };
-static short const kMSPriorityCount = MSPriorityHigh + 1;
-
 /**
  * The priority by which the modules are initialized.
  *  MSPriorityMax is reserved for only 1 module and this needs to be Crashes. Crashes needs to be initialized first to

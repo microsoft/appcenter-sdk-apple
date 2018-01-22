@@ -2,7 +2,7 @@
 
 #import "AppCenter+Internal.h"
 #import "MSAppCenter.h"
-#import "MSLogManager.h"
+#import "MSChannelGroupProtocol.h"
 #import "MSServiceInternal.h"
 
 // Persisted storage keys.
@@ -17,7 +17,7 @@ static NSString *const kMSDisableAll = @"All";
 
 @interface MSAppCenter ()
 
-@property(nonatomic) id<MSLogManager> logManager;
+@property(nonatomic) id<MSChannelGroupProtocol> channelGroup;
 @property(nonatomic) NSMutableArray<NSObject<MSServiceInternal> *> *services;
 @property(nonatomic) NSMutableArray<NSString *> * startedServiceNames;
 @property(nonatomic, copy) NSString *appSecret;

@@ -1,5 +1,6 @@
 #import "MSAppCenterInternal.h"
 #import "MSAppleErrorLog.h"
+#import "MSChannelGroupProtocol.h"
 #import "MSCrashesCXXExceptionWrapperException.h"
 #import "MSCrashesDelegate.h"
 #import "MSCrashesInternal.h"
@@ -145,8 +146,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 @implementation MSCrashes
 
 @synthesize delegate = _delegate;
-@synthesize logManager = _logManager;
-@synthesize channelConfiguration = _channelConfiguration;
+@synthesize channelGroup = _channelGroup;
+@synthesize channelUnitConfiguration = _channelUnitConfiguration;
 
 #pragma mark - Public Methods
 
@@ -231,7 +232,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 #if !TARGET_OS_TV
     _enableMachExceptionHandler = YES;
 #endif
-    _channelConfiguration = [[MSChannelConfiguration alloc] initWithGroupId:[self groupId]
+    _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSGroupId
                                                                    priority:MSPriorityHigh
                                                               flushInterval:1.0
                                                              batchSizeLimit:1
@@ -348,16 +349,16 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   return kMSServiceName;
 }
 
-- (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret {
-  [super startWithLogManager:logManager appSecret:appSecret];
-  [logManager addDelegate:self];
-
+- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret {
+  [super startWithChannelGroup:channelGroup appSecret:appSecret];
+  [self.channelGroup addDelegate:self];
   // Initialize a dedicated channel for log buffer.
-  [logManager initChannelWithConfiguration:[[MSChannelConfiguration alloc] initWithGroupId:kMSBufferGroupId
-                                                                                  priority:MSPriorityHigh
-                                                                             flushInterval:1.0
-                                                                            batchSizeLimit:60
-                                                                       pendingBatchesLimit:1]];
+  self.channelUnit = [self.channelGroup addChannelUnitWithConfiguration:
+                      [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSBufferGroupId
+                                                                 priority:MSPriorityHigh
+                                                            flushInterval:1.0
+                                                           batchSizeLimit:60
+                                                      pendingBatchesLimit:1]];
 
   [self processLogBufferAfterCrash];
   MSLogVerbose([MSCrashes logTag], @"Started crash service.");
@@ -365,10 +366,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 + (NSString *)logTag {
   return @"AppCenterCrashes";
-}
-
-- (NSString *)groupId {
-  return kMSGroupId;
 }
 
 - (MSInitializationPriority)initializationPriority {
@@ -379,7 +376,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   _enableMachExceptionHandler = enableMachExceptionHandler;
 }
 
-#pragma mark - MSLogManagerDelegate
+#pragma mark - MSChannelDelegate
 
 /**
  * Why are we doing the event-buffering inside crashes?
@@ -769,7 +766,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
         if (item) {
 
           // Buffered logs are used sending their own channel. It will never contain more than 60 logs
-          [self.logManager processLog:item forGroupId:kMSBufferGroupId];
+          [self.channelUnit enqueueItem:item];
         }
       }
 
@@ -845,7 +842,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       MSLogError([MSCrashes logTag], @"Not all required fields are present in MSErrorAttachmentLog.");
       continue;
     }
-    [self.logManager processLog:attachment forGroupId:self.groupId];
+    [self.channelUnit enqueueItem:attachment];
     ++totalProcessedAttachments;
   }
   if (totalProcessedAttachments > kMaxAttachmentsPerCrashReport) {
@@ -1196,8 +1193,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     // First, get corelated session Id.
     log.sid = [MSSessionContext sessionIdAt:log.timestamp];
 
-    // Then, send crash log to log manager.
-    [self.logManager processLog:log forGroupId:self.groupId];
+    // Then, enqueue crash log.
+    [self.channelUnit enqueueItem:log];
 
     // Send error attachments.
     [self sendErrorAttachments:attachments withIncidentIdentifier:report.incidentIdentifier];
@@ -1223,8 +1220,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   log.errorId = MS_UUID_STRING;
   log.exception = exception;
 
-  // Send log to log manager.
-  [self.logManager processLog:log forGroupId:self.groupId];
+  // Enqueue log.
+  [self.channelUnit enqueueItem:log];
 }
 
 @end
