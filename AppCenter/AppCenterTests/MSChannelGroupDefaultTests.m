@@ -195,4 +195,36 @@
   dispatch_semaphore_wait(sem, dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC*1));
 }
 
+- (void)testDelegateIsAddedToAddedUnit {
+
+  // If
+  NSString *groupId = @"AppCenter";
+  MSPriority priority = MSPriorityDefault;
+  float flushInterval = 1.0;
+  NSUInteger batchSizeLimit = 10;
+  NSUInteger pendingBatchesLimit = 3;
+  id senderMock = OCMProtocolMock(@protocol(MSSender));
+  id storageMock = OCMProtocolMock(@protocol(MSStorage));
+  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock storage:storageMock];
+  id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
+  OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
+  OCMStub([channelUnitMock initWithSender:OCMOCK_ANY
+                                       storage:OCMOCK_ANY
+                                 configuration:OCMOCK_ANY
+                             logsDispatchQueue:OCMOCK_ANY]).andReturn(channelUnitMock);
+
+  // When
+  [sut addChannelUnitWithConfiguration:[[MSChannelUnitConfiguration alloc] initWithGroupId:groupId
+                                                                                  priority:priority
+                                                                             flushInterval:flushInterval
+                                                                            batchSizeLimit:batchSizeLimit
+                                                                       pendingBatchesLimit:pendingBatchesLimit]];
+
+  // Then
+  OCMVerify([channelUnitMock addDelegate:sut]);
+
+  // Clear
+  [channelUnitMock stopMocking];
+}
+
 @end
