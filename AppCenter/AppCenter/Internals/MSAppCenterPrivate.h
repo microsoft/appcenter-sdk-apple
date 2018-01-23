@@ -1,4 +1,5 @@
 #import "MSAppCenter.h"
+#import "MSChannelUnitProtocol.h"
 
 @interface MSAppCenter ()
 
