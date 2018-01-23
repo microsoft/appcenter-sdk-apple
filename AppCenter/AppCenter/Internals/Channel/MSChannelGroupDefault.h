@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 static short *const kMSStorageMaxCapacity = 300;
 
 /**
- * A log manager which triggers and manages the processing of log items on
+ * A channel group which triggers and manages the processing of log items on
  * different channels. All items will be immediately passed to the persistence
  * layer in order to make the queue crash safe. Once a maximum number of items
  * have been enqueued or the internal timer finished running, events will be

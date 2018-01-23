@@ -6,7 +6,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * TODO add some comments
+ * `MSChannelProtocol` contains the essential operations of a channel. Channels are
+ * broadly responsible for enqueuing logs to be sent to the backend and/or stored
+ * on disk.
  */
 @protocol MSChannelProtocol <NSObject, MSEnable>
 
@@ -24,7 +26,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)removeDelegate:(id<MSChannelDelegate>)delegate;
 
-//TODO needed? or should this be in channelgroupprotocol?
 /**
  * Suspend operations, logs will not be sent but still stored.
  */
