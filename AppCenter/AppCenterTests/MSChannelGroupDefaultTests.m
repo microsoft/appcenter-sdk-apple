@@ -5,11 +5,11 @@
 #import "MSChannelGroupDefault.h"
 #import "MSTestFrameworks.h"
 
-@interface MSLogManagerDefaultTests : XCTestCase
+@interface MSChannelGroupDefaultTests : XCTestCase
 
 @end
 
-@implementation MSLogManagerDefaultTests
+@implementation MSChannelGroupDefaultTests
 
 #pragma mark - Tests
 
@@ -59,30 +59,6 @@
   assertThatFloat(addedChannel.configuration.flushInterval, equalToFloat(flushInterval));
   assertThatUnsignedLong(addedChannel.configuration.batchSizeLimit, equalToUnsignedLong(batchSizeLimit));
   assertThatUnsignedLong(addedChannel.configuration.pendingBatchesLimit, equalToUnsignedLong(pendingBatchesLimit));
-}
-
-- (void)testProcessingLogWillTriggerOnProcessingCall {
-
-  // If
-  MSPriority priority = MSPriorityDefault;
-  NSString *groupId = @"AppCenter";
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:OCMProtocolMock(@protocol(MSSender))
-                                                                 storage:OCMProtocolMock(@protocol(MSStorage))];
-  id mockDelegate = OCMProtocolMock(@protocol(MSChannelDelegate));
-  [sut addDelegate:mockDelegate];
-  id<MSChannelUnitProtocol> addedChannel = [sut addChannelUnitWithConfiguration:
-                                            [[MSChannelUnitConfiguration alloc] initWithGroupId:groupId
-                                                                                       priority:priority
-                                                                                  flushInterval:1.0
-                                                                                 batchSizeLimit:10
-                                                                            pendingBatchesLimit:3]];
-  MSAbstractLog *log = [MSAbstractLog new];
-
-  // When
-  [addedChannel enqueueItem:log];
-
-  // Then
-  OCMVerify([mockDelegate onEnqueuingLog:log withInternalId:OCMOCK_ANY]);
 }
 
 - (void)testDelegatesConcurrentAccess {

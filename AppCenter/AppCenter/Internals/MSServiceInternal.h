@@ -27,6 +27,14 @@
 + (instancetype)sharedInstance;
 
 /**
+ * Service unique key for storage purpose.
+ *
+ * @discussion: IMPORTANT, This string is used to point to the right storage value for this service.
+ * Changing this string results in data lost if previous data is not migrated.
+ */
+@property(nonatomic, copy, readonly) NSString *groupId;
+
+/**
  * Get a service name.
  *
  * @return the service name.

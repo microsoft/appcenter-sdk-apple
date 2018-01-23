@@ -137,7 +137,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
   return @"AppCenterPush";
 }
 
-+ (NSString *)groupId {
+- (NSString *)groupId {
   return kMSGroupId;
 }
 

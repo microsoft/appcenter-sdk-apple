@@ -38,7 +38,7 @@ static MSMockSecondService *sharedInstance = nil;
   return @"AppCenterTest";
 }
 
-+ (NSString *)groupId {
+- (NSString *)groupId {
   return kMSGroupId;
 }
 

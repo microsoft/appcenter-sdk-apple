@@ -79,6 +79,12 @@
     item.device = [[MSDeviceTracker sharedInstance] device];
   }
 
+  // Notify delegates.
+  [self enumerateDelegatesForSelector:@selector(onEnqueuingLog:withInternalId:)
+                            withBlock:^(id<MSChannelDelegate> delegate) {
+                              [delegate onEnqueuingLog:item withInternalId:internalLogId];
+                            }];
+  
   // Return fast in case our item is empty or we are discarding logs right now.
   dispatch_async(self.logsDispatchQueue, ^{
     if (self.discardLogs) {
@@ -90,12 +96,6 @@
       [self completedEnqueuingLog:item withInternalId:internalLogId withSuccess:NO];
       return;
     }
-
-    // Notify delegates.
-    [self enumerateDelegatesForSelector:@selector(onEnqueuingLog:withInternalId:)
-                              withBlock:^(id<MSChannelDelegate> delegate) {
-                                [delegate onEnqueuingLog:item withInternalId:internalLogId];
-                              }];
 
     // Save the log first.
     MSLogDebug([MSAppCenter logTag], @"Saving log, type: %@.", item.type);

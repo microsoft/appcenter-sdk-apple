@@ -368,7 +368,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   return @"AppCenterCrashes";
 }
 
-+ (NSString *)groupId {
+- (NSString *)groupId {
   return kMSGroupId;
 }
 

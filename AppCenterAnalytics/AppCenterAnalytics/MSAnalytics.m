@@ -74,7 +74,7 @@ static const int maxPropertyValueLength = 64;
   return @"AppCenterAnalytics";
 }
 
-+ (NSString *)groupId {
+- (NSString *)groupId {
   return kMSGroupId;
 }
 

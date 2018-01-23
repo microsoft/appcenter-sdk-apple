@@ -96,7 +96,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   return @"AppCenterDistribute";
 }
 
-+ (NSString *)groupId {
+- (NSString *)groupId {
   return kMSGroupId;
 }
 

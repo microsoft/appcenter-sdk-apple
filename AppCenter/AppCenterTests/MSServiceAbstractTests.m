@@ -52,7 +52,7 @@
   return @"MSServiceAbstractTest";
 }
 
-+ (NSString *)groupId {
+- (NSString *)groupId {
   return @"groupId";
 }
 
@@ -286,7 +286,6 @@
 
   OCMStub([channelUnit setEnabled:NO andDeleteDataOnDisabled:YES])
       .andDo(^(NSInvocation *invocation) {
-        [invocation getArgument:&groupId atIndex:4];
         [invocation getArgument:&deleteLogs atIndex:3];
         [invocation getArgument:&forwardedEnabled atIndex:2];
       });
