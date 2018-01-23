@@ -779,8 +779,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
                                                                  andType:kMSTypeHandledError];
   
   // Then
-  NSString *truncatedKey = (NSString *)[[validatedProperties allKeys] firstObject];
-  NSString *truncatedValue = (NSString *)[[validatedProperties allValues] firstObject];
+  NSString *truncatedKey = [[validatedProperties allKeys] firstObject];
+  NSString *truncatedValue = [[validatedProperties allValues] firstObject];
   XCTAssertTrue([validatedProperties count] == 1);
   XCTAssertEqual([truncatedKey length], maxPropertyKeyLength);
   XCTAssertEqual([truncatedValue length], maxPropertyValueLength);
