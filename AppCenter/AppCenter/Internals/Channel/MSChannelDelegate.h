@@ -2,8 +2,6 @@
 
 #import "MSLog.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
 @protocol MSChannelDelegate <NSObject>
 
 @optional
@@ -69,6 +67,3 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)onFailedPersistingLog:(id<MSLog>)log withInternalId:(NSString *)internalId;
 
 @end
-
-NS_ASSUME_NONNULL_END
-

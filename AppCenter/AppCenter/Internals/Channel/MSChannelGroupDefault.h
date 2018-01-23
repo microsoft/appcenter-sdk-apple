@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class MSHttpSender;
 
-static short *const kMSStorageMaxCapacity = 300;
+static short const kMSStorageMaxCapacity = 300;
 
 /**
  * A channel group which triggers and manages the processing of log items on

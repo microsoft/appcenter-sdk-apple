@@ -3,9 +3,9 @@
 #import "MSAnalyticsPrivate.h"
 #import "MSAppCenter.h"
 #import "MSAppCenterInternal.h"
-#import "MSChannelDefault.h"
+#import "MSChannelGroupDefault.h"
+#import "MSChannelUnitDefault.h"
 #import "MSEventLog.h"
-#import "MSLogManagerDefault.h"
 #import "MSMockAnalyticsDelegate.h"
 #import "MSServiceAbstract.h"
 #import "MSServiceInternal.h"
@@ -209,7 +209,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 }
 
 - (void)testApplyEnabledStateWorks {
-  [[MSAnalytics sharedInstance] startWithLogManager:OCMProtocolMock(@protocol(MSLogManager))
+  [[MSAnalytics sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                                           appSecret:kMSTestAppSecret];
 
   MSServiceAbstract *service = [MSAnalytics sharedInstance];
@@ -237,7 +237,6 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 - (void)testAnalyticsDelegateWithoutImplementations {
 
   // If
-  NSString *groupId = [[MSAnalytics sharedInstance] groupId];
   MSEventLog *eventLog = OCMClassMock([MSEventLog class]);
   id delegateMock = OCMProtocolMock(@protocol(MSAnalyticsDelegate));
   OCMReject([delegateMock analytics:[MSAnalytics sharedInstance] willSendEventLog:eventLog]);
@@ -245,23 +244,21 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   OCMReject([delegateMock analytics:[MSAnalytics sharedInstance] didFailSendingEventLog:eventLog withError:nil]);
   [MSAppCenter sharedInstance].sdkConfigured = NO;
   [MSAppCenter start:kMSTestAppSecret withServices:@[ [MSAnalytics class] ]];
-  NSMutableDictionary *channelsInLogManager =
-      ((MSLogManagerDefault *)([MSAnalytics sharedInstance].logManager)).channels;
-  MSChannelDefault *channelMock = channelsInLogManager[groupId] = OCMPartialMock(channelsInLogManager[groupId]);
-  OCMStub([channelMock enqueueItem:OCMOCK_ANY withCompletion:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+  MSChannelUnitDefault *channelMock = [MSAnalytics sharedInstance].channelUnit = OCMPartialMock([MSAnalytics sharedInstance].channelUnit);
+  OCMStub([channelMock enqueueItem:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     id<MSLog> log = nil;
     [invocation getArgument:&log atIndex:2];
     for (id<MSChannelDelegate> delegate in channelMock.delegates) {
 
       // Call all channel delegate methods for testing.
-      [delegate channel:channelMock willSendLog:log];
-      [delegate channel:channelMock didSucceedSendingLog:log];
-      [delegate channel:channelMock didFailSendingLog:log withError:nil];
+      [delegate willSendLog:log];
+      [delegate didSucceedSendingLog:log];
+      [delegate didFailSendingLog:log withError:nil];
     }
   });
 
   // When
-  [[MSAnalytics sharedInstance].logManager processLog:eventLog forGroupId:groupId];
+  [[MSAnalytics sharedInstance].channelUnit enqueueItem:eventLog];
 
   // Then
   OCMVerifyAll(delegateMock);
@@ -271,29 +268,26 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
   // If
   [MSAnalytics resetSharedInstance];
-  NSString *groupId = [[MSAnalytics sharedInstance] groupId];
   id<MSAnalyticsDelegate> delegateMock = OCMProtocolMock(@protocol(MSAnalyticsDelegate));
   [MSAppCenter sharedInstance].sdkConfigured = NO;
   [MSAppCenter start:kMSTestAppSecret withServices:@[ [MSAnalytics class] ]];
-  NSMutableDictionary *channelsInLogManager =
-      ((MSLogManagerDefault *)([MSAnalytics sharedInstance].logManager)).channels;
-  MSChannelDefault *channelMock = channelsInLogManager[groupId] = OCMPartialMock(channelsInLogManager[groupId]);
-  OCMStub([channelMock enqueueItem:OCMOCK_ANY withCompletion:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+  MSChannelUnitDefault *channelMock = [MSAnalytics sharedInstance].channelUnit = OCMPartialMock([MSAnalytics sharedInstance].channelUnit);
+  OCMStub([channelMock enqueueItem:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     id<MSLog> log = nil;
     [invocation getArgument:&log atIndex:2];
     for (id<MSChannelDelegate> delegate in channelMock.delegates) {
 
       // Call all channel delegate methods for testing.
-      [delegate channel:channelMock willSendLog:log];
-      [delegate channel:channelMock didSucceedSendingLog:log];
-      [delegate channel:channelMock didFailSendingLog:log withError:nil];
+      [delegate willSendLog:log];
+      [delegate didSucceedSendingLog:log];
+      [delegate didFailSendingLog:log withError:nil];
     }
   });
 
   // When
   [[MSAnalytics sharedInstance] setDelegate:delegateMock];
   MSEventLog *eventLog = OCMClassMock([MSEventLog class]);
-  [[MSAnalytics sharedInstance].logManager processLog:eventLog forGroupId:groupId];
+  [[MSAnalytics sharedInstance].channelUnit enqueueItem:eventLog];
 
   // Then
   OCMVerify([delegateMock analytics:[MSAnalytics sharedInstance] willSendEventLog:eventLog]);
@@ -307,8 +301,10 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   __block NSString *name;
   __block NSString *type;
   NSString *expectedName = @"gotACoffee";
-  id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
-  OCMStub([logManagerMock processLog:[OCMArg isKindOfClass:[MSLogWithProperties class]] forGroupId:OCMOCK_ANY])
+  id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSLogWithProperties class]]])
       .andDo(^(NSInvocation *invocation) {
         MSEventLog *log;
         [invocation getArgument:&log atIndex:2];
@@ -316,7 +312,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
         name = log.name;
       });
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
-  [[MSAnalytics sharedInstance] startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock appSecret:kMSTestAppSecret];
 
   // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
   [[MSAnalytics sharedInstance].sessionTracker stop];
@@ -337,8 +333,10 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   __block NSDictionary<NSString *, NSString *> *properties;
   NSString *expectedName = @"gotACoffee";
   NSDictionary *expectedProperties = @{ @"milk" : @"yes", @"cookie" : @"of course" };
-  id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
-  OCMStub([logManagerMock processLog:[OCMArg isKindOfClass:[MSLogWithProperties class]] forGroupId:OCMOCK_ANY])
+  id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSLogWithProperties class]]])
       .andDo(^(NSInvocation *invocation) {
         MSEventLog *log;
         [invocation getArgument:&log atIndex:2];
@@ -347,7 +345,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
         properties = log.properties;
       });
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
-  [[MSAnalytics sharedInstance] startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock appSecret:kMSTestAppSecret];
 
   // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
   [[MSAnalytics sharedInstance].sessionTracker stop];
@@ -367,8 +365,10 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   __block NSString *name;
   __block NSString *type;
   NSString *expectedName = @"HomeSweetHome";
-  id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
-  OCMStub([logManagerMock processLog:[OCMArg isKindOfClass:[MSLogWithProperties class]] forGroupId:OCMOCK_ANY])
+  id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSLogWithProperties class]]])
       .andDo(^(NSInvocation *invocation) {
         MSEventLog *log;
         [invocation getArgument:&log atIndex:2];
@@ -376,7 +376,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
         name = log.name;
       });
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
-  [[MSAnalytics sharedInstance] startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock appSecret:kMSTestAppSecret];
 
   // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
   [[MSAnalytics sharedInstance].sessionTracker stop];
@@ -397,8 +397,10 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   __block NSDictionary<NSString *, NSString *> *properties;
   NSString *expectedName = @"HomeSweetHome";
   NSDictionary *expectedProperties = @{ @"Sofa" : @"yes", @"TV" : @"of course" };
-  id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
-  OCMStub([logManagerMock processLog:[OCMArg isKindOfClass:[MSLogWithProperties class]] forGroupId:OCMOCK_ANY])
+  id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSLogWithProperties class]]])
       .andDo(^(NSInvocation *invocation) {
         MSEventLog *log;
         [invocation getArgument:&log atIndex:2];
@@ -407,7 +409,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
         properties = log.properties;
       });
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
-  [[MSAnalytics sharedInstance] startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock appSecret:kMSTestAppSecret];
 
   // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
   [[MSAnalytics sharedInstance].sessionTracker stop];
