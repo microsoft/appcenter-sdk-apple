@@ -257,12 +257,15 @@ static UIViewController *crashResultViewController = nil;
   } else {
     message = [NSString stringWithFormat:@"%@%@%@", (message ? message : @""), (message && customData ? @"\n" : @""),
                                          (customData ? customData : @"")];
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                    message:message
-                                                   delegate:self
-                                          cancelButtonTitle:@"OK"
-                                          otherButtonTitles:nil];
-    [alert show];
+    
+    MSAlertController *alertController = [MSAlertController
+                                          alertControllerWithTitle:title
+                                          message:message];
+    [alertController addCancelActionWithTitle:@"OK"
+                                      handler:nil];
+    
+    // Show the alert controller.
+    [alertController show];
   }
 }
 
