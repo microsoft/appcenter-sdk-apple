@@ -707,7 +707,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     }
 
     // Add a "Update now"-Button.
-    // Preferred action is only available iOS 9.0 or newer, cancel action will be displayed for iOS < 9.0.
     [alertController addPreferredActionWithTitle:MSDistributeLocalizedString(@"MSDistributeUpdateNow")
                                          handler:^(__attribute__((unused)) UIAlertAction *action) {
                                            [self notifyUpdateAction:MSUpdateActionUpdate];
