@@ -53,15 +53,6 @@ static UIViewController *crashResultViewController = nil;
 
 #pragma mark - URL handling
 
-// Open URL for iOS 8.
-- (BOOL)application:(UIApplication *)application
-              openURL:(NSURL *)url
-    sourceApplication:(NSString *)sourceApplication
-           annotation:(id)annotation {
-  NSLog(@"%@ Was woken up via openURL:sourceApplication:annotation: %@.", kPUPLogTag, url);
-  return NO;
-}
-
 // Open URL for iOS 9+.
 - (BOOL)application:(UIApplication *)application
             openURL:(nonnull NSURL *)url

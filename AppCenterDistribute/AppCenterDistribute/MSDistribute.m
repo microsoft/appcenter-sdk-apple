@@ -477,10 +477,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         [self openURLInSafariViewControllerWith:url fromClass:clazz];
       });
     }
-  } else {
-
-    // iOS 8.x.
-    [self openURLInSafariApp:url];
   }
 #pragma clang diagnostic pop
 }
@@ -565,11 +561,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       [strongSelf.safariHostingViewController dismissViewControllerAnimated:YES completion:nil];
     }
   });
-}
-
-- (void)openURLInSafariApp:(NSURL *)url {
-  MSLogDebug([MSDistribute logTag], @"Using Safari browser to open URL: %@", url);
-  [MSUtility sharedAppOpenUrl:url options:@{} completionHandler:nil];
 }
 
 - (BOOL)handleUpdate:(MSReleaseDetails *)details {
