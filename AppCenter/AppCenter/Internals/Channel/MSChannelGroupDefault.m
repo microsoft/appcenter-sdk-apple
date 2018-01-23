@@ -25,7 +25,6 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 - (instancetype)initWithSender:(MSHttpSender *)sender storage:(id<MSStorage>)storage {
   if ((self = [self init])) {
     dispatch_queue_t serialQueue = dispatch_queue_create(kMSlogsDispatchQueue, DISPATCH_QUEUE_SERIAL);
-    _enabled = YES;
     _logsDispatchQueue = serialQueue;
     _channels = [NSMutableArray<id<MSChannelUnitProtocol>> new];
     _delegates = [NSHashTable weakObjectsHashTable];
@@ -119,22 +118,19 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 #pragma mark - Enable / Disable
 
 - (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData {
-  if (isEnabled != self.enabled) {
-    self.enabled = isEnabled;
 
-    // Propagate to sender.
-    [self.sender setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
+  // Propagate to sender.
+  [self.sender setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
 
-    // Propagate to initialized channels.
-    for (id<MSChannelProtocol> channel in self.channels) {
-      [channel setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
-    }
-
-    /**
-     * TODO: There should be some concept of logs on disk expiring to avoid leaks
-     * when a channel is disabled with lingering logs but never enabled again.
-     */
+  // Propagate to initialized channels.
+  for (id<MSChannelProtocol> channel in self.channels) {
+    [channel setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
   }
+
+  /**
+   * TODO: There should be some concept of logs on disk expiring to avoid leaks
+   * when a channel is disabled with lingering logs but never enabled again.
+   */
 }
 
 #pragma mark - Suspend / Resume
@@ -163,6 +159,18 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
       [channel resume];
     });
   }
+}
+
+#pragma mark - MSSenderDelegate
+
+- (void)senderDidSuspend:(id<MSSender>)sender {
+  (void)sender;
+  [self suspend];
+}
+
+- (void)senderDidResume:(id<MSSender>)sender {
+  (void)sender;
+  [self resume];
 }
 
 - (void)senderDidReceiveFatalError:(id<MSSender>)sender {

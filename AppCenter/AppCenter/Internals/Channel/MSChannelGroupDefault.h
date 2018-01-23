@@ -5,6 +5,7 @@
 #import "MSDeviceTracker.h"
 #import "MSSender.h"
 #import "MSStorage.h"
+#import "MSSenderDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -21,7 +22,7 @@ static short *const kMSStorageMaxCapacity = 300;
  * persistence layer what to do with a pending batch based on the status code
  * returned by the sender
  */
-@interface MSChannelGroupDefault : NSObject <MSChannelGroupProtocol>
+@interface MSChannelGroupDefault : NSObject <MSChannelGroupProtocol, MSSenderDelegate>
 
 /**
  * Initializes a new `MSChannelGroupDefault` instance.
@@ -44,11 +45,6 @@ static short *const kMSStorageMaxCapacity = 300;
  * @return A new `MSLogManager` instance.
  */
 - (instancetype)initWithSender:(MSHttpSender *)sender storage:(id<MSStorage>)storage;
-
-/**
- * A boolean value set to YES if this instance is enabled or NO otherwise.
- */
-@property BOOL enabled;
 
 /**
  * Hash table of channel delegates.
