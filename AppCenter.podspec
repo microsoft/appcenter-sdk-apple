@@ -30,7 +30,7 @@ Pod::Spec.new do |s|
   s.license           = { :type => 'MIT', :file => 'AppCenter-SDK-Apple/iOS/LICENSE' }
   s.author            = { 'Microsoft' => 'appcentersdk@microsoft.com' }
 
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '9.0'
   s.osx.deployment_target = '10.9'
   s.source = { :http => "https://github.com/microsoft/AppCenter-SDK-Apple/releases/download/#{s.version}/AppCenter-SDK-Apple-#{s.version}.zip" }
 
