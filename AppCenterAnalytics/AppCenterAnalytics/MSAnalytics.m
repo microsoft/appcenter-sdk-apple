@@ -238,7 +238,7 @@ static const int maxPropertyValueLength = 64;
 }
 
 - (void)trackPage:(NSString *)pageName withProperties:(NSDictionary<NSString *, NSString *> *)properties {
-  if (![super isEnabled])
+  if (![self isEnabled])
     return;
 
   // Create an event log.
