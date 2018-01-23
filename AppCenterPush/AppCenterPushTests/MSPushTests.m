@@ -4,6 +4,7 @@
 #else
 #import <UserNotifications/UserNotifications.h>
 #endif
+#import "MSChannelGroupDefault.h"
 #import "MSService.h"
 #import "MSServiceAbstract.h"
 #import "MSServiceInternal.h"
@@ -27,11 +28,11 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 
 @interface MSPush ()
 
-- (void)channel:(id)channel willSendLog:(id<MSLog>)log;
+- (void)willSendLog:(id<MSLog>)log;
 
-- (void)channel:(id<MSChannel>)channel didSucceedSendingLog:(id<MSLog>)log;
+- (void)didSucceedSendingLog:(id<MSLog>)log;
 
-- (void)channel:(id<MSChannel>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error;
+- (void)didFailSendingLog:(id<MSLog>)log withError:(NSError *)error;
 
 - (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken;
 
@@ -83,7 +84,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 - (void)testApplyEnabledStateWorks {
 
   // If
-  [[MSPush sharedInstance] startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+  [[MSPush sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol)) appSecret:kMSTestAppSecret];
   MSServiceAbstract *service = (MSServiceAbstract *)[MSPush sharedInstance];
 
   // When

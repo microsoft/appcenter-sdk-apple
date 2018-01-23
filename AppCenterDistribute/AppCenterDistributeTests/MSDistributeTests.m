@@ -4,6 +4,7 @@
 #import "MSAlertController.h"
 #import "MSAppCenter.h"
 #import "MSBasicMachOParser.h"
+#import "MSChannelGroupDefault.h"
 #import "MSDistribute.h"
 #import "MSDistributeInternal.h"
 #import "MSDistributePrivate.h"
@@ -148,7 +149,7 @@ static NSURL *sfURL;
 
   // Disable for now to bypass initializing sender.
   [distributeMock setEnabled:NO];
-  [distributeMock startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+  [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol)) appSecret:kMSTestAppSecret];
 
   // Enable again.
   [distributeMock setEnabled:YES];
@@ -998,7 +999,7 @@ static NSURL *sfURL;
 
   // Disable for now to bypass initializing sender.
   [distributeMock setEnabled:NO];
-  [distributeMock startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+  [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol)) appSecret:kMSTestAppSecret];
 
   // Enable again.
   [distributeMock setEnabled:YES];
@@ -1069,7 +1070,7 @@ static NSURL *sfURL;
 
   // Disable for now to bypass initializing sender.
   [distributeMock setEnabled:NO];
-  [distributeMock startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+  [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol)) appSecret:kMSTestAppSecret];
 
   // Enable again.
   [distributeMock setEnabled:YES];
@@ -1128,7 +1129,7 @@ static NSURL *sfURL;
   OCMStub([distributeMock sharedInstance]).andReturn(distributeMock);
   id appCenterMock = OCMClassMock([MSAppCenter class]);
   OCMStub([appCenterMock isConfigured]).andReturn(YES);
-  [distributeMock startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+  [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol)) appSecret:kMSTestAppSecret];
 
   // If
   NSURL *url = [NSURL
