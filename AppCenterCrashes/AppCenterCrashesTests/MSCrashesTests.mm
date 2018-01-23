@@ -294,7 +294,6 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   // When
   id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
-  [self.sut startWithChannelGroup:channelGroupMock appSecret:kMSTestAppSecret];
   NSString *validString = @"valid";
   NSData *validData = [validString dataUsingEncoding:NSUTF8StringEncoding];
   NSData *emptyData = [@"" dataUsingEncoding:NSUTF8StringEncoding];
@@ -318,6 +317,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   id crashesDelegateMock = OCMProtocolMock(@protocol(MSCrashesDelegate));
   OCMStub([crashesDelegateMock attachmentsWithCrashes:OCMOCK_ANY forErrorReport:OCMOCK_ANY]).andReturn(logs);
   OCMStub([crashesDelegateMock crashes:OCMOCK_ANY shouldProcessErrorReport:OCMOCK_ANY]).andReturn(YES);
+  [self.sut startWithChannelGroup:channelGroupMock appSecret:kMSTestAppSecret];
   [self.sut setDelegate:crashesDelegateMock];
 
   // Then
