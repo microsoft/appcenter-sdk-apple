@@ -1,5 +1,5 @@
 #import "AppCenterDelegateObjC.h"
-#import "MSLogFilter.h"
+#import "MSEventFilter.h"
 
 @import AppCenter;
 @import AppCenterAnalytics;
@@ -196,21 +196,12 @@
   return [[[MSCrashes lastSessionCrashReport] device] carrierCountry];
 }
 
-// MSLogFilter section.
-- (BOOL) isLogFilterEnabled {
-  return [MSLogFilter isEnabled];
+// MSEventFilter section.
+- (BOOL) isEventFilterEnabled {
+  return [MSEventFilter isEnabled];
 }
-- (void) setLogFilterEnabled:(BOOL)isEnabled {
-  [MSLogFilter setEnabled:isEnabled];
-}
-- (void) filterLogType:(NSString*)logType {
-  [MSLogFilter filterLogType:logType];
-}
-- (void) unfilterLogType:(NSString*)logType {
-  [MSLogFilter unfilterLogType:logType];
-}
-- (BOOL) isFilteringLogType:(NSString*)logType {
-  return [MSLogFilter isFilteringLogType:logType];
+- (void) setEventFilterEnabled:(BOOL)isEnabled {
+  [MSEventFilter setEnabled:isEnabled];
 }
 
 @end

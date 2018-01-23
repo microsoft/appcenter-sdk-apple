@@ -4,4 +4,4 @@
 
 #import "Constants.h"
 #import "CrashLib.h"
-#import "MSLogFilter.h"
+#import "MSEventFilter.h"

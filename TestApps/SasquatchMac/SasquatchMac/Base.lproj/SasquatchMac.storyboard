@@ -685,7 +685,7 @@
         <!--Tab View Controller-->
         <scene sceneID="pzK-og-G63">
             <objects>
-                <tabViewController selectedTabViewItemIndex="5" id="OMO-f4-RlH" sceneMemberID="viewController">
+                <tabViewController selectedTabViewItemIndex="0" id="OMO-f4-RlH" sceneMemberID="viewController">
                     <tabViewItems>
                         <tabViewItem label="App Center" id="Ap3-Sy-ruD"/>
                         <tabViewItem label="Analytics" id="ffY-hS-eWq"/>
@@ -892,7 +892,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="iKN-Nv-kfg" viewBased="YES" id="NGD-n2-KNP">
-                                            <rect key="frame" x="0.0" y="-254" width="408" height="156"/>
+                                            <rect key="frame" x="0.0" y="-277" width="408" height="156"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1345,7 +1345,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="22" headerView="QQk-B0-wlz" viewBased="YES" id="osf-6i-QQe">
-                                            <rect key="frame" x="0.0" y="-192" width="408" height="195"/>
+                                            <rect key="frame" x="0.0" y="-215" width="408" height="195"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1599,42 +1599,24 @@
             </objects>
             <point key="canvasLocation" x="-549" y="1116"/>
         </scene>
-        <!--Log Filters-->
+        <!--Event Filter-->
         <scene sceneID="t8G-F2-cIq">
             <objects>
-                <viewController title="Log Filters" id="F5O-cr-t4P" customClass="LogFiltersViewController" customModule="SasquatchMacObjC" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Event Filter" id="F5O-cr-t4P" customClass="EventFilterViewController" customModule="SasquatchMacObjC" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="OMr-hn-sA2">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="202"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Omh-TC-ECV">
-                                <rect key="frame" x="199" y="165" width="53" height="17"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Actions" id="WdC-2Y-367">
-                                    <font key="font" metaFont="systemBold"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="b9g-SN-Q6r">
-                                <rect key="frame" x="196" y="118" width="59" height="17"/>
+                                <rect key="frame" x="196" y="165" width="59" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Settings" id="VNc-Sg-3st">
                                     <font key="font" metaFont="systemBold"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="O7D-Ji-mNH">
-                                <rect key="frame" x="164" y="141" width="123" height="18"/>
-                                <buttonCell key="cell" type="check" title="Filter Event Logs" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="qjh-iR-B7l">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="setFilterEventLogs:" target="F5O-cr-t4P" id="FN2-K0-6KZ"/>
-                                </connections>
-                            </button>
-                            <button verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1wu-cN-5tI">
-                                <rect key="frame" x="178" y="92" width="95" height="18"/>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1wu-cN-5tI">
+                                <rect key="frame" x="178" y="141" width="95" height="18"/>
                                 <buttonCell key="cell" type="check" title="Set Enabled" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="dtu-JX-oB7">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1645,19 +1627,14 @@
                             </button>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="O7D-Ji-mNH" firstAttribute="top" secondItem="Omh-TC-ECV" secondAttribute="bottom" constant="8" id="45S-iK-Mlx"/>
-                            <constraint firstItem="Omh-TC-ECV" firstAttribute="centerX" secondItem="OMr-hn-sA2" secondAttribute="centerX" id="B57-49-Abe"/>
+                            <constraint firstItem="b9g-SN-Q6r" firstAttribute="top" secondItem="OMr-hn-sA2" secondAttribute="top" constant="20" id="C6N-ko-5kC"/>
                             <constraint firstItem="1wu-cN-5tI" firstAttribute="centerX" secondItem="OMr-hn-sA2" secondAttribute="centerX" id="PEd-xs-e0C"/>
-                            <constraint firstItem="O7D-Ji-mNH" firstAttribute="centerX" secondItem="OMr-hn-sA2" secondAttribute="centerX" id="dMI-DY-MrT"/>
-                            <constraint firstItem="Omh-TC-ECV" firstAttribute="top" secondItem="OMr-hn-sA2" secondAttribute="top" constant="20" id="ezY-xp-Q06"/>
                             <constraint firstItem="1wu-cN-5tI" firstAttribute="top" secondItem="b9g-SN-Q6r" secondAttribute="bottom" constant="8" id="mRw-Ix-g9N"/>
-                            <constraint firstItem="b9g-SN-Q6r" firstAttribute="top" secondItem="O7D-Ji-mNH" secondAttribute="bottom" constant="8" id="nVP-jb-81Q"/>
                             <constraint firstItem="b9g-SN-Q6r" firstAttribute="centerX" secondItem="OMr-hn-sA2" secondAttribute="centerX" id="o4e-g5-j70"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="setEnabledButton" destination="1wu-cN-5tI" id="cpO-xF-nLP"/>
-                        <outlet property="setFilterEventLogsButton" destination="O7D-Ji-mNH" id="GHj-a3-3n5"/>
                     </connections>
                 </viewController>
                 <customObject id="ROV-co-lSJ" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

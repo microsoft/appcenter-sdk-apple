@@ -1,6 +1,6 @@
 #import "AppDelegate.h"
 #import "AppCenterDelegateObjC.h"
-#import "MSLogFilter.h"
+#import "MSEventFilter.h"
 
 @import AppCenter;
 @import AppCenterAnalytics;
@@ -26,7 +26,7 @@ static NSString *const kSMLogTag = @"[SasquatchMac]";
 
   // Start AppCenter.
   [MSAppCenter start:@"d80aae71-af34-4e0c-af61-2381391c4a7a"
-        withServices:@[ [MSAnalytics class], [MSCrashes class], [MSPush class], [MSLogFilter class] ]];
+        withServices:@[ [MSAnalytics class], [MSCrashes class], [MSPush class], [MSEventFilter class] ]];
   [AppCenterProvider shared].appCenter = [[AppCenterDelegateObjC alloc] init];
 
   [self initUI];

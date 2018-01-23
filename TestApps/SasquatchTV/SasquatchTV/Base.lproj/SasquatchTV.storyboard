@@ -206,10 +206,10 @@
             </objects>
             <point key="canvasLocation" x="-1342" y="1487"/>
         </scene>
-        <!--Log Filters View Controller-->
+        <!--Event Filter View Controller-->
         <scene sceneID="jYd-hy-fPm">
             <objects>
-                <viewController id="DQI-fK-R9V" customClass="LogFiltersViewController" customModule="SasquatchTVObjC" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="DQI-fK-R9V" customClass="EventFilterViewController" customModule="SasquatchTVObjC" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Zm1-eX-TQr"/>
                         <viewControllerLayoutGuide type="bottom" id="M97-Kb-vxg"/>
@@ -229,25 +229,14 @@
                                     <action selector="setEnabled:" destination="DQI-fK-R9V" eventType="valueChanged" id="xDW-xH-acd"/>
                                 </connections>
                             </segmentedControl>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JNN-je-tLo">
-                                <rect key="frame" x="664" y="263" width="510" height="86"/>
-                                <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
-                                <state key="normal" title="Start Filtering Event Logs"/>
-                                <connections>
-                                    <action selector="startFilteringEventLogs:" destination="DQI-fK-R9V" eventType="primaryActionTriggered" id="2aG-Rg-Bpp"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="aZq-BP-lBc" firstAttribute="centerX" secondItem="Kys-8g-gqq" secondAttribute="centerX" id="6Kc-1c-Cxc"/>
-                            <constraint firstItem="JNN-je-tLo" firstAttribute="top" secondItem="aZq-BP-lBc" secondAttribute="bottom" constant="40" id="CkP-Lc-YD9"/>
                             <constraint firstItem="aZq-BP-lBc" firstAttribute="top" secondItem="Zm1-eX-TQr" secondAttribute="bottom" constant="50" id="QRz-Fs-WJ5"/>
-                            <constraint firstItem="JNN-je-tLo" firstAttribute="centerX" secondItem="Kys-8g-gqq" secondAttribute="centerX" id="UEs-ON-kad"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="enabledControl" destination="aZq-BP-lBc" id="eMz-Gj-etw"/>
-                        <outlet property="filterEventLogsButton" destination="JNN-je-tLo" id="Zv5-aB-aBr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y1Q-aj-Cw7" userLabel="First Responder" sceneMemberID="firstResponder"/>

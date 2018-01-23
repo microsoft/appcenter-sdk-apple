@@ -12,8 +12,8 @@
 		046790431E8DA7E90033FDEC /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046790411E8DA7D80033FDEC /* AppCenterPush.framework */; };
 		047D13721EAFBDBE00D699BA /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 047D13711EAFBDBE00D699BA /* AppCenterDistributeResources.bundle */; };
 		048933631F8D395A00C38A87 /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
-		353332C720112EB4009B0946 /* MSLogFiltersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353332C620112EB4009B0946 /* MSLogFiltersViewController.swift */; };
-		353332C820112EB4009B0946 /* MSLogFiltersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353332C620112EB4009B0946 /* MSLogFiltersViewController.swift */; };
+		353332C720112EB4009B0946 /* MSEventFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353332C620112EB4009B0946 /* MSEventFilterViewController.swift */; };
+		353332C820112EB4009B0946 /* MSEventFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353332C620112EB4009B0946 /* MSEventFilterViewController.swift */; };
 		354273ED20126A3E00BE766F /* MSEventFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 354273DE20126A3E00BE766F /* MSEventFilter.m */; };
 		354273EE20126A3E00BE766F /* MSEventFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 354273DE20126A3E00BE766F /* MSEventFilter.m */; };
 		5CE2587F1EA5F60200DA8FB9 /* DistributeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE2587D1EA5F5FC00DA8FB9 /* DistributeUITests.swift */; };
@@ -221,7 +221,7 @@
 		046790451E8DA8DD0033FDEC /* SasquatchObjC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchObjC.entitlements; sourceTree = "<group>"; };
 		047D13711EAFBDBE00D699BA /* AppCenterDistributeResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AppCenterDistributeResources.bundle; path = "../AppCenter-SDK-Apple/iOS/AppCenterDistributeResources.bundle"; sourceTree = "<group>"; };
 		0482105C1FD0B611006824F7 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Sasquatch.strings; sourceTree = "<group>"; };
-		353332C620112EB4009B0946 /* MSLogFiltersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSLogFiltersViewController.swift; sourceTree = "<group>"; };
+		353332C620112EB4009B0946 /* MSEventFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSEventFilterViewController.swift; sourceTree = "<group>"; };
 		354273DE20126A3E00BE766F /* MSEventFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSEventFilter.m; sourceTree = "<group>"; };
 		354273DF20126A3E00BE766F /* MSEventFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSEventFilter.h; sourceTree = "<group>"; };
 		354273E120126A3E00BE766F /* MSConstants+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MSConstants+Internal.h"; sourceTree = "<group>"; };
@@ -487,7 +487,7 @@
 				84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */,
 				84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */,
 				84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */,
-				353332C620112EB4009B0946 /* MSLogFiltersViewController.swift */,
+				353332C620112EB4009B0946 /* MSEventFilterViewController.swift */,
 				B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */,
 				F87E96181FDEEA0900AF2717 /* MSCustomPropertyTableViewCell.swift */,
 				803CFF261F6A7E1D0072B9BA /* MSPushViewController.swift */,
@@ -975,7 +975,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				353332C820112EB4009B0946 /* MSLogFiltersViewController.swift in Sources */,
+				353332C820112EB4009B0946 /* MSEventFilterViewController.swift in Sources */,
 				803CFF271F6A7E1D0072B9BA /* MSPushViewController.swift in Sources */,
 				F87E96141FDED64900AF2717 /* MSAnalyticsPropertyTableViewCell.swift in Sources */,
 				354273ED20126A3E00BE766F /* MSEventFilter.m in Sources */,
@@ -1006,7 +1006,7 @@
 				84226D3D1E8938D200798417 /* AppCenterDelegate.swift in Sources */,
 				B2B36CE31EEF49C400230341 /* MSCustomPropertiesViewController.swift in Sources */,
 				845178ED1E8A8B0D004A0A6F /* MSMainViewController.swift in Sources */,
-				353332C720112EB4009B0946 /* MSLogFiltersViewController.swift in Sources */,
+				353332C720112EB4009B0946 /* MSEventFilterViewController.swift in Sources */,
 				84226D3F1E8939B700798417 /* AppCenterDelegateSwift.swift in Sources */,
 				F87E961A1FDEEA0900AF2717 /* MSCustomPropertyTableViewCell.swift in Sources */,
 				84A0FF6D1E8A87E1000E7A28 /* MSDistributeViewController.swift in Sources */,

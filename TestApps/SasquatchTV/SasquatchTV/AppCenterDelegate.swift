@@ -56,10 +56,7 @@ import Foundation;
   func lastCrashReportDeviceCarrierCountry() -> String?
   func lastCrashReportDeviceAppNamespace() -> String?
 
-  //MARK: MSLogFilter section.
-  func isLogFilterEnabled() -> Bool
-  func setLogFilterEnabled(_ isEnabled: Bool)
-  func filterLogType(_ logType: String)
-  func unfilterLogType(_ logType: String)
-  func isFilteringLogType(_ logType: String) -> Bool
+  //MARK: MSEventFilter section.
+  func isEventFilterEnabled() -> Bool
+  func setEventFilterEnabled(_ isEnabled: Bool)
 }

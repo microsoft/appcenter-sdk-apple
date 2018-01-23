@@ -45,7 +45,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
 
     // Start AppCenter.
     MSAppCenter.setLogLevel(MSLogLevel.verbose)
-    MSAppCenter.start("7e873482-108f-4609-8ef2-c4cebd7418c0", withServices : [ MSAnalytics.self, MSCrashes.self, MSPush.self, MSLogFilter.self ])
+    MSAppCenter.start("7e873482-108f-4609-8ef2-c4cebd7418c0", withServices : [ MSAnalytics.self, MSCrashes.self, MSPush.self, MSEventFilter.self ])
 
     AppCenterProvider.shared().appCenter = AppCenterDelegateSwift()
 

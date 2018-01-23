@@ -1,0 +1,17 @@
+import UIKit
+
+class MSEventFilterViewController: UITableViewController, UINavigationControllerDelegate, AppCenterProtocol {
+  var appCenter: AppCenterDelegate!
+
+  @IBOutlet weak var enabled: UISwitch!
+
+  override func viewDidLoad() {
+    self.enabled.isOn = appCenter.isEventFilterEnabled()
+  }
+
+  @IBAction func enabledSwitchUpdated(_ sender: UISwitch) {
+    appCenter.setEventFilterEnabled(sender.isOn)
+    sender.isOn = appCenter.isEventFilterEnabled()
+  }
+}
+
