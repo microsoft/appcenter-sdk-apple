@@ -78,15 +78,15 @@
   if (!item.device) {
     item.device = [[MSDeviceTracker sharedInstance] device];
   }
-
-  // Notify delegates.
-  [self enumerateDelegatesForSelector:@selector(onEnqueuingLog:withInternalId:)
-                            withBlock:^(id<MSChannelDelegate> delegate) {
-                              [delegate onEnqueuingLog:item withInternalId:internalLogId];
-                            }];
   
   // Return fast in case our item is empty or we are discarding logs right now.
   dispatch_async(self.logsDispatchQueue, ^{
+    // Notify delegates.
+    [self enumerateDelegatesForSelector:@selector(onEnqueuingLog:withInternalId:)
+                              withBlock:^(id<MSChannelDelegate> delegate) {
+                                [delegate onEnqueuingLog:item withInternalId:internalLogId];
+                              }];
+    
     if (self.discardLogs) {
       MSLogWarning([MSAppCenter logTag], @"Channel disabled in log discarding mode, discard this log.");
       NSError *error = [NSError errorWithDomain:kMSACErrorDomain

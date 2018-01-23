@@ -124,4 +124,111 @@
   // Then
   OCMVerify([senderMock setEnabled:NO andDeleteDataOnDisabled:NO]);
 }
+
+//- (void)testDisableAndDeleteDataOnSenderFatalError {
+//
+//  // If
+//  [self initChannelEndJobExpectation];
+//  id senderMock = OCMProtocolMock(@protocol(MSSender));
+//  id storageMock = OCMProtocolMock(@protocol(MSStorage));
+//  id mockLog = [self getValidMockLog];
+//  OCMStub([storageMock
+//      loadLogsWithGroupId:kMSTestGroupId
+//                    limit:2
+//           withCompletion:([OCMArg invokeBlockWithArgs:((NSArray<id<MSLog>> *)@[ mockLog ]), @"1", nil])]);
+//  MSChannelUnitConfiguration *config = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
+//                                                                          priority:MSPriorityDefault
+//                                                                     flushInterval:0.0
+//                                                                    batchSizeLimit:1
+//                                                               pendingBatchesLimit:10];
+//  self.sut.configuration = config;
+//  MSChannelUnitDefault *sut = [[MSChannelUnitDefault alloc] initWithSender:senderMock
+//                                                           storage:storageMock
+//                                                     configuration:config
+//                                                 logsDispatchQueue:dispatch_get_main_queue()];
+//  // When
+//  [sut enqueueItem:mockLog];
+//  //TODO - [sut senderDidReceiveFatalError:senderMock];?
+//  [self enqueueChannelEndJobExpectation];
+//
+//  // Then
+//  [self waitForExpectationsWithTimeout:1
+//                               handler:^(NSError *error) {
+//
+//                                 // Check that logs as been requested for deletion and that there is no batch left.
+//                                 OCMVerify([storageMock deleteLogsWithGroupId:kMSTestGroupId]);
+//                                 assertThatBool(sut.enabled, isFalse());
+//                                 if (error) {
+//                                   XCTFail(@"Expectation Failed with error: %@", error);
+//                                 }
+//                               }];
+//}
+//
+//- (void)testSuspendOnSenderSuspended {
+//
+//  // If
+//  __block BOOL result1, result2;
+//  [self initChannelEndJobExpectation];
+//  [self.sut setEnabled:NO andDeleteDataOnDisabled:NO];
+//
+//  // When
+//  [self.sut senderDidSuspend:self.senderMock];
+//  dispatch_async(self.logsDispatchQueue, ^{
+//    result1 = self.sut.suspended;
+//  });
+//
+//  // If
+//  [self.sut setEnabled:YES andDeleteDataOnDisabled:NO];
+//
+//  // When
+//  [self.sut senderDidSuspend:self.senderMock];
+//  dispatch_async(self.logsDispatchQueue, ^{
+//    result2 = self.sut.suspended;
+//  });
+//  [self enqueueChannelEndJobExpectation];
+//  [self waitForExpectationsWithTimeout:1
+//                               handler:^(NSError *error) {
+//                                 assertThatBool(result1, isTrue());
+//                                 assertThatBool(result2, isTrue());
+//                                 if (error) {
+//                                   XCTFail(@"Expectation Failed with error: %@", error);
+//                                 }
+//                               }];
+//}
+//
+//- (void)testSuspendOnSenderResumed {
+//
+//  // If
+//  __block BOOL result1, result2;
+//  [self initChannelEndJobExpectation];
+//  [self.sut setEnabled:NO andDeleteDataOnDisabled:NO];
+//
+//  // When
+//  [self.sut senderDidResume:self.senderMock];
+//  dispatch_async(self.logsDispatchQueue, ^{
+//    result1 = self.sut.suspended;
+//  });
+//
+//  // If
+//  [self.sut setEnabled:YES andDeleteDataOnDisabled:NO];
+//  [self.sut senderDidSuspend:self.senderMock];
+//
+//  // When
+//  [self.sut senderDidResume:self.senderMock];
+//  dispatch_async(self.logsDispatchQueue, ^{
+//    result2 = self.sut.suspended;
+//  });
+//
+//  // Then
+//  [self enqueueChannelEndJobExpectation];
+//  [self waitForExpectationsWithTimeout:1
+//                               handler:^(NSError *error) {
+//                                 assertThatBool(result1, isTrue());
+//                                 assertThatBool(result2, isFalse());
+//                                 if (error) {
+//                                   XCTFail(@"Expectation Failed with error: %@", error);
+//                                 }
+//                               }];
+//}
+
 @end
