@@ -228,7 +228,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [[MSAnalytics sharedInstance].sessionTracker stop];
 }
 
-- (void)testApplyEnabledStateWithAutoPageTrackingEnabled {
+- (void)testTrackPageCalledWhenAutoPageTrackingEnabled {
   
   // If
   id analyticsMock = OCMPartialMock([MSAnalytics sharedInstance]);
