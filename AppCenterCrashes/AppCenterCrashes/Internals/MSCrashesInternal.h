@@ -1,6 +1,8 @@
 #import "MSCrashes.h"
 #import "MSServiceInternal.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class MSException;
 @class MSErrorAttachmentLog;
 
@@ -56,7 +58,29 @@
 /*
  * Track handled exception directly as model form.
  * This API is not public and is used by wrapper SDKs.
+ *
+ * @param exception model form exception.
  */
-- (void)trackModelException:(MSException *)exception;
++ (void)trackModelException:(MSException *)exception;
+
+/*
+ * Track handled exception directly as model form.
+ * This API is not public and is used by wrapper SDKs.
+ *
+ * @param exception model form exception.
+ * @param properties dictionary of properties.
+ */
++ (void)trackModelException:(MSException *)exception
+             withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties;
+
+/**
+ * Validate keys and values of properties.
+ *
+ * @return dictionary which contains only valid properties.
+ */
+- (NSDictionary<NSString *, NSString *> *)validateProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
+                                                     andType:(NSString *)logType;
 
 @end
+
+NS_ASSUME_NONNULL_END

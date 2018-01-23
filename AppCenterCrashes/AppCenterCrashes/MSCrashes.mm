@@ -45,7 +45,33 @@ static NSString *const kMSLogBufferFileExtension = @"mscrasheslogbuffer";
 
 static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
+/**
+ * Maximum properties per handled exception
+ */
+static const int maxPropertiesPerHandledException = 5;
+
+/**
+ * Minimum properties key length
+ */
+static const int minPropertyKeyLength = 1;
+
+/**
+ * Maximum properties key length
+ */
+static const int maxPropertyKeyLength = 64;
+
+/**
+ * Maximum properties value length
+ */
+static const int maxPropertyValueLength = 64;
+
 std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size> msCrashesLogBuffer;
+
+/**
+ * Singleton
+ */
+static MSCrashes *sharedInstance = nil;
+static dispatch_once_t onceToken;
 
 #pragma mark - Callbacks Setup
 
@@ -209,9 +235,17 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
  * This API is not public and is used by wrapper SDKs.
  */
 + (void)trackModelException:(MSException *)exception {
+  [self trackModelException:exception withProperties:nil];
+}
+
+/**
+ * Track handled exception directly as model form with user-defined custom properties
+ * This API is not public and is used by wrapper SDKs.
+ */
++ (void)trackModelException:(MSException *)exception withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties {
   @synchronized(self) {
     if ([[self sharedInstance] canBeUsed]) {
-      [[self sharedInstance] trackModelException:exception];
+      [[self sharedInstance] trackModelException:exception withProperties:properties];
     }
   }
 }
@@ -337,10 +371,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 #pragma mark - MSServiceInternal
 
 + (instancetype)sharedInstance {
-  static id sharedInstance = nil;
-  static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-    sharedInstance = [[self alloc] init];
+    if (sharedInstance == nil) {
+      sharedInstance = [[self alloc] init];
+    }
   });
   return sharedInstance;
 }
@@ -1211,9 +1245,62 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   [MSSessionContext clearSessionHistory];
 }
 
+- (NSDictionary<NSString *, NSString *> *)validateProperties:(NSDictionary<NSString *, NSString *> *)properties
+                                                     andType:(NSString *)logType {
+  NSMutableDictionary<NSString *, NSString *> *validProperties = [NSMutableDictionary new];
+  for (id key in properties) {
+    
+    // Don't send more properties than we can.
+    if ([validProperties count] >= maxPropertiesPerHandledException) {
+      MSLogWarning([MSCrashes logTag],
+                   @"%@ : properties cannot contain more than %d items. Skipping other properties.", logType,
+                   maxPropertiesPerHandledException);
+      break;
+    }
+    if (![key isKindOfClass:[NSString class]] || ![properties[key] isKindOfClass:[NSString class]]) {
+      continue;
+    }
+    
+    // Validate key.
+    NSString *strKey = key;
+    if ([strKey length] < minPropertyKeyLength) {
+      MSLogWarning([MSCrashes logTag], @"%@ : a property key cannot be null or empty. Property will be skipped.",
+                   logType);
+      continue;
+    }
+    if ([strKey length] > maxPropertyKeyLength) {
+      MSLogWarning([MSCrashes logTag], @"%@ : property %@ : property key length cannot be longer than %d "
+                   @"characters. Property key will be truncated.",
+                   logType, strKey, maxPropertyKeyLength);
+      strKey = [strKey substringToIndex:maxPropertyKeyLength];
+    }
+    
+    // Validate value.
+    NSString *value = properties[key];
+    if ([value length] > maxPropertyValueLength) {
+      MSLogWarning([MSCrashes logTag], @"%@ : property '%@' : property value cannot be longer than %d "
+                   @"characters. Property value will be truncated.",
+                   logType, strKey, maxPropertyValueLength);
+      value = [value substringToIndex:maxPropertyValueLength];
+    }
+    
+    // Save valid properties.
+    [validProperties setObject:value forKey:strKey];
+  }
+  return validProperties;
+}
+
++ (void)resetSharedInstance {
+  
+  // resets the once_token so dispatch_once will run again.
+  onceToken = 0;
+  sharedInstance = nil;
+}
+
 #pragma mark - Handled exceptions
 
-- (void)trackModelException:(MSException *)exception {
+- (void)trackModelException:(MSException *)exception
+             withProperties:(NSDictionary<NSString *, NSString *> *)properties {
   if (![self isEnabled])
     return;
 
@@ -1223,6 +1310,11 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   // Set properties of the error log.
   log.errorId = MS_UUID_STRING;
   log.exception = exception;
+  if (properties && properties.count > 0) {
+
+    // Send only valid properties.
+    log.properties = [self validateProperties:properties andType:log.type];
+  }
 
   // Enqueue log.
   [self.channelUnit enqueueItem:log];
