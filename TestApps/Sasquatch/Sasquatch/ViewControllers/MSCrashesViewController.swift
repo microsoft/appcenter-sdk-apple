@@ -76,7 +76,7 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
       } else if (indexPath.row == 1) {
         cell.textLabel?.text = "Text Attachment";
         let text = UserDefaults.standard.string(forKey: "textAttachment")
-        cell.detailTextLabel?.text = (text?.count ?? 0) > 0 ? text : "Empty";
+        cell.detailTextLabel?.text = (text?.characters.count ?? 0) > 0 ? text : "Empty";
         
         // Binary attachment.
       } else if (indexPath.row == 2) {
@@ -130,7 +130,7 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
         let alert = UIAlertController(title: "Text Attachment", message: nil, preferredStyle: .alert)
         let crashAction = UIAlertAction(title: "OK", style: .default, handler: {(_ action: UIAlertAction) -> Void in
           let result: String? = alert.textFields?[0].text
-          if (result?.count ?? 0) > 0 {
+          if (result?.characters.count ?? 0) > 0 {
             UserDefaults.standard.set(result, forKey: "textAttachment")
           } else {
             UserDefaults.standard.removeObject(forKey: "textAttachment")
