@@ -1,7 +1,8 @@
 #import <Foundation/Foundation.h>
 
-#import "MSChannelConfiguration.h"
-#import "MSLogManager.h"
+#import "MSChannelGroupProtocol.h"
+#import "MSChannelUnitConfiguration.h"
+#import "MSChannelUnitProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -19,9 +20,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, readonly, getter=isAvailable) BOOL available;
 
 /**
- * Log manager.
+ * Channel group.
  */
-@property(nonatomic) id<MSLogManager> logManager;
+@property(nonatomic) id<MSChannelGroupProtocol> channelGroup;
+
+/**
+ * Channel unit.
+ */
+@property(nonatomic) id<MSChannelUnitProtocol> channelUnit;
 
 /**
  * The app secret for the SDK.
@@ -48,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The channel configuration for this service.
  */
-@property(nonatomic, readonly) MSChannelConfiguration *channelConfiguration;
+@property(nonatomic, readonly) MSChannelUnitConfiguration *channelUnitConfiguration;
 
 /**
  * The initialization priority for this service.
@@ -70,12 +76,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)canBeUsed;
 
 /**
- * Start this service with a log manager. Also sets the flag that indicates that a service has been started.
+ * Start this service with a channel group. Also sets the flag that indicates that a service has been started.
  *
- * @param logManager log manager used to persist and send logs.
+ * @param channelGroup channel group used to persist and send logs.
  * @param appSecret app secret for the SDK.
  */
-- (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret;
+- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret;
 
 NS_ASSUME_NONNULL_END
 

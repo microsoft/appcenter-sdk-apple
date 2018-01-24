@@ -2,6 +2,7 @@
 #import "MSHttpSender.h"
 #import "MSHttpSenderPrivate.h"
 #import "MSSenderCall.h"
+#import "MSSenderDelegate.h"
 
 static NSTimeInterval kRequestTimeout = 60.0;
 

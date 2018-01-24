@@ -1,13 +1,13 @@
 #import <Foundation/Foundation.h>
 
-#import "MSChannelConfiguration.h"
+#import "MSChannelUnitConfiguration.h"
 #import "MSTestFrameworks.h"
 
-@interface MSChannelConfigurationTests : XCTestCase
+@interface MSChannelUnitConfigurationTests : XCTestCase
 
 @end
 
-@implementation MSChannelConfigurationTests
+@implementation MSChannelUnitConfigurationTests
 
 #pragma mark - Tests
 
@@ -21,11 +21,11 @@
   float flushInterval = 9.9f;
 
   // When
-  MSChannelConfiguration *sut = [[MSChannelConfiguration alloc] initWithGroupId:groupId
-                                                                       priority:priority
-                                                                  flushInterval:flushInterval
-                                                                 batchSizeLimit:batchSizeLimit
-                                                            pendingBatchesLimit:pendingBatchesLimit];
+  MSChannelUnitConfiguration *sut = [[MSChannelUnitConfiguration alloc] initWithGroupId:groupId
+                                                                               priority:priority
+                                                                          flushInterval:flushInterval
+                                                                         batchSizeLimit:batchSizeLimit
+                                                                    pendingBatchesLimit:pendingBatchesLimit];
 
   // Then
   assertThat(sut, notNilValue());
@@ -42,7 +42,7 @@
   NSString *groupId = @"FooBar";
 
   // When
-  MSChannelConfiguration *sut = [[MSChannelConfiguration alloc] initDefaultConfigurationWithGroupId:groupId];
+  MSChannelUnitConfiguration *sut = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:groupId];
 
   // Then
   assertThat(sut, notNilValue());
@@ -54,3 +54,4 @@
 }
 
 @end
+

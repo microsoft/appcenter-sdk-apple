@@ -1,9 +1,14 @@
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterInternal.h"
-#import "MSChannelDefaultPrivate.h"
+#import "MSChannelDelegate.h"
+#import "MSChannelUnitConfiguration.h"
+#import "MSChannelUnitDefault.h"
+#import "MSDeviceTracker.h"
+#import "MSSender.h"
+#import "MSStorage.h"
 
-@implementation MSChannelDefault
+@implementation MSChannelUnitDefault
 
 @synthesize configuration = _configuration;
 
@@ -18,7 +23,6 @@
     _enabled = YES;
     _suspended = NO;
     _discardLogs = NO;
-
     _delegates = [NSHashTable weakObjectsHashTable];
   }
   return self;
@@ -26,16 +30,13 @@
 
 - (instancetype)initWithSender:(id<MSSender>)sender
                        storage:(id<MSStorage>)storage
-                 configuration:(MSChannelConfiguration *)configuration
+                 configuration:(MSChannelUnitConfiguration *)configuration
              logsDispatchQueue:(dispatch_queue_t)logsDispatchQueue {
   if ((self = [self init])) {
     _sender = sender;
     _storage = storage;
     _configuration = configuration;
     _logsDispatchQueue = logsDispatchQueue;
-
-    // Register as sender delegate.
-    [_sender addDelegate:self];
 
     // Match sender's current status.
     if (_sender.suspended) {
@@ -61,29 +62,41 @@
 
 #pragma mark - Managing queue
 
-- (void)enqueueItem:(id<MSLog>)item withCompletion:(enqueueCompletionBlock)completion {
+- (void)enqueueItem:(id<MSLog>)item {
+  /*
+   * Set common log info.
+   * Only add timestamp and device info in case the log doesn't have one. In case the log is restored after a crash or
+   * for crashes, we don't want the timestamp and the device information to be updated but want the old one preserved.
+   */
+  if (item && !item.timestamp) {
+    item.timestamp = [NSDate date];
+  }
+  if (item && !item.device) {
+    item.device = [[MSDeviceTracker sharedInstance] device];
+  }
+  if (!item || ![item isValid]) {
+    MSLogWarning([MSAppCenter logTag], @"Log is not valid.");
+    return;
+  }
+
+  // Internal ID to keep track of logs between modules.
+  NSString *internalLogId = MS_UUID_STRING;
 
   // Return fast in case our item is empty or we are discarding logs right now.
   dispatch_async(self.logsDispatchQueue, ^{
-    if (!item || ![item isValid]) {
-      MSLogWarning([MSAppCenter logTag], @"Log is not valid.");
 
-      // Don't forget to execute completion block.
-      if (completion) {
-        completion(NO);
-      }
-      return;
-    } else if (self.discardLogs) {
+    // Notify delegates.
+    [self enumerateDelegatesForSelector:@selector(onEnqueuingLog:withInternalId:)
+                              withBlock:^(id<MSChannelDelegate> delegate) {
+                                [delegate onEnqueuingLog:item withInternalId:internalLogId];
+                              }];
+    if (self.discardLogs) {
       MSLogWarning([MSAppCenter logTag], @"Channel disabled in log discarding mode, discard this log.");
       NSError *error = [NSError errorWithDomain:kMSACErrorDomain
                                            code:kMSACConnectionSuspendedErrorCode
                                        userInfo:@{NSLocalizedDescriptionKey : kMSACConnectionSuspendedErrorDesc}];
       [self notifyFailureBeforeSendingForItem:item withError:error];
-
-      // Don't forget to execute the completion block.
-      if (completion) {
-        completion(NO);
-      }
+      [self completedEnqueuingLog:item withInternalId:internalLogId withSuccess:NO];
       return;
     }
 
@@ -91,11 +104,7 @@
     MSLogDebug([MSAppCenter logTag], @"Saving log, type: %@.", item.type);
     BOOL success = [self.storage saveLog:item withGroupId:self.configuration.groupId];
     self.itemsCount += 1;
-
-    // Execute the completion block.
-    if (completion) {
-      completion(success);
-    }
+    [self completedEnqueuingLog:item withInternalId:internalLogId withSuccess:success];
 
     // Flush now if current batch is full or delay to later.
     if (self.itemsCount >= self.configuration.batchSizeLimit) {
@@ -206,7 +215,7 @@
 
                             // Notify delegates.
                             [self
-                                enumerateDelegatesForSelector:@selector(channel:didFailSendingLog:withError:)
+                             enumerateDelegatesForSelector:@selector(channel:didFailSendingLog:withError:)
                                                     withBlock:^(id<MSChannelDelegate> delegate) {
                                                       for (id<MSLog> aLog in logArray) {
                                                         [delegate channel:self didFailSendingLog:aLog withError:error];
@@ -296,7 +305,7 @@
 
     // Even if it's already disabled we might also want to delete logs this time.
     if (!isEnabled && deleteData) {
-      MSLogDebug([MSAppCenter logTag], @"Delete all logs for goup Id %@", self.configuration.groupId);
+      MSLogDebug([MSAppCenter logTag], @"Delete all logs for group Id %@", self.configuration.groupId);
       NSError *error = [NSError errorWithDomain:kMSACErrorDomain
                                            code:kMSACConnectionSuspendedErrorCode
                                        userInfo:@{NSLocalizedDescriptionKey : kMSACConnectionSuspendedErrorDesc}];
@@ -358,29 +367,6 @@
   }
 }
 
-#pragma mark - MSSenderDelegate
-
-- (void)senderDidSuspend:(id<MSSender>)sender {
-  (void)sender;
-  dispatch_async(self.logsDispatchQueue, ^{
-    [self suspend];
-  });
-}
-
-- (void)senderDidResume:(id<MSSender>)sender {
-  (void)sender;
-  dispatch_async(self.logsDispatchQueue, ^{
-    [self resume];
-  });
-}
-
-- (void)senderDidReceiveFatalError:(id<MSSender>)sender {
-  (void)sender;
-
-  // Disable and delete data on fatal errors.
-  [self setEnabled:NO andDeleteDataOnDisabled:YES];
-}
-
 #pragma mark - Helper
 
 - (void)enumerateDelegatesForSelector:(SEL)selector withBlock:(void (^)(id<MSChannelDelegate> delegate))block {
@@ -401,6 +387,19 @@
     // Call didFailSendingLog
     if (delegate && [delegate respondsToSelector:@selector(channel:didFailSendingLog:withError:)])
       [delegate channel:self didFailSendingLog:item withError:error];
+  }
+}
+
+-(void)completedEnqueuingLog:(id<MSLog>)log withInternalId:(NSString*)internalId withSuccess:(BOOL)success {
+  if (success) {
+    [self enumerateDelegatesForSelector:@selector(onFinishedPersistingLog:withInternalId:) withBlock:^(id<MSChannelDelegate> delegate) {
+      [delegate onFinishedPersistingLog:log withInternalId:internalId];
+    }];
+  }
+  else {
+    [self enumerateDelegatesForSelector:@selector(onFailedPersistingLog:withInternalId:) withBlock:^(id<MSChannelDelegate> delegate) {
+      [delegate onFailedPersistingLog:log withInternalId:internalId];
+    }];
   }
 }
 
