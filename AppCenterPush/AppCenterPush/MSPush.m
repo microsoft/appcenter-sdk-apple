@@ -8,6 +8,8 @@
 
 #import "MSAppDelegateForwarder.h"
 #import "MSAppCenterInternal.h"
+#import "MSChannelUnitConfiguration.h"
+#import "MSChannelGroupProtocol.h"
 #import "MSPush.h"
 #import "MSPushAppDelegate.h"
 #import "MSPushLog.h"
@@ -47,7 +49,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 
 @implementation MSPush
 
-@synthesize channelConfiguration = _channelConfiguration;
+@synthesize channelUnitConfiguration = _channelUnitConfiguration;
 
 #pragma mark - Service initialization
 
@@ -55,7 +57,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
   if ((self = [super init])) {
 
     // Init channel configuration.
-    _channelConfiguration = [[MSChannelConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
+    _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
     _appDelegate = [MSPushAppDelegate new];
 
 #if TARGET_OS_OSX
@@ -122,8 +124,8 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
   return sharedInstance;
 }
 
-- (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret {
-  [super startWithLogManager:logManager appSecret:appSecret];
+- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret {
+  [super startWithChannelGroup:channelGroup appSecret:appSecret];
   MSLogVerbose([MSPush logTag], @"Started push service.");
 }
 
@@ -235,7 +237,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 - (void)sendPushToken:(NSString *)token {
   MSPushLog *log = [MSPushLog new];
   log.pushToken = token;
-  [self.logManager processLog:log forGroupId:self.groupId];
+  [self.channelUnit enqueueItem:log];
 }
 
 #pragma mark - Register callbacks

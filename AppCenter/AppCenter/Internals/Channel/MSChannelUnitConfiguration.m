@@ -1,6 +1,6 @@
-#import "MSChannelConfiguration.h"
+#import "MSChannelUnitConfiguration.h"
 
-@implementation MSChannelConfiguration
+@implementation MSChannelUnitConfiguration
 
 - (instancetype)initWithGroupId:(NSString *)groupId
                        priority:(MSPriority)priority

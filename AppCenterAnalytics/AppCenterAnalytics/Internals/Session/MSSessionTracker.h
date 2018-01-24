@@ -6,7 +6,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MSSessionTracker : NSObject <MSLogManagerDelegate>
+@interface MSSessionTracker : NSObject <MSChannelDelegate>
 
 /**
  *  Session tracker delegate.

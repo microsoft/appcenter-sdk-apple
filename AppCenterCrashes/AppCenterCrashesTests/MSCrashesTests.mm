@@ -1,5 +1,6 @@
 #import "MSAppleErrorLog.h"
-#import "MSChannelDefault.h"
+#import "MSChannelGroupDefault.h"
+#import "MSChannelUnitDefault.h"
 #import "MSCrashesDelegate.h"
 #import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
@@ -10,7 +11,6 @@
 #import "MSErrorLogFormatter.h"
 #import "MSException.h"
 #import "MSHandledErrorLog.h"
-#import "MSLogManagerDefault.h"
 #import "MSAppCenter.h"
 #import "MSAppCenterInternal.h"
 #import "MSMockCrashesDelegate.h"
@@ -64,7 +64,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   
   // Wait for creation of buffers.
   dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
-  
+
   // Delete all files.
   [self.sut deleteAllFromCrashesDirectory];
   [MSCrashesTestUtil deleteAllFilesInDirectory:[[self.sut logBufferDir] path]];
@@ -90,15 +90,15 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
   NSError *error = [NSError errorWithDomain:@"MSTestingError" code:-57 userInfo:nil];
   NSArray *files = [[NSFileManager defaultManager]
-      contentsOfDirectoryAtPath:reinterpret_cast<NSString *_Nonnull>([self.sut.logBufferDir path])
-                          error:&error];
+                    contentsOfDirectoryAtPath:reinterpret_cast<NSString *_Nonnull>([self.sut.logBufferDir path])
+                    error:&error];
   assertThat(files, hasCountOf(ms_crashes_log_buffer_size));
 }
 
 - (void)testStartingManagerInitializesPLCrashReporter {
 
   // When
-  [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol)) appSecret:kMSTestAppSecret];
 
   // Then
   assertThat(self.sut.plCrashReporter, notNilValue());
@@ -108,7 +108,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
 
   // When
-  [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol)) appSecret:kMSTestAppSecret];
 
   // Then
   assertThat(self.sut.crashFiles, hasCountOf(1));
@@ -129,14 +129,11 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 - (void)testDelegateMethodsAreCalled {
 
   // If
-  NSString *groupId = [[MSCrashes sharedInstance] groupId];
   id<MSCrashesDelegate> delegateMock = OCMProtocolMock(@protocol(MSCrashesDelegate));
   [MSAppCenter sharedInstance].sdkConfigured = NO;
   [MSAppCenter start:kMSTestAppSecret withServices:@[ [MSCrashes class] ]];
-  NSMutableDictionary *channelsInLogManager =
-      (static_cast<MSLogManagerDefault *>([MSCrashes sharedInstance].logManager)).channels;
-  MSChannelDefault *channelMock = channelsInLogManager[groupId] = OCMPartialMock(channelsInLogManager[groupId]);
-  OCMStub([channelMock enqueueItem:OCMOCK_ANY withCompletion:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+  MSChannelUnitDefault *channelMock = [MSCrashes sharedInstance].channelUnit = OCMPartialMock([MSCrashes sharedInstance].channelUnit);
+  OCMStub([channelMock enqueueItem:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     id<MSLog> log = nil;
     [invocation getArgument:&log atIndex:2];
     for (id<MSChannelDelegate> delegate in channelMock.delegates) {
@@ -154,7 +151,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // When
   [[MSCrashes sharedInstance] setDelegate:delegateMock];
-  [[MSCrashes sharedInstance].logManager processLog:errorLog forGroupId:groupId];
+  [[MSCrashes sharedInstance].channelUnit enqueueItem:errorLog];
 
   // Then
   OCMVerify([delegateMock crashes:[MSCrashes sharedInstance] willSendErrorReport:errorReport]);
@@ -181,9 +178,9 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // When
   MSUserConfirmationHandler userConfirmationHandler =
-      ^BOOL(__attribute__((unused)) NSArray<MSErrorReport *> *_Nonnull errorReports) {
-        return NO;
-      };
+  ^BOOL(__attribute__((unused)) NSArray<MSErrorReport *> *_Nonnull errorReports) {
+    return NO;
+  };
   [MSCrashes setUserConfirmationHandler:userConfirmationHandler];
 
   // Then
@@ -203,7 +200,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 }
 
 - (void)testProcessCrashes {
-  
+
   // Wait for creation of buffers to avoid corruption on OCMPartialMock.
   dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
 
@@ -211,10 +208,10 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   NSString *crashesPath = [self.sut.crashesDir path];
   self.sut = OCMPartialMock(self.sut);
   OCMStub([self.sut startDelayedCrashProcessing]).andDo(nil);
-  
+
   // When
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
-  [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol)) appSecret:kMSTestAppSecret];
 
   // Then
   assertThat(self.sut.crashFiles, hasCountOf(1));
@@ -231,7 +228,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   self.sut = OCMPartialMock([MSCrashes new]);
   OCMStub([self.sut startDelayedCrashProcessing]).andDo(nil);
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
-  [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol)) appSecret:kMSTestAppSecret];
 
   // Then
   assertThat(self.sut.crashFiles, hasCountOf(1));
@@ -242,12 +239,12 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   self.sut = OCMPartialMock([MSCrashes new]);
   OCMStub([self.sut startDelayedCrashProcessing]).andDo(nil);
   MSUserConfirmationHandler userConfirmationHandlerYES =
-      ^BOOL(__attribute__((unused)) NSArray<MSErrorReport *> *_Nonnull errorReports) {
-        return YES;
-      };
+  ^BOOL(__attribute__((unused)) NSArray<MSErrorReport *> *_Nonnull errorReports) {
+    return YES;
+  };
 
   self.sut.userConfirmationHandler = userConfirmationHandlerYES;
-  [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol)) appSecret:kMSTestAppSecret];
   [self.sut startCrashProcessing];
   [self.sut notifyWithUserConfirmation:MSUserConfirmationDontSend];
   self.sut.userConfirmationHandler = nil;
@@ -261,7 +258,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   self.sut = OCMPartialMock([MSCrashes new]);
   OCMStub([self.sut startDelayedCrashProcessing]).andDo(nil);
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
-  [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol)) appSecret:kMSTestAppSecret];
 
   // Then
   assertThat(self.sut.crashFiles, hasCountOf(1));
@@ -272,11 +269,11 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   self.sut = OCMPartialMock([MSCrashes new]);
   OCMStub([self.sut startDelayedCrashProcessing]).andDo(nil);
   MSUserConfirmationHandler userConfirmationHandlerNO =
-      ^BOOL(__attribute__((unused)) NSArray<MSErrorReport *> *_Nonnull errorReports) {
-        return NO;
-      };
+  ^BOOL(__attribute__((unused)) NSArray<MSErrorReport *> *_Nonnull errorReports) {
+    return NO;
+  };
   self.sut.userConfirmationHandler = userConfirmationHandlerNO;
-  [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol)) appSecret:kMSTestAppSecret];
   [self.sut startCrashProcessing];
 
   // Then
@@ -286,54 +283,56 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 }
 
 - (void)testProcessCrashesWithErrorAttachments {
-  
+
   // Wait for creation of buffers to avoid corruption on OCMPartialMock.
   dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
 
   // If
   self.sut = OCMPartialMock(self.sut);
   OCMStub([self.sut startDelayedCrashProcessing]).andDo(nil);
-  
+
   // When
-  id logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
+  id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
-  [self.sut startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
   NSString *validString = @"valid";
   NSData *validData = [validString dataUsingEncoding:NSUTF8StringEncoding];
   NSData *emptyData = [@"" dataUsingEncoding:NSUTF8StringEncoding];
   NSArray *invalidLogs = @[
-    [self attachmentWithAttachmentId:nil attachmentData:validData contentType:validString],
-    [self attachmentWithAttachmentId:@"" attachmentData:validData contentType:validString],
-    [self attachmentWithAttachmentId:validString attachmentData:nil contentType:validString],
-    [self attachmentWithAttachmentId:validString attachmentData:emptyData contentType:validString],
-    [self attachmentWithAttachmentId:validString attachmentData:validData contentType:nil],
-    [self attachmentWithAttachmentId:validString attachmentData:validData contentType:@""]
-  ];
+                           [self attachmentWithAttachmentId:nil attachmentData:validData contentType:validString],
+                           [self attachmentWithAttachmentId:@"" attachmentData:validData contentType:validString],
+                           [self attachmentWithAttachmentId:validString attachmentData:nil contentType:validString],
+                           [self attachmentWithAttachmentId:validString attachmentData:emptyData contentType:validString],
+                           [self attachmentWithAttachmentId:validString attachmentData:validData contentType:nil],
+                           [self attachmentWithAttachmentId:validString attachmentData:validData contentType:@""]
+                           ];
+  id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
   for (NSUInteger i = 0; i < invalidLogs.count; i++) {
-    OCMReject([logManagerMock processLog:invalidLogs[i] forGroupId:OCMOCK_ANY]);
+    OCMReject([channelUnitMock enqueueItem:invalidLogs[i]]);
   }
   MSErrorAttachmentLog *validLog =
-      [self attachmentWithAttachmentId:validString attachmentData:validData contentType:validString];
+  [self attachmentWithAttachmentId:validString attachmentData:validData contentType:validString];
   NSMutableArray *logs = invalidLogs.mutableCopy;
   [logs addObject:validLog];
   id crashesDelegateMock = OCMProtocolMock(@protocol(MSCrashesDelegate));
   OCMStub([crashesDelegateMock attachmentsWithCrashes:OCMOCK_ANY forErrorReport:OCMOCK_ANY]).andReturn(logs);
   OCMStub([crashesDelegateMock crashes:OCMOCK_ANY shouldProcessErrorReport:OCMOCK_ANY]).andReturn(YES);
+  [self.sut startWithChannelGroup:channelGroupMock appSecret:kMSTestAppSecret];
   [self.sut setDelegate:crashesDelegateMock];
 
   // Then
-  OCMExpect([logManagerMock processLog:validLog forGroupId:OCMOCK_ANY]);
+  OCMExpect([channelUnitMock enqueueItem:validLog]);
   [self.sut startCrashProcessing];
-  OCMVerifyAll(logManagerMock);
+  OCMVerifyAll(channelUnitMock);
 }
 
 - (void)testDeleteAllFromCrashesDirectory {
 
   // If
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
-  [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol)) appSecret:kMSTestAppSecret];
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_signal"], isTrue());
-  [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol)) appSecret:kMSTestAppSecret];
 
   // When
   [self.sut deleteAllFromCrashesDirectory];
@@ -349,7 +348,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   OCMStub([settingsMock objectForKey:OCMOCK_ANY]).andReturn(@YES);
   self.sut.storage = settingsMock;
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
-  [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol)) appSecret:kMSTestAppSecret];
   NSString *path = [self.sut.crashesDir path];
 
   // When
@@ -367,7 +366,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   OCMStub([settingsMock objectForKey:OCMOCK_ANY]).andReturn(@NO);
   self.sut.storage = settingsMock;
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
-  [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol)) appSecret:kMSTestAppSecret];
   NSString *path = [self.sut.crashesDir path];
 
   // When
@@ -387,8 +386,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   // Then
   NSError *error = [NSError errorWithDomain:@"MSTestingError" code:-57 userInfo:nil];
   NSArray *first = [[NSFileManager defaultManager]
-      contentsOfDirectoryAtPath:reinterpret_cast<NSString *_Nonnull>([self.sut.logBufferDir path])
-                          error:&error];
+                    contentsOfDirectoryAtPath:reinterpret_cast<NSString *_Nonnull>([self.sut.logBufferDir path])
+                    error:&error];
   XCTAssertTrue(first.count == ms_crashes_log_buffer_size);
   for (NSString *path in first) {
     unsigned long long fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:path error:nil] fileSize];
@@ -400,8 +399,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // Then
   NSArray *second = [[NSFileManager defaultManager]
-      contentsOfDirectoryAtPath:reinterpret_cast<NSString *_Nonnull>([self.sut.logBufferDir path])
-                          error:&error];
+                     contentsOfDirectoryAtPath:reinterpret_cast<NSString *_Nonnull>([self.sut.logBufferDir path])
+                     error:&error];
   for (int i = 0; i < ms_crashes_log_buffer_size; i++) {
     XCTAssertTrue([first[i] isEqualToString:second[i]]);
   }
@@ -411,7 +410,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   // When
   NSString *testName = @"afilename";
   NSString *filePath = [[self.sut.logBufferDir path]
-      stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
+                        stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
   [self.sut createBufferFileAtURL:[NSURL fileURLWithPath:filePath]];
 
   // Then
@@ -425,7 +424,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   NSString *dataString = @"SomeBufferedData";
   NSData *someData = [dataString dataUsingEncoding:NSUTF8StringEncoding];
   NSString *filePath = [[self.sut.logBufferDir path]
-      stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
+                        stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
 
 #if TARGET_OS_OSX
   [someData writeToFile:filePath atomically:YES];
@@ -606,8 +605,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 - (void)testWarningMessageAboutTooManyErrorAttachments {
 
   NSString *expectedMessage =
-      [NSString stringWithFormat:@"A limit of %u attachments per error report might be enforced by server.",
-                                 kMaxAttachmentsPerCrashReport];
+  [NSString stringWithFormat:@"A limit of %u attachments per error report might be enforced by server.",
+   kMaxAttachmentsPerCrashReport];
   __block bool warningMessageHasBeenPrinted = false;
 
 #pragma clang diagnostic push
@@ -621,18 +620,18 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
     warningMessageHasBeenPrinted = [message isEqualToString:expectedMessage];
   }];
 #pragma clang diagnostic pop
-  
+
   // Wait for creation of buffers to avoid corruption on OCMPartialMock.
   dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
 
   // If
   self.sut = OCMPartialMock(self.sut);
   OCMStub([self.sut startDelayedCrashProcessing]).andDo(nil);
-  
+
   // When
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
   [self.sut setDelegate:self];
-  [self.sut startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol)) appSecret:kMSTestAppSecret];
   [self.sut startCrashProcessing];
 
   XCTAssertTrue(warningMessageHasBeenPrinted);
@@ -644,17 +643,20 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   __block NSString *type;
   __block NSString *errorId;
   __block MSException *exception;
-  id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
-  OCMStub([logManagerMock processLog:[OCMArg isKindOfClass:[MSAbstractLog class]] forGroupId:OCMOCK_ANY])
-      .andDo(^(NSInvocation *invocation) {
-        MSHandledErrorLog *log;
-        [invocation getArgument:&log atIndex:2];
-        type = log.type;
-        errorId = log.errorId;
-        exception = log.exception;
-      });
+  id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSLogWithProperties class]]])
+  .andDo(^(NSInvocation *invocation) {
+    MSHandledErrorLog *log;
+    [invocation getArgument:&log atIndex:2];
+    type = log.type;
+    errorId = log.errorId;
+    exception = log.exception;
+  });
+
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
-  [[MSCrashes sharedInstance] startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
+  [[MSCrashes sharedInstance] startWithChannelGroup:channelGroupMock appSecret:kMSTestAppSecret];
 
   // When
   MSException *expectedException = [MSException new];
@@ -676,8 +678,10 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   __block NSString *errorId;
   __block MSException *exception;
   __block NSDictionary<NSString *, NSString *> *properties;
-  id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
-  OCMStub([logManagerMock processLog:[OCMArg isKindOfClass:[MSAbstractLog class]] forGroupId:OCMOCK_ANY])
+  id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSAbstractLog class]]])
   .andDo(^(NSInvocation *invocation) {
     MSHandledErrorLog *log;
     [invocation getArgument:&log atIndex:2];
@@ -687,7 +691,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
     properties = log.properties;
   });
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
-  [[MSCrashes sharedInstance] startWithLogManager:logManagerMock appSecret:kMSTestAppSecret];
+  [[MSCrashes sharedInstance] startWithChannelGroup:channelGroupMock appSecret:kMSTestAppSecret];
   
   // When
   MSException *expectedException = [MSException new];
@@ -817,19 +821,21 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // Wait for creation of buffers to avoid corruption on OCMPartialMock.
   dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
-  
+
   // If
   self.sut = OCMPartialMock(self.sut);
-  id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
   [self.sut setAutomaticProcessing:NO];
   OCMStub([self.sut shouldAlwaysSend]).andReturn(YES);
   __block NSUInteger numInvocations = 0;
-  [self setProcessLogImplementation:(^(NSInvocation *) {
-          numInvocations++;
-        })
-                     withLogManager:logManagerMock
-                        withCrashes:self.sut];
-  [self startCrashes:self.sut withReports:YES withLogManager:logManagerMock];
+  id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSLogWithProperties class]]])
+  .andDo(^(NSInvocation *invocation) {
+    (void)invocation;
+    numInvocations++;
+  });
+  [self startCrashes:self.sut withReports:YES withChannelGroup:channelGroupMock];
   NSMutableArray *reportIds = [self idListFromReports:[self.sut unprocessedCrashReports]];
 
   // When
@@ -844,19 +850,21 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // Wait for creation of buffers to avoid corruption on OCMPartialMock.
   dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
-  
+
   // If
   self.sut = OCMPartialMock(self.sut);
-  id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
   [self.sut setAutomaticProcessing:NO];
   OCMStub([self.sut shouldAlwaysSend]).andReturn(NO);
   __block NSUInteger numInvocations = 0;
-  [self setProcessLogImplementation:(^(NSInvocation *) {
-          numInvocations++;
-        })
-                     withLogManager:logManagerMock
-                        withCrashes:self.sut];
-  [self startCrashes:self.sut withReports:YES withLogManager:logManagerMock];
+  id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSLogWithProperties class]]])
+  .andDo(^(NSInvocation *invocation) {
+    (void)invocation;
+    numInvocations++;
+  });
+  [self startCrashes:self.sut withReports:YES withChannelGroup:channelGroupMock];
   NSMutableArray *reports = [self idListFromReports:[self.sut unprocessedCrashReports]];
 
   // When
@@ -877,19 +885,21 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // Wait for creation of buffers to avoid corruption on OCMPartialMock.
   dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
-  
+
   // If
   self.sut = OCMPartialMock(self.sut);
-  id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
   [self.sut setAutomaticProcessing:NO];
   OCMStub([self.sut shouldAlwaysSend]).andReturn(NO);
   __block NSUInteger numInvocations = 0;
-  [self setProcessLogImplementation:(^(NSInvocation *) {
-          numInvocations++;
-        })
-                     withLogManager:logManagerMock
-                        withCrashes:self.sut];
-  [self startCrashes:self.sut withReports:YES withLogManager:logManagerMock];
+  id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSLogWithProperties class]]])
+  .andDo(^(NSInvocation *invocation) {
+    (void)invocation;
+    numInvocations++;
+  });
+  [self startCrashes:self.sut withReports:YES withChannelGroup:channelGroupMock];
   NSMutableArray *reportIds = [self idListFromReports:[self.sut unprocessedCrashReports]];
 
   // When
@@ -910,19 +920,21 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // Wait for creation of buffers to avoid corruption on OCMPartialMock.
   dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
-  
+
   // If
   self.sut = OCMPartialMock(self.sut);
-  id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
   [self.sut setAutomaticProcessing:NO];
   [self.sut applyEnabledState:YES];
   OCMStub([self.sut shouldAlwaysSend]).andReturn(NO);
   __block int numInvocations = 0;
-  [self setProcessLogImplementation:(^(NSInvocation *) {
-          numInvocations++;
-        })
-                     withLogManager:logManagerMock
-                        withCrashes:self.sut];
+  id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSLogWithProperties class]]])
+  .andDo(^(NSInvocation *invocation) {
+    (void)invocation;
+    numInvocations++;
+  });
   NSMutableArray *reportIds = [self idListFromReports:[self.sut unprocessedCrashReports]];
 
   // When
@@ -938,12 +950,12 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // Wait for creation of buffers to avoid corruption on OCMPartialMock.
   dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
-  
+
   // If
   self.sut = OCMPartialMock(self.sut);
-  id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
+  id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
   [self.sut setAutomaticProcessing:NO];
-  [self startCrashes:self.sut withReports:NO withLogManager:logManagerMock];
+  [self startCrashes:self.sut withReports:NO withChannelGroup:channelGroupMock];
 
   // When
   NSArray<MSErrorReport *> *reports = [self.sut unprocessedCrashReports];
@@ -956,25 +968,26 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // Wait for creation of buffers to avoid corruption on OCMPartialMock.
   dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
-  
+
   // If
   self.sut = OCMPartialMock(self.sut);
-  id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
   [self.sut setAutomaticProcessing:NO];
   MSErrorReport *report = OCMPartialMock([MSErrorReport new]);
   OCMStub([report incidentIdentifier]).andReturn(@"incidentId");
   __block NSUInteger numInvocations = 0;
   __block NSMutableArray<MSErrorAttachmentLog *> *enqueuedAttachments = [[NSMutableArray alloc] init];
   NSMutableArray<MSErrorAttachmentLog *> *attachments = [[NSMutableArray alloc] init];
-  [self setProcessLogImplementation:(^(NSInvocation *invocation) {
-          numInvocations++;
-          MSErrorAttachmentLog *attachmentLog;
-          [invocation getArgument:&attachmentLog atIndex:2];
-          [enqueuedAttachments addObject:attachmentLog];
-        })
-                     withLogManager:logManagerMock
-                        withCrashes:self.sut];
-  [self startCrashes:self.sut withReports:NO withLogManager:logManagerMock];
+  id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  OCMStub([channelUnitMock enqueueItem:OCMOCK_ANY])
+  .andDo(^(NSInvocation *invocation) {
+    numInvocations++;
+    MSErrorAttachmentLog *attachmentLog;
+    [invocation getArgument:&attachmentLog atIndex:2];
+    [enqueuedAttachments addObject:attachmentLog];
+  });
+  [self startCrashes:self.sut withReports:NO withChannelGroup:channelGroupMock];
 
   // When
   [attachments addObject:[[MSErrorAttachmentLog alloc] initWithFilename:@"name" attachmentText:@"text1"]];
@@ -993,12 +1006,12 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // Wait for creation of buffers to avoid corruption on OCMPartialMock.
   dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
-  
+
   // If
   self.sut = OCMPartialMock(self.sut);
-  id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
+  id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
   [self.sut setAutomaticProcessing:NO];
-  NSArray *reports = [self startCrashes:self.sut withReports:YES withLogManager:logManagerMock];
+  NSArray *reports = [self startCrashes:self.sut withReports:YES withChannelGroup:channelGroupMock];
 
   // When
   NSArray *retrievedReports = [self.sut unprocessedCrashReports];
@@ -1021,12 +1034,12 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // Wait for creation of buffers to avoid corruption on OCMPartialMock.
   dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
-  
+
   // If
   self.sut = OCMPartialMock(self.sut);
-  id<MSLogManager> logManagerMock = OCMProtocolMock(@protocol(MSLogManager));
+  id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
   [self.sut setAutomaticProcessing:NO];
-  NSArray *reports = [self startCrashes:self.sut withReports:YES withLogManager:logManagerMock];
+  NSArray *reports = [self startCrashes:self.sut withReports:YES withChannelGroup:channelGroupMock];
 
   // When
   NSArray *retrievedReports = [self.sut unprocessedCrashReports];
@@ -1052,7 +1065,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
  */
 - (NSMutableArray<MSErrorReport *> *)startCrashes:(MSCrashes *)crashes
                                       withReports:(BOOL)startWithReports
-                                   withLogManager:(id<MSLogManager>)logManager {
+                                   withChannelGroup:(id<MSChannelGroupProtocol>)channelGroup {
   NSMutableArray<MSErrorReport *> *reports = [NSMutableArray<MSErrorReport *> new];
   if (startWithReports) {
     for (NSString *fileName in @[ @"live_report_exception" ]) {
@@ -1066,7 +1079,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   XCTestExpectation *expectation = [self expectationWithDescription:@"Start the Crashes module"];
   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    [crashes startWithLogManager:logManager appSecret:kMSTestAppSecret];
+    [crashes startWithChannelGroup:channelGroup appSecret:kMSTestAppSecret];
     [expectation fulfill];
   });
   [self waitForExpectationsWithTimeout:1.0
@@ -1080,18 +1093,6 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
                                }];
 
   return reports;
-}
-
-/**
- * Attaches the given block to the given logManager's "processLog" method when invoked with Crash's groupId.
- */
-- (void)setProcessLogImplementation:(void (^)(NSInvocation *))invocation
-                     withLogManager:(id<MSLogManager>)logManager
-                        withCrashes:(MSCrashes *)crashes {
-  id<MSCrashesDelegate> delegateMock = OCMProtocolMock(@protocol(MSCrashesDelegate));
-  NSString *groupId = [crashes groupId];
-  OCMStub([logManager processLog:OCMOCK_ANY forGroupId:groupId]).andDo(invocation);
-  [crashes setDelegate:delegateMock];
 }
 
 #pragma clang diagnostic push
@@ -1142,3 +1143,4 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 }
 
 @end
+
