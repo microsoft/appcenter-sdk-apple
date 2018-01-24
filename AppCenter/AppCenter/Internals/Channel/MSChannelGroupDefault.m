@@ -130,6 +130,9 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
   /**
    * TODO: There should be some concept of logs on disk expiring to avoid leaks
    * when a channel is disabled with lingering logs but never enabled again.
+   *
+   * Note that this is an unlikely scenario. Solving this issue is more of a
+   * proactive measure.
    */
 }
 
