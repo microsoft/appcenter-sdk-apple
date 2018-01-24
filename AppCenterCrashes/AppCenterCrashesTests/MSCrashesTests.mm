@@ -139,9 +139,9 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
     for (id<MSChannelDelegate> delegate in channelMock.delegates) {
 
       // Call all channel delegate methods for testing.
-      [delegate willSendLog:log];
-      [delegate didSucceedSendingLog:log];
-      [delegate didFailSendingLog:log withError:nil];
+      [delegate channel:channelMock willSendLog:log];
+      [delegate channel:channelMock didSucceedSendingLog:log];
+      [delegate channel:channelMock didFailSendingLog:log withError:nil];
     }
   });
   MSAppleErrorLog *errorLog = OCMClassMock([MSAppleErrorLog class]);

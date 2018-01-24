@@ -60,22 +60,10 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   NSString *validEventName = @"validEventName";
   NSString *shortEventName = @"e";
   NSString *eventName256 =
-  [NSString stringWithFormat:@"%@%@", @"_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_"
-   @"256_256_256_256_256_256_256_256_256_256_256_256_256_256_256",
-   @"_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_256_"
-   @"256_256_256_256_265_256_256_256_256_256_256"];
+[@"" stringByPaddingToLength:maxEventNameLength withString:@"eventName256" startingAtIndex:0];
   NSString *nullableEventName = nil;
   NSString *emptyEventName = @"";
-  NSString *tooLongEventName =
-  [NSString stringWithFormat:@"%@%@%@%@", @"tooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLong"
-   @"EventNametooLongEventNametooLongEventNametooLongEventName",
-   @"tooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventNametooL"
-   @"ongEventNametooLongEventNametooLongEventName",
-   @"tooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventNametooL"
-   @"ongEventNametooLongEventNametooLongEventName",
-   @"tooLongEventNametooLongEventNametooLongEventNametooLongEventNametooLongEventNametooL"
-   @"ongEventNametooLongEventNametooLongEventName"];
-
+  NSString *tooLongEventName = [@"" stringByPaddingToLength:(maxEventNameLength+1) withString:@"tooLongEventName" startingAtIndex:0];
   // When
   NSString *valid = [[MSAnalytics sharedInstance] validateEventName:validEventName forLogType:kMSTypeEvent];
   NSString *validShortEventName =
@@ -102,10 +90,8 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   const int maxPropertriesPerEvent = 5;
   const int maxPropertyKeyLength = 64;
   const int maxPropertyValueLength = 64;
-  NSString *longStringValue =
-  [NSString stringWithFormat:@"%@", @"valueValueValueValueValueValueValueValueValueValueValueValueValue"];
-  NSString *stringValue64 =
-  [NSString stringWithFormat:@"%@", @"valueValueValueValueValueValueValueValueValueValueValueValueValu"];
+  NSString *longStringValue = [@"" stringByPaddingToLength:(maxPropertyValueLength+1) withString:@"value" startingAtIndex:0];
+  NSString *stringValue64 =[@"" stringByPaddingToLength:maxPropertyValueLength withString:@"value" startingAtIndex:0];
 
   // Test valid properties
   // If
@@ -287,9 +273,9 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
     for (id<MSChannelDelegate> delegate in channelMock.delegates) {
 
       // Call all channel delegate methods for testing.
-      [delegate willSendLog:log];
-      [delegate didSucceedSendingLog:log];
-      [delegate didFailSendingLog:log withError:nil];
+      [delegate channel:channelMock willSendLog:log];
+      [delegate channel:channelMock didSucceedSendingLog:log];
+      [delegate channel:channelMock didFailSendingLog:log withError:nil];
     }
   });
 
@@ -314,9 +300,9 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
     for (id<MSChannelDelegate> delegate in channelMock.delegates) {
 
       // Call all channel delegate methods for testing.
-      [delegate willSendLog:log];
-      [delegate didSucceedSendingLog:log];
-      [delegate didFailSendingLog:log withError:nil];
+      [delegate channel:channelMock willSendLog:log];
+      [delegate channel:channelMock didSucceedSendingLog:log];
+      [delegate channel:channelMock didFailSendingLog:log withError:nil];
     }
   });
 
