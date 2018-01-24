@@ -63,6 +63,17 @@
 #pragma mark - Managing queue
 
 - (void)enqueueItem:(id<MSLog>)item {
+  /*
+   * Set common log info.
+   * Only add timestamp and device info in case the log doesn't have one. In case the log is restored after a crash or
+   * for crashes, we don't want the timestamp and the device information to be updated but want the old one preserved.
+   */
+  if (item && !item.timestamp) {
+    item.timestamp = [NSDate date];
+  }
+  if (item && !item.device) {
+    item.device = [[MSDeviceTracker sharedInstance] device];
+  }
   if (!item || ![item isValid]) {
     MSLogWarning([MSAppCenter logTag], @"Log is not valid.");
     return;
@@ -71,26 +82,14 @@
   // Internal ID to keep track of logs between modules.
   NSString *internalLogId = MS_UUID_STRING;
 
-  /*
-   * Set common log info.
-   * Only add timestamp and device info in case the log doesn't have one. In case the log is restored after a crash or
-   * for crashes, we don't want the timestamp and the device information to be updated but want the old one preserved.
-   */
-  if (!item.timestamp) {
-    item.timestamp = [NSDate date];
-  }
-  if (!item.device) {
-    item.device = [[MSDeviceTracker sharedInstance] device];
-  }
-  
   // Return fast in case our item is empty or we are discarding logs right now.
   dispatch_async(self.logsDispatchQueue, ^{
+
     // Notify delegates.
     [self enumerateDelegatesForSelector:@selector(onEnqueuingLog:withInternalId:)
                               withBlock:^(id<MSChannelDelegate> delegate) {
                                 [delegate onEnqueuingLog:item withInternalId:internalLogId];
                               }];
-    
     if (self.discardLogs) {
       MSLogWarning([MSAppCenter logTag], @"Channel disabled in log discarding mode, discard this log.");
       NSError *error = [NSError errorWithDomain:kMSACErrorDomain

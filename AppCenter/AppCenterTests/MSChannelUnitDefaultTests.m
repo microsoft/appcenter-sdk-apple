@@ -5,6 +5,7 @@
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
 #import "MSChannelDelegate.h"
+#import "MSDevice.h"
 #import "MSHttpSender.h"
 #import "MSLogContainer.h"
 #import "MSSender.h"
@@ -720,6 +721,38 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
+}
+
+-(void)testDeviceAndTimestampAreAddedOnEnqueuing {
+
+  // If
+  id<MSLog> mockLog = [self getValidMockLog];
+  mockLog.device = nil;
+  mockLog.timestamp = nil;
+  MSChannelUnitDefault *sut = [self createChannelUnit];
+
+  // When
+  [sut enqueueItem:mockLog];
+
+  // Then
+  XCTAssertNotNil(mockLog.device);
+  XCTAssertNotNil(mockLog.timestamp);
+}
+
+-(void)testDeviceAndTimestampAreNotOverwrittenOnEnqueuing{
+
+  // If
+  id<MSLog> mockLog = [self getValidMockLog];
+  MSDevice *device = mockLog.device = [MSDevice new];
+  NSDate *timestamp = mockLog.timestamp = [NSDate new];
+  MSChannelUnitDefault *sut = [self createChannelUnit];
+
+  // When
+  [sut enqueueItem:mockLog];
+
+  // Then
+  XCTAssertEqual(mockLog.device, device);
+  XCTAssertEqual(mockLog.timestamp, timestamp);
 }
 
 #pragma mark - Helper
