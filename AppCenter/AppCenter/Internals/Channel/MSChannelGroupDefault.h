@@ -1,15 +1,14 @@
 #import <Foundation/Foundation.h>
 
-#import "MSChannelDelegate.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSDeviceTracker.h"
-#import "MSSender.h"
-#import "MSStorage.h"
 #import "MSSenderDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class MSHttpSender;
+@protocol MSStorage;
+@protocol MSChannelDelegate;
 
 static short const kMSStorageMaxCapacity = 300;
 

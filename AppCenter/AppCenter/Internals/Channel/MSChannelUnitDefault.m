@@ -1,8 +1,12 @@
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterInternal.h"
+#import "MSChannelDelegate.h"
+#import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
 #import "MSDeviceTracker.h"
+#import "MSSender.h"
+#import "MSStorage.h"
 
 @implementation MSChannelUnitDefault
 
@@ -165,10 +169,10 @@
                }
 
                // Notify delegates.
-               [self enumerateDelegatesForSelector:@selector(willSendLog:)
+               [self enumerateDelegatesForSelector:@selector(channel:willSendLog:)
                                          withBlock:^(id<MSChannelDelegate> delegate) {
                                            for (id<MSLog> aLog in logArray) {
-                                             [delegate willSendLog:aLog];
+                                             [delegate channel:self willSendLog:aLog];
                                            }
                                          }];
 
@@ -184,10 +188,10 @@
                             MSLogDebug([MSAppCenter logTag], @"Log(s) sent with success, batch Id:%@.", senderBatchId);
 
                             // Notify delegates.
-                            [self enumerateDelegatesForSelector:@selector(didSucceedSendingLog:)
+                            [self enumerateDelegatesForSelector:@selector(channel:didSucceedSendingLog:)
                                                       withBlock:^(id<MSChannelDelegate> delegate) {
                                                         for (id<MSLog> aLog in logArray) {
-                                                          [delegate didSucceedSendingLog:aLog];
+                                                          [delegate channel:self didSucceedSendingLog:aLog];
                                                         }
                                                       }];
 
@@ -212,10 +216,10 @@
 
                             // Notify delegates.
                             [self
-                                enumerateDelegatesForSelector:@selector(didFailSendingLog:withError:)
+                             enumerateDelegatesForSelector:@selector(channel:didFailSendingLog:withError:)
                                                     withBlock:^(id<MSChannelDelegate> delegate) {
                                                       for (id<MSLog> aLog in logArray) {
-                                                        [delegate didFailSendingLog:aLog withError:error];
+                                                        [delegate channel:self didFailSendingLog:aLog withError:error];
                                                       }
                                                     }];
 
@@ -378,12 +382,12 @@
   for (id<MSChannelDelegate> delegate in self.delegates) {
 
     // Call willSendLog before didFailSendingLog
-    if (delegate && [delegate respondsToSelector:@selector(willSendLog:)])
-      [delegate willSendLog:item];
+    if (delegate && [delegate respondsToSelector:@selector(channel:willSendLog:)])
+      [delegate channel:self willSendLog:item];
 
     // Call didFailSendingLog
-    if (delegate && [delegate respondsToSelector:@selector(didFailSendingLog:withError:)])
-      [delegate didFailSendingLog:item withError:error];
+    if (delegate && [delegate respondsToSelector:@selector(channel:didFailSendingLog:withError:)])
+      [delegate channel:self didFailSendingLog:item withError:error];
   }
 }
 

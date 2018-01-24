@@ -534,7 +534,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   }
 }
 
-- (void)willSendLog:(id<MSLog>)log {
+- (void)channel:(id<MSChannelProtocol>)channel willSendLog:(id<MSLog>)log {
+  (void)channel;
   id<MSCrashesDelegate> strongDelegate = self.delegate;
   if (strongDelegate && [strongDelegate respondsToSelector:@selector(crashes:willSendErrorReport:)]) {
     NSObject *logObject = static_cast<NSObject *>(log);
@@ -546,7 +547,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   }
 }
 
-- (void)didSucceedSendingLog:(id<MSLog>)log {
+- (void)channel:(id<MSChannelProtocol>)channel didSucceedSendingLog:(id<MSLog>)log {
+  (void)channel;
   id<MSCrashesDelegate> strongDelegate = self.delegate;
   if (strongDelegate && [strongDelegate respondsToSelector:@selector(crashes:didSucceedSendingErrorReport:)]) {
     NSObject *logObject = static_cast<NSObject *>(log);
@@ -558,7 +560,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   }
 }
 
-- (void)didFailSendingLog:(id<MSLog>)log withError:(NSError *)error {
+- (void)channel:(id<MSChannelProtocol>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error {
+  (void)channel;
   id<MSCrashesDelegate> strongDelegate = self.delegate;
   if (strongDelegate && [strongDelegate respondsToSelector:@selector(crashes:didFailSendingErrorReport:withError:)]) {
     NSObject *logObject = static_cast<NSObject *>(log);

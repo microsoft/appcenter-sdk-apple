@@ -1,12 +1,13 @@
 #import "AppCenter+Internal.h"
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterInternal.h"
-#import "MSChannelUnitDefault.h"
 #import "MSChannelDelegate.h"
+#import "MSChannelGroupDefault.h"
+#import "MSChannelUnitDefault.h"
 #import "MSHttpSender.h"
 #import "MSIngestionSender.h"
 #import "MSLogDBStorage.h"
-#import "MSChannelGroupDefault.h"
+#import "MSStorage.h"
 
 static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQueue";
 
@@ -73,24 +74,24 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 
 #pragma mark - Channel Delegate
 
-- (void)willSendLog:(id<MSLog>)log {
-  [self enumerateDelegatesForSelector:@selector(willSendLog:)
+- (void)channel:(id<MSChannelProtocol>)channel willSendLog:(id<MSLog>)log {
+  [self enumerateDelegatesForSelector:@selector(channel:willSendLog:)
                             withBlock:^(id<MSChannelDelegate> delegate) {
-                              [delegate willSendLog:log];
+                              [delegate channel:channel willSendLog:log];
                             }];
 }
 
-- (void)didSucceedSendingLog:(id<MSLog>)log {
-  [self enumerateDelegatesForSelector:@selector(didSucceedSendingLog:)
+- (void)channel:(id<MSChannelProtocol>)channel didSucceedSendingLog:(id<MSLog>)log {
+  [self enumerateDelegatesForSelector:@selector(channel:didSucceedSendingLog:)
                             withBlock:^(id<MSChannelDelegate> delegate) {
-                              [delegate didSucceedSendingLog:log];
+                              [delegate channel:channel didSucceedSendingLog:log];
                             }];
 }
 
-- (void)didFailSendingLog:(id<MSLog>)log withError:(NSError *)error {
-  [self enumerateDelegatesForSelector:@selector(didFailSendingLog:withError:)
+- (void)channel:(id<MSChannelProtocol>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error {
+  [self enumerateDelegatesForSelector:@selector(channel:didFailSendingLog:withError:)
                             withBlock:^(id<MSChannelDelegate> delegate) {
-                              [delegate didFailSendingLog:log withError:error];
+                              [delegate channel:channel didFailSendingLog:log withError:error];
                             }];
 }
 

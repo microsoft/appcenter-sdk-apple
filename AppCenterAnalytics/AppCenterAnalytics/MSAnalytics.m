@@ -294,9 +294,10 @@ static const int maxPropertyValueLength = 64;
   [[self sharedInstance] setDelegate:delegate];
 }
 
-#pragma mark - MSLogManagerDelegate
+#pragma mark - MSChannelDelegate
 
-- (void)willSendLog:(id<MSLog>)log {
+- (void)channel:(id<MSChannelProtocol>)channel willSendLog:(id<MSLog>)log {
+  (void)channel;
   if (!self.delegate) {
     return;
   }
@@ -312,7 +313,8 @@ static const int maxPropertyValueLength = 64;
   }
 }
 
-- (void)didSucceedSendingLog:(id<MSLog>)log {
+- (void)channel:(id<MSChannelProtocol>)channel didSucceedSendingLog:(id<MSLog>)log {
+  (void)channel;
   if (!self.delegate) {
     return;
   }
@@ -328,7 +330,8 @@ static const int maxPropertyValueLength = 64;
   }
 }
 
-- (void)didFailSendingLog:(id<MSLog>)log withError:(NSError *)error {
+- (void)channel:(id<MSChannelProtocol>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error {
+  (void)channel;
   if (!self.delegate) {
     return;
   }

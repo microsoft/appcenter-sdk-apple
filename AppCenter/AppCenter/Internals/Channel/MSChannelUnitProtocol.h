@@ -1,12 +1,11 @@
 #import <Foundation/Foundation.h>
 
 #import "MSChannelProtocol.h"
-#import "MSChannelUnitConfiguration.h"
-#import "MSLog.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^enqueueCompletionBlock)(BOOL);
+@class MSChannelUnitConfiguration;
+@protocol MSLog;
 
 /**
  * `MSChannelUnitProtocol` represents a kind of channel that is able

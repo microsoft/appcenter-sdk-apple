@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
 
-#import "MSLog.h"
+@protocol MSLog;
+@protocol MSChannelProtocol;
 
 @protocol MSChannelDelegate <NSObject>
 
@@ -11,14 +12,14 @@
  *
  * @param log The log to be sent.
  */
-- (void)willSendLog:(id<MSLog>)log;
+- (void)channel:(id<MSChannelProtocol>)channel willSendLog:(id<MSLog>)log;
 
 /**
  * Callback method that will be called in case the SDK was able to send a log.
  *
  * @param log The log to be sent.
  */
-- (void)didSucceedSendingLog:(id<MSLog>)log;
+- (void)channel:(id<MSChannelProtocol>)channel didSucceedSendingLog:(id<MSLog>)log;
 
 /**
  * Callback method that will be called in case the SDK was unable to send a log.
@@ -26,7 +27,7 @@
  * @param log The log to be sent.
  * @param error The error that occured.
  */
-- (void)didFailSendingLog:(id<MSLog>)log withError:(NSError *)error;
+- (void)channel:(id<MSChannelProtocol>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error;
 
 /**
  * A callback that is called when a log has been enqueued, before a log has been forwarded to persistence, etc.

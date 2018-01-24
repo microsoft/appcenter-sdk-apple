@@ -1,9 +1,10 @@
 #import <Foundation/Foundation.h>
 
-#import "MSChannelDelegate.h"
 #import "MSEnable.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
+@protocol MSChannelDelegate;
 
 /**
  * `MSChannelProtocol` contains the essential operations of a channel. Channels are
