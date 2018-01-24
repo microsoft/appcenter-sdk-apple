@@ -7,6 +7,8 @@
 #import "MSChannelDelegate.h"
 #import "MSHttpSender.h"
 #import "MSLogContainer.h"
+#import "MSSender.h"
+#import "MSStorage.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility.h"
 #import "MSExpectantChannelDelegate.h"

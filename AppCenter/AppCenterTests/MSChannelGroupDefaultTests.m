@@ -5,6 +5,8 @@
 #import "MSChannelGroupDefault.h"
 #import "MSTestFrameworks.h"
 #import "MSMockLog.h"
+#import "MSStorage.h"
+#import "MSSender.h"
 
 @interface MSChannelGroupDefaultTests : XCTestCase
 
