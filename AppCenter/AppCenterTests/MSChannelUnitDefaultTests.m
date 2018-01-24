@@ -119,8 +119,8 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                                      configuration:config
                                                  logsDispatchQueue:dispatch_get_main_queue()];
   [sut addDelegate:delegateMock];
-  OCMReject([delegateMock didFailSendingLog:OCMOCK_ANY withError:OCMOCK_ANY]);
-  OCMExpect([delegateMock didSucceedSendingLog:expectedLog]);
+  OCMReject([delegateMock channel:sut didFailSendingLog:OCMOCK_ANY withError:OCMOCK_ANY]);
+  OCMExpect([delegateMock channel:sut didSucceedSendingLog:expectedLog]);
   OCMExpect([delegateMock onEnqueuingLog:enqueuedLog withInternalId:OCMOCK_ANY]);
   OCMExpect([storageMock deleteLogsWithBatchId:expectedBatchId groupId:kMSTestGroupId]);
 
@@ -206,8 +206,8 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                                  logsDispatchQueue:dispatch_get_main_queue()];
   [sut addDelegate:delegateMock];
   OCMExpect([delegateMock onEnqueuingLog:enqueuedLog withInternalId:OCMOCK_ANY]);
-  OCMExpect([delegateMock didFailSendingLog:expectedLog withError:OCMOCK_ANY]);
-  OCMReject([delegateMock didSucceedSendingLog:OCMOCK_ANY]);
+  OCMExpect([delegateMock channel:sut didFailSendingLog:expectedLog withError:OCMOCK_ANY]);
+  OCMReject([delegateMock channel:sut didSucceedSendingLog:OCMOCK_ANY]);
   OCMExpect([storageMock deleteLogsWithBatchId:expectedBatchId groupId:kMSTestGroupId]);
 
   // When
@@ -714,8 +714,8 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
                                  // Check the callbacks were invoked for logs.
                                  OCMVerify([delegateMock onEnqueuingLog:mockLog withInternalId:OCMOCK_ANY]);
-                                 OCMVerify([delegateMock willSendLog:mockLog]);
-                                 OCMVerify([delegateMock didFailSendingLog:mockLog withError:anything()]);
+                                 OCMVerify([delegateMock channel:sut willSendLog:mockLog]);
+                                 OCMVerify([delegateMock channel:sut didFailSendingLog:mockLog withError:anything()]);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
