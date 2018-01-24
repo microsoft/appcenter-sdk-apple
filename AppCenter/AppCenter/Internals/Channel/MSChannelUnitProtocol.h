@@ -9,12 +9,14 @@ NS_ASSUME_NONNULL_BEGIN
 typedef void (^enqueueCompletionBlock)(BOOL);
 
 /**
- * TODO add some comments
+ * `MSChannelUnitProtocol` represents a kind of channel that is able
+ * to actually store/send logs (as opposed to a channel group, which
+ * simply contains a collection of channel units).
  */
 @protocol MSChannelUnitProtocol <MSChannelProtocol>
 
 /**
- * The configuration used by this channel.
+ * The configuration used by this channel unit.
  */
 @property(nonatomic) MSChannelUnitConfiguration *configuration;
 

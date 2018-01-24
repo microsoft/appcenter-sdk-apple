@@ -71,7 +71,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic) BOOL pendingBatchQueueFull;
 
-//TODO note these are "private"
 /**
  * A boolean value set to YES if the channel is enabled or NO otherwise.
  * Enable/disable does resume/suspend the channel as needed under the hood.

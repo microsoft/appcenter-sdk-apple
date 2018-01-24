@@ -42,12 +42,6 @@
  *
  * @param log The log.
  * @param internalId An internal Id that can be used to keep track of logs.
- *
- * @discussion We had some discussion about the naming of the method. To match the
- * onEnqueueingLog:withInternalId (@see onEnqueueingLog:withInternalId) callback, it should
- * also use `enqueuing` in it's signature, yet, as of now, it indicates successful persistence of a log. This
- * method's name might change in the future to make a distinction between a successfully enqueued log and a persisted
- * log.
  */
 - (void)onFinishedPersistingLog:(id<MSLog>)log withInternalId:(NSString *)internalId;
 
@@ -57,12 +51,6 @@
  *
  * @param log The log.
  * @param internalId An internal Id that can be used to keep track of logs.
- *
- * @discussion We had some discussion about the naming of the method. To match the
- * onEnqueueingLog:withInternalId (@see onEnqueueingLog:withInternalId) callback, it should
- * also use `enqueuing` in it's signature, yet, as of now, it indicates successful persistence of a log. This
- * method's name might change in the future to make a distinction between a successfully enqueued log and a persisted
- * log.
  */
 - (void)onFailedPersistingLog:(id<MSLog>)log withInternalId:(NSString *)internalId;
 

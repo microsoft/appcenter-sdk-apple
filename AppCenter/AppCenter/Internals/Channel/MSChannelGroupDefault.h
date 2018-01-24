@@ -36,18 +36,18 @@ static short const kMSStorageMaxCapacity = 300;
 - (instancetype)initWithAppSecret:(NSString *)appSecret installId:(NSUUID *)installId logUrl:(NSString *)logUrl;
 
 /**
- * Initializes a new `MSLogManager` instance.
+ * Initializes a new `MSChannelGroupDefault` instance.
  *
  * @param sender An HTTP sender instance that is used to send batches of log items to
  * the backend.
  * @param storage A storage instance to store and read enqueued log items.
  *
- * @return A new `MSLogManager` instance.
+ * @return A new `MSChannelGroupDefault` instance.
  */
 - (instancetype)initWithSender:(MSHttpSender *)sender storage:(id<MSStorage>)storage;
 
 /**
- * Hash table of channel delegates.
+ * Collection of channel delegates.
  */
 @property(nonatomic) NSHashTable<id<MSChannelDelegate>> *delegates;
 
@@ -67,7 +67,7 @@ static short const kMSStorageMaxCapacity = 300;
 @property(nonatomic, strong) dispatch_queue_t logsDispatchQueue;
 
 /**
- * An array containing all channel that are a part of this channel group.
+ * An array containing all channels that are a part of this channel group.
  */
 @property(nonatomic, copy) NSMutableArray *channels;
 

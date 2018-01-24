@@ -16,9 +16,11 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MSChannelGroupProtocol <MSChannelProtocol>
 
 /**
- * Initialize a channel with the given configuration.
+ * Initialize a channel unit with the given configuration.
  *
  * @param configuration channel configuration.
+ *
+ * @return The added `MSChannelUnitProtocol`. Use this object to enqueue logs.
  */
 - (id<MSChannelUnitProtocol>)addChannelUnitWithConfiguration:(MSChannelUnitConfiguration *)configuration;
 

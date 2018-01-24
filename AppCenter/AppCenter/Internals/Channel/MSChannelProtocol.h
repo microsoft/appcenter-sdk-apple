@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)removeDelegate:(id<MSChannelDelegate>)delegate;
 
 /**
- * Suspend operations, logs will not be sent but still stored.
+ * Suspend operations, logs will be stored but not sent.
  */
 - (void)suspend;
 
