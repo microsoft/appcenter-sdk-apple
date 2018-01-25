@@ -154,4 +154,7 @@ class AppCenterDelegateSwift : AppCenterDelegate {
   func setEventFilterEnabled(_ isEnabled: Bool){
     MSEventFilter.setEnabled(isEnabled);
   }
+  func startEventFilterService() {
+    MSAppCenter.startService(MSEventFilter.self)
+  }
 }

@@ -203,5 +203,8 @@
 - (void) setEventFilterEnabled:(BOOL)isEnabled {
   [MSEventFilter setEnabled:isEnabled];
 }
+- (void) startEventFilterService {
+  [MSAppCenter startService:[MSEventFilter class]];
+}
 
 @end

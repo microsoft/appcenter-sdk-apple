@@ -6,6 +6,7 @@ class MSEventFilterViewController: UITableViewController, UINavigationController
   @IBOutlet weak var enabled: UISwitch!
 
   override func viewDidLoad() {
+    appCenter.startEventFilterService()
     self.enabled.isOn = appCenter.isEventFilterEnabled()
   }
 

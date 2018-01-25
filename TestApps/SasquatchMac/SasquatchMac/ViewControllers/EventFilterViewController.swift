@@ -12,6 +12,7 @@ class EventFilterViewController: NSViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    appCenter.startEventFilterService()
     setEnabledButton?.state = appCenter.isEventFilterEnabled() ? 1 : 0
   }
 }

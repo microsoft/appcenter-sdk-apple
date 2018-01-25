@@ -9,6 +9,12 @@ class EventFilterViewController : UIViewController, AppCenterProtocol {
   @IBAction func setEnabled(_ sender: UISegmentedControl) {
     appCenter.setEventFilterEnabled(sender.selectedSegmentIndex == 0)
   }
+
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    appCenter.startEventFilterService(MSEventFilter.self)
+  }
+
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     enabledControl.selectedSegmentIndex = appCenter.isEventFilterEnabled() ? 0 : 1

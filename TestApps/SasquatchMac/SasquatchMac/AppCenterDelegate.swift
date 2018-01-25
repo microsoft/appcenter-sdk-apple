@@ -61,4 +61,5 @@ import AppCenter
   // MSEventFilter section.
   func isEventFilterEnabled() -> Bool
   func setEventFilterEnabled(_ isEnabled: Bool)
+  func startEventFilterService()
 }

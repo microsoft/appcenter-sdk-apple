@@ -59,4 +59,5 @@ import Foundation;
   //MARK: MSEventFilter section.
   func isEventFilterEnabled() -> Bool
   func setEventFilterEnabled(_ isEnabled: Bool)
+  func startEventFilterService(_ service: AnyClass)
 }
