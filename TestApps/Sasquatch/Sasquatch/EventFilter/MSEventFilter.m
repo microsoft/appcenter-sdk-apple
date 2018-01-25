@@ -1,6 +1,7 @@
 #import <AppCenter/MSServiceAbstract.h>
 #import <AppCenter/MSLog.h>
 #import <AppCenter/MSLogger.h>
+#import <AppCenter/MSChannelGroupProtocol.h>
 #import <AppCenterAnalytics/MSEventLog.h>
 
 #import "MSEventFilter.h"
@@ -27,6 +28,14 @@ static NSString *const kMSEventTypeName = @"event";
   return @"EventFilter";
 }
 
++ (NSString *)serviceName {
+  return @"EventFilter";
+}
+
+- (NSString *)groupId {
+  return @"eventFilter";
+}
+
 #pragma mark - MSServiceAbstract
 
 /**
@@ -42,6 +51,11 @@ static NSString *const kMSEventTypeName = @"event";
   } else {
     MSLogInfo([MSEventFilter logTag], @"Event Filter service has been disabled.");
   }
+}
+
+- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret {
+  [super startWithChannelGroup:channelGroup appSecret:appSecret];
+  [channelGroup addDelegate:self];
 }
 
 #pragma mark - MSChannelDelegate

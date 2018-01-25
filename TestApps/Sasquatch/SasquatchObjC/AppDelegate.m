@@ -3,7 +3,7 @@
 #import "AppCenterDelegateObjC.h"
 #import "AppDelegate.h"
 #import "Constants.h"
-#import "MSLogFilter.h"
+#import "MSEventFilter.h"
 
 @import AppCenter;
 @import AppCenterAnalytics;
@@ -27,10 +27,10 @@
 // Start App Center SDK.
 #if DEBUG
   [MSAppCenter start:@"3ccfe7f5-ec01-4de5-883c-f563bbbe147a"
-        withServices:@[ [MSAnalytics class], [MSCrashes class], [MSPush class], [MSLogFilter class] ]];
+        withServices:@[ [MSAnalytics class], [MSCrashes class], [MSPush class], [MSEventFilter class] ]];
 #else
   [MSAppCenter start:@"3ccfe7f5-ec01-4de5-883c-f563bbbe147a"
-        withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class], [MSLogFilter class] ]];
+        withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class], [MSEventFilter class] ]];
 #endif
 
   [self crashes];

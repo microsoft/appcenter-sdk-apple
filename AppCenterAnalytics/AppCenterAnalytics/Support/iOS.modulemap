@@ -1,5 +1,6 @@
 framework module AppCenterAnalytics {
   umbrella header "AppCenterAnalytics.h"
+  exclude header "MSLogWithProperties.h"
   
   export *
   module * { export * }
