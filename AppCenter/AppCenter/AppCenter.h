@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
 
 #import "MSAbstractLog.h"
+#import "MSLog.h"
 #import "MSAppCenter.h"
 #import "MSAppCenterErrors.h"
 #import "MSConstants.h"

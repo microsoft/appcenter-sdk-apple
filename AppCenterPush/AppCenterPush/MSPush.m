@@ -10,6 +10,7 @@
 #import "MSAppCenterInternal.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelGroupProtocol.h"
+#import "MSChannelUnitProtocol.h"
 #import "MSPush.h"
 #import "MSPushAppDelegate.h"
 #import "MSPushLog.h"

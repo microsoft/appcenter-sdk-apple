@@ -1,4 +1,6 @@
 #import "MSAppCenterInternal.h"
+#import "MSChannelGroupProtocol.h"
+#import "MSChannelUnitProtocol.h"
 #import "MSServiceAbstractPrivate.h"
 
 @implementation MSServiceAbstract

@@ -1,4 +1,5 @@
 #import "MSEventLog.h"
+#import "AppCenter+Internal.h"
 
 static NSString *const kMSTypeEvent = @"event";
 

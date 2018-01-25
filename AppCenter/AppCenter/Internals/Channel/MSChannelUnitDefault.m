@@ -95,7 +95,7 @@
     __block BOOL shouldFilter = NO;
     [self enumerateDelegatesForSelector:@selector(shouldFilterLog:)
                               withBlock:^(id<MSChannelDelegate> delegate) {
-                                shouldFilter = shouldFilter || [delegate shouldFilterLog:log];
+                                shouldFilter = shouldFilter || [delegate shouldFilterLog:item];
                               }];
     if (shouldFilter) {
       return;

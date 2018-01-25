@@ -1,4 +1,4 @@
-#import "MSLogger.h"
+#import "MSLoggerInternal.h"
 
 @implementation MSLogger
 

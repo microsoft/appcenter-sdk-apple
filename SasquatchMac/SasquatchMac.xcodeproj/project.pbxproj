@@ -21,6 +21,8 @@
 		04ED31E71EAAD1B30033BAAE /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D41EAAC7510033BAAE /* AppCenter.framework */; };
 		353332F720126200009B0946 /* EventFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353332F620126200009B0946 /* EventFilterViewController.swift */; };
 		353332F820126200009B0946 /* EventFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353332F620126200009B0946 /* EventFilterViewController.swift */; };
+		358F9BCC2019639100B9E22C /* MSEventFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 358F9BCA2019639100B9E22C /* MSEventFilter.m */; };
+		358F9BCD2019639100B9E22C /* MSEventFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 358F9BCA2019639100B9E22C /* MSEventFilter.m */; };
 		5C6F9BAD1EB8B730009E52D8 /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F9BAC1EB8B730009E52D8 /* AnalyticsViewController.swift */; };
 		5C6F9BB61EB8EEFC009E52D8 /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F9BAC1EB8B730009E52D8 /* AnalyticsViewController.swift */; };
 		5C6F9BB81EB8F2E9009E52D8 /* CrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F9BB71EB8F2E9009E52D8 /* CrashesViewController.swift */; };
@@ -84,20 +86,8 @@
 		04ED31D31EAAC7510033BAAE /* AppCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterAnalytics.framework; path = "../AppCenter-SDK-Apple/macOS/AppCenterAnalytics.framework"; sourceTree = "<group>"; };
 		04ED31D41EAAC7510033BAAE /* AppCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenter.framework; path = "../AppCenter-SDK-Apple/macOS/AppCenter.framework"; sourceTree = "<group>"; };
 		353332F620126200009B0946 /* EventFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventFilterViewController.swift; sourceTree = "<group>"; };
-		3577093E2017FA5D00E465B6 /* MSEventFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSEventFilter.h; sourceTree = "<group>"; };
-		357709402017FA5D00E465B6 /* MSConstants+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MSConstants+Internal.h"; sourceTree = "<group>"; };
-		357709412017FA5D00E465B6 /* MSServiceAbstractProtected.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSServiceAbstractProtected.h; sourceTree = "<group>"; };
-		357709422017FA5D00E465B6 /* MSServiceAbstractInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSServiceAbstractInternal.h; sourceTree = "<group>"; };
-		357709432017FA5D00E465B6 /* MSLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSLog.h; sourceTree = "<group>"; };
-		357709442017FA5D00E465B6 /* MSServiceInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSServiceInternal.h; sourceTree = "<group>"; };
-		357709452017FA5D00E465B6 /* MSService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSService.h; sourceTree = "<group>"; };
-		357709462017FA5D00E465B6 /* MSLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSLogger.h; sourceTree = "<group>"; };
-		357709472017FA5D00E465B6 /* MSServiceCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSServiceCommon.h; sourceTree = "<group>"; };
-		357709482017FA5D00E465B6 /* MSLogManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSLogManager.h; sourceTree = "<group>"; };
-		357709492017FA5D00E465B6 /* MSChannelConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSChannelConfiguration.h; sourceTree = "<group>"; };
-		3577094A2017FA5D00E465B6 /* MSEnable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSEnable.h; sourceTree = "<group>"; };
-		3577094B2017FA5D00E465B6 /* MSLogManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSLogManagerDelegate.h; sourceTree = "<group>"; };
-		3577094C2017FA5D00E465B6 /* MSEventFilter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSEventFilter.m; sourceTree = "<group>"; };
+		358F9BCA2019639100B9E22C /* MSEventFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSEventFilter.m; sourceTree = "<group>"; };
+		358F9BCB2019639100B9E22C /* MSEventFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSEventFilter.h; sourceTree = "<group>"; };
 		5C6F9BAC1EB8B730009E52D8 /* AnalyticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsViewController.swift; sourceTree = "<group>"; };
 		5C6F9BB71EB8F2E9009E52D8 /* CrashesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashesViewController.swift; sourceTree = "<group>"; };
 		5C9BBC801EC4829200CA77A3 /* AppCenterDelegateSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCenterDelegateSwift.swift; sourceTree = "<group>"; };
@@ -151,30 +141,10 @@
 		3577093D2017FA5D00E465B6 /* EventFilter */ = {
 			isa = PBXGroup;
 			children = (
-				3577093E2017FA5D00E465B6 /* MSEventFilter.h */,
-				3577093F2017FA5D00E465B6 /* InternalHeaders */,
-				3577094C2017FA5D00E465B6 /* MSEventFilter.m */,
+				358F9BCA2019639100B9E22C /* MSEventFilter.m */,
+				358F9BCB2019639100B9E22C /* MSEventFilter.h */,
 			);
 			path = EventFilter;
-			sourceTree = "<group>";
-		};
-		3577093F2017FA5D00E465B6 /* InternalHeaders */ = {
-			isa = PBXGroup;
-			children = (
-				357709402017FA5D00E465B6 /* MSConstants+Internal.h */,
-				357709412017FA5D00E465B6 /* MSServiceAbstractProtected.h */,
-				357709422017FA5D00E465B6 /* MSServiceAbstractInternal.h */,
-				357709432017FA5D00E465B6 /* MSLog.h */,
-				357709442017FA5D00E465B6 /* MSServiceInternal.h */,
-				357709452017FA5D00E465B6 /* MSService.h */,
-				357709462017FA5D00E465B6 /* MSLogger.h */,
-				357709472017FA5D00E465B6 /* MSServiceCommon.h */,
-				357709482017FA5D00E465B6 /* MSLogManager.h */,
-				357709492017FA5D00E465B6 /* MSChannelConfiguration.h */,
-				3577094A2017FA5D00E465B6 /* MSEnable.h */,
-				3577094B2017FA5D00E465B6 /* MSLogManagerDelegate.h */,
-			);
-			path = InternalHeaders;
 			sourceTree = "<group>";
 		};
 		D3C31C031E8E757300B288CE = {
@@ -417,6 +387,7 @@
 			files = (
 				042496861EC3CE2F00502B62 /* AppCenterProvider.swift in Sources */,
 				353332F820126200009B0946 /* EventFilterViewController.swift in Sources */,
+				358F9BCC2019639100B9E22C /* MSEventFilter.m in Sources */,
 				F8B8EC731FD853E800445BD4 /* CustomPropertiesViewControler.swift in Sources */,
 				5C6F9BB81EB8F2E9009E52D8 /* CrashesViewController.swift in Sources */,
 				042496851EC3CE2F00502B62 /* AppCenterDelegate.swift in Sources */,
@@ -434,6 +405,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C9BBC811EC4829200CA77A3 /* AppCenterDelegateSwift.swift in Sources */,
+				358F9BCD2019639100B9E22C /* MSEventFilter.m in Sources */,
 				C2A4A2691EE7684A0080FD22 /* AppCenterViewController.swift in Sources */,
 				F8B8EC741FD853E800445BD4 /* CustomPropertiesViewControler.swift in Sources */,
 				042496881EC3CE3700502B62 /* AppCenterProvider.swift in Sources */,

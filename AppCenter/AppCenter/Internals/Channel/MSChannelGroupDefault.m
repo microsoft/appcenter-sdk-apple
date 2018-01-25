@@ -95,6 +95,15 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
                             }];
 }
 
+-(BOOL)shouldFilterLog:(id<MSLog>)log {
+  __block BOOL shouldFilter = NO;
+  [self enumerateDelegatesForSelector:@selector(shouldFilterLog:)
+                            withBlock:^(id<MSChannelDelegate> delegate) {
+                              shouldFilter = shouldFilter || [delegate shouldFilterLog:log];
+                            }];
+  return shouldFilter;
+}
+
 - (void)onEnqueuingLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
   [self enumerateDelegatesForSelector:@selector(onEnqueuingLog:withInternalId:)
                             withBlock:^(id<MSChannelDelegate> delegate) {

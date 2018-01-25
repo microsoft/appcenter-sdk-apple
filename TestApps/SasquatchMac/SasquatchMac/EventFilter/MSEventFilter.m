@@ -1,35 +1,18 @@
+#import <AppCenter/MSServiceAbstract.h>
+#import <AppCenter/MSLog.h>
+#import <AppCenter/MSLogger.h>
 #import <AppCenterAnalytics/MSEventLog.h>
 
 #import "MSEventFilter.h"
-#import "MSLogManager.h"
-#import "MSServiceAbstractProtected.h"
-#import "MSServiceAbstractInternal.h"
-#import "MSServiceCommon.h"
-#import "MSServiceInternal.h"
-#import "MSLog.h"
-#import "MSLogManagerDelegate.h"
-#import "MSLogger.h"
-
-@interface MSEventFilter () <MSServiceInternal, MSLogManagerDelegate>
-
-@end
 
 // Singleton.
 static MSEventFilter *sharedInstance = nil;
 static dispatch_once_t onceToken;
 
-// Service name for initialization.
-static NSString *const kMSServiceName = @"EventFilter";
-
-// Group id.
-static NSString *const kMSGroupId = @"EventFilter";
-
 // Event log type name.
 static NSString *const kMSEventTypeName = @"event";
 
 @implementation MSEventFilter
-
-#pragma mark - MSServiceInternal
 
 + (instancetype)sharedInstance {
   dispatch_once(&onceToken, ^{
@@ -40,41 +23,33 @@ static NSString *const kMSEventTypeName = @"event";
   return sharedInstance;
 }
 
-+ (NSString *)serviceName {
-  return kMSServiceName;
-}
-
-- (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret {
-  [super startWithLogManager:logManager appSecret:appSecret];
-  MSLogVerbose([MSEventFilter logTag], @"Started Event Filter service.");
-}
-
 + (NSString *)logTag {
   return @"EventFilter";
 }
 
-- (NSString *)groupId {
-  return kMSGroupId;
-}
-
 #pragma mark - MSServiceAbstract
 
-- (void)applyEnabledState:(BOOL)isEnabled {
-  [super applyEnabledState:isEnabled];
+/**
+ *  Enable/disable this service.
+ *
+ *  @param isEnabled whether this service is enabled or not.
+ *  @see isEnabled
+ */
++ (void)setEnabled:(BOOL)isEnabled {
+  [super setEnabled:isEnabled];
   if (isEnabled) {
-
-    // Add delegate to log manager.
-    [self.logManager addDelegate:self];
     MSLogInfo([MSEventFilter logTag], @"Event Filter service has been enabled.");
   } else {
-    [self.logManager removeDelegate:self];
-      MSLogInfo([MSEventFilter logTag], @"Event Filter service has been disabled.");
+    MSLogInfo([MSEventFilter logTag], @"Event Filter service has been disabled.");
   }
 }
 
-#pragma mark - Log Manager Delegate
+#pragma mark - MSChannelDelegate
 
 - (BOOL)shouldFilterLog:(id<MSLog>)log {
+  if (![MSEventFilter isEnabled]) {
+    return NO;
+  }
   if ([[log type] isEqualToString:kMSEventTypeName]) {
     MSEventLog *eventLog = (MSEventLog*)log;
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];

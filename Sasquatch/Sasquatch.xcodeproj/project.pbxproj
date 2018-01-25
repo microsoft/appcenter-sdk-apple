@@ -224,18 +224,6 @@
 		353332C620112EB4009B0946 /* MSEventFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSEventFilterViewController.swift; sourceTree = "<group>"; };
 		354273DE20126A3E00BE766F /* MSEventFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSEventFilter.m; sourceTree = "<group>"; };
 		354273DF20126A3E00BE766F /* MSEventFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSEventFilter.h; sourceTree = "<group>"; };
-		354273E120126A3E00BE766F /* MSConstants+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MSConstants+Internal.h"; sourceTree = "<group>"; };
-		354273E220126A3E00BE766F /* MSServiceAbstractProtected.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSServiceAbstractProtected.h; sourceTree = "<group>"; };
-		354273E320126A3E00BE766F /* MSServiceAbstractInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSServiceAbstractInternal.h; sourceTree = "<group>"; };
-		354273E420126A3E00BE766F /* MSLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLog.h; sourceTree = "<group>"; };
-		354273E520126A3E00BE766F /* MSServiceInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSServiceInternal.h; sourceTree = "<group>"; };
-		354273E620126A3E00BE766F /* MSService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSService.h; sourceTree = "<group>"; };
-		354273E720126A3E00BE766F /* MSLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLogger.h; sourceTree = "<group>"; };
-		354273E820126A3E00BE766F /* MSServiceCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSServiceCommon.h; sourceTree = "<group>"; };
-		354273E920126A3E00BE766F /* MSLogManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLogManager.h; sourceTree = "<group>"; };
-		354273EA20126A3E00BE766F /* MSChannelConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSChannelConfiguration.h; sourceTree = "<group>"; };
-		354273EB20126A3E00BE766F /* MSEnable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSEnable.h; sourceTree = "<group>"; };
-		354273EC20126A3E00BE766F /* MSLogManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLogManagerDelegate.h; sourceTree = "<group>"; };
 		384929201FACF5DA003F8736 /* SasquatchWatchObjC Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SasquatchWatchObjC Extension.entitlements"; sourceTree = SOURCE_ROOT; };
 		384929211FACF5F3003F8736 /* SasquatchWatchSwift Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SasquatchWatchSwift Extension.entitlements"; sourceTree = SOURCE_ROOT; };
 		5CD700E51EA4B74500FC5D12 /* SasquatchSwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchSwiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -360,28 +348,8 @@
 			children = (
 				354273DE20126A3E00BE766F /* MSEventFilter.m */,
 				354273DF20126A3E00BE766F /* MSEventFilter.h */,
-				354273E020126A3E00BE766F /* InternalHeaders */,
 			);
 			path = EventFilter;
-			sourceTree = "<group>";
-		};
-		354273E020126A3E00BE766F /* InternalHeaders */ = {
-			isa = PBXGroup;
-			children = (
-				354273E120126A3E00BE766F /* MSConstants+Internal.h */,
-				354273E220126A3E00BE766F /* MSServiceAbstractProtected.h */,
-				354273E320126A3E00BE766F /* MSServiceAbstractInternal.h */,
-				354273E420126A3E00BE766F /* MSLog.h */,
-				354273E520126A3E00BE766F /* MSServiceInternal.h */,
-				354273E620126A3E00BE766F /* MSService.h */,
-				354273E720126A3E00BE766F /* MSLogger.h */,
-				354273E820126A3E00BE766F /* MSServiceCommon.h */,
-				354273E920126A3E00BE766F /* MSLogManager.h */,
-				354273EA20126A3E00BE766F /* MSChannelConfiguration.h */,
-				354273EB20126A3E00BE766F /* MSEnable.h */,
-				354273EC20126A3E00BE766F /* MSLogManagerDelegate.h */,
-			);
-			path = InternalHeaders;
 			sourceTree = "<group>";
 		};
 		5CD700E61EA4B74600FC5D12 /* SasquatchUITests */ = {
