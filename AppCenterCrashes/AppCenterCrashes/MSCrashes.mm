@@ -935,7 +935,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
     // Try loading the crash report
     NSData *crashData =
-    [[NSData alloc] initWithData:[self.plCrashReporter loadPendingCrashReportDataAndReturnError:&error]];
+      [[NSData alloc] initWithData:[self.plCrashReporter loadPendingCrashReportDataAndReturnError:&error]];
     if (crashData == nil) {
       MSLogError([MSCrashes logTag], @"Couldn't load crash report: %@", error.localizedDescription);
     } else {
@@ -952,10 +952,12 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
         MSLogWarning([MSCrashes logTag], @"Couldn't parse crash report: %@", error.localizedDescription);
       }
     }
-
-    // Purge the report marker at the end of the routine.
-    [self removeAnalyzerFile];
+  } else {
+    MSLogError([MSCrashes logTag], @"Error on loading the crash report, it will be purged.");
   }
+  
+  // Purge the report marker at the end of the routine.
+  [self removeAnalyzerFile];
   [self.plCrashReporter purgePendingCrashReport];
 }
 
