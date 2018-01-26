@@ -41,9 +41,11 @@ static NSString *const kMSEventTypeName = @"event";
 + (void)setEnabled:(BOOL)isEnabled {
   [super setEnabled:isEnabled];
   if (isEnabled) {
-    MSLogInfo([MSEventFilter logTag], @"Event Filter service has been enabled.");
+    [MSEventFilter logMessage:@"Event Filter service has been enabled."
+                 withLogLevel:MSLogLevelInfo];
   } else {
-    MSLogInfo([MSEventFilter logTag], @"Event Filter service has been disabled.");
+    [MSEventFilter logMessage:@"Event Filter service has been disabled."
+                 withLogLevel:MSLogLevelInfo];
   }
 }
 
@@ -63,10 +65,22 @@ static NSString *const kMSEventTypeName = @"event";
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"dd-MM-YYYY HH:mm:ss"];
     NSString *logTimestampString = [dateFormatter stringFromDate:log.timestamp];
-    MSLogInfo([MSEventFilter logTag], @"Filtering out an event log. Details:\n\tLog Type = %@\n\tLog Timestamp = %@\n\tLog SID = %@\n\tEvent name = %@",  log.type, logTimestampString, log.sid, eventLog.name);
+    NSString *message = [NSString stringWithFormat:@"Filtering out an event log. Details:\
+                            \n\tLog Type = %@\
+                            \n\tLog Timestamp = %@\
+                            \n\tLog SID = %@\
+                            \n\tEvent name = %@",log.type, logTimestampString, log.sid, eventLog.name];
+    [MSEventFilter logMessage:message withLogLevel:MSLogLevelInfo];
     return YES;
   }
   return NO;
+}
+
+# pragma mark - Helper methods
++ (void) logMessage:(NSString*)message withLogLevel:(MSLogLevel)logLevel {
+  [MSWrapperLogger MSWrapperLog:^{return message;}
+                            tag:[MSEventFilter logTag]
+                          level:logLevel];
 }
 
 @end

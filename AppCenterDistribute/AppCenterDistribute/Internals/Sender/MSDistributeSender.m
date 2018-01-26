@@ -3,7 +3,7 @@
 #import "MSDistribute.h"
 #import "MSDistributeSender.h"
 #import "MSHttpSenderPrivate.h"
-#import "MSLoggerInternal.h"
+#import "MSLogger.h"
 
 @implementation MSDistributeSender
 

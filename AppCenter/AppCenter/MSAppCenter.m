@@ -10,7 +10,7 @@
 #import "MSChannelGroupDefault.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
-#import "MSLoggerInternal.h"
+#import "MSLogger.h"
 #import "MSSessionContext.h"
 #import "MSStartServiceLog.h"
 #import "MSUtility.h"

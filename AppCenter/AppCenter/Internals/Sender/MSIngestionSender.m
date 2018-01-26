@@ -3,7 +3,7 @@
 #import "MSConstants+Internal.h"
 #import "MSHttpSenderPrivate.h"
 #import "MSIngestionSender.h"
-#import "MSLoggerInternal.h"
+#import "MSLogger.h"
 #import "MSLogContainer.h"
 
 @implementation MSIngestionSender

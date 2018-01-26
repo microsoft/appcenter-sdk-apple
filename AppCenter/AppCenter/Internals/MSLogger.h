@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
 
 #import "MSConstants.h"
+#import "MSLogger.h"
 
 #define MSLog(_level, _tag, _message)                                                                                  \
 [MSLogger logMessage:_message level:_level tag:_tag file:__FILE__ function:__PRETTY_FUNCTION__ line:__LINE__]
@@ -39,5 +40,16 @@ FOUNDATION_EXPORT MSLogHandler const msDefaultLogHandler;
               file:(const char *)file
           function:(const char *)function
               line:(uint)line;
+
++ (BOOL)isUserDefinedLogLevel;
+
+/*
+ * For testing only.
+ */
++ (void)setIsUserDefinedLogLevel:(BOOL)isUserDefinedLogLevel;
+
++ (MSLogLevel)currentLogLevel;
++ (void)setCurrentLogLevel:(MSLogLevel)currentLogLevel;
++ (void)setLogHandler:(MSLogHandler)logHandler;
 
 @end
