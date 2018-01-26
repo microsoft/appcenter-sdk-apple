@@ -2,7 +2,7 @@
 
 ## Version 1.3.0
 
-This version has a **breaking change** as the SDK now requires iOS 9 or later. It also contains bugfixes and improvements.
+This version has a **breaking change** as the SDK now requires iOS 9 or later. It also contains a bug fix and an improvement.
 
 ### AppCenter
 
