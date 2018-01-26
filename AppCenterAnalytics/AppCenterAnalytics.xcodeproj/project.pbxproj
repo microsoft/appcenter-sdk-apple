@@ -656,13 +656,13 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				358F9BC82019596500B9E22C /* MSAbstractLog.h in Headers */,
 				E89B33EC1D5A8F3500FDE8FB /* MSSessionTrackerDelegate.h in Headers */,
-				E85547F91D2D6A9B002DF6E2 /* AppCenter+Internal.h in Headers */,
+				04A082061F74BB8600DC776D /* MSService.h in Headers */,
 				387C77051D6CC39400D68CC1 /* MSServiceAbstract.h in Headers */,
+				E85547F91D2D6A9B002DF6E2 /* AppCenter+Internal.h in Headers */,
 				6E3E2CCD1D359D5E00B1EE50 /* MSPageLog.h in Headers */,
 				358F9BC62019590200B9E22C /* MSLogWithProperties.h in Headers */,
-				358F9BC82019596500B9E22C /* MSAbstractLog.h in Headers */,
-				04A082061F74BB8600DC776D /* MSService.h in Headers */,
 				E8E48FA21D51670100A8C1B0 /* MSStartSessionLog.h in Headers */,
 				6E3E2CCB1D359D5E00B1EE50 /* MSEventLog.h in Headers */,
 				0485AF8F1EAA852A00C10CAF /* MSAnalyticsCategory.h in Headers */,

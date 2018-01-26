@@ -1,4 +1,5 @@
 @import AppCenter;
+@import AppCenterAnalytics;
 
 NS_ASSUME_NONNULL_BEGIN
 

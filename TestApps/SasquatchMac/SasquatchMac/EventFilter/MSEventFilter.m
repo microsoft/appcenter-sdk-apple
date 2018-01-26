@@ -1,9 +1,3 @@
-#import <AppCenter/MSServiceAbstract.h>
-#import <AppCenter/MSLog.h>
-#import <AppCenter/MSLogger.h>
-#import <AppCenter/MSChannelGroupProtocol.h>
-#import <AppCenterAnalytics/MSEventLog.h>
-
 #import "MSEventFilter.h"
 
 // Singleton.
