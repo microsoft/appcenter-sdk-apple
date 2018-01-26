@@ -202,43 +202,6 @@ static NSURL *sfURL;
   assertThat(url, nilValue());
 }
 
-- (void)testOpenURLInSafariApp {
-
-  // If
-  XCTestExpectation *openURLCalledExpectation = [self expectationWithDescription:@"openURL Called."];
-  NSURL *url = [NSURL URLWithString:@"https://contoso.com"];
-  id appMock = OCMClassMock([UIApplication class]);
-  OCMStub([appMock sharedApplication]).andReturn(appMock);
-  OCMStub([appMock canOpenURL:url]).andReturn(YES);
-  SEL selector = NSSelectorFromString(@"openURL:options:completionHandler:");
-  BOOL newOpenURL = [appMock respondsToSelector:selector];
-  if (newOpenURL) {
-    OCMStub([appMock openURL:url options:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(nil);
-  } else {
-    OCMStub([appMock openURL:url]).andDo(nil);
-  }
-
-  // When
-  [self.sut openURLInSafariApp:url];
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [openURLCalledExpectation fulfill];
-  });
-
-  // Then
-  [self waitForExpectationsWithTimeout:1
-                               handler:^(NSError *error) {
-                                 if (newOpenURL) {
-                                   OCMVerify([appMock openURL:url options:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
-                                 } else {
-                                   OCMVerify([appMock openURL:url]);
-                                 }
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@", error);
-                                 }
-                               }];
-  [appMock stopMocking];
-}
-
 - (void)testOpenURLInSafariViewControllerWithUrl {
 
   // If

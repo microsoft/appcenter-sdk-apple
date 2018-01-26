@@ -68,23 +68,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
   }
 
   /**
-   * (iOS 8) Asks the delegate to open a resource specified by a URL, and provides a dictionary of launch options.
-   *
-   * @param app The singleton app object.
-   * @param url The URL resource to open. This resource can be a network resource or a file.
-   * @param sourceApplication The bundle ID of the app that is requesting your app to open the URL (url).
-   * @param annotation A Property list supplied by the source app to communicate information to the receiving app.
-   *
-   * @return `YES` if the delegate successfully handled the request or `NO` if the attempt to open the URL resource
-   * failed.
-   */
-  func application(_ app: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-    
-    // Forward the URL to MSDistribute.
-    return MSDistribute.open(url)
-  }
-
-  /**
    * (iOS 9+) Asks the delegate to open a resource specified by a URL, and provides a dictionary of launch options.
    *
    * @param app The singleton app object.
