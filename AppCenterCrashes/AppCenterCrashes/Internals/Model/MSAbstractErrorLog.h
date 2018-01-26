@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 
 #import "AppCenter+Internal.h"
-#import "MSLogWithPropertiesInternal.h"
+#import "MSLogWithProperties.h"
 
 @class MSErrorAttachment;
 
