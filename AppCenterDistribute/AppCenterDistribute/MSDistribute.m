@@ -478,10 +478,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         [self openURLInSafariViewControllerWith:url fromClass:clazz];
       });
     }
-  } else {
-
-    // iOS 8.x.
-    [self openURLInSafariApp:url];
   }
 #pragma clang diagnostic pop
 }
@@ -566,11 +562,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       [strongSelf.safariHostingViewController dismissViewControllerAnimated:YES completion:nil];
     }
   });
-}
-
-- (void)openURLInSafariApp:(NSURL *)url {
-  MSLogDebug([MSDistribute logTag], @"Using Safari browser to open URL: %@", url);
-  [MSUtility sharedAppOpenUrl:url options:@{} completionHandler:nil];
 }
 
 - (BOOL)handleUpdate:(MSReleaseDetails *)details {
@@ -717,7 +708,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     }
 
     // Add a "Update now"-Button.
-    // Preferred action is only available iOS 9.0 or newer, cancel action will be displayed for iOS < 9.0.
     [alertController addPreferredActionWithTitle:MSDistributeLocalizedString(@"MSDistributeUpdateNow")
                                          handler:^(__attribute__((unused)) UIAlertAction *action) {
                                            [self notifyUpdateAction:MSUpdateActionUpdate];
