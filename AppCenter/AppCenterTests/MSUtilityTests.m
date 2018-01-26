@@ -106,15 +106,16 @@
 
 - (void)testNowInMilliseconds {
 
-  /**
-   * When
-   */
+  // If
+  NSDate *date = [NSDate date];
+  id dateMock = OCMClassMock([NSDate class]);
+  OCMStub([dateMock date]).andReturn(date);
+  
+  // When
   long long actual = (long long)([MSUtility nowInMilliseconds] / 10);
   long long expected = (long long)([[NSDate date] timeIntervalSince1970] * 100);
 
-  /**
-   * Then
-   */
+  // Then
   XCTAssertEqual(actual, expected);
 
   // Negative in case of cast issue.
@@ -123,14 +124,10 @@
 
 - (void)testCurrentAppEnvironment {
 
-  /**
-   * When
-   */
+  // When
   MSEnvironment env = [MSUtility currentAppEnvironment];
 
-  /**
-   * Then
-   */
+  // Then
   // Tests always run in simulators.
   XCTAssertEqual(env, MSEnvironmentOther);
 }
