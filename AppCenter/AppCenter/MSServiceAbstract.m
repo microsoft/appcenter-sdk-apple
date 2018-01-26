@@ -77,6 +77,7 @@
   self.appSecret = appSecret;
 
   if ([self respondsToSelector:@selector(channelUnitConfiguration)]) {
+    
     // Initialize channel unit for the service in log manager.
     self.channelUnit = [self.channelGroup addChannelUnitWithConfiguration:self.channelUnitConfiguration];
   }

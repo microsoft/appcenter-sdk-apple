@@ -1,5 +1,5 @@
-#import "MSAlertController.h"
 #import "AppCenterDelegateObjC.h"
+#import "MSAlertController.h"
 #import "MSEventFilter.h"
 
 @import AppCenter;

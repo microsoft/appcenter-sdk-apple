@@ -4,7 +4,7 @@
 
 /**
  * This is a utility for producing App Center style log messages. It is only
- * intended for use by App Center servives and wrapper SDKs of App Center.
+ * intended for use by App Center services and wrapper SDKs of App Center.
  */
 @interface MSWrapperLogger : NSObject
 

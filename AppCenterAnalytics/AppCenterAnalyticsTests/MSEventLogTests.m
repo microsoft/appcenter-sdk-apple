@@ -1,10 +1,9 @@
-#import "MSDevice.h"
 #import "MSAbstractLogInternal.h"
-#import "MSLogWithProperties.h"
+#import "MSDevice.h"
 #import "MSEventLog.h"
-#import "MSUtility.h"
-
+#import "MSLogWithProperties.h"
 #import "MSTestFrameworks.h"
+#import "MSUtility.h"
 
 @interface MSEventLogTests : XCTestCase
 

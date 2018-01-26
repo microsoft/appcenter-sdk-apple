@@ -1,5 +1,5 @@
 #import <Foundation/Foundation.h>
 
-#import "MSAnalytics.h"
 #import "MSAbstractLog.h"
+#import "MSAnalytics.h"
 #import "MSEventLog.h"
