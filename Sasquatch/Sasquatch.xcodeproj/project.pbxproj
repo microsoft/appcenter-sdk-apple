@@ -346,8 +346,8 @@
 		354273DD20126A3E00BE766F /* EventFilter */ = {
 			isa = PBXGroup;
 			children = (
-				354273DE20126A3E00BE766F /* MSEventFilter.m */,
 				354273DF20126A3E00BE766F /* MSEventFilter.h */,
+				354273DE20126A3E00BE766F /* MSEventFilter.m */,
 			);
 			path = EventFilter;
 			sourceTree = "<group>";

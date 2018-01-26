@@ -141,8 +141,8 @@
 		3577093D2017FA5D00E465B6 /* EventFilter */ = {
 			isa = PBXGroup;
 			children = (
-				358F9BCA2019639100B9E22C /* MSEventFilter.m */,
 				358F9BCB2019639100B9E22C /* MSEventFilter.h */,
+				358F9BCA2019639100B9E22C /* MSEventFilter.m */,
 			);
 			path = EventFilter;
 			sourceTree = "<group>";

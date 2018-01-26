@@ -12,7 +12,7 @@ class EventFilterViewController : UIViewController, AppCenterProtocol {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    appCenter.startEventFilterService(MSEventFilter.self)
+    appCenter.startEventFilterService()
   }
 
   override func viewWillAppear(_ animated: Bool) {

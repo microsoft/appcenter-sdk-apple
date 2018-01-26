@@ -1,5 +1,5 @@
-#import <AppCenter/MSServiceAbstract.h>
-#import <AppCenter/MSChannelDelegate.h>
+@import AppCenter;
+@import AppCenterAnalytics;
 
 NS_ASSUME_NONNULL_BEGIN
 
