@@ -686,7 +686,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
    * the application state is not ready by the time crash processing needs to happen.
    */
   if (self.automaticProcessing && [MSUtility applicationState] == MSApplicationStateBackground) {
-    MSLogWarning([MSCrashes logTag], @"Crashes processing is closed because the application is in the background");
+    MSLogWarning([MSCrashes logTag], @"Crashes will not be processed because the application is in the background.");
     return;
   }
   MSLogDebug([MSCrashes logTag], @"Start delayed CrashManager processing");
