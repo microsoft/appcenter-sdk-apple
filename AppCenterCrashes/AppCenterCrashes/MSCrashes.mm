@@ -685,11 +685,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
    * counterintuitive, this is important because there are scenarios in some wrappers (i.e. RN) where
    * the application state is not ready by the time crash processing needs to happen.
    */
-  if (self.automaticProcessing &&
-      ([MSUtility applicationState] != MSApplicationStateActive &&
-       [MSUtility applicationState] != MSApplicationStateUnknown)) {
-        return;
-      }
+  if (self.automaticProcessing && [MSUtility applicationState] == MSApplicationStateBackground) {
+    MSLogWarning([MSCrashes logTag], @"Crashes processing is closed because the application is in the background");
+    return;
+  }
   MSLogDebug([MSCrashes logTag], @"Start delayed CrashManager processing");
 
   // Was our own exception handler successfully added?
