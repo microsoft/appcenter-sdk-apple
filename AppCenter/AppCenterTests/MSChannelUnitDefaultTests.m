@@ -288,8 +288,8 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                                          logsDispatchQueue:self.logsDispatchQueue];
   int itemsToAdd = 3;
   XCTestExpectation *expectation = [self expectationWithDescription:@"All items enqueued"];
-  MSExpectantChannelDelegate *del = [MSExpectantChannelDelegate new];
   id<MSLog> mockLog = [self getValidMockLog];
+  MSExpectantChannelDelegate *del = [MSExpectantChannelDelegate new];
   del.persistedHandler = ^(id<MSLog> log,
                            __attribute__((unused)) NSString *internalId,
                            __attribute__((unused)) BOOL success) {
@@ -575,7 +575,8 @@ static NSString *const kMSTestGroupId = @"GroupId";
   MSChannelUnitDefault *sut = [self createChannelUnit];
   [sut setEnabled:NO andDeleteDataOnDisabled:YES];
   id<MSLog> mockLog = [self getValidMockLog];
-  MSExpectantChannelDelegate *del = [MSExpectantChannelDelegate new];
+  MSExpectantChannelDelegate *del = OCMPartialMock([MSExpectantChannelDelegate new]);
+
   del.persistedHandler = ^(id<MSLog> log,
                            __attribute__((unused)) NSString *internalId,
                            __attribute__((unused)) BOOL success) {
@@ -753,6 +754,85 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // Then
   XCTAssertEqual(mockLog.device, device);
   XCTAssertEqual(mockLog.timestamp, timestamp);
+}
+
+- (void)testEnqueuingLogDoesNotPersistFilteredLogs {
+
+  // If
+  [self initChannelEndJobExpectation];
+  MSChannelUnitDefault *sut = [self createChannelUnit];
+  id<MSLog> log = [self getValidMockLog];
+  id mockDelegate = OCMPartialMock([MSExpectantChannelDelegate new]);
+  OCMStub([mockDelegate shouldFilterLog:log]).andReturn(YES);
+  [sut addDelegate:mockDelegate];
+  OCMReject([mockDelegate onFinishedPersistingLog:log withInternalId:OCMOCK_ANY]);
+  OCMReject([mockDelegate onFailedPersistingLog:log withInternalId:OCMOCK_ANY]);
+  OCMExpect([mockDelegate onEnqueuingLog:log withInternalId:OCMOCK_ANY]);
+
+  // When
+  [sut enqueueItem:log];
+
+  // Then
+  dispatch_async(self.logsDispatchQueue, ^{
+    [self enqueueChannelEndJobExpectation];
+  });
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 (void)error;
+                                 OCMVerifyAll(mockDelegate);
+                               }];
+
+  // If
+  // Add another filter that returns NO. The log should still be filtered because of mockDelegate.
+  [self initChannelEndJobExpectation];
+  id mockDelegate2 = OCMPartialMock([MSExpectantChannelDelegate new]);
+  OCMStub([mockDelegate2 shouldFilterLog:log]).andReturn(NO);
+  [sut addDelegate:mockDelegate];
+  OCMReject([mockDelegate2 onFinishedPersistingLog:log withInternalId:OCMOCK_ANY]);
+  OCMReject([mockDelegate2 onFailedPersistingLog:log withInternalId:OCMOCK_ANY]);
+  OCMExpect([mockDelegate2 onEnqueuingLog:log withInternalId:OCMOCK_ANY]);
+  [sut addDelegate:mockDelegate2];
+
+  // When
+  [sut enqueueItem:log];
+
+  // Then
+  dispatch_async(self.logsDispatchQueue, ^{
+    [self enqueueChannelEndJobExpectation];
+  });
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 (void)error;
+                                 OCMVerifyAll(mockDelegate2);
+                               }];
+}
+
+- (void)testEnqueuingLogPersistsUnfilteredLogs {
+
+  // If
+  [self initChannelEndJobExpectation];
+  MSChannelUnitDefault *sut = [self createChannelUnit];
+  id<MSLog> log = [self getValidMockLog];
+  OCMStub([sut.storage saveLog:log withGroupId:OCMOCK_ANY]).andReturn(YES);
+  id mockDelegate = OCMPartialMock([MSExpectantChannelDelegate new]);
+  OCMStub([mockDelegate shouldFilterLog:log]).andReturn(NO);
+  [sut addDelegate:mockDelegate];
+  OCMExpect([mockDelegate onEnqueuingLog:log withInternalId:OCMOCK_ANY]);
+  OCMExpect([mockDelegate onFinishedPersistingLog:log withInternalId:OCMOCK_ANY]);
+
+  // When
+  [sut enqueueItem:log];
+
+  // Then
+  dispatch_async(self.logsDispatchQueue, ^{
+    [self enqueueChannelEndJobExpectation];
+  });
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 (void)error;
+                                 OCMVerifyAll(mockDelegate);
+                               }];
+
 }
 
 #pragma mark - Helper
