@@ -9,16 +9,6 @@ static NSString *const kMSLogBufferDirectory = @"com.microsoft.appcenter/crashes
 static NSString *const kMSWrapperExceptionsDirectory =
     @"com.microsoft.appcenter/crasheswrapperexceptions";
 
-@interface MSCrashesUtil ()
-
-BOOL ms_isDebuggerAttached(void);
-
-BOOL ms_isRunningInAppExtension(void);
-
-NSString *ms_crashesDir(void);
-
-@end
-
 @implementation MSCrashesUtil
 
 static dispatch_once_t crashesDirectoryOnceToken;
