@@ -309,7 +309,7 @@
 		3542741F2016769C00BE766F /* MSChannelUnitProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 354274192012AEFC00BE766F /* MSChannelUnitProtocol.h */; };
 		354274202016769C00BE766F /* MSChannelGroupProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 3542741A2012AF0500BE766F /* MSChannelGroupProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		354274212016769C00BE766F /* MSChannelProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 354274162012AE4000BE766F /* MSChannelProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		3542742320167DD500BE766F /* MSEnable.h in Headers */ = {isa = PBXBuildFile; fileRef = 3542742220167DA400BE766F /* MSEnable.h */; };
+		3542742320167DD500BE766F /* MSEnable.h in Headers */ = {isa = PBXBuildFile; fileRef = 3542742220167DA400BE766F /* MSEnable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		354274262017A50D00BE766F /* MSExpectantChannelDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 354274252017A50D00BE766F /* MSExpectantChannelDelegate.m */; };
 		354274272017A50D00BE766F /* MSExpectantChannelDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 354274252017A50D00BE766F /* MSExpectantChannelDelegate.m */; };
 		354274282017A50D00BE766F /* MSExpectantChannelDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 354274252017A50D00BE766F /* MSExpectantChannelDelegate.m */; };
@@ -357,7 +357,6 @@
 		387C75961D64EE1900D68CC1 /* MSServiceAbstractTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387C75951D64EE1900D68CC1 /* MSServiceAbstractTests.m */; };
 		387C76DA1D677EC100D68CC1 /* MSServiceAbstractPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C76D91D677EC100D68CC1 /* MSServiceAbstractPrivate.h */; };
 		387C76FD1D6C9CF100D68CC1 /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C76FC1D6C9CF100D68CC1 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		3889932F1E29829700C27B36 /* MSAppCenterErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 3889932E1E29829700C27B36 /* MSAppCenterErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3889933A1E29B26D00C27B36 /* MSAppCenterErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 388993391E29B26D00C27B36 /* MSAppCenterErrors.m */; };
 		38C447221ECE5352002E1B11 /* MSAppDelegateForwarder.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C4471E1ECE5352002E1B11 /* MSAppDelegateForwarder.h */; };
 		38C447231ECE5352002E1B11 /* MSAppDelegateForwarder.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C4471F1ECE5352002E1B11 /* MSAppDelegateForwarder.m */; };
@@ -392,6 +391,7 @@
 		B2181B7B1F26852600D2EEAE /* MSWrapperSdk.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74551F22BB710070E7DF /* MSWrapperSdk.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B2181B7C1F26852B00D2EEAE /* MSWrapperSdk.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74561F22BB710070E7DF /* MSWrapperSdk.m */; };
 		B24F3F171D93A3FF00827213 /* MSLoggerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B24F3F161D93A3FF00827213 /* MSLoggerTests.m */; };
+		B2787213201AAA7F004AA9A5 /* MSAppCenterErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 3889932E1E29829700C27B36 /* MSAppCenterErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B289FF881F291F9D00AA2E06 /* MSDeviceInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B2C3C1831DB83A3E00CB83F7 /* MSDeviceInternal.h */; };
 		B2B9441E1DF0DF23009117D1 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2B9441D1DF0DF23009117D1 /* OHHTTPStubs.framework */; };
 		B2CD74571F22BB710070E7DF /* MSWrapperSdk.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74551F22BB710070E7DF /* MSWrapperSdk.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1409,6 +1409,7 @@
 				38F1944E1DADB93100D3E0FE /* MSHttpSenderPrivate.h in Headers */,
 				E80EB1071D50273700C9003F /* MSSenderCall.h in Headers */,
 				E84B8E321D235209006FD231 /* MSSender.h in Headers */,
+				3844FF1F1E8C2716003E9194 /* MSLogWithProperties.h in Headers */,
 				387C758F1D64E50800D68CC1 /* MSServiceCommon.h in Headers */,
 				3542741E2016769C00BE766F /* MSChannelDelegate.h in Headers */,
 				3849BA851EF35D830072E3E0 /* MSDBStoragePrivate.h in Headers */,
@@ -1419,11 +1420,12 @@
 				3849BA7A1EF314440072E3E0 /* MSDBStorage.h in Headers */,
 				6E3E2C9E1D35701000B1EE50 /* MSLog.h in Headers */,
 				354274212016769C00BE766F /* MSChannelProtocol.h in Headers */,
+				3542742320167DD500BE766F /* MSEnable.h in Headers */,
 				354274202016769C00BE766F /* MSChannelGroupProtocol.h in Headers */,
+				B2787213201AAA7F004AA9A5 /* MSAppCenterErrors.h in Headers */,
 				358F9BC920195F3300B9E22C /* MSLogger.h in Headers */,
 				3592ABA71DC90E3600EF4592 /* MSLoggerInternal.h in Headers */,
 				3542741F2016769C00BE766F /* MSChannelUnitProtocol.h in Headers */,
-				3542742320167DD500BE766F /* MSEnable.h in Headers */,
 				3542741D2016769C00BE766F /* MSChannelUnitDefault.h in Headers */,
 				38E1B67A1DDE3FDF000EFED1 /* MSAppCenterPrivate.h in Headers */,
 				387C75811D6270A300D68CC1 /* MSServiceAbstractInternal.h in Headers */,
@@ -1433,7 +1435,6 @@
 				E8E48F951D50FF4300A8C1B0 /* MSSenderCallDelegate.h in Headers */,
 				E83283C61D46C62E000B029E /* MS_Reachability.h in Headers */,
 				6E04016B1D1C9E1F0051BCFA /* MSConstants.h in Headers */,
-				3844FF1F1E8C2716003E9194 /* MSLogWithProperties.h in Headers */,
 				B2CD74AF1F22BE270070E7DF /* MSUtility+Date.h in Headers */,
 				047EBBA01FE3086B009BB1C8 /* MSSessionHistoryInfo.h in Headers */,
 				B2FD53621E56501B0050F909 /* MSDeviceHistoryInfo.h in Headers */,
@@ -1468,7 +1469,6 @@
 				6E0401701D1C9E460051BCFA /* MSService.h in Headers */,
 				6E0401711D1C9E460051BCFA /* MSServiceInternal.h in Headers */,
 				35D0B7531DDFABFD003EACCD /* MSWrapperLogger.h in Headers */,
-				3889932F1E29829700C27B36 /* MSAppCenterErrors.h in Headers */,
 				B2CD74A01F22BE270070E7DF /* MSUtility.h in Headers */,
 				385AD9221D95898D008B354A /* MSServiceAbstractProtected.h in Headers */,
 				3844FF131E8C22CC003E9194 /* MSAbstractLogInternal.h in Headers */,

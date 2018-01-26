@@ -11,6 +11,10 @@
 #import "MSDevice.h"
 #import "MSLogWithProperties.h"
 #import "MSWrapperSdk.h"
+#import "MSEnable.h"
+#import "MSLogger.h"
+#import "MSChannelGroupProtocol.h"
+#import "MSChannelProtocol.h"
 #if !TARGET_OS_TV
 #import "MSCustomProperties.h"
 #endif
