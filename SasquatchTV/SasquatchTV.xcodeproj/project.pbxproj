@@ -18,6 +18,7 @@
 		35427402201272AB00BE766F /* EventFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35427401201272AA00BE766F /* EventFilterViewController.swift */; };
 		35427403201272AB00BE766F /* EventFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35427401201272AA00BE766F /* EventFilterViewController.swift */; };
 		358F9BD0201963A000B9E22C /* MSEventFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 358F9BCF201963A000B9E22C /* MSEventFilter.m */; };
+		35C6AE03201BCFBE009F29AE /* MSEventFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 358F9BCF201963A000B9E22C /* MSEventFilter.m */; };
 		5C2CC7071EE6C08600E2BDA4 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5C2CC7051EE6C08600E2BDA4 /* Info.plist */; };
 		5C2CC70A1EE6C0B600E2BDA4 /* AnalyticsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2CC7061EE6C08600E2BDA4 /* AnalyticsUITests.swift */; };
 		5C2CC70B1EE6C0B600E2BDA4 /* AnalyticsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2CC7061EE6C08600E2BDA4 /* AnalyticsUITests.swift */; };
@@ -539,6 +540,7 @@
 				D322EFDB1E8E97C800A8EDA5 /* AppDelegate.swift in Sources */,
 				80F9916C1F027D250040FAD7 /* CrashesDetailViewController.swift in Sources */,
 				80F9916D1F0287B60040FAD7 /* MSAlertController.m in Sources */,
+				35C6AE03201BCFBE009F29AE /* MSEventFilter.m in Sources */,
 				35427402201272AB00BE766F /* EventFilterViewController.swift in Sources */,
 				5C481BA71EE586D2009329DD /* AppCenterProtocol.swift in Sources */,
 				5C481B9D1EE5794A009329DD /* AnalyticsViewController.swift in Sources */,
