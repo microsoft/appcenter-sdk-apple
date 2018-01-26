@@ -22,7 +22,6 @@
 #import "MSErrorAttachmentLog.h"
 #import "MSErrorAttachmentLog+Utility.h"
 #import "MSEventLog.h"
-#import "MSLogWithPropertiesInternal.h"
 #import "MSPush.h"
 #import "MSPushNotification.h"
 
