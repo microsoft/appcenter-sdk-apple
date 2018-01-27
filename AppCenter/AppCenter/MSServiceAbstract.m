@@ -1,4 +1,6 @@
 #import "MSAppCenterInternal.h"
+#import "MSChannelGroupProtocol.h"
+#import "MSChannelUnitProtocol.h"
 #import "MSServiceAbstractPrivate.h"
 
 @implementation MSServiceAbstract
@@ -74,8 +76,11 @@
   self.channelGroup = channelGroup;
   self.appSecret = appSecret;
 
-  // Initialize channel unit for the service in log manager.
-  self.channelUnit = [self.channelGroup addChannelUnitWithConfiguration:self.channelUnitConfiguration];
+  if ([self respondsToSelector:@selector(channelUnitConfiguration)]) {
+    
+    // Initialize channel unit for the service in log manager.
+    self.channelUnit = [self.channelGroup addChannelUnitWithConfiguration:self.channelUnitConfiguration];
+  }
 
   // Enable this service as needed.
   if (self.isEnabled) {

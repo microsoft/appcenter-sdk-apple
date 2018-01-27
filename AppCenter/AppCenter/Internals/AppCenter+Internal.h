@@ -14,5 +14,4 @@
 #import "Model/MSAbstractLogInternal.h"
 #import "Model/MSLog.h"
 #import "Model/MSLogContainer.h"
-#import "Model/MSLogWithPropertiesInternal.h"
 #import "Model/Util/MSUserDefaults.h"

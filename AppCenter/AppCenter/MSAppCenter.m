@@ -8,6 +8,8 @@
 #import "MSDeviceTrackerPrivate.h"
 #import "MSHttpSender.h"
 #import "MSChannelGroupDefault.h"
+#import "MSChannelUnitConfiguration.h"
+#import "MSChannelUnitProtocol.h"
 #import "MSLogger.h"
 #import "MSSessionContext.h"
 #import "MSStartServiceLog.h"

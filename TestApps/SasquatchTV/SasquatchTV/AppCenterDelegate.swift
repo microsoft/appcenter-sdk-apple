@@ -55,4 +55,9 @@ import Foundation;
   func lastCrashReportDeviceCarrierName() -> String?
   func lastCrashReportDeviceCarrierCountry() -> String?
   func lastCrashReportDeviceAppNamespace() -> String?
+
+  //MARK: MSEventFilter section.
+  func isEventFilterEnabled() -> Bool
+  func setEventFilterEnabled(_ isEnabled: Bool)
+  func startEventFilterService()
 }

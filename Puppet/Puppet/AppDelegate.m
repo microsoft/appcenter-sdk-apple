@@ -5,20 +5,25 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <Photos/Photos.h>
 #import <UserNotifications/UserNotifications.h>
+
 #import "AppDelegate.h"
 #import "Constants.h"
 #import "EventLog.h"
-#import "MSErrorAttachmentLog.h"
-#import "MSErrorAttachmentLog+Utility.h"
-#import "AppCenter.h"
-#import "AppCenterAnalytics.h"
-#import "AppCenterCrashes.h"
-#import "AppCenterDistribute.h"
-#import "AppCenterPush.h"
+
 #import "MSAlertController.h"
+#import "MSAnalytics.h"
 #import "MSAnalyticsDelegate.h"
 #import "MSAnalyticsInternal.h"
+#import "MSAppCenter.h"
+#import "MSCrashes.h"
+#import "MSCrashesDelegate.h"
+#import "MSDevice.h"
+#import "MSDistribute.h"
+#import "MSErrorAttachmentLog.h"
+#import "MSErrorAttachmentLog+Utility.h"
 #import "MSEventLog.h"
+#import "MSPush.h"
+#import "MSPushNotification.h"
 
 static UIViewController *crashResultViewController = nil;
 

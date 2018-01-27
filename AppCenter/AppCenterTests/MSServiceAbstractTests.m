@@ -3,6 +3,7 @@
 #import "MSAppCenterPrivate.h"
 #import "MSConstants+Internal.h"
 #import "MSChannelGroupDefault.h"
+#import "MSChannelUnitConfiguration.h"
 #import "MSMockUserDefaults.h"
 #import "MSServiceAbstractPrivate.h"
 #import "MSServiceAbstractProtected.h"

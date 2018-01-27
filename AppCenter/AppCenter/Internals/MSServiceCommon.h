@@ -1,10 +1,12 @@
 #import <Foundation/Foundation.h>
 
-#import "MSChannelGroupProtocol.h"
-#import "MSChannelUnitConfiguration.h"
-#import "MSChannelUnitProtocol.h"
+#import "MSConstants.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
+@class MSChannelUnitConfiguration;
+@protocol MSChannelGroupProtocol;
+@protocol MSChannelUnitProtocol;
 
 /**
  * Protocol declaring public common logic for services.
@@ -80,6 +82,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param channelGroup channel group used to persist and send logs.
  * @param appSecret app secret for the SDK.
+ *
+ * @discussion Note that this is defined both here and in MSServiceAbstract.h. This is intentional, and due to
+ * the way the classes are factored.
  */
 - (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret;
 

@@ -30,6 +30,16 @@
 - (void)channel:(id<MSChannelProtocol>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error;
 
 /**
+ * Callback method that will determine if a log should be filtered out from the
+ * usual processing pipeline. If any delegate returns true, the log is filtered.
+ *
+ * @param log The log to be filtered or not.
+ *
+ * @return `true` if the log should be filtered out.
+ */
+- (BOOL)shouldFilterLog:(id<MSLog>)log;
+
+/**
  * A callback that is called when a log has been enqueued, before a log has been forwarded to persistence, etc.
  *
  * @param log The log.

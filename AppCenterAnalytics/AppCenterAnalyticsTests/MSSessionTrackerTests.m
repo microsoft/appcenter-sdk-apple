@@ -1,5 +1,6 @@
 #import "MSAnalytics.h"
 #import "MSConstants+Internal.h"
+#import "MSLogWithProperties.h"
 #import "MSSessionContextPrivate.h"
 #import "MSSessionTrackerPrivate.h"
 #import "MSSessionTrackerUtil.h"
