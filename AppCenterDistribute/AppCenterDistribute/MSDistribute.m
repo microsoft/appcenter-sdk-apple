@@ -3,6 +3,7 @@
 
 #import "MSAppCenterInternal.h"
 #import "MSAppDelegateForwarder.h"
+#import "MSChannelUnitConfiguration.h"
 #import "MSDistribute.h"
 #import "MSDistributeAppDelegate.h"
 #import "MSDistributeDataMigration.h"
@@ -39,7 +40,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 @implementation MSDistribute
 
-@synthesize channelConfiguration = _channelConfiguration;
+@synthesize channelUnitConfiguration = _channelUnitConfiguration;
 
 #pragma mark - Service initialization
 
@@ -52,7 +53,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     // Init.
     _apiUrl = kMSDefaultApiUrl;
     _installUrl = kMSDefaultInstallUrl;
-    _channelConfiguration = [[MSChannelConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
+    _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
     _appDelegate = [MSDistributeAppDelegate new];
 
     /*
@@ -156,8 +157,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   self.releaseDetails = nil;
 }
 
-- (void)startWithLogManager:(id<MSLogManager>)logManager appSecret:(NSString *)appSecret {
-  [super startWithLogManager:logManager appSecret:appSecret];
+- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret {
+  [super startWithChannelGroup:channelGroup appSecret:appSecret];
   MSLogVerbose([MSDistribute logTag], @"Started Distribute service.");
 }
 
@@ -275,15 +276,20 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                                                     updateToken:updateToken
                                             distributionGroupId:distributionGroupId
                                                    queryStrings:@{kMSURLQueryReleaseHashKey : releaseHash}];
+      __weak typeof(self) weakSelf = self;
       [self.sender sendAsync:nil
-           completionHandler:^(__attribute__((unused)) NSString *callId, NSUInteger statusCode, NSData *data,
-                               __attribute__((unused)) NSError *error) {
+           completionHandler:^(__unused NSString *callId, NSUInteger statusCode, NSData *data,
+                               __unused NSError *error) {
+             typeof(self) strongSelf = weakSelf;
+             if (!strongSelf) {
+               return;
+             }
 
              // Release sender instance.
-             self.sender = nil;
+             strongSelf.sender = nil;
 
              // Ignore the response if the service is disabled.
-             if (![self isEnabled]) {
+             if (![strongSelf isEnabled]) {
                return;
              }
 
@@ -318,7 +324,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                   * In the end fixing this edge case adds too much complexity for no worthy advantages,
                   * keeping it as it is for now.
                   */
-                 [self handleUpdate:details];
+                 [strongSelf handleUpdate:details];
                }
              }
 
@@ -472,10 +478,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         [self openURLInSafariViewControllerWith:url fromClass:clazz];
       });
     }
-  } else {
-
-    // iOS 8.x.
-    [self openURLInSafariApp:url];
   }
 #pragma clang diagnostic pop
 }
@@ -560,11 +562,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       [strongSelf.safariHostingViewController dismissViewControllerAnimated:YES completion:nil];
     }
   });
-}
-
-- (void)openURLInSafariApp:(NSURL *)url {
-  MSLogDebug([MSDistribute logTag], @"Using Safari browser to open URL: %@", url);
-  [MSUtility sharedAppOpenUrl:url options:@{} completionHandler:nil];
 }
 
 - (BOOL)handleUpdate:(MSReleaseDetails *)details {
@@ -711,7 +708,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     }
 
     // Add a "Update now"-Button.
-    // Preferred action is only available iOS 9.0 or newer, cancel action will be displayed for iOS < 9.0.
     [alertController addPreferredActionWithTitle:MSDistributeLocalizedString(@"MSDistributeUpdateNow")
                                          handler:^(__attribute__((unused)) UIAlertAction *action) {
                                            [self notifyUpdateAction:MSUpdateActionUpdate];

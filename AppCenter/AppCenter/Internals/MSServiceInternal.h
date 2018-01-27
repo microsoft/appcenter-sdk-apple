@@ -1,4 +1,3 @@
-#import "MSLogManager.h"
 #import "MSService.h"
 #import "MSServiceCommon.h"
 
@@ -9,14 +8,6 @@
  *  to achieve abstraction and not have empty implementations in MSServiceAbstract.
  */
 @protocol MSServiceInternal <MSService, MSServiceCommon>
-
-/**
- * Service unique key for storage purpose.
- *
- * @discussion: IMPORTANT, This string is used to point to the right storage value for this service.
- * Changing this string results in data lost if previous data is not migrated.
- */
-@property(nonatomic, copy, readonly) NSString *groupId;
 
 /**
  * The initialization priority for this service. Defined here as well as in MSServiceCommon to achieve abstraction.
@@ -34,6 +25,14 @@
  * @return The unique instance.
  */
 + (instancetype)sharedInstance;
+
+/**
+ * Service unique key for storage purpose.
+ *
+ * @discussion: IMPORTANT, This string is used to point to the right storage value for this service.
+ * Changing this string results in data lost if previous data is not migrated.
+ */
+@property(nonatomic, copy, readonly) NSString *groupId;
 
 /**
  * Get a service name.

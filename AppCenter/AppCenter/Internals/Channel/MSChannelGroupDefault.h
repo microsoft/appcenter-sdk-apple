@@ -1,19 +1,19 @@
 #import <Foundation/Foundation.h>
 
-#import "MSChannel.h"
+#import "MSChannelGroupProtocol.h"
 #import "MSDeviceTracker.h"
-#import "MSEnable.h"
-#import "MSLogManager.h"
-#import "MSLogManagerDelegate.h"
-#import "MSSender.h"
-#import "MSStorage.h"
+#import "MSSenderDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class MSHttpSender;
+@protocol MSStorage;
+@protocol MSChannelDelegate;
+
+static short const kMSStorageMaxCapacity = 300;
 
 /**
- * A log manager which triggers and manages the processing of log items on
+ * A channel group which triggers and manages the processing of log items on
  * different channels. All items will be immediately passed to the persistence
  * layer in order to make the queue crash safe. Once a maximum number of items
  * have been enqueued or the internal timer finished running, events will be
@@ -21,28 +21,34 @@ NS_ASSUME_NONNULL_BEGIN
  * persistence layer what to do with a pending batch based on the status code
  * returned by the sender
  */
-@interface MSLogManagerDefault : NSObject <MSLogManager>
+@interface MSChannelGroupDefault : NSObject <MSChannelGroupProtocol, MSSenderDelegate>
 
 /**
- * Initializes a new `MSLogManager` instance.
+ * Initializes a new `MSChannelGroupDefault` instance.
  *
  * @param appSecret A unique and secret key used to identify the application.
  * @param installId A unique installation identifier.
  * @param logUrl A base URL to use for backend communication.
  *
- * @return A new `MSLogManager` instance.
+ * @return A new `MSChannelGroupDefault` instance.
  */
 - (instancetype)initWithAppSecret:(NSString *)appSecret installId:(NSUUID *)installId logUrl:(NSString *)logUrl;
 
 /**
- * A boolean value set to YES if this instance is enabled or NO otherwise.
+ * Initializes a new `MSChannelGroupDefault` instance.
+ *
+ * @param sender An HTTP sender instance that is used to send batches of log items to
+ * the backend.
+ * @param storage A storage instance to store and read enqueued log items.
+ *
+ * @return A new `MSChannelGroupDefault` instance.
  */
-@property BOOL enabled;
+- (instancetype)initWithSender:(MSHttpSender *)sender storage:(id<MSStorage>)storage;
 
 /**
- * Hash table of log manager delegate.
+ * Collection of channel delegates.
  */
-@property(nonatomic) NSHashTable<id<MSLogManagerDelegate>> *delegates;
+@property(nonatomic) NSHashTable<id<MSChannelDelegate>> *delegates;
 
 /**
  * A sender instance that is used to send batches of log items to the backend.
@@ -60,9 +66,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong) dispatch_queue_t logsDispatchQueue;
 
 /**
- * A dictionary containing priority keys and their channel.
+ * An array containing all channels that are a part of this channel group.
  */
-@property(nonatomic, copy) NSMutableDictionary<NSString *, id<MSChannel>> *channels;
+@property(nonatomic, copy) NSMutableArray *channels;
 
 @end
 

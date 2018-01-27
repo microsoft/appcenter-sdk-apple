@@ -1,10 +1,10 @@
 #import <Foundation/Foundation.h>
 
-#import "MSConstants+Internal.h"
+#import "MSConstants.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MSChannelConfiguration : NSObject
+@interface MSChannelUnitConfiguration : NSObject
 
 /**
  * The groupId that will be used for storage by this channel.
@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param batchSizeLimit The maximum number of logs after which a new batch will be finished.
  * @param pendingBatchesLimit The maximum number of batches that have currently been forwarded to another component.
  *
- * @return a fully configured `MSChannelConfiguration` instance.
+ * @return a fully configured `MSChannelUnitConfiguration` instance.
  */
 - (instancetype)initWithGroupId:(NSString *)groupId
                        priority:(MSPriority)priority

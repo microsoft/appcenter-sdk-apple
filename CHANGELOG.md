@@ -1,5 +1,19 @@
 # App Center SDK for iOS and macOS Change Log
 
+## Version 1.3.0
+
+This version has a **breaking change** as the SDK now requires iOS 9 or later. It also contains a bug fix and an improvement.
+
+### AppCenter
+
+* **[Improvement]** Successful configuration of the SDK creates a success message in the console with log level INFO instead of ASSERT. Errors during configuration will still show up in the console with the log level ASSERT.
+
+### AppCenterCrashes
+
+* **[Fix]** Fix an issue where crashes were not reported reliably in some cases when used in Xamarin apps or when apps would take a long time to launch.
+
+___
+
 ## Version 1.2.0
 
 This version has a **breaking change** with bug fixes and improvements.

@@ -260,7 +260,7 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
   OCMVerify([delegateMock sessionTracker:sut processLog:[OCMArg isKindOfClass:[MSStartSessionLog class]]]);
 }
 
-- (void)testOnProcessingLog {
+- (void)testOnEnqueuingLog {
 
   // When
   MSLogWithProperties *log = [MSLogWithProperties new];
@@ -270,7 +270,7 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
   XCTAssertNil(log.timestamp);
 
   // When
-  [self.sut onPreparedLog:log withInternalId:nil];
+  [self.sut onEnqueuingLog:log withInternalId:nil];
 
   // Then
   XCTAssertNil(log.timestamp);
@@ -287,7 +287,7 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
   XCTAssertNil(log.timestamp);
 
   // When
-  [self.sut onPreparedLog:log withInternalId:nil];
+  [self.sut onEnqueuingLog:log withInternalId:nil];
 
   // Then
   XCTAssertNil(log.timestamp);
@@ -301,7 +301,7 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
   XCTAssertNil(sessionLog.timestamp);
 
   // When
-  [self.sut onPreparedLog:sessionLog withInternalId:nil];
+  [self.sut onEnqueuingLog:sessionLog withInternalId:nil];
 
   // Then
   XCTAssertNil(sessionLog.timestamp);
@@ -315,7 +315,7 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
   XCTAssertNil(serviceLog.timestamp);
 
   // When
-  [self.sut onPreparedLog:serviceLog withInternalId:nil];
+  [self.sut onEnqueuingLog:serviceLog withInternalId:nil];
 
   // Then
   XCTAssertNil(serviceLog.timestamp);

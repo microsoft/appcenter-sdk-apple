@@ -21,6 +21,9 @@
 // Silence application:openURL:options: availability warning (iOS 9) for the whole test.
 #pragma clang diagnostic ignored "-Wpartial-availability"
 
+// Silence application:openURL:sourceApplication:annotation: deprecation warning (iOS 9) for the whole test.
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+
 @implementation MSAppDelegateForwarderTest
 
 - (void)setUp {

@@ -4,6 +4,7 @@
 #import "MSAlertController.h"
 #import "MSAppCenter.h"
 #import "MSBasicMachOParser.h"
+#import "MSChannelGroupDefault.h"
 #import "MSDistribute.h"
 #import "MSDistributeInternal.h"
 #import "MSDistributePrivate.h"
@@ -148,7 +149,7 @@ static NSURL *sfURL;
 
   // Disable for now to bypass initializing sender.
   [distributeMock setEnabled:NO];
-  [distributeMock startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+  [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol)) appSecret:kMSTestAppSecret];
 
   // Enable again.
   [distributeMock setEnabled:YES];
@@ -199,43 +200,6 @@ static NSURL *sfURL;
 
   // Then
   assertThat(url, nilValue());
-}
-
-- (void)testOpenURLInSafariApp {
-
-  // If
-  XCTestExpectation *openURLCalledExpectation = [self expectationWithDescription:@"openURL Called."];
-  NSURL *url = [NSURL URLWithString:@"https://contoso.com"];
-  id appMock = OCMClassMock([UIApplication class]);
-  OCMStub([appMock sharedApplication]).andReturn(appMock);
-  OCMStub([appMock canOpenURL:url]).andReturn(YES);
-  SEL selector = NSSelectorFromString(@"openURL:options:completionHandler:");
-  BOOL newOpenURL = [appMock respondsToSelector:selector];
-  if (newOpenURL) {
-    OCMStub([appMock openURL:url options:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(nil);
-  } else {
-    OCMStub([appMock openURL:url]).andDo(nil);
-  }
-
-  // When
-  [self.sut openURLInSafariApp:url];
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [openURLCalledExpectation fulfill];
-  });
-
-  // Then
-  [self waitForExpectationsWithTimeout:1
-                               handler:^(NSError *error) {
-                                 if (newOpenURL) {
-                                   OCMVerify([appMock openURL:url options:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
-                                 } else {
-                                   OCMVerify([appMock openURL:url]);
-                                 }
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@", error);
-                                 }
-                               }];
-  [appMock stopMocking];
 }
 
 - (void)testOpenURLInSafariViewControllerWithUrl {
@@ -392,8 +356,13 @@ static NSURL *sfURL;
   // If
   id distributeMock = OCMPartialMock(self.sut);
   __block int isNewerVersionCounter = 0;
-  OCMStub([distributeMock isNewerVersion:OCMOCK_ANY]).andDo(^(__attribute((unused)) NSInvocation *invocation) {
+  OCMStub([distributeMock isNewerVersion:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     isNewerVersionCounter++;
+
+    // Return NO and exit the method.
+    BOOL enabled = NO;
+    NSValue *returnValue = [NSValue valueWithBytes:&enabled objCType:@encode(BOOL)];
+    [invocation setReturnValue:&returnValue];
   });
   int actualCounter = 0;
   MSReleaseDetails *details = [self generateReleaseDetailsWithVersion:@"1" andShortVersion:@"1.0"];
@@ -409,7 +378,7 @@ static NSURL *sfURL;
 
   // Then
   XCTAssertFalse(result);
-  XCTAssertEqual(isNewerVersionCounter, 0);
+  XCTAssertEqual(isNewerVersionCounter, actualCounter++);
 
   // If
   details.mandatoryUpdate = true;
@@ -418,7 +387,7 @@ static NSURL *sfURL;
   [distributeMock handleUpdate:details];
 
   // Then
-  XCTAssertEqual(isNewerVersionCounter, ++actualCounter);
+  XCTAssertEqual(isNewerVersionCounter, actualCounter++);
 
   // If
   details.mandatoryUpdate = false;
@@ -428,7 +397,7 @@ static NSURL *sfURL;
   [distributeMock handleUpdate:details];
 
   // Then
-  XCTAssertEqual(isNewerVersionCounter, ++actualCounter);
+  XCTAssertEqual(isNewerVersionCounter, actualCounter++);
 
   // If
   details.mandatoryUpdate = true;
@@ -438,7 +407,7 @@ static NSURL *sfURL;
   [distributeMock handleUpdate:details];
 
   // Then
-  XCTAssertEqual(isNewerVersionCounter, ++actualCounter);
+  XCTAssertEqual(isNewerVersionCounter, actualCounter++);
 
   // If
   details.mandatoryUpdate = false;
@@ -450,7 +419,7 @@ static NSURL *sfURL;
   [distributeMock handleUpdate:details];
 
   // Then
-  XCTAssertEqual(isNewerVersionCounter, ++actualCounter);
+  XCTAssertEqual(isNewerVersionCounter, actualCounter++);
 
   // If
   details.mandatoryUpdate = true;
@@ -462,7 +431,7 @@ static NSURL *sfURL;
   [distributeMock handleUpdate:details];
 
   // Then
-  XCTAssertEqual(isNewerVersionCounter, ++actualCounter);
+  XCTAssertEqual(isNewerVersionCounter, actualCounter++);
 
   // Clear
   [distributeMock stopMocking];
@@ -993,7 +962,7 @@ static NSURL *sfURL;
 
   // Disable for now to bypass initializing sender.
   [distributeMock setEnabled:NO];
-  [distributeMock startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+  [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol)) appSecret:kMSTestAppSecret];
 
   // Enable again.
   [distributeMock setEnabled:YES];
@@ -1064,7 +1033,7 @@ static NSURL *sfURL;
 
   // Disable for now to bypass initializing sender.
   [distributeMock setEnabled:NO];
-  [distributeMock startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+  [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol)) appSecret:kMSTestAppSecret];
 
   // Enable again.
   [distributeMock setEnabled:YES];
@@ -1123,7 +1092,7 @@ static NSURL *sfURL;
   OCMStub([distributeMock sharedInstance]).andReturn(distributeMock);
   id appCenterMock = OCMClassMock([MSAppCenter class]);
   OCMStub([appCenterMock isConfigured]).andReturn(YES);
-  [distributeMock startWithLogManager:OCMProtocolMock(@protocol(MSLogManager)) appSecret:kMSTestAppSecret];
+  [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol)) appSecret:kMSTestAppSecret];
 
   // If
   NSURL *url = [NSURL
@@ -1545,6 +1514,8 @@ static NSURL *sfURL;
   id distributeMock = OCMPartialMock(self.sut);
   OCMStub([distributeMock sharedInstance]).andReturn(distributeMock);
   OCMStub([distributeMock isEnabled]).andReturn(YES);
+  OCMStub([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY])
+      .andDo(nil);
   self.sut.appSecret = kMSTestAppSecret;
   [MS_USER_DEFAULTS setObject:@"FIRST-REQUEST" forKey:kMSUpdateTokenRequestIdKey];
   NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1" };

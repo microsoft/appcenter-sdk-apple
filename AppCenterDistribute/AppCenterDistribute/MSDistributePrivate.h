@@ -155,13 +155,6 @@ static NSString *const kMSUpdateSetupFailedPackageHashKey = @"MSUpdateSetupFaile
 - (void)openURLInSafariViewControllerWith:(NSURL *)url fromClass:(Class)clazz;
 
 /**
- * Open the given URL using the Safari application. iOS 8.x only.
- *
- * @param url URL to open.
- */
-- (void)openURLInSafariApp:(NSURL *)url;
-
-/**
  * Process URL request for the service.
  *
  * @param url  The url with parameters.

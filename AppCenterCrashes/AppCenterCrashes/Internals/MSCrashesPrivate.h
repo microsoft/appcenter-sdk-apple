@@ -4,6 +4,7 @@
 
 #import "MSCrashes.h"
 #import "MSCrashReporter.h"
+#import "MSChannelDelegate.h"
 
 @class MSMPLCrashReporter;
 
@@ -39,7 +40,7 @@ const int ms_crashes_log_buffer_size = 60;
  */
 extern std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size> msCrashesLogBuffer;
 
-@interface MSCrashes () <MSLogManagerDelegate>
+@interface MSCrashes () <MSChannelDelegate>
 
 /**
  * Prototype of a callback function used to execute additional user code. Called
@@ -189,5 +190,10 @@ typedef struct MSCrashesCallbacks {
  * The reason why we are not truly deleting the files is that they need to exist at crash time.
  */
 - (void)emptyLogBufferFiles;
+
+/**
+ * Method to reset the singleton when running unit tests only. So calling sharedInstance returns a fresh instance.
+ */
++ (void)resetSharedInstance;
 
 @end
