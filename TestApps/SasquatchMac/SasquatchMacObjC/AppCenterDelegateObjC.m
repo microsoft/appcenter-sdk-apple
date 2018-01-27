@@ -1,4 +1,5 @@
 #import "AppCenterDelegateObjC.h"
+#import "MSEventFilter.h"
 
 @import AppCenter;
 @import AppCenterAnalytics;
@@ -149,4 +150,14 @@
   return [[[MSCrashes lastSessionCrashReport] device] carrierCountry];
 }
 
+#pragma mark - MSEventFilter section.
+- (BOOL) isEventFilterEnabled {
+  return [MSEventFilter isEnabled];
+}
+- (void) setEventFilterEnabled:(BOOL)isEnabled {
+  [MSEventFilter setEnabled:isEnabled];
+}
+- (void) startEventFilterService {
+  [MSAppCenter startService:[MSEventFilter class]];
+}
 @end

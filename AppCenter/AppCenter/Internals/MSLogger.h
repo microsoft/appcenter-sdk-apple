@@ -1,33 +1,34 @@
 #import <Foundation/Foundation.h>
 
 #import "MSConstants.h"
+#import "MSLogger.h"
 
 #define MSLog(_level, _tag, _message)                                                                                  \
   [MSLogger logMessage:_message level:_level tag:_tag file:__FILE__ function:__PRETTY_FUNCTION__ line:__LINE__]
 #define MSLogAssert(tag, format, ...)                                                                                  \
   MSLog(MSLogLevelAssert, tag, (^{                                                                                     \
-          return [NSString stringWithFormat:(format), ##__VA_ARGS__];                                                  \
-        }))
+  return [NSString stringWithFormat:(format), ##__VA_ARGS__];                                                  \
+}))
 #define MSLogError(tag, format, ...)                                                                                   \
   MSLog(MSLogLevelError, tag, (^{                                                                                      \
-          return [NSString stringWithFormat:(format), ##__VA_ARGS__];                                                  \
-        }))
+  return [NSString stringWithFormat:(format), ##__VA_ARGS__];                                                  \
+}))
 #define MSLogWarning(tag, format, ...)                                                                                 \
   MSLog(MSLogLevelWarning, tag, (^{                                                                                    \
-          return [NSString stringWithFormat:(format), ##__VA_ARGS__];                                                  \
-        }))
+  return [NSString stringWithFormat:(format), ##__VA_ARGS__];                                                  \
+}))
 #define MSLogInfo(tag, format, ...)                                                                                    \
   MSLog(MSLogLevelInfo, tag, (^{                                                                                       \
-          return [NSString stringWithFormat:(format), ##__VA_ARGS__];                                                  \
-        }))
+  return [NSString stringWithFormat:(format), ##__VA_ARGS__];                                                  \
+}))
 #define MSLogDebug(tag, format, ...)                                                                                   \
   MSLog(MSLogLevelDebug, tag, (^{                                                                                      \
-          return [NSString stringWithFormat:(format), ##__VA_ARGS__];                                                  \
-        }))
+  return [NSString stringWithFormat:(format), ##__VA_ARGS__];                                                  \
+}))
 #define MSLogVerbose(tag, format, ...)                                                                                 \
   MSLog(MSLogLevelVerbose, tag, (^{                                                                                    \
-          return [NSString stringWithFormat:(format), ##__VA_ARGS__];                                                  \
-        }))
+  return [NSString stringWithFormat:(format), ##__VA_ARGS__];                                                  \
+}))
 
 FOUNDATION_EXPORT MSLogHandler const msDefaultLogHandler;
 
@@ -52,3 +53,4 @@ FOUNDATION_EXPORT MSLogHandler const msDefaultLogHandler;
 + (void)setLogHandler:(MSLogHandler)logHandler;
 
 @end
+

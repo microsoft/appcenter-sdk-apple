@@ -55,7 +55,7 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat =
   // Always disable cookies.
   [request setHTTPShouldHandleCookies:NO];
 
-  // Don't loose time pretty printing headers if not going to be printed.
+  // Don't lose time pretty printing headers if not going to be printed.
   if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
     NSString *url =
         [request.URL.absoluteString stringByReplacingOccurrencesOfString:self.appSecret

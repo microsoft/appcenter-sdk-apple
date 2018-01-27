@@ -4,10 +4,10 @@
 #import "MSChannelDelegate.h"
 #import "MSLog.h"
 
-typedef void (^logPersistedHandler)(id<MSLog>, NSString*, BOOL);
+typedef void (^LogPersistedHandler)(id<MSLog>, NSString*, BOOL);
 
 @interface MSExpectantChannelDelegate : NSObject <MSChannelDelegate>
 
-@property (nonatomic) logPersistedHandler persistedHandler;
+@property (nonatomic) LogPersistedHandler persistedHandler;
 
 @end

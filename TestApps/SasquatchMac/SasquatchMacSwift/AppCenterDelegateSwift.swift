@@ -146,4 +146,15 @@ class AppCenterDelegateSwift : AppCenterDelegate {
   func lastCrashReportDeviceAppNamespace() -> String? {
     return MSCrashes.lastSessionCrashReport()?.device.appNamespace
   }
+
+  //MARK: MSEventFilter section.
+  func isEventFilterEnabled() -> Bool{
+    return MSEventFilter.isEnabled();
+  }
+  func setEventFilterEnabled(_ isEnabled: Bool){
+    MSEventFilter.setEnabled(isEnabled);
+  }
+  func startEventFilterService() {
+    MSAppCenter.startService(MSEventFilter.self)
+  }
 }

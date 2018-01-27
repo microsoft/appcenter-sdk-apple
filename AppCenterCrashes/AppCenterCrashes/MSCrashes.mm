@@ -1,6 +1,8 @@
 #import "MSAppCenterInternal.h"
 #import "MSAppleErrorLog.h"
 #import "MSChannelGroupProtocol.h"
+#import "MSChannelUnitConfiguration.h"
+#import "MSChannelUnitProtocol.h"
 #import "MSCrashesCXXExceptionWrapperException.h"
 #import "MSCrashesDelegate.h"
 #import "MSCrashesInternal.h"

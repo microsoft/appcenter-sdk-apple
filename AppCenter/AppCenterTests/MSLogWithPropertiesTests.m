@@ -1,4 +1,5 @@
-#import "MSLogWithPropertiesInternal.h"
+#import "MSAbstractLogInternal.h"
+#import "MSLogWithProperties.h"
 #import "MSTestFrameworks.h"
 
 @interface MSLogWithPropertiesTests : XCTestCase

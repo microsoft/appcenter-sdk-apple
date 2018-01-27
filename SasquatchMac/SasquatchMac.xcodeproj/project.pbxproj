@@ -19,6 +19,10 @@
 		046964581F2A74E600F9D31F /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046964551F2A607D00F9D31F /* AppCenterPush.framework */; };
 		04ED31E61EAAD1B30033BAAE /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D31EAAC7510033BAAE /* AppCenterAnalytics.framework */; };
 		04ED31E71EAAD1B30033BAAE /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D41EAAC7510033BAAE /* AppCenter.framework */; };
+		353332F720126200009B0946 /* EventFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353332F620126200009B0946 /* EventFilterViewController.swift */; };
+		353332F820126200009B0946 /* EventFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353332F620126200009B0946 /* EventFilterViewController.swift */; };
+		358F9BCC2019639100B9E22C /* MSEventFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 358F9BCA2019639100B9E22C /* MSEventFilter.m */; };
+		358F9BCD2019639100B9E22C /* MSEventFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 358F9BCA2019639100B9E22C /* MSEventFilter.m */; };
 		5C6F9BAD1EB8B730009E52D8 /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F9BAC1EB8B730009E52D8 /* AnalyticsViewController.swift */; };
 		5C6F9BB61EB8EEFC009E52D8 /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F9BAC1EB8B730009E52D8 /* AnalyticsViewController.swift */; };
 		5C6F9BB81EB8F2E9009E52D8 /* CrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F9BB71EB8F2E9009E52D8 /* CrashesViewController.swift */; };
@@ -81,6 +85,9 @@
 		046964571F2A721100F9D31F /* SasquatchMacSwift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchMacSwift.entitlements; sourceTree = "<group>"; };
 		04ED31D31EAAC7510033BAAE /* AppCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterAnalytics.framework; path = "../AppCenter-SDK-Apple/macOS/AppCenterAnalytics.framework"; sourceTree = "<group>"; };
 		04ED31D41EAAC7510033BAAE /* AppCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenter.framework; path = "../AppCenter-SDK-Apple/macOS/AppCenter.framework"; sourceTree = "<group>"; };
+		353332F620126200009B0946 /* EventFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventFilterViewController.swift; sourceTree = "<group>"; };
+		358F9BCA2019639100B9E22C /* MSEventFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSEventFilter.m; sourceTree = "<group>"; };
+		358F9BCB2019639100B9E22C /* MSEventFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSEventFilter.h; sourceTree = "<group>"; };
 		5C6F9BAC1EB8B730009E52D8 /* AnalyticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsViewController.swift; sourceTree = "<group>"; };
 		5C6F9BB71EB8F2E9009E52D8 /* CrashesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashesViewController.swift; sourceTree = "<group>"; };
 		5C9BBC801EC4829200CA77A3 /* AppCenterDelegateSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCenterDelegateSwift.swift; sourceTree = "<group>"; };
@@ -131,6 +138,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3577093D2017FA5D00E465B6 /* EventFilter */ = {
+			isa = PBXGroup;
+			children = (
+				358F9BCB2019639100B9E22C /* MSEventFilter.h */,
+				358F9BCA2019639100B9E22C /* MSEventFilter.m */,
+			);
+			path = EventFilter;
+			sourceTree = "<group>";
+		};
 		D3C31C031E8E757300B288CE = {
 			isa = PBXGroup;
 			children = (
@@ -154,6 +170,7 @@
 		D3C31C0E1E8E757300B288CE /* SasquatchMac */ = {
 			isa = PBXGroup;
 			children = (
+				3577093D2017FA5D00E465B6 /* EventFilter */,
 				042496831EC3CE2F00502B62 /* AppCenterDelegate.swift */,
 				042496841EC3CE2F00502B62 /* AppCenterProvider.swift */,
 				D3C31C6F1E8E772E00B288CE /* Storyboards */,
@@ -222,6 +239,7 @@
 			children = (
 				5C6F9BAC1EB8B730009E52D8 /* AnalyticsViewController.swift */,
 				5C6F9BB71EB8F2E9009E52D8 /* CrashesViewController.swift */,
+				353332F620126200009B0946 /* EventFilterViewController.swift */,
 				5CD625791ECDA4280053DC6C /* AppCenterViewController.swift */,
 				803CFF371F6A87180072B9BA /* PushViewController.swift */,
 				F8B8EC721FD853E800445BD4 /* CustomPropertiesViewControler.swift */,
@@ -368,6 +386,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				042496861EC3CE2F00502B62 /* AppCenterProvider.swift in Sources */,
+				353332F820126200009B0946 /* EventFilterViewController.swift in Sources */,
+				358F9BCC2019639100B9E22C /* MSEventFilter.m in Sources */,
 				F8B8EC731FD853E800445BD4 /* CustomPropertiesViewControler.swift in Sources */,
 				5C6F9BB81EB8F2E9009E52D8 /* CrashesViewController.swift in Sources */,
 				042496851EC3CE2F00502B62 /* AppCenterDelegate.swift in Sources */,
@@ -385,9 +405,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C9BBC811EC4829200CA77A3 /* AppCenterDelegateSwift.swift in Sources */,
+				358F9BCD2019639100B9E22C /* MSEventFilter.m in Sources */,
 				C2A4A2691EE7684A0080FD22 /* AppCenterViewController.swift in Sources */,
 				F8B8EC741FD853E800445BD4 /* CustomPropertiesViewControler.swift in Sources */,
 				042496881EC3CE3700502B62 /* AppCenterProvider.swift in Sources */,
+				353332F720126200009B0946 /* EventFilterViewController.swift in Sources */,
 				D3C31C631E8E763600B288CE /* AppDelegate.swift in Sources */,
 				5C6F9BB91EB8F2E9009E52D8 /* CrashesViewController.swift in Sources */,
 				803CFF391F6A87180072B9BA /* PushViewController.swift in Sources */,
@@ -420,7 +442,9 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_MODULE_DEBUGGING = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_MODULES_AUTOLINK = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
@@ -474,7 +498,9 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_MODULE_DEBUGGING = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_MODULES_AUTOLINK = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;

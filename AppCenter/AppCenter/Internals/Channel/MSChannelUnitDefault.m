@@ -90,6 +90,16 @@
                               withBlock:^(id<MSChannelDelegate> delegate) {
                                 [delegate onEnqueuingLog:item withInternalId:internalLogId];
                               }];
+
+    // Check if the log should be filtered out. If so, don't enqueue it.
+    __block BOOL shouldFilter = NO;
+    [self enumerateDelegatesForSelector:@selector(shouldFilterLog:)
+                              withBlock:^(id<MSChannelDelegate> delegate) {
+                                shouldFilter = shouldFilter || [delegate shouldFilterLog:item];
+                              }];
+    if (shouldFilter) {
+      return;
+    }
     if (self.discardLogs) {
       MSLogWarning([MSAppCenter logTag], @"Channel disabled in log discarding mode, discard this log.");
       NSError *error = [NSError errorWithDomain:kMSACErrorDomain
