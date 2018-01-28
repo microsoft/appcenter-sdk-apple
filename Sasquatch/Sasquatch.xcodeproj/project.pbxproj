@@ -455,9 +455,9 @@
 				84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */,
 				84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */,
 				84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */,
-				353332C620112EB4009B0946 /* MSEventFilterViewController.swift */,
 				B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */,
 				F87E96181FDEEA0900AF2717 /* MSCustomPropertyTableViewCell.swift */,
+				353332C620112EB4009B0946 /* MSEventFilterViewController.swift */,
 				803CFF261F6A7E1D0072B9BA /* MSPushViewController.swift */,
 			);
 			path = ViewControllers;

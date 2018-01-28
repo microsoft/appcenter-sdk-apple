@@ -43,6 +43,10 @@
 		80F9916C1F027D250040FAD7 /* CrashesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F9916A1F027D250040FAD7 /* CrashesDetailViewController.swift */; };
 		80F9916D1F0287B60040FAD7 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C4F926A1EE84260003140BF /* MSAlertController.m */; };
 		B269C77B1FAD1303001A1EFB /* AppCenterDelegateObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = B269C77A1FAD1303001A1EFB /* AppCenterDelegateObjC.m */; };
+		B2F694A9201E7D9900F69FAA /* MSEventFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F694A8201E7D9900F69FAA /* MSEventFilter.m */; };
+		B2F694AA201E7DA100F69FAA /* MSEventFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F694A8201E7D9900F69FAA /* MSEventFilter.m */; };
+		B2F694AC201E7DC100F69FAA /* EventFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F694AB201E7DC100F69FAA /* EventFilterViewController.swift */; };
+		B2F694AD201E7DCD00F69FAA /* EventFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F694AB201E7DC100F69FAA /* EventFilterViewController.swift */; };
 		D322EFDB1E8E97C800A8EDA5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D322EFDA1E8E97C800A8EDA5 /* AppDelegate.swift */; };
 		D322EFE21E8E97C800A8EDA5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D322EFE11E8E97C800A8EDA5 /* Assets.xcassets */; };
 		D322EFEF1E8E97DF00A8EDA5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D322EFEE1E8E97DF00A8EDA5 /* main.m */; };
@@ -120,6 +124,9 @@
 		B2181B7D1F268AAD00D2EEAE /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		B269C7791FAD1303001A1EFB /* AppCenterDelegateObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppCenterDelegateObjC.h; sourceTree = "<group>"; };
 		B269C77A1FAD1303001A1EFB /* AppCenterDelegateObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppCenterDelegateObjC.m; sourceTree = "<group>"; };
+		B2F694A7201E7D9900F69FAA /* MSEventFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSEventFilter.h; path = EventFilter/MSEventFilter.h; sourceTree = "<group>"; };
+		B2F694A8201E7D9900F69FAA /* MSEventFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSEventFilter.m; path = EventFilter/MSEventFilter.m; sourceTree = "<group>"; };
+		B2F694AB201E7DC100F69FAA /* EventFilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventFilterViewController.swift; sourceTree = "<group>"; };
 		D322EFCA1E8E97A100A8EDA5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SasquatchTV.storyboard; sourceTree = "<group>"; };
 		D322EFD81E8E97C800A8EDA5 /* SasquatchTVSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchTVSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D322EFDA1E8E97C800A8EDA5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -201,6 +208,15 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		B2F694A6201E7D8700F69FAA /* EventFilter */ = {
+			isa = PBXGroup;
+			children = (
+				B2F694A7201E7D9900F69FAA /* MSEventFilter.h */,
+				B2F694A8201E7D9900F69FAA /* MSEventFilter.m */,
+			);
+			name = EventFilter;
+			sourceTree = "<group>";
+		};
 		D322EFB91E8E97A100A8EDA5 = {
 			isa = PBXGroup;
 			children = (
@@ -227,6 +243,7 @@
 		D322EFC41E8E97A100A8EDA5 /* SasquatchTV */ = {
 			isa = PBXGroup;
 			children = (
+				B2F694A6201E7D8700F69FAA /* EventFilter */,
 				5CB338A31EE59C0F0089A60B /* AppCenterDelegate.swift */,
 				5C481BA31EE586D2009329DD /* AppCenterProtocol.swift */,
 				5C481BAB1EE58922009329DD /* MSAlertController */,
@@ -295,6 +312,7 @@
 				80F991611F0267B40040FAD7 /* CrashesViewController.swift */,
 				80F9916A1F027D250040FAD7 /* CrashesDetailViewController.swift */,
 				5CBE5F501F02BC89001ABD15 /* EditPropertyViewController.swift */,
+				B2F694AB201E7DC100F69FAA /* EventFilterViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -513,7 +531,9 @@
 			files = (
 				5C481B9F1EE5794A009329DD /* AppCenterViewController.swift in Sources */,
 				5C931C7C1F0269BD004AF9CD /* MSPropertyViewCell.swift in Sources */,
+				B2F694AA201E7DA100F69FAA /* MSEventFilter.m in Sources */,
 				5CBE5F521F02BC89001ABD15 /* EditPropertyViewController.swift in Sources */,
+				B2F694AD201E7DCD00F69FAA /* EventFilterViewController.swift in Sources */,
 				5C5A41881EE5B07D00C377A7 /* AppCenterDelegateSwift.swift in Sources */,
 				5C5A41801EE5AE7500C377A7 /* AppCenterDelegate.swift in Sources */,
 				80F991631F0267B40040FAD7 /* CrashesViewController.swift in Sources */,
@@ -532,12 +552,14 @@
 				5C481BA61EE586D2009329DD /* AppCenterProtocol.swift in Sources */,
 				B269C77B1FAD1303001A1EFB /* AppCenterDelegateObjC.m in Sources */,
 				80F991621F0267B40040FAD7 /* CrashesViewController.swift in Sources */,
+				B2F694AC201E7DC100F69FAA /* EventFilterViewController.swift in Sources */,
 				D322EFF21E8E97DF00A8EDA5 /* AppDelegate.m in Sources */,
 				5C4F926B1EE84260003140BF /* MSAlertController.m in Sources */,
 				D322EFEF1E8E97DF00A8EDA5 /* main.m in Sources */,
 				80F9916B1F027D250040FAD7 /* CrashesDetailViewController.swift in Sources */,
 				5C481B9E1EE5794A009329DD /* AppCenterViewController.swift in Sources */,
 				5C481B9C1EE5794A009329DD /* AnalyticsViewController.swift in Sources */,
+				B2F694A9201E7D9900F69FAA /* MSEventFilter.m in Sources */,
 				5CBE5F511F02BC89001ABD15 /* EditPropertyViewController.swift in Sources */,
 				5C931C7B1F026688004AF9CD /* MSPropertyViewCell.swift in Sources */,
 				5CB338A41EE59C0F0089A60B /* AppCenterDelegate.swift in Sources */,
