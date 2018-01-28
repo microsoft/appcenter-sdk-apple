@@ -238,11 +238,11 @@
 			isa = PBXGroup;
 			children = (
 				5C6F9BAC1EB8B730009E52D8 /* AnalyticsViewController.swift */,
-				5C6F9BB71EB8F2E9009E52D8 /* CrashesViewController.swift */,
-				353332F620126200009B0946 /* EventFilterViewController.swift */,
 				5CD625791ECDA4280053DC6C /* AppCenterViewController.swift */,
-				803CFF371F6A87180072B9BA /* PushViewController.swift */,
+				5C6F9BB71EB8F2E9009E52D8 /* CrashesViewController.swift */,
 				F8B8EC721FD853E800445BD4 /* CustomPropertiesViewControler.swift */,
+				353332F620126200009B0946 /* EventFilterViewController.swift */,
+				803CFF371F6A87180072B9BA /* PushViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
