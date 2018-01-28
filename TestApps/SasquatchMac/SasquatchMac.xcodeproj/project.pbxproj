@@ -33,6 +33,10 @@
 		8065B5BC1F4C4169004FF622 /* CrashLibMac.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8065B5BA1F4C4169004FF622 /* CrashLibMac.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8065B5BD1F4C6778004FF622 /* CrashLibMac.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8065B5BA1F4C4169004FF622 /* CrashLibMac.framework */; };
 		8065B5BE1F4C6778004FF622 /* CrashLibMac.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8065B5BA1F4C4169004FF622 /* CrashLibMac.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B241DE3F201E7BD9009F135D /* MSEventFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = B241DE3E201E7BD9009F135D /* MSEventFilter.m */; };
+		B241DE41201E7BE9009F135D /* EventFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B241DE40201E7BE9009F135D /* EventFilterViewController.swift */; };
+		B241DE42201E7C64009F135D /* MSEventFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = B241DE3E201E7BD9009F135D /* MSEventFilter.m */; };
+		B241DE43201E7C71009F135D /* EventFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B241DE40201E7BE9009F135D /* EventFilterViewController.swift */; };
 		C2A4A2691EE7684A0080FD22 /* AppCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD625791ECDA4280053DC6C /* AppCenterViewController.swift */; };
 		D3C31C261E8E75B300B288CE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C31C251E8E75B300B288CE /* AppDelegate.m */; };
 		D3C31C291E8E75B300B288CE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C31C281E8E75B300B288CE /* main.m */; };
@@ -89,6 +93,9 @@
 		803CFF371F6A87180072B9BA /* PushViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PushViewController.swift; path = ViewControllers/PushViewController.swift; sourceTree = "<group>"; };
 		8065B5BA1F4C4169004FF622 /* CrashLibMac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibMac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80A3A89A1F0BF30100FBE3B6 /* SasquatchMac-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SasquatchMac-Bridging-Header.h"; sourceTree = "<group>"; };
+		B241DE3D201E7BD9009F135D /* MSEventFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSEventFilter.h; path = EventFilter/MSEventFilter.h; sourceTree = "<group>"; };
+		B241DE3E201E7BD9009F135D /* MSEventFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSEventFilter.m; path = EventFilter/MSEventFilter.m; sourceTree = "<group>"; };
+		B241DE40201E7BE9009F135D /* EventFilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EventFilterViewController.swift; path = ViewControllers/EventFilterViewController.swift; sourceTree = "<group>"; };
 		B2CD74CF1F22C3150070E7DF /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		D3C31C161E8E757300B288CE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SasquatchMac.storyboard; sourceTree = "<group>"; };
 		D3C31C221E8E75B300B288CE /* SasquatchMacObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchMacObjC.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -132,6 +139,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B241DE3C201E7BC7009F135D /* EventFilter */ = {
+			isa = PBXGroup;
+			children = (
+				B241DE3D201E7BD9009F135D /* MSEventFilter.h */,
+				B241DE3E201E7BD9009F135D /* MSEventFilter.m */,
+			);
+			name = EventFilter;
+			sourceTree = "<group>";
+		};
 		D3C31C031E8E757300B288CE = {
 			isa = PBXGroup;
 			children = (
@@ -155,6 +171,7 @@
 		D3C31C0E1E8E757300B288CE /* SasquatchMac */ = {
 			isa = PBXGroup;
 			children = (
+				B241DE3C201E7BC7009F135D /* EventFilter */,
 				042496831EC3CE2F00502B62 /* AppCenterDelegate.swift */,
 				042496841EC3CE2F00502B62 /* AppCenterProvider.swift */,
 				D3C31C6F1E8E772E00B288CE /* Storyboards */,
@@ -219,9 +236,10 @@
 			isa = PBXGroup;
 			children = (
 				5C6F9BAC1EB8B730009E52D8 /* AnalyticsViewController.swift */,
+				5CD625791ECDA4280053DC6C /* AppCenterViewController.swift */,
 				5C6F9BB71EB8F2E9009E52D8 /* CrashesViewController.swift */,
 				F87E96241FDF001300AF2717 /* CustomPropertiesViewControler.swift */,
-				5CD625791ECDA4280053DC6C /* AppCenterViewController.swift */,
+				B241DE40201E7BE9009F135D /* EventFilterViewController.swift */,
 				803CFF371F6A87180072B9BA /* PushViewController.swift */,
 			);
 			name = ViewControllers;
@@ -367,9 +385,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				042496861EC3CE2F00502B62 /* AppCenterProvider.swift in Sources */,
+				B241DE3F201E7BD9009F135D /* MSEventFilter.m in Sources */,
 				F87E96251FDF001300AF2717 /* CustomPropertiesViewControler.swift in Sources */,
 				5C6F9BB81EB8F2E9009E52D8 /* CrashesViewController.swift in Sources */,
 				042496851EC3CE2F00502B62 /* AppCenterDelegate.swift in Sources */,
+				B241DE41201E7BE9009F135D /* EventFilterViewController.swift in Sources */,
 				D3C31C291E8E75B300B288CE /* main.m in Sources */,
 				D3C31C261E8E75B300B288CE /* AppDelegate.m in Sources */,
 				5CD6257A1ECDA4280053DC6C /* AppCenterViewController.swift in Sources */,
@@ -385,6 +405,7 @@
 			files = (
 				5C9BBC811EC4829200CA77A3 /* AppCenterDelegateSwift.swift in Sources */,
 				C2A4A2691EE7684A0080FD22 /* AppCenterViewController.swift in Sources */,
+				B241DE42201E7C64009F135D /* MSEventFilter.m in Sources */,
 				F87E96261FDF001600AF2717 /* CustomPropertiesViewControler.swift in Sources */,
 				042496881EC3CE3700502B62 /* AppCenterProvider.swift in Sources */,
 				D3C31C631E8E763600B288CE /* AppDelegate.swift in Sources */,
@@ -392,6 +413,7 @@
 				803CFF391F6A87180072B9BA /* PushViewController.swift in Sources */,
 				5C6F9BB61EB8EEFC009E52D8 /* AnalyticsViewController.swift in Sources */,
 				042496871EC3CE3500502B62 /* AppCenterDelegate.swift in Sources */,
+				B241DE43201E7C71009F135D /* EventFilterViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
