@@ -441,17 +441,11 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
 
-                                 /**
-                                  * When
-                                  */
-
+                                 // When
                                  // Suspend now that the call is retrying.
                                  [self.sut suspend];
 
-                                 /**
-                                  * Then
-                                  */
-
+                                 // Then
                                  // Retry must be stopped.
                                  XCTAssertNotEqual(
                                      0, dispatch_testcancel(((MSSenderCall *)self.sut.pendingCalls[@"1"]).timerSource));
@@ -508,71 +502,71 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 
 - (void)testAddDelegate {
 
-  // If.
+  // If
   id delegateMock = OCMProtocolMock(@protocol(MSSenderDelegate));
 
-  // When.
+  // When
   [self.sut addDelegate:delegateMock];
 
-  // Then.
+  // Then
   assertThatBool([self.sut.delegates containsObject:delegateMock], isTrue());
 }
 
 - (void)testAddMultipleDelegates {
 
-  // If.
+  // If
   id delegateMock1 = OCMProtocolMock(@protocol(MSSenderDelegate));
   id delegateMock2 = OCMProtocolMock(@protocol(MSSenderDelegate));
 
-  // When.
+  // When
   [self.sut addDelegate:delegateMock1];
   [self.sut addDelegate:delegateMock2];
 
-  // Then.
+  // Then
   assertThatBool([self.sut.delegates containsObject:delegateMock1], isTrue());
   assertThatBool([self.sut.delegates containsObject:delegateMock2], isTrue());
 }
 
 - (void)testAddTwiceSameDelegate {
 
-  // If.
+  // If
   id delegateMock = OCMProtocolMock(@protocol(MSSenderDelegate));
 
-  // When.
+  // When
   [self.sut addDelegate:delegateMock];
   [self.sut addDelegate:delegateMock];
 
-  // Then.
+  // Then
   assertThatBool([self.sut.delegates containsObject:delegateMock], isTrue());
   assertThatUnsignedLong(self.sut.delegates.count, equalToInt(1));
 }
 
 - (void)testRemoveDelegate {
 
-  // If.
+  // If
   id delegateMock = OCMProtocolMock(@protocol(MSSenderDelegate));
   [self.sut addDelegate:delegateMock];
 
-  // When.
+  // When
   [self.sut removeDelegate:delegateMock];
 
-  // Then.
+  // Then
   assertThatBool([self.sut.delegates containsObject:delegateMock], isFalse());
 }
 
 - (void)testRemoveTwiceSameDelegate {
 
-  // If.
+  // If
   id delegateMock1 = OCMProtocolMock(@protocol(MSSenderDelegate));
   id delegateMock2 = OCMProtocolMock(@protocol(MSSenderDelegate));
   [self.sut addDelegate:delegateMock1];
   [self.sut addDelegate:delegateMock2];
 
-  // When.
+  // When
   [self.sut removeDelegate:delegateMock1];
   [self.sut removeDelegate:delegateMock1];
 
-  // Then.
+  // Then
   assertThatBool([self.sut.delegates containsObject:delegateMock1], isFalse());
   assertThatBool([self.sut.delegates containsObject:delegateMock2], isTrue());
   assertThatUnsignedLong(self.sut.delegates.count, equalToInt(1));
@@ -580,16 +574,16 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 
 - (void)testNullifiedDelegate {
 
-  // If.
+  // If
   @autoreleasepool {
     __weak id delegateMock = OCMProtocolMock(@protocol(MSSenderDelegate));
     [self.sut addDelegate:delegateMock];
 
-    // When.
+    // When
     delegateMock = nil;
   }
 
-  // Then.
+  // Then
   // There is a bug somehow in NSHashTable where the count on the table itself is not decremented while an object is
   // deallocated and auto removed from the table. The NSHashtable allObjects: is used instead to remediate.
   assertThatUnsignedLong(self.sut.delegates.allObjects.count, equalToInt(0));
@@ -597,49 +591,49 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 
 - (void)testCallDelegatesOnSuspended {
 
-  // If.
+  // If
   id delegateMock1 = OCMProtocolMock(@protocol(MSSenderDelegate));
   id delegateMock2 = OCMProtocolMock(@protocol(MSSenderDelegate));
   [self.sut resume];
   [self.sut addDelegate:delegateMock1];
   [self.sut addDelegate:delegateMock2];
 
-  // When.
+  // When
   [self.sut suspend];
 
-  // Then.
+  // Then
   OCMVerify([delegateMock1 senderDidSuspend:self.sut]);
   OCMVerify([delegateMock2 senderDidSuspend:self.sut]);
 }
 
 - (void)testCallDelegatesOnResumed {
 
-  // If.
+  // If
   id delegateMock1 = OCMProtocolMock(@protocol(MSSenderDelegate));
   id delegateMock2 = OCMProtocolMock(@protocol(MSSenderDelegate));
   [self.sut suspend];
   [self.sut addDelegate:delegateMock1];
   [self.sut addDelegate:delegateMock2];
 
-  // When.
+  // When
   [self.sut suspend];
   [self.sut resume];
 
-  // Then.
+  // Then
   OCMVerify([delegateMock1 senderDidResume:self.sut]);
   OCMVerify([delegateMock2 senderDidResume:self.sut]);
 }
 
 - (void)testLargeSecret {
 
-  // If.
+  // If
   NSString *secret = @"shhhh-its-a-secret";
   NSString *hiddenSecret;
 
-  // When.
+  // When
   hiddenSecret = [MSSenderUtil hideSecret:secret];
 
-  // Then.
+  // Then
   NSString *fullyHiddenSecret =
       [@"" stringByPaddingToLength:hiddenSecret.length withString:kMSHidingStringForAppSecret startingAtIndex:0];
   NSString *appSecretHiddenPart = [hiddenSecret commonPrefixWithString:fullyHiddenSecret options:0];
@@ -650,16 +644,16 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 
 - (void)testShortSecret {
 
-  // If.
+  // If
   NSString *secret = @"";
   for (short i = 1; i <= kMSMaxCharactersDisplayedForAppSecret - 1; i++)
     secret = [NSString stringWithFormat:@"%@%hd", secret, i];
   NSString *hiddenSecret;
 
-  // When.
+  // When
   hiddenSecret = [MSSenderUtil hideSecret:secret];
 
-  // Then.
+  // Then
   NSString *fullyHiddenSecret =
       [@"" stringByPaddingToLength:hiddenSecret.length withString:kMSHidingStringForAppSecret startingAtIndex:0];
   assertThatInteger(hiddenSecret.length, equalToInteger(secret.length));
@@ -668,9 +662,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 
 - (void)testSetBaseURL {
 
-  /**
-   * If
-   */
+  // If
   NSString *path = @"path";
   NSURL *expectedURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", @"https://www.contoso.com/", path]];
   self.sut.apiPath = path;
@@ -678,34 +670,24 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   // Query should be the same.
   NSString *query = self.sut.sendURL.query;
 
-  /**
-   * When
-   */
+  // When
   [self.sut setBaseURL:(NSString * _Nonnull)[expectedURL.URLByDeletingLastPathComponent absoluteString]];
 
-  /**
-   * Then
-   */
+  // Then
   assertThat([self.sut.sendURL absoluteString],
              is([NSString stringWithFormat:@"%@?%@", expectedURL.absoluteString, query]));
 }
 
 - (void)testSetInvalidBaseURL {
 
-  /**
-   * If
-   */
+  // If
   NSURL *expected = self.sut.sendURL;
   NSString *invalidURL = @"\notGood";
 
-  /**
-   * When
-   */
+  // When
   [self.sut setBaseURL:invalidURL];
 
-  /**
-   * Then
-   */
+  // Then
   assertThat(self.sut.sendURL, is(expected));
 }
 
