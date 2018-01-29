@@ -122,6 +122,7 @@
                                         </textField>
                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Key" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JOx-oC-0In" userLabel="Key Text Field">
                                             <rect key="frame" x="80" y="44" width="279" height="44"/>
+                                            <accessibility key="accessibilityConfiguration" identifier="Key"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="44" id="cOq-Kd-dFP"/>
                                             </constraints>
@@ -131,6 +132,7 @@
                                         </textField>
                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Value" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TMR-2O-O4o" userLabel="Value Text Field">
                                             <rect key="frame" x="80" y="88" width="279" height="44"/>
+                                            <accessibility key="accessibilityConfiguration" identifier="Value"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="44" id="Rjt-co-iO9"/>
                                             </constraints>

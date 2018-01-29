@@ -2,11 +2,6 @@ import XCTest
 
 class AppCenterUITests: XCTestCase {
   private var app : XCUIApplication?;
-  private let AnalyticsCellIndex : UInt = 0;
-
-  private let kDidSentEventText : String = "Sent event occurred";
-  private let kDidFailedToSendEventText : String = "Failed to send event occurred";
-  private let kDidSendingEventText : String = "Sending event occurred";
 
   override func setUp() {
     super.setUp()
@@ -30,6 +25,7 @@ class AppCenterUITests: XCTestCase {
 
   func testEnableDisableSDK() {
     guard let `app` = app else {
+      XCTFail();
       return;
     }
     let appCenterButton : XCUIElement = app.switches["Set Enabled"];
@@ -91,6 +87,7 @@ class AppCenterUITests: XCTestCase {
    */
   func testDisableSDKPersistance() {
     guard let `app` = app else {
+      XCTFail();
       return;
     }
     var appCenterButton = app.switches["Set Enabled"];
@@ -133,8 +130,31 @@ class AppCenterUITests: XCTestCase {
     }
   }
 
+  func testCustomProperties() {
+    guard let `app` = app else {
+      return;
+    }
+    app.tables["App Center"].staticTexts["Custom Properties"].tap()
+    
+    let customPropertiesTable = app.tables["Custom Properties"];
+    
+    customPropertiesTable.staticTexts["Add Property"].tap()
+    let stringPropertyCell = customPropertiesTable.cells.element(boundBy: 0)
+    stringPropertyCell.children(matching: .textField).element(boundBy: 0).tap()
+    app.pickerWheels.element.adjust(toPickerWheelValue: "String")
+    app.toolbars.buttons["Done"].tap()
+    stringPropertyCell.textFields["Key"].tap()
+    stringPropertyCell.textFields["Key"].typeText("key1")
+    stringPropertyCell.textFields["Value"].tap()
+    stringPropertyCell.textFields["Value"].typeText("test1")
+    
+    customPropertiesTable.buttons["Send Custom Properties"].tap()
+    app.alerts["The custom properties log is queued"].buttons["OK"].tap()
+  }
+
   func testMiscellaneousInfo() {
     guard let `app` = app else {
+      XCTFail();
       return;
     }
 
