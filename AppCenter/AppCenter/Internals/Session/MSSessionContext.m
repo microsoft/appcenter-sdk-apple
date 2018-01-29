@@ -28,7 +28,7 @@ static dispatch_once_t onceToken;
       if (!sharedInstance.sessionHistory) {
         sharedInstance.sessionHistory = [NSMutableArray<MSSessionHistoryInfo *> new];
       }
-      MSLogDebug([MSAppCenter logTag], @"%lu session(s) in the history.", (unsigned long)[sharedInstance.sessionHistory count]);
+      MSLogDebug([MSAppCenter logTag], @"%tu session(s) in the history.", [sharedInstance.sessionHistory count]);
       sharedInstance.currentSessionInfo =
           [[MSSessionHistoryInfo alloc] initWithTimestamp:[NSDate date] andSessionId:nil];
       [sharedInstance.sessionHistory addObject:sharedInstance.currentSessionInfo];
