@@ -49,6 +49,9 @@
                                 </cells>
                             </tableViewSection>
                         </sections>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="Push"/>
+                        </userDefinedRuntimeAttributes>
                         <connections>
                             <outlet property="dataSource" destination="Kxj-Wa-KwA" id="wT3-P6-I9r"/>
                             <outlet property="delegate" destination="Kxj-Wa-KwA" id="aOM-FW-AJ5"/>
@@ -209,6 +212,9 @@
                             </tableViewCell>
                         </prototypes>
                         <sections/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="Custom Properties"/>
+                        </userDefinedRuntimeAttributes>
                         <connections>
                             <outlet property="dataSource" destination="ijk-oD-Aik" id="s0N-Bm-XCx"/>
                             <outlet property="delegate" destination="ijk-oD-Aik" id="xhV-rO-HiT"/>
@@ -361,6 +367,9 @@
                                 </cells>
                             </tableViewSection>
                         </sections>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="Analytics"/>
+                        </userDefinedRuntimeAttributes>
                         <connections>
                             <outlet property="dataSource" destination="GhP-bn-tCW" id="22X-EB-AQx"/>
                             <outlet property="delegate" destination="GhP-bn-tCW" id="IFf-IO-6UR"/>
@@ -595,6 +604,9 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="Crashes"/>
+                        </userDefinedRuntimeAttributes>
                         <connections>
                             <outlet property="dataSource" destination="MLz-YP-ZEx" id="JR6-Bn-ZNU"/>
                             <outlet property="delegate" destination="MLz-YP-ZEx" id="x5y-f8-N4z"/>
@@ -712,6 +724,9 @@
                                 </cells>
                             </tableViewSection>
                         </sections>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="Distribute"/>
+                        </userDefinedRuntimeAttributes>
                         <connections>
                             <outlet property="dataSource" destination="axH-Yn-1RM" id="uCo-U7-0Sy"/>
                             <outlet property="delegate" destination="axH-Yn-1RM" id="npk-MN-yUs"/>
@@ -1143,6 +1158,9 @@
                                 </cells>
                             </tableViewSection>
                         </sections>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="App Center"/>
+                        </userDefinedRuntimeAttributes>
                         <connections>
                             <outlet property="dataSource" destination="9Ck-4D-Ozb" id="Mt3-pk-ThE"/>
                             <outlet property="delegate" destination="9Ck-4D-Ozb" id="XKu-8j-qab"/>
@@ -1195,6 +1213,9 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="Device Info"/>
+                        </userDefinedRuntimeAttributes>
                         <connections>
                             <outlet property="dataSource" destination="S1U-v1-0jg" id="aKL-Ds-FWV"/>
                             <outlet property="delegate" destination="S1U-v1-0jg" id="KWx-cH-H1O"/>

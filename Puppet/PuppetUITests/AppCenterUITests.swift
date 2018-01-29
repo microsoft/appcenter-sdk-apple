@@ -23,7 +23,7 @@ class AppCenterUITests: XCTestCase {
 
     // Enable SDK (we need it in case SDK was disabled by the test, which then failed and didn't enabled SDK back).
     let appCenterButton : XCUIElement = app.switches["Set Enabled"];
-    if (appCenterButton.value as! String == "0") {
+    if (!appCenterButton.boolValue) {
       appCenterButton.tap();
     }
   }
@@ -32,29 +32,33 @@ class AppCenterUITests: XCTestCase {
     guard let `app` = app else {
       return;
     }
-    let appCenterButton : XCUIElement = app.switches.element(boundBy: 0);
+    let appCenterButton : XCUIElement = app.switches["Set Enabled"];
 
     // SDK should be enabled.
-    XCTAssertEqual("1", appCenterButton.value as! String);
+    XCTAssertTrue(appCenterButton.boolValue);
 
     // Disable SDK.
     appCenterButton.tap();
 
     // All services should be disabled.
     // Analytics.
-    app.tables.cells.element(boundBy: 0).tap();
-    XCTAssertEqual("0", app.switches.element(boundBy: 0).value as! String);
+    app.tables["App Center"].staticTexts["Analytics"].tap();
+    XCTAssertFalse(app.tables["Analytics"].switches["Set Enabled"].boolValue);
     app.buttons["App Center"].tap();
 
     // Crashes.
-    app.tables.cells.element(boundBy: 1).tap();
-    XCTAssertEqual("0", app.switches.element(boundBy: 0).value as! String);
+    app.tables["App Center"].staticTexts["Crashes"].tap();
+    XCTAssertFalse(app.tables["Crashes"].switches["Set Enabled"].boolValue);
     app.buttons["App Center"].tap();
 
     // Distribute.
-    app.tables.cells.element(boundBy: 2).tap();
-    let distributeSwitchButton : XCUIElement = app.switches.element(matching: XCUIElementType.switch, identifier: "Set Enabled");
-    XCTAssertEqual("0", distributeSwitchButton.value as! String);
+    app.tables["App Center"].staticTexts["Distribute"].tap();
+    XCTAssertFalse( app.tables["Distribute"].switches["Set Enabled"].boolValue);
+    app.buttons["App Center"].tap();
+    
+    // Push.
+    app.tables["App Center"].staticTexts["Push"].tap();
+    XCTAssertFalse(app.tables["Push"].switches["Set Enabled"].boolValue);
     app.buttons["App Center"].tap();
 
     // Enable SDK.
@@ -62,18 +66,23 @@ class AppCenterUITests: XCTestCase {
 
     // All services should be enabled.
     // Analytics.
-    app.tables.cells.element(boundBy: 0).tap();
-    XCTAssertEqual("1", app.switches.element(boundBy: 0).value as! String);
+    app.tables["App Center"].staticTexts["Analytics"].tap();
+    XCTAssertTrue(app.tables["Analytics"].switches["Set Enabled"].boolValue);
     app.buttons["App Center"].tap();
 
     // Crashes.
-    app.tables.cells.element(boundBy: 1).tap();
-    XCTAssertEqual("1", app.switches.element(boundBy: 0).value as! String);
+    app.tables["App Center"].staticTexts["Crashes"].tap();
+    XCTAssertTrue(app.tables["Crashes"].switches["Set Enabled"].boolValue);
     app.buttons["App Center"].tap();
 
     // Distribute.
-    app.tables.cells.element(boundBy: 2).tap();
-    XCTAssertEqual("1", distributeSwitchButton.value as! String);
+    app.tables["App Center"].staticTexts["Distribute"].tap();
+    XCTAssertTrue(app.tables["Distribute"].switches["Set Enabled"].boolValue);
+    app.buttons["App Center"].tap();
+    
+    // Push.
+    app.tables["App Center"].staticTexts["Push"].tap();
+    XCTAssertTrue(app.tables["Push"].switches["Set Enabled"].boolValue);
     app.buttons["App Center"].tap();
   }
 
@@ -82,17 +91,8 @@ class AppCenterUITests: XCTestCase {
       return;
     }
 
-    // Go to custom properties page.
-    app.cells.element(boundBy: 3).tap();
-
-    // Check custom properties. There shouldn't be any crash.
-    for cellIndex in 0..<app.cells.count {
-      app.cells.element(boundBy: cellIndex).tap();
-    }
-    app.buttons["App Center"].tap();
-
     // Go to device info page.
-    app.cells.element(boundBy: 4).tap();
+    app.tables["App Center"].staticTexts["Device Info"].tap();
 
     // Check device info. Device info shouldn't contain an empty info.
     for cellIndex in 0..<app.cells.count {
@@ -103,17 +103,17 @@ class AppCenterUITests: XCTestCase {
     app.buttons["App Center"].tap();
 
     // Check install id.
-    let installIdCell : XCUIElement = app.cells.element(boundBy: 5);
+    let installIdCell : XCUIElement = app.tables["App Center"].cell(containing: "Install ID");
     let installId : String = installIdCell.staticTexts.element(boundBy: 1).label;
     XCTAssertNotNil(UUID(uuidString: installId));
 
     // Check app secret.
-    let appSecretCell : XCUIElement = app.cells.element(boundBy: 6);
+    let appSecretCell : XCUIElement = app.tables["App Center"].cell(containing: "App Secret");
     let appSecret : String = appSecretCell.staticTexts.element(boundBy: 1).label;
     XCTAssertNotNil(UUID(uuidString: appSecret));
 
     // Check log url.
-    let logUrlCell : XCUIElement = app.cells.element(boundBy: 7);
+    let logUrlCell : XCUIElement = app.tables["App Center"].cell(containing: "Log URL");
     let logUrl : String = logUrlCell.staticTexts.element(boundBy: 1).label;
     XCTAssertNotNil(URL(string: logUrl));
   }
