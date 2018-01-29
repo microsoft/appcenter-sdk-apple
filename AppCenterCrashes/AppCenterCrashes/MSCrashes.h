@@ -13,6 +13,7 @@ typedef BOOL (^MSUserConfirmationHandler)(NSArray<MSErrorReport *> *_Nonnull err
  * Error Logging status.
  */
 typedef NS_ENUM(NSUInteger, MSErrorLogSetting) {
+
   /**
    * Crash reporting is disabled.
    */
@@ -30,19 +31,22 @@ typedef NS_ENUM(NSUInteger, MSErrorLogSetting) {
 };
 
 /**
- * Crash Manager alert user input
+ * Crash Manager alert user input.
  */
 typedef NS_ENUM(NSUInteger, MSUserConfirmation) {
+  
   /**
-   * User chose not to send the crash report
+   * User chose not to send the crash report.
    */
   MSUserConfirmationDontSend = 0,
+  
   /**
-   * User wants the crash report to be sent
+   * User wants the crash report to be sent.
    */
   MSUserConfirmationSend = 1,
+  
   /**
-   * User wants to send all error logs
+   * User wants to send all error logs.
    */
   MSUserConfirmationAlways = 2
 };
