@@ -86,6 +86,53 @@ class AppCenterUITests: XCTestCase {
     app.buttons["App Center"].tap();
   }
 
+  /**
+   * There is a known bug with user defaults on iOS >= 10.
+   */
+  func testDisableSDKPersistance() {
+    guard let `app` = app else {
+      return;
+    }
+    var appCenterButton = app.switches["Set Enabled"];
+    XCTAssertTrue(appCenterButton.boolValue, "AppCenter doesn't enabled by default");
+    
+    // Disable SDK.
+    appCenterButton.tap();
+    XCTAssertFalse(appCenterButton.boolValue);
+    
+    // Several attempts for sure.
+    for i in 0..<10 {
+      
+      // Restart application.
+      sleep(1)
+      XCUIDevice().press(.home)
+      sleep(1)
+      app.launch()
+      
+      appCenterButton = app.switches["Set Enabled"];
+      XCTAssertFalse(appCenterButton.boolValue, "AppCenter doesn't disabled on next application run (\(i * 2 + 2) run)");
+      
+      // Enable SDK.
+      appCenterButton.tap();
+      
+      XCTAssertTrue(appCenterButton.boolValue);
+      
+      // Restart application.
+      sleep(1)
+      XCUIDevice().press(XCUIDeviceButton.home)
+      sleep(1)
+      app.launch()
+      
+      appCenterButton = app.switches["Set Enabled"];
+      XCTAssertTrue(appCenterButton.boolValue, "AppCenter doesn't enabled on next application run (\(i * 2 + 3) run)");
+      
+      // Disable SDK.
+      appCenterButton.tap();
+      
+      XCTAssertFalse(appCenterButton.boolValue);
+    }
+  }
+
   func testMiscellaneousInfo() {
     guard let `app` = app else {
       return;
