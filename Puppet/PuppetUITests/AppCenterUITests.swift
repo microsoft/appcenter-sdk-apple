@@ -83,7 +83,10 @@ class AppCenterUITests: XCTestCase {
   }
 
   /**
-   * There is a known bug with user defaults on iOS >= 10.
+   * There is a known bug with NSUserDefaults on iOS 10 and later.
+   * See:
+   *   https://forums.developer.apple.com/thread/61287
+   *   http://www.openradar.me/radar?id=5057804138184704
    */
   func testDisableSDKPersistance() {
     guard let `app` = app else {
