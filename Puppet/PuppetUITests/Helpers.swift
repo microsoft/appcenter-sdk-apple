@@ -1,12 +1,19 @@
 import XCTest
 
 extension XCUIElement {
+  
+  /**
+   * Return bool value. Useful for switches.
+   */
   var boolValue : Bool {
     get {
       return self.value as! String == "1"
     }
   }
   
+  /**
+   * Filter cells by label.
+   */
   private func filterCells(containing labels: [String]) -> XCUIElementQuery {
     var cells = self.cells
     for label in labels {
@@ -15,6 +22,9 @@ extension XCUIElement {
     return cells
   }
   
+  /**
+   * Find cell with label contains the string.
+   */
   func cell(containing labels: String...) -> XCUIElement {
     return filterCells(containing: labels).element
   }
