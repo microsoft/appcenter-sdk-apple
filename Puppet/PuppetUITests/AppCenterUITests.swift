@@ -88,7 +88,7 @@ class AppCenterUITests: XCTestCase {
    *   https://forums.developer.apple.com/thread/61287
    *   http://www.openradar.me/radar?id=5057804138184704
    */
-  func testDisableSDKPersistance() {
+  func testDisableSDKPersistence() {
     guard let `app` = app else {
       XCTFail()
       return
