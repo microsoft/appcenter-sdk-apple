@@ -134,22 +134,45 @@ class AppCenterUITests: XCTestCase {
     guard let `app` = app else {
       return
     }
-    app.tables["App Center"].staticTexts["Custom Properties"].tap()
     
+    // Go to custom properties page.
+    app.tables["App Center"].staticTexts["Custom Properties"].tap()
     let customPropertiesTable = app.tables["Custom Properties"]
     
+    // Add clear property.
     customPropertiesTable.staticTexts["Add Property"].tap()
-    let stringPropertyCell = customPropertiesTable.cells.element(boundBy: 0)
-    stringPropertyCell.children(matching: .textField).element(boundBy: 0).tap()
+    let clearPropertyCell = customPropertiesTable.cells.element(boundBy: 0)
+    XCTAssertEqual("Clear", clearPropertyCell.textFields["Type"].value as! String)
+    clearPropertyCell.textFields["Key"].tap()
+    clearPropertyCell.textFields["Key"].typeText("key0")
+    
+    // Add string property.
+    customPropertiesTable.staticTexts["Add Property"].tap()
+    let stringPropertyCell = customPropertiesTable.cells.element(boundBy: 1)
+    stringPropertyCell.textFields["Type"].tap()
     app.pickerWheels.element.adjust(toPickerWheelValue: "String")
     app.toolbars.buttons["Done"].tap()
+    XCTAssertEqual("String", stringPropertyCell.textFields["Type"].value as! String)
     stringPropertyCell.textFields["Key"].tap()
     stringPropertyCell.textFields["Key"].typeText("key1")
     stringPropertyCell.textFields["Value"].tap()
     stringPropertyCell.textFields["Value"].typeText("test1")
     
+    // Add number property.
+    customPropertiesTable.staticTexts["Add Property"].tap()
+    let numbarPropertyCell = customPropertiesTable.cells.element(boundBy: 2)
+    numbarPropertyCell.textFields["Type"].tap()
+    app.pickerWheels.element.adjust(toPickerWheelValue: "Number")
+    app.toolbars.buttons["Done"].tap()
+    XCTAssertEqual("Number", numbarPropertyCell.textFields["Type"].value as! String)
+    numbarPropertyCell.textFields["Key"].tap()
+    numbarPropertyCell.textFields["Key"].typeText("key2")
+    numbarPropertyCell.textFields["Value"].tap()
+    numbarPropertyCell.textFields["Value"].typeText("-42.42")
+    
+    // Send properties.
     customPropertiesTable.buttons["Send Custom Properties"].tap()
-    app.alerts["The custom properties log is queued"].buttons["OK"].tap()
+    app.alerts.firstMatch.buttons["OK"].tap()
   }
 
   func testMiscellaneousInfo() {

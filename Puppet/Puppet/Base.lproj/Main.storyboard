@@ -113,6 +113,7 @@
                                         </label>
                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BhR-cQ-Pif" userLabel="Type Text Field">
                                             <rect key="frame" x="80" y="0.0" width="279" height="44"/>
+                                            <accessibility key="accessibilityConfiguration" identifier="Type"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="44" id="0c0-xW-tJR"/>
                                             </constraints>
