@@ -6,6 +6,8 @@ class AnalyticsUITests: XCTestCase {
   private let kDidSentEventText : String = "Sent event occurred"
   private let kDidFailedToSendEventText : String = "Failed to send event occurred"
   private let kDidSendingEventText : String = "Sending event occurred"
+  
+  private let timeout : TimeInterval = 5
 
   override func setUp() {
     super.setUp()
@@ -85,6 +87,12 @@ class AnalyticsUITests: XCTestCase {
 
     // Go to analytics page.
     app.tables["App Center"].staticTexts["Analytics"].tap()
+    
+    // Make sure the module is enabled.
+    let analyticsButton : XCUIElement = app.tables["Analytics"].switches["Set Enabled"]
+    if (!analyticsButton.boolValue) {
+      analyticsButton.tap()
+    }
 
     // Track event.
     self.trackEvent(name: "myEvent", propertiesCount: 0)
@@ -108,7 +116,7 @@ class AnalyticsUITests: XCTestCase {
                                 evaluatedWith: app.tables.cells.element(boundBy: 4).staticTexts.element(boundBy: 0),
                                 handler: nil)
 
-    wait(for: [eventNameExp, propNumExp, didSentExp, didSendingExp, failedExp], timeout: 15)
+    wait(for: [eventNameExp, propNumExp, didSentExp, didSendingExp, failedExp], timeout: timeout)
   }
 
   func testTrackEventWithOneProps() {
@@ -119,6 +127,12 @@ class AnalyticsUITests: XCTestCase {
 
     // Go to analytics page.
     app.tables["App Center"].staticTexts["Analytics"].tap()
+
+    // Make sure the module is enabled.
+    let analyticsButton : XCUIElement = app.tables["Analytics"].switches["Set Enabled"]
+    if (!analyticsButton.boolValue) {
+      analyticsButton.tap()
+    }
 
     // Track event with one property.
     self.trackEvent(name: "myEvent", propertiesCount: 1)
@@ -142,7 +156,7 @@ class AnalyticsUITests: XCTestCase {
                                 evaluatedWith: app.tables.cells.element(boundBy: 4).staticTexts.element(boundBy: 0),
                                 handler: nil)
 
-    wait(for: [eventNameExp, propNumExp, didSentExp, didSendingExp, failedExp], timeout: 5)
+    wait(for: [eventNameExp, propNumExp, didSentExp, didSendingExp, failedExp], timeout: timeout)
   }
 
   func testTrackEventWithTooMuchProps() {
@@ -176,7 +190,7 @@ class AnalyticsUITests: XCTestCase {
                                 evaluatedWith: app.tables.cells.element(boundBy: 4).staticTexts.element(boundBy: 0),
                                 handler: nil)
 
-    wait(for: [eventNameExp, propNumExp, didSentExp, didSendingExp, failedExp], timeout: 5)
+    wait(for: [eventNameExp, propNumExp, didSentExp, didSendingExp, failedExp], timeout: timeout)
   }
 
   func testTrackEventWithDisabledAnalytics() {
@@ -187,9 +201,12 @@ class AnalyticsUITests: XCTestCase {
 
     // Go to analytics page.
     app.tables["App Center"].staticTexts["Analytics"].tap()
-
+    
     // Disable service.
-    app.switches.element(boundBy: 0).tap()
+    let analyticsButton : XCUIElement = app.tables["Analytics"].switches["Set Enabled"]
+    if (analyticsButton.boolValue) {
+      analyticsButton.tap()
+    }
 
     // Track event.
     self.trackEvent(name: "myEvent", propertiesCount: 0)
@@ -213,18 +230,22 @@ class AnalyticsUITests: XCTestCase {
                                 evaluatedWith: app.tables.cells.element(boundBy: 4).staticTexts.element(boundBy: 0),
                                 handler: nil)
 
-    wait(for: [eventNameExp, propNumExp, didSentExp, didSendingExp, failedExp], timeout: 5)
+    wait(for: [eventNameExp, propNumExp, didSentExp, didSendingExp, failedExp], timeout: timeout)
   }
 
-  private func trackEvent(name : String, propertiesCount : Int) {
+  private func trackEvent(name : String, propertiesCount : UInt) {
     guard let analyticsTable = app?.tables["Analytics"] else {
       XCTFail()
       return
     }
     
-    /*for _ in 0..<numOfProps {
-     app?.tables.cells.element(boundBy: propCell).tap()
-     }*/
+    // Add properties.
+    for i in 0..<propertiesCount {
+      analyticsTable.staticTexts["Add Property"].tap()
+      let propertyCell = analyticsTable.cells.containing(.textField, identifier: "Key").element(boundBy: i)
+      propertyCell.textFields["Key"].clearAndTypeText("key\(i)")
+      propertyCell.textFields["Value"].clearAndTypeText("value\(i)")
+    }
     
     // Set name.
     let eventName = analyticsTable.cell(containing: "Event Name").textFields.element
