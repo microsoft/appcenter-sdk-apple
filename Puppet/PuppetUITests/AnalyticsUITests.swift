@@ -227,7 +227,7 @@ class AnalyticsUITests: XCTestCase {
      }*/
     
     // Set name.
-    let eventName = analyticsTable.cell(containing: "Event Name").textFields.firstMatch
+    let eventName = analyticsTable.cell(containing: "Event Name").textFields.element
     eventName.clearAndTypeText(name)
     
     // Send.

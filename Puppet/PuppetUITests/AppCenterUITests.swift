@@ -167,7 +167,7 @@ class AppCenterUITests: XCTestCase {
     
     // Send properties.
     customPropertiesTable.buttons["Send Custom Properties"].tap()
-    app.alerts.firstMatch.buttons["OK"].tap()
+    app.alerts.element.buttons["OK"].tap()
   }
 
   func testMiscellaneousInfo() {
