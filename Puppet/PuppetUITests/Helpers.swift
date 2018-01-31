@@ -42,3 +42,37 @@ extension XCUIElement {
     self.typeText(text)
   }
 }
+
+extension XCTestCase {
+  
+  /**
+   * Deal with system alerts.
+   */
+  func handleSystemAlert() {
+    
+    // Note: addUIInterruptionMonitor doesn't work.
+    // See https://forums.developer.apple.com/thread/86989
+    
+    // Use springboard.
+    let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
+    let alert = springboard.alerts.element
+    
+    // There is some alert.
+    if (alert.exists) {
+      
+      // In case if this is some permission dialog, allow it.
+      let allow = alert.buttons["Allow"]
+      if (allow.exists) {
+        allow.tap()
+        return
+      }
+      
+      // "OK" button for allow in iOS 9.
+      let ok = alert.buttons["OK"]
+      if (ok.exists) {
+        ok.tap()
+        return
+      }
+    }
+  }
+}

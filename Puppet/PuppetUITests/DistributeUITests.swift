@@ -17,9 +17,10 @@ class DistributeUITests: XCTestCase {
     }
 
     // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
+    handleSystemAlert()
 
     // Enable SDK (we need it in case SDK was disabled by the test, which then failed and didn't enabled SDK back).
-    let appCenterButton : XCUIElement = app.tables["App Center"].switches["Set Enabled"]
+    let appCenterButton = app.tables["App Center"].switches["Set Enabled"]
     if (!appCenterButton.boolValue) {
       appCenterButton.tap()
     }
@@ -33,7 +34,7 @@ class DistributeUITests: XCTestCase {
 
     // Go to distribute page and find "Set Enabled" button.
     app.tables["App Center"].staticTexts["Distribute"].tap()
-    let distributeButton : XCUIElement = app.tables["Distribute"].switches["Set Enabled"]
+    let distributeButton = app.tables["Distribute"].switches["Set Enabled"]
 
     // Service should be enabled by default.
     XCTAssertTrue(distributeButton.boolValue)
@@ -46,7 +47,7 @@ class DistributeUITests: XCTestCase {
 
     // Go back to start page.
     app.buttons["App Center"].tap()
-    let appCenterButton : XCUIElement = app.tables["App Center"].switches["Set Enabled"]
+    let appCenterButton = app.tables["App Center"].switches["Set Enabled"]
 
     // SDK should be enabled.
     XCTAssertTrue(appCenterButton.boolValue)

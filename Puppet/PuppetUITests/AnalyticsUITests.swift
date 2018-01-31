@@ -14,18 +14,19 @@ class AnalyticsUITests: XCTestCase {
 
     // In UI tests it is usually best to stop immediately when a failure occurs.
     continueAfterFailure = false
-
+    
     // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
     app = XCUIApplication()
     app?.launch()
     guard let `app` = app else {
       return
     }
-
+    
     // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
-
+    handleSystemAlert()
+    
     // Enable SDK (we need it in case SDK was disabled by the test, which then failed and didn't enabled SDK back).
-    let appCenterButton : XCUIElement = app.tables["App Center"].switches["Set Enabled"]
+    let appCenterButton = app.tables["App Center"].switches["Set Enabled"]
     if (!appCenterButton.boolValue) {
       appCenterButton.tap()
     }
@@ -39,7 +40,7 @@ class AnalyticsUITests: XCTestCase {
 
     // Go to analytics page and find "Set Enabled" button.
     app.tables["App Center"].staticTexts["Analytics"].tap()
-    let analyticsButton : XCUIElement = app.tables["Analytics"].switches["Set Enabled"]
+    let analyticsButton = app.tables["Analytics"].switches["Set Enabled"]
 
     // Service should be enabled by default.
     XCTAssertTrue(analyticsButton.boolValue)
@@ -52,7 +53,7 @@ class AnalyticsUITests: XCTestCase {
 
     // Go back to start page and disable SDK.
     app.buttons["App Center"].tap()
-    let appCenterButton : XCUIElement = app.tables["App Center"].switches["Set Enabled"]
+    let appCenterButton = app.tables["App Center"].switches["Set Enabled"]
 
     // SDK should be enabled.
     XCTAssertTrue(appCenterButton.boolValue)
@@ -64,7 +65,7 @@ class AnalyticsUITests: XCTestCase {
     app.tables["App Center"].staticTexts["Analytics"].tap()
 
     // Button should be disabled.
-    XCTAssertFalse(appCenterButton.boolValue)
+    XCTAssertFalse(analyticsButton.boolValue)
 
     // Go back and enable SDK.
     app.buttons["App Center"].tap()
@@ -89,7 +90,7 @@ class AnalyticsUITests: XCTestCase {
     app.tables["App Center"].staticTexts["Analytics"].tap()
     
     // Make sure the module is enabled.
-    let analyticsButton : XCUIElement = app.tables["Analytics"].switches["Set Enabled"]
+    let analyticsButton = app.tables["Analytics"].switches["Set Enabled"]
     if (!analyticsButton.boolValue) {
       analyticsButton.tap()
     }
@@ -129,7 +130,7 @@ class AnalyticsUITests: XCTestCase {
     app.tables["App Center"].staticTexts["Analytics"].tap()
 
     // Make sure the module is enabled.
-    let analyticsButton : XCUIElement = app.tables["Analytics"].switches["Set Enabled"]
+    let analyticsButton = app.tables["Analytics"].switches["Set Enabled"]
     if (!analyticsButton.boolValue) {
       analyticsButton.tap()
     }
@@ -203,7 +204,7 @@ class AnalyticsUITests: XCTestCase {
     app.tables["App Center"].staticTexts["Analytics"].tap()
     
     // Disable service.
-    let analyticsButton : XCUIElement = app.tables["Analytics"].switches["Set Enabled"]
+    let analyticsButton = app.tables["Analytics"].switches["Set Enabled"]
     if (analyticsButton.boolValue) {
       analyticsButton.tap()
     }
