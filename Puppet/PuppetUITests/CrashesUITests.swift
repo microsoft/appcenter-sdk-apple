@@ -19,7 +19,7 @@ class CrashesUITests: XCTestCase {
     // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
 
     // Enable SDK (we need it in case SDK was disabled by the test, which then failed and didn't enabled SDK back).
-    let appCenterButton : XCUIElement = app.switches["Set Enabled"]
+    let appCenterButton : XCUIElement = app.tables["App Center"].switches["Set Enabled"]
     if (!appCenterButton.boolValue) {
       appCenterButton.tap()
     }

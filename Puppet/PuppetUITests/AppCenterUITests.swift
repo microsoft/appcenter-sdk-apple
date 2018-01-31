@@ -17,7 +17,7 @@ class AppCenterUITests: XCTestCase {
     }
 
     // Enable SDK (we need it in case SDK was disabled by the test, which then failed and didn't enabled SDK back).
-    let appCenterButton : XCUIElement = app.switches["Set Enabled"]
+    let appCenterButton : XCUIElement = app.tables["App Center"].switches["Set Enabled"]
     if (!appCenterButton.boolValue) {
       appCenterButton.tap()
     }
@@ -28,7 +28,7 @@ class AppCenterUITests: XCTestCase {
       XCTFail()
       return
     }
-    let appCenterButton : XCUIElement = app.switches["Set Enabled"]
+    let appCenterButton : XCUIElement = app.tables["App Center"].switches["Set Enabled"]
 
     // SDK should be enabled.
     XCTAssertTrue(appCenterButton.boolValue)
@@ -93,7 +93,7 @@ class AppCenterUITests: XCTestCase {
       XCTFail()
       return
     }
-    var appCenterButton = app.switches["Set Enabled"]
+    var appCenterButton = app.tables["App Center"].switches["Set Enabled"]
     XCTAssertTrue(appCenterButton.boolValue, "AppCenter doesn't enabled by default")
     
     // Disable SDK.
@@ -109,7 +109,7 @@ class AppCenterUITests: XCTestCase {
       sleep(1)
       app.launch()
       
-      appCenterButton = app.switches["Set Enabled"]
+      appCenterButton = app.tables["App Center"].switches["Set Enabled"]
       XCTAssertFalse(appCenterButton.boolValue, "AppCenter doesn't disabled on next application run (\(i * 2 + 2) run)")
       
       // Enable SDK.
@@ -123,7 +123,7 @@ class AppCenterUITests: XCTestCase {
       sleep(1)
       app.launch()
       
-      appCenterButton = app.switches["Set Enabled"]
+      appCenterButton = app.tables["App Center"].switches["Set Enabled"]
       XCTAssertTrue(appCenterButton.boolValue, "AppCenter doesn't enabled on next application run (\(i * 2 + 3) run)")
       
       // Disable SDK.
