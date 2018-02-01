@@ -33,12 +33,10 @@ extension XCUIElement {
    * Clear any current text in the field before typing in the new value.
    */
   func clearAndTypeText(_ text: String) {
-    guard let stringValue = self.value as? String else {
-      XCTFail("Tried to clear and type text into a non string value")
-      return
-    }
     self.tap()
-    self.typeText(stringValue.characters.map { _ in XCUIKeyboardKeyDelete }.joined(separator: ""))
+    if let stringValue = self.value as? String {
+      self.typeText(stringValue.characters.map { _ in XCUIKeyboardKeyDelete }.joined(separator: ""))
+    }
     self.typeText(text)
   }
 }
