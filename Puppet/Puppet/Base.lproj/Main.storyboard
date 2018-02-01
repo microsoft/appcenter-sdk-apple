@@ -515,6 +515,9 @@
                                 </cells>
                             </tableViewSection>
                         </sections>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="Analytics Result"/>
+                        </userDefinedRuntimeAttributes>
                         <connections>
                             <outlet property="dataSource" destination="hlU-dM-cs9" id="rEn-te-s6q"/>
                             <outlet property="delegate" destination="hlU-dM-cs9" id="z6m-tz-MCl"/>

@@ -7,7 +7,7 @@ class AnalyticsUITests: XCTestCase {
   private let kDidFailedToSendEventText : String = "Failed to send event occurred"
   private let kDidSendingEventText : String = "Sending event occurred"
   
-  private let timeout : TimeInterval = 5
+  private let timeout : TimeInterval = 10
 
   override func setUp() {
     super.setUp()
@@ -101,20 +101,21 @@ class AnalyticsUITests: XCTestCase {
     // Go to result page.
     app.buttons["Results"].tap()
 
+    let resultsTable = app.tables["Analytics Result"]
     let eventNameExp = expectation(for: NSPredicate(format: "label = 'myEvent'"),
-                                   evaluatedWith: app.tables.cells.element(boundBy: 0).staticTexts.element(boundBy: 0),
+                                   evaluatedWith: resultsTable.cells.element(boundBy: 0).staticTexts.element(boundBy: 0),
                                    handler: nil)
     let propNumExp = expectation(for: NSPredicate(format: "label = '0'"),
-                                 evaluatedWith: app.tables.cells.element(boundBy: 1).staticTexts.element(boundBy: 0),
+                                 evaluatedWith: resultsTable.cells.element(boundBy: 1).staticTexts.element(boundBy: 0),
                                  handler: nil)
     let didSentExp = expectation(for: NSPredicate(format: "label = %@", kDidSentEventText),
-                                 evaluatedWith: app.tables.cells.element(boundBy: 2).staticTexts.element(boundBy: 0),
+                                 evaluatedWith: resultsTable.cells.element(boundBy: 2).staticTexts.element(boundBy: 0),
                                  handler: nil)
     let didSendingExp = expectation(for: NSPredicate(format: "label = %@", kDidSendingEventText),
-                                    evaluatedWith: app.tables.cells.element(boundBy: 3).staticTexts.element(boundBy: 0),
+                                    evaluatedWith: resultsTable.cells.element(boundBy: 3).staticTexts.element(boundBy: 0),
                                     handler: nil)
-    let failedExp = expectation(for: NSPredicate(format: "label != %@", kDidSendingEventText),
-                                evaluatedWith: app.tables.cells.element(boundBy: 4).staticTexts.element(boundBy: 0),
+    let failedExp = expectation(for: NSPredicate(format: "label != %@", kDidFailedToSendEventText),
+                                evaluatedWith: resultsTable.cells.element(boundBy: 4).staticTexts.element(boundBy: 0),
                                 handler: nil)
 
     wait(for: [eventNameExp, propNumExp, didSentExp, didSendingExp, failedExp], timeout: timeout)
@@ -141,20 +142,21 @@ class AnalyticsUITests: XCTestCase {
     // Go to result page.
     app.buttons["Results"].tap()
 
+    let resultsTable = app.tables["Analytics Result"]
     let eventNameExp = expectation(for: NSPredicate(format: "label = 'myEvent'"),
-                                   evaluatedWith: app.tables.cells.element(boundBy: 0).staticTexts.element(boundBy: 0),
+                                   evaluatedWith: resultsTable.cells.element(boundBy: 0).staticTexts.element(boundBy: 0),
                                    handler: nil)
     let propNumExp = expectation(for: NSPredicate(format: "label = '1'"),
-                                 evaluatedWith: app.tables.cells.element(boundBy: 1).staticTexts.element(boundBy: 0),
+                                 evaluatedWith: resultsTable.cells.element(boundBy: 1).staticTexts.element(boundBy: 0),
                                  handler: nil)
     let didSentExp = expectation(for: NSPredicate(format: "label = %@", kDidSentEventText),
-                                 evaluatedWith: app.tables.cells.element(boundBy: 2).staticTexts.element(boundBy: 0),
+                                 evaluatedWith: resultsTable.cells.element(boundBy: 2).staticTexts.element(boundBy: 0),
                                  handler: nil)
     let didSendingExp = expectation(for: NSPredicate(format: "label = %@", kDidSendingEventText),
-                                    evaluatedWith: app.tables.cells.element(boundBy: 3).staticTexts.element(boundBy: 0),
+                                    evaluatedWith: resultsTable.cells.element(boundBy: 3).staticTexts.element(boundBy: 0),
                                     handler: nil)
-    let failedExp = expectation(for: NSPredicate(format: "label != %@", kDidSendingEventText),
-                                evaluatedWith: app.tables.cells.element(boundBy: 4).staticTexts.element(boundBy: 0),
+    let failedExp = expectation(for: NSPredicate(format: "label != %@", kDidFailedToSendEventText),
+                                evaluatedWith: resultsTable.cells.element(boundBy: 4).staticTexts.element(boundBy: 0),
                                 handler: nil)
 
     wait(for: [eventNameExp, propNumExp, didSentExp, didSendingExp, failedExp], timeout: timeout)
@@ -175,20 +177,21 @@ class AnalyticsUITests: XCTestCase {
     // Go to result page.
     app.buttons["Results"].tap()
 
+    let resultsTable = app.tables["Analytics Result"]
     let eventNameExp = expectation(for: NSPredicate(format: "label = 'myEvent'"),
-                                   evaluatedWith: app.tables.cells.element(boundBy: 0).staticTexts.element(boundBy: 0),
+                                   evaluatedWith: resultsTable.cells.element(boundBy: 0).staticTexts.element(boundBy: 0),
                                    handler: nil)
     let propNumExp = expectation(for: NSPredicate(format: "label = '5'"),
-                                 evaluatedWith: app.tables.cells.element(boundBy: 1).staticTexts.element(boundBy: 0),
+                                 evaluatedWith: resultsTable.cells.element(boundBy: 1).staticTexts.element(boundBy: 0),
                                  handler: nil)
     let didSentExp = expectation(for: NSPredicate(format: "label = %@", kDidSentEventText),
-                                 evaluatedWith: app.tables.cells.element(boundBy: 2).staticTexts.element(boundBy: 0),
+                                 evaluatedWith: resultsTable.cells.element(boundBy: 2).staticTexts.element(boundBy: 0),
                                  handler: nil)
     let didSendingExp = expectation(for: NSPredicate(format: "label = %@", kDidSendingEventText),
-                                    evaluatedWith: app.tables.cells.element(boundBy: 3).staticTexts.element(boundBy: 0),
+                                    evaluatedWith: resultsTable.cells.element(boundBy: 3).staticTexts.element(boundBy: 0),
                                     handler: nil)
-    let failedExp = expectation(for: NSPredicate(format: "label != %@", kDidSendingEventText),
-                                evaluatedWith: app.tables.cells.element(boundBy: 4).staticTexts.element(boundBy: 0),
+    let failedExp = expectation(for: NSPredicate(format: "label != %@", kDidFailedToSendEventText),
+                                evaluatedWith: resultsTable.cells.element(boundBy: 4).staticTexts.element(boundBy: 0),
                                 handler: nil)
 
     wait(for: [eventNameExp, propNumExp, didSentExp, didSendingExp, failedExp], timeout: timeout)
@@ -215,20 +218,21 @@ class AnalyticsUITests: XCTestCase {
     // Go to result page.
     app.buttons["Results"].tap()
 
+    let resultsTable = app.tables["Analytics Result"]
     let eventNameExp = expectation(for: NSPredicate(format: "label != 'myEvent'"),
-                                   evaluatedWith: app.tables.cells.element(boundBy: 0).staticTexts.element(boundBy: 0),
+                                   evaluatedWith: resultsTable.cells.element(boundBy: 0).staticTexts.element(boundBy: 0),
                                    handler: nil)
     let propNumExp = expectation(for: NSPredicate(format: "label != '0'"),
-                                 evaluatedWith: app.tables.cells.element(boundBy: 1).staticTexts.element(boundBy: 0),
+                                 evaluatedWith: resultsTable.cells.element(boundBy: 1).staticTexts.element(boundBy: 0),
                                  handler: nil)
     let didSentExp = expectation(for: NSPredicate(format: "label != %@", kDidSentEventText),
-                                 evaluatedWith: app.tables.cells.element(boundBy: 2).staticTexts.element(boundBy: 0),
+                                 evaluatedWith: resultsTable.cells.element(boundBy: 2).staticTexts.element(boundBy: 0),
                                  handler: nil)
     let didSendingExp = expectation(for: NSPredicate(format: "label != %@", kDidSendingEventText),
-                                    evaluatedWith: app.tables.cells.element(boundBy: 3).staticTexts.element(boundBy: 0),
+                                    evaluatedWith: resultsTable.cells.element(boundBy: 3).staticTexts.element(boundBy: 0),
                                     handler: nil)
-    let failedExp = expectation(for: NSPredicate(format: "label != %@", kDidSendingEventText),
-                                evaluatedWith: app.tables.cells.element(boundBy: 4).staticTexts.element(boundBy: 0),
+    let failedExp = expectation(for: NSPredicate(format: "label != %@", kDidFailedToSendEventText),
+                                evaluatedWith: resultsTable.cells.element(boundBy: 4).staticTexts.element(boundBy: 0),
                                 handler: nil)
 
     wait(for: [eventNameExp, propNumExp, didSentExp, didSendingExp, failedExp], timeout: timeout)
