@@ -215,7 +215,17 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
     UNAuthorizationOptions authOptions =
         (UNAuthorizationOptions)(UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge);
     [center requestAuthorizationWithOptions:authOptions
-                          completionHandler:^(__unused BOOL granted, __unused NSError *_Nullable error){
+                          completionHandler:^(BOOL granted, NSError *_Nullable error) {
+                            if (granted) {
+                              MSLogVerbose([MSPush logTag], @"Push notifications authorization was granted.");
+                            } else {
+                              MSLogVerbose([MSPush logTag], @"Push notifications authorization was denied.");
+                            }
+                            if (error) {
+                              MSLogWarning([MSPush logTag],
+                                           @"Push notifications authorization request has been finished with error: %@",
+                                           error.localizedDescription);
+                            }
                           }];
 #pragma clang diagnostic pop
   }
