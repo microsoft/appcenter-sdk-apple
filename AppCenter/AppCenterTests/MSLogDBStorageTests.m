@@ -90,9 +90,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
 
 - (void)testLoadLogsWhilePendingBatchesFromSameGroupId {
 
-  /*
-   * If
-   */
+  // If
   NSUInteger expectedLogsCount = 5;
   __block NSArray *expectedLogs =
       [[self generateAndSaveLogsWithCount:expectedLogsCount groupId:kMSTestGroupId] mutableCopy];
@@ -109,18 +107,13 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
                    unexpectedBatchId = batchId;
                  }];
 
-  /*
-   * When
-   */
+  // When
   BOOL moreLogsAvailable =
       [self.sut loadLogsWithGroupId:kMSTestGroupId
                               limit:expectedLogsCount
                      withCompletion:^(NSArray<id<MSLog>> *_Nonnull logArray, NSString *_Nonnull batchId) {
 
-                       /*
-                        * Then
-                        */
-
+                       // Then
                        // Logs from previous batch are not expected here.
                        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"NOT (SELF IN %@)", unexpectedLogs];
                        expectedLogs = [expectedLogs filteredArrayUsingPredicate:predicate];
@@ -133,9 +126,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
 
 - (void)testLoadLogsWhilePendingBatchesFromOtherGroupId {
 
-  /*
-   * If
-   */
+  // If
   NSUInteger expectedLogsCount = 5;
   __block NSArray *expectedLogs =
       [[self generateAndSaveLogsWithCount:expectedLogsCount groupId:kMSTestGroupId] mutableCopy];
@@ -152,18 +143,13 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
                    unexpectedBatchId = batchId;
                  }];
 
-  /*
-   * When
-   */
+  // When
   BOOL moreLogsAvailable =
       [self.sut loadLogsWithGroupId:kMSTestGroupId
                               limit:expectedLogsCount
                      withCompletion:^(NSArray<id<MSLog>> *_Nonnull logArray, NSString *_Nonnull batchId) {
 
-                       /*
-                        * Then
-                        */
-
+                       // Then
                        // Logs from previous batch are not expected here.
                        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"NOT (SELF IN %@)", unexpectedLogs];
                        expectedLogs = [expectedLogs filteredArrayUsingPredicate:predicate];
@@ -191,72 +177,49 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
 
   // Test deletion with no batch.
 
-  /*
-   * If
-   */
+  // If
   [self.sut.batches removeAllObjects];
   [self generateAndSaveLogsWithCount:5 groupId:kMSTestGroupId];
 
-  /*
-   * When
-   */
+  // When
   [self.sut deleteLogsWithGroupId:kMSTestGroupId];
 
-  /*
-   * Then
-   */
+  // Then
   assertThatInteger([self.sut countEntriesForTable:kMSLogTableName condition:nil], equalToInteger(0));
   assertThatInteger(self.sut.batches.count, equalToInteger(0));
 
   // Test deletion with only the batch to delete.
 
-  /*
-   * If
-   */
-
+  // If
   // Generate logs and create one batch by loading logs.
   [self generateAndSaveLogsWithCount:5 groupId:kMSTestGroupId];
   [self.sut loadLogsWithGroupId:kMSTestGroupId limit:2 withCompletion:nil];
 
-  /*
-   * When
-   */
+  // When
   [self.sut deleteLogsWithGroupId:kMSTestGroupId];
 
-  /*
-   * Then
-   */
+  // Then
   assertThatInteger([self.sut countEntriesForTable:kMSLogTableName condition:nil], equalToInteger(0));
   assertThatInteger(self.sut.batches.count, equalToInteger(0));
 
   // Test deletion with more than one batch to delete.
 
-  /*
-   * If
-   */
-
+  // If
   // Generate logs and create two batches by loading logs twice.
   [self generateAndSaveLogsWithCount:5 groupId:kMSTestGroupId];
   [self.sut loadLogsWithGroupId:kMSTestGroupId limit:2 withCompletion:nil];
   [self.sut loadLogsWithGroupId:kMSTestGroupId limit:2 withCompletion:nil];
 
-  /*
-   * When
-   */
+  // When
   [self.sut deleteLogsWithGroupId:kMSTestGroupId];
 
-  /*
-   * Then
-   */
+  // Then
   assertThatInteger([self.sut countEntriesForTable:kMSLogTableName condition:nil], equalToInteger(0));
   assertThatInteger(self.sut.batches.count, equalToInteger(0));
 
   // Test deletion with the batch to delete and batches from other groups.
 
-  /*
-   * If
-   */
-
+  // If
   // Generate logs and create two batches of different group Ids.
   __block NSString *batchIdToDelete;
   [self generateAndSaveLogsWithCount:2 groupId:kMSTestGroupId];
@@ -268,14 +231,10 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
                  }];
   [self.sut loadLogsWithGroupId:kMSAnotherTestGroupId limit:2 withCompletion:nil];
 
-  /*
-   * When
-   */
+  // When
   [self.sut deleteLogsWithGroupId:kMSTestGroupId];
 
-  /*
-   * Then
-   */
+  // Then
   NSArray *remainingLogs = [self loadLogsWhere:nil];
   assertThat(expectedLogs, is(remainingLogs));
   assertThatInteger(self.sut.batches.count, equalToInteger(1));
@@ -314,9 +273,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
 
 - (void)testDeleteLogsByBatchIdWithMultiplePendingBatches {
 
-  /*
-   * If
-   */
+  // If
   __block NSString *batchIdToDelete;
   __block NSArray *expectedLogs;
   NSString *condition;
@@ -337,14 +294,10 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
   // Trigger another batch.
   [self.sut loadLogsWithGroupId:kMSTestGroupId limit:2 withCompletion:nil];
 
-  /*
-   * When
-   */
+  // When
   [self.sut deleteLogsWithBatchId:batchIdToDelete groupId:kMSTestGroupId];
 
-  /*
-   * Then
-   */
+  // Then
   remainingLogs = [self loadLogsWhere:nil];
   condition =
       [NSString stringWithFormat:@"%@ IN (%@)", kMSIdColumnName, [logIdsToDelete componentsJoinedByString:@", "]];
@@ -355,9 +308,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
 
 - (void)testDeleteLogsByBatchIdWithPendingBatchesFromOtherGroups {
 
-  /*
-   * If
-   */
+  // If
   __block NSString *batchIdToDelete;
   __block NSMutableArray *expectedLogs;
   NSString *condition;
@@ -382,14 +333,10 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
   // Trigger another batch.
   [self.sut loadLogsWithGroupId:kMSAnotherTestGroupId limit:2 withCompletion:nil];
 
-  /*
-   * When
-   */
+  // When
   [self.sut deleteLogsWithBatchId:batchIdToDelete groupId:kMSTestGroupId];
 
-  /*
-   * Then
-   */
+  // Then
   remainingLogs = [self loadLogsWhere:nil];
   condition =
       [NSString stringWithFormat:@"%@ IN (%@)", kMSIdColumnName, [logIdsToDelete componentsJoinedByString:@", "]];
@@ -414,10 +361,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
 
 - (void)testStorageCapacity {
 
-  /*
-   * If
-   */
-
+  // If
   // Test just below the limit.
   short expectedCapacity = 3;
   __block int logCount = 2;
@@ -425,9 +369,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
   NSMutableArray<id<MSLog>> *expectedLogs = [NSMutableArray<id<MSLog>> new];
   NSArray<id<MSLog>> *loadedLogs;
 
-  /*
-   * When
-   */
+  // When
   for (int i = 0; i < logCount; i++) {
     id<MSLog> log = [MSAbstractLog new];
     log.sid = MS_UUID_STRING;
@@ -435,27 +377,20 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
     [expectedLogs addObject:log];
   }
 
-  /*
-   * Then
-   */
-
+  // Then
   // Get logs from DB.
   loadedLogs = [self loadLogsWhere:nil];
   assertThat(expectedLogs, is(loadedLogs));
 
   // Test at the limit.
 
-  /*
-   * If
-   */
+  // If
   [self.sut deleteDB];
   [expectedLogs removeAllObjects];
   expectedCapacity = 2;
   self.sut = [[MSLogDBStorage alloc] initWithCapacity:expectedCapacity];
 
-  /*
-   * When
-   */
+  // When
   for (int i = 0; i < logCount; i++) {
     id<MSLog> log = [MSAbstractLog new];
     log.sid = MS_UUID_STRING;
@@ -465,27 +400,20 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
     [expectedLogs addObject:log];
   }
 
-  /*
-   * Then
-   */
-
+  // Then
   // Get logs from DB.
   loadedLogs = [self loadLogsWhere:nil];
   assertThat(expectedLogs, is(loadedLogs));
 
   // Test just over the limit.
 
-  /*
-   * If
-   */
+  // If
   [self.sut deleteDB];
   [expectedLogs removeAllObjects];
   expectedCapacity = 1;
   self.sut = [[MSLogDBStorage alloc] initWithCapacity:expectedCapacity];
 
-  /*
-   * When
-   */
+  // When
   for (int i = 0; i < logCount; i++) {
     id<MSLog> log = [MSAbstractLog new];
     log.sid = MS_UUID_STRING;
@@ -495,10 +423,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
     [expectedLogs addObject:log];
   }
 
-  /*
-   * Then
-   */
-
+  // Then
   // The first is expected to be removed.
   [expectedLogs removeObjectAtIndex:0];
 
@@ -508,18 +433,14 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
 
   // Test way over the limit.
 
-  /*
-   * If
-   */
+  // If
   [self.sut deleteDB];
   logCount = 10;
   [expectedLogs removeAllObjects];
   expectedCapacity = 1;
   self.sut = [[MSLogDBStorage alloc] initWithCapacity:expectedCapacity];
 
-  /*
-   * When
-   */
+  // When
   for (int i = 0; i < logCount; i++) {
     id<MSLog> log = [MSAbstractLog new];
     log.sid = MS_UUID_STRING;
@@ -529,10 +450,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
     [expectedLogs addObject:log];
   }
 
-  /*
-   * Then
-   */
-
+  // Then
   // Only the last logs are expected.
   [expectedLogs removeObjectsInRange:NSMakeRange(0, expectedLogs.count - expectedCapacity)];
 

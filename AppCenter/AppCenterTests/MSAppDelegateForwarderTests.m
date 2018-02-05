@@ -85,22 +85,15 @@
   SEL selectorToSwizzle = @selector(application:openURL:options:);
   [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:selectorToSwizzle];
 
-  /*
-   * When
-   */
+  // When
   [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
   [originalAppDelegate application:self.appMock openURL:expectedURL options:expectedOptions];
 
-  /*
-   * Then
-   */
+  // Then
   assertThatBool([originalAppDelegate respondsToSelector:selectorToSwizzle], isTrue());
   OCMVerify([customDelegate application:self.appMock openURL:expectedURL options:expectedOptions returnedValue:NO]);
 
-  /*
-   * If
-   */
-
+  // If
   // App delegate implementing the selector directly.
   originalAppDelegate = [self createOriginalAppDelegateInstance];
   __block BOOL wasCalled = NO;
@@ -111,23 +104,16 @@
   [self addSelector:selectorToSwizzle implementation:selectorImp toInstance:originalAppDelegate];
   [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:selectorToSwizzle];
 
-  /*
-   * When
-   */
+  // When
   [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
   [originalAppDelegate application:self.appMock openURL:expectedURL options:expectedOptions];
 
-  /*
-   * Then
-   */
+  // Then
   assertThatBool([originalAppDelegate respondsToSelector:selectorToSwizzle], isTrue());
   assertThatBool(wasCalled, isTrue());
   OCMVerify([customDelegate application:self.appMock openURL:expectedURL options:expectedOptions returnedValue:YES]);
 
-  /*
-   * If
-   */
-
+  // If
   // App delegate implementing the selector indirectly.
   id originalBaseAppDelegate = [self createOriginalAppDelegateInstance];
   [self addSelector:selectorToSwizzle implementation:selectorImp toInstance:originalBaseAppDelegate];
@@ -135,23 +121,16 @@
   wasCalled = NO;
   [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:selectorToSwizzle];
 
-  /*
-   * When
-   */
+  // When
   [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
   [originalAppDelegate application:self.appMock openURL:expectedURL options:expectedOptions];
 
-  /*
-   * Then
-   */
+  // Then
   assertThatBool([originalAppDelegate respondsToSelector:selectorToSwizzle], isTrue());
   assertThatBool(wasCalled, isTrue());
   OCMVerify([customDelegate application:self.appMock openURL:expectedURL options:expectedOptions returnedValue:YES]);
 
-  /*
-   * If
-   */
-
+  // If
   // App delegate implementing the selector directly and indirectly.
   wasCalled = NO;
   __block BOOL baseWasCalled = NO;
@@ -164,24 +143,17 @@
   [self addSelector:selectorToSwizzle implementation:selectorImp toInstance:originalAppDelegate];
   [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:selectorToSwizzle];
 
-  /*
-   * When
-   */
+  // When
   [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
   [originalAppDelegate application:self.appMock openURL:expectedURL options:expectedOptions];
 
-  /*
-   * Then
-   */
+  // Then
   assertThatBool([originalAppDelegate respondsToSelector:selectorToSwizzle], isTrue());
   assertThatBool(wasCalled, isTrue());
   assertThatBool(baseWasCalled, isFalse());
   OCMVerify([customDelegate application:self.appMock openURL:expectedURL options:expectedOptions returnedValue:YES]);
 
-  /*
-   * If
-   */
-
+  // If
   // App delegate not implementing any selector still responds to selector.
   originalAppDelegate = [self createOriginalAppDelegateInstance];
   SEL instancesRespondToSelector = @selector(instancesRespondToSelector:);
@@ -195,15 +167,10 @@
              toClass:object_getClass([originalAppDelegate class])];
   [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:selectorToSwizzle];
 
-  /*
-   * When
-   */
+  // When
   [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
 
-  /*
-   * Then
-   */
-
+  // Then
   // Original delegate still responding to selector.
   assertThatBool([[originalAppDelegate class] instancesRespondToSelector:selectorToSwizzle], isTrue());
 
@@ -214,24 +181,17 @@
 
 - (void)testForwardUnknownSelector {
 
-  /*
-   * If
-   */
-
+  // If
   // Calling an unknown selector on the forwarder must still throw an exception.
   XCTestExpectation *exceptionCaughtExpectation =
       [self expectationWithDescription:@"Caught!! That exception will go nowhere."];
 
-  /*
-   * When
-   */
+  // When
   @try {
     [[MSAppDelegateForwarder new] performSelector:@selector(testForwardUnknownSelector)];
   } @catch (NSException *ex) {
 
-    /*
-     * Then
-     */
+    // Then
     assertThat(ex.name, is(NSInvalidArgumentException));
     assertThatBool([ex.reason containsString:@"unrecognized selector sent"], isTrue());
     [exceptionCaughtExpectation fulfill];
@@ -632,10 +592,7 @@
 
 - (void)testDontSwizzleDeprecatedAPIIfNoAPIImplemented {
 
-  /*
-   * If
-   */
-
+  // If
   // Mock a custom app delegate.
   id<MSCustomApplicationDelegate> customDelegate = OCMProtocolMock(@protocol(MSCustomApplicationDelegate));
   [MSAppDelegateForwarder addDelegate:customDelegate];
@@ -650,15 +607,11 @@
   [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:deprecatedSelector];
   [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:newSelector];
 
-  /*
-   * When
-   */
+  // When
   [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
   [originalAppDelegate application:self.appMock openURL:expectedURL options:expectedOptions];
 
-  /*
-   * Then
-   */
+  // Then
   assertThatBool([originalAppDelegate respondsToSelector:newSelector], isTrue());
   assertThatBool([originalAppDelegate respondsToSelector:deprecatedSelector], isFalse());
   OCMVerify([customDelegate application:self.appMock openURL:expectedURL options:expectedOptions returnedValue:NO]);
@@ -666,10 +619,7 @@
 
 - (void)testSwizzleDeprecatedAPIIfNoNewAPIImplemented {
 
-  /*
-   * If
-   */
-
+  // If
   // Mock a custom app delegate.
   id<MSCustomApplicationDelegate> customDelegate = OCMProtocolMock(@protocol(MSCustomApplicationDelegate));
   [MSAppDelegateForwarder addDelegate:customDelegate];
@@ -694,15 +644,11 @@
   [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:deprecatedSelector];
   [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:newSelector];
 
-  /*
-   * When
-   */
+  // When
   [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
   [originalAppDelegate application:self.appMock openURL:expectedURL sourceApplication:nil annotation:expectedAnotation];
 
-  /*
-   * Then
-   */
+  // Then
   assertThatBool([originalAppDelegate respondsToSelector:newSelector], isFalse());
   assertThatBool([originalAppDelegate respondsToSelector:deprecatedSelector], isTrue());
   assertThatShort(nbCalls, equalToShort(1));
@@ -715,10 +661,7 @@
 
 - (void)testSwizzleDeprecatedAPIIfJustNewAPIImplemented {
 
-  /*
-   * If
-   */
-
+  // If
   // Mock a custom app delegate.
   id<MSCustomApplicationDelegate> customDelegate = OCMProtocolMock(@protocol(MSCustomApplicationDelegate));
   [MSAppDelegateForwarder addDelegate:customDelegate];
@@ -739,15 +682,11 @@
   [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:deprecatedSelector];
   [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:newSelector];
 
-  /*
-   * When
-   */
+  // When
   [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
   [originalAppDelegate application:self.appMock openURL:expectedURL options:expectedOptions];
 
-  /*
-   * Then
-   */
+  // Then
   assertThatBool([originalAppDelegate respondsToSelector:deprecatedSelector], isFalse());
   assertThatBool([originalAppDelegate respondsToSelector:newSelector], isTrue());
   assertThatShort(nbCalls, equalToShort(1));
@@ -756,10 +695,7 @@
 
 - (void)testSwizzleDeprecatedAPIIfAllAPIsImplemented {
 
-  /*
-   * If
-   */
-
+  // If
   // Mock a custom app delegate.
   id<MSCustomApplicationDelegate> customDelegate = OCMProtocolMock(@protocol(MSCustomApplicationDelegate));
   [MSAppDelegateForwarder addDelegate:customDelegate];
@@ -792,16 +728,12 @@
   [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:deprecatedSelector];
   [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:newSelector];
 
-  /*
-   * When
-   */
+  // When
   [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
   [originalAppDelegate application:self.appMock openURL:expectedURL sourceApplication:nil annotation:expectedAnotation];
   [originalAppDelegate application:self.appMock openURL:expectedURL options:expectedOptions];
 
-  /*
-   * Then
-   */
+  // Then
   assertThatBool([originalAppDelegate respondsToSelector:newSelector], isTrue());
   assertThatBool([originalAppDelegate respondsToSelector:deprecatedSelector], isTrue());
   assertThatShort(newSelectorNbCalls, equalToShort(1));

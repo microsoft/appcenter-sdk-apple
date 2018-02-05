@@ -330,8 +330,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
              // Failure.
              else {
-               MSLogDebug([MSDistribute logTag], @"Failed to get an update response, status code: %lu",
-                          (unsigned long)statusCode);
+               MSLogDebug([MSDistribute logTag], @"Failed to get an update response, status code: %tu", statusCode);
                NSString *jsonString = nil;
                id dictionary = nil;
 

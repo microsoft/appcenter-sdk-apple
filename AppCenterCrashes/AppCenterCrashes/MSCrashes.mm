@@ -48,29 +48,29 @@ static NSString *const kMSLogBufferFileExtension = @"mscrasheslogbuffer";
 static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
 /**
- * Maximum properties per handled exception
+ * Maximum properties per handled exception.
  */
 static const int maxPropertiesPerHandledException = 5;
 
 /**
- * Minimum properties key length
+ * Minimum properties key length.
  */
 static const int minPropertyKeyLength = 1;
 
 /**
- * Maximum properties key length
+ * Maximum properties key length.
  */
 static const int maxPropertyKeyLength = 64;
 
 /**
- * Maximum properties value length
+ * Maximum properties value length.
  */
 static const int maxPropertyValueLength = 64;
 
 std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size> msCrashesLogBuffer;
 
 /**
- * Singleton
+ * Singleton.
  */
 static MSCrashes *sharedInstance = nil;
 static dispatch_once_t onceToken;
@@ -388,6 +388,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 - (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret {
   [super startWithChannelGroup:channelGroup appSecret:appSecret];
   [self.channelGroup addDelegate:self];
+
   // Initialize a dedicated channel for log buffer.
   self.channelUnit = [self.channelGroup addChannelUnitWithConfiguration:
                       [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSBufferGroupId
@@ -426,7 +427,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
  * 3. Only use async-safe C/C++ methods.
  * This means the Crashes module can't message any other module. All logic related to the buffer needs to happen before
  * the crash and then, at crash time, crashes has all info in place to save the buffer safely.
- **/
+ */
 - (void)onEnqueuingLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
 
   // Don't buffer event if log is empty, crashes module is disabled or the log is related to crash.
@@ -479,7 +480,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
         /*
          * Continue to iterate until we reach en empty element, in which case we store the log in it and stop, or until
-         * we reach the end of the buffer. In the later case, we will replace the oldest log with the current one
+         * we reach the end of the buffer. In the later case, we will replace the oldest log with the current one.
          */
       }
 
@@ -696,7 +697,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   // Was our own exception handler successfully added?
   if (self.exceptionHandler) {
 
-    // Get the current top level error handler
+    // Get the current top level error handler.
     NSUncaughtExceptionHandler *currentHandler = NSGetUncaughtExceptionHandler();
 
     /*
@@ -928,20 +929,20 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 - (void)handleLatestCrashReport {
   NSError *error = nil;
 
-  // Check if the next call ran successfully the last time
+  // Check if the next call ran successfully the last time.
   if (![self.analyzerInProgressFile checkResourceIsReachableAndReturnError:nil]) {
 
-    // Mark the start of the routine
+    // Mark the start of the routine.
     [self createAnalyzerFile];
 
-    // Try loading the crash report
+    // Try loading the crash report.
     NSData *crashData =
       [[NSData alloc] initWithData:[self.plCrashReporter loadPendingCrashReportDataAndReturnError:&error]];
     if (crashData == nil) {
       MSLogError([MSCrashes logTag], @"Couldn't load crash report: %@", error.localizedDescription);
     } else {
 
-      // Get data of PLCrashReport and write it to SDK directory
+      // Get data of PLCrashReport and write it to SDK directory.
       MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
       if (report) {
         NSString *cacheFilename = [NSString stringWithFormat:@"%.0f", [NSDate timeIntervalSinceReferenceDate]];

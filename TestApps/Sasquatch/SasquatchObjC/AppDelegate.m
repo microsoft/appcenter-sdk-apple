@@ -164,7 +164,7 @@
                        MSErrorAttachmentLog *binaryAttachment =
                            [MSErrorAttachmentLog attachmentWithBinary:imageData filename:dataUTI contentType:MIMEType];
                        [attachments addObject:binaryAttachment];
-                       NSLog(@"Add binary attachment with %lu bytes", [imageData length]);
+                       NSLog(@"Add binary attachment with %tu bytes", [imageData length]);
                      }];
     }
   }
