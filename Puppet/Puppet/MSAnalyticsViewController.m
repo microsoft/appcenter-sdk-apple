@@ -54,11 +54,13 @@ static NSInteger kPropertiesSection = 3;
   sender.on = [MSAnalytics isEnabled];
 }
 
-- (NSDictionary *) properties {
+- (NSDictionary *)properties {
   NSMutableDictionary *properties = [NSMutableDictionary new];
   for (int i = 0; i < self.propertiesCount; i++) {
     MSAnalyticsPropertyTableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:kPropertiesSection]];
-    [properties setObject:cell.valueField.text forKey:cell.keyField.text];
+    if (cell) {
+      [properties setObject:cell.valueField.text forKey:cell.keyField.text];
+    }
   }
   return properties;
 }
