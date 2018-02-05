@@ -21,12 +21,14 @@
                 <subviews>
                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Key" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qGa-iy-qLz">
                         <rect key="frame" x="20" y="0.0" width="160" height="44"/>
+                        <accessibility key="accessibilityConfiguration" identifier="Key"/>
                         <nil key="textColor"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <textInputTraits key="textInputTraits"/>
                     </textField>
                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Value" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="D1s-aI-k64">
                         <rect key="frame" x="195.5" y="0.0" width="159.5" height="43"/>
+                        <accessibility key="accessibilityConfiguration" identifier="Value"/>
                         <nil key="textColor"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <textInputTraits key="textInputTraits"/>

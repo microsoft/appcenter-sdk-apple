@@ -1,12 +1,7 @@
 import XCTest
 
 class AppCenterUITests: XCTestCase {
-  private var app : XCUIApplication?;
-  private let AnalyticsCellIndex : UInt = 0;
-
-  private let kDidSentEventText : String = "Sent event occurred";
-  private let kDidFailedToSendEventText : String = "Failed to send event occurred";
-  private let kDidSendingEventText : String = "Sending event occurred";
+  private var app : XCUIApplication?
 
   override func setUp() {
     super.setUp()
@@ -15,106 +10,203 @@ class AppCenterUITests: XCTestCase {
     continueAfterFailure = false
 
     // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
-    app = XCUIApplication();
-    app?.launch();
+    app = XCUIApplication()
+    app?.launch()
     guard let `app` = app else {
-      return;
+      return
     }
+    
+    // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
+    handleSystemAlert()
+
 
     // Enable SDK (we need it in case SDK was disabled by the test, which then failed and didn't enabled SDK back).
-    let appCenterButton : XCUIElement = app.switches["Set Enabled"];
-    if (appCenterButton.value as! String == "0") {
-      appCenterButton.tap();
+    let appCenterButton = app.tables["App Center"].switches["Set Enabled"]
+    if (!appCenterButton.boolValue) {
+      appCenterButton.tap()
     }
   }
 
   func testEnableDisableSDK() {
     guard let `app` = app else {
-      return;
+      XCTFail()
+      return
     }
-    let appCenterButton : XCUIElement = app.switches.element(boundBy: 0);
+    let appCenterButton = app.tables["App Center"].switches["Set Enabled"]
 
     // SDK should be enabled.
-    XCTAssertEqual("1", appCenterButton.value as! String);
+    XCTAssertTrue(appCenterButton.boolValue)
 
     // Disable SDK.
-    appCenterButton.tap();
+    appCenterButton.tap()
 
     // All services should be disabled.
     // Analytics.
-    app.tables.cells.element(boundBy: 0).tap();
-    XCTAssertEqual("0", app.switches.element(boundBy: 0).value as! String);
-    app.buttons["App Center"].tap();
+    app.tables["App Center"].staticTexts["Analytics"].tap()
+    XCTAssertFalse(app.tables["Analytics"].switches["Set Enabled"].boolValue)
+    app.buttons["App Center"].tap()
 
     // Crashes.
-    app.tables.cells.element(boundBy: 1).tap();
-    XCTAssertEqual("0", app.switches.element(boundBy: 0).value as! String);
-    app.buttons["App Center"].tap();
+    app.tables["App Center"].staticTexts["Crashes"].tap()
+    XCTAssertFalse(app.tables["Crashes"].switches["Set Enabled"].boolValue)
+    app.buttons["App Center"].tap()
 
     // Distribute.
-    app.tables.cells.element(boundBy: 2).tap();
-    let distributeSwitchButton : XCUIElement = app.switches.element(matching: XCUIElementType.switch, identifier: "Set Enabled");
-    XCTAssertEqual("0", distributeSwitchButton.value as! String);
-    app.buttons["App Center"].tap();
+    app.tables["App Center"].staticTexts["Distribute"].tap()
+    XCTAssertFalse(app.tables["Distribute"].switches["Set Enabled"].boolValue)
+    app.buttons["App Center"].tap()
+    
+    // Push.
+    app.tables["App Center"].staticTexts["Push"].tap()
+    XCTAssertFalse(app.tables["Push"].switches["Set Enabled"].boolValue)
+    app.buttons["App Center"].tap()
 
     // Enable SDK.
-    appCenterButton.tap();
+    appCenterButton.tap()
 
     // All services should be enabled.
     // Analytics.
-    app.tables.cells.element(boundBy: 0).tap();
-    XCTAssertEqual("1", app.switches.element(boundBy: 0).value as! String);
-    app.buttons["App Center"].tap();
+    app.tables["App Center"].staticTexts["Analytics"].tap()
+    XCTAssertTrue(app.tables["Analytics"].switches["Set Enabled"].boolValue)
+    app.buttons["App Center"].tap()
 
     // Crashes.
-    app.tables.cells.element(boundBy: 1).tap();
-    XCTAssertEqual("1", app.switches.element(boundBy: 0).value as! String);
-    app.buttons["App Center"].tap();
+    app.tables["App Center"].staticTexts["Crashes"].tap()
+    XCTAssertTrue(app.tables["Crashes"].switches["Set Enabled"].boolValue)
+    app.buttons["App Center"].tap()
 
     // Distribute.
-    app.tables.cells.element(boundBy: 2).tap();
-    XCTAssertEqual("1", distributeSwitchButton.value as! String);
-    app.buttons["App Center"].tap();
+    app.tables["App Center"].staticTexts["Distribute"].tap()
+    XCTAssertTrue(app.tables["Distribute"].switches["Set Enabled"].boolValue)
+    app.buttons["App Center"].tap()
+    
+    // Push.
+    app.tables["App Center"].staticTexts["Push"].tap()
+    XCTAssertTrue(app.tables["Push"].switches["Set Enabled"].boolValue)
+    app.buttons["App Center"].tap()
+  }
+
+  /**
+   * There is a known bug with NSUserDefaults on iOS 10 and later.
+   * See:
+   *   https://forums.developer.apple.com/thread/61287
+   *   http://www.openradar.me/radar?id=5057804138184704
+   */
+  func testDisableSDKPersistence() {
+    guard let `app` = app else {
+      XCTFail()
+      return
+    }
+    var appCenterButton = app.tables["App Center"].switches["Set Enabled"]
+    XCTAssertTrue(appCenterButton.boolValue, "AppCenter doesn't enabled by default")
+    
+    // Disable SDK.
+    appCenterButton.tap()
+    XCTAssertFalse(appCenterButton.boolValue)
+    
+    // Several attempts for sure.
+    for i in 0..<10 {
+      
+      // Restart application.
+      sleep(1)
+      XCUIDevice().press(.home)
+      sleep(1)
+      app.launch()
+      
+      appCenterButton = app.tables["App Center"].switches["Set Enabled"]
+      XCTAssertFalse(appCenterButton.boolValue, "AppCenter doesn't disabled on next application run (\(i * 2 + 2) run)")
+      
+      // Enable SDK.
+      appCenterButton.tap()
+      
+      XCTAssertTrue(appCenterButton.boolValue)
+      
+      // Restart application.
+      sleep(1)
+      XCUIDevice().press(XCUIDeviceButton.home)
+      sleep(1)
+      app.launch()
+      
+      appCenterButton = app.tables["App Center"].switches["Set Enabled"]
+      XCTAssertTrue(appCenterButton.boolValue, "AppCenter doesn't enabled on next application run (\(i * 2 + 3) run)")
+      
+      // Disable SDK.
+      appCenterButton.tap()
+      
+      XCTAssertFalse(appCenterButton.boolValue)
+    }
+  }
+
+  func testCustomProperties() {
+    guard let `app` = app else {
+      return
+    }
+    
+    // Go to custom properties page.
+    app.tables["App Center"].staticTexts["Custom Properties"].tap()
+    let customPropertiesTable = app.tables["Custom Properties"]
+    
+    // Add clear property.
+    customPropertiesTable.staticTexts["Add Property"].tap()
+    let clearPropertyCell = customPropertiesTable.cells.element(boundBy: 0)
+    XCTAssertEqual("Clear", clearPropertyCell.textFields["Type"].value as! String)
+    clearPropertyCell.textFields["Key"].clearAndTypeText("key0")
+    
+    // Add string property.
+    customPropertiesTable.staticTexts["Add Property"].tap()
+    let stringPropertyCell = customPropertiesTable.cells.element(boundBy: 1)
+    stringPropertyCell.textFields["Type"].tap()
+    app.pickerWheels.element.adjust(toPickerWheelValue: "String")
+    app.toolbars.buttons["Done"].tap()
+    XCTAssertEqual("String", stringPropertyCell.textFields["Type"].value as! String)
+    stringPropertyCell.textFields["Key"].clearAndTypeText("key1")
+    stringPropertyCell.textFields["Value"].clearAndTypeText("test1")
+    
+    // Add number property.
+    customPropertiesTable.staticTexts["Add Property"].tap()
+    let numbarPropertyCell = customPropertiesTable.cells.element(boundBy: 2)
+    numbarPropertyCell.textFields["Type"].tap()
+    app.pickerWheels.element.adjust(toPickerWheelValue: "Number")
+    app.toolbars.buttons["Done"].tap()
+    XCTAssertEqual("Number", numbarPropertyCell.textFields["Type"].value as! String)
+    numbarPropertyCell.textFields["Key"].clearAndTypeText("key2")
+    numbarPropertyCell.textFields["Value"].clearAndTypeText("-42.42")
+    
+    // Send properties.
+    customPropertiesTable.buttons["Send Custom Properties"].tap()
+    app.alerts.element.buttons["OK"].tap()
   }
 
   func testMiscellaneousInfo() {
     guard let `app` = app else {
-      return;
+      XCTFail()
+      return
     }
-
-    // Go to custom properties page.
-    app.cells.element(boundBy: 3).tap();
-
-    // Check custom properties. There shouldn't be any crash.
-    for cellIndex in 0..<app.cells.count {
-      app.cells.element(boundBy: cellIndex).tap();
-    }
-    app.buttons["App Center"].tap();
 
     // Go to device info page.
-    app.cells.element(boundBy: 4).tap();
+    app.tables["App Center"].staticTexts["Device Info"].tap()
 
     // Check device info. Device info shouldn't contain an empty info.
     for cellIndex in 0..<app.cells.count {
-      let cell : XCUIElement = app.cells.element(boundBy: cellIndex);
-      let deviceInfo : String = cell.staticTexts.element(boundBy: 1).label;
-      XCTAssertNotNil(deviceInfo);
+      let cell : XCUIElement = app.cells.element(boundBy: cellIndex)
+      let deviceInfo : String = cell.staticTexts.element(boundBy: 1).label
+      XCTAssertNotNil(deviceInfo)
     }
-    app.buttons["App Center"].tap();
+    app.buttons["App Center"].tap()
 
     // Check install id.
-    let installIdCell : XCUIElement = app.cells.element(boundBy: 5);
-    let installId : String = installIdCell.staticTexts.element(boundBy: 1).label;
-    XCTAssertNotNil(UUID(uuidString: installId));
+    let installIdCell : XCUIElement = app.tables["App Center"].cell(containing: "Install ID")
+    let installId : String = installIdCell.staticTexts.element(boundBy: 1).label
+    XCTAssertNotNil(UUID(uuidString: installId))
 
     // Check app secret.
-    let appSecretCell : XCUIElement = app.cells.element(boundBy: 6);
-    let appSecret : String = appSecretCell.staticTexts.element(boundBy: 1).label;
-    XCTAssertNotNil(UUID(uuidString: appSecret));
+    let appSecretCell : XCUIElement = app.tables["App Center"].cell(containing: "App Secret")
+    let appSecret : String = appSecretCell.staticTexts.element(boundBy: 1).label
+    XCTAssertNotNil(UUID(uuidString: appSecret))
 
     // Check log url.
-    let logUrlCell : XCUIElement = app.cells.element(boundBy: 7);
-    let logUrl : String = logUrlCell.staticTexts.element(boundBy: 1).label;
-    XCTAssertNotNil(URL(string: logUrl));
+    let logUrlCell : XCUIElement = app.tables["App Center"].cell(containing: "Log URL")
+    let logUrl : String = logUrlCell.staticTexts.element(boundBy: 1).label
+    XCTAssertNotNil(URL(string: logUrl))
   }
 }

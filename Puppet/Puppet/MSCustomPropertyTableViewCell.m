@@ -128,6 +128,7 @@
       self.valueBottomConstraint.active = YES;
       self.valueLabel.hidden = NO;
       self.valueTextField.hidden = NO;
+      self.valueTextField.isAccessibilityElement = YES;
       self.valueTextField.keyboardType = UIKeyboardTypeASCIICapable;
       self.boolValue.hidden = YES;
       break;
@@ -137,6 +138,7 @@
       self.valueBottomConstraint.active = YES;
       self.valueLabel.hidden = NO;
       self.valueTextField.hidden = NO;
+      self.valueTextField.isAccessibilityElement = YES;
       self.valueTextField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
       self.boolValue.hidden = YES;
       break;
@@ -154,6 +156,7 @@
       self.valueBottomConstraint.active = YES;
       self.valueLabel.hidden = NO;
       self.valueTextField.hidden = NO;
+      self.valueTextField.isAccessibilityElement = YES;
       self.valueTextField.tintColor = [UIColor clearColor];
       self.valueTextField.delegate = self;
       self.boolValue.hidden = YES;

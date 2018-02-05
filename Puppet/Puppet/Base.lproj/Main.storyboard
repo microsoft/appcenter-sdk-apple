@@ -49,6 +49,9 @@
                                 </cells>
                             </tableViewSection>
                         </sections>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="Push"/>
+                        </userDefinedRuntimeAttributes>
                         <connections>
                             <outlet property="dataSource" destination="Kxj-Wa-KwA" id="wT3-P6-I9r"/>
                             <outlet property="delegate" destination="Kxj-Wa-KwA" id="aOM-FW-AJ5"/>
@@ -98,7 +101,7 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Value" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GwB-r2-vuT">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Value" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GwB-r2-vuT" userLabel="Value Label">
                                             <rect key="frame" x="16" y="89" width="60" height="44"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="60" id="i2e-8w-Q5s"/>
@@ -110,6 +113,7 @@
                                         </label>
                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BhR-cQ-Pif" userLabel="Type Text Field">
                                             <rect key="frame" x="80" y="0.0" width="279" height="44"/>
+                                            <accessibility key="accessibilityConfiguration" identifier="Type"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="44" id="0c0-xW-tJR"/>
                                             </constraints>
@@ -119,6 +123,7 @@
                                         </textField>
                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Key" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JOx-oC-0In" userLabel="Key Text Field">
                                             <rect key="frame" x="80" y="44" width="279" height="44"/>
+                                            <accessibility key="accessibilityConfiguration" identifier="Key"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="44" id="cOq-Kd-dFP"/>
                                             </constraints>
@@ -128,6 +133,7 @@
                                         </textField>
                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Value" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TMR-2O-O4o" userLabel="Value Text Field">
                                             <rect key="frame" x="80" y="88" width="279" height="44"/>
+                                            <accessibility key="accessibilityConfiguration" identifier="Value"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="44" id="Rjt-co-iO9"/>
                                             </constraints>
@@ -209,6 +215,9 @@
                             </tableViewCell>
                         </prototypes>
                         <sections/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="Custom Properties"/>
+                        </userDefinedRuntimeAttributes>
                         <connections>
                             <outlet property="dataSource" destination="ijk-oD-Aik" id="s0N-Bm-XCx"/>
                             <outlet property="delegate" destination="ijk-oD-Aik" id="xhV-rO-HiT"/>
@@ -361,6 +370,9 @@
                                 </cells>
                             </tableViewSection>
                         </sections>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="Analytics"/>
+                        </userDefinedRuntimeAttributes>
                         <connections>
                             <outlet property="dataSource" destination="GhP-bn-tCW" id="22X-EB-AQx"/>
                             <outlet property="delegate" destination="GhP-bn-tCW" id="IFf-IO-6UR"/>
@@ -503,6 +515,9 @@
                                 </cells>
                             </tableViewSection>
                         </sections>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="Analytics Result"/>
+                        </userDefinedRuntimeAttributes>
                         <connections>
                             <outlet property="dataSource" destination="hlU-dM-cs9" id="rEn-te-s6q"/>
                             <outlet property="delegate" destination="hlU-dM-cs9" id="z6m-tz-MCl"/>
@@ -595,6 +610,9 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="Crashes"/>
+                        </userDefinedRuntimeAttributes>
                         <connections>
                             <outlet property="dataSource" destination="MLz-YP-ZEx" id="JR6-Bn-ZNU"/>
                             <outlet property="delegate" destination="MLz-YP-ZEx" id="x5y-f8-N4z"/>
@@ -712,6 +730,9 @@
                                 </cells>
                             </tableViewSection>
                         </sections>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="Distribute"/>
+                        </userDefinedRuntimeAttributes>
                         <connections>
                             <outlet property="dataSource" destination="axH-Yn-1RM" id="uCo-U7-0Sy"/>
                             <outlet property="delegate" destination="axH-Yn-1RM" id="npk-MN-yUs"/>
@@ -1143,6 +1164,9 @@
                                 </cells>
                             </tableViewSection>
                         </sections>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="App Center"/>
+                        </userDefinedRuntimeAttributes>
                         <connections>
                             <outlet property="dataSource" destination="9Ck-4D-Ozb" id="Mt3-pk-ThE"/>
                             <outlet property="delegate" destination="9Ck-4D-Ozb" id="XKu-8j-qab"/>
@@ -1195,6 +1219,9 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="Device Info"/>
+                        </userDefinedRuntimeAttributes>
                         <connections>
                             <outlet property="dataSource" destination="S1U-v1-0jg" id="aKL-Ds-FWV"/>
                             <outlet property="delegate" destination="S1U-v1-0jg" id="KWx-cH-H1O"/>

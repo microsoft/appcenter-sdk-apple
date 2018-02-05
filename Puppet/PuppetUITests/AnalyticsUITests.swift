@@ -1,239 +1,262 @@
 import XCTest
 
 class AnalyticsUITests: XCTestCase {
-  private var app : XCUIApplication?;
-  private let AnalyticsCellIndex : UInt = 0;
+  private var app : XCUIApplication?
 
-  private let kDidSentEventText : String = "Sent event occurred";
-  private let kDidFailedToSendEventText : String = "Failed to send event occurred";
-  private let kDidSendingEventText : String = "Sending event occurred";
+  private let kDidSentEventText : String = "Sent event occurred"
+  private let kDidFailedToSendEventText : String = "Failed to send event occurred"
+  private let kDidSendingEventText : String = "Sending event occurred"
+  
+  private let timeout : TimeInterval = 10
 
   override func setUp() {
     super.setUp()
 
     // In UI tests it is usually best to stop immediately when a failure occurs.
     continueAfterFailure = false
-
+    
     // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
-    app = XCUIApplication();
-    app?.launch();
-
-    // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
-
+    app = XCUIApplication()
+    app?.launch()
     guard let `app` = app else {
-      return;
+      return
     }
-
+    
+    // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
+    handleSystemAlert()
+    
     // Enable SDK (we need it in case SDK was disabled by the test, which then failed and didn't enabled SDK back).
-    let appCenterButton : XCUIElement = app.switches["Set Enabled"];
-    if (appCenterButton.value as! String == "0") {
-      appCenterButton.tap();
+    let appCenterButton = app.tables["App Center"].switches["Set Enabled"]
+    if (!appCenterButton.boolValue) {
+      appCenterButton.tap()
     }
-
-    // Enable Analytics
-    app.tables.cells.element(boundBy: AnalyticsCellIndex).tap();
-    let analyticsButton : XCUIElement = app.switches["Set Enabled"];
-    if (analyticsButton.value as! String == "0") {
-      analyticsButton.tap();
-    }
-
-    // Go back
-    app.buttons["App Center"].tap();
   }
 
   func testAnalytics() {
     guard let `app` = app else {
-      XCTFail();
-      return;
+      XCTFail()
+      return
     }
 
     // Go to analytics page and find "Set Enabled" button.
-    app.tables.cells.element(boundBy: AnalyticsCellIndex).tap();
-    let analyticsButton : XCUIElement = app.switches.element(boundBy: 0);
+    app.tables["App Center"].staticTexts["Analytics"].tap()
+    let analyticsButton = app.tables["Analytics"].switches["Set Enabled"]
 
     // Service should be enabled by default.
-    XCTAssertEqual("1", analyticsButton.value as! String);
+    XCTAssertTrue(analyticsButton.boolValue)
 
     // Disable service.
-    analyticsButton.tap();
+    analyticsButton.tap()
 
     // Button is disabled.
-    XCTAssertEqual("0", analyticsButton.value as! String);
+    XCTAssertFalse(analyticsButton.boolValue)
 
     // Go back to start page and disable SDK.
-    app.buttons["App Center"].tap();
-    let appCenterButton : XCUIElement = app.switches.element(boundBy: 0);
+    app.buttons["App Center"].tap()
+    let appCenterButton = app.tables["App Center"].switches["Set Enabled"]
 
     // SDK should be enabled.
-    XCTAssertEqual("1", appCenterButton.value as! String);
+    XCTAssertTrue(appCenterButton.boolValue)
 
     // Disable SDK.
-    appCenterButton.tap();
+    appCenterButton.tap()
 
     // Go to analytics page.
-    app.tables.cells.element(boundBy: AnalyticsCellIndex).tap();
+    app.tables["App Center"].staticTexts["Analytics"].tap()
 
     // Button should be disabled.
-    XCTAssertEqual("0", analyticsButton.value as! String);
+    XCTAssertFalse(analyticsButton.boolValue)
 
     // Go back and enable SDK.
-    app.buttons["App Center"].tap();
+    app.buttons["App Center"].tap()
 
     // Enable SDK.
-    appCenterButton.tap();
+    appCenterButton.tap()
 
     // Go to analytics page.
-    app.tables.cells.element(boundBy: AnalyticsCellIndex).tap();
+    app.tables["App Center"].staticTexts["Analytics"].tap()
 
     // Service should be enabled.
-    XCTAssertEqual("1", analyticsButton.value as! String);
+    XCTAssertTrue(analyticsButton.boolValue)
   }
 
   func testTrackEvent() {
     guard let `app` = app else {
-      XCTFail();
-      return;
+      XCTFail()
+      return
     }
 
-    // Go to analytics page
-    app.tables.cells.element(boundBy: AnalyticsCellIndex).tap();
+    // Go to analytics page.
+    app.tables["App Center"].staticTexts["Analytics"].tap()
+    
+    // Make sure the module is enabled.
+    let analyticsButton = app.tables["Analytics"].switches["Set Enabled"]
+    if (!analyticsButton.boolValue) {
+      analyticsButton.tap()
+    }
 
-    // Track event
-    self.trackEvent(withProps: 0);
+    // Track event.
+    self.trackEvent(name: "myEvent", propertiesCount: 0)
 
-    // Go to result page
-    app.tables.cells.element(boundBy: 4).tap();
+    // Go to result page.
+    app.buttons["Results"].tap()
 
+    let resultsTable = app.tables["Analytics Result"]
     let eventNameExp = expectation(for: NSPredicate(format: "label = 'myEvent'"),
-                                   evaluatedWith: app.tables.cells.element(boundBy: 0).staticTexts.element(boundBy: 0),
-                                   handler: nil);
+                                   evaluatedWith: resultsTable.cells.element(boundBy: 0).staticTexts.element(boundBy: 0),
+                                   handler: nil)
     let propNumExp = expectation(for: NSPredicate(format: "label = '0'"),
-                                 evaluatedWith: app.tables.cells.element(boundBy: 1).staticTexts.element(boundBy: 0),
-                                 handler: nil);
+                                 evaluatedWith: resultsTable.cells.element(boundBy: 1).staticTexts.element(boundBy: 0),
+                                 handler: nil)
     let didSentExp = expectation(for: NSPredicate(format: "label = %@", kDidSentEventText),
-                                 evaluatedWith: app.tables.cells.element(boundBy: 2).staticTexts.element(boundBy: 0),
-                                 handler: nil);
+                                 evaluatedWith: resultsTable.cells.element(boundBy: 2).staticTexts.element(boundBy: 0),
+                                 handler: nil)
     let didSendingExp = expectation(for: NSPredicate(format: "label = %@", kDidSendingEventText),
-                                    evaluatedWith: app.tables.cells.element(boundBy: 3).staticTexts.element(boundBy: 0),
-                                    handler: nil);
-    let failedExp = expectation(for: NSPredicate(format: "label != %@", kDidSendingEventText),
-                                evaluatedWith: app.tables.cells.element(boundBy: 4).staticTexts.element(boundBy: 0),
-                                handler: nil);
+                                    evaluatedWith: resultsTable.cells.element(boundBy: 3).staticTexts.element(boundBy: 0),
+                                    handler: nil)
+    let failedExp = expectation(for: NSPredicate(format: "label != %@", kDidFailedToSendEventText),
+                                evaluatedWith: resultsTable.cells.element(boundBy: 4).staticTexts.element(boundBy: 0),
+                                handler: nil)
 
-    wait(for: [eventNameExp, propNumExp, didSentExp, didSendingExp, failedExp], timeout: 15);
+    wait(for: [eventNameExp, propNumExp, didSentExp, didSendingExp, failedExp], timeout: timeout)
   }
 
   func testTrackEventWithOneProps() {
     guard let `app` = app else {
-      XCTFail();
-      return;
+      XCTFail()
+      return
     }
 
-    // Go to analytics page
-    app.tables.cells.element(boundBy: AnalyticsCellIndex).tap();
+    // Go to analytics page.
+    app.tables["App Center"].staticTexts["Analytics"].tap()
 
-    // Track event with one property
-    self.trackEvent(withProps: 1);
+    // Make sure the module is enabled.
+    let analyticsButton = app.tables["Analytics"].switches["Set Enabled"]
+    if (!analyticsButton.boolValue) {
+      analyticsButton.tap()
+    }
 
-    // Go to result page
-    app.tables.cells.element(boundBy: 4).tap();
+    // Track event with one property.
+    self.trackEvent(name: "myEvent", propertiesCount: 1)
 
+    // Go to result page.
+    app.buttons["Results"].tap()
+
+    let resultsTable = app.tables["Analytics Result"]
     let eventNameExp = expectation(for: NSPredicate(format: "label = 'myEvent'"),
-                                   evaluatedWith: app.tables.cells.element(boundBy: 0).staticTexts.element(boundBy: 0),
-                                   handler: nil);
+                                   evaluatedWith: resultsTable.cells.element(boundBy: 0).staticTexts.element(boundBy: 0),
+                                   handler: nil)
     let propNumExp = expectation(for: NSPredicate(format: "label = '1'"),
-                                 evaluatedWith: app.tables.cells.element(boundBy: 1).staticTexts.element(boundBy: 0),
-                                 handler: nil);
+                                 evaluatedWith: resultsTable.cells.element(boundBy: 1).staticTexts.element(boundBy: 0),
+                                 handler: nil)
     let didSentExp = expectation(for: NSPredicate(format: "label = %@", kDidSentEventText),
-                                 evaluatedWith: app.tables.cells.element(boundBy: 2).staticTexts.element(boundBy: 0),
-                                 handler: nil);
+                                 evaluatedWith: resultsTable.cells.element(boundBy: 2).staticTexts.element(boundBy: 0),
+                                 handler: nil)
     let didSendingExp = expectation(for: NSPredicate(format: "label = %@", kDidSendingEventText),
-                                    evaluatedWith: app.tables.cells.element(boundBy: 3).staticTexts.element(boundBy: 0),
-                                    handler: nil);
-    let failedExp = expectation(for: NSPredicate(format: "label != %@", kDidSendingEventText),
-                                evaluatedWith: app.tables.cells.element(boundBy: 4).staticTexts.element(boundBy: 0),
-                                handler: nil);
+                                    evaluatedWith: resultsTable.cells.element(boundBy: 3).staticTexts.element(boundBy: 0),
+                                    handler: nil)
+    let failedExp = expectation(for: NSPredicate(format: "label != %@", kDidFailedToSendEventText),
+                                evaluatedWith: resultsTable.cells.element(boundBy: 4).staticTexts.element(boundBy: 0),
+                                handler: nil)
 
-    wait(for: [eventNameExp, propNumExp, didSentExp, didSendingExp, failedExp], timeout: 5);
+    wait(for: [eventNameExp, propNumExp, didSentExp, didSendingExp, failedExp], timeout: timeout)
   }
 
   func testTrackEventWithTooMuchProps() {
     guard let `app` = app else {
-      XCTFail();
-      return;
+      XCTFail()
+      return
     }
 
-    // Go to analytics page
-    app.tables.cells.element(boundBy: AnalyticsCellIndex).tap();
+    // Go to analytics page.
+    app.tables["App Center"].staticTexts["Analytics"].tap()
 
-    // Track event with seven properties
-    self.trackEvent(withProps: 7);
+    // Track event with seven properties.
+    self.trackEvent(name: "myEvent", propertiesCount: 7)
 
-    // Go to result page
-    app.tables.cells.element(boundBy: 4).tap();
+    // Go to result page.
+    app.buttons["Results"].tap()
 
+    let resultsTable = app.tables["Analytics Result"]
     let eventNameExp = expectation(for: NSPredicate(format: "label = 'myEvent'"),
-                                   evaluatedWith: app.tables.cells.element(boundBy: 0).staticTexts.element(boundBy: 0),
-                                   handler: nil);
+                                   evaluatedWith: resultsTable.cells.element(boundBy: 0).staticTexts.element(boundBy: 0),
+                                   handler: nil)
     let propNumExp = expectation(for: NSPredicate(format: "label = '5'"),
-                                 evaluatedWith: app.tables.cells.element(boundBy: 1).staticTexts.element(boundBy: 0),
-                                 handler: nil);
+                                 evaluatedWith: resultsTable.cells.element(boundBy: 1).staticTexts.element(boundBy: 0),
+                                 handler: nil)
     let didSentExp = expectation(for: NSPredicate(format: "label = %@", kDidSentEventText),
-                                 evaluatedWith: app.tables.cells.element(boundBy: 2).staticTexts.element(boundBy: 0),
-                                 handler: nil);
+                                 evaluatedWith: resultsTable.cells.element(boundBy: 2).staticTexts.element(boundBy: 0),
+                                 handler: nil)
     let didSendingExp = expectation(for: NSPredicate(format: "label = %@", kDidSendingEventText),
-                                    evaluatedWith: app.tables.cells.element(boundBy: 3).staticTexts.element(boundBy: 0),
-                                    handler: nil);
-    let failedExp = expectation(for: NSPredicate(format: "label != %@", kDidSendingEventText),
-                                evaluatedWith: app.tables.cells.element(boundBy: 4).staticTexts.element(boundBy: 0),
-                                handler: nil);
+                                    evaluatedWith: resultsTable.cells.element(boundBy: 3).staticTexts.element(boundBy: 0),
+                                    handler: nil)
+    let failedExp = expectation(for: NSPredicate(format: "label != %@", kDidFailedToSendEventText),
+                                evaluatedWith: resultsTable.cells.element(boundBy: 4).staticTexts.element(boundBy: 0),
+                                handler: nil)
 
-    wait(for: [eventNameExp, propNumExp, didSentExp, didSendingExp, failedExp], timeout: 5);
+    wait(for: [eventNameExp, propNumExp, didSentExp, didSendingExp, failedExp], timeout: timeout)
   }
 
   func testTrackEventWithDisabledAnalytics() {
     guard let `app` = app else {
-      XCTFail();
-      return;
+      XCTFail()
+      return
     }
 
-    // Go to analytics page
-    app.tables.cells.element(boundBy: AnalyticsCellIndex).tap();
+    // Go to analytics page.
+    app.tables["App Center"].staticTexts["Analytics"].tap()
+    
+    // Disable service.
+    let analyticsButton = app.tables["Analytics"].switches["Set Enabled"]
+    if (analyticsButton.boolValue) {
+      analyticsButton.tap()
+    }
 
-    // Disable service
-    app.switches.element(boundBy: 0).tap();
+    // Track event.
+    self.trackEvent(name: "myEvent", propertiesCount: 0)
 
-    // Track event
-    self.trackEvent(withProps: 0);
+    // Go to result page.
+    app.buttons["Results"].tap()
 
-    // Go to result page
-    app.tables.cells.element(boundBy: 4).tap();
-
+    let resultsTable = app.tables["Analytics Result"]
     let eventNameExp = expectation(for: NSPredicate(format: "label != 'myEvent'"),
-                                   evaluatedWith: app.tables.cells.element(boundBy: 0).staticTexts.element(boundBy: 0),
-                                   handler: nil);
+                                   evaluatedWith: resultsTable.cells.element(boundBy: 0).staticTexts.element(boundBy: 0),
+                                   handler: nil)
     let propNumExp = expectation(for: NSPredicate(format: "label != '0'"),
-                                 evaluatedWith: app.tables.cells.element(boundBy: 1).staticTexts.element(boundBy: 0),
-                                 handler: nil);
+                                 evaluatedWith: resultsTable.cells.element(boundBy: 1).staticTexts.element(boundBy: 0),
+                                 handler: nil)
     let didSentExp = expectation(for: NSPredicate(format: "label != %@", kDidSentEventText),
-                                 evaluatedWith: app.tables.cells.element(boundBy: 2).staticTexts.element(boundBy: 0),
-                                 handler: nil);
+                                 evaluatedWith: resultsTable.cells.element(boundBy: 2).staticTexts.element(boundBy: 0),
+                                 handler: nil)
     let didSendingExp = expectation(for: NSPredicate(format: "label != %@", kDidSendingEventText),
-                                    evaluatedWith: app.tables.cells.element(boundBy: 3).staticTexts.element(boundBy: 0),
-                                    handler: nil);
-    let failedExp = expectation(for: NSPredicate(format: "label != %@", kDidSendingEventText),
-                                evaluatedWith: app.tables.cells.element(boundBy: 4).staticTexts.element(boundBy: 0),
-                                handler: nil);
+                                    evaluatedWith: resultsTable.cells.element(boundBy: 3).staticTexts.element(boundBy: 0),
+                                    handler: nil)
+    let failedExp = expectation(for: NSPredicate(format: "label != %@", kDidFailedToSendEventText),
+                                evaluatedWith: resultsTable.cells.element(boundBy: 4).staticTexts.element(boundBy: 0),
+                                handler: nil)
 
-    wait(for: [eventNameExp, propNumExp, didSentExp, didSendingExp, failedExp], timeout: 5);
+    wait(for: [eventNameExp, propNumExp, didSentExp, didSendingExp, failedExp], timeout: timeout)
   }
 
-  private func trackEvent(withProps numOfProps : Int) {
-    let trackEventCell : UInt = 0;
-    let propCell : UInt = 2;
-    for _ in 0..<numOfProps {
-      app?.tables.cells.element(boundBy: propCell).tap();
+  private func trackEvent(name : String, propertiesCount : UInt) {
+    guard let analyticsTable = app?.tables["Analytics"] else {
+      XCTFail()
+      return
     }
-    app?.tables.cells.element(boundBy: trackEventCell).tap();
+    
+    // Add properties.
+    for i in 0..<propertiesCount {
+      analyticsTable.staticTexts["Add Property"].tap()
+      let propertyCell = analyticsTable.cells.containing(.textField, identifier: "Key").element(boundBy: i)
+      propertyCell.textFields["Key"].clearAndTypeText("key\(i)")
+      propertyCell.textFields["Value"].clearAndTypeText("value\(i)")
+    }
+    
+    // Set name.
+    let eventName = analyticsTable.cell(containing: "Event Name").textFields.element
+    eventName.clearAndTypeText(name)
+    
+    // Send.
+    analyticsTable.buttons["Track Event"].tap()
   }
 }
