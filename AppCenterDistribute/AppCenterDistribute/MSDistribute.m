@@ -123,6 +123,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     [MS_USER_DEFAULTS removeObjectForKey:kMSPostponedTimestampKey];
     [MS_USER_DEFAULTS removeObjectForKey:kMSMandatoryReleaseKey];
     [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateSetupFailedPackageHashKey];
+    [MS_USER_DEFAULTS removeObjectForKey:kMSTesterAppUpdateSetupFailedKey];
     MSLogInfo([MSDistribute logTag], @"Distribute service has been disabled.");
   }
 }
@@ -233,6 +234,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         MSLogDebug([MSDistribute logTag],
                    @"Re-attempting in-app updates setup and cleaning up failure info from storage.");
         [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateSetupFailedPackageHashKey];
+        [MS_USER_DEFAULTS removeObjectForKey:kMSTesterAppUpdateSetupFailedKey];
       }
     }
 
@@ -806,6 +808,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                               [self openUrlInAuthenticationSessionOrSafari:installUrl];
 
                               // Clear the update setup failure info from storage, to re-attempt setup on reinstall
+                              [MS_USER_DEFAULTS removeObjectForKey:kMSTesterAppUpdateSetupFailedKey];
                               [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateSetupFailedPackageHashKey];
                             }];
 
