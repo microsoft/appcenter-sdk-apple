@@ -248,7 +248,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     dispatch_async(dispatch_get_main_queue(), ^{
       NSURL *url;
       
-      BOOL shouldUseTesterAppForUpdateSetup = [MS_USER_DEFAULTS objectForKey:kMSTesterAppUpdateSetupFailedKey] != NULL;
+      BOOL shouldUseTesterAppForUpdateSetup = [MS_USER_DEFAULTS objectForKey:kMSTesterAppUpdateSetupFailedKey] == NULL;
       BOOL testerAppOpened = NO;
       if (shouldUseTesterAppForUpdateSetup) {
         // Attempt to open the native iOS tester app to enable in-app updates
