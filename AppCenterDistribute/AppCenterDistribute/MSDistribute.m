@@ -34,6 +34,11 @@ static NSString *const kMSGroupId = @"Distribute";
  */
 static NSString *const kMSUpdateTokenApiPathFormat = @"/apps/%@/update-setup";
 
+/**
+ * The tester app path for update token request.
+ */
+static NSString *const kMSTesterAppUpdateTokenPath = @"ms-actesterapp://update-setup";
+
 #pragma mark - Error constants
 
 static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid update token URL:%@";
@@ -239,13 +244,21 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     
     // Don't run on the UI thread, or else the app may be slow to startup
     dispatch_async(dispatch_get_main_queue(), ^{
-      // Attempt to open the native iOS tester app to enable in-app updates
-      NSURL *url = [NSURL URLWithString:@"ms-actesterapp://"];
-      BOOL success = [sharedApp performSelector:@selector(openURL:) withObject:url];
+      NSURL *url;
+      
+      BOOL shouldUseTesterAppForUpdateSetup = [MS_USER_DEFAULTS objectForKey:kMSTesterAppUpdateSetupFailedKey] != NULL;
+      BOOL testerAppOpened = NO;
+      if (shouldUseTesterAppForUpdateSetup) {
+        // Attempt to open the native iOS tester app to enable in-app updates
+        url = [self buildTokenRequestURLWithAppSecret:self.appSecret releaseHash:releaseHash isTesterApp:true];
+        if (url) {
+          testerAppOpened = [sharedApp performSelector:@selector(openURL:) withObject:url];
+        }
+      }
       
       // If the native app could not be opened (not installed), fall back to the browser update setup
-      if (!success) {
-        url = [self buildTokenRequestURLWithAppSecret:self.appSecret releaseHash:releaseHash];
+      if (!shouldUseTesterAppForUpdateSetup || !testerAppOpened) {
+        url = [self buildTokenRequestURLWithAppSecret:self.appSecret releaseHash:releaseHash isTesterApp:false];
         if (url) {
           [self openUrlInAuthenticationSessionOrSafari:url];
         }
@@ -420,16 +433,23 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   return NO;
 }
 
-- (nullable NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret releaseHash:(NSString *)releaseHash {
-
-  // Create the request ID string.
-  NSString *requestId = MS_UUID_STRING;
-
-  // Compute URL path string.
-  NSString *urlPath = [NSString stringWithFormat:kMSUpdateTokenApiPathFormat, appSecret];
+- (nullable NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret releaseHash:(NSString *)releaseHash isTesterApp:(BOOL)isTesterApp {
+  
+  // Check custom scheme is registered.
+  NSString *scheme = [NSString stringWithFormat:kMSDefaultCustomSchemeFormat, appSecret];
+  if (![self checkURLSchemeRegistered:scheme]) {
+    MSLogError([MSDistribute logTag], @"Custom URL scheme for Distribute not found.");
+    return nil;
+  }
 
   // Build URL string.
-  NSString *urlString = [self.installUrl stringByAppendingString:urlPath];
+  NSString *urlString;
+  if (isTesterApp) {
+    urlString = kMSTesterAppUpdateTokenPath;
+  } else {
+    NSString *urlPath = [NSString stringWithFormat:kMSUpdateTokenApiPathFormat, appSecret];
+    urlString = [self.installUrl stringByAppendingString:urlPath];
+  }
   NSURLComponents *components = [NSURLComponents componentsWithString:urlString];
 
   // Check URL validity so far.
@@ -438,13 +458,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     return nil;
   }
 
-  // Check custom scheme is registered.
-  NSString *scheme = [NSString stringWithFormat:kMSDefaultCustomSchemeFormat, appSecret];
-  if (![self checkURLSchemeRegistered:scheme]) {
-    MSLogError([MSDistribute logTag], @"Custom URL scheme for Distribute not found.");
-    return nil;
-  }
-
+  // Create the request ID string.
+  NSString *requestId = MS_UUID_STRING;
+  
   // Set URL query parameters.
   NSMutableArray *items = [NSMutableArray array];
   [items addObject:[NSURLQueryItem queryItemWithName:kMSURLQueryReleaseHashKey value:releaseHash]];
@@ -922,6 +938,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
      */
     if (queryTesterAppUpdateSetupFailed) {
       MSLogDebug([MSDistribute logTag], @"In-app updates setup from tester app failure detected.");
+      [MS_USER_DEFAULTS setObject:queryTesterAppUpdateSetupFailed forKey:kMSTesterAppUpdateSetupFailedKey];
       [self startUpdate];
       return YES;
     }
