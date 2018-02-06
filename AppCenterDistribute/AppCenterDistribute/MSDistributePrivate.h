@@ -43,6 +43,7 @@ static NSString *const kMSURLQueryUpdateTokenKey = @"update_token";
 static NSString *const kMSURLQueryDistributionGroupIdKey = @"distribution_group_id";
 static NSString *const kMSURLQueryEnableUpdateSetupFailureRedirectKey = @"enable_failure_redirect";
 static NSString *const kMSURLQueryUpdateSetupFailedKey = @"update_setup_failed";
+static NSString *const kMSURLQueryTesterAppUpdateSetupFailedKey = @"tester_app_update_setup_failed";
 
 /**
  * Distribute url query parameter value strings.

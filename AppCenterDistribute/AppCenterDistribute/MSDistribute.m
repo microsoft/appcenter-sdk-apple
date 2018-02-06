@@ -231,14 +231,26 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       }
     }
 
-    NSURL *url;
     MSLogInfo([MSDistribute logTag], @"Request information of initial installation.");
-
-    // Most failures here require an app update. Thus, it will be retried only on next App instance.
-    url = [self buildTokenRequestURLWithAppSecret:self.appSecret releaseHash:releaseHash];
-    if (url) {
-      [self openUrlInAuthenticationSessionOrSafari:url];
-    }
+    
+    // Use swizzling to get [UIApplication sharedApplication]
+    SEL sharedAppSel = NSSelectorFromString(@"sharedApplication");
+    UIApplication* sharedApp = ((UIApplication * (*)(id, SEL))[[UIApplication class] methodForSelector:sharedAppSel])([UIApplication class], sharedAppSel);
+    
+    // Don't run on the UI thread, or else the app may be slow to startup
+    dispatch_async(dispatch_get_main_queue(), ^{
+      // Attempt to open the native iOS tester app to enable in-app updates
+      NSURL *url = [NSURL URLWithString:@"ms-actesterapp://"];
+      BOOL success = [sharedApp performSelector:@selector(openURL:) withObject:url];
+      
+      // If the native app could not be opened (not installed), fall back to the browser update setup
+      if (!success) {
+        url = [self buildTokenRequestURLWithAppSecret:self.appSecret releaseHash:releaseHash];
+        if (url) {
+          [self openUrlInAuthenticationSessionOrSafari:url];
+        }
+      }
+    });
   } else {
 
     // Log a message to notify the user why the SDK didn't check for updates.
@@ -844,6 +856,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     NSString *queryDistributionGroupId = nil;
     NSString *queryUpdateToken = nil;
     NSString *queryUpdateSetupFailed = nil;
+    NSString *queryTesterAppUpdateSetupFailed = nil;
     NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
 
     // Read mandatory parameters from URL query string.
@@ -856,6 +869,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         queryUpdateToken = item.value;
       } else if ([item.name isEqualToString:kMSURLQueryUpdateSetupFailedKey]) {
         queryUpdateSetupFailed = item.value;
+      } else if ([item.name isEqualToString:kMSURLQueryTesterAppUpdateSetupFailedKey]) {
+        queryTesterAppUpdateSetupFailed = item.value;
       }
     }
 
@@ -899,6 +914,16 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                    releaseHash:MSPackageHash()];
     } else {
       MSLogError([MSDistribute logTag], @"Cannot find either update token or distribution group id.");
+    }
+    
+    /*
+     * If the in-app updates setup from the native tester app failed, retry using
+     * the browser update setup.
+     */
+    if (queryTesterAppUpdateSetupFailed) {
+      MSLogDebug([MSDistribute logTag], @"In-app updates setup from tester app failure detected.");
+      [self startUpdate];
+      return YES;
     }
 
     /*
