@@ -237,6 +237,10 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         [MS_USER_DEFAULTS removeObjectForKey:kMSTesterAppUpdateSetupFailedKey];
       }
     }
+    
+    // Create the request ID string and persist it.
+    NSString *requestId = MS_UUID_STRING;
+    [MS_USER_DEFAULTS setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
 
     MSLogInfo([MSDistribute logTag], @"Request information of initial installation.");
     
@@ -458,9 +462,13 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     MSLogError([MSDistribute logTag], kMSUpdateTokenURLInvalidErrorDescFormat, urlString);
     return nil;
   }
-
-  // Create the request ID string.
-  NSString *requestId = MS_UUID_STRING;
+  
+  // Get the stored request ID, or create one if it doesn't exist yet.
+  NSString *requestId = [MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey];
+  if (!requestId) {
+    requestId = MS_UUID_STRING;
+    [MS_USER_DEFAULTS setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
+  }
   
   // Set URL query parameters.
   NSMutableArray *items = [NSMutableArray array];
@@ -472,11 +480,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   components.queryItems = items;
 
   // Check URL validity.
-  if (components.URL) {
-
-    // Persist the request ID.
-    [MS_USER_DEFAULTS setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
-  } else {
+  if (!components.URL) {
     MSLogError([MSDistribute logTag], kMSUpdateTokenURLInvalidErrorDescFormat, components);
     return nil;
   }
