@@ -245,24 +245,23 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     UIApplication* sharedApp = ((UIApplication * (*)(id, SEL))[[UIApplication class] methodForSelector:sharedAppSel])([UIApplication class], sharedAppSel);
     
     // Don't run on the UI thread, or else the app may be slow to startup
+    NSURL *testerAppUrl = [self buildTokenRequestURLWithAppSecret:self.appSecret releaseHash:releaseHash isTesterApp:true];
+    NSURL *installUrl = [self buildTokenRequestURLWithAppSecret:self.appSecret releaseHash:releaseHash isTesterApp:false];
     dispatch_async(dispatch_get_main_queue(), ^{
-      NSURL *url;
       
       BOOL shouldUseTesterAppForUpdateSetup = [MS_USER_DEFAULTS objectForKey:kMSTesterAppUpdateSetupFailedKey] == NULL;
       BOOL testerAppOpened = NO;
       if (shouldUseTesterAppForUpdateSetup) {
         // Attempt to open the native iOS tester app to enable in-app updates
-        url = [self buildTokenRequestURLWithAppSecret:self.appSecret releaseHash:releaseHash isTesterApp:true];
-        if (url) {
-          testerAppOpened = [sharedApp performSelector:@selector(openURL:) withObject:url];
+        if (testerAppUrl) {
+          testerAppOpened = [sharedApp performSelector:@selector(openURL:) withObject:testerAppUrl];
         }
       }
       
       // If the native app could not be opened (not installed), fall back to the browser update setup
       if (!shouldUseTesterAppForUpdateSetup || !testerAppOpened) {
-        url = [self buildTokenRequestURLWithAppSecret:self.appSecret releaseHash:releaseHash isTesterApp:false];
-        if (url) {
-          [self openUrlInAuthenticationSessionOrSafari:url];
+        if (installUrl) {
+          [self openUrlInAuthenticationSessionOrSafari:installUrl];
         }
       }
     });
