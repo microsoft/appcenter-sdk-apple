@@ -254,7 +254,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       if (shouldUseTesterAppForUpdateSetup) {
         // Attempt to open the native iOS tester app to enable in-app updates
         if (testerAppUrl) {
-          testerAppOpened = [sharedApp performSelector:@selector(openURL:) withObject:testerAppUrl];
+          testerAppOpened = (BOOL)[sharedApp performSelector:@selector(openURL:) withObject:testerAppUrl];
         }
       }
       
