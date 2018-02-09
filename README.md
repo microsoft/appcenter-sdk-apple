@@ -43,3 +43,4 @@ If you have further questions, want to provide feedback or you are running into 
 
 ### 3.2 Twitter
 We're on Twitter as [@vsappcenter](https://www.twitter.com/vsappcenter).
+
