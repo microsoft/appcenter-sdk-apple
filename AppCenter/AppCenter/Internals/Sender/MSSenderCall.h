@@ -77,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)sender:(id<MSSender>)sender
     callCompletedWithStatus:(NSUInteger)statusCode
-                       data:(NSData *)data
+                       data:(nullable NSData *)data
                       error:(NSError *)error;
 
 @end
