@@ -268,14 +268,19 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         [MS_USER_DEFAULTS removeObjectForKey:kMSMandatoryReleaseKey];
       }
     }
-
-    // Check if sender is still waiting for a response of the previous request.
     if (self.sender == nil) {
+      NSMutableDictionary *queryStrings = [[NSMutableDictionary alloc] init];
+      NSMutableDictionary *reportingParametersForUpdatedRelease =
+          [self getReportingParametersForUpdatedRelease:updateToken currentInstalledReleaseHash:releaseHash distributionGroupId:distributionGroupId];
+      if (reportingParametersForUpdatedRelease != nil) {
+        [queryStrings addEntriesFromDictionary:reportingParametersForUpdatedRelease];
+      }
+      queryStrings[kMSURLQueryReleaseHashKey] = releaseHash;
       self.sender = [[MSDistributeSender alloc] initWithBaseUrl:self.apiUrl
                                                       appSecret:self.appSecret
                                                     updateToken:updateToken
                                             distributionGroupId:distributionGroupId
-                                                   queryStrings:@{kMSURLQueryReleaseHashKey : releaseHash}];
+                                                   queryStrings:queryStrings];
       __weak typeof(self) weakSelf = self;
       [self.sender sendAsync:nil
            completionHandler:^(__unused NSString *callId, NSUInteger statusCode, NSData *data,
@@ -311,6 +316,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                if (!details) {
                  MSLogError([MSDistribute logTag], @"Couldn't parse response payload.");
                } else {
+
+                 // Check if downloaded release was installed and remove stored release details.
+                 [self removeDownloadedReleaseDetailsIfUpdated:releaseHash];
 
                  /*
                   * Handle this update.
@@ -651,6 +659,65 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   return MSCompareCurrentReleaseWithRelease(details) == NSOrderedAscending;
 }
 
+- (void)storeDownloadedReleaseDetails:(nullable MSReleaseDetails *)details {
+  if (details == nil || details.id == nil || details.packageHashes == nil || [details.packageHashes count] == 0) {
+    MSLogDebug([MSDistribute logTag], @"Release details are missing or broken, will not store release hash and id for reporting.");
+    return;
+  }
+
+  MSLogDebug([MSDistribute logTag], @"Store downloaded release hash and id for later reporting.");
+  NSNumber *releaseId = details.id;
+  NSString *releaseHash = [details.packageHashes objectAtIndex:0];
+  [MS_USER_DEFAULTS setObject:releaseId forKey:kMSDownloadedReleaseIdKey];
+  [MS_USER_DEFAULTS setObject:releaseHash forKey:kMSDownloadedReleaseHashKey];
+}
+
+- (void)removeDownloadedReleaseDetailsIfUpdated:(NSString *)currentInstalledReleaseHash {
+   NSString *lastDownloadedReleaseHash = [MS_USER_DEFAULTS objectForKey:kMSDownloadedReleaseHashKey];
+   if (lastDownloadedReleaseHash == nil) {
+     return;
+   }
+   if (![lastDownloadedReleaseHash isEqualToString:currentInstalledReleaseHash]) {
+     MSLogDebug([MSDistribute logTag], @"Stored release hash doesn't match current installation, probably downloaded but not installed yet, keep in store.");
+     return;
+   }
+
+   // Successfully reported, remove downloaded release details.
+   MSLogDebug([MSDistribute logTag], @"Successfully reported app update for downloaded release hash (%@), removing from store.", lastDownloadedReleaseHash);
+   [MS_USER_DEFAULTS removeObjectForKey:kMSDownloadedReleaseIdKey];
+   [MS_USER_DEFAULTS removeObjectForKey:kMSDownloadedReleaseHashKey];
+}
+
+- (NSMutableDictionary *)getReportingParametersForUpdatedRelease:(NSString *)updateToken
+                                     currentInstalledReleaseHash:(NSString *)currentInstalledReleaseHash
+                                             distributionGroupId:(NSString *)distributionGroupId {
+
+  // Check if we need to report release installation.
+  NSString *lastDownloadedReleaseHash = [MS_USER_DEFAULTS objectForKey:kMSDownloadedReleaseHashKey];
+  if (!lastDownloadedReleaseHash) {
+    MSLogDebug([MSDistribute logTag], @"Current release was already reported, skip reporting.");
+    return nil;
+  }
+
+  // Skip if downloaded release not installed yet.
+  if (![lastDownloadedReleaseHash isEqualToString:currentInstalledReleaseHash]) {
+    MSLogDebug([MSDistribute logTag], @"New release was downloaded but not installed yet, skip reporting.");
+    return nil;
+  }
+
+  // Return reporting parameters.
+  MSLogDebug([MSDistribute logTag], @"Current release was updated but not reported yet, reporting.");
+  NSMutableDictionary *reportingParameters = [[NSMutableDictionary alloc] init];
+  if (updateToken) {
+    reportingParameters[kMSURLQueryDistributionGroupIdKey] = distributionGroupId;
+  } else {
+    reportingParameters[kMSURLQueryInstallIdKey] = [[MSAppCenter installId] UUIDString];
+  }
+  NSString *lastDownloadedReleaseId = [MS_USER_DEFAULTS objectForKey:kMSDownloadedReleaseIdKey];
+  reportingParameters[kMSURLQueryDownloadedReleaseIdKey] = lastDownloadedReleaseId;
+  return reportingParameters;
+}
+
 - (void)showConfirmationAlert:(MSReleaseDetails *)details {
 
   // Displaying alert dialog. Running on main thread.
@@ -806,6 +873,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
           MSLogWarning([MSDistribute logTag], @"System returned NO for update but processing.");
           break;
         }
+
+        // Store details to report new download after restart if this release is installed.
+        [self storeDownloadedReleaseDetails:details];
 
         /*
          * On iOS 8.x and >= iOS 11.0 devices the update download doesn't start until the application goes
