@@ -37,7 +37,7 @@
 #else
   expectedDir = @"/Library/Caches/com.microsoft.appcenter/crashes";
 #endif
-  XCTAssertTrue([crashesDir containsString:expectedDir]);
+  XCTAssertTrue([crashesDir rangeOfString:expectedDir].location != NSNotFound);
   BOOL isDir = YES;
   BOOL dirExists = [[NSFileManager defaultManager] fileExistsAtPath:crashesDir isDirectory:&isDir];
   XCTAssertTrue(dirExists);
@@ -52,7 +52,7 @@
 #else
   expectedDir = @"/Library/Caches/com.microsoft.appcenter/crasheslogbuffer";
 #endif
-  XCTAssertTrue([bufferDir containsString:expectedDir]);
+  XCTAssertTrue([bufferDir rangeOfString:expectedDir].location != NSNotFound);
   BOOL isDir = YES;
   BOOL dirExists = [[NSFileManager defaultManager] fileExistsAtPath:bufferDir isDirectory:&isDir];
   XCTAssertTrue(dirExists);
