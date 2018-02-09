@@ -10,6 +10,7 @@
 #import "MSAlertController.h"
 #import "MSCustomApplicationDelegate.h"
 #import "MSDistribute.h"
+#import "MSDistributeInfoTracker.h"
 #import <SafariServices/SafariServices.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -112,6 +113,11 @@ static NSString *const kMSUpdateSetupFailedPackageHashKey = @"MSUpdateSetupFaile
 @property(nonatomic) id<MSCustomApplicationDelegate> appDelegate;
 
 @property(nonatomic) id _Nullable authenticationSession;
+
+/**
+ * Distribute info tracking component which adds extra fields to logs.
+ */
+@property(nonatomic) MSDistributeInfoTracker *distributeInfoTracker;
 
 /**
  * Returns the singleton instance. Meant for testing/demo apps only.
