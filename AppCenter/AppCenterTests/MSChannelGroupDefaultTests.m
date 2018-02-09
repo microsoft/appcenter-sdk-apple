@@ -1,4 +1,5 @@
 #import "MSAbstractLogInternal.h"
+#import "MSChannelDelegate.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
 #import "MSHttpSenderPrivate.h"

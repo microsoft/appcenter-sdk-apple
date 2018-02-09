@@ -70,7 +70,7 @@
 
 - (void)sender:(id<MSSender>)sender
     callCompletedWithStatus:(NSUInteger)statusCode
-                       data:(NSData *)data
+                       data:(nullable NSData *)data
                       error:(NSError *)error {
   BOOL internetIsDown = [MSSenderUtil isNoInternetConnectionError:error];
   BOOL couldNotEstablishSecureConnection = [MSSenderUtil isSSLConnectionError:error];

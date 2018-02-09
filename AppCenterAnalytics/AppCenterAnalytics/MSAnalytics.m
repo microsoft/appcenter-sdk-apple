@@ -154,7 +154,7 @@ static const int maxPropertyValueLength = 64;
 
 #pragma mark - Private methods
 
-- (NSString *)validateEventName:(NSString *)eventName forLogType:(NSString *)logType {
+- (nullable NSString *)validateEventName:(NSString *)eventName forLogType:(NSString *)logType {
   if (!eventName || [eventName length] < minEventNameLength) {
     MSLogError([MSAnalytics logTag], @"%@ name cannot be null or empty", logType);
     return nil;

@@ -107,7 +107,10 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   osSystemVersionMock.majorVersion = 4;
   osSystemVersionMock.minorVersion = 5;
   osSystemVersionMock.patchVersion = 6;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpartial-availability"
   OCMStub([processInfoMock operatingSystemVersion]).andReturn(osSystemVersionMock);
+#pragma clang diagnostic pop
 #else
 
 // TODO: No way to mock C-style functions like Gestalt. Skip the test on machine running on macOS version <= 10.9.
