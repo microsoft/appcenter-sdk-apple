@@ -244,10 +244,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
     MSLogInfo([MSDistribute logTag], @"Request information of initial installation.");
     
-    // Use swizzling to get [UIApplication sharedApplication]
-    SEL sharedAppSel = NSSelectorFromString(@"sharedApplication");
-    UIApplication* sharedApp = ((UIApplication * (*)(id, SEL))[[UIApplication class] methodForSelector:sharedAppSel])([UIApplication class], sharedAppSel);
-    
     // Don't run on the UI thread, or else the app may be slow to startup
     NSURL *testerAppUrl = [self buildTokenRequestURLWithAppSecret:self.appSecret releaseHash:releaseHash isTesterApp:true];
     NSURL *installUrl = [self buildTokenRequestURLWithAppSecret:self.appSecret releaseHash:releaseHash isTesterApp:false];
@@ -258,7 +254,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       if (shouldUseTesterAppForUpdateSetup) {
         // Attempt to open the native iOS tester app to enable in-app updates
         if (testerAppUrl) {
-          testerAppOpened = (BOOL)[sharedApp performSelector:@selector(openURL:) withObject:testerAppUrl];
+          testerAppOpened = [self openUrlUsingSharedApp:testerAppUrl];
         }
       }
       
@@ -485,6 +481,11 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     return nil;
   }
   return components.URL;
+}
+
+- (BOOL)openUrlUsingSharedApp:(NSURL *)url {
+  UIApplication *sharedApp = [MSUtility sharedApp];
+  return (BOOL)[sharedApp performSelector:@selector(openURL:) withObject:url];
 }
 
 - (void)openUrlInAuthenticationSessionOrSafari:(NSURL *)url {

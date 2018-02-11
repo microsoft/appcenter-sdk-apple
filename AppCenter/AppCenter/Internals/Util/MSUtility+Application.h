@@ -79,6 +79,17 @@ typedef NS_ENUM(NSInteger, MSOpenURLState) {
 @interface MSUtility (Application)
 
 /**
+ * Get the Shared Application from either NSApplication (MacOS) or UIApplication.
+ *
+ * @return The shared application.
+ */
+#if TARGET_OS_OSX
++ (NSApplication *)sharedApp;
+#else
++ (UIApplication *)sharedApp;
+#endif
+
+/**
  * Get the App Delegate.
  *
  * @return The delegate of the app object or nil if not accessible.

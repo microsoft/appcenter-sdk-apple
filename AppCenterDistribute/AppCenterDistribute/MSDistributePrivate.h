@@ -138,6 +138,15 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
 - (nullable NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret releaseHash:(NSString *)releaseHash isTesterApp:(BOOL)isTesterApp;
 
 /**
+ * Open the given URL using the openURL method in the Shared Application.
+ *
+ * @param url URL to open.
+ *
+ * @return Whether the URL was opened or not.
+ */
+- (BOOL)openUrlUsingSharedApp:(NSURL *)url;
+
+/**
  * Open the given URL using either SFAuthenticationSession, SFSafariViewController, or the Safari app
  * based on which iOS version is used.
  *

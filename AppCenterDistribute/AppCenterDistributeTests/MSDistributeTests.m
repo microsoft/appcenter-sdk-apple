@@ -1342,6 +1342,57 @@ static NSURL *sfURL;
   [utilityMock stopMocking];
 }
 
+- (void)testBrowserNotOpenedWhenTesterAppUsedForUpdateSetup {
+  
+  // If
+  id reachabilityMock = OCMClassMock([MS_Reachability class]);
+  OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
+  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
+  [MSDistributeTestUtil unMockUpdatesAllowedConditions];
+  id appCenterMock = OCMClassMock([MSAppCenter class]);
+  id distributeMock = OCMPartialMock(self.sut);
+  id utilityMock = [self mockMSPackageHash];
+  OCMStub([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:OCMOCK_ANY isTesterApp:false]).andReturn([NSURL URLWithString:@"https://some_url"]);
+  OCMStub([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:OCMOCK_ANY isTesterApp:true]).andReturn([NSURL URLWithString:@"some_url://"]);
+  OCMStub([distributeMock openUrlUsingSharedApp:OCMOCK_ANY]).andReturn(YES);
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Start update processed"];
+
+  // When
+  OCMStub([appCenterMock isDebuggerAttached]).andReturn(NO);
+  OCMStub([utilityMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
+  
+  // Then
+  XCTAssertTrue([self.sut checkForUpdatesAllowed]);
+  
+  // When
+  [self.sut applyEnabledState:YES];
+  [distributeMock startUpdate];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [expectation fulfill];
+  });
+  
+  // Then
+  OCMVerify([distributeMock requestInstallInformationWith:kMSTestReleaseHash]);
+  OCMVerify([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:kMSTestReleaseHash isTesterApp:true]);
+  OCMVerify([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:kMSTestReleaseHash isTesterApp:false]);
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 
+                                 // Then
+                                 OCMVerify([distributeMock openUrlUsingSharedApp:OCMOCK_ANY]);
+                                 OCMReject([distributeMock openUrlInAuthenticationSessionOrSafari:OCMOCK_ANY]);
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+  
+  
+  // Clear
+  [distributeMock stopMocking];
+  [appCenterMock stopMocking];
+  [utilityMock stopMocking];
+}
+
 - (void)testNotDeleteUpdateToken {
 
   // If
