@@ -248,10 +248,11 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     NSURL *testerAppUrl = [self buildTokenRequestURLWithAppSecret:self.appSecret releaseHash:releaseHash isTesterApp:true];
     NSURL *installUrl = [self buildTokenRequestURLWithAppSecret:self.appSecret releaseHash:releaseHash isTesterApp:false];
     dispatch_async(dispatch_get_main_queue(), ^{
-      
       BOOL shouldUseTesterAppForUpdateSetup = [MS_USER_DEFAULTS objectForKey:kMSTesterAppUpdateSetupFailedKey] == NULL;
       BOOL testerAppOpened = NO;
       if (shouldUseTesterAppForUpdateSetup) {
+        MSLogInfo([MSDistribute logTag], @"Attempting to use tester app for update setup.");
+        
         // Attempt to open the native iOS tester app to enable in-app updates
         if (testerAppUrl) {
           testerAppOpened = [self openUrlUsingSharedApp:testerAppUrl];
@@ -259,10 +260,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       }
       
       // If the native app could not be opened (not installed), fall back to the browser update setup
-      if (!shouldUseTesterAppForUpdateSetup || !testerAppOpened) {
-        if (installUrl) {
-          [self openUrlInAuthenticationSessionOrSafari:installUrl];
-        }
+      if ((!shouldUseTesterAppForUpdateSetup || !testerAppOpened) && installUrl) {
+        [self openUrlInAuthenticationSessionOrSafari:installUrl];
       }
     });
   } else {
