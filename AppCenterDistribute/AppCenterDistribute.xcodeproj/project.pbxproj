@@ -80,6 +80,7 @@
 		38E3FB1F1FD8A2A500779293 /* MSDistributeDataMigrationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 386A69EF1FD88A9B0057B316 /* MSDistributeDataMigrationTests.m */; };
 		586032CABA2AC5DAA00BAB53 /* MSDistributeInfoTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 586031A5F44AF875F6226F45 /* MSDistributeInfoTracker.m */; };
 		5860330D3F7DC07BC2E141A2 /* MSDistributeInfoTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 5860311B1C15B2BE9ED430A1 /* MSDistributeInfoTracker.h */; };
+		58603D3986EEE50CBFAFD4BC /* MSDistributeInfoTrackerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 586030B2AAEEE6A568D37CE9 /* MSDistributeInfoTrackerTests.m */; };
 		80324E301F4DC81F005F4E11 /* MSDistributeAppDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 80324E2F1F4DC81E005F4E11 /* MSDistributeAppDelegateTests.m */; };
 		848860451E6EC32B003A9B96 /* MSBasicMachOParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 848860441E6EC32B003A9B96 /* MSBasicMachOParserTests.m */; };
 		B20DE7B71E5F97330023075C /* MSDistributeUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B20DE7B61E5F97330023075C /* MSDistributeUtilTests.m */; };
@@ -203,6 +204,7 @@
 		38A683621E774DCE00A63BC8 /* MSSemVerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSemVerTests.m; sourceTree = "<group>"; };
 		38A683631E774DCE00A63BC8 /* MSSemVerPreReleaseIdTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSemVerPreReleaseIdTest.m; sourceTree = "<group>"; };
 		38C9C56B1E565BF600B0FA0D /* MSDistributePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSDistributePrivate.h; path = ../MSDistributePrivate.h; sourceTree = "<group>"; };
+		586030B2AAEEE6A568D37CE9 /* MSDistributeInfoTrackerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistributeInfoTrackerTests.m; sourceTree = "<group>"; };
 		5860311B1C15B2BE9ED430A1 /* MSDistributeInfoTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDistributeInfoTracker.h; sourceTree = "<group>"; };
 		586031A5F44AF875F6226F45 /* MSDistributeInfoTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistributeInfoTracker.m; sourceTree = "<group>"; };
 		80324E2F1F4DC81E005F4E11 /* MSDistributeAppDelegateTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistributeAppDelegateTests.m; sourceTree = "<group>"; };
@@ -415,6 +417,7 @@
 				04A140BE1ECE84B7001CEE94 /* Model */,
 				04A140BF1ECE84C9001CEE94 /* Support */,
 				389638A21E79F557007C3809 /* Util */,
+				586030B2AAEEE6A568D37CE9 /* MSDistributeInfoTrackerTests.m */,
 			);
 			path = AppCenterDistributeTests;
 			sourceTree = "<group>";
@@ -761,6 +764,7 @@
 				389638A41E79F59D007C3809 /* MSDistributeTestUtil.m in Sources */,
 				0415974B1E9D639D00EC6BDA /* MSDistributionGroupTests.m in Sources */,
 				38A683641E774DCE00A63BC8 /* MSSemVerTests.m in Sources */,
+				58603D3986EEE50CBFAFD4BC /* MSDistributeInfoTrackerTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
