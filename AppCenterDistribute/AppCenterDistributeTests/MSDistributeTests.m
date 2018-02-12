@@ -23,6 +23,7 @@
 #import "MSUtility+Date.h"
 #import "MSUtility+Environment.h"
 #import "MSUtility+StringFormatting.h"
+#import "MSDistributeInfoTracker.h"
 
 static NSString *const kMSTestAppSecret = @"IAMSECRET";
 static NSString *const kMSTestReleaseHash = @"RELEASEHASH";
@@ -80,6 +81,7 @@ static NSURL *sfURL;
 @property(nonatomic) id settingsMock;
 @property(nonatomic) id bundleMock;
 @property(nonatomic) id alertControllerMock;
+@property(nonatomic) id distributeInfoTrackerMock;
 
 @end
 
@@ -113,6 +115,10 @@ static NSURL *sfURL;
   self.alertControllerMock = OCMClassMock([MSAlertController class]);
   OCMStub([self.alertControllerMock alertControllerWithTitle:OCMOCK_ANY message:OCMOCK_ANY])
       .andReturn(self.alertControllerMock);
+
+  // Mock DistributeInfoTracker.
+  self.distributeInfoTrackerMock = OCMClassMock([MSDistributeInfoTracker class]);
+  self.sut.distributeInfoTracker = self.distributeInfoTrackerMock;
 }
 
 - (void)tearDown {
@@ -132,6 +138,7 @@ static NSURL *sfURL;
   [self.settingsMock stopMocking];
   [self.bundleMock stopMocking];
   [self.alertControllerMock stopMocking];
+  [self.distributeInfoTrackerMock stopMocking];
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
 }
 
@@ -820,6 +827,7 @@ static NSURL *sfURL;
                                  OCMVerify([self.settingsMock removeObjectForKey:kMSUpdateTokenRequestIdKey]);
                                  OCMVerify([self.settingsMock removeObjectForKey:kMSPostponedTimestampKey]);
                                  OCMVerify([self.settingsMock removeObjectForKey:kMSDistributionGroupIdKey]);
+                                 OCMVerify([self.distributeInfoTrackerMock removeDistributionGroupId]);
                                  XCTAssertNil([self.settingsMock objectForKey:kMSSDKHasLaunchedWithDistribute]);
                                  XCTAssertNil([self.settingsMock objectForKey:kMSUpdateTokenRequestIdKey]);
                                  XCTAssertNil([self.settingsMock objectForKey:kMSPostponedTimestampKey]);
@@ -1062,6 +1070,7 @@ static NSURL *sfURL;
   assertThatBool(result, isTrue());
   OCMVerify(
       [distributeMock checkLatestRelease:nil distributionGroupId:distributionGroupId releaseHash:kMSTestReleaseHash]);
+  OCMVerify([self.distributeInfoTrackerMock updateDistributionGroupId:distributionGroupId]);
 
   // Not allow checkLatestRelease more.
   OCMReject([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY]);

@@ -79,6 +79,10 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                                    name:UIApplicationWillEnterForegroundNotification
                                  object:nil];
   }
+
+  // Init the distribute info tracker.
+  _distributeInfoTracker = [[MSDistributeInfoTracker alloc] init];
+
   return self;
 }
 
@@ -105,6 +109,12 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   return kMSGroupId;
 }
 
+- (MSInitializationPriority)initializationPriority {
+
+  // Initialize Distribute before Analytics to add distributionGroupId field to the first startSession event after app start.
+  return MSInitializationPriorityHigh;
+}
+
 #pragma mark - MSServiceAbstract
 
 - (void)applyEnabledState:(BOOL)isEnabled {
@@ -116,8 +126,14 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     self.releaseDetails = nil;
     [self startUpdate];
     [MSAppDelegateForwarder addDelegate:self.appDelegate];
+
+    // Enable the distribute info tracker.
+    NSString *distributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
+    [self.distributeInfoTracker updateDistributionGroupId:distributionGroupId];
+    [self.channelGroup addDelegate:self.distributeInfoTracker];
   } else {
     [self dismissEmbeddedSafari];
+    [self.channelGroup removeDelegate:self.distributeInfoTracker];
     [MSAppDelegateForwarder removeDelegate:self.appDelegate];
     [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
     [MS_USER_DEFAULTS removeObjectForKey:kMSPostponedTimestampKey];
@@ -401,6 +417,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                    [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
                    [MS_USER_DEFAULTS removeObjectForKey:kMSPostponedTimestampKey];
                    [MS_USER_DEFAULTS removeObjectForKey:kMSDistributionGroupIdKey];
+                   [self.distributeInfoTracker removeDistributionGroupId];
                  }
                }
                if (!jsonString) {
@@ -919,6 +936,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
       // Storing the distribution group ID to storage.
       [MS_USER_DEFAULTS setObject:queryDistributionGroupId forKey:kMSDistributionGroupIdKey];
+
+      // Update distribution group ID which is added to logs.
+      [self.distributeInfoTracker updateDistributionGroupId:queryDistributionGroupId];
     }
 
     /*
