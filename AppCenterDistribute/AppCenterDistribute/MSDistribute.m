@@ -256,6 +256,11 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         // Attempt to open the native iOS tester app to enable in-app updates
         if (testerAppUrl) {
           testerAppOpened = [self openUrlUsingSharedApp:testerAppUrl];
+          if (testerAppOpened) {
+            MSLogInfo([MSDistribute logTag], @"Tester app was successfully opened to enable in-app updates.");
+          } else {
+            MSLogInfo([MSDistribute logTag], @"Tester app could not be opened to enable in-app updates (not installed?)");
+          }
         }
       }
       
