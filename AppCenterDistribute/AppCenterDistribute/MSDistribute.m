@@ -104,6 +104,12 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   return kMSGroupId;
 }
 
+- (MSInitializationPriority)initializationPriority {
+
+  // Initialize Distribute before Analytics to add distributionGroupId field to the first startSession event after app start.
+  return MSInitializationPriorityHigh;
+}
+
 #pragma mark - MSServiceAbstract
 
 - (void)applyEnabledState:(BOOL)isEnabled {
