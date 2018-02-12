@@ -43,6 +43,7 @@ static NSString *const kMSURLQueryUpdateTokenKey = @"update_token";
 static NSString *const kMSURLQueryDistributionGroupIdKey = @"distribution_group_id";
 static NSString *const kMSURLQueryEnableUpdateSetupFailureRedirectKey = @"enable_failure_redirect";
 static NSString *const kMSURLQueryUpdateSetupFailedKey = @"update_setup_failed";
+static NSString *const kMSURLQueryTesterAppUpdateSetupFailedKey = @"tester_app_update_setup_failed";
 
 /**
  * Distribute url query parameter value strings.
@@ -84,6 +85,11 @@ static NSString *const kMSDistributionGroupIdKey = @"MSDistributionGroupId";
  */
 static NSString *const kMSUpdateSetupFailedPackageHashKey = @"MSUpdateSetupFailedPackageHash";
 
+/**
+ * The storage key for tester app update setup failure.
+ */
+static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSetupFailed";
+
 @interface MSDistribute ()
 
 /**
@@ -121,14 +127,24 @@ static NSString *const kMSUpdateSetupFailedPackageHashKey = @"MSUpdateSetupFaile
 + (instancetype)sharedInstance;
 
 /**
- * Build the install URL for token request with the given application secret.
+ * Build the URL for token request with the given application secret.
  *
  * @param appSecret Application secret.
  * @param releaseHash The release hash of the current version.
+ * @param isTesterApp Whether the URL should be constructed to link to the tester app.
  *
- * @return The finale install URL to request the token or nil if an error occurred.
+ * @return The final URL to request the token or nil if an error occurred.
  */
-- (nullable NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret releaseHash:(NSString *)releaseHash;
+- (nullable NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret releaseHash:(NSString *)releaseHash isTesterApp:(BOOL)isTesterApp;
+
+/**
+ * Open the given URL using the openURL method in the Shared Application.
+ *
+ * @param url URL to open.
+ *
+ * @return Whether the URL was opened or not.
+ */
+- (BOOL)openUrlUsingSharedApp:(NSURL *)url;
 
 /**
  * Open the given URL using either SFAuthenticationSession, SFSafariViewController, or the Safari app
