@@ -447,8 +447,14 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 
                                  // Then
                                  // Retry must be stopped.
+                                 // 'dispatch_block_testcancel' is only available on macOS 10.10 or newer.
+#if !TARGET_OS_OSX || __MAC_OS_X_VERSION_MAX_ALLOWED > 1090
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpartial-availability"
                                  XCTAssertNotEqual(
                                      0, dispatch_testcancel(((MSSenderCall *)self.sut.pendingCalls[@"1"]).timerSource));
+#pragma clang diagnostic pop
+#endif
 
                                  // No call submitted to the session.
                                  assertThatBool(self.sut.pendingCalls[@"1"].submitted, isFalse());
