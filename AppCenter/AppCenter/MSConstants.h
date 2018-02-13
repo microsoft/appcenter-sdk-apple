@@ -60,5 +60,6 @@ static short const kMSPriorityCount = MSPriorityHigh + 1;
  */
 typedef NS_ENUM(NSInteger, MSInitializationPriority) {
   MSInitializationPriorityDefault = 500,
+  MSInitializationPriorityHigh = 750,
   MSInitializationPriorityMax = 999
 };

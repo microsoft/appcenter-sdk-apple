@@ -34,6 +34,11 @@ static NSString *const kMSGroupId = @"Distribute";
  */
 static NSString *const kMSUpdateTokenApiPathFormat = @"/apps/%@/update-setup";
 
+/**
+ * The tester app path for update token request.
+ */
+static NSString *const kMSTesterAppUpdateTokenPath = @"ms-actesterapp://update-setup";
+
 #pragma mark - Error constants
 
 static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid update token URL:%@";
@@ -74,6 +79,10 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                                    name:UIApplicationWillEnterForegroundNotification
                                  object:nil];
   }
+
+  // Init the distribute info tracker.
+  _distributeInfoTracker = [[MSDistributeInfoTracker alloc] init];
+
   return self;
 }
 
@@ -100,6 +109,12 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   return kMSGroupId;
 }
 
+- (MSInitializationPriority)initializationPriority {
+
+  // Initialize Distribute before Analytics to add distributionGroupId field to the first startSession event after app start.
+  return MSInitializationPriorityHigh;
+}
+
 #pragma mark - MSServiceAbstract
 
 - (void)applyEnabledState:(BOOL)isEnabled {
@@ -111,13 +126,20 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     self.releaseDetails = nil;
     [self startUpdate];
     [MSAppDelegateForwarder addDelegate:self.appDelegate];
+
+    // Enable the distribute info tracker.
+    NSString *distributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
+    [self.distributeInfoTracker updateDistributionGroupId:distributionGroupId];
+    [self.channelGroup addDelegate:self.distributeInfoTracker];
   } else {
     [self dismissEmbeddedSafari];
+    [self.channelGroup removeDelegate:self.distributeInfoTracker];
     [MSAppDelegateForwarder removeDelegate:self.appDelegate];
     [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
     [MS_USER_DEFAULTS removeObjectForKey:kMSPostponedTimestampKey];
     [MS_USER_DEFAULTS removeObjectForKey:kMSMandatoryReleaseKey];
     [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateSetupFailedPackageHashKey];
+    [MS_USER_DEFAULTS removeObjectForKey:kMSTesterAppUpdateSetupFailedKey];
     MSLogInfo([MSDistribute logTag], @"Distribute service has been disabled.");
   }
 }
@@ -230,17 +252,41 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         MSLogDebug([MSDistribute logTag],
                    @"Re-attempting in-app updates setup and cleaning up failure info from storage.");
         [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateSetupFailedPackageHashKey];
+        [MS_USER_DEFAULTS removeObjectForKey:kMSTesterAppUpdateSetupFailedKey];
       }
     }
+    
+    // Create the request ID string and persist it.
+    NSString *requestId = MS_UUID_STRING;
+    [MS_USER_DEFAULTS setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
 
-    NSURL *url;
     MSLogInfo([MSDistribute logTag], @"Request information of initial installation.");
-
-    // Most failures here require an app update. Thus, it will be retried only on next App instance.
-    url = [self buildTokenRequestURLWithAppSecret:self.appSecret releaseHash:releaseHash];
-    if (url) {
-      [self openUrlInAuthenticationSessionOrSafari:url];
-    }
+    
+    // Don't run on the UI thread, or else the app may be slow to startup
+    NSURL *testerAppUrl = [self buildTokenRequestURLWithAppSecret:self.appSecret releaseHash:releaseHash isTesterApp:true];
+    NSURL *installUrl = [self buildTokenRequestURLWithAppSecret:self.appSecret releaseHash:releaseHash isTesterApp:false];
+    dispatch_async(dispatch_get_main_queue(), ^{
+      BOOL shouldUseTesterAppForUpdateSetup = [MS_USER_DEFAULTS objectForKey:kMSTesterAppUpdateSetupFailedKey] == NULL;
+      BOOL testerAppOpened = NO;
+      if (shouldUseTesterAppForUpdateSetup) {
+        MSLogInfo([MSDistribute logTag], @"Attempting to use tester app for update setup.");
+        
+        // Attempt to open the native iOS tester app to enable in-app updates
+        if (testerAppUrl) {
+          testerAppOpened = [self openUrlUsingSharedApp:testerAppUrl];
+          if (testerAppOpened) {
+            MSLogInfo([MSDistribute logTag], @"Tester app was successfully opened to enable in-app updates.");
+          } else {
+            MSLogInfo([MSDistribute logTag], @"Tester app could not be opened to enable in-app updates (not installed?)");
+          }
+        }
+      }
+      
+      // If the native app could not be opened (not installed), fall back to the browser update setup
+      if ((!shouldUseTesterAppForUpdateSetup || !testerAppOpened) && installUrl) {
+        [self openUrlInAuthenticationSessionOrSafari:installUrl];
+      }
+    });
   } else {
 
     // Log a message to notify the user why the SDK didn't check for updates.
@@ -381,6 +427,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                    [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
                    [MS_USER_DEFAULTS removeObjectForKey:kMSPostponedTimestampKey];
                    [MS_USER_DEFAULTS removeObjectForKey:kMSDistributionGroupIdKey];
+                   [self.distributeInfoTracker removeDistributionGroupId];
                  }
                }
                if (!jsonString) {
@@ -418,24 +465,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   return NO;
 }
 
-- (nullable NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret releaseHash:(NSString *)releaseHash {
-
-  // Create the request ID string.
-  NSString *requestId = MS_UUID_STRING;
-
-  // Compute URL path string.
-  NSString *urlPath = [NSString stringWithFormat:kMSUpdateTokenApiPathFormat, appSecret];
-
-  // Build URL string.
-  NSString *urlString = [self.installUrl stringByAppendingString:urlPath];
-  NSURLComponents *components = [NSURLComponents componentsWithString:urlString];
-
-  // Check URL validity so far.
-  if (!components) {
-    MSLogError([MSDistribute logTag], kMSUpdateTokenURLInvalidErrorDescFormat, urlString);
-    return nil;
-  }
-
+- (nullable NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret releaseHash:(NSString *)releaseHash isTesterApp:(BOOL)isTesterApp {
+  
   // Check custom scheme is registered.
   NSString *scheme = [NSString stringWithFormat:kMSDefaultCustomSchemeFormat, appSecret];
   if (![self checkURLSchemeRegistered:scheme]) {
@@ -443,6 +474,29 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     return nil;
   }
 
+  // Build URL string.
+  NSString *urlString;
+  if (isTesterApp) {
+    urlString = kMSTesterAppUpdateTokenPath;
+  } else {
+    NSString *urlPath = [NSString stringWithFormat:kMSUpdateTokenApiPathFormat, appSecret];
+    urlString = [self.installUrl stringByAppendingString:urlPath];
+  }
+  NSURLComponents *components = [NSURLComponents componentsWithString:urlString];
+
+  // Check URL validity so far.
+  if (!components) {
+    MSLogError([MSDistribute logTag], kMSUpdateTokenURLInvalidErrorDescFormat, urlString);
+    return nil;
+  }
+  
+  // Get the stored request ID, or create one if it doesn't exist yet.
+  NSString *requestId = [MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey];
+  if (!requestId) {
+    requestId = MS_UUID_STRING;
+    [MS_USER_DEFAULTS setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
+  }
+  
   // Set URL query parameters.
   NSMutableArray *items = [NSMutableArray array];
   [items addObject:[NSURLQueryItem queryItemWithName:kMSURLQueryReleaseHashKey value:releaseHash]];
@@ -453,15 +507,16 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   components.queryItems = items;
 
   // Check URL validity.
-  if (components.URL) {
-
-    // Persist the request ID.
-    [MS_USER_DEFAULTS setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
-  } else {
+  if (!components.URL) {
     MSLogError([MSDistribute logTag], kMSUpdateTokenURLInvalidErrorDescFormat, components);
     return nil;
   }
   return components.URL;
+}
+
+- (BOOL)openUrlUsingSharedApp:(NSURL *)url {
+  UIApplication *sharedApp = [MSUtility sharedApp];
+  return (BOOL)[sharedApp performSelector:@selector(openURL:) withObject:url];
 }
 
 - (void)openUrlInAuthenticationSessionOrSafari:(NSURL *)url {
@@ -855,6 +910,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                               [self openUrlInAuthenticationSessionOrSafari:installUrl];
 
                               // Clear the update setup failure info from storage, to re-attempt setup on reinstall
+                              [MS_USER_DEFAULTS removeObjectForKey:kMSTesterAppUpdateSetupFailedKey];
                               [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateSetupFailedPackageHashKey];
                             }];
 
@@ -921,6 +977,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     NSString *queryDistributionGroupId = nil;
     NSString *queryUpdateToken = nil;
     NSString *queryUpdateSetupFailed = nil;
+    NSString *queryTesterAppUpdateSetupFailed = nil;
     NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
 
     // Read mandatory parameters from URL query string.
@@ -933,6 +990,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         queryUpdateToken = item.value;
       } else if ([item.name isEqualToString:kMSURLQueryUpdateSetupFailedKey]) {
         queryUpdateSetupFailed = item.value;
+      } else if ([item.name isEqualToString:kMSURLQueryTesterAppUpdateSetupFailedKey]) {
+        queryTesterAppUpdateSetupFailed = item.value;
       }
     }
 
@@ -954,6 +1013,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
       // Storing the distribution group ID to storage.
       [MS_USER_DEFAULTS setObject:queryDistributionGroupId forKey:kMSDistributionGroupIdKey];
+
+      // Update distribution group ID which is added to logs.
+      [self.distributeInfoTracker updateDistributionGroupId:queryDistributionGroupId];
     }
 
     /*
@@ -976,6 +1038,17 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                    releaseHash:MSPackageHash()];
     } else {
       MSLogError([MSDistribute logTag], @"Cannot find either update token or distribution group id.");
+    }
+    
+    /*
+     * If the in-app updates setup from the native tester app failed, retry using
+     * the browser update setup.
+     */
+    if (queryTesterAppUpdateSetupFailed) {
+      MSLogDebug([MSDistribute logTag], @"In-app updates setup from tester app failure detected.");
+      [MS_USER_DEFAULTS setObject:queryTesterAppUpdateSetupFailed forKey:kMSTesterAppUpdateSetupFailedKey];
+      [self startUpdate];
+      return YES;
     }
 
     /*
