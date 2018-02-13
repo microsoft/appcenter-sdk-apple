@@ -710,7 +710,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   }
 
   // Skip if downloaded release not installed yet.
-  if (![lastDownloadedReleaseHash isEqualToString:currentInstalledReleaseHash]) {
+  if (![lastDownloadedReleaseHash containsString:currentInstalledReleaseHash]) {
     MSLogDebug([MSDistribute logTag], @"New release was downloaded but not installed yet, skip reporting.");
     return nil;
   }
