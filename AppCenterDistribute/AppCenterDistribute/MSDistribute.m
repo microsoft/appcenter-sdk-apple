@@ -139,6 +139,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 #else
     if ([self isEnabled]) {
       MSLogDebug([MSDistribute logTag], @"'Update now' is selected. Start download and install the update.");
+      // Store details to report new download after restart if this release is installed.
+      [self storeDownloadedReleaseDetails:self.releaseDetails];
       [self startDownload:self.releaseDetails];
     } else {
       MSLogDebug([MSDistribute logTag], @"'Update now' is selected but Distribute was disabled.");
@@ -665,11 +667,17 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     return;
   }
 
-  MSLogDebug([MSDistribute logTag], @"Store downloaded release hash and id for later reporting.");
   NSNumber *releaseId = details.id;
-  NSString *releaseHash = [details.packageHashes objectAtIndex:0];
+
+  // IPA can contain several hashes, each for different architecture and we can't predict which will be installed,
+  // so save all hashes as comma separated string.
+  NSString *releaseHash = [details.packageHashes count] > 1
+          ? [details.packageHashes componentsJoinedByString:@","]
+          : details.packageHashes[0];
   [MS_USER_DEFAULTS setObject:releaseId forKey:kMSDownloadedReleaseIdKey];
   [MS_USER_DEFAULTS setObject:releaseHash forKey:kMSDownloadedReleaseHashKey];
+  MSLogDebug([MSDistribute logTag], @"Stored downloaded release hash(es) (%@) and id (%@) for later reporting.",
+                  releaseHash, releaseId);
 }
 
 - (void)removeDownloadedReleaseDetailsIfUpdated:(NSString *)currentInstalledReleaseHash {
@@ -677,13 +685,15 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
    if (lastDownloadedReleaseHash == nil) {
      return;
    }
-   if (![lastDownloadedReleaseHash isEqualToString:currentInstalledReleaseHash]) {
-     MSLogDebug([MSDistribute logTag], @"Stored release hash doesn't match current installation, probably downloaded but not installed yet, keep in store.");
+   if (![lastDownloadedReleaseHash containsString:currentInstalledReleaseHash]) {
+     MSLogDebug([MSDistribute logTag], @"Stored release hash(es) (%@) doesn't match current installation hash (%@), probably downloaded but not installed yet, keep in store.",
+             lastDownloadedReleaseHash, currentInstalledReleaseHash);
      return;
    }
 
    // Successfully reported, remove downloaded release details.
-   MSLogDebug([MSDistribute logTag], @"Successfully reported app update for downloaded release hash (%@), removing from store.", lastDownloadedReleaseHash);
+   MSLogDebug([MSDistribute logTag], @"Successfully reported app update for downloaded release hash (%@), removing from store.",
+           currentInstalledReleaseHash);
    [MS_USER_DEFAULTS removeObjectForKey:kMSDownloadedReleaseIdKey];
    [MS_USER_DEFAULTS removeObjectForKey:kMSDownloadedReleaseHashKey];
 }
@@ -694,7 +704,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
   // Check if we need to report release installation.
   NSString *lastDownloadedReleaseHash = [MS_USER_DEFAULTS objectForKey:kMSDownloadedReleaseHashKey];
-  if (!lastDownloadedReleaseHash) {
+  if (lastDownloadedReleaseHash == nil) {
     MSLogDebug([MSDistribute logTag], @"Current release was already reported, skip reporting.");
     return nil;
   }
@@ -873,9 +883,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
           MSLogWarning([MSDistribute logTag], @"System returned NO for update but processing.");
           break;
         }
-
-        // Store details to report new download after restart if this release is installed.
-        [self storeDownloadedReleaseDetails:details];
 
         /*
          * On iOS 8.x and >= iOS 11.0 devices the update download doesn't start until the application goes

@@ -92,7 +92,7 @@ static NSString *const kMSUpdateSetupFailedPackageHashKey = @"MSUpdateSetupFaile
 static NSString *const kMSDownloadedReleaseHashKey = @"MSDownloadedReleaseHash";
 
 /**
- * The storage key for latest downloaded release The storage key for latest downloaded release ID.
+ * The storage key for latest downloaded release ID.
  */
 static NSString *const kMSDownloadedReleaseIdKey = @"MSDownloadedReleaseId";
 
