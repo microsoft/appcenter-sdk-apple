@@ -1,10 +1,10 @@
 # App Center SDK for iOS and macOS Change Log
 
-## Version 1.3.1
+## Version 1.4.0
 
 ### AppCenterDistribute
 
-* **[Improvement]** Improve download counts for in-app update.
+* **[Improvement]** Add download counts for in-app update.
 
 ___
 
