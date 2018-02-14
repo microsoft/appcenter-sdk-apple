@@ -21,6 +21,11 @@
 @property(nonatomic, copy) NSString *sid;
 
 /**
+ * Optional distribution group ID value.
+ */
+@property(nonatomic, copy) NSString *distributionGroupId;
+
+/**
  * Device properties associated to this log.
  */
 @property(nonatomic) MSDevice *device;

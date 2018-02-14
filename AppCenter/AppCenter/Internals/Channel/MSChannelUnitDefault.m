@@ -169,9 +169,9 @@
 
                // Optimization. If the current log level is greater than MSLogLevelDebug, we can skip it.
                if ([MSAppCenter logLevel] <= MSLogLevelDebug) {
-                 unsigned long count = [container.logs count];
-                 for (unsigned long i = 0; i < count; i++) {
-                   MSLogDebug([MSAppCenter logTag], @"Sending %lu/%lu log, group Id: %@, batch Id: %@, session Id: %@, payload:\n%@",
+                 NSUInteger count = [container.logs count];
+                 for (NSUInteger i = 0; i < count; i++) {
+                   MSLogDebug([MSAppCenter logTag], @"Sending %tu/%tu log, group Id: %@, batch Id: %@, session Id: %@, payload:\n%@",
                               (i + 1), count, self.configuration.groupId, batchId, container.logs[i].sid,
                               [(MSAbstractLog *)container.logs[i] serializeLogWithPrettyPrinting:YES]);
                  }
@@ -220,8 +220,8 @@
 
                           // Failure.
                           else {
-                            MSLogError([MSAppCenter logTag], @"Log(s) sent with failure, batch Id:%@, status code:%lu",
-                                       senderBatchId, (unsigned long)statusCode);
+                            MSLogError([MSAppCenter logTag], @"Log(s) sent with failure, batch Id:%@, status code:%tu",
+                                       senderBatchId, statusCode);
 
                             // Notify delegates.
                             [self

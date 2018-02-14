@@ -132,7 +132,7 @@ static NSString *const kSMLogTag = @"[SasquatchMac]";
       CFRelease(UTI);
       MSErrorAttachmentLog *binaryAttachment = [MSErrorAttachmentLog attachmentWithBinary:data filename:referenceUrl.lastPathComponent contentType:MIMEType];
       [attachments addObject:binaryAttachment];
-      NSLog(@"Add binary attachment with %lu bytes", [data length]);
+      NSLog(@"Add binary attachment with %tu bytes", [data length]);
     } else {
       NSLog(@"Couldn't read attachment file with error: %@", error.localizedDescription);
     }

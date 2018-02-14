@@ -41,10 +41,7 @@
 
 - (void)testSwizzleOriginalPushDelegate {
 
-  /*
-   * If
-   */
-
+  // If
   // Mock a custom app delegate.
   id<MSCustomPushApplicationDelegate> customDelegate = OCMProtocolMock(@protocol(MSCustomPushApplicationDelegate));
   [MSAppDelegateForwarder addDelegate:customDelegate];
@@ -55,22 +52,15 @@
   SEL selectorToSwizzle = @selector(application:didFailToRegisterForRemoteNotificationsWithError:);
   [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:selectorToSwizzle];
 
-  /*
-   * When
-   */
+  // When
   [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
   [originalAppDelegate application:self.appMock didFailToRegisterForRemoteNotificationsWithError:expectedError];
 
-  /*
-   * Then
-   */
+  // Then
   assertThatBool([originalAppDelegate respondsToSelector:selectorToSwizzle], isTrue());
   OCMVerify([customDelegate application:self.appMock didFailToRegisterForRemoteNotificationsWithError:expectedError]);
 
-  /*
-   * If
-   */
-
+  // If
   // App delegate implementing the selector directly.
   originalAppDelegate = [self createOriginalAppDelegateInstance];
   __block BOOL wasCalled = NO;
@@ -80,23 +70,16 @@
   [self addSelector:selectorToSwizzle implementation:selectorImp toInstance:originalAppDelegate];
   [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:selectorToSwizzle];
 
-  /*
-   * When
-   */
+  // When
   [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
   [originalAppDelegate application:self.appMock didFailToRegisterForRemoteNotificationsWithError:expectedError];
 
-  /*
-   * Then
-   */
+  // Then
   assertThatBool([originalAppDelegate respondsToSelector:selectorToSwizzle], isTrue());
   assertThatBool(wasCalled, isTrue());
   OCMVerify([customDelegate application:self.appMock didFailToRegisterForRemoteNotificationsWithError:expectedError]);
 
-  /*
-   * If
-   */
-
+  // If
   // App delegate implementing the selector indirectly.
   id originalBaseAppDelegate = [self createOriginalAppDelegateInstance];
   [self addSelector:selectorToSwizzle implementation:selectorImp toInstance:originalBaseAppDelegate];
@@ -104,23 +87,16 @@
   wasCalled = NO;
   [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:selectorToSwizzle];
 
-  /*
-   * When
-   */
+  // When
   [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
   [originalAppDelegate application:self.appMock didFailToRegisterForRemoteNotificationsWithError:expectedError];
 
-  /*
-   * Then
-   */
+  // Then
   assertThatBool([originalAppDelegate respondsToSelector:selectorToSwizzle], isTrue());
   assertThatBool(wasCalled, isTrue());
   OCMVerify([customDelegate application:self.appMock didFailToRegisterForRemoteNotificationsWithError:expectedError]);
 
-  /*
-   * If
-   */
-
+  // If
   // App delegate implementing the selector directly and indirectly.
   wasCalled = NO;
   __block BOOL baseWasCalled = NO;
@@ -133,24 +109,17 @@
   [self addSelector:selectorToSwizzle implementation:selectorImp toInstance:originalAppDelegate];
   [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:selectorToSwizzle];
 
-  /*
-   * When
-   */
+  // When
   [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
   [originalAppDelegate application:self.appMock didFailToRegisterForRemoteNotificationsWithError:expectedError];
 
-  /*
-   * Then
-   */
+  // Then
   assertThatBool([originalAppDelegate respondsToSelector:selectorToSwizzle], isTrue());
   assertThatBool(wasCalled, isTrue());
   assertThatBool(baseWasCalled, isFalse());
   OCMVerify([customDelegate application:self.appMock didFailToRegisterForRemoteNotificationsWithError:expectedError]);
 
-  /*
-   * If
-   */
-
+  // If
   // App delegate not implementing any selector still responds to selector.
   originalAppDelegate = [self createOriginalAppDelegateInstance];
   SEL instancesRespondToSelector = @selector(instancesRespondToSelector:);
@@ -164,15 +133,10 @@
              toClass:object_getClass([originalAppDelegate class])];
   [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:selectorToSwizzle];
 
-  /*
-   * When
-   */
+  // When
   [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
 
-  /*
-   * Then
-   */
-
+  // Then
   // Original delegate still responding to selector.
   assertThatBool([[originalAppDelegate class] instancesRespondToSelector:selectorToSwizzle], isTrue());
 

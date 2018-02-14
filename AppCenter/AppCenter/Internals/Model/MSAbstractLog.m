@@ -5,6 +5,7 @@
 #import "MSUtility+Date.h"
 
 static NSString *const kMSSid = @"sid";
+static NSString *const kMSDistributionGroupId = @"distributionGroupId";
 static NSString *const kMSTimestamp = @"timestamp";
 static NSString *const kMSDevice = @"device";
 static NSString *const kMSType = @"type";
@@ -14,6 +15,7 @@ static NSString *const kMSType = @"type";
 @synthesize type = _type;
 @synthesize timestamp = _timestamp;
 @synthesize sid = _sid;
+@synthesize distributionGroupId = _distributionGroupId;
 @synthesize device = _device;
 
 - (NSMutableDictionary *)serializeToDictionary {
@@ -27,6 +29,9 @@ static NSString *const kMSType = @"type";
   }
   if (self.sid) {
     dict[kMSSid] = self.sid;
+  }
+  if (self.distributionGroupId) {
+    dict[kMSDistributionGroupId] = self.distributionGroupId;
   }
   if (self.device) {
     dict[kMSDevice] = [self.device serializeToDictionary];
@@ -46,6 +51,7 @@ static NSString *const kMSType = @"type";
   return ((!self.type && !log.type) || [self.type isEqualToString:log.type]) &&
          ((!self.timestamp && !log.timestamp) || [self.timestamp isEqualToDate:log.timestamp]) &&
          ((!self.sid && !log.sid) || [self.sid isEqualToString:log.sid]) &&
+         ((!self.distributionGroupId && !log.distributionGroupId) || [self.distributionGroupId isEqualToString:log.distributionGroupId]) &&
          ((!self.device && !log.device) || [self.device isEqual:log.device]);
 }
 
@@ -57,6 +63,7 @@ static NSString *const kMSType = @"type";
     _type = [coder decodeObjectForKey:kMSType];
     _timestamp = [coder decodeObjectForKey:kMSTimestamp];
     _sid = [coder decodeObjectForKey:kMSSid];
+    _distributionGroupId = [coder decodeObjectForKey:kMSDistributionGroupId];
     _device = [coder decodeObjectForKey:kMSDevice];
   }
   return self;
@@ -66,6 +73,7 @@ static NSString *const kMSType = @"type";
   [coder encodeObject:self.type forKey:kMSType];
   [coder encodeObject:self.timestamp forKey:kMSTimestamp];
   [coder encodeObject:self.sid forKey:kMSSid];
+  [coder encodeObject:self.distributionGroupId forKey:kMSDistributionGroupId];
   [coder encodeObject:self.device forKey:kMSDevice];
 }
 

@@ -10,6 +10,7 @@
 #import "MSAlertController.h"
 #import "MSCustomApplicationDelegate.h"
 #import "MSDistribute.h"
+#import "MSDistributeInfoTracker.h"
 #import <SafariServices/SafariServices.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -43,6 +44,9 @@ static NSString *const kMSURLQueryUpdateTokenKey = @"update_token";
 static NSString *const kMSURLQueryDistributionGroupIdKey = @"distribution_group_id";
 static NSString *const kMSURLQueryEnableUpdateSetupFailureRedirectKey = @"enable_failure_redirect";
 static NSString *const kMSURLQueryUpdateSetupFailedKey = @"update_setup_failed";
+static NSString *const kMSURLQueryDownloadedReleaseIdKey = @"downloaded_release_id";
+static NSString *const kMSURLQueryInstallIdKey = @"install_id";
+static NSString *const kMSURLQueryTesterAppUpdateSetupFailedKey = @"tester_app_update_setup_failed";
 
 /**
  * Distribute url query parameter value strings.
@@ -84,6 +88,21 @@ static NSString *const kMSDistributionGroupIdKey = @"MSDistributionGroupId";
  */
 static NSString *const kMSUpdateSetupFailedPackageHashKey = @"MSUpdateSetupFailedPackageHash";
 
+/**
+ * The storage key for latest downloaded release hash.
+ */
+static NSString *const kMSDownloadedReleaseHashKey = @"MSDownloadedReleaseHash";
+
+/**
+ * The storage key for latest downloaded release ID.
+ */
+static NSString *const kMSDownloadedReleaseIdKey = @"MSDownloadedReleaseId";
+
+/**
+ * The storage key for tester app update setup failure.
+ */
+static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSetupFailed";
+
 @interface MSDistribute ()
 
 /**
@@ -114,6 +133,11 @@ static NSString *const kMSUpdateSetupFailedPackageHashKey = @"MSUpdateSetupFaile
 @property(nonatomic) id _Nullable authenticationSession;
 
 /**
+ * Distribute info tracking component which adds extra fields to logs.
+ */
+@property(nonatomic) MSDistributeInfoTracker *distributeInfoTracker;
+
+/**
  * Returns the singleton instance. Meant for testing/demo apps only.
  *
  * @return the singleton instance of MSDistribute.
@@ -121,14 +145,24 @@ static NSString *const kMSUpdateSetupFailedPackageHashKey = @"MSUpdateSetupFaile
 + (instancetype)sharedInstance;
 
 /**
- * Build the install URL for token request with the given application secret.
+ * Build the URL for token request with the given application secret.
  *
  * @param appSecret Application secret.
  * @param releaseHash The release hash of the current version.
+ * @param isTesterApp Whether the URL should be constructed to link to the tester app.
  *
- * @return The finale install URL to request the token or nil if an error occurred.
+ * @return The final URL to request the token or nil if an error occurred.
  */
-- (nullable NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret releaseHash:(NSString *)releaseHash;
+- (nullable NSURL *)buildTokenRequestURLWithAppSecret:(NSString *)appSecret releaseHash:(NSString *)releaseHash isTesterApp:(BOOL)isTesterApp;
+
+/**
+ * Open the given URL using the openURL method in the Shared Application.
+ *
+ * @param url URL to open.
+ *
+ * @return Whether the URL was opened or not.
+ */
+- (BOOL)openUrlUsingSharedApp:(NSURL *)url;
 
 /**
  * Open the given URL using either SFAuthenticationSession, SFSafariViewController, or the Safari app
@@ -189,6 +223,33 @@ static NSString *const kMSUpdateSetupFailedPackageHashKey = @"MSUpdateSetupFaile
  * @return `YES` if this update is handled or `NO` otherwise.
  */
 - (BOOL)handleUpdate:(MSReleaseDetails *)details;
+
+/**
+ * Store details about downloaded release to report it after installation.
+ *
+ * @param details Release details.
+ */
+- (void)storeDownloadedReleaseDetails:(nullable MSReleaseDetails *)details;
+
+/**
+ * Remove details about downloaded release after it was installed.
+ *
+ * @param currentInstalledReleaseHash The release hash of the current version.
+ */
+- (void)removeDownloadedReleaseDetailsIfUpdated:(NSString *)currentInstalledReleaseHash;
+
+/**
+ * Get reporting parameters for updated release.
+ *
+ * @param updateToken The update token stored in keychain. This value can be nil if it is public distribution.
+ * @param currentInstalledReleaseHash The release hash of the current version.
+ * @param distributionGroupId The distribution group Id in keychain.
+ *
+ * @return Reporting parameters dictionary.
+ */
+- (NSMutableDictionary *)getReportingParametersForUpdatedRelease:(NSString *)updateToken
+                                     currentInstalledReleaseHash:(NSString *)currentInstalledReleaseHash
+                                             distributionGroupId:(NSString *)distributionGroupId;
 
 /**
  * Show a dialog to ask a user to confirm update for a new release.

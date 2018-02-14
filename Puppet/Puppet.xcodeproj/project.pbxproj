@@ -52,6 +52,7 @@
 		E89E6A2D1D396D7900CAA2CD /* MSMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89E6A2B1D396D7900CAA2CD /* MSMainViewController.m */; };
 		E89E6A301D39704900CAA2CD /* MSAnalyticsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E89E6A2F1D39704900CAA2CD /* MSAnalyticsViewController.m */; };
 		F85AAE251E890226006797CA /* MSDeviceInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F85AAE241E890226006797CA /* MSDeviceInfoViewController.m */; };
+		F8650EE4201F74180017E0FE /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8650EE3201F74180017E0FE /* Helpers.swift */; };
 		F8EB8ED51FD83A1F00F7ADC1 /* MSAnalyticsPropertyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F8EB8ED31FD83A1F00F7ADC1 /* MSAnalyticsPropertyTableViewCell.m */; };
 		F8EB8ED61FD83A1F00F7ADC1 /* MSAnalyticsPropertyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F8EB8ED41FD83A1F00F7ADC1 /* MSAnalyticsPropertyTableViewCell.xib */; };
 		F8F73BD41FD803C200CB7144 /* MSCustomPropertyTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F8F73BD31FD803C200CB7144 /* MSCustomPropertyTableViewCell.m */; };
@@ -431,6 +432,7 @@
 		E89E6A2F1D39704900CAA2CD /* MSAnalyticsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAnalyticsViewController.m; sourceTree = "<group>"; };
 		F85AAE231E890226006797CA /* MSDeviceInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDeviceInfoViewController.h; sourceTree = "<group>"; };
 		F85AAE241E890226006797CA /* MSDeviceInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDeviceInfoViewController.m; sourceTree = "<group>"; };
+		F8650EE3201F74180017E0FE /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		F8EB8ED21FD83A1F00F7ADC1 /* MSAnalyticsPropertyTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsPropertyTableViewCell.h; sourceTree = "<group>"; };
 		F8EB8ED31FD83A1F00F7ADC1 /* MSAnalyticsPropertyTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSAnalyticsPropertyTableViewCell.m; sourceTree = "<group>"; };
 		F8EB8ED41FD83A1F00F7ADC1 /* MSAnalyticsPropertyTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MSAnalyticsPropertyTableViewCell.xib; sourceTree = "<group>"; };
@@ -565,6 +567,7 @@
 				5CE2589A1EA5FBD400DA8FB9 /* CrashesUITests.swift */,
 				5CE2589C1EA5FBE900DA8FB9 /* DistributeUITests.swift */,
 				5C4E0BFE1EE6F50F00FB0CF2 /* AppCenterUITests.swift */,
+				F8650EE3201F74180017E0FE /* Helpers.swift */,
 			);
 			path = PuppetUITests;
 			sourceTree = "<group>";
@@ -1145,6 +1148,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8650EE4201F74180017E0FE /* Helpers.swift in Sources */,
 				5CE258991EA5FBCA00DA8FB9 /* AnalyticsUITests.swift in Sources */,
 				5CE2589D1EA5FBE900DA8FB9 /* DistributeUITests.swift in Sources */,
 				5C4E0BFF1EE6F50F00FB0CF2 /* AppCenterUITests.swift in Sources */,
@@ -1307,7 +1311,7 @@
 				DEVELOPMENT_TEAM = "";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = NotifExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.puppet.NotifExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1328,7 +1332,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = NotifExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.puppet.NotifExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";

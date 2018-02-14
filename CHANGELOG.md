@@ -1,5 +1,13 @@
 # App Center SDK for iOS and macOS Change Log
 
+## Version 1.3.1
+
+### AppCenterDistribute
+
+* **[Improvement]** Improve download counts for in-app update.
+
+___
+
 ## Version 1.3.0
 
 This version has a **breaking change** as the SDK now requires iOS 9 or later. It also contains a bug fix and an improvement.

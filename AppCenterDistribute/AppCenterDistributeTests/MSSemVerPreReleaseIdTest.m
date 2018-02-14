@@ -32,148 +32,92 @@
 
 - (void)testSemVerPreReleaseIdComparison {
 
-  /*
-   * If
-   */
-
+  // If
   // Equal pre-releases ids.
   MSSemVerPreReleaseId *preReleaseIdA = [MSSemVerPreReleaseId identifierWithString:@"alpha"];
   MSSemVerPreReleaseId *preReleaseIdB = [MSSemVerPreReleaseId identifierWithString:@"alpha"];
 
-  /*
-   * When
-   */
+  // When
   NSComparisonResult result = [preReleaseIdA compare:preReleaseIdB];
 
-  /*
-   * Then
-   */
+  // Then
   assertThatInt(result, equalToInt(NSOrderedSame));
 
-  /*
-   * If
-   */
-
+  // If
   // Numerical identifiers in pre-release are compared as numeric valules.
   preReleaseIdA = [MSSemVerPreReleaseId identifierWithString:@"12"];
   preReleaseIdB = [MSSemVerPreReleaseId identifierWithString:@"13"];
 
-  /*
-   * When
-   */
+  // When
   result = [preReleaseIdA compare:preReleaseIdB];
 
-  /*
-   * Then
-   */
+  // Then
   assertThatInt(result, equalToInt(NSOrderedAscending));
 
-  /*
-   * If
-   */
-
+  // If
   // Numerical identifiers in pre-release are compared as numeric valules.
   preReleaseIdA = [MSSemVerPreReleaseId identifierWithString:@"13"];
   preReleaseIdB = [MSSemVerPreReleaseId identifierWithString:@"12"];
 
-  /*
-   * When
-   */
+  // When
   result = [preReleaseIdA compare:preReleaseIdB];
 
-  /*
-   * Then
-   */
+  // Then
   assertThatInt(result, equalToInt(NSOrderedDescending));
 
-  /*
-   * If
-   */
-
+  // If
   // Alphanumerical identifiers in pre-release are compared using ASCII order.
   preReleaseIdA = [MSSemVerPreReleaseId identifierWithString:@"AZ"];
   preReleaseIdB = [MSSemVerPreReleaseId identifierWithString:@"Az"];
 
-  /*
-   * When
-   */
+  // When
   result = [preReleaseIdA compare:preReleaseIdB];
 
-  /*
-   * Then
-   */
+  // Then
   assertThatInt(result, equalToInt(NSOrderedAscending));
 
-  /*
-   * If
-   */
-
+  // If
   // Alphanumerical identifiers in pre-release are compared using ASCII order.
   preReleaseIdA = [MSSemVerPreReleaseId identifierWithString:@"Az"];
   preReleaseIdB = [MSSemVerPreReleaseId identifierWithString:@"AZ"];
 
-  /*
-   * When
-   */
+  // When
   result = [preReleaseIdA compare:preReleaseIdB];
 
-  /*
-   * Then
-   */
+  // Then
   assertThatInt(result, equalToInt(NSOrderedDescending));
 
-  /*
-   * If
-   */
-
+  // If
   // Numbers have lower precedence than alphanumeric values for pre-release identifiers.
   preReleaseIdA = [MSSemVerPreReleaseId identifierWithString:@"123"];
   preReleaseIdB = [MSSemVerPreReleaseId identifierWithString:@"A10"];
 
-  /*
-   * When
-   */
+  // When
   result = [preReleaseIdA compare:preReleaseIdB];
 
-  /*
-   * Then
-   */
+  // Then
   assertThatInt(result, equalToInt(NSOrderedAscending));
 
-  /*
-   * If
-   */
-
+  // If
   // The longest pre-release identifier is higher precedence.
   preReleaseIdA = [MSSemVerPreReleaseId identifierWithString:@"A10"];
   preReleaseIdB = [MSSemVerPreReleaseId identifierWithString:@"A10a"];
 
-  /*
-   * When
-   */
+  // When
   result = [preReleaseIdA compare:preReleaseIdB];
 
-  /*
-   * Then
-   */
+  // Then
   assertThatInt(result, equalToInt(NSOrderedAscending));
 
-  /*
-   * If
-   */
-
+  // If
   // The pre-release numeric identifier is lower precedence.
   preReleaseIdA = [MSSemVerPreReleaseId identifierWithString:@"A"];
   preReleaseIdB = [MSSemVerPreReleaseId identifierWithString:@"10"];
 
-  /*
-   * When
-   */
+  // When
   result = [preReleaseIdA compare:preReleaseIdB];
 
-  /*
-   * Then
-   */
+  // Then
   assertThatInt(result, equalToInt(NSOrderedDescending));
 }
 @end

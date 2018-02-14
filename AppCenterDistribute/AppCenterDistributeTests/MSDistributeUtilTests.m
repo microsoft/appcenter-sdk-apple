@@ -49,10 +49,7 @@
 
 - (void)testCompareReleaseSameVersion {
 
-  /*
-   * If.
-   */
-
+  // If
   // Mock current UUID.
   NSString *testUUID = @"CD55E7A9-7AD1-4CA6-B722-3D133F487DA9";
   id parserMock = OCMClassMock([MSBasicMachOParser class]);
@@ -75,14 +72,10 @@
   details.version = expectedVersion;
   details.packageHashes = @[ @"a965a640740e37f8f21bb8ea232048a5984293cec32c36ea77cf19a030c8e5f2" ];
 
-  /*
-   * When
-   */
+  // When
   NSComparisonResult result = MSCompareCurrentReleaseWithRelease(details);
 
-  /*
-   * Then
-   */
+  // Then
   assertThatInt(result, equalToInt(NSOrderedSame));
   [bundleMock stopMocking];
   [parserMock stopMocking];
@@ -90,10 +83,7 @@
 
 - (void)testCompareReleaseDifferentPackageHashes {
 
-  /*
-   * If.
-   */
-
+  // If
   // Mock current UUID.
   id parserMock = OCMClassMock([MSBasicMachOParser class]);
   OCMStub([parserMock machOParserForMainBundle]).andReturn(parserMock);
@@ -115,14 +105,10 @@
   details.version = expectedVersion;
   details.packageHashes = @[ @"Something different package hash" ];
 
-  /*
-   * When
-   */
+  // When
   NSComparisonResult result = MSCompareCurrentReleaseWithRelease(details);
 
-  /*
-   * Then
-   */
+  // Then
   assertThatInt(result, equalToInt(NSOrderedAscending));
   [bundleMock stopMocking];
   [parserMock stopMocking];
@@ -130,10 +116,7 @@
 
 - (void)testCompareReleaseCurrentReleaseNotSemVer {
 
-  /*
-   * If.
-   */
-
+  // If
   // Mock current versions.
   NSString *expectedShortVer = @"not sementic versioning";
   NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : expectedShortVer };
@@ -145,24 +128,17 @@
   MSReleaseDetails *details = [MSReleaseDetails new];
   details.shortVersion = @"2.5.3-alpha+EF69A";
 
-  /*
-   * When
-   */
+  // When
   NSComparisonResult result = MSCompareCurrentReleaseWithRelease(details);
 
-  /*
-   * Then
-   */
+  // Then
   assertThatInt(result, equalToInt(NSOrderedAscending));
   [bundleMock stopMocking];
 }
 
 - (void)testCompareReleaseTestedReleaseNotSemVer {
 
-  /*
-   * If.
-   */
-
+  // If
   // Mock current versions.
   NSString *expectedShortVer = @"2.5.3-alpha+EF69A";
   NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : expectedShortVer };
@@ -174,24 +150,17 @@
   MSReleaseDetails *details = [MSReleaseDetails new];
   details.shortVersion = @"not sementic versioning";
 
-  /*
-   * When
-   */
+  // When
   NSComparisonResult result = MSCompareCurrentReleaseWithRelease(details);
 
-  /*
-   * Then
-   */
+  // Then
   assertThatInt(result, equalToInt(NSOrderedDescending));
   [bundleMock stopMocking];
 }
 
 - (void)testCompareReleaseNoneSemVerButDifferentPackageHashes {
 
-  /*
-   * If.
-   */
-
+  // If
   // Mock current UUID.
   id parserMock = OCMClassMock([MSBasicMachOParser class]);
   OCMStub([parserMock machOParserForMainBundle]).andReturn(parserMock);
@@ -212,14 +181,10 @@
   details.version = expectedVersion;
   details.packageHashes = @[ @"Something different package hash" ];
 
-  /*
-   * When
-   */
+  // When
   NSComparisonResult result = MSCompareCurrentReleaseWithRelease(details);
 
-  /*
-   * Then
-   */
+  // Then
   assertThatInt(result, equalToInt(NSOrderedAscending));
   [bundleMock stopMocking];
   [parserMock stopMocking];
@@ -227,10 +192,7 @@
 
 - (void)testCompareReleaseNoneSemVerButSamePackageHashes {
 
-  /*
-   * If.
-   */
-
+  // If
   // Mock current UUID.
   NSString *testUUID = @"CD55E7A9-7AD1-4CA6-B722-3D133F487DA9";
   id parserMock = OCMClassMock([MSBasicMachOParser class]);
@@ -252,14 +214,10 @@
   details.version = expectedVersion;
   details.packageHashes = @[ MSPackageHash() ];
 
-  /*
-   * When
-   */
+  // When
   NSComparisonResult result = MSCompareCurrentReleaseWithRelease(details);
 
-  /*
-   * Then
-   */
+  // Then
   assertThatInt(result, equalToInt(NSOrderedSame));
   [bundleMock stopMocking];
   [parserMock stopMocking];
@@ -267,10 +225,7 @@
 
 - (void)testCompareReleaseSameShortVersionsDifferentVersions {
 
-  /*
-   * If.
-   */
-
+  // If
   // Mock current UUID.
   NSString *testUUID = @"CD55E7A9-7AD1-4CA6-B722-3D133F487DA9";
   id parserMock = OCMClassMock([MSBasicMachOParser class]);
@@ -292,14 +247,10 @@
   details.version = @"2.5.3.2";
   details.packageHashes = @[ MSPackageHash() ];
 
-  /*
-   * When
-   */
+  // When
   NSComparisonResult result = MSCompareCurrentReleaseWithRelease(details);
 
-  /*
-   * Then
-   */
+  // Then
   assertThatInt(result, equalToInt(NSOrderedAscending));
   [bundleMock stopMocking];
   [parserMock stopMocking];
