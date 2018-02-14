@@ -4,7 +4,8 @@
 
 ### AppCenterDistribute
 
-* **[Improvement]** Add download counts for in-app update.
+* **[Feature]** Add reporting of downloads for in-app update.
+* **[Improvement]** Add distribution group to all logs that are sent.
 
 ___
 
