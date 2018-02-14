@@ -7,15 +7,12 @@
 #import "MSDistribute.h"
 #import "MSDistributeAppDelegate.h"
 #import "MSDistributeDataMigration.h"
-#import "MSDistributeDelegate.h"
 #import "MSDistributeInternal.h"
 #import "MSDistributePrivate.h"
 #import "MSDistributeUtil.h"
 #import "MSErrorDetails.h"
 #import "MSKeychainUtil.h"
-#import "MSLogger.h"
 #import "MSServiceAbstractProtected.h"
-#import "MSUtility+Date.h"
 
 /**
  * Service storage key name.
@@ -151,28 +148,28 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   }
   switch (action) {
   case MSUpdateActionUpdate:
-#if TARGET_OS_SIMULATOR
 
-    /*
+    if ([self isEnabled]) {
+      MSLogDebug([MSDistribute logTag], @"'Update now' is selected. Start download and install the update.");
+      // Store details to report new download after restart if this release is installed.
+      [self storeDownloadedReleaseDetails:self.releaseDetails];
+#if TARGET_OS_SIMULATOR
+     /*
      * iOS simulator doesn't support "itms-services" scheme, simulator will consider the scheme
      * as an invalid address. Skip download process if the application is running on simulator.
      */
     MSLogWarning([MSDistribute logTag], @"Couldn't download a new release on simulator.");
 #else
-    if ([self isEnabled]) {
-      MSLogDebug([MSDistribute logTag], @"'Update now' is selected. Start download and install the update.");
-      // Store details to report new download after restart if this release is installed.
-      [self storeDownloadedReleaseDetails:self.releaseDetails];
       [self startDownload:self.releaseDetails];
+#endif
     } else {
       MSLogDebug([MSDistribute logTag], @"'Update now' is selected but Distribute was disabled.");
       [self showDistributeDisabledAlert];
     }
-#endif
     break;
   case MSUpdateActionPostpone:
     MSLogDebug([MSDistribute logTag], @"The SDK will ask the update tomorrow again.");
-    [MS_USER_DEFAULTS setObject:[NSNumber numberWithLongLong:(long long)[MSUtility nowInMilliseconds]]
+    [MS_USER_DEFAULTS setObject:@((long long) [MSUtility nowInMilliseconds])
                          forKey:kMSPostponedTimestampKey];
     break;
   }
