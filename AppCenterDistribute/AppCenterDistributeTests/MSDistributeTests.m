@@ -172,7 +172,7 @@ static NSURL *sfURL;
       enumerateObjectsUsingBlock:^(__kindof NSURLQueryItem *_Nonnull queryItem, __attribute__((unused)) NSUInteger idx,
                                    __attribute__((unused)) BOOL *_Nonnull stop) {
         if (queryItem.value) {
-          [queryStrings setObject:(NSString * _Nonnull)queryItem.value forKey:queryItem.name];
+          queryStrings[queryItem.name] = queryItem.value;
         }
       }];
 
@@ -1634,10 +1634,10 @@ static NSURL *sfURL;
 - (void)testShowDistributeDisabledAlert {
 
   // When
-  XCTestExpectation *expection = [self expectationWithDescription:@"Distribute disabled alert has been displayed"];
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Distribute disabled alert has been displayed"];
   [self.sut showDistributeDisabledAlert];
   dispatch_async(dispatch_get_main_queue(), ^{
-    [expection fulfill];
+    [expectation fulfill];
   });
 
   [self waitForExpectationsWithTimeout:1
@@ -1669,7 +1669,6 @@ static NSURL *sfURL;
   [distributeMock startDownload:details];
 
   // Then
-  OCMVerify([distributeMock storeDownloadedReleaseDetails:details]);
   OCMVerify([distributeMock closeApp]);
 
   // Clear
@@ -1742,7 +1741,7 @@ static NSURL *sfURL;
 
   // If
   MSReleaseDetails *sameRelease = [self generateReleaseDetailsWithVersion:@"10" andShortVersion:@"10.0"];
-  sameRelease.packageHashes = [[NSArray alloc] initWithObjects:MSPackageHash(), nil];
+  sameRelease.packageHashes = @[MSPackageHash()];
 
   // When
   result = [[MSDistribute sharedInstance] isNewerVersion:sameRelease];
@@ -1788,7 +1787,7 @@ static NSURL *sfURL;
   [distributeMock stopMocking];
 }
 
-- (void)testNotifyUpdateAction {
+- (void)testNotifyUpdateActionPostpone {
 
   // If
   id distributeMock = OCMPartialMock(self.sut);
@@ -1806,6 +1805,46 @@ static NSURL *sfURL;
   // Clear
   [distributeMock stopMocking];
   [utilityMock stopMocking];
+}
+
+- (void)testNotifyUpdateActionUpdateOneHash {
+
+  // If
+  id distributeMock = OCMPartialMock(self.sut);
+  MSReleaseDetails *details = [MSReleaseDetails new];
+  details.id = @1;
+  details.packageHashes = @[ @"d5110dea0dc504b4d2924377fbbb2aaa9df8d4cc08e693b1160c389f5bc865a8" ];
+  [distributeMock setValue:details forKey:@"releaseDetails"];
+
+  // When
+  [distributeMock notifyUpdateAction:MSUpdateActionUpdate];
+
+  // Then
+  OCMVerify([distributeMock storeDownloadedReleaseDetails:details]);
+
+  // Clear
+  [distributeMock stopMocking];
+}
+
+- (void)testNotifyUpdateActionUpdateSeveralHashes {
+
+  // If
+  id distributeMock = OCMPartialMock(self.sut);
+  MSReleaseDetails *details = [MSReleaseDetails new];
+  details.id = @1;
+  details.packageHashes = @[ @"d5110dea0dc504b4d2924377fbbb2aaa9df8d4cc08e693b1160c389f5bc865a8",
+          @"842d928f551d3bcae224221b563ce338839d897060d194a262ba3dfba4811c71",
+          @"a7f2d4eed734b55a107d5a71195c8e18c21dcbde3d90c8b586c0af47b4dd4d6c" ];
+  [distributeMock setValue:details forKey:@"releaseDetails"];
+
+  // When
+  [distributeMock notifyUpdateAction:MSUpdateActionUpdate];
+
+  // Then
+  OCMVerify([distributeMock storeDownloadedReleaseDetails:details]);
+
+  // Clear
+  [distributeMock stopMocking];
 }
 
 - (void)testNotifyUpdateActionTwice {
