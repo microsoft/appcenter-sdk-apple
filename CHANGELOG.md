@@ -2,6 +2,8 @@
 
 ## Version 1.4.0
 
+This version contains a new feature.
+
 ### AppCenterDistribute
 
 * **[Feature]** Add reporting of downloads for in-app update.
