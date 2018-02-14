@@ -151,9 +151,11 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
     if ([self isEnabled]) {
       MSLogDebug([MSDistribute logTag], @"'Update now' is selected. Start download and install the update.");
+
       // Store details to report new download after restart if this release is installed.
       [self storeDownloadedReleaseDetails:self.releaseDetails];
 #if TARGET_OS_SIMULATOR
+
      /*
      * iOS simulator doesn't support "itms-services" scheme, simulator will consider the scheme
      * as an invalid address. Skip download process if the application is running on simulator.
@@ -259,7 +261,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
     MSLogInfo([MSDistribute logTag], @"Request information of initial installation.");
     
-    // Don't run on the UI thread, or else the app may be slow to startup
+    // Don't run on the UI thread, or else the app may be slow to startup.
     NSURL *testerAppUrl = [self buildTokenRequestURLWithAppSecret:self.appSecret releaseHash:releaseHash isTesterApp:true];
     NSURL *installUrl = [self buildTokenRequestURLWithAppSecret:self.appSecret releaseHash:releaseHash isTesterApp:false];
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -268,7 +270,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       if (shouldUseTesterAppForUpdateSetup) {
         MSLogInfo([MSDistribute logTag], @"Attempting to use tester app for update setup.");
         
-        // Attempt to open the native iOS tester app to enable in-app updates
+        // Attempt to open the native iOS tester app to enable in-app updates.
         if (testerAppUrl) {
           testerAppOpened = [self openUrlUsingSharedApp:testerAppUrl];
           if (testerAppOpened) {
@@ -279,7 +281,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         }
       }
       
-      // If the native app could not be opened (not installed), fall back to the browser update setup
+      // If the native app could not be opened (not installed), fall back to the browser update setup.
       if ((!shouldUseTesterAppForUpdateSetup || !testerAppOpened) && installUrl) {
         [self openUrlInAuthenticationSessionOrSafari:installUrl];
       }
@@ -517,6 +519,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 }
 
 - (void)openUrlInAuthenticationSessionOrSafari:(NSURL *)url {
+
 /*
  * Only iOS 9.x and 10.x will download the update after users click the "Install" button.
  * We need to force-exit the application for other versions or for any versions when the update is mandatory.
