@@ -213,7 +213,13 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 #pragma mark - Private
 
-- (void)sendLog:(id<MSLog>)log {
+- (void)sendFirstSessionUpdateLog{
+    
+    MSLogDebug([MSDistribute logTag],
+               @"Updating the session count.");
+    
+    // log the fisrt session after an install
+    MSDistributionStartSessionLog *log = [[MSDistributionStartSessionLog alloc] init];
     
     // Send log to log manager.
     [self.channelUnit enqueueItem:log];
@@ -1035,12 +1041,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         
         // If Analytics SDK is disabled session Id is null and there is no neeed to updte the distribution session count.
         if(latestSessionId) {
-            MSLogDebug([MSDistribute logTag],
-                       @"A session was logged updating the session count.");
-            
-            // log the fisrt session after an install
-            MSDistributionStartSessionLog *log = [[MSDistributionStartSessionLog alloc] init];
-            [self sendLog:log];
+            [self sendFirstSessionUpdateLog];
         }
     }
 

@@ -24,6 +24,8 @@
 #import "MSUtility+Environment.h"
 #import "MSUtility+StringFormatting.h"
 #import "MSDistributeInfoTracker.h"
+#import "MSSessionContext.h"
+#import "MSSessionContextPrivate.h"
 
 static NSString *const kMSTestAppSecret = @"IAMSECRET";
 static NSString *const kMSTestReleaseHash = @"RELEASEHASH";
@@ -119,6 +121,8 @@ static NSURL *sfURL;
   // Mock DistributeInfoTracker.
   self.distributeInfoTrackerMock = OCMClassMock([MSDistributeInfoTracker class]);
   self.sut.distributeInfoTracker = self.distributeInfoTrackerMock;
+    
+  [MSSessionContext resetSharedInstance];
 }
 
 - (void)tearDown {
@@ -1088,6 +1092,82 @@ static NSURL *sfURL;
   [distributeMock stopMocking];
   [appCenterMock stopMocking];
   [utilityMock stopMocking];
+}
+
+- (void)testOpenUrlWithFirstSeesionLogUpdate{
+    
+    // If
+    NSString *requestId = @"FIRST-REQUEST";
+    NSString *distributionGroupId = @"GROUP-ID";
+    NSString *token = @"TOKEN";
+    NSString *scheme = [NSString stringWithFormat:kMSDefaultCustomSchemeFormat, kMSTestAppSecret];
+    
+    id distributeMock = OCMPartialMock(self.sut);
+    OCMStub([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:kMSTestReleaseHash])
+    .andDo(nil);
+    OCMStub([distributeMock sharedInstance]).andReturn(distributeMock);
+    id appCenterMock = OCMClassMock([MSAppCenter class]);
+    OCMStub([appCenterMock isConfigured]).andReturn(YES);
+    id utilityMock = [self mockMSPackageHash];
+    
+    // Disable for now to bypass initializing sender.
+    [distributeMock setEnabled:NO];
+    [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol)) appSecret:kMSTestAppSecret];
+    
+    // Enable again.
+    [distributeMock setEnabled:YES];
+    
+    // If
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?request_id=%@&distribution_group_id=%@", scheme,
+                                requestId, distributionGroupId]];
+    
+    // When
+    [MSSessionContext setSessionId:@"Session1"];
+    [MS_USER_DEFAULTS setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
+    BOOL result = [MSDistribute openURL:url];
+    
+    // Then
+    assertThatBool(result, isTrue());
+    OCMVerify([distributeMock sendFirstSessionUpdateLog]);
+    [MSSessionContext resetSharedInstance];
+    
+    // If
+    url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?request_id=%@&distribution_group_id=%@", scheme,
+                                requestId, distributionGroupId]];
+    
+    // When
+    [MSSessionContext setSessionId:nil];
+    [MS_USER_DEFAULTS setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
+    result = [MSDistribute openURL:url];
+    
+    // Then
+    assertThatBool(result, isTrue());
+    OCMReject([distributeMock sendFirstSessionUpdateLog]);
+              
+    // If
+    url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?request_id=%@&update_token=%@", scheme, requestId, token]];
+    
+    // When
+    [MS_USER_DEFAULTS setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
+    result = [MSDistribute openURL:url];
+    
+    // Then
+    assertThatBool(result, isTrue());
+    OCMReject([distributeMock sendFirstSessionUpdateLog]);
+    
+    // If
+    [distributeMock setEnabled:NO];
+    
+    // When
+    [MSDistribute openURL:url];
+    
+    // Then
+    assertThatBool(result, isTrue());
+    
+    // Clear
+    [distributeMock stopMocking];
+    [appCenterMock stopMocking];
+    [utilityMock stopMocking];
 }
 
 - (void)testOpenUrlWithUpdateSetupFailure {
