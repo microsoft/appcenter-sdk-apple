@@ -4,6 +4,7 @@
 #import "MSAppCenterInternal.h"
 #import "MSAppDelegateForwarder.h"
 #import "MSChannelUnitConfiguration.h"
+#import "MSChannelUnitProtocol.h"
 #import "MSDistribute.h"
 #import "MSDistributeAppDelegate.h"
 #import "MSDistributeDataMigration.h"
@@ -13,6 +14,9 @@
 #import "MSErrorDetails.h"
 #import "MSKeychainUtil.h"
 #import "MSServiceAbstractProtected.h"
+#import "MSDistributionStartSessionLog.h"
+#import "MSSessionContext.h"
+#import "MSUserDefaults.h"
 
 /**
  * Service storage key name.
@@ -208,6 +212,12 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 }
 
 #pragma mark - Private
+
+- (void)sendLog:(id<MSLog>)log {
+    
+    // Send log to log manager.
+    [self.channelUnit enqueueItem:log];
+}
 
 - (void)startUpdate {
   NSString *updateToken = [MSKeychainUtil stringForKey:kMSUpdateTokenKey];
@@ -980,6 +990,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     NSString *queryUpdateToken = nil;
     NSString *queryUpdateSetupFailed = nil;
     NSString *queryTesterAppUpdateSetupFailed = nil;
+    NSString * latestSessionId = nil;
     NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
 
     // Read mandatory parameters from URL query string.
@@ -1018,6 +1029,19 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
       // Update distribution group ID which is added to logs.
       [self.distributeInfoTracker updateDistributionGroupId:queryDistributionGroupId];
+        
+        // Only if we have managed to retrieve the Distribution group ID we should update the distribution session count.
+        latestSessionId = [MSSessionContext sessionIdAt:[NSDate date]];
+        
+        // If Analytics SDK is disabled session Id is null and there is no neeed to updte the distribution session count.
+        if(latestSessionId) {
+            MSLogDebug([MSDistribute logTag],
+                       @"A session was logged updating the session count.");
+            
+            // log the fisrt session after an install
+            MSDistributionStartSessionLog *log = [[MSDistributionStartSessionLog alloc] init];
+            [self sendLog:log];
+        }
     }
 
     /*
