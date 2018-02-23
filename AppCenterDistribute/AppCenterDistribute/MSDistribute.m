@@ -120,6 +120,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   // Enabling
   if (isEnabled) {
     MSLogInfo([MSDistribute logTag], @"Distribute service has been enabled.");
+    [self changeDistributionGroupIdAfterAppUpdateIfNeeded];
     self.releaseDetails = nil;
     [self startUpdate];
     [MSAppDelegateForwarder addDelegate:self.appDelegate];
@@ -318,7 +319,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     if (self.sender == nil) {
       NSMutableDictionary *queryStrings = [[NSMutableDictionary alloc] init];
       NSMutableDictionary *reportingParametersForUpdatedRelease =
-          [self getReportingParametersForUpdatedRelease:updateToken currentInstalledReleaseHash:releaseHash distributionGroupId:distributionGroupId];
+          [self getReportingParametersForUpdatedRelease:updateToken distributionGroupId:distributionGroupId];
       if (reportingParametersForUpdatedRelease != nil) {
         [queryStrings addEntriesFromDictionary:reportingParametersForUpdatedRelease];
       }
@@ -365,7 +366,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                } else {
 
                  // Check if downloaded release was installed and remove stored release details.
-                 [self removeDownloadedReleaseDetailsIfUpdated:releaseHash];
+                 [self removeDownloadedReleaseDetailsIfUpdated];
 
                  /*
                   * Handle this update.
@@ -717,46 +718,45 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 }
 
 - (void)storeDownloadedReleaseDetails:(nullable MSReleaseDetails *)details {
-  if (details == nil || details.id == nil || details.packageHashes == nil || [details.packageHashes count] == 0) {
-    MSLogDebug([MSDistribute logTag], @"Release details are missing or broken, will not store release hash and id for reporting.");
+  if (details == nil) {
+    MSLogDebug([MSDistribute logTag], @"Downloaded release details are missing or broken, won't store.");
     return;
   }
-
+  NSString *groupId = details.distributionGroupId;
   NSNumber *releaseId = details.id;
 
   /*
    * IPA can contain several hashes, each for different architecture and we can't predict which will be installed,
    * so save all hashes as comma separated string.
    */
-  NSString *releaseHashes = [details.packageHashes count] > 1
+  NSString *releaseHashes = [details.packageHashes count] > 0
           ? [details.packageHashes componentsJoinedByString:@","]
-          : details.packageHashes[0];
+          : nil;
+  MSLogDebug([MSDistribute logTag], @"Store downloaded release details, group id: %@, release hashes: %@, release id: %@.",
+                  groupId, releaseHashes, releaseId);
+  [MS_USER_DEFAULTS setObject:groupId forKey:kMSDownloadedDistributionGroupIdKey];
   [MS_USER_DEFAULTS setObject:releaseId forKey:kMSDownloadedReleaseIdKey];
   [MS_USER_DEFAULTS setObject:releaseHashes forKey:kMSDownloadedReleaseHashKey];
-  MSLogDebug([MSDistribute logTag], @"Stored downloaded release hash(es) (%@) and id (%@) for later reporting.",
-                  releaseHashes, releaseId);
 }
 
-- (void)removeDownloadedReleaseDetailsIfUpdated:(NSString *)currentInstalledReleaseHash {
-   NSString *lastDownloadedReleaseHashes = [MS_USER_DEFAULTS objectForKey:kMSDownloadedReleaseHashKey];
-   if (lastDownloadedReleaseHashes == nil) {
-     return;
-   }
-   if ([lastDownloadedReleaseHashes rangeOfString:currentInstalledReleaseHash].location == NSNotFound) {
-     MSLogDebug([MSDistribute logTag], @"Stored release hash(es) (%@) doesn't match current installation hash (%@), probably downloaded but not installed yet, keep in store.",
-             lastDownloadedReleaseHashes, currentInstalledReleaseHash);
-     return;
-   }
+- (void)removeDownloadedReleaseDetailsIfUpdated {
+  NSString *lastDownloadedReleaseHashes = [MS_USER_DEFAULTS objectForKey:kMSDownloadedReleaseHashKey];
+  if (lastDownloadedReleaseHashes == nil) {
+    return;
+  }
+  if (![self isCurrentReleaseWasUpdated:lastDownloadedReleaseHashes]) {
+    MSLogDebug([MSDistribute logTag], @"Stored release hash(es) doesn't match current installation hash, probably downloaded but not installed yet, keep in store.");
+    return;
+  }
 
-   // Successfully reported, remove downloaded release details.
-   MSLogDebug([MSDistribute logTag], @"Successfully reported app update for downloaded release hash (%@), removing from store.",
-           currentInstalledReleaseHash);
-   [MS_USER_DEFAULTS removeObjectForKey:kMSDownloadedReleaseIdKey];
-   [MS_USER_DEFAULTS removeObjectForKey:kMSDownloadedReleaseHashKey];
+  // Successfully reported, remove downloaded release details.
+  MSLogDebug([MSDistribute logTag], @"Successfully reported app update for downloaded release hash(es) (%@), removing from store.",
+             lastDownloadedReleaseHashes);
+  [MS_USER_DEFAULTS removeObjectForKey:kMSDownloadedReleaseIdKey];
+  [MS_USER_DEFAULTS removeObjectForKey:kMSDownloadedReleaseHashKey];
 }
 
 - (NSMutableDictionary *)getReportingParametersForUpdatedRelease:(NSString *)updateToken
-                                     currentInstalledReleaseHash:(NSString *)currentInstalledReleaseHash
                                              distributionGroupId:(NSString *)distributionGroupId {
 
   // Check if we need to report release installation.
@@ -767,7 +767,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   }
 
   // Skip if downloaded release not installed yet.
-  if ([lastDownloadedReleaseHashes rangeOfString:currentInstalledReleaseHash].location == NSNotFound) {
+  if (![self isCurrentReleaseWasUpdated:lastDownloadedReleaseHashes]) {
     MSLogDebug([MSDistribute logTag], @"New release was downloaded but not installed yet, skip reporting.");
     return nil;
   }
@@ -783,6 +783,33 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   NSString *lastDownloadedReleaseId = [MS_USER_DEFAULTS objectForKey:kMSDownloadedReleaseIdKey];
   reportingParameters[kMSURLQueryDownloadedReleaseIdKey] = lastDownloadedReleaseId;
   return reportingParameters;
+}
+
+- (void)changeDistributionGroupIdAfterAppUpdateIfNeeded {
+  NSString *lastDownloadedReleaseHashes = [MS_USER_DEFAULTS objectForKey:kMSDownloadedReleaseHashKey];
+  NSString *lastDownloadedDistributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDownloadedDistributionGroupIdKey];
+  if (lastDownloadedDistributionGroupId == nil || ![self isCurrentReleaseWasUpdated:lastDownloadedReleaseHashes]) {
+    return;
+  }
+  NSString *currentDistributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
+  if (currentDistributionGroupId != nil && [lastDownloadedDistributionGroupId isEqualToString:currentDistributionGroupId]) {
+    return;
+  }
+
+  // Set group ID from downloaded release details.
+  MSLogDebug([MSDistribute logTag], @"Current group ID doesn't match the group ID of downloaded release, updating current group id: %@", lastDownloadedDistributionGroupId);
+  [MS_USER_DEFAULTS setObject:lastDownloadedDistributionGroupId forKey:kMSDistributionGroupIdKey];
+
+  // Remove saved downloaded group ID.
+  [MS_USER_DEFAULTS removeObjectForKey:kMSDownloadedDistributionGroupIdKey];
+}
+
+- (bool)isCurrentReleaseWasUpdated:(NSString *)lastDownloadedReleaseHashes {
+  if (lastDownloadedReleaseHashes == nil) {
+    return NO;
+  }
+  NSString *currentInstalledReleaseHash = MSPackageHash();
+  return [lastDownloadedReleaseHashes rangeOfString:currentInstalledReleaseHash].location != NSNotFound;
 }
 
 - (void)showConfirmationAlert:(MSReleaseDetails *)details {

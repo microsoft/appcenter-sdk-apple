@@ -18,6 +18,7 @@ static NSString *const kMSDownloadUrl = @"download_url";
 static NSString *const kMSAppIconUrl = @"app_icon_url";
 static NSString *const kMSInstallUrl = @"install_url";
 static NSString *const kMSReleaseNotesUrl = @"release_notes_url";
+static NSString *const kMSDistributionGroupId = @"distribution_group_id";
 static NSString *const kMSDistributionGroups = @"distribution_groups";
 static NSString *const kMSPackageHashes = @"package_hashes";
 
@@ -101,6 +102,9 @@ static NSString *const kMSPackageHashes = @"package_hashes";
         self.releaseNotesUrl = [NSURL URLWithString:releaseNotesUrl];
       }
     }
+    if (dictionary[kMSDistributionGroupId]) {
+      self.distributionGroupId = dictionary[kMSDistributionGroupId];
+    }
     if (dictionary[kMSDistributionGroups]) {
 
       // TODO: DistributionGroup has no properties so skip it until it has properties.
@@ -161,6 +165,9 @@ static NSString *const kMSPackageHashes = @"package_hashes";
   }
   if (self.releaseNotesUrl) {
     dictionary[kMSReleaseNotesUrl] = [self.releaseNotesUrl absoluteString];
+  }
+  if (self.distributionGroupId) {
+    dictionary[kMSDistributionGroupId] = self.distributionGroupId;
   }
   if (self.distributionGroups) {
 
