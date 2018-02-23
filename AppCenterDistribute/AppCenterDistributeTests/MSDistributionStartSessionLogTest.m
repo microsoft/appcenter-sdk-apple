@@ -49,7 +49,6 @@
     assertThat(actual[@"timestamp"], equalTo(@"1970-01-01T00:00:42.000Z"));
 }
 
-
 - (void)testNSCodingSerializationAndDeserializationWorks {
     
     // If
@@ -98,7 +97,6 @@
     XCTAssertTrue([self.startSessionLog isValid]);
 }
 
-
 - (void)testIsNotEqualToNil {
     
     // Then
@@ -106,4 +104,3 @@
 }
 
 @end
-

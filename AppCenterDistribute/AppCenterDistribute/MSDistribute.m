@@ -214,15 +214,14 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 #pragma mark - Private
 
 - (void)sendFirstSessionUpdateLog{
-    
-    MSLogDebug([MSDistribute logTag],
-               @"Updating the session count.");
-    
-    // log the fisrt session after an install
-    MSDistributionStartSessionLog *log = [[MSDistributionStartSessionLog alloc] init];
-    
-    // Send log to log manager.
-    [self.channelUnit enqueueItem:log];
+  MSLogDebug([MSDistribute logTag],
+             @"Updating the session count.");
+
+  // log the first session after an install.
+  MSDistributionStartSessionLog *log = [[MSDistributionStartSessionLog alloc] init];
+
+  // Send log to log manager.
+  [self.channelUnit enqueueItem:log];
 }
 
 - (void)startUpdate {

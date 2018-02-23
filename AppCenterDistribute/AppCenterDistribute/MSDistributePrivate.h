@@ -209,7 +209,7 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
                releaseHash:(NSString *)releaseHash;
 
 /**
- * Send distribution first session log update
+ * Send distribution first session log update.
  */
 - (void)sendFirstSessionUpdateLog;
 
