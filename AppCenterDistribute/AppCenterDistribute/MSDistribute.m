@@ -125,10 +125,14 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     [MSAppDelegateForwarder addDelegate:self.appDelegate];
 
     // Enable the distribute info tracker.
-    NSString *distributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
-    [self.distributeInfoTracker updateDistributionGroupId:distributionGroupId];
     [self.channelGroup addDelegate:self.distributeInfoTracker];
-  } else {
+
+    // Update distribute info tracker with stored distributionGroupId
+    NSString *distributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
+    if(distributionGroupId){
+      MSLogDebug([MSDistribute logTag],@"Successfully retrieved distribution group Id setting it in distributeInfoTracker.");
+      [self.distributeInfoTracker updateDistributionGroupId:distributionGroupId];
+    } else {
     [self dismissEmbeddedSafari];
     [self.channelGroup removeDelegate:self.distributeInfoTracker];
     [MSAppDelegateForwarder removeDelegate:self.appDelegate];
