@@ -11,10 +11,10 @@
 #import "MSDistributeInternal.h"
 #import "MSDistributePrivate.h"
 #import "MSDistributeUtil.h"
+#import "MSDistributionStartSessionLog.h"
 #import "MSErrorDetails.h"
 #import "MSKeychainUtil.h"
 #import "MSServiceAbstractProtected.h"
-#import "MSDistributionStartSessionLog.h"
 #import "MSSessionContext.h"
 #import "MSUserDefaults.h"
 
@@ -214,8 +214,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 #pragma mark - Private
 
 - (void)sendFirstSessionUpdateLog{
-  MSLogDebug([MSDistribute logTag],
-             @"Updating the session count.");
+  MSLogDebug([MSDistribute logTag],@"Updating the session count.");
 
   // log the first session after an install.
   MSDistributionStartSessionLog *log = [[MSDistributionStartSessionLog alloc] init];
@@ -1034,12 +1033,12 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
       // Update distribution group ID which is added to logs.
       [self.distributeInfoTracker updateDistributionGroupId:queryDistributionGroupId];
-        
+      
       // Only if we have managed to retrieve the Distribution group ID we should update the distribution session count.
       latestSessionId = [MSSessionContext sessionIdAt:[NSDate date]];
       
       // If Analytics SDK is disabled session Id is null and there is no neeed to updte the distribution session count.
-      if(latestSessionId) {
+      if (latestSessionId) {
           [self sendFirstSessionUpdateLog];
       }
     }

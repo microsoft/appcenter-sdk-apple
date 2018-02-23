@@ -1,5 +1,5 @@
-
 #import <Foundation/Foundation.h>
+
 #import "MSDistributionStartSessionLog.h"
 
 static NSString *const kMSTypeDistributionStartSessionLog = @"distributionStartSession";
