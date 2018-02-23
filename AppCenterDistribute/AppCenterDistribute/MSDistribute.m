@@ -141,7 +141,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     [MS_USER_DEFAULTS removeObjectForKey:kMSMandatoryReleaseKey];
     [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateSetupFailedPackageHashKey];
     [MS_USER_DEFAULTS removeObjectForKey:kMSTesterAppUpdateSetupFailedKey];
-    MSLogInfo([MSDistribute logTag], @"Distribute service has been disabled."); 
+    MSLogInfo([MSDistribute logTag], @"Distribute service has been disabled.");
   }
 }
 
