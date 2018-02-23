@@ -744,7 +744,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   if (lastDownloadedReleaseHashes == nil) {
     return;
   }
-  if (![self isCurrentReleaseWasUpdated:lastDownloadedReleaseHashes]) {
+  if ([self isCurrentReleaseWasUpdated:lastDownloadedReleaseHashes] == NO) {
     MSLogDebug([MSDistribute logTag], @"Stored release hash(es) doesn't match current installation hash, probably downloaded but not installed yet, keep in store.");
     return;
   }
@@ -767,7 +767,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   }
 
   // Skip if downloaded release not installed yet.
-  if (![self isCurrentReleaseWasUpdated:lastDownloadedReleaseHashes]) {
+  if ([self isCurrentReleaseWasUpdated:lastDownloadedReleaseHashes] == NO) {
     MSLogDebug([MSDistribute logTag], @"New release was downloaded but not installed yet, skip reporting.");
     return nil;
   }
@@ -788,11 +788,11 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 - (void)changeDistributionGroupIdAfterAppUpdateIfNeeded {
   NSString *lastDownloadedReleaseHashes = [MS_USER_DEFAULTS objectForKey:kMSDownloadedReleaseHashKey];
   NSString *lastDownloadedDistributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDownloadedDistributionGroupIdKey];
-  if (lastDownloadedDistributionGroupId == nil || ![self isCurrentReleaseWasUpdated:lastDownloadedReleaseHashes]) {
+  if ((lastDownloadedDistributionGroupId == nil) || ([self isCurrentReleaseWasUpdated:lastDownloadedReleaseHashes] == NO)) {
     return;
   }
   NSString *currentDistributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
-  if (currentDistributionGroupId != nil && [lastDownloadedDistributionGroupId isEqualToString:currentDistributionGroupId]) {
+  if ((currentDistributionGroupId != nil) && ([lastDownloadedDistributionGroupId isEqualToString:currentDistributionGroupId])) {
     return;
   }
 

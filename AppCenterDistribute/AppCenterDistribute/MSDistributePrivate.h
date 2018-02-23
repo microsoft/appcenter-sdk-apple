@@ -230,8 +230,9 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
 - (BOOL)handleUpdate:(MSReleaseDetails *)details;
 
 /**
- * Store details about downloaded release.
- * After app update and restart, this info is used to report new download and to update group ID (if it's changed).
+ * Save details about a downloaded release.
+ * After an app is updated and restarted, this info will be used to report a download and to update the group ID
+ * (if it was changed).
  *
  * @param details Release details.
  */
