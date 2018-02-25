@@ -108,8 +108,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 - (MSInitializationPriority)initializationPriority {
 
-  // Initialize Distribute before Analytics to add distributionGroupId field to the first startSession event after app
-  // start.
+  // Initialize Distribute before Analytics to add distributionGroupId field to the first startSession event after app start.
   return MSInitializationPriorityHigh;
 }
 
@@ -128,7 +127,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     // Enable the distribute info tracker.
     [self.channelGroup addDelegate:self.distributeInfoTracker];
 
-    // Update distribute info tracker with stored distributionGroupId
+    // Store distributionGroupId in distributeInfoTracker
     NSString *distributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
     if (distributionGroupId) {
       MSLogDebug([MSDistribute logTag],@"Successfully retrieved distribution group Id setting it in distributeInfoTracker.");
