@@ -810,24 +810,24 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 }
 
 - (void)changeDistributionGroupIdAfterAppUpdateIfNeeded:(NSString *)currentInstalledReleaseHash {
-  NSString *lastDownloadedDistributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDownloadedDistributionGroupIdKey];
-  if (lastDownloadedDistributionGroupId == nil) {
+  NSString *updatedReleaseDistributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDownloadedDistributionGroupIdKey];
+  if (updatedReleaseDistributionGroupId == nil) {
     return;
   }
 
   // Skip if the current release was not updated.
-  NSString *lastDownloadedReleaseHashes = [MS_USER_DEFAULTS objectForKey:kMSDownloadedReleaseHashKey];
-  if ((lastDownloadedReleaseHashes == nil) || ([lastDownloadedReleaseHashes rangeOfString:currentInstalledReleaseHash].location == NSNotFound)) {
+  NSString *updatedReleaseHashes = [MS_USER_DEFAULTS objectForKey:kMSDownloadedReleaseHashKey];
+  if ((updatedReleaseHashes == nil) || ([updatedReleaseHashes rangeOfString:currentInstalledReleaseHash].location == NSNotFound)) {
     return;
   }
 
-  // Skip if the group ID of an updated release is the same as the current one.
-  NSString *currentDistributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
-  if ((currentDistributionGroupId == nil) || ([lastDownloadedDistributionGroupId isEqualToString:currentDistributionGroupId] == NO)) {
+  // Skip if the group ID of an updated release is the same as the stored one.
+  NSString *storedDistributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
+  if ((storedDistributionGroupId == nil) || ([updatedReleaseDistributionGroupId isEqualToString:storedDistributionGroupId] == NO)) {
 
     // Set group ID from downloaded release details if an updated release was downloaded from another distribution group.
-    MSLogDebug([MSDistribute logTag], @"Current group ID doesn't match the group ID of downloaded release, updating current group id: %@", lastDownloadedDistributionGroupId);
-    [MS_USER_DEFAULTS setObject:lastDownloadedDistributionGroupId forKey:kMSDistributionGroupIdKey];
+    MSLogDebug([MSDistribute logTag], @"Stored group ID doesn't match the group ID of the updated release, updating group id: %@", updatedReleaseDistributionGroupId);
+    [MS_USER_DEFAULTS setObject:updatedReleaseDistributionGroupId forKey:kMSDistributionGroupIdKey];
   }
 
   // Remove saved downloaded group ID.
