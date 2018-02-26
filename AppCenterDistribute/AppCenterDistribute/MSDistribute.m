@@ -732,11 +732,11 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   NSString *releaseHashes = [details.packageHashes count] > 0
           ? [details.packageHashes componentsJoinedByString:@","]
           : nil;
-  MSLogDebug([MSDistribute logTag], @"Store downloaded release details, group id: %@, release hashes: %@, release id: %@.",
-                  groupId, releaseHashes, releaseId);
   [MS_USER_DEFAULTS setObject:groupId forKey:kMSDownloadedDistributionGroupIdKey];
   [MS_USER_DEFAULTS setObject:releaseId forKey:kMSDownloadedReleaseIdKey];
   [MS_USER_DEFAULTS setObject:releaseHashes forKey:kMSDownloadedReleaseHashKey];
+  MSLogDebug([MSDistribute logTag], @"Stored downloaded release hash(es) (%@) and id (%@) for later reporting.",
+                  releaseHashes, releaseId);
 }
 
 - (void)removeDownloadedReleaseDetailsIfUpdated:(NSString *)currentInstalledReleaseHash {
