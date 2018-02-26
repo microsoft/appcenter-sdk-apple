@@ -41,6 +41,7 @@
   assertThat(details.releaseNotesUrl,
              equalTo([NSURL URLWithString:@"https://contoso.com/path/release/notes?skip_registration=true"]));
   assertThat(details.packageHashes, equalTo(@[ @"buildId1", @"buildId2" ]));
+  assertThat(details.distributionGroupId, equalTo(@"1379041b-0de4-471b-a46b-04b4f754684f"));
   assertThat(details.distributionGroups, equalTo(nil));
 }
 
@@ -66,6 +67,7 @@
       [NSURL URLWithString:@"itms-service://?action=download-manifest&url=contoso.com/release/filename"];
   details.releaseNotesUrl = [NSURL URLWithString:@"https://contoso.com/path/release/notes?skip_registration=true"];
   details.packageHashes = @[ @"buildId1", @"buildId2" ];
+  details.distributionGroupId = @"1379041b-0de4-471b-a46b-04b4f754684f";
   details.distributionGroups = @[];
 
   // When

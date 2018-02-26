@@ -65,6 +65,11 @@
 @property(nonatomic) NSURL *installUrl;
 
 /**
+ * Distribution group identifier.
+ */
+@property(nonatomic) NSString *distributionGroupId;
+
+/**
  * A list of distribution groups that are associated with this release.
  */
 @property(nonatomic) NSArray<MSDistributionGroup *> *distributionGroups;

@@ -99,6 +99,11 @@ static NSString *const kMSDownloadedReleaseHashKey = @"MSDownloadedReleaseHash";
 static NSString *const kMSDownloadedReleaseIdKey = @"MSDownloadedReleaseId";
 
 /**
+ * The storage key for distribution group ID of latest downloaded release.
+ */
+static NSString *const kMSDownloadedDistributionGroupIdKey = @"MSDownloadedDistributionGroupId";
+
+/**
  * The storage key for tester app update setup failure.
  */
 static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSetupFailed";
@@ -230,7 +235,9 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
 - (BOOL)handleUpdate:(MSReleaseDetails *)details;
 
 /**
- * Store details about downloaded release to report it after installation.
+ * Save details about a downloaded release.
+ * After an app is updated and restarted, this info will be used to report a download and to update the group ID
+ * (if it was changed).
  *
  * @param details Release details.
  */
@@ -255,6 +262,16 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
 - (NSMutableDictionary *)getReportingParametersForUpdatedRelease:(NSString *)updateToken
                                      currentInstalledReleaseHash:(NSString *)currentInstalledReleaseHash
                                              distributionGroupId:(NSString *)distributionGroupId;
+
+/**
+ * After an app is updated and restarted, check if an updated release has different group ID and update current
+ * group ID if needed.
+ * Group ID may change if one user is added to different distribution groups and a new release
+ * was updated from another group.
+ *
+ * @param currentInstalledReleaseHash The release hash of the current version.
+*/
+- (void)changeDistributionGroupIdAfterAppUpdateIfNeeded:(NSString *)currentInstalledReleaseHash;
 
 /**
  * Show a dialog to ask a user to confirm update for a new release.

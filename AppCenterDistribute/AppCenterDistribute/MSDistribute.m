@@ -229,10 +229,11 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 }
 
 - (void)startUpdate {
-  NSString *updateToken = [MSKeychainUtil stringForKey:kMSUpdateTokenKey];
-  NSString *distributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
   NSString *releaseHash = MSPackageHash();
   if (releaseHash) {
+    [self changeDistributionGroupIdAfterAppUpdateIfNeeded:releaseHash];
+    NSString *updateToken = [MSKeychainUtil stringForKey:kMSUpdateTokenKey];
+    NSString *distributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
     if (updateToken || distributionGroupId) {
       [self checkLatestRelease:updateToken distributionGroupId:distributionGroupId releaseHash:releaseHash];
     } else {
@@ -743,20 +744,21 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 }
 
 - (void)storeDownloadedReleaseDetails:(nullable MSReleaseDetails *)details {
-  if (details == nil || details.id == nil || details.packageHashes == nil || [details.packageHashes count] == 0) {
+  if (details == nil) {
     MSLogDebug([MSDistribute logTag],
-               @"Release details are missing or broken, will not store release hash and id for reporting.");
+               @"Downloaded release details are missing or broken, won't store.");
     return;
   }
-
+  NSString *groupId = details.distributionGroupId;
   NSNumber *releaseId = details.id;
 
   /*
    * IPA can contain several hashes, each for different architecture and we can't predict which will be installed,
    * so save all hashes as comma separated string.
    */
-  NSString *releaseHashes = [details.packageHashes count] > 1 ? [details.packageHashes componentsJoinedByString:@","]
-                                                              : details.packageHashes[0];
+  NSString *releaseHashes = [details.packageHashes count] > 0 ? [details.packageHashes componentsJoinedByString:@","]
+                                                              : nil;
+  [MS_USER_DEFAULTS setObject:groupId forKey:kMSDownloadedDistributionGroupIdKey];
   [MS_USER_DEFAULTS setObject:releaseId forKey:kMSDownloadedReleaseIdKey];
   [MS_USER_DEFAULTS setObject:releaseHashes forKey:kMSDownloadedReleaseHashKey];
   MSLogDebug([MSDistribute logTag], @"Stored downloaded release hash(es) (%@) and id (%@) for later reporting.",
@@ -811,6 +813,31 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   NSString *lastDownloadedReleaseId = [MS_USER_DEFAULTS objectForKey:kMSDownloadedReleaseIdKey];
   reportingParameters[kMSURLQueryDownloadedReleaseIdKey] = lastDownloadedReleaseId;
   return reportingParameters;
+}
+
+- (void)changeDistributionGroupIdAfterAppUpdateIfNeeded:(NSString *)currentInstalledReleaseHash {
+  NSString *updatedReleaseDistributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDownloadedDistributionGroupIdKey];
+  if (updatedReleaseDistributionGroupId == nil) {
+    return;
+  }
+
+  // Skip if the current release was not updated.
+  NSString *updatedReleaseHashes = [MS_USER_DEFAULTS objectForKey:kMSDownloadedReleaseHashKey];
+  if ((updatedReleaseHashes == nil) || ([updatedReleaseHashes rangeOfString:currentInstalledReleaseHash].location == NSNotFound)) {
+    return;
+  }
+
+  // Skip if the group ID of an updated release is the same as the stored one.
+  NSString *storedDistributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
+  if ((storedDistributionGroupId == nil) || ([updatedReleaseDistributionGroupId isEqualToString:storedDistributionGroupId] == NO)) {
+
+    // Set group ID from downloaded release details if an updated release was downloaded from another distribution group.
+    MSLogDebug([MSDistribute logTag], @"Stored group ID doesn't match the group ID of the updated release, updating group id: %@", updatedReleaseDistributionGroupId);
+    [MS_USER_DEFAULTS setObject:updatedReleaseDistributionGroupId forKey:kMSDistributionGroupIdKey];
+  }
+
+  // Remove saved downloaded group ID.
+  [MS_USER_DEFAULTS removeObjectForKey:kMSDownloadedDistributionGroupIdKey];
 }
 
 - (void)showConfirmationAlert:(MSReleaseDetails *)details {
