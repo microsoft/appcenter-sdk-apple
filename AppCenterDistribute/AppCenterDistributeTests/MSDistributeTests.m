@@ -2277,7 +2277,7 @@ static NSURL *sfURL;
   // Then
   OCMVerify([distributeMock changeDistributionGroupIdAfterAppUpdateIfNeeded:kMSTestReleaseHash]);
   assertThat([self.settingsMock objectForKey:kMSDistributionGroupIdKey], equalTo(kMSTestDistributionGroupId));
-  assertThat([self.settingsMock objectForKey:kMSDownloadedDistributionGroupIdKey], equalTo(kMSTestDistributionGroupId));
+  assertThat([self.settingsMock objectForKey:kMSDownloadedDistributionGroupIdKey], equalTo(nil));
 
   // Stop mocking
   [distributeMock stopMocking];
