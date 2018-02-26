@@ -83,6 +83,8 @@
 		58603D3986EEE50CBFAFD4BC /* MSDistributeInfoTrackerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 586030B2AAEEE6A568D37CE9 /* MSDistributeInfoTrackerTests.m */; };
 		80324E301F4DC81F005F4E11 /* MSDistributeAppDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 80324E2F1F4DC81E005F4E11 /* MSDistributeAppDelegateTests.m */; };
 		848860451E6EC32B003A9B96 /* MSBasicMachOParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 848860441E6EC32B003A9B96 /* MSBasicMachOParserTests.m */; };
+		9E4ADB16203D37FB00172256 /* MSDistributionStartSessionLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E4ADB15203D37FB00172256 /* MSDistributionStartSessionLog.m */; };
+		9E8E3A39203E68B4001A23FD /* MSDistributionStartSessionLogTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8E3A38203E68B4001A23FD /* MSDistributionStartSessionLogTest.m */; };
 		B20DE7B71E5F97330023075C /* MSDistributeUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B20DE7B61E5F97330023075C /* MSDistributeUtilTests.m */; };
 		B25895AA1E4E9FD400123632 /* MSDistributeInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B25895A91E4E9BA100123632 /* MSDistributeInternal.h */; };
 		B270108D1E5FA2E4008552EF /* release_details.json in Resources */ = {isa = PBXBuildFile; fileRef = 040AF0111E523AC2005C1174 /* release_details.json */; };
@@ -210,6 +212,9 @@
 		80324E2F1F4DC81E005F4E11 /* MSDistributeAppDelegateTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistributeAppDelegateTests.m; sourceTree = "<group>"; };
 		807432C31EE20731003295BA /* MSBasicMachOParserPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MSBasicMachOParserPrivate.h; path = ../MSBasicMachOParserPrivate.h; sourceTree = "<group>"; };
 		848860441E6EC32B003A9B96 /* MSBasicMachOParserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSBasicMachOParserTests.m; sourceTree = "<group>"; };
+		9E4ADB15203D37FB00172256 /* MSDistributionStartSessionLog.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDistributionStartSessionLog.m; sourceTree = "<group>"; };
+		9E4ADB17203D383D00172256 /* MSDistributionStartSessionLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSDistributionStartSessionLog.h; sourceTree = "<group>"; };
+		9E8E3A38203E68B4001A23FD /* MSDistributionStartSessionLogTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDistributionStartSessionLogTest.m; sourceTree = "<group>"; };
 		B20DE7B61E5F97330023075C /* MSDistributeUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistributeUtilTests.m; sourceTree = "<group>"; };
 		B25895A91E4E9BA100123632 /* MSDistributeInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSDistributeInternal.h; sourceTree = "<group>"; };
 		B29CE3481E5E5F9A00CEB04D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = AppCenterDistribute/Resources/en.lproj/AppCenterDistribute.strings; sourceTree = SOURCE_ROOT; };
@@ -323,6 +328,8 @@
 				048BB2FD1E60A40D009D92C2 /* MSReleaseDetails.m */,
 				048BB2FF1E60A40D009D92C2 /* MSDistributionGroup.h */,
 				048BB3001E60A40D009D92C2 /* MSDistributionGroup.m */,
+				9E4ADB15203D37FB00172256 /* MSDistributionStartSessionLog.m */,
+				9E4ADB17203D383D00172256 /* MSDistributionStartSessionLog.h */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -403,6 +410,7 @@
 		04FD4A321E453531009B4468 /* AppCenterDistributeTests */ = {
 			isa = PBXGroup;
 			children = (
+				9E8E3A38203E68B4001A23FD /* MSDistributionStartSessionLogTest.m */,
 				04FD4A351E453531009B4468 /* Info.plist */,
 				848860441E6EC32B003A9B96 /* MSBasicMachOParserTests.m */,
 				386A69EF1FD88A9B0057B316 /* MSDistributeDataMigrationTests.m */,
@@ -732,6 +740,7 @@
 			files = (
 				38A6835E1E774D9F00A63BC8 /* MSSemVerPreReleaseId.m in Sources */,
 				384135C01FD99EB400FC7836 /* MSDistributeDataMigration.m in Sources */,
+				9E4ADB16203D37FB00172256 /* MSDistributionStartSessionLog.m in Sources */,
 				B2C070A61E5E62330076D6A9 /* MSDistributeUtil.m in Sources */,
 				048BB3041E60A40D009D92C2 /* MSReleaseDetails.m in Sources */,
 				048BB3061E60A40D009D92C2 /* MSDistributionGroup.m in Sources */,
@@ -752,6 +761,7 @@
 			files = (
 				040AF0251E523B80005C1174 /* MSReleaseDetailsTests.m in Sources */,
 				B20DE7B71E5F97330023075C /* MSDistributeUtilTests.m in Sources */,
+				9E8E3A39203E68B4001A23FD /* MSDistributionStartSessionLogTest.m in Sources */,
 				040AF02A1E52748D005C1174 /* MSDistributeSenderTests.m in Sources */,
 				F8BEA3CF1FBB0BE400D4DE37 /* MSHttpTestUtil.m in Sources */,
 				04DC2ECB1E78A3E3003F23B5 /* MSErrorDetailsTests.m in Sources */,
