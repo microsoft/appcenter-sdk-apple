@@ -245,6 +245,8 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
 
 /**
  * Remove details about downloaded release after it was installed.
+ *
+ * @param currentInstalledReleaseHash The release hash of the current version.
  */
 - (void)removeDownloadedReleaseDetailsIfUpdated:(NSString *)currentInstalledReleaseHash;
 
@@ -266,6 +268,8 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
  * group ID if needed.
  * Group ID may change if one user is added to different distribution groups and a new release
  * was updated from another group.
+ *
+ * @param currentInstalledReleaseHash The release hash of the current version.
 */
 - (void)changeDistributionGroupIdAfterAppUpdateIfNeeded:(NSString *)currentInstalledReleaseHash;
 
