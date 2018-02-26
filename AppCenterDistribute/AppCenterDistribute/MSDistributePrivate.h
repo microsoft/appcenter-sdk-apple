@@ -241,34 +241,28 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
 /**
  * Remove details about downloaded release after it was installed.
  */
-- (void)removeDownloadedReleaseDetailsIfUpdated;
+- (void)removeDownloadedReleaseDetailsIfUpdated:(NSString *)currentInstalledReleaseHash;
 
 /**
  * Get reporting parameters for updated release.
  *
  * @param updateToken The update token stored in keychain. This value can be nil if it is public distribution.
+ * @param currentInstalledReleaseHash The release hash of the current version.
  * @param distributionGroupId The distribution group Id in keychain.
  *
  * @return Reporting parameters dictionary.
  */
 - (NSMutableDictionary *)getReportingParametersForUpdatedRelease:(NSString *)updateToken
+                                     currentInstalledReleaseHash:(NSString *)currentInstalledReleaseHash
                                              distributionGroupId:(NSString *)distributionGroupId;
 
 /**
- * Check if an updated release has different group ID and update current group ID if needed.
+ * After an app is updated and restarted, check if an updated release has different group ID and update current
+ * group ID if needed.
  * Group ID may change if one user is added to different distribution groups and a new release
- * was distributed to another group.
+ * was updated from another group.
 */
-- (void)changeDistributionGroupIdAfterAppUpdateIfNeeded;
-
-/**
- * Check if latest downloaded release was installed (app was updated).
- *
- * @param lastDownloadedReleaseHashes Hash of the last downloaded release.
- *
- * @return `YES` if current release was updated.
- */
-- (bool)isCurrentReleaseWasUpdated:(NSString *)lastDownloadedReleaseHashes;
+- (void)changeDistributionGroupIdAfterAppUpdateIfNeeded:(NSString *)currentInstalledReleaseHash;
 
 /**
  * Show a dialog to ask a user to confirm update for a new release.
