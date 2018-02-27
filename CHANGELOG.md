@@ -1,5 +1,15 @@
 # App Center SDK for iOS and macOS Change Log
 
+## Version 1.5.0
+
+This version contains a new feature.
+
+### AppCenterDistribute
+
+* **[Feature]** Add Session statistics for distribution group.
+
+___
+
 ## Version 1.4.0
 
 This version contains a new feature.

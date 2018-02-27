@@ -16,6 +16,8 @@
 #import "MSLogger.h"
 #import "MSSenderCall.h"
 #import "MSServiceAbstractProtected.h"
+#import "MSSessionContext.h"
+#import "MSSessionContextPrivate.h"
 #import "MSTestFrameworks.h"
 #import "MSUserDefaults.h"
 #import "MSUtility.h"
@@ -27,6 +29,9 @@
 
 static NSString *const kMSTestAppSecret = @"IAMSECRET";
 static NSString *const kMSTestReleaseHash = @"RELEASEHASH";
+static NSString *const kMSTestUpdateToken = @"UPDATETOKEN";
+static NSString *const kMSTestDistributionGroupId = @"DISTRIBUTIONGROUPID";
+static NSString *const kMSTestDownloadedDistributionGroupId = @"DOWNLOADEDDISTRIBUTIONGROUPID";
 static NSString *const kMSDistributeServiceName = @"Distribute";
 
 // Mocked SFSafariViewController for url validation.
@@ -119,6 +124,9 @@ static NSURL *sfURL;
   // Mock DistributeInfoTracker.
   self.distributeInfoTrackerMock = OCMClassMock([MSDistributeInfoTracker class]);
   self.sut.distributeInfoTracker = self.distributeInfoTrackerMock;
+
+  // Clear all previous sessions
+  [MSSessionContext resetSharedInstance];
 }
 
 - (void)tearDown {
@@ -165,7 +173,9 @@ static NSURL *sfURL;
   dispatch_async(dispatch_get_main_queue(), ^{
     [openURLCalledExpectation fulfill];
   });
-  NSURL *url = [distributeMock buildTokenRequestURLWithAppSecret:kMSTestAppSecret releaseHash:kMSTestReleaseHash isTesterApp:false];
+  NSURL *url = [distributeMock buildTokenRequestURLWithAppSecret:kMSTestAppSecret
+                                                     releaseHash:kMSTestReleaseHash
+                                                     isTesterApp:false];
   NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
   NSMutableDictionary<NSString *, NSString *> *queryStrings = [NSMutableDictionary<NSString *, NSString *> new];
   [components.queryItems
@@ -203,7 +213,8 @@ static NSURL *sfURL;
   NSString *badAppSecret = @"weird\\app\\secret";
 
   // When
-  NSURL *url = [self.sut buildTokenRequestURLWithAppSecret:badAppSecret releaseHash:kMSTestReleaseHash isTesterApp:false];
+  NSURL *url =
+      [self.sut buildTokenRequestURLWithAppSecret:badAppSecret releaseHash:kMSTestReleaseHash isTesterApp:false];
 
   // Then
   assertThat(url, nilValue());
@@ -252,7 +263,8 @@ static NSURL *sfURL;
   // When
   [MSDistribute setInstallUrl:testUrl];
   MSDistribute *distribute = [MSDistribute sharedInstance];
-  NSURL *url = [distribute buildTokenRequestURLWithAppSecret:kMSTestAppSecret releaseHash:kMSTestReleaseHash isTesterApp:false];
+  NSURL *url =
+      [distribute buildTokenRequestURLWithAppSecret:kMSTestAppSecret releaseHash:kMSTestReleaseHash isTesterApp:false];
 
   // Then
   XCTAssertTrue([[distribute installUrl] isEqualToString:testUrl]);
@@ -269,7 +281,8 @@ static NSURL *sfURL;
 
   // When
   NSString *instalURL = [self.sut installUrl];
-  NSURL *tokenRequestURL = [self.sut buildTokenRequestURLWithAppSecret:kMSTestAppSecret releaseHash:kMSTestReleaseHash isTesterApp:false];
+  NSURL *tokenRequestURL =
+      [self.sut buildTokenRequestURLWithAppSecret:kMSTestAppSecret releaseHash:kMSTestReleaseHash isTesterApp:false];
 
   // Then
   XCTAssertNotNil(instalURL);
@@ -813,7 +826,7 @@ static NSURL *sfURL;
   [MSHttpTestUtil stubHttp404Response];
 
   // When
-  [self.sut checkLatestRelease:@"token" distributionGroupId:@"groupId" releaseHash:@"releaseHash"];
+  [self.sut checkLatestRelease:kMSTestUpdateToken distributionGroupId:kMSTestDistributionGroupId releaseHash:kMSTestReleaseHash];
 
   // Then
   [self waitForExpectationsWithTimeout:1
@@ -876,7 +889,7 @@ static NSURL *sfURL;
   [self.settingsMock setObject:@1 forKey:kMSUpdateTokenRequestIdKey];
   [self.settingsMock setObject:@1 forKey:kMSPostponedTimestampKey];
   [self.settingsMock setObject:@1 forKey:kMSDistributionGroupIdKey];
-  [self.sut checkLatestRelease:@"token" distributionGroupId:@"groupId" releaseHash:@"releaseHash"];
+  [self.sut checkLatestRelease:kMSTestUpdateToken distributionGroupId:kMSTestDistributionGroupId releaseHash:kMSTestReleaseHash];
 
   // Then
   [self waitForExpectationsWithTimeout:1
@@ -1083,6 +1096,83 @@ static NSURL *sfURL;
 
   // Then
   assertThatBool(result, isTrue());
+
+  // Clear
+  [distributeMock stopMocking];
+  [appCenterMock stopMocking];
+  [utilityMock stopMocking];
+}
+
+- (void)testOpenUrlWithFirstSeesionLogUpdate {
+
+  // If
+  NSString *requestId = @"FIRST-REQUEST";
+  NSString *distributionGroupId = @"GROUP-ID";
+  NSString *token = @"TOKEN";
+  NSString *scheme = [NSString stringWithFormat:kMSDefaultCustomSchemeFormat, kMSTestAppSecret];
+
+  id distributeMock = OCMPartialMock(self.sut);
+  OCMStub([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:kMSTestReleaseHash])
+      .andDo(nil);
+  OCMStub([distributeMock sharedInstance]).andReturn(distributeMock);
+  id appCenterMock = OCMClassMock([MSAppCenter class]);
+  OCMStub([appCenterMock isConfigured]).andReturn(YES);
+  id utilityMock = [self mockMSPackageHash];
+
+  // Disable for now to bypass initializing sender.
+  [distributeMock setEnabled:NO];
+  [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol)) appSecret:kMSTestAppSecret];
+
+  // Enable again.
+  [distributeMock setEnabled:YES];
+
+  // If
+  NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?request_id=%@&distribution_group_id=%@", scheme,
+                                                               requestId, distributionGroupId]];
+
+  // When
+  [MSSessionContext setSessionId:@"Session1"];
+  [MS_USER_DEFAULTS setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
+  BOOL result = [MSDistribute openURL:url];
+
+  // Then
+  XCTAssertTrue(result);
+  OCMVerify([distributeMock sendFirstSessionUpdateLog]);
+  [MSSessionContext resetSharedInstance];
+
+  // If
+  url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?request_id=%@&distribution_group_id=%@", scheme,
+                                                        requestId, distributionGroupId]];
+
+  // When
+  [MSSessionContext setSessionId:nil];
+  [MS_USER_DEFAULTS setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
+  result = [MSDistribute openURL:url];
+
+  // Then
+  XCTAssertTrue(result);
+  OCMReject([distributeMock sendFirstSessionUpdateLog]);
+
+  // If
+  url = [NSURL
+      URLWithString:[NSString stringWithFormat:@"%@://?request_id=%@&update_token=%@", scheme, requestId, token]];
+
+  // When
+  [MS_USER_DEFAULTS setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
+  result = [MSDistribute openURL:url];
+
+  // Then
+  XCTAssertTrue(result);
+  OCMReject([distributeMock sendFirstSessionUpdateLog]);
+
+  // If
+  [distributeMock setEnabled:NO];
+
+  // When
+  [MSDistribute openURL:url];
+
+  // Then
+  XCTAssertTrue(result);
 
   // Clear
   [distributeMock stopMocking];
@@ -1301,7 +1391,8 @@ static NSURL *sfURL;
 
   // Then
   OCMVerify([distributeMock requestInstallInformationWith:kMSTestReleaseHash]);
-  OCMReject([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:kMSTestReleaseHash isTesterApp:false]);
+  OCMReject(
+      [distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:kMSTestReleaseHash isTesterApp:false]);
   XCTAssertEqual([self.settingsMock objectForKey:kMSUpdateSetupFailedPackageHashKey], kMSTestReleaseHash);
 
   // Clear
@@ -1342,7 +1433,8 @@ static NSURL *sfURL;
 
   // Then
   OCMVerify([distributeMock requestInstallInformationWith:kMSTestReleaseHash]);
-  OCMVerify([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:kMSTestReleaseHash isTesterApp:false]);
+  OCMVerify(
+      [distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:kMSTestReleaseHash isTesterApp:false]);
   XCTAssertNil([self.settingsMock objectForKey:kMSUpdateSetupFailedPackageHashKey]);
 
   // Clear
@@ -1352,7 +1444,7 @@ static NSURL *sfURL;
 }
 
 - (void)testBrowserNotOpenedWhenTesterAppUsedForUpdateSetup {
-  
+
   // If
   id reachabilityMock = OCMClassMock([MS_Reachability class]);
   OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
@@ -1361,32 +1453,36 @@ static NSURL *sfURL;
   id appCenterMock = OCMClassMock([MSAppCenter class]);
   id distributeMock = OCMPartialMock(self.sut);
   id utilityMock = [self mockMSPackageHash];
-  OCMStub([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:OCMOCK_ANY isTesterApp:false]).andReturn([NSURL URLWithString:@"https://some_url"]);
-  OCMStub([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:OCMOCK_ANY isTesterApp:true]).andReturn([NSURL URLWithString:@"some_url://"]);
+  OCMStub([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:OCMOCK_ANY isTesterApp:false])
+      .andReturn([NSURL URLWithString:@"https://some_url"]);
+  OCMStub([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:OCMOCK_ANY isTesterApp:true])
+      .andReturn([NSURL URLWithString:@"some_url://"]);
   OCMStub([distributeMock openUrlUsingSharedApp:OCMOCK_ANY]).andReturn(YES);
   XCTestExpectation *expectation = [self expectationWithDescription:@"Start update processed"];
 
   // When
   OCMStub([appCenterMock isDebuggerAttached]).andReturn(NO);
   OCMStub([utilityMock currentAppEnvironment]).andReturn(MSEnvironmentOther);
-  
+
   // Then
   XCTAssertTrue([self.sut checkForUpdatesAllowed]);
-  
+
   // When
   [self.sut applyEnabledState:YES];
   [distributeMock startUpdate];
   dispatch_async(dispatch_get_main_queue(), ^{
     [expectation fulfill];
   });
-  
+
   // Then
   OCMVerify([distributeMock requestInstallInformationWith:kMSTestReleaseHash]);
-  OCMVerify([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:kMSTestReleaseHash isTesterApp:true]);
-  OCMVerify([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:kMSTestReleaseHash isTesterApp:false]);
+  OCMVerify(
+      [distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:kMSTestReleaseHash isTesterApp:true]);
+  OCMVerify(
+      [distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:kMSTestReleaseHash isTesterApp:false]);
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
-                                 
+
                                  // Then
                                  OCMVerify([distributeMock openUrlUsingSharedApp:OCMOCK_ANY]);
                                  OCMReject([distributeMock openUrlInAuthenticationSessionOrSafari:OCMOCK_ANY]);
@@ -1394,8 +1490,7 @@ static NSURL *sfURL;
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
-  
-  
+
   // Clear
   [distributeMock stopMocking];
   [appCenterMock stopMocking];
@@ -1439,7 +1534,8 @@ static NSURL *sfURL;
   OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(NotReachable);
   id distributeMock = OCMPartialMock(self.sut);
-  OCMReject([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:kMSTestReleaseHash isTesterApp:false]);
+  OCMReject(
+      [distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:kMSTestReleaseHash isTesterApp:false]);
 
   // We should not touch UI in a unit testing environment.
   OCMStub([distributeMock openURLInSafariViewControllerWith:OCMOCK_ANY fromClass:OCMOCK_ANY]).andDo(nil);
@@ -1711,7 +1807,8 @@ static NSURL *sfURL;
   OCMStub([self.bundleMock objectForInfoDictionaryKey:@"CFBundleURLTypes"]).andReturn(bundleArray);
 
   // When
-  NSURL *url = [self.sut buildTokenRequestURLWithAppSecret:kMSTestAppSecret releaseHash:kMSTestReleaseHash isTesterApp:false];
+  NSURL *url =
+      [self.sut buildTokenRequestURLWithAppSecret:kMSTestAppSecret releaseHash:kMSTestReleaseHash isTesterApp:false];
 
   // Then
   assertThat(url, nilValue());
@@ -1741,7 +1838,7 @@ static NSURL *sfURL;
 
   // If
   MSReleaseDetails *sameRelease = [self generateReleaseDetailsWithVersion:@"10" andShortVersion:@"10.0"];
-  sameRelease.packageHashes = @[MSPackageHash()];
+  sameRelease.packageHashes = @[ MSPackageHash() ];
 
   // When
   result = [[MSDistribute sharedInstance] isNewerVersion:sameRelease];
@@ -1832,9 +1929,11 @@ static NSURL *sfURL;
   id distributeMock = OCMPartialMock(self.sut);
   MSReleaseDetails *details = [MSReleaseDetails new];
   details.id = @1;
-  details.packageHashes = @[ @"d5110dea0dc504b4d2924377fbbb2aaa9df8d4cc08e693b1160c389f5bc865a8",
-          @"842d928f551d3bcae224221b563ce338839d897060d194a262ba3dfba4811c71",
-          @"a7f2d4eed734b55a107d5a71195c8e18c21dcbde3d90c8b586c0af47b4dd4d6c" ];
+  details.packageHashes = @[
+    @"d5110dea0dc504b4d2924377fbbb2aaa9df8d4cc08e693b1160c389f5bc865a8",
+    @"842d928f551d3bcae224221b563ce338839d897060d194a262ba3dfba4811c71",
+    @"a7f2d4eed734b55a107d5a71195c8e18c21dcbde3d90c8b586c0af47b4dd4d6c"
+  ];
   [distributeMock setValue:details forKey:@"releaseDetails"];
 
   // When
@@ -2000,14 +2099,13 @@ static NSURL *sfURL;
 - (void)testWillNotReportReleaseInstallForPrivateGroupWithoutStoredReleaseHash {
 
   // If
-  NSString *updateToken = @"UpdateToken";
-  NSString *releaseHash = @"ReleaseHash";
-  NSString *distributionGroupId = @"DistributionGroupId";
   [self.settingsMock removeObjectForKey:kMSDownloadedReleaseHashKey];
 
   // When
   NSMutableDictionary *reportingParametersForUpdatedRelease =
-    [self.sut getReportingParametersForUpdatedRelease:updateToken currentInstalledReleaseHash:releaseHash distributionGroupId:distributionGroupId];
+      [self.sut getReportingParametersForUpdatedRelease:kMSTestUpdateToken
+                            currentInstalledReleaseHash:kMSTestReleaseHash
+                                    distributionGroupId:kMSTestDistributionGroupId];
 
   // Then
   assertThat(reportingParametersForUpdatedRelease, nilValue());
@@ -2016,14 +2114,13 @@ static NSURL *sfURL;
 - (void)testWillNotReportReleaseInstallForPrivateGroupWhenReleaseHashesDontMatch {
 
   // If
-  NSString *updateToken = @"UpdateToken";
-  NSString *releaseHash = @"ReleaseHash1";
-  NSString *distributionGroupId = @"DistributionGroupId";
   [self.settingsMock setObject:@"ReleaseHash2" forKey:kMSDownloadedReleaseHashKey];
 
   // When
   NSMutableDictionary *reportingParametersForUpdatedRelease =
-      [self.sut getReportingParametersForUpdatedRelease:updateToken currentInstalledReleaseHash:releaseHash distributionGroupId:distributionGroupId];
+      [self.sut getReportingParametersForUpdatedRelease:kMSTestUpdateToken
+                            currentInstalledReleaseHash:kMSTestReleaseHash
+                                    distributionGroupId:kMSTestDistributionGroupId];
 
   // Then
   assertThat(reportingParametersForUpdatedRelease, nilValue());
@@ -2032,46 +2129,42 @@ static NSURL *sfURL;
 - (void)testReportReleaseInstallForPrivateGroupWhenReleaseHashesMatch {
 
   // If
-  NSString *updateToken = @"UpdateToken";
-  NSString *releaseHash = @"ReleaseHash";
-  NSString *distributionGroupId = @"DistributionGroupId";
-  [self.settingsMock setObject:@"ReleaseId" forKey:kMSDownloadedReleaseIdKey];
-  [self.settingsMock setObject:@"ReleaseHash" forKey:kMSDownloadedReleaseHashKey];
+  [self.settingsMock setObject:@1 forKey:kMSDownloadedReleaseIdKey];
+  [self.settingsMock setObject:kMSTestReleaseHash forKey:kMSDownloadedReleaseHashKey];
 
   // When
   NSMutableDictionary *reportingParametersForUpdatedRelease =
-      [self.sut getReportingParametersForUpdatedRelease:updateToken currentInstalledReleaseHash:releaseHash distributionGroupId:distributionGroupId];
+      [self.sut getReportingParametersForUpdatedRelease:kMSTestUpdateToken
+                            currentInstalledReleaseHash:kMSTestReleaseHash
+                                    distributionGroupId:kMSTestDistributionGroupId];
 
   // Then
-  assertThat(reportingParametersForUpdatedRelease[kMSURLQueryDistributionGroupIdKey], equalTo(@"DistributionGroupId"));
-  assertThat(reportingParametersForUpdatedRelease[kMSURLQueryDownloadedReleaseIdKey], equalTo(@"ReleaseId"));
+  assertThat(reportingParametersForUpdatedRelease[kMSURLQueryDistributionGroupIdKey], equalTo(kMSTestDistributionGroupId));
+  assertThat(reportingParametersForUpdatedRelease[kMSURLQueryDownloadedReleaseIdKey], equalTo(@1));
 }
 
 - (void)testReportReleaseInstallForPublicGroupWhenReleaseHashesMatch {
 
   // If
   NSString *updateToken = nil;
-  NSString *releaseHash = @"ReleaseHash";
-  NSString *distributionGroupId = @"DistributionGroupId";
   NSString *installId = [[MSAppCenter installId] UUIDString];
-  [self.settingsMock setObject:@"ReleaseId" forKey:kMSDownloadedReleaseIdKey];
-  [self.settingsMock setObject:@"ReleaseHash" forKey:kMSDownloadedReleaseHashKey];
+  [self.settingsMock setObject:@1 forKey:kMSDownloadedReleaseIdKey];
+  [self.settingsMock setObject:kMSTestReleaseHash forKey:kMSDownloadedReleaseHashKey];
 
   // When
   NSMutableDictionary *reportingParametersForUpdatedRelease =
-      [self.sut getReportingParametersForUpdatedRelease:updateToken currentInstalledReleaseHash:releaseHash distributionGroupId:distributionGroupId];
+      [self.sut getReportingParametersForUpdatedRelease:updateToken
+                            currentInstalledReleaseHash:kMSTestReleaseHash
+                                    distributionGroupId:kMSTestDistributionGroupId];
 
   // Then
   assertThat(reportingParametersForUpdatedRelease[kMSURLQueryInstallIdKey], equalTo(installId));
-  assertThat(reportingParametersForUpdatedRelease[kMSURLQueryDownloadedReleaseIdKey], equalTo(@"ReleaseId"));
+  assertThat(reportingParametersForUpdatedRelease[kMSURLQueryDownloadedReleaseIdKey], equalTo(@1));
 }
 
 - (void)testCheckLatestReleaseReportReleaseInstall {
 
   // If
-  NSString *updateToken = @"UpdateToken";
-  NSString *releaseHash = @"ReleaseHash";
-  NSString *distributionGroupId = @"DistributionGroupId";
   id distributeMock = OCMPartialMock(self.sut);
   OCMReject([distributeMock handleUpdate:OCMOCK_ANY]);
   self.sut.appSecret = kMSTestAppSecret;
@@ -2084,30 +2177,33 @@ static NSURL *sfURL;
   OCMStub([senderCallMock alloc]).andReturn(senderCallMock);
   OCMReject([senderCallMock startRetryTimerWithStatusCode:404]);
   OCMStub([senderCallMock sender:OCMOCK_ANY
-         callCompletedWithStatus:MSHTTPCodesNo404NotFound
-                            data:OCMOCK_ANY
-                           error:OCMOCK_ANY])
+              callCompletedWithStatus:MSHTTPCodesNo404NotFound
+                                 data:OCMOCK_ANY
+                                error:OCMOCK_ANY])
       .andForwardToRealObject()
       .andDo(^(__unused NSInvocation *invocation) {
-      [expection fulfill];
+        [expection fulfill];
       });
   [MSHttpTestUtil stubHttp404Response];
-  [self.settingsMock setObject:@"ReleaseId" forKey:kMSDownloadedReleaseIdKey];
-  [self.settingsMock setObject:@"ReleaseHash" forKey:kMSDownloadedReleaseHashKey];
+  [self.settingsMock setObject:@1 forKey:kMSDownloadedReleaseIdKey];
+  [self.settingsMock setObject:kMSTestReleaseHash forKey:kMSDownloadedReleaseHashKey];
 
   // When
-  [self.sut checkLatestRelease:updateToken distributionGroupId:distributionGroupId releaseHash:releaseHash];
+  [self.sut checkLatestRelease:kMSTestUpdateToken distributionGroupId:kMSTestDistributionGroupId releaseHash:kMSTestReleaseHash];
 
   // Then
-  [self waitForExpectationsWithTimeout:1
-                               handler:^(NSError *error) {
+  [self
+      waitForExpectationsWithTimeout:1
+                             handler:^(NSError *error) {
 
-                                   // Then
-                                   OCMVerify([distributeMock getReportingParametersForUpdatedRelease:updateToken currentInstalledReleaseHash:releaseHash distributionGroupId:distributionGroupId]);
-                                   if (error) {
-                                     XCTFail(@"Expectation Failed with error: %@", error);
-                                   }
-                               }];
+                               // Then
+                               OCMVerify([distributeMock getReportingParametersForUpdatedRelease:kMSTestUpdateToken
+                                                                     currentInstalledReleaseHash:kMSTestReleaseHash
+                                                                             distributionGroupId:kMSTestDistributionGroupId]);
+                               if (error) {
+                                 XCTFail(@"Expectation Failed with error: %@", error);
+                               }
+                             }];
 
   // Clear
   [distributeMock stopMocking];
@@ -2116,35 +2212,185 @@ static NSURL *sfURL;
   [senderCallMock stopMocking];
 }
 
+- (void)testShouldChangeDistributionGroupIdIfStoredIdDoesntMatchDownloadedId {
+
+  // If
+  id distributeMock = OCMPartialMock(self.sut);
+  id utilityMock = [self mockMSPackageHash];
+  OCMStub([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY]).andDo(nil);
+  OCMStub([distributeMock requestInstallInformationWith:OCMOCK_ANY]).andDo(nil);
+  [self.settingsMock setObject:kMSTestReleaseHash forKey:kMSDownloadedReleaseHashKey];
+  [self.settingsMock setObject:kMSTestDistributionGroupId forKey:kMSDistributionGroupIdKey];
+  [self.settingsMock setObject:kMSTestDownloadedDistributionGroupId forKey:kMSDownloadedDistributionGroupIdKey];
+
+  // When
+  [distributeMock startUpdate];
+
+  // Then
+  OCMVerify([distributeMock changeDistributionGroupIdAfterAppUpdateIfNeeded:kMSTestReleaseHash]);
+  assertThat([self.settingsMock objectForKey:kMSDistributionGroupIdKey], equalTo(kMSTestDownloadedDistributionGroupId));
+  XCTAssertNil([self.settingsMock objectForKey:kMSDownloadedDistributionGroupIdKey]);
+
+  // Stop mocking
+  [distributeMock stopMocking];
+  [utilityMock stopMocking];
+}
+
+- (void)testShouldChangeDistributionGroupIdIfStoredIdIsNil {
+
+  // If
+  id distributeMock = OCMPartialMock(self.sut);
+  id utilityMock = [self mockMSPackageHash];
+  OCMStub([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY]).andDo(nil);
+  OCMStub([distributeMock requestInstallInformationWith:OCMOCK_ANY]).andDo(nil);
+  [self.settingsMock setObject:kMSTestReleaseHash forKey:kMSDownloadedReleaseHashKey];
+  [self.settingsMock removeObjectForKey:kMSDistributionGroupIdKey];
+  [self.settingsMock setObject:kMSTestDownloadedDistributionGroupId forKey:kMSDownloadedDistributionGroupIdKey];
+
+  // When
+  [distributeMock startUpdate];
+
+  // Then
+  OCMVerify([distributeMock changeDistributionGroupIdAfterAppUpdateIfNeeded:kMSTestReleaseHash]);
+  assertThat([self.settingsMock objectForKey:kMSDistributionGroupIdKey], equalTo(kMSTestDownloadedDistributionGroupId));
+  XCTAssertNil([self.settingsMock objectForKey:kMSDownloadedDistributionGroupIdKey]);
+
+  // Stop mocking
+  [distributeMock stopMocking];
+  [utilityMock stopMocking];
+}
+
+- (void)testShouldNotChangeDistributionGroupIdIfStoredIdMatchDownloadedId {
+
+  // If
+  id distributeMock = OCMPartialMock(self.sut);
+  id utilityMock = [self mockMSPackageHash];
+  OCMStub([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY]).andDo(nil);
+  OCMStub([distributeMock requestInstallInformationWith:OCMOCK_ANY]).andDo(nil);
+  [self.settingsMock setObject:kMSTestReleaseHash forKey:kMSDownloadedReleaseHashKey];
+  [self.settingsMock setObject:kMSTestDistributionGroupId forKey:kMSDistributionGroupIdKey];
+  [self.settingsMock setObject:kMSTestDistributionGroupId forKey:kMSDownloadedDistributionGroupIdKey];
+
+  // When
+  [distributeMock startUpdate];
+
+  // Then
+  OCMVerify([distributeMock changeDistributionGroupIdAfterAppUpdateIfNeeded:kMSTestReleaseHash]);
+  assertThat([self.settingsMock objectForKey:kMSDistributionGroupIdKey], equalTo(kMSTestDistributionGroupId));
+  assertThat([self.settingsMock objectForKey:kMSDownloadedDistributionGroupIdKey], equalTo(nil));
+
+  // Stop mocking
+  [distributeMock stopMocking];
+  [utilityMock stopMocking];
+}
+
+- (void)testShouldNotChangeDistributionGroupIdIfAppWasntUpdated {
+
+  // If
+  id distributeMock = OCMPartialMock(self.sut);
+  id utilityMock = [self mockMSPackageHash];
+  OCMStub([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY]).andDo(nil);
+  OCMStub([distributeMock requestInstallInformationWith:OCMOCK_ANY]).andDo(nil);
+  [self.settingsMock removeObjectForKey:kMSDownloadedReleaseHashKey];
+  [self.settingsMock setObject:kMSTestDistributionGroupId forKey:kMSDistributionGroupIdKey];
+  [self.settingsMock removeObjectForKey:kMSDownloadedDistributionGroupIdKey];
+
+  // When
+  [distributeMock startUpdate];
+
+  // Then
+  OCMVerify([distributeMock changeDistributionGroupIdAfterAppUpdateIfNeeded:kMSTestReleaseHash]);
+  assertThat([self.settingsMock objectForKey:kMSDistributionGroupIdKey], equalTo(kMSTestDistributionGroupId));
+  XCTAssertNil([self.settingsMock objectForKey:kMSDownloadedDistributionGroupIdKey]);
+
+  // Stop mocking
+  [distributeMock stopMocking];
+  [utilityMock stopMocking];
+}
+- (void)testShouldNotChangeDistributionGroupIdIfStoredIdIsNil {
+
+  // If
+  id distributeMock = OCMPartialMock(self.sut);
+  id utilityMock = [self mockMSPackageHash];
+  OCMStub([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY]).andDo(nil);
+  OCMStub([distributeMock requestInstallInformationWith:OCMOCK_ANY]).andDo(nil);
+  [self.settingsMock setObject:kMSTestReleaseHash forKey:kMSDownloadedReleaseHashKey];
+  [self.settingsMock setObject:kMSTestDistributionGroupId forKey:kMSDistributionGroupIdKey];
+  [self.settingsMock removeObjectForKey:kMSDownloadedDistributionGroupIdKey];
+
+  // When
+  [distributeMock startUpdate];
+
+  // Then
+  OCMVerify([distributeMock changeDistributionGroupIdAfterAppUpdateIfNeeded:kMSTestReleaseHash]);
+  assertThat([self.settingsMock objectForKey:kMSDistributionGroupIdKey], equalTo(kMSTestDistributionGroupId));
+  XCTAssertNil([self.settingsMock objectForKey:kMSDownloadedDistributionGroupIdKey]);
+
+  // Stop mocking
+  [distributeMock stopMocking];
+  [utilityMock stopMocking];
+}
+
 - (void)testStoreDownloadedReleaseDetails {
 
   // If
-  NSNumber *releaseId = @1;
-  NSString *releaseHash = @"ReleaseHash";
   MSReleaseDetails *details = [MSReleaseDetails new];
-  details.id = releaseId;
-  details.packageHashes = @[ releaseHash ];
+  details.id = @1;
+  details.packageHashes = @[ kMSTestReleaseHash ];
+  details.distributionGroupId = kMSTestDistributionGroupId;
 
   // When
   [self.sut storeDownloadedReleaseDetails:details];
 
   // Then
-  OCMVerify([self.settingsMock setObject:releaseId forKey:kMSDownloadedReleaseIdKey]);
-  OCMVerify([self.settingsMock setObject:releaseHash forKey:kMSDownloadedReleaseHashKey]);
+  assertThat([self.settingsMock objectForKey:kMSDownloadedReleaseIdKey], equalTo(@1));
+  assertThat([self.settingsMock objectForKey:kMSDownloadedReleaseHashKey], equalTo(kMSTestReleaseHash));
+  assertThat([self.settingsMock objectForKey:kMSDownloadedDistributionGroupIdKey], equalTo(kMSTestDistributionGroupId));
+}
+
+- (void)testStoreDownloadedReleaseDetailsWithNilValues {
+
+  // If
+  [self.settingsMock removeObjectForKey:kMSDownloadedReleaseIdKey];
+  [self.settingsMock removeObjectForKey:kMSDownloadedReleaseHashKey];
+  [self.settingsMock removeObjectForKey:kMSDownloadedDistributionGroupIdKey];
+
+  // When
+  [self.sut storeDownloadedReleaseDetails:nil];
+
+  // Then
+  assertThat([self.settingsMock objectForKey:kMSDownloadedReleaseIdKey], equalTo(nil));
+  assertThat([self.settingsMock objectForKey:kMSDownloadedReleaseHashKey], equalTo(nil));
+  assertThat([self.settingsMock objectForKey:kMSDownloadedDistributionGroupIdKey], equalTo(nil));
+
+  // If
+  MSReleaseDetails *details = [MSReleaseDetails new];
+
+  // When
+  [self.sut storeDownloadedReleaseDetails:details];
+
+  // Then
+  assertThat([self.settingsMock objectForKey:kMSDownloadedReleaseIdKey], equalTo(nil));
+  assertThat([self.settingsMock objectForKey:kMSDownloadedReleaseHashKey], equalTo(nil));
+  assertThat([self.settingsMock objectForKey:kMSDownloadedDistributionGroupIdKey], equalTo(nil));
 }
 
 - (void)testRemoveDownloadedReleaseDetailsIfUpdated {
 
   // If
-  NSString *releaseHash = @"ReleaseHash";
-  [self.settingsMock setObject:releaseHash forKey:kMSDownloadedReleaseHashKey];
+  id utilityMock = [self mockMSPackageHash];
+  [self.settingsMock setObject:@1 forKey:kMSDownloadedReleaseIdKey];
+  [self.settingsMock setObject:kMSTestReleaseHash forKey:kMSDownloadedReleaseHashKey];
 
   // When
-  [self.sut removeDownloadedReleaseDetailsIfUpdated:releaseHash];
+  [self.sut removeDownloadedReleaseDetailsIfUpdated:kMSTestReleaseHash];
 
   // Then
-  OCMVerify([self.settingsMock removeObjectForKey:kMSDownloadedReleaseIdKey]);
-  OCMVerify([self.settingsMock removeObjectForKey:kMSDownloadedReleaseHashKey]);
+  XCTAssertNil([self.settingsMock objectForKey:kMSDownloadedReleaseIdKey]);
+  XCTAssertNil([self.settingsMock objectForKey:kMSDownloadedReleaseHashKey]);
+
+  // Clear
+  [utilityMock stopMocking];
 }
 
 #pragma mark - Helper
