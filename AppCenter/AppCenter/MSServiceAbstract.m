@@ -71,13 +71,18 @@
 
 #pragma mark : - MSService
 
-- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret {
-  self.started = YES;
+- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret tenantId:(NSString *)tenantId {
   self.channelGroup = channelGroup;
   self.appSecret = appSecret;
+  self.defaultTenantId = tenantId;
+  [self start];
+}
 
-  if ([self respondsToSelector:@selector(channelUnitConfiguration)]) {
-    
+- (void)start {
+  self.started = YES;
+
+  if (self.channelGroup && [self respondsToSelector:@selector(channelUnitConfiguration)]) {
+
     // Initialize channel unit for the service in log manager.
     self.channelUnit = [self.channelGroup addChannelUnitWithConfiguration:self.channelUnitConfiguration];
   }

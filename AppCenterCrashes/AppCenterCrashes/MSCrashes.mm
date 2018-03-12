@@ -385,8 +385,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   return kMSServiceName;
 }
 
-- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret {
-  [super startWithChannelGroup:channelGroup appSecret:appSecret];
+- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret tenantId:(NSString *)tenantId {
+  [super startWithChannelGroup:channelGroup appSecret:appSecret tenantId:tenantId];
   [self.channelGroup addDelegate:self];
 
   // Initialize a dedicated channel for log buffer.

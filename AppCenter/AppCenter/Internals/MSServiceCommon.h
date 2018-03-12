@@ -22,19 +22,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, readonly, getter=isAvailable) BOOL available;
 
 /**
- * Channel group.
- */
-@property(nonatomic) id<MSChannelGroupProtocol> channelGroup;
-
-/**
  * Channel unit.
  */
 @property(nonatomic) id<MSChannelUnitProtocol> channelUnit;
-
-/**
- * The app secret for the SDK.
- */
-@property(nonatomic, nonnull) NSString *appSecret;
 
 /**
  * Apply the enabled state to the service.
@@ -76,17 +66,6 @@ NS_ASSUME_NONNULL_BEGIN
  * @return a BOOL to indicate proper initialization of the SDK.
  */
 - (BOOL)canBeUsed;
-
-/**
- * Start this service with a channel group. Also sets the flag that indicates that a service has been started.
- *
- * @param channelGroup channel group used to persist and send logs.
- * @param appSecret app secret for the SDK.
- *
- * @discussion Note that this is defined both here and in MSServiceAbstract.h. This is intentional, and due to
- * the way the classes are factored.
- */
-- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret;
 
 NS_ASSUME_NONNULL_END
 

@@ -30,5 +30,4 @@
   [MSAnalytics trackEvent:eventName withProperties:properties forTenant:self];
 }
 
-
 @end

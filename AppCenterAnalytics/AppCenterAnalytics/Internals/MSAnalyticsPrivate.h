@@ -24,6 +24,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) NSMutableDictionary *tenants;
 
 /**
+ * Default tenant.
+ */
+@property(nonatomic) MSAnalyticsTenant *defaultTenant;
+
+/**
  * Track an event.
  *
  * @param eventName  event name.

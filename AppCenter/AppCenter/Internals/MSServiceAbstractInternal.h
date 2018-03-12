@@ -17,6 +17,21 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic) BOOL started;
 
+/**
+ * Default identifier of default tenant, if the service supports tenants.
+ */
+@property(nonatomic) NSString *defaultTenantId;
+
+/**
+ * The app secret for the SDK.
+ */
+@property(nonatomic) NSString *appSecret;
+
+/**
+ * Channel group.
+ */
+@property(nonatomic) id<MSChannelGroupProtocol> channelGroup;
+
 #pragma mark - Service initialization
 
 /**

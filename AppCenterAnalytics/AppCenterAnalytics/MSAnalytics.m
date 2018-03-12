@@ -69,9 +69,10 @@ static const int maxPropertyValueLength = 64;
   return kMSServiceName;
 }
 
-- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret {
-  [super startWithChannelGroup:channelGroup appSecret:appSecret];
-
+- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret tenantId:(NSString *)tenantId  {
+  [super startWithChannelGroup:channelGroup appSecret:appSecret tenantId:tenantId];
+  self.defaultTenant = [self getTenant:tenantId];
+  
   // Set up swizzling for auto page tracking.
   [MSAnalyticsCategory activateCategory];
   MSLogVerbose([MSAnalytics logTag], @"Started Analytics service.");
@@ -243,6 +244,11 @@ static const int maxPropertyValueLength = 64;
   if (![self isEnabled])
     return;
 
+  // Use default tenant if no tenant was provided.
+  if (tenant == nil) {
+    tenant = self.defaultTenant;
+  }
+
   // Create an event log.
   MSEventLog *log = [MSEventLog new];
 
@@ -325,9 +331,10 @@ static const int maxPropertyValueLength = 64;
   }
   tenant = [[MSAnalyticsTenant alloc] initWithTenantId:tenantId];
   MSLogDebug([MSAnalytics logTag], @"Created tenant with id %@.", tenantId);
-
-  // TODO: What if this is the first tenant added and there hasn't been an app secret? Any app center initialization?
   [self.tenants setObject:tenant forKey:tenantId];
+  if (!self.started) {
+    [self startWithChannelGroup:nil appSecret:nil tenantId:tenantId];
+  }
   return tenant;
 }
 

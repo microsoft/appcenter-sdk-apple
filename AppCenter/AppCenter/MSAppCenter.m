@@ -290,12 +290,7 @@ static NSString *const kMSGroupId = @"AppCenter";
       MSLogDebug([MSAppCenter logTag], @"Environment variable to disable service has been set; not starting service %@", clazz);
       return NO;
     }
-
-    // Set appCenterDelegate.
-    [self.services addObject:service];
-
-    // Start service with log manager.
-    [service startWithChannelGroup:self.channelGroup appSecret:self.appSecret];
+    [service startWithChannelGroup:self.channelGroup appSecret:self.appSecret tenantId:self.defaultTenantId];
     
     // Disable service if AppCenter is disabled.
     if ([clazz isEnabled] && !self.isEnabled) {

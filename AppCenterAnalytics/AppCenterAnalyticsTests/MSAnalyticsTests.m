@@ -666,5 +666,39 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   OCMVerifyAll(analyticsMock);
 }
 
+- (void)testGetTenant {
+
+  // If
+//  __block NSString *name;
+//  __block NSString *type;
+//  NSString *expectedName = @"gotACoffee";
+//  id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+//  id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+//  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+//  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSLogWithProperties class]]])
+//  .andDo(^(NSInvocation *invocation) {
+//    MSEventLog *log;
+//    [invocation getArgument:&log atIndex:2];
+//    type = log.type;
+//    name = log.name;
+//  });
+  NSString *tenantId = @"tenant";
+  [MSAppCenter startService:[MSAnalytics class]];
+  MSAnalyticsTenant *tenant = [MSAnalytics getTenant:tenantId];
+  [tenant trackEvent:@"eventname"];
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock appSecret:kMSTestAppSecret];
+
+  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
+  [[MSAnalytics sharedInstance].sessionTracker stop];
+
+  // When
+  [MSAnalytics trackEvent:expectedName];
+
+  // Then
+  assertThat(type, is(kMSTypeEvent));
+  assertThat(name, is(expectedName));
+}
+
+
 @end
 
