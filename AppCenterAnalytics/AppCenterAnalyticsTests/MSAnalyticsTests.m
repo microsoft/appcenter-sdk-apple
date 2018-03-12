@@ -365,8 +365,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   OCMReject([analyticsMock validateEventName:OCMOCK_ANY forLogType:OCMOCK_ANY]);
   OCMReject([analyticsMock validateProperties:OCMOCK_ANY forLogName:OCMOCK_ANY andType:OCMOCK_ANY]);
   OCMReject([channelUnitMock enqueueItem:OCMOCK_ANY]);
-  [[MSAnalytics sharedInstance] trackEvent:@"Some event" withProperties:nil];
-
+  [[MSAnalytics sharedInstance] trackEvent:@"Some event" withProperties:nil forTenant:nil];
   // Then
   OCMVerifyAll(channelUnitMock);
   OCMVerifyAll(analyticsMock);
@@ -390,7 +389,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   OCMExpect([analyticsMock validateEventName:OCMOCK_ANY forLogType:OCMOCK_ANY]);
   OCMReject([channelUnitMock enqueueItem:OCMOCK_ANY]);
   OCMReject([analyticsMock validateProperties:OCMOCK_ANY forLogName:OCMOCK_ANY andType:OCMOCK_ANY]);
-  [[MSAnalytics sharedInstance] trackEvent:invalidEventName withProperties:nil];
+  [[MSAnalytics sharedInstance] trackEvent:invalidEventName withProperties:nil forTenant:nil];
 
   // Then
   OCMVerifyAll(channelUnitMock);
