@@ -146,6 +146,9 @@
 		04A1409D1ECE728B001CEE94 /* MSAnalyticsCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = 0485AF8D1EAA852A00C10CAF /* MSAnalyticsCategory.h */; };
 		04A1409E1ECE7316001CEE94 /* MSAnalyticsCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485AF8E1EAA852A00C10CAF /* MSAnalyticsCategory.m */; };
 		04BED7181ECB64FB00E20975 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BED7161ECB64CE00E20975 /* OCHamcrest.framework */; };
+		35134331205704C100E6DC7D /* MSAnalyticsTenant.m in Sources */ = {isa = PBXBuildFile; fileRef = 35134330205704C100E6DC7D /* MSAnalyticsTenant.m */; };
+		35134332205704C100E6DC7D /* MSAnalyticsTenant.m in Sources */ = {isa = PBXBuildFile; fileRef = 35134330205704C100E6DC7D /* MSAnalyticsTenant.m */; };
+		35134333205704C100E6DC7D /* MSAnalyticsTenant.m in Sources */ = {isa = PBXBuildFile; fileRef = 35134330205704C100E6DC7D /* MSAnalyticsTenant.m */; };
 		3568A7E0201A71D000F3B860 /* MSAbstractLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 358F9BC72019596400B9E22C /* MSAbstractLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3568A7E1201A71D000F3B860 /* MSLogWithProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 358F9BC52019590100B9E22C /* MSLogWithProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3568A7ED201A9BBB00F3B860 /* MSAbstractLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 358F9BC72019596400B9E22C /* MSAbstractLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -284,6 +287,9 @@
 		04BED7161ECB64CE00E20975 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../../Vendor/macOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
 		04ED31E91EAAD32B0033BAAE /* macOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = macOS.modulemap; sourceTree = "<group>"; };
 		04ED31EB1EAAD3390033BAAE /* iOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = iOS.modulemap; sourceTree = "<group>"; };
+		3513432F205704A100E6DC7D /* MSAnalyticsTenant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsTenant.h; sourceTree = "<group>"; };
+		35134330205704C100E6DC7D /* MSAnalyticsTenant.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSAnalyticsTenant.m; sourceTree = "<group>"; };
+		351343352057093600E6DC7D /* MSAnalyticsTenantInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsTenantInternal.h; sourceTree = "<group>"; };
 		358F9BC52019590100B9E22C /* MSLogWithProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSLogWithProperties.h; path = ../AppCenter/AppCenter/Model/MSLogWithProperties.h; sourceTree = "<group>"; };
 		358F9BC72019596400B9E22C /* MSAbstractLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAbstractLog.h; path = ../AppCenter/AppCenter/Model/MSAbstractLog.h; sourceTree = "<group>"; };
 		35BF19E21DF9C43F00193027 /* MSAnalyticsDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsDelegate.h; sourceTree = "<group>"; };
@@ -472,6 +478,16 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
+		3513432E2057046700E6DC7D /* Tenant */ = {
+			isa = PBXGroup;
+			children = (
+				3513432F205704A100E6DC7D /* MSAnalyticsTenant.h */,
+				351343352057093600E6DC7D /* MSAnalyticsTenantInternal.h */,
+				35134330205704C100E6DC7D /* MSAnalyticsTenant.m */,
+			);
+			path = Tenant;
+			sourceTree = "<group>";
+		};
 		6E0684361D35A39300A8CC6C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -537,6 +553,7 @@
 		E85547C21D2D6253002DF6E2 /* AppCenterAnalytics */ = {
 			isa = PBXGroup;
 			children = (
+				3513432E2057046700E6DC7D /* Tenant */,
 				E85547CC1D2D63EF002DF6E2 /* AppCenterAnalytics.h */,
 				E85547C31D2D6253002DF6E2 /* MSAnalytics.h */,
 				E85547C51D2D6253002DF6E2 /* MSAnalytics.m */,
@@ -939,6 +956,7 @@
 			files = (
 				043121511EE0C20A007054C5 /* MSAnalytics.m in Sources */,
 				043121521EE0C20A007054C5 /* MSSessionTracker.m in Sources */,
+				35134333205704C100E6DC7D /* MSAnalyticsTenant.m in Sources */,
 				043121531EE0C20A007054C5 /* MSPageLog.m in Sources */,
 				043121541EE0C20A007054C5 /* MSAnalyticsCategory.m in Sources */,
 				043121551EE0C20A007054C5 /* MSEventLog.m in Sources */,
@@ -980,6 +998,7 @@
 			files = (
 				0485AF6A1EAA79E300C10CAF /* MSAnalytics.m in Sources */,
 				0485AF6B1EAA79E300C10CAF /* MSSessionTracker.m in Sources */,
+				35134332205704C100E6DC7D /* MSAnalyticsTenant.m in Sources */,
 				0485AF6C1EAA79E300C10CAF /* MSPageLog.m in Sources */,
 				0485AF6D1EAA79E300C10CAF /* MSEventLog.m in Sources */,
 				04A1409E1ECE7316001CEE94 /* MSAnalyticsCategory.m in Sources */,
@@ -993,6 +1012,7 @@
 			files = (
 				E85547C61D2D6253002DF6E2 /* MSAnalytics.m in Sources */,
 				E8E48F9F1D515C3900A8C1B0 /* MSSessionTracker.m in Sources */,
+				35134331205704C100E6DC7D /* MSAnalyticsTenant.m in Sources */,
 				6E3E2CCE1D359D5E00B1EE50 /* MSPageLog.m in Sources */,
 				0485AF901EAA852A00C10CAF /* MSAnalyticsCategory.m in Sources */,
 				6E3E2CCC1D359D5E00B1EE50 /* MSEventLog.m in Sources */,

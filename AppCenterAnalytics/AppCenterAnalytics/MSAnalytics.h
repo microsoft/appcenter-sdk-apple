@@ -1,4 +1,5 @@
 #import "MSServiceAbstract.h"
+#import "MSAnalyticsTenant.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -21,6 +22,15 @@ NS_ASSUME_NONNULL_BEGIN
  * @param properties dictionary of properties.
  */
 + (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties;
+
+/**
+ * Get a tenant.
+ *
+ * @param tenantId identifier of the tenant to retrieve.
+ *
+ * @returns The tenant object.
+ */
++ (MSAnalyticsTenant *)getTenant:(NSString *)tenantId;
 
 @end
 
