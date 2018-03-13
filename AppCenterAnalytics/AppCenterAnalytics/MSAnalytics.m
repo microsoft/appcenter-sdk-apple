@@ -334,7 +334,9 @@ static const int maxPropertyValueLength = 64;
   tenant = [[MSAnalyticsTenant alloc] initWithTenantId:tenantId];
   MSLogDebug([MSAnalytics logTag], @"Created tenant with id %@.", tenantId);
   [self.tenants setObject:tenant forKey:tenantId];
-  // TODO: what if service needs to be started now?
+  // TODO: Start service if not already.
+  // Scenario: getTenant gets called before App Center has an app secret or tenant ID
+  // but start has been called for this service.
   return tenant;
 }
 

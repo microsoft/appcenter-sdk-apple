@@ -8,7 +8,6 @@
  */
 @property(nonatomic) NSString *tenantId;
 
-
 - (instancetype)initWithTenantId:(NSString *)tenantId;
 
 @end

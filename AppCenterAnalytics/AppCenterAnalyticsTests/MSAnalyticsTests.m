@@ -15,6 +15,7 @@
 static NSString *const kMSTypeEvent = @"event";
 static NSString *const kMSTypePage = @"page";
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
+static NSString *const kMSTestTenantId = @"TestTenantId";
 static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
 @class MSMockAnalyticsDelegate;
@@ -672,39 +673,72 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   OCMVerifyAll(analyticsMock);
 }
 
-- (void)testGetTenant {
+- (void)testStartWithTenantAndAppSecretUsesTenant {
 
   // If
-//  __block NSString *name;
-//  __block NSString *type;
-//  NSString *expectedName = @"gotACoffee";
-//  id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
-//  id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
-//  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
-//  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSLogWithProperties class]]])
-//  .andDo(^(NSInvocation *invocation) {
-//    MSEventLog *log;
-//    [invocation getArgument:&log atIndex:2];
-//    type = log.type;
-//    name = log.name;
-//  });
-  //NSString *tenantId = @"tenant";
-  //[MSAppCenter startService:[MSAnalytics class]];
-  //MSAnalyticsTenant *tenant = [MSAnalytics getTenant:tenantId];
-  //[tenant trackEvent:@"eventname"];
-  //[[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock appSecret:kMSTestAppSecret tenantId:nil];
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  __block MSEventLog *log;
+  __block int invocations = 0;
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSLogWithProperties class]]])
+  .andDo(^(NSInvocation *invocation) {
+    ++invocations;
+    [invocation getArgument:&log atIndex:2];
+  });
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
+                                            appSecret:kMSTestAppSecret
+                                             tenantId:kMSTestTenantId];
 
-  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
-//  [[MSAnalytics sharedInstance].sessionTracker stop];
-//
-//  // When
-//  [MSAnalytics trackEvent:expectedName];
-//
-//  // Then
-//  assertThat(type, is(kMSTypeEvent));
-//  assertThat(name, is(expectedName));
+  // When
+  [MSAnalytics trackEvent:@"eventName"];
+
+  // Then
+  OCMVerify([channelUnitMock enqueueItem:log]);
+  XCTAssertTrue([[log getTenants] containsObject:kMSTestTenantId]);
+  XCTAssertEqual([[log getTenants] count], (unsigned long)1);
+  XCTAssertEqual(invocations, 1);
 }
 
+- (void)testStartWithTenantWithoutAppSecretUsesTenant {
+
+  // If
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  __block MSEventLog *log;
+  __block int invocations = 0;
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSLogWithProperties class]]])
+  .andDo(^(NSInvocation *invocation) {
+    ++invocations;
+    [invocation getArgument:&log atIndex:2];
+  });
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
+                                            appSecret:nil
+                                             tenantId:kMSTestTenantId];
+
+  // When
+  [MSAnalytics trackEvent:@"eventName"];
+
+  // Then
+  OCMVerify([channelUnitMock enqueueItem:log]);
+  XCTAssertTrue([[log getTenants] containsObject:kMSTestTenantId]);
+  XCTAssertEqual([[log getTenants] count], (unsigned long)1);
+  XCTAssertEqual(invocations, 1);
+}
+
+- (void)testGetTenantCreatesTenantOnce {
+
+  // When
+  MSAnalyticsTenant *tenant = [MSAnalytics getTenant:kMSTestTenantId];
+  MSAnalyticsTenant *tenant2 = [MSAnalytics getTenant:kMSTestTenantId];
+
+  // Then
+  XCTAssertNotNil(tenant);
+  XCTAssertEqual(tenant, tenant2);
+}
 
 @end
 
