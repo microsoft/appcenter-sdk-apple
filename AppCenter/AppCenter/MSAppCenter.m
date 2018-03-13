@@ -186,6 +186,10 @@ static NSString *const kMSGroupId = @"AppCenter";
   return self;
 }
 
+/**
+ * Configuring without an app secret is valid. If that is the case, the app secret will
+ * not be set.
+ */
 - (BOOL)configure:(NSString *)appSecret {
   @synchronized(self) {
     BOOL success = false;
@@ -193,8 +197,8 @@ static NSString *const kMSGroupId = @"AppCenter";
       MSLogAssert([MSAppCenter logTag], @"App Center SDK has already been configured.");
     }
 
-    // Validate and set the app secret.
-    else if ([appSecret length] == 0) {
+    // Validate and set the app secret, if one is provided.
+    else if (appSecret && [appSecret length] == 0) {
       MSLogAssert([MSAppCenter logTag], @"AppSecret is invalid.");
     } else {
       self.appSecret = appSecret;
@@ -215,7 +219,6 @@ static NSString *const kMSGroupId = @"AppCenter";
       // Initialize session context.
       // FIXME: It would be better to have obvious way to initialize session context instead of calling setSessionId.
       [MSSessionContext setSessionId:nil];
-
       success = true;
     }
     if (success) {
@@ -235,7 +238,6 @@ static NSString *const kMSGroupId = @"AppCenter";
       NSArray *sortedServices = [self sortServices:services];
       MSLogVerbose([MSAppCenter logTag], @"Start services %@", [sortedServices componentsJoinedByString:@", "]);
       NSMutableArray<NSString *> *servicesNames = [NSMutableArray arrayWithCapacity:sortedServices.count];
-
       for (Class service in sortedServices) {
         if ([self startService:service andSendLog:NO]) {
           [servicesNames addObject:[service serviceName]];
@@ -382,9 +384,9 @@ static NSString *const kMSGroupId = @"AppCenter";
     [[MSDeviceTracker sharedInstance] clearDevices];
   }
 
-  // Propagate to log manager.
+  // Propagate to channel group.
   [self.channelGroup setEnabled:isEnabled andDeleteDataOnDisabled:YES];
-  
+
   // Send started services.
   if (self.startedServiceNames && isEnabled) {
     [self sendStartServiceLog:self.startedServiceNames];
@@ -394,11 +396,17 @@ static NSString *const kMSGroupId = @"AppCenter";
 
 - (void)initializeChannelGroup {
 
-  // Construct log manager.
+  // If there is no app secret, create a channel group without sender or storage.
+  if (self.appSecret) {
+    self.channelGroup = [[MSChannelGroupDefault alloc] initWithSender:nil storage:nil];
+
+  }
+
+  // Construct channel group.
   self.channelGroup =
       [[MSChannelGroupDefault alloc] initWithAppSecret:self.appSecret installId:self.installId logUrl:self.logUrl];
 
-  // Initialize a channel for start service logs.
+  // Initialize a channel unit for start service logs.
   self.channelUnit = [self.channelGroup
       addChannelUnitWithConfiguration:[[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[MSAppCenter groupId]]];
 }

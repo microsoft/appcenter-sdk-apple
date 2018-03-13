@@ -15,6 +15,11 @@
 @property(nonatomic, readonly) MSInitializationPriority initializationPriority;
 
 /**
+ * The app secret for the SDK.
+ */
+@property(nonatomic) NSString *appSecret;
+
+/**
  * Get the unique instance.
  *
  * @return The unique instance.
@@ -44,14 +49,5 @@
  * @return A name of logger tag for this service.
  */
 + (NSString *)logTag;
-
-/**
- * Start this service with a channel group. Also sets the flag that indicates that a service has been started.
- *
- * @param channelGroup channel group used to persist and send logs.
- * @param appSecret app secret for the SDK.
- * @param tenantId default tenant id for this service.
- */
-- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret tenantId:(NSString *)tenantId;
 
 @end

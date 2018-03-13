@@ -69,10 +69,12 @@ static const int maxPropertyValueLength = 64;
   return kMSServiceName;
 }
 
-- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret tenantId:(NSString *)tenantId  {
+- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(nullable NSString *)appSecret tenantId:(nullable NSString *)tenantId  {
   [super startWithChannelGroup:channelGroup appSecret:appSecret tenantId:tenantId];
-  self.defaultTenant = [self getTenant:tenantId];
-  
+  if (tenantId) {
+    self.defaultTenant = [self getTenant:(NSString *)tenantId];
+  }
+
   // Set up swizzling for auto page tracking.
   [MSAnalyticsCategory activateCategory];
   MSLogVerbose([MSAnalytics logTag], @"Started Analytics service.");
@@ -332,9 +334,7 @@ static const int maxPropertyValueLength = 64;
   tenant = [[MSAnalyticsTenant alloc] initWithTenantId:tenantId];
   MSLogDebug([MSAnalytics logTag], @"Created tenant with id %@.", tenantId);
   [self.tenants setObject:tenant forKey:tenantId];
-  if (!self.started) {
-    [self startWithChannelGroup:nil appSecret:nil tenantId:tenantId];
-  }
+  // TODO: what if service needs to be started now?
   return tenant;
 }
 

@@ -8,6 +8,7 @@
 @synthesize channelGroup = _channelGroup;
 @synthesize channelUnit = _channelUnit;
 @synthesize appSecret = _appSecret;
+@synthesize defaultTenantId = _defaultTenantId;
 
 - (instancetype)init {
   return [self initWithStorage:MS_USER_DEFAULTS];
@@ -75,13 +76,8 @@
   self.channelGroup = channelGroup;
   self.appSecret = appSecret;
   self.defaultTenantId = tenantId;
-  [self start];
-}
-
-- (void)start {
   self.started = YES;
-
-  if (self.channelGroup && [self respondsToSelector:@selector(channelUnitConfiguration)]) {
+  if ([self respondsToSelector:@selector(channelUnitConfiguration)]) {
 
     // Initialize channel unit for the service in log manager.
     self.channelUnit = [self.channelGroup addChannelUnitWithConfiguration:self.channelUnitConfiguration];
