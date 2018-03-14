@@ -36,7 +36,7 @@
   NSString *expectedSessionId = @"Session";
 
   // When
-  [MSSessionContext setSessionId:expectedSessionId];
+  [[MSSessionContext sharedInstance] setSessionId:expectedSessionId];
 
   // Then
   NSData *data = [self.settingsMock objectForKey:@"SessionIdHistory"];
@@ -47,9 +47,9 @@
 - (void)testClearSessionHistory {
 
   // When
-  [MSSessionContext setSessionId:@"Session1"];
+  [[MSSessionContext sharedInstance] setSessionId:@"Session1"];
   [MSSessionContext resetSharedInstance];
-  [MSSessionContext setSessionId:@"Session2"];
+  [[MSSessionContext sharedInstance] setSessionId:@"Session2"];
 
   // Then
   NSData *data = [self.settingsMock objectForKey:@"SessionIdHistory"];
@@ -57,7 +57,7 @@
   XCTAssertTrue([[NSKeyedUnarchiver unarchiveObjectWithData:data] count] == 2);
 
   // When
-  [MSSessionContext clearSessionHistory];
+  [[MSSessionContext sharedInstance] clearSessionHistory];
 
   // Then
   data = [self.settingsMock objectForKey:@"SessionIdHistory"];
@@ -73,10 +73,10 @@
   NSString *expectedSessionId = @"Session";
 
   // When
-  [MSSessionContext setSessionId:expectedSessionId];
+  [[MSSessionContext sharedInstance] setSessionId:expectedSessionId];
 
   // Then
-  XCTAssertEqualObjects(expectedSessionId, [MSSessionContext sessionId]);
+  XCTAssertEqualObjects(expectedSessionId, [[MSSessionContext sharedInstance] sessionId]);
 }
 
 - (void)testSessionIdAt {
@@ -90,23 +90,23 @@
   });
 
   // When
-  [MSSessionContext setSessionId:@"Session1"];
+  [[MSSessionContext sharedInstance] setSessionId:@"Session1"];
   [MSSessionContext resetSharedInstance];
-  [MSSessionContext setSessionId:@"Session2"];
+  [[MSSessionContext sharedInstance] setSessionId:@"Session2"];
   [MSSessionContext resetSharedInstance];
-  [MSSessionContext setSessionId:@"Session3"];
+  [[MSSessionContext sharedInstance] setSessionId:@"Session3"];
   [MSSessionContext resetSharedInstance];
-  [MSSessionContext setSessionId:@"Session4"];
+  [[MSSessionContext sharedInstance] setSessionId:@"Session4"];
   [MSSessionContext resetSharedInstance];
-  [MSSessionContext setSessionId:@"Session5"];
+  [[MSSessionContext sharedInstance] setSessionId:@"Session5"];
 
   // Then
   // resetSharedInstance will also call [NSDate date] so timestamp 5500 should return "Session3"
-  XCTAssertNil([MSSessionContext sessionIdAt:[[NSDate alloc] initWithTimeIntervalSince1970:0]]);
+  XCTAssertNil([[MSSessionContext sharedInstance] sessionIdAt:[[NSDate alloc] initWithTimeIntervalSince1970:0]]);
   XCTAssertEqualObjects(@"Session3",
-                        [MSSessionContext sessionIdAt:[[NSDate alloc] initWithTimeIntervalSince1970:5500]]);
+                        [[MSSessionContext sharedInstance] sessionIdAt:[[NSDate alloc] initWithTimeIntervalSince1970:5500]]);
   XCTAssertEqualObjects(@"Session5",
-                        [MSSessionContext sessionIdAt:[[NSDate alloc] initWithTimeIntervalSince1970:10000]]);
+                        [[MSSessionContext sharedInstance] sessionIdAt:[[NSDate alloc] initWithTimeIntervalSince1970:10000]]);
 
   [dateMock stopMocking];
 }

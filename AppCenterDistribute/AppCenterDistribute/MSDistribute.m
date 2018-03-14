@@ -1076,7 +1076,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       [self.distributeInfoTracker updateDistributionGroupId:queryDistributionGroupId];
 
       // Only if we have managed to retrieve the Distribution group ID we should update the distribution session count.
-      latestSessionId = [MSSessionContext sessionIdAt:[NSDate date]];
+      latestSessionId = [[MSSessionContext sharedInstance] sessionIdAt:[NSDate date]];
 
       // If Analytics SDK is disabled session Id is null and there is no neeed to updte the distribution session count.
       if (latestSessionId) {

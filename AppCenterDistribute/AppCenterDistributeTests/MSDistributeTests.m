@@ -1131,7 +1131,7 @@ static NSURL *sfURL;
                                                                requestId, distributionGroupId]];
 
   // When
-  [MSSessionContext setSessionId:@"Session1"];
+  [[MSSessionContext sharedInstance] setSessionId:@"Session1"];
   [MS_USER_DEFAULTS setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
   BOOL result = [MSDistribute openURL:url];
 
@@ -1145,7 +1145,7 @@ static NSURL *sfURL;
                                                         requestId, distributionGroupId]];
 
   // When
-  [MSSessionContext setSessionId:nil];
+  [[MSSessionContext sharedInstance] setSessionId:nil];
   [MS_USER_DEFAULTS setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
   result = [MSDistribute openURL:url];
 

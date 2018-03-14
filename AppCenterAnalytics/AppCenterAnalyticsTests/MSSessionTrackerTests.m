@@ -22,13 +22,9 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
 - (void)setUp {
   [super setUp];
 
-  // FIXME: sharedInstance: in MSSessionContext is not called without this mocking.
-  self.context = OCMPartialMock([[MSSessionContext alloc] init]);
-  OCMClassMock([MSSessionContext class]);
-  OCMStub(ClassMethod([MSSessionContext sharedInstance])).andReturn(self.context);
-
   self.sut = [[MSSessionTracker alloc] init];
   [self.sut setSessionTimeout:kMSTestSessionTimeout];
+  self.sut.context = [MSSessionContext new];
   [self.sut start];
 }
 
@@ -44,14 +40,14 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
 
   // When
   [self.sut renewSessionId];
-  NSString *expectedSid = [MSSessionContext sessionId];
+  NSString *expectedSid = [self.sut.context sessionId];
 
   // Then
   XCTAssertNotNil(expectedSid);
 
   // When
   [self.sut renewSessionId];
-  NSString *sid = [MSSessionContext sessionId];
+  NSString *sid = [self.sut.context sessionId];
 
   // Then
   XCTAssertEqual(expectedSid, sid);
@@ -62,7 +58,7 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
 
   // If
   [self.sut renewSessionId];
-  NSString *expectedSid = [MSSessionContext sessionId];
+  NSString *expectedSid = [self.sut.context sessionId];
 
   // Then
   XCTAssertNotNil(expectedSid);
@@ -77,7 +73,7 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
 
   // Get a session
   [self.sut renewSessionId];
-  NSString *sid = [MSSessionContext sessionId];
+  NSString *sid = [self.sut.context sessionId];
 
   // Then
   XCTAssertEqual(expectedSid, sid);
@@ -87,7 +83,7 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
 
   // If
   [self.sut renewSessionId];
-  NSString *expectedSid = [MSSessionContext sessionId];
+  NSString *expectedSid = [self.sut.context sessionId];
 
   // Then
   XCTAssertNotNil(expectedSid);
@@ -108,7 +104,7 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
 
   // Get a session
   [self.sut renewSessionId];
-  NSString *sid = [MSSessionContext sessionId];
+  NSString *sid = [self.sut.context sessionId];
 
   // Then
   XCTAssertEqual(expectedSid, sid);
@@ -118,7 +114,7 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
 
   // If
   [self.sut renewSessionId];
-  NSString *expectedSid = [MSSessionContext sessionId];
+  NSString *expectedSid = [self.sut.context sessionId];
 
   // Then
   XCTAssertNotNil(expectedSid);
@@ -139,7 +135,7 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
 
   // Get a session
   [self.sut renewSessionId];
-  NSString *sid = [MSSessionContext sessionId];
+  NSString *sid = [self.sut.context sessionId];
 
   // Then
   XCTAssertNotEqual(expectedSid, sid);
@@ -148,8 +144,6 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
 - (void)testLongBackgroundSessionWithSessionTrackingStopped {
 
   // If
-
-  // Stop session tracking
   [self.sut stop];
 
   // When
@@ -159,7 +153,7 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
 
   // Get a session
   [self.sut renewSessionId];
-  NSString *expectedSid = [MSSessionContext sessionId];
+  NSString *expectedSid = [self.sut.context sessionId];
 
   // Then
   XCTAssertNil(expectedSid);
@@ -182,7 +176,8 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
 
   // Get a session
   [self.sut renewSessionId];
-  NSString *sid = [MSSessionContext sessionId];
+  NSString *sid = [self.sut.context sessionId];
+
 
   // Then
   XCTAssertNil(sid);
@@ -192,7 +187,7 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
 
   // If
   [self.sut renewSessionId];
-  NSString *expectedSid = [MSSessionContext sessionId];
+  NSString *expectedSid = [self.sut.context sessionId];
 
   // Then
   XCTAssertNotNil(expectedSid);
@@ -212,7 +207,7 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
 
   // Get a session
   [self.sut renewSessionId];
-  NSString *sid = [MSSessionContext sessionId];
+  NSString *sid = [self.sut.context sessionId];
 
   // Then
   XCTAssertNotNil(sid);
@@ -275,7 +270,7 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
 
   // Then
   XCTAssertNil(log.timestamp);
-  XCTAssertEqual(log.sid, [MSSessionContext sessionId]);
+  XCTAssertEqual(log.sid, [self.sut.context sessionId]);
 }
 
 - (void)testNoStartSessionWithStartSessionLog {
@@ -292,7 +287,7 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
 
   // Then
   XCTAssertNil(log.timestamp);
-  XCTAssertEqual(log.sid, [MSSessionContext sessionId]);
+  XCTAssertEqual(log.sid, [self.sut.context sessionId]);
 
   // If
   MSStartSessionLog *sessionLog = [MSStartSessionLog new];

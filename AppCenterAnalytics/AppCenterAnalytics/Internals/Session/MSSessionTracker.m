@@ -1,6 +1,7 @@
 #import "MSAnalyticsInternal.h"
 #import "MSSessionContext.h"
 #import "MSSessionTracker.h"
+#import "MSSessionTrackerPrivate.h"
 #import "MSStartSessionLog.h"
 #import "MSStartServiceLog.h"
 #import "MSUtility+Date.h"
@@ -29,6 +30,7 @@ static NSString *const kMSPastSessionsKey = @"pastSessionsKey";
 - (instancetype)init {
   if ((self = [super init])) {
     _sessionTimeout = kMSSessionTimeOut;
+    _context = [MSSessionContext sharedInstance];
 
     // Remove old session history.
     [MS_USER_DEFAULTS removeObjectForKey:kMSPastSessionsKey];
@@ -44,9 +46,9 @@ static NSString *const kMSPastSessionsKey = @"pastSessionsKey";
     if (self.started) {
 
       // Check if new session id is required.
-      if ([MSSessionContext sessionId] == nil || [self hasSessionTimedOut]) {
+      if ([self.context sessionId] == nil || [self hasSessionTimedOut]) {
         NSString *sessionId = MS_UUID_STRING;
-        [MSSessionContext setSessionId:sessionId];
+        [self.context setSessionId:sessionId];
         MSLogInfo([MSAnalytics logTag], @"New session ID: %@", sessionId);
 
         // Create a start session log.
@@ -92,7 +94,7 @@ static NSString *const kMSPastSessionsKey = @"pastSessionsKey";
   if (self.started) {
     [MS_NOTIFICATION_CENTER removeObserver:self];
     self.started = NO;
-    [MSSessionContext setSessionId:nil];
+    [self.context setSessionId:nil];
   }
 }
 
@@ -156,7 +158,7 @@ static NSString *const kMSPastSessionsKey = @"pastSessionsKey";
 
   // If the log requires session Id.
   if (![(NSObject *)log conformsToProtocol:@protocol(MSNoAutoAssignSessionIdLog)]) {
-    log.sid = [MSSessionContext sessionId];
+    log.sid = [self.context sessionId];
   }
 
   // Update last created log time stamp.

@@ -218,7 +218,7 @@ static NSString *const kMSGroupId = @"AppCenter";
 
       // Initialize session context.
       // FIXME: It would be better to have obvious way to initialize session context instead of calling setSessionId.
-      [MSSessionContext setSessionId:nil];
+      [[MSSessionContext sharedInstance] setSessionId:nil];
       success = true;
     }
     if (success) {
