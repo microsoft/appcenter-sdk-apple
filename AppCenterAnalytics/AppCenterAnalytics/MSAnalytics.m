@@ -2,6 +2,7 @@
 #import "MSAnalyticsCategory.h"
 #import "MSAnalyticsInternal.h"
 #import "MSAnalyticsPrivate.h"
+#import "MSAnalyticsTenantInternal.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
@@ -46,6 +47,9 @@ static const int maxPropertyValueLength = 64;
 
     // Init channel configuration.
     _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
+
+    // Set up tenants dictionary.
+    _tenants = [NSMutableDictionary new];
   }
   return self;
 }
@@ -65,8 +69,11 @@ static const int maxPropertyValueLength = 64;
   return kMSServiceName;
 }
 
-- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret {
-  [super startWithChannelGroup:channelGroup appSecret:appSecret];
+- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(nullable NSString *)appSecret tenantId:(nullable NSString *)tenantId  {
+  [super startWithChannelGroup:channelGroup appSecret:appSecret tenantId:tenantId];
+  if (tenantId) {
+    self.defaultTenant = [self getTenant:(NSString *)tenantId];
+  }
 
   // Set up swizzling for auto page tracking.
   [MSAnalyticsCategory activateCategory];
@@ -121,9 +128,30 @@ static const int maxPropertyValueLength = 64;
 }
 
 + (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties {
+  [self trackEvent:eventName withProperties:properties forTenant:nil];
+}
+
+/**
+ * Track an event.
+ *
+ * @param eventName  event name.
+ * @param tenant  the tenant to associate to this event.
+ */
++ (void)trackEvent:(NSString *)eventName forTenant:(MSAnalyticsTenant *)tenant {
+  [self trackEvent:eventName withProperties:nil forTenant:tenant];
+}
+
+/**
+ * Track an event.
+ *
+ * @param eventName  event name.
+ * @param properties dictionary of properties.
+ * @param tenant  the tenant to associate to this event.
+ */
++ (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties forTenant:(nullable MSAnalyticsTenant *)tenant {
   @synchronized(self) {
     if ([[self sharedInstance] canBeUsed]) {
-      [[self sharedInstance] trackEvent:eventName withProperties:properties];
+      [[self sharedInstance] trackEvent:eventName withProperties:properties forTenant:tenant];
     }
   }
 }
@@ -214,9 +242,14 @@ static const int maxPropertyValueLength = 64;
   return validProperties;
 }
 
-- (void)trackEvent:(NSString *)eventName withProperties:(NSDictionary<NSString *, NSString *> *)properties {
+- (void)trackEvent:(NSString *)eventName withProperties:(NSDictionary<NSString *, NSString *> *)properties forTenant:(MSAnalyticsTenant *)tenant {
   if (![self isEnabled])
     return;
+
+  // Use default tenant if no tenant was provided.
+  if (tenant == nil) {
+    tenant = self.defaultTenant;
+  }
 
   // Create an event log.
   MSEventLog *log = [MSEventLog new];
@@ -234,6 +267,12 @@ static const int maxPropertyValueLength = 64;
 
     // Send only valid properties.
     log.properties = [self validateProperties:properties forLogName:log.name andType:log.type];
+  }
+
+  // Add tenants.
+  if (tenant) {
+    [log addTenant:[tenant tenantId]];
+    // TODO: support adding multiple tenants
   }
 
   // Send log to log manager.
@@ -277,6 +316,28 @@ static const int maxPropertyValueLength = 64;
 
   // Send log to log manager.
   [self.channelUnit enqueueItem:log];
+}
+
+/**
+ * Get a tenant.
+ *
+ * @param tenantId identifier of the tenant to retrieve.
+ *
+ * @returns The tenant object.
+ */
+- (MSAnalyticsTenant *)getTenant:(NSString *)tenantId {
+  MSAnalyticsTenant *tenant = [self.tenants objectForKey:tenantId];
+  if (tenant) {
+    MSLogDebug([MSAnalytics logTag], @"Returning tenant found with id %@.", tenantId);
+    return tenant;
+  }
+  tenant = [[MSAnalyticsTenant alloc] initWithTenantId:tenantId];
+  MSLogDebug([MSAnalytics logTag], @"Created tenant with id %@.", tenantId);
+  [self.tenants setObject:tenant forKey:tenantId];
+  // TODO: Start service if not already.
+  // Scenario: getTenant gets called before App Center has an app secret or tenant ID
+  // but start has been called for this service.
+  return tenant;
 }
 
 + (void)resetSharedInstance {
@@ -348,6 +409,19 @@ static const int maxPropertyValueLength = 64;
     MSPageLog *pageLog = (MSPageLog *)log;
     [self.delegate analytics:self didFailSendingPageLog:pageLog withError:error];
   }
+}
+
+#pragma mark Tenant
+
+/**
+ * Get a tenant.
+ *
+ * @param tenantId identifier of the tenant to retrieve.
+ *
+ * @returns The tenant object.
+ */
++ (MSAnalyticsTenant *)getTenant:(NSString *)tenantId {
+  return [[self sharedInstance] getTenant:tenantId];
 }
 
 @end

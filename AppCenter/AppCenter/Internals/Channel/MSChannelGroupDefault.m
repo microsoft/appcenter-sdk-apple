@@ -23,7 +23,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
   return self;
 }
 
-- (instancetype)initWithSender:(MSHttpSender *)sender storage:(id<MSStorage>)storage {
+- (instancetype)initWithSender:(nullable MSHttpSender *)sender storage:(nullable id<MSStorage>)storage {
   if ((self = [self init])) {
     dispatch_queue_t serialQueue = dispatch_queue_create(kMSlogsDispatchQueue, DISPATCH_QUEUE_SERIAL);
     _logsDispatchQueue = serialQueue;

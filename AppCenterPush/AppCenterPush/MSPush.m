@@ -125,8 +125,8 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
   return sharedInstance;
 }
 
-- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret {
-  [super startWithChannelGroup:channelGroup appSecret:appSecret];
+- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(nullable NSString *)appSecret tenantId:(nullable NSString *)tenantId {
+  [super startWithChannelGroup:channelGroup appSecret:appSecret tenantId:tenantId];
   MSLogVerbose([MSPush logTag], @"Started push service.");
 }
 

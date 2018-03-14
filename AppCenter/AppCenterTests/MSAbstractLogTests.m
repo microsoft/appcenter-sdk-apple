@@ -170,5 +170,23 @@
   assertThat([actualDict objectForKey:@"device"], equalTo(@{}));
 }
 
+- (void)testTenantsWork {
+
+  // If
+  NSString* tenant1 = @"t1";
+  NSString* tenant2 = @"t2";
+
+  // When
+  [self.sut addTenant:tenant1];
+  [self.sut addTenant:tenant1];
+  [self.sut addTenant:tenant2];
+  NSSet* tenants = [self.sut getTenants];
+
+  // Then
+  XCTAssertEqual([tenants count], (uint)2);
+  XCTAssertTrue([tenants containsObject:tenant1]);
+  XCTAssertTrue([tenants containsObject:tenant2]);
+}
+
 @end
 
