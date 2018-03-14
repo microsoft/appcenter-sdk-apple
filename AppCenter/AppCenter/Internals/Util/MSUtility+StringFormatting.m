@@ -35,9 +35,9 @@ static NSString *kMSTenantTokenString = @"tenantToken=";
   }
   else {
     for(NSString *component in components) {
-      if([component rangeOfString:kMSTenantTokenString].location == NSNotFound && component.length > 0) {
-        
-        // Component is app secret, return the component. Check for length > 0 as "foo;" will be parsed as 2 components.
+      
+      // Component is app secret, return the component. Check for length > 0 as "foo;" will be parsed as 2 components.
+      if(([component rangeOfString:kMSTenantTokenString].location == NSNotFound) && (component.length > 0)) {
         return component;
       }
     }
@@ -55,8 +55,9 @@ static NSString *kMSTenantTokenString = @"tenantToken=";
   else {
     for(NSString *component in components) {
       
-      // Component is tenantId, returnn the component.
-      if([component rangeOfString:kMSTenantTokenString].location != NSNotFound && component.length > 0) {
+      // Component is tenantId, return the component.
+      
+      if(([component rangeOfString:kMSTenantTokenString].location != NSNotFound) && (component.length > 0)) {
         return [component stringByReplacingOccurrencesOfString:kMSTenantTokenString withString:@""];
       }
     }
