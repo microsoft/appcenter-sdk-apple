@@ -292,6 +292,9 @@ static NSString *const kMSGroupId = @"AppCenter";
       MSLogDebug([MSAppCenter logTag], @"Environment variable to disable service has been set; not starting service %@", clazz);
       return NO;
     }
+
+    // Set appCenterDelegate.
+    [self.services addObject:service];
     [service startWithChannelGroup:self.channelGroup appSecret:self.appSecret tenantId:self.defaultTenantId];
     
     // Disable service if AppCenter is disabled.
@@ -396,15 +399,15 @@ static NSString *const kMSGroupId = @"AppCenter";
 
 - (void)initializeChannelGroup {
 
-  // If there is no app secret, create a channel group without sender or storage.
-  if (self.appSecret) {
-    self.channelGroup = [[MSChannelGroupDefault alloc] initWithSender:nil storage:nil];
-
-  }
-
   // Construct channel group.
-  self.channelGroup =
-      [[MSChannelGroupDefault alloc] initWithAppSecret:self.appSecret installId:self.installId logUrl:self.logUrl];
+  if (self.appSecret) {
+    self.channelGroup =
+    [[MSChannelGroupDefault alloc] initWithAppSecret:self.appSecret installId:self.installId logUrl:self.logUrl];
+  } else {
+    
+    // If there is no app secret, create a channel group without sender or storage.
+    self.channelGroup = [[MSChannelGroupDefault alloc] initWithSender:nil storage:nil];
+  }
 
   // Initialize a channel unit for start service logs.
   self.channelUnit = [self.channelGroup
