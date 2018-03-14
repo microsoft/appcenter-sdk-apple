@@ -688,7 +688,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
    * counterintuitive, this is important because there are scenarios in some wrappers (i.e. RN) where
    * the application state is not ready by the time crash processing needs to happen.
    */
-  if (self.automaticProcessing && [MSUtility applicationState] == MSApplicationStateBackground) {
+  if (self.automaticProcessing && ([MSUtility applicationState] == MSApplicationStateBackground)) {
     MSLogWarning([MSCrashes logTag], @"Crashes will not be processed because the application is in the background.");
     return;
   }
