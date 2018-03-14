@@ -14,6 +14,7 @@
 #import "MSSessionContext.h"
 #import "MSStartServiceLog.h"
 #import "MSUtility.h"
+#import "MSUtility+StringFormatting.h"
 #if !TARGET_OS_TV
 #import "MSCustomProperties.h"
 #import "MSCustomPropertiesLog.h"
@@ -201,7 +202,8 @@ static NSString *const kMSGroupId = @"AppCenter";
     else if (appSecret && [appSecret length] == 0) {
       MSLogAssert([MSAppCenter logTag], @"AppSecret is invalid.");
     } else {
-      self.appSecret = appSecret;
+      self.appSecret = [MSUtility appSecretFrom:appSecret];
+      self.defaultTenantId = [MSUtility tenantIdFrom:appSecret];
 
       // Init the main pipeline.
       [self initializeChannelGroup];
