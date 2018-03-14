@@ -83,10 +83,11 @@
 
   // If
   __block int counter = 0;
+  __block NSDate *date;
   id dateMock = OCMClassMock([NSDate class]);
   OCMStub(ClassMethod([dateMock date])).andDo(^(NSInvocation *invocation) {
-    NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:1000 * ++counter];
-    [invocation setReturnValue:&date];
+    date = [[NSDate alloc] initWithTimeIntervalSince1970:1000 * ++counter];
+    [invocation setReturnValue:(__bridge void * _Nonnull)date];
   });
 
   // When
