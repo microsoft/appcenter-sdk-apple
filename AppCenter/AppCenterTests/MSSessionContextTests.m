@@ -87,7 +87,7 @@
   id dateMock = OCMClassMock([NSDate class]);
   OCMStub(ClassMethod([dateMock date])).andDo(^(NSInvocation *invocation) {
     date = [[NSDate alloc] initWithTimeIntervalSince1970:1000 * ++counter];
-    [invocation setReturnValue:(__bridge void * _Nonnull)date];
+    [invocation setReturnValue:&date];
   });
 
   // When
