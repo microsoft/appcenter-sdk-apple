@@ -164,7 +164,7 @@ static NSURL *sfURL;
 
   // Disable for now to bypass initializing sender.
   [distributeMock setEnabled:NO];
-  [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol)) appSecret:kMSTestAppSecret];
+  [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol)) appSecret:kMSTestAppSecret tenantId:nil];
 
   // Enable again.
   [distributeMock setEnabled:YES];
@@ -983,7 +983,7 @@ static NSURL *sfURL;
 
   // Disable for now to bypass initializing sender.
   [distributeMock setEnabled:NO];
-  [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol)) appSecret:kMSTestAppSecret];
+  [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol)) appSecret:kMSTestAppSecret tenantId:nil];
 
   // Enable again.
   [distributeMock setEnabled:YES];
@@ -1054,7 +1054,7 @@ static NSURL *sfURL;
 
   // Disable for now to bypass initializing sender.
   [distributeMock setEnabled:NO];
-  [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol)) appSecret:kMSTestAppSecret];
+  [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol)) appSecret:kMSTestAppSecret tenantId:nil];
 
   // Enable again.
   [distributeMock setEnabled:YES];
@@ -1121,7 +1121,7 @@ static NSURL *sfURL;
 
   // Disable for now to bypass initializing sender.
   [distributeMock setEnabled:NO];
-  [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol)) appSecret:kMSTestAppSecret];
+  [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol)) appSecret:kMSTestAppSecret tenantId:nil];
 
   // Enable again.
   [distributeMock setEnabled:YES];
@@ -1131,7 +1131,7 @@ static NSURL *sfURL;
                                                                requestId, distributionGroupId]];
 
   // When
-  [MSSessionContext setSessionId:@"Session1"];
+  [[MSSessionContext sharedInstance] setSessionId:@"Session1"];
   [MS_USER_DEFAULTS setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
   BOOL result = [MSDistribute openURL:url];
 
@@ -1145,7 +1145,7 @@ static NSURL *sfURL;
                                                         requestId, distributionGroupId]];
 
   // When
-  [MSSessionContext setSessionId:nil];
+  [[MSSessionContext sharedInstance] setSessionId:nil];
   [MS_USER_DEFAULTS setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
   result = [MSDistribute openURL:url];
 
@@ -1191,7 +1191,7 @@ static NSURL *sfURL;
   OCMStub([distributeMock sharedInstance]).andReturn(distributeMock);
   id appCenterMock = OCMClassMock([MSAppCenter class]);
   OCMStub([appCenterMock isConfigured]).andReturn(YES);
-  [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol)) appSecret:kMSTestAppSecret];
+  [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol)) appSecret:kMSTestAppSecret tenantId:nil];
 
   // If
   NSURL *url = [NSURL

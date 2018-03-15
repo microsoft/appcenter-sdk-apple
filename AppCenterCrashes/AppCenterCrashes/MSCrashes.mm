@@ -346,7 +346,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       [self startDelayedCrashProcessing];
     } else {
       dispatch_semaphore_signal(self.delayedProcessingSemaphore);
-      [MSSessionContext clearSessionHistory];
+      [[MSSessionContext sharedInstance] clearSessionHistory];
     }
 
     // More details on log if a debugger is attached.
@@ -365,7 +365,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     [self emptyLogBufferFiles];
     [self removeAnalyzerFile];
     [self.plCrashReporter purgePendingCrashReport];
-    [MSSessionContext clearSessionHistory];
+    [[MSSessionContext sharedInstance] clearSessionHistory];
     MSLogInfo([MSCrashes logTag], @"Crashes service has been disabled.");
   }
 }
@@ -385,8 +385,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   return kMSServiceName;
 }
 
-- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret {
-  [super startWithChannelGroup:channelGroup appSecret:appSecret];
+- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(nullable NSString *)appSecret tenantId:(nullable NSString *)tenantId {
+  [super startWithChannelGroup:channelGroup appSecret:appSecret tenantId:tenantId];
   [self.channelGroup addDelegate:self];
 
   // Initialize a dedicated channel for log buffer.
@@ -688,7 +688,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
    * counterintuitive, this is important because there are scenarios in some wrappers (i.e. RN) where
    * the application state is not ready by the time crash processing needs to happen.
    */
-  if (self.automaticProcessing && [MSUtility applicationState] == MSApplicationStateBackground) {
+  if (self.automaticProcessing && ([MSUtility applicationState] == MSApplicationStateBackground)) {
     MSLogWarning([MSCrashes logTag], @"Crashes will not be processed because the application is in the background.");
     return;
   }
@@ -1211,7 +1211,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     }
 
     // Return and do not continue with crash processing.
-    [MSSessionContext clearSessionHistory];
+    [[MSSessionContext sharedInstance] clearSessionHistory];
     return;
   } else if (userConfirmation == MSUserConfirmationAlways) {
 
@@ -1236,7 +1236,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     }
 
     // First, get corelated session Id.
-    log.sid = [MSSessionContext sessionIdAt:log.timestamp];
+    log.sid = [[MSSessionContext sharedInstance] sessionIdAt:log.timestamp];
 
     // Then, enqueue crash log.
     [self.channelUnit enqueueItem:log];
@@ -1249,7 +1249,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     [MSWrapperExceptionManager deleteWrapperExceptionWithUUIDString:report.incidentIdentifier];
     [self.crashFiles removeObject:fileURL];
   }
-  [MSSessionContext clearSessionHistory];
+  [[MSSessionContext sharedInstance] clearSessionHistory];
 }
 
 - (NSDictionary<NSString *, NSString *> *)validateProperties:(NSDictionary<NSString *, NSString *> *)properties

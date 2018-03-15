@@ -615,6 +615,7 @@
 		04F21A041ECB73EE0074978D /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = ../../macOS/OHHTTPStubs/OHHTTPStubs.framework; sourceTree = "<group>"; };
 		04F3613C1FE1A92000A5A6D2 /* MSNoAutoAssignSessionIdLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSNoAutoAssignSessionIdLog.h; sourceTree = "<group>"; };
 		04FD126A1E4103CC007ABFE7 /* MSKeychainUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSKeychainUtilTests.m; sourceTree = "<group>"; };
+		3513432D2056FF9000E6DC7D /* MSAbstractLogPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAbstractLogPrivate.h; sourceTree = "<group>"; };
 		354274162012AE4000BE766F /* MSChannelProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSChannelProtocol.h; sourceTree = "<group>"; };
 		354274192012AEFC00BE766F /* MSChannelUnitProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSChannelUnitProtocol.h; sourceTree = "<group>"; };
 		3542741A2012AF0500BE766F /* MSChannelGroupProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSChannelGroupProtocol.h; sourceTree = "<group>"; };
@@ -1094,6 +1095,7 @@
 			children = (
 				3844FF121E8C22CC003E9194 /* MSAbstractLogInternal.h */,
 				E88EBBEB1D2C612E007E7785 /* MSAbstractLog.m */,
+				3513432D2056FF9000E6DC7D /* MSAbstractLogPrivate.h */,
 				F803BBFA1E8E39AB004B1E7A /* MSCustomPropertiesLog.h */,
 				F803BBF81E8E3989004B1E7A /* MSCustomPropertiesLog.m */,
 				B2C3C1831DB83A3E00CB83F7 /* MSDeviceInternal.h */,

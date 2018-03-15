@@ -177,4 +177,136 @@
   XCTAssertTrue([[MSUtility sdkVersion] isEqualToString:version]);
 }
 
+- (void)testAppSecretFrom {
+  
+  // When
+  NSString *test = @"{app-secret}";
+  
+  // Then
+  NSString *result = [MSUtility appSecretFrom:test];
+  XCTAssertTrue([test isEqualToString:result]);
+
+  // When
+  test = nil;
+  result = [MSUtility appSecretFrom:test];
+  
+  // Then
+  XCTAssertNil(result);
+  
+  // When
+  test = @"{app-secret};";
+  result = [MSUtility appSecretFrom:test];
+  
+  // Then
+  XCTAssertTrue([result isEqualToString:@"{app-secret}"]);
+  
+  // When
+  test = @"{app-secret};tenantToken={tenantId}";
+  result = [MSUtility appSecretFrom:test];
+
+  // Then
+  XCTAssertTrue([result isEqualToString:@"{app-secret}"]);
+  
+  // When
+  test = @"{app-secret};tenantToken={tenantId};";
+  result = [MSUtility appSecretFrom:test];
+
+  // Then
+  XCTAssertTrue([result isEqualToString:@"{app-secret}"]);
+  
+  // When
+  test = @"tenantToken={tenantId};{app-secret}";
+  result = [MSUtility appSecretFrom:test];
+  
+  // Then
+  XCTAssertTrue([result isEqualToString:@"{app-secret}"]);
+  
+  // When
+  test = @"tenantToken={tenantId};{app-secret};";
+  result = [MSUtility appSecretFrom:test];
+  
+  // Then
+  XCTAssertTrue([result isEqualToString:@"{app-secret}"]);
+  
+  // When
+  test = @"tenantToken={tenantId}";
+  result = [MSUtility appSecretFrom:test];
+  
+  // Then
+  XCTAssertNil(result);
+  
+  // When
+  test = @"tenantToken={tenantId};";
+  result = [MSUtility appSecretFrom:test];
+  
+  // Then
+  XCTAssertNil(result);
+}
+
+- (void)testTenantIdFrom {
+  
+  // When
+  NSString *test = @"{app-secret}";
+  
+  // Then
+  NSString *result = [MSUtility tenantIdFrom:test];
+  XCTAssertNil(result);
+
+  // When
+  test = nil;
+  result = [MSUtility tenantIdFrom:test];
+
+  // Then
+  XCTAssertNil(result);
+
+  // When
+  test = @"{app-secret};";
+  result = [MSUtility tenantIdFrom:test];
+  
+  // Then
+  XCTAssertNil(result);
+
+  // When
+  test = @"{app-secret};tenantToken={tenantId}";
+  result = [MSUtility tenantIdFrom:test];
+  
+  // Then
+  XCTAssertTrue([result isEqualToString:@"{tenantId}"]);
+  
+  // When
+  test = @"{app-secret};tenantToken={tenantId};";
+  result = [MSUtility tenantIdFrom:test];
+  
+  // Then
+  XCTAssertTrue([result isEqualToString:@"{tenantId}"]);
+
+  // When
+  test = @"tenantToken={tenantId};{app-secret}";
+  result = [MSUtility tenantIdFrom:test];
+  
+  // Then
+  XCTAssertTrue([result isEqualToString:@"{tenantId}"]);
+
+  // When
+  test = @"tenantToken={tenantId};{app-secret};";
+  result = [MSUtility tenantIdFrom:test];
+  
+  // Then
+  XCTAssertTrue([result isEqualToString:@"{tenantId}"]);
+
+  // When
+  test = @"tenantToken={tenantId}";
+  result = [MSUtility tenantIdFrom:test];
+  
+  // Then
+  XCTAssertTrue([result isEqualToString:@"{tenantId}"]);
+
+  // When
+  test = @"tenantToken={tenantId};";
+  result = [MSUtility tenantIdFrom:test];
+  
+  // Then
+  XCTAssertTrue([result isEqualToString:@"{tenantId}"]);
+}
+
 @end

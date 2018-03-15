@@ -28,8 +28,8 @@
   return self;
 }
 
-- (instancetype)initWithSender:(id<MSSender>)sender
-                       storage:(id<MSStorage>)storage
+- (instancetype)initWithSender:(nullable id<MSSender>)sender
+                       storage:(nullable id<MSStorage>)storage
                  configuration:(MSChannelUnitConfiguration *)configuration
              logsDispatchQueue:(dispatch_queue_t)logsDispatchQueue {
   if ((self = [self init])) {
@@ -38,8 +38,8 @@
     _configuration = configuration;
     _logsDispatchQueue = logsDispatchQueue;
 
-    // Match sender's current status.
-    if (_sender.suspended) {
+    // Match sender's current status, if one is passed.
+    if (_sender && _sender.suspended) {
       [self suspend];
     }
   }
@@ -97,7 +97,9 @@
                               withBlock:^(id<MSChannelDelegate> delegate) {
                                 shouldFilter = shouldFilter || [delegate shouldFilterLog:item];
                               }];
-    if (shouldFilter) {
+
+    // If sender or storage is nil, there is nothing to do at this point.
+    if (shouldFilter || !self.sender || !self.storage) {
       return;
     }
     if (self.discardLogs) {
@@ -131,6 +133,11 @@
 
 - (void)flushQueue {
   
+  // Nothing to flush if there is no sender or storage.
+  if (!self.sender || !self.storage) {
+    return;
+  }
+
   // Don't flush while disabled.
   if (!self.enabled) {
     return;

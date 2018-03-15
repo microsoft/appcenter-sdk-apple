@@ -37,4 +37,18 @@
  */
 - (BOOL)isValid;
 
+/**
+ * Adds a tenant that this log should be sent to.
+ *
+ * @param tenant Identifier of the tenant.
+ */
+- (void)addTenant:(NSString*)tenant;
+
+/**
+ * Gets all tenants that this log should be sent to.
+ *
+ * @returns Collection of tenants that this log should be sent to.
+ */
+- (NSSet *)getTenants;
+
 @end

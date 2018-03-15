@@ -20,21 +20,29 @@ static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     if (sharedInstance == nil) {
       sharedInstance = [[self alloc] init];
-      NSData *data = [MS_USER_DEFAULTS objectForKey:kMSSessionIdHistoryKey];
-      if (data != nil) {
-        sharedInstance.sessionHistory =
-            (NSMutableArray *)[[NSKeyedUnarchiver unarchiveObjectWithData:data] mutableCopy];
-      }
-      if (!sharedInstance.sessionHistory) {
-        sharedInstance.sessionHistory = [NSMutableArray<MSSessionHistoryInfo *> new];
-      }
-      MSLogDebug([MSAppCenter logTag], @"%tu session(s) in the history.", [sharedInstance.sessionHistory count]);
-      sharedInstance.currentSessionInfo =
-          [[MSSessionHistoryInfo alloc] initWithTimestamp:[NSDate date] andSessionId:nil];
-      [sharedInstance.sessionHistory addObject:sharedInstance.currentSessionInfo];
     }
   });
   return sharedInstance;
+}
+
+- (instancetype)init {
+  self = [super init];
+  if (self) {
+    NSData *data = [MS_USER_DEFAULTS objectForKey:kMSSessionIdHistoryKey];
+    if (data != nil) {
+      _sessionHistory =
+      (NSMutableArray *)[[NSKeyedUnarchiver unarchiveObjectWithData:data] mutableCopy];
+    }
+    if (!_sessionHistory) {
+      _sessionHistory = [NSMutableArray<MSSessionHistoryInfo *> new];
+    }
+    NSUInteger count = [_sessionHistory count];
+    MSLogDebug([MSAppCenter logTag], @"%tu session(s) in the history.", count);
+    _currentSessionInfo =
+    [[MSSessionHistoryInfo alloc] initWithTimestamp:[NSDate date] andSessionId:nil];
+    [_sessionHistory addObject:_currentSessionInfo];
+  }
+  return self;
 }
 
 + (void)resetSharedInstance {
@@ -42,20 +50,8 @@ static dispatch_once_t onceToken;
   sharedInstance = nil;
 }
 
-+ (void)setSessionId:(nullable NSString *)sessionId {
-  [[self sharedInstance] setSessionId:sessionId];
-}
-
-+ (NSString *)sessionId {
-  return [[self sharedInstance] currentSessionInfo].sessionId;
-}
-
-+ (NSString *)sessionIdAt:(NSDate *)date {
-  return [[self sharedInstance] sessionIdAt:date];
-}
-
-+ (void)clearSessionHistory {
-  [[self sharedInstance] clearSessionHistory];
+- (NSString *)sessionId {
+  return [self currentSessionInfo].sessionId;
 }
 
 - (void)setSessionId:(nullable NSString *)sessionId {

@@ -8,6 +8,7 @@
 @synthesize channelGroup = _channelGroup;
 @synthesize channelUnit = _channelUnit;
 @synthesize appSecret = _appSecret;
+@synthesize defaultTenantId = _defaultTenantId;
 
 - (instancetype)init {
   return [self initWithStorage:MS_USER_DEFAULTS];
@@ -71,13 +72,13 @@
 
 #pragma mark : - MSService
 
-- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret {
-  self.started = YES;
+- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret tenantId:(NSString *)tenantId {
   self.channelGroup = channelGroup;
   self.appSecret = appSecret;
-
+  self.defaultTenantId = tenantId;
+  self.started = YES;
   if ([self respondsToSelector:@selector(channelUnitConfiguration)]) {
-    
+
     // Initialize channel unit for the service in log manager.
     self.channelUnit = [self.channelGroup addChannelUnitWithConfiguration:self.channelUnitConfiguration];
   }

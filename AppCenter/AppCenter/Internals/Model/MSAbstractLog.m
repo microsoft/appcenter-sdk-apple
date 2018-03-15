@@ -1,4 +1,5 @@
 #import "MSAbstractLogInternal.h"
+#import "MSAbstractLogPrivate.h"
 #import "MSDevice.h"
 #import "MSDeviceInternal.h"
 #import "MSLogger.h"
@@ -17,6 +18,14 @@ static NSString *const kMSType = @"type";
 @synthesize sid = _sid;
 @synthesize distributionGroupId = _distributionGroupId;
 @synthesize device = _device;
+
+- (instancetype)init {
+  self = [super init];
+  if (self) {
+    self.tenants = [NSMutableSet new];
+  }
+  return self;
+}
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [NSMutableDictionary new];
@@ -90,6 +99,20 @@ static NSString *const kMSType = @"type";
     jsonString = [jsonString stringByReplacingOccurrencesOfString:@"\\/" withString:@"/"];
   }
   return jsonString;
+}
+
+#pragma mark - Tenant
+
+- (NSSet *)getTenants {
+  @synchronized(self) {
+    return self.tenants;
+  }
+}
+
+- (void)addTenant:(NSString *)tenant {
+  @synchronized(self) {
+    [self.tenants addObject:tenant];
+  }
 }
 
 @end

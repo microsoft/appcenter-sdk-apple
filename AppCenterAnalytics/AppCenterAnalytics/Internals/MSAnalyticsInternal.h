@@ -1,11 +1,30 @@
 #import "MSAnalytics.h"
 #import "MSAnalyticsDelegate.h"
+#import "MSAnalyticsTenant.h"
 #import "MSChannelDelegate.h"
 #import "MSServiceInternal.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MSAnalytics () <MSServiceInternal, MSChannelDelegate>
+
+/**
+ * Track an event.
+ *
+ * @param eventName  event name.
+ * @param tenant  the tenant to associate to this event.
+ */
++ (void)trackEvent:(NSString *)eventName forTenant:(nullable MSAnalyticsTenant *)tenant;
+
+/**
+ * Track an event.
+ *
+ * @param eventName  event name.
+ * @param properties dictionary of properties.
+ * @param tenant  the tenant to associate to this event.
+ */
++ (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties forTenant:(nullable MSAnalyticsTenant *)tenant;
+
 
 // Temporarily hiding tracking page feature.
 /**
