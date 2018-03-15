@@ -314,7 +314,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     }
 
     // Set up crash handlers.
-    [self configureCrashReporterWithUncaughtExceptionHandlerEnabled:YES];
+    [self configureCrashReporterWithUncaughtExceptionHandlerEnabled:enableUncaughtExceptionHandler];
 
     // Allow a wrapper SDK to perform custom behavior after setting up crash handlers.
     if ([crashSetupDelegate respondsToSelector:@selector(didSetUpCrashHandlers)]) {
