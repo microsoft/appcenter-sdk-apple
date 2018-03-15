@@ -62,7 +62,7 @@ static NSString *kMSTenantTokenString = @"tenantToken=";
       }
     }
     
-    // String does not contain a tokenId.
+    // String does not contain a tenantId.
     return nil;
   }
 }

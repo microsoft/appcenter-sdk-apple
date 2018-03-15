@@ -87,7 +87,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param channelGroup channel group used to persist and send logs.
  * @param appSecret app secret for the SDK.
- * @param tenantId default tenant id
+ * @param tenantId default tenant id.
  *
  * @discussion Note that this is defined both here and in MSServiceAbstract.h. This is intentional, and due to
  * the way the classes are factored.

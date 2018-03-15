@@ -297,6 +297,8 @@ static NSString *const kMSGroupId = @"AppCenter";
 
     // Set appCenterDelegate.
     [self.services addObject:service];
+
+    // Start service with channel group.
     [service startWithChannelGroup:self.channelGroup appSecret:self.appSecret tenantId:self.defaultTenantId];
     
     // Disable service if AppCenter is disabled.
