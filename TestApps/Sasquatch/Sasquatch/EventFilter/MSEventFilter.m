@@ -62,6 +62,7 @@ static NSString *const kMSEventTypeName = @"event";
   }
   if ([[log type] isEqualToString:kMSEventTypeName]) {
     MSEventLog *eventLog = (MSEventLog*)log;
+    NSSet *tenants = [log getTenants];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"dd-MM-YYYY HH:mm:ss"];
     NSString *logTimestampString = [dateFormatter stringFromDate:log.timestamp];
@@ -70,6 +71,10 @@ static NSString *const kMSEventTypeName = @"event";
                             \n\tLog Timestamp = %@\
                             \n\tLog SID = %@\
                             \n\tEvent name = %@",log.type, logTimestampString, log.sid, eventLog.name];
+    for(int i = 1; i <= tenants.allObjects.count; i++) {
+      message = [NSString stringWithFormat:@"%@\
+                 \n\tTenant %d = %@", message, i, tenants.allObjects[i - 1]];
+    }
     [MSEventFilter logMessage:message withLogLevel:MSLogLevelInfo];
     return YES;
   }
