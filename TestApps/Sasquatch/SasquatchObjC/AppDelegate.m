@@ -23,14 +23,12 @@
   [MSPush setDelegate:self];
   [MSAppCenter setLogLevel:MSLogLevelVerbose];
 
-// Start App Center SDK.
-#if DEBUG
-  [MSAppCenter start:@"3ccfe7f5-ec01-4de5-883c-f563bbbe147a"
-        withServices:@[ [MSAnalytics class], [MSCrashes class], [MSPush class] ]];
-#else
-  [MSAppCenter start:@"3ccfe7f5-ec01-4de5-883c-f563bbbe147a"
-        withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class] ]];
-#endif
+  // Start App Center SDK.
+  NSInteger startType = [[NSUserDefaults standardUserDefaults] integerForKey: kSASAppCenterStartTypeKey];
+  if (startType == 0) {
+    startType = MSAppCenterStartTypeAppSecret;
+  }
+  [self startAppCenter: (MSAppCenterStartType) startType];
 
   [self crashes];
   [self setAppCenterDelegate];
@@ -55,6 +53,31 @@
 }
 
 #pragma mark - Private
+
+- (void)startAppCenter:(MSAppCenterStartType) startType {
+  NSString *startArg;
+  NSString *appSecret = @"3ccfe7f5-ec01-4de5-883c-f563bbbe147a";
+  NSString *tenantId = kSASTenantId;
+  switch (startType) {
+    case MSAppCenterStartTypeAppSecret:
+      startArg = [NSString stringWithFormat:@"%@", appSecret];
+      break;
+    case MSAppCenterStartTypeTenantId:
+      startArg = [NSString stringWithFormat:@"tenantId=%@", tenantId];
+      break;
+    case MSAppCenterStartTypeBoth:
+      startArg = [NSString stringWithFormat:@"%@;tenantId=%@", appSecret, tenantId];
+      break;
+  }
+
+#if DEBUG
+  [MSAppCenter start:startArg
+        withServices:@[ [MSAnalytics class], [MSCrashes class], [MSPush class] ]];
+#else
+  [MSAppCenter start:startArg
+        withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class] ]];
+#endif
+}
 
 - (void)crashes {
   if ([MSCrashes hasCrashedInLastSession]) {

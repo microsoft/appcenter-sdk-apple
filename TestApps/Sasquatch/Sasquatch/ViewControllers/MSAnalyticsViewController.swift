@@ -22,7 +22,14 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     }
     appCenter.trackEvent(name, withProperties: properties())
   }
-  
+
+  @IBAction func trackEventForTenant() {
+    guard let name = eventName.text else {
+      return
+    }
+    appCenter.trackEvent(name, withProperties: properties(), forTenant: kSASTenantId)
+  }
+
   @IBAction func trackPage() {
     guard let name = eventName.text else {
       return
