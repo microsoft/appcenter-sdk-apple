@@ -31,18 +31,18 @@ static NSString *kMSAppSecretKey = @"appsecret=";
 
 + (NSString *)appSecretFrom:(NSString *)string {
   NSArray *components = [string componentsSeparatedByString:@";"];
-  if(components == nil || components.count == 0) {
+  if (components == nil || components.count == 0) {
     return nil;
-  }
-  else {
-    for(NSString *component in components) {
-      
+  } else {
+    for (NSString *component in components) {
+
       // Component is app secret, return the component. Check for length > 0 as "foo;" will be parsed as 2 components.
-      if(([component rangeOfString:kMSTransmissionTargetKey].location == NSNotFound) && (component.length > 0)) {
-        return [component stringByReplacingOccurrencesOfString:kMSAppSecretKey withString:@""];;
+      if (([component rangeOfString:kMSTransmissionTargetKey].location == NSNotFound) && (component.length > 0)) {
+        return [component stringByReplacingOccurrencesOfString:kMSAppSecretKey withString:@""];
+        ;
       }
     }
-    
+
     // String does not contain an app secret.
     return nil;
   }
@@ -50,19 +50,18 @@ static NSString *kMSAppSecretKey = @"appsecret=";
 
 + (NSString *)transmissionTargetTokenFrom:(NSString *)string {
   NSArray *components = [string componentsSeparatedByString:@";"];
-  if(components == nil || components.count == 0) {
+  if (components == nil || components.count == 0) {
     return nil;
-  }
-  else {
-    for(NSString *component in components) {
-      
+  } else {
+    for (NSString *component in components) {
+
       // Component is transmission target token, return the component.
-      
-      if(([component rangeOfString:kMSTransmissionTargetKey].location != NSNotFound) && (component.length > 0)) {
+
+      if (([component rangeOfString:kMSTransmissionTargetKey].location != NSNotFound) && (component.length > 0)) {
         return [component stringByReplacingOccurrencesOfString:kMSTransmissionTargetKey withString:@""];
       }
     }
-    
+
     // String does not contain a transmission target token.
     return nil;
   }
