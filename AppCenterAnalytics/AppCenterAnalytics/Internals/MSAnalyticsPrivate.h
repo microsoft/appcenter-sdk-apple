@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @returns The transmission target object.
  */
-- (MSAnalyticsTransmissionTarget *)getTransmissionTarget:(NSString *)transmissionTargetToken;
+- (MSAnalyticsTransmissionTarget *)transmissionTargetFor:(NSString *)transmissionTargetToken;
 
 /**
  * Method to reset the singleton when running unit tests only. So calling sharedInstance returns a fresh instance.

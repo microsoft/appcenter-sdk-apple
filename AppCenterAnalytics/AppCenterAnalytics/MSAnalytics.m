@@ -72,7 +72,7 @@ static const int maxPropertyValueLength = 64;
 - (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(nullable NSString *)appSecret transmissionTargetToken:(nullable NSString *)token  {
   [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token];
   if (token) {
-    self.defaultTransmissionTarget = [self getTransmissionTarget:(NSString *)token];
+    self.defaultTransmissionTarget = [self transmissionTargetFor:(NSString *)token];
   }
 
   // Set up swizzling for auto page tracking.
@@ -325,7 +325,7 @@ static const int maxPropertyValueLength = 64;
  *
  * @returns The transmission target object.
  */
-- (MSAnalyticsTransmissionTarget *)getTransmissionTarget:(NSString *)transmissionTargetToken {
+- (MSAnalyticsTransmissionTarget *)transmissionTargetFor:(NSString *)transmissionTargetToken {
   MSAnalyticsTransmissionTarget *transmissionTarget= [self.transmissionTargets objectForKey:transmissionTargetToken];
   if (transmissionTarget) {
     MSLogDebug([MSAnalytics logTag], @"Returning transmission target found with id %@.", transmissionTargetToken);
@@ -421,7 +421,7 @@ static const int maxPropertyValueLength = 64;
  * @returns The transmissionTarget object.
  */
 + (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:(NSString *)transmissionTargetToken {
-  return [[self sharedInstance] getTransmissionTarget:transmissionTargetToken];
+  return [[self sharedInstance] transmissionTargetFor:transmissionTargetToken];
 }
 
 @end
