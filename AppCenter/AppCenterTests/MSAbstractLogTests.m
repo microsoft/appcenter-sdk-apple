@@ -170,22 +170,22 @@
   assertThat([actualDict objectForKey:@"device"], equalTo(@{}));
 }
 
-- (void)testTenantsWork {
+- (void)testTransmissionTargetsWork {
 
   // If
-  NSString* tenant1 = @"t1";
-  NSString* tenant2 = @"t2";
+  NSString* transmissionToken1 = @"t1";
+  NSString* transmissionToken = @"t2";
 
   // When
-  [self.sut addTenant:tenant1];
-  [self.sut addTenant:tenant1];
-  [self.sut addTenant:tenant2];
-  NSSet* tenants = [self.sut getTenants];
+  [self.sut addTransmissionTargetForToken:transmissionToken1];
+  [self.sut addTransmissionTargetForToken:transmissionToken1];
+  [self.sut addTransmissionTargetForToken:transmissionToken];
+  NSSet* transmissionTargets = [self.sut getTransmissionTargets];
 
   // Then
-  XCTAssertEqual([tenants count], (uint)2);
-  XCTAssertTrue([tenants containsObject:tenant1]);
-  XCTAssertTrue([tenants containsObject:tenant2]);
+  XCTAssertEqual([transmissionTargets count], (uint)2);
+  XCTAssertTrue([transmissionTargets containsObject:transmissionToken1]);
+  XCTAssertTrue([transmissionTargets containsObject:transmissionToken]);
 }
 
 @end

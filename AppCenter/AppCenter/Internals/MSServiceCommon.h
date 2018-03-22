@@ -37,9 +37,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, nonnull) NSString *appSecret;
 
 /**
- * The default tenant ID.
+ * The default transmission token.
  */
-@property(nonatomic, nonnull) NSString *defaultTenantId;
+@property(nonatomic, nonnull) NSString *defaultTransmissionToken;
 
 /**
  * Apply the enabled state to the service.
@@ -87,12 +87,12 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param channelGroup channel group used to persist and send logs.
  * @param appSecret app secret for the SDK.
- * @param tenantId default tenant id.
+ * @param transmissionToken default transmission token.
  *
  * @discussion Note that this is defined both here and in MSServiceAbstract.h. This is intentional, and due to
  * the way the classes are factored.
  */
-- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(nullable NSString *)appSecret tenantId:(nullable NSString *)tenantId;
+- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(nullable NSString *)appSecret transmissionToken:(nullable NSString *)transmissionToken;
 
 NS_ASSUME_NONNULL_END
 

@@ -2,7 +2,7 @@
 #import "MSAnalyticsCategory.h"
 #import "MSAnalyticsInternal.h"
 #import "MSAnalyticsPrivate.h"
-#import "MSAnalyticsTenantInternal.h"
+#import "MSAnalyticsTransmissionTargetInternal.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
@@ -48,8 +48,8 @@ static const int maxPropertyValueLength = 64;
     // Init channel configuration.
     _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
 
-    // Set up tenants dictionary.
-    _tenants = [NSMutableDictionary new];
+    // Set up transmission target dictionary.
+    _transmissionTargets = [NSMutableDictionary new];
   }
   return self;
 }
@@ -69,10 +69,10 @@ static const int maxPropertyValueLength = 64;
   return kMSServiceName;
 }
 
-- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(nullable NSString *)appSecret tenantId:(nullable NSString *)tenantId  {
-  [super startWithChannelGroup:channelGroup appSecret:appSecret tenantId:tenantId];
-  if (tenantId) {
-    self.defaultTenant = [self getTenant:(NSString *)tenantId];
+- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(nullable NSString *)appSecret transmissionToken:(nullable NSString *)transmissionToken  {
+  [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionToken:transmissionToken];
+  if (transmissionToken) {
+    self.defaultTransmissionTarget = [self getTransmissionTarget:(NSString *)transmissionToken];
   }
 
   // Set up swizzling for auto page tracking.
@@ -128,17 +128,17 @@ static const int maxPropertyValueLength = 64;
 }
 
 + (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties {
-  [self trackEvent:eventName withProperties:properties forTenant:nil];
+  [self trackEvent:eventName withProperties:properties forTransmissionTarget:nil];
 }
 
 /**
  * Track an event.
  *
  * @param eventName  event name.
- * @param tenant  the tenant to associate to this event.
+ * @param transmissionTarget  the transmission target to associate to this event.
  */
-+ (void)trackEvent:(NSString *)eventName forTenant:(MSAnalyticsTenant *)tenant {
-  [self trackEvent:eventName withProperties:nil forTenant:tenant];
++ (void)trackEvent:(NSString *)eventName forTransmissionTarget:(MSTransmissionTarget *)transmissionTarget {
+  [self trackEvent:eventName withProperties:nil forTransmissionTarget:transmissionTarget];
 }
 
 /**
@@ -146,12 +146,12 @@ static const int maxPropertyValueLength = 64;
  *
  * @param eventName  event name.
  * @param properties dictionary of properties.
- * @param tenant  the tenant to associate to this event.
+ * @param transmissionTarget  the transmission target to associate to this event.
  */
-+ (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties forTenant:(nullable MSAnalyticsTenant *)tenant {
++ (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties forTransmissionTarget:(nullable MSTransmissionTarget *)transmissionTarget {
   @synchronized(self) {
     if ([[self sharedInstance] canBeUsed]) {
-      [[self sharedInstance] trackEvent:eventName withProperties:properties forTenant:tenant];
+      [[self sharedInstance] trackEvent:eventName withProperties:properties forTransmissionTarget:transmissionTarget];
     }
   }
 }
@@ -242,13 +242,13 @@ static const int maxPropertyValueLength = 64;
   return validProperties;
 }
 
-- (void)trackEvent:(NSString *)eventName withProperties:(NSDictionary<NSString *, NSString *> *)properties forTenant:(MSAnalyticsTenant *)tenant {
+- (void)trackEvent:(NSString *)eventName withProperties:(NSDictionary<NSString *, NSString *> *)properties forTransmissionTarget:(MSTransmissionTarget *)transmissionTarget {
   if (![self isEnabled])
     return;
 
-  // Use default tenant if no tenant was provided.
-  if (tenant == nil) {
-    tenant = self.defaultTenant;
+  // Use default transmission target if no transmission target was provided.
+  if (transmissionTarget == nil) {
+    transmissionTarget = self.defaultTransmissionTarget;
   }
 
   // Create an event log.
@@ -269,10 +269,10 @@ static const int maxPropertyValueLength = 64;
     log.properties = [self validateProperties:properties forLogName:log.name andType:log.type];
   }
 
-  // Add tenants.
-  if (tenant) {
-    [log addTenant:[tenant tenantId]];
-    // TODO: support adding multiple tenants
+  // Add transmission targets.
+  if (transmissionTarget) {
+    [log addTransmissionTargetForToken:[transmissionTarget transmissionToken]];
+    // TODO: support adding multiple transmission targets
   }
 
   // Send log to log manager.
@@ -319,25 +319,25 @@ static const int maxPropertyValueLength = 64;
 }
 
 /**
- * Get a tenant.
+ * Get a transmission target.
  *
- * @param tenantId identifier of the tenant to retrieve.
+ * @param transmissionToken token of the transmission target to retrieve.
  *
- * @returns The tenant object.
+ * @returns The transmission target object.
  */
-- (MSAnalyticsTenant *)getTenant:(NSString *)tenantId {
-  MSAnalyticsTenant *tenant = [self.tenants objectForKey:tenantId];
-  if (tenant) {
-    MSLogDebug([MSAnalytics logTag], @"Returning tenant found with id %@.", tenantId);
-    return tenant;
+- (MSTransmissionTarget *)getTransmissionTarget:(NSString *)transmissionToken {
+  MSTransmissionTarget *transmissionTarget= [self.transmissionTargets objectForKey:transmissionToken];
+  if (transmissionTarget) {
+    MSLogDebug([MSAnalytics logTag], @"Returning transmission target found with id %@.", transmissionToken);
+    return transmissionTarget;
   }
-  tenant = [[MSAnalyticsTenant alloc] initWithTenantId:tenantId];
-  MSLogDebug([MSAnalytics logTag], @"Created tenant with id %@.", tenantId);
-  [self.tenants setObject:tenant forKey:tenantId];
+  transmissionTarget = [[MSTransmissionTarget alloc] initWithTransmissionToken:transmissionToken];
+  MSLogDebug([MSAnalytics logTag], @"Created transmission target with id %@.", transmissionToken);
+  [self.transmissionTargets setObject:transmissionTarget forKey:transmissionToken];
   // TODO: Start service if not already.
-  // Scenario: getTenant gets called before App Center has an app secret or tenant ID
-  // but start has been called for this service.
-  return tenant;
+  // Scenario: getTransmissionTarget gets called before App Center has an app secret or transmission target but start
+  // has been called for this service.
+  return transmissionTarget;
 }
 
 + (void)resetSharedInstance {
@@ -411,17 +411,17 @@ static const int maxPropertyValueLength = 64;
   }
 }
 
-#pragma mark Tenant
+#pragma mark Transmission Target
 
 /**
- * Get a tenant.
+ * Get a transmission target.
  *
- * @param tenantId identifier of the tenant to retrieve.
+ * @param transmissionToken token of the transmission target to retrieve.
  *
- * @returns The tenant object.
+ * @returns The transmissionTarget object.
  */
-+ (MSAnalyticsTenant *)getTenant:(NSString *)tenantId {
-  return [[self sharedInstance] getTenant:tenantId];
++ (MSTransmissionTarget *)getTransmissionTarget:(NSString *)transmissionToken {
+  return [[self sharedInstance] getTransmissionTarget:transmissionToken];
 }
 
 @end

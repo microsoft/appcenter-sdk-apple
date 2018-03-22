@@ -84,7 +84,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 - (void)testApplyEnabledStateWorks {
 
   // If
-  [[MSPush sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol)) appSecret:kMSTestAppSecret tenantId:nil];
+  [[MSPush sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol)) appSecret:kMSTestAppSecret transmissionToken:nil];
   MSServiceAbstract *service = (MSServiceAbstract *)[MSPush sharedInstance];
 
   // When

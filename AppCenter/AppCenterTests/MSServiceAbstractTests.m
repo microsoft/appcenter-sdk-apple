@@ -42,7 +42,7 @@
 }
 
 - (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret {
-  [super startWithChannelGroup:channelGroup appSecret:appSecret tenantId:nil];
+  [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionToken:nil];
 }
 
 - (MSInitializationPriority)initializationPriority {

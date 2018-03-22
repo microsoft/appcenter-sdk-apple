@@ -201,112 +201,112 @@
   XCTAssertTrue([result isEqualToString:@"{app-secret}"]);
   
   // When
-  test = @"{app-secret};tenantToken={tenantId}";
+  test = @"{app-secret};token={transmissionToken}";
   result = [MSUtility appSecretFrom:test];
 
   // Then
   XCTAssertTrue([result isEqualToString:@"{app-secret}"]);
   
   // When
-  test = @"{app-secret};tenantToken={tenantId};";
+  test = @"{app-secret};token={transmissionToken};";
   result = [MSUtility appSecretFrom:test];
 
   // Then
   XCTAssertTrue([result isEqualToString:@"{app-secret}"]);
   
   // When
-  test = @"tenantToken={tenantId};{app-secret}";
+  test = @"token={transmissionToken};{app-secret}";
   result = [MSUtility appSecretFrom:test];
   
   // Then
   XCTAssertTrue([result isEqualToString:@"{app-secret}"]);
   
   // When
-  test = @"tenantToken={tenantId};{app-secret};";
+  test = @"token={transmissionToken};{app-secret};";
   result = [MSUtility appSecretFrom:test];
   
   // Then
   XCTAssertTrue([result isEqualToString:@"{app-secret}"]);
   
   // When
-  test = @"tenantToken={tenantId}";
+  test = @"token={transmissionToken}";
   result = [MSUtility appSecretFrom:test];
   
   // Then
   XCTAssertNil(result);
   
   // When
-  test = @"tenantToken={tenantId};";
+  test = @"token={transmissionToken};";
   result = [MSUtility appSecretFrom:test];
   
   // Then
   XCTAssertNil(result);
 }
 
-- (void)testTenantIdFrom {
+- (void)testTransmissionTokenFrom {
   
   // When
   NSString *test = @"{app-secret}";
   
   // Then
-  NSString *result = [MSUtility tenantIdFrom:test];
+  NSString *result = [MSUtility transmissionTokenFrom:test];
   XCTAssertNil(result);
 
   // When
   test = nil;
-  result = [MSUtility tenantIdFrom:test];
+  result = [MSUtility transmissionTokenFrom:test];
 
   // Then
   XCTAssertNil(result);
 
   // When
   test = @"{app-secret};";
-  result = [MSUtility tenantIdFrom:test];
+  result = [MSUtility transmissionTokenFrom:test];
   
   // Then
   XCTAssertNil(result);
 
   // When
-  test = @"{app-secret};tenantToken={tenantId}";
-  result = [MSUtility tenantIdFrom:test];
+  test = @"{app-secret};token={transmissionToken}";
+  result = [MSUtility transmissionTokenFrom:test];
   
   // Then
-  XCTAssertTrue([result isEqualToString:@"{tenantId}"]);
+  XCTAssertTrue([result isEqualToString:@"{transmissionToken}"]);
   
   // When
-  test = @"{app-secret};tenantToken={tenantId};";
-  result = [MSUtility tenantIdFrom:test];
+  test = @"{app-secret};token={transmissionToken};";
+  result = [MSUtility transmissionTokenFrom:test];
   
   // Then
-  XCTAssertTrue([result isEqualToString:@"{tenantId}"]);
+  XCTAssertTrue([result isEqualToString:@"{transmissionToken}"]);
 
   // When
-  test = @"tenantToken={tenantId};{app-secret}";
-  result = [MSUtility tenantIdFrom:test];
+  test = @"token={transmissionToken};{app-secret}";
+  result = [MSUtility transmissionTokenFrom:test];
   
   // Then
-  XCTAssertTrue([result isEqualToString:@"{tenantId}"]);
+  XCTAssertTrue([result isEqualToString:@"{transmissionToken}"]);
 
   // When
-  test = @"tenantToken={tenantId};{app-secret};";
-  result = [MSUtility tenantIdFrom:test];
+  test = @"token={transmissionToken};{app-secret};";
+  result = [MSUtility transmissionTokenFrom:test];
   
-  // Then
-  XCTAssertTrue([result isEqualToString:@"{tenantId}"]);
+  // Then
+  XCTAssertTrue([result isEqualToString:@"{transmissionToken}"]);
 
   // When
-  test = @"tenantToken={tenantId}";
-  result = [MSUtility tenantIdFrom:test];
+  test = @"token={transmissionToken}";
+  result = [MSUtility transmissionTokenFrom:test];
   
   // Then
-  XCTAssertTrue([result isEqualToString:@"{tenantId}"]);
+  XCTAssertTrue([result isEqualToString:@"{transmissionToken}"]);
 
   // When
-  test = @"tenantToken={tenantId};";
-  result = [MSUtility tenantIdFrom:test];
+  test = @"token={transmissionToken};";
+  result = [MSUtility transmissionTokenFrom:test];
   
   // Then
-  XCTAssertTrue([result isEqualToString:@"{tenantId}"]);
+  XCTAssertTrue([result isEqualToString:@"{transmissionToken}"]);
 }
 
 @end

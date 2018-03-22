@@ -1,5 +1,5 @@
 #import "MSServiceAbstract.h"
-#import "MSAnalyticsTenant.h"
+#import "MSTransmissionTarget.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -24,13 +24,13 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties;
 
 /**
- * Get a tenant.
+ * Get a transmission target.
  *
- * @param tenantId identifier of the tenant to retrieve.
+ * @param transmissionToken identifier of the transmission target to retrieve.
  *
- * @returns The tenant object.
+ * @returns The transmission target object.
  */
-+ (MSAnalyticsTenant *)getTenant:(NSString *)tenantId;
++ (MSTransmissionTarget *)getTransmissionTarget:(NSString *)transmissionToken;
 
 @end
 

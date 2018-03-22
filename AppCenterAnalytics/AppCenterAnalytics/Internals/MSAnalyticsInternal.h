@@ -1,6 +1,6 @@
 #import "MSAnalytics.h"
 #import "MSAnalyticsDelegate.h"
-#import "MSAnalyticsTenant.h"
+#import "MSTransmissionTarget.h"
 #import "MSChannelDelegate.h"
 #import "MSServiceInternal.h"
 
@@ -12,18 +12,18 @@ NS_ASSUME_NONNULL_BEGIN
  * Track an event.
  *
  * @param eventName  event name.
- * @param tenant  the tenant to associate to this event.
+ * @param transmissionTarget The transmission target to associate to this event.
  */
-+ (void)trackEvent:(NSString *)eventName forTenant:(nullable MSAnalyticsTenant *)tenant;
++ (void)trackEvent:(NSString *)eventName forTransmissionTarget:(nullable MSTransmissionTarget *)transmissionTarget;
 
 /**
  * Track an event.
  *
- * @param eventName  event name.
- * @param properties dictionary of properties.
- * @param tenant  the tenant to associate to this event.
+ * @param eventName  Event name.
+ * @param properties Dictionary of properties.
+ * @param transmissionTarget  The transmission target to associate to this event.
  */
-+ (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties forTenant:(nullable MSAnalyticsTenant *)tenant;
++ (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties forTransmissionTarget:(nullable MSTransmissionTarget *)transmissionTarget;
 
 
 // Temporarily hiding tracking page feature.

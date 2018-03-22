@@ -49,8 +49,8 @@ static NSString *const kMSEventTypeName = @"event";
   }
 }
 
-- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret tenantId:(NSString *)tenantId {
-  [super startWithChannelGroup:channelGroup appSecret:appSecret tenantId:tenantId];
+- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret transmissionToken:(NSString *)transmissionToken {
+  [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionToken:transmissionToken];
   [channelGroup addDelegate:self];
 }
 

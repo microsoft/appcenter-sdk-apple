@@ -38,17 +38,17 @@
 - (BOOL)isValid;
 
 /**
- * Adds a tenant that this log should be sent to.
+ * Adds a transmission token that this log should be sent to.
  *
- * @param tenant Identifier of the tenant.
+ * @param token The transmission token.
  */
-- (void)addTenant:(NSString*)tenant;
+- (void)addTransmissionTargetForToken:(NSString*)token;
 
 /**
- * Gets all tenants that this log should be sent to.
+ * Gets all transmission tokens that this log should be sent to.
  *
- * @returns Collection of tenants that this log should be sent to.
+ * @returns Collection of transmission tokens that this log should be sent to.
  */
-- (NSSet *)getTenants;
+- (NSSet *)getTransmissionTargets;
 
 @end

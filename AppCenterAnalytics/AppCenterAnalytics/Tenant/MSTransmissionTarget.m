@@ -1,12 +1,12 @@
-#import "MSAnalyticsTenantInternal.h"
+#import "MSAnalyticsTransmissionTargetInternal.h"
 #import "MSAnalyticsInternal.h"
 
-@implementation MSAnalyticsTenant
+@implementation MSTransmissionTarget
 
-- (instancetype)initWithTenantId:(NSString *)tenantId {
+- (instancetype)initWithTransmissionToken:(NSString *)transmissionToken {
   self = [super init];
   if (self) {
-    self.tenantId = tenantId;
+    self.transmissionToken = transmissionToken;
   }
   return self;
 }
@@ -17,7 +17,7 @@
  * @param eventName  event name.
  */
 - (void)trackEvent:(NSString *)eventName {
-  [MSAnalytics trackEvent:eventName forTenant:self];
+  [MSAnalytics trackEvent:eventName forTransmissionTarget:self];
 }
 
 /**
@@ -27,7 +27,7 @@
  * @param properties dictionary of properties.
  */
 - (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties {
-  [MSAnalytics trackEvent:eventName withProperties:properties forTenant:self];
+  [MSAnalytics trackEvent:eventName withProperties:properties forTransmissionTarget:self];
 }
 
 @end

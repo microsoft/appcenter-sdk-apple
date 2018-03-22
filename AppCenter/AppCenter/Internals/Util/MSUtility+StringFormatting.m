@@ -7,7 +7,7 @@
  */
 NSString *MSUtilityStringFormattingCategory;
 
-static NSString *kMSTenantTokenString = @"tenantToken=";
+static NSString *kMSTransmissionTokenString = @"token=";
 
 @implementation NSObject (MSUtility_StringFormatting)
 
@@ -37,7 +37,7 @@ static NSString *kMSTenantTokenString = @"tenantToken=";
     for(NSString *component in components) {
       
       // Component is app secret, return the component. Check for length > 0 as "foo;" will be parsed as 2 components.
-      if(([component rangeOfString:kMSTenantTokenString].location == NSNotFound) && (component.length > 0)) {
+      if(([component rangeOfString:kMSTransmissionTokenString].location == NSNotFound) && (component.length > 0)) {
         return component;
       }
     }
@@ -47,7 +47,7 @@ static NSString *kMSTenantTokenString = @"tenantToken=";
   }
 }
 
-+ (NSString *)tenantIdFrom:(NSString *)string {
++ (NSString *)transmissionTokenFrom:(NSString *)string {
   NSArray *components = [string componentsSeparatedByString:@";"];
   if(components == nil || components.count == 0) {
     return nil;
@@ -55,14 +55,14 @@ static NSString *kMSTenantTokenString = @"tenantToken=";
   else {
     for(NSString *component in components) {
       
-      // Component is tenantId, return the component.
+      // Component is transmission token, return the component.
       
-      if(([component rangeOfString:kMSTenantTokenString].location != NSNotFound) && (component.length > 0)) {
-        return [component stringByReplacingOccurrencesOfString:kMSTenantTokenString withString:@""];
+      if(([component rangeOfString:kMSTransmissionTokenString].location != NSNotFound) && (component.length > 0)) {
+        return [component stringByReplacingOccurrencesOfString:kMSTransmissionTokenString withString:@""];
       }
     }
     
-    // String does not contain a tenantId.
+    // String does not contain a transmission token.
     return nil;
   }
 }
