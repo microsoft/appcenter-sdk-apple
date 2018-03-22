@@ -189,8 +189,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   self.releaseDetails = nil;
 }
 
-- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(nullable NSString *)appSecret transmissionToken:(nullable NSString *)transmissionToken {
-  [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionToken:transmissionToken];
+- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(nullable NSString *)appSecret transmissionTargetToken:(nullable NSString *)token {
+  [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token];
   MSLogVerbose([MSDistribute logTag], @"Started Distribute service.");
 }
 

@@ -69,10 +69,10 @@ static const int maxPropertyValueLength = 64;
   return kMSServiceName;
 }
 
-- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(nullable NSString *)appSecret transmissionToken:(nullable NSString *)transmissionToken  {
-  [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionToken:transmissionToken];
-  if (transmissionToken) {
-    self.defaultTransmissionTarget = [self getTransmissionTarget:(NSString *)transmissionToken];
+- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(nullable NSString *)appSecret transmissionTargetToken:(nullable NSString *)token  {
+  [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token];
+  if (token) {
+    self.defaultTransmissionTarget = [self getTransmissionTarget:(NSString *)token];
   }
 
   // Set up swizzling for auto page tracking.
@@ -271,7 +271,7 @@ static const int maxPropertyValueLength = 64;
 
   // Add transmission targets.
   if (transmissionTarget) {
-    [log addTransmissionTargetForToken:[transmissionTarget transmissionToken]];
+    [log addTransmissionTargetFor:[transmissionTarget transmissionTargetToken]];
     // TODO: support adding multiple transmission targets
   }
 
@@ -321,19 +321,19 @@ static const int maxPropertyValueLength = 64;
 /**
  * Get a transmission target.
  *
- * @param transmissionToken token of the transmission target to retrieve.
+ * @param transmissionTargetToken token of the transmission target to retrieve.
  *
  * @returns The transmission target object.
  */
-- (MSTransmissionTarget *)getTransmissionTarget:(NSString *)transmissionToken {
-  MSTransmissionTarget *transmissionTarget= [self.transmissionTargets objectForKey:transmissionToken];
+- (MSTransmissionTarget *)getTransmissionTarget:(NSString *)transmissionTargetToken {
+  MSTransmissionTarget *transmissionTarget= [self.transmissionTargets objectForKey:transmissionTargetToken];
   if (transmissionTarget) {
-    MSLogDebug([MSAnalytics logTag], @"Returning transmission target found with id %@.", transmissionToken);
+    MSLogDebug([MSAnalytics logTag], @"Returning transmission target found with id %@.", transmissionTargetToken);
     return transmissionTarget;
   }
-  transmissionTarget = [[MSTransmissionTarget alloc] initWithTransmissionToken:transmissionToken];
-  MSLogDebug([MSAnalytics logTag], @"Created transmission target with id %@.", transmissionToken);
-  [self.transmissionTargets setObject:transmissionTarget forKey:transmissionToken];
+  transmissionTarget = [[MSTransmissionTarget alloc] initWithTransmissionTargetToken:transmissionTargetToken];
+  MSLogDebug([MSAnalytics logTag], @"Created transmission target with id %@.", transmissionTargetToken);
+  [self.transmissionTargets setObject:transmissionTarget forKey:transmissionTargetToken];
   // TODO: Start service if not already.
   // Scenario: getTransmissionTarget gets called before App Center has an app secret or transmission target but start
   // has been called for this service.
@@ -416,12 +416,12 @@ static const int maxPropertyValueLength = 64;
 /**
  * Get a transmission target.
  *
- * @param transmissionToken token of the transmission target to retrieve.
+ * @param transmissionTargetToken token of the transmission target to retrieve.
  *
  * @returns The transmissionTarget object.
  */
-+ (MSTransmissionTarget *)getTransmissionTarget:(NSString *)transmissionToken {
-  return [[self sharedInstance] getTransmissionTarget:transmissionToken];
++ (MSTransmissionTarget *)getTransmissionTargetFor:(NSString *)transmissionTargetToken {
+  return [[self sharedInstance] getTransmissionTarget:transmissionTargetToken];
 }
 
 @end

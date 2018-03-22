@@ -70,7 +70,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   [MSAppCenter start:MS_UUID_STRING withServices:@[MSMockService.class]];
   
   // Then
-  XCTAssertNil([[MSAppCenter sharedInstance] defaultTransmissionToken]);
+  XCTAssertNil([[MSAppCenter sharedInstance] defaultTransmissionTargetToken]);
   XCTAssertNotNil([[MSAppCenter sharedInstance] appSecret]);
 }
 
@@ -78,18 +78,18 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   
   // If
   NSString *secret = MS_UUID_STRING;
-  NSString *transmissionTokenString = @"token=";
-  NSString *transmissionToken = @"transmissionToken";
-  NSString *appSecret = [NSString stringWithFormat:@"%@;%@%@", secret, transmissionTokenString, transmissionToken];
+  NSString *transmissionTargetTokenString = @"token=";
+  NSString *transmissionTargetToken = @"transmissionTargetToken";
+  NSString *appSecret = [NSString stringWithFormat:@"%@;%@%@", secret, transmissionTargetTokenString, transmissionTargetToken];
   
   // When
   [MSAppCenter start:appSecret withServices:@[MSMockService.class]];
   
   // Then
   XCTAssertNotNil([[MSAppCenter sharedInstance] appSecret]);
-  XCTAssertNotNil([[MSAppCenter sharedInstance] defaultTransmissionToken]);
+  XCTAssertNotNil([[MSAppCenter sharedInstance] defaultTransmissionTargetToken]);
   XCTAssertTrue([secret isEqualToString:[[MSAppCenter sharedInstance] appSecret]]);
-  XCTAssertTrue([transmissionToken isEqualToString:[[MSAppCenter sharedInstance] defaultTransmissionToken]]);
+  XCTAssertTrue([transmissionTargetToken isEqualToString:[[MSAppCenter sharedInstance] defaultTransmissionTargetToken]]);
 }
 
 - (void)testGetInstallIdFromStorage {

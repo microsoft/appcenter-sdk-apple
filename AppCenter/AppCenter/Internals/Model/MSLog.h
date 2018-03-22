@@ -38,16 +38,16 @@
 - (BOOL)isValid;
 
 /**
- * Adds a transmission token that this log should be sent to.
+ * Adds a transmission target token that this log should be sent to.
  *
- * @param token The transmission token.
+ * @param token The transmission target token.
  */
-- (void)addTransmissionTargetForToken:(NSString*)token;
+- (void)addTransmissionTargetFor:(NSString*)token;
 
 /**
- * Gets all transmission tokens that this log should be sent to.
+ * Gets all transmission target tokens that this log should be sent to.
  *
- * @returns Collection of transmission tokens that this log should be sent to.
+ * @returns Collection of transmission target tokens that this log should be sent to.
  */
 - (NSSet *)getTransmissionTargets;
 

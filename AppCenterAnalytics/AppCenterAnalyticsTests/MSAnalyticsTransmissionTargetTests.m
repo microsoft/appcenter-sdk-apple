@@ -16,18 +16,18 @@ static NSString *const kMSTestTransmissionToken = @"TestTransmissionToken";
 - (void)testInitialization {
 
   // When
-  MSTransmissionTarget *transmissionTarget = [[MSTransmissionTarget alloc] initWithTransmissionToken:kMSTestTransmissionToken];
+  MSTransmissionTarget *transmissionTarget = [[MSTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken];
 
   // Then
   XCTAssertNotNil(transmissionTarget);
-  XCTAssertEqual(kMSTestTransmissionToken, [transmissionTarget transmissionToken]);
+  XCTAssertEqual(kMSTestTransmissionToken, [transmissionTarget transmissionTargetToken]);
 }
 
 - (void)testTrackEvent {
 
   // If
   OCMClassMock([MSAnalytics class]);
-  MSTransmissionTarget *transmissionTarget = [[MSTransmissionTarget alloc] initWithTransmissionToken:kMSTestTransmissionToken];
+  MSTransmissionTarget *transmissionTarget = [[MSTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken];
   NSString *eventName = @"event";
 
   // When
@@ -41,7 +41,7 @@ static NSString *const kMSTestTransmissionToken = @"TestTransmissionToken";
 
   // If
   OCMClassMock([MSAnalytics class]);
-  MSTransmissionTarget *transmissionTarget = [[MSTransmissionTarget alloc] initWithTransmissionToken:kMSTestTransmissionToken];
+  MSTransmissionTarget *transmissionTarget = [[MSTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken];
   NSString *eventName = @"event";
   NSDictionary *properties = [NSDictionary new];
 

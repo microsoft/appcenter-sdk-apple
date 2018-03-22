@@ -34,13 +34,13 @@ extern NSString *MSUtilityStringFormattingCategory;
 + (NSString *)appSecretFrom:(NSString *)string;
 
 /**
- * Extract transmission token from a string.
+ * Extract transmission target token from a string.
  *
  * @param string A string.
  *
  * @returns The tennant id or nil if none was found.
  */
-+ (NSString *)transmissionTokenFrom:(NSString *)string;
++ (NSString *)transmissionTargetTokenFrom:(NSString *)string;
 
 @end
 

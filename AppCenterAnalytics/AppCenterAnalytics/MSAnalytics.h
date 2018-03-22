@@ -26,11 +26,11 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Get a transmission target.
  *
- * @param transmissionToken identifier of the transmission target to retrieve.
+ * @param transmissionTargetToken identifier of the transmission target to retrieve.
  *
  * @returns The transmission target object.
  */
-+ (MSTransmissionTarget *)getTransmissionTarget:(NSString *)transmissionToken;
++ (MSTransmissionTarget *)getTransmissionTargetFor:(NSString *)transmissionTargetToken;
 
 @end
 

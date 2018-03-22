@@ -3,10 +3,10 @@
 
 @implementation MSTransmissionTarget
 
-- (instancetype)initWithTransmissionToken:(NSString *)transmissionToken {
+- (instancetype)initWithTransmissionTargetToken:(NSString *)transmissionTargetToken {
   self = [super init];
   if (self) {
-    self.transmissionToken = transmissionToken;
+    self.transmissionTargetToken = transmissionTargetToken;
   }
   return self;
 }

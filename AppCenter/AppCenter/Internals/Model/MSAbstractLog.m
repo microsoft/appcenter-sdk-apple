@@ -22,7 +22,7 @@ static NSString *const kMSType = @"type";
 - (instancetype)init {
   self = [super init];
   if (self) {
-    self.transmissionTargets = [NSMutableSet new];
+    self.transmissionTargetTokens = [NSMutableSet new];
   }
   return self;
 }
@@ -101,17 +101,17 @@ static NSString *const kMSType = @"type";
   return jsonString;
 }
 
-#pragma mark - Transmission Token
+#pragma mark - Transmission Target logic
 
 - (NSSet *)getTransmissionTargets {
   @synchronized(self) {
-    return self.transmissionTargets;
+    return self.transmissionTargetTokens;
   }
 }
 
-- (void)addTransmissionTargetForToken:(NSString *)token {
+- (void)addTransmissionTargetFor:(NSString *)token {
   @synchronized(self) {
-    [self.transmissionTargets addObject:token];
+    [self.transmissionTargetTokens addObject:token];
   }
 }
 

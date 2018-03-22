@@ -4,10 +4,10 @@
 @interface MSTransmissionTarget ()
 
 /**
- * The transmission token corresponding to this transmission target.
+ * The transmission target token corresponding to this transmission target.
  */
-@property(nonatomic) NSString *transmissionToken;
+@property(nonatomic) NSString *transmissionTargetToken;
 
-- (instancetype)initWithTransmissionToken:(NSString *)transmissionToken;
+- (instancetype)initWithTransmissionTargetToken:(NSString *)token;
 
 @end

@@ -7,7 +7,7 @@
  */
 NSString *MSUtilityStringFormattingCategory;
 
-static NSString *kMSTransmissionTokenString = @"token=";
+static NSString *kMSTransmissionTargetTokenString = @"token=";
 static NSString *kMSAppSecretString = @"secret=";
 
 @implementation NSObject (MSUtility_StringFormatting)
@@ -38,7 +38,7 @@ static NSString *kMSAppSecretString = @"secret=";
     for(NSString *component in components) {
       
       // Component is app secret, return the component. Check for length > 0 as "foo;" will be parsed as 2 components.
-      if(([component rangeOfString:kMSTransmissionTokenString].location == NSNotFound) && (component.length > 0)) {
+      if(([component rangeOfString:kMSTransmissionTargetTokenString].location == NSNotFound) && (component.length > 0)) {
         return [component stringByReplacingOccurrencesOfString:kMSAppSecretString withString:@""];;
       }
     }
@@ -48,7 +48,7 @@ static NSString *kMSAppSecretString = @"secret=";
   }
 }
 
-+ (NSString *)transmissionTokenFrom:(NSString *)string {
++ (NSString *)transmissionTargetTokenFrom:(NSString *)string {
   NSArray *components = [string componentsSeparatedByString:@";"];
   if(components == nil || components.count == 0) {
     return nil;
@@ -56,14 +56,14 @@ static NSString *kMSAppSecretString = @"secret=";
   else {
     for(NSString *component in components) {
       
-      // Component is transmission token, return the component.
+      // Component is transmission target token, return the component.
       
-      if(([component rangeOfString:kMSTransmissionTokenString].location != NSNotFound) && (component.length > 0)) {
-        return [component stringByReplacingOccurrencesOfString:kMSTransmissionTokenString withString:@""];
+      if(([component rangeOfString:kMSTransmissionTargetTokenString].location != NSNotFound) && (component.length > 0)) {
+        return [component stringByReplacingOccurrencesOfString:kMSTransmissionTargetTokenString withString:@""];
       }
     }
     
-    // String does not contain a transmission token.
+    // String does not contain a transmission target token.
     return nil;
   }
 }
