@@ -7,8 +7,8 @@
  */
 NSString *MSUtilityStringFormattingCategory;
 
-static NSString *kMSTransmissionTargetTokenString = @"token=";
-static NSString *kMSAppSecretString = @"appsecret=";
+static NSString *kMSTransmissionTargetKey = @"target=";
+static NSString *kMSAppSecretKey = @"appsecret=";
 
 @implementation NSObject (MSUtility_StringFormatting)
 
@@ -38,8 +38,8 @@ static NSString *kMSAppSecretString = @"appsecret=";
     for(NSString *component in components) {
       
       // Component is app secret, return the component. Check for length > 0 as "foo;" will be parsed as 2 components.
-      if(([component rangeOfString:kMSTransmissionTargetTokenString].location == NSNotFound) && (component.length > 0)) {
-        return [component stringByReplacingOccurrencesOfString:kMSAppSecretString withString:@""];;
+      if(([component rangeOfString:kMSTransmissionTargetKey].location == NSNotFound) && (component.length > 0)) {
+        return [component stringByReplacingOccurrencesOfString:kMSAppSecretKey withString:@""];;
       }
     }
     
@@ -58,8 +58,8 @@ static NSString *kMSAppSecretString = @"appsecret=";
       
       // Component is transmission target token, return the component.
       
-      if(([component rangeOfString:kMSTransmissionTargetTokenString].location != NSNotFound) && (component.length > 0)) {
-        return [component stringByReplacingOccurrencesOfString:kMSTransmissionTargetTokenString withString:@""];
+      if(([component rangeOfString:kMSTransmissionTargetKey].location != NSNotFound) && (component.length > 0)) {
+        return [component stringByReplacingOccurrencesOfString:kMSTransmissionTargetKey withString:@""];
       }
     }
     
