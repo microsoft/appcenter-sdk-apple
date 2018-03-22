@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
-#import "MSTransmissionTarget.h"
+#import "MSAnalyticsTransmissionTarget.h"
 
-@interface MSTransmissionTarget ()
+@interface MSAnalyticsTransmissionTarget ()
 
 /**
  * The transmission target token corresponding to this transmission target.

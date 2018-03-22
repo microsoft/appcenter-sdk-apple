@@ -1,6 +1,6 @@
 #import "MSAnalytics.h"
 #import "MSAnalyticsDelegate.h"
-#import "MSTransmissionTarget.h"
+#import "MSAnalyticsTransmissionTarget.h"
 #import "MSServiceInternal.h"
 #import "MSSessionTracker.h"
 #import "MSSessionTrackerDelegate.h"
@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Default transmission target.
  */
-@property(nonatomic) MSTransmissionTarget *defaultTransmissionTarget;
+@property(nonatomic) MSAnalyticsTransmissionTarget *defaultTransmissionTarget;
 
 /**
  * Track an event.
@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param properties dictionary of properties.
  * @param transmissionTarget Transmission target to associate with the event.
  */
-- (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties forTransmissionTarget:(nullable MSTransmissionTarget *) transmissionTarget;
+- (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *) transmissionTarget;
 
 /**
  * Track a page.
@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @returns The transmission target object.
  */
-- (MSTransmissionTarget *)getTransmissionTarget:(NSString *)transmissionTargetToken;
+- (MSAnalyticsTransmissionTarget *)getTransmissionTarget:(NSString *)transmissionTargetToken;
 
 /**
  * Method to reset the singleton when running unit tests only. So calling sharedInstance returns a fresh instance.

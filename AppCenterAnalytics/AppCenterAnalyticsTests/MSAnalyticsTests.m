@@ -732,8 +732,8 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 - (void)testGetTransmissionTargetCreatesTransmissionTargetOnce {
 
   // When
-  MSTransmissionTarget *transmissionTarget1 = [MSAnalytics transmissionTargetForToken:kMSTestTransmissionToken];
-  MSTransmissionTarget *transmissionTarget2 = [MSAnalytics transmissionTargetForToken:kMSTestTransmissionToken];
+  MSAnalyticsTransmissionTarget *transmissionTarget1 = [MSAnalytics transmissionTargetForToken:kMSTestTransmissionToken];
+  MSAnalyticsTransmissionTarget *transmissionTarget2 = [MSAnalytics transmissionTargetForToken:kMSTestTransmissionToken];
 
   // Then
   XCTAssertNotNil(transmissionTarget1);

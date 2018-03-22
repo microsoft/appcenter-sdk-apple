@@ -1,7 +1,7 @@
 #import "MSAnalyticsTransmissionTargetInternal.h"
 #import "MSAnalyticsInternal.h"
 
-@implementation MSTransmissionTarget
+@implementation MSAnalyticsTransmissionTarget
 
 - (instancetype)initWithTransmissionTargetToken:(NSString *)transmissionTargetToken {
   self = [super init];
