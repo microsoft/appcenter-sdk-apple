@@ -8,6 +8,7 @@
 NSString *MSUtilityStringFormattingCategory;
 
 static NSString *kMSTransmissionTokenString = @"token=";
+static NSString *kMSAppSecretString = @"secret=";
 
 @implementation NSObject (MSUtility_StringFormatting)
 
@@ -38,7 +39,7 @@ static NSString *kMSTransmissionTokenString = @"token=";
       
       // Component is app secret, return the component. Check for length > 0 as "foo;" will be parsed as 2 components.
       if(([component rangeOfString:kMSTransmissionTokenString].location == NSNotFound) && (component.length > 0)) {
-        return component;
+        return [component stringByReplacingOccurrencesOfString:kMSAppSecretString withString:@""];;
       }
     }
     

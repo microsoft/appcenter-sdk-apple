@@ -241,6 +241,41 @@
   
   // Then
   XCTAssertNil(result);
+  
+  // When
+  test = @"secret={app-secret};token={transmissionToken};";
+  result = [MSUtility appSecretFrom:test];
+
+  // Then
+  XCTAssertTrue([result isEqualToString:@"{app-secret}"]);
+
+  // When
+  test = @"secret={app-secret};";
+  result = [MSUtility appSecretFrom:test];
+  
+  // Then
+  XCTAssertTrue([result isEqualToString:@"{app-secret}"]);
+
+  // When
+  test = @"secret={app-secret}";
+  result = [MSUtility appSecretFrom:test];
+
+  // Then
+  XCTAssertTrue([result isEqualToString:@"{app-secret}"]);
+  
+  // When
+  test = @"token={transmissionToken};secret={app-secret};";
+  result = [MSUtility appSecretFrom:test];
+
+  // Then
+  XCTAssertTrue([result isEqualToString:@"{app-secret}"]);
+  
+  // When
+  test = @"token={transmissionToken};secret={app-secret}";
+  result = [MSUtility appSecretFrom:test];
+
+  // Then
+  XCTAssertTrue([result isEqualToString:@"{app-secret}"]);
 }
 
 - (void)testTransmissionTokenFrom {
@@ -303,6 +338,41 @@
 
   // When
   test = @"token={transmissionToken};";
+  result = [MSUtility transmissionTokenFrom:test];
+  
+  // Then
+  XCTAssertTrue([result isEqualToString:@"{transmissionToken}"]);
+  
+  // When
+  test = @"secret={app-secret};token={transmissionToken};";
+  result = [MSUtility transmissionTokenFrom:test];
+  
+  // Then
+  XCTAssertTrue([result isEqualToString:@"{transmissionToken}"]);
+
+  // When
+  test = @"secret={app-secret};";
+  result = [MSUtility transmissionTokenFrom:test];
+
+  // Then
+  XCTAssertNil(result);
+  
+  // When
+  test = @"secret={app-secret}";
+  result = [MSUtility transmissionTokenFrom:test];
+
+  // Then
+  XCTAssertNil(result);
+  
+  // When
+  test = @"token={transmissionToken};secret={app-secret};";
+  result = [MSUtility transmissionTokenFrom:test];
+  
+  // Then
+  XCTAssertTrue([result isEqualToString:@"{transmissionToken}"]);
+
+  // When
+  test = @"token={transmissionToken};secret={app-secret}";
   result = [MSUtility transmissionTokenFrom:test];
   
   // Then
