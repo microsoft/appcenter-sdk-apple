@@ -8,7 +8,7 @@
 NSString *MSUtilityStringFormattingCategory;
 
 static NSString *kMSTransmissionTargetTokenString = @"token=";
-static NSString *kMSAppSecretString = @"secret=";
+static NSString *kMSAppSecretString = @"appsecret=";
 
 @implementation NSObject (MSUtility_StringFormatting)
 

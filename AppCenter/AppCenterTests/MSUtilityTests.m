@@ -243,35 +243,35 @@
   XCTAssertNil(result);
   
   // When
-  test = @"secret={app-secret};token={transmissionTargetToken};";
+  test = @"appsecret={app-secret};token={transmissionTargetToken};";
   result = [MSUtility appSecretFrom:test];
 
   // Then
   XCTAssertTrue([result isEqualToString:@"{app-secret}"]);
 
   // When
-  test = @"secret={app-secret};";
+  test = @"appsecret={app-secret};";
   result = [MSUtility appSecretFrom:test];
   
   // Then
   XCTAssertTrue([result isEqualToString:@"{app-secret}"]);
 
   // When
-  test = @"secret={app-secret}";
+  test = @"appsecret={app-secret}";
   result = [MSUtility appSecretFrom:test];
 
   // Then
   XCTAssertTrue([result isEqualToString:@"{app-secret}"]);
   
   // When
-  test = @"token={transmissionTargetToken};secret={app-secret};";
+  test = @"token={transmissionTargetToken};appsecret={app-secret};";
   result = [MSUtility appSecretFrom:test];
 
   // Then
   XCTAssertTrue([result isEqualToString:@"{app-secret}"]);
   
   // When
-  test = @"token={transmissionTargetToken};secret={app-secret}";
+  test = @"token={transmissionTargetToken};appsecret={app-secret}";
   result = [MSUtility appSecretFrom:test];
 
   // Then
@@ -344,35 +344,35 @@
   XCTAssertTrue([result isEqualToString:@"{transmissionTargetToken}"]);
   
   // When
-  test = @"secret={app-secret};token={transmissionTargetToken};";
+  test = @"appsecret={app-secret};token={transmissionTargetToken};";
   result = [MSUtility transmissionTargetTokenFrom:test];
   
   // Then
   XCTAssertTrue([result isEqualToString:@"{transmissionTargetToken}"]);
 
   // When
-  test = @"secret={app-secret};";
+  test = @"appsecret={app-secret};";
   result = [MSUtility transmissionTargetTokenFrom:test];
 
   // Then
   XCTAssertNil(result);
   
   // When
-  test = @"secret={app-secret}";
+  test = @"appsecret={app-secret}";
   result = [MSUtility transmissionTargetTokenFrom:test];
 
   // Then
   XCTAssertNil(result);
   
   // When
-  test = @"token={transmissionTargetToken};secret={app-secret};";
+  test = @"token={transmissionTargetToken};appsecret={app-secret};";
   result = [MSUtility transmissionTargetTokenFrom:test];
   
   // Then
   XCTAssertTrue([result isEqualToString:@"{transmissionTargetToken}"]);
 
   // When
-  test = @"token={transmissionTargetToken};secret={app-secret}";
+  test = @"token={transmissionTargetToken};appsecret={app-secret}";
   result = [MSUtility transmissionTargetTokenFrom:test];
   
   // Then
