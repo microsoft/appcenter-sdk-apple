@@ -22,7 +22,7 @@ static NSString *const kMSType = @"type";
 - (instancetype)init {
   self = [super init];
   if (self) {
-    self.transmissionTargetTokens = [NSMutableSet new];
+    self.transmissionTargetTokens = [NSSet new];
   }
   return self;
 }
@@ -103,15 +103,17 @@ static NSString *const kMSType = @"type";
 
 #pragma mark - Transmission Target logic
 
-- (NSSet *)getTransmissionTargets {
+- (NSSet *)transmissionTargetTokens {
   @synchronized(self) {
-    return self.transmissionTargetTokens;
+    return _transmissionTargetTokens;
   }
 }
 
-- (void)addTransmissionTargetFor:(NSString *)token {
+- (void)addTransmissionTargetToken:(NSString *)token {
   @synchronized(self) {
-    [self.transmissionTargetTokens addObject:token];
+    NSMutableSet *mutableSet = [self.transmissionTargetTokens mutableCopy];
+    [mutableSet addObject:token];
+    self.transmissionTargetTokens = mutableSet;
   }
 }
 

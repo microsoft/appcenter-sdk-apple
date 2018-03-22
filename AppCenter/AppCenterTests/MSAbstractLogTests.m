@@ -177,10 +177,10 @@
   NSString* transmissionTargetToken = @"t2";
 
   // When
-  [self.sut addTransmissionTargetFor:transmissionTargetToken1];
-  [self.sut addTransmissionTargetFor:transmissionTargetToken1];
-  [self.sut addTransmissionTargetFor:transmissionTargetToken];
-  NSSet* transmissionTargets = [self.sut getTransmissionTargets];
+  [self.sut addTransmissionTargetToken:transmissionTargetToken1];
+  [self.sut addTransmissionTargetToken:transmissionTargetToken1];
+  [self.sut addTransmissionTargetToken:transmissionTargetToken];
+  NSSet* transmissionTargets = [self.sut transmissionTargetTokens];
 
   // Then
   XCTAssertEqual([transmissionTargets count], (uint)2);

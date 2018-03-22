@@ -271,7 +271,7 @@ static const int maxPropertyValueLength = 64;
 
   // Add transmission targets.
   if (transmissionTarget) {
-    [log addTransmissionTargetFor:[transmissionTarget transmissionTargetToken]];
+    [log addTransmissionTargetToken:[transmissionTarget transmissionTargetToken]];
     // TODO: support adding multiple transmission targets
   }
 
@@ -420,7 +420,7 @@ static const int maxPropertyValueLength = 64;
  *
  * @returns The transmissionTarget object.
  */
-+ (MSTransmissionTarget *)getTransmissionTargetFor:(NSString *)transmissionTargetToken {
++ (MSTransmissionTarget *)transmissionTargetForToken:(NSString *)transmissionTargetToken {
   return [[self sharedInstance] getTransmissionTarget:transmissionTargetToken];
 }
 

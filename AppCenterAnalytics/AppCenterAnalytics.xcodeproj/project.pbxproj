@@ -488,14 +488,13 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
-		3513432E2057046700E6DC7D /* Tenant */ = {
+		3513432E2057046700E6DC7D /* TransmissionTarget */ = {
 			isa = PBXGroup;
 			children = (
 				3513432F205704A100E6DC7D /* MSTransmissionTarget.h */,
-				351343352057093600E6DC7D /* MSAnalyticsTransmissionTargetInternal.h */,
 				35134330205704C100E6DC7D /* MSTransmissionTarget.m */,
 			);
-			path = Tenant;
+			path = TransmissionTarget;
 			sourceTree = "<group>";
 		};
 		6E0684361D35A39300A8CC6C /* Frameworks */ = {
@@ -563,7 +562,7 @@
 		E85547C21D2D6253002DF6E2 /* AppCenterAnalytics */ = {
 			isa = PBXGroup;
 			children = (
-				3513432E2057046700E6DC7D /* Tenant */,
+				3513432E2057046700E6DC7D /* TransmissionTarget */,
 				E85547CC1D2D63EF002DF6E2 /* AppCenterAnalytics.h */,
 				E85547C31D2D6253002DF6E2 /* MSAnalytics.h */,
 				E85547C51D2D6253002DF6E2 /* MSAnalytics.m */,
@@ -580,6 +579,7 @@
 				E85547CE1D2D64F0002DF6E2 /* MSAnalyticsPrivate.h */,
 				3813B9641DBFE68200831214 /* MSAnalyticsInternal.h */,
 				35BF19E21DF9C43F00193027 /* MSAnalyticsDelegate.h */,
+				351343352057093600E6DC7D /* MSAnalyticsTransmissionTargetInternal.h */,
 				6E3E2CC21D359D5E00B1EE50 /* Model */,
 				E8E48F9B1D515C1F00A8C1B0 /* Session */,
 				04A1409C1ECE7245001CEE94 /* Util */,

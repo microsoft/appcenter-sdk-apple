@@ -42,13 +42,13 @@
  *
  * @param token The transmission target token.
  */
-- (void)addTransmissionTargetFor:(NSString*)token;
+- (void)addTransmissionTargetToken:(NSString*)token;
 
 /**
  * Gets all transmission target tokens that this log should be sent to.
  *
  * @returns Collection of transmission target tokens that this log should be sent to.
  */
-- (NSSet *)getTransmissionTargets;
+- (NSSet *)transmissionTargetTokens;
 
 @end

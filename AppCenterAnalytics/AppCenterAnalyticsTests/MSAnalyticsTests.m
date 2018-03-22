@@ -696,8 +696,8 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
   // Then
   OCMVerify([channelUnitMock enqueueItem:log]);
-  XCTAssertTrue([[log getTransmissionTargets] containsObject:kMSTestTransmissionToken]);
-  XCTAssertEqual([[log getTransmissionTargets] count], (unsigned long)1);
+  XCTAssertTrue([[log transmissionTargetTokens] containsObject:kMSTestTransmissionToken]);
+  XCTAssertEqual([[log transmissionTargetTokens] count], (unsigned long)1);
   XCTAssertEqual(invocations, 1);
 }
 
@@ -724,16 +724,16 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
   // Then
   OCMVerify([channelUnitMock enqueueItem:log]);
-  XCTAssertTrue([[log getTransmissionTargets] containsObject:kMSTestTransmissionToken]);
-  XCTAssertEqual([[log getTransmissionTargets] count], (unsigned long)1);
+  XCTAssertTrue([[log transmissionTargetTokens] containsObject:kMSTestTransmissionToken]);
+  XCTAssertEqual([[log transmissionTargetTokens] count], (unsigned long)1);
   XCTAssertEqual(invocations, 1);
 }
 
 - (void)testGetTransmissionTargetCreatesTransmissionTargetOnce {
 
   // When
-  MSTransmissionTarget *transmissionTarget1 = [MSAnalytics getTransmissionTargetFor:kMSTestTransmissionToken];
-  MSTransmissionTarget *transmissionTarget2 = [MSAnalytics getTransmissionTargetFor:kMSTestTransmissionToken];
+  MSTransmissionTarget *transmissionTarget1 = [MSAnalytics transmissionTargetForToken:kMSTestTransmissionToken];
+  MSTransmissionTarget *transmissionTarget2 = [MSAnalytics transmissionTargetForToken:kMSTestTransmissionToken];
 
   // Then
   XCTAssertNotNil(transmissionTarget1);
