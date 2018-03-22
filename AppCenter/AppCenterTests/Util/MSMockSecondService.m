@@ -13,6 +13,7 @@ static MSMockSecondService *sharedInstance = nil;
 @synthesize channelGroup;
 @synthesize channelUnit;
 @synthesize channelUnitConfiguration;
+@synthesize defaultTransmissionToken;
 
 - (instancetype)init {
   if ((self = [super init])) {
