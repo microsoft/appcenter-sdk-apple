@@ -24,6 +24,5 @@ Please list the steps used to reproduce your issue.
     - [ ] Objective C
     - [ ] Swift
 6. What third party libraries are you using?
-    - example
-7. Please enable verbose logging for your app using `MSAppCenter.setLogLevel(.verbose)` before your call to `MSAppCenter.start(...)` for Swift or `[MSAppCenter start: ...]` for Objective C and include the logs here:
+7. Please enable verbose logging for your app using `MSAppCenter.setLogLevel(.verbose)` before your call to `MSAppCenter.start(...)` for Swift, or `[MSAppCenter setLogLevel:MSLogLevelVerbose]` before `[MSAppCenter start: ...]` for Objective C and include the logs here:
 
