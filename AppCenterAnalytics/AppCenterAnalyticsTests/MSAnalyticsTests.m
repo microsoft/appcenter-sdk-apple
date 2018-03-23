@@ -15,7 +15,7 @@
 static NSString *const kMSTypeEvent = @"event";
 static NSString *const kMSTypePage = @"page";
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
-static NSString *const kMSTestTenantId = @"TestTenantId";
+static NSString *const kMSTestTransmissionToken = @"TestTransmissionToken";
 static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
 @class MSMockAnalyticsDelegate;
@@ -199,7 +199,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 - (void)testApplyEnabledStateWorks {
   [[MSAnalytics sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                                             appSecret:kMSTestAppSecret
-                                             tenantId:nil];
+                                             transmissionTargetToken:nil];
 
   MSServiceAbstract *service = [MSAnalytics sharedInstance];
 
@@ -230,7 +230,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   // When
   [[MSAnalytics sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                                             appSecret:kMSTestAppSecret
-                                             tenantId:nil];
+                                             transmissionTargetToken:nil];
 
 
   // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
@@ -338,7 +338,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
     name = log.name;
   });
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
-  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock appSecret:kMSTestAppSecret tenantId:nil];
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock appSecret:kMSTestAppSecret transmissionTargetToken:nil];
 
   // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
   [[MSAnalytics sharedInstance].sessionTracker stop];
@@ -360,7 +360,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
   OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
-  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock appSecret:kMSTestAppSecret tenantId:nil];
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock appSecret:kMSTestAppSecret transmissionTargetToken:nil];
 
   // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
   [[MSAnalytics sharedInstance].sessionTracker stop];
@@ -369,7 +369,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   OCMReject([analyticsMock validateEventName:OCMOCK_ANY forLogType:OCMOCK_ANY]);
   OCMReject([analyticsMock validateProperties:OCMOCK_ANY forLogName:OCMOCK_ANY andType:OCMOCK_ANY]);
   OCMReject([channelUnitMock enqueueItem:OCMOCK_ANY]);
-  [[MSAnalytics sharedInstance] trackEvent:@"Some event" withProperties:nil forTenant:nil];
+  [[MSAnalytics sharedInstance] trackEvent:@"Some event" withProperties:nil forTransmissionTarget:nil];
   // Then
   OCMVerifyAll(channelUnitMock);
   OCMVerifyAll(analyticsMock);
@@ -384,7 +384,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
   OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
-  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock appSecret:kMSTestAppSecret tenantId:nil];
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock appSecret:kMSTestAppSecret transmissionTargetToken:nil];
 
   // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
   [[MSAnalytics sharedInstance].sessionTracker stop];
@@ -393,7 +393,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   OCMExpect([analyticsMock validateEventName:OCMOCK_ANY forLogType:OCMOCK_ANY]);
   OCMReject([channelUnitMock enqueueItem:OCMOCK_ANY]);
   OCMReject([analyticsMock validateProperties:OCMOCK_ANY forLogName:OCMOCK_ANY andType:OCMOCK_ANY]);
-  [[MSAnalytics sharedInstance] trackEvent:invalidEventName withProperties:nil forTenant:nil];
+  [[MSAnalytics sharedInstance] trackEvent:invalidEventName withProperties:nil forTransmissionTarget:nil];
 
   // Then
   OCMVerifyAll(channelUnitMock);
@@ -420,7 +420,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
     properties = log.properties;
   });
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
-  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock appSecret:kMSTestAppSecret tenantId:nil];
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock appSecret:kMSTestAppSecret transmissionTargetToken:nil];
 
   // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
   [[MSAnalytics sharedInstance].sessionTracker stop];
@@ -451,7 +451,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
     name = log.name;
   });
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
-  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock appSecret:kMSTestAppSecret tenantId:nil];
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock appSecret:kMSTestAppSecret transmissionTargetToken:nil];
 
   // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
   [[MSAnalytics sharedInstance].sessionTracker stop];
@@ -484,7 +484,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
     properties = log.properties;
   });
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
-  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock appSecret:kMSTestAppSecret tenantId:nil];
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock appSecret:kMSTestAppSecret transmissionTargetToken:nil];
 
   // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
   [[MSAnalytics sharedInstance].sessionTracker stop];
@@ -508,7 +508,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
 
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
-  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock appSecret:kMSTestAppSecret tenantId:nil];
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock appSecret:kMSTestAppSecret transmissionTargetToken:nil];
 
   // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
   [[MSAnalytics sharedInstance].sessionTracker stop];
@@ -533,7 +533,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
   OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
-  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock appSecret:kMSTestAppSecret tenantId:nil];
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock appSecret:kMSTestAppSecret transmissionTargetToken:nil];
 
   // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
   [[MSAnalytics sharedInstance].sessionTracker stop];
@@ -584,7 +584,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
   [[MSAnalytics sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                                             appSecret:kMSTestAppSecret
-                                             tenantId:nil];
+                                             transmissionTargetToken:nil];
 
   // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
   [[MSAnalytics sharedInstance].sessionTracker stop];
@@ -617,7 +617,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
   [[MSAnalytics sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                                             appSecret:kMSTestAppSecret
-                                             tenantId:nil];
+                                             transmissionTargetToken:nil];
 
   // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
   [[MSAnalytics sharedInstance].sessionTracker stop];
@@ -648,7 +648,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
   [[MSAnalytics sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                                             appSecret:kMSTestAppSecret
-                                             tenantId:nil];
+                                             transmissionTargetToken:nil];
 
   // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
   [[MSAnalytics sharedInstance].sessionTracker stop];
@@ -673,7 +673,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   OCMVerifyAll(analyticsMock);
 }
 
-- (void)testStartWithTenantAndAppSecretUsesTenant {
+- (void)testStartWithTransmissionTargetAndAppSecretUsesTransmissionTarget  {
 
   // If
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
@@ -689,19 +689,19 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   });
   [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
                                             appSecret:kMSTestAppSecret
-                                             tenantId:kMSTestTenantId];
+                                             transmissionTargetToken:kMSTestTransmissionToken];
 
   // When
   [MSAnalytics trackEvent:@"eventName"];
 
   // Then
   OCMVerify([channelUnitMock enqueueItem:log]);
-  XCTAssertTrue([[log getTenants] containsObject:kMSTestTenantId]);
-  XCTAssertEqual([[log getTenants] count], (unsigned long)1);
+  XCTAssertTrue([[log transmissionTargetTokens] containsObject:kMSTestTransmissionToken]);
+  XCTAssertEqual([[log transmissionTargetTokens] count], (unsigned long)1);
   XCTAssertEqual(invocations, 1);
 }
 
-- (void)testStartWithTenantWithoutAppSecretUsesTenant {
+- (void)testStartWithTransmissionTargetWithoutAppSecretUsesTransmissionTarget {
 
   // If
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
@@ -717,27 +717,27 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   });
   [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
                                             appSecret:nil
-                                             tenantId:kMSTestTenantId];
+                                             transmissionTargetToken:kMSTestTransmissionToken];
 
   // When
   [MSAnalytics trackEvent:@"eventName"];
 
   // Then
   OCMVerify([channelUnitMock enqueueItem:log]);
-  XCTAssertTrue([[log getTenants] containsObject:kMSTestTenantId]);
-  XCTAssertEqual([[log getTenants] count], (unsigned long)1);
+  XCTAssertTrue([[log transmissionTargetTokens] containsObject:kMSTestTransmissionToken]);
+  XCTAssertEqual([[log transmissionTargetTokens] count], (unsigned long)1);
   XCTAssertEqual(invocations, 1);
 }
 
-- (void)testGetTenantCreatesTenantOnce {
+- (void)testGetTransmissionTargetCreatesTransmissionTargetOnce {
 
   // When
-  MSAnalyticsTenant *tenant = [MSAnalytics getTenant:kMSTestTenantId];
-  MSAnalyticsTenant *tenant2 = [MSAnalytics getTenant:kMSTestTenantId];
+  MSAnalyticsTransmissionTarget *transmissionTarget1 = [MSAnalytics transmissionTargetForToken:kMSTestTransmissionToken];
+  MSAnalyticsTransmissionTarget *transmissionTarget2 = [MSAnalytics transmissionTargetForToken:kMSTestTransmissionToken];
 
   // Then
-  XCTAssertNotNil(tenant);
-  XCTAssertEqual(tenant, tenant2);
+  XCTAssertNotNil(transmissionTarget1);
+  XCTAssertEqual(transmissionTarget1, transmissionTarget2);
 }
 
 @end

@@ -1,6 +1,6 @@
 #import "MSAnalytics.h"
 #import "MSAnalyticsDelegate.h"
-#import "MSAnalyticsTenant.h"
+#import "MSAnalyticsTransmissionTarget.h"
 #import "MSServiceInternal.h"
 #import "MSSessionTracker.h"
 #import "MSSessionTrackerDelegate.h"
@@ -10,7 +10,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MSAnalytics () <MSSessionTrackerDelegate>
 
 /**
- *  Session tracking component
+ *  Session tracking component.
  */
 @property(nonatomic) MSSessionTracker *sessionTracker;
 
@@ -19,23 +19,23 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) id<MSAnalyticsDelegate> delegate;
 
 /**
- * Tenants
+ * Transmission targets.
  */
-@property(nonatomic) NSMutableDictionary *tenants;
+@property(nonatomic) NSMutableDictionary *transmissionTargets;
 
 /**
- * Default tenant.
+ * Default transmission target.
  */
-@property(nonatomic) MSAnalyticsTenant *defaultTenant;
+@property(nonatomic) MSAnalyticsTransmissionTarget *defaultTransmissionTarget;
 
 /**
  * Track an event.
  *
  * @param eventName  event name.
  * @param properties dictionary of properties.
- * @param tenant tenant to associate with the event.
+ * @param transmissionTarget Transmission target to associate with the event.
  */
-- (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties forTenant:(nullable MSAnalyticsTenant *)tenant;
+- (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *) transmissionTarget;
 
 /**
  * Track a page.
@@ -46,13 +46,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)trackPage:(NSString *)pageName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties;
 
 /**
- * Get a tenant.
+ * Get a transmissionTarget.
  *
- * @param tenantId identifier of the tenant to retrieve.
+ * @param transmissionTargetToken Token of the transmission target to retrieve.
  *
- * @returns The tenant object.
+ * @returns The transmission target object.
  */
-- (MSAnalyticsTenant *)getTenant:(NSString *)tenantId;
+- (MSAnalyticsTransmissionTarget *)transmissionTargetFor:(NSString *)transmissionTargetToken;
 
 /**
  * Method to reset the singleton when running unit tests only. So calling sharedInstance returns a fresh instance.

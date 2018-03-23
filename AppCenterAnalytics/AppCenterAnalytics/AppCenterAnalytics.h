@@ -3,4 +3,4 @@
 #import "MSAbstractLog.h"
 #import "MSAnalytics.h"
 #import "MSEventLog.h"
-#import "MSAnalyticsTenant.h"
+#import "MSAnalyticsTransmissionTarget.h"

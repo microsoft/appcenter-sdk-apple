@@ -15,9 +15,9 @@
  *
  * @param channelGroup channel group used to persist and send logs.
  * @param appSecret app secret for the SDK.
- * @param tenantId default tenant id for this service.
+ * @param token default transmission target token for this service.
  */
-- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret tenantId:(NSString *)tenantId;
+- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret transmissionTargetToken:(NSString *)token;
 
 @end
 

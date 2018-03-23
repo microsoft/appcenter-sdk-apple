@@ -55,7 +55,6 @@
     MSDevice *device = [MSDevice new];
     NSString *sessionId = @"1234567890";
     NSDate *timestamp = [NSDate dateWithTimeIntervalSince1970:42];
-    NSDictionary *properties = @{ @"Key" : @"Value" };
     
     self.startSessionLog.device = device;
     self.startSessionLog.timestamp = timestamp;

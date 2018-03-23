@@ -203,7 +203,7 @@ static NSString *const kMSGroupId = @"AppCenter";
       MSLogAssert([MSAppCenter logTag], @"AppSecret is invalid.");
     } else {
       self.appSecret = [MSUtility appSecretFrom:appSecret];
-      self.defaultTenantId = [MSUtility tenantIdFrom:appSecret];
+      self.defaultTransmissionTargetToken = [MSUtility transmissionTargetTokenFrom:appSecret];
 
       // Init the main pipeline.
       [self initializeChannelGroup];
@@ -299,7 +299,7 @@ static NSString *const kMSGroupId = @"AppCenter";
     [self.services addObject:service];
 
     // Start service with channel group.
-    [service startWithChannelGroup:self.channelGroup appSecret:self.appSecret tenantId:self.defaultTenantId];
+    [service startWithChannelGroup:self.channelGroup appSecret:self.appSecret transmissionTargetToken:self.defaultTransmissionTargetToken];
     
     // Disable service if AppCenter is disabled.
     if ([clazz isEnabled] && !self.isEnabled) {

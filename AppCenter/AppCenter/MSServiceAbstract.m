@@ -8,7 +8,7 @@
 @synthesize channelGroup = _channelGroup;
 @synthesize channelUnit = _channelUnit;
 @synthesize appSecret = _appSecret;
-@synthesize defaultTenantId = _defaultTenantId;
+@synthesize defaultTransmissionTargetToken = _defaultTransmissionTargetToken;
 
 - (instancetype)init {
   return [self initWithStorage:MS_USER_DEFAULTS];
@@ -72,10 +72,10 @@
 
 #pragma mark : - MSService
 
-- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret tenantId:(NSString *)tenantId {
+- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret transmissionTargetToken:(NSString *)token {
   self.channelGroup = channelGroup;
   self.appSecret = appSecret;
-  self.defaultTenantId = tenantId;
+  self.defaultTransmissionTargetToken = token;
   self.started = YES;
   if ([self respondsToSelector:@selector(channelUnitConfiguration)]) {
 

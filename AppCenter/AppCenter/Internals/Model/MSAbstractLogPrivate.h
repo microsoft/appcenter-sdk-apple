@@ -1,8 +1,8 @@
 @interface MSAbstractLog ()
 
 /**
- * List of tenants that this log should be sent to.
+ * List of transmission target tokens that this log should be sent to.
  */
-@property NSMutableSet *tenants;
+@property (nonatomic) NSSet *transmissionTargetTokens;
 
 @end

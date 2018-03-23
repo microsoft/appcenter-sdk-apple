@@ -7,7 +7,8 @@
  */
 NSString *MSUtilityStringFormattingCategory;
 
-static NSString *kMSTenantTokenString = @"tenantToken=";
+static NSString *kMSTransmissionTargetKey = @"target=";
+static NSString *kMSAppSecretKey = @"appsecret=";
 
 @implementation NSObject (MSUtility_StringFormatting)
 
@@ -30,39 +31,38 @@ static NSString *kMSTenantTokenString = @"tenantToken=";
 
 + (NSString *)appSecretFrom:(NSString *)string {
   NSArray *components = [string componentsSeparatedByString:@";"];
-  if(components == nil || components.count == 0) {
+  if (components == nil || components.count == 0) {
     return nil;
-  }
-  else {
-    for(NSString *component in components) {
-      
+  } else {
+    for (NSString *component in components) {
+
       // Component is app secret, return the component. Check for length > 0 as "foo;" will be parsed as 2 components.
-      if(([component rangeOfString:kMSTenantTokenString].location == NSNotFound) && (component.length > 0)) {
-        return component;
+      if (([component rangeOfString:kMSTransmissionTargetKey].location == NSNotFound) && (component.length > 0)) {
+        return [component stringByReplacingOccurrencesOfString:kMSAppSecretKey withString:@""];
+        ;
       }
     }
-    
+
     // String does not contain an app secret.
     return nil;
   }
 }
 
-+ (NSString *)tenantIdFrom:(NSString *)string {
++ (NSString *)transmissionTargetTokenFrom:(NSString *)string {
   NSArray *components = [string componentsSeparatedByString:@";"];
-  if(components == nil || components.count == 0) {
+  if (components == nil || components.count == 0) {
     return nil;
-  }
-  else {
-    for(NSString *component in components) {
-      
-      // Component is tenantId, return the component.
-      
-      if(([component rangeOfString:kMSTenantTokenString].location != NSNotFound) && (component.length > 0)) {
-        return [component stringByReplacingOccurrencesOfString:kMSTenantTokenString withString:@""];
+  } else {
+    for (NSString *component in components) {
+
+      // Component is transmission target token, return the component.
+
+      if (([component rangeOfString:kMSTransmissionTargetKey].location != NSNotFound) && (component.length > 0)) {
+        return [component stringByReplacingOccurrencesOfString:kMSTransmissionTargetKey withString:@""];
       }
     }
-    
-    // String does not contain a tenantId.
+
+    // String does not contain a transmission target token.
     return nil;
   }
 }

@@ -2,7 +2,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MSAnalyticsTenant : NSObject
+@interface MSAnalyticsTransmissionTarget : NSObject
 
 /**
  * Track an event.
