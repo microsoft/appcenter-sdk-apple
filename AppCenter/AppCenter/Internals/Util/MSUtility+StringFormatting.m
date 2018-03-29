@@ -38,8 +38,12 @@ static NSString *kMSAppSecretKey = @"appsecret=";
 
       // Component is app secret, return the component. Check for length > 0 as "foo;" will be parsed as 2 components.
       if (([component rangeOfString:kMSTransmissionTargetKey].location == NSNotFound) && (component.length > 0)) {
-        return [component stringByReplacingOccurrencesOfString:kMSAppSecretKey withString:@""];
-        ;
+        NSString *secretString = [component stringByReplacingOccurrencesOfString:kMSAppSecretKey withString:@""];
+        
+        // Check for string length to avoid returning empty string.
+        if(secretString.length > 0) {
+          return secretString;
+        }
       }
     }
 
@@ -56,9 +60,13 @@ static NSString *kMSAppSecretKey = @"appsecret=";
     for (NSString *component in components) {
 
       // Component is transmission target token, return the component.
-
       if (([component rangeOfString:kMSTransmissionTargetKey].location != NSNotFound) && (component.length > 0)) {
-        return [component stringByReplacingOccurrencesOfString:kMSTransmissionTargetKey withString:@""];
+        NSString *transmissionTarget = [component stringByReplacingOccurrencesOfString:kMSTransmissionTargetKey withString:@""];
+        
+        // Check for string length to avoid returning empty string.
+        if(transmissionTarget.length > 0) {
+          return transmissionTarget;
+        }
       }
     }
 

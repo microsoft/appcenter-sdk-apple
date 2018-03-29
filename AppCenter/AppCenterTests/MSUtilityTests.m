@@ -379,4 +379,34 @@
   XCTAssertTrue([result isEqualToString:@"{transmissionTargetToken}"]);
 }
 
+- (void)testInvalidSecretOrTokenInput {
+  
+  // When
+  NSString *test = @"target=;appsecret={app-secret};";
+  NSString *tokenResult = [MSUtility transmissionTargetTokenFrom:test];
+  NSString *secretResult = [MSUtility appSecretFrom:test];
+  
+  // Then
+  XCTAssertNil(tokenResult);
+  XCTAssertTrue([secretResult isEqualToString:@"{app-secret}"]);
+
+  // When
+  test = @"target=;target=;appsecret=;appsecret=;";
+  tokenResult = [MSUtility transmissionTargetTokenFrom:test];
+  secretResult = [MSUtility appSecretFrom:test];
+  
+  // Then
+  XCTAssertNil(tokenResult);
+  XCTAssertNil(secretResult);
+  
+  // When
+  test = @"target=;target={transmissionTargetToken};appsecret=;appsecret={app-secret};";
+  tokenResult = [MSUtility transmissionTargetTokenFrom:test];
+  secretResult = [MSUtility appSecretFrom:test];
+  
+  // Then
+  XCTAssertTrue([secretResult isEqualToString:@"{app-secret}"]);
+  XCTAssertTrue([tokenResult isEqualToString:@"{transmissionTargetToken}"]);
+}
+
 @end
