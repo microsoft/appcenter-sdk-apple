@@ -180,54 +180,55 @@
 - (void)testAppSecretFrom {
   
   // When
-  NSString *test = @"{app-secret}";
+  NSString *uuidString = MS_UUID_STRING;
   
   // Then
-  NSString *result = [MSUtility appSecretFrom:test];
-  XCTAssertTrue([test isEqualToString:result]);
+  NSString *result = [MSUtility appSecretFrom:uuidString];
+  XCTAssertTrue([uuidString isEqualToString:result]);
 
   // When
-  test = nil;
+  NSString *test = nil;
   result = [MSUtility appSecretFrom:test];
   
   // Then
   XCTAssertNil(result);
   
   // When
-  test = @"{app-secret};";
+  test = [NSString stringWithFormat:@"%@;", uuidString];
   result = [MSUtility appSecretFrom:test];
   
   // Then
-  XCTAssertTrue([result isEqualToString:@"{app-secret}"]);
-  
+  XCTAssertTrue([uuidString isEqualToString:result]);
+
   // When
-  test = @"{app-secret};target={transmissionTargetToken}";
+  test = [NSString stringWithFormat:@"%@;target={transmissionTargetToken}", uuidString];
   result = [MSUtility appSecretFrom:test];
 
   // Then
-  XCTAssertTrue([result isEqualToString:@"{app-secret}"]);
-  
+  XCTAssertTrue([uuidString isEqualToString:result]);
+
   // When
-  test = @"{app-secret};target={transmissionTargetToken};";
+  test = [NSString stringWithFormat:@"%@;target={transmissionTargetToken};", uuidString];
   result = [MSUtility appSecretFrom:test];
 
   // Then
-  XCTAssertTrue([result isEqualToString:@"{app-secret}"]);
-  
+  XCTAssertTrue([uuidString isEqualToString:result]);
+
   // When
-  test = @"target={transmissionTargetToken};{app-secret}";
+  test = [NSString stringWithFormat:@"target={transmissionTargetToken};%@", uuidString];
   result = [MSUtility appSecretFrom:test];
   
   // Then
-  XCTAssertTrue([result isEqualToString:@"{app-secret}"]);
-  
+  XCTAssertTrue([uuidString isEqualToString:result]);
+
   // When
-  test = @"target={transmissionTargetToken};{app-secret};";
+  test = [NSString stringWithFormat:@"target={transmissionTargetToken};%@;", uuidString];
+  
   result = [MSUtility appSecretFrom:test];
   
   // Then
-  XCTAssertTrue([result isEqualToString:@"{app-secret}"]);
-  
+  XCTAssertTrue([uuidString isEqualToString:result]);
+
   // When
   test = @"target={transmissionTargetToken}";
   result = [MSUtility appSecretFrom:test];
@@ -243,39 +244,39 @@
   XCTAssertNil(result);
   
   // When
-  test = @"appsecret={app-secret};target={transmissionTargetToken};";
+  test = [NSString stringWithFormat:@"appsecret=%@;target={transmissionTargetToken};", uuidString];
   result = [MSUtility appSecretFrom:test];
 
   // Then
-  XCTAssertTrue([result isEqualToString:@"{app-secret}"]);
+  XCTAssertTrue([uuidString isEqualToString:result]);
 
   // When
-  test = @"appsecret={app-secret};";
+  test = [NSString stringWithFormat:@"appsecret=%@;", uuidString];
   result = [MSUtility appSecretFrom:test];
   
   // Then
-  XCTAssertTrue([result isEqualToString:@"{app-secret}"]);
+  XCTAssertTrue([uuidString isEqualToString:result]);
 
   // When
-  test = @"appsecret={app-secret}";
+  test = [NSString stringWithFormat:@"appsecret=%@", uuidString];
   result = [MSUtility appSecretFrom:test];
 
   // Then
-  XCTAssertTrue([result isEqualToString:@"{app-secret}"]);
-  
+  XCTAssertTrue([uuidString isEqualToString:result]);
+
   // When
-  test = @"target={transmissionTargetToken};appsecret={app-secret};";
+  test = [NSString stringWithFormat:@"target={transmissionTargetToken};appsecret=%@;", uuidString];
   result = [MSUtility appSecretFrom:test];
 
   // Then
-  XCTAssertTrue([result isEqualToString:@"{app-secret}"]);
-  
+  XCTAssertTrue([uuidString isEqualToString:result]);
+
   // When
-  test = @"target={transmissionTargetToken};appsecret={app-secret}";
+  test = [NSString stringWithFormat:@"target={transmissionTargetToken};appsecret=%@", uuidString];
   result = [MSUtility appSecretFrom:test];
 
   // Then
-  XCTAssertTrue([result isEqualToString:@"{app-secret}"]);
+  XCTAssertTrue([uuidString isEqualToString:result]);
 }
 
 - (void)testTransmissionTokenFrom {
@@ -377,6 +378,39 @@
   
   // Then
   XCTAssertTrue([result isEqualToString:@"{transmissionTargetToken}"]);
+}
+
+- (void)testInvalidSecretOrTokenInput {
+  
+  // When
+  NSString *guidString = @"{app-secret}";
+  NSString *test = [NSString stringWithFormat:@"target=;appsecret=%@", guidString];
+  NSString *tokenResult = [MSUtility transmissionTargetTokenFrom:test];
+  NSString *secretResult = [MSUtility appSecretFrom:test];
+  
+  // Then
+  XCTAssertNil(tokenResult);
+  XCTAssertTrue([guidString isEqualToString:secretResult]);
+
+  // When
+  test = @"target=;target=;appsecret=;appsecret=;";
+  tokenResult = [MSUtility transmissionTargetTokenFrom:test];
+  secretResult = [MSUtility appSecretFrom:test];
+  
+  // Then
+  XCTAssertNil(tokenResult);
+  XCTAssertNil(secretResult);
+  
+  // When
+  guidString = MS_UUID_STRING;
+  test = [NSString stringWithFormat:@"target=;target={transmissionTargetToken};appsecret=;appsecret=%@;", guidString];
+  tokenResult = [MSUtility transmissionTargetTokenFrom:test];
+  secretResult = [MSUtility appSecretFrom:test];
+  
+  // Then
+  XCTAssertNotNil(secretResult);
+  XCTAssertTrue([guidString isEqualToString:secretResult]);
+  XCTAssertTrue([tokenResult isEqualToString:@"{transmissionTargetToken}"]);
 }
 
 @end
