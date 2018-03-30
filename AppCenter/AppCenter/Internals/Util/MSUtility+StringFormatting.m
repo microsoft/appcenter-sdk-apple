@@ -41,7 +41,7 @@ static NSString *kMSAppSecretKey = @"appsecret=";
         NSString *secretString = [component stringByReplacingOccurrencesOfString:kMSAppSecretKey withString:@""];
         
         // Check for string length to avoid returning empty string.
-        if(secretString.length > 0) {
+        if([self isValidAppSecret:secretString]) {
           return secretString;
         }
       }
@@ -73,6 +73,19 @@ static NSString *kMSAppSecretKey = @"appsecret=";
     // String does not contain a transmission target token.
     return nil;
   }
+}
+
++ (BOOL)isValidAppSecret:(NSString *)appSecretString {
+  if(appSecretString == nil) {
+    return NO;
+  }
+  if(appSecretString.length == 0) {
+    return NO;
+  }
+  
+  // Use NSUUID to determine if we have a valid GUID
+  NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:appSecretString];
+  return (uuid != nil);
 }
 
 @end
