@@ -390,7 +390,7 @@
   
   // Then
   XCTAssertNil(tokenResult);
-  XCTAssertNil(secretResult);
+  XCTAssertTrue([guidString isEqualToString:secretResult]);
 
   // When
   test = @"target=;target=;appsecret=;appsecret=;";
@@ -411,20 +411,6 @@
   XCTAssertNotNil(secretResult);
   XCTAssertTrue([guidString isEqualToString:secretResult]);
   XCTAssertTrue([tokenResult isEqualToString:@"{transmissionTargetToken}"]);
-  
-  // When
-  test = @"={app-secret};";
-  secretResult = [MSUtility appSecretFrom:test];
-
-  // Then
-  XCTAssertNil(secretResult);
-  
-  // When
-  test = [NSString stringWithFormat:@"secret=%@;", guidString];
-  secretResult = [MSUtility appSecretFrom:test];
-  
-  // Then
-  XCTAssertNil(secretResult);
 }
 
 @end
