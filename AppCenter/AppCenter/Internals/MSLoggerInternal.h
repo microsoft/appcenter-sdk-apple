@@ -1,5 +1,7 @@
 #import "MSLogger.h"
 
+FOUNDATION_EXPORT MSLogHandler const msDefaultLogHandler;
+
 @interface MSLogger ()
 
 + (BOOL)isUserDefinedLogLevel;
