@@ -13,6 +13,7 @@
 #import "MSHandledErrorLog.h"
 #import "MSAppCenter.h"
 #import "MSAppCenterInternal.h"
+#import "MSLoggerInternal.h"
 #import "MSMockCrashesDelegate.h"
 #import "MSServiceAbstractPrivate.h"
 #import "MSServiceAbstractProtected.h"

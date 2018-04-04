@@ -13,7 +13,7 @@
 #import "MSHttpTestUtil.h"
 #import "MSKeychainUtil.h"
 #import "MSMockUserDefaults.h"
-#import "MSLogger.h"
+#import "MSLoggerInternal.h"
 #import "MSSenderCall.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSSessionContext.h"
