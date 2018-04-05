@@ -50,7 +50,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 /**
  * Maximum properties per handled exception.
  */
-static const int maxPropertiesPerHandledException = 5;
+static const int maxPropertiesPerHandledException = 20;
 
 /**
  * Minimum properties key length.
@@ -60,12 +60,12 @@ static const int minPropertyKeyLength = 1;
 /**
  * Maximum properties key length.
  */
-static const int maxPropertyKeyLength = 64;
+static const int maxPropertyKeyLength = 125;
 
 /**
  * Maximum properties value length.
  */
-static const int maxPropertyValueLength = 64;
+static const int maxPropertyValueLength = 125;
 
 std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size> msCrashesLogBuffer;
 
