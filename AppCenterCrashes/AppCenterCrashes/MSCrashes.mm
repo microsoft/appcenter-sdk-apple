@@ -17,6 +17,7 @@
 #import "MSSessionContext.h"
 #import "MSWrapperExceptionManagerInternal.h"
 #import "MSWrapperCrashesHelper.h"
+#import "MSConstants+Internal.h"
 
 /**
  * Service name for initialization.
@@ -46,26 +47,6 @@ static NSString *const kMSAnalyzerFilename = @"MSCrashes.analyzer";
 static NSString *const kMSLogBufferFileExtension = @"mscrasheslogbuffer";
 
 static unsigned int kMaxAttachmentsPerCrashReport = 2;
-
-/**
- * Maximum properties per handled exception.
- */
-static const int maxPropertiesPerHandledException = 20;
-
-/**
- * Minimum properties key length.
- */
-static const int minPropertyKeyLength = 1;
-
-/**
- * Maximum properties key length.
- */
-static const int maxPropertyKeyLength = 125;
-
-/**
- * Maximum properties value length.
- */
-static const int maxPropertyValueLength = 125;
 
 std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size> msCrashesLogBuffer;
 
@@ -1258,10 +1239,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   for (id key in properties) {
     
     // Don't send more properties than we can.
-    if ([validProperties count] >= maxPropertiesPerHandledException) {
+    if ([validProperties count] >= kMSMaxPropertiesPerLog) {
       MSLogWarning([MSCrashes logTag],
                    @"%@ : properties cannot contain more than %d items. Skipping other properties.", logType,
-                   maxPropertiesPerHandledException);
+                   kMSMaxPropertiesPerLog);
       break;
     }
     if (![key isKindOfClass:[NSString class]] || ![properties[key] isKindOfClass:[NSString class]]) {
@@ -1270,25 +1251,25 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     
     // Validate key.
     NSString *strKey = key;
-    if ([strKey length] < minPropertyKeyLength) {
+    if ([strKey length] < kMSMinPropertyKeyLength) {
       MSLogWarning([MSCrashes logTag], @"%@ : a property key cannot be null or empty. Property will be skipped.",
                    logType);
       continue;
     }
-    if ([strKey length] > maxPropertyKeyLength) {
+    if ([strKey length] > kMSMaxPropertyKeyLength) {
       MSLogWarning([MSCrashes logTag], @"%@ : property %@ : property key length cannot be longer than %d "
                    @"characters. Property key will be truncated.",
-                   logType, strKey, maxPropertyKeyLength);
-      strKey = [strKey substringToIndex:maxPropertyKeyLength];
+                   logType, strKey, kMSMaxPropertyKeyLength);
+      strKey = [strKey substringToIndex:kMSMaxPropertyKeyLength];
     }
     
     // Validate value.
     NSString *value = properties[key];
-    if ([value length] > maxPropertyValueLength) {
+    if ([value length] > kMSMaxPropertyValueLength) {
       MSLogWarning([MSCrashes logTag], @"%@ : property '%@' : property value cannot be longer than %d "
                    @"characters. Property value will be truncated.",
-                   logType, strKey, maxPropertyValueLength);
-      value = [value substringToIndex:maxPropertyValueLength];
+                   logType, strKey, kMSMaxPropertyValueLength);
+      value = [value substringToIndex:kMSMaxPropertyValueLength];
     }
     
     // Save valid properties.

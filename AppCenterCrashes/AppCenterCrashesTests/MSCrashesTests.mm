@@ -1,6 +1,7 @@
 #import "MSAppleErrorLog.h"
 #import "MSChannelGroupDefault.h"
 #import "MSChannelUnitDefault.h"
+#import "MSConstants+Internal.h"
 #import "MSCrashesDelegate.h"
 #import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
@@ -709,20 +710,17 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 }
 
 - (void)testValidatePropertyType {
-  const int maxPropertiesPerHandledException = 5;
-  const int maxPropertyKeyLength = 64;
-  const int maxPropertyValueLength = 64;
   NSString *longStringValue =
-  [NSString stringWithFormat:@"%@", @"valueValueValueValueValueValueValueValueValueValueValueValueValue"];
-  NSString *stringValue64 =
-  [NSString stringWithFormat:@"%@", @"valueValueValueValueValueValueValueValueValueValueValueValueValu"];
+  [NSString stringWithFormat:@"%@", @"valueValueValueValueValueValueValueValueValueValueValueValueValuevalueValueValueValueValueValueValueValueValueValueValueValueV"];
+  NSString *stringValue125 =
+  [NSString stringWithFormat:@"%@", @"valueValueValueValueValueValueValueValueValueValueValueValueValuevalueValueValueValueValueValueValueValueValueValueValueValue"];
   
   // Test valid properties.
   // If
   NSDictionary *validProperties =
   @{ @"Key1" : @"Value1",
-     stringValue64 : @"Value2",
-     @"Key3" : stringValue64,
+     stringValue125 : @"Value2",
+     @"Key3" : stringValue125,
      @"Key4" : @"Value4",
      @"Key5" : @"" };
   
@@ -742,7 +740,22 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
                                       @"Key4" : @"Value4",
                                       @"Key5" : @"Value5",
                                       @"Key6" : @"Value6",
-                                      @"Key7" : @"Value7"
+                                      @"Key7" : @"Value7",
+                                      @"Key8" : @"Value8",
+                                      @"Key9" : @"Value9",
+                                      @"Key10" : @"Value10",
+                                      @"Key11" : @"Value11",
+                                      @"Key12" : @"Value12",
+                                      @"Key13" : @"Value13",
+                                      @"Key14" : @"Value14",
+                                      @"Key15" : @"Value15",
+                                      @"Key16" : @"Value16",
+                                      @"Key17" : @"Value17",
+                                      @"Key18" : @"Value18",
+                                      @"Key19" : @"Value19",
+                                      @"Key20" : @"Value20",
+                                      @"Key21" : @"Value21",
+                                      @"Key22" : @"Value22"
                                       };
   
   // When
@@ -750,7 +763,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   [[MSCrashes sharedInstance] validateProperties:tooManyProperties andType:kMSTypeHandledError];
   
   // Then
-  XCTAssertTrue([validatedProperties count] == maxPropertiesPerHandledException);
+  XCTAssertTrue([validatedProperties count] == kMSMaxPropertiesPerLog);
   
   // Test invalid properties.
   // If
@@ -786,19 +799,46 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   NSString *truncatedKey = [[validatedProperties allKeys] firstObject];
   NSString *truncatedValue = [[validatedProperties allValues] firstObject];
   XCTAssertTrue([validatedProperties count] == 1);
-  XCTAssertEqual([truncatedKey length], maxPropertyKeyLength);
-  XCTAssertEqual([truncatedValue length], maxPropertyValueLength);
+  XCTAssertEqual([truncatedKey length], kMSMaxPropertyKeyLength);
+  XCTAssertEqual([truncatedValue length], kMSMaxPropertyValueLength);
   
   // Test mixed variant.
   // If
   NSDictionary *mixedProperties = @{
                                          @"Key1" : @"Value1",
                                          @(2) : @"Value2",
-                                         stringValue64 : @"Value3",
-                                         @"Key4" : stringValue64,
+                                         stringValue125 : @"Value3",
+                                         @"Key4" : stringValue125,
                                          @"Key5" : @"Value5",
                                          @"Key6" : @(2),
                                          @"Key7" : longStringValue,
+                                         @"Key8" : @"Value8",
+                                         @(2) : @"Value9",
+                                         stringValue125 : @"Value10",
+                                         @"Key11" : stringValue125,
+                                         @"Key12" : @"Value12",
+                                         @"Key13" : @(2),
+                                         @"Key14" : longStringValue,
+                                         @"Key15" : @"Value15",
+                                         @(2) : @"Value16",
+                                         stringValue125 : @"Value17",
+                                         @"Key18" : stringValue125,
+                                         @"Key19" : @"Value19",
+                                         @"Key20" : @(2),
+                                         @"Key21" : longStringValue,
+                                         @"Key22" : @"Value22",
+                                         @(2) : @"Value23",
+                                         stringValue125 : @"Value124",
+                                         @"Key25" : stringValue125,
+                                         @"Key26" : @"Value26",
+                                         @"Key27" : @(2),
+                                         @"Key28" : @"Value28",
+                                         @(2) : @"Value29",
+                                         stringValue125 : @"Value30",
+                                         @"Key31" : stringValue125,
+                                         @"Key32" : @"Value32",
+                                         @"Key33" : @(2),
+                                         @"Key34" : longStringValue,
                                          };
   
   // When
@@ -806,9 +846,9 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
                                                                  andType:kMSTypeHandledError];
   
   // Then
-  XCTAssertTrue([validatedProperties count] == maxPropertiesPerHandledException);
+  XCTAssertTrue([validatedProperties count] == kMSMaxPropertiesPerLog);
   XCTAssertNotNil([validatedProperties objectForKey:@"Key1"]);
-  XCTAssertNotNil([validatedProperties objectForKey:stringValue64]);
+  XCTAssertNotNil([validatedProperties objectForKey:stringValue125]);
   XCTAssertNotNil([validatedProperties objectForKey:@"Key4"]);
   XCTAssertNotNil([validatedProperties objectForKey:@"Key5"]);
   XCTAssertNil([validatedProperties objectForKey:@"Key6"]);
@@ -1143,4 +1183,5 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 }
 
 @end
+
 

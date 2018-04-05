@@ -6,6 +6,7 @@
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
+#import "MSConstants+Internal.h"
 #import "MSEventLog.h"
 #import "MSPageLog.h"
 #import "MSServiceAbstractProtected.h"
@@ -23,10 +24,6 @@ static dispatch_once_t onceToken;
 // Events values limitations
 static const int minEventNameLength = 1;
 static const int maxEventNameLength = 256;
-static const int maxPropertiesPerEvent = 20;
-static const int minPropertyKeyLength = 1;
-static const int maxPropertyKeyLength = 125;
-static const int maxPropertyValueLength = 125;
 
 @implementation MSAnalytics
 
@@ -203,10 +200,10 @@ static const int maxPropertyValueLength = 125;
   for (id key in properties) {
 
     // Don't send more properties than we can.
-    if ([validProperties count] >= maxPropertiesPerEvent) {
+    if ([validProperties count] >= kMSMaxPropertiesPerLog) {
       MSLogWarning([MSAnalytics logTag],
                    @"%@ '%@' : properties cannot contain more than %d items. Skipping other properties.", logType,
-                   logName, maxPropertiesPerEvent);
+                   logName, kMSMaxPropertiesPerLog);
       break;
     }
     if (![key isKindOfClass:[NSString class]] || ![properties[key] isKindOfClass:[NSString class]]) {
@@ -215,25 +212,25 @@ static const int maxPropertyValueLength = 125;
 
     // Validate key.
     NSString *strKey = key;
-    if ([strKey length] < minPropertyKeyLength) {
+    if ([strKey length] < kMSMinPropertyKeyLength) {
       MSLogWarning([MSAnalytics logTag], @"%@ '%@' : a property key cannot be null or empty. Property will be skipped.",
                    logType, logName);
       continue;
     }
-    if ([strKey length] > maxPropertyKeyLength) {
+    if ([strKey length] > kMSMaxPropertyKeyLength) {
       MSLogWarning([MSAnalytics logTag], @"%@ '%@' : property %@ : property key length cannot be longer than %d "
                                          @"characters. Property key will be truncated.",
-                   logType, logName, strKey, maxPropertyKeyLength);
-      strKey = [strKey substringToIndex:maxPropertyKeyLength];
+                   logType, logName, strKey, kMSMaxPropertyKeyLength);
+      strKey = [strKey substringToIndex:kMSMaxPropertyKeyLength];
     }
 
     // Validate value.
     NSString *value = properties[key];
-    if ([value length] > maxPropertyValueLength) {
+    if ([value length] > kMSMaxPropertyValueLength) {
       MSLogWarning([MSAnalytics logTag], @"%@ '%@' : property '%@' : property value cannot be longer than %d "
                                          @"characters. Property value will be truncated.",
-                   logType, logName, strKey, maxPropertyValueLength);
-      value = [value substringToIndex:maxPropertyValueLength];
+                   logType, logName, strKey, kMSMaxPropertyValueLength);
+      value = [value substringToIndex:kMSMaxPropertyValueLength];
     }
 
     // Save valid properties.
