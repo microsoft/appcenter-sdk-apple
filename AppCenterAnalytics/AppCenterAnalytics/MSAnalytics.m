@@ -23,10 +23,10 @@ static dispatch_once_t onceToken;
 // Events values limitations
 static const int minEventNameLength = 1;
 static const int maxEventNameLength = 256;
-static const int maxPropertiesPerEvent = 5;
+static const int maxPropertiesPerEvent = 20;
 static const int minPropertyKeyLength = 1;
-static const int maxPropertyKeyLength = 64;
-static const int maxPropertyValueLength = 64;
+static const int maxPropertyKeyLength = 125;
+static const int maxPropertyValueLength = 125;
 
 @implementation MSAnalytics
 
