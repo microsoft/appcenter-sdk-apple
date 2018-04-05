@@ -95,7 +95,7 @@ static void plcr_post_crash_callback(siginfo_t *info, ucontext_t *uap, void *con
 }
 
 static PLCrashReporterCallbacks plCrashCallbacks = {
-  .version = 0, .context = NULL, .handleSignal = plcr_post_crash_callback};
+    .version = 0, .context = NULL, .handleSignal = plcr_post_crash_callback};
 
 /**
  * C++ Exception Handler
@@ -175,7 +175,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       }
     } else {
       MSLogWarning([MSCrashes logTag], @"GenerateTestCrash was just called in an App Store environment. The call will "
-                   @"be ignored");
+                                       @"be ignored");
     }
   }
 }
@@ -225,7 +225,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
  * Track handled exception directly as model form with user-defined custom properties
  * This API is not public and is used by wrapper SDKs.
  */
-+ (void)trackModelException:(MSException *)exception withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties {
++ (void)trackModelException:(MSException *)exception
+             withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties {
   @synchronized(self) {
     if ([[self sharedInstance] canBeUsed]) {
       [[self sharedInstance] trackModelException:exception withProperties:properties];
@@ -250,10 +251,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     _enableMachExceptionHandler = YES;
 #endif
     _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initWithGroupId:[self groupId]
-                                                                   priority:MSPriorityHigh
-                                                              flushInterval:1.0
-                                                             batchSizeLimit:1
-                                                        pendingBatchesLimit:3];
+                                                                           priority:MSPriorityHigh
+                                                                      flushInterval:1.0
+                                                                     batchSizeLimit:1
+                                                                pendingBatchesLimit:3];
 
 #if TARGET_OS_OSX
     /*
@@ -278,7 +279,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 - (void)applyEnabledState:(BOOL)isEnabled {
   [super applyEnabledState:isEnabled];
-  
+
   // Enabling.
   if (isEnabled) {
     id<MSCrashHandlerSetupDelegate> crashSetupDelegate = [MSWrapperCrashesHelper getCrashHandlerSetupDelegate];
@@ -333,7 +334,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     // More details on log if a debugger is attached.
     if ([MSAppCenter isDebuggerAttached]) {
       MSLogInfo([MSCrashes logTag], @"Crashes service has been enabled but the service cannot detect crashes due to "
-                "running the application with a debugger attached.");
+                                     "running the application with a debugger attached.");
     } else {
       MSLogInfo([MSCrashes logTag], @"Crashes service has been enabled.");
     }
@@ -366,17 +367,19 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   return kMSServiceName;
 }
 
-- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(nullable NSString *)appSecret transmissionTargetToken:(nullable NSString *)token {
+- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup
+                    appSecret:(nullable NSString *)appSecret
+      transmissionTargetToken:(nullable NSString *)token {
   [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token];
   [self.channelGroup addDelegate:self];
 
   // Initialize a dedicated channel for log buffer.
-  self.channelUnit = [self.channelGroup addChannelUnitWithConfiguration:
-                      [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSBufferGroupId
-                                                                 priority:MSPriorityHigh
-                                                            flushInterval:1.0
-                                                           batchSizeLimit:60
-                                                      pendingBatchesLimit:1]];
+  self.channelUnit = [self.channelGroup
+      addChannelUnitWithConfiguration:[[MSChannelUnitConfiguration alloc] initWithGroupId:kMSBufferGroupId
+                                                                                 priority:MSPriorityHigh
+                                                                            flushInterval:1.0
+                                                                           batchSizeLimit:60
+                                                                      pendingBatchesLimit:1]];
 
   [self processLogBufferAfterCrash];
   MSLogVerbose([MSCrashes logTag], @"Started crash service.");
@@ -470,12 +473,12 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
       // Overwrite the oldest buffered log.
       msCrashesLogBuffer[indexToDelete].buffer =
-      std::string(&reinterpret_cast<const char *>(serializedLog.bytes)[0],
-                  &reinterpret_cast<const char *>(serializedLog.bytes)[serializedLog.length]);
+          std::string(&reinterpret_cast<const char *>(serializedLog.bytes)[0],
+                      &reinterpret_cast<const char *>(serializedLog.bytes)[serializedLog.length]);
       msCrashesLogBuffer[indexToDelete].internalId = internalId.UTF8String;
       NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
       msCrashesLogBuffer[indexToDelete].timestamp =
-      [[NSString stringWithFormat:@"%f", now] cStringUsingEncoding:NSUTF8StringEncoding];
+          [[NSString stringWithFormat:@"%f", now] cStringUsingEncoding:NSUTF8StringEncoding];
       MSLogVerbose([MSCrashes logTag], @"Overwrote buffered log at index %ld.", indexToDelete);
 
       // We're done, no need to iterate any more. But no need to `return;` as we're at the end of the buffer.
@@ -581,9 +584,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 #endif
   PLCrashReporterSymbolicationStrategy symbolicationStrategy = PLCrashReporterSymbolicationStrategyNone;
   MSPLCrashReporterConfig *config =
-  [[MSPLCrashReporterConfig alloc] initWithSignalHandlerType:signalHandlerType
-                                       symbolicationStrategy:symbolicationStrategy
-                      shouldRegisterUncaughtExceptionHandler:enableUncaughtExceptionHandler];
+      [[MSPLCrashReporterConfig alloc] initWithSignalHandlerType:signalHandlerType
+                                           symbolicationStrategy:symbolicationStrategy
+                          shouldRegisterUncaughtExceptionHandler:enableUncaughtExceptionHandler];
   self.plCrashReporter = [[MSPLCrashReporter alloc] initWithConfiguration:config];
 
   /*
@@ -614,7 +617,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     [self.plCrashReporter setCrashCallbacks:&plCrashCallbacks];
     if (![self.plCrashReporter enableCrashReporterAndReturnError:&error])
       MSLogError([MSCrashes logTag], @"Could not enable crash reporter: %@", [error localizedDescription]);
-      NSUncaughtExceptionHandler *currentHandler = NSGetUncaughtExceptionHandler();
+    NSUncaughtExceptionHandler *currentHandler = NSGetUncaughtExceptionHandler();
     if (currentHandler && currentHandler != initialHandler) {
       self.exceptionHandler = currentHandler;
       MSLogDebug([MSCrashes logTag], @"Exception handler successfully initialized.");
@@ -688,10 +691,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
      */
     if (self.exceptionHandler != currentHandler) {
       MSLogWarning([MSCrashes logTag], @"Another exception handler was added. If "
-                   @"this invokes any kind of exit() after processing the "
-                   @"exception, which causes any subsequent error handler "
-                   @"not to be invoked, these crashes will NOT be reported "
-                   @"to App Center!");
+                                       @"this invokes any kind of exit() after processing the "
+                                       @"exception, which causes any subsequent error handler "
+                                       @"not to be invoked, these crashes will NOT be reported "
+                                       @"to App Center!");
     }
   }
   [self processCrashReports];
@@ -918,7 +921,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
     // Try loading the crash report.
     NSData *crashData =
-      [[NSData alloc] initWithData:[self.plCrashReporter loadPendingCrashReportDataAndReturnError:&error]];
+        [[NSData alloc] initWithData:[self.plCrashReporter loadPendingCrashReportDataAndReturnError:&error]];
     if (crashData == nil) {
       MSLogError([MSCrashes logTag], @"Couldn't load crash report: %@", error.localizedDescription);
     } else {
@@ -938,7 +941,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   } else {
     MSLogError([MSCrashes logTag], @"Error on loading the crash report, it will be purged.");
   }
-  
+
   // Purge the report marker at the end of the routine.
   [self removeAnalyzerFile];
   [self.plCrashReporter purgePendingCrashReport];
@@ -950,10 +953,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
   if ([self.crashesDir checkResourceIsReachableAndReturnError:nil]) {
     NSArray *files =
-    [self.fileManager contentsOfDirectoryAtURL:self.crashesDir
-                    includingPropertiesForKeys:@[ NSURLNameKey, NSURLFileSizeKey, NSURLIsRegularFileKey ]
-                                       options:NSDirectoryEnumerationOptions(0)
-                                         error:&error];
+        [self.fileManager contentsOfDirectoryAtURL:self.crashesDir
+                        includingPropertiesForKeys:@[ NSURLNameKey, NSURLFileSizeKey, NSURLIsRegularFileKey ]
+                                           options:NSDirectoryEnumerationOptions(0)
+                                             error:&error];
     if (!files) {
       MSLogError([MSCrashes logTag], @"Couldn't get files in the directory \"%@\": %@", self.crashesDir,
                  error.localizedDescription);
@@ -1237,18 +1240,17 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                                                      andType:(NSString *)logType {
   NSMutableDictionary<NSString *, NSString *> *validProperties = [NSMutableDictionary new];
   for (id key in properties) {
-    
+
     // Don't send more properties than we can.
     if ([validProperties count] >= kMSMaxPropertiesPerLog) {
-      MSLogWarning([MSCrashes logTag],
-                   @"%@ : properties cannot contain more than %d items. Skipping other properties.", logType,
-                   kMSMaxPropertiesPerLog);
+      MSLogWarning([MSCrashes logTag], @"%@ : properties cannot contain more than %d items. Skipping other properties.",
+                   logType, kMSMaxPropertiesPerLog);
       break;
     }
     if (![key isKindOfClass:[NSString class]] || ![properties[key] isKindOfClass:[NSString class]]) {
       continue;
     }
-    
+
     // Validate key.
     NSString *strKey = key;
     if ([strKey length] < kMSMinPropertyKeyLength) {
@@ -1258,20 +1260,20 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     }
     if ([strKey length] > kMSMaxPropertyKeyLength) {
       MSLogWarning([MSCrashes logTag], @"%@ : property %@ : property key length cannot be longer than %d "
-                   @"characters. Property key will be truncated.",
+                                       @"characters. Property key will be truncated.",
                    logType, strKey, kMSMaxPropertyKeyLength);
       strKey = [strKey substringToIndex:kMSMaxPropertyKeyLength];
     }
-    
+
     // Validate value.
     NSString *value = properties[key];
     if ([value length] > kMSMaxPropertyValueLength) {
       MSLogWarning([MSCrashes logTag], @"%@ : property '%@' : property value cannot be longer than %d "
-                   @"characters. Property value will be truncated.",
+                                       @"characters. Property value will be truncated.",
                    logType, strKey, kMSMaxPropertyValueLength);
       value = [value substringToIndex:kMSMaxPropertyValueLength];
     }
-    
+
     // Save valid properties.
     [validProperties setObject:value forKey:strKey];
   }
@@ -1279,7 +1281,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 }
 
 + (void)resetSharedInstance {
-  
+
   // resets the once_token so dispatch_once will run again.
   onceToken = 0;
   sharedInstance = nil;
@@ -1287,8 +1289,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 #pragma mark - Handled exceptions
 
-- (void)trackModelException:(MSException *)exception
-             withProperties:(NSDictionary<NSString *, NSString *> *)properties {
+- (void)trackModelException:(MSException *)exception withProperties:(NSDictionary<NSString *, NSString *> *)properties {
   if (![self isEnabled])
     return;
 
@@ -1309,4 +1310,3 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 }
 
 @end
-
