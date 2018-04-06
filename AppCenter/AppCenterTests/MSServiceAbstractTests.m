@@ -29,10 +29,10 @@
 - (instancetype)init {
   if ((self = [super init])) {
     _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initWithGroupId:[self groupId]
-                                                                   priority:MSPriorityDefault
-                                                              flushInterval:3.0
-                                                             batchSizeLimit:50
-                                                        pendingBatchesLimit:3];
+                                                                           priority:MSPriorityDefault
+                                                                      flushInterval:3.0
+                                                                     batchSizeLimit:50
+                                                                pendingBatchesLimit:3];
   }
   return self;
 }
@@ -285,11 +285,10 @@
   OCMStub([channelGroup initWithAppSecret:OCMOCK_ANY installId:OCMOCK_ANY logUrl:OCMOCK_ANY]).andReturn(channelGroup);
   OCMStub([channelGroup addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnit);
 
-  OCMStub([channelUnit setEnabled:NO andDeleteDataOnDisabled:YES])
-      .andDo(^(NSInvocation *invocation) {
-        [invocation getArgument:&deleteLogs atIndex:3];
-        [invocation getArgument:&forwardedEnabled atIndex:2];
-      });
+  OCMStub([channelUnit setEnabled:NO andDeleteDataOnDisabled:YES]).andDo(^(NSInvocation *invocation) {
+    [invocation getArgument:&deleteLogs atIndex:3];
+    [invocation getArgument:&forwardedEnabled atIndex:2];
+  });
   self.abstractService.channelGroup = channelGroup;
   self.abstractService.channelUnit = channelUnit;
   [self.settingsMock setObject:@YES forKey:self.abstractService.isEnabledKey];
@@ -297,7 +296,7 @@
   // When
   [self.abstractService setEnabled:NO];
 
-  //Then
+  // Then
 
   // Check that log deletion has been triggered.
   OCMVerify([channelUnit setEnabled:NO andDeleteDataOnDisabled:YES]);

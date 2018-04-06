@@ -289,15 +289,18 @@ static NSString *const kMSGroupId = @"AppCenter";
       return NO;
     }
     if (service.isAppSecretRequired && ![self.appSecret length]) {
-      
+
       // Service requires an app secret but none is provided.
-      MSLogError([MSAppCenter logTag], @"Cannot start service %@. App Center was started without app secret, but the service requires it.", clazz);
+      MSLogError([MSAppCenter logTag],
+                 @"Cannot start service %@. App Center was started without app secret, but the service requires it.",
+                 clazz);
       return NO;
     }
 
     // Check if service should be disabled
     if ([self shouldDisable:[clazz serviceName]]) {
-      MSLogDebug([MSAppCenter logTag], @"Environment variable to disable service has been set; not starting service %@", clazz);
+      MSLogDebug([MSAppCenter logTag], @"Environment variable to disable service has been set; not starting service %@",
+                 clazz);
       return NO;
     }
 
@@ -305,8 +308,10 @@ static NSString *const kMSGroupId = @"AppCenter";
     [self.services addObject:service];
 
     // Start service with channel group.
-    [service startWithChannelGroup:self.channelGroup appSecret:self.appSecret transmissionTargetToken:self.defaultTransmissionTargetToken];
-    
+    [service startWithChannelGroup:self.channelGroup
+                         appSecret:self.appSecret
+           transmissionTargetToken:self.defaultTransmissionTargetToken];
+
     // Disable service if AppCenter is disabled.
     if ([clazz isEnabled] && !self.isEnabled) {
       self.enabledStateUpdating = YES;
@@ -349,7 +354,7 @@ static NSString *const kMSGroupId = @"AppCenter";
 
     // Persist the enabled status.
     [MS_USER_DEFAULTS setObject:@(isEnabled) forKey:kMSAppCenterIsEnabledKey];
-    
+
     // Enable/disable pipeline.
     [self applyPipelineEnabledState:isEnabled];
   }
@@ -412,16 +417,17 @@ static NSString *const kMSGroupId = @"AppCenter";
   // Construct channel group.
   if (self.appSecret) {
     self.channelGroup =
-    [[MSChannelGroupDefault alloc] initWithAppSecret:self.appSecret installId:self.installId logUrl:self.logUrl];
+        [[MSChannelGroupDefault alloc] initWithAppSecret:self.appSecret installId:self.installId logUrl:self.logUrl];
   } else {
-    
+
     // If there is no app secret, create a channel group without sender or storage.
     self.channelGroup = [[MSChannelGroupDefault alloc] initWithSender:nil storage:nil];
   }
 
   // Initialize a channel unit for start service logs.
   self.channelUnit = [self.channelGroup
-      addChannelUnitWithConfiguration:[[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[MSAppCenter groupId]]];
+      addChannelUnitWithConfiguration:[[MSChannelUnitConfiguration alloc]
+                                          initDefaultConfigurationWithGroupId:[MSAppCenter groupId]]];
 }
 
 - (NSString *)appSecret {
@@ -512,13 +518,14 @@ static NSString *const kMSGroupId = @"AppCenter";
  *
  * @return YES if the service should be disabled.
  */
-- (BOOL)shouldDisable:(NSString*)serviceName {
+- (BOOL)shouldDisable:(NSString *)serviceName {
   NSDictionary *environmentVariables = [[NSProcessInfo processInfo] environment];
   NSString *disabledServices = environmentVariables[kMSDisableVariable];
   if (!disabledServices) {
     return NO;
   }
-  NSMutableArray* disabledServicesList = [NSMutableArray arrayWithArray:[disabledServices componentsSeparatedByString:@","]];
+  NSMutableArray *disabledServicesList =
+      [NSMutableArray arrayWithArray:[disabledServices componentsSeparatedByString:@","]];
 
   // Trim whitespace characters.
   for (NSUInteger i = 0; i < [disabledServicesList count]; ++i) {

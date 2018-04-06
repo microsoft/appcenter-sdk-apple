@@ -69,7 +69,9 @@ static const int maxPropertyValueLength = 64;
   return kMSServiceName;
 }
 
-- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(nullable NSString *)appSecret transmissionTargetToken:(nullable NSString *)token  {
+- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup
+                    appSecret:(nullable NSString *)appSecret
+      transmissionTargetToken:(nullable NSString *)token {
   [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token];
   if (token) {
     self.defaultTransmissionTarget = [self transmissionTargetFor:(NSString *)token];
@@ -121,7 +123,7 @@ static const int maxPropertyValueLength = 64;
   }
 }
 
--(BOOL)isAppSecretRequired {
+- (BOOL)isAppSecretRequired {
   return NO;
 }
 
@@ -152,7 +154,9 @@ static const int maxPropertyValueLength = 64;
  * @param properties dictionary of properties.
  * @param transmissionTarget  the transmission target to associate to this event.
  */
-+ (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarget {
++ (void)trackEvent:(NSString *)eventName
+           withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
+    forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarget {
   @synchronized(self) {
     if ([[self sharedInstance] canBeUsed]) {
       [[self sharedInstance] trackEvent:eventName withProperties:properties forTransmissionTarget:transmissionTarget];
@@ -246,7 +250,9 @@ static const int maxPropertyValueLength = 64;
   return validProperties;
 }
 
-- (void)trackEvent:(NSString *)eventName withProperties:(NSDictionary<NSString *, NSString *> *)properties forTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget {
+- (void)trackEvent:(NSString *)eventName
+           withProperties:(NSDictionary<NSString *, NSString *> *)properties
+    forTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget {
   if (![self isEnabled])
     return;
 
@@ -330,7 +336,7 @@ static const int maxPropertyValueLength = 64;
  * @returns The transmission target object.
  */
 - (MSAnalyticsTransmissionTarget *)transmissionTargetFor:(NSString *)transmissionTargetToken {
-  MSAnalyticsTransmissionTarget *transmissionTarget= [self.transmissionTargets objectForKey:transmissionTargetToken];
+  MSAnalyticsTransmissionTarget *transmissionTarget = [self.transmissionTargets objectForKey:transmissionTargetToken];
   if (transmissionTarget) {
     MSLogDebug([MSAnalytics logTag], @"Returning transmission target found with id %@.", transmissionTargetToken);
     return transmissionTarget;

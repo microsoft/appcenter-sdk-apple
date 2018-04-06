@@ -70,13 +70,15 @@
   return MSInitializationPriorityDefault;
 }
 
--(BOOL)isAppSecretRequired {
+- (BOOL)isAppSecretRequired {
   return YES;
 }
 
 #pragma mark : - MSService
 
-- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret transmissionTargetToken:(NSString *)token {
+- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup
+                    appSecret:(NSString *)appSecret
+      transmissionTargetToken:(NSString *)token {
   self.channelGroup = channelGroup;
   self.appSecret = appSecret;
   self.defaultTransmissionTargetToken = token;
