@@ -12,8 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSDictionary<NSString *, NSString *> *)validateProperties:(NSDictionary<NSString *, NSString *> *)properties
                                                   forLogName:(NSString *)logName
-                                                        type:(NSString *)logType
-                                           withConsoleLogTag:(NSString *)consoleLogTag;
+                                                        type:(NSString *)logType;
 
 @end
 

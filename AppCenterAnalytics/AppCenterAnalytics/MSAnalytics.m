@@ -200,10 +200,9 @@ static const int maxEventNameLength = 256;
 - (NSDictionary<NSString *, NSString *> *)validateProperties:(NSDictionary<NSString *, NSString *> *)properties
                                                   forLogName:(NSString *)logName
                                                      andType:(NSString *)logType {
-  
+
   // Keeping this method body in MSAnalytics to use it in unit tests.
-  return
-      [MSUtility validateProperties:properties forLogName:logName type:logType withConsoleLogTag:[MSAnalytics logTag]];
+  return [MSUtility validateProperties:properties forLogName:logName type:logType];
 }
 
 - (void)trackEvent:(NSString *)eventName

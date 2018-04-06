@@ -1258,7 +1258,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   if (properties && properties.count > 0) {
 
     // Send only valid properties.
-    log.properties = [MSUtility validateProperties:properties forLogName:[NSString stringWithFormat:@"ErrorLog: %@", log.errorId] type:log.type withConsoleLogTag:[MSCrashes logTag]];
+    log.properties = [MSUtility validateProperties:properties
+                                        forLogName:[NSString stringWithFormat:@"ErrorLog: %@", log.errorId]
+                                              type:log.type];
   }
 
   // Enqueue log.
