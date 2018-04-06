@@ -4,6 +4,11 @@
 #import "MSLogger.h"
 #import "MSAppCenterInternal.h"
 
+/*
+ * Workaround for exporting symbols from category object files.
+ */
+NSString *MSUtilityPropertyValidationCategory;
+
 @implementation NSObject (MSUtility_PropertyValidation)
 
 + (NSDictionary<NSString *, NSString *> *)validateProperties:(NSDictionary<NSString *, NSString *> *)properties
