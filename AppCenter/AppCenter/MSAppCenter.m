@@ -288,6 +288,12 @@ static NSString *const kMSGroupId = @"AppCenter";
       // Service already works, we shouldn't send log with this service name
       return NO;
     }
+    if (service.isAppSecretRequired && ![self.appSecret length]) {
+      
+      // Service requires an app secret but none is provided.
+      MSLogError([MSAppCenter logTag], @"Cannot start service %@. App Center was started without app secret, but the service requires it.", clazz);
+      return NO;
+    }
 
     // Check if service should be disabled
     if ([self shouldDisable:[clazz serviceName]]) {

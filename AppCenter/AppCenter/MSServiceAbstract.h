@@ -19,5 +19,12 @@
  */
 - (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret transmissionTargetToken:(NSString *)token;
 
+/**
+ * Checks if the service needs the application secret.
+ *
+ * @return `YES` if the application secret is required, `NO` otherwise.
+ */
+-(BOOL)isAppSecretRequired;
+
 @end
 

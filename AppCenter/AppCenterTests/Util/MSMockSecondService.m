@@ -31,6 +31,10 @@ static MSMockSecondService *sharedInstance = nil;
   return sharedInstance;
 }
 
++ (void)resetSharedInstance {
+  sharedInstance = nil;
+}
+
 + (NSString *)serviceName {
   return kMSServiceName;
 }
@@ -48,6 +52,10 @@ static MSMockSecondService *sharedInstance = nil;
 }
 
 - (void)applyEnabledState:(BOOL)__unused isEnabled {
+}
+
+- (BOOL)isAppSecretRequired {
+  return NO;
 }
 
 @end

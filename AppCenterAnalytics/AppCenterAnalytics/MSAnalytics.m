@@ -121,6 +121,10 @@ static const int maxPropertyValueLength = 64;
   }
 }
 
+-(BOOL)isAppSecretRequired {
+  return NO;
+}
+
 #pragma mark - Service methods
 
 + (void)trackEvent:(NSString *)eventName {

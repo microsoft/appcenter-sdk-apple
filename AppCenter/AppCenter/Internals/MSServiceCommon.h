@@ -94,6 +94,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(nullable NSString *)appSecret transmissionTargetToken:(nullable NSString *)token;
 
+/**
+ * Checks if the service needs the application secret.
+ *
+ * @return `YES` if the application secret is required, `NO` otherwise.
+ */
+-(BOOL)isAppSecretRequired;
+
 NS_ASSUME_NONNULL_END
 
 @end

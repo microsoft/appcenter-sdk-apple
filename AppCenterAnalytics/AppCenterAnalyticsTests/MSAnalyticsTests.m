@@ -740,5 +740,9 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   XCTAssertEqual(transmissionTarget1, transmissionTarget2);
 }
 
+- (void)testEmptyAppSecretNotRequired {
+  XCTAssertFalse([[MSAnalytics sharedInstance] isAppSecretRequired]);
+}
+
 @end
 
