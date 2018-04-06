@@ -64,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable NSString *)validateEventName:(NSString *)eventName forLogType:(NSString *)logType;
 
 /**
- * Validate keys and values of properties.
+ * Validate keys and values of properties. Intended for testing. Uses MSUtility+PropertyValidation internally.
  *
  * @return dictionary which contains only valid properties.
  */

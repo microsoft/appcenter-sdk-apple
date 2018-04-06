@@ -1236,50 +1236,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   [[MSSessionContext sharedInstance] clearSessionHistory];
 }
 
-- (NSDictionary<NSString *, NSString *> *)validateProperties:(NSDictionary<NSString *, NSString *> *)properties
-                                                     andType:(NSString *)logType {
-  NSMutableDictionary<NSString *, NSString *> *validProperties = [NSMutableDictionary new];
-  for (id key in properties) {
-
-    // Don't send more properties than we can.
-    if ([validProperties count] >= kMSMaxPropertiesPerLog) {
-      MSLogWarning([MSCrashes logTag], @"%@ : properties cannot contain more than %d items. Skipping other properties.",
-                   logType, kMSMaxPropertiesPerLog);
-      break;
-    }
-    if (![key isKindOfClass:[NSString class]] || ![properties[key] isKindOfClass:[NSString class]]) {
-      continue;
-    }
-
-    // Validate key.
-    NSString *strKey = key;
-    if ([strKey length] < kMSMinPropertyKeyLength) {
-      MSLogWarning([MSCrashes logTag], @"%@ : a property key cannot be null or empty. Property will be skipped.",
-                   logType);
-      continue;
-    }
-    if ([strKey length] > kMSMaxPropertyKeyLength) {
-      MSLogWarning([MSCrashes logTag], @"%@ : property %@ : property key length cannot be longer than %d "
-                                       @"characters. Property key will be truncated.",
-                   logType, strKey, kMSMaxPropertyKeyLength);
-      strKey = [strKey substringToIndex:kMSMaxPropertyKeyLength];
-    }
-
-    // Validate value.
-    NSString *value = properties[key];
-    if ([value length] > kMSMaxPropertyValueLength) {
-      MSLogWarning([MSCrashes logTag], @"%@ : property '%@' : property value cannot be longer than %d "
-                                       @"characters. Property value will be truncated.",
-                   logType, strKey, kMSMaxPropertyValueLength);
-      value = [value substringToIndex:kMSMaxPropertyValueLength];
-    }
-
-    // Save valid properties.
-    [validProperties setObject:value forKey:strKey];
-  }
-  return validProperties;
-}
-
 + (void)resetSharedInstance {
 
   // resets the once_token so dispatch_once will run again.
@@ -1302,7 +1258,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   if (properties && properties.count > 0) {
 
     // Send only valid properties.
-    log.properties = [self validateProperties:properties andType:log.type];
+    log.properties = [MSUtility validateProperties:properties forLogName:[NSString stringWithFormat:@"ErrorLog: %@", log.errorId] type:log.type withConsoleLogTag:[MSCrashes logTag]];
   }
 
   // Enqueue log.
