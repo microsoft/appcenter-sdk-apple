@@ -72,15 +72,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (void)trackModelException:(MSException *)exception
              withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties;
-
-/**
- * Validate keys and values of properties.
- *
- * @return dictionary which contains only valid properties.
- */
-- (NSDictionary<NSString *, NSString *> *)validateProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
-                                                     andType:(NSString *)logType;
-
 @end
 
 NS_ASSUME_NONNULL_END

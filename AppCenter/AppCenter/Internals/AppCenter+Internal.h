@@ -5,6 +5,7 @@
 #import "MSUtility+Application.h"
 #import "MSUtility+Date.h"
 #import "MSUtility+Environment.h"
+#import "MSUtility+PropertyValidation.h"
 #import "MSWrapperSdk.h"
 
 // Channel

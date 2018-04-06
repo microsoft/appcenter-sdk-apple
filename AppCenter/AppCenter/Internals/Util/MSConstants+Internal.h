@@ -115,3 +115,27 @@ typedef NS_ENUM(NSInteger, MSSenderCallResult) {
   MSSenderCallResultRecoverableError = 500,
   MSSenderCallResultFatalError = 999
 };
+
+/**
+ * Constants for maximum number and length of log properties.
+ */
+/**
+ * Maximum properties per log.
+ */
+static const int kMSMaxPropertiesPerLog = 20;
+
+/**
+ * Minimum properties key length.
+ */
+static const int kMSMinPropertyKeyLength = 1;
+
+/**
+ * Maximum properties key length.
+ */
+static const int kMSMaxPropertyKeyLength = 125;
+
+/**
+ * Maximum properties value length.
+ */
+static const int kMSMaxPropertyValueLength = 125;
+

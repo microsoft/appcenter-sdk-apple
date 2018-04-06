@@ -2,6 +2,7 @@
 #import "MSUtility+Date.h"
 #import "MSUtility+Environment.h"
 #import "MSUtility+File.h"
+#import "MSUtility+PropertyValidation.h"
 #import "MSUtility+StringFormatting.h"
 
 // SDK versioning struct. Needs to be big enough to hold the info.
@@ -27,8 +28,8 @@ static ms_info_t appcenter_library_info
  * See article https://medium.com/ios-os-x-development/categories-in-static-libraries-78e41f8ddb96#.aedfl1kl0
  */
 __attribute__((used)) static void importCategories() {
-  [NSString stringWithFormat:@"%@ %@ %@ %@ %@", MSUtilityApplicationCategory, MSUtilityEnvironmentCategory,
-                             MSUtilityDateCategory, MSUtilityStringFormattingCategory, MSUtilityFileCategory];
+  [NSString stringWithFormat:@"%@ %@ %@ %@ %@ %@", MSUtilityApplicationCategory, MSUtilityEnvironmentCategory,
+                             MSUtilityDateCategory, MSUtilityStringFormattingCategory, MSUtilityFileCategory, MSUtilityPropertyValidationCategory];
 }
 
 + (NSString *)sdkName {
