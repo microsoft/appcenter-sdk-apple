@@ -331,7 +331,7 @@
   XCTAssertTrue([self.abstractService initializationPriority] == MSInitializationPriorityDefault);
 }
 
-- (void)testEmptyAppSecretRequiredByDefault {
+- (void)testAppSecretRequiredByDefault {
   XCTAssertTrue([self.abstractService isAppSecretRequired]);
 }
 
