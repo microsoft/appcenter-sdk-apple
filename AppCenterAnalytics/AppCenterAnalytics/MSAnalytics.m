@@ -237,7 +237,6 @@ static const int maxEventNameLength = 256;
   // Add transmission targets.
   if (transmissionTarget) {
     [log addTransmissionTargetToken:[transmissionTarget transmissionTargetToken]];
-    // TODO: support adding multiple transmission targets
   }
 
   // Send log to log manager.
