@@ -6,6 +6,7 @@
 #import "MSAppCenterInternal.h"
 #import "MSChannelGroupDefault.h"
 #import "MSChannelUnitDefault.h"
+#import "MSConstants+Internal.h"
 #import "MSEventLog.h"
 #import "MSMockAnalyticsDelegate.h"
 #import "MSServiceAbstract.h"
@@ -86,116 +87,6 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   XCTAssertNil(validEmptyEventName);
   XCTAssertNotNil(validTooLongEventName);
   XCTAssertEqual([validTooLongEventName length], maxEventNameLength);
-}
-
-- (void)testValidatePropertyType {
-  const int maxPropertriesPerEvent = 5;
-  const int maxPropertyKeyLength = 64;
-  const int maxPropertyValueLength = 64;
-  NSString *longStringValue =
-      [@"" stringByPaddingToLength:(maxPropertyValueLength + 1) withString:@"value" startingAtIndex:0];
-  NSString *stringValue64 = [@"" stringByPaddingToLength:maxPropertyValueLength withString:@"value" startingAtIndex:0];
-
-  // Test valid properties
-  // If
-  NSDictionary *validProperties =
-      @{ @"Key1" : @"Value1",
-         stringValue64 : @"Value2",
-         @"Key3" : stringValue64,
-         @"Key4" : @"Value4",
-         @"Key5" : @"" };
-
-  // When
-  NSDictionary *validatedProperties =
-      [[MSAnalytics sharedInstance] validateProperties:validProperties forLogName:kMSTypeEvent andType:kMSTypeEvent];
-
-  // Then
-  XCTAssertTrue([validatedProperties count] == [validProperties count]);
-
-  // Test too many properties in one event
-  // If
-  NSDictionary *tooManyProperties = @{
-    @"Key1" : @"Value1",
-    @"Key2" : @"Value2",
-    @"Key3" : @"Value3",
-    @"Key4" : @"Value4",
-    @"Key5" : @"Value5",
-    @"Key6" : @"Value6",
-    @"Key7" : @"Value7"
-  };
-
-  // When
-  validatedProperties =
-      [[MSAnalytics sharedInstance] validateProperties:tooManyProperties forLogName:kMSTypeEvent andType:kMSTypeEvent];
-
-  // Then
-  XCTAssertTrue([validatedProperties count] == maxPropertriesPerEvent);
-
-  // Test invalid properties
-  // If
-  NSDictionary *invalidKeysInProperties = @{ @"Key1" : @"Value1", @(2) : @"Value2", @"" : @"Value4" };
-
-  // When
-  validatedProperties = [[MSAnalytics sharedInstance] validateProperties:invalidKeysInProperties
-                                                              forLogName:kMSTypeEvent
-                                                                 andType:kMSTypeEvent];
-
-  // Then
-  XCTAssertTrue([validatedProperties count] == 1);
-
-  // Test invalid values
-  // If
-  NSDictionary *invalidValuesInProperties = @{ @"Key1" : @"Value1", @"Key2" : @(2) };
-
-  // When
-  validatedProperties = [[MSAnalytics sharedInstance] validateProperties:invalidValuesInProperties
-                                                              forLogName:kMSTypeEvent
-                                                                 andType:kMSTypeEvent];
-
-  // Then
-  XCTAssertTrue([validatedProperties count] == 1);
-
-  // Test long keys and values are truncated.
-  // If
-  NSDictionary *tooLongKeysAndValuesInProperties = @{longStringValue : longStringValue};
-
-  // When
-  validatedProperties = [[MSAnalytics sharedInstance] validateProperties:tooLongKeysAndValuesInProperties
-                                                              forLogName:kMSTypeEvent
-                                                                 andType:kMSTypeEvent];
-
-  // Then
-  NSString *truncatedKey = (NSString *)[[validatedProperties allKeys] firstObject];
-  NSString *truncatedValue = (NSString *)[[validatedProperties allValues] firstObject];
-  XCTAssertTrue([validatedProperties count] == 1);
-  XCTAssertEqual([truncatedKey length], maxPropertyKeyLength);
-  XCTAssertEqual([truncatedValue length], maxPropertyValueLength);
-
-  // Test mixed variant
-  // If
-  NSDictionary *mixedEventProperties = @{
-    @"Key1" : @"Value1",
-    @(2) : @"Value2",
-    stringValue64 : @"Value3",
-    @"Key4" : stringValue64,
-    @"Key5" : @"Value5",
-    @"Key6" : @(2),
-    @"Key7" : longStringValue,
-  };
-
-  // When
-  validatedProperties = [[MSAnalytics sharedInstance] validateProperties:mixedEventProperties
-                                                              forLogName:kMSTypeEvent
-                                                                 andType:kMSTypeEvent];
-
-  // Then
-  XCTAssertTrue([validatedProperties count] == maxPropertriesPerEvent);
-  XCTAssertNotNil([validatedProperties objectForKey:@"Key1"]);
-  XCTAssertNotNil([validatedProperties objectForKey:stringValue64]);
-  XCTAssertNotNil([validatedProperties objectForKey:@"Key4"]);
-  XCTAssertNotNil([validatedProperties objectForKey:@"Key5"]);
-  XCTAssertNil([validatedProperties objectForKey:@"Key6"]);
-  XCTAssertNotNil([validatedProperties objectForKey:@"Key7"]);
 }
 
 - (void)testApplyEnabledStateWorks {
