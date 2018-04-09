@@ -17,7 +17,15 @@
  * @param appSecret app secret for the SDK.
  * @param token default transmission target token for this service.
  */
-- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret transmissionTargetToken:(NSString *)token;
+- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup
+                    appSecret:(NSString *)appSecret
+      transmissionTargetToken:(NSString *)token;
+
+/**
+ * Checks if the service needs the application secret.
+ *
+ * @return `YES` if the application secret is required, `NO` otherwise.
+ */
+- (BOOL)isAppSecretRequired;
 
 @end
-

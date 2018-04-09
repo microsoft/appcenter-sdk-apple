@@ -120,6 +120,10 @@ static const int maxEventNameLength = 256;
   }
 }
 
+- (BOOL)isAppSecretRequired {
+  return NO;
+}
+
 #pragma mark - Service methods
 
 + (void)trackEvent:(NSString *)eventName {

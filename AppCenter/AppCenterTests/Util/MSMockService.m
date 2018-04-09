@@ -30,6 +30,10 @@ static MSMockService *sharedInstance = nil;
   return sharedInstance;
 }
 
++ (void)resetSharedInstance {
+  sharedInstance = nil;
+}
+
 + (NSString *)serviceName {
   return kMSServiceName;
 }

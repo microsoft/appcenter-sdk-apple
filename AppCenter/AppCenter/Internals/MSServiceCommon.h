@@ -92,7 +92,16 @@ NS_ASSUME_NONNULL_BEGIN
  * @discussion Note that this is defined both here and in MSServiceAbstract.h. This is intentional, and due to
  * the way the classes are factored.
  */
-- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(nullable NSString *)appSecret transmissionTargetToken:(nullable NSString *)token;
+- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup
+                    appSecret:(nullable NSString *)appSecret
+      transmissionTargetToken:(nullable NSString *)token;
+
+/**
+ * Checks if the service needs the application secret.
+ *
+ * @return `YES` if the application secret is required, `NO` otherwise.
+ */
+- (BOOL)isAppSecretRequired;
 
 NS_ASSUME_NONNULL_END
 
