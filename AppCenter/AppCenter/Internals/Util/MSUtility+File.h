@@ -14,13 +14,6 @@ extern NSString *MSUtilityFileCategory;
 @interface MSUtility (File)
 
 /**
- * Creates the basic directory structure for app center files and return the path as a string.
- *
- * @return the URL to the base directory for App Center.
- **/
-+ (NSURL *)appCenterDirectoryURL;
-
-/**
  * Creates a file inside the app center sdk's file directory, intermediate directories are also create if nonexistent.
  *
  * @param filePathComponent A string representing the path of the file to create.
@@ -58,10 +51,7 @@ extern NSString *MSUtilityFileCategory;
 
 + (NSData *)loadDataForPathComponent:(NSString *)filePathComponent;
 
-+ (void)createDBWithFileName:(NSString *)fileName;
-
-+ (NSString *)pathToDBWithFileName:(NSString *)fileName;
-
+//TODO this returns NSURLS because...crashes needs this.
 + (NSArray <NSURL *>*)contentsOfDirectory:(NSString *)subDirectory propertiesForKeys:(NSArray *)propertiesForKeys;
 
 + (BOOL)fileExistsForPathComponent:(NSString *)filePathComponent;

@@ -15,8 +15,7 @@
     NSMutableDictionary *dbColumnsIndexes = [NSMutableDictionary new];
 
     // Path to the database.
-    _filename = filename;
-    [MSUtility createDBWithFileName:filename];
+    _dbFileURL = [MSUtility createFileAtPathComponent:filename withData:nil atomically:NO forceOverwrite:NO async:NO];
 
     // If it is custom SQLite library we need to turn on URI filename capability.
     sqlite3_config(SQLITE_CONFIG_URI, 1);
@@ -81,7 +80,7 @@
 - (BOOL)executeNonSelectionQuery:(NSString *)query {
   sqlite3 *db = NULL;
   int result = SQLITE_OK;
-  result = sqlite3_open_v2([[MSUtility pathToDBWithFileName:self.filename] UTF8String], &db,
+  result = sqlite3_open_v2([[self.dbFileURL absoluteString] UTF8String], &db,
                            SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_URI, NULL);
   if (result == SQLITE_OK) {
     char *errMsg;
@@ -102,7 +101,7 @@
   sqlite3 *db = NULL;
   sqlite3_stmt *statement = NULL;
   int result = 0;
-  result = sqlite3_open_v2([[MSUtility pathToDBWithFileName:self.filename] UTF8String], &db, SQLITE_OPEN_READONLY | SQLITE_OPEN_URI, NULL);
+  result = sqlite3_open_v2([[self.dbFileURL absoluteString] UTF8String], &db, SQLITE_OPEN_READONLY | SQLITE_OPEN_URI, NULL);
   if (result == SQLITE_OK) {
     result = sqlite3_prepare_v2(db, [query UTF8String], -1, &statement, NULL);
     if (result == SQLITE_OK) {
@@ -147,8 +146,8 @@
 }
 
 - (void)deleteDB {
-  if (self.filename.length > 0) {
-    [MSUtility removeItemForPathComponent:self.filename];
+  if (self.dbFileURL) {
+    [MSUtility removeFileAtURL:self.dbFileURL];
   }
 }
 @end

@@ -7,7 +7,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Database file name.
  */
-@property(nonatomic, readonly, copy, nullable) NSString *filename;
+@property(nonatomic, readonly, nullable) NSURL *dbFileURL;
 
 /**
  * Check if a table exists in this database.

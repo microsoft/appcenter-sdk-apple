@@ -770,7 +770,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 - (void)processLogBufferAfterCrash {
 
   // Iterate over each file in it with the kMSLogBufferFileExtension and send the log if a log can be deserialized.
-  NSArray *files = [MSUtility contentsOfDirectory:[NSString stringWithFormat:@"%@", [MSCrashesUtil logBufferDir]] propertiesForKeys:nil];
+  NSArray <NSURL *> *files = [MSUtility contentsOfDirectory:[NSString stringWithFormat:@"%@", [MSCrashesUtil logBufferDir]] propertiesForKeys:nil];
   for (NSURL *fileURL in files) {
     if ([[fileURL pathExtension] isEqualToString:kMSLogBufferFileExtension]) {
       NSData *serializedLog = [NSData dataWithContentsOfURL:fileURL];
@@ -897,7 +897,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       if (report) {
         NSString *cacheFilename = [NSString stringWithFormat:@"%.0f", [NSDate timeIntervalSinceReferenceDate]];
         NSString *crashPath = [NSString stringWithFormat:@"%@/%@", [MSCrashesUtil crashesDir], cacheFilename];
-        [MSUtility createFileAtPathComponent:crashPath withData:crashData atomically:YES forceOverwrite:NO async:NO]; //async yes?
+        [MSUtility createFileAtPathComponent:crashPath withData:crashData atomically:YES forceOverwrite:NO async:NO];
         self.lastSessionCrashReport = [MSErrorLogFormatter errorReportFromCrashReport:report];
         [MSWrapperExceptionManager correlateLastSavedWrapperExceptionToReport:@[ self.lastSessionCrashReport ]];
       } else {

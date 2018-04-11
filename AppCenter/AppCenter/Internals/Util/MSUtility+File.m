@@ -16,38 +16,6 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
 
 @implementation MSUtility (File)
 
-+ (NSURL *)appCenterDirectoryURL {
-  static NSURL *dirURL = nil;
-  static dispatch_once_t predFilesDir;
-  dispatch_once(&predFilesDir, ^{
-
-#if TARGET_OS_TV
-    NSSearchPathDirectory directory = NSCachesDirectory;
-#else
-    NSSearchPathDirectory directory = NSApplicationSupportDirectory;
-#endif
-
-    NSFileManager *fileManager = [[NSFileManager alloc] init];
-    NSArray<NSURL *> *urls = [fileManager URLsForDirectory:directory inDomains:NSUserDomainMask];
-    NSURL *cacheDirURL = [urls objectAtIndex:0];
-
-#if TARGET_OS_OSX
-
-    // Use the application's bundle identifier for macOS to make sure to use separate directories for each app.
-    NSString *bundleIdentifier = [MS_APP_MAIN_BUNDLE bundleIdentifier];
-    dirURL = [[cacheDirURL URLByAppendingPathComponent:bundleIdentifier]
-        URLByAppendingPathComponent:kMSAppCenterBundleIdentifier];
-#else
-      dirURL = [cacheDirURL URLByAppendingPathComponent:kMSAppCenterBundleIdentifier];
-#endif
-    if (![dirURL checkResourceIsReachableAndReturnError:nil]) {
-      [self createDirectoryAtURL:dirURL];
-    }
-  });
-
-  return dirURL;
-}
-
 + (NSURL *)createFileAtPathComponent:(NSString *)filePathComponent withData:(NSData *)data atomically:(BOOL)atomically forceOverwrite:(BOOL)forceOverwrite async:(BOOL)async{
   if (filePathComponent) {
     NSURL *fileURL = [[self appCenterDirectoryURL] URLByAppendingPathComponent:filePathComponent];
@@ -59,7 +27,7 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
     
     if(async) {
       dispatch_queue_t bufferFileQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
-      dispatch_group_t bufferFileGroup = dispatch_group_create(); //TODO this creates a queue with 1 file
+      dispatch_group_t bufferFileGroup = dispatch_group_create(); //TODO this creates a queue with 1 file. Change?!
       
       dispatch_group_async(bufferFileGroup, bufferFileQueue, ^{
         // Create parent directories as needed.
@@ -139,22 +107,6 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
   return nil;
 }
 
-+ (void)createDBWithFileName:(NSString *)filename {
-  if (filename) {
-    [MSUtility createFileAtPathComponent:filename withData:nil atomically:NO forceOverwrite:NO async:NO]; //TODO check forceoverwrite?
-  }
-}
-
-+ (NSString *)pathToDBWithFileName:(NSString *)fileName {
-  NSURL *path = [self appCenterDirectoryURL];
-  NSURL *dbURL = [path URLByAppendingPathComponent:fileName];
-  if ([dbURL checkResourceIsReachableAndReturnError:nil]) {
-    return [dbURL absoluteString];
-  } else {
-    return nil;
-  }
-}
-
 // TODO return path components/fileName, and not URLs
 + (NSArray <NSURL *>*)contentsOfDirectory:(NSString *)subDirectory propertiesForKeys:(NSArray *)propertiesForKeys {
   if (subDirectory && subDirectory.length > 0) {
@@ -179,8 +131,39 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
   return [fileURL checkResourceIsReachableAndReturnError:nil];
 }
 
-
 #pragma mark - Private methods.
+
++ (NSURL *)appCenterDirectoryURL {
+  static NSURL *dirURL = nil;
+  static dispatch_once_t predFilesDir;
+  dispatch_once(&predFilesDir, ^{
+    
+#if TARGET_OS_TV
+    NSSearchPathDirectory directory = NSCachesDirectory;
+#else
+    NSSearchPathDirectory directory = NSApplicationSupportDirectory;
+#endif
+    
+    NSFileManager *fileManager = [[NSFileManager alloc] init];
+    NSArray<NSURL *> *urls = [fileManager URLsForDirectory:directory inDomains:NSUserDomainMask];
+    NSURL *cacheDirURL = [urls objectAtIndex:0];
+    
+#if TARGET_OS_OSX
+    
+    // Use the application's bundle identifier for macOS to make sure to use separate directories for each app.
+    NSString *bundleIdentifier = [MS_APP_MAIN_BUNDLE bundleIdentifier];
+    dirURL = [[cacheDirURL URLByAppendingPathComponent:bundleIdentifier]
+              URLByAppendingPathComponent:kMSAppCenterBundleIdentifier];
+#else
+    dirURL = [cacheDirURL URLByAppendingPathComponent:kMSAppCenterBundleIdentifier];
+#endif
+    if (![dirURL checkResourceIsReachableAndReturnError:nil]) {
+      [self createDirectoryAtURL:dirURL];
+    }
+  });
+  
+  return dirURL;
+}
 
 + (BOOL)createDirectoryAtURL:(NSURL *)fullDirURL {
   if (fullDirURL) {
