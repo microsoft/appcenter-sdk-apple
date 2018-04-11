@@ -81,10 +81,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // Then
   assertThat(self.sut, notNilValue());
-  assertThat(self.sut.fileManager, notNilValue());
   assertThat(self.sut.crashFiles, isEmpty());
-  assertThat(self.sut.logBufferDir, notNilValue());
-  assertThat(self.sut.crashesDir, notNilValue());
   assertThat(self.sut.analyzerInProgressFile, notNilValue());
   XCTAssertTrue(msCrashesLogBuffer.size() == ms_crashes_log_buffer_size);
 

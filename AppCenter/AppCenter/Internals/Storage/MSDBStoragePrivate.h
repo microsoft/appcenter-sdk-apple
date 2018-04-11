@@ -2,14 +2,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString *const kMSStorageDirectory = @"com.microsoft.appcenter";
-
 @interface MSDBStorage ()
 
 /**
- * Database absolute file path on the device's file system.
+ * Database file name.
  */
-@property(nonatomic, readonly, copy, nullable) NSString *filePath;
+@property(nonatomic, readonly, copy, nullable) NSString *filename;
 
 /**
  * Check if a table exists in this database.

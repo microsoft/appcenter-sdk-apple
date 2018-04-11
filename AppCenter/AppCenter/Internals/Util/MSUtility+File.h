@@ -14,36 +14,60 @@ extern NSString *MSUtilityFileCategory;
 @interface MSUtility (File)
 
 /**
- * Creates a file at the given location, intermediate directories are also create if nonexistent.
+ * Creates the basic directory structure for app center files and return the path as a string.
  *
- * @param fileURL URL representing the absolute path of the file to create.
+ * @return the URL to the base directory for App Center.
+ **/
++ (NSURL *)appCenterDirectoryURL;
+
+/**
+ * Creates a file inside the app center sdk's file directory, intermediate directories are also create if nonexistent.
  *
- * @return `YES` if the operation was successful or if the item already exists, otherwise `NO`.
+ * @param filePathComponent A string representing the path of the file to create.
+ * @param data The data to write to the file.
+ * @param atomically Flag to indicate atomic write or not.
+ * @param forceOverwrite Flag to make this method overwrite existing files.
+ *
+ * @return The URL of the file that was created. Necessary for e.g. crash buffer.
  *
  * @discussion SDK files should not be backed up in iCloud. Thus, iCloud backup is explicitely
  * deactivated on every folder created.
  */
-+ (BOOL)createFileAtURL:(NSURL *)fileURL;
++ (NSURL *)createFileAtPathComponent:(NSString *)filePathComponent withData:(NSData *)data atomically:(BOOL)atomically forceOverwrite:(BOOL)forceOverwrite async:(BOOL)async;
 
 /**
- * Removes the file or directory at the specified URL.
+ * Removes the file or directory specified inside the app center sdk directory.
  *
- * @param itemURL URL representing the absolute path of the file to create.
+ * @param itemPathComponent A string representing the path of the file to create.
  *
  * @return YES if the item was removed successfully or if URL was nil. Returns NO if an error occurred.
  */
-+ (BOOL)removeItemAtURL:(NSURL *)itemURL;
++ (BOOL)removeItemForPathComponent:(NSString *)itemPathComponent;
 
 /**
- * Creates a directory at the given location, intermediate directories are also created if nonexistent.
+ * Creates a directory inside the app center sdk's file directory, intermediate directories are also created if nonexistent.
  *
- * @param directoryURL URL representing the absolute path of the directory to create.
+ * @param subDirectoryPathComponent A string representing the path of the directory to create.
  *
  * @return `YES` if the operation was successful or if the item already exists, otherwise `NO`.
  *
  * @discussion SDK files should not be backed up in iCloud. Thus, iCloud backup is explicitely
  * deactivated on every folder created.
  */
-+ (BOOL)createDirectoryAtURL:(NSURL *)directoryURL;
++ (BOOL)createSubDirectoryForPathComponent:(NSString *)subDirectoryPathComponent;
+
++ (NSData *)loadDataForPathComponent:(NSString *)filePathComponent;
+
++ (void)createDBWithFileName:(NSString *)fileName;
+
++ (NSString *)pathToDBWithFileName:(NSString *)fileName;
+
++ (NSArray <NSURL *>*)contentsOfDirectory:(NSString *)subDirectory propertiesForKeys:(NSArray *)propertiesForKeys;
+
++ (BOOL)fileExistsForPathComponent:(NSString *)filePathComponent;
+
+//TODO remove this? used in crashes
++ (BOOL)removeFileAtURL:(NSURL *)fileURL;
 
 @end
+
