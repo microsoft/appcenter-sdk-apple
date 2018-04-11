@@ -16,7 +16,10 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
 
 @implementation MSUtility (File)
 
-+ (NSURL *)createFileAtPathComponent:(NSString *)filePathComponent withData:(NSData *)data atomically:(BOOL)atomically forceOverwrite:(BOOL)forceOverwrite async:(BOOL)async{
++ (NSURL *)createFileAtPathComponent:(NSString *)filePathComponent
+                            withData:(NSData *)data
+                          atomically:(BOOL)atomically
+                      forceOverwrite:(BOOL)forceOverwrite {
   if (filePathComponent) {
     NSURL *fileURL = [[self appCenterDirectoryURL] URLByAppendingPathComponent:filePathComponent];
 
@@ -24,41 +27,19 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
     if (!forceOverwrite && [fileURL checkResourceIsReachableAndReturnError:nil]) {
       return fileURL;
     }
-    
-    if(async) {
-      dispatch_queue_t bufferFileQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
-      dispatch_group_t bufferFileGroup = dispatch_group_create(); //TODO this creates a queue with 1 file. Change?!
-      
-      dispatch_group_async(bufferFileGroup, bufferFileQueue, ^{
-        // Create parent directories as needed.
-        NSURL *directoryURL = [fileURL URLByDeletingLastPathComponent];
-        if (![directoryURL checkResourceIsReachableAndReturnError:nil]) {
-          [self createDirectoryAtURL:directoryURL];
-        }
-        
-        // Create the file.
-        NSData *theData = (data != nil) ? data : [NSData data];
-        if ([theData writeToURL:fileURL atomically:atomically]) {
-        } else {
-          MSLogError([MSAppCenter logTag], @"Couldn't create new file at path %@", fileURL);
-        }
-        
-      });
+
+    // Create parent directories as needed.
+    NSURL *directoryURL = [fileURL URLByDeletingLastPathComponent];
+    if (![directoryURL checkResourceIsReachableAndReturnError:nil]) {
+      [self createDirectoryAtURL:directoryURL];
+    }
+
+    // Create the file.
+    NSData *theData = (data != nil) ? data : [NSData data];
+    if ([theData writeToURL:fileURL atomically:atomically]) {
       return fileURL;
     } else {
-      // Create parent directories as needed.
-      NSURL *directoryURL = [fileURL URLByDeletingLastPathComponent];
-      if (![directoryURL checkResourceIsReachableAndReturnError:nil]) {
-        [self createDirectoryAtURL:directoryURL];
-      }
-      
-      // Create the file.
-      NSData *theData = (data != nil) ? data : [NSData data];
-      if ([theData writeToURL:fileURL atomically:atomically]) {
-        return fileURL;
-      } else {
-        MSLogError([MSAppCenter logTag], @"Couldn't create new file at path %@", fileURL);
-      }
+      MSLogError([MSAppCenter logTag], @"Couldn't create new file at path %@", fileURL);
     }
   }
   return nil;
@@ -108,7 +89,7 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
 }
 
 // TODO return path components/fileName, and not URLs
-+ (NSArray <NSURL *>*)contentsOfDirectory:(NSString *)subDirectory propertiesForKeys:(NSArray *)propertiesForKeys {
++ (NSArray<NSURL *> *)contentsOfDirectory:(NSString *)subDirectory propertiesForKeys:(NSArray *)propertiesForKeys {
   if (subDirectory && subDirectory.length > 0) {
     NSFileManager *fileManager = [NSFileManager new];
     NSError *error = nil;
@@ -137,23 +118,23 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
   static NSURL *dirURL = nil;
   static dispatch_once_t predFilesDir;
   dispatch_once(&predFilesDir, ^{
-    
+
 #if TARGET_OS_TV
     NSSearchPathDirectory directory = NSCachesDirectory;
 #else
     NSSearchPathDirectory directory = NSApplicationSupportDirectory;
 #endif
-    
+
     NSFileManager *fileManager = [[NSFileManager alloc] init];
     NSArray<NSURL *> *urls = [fileManager URLsForDirectory:directory inDomains:NSUserDomainMask];
     NSURL *cacheDirURL = [urls objectAtIndex:0];
-    
+
 #if TARGET_OS_OSX
-    
+
     // Use the application's bundle identifier for macOS to make sure to use separate directories for each app.
     NSString *bundleIdentifier = [MS_APP_MAIN_BUNDLE bundleIdentifier];
     dirURL = [[cacheDirURL URLByAppendingPathComponent:bundleIdentifier]
-              URLByAppendingPathComponent:kMSAppCenterBundleIdentifier];
+        URLByAppendingPathComponent:kMSAppCenterBundleIdentifier];
 #else
     dirURL = [cacheDirURL URLByAppendingPathComponent:kMSAppCenterBundleIdentifier];
 #endif
@@ -161,7 +142,7 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
       [self createDirectoryAtURL:dirURL];
     }
   });
-  
+
   return dirURL;
 }
 
@@ -197,6 +178,13 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
   } else {
     return YES;
   }
+}
+
++ (NSURL *)fullURLForPathComponent:(NSString *)filePathComponent {
+  if(filePathComponent) {
+    return [[self appCenterDirectoryURL] URLByAppendingPathComponent:filePathComponent];
+  }
+  return nil;
 }
 
 @end

@@ -87,7 +87,7 @@ static NSMutableDictionary *unprocessedWrapperExceptions;
   // to NSData and write that to the file
   NSData *data = [NSKeyedArchiver archivedDataWithRootObject:wrapperException];
   NSString *pathComponent = [NSString stringWithFormat:@"%@/%@", [MSCrashesUtil wrapperExceptionsDir], baseFilename];
-  [MSUtility createFileAtPathComponent:pathComponent withData:data atomically:YES forceOverwrite:YES async:NO];
+  [MSUtility createFileAtPathComponent:pathComponent withData:data atomically:YES forceOverwrite:YES];
 }
 
 /**

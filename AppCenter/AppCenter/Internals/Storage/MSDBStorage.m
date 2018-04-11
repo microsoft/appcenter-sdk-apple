@@ -15,7 +15,7 @@
     NSMutableDictionary *dbColumnsIndexes = [NSMutableDictionary new];
 
     // Path to the database.
-    _dbFileURL = [MSUtility createFileAtPathComponent:filename withData:nil atomically:NO forceOverwrite:NO async:NO];
+    _dbFileURL = [MSUtility createFileAtPathComponent:filename withData:nil atomically:NO forceOverwrite:NO];
 
     // If it is custom SQLite library we need to turn on URI filename capability.
     sqlite3_config(SQLITE_CONFIG_URI, 1);

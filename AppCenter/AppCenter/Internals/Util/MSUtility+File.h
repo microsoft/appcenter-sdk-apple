@@ -26,7 +26,7 @@ extern NSString *MSUtilityFileCategory;
  * @discussion SDK files should not be backed up in iCloud. Thus, iCloud backup is explicitely
  * deactivated on every folder created.
  */
-+ (NSURL *)createFileAtPathComponent:(NSString *)filePathComponent withData:(NSData *)data atomically:(BOOL)atomically forceOverwrite:(BOOL)forceOverwrite async:(BOOL)async;
++ (NSURL *)createFileAtPathComponent:(NSString *)filePathComponent withData:(NSData *)data atomically:(BOOL)atomically forceOverwrite:(BOOL)forceOverwrite;
 
 /**
  * Removes the file or directory specified inside the app center sdk directory.
@@ -58,6 +58,8 @@ extern NSString *MSUtilityFileCategory;
 
 //TODO remove this? used in crashes
 + (BOOL)removeFileAtURL:(NSURL *)fileURL;
+
++ (NSURL *)fullURLForPathComponent:(NSString *)filePathComponent;
 
 @end
 
