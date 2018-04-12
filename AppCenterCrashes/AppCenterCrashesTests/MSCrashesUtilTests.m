@@ -37,7 +37,7 @@
   expectedDir = @"/Library/Caches/com.microsoft.appcenter/crashes";
 #else
 #if TARGET_OS_OSX
-  expectedDir = @"/Library/Application%20Support/com.test.app/com.microsoft.appcenter/crashes";
+  expectedDir = @"/Library/Application%20Support/(null)/com.microsoft.appcenter/crashes";
 #else
   expectedDir = @"/Library/Application%20Support/com.microsoft.appcenter/crashes";
 #endif
@@ -62,7 +62,7 @@
   expectedDir = @"/Library/Caches/com.microsoft.appcenter/crasheslogbuffer";
 #else
 #if TARGET_OS_OSX
-  expectedDir = @"/Library/Application%20Support/com.test.app/com.microsoft.appcenter/crasheslogbuffer";
+  expectedDir = @"/Library/Application%20Support/(null)/com.microsoft.appcenter/crasheslogbuffer";
 #else
   expectedDir = @"/Library/Application%20Support/com.microsoft.appcenter/crasheslogbuffer";
 #endif
@@ -87,7 +87,7 @@
   expectedDir = @"/Library/Caches/com.microsoft.appcenter/crasheswrapperexceptions";
 #else
 #if TARGET_OS_OSX
-  expectedDir = @"/Library/Application%20Support/com.test.app/com.microsoft.appcenter/crasheswrapperexceptions";
+  expectedDir = @"/Library/Application%20Support/(null)/com.microsoft.appcenter/crasheswrapperexceptions";
 #else
   expectedDir = @"/Library/Application%20Support/com.microsoft.appcenter/crasheswrapperexceptions";
 #endif
