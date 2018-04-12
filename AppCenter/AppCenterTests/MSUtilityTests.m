@@ -3,6 +3,7 @@
 #import "MSUtility+ApplicationPrivate.h"
 #import "MSUtility+Date.h"
 #import "MSUtility+Environment.h"
+#import "MSUtility+File.h"
 #import "MSUtility+PropertyValidation.h"
 #import "MSUtility+StringFormatting.h"
 
@@ -25,6 +26,20 @@
   [super tearDown];
   [self.utils stopMocking];
 }
+
+#pragma mark - MSUtility.h
+
+- (void)testSdkName {
+  NSString *name = [NSString stringWithUTF8String:APP_CENTER_C_NAME];
+  XCTAssertTrue([[MSUtility sdkName] isEqualToString:name]);
+}
+
+- (void)testSdkVersion {
+  NSString *version = [NSString stringWithUTF8String:APP_CENTER_C_VERSION];
+  XCTAssertTrue([[MSUtility sdkVersion] isEqualToString:version]);
+}
+
+#pragma mark - MSUtility+Application.h
 
 #if !TARGET_OS_OSX
 - (void)testMSAppStateMatchesUIAppStateWhenAvailable {
@@ -101,6 +116,18 @@
   assertThat(@(state), is(@(expectedState)));
 }
 
+- (void)testCurrentAppEnvironment {
+  
+  // When
+  MSEnvironment env = [MSUtility currentAppEnvironment];
+  
+  // Then
+  // Tests always run in simulators.
+  XCTAssertEqual(env, MSEnvironmentOther);
+}
+
+#pragma mark - MSUtility+Date.h
+
 - (void)testNowInMilliseconds {
 
   // If
@@ -119,15 +146,7 @@
   XCTAssertGreaterThan(actual, 0);
 }
 
-- (void)testCurrentAppEnvironment {
-
-  // When
-  MSEnvironment env = [MSUtility currentAppEnvironment];
-
-  // Then
-  // Tests always run in simulators.
-  XCTAssertEqual(env, MSEnvironmentOther);
-}
+#pragma mark - MSUtility+Environment.h
 
 // FIXME: This method actually opens a dialog to ask to handle the URL on Mac.
 #if !TARGET_OS_OSX
@@ -159,25 +178,19 @@
 }
 #endif
 
-- (void)testCreateSha256 {
+#pragma mark - MSUtility+StringFormatting.h
 
+- (void)testCreateSha256 {
+  
   // When
   NSString *test = @"TestString";
   NSString *result = [MSUtility sha256:test];
-
+  
   // Then
   XCTAssertTrue([result isEqualToString:@"6dd79f2770a0bb38073b814a5ff000647b37be5abbde71ec9176c6ce0cb32a27"]);
 }
 
-- (void)testSdkName {
-  NSString *name = [NSString stringWithUTF8String:APP_CENTER_C_NAME];
-  XCTAssertTrue([[MSUtility sdkName] isEqualToString:name]);
-}
-
-- (void)testSdkVersion {
-  NSString *version = [NSString stringWithUTF8String:APP_CENTER_C_VERSION];
-  XCTAssertTrue([[MSUtility sdkVersion] isEqualToString:version]);
-}
+#pragma mark - MSUtility+PropertyValidation.h
 
 - (void)testAppSecretFrom {
 
