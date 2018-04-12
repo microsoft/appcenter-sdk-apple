@@ -1,11 +1,3 @@
-//
-//  NSBundle+BundleIdentifier.m
-//  AppCenterCrashes
-//
-//  Created by Benjamin Scholtysik on 4/11/18.
-//  Copyright © 2018 Microsoft. All rights reserved.
-//
-
 #import "NSBundle+BundleIdentifier.h"
 
 @implementation NSBundle (BundleIdentifier)

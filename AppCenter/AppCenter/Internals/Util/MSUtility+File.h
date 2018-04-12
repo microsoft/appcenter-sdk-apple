@@ -26,7 +26,10 @@ extern NSString *MSUtilityFileCategory;
  * @discussion SDK files should not be backed up in iCloud. Thus, iCloud backup is explicitely
  * deactivated on every folder created.
  */
-+ (NSURL *)createFileAtPathComponent:(NSString *)filePathComponent withData:(NSData *)data atomically:(BOOL)atomically forceOverwrite:(BOOL)forceOverwrite;
++ (NSURL *)createFileAtPathComponent:(NSString *)filePathComponent
+                            withData:(NSData *)data
+                          atomically:(BOOL)atomically
+                      forceOverwrite:(BOOL)forceOverwrite;
 
 /**
  * Removes the file or directory specified inside the app center sdk directory.
@@ -38,7 +41,8 @@ extern NSString *MSUtilityFileCategory;
 + (BOOL)removeItemForPathComponent:(NSString *)itemPathComponent;
 
 /**
- * Creates a directory inside the app center sdk's file directory, intermediate directories are also created if nonexistent.
+ * Creates a directory inside the app center sdk's file directory, intermediate directories are also created if
+ * nonexistent.
  *
  * @param subDirectoryPathComponent A string representing the path of the directory to create.
  *
@@ -66,7 +70,7 @@ extern NSString *MSUtilityFileCategory;
  * @return An array of NSURL* of each file or directory in a directory.
  *
  */
-+ (NSArray <NSURL *>*)contentsOfDirectory:(NSString *)directory propertiesForKeys:(NSArray *)propertiesForKeys;
++ (NSArray<NSURL *> *)contentsOfDirectory:(NSString *)directory propertiesForKeys:(NSArray *)propertiesForKeys;
 
 /**
  * Checks for existence of a path component.

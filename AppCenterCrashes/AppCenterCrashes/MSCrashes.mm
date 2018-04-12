@@ -886,8 +886,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   NSError *error = nil;
 
   // Check if the next call ran successfully the last time.
-  if ([MSUtility fileExistsForPathComponent:self.analyzerInProgressFilePathComponent] ==
-      false) {
+  if ([MSUtility fileExistsForPathComponent:self.analyzerInProgressFilePathComponent] == false) {
 
     // Mark the start of the routine.
     [self createAnalyzerFile];
