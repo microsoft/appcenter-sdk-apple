@@ -101,7 +101,8 @@
   sqlite3 *db = NULL;
   sqlite3_stmt *statement = NULL;
   int result = 0;
-  result = sqlite3_open_v2([[self.dbFileURL absoluteString] UTF8String], &db, SQLITE_OPEN_READONLY | SQLITE_OPEN_URI, NULL);
+  result =
+      sqlite3_open_v2([[self.dbFileURL absoluteString] UTF8String], &db, SQLITE_OPEN_READONLY | SQLITE_OPEN_URI, NULL);
   if (result == SQLITE_OK) {
     result = sqlite3_prepare_v2(db, [query UTF8String], -1, &statement, NULL);
     if (result == SQLITE_OK) {

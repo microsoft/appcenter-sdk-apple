@@ -59,6 +59,7 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
   return NO;
 }
 
+// TODO: Should take a path component, not a URL.
 + (BOOL)removeFileAtURL:(NSURL *)fileURL {
   if (fileURL && [fileURL checkResourceIsReachableAndReturnError:nil]) {
     NSError *error = nil;
@@ -88,18 +89,21 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
   return nil;
 }
 
-// TODO return path components/fileName, and not URLs
-+ (NSArray<NSURL *> *)contentsOfDirectory:(NSString *)subDirectory propertiesForKeys:(NSArray *)propertiesForKeys {
-  if (subDirectory && subDirectory.length > 0) {
+/**
+ * TODO candidate for refactoring. Should return pathComponents and not full URLs.
+ * Has big impact on crashes logic.
+ */
++ (NSArray<NSURL *> *)contentsOfDirectory:(NSString *)directory propertiesForKeys:(NSArray *)propertiesForKeys {
+  if (directory && directory.length > 0) {
     NSFileManager *fileManager = [NSFileManager new];
     NSError *error = nil;
-    NSURL *dirURL = [[self appCenterDirectoryURL] URLByAppendingPathComponent:subDirectory isDirectory:YES];
+    NSURL *dirURL = [[self appCenterDirectoryURL] URLByAppendingPathComponent:directory isDirectory:YES];
     NSArray *files = [fileManager contentsOfDirectoryAtURL:dirURL
                                 includingPropertiesForKeys:propertiesForKeys
                                                    options:(NSDirectoryEnumerationOptions)0
                                                      error:&error];
     if (!files) {
-      MSLogError([MSAppCenter logTag], @"Couldn't get files in the directory \"%@\": %@", subDirectory,
+      MSLogError([MSAppCenter logTag], @"Couldn't get files in the directory \"%@\": %@", directory,
                  error.localizedDescription);
     }
     return files;
@@ -110,6 +114,13 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
 + (BOOL)fileExistsForPathComponent:(NSString *)filePathComponent {
   NSURL *fileURL = [[self appCenterDirectoryURL] URLByAppendingPathComponent:filePathComponent];
   return [fileURL checkResourceIsReachableAndReturnError:nil];
+}
+
++ (NSURL *)fullURLForPathComponent:(NSString *)filePathComponent {
+  if (filePathComponent) {
+    return [[self appCenterDirectoryURL] URLByAppendingPathComponent:filePathComponent];
+  }
+  return nil;
 }
 
 #pragma mark - Private methods.
@@ -178,13 +189,6 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
   } else {
     return YES;
   }
-}
-
-+ (NSURL *)fullURLForPathComponent:(NSString *)filePathComponent {
-  if(filePathComponent) {
-    return [[self appCenterDirectoryURL] URLByAppendingPathComponent:filePathComponent];
-  }
-  return nil;
 }
 
 @end

@@ -26,7 +26,10 @@ extern NSString *MSUtilityFileCategory;
  * @discussion SDK files should not be backed up in iCloud. Thus, iCloud backup is explicitely
  * deactivated on every folder created.
  */
-+ (NSURL *)createFileAtPathComponent:(NSString *)filePathComponent withData:(NSData *)data atomically:(BOOL)atomically forceOverwrite:(BOOL)forceOverwrite;
++ (NSURL *)createFileAtPathComponent:(NSString *)filePathComponent
+                            withData:(NSData *)data
+                          atomically:(BOOL)atomically
+                      forceOverwrite:(BOOL)forceOverwrite;
 
 /**
  * Removes the file or directory specified inside the app center sdk directory.
@@ -38,7 +41,8 @@ extern NSString *MSUtilityFileCategory;
 + (BOOL)removeItemForPathComponent:(NSString *)itemPathComponent;
 
 /**
- * Creates a directory inside the app center sdk's file directory, intermediate directories are also created if nonexistent.
+ * Creates a directory inside the app center sdk's file directory, intermediate directories are also created if
+ * nonexistent.
  *
  * @param subDirectoryPathComponent A string representing the path of the directory to create.
  *
@@ -49,17 +53,50 @@ extern NSString *MSUtilityFileCategory;
  */
 + (BOOL)createSubDirectoryForPathComponent:(NSString *)subDirectoryPathComponent;
 
+/**
+ * Load a data at a filePathComponent, e.g. load data at "/Crashes/foo.bar".
+ *
+ * @param filePathComponent A string representing the pathComponent of the file to read.
+ *
+ * @return The data of the file or `nil` if the file does not exist.
+ */
 + (NSData *)loadDataForPathComponent:(NSString *)filePathComponent;
 
-//TODO this returns NSURLS because...crashes needs this.
-+ (NSArray <NSURL *>*)contentsOfDirectory:(NSString *)subDirectory propertiesForKeys:(NSArray *)propertiesForKeys;
+/**
+ * Returns the NSURLs of the contents of a directory.
+ *
+ * @param directory A string representing the path of the directory to look for content.
+ *
+ * @return An array of NSURL* of each file or directory in a directory.
+ *
+ */
++ (NSArray<NSURL *> *)contentsOfDirectory:(NSString *)directory propertiesForKeys:(NSArray *)propertiesForKeys;
 
+/**
+ * Checks for existence of a path component.
+ *
+ * @param filePathComponent The path component to check.
+ *
+ * @return `YES` if a file or existence exists at the specified location. Otherwiese `NO`.
+ */
 + (BOOL)fileExistsForPathComponent:(NSString *)filePathComponent;
 
-//TODO remove this? used in crashes
+/**
+ * Removes a file at the given URL if it exists.
+ *
+ * @param fileURL The URL of the file to delete.
+ *
+ * @return A flag indicating success or fail.
+ */
 + (BOOL)removeFileAtURL:(NSURL *)fileURL;
 
+/**
+ * Get the full path for a component if it exists.
+ *
+ * @param filePathComponent A string representing the path component of the file or directory to check.
+ *
+ * @return The URL for the given path component or `nil`.
+ */
 + (NSURL *)fullURLForPathComponent:(NSString *)filePathComponent;
 
 @end
-

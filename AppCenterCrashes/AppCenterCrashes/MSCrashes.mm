@@ -770,7 +770,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 - (void)processLogBufferAfterCrash {
 
   // Iterate over each file in it with the kMSLogBufferFileExtension and send the log if a log can be deserialized.
-  NSArray <NSURL *> *files = [MSUtility contentsOfDirectory:[NSString stringWithFormat:@"%@", [MSCrashesUtil logBufferDir]] propertiesForKeys:nil];
+  NSArray<NSURL *> *files =
+      [MSUtility contentsOfDirectory:[NSString stringWithFormat:@"%@", [MSCrashesUtil logBufferDir]]
+                   propertiesForKeys:nil];
   for (NSURL *fileURL in files) {
     if ([[fileURL pathExtension] isEqualToString:kMSLogBufferFileExtension]) {
       NSData *serializedLog = [NSData dataWithContentsOfURL:fileURL];
@@ -879,7 +881,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   NSError *error = nil;
 
   // Check if the next call ran successfully the last time.
-  NSString *analyzerFilePathComponent = [NSString stringWithFormat:@"%@/%@", [MSCrashesUtil crashesDir], kMSAnalyzerFilename];
+  NSString *analyzerFilePathComponent =
+      [NSString stringWithFormat:@"%@/%@", [MSCrashesUtil crashesDir], kMSAnalyzerFilename];
   if ([MSUtility fileExistsForPathComponent:analyzerFilePathComponent] == false) {
 
     // Mark the start of the routine.
@@ -915,25 +918,25 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 - (NSMutableArray *)persistedCrashReports {
   NSMutableArray *persistedCrashReports = [NSMutableArray new];
-    NSArray *files = [MSUtility contentsOfDirectory:[MSCrashesUtil crashesDir]
-                                  propertiesForKeys:@[ NSURLNameKey, NSURLFileSizeKey, NSURLIsRegularFileKey ]];
-    if (!files) {
-      MSLogError([MSCrashes logTag], @"No persisted crashes found.");
-      return persistedCrashReports;
+  NSArray *files = [MSUtility contentsOfDirectory:[MSCrashesUtil crashesDir]
+                                propertiesForKeys:@[ NSURLNameKey, NSURLFileSizeKey, NSURLIsRegularFileKey ]];
+  if (!files) {
+    MSLogError([MSCrashes logTag], @"No persisted crashes found.");
+    return persistedCrashReports;
+  }
+  for (NSURL *fileURL in files) {
+    NSString *fileName = nil;
+    [fileURL getResourceValue:&fileName forKey:NSURLNameKey error:nil];
+    NSNumber *fileSizeNumber = nil;
+    [fileURL getResourceValue:&fileSizeNumber forKey:NSURLFileSizeKey error:nil];
+    NSNumber *isRegular = nil;
+    [fileURL getResourceValue:&isRegular forKey:NSURLIsRegularFileKey error:nil];
+    if ([isRegular boolValue] && [fileSizeNumber intValue] > 0 && ![fileName hasSuffix:@".DS_Store"] &&
+        ![fileName hasSuffix:@".analyzer"] && ![fileName hasSuffix:@".plist"] && ![fileName hasSuffix:@".data"] &&
+        ![fileName hasSuffix:@".meta"] && ![fileName hasSuffix:@".desc"]) {
+      [persistedCrashReports addObject:fileURL];
     }
-    for (NSURL *fileURL in files) {
-      NSString *fileName = nil;
-      [fileURL getResourceValue:&fileName forKey:NSURLNameKey error:nil];
-      NSNumber *fileSizeNumber = nil;
-      [fileURL getResourceValue:&fileSizeNumber forKey:NSURLFileSizeKey error:nil];
-      NSNumber *isRegular = nil;
-      [fileURL getResourceValue:&isRegular forKey:NSURLIsRegularFileKey error:nil];
-      if ([isRegular boolValue] && [fileSizeNumber intValue] > 0 && ![fileName hasSuffix:@".DS_Store"] &&
-          ![fileName hasSuffix:@".analyzer"] && ![fileName hasSuffix:@".plist"] && ![fileName hasSuffix:@".data"] &&
-          ![fileName hasSuffix:@".meta"] && ![fileName hasSuffix:@".desc"]) {
-        [persistedCrashReports addObject:fileURL];
-      }
-    }
+  }
   return persistedCrashReports;
 }
 
@@ -946,7 +949,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   NSString *pathComponent = [NSString stringWithFormat:@"%@/%@", [MSCrashesUtil crashesDir], kMSAnalyzerFilename];
   NSURL *analyzerURL = [MSUtility createFileAtPathComponent:pathComponent withData:nil atomically:NO forceOverwrite:NO];
   if (!analyzerURL) {
-      MSLogError([MSCrashes logTag], @"Couldn't create crash analyzer file.");
+    MSLogError([MSCrashes logTag], @"Couldn't create crash analyzer file.");
   }
 }
 
@@ -969,7 +972,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       NSString *fileName = [NSString stringWithFormat:@"%@.%@", logId, kMSLogBufferFileExtension];
       NSString *filePathComponent = [NSString stringWithFormat:@"%@/%@", [MSCrashesUtil logBufferDir], fileName];
       [files addObject:[MSUtility fullURLForPathComponent:filePathComponent]];
-      
+
       // Create files asynchronously. We don't really care as they are only ever used in the post-crash callback.
       dispatch_group_async(self.bufferFileGroup, self.bufferFileQueue, ^{
         [MSUtility createFileAtPathComponent:filePathComponent withData:nil atomically:NO forceOverwrite:NO];
@@ -1008,7 +1011,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       [fileURL getResourceValue:&fileSizeNumber forKey:NSURLFileSizeKey error:nil];
       if ([fileSizeNumber intValue] > 0) {
         NSString *fileName = [fileURL lastPathComponent];
-        NSString *filePathComponent =[NSString stringWithFormat:@"%@/%@",bufferDir, fileName];
+        NSString *filePathComponent = [NSString stringWithFormat:@"%@/%@", bufferDir, fileName];
         [MSUtility createFileAtPathComponent:filePathComponent withData:nil atomically:NO forceOverwrite:YES];
       }
     }
