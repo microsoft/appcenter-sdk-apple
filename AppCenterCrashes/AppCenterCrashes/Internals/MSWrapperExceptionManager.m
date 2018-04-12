@@ -45,7 +45,7 @@ static NSMutableDictionary *unprocessedWrapperExceptions;
  * Deletes all wrapper exceptions on disk.
  */
 + (void)deleteAllWrapperExceptions {
-  [MSUtility removeItemForPathComponent:[MSCrashesUtil wrapperExceptionsDir]];
+  [MSUtility deleteItemForPathComponent:[MSCrashesUtil wrapperExceptionsDir]];
 }
 
 /**
@@ -95,7 +95,7 @@ static NSMutableDictionary *unprocessedWrapperExceptions;
  */
 + (void)deleteWrapperExceptionWithBaseFilename:(NSString *)baseFilename {
   NSString *pathComponent = [NSString stringWithFormat:@"%@/%@", [MSCrashesUtil wrapperExceptionsDir], baseFilename];
-  [MSUtility removeItemForPathComponent:pathComponent];
+  [MSUtility deleteItemForPathComponent:pathComponent];
 }
 
 /**

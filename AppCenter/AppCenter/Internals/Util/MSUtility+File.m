@@ -1,8 +1,8 @@
+#import <Foundation/Foundation.h>
+
 #import "MSAppCenterInternal.h"
 #import "MSLogger.h"
 #import "MSUtility+File.h"
-
-#import <Foundation/Foundation.h>
 
 /*
  * Workaround for exporting symbols from category object files.
@@ -20,73 +20,84 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
                             withData:(NSData *)data
                           atomically:(BOOL)atomically
                       forceOverwrite:(BOOL)forceOverwrite {
-  if (filePathComponent) {
-    NSURL *fileURL = [[self appCenterDirectoryURL] URLByAppendingPathComponent:filePathComponent];
+  @synchronized(self) {
+    if (filePathComponent) {
+      NSURL *fileURL = [[self appCenterDirectoryURL] URLByAppendingPathComponent:filePathComponent];
 
-    // Check if item already exists.
-    if (!forceOverwrite && [fileURL checkResourceIsReachableAndReturnError:nil]) {
-      return fileURL;
-    }
+      // Check if item already exists.
+      if (!forceOverwrite && [fileURL checkResourceIsReachableAndReturnError:nil]) {
+        return fileURL;
+      }
 
-    // Create parent directories as needed.
-    NSURL *directoryURL = [fileURL URLByDeletingLastPathComponent];
-    if (![directoryURL checkResourceIsReachableAndReturnError:nil]) {
-      [self createDirectoryAtURL:directoryURL];
-    }
+      // Create parent directories as needed.
+      NSURL *directoryURL = [fileURL URLByDeletingLastPathComponent];
+      if (![directoryURL checkResourceIsReachableAndReturnError:nil]) {
+        [self createDirectoryAtURL:directoryURL];
+      }
 
-    // Create the file.
-    NSData *theData = (data != nil) ? data : [NSData data];
-    if ([theData writeToURL:fileURL atomically:atomically]) {
-      return fileURL;
-    } else {
-      MSLogError([MSAppCenter logTag], @"Couldn't create new file at path %@", fileURL);
+      // Create the file.
+      NSData *theData = (data != nil) ? data : [NSData data];
+      if ([theData writeToURL:fileURL atomically:atomically]) {
+        return fileURL;
+      } else {
+        MSLogError([MSAppCenter logTag], @"Couldn't create new file at path %@", fileURL);
+      }
     }
+    return nil;
   }
-  return nil;
 }
 
-+ (BOOL)removeItemForPathComponent:(NSString *)itemPathComponent {
-  if (itemPathComponent) {
-    NSURL *itemURL = [[self appCenterDirectoryURL] URLByAppendingPathComponent:itemPathComponent];
-    NSError *error = nil;
-    BOOL succeeded;
-    succeeded = [[NSFileManager defaultManager] removeItemAtURL:itemURL error:&error];
-    if (error) {
-      MSLogError([MSAppCenter logTag], @"Couldn't remove item at %@: %@", itemURL, error.localizedDescription);
++ (BOOL)deleteItemForPathComponent:(NSString *)itemPathComponent {
+  @synchronized(self) {
+    if (itemPathComponent) {
+      NSURL *itemURL = [[self appCenterDirectoryURL] URLByAppendingPathComponent:itemPathComponent];
+      NSError *error = nil;
+      BOOL succeeded;
+      succeeded = [[NSFileManager defaultManager] removeItemAtURL:itemURL error:&error];
+      if (error) {
+        MSLogError([MSAppCenter logTag], @"Couldn't remove item at %@: %@", itemURL, error.localizedDescription);
+      }
+      return succeeded;
     }
-    return succeeded;
+    return NO;
   }
-  return NO;
 }
 
 // TODO: Should take a path component, not a URL.
-+ (BOOL)removeFileAtURL:(NSURL *)fileURL {
-  if (fileURL && [fileURL checkResourceIsReachableAndReturnError:nil]) {
-    NSError *error = nil;
-    BOOL succeeded;
-    succeeded = [[NSFileManager defaultManager] removeItemAtURL:fileURL error:&error];
-    if (error) {
-      MSLogError([MSAppCenter logTag], @"Couldn't remove item at %@: %@", fileURL, error.localizedDescription);
++ (BOOL)deleteFileAtURL:(NSURL *)fileURL {
+  @synchronized(self) {
+    if (fileURL && [fileURL checkResourceIsReachableAndReturnError:nil]) {
+      NSError *error = nil;
+      BOOL succeeded;
+      succeeded = [[NSFileManager defaultManager] removeItemAtURL:fileURL error:&error];
+      if (error) {
+        MSLogError([MSAppCenter logTag], @"Couldn't remove item at %@: %@", fileURL, error.localizedDescription);
+      }
+      return succeeded;
     }
-    return succeeded;
+    return NO;
   }
-  return NO;
 }
 
-+ (BOOL)createSubDirectoryForPathComponent:(NSString *)subDirectoryPathComponent {
-  if (subDirectoryPathComponent) {
-    NSURL *subDirURL = [[self appCenterDirectoryURL] URLByAppendingPathComponent:subDirectoryPathComponent];
-    return [self createDirectoryAtURL:subDirURL];
++ (NSURL *)createDirectoryForPathComponent:(NSString *)directoryPathComponent {
+  @synchronized(self) {
+    if (directoryPathComponent) {
+      NSURL *subDirURL = [[self appCenterDirectoryURL] URLByAppendingPathComponent:directoryPathComponent];
+      BOOL success = [self createDirectoryAtURL:subDirURL];
+      return success ? subDirURL : nil;
+    }
+    return nil;
   }
-  return NO;
 }
 
 + (NSData *)loadDataForPathComponent:(NSString *)filePathComponent {
-  if (filePathComponent) {
-    NSURL *fileURL = [[self appCenterDirectoryURL] URLByAppendingPathComponent:filePathComponent];
-    return [NSData dataWithContentsOfURL:fileURL];
+  @synchronized(self) {
+    if (filePathComponent) {
+      NSURL *fileURL = [[self appCenterDirectoryURL] URLByAppendingPathComponent:filePathComponent];
+      return [NSData dataWithContentsOfURL:fileURL];
+    }
+    return nil;
   }
-  return nil;
 }
 
 /**
@@ -94,33 +105,39 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
  * Has big impact on crashes logic.
  */
 + (NSArray<NSURL *> *)contentsOfDirectory:(NSString *)directory propertiesForKeys:(NSArray *)propertiesForKeys {
-  if (directory && directory.length > 0) {
-    NSFileManager *fileManager = [NSFileManager new];
-    NSError *error = nil;
-    NSURL *dirURL = [[self appCenterDirectoryURL] URLByAppendingPathComponent:directory isDirectory:YES];
-    NSArray *files = [fileManager contentsOfDirectoryAtURL:dirURL
-                                includingPropertiesForKeys:propertiesForKeys
-                                                   options:(NSDirectoryEnumerationOptions)0
-                                                     error:&error];
-    if (!files) {
-      MSLogError([MSAppCenter logTag], @"Couldn't get files in the directory \"%@\": %@", directory,
-                 error.localizedDescription);
+  @synchronized(self) {
+    if (directory && directory.length > 0) {
+      NSFileManager *fileManager = [NSFileManager new];
+      NSError *error = nil;
+      NSURL *dirURL = [[self appCenterDirectoryURL] URLByAppendingPathComponent:directory isDirectory:YES];
+      NSArray *files = [fileManager contentsOfDirectoryAtURL:dirURL
+                                  includingPropertiesForKeys:propertiesForKeys
+                                                     options:(NSDirectoryEnumerationOptions)0
+                                                       error:&error];
+      if (!files) {
+        MSLogError([MSAppCenter logTag], @"Couldn't get files in the directory \"%@\": %@", directory,
+                   error.localizedDescription);
+      }
+      return files;
     }
-    return files;
+    return nil;
   }
-  return nil;
 }
 
 + (BOOL)fileExistsForPathComponent:(NSString *)filePathComponent {
-  NSURL *fileURL = [[self appCenterDirectoryURL] URLByAppendingPathComponent:filePathComponent];
-  return [fileURL checkResourceIsReachableAndReturnError:nil];
+  {
+    NSURL *fileURL = [[self appCenterDirectoryURL] URLByAppendingPathComponent:filePathComponent];
+    return [fileURL checkResourceIsReachableAndReturnError:nil];
+  }
 }
 
 + (NSURL *)fullURLForPathComponent:(NSString *)filePathComponent {
-  if (filePathComponent) {
-    return [[self appCenterDirectoryURL] URLByAppendingPathComponent:filePathComponent];
+  {
+    if (filePathComponent) {
+      return [[self appCenterDirectoryURL] URLByAppendingPathComponent:filePathComponent];
+    }
+    return nil;
   }
-  return nil;
 }
 
 #pragma mark - Private methods.
@@ -138,7 +155,7 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
 
     NSFileManager *fileManager = [[NSFileManager alloc] init];
     NSArray<NSURL *> *urls = [fileManager URLsForDirectory:directory inDomains:NSUserDomainMask];
-    NSURL *cacheDirURL = [urls objectAtIndex:0];
+    NSURL *baseDirUrl = [urls objectAtIndex:0];
 
 #if TARGET_OS_OSX
 
@@ -147,7 +164,7 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
     dirURL = [[cacheDirURL URLByAppendingPathComponent:bundleIdentifier]
         URLByAppendingPathComponent:kMSAppCenterBundleIdentifier];
 #else
-    dirURL = [cacheDirURL URLByAppendingPathComponent:kMSAppCenterBundleIdentifier];
+    dirURL = [baseDirUrl URLByAppendingPathComponent:kMSAppCenterBundleIdentifier];
 #endif
     if (![dirURL checkResourceIsReachableAndReturnError:nil]) {
       [self createDirectoryAtURL:dirURL];

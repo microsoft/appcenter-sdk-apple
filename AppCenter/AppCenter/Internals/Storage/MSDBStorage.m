@@ -148,7 +148,7 @@
 
 - (void)deleteDB {
   if (self.dbFileURL) {
-    [MSUtility removeFileAtURL:self.dbFileURL];
+    [MSUtility deleteFileAtURL:self.dbFileURL];
   }
 }
 @end

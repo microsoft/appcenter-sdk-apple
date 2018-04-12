@@ -874,12 +874,12 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 #pragma mark - Helper
 
 - (void)deleteAllFromCrashesDirectory {
-  [MSUtility removeItemForPathComponent:self.crashesPathComponent];
+  [MSUtility deleteItemForPathComponent:self.crashesPathComponent];
   [self.crashFiles removeAllObjects];
 }
 
 - (void)deleteCrashReportWithFileURL:(NSURL *)fileURL {
-  [MSUtility removeFileAtURL:fileURL];
+  [MSUtility deleteFileAtURL:fileURL];
 }
 
 - (void)handleLatestCrashReport {
@@ -944,7 +944,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 }
 
 - (void)removeAnalyzerFile {
-  [MSUtility removeItemForPathComponent:self.analyzerInProgressFilePathComponent];
+  [MSUtility deleteItemForPathComponent:self.analyzerInProgressFilePathComponent];
 }
 
 - (void)createAnalyzerFile {

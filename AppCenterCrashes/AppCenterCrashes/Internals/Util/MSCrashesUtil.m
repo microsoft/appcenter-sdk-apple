@@ -15,7 +15,7 @@ static dispatch_once_t wrapperExceptionsDirectoryOnceToken;
 
 + (NSString *)crashesDir {
   dispatch_once(&crashesDirectoryOnceToken, ^{
-    [MSUtility createSubDirectoryForPathComponent:kMSCrashesDirectory];
+    [MSUtility createDirectoryForPathComponent:kMSCrashesDirectory];
   });
 
   return kMSCrashesDirectory;
@@ -23,7 +23,7 @@ static dispatch_once_t wrapperExceptionsDirectoryOnceToken;
 
 + (NSString *)logBufferDir {
   dispatch_once(&logBufferDirectoryOnceToken, ^{
-    [MSUtility createSubDirectoryForPathComponent:kMSLogBufferDirectory];
+    [MSUtility createDirectoryForPathComponent:kMSLogBufferDirectory];
   });
 
   return kMSLogBufferDirectory;
@@ -31,7 +31,7 @@ static dispatch_once_t wrapperExceptionsDirectoryOnceToken;
 
 + (NSString *)wrapperExceptionsDir {
   dispatch_once(&wrapperExceptionsDirectoryOnceToken, ^{
-    [MSUtility createSubDirectoryForPathComponent:kMSWrapperExceptionsDirectory];
+    [MSUtility createDirectoryForPathComponent:kMSWrapperExceptionsDirectory];
   });
 
   return kMSWrapperExceptionsDirectory;

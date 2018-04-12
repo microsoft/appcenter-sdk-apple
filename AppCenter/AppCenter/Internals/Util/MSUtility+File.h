@@ -38,20 +38,20 @@ extern NSString *MSUtilityFileCategory;
  *
  * @return YES if the item was removed successfully or if URL was nil. Returns NO if an error occurred.
  */
-+ (BOOL)removeItemForPathComponent:(NSString *)itemPathComponent;
++ (BOOL)deleteItemForPathComponent:(NSString *)itemPathComponent;
 
 /**
  * Creates a directory inside the app center sdk's file directory, intermediate directories are also created if
  * nonexistent.
  *
- * @param subDirectoryPathComponent A string representing the path of the directory to create.
+ * @param directoryPathComponent A string representing the path of the directory to create.
  *
  * @return `YES` if the operation was successful or if the item already exists, otherwise `NO`.
  *
  * @discussion SDK files should not be backed up in iCloud. Thus, iCloud backup is explicitely
  * deactivated on every folder created.
  */
-+ (BOOL)createSubDirectoryForPathComponent:(NSString *)subDirectoryPathComponent;
++ (NSURL *)createDirectoryForPathComponent:(NSString *)directoryPathComponent;
 
 /**
  * Load a data at a filePathComponent, e.g. load data at "/Crashes/foo.bar".
@@ -88,7 +88,7 @@ extern NSString *MSUtilityFileCategory;
  *
  * @return A flag indicating success or fail.
  */
-+ (BOOL)removeFileAtURL:(NSURL *)fileURL;
++ (BOOL)deleteFileAtURL:(NSURL *)fileURL;
 
 /**
  * Get the full path for a component if it exists.

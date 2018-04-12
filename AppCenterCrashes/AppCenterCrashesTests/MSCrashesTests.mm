@@ -71,7 +71,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   // Delete all files.
   [self.sut deleteAllFromCrashesDirectory];
   NSString *logBufferDir = [MSCrashesUtil logBufferDir];
-  [MSUtility removeItemForPathComponent:logBufferDir];
+  [MSUtility deleteItemForPathComponent:logBufferDir];
 }
 
 #pragma mark - Tests

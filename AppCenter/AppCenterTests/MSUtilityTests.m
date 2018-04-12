@@ -25,6 +25,7 @@
 - (void)tearDown {
   [super tearDown];
   [self.utils stopMocking];
+  [MSUtility deleteItemForPathComponent:@"testing"];
 }
 
 #pragma mark - MSUtility.h
@@ -117,10 +118,10 @@
 }
 
 - (void)testCurrentAppEnvironment {
-  
+
   // When
   MSEnvironment env = [MSUtility currentAppEnvironment];
-  
+
   // Then
   // Tests always run in simulators.
   XCTAssertEqual(env, MSEnvironmentOther);
@@ -181,11 +182,11 @@
 #pragma mark - MSUtility+StringFormatting.h
 
 - (void)testCreateSha256 {
-  
+
   // When
   NSString *test = @"TestString";
   NSString *result = [MSUtility sha256:test];
-  
+
   // Then
   XCTAssertTrue([result isEqualToString:@"6dd79f2770a0bb38073b814a5ff000647b37be5abbde71ec9176c6ce0cb32a27"]);
 }
@@ -575,6 +576,275 @@
   XCTAssertNotNil([validatedProperties objectForKey:@"Key5"]);
   XCTAssertNil([validatedProperties objectForKey:@"Key6"]);
   XCTAssertNotNil([validatedProperties objectForKey:@"Key7"]);
+}
+
+#pragma mark - MSUtility+File.h
+
+- (void)testCreateFile {
+
+  // If
+  NSString *expectedString = @"Something";
+  NSString *pathComponent = @"testing/afile.test";
+  NSData *expectedData = [expectedString dataUsingEncoding:NSUTF8StringEncoding];
+  BOOL forceOverwrite = NO;
+
+  // When
+  NSURL *url = [MSUtility createFileAtPathComponent:pathComponent
+                                           withData:expectedData
+                                         atomically:YES
+                                     forceOverwrite:forceOverwrite];
+
+  // Then
+  XCTAssertNotNil(url);
+  NSString *expectedFile;
+#if TARGET_OS_TV
+  expectedFile = @"/Library/Caches/com.microsoft.appcenter/testing/afile.test";
+#else
+#if TARGET_OS_OSX
+  expectedFile = @"/Library/Application%20Support/(null)/com.microsoft.appcenter/testing/afile.test";
+#else
+  expectedFile = @"/Library/Application%20Support/com.microsoft.appcenter/testing/afile.test";
+#endif
+#endif
+  XCTAssertTrue([[url relativeString] containsString:expectedFile]);
+  XCTAssertTrue([url checkResourceIsReachableAndReturnError:nil]);
+  NSData *actualData = [NSData dataWithContentsOfURL:url];
+  XCTAssertNotNil(actualData);
+  NSString *actualContent = [[NSString alloc] initWithData:actualData encoding:NSUTF8StringEncoding];
+  XCTAssertTrue([actualContent isEqualToString:expectedString]);
+
+  // When
+  NSString *newString = @"Hello";
+  NSData *newData = [newString dataUsingEncoding:NSUTF8StringEncoding];
+
+  // Try to create a file that already exists with forceOverwrite set to NO. This shouldn't change the file.
+  url = [MSUtility createFileAtPathComponent:pathComponent withData:newData atomically:YES forceOverwrite:NO];
+
+  // Then
+  actualData = [NSData dataWithContentsOfURL:url];
+  XCTAssertNotNil(actualData);
+  actualContent = [[NSString alloc] initWithData:actualData encoding:NSUTF8StringEncoding];
+  XCTAssertTrue([actualContent isEqualToString:expectedString]);
+
+  // When
+  url = [MSUtility createFileAtPathComponent:pathComponent withData:newData atomically:YES forceOverwrite:YES];
+
+  // Then
+  actualData = [NSData dataWithContentsOfURL:url];
+  XCTAssertNotNil(actualData);
+  actualContent = [[NSString alloc] initWithData:actualData encoding:NSUTF8StringEncoding];
+  XCTAssertTrue([actualContent isEqualToString:newString]);
+}
+
+- (void)testDeleteItemForPathComponent {
+
+  // If
+  NSString *expectedString = @"Something";
+  NSString *pathComponent = @"testing/anotherfile.test";
+  NSData *expectedData = [expectedString dataUsingEncoding:NSUTF8StringEncoding];
+  BOOL forceOverwrite = NO;
+
+  // When
+  NSURL *url = [MSUtility createFileAtPathComponent:pathComponent
+                                           withData:expectedData
+                                         atomically:YES
+                                     forceOverwrite:forceOverwrite];
+
+  // Then
+  XCTAssertNotNil(url);
+  NSString *expectedFile;
+#if TARGET_OS_TV
+  expectedFile = @"/Library/Caches/com.microsoft.appcenter/testing/anotherfile.test";
+#else
+#if TARGET_OS_OSX
+  expectedFile = @"/Library/Application%20Support/(null)/com.microsoft.appcenter/testing/anotherfile.test";
+#else
+  expectedFile = @"/Library/Application%20Support/com.microsoft.appcenter/testing/anotherfile.test";
+#endif
+#endif
+  XCTAssertTrue([[url relativeString] containsString:expectedFile]);
+  XCTAssertTrue([url checkResourceIsReachableAndReturnError:nil]);
+
+  // When
+  [MSUtility deleteItemForPathComponent:pathComponent];
+  XCTAssertFalse([url checkResourceIsReachableAndReturnError:nil]);
+}
+
+- (void)testCreateDirectory {
+
+  // If
+  NSString *pathComponent = @"testing";
+
+  // When
+  NSURL *url = [MSUtility createDirectoryForPathComponent:pathComponent];
+
+  // Then
+  XCTAssertNotNil(url);
+  NSString *expectedFile;
+#if TARGET_OS_TV
+  expectedFile = @"/Library/Caches/com.microsoft.appcenter/testing";
+#else
+#if TARGET_OS_OSX
+  expectedFile = @"/Library/Application%20Support/(null)/com.microsoft.appcenter/testing";
+#else
+  expectedFile = @"/Library/Application%20Support/com.microsoft.appcenter/testing";
+#endif
+#endif
+  XCTAssertTrue([[url relativeString] containsString:expectedFile]);
+  XCTAssertTrue([url checkResourceIsReachableAndReturnError:nil]);
+}
+
+- (void)testLoadDataForPathComponent {
+
+  // If
+  NSString *expectedString = @"Something";
+  NSString *pathComponent = @"testing/anotherfile.test";
+  NSData *expectedData = [expectedString dataUsingEncoding:NSUTF8StringEncoding];
+  BOOL forceOverwrite = NO;
+  [MSUtility createFileAtPathComponent:pathComponent
+                              withData:expectedData
+                            atomically:YES
+                        forceOverwrite:forceOverwrite];
+
+  // When
+  NSData *actualData = [MSUtility loadDataForPathComponent:pathComponent];
+
+  // Then
+  XCTAssertNotNil(actualData);
+  NSString *actualContent = [[NSString alloc] initWithData:actualData encoding:NSUTF8StringEncoding];
+  XCTAssertTrue([actualContent isEqualToString:expectedString]);
+}
+
+- (void)testContentsOfDirectory {
+
+  // If
+  NSString *expectedString = @"Something";
+  NSString *pathComponent = @"testing/anotherfile.test";
+  NSData *expectedData = [expectedString dataUsingEncoding:NSUTF8StringEncoding];
+  NSString *expectedString1 = @"Something";
+  NSString *pathComponent1 = @"testing/anotherfile1.test";
+  NSData *expectedData1 = [expectedString1 dataUsingEncoding:NSUTF8StringEncoding];
+  NSString *expectedString2 = @"Something2";
+  NSString *pathComponent2 = @"testing/anotherfile2.test";
+  NSData *expectedData2 = [expectedString2 dataUsingEncoding:NSUTF8StringEncoding];
+  BOOL forceOverwrite = NO;
+  [MSUtility createFileAtPathComponent:pathComponent
+                              withData:expectedData
+                            atomically:YES
+                        forceOverwrite:forceOverwrite];
+  [MSUtility createFileAtPathComponent:pathComponent1
+                              withData:expectedData1
+                            atomically:YES
+                        forceOverwrite:forceOverwrite];
+  [MSUtility createFileAtPathComponent:pathComponent2
+                              withData:expectedData2
+                            atomically:YES
+                        forceOverwrite:forceOverwrite];
+
+  // When
+  NSArray<NSURL *> *contents = [MSUtility contentsOfDirectory:@"testing" propertiesForKeys:nil];
+
+  // Then
+  XCTAssertTrue(contents.count == 3);
+  XCTAssertNotNil(contents[0]);
+  XCTAssertTrue([contents[0] checkResourceIsReachableAndReturnError:nil]);
+  NSData *actualData = [NSData dataWithContentsOfURL:contents[0]];
+  XCTAssertNotNil(actualData);
+  NSString *actualContent = [[NSString alloc] initWithData:actualData encoding:NSUTF8StringEncoding];
+  XCTAssertTrue([actualContent isEqualToString:expectedString]);
+  XCTAssertNotNil(contents[1]);
+  XCTAssertTrue([contents[1] checkResourceIsReachableAndReturnError:nil]);
+  actualData = [NSData dataWithContentsOfURL:contents[1]];
+  XCTAssertNotNil(actualData);
+  actualContent = [[NSString alloc] initWithData:actualData encoding:NSUTF8StringEncoding];
+  XCTAssertTrue([actualContent isEqualToString:expectedString1]);
+  XCTAssertNotNil(contents[2]);
+  XCTAssertTrue([contents[2] checkResourceIsReachableAndReturnError:nil]);
+  actualData = [NSData dataWithContentsOfURL:contents[2]];
+  XCTAssertNotNil(actualData);
+  actualContent = [[NSString alloc] initWithData:actualData encoding:NSUTF8StringEncoding];
+  XCTAssertTrue([actualContent isEqualToString:expectedString2]);
+}
+
+- (void)testFileExistsForPathComponent {
+
+  // If
+  NSString *expectedString = @"Something";
+  NSString *pathComponent = @"testing/anotherfile.test";
+  NSData *expectedData = [expectedString dataUsingEncoding:NSUTF8StringEncoding];
+  BOOL forceOverwrite = NO;
+  [MSUtility createFileAtPathComponent:pathComponent
+                              withData:expectedData
+                            atomically:YES
+                        forceOverwrite:forceOverwrite];
+
+  // When
+  BOOL actual = [MSUtility fileExistsForPathComponent:pathComponent];
+
+  // Then
+  XCTAssertTrue(actual);
+
+  // When
+  actual = [MSUtility fileExistsForPathComponent:@"thisDoesNotExist"];
+
+  // Then
+  XCTAssertFalse(actual);
+}
+
+- (void)testDeleteFileAtURL {
+  
+  // If
+  NSString *expectedString = @"Something";
+  NSString *pathComponent = @"testing/anotherfile.test";
+  NSData *expectedData = [expectedString dataUsingEncoding:NSUTF8StringEncoding];
+  BOOL forceOverwrite = NO;
+  
+  // When
+  NSURL *url = [MSUtility createFileAtPathComponent:pathComponent
+                                           withData:expectedData
+                                         atomically:YES
+                                     forceOverwrite:forceOverwrite];
+  
+  // Then
+  XCTAssertNotNil(url);
+  NSString *expectedFile;
+#if TARGET_OS_TV
+  expectedFile = @"/Library/Caches/com.microsoft.appcenter/testing/anotherfile.test";
+#else
+#if TARGET_OS_OSX
+  expectedFile = @"/Library/Application%20Support/(null)/com.microsoft.appcenter/testing/anotherfile.test";
+#else
+  expectedFile = @"/Library/Application%20Support/com.microsoft.appcenter/testing/anotherfile.test";
+#endif
+#endif
+  XCTAssertTrue([[url relativeString] containsString:expectedFile]);
+  XCTAssertTrue([url checkResourceIsReachableAndReturnError:nil]);
+  
+  // When
+  [MSUtility deleteFileAtURL:url];
+  
+  // Then
+  XCTAssertFalse([url checkResourceIsReachableAndReturnError:nil]);
+}
+
+- (void)testFullURLForPathComponent {
+  
+  // If
+  NSString *expectedString = @"Something";
+  NSString *pathComponent = @"testing/anotherfile.test";
+  NSData *expectedData = [expectedString dataUsingEncoding:NSUTF8StringEncoding];
+  BOOL forceOverwrite = NO;
+  
+  // When
+  NSURL *url = [MSUtility createFileAtPathComponent:pathComponent
+                                           withData:expectedData
+                                         atomically:YES
+                                     forceOverwrite:forceOverwrite];
+  NSURL *actual = [MSUtility fullURLForPathComponent:pathComponent];
+  // Then
+  XCTAssertNotNil(url);
+  XCTAssertNotNil(url);
+  XCTAssertTrue([[url absoluteString] isEqualToString:([actual absoluteString])?:@""]);
 }
 
 @end
