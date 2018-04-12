@@ -143,7 +143,7 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
 #if TARGET_OS_OSX
 
     // Use the application's bundle identifier for macOS to make sure to use separate directories for each app.
-    NSString *bundleIdentifier = [MS_APP_MAIN_BUNDLE bundleIdentifier];
+    NSString *bundleIdentifier = [NSString stringWithFormat:@"%@/", [MS_APP_MAIN_BUNDLE bundleIdentifier]];
     dirURL = [[cacheDirURL URLByAppendingPathComponent:bundleIdentifier]
         URLByAppendingPathComponent:kMSAppCenterBundleIdentifier];
 #else
