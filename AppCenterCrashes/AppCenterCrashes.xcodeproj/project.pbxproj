@@ -342,11 +342,6 @@
 		9224468E1F62277500E4034A /* MSHandledErrorLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 922446851F6222EC00E4034A /* MSHandledErrorLogTests.m */; };
 		9224468F1F634AD200E4034A /* MSHandledErrorLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 922446831F621F3A00E4034A /* MSHandledErrorLog.m */; };
 		922446901F634AD600E4034A /* MSHandledErrorLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 922446831F621F3A00E4034A /* MSHandledErrorLog.m */; };
-		B2268FBA207F2CDF00148ABA /* NSBundle+BundleIdentifier.h in Headers */ = {isa = PBXBuildFile; fileRef = B2268FB8207F2CDF00148ABA /* NSBundle+BundleIdentifier.h */; };
-		B2268FBB207F2CDF00148ABA /* NSBundle+BundleIdentifier.m in Sources */ = {isa = PBXBuildFile; fileRef = B2268FB9207F2CDF00148ABA /* NSBundle+BundleIdentifier.m */; };
-		B2268FBC207F2CE000148ABA /* NSBundle+BundleIdentifier.m in Sources */ = {isa = PBXBuildFile; fileRef = B2268FB9207F2CDF00148ABA /* NSBundle+BundleIdentifier.m */; };
-		B2268FBD207F2CE000148ABA /* NSBundle+BundleIdentifier.m in Sources */ = {isa = PBXBuildFile; fileRef = B2268FB9207F2CDF00148ABA /* NSBundle+BundleIdentifier.m */; };
-		B2268FBE207F2CE000148ABA /* NSBundle+BundleIdentifier.m in Sources */ = {isa = PBXBuildFile; fileRef = B2268FB9207F2CDF00148ABA /* NSBundle+BundleIdentifier.m */; };
 		B24F3F0F1D93368F00827213 /* MSErrorLogFormatterTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = B24F3F0E1D93368F00827213 /* MSErrorLogFormatterTests.mm */; };
 		B24F3F121D9341BC00827213 /* MSErrorLogFormatterPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = B24F3F101D93417B00827213 /* MSErrorLogFormatterPrivate.h */; };
 		B2A0A71C1D9C2AE700729A58 /* MSCrashesTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = B2A0A71B1D9C2AE700729A58 /* MSCrashesTestUtil.m */; };
@@ -576,8 +571,6 @@
 		922446821F621D4500E4034A /* MSHandledErrorLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSHandledErrorLog.h; sourceTree = "<group>"; };
 		922446831F621F3A00E4034A /* MSHandledErrorLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSHandledErrorLog.m; sourceTree = "<group>"; };
 		922446851F6222EC00E4034A /* MSHandledErrorLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSHandledErrorLogTests.m; sourceTree = "<group>"; };
-		B2268FB8207F2CDF00148ABA /* NSBundle+BundleIdentifier.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSBundle+BundleIdentifier.h"; sourceTree = "<group>"; };
-		B2268FB9207F2CDF00148ABA /* NSBundle+BundleIdentifier.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+BundleIdentifier.m"; sourceTree = "<group>"; };
 		B24F3F0E1D93368F00827213 /* MSErrorLogFormatterTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MSErrorLogFormatterTests.mm; sourceTree = "<group>"; };
 		B24F3F101D93417B00827213 /* MSErrorLogFormatterPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorLogFormatterPrivate.h; sourceTree = "<group>"; };
 		B2A0A71A1D9C2AE700729A58 /* MSCrashesTestUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashesTestUtil.h; sourceTree = "<group>"; };
@@ -942,8 +935,6 @@
 				6EC99A2D1D4166C50016C325 /* MSCrashesTests.mm */,
 				B24F3F0E1D93368F00827213 /* MSErrorLogFormatterTests.mm */,
 				352B1D6E1F27C36300684A7F /* MSWrapperCrashesHelperTests.m */,
-				B2268FB8207F2CDF00148ABA /* NSBundle+BundleIdentifier.h */,
-				B2268FB9207F2CDF00148ABA /* NSBundle+BundleIdentifier.m */,
 				6EC99A2F1D416CCF0016C325 /* Fixtures */,
 				6E171AEC1D22F7AB000DC480 /* Frameworks */,
 				04A140B31ECE8249001CEE94 /* Model */,
@@ -1146,7 +1137,6 @@
 				04EBBED51F01C0C90006B8AE /* MSAbstractErrorLog.h in Headers */,
 				04EBBED61F01C0C90006B8AE /* MSCrashesInternal.h in Headers */,
 				04CC3B851F3528BF00F7D92A /* MSWrapperCrashesHelper.h in Headers */,
-				B2268FBA207F2CDF00148ABA /* NSBundle+BundleIdentifier.h in Headers */,
 				04EBBED71F01C0C90006B8AE /* MSErrorAttachmentLog.h in Headers */,
 				04EBBED81F01C0C90006B8AE /* MSException.h in Headers */,
 				04EBBED91F01C0C90006B8AE /* MSServiceAbstract.h in Headers */,
@@ -1537,7 +1527,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0446DF691F3B977100C8E338 /* MSAppleErrorLogTests.m in Sources */,
-				B2268FBE207F2CE000148ABA /* NSBundle+BundleIdentifier.m in Sources */,
 				0446DF6A1F3B977100C8E338 /* MSCrashesTests.mm in Sources */,
 				0446DF6B1F3B977100C8E338 /* MSWrapperExceptionTests.m in Sources */,
 				0446DF6C1F3B977100C8E338 /* MSExceptionTests.m in Sources */,
@@ -1588,7 +1577,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				049327651ECA170D00D0187A /* MSAppleErrorLogTests.m in Sources */,
-				B2268FBC207F2CE000148ABA /* NSBundle+BundleIdentifier.m in Sources */,
 				049327661ECA170D00D0187A /* MSCrashesTests.mm in Sources */,
 				04CC3B891F3528DA00F7D92A /* MSWrapperExceptionTests.m in Sources */,
 				049327671ECA170D00D0187A /* MSExceptionTests.m in Sources */,
@@ -1614,7 +1602,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				04EBBEB21F01C0C90006B8AE /* MSErrorReport.m in Sources */,
-				B2268FBD207F2CE000148ABA /* NSBundle+BundleIdentifier.m in Sources */,
 				04EBBEB31F01C0C90006B8AE /* MSCrashesCXXExceptionHandler.mm in Sources */,
 				922446901F634AD600E4034A /* MSHandledErrorLog.m in Sources */,
 				04EBBEB41F01C0C90006B8AE /* MSAbstractErrorLog.m in Sources */,
@@ -1665,7 +1652,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B2FF130C1DD12F61003DC677 /* MSAppleErrorLogTests.m in Sources */,
-				B2268FBB207F2CDF00148ABA /* NSBundle+BundleIdentifier.m in Sources */,
 				6EC99A2E1D4166C50016C325 /* MSCrashesTests.mm in Sources */,
 				350B29F41F1E6F1D009B91CF /* MSWrapperExceptionTests.m in Sources */,
 				6E7D5C8A1D3EC504009EC9AC /* MSExceptionTests.m in Sources */,

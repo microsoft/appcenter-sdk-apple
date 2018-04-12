@@ -1,4 +1,3 @@
-#import "NSBundle+BundleIdentifier.h"
 #import "MSCrashesUtil.h"
 #import "MSCrashesUtilPrivate.h"
 #import "MSTestFrameworks.h"
@@ -17,8 +16,8 @@
 - (void)setUp {
   [super setUp];
   self.bundleMock = OCMClassMock([NSBundle class]);
-  OCMStub([self.bundleMock bundleIdentifier]).andReturn(@"com.test.app");
   OCMStub([self.bundleMock mainBundle]).andReturn(self.bundleMock);
+  OCMStub([self.bundleMock bundleIdentifier]).andReturn(@"com.test.app");
   [MSCrashesUtil resetDirectory];
 }
 

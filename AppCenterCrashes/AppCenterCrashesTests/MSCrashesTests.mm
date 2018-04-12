@@ -433,7 +433,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
                                                   [testName stringByAppendingString:@".mscrasheslogbuffer"]];
 
 #if TARGET_OS_OSX
-  [someData writeToFile:filePath atomically:YES];
+  [MSUtility createFileAtPathComponent:filePath withData:someData atomically:YES forceOverwrite:YES];
 #else
   //  [someData writeToFile:filePath options:NSDataWritingFileProtectionNone error:nil];
   [MSUtility createFileAtPathComponent:filePath withData:someData atomically:YES forceOverwrite:YES];
