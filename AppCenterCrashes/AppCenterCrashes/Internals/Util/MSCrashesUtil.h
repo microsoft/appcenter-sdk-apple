@@ -1,5 +1,9 @@
 #import <Foundation/Foundation.h>
 
+static NSString *const kMSCrashesDirectory = @"crashes";
+static NSString *const kMSLogBufferDirectory = @"crasheslogbuffer";
+static NSString *const kMSWrapperExceptionsDirectory = @"crasheswrapperexceptions";
+
 @interface MSCrashesUtil : NSObject
 
 /**

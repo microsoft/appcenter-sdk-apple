@@ -19,6 +19,7 @@
 #import "MSServiceAbstractPrivate.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSTestFrameworks.h"
+#import "MSUtility+File.h"
 #import "MSWrapperExceptionManagerInternal.h"
 #import "MSWrapperCrashesHelper.h"
 
@@ -69,7 +70,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // Delete all files.
   [self.sut deleteAllFromCrashesDirectory];
-  [MSCrashesTestUtil deleteAllFilesInDirectory:[[self.sut logBufferDir] path]];
+  NSString *logBufferDir = [MSCrashesUtil logBufferDir];
+  [MSUtility removeItemForPathComponent:logBufferDir];
 }
 
 #pragma mark - Tests
@@ -82,15 +84,12 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   // Then
   assertThat(self.sut, notNilValue());
   assertThat(self.sut.crashFiles, isEmpty());
-  assertThat(self.sut.analyzerInProgressFile, notNilValue());
+  assertThat(self.sut.analyzerInProgressFilePathComponent, notNilValue());
   XCTAssertTrue(msCrashesLogBuffer.size() == ms_crashes_log_buffer_size);
 
   // Wait for creation of buffers.
   dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
-  NSError *error = [NSError errorWithDomain:@"MSTestingError" code:-57 userInfo:nil];
-  NSArray *files = [[NSFileManager defaultManager]
-      contentsOfDirectoryAtPath:reinterpret_cast<NSString *_Nonnull>([self.sut.logBufferDir path])
-                          error:&error];
+  NSArray *files = [MSUtility contentsOfDirectory:self.sut.logBufferPathComponent propertiesForKeys:nil];
   assertThat(files, hasCountOf(ms_crashes_log_buffer_size));
 }
 
@@ -209,7 +208,6 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
 
   // If
-  NSString *crashesPath = [self.sut.crashesDir path];
   self.sut = OCMPartialMock(self.sut);
   OCMStub([self.sut startDelayedCrashProcessing]).andDo(nil);
 
@@ -240,7 +238,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // Then
   assertThat(self.sut.crashFiles, hasCountOf(1));
-  assertThatLong([self.sut.fileManager contentsOfDirectoryAtPath:crashesPath error:nil].count, equalToLong(1));
+
+  assertThatLong([MSUtility contentsOfDirectory:self.sut.crashesPathComponent propertiesForKeys:nil].count, equalToLong(1));
 
   // When
   self.sut = OCMPartialMock([MSCrashes new]);
@@ -260,7 +259,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // Then
   assertThat(self.sut.crashFiles, hasCountOf(0));
-  assertThatLong([self.sut.fileManager contentsOfDirectoryAtPath:crashesPath error:nil].count, equalToLong(0));
+  assertThatLong([MSUtility contentsOfDirectory:self.sut.crashesPathComponent propertiesForKeys:nil].count, equalToLong(0));
 
   // When
   self.sut = OCMPartialMock([MSCrashes new]);
@@ -272,7 +271,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // Then
   assertThat(self.sut.crashFiles, hasCountOf(1));
-  assertThatLong([self.sut.fileManager contentsOfDirectoryAtPath:crashesPath error:nil].count, equalToLong(1));
+  assertThatLong([MSUtility contentsOfDirectory:self.sut.crashesPathComponent propertiesForKeys:nil].count, equalToLong(1));
 
   // When
   self.sut = OCMPartialMock([MSCrashes new]);
@@ -289,7 +288,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // Then
   assertThat(self.sut.crashFiles, hasCountOf(0));
-  assertThatLong([self.sut.fileManager contentsOfDirectoryAtPath:crashesPath error:nil].count, equalToLong(0));
+  assertThatLong([MSUtility contentsOfDirectory:self.sut.crashesPathComponent propertiesForKeys:nil].count, equalToLong(0));
 }
 
 - (void)testProcessCrashesWithErrorAttachments {
@@ -365,14 +364,13 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                         appSecret:kMSTestAppSecret
           transmissionTargetToken:nil];
-  NSString *path = [self.sut.crashesDir path];
 
   // When
   [self.sut setEnabled:NO];
 
   // Then
   assertThat(self.sut.crashFiles, hasCountOf(0));
-  assertThatLong([self.sut.fileManager contentsOfDirectoryAtPath:path error:nil].count, equalToLong(0));
+  assertThatLong([MSUtility contentsOfDirectory:self.sut.crashesPathComponent propertiesForKeys:nil].count, equalToLong(0));
 }
 
 - (void)testDeleteCrashReportsFromDisabledToEnabled {
@@ -385,14 +383,13 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                         appSecret:kMSTestAppSecret
           transmissionTargetToken:nil];
-  NSString *path = [self.sut.crashesDir path];
 
   // When
   [self.sut setEnabled:YES];
 
   // Then
   assertThat(self.sut.crashFiles, hasCountOf(0));
-  assertThatLong([self.sut.fileManager contentsOfDirectoryAtPath:path error:nil].count, equalToLong(0));
+  assertThatLong([MSUtility contentsOfDirectory:self.sut.crashesPathComponent propertiesForKeys:nil].count, equalToLong(0));
 }
 
 - (void)testSetupLogBufferWorks {
@@ -402,13 +399,10 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
 
   // Then
-  NSError *error = [NSError errorWithDomain:@"MSTestingError" code:-57 userInfo:nil];
-  NSArray *first = [[NSFileManager defaultManager]
-      contentsOfDirectoryAtPath:reinterpret_cast<NSString *_Nonnull>([self.sut.logBufferDir path])
-                          error:&error];
+  NSArray<NSURL *> *first = [MSUtility contentsOfDirectory:self.sut.logBufferPathComponent propertiesForKeys:@[ NSURLNameKey, NSURLFileSizeKey, NSURLIsRegularFileKey ]];
   XCTAssertTrue(first.count == ms_crashes_log_buffer_size);
-  for (NSString *path in first) {
-    unsigned long long fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:path error:nil] fileSize];
+  for (NSURL *path in first) {
+    unsigned long long fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:([path absoluteString] ?:@"") error:nil] fileSize];
     XCTAssertTrue(fileSize == 0);
   }
 
@@ -416,24 +410,10 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   [self.sut setupLogBuffer];
 
   // Then
-  NSArray *second = [[NSFileManager defaultManager]
-      contentsOfDirectoryAtPath:reinterpret_cast<NSString *_Nonnull>([self.sut.logBufferDir path])
-                          error:&error];
+  NSArray *second = [MSUtility contentsOfDirectory:self.sut.logBufferPathComponent propertiesForKeys:nil];
   for (int i = 0; i < ms_crashes_log_buffer_size; i++) {
-    XCTAssertTrue([first[i] isEqualToString:second[i]]);
+    XCTAssertTrue([([first[i] absoluteString]?:@"") isEqualToString:([second[i] absoluteString]?:@"")]);
   }
-}
-
-- (void)testCreateBufferFile {
-  // When
-  NSString *testName = @"afilename";
-  NSString *filePath = [[self.sut.logBufferDir path]
-      stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
-  [self.sut createBufferFileAtURL:[NSURL fileURLWithPath:filePath]];
-
-  // Then
-  BOOL success = [[NSFileManager defaultManager] fileExistsAtPath:filePath];
-  XCTAssertTrue(success);
 }
 
 - (void)testEmptyLogBufferFiles {
@@ -441,25 +421,29 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   NSString *testName = @"afilename";
   NSString *dataString = @"SomeBufferedData";
   NSData *someData = [dataString dataUsingEncoding:NSUTF8StringEncoding];
-  NSString *filePath = [[self.sut.logBufferDir path]
-      stringByAppendingPathComponent:[testName stringByAppendingString:@".mscrasheslogbuffer"]];
+  NSString *filePath = [NSString stringWithFormat:@"%@/%@", self.sut.logBufferPathComponent, [testName stringByAppendingString:@".mscrasheslogbuffer"]];
 
 #if TARGET_OS_OSX
   [someData writeToFile:filePath atomically:YES];
 #else
-  [someData writeToFile:filePath options:NSDataWritingFileProtectionNone error:nil];
+//  [someData writeToFile:filePath options:NSDataWritingFileProtectionNone error:nil];
+  [MSUtility createFileAtPathComponent:filePath withData:someData atomically:YES forceOverwrite:YES];
 #endif
 
   // When
-  BOOL success = [[NSFileManager defaultManager] fileExistsAtPath:filePath];
+  BOOL success = [MSUtility fileExistsForPathComponent:filePath];
   XCTAssertTrue(success);
 
   // Then
-  unsigned long long fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:nil] fileSize];
-  XCTAssertTrue(fileSize == 16);
+  NSData *data = [MSUtility loadDataForPathComponent:filePath];
+  XCTAssertTrue([data length] == 16);
+  
+  // When
   [self.sut emptyLogBufferFiles];
-  fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:nil] fileSize];
-  XCTAssertTrue(fileSize == 0);
+  
+  //Then
+  data = [MSUtility loadDataForPathComponent:filePath];
+  XCTAssertTrue([data length] == 0);
 }
 
 - (void)testBufferIndexIncrementForAllPriorities {

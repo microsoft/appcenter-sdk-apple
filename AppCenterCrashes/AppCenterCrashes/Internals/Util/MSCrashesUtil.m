@@ -5,10 +5,6 @@
 #import "MSUtility.h"
 #import "MSUtility+File.h"
 
-static NSString *const kMSCrashesDirectory = @"crashes";
-static NSString *const kMSLogBufferDirectory = @"crasheslogbuffer";
-static NSString *const kMSWrapperExceptionsDirectory = @"crasheswrapperexceptions";
-
 @implementation MSCrashesUtil
 
 static dispatch_once_t crashesDirectoryOnceToken;

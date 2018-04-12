@@ -117,7 +117,7 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
 }
 
 + (NSURL *)fullURLForPathComponent:(NSString *)filePathComponent {
-  if (filePathComponent) {
+  if(filePathComponent) {
     return [[self appCenterDirectoryURL] URLByAppendingPathComponent:filePathComponent];
   }
   return nil;
@@ -192,3 +192,4 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
 }
 
 @end
+

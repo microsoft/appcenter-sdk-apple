@@ -1,6 +1,8 @@
+
 #import "MSCrashesUtil.h"
 #import "MSCrashesUtilPrivate.h"
 #import "MSTestFrameworks.h"
+#import "MSUtility+File.h"
 
 @interface MSCrashesUtilTests : XCTestCase
 
@@ -29,32 +31,77 @@
 #pragma mark - Tests
 
 - (void)testCreateCrashesDir {
-  NSString *crashesDir = [[MSCrashesUtil crashesDir] path];
+  
+  // If
   NSString *expectedDir;
-  XCTAssertNotNil(crashesDir);
-#if TARGET_OS_OSX
-  expectedDir = @"/Library/Caches/com.test.app/com.microsoft.appcenter/crashes";
-#else
+#if TARGET_OS_TV
   expectedDir = @"/Library/Caches/com.microsoft.appcenter/crashes";
+#else
+#if TARGET_OS_OSX
+  expectedDir = @"/Library/Application%20Support/com.test.app/com.microsoft.appcenter/crashes";
+#else
+  expectedDir = @"/Library/Application%20Support/com.microsoft.appcenter/crashes";
 #endif
+#endif
+  
+  // When
+  [MSCrashesUtil crashesDir];
+  
+  // Then
+  NSString *crashesDir = [[MSUtility fullURLForPathComponent:kMSCrashesDirectory] absoluteString];
+  XCTAssertNotNil(crashesDir);
   XCTAssertTrue([crashesDir rangeOfString:expectedDir].location != NSNotFound);
-  BOOL isDir = YES;
-  BOOL dirExists = [[NSFileManager defaultManager] fileExistsAtPath:crashesDir isDirectory:&isDir];
+  BOOL dirExists = [MSUtility fileExistsForPathComponent:kMSCrashesDirectory];
   XCTAssertTrue(dirExists);
 }
 
 - (void)testCreateLogBufferDir {
-  NSString *bufferDir = [[MSCrashesUtil logBufferDir] path];
+  
+  // If
   NSString *expectedDir;
-  XCTAssertNotNil(bufferDir);
-#if TARGET_OS_OSX
-  expectedDir = @"/Library/Caches/com.test.app/com.microsoft.appcenter/crasheslogbuffer";
-#else
+#if TARGET_OS_TV
   expectedDir = @"/Library/Caches/com.microsoft.appcenter/crasheslogbuffer";
+#else
+#if TARGET_OS_OSX
+  expectedDir = @"/Library/Application%20Support/com.test.app/com.microsoft.appcenter/crasheslogbuffer";
+#else
+  expectedDir = @"/Library/Application%20Support/com.microsoft.appcenter/crasheslogbuffer";
 #endif
+#endif
+  
+  // When
+  [MSCrashesUtil logBufferDir];
+  
+  // Then
+  NSString *bufferDir = [[MSUtility fullURLForPathComponent:@"crasheslogbuffer"] absoluteString];
+  XCTAssertNotNil(bufferDir);
   XCTAssertTrue([bufferDir rangeOfString:expectedDir].location != NSNotFound);
-  BOOL isDir = YES;
-  BOOL dirExists = [[NSFileManager defaultManager] fileExistsAtPath:bufferDir isDirectory:&isDir];
+  BOOL dirExists = [MSUtility fileExistsForPathComponent:@"crasheslogbuffer"];
+  XCTAssertTrue(dirExists);
+}
+
+- (void)testCreateWrapperExceptionDir {
+  
+  // If
+  NSString *expectedDir;
+#if TARGET_OS_TV
+  expectedDir = @"/Library/Caches/com.microsoft.appcenter/crasheswrapperexceptions";
+#else
+#if TARGET_OS_OSX
+  expectedDir = @"/Library/Application%20Support/com.test.app/com.microsoft.appcenter/crasheswrapperexceptions";
+#else
+  expectedDir = @"/Library/Application%20Support/com.microsoft.appcenter/crasheswrapperexceptions";
+#endif
+#endif
+  
+  // When
+  [MSCrashesUtil wrapperExceptionsDir];
+  
+  // Then
+  NSString *crashesWrapperExceptionDir = [[MSUtility fullURLForPathComponent:kMSWrapperExceptionsDirectory] absoluteString];
+  XCTAssertNotNil(crashesWrapperExceptionDir);
+  XCTAssertTrue([crashesWrapperExceptionDir rangeOfString:expectedDir].location != NSNotFound);
+  BOOL dirExists = [MSUtility fileExistsForPathComponent:kMSWrapperExceptionsDirectory];
   XCTAssertTrue(dirExists);
 }
 

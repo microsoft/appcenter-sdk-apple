@@ -81,6 +81,22 @@ typedef struct MSCrashesCallbacks {
 @property(nonatomic, copy) NSMutableArray *crashFiles;
 
 /**
+ * The path component directory where all crash reports are stored.
+ */
+@property(nonatomic, copy) NSString *crashesPathComponent;
+
+/**
+ * The directory where all buffered logs are stored.
+ */
+@property(nonatomic, copy) NSString *logBufferPathComponent;
+
+/**
+ * A path component that's used to indicate that a crash which occurred in the last session is
+ * currently written to disk.
+ */
+@property(nonatomic, copy) NSString *analyzerInProgressFilePathComponent;
+
+/**
  * The object implements the protocol defined in `MSCrashesDelegate`.
  * @see MSCrashesDelegate
  */
