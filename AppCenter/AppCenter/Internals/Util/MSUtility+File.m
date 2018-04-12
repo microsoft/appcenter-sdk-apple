@@ -63,7 +63,7 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
   }
 }
 
-// TODO: Should take a path component, not a URL.
+// TODO: We should remove this and just expose the method taking a pathComponent.
 + (BOOL)deleteFileAtURL:(NSURL *)fileURL {
   @synchronized(self) {
     if (fileURL && [fileURL checkResourceIsReachableAndReturnError:nil]) {

@@ -238,7 +238,6 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // Then
   assertThat(self.sut.crashFiles, hasCountOf(1));
-
   assertThatLong([MSUtility contentsOfDirectory:self.sut.crashesPathComponent propertiesForKeys:nil].count,
                  equalToLong(1));
 

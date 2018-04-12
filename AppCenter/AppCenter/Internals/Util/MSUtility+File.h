@@ -34,7 +34,7 @@ extern NSString *MSUtilityFileCategory;
 /**
  * Removes the file or directory specified inside the app center sdk directory.
  *
- * @param itemPathComponent A string representing the path of the file to create.
+ * @param itemPathComponent A string representing the path of the file to delete.
  *
  * @return YES if the item was removed successfully or if URL was nil. Returns NO if an error occurred.
  */
@@ -68,7 +68,6 @@ extern NSString *MSUtilityFileCategory;
  * @param directory A string representing the path of the directory to look for content.
  *
  * @return An array of NSURL* of each file or directory in a directory.
- *
  */
 + (NSArray<NSURL *> *)contentsOfDirectory:(NSString *)directory propertiesForKeys:(NSArray *)propertiesForKeys;
 
