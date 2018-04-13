@@ -14,20 +14,8 @@
     NSMutableArray *tableQueries = [NSMutableArray new];
     NSMutableDictionary *dbColumnsIndexes = [NSMutableDictionary new];
 
-// Path to the database.
-#if TARGET_OS_TV
-    NSSearchPathDirectory directory = NSCachesDirectory;
-#else
-    NSSearchPathDirectory directory = NSApplicationSupportDirectory;
-#endif
-    NSURL *appSupportURL =
-        [[[NSFileManager defaultManager] URLsForDirectory:directory inDomains:NSUserDomainMask] lastObject];
-    if (appSupportURL) {
-      NSURL *fileURL =
-          [appSupportURL URLByAppendingPathComponent:[kMSStorageDirectory stringByAppendingPathComponent:filename]];
-      [MSUtility createFileAtURL:fileURL];
-      _filePath = fileURL.absoluteString;
-    }
+    // Path to the database.
+    _dbFileURL = [MSUtility createFileAtPathComponent:filename withData:nil atomically:NO forceOverwrite:NO];
 
     // If it is custom SQLite library we need to turn on URI filename capability.
     sqlite3_config(SQLITE_CONFIG_URI, 1);
@@ -92,7 +80,7 @@
 - (BOOL)executeNonSelectionQuery:(NSString *)query {
   sqlite3 *db = NULL;
   int result = SQLITE_OK;
-  result = sqlite3_open_v2([self.filePath UTF8String], &db,
+  result = sqlite3_open_v2([[self.dbFileURL absoluteString] UTF8String], &db,
                            SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_URI, NULL);
   if (result == SQLITE_OK) {
     char *errMsg;
@@ -113,7 +101,8 @@
   sqlite3 *db = NULL;
   sqlite3_stmt *statement = NULL;
   int result = 0;
-  result = sqlite3_open_v2([self.filePath UTF8String], &db, SQLITE_OPEN_READONLY | SQLITE_OPEN_URI, NULL);
+  result =
+      sqlite3_open_v2([[self.dbFileURL absoluteString] UTF8String], &db, SQLITE_OPEN_READONLY | SQLITE_OPEN_URI, NULL);
   if (result == SQLITE_OK) {
     result = sqlite3_prepare_v2(db, [query UTF8String], -1, &statement, NULL);
     if (result == SQLITE_OK) {
@@ -158,8 +147,8 @@
 }
 
 - (void)deleteDB {
-  if (self.filePath.length > 0) {
-    [MSUtility removeItemAtURL:[NSURL URLWithString:(NSString * _Nonnull)self.filePath]];
+  if (self.dbFileURL) {
+    [MSUtility deleteFileAtURL:self.dbFileURL];
   }
 }
 @end
