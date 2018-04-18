@@ -1,11 +1,30 @@
 #import "MSAnalytics.h"
 #import "MSAnalyticsDelegate.h"
+#import "MSAnalyticsTransmissionTarget.h"
 #import "MSChannelDelegate.h"
 #import "MSServiceInternal.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MSAnalytics () <MSServiceInternal, MSChannelDelegate>
+
+/**
+ * Track an event.
+ *
+ * @param eventName  event name.
+ * @param transmissionTarget The transmission target to associate to this event.
+ */
++ (void)trackEvent:(NSString *)eventName forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarget;
+
+/**
+ * Track an event.
+ *
+ * @param eventName  Event name.
+ * @param properties Dictionary of properties.
+ * @param transmissionTarget  The transmission target to associate to this event.
+ */
++ (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarget;
+
 
 // Temporarily hiding tracking page feature.
 /**
@@ -45,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable NSString *)validateEventName:(NSString *)eventName forLogType:(NSString *)logType;
 
 /**
- * Validate keys and values of properties.
+ * Validate keys and values of properties. Intended for testing. Uses MSUtility+PropertyValidation internally.
  *
  * @return dictionary which contains only valid properties.
  */

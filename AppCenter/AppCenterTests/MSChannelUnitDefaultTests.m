@@ -695,14 +695,10 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self initChannelEndJobExpectation];
   id<MSChannelDelegate> delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
   id mockLog = [self getValidMockLog];
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wnonnull"
-  MSChannelUnitDefault *sut = [[MSChannelUnitDefault alloc] initWithSender:nil
-                                                           storage:nil
-                                                     configuration:nil
+  MSChannelUnitDefault *sut = [[MSChannelUnitDefault alloc] initWithSender:self.senderMock
+                                                           storage:self.storageMock
+                                                     configuration:self.configMock
                                                  logsDispatchQueue:dispatch_get_main_queue()];
-#pragma clang diagnostic pop
 
   // When
   [sut addDelegate:delegateMock];

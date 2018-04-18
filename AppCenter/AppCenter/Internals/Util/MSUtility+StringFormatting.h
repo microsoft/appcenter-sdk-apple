@@ -24,6 +24,24 @@ extern NSString *MSUtilityStringFormattingCategory;
  */
 + (NSString *)sha256:(NSString *)string;
 
+/**
+ * Extract app secret from a string.
+ *
+ * @param string A string.
+ *
+ * @returns The app secret or nil if none was found.
+ */
++ (NSString *)appSecretFrom:(NSString *)string;
+
+/**
+ * Extract transmission target token from a string.
+ *
+ * @param string A string.
+ *
+ * @returns The tennant id or nil if none was found.
+ */
++ (NSString *)transmissionTargetTokenFrom:(NSString *)string;
+
 @end
 
 NS_ASSUME_NONNULL_END

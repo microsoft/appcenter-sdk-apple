@@ -45,10 +45,7 @@ static NSMutableDictionary *unprocessedWrapperExceptions;
  * Deletes all wrapper exceptions on disk.
  */
 + (void)deleteAllWrapperExceptions {
-  NSString *directoryPath = [[MSCrashesUtil wrapperExceptionsDir] absoluteString];
-  for (NSString *path in [[NSFileManager defaultManager] enumeratorAtPath:directoryPath]) {
-    [MSUtility removeItemAtURL:[NSURL URLWithString:path]];
-  }
+  [MSUtility deleteItemForPathComponent:[MSCrashesUtil wrapperExceptionsDir]];
 }
 
 /**
@@ -85,34 +82,31 @@ static NSMutableDictionary *unprocessedWrapperExceptions;
  * Saves a wrapper exception to disk with the given file name.
  */
 + (void)saveWrapperException:(MSWrapperException *)wrapperException withBaseFilename:(NSString *)baseFilename {
-  NSURL *exceptionFileURL = [self getAbsoluteFileURL:baseFilename];
-  BOOL success = [MSUtility createFileAtURL:exceptionFileURL];
-  if (success) {
 
-    // For some reason, archiving directly to a file fails in some cases, so archive
-    // to NSData and write that to the file
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:wrapperException];
-    [data writeToURL:exceptionFileURL atomically:YES];
-  }
+  // For some reason, archiving directly to a file fails in some cases, so archive
+  // to NSData and write that to the file
+  NSData *data = [NSKeyedArchiver archivedDataWithRootObject:wrapperException];
+  NSString *pathComponent = [NSString stringWithFormat:@"%@/%@", [MSCrashesUtil wrapperExceptionsDir], baseFilename];
+  [MSUtility createFileAtPathComponent:pathComponent withData:data atomically:YES forceOverwrite:YES];
 }
 
 /**
  * Deletes a wrapper exception with a given file name.
  */
 + (void)deleteWrapperExceptionWithBaseFilename:(NSString *)baseFilename {
-  NSURL *exceptionFileURL = [self getAbsoluteFileURL:baseFilename];
-  [MSUtility removeItemAtURL:exceptionFileURL];
+  NSString *pathComponent = [NSString stringWithFormat:@"%@/%@", [MSCrashesUtil wrapperExceptionsDir], baseFilename];
+  [MSUtility deleteItemForPathComponent:pathComponent];
 }
 
 /**
  * Loads a wrapper exception with a given filename.
  */
 + (MSWrapperException *)loadWrapperExceptionWithBaseFilename:(NSString *)baseFilename {
-  NSURL *exceptionFileURL = [self getAbsoluteFileURL:baseFilename];
 
   // For some reason, unarchiving directly from a file fails in some cases, so load
   // data from a file and unarchive it after
-  NSData *data = [NSData dataWithContentsOfURL:exceptionFileURL];
+  NSString *pathComponent = [NSString stringWithFormat:@"%@/%@", [MSCrashesUtil wrapperExceptionsDir], baseFilename];
+  NSData *data = [MSUtility loadDataForPathComponent:pathComponent];
   MSWrapperException *wrapperException = nil;
   @try {
     wrapperException = [NSKeyedUnarchiver unarchiveObjectWithData:data];
@@ -121,13 +115,6 @@ static NSMutableDictionary *unprocessedWrapperExceptions;
     [self deleteWrapperExceptionWithBaseFilename:baseFilename];
   }
   return wrapperException;
-}
-
-/**
- * Gets the full path for a given file name that should be in the wrapper crashes directory.
- */
-+ (NSURL *)getAbsoluteFileURL:(NSString *)filename {
-  return [[MSCrashesUtil wrapperExceptionsDir] URLByAppendingPathComponent:filename];
 }
 
 @end

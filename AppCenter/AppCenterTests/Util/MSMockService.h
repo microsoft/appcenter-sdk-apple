@@ -5,4 +5,6 @@
 
 @property BOOL started;
 
++ (void)resetSharedInstance;
+
 @end

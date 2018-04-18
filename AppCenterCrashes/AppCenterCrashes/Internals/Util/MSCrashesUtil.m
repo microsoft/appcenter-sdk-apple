@@ -3,11 +3,7 @@
 #import "MSCrashesUtilPrivate.h"
 #import "MSLogger.h"
 #import "MSUtility.h"
-
-static NSString *const kMSCrashesDirectory = @"com.microsoft.appcenter/crashes";
-static NSString *const kMSLogBufferDirectory = @"com.microsoft.appcenter/crasheslogbuffer";
-static NSString *const kMSWrapperExceptionsDirectory =
-    @"com.microsoft.appcenter/crasheswrapperexceptions";
+#import "MSUtility+File.h"
 
 @implementation MSCrashesUtil
 
@@ -17,101 +13,28 @@ static dispatch_once_t wrapperExceptionsDirectoryOnceToken;
 
 #pragma mark - Public
 
-+ (NSURL *)crashesDir {
-  static NSURL *crashesDir = nil;
-
++ (NSString *)crashesDir {
   dispatch_once(&crashesDirectoryOnceToken, ^{
-    NSError *error = nil;
-    NSFileManager *fileManager = [[NSFileManager alloc] init];
-
-    // Temporary directory for crashes grabbed from PLCrashReporter.
-    NSURL *cachesDirectory = [[fileManager URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask] lastObject];
-#if TARGET_OS_OSX
-
-    // To prevent placing all logs to the same place if host application doesn't enable sandbox.
-    cachesDirectory = [cachesDirectory
-        URLByAppendingPathComponent:[NSString stringWithFormat:@"%@/", [MS_APP_MAIN_BUNDLE bundleIdentifier]]];
-#endif
-    crashesDir = [cachesDirectory URLByAppendingPathComponent:kMSCrashesDirectory];
-
-    if (![crashesDir checkResourceIsReachableAndReturnError:nil]) {
-      NSDictionary *attributes = @{ NSFilePosixPermissions : @0755 };
-      if (![fileManager createDirectoryAtURL:crashesDir
-                 withIntermediateDirectories:YES
-                                  attributes:attributes
-                                       error:&error]) {
-        MSLogError([MSCrashes logTag], @"Couldn't create crashes directory at %@: %@", crashesDir,
-                   error.localizedDescription);
-      }
-    }
+    [MSUtility createDirectoryForPathComponent:kMSCrashesDirectory];
   });
 
-  return crashesDir;
+  return kMSCrashesDirectory;
 }
 
-+ (NSURL *)logBufferDir {
-  static NSURL *logBufferDir = nil;
-
++ (NSString *)logBufferDir {
   dispatch_once(&logBufferDirectoryOnceToken, ^{
-    NSError *error = nil;
-    NSFileManager *fileManager = [[NSFileManager alloc] init];
-
-    // Temporary directory for crashes grabbed from PLCrashReporter.
-    NSURL *cachesDirectory = [[fileManager URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask] lastObject];
-#if TARGET_OS_OSX
-
-    // To prevent placing all logs to the same place if host application doesn't enable sandbox.
-    cachesDirectory = [cachesDirectory
-        URLByAppendingPathComponent:[NSString stringWithFormat:@"%@/", [MS_APP_MAIN_BUNDLE bundleIdentifier]]];
-#endif
-    logBufferDir = [cachesDirectory URLByAppendingPathComponent:kMSLogBufferDirectory];
-
-    if (![logBufferDir checkResourceIsReachableAndReturnError:nil]) {
-      NSDictionary *attributes = @{ NSFilePosixPermissions : @0755 };
-      if (![fileManager createDirectoryAtURL:logBufferDir
-                 withIntermediateDirectories:YES
-                                  attributes:attributes
-                                       error:&error]) {
-        MSLogError([MSCrashes logTag], @"Couldn't create log buffer directory at %@: %@", logBufferDir,
-                   error.localizedDescription);
-      }
-    }
+    [MSUtility createDirectoryForPathComponent:kMSLogBufferDirectory];
   });
 
-  return logBufferDir;
+  return kMSLogBufferDirectory;
 }
 
-+ (NSURL *)wrapperExceptionsDir {
-  static NSURL *wrapperExceptionsDir = nil;
-
++ (NSString *)wrapperExceptionsDir {
   dispatch_once(&wrapperExceptionsDirectoryOnceToken, ^{
-    NSError *error = nil;
-    NSFileManager *fileManager = [[NSFileManager alloc] init];
-
-    // Temporary directory for crashes grabbed from PLCrashReporter.
-    NSURL *cachesDirectory = [[fileManager URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask] lastObject];
-#if TARGET_OS_OSX
-
-    // To prevent placing all logs to the same place if host application doesn't enable sandbox.
-    cachesDirectory = [cachesDirectory
-        URLByAppendingPathComponent:[NSString stringWithFormat:@"%@/", [MS_APP_MAIN_BUNDLE bundleIdentifier]]];
-#endif
-    wrapperExceptionsDir = [cachesDirectory URLByAppendingPathComponent:kMSWrapperExceptionsDirectory];
-
-    if (![wrapperExceptionsDir checkResourceIsReachableAndReturnError:nil]) {
-      NSDictionary *attributes = @{ NSFilePosixPermissions : @0755 };
-
-      if (![fileManager createDirectoryAtURL:wrapperExceptionsDir
-                 withIntermediateDirectories:YES
-                                  attributes:attributes
-                                       error:&error]) {
-        MSLogError([MSCrashes logTag], @"Couldn't create wrapper exceptions directory at %@: %@", wrapperExceptionsDir,
-                   error.localizedDescription);
-      }
-    }
+    [MSUtility createDirectoryForPathComponent:kMSWrapperExceptionsDirectory];
   });
 
-  return wrapperExceptionsDir;
+  return kMSWrapperExceptionsDirectory;
 }
 
 #pragma mark - Private

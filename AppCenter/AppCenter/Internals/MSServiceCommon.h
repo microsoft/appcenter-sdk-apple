@@ -37,6 +37,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, nonnull) NSString *appSecret;
 
 /**
+ * The default transmission target token.
+ */
+@property(nonatomic, nonnull) NSString *defaultTransmissionTargetToken;
+
+/**
  * Apply the enabled state to the service.
  *
  * @param isEnabled A boolean value set to YES to enable the service or NO otherwise.
@@ -82,11 +87,21 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param channelGroup channel group used to persist and send logs.
  * @param appSecret app secret for the SDK.
+ * @param token default transmission target token.
  *
  * @discussion Note that this is defined both here and in MSServiceAbstract.h. This is intentional, and due to
  * the way the classes are factored.
  */
-- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret;
+- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup
+                    appSecret:(nullable NSString *)appSecret
+      transmissionTargetToken:(nullable NSString *)token;
+
+/**
+ * Checks if the service needs the application secret.
+ *
+ * @return `YES` if the application secret is required, `NO` otherwise.
+ */
+- (BOOL)isAppSecretRequired;
 
 NS_ASSUME_NONNULL_END
 

@@ -1,4 +1,5 @@
 #import "MSAbstractLogInternal.h"
+#import "MSAbstractLogPrivate.h"
 #import "MSDevice.h"
 #import "MSDeviceInternal.h"
 #import "MSLogger.h"
@@ -17,6 +18,13 @@ static NSString *const kMSType = @"type";
 @synthesize sid = _sid;
 @synthesize distributionGroupId = _distributionGroupId;
 @synthesize device = _device;
+
+- (instancetype)init {
+  self = [super init];
+  if (self) {
+  }
+  return self;
+}
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [NSMutableDictionary new];
@@ -90,6 +98,25 @@ static NSString *const kMSType = @"type";
     jsonString = [jsonString stringByReplacingOccurrencesOfString:@"\\/" withString:@"/"];
   }
   return jsonString;
+}
+
+#pragma mark - Transmission Target logic
+
+- (NSSet *)transmissionTargetTokens {
+  @synchronized(self) {
+    return _transmissionTargetTokens;
+  }
+}
+
+- (void)addTransmissionTargetToken:(NSString *)token {
+  @synchronized(self) {
+    if(self.transmissionTargetTokens == nil) {
+      self.transmissionTargetTokens = [NSSet new];
+    }
+    NSMutableSet *mutableSet = [self.transmissionTargetTokens mutableCopy];
+    [mutableSet addObject:token];
+    self.transmissionTargetTokens = mutableSet;
+  }
 }
 
 @end

@@ -8,6 +8,7 @@
 @synthesize channelGroup = _channelGroup;
 @synthesize channelUnit = _channelUnit;
 @synthesize appSecret = _appSecret;
+@synthesize defaultTransmissionTargetToken = _defaultTransmissionTargetToken;
 
 - (instancetype)init {
   return [self initWithStorage:MS_USER_DEFAULTS];
@@ -69,15 +70,21 @@
   return MSInitializationPriorityDefault;
 }
 
+- (BOOL)isAppSecretRequired {
+  return YES;
+}
+
 #pragma mark : - MSService
 
-- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret {
-  self.started = YES;
+- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup
+                    appSecret:(NSString *)appSecret
+      transmissionTargetToken:(NSString *)token {
   self.channelGroup = channelGroup;
   self.appSecret = appSecret;
-
+  self.defaultTransmissionTargetToken = token;
+  self.started = YES;
   if ([self respondsToSelector:@selector(channelUnitConfiguration)]) {
-    
+
     // Initialize channel unit for the service in log manager.
     self.channelUnit = [self.channelGroup addChannelUnitWithConfiguration:self.channelUnitConfiguration];
   }

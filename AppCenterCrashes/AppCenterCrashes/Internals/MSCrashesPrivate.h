@@ -81,20 +81,20 @@ typedef struct MSCrashesCallbacks {
 @property(nonatomic, copy) NSMutableArray *crashFiles;
 
 /**
- * The directory where all crash reports are stored.
+ * The path component directory where all crash reports are stored.
  */
-@property(nonatomic, copy) NSURL *crashesDir;
+@property(nonatomic, copy) NSString *crashesPathComponent;
 
 /**
  * The directory where all buffered logs are stored.
  */
-@property(nonatomic, copy) NSURL *logBufferDir;
+@property(nonatomic, copy) NSString *logBufferPathComponent;
 
 /**
- * A file used to indicate that a crash which occurred in the last session is
+ * A path component that's used to indicate that a crash which occurred in the last session is
  * currently written to disk.
  */
-@property(nonatomic, copy) NSURL *analyzerInProgressFile;
+@property(nonatomic, copy) NSString *analyzerInProgressFilePathComponent;
 
 /**
  * The object implements the protocol defined in `MSCrashesDelegate`.
@@ -106,11 +106,6 @@ typedef struct MSCrashesCallbacks {
  * The `PLCrashReporter` instance used for crash detection.
  */
 @property(nonatomic) MSPLCrashReporter *plCrashReporter;
-
-/**
- * A `NSFileManager` instance used for reading and writing crash reports.
- */
-@property(nonatomic) NSFileManager *fileManager;
 
 /**
  * The exception handler used by the crashes service.
@@ -162,27 +157,6 @@ typedef struct MSCrashesCallbacks {
  * Sends crashes when given MSUserConfirmationSend.
  */
 - (void)notifyWithUserConfirmation:(MSUserConfirmation)userConfirmation;
-
-/**
- * Returns a file that can be used to save a buffered event log at crash time and triggers creation of a file if
- * it doesn't exist.
- *
- * @param name The name for the file.
- *
- * @return the path for the created or existing file, returns nil if the creation failed.
- *
- * @discussion This will either return the path to the buffer file if one already exists or trigger creation of a file
- * asynchronously by using the @see createBufferFileAtPath: method.
- */
-- (NSURL *)fileURLWithName:(NSString *)name;
-
-/**
- * A method to create a file at a certain path. This method uses a synchronized block and should be called
- * asynchronously.
- *
- * @param fileURL the file url.
- */
-- (void)createBufferFileAtURL:(NSURL *)fileURL;
 
 /**
  * Does not delete the files for our log buffer but "resets" them to be empty. For this,

@@ -13,6 +13,7 @@ static MSMockService *sharedInstance = nil;
 @synthesize channelGroup;
 @synthesize channelUnit;
 @synthesize channelUnitConfiguration;
+@synthesize defaultTransmissionTargetToken;
 
 - (instancetype)init {
   if ((self = [super init])) {
@@ -27,6 +28,10 @@ static MSMockService *sharedInstance = nil;
     sharedInstance = [[self alloc] init];
   }
   return sharedInstance;
+}
+
++ (void)resetSharedInstance {
+  sharedInstance = nil;
 }
 
 + (NSString *)serviceName {

@@ -7,6 +7,9 @@
  */
 NSString *MSUtilityStringFormattingCategory;
 
+static NSString *kMSTransmissionTargetKey = @"target=";
+static NSString *kMSAppSecretKey = @"appsecret=";
+
 @implementation NSObject (MSUtility_StringFormatting)
 
 + (NSString *)sha256:(NSString *)string {
@@ -24,6 +27,52 @@ NSString *MSUtilityStringFormattingCategory;
     [stringBuffer appendFormat:@"%02x", dataBuffer[i]];
   }
   return [stringBuffer copy];
+}
+
++ (NSString *)appSecretFrom:(NSString *)string {
+  NSArray *components = [string componentsSeparatedByString:@";"];
+  if (components == nil || components.count == 0) {
+    return nil;
+  } else {
+    for (NSString *component in components) {
+
+      // Component is app secret, return the component. Check for length > 0 as "foo;" will be parsed as 2 components.
+      if (([component rangeOfString:kMSTransmissionTargetKey].location == NSNotFound) && (component.length > 0)) {
+        NSString *secretString = [component stringByReplacingOccurrencesOfString:kMSAppSecretKey withString:@""];
+        
+        // Check for string length to avoid returning empty string.
+        if((secretString != nil) && (secretString.length > 0)) {
+          return secretString;
+        }
+      }
+    }
+
+    // String does not contain an app secret.
+    return nil;
+  }
+}
+
++ (NSString *)transmissionTargetTokenFrom:(NSString *)string {
+  NSArray *components = [string componentsSeparatedByString:@";"];
+  if (components == nil || components.count == 0) {
+    return nil;
+  } else {
+    for (NSString *component in components) {
+
+      // Component is transmission target token, return the component.
+      if (([component rangeOfString:kMSTransmissionTargetKey].location != NSNotFound) && (component.length > 0)) {
+        NSString *transmissionTarget = [component stringByReplacingOccurrencesOfString:kMSTransmissionTargetKey withString:@""];
+        
+        // Check for string length to avoid returning empty string.
+        if(transmissionTarget.length > 0) {
+          return transmissionTarget;
+        }
+      }
+    }
+
+    // String does not contain a transmission target token.
+    return nil;
+  }
 }
 
 @end

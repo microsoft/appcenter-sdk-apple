@@ -26,14 +26,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param sessionId The session Id.
  */
-+ (void)setSessionId:(nullable NSString *)sessionId;
+- (void)setSessionId:(nullable NSString *)sessionId;
 
 /**
  * Get current session Id.
  *
  * @return The current session Id.
  */
-+ (NSString *)sessionId;
+- (NSString *)sessionId;
 
 /**
  * Get session Id at specific time.
@@ -42,12 +42,12 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return The session Id at the given time.
  */
-+ (NSString *)sessionIdAt:(NSDate *)date;
+- (NSString *)sessionIdAt:(NSDate *)date;
 
 /**
  * Clear all session Id history.
  */
-+ (void)clearSessionHistory;
+- (void)clearSessionHistory;
 
 @end
 

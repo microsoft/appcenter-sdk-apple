@@ -1,7 +1,7 @@
 #import "MSDistributePrivate.h"
 #import "MSDistributeSender.h"
 #import "MSHttpSenderPrivate.h"
-#import "MSLogger.h"
+#import "MSLoggerInternal.h"
 #import "MSTestFrameworks.h"
 
 @interface MSDistributeSenderTests : XCTestCase

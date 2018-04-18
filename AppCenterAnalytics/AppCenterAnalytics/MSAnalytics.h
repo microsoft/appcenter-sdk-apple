@@ -1,4 +1,5 @@
 #import "MSServiceAbstract.h"
+#import "MSAnalyticsTransmissionTarget.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -21,6 +22,15 @@ NS_ASSUME_NONNULL_BEGIN
  * @param properties dictionary of properties.
  */
 + (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties;
+
+/**
+ * Get a transmission target.
+ *
+ * @param token The token of the transmission target to retrieve.
+ *
+ * @returns The transmission target object.
+ */
++ (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:(NSString *)token;
 
 @end
 

@@ -43,7 +43,7 @@ static short const kMSStorageMaxCapacity = 300;
  *
  * @return A new `MSChannelGroupDefault` instance.
  */
-- (instancetype)initWithSender:(MSHttpSender *)sender storage:(id<MSStorage>)storage;
+- (instancetype)initWithSender:(nullable MSHttpSender *)sender storage:(nullable id<MSStorage>)storage;
 
 /**
  * Collection of channel delegates.
@@ -53,12 +53,12 @@ static short const kMSStorageMaxCapacity = 300;
 /**
  * A sender instance that is used to send batches of log items to the backend.
  */
-@property(nonatomic, strong) MSHttpSender *sender;
+@property(nonatomic, strong, nullable) MSHttpSender *sender;
 
 /**
  * A storage instance to store and read enqueued log items.
  */
-@property(nonatomic, strong) id<MSStorage> storage;
+@property(nonatomic, strong, nullable) id<MSStorage> storage;
 
 /**
  * A queue which makes adding new items thread safe.

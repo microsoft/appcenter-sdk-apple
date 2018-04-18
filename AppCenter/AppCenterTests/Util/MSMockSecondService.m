@@ -13,6 +13,7 @@ static MSMockSecondService *sharedInstance = nil;
 @synthesize channelGroup;
 @synthesize channelUnit;
 @synthesize channelUnitConfiguration;
+@synthesize defaultTransmissionTargetToken;
 
 - (instancetype)init {
   if ((self = [super init])) {
@@ -28,6 +29,10 @@ static MSMockSecondService *sharedInstance = nil;
     sharedInstance = [[self alloc] init];
   }
   return sharedInstance;
+}
+
++ (void)resetSharedInstance {
+  sharedInstance = nil;
 }
 
 + (NSString *)serviceName {
@@ -47,6 +52,10 @@ static MSMockSecondService *sharedInstance = nil;
 }
 
 - (void)applyEnabledState:(BOOL)__unused isEnabled {
+}
+
+- (BOOL)isAppSecretRequired {
+  return NO;
 }
 
 @end

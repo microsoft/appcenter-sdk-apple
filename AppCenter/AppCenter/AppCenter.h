@@ -10,6 +10,7 @@
 #import "MSDevice.h"
 #import "MSEnable.h"
 #import "MSLog.h"
+#import "MSLogger.h"
 #import "MSLogWithProperties.h"
 #import "MSService.h"
 #import "MSServiceAbstract.h"
