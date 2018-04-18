@@ -1,5 +1,23 @@
 # App Center SDK for iOS and macOS Change Log
 
+## Version 1.6.0
+
+This version contains an improvement and fixes. Any macOS app with unsent logs prior to the update will discard these logs. 
+
+### AppCenter
+
+* **[Fix]** Fix non app store macOS apps were sharing the same DB. 
+
+### AppCenterAnalytics
+
+* **[Improvement]** Event and handled error limits on properties improved. Maximum property count increased to 20, maximum property key length and maximum property value length increased to 125 characters.
+
+### AppCenterCrashes
+
+* **[Fix]** Fix enabling uncaught exception handler when a wrapper SDK is in use. 
+
+___
+
 ## Version 1.5.0
 
 This version contains a new feature.
