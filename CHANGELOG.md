@@ -10,7 +10,7 @@ This version contains an improvement and fixes. Any macOS app with unsent logs p
 
 ### AppCenterAnalytics
 
-* **[Improvement]** Event and handled error limits on properties improved. Maximum property count increased to 20, maximum property key length and maximum property value length increased to 125 characters.
+* **[Improvement]** Analytics now allows a maximum of 20 properties by event, each property key and value length can be up to 125 characters long.
 
 ### AppCenterCrashes
 
