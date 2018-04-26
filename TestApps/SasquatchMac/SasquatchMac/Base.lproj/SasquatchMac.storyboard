@@ -892,7 +892,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="iKN-Nv-kfg" viewBased="YES" id="NGD-n2-KNP">
-                                            <rect key="frame" x="0.0" y="-277" width="408" height="156"/>
+                                            <rect key="frame" x="0.0" y="-300" width="408" height="156"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1044,7 +1044,7 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FKF-7j-66q">
-                                <rect key="frame" x="114" y="299" width="111" height="32"/>
+                                <rect key="frame" x="113" y="299" width="112" height="32"/>
                                 <buttonCell key="cell" type="push" title="Track Event" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="jMq-hF-WcO">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1054,7 +1054,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rBm-YS-pzW">
-                                <rect key="frame" x="225" y="299" width="111" height="32"/>
+                                <rect key="frame" x="225" y="299" width="112" height="32"/>
                                 <buttonCell key="cell" type="push" title="Track Page" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="jVi-9G-6TU">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1118,14 +1118,22 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xIg-Ll-KC6">
+                                <rect key="frame" x="178" y="224" width="95" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Breadcrumbs" id="QOw-ff-Eu2">
+                                    <font key="font" metaFont="systemBold"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="34" horizontalPageScroll="10" verticalLineScroll="34" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yuM-j8-fWl">
-                                <rect key="frame" x="20" y="183" width="410" height="170"/>
+                                <rect key="frame" x="20" y="249" width="410" height="104"/>
                                 <clipView key="contentView" id="3jk-ZN-mtX">
-                                    <rect key="frame" x="1" y="1" width="408" height="168"/>
+                                    <rect key="frame" x="1" y="1" width="408" height="102"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="32" rowSizeStyle="automatic" viewBased="YES" id="46Z-vX-QR4">
-                                            <rect key="frame" x="0.0" y="0.0" width="408" height="168"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="408" height="102"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1272,17 +1280,27 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="HVq-68-XhF">
+                                <rect key="frame" x="139" y="182" width="173" height="32"/>
+                                <buttonCell key="cell" type="push" title="Breadcrumbs &amp; Crash" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="aA5-UG-NXc">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="dbo-AN-dCh" firstAttribute="baseline" secondItem="3Lk-86-UjH" secondAttribute="baseline" id="AtZ-A8-LDf"/>
                             <constraint firstItem="yuM-j8-fWl" firstAttribute="top" secondItem="NOz-lf-Wz4" secondAttribute="bottom" constant="10" id="BSd-VK-rYL"/>
                             <constraint firstItem="yuM-j8-fWl" firstAttribute="centerX" secondItem="Dla-j9-MaC" secondAttribute="centerX" id="CGE-A3-5ey"/>
+                            <constraint firstItem="HVq-68-XhF" firstAttribute="centerX" secondItem="Dla-j9-MaC" secondAttribute="centerX" id="G9N-CP-Exo"/>
+                            <constraint firstItem="HVq-68-XhF" firstAttribute="top" secondItem="xIg-Ll-KC6" secondAttribute="bottom" constant="14" id="GX2-3m-lsY"/>
                             <constraint firstItem="NOz-lf-Wz4" firstAttribute="centerX" secondItem="HlF-ts-EsF" secondAttribute="centerX" id="Hfx-7D-JPN"/>
                             <constraint firstItem="yuM-j8-fWl" firstAttribute="trailing" secondItem="eXz-qk-1vh" secondAttribute="trailing" id="Hh9-UR-fg3"/>
                             <constraint firstItem="3Lk-86-UjH" firstAttribute="leading" secondItem="dbo-AN-dCh" secondAttribute="trailing" constant="10" id="HiM-LQ-20q"/>
                             <constraint firstAttribute="bottom" secondItem="ihf-z3-ohn" secondAttribute="bottom" constant="136" id="I7S-cK-XZm"/>
                             <constraint firstAttribute="bottom" secondItem="xtb-gQ-K4m" secondAttribute="bottom" constant="20" symbolic="YES" id="Ia0-9R-CkT"/>
-                            <constraint firstItem="Dla-j9-MaC" firstAttribute="top" secondItem="yuM-j8-fWl" secondAttribute="bottom" constant="8" symbolic="YES" id="Kbs-tN-1mL"/>
+                            <constraint firstItem="Dla-j9-MaC" firstAttribute="top" secondItem="HVq-68-XhF" secondAttribute="bottom" constant="14" id="KOz-m9-s4c"/>
+                            <constraint firstItem="Dla-j9-MaC" firstAttribute="top" secondItem="yuM-j8-fWl" secondAttribute="bottom" constant="74" id="Kbs-tN-1mL"/>
                             <constraint firstItem="dbo-AN-dCh" firstAttribute="centerX" secondItem="Lrd-Cg-C7O" secondAttribute="centerX" id="Oa6-6R-oEW"/>
                             <constraint firstItem="ihf-z3-ohn" firstAttribute="centerX" secondItem="HlF-ts-EsF" secondAttribute="centerX" id="SIk-f0-kTN"/>
                             <constraint firstItem="Lrd-Cg-C7O" firstAttribute="centerY" secondItem="xtb-gQ-K4m" secondAttribute="centerY" id="UEB-Lq-9QL"/>
@@ -1292,6 +1310,7 @@
                             <constraint firstItem="3Lk-86-UjH" firstAttribute="top" secondItem="ihf-z3-ohn" secondAttribute="bottom" constant="11" id="gcu-zu-s5O"/>
                             <constraint firstItem="xtb-gQ-K4m" firstAttribute="top" secondItem="3Lk-86-UjH" secondAttribute="bottom" constant="8" symbolic="YES" id="gnM-fy-uka"/>
                             <constraint firstItem="eXz-qk-1vh" firstAttribute="leading" secondItem="3Lk-86-UjH" secondAttribute="trailing" constant="8" symbolic="YES" id="iMp-sb-yeU"/>
+                            <constraint firstItem="HVq-68-XhF" firstAttribute="centerX" secondItem="xIg-Ll-KC6" secondAttribute="centerX" id="lBY-hh-zUA"/>
                             <constraint firstItem="eXz-qk-1vh" firstAttribute="trailing" secondItem="xtb-gQ-K4m" secondAttribute="trailing" id="oO0-sg-xTp"/>
                             <constraint firstItem="3Lk-86-UjH" firstAttribute="centerY" secondItem="eXz-qk-1vh" secondAttribute="centerY" id="p4N-Db-ubl"/>
                             <constraint firstItem="yuM-j8-fWl" firstAttribute="leading" secondItem="Lrd-Cg-C7O" secondAttribute="leading" id="qtD-0X-4J3"/>
@@ -1300,6 +1319,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="breadCrumbsButton" destination="HVq-68-XhF" id="TfJ-KO-3Z0"/>
                         <outlet property="crashesTableView" destination="46Z-vX-QR4" id="bcR-rI-ad2"/>
                         <outlet property="fileAttachmentLabel" destination="3Lk-86-UjH" id="qkY-RU-cno"/>
                         <outlet property="setEnabledButton" destination="ihf-z3-ohn" id="y81-fN-ENI"/>
@@ -1345,7 +1365,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="22" headerView="QQk-B0-wlz" viewBased="YES" id="osf-6i-QQe">
-                                            <rect key="frame" x="0.0" y="-215" width="408" height="195"/>
+                                            <rect key="frame" x="0.0" y="-238" width="408" height="195"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>

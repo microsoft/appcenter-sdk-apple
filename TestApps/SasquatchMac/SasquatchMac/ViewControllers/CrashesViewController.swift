@@ -8,6 +8,7 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
   @IBOutlet weak var crashesTableView: NSTableView!
   @IBOutlet weak var fileAttachmentLabel: NSTextField!
   @IBOutlet var textAttachmentView: NSTextView!
+  @IBOutlet weak var breadCrumbsButton : NSButton?
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -28,6 +29,13 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
 
   override func viewWillAppear() {
     setEnabledButton?.state = appCenter.isCrashesEnabled() ? 1 : 0
+  }
+  
+  @IBAction func generateBreadCrumbsAndCrash(sender: NSButton) {
+    for index in 0...29 {
+      appCenter.trackEvent("Breadcrumb \(index)")
+    }
+    appCenter.generateTestCrash()
   }
 
   @IBAction func setEnabled(sender : NSButton) {
