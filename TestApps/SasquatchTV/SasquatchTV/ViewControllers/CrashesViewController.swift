@@ -36,35 +36,44 @@ class CrashesViewController: UITableViewController, AppCenterProtocol {
   }
 
   override func numberOfSections(in tableView: UITableView) -> Int {
-    return categories.count + 1
+    return categories.count + 2
   }
 
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    let isLast = section == tableView.numberOfSections - 1
-    if isLast{
+    let isFirst = section == 0
+    let isSecond = section == 1
+    if isFirst{
+      return 1
+    } else if (isSecond) {
       return 1
     } else {
-      return categories[categoryForSection(section)]!.count
+      return categories[categoryForSection(section - 2)]!.count
     }
   }
 
   override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-    let isLast = section == tableView.numberOfSections - 1
-    if isLast{
+    let isFirst = section == 0
+    let isSecond = section == 1
+    if isFirst{
       return "Settings"
+    } else if (isSecond) {
+      return "Breadcrumbs"
     } else {
-      return categoryForSection(section)
+      return categoryForSection(section - 2)
     }
   }
 
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let isLast = indexPath.section == tableView.numberOfSections - 1
-    let cellIdentifier = isLast ? "enable" : "crash"
+    let isFirst = indexPath.section == 0
+    let isSecond = indexPath.section == 1
+    let cellIdentifier = isFirst ? "enable" : isSecond ? "breadcrumbs" : "crash"
     let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)!
-    if isLast{
+    if isFirst{
       cell.detailTextLabel?.text = appCenter.isCrashesEnabled() ? "Enabled" : "Disabled";
+    } else if isSecond {
+      cell.textLabel?.text = "Breadcrumbs"
     } else {
-      let crash = categories[categoryForSection(indexPath.section)]![indexPath.row]
+      let crash = categories[categoryForSection(indexPath.section - 2)]![indexPath.row]
       cell.textLabel?.text = crash.title;
     }
     return cell;
@@ -72,10 +81,16 @@ class CrashesViewController: UITableViewController, AppCenterProtocol {
 
   override func tableView(_ tableView : UITableView, didSelectRowAt indexPath : IndexPath) {
     tableView.deselectRow(at : indexPath, animated : true);
-    let isLast = indexPath.section == tableView.numberOfSections - 1
-    if isLast {
+    let isFirst = indexPath.section == 0
+    let isSecond = indexPath.section == 1
+    if isFirst {
       appCenter.setCrashesEnabled(!appCenter.isCrashesEnabled());
       tableView.reloadData();
+    } else if isSecond {
+      for index in 1...29 {
+        appCenter.trackEvent("Breadcrumb \(index)")
+      }
+      appCenter.generateTestCrash()
     }
   }
 

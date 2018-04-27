@@ -82,14 +82,18 @@
   // Internal ID to keep track of logs between modules.
   NSString *internalLogId = MS_UUID_STRING;
 
+  /*
+   * Notify delegates about enqueuing as fast as possible on the current thread.
+   *
+   * TODO: Refactor when supporting trackEvent from background threads (LogBuffer in MSCrashes won't work).
+   */
+  [self enumerateDelegatesForSelector:@selector(onEnqueuingLog:withInternalId:)
+                            withBlock:^(id<MSChannelDelegate> delegate) {
+                              [delegate onEnqueuingLog:item withInternalId:internalLogId];
+                            }];
+
   // Return fast in case our item is empty or we are discarding logs right now.
   dispatch_async(self.logsDispatchQueue, ^{
-
-    // Notify delegates.
-    [self enumerateDelegatesForSelector:@selector(onEnqueuingLog:withInternalId:)
-                              withBlock:^(id<MSChannelDelegate> delegate) {
-                                [delegate onEnqueuingLog:item withInternalId:internalLogId];
-                              }];
 
     // Check if the log should be filtered out. If so, don't enqueue it.
     __block BOOL shouldFilter = NO;
@@ -132,7 +136,7 @@
 }
 
 - (void)flushQueue {
-  
+
   // Nothing to flush if there is no sender or storage.
   if (!self.sender || !self.storage) {
     return;
@@ -178,8 +182,9 @@
                if ([MSAppCenter logLevel] <= MSLogLevelDebug) {
                  NSUInteger count = [container.logs count];
                  for (NSUInteger i = 0; i < count; i++) {
-                   MSLogDebug([MSAppCenter logTag], @"Sending %tu/%tu log, group Id: %@, batch Id: %@, session Id: %@, payload:\n%@",
-                              (i + 1), count, self.configuration.groupId, batchId, container.logs[i].sid,
+                   MSLogDebug([MSAppCenter logTag],
+                              @"Sending %tu/%tu log, group Id: %@, batch Id: %@, session Id: %@, payload:\n%@", (i + 1),
+                              count, self.configuration.groupId, batchId, container.logs[i].sid,
                               [(MSAbstractLog *)container.logs[i] serializeLogWithPrettyPrinting:YES]);
                  }
                }
@@ -232,7 +237,7 @@
 
                             // Notify delegates.
                             [self
-                             enumerateDelegatesForSelector:@selector(channel:didFailSendingLog:withError:)
+                                enumerateDelegatesForSelector:@selector(channel:didFailSendingLog:withError:)
                                                     withBlock:^(id<MSChannelDelegate> delegate) {
                                                       for (id<MSLog> aLog in logArray) {
                                                         [delegate channel:self didFailSendingLog:aLog withError:error];
@@ -265,15 +270,15 @@
 #pragma mark - Timer
 
 - (void)startTimer {
-  
+
   // Don't start timer while disabled.
   if (!self.enabled) {
     return;
   }
-  
+
   // Cancel any timer.
   [self resetTimer];
-  
+
   // Create new timer.
   self.timerSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, self.logsDispatchQueue);
 
@@ -407,16 +412,17 @@
   }
 }
 
--(void)completedEnqueuingLog:(id<MSLog>)log withInternalId:(NSString*)internalId withSuccess:(BOOL)success {
+- (void)completedEnqueuingLog:(id<MSLog>)log withInternalId:(NSString *)internalId withSuccess:(BOOL)success {
   if (success) {
-    [self enumerateDelegatesForSelector:@selector(onFinishedPersistingLog:withInternalId:) withBlock:^(id<MSChannelDelegate> delegate) {
-      [delegate onFinishedPersistingLog:log withInternalId:internalId];
-    }];
-  }
-  else {
-    [self enumerateDelegatesForSelector:@selector(onFailedPersistingLog:withInternalId:) withBlock:^(id<MSChannelDelegate> delegate) {
-      [delegate onFailedPersistingLog:log withInternalId:internalId];
-    }];
+    [self enumerateDelegatesForSelector:@selector(onFinishedPersistingLog:withInternalId:)
+                              withBlock:^(id<MSChannelDelegate> delegate) {
+                                [delegate onFinishedPersistingLog:log withInternalId:internalId];
+                              }];
+  } else {
+    [self enumerateDelegatesForSelector:@selector(onFailedPersistingLog:withInternalId:)
+                              withBlock:^(id<MSChannelDelegate> delegate) {
+                                [delegate onFailedPersistingLog:log withInternalId:internalId];
+                              }];
   }
 }
 
