@@ -816,7 +816,7 @@
 				TargetAttributes = {
 					048A769A1E9EC0230075A6D6 = {
 						CreatedOnToolsVersion = 8.3.1;
-						DevelopmentTeam = L4RARDNZ2Y;
+						DevelopmentTeam = 5Z97G9NZQ6;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
@@ -826,7 +826,7 @@
 					};
 					380A4D951DD6892F00E99219 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = L4RARDNZ2Y;
+						DevelopmentTeam = 5Z97G9NZQ6;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
@@ -836,13 +836,13 @@
 					};
 					5CE258361EA5097100DA8FB9 = {
 						CreatedOnToolsVersion = 8.3.1;
-						DevelopmentTeam = L4RARDNZ2Y;
+						DevelopmentTeam = 5Z97G9NZQ6;
 						ProvisioningStyle = Automatic;
 						TestTargetID = E82E1B5E1D1CA58D00D281C1;
 					};
 					E82E1B5E1D1CA58D00D281C1 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = L4RARDNZ2Y;
+						DevelopmentTeam = 5Z97G9NZQ6;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -1308,7 +1308,7 @@
 				CODE_SIGN_ENTITLEMENTS = NotifExtension/NotifExtension.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = NotifExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -1330,7 +1330,7 @@
 				CODE_SIGN_ENTITLEMENTS = NotifExtension/NotifExtension.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
 				INFOPLIST_FILE = NotifExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
@@ -1349,7 +1349,7 @@
 				CODE_SIGN_ENTITLEMENTS = PuppetWidget/PuppetWidget.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
 				INFOPLIST_FILE = PuppetWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
@@ -1369,7 +1369,7 @@
 				CODE_SIGN_ENTITLEMENTS = PuppetWidget/PuppetWidget.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
 				INFOPLIST_FILE = PuppetWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
@@ -1387,7 +1387,7 @@
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				DEVELOPMENT_TEAM = L4RARDNZ2Y;
+				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = PuppetUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
@@ -1406,7 +1406,7 @@
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				DEVELOPMENT_TEAM = L4RARDNZ2Y;
+				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
 				INFOPLIST_FILE = PuppetUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -1540,7 +1540,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
@@ -1567,7 +1567,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = YES;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/../CrashLib/CrashLib";
