@@ -11,6 +11,7 @@
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
 #import "MSLoggerInternal.h"
+#import "MSOneCollectorChannelDelegate.h"
 #import "MSSessionContext.h"
 #import "MSStartServiceLog.h"
 #import "MSUtility.h"
@@ -423,6 +424,7 @@ static NSString *const kMSGroupId = @"AppCenter";
     // If there is no app secret, create a channel group without sender or storage.
     self.channelGroup = [[MSChannelGroupDefault alloc] initWithSender:nil storage:nil];
   }
+  [self.channelGroup addDelegate: [MSOneCollectorChannelDelegate alloc]];
 
   // Initialize a channel unit for start service logs.
   self.channelUnit = [self.channelGroup
