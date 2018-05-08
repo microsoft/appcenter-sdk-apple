@@ -387,6 +387,11 @@
 		6EF628F41D371B1600CAFF64 /* MSChannelUnitConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF628F21D371B1600CAFF64 /* MSChannelUnitConfiguration.h */; };
 		6EF628F51D371B1600CAFF64 /* MSChannelUnitConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF628F31D371B1600CAFF64 /* MSChannelUnitConfiguration.m */; };
 		805275C120A1A5F400704115 /* MSOneCollectorChannelDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 805275C020A1A5F400704115 /* MSOneCollectorChannelDelegate.m */; };
+		805275C220A1ADCD00704115 /* MSOneCollectorChannelDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 805275BF20A19F7B00704115 /* MSOneCollectorChannelDelegate.h */; };
+		805275C320A1ADCE00704115 /* MSOneCollectorChannelDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 805275BF20A19F7B00704115 /* MSOneCollectorChannelDelegate.h */; };
+		805275C420A1ADCF00704115 /* MSOneCollectorChannelDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 805275BF20A19F7B00704115 /* MSOneCollectorChannelDelegate.h */; };
+		805275C520A1ADD200704115 /* MSOneCollectorChannelDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 805275C020A1A5F400704115 /* MSOneCollectorChannelDelegate.m */; };
+		805275C620A1ADD300704115 /* MSOneCollectorChannelDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 805275C020A1A5F400704115 /* MSOneCollectorChannelDelegate.m */; };
 		805F3F6B1F209C9D00B489E4 /* MSMockService.m in Sources */ = {isa = PBXBuildFile; fileRef = 805F3F6A1F209C9D00B489E4 /* MSMockService.m */; };
 		B2181B7B1F26852600D2EEAE /* MSWrapperSdk.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74551F22BB710070E7DF /* MSWrapperSdk.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B2181B7C1F26852B00D2EEAE /* MSWrapperSdk.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74561F22BB710070E7DF /* MSWrapperSdk.m */; };
@@ -1312,6 +1317,7 @@
 				B2CD74B71F22BE270070E7DF /* MSUtility+Environment.h in Headers */,
 				043120A91EE0BCF9007054C5 /* MSSenderCallDelegate.h in Headers */,
 				0446DF2E1F3B86C500C8E338 /* MSAbstractLogInternal.h in Headers */,
+				805275C420A1ADCF00704115 /* MSOneCollectorChannelDelegate.h in Headers */,
 				043120AA1EE0BCF9007054C5 /* MS_Reachability.h in Headers */,
 				043120AB1EE0BCF9007054C5 /* MSConstants.h in Headers */,
 				B2CD74A81F22BE270070E7DF /* MSUtility+Application.h in Headers */,
@@ -1395,6 +1401,7 @@
 				0446DF2D1F3B86C300C8E338 /* MSAbstractLogInternal.h in Headers */,
 				04754F821EA98182002CBA46 /* MSSenderDelegate.h in Headers */,
 				04754F831EA98182002CBA46 /* MSStartServiceLog.h in Headers */,
+				805275C320A1ADCE00704115 /* MSOneCollectorChannelDelegate.h in Headers */,
 				049BC8411ECE4DFF00FB6719 /* MSDeviceTrackerPrivate.h in Headers */,
 				B2CD74C81F22BEC60070E7DF /* MSDBStoragePrivate.h in Headers */,
 				0499F8581EDF979F00C3EDDA /* MSAbstractLog.h in Headers */,
@@ -1476,6 +1483,7 @@
 				047EBBA01FE3086B009BB1C8 /* MSSessionHistoryInfo.h in Headers */,
 				B2FD53621E56501B0050F909 /* MSDeviceHistoryInfo.h in Headers */,
 				6E04016D1D1C9E460051BCFA /* AppCenter+Internal.h in Headers */,
+				805275C220A1ADCD00704115 /* MSOneCollectorChannelDelegate.h in Headers */,
 				B2CD749D1F22BE270070E7DF /* MSConstants+Internal.h in Headers */,
 				384772A61DA5691F009365DE /* MSSenderDelegate.h in Headers */,
 				D38023E91E6EFC7C00466558 /* MSStartServiceLog.h in Headers */,
@@ -1788,6 +1796,7 @@
 				045C0BEF1EEB12300038FD6B /* MSAppDelegateForwarder.m in Sources */,
 				B2CD74A51F22BE270070E7DF /* MSUtility.m in Sources */,
 				0431207C1EE0BCF9007054C5 /* MSDeviceHistoryInfo.m in Sources */,
+				805275C620A1ADD300704115 /* MSOneCollectorChannelDelegate.m in Sources */,
 				B28E41DA2076ED1700CC6AD8 /* MSUtility+PropertyValidation.m in Sources */,
 				045C85171FE0B4F700089540 /* MSSessionContext.m in Sources */,
 				B2181B7C1F26852B00D2EEAE /* MSWrapperSdk.m in Sources */,
@@ -1925,6 +1934,7 @@
 				04754F621EA98182002CBA46 /* MSUserDefaults.m in Sources */,
 				044864C61EBD130300031019 /* MSCustomProperties.m in Sources */,
 				04754F681EA98182002CBA46 /* MSIngestionSender.m in Sources */,
+				805275C520A1ADD200704115 /* MSOneCollectorChannelDelegate.m in Sources */,
 				B2CD74891F22BD910070E7DF /* MSLogDBStorage.m in Sources */,
 				B2CD74AA1F22BE270070E7DF /* MSUtility+Application.m in Sources */,
 			);
