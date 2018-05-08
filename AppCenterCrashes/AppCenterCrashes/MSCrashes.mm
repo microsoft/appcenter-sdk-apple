@@ -59,7 +59,7 @@ static dispatch_once_t onceToken;
 
 #pragma mark - Callbacks Setup
 
-static MSCrashesCallbacks msCrashesCallbacks = {.context = NULL, .handleSignal = NULL};
+static MSCrashesCallbacks msCrashesCallbacks = {.context = nullptr, .handleSignal = nullptr};
 static NSString *const kMSUserConfirmationKey = @"MSUserConfirmation";
 static volatile BOOL writeBufferTaskStarted = NO;
 
@@ -88,13 +88,13 @@ static void ms_save_log_buffer_callback(__attribute__((unused)) siginfo_t *info,
  */
 static void plcr_post_crash_callback(siginfo_t *info, ucontext_t *uap, void *context) {
   ms_save_log_buffer_callback(info, uap, context);
-  if (msCrashesCallbacks.handleSignal != NULL) {
+  if (msCrashesCallbacks.handleSignal != nullptr) {
     msCrashesCallbacks.handleSignal(context);
   }
 }
 
 static PLCrashReporterCallbacks plCrashCallbacks = {
-    .version = 0, .context = NULL, .handleSignal = plcr_post_crash_callback};
+    .version = 0, .context = nullptr, .handleSignal = plcr_post_crash_callback};
 
 /**
  * C++ Exception Handler
