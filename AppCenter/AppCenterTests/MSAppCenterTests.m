@@ -12,6 +12,7 @@
 #import "MSMockService.h"
 #import "MSMockSecondService.h"
 #import "MSMockUserDefaults.h"
+#import "MSOneCollectorChannelDelegate.h"
 #import "MSStartServiceLog.h"
 #import "MSTestFrameworks.h"
 
@@ -474,6 +475,23 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   // Then
   XCTAssertTrue([sorted[0] initializationPriority] == MSInitializationPriorityMax);
   XCTAssertTrue([sorted[1] initializationPriority] == MSInitializationPriorityDefault);
+}
+
+- (void)testChannelOneCollectorDelegateSet {
+
+  // If
+  id channelGroup = OCMClassMock([MSChannelGroupDefault class]);
+  OCMStub([channelGroup alloc]).andReturn(channelGroup);
+  OCMStub([channelGroup initWithAppSecret:OCMOCK_ANY installId:OCMOCK_ANY logUrl:OCMOCK_ANY]).andReturn(channelGroup);
+
+  // When
+  [MSAppCenter start:MS_UUID_STRING withServices:nil];
+
+  // Then
+  OCMVerify([channelGroup addDelegate:[OCMArg isKindOfClass:[MSOneCollectorChannelDelegate class]]]);
+
+  // Clear
+  [channelGroup stopMocking];
 }
 
 #if !TARGET_OS_OSX
