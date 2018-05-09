@@ -719,51 +719,30 @@
 
   // If
   NSString *expectedString = @"Something";
-  NSString *pathComponent = @"testing/anotherfile.test";
-  NSData *expectedData = [expectedString dataUsingEncoding:NSUTF8StringEncoding];
-  NSString *expectedString1 = @"Something";
-  NSString *pathComponent1 = @"testing/anotherfile1.test";
-  NSData *expectedData1 = [expectedString1 dataUsingEncoding:NSUTF8StringEncoding];
-  NSString *expectedString2 = @"Something2";
-  NSString *pathComponent2 = @"testing/anotherfile2.test";
-  NSData *expectedData2 = [expectedString2 dataUsingEncoding:NSUTF8StringEncoding];
+  NSString *parentDir = @"testing";
+  NSString *pathComponent = [NSString stringWithFormat:@"%@%@", parentDir, @"/testFile."];
   BOOL forceOverwrite = NO;
-  [MSUtility createFileAtPathComponent:pathComponent
-                              withData:expectedData
-                            atomically:YES
-                        forceOverwrite:forceOverwrite];
-  [MSUtility createFileAtPathComponent:pathComponent1
-                              withData:expectedData1
-                            atomically:YES
-                        forceOverwrite:forceOverwrite];
-  [MSUtility createFileAtPathComponent:pathComponent2
-                              withData:expectedData2
-                            atomically:YES
-                        forceOverwrite:forceOverwrite];
+  BOOL atomical = YES;
+  NSUInteger fileCount;
+  for (fileCount = 0; fileCount<3 ; fileCount++){
+    [MSUtility createFileAtPathComponent:[NSString stringWithFormat:@"%@%lu", pathComponent, (unsigned long)fileCount]
+                                withData:[[NSString stringWithFormat:@"%@%lu", expectedString, (unsigned long)fileCount] dataUsingEncoding:NSUTF8StringEncoding]
+                              atomically:atomical
+                          forceOverwrite:forceOverwrite];
+  }
 
   // When
-  NSArray<NSURL *> *contents = [MSUtility contentsOfDirectory:@"testing" propertiesForKeys:nil];
+  NSArray<NSURL *> *contents = [MSUtility contentsOfDirectory:parentDir propertiesForKeys:nil];
 
   // Then
-  XCTAssertTrue(contents.count == 3);
-  XCTAssertNotNil(contents[0]);
-  XCTAssertTrue([contents[0] checkResourceIsReachableAndReturnError:nil]);
-  NSData *actualData = [NSData dataWithContentsOfURL:contents[0]];
-  XCTAssertNotNil(actualData);
-  NSString *actualContent = [[NSString alloc] initWithData:actualData encoding:NSUTF8StringEncoding];
-  XCTAssertTrue([actualContent isEqualToString:expectedString]);
-  XCTAssertNotNil(contents[1]);
-  XCTAssertTrue([contents[1] checkResourceIsReachableAndReturnError:nil]);
-  actualData = [NSData dataWithContentsOfURL:contents[1]];
-  XCTAssertNotNil(actualData);
-  actualContent = [[NSString alloc] initWithData:actualData encoding:NSUTF8StringEncoding];
-  XCTAssertTrue([actualContent isEqualToString:expectedString1]);
-  XCTAssertNotNil(contents[2]);
-  XCTAssertTrue([contents[2] checkResourceIsReachableAndReturnError:nil]);
-  actualData = [NSData dataWithContentsOfURL:contents[2]];
-  XCTAssertNotNil(actualData);
-  actualContent = [[NSString alloc] initWithData:actualData encoding:NSUTF8StringEncoding];
-  XCTAssertTrue([actualContent isEqualToString:expectedString2]);
+  XCTAssertTrue(contents.count == fileCount);
+  for (NSURL *fileUrl in contents){
+    NSString *testNb = fileUrl.pathExtension;
+    NSString *content = [NSString stringWithContentsOfURL:fileUrl encoding:NSUTF8StringEncoding error:nil];
+    XCTAssertTrue([fileUrl checkResourceIsReachableAndReturnError:nil]);
+    BOOL test = [content isEqualToString:[NSString stringWithFormat:@"%@%@", expectedString, testNb]];
+    XCTAssertTrue(test);
+  }
 }
 
 - (void)testFileExistsForPathComponent {
