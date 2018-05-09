@@ -95,7 +95,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
                             }];
 }
 
--(BOOL)shouldFilterLog:(id<MSLog>)log {
+- (BOOL)shouldFilterLog:(id<MSLog>)log {
   __block BOOL shouldFilter = NO;
   [self enumerateDelegatesForSelector:@selector(shouldFilterLog:)
                             withBlock:^(id<MSChannelDelegate> delegate) {
@@ -104,10 +104,10 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
   return shouldFilter;
 }
 
-- (void)onEnqueuingLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
-  [self enumerateDelegatesForSelector:@selector(onEnqueuingLog:withInternalId:)
+- (void)channel:(id<MSChannelProtocol>)channel didEnqueueLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
+  [self enumerateDelegatesForSelector:@selector(channel:didEnqueueLog:withInternalId:)
                             withBlock:^(id<MSChannelDelegate> delegate) {
-                              [delegate onEnqueuingLog:log withInternalId:internalId];
+                              [delegate channel:channel didEnqueueLog:log withInternalId:internalId];
                             }];
 }
 
@@ -200,4 +200,3 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 }
 
 @end
-

@@ -458,7 +458,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // When
   MSLogWithProperties *log = [MSLogWithProperties new];
-  [self.sut onEnqueuingLog:log withInternalId:MS_UUID_STRING];
+  [self.sut channel:nil didEnqueueLog:log withInternalId:MS_UUID_STRING];
 
   // Then
   XCTAssertTrue([self crashesLogBufferCount] == 1);
@@ -469,7 +469,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   // When
   for (int i = 0; i < ms_crashes_log_buffer_size; i++) {
     MSLogWithProperties *log = [MSLogWithProperties new];
-    [self.sut onEnqueuingLog:log withInternalId:MS_UUID_STRING];
+    [self.sut channel:nil didEnqueueLog:log withInternalId:MS_UUID_STRING];
   }
 
   // Then
@@ -477,7 +477,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // When
   MSLogWithProperties *log = [MSLogWithProperties new];
-  [self.sut onEnqueuingLog:log withInternalId:MS_UUID_STRING];
+  [self.sut channel:nil didEnqueueLog:log withInternalId:MS_UUID_STRING];
   NSNumberFormatter *timestampFormatter = [[NSNumberFormatter alloc] init];
   timestampFormatter.numberStyle = NSNumberFormatterDecimalStyle;
   int indexOfLatestObject = 0;
@@ -501,7 +501,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   // When
   for (int i = 0; i < numberOfLogs; i++) {
     MSLogWithProperties *aLog = [MSLogWithProperties new];
-    [self.sut onEnqueuingLog:aLog withInternalId:MS_UUID_STRING];
+    [self.sut channel:nil didEnqueueLog:aLog withInternalId:MS_UUID_STRING];
   }
 
   indexOfLatestObject = 0;
@@ -529,9 +529,9 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   NSString *uuid1 = MS_UUID_STRING;
   NSString *uuid2 = MS_UUID_STRING;
   NSString *uuid3 = MS_UUID_STRING;
-  [self.sut onEnqueuingLog:log withInternalId:uuid1];
-  [self.sut onEnqueuingLog:log withInternalId:uuid2];
-  [self.sut onEnqueuingLog:log withInternalId:uuid3];
+  [self.sut channel:nil didEnqueueLog:log withInternalId:uuid1];
+  [self.sut channel:nil didEnqueueLog:log withInternalId:uuid2];
+  [self.sut channel:nil didEnqueueLog:log withInternalId:uuid3];
 
   // Then
   XCTAssertTrue([self crashesLogBufferCount] == 3);

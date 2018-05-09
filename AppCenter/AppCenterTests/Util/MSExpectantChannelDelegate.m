@@ -15,7 +15,8 @@
   return NO;
 }
 
-- (void)onEnqueuingLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
+- (void)channel:(id<MSChannelProtocol>)channel didEnqueueLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
+  (void)channel;
   (void)log;
   (void)internalId;
   // Do nothing but define method so method is invoked on delegates
