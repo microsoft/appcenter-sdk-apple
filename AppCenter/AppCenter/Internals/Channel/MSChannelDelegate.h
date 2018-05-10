@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 
 @protocol MSLog;
-@protocol MSChannelProtocol;
+@protocol MSChannelUnitProtocol;
 
 @protocol MSChannelDelegate <NSObject>
 
@@ -12,14 +12,14 @@
  *
  * @param log The log to be sent.
  */
-- (void)channel:(id<MSChannelProtocol>)channel willSendLog:(id<MSLog>)log;
+- (void)channel:(id<MSChannelUnitProtocol>)channel willSendLog:(id<MSLog>)log;
 
 /**
  * Callback method that will be called in case the SDK was able to send a log.
  *
  * @param log The log to be sent.
  */
-- (void)channel:(id<MSChannelProtocol>)channel didSucceedSendingLog:(id<MSLog>)log;
+- (void)channel:(id<MSChannelUnitProtocol>)channel didSucceedSendingLog:(id<MSLog>)log;
 
 /**
  * Callback method that will be called in case the SDK was unable to send a log.
@@ -27,7 +27,7 @@
  * @param log The log to be sent.
  * @param error The error that occured.
  */
-- (void)channel:(id<MSChannelProtocol>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error;
+- (void)channel:(id<MSChannelUnitProtocol>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error;
 
 /**
  * A callback that is called when a log has been enqueued, before a log has been forwarded to persistence, etc.
@@ -36,7 +36,7 @@
  * @param log The log.
  * @param internalId An internal Id that can be used to keep track of logs.
  */
-- (void)channel:(id<MSChannelProtocol>)channel didEnqueueLog:(id<MSLog>)log withInternalId:(NSString *)internalId;
+- (void)channel:(id<MSChannelUnitProtocol>)channel didEnqueueLog:(id<MSLog>)log withInternalId:(NSString *)internalId;
 
 /**
  * Callback method that will determine if a log should be filtered out from the

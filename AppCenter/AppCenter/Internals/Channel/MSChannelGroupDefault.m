@@ -74,21 +74,21 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 
 #pragma mark - Channel Delegate
 
-- (void)channel:(id<MSChannelProtocol>)channel willSendLog:(id<MSLog>)log {
+- (void)channel:(id<MSChannelUnitProtocol>)channel willSendLog:(id<MSLog>)log {
   [self enumerateDelegatesForSelector:@selector(channel:willSendLog:)
                             withBlock:^(id<MSChannelDelegate> delegate) {
                               [delegate channel:channel willSendLog:log];
                             }];
 }
 
-- (void)channel:(id<MSChannelProtocol>)channel didSucceedSendingLog:(id<MSLog>)log {
+- (void)channel:(id<MSChannelUnitProtocol>)channel didSucceedSendingLog:(id<MSLog>)log {
   [self enumerateDelegatesForSelector:@selector(channel:didSucceedSendingLog:)
                             withBlock:^(id<MSChannelDelegate> delegate) {
                               [delegate channel:channel didSucceedSendingLog:log];
                             }];
 }
 
-- (void)channel:(id<MSChannelProtocol>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error {
+- (void)channel:(id<MSChannelUnitProtocol>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error {
   [self enumerateDelegatesForSelector:@selector(channel:didFailSendingLog:withError:)
                             withBlock:^(id<MSChannelDelegate> delegate) {
                               [delegate channel:channel didFailSendingLog:log withError:error];
@@ -104,7 +104,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
   return shouldFilter;
 }
 
-- (void)channel:(id<MSChannelProtocol>)channel didEnqueueLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
+- (void)channel:(id<MSChannelUnitProtocol>)channel didEnqueueLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
   [self enumerateDelegatesForSelector:@selector(channel:didEnqueueLog:withInternalId:)
                             withBlock:^(id<MSChannelDelegate> delegate) {
                               [delegate channel:channel didEnqueueLog:log withInternalId:internalId];
