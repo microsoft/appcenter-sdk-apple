@@ -149,6 +149,11 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
  */
 @property dispatch_semaphore_t delayedProcessingSemaphore;
 
+/**
+ * Channel unit for log buffer.
+ */
+@property(nonatomic) id<MSChannelUnitProtocol> bufferChannelUnit;
+
 @end
 
 @implementation MSCrashes
@@ -372,15 +377,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       transmissionTargetToken:(nullable NSString *)token {
   [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token];
   [self.channelGroup addDelegate:self];
-
-  // Initialize a dedicated channel for log buffer.
-  self.channelUnit = [self.channelGroup
-      addChannelUnitWithConfiguration:[[MSChannelUnitConfiguration alloc] initWithGroupId:kMSBufferGroupId
-                                                                                 priority:MSPriorityHigh
-                                                                            flushInterval:1.0
-                                                                           batchSizeLimit:60
-                                                                      pendingBatchesLimit:1]];
-
   [self processLogBufferAfterCrash];
   MSLogVerbose([MSCrashes logTag], @"Started crash service.");
 }
@@ -775,6 +771,14 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 - (void)processLogBufferAfterCrash {
 
+  // Initialize a dedicated channel for log buffer.
+  self.bufferChannelUnit = [self.channelGroup addChannelUnitWithConfiguration:
+                            [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSBufferGroupId
+                                                                       priority:MSPriorityHigh
+                                                                  flushInterval:1.0
+                                                                 batchSizeLimit:50
+                                                            pendingBatchesLimit:1]];
+
   // Iterate over each file in it with the kMSLogBufferFileExtension and send the log if a log can be deserialized.
   NSArray<NSURL *> *files =
       [MSUtility contentsOfDirectory:[NSString stringWithFormat:@"%@", self.logBufferPathComponent]
@@ -786,8 +790,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
         id<MSLog> item = [NSKeyedUnarchiver unarchiveObjectWithData:serializedLog];
         if (item) {
 
-          // Buffered logs are used sending their own channel. It will never contain more than 60 logs
-          [self.channelUnit enqueueItem:item];
+          // Buffered logs are used sending their own channel. It will never contain more than 50 logs.
+          [self.bufferChannelUnit enqueueItem:item];
         }
       }
 
