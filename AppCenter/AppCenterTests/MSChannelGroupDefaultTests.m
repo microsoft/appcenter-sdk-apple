@@ -198,7 +198,7 @@
   dispatch_semaphore_wait(sem, dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC*1));
 }
 
-- (void)testDelegateIsAddedToAddedUnit {
+- (void)testChannelUnitIsCorrectlyInitialized {
 
   // If
   NSString *groupId = @"AppCenter";
@@ -212,9 +212,9 @@
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
   OCMStub([channelUnitMock initWithSender:OCMOCK_ANY
-                                       storage:OCMOCK_ANY
-                                 configuration:OCMOCK_ANY
-                             logsDispatchQueue:OCMOCK_ANY]).andReturn(channelUnitMock);
+                                  storage:OCMOCK_ANY
+                            configuration:OCMOCK_ANY
+                        logsDispatchQueue:OCMOCK_ANY]).andReturn(channelUnitMock);
 
   // When
   [sut addChannelUnitWithConfiguration:[[MSChannelUnitConfiguration alloc] initWithGroupId:groupId
@@ -225,6 +225,7 @@
 
   // Then
   OCMVerify([channelUnitMock addDelegate:sut]);
+  OCMVerify([channelUnitMock flushQueue]);
 
   // Clear
   [channelUnitMock stopMocking];
