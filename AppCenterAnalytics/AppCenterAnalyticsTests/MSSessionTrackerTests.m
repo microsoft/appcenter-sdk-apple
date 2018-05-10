@@ -266,7 +266,7 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
   XCTAssertNil(log.timestamp);
 
   // When
-  [self.sut channel:self.sut didEnqueueLog:log withInternalId:nil];
+  [self.sut channel:nil didEnqueueLog:log withInternalId:nil];
 
   // Then
   XCTAssertNil(log.timestamp);
@@ -283,7 +283,7 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
   XCTAssertNil(log.timestamp);
 
   // When
-  [self.sut channel:self.sut didEnqueueLog:log withInternalId:nil];
+  [self.sut channel:nil didEnqueueLog:log withInternalId:nil];
 
   // Then
   XCTAssertNil(log.timestamp);
@@ -297,7 +297,7 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
   XCTAssertNil(sessionLog.timestamp);
 
   // When
-  [self.sut channel:self.sut didEnqueueLog:sessionLog withInternalId:nil];
+  [self.sut channel:nil didEnqueueLog:sessionLog withInternalId:nil];
 
   // Then
   XCTAssertNil(sessionLog.timestamp);
@@ -311,7 +311,7 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
   XCTAssertNil(serviceLog.timestamp);
 
   // When
-  [self.sut channel:self.sut didEnqueueLog:serviceLog withInternalId:nil];
+  [self.sut channel:nil didEnqueueLog:serviceLog withInternalId:nil];
 
   // Then
   XCTAssertNil(serviceLog.timestamp);

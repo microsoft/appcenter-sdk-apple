@@ -22,7 +22,7 @@
 
   // When
   [self.sut updateDistributionGroupId:expectedDistributionGroupId];
-  [self.sut channel:self.sut didEnqueueLog:log withInternalId:nil];
+  [self.sut channel:nil didEnqueueLog:log withInternalId:nil];
 
   // Then
   XCTAssertEqual(log.distributionGroupId, expectedDistributionGroupId);
@@ -34,7 +34,7 @@
   MSAbstractLog *log1 = [MSAbstractLog new];
 
   // When
-  [self.sut channel:self.sut didEnqueueLog:log1 withInternalId:nil];
+  [self.sut channel:nil didEnqueueLog:log1 withInternalId:nil];
 
   // Then
   XCTAssertNil(log1.distributionGroupId);
@@ -45,7 +45,7 @@
 
   // When
   [self.sut updateDistributionGroupId:expectedDistributionGroupId];
-  [self.sut channel:self.sut didEnqueueLog:log2 withInternalId:nil];
+  [self.sut channel:nil didEnqueueLog:log2 withInternalId:nil];
 
   // Then
   XCTAssertEqual(log2.distributionGroupId, expectedDistributionGroupId);
@@ -55,7 +55,7 @@
 
   // When
   [self.sut removeDistributionGroupId];
-  [self.sut channel:self.sut didEnqueueLog:log3 withInternalId:nil];
+  [self.sut channel:nil didEnqueueLog:log3 withInternalId:nil];
 
   // Then
   XCTAssertNil(log3.distributionGroupId);
