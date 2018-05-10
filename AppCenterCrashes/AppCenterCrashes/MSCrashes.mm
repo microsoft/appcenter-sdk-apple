@@ -413,7 +413,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
  * the crash and then, at crash time, crashes has all info in place to save the buffer safely from the main thread
  * (other threads are killed at crash time).
  */
-- (void)onEnqueuingLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
+- (void)channel:(id<MSChannelProtocol>)channel didEnqueueLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
+  (void)channel;
 
   // Don't buffer event if log is empty, crashes module is disabled or the log is related to crash.
   NSObject *logObject = static_cast<NSObject *>(log);

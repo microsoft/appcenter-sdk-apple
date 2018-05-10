@@ -122,7 +122,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [sut addDelegate:delegateMock];
   OCMReject([delegateMock channel:sut didFailSendingLog:OCMOCK_ANY withError:OCMOCK_ANY]);
   OCMExpect([delegateMock channel:sut didSucceedSendingLog:expectedLog]);
-  OCMExpect([delegateMock onEnqueuingLog:enqueuedLog withInternalId:OCMOCK_ANY]);
+  OCMExpect([delegateMock channel:sut didEnqueueLog:enqueuedLog withInternalId:OCMOCK_ANY]);
   OCMExpect([storageMock deleteLogsWithBatchId:expectedBatchId groupId:kMSTestGroupId]);
 
   // When
@@ -210,7 +210,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                                              configuration:config
                                                          logsDispatchQueue:dispatch_get_main_queue()];
   [sut addDelegate:delegateMock];
-  OCMExpect([delegateMock onEnqueuingLog:enqueuedLog withInternalId:OCMOCK_ANY]);
+  OCMExpect([delegateMock channel:sut didEnqueueLog:enqueuedLog withInternalId:OCMOCK_ANY]);
   OCMExpect([delegateMock channel:sut didFailSendingLog:expectedLog withError:OCMOCK_ANY]);
   OCMReject([delegateMock channel:sut didSucceedSendingLog:OCMOCK_ANY]);
   OCMExpect([storageMock deleteLogsWithBatchId:expectedBatchId groupId:kMSTestGroupId]);
@@ -717,7 +717,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                handler:^(NSError *error) {
 
                                  // Check the callbacks were invoked for logs.
-                                 OCMVerify([delegateMock onEnqueuingLog:mockLog withInternalId:OCMOCK_ANY]);
+                                 OCMVerify([delegateMock channel:sut didEnqueueLog:mockLog withInternalId:OCMOCK_ANY]);
                                  OCMVerify([delegateMock channel:sut willSendLog:mockLog]);
                                  OCMVerify([delegateMock channel:sut didFailSendingLog:mockLog withError:anything()]);
                                  if (error) {
@@ -769,7 +769,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [sut addDelegate:mockDelegate];
   OCMReject([mockDelegate onFinishedPersistingLog:log withInternalId:OCMOCK_ANY]);
   OCMReject([mockDelegate onFailedPersistingLog:log withInternalId:OCMOCK_ANY]);
-  OCMExpect([mockDelegate onEnqueuingLog:log withInternalId:OCMOCK_ANY]);
+  OCMExpect([mockDelegate channel:sut didEnqueueLog:log withInternalId:OCMOCK_ANY]);
 
   // When
   dispatch_async(self.logsDispatchQueue, ^{
@@ -794,7 +794,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [sut addDelegate:mockDelegate];
   OCMReject([mockDelegate2 onFinishedPersistingLog:log withInternalId:OCMOCK_ANY]);
   OCMReject([mockDelegate2 onFailedPersistingLog:log withInternalId:OCMOCK_ANY]);
-  OCMExpect([mockDelegate2 onEnqueuingLog:log withInternalId:OCMOCK_ANY]);
+  OCMExpect([mockDelegate2 channel:sut didEnqueueLog:log withInternalId:OCMOCK_ANY]);
   [sut addDelegate:mockDelegate2];
 
   // When
@@ -823,7 +823,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   id mockDelegate = OCMPartialMock([MSExpectantChannelDelegate new]);
   OCMStub([mockDelegate shouldFilterLog:log]).andReturn(NO);
   [sut addDelegate:mockDelegate];
-  OCMExpect([mockDelegate onEnqueuingLog:log withInternalId:OCMOCK_ANY]);
+  OCMExpect([mockDelegate channel:sut didEnqueueLog:log withInternalId:OCMOCK_ANY]);
   OCMExpect([mockDelegate onFinishedPersistingLog:log withInternalId:OCMOCK_ANY]);
 
   // When

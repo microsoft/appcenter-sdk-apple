@@ -87,9 +87,9 @@
    *
    * TODO: Refactor when supporting trackEvent from background threads (LogBuffer in MSCrashes won't work).
    */
-  [self enumerateDelegatesForSelector:@selector(onEnqueuingLog:withInternalId:)
+  [self enumerateDelegatesForSelector:@selector(channel:didEnqueueLog:withInternalId:)
                             withBlock:^(id<MSChannelDelegate> delegate) {
-                              [delegate onEnqueuingLog:item withInternalId:internalLogId];
+                              [delegate channel:self didEnqueueLog:item withInternalId:internalLogId];
                             }];
 
   // Return fast in case our item is empty or we are discarding logs right now.

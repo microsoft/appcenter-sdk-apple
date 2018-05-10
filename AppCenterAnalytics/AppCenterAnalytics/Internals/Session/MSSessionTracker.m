@@ -145,7 +145,9 @@ static NSString *const kMSPastSessionsKey = @"pastSessionsKey";
 
 #pragma mark - MSChannelDelegate
 
-- (void)onEnqueuingLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
+- (void)channel:(id<MSChannelProtocol>)channel didEnqueueLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
+  (void)channel;
+  (void)log;
   (void)internalId;
 
   /*
