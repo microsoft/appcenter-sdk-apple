@@ -153,6 +153,7 @@
                                                                              flushInterval:flushInterval
                                                                             batchSizeLimit:batchSizeLimit
                                                                        pendingBatchesLimit:pendingBatchesLimit]];
+  dispatch_sync(sut.logsDispatchQueue, ^{});
 
   // Then
   OCMVerify([channelUnitMock addDelegate:sut]);
