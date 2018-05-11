@@ -2,10 +2,19 @@
 
 @protocol MSLog;
 @protocol MSChannelUnitProtocol;
+@protocol MSChannelGroupProtocol;
 
 @protocol MSChannelDelegate <NSObject>
 
 @optional
+
+/**
+ * A callback that is called when a channel unit is added to the channel group.
+ *
+ * @param channelGroup The channel group.
+ * @param channel The newly added channel.
+ */
+- (void)channelGroup:(id<MSChannelGroupProtocol>)channelGroup didAddChannelUnit:(id<MSChannelUnitProtocol>)channel;
 
 /**
  * Callback method that will be called before each log will be send to the server.
