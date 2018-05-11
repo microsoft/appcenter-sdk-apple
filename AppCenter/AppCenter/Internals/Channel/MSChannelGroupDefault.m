@@ -18,19 +18,18 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 - (instancetype)initWithAppSecret:(NSString *)appSecret installId:(NSUUID *)installId logUrl:(NSString *)logUrl {
   self = [self initWithSender:[[MSIngestionSender alloc] initWithBaseUrl:logUrl
                                                                appSecret:appSecret
-                                                               installId:[installId UUIDString]]
-                      storage:[[MSLogDBStorage alloc] initWithCapacity:kMSStorageMaxCapacity]];
+                                                               installId:[installId UUIDString]]];
   return self;
 }
 
-- (instancetype)initWithSender:(nullable MSHttpSender *)sender storage:(nullable id<MSStorage>)storage {
+- (instancetype)initWithSender:(nullable MSHttpSender *)sender {
   if ((self = [self init])) {
     dispatch_queue_t serialQueue = dispatch_queue_create(kMSlogsDispatchQueue, DISPATCH_QUEUE_SERIAL);
     _logsDispatchQueue = serialQueue;
     _channels = [NSMutableArray<id<MSChannelUnitProtocol>> new];
     _delegates = [NSHashTable weakObjectsHashTable];
     _sender = sender;
-    _storage = storage;
+    _storage = [[MSLogDBStorage alloc] initWithCapacity:kMSStorageMaxCapacity];
   }
   return self;
 }
