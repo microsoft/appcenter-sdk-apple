@@ -421,8 +421,8 @@ static NSString *const kMSGroupId = @"AppCenter";
         [[MSChannelGroupDefault alloc] initWithAppSecret:self.appSecret installId:self.installId logUrl:self.logUrl];
   } else {
 
-    // If there is no app secret, create a channel group without sender or storage.
-    self.channelGroup = [[MSChannelGroupDefault alloc] initWithSender:nil storage:nil];
+    // If there is no app secret, create a channel group without sender.
+    self.channelGroup = [[MSChannelGroupDefault alloc] initWithSender:nil];
   }
   self.oneCollectorChannelDelegate = [MSOneCollectorChannelDelegate new];
   [self.channelGroup addDelegate: self.oneCollectorChannelDelegate];

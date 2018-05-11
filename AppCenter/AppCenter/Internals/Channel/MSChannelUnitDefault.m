@@ -29,7 +29,7 @@
 }
 
 - (instancetype)initWithSender:(nullable id<MSSender>)sender
-                       storage:(nullable id<MSStorage>)storage
+                       storage:(id<MSStorage>)storage
                  configuration:(MSChannelUnitConfiguration *)configuration
              logsDispatchQueue:(dispatch_queue_t)logsDispatchQueue {
   if ((self = [self init])) {
@@ -102,8 +102,13 @@
                                 shouldFilter = shouldFilter || [delegate shouldFilterLog:item];
                               }];
 
-    // If sender or storage is nil, there is nothing to do at this point.
-    if (shouldFilter || !self.sender || !self.storage) {
+    // If sender is nil, there is nothing to do at this point.
+    if (shouldFilter) {
+      MSLogDebug([MSAppCenter logTag], @"Log of type '%@' was filtered out by delegate(s)", item.type);
+      return;
+    }
+    if (!self.sender) {
+      MSLogDebug([MSAppCenter logTag], @"Log of type '%@' was not filtered out by delegate(s) but no app secret was provided. Not persisting/sending the log.", item.type);
       return;
     }
     if (self.discardLogs) {
@@ -137,8 +142,8 @@
 
 - (void)flushQueue {
 
-  // Nothing to flush if there is no sender or storage.
-  if (!self.sender || !self.storage) {
+  // Nothing to flush if there is no sender.
+  if (!self.sender) {
     return;
   }
 
