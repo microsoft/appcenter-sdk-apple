@@ -70,6 +70,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   assertThat(self.sut.sender, equalTo(self.senderMock));
   assertThat(self.sut.storage, equalTo(self.storageMock));
   assertThatUnsignedLong(self.sut.itemsCount, equalToInt(0));
+  OCMVerify([self.senderMock addDelegate:self.sut]);
 }
 
 - (void)testLogsSentWithSuccess {
@@ -840,6 +841,45 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  (void)error;
                                  OCMVerifyAll(mockDelegate);
                                }];
+}
+
+- (void)testDisableAndDeleteDataOnSenderFatalError {
+  
+  // If
+  id senderMock = OCMProtocolMock(@protocol(MSSender));
+  MSChannelUnitDefault *sut = [self createChannelUnit];
+  
+  // When
+  [sut senderDidReceiveFatalError:senderMock];
+  
+  // Then
+  OCMVerify([sut setEnabled:NO andDeleteDataOnDisabled:YES]);
+}
+
+- (void)testSuspendOnSenderSuspended {
+  
+  // If
+  id senderMock = OCMProtocolMock(@protocol(MSSender));
+  MSChannelUnitDefault *sut = [self createChannelUnit];
+  
+  // When
+  [sut senderDidSuspend:senderMock];
+  
+  // Then
+  OCMVerify([sut suspend]);
+}
+
+- (void)testResumeOnSenderResumed {
+  
+  // If
+  id senderMock = OCMProtocolMock(@protocol(MSSender));
+  MSChannelUnitDefault *sut = [self createChannelUnit];
+  
+  // When
+  [sut senderDidResume:senderMock];
+  
+  // Then
+  OCMVerify([sut resume]);
 }
 
 #pragma mark - Helper

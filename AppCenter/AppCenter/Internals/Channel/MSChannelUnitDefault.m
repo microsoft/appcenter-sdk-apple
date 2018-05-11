@@ -37,6 +37,9 @@
     _storage = storage;
     _configuration = configuration;
     _logsDispatchQueue = logsDispatchQueue;
+    
+    // Register as sender delegate.
+    [_sender addDelegate:self];
 
     // Match sender's current status, if one is passed.
     if (_sender && _sender.suspended) {
@@ -58,6 +61,25 @@
   dispatch_async(self.logsDispatchQueue, ^{
     [self.delegates removeObject:delegate];
   });
+}
+
+#pragma mark - MSSenderDelegate
+
+- (void)senderDidSuspend:(id<MSSender>)sender {
+  (void)sender;
+  [self suspend];
+}
+
+- (void)senderDidResume:(id<MSSender>)sender {
+  (void)sender;
+  [self resume];
+}
+
+- (void)senderDidReceiveFatalError:(id<MSSender>)sender {
+  (void)sender;
+  
+  // Disable and delete data on fatal errors.
+  [self setEnabled:NO andDeleteDataOnDisabled:YES];
 }
 
 #pragma mark - Managing queue

@@ -2,7 +2,6 @@
 
 #import "MSChannelGroupProtocol.h"
 #import "MSDeviceTracker.h"
-#import "MSSenderDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -21,7 +20,7 @@ static short const kMSStorageMaxCapacity = 300;
  * persistence layer what to do with a pending batch based on the status code
  * returned by the sender
  */
-@interface MSChannelGroupDefault : NSObject <MSChannelGroupProtocol, MSSenderDelegate>
+@interface MSChannelGroupDefault : NSObject <MSChannelGroupProtocol>
 
 /**
  * Initializes a new `MSChannelGroupDefault` instance.

@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
 
 #import "MSChannelUnitProtocol.h"
+#import "MSSenderDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -9,7 +10,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MSSender;
 @protocol MSStorage;
 
-@interface MSChannelUnitDefault : NSObject <MSChannelUnitProtocol>
+@interface MSChannelUnitDefault : NSObject <MSChannelUnitProtocol, MSSenderDelegate>
 
 /**
  * Initializes a new `MSChannelUnitDefault` instance.

@@ -31,9 +31,6 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
     _delegates = [NSHashTable weakObjectsHashTable];
     _sender = sender;
     _storage = storage;
-    
-    // Register as sender delegate.
-    [_sender addDelegate:self];
   }
   return self;
 }
@@ -176,25 +173,6 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
       [channel resume];
     });
   }
-}
-
-#pragma mark - MSSenderDelegate
-
-- (void)senderDidSuspend:(id<MSSender>)sender {
-  (void)sender;
-  [self suspend];
-}
-
-- (void)senderDidResume:(id<MSSender>)sender {
-  (void)sender;
-  [self resume];
-}
-
-- (void)senderDidReceiveFatalError:(id<MSSender>)sender {
-  (void)sender;
-
-  // Disable and delete data on fatal errors.
-  [self setEnabled:NO andDeleteDataOnDisabled:YES];
 }
 
 #pragma mark - Other public methods

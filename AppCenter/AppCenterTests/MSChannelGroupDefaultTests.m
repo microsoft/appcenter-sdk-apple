@@ -32,7 +32,6 @@
   assertThat(sut.channels, isEmpty());
   assertThat(sut.sender, equalTo(senderMock));
   assertThat(sut.storage, equalTo(storageMock));
-  OCMVerify([senderMock addDelegate:sut]);
 }
 
 - (void)testAddNewChannel {
@@ -128,75 +127,6 @@
 
   // Then
   OCMVerify([senderMock setEnabled:NO andDeleteDataOnDisabled:NO]);
-}
-
-- (void)testDisableAndDeleteDataOnSenderFatalError {
-
-  // If
-  id senderMock = OCMProtocolMock(@protocol(MSSender));
-  id storageMock = OCMProtocolMock(@protocol(MSStorage));
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock storage:storageMock];
-  id<MSChannelUnitProtocol> addedChannel = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
-  [sut.channels addObject:addedChannel];
-
-  // When
-  [addedChannel enqueueItem:[MSMockLog new]];
-  [sut senderDidReceiveFatalError:senderMock];
-
-  // Then
-  OCMVerify([senderMock setEnabled:NO andDeleteDataOnDisabled:YES]);
-  OCMVerify([addedChannel setEnabled:NO andDeleteDataOnDisabled:YES]);
-}
-
-- (void)testSuspendOnSenderSuspended {
-
-  // If
-  id senderMock = OCMProtocolMock(@protocol(MSSender));
-  id storageMock = OCMProtocolMock(@protocol(MSStorage));
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock storage:storageMock];
-  id<MSChannelUnitProtocol> addedChannel = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
-  [sut.channels addObject:addedChannel];
-
-  // When
-  [addedChannel enqueueItem:[MSMockLog new]];
-  [sut senderDidSuspend:senderMock];
-
-  // Then
-  dispatch_semaphore_t sem = dispatch_semaphore_create(0);
-
-  // Do the verifications in the log queue to ensure that they occur after the operations complete.
-  dispatch_async(sut.logsDispatchQueue, ^{
-    OCMVerify([senderMock setEnabled:NO andDeleteDataOnDisabled:NO]);
-    OCMVerify([addedChannel suspend]);
-    dispatch_semaphore_signal(sem);
-  });
-  dispatch_semaphore_wait(sem, dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC*1));
-}
-
-- (void)testResumeOnSenderResumed {
-
-  // If
-  id senderMock = OCMProtocolMock(@protocol(MSSender));
-  id storageMock = OCMProtocolMock(@protocol(MSStorage));
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock storage:storageMock];
-  id<MSChannelUnitProtocol> addedChannel = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
-  [sut.channels addObject:addedChannel];
-
-  // When
-  [addedChannel enqueueItem:[MSMockLog new]];
-  [sut senderDidResume:senderMock];
-
-  // Then
-  dispatch_semaphore_t sem = dispatch_semaphore_create(0);
-
-  // Do the verifications in the log queue to ensure that they occur after
-  // the operations complete.
-  dispatch_async(sut.logsDispatchQueue, ^{
-    OCMVerify([senderMock setEnabled:YES andDeleteDataOnDisabled:NO]);
-    OCMVerify([addedChannel resume]);
-    dispatch_semaphore_signal(sem);
-  });
-  dispatch_semaphore_wait(sem, dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC*1));
 }
 
 - (void)testChannelUnitIsCorrectlyInitialized {
