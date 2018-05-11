@@ -142,7 +142,7 @@
 
 - (void)flushQueue {
 
-  // Nothing to flush if there is no sender or storage.
+  // Nothing to flush if there is no sender.
   if (!self.sender) {
     return;
   }
