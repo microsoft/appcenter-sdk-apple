@@ -30,6 +30,10 @@ static NSString *const kMSEventTypeName = @"event";
   return @"eventFilter";
 }
 
+- (BOOL)isAppSecretRequired {
+  return NO;
+}
+
 #pragma mark - MSServiceAbstract
 
 /**
