@@ -31,6 +31,9 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
     _delegates = [NSHashTable weakObjectsHashTable];
     _sender = sender;
     _storage = storage;
+    
+    // Register as sender delegate.
+    [_sender addDelegate:self];
   }
   return self;
 }
