@@ -43,7 +43,9 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
                                              configuration:configuration
                                          logsDispatchQueue:self.logsDispatchQueue];
     [channel addDelegate:(id<MSChannelDelegate>)self];
-    [channel flushQueue];
+    dispatch_async(self.logsDispatchQueue, ^{
+      [channel flushQueue];
+    });
     [self.channels addObject:channel];
   }
   return channel;
