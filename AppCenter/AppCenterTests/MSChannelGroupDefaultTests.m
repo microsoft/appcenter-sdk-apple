@@ -47,12 +47,12 @@
   assertThat(sut.channels, isEmpty());
 
   // When
-  id<MSChannelUnitProtocol> addedChannel = [sut addChannelUnitWithConfiguration:
-                                            [[MSChannelUnitConfiguration alloc] initWithGroupId:groupId
-                                                                                       priority:priority
-                                                                                  flushInterval:flushInterval
-                                                                                 batchSizeLimit:batchSizeLimit
-                                                                            pendingBatchesLimit:pendingBatchesLimit]];
+  id<MSChannelUnitProtocol> addedChannel =
+      [sut addChannelUnitWithConfiguration:[[MSChannelUnitConfiguration alloc] initWithGroupId:groupId
+                                                                                      priority:priority
+                                                                                 flushInterval:flushInterval
+                                                                                batchSizeLimit:batchSizeLimit
+                                                                           pendingBatchesLimit:pendingBatchesLimit]];
 
   // Then
   XCTAssertTrue([sut.channels containsObject:addedChannel]);
@@ -73,12 +73,12 @@
     id mockDelegate = OCMProtocolMock(@protocol(MSChannelDelegate));
     [sut addDelegate:mockDelegate];
   }
-  id<MSChannelUnitProtocol> addedChannel = [sut addChannelUnitWithConfiguration:
-                                            [[MSChannelUnitConfiguration alloc] initWithGroupId:groupId
-                                                                                       priority:MSPriorityDefault
-                                                                                  flushInterval:1.0
-                                                                                 batchSizeLimit:10
-                                                                            pendingBatchesLimit:3]];
+  id<MSChannelUnitProtocol> addedChannel =
+      [sut addChannelUnitWithConfiguration:[[MSChannelUnitConfiguration alloc] initWithGroupId:groupId
+                                                                                      priority:MSPriorityDefault
+                                                                                 flushInterval:1.0
+                                                                                batchSizeLimit:10
+                                                                           pendingBatchesLimit:3]];
 
   // When
   void (^block)() = ^{
@@ -162,7 +162,7 @@
     OCMVerify([addedChannel suspend]);
     dispatch_semaphore_signal(sem);
   });
-  dispatch_semaphore_wait(sem, dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC*1));
+  dispatch_semaphore_wait(sem, dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC * 1));
 }
 
 - (void)testResumeOnSenderResumed {
@@ -187,7 +187,7 @@
     OCMVerify([addedChannel resume]);
     dispatch_semaphore_signal(sem);
   });
-  dispatch_semaphore_wait(sem, dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC*1));
+  dispatch_semaphore_wait(sem, dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC * 1));
 }
 
 - (void)testDelegateIsAddedToAddedUnit {
@@ -203,9 +203,10 @@
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
   OCMStub([channelUnitMock initWithSender:OCMOCK_ANY
-                                       storage:OCMOCK_ANY
-                                 configuration:OCMOCK_ANY
-                             logsDispatchQueue:OCMOCK_ANY]).andReturn(channelUnitMock);
+                                  storage:OCMOCK_ANY
+                            configuration:OCMOCK_ANY
+                        logsDispatchQueue:OCMOCK_ANY])
+      .andReturn(channelUnitMock);
 
   // When
   [sut addChannelUnitWithConfiguration:[[MSChannelUnitConfiguration alloc] initWithGroupId:groupId
@@ -216,6 +217,47 @@
 
   // Then
   OCMVerify([channelUnitMock addDelegate:sut]);
+
+  // Clear
+  [channelUnitMock stopMocking];
+}
+
+- (void)testDelegateCalledWhenAddingNewChannelUnit {
+
+  // Test that delegates are called whenever a new channel unit is added to the channel group.
+
+  // If
+  NSString *groupId = @"AnyGroupId";
+  MSPriority priority = MSPriorityDefault;
+  float flushInterval = 1.0;
+  NSUInteger batchSizeLimit = 10;
+  NSUInteger pendingBatchesLimit = 3;
+  id senderMock = OCMProtocolMock(@protocol(MSSender));
+  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock];
+  id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
+  OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
+  OCMStub([channelUnitMock initWithSender:OCMOCK_ANY
+                                  storage:OCMOCK_ANY
+                            configuration:OCMOCK_ANY
+                        logsDispatchQueue:OCMOCK_ANY])
+      .andReturn(channelUnitMock);
+  id delegateMock1 = OCMProtocolMock(@protocol(MSChannelDelegate));
+  OCMExpect([delegateMock1 channelGroup:sut didAddChannelUnit:channelUnitMock]);
+  id delegateMock2 = OCMProtocolMock(@protocol(MSChannelDelegate));
+  OCMExpect([delegateMock2 channelGroup:sut didAddChannelUnit:channelUnitMock]);
+  [sut addDelegate:delegateMock1];
+  [sut addDelegate:delegateMock2];
+
+  // When
+  [sut addChannelUnitWithConfiguration:[[MSChannelUnitConfiguration alloc] initWithGroupId:groupId
+                                                                                  priority:priority
+                                                                             flushInterval:flushInterval
+                                                                            batchSizeLimit:batchSizeLimit
+                                                                       pendingBatchesLimit:pendingBatchesLimit]];
+
+  // Then
+  OCMVerifyAll(delegateMock1);
+  OCMVerifyAll(delegateMock2);
 
   // Clear
   [channelUnitMock stopMocking];

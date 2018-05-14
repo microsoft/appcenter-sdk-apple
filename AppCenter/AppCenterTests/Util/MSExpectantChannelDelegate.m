@@ -15,7 +15,7 @@
   return NO;
 }
 
-- (void)channel:(id<MSChannelProtocol>)channel didEnqueueLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
+- (void)channel:(id<MSChannelUnitProtocol>)channel didEnqueueLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
   (void)channel;
   (void)log;
   (void)internalId;
