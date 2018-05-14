@@ -1,7 +1,7 @@
-#import "MSOneCollectorChannelDelegatePrivate.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
+#import "MSOneCollectorChannelDelegatePrivate.h"
 
 static NSString *const kMSOneCollectorGroupIdSuffix = @"/one";
 

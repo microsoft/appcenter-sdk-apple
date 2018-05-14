@@ -1,10 +1,9 @@
-#import <XCTest/XCTest.h>
-#import "MSOneCollectorChannelDelegatePrivate.h"
+#import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
 #import "MSChannelUnitDefault.h"
-#import "MSTestFrameworks.h"
-#import "MSChannelUnitConfiguration.h"
 #import "MSChannelGroupProtocol.h"
+#import "MSOneCollectorChannelDelegatePrivate.h"
+#import "MSTestFrameworks.h"
 
 @interface MSOneCollectorChannelDelegateTests : XCTestCase
 
@@ -16,12 +15,7 @@
 
 - (void)setUp {
   [super setUp];
-  self.sut = [[MSOneCollectorChannelDelegate alloc] init];
-}
-
-- (void)tearDown {
-  // Put teardown code here. This method is called after the invocation of each test method in the class.
-  [super tearDown];
+  self.sut = [MSOneCollectorChannelDelegate new];
 }
 
 - (void)testDidAddChannelUnitWithBaseGroupId {
@@ -85,13 +79,6 @@
   XCTAssertNotNil(self.sut.oneCollectorChannels);
   XCTAssertTrue([self.sut.oneCollectorChannels count] == 0);
   OCMVerifyAll(channelGroupMock);
-}
-
-- (void)testPerformanceExample {
-  // This is an example of a performance test case.
-  [self measureBlock:^{
-      // Put the code you want to measure the time of here.
-  }];
 }
 
 @end

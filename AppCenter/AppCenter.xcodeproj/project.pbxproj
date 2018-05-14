@@ -1269,11 +1269,11 @@
 				3542741C2012B53B00BE766F /* MSChannelUnitDefault.h */,
 				3542741B2012B02600BE766F /* MSChannelDelegate.h */,
 				805275BF20A19F7B00704115 /* MSOneCollectorChannelDelegate.h */,
+				E79750E620A4F41400E3EAE8 /* MSOneCollectorChannelDelegatePrivate.h */,
 				805275C020A1A5F400704115 /* MSOneCollectorChannelDelegate.m */,
 				354274192012AEFC00BE766F /* MSChannelUnitProtocol.h */,
 				3542741A2012AF0500BE766F /* MSChannelGroupProtocol.h */,
 				354274162012AE4000BE766F /* MSChannelProtocol.h */,
-				E79750E620A4F41400E3EAE8 /* MSOneCollectorChannelDelegatePrivate.h */,
 			);
 			path = Channel;
 			sourceTree = "<group>";
