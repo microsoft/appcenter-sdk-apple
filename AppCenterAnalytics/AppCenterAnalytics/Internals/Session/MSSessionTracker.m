@@ -145,7 +145,7 @@ static NSString *const kMSPastSessionsKey = @"pastSessionsKey";
 
 #pragma mark - MSChannelDelegate
 
-- (void)prepareLog:(id<MSLog>)log {
+- (void)channel:(id<MSChannelProtocol>)__unused channel prepareLog:(id<MSLog>)log {
 
   /*
    * Start session log is created in this method, therefore, skip in order to avoid infinite loop.

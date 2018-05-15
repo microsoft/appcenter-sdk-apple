@@ -8,6 +8,29 @@
 @optional
 
 /**
+ * A callback that is called when a log is just enqueued. Delegates may want to prepare the log a little more before further processing.
+ *
+ * @param log The log to prepare.
+ */
+- (void)channel:(id<MSChannelProtocol>)channel prepareLog:(id<MSLog>)log;
+
+/**
+ * A callback that is called after a log is definitely prepared.
+ *
+ * @param log The log.
+ * @param internalId An internal Id to keep track of logs.
+ */
+- (void)channel:(id<MSChannelProtocol>)channel didPrepareLog:(id<MSLog>)log withInternalId:(NSString *)internalId;
+
+/**
+ * A callback that is called after a log completed the enqueueing process weither it was successfull or not.
+ *
+ * @param log The log.
+ * @param internalId An internal Id to keep track of logs.
+ */
+- (void)channel:(id<MSChannelProtocol>)channel didCompleteEnqueueingLog:(id<MSLog>)log withInternalId:(NSString *)internalId;
+
+/**
  * Callback method that will be called before each log will be send to the server.
  *
  * @param channel The channel object.
@@ -41,12 +64,5 @@
  * @return `true` if the log should be filtered out.
  */
 - (BOOL)shouldFilterLog:(id<MSLog>)log;
-
-/**
- * A callback that is called when a log has been enqueued. Used to specify additional info.
- *
- * @param log The log.
- */
-- (void)prepareLog:(id<MSLog>)log;
 
 @end

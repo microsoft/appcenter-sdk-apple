@@ -5,7 +5,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol MSChannelDelegate;
-@protocol MSChannelPersistDelegate;
 
 /**
  * `MSChannelProtocol` contains the essential operations of a channel. Channels are
@@ -13,11 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
  * on disk.
  */
 @protocol MSChannelProtocol <NSObject, MSEnable>
-
-/**
- * A persist delegate.
- */
-@property(nonatomic, nullable) id<MSChannelPersistDelegate> persistDelegate;
 
 /**
  *  Add delegate.

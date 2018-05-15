@@ -2,7 +2,6 @@
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterInternal.h"
 #import "MSChannelDelegate.h"
-#import "MSChannelPersistDelegate.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
 #import "MSDeviceTracker.h"
@@ -11,7 +10,6 @@
 
 @implementation MSChannelUnitDefault
 
-@synthesize persistDelegate = _persistDelegate;
 @synthesize configuration = _configuration;
 
 #pragma mark - Initialization
@@ -108,19 +106,19 @@
   }
   
   // Additional preparations for the log. Used to specify the session id and distribution group id.
-  [self enumerateDelegatesForSelector:@selector(prepareLog:)
+  [self enumerateDelegatesForSelector:@selector(channel:prepareLog:)
                             withBlock:^(id<MSChannelDelegate> delegate) {
-                              [delegate prepareLog:item];
+                              [delegate channel:self prepareLog:item];
                             }];
 
   // Internal ID to keep track of logs between modules.
   NSString *internalLogId = MS_UUID_STRING;
 
   // Notify delegate about enqueuing as fast as possible on the current thread.
-  if (self.persistDelegate != nil &&
-      [self.persistDelegate respondsToSelector:@selector(willPersistLog:withInternalId:)]) {
-    [self.persistDelegate willPersistLog:item withInternalId:internalLogId];
-  }
+  [self enumerateDelegatesForSelector:@selector(channel:didPrepareLog:withInternalId:)
+                            withBlock:^(id<MSChannelDelegate> delegate) {
+                              [delegate channel:self didPrepareLog:item withInternalId:internalLogId];
+                            }];
   
   // Return fast in case our item is empty or we are discarding logs right now.
   dispatch_async(self.logsDispatchQueue, ^{
@@ -134,7 +132,10 @@
 
     // If sender or storage is nil, there is nothing to do at this point.
     if (shouldFilter || !self.sender || !self.storage) {
-      [self completedEnqueuingLog:item withInternalId:internalLogId withSuccess:NO];
+      [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:withInternalId:)
+                                withBlock:^(id<MSChannelDelegate> delegate) {
+                                  [delegate channel:self didCompleteEnqueueingLog:item withInternalId:internalLogId];
+                                }];
       return;
     }
     if (self.discardLogs) {
@@ -143,16 +144,22 @@
                                            code:kMSACConnectionSuspendedErrorCode
                                        userInfo:@{NSLocalizedDescriptionKey : kMSACConnectionSuspendedErrorDesc}];
       [self notifyFailureBeforeSendingForItem:item withError:error];
-      [self completedEnqueuingLog:item withInternalId:internalLogId withSuccess:NO];
+      [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:withInternalId:)
+                                withBlock:^(id<MSChannelDelegate> delegate) {
+                                  [delegate channel:self didCompleteEnqueueingLog:item withInternalId:internalLogId];
+                                }];
       return;
     }
 
     // Save the log first.
     MSLogDebug([MSAppCenter logTag], @"Saving log, type: %@.", item.type);
-    BOOL success = [self.storage saveLog:item withGroupId:self.configuration.groupId];
+    [self.storage saveLog:item withGroupId:self.configuration.groupId];
     self.itemsCount += 1;
-    [self completedEnqueuingLog:item withInternalId:internalLogId withSuccess:success];
-
+    [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:withInternalId:)
+                              withBlock:^(id<MSChannelDelegate> delegate) {
+                                [delegate channel:self didCompleteEnqueueingLog:item withInternalId:internalLogId];
+                              }];
+    
     // Flush now if current batch is full or delay to later.
     if (self.itemsCount >= self.configuration.batchSizeLimit) {
       [self flushQueue];
@@ -444,13 +451,6 @@
       if (delegate && [delegate respondsToSelector:@selector(channel:didFailSendingLog:withError:)])
         [delegate channel:self didFailSendingLog:item withError:error];
     }
-  }
-}
-
-- (void)completedEnqueuingLog:(id<MSLog>)log withInternalId:(NSString *)internalId withSuccess:(BOOL)success {
-  if (self.persistDelegate != nil &&
-      [self.persistDelegate respondsToSelector:@selector(completedEnqueuingLog:withInternalId:withSuccess:)]) {
-    [self.persistDelegate completedEnqueuingLog:log withInternalId:internalId withSuccess:success];
   }
 }
 
