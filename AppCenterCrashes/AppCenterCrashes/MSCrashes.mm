@@ -377,6 +377,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       transmissionTargetToken:(nullable NSString *)token {
   [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token];
   [self.channelGroup setPersistDelegate:self];
+  [self.channelGroup addDelegate:self];
   [self processLogBufferAfterCrash];
   MSLogVerbose([MSCrashes logTag], @"Started crash service.");
 }
@@ -507,6 +508,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     }
   }
 }
+
+#pragma mark - Channel Delegate
 
 - (void)channel:(id<MSChannelProtocol>)__unused channel willSendLog:(id<MSLog>)log {
   id<MSCrashesDelegate> strongDelegate = self.delegate;
