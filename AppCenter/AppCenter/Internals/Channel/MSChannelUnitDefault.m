@@ -9,10 +9,6 @@
 #import "MSSender.h"
 #import "MSStorage.h"
 
-@interface MSChannelUnitDefault () <MSSenderDelegate>
-
-@end
-
 @implementation MSChannelUnitDefault
 
 @synthesize persistDelegate = _persistDelegate;
