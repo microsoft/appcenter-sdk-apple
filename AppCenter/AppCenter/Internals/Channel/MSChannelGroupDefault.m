@@ -18,6 +18,8 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 
 @implementation MSChannelGroupDefault
 
+@synthesize persistDelegate = _persistDelegate;
+
 #pragma mark - Initialization
 
 - (instancetype)initWithAppSecret:(NSString *)appSecret installId:(NSUUID *)installId logUrl:(NSString *)logUrl {

@@ -7,8 +7,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class MSHttpSender;
 @protocol MSStorage;
-@protocol MSChannelDelegate;
-@protocol MSChannelPersistDelegate;
 
 static short const kMSStorageMaxCapacity = 300;
 
@@ -49,11 +47,6 @@ static short const kMSStorageMaxCapacity = 300;
  * Collection of channel delegates.
  */
 @property(nonatomic) NSHashTable<id<MSChannelDelegate>> *delegates;
-
-/**
- * A persist delegate.
- */
-@property(nonatomic, nullable) id<MSChannelPersistDelegate> persistDelegate;
 
 /**
  * A sender instance that is used to send batches of log items to the backend.

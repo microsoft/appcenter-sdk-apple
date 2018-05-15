@@ -11,6 +11,7 @@
 
 @implementation MSChannelUnitDefault
 
+@synthesize persistDelegate = _persistDelegate;
 @synthesize configuration = _configuration;
 
 #pragma mark - Initialization

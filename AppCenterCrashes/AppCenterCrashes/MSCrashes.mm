@@ -376,7 +376,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                     appSecret:(nullable NSString *)appSecret
       transmissionTargetToken:(nullable NSString *)token {
   [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token];
-  [self.channelGroup addDelegate:self];
+  [self.channelGroup setPersistDelegate:self];
   [self processLogBufferAfterCrash];
   MSLogVerbose([MSCrashes logTag], @"Started crash service.");
 }
@@ -397,7 +397,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   _enableMachExceptionHandler = enableMachExceptionHandler;
 }
 
-#pragma mark - MSChannelDelegate
+#pragma mark - Channel Persist Delegate
 
 /**
  * Why are we doing the event-buffering inside crashes?
@@ -409,7 +409,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
  * the crash and then, at crash time, crashes has all info in place to save the buffer safely from the main thread
  * (other threads are killed at crash time).
  */
-- (void)onEnqueuingLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
+- (void)willPersistLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
 
   // Don't buffer event if log is empty, crashes module is disabled or the log is related to crash.
   NSObject *logObject = static_cast<NSObject *>(log);
@@ -483,17 +483,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   }
 }
 
-- (void)onFinishedPersistingLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
-  (void)log;
-  [self deleteBufferedLog:log withInternalId:internalId];
-}
-
-- (void)onFailedPersistingLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
-  (void)log;
-  [self deleteBufferedLog:log withInternalId:internalId];
-}
-
-- (void)deleteBufferedLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
+- (void)completedEnqueuingLog:(id<MSLog>)log withInternalId:(NSString *)internalId withSuccess:(BOOL)__unused success {
   @synchronized(self) {
     for (auto it = msCrashesLogBuffer.begin(), end = msCrashesLogBuffer.end(); it != end; ++it) {
       NSString *bufferId = [NSString stringWithCString:it->internalId.c_str() encoding:NSUTF8StringEncoding];
@@ -518,8 +508,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   }
 }
 
-- (void)channel:(id<MSChannelProtocol>)channel willSendLog:(id<MSLog>)log {
-  (void)channel;
+- (void)channel:(id<MSChannelProtocol>)__unused channel willSendLog:(id<MSLog>)log {
   id<MSCrashesDelegate> strongDelegate = self.delegate;
   if (strongDelegate && [strongDelegate respondsToSelector:@selector(crashes:willSendErrorReport:)]) {
     NSObject *logObject = static_cast<NSObject *>(log);
@@ -531,8 +520,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   }
 }
 
-- (void)channel:(id<MSChannelProtocol>)channel didSucceedSendingLog:(id<MSLog>)log {
-  (void)channel;
+- (void)channel:(id<MSChannelProtocol>)__unused channel didSucceedSendingLog:(id<MSLog>)log {
   id<MSCrashesDelegate> strongDelegate = self.delegate;
   if (strongDelegate && [strongDelegate respondsToSelector:@selector(crashes:didSucceedSendingErrorReport:)]) {
     NSObject *logObject = static_cast<NSObject *>(log);
@@ -544,8 +532,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   }
 }
 
-- (void)channel:(id<MSChannelProtocol>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error {
-  (void)channel;
+- (void)channel:(id<MSChannelProtocol>)__unused channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error {
   id<MSCrashesDelegate> strongDelegate = self.delegate;
   if (strongDelegate && [strongDelegate respondsToSelector:@selector(crashes:didFailSendingErrorReport:withError:)]) {
     NSObject *logObject = static_cast<NSObject *>(log);
