@@ -788,8 +788,8 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
     // Enqueue now that the delegate is set.
     [sut enqueueItem:log];
+    [self enqueueChannelEndJobExpectation];
   });
-  [self enqueueChannelEndJobExpectation];
 
   // Then
   [self waitForExpectationsWithTimeout:1
