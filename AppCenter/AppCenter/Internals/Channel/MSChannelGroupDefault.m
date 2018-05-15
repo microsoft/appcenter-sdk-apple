@@ -2,6 +2,7 @@
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterInternal.h"
 #import "MSChannelDelegate.h"
+#import "MSChannelPersistDelegate.h"
 #import "MSChannelGroupDefault.h"
 #import "MSChannelUnitDefault.h"
 #import "MSHttpSender.h"
@@ -10,6 +11,10 @@
 #import "MSStorage.h"
 
 static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQueue";
+
+@interface MSChannelGroupDefault () <MSChannelDelegate, MSChannelPersistDelegate>
+
+@end
 
 @implementation MSChannelGroupDefault
 
@@ -42,7 +47,8 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
                                                    storage:self.storage
                                              configuration:configuration
                                          logsDispatchQueue:self.logsDispatchQueue];
-    [channel addDelegate:(id<MSChannelDelegate>)self];
+    [channel setPersistDelegate:self];
+    [channel addDelegate:self];
     dispatch_async(self.logsDispatchQueue, ^{
       [channel flushQueue];
     });
@@ -114,18 +120,18 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
                             }];
 }
 
-- (void)onFinishedPersistingLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
-  [self enumerateDelegatesForSelector:@selector(onFinishedPersistingLog:withInternalId:)
-                            withBlock:^(id<MSChannelDelegate> delegate) {
-                              [delegate onFinishedPersistingLog:log withInternalId:internalId];
-                            }];
+#pragma mark - Channel Persist Delegate
+
+- (void)willPersistLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
+  if (self.persistDelegate != nil) {
+    [self.persistDelegate willPersistLog:log withInternalId:internalId];
+  }
 }
 
-- (void)onFailedPersistingLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
-  [self enumerateDelegatesForSelector:@selector(onFailedPersistingLog:withInternalId:)
-                            withBlock:^(id<MSChannelDelegate> delegate) {
-                              [delegate onFailedPersistingLog:log withInternalId:internalId];
-                            }];
+- (void)completedEnqueuingLog:(id<MSLog>)log withInternalId:(NSString *)internalId withSuccess:(BOOL)success {
+  if (self.persistDelegate != nil) {
+    [self.persistDelegate completedEnqueuingLog:log withInternalId:internalId withSuccess:success];
+  }
 }
 
 #pragma mark - Enable / Disable

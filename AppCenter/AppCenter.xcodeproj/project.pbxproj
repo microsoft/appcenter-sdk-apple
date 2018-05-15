@@ -507,6 +507,9 @@
 		F803BBF91E8E3989004B1E7A /* MSCustomPropertiesLog.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BBF81E8E3989004B1E7A /* MSCustomPropertiesLog.m */; };
 		F803BC381E8E6927004B1E7A /* MSCustomPropertiesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BC371E8E6927004B1E7A /* MSCustomPropertiesTests.m */; };
 		F803BC3A1E8E6963004B1E7A /* MSCustomPropertiesLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BC391E8E6963004B1E7A /* MSCustomPropertiesLogTests.m */; };
+		F8206EEA20AAE23C000304B7 /* MSChannelPersistDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = F8206EE920AAE23C000304B7 /* MSChannelPersistDelegate.h */; };
+		F8206EEB20AAE23C000304B7 /* MSChannelPersistDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = F8206EE920AAE23C000304B7 /* MSChannelPersistDelegate.h */; };
+		F8206EEC20AAE23C000304B7 /* MSChannelPersistDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = F8206EE920AAE23C000304B7 /* MSChannelPersistDelegate.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -766,6 +769,7 @@
 		F803BBFA1E8E39AB004B1E7A /* MSCustomPropertiesLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSCustomPropertiesLog.h; sourceTree = "<group>"; };
 		F803BC371E8E6927004B1E7A /* MSCustomPropertiesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCustomPropertiesTests.m; sourceTree = "<group>"; };
 		F803BC391E8E6963004B1E7A /* MSCustomPropertiesLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCustomPropertiesLogTests.m; sourceTree = "<group>"; };
+		F8206EE920AAE23C000304B7 /* MSChannelPersistDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSChannelPersistDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1253,6 +1257,7 @@
 				6E0684621D36BC8D00A8CC6C /* MSChannelUnitDefault.m */,
 				3542741C2012B53B00BE766F /* MSChannelUnitDefault.h */,
 				3542741B2012B02600BE766F /* MSChannelDelegate.h */,
+				F8206EE920AAE23C000304B7 /* MSChannelPersistDelegate.h */,
 				354274192012AEFC00BE766F /* MSChannelUnitProtocol.h */,
 				3542741A2012AF0500BE766F /* MSChannelGroupProtocol.h */,
 				354274162012AE4000BE766F /* MSChannelProtocol.h */,
@@ -1281,6 +1286,7 @@
 				B2CD74AE1F22BE270070E7DF /* MSUtility+ApplicationPrivate.h in Headers */,
 				0431209B1EE0BCF9007054C5 /* MSSenderCall.h in Headers */,
 				0431209C1EE0BCF9007054C5 /* MSSender.h in Headers */,
+				F8206EEC20AAE23C000304B7 /* MSChannelPersistDelegate.h in Headers */,
 				B2CD74B11F22BE270070E7DF /* MSUtility+Date.h in Headers */,
 				B2CD74C91F22BEC70070E7DF /* MSDBStoragePrivate.h in Headers */,
 				0431209D1EE0BCF9007054C5 /* MSServiceCommon.h in Headers */,
@@ -1370,6 +1376,7 @@
 				04754F7A1EA98182002CBA46 /* MSSenderUtil.h in Headers */,
 				04754F9C1EA98182002CBA46 /* MSWrapperLogger.h in Headers */,
 				3568A7E7201A91A300F3B860 /* MSLogger.h in Headers */,
+				F8206EEB20AAE23C000304B7 /* MSChannelPersistDelegate.h in Headers */,
 				04754F881EA98182002CBA46 /* MSLog.h in Headers */,
 				3568A7E3201A8A6300F3B860 /* MSChannelDelegate.h in Headers */,
 				3568A7E5201A8A6300F3B860 /* MSChannelGroupProtocol.h in Headers */,
@@ -1451,6 +1458,7 @@
 				3849BA7A1EF314440072E3E0 /* MSDBStorage.h in Headers */,
 				6E3E2C9E1D35701000B1EE50 /* MSLog.h in Headers */,
 				354274212016769C00BE766F /* MSChannelProtocol.h in Headers */,
+				F8206EEA20AAE23C000304B7 /* MSChannelPersistDelegate.h in Headers */,
 				35D0B7531DDFABFD003EACCD /* MSWrapperLogger.h in Headers */,
 				3542742320167DD500BE766F /* MSEnable.h in Headers */,
 				354274202016769C00BE766F /* MSChannelGroupProtocol.h in Headers */,
