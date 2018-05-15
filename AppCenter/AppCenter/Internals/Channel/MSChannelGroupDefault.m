@@ -10,6 +10,7 @@
 #import "MSLogDBStorage.h"
 #import "MSStorage.h"
 
+static short const kMSStorageMaxCapacity = 300;
 static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQueue";
 
 @interface MSChannelGroupDefault () <MSChannelDelegate, MSChannelPersistDelegate>
@@ -115,23 +116,25 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
   return shouldFilter;
 }
 
-- (void)onEnqueuingLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
-  [self enumerateDelegatesForSelector:@selector(onEnqueuingLog:withInternalId:)
+- (void)prepareLog:(id<MSLog>)log {
+  [self enumerateDelegatesForSelector:@selector(prepareLog:)
                             withBlock:^(id<MSChannelDelegate> delegate) {
-                              [delegate onEnqueuingLog:log withInternalId:internalId];
+                              [delegate prepareLog:log];
                             }];
 }
 
 #pragma mark - Channel Persist Delegate
 
 - (void)willPersistLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
-  if (self.persistDelegate != nil) {
+  if (self.persistDelegate != nil &&
+      [self.persistDelegate respondsToSelector:@selector(willPersistLog:withInternalId:)]) {
     [self.persistDelegate willPersistLog:log withInternalId:internalId];
   }
 }
 
 - (void)completedEnqueuingLog:(id<MSLog>)log withInternalId:(NSString *)internalId withSuccess:(BOOL)success {
-  if (self.persistDelegate != nil) {
+  if (self.persistDelegate != nil &&
+      [self.persistDelegate respondsToSelector:@selector(completedEnqueuingLog:withInternalId:withSuccess:)]) {
     [self.persistDelegate completedEnqueuingLog:log withInternalId:internalId withSuccess:success];
   }
 }

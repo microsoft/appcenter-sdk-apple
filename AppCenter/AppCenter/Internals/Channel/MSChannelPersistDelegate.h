@@ -4,6 +4,8 @@
 
 @protocol MSChannelPersistDelegate <NSObject>
 
+@optional
+
 /**
  * A callback that is called when a log has been enqueued, before a log has been forwarded to persistence, etc.
  *

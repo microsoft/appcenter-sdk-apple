@@ -43,11 +43,10 @@
 - (BOOL)shouldFilterLog:(id<MSLog>)log;
 
 /**
- * A callback that is called when a log has been enqueued.
+ * A callback that is called when a log has been enqueued. Used to specify additional info.
  *
  * @param log The log.
- * @param internalId An internal Id that can be used to keep track of logs.
  */
-- (void)onEnqueuingLog:(id<MSLog>)log withInternalId:(NSString *)internalId;
+- (void)prepareLog:(id<MSLog>)log;
 
 @end

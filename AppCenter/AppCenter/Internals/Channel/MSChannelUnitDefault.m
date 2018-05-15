@@ -9,6 +9,10 @@
 #import "MSSender.h"
 #import "MSStorage.h"
 
+@interface MSChannelUnitDefault () <MSSenderDelegate>
+
+@end
+
 @implementation MSChannelUnitDefault
 
 @synthesize persistDelegate = _persistDelegate;
@@ -55,13 +59,17 @@
 
 - (void)addDelegate:(id<MSChannelDelegate>)delegate {
   dispatch_async(self.logsDispatchQueue, ^{
-    [self.delegates addObject:delegate];
+    @synchronized(self.delegates) {
+      [self.delegates addObject:delegate];
+    }
   });
 }
 
 - (void)removeDelegate:(id<MSChannelDelegate>)delegate {
   dispatch_async(self.logsDispatchQueue, ^{
-    [self.delegates removeObject:delegate];
+    @synchronized(self.delegates) {
+      [self.delegates removeObject:delegate];
+    }
   });
 }
 
@@ -102,21 +110,24 @@
     MSLogWarning([MSAppCenter logTag], @"Log is not valid.");
     return;
   }
+  
+  // Additional preparations for the log. Used to specify the session id and distribution group id.
+  [self enumerateDelegatesForSelector:@selector(prepareLog:)
+                            withBlock:^(id<MSChannelDelegate> delegate) {
+                              [delegate prepareLog:item];
+                            }];
 
   // Internal ID to keep track of logs between modules.
   NSString *internalLogId = MS_UUID_STRING;
 
   // Notify delegate about enqueuing as fast as possible on the current thread.
-  if (self.persistDelegate != nil) {
+  if (self.persistDelegate != nil &&
+      [self.persistDelegate respondsToSelector:@selector(willPersistLog:withInternalId:)]) {
     [self.persistDelegate willPersistLog:item withInternalId:internalLogId];
   }
   
   // Return fast in case our item is empty or we are discarding logs right now.
   dispatch_async(self.logsDispatchQueue, ^{
-    [self enumerateDelegatesForSelector:@selector(onEnqueuingLog:withInternalId:)
-                              withBlock:^(id<MSChannelDelegate> delegate) {
-                                [delegate onEnqueuingLog:item withInternalId:internalLogId];
-                              }];
 
     // Check if the log should be filtered out. If so, don't enqueue it.
     __block BOOL shouldFilter = NO;
@@ -127,6 +138,7 @@
 
     // If sender or storage is nil, there is nothing to do at this point.
     if (shouldFilter || !self.sender || !self.storage) {
+      [self completedEnqueuingLog:item withInternalId:internalLogId withSuccess:NO];
       return;
     }
     if (self.discardLogs) {
@@ -415,28 +427,33 @@
 #pragma mark - Helper
 
 - (void)enumerateDelegatesForSelector:(SEL)selector withBlock:(void (^)(id<MSChannelDelegate> delegate))block {
-  for (id<MSChannelDelegate> delegate in self.delegates) {
-    if (delegate && [delegate respondsToSelector:selector]) {
-      block(delegate);
+  @synchronized(self.delegates) {
+    for (id<MSChannelDelegate> delegate in self.delegates) {
+      if (delegate && [delegate respondsToSelector:selector]) {
+        block(delegate);
+      }
     }
   }
 }
 
 - (void)notifyFailureBeforeSendingForItem:(id<MSLog>)item withError:(NSError *)error {
-  for (id<MSChannelDelegate> delegate in self.delegates) {
+  @synchronized(self.delegates) {
+    for (id<MSChannelDelegate> delegate in self.delegates) {
 
-    // Call willSendLog before didFailSendingLog
-    if (delegate && [delegate respondsToSelector:@selector(channel:willSendLog:)])
-      [delegate channel:self willSendLog:item];
+      // Call willSendLog before didFailSendingLog
+      if (delegate && [delegate respondsToSelector:@selector(channel:willSendLog:)])
+        [delegate channel:self willSendLog:item];
 
-    // Call didFailSendingLog
-    if (delegate && [delegate respondsToSelector:@selector(channel:didFailSendingLog:withError:)])
-      [delegate channel:self didFailSendingLog:item withError:error];
+      // Call didFailSendingLog
+      if (delegate && [delegate respondsToSelector:@selector(channel:didFailSendingLog:withError:)])
+        [delegate channel:self didFailSendingLog:item withError:error];
+    }
   }
 }
 
 - (void)completedEnqueuingLog:(id<MSLog>)log withInternalId:(NSString *)internalId withSuccess:(BOOL)success {
-  if (self.persistDelegate != nil) {
+  if (self.persistDelegate != nil &&
+      [self.persistDelegate respondsToSelector:@selector(completedEnqueuingLog:withInternalId:withSuccess:)]) {
     [self.persistDelegate completedEnqueuingLog:log withInternalId:internalId withSuccess:success];
   }
 }

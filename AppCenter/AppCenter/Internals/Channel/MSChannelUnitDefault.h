@@ -9,7 +9,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MSSender;
 @protocol MSStorage;
 
-@interface MSChannelUnitDefault : NSObject <MSChannelUnitProtocol, MSSenderDelegate>
+@interface MSChannelUnitDefault : NSObject <MSChannelUnitProtocol>
 
 /**
  * Initializes a new `MSChannelUnitDefault` instance.

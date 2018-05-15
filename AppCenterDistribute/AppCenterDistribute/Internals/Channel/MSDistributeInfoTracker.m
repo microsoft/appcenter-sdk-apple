@@ -2,8 +2,7 @@
 
 @implementation MSDistributeInfoTracker
 
-- (void)onEnqueuingLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
-  (void)internalId;
+- (void)prepareLog:(id<MSLog>)log {
   if (self.distributionGroupId == nil) {
     return;
   }
