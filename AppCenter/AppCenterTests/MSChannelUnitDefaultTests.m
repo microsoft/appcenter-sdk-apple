@@ -307,7 +307,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   XCTestExpectation *expectation = [self expectationWithDescription:@"All items enqueued"];
   id<MSLog> mockLog = [self getValidMockLog];
   id persistDelegateMock = OCMProtocolMock(@protocol(MSChannelPersistDelegate));
-  OCMStub([persistDelegateMock completedEnqueuingLog:mockLog withInternalId:OCMOCK_ANY withSuccess:OCMOCK_ANY])
+  OCMStub([persistDelegateMock completedEnqueuingLog:mockLog withInternalId:OCMOCK_ANY withSuccess:YES])
       .andDo(^(__unused NSInvocation *invocation) {
         static int count = 0;
         count++;
@@ -587,7 +587,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [sut setEnabled:NO andDeleteDataOnDisabled:YES];
   id<MSLog> mockLog = [self getValidMockLog];
   id persistDelegateMock = OCMProtocolMock(@protocol(MSChannelPersistDelegate));
-  OCMStub([persistDelegateMock completedEnqueuingLog:mockLog withInternalId:OCMOCK_ANY withSuccess:OCMOCK_ANY])
+  OCMStub([persistDelegateMock completedEnqueuingLog:mockLog withInternalId:OCMOCK_ANY withSuccess:YES])
       .andDo(^(__unused NSInvocation *invocation) {
         [self enqueueChannelEndJobExpectation];
       });
@@ -611,7 +611,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self initChannelEndJobExpectation];
   id<MSLog> otherMockLog = [self getValidMockLog];
   [sut setEnabled:NO andDeleteDataOnDisabled:NO];
-  OCMStub([persistDelegateMock completedEnqueuingLog:otherMockLog withInternalId:OCMOCK_ANY withSuccess:OCMOCK_ANY])
+  OCMStub([persistDelegateMock completedEnqueuingLog:otherMockLog withInternalId:OCMOCK_ANY withSuccess:YES])
       .andDo(^(__unused NSInvocation *invocation) {
         [self enqueueChannelEndJobExpectation];
       });
