@@ -2,18 +2,18 @@
 
 ## Version 1.6.1
 
-This version contains fixes. 
+This version contains bug fixes. 
 
 ### AppCenterCrashes
 
-* **[Fix]** Fix breadcrumbs feature when events are tracked on the main thread just before a crash.
-* **[Fix]** Fix cached logs for breadcrumbs feature sometimes not sent at SDK start time.
+* **[Fix]** Fix an issue in breadcrumbs feature when events are being tracked on the main thread just before a crash.
+* **[Fix]** Fix an issue with cached logs for breadcrumbs feature that are not intermittently sent when an app starts.
 
 ___
 
 ## Version 1.6.0
 
-This version contains an improvement and fixes. Any macOS app with unsent logs prior to the update will discard these logs. 
+This version contains an improvement and bug fixes. Any macOS app with unsent logs prior to the update will discard these logs. 
 
 ### AppCenter
 
