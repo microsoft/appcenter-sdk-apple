@@ -187,6 +187,20 @@ static const int maxEventNameLength = 256;
 
 #pragma mark - Private methods
 
+- (BOOL)validateLog:(MSAnalyticsLog *)log {
+
+  // Validate event name.
+  NSString *validName = [self validateEventName:log.name forLogType:log.type];
+  if (!validName) {
+    return NO;
+  }
+  log.name = validName;
+  
+  // Send only valid properties.
+  log.properties = [self validateProperties:log.properties forLogName:log.name andType:log.type];
+  return YES;
+}
+
 - (nullable NSString *)validateEventName:(NSString *)eventName forLogType:(NSString *)logType {
   if (!eventName || [eventName length] < minEventNameLength) {
     MSLogError([MSAnalytics logTag], @"%@ name cannot be null or empty", logType);
@@ -212,8 +226,9 @@ static const int maxEventNameLength = 256;
 - (void)trackEvent:(NSString *)eventName
            withProperties:(NSDictionary<NSString *, NSString *> *)properties
     forTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget {
-  if (![self isEnabled])
+  if (![self isEnabled]) {
     return;
+  }
 
   // Use default transmission target if no transmission target was provided.
   if (transmissionTarget == nil) {
@@ -223,19 +238,11 @@ static const int maxEventNameLength = 256;
   // Create an event log.
   MSEventLog *log = [MSEventLog new];
 
-  // Validate event name.
-  NSString *validName = [self validateEventName:eventName forLogType:log.type];
-  if (!validName) {
-    return;
-  }
-
   // Set properties of the event log.
-  log.name = validName;
+  log.name = eventName;
   log.eventId = MS_UUID_STRING;
   if (properties && properties.count > 0) {
-
-    // Send only valid properties.
-    log.properties = [self validateProperties:properties forLogName:log.name andType:log.type];
+    log.properties = [properties copy];
   }
 
   // Add transmission targets.
@@ -248,24 +255,17 @@ static const int maxEventNameLength = 256;
 }
 
 - (void)trackPage:(NSString *)pageName withProperties:(NSDictionary<NSString *, NSString *> *)properties {
-  if (![self isEnabled])
+  if (![self isEnabled]) {
     return;
+  }
 
   // Create an event log.
   MSPageLog *log = [MSPageLog new];
 
-  // Validate event name.
-  NSString *validName = [self validateEventName:pageName forLogType:log.type];
-  if (!validName) {
-    return;
-  }
-
   // Set properties of the event log.
-  log.name = validName;
+  log.name = pageName;
   if (properties && properties.count > 0) {
-
-    // Send only valid properties.
-    log.properties = [self validateProperties:properties forLogName:log.name andType:log.type];
+    log.properties = [properties copy];
   }
 
   // Send log to log manager.
@@ -377,6 +377,16 @@ static const int maxEventNameLength = 256;
     MSPageLog *pageLog = (MSPageLog *)log;
     [self.delegate analytics:self didFailSendingPageLog:pageLog withError:error];
   }
+}
+
+- (BOOL)shouldFilterLog:(id<MSLog>)log {
+  NSObject *logObject = (NSObject *)log;
+  if ([logObject isKindOfClass:[MSEventLog class]]) {
+    return ![self validateLog:(MSEventLog *)log];
+  } else if ([logObject isKindOfClass:[MSPageLog class]]) {
+    return ![self validateLog:(MSPageLog *)log];
+  }
+  return NO;
 }
 
 #pragma mark Transmission Target

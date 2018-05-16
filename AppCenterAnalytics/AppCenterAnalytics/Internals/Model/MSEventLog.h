@@ -1,17 +1,10 @@
-#import <Foundation/Foundation.h>
+#import "MSAnalyticsLog.h"
 
-#import "MSLogWithProperties.h"
-
-@interface MSEventLog : MSLogWithProperties
+@interface MSEventLog : MSAnalyticsLog
 
 /**
  * Unique identifier for this event.
  */
 @property(nonatomic, copy) NSString *eventId;
-
-/**
- * Name of the event.
- */
-@property(nonatomic, copy) NSString *name;
 
 @end
