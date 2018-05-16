@@ -6,7 +6,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class MSChannelUnitConfiguration;
-@protocol MSChannelDelegate;
 @protocol MSSender;
 @protocol MSStorage;
 
@@ -15,8 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Initializes a new `MSChannelUnitDefault` instance.
  *
- * @param sender A sender instance that is used to send batches of log items to
- * the backend.
+ * @param sender A sender instance that is used to send batches of log items to the backend.
  * @param storage A storage instance to store and read enqueued log items.
  * @param configuration The configuration used by this channel.
  * @param logsDispatchQueue Queue used to process logs.

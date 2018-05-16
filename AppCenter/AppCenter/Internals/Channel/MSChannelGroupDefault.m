@@ -9,7 +9,12 @@
 #import "MSLogDBStorage.h"
 #import "MSStorage.h"
 
+static short const kMSStorageMaxCapacity = 300;
 static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQueue";
+
+@interface MSChannelGroupDefault () <MSChannelDelegate>
+
+@end
 
 @implementation MSChannelGroupDefault
 
@@ -42,7 +47,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
                                                    storage:self.storage
                                              configuration:configuration
                                          logsDispatchQueue:self.logsDispatchQueue];
-    [channel addDelegate:(id<MSChannelDelegate>)self];
+    [channel addDelegate:self];
     dispatch_async(self.logsDispatchQueue, ^{
       [channel flushQueue];
     });
@@ -77,6 +82,27 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 
 #pragma mark - Channel Delegate
 
+- (void)channel:(id<MSChannelProtocol>)channel prepareLog:(id<MSLog>)log {
+  [self enumerateDelegatesForSelector:@selector(channel:prepareLog:)
+                            withBlock:^(id<MSChannelDelegate> delegate) {
+                              [delegate channel:channel prepareLog:log];
+                            }];
+}
+
+- (void)channel:(id<MSChannelProtocol>)channel didPrepareLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
+  [self enumerateDelegatesForSelector:@selector(channel:didPrepareLog:withInternalId:)
+                            withBlock:^(id<MSChannelDelegate> delegate) {
+                              [delegate channel:channel didPrepareLog:log withInternalId:internalId];
+                            }];
+}
+
+- (void)channel:(id<MSChannelProtocol>)channel didCompleteEnqueueingLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
+  [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:withInternalId:)
+                            withBlock:^(id<MSChannelDelegate> delegate) {
+                              [delegate channel:channel didCompleteEnqueueingLog:log withInternalId:internalId];
+                            }];
+}
+
 - (void)channel:(id<MSChannelProtocol>)channel willSendLog:(id<MSLog>)log {
   [self enumerateDelegatesForSelector:@selector(channel:willSendLog:)
                             withBlock:^(id<MSChannelDelegate> delegate) {
@@ -105,27 +131,6 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
                               shouldFilter = shouldFilter || [delegate shouldFilterLog:log];
                             }];
   return shouldFilter;
-}
-
-- (void)onEnqueuingLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
-  [self enumerateDelegatesForSelector:@selector(onEnqueuingLog:withInternalId:)
-                            withBlock:^(id<MSChannelDelegate> delegate) {
-                              [delegate onEnqueuingLog:log withInternalId:internalId];
-                            }];
-}
-
-- (void)onFinishedPersistingLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
-  [self enumerateDelegatesForSelector:@selector(onFinishedPersistingLog:withInternalId:)
-                            withBlock:^(id<MSChannelDelegate> delegate) {
-                              [delegate onFinishedPersistingLog:log withInternalId:internalId];
-                            }];
-}
-
-- (void)onFailedPersistingLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
-  [self enumerateDelegatesForSelector:@selector(onFailedPersistingLog:withInternalId:)
-                            withBlock:^(id<MSChannelDelegate> delegate) {
-                              [delegate onFailedPersistingLog:log withInternalId:internalId];
-                            }];
 }
 
 #pragma mark - Enable / Disable

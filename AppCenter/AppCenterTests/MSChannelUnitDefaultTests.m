@@ -12,7 +12,6 @@
 #import "MSStorage.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility.h"
-#import "MSExpectantChannelDelegate.h"
 
 static NSString *const kMSTestGroupId = @"GroupId";
 
@@ -49,6 +48,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   self.logsDispatchQueue = dispatch_get_main_queue();
   self.configMock = OCMClassMock([MSChannelUnitConfiguration class]);
   self.storageMock = OCMProtocolMock(@protocol(MSStorage));
+  OCMStub([self.storageMock saveLog:OCMOCK_ANY withGroupId:OCMOCK_ANY]).andReturn(YES);
   self.senderMock = OCMProtocolMock(@protocol(MSSender));
   self.sut = [[MSChannelUnitDefault alloc] initWithSender:self.senderMock
                                                   storage:self.storageMock
@@ -98,6 +98,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // Stub the storage load for that log.
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
+  OCMStub([storageMock saveLog:OCMOCK_ANY withGroupId:OCMOCK_ANY]).andReturn(YES);
   OCMStub([storageMock loadLogsWithGroupId:kMSTestGroupId limit:batchSizeLimit withCompletion:(OCMOCK_ANY)])
       .andDo(^(NSInvocation *invocation) {
         MSLoadDataCompletionBlock loadCallback;
@@ -123,7 +124,9 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [sut addDelegate:delegateMock];
   OCMReject([delegateMock channel:sut didFailSendingLog:OCMOCK_ANY withError:OCMOCK_ANY]);
   OCMExpect([delegateMock channel:sut didSucceedSendingLog:expectedLog]);
-  OCMExpect([delegateMock onEnqueuingLog:enqueuedLog withInternalId:OCMOCK_ANY]);
+  OCMExpect([delegateMock channel:sut prepareLog:enqueuedLog]);
+  OCMExpect([delegateMock channel:sut didPrepareLog:enqueuedLog withInternalId:OCMOCK_ANY]);
+  OCMExpect([delegateMock channel:sut didCompleteEnqueueingLog:enqueuedLog withInternalId:OCMOCK_ANY]);
   OCMExpect([storageMock deleteLogsWithBatchId:expectedBatchId groupId:kMSTestGroupId]);
 
   // When
@@ -211,9 +214,10 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                                              configuration:config
                                                          logsDispatchQueue:dispatch_get_main_queue()];
   [sut addDelegate:delegateMock];
-  OCMExpect([delegateMock onEnqueuingLog:enqueuedLog withInternalId:OCMOCK_ANY]);
   OCMExpect([delegateMock channel:sut didFailSendingLog:expectedLog withError:OCMOCK_ANY]);
   OCMReject([delegateMock channel:sut didSucceedSendingLog:OCMOCK_ANY]);
+  OCMExpect([delegateMock channel:sut didPrepareLog:enqueuedLog withInternalId:OCMOCK_ANY]);
+  OCMExpect([delegateMock channel:sut didCompleteEnqueueingLog:enqueuedLog withInternalId:OCMOCK_ANY]);
   OCMExpect([storageMock deleteLogsWithBatchId:expectedBatchId groupId:kMSTestGroupId]);
 
   // When
@@ -296,18 +300,16 @@ static NSString *const kMSTestGroupId = @"GroupId";
   int itemsToAdd = 3;
   XCTestExpectation *expectation = [self expectationWithDescription:@"All items enqueued"];
   id<MSLog> mockLog = [self getValidMockLog];
-  MSExpectantChannelDelegate *del = [MSExpectantChannelDelegate new];
-  del.persistedHandler =
-      ^(id<MSLog> log, __attribute__((unused)) NSString *internalId, __attribute__((unused)) BOOL success) {
+  id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
+  OCMStub([delegateMock channel:sut didCompleteEnqueueingLog:mockLog withInternalId:OCMOCK_ANY])
+      .andDo(^(__unused NSInvocation *invocation) {
         static int count = 0;
-        if (log == mockLog) {
-          count++;
-          if (count == itemsToAdd) {
-            [expectation fulfill];
-          }
+        count++;
+        if (count == itemsToAdd) {
+          [expectation fulfill];
         }
-      };
-  [sut addDelegate:del];
+      });
+  [sut addDelegate:delegateMock];
 
   // When
   for (int i = 0; i < itemsToAdd; ++i) {
@@ -550,14 +552,12 @@ static NSString *const kMSTestGroupId = @"GroupId";
   id mockLog = [self getValidMockLog];
   OCMReject([self.storageMock saveLog:OCMOCK_ANY withGroupId:OCMOCK_ANY]);
   MSChannelUnitDefault *sut = [self createChannelUnit];
-  MSExpectantChannelDelegate *del = [MSExpectantChannelDelegate new];
-  del.persistedHandler =
-      ^(id<MSLog> log, __attribute__((unused)) NSString *internalId, __attribute__((unused)) BOOL success) {
-        if (log == mockLog) {
-          [self enqueueChannelEndJobExpectation];
-        }
-      };
-  [sut addDelegate:del];
+  id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
+  OCMStub([delegateMock channel:sut didCompleteEnqueueingLog:mockLog withInternalId:OCMOCK_ANY])
+      .andDo(^(__unused NSInvocation *invocation) {
+        [self enqueueChannelEndJobExpectation];
+      });
+  [sut addDelegate:delegateMock];
 
   // When
   [sut setEnabled:NO andDeleteDataOnDisabled:YES];
@@ -580,15 +580,12 @@ static NSString *const kMSTestGroupId = @"GroupId";
   MSChannelUnitDefault *sut = [self createChannelUnit];
   [sut setEnabled:NO andDeleteDataOnDisabled:YES];
   id<MSLog> mockLog = [self getValidMockLog];
-  MSExpectantChannelDelegate *del = OCMPartialMock([MSExpectantChannelDelegate new]);
-
-  del.persistedHandler =
-      ^(id<MSLog> log, __attribute__((unused)) NSString *internalId, __attribute__((unused)) BOOL success) {
-        if (log == mockLog) {
-          [self enqueueChannelEndJobExpectation];
-        }
-      };
-  [sut addDelegate:del];
+  id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
+  OCMStub([delegateMock channel:sut didCompleteEnqueueingLog:mockLog withInternalId:OCMOCK_ANY])
+      .andDo(^(__unused NSInvocation *invocation) {
+        [self enqueueChannelEndJobExpectation];
+      });
+  [sut addDelegate:delegateMock];
 
   // When
   [sut setEnabled:YES andDeleteDataOnDisabled:NO];
@@ -608,12 +605,11 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self initChannelEndJobExpectation];
   id<MSLog> otherMockLog = [self getValidMockLog];
   [sut setEnabled:NO andDeleteDataOnDisabled:NO];
-  del.persistedHandler =
-      ^(id<MSLog> log, __attribute__((unused)) NSString *internalId, __attribute__((unused)) BOOL success) {
-        if (log == otherMockLog) {
-          [self enqueueChannelEndJobExpectation];
-        }
-      };
+  OCMStub([delegateMock channel:sut didCompleteEnqueueingLog:otherMockLog withInternalId:OCMOCK_ANY])
+      .andDo(^(__unused NSInvocation *invocation) {
+        [self enqueueChannelEndJobExpectation];
+      });
+  
   // When
   [sut setEnabled:YES andDeleteDataOnDisabled:NO];
   [sut enqueueItem:otherMockLog];
@@ -696,7 +692,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // If
   [self initChannelEndJobExpectation];
-  id<MSChannelDelegate> delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
+  id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
   id mockLog = [self getValidMockLog];
   MSChannelUnitDefault *sut = [[MSChannelUnitDefault alloc] initWithSender:self.senderMock
                                                                    storage:self.storageMock
@@ -718,7 +714,8 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                handler:^(NSError *error) {
 
                                  // Check the callbacks were invoked for logs.
-                                 OCMVerify([delegateMock onEnqueuingLog:mockLog withInternalId:OCMOCK_ANY]);
+                                 OCMVerify([delegateMock channel:sut didPrepareLog:mockLog withInternalId:OCMOCK_ANY]);
+                                 OCMVerify([delegateMock channel:sut didCompleteEnqueueingLog:mockLog withInternalId:OCMOCK_ANY]);
                                  OCMVerify([delegateMock channel:sut willSendLog:mockLog]);
                                  OCMVerify([delegateMock channel:sut didFailSendingLog:mockLog withError:anything()]);
                                  if (error) {
@@ -763,69 +760,25 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // If
   [self initChannelEndJobExpectation];
-  MSChannelUnitDefault *sut = [self createChannelUnit];
+  id storageMock = OCMProtocolMock(@protocol(MSStorage));
+  OCMReject([storageMock saveLog:OCMOCK_ANY withGroupId:OCMOCK_ANY]);
+  MSChannelUnitDefault *sut = [[MSChannelUnitDefault alloc] initWithSender:self.senderMock
+                                                                   storage:storageMock
+                                                             configuration:self.configMock
+                                                         logsDispatchQueue:self.logsDispatchQueue];
   id<MSLog> log = [self getValidMockLog];
-  id mockDelegate = OCMPartialMock([MSExpectantChannelDelegate new]);
-  OCMStub([mockDelegate shouldFilterLog:log]).andReturn(YES);
-  [sut addDelegate:mockDelegate];
-  OCMReject([mockDelegate onFinishedPersistingLog:log withInternalId:OCMOCK_ANY]);
-  OCMReject([mockDelegate onFailedPersistingLog:log withInternalId:OCMOCK_ANY]);
-  OCMExpect([mockDelegate onEnqueuingLog:log withInternalId:OCMOCK_ANY]);
-
-  // When
-  dispatch_async(self.logsDispatchQueue, ^{
-
-    // Enqueue now that the delegate is set.
-    [sut enqueueItem:log];
-  });
-  [self enqueueChannelEndJobExpectation];
-
-  // Then
-  [self waitForExpectationsWithTimeout:1
-                               handler:^(NSError *error) {
-                                 (void)error;
-                                 OCMVerifyAll(mockDelegate);
-                               }];
-
-  // If
-  // Add another filter that returns NO. The log should still be filtered because of mockDelegate.
-  [self initChannelEndJobExpectation];
-  id mockDelegate2 = OCMPartialMock([MSExpectantChannelDelegate new]);
-  OCMStub([mockDelegate2 shouldFilterLog:log]).andReturn(NO);
-  [sut addDelegate:mockDelegate];
-  OCMReject([mockDelegate2 onFinishedPersistingLog:log withInternalId:OCMOCK_ANY]);
-  OCMReject([mockDelegate2 onFailedPersistingLog:log withInternalId:OCMOCK_ANY]);
-  OCMExpect([mockDelegate2 onEnqueuingLog:log withInternalId:OCMOCK_ANY]);
-  [sut addDelegate:mockDelegate2];
-
-  // When
-  dispatch_async(self.logsDispatchQueue, ^{
-
-    // Enqueue now that the delegate is set.
-    [sut enqueueItem:log];
-  });
-  [self enqueueChannelEndJobExpectation];
-
-  // Then
-  [self waitForExpectationsWithTimeout:1
-                               handler:^(NSError *error) {
-                                 (void)error;
-                                 OCMVerifyAll(mockDelegate2);
-                               }];
-}
-
-- (void)testEnqueuingLogPersistsUnfilteredLogs {
-
-  // If
-  [self initChannelEndJobExpectation];
-  MSChannelUnitDefault *sut = [self createChannelUnit];
-  id<MSLog> log = [self getValidMockLog];
-  OCMStub([sut.storage saveLog:log withGroupId:OCMOCK_ANY]).andReturn(YES);
-  id mockDelegate = OCMPartialMock([MSExpectantChannelDelegate new]);
-  OCMStub([mockDelegate shouldFilterLog:log]).andReturn(NO);
-  [sut addDelegate:mockDelegate];
-  OCMExpect([mockDelegate onEnqueuingLog:log withInternalId:OCMOCK_ANY]);
-  OCMExpect([mockDelegate onFinishedPersistingLog:log withInternalId:OCMOCK_ANY]);
+  id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
+  OCMStub([delegateMock shouldFilterLog:log]).andReturn(YES);
+  id delegateMock2 = OCMProtocolMock(@protocol(MSChannelDelegate));
+  OCMStub([delegateMock2 shouldFilterLog:log]).andReturn(NO);
+  OCMExpect([delegateMock channel:sut prepareLog:log]);
+  OCMExpect([delegateMock2 channel:sut prepareLog:log]);
+  OCMExpect([delegateMock channel:sut didPrepareLog:log withInternalId:OCMOCK_ANY]);
+  OCMExpect([delegateMock channel:sut didCompleteEnqueueingLog:log withInternalId:OCMOCK_ANY]);
+  OCMExpect([delegateMock2 channel:sut didPrepareLog:log withInternalId:OCMOCK_ANY]);
+  OCMExpect([delegateMock2 channel:sut didCompleteEnqueueingLog:log withInternalId:OCMOCK_ANY]);
+  [sut addDelegate:delegateMock];
+  [sut addDelegate:delegateMock2];
 
   // When
   dispatch_async(self.logsDispatchQueue, ^{
@@ -838,8 +791,49 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
-                                 (void)error;
-                                 OCMVerifyAll(mockDelegate);
+                                 OCMVerifyAll(delegateMock);
+                                 OCMVerifyAll(delegateMock2);
+                                 OCMVerifyAll(storageMock);
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)testEnqueuingLogPersistsUnfilteredLogs {
+
+  // If
+  [self initChannelEndJobExpectation];
+  id<MSLog> log = [self getValidMockLog];
+  id storageMock = OCMProtocolMock(@protocol(MSStorage));
+  OCMExpect([storageMock saveLog:log withGroupId:self.configMock.groupId]);
+  MSChannelUnitDefault *sut = [[MSChannelUnitDefault alloc] initWithSender:self.senderMock
+                                                                   storage:storageMock
+                                                             configuration:self.configMock
+                                                         logsDispatchQueue:self.logsDispatchQueue];
+  OCMStub([sut.storage saveLog:log withGroupId:OCMOCK_ANY]).andReturn(YES);
+  id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
+  OCMStub([delegateMock shouldFilterLog:log]).andReturn(NO);
+  OCMExpect([delegateMock channel:sut didPrepareLog:log withInternalId:OCMOCK_ANY]);
+  OCMExpect([delegateMock channel:sut didCompleteEnqueueingLog:log withInternalId:OCMOCK_ANY]);
+  [sut addDelegate:delegateMock];
+
+  // When
+  dispatch_async(self.logsDispatchQueue, ^{
+
+    // Enqueue now that the delegate is set.
+    [sut enqueueItem:log];
+    [self enqueueChannelEndJobExpectation];
+  });
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 OCMVerifyAll(delegateMock);
+                                 OCMVerifyAll(storageMock);
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
                                }];
 }
 

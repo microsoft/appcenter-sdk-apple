@@ -135,19 +135,6 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   id<MSCrashesDelegate> delegateMock = OCMProtocolMock(@protocol(MSCrashesDelegate));
   [MSAppCenter sharedInstance].sdkConfigured = NO;
   [MSAppCenter start:kMSTestAppSecret withServices:@[ [MSCrashes class] ]];
-  MSChannelUnitDefault *channelMock = [MSCrashes sharedInstance].channelUnit =
-      OCMPartialMock([MSCrashes sharedInstance].channelUnit);
-  OCMStub([channelMock enqueueItem:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
-    id<MSLog> log = nil;
-    [invocation getArgument:&log atIndex:2];
-    for (id<MSChannelDelegate> delegate in channelMock.delegates) {
-
-      // Call all channel delegate methods for testing.
-      [delegate channel:channelMock willSendLog:log];
-      [delegate channel:channelMock didSucceedSendingLog:log];
-      [delegate channel:channelMock didFailSendingLog:log withError:nil];
-    }
-  });
   MSAppleErrorLog *errorLog = OCMClassMock([MSAppleErrorLog class]);
   MSErrorReport *errorReport = OCMClassMock([MSErrorReport class]);
   id errorLogFormatterMock = OCMClassMock([MSErrorLogFormatter class]);
@@ -155,7 +142,11 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // When
   [[MSCrashes sharedInstance] setDelegate:delegateMock];
-  [[MSCrashes sharedInstance].channelUnit enqueueItem:errorLog];
+  id<MSChannelProtocol> channel = [MSCrashes sharedInstance].channelUnit;
+  id<MSLog> log = errorLog;
+  [[MSCrashes sharedInstance] channel:channel willSendLog:log];
+  [[MSCrashes sharedInstance] channel:channel didSucceedSendingLog:log];
+  [[MSCrashes sharedInstance] channel:channel didFailSendingLog:log withError:nil];
 
   // Then
   OCMVerify([delegateMock crashes:[MSCrashes sharedInstance] willSendErrorReport:errorReport]);
@@ -461,7 +452,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // When
   MSLogWithProperties *log = [MSLogWithProperties new];
-  [self.sut onEnqueuingLog:log withInternalId:MS_UUID_STRING];
+  [self.sut channel:nil didPrepareLog:log withInternalId:MS_UUID_STRING];
 
   // Then
   XCTAssertTrue([self crashesLogBufferCount] == 1);
@@ -472,7 +463,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   // When
   for (int i = 0; i < ms_crashes_log_buffer_size; i++) {
     MSLogWithProperties *log = [MSLogWithProperties new];
-    [self.sut onEnqueuingLog:log withInternalId:MS_UUID_STRING];
+    [self.sut channel:nil didPrepareLog:log withInternalId:MS_UUID_STRING];
   }
 
   // Then
@@ -480,7 +471,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // When
   MSLogWithProperties *log = [MSLogWithProperties new];
-  [self.sut onEnqueuingLog:log withInternalId:MS_UUID_STRING];
+  [self.sut channel:nil didPrepareLog:log withInternalId:MS_UUID_STRING];
   NSNumberFormatter *timestampFormatter = [[NSNumberFormatter alloc] init];
   timestampFormatter.numberStyle = NSNumberFormatterDecimalStyle;
   int indexOfLatestObject = 0;
@@ -504,7 +495,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   // When
   for (int i = 0; i < numberOfLogs; i++) {
     MSLogWithProperties *aLog = [MSLogWithProperties new];
-    [self.sut onEnqueuingLog:aLog withInternalId:MS_UUID_STRING];
+    [self.sut channel:nil didPrepareLog:aLog withInternalId:MS_UUID_STRING];
   }
 
   indexOfLatestObject = 0;
@@ -532,21 +523,21 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   NSString *uuid1 = MS_UUID_STRING;
   NSString *uuid2 = MS_UUID_STRING;
   NSString *uuid3 = MS_UUID_STRING;
-  [self.sut onEnqueuingLog:log withInternalId:uuid1];
-  [self.sut onEnqueuingLog:log withInternalId:uuid2];
-  [self.sut onEnqueuingLog:log withInternalId:uuid3];
+  [self.sut channel:nil didPrepareLog:log withInternalId:uuid1];
+  [self.sut channel:nil didPrepareLog:log withInternalId:uuid2];
+  [self.sut channel:nil didPrepareLog:log withInternalId:uuid3];
 
   // Then
   XCTAssertTrue([self crashesLogBufferCount] == 3);
 
   // When
-  [self.sut onFinishedPersistingLog:nil withInternalId:uuid1];
+  [self.sut channel:nil didCompleteEnqueueingLog:nil withInternalId:uuid1];
 
   // Then
   XCTAssertTrue([self crashesLogBufferCount] == 2);
 
   // When
-  [self.sut onFailedPersistingLog:nil withInternalId:uuid2];
+  [self.sut channel:nil didCompleteEnqueueingLog:nil withInternalId:uuid2];
 
   // Then
   XCTAssertTrue([self crashesLogBufferCount] == 1);
