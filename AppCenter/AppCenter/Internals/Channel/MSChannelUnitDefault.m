@@ -350,6 +350,11 @@
       // Allow logs to be persisted.
       self.discardLogs = NO;
     }
+
+    [self enumerateDelegatesForSelector:@selector(channel:didSetEnabled:andDeleteDataOnDisabled:)
+                              withBlock:^(id<MSChannelDelegate> delegate) {
+                                [delegate channel:self didSetEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
+                              }];
   });
 }
 

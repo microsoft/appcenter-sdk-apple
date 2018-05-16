@@ -114,6 +114,15 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
                             }];
 }
 
+- (void)channel:(id<MSChannelUnitProtocol>)channel
+              didSetEnabled:(BOOL)isEnabled
+    andDeleteDataOnDisabled:(BOOL)deletedData {
+  [self enumerateDelegatesForSelector:@selector(channel:didSetEnabled:andDeleteDataOnDisabled:)
+                            withBlock:^(id<MSChannelDelegate> delegate) {
+                              [delegate channel:channel didSetEnabled:isEnabled andDeleteDataOnDisabled:deletedData];
+                            }];
+}
+
 - (void)onFinishedPersistingLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
   [self enumerateDelegatesForSelector:@selector(onFinishedPersistingLog:withInternalId:)
                             withBlock:^(id<MSChannelDelegate> delegate) {

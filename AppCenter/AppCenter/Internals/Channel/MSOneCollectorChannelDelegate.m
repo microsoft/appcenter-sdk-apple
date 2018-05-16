@@ -41,6 +41,15 @@ static NSString *const kMSOneCollectorGroupIdSuffix = @"/one";
   (void)channel;
 }
 
+- (void)channel:(id<MSChannelUnitProtocol>)channel
+              didSetEnabled:(BOOL)isEnabled
+    andDeleteDataOnDisabled:(BOOL)deletedData {
+  NSString *groupId = channel.configuration.groupId;
+  if (![self isOneCollectorGroup:groupId]) {
+    [self.oneCollectorChannels[groupId] setEnabled:isEnabled andDeleteDataOnDisabled:deletedData];
+  }
+}
+
 - (BOOL)isOneCollectorGroup:(NSString *)groupId {
   return [groupId hasSuffix:kMSOneCollectorGroupIdSuffix];
 }
