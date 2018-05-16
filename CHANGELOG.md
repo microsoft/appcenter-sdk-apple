@@ -1,8 +1,19 @@
 # App Center SDK for iOS and macOS Change Log
 
+## Version 1.6.1
+
+This version contains bug fixes. 
+
+### AppCenterCrashes
+
+* **[Fix]** Fix an issue in breadcrumbs feature when events are being tracked on the main thread just before a crash.
+* **[Fix]** Fix an issue with cached logs for breadcrumbs feature which are sometimes not sent during app start.
+
+___
+
 ## Version 1.6.0
 
-This version contains an improvement and fixes. Any macOS app with unsent logs prior to the update will discard these logs. 
+This version contains an improvement and bug fixes. Any macOS app with unsent logs prior to the update will discard these logs. 
 
 ### AppCenter
 
@@ -10,7 +21,7 @@ This version contains an improvement and fixes. Any macOS app with unsent logs p
 
 ### AppCenterAnalytics
 
-* **[Improvement]** Event and handled error limits on properties improved. Maximum property count increased to 20, maximum property key length and maximum property value length increased to 125 characters.
+* **[Improvement]** Analytics now allows a maximum of 20 properties by event, each property key and value length can be up to 125 characters long.
 
 ### AppCenterCrashes
 

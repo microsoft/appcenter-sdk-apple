@@ -28,39 +28,50 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
   }
   
   override func numberOfSections(in tableView: UITableView) -> Int {
-    return categories.count + 1
+    return categories.count + 2
   }
   
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     let isFirst = section == 0
+    let isSecond = section == 1
     if isFirst {
+      return 1
+    } else if isSecond {
       return 3
     } else {
-      return categories[categoryForSection(section - 1)]!.count
+      return categories[categoryForSection(section - 2)]!.count
     }
   }
   
   override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
     let isFirst = section == 0
+    let isSecond = section == 1
     if isFirst {
+     return "Breadcrumbs"
+    }else if isSecond {
       return "Crashes Settings"
     } else {
-      return categoryForSection(section - 1)
+      return categoryForSection(section - 2)
     }
   }
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let isFirst = indexPath.section == 0
+    let isSecond = indexPath.section == 1
     var cellIdentifier = "crash"
     if isFirst {
+      cellIdentifier = "breadcrumbs"
+    }else if isSecond {
       if indexPath.row == 0 {
-        cellIdentifier = "enable";
+        cellIdentifier = "enable"
       } else {
-        cellIdentifier = "attachment";
+        cellIdentifier = "attachment"
       }
     }
     let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)!
-    if isFirst {
+    if isFirst{
+      cell.textLabel?.text = "Breadcrumbs";
+    } else if isSecond {
       
       // Enable.
       if (indexPath.row == 0) {
@@ -103,27 +114,14 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
   
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) -> Void {
     let isFirst = indexPath.section == 0
-    if !isFirst {
-      
-      // Crash cell.
-      let crash = crashByIndexPath(indexPath)
-      let alert = UIAlertController(title: crash.title, message: crash.desc, preferredStyle: .actionSheet)
-      let crashAction = UIAlertAction(title: "Crash", style: .destructive, handler: {(_ action: UIAlertAction) -> Void in
-        crash.crash()
-      })
-      let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {(_ action: UIAlertAction) -> Void in
-        alert.dismiss(animated: true)
-        tableView.deselectRow(at: indexPath, animated: true)
-      })
-      alert.addAction(crashAction)
-      alert.addAction(cancelAction)
-      
-      // Support display in iPad.
-      alert.popoverPresentationController?.sourceView = tableView
-      alert.popoverPresentationController?.sourceRect = tableView.rectForRow(at: indexPath)
-      
-      present(alert, animated: true)
-    } else {
+    let isSecond = indexPath.section == 1
+    if isFirst {
+      for index in 0...29 {
+        let eventName = "Breadcrumb \(index)"
+        MSAnalytics.trackEvent(eventName)
+      }
+      appCenter.generateTestCrash()
+    } else if isSecond {
       
       // Text attachment.
       if indexPath.row == 1 {
@@ -155,6 +153,27 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
           }
         })
       }
+    }
+    else {
+      
+      // Crash cell.
+      let crash = crashByIndexPath(indexPath)
+      let alert = UIAlertController(title: crash.title, message: crash.desc, preferredStyle: .actionSheet)
+      let crashAction = UIAlertAction(title: "Crash", style: .destructive, handler: {(_ action: UIAlertAction) -> Void in
+        crash.crash()
+      })
+      let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {(_ action: UIAlertAction) -> Void in
+        alert.dismiss(animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
+      })
+      alert.addAction(crashAction)
+      alert.addAction(cancelAction)
+      
+      // Support display in iPad.
+      alert.popoverPresentationController?.sourceView = tableView
+      alert.popoverPresentationController?.sourceRect = tableView.rectForRow(at: indexPath)
+      
+      present(alert, animated: true)
     }
   }
   
@@ -195,7 +214,7 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
   }
   
   private func crashByIndexPath(_ indexPath: IndexPath) -> MSCrash {
-    return categories[categoryForSection(indexPath.section - 1)]![indexPath.row]
+    return categories[categoryForSection(indexPath.section - 2)]![indexPath.row]
   }
 }
 
