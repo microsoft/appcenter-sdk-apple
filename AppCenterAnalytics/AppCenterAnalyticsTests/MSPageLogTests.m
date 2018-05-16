@@ -1,3 +1,4 @@
+#import "AppCenter+Internal.h"
 #import "MSPageLog.h"
 #import "MSTestFrameworks.h"
 
