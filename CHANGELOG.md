@@ -7,7 +7,7 @@ This version contains bug fixes.
 ### AppCenterCrashes
 
 * **[Fix]** Fix an issue in breadcrumbs feature when events are being tracked on the main thread just before a crash.
-* **[Fix]** Fix an issue with cached logs for breadcrumbs feature that are not intermittently sent when an app starts.
+* **[Fix]** Fix an issue with cached logs for breadcrumbs feature which sometimes are not sent during app start.
 
 ___
 
