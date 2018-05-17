@@ -2,6 +2,8 @@
 
 @class MSLogWithNameAndProperties;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface MSAnalytics (Validation)
 
 - (BOOL)validateLog:(MSLogWithNameAndProperties *)log;
@@ -23,3 +25,5 @@
                                                      andType:(NSString *)logType;
 
 @end
+
+NS_ASSUME_NONNULL_END
