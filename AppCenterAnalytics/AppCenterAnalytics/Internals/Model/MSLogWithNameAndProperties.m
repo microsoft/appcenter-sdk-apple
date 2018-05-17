@@ -1,9 +1,9 @@
-#import "MSAnalyticsLog.h"
+#import "MSLogWithNameAndProperties.h"
 #import "AppCenter+Internal.h"
 
 static NSString *const kMSName = @"name";
 
-@implementation MSAnalyticsLog
+@implementation MSLogWithNameAndProperties
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [super serializeToDictionary];
@@ -19,10 +19,10 @@ static NSString *const kMSName = @"name";
 }
 
 - (BOOL)isEqual:(id)object {
-  if (![object isKindOfClass:[MSAnalyticsLog class]] || ![super isEqual:object]) {
+  if (![object isKindOfClass:[MSLogWithNameAndProperties class]] || ![super isEqual:object]) {
     return NO;
   }
-  MSAnalyticsLog *analyticsLog = (MSAnalyticsLog *)object;
+  MSLogWithNameAndProperties *analyticsLog = (MSLogWithNameAndProperties *)object;
   return ((!self.name && !analyticsLog.name) || [self.name isEqualToString:analyticsLog.name]);
 }
 

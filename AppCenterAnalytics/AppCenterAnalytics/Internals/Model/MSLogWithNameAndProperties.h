@@ -2,7 +2,7 @@
 
 #import "MSLogWithProperties.h"
 
-@interface MSAnalyticsLog : MSLogWithProperties
+@interface MSLogWithNameAndProperties : MSLogWithProperties
 
 /**
  * Name of the event.

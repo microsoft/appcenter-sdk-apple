@@ -1,5 +1,5 @@
-#import "MSAnalyticsLog.h"
+#import "MSLogWithNameAndProperties.h"
 
-@interface MSPageLog : MSAnalyticsLog
+@interface MSPageLog : MSLogWithNameAndProperties
 
 @end

@@ -187,7 +187,7 @@ static const int maxEventNameLength = 256;
 
 #pragma mark - Private methods
 
-- (BOOL)validateLog:(MSAnalyticsLog *)log {
+- (BOOL)validateLog:(MSLogWithNameAndProperties *)log {
 
   // Validate event name.
   NSString *validName = [self validateEventName:log.name forLogType:log.type];

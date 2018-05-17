@@ -1,6 +1,6 @@
-#import "MSAnalyticsLog.h"
+#import "MSLogWithNameAndProperties.h"
 
-@interface MSEventLog : MSAnalyticsLog
+@interface MSEventLog : MSLogWithNameAndProperties
 
 /**
  * Unique identifier for this event.

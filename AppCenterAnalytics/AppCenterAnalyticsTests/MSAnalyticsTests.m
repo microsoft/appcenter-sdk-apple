@@ -28,7 +28,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
 @interface MSAnalytics ()
 
-- (BOOL)validateLog:(MSAnalyticsLog *)log;
+- (BOOL)validateLog:(MSLogWithNameAndProperties *)log;
 
 - (nullable NSString *)validateEventName:(NSString *)eventName forLogType:(NSString *)logType;
 
@@ -232,7 +232,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   eventLog.name = @"test";
   eventLog.properties = @{ @"test": @"test" };
   MSPageLog *pageLog = [MSPageLog new];
-  MSAnalyticsLog *analyticsLog = [MSAnalyticsLog new];
+  MSLogWithNameAndProperties *analyticsLog = [MSLogWithNameAndProperties new];
   id analyticsMock = OCMPartialMock([MSAnalytics sharedInstance]);
   OCMExpect([analyticsMock validateLog:eventLog]).andForwardToRealObject();
   OCMExpect([analyticsMock validateEventName:@"test" forLogType:@"event"]).andForwardToRealObject();
