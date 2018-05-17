@@ -2,6 +2,7 @@
 #import "MSAnalyticsInternal.h"
 #import "MSAnalyticsPrivate.h"
 #import "MSAnalyticsCategory.h"
+#import "MSAnalytics+Validation.h"
 #import "MSAppCenter.h"
 #import "MSAppCenterInternal.h"
 #import "MSChannelGroupDefault.h"
@@ -23,18 +24,6 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 @class MSMockAnalyticsDelegate;
 
 @interface MSAnalyticsTests : XCTestCase <MSAnalyticsDelegate>
-
-@end
-
-@interface MSAnalytics ()
-
-- (BOOL)validateLog:(MSLogWithNameAndProperties *)log;
-
-- (nullable NSString *)validateEventName:(NSString *)eventName forLogType:(NSString *)logType;
-
-- (NSDictionary<NSString *, NSString *> *)validateProperties:(NSDictionary<NSString *, NSString *> *)properties
-                                                  forLogName:(NSString *)logName
-                                                     andType:(NSString *)logType;
 
 @end
 
