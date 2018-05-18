@@ -1,8 +1,19 @@
 # App Center SDK for iOS and macOS Change Log
 
+## Version 1.6.1
+
+This version contains bug fixes. 
+
+### AppCenterCrashes
+
+* **[Fix]** Fix an issue in breadcrumbs feature when events are being tracked on the main thread just before a crash.
+* **[Fix]** Fix an issue with cached logs for breadcrumbs feature which are sometimes not sent during app start.
+
+___
+
 ## Version 1.6.0
 
-This version contains an improvement and fixes. Any macOS app with unsent logs prior to the update will discard these logs. 
+This version contains an improvement and bug fixes. Any macOS app with unsent logs prior to the update will discard these logs. 
 
 ### AppCenter
 
