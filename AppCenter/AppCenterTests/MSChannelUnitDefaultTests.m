@@ -609,7 +609,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
       .andDo(^(__unused NSInvocation *invocation) {
         [self enqueueChannelEndJobExpectation];
       });
-  
+
   // When
   [sut setEnabled:YES andDeleteDataOnDisabled:NO];
   [sut enqueueItem:otherMockLog];
@@ -715,7 +715,9 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
                                  // Check the callbacks were invoked for logs.
                                  OCMVerify([delegateMock channel:sut didPrepareLog:mockLog withInternalId:OCMOCK_ANY]);
-                                 OCMVerify([delegateMock channel:sut didCompleteEnqueueingLog:mockLog withInternalId:OCMOCK_ANY]);
+                                 OCMVerify([delegateMock channel:sut
+                                        didCompleteEnqueueingLog:mockLog
+                                                  withInternalId:OCMOCK_ANY]);
                                  OCMVerify([delegateMock channel:sut willSendLog:mockLog]);
                                  OCMVerify([delegateMock channel:sut didFailSendingLog:mockLog withError:anything()]);
                                  if (error) {
@@ -838,40 +840,40 @@ static NSString *const kMSTestGroupId = @"GroupId";
 }
 
 - (void)testDisableAndDeleteDataOnSenderFatalError {
-  
+
   // If
   id senderMock = OCMProtocolMock(@protocol(MSSender));
   MSChannelUnitDefault *sut = [self createChannelUnit];
-  
+
   // When
   [sut senderDidReceiveFatalError:senderMock];
-  
+
   // Then
   OCMVerify([sut setEnabled:NO andDeleteDataOnDisabled:YES]);
 }
 
 - (void)testSuspendOnSenderSuspended {
-  
+
   // If
   id senderMock = OCMProtocolMock(@protocol(MSSender));
   MSChannelUnitDefault *sut = [self createChannelUnit];
-  
+
   // When
   [sut senderDidSuspend:senderMock];
-  
+
   // Then
   OCMVerify([sut suspend]);
 }
 
 - (void)testResumeOnSenderResumed {
-  
+
   // If
   id senderMock = OCMProtocolMock(@protocol(MSSender));
   MSChannelUnitDefault *sut = [self createChannelUnit];
-  
+
   // When
   [sut senderDidResume:senderMock];
-  
+
   // Then
   OCMVerify([sut resume]);
 }

@@ -139,7 +139,8 @@
   OCMStub([channelUnitMock initWithSender:OCMOCK_ANY
                                   storage:OCMOCK_ANY
                             configuration:OCMOCK_ANY
-                        logsDispatchQueue:OCMOCK_ANY]).andReturn(channelUnitMock);
+                        logsDispatchQueue:OCMOCK_ANY])
+      .andReturn(channelUnitMock);
 
   // When
   [sut addChannelUnitWithConfiguration:[[MSChannelUnitConfiguration alloc] initWithGroupId:groupId
@@ -147,7 +148,8 @@
                                                                              flushInterval:flushInterval
                                                                             batchSizeLimit:batchSizeLimit
                                                                        pendingBatchesLimit:pendingBatchesLimit]];
-  dispatch_sync(sut.logsDispatchQueue, ^{});
+  dispatch_sync(sut.logsDispatchQueue, ^{
+                });
 
   // Then
   OCMVerify([channelUnitMock addDelegate:sut]);

@@ -18,7 +18,8 @@
 - (void)channelGroup:(id<MSChannelGroupProtocol>)channelGroup didAddChannelUnit:(id<MSChannelUnitProtocol>)channel;
 
 /**
- * A callback that is called when a log is just enqueued. Delegates may want to prepare the log a little more before further processing.
+ * A callback that is called when a log is just enqueued. Delegates may want to prepare the log a little more before
+ * further processing.
  *
  * @param log The log to prepare.
  */
@@ -38,7 +39,9 @@
  * @param log The log.
  * @param internalId An internal Id to keep track of logs.
  */
-- (void)channel:(id<MSChannelProtocol>)channel didCompleteEnqueueingLog:(id<MSLog>)log withInternalId:(NSString *)internalId;
+- (void)channel:(id<MSChannelProtocol>)channel
+    didCompleteEnqueueingLog:(id<MSLog>)log
+              withInternalId:(NSString *)internalId;
 
 /**
  * Callback method that will be called before each log will be send to the server.

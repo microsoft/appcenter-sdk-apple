@@ -178,7 +178,6 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
   [self.sut renewSessionId];
   NSString *sid = [self.sut.context sessionId];
 
-
   // Then
   XCTAssertNil(sid);
 }

@@ -37,7 +37,7 @@
     _storage = storage;
     _configuration = configuration;
     _logsDispatchQueue = logsDispatchQueue;
-    
+
     // Register as sender delegate.
     [_sender addDelegate:self];
 
@@ -81,7 +81,7 @@
 
 - (void)senderDidReceiveFatalError:(id<MSSender>)sender {
   (void)sender;
-  
+
   // Disable and delete data on fatal errors.
   [self setEnabled:NO andDeleteDataOnDisabled:YES];
 }
@@ -104,7 +104,7 @@
     MSLogWarning([MSAppCenter logTag], @"Log is not valid.");
     return;
   }
-  
+
   // Additional preparations for the log. Used to specify the session id and distribution group id.
   [self enumerateDelegatesForSelector:@selector(channel:prepareLog:)
                             withBlock:^(id<MSChannelDelegate> delegate) {
@@ -119,7 +119,7 @@
                             withBlock:^(id<MSChannelDelegate> delegate) {
                               [delegate channel:self didPrepareLog:item withInternalId:internalLogId];
                             }];
-  
+
   // Return fast in case our item is empty or we are discarding logs right now.
   dispatch_async(self.logsDispatchQueue, ^{
 
@@ -136,7 +136,9 @@
       return;
     }
     if (!self.sender) {
-      MSLogDebug([MSAppCenter logTag], @"Log of type '%@' was not filtered out by delegate(s) but no app secret was provided. Not persisting/sending the log.", item.type);
+      MSLogDebug([MSAppCenter logTag], @"Log of type '%@' was not filtered out by delegate(s) but no app secret was "
+                                       @"provided. Not persisting/sending the log.",
+                 item.type);
       return;
     }
     if (self.discardLogs) {
@@ -160,7 +162,7 @@
                               withBlock:^(id<MSChannelDelegate> delegate) {
                                 [delegate channel:self didCompleteEnqueueingLog:item withInternalId:internalLogId];
                               }];
-    
+
     // Flush now if current batch is full or delay to later.
     if (self.itemsCount >= self.configuration.batchSizeLimit) {
       [self flushQueue];
