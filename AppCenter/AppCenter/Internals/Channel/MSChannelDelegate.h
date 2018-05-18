@@ -69,6 +69,17 @@
 - (void)channel:(id<MSChannelProtocol>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error;
 
 /**
+ * A callback that is called when setEnabled has been invoked.
+ *
+ * @param channel The channel.
+ * @param isEnabled The boolean that indicates enabled.
+ * @param deletedData The boolean that indicates deleting data on disabled.
+ */
+- (void)channel:(id<MSChannelUnitProtocol>)channel
+              didSetEnabled:(BOOL)isEnabled
+    andDeleteDataOnDisabled:(BOOL)deletedData;
+
+/**
  * Callback method that will determine if a log should be filtered out from the
  * usual processing pipeline. If any delegate returns true, the log is filtered.
  *
