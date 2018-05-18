@@ -2,9 +2,7 @@
 
 @implementation MSDistributeInfoTracker
 
-- (void)channel:(id<MSChannelUnitProtocol>)channel didEnqueueLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
-  (void)channel;
-  (void)internalId;
+- (void)channel:(id<MSChannelProtocol>)__unused channel prepareLog:(id<MSLog>)log {
   if (self.distributionGroupId == nil) {
     return;
   }
