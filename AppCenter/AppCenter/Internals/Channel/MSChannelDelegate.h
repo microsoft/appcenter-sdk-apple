@@ -41,11 +41,20 @@
 /**
  * A callback that is called when a log has been enqueued, before a log has been forwarded to persistence, etc.
  *
- * @param channel The channel
+ * @param channel The channel.
  * @param log The log.
  * @param internalId An internal Id that can be used to keep track of logs.
  */
 - (void)channel:(id<MSChannelUnitProtocol>)channel didEnqueueLog:(id<MSLog>)log withInternalId:(NSString *)internalId;
+
+/**
+ * A callback that is called when setEnabled has been invoked.
+ *
+ * @param channel The channel.
+ * @param isEnabled The boolean that indicates enabled.
+ * @param deletedData The boolean that indicates deleting data on disabled.
+ */
+- (void)channel:(id<MSChannelUnitProtocol>)channel didSetEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deletedData;
 
 /**
  * Callback method that will determine if a log should be filtered out from the
