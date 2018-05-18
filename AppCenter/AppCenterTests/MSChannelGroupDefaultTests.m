@@ -222,6 +222,18 @@
   [channelUnitMock stopMocking];
 }
 
+- (void)testDelegateIsAddedToSender {
+
+  // If
+  id senderMock = OCMProtocolMock(@protocol(MSSender));
+  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock];
+
+  // When
+
+  // Then
+  OCMVerify([senderMock addDelegate:sut]);
+}
+
 - (void)testDelegateCalledWhenAddingNewChannelUnit {
 
   // Test that delegates are called whenever a new channel unit is added to the channel group.

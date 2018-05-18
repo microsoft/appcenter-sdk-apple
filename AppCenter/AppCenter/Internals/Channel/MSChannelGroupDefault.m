@@ -8,6 +8,7 @@
 #import "MSIngestionSender.h"
 #import "MSLogDBStorage.h"
 #import "MSStorage.h"
+#import "MSSender.h"
 
 static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQueue";
 
@@ -35,9 +36,14 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 }
 
 - (id<MSChannelUnitProtocol>)addChannelUnitWithConfiguration:(MSChannelUnitConfiguration *)configuration {
+  return [self addChannelUnitWithConfiguration:configuration withSender:self.sender];
+}
+
+- (id<MSChannelUnitProtocol>)addChannelUnitWithConfiguration:(MSChannelUnitConfiguration *)configuration
+                                                  withSender:(nullable id<MSSender>)sender {
   MSChannelUnitDefault *channel;
   if (configuration) {
-    channel = [[MSChannelUnitDefault alloc] initWithSender:self.sender
+    channel = [[MSChannelUnitDefault alloc] initWithSender:(sender ? nil : self.sender)
                                                    storage:self.storage
                                              configuration:configuration
                                          logsDispatchQueue:self.logsDispatchQueue];
