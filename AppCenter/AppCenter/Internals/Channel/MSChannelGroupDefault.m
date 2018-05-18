@@ -43,7 +43,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
                                                   withSender:(nullable id<MSSender>)sender {
   MSChannelUnitDefault *channel;
   if (configuration) {
-    channel = [[MSChannelUnitDefault alloc] initWithSender:(sender ? nil : self.sender)
+    channel = [[MSChannelUnitDefault alloc] initWithSender:(sender ? sender : self.sender)
                                                    storage:self.storage
                                              configuration:configuration
                                          logsDispatchQueue:self.logsDispatchQueue];
