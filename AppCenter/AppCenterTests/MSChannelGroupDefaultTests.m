@@ -98,8 +98,8 @@
   
   // If
   MSHttpSender *senderMock = OCMClassMock([MSHttpSender class]);
-  id channelMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
-  id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
+  id<MSChannelUnitProtocol> channelMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id<MSChannelDelegate> delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock];
   [sut addDelegate:delegateMock];
   [sut.channels addObject:channelMock];
@@ -117,7 +117,7 @@
 
   // If
   MSHttpSender *senderMock = OCMClassMock([MSHttpSender class]);
-  id channelMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id<MSChannelUnitProtocol> channelMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock];
   [sut.channels addObject:channelMock];
 
@@ -134,7 +134,7 @@
 
   // If
   MSHttpSender *senderMock = OCMClassMock([MSHttpSender class]);
-  id channelMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id<MSChannelUnitProtocol> channelMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock];
   [sut.channels addObject:channelMock];
 
