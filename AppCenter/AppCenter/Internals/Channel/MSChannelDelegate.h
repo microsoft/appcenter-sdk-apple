@@ -75,7 +75,7 @@
  * @param isEnabled The boolean that indicates enabled.
  * @param deletedData The boolean that indicates deleting data on disabled.
  */
-- (void)channel:(id<MSChannelUnitProtocol>)channel
+- (void)channel:(id<MSChannelProtocol>)channel
               didSetEnabled:(BOOL)isEnabled
     andDeleteDataOnDisabled:(BOOL)deletedData;
 

@@ -387,6 +387,7 @@
       self.discardLogs = NO;
     }
 
+    // Notify delegates.
     [self enumerateDelegatesForSelector:@selector(channel:didSetEnabled:andDeleteDataOnDisabled:)
                               withBlock:^(id<MSChannelDelegate> delegate) {
                                 [delegate channel:self didSetEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
