@@ -33,23 +33,18 @@ static NSString *const kMSOneCollectorGroupIdSuffix = @"/one";
   }
 }
 
-- (BOOL)shouldFilterLog:(id<MSLog>)log {
-  (void)log;
+- (BOOL)shouldFilterLog:(id<MSLog>)__unused log {
   return NO;
 }
 
-- (void)channel:(id<MSChannelUnitProtocol>)channel didEnqueueLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
-  (void)log;
-  (void)internalId;
-  (void)channel;
-}
-
-- (void)channel:(id<MSChannelUnitProtocol>)channel
+- (void)channel:(id<MSChannelProtocol>)channel
               didSetEnabled:(BOOL)isEnabled
     andDeleteDataOnDisabled:(BOOL)deletedData {
-  NSString *groupId = channel.configuration.groupId;
-  if (![self isOneCollectorGroup:groupId]) {
-    [self.oneCollectorChannels[groupId] setEnabled:isEnabled andDeleteDataOnDisabled:deletedData];
+  if ([channel conformsToProtocol:@protocol(MSChannelUnitProtocol)]) {
+    NSString *groupId = ((id<MSChannelUnitProtocol>)channel).configuration.groupId;
+    if (![self isOneCollectorGroup:groupId]) {
+      [self.oneCollectorChannels[groupId] setEnabled:isEnabled andDeleteDataOnDisabled:deletedData];
+    }
   }
 }
 

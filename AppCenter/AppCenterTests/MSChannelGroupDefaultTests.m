@@ -123,34 +123,57 @@
   XCTAssertNoThrow(block());
 }
 
+- (void)testSetEnabled {
+  
+  // If
+  MSHttpSender *senderMock = OCMClassMock([MSHttpSender class]);
+  id<MSChannelUnitProtocol> channelMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id<MSChannelDelegate> delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
+  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock];
+  [sut addDelegate:delegateMock];
+  [sut.channels addObject:channelMock];
+  
+  // When
+  [sut setEnabled:NO andDeleteDataOnDisabled:YES];
+  
+  // Then
+  OCMVerify([senderMock setEnabled:NO andDeleteDataOnDisabled:YES]);
+  OCMVerify([channelMock setEnabled:NO andDeleteDataOnDisabled:YES]);
+  OCMVerify([delegateMock channel:sut didSetEnabled:NO andDeleteDataOnDisabled:YES]);
+}
+
 - (void)testResume {
 
   // If
   MSHttpSender *senderMock = OCMClassMock([MSHttpSender class]);
-
-  // When
+  id<MSChannelUnitProtocol> channelMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock];
+  [sut.channels addObject:channelMock];
 
   // When
   [sut resume];
 
   // Then
   OCMVerify([senderMock setEnabled:YES andDeleteDataOnDisabled:NO]);
+  dispatch_sync(sut.logsDispatchQueue, ^{});
+  OCMVerify([channelMock resume]);
 }
 
 - (void)testSuspend {
 
   // If
   MSHttpSender *senderMock = OCMClassMock([MSHttpSender class]);
-
-  // When
+  id<MSChannelUnitProtocol> channelMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock];
+  [sut.channels addObject:channelMock];
 
   // When
   [sut suspend];
 
   // Then
   OCMVerify([senderMock setEnabled:NO andDeleteDataOnDisabled:NO]);
+  dispatch_sync(sut.logsDispatchQueue, ^{});
+  OCMVerify([channelMock suspend]);
 }
 
 - (void)testChannelUnitIsCorrectlyInitialized {
@@ -177,8 +200,7 @@
                                                                              flushInterval:flushInterval
                                                                             batchSizeLimit:batchSizeLimit
                                                                        pendingBatchesLimit:pendingBatchesLimit]];
-  dispatch_sync(sut.logsDispatchQueue, ^{
-                });
+  dispatch_sync(sut.logsDispatchQueue, ^{});
 
   // Then
   OCMVerify([channelUnitMock addDelegate:sut]);

@@ -128,7 +128,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
                             }];
 }
 
-- (void)channel:(id<MSChannelUnitProtocol>)channel
+- (void)channel:(id<MSChannelProtocol>)channel
               didSetEnabled:(BOOL)isEnabled
     andDeleteDataOnDisabled:(BOOL)deletedData {
   [self enumerateDelegatesForSelector:@selector(channel:didSetEnabled:andDeleteDataOnDisabled:)
@@ -164,6 +164,12 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
   for (id<MSChannelProtocol> channel in self.channels) {
     [channel setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
   }
+  
+  // Notify delegates.
+  [self enumerateDelegatesForSelector:@selector(channel:didSetEnabled:andDeleteDataOnDisabled:)
+                            withBlock:^(id<MSChannelDelegate> delegate) {
+                              [delegate channel:self didSetEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
+                            }];
 
   /**
    * TODO: There should be some concept of logs on disk expiring to avoid leaks
