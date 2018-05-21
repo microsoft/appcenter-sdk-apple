@@ -25,7 +25,10 @@ static NSString *const kMSOneCollectorGroupIdSuffix = @"/one";
         [NSString stringWithFormat:@"%@%@", channel.configuration.groupId, kMSOneCollectorGroupIdSuffix];
     MSChannelUnitConfiguration *channelUnitConfiguration =
         [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:oneCollectorGroupId];
-    id<MSChannelUnitProtocol> channelUnit = [channelGroup addChannelUnitWithConfiguration:channelUnitConfiguration];
+
+    // TODO need to figure out actual sender for One Collector
+    id<MSChannelUnitProtocol> channelUnit =
+        [channelGroup addChannelUnitWithConfiguration:channelUnitConfiguration withSender:nil];
     self.oneCollectorChannels[groupId] = channelUnit;
   }
 }

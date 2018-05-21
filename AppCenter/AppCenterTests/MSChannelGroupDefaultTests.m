@@ -10,7 +10,6 @@
 #import "MSSender.h"
 
 @interface MSChannelGroupDefaultTests : XCTestCase
-
 @end
 
 @implementation MSChannelGroupDefaultTests
@@ -41,7 +40,8 @@
   float flushInterval = 1.0;
   NSUInteger batchSizeLimit = 10;
   NSUInteger pendingBatchesLimit = 3;
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:OCMProtocolMock(@protocol(MSSender))];
+  id<MSSender> senderMock = OCMProtocolMock(@protocol(MSSender));
+  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock];
 
   // Then
   assertThat(sut.channels, isEmpty());
@@ -61,6 +61,35 @@
   assertThatFloat(addedChannel.configuration.flushInterval, equalToFloat(flushInterval));
   assertThatUnsignedLong(addedChannel.configuration.batchSizeLimit, equalToUnsignedLong(batchSizeLimit));
   assertThatUnsignedLong(addedChannel.configuration.pendingBatchesLimit, equalToUnsignedLong(pendingBatchesLimit));
+}
+
+- (void)testAddNewChannelWithDefaultSender {
+
+  // If
+  id<MSSender> senderMock = OCMProtocolMock(@protocol(MSSender));
+  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock];
+
+  // When
+  MSChannelUnitDefault *channelUnit = [sut addChannelUnitWithConfiguration:[MSChannelUnitConfiguration new]];
+
+  // Then
+  XCTAssertEqual(senderMock, channelUnit.sender);
+}
+
+- (void)testAddChannelWithCustomSender {
+
+  // If
+  id<MSSender> senderMockDefault = OCMProtocolMock(@protocol(MSSender));
+  id<MSSender> senderMockCustom = OCMProtocolMock(@protocol(MSSender));
+  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMockDefault];
+
+  // When
+  MSChannelUnitDefault *channelUnit =
+      [sut addChannelUnitWithConfiguration:[MSChannelUnitConfiguration new] withSender:senderMockCustom];
+
+  // Then
+  XCTAssertNotEqual(senderMockDefault, channelUnit.sender);
+  XCTAssertEqual(senderMockCustom, channelUnit.sender);
 }
 
 - (void)testDelegatesConcurrentAccess {

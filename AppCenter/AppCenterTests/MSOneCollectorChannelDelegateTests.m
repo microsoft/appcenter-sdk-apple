@@ -46,11 +46,12 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
   id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
   __block id<MSChannelUnitProtocol> expectedChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   __block MSChannelUnitConfiguration *oneCollectorChannelConfig = nil;
-  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
-    [invocation retainArguments];
-    [invocation getArgument:&oneCollectorChannelConfig atIndex:2];
-    [invocation setReturnValue:&expectedChannelUnitMock];
-  });
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY withSender:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        [invocation retainArguments];
+        [invocation getArgument:&oneCollectorChannelConfig atIndex:2];
+        [invocation setReturnValue:&expectedChannelUnitMock];
+      });
 
   // When
   [self.sut channelGroup:channelGroupMock didAddChannelUnit:channelUnitMock];
