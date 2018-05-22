@@ -4,6 +4,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/*
+ * Workaround for exporting symbols from category object files.
+ */
+extern NSString *MSAnalyticsValidationCategory;
+
 @interface MSAnalytics (Validation)
 
 - (BOOL)validateLog:(MSLogWithNameAndProperties *)log;

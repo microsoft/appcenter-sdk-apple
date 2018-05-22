@@ -3,6 +3,7 @@
 #import "MSAnalyticsInternal.h"
 #import "MSAnalyticsPrivate.h"
 #import "MSAnalyticsTransmissionTargetInternal.h"
+#import "MSAnalytics+Validation.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
@@ -22,6 +23,15 @@ static MSAnalytics *sharedInstance = nil;
 static dispatch_once_t onceToken;
 
 @implementation MSAnalytics
+
+/**
+ * @discussion
+ * Workaround for exporting symbols from category object files.
+ * See article https://medium.com/ios-os-x-development/categories-in-static-libraries-78e41f8ddb96#.aedfl1kl0
+ */
+__attribute__((used)) static void importCategories() {
+  [NSString stringWithFormat:@"%@", MSAnalyticsValidationCategory];
+}
 
 @synthesize autoPageTrackingEnabled = _autoPageTrackingEnabled;
 @synthesize channelUnitConfiguration = _channelUnitConfiguration;

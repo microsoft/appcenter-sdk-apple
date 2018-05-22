@@ -7,6 +7,11 @@
 static const int minEventNameLength = 1;
 static const int maxEventNameLength = 256;
 
+/*
+ * Workaround for exporting symbols from category object files.
+ */
+NSString *MSAnalyticsValidationCategory;
+
 @implementation MSAnalytics (Validation)
 
 - (BOOL)shouldFilterLog:(id<MSLog>)log {
