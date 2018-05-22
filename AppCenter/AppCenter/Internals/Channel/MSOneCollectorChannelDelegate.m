@@ -25,20 +25,27 @@ static NSString *const kMSOneCollectorGroupIdSuffix = @"/one";
         [NSString stringWithFormat:@"%@%@", channel.configuration.groupId, kMSOneCollectorGroupIdSuffix];
     MSChannelUnitConfiguration *channelUnitConfiguration =
         [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:oneCollectorGroupId];
-    id<MSChannelUnitProtocol> channelUnit = [channelGroup addChannelUnitWithConfiguration:channelUnitConfiguration];
+
+    // TODO need to figure out actual sender for One Collector
+    id<MSChannelUnitProtocol> channelUnit =
+        [channelGroup addChannelUnitWithConfiguration:channelUnitConfiguration withSender:nil];
     self.oneCollectorChannels[groupId] = channelUnit;
   }
 }
 
-- (BOOL)shouldFilterLog:(id<MSLog>)log {
-  (void)log;
+- (BOOL)shouldFilterLog:(id<MSLog>)__unused log {
   return NO;
 }
 
-- (void)channel:(id<MSChannelUnitProtocol>)channel didEnqueueLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
-  (void)log;
-  (void)internalId;
-  (void)channel;
+- (void)channel:(id<MSChannelProtocol>)channel
+              didSetEnabled:(BOOL)isEnabled
+    andDeleteDataOnDisabled:(BOOL)deletedData {
+  if ([channel conformsToProtocol:@protocol(MSChannelUnitProtocol)]) {
+    NSString *groupId = ((id<MSChannelUnitProtocol>)channel).configuration.groupId;
+    if (![self isOneCollectorGroup:groupId]) {
+      [self.oneCollectorChannels[groupId] setEnabled:isEnabled andDeleteDataOnDisabled:deletedData];
+    }
+  }
 }
 
 - (BOOL)isOneCollectorGroup:(NSString *)groupId {

@@ -10,7 +10,6 @@
 #import "MSSender.h"
 
 @interface MSChannelGroupDefaultTests : XCTestCase
-
 @end
 
 @implementation MSChannelGroupDefaultTests
@@ -41,7 +40,8 @@
   float flushInterval = 1.0;
   NSUInteger batchSizeLimit = 10;
   NSUInteger pendingBatchesLimit = 3;
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:OCMProtocolMock(@protocol(MSSender))];
+  id<MSSender> senderMock = OCMProtocolMock(@protocol(MSSender));
+  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock];
 
   // Then
   assertThat(sut.channels, isEmpty());
@@ -61,6 +61,35 @@
   assertThatFloat(addedChannel.configuration.flushInterval, equalToFloat(flushInterval));
   assertThatUnsignedLong(addedChannel.configuration.batchSizeLimit, equalToUnsignedLong(batchSizeLimit));
   assertThatUnsignedLong(addedChannel.configuration.pendingBatchesLimit, equalToUnsignedLong(pendingBatchesLimit));
+}
+
+- (void)testAddNewChannelWithDefaultSender {
+
+  // If
+  id<MSSender> senderMock = OCMProtocolMock(@protocol(MSSender));
+  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock];
+
+  // When
+  MSChannelUnitDefault *channelUnit = [sut addChannelUnitWithConfiguration:[MSChannelUnitConfiguration new]];
+
+  // Then
+  XCTAssertEqual(senderMock, channelUnit.sender);
+}
+
+- (void)testAddChannelWithCustomSender {
+
+  // If
+  id<MSSender> senderMockDefault = OCMProtocolMock(@protocol(MSSender));
+  id<MSSender> senderMockCustom = OCMProtocolMock(@protocol(MSSender));
+  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMockDefault];
+
+  // When
+  MSChannelUnitDefault *channelUnit =
+      [sut addChannelUnitWithConfiguration:[MSChannelUnitConfiguration new] withSender:senderMockCustom];
+
+  // Then
+  XCTAssertNotEqual(senderMockDefault, channelUnit.sender);
+  XCTAssertEqual(senderMockCustom, channelUnit.sender);
 }
 
 - (void)testDelegatesConcurrentAccess {
@@ -94,103 +123,60 @@
   XCTAssertNoThrow(block());
 }
 
+- (void)testSetEnabled {
+  
+  // If
+  MSHttpSender *senderMock = OCMClassMock([MSHttpSender class]);
+  id<MSChannelUnitProtocol> channelMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id<MSChannelDelegate> delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
+  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock];
+  [sut addDelegate:delegateMock];
+  [sut.channels addObject:channelMock];
+  
+  // When
+  [sut setEnabled:NO andDeleteDataOnDisabled:YES];
+  
+  // Then
+  OCMVerify([senderMock setEnabled:NO andDeleteDataOnDisabled:YES]);
+  OCMVerify([channelMock setEnabled:NO andDeleteDataOnDisabled:YES]);
+  OCMVerify([delegateMock channel:sut didSetEnabled:NO andDeleteDataOnDisabled:YES]);
+}
+
 - (void)testResume {
 
   // If
   MSHttpSender *senderMock = OCMClassMock([MSHttpSender class]);
-
-  // When
+  id<MSChannelUnitProtocol> channelMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock];
+  [sut.channels addObject:channelMock];
 
   // When
   [sut resume];
 
   // Then
   OCMVerify([senderMock setEnabled:YES andDeleteDataOnDisabled:NO]);
+  dispatch_sync(sut.logsDispatchQueue, ^{});
+  OCMVerify([channelMock resume]);
 }
 
 - (void)testSuspend {
 
   // If
   MSHttpSender *senderMock = OCMClassMock([MSHttpSender class]);
-
-  // When
+  id<MSChannelUnitProtocol> channelMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock];
+  [sut.channels addObject:channelMock];
 
   // When
   [sut suspend];
 
   // Then
   OCMVerify([senderMock setEnabled:NO andDeleteDataOnDisabled:NO]);
+  dispatch_sync(sut.logsDispatchQueue, ^{});
+  OCMVerify([channelMock suspend]);
 }
 
-- (void)testDisableAndDeleteDataOnSenderFatalError {
-
-  // If
-  id senderMock = OCMProtocolMock(@protocol(MSSender));
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock];
-  id<MSChannelUnitProtocol> addedChannel = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
-  [sut.channels addObject:addedChannel];
-
-  // When
-  [addedChannel enqueueItem:[MSMockLog new]];
-  [sut senderDidReceiveFatalError:senderMock];
-
-  // Then
-  OCMVerify([senderMock setEnabled:NO andDeleteDataOnDisabled:YES]);
-  OCMVerify([addedChannel setEnabled:NO andDeleteDataOnDisabled:YES]);
-}
-
-- (void)testSuspendOnSenderSuspended {
-
-  // If
-  id senderMock = OCMProtocolMock(@protocol(MSSender));
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock];
-  id<MSChannelUnitProtocol> addedChannel = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
-  [sut.channels addObject:addedChannel];
-
-  // When
-  [addedChannel enqueueItem:[MSMockLog new]];
-  [sut senderDidSuspend:senderMock];
-
-  // Then
-  dispatch_semaphore_t sem = dispatch_semaphore_create(0);
-
-  // Do the verifications in the log queue to ensure that they occur after the operations complete.
-  dispatch_async(sut.logsDispatchQueue, ^{
-    OCMVerify([senderMock setEnabled:NO andDeleteDataOnDisabled:NO]);
-    OCMVerify([addedChannel suspend]);
-    dispatch_semaphore_signal(sem);
-  });
-  dispatch_semaphore_wait(sem, dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC * 1));
-}
-
-- (void)testResumeOnSenderResumed {
-
-  // If
-  id senderMock = OCMProtocolMock(@protocol(MSSender));
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock];
-  id<MSChannelUnitProtocol> addedChannel = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
-  [sut.channels addObject:addedChannel];
-
-  // When
-  [addedChannel enqueueItem:[MSMockLog new]];
-  [sut senderDidResume:senderMock];
-
-  // Then
-  dispatch_semaphore_t sem = dispatch_semaphore_create(0);
-
-  // Do the verifications in the log queue to ensure that they occur after
-  // the operations complete.
-  dispatch_async(sut.logsDispatchQueue, ^{
-    OCMVerify([senderMock setEnabled:YES andDeleteDataOnDisabled:NO]);
-    OCMVerify([addedChannel resume]);
-    dispatch_semaphore_signal(sem);
-  });
-  dispatch_semaphore_wait(sem, dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC * 1));
-}
-
-- (void)testDelegateIsAddedToAddedUnit {
+- (void)testChannelUnitIsCorrectlyInitialized {
 
   // If
   NSString *groupId = @"AppCenter";
@@ -214,9 +200,11 @@
                                                                              flushInterval:flushInterval
                                                                             batchSizeLimit:batchSizeLimit
                                                                        pendingBatchesLimit:pendingBatchesLimit]];
+  dispatch_sync(sut.logsDispatchQueue, ^{});
 
   // Then
   OCMVerify([channelUnitMock addDelegate:sut]);
+  OCMVerify([channelUnitMock flushQueue]);
 
   // Clear
   [channelUnitMock stopMocking];

@@ -262,6 +262,7 @@ static dispatch_once_t onceToken;
   transmissionTarget = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:transmissionTargetToken];
   MSLogDebug([MSAnalytics logTag], @"Created transmission target with id %@.", transmissionTargetToken);
   [self.transmissionTargets setObject:transmissionTarget forKey:transmissionTargetToken];
+  
   // TODO: Start service if not already.
   // Scenario: getTransmissionTarget gets called before App Center has an app secret or transmission target but start
   // has been called for this service.
