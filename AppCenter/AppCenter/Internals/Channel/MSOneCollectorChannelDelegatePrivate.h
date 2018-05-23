@@ -9,6 +9,4 @@
 
 - (BOOL) shouldSendLogToOneCollector:(id<MSLog>)log;
 
-- (NSString *) correspondingOneCollectorChannelGroupId:(id<MSChannelUnitProtocol>)channelUnit;
-
 @end
