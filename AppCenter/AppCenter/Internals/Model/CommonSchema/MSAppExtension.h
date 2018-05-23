@@ -1,6 +1,11 @@
 #import <Foundation/Foundation.h>
+#import "MSSerializableObject.h"
+#import "MSModel.h"
 
-@interface MSAppExtension : NSObject
+/**
+ * The App extension contains data specified by the application.
+ */
+@interface MSAppExtension : NSObject <MSSerializableObject, MSModel>
 
 /**
  * The application's bundle identifier.

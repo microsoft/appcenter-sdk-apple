@@ -1,6 +1,11 @@
 #import <Foundation/Foundation.h>
+#import "MSSerializableObject.h"
+#import "MSModel.h"
 
-@interface MSNetExtension : NSObject
+/**
+ * The Net extension contains network properties.
+ */
+@interface MSNetExtension : NSObject <MSSerializableObject, MSModel>
 
 /**
  * The network provider.

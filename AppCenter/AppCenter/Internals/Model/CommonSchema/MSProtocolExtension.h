@@ -1,6 +1,11 @@
 #import <Foundation/Foundation.h>
+#import "MSSerializableObject.h"
+#import "MSModel.h"
 
-@interface MSProtocolExtension : NSObject
+/**
+ * The Protocol extension contains device specific information. 
+ */
+@interface MSProtocolExtension : NSObject <MSSerializableObject, MSModel>
 
 /**
  * The device's manufacturer.

@@ -1,6 +1,11 @@
 #import <Foundation/Foundation.h>
+#import "MSSerializableObject.h"
+#import "MSModel.h"
 
-@interface MSOsExtension : NSObject
+/**
+ * The OS extension tracks common os elements that are not available in the core envelope.
+ */
+@interface MSOsExtension : NSObject <MSSerializableObject, MSModel>
 
 /**
  * The OS name.

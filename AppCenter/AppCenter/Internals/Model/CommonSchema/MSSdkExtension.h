@@ -1,11 +1,16 @@
 #import <Foundation/Foundation.h>
+#import "MSSerializableObject.h"
+#import "MSModel.h"
 
-@interface MSSdkExtension : NSObject
+/**
+ * The SDK extension is used by platform specific library to record field that are specifically required for a specific SDK.
+ */
+@interface MSSdkExtension : NSObject <MSSerializableObject, MSModel>
 
 /**
  * The SDK version.
  */
-@property(nonatomic, copy) NSString *ver;
+@property(nonatomic, copy) NSString *libVer;
 
 /**
  * ID incremented for each SDK initialization.

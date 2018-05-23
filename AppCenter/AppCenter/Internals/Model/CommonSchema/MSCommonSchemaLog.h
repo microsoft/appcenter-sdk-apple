@@ -1,5 +1,5 @@
 #import <UIKit/UIKit.h>
-#import "MSAbstractLog.h"
+#import "MSAbstractLogInternal.h"
 #import "MSProtocolExtension.h"
 #import "MSUserExtension.h"
 #import "MSOsExtension.h"
@@ -7,11 +7,14 @@
 #import "MSNetExtension.h"
 #import "MSLocExtension.h"
 #import "MSSdkExtension.h"
+#import "MSCSData.h"
+#import "MSSerializableObject.h"
+#import "MSModel.h"
 
 /**
- * Common schema has 1 log type with extensions, everything is called an event.
+ * Common schema has one event type with extensions, everything is called an event.
  */
-@interface MSCommonSchemaLog : MSAbstractLog
+@interface MSCommonSchemaLog : MSAbstractLog <MSSerializableObject, MSModel>
 
 /**
  * The version of the schema. The format is a string with major and minor such as 3.0.
@@ -88,13 +91,8 @@
 @property(nonatomic) MSLocExtension *extLoc;
 
 /**
- * Other Part A extension.
- */
-@property(nonatomic) NSMutableDictionary *ext;
-
-/**
  * Part C
  */
-@property(nonatomic) NSMutableDictionary *data;
+@property(nonatomic) MSCSData *data;
 
 @end
