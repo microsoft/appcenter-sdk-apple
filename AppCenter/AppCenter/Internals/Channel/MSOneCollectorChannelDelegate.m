@@ -1,6 +1,8 @@
+#import "MSChannelProtocol.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
+#import "MSLog.h"
 #import "MSOneCollectorChannelDelegatePrivate.h"
 
 static NSString *const kMSOneCollectorGroupIdSuffix = @"/one";
@@ -33,8 +35,8 @@ static NSString *const kMSOneCollectorGroupIdSuffix = @"/one";
   }
 }
 
-- (BOOL)shouldFilterLog:(id<MSLog>)__unused log {
-  return NO;
+- (BOOL)shouldFilterLog:(id<MSLog>)log {
+  return [self shouldSendLogToOneCollector:log];
 }
 
 - (void)channel:(id<MSChannelProtocol>)channel
@@ -48,8 +50,32 @@ static NSString *const kMSOneCollectorGroupIdSuffix = @"/one";
   }
 }
 
+- (void)channel:(id<MSChannelProtocol>)channel didPrepareLog:(id<MSLog>)log withInternalId:(NSString *)__unused internalId {
+
+  // TODO Maybe this should not be triggered by a channel group.
+  if (![self shouldSendLogToOneCollector:log] ||
+      ![channel conformsToProtocol:@protocol(MSChannelUnitProtocol)]) {
+    return;
+  }
+  id<MSChannelUnitProtocol> channelUnit = (id<MSChannelUnitProtocol>)channel;
+  NSString *groupId = channelUnit.configuration.groupId;
+  id<MSChannelUnitProtocol> oneCollectorChannelUnit = [self.oneCollectorChannels objectForKey:groupId];
+  if (!oneCollectorChannelUnit) {
+    return;
+  }
+
+  //TODO Convert the log.
+  id<MSLog> convertedLog;
+  [oneCollectorChannelUnit enqueueItem:convertedLog];
+}
+
 - (BOOL)isOneCollectorGroup:(NSString *)groupId {
   return [groupId hasSuffix:kMSOneCollectorGroupIdSuffix];
+}
+
+// TODO This must return NO if the log is already a common schema log to avoid infinite recursion.
+- (BOOL) shouldSendLogToOneCollector:(id<MSLog>)log {
+  return [[log transmissionTargetTokens] count] > 0;
 }
 
 @end
