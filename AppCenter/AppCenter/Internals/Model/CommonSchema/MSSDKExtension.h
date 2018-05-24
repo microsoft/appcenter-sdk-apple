@@ -5,7 +5,7 @@
 /**
  * The SDK extension is used by platform specific library to record field that are specifically required for a specific SDK.
  */
-@interface MSSdkExtension : NSObject <MSSerializableObject, MSModel>
+@interface MSSDKExtension : NSObject <MSSerializableObject, MSModel>
 
 /**
  * The SDK version.

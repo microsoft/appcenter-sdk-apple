@@ -5,7 +5,7 @@
 /**
  * The OS extension tracks common os elements that are not available in the core envelope.
  */
-@interface MSOsExtension : NSObject <MSSerializableObject, MSModel>
+@interface MSOSExtension : NSObject <MSSerializableObject, MSModel>
 
 /**
  * The OS name.

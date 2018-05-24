@@ -1,10 +1,10 @@
 #import <Foundation/Foundation.h>
 #import "MSProtocolExtension.h"
 #import "MSUserExtension.h"
-#import "MSOsExtension.h"
+#import "MSOSExtension.h"
 #import "MSAppExtension.h"
 #import "MSNetExtension.h"
-#import "MSSdkExtension.h"
+#import "MSSDKExtension.h"
 #import "MSLocExtension.h"
 #import "MSSerializableObject.h"
 #import "MSModel.h"
@@ -27,7 +27,7 @@
 /**
  * The OS extension.
  */
-@property(nonatomic) MSOsExtension *osExt;
+@property(nonatomic) MSOSExtension *osExt;
 
 /**
  * The App extension.
@@ -42,7 +42,7 @@
 /**
  * The SDK extension.
  */
-@property(nonatomic) MSSdkExtension *sdkExt;
+@property(nonatomic) MSSDKExtension *sdkExt;
 
 /**
  * The Loc extension.

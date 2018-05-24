@@ -1,7 +1,7 @@
-#import "MSOsExtension.h"
+#import "MSOSExtension.h"
 #import "MSCSConstants.h"
 
-@implementation MSOsExtension
+@implementation MSOSExtension
 
 #pragma mark - MSSerializableObject
 
@@ -25,10 +25,10 @@
 #pragma mark - NSObject
 
 - (BOOL)isEqual:(id)object {
-  if (![object isKindOfClass:[MSOsExtension class]]) {
+  if (![object isKindOfClass:[MSOSExtension class]]) {
     return NO;
   }
-  MSOsExtension *osExt = (MSOsExtension *)object;
+  MSOSExtension *osExt = (MSOSExtension *)object;
   return ((!self.ver && !osExt.ver) || [self.ver isEqualToString:osExt.ver]) &&
          ((!self.name && !osExt.name) || [self.name isEqualToString:osExt.name]);
 }

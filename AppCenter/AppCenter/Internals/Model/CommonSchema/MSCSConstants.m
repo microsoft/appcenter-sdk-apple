@@ -18,7 +18,7 @@ NSString *const kMSUserLocale = @"locale";
 
 #pragma mark - MSLocExtension
 
-NSString *const kMSTimezone = @"timezone";
+NSString *const kMSTimezone = @"tz";
 
 #pragma mark - MSOsExtension
 

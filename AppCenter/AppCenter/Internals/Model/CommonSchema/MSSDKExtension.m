@@ -1,7 +1,7 @@
-#import "MSSdkExtension.h"
+#import "MSSDKExtension.h"
 #import "MSCSConstants.h"
 
-@implementation MSSdkExtension
+@implementation MSSDKExtension
 
 #pragma mark - MSSerializableObject
 
@@ -29,10 +29,10 @@
 #pragma mark - NSObject
 
 - (BOOL)isEqual:(id)object {
-  if (![object isKindOfClass:[MSSdkExtension class]]) {
+  if (![object isKindOfClass:[MSSDKExtension class]]) {
     return NO;
   }
-  MSSdkExtension *sdkExt = (MSSdkExtension *)object;
+  MSSDKExtension *sdkExt = (MSSDKExtension *)object;
   return ((!self.libVer && !sdkExt.libVer) || [self.libVer isEqualToString:sdkExt.libVer]) &&
          ((!self.epoch && !sdkExt.epoch) || [self.epoch isEqualToString:sdkExt.epoch]) && (self.seq == sdkExt.seq) &&
          ((!self.installId && !sdkExt.installId) || [self.installId isEqualToString:sdkExt.installId]);
