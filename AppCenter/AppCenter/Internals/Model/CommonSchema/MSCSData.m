@@ -1,6 +1,5 @@
 #import "MSCSData.h"
-
-static NSString *const kMSDataProperties = @"properties";
+#import "MSCSConstants.h"
 
 @implementation MSCSData
 

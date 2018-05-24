@@ -1,8 +1,5 @@
 #import "MSAppExtension.h"
-
-static NSString *const kMSAppId = @"id";
-static NSString *const kMSAppVer = @"ver";
-static NSString *const kMSAppLocale = @"locale";
+#import "MSCSConstants.h"
 
 @implementation MSAppExtension
 

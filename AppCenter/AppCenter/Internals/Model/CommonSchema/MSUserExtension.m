@@ -1,6 +1,5 @@
 #import "MSUserExtension.h"
-
-static NSString *const kMSUserLocale = @"locale";
+#import "MSCSConstants.h"
 
 @implementation MSUserExtension
 

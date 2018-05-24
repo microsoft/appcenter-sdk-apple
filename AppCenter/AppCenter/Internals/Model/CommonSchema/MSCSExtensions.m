@@ -1,12 +1,5 @@
 #import "MSCSExtensions.h"
-
-static NSString *const kMSCSProtocolExt = @"protocol";
-static NSString *const kMSCSUserExt = @"user";
-static NSString *const kMSCSOSExt = @"os";
-static NSString *const kMSCSAppExt = @"app";
-static NSString *const kMSCSNetExt = @"net";
-static NSString *const kMSCSSDKExt = @"sdk";
-static NSString *const kMSCSLocExt = @"loc";
+#import "MSCSConstants.h"
 
 @implementation MSCSExtensions
 

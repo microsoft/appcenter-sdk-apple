@@ -1,6 +1,5 @@
 #import "MSLocExtension.h"
-
-static NSString *const kMSTimezone = @"timezone";
+#import "MSCSConstants.h"
 
 @implementation MSLocExtension
 

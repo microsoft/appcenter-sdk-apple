@@ -1,9 +1,5 @@
 #import "MSSdkExtension.h"
-
-static NSString *const kMSSdkLibVer = @"libVer";
-static NSString *const kMSSdkEpoch = @"epoch";
-static NSString *const kMSSdkSeq = @"seq";
-static NSString *const kMSSdkInstallId = @"installId";
+#import "MSCSConstants.h"
 
 @implementation MSSdkExtension
 

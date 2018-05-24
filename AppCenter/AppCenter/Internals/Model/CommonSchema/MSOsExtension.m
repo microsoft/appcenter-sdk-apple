@@ -1,7 +1,5 @@
 #import "MSOsExtension.h"
-
-static NSString *const kMSOsVer = @"ver";
-static NSString *const kMSOsName = @"name";
+#import "MSCSConstants.h"
 
 @implementation MSOsExtension
 
@@ -10,10 +8,10 @@ static NSString *const kMSOsName = @"name";
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [NSMutableDictionary new];
   if (self.ver) {
-    dict[kMSOsVer] = self.ver;
+    dict[kMSOSVer] = self.ver;
   }
   if (self.name) {
-    dict[kMSOsName] = self.name;
+    dict[kMSOSName] = self.name;
   }
   return dict;
 }
@@ -39,15 +37,15 @@ static NSString *const kMSOsName = @"name";
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
   if ((self = [super init])) {
-    _ver = [coder decodeObjectForKey:kMSOsVer];
-    _name = [coder decodeObjectForKey:kMSOsName];
+    _ver = [coder decodeObjectForKey:kMSOSVer];
+    _name = [coder decodeObjectForKey:kMSOSName];
   }
   return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
-  [coder encodeObject:self.ver forKey:kMSOsVer];
-  [coder encodeObject:self.name forKey:kMSOsName];
+  [coder encodeObject:self.ver forKey:kMSOSVer];
+  [coder encodeObject:self.name forKey:kMSOSName];
 }
 
 @end

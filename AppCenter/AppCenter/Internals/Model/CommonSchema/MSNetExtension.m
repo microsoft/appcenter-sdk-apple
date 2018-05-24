@@ -1,6 +1,5 @@
 #import "MSNetExtension.h"
-
-static NSString *const kMSNetProvider = @"provider";
+#import "MSCSConstants.h"
 
 @implementation MSNetExtension
 

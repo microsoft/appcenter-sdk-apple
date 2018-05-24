@@ -1,7 +1,5 @@
 #import "MSProtocolExtension.h"
-
-static NSString *const kMSDevMake = @"devMake";
-static NSString *const kMSDevModel = @"devModel";
+#import "MSCSConstants.h"
 
 @implementation MSProtocolExtension
 
