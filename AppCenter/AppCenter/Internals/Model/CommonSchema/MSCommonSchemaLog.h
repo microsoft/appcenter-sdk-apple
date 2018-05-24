@@ -10,6 +10,7 @@
 #import "MSCSData.h"
 #import "MSSerializableObject.h"
 #import "MSModel.h"
+#import "MSCSExtensions.h"
 
 /**
  * Common schema has one event type with extensions, everything is called an event.
@@ -56,39 +57,9 @@
 @property(nonatomic, copy) NSString *cV;
 
 /**
- * The Protocol extension.
+ * Part A extensions.
  */
-@property(nonatomic) MSProtocolExtension *extProtocol;
-
-/**
- * The User extension.
- */
-@property(nonatomic) MSUserExtension *extUser;
-
-/**
- * The OS extension.
- */
-@property(nonatomic) MSOsExtension *extOs;
-
-/**
- * The App extension.
- */
-@property(nonatomic) MSAppExtension *extApp;
-
-/**
- * The Net extension.
- */
-@property(nonatomic) MSNetExtension *extNet;
-
-/**
- * The SDK extension.
- */
-@property(nonatomic) MSSdkExtension *extSdk;
-
-/**
- * The Loc extension.
- */
-@property(nonatomic) MSLocExtension *extLoc;
+@property(nonatomic) MSCSExtensions *ext;
 
 /**
  * Part C

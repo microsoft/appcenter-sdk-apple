@@ -549,6 +549,12 @@
 		E7D23C6120B4EED000A47D62 /* MSModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E7D23C6020B4EED000A47D62 /* MSModel.h */; };
 		E7D23C6220B4EED000A47D62 /* MSModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E7D23C6020B4EED000A47D62 /* MSModel.h */; };
 		E7D23C6320B4EED000A47D62 /* MSModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E7D23C6020B4EED000A47D62 /* MSModel.h */; };
+		E7D23C6620B6391700A47D62 /* MSCSExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = E7D23C6420B6391700A47D62 /* MSCSExtensions.h */; };
+		E7D23C6720B6391700A47D62 /* MSCSExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = E7D23C6420B6391700A47D62 /* MSCSExtensions.h */; };
+		E7D23C6820B6391700A47D62 /* MSCSExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = E7D23C6420B6391700A47D62 /* MSCSExtensions.h */; };
+		E7D23C6920B6391700A47D62 /* MSCSExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D23C6520B6391700A47D62 /* MSCSExtensions.m */; };
+		E7D23C6A20B6391700A47D62 /* MSCSExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D23C6520B6391700A47D62 /* MSCSExtensions.m */; };
+		E7D23C6B20B6391700A47D62 /* MSCSExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D23C6520B6391700A47D62 /* MSCSExtensions.m */; };
 		E8010E6B1D2DD4EF0035196F /* MSLogWithProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = E8010E671D2DD4EF0035196F /* MSLogWithProperties.m */; };
 		E80EB1071D50273700C9003F /* MSSenderCall.h in Headers */ = {isa = PBXBuildFile; fileRef = E80EB1051D50273700C9003F /* MSSenderCall.h */; };
 		E80EB1081D50273700C9003F /* MSSenderCall.m in Sources */ = {isa = PBXBuildFile; fileRef = E80EB1061D50273700C9003F /* MSSenderCall.m */; };
@@ -827,6 +833,8 @@
 		E7D23C5520B4E38B00A47D62 /* MSCSData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSCSData.m; sourceTree = "<group>"; };
 		E7D23C5C20B4EC3700A47D62 /* MSSerializableObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSSerializableObject.h; sourceTree = "<group>"; };
 		E7D23C6020B4EED000A47D62 /* MSModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSModel.h; sourceTree = "<group>"; };
+		E7D23C6420B6391700A47D62 /* MSCSExtensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSCSExtensions.h; sourceTree = "<group>"; };
+		E7D23C6520B6391700A47D62 /* MSCSExtensions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSCSExtensions.m; sourceTree = "<group>"; };
 		E8010E671D2DD4EF0035196F /* MSLogWithProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLogWithProperties.m; sourceTree = "<group>"; };
 		E80EB1051D50273700C9003F /* MSSenderCall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSSenderCall.h; sourceTree = "<group>"; };
 		E80EB1061D50273700C9003F /* MSSenderCall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSSenderCall.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -1304,6 +1312,8 @@
 				E74B14E920B3711F002C0183 /* MSSdkExtension.m */,
 				E7D23C5420B4E38B00A47D62 /* MSCSData.h */,
 				E7D23C5520B4E38B00A47D62 /* MSCSData.m */,
+				E7D23C6420B6391700A47D62 /* MSCSExtensions.h */,
+				E7D23C6520B6391700A47D62 /* MSCSExtensions.m */,
 			);
 			path = CommonSchema;
 			sourceTree = "<group>";
@@ -1465,6 +1475,7 @@
 				043120C81EE0BCF9007054C5 /* MSService.h in Headers */,
 				045C0BF01EEB12320038FD6B /* MSAppDelegateForwarderPrivate.h in Headers */,
 				B2CD74CB1F22BF8D0070E7DF /* MSLogDBStoragePrivate.h in Headers */,
+				E7D23C6820B6391700A47D62 /* MSCSExtensions.h in Headers */,
 				E7D23C5F20B4EC3700A47D62 /* MSSerializableObject.h in Headers */,
 				043120CA1EE0BCF9007054C5 /* MSServiceInternal.h in Headers */,
 				043120CC1EE0BCF9007054C5 /* MSAppCenterErrors.h in Headers */,
@@ -1504,6 +1515,7 @@
 				3568A7E7201A91A300F3B860 /* MSLogger.h in Headers */,
 				E74B14D320B36EC5002C0183 /* MSNetExtension.h in Headers */,
 				04754F881EA98182002CBA46 /* MSLog.h in Headers */,
+				E7D23C6720B6391700A47D62 /* MSCSExtensions.h in Headers */,
 				E74B14BB20B36C2B002C0183 /* MSOsExtension.h in Headers */,
 				3568A7E3201A8A6300F3B860 /* MSChannelDelegate.h in Headers */,
 				3568A7E5201A8A6300F3B860 /* MSChannelGroupProtocol.h in Headers */,
@@ -1597,6 +1609,7 @@
 				354274212016769C00BE766F /* MSChannelProtocol.h in Headers */,
 				E74B14D220B36EC5002C0183 /* MSNetExtension.h in Headers */,
 				35D0B7531DDFABFD003EACCD /* MSWrapperLogger.h in Headers */,
+				E7D23C6620B6391700A47D62 /* MSCSExtensions.h in Headers */,
 				E74B14BA20B36C2B002C0183 /* MSOsExtension.h in Headers */,
 				3542742320167DD500BE766F /* MSEnable.h in Headers */,
 				354274202016769C00BE766F /* MSChannelGroupProtocol.h in Headers */,
@@ -1966,6 +1979,7 @@
 				0431208B1EE0BCF9007054C5 /* MSSenderCall.m in Sources */,
 				E74B149E20B364EE002C0183 /* MSCommonSchemaLog.m in Sources */,
 				0431208D1EE0BCF9007054C5 /* MS_Reachability.m in Sources */,
+				E7D23C6B20B6391700A47D62 /* MSCSExtensions.m in Sources */,
 				B2CD74B41F22BE270070E7DF /* MSUtility+Date.m in Sources */,
 				0431208E1EE0BCF9007054C5 /* MSLogWithProperties.m in Sources */,
 				E7D23C5B20B4E38B00A47D62 /* MSCSData.m in Sources */,
@@ -2095,6 +2109,7 @@
 				E74B14AE20B36B9B002C0183 /* MSLocExtension.m in Sources */,
 				04754F681EA98182002CBA46 /* MSIngestionSender.m in Sources */,
 				805275C520A1ADD200704115 /* MSOneCollectorChannelDelegate.m in Sources */,
+				E7D23C6A20B6391700A47D62 /* MSCSExtensions.m in Sources */,
 				B2CD74891F22BD910070E7DF /* MSLogDBStorage.m in Sources */,
 				B2CD74AA1F22BE270070E7DF /* MSUtility+Application.m in Sources */,
 			);
@@ -2149,6 +2164,7 @@
 				E74B14AD20B36B9B002C0183 /* MSLocExtension.m in Sources */,
 				04754F421EA980FD002CBA46 /* MSDeviceTracker.m in Sources */,
 				805275C120A1A5F400704115 /* MSOneCollectorChannelDelegate.m in Sources */,
+				E7D23C6920B6391700A47D62 /* MSCSExtensions.m in Sources */,
 				BA682E63DDB55EED56809831 /* MSIngestionSender.m in Sources */,
 				B2CD74A91F22BE270070E7DF /* MSUtility+Application.m in Sources */,
 			);

@@ -8,14 +8,8 @@ static NSString *const kMSCSPopSample = @"popSample";
 static NSString *const kMSCSIKey = @"iKey";
 static NSString *const kMSCSFlags = @"flags";
 static NSString *const kMSCSCV = @"cV";
-static NSString *const kMSCSExtProtocol = @"extProtocol";
-static NSString *const kMSCSExtUser = @"extUser";
-static NSString *const kMSCSExtOS = @"extOs";
-static NSString *const kMSCSExtApp = @"extApp";
-static NSString *const kMSCSExtNet = @"extNet";
-static NSString *const kMSCSExtSDK = @"extSdk";
-static NSString *const kMSCSExtLoc = @"extLoc";
 static NSString *const kMSCSData = @"data";
+static NSString *const kMSCSExt = @"ext";
 
 @implementation MSCommonSchemaLog
 
@@ -38,26 +32,8 @@ static NSString *const kMSCSData = @"data";
   if (self.cV) {
     dict[kMSCSCV] = self.cV;
   }
-  if (self.extProtocol) {
-    dict[kMSCSExtProtocol] = self.extProtocol;
-  }
-  if (self.extUser) {
-    dict[kMSCSExtUser] = self.extUser;
-  }
-  if (self.extOs) {
-    dict[kMSCSExtOS] = self.extOs;
-  }
-  if (self.extApp) {
-    dict[kMSCSExtApp] = self.extApp;
-  }
-  if (self.extNet) {
-    dict[kMSCSExtNet] = self.extNet;
-  }
-  if (self.extSdk) {
-    dict[kMSCSExtSDK] = self.extSdk;
-  }
-  if (self.extLoc) {
-    dict[kMSCSExtLoc] = self.extLoc;
+  if (self.ext) {
+    dict[kMSCSExt] = self.ext;
   }
   if (self.data) {
     dict[kMSCSData] = self.data;
@@ -69,9 +45,7 @@ static NSString *const kMSCSData = @"data";
 #pragma mark - MSModel
 
 - (BOOL)isValid {
-  return self.ver && self.name && self.iKey && self.cV && [self.extProtocol isValid] && [self.extUser isValid] &&
-         [self.extOs isValid] && [self.extApp isValid] && [self.extNet isValid] && [self.extSdk isValid] &&
-         [self.extLoc isValid] && [self.data isValid];
+  return self.ver && self.name && self.iKey && self.cV && [self.ext isValid] && [self.data isValid];
 }
 
 #pragma mark - NSObject
@@ -86,13 +60,7 @@ static NSString *const kMSCSData = @"data";
          ((!self.name && !csLog.name) || [self.name isEqualToString:csLog.name]) && self.time == csLog.time &&
          self.popSample == csLog.popSample && ((!self.iKey && !csLog.iKey) || [self.iKey isEqualToString:csLog.iKey]) &&
          self.flags == csLog.flags && ((!self.cV && !csLog.cV) || [self.cV isEqualToString:csLog.cV]) &&
-         ((!self.extProtocol && !csLog.extProtocol) || [self.extProtocol isEqual:csLog.extProtocol]) &&
-         ((!self.extUser && !csLog.extUser) || [self.extUser isEqual:csLog.extUser]) &&
-         ((!self.extOs && !csLog.extOs) || [self.extOs isEqual:csLog.extOs]) &&
-         ((!self.extApp && !csLog.extApp) || [self.extApp isEqual:csLog.extApp]) &&
-         ((!self.extNet && !csLog.extNet) || [self.extNet isEqual:csLog.extNet]) &&
-         ((!self.extSdk && !csLog.extSdk) || [self.extSdk isEqual:csLog.extSdk]) &&
-         ((!self.extLoc && !csLog.extLoc) || [self.extLoc isEqual:csLog.extLoc]) &&
+         ((!self.ext && !csLog.ext) || [self.ext isEqual:csLog.ext]) &&
          ((!self.data && !csLog.data) || [self.data isEqual:csLog.data]);
 }
 
@@ -107,13 +75,7 @@ static NSString *const kMSCSData = @"data";
     _iKey = [coder decodeObjectForKey:kMSCSIKey];
     _flags = [coder decodeInt64ForKey:kMSCSFlags];
     _cV = [coder decodeObjectForKey:kMSCSCV];
-    _extProtocol = [coder decodeObjectForKey:kMSCSExtProtocol];
-    _extUser = [coder decodeObjectForKey:kMSCSExtUser];
-    _extOs = [coder decodeObjectForKey:kMSCSExtOS];
-    _extApp = [coder decodeObjectForKey:kMSCSExtApp];
-    _extNet = [coder decodeObjectForKey:kMSCSExtNet];
-    _extSdk = [coder decodeObjectForKey:kMSCSExtSDK];
-    _extLoc = [coder decodeObjectForKey:kMSCSExtLoc];
+    _ext = [coder decodeObjectForKey:kMSCSExt];
     _data = [coder decodeObjectForKey:kMSCSData];
   }
   return self;
@@ -127,13 +89,7 @@ static NSString *const kMSCSData = @"data";
   [coder encodeObject:self.iKey forKey:kMSCSIKey];
   [coder encodeInt64:self.flags forKey:kMSCSFlags];
   [coder encodeObject:self.cV forKey:kMSCSCV];
-  [coder encodeObject:self.extProtocol forKey:kMSCSExtProtocol];
-  [coder encodeObject:self.extUser forKey:kMSCSExtUser];
-  [coder encodeObject:self.extOs forKey:kMSCSExtOS];
-  [coder encodeObject:self.extApp forKey:kMSCSExtApp];
-  [coder encodeObject:self.extNet forKey:kMSCSExtNet];
-  [coder encodeObject:self.extSdk forKey:kMSCSExtSDK];
-  [coder encodeObject:self.extLoc forKey:kMSCSExtLoc];
+  [coder encodeObject:self.ext forKey:kMSCSExt];
   [coder encodeObject:self.data forKey:kMSCSData];
 }
 
