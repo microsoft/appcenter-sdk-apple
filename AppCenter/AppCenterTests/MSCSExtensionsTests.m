@@ -51,6 +51,11 @@
     kMSSDKInstallId : @"41b61ab0-5fbc-11e8-9c2d-fa7ae01bbebc"
   };
   self.sdkExt = [self sdkExtensionWithDummyValues:self.sdkExtDummyValues];
+  self.dataDummyValues = @{
+    kMSDataProperties :
+        @{@"data.key.a" : @"data.value.a", @"data.key.b" : @"data.value.b", @"data.key.c" : @"data.value.c"}
+  };
+  self.data = [self dataWithDummyValues:self.dataDummyValues];
 }
 
 #pragma mark - MSUserExtension
@@ -494,6 +499,67 @@
   XCTAssertNotEqualObjects(anotherSDKExt, self.appExt);
 }
 
+#pragma mark - MSCSData
+
+- (void)testDataJSONSerializingToDictionary {
+
+  // When
+  NSMutableDictionary *dict = [self.data serializeToDictionary];
+
+  // Then
+  XCTAssertNotNil(dict);
+  XCTAssertEqualObjects(dict, self.dataDummyValues);
+}
+
+- (void)testDataNSCodingSerializationAndDeserialization {
+
+  // When
+  NSData *serializedData = [NSKeyedArchiver archivedDataWithRootObject:self.data];
+  MSCSData *actualData = [NSKeyedUnarchiver unarchiveObjectWithData:serializedData];
+
+  // Then
+  XCTAssertNotNil(actualData);
+  XCTAssertEqualObjects(self.data, actualData);
+  XCTAssertTrue([actualData isMemberOfClass:[MSCSData class]]);
+  XCTAssertEqualObjects(actualData.properties, self.dataDummyValues[kMSDataProperties]);
+}
+
+- (void)testDataIsValid {
+
+  // If
+  MSCSData *data = [MSCSData new];
+
+  // Then
+  XCTAssertFalse([data isValid]);
+
+  // If
+  data.properties = self.dataDummyValues[kMSDataProperties];
+
+  // Then
+  XCTAssertTrue([data isValid]);
+}
+
+- (void)testDataIsEqual {
+
+  // If
+  MSCSData *anotherData = [MSCSData new];
+
+  // Then
+  XCTAssertNotEqualObjects(anotherData, self.data);
+
+  // If
+  anotherData = [self dataWithDummyValues:self.dataDummyValues];
+
+  // Then
+  XCTAssertEqualObjects(anotherData, self.data);
+
+  // If
+  anotherData.properties = [@{ kMSDataProperties : @{@"part.c.key" : @"part.c.value"} } mutableCopy];
+
+  // Then
+  XCTAssertNotEqualObjects(anotherData, self.data);
+}
+
 #pragma mark - Helper
 
 - (MSUserExtension *)userExtensionWithDummyValues:(NSDictionary *)dummyValues {
@@ -543,6 +609,12 @@
   sdkExt.seq = [dummyValues[kMSSDKSeq] longLongValue];
   sdkExt.installId = dummyValues[kMSSDKInstallId];
   return sdkExt;
+}
+
+- (MSCSData *)dataWithDummyValues:(NSDictionary *)dummyValues {
+  MSCSData *data = [MSCSData new];
+  data.properties = dummyValues[kMSDataProperties];
+  return data;
 }
 
 @end
