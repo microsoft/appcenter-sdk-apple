@@ -69,6 +69,15 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
  */
 - (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query;
 
+/**
+ * Get columns indexes from schema.
+ *
+ * @param schema Schema describing the database.
+ *
+ * @return Database tables columns indexes.
+ */
++ (NSDictionary *)columnsIndexes:(MSDBSchema *)schema;
+
 @end
 
 NS_ASSUME_NONNULL_END

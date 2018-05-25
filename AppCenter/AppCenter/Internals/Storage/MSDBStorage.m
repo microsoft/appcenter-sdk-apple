@@ -86,6 +86,20 @@
   return tableQueries.count;
 }
 
++ (NSDictionary *)columnsIndexes:(MSDBSchema *)schema {
+  NSMutableDictionary *dbColumnsIndexes = [NSMutableDictionary new];
+  for (NSString *tableName in schema) {
+    NSMutableDictionary *tableColumnsIndexes = [NSMutableDictionary new];
+    NSArray<NSDictionary *> *columns = schema[tableName];
+    for (NSUInteger i = 0; i < columns.count; i++) {
+      NSString *columnName = columns[i].allKeys[0];
+      [tableColumnsIndexes setObject:@(i) forKey:columnName];
+    }
+    [dbColumnsIndexes setObject:tableColumnsIndexes forKey:tableName];
+  }
+  return dbColumnsIndexes;
+}
+
 + (BOOL)tableExists:(NSString *)tableName inDatabase:(void *)db {
   NSString *query = [NSString
       stringWithFormat:@"SELECT COUNT(*) FROM \"sqlite_master\" WHERE \"type\"='table' AND \"name\"='%@';", tableName];

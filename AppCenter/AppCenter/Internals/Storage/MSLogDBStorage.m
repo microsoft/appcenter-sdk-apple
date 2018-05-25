@@ -21,7 +21,7 @@ static const NSUInteger kMSSchemaVersion = 1;
   };
   self = [super initWithSchema:schema version:kMSSchemaVersion filename:kMSDBFileName];
   if (self) {
-    NSDictionary *columnIndexes = [MSLogDBStorage getColumnsIndexes:schema];
+    NSDictionary *columnIndexes = [MSDBStorage columnsIndexes:schema];
     _idColumnIndex = ((NSNumber *)columnIndexes[kMSLogTableName][kMSIdColumnName]).unsignedIntegerValue;
     _groupIdColumnIndex = ((NSNumber *)columnIndexes[kMSLogTableName][kMSGroupIdColumnName]).unsignedIntegerValue;
     _logColumnIndex = ((NSNumber *)columnIndexes[kMSLogTableName][kMSLogColumnName]).unsignedIntegerValue;
@@ -36,20 +36,6 @@ static const NSUInteger kMSSchemaVersion = 1;
     _capacity = capacity;
   }
   return self;
-}
-
-+ (NSDictionary *)getColumnsIndexes:(MSDBSchema *)schema {
-  NSMutableDictionary *dbColumnsIndexes = [NSMutableDictionary new];
-  for (NSString *tableName in schema) {
-    NSMutableDictionary *tableColumnsIndexes = [NSMutableDictionary new];
-    NSArray<NSDictionary *> *columns = schema[tableName];
-    for (NSUInteger i = 0; i < columns.count; i++) {
-      NSString *columnName = columns[i].allKeys[0];
-      [tableColumnsIndexes setObject:@(i) forKey:columnName];
-    }
-    [dbColumnsIndexes setObject:tableColumnsIndexes forKey:tableName];
-  }
-  return dbColumnsIndexes;
 }
 
 #pragma mark - Save logs
