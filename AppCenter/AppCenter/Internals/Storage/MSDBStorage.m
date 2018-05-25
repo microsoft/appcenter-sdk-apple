@@ -26,7 +26,7 @@
       NSUInteger databaseVersion = [MSDBStorage getVersionInDatabase:db];
       if (databaseVersion < version && !newDatabase) {
         MSLogInfo([MSAppCenter logTag], @"Migrate \"%@\" database from %lu to %lu version.",
-                   filename, databaseVersion, version);
+                   filename, (unsigned long)databaseVersion, (unsigned long)version);
         [self migrateDatabase:db fromVersion:databaseVersion];
       }
       [MSDBStorage setVersion:version inDatabase:db];
@@ -99,7 +99,7 @@
 }
 
 + (void)setVersion:(NSUInteger)version inDatabase:(void *)db {
-  NSString *query = [NSString stringWithFormat:@"PRAGMA user_version = %lu", version];
+  NSString *query = [NSString stringWithFormat:@"PRAGMA user_version = %lu", (unsigned long)version];
   [MSDBStorage executeNonSelectionQuery:query inDatabase:db];
 }
 
