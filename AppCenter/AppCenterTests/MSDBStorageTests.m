@@ -154,6 +154,17 @@ static NSString *const kMSTestMealColName = @"meal";
   
   // Then
   OCMVerifyAll(dbStorage);
+  
+  // If
+  // Migrate shouldn't be called in a new database.
+  [dbStorage deleteDatabase];
+  OCMReject([[dbStorage ignoringNonObjectArgs] migrateDatabase:[OCMArg anyPointer] fromVersion:0]);
+  
+  // When
+  (void)[dbStorage initWithSchema:self.schema version:2 filename:kMSTestDBFileName];
+  
+  // Then
+  OCMVerifyAll(dbStorage);
 }
 
 - (void)testExecuteQuery {
