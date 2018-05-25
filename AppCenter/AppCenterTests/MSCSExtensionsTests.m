@@ -1,6 +1,7 @@
 #import "MSAppExtension.h"
 #import "MSCSConstants.h"
 #import "MSCSData.h"
+#import "MSCSExtensions.h"
 #import "MSLocExtension.h"
 #import "MSNetExtension.h"
 #import "MSOSExtension.h"
@@ -10,6 +11,8 @@
 #import "MSUserExtension.h"
 
 @interface MSCSExtensionsTests : XCTestCase
+@property(nonatomic) MSCSExtensions *ext;
+@property(nonatomic) NSDictionary *extDummyValues;
 @property(nonatomic) MSUserExtension *userExt;
 @property(nonatomic) NSDictionary *userExtDummyValues;
 @property(nonatomic) MSLocExtension *locExt;
@@ -32,6 +35,18 @@
 
 - (void)setUp {
   [super setUp];
+
+  // Set up all extensions with dummy values.
+  self.extDummyValues = @{
+    kMSCSUserExt : [MSUserExtension new],
+    kMSCSLocExt : [MSLocExtension new],
+    kMSCSOSExt : [MSOSExtension new],
+    kMSCSAppExt : [MSAppExtension new],
+    kMSCSProtocolExt : [MSProtocolExtension new],
+    kMSCSNetExt : [MSNetExtension new],
+    kMSCSSDKExt : [MSSDKExtension new]
+  };
+  self.ext = [self extensionsWithDummyValues:self.extDummyValues];
   self.userExtDummyValues = @{ kMSUserLocale : @"en-us" };
   self.userExt = [self userExtensionWithDummyValues:self.userExtDummyValues];
   self.locExtDummyValues = @{ kMSTimezone : @"-03:00" };
@@ -51,6 +66,109 @@
     kMSSDKInstallId : @"41b61ab0-5fbc-11e8-9c2d-fa7ae01bbebc"
   };
   self.sdkExt = [self sdkExtensionWithDummyValues:self.sdkExtDummyValues];
+}
+
+#pragma mark - MSCSExtensions
+
+- (void)testExtJSONSerializingToDictionary {
+
+  // When
+  NSMutableDictionary *dict = [self.ext serializeToDictionary];
+
+  // Then
+  XCTAssertNotNil(dict);
+  XCTAssertEqualObjects(dict, self.extDummyValues);
+}
+
+- (void)testExtNSCodingSerializationAndDeserialization {
+
+  // When
+  NSData *serializedExt = [NSKeyedArchiver archivedDataWithRootObject:self.ext];
+  MSCSExtensions *actualExt = [NSKeyedUnarchiver unarchiveObjectWithData:serializedExt];
+
+  // Then
+  XCTAssertNotNil(actualExt);
+  XCTAssertEqualObjects(self.ext, actualExt);
+  XCTAssertTrue([actualExt isMemberOfClass:[MSCSExtensions class]]);
+  XCTAssertEqualObjects(actualExt.userExt, self.extDummyValues[kMSCSUserExt]);
+  XCTAssertEqualObjects(actualExt.locExt, self.extDummyValues[kMSCSLocExt]);
+  XCTAssertEqualObjects(actualExt.appExt, self.extDummyValues[kMSCSAppExt]);
+  XCTAssertEqualObjects(actualExt.protocolExt, self.extDummyValues[kMSCSProtocolExt]);
+  XCTAssertEqualObjects(actualExt.osExt, self.extDummyValues[kMSCSOSExt]);
+  XCTAssertEqualObjects(actualExt.netExt, self.extDummyValues[kMSCSNetExt]);
+  XCTAssertEqualObjects(actualExt.sdkExt, self.extDummyValues[kMSCSSDKExt]);
+}
+
+- (void)testExtIsValid {
+
+  // If
+  MSCSExtensions *ext = [MSCSExtensions new];
+
+  // Then
+  XCTAssertTrue([ext isValid]);
+}
+
+- (void)testExtIsEqual {
+
+  // If
+  MSCSExtensions *anotherExt = [MSCSExtensions new];
+
+  // Then
+  XCTAssertNotEqualObjects(anotherExt, self.ext);
+
+  // If
+  anotherExt = [self extensionsWithDummyValues:self.extDummyValues];
+
+  // Then
+  XCTAssertEqualObjects(anotherExt, self.ext);
+
+  // If
+  anotherExt.userExt = OCMClassMock([MSUserExtension class]);
+
+  // Then
+  XCTAssertNotEqualObjects(anotherExt, self.ext);
+
+  // If
+  anotherExt.userExt = self.extDummyValues[kMSCSUserExt];
+  anotherExt.locExt = OCMClassMock([MSLocExtension class]);
+
+  // Then
+  XCTAssertNotEqualObjects(anotherExt, self.ext);
+
+  // If
+  anotherExt.locExt = self.extDummyValues[kMSCSLocExt];
+  anotherExt.osExt = OCMClassMock([MSOSExtension class]);
+
+  // Then
+  XCTAssertNotEqualObjects(anotherExt, self.ext);
+
+  // If
+  anotherExt.osExt = self.extDummyValues[kMSCSOSExt];
+  anotherExt.appExt = OCMClassMock([MSAppExtension class]);
+
+  // Then
+  XCTAssertNotEqualObjects(anotherExt, self.ext);
+
+  // If
+  anotherExt.appExt = self.extDummyValues[kMSCSAppExt];
+  anotherExt.protocolExt = OCMClassMock([MSProtocolExtension class]);
+
+  // Then
+  XCTAssertNotEqualObjects(anotherExt, self.ext);
+
+  // If
+  anotherExt.protocolExt = self.extDummyValues[kMSCSProtocolExt];
+  anotherExt.netExt = OCMClassMock([MSNetExtension class]);
+
+  // Then
+  XCTAssertNotEqualObjects(anotherExt, self.ext);
+
+  // If
+  anotherExt.netExt = self.extDummyValues[kMSCSNetExt];
+  anotherExt.sdkExt = OCMClassMock([MSSDKExtension class]);
+
+  // Then
+  XCTAssertNotEqualObjects(anotherExt, self.ext);
 }
 
 #pragma mark - MSUserExtension
@@ -543,6 +661,18 @@
   sdkExt.seq = [dummyValues[kMSSDKSeq] longLongValue];
   sdkExt.installId = dummyValues[kMSSDKInstallId];
   return sdkExt;
+}
+
+- (MSCSExtensions *)extensionsWithDummyValues:(NSDictionary *)dummyValues {
+  MSCSExtensions *ext = [MSCSExtensions new];
+  ext.userExt = dummyValues[kMSCSUserExt];
+  ext.locExt = dummyValues[kMSCSLocExt];
+  ext.osExt = dummyValues[kMSCSOSExt];
+  ext.appExt = dummyValues[kMSCSAppExt];
+  ext.protocolExt = dummyValues[kMSCSProtocolExt];
+  ext.netExt = dummyValues[kMSCSNetExt];
+  ext.sdkExt = dummyValues[kMSCSSDKExt];
+  return ext;
 }
 
 @end
