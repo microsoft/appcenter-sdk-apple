@@ -41,12 +41,12 @@
 #pragma mark - NSObject
 
 - (BOOL)isEqual:(id)object {
-  if (![object isKindOfClass:[MSCommonSchemaLog class]]) {
+  if (![object isKindOfClass:[MSCommonSchemaLog class]] || ![super isEqual:object]) {
     return NO;
   }
 
   MSCommonSchemaLog *csLog = (MSCommonSchemaLog *)object;
-  return ((!self.ver && !csLog.ver) || [self.ver isEqualToString:csLog.ver]) &&
+  return [super isValid] && ((!self.ver && !csLog.ver) || [self.ver isEqualToString:csLog.ver]) &&
          ((!self.name && !csLog.name) || [self.name isEqualToString:csLog.name]) && self.time == csLog.time &&
          self.popSample == csLog.popSample && ((!self.iKey && !csLog.iKey) || [self.iKey isEqualToString:csLog.iKey]) &&
          self.flags == csLog.flags && ((!self.cV && !csLog.cV) || [self.cV isEqualToString:csLog.cV]) &&
