@@ -1,3 +1,4 @@
+
 #import "MSOSExtension.h"
 #import "MSCSConstants.h"
 
@@ -19,7 +20,9 @@
 #pragma mark - MSModel
 
 - (BOOL)isValid {
-  return self.ver && self.name;
+
+  // All attributes are optional.
+  return YES;
 }
 
 #pragma mark - NSObject

@@ -16,7 +16,9 @@
 #pragma mark - MSModel
 
 - (BOOL)isValid {
-  return self.properties;
+
+  // All attributes are optional.
+  return YES;
 }
 
 #pragma mark - NSObject

@@ -84,12 +84,6 @@
   MSUserExtension *userExt = [MSUserExtension new];
 
   // Then
-  XCTAssertFalse([userExt isValid]);
-
-  // If
-  userExt.locale = self.userExtDummyValues[kMSUserLocale];
-
-  // Then
   XCTAssertTrue([userExt isValid]);
 }
 
@@ -143,12 +137,6 @@
 
   // If
   MSLocExtension *locExt = [MSLocExtension new];
-
-  // Then
-  XCTAssertFalse([locExt isValid]);
-
-  // If
-  locExt.timezone = self.locExtDummyValues[kMSTimezone];
 
   // Then
   XCTAssertTrue([locExt isValid]);
@@ -205,18 +193,6 @@
 
   // If
   MSOSExtension *osExt = [MSOSExtension new];
-
-  // Then
-  XCTAssertFalse([osExt isValid]);
-
-  // If
-  osExt.name = self.osExtDummyValues[kMSOSName];
-
-  // Then
-  XCTAssertFalse([osExt isValid]);
-
-  // If
-  osExt.ver = self.osExtDummyValues[kMSOSVer];
 
   // Then
   XCTAssertTrue([osExt isValid]);
@@ -281,24 +257,6 @@
 
   // If
   MSAppExtension *appExt = [MSAppExtension new];
-
-  // Then
-  XCTAssertFalse([appExt isValid]);
-
-  // If
-  appExt.appId = self.appExtDummyValues[kMSAppId];
-
-  // Then
-  XCTAssertFalse([appExt isValid]);
-
-  // If
-  appExt.ver = self.appExtDummyValues[kMSAppVer];
-
-  // Then
-  XCTAssertFalse([appExt isValid]);
-
-  // If
-  appExt.locale = self.appExtDummyValues[kMSAppLocale];
 
   // Then
   XCTAssertTrue([appExt isValid]);
@@ -371,18 +329,6 @@
   MSProtocolExtension *protocolExt = [MSProtocolExtension new];
 
   // Then
-  XCTAssertFalse([protocolExt isValid]);
-
-  // If
-  protocolExt.devMake = self.protocolExtDummyValues[kMSDevMake];
-
-  // Then
-  XCTAssertFalse([protocolExt isValid]);
-
-  // If
-  protocolExt.devModel = self.protocolExtDummyValues[kMSDevModel];
-
-  // Then
   XCTAssertTrue([protocolExt isValid]);
 }
 
@@ -445,12 +391,6 @@
   MSNetExtension *netExt = [MSNetExtension new];
 
   // Then
-  XCTAssertFalse([netExt isValid]);
-
-  // If
-  netExt.provider = self.netExtDummyValues[kMSNetProvider];
-
-  // Then
   XCTAssertTrue([netExt isValid]);
 }
 
@@ -507,30 +447,6 @@
 
   // If
   MSSDKExtension *sdkExt = [MSSDKExtension new];
-
-  // Then
-  XCTAssertFalse([sdkExt isValid]);
-
-  // If
-  sdkExt.libVer = self.sdkExtDummyValues[kMSSDKLibVer];
-
-  // Then
-  XCTAssertFalse([sdkExt isValid]);
-
-  // If
-  sdkExt.epoch = self.sdkExtDummyValues[kMSSDKEpoch];
-
-  // Then
-  XCTAssertFalse([sdkExt isValid]);
-
-  // If
-  sdkExt.seq = [self.sdkExtDummyValues[kMSSDKSeq] longLongValue];
-
-  // Then
-  XCTAssertFalse([sdkExt isValid]);
-
-  // If
-  sdkExt.installId = self.sdkExtDummyValues[kMSSDKInstallId];
 
   // Then
   XCTAssertTrue([sdkExt isValid]);

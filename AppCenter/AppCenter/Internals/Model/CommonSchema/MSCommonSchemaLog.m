@@ -36,7 +36,7 @@
 #pragma mark - MSModel
 
 - (BOOL)isValid {
-  return self.ver && self.name && self.iKey && self.cV && [self.ext isValid] && [self.data isValid];
+  return self.ver && self.name && self.time && [self.ext isValid] && [self.data isValid];
 }
 
 #pragma mark - NSObject

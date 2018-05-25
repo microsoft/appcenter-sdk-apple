@@ -22,7 +22,9 @@
 #pragma mark - MSModel
 
 - (BOOL)isValid {
-  return self.appId && self.ver && self.locale;
+
+  // All attributes are optional.
+  return YES;
 }
 
 #pragma mark - NSObject

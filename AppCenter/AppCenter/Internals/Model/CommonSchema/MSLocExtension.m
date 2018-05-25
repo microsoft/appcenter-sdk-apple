@@ -16,9 +16,10 @@
 #pragma mark - MSModel
 
 - (BOOL)isValid {
-  return self.timezone;
-}
 
+  // All attributes are optional.
+  return YES;
+}
 #pragma mark - NSObject
 
 - (BOOL)isEqual:(id)object {
