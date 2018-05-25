@@ -36,6 +36,16 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *
  */
++ (NSUInteger)getVersionInDatabase:(void *)db;
+
+/**
+ *
+ */
++ (void)setVersion:(NSUInteger)version inDatabase:(void *)db;
+
+/**
+ *
+ */
 + (int)executeNonSelectionQuery:(NSString *)query inDatabase:(void *)db;
 
 /**

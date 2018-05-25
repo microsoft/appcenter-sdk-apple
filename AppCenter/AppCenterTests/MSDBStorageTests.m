@@ -58,12 +58,10 @@ static NSString *const kMSTestMealColName = @"meal";
 
   // When
   self.sut = [[MSDBStorage alloc] initWithSchema:testSchema version:0 filename:kMSTestDBFileName];
-  result = [self.sut
-      executeSelectionQuery:[NSString stringWithFormat:@"SELECT \"sql\" FROM \"sqlite_master\" WHERE \"name\"='%@'",
-                                                       testTableName]];
+  result = [self queryTable: testTableName];
 
   // Then
-  assertThat(result[0][0], is(expectedResult));
+  assertThat(result, is(expectedResult));
 
   // If
   [self.sut deleteDatabase];
@@ -82,26 +80,19 @@ static NSString *const kMSTestMealColName = @"meal";
 
   // When
   self.sut = [[MSDBStorage alloc] initWithSchema:testSchema version:0 filename:kMSTestDBFileName];
-  result = [self.sut
-      executeSelectionQuery:[NSString stringWithFormat:@"SELECT \"sql\" FROM \"sqlite_master\" WHERE \"name\"='%@'",
-                                                       testTableName]];
-  result2 = [self.sut
-      executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM \"sqlite_master\" WHERE \"name\"='%@'",
-                                                       testTableName2]];
+  result = [self queryTable: testTableName];
+  result2 = [self queryTable: testTableName2];
 
   // Then
-  assertThat(result[0][0], is(expectedResult));
-  assertThat(result2[0][0], is(expectedResult2));
+  assertThat(result, is(expectedResult));
+  assertThat(result2, is(expectedResult2));
 }
 
 - (void)testTableExists {
   [self.sut executeWithDatabase:^int(void *db) {
 
-    // If
-    BOOL tableExists;
-    
     // When
-    tableExists = [MSDBStorage tableExists:kMSTestTableName inDatabase:db];
+    BOOL tableExists = [MSDBStorage tableExists:kMSTestTableName inDatabase:db];
     
     // Then
     assertThatBool(tableExists, isTrue());
@@ -118,6 +109,51 @@ static NSString *const kMSTestMealColName = @"meal";
     
     return 0;
   }];
+}
+
+- (void)testVersion {
+  [self.sut executeWithDatabase:^int(void *db) {
+
+    // When
+    NSUInteger version = [MSDBStorage getVersionInDatabase:db];
+    
+    // Then
+    assertThatUnsignedInteger(version, equalToUnsignedInt(0));
+    
+    // When
+    [MSDBStorage setVersion:1 inDatabase:db];
+    version = [MSDBStorage getVersionInDatabase:db];
+    
+    // Then
+    assertThatUnsignedInteger(version, equalToUnsignedInt(1));
+    
+    return 0;
+  }];
+  
+  // After re-open.
+  [self.sut executeWithDatabase:^int(void *db) {
+    
+    // When
+    NSUInteger version = [MSDBStorage getVersionInDatabase:db];
+
+    // Then
+    assertThatUnsignedInteger(version, equalToUnsignedInt(1));
+    
+    return 0;
+  }];
+}
+
+- (void)testMigration {
+  
+  // If
+  id dbStorage = OCMPartialMock(self.sut);
+  OCMExpect([dbStorage migrateDatabase:[OCMArg anyPointer] fromVersion:0]);
+  
+  // When
+  (void)[dbStorage initWithSchema:self.schema version:1 filename:kMSTestDBFileName];
+  
+  // Then
+  OCMVerifyAll(dbStorage);
 }
 
 - (void)testExecuteQuery {
@@ -267,6 +303,10 @@ static NSString *const kMSTestMealColName = @"meal";
     [self.sut executeNonSelectionQuery:insertQuery];
   }
   return guys;
+}
+
+- (NSString *)queryTable:(NSString *)tableName {
+  return [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'", tableName]][0][0];
 }
 
 @end

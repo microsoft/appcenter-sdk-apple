@@ -459,7 +459,42 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
   assertThat(expectedLogs, is(loadedLogs));
 }
 
+- (void)testMigration {
+  
+  // If
+  [self.sut deleteDatabase];
+  
+  // Create old version db.
+  // DO NOT CHANGE. THIS IS ALREADY PUBLISHED SCHEMA.
+  MSDBSchema *schema0 = @{
+   kMSLogTableName : @[
+     @{kMSIdColumnName : @[ kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey, kMSSQLiteConstraintAutoincrement ]},
+     @{kMSGroupIdColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]},
+     @{kMSLogColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]}
+   ]
+  };
+  MSDBStorage * storage0 = [[MSDBStorage alloc] initWithSchema:schema0 version:0 filename:kMSDBFileName];
+  [self generateAndSaveLogsWithCount:10 groupId:kMSTestGroupId storage:storage0];
+  
+  // When
+  self.sut = [[MSLogDBStorage alloc] initWithCapacity:kMSTestMaxCapacity];
+  
+  // Then
+  assertThatInt([self loadLogsWhere:nil].count, equalToUnsignedInt(10));
+  NSString *currentTable = [self.sut executeSelectionQuery:
+      [NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'", kMSLogTableName]][0][0];
+  assertThat(currentTable, is(@"CREATE TABLE \"logs\" ("
+                              @"\"id\" INTEGER PRIMARY KEY AUTOINCREMENT, "
+                              @"\"groupId\" TEXT NOT NULL, "
+                              @"\"log\" TEXT NOT NULL, "
+                              @"\"targetToken\" TEXT)"));
+}
+
 - (NSArray<id<MSLog>> *)generateAndSaveLogsWithCount:(NSUInteger)count groupId:(NSString *)groupId {
+  return [self generateAndSaveLogsWithCount:count groupId:groupId storage:self.sut];
+}
+
+- (NSArray<id<MSLog>> *)generateAndSaveLogsWithCount:(NSUInteger)count groupId:(NSString *)groupId storage:(MSDBStorage *)storage {
   NSMutableArray<id<MSLog>> *logs = [NSMutableArray arrayWithCapacity:count];
   NSUInteger truelogCount;
   for (NSUInteger i = 0; i < count; ++i) {
@@ -470,13 +505,13 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
     NSString *addLogQuery =
         [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\") VALUES ('%@', '%@')", kMSLogTableName,
                                    kMSGroupIdColumnName, kMSLogColumnName, groupId, base64Data];
-    [self.sut executeNonSelectionQuery:addLogQuery];
+    [storage executeNonSelectionQuery:addLogQuery];
     [logs addObject:log];
   }
 
   // Check the insertion worked.
   truelogCount =
-      [self.sut countEntriesForTable:kMSLogTableName
+      [storage countEntriesForTable:kMSLogTableName
                            condition:[NSString stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, groupId]];
   assertThatUnsignedInteger(truelogCount, equalToUnsignedInteger(count));
   return logs;
