@@ -42,10 +42,10 @@ extern NSString *const kMSNetProvider;
 
 #pragma mark - MSSDKExtension
 
-extern NSString *const kMSSdkLibVer;
-extern NSString *const kMSSdkEpoch;
-extern NSString *const kMSSdkSeq;
-extern NSString *const kMSSdkInstallId;
+extern NSString *const kMSSDKLibVer;
+extern NSString *const kMSSDKEpoch;
+extern NSString *const kMSSDKSeq;
+extern NSString *const kMSSDKInstallId;
 
 #pragma mark - MSCSData
 

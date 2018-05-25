@@ -42,10 +42,10 @@ NSString *const kMSNetProvider = @"provider";
 
 #pragma mark - MSSDKExtension
 
-NSString *const kMSSdkLibVer = @"libVer";
-NSString *const kMSSdkEpoch = @"epoch";
-NSString *const kMSSdkSeq = @"seq";
-NSString *const kMSSdkInstallId = @"installId";
+NSString *const kMSSDKLibVer = @"libVer";
+NSString *const kMSSDKEpoch = @"epoch";
+NSString *const kMSSDKSeq = @"seq";
+NSString *const kMSSDKInstallId = @"installId";
 
 #pragma mark - MSCSData
 

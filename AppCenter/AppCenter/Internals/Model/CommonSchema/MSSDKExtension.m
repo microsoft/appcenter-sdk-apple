@@ -8,14 +8,14 @@
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [NSMutableDictionary new];
   if (self.libVer) {
-    dict[kMSSdkLibVer] = self.libVer;
+    dict[kMSSDKLibVer] = self.libVer;
   }
   if (self.epoch) {
-    dict[kMSSdkEpoch] = self.epoch;
+    dict[kMSSDKEpoch] = self.epoch;
   }
-  dict[kMSSdkSeq] = @(self.seq);
+  dict[kMSSDKSeq] = @(self.seq);
   if (self.installId) {
-    dict[kMSSdkInstallId] = self.installId;
+    dict[kMSSDKInstallId] = self.installId;
   }
   return dict;
 }
@@ -42,19 +42,19 @@
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
   if ((self = [super init])) {
-    _libVer = [coder decodeObjectForKey:kMSSdkLibVer];
-    _epoch = [coder decodeObjectForKey:kMSSdkEpoch];
-    _seq = [coder decodeObjectForKey:kMSSdkSeq];
-    _installId = [coder decodeObjectForKey:kMSSdkInstallId];
+    _libVer = [coder decodeObjectForKey:kMSSDKLibVer];
+    _epoch = [coder decodeObjectForKey:kMSSDKEpoch];
+    _seq = [coder decodeInt64ForKey:kMSSDKSeq];
+    _installId = [coder decodeObjectForKey:kMSSDKInstallId];
   }
   return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
-  [coder encodeObject:self.libVer forKey:kMSSdkLibVer];
-  [coder encodeObject:self.epoch forKey:kMSSdkEpoch];
-  [coder encodeInt64:self.seq forKey:kMSSdkSeq];
-  [coder encodeObject:self.installId forKey:kMSSdkInstallId];
+  [coder encodeObject:self.libVer forKey:kMSSDKLibVer];
+  [coder encodeObject:self.epoch forKey:kMSSDKEpoch];
+  [coder encodeInt64:self.seq forKey:kMSSDKSeq];
+  [coder encodeObject:self.installId forKey:kMSSDKInstallId];
 }
 
 @end
