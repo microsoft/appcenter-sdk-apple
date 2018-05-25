@@ -45,7 +45,7 @@
   if (result == SQLITE_OK) {
     result = callback(db);
   } else {
-    MSLogError([MSAppCenter logTag], @"Failed to open database for non-selection query with result: %d.", result);
+    MSLogError([MSAppCenter logTag], @"Failed to open database with result: %d.", result);
   }
   sqlite3_close(db);
   return SQLITE_OK == result;
