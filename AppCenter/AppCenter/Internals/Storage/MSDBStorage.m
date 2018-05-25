@@ -23,7 +23,7 @@
       NSUInteger tablesCreated = [MSDBStorage createTablesWithSchema:schema inDatabase:db];
       
       BOOL newDatabase = tablesCreated == schema.count;
-      NSUInteger databaseVersion = [MSDBStorage getVersionInDatabase:db];
+      NSUInteger databaseVersion = [MSDBStorage versionInDatabase:db];
       if (databaseVersion < version && !newDatabase) {
         MSLogInfo([MSAppCenter logTag], @"Migrate \"%@\" database from %lu to %lu version.",
                    filename, (unsigned long)databaseVersion, (unsigned long)version);
@@ -107,7 +107,7 @@
   return (result.count > 0) ? [result[0][0] boolValue] : NO;
 }
 
-+ (NSUInteger)getVersionInDatabase:(void *)db {
++ (NSUInteger)versionInDatabase:(void *)db {
   NSArray *result = [MSDBStorage executeSelectionQuery:@"PRAGMA user_version" inDatabase:db];
   return [result[0][0] unsignedIntegerValue];
 }

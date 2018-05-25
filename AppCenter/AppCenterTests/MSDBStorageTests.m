@@ -115,14 +115,14 @@ static NSString *const kMSTestMealColName = @"meal";
   [self.sut executeWithDatabase:^int(void *db) {
 
     // When
-    NSUInteger version = [MSDBStorage getVersionInDatabase:db];
+    NSUInteger version = [MSDBStorage versionInDatabase:db];
     
     // Then
     assertThatUnsignedInteger(version, equalToUnsignedInt(0));
     
     // When
     [MSDBStorage setVersion:1 inDatabase:db];
-    version = [MSDBStorage getVersionInDatabase:db];
+    version = [MSDBStorage versionInDatabase:db];
     
     // Then
     assertThatUnsignedInteger(version, equalToUnsignedInt(1));
@@ -134,7 +134,7 @@ static NSString *const kMSTestMealColName = @"meal";
   [self.sut executeWithDatabase:^int(void *db) {
     
     // When
-    NSUInteger version = [MSDBStorage getVersionInDatabase:db];
+    NSUInteger version = [MSDBStorage versionInDatabase:db];
 
     // Then
     assertThatUnsignedInteger(version, equalToUnsignedInt(1));

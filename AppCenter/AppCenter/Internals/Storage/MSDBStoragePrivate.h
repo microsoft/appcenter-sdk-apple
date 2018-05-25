@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param db Database handle.
  */
-+ (NSUInteger)getVersionInDatabase:(void *)db;
++ (NSUInteger)versionInDatabase:(void *)db;
 
 /**
  * Set current database version.
