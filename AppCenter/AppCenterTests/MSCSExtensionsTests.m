@@ -66,6 +66,11 @@
     kMSSDKInstallId : @"41b61ab0-5fbc-11e8-9c2d-fa7ae01bbebc"
   };
   self.sdkExt = [self sdkExtensionWithDummyValues:self.sdkExtDummyValues];
+  self.dataDummyValues = @{
+    kMSDataProperties :
+        @{@"data.key.a" : @"data.value.a", @"data.key.b" : @"data.value.b", @"data.key.c" : @"data.value.c"}
+  };
+  self.data = [self dataWithDummyValues:self.dataDummyValues];
 }
 
 #pragma mark - MSCSExtensions
@@ -612,7 +617,74 @@
   XCTAssertNotEqualObjects(anotherSDKExt, self.appExt);
 }
 
+#pragma mark - MSCSData
+
+- (void)testDataJSONSerializingToDictionary {
+
+  // When
+  NSMutableDictionary *dict = [self.data serializeToDictionary];
+
+  // Then
+  XCTAssertNotNil(dict);
+  XCTAssertEqualObjects(dict, self.dataDummyValues);
+}
+
+- (void)testDataNSCodingSerializationAndDeserialization {
+
+  // When
+  NSData *serializedData = [NSKeyedArchiver archivedDataWithRootObject:self.data];
+  MSCSData *actualData = [NSKeyedUnarchiver unarchiveObjectWithData:serializedData];
+
+  // Then
+  XCTAssertNotNil(actualData);
+  XCTAssertEqualObjects(self.data, actualData);
+  XCTAssertTrue([actualData isMemberOfClass:[MSCSData class]]);
+  XCTAssertEqualObjects(actualData.properties, self.dataDummyValues[kMSDataProperties]);
+}
+
+- (void)testDataIsValid {
+
+  // If
+  MSCSData *data = [MSCSData new];
+
+  // Then
+  XCTAssertTrue([data isValid]);
+}
+
+- (void)testDataIsEqual {
+
+  // If
+  MSCSData *anotherData = [MSCSData new];
+
+  // Then
+  XCTAssertNotEqualObjects(anotherData, self.data);
+
+  // If
+  anotherData = [self dataWithDummyValues:self.dataDummyValues];
+
+  // Then
+  XCTAssertEqualObjects(anotherData, self.data);
+
+  // If
+  anotherData.properties = [@{ kMSDataProperties : @{@"part.c.key" : @"part.c.value"} } mutableCopy];
+
+  // Then
+  XCTAssertNotEqualObjects(anotherData, self.data);
+}
+
 #pragma mark - Helper
+
+- (MSCSExtensions *)extensionsWithDummyValues:(NSDictionary *)dummyValues {
+  MSCSExtensions *ext = [MSCSExtensions new];
+  ext.userExt = dummyValues[kMSCSUserExt];
+  ext.locExt = dummyValues[kMSCSLocExt];
+  ext.osExt = dummyValues[kMSCSOSExt];
+  ext.appExt = dummyValues[kMSCSAppExt];
+  ext.protocolExt = dummyValues[kMSCSProtocolExt];
+  ext.netExt = dummyValues[kMSCSNetExt];
+  ext.sdkExt = dummyValues[kMSCSSDKExt];
+  return ext;
+}
 
 - (MSUserExtension *)userExtensionWithDummyValues:(NSDictionary *)dummyValues {
   MSUserExtension *userExt = [MSUserExtension new];
@@ -663,16 +735,10 @@
   return sdkExt;
 }
 
-- (MSCSExtensions *)extensionsWithDummyValues:(NSDictionary *)dummyValues {
-  MSCSExtensions *ext = [MSCSExtensions new];
-  ext.userExt = dummyValues[kMSCSUserExt];
-  ext.locExt = dummyValues[kMSCSLocExt];
-  ext.osExt = dummyValues[kMSCSOSExt];
-  ext.appExt = dummyValues[kMSCSAppExt];
-  ext.protocolExt = dummyValues[kMSCSProtocolExt];
-  ext.netExt = dummyValues[kMSCSNetExt];
-  ext.sdkExt = dummyValues[kMSCSSDKExt];
-  return ext;
+- (MSCSData *)dataWithDummyValues:(NSDictionary *)dummyValues {
+  MSCSData *data = [MSCSData new];
+  data.properties = dummyValues[kMSDataProperties];
+  return data;
 }
 
 @end
