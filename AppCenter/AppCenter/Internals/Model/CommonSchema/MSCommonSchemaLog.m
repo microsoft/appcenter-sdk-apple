@@ -29,14 +29,13 @@
   if (self.data) {
     dict[kMSCSData] = self.data;
   }
-
   return dict;
 }
 
 #pragma mark - MSModel
 
 - (BOOL)isValid {
-  return self.ver && self.name && self.time && [self.ext isValid] && [self.data isValid];
+  return self.ver && self.name && self.time && [self.ext isValid] && (!self.data || [self.data isValid]);
 }
 
 #pragma mark - NSObject

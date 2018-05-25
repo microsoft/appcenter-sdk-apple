@@ -34,8 +34,10 @@
 #pragma mark - MSModel
 
 - (BOOL)isValid {
-  return [self.protocolExt isValid] && [self.userExt isValid] && [self.osExt isValid] && [self.appExt isValid] &&
-         [self.netExt isValid] && [self.sdkExt isValid] && [self.locExt isValid];
+  return (!self.protocolExt || [self.protocolExt isValid]) && (!self.userExt || [self.userExt isValid]) &&
+         (!self.osExt || [self.osExt isValid]) && (!self.appExt || [self.appExt isValid]) &&
+         (!self.netExt || [self.netExt isValid]) && (!self.sdkExt || [self.sdkExt isValid]) &&
+         (!self.locExt || [self.locExt isValid]);
 }
 
 #pragma mark - NSObject
