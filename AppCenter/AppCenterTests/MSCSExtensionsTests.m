@@ -530,12 +530,6 @@
   MSCSData *data = [MSCSData new];
 
   // Then
-  XCTAssertFalse([data isValid]);
-
-  // If
-  data.properties = self.dataDummyValues[kMSDataProperties];
-
-  // Then
   XCTAssertTrue([data isValid]);
 }
 
