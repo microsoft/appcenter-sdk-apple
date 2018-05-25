@@ -15,11 +15,12 @@
       @{kMSLogColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]}
     ]
   };
-  self = [super initWithSchema:schema filename:kMSDBFileName];
+  self = [super initWithSchema:schema version:1 filename:kMSDBFileName];
   if (self) {
-    _idColumnIndex = self.columnIndexes[kMSLogTableName][kMSIdColumnName].unsignedIntegerValue;
-    _groupIdColumnIndex = self.columnIndexes[kMSLogTableName][kMSGroupIdColumnName].unsignedIntegerValue;
-    _logColumnIndex = self.columnIndexes[kMSLogTableName][kMSLogColumnName].unsignedIntegerValue;
+    NSDictionary *columnIndexes = [MSLogDBStorage getColumnsIndexes:schema];
+    _idColumnIndex = ((NSNumber *)columnIndexes[kMSLogTableName][kMSIdColumnName]).unsignedIntegerValue;
+    _groupIdColumnIndex = ((NSNumber *)columnIndexes[kMSLogTableName][kMSGroupIdColumnName]).unsignedIntegerValue;
+    _logColumnIndex = ((NSNumber *)columnIndexes[kMSLogTableName][kMSLogColumnName]).unsignedIntegerValue;
     _capacity = NSUIntegerMax;
     _batches = [NSMutableDictionary<NSString *, NSArray<NSNumber *> *> new];
   }
@@ -31,6 +32,20 @@
     _capacity = capacity;
   }
   return self;
+}
+
++ (NSDictionary *)getColumnsIndexes:(MSDBSchema *)schema {
+  NSMutableDictionary *dbColumnsIndexes = [NSMutableDictionary new];
+  for (NSString *tableName in schema) {
+    NSMutableDictionary *tableColumnsIndexes = [NSMutableDictionary new];
+    NSArray<NSDictionary *> *columns = schema[tableName];
+    for (NSUInteger i = 0; i < columns.count; i++) {
+      NSString *columnName = columns[i].allKeys[0];
+      [tableColumnsIndexes setObject:@(i) forKey:columnName];
+    }
+    [dbColumnsIndexes setObject:tableColumnsIndexes forKey:tableName];
+  }
+  return dbColumnsIndexes;
 }
 
 #pragma mark - Save logs
@@ -251,5 +266,15 @@
 - (NSUInteger)countLogs {
   return [self countEntriesForTable:kMSLogTableName condition:nil];
 }
+/*
+#pragma mark - DB migration
+
+- (void)migrateDatabase:(void *)db fromVersion:(int)version {
+  if (version == 0) {
+    NSString *migrationQuery = [NSString stringWithFormat:@"ALTER TABLE \"%@\" ADD COLUMN `%@` TEXT",
+                                kMSLogTableName, kMSTokenColumnName];
+    [self executeNonSelectionQuery:migrationQuery];
+  }
+}*/
 
 @end
