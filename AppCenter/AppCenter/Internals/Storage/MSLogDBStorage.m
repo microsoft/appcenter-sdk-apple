@@ -1,7 +1,10 @@
 #import "MSAppCenterInternal.h"
+#import "MSDBStoragePrivate.h"
 #import "MSLogDBStoragePrivate.h"
 #import "MSLogger.h"
 #import "MSUtility.h"
+
+static const NSUInteger kMSSchemaVersion = 1;
 
 @implementation MSLogDBStorage
 
@@ -12,10 +15,11 @@
     kMSLogTableName : @[
       @{kMSIdColumnName : @[ kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey, kMSSQLiteConstraintAutoincrement ]},
       @{kMSGroupIdColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]},
-      @{kMSLogColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]}
+      @{kMSLogColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]},
+      @{kMSTargetTokenColumnName : @[ kMSSQLiteTypeText ]}
     ]
   };
-  self = [super initWithSchema:schema version:1 filename:kMSDBFileName];
+  self = [super initWithSchema:schema version:kMSSchemaVersion filename:kMSDBFileName];
   if (self) {
     NSDictionary *columnIndexes = [MSLogDBStorage getColumnsIndexes:schema];
     _idColumnIndex = ((NSNumber *)columnIndexes[kMSLogTableName][kMSIdColumnName]).unsignedIntegerValue;
@@ -266,15 +270,15 @@
 - (NSUInteger)countLogs {
   return [self countEntriesForTable:kMSLogTableName condition:nil];
 }
-/*
+
 #pragma mark - DB migration
 
-- (void)migrateDatabase:(void *)db fromVersion:(int)version {
-  if (version == 0) {
+- (void)migrateDatabase:(void *)db fromVersion:(NSUInteger)version {
+  if (version < 1) {
     NSString *migrationQuery = [NSString stringWithFormat:@"ALTER TABLE \"%@\" ADD COLUMN `%@` TEXT",
-                                kMSLogTableName, kMSTokenColumnName];
-    [self executeNonSelectionQuery:migrationQuery];
+                                kMSLogTableName, kMSTargetTokenColumnName];
+    [MSDBStorage executeNonSelectionQuery:migrationQuery inDatabase:db];
   }
-}*/
+}
 
 @end

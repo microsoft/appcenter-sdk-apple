@@ -31,18 +31,18 @@ static NSString *const kMSTestMealColName = @"meal";
       @{kMSTestMealColName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]}
     ]
   };
-  self.sut = [[MSDBStorage alloc] initWithSchema:self.schema filename:kMSTestDBFileName];
+  self.sut = [[MSDBStorage alloc] initWithSchema:self.schema version:0 filename:kMSTestDBFileName];
 }
 
 - (void)tearDown {
-  [self.sut deleteDB];
+  [self.sut deleteDatabase];
   [super tearDown];
 }
 
 - (void)testInitWithSchema {
 
   // If
-  [self.sut deleteDB];
+  [self.sut deleteDatabase];
   NSString *testTableName = @"test_table", *testColumnName = @"test_column", *testColumn2Name = @"test_column2";
   NSString *expectedResult =
       [NSString stringWithFormat:@"CREATE TABLE \"%@\" (\"%@\" %@ %@ %@, \"%@\" %@ %@)", testTableName, testColumnName,
@@ -57,7 +57,7 @@ static NSString *const kMSTestMealColName = @"meal";
   id result;
 
   // When
-  self.sut = [[MSDBStorage alloc] initWithSchema:testSchema filename:kMSTestDBFileName];
+  self.sut = [[MSDBStorage alloc] initWithSchema:testSchema version:0 filename:kMSTestDBFileName];
   result = [self.sut
       executeSelectionQuery:[NSString stringWithFormat:@"SELECT \"sql\" FROM \"sqlite_master\" WHERE \"name\"='%@'",
                                                        testTableName]];
@@ -66,7 +66,7 @@ static NSString *const kMSTestMealColName = @"meal";
   assertThat(result[0][0], is(expectedResult));
 
   // If
-  [self.sut deleteDB];
+  [self.sut deleteDatabase];
   NSString *testTableName2 = @"test2_table", *testColumnName2 = @"test2_column";
   testSchema = @{
     testTableName : @[
@@ -81,7 +81,7 @@ static NSString *const kMSTestMealColName = @"meal";
   id result2;
 
   // When
-  self.sut = [[MSDBStorage alloc] initWithSchema:testSchema filename:kMSTestDBFileName];
+  self.sut = [[MSDBStorage alloc] initWithSchema:testSchema version:0 filename:kMSTestDBFileName];
   result = [self.sut
       executeSelectionQuery:[NSString stringWithFormat:@"SELECT \"sql\" FROM \"sqlite_master\" WHERE \"name\"='%@'",
                                                        testTableName]];
@@ -95,25 +95,29 @@ static NSString *const kMSTestMealColName = @"meal";
 }
 
 - (void)testTableExists {
+  [self.sut executeWithDatabase:^int(void *db) {
 
-  // If
-  BOOL tableExists;
-
-  // When
-  tableExists = [self.sut tableExists:kMSTestTableName];
-
-  // Then
-  assertThatBool(tableExists, isTrue());
-
-  // If
-  NSString *query = [NSString stringWithFormat:@"DROP TABLE \"%@\"", kMSTestTableName];
-  [self.sut executeNonSelectionQuery:query];
-
-  // When
-  tableExists = [self.sut tableExists:kMSTestTableName];
-
-  // Then
-  assertThatBool(tableExists, isFalse());
+    // If
+    BOOL tableExists;
+    
+    // When
+    tableExists = [MSDBStorage tableExists:kMSTestTableName inDatabase:db];
+    
+    // Then
+    assertThatBool(tableExists, isTrue());
+    
+    // If
+    NSString *query = [NSString stringWithFormat:@"DROP TABLE \"%@\"", kMSTestTableName];
+    [MSDBStorage executeNonSelectionQuery:query inDatabase:db];
+    
+    // When
+    tableExists = [MSDBStorage tableExists:kMSTestTableName inDatabase:db];
+    
+    // Then
+    assertThatBool(tableExists, isFalse());
+    
+    return 0;
+  }];
 }
 
 - (void)testExecuteQuery {

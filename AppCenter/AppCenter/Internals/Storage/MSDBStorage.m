@@ -94,12 +94,13 @@
 }
 
 + (NSUInteger)getVersionInDatabase:(void *)db {
-  // TODO PRAGMA user_version
-  return 0;
+  NSArray *result = [MSDBStorage executeSelectionQuery:@"PRAGMA user_version" inDatabase:db];
+  return [result[0][0] unsignedIntegerValue];
 }
 
 + (void)setVersion:(NSUInteger)version inDatabase:(void *)db {
-  // TODO PRAGMA user_version = version
+  NSString *query = [NSString stringWithFormat:@"PRAGMA user_version = %lu", version];
+  [MSDBStorage executeNonSelectionQuery:query inDatabase:db];
 }
 
 - (NSUInteger)countEntriesForTable:(NSString *)tableName condition:(nullable NSString *)condition {
@@ -112,10 +113,9 @@
 }
 
 - (BOOL)executeNonSelectionQuery:(NSString *)query {
-  int result = [self executeWithDatabase:^int(void * db) {
+  return [self executeWithDatabase:^int(void * db) {
     return [MSDBStorage executeNonSelectionQuery:query inDatabase:db];
   }];
-  return SQLITE_OK == result;
 }
 
 + (int)executeNonSelectionQuery:(NSString *)query inDatabase:(void *)db {

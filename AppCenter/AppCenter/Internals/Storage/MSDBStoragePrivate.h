@@ -20,6 +20,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)migrateDatabase:(void *)db fromVersion:(NSUInteger)version;
 
 /**
+ *
+ */
+- (BOOL)executeWithDatabase:(int (^)(void *))callback;
+
+/**
  * Check if a table exists in this database.
  *
  * @param tableName Table name.

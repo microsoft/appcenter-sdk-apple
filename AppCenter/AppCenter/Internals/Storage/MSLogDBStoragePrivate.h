@@ -8,6 +8,7 @@ static NSString *const kMSLogTableName = @"logs";
 static NSString *const kMSIdColumnName = @"id";
 static NSString *const kMSGroupIdColumnName = @"groupId";
 static NSString *const kMSLogColumnName = @"log";
+static NSString *const kMSTargetTokenColumnName = @"targetToken";
 
 @protocol MSDatabaseConnection;
 

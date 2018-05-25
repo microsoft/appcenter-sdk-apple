@@ -24,7 +24,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
 }
 
 - (void)tearDown {
-  [self.sut deleteDB];
+  [self.sut deleteDatabase];
   [super tearDown];
 }
 
@@ -385,7 +385,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
   // Test at the limit.
 
   // If
-  [self.sut deleteDB];
+  [self.sut deleteDatabase];
   [expectedLogs removeAllObjects];
   expectedCapacity = 2;
   self.sut = [[MSLogDBStorage alloc] initWithCapacity:expectedCapacity];
@@ -408,7 +408,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
   // Test just over the limit.
 
   // If
-  [self.sut deleteDB];
+  [self.sut deleteDatabase];
   [expectedLogs removeAllObjects];
   expectedCapacity = 1;
   self.sut = [[MSLogDBStorage alloc] initWithCapacity:expectedCapacity];
@@ -434,7 +434,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
   // Test way over the limit.
 
   // If
-  [self.sut deleteDB];
+  [self.sut deleteDatabase];
   logCount = 10;
   [expectedLogs removeAllObjects];
   expectedCapacity = 1;
