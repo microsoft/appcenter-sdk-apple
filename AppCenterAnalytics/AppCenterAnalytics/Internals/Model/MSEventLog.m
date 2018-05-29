@@ -4,7 +4,6 @@
 static NSString *const kMSTypeEvent = @"event";
 
 static NSString *const kMSId = @"id";
-static NSString *const kMSName = @"name";
 
 @implementation MSEventLog
 
@@ -21,14 +20,11 @@ static NSString *const kMSName = @"name";
   if (self.eventId) {
     dict[kMSId] = self.eventId;
   }
-  if (self.name) {
-    dict[kMSName] = self.name;
-  }
   return dict;
 }
 
 - (BOOL)isValid {
-  return [super isValid] && self.eventId && self.name;
+  return [super isValid] && self.eventId;
 }
 
 - (BOOL)isEqual:(id)object {
@@ -36,8 +32,7 @@ static NSString *const kMSName = @"name";
     return NO;
   }
   MSEventLog *eventLog = (MSEventLog *)object;
-  return ((!self.eventId && !eventLog.eventId) || [self.eventId isEqualToString:eventLog.eventId]) &&
-         ((!self.name && !eventLog.name) || [self.name isEqualToString:eventLog.name]);
+  return ((!self.eventId && !eventLog.eventId) || [self.eventId isEqualToString:eventLog.eventId]);
 }
 
 #pragma mark - NSCoding
@@ -46,7 +41,6 @@ static NSString *const kMSName = @"name";
   self = [super initWithCoder:coder];
   if (self) {
     _eventId = [coder decodeObjectForKey:kMSId];
-    _name = [coder decodeObjectForKey:kMSName];
   }
 
   return self;
@@ -55,7 +49,6 @@ static NSString *const kMSName = @"name";
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
   [coder encodeObject:self.eventId forKey:kMSId];
-  [coder encodeObject:self.name forKey:kMSName];
 }
 
 @end
