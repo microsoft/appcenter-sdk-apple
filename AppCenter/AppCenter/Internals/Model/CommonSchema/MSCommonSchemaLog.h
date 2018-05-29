@@ -1,4 +1,3 @@
-#import <UIKit/UIKit.h>
 #import "MSAbstractLogInternal.h"
 #import "MSProtocolExtension.h"
 #import "MSUserExtension.h"
