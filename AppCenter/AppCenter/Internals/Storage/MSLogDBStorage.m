@@ -1,8 +1,10 @@
 #import "MSAppCenterInternal.h"
 #import "MSDBStoragePrivate.h"
+#import "MSKeychainUtil.h"
 #import "MSLogDBStoragePrivate.h"
 #import "MSLogger.h"
 #import "MSUtility.h"
+#import "MSUtility+StringFormatting.h"
 
 static const NSUInteger kMSSchemaVersion = 1;
 
@@ -25,6 +27,7 @@ static const NSUInteger kMSSchemaVersion = 1;
     _idColumnIndex = ((NSNumber *)columnIndexes[kMSLogTableName][kMSIdColumnName]).unsignedIntegerValue;
     _groupIdColumnIndex = ((NSNumber *)columnIndexes[kMSLogTableName][kMSGroupIdColumnName]).unsignedIntegerValue;
     _logColumnIndex = ((NSNumber *)columnIndexes[kMSLogTableName][kMSLogColumnName]).unsignedIntegerValue;
+    _targetTokenColumnIndex = ((NSNumber *)columnIndexes[kMSLogTableName][kMSTargetTokenColumnName]).unsignedIntegerValue;
     _capacity = NSUIntegerMax;
     _batches = [NSMutableDictionary<NSString *, NSArray<NSNumber *> *> new];
   }
@@ -51,6 +54,16 @@ static const NSUInteger kMSSchemaVersion = 1;
   NSString *addLogQuery =
       [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\") VALUES ('%@', '%@')", kMSLogTableName,
                                  kMSGroupIdColumnName, kMSLogColumnName, groupId, base64Data];
+
+  // Serialize target token.
+  // TODO: Add real check for Common schema log.
+  if ([(NSObject *)log isKindOfClass:[NSString class]]) {
+    NSString *targetToken = [[log transmissionTargetTokens] anyObject];
+    NSString *targetTokenHash = [MSUtility sha256:targetToken];
+    [MSKeychainUtil storeString:targetToken forKey:targetTokenHash];
+    addLogQuery = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") VALUES ('%@', '%@', '%@')", kMSLogTableName,
+                   kMSGroupIdColumnName, kMSLogColumnName, kMSTargetTokenColumnName, groupId, base64Data, targetTokenHash];
+  }
   BOOL succeeded = [self executeNonSelectionQuery:addLogQuery];
   NSUInteger logCount = [self countLogs];
 
@@ -209,6 +222,13 @@ static const NSUInteger kMSSchemaVersion = 1;
       continue;
     }
 
+    // Deserialize target token.
+    NSString *targetTokenHash = row[self.targetTokenColumnIndex];
+    if (![targetTokenHash isKindOfClass:[NSNull class]]) {
+      NSString *targetToken = [MSKeychainUtil stringForKey:targetTokenHash];
+      [log addTransmissionTargetToken:targetToken];
+    }
+    
     // Update with deserialized log.
     row[self.logColumnIndex] = log;
     [logEntries addObject:row];

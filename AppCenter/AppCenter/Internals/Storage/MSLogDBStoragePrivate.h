@@ -40,6 +40,11 @@ static NSString *const kMSTargetTokenColumnName = @"targetToken";
 @property(nonatomic, readonly) NSUInteger logColumnIndex;
 
 /**
+ * "targetToken" database column index.
+ */
+@property(nonatomic, readonly) NSUInteger targetTokenColumnIndex;
+
+/**
  * Get all logs with the given group Id from the storage.
  *
  * @param groupId The key used for grouping logs.
