@@ -1,5 +1,7 @@
 #import "MSAbstractLogInternal.h"
 #import "MSAbstractLogPrivate.h"
+#import "MSCommonSchemaLog.h"
+#import "MSCSConstants.h"
 #import "MSDevice.h"
 #import "MSDeviceInternal.h"
 #import "MSLogger.h"
@@ -59,7 +61,8 @@ static NSString *const kMSType = @"type";
   return ((!self.type && !log.type) || [self.type isEqualToString:log.type]) &&
          ((!self.timestamp && !log.timestamp) || [self.timestamp isEqualToDate:log.timestamp]) &&
          ((!self.sid && !log.sid) || [self.sid isEqualToString:log.sid]) &&
-         ((!self.distributionGroupId && !log.distributionGroupId) || [self.distributionGroupId isEqualToString:log.distributionGroupId]) &&
+         ((!self.distributionGroupId && !log.distributionGroupId) ||
+          [self.distributionGroupId isEqualToString:log.distributionGroupId]) &&
          ((!self.device && !log.device) || [self.device isEqual:log.device]);
 }
 
@@ -110,7 +113,7 @@ static NSString *const kMSType = @"type";
 
 - (void)addTransmissionTargetToken:(NSString *)token {
   @synchronized(self) {
-    if(self.transmissionTargetTokens == nil) {
+    if (self.transmissionTargetTokens == nil) {
       self.transmissionTargetTokens = [NSSet new];
     }
     NSMutableSet *mutableSet = [self.transmissionTargetTokens mutableCopy];
@@ -119,4 +122,71 @@ static NSString *const kMSType = @"type";
   }
 }
 
+#pragma mark - MSLogConversion
+
+- (NSArray<MSCommonSchemaLog *> *)toCommonSchemaLogs {
+  NSMutableArray<MSCommonSchemaLog *> *csLogs = [NSMutableArray new];
+  for (NSString *token in self.transmissionTargetTokens) {
+    MSCommonSchemaLog *csLog = [self toCommonSchemaLogForTargetToken:token];
+    if (csLog) {
+      [csLogs addObject:csLog];
+    }
+  }
+  return csLogs;
+}
+
+#pragma mark - Helper
+
+- (MSCommonSchemaLog *)toCommonSchemaLogForTargetToken:(NSString *)token {
+  MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
+  csLog.ver = kMSCSVerValue;
+  csLog.time = [MSUtility dateToTicks:self.timestamp];
+
+  // TODO popSample not supported at this time.
+
+  // Calculate iKey based on the target token.
+  if (token && token.length) {
+    csLog.iKey = [NSString stringWithFormat:@"o:%@", [token componentsSeparatedByString:@"-"][0]];
+  }
+
+  // TODO flags not supported at this time.
+  // TODO cV not supported at this time.
+
+  // Setup extensions.
+  csLog.ext = [MSCSExtensions new];
+
+  // Protocol extension.
+  csLog.ext.protocolExt = [MSProtocolExtension new];
+  csLog.ext.protocolExt.devMake = self.device.oemName;
+  csLog.ext.protocolExt.devModel = self.device.model;
+
+  // User extension.
+  csLog.ext.userExt = [MSUserExtension new];
+
+  // Convert to use dash (-) as the separator as described in RFC 4646.  E.g., zh-Hans-CN.
+  csLog.ext.userExt.locale = [self.device.locale stringByReplacingOccurrencesOfString:@"_" withString:@"-"];
+
+  // OS extension.
+  csLog.ext.osExt = [MSOSExtension new];
+  csLog.ext.osExt.name = self.device.osName;
+  csLog.ext.osExt.ver = [self osVersion:self.device.osVersion withBuild:self.device.osBuild];
+
+  // App extension.
+  csLog.ext.appExt = [MSAppExtension new];
+
+  // TODO confirm App Id prefix with one collector.
+  csLog.ext.appExt.ver = self.device.appVersion;
+}
+
+- (NSString *)osVersion:(NSString *)version withBuild:(NSString *)build {
+  NSString *combinedVersionAndBuild;
+  if (version && version.length) {
+    combinedVersionAndBuild = [NSString stringWithFormat:@"Version %@", version];
+  }
+
+  if (build && build.length) {
+    combinedVersionAndBuild = [NSString stringWithFormat:@"%@ (Build %@)", combinedVersionAndBuild, build];
+  }
+  return combinedVersionAndBuild;
+}
 @end

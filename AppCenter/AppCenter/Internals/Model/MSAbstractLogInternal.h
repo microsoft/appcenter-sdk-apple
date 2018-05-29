@@ -1,8 +1,9 @@
 #import "MSAbstractLog.h"
 #import "MSLog.h"
 #import "MSSerializableObject.h"
+#import "MSLogConversion.h"
 
-@interface MSAbstractLog () <MSLog, MSSerializableObject>
+@interface MSAbstractLog () <MSLog, MSSerializableObject, MSLogConversion>
 
 /**
  * Serialize logs into a JSON string.

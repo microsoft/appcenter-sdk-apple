@@ -1,5 +1,7 @@
-#import "MSEventLog.h"
 #import "AppCenter+Internal.h"
+#import "MSCommonSchemaLog.h"
+#import "MSLogConversion.h"
+#import "MSEventLog.h"
 
 static NSString *const kMSTypeEvent = @"event";
 
@@ -49,6 +51,12 @@ static NSString *const kMSId = @"id";
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
   [coder encodeObject:self.eventId forKey:kMSId];
+}
+
+#pragma mark - MSLogConversion
+
+- (MSCommonSchemaLog *)toCommonSchemaLog {
+  MSCommonSchemaLog *csLog = [super toCommonSchemaLog];
 }
 
 @end

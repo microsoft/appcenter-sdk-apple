@@ -2,6 +2,7 @@
 
 #pragma mark - MSCommonSchemaLog
 
+// Keys
 NSString *const kMSCSVer = @"ver";
 NSString *const kMSCSName = @"name";
 NSString *const kMSCSTime = @"time";
@@ -11,6 +12,9 @@ NSString *const kMSCSFlags = @"flags";
 NSString *const kMSCSCV = @"cV";
 NSString *const kMSCSData = @"data";
 NSString *const kMSCSExt = @"ext";
+
+// Values
+NSString *const kMSCSVerValue = @"3.0";
 
 #pragma mark - MSUserExtension
 
