@@ -73,6 +73,10 @@
   self.data = [self dataWithDummyValues:self.dataDummyValues];
 }
 
+- (void)tearDown {
+  [super tearDown];
+}
+
 #pragma mark - MSCSExtensions
 
 - (void)testExtJSONSerializingToDictionary {

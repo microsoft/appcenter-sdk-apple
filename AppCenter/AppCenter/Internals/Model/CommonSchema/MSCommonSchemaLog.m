@@ -35,7 +35,7 @@
 #pragma mark - MSModel
 
 - (BOOL)isValid {
-  return self.ver && self.name && self.time && [self.ext isValid] && (!self.data || [self.data isValid]);
+  return self.ver && self.name && self.time;
 }
 
 #pragma mark - NSObject
@@ -46,7 +46,7 @@
   }
 
   MSCommonSchemaLog *csLog = (MSCommonSchemaLog *)object;
-  return [super isValid] && ((!self.ver && !csLog.ver) || [self.ver isEqualToString:csLog.ver]) &&
+  return [super isEqual:object] && ((!self.ver && !csLog.ver) || [self.ver isEqualToString:csLog.ver]) &&
          ((!self.name && !csLog.name) || [self.name isEqualToString:csLog.name]) && self.time == csLog.time &&
          self.popSample == csLog.popSample && ((!self.iKey && !csLog.iKey) || [self.iKey isEqualToString:csLog.iKey]) &&
          self.flags == csLog.flags && ((!self.cV && !csLog.cV) || [self.cV isEqualToString:csLog.cV]) &&
