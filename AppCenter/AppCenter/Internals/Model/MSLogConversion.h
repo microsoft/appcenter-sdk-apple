@@ -5,6 +5,6 @@
 @protocol MSLogConversion
 
 // TODO comment.
-- (NSArray<MSCommonSchemaLog *> *)toCommonSchemaLogs
+- (NSArray<MSCommonSchemaLog *> *)toCommonSchemaLogs;
 
 @end

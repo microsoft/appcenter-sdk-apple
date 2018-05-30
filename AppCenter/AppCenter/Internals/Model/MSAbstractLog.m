@@ -2,6 +2,7 @@
 #import "MSAbstractLogPrivate.h"
 #import "MSCommonSchemaLog.h"
 #import "MSCSConstants.h"
+#import "MSCSSequenceGenerator.h"
 #import "MSDevice.h"
 #import "MSDeviceInternal.h"
 #import "MSLogger.h"
@@ -169,16 +170,31 @@ static NSString *const kMSType = @"type";
   // OS extension.
   csLog.ext.osExt = [MSOSExtension new];
   csLog.ext.osExt.name = self.device.osName;
-  csLog.ext.osExt.ver = [self osVersion:self.device.osVersion withBuild:self.device.osBuild];
+  csLog.ext.osExt.ver = [self osOrAppVersion:self.device.osVersion withBuild:self.device.osBuild];
 
   // App extension.
   csLog.ext.appExt = [MSAppExtension new];
 
-  // TODO confirm App Id prefix with one collector.
-  csLog.ext.appExt.ver = self.device.appVersion;
+  // TODO confirm App Id prefix with One Collector.
+
+  csLog.ext.appExt.ver = [self osOrAppVersion:self.device.appVersion withBuild:self.device.appBuild];
+
+  // TODO app.locale not supported at this time.
+
+  // Net extension.
+  csLog.ext.netExt = [MSNetExtension new];
+  csLog.ext.netExt.provider = self.device.carrierName;
+
+  // SDK extension.
+  csLog.ext.sdkExt = [MSSDKExtension new];
+  csLog.ext.sdkExt.libVer = [self sdkLibVer:self.device.sdkName withVersion:self.device.sdkVersion];
+
+  // TODO confirm sdk.epoch with One Collector
+
+  csLog.ext.sdkExt.seq = [MSCSSequenceGenerator sequenceForTenant:token];
 }
 
-- (NSString *)osVersion:(NSString *)version withBuild:(NSString *)build {
+- (NSString *)osOrAppVersion:(NSString *)version withBuild:(NSString *)build {
   NSString *combinedVersionAndBuild;
   if (version && version.length) {
     combinedVersionAndBuild = [NSString stringWithFormat:@"Version %@", version];
@@ -189,4 +205,11 @@ static NSString *const kMSType = @"type";
   }
   return combinedVersionAndBuild;
 }
+
+- (NSString *)sdkLibVer:(NSString *)name withVersion:(NSString *)version {
+  if (name && name.length && version && version.length) {
+    return [NSString stringWithFormat:@"%@-%@", name, version];
+  }
+}
+
 @end

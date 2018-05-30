@@ -56,7 +56,8 @@ static NSString *const kMSId = @"id";
 #pragma mark - MSLogConversion
 
 - (MSCommonSchemaLog *)toCommonSchemaLog {
-  MSCommonSchemaLog *csLog = [super toCommonSchemaLog];
+//  MSCommonSchemaLog *csLog = [super toCommonSchemaLog];
+  return nil;
 }
 
 @end

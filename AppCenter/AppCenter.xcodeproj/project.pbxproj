@@ -537,6 +537,12 @@
 		E79750E820A4F41400E3EAE8 /* MSOneCollectorChannelDelegatePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = E79750E620A4F41400E3EAE8 /* MSOneCollectorChannelDelegatePrivate.h */; };
 		E79750E920A4F41400E3EAE8 /* MSOneCollectorChannelDelegatePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = E79750E620A4F41400E3EAE8 /* MSOneCollectorChannelDelegatePrivate.h */; };
 		E79750EB20A50BF400E3EAE8 /* MSOneCollectorChannelDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E79750EA20A50BF400E3EAE8 /* MSOneCollectorChannelDelegateTests.m */; };
+		E7B0B51720BE38CE00AF70BF /* MSCSSequenceGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = E7B0B51520BE38CE00AF70BF /* MSCSSequenceGenerator.h */; };
+		E7B0B51820BE38CE00AF70BF /* MSCSSequenceGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = E7B0B51520BE38CE00AF70BF /* MSCSSequenceGenerator.h */; };
+		E7B0B51920BE38CE00AF70BF /* MSCSSequenceGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = E7B0B51520BE38CE00AF70BF /* MSCSSequenceGenerator.h */; };
+		E7B0B51A20BE38CE00AF70BF /* MSCSSequenceGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = E7B0B51620BE38CE00AF70BF /* MSCSSequenceGenerator.m */; };
+		E7B0B51B20BE38CE00AF70BF /* MSCSSequenceGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = E7B0B51620BE38CE00AF70BF /* MSCSSequenceGenerator.m */; };
+		E7B0B51C20BE38CE00AF70BF /* MSCSSequenceGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = E7B0B51620BE38CE00AF70BF /* MSCSSequenceGenerator.m */; };
 		E7D23C5120B4E0CA00A47D62 /* MSCommonSchemaLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D23C5020B4E0CA00A47D62 /* MSCommonSchemaLogTests.m */; };
 		E7D23C5220B4E0CA00A47D62 /* MSCommonSchemaLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D23C5020B4E0CA00A47D62 /* MSCommonSchemaLogTests.m */; };
 		E7D23C5320B4E0CA00A47D62 /* MSCommonSchemaLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D23C5020B4E0CA00A47D62 /* MSCommonSchemaLogTests.m */; };
@@ -841,6 +847,8 @@
 		E74B14E920B3711F002C0183 /* MSSDKExtension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSSDKExtension.m; sourceTree = "<group>"; };
 		E79750E620A4F41400E3EAE8 /* MSOneCollectorChannelDelegatePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSOneCollectorChannelDelegatePrivate.h; sourceTree = "<group>"; };
 		E79750EA20A50BF400E3EAE8 /* MSOneCollectorChannelDelegateTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSOneCollectorChannelDelegateTests.m; sourceTree = "<group>"; };
+		E7B0B51520BE38CE00AF70BF /* MSCSSequenceGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSCSSequenceGenerator.h; sourceTree = "<group>"; };
+		E7B0B51620BE38CE00AF70BF /* MSCSSequenceGenerator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSCSSequenceGenerator.m; sourceTree = "<group>"; };
 		E7D23C5020B4E0CA00A47D62 /* MSCommonSchemaLogTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSCommonSchemaLogTests.m; sourceTree = "<group>"; };
 		E7D23C5420B4E38B00A47D62 /* MSCSData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSCSData.h; sourceTree = "<group>"; };
 		E7D23C5520B4E38B00A47D62 /* MSCSData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSCSData.m; sourceTree = "<group>"; };
@@ -1328,6 +1336,8 @@
 				E7D23C6520B6391700A47D62 /* MSCSExtensions.m */,
 				E7D23C7220B6450300A47D62 /* MSCSConstants.h */,
 				E7D23C7620B6549E00A47D62 /* MSCSConstants.m */,
+				E7B0B51520BE38CE00AF70BF /* MSCSSequenceGenerator.h */,
+				E7B0B51620BE38CE00AF70BF /* MSCSSequenceGenerator.m */,
 			);
 			path = CommonSchema;
 			sourceTree = "<group>";
@@ -1500,6 +1510,7 @@
 				E74B14C420B36C66002C0183 /* MSAppExtension.h in Headers */,
 				043120BA1EE0BCF9007054C5 /* MSLoggerInternal.h in Headers */,
 				043120BE1EE0BCF9007054C5 /* MSDeviceTrackerPrivate.h in Headers */,
+				E7B0B51920BE38CE00AF70BF /* MSCSSequenceGenerator.h in Headers */,
 				B2CD748C1F22BDA70070E7DF /* MSDBStorage.h in Headers */,
 				043120C01EE0BCF9007054C5 /* AppCenter.h in Headers */,
 				043120C11EE0BCF9007054C5 /* MSHttpSender.h in Headers */,
@@ -1562,6 +1573,7 @@
 				3568A7E9201A91D100F3B860 /* MSAppDelegateUtil.h in Headers */,
 				3568A7EA201A91D100F3B860 /* MSCustomApplicationDelegate.h in Headers */,
 				3568A7EB201A91D100F3B860 /* MSCustomPropertiesLog.h in Headers */,
+				E7B0B51820BE38CE00AF70BF /* MSCSSequenceGenerator.h in Headers */,
 				3568A7E2201A8A6300F3B860 /* MSChannelUnitDefault.h in Headers */,
 				3568A7E4201A8A6300F3B860 /* MSChannelUnitProtocol.h in Headers */,
 				04754F7B1EA98182002CBA46 /* MSSenderCallDelegate.h in Headers */,
@@ -1658,6 +1670,7 @@
 				3592ABA71DC90E3600EF4592 /* MSLoggerInternal.h in Headers */,
 				3542741F2016769C00BE766F /* MSChannelUnitProtocol.h in Headers */,
 				3542741D2016769C00BE766F /* MSChannelUnitDefault.h in Headers */,
+				E7B0B51720BE38CE00AF70BF /* MSCSSequenceGenerator.h in Headers */,
 				38E1B67A1DDE3FDF000EFED1 /* MSAppCenterPrivate.h in Headers */,
 				387C75811D6270A300D68CC1 /* MSServiceAbstractInternal.h in Headers */,
 				387C76DA1D677EC100D68CC1 /* MSServiceAbstractPrivate.h in Headers */,
@@ -2006,6 +2019,7 @@
 				043120801EE0BCF9007054C5 /* MSHttpSender.m in Sources */,
 				043120811EE0BCF9007054C5 /* MSServiceAbstract.m in Sources */,
 				043120821EE0BCF9007054C5 /* MSChannelGroupDefault.m in Sources */,
+				E7B0B51C20BE38CE00AF70BF /* MSCSSequenceGenerator.m in Sources */,
 				B2CD74CD1F22BFA40070E7DF /* MSDBStorage.m in Sources */,
 				043120831EE0BCF9007054C5 /* MSStartServiceLog.m in Sources */,
 				E74B14CF20B36DF1002C0183 /* MSProtocolExtension.m in Sources */,
@@ -2111,6 +2125,7 @@
 			files = (
 				04754F491EA98182002CBA46 /* MSAppCenter.m in Sources */,
 				E74B14EE20B3711F002C0183 /* MSSDKExtension.m in Sources */,
+				E7B0B51B20BE38CE00AF70BF /* MSCSSequenceGenerator.m in Sources */,
 				04754F4B1EA98182002CBA46 /* MSLogger.m in Sources */,
 				B2CD74B31F22BE270070E7DF /* MSUtility+Date.m in Sources */,
 				04754F4C1EA98182002CBA46 /* MSChannelUnitConfiguration.m in Sources */,
@@ -2167,6 +2182,7 @@
 			files = (
 				6E0401571D1C9AAA0051BCFA /* MSAppCenter.m in Sources */,
 				E74B14ED20B3711F002C0183 /* MSSDKExtension.m in Sources */,
+				E7B0B51A20BE38CE00AF70BF /* MSCSSequenceGenerator.m in Sources */,
 				3592ABA81DC90E3600EF4592 /* MSLogger.m in Sources */,
 				B2CD74B21F22BE270070E7DF /* MSUtility+Date.m in Sources */,
 				6EF628F51D371B1600CAFF64 /* MSChannelUnitConfiguration.m in Sources */,
