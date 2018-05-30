@@ -5,6 +5,6 @@
 @end
 
 @interface MSCSSequenceGenerator : NSObject
-+ (MSCSSequence *)sequenceForTenant:(NSString *)tenant;
++ (MSCSSequence *)sequenceForTargetToken:(NSString *)token;
 + (void)reset;
 @end

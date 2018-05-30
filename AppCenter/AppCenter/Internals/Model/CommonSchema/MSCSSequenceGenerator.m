@@ -9,12 +9,9 @@
 @implementation MSCSSequence
 
 - (NSUInteger)nextValue {
-  NSUInteger result;
   @synchronized(self) {
-    ++self.sequence;
-    result = self.sequence;
+    return ++self.sequence;
   }
-  return result;
 }
 
 @end
@@ -24,14 +21,14 @@
 static NSMutableDictionary *sequences;
 static NSMutableDictionary *tokens;
 
-+ (MSCSSequence *)sequenceForTenant:(NSString *)tenant {
++ (MSCSSequence *)sequenceForTargetToken:(NSString *)token {
   MSCSSequence *sequence = nil;
-  if (tenant && tenant.length) {
+  if (token && token.length) {
     @synchronized([self class]) {
       if (!sequences) {
         sequences = [NSMutableDictionary new];
       } else {
-        NSString *key = tenant.lowercaseString;
+        NSString *key = token.lowercaseString;
         if (!sequences[key]) {
           sequence = [MSCSSequence new];
           sequences[key] = sequence;

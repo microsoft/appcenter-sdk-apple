@@ -194,7 +194,7 @@
 
 - (MSLocExtension *)locExtWithDummyValues {
   MSLocExtension *locExt = [MSLocExtension new];
-  locExt.timezone = @"-05:00";
+  locExt.tz = @"-05:00";
   return locExt;
 }
 

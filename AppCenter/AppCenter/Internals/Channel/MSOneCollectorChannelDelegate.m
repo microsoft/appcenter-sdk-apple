@@ -1,6 +1,7 @@
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
+#import "MSCommonSchemaLog.h"
 #import "MSOneCollectorChannelDelegatePrivate.h"
 
 static NSString *const kMSOneCollectorGroupIdSuffix = @"/one";
@@ -30,6 +31,16 @@ static NSString *const kMSOneCollectorGroupIdSuffix = @"/one";
     id<MSChannelUnitProtocol> channelUnit =
         [channelGroup addChannelUnitWithConfiguration:channelUnitConfiguration withSender:nil];
     self.oneCollectorChannels[groupId] = channelUnit;
+  }
+}
+
+- (void)channel:(id<MSChannelProtocol>)__unused channel prepareLog:(id<MSLog>)log{
+  
+  // Prepare Common Schema logs.
+  if ([log isKindOfClass:[MSCommonSchemaLog class]]){
+    
+    // Add epoch and seq.
+    
   }
 }
 

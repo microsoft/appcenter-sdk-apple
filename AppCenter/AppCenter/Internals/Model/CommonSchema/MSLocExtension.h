@@ -11,6 +11,6 @@
 /**
  * Time zone on the device.
  */
-@property(nonatomic, copy) NSString *timezone;
+@property(nonatomic, copy) NSString *tz;
 
 @end

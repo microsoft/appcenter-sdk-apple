@@ -257,7 +257,7 @@
   XCTAssertNotNil(actualLocExt);
   XCTAssertEqualObjects(self.locExt, actualLocExt);
   XCTAssertTrue([actualLocExt isMemberOfClass:[MSLocExtension class]]);
-  XCTAssertEqualObjects(actualLocExt.timezone, self.locExtDummyValues[kMSTimezone]);
+  XCTAssertEqualObjects(actualLocExt.tz, self.locExtDummyValues[kMSTimezone]);
 }
 
 - (void)testLocExtIsValid {
@@ -284,7 +284,7 @@
   XCTAssertEqualObjects(anotherLocExt, self.locExt);
 
   // If
-  anotherLocExt.timezone = @"+02:00";
+  anotherLocExt.tz = @"+02:00";
 
   // Then
   XCTAssertNotEqualObjects(anotherLocExt, self.locExt);
@@ -698,7 +698,7 @@
 
 - (MSLocExtension *)locExtensionWithDummyValues:(NSDictionary *)dummyValues {
   MSLocExtension *locExt = [MSLocExtension new];
-  locExt.timezone = dummyValues[kMSTimezone];
+  locExt.tz = dummyValues[kMSTimezone];
   return locExt;
 }
 

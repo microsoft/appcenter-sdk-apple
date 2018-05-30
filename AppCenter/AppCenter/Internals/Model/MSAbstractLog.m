@@ -164,20 +164,18 @@ static NSString *const kMSType = @"type";
   // User extension.
   csLog.ext.userExt = [MSUserExtension new];
 
-  // Convert to use dash (-) as the separator as described in RFC 4646.  E.g., zh-Hans-CN.
+  // Convert user local to use dash (-) as the separator as described in RFC 4646.  E.g., zh-Hans-CN.
   csLog.ext.userExt.locale = [self.device.locale stringByReplacingOccurrencesOfString:@"_" withString:@"-"];
 
   // OS extension.
   csLog.ext.osExt = [MSOSExtension new];
   csLog.ext.osExt.name = self.device.osName;
-  csLog.ext.osExt.ver = [self osOrAppVersion:self.device.osVersion withBuild:self.device.osBuild];
+  csLog.ext.osExt.ver = [self combineOsVersion:self.device.osVersion withBuild:self.device.osBuild];
 
   // App extension.
   csLog.ext.appExt = [MSAppExtension new];
-
-  // TODO confirm App Id prefix with One Collector.
-
-  csLog.ext.appExt.ver = [self osOrAppVersion:self.device.appVersion withBuild:self.device.appBuild];
+  csLog.ext.appExt.appId = [NSString stringWithFormat:@"I:%@", self.device.appNamespace];
+  csLog.ext.appExt.ver = self.device.appBuild;
 
   // TODO app.locale not supported at this time.
 
@@ -187,14 +185,18 @@ static NSString *const kMSType = @"type";
 
   // SDK extension.
   csLog.ext.sdkExt = [MSSDKExtension new];
-  csLog.ext.sdkExt.libVer = [self sdkLibVer:self.device.sdkName withVersion:self.device.sdkVersion];
+  csLog.ext.sdkExt.libVer = [self combineSDKLibVer:self.device.sdkName withVersion:self.device.sdkVersion];
 
-  // TODO confirm sdk.epoch with One Collector
-
-  csLog.ext.sdkExt.seq = [MSCSSequenceGenerator sequenceForTenant:token];
+  // TODO confirm sdk.epoch with One Collector and move to OneCollectorChannelListener.
+  csLog.ext.sdkExt.seq = [MSCSSequenceGenerator sequenceForTargetToken:token];
+  
+  // Loc extension.
+  csLog.ext.locExt = [MSLocExtension new];
+  csLog.ext.locExt.tz = [self convertTimeZoneOffsetToISO8601:[self.device.timeZoneOffset integerValue]];
+  return csLog;
 }
 
-- (NSString *)osOrAppVersion:(NSString *)version withBuild:(NSString *)build {
+- (NSString *)combineOsVersion:(NSString *)version withBuild:(NSString *)build {
   NSString *combinedVersionAndBuild;
   if (version && version.length) {
     combinedVersionAndBuild = [NSString stringWithFormat:@"Version %@", version];
@@ -206,10 +208,18 @@ static NSString *const kMSType = @"type";
   return combinedVersionAndBuild;
 }
 
-- (NSString *)sdkLibVer:(NSString *)name withVersion:(NSString *)version {
+- (NSString *)combineSDKLibVer:(NSString *)name withVersion:(NSString *)version {
+  NSString *combinedVersion;
   if (name && name.length && version && version.length) {
-    return [NSString stringWithFormat:@"%@-%@", name, version];
+    combinedVersion = [NSString stringWithFormat:@"%@-%@", name, version];
   }
+  return combinedVersion;
+}
+
+- (NSString *)convertTimeZoneOffsetToISO8601:(NSInteger)timeZoneOffset{
+  NSInteger offsetInHour = timeZoneOffset / 60;
+  NSInteger remainingMinutes = labs(timeZoneOffset) % 60;
+  return [NSString stringWithFormat:@"%+03ld:%02ld", (long)offsetInHour, (long)remainingMinutes];
 }
 
 @end

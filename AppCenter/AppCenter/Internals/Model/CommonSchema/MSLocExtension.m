@@ -7,8 +7,8 @@
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [NSMutableDictionary new];
-  if (self.timezone) {
-    dict[kMSTimezone] = self.timezone;
+  if (self.tz) {
+    dict[kMSTimezone] = self.tz;
   }
   return dict;
 }
@@ -28,20 +28,20 @@
   }
 
   MSLocExtension *locExt = (MSLocExtension *)object;
-  return (!self.timezone && !locExt.timezone) || [self.timezone isEqualToString:locExt.timezone];
+  return (!self.tz && !locExt.tz) || [self.tz isEqualToString:locExt.tz];
 }
 
 #pragma mark - NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
   if ((self = [super init])) {
-    _timezone = [coder decodeObjectForKey:kMSTimezone];
+    _tz = [coder decodeObjectForKey:kMSTimezone];
   }
   return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
-  [coder encodeObject:self.timezone forKey:kMSTimezone];
+  [coder encodeObject:self.tz forKey:kMSTimezone];
 }
 
 @end
