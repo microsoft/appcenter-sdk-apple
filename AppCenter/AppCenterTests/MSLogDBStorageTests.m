@@ -1,9 +1,12 @@
 #import "MSAbstractLogInternal.h"
+#import "MSCommonSchemaLog.h"
 #import "MSDBStoragePrivate.h"
+#import "MSKeychainUtil.h"
 #import "MSLogDBStoragePrivate.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility.h"
 #import "MSUtility+Date.h"
+#import "MSUtility+StringFormatting.h"
 
 static NSString *const kMSTestGroupId = @"TestGroupId";
 static short const kMSTestMaxCapacity = 50;
@@ -343,6 +346,62 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
   assertThatInteger([self.sut countEntriesForTable:kMSLogTableName condition:condition], equalToInteger(0));
   assertThat(expectedLogs, is(remainingLogs));
   assertThatInteger(self.sut.batches.count, equalToInteger(1));
+}
+
+- (void)testCommonSchemaLogTargetTokenIsSavedAndRestored {
+
+  // If
+  NSString *testTargetToken = @"testTargetToken";
+  MSCommonSchemaLog *log = [MSCommonSchemaLog new];
+  [log addTransmissionTargetToken:testTargetToken];
+
+  // When
+  [self.sut saveLog:log withGroupId:kMSTestGroupId];
+
+  // Then
+  [self.sut loadLogsWithGroupId:kMSTestGroupId
+                          limit:1
+                 withCompletion:^(NSArray<MSLog> *_Nonnull logArray, __unused NSString *batchId) {
+                   id<MSLog> restoredLog = logArray[0];
+                   NSString *restoredTargetToken = [[restoredLog transmissionTargetTokens] anyObject];
+                   assertThatInt([[restoredLog transmissionTargetTokens] count], equalToInt(1));
+                   XCTAssertEqualObjects(testTargetToken, restoredTargetToken);
+                 }];
+}
+
+- (void)testOnlyCommonSchemaLogTargetTokenIsSavedAndRestored {
+
+  // If
+  NSString *testTargetToken = @"testTargetToken";
+  MSAbstractLog *log = [MSAbstractLog new];
+  [log addTransmissionTargetToken:testTargetToken];
+
+  // When
+  [self.sut saveLog:log withGroupId:kMSTestGroupId];
+
+  // Then
+  [self.sut loadLogsWithGroupId:kMSTestGroupId
+                          limit:1
+                 withCompletion:^(NSArray<MSLog> *_Nonnull logArray, __unused NSString *batchId) {
+                   assertThatInt([[logArray[0] transmissionTargetTokens] count], equalToInt(0));
+                 }];
+}
+
+- (void)testKeychainEntriesAreRemovedOnCommonSchemaLogDeletion {
+
+  // If
+  NSString *testTargetToken = @"testTargetToken";
+  NSString *testTargetTokenHash = [MSUtility sha256:testTargetToken];
+  MSCommonSchemaLog *log = [MSCommonSchemaLog new];
+  [log addTransmissionTargetToken:testTargetToken];
+  [self.sut saveLog:log withGroupId:kMSTestGroupId];
+
+  // When
+  [self.sut deleteLogsWithGroupId:kMSTestGroupId];
+
+  // Then
+  NSString *storedTargetToken = [MSKeychainUtil stringForKey:testTargetTokenHash];
+  XCTAssertNil(storedTargetToken);
 }
 
 - (void)testDeleteLogsByBatchIdWithNoPendingBatches {
