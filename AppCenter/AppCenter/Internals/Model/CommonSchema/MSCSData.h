@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
-#import "MSSerializableObject.h"
+
 #import "MSModel.h"
+#import "MSSerializableObject.h"
 
 /**
  * The metadata section contains additional typing/schema-related information for each field in the Part B or Part C payload.

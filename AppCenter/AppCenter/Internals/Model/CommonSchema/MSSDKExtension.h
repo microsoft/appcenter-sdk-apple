@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
-#import "MSSerializableObject.h"
+
 #import "MSModel.h"
+#import "MSSerializableObject.h"
 
 /**
  * The SDK extension is used by platform specific library to record field that are specifically required for a specific SDK.

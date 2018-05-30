@@ -497,9 +497,9 @@
 		E74B14AD20B36B9B002C0183 /* MSLocExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B14A920B36B9B002C0183 /* MSLocExtension.m */; };
 		E74B14AE20B36B9B002C0183 /* MSLocExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B14A920B36B9B002C0183 /* MSLocExtension.m */; };
 		E74B14AF20B36B9B002C0183 /* MSLocExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B14A920B36B9B002C0183 /* MSLocExtension.m */; };
-		E74B14BA20B36C2B002C0183 /* MSOsExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = E74B14B820B36C2B002C0183 /* MSOsExtension.h */; };
-		E74B14BB20B36C2B002C0183 /* MSOsExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = E74B14B820B36C2B002C0183 /* MSOsExtension.h */; };
-		E74B14BC20B36C2B002C0183 /* MSOsExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = E74B14B820B36C2B002C0183 /* MSOsExtension.h */; };
+		E74B14BA20B36C2B002C0183 /* MSOSExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = E74B14B820B36C2B002C0183 /* MSOSExtension.h */; };
+		E74B14BB20B36C2B002C0183 /* MSOSExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = E74B14B820B36C2B002C0183 /* MSOSExtension.h */; };
+		E74B14BC20B36C2B002C0183 /* MSOSExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = E74B14B820B36C2B002C0183 /* MSOSExtension.h */; };
 		E74B14C220B36C66002C0183 /* MSAppExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = E74B14C020B36C66002C0183 /* MSAppExtension.h */; };
 		E74B14C320B36C66002C0183 /* MSAppExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = E74B14C020B36C66002C0183 /* MSAppExtension.h */; };
 		E74B14C420B36C66002C0183 /* MSAppExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = E74B14C020B36C66002C0183 /* MSAppExtension.h */; };
@@ -518,18 +518,18 @@
 		E74B14DB20B37043002C0183 /* MSAppExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B14D820B37042002C0183 /* MSAppExtension.m */; };
 		E74B14DC20B37043002C0183 /* MSAppExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B14D820B37042002C0183 /* MSAppExtension.m */; };
 		E74B14DD20B37043002C0183 /* MSAppExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B14D820B37042002C0183 /* MSAppExtension.m */; };
-		E74B14DE20B37043002C0183 /* MSOsExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B14D920B37042002C0183 /* MSOsExtension.m */; };
-		E74B14DF20B37043002C0183 /* MSOsExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B14D920B37042002C0183 /* MSOsExtension.m */; };
-		E74B14E020B37043002C0183 /* MSOsExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B14D920B37042002C0183 /* MSOsExtension.m */; };
+		E74B14DE20B37043002C0183 /* MSOSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B14D920B37042002C0183 /* MSOSExtension.m */; };
+		E74B14DF20B37043002C0183 /* MSOSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B14D920B37042002C0183 /* MSOSExtension.m */; };
+		E74B14E020B37043002C0183 /* MSOSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B14D920B37042002C0183 /* MSOSExtension.m */; };
 		E74B14E520B370A5002C0183 /* MSUserExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = E74B14E420B370A5002C0183 /* MSUserExtension.h */; };
 		E74B14E620B370A5002C0183 /* MSUserExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = E74B14E420B370A5002C0183 /* MSUserExtension.h */; };
 		E74B14E720B370A5002C0183 /* MSUserExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = E74B14E420B370A5002C0183 /* MSUserExtension.h */; };
-		E74B14EA20B3711F002C0183 /* MSSdkExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = E74B14E820B3711F002C0183 /* MSSdkExtension.h */; };
-		E74B14EB20B3711F002C0183 /* MSSdkExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = E74B14E820B3711F002C0183 /* MSSdkExtension.h */; };
-		E74B14EC20B3711F002C0183 /* MSSdkExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = E74B14E820B3711F002C0183 /* MSSdkExtension.h */; };
-		E74B14ED20B3711F002C0183 /* MSSdkExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B14E920B3711F002C0183 /* MSSdkExtension.m */; };
-		E74B14EE20B3711F002C0183 /* MSSdkExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B14E920B3711F002C0183 /* MSSdkExtension.m */; };
-		E74B14EF20B3711F002C0183 /* MSSdkExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B14E920B3711F002C0183 /* MSSdkExtension.m */; };
+		E74B14EA20B3711F002C0183 /* MSSDKExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = E74B14E820B3711F002C0183 /* MSSDKExtension.h */; };
+		E74B14EB20B3711F002C0183 /* MSSDKExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = E74B14E820B3711F002C0183 /* MSSDKExtension.h */; };
+		E74B14EC20B3711F002C0183 /* MSSDKExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = E74B14E820B3711F002C0183 /* MSSDKExtension.h */; };
+		E74B14ED20B3711F002C0183 /* MSSDKExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B14E920B3711F002C0183 /* MSSDKExtension.m */; };
+		E74B14EE20B3711F002C0183 /* MSSDKExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B14E920B3711F002C0183 /* MSSDKExtension.m */; };
+		E74B14EF20B3711F002C0183 /* MSSDKExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B14E920B3711F002C0183 /* MSSDKExtension.m */; };
 		E79750E720A4F41400E3EAE8 /* MSOneCollectorChannelDelegatePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = E79750E620A4F41400E3EAE8 /* MSOneCollectorChannelDelegatePrivate.h */; };
 		E79750E820A4F41400E3EAE8 /* MSOneCollectorChannelDelegatePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = E79750E620A4F41400E3EAE8 /* MSOneCollectorChannelDelegatePrivate.h */; };
 		E79750E920A4F41400E3EAE8 /* MSOneCollectorChannelDelegatePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = E79750E620A4F41400E3EAE8 /* MSOneCollectorChannelDelegatePrivate.h */; };
@@ -824,17 +824,17 @@
 		E74B14A120B36AAB002C0183 /* MSUserExtension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSUserExtension.m; sourceTree = "<group>"; };
 		E74B14A820B36B9B002C0183 /* MSLocExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSLocExtension.h; sourceTree = "<group>"; };
 		E74B14A920B36B9B002C0183 /* MSLocExtension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSLocExtension.m; sourceTree = "<group>"; };
-		E74B14B820B36C2B002C0183 /* MSOsExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSOsExtension.h; sourceTree = "<group>"; };
+		E74B14B820B36C2B002C0183 /* MSOSExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSOSExtension.h; sourceTree = "<group>"; };
 		E74B14C020B36C66002C0183 /* MSAppExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAppExtension.h; sourceTree = "<group>"; };
 		E74B14C820B36DF1002C0183 /* MSProtocolExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSProtocolExtension.h; sourceTree = "<group>"; };
 		E74B14C920B36DF1002C0183 /* MSProtocolExtension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSProtocolExtension.m; sourceTree = "<group>"; };
 		E74B14D020B36EC5002C0183 /* MSNetExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSNetExtension.h; sourceTree = "<group>"; };
 		E74B14D120B36EC5002C0183 /* MSNetExtension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSNetExtension.m; sourceTree = "<group>"; };
 		E74B14D820B37042002C0183 /* MSAppExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAppExtension.m; sourceTree = "<group>"; };
-		E74B14D920B37042002C0183 /* MSOsExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSOsExtension.m; sourceTree = "<group>"; };
+		E74B14D920B37042002C0183 /* MSOSExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSOSExtension.m; sourceTree = "<group>"; };
 		E74B14E420B370A5002C0183 /* MSUserExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSUserExtension.h; sourceTree = "<group>"; };
-		E74B14E820B3711F002C0183 /* MSSdkExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSSdkExtension.h; sourceTree = "<group>"; };
-		E74B14E920B3711F002C0183 /* MSSdkExtension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSSdkExtension.m; sourceTree = "<group>"; };
+		E74B14E820B3711F002C0183 /* MSSDKExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSSDKExtension.h; sourceTree = "<group>"; };
+		E74B14E920B3711F002C0183 /* MSSDKExtension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSSDKExtension.m; sourceTree = "<group>"; };
 		E79750E620A4F41400E3EAE8 /* MSOneCollectorChannelDelegatePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSOneCollectorChannelDelegatePrivate.h; sourceTree = "<group>"; };
 		E79750EA20A50BF400E3EAE8 /* MSOneCollectorChannelDelegateTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSOneCollectorChannelDelegateTests.m; sourceTree = "<group>"; };
 		E7D23C5020B4E0CA00A47D62 /* MSCommonSchemaLogTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSCommonSchemaLogTests.m; sourceTree = "<group>"; };
@@ -1307,16 +1307,16 @@
 				E74B14A120B36AAB002C0183 /* MSUserExtension.m */,
 				E74B14A820B36B9B002C0183 /* MSLocExtension.h */,
 				E74B14A920B36B9B002C0183 /* MSLocExtension.m */,
-				E74B14B820B36C2B002C0183 /* MSOsExtension.h */,
-				E74B14D920B37042002C0183 /* MSOsExtension.m */,
+				E74B14B820B36C2B002C0183 /* MSOSExtension.h */,
+				E74B14D920B37042002C0183 /* MSOSExtension.m */,
 				E74B14C020B36C66002C0183 /* MSAppExtension.h */,
 				E74B14D820B37042002C0183 /* MSAppExtension.m */,
 				E74B14C820B36DF1002C0183 /* MSProtocolExtension.h */,
 				E74B14C920B36DF1002C0183 /* MSProtocolExtension.m */,
 				E74B14D020B36EC5002C0183 /* MSNetExtension.h */,
 				E74B14D120B36EC5002C0183 /* MSNetExtension.m */,
-				E74B14E820B3711F002C0183 /* MSSdkExtension.h */,
-				E74B14E920B3711F002C0183 /* MSSdkExtension.m */,
+				E74B14E820B3711F002C0183 /* MSSDKExtension.h */,
+				E74B14E920B3711F002C0183 /* MSSDKExtension.m */,
 				E7D23C5420B4E38B00A47D62 /* MSCSData.h */,
 				E7D23C5520B4E38B00A47D62 /* MSCSData.m */,
 				E7D23C6420B6391700A47D62 /* MSCSExtensions.h */,
@@ -1500,7 +1500,7 @@
 				E74B14D420B36EC5002C0183 /* MSNetExtension.h in Headers */,
 				043120C21EE0BCF9007054C5 /* MSLogContainer.h in Headers */,
 				043120C61EE0BCF9007054C5 /* MSChannelUnitConfiguration.h in Headers */,
-				E74B14BC20B36C2B002C0183 /* MSOsExtension.h in Headers */,
+				E74B14BC20B36C2B002C0183 /* MSOSExtension.h in Headers */,
 				045C85121FE0B2D300089540 /* MSSessionContext.h in Headers */,
 				043120C71EE0BCF9007054C5 /* MSAppCenterInternal.h in Headers */,
 				043120C81EE0BCF9007054C5 /* MSService.h in Headers */,
@@ -1513,7 +1513,7 @@
 				B2CD749F1F22BE270070E7DF /* MSConstants+Internal.h in Headers */,
 				043120CE1EE0BCF9007054C5 /* MSServiceAbstractProtected.h in Headers */,
 				B2CD74BD1F22BE270070E7DF /* MSUtility+File.h in Headers */,
-				E74B14EC20B3711F002C0183 /* MSSdkExtension.h in Headers */,
+				E74B14EC20B3711F002C0183 /* MSSDKExtension.h in Headers */,
 				E7D23C7520B6450300A47D62 /* MSCSConstants.h in Headers */,
 				043120D11EE0BCF9007054C5 /* MSDeviceTracker.h in Headers */,
 				0446DF301F3B86CB00C8E338 /* MSWrapperSdkInternal.h in Headers */,
@@ -1548,7 +1548,7 @@
 				E74B14D320B36EC5002C0183 /* MSNetExtension.h in Headers */,
 				04754F881EA98182002CBA46 /* MSLog.h in Headers */,
 				E7D23C6720B6391700A47D62 /* MSCSExtensions.h in Headers */,
-				E74B14BB20B36C2B002C0183 /* MSOsExtension.h in Headers */,
+				E74B14BB20B36C2B002C0183 /* MSOSExtension.h in Headers */,
 				3568A7E3201A8A6300F3B860 /* MSChannelDelegate.h in Headers */,
 				3568A7E5201A8A6300F3B860 /* MSChannelGroupProtocol.h in Headers */,
 				3568A7E8201A91D100F3B860 /* MSEnable.h in Headers */,
@@ -1604,7 +1604,7 @@
 				04754F9D1EA98182002CBA46 /* MSAppCenterErrors.h in Headers */,
 				B2CD74B01F22BE270070E7DF /* MSUtility+Date.h in Headers */,
 				045C85111FE0B2D200089540 /* MSSessionContext.h in Headers */,
-				E74B14EB20B3711F002C0183 /* MSSdkExtension.h in Headers */,
+				E74B14EB20B3711F002C0183 /* MSSDKExtension.h in Headers */,
 				04754F9F1EA98182002CBA46 /* MSServiceAbstractProtected.h in Headers */,
 				0499F8551EDF979700C3EDDA /* MSLogWithProperties.h in Headers */,
 				B2CD74C71F22BEBF0070E7DF /* MSDBStorage.h in Headers */,
@@ -1643,7 +1643,7 @@
 				E74B14D220B36EC5002C0183 /* MSNetExtension.h in Headers */,
 				35D0B7531DDFABFD003EACCD /* MSWrapperLogger.h in Headers */,
 				E7D23C6620B6391700A47D62 /* MSCSExtensions.h in Headers */,
-				E74B14BA20B36C2B002C0183 /* MSOsExtension.h in Headers */,
+				E74B14BA20B36C2B002C0183 /* MSOSExtension.h in Headers */,
 				3542742320167DD500BE766F /* MSEnable.h in Headers */,
 				354274202016769C00BE766F /* MSChannelGroupProtocol.h in Headers */,
 				B2787213201AAA7F004AA9A5 /* MSAppCenterErrors.h in Headers */,
@@ -1699,7 +1699,7 @@
 				38C633C71FDF15DD005F40C9 /* MSCustomApplicationDelegate.h in Headers */,
 				6E0401701D1C9E460051BCFA /* MSService.h in Headers */,
 				6E0401711D1C9E460051BCFA /* MSServiceInternal.h in Headers */,
-				E74B14EA20B3711F002C0183 /* MSSdkExtension.h in Headers */,
+				E74B14EA20B3711F002C0183 /* MSSDKExtension.h in Headers */,
 				B2CD74A01F22BE270070E7DF /* MSUtility.h in Headers */,
 				385AD9221D95898D008B354A /* MSServiceAbstractProtected.h in Headers */,
 				3844FF131E8C22CC003E9194 /* MSAbstractLogInternal.h in Headers */,
@@ -1976,7 +1976,7 @@
 			files = (
 				B2CD74C61F22BE270070E7DF /* MSUtility+StringFormatting.m in Sources */,
 				043120741EE0BCF9007054C5 /* MSAppCenter.m in Sources */,
-				E74B14EF20B3711F002C0183 /* MSSdkExtension.m in Sources */,
+				E74B14EF20B3711F002C0183 /* MSSDKExtension.m in Sources */,
 				043120761EE0BCF9007054C5 /* MSLogger.m in Sources */,
 				B2CD74BA1F22BE270070E7DF /* MSUtility+Environment.m in Sources */,
 				043120771EE0BCF9007054C5 /* MSChannelUnitConfiguration.m in Sources */,
@@ -2003,7 +2003,7 @@
 				E74B14CF20B36DF1002C0183 /* MSProtocolExtension.m in Sources */,
 				043120841EE0BCF9007054C5 /* MSSenderUtil.m in Sources */,
 				B2CD74C01F22BE270070E7DF /* MSUtility+File.m in Sources */,
-				E74B14E020B37043002C0183 /* MSOsExtension.m in Sources */,
+				E74B14E020B37043002C0183 /* MSOSExtension.m in Sources */,
 				047EBB9F1FE30842009BB1C8 /* MSSessionHistoryInfo.m in Sources */,
 				043120861EE0BCF9007054C5 /* MSAbstractLog.m in Sources */,
 				043120871EE0BCF9007054C5 /* MSKeychainUtil.m in Sources */,
@@ -2102,7 +2102,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				04754F491EA98182002CBA46 /* MSAppCenter.m in Sources */,
-				E74B14EE20B3711F002C0183 /* MSSdkExtension.m in Sources */,
+				E74B14EE20B3711F002C0183 /* MSSDKExtension.m in Sources */,
 				04754F4B1EA98182002CBA46 /* MSLogger.m in Sources */,
 				B2CD74B31F22BE270070E7DF /* MSUtility+Date.m in Sources */,
 				04754F4C1EA98182002CBA46 /* MSChannelUnitConfiguration.m in Sources */,
@@ -2112,7 +2112,7 @@
 				047EBB9E1FE30842009BB1C8 /* MSSessionHistoryInfo.m in Sources */,
 				04754F501EA98182002CBA46 /* MSAppCenterErrors.m in Sources */,
 				E74B14A620B36AAB002C0183 /* MSUserExtension.m in Sources */,
-				E74B14DF20B37043002C0183 /* MSOsExtension.m in Sources */,
+				E74B14DF20B37043002C0183 /* MSOSExtension.m in Sources */,
 				E74B149D20B364EE002C0183 /* MSCommonSchemaLog.m in Sources */,
 				04754F511EA98182002CBA46 /* MSDeviceHistoryInfo.m in Sources */,
 				E74B14D620B36EC5002C0183 /* MSNetExtension.m in Sources */,
@@ -2158,7 +2158,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E0401571D1C9AAA0051BCFA /* MSAppCenter.m in Sources */,
-				E74B14ED20B3711F002C0183 /* MSSdkExtension.m in Sources */,
+				E74B14ED20B3711F002C0183 /* MSSDKExtension.m in Sources */,
 				3592ABA81DC90E3600EF4592 /* MSLogger.m in Sources */,
 				B2CD74B21F22BE270070E7DF /* MSUtility+Date.m in Sources */,
 				6EF628F51D371B1600CAFF64 /* MSChannelUnitConfiguration.m in Sources */,
@@ -2168,7 +2168,7 @@
 				047EBB9D1FE30842009BB1C8 /* MSSessionHistoryInfo.m in Sources */,
 				3889933A1E29B26D00C27B36 /* MSAppCenterErrors.m in Sources */,
 				E74B14A520B36AAB002C0183 /* MSUserExtension.m in Sources */,
-				E74B14DE20B37043002C0183 /* MSOsExtension.m in Sources */,
+				E74B14DE20B37043002C0183 /* MSOSExtension.m in Sources */,
 				E74B149C20B364EE002C0183 /* MSCommonSchemaLog.m in Sources */,
 				B2FD53631E56501B0050F909 /* MSDeviceHistoryInfo.m in Sources */,
 				E74B14D520B36EC5002C0183 /* MSNetExtension.m in Sources */,

@@ -1,13 +1,15 @@
 #import <Foundation/Foundation.h>
-#import "MSProtocolExtension.h"
-#import "MSUserExtension.h"
-#import "MSOSExtension.h"
-#import "MSAppExtension.h"
-#import "MSNetExtension.h"
-#import "MSSDKExtension.h"
-#import "MSLocExtension.h"
-#import "MSSerializableObject.h"
+
 #import "MSModel.h"
+#import "MSSerializableObject.h"
+
+@class MSAppExtension;
+@class MSLocExtension;
+@class MSNetExtension;
+@class MSOSExtension;
+@class MSProtocolExtension;
+@class MSSDKExtension;
+@class MSUserExtension;
 
 /**
  * Part A extensions.

@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
-#import "MSSerializableObject.h"
+
 #import "MSModel.h"
+#import "MSSerializableObject.h"
 
 /**
  * Describes the location from which the event was logged.
