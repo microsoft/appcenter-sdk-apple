@@ -1,4 +1,5 @@
 #import "MSAppCenterInternal.h"
+#import "MSCommonSchemaLog.h"
 #import "MSDBStoragePrivate.h"
 #import "MSKeychainUtil.h"
 #import "MSLogDBStoragePrivate.h"
@@ -56,8 +57,7 @@ static const NSUInteger kMSSchemaVersion = 1;
                                  kMSGroupIdColumnName, kMSLogColumnName, groupId, base64Data];
 
   // Serialize target token.
-  // TODO: Add real check for Common schema log.
-  if ([(NSObject *)log isKindOfClass:[NSString class]]) {
+  if ([(NSObject *)log isKindOfClass:[MSCommonSchemaLog class]]) {
     NSString *targetToken = [[log transmissionTargetTokens] anyObject];
     NSString *targetTokenHash = [MSUtility sha256:targetToken];
     [MSKeychainUtil storeString:targetToken forKey:targetTokenHash];
@@ -253,9 +253,12 @@ static const NSUInteger kMSSchemaVersion = 1;
   // Build up delete query.
   char surroundingChar = ([[columnValues firstObject] isKindOfClass:[NSString class]]) ? '\'' : '\0';
   NSString *valuesSeparation = [NSString stringWithFormat:@"%c, %c", surroundingChar, surroundingChar];
+  NSString *whereCondition = [NSString stringWithFormat:@"\"%@\" IN (%c%@%c)", columnName, surroundingChar,
+                              [columnValues componentsJoinedByString:valuesSeparation], surroundingChar];
+  NSArray<NSArray *> *logEntries = [self logsWithCondition:whereCondition];
+  [self deleteTargetTokensFromKeychain:logEntries];
   NSString *deleteLogsQuery = [NSString
-      stringWithFormat:@"DELETE FROM \"%@\" WHERE \"%@\" IN (%c%@%c)", kMSLogTableName, columnName, surroundingChar,
-                       [columnValues componentsJoinedByString:valuesSeparation], surroundingChar];
+      stringWithFormat:@"DELETE FROM \"%@\" WHERE %@", kMSLogTableName, whereCondition];
 
   // Execute.
   if ([self executeNonSelectionQuery:deleteLogsQuery]) {
@@ -269,6 +272,15 @@ static const NSUInteger kMSSchemaVersion = 1;
   NSString *deleteLogQuery = [NSString stringWithFormat:@"DELETE FROM \"%@\" ORDER BY \"%@\" ASC LIMIT %ld",
                                                         kMSLogTableName, kMSIdColumnName, (long)count];
   [self executeNonSelectionQuery:deleteLogQuery];
+}
+
+- (void) deleteTargetTokensFromKeychain:(NSArray<NSArray *> *)logEntries {
+  for (NSMutableArray *row in logEntries) {
+    NSString *targetTokenHash = row[self.targetTokenColumnIndex];
+    if (![targetTokenHash isKindOfClass:[NSNull class]]) {
+      [MSKeychainUtil deleteStringForKey:targetTokenHash];
+    }
+  }
 }
 
 #pragma mark - DB count
