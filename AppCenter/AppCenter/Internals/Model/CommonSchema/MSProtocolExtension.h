@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
-#import "MSSerializableObject.h"
+
 #import "MSModel.h"
+#import "MSSerializableObject.h"
 
 /**
  * The Protocol extension contains device specific information. 

@@ -1,15 +1,15 @@
 #import "MSAbstractLogInternal.h"
-#import "MSProtocolExtension.h"
-#import "MSUserExtension.h"
-#import "MSOSExtension.h"
 #import "MSAppExtension.h"
-#import "MSNetExtension.h"
-#import "MSLocExtension.h"
-#import "MSSDKExtension.h"
 #import "MSCSData.h"
-#import "MSSerializableObject.h"
-#import "MSModel.h"
 #import "MSCSExtensions.h"
+#import "MSLocExtension.h"
+#import "MSModel.h"
+#import "MSNetExtension.h"
+#import "MSOSExtension.h"
+#import "MSProtocolExtension.h"
+#import "MSSDKExtension.h"
+#import "MSSerializableObject.h"
+#import "MSUserExtension.h"
 
 /**
  * Common schema has one event type with extensions, everything is called an event.

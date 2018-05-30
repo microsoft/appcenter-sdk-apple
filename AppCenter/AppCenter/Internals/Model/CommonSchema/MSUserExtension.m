@@ -1,5 +1,5 @@
-#import "MSUserExtension.h"
 #import "MSCSConstants.h"
+#import "MSUserExtension.h"
 
 @implementation MSUserExtension
 

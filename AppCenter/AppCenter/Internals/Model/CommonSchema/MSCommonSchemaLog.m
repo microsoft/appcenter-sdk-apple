@@ -1,6 +1,6 @@
 #import "MSCommonSchemaLog.h"
-#import "MSModel.h"
 #import "MSCSConstants.h"
+#import "MSModel.h"
 
 @implementation MSCommonSchemaLog
 

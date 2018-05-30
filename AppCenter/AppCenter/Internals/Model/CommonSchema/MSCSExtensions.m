@@ -1,5 +1,12 @@
-#import "MSCSExtensions.h"
+#import "MSAppExtension.h"
 #import "MSCSConstants.h"
+#import "MSCSExtensions.h"
+#import "MSLocExtension.h"
+#import "MSNetExtension.h"
+#import "MSOSExtension.h"
+#import "MSProtocolExtension.h"
+#import "MSSDKExtension.h"
+#import "MSUserExtension.h"
 
 @implementation MSCSExtensions
 
