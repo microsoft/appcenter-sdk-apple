@@ -1,7 +1,8 @@
 #import "MSAbstractLog.h"
+#import "MSCommonSchemaLog.h"
 #import "MSLog.h"
-#import "MSSerializableObject.h"
 #import "MSLogConversion.h"
+#import "MSSerializableObject.h"
 
 @interface MSAbstractLog () <MSLog, MSSerializableObject, MSLogConversion>
 
@@ -14,4 +15,6 @@
  */
 - (NSString *)serializeLogWithPrettyPrinting:(BOOL)prettyPrint;
 
+// TODO comment
+- (MSCommonSchemaLog *)toCommonSchemaLogForTargetToken:(NSString *) token;
 @end

@@ -1,7 +1,10 @@
 #import "AppCenter+Internal.h"
+#import "MSAbstractLogInternal.h"
+#import "MSAnalyticsInternal.h"
 #import "MSCommonSchemaLog.h"
-#import "MSLogConversion.h"
+#import "MSCSConstants.h"
 #import "MSEventLog.h"
+#import "MSLogConversion.h"
 
 static NSString *const kMSTypeEvent = @"event";
 
@@ -53,11 +56,42 @@ static NSString *const kMSId = @"id";
   [coder encodeObject:self.eventId forKey:kMSId];
 }
 
-#pragma mark - MSLogConversion
+#pragma mark - MSAbstractLog
 
-- (MSCommonSchemaLog *)toCommonSchemaLog {
-//  MSCommonSchemaLog *csLog = [super toCommonSchemaLog];
-  return nil;
+- (MSCommonSchemaLog *)toCommonSchemaLogForTargetToken:(NSString *)token {
+  MSCommonSchemaLog *csLog = [super toCommonSchemaLogForTargetToken:token];
+  
+  // Event name goes to part A.
+  csLog.name = self.name;
+  
+  // Event properties goes to part C.
+  MSCSData *data = [MSCSData new];
+  data.properties = self.properties;
+  csLog.data = data;
+  return csLog;
 }
+
+#pragma mark - Helper
+
+- (NSDictionary<NSString*,NSObject *> *)convertACPropertiesToCSproperties:(NSDictionary<NSString*,NSString*> *)acProperties{
+  NSMutableDictionary *csProperties = [NSMutableDictionary new];
+  for (NSString *acKey in acProperties){
+    if ([acKey isEqualToString:kMSDataBaseData] || [acKey isEqualToString:kMSDataBaseDataType]){
+      MSLogWarning(MSAnalytics.logTag, @"Cannot use %@ in properties, skipping that property.", acKey);
+      continue;
+    }
+    
+    // If the key contains a '.' then it's nested objects (i.e: "a.b":"value" => {"a":{"b":"value"}}).
+    NSArray *csKeys = [acKey componentsSeparatedByString:@"."];
+    NSUInteger lastIndex = csKeys.count;
+    NSMutableDictionary *csProperty = [NSMutableDictionary new];
+    csProperties[csKeys[lastIndex]] = acProperties[acKey];
+    for (NSUInteger i = 0; i < lastIndex; i++){
+      csProperties[csKeys[i]] = @{csKeys[i]: csProperty};
+    }
+  }
+  return csProperties;
+}
+
 
 @end

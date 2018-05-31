@@ -2,7 +2,6 @@
 #import "MSAbstractLogPrivate.h"
 #import "MSCommonSchemaLog.h"
 #import "MSCSConstants.h"
-#import "MSCSSequenceGenerator.h"
 #import "MSDevice.h"
 #import "MSDeviceInternal.h"
 #import "MSLogger.h"
@@ -186,10 +185,7 @@ static NSString *const kMSType = @"type";
   // SDK extension.
   csLog.ext.sdkExt = [MSSDKExtension new];
   csLog.ext.sdkExt.libVer = [self combineSDKLibVer:self.device.sdkName withVersion:self.device.sdkVersion];
-
-  // TODO confirm sdk.epoch with One Collector and move to OneCollectorChannelListener.
-  csLog.ext.sdkExt.seq = [MSCSSequenceGenerator sequenceForTargetToken:token];
-  
+ 
   // Loc extension.
   csLog.ext.locExt = [MSLocExtension new];
   csLog.ext.locExt.tz = [self convertTimeZoneOffsetToISO8601:[self.device.timeZoneOffset integerValue]];

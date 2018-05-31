@@ -26,6 +26,6 @@
 /**
  * ID created on first-time SDK initialization. It may serves as the device.localId.
  */
-@property(nonatomic, copy) NSString *installId;
+@property(nonatomic) NSUUID *installId;
 
 @end

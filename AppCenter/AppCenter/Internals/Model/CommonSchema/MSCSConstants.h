@@ -53,6 +53,8 @@ extern NSString *const kMSSDKInstallId;
 
 #pragma mark - MSCSData
 
+extern NSString *const kMSDataBaseDataType;
+extern NSString *const kMSDataBaseData;
 extern NSString *const kMSDataProperties;
 
 #pragma mark - MSCSExtensions

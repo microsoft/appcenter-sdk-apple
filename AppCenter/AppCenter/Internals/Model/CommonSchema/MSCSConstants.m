@@ -53,6 +53,8 @@ NSString *const kMSSDKInstallId = @"installId";
 
 #pragma mark - MSCSData
 
+NSString *const kMSDataBaseData = @"baseData";
+NSString *const kMSDataBaseDataType = @"baseDataType";
 NSString *const kMSDataProperties = @"properties";
 
 #pragma mark - MSCSExtensions
