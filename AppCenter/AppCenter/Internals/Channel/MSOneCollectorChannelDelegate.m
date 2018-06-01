@@ -45,21 +45,21 @@ static NSString *const kMSOneCollectorGroupIdSuffix = @"/one";
   }
 }
 
-- (void)channel:(id<MSChannelProtocol>)__unused channel prepareLog:(id<MSLog>)log{
-  
+- (void)channel:(id<MSChannelProtocol>)__unused channel prepareLog:(id<MSLog>)log {
+
   // Prepare Common Schema logs.
-  if ([log isKindOfClass:[MSCommonSchemaLog class]]){
+  if ([log isKindOfClass:[MSCommonSchemaLog class]]) {
     MSCommonSchemaLog *csLog = (MSCommonSchemaLog *)log;
-    
+
     // Set epoch and seq to SDK.
     MSCSEpochAndSeq *epochAndSeq = self.epochsAndSeqsByIKey[csLog.iKey];
-    if (!epochAndSeq){
+    if (!epochAndSeq) {
       epochAndSeq = [[MSCSEpochAndSeq alloc] initWithEpoch:MS_UUID_STRING];
     }
     csLog.ext.sdkExt.epoch = epochAndSeq.epoch;
     csLog.ext.sdkExt.seq = ++epochAndSeq.seq;
     self.epochsAndSeqsByIKey[csLog.iKey] = epochAndSeq;
-    
+
     // Set install ID to SDK.
     csLog.ext.sdkExt.installId = self.installId;
   }
@@ -69,18 +69,16 @@ static NSString *const kMSOneCollectorGroupIdSuffix = @"/one";
   return NO;
 }
 
-- (void)channel:(id<MSChannelProtocol>)channel
-              didSetEnabled:(BOOL)isEnabled
-    andDeleteDataOnDisabled:(BOOL)deletedData {
+- (void)channel:(id<MSChannelProtocol>)channel didSetEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deletedData {
   if ([channel conformsToProtocol:@protocol(MSChannelUnitProtocol)]) {
     NSString *groupId = ((id<MSChannelUnitProtocol>)channel).configuration.groupId;
     if (![self isOneCollectorGroup:groupId]) {
-      
+
       // Mirror disabling state to OneCollector channels.
       [self.oneCollectorChannels[groupId] setEnabled:isEnabled andDeleteDataOnDisabled:deletedData];
     }
-  }else if ([channel conformsToProtocol:@protocol(MSChannelGroupProtocol)] && !isEnabled && deletedData){
-    
+  } else if ([channel conformsToProtocol:@protocol(MSChannelGroupProtocol)] && !isEnabled && deletedData) {
+
     // Reset epoch and seq values when SDK is disabled as a whole.
     [self.epochsAndSeqsByIKey removeAllObjects];
   }

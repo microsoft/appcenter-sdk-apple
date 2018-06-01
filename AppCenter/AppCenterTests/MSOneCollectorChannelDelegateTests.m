@@ -6,6 +6,10 @@
 #import "MSStorage.h"
 #import "MSSender.h"
 #import "MSTestFrameworks.h"
+#import "MSChannelProtocol.h"
+#import "MSCommonSchemaLog.h"
+#import "MSCSExtensions.h"
+#import "MSSDKExtension.h"
 
 static NSString *const kMSBaseGroupId = @"baseGroupId";
 
@@ -173,6 +177,54 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
   dispatch_async(self.logsDispatchQueue, ^{
     [channelEndJobExpectation fulfill];
   });
+}
+
+- (void)testPrepareLogWithEpochAndSeq {
+
+  // If
+  id channelMock = OCMProtocolMock(@protocol(MSChannelProtocol));
+  MSCommonSchemaLog *csLogMock = OCMPartialMock([MSCommonSchemaLog new]);
+  csLogMock.iKey = @"o:81439696f7164d7599d543f9bf37abb7";
+  MSCSExtensions *ext = OCMPartialMock([MSCSExtensions new]);
+  MSSDKExtension *sdkExt = OCMPartialMock([MSSDKExtension new]);
+  ext.sdkExt = sdkExt;
+  csLogMock.ext = ext;
+  OCMStub([csLogMock isValid]).andReturn(YES);
+
+  // When
+  [self.sut channel:channelMock prepareLog:csLogMock];
+
+  // Then
+  XCTAssertNotNil(csLogMock.ext.sdkExt.epoch);
+  XCTAssertEqual(csLogMock.ext.sdkExt.seq, 1);
+  XCTAssertNotNil(self.sut.epochsAndSeqsByIKey);
+  XCTAssertTrue(self.sut.epochsAndSeqsByIKey.count == 1);
+}
+
+- (void)testResetEpochAndSeq {
+
+  // If
+  id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  MSCommonSchemaLog *csLogMock = OCMPartialMock([MSCommonSchemaLog new]);
+  csLogMock.iKey = @"o:81439696f7164d7599d543f9bf37abb7";
+  MSCSExtensions *ext = OCMPartialMock([MSCSExtensions new]);
+  MSSDKExtension *sdkExt = OCMPartialMock([MSSDKExtension new]);
+  ext.sdkExt = sdkExt;
+  csLogMock.ext = ext;
+  OCMStub([csLogMock isValid]).andReturn(YES);
+
+  // When
+  [self.sut channel:channelGroupMock prepareLog:csLogMock];
+
+  // Then
+  XCTAssertNotNil(self.sut.epochsAndSeqsByIKey);
+  XCTAssertTrue(self.sut.epochsAndSeqsByIKey.count == 1);
+
+  // When
+  [self.sut channel:channelGroupMock didSetEnabled:NO andDeleteDataOnDisabled:YES];
+
+  // Then
+  XCTAssertTrue(self.sut.epochsAndSeqsByIKey.count == 0);
 }
 
 @end
