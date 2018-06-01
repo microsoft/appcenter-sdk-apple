@@ -2,6 +2,7 @@
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
+#import "MSCommonSchemaLog.h"
 #import "MSLog.h"
 #import "MSOneCollectorChannelDelegatePrivate.h"
 
@@ -35,8 +36,13 @@ static NSString *const kMSOneCollectorGroupIdSuffix = @"/one";
   }
 }
 
-- (BOOL)shouldFilterLog:(id<MSLog>)log {
-  return [self shouldSendLogToOneCollector:log];
+- (BOOL)channelUnit:(id<MSChannelUnitProtocol>)channelUnit shouldFilterLog:(id<MSLog>)log {
+
+  // Do not filter the log from one collector channels.
+  if ([self isOneCollectorGroup:channelUnit.configuration.groupId]) {
+    return NO;
+  }
+  return [[log transmissionTargetTokens] count] > 0;
 }
 
 - (void)channel:(id<MSChannelProtocol>)channel
@@ -51,8 +57,6 @@ static NSString *const kMSOneCollectorGroupIdSuffix = @"/one";
 }
 
 - (void)channel:(id<MSChannelProtocol>)channel didPrepareLog:(id<MSLog>)log withInternalId:(NSString *)__unused internalId {
-
-  // TODO Maybe this should not be triggered by a channel group.
   if (![self shouldSendLogToOneCollector:log] ||
       ![channel conformsToProtocol:@protocol(MSChannelUnitProtocol)]) {
     return;
@@ -64,18 +68,21 @@ static NSString *const kMSOneCollectorGroupIdSuffix = @"/one";
     return;
   }
 
-  //TODO Convert the log.
-  id<MSLog> convertedLog;
-  [oneCollectorChannelUnit enqueueItem:convertedLog];
+  // TODO: do the actual conversion
+  MSCommonSchemaLog *commonSchemaLog = [MSCommonSchemaLog new];
+  [commonSchemaLog setType:[log type]];
+  [commonSchemaLog setTimestamp:[log timestamp]];
+  [commonSchemaLog setDevice:[log device]];
+  [oneCollectorChannelUnit enqueueItem:commonSchemaLog];
 }
 
 - (BOOL)isOneCollectorGroup:(NSString *)groupId {
   return [groupId hasSuffix:kMSOneCollectorGroupIdSuffix];
 }
 
-// TODO This must return NO if the log is already a common schema log to avoid infinite recursion.
-- (BOOL) shouldSendLogToOneCollector:(id<MSLog>)log {
-  return [[log transmissionTargetTokens] count] > 0;
+- (BOOL)shouldSendLogToOneCollector:(id<MSLog>)log {
+  NSObject *logObject = (NSObject *)log;
+  return [[log transmissionTargetTokens] count] > 0 && ![logObject isKindOfClass:[MSCommonSchemaLog class]];
 }
 
 @end

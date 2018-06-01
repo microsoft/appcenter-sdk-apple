@@ -716,6 +716,7 @@
 		358F9BC22019531F00B9E22C /* MSLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSLogger.h; sourceTree = "<group>"; };
 		3592ABA51DC90E3600EF4592 /* MSLoggerInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLoggerInternal.h; sourceTree = "<group>"; };
 		3592ABA61DC90E3600EF4592 /* MSLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLogger.m; sourceTree = "<group>"; };
+		35B80F9220C1FE1A00CDFA55 /* MSMockLogObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSMockLogObject.h; sourceTree = "<group>"; };
 		35C0E3C91FD6146A004E841E /* MSMockSecondService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSMockSecondService.m; sourceTree = "<group>"; };
 		35C0E3CA1FD6146A004E841E /* MSMockSecondService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSMockSecondService.h; sourceTree = "<group>"; };
 		35D0B7511DDFABFD003EACCD /* MSWrapperLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSWrapperLogger.h; sourceTree = "<group>"; };
@@ -1294,6 +1295,7 @@
 				35C0E3CA1FD6146A004E841E /* MSMockSecondService.h */,
 				35C0E3C91FD6146A004E841E /* MSMockSecondService.m */,
 				04311FEE1EE083C2007054C5 /* MSTestFrameworks.h */,
+				35B80F9220C1FE1A00CDFA55 /* MSMockLogObject.h */,
 			);
 			path = Util;
 			sourceTree = "<group>";
