@@ -35,6 +35,7 @@ static const NSUInteger kMSSchemaVersion = 1;
     _targetTokenColumnIndex = ((NSNumber *)columnIndexes[kMSLogTableName][kMSTargetTokenColumnName]).unsignedIntegerValue;
     _capacity = NSUIntegerMax;
     _batches = [NSMutableDictionary<NSString *, NSArray<NSNumber *> *> new];
+    _targetTokenEncrypter = [[MSEncrypter alloc] initWithDefaultKeyPair];
   }
   return self;
 }
@@ -63,10 +64,10 @@ static const NSUInteger kMSSchemaVersion = 1;
   // Serialize target token.
   if ([(NSObject *)log isKindOfClass:[MSCommonSchemaLog class]]) {
     NSString *targetToken = [[log transmissionTargetTokens] anyObject];
-    NSString *targetTokenHash = [MSUtility sha256:targetToken];
-    [MSKeychainUtil storeString:targetToken forKey:targetTokenHash];
+    NSString *encryptedToken = [self.targetTokenEncrypter encryptString:targetToken];
+    //[MSKeychainUtil storeString:targetToken forKey:targetTokenHash];
     addLogQuery = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") VALUES ('%@', '%@', '%@')", kMSLogTableName,
-                   kMSGroupIdColumnName, kMSLogColumnName, kMSTargetTokenColumnName, groupId, base64Data, targetTokenHash];
+                   kMSGroupIdColumnName, kMSLogColumnName, kMSTargetTokenColumnName, groupId, base64Data, encryptedToken];
   }
   BOOL succeeded = [self executeNonSelectionQuery:addLogQuery];
   NSUInteger logCount = [self countLogs];
@@ -227,9 +228,9 @@ static const NSUInteger kMSSchemaVersion = 1;
     }
 
     // Deserialize target token.
-    NSString *targetTokenHash = row[self.targetTokenColumnIndex];
-    if (![targetTokenHash isKindOfClass:[NSNull class]]) {
-      NSString *targetToken = [MSKeychainUtil stringForKey:targetTokenHash];
+    NSString *encryptedToken = row[self.targetTokenColumnIndex];
+    if (![encryptedToken isKindOfClass:[NSNull class]]) {
+      NSString *targetToken = [self.targetTokenEncrypter decryptString:encryptedToken];
       [log addTransmissionTargetToken:targetToken];
     }
     
@@ -259,8 +260,6 @@ static const NSUInteger kMSSchemaVersion = 1;
   NSString *valuesSeparation = [NSString stringWithFormat:@"%c, %c", surroundingChar, surroundingChar];
   NSString *whereCondition = [NSString stringWithFormat:@"\"%@\" IN (%c%@%c)", columnName, surroundingChar,
                               [columnValues componentsJoinedByString:valuesSeparation], surroundingChar];
-  NSArray<NSArray *> *logEntries = [self logsWithCondition:whereCondition];
-  [self deleteTargetTokensFromKeychain:logEntries];
   NSString *deleteLogsQuery = [NSString
       stringWithFormat:@"DELETE FROM \"%@\" WHERE %@", kMSLogTableName, whereCondition];
 
@@ -276,15 +275,6 @@ static const NSUInteger kMSSchemaVersion = 1;
   NSString *deleteLogQuery = [NSString stringWithFormat:@"DELETE FROM \"%@\" ORDER BY \"%@\" ASC LIMIT %ld",
                                                         kMSLogTableName, kMSIdColumnName, (long)count];
   [self executeNonSelectionQuery:deleteLogQuery];
-}
-
-- (void) deleteTargetTokensFromKeychain:(NSArray<NSArray *> *)logEntries {
-  for (NSMutableArray *row in logEntries) {
-    NSString *targetTokenHash = row[self.targetTokenColumnIndex];
-    if (![targetTokenHash isKindOfClass:[NSNull class]]) {
-      [MSKeychainUtil deleteStringForKey:targetTokenHash];
-    }
-  }
 }
 
 #pragma mark - DB count

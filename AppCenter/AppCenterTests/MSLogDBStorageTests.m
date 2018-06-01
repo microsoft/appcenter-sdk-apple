@@ -387,23 +387,6 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
                  }];
 }
 
-- (void)testKeychainEntriesAreRemovedOnCommonSchemaLogDeletion {
-
-  // If
-  NSString *testTargetToken = @"testTargetToken";
-  NSString *testTargetTokenHash = [MSUtility sha256:testTargetToken];
-  MSCommonSchemaLog *log = [MSCommonSchemaLog new];
-  [log addTransmissionTargetToken:testTargetToken];
-  [self.sut saveLog:log withGroupId:kMSTestGroupId];
-
-  // When
-  [self.sut deleteLogsWithGroupId:kMSTestGroupId];
-
-  // Then
-  NSString *storedTargetToken = [MSKeychainUtil stringForKey:testTargetTokenHash];
-  XCTAssertNil(storedTargetToken);
-}
-
 - (void)testDeleteLogsByBatchIdWithNoPendingBatches {
 
   // If
