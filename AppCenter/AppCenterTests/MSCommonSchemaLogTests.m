@@ -1,7 +1,7 @@
 #import "MSCommonSchemaLog.h"
 #import "MSCSConstants.h"
 #import "MSTestFrameworks.h"
-#import "MSUtility.h"
+#import "MSUtility+Date.h"
 
 @interface MSCommonSchemaLogTests : XCTestCase
 @property(nonatomic) MSCommonSchemaLog *commonSchemaLog;
@@ -15,7 +15,6 @@
   self.csLogDummyValues = @{
     kMSCSVer : @"3.0",
     kMSCSName : @"1DS",
-    kMSCSTime : @(2193385800000000), // July 12, 2014 T 15:23:00
     kMSCSPopSample : @(100),
     kMSCSIKey : @"60cd0b94-6060-11e8-9c2d-fa7ae01bbebc",
     kMSCSFlags : @(31415926),
@@ -82,12 +81,6 @@
 
   // Then
   XCTAssertFalse([csLog isValid]);
-
-  // If
-  csLog.timestamp = self.csLogDummyValues[kMSCSTime];
-
-  // Then
-  XCTAssertTrue([csLog isValid]);
 }
 
 - (void)testCSLogIsEqual {
