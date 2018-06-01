@@ -66,8 +66,8 @@ static NSString *const kMSId = @"id";
 
   // Event properties goes to part C.
   MSCSData *data = [MSCSData new];
-  data.properties = self.properties;
   csLog.data = data;
+  csLog.data.properties = [self convertACPropertiesToCSproperties:self.properties];
   return csLog;
 }
 
