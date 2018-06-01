@@ -79,7 +79,7 @@ static NSString *const kMSOneCollectorGroupIdSuffix = @"/one";
       // Mirror disabling state to OneCollector channels.
       [self.oneCollectorChannels[groupId] setEnabled:isEnabled andDeleteDataOnDisabled:deletedData];
     }
-  }else if ([channel conformsToProtocol:@protocol(MSChannelGroupProtocol)]){
+  }else if ([channel conformsToProtocol:@protocol(MSChannelGroupProtocol)] && !isEnabled && deletedData){
     
     // Reset epoch and seq values when SDK is disabled as a whole.
     [self.epochsAndSeqsByIKey removeAllObjects];
