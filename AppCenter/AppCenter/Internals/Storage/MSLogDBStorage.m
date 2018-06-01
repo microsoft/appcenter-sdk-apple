@@ -14,6 +14,10 @@ static const NSUInteger kMSSchemaVersion = 1;
 #pragma mark - Initialization
 
 - (instancetype)init {
+
+  /*
+   * DO NOT modify schema without a migration plan and bumping database version.
+   */
   MSDBSchema *schema = @{
     kMSLogTableName : @[
       @{kMSIdColumnName : @[ kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey, kMSSQLiteConstraintAutoincrement ]},
