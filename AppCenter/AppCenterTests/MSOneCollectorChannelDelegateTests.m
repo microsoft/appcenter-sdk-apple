@@ -1,15 +1,15 @@
-#import "MSChannelUnitConfiguration.h"
-#import "MSChannelUnitProtocol.h"
-#import "MSChannelUnitDefault.h"
 #import "MSChannelGroupProtocol.h"
-#import "MSOneCollectorChannelDelegatePrivate.h"
-#import "MSStorage.h"
-#import "MSSender.h"
-#import "MSTestFrameworks.h"
 #import "MSChannelProtocol.h"
+#import "MSChannelUnitConfiguration.h"
+#import "MSChannelUnitDefault.h"
+#import "MSChannelUnitProtocol.h"
 #import "MSCommonSchemaLog.h"
 #import "MSCSExtensions.h"
+#import "MSOneCollectorChannelDelegatePrivate.h"
 #import "MSSDKExtension.h"
+#import "MSSender.h"
+#import "MSStorage.h"
+#import "MSTestFrameworks.h"
 
 static NSString *const kMSBaseGroupId = @"baseGroupId";
 
