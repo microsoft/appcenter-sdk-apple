@@ -295,6 +295,11 @@ static const NSUInteger kMSSchemaVersion = 1;
 
 #pragma mark - DB migration
 
+/*
+ * Migration process is implemented through database versioning.
+ * After altering current schema, database version should be bumped and
+ * actions for migration should be implemented in this method.
+ */
 - (void)migrateDatabase:(void *)db fromVersion:(NSUInteger)version {
   if (version < 1) {
     NSString *migrationQuery = [NSString stringWithFormat:@"ALTER TABLE \"%@\" ADD COLUMN \"%@\" TEXT",
