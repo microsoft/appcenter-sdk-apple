@@ -295,7 +295,7 @@ static const NSUInteger kMSSchemaVersion = 1;
   if (version < 1) {
     NSString *migrationQuery = [NSString stringWithFormat:@"ALTER TABLE \"%@\" ADD COLUMN \"%@\" TEXT",
                                 kMSLogTableName, kMSTargetTokenColumnName];
-    [MSDBStorage executeNonSelectionQuery:migrationQuery inDatabase:db];
+    [MSDBStorage executeNonSelectionQuery:migrationQuery inOpenedDatabase:db];
   }
 }
 

@@ -92,17 +92,17 @@ static NSString *const kMSTestMealColName = @"meal";
   [self.sut executeWithDatabase:^int(void *db) {
 
     // When
-    BOOL tableExists = [MSDBStorage tableExists:kMSTestTableName inDatabase:db];
+    BOOL tableExists = [MSDBStorage tableExists:kMSTestTableName inOpenedDatabase:db];
     
     // Then
     assertThatBool(tableExists, isTrue());
     
     // If
     NSString *query = [NSString stringWithFormat:@"DROP TABLE \"%@\"", kMSTestTableName];
-    [MSDBStorage executeNonSelectionQuery:query inDatabase:db];
+    [MSDBStorage executeNonSelectionQuery:query inOpenedDatabase:db];
     
     // When
-    tableExists = [MSDBStorage tableExists:kMSTestTableName inDatabase:db];
+    tableExists = [MSDBStorage tableExists:kMSTestTableName inOpenedDatabase:db];
     
     // Then
     assertThatBool(tableExists, isFalse());
@@ -115,14 +115,14 @@ static NSString *const kMSTestMealColName = @"meal";
   [self.sut executeWithDatabase:^int(void *db) {
 
     // When
-    NSUInteger version = [MSDBStorage versionInDatabase:db];
+    NSUInteger version = [MSDBStorage versionInOpenedDatabase:db];
     
     // Then
     assertThatUnsignedInteger(version, equalToUnsignedInt(0));
     
     // When
-    [MSDBStorage setVersion:1 inDatabase:db];
-    version = [MSDBStorage versionInDatabase:db];
+    [MSDBStorage setVersion:1 inOpenedDatabase:db];
+    version = [MSDBStorage versionInOpenedDatabase:db];
     
     // Then
     assertThatUnsignedInteger(version, equalToUnsignedInt(1));
@@ -134,7 +134,7 @@ static NSString *const kMSTestMealColName = @"meal";
   [self.sut executeWithDatabase:^int(void *db) {
     
     // When
-    NSUInteger version = [MSDBStorage versionInDatabase:db];
+    NSUInteger version = [MSDBStorage versionInOpenedDatabase:db];
 
     // Then
     assertThatUnsignedInteger(version, equalToUnsignedInt(1));

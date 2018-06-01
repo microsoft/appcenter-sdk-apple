@@ -37,21 +37,21 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return `YES` if the table exists in the database, otherwise `NO`.
  */
-+ (BOOL)tableExists:(NSString *)tableName inDatabase:(void *)db;
++ (BOOL)tableExists:(NSString *)tableName inOpenedDatabase:(void *)db;
 
 /**
  * Get current database version.
  *
  * @param db Database handle.
  */
-+ (NSUInteger)versionInDatabase:(void *)db;
++ (NSUInteger)versionInOpenedDatabase:(void *)db;
 
 /**
  * Set current database version.
  *
  * @param db Database handle.
  */
-+ (void)setVersion:(NSUInteger)version inDatabase:(void *)db;
++ (void)setVersion:(NSUInteger)version inOpenedDatabase:(void *)db;
 
 /**
  * Execute a non selection SQLite query on the database (i.e.: "CREATE", "INSERTE", "UPDATE"... but not "SELECT").
@@ -61,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return `YES` if the query executed successfully, otherwise `NO`.
  */
-+ (int)executeNonSelectionQuery:(NSString *)query inDatabase:(void *)db;
++ (int)executeNonSelectionQuery:(NSString *)query inOpenedDatabase:(void *)db;
 
 /**
  * Execute a "SELECT" SQLite query on the database.
@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return The selectioned entries.
  */
-+ (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query inDatabase:(void *)db;
++ (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query inOpenedDatabase:(void *)db;
 
 @end
 
