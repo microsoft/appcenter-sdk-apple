@@ -1,6 +1,7 @@
 #import "MSCommonSchemaLog.h"
 #import "MSCSConstants.h"
 #import "MSTestFrameworks.h"
+#import "MSUtility.h"
 
 @interface MSCommonSchemaLogTests : XCTestCase
 @property(nonatomic) MSCommonSchemaLog *commonSchemaLog;
@@ -53,7 +54,7 @@
   XCTAssertTrue([actualCSLog isMemberOfClass:[MSCommonSchemaLog class]]);
   XCTAssertEqualObjects(actualCSLog.ver, self.csLogDummyValues[kMSCSVer]);
   XCTAssertEqualObjects(actualCSLog.name, self.csLogDummyValues[kMSCSName]);
-  XCTAssertEqual(actualCSLog.time, [self.csLogDummyValues[kMSCSTime] longLongValue]);
+  XCTAssertEqualObjects(actualCSLog.timestamp, self.csLogDummyValues[kMSCSTime]);
   XCTAssertEqual(actualCSLog.popSample, [self.csLogDummyValues[kMSCSPopSample] doubleValue]);
   XCTAssertEqualObjects(actualCSLog.iKey, self.csLogDummyValues[kMSCSIKey]);
   XCTAssertEqual(actualCSLog.flags, [self.csLogDummyValues[kMSCSFlags] longLongValue]);
@@ -83,7 +84,7 @@
   XCTAssertFalse([csLog isValid]);
 
   // If
-  csLog.time = [self.csLogDummyValues[kMSCSTime] longLongValue];
+  csLog.timestamp = self.csLogDummyValues[kMSCSTime];
 
   // Then
   XCTAssertTrue([csLog isValid]);
@@ -118,13 +119,13 @@
 
   // If
   anotherCommonSchemaLog.name = self.csLogDummyValues[kMSCSName];
-  anotherCommonSchemaLog.time = 2193385800000001;
+  anotherCommonSchemaLog.timestamp = [NSDate dateWithTimeIntervalSince1970:42];
 
   // Then
   XCTAssertNotEqualObjects(anotherCommonSchemaLog, self.commonSchemaLog);
 
   // If
-  anotherCommonSchemaLog.time = [self.csLogDummyValues[kMSCSTime] longLongValue];
+  anotherCommonSchemaLog.timestamp = self.csLogDummyValues[kMSCSTime];
   anotherCommonSchemaLog.popSample = 101;
 
   // Then
@@ -231,7 +232,7 @@
   sdkExt.libVer = @"3.1.4";
   sdkExt.epoch = @"1527284987";
   sdkExt.seq = 1;
-  sdkExt.installId = @"41b61ab0-5fbc-11e8-9c2d-fa7ae01bbebc";
+  sdkExt.installId = [NSUUID new];
   return sdkExt;
 }
 
@@ -248,7 +249,7 @@
   MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
   csLog.ver = dummyValues[kMSCSVer];
   csLog.name = dummyValues[kMSCSName];
-  csLog.time = [dummyValues[kMSCSTime] longLongValue];
+  csLog.timestamp = dummyValues[kMSCSTime];
   csLog.popSample = [dummyValues[kMSCSPopSample] doubleValue];
   csLog.iKey = dummyValues[kMSCSIKey];
   csLog.flags = [dummyValues[kMSCSFlags] longLongValue];

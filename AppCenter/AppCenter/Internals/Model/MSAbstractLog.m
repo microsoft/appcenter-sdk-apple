@@ -132,7 +132,9 @@ static NSString *const kMSType = @"type";
       [csLogs addObject:csLog];
     }
   }
-  return csLogs;
+  
+  // Return nil if none are converted.
+  return (csLogs.count > 0) ? csLogs : nil;
 }
 
 #pragma mark - Helper
@@ -140,7 +142,7 @@ static NSString *const kMSType = @"type";
 - (MSCommonSchemaLog *)toCommonSchemaLogForTargetToken:(NSString *)token {
   MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
   csLog.ver = kMSCSVerValue;
-  csLog.time = [MSUtility dateToTicks:self.timestamp];
+  csLog.timestamp = self.timestamp;
 
   // TODO popSample not supported at this time.
 

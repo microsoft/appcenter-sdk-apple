@@ -30,10 +30,4 @@ NSString *MSUtilityDateCategory;
   return dateFormatter;
 }
 
-+ (int64_t)dateToTicks:(NSDate *)date {
-  
-  // Convert dates to ticks based on the Unix epoch.
-  return date ? ((int64_t)(date.timeIntervalSince1970 * 10000000)) + 621355968000000000 : 0;
-}
-
 @end

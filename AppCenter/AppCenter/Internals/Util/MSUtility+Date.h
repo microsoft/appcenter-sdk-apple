@@ -39,7 +39,4 @@ extern NSString *MSUtilityDateCategory;
  */
 + (NSDate *)dateFromISO8601:(NSString *)string;
 
-// TODO comment
-+ (int64_t)dateToTicks:(NSDate *)date;
-
 @end

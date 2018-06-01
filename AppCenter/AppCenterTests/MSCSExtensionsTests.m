@@ -615,7 +615,7 @@
 
   // If
   anotherSDKExt.seq = [self.sdkExtDummyValues[kMSSDKSeq] longLongValue];
-  anotherSDKExt.installId = @"8caf7096-5fbe-11e8-9c2d-fa7ae01bbebc";
+  anotherSDKExt.installId = [NSUUID new];
 
   // Then
   XCTAssertNotEqualObjects(anotherSDKExt, self.appExt);
