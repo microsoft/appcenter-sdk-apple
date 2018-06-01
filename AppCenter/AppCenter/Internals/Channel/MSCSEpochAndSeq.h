@@ -5,7 +5,13 @@
 @property (nonatomic) NSUInteger seq;
 @property (nonatomic) NSString *epoch;
 
-// TODO comment
+/**
+ * Create a MSCSEpochAndSeq with the given epoch.
+ *
+ * @param epoch The random unique UUID.
+ *
+ * @return A MSCSEpochAndSeq with the given epoch and default seq to 0.
+ */
 - (instancetype)initWithEpoch:(NSString *)epoch;
 
 @end
