@@ -2,6 +2,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef int (^MSDBStorageQueryBlock)(void *);
+
 @interface MSDBStorage ()
 
 /**
@@ -25,9 +27,9 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Open database to prepare actions in callback.
  *
- * @param callback block prepare actions.
+ * @param block Actions to perform in query.
  */
-- (BOOL)executeWithDatabase:(int (^)(void *))callback;
+- (BOOL)executeQueryUsingBlock:(MSDBStorageQueryBlock)block;
 
 /**
  * Check if a table exists in this database.

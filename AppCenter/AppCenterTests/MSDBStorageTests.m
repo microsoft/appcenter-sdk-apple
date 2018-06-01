@@ -89,7 +89,7 @@ static NSString *const kMSTestMealColName = @"meal";
 }
 
 - (void)testTableExists {
-  [self.sut executeWithDatabase:^int(void *db) {
+  [self.sut executeQueryUsingBlock:^int(void *db) {
 
     // When
     BOOL tableExists = [MSDBStorage tableExists:kMSTestTableName inOpenedDatabase:db];
@@ -112,7 +112,7 @@ static NSString *const kMSTestMealColName = @"meal";
 }
 
 - (void)testVersion {
-  [self.sut executeWithDatabase:^int(void *db) {
+  [self.sut executeQueryUsingBlock:^int(void *db) {
 
     // When
     NSUInteger version = [MSDBStorage versionInOpenedDatabase:db];
@@ -131,7 +131,7 @@ static NSString *const kMSTestMealColName = @"meal";
   }];
   
   // After re-open.
-  [self.sut executeWithDatabase:^int(void *db) {
+  [self.sut executeQueryUsingBlock:^int(void *db) {
     
     // When
     NSUInteger version = [MSDBStorage versionInOpenedDatabase:db];

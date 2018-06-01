@@ -17,7 +17,7 @@
     sqlite3_config(SQLITE_CONFIG_URI, 1);
 
     // Execute all initialize operation with one database instance.
-    [self executeWithDatabase:^int(void *db) {
+    [self executeQueryUsingBlock:^int(void *db) {
       
       // Create tables based on schema.
       NSUInteger tablesCreated = [MSDBStorage createTablesWithSchema:schema inOpenedDatabase:db];
@@ -35,7 +35,7 @@
   return self;
 }
 
-- (BOOL)executeWithDatabase:(int (^)(void *))callback {
+- (BOOL)executeQueryUsingBlock:(MSDBStorageQueryBlock)callback {
   sqlite3 *db = NULL;
   int result = SQLITE_OK;
   result = sqlite3_open_v2([[self.dbFileURL absoluteString] UTF8String], &db,
@@ -125,7 +125,7 @@
 }
 
 - (BOOL)executeNonSelectionQuery:(NSString *)query {
-  return [self executeWithDatabase:^int(void * db) {
+  return [self executeQueryUsingBlock:^int(void * db) {
     return [MSDBStorage executeNonSelectionQuery:query inOpenedDatabase:db];
   }];
 }
@@ -142,7 +142,7 @@
 
 - (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query {
   __block NSArray<NSArray *> *entries = nil;
-  [self executeWithDatabase:^int(void * db) {
+  [self executeQueryUsingBlock:^int(void * db) {
     entries = [MSDBStorage executeSelectionQuery:query inOpenedDatabase:db];
     return SQLITE_OK;
   }];
