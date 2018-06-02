@@ -8,7 +8,7 @@
 static const int minEventNameLength = 1;
 static const int maxEventNameLength = 256;
 
-// Alphanumeric characters, no heading or traling periods, no consecutive periods, no heading underscores, max length of
+// Alphanumeric characters, no heading or trailing periods, no consecutive periods, no heading underscores, max length of
 // 100.
 static NSString *const kCSEventNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){0,99}$";
 
