@@ -66,16 +66,16 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   NSString *tooLongEventName =
       [@"" stringByPaddingToLength:(maxEventNameLength + 1) withString:@"tooLongEventName" startingAtIndex:0];
   // When
-  NSString *valid = [[MSAnalytics sharedInstance] validateEventName:validEventName forLogType:kMSTypeEvent];
+  NSString *valid = [[MSAnalytics sharedInstance] validateACEventName:validEventName forLogType:kMSTypeEvent];
   NSString *validShortEventName =
-      [[MSAnalytics sharedInstance] validateEventName:shortEventName forLogType:kMSTypeEvent];
-  NSString *validEventName256 = [[MSAnalytics sharedInstance] validateEventName:eventName256 forLogType:kMSTypeEvent];
+      [[MSAnalytics sharedInstance] validateACEventName:shortEventName forLogType:kMSTypeEvent];
+  NSString *validEventName256 = [[MSAnalytics sharedInstance] validateACEventName:eventName256 forLogType:kMSTypeEvent];
   NSString *validNullableEventName =
-      [[MSAnalytics sharedInstance] validateEventName:nullableEventName forLogType:kMSTypeEvent];
+      [[MSAnalytics sharedInstance] validateACEventName:nullableEventName forLogType:kMSTypeEvent];
   NSString *validEmptyEventName =
-      [[MSAnalytics sharedInstance] validateEventName:emptyEventName forLogType:kMSTypeEvent];
+      [[MSAnalytics sharedInstance] validateACEventName:emptyEventName forLogType:kMSTypeEvent];
   NSString *validTooLongEventName =
-      [[MSAnalytics sharedInstance] validateEventName:tooLongEventName forLogType:kMSTypeEvent];
+      [[MSAnalytics sharedInstance] validateACEventName:tooLongEventName forLogType:kMSTypeEvent];
 
   // Then
   XCTAssertNotNil(valid);
@@ -223,13 +223,13 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   MSPageLog *pageLog = [MSPageLog new];
   MSLogWithNameAndProperties *analyticsLog = [MSLogWithNameAndProperties new];
   id analyticsMock = OCMPartialMock([MSAnalytics sharedInstance]);
-  OCMExpect([analyticsMock validateLog:eventLog]).andForwardToRealObject();
-  OCMExpect([analyticsMock validateEventName:@"test" forLogType:@"event"]).andForwardToRealObject();
+  OCMExpect([analyticsMock validateACLog:eventLog]).andForwardToRealObject();
+  OCMExpect([analyticsMock validateACEventName:@"test" forLogType:@"event"]).andForwardToRealObject();
   OCMExpect([analyticsMock validateProperties:OCMOCK_ANY forLogName:@"test" andType:@"event"]).andForwardToRealObject();
-  OCMExpect([analyticsMock validateLog:pageLog]).andForwardToRealObject();
-  OCMExpect([analyticsMock validateEventName:OCMOCK_ANY forLogType:@"page"]).andForwardToRealObject();
+  OCMExpect([analyticsMock validateACLog:pageLog]).andForwardToRealObject();
+  OCMExpect([analyticsMock validateACEventName:OCMOCK_ANY forLogType:@"page"]).andForwardToRealObject();
   OCMReject([analyticsMock validateProperties:OCMOCK_ANY forLogName:OCMOCK_ANY andType:@"page"]);
-  OCMReject([analyticsMock validateLog:analyticsLog]);
+  OCMReject([analyticsMock validateACLog:analyticsLog]);
   
   // When
   [[MSAnalytics sharedInstance] shouldFilterLog:eventLog];
@@ -316,7 +316,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   OCMExpect([channelUnitMock enqueueItem:OCMOCK_ANY]);
   
   // Will be validated in shouldFilterLog callback instead.
-  OCMReject([analyticsMock validateEventName:OCMOCK_ANY forLogType:OCMOCK_ANY]);
+  OCMReject([analyticsMock validateACEventName:OCMOCK_ANY forLogType:OCMOCK_ANY]);
   OCMReject([analyticsMock validateProperties:OCMOCK_ANY forLogName:OCMOCK_ANY andType:OCMOCK_ANY]);
   [[MSAnalytics sharedInstance] trackEvent:invalidEventName withProperties:nil forTransmissionTarget:nil];
 
@@ -474,7 +474,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   OCMExpect([channelUnitMock enqueueItem:OCMOCK_ANY]);
 
   // Will be validated in shouldFilterLog callback instead.
-  OCMReject([analyticsMock validateEventName:OCMOCK_ANY forLogType:OCMOCK_ANY]);
+  OCMReject([analyticsMock validateACEventName:OCMOCK_ANY forLogType:OCMOCK_ANY]);
   OCMReject([analyticsMock validateProperties:OCMOCK_ANY forLogName:OCMOCK_ANY andType:OCMOCK_ANY]);
   [[MSAnalytics sharedInstance] trackPage:invalidPageName withProperties:nil];
 
