@@ -53,7 +53,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
 #pragma mark - Tests
 
-- (void)testValidateEventName {
+- (void)testValidateACEventName {
   const int maxEventNameLength = 256;
 
   // If
@@ -85,6 +85,58 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   XCTAssertNil(validEmptyEventName);
   XCTAssertNotNil(validTooLongEventName);
   XCTAssertEqual([validTooLongEventName length], maxEventNameLength);
+}
+
+- (void)testValidateCSEventName {
+  const int maxEventNameLength = 100;
+
+  // If
+  NSString *validEventName = @"valid.CS.event.name";
+  NSString *shortEventName = @"e";
+  NSString *eventName100 =
+      [@"" stringByPaddingToLength:maxEventNameLength withString:@"csEventName100" startingAtIndex:0];
+  NSString *nullableEventName = nil;
+  NSString *emptyEventName = @"";
+  NSString *tooLongEventName =
+      [@"" stringByPaddingToLength:(maxEventNameLength + 1) withString:@"tooLongCSEventName" startingAtIndex:0];
+  NSString *periodAndUnderscoreEventName = @"hello.world_mamamia";
+  NSString *leadingPeriodEventName = @".hello.world";
+  NSString *trailingPeriodEventName = @"hello.world.";
+  NSString *consecutivePeriodEventName = @"hello..world";
+  NSString *headingUnderscoreEventName = @"_hello.world";
+  NSString *specialCharactersOtherThanPeriodAndUnderscore = @"hello%^&world";
+
+  // When
+  BOOL valid = [[MSAnalytics sharedInstance] validateCSEventName:validEventName];
+  BOOL validShortEventName = [[MSAnalytics sharedInstance] validateCSEventName:shortEventName];
+  BOOL validEventName100 = [[MSAnalytics sharedInstance] validateCSEventName:eventName100];
+  BOOL invalidNullableEventName = [[MSAnalytics sharedInstance] validateCSEventName:nullableEventName];
+  BOOL invalidEmptyEventName = [[MSAnalytics sharedInstance] validateCSEventName:emptyEventName];
+  BOOL invalidTooLongEventName = [[MSAnalytics sharedInstance] validateCSEventName:tooLongEventName];
+  BOOL validPeriodAndUnderscoreEventName =
+      [[MSAnalytics sharedInstance] validateCSEventName:periodAndUnderscoreEventName];
+  BOOL invalidLeadingPeriodEventName = [[MSAnalytics sharedInstance] validateCSEventName:leadingPeriodEventName];
+  BOOL invalidTrailingPeriodEventName = [[MSAnalytics sharedInstance] validateCSEventName:trailingPeriodEventName];
+  BOOL invalidConsecutivePeriodEventName =
+      [[MSAnalytics sharedInstance] validateCSEventName:consecutivePeriodEventName];
+  BOOL invalidHeadingUnderscoreEventName =
+      [[MSAnalytics sharedInstance] validateCSEventName:headingUnderscoreEventName];
+  BOOL invalidCharactersOtherThanPeriodAndUnderscoreEventName =
+      [[MSAnalytics sharedInstance] validateCSEventName:specialCharactersOtherThanPeriodAndUnderscore];
+
+  // Then
+  XCTAssertTrue(valid);
+  XCTAssertTrue(validShortEventName);
+  XCTAssertTrue(validEventName100);
+  XCTAssertFalse(invalidNullableEventName);
+  XCTAssertFalse(invalidEmptyEventName);
+  XCTAssertFalse(invalidTooLongEventName);
+  XCTAssertTrue(validPeriodAndUnderscoreEventName);
+  XCTAssertFalse(invalidLeadingPeriodEventName);
+  XCTAssertFalse(invalidTrailingPeriodEventName);
+  XCTAssertFalse(invalidConsecutivePeriodEventName);
+  XCTAssertFalse(invalidHeadingUnderscoreEventName);
+  XCTAssertFalse(invalidCharactersOtherThanPeriodAndUnderscoreEventName);
 }
 
 - (void)testApplyEnabledStateWorks {
@@ -215,11 +267,11 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 }
 
 - (void)testAnalyticsLogsVerificationIsCalled {
-  
+
   // If
   MSEventLog *eventLog = [MSEventLog new];
   eventLog.name = @"test";
-  eventLog.properties = @{ @"test": @"test" };
+  eventLog.properties = @{ @"test" : @"test" };
   MSPageLog *pageLog = [MSPageLog new];
   MSLogWithNameAndProperties *analyticsLog = [MSLogWithNameAndProperties new];
   id analyticsMock = OCMPartialMock([MSAnalytics sharedInstance]);
@@ -230,12 +282,12 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   OCMExpect([analyticsMock validateACEventName:OCMOCK_ANY forLogType:@"page"]).andForwardToRealObject();
   OCMReject([analyticsMock validateProperties:OCMOCK_ANY forLogName:OCMOCK_ANY andType:@"page"]);
   OCMReject([analyticsMock validateACLog:analyticsLog]);
-  
+
   // When
   [[MSAnalytics sharedInstance] shouldFilterLog:eventLog];
   [[MSAnalytics sharedInstance] shouldFilterLog:pageLog];
   [[MSAnalytics sharedInstance] shouldFilterLog:analyticsLog];
-  
+
   // Then
   OCMVerifyAll(analyticsMock);
 }
@@ -314,7 +366,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
   // When
   OCMExpect([channelUnitMock enqueueItem:OCMOCK_ANY]);
-  
+
   // Will be validated in shouldFilterLog callback instead.
   OCMReject([analyticsMock validateACEventName:OCMOCK_ANY forLogType:OCMOCK_ANY]);
   OCMReject([analyticsMock validateProperties:OCMOCK_ANY forLogName:OCMOCK_ANY andType:OCMOCK_ANY]);
