@@ -1,10 +1,14 @@
+#import "MSAbstractLogInternal.h"
+#import "MSAppCenterInternal.h"
 #import "MSChannelProtocol.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
 #import "MSCommonSchemaLog.h"
-#import "MSLog.h"
 #import "MSCSEpochAndSeq.h"
+#import "MSLog.h"
+#import "MSLogConversion.h"
+#import "MSLogger.h"
 #import "MSOneCollectorChannelDelegatePrivate.h"
 #import "MSUtility.h"
 
@@ -102,13 +106,11 @@ static NSString *const kMSOneCollectorGroupIdSuffix = @"/one";
   if (!oneCollectorChannelUnit) {
     return;
   }
-
-  // TODO: do the actual conversion
-  MSCommonSchemaLog *commonSchemaLog = [MSCommonSchemaLog new];
-  [commonSchemaLog setType:[log type]];
-  [commonSchemaLog setTimestamp:[log timestamp]];
-  [commonSchemaLog setDevice:[log device]];
-  [oneCollectorChannelUnit enqueueItem:commonSchemaLog];
+  id<MSLogConversion> logConversion = (id<MSLogConversion>)log;
+  NSArray<MSCommonSchemaLog *> *commonSchemaLogs = [logConversion toCommonSchemaLogs];
+  for (MSCommonSchemaLog *commonSchemaLog in commonSchemaLogs) {
+    [oneCollectorChannelUnit enqueueItem:commonSchemaLog];
+  }
 }
 
 - (BOOL)isOneCollectorGroup:(NSString *)groupId {
@@ -117,7 +119,7 @@ static NSString *const kMSOneCollectorGroupIdSuffix = @"/one";
 
 - (BOOL)shouldSendLogToOneCollector:(id<MSLog>)log {
   NSObject *logObject = (NSObject *)log;
-  return [[log transmissionTargetTokens] count] > 0 && ![logObject isKindOfClass:[MSCommonSchemaLog class]];
+  return [[log transmissionTargetTokens] count] > 0 && [log conformsToProtocol:@protocol(MSLogConversion)] && ![logObject isKindOfClass:[MSCommonSchemaLog class]];
 }
 
 @end

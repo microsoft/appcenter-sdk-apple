@@ -3,6 +3,7 @@
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
 #import "MSMockLogObject.h"
+#import "MSMockLogWithConversion.h"
 #import "MSChannelUnitProtocol.h"
 #import "MSCommonSchemaLog.h"
 #import "MSCSExtensions.h"
@@ -188,13 +189,10 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
   OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY withSender:OCMOCK_ANY]).andReturn(oneCollectorChannelUnitMock);
   NSMutableSet *transmissionTargetTokens = [NSMutableSet new];
   [transmissionTargetTokens addObject:@"fake-transmission-target-token"];
-
-  // Conform to NSObject so that isKindOfClass can be mocked
-  id<MSLog, NSObject> mockLog = OCMProtocolMock(@protocol(MSLog));
+  MSCommonSchemaLog *commonSchemaLog = [MSCommonSchemaLog new];
+  id<MSMockLogWithConversion> mockLog = OCMProtocolMock(@protocol(MSMockLogWithConversion));
+  OCMStub([mockLog toCommonSchemaLogs]).andReturn(@[commonSchemaLog]);
   OCMStub(mockLog.transmissionTargetTokens).andReturn(transmissionTargetTokens);
-
-  // TODO mock the conversion method and return this log.
-  id<MSLog> commonSchemaLog = [MSCommonSchemaLog new];
 
   // When
   [self.sut channelGroup:channelGroupMock didAddChannelUnit:channelUnitMock];
@@ -203,6 +201,35 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
   // Then
   OCMVerify([oneCollectorChannelUnitMock enqueueItem:commonSchemaLog]);
 }
+
+- (void) testDidNotEnqueueLogToOneCollectorChannelWhenLogDoesNotConformToMSLogConversionProtocol {
+
+  // If
+  id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  NSString *groupId = @"baseGroupId";
+  MSChannelUnitConfiguration *unitConfig = [[MSChannelUnitConfiguration alloc] initWithGroupId:groupId
+                                                                                      priority:MSPriorityDefault
+                                                                                 flushInterval:3.0
+                                                                                batchSizeLimit:1024
+                                                                           pendingBatchesLimit:60];
+  OCMStub([channelUnitMock configuration]).andReturn(unitConfig);
+  id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  id<MSChannelUnitProtocol> oneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY withSender:OCMOCK_ANY]).andReturn(oneCollectorChannelUnitMock);
+  NSMutableSet *transmissionTargetTokens = [NSMutableSet new];
+  [transmissionTargetTokens addObject:@"fake-transmission-target-token"];
+  MSCommonSchemaLog *commonSchemaLog = [MSCommonSchemaLog new];
+  id<MSMockLogObject> mockLog = OCMProtocolMock(@protocol(MSMockLogObject));
+  OCMStub(mockLog.transmissionTargetTokens).andReturn(transmissionTargetTokens);
+
+  // Then
+  OCMReject([oneCollectorChannelUnitMock enqueueItem:commonSchemaLog]);
+
+  // When
+  [self.sut channelGroup:channelGroupMock didAddChannelUnit:channelUnitMock];
+  [self.sut channel:channelUnitMock didPrepareLog:mockLog withInternalId:@"fake-id"];
+}
+
 
 - (void) testDidNotEnqueueLogWhenCommonSchemaLogIsPrepared {
 
@@ -246,8 +273,9 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
   id<MSChannelUnitProtocol> oneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY withSender:OCMOCK_ANY]).andReturn(oneCollectorChannelUnitMock);
   NSMutableSet *transmissionTargetTokens = [NSMutableSet new];
-  id<MSMockLogObject> mockLog = OCMProtocolMock(@protocol(MSMockLogObject));
+  id<MSMockLogWithConversion> mockLog = OCMProtocolMock(@protocol(MSMockLogWithConversion));
   OCMStub(mockLog.transmissionTargetTokens).andReturn(transmissionTargetTokens);
+  OCMStub([mockLog toCommonSchemaLogs]).andReturn(@[[MSCommonSchemaLog new]]);
   OCMStub([mockLog isKindOfClass:[MSCommonSchemaLog class]]).andReturn(NO);
 
   // Then
@@ -272,9 +300,10 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
   id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
   id<MSChannelUnitProtocol> oneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY withSender:OCMOCK_ANY]).andReturn(oneCollectorChannelUnitMock);
-  id<MSMockLogObject> mockLog = OCMProtocolMock(@protocol(MSMockLogObject));
+  id<MSMockLogWithConversion> mockLog = OCMProtocolMock(@protocol(MSMockLogWithConversion));
   OCMStub([mockLog isKindOfClass:[MSCommonSchemaLog class]]).andReturn(NO);
   OCMStub(mockLog.transmissionTargetTokens).andReturn(nil);
+  OCMStub([mockLog toCommonSchemaLogs]).andReturn(@[[MSCommonSchemaLog new]]);
 
   // Then
   OCMReject([oneCollectorChannelUnitMock enqueueItem:OCMOCK_ANY]);
