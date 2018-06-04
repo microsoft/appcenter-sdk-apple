@@ -9,7 +9,7 @@ extern NSString *const kMSOEMName;
 extern NSString *const kMSACOSName;
 extern NSString *const kMSOSVersion;
 extern NSString *const kMSOSBuild;
-extern NSString *const kMSOSApiLevel;
+extern NSString *const kMSOSAPILevel;
 extern NSString *const kMSLocale;
 extern NSString *const kMSTimeZoneOffset;
 extern NSString *const kMSScreenSize;
