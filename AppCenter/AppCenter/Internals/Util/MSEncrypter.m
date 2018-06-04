@@ -43,6 +43,7 @@ static NSString const *kMSEncryptionPublicKeyTag = @"kMSEncryptionPublicKeyTag";
     return nil;
   }
   NSString *result = nil;
+#if !TARGET_OS_OSX
   NSData *dataToEncrypt = [string dataUsingEncoding:NSUTF8StringEncoding];
   size_t cipherBufferSize = self.blockSize;
   void *cipherBuffer = malloc(cipherBufferSize);
@@ -53,6 +54,10 @@ static NSString const *kMSEncryptionPublicKeyTag = @"kMSEncryptionPublicKeyTag";
     result = [[NSData dataWithBytes:(const void *)cipherBuffer length:(NSUInteger)cipherBufferSize] base64EncodedStringWithOptions:0];
   }
   free(cipherBuffer);
+#else
+  (void)string;
+  //TODO: Implement encryption for OSX
+#endif
   return result;
 }
 
@@ -61,6 +66,7 @@ static NSString const *kMSEncryptionPublicKeyTag = @"kMSEncryptionPublicKeyTag";
     return nil;
   }
   NSString *result = nil;
+#if !TARGET_OS_OSX
   NSData *data = [[NSData alloc] initWithBase64EncodedString:string options:0];
   size_t cipherBufferSize = self.blockSize;
   void *cipherBuffer = malloc(cipherBufferSize);
@@ -71,6 +77,10 @@ static NSString const *kMSEncryptionPublicKeyTag = @"kMSEncryptionPublicKeyTag";
     result = [[NSString alloc] initWithData:[NSData dataWithBytes:(const void *)cipherBuffer length:(NSUInteger)cipherBufferSize] encoding:NSUTF8StringEncoding];
   }
   free(cipherBuffer);
+#else
+  (void)string;
+  //TODO: Implement encryption for OSX
+#endif
   return result;
 }
 

@@ -8,6 +8,7 @@
 @implementation MSEncrypterTests
 
 - (void)testEncryption {
+#if !TARGET_OS_OSX
 
   // If
   MSEncrypter *encrypter = [[MSEncrypter alloc] initWithDefaultKeyPair];
@@ -24,6 +25,7 @@
 
   // Then
   XCTAssertEqualObjects(decrypted, stringToEncrypt);
+#endif
 }
 
 @end
