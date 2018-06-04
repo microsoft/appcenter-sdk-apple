@@ -24,6 +24,16 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
          queryStrings:(NSDictionary *)queryStrings
          reachability:(MS_Reachability *)reachability
        retryIntervals:(NSArray *)retryIntervals {
+  return [self initWithBaseUrl:baseUrl apiPath:apiPath headers:headers queryStrings:queryStrings reachability:reachability retryIntervals:retryIntervals maxNumberOfConnections:4];
+}
+
+- (id)initWithBaseUrl:(NSString *)baseUrl
+              apiPath:(NSString *)apiPath
+              headers:(NSDictionary *)headers
+         queryStrings:(NSDictionary *)queryStrings
+         reachability:(MS_Reachability *)reachability
+       retryIntervals:(NSArray *)retryIntervals
+maxNumberOfConnections:(NSInteger)maxNumberOfConnections {
   if ((self = [super init])) {
     _httpHeaders = headers;
     _pendingCalls = [NSMutableDictionary new];
@@ -33,6 +43,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     _delegates = [NSHashTable weakObjectsHashTable];
     _callsRetryIntervals = retryIntervals;
     _apiPath = apiPath;
+    _maxNumberOfConnections = maxNumberOfConnections;
 
     // Construct the URL string with the query string.
     NSMutableString *urlString = [NSMutableString stringWithFormat:@"%@%@", baseUrl, apiPath];
@@ -365,6 +376,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   if (!_session) {
     NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
     sessionConfiguration.timeoutIntervalForRequest = kRequestTimeout;
+    sessionConfiguration.HTTPMaximumConnectionsPerHost = self.maxNumberOfConnections;
     _session = [NSURLSession sessionWithConfiguration:sessionConfiguration];
 
     /*

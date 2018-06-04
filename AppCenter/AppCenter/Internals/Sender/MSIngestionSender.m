@@ -16,7 +16,7 @@ static NSString *const kMSApiPath = @"/logs";
   self = [super initWithBaseUrl:baseUrl
       apiPath:kMSApiPath
       headers:@{
-        kMSHeaderContentTypeKey : kMSContentType,
+        kMSHeaderContentTypeKey : kMSAppCenterContentType,
         kMSHeaderAppSecretKey : appSecret,
         kMSHeaderInstallIDKey : installId
       }

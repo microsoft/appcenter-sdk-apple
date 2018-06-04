@@ -408,6 +408,8 @@
 		B28E41D82076ED1500CC6AD8 /* MSUtility+PropertyValidation.h in Headers */ = {isa = PBXBuildFile; fileRef = B28E41D32076EC4000CC6AD8 /* MSUtility+PropertyValidation.h */; };
 		B28E41D92076ED1700CC6AD8 /* MSUtility+PropertyValidation.h in Headers */ = {isa = PBXBuildFile; fileRef = B28E41D32076EC4000CC6AD8 /* MSUtility+PropertyValidation.h */; };
 		B28E41DA2076ED1700CC6AD8 /* MSUtility+PropertyValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = B28E41D42076ECFE00CC6AD8 /* MSUtility+PropertyValidation.m */; };
+		B2B7D50B20C5E562001D31B8 /* MSOneCollectorIngestion.h in Headers */ = {isa = PBXBuildFile; fileRef = B2B7D50920C5E562001D31B8 /* MSOneCollectorIngestion.h */; };
+		B2B7D50C20C5E562001D31B8 /* MSOneCollectorIngestion.m in Sources */ = {isa = PBXBuildFile; fileRef = B2B7D50A20C5E562001D31B8 /* MSOneCollectorIngestion.m */; };
 		B2B9441E1DF0DF23009117D1 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2B9441D1DF0DF23009117D1 /* OHHTTPStubs.framework */; };
 		B2CD74571F22BB710070E7DF /* MSWrapperSdk.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74551F22BB710070E7DF /* MSWrapperSdk.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B2CD74581F22BB710070E7DF /* MSWrapperSdk.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74551F22BB710070E7DF /* MSWrapperSdk.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -786,6 +788,8 @@
 		B24F3F161D93A3FF00827213 /* MSLoggerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLoggerTests.m; sourceTree = "<group>"; };
 		B28E41D32076EC4000CC6AD8 /* MSUtility+PropertyValidation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MSUtility+PropertyValidation.h"; sourceTree = "<group>"; };
 		B28E41D42076ECFE00CC6AD8 /* MSUtility+PropertyValidation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MSUtility+PropertyValidation.m"; sourceTree = "<group>"; };
+		B2B7D50920C5E562001D31B8 /* MSOneCollectorIngestion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSOneCollectorIngestion.h; sourceTree = "<group>"; };
+		B2B7D50A20C5E562001D31B8 /* MSOneCollectorIngestion.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSOneCollectorIngestion.m; sourceTree = "<group>"; };
 		B2B9441D1DF0DF23009117D1 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OHHTTPStubs.framework; sourceTree = "<group>"; };
 		B2C3C1831DB83A3E00CB83F7 /* MSDeviceInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDeviceInternal.h; sourceTree = "<group>"; };
 		B2CD74551F22BB710070E7DF /* MSWrapperSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSWrapperSdk.h; path = Model/MSWrapperSdk.h; sourceTree = "<group>"; };
@@ -1378,8 +1382,10 @@
 				E84B8E331D235226006FD231 /* MSHttpSender.h */,
 				38F1944D1DADB93100D3E0FE /* MSHttpSenderPrivate.h */,
 				E84B8E341D235226006FD231 /* MSHttpSender.m */,
-				BA6822A89D38F04D8D95CE83 /* MSIngestionSender.m */,
 				BA6824A001520825F18DFC42 /* MSIngestionSender.h */,
+				BA6822A89D38F04D8D95CE83 /* MSIngestionSender.m */,
+				B2B7D50920C5E562001D31B8 /* MSOneCollectorIngestion.h */,
+				B2B7D50A20C5E562001D31B8 /* MSOneCollectorIngestion.m */,
 			);
 			path = Sender;
 			sourceTree = "<group>";
@@ -1626,6 +1632,7 @@
 			files = (
 				E8A8D1EB1D3057A90022931E /* MSUserDefaults.h in Headers */,
 				38F1944E1DADB93100D3E0FE /* MSHttpSenderPrivate.h in Headers */,
+				B2B7D50B20C5E562001D31B8 /* MSOneCollectorIngestion.h in Headers */,
 				E7D23C5D20B4EC3700A47D62 /* MSSerializableObject.h in Headers */,
 				E80EB1071D50273700C9003F /* MSSenderCall.h in Headers */,
 				E84B8E321D235209006FD231 /* MSSender.h in Headers */,
@@ -2160,6 +2167,7 @@
 				6E0401571D1C9AAA0051BCFA /* MSAppCenter.m in Sources */,
 				E74B14ED20B3711F002C0183 /* MSSDKExtension.m in Sources */,
 				3592ABA81DC90E3600EF4592 /* MSLogger.m in Sources */,
+				B2B7D50C20C5E562001D31B8 /* MSOneCollectorIngestion.m in Sources */,
 				B2CD74B21F22BE270070E7DF /* MSUtility+Date.m in Sources */,
 				6EF628F51D371B1600CAFF64 /* MSChannelUnitConfiguration.m in Sources */,
 				B2CD74A31F22BE270070E7DF /* MSUtility.m in Sources */,

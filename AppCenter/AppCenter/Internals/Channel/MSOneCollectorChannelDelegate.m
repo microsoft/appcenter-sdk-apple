@@ -2,8 +2,10 @@
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
 #import "MSOneCollectorChannelDelegatePrivate.h"
+#import "MSOneCollectorIngestion.h"
 
 static NSString *const kMSOneCollectorGroupIdSuffix = @"/one";
+static NSString *const kMSOneCollectorBaseUrl = @"https://browser.events.data.microsoft.com"; // TODO: move to constants?
 
 @implementation MSOneCollectorChannelDelegate
 
@@ -11,6 +13,7 @@ static NSString *const kMSOneCollectorGroupIdSuffix = @"/one";
   self = [super init];
   if (self) {
     _oneCollectorChannels = [NSMutableDictionary new];
+    _oneCollectorSender = [[MSOneCollectorIngestion alloc] initWithBaseUrl:kMSOneCollectorBaseUrl];
   }
 
   return self;
@@ -26,9 +29,8 @@ static NSString *const kMSOneCollectorGroupIdSuffix = @"/one";
     MSChannelUnitConfiguration *channelUnitConfiguration =
         [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:oneCollectorGroupId];
 
-    // TODO need to figure out actual sender for One Collector
     id<MSChannelUnitProtocol> channelUnit =
-        [channelGroup addChannelUnitWithConfiguration:channelUnitConfiguration withSender:nil];
+        [channelGroup addChannelUnitWithConfiguration:channelUnitConfiguration withSender:self.oneCollectorSender];
     self.oneCollectorChannels[groupId] = channelUnit;
   }
 }

@@ -7,7 +7,7 @@ static NSString *const kMSDeviceManufacturer = @"Apple";
 static NSString *const kMSHeaderAppSecretKey = @"App-Secret";
 static NSString *const kMSHeaderInstallIDKey = @"Install-ID";
 static NSString *const kMSHeaderContentTypeKey = @"Content-Type";
-static NSString *const kMSContentType = @"application/json";
+static NSString *const kMSAppCenterContentType = @"application/json";
 
 /**
  * Enum with the different HTTP status codes.
