@@ -171,7 +171,7 @@
   // App extension.
   csLog.ext.appExt = [MSAppExtension new];
   csLog.ext.appExt.appId = [NSString stringWithFormat:@"I:%@", self.device.appNamespace];
-  csLog.ext.appExt.ver = self.device.appBuild;
+  csLog.ext.appExt.ver = self.device.appVersion;
 
   // TODO app.locale not supported at this time.
 
