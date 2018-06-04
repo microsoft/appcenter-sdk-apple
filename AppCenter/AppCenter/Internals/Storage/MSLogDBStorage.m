@@ -65,7 +65,6 @@ static const NSUInteger kMSSchemaVersion = 1;
   if ([(NSObject *)log isKindOfClass:[MSCommonSchemaLog class]]) {
     NSString *targetToken = [[log transmissionTargetTokens] anyObject];
     NSString *encryptedToken = [self.targetTokenEncrypter encryptString:targetToken];
-    //[MSKeychainUtil storeString:targetToken forKey:targetTokenHash];
     addLogQuery = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") VALUES ('%@', '%@', '%@')", kMSLogTableName,
                    kMSGroupIdColumnName, kMSLogColumnName, kMSTargetTokenColumnName, groupId, base64Data, encryptedToken];
   }
