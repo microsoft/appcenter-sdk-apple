@@ -1,3 +1,4 @@
+
 #import <Foundation/Foundation.h>
 
 #pragma mark - MSCommonSchemaLog
@@ -55,7 +56,6 @@ extern NSString *const kMSSDKInstallId;
 
 extern NSString *const kMSDataBaseDataType;
 extern NSString *const kMSDataBaseData;
-extern NSString *const kMSDataProperties;
 
 #pragma mark - MSCSExtensions
 

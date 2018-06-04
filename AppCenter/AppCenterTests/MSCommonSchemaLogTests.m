@@ -1,27 +1,35 @@
+#import "MSACModelConstants.h"
 #import "MSCommonSchemaLog.h"
-#import "MSCSConstants.h"
+#import "MSCSModelConstants.h"
+#import "MSDevice.h"
+#import "MSModelTestsUtililty.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+Date.h"
 
 @interface MSCommonSchemaLogTests : XCTestCase
 @property(nonatomic) MSCommonSchemaLog *commonSchemaLog;
-@property(nonatomic) NSDictionary *csLogDummyValues;
+@property(nonatomic) NSMutableDictionary *csLogDummyValues;
 @end
 
 @implementation MSCommonSchemaLogTests
 
 - (void)setUp {
   [super setUp];
-  self.csLogDummyValues = @{
+  id device = OCMClassMock([MSDevice class]);
+  OCMStub([device isValid]).andReturn(YES);
+  NSDictionary *abstractDummies = [MSModelTestsUtililty abstractLogDummies];
+  self.csLogDummyValues = [@{
     kMSCSVer : @"3.0",
     kMSCSName : @"1DS",
+    kMSCSTime : abstractDummies[kMSTimestamp],
     kMSCSPopSample : @(100),
     kMSCSIKey : @"60cd0b94-6060-11e8-9c2d-fa7ae01bbebc",
     kMSCSFlags : @(31415926),
     kMSCSCV : @"HyCFaiQoBkyEp0L3.1.2",
     kMSCSExt : [self extWithDummyValues],
     kMSCSData : [self dataWithDummyValues]
-  };
+  } mutableCopy];
+  [self.csLogDummyValues addEntriesFromDictionary:abstractDummies];
   self.commonSchemaLog = [self csLogWithDummyValues:self.csLogDummyValues];
 }
 
@@ -37,6 +45,14 @@
   NSMutableDictionary *dict = [self.commonSchemaLog serializeToDictionary];
 
   // Then
+  self.csLogDummyValues[kMSCSTime] = [MSUtility dateToISO8601:self.csLogDummyValues[kMSCSTime]];
+  self.csLogDummyValues[kMSCSData] = [self.csLogDummyValues[kMSCSData] serializeToDictionary];
+  self.csLogDummyValues[kMSCSExt] = [self.csLogDummyValues[kMSCSExt] serializeToDictionary];
+  [self.csLogDummyValues removeObjectForKey:kMSDevice];
+  [self.csLogDummyValues removeObjectForKey:kMSDistributionGroupId];
+  [self.csLogDummyValues removeObjectForKey:kMSTimestamp];
+  [self.csLogDummyValues removeObjectForKey:kMSType];
+  [self.csLogDummyValues removeObjectForKey:kMSSId];
   XCTAssertNotNil(dict);
   XCTAssertEqualObjects(dict, self.csLogDummyValues);
 }
@@ -81,6 +97,18 @@
 
   // Then
   XCTAssertFalse([csLog isValid]);
+
+  // If
+  csLog.timestamp = self.csLogDummyValues[kMSCSTime];
+
+  // Then
+  XCTAssertFalse([csLog isValid]);
+
+  // IF
+  [MSModelTestsUtililty populateAbstractLogWithDummies:csLog];
+
+  // Then
+  XCTAssertTrue([csLog isValid]);
 }
 
 - (void)testCSLogIsEqual {
@@ -112,7 +140,7 @@
 
   // If
   anotherCommonSchemaLog.name = self.csLogDummyValues[kMSCSName];
-  anotherCommonSchemaLog.timestamp = [NSDate dateWithTimeIntervalSince1970:42];
+  anotherCommonSchemaLog.timestamp = [NSDate date];
 
   // Then
   XCTAssertNotEqualObjects(anotherCommonSchemaLog, self.commonSchemaLog);
@@ -216,14 +244,14 @@
 
 - (MSNetExtension *)netExtWithDummyValues {
   MSNetExtension *netExt = [MSNetExtension new];
-  netExt.provider = @"AT&T";
+  netExt.provider = @"M-Telecom";
   return netExt;
 }
 
 - (MSSDKExtension *)sdkExtWithDummyValues {
   MSSDKExtension *sdkExt = [MSSDKExtension new];
   sdkExt.libVer = @"3.1.4";
-  sdkExt.epoch = @"1527284987";
+  sdkExt.epoch = MS_UUID_STRING;
   sdkExt.seq = 1;
   sdkExt.installId = [NSUUID new];
   return sdkExt;
@@ -231,10 +259,7 @@
 
 - (MSCSData *)dataWithDummyValues {
   MSCSData *data = [MSCSData new];
-  NSDictionary *partCProperties = @{ @"Jan" : @"1", @"feb" : @"2", @"Mar" : @"3" };
-  NSMutableDictionary *properties = [NSMutableDictionary new];
-  properties[kMSDataProperties] = partCProperties;
-  data.properties = properties;
+  data.properties = @{ @"Jan" : @"1", @"feb" : @"2", @"Mar" : @"3" };
   return data;
 }
 
@@ -249,6 +274,7 @@
   csLog.cV = dummyValues[kMSCSCV];
   csLog.ext = dummyValues[kMSCSExt];
   csLog.data = dummyValues[kMSCSData];
+  [MSModelTestsUtililty populateAbstractLogWithDummies:csLog];
   return csLog;
 }
 

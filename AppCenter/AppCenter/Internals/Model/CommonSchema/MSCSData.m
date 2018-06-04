@@ -1,4 +1,4 @@
-#import "MSCSConstants.h"
+#import "MSCSModelConstants.h"
 #import "MSCSData.h"
 
 @implementation MSCSData
@@ -8,7 +8,7 @@
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [NSMutableDictionary new];
   if (self.properties) {
-    dict[kMSDataProperties] = self.properties;
+    [dict addEntriesFromDictionary:self.properties];
   }
   return dict;
 }
@@ -35,13 +35,13 @@
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
   if ((self = [super init])) {
-    _properties = [coder decodeObjectForKey:kMSDataProperties];
+    _properties = [coder decodeObject];
   }
   return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
-  [coder encodeObject:self.properties forKey:kMSDataProperties];
+  [coder encodeRootObject:self.properties];
 }
 
 @end

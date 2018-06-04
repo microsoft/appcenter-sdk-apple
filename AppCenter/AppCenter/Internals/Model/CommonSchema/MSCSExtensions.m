@@ -1,5 +1,5 @@
 #import "MSAppExtension.h"
-#import "MSCSConstants.h"
+#import "MSCSModelConstants.h"
 #import "MSCSExtensions.h"
 #import "MSLocExtension.h"
 #import "MSNetExtension.h"
@@ -15,25 +15,25 @@
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [NSMutableDictionary new];
   if (self.protocolExt) {
-    dict[kMSCSProtocolExt] = self.protocolExt;
+    dict[kMSCSProtocolExt] = [self.protocolExt serializeToDictionary];
   }
   if (self.userExt) {
-    dict[kMSCSUserExt] = self.userExt;
+    dict[kMSCSUserExt] = [self.userExt serializeToDictionary];
   }
   if (self.osExt) {
-    dict[kMSCSOSExt] = self.osExt;
+    dict[kMSCSOSExt] = [self.osExt serializeToDictionary];
   }
   if (self.appExt) {
-    dict[kMSCSAppExt] = self.appExt;
+    dict[kMSCSAppExt] = [self.appExt serializeToDictionary];
   }
   if (self.netExt) {
-    dict[kMSCSNetExt] = self.netExt;
+    dict[kMSCSNetExt] = [self.netExt serializeToDictionary];
   }
   if (self.sdkExt) {
-    dict[kMSCSSDKExt] = self.sdkExt;
+    dict[kMSCSSDKExt] = [self.sdkExt serializeToDictionary];
   }
   if (self.locExt) {
-    dict[kMSCSLocExt] = self.locExt;
+    dict[kMSCSLocExt] = [self.locExt serializeToDictionary];
   }
   return dict;
 }
