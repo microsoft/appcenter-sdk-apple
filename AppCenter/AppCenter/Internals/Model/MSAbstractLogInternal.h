@@ -15,6 +15,12 @@
  */
 - (NSString *)serializeLogWithPrettyPrinting:(BOOL)prettyPrint;
 
-// TODO comment
-- (MSCommonSchemaLog *)toCommonSchemaLogForTargetToken:(NSString *) token;
+/**
+ * Convert an AppCenter log to the Common Schema 3.0 event log per tenant token.
+ *
+ * @param token The tenant token.
+ *
+ * @return A common schema log.
+ */
+- (MSCommonSchemaLog *)toCommonSchemaLogForTargetToken:(NSString *)token;
 @end

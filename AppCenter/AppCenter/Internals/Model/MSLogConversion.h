@@ -4,7 +4,9 @@
 
 @protocol MSLogConversion
 
-// TODO comment.
+/**
+ * Keep track of common schema logs.
+ */
 - (NSArray<MSCommonSchemaLog *> *)toCommonSchemaLogs;
 
 @end
