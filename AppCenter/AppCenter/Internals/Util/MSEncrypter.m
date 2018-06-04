@@ -17,9 +17,9 @@ static NSString const *kMSEncryptionPublicKeyTag = @"kMSEncryptionPublicKeyTag";
 
 - (instancetype)initWithDefaultKeyPair{
   SecKeyRef publicKey = NULL, privateKey = NULL;
-  [MSEncrypter encryptionKeyPairFromKeychainToPublicKey:&publicKey andPrivateKey:&privateKey];
+  [MSEncrypter loadKeyPairFromKeychainToPublicKey:&publicKey andPrivateKey:&privateKey];
   if (!privateKey) {
-    [MSEncrypter generateEncryptionKeyPairToPublicKey:&publicKey andPrivateKey:&privateKey];
+    [MSEncrypter generateKeyPairToPublicKey:&publicKey andPrivateKey:&privateKey];
   }
   return [self initWithPublicKey:publicKey andPrivateKey:privateKey];
 }
@@ -58,7 +58,7 @@ static NSString const *kMSEncryptionPublicKeyTag = @"kMSEncryptionPublicKeyTag";
   CFRelease(self.privateKey);
 }
 
-+ (void)encryptionKeyPairFromKeychainToPublicKey:(SecKeyRef *)publicKey andPrivateKey:(SecKeyRef *)privateKey {
++ (void)loadKeyPairFromKeychainToPublicKey:(SecKeyRef *)publicKey andPrivateKey:(SecKeyRef *)privateKey {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wcast-qual"
   NSDictionary *privateQuery = @{(id)kSecClass: (id)kSecClassKey,
@@ -66,15 +66,13 @@ static NSString const *kMSEncryptionPublicKeyTag = @"kMSEncryptionPublicKeyTag";
                           (id)kSecAttrKeyType: (id)kSecAttrKeyTypeRSA,
                           (id)kSecReturnRef: @YES};
   SecItemCopyMatching((__bridge CFDictionaryRef)privateQuery, (CFTypeRef *)privateKey);
-  NSDictionary *publicQuery = @{(id)kSecClass: (id)kSecClassKey,
-                          (id)kSecAttrApplicationTag: kMSEncryptionPublicKeyTag,
-                          (id)kSecAttrKeyType: (id)kSecAttrKeyTypeRSA,
-                          (id)kSecReturnRef: @YES};
+  NSMutableDictionary *publicQuery = [privateQuery mutableCopy];
+  publicQuery[(id)kSecAttrApplicationTag] = kMSEncryptionPublicKeyTag;
   SecItemCopyMatching((__bridge CFDictionaryRef)publicQuery, (CFTypeRef *)publicKey);
 #pragma clang diagnostic pop
 }
 
-+ (void)generateEncryptionKeyPairToPublicKey:(SecKeyRef *)publicKey andPrivateKey:(SecKeyRef *)privateKey {
++ (void)generateKeyPairToPublicKey:(SecKeyRef *)publicKey andPrivateKey:(SecKeyRef *)privateKey {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wcast-qual"
   NSData* privateKeyTagData = [kMSEncryptionPrivateKeyTag dataUsingEncoding:NSUTF8StringEncoding];
