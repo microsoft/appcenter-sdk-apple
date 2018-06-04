@@ -30,7 +30,7 @@
     dict[kMSOSBuild] = self.osBuild;
   }
   if (self.osApiLevel) {
-    dict[kMSOSApiLevel] = self.osApiLevel;
+    dict[kMSOSAPILevel] = self.osApiLevel;
   }
   if (self.locale) {
     dict[kMSLocale] = self.locale;
@@ -101,7 +101,7 @@
     _osName = [coder decodeObjectForKey:kMSACOSName];
     _osVersion = [coder decodeObjectForKey:kMSOSVersion];
     _osBuild = [coder decodeObjectForKey:kMSOSBuild];
-    _osApiLevel = [coder decodeObjectForKey:kMSOSApiLevel];
+    _osApiLevel = [coder decodeObjectForKey:kMSOSAPILevel];
     _locale = [coder decodeObjectForKey:kMSLocale];
     _timeZoneOffset = [coder decodeObjectForKey:kMSTimeZoneOffset];
     _screenSize = [coder decodeObjectForKey:kMSScreenSize];
@@ -123,7 +123,7 @@
   [coder encodeObject:self.osName forKey:kMSACOSName];
   [coder encodeObject:self.osVersion forKey:kMSOSVersion];
   [coder encodeObject:self.osBuild forKey:kMSOSBuild];
-  [coder encodeObject:self.osApiLevel forKey:kMSOSApiLevel];
+  [coder encodeObject:self.osApiLevel forKey:kMSOSAPILevel];
   [coder encodeObject:self.locale forKey:kMSLocale];
   [coder encodeObject:self.timeZoneOffset forKey:kMSTimeZoneOffset];
   [coder encodeObject:self.screenSize forKey:kMSScreenSize];

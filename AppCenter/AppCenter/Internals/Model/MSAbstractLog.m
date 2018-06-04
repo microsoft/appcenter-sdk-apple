@@ -194,7 +194,6 @@
   if (version && version.length) {
     combinedVersionAndBuild = [NSString stringWithFormat:@"Version %@", version];
   }
-
   if (build && build.length) {
     combinedVersionAndBuild = [NSString stringWithFormat:@"%@ (Build %@)", combinedVersionAndBuild, build];
   }
