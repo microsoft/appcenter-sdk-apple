@@ -86,13 +86,13 @@ static NSString const *kMSEncryptionPublicKeyTag = @"kMSEncryptionPublicKeyTag";
                           (__bridge id)kSecReturnRef: @YES};
   OSStatus status = SecItemCopyMatching((__bridge CFDictionaryRef)privateQuery, (CFTypeRef *)(void *)privateKey);
   if (status != errSecSuccess) {
-    MSLogError([MSAppCenter logTag], @"Could not load private key from Keychain. Error code: %d", status);
+    MSLogError([MSAppCenter logTag], @"Could not load private key from Keychain. Error code: %d", (int)status);
   } else {
     NSMutableDictionary *publicQuery = [privateQuery mutableCopy];
     publicQuery[(__bridge id)kSecAttrApplicationTag] = kMSEncryptionPublicKeyTag;
     status = SecItemCopyMatching((__bridge CFDictionaryRef)publicQuery, (CFTypeRef *)(void *)publicKey);
     if (status != errSecSuccess) {
-      MSLogError([MSAppCenter logTag], @"Could not load public key from Keychain. Error code: %d", status);
+      MSLogError([MSAppCenter logTag], @"Could not load public key from Keychain. Error code: %d", (int)status);
     }
   }
 }
@@ -110,7 +110,7 @@ static NSString const *kMSEncryptionPublicKeyTag = @"kMSEncryptionPublicKeyTag";
                                   (__bridge id)kSecAttrApplicationTag: publicKeyTagData}};
   OSStatus status = SecKeyGeneratePair((__bridge CFDictionaryRef)attributes, publicKey, privateKey);
   if(status != errSecSuccess) {
-    MSLogError([MSAppCenter logTag], @"Could not generate key pair. Error code: %d", status);
+    MSLogError([MSAppCenter logTag], @"Could not generate key pair. Error code: %d", (int)status);
   }
 }
 @end
