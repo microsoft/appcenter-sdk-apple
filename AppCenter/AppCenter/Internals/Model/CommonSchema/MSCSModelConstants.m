@@ -1,4 +1,4 @@
-#import "MSCSConstants.h"
+#import "MSCSModelConstants.h"
 
 #pragma mark - MSCommonSchemaLog
 
@@ -55,7 +55,6 @@ NSString *const kMSSDKInstallId = @"installId";
 
 NSString *const kMSDataBaseData = @"baseData";
 NSString *const kMSDataBaseDataType = @"baseDataType";
-NSString *const kMSDataProperties = @"properties";
 
 #pragma mark - MSCSExtensions
 

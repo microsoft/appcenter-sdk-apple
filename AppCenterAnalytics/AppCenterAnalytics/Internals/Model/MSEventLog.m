@@ -2,7 +2,7 @@
 #import "MSAbstractLogInternal.h"
 #import "MSAnalyticsInternal.h"
 #import "MSCommonSchemaLog.h"
-#import "MSCSConstants.h"
+#import "MSCSModelConstants.h"
 #import "MSEventLogPrivate.h"
 #import "MSLogConversion.h"
 

@@ -1,17 +1,12 @@
 #import "MSAbstractLogInternal.h"
 #import "MSAbstractLogPrivate.h"
 #import "MSCommonSchemaLog.h"
-#import "MSCSConstants.h"
+#import "MSACModelConstants.h"
+#import "MSCSModelConstants.h"
 #import "MSDevice.h"
 #import "MSDeviceInternal.h"
 #import "MSLogger.h"
 #import "MSUtility+Date.h"
-
-static NSString *const kMSSid = @"sid";
-static NSString *const kMSDistributionGroupId = @"distributionGroupId";
-static NSString *const kMSTimestamp = @"timestamp";
-static NSString *const kMSDevice = @"device";
-static NSString *const kMSType = @"type";
 
 @implementation MSAbstractLog
 
@@ -38,7 +33,7 @@ static NSString *const kMSType = @"type";
     dict[kMSTimestamp] = [MSUtility dateToISO8601:self.timestamp];
   }
   if (self.sid) {
-    dict[kMSSid] = self.sid;
+    dict[kMSSId] = self.sid;
   }
   if (self.distributionGroupId) {
     dict[kMSDistributionGroupId] = self.distributionGroupId;
@@ -73,7 +68,7 @@ static NSString *const kMSType = @"type";
   if (self) {
     _type = [coder decodeObjectForKey:kMSType];
     _timestamp = [coder decodeObjectForKey:kMSTimestamp];
-    _sid = [coder decodeObjectForKey:kMSSid];
+    _sid = [coder decodeObjectForKey:kMSSId];
     _distributionGroupId = [coder decodeObjectForKey:kMSDistributionGroupId];
     _device = [coder decodeObjectForKey:kMSDevice];
   }
@@ -83,7 +78,7 @@ static NSString *const kMSType = @"type";
 - (void)encodeWithCoder:(NSCoder *)coder {
   [coder encodeObject:self.type forKey:kMSType];
   [coder encodeObject:self.timestamp forKey:kMSTimestamp];
-  [coder encodeObject:self.sid forKey:kMSSid];
+  [coder encodeObject:self.sid forKey:kMSSId];
   [coder encodeObject:self.distributionGroupId forKey:kMSDistributionGroupId];
   [coder encodeObject:self.device forKey:kMSDevice];
 }
@@ -132,7 +127,7 @@ static NSString *const kMSType = @"type";
       [csLogs addObject:csLog];
     }
   }
-  
+
   // Return nil if none are converted.
   return (csLogs.count > 0) ? csLogs : nil;
 }
@@ -187,7 +182,7 @@ static NSString *const kMSType = @"type";
   // SDK extension.
   csLog.ext.sdkExt = [MSSDKExtension new];
   csLog.ext.sdkExt.libVer = [self combineSDKLibVer:self.device.sdkName withVersion:self.device.sdkVersion];
- 
+
   // Loc extension.
   csLog.ext.locExt = [MSLocExtension new];
   csLog.ext.locExt.tz = [self convertTimeZoneOffsetToISO8601:[self.device.timeZoneOffset integerValue]];
@@ -214,7 +209,7 @@ static NSString *const kMSType = @"type";
   return combinedVersion;
 }
 
-- (NSString *)convertTimeZoneOffsetToISO8601:(NSInteger)timeZoneOffset{
+- (NSString *)convertTimeZoneOffsetToISO8601:(NSInteger)timeZoneOffset {
   NSInteger offsetInHour = timeZoneOffset / 60;
   NSInteger remainingMinutes = labs(timeZoneOffset) % 60;
   return [NSString stringWithFormat:@"%+03ld:%02ld", (long)offsetInHour, (long)remainingMinutes];

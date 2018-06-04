@@ -4,8 +4,8 @@
 #import "MSEventLogPrivate.h"
 #import "MSLogWithProperties.h"
 #import "MSTestFrameworks.h"
-#import "MSUtility.h"
-#import "MSCSConstants.h"
+#import "MSUtility+Date.h"
+#import "MSCSModelConstants.h"
 
 @interface MSEventLogTests : XCTestCase
 
@@ -37,7 +37,7 @@
   MSDevice *device = [MSDevice new];
   NSString *sessionId = @"1234567890";
   NSDictionary *properties = @{ @"Key" : @"Value" };
-  NSDate *timestamp = [NSDate dateWithTimeIntervalSince1970:42];
+  NSDate *timestamp = [NSDate date];
 
   self.sut.eventId = eventId;
   self.sut.name = eventName;
@@ -58,7 +58,7 @@
   assertThat(actual[@"type"], equalTo(typeName));
   assertThat(actual[@"properties"], equalTo(properties));
   assertThat(actual[@"device"], notNilValue());
-  assertThat(actual[@"timestamp"], equalTo(@"1970-01-01T00:00:42.000Z"));
+  assertThat(actual[@"timestamp"], equalTo([MSUtility dateToISO8601:timestamp]));
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {
@@ -69,7 +69,7 @@
   NSString *eventName = @"eventName";
   MSDevice *device = [MSDevice new];
   NSString *sessionId = @"1234567890";
-  NSDate *timestamp = [NSDate dateWithTimeIntervalSince1970:42];
+  NSDate *timestamp = [NSDate date];
   NSDictionary *properties = @{ @"Key" : @"Value" };
 
   self.sut.eventId = eventId;
@@ -102,7 +102,7 @@
   // If
   self.sut.device = OCMClassMock([MSDevice class]);
   OCMStub([self.sut.device isValid]).andReturn(YES);
-  self.sut.timestamp = [NSDate dateWithTimeIntervalSince1970:42];
+  self.sut.timestamp = [NSDate date];
   self.sut.sid = @"1234567890";
 
   // Then
@@ -173,7 +173,7 @@
   NSString *targetToken = @"aTarget-Token";
   NSString *name = @"SolarEclipse";
   NSDictionary *properties = @{@"StartedAt":@"11:00",@"VisibleFrom":@"Redmond"};
-  NSDate *timestamp = [NSDate dateWithTimeIntervalSince1970:42];
+  NSDate *timestamp = [NSDate date];
   MSDevice *device = [MSDevice new];
   NSString *oemName = @"Peach";
   NSString *model = @"pPhone1,6";
@@ -221,6 +221,7 @@
   XCTAssertEqualObjects(csLog.ext.netExt.provider, carrierName);
   XCTAssertEqualObjects(csLog.ext.sdkExt.libVer, @"appcenter.ios-1.0.0");
   XCTAssertEqualObjects(csLog.ext.locExt.tz, @"-07:00");
+  XCTAssertEqualObjects(csLog.data.properties, properties);
 }
 
 @end

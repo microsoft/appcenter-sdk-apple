@@ -1,4 +1,4 @@
-#import "MSCSConstants.h"
+#import "MSCSModelConstants.h"
 #import "MSSDKExtension.h"
 
 @implementation MSSDKExtension
@@ -14,7 +14,7 @@
     dict[kMSSDKEpoch] = self.epoch;
   }
   if (self.installId) {
-    dict[kMSSDKInstallId] = self.installId;
+    dict[kMSSDKInstallId] = [self.installId UUIDString];
   }
 
   // The initial value corresponding to an epoch on a device should be 1, 0 means no seq attributes.
