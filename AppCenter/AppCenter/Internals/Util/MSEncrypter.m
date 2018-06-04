@@ -55,7 +55,7 @@ static NSString const *kMSEncryptionPublicKeyTag = @"kMSEncryptionPublicKeyTag";
   }
   free(cipherBuffer);
 #else
-  (void)string;
+  result = string;
   //TODO: Implement encryption for OSX
 #endif
   return result;
@@ -78,7 +78,7 @@ static NSString const *kMSEncryptionPublicKeyTag = @"kMSEncryptionPublicKeyTag";
   }
   free(cipherBuffer);
 #else
-  (void)string;
+  result = string;
   //TODO: Implement encryption for OSX
 #endif
   return result;
