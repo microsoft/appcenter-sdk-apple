@@ -1,12 +1,12 @@
 #import "MSAppCenterErrors.h"
+#import "MSAppCenterIngestion.h"
 #import "MSAppCenterInternal.h"
 #import "MSConstants+Internal.h"
 #import "MSHttpSenderPrivate.h"
-#import "MSIngestionSender.h"
 #import "MSLoggerInternal.h"
 #import "MSLogContainer.h"
 
-@implementation MSIngestionSender
+@implementation MSAppCenterIngestion
 
 static NSString *const kMSAPIVersion = @"1.0.0";
 static NSString *const kMSAPIVersionKey = @"api-version";

@@ -1,4 +1,4 @@
-#import "MSIngestionSender.h"
+#import "MSAppCenterIngestion.h"
 #import "MSTestFrameworks.h"
 
 @interface MSSenderUtilTests : XCTestCase

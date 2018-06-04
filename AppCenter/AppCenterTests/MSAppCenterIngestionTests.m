@@ -1,10 +1,10 @@
 #import "AppCenter+Internal.h"
 #import "MSAppCenterErrors.h"
+#import "MSAppCenterIngestion.h"
 #import "MSDevice.h"
 #import "MSDeviceInternal.h"
 #import "MSHttpSenderPrivate.h"
 #import "MSHttpTestUtil.h"
-#import "MSIngestionSender.h"
 #import "MSMockLog.h"
 #import "MSSenderCall.h"
 #import "MSSenderDelegate.h"
@@ -13,15 +13,15 @@
 static NSTimeInterval const kMSTestTimeout = 5.0;
 static NSString *const kMSBaseUrl = @"https://test.com";
 
-@interface MSIngestionSenderTests : XCTestCase
+@interface MSAppCenterIngestionTests : XCTestCase
 
-@property(nonatomic) MSIngestionSender *sut;
+@property(nonatomic) MSAppCenterIngestion *sut;
 @property(nonatomic) id reachabilityMock;
 @property(nonatomic) NetworkStatus currentNetworkStatus;
 
 @end
 
-@implementation MSIngestionSenderTests
+@implementation MSAppCenterIngestionTests
 
 - (void)setUp {
   [super setUp];
@@ -43,12 +43,12 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   });
 
   // sut: System under test
-  self.sut = [[MSIngestionSender alloc] initWithBaseUrl:kMSBaseUrl
-                                                apiPath:@"/test-path"
-                                                headers:headers
-                                           queryStrings:queryStrings
-                                           reachability:self.reachabilityMock
-                                         retryIntervals:@[ @(0.5), @(1), @(1.5) ]];
+  self.sut = [[MSAppCenterIngestion alloc] initWithBaseUrl:kMSBaseUrl
+                                                   apiPath:@"/test-path"
+                                                   headers:headers
+                                              queryStrings:queryStrings
+                                              reachability:self.reachabilityMock
+                                            retryIntervals:@[ @(0.5), @(1), @(1.5) ]];
 }
 
 - (void)tearDown {
@@ -235,14 +235,14 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   // Send logs
   for (NSUInteger i = 0; i < [containers count]; i++) {
     [self.sut sendAsync:containers[i]
-      completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
-                          __attribute__((unused)) NSData *data, __attribute__((unused)) NSError *error) {
-        @synchronized(tasks) {
-          if (!testFinished) {
-            XCTFail(@"Completion handler shouldn't be called as test will finish before the response timeout.");
+        completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
+                            __attribute__((unused)) NSData *data, __attribute__((unused)) NSError *error) {
+          @synchronized(tasks) {
+            if (!testFinished) {
+              XCTFail(@"Completion handler shouldn't be called as test will finish before the response timeout.");
+            }
           }
-        }
-      }];
+        }];
   }
 
   // When
@@ -375,19 +375,22 @@ static NSString *const kMSBaseUrl = @"https://test.com";
               callCompletedWithStatus:MSHTTPCodesNo500InternalServerError
                                  data:OCMOCK_ANY
                                 error:OCMOCK_ANY])
-  .andForwardToRealObject()
-  .andDo(^(__attribute__((unused)) NSInvocation *invocation) {
-    
-    /*
-     * Don't fulfill the expectation immediatelly as the sender won't be suspended yet. Instead of using a delay to wait
-     * for the retries, we use the retryCount as it retryCount will only be 0 before the first failed sending and after
-     * we've exhausted the retry attempts. The first one won't be the case during unit tests as the request will fail
-     * immediatelly, so the expectation will only by fulfilled once retries have been exhausted.
-     */
-    if(mockedCall.retryCount == 0) {
-      [responseReceivedExcpectation fulfill];
-    }
-  });
+      .andForwardToRealObject()
+      .andDo(^(__attribute__((unused)) NSInvocation *invocation) {
+
+        /*
+         * Don't fulfill the expectation immediatelly as the sender won't be suspended yet. Instead of using a delay to
+         * wait
+         * for the retries, we use the retryCount as it retryCount will only be 0 before the first failed sending and
+         * after
+         * we've exhausted the retry attempts. The first one won't be the case during unit tests as the request will
+         * fail
+         * immediatelly, so the expectation will only by fulfilled once retries have been exhausted.
+         */
+        if (mockedCall.retryCount == 0) {
+          [responseReceivedExcpectation fulfill];
+        }
+      });
   self.sut.pendingCalls[containerId] = mockedCall;
 
   // Respond with a retryable error.
@@ -445,9 +448,9 @@ static NSString *const kMSBaseUrl = @"https://test.com";
                                  // Suspend now that the call is retrying.
                                  [self.sut suspend];
 
-                                 // Then
-                                 // Retry must be stopped.
-                                 // 'dispatch_block_testcancel' is only available on macOS 10.10 or newer.
+// Then
+// Retry must be stopped.
+// 'dispatch_block_testcancel' is only available on macOS 10.10 or newer.
 #if !TARGET_OS_OSX || __MAC_OS_X_VERSION_MAX_ALLOWED > 1090
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpartial-availability"
