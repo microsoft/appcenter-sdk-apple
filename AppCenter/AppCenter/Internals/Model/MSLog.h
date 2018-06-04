@@ -2,7 +2,7 @@
 
 @class MSDevice;
 
-@protocol MSLog
+@protocol MSLog <NSObject>
 
 /**
  * Log type.

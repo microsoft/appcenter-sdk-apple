@@ -4,18 +4,29 @@
 #import "MSChannelUnitProtocol.h"
 #import "MSCommonSchemaLog.h"
 #import "MSLog.h"
+#import "MSCSEpochAndSeq.h"
 #import "MSOneCollectorChannelDelegatePrivate.h"
+#import "MSUtility.h"
 
 static NSString *const kMSOneCollectorGroupIdSuffix = @"/one";
 
 @implementation MSOneCollectorChannelDelegate
 
-- (id)init {
+- (instancetype)init {
   self = [super init];
   if (self) {
     _oneCollectorChannels = [NSMutableDictionary new];
+    _epochsAndSeqsByIKey = [NSMutableDictionary new];
   }
 
+  return self;
+}
+
+- (instancetype)initWithInstallId:(NSUUID *)installId {
+  self = [self init];
+  if (self) {
+    _installId = installId;
+  }
   return self;
 }
 
@@ -45,14 +56,38 @@ static NSString *const kMSOneCollectorGroupIdSuffix = @"/one";
   return [[log transmissionTargetTokens] count] > 0;
 }
 
-- (void)channel:(id<MSChannelProtocol>)channel
-              didSetEnabled:(BOOL)isEnabled
-    andDeleteDataOnDisabled:(BOOL)deletedData {
+- (void)channel:(id<MSChannelProtocol>)__unused channel prepareLog:(id<MSLog>)log {
+
+  // Prepare Common Schema logs.
+  if ([log isKindOfClass:[MSCommonSchemaLog class]]) {
+    MSCommonSchemaLog *csLog = (MSCommonSchemaLog *)log;
+
+    // Set epoch and seq to SDK.
+    MSCSEpochAndSeq *epochAndSeq = self.epochsAndSeqsByIKey[csLog.iKey];
+    if (!epochAndSeq) {
+      epochAndSeq = [[MSCSEpochAndSeq alloc] initWithEpoch:MS_UUID_STRING];
+    }
+    csLog.ext.sdkExt.epoch = epochAndSeq.epoch;
+    csLog.ext.sdkExt.seq = ++epochAndSeq.seq;
+    self.epochsAndSeqsByIKey[csLog.iKey] = epochAndSeq;
+
+    // Set install ID to SDK.
+    csLog.ext.sdkExt.installId = self.installId;
+  }
+}
+
+- (void)channel:(id<MSChannelProtocol>)channel didSetEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deletedData {
   if ([channel conformsToProtocol:@protocol(MSChannelUnitProtocol)]) {
     NSString *groupId = ((id<MSChannelUnitProtocol>)channel).configuration.groupId;
     if (![self isOneCollectorGroup:groupId]) {
+
+      // Mirror disabling state to OneCollector channels.
       [self.oneCollectorChannels[groupId] setEnabled:isEnabled andDeleteDataOnDisabled:deletedData];
     }
+  } else if ([channel conformsToProtocol:@protocol(MSChannelGroupProtocol)] && !isEnabled && deletedData) {
+
+    // Reset epoch and seq values when SDK is disabled as a whole.
+    [self.epochsAndSeqsByIKey removeAllObjects];
   }
 }
 

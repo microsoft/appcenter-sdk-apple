@@ -1,12 +1,15 @@
 #import "MSCommonSchemaLog.h"
-#import "MSCSConstants.h"
+#import "MSCSModelConstants.h"
 #import "MSModel.h"
+#import "MSUtility+Date.h"
 
 @implementation MSCommonSchemaLog
 
 #pragma mark - MSSerializableObject
 
 - (NSMutableDictionary *)serializeToDictionary {
+
+  // No call to super here, it already contains everything needed for CS JSON serialization.
   NSMutableDictionary *dict = [NSMutableDictionary new];
   if (self.ver) {
     dict[kMSCSVer] = self.ver;
@@ -14,7 +17,11 @@
   if (self.name) {
     dict[kMSCSName] = self.name;
   }
-  dict[kMSCSTime] = @(self.time);
+
+  // Timestamp already exists in the parent implementation but the serialized key is different.
+  if (self.timestamp) {
+    dict[kMSCSTime] = [MSUtility dateToISO8601:self.timestamp];
+  }
   dict[kMSCSPopSample] = @(self.popSample);
   if (self.iKey) {
     dict[kMSCSIKey] = self.iKey;
@@ -24,10 +31,10 @@
     dict[kMSCSCV] = self.cV;
   }
   if (self.ext) {
-    dict[kMSCSExt] = self.ext;
+    dict[kMSCSExt] = [self.ext serializeToDictionary];
   }
   if (self.data) {
-    dict[kMSCSData] = self.data;
+    dict[kMSCSData] = [self.data serializeToDictionary];
   }
   return dict;
 }
@@ -35,7 +42,7 @@
 #pragma mark - MSModel
 
 - (BOOL)isValid {
-  return self.ver && self.name && self.time;
+  return [super isValid] && self.ver && self.name;
 }
 
 #pragma mark - NSObject
@@ -46,10 +53,10 @@
   }
 
   MSCommonSchemaLog *csLog = (MSCommonSchemaLog *)object;
-  return [super isEqual:object] && ((!self.ver && !csLog.ver) || [self.ver isEqualToString:csLog.ver]) &&
-         ((!self.name && !csLog.name) || [self.name isEqualToString:csLog.name]) && self.time == csLog.time &&
-         self.popSample == csLog.popSample && ((!self.iKey && !csLog.iKey) || [self.iKey isEqualToString:csLog.iKey]) &&
-         self.flags == csLog.flags && ((!self.cV && !csLog.cV) || [self.cV isEqualToString:csLog.cV]) &&
+  return ((!self.ver && !csLog.ver) || [self.ver isEqualToString:csLog.ver]) &&
+         ((!self.name && !csLog.name) || [self.name isEqualToString:csLog.name]) && self.popSample == csLog.popSample &&
+         ((!self.iKey && !csLog.iKey) || [self.iKey isEqualToString:csLog.iKey]) && self.flags == csLog.flags &&
+         ((!self.cV && !csLog.cV) || [self.cV isEqualToString:csLog.cV]) &&
          ((!self.ext && !csLog.ext) || [self.ext isEqual:csLog.ext]) &&
          ((!self.data && !csLog.data) || [self.data isEqual:csLog.data]);
 }
@@ -57,10 +64,9 @@
 #pragma mark - NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
-  if ((self = [super init])) {
+  if ((self = [super initWithCoder:coder])) {
     _ver = [coder decodeObjectForKey:kMSCSVer];
     _name = [coder decodeObjectForKey:kMSCSName];
-    _time = [coder decodeInt64ForKey:kMSCSTime];
     _popSample = [coder decodeDoubleForKey:kMSCSPopSample];
     _iKey = [coder decodeObjectForKey:kMSCSIKey];
     _flags = [coder decodeInt64ForKey:kMSCSFlags];
@@ -72,9 +78,9 @@
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
+  [super encodeWithCoder:coder];
   [coder encodeObject:self.ver forKey:kMSCSVer];
   [coder encodeObject:self.name forKey:kMSCSName];
-  [coder encodeInt64:self.time forKey:kMSCSTime];
   [coder encodeDouble:self.popSample forKey:kMSCSPopSample];
   [coder encodeObject:self.iKey forKey:kMSCSIKey];
   [coder encodeInt64:self.flags forKey:kMSCSFlags];

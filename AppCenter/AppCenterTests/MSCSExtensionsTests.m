@@ -1,7 +1,7 @@
 #import "MSAppExtension.h"
-#import "MSCSConstants.h"
 #import "MSCSData.h"
 #import "MSCSExtensions.h"
+#import "MSCSModelConstants.h"
 #import "MSLocExtension.h"
 #import "MSNetExtension.h"
 #import "MSOSExtension.h"
@@ -9,10 +9,11 @@
 #import "MSSDKExtension.h"
 #import "MSTestFrameworks.h"
 #import "MSUserExtension.h"
+#import "MSUtility.h"
 
 @interface MSCSExtensionsTests : XCTestCase
 @property(nonatomic) MSCSExtensions *ext;
-@property(nonatomic) NSDictionary *extDummyValues;
+@property(nonatomic) NSMutableDictionary *extDummyValues;
 @property(nonatomic) MSUserExtension *userExt;
 @property(nonatomic) NSDictionary *userExtDummyValues;
 @property(nonatomic) MSLocExtension *locExt;
@@ -26,7 +27,7 @@
 @property(nonatomic) MSNetExtension *netExt;
 @property(nonatomic) NSDictionary *netExtDummyValues;
 @property(nonatomic) MSSDKExtension *sdkExt;
-@property(nonatomic) NSDictionary *sdkExtDummyValues;
+@property(nonatomic) NSMutableDictionary *sdkExtDummyValues;
 @property(nonatomic) MSCSData *data;
 @property(nonatomic) NSDictionary *dataDummyValues;
 @end
@@ -37,16 +38,6 @@
   [super setUp];
 
   // Set up all extensions with dummy values.
-  self.extDummyValues = @{
-    kMSCSUserExt : [MSUserExtension new],
-    kMSCSLocExt : [MSLocExtension new],
-    kMSCSOSExt : [MSOSExtension new],
-    kMSCSAppExt : [MSAppExtension new],
-    kMSCSProtocolExt : [MSProtocolExtension new],
-    kMSCSNetExt : [MSNetExtension new],
-    kMSCSSDKExt : [MSSDKExtension new]
-  };
-  self.ext = [self extensionsWithDummyValues:self.extDummyValues];
   self.userExtDummyValues = @{ kMSUserLocale : @"en-us" };
   self.userExt = [self userExtensionWithDummyValues:self.userExtDummyValues];
   self.locExtDummyValues = @{ kMSTimezone : @"-03:00" };
@@ -59,18 +50,24 @@
   self.protocolExt = [self protocolExtensionWithDummyValues:self.protocolExtDummyValues];
   self.netExtDummyValues = @{ kMSNetProvider : @"Verizon" };
   self.netExt = [self netExtensionWithDummyValues:self.netExtDummyValues];
-  self.sdkExtDummyValues = @{
-    kMSSDKLibVer : @"1.2.0",
-    kMSSDKEpoch : @"epoch_value",
-    kMSSDKSeq : @1,
-    kMSSDKInstallId : @"41b61ab0-5fbc-11e8-9c2d-fa7ae01bbebc"
-  };
+  self.sdkExtDummyValues = [
+      @{ kMSSDKLibVer : @"1.2.0",
+         kMSSDKEpoch : MS_UUID_STRING,
+         kMSSDKSeq : @1,
+         kMSSDKInstallId : [NSUUID new] } mutableCopy];
   self.sdkExt = [self sdkExtensionWithDummyValues:self.sdkExtDummyValues];
-  self.dataDummyValues = @{
-    kMSDataProperties :
-        @{@"data.key.a" : @"data.value.a", @"data.key.b" : @"data.value.b", @"data.key.c" : @"data.value.c"}
-  };
+  self.dataDummyValues = @{ @"akey" : @"avalue", @"anested.key" : @"anothervalue", @"anotherkey" : @"yetanothervalue" };
   self.data = [self dataWithDummyValues:self.dataDummyValues];
+  self.extDummyValues = [@{
+    kMSCSUserExt : self.userExt,
+    kMSCSLocExt : self.locExt,
+    kMSCSOSExt : self.osExt,
+    kMSCSAppExt : self.appExt,
+    kMSCSProtocolExt : self.protocolExt,
+    kMSCSNetExt : self.netExt,
+    kMSCSSDKExt : self.sdkExt
+  } mutableCopy];
+  self.ext = [self extensionsWithDummyValues:self.extDummyValues];
 }
 
 - (void)tearDown {
@@ -86,7 +83,13 @@
 
   // Then
   XCTAssertNotNil(dict);
-  XCTAssertEqualObjects(dict, self.extDummyValues);
+  XCTAssertEqualObjects(dict[kMSCSAppExt], [self.extDummyValues[kMSCSAppExt] serializeToDictionary]);
+  XCTAssertEqualObjects(dict[kMSCSNetExt], [self.extDummyValues[kMSCSNetExt] serializeToDictionary]);
+  XCTAssertEqualObjects(dict[kMSCSLocExt], [self.extDummyValues[kMSCSLocExt] serializeToDictionary]);
+  XCTAssertEqualObjects(dict[kMSCSSDKExt], [self.extDummyValues[kMSCSSDKExt] serializeToDictionary]);
+  XCTAssertEqualObjects(dict[kMSCSUserExt], [self.extDummyValues[kMSCSUserExt] serializeToDictionary]);
+  XCTAssertEqualObjects(dict[kMSCSProtocolExt], [self.extDummyValues[kMSCSProtocolExt] serializeToDictionary]);
+  XCTAssertEqualObjects(dict[kMSCSOSExt], [self.extDummyValues[kMSCSOSExt] serializeToDictionary]);
 }
 
 - (void)testExtNSCodingSerializationAndDeserialization {
@@ -257,7 +260,7 @@
   XCTAssertNotNil(actualLocExt);
   XCTAssertEqualObjects(self.locExt, actualLocExt);
   XCTAssertTrue([actualLocExt isMemberOfClass:[MSLocExtension class]]);
-  XCTAssertEqualObjects(actualLocExt.timezone, self.locExtDummyValues[kMSTimezone]);
+  XCTAssertEqualObjects(actualLocExt.tz, self.locExtDummyValues[kMSTimezone]);
 }
 
 - (void)testLocExtIsValid {
@@ -284,7 +287,7 @@
   XCTAssertEqualObjects(anotherLocExt, self.locExt);
 
   // If
-  anotherLocExt.timezone = @"+02:00";
+  anotherLocExt.tz = @"+02:00";
 
   // Then
   XCTAssertNotEqualObjects(anotherLocExt, self.locExt);
@@ -550,6 +553,7 @@
   NSMutableDictionary *dict = [self.sdkExt serializeToDictionary];
 
   // Then
+  self.sdkExtDummyValues[kMSSDKInstallId] = [((NSUUID *)self.sdkExtDummyValues[kMSSDKInstallId])UUIDString];
   XCTAssertNotNil(dict);
   XCTAssertEqualObjects(dict, self.sdkExtDummyValues);
 }
@@ -615,7 +619,7 @@
 
   // If
   anotherSDKExt.seq = [self.sdkExtDummyValues[kMSSDKSeq] longLongValue];
-  anotherSDKExt.installId = @"8caf7096-5fbe-11e8-9c2d-fa7ae01bbebc";
+  anotherSDKExt.installId = [NSUUID new];
 
   // Then
   XCTAssertNotEqualObjects(anotherSDKExt, self.appExt);
@@ -643,7 +647,7 @@
   XCTAssertNotNil(actualData);
   XCTAssertEqualObjects(self.data, actualData);
   XCTAssertTrue([actualData isMemberOfClass:[MSCSData class]]);
-  XCTAssertEqualObjects(actualData.properties, self.dataDummyValues[kMSDataProperties]);
+  XCTAssertEqualObjects(actualData.properties, self.dataDummyValues);
 }
 
 - (void)testDataIsValid {
@@ -670,7 +674,7 @@
   XCTAssertEqualObjects(anotherData, self.data);
 
   // If
-  anotherData.properties = [@{ kMSDataProperties : @{@"part.c.key" : @"part.c.value"} } mutableCopy];
+  anotherData.properties = [@{ @"part.c.key" : @"part.c.value" } mutableCopy];
 
   // Then
   XCTAssertNotEqualObjects(anotherData, self.data);
@@ -698,7 +702,7 @@
 
 - (MSLocExtension *)locExtensionWithDummyValues:(NSDictionary *)dummyValues {
   MSLocExtension *locExt = [MSLocExtension new];
-  locExt.timezone = dummyValues[kMSTimezone];
+  locExt.tz = dummyValues[kMSTimezone];
   return locExt;
 }
 
@@ -741,7 +745,7 @@
 
 - (MSCSData *)dataWithDummyValues:(NSDictionary *)dummyValues {
   MSCSData *data = [MSCSData new];
-  data.properties = dummyValues[kMSDataProperties];
+  data.properties = dummyValues;
   return data;
 }
 

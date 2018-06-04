@@ -1,7 +1,8 @@
-#import "MSCSConstants.h"
+#import "MSCSModelConstants.h"
 
 #pragma mark - MSCommonSchemaLog
 
+// Keys
 NSString *const kMSCSVer = @"ver";
 NSString *const kMSCSName = @"name";
 NSString *const kMSCSTime = @"time";
@@ -11,6 +12,9 @@ NSString *const kMSCSFlags = @"flags";
 NSString *const kMSCSCV = @"cV";
 NSString *const kMSCSData = @"data";
 NSString *const kMSCSExt = @"ext";
+
+// Values
+NSString *const kMSCSVerValue = @"3.0";
 
 #pragma mark - MSUserExtension
 
@@ -49,7 +53,8 @@ NSString *const kMSSDKInstallId = @"installId";
 
 #pragma mark - MSCSData
 
-NSString *const kMSDataProperties = @"properties";
+NSString *const kMSDataBaseData = @"baseData";
+NSString *const kMSDataBaseDataType = @"baseDataType";
 
 #pragma mark - MSCSExtensions
 

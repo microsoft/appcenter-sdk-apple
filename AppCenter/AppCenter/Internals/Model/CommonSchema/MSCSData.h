@@ -8,6 +8,6 @@
  */
 @interface MSCSData : NSObject <MSSerializableObject, MSModel>
 
-@property (atomic, copy) NSMutableDictionary *properties;
+@property (atomic, copy) NSDictionary *properties;
 
 @end
