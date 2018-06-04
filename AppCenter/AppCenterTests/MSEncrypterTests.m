@@ -9,20 +9,20 @@
 
 - (void)testEncryption {
 
-  // If.
+  // If
   MSEncrypter *encrypter = [[MSEncrypter alloc] initWithDefaultKeyPair];
   NSString *stringToEncrypt = @"Test string";
 
-  // When.
+  // When
   NSString *encrypted = [encrypter encryptString:stringToEncrypt];
 
-  // Then.
+  // Then
   XCTAssertNotEqualObjects(encrypted, stringToEncrypt);
 
-  // When.
+  // When
   NSString *decrypted = [encrypter decryptString:encrypted];
 
-  // Then.
+  // Then
   XCTAssertEqualObjects(decrypted, stringToEncrypt);
 }
 

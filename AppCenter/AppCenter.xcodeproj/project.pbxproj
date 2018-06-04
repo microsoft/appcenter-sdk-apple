@@ -380,6 +380,8 @@
 		6EB1F40E1D2443B7005F9F99 /* MSChannelUnitDefaultTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EB1F40D1D2443B7005F9F99 /* MSChannelUnitDefaultTests.m */; };
 		6EF628F41D371B1600CAFF64 /* MSChannelUnitConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EF628F21D371B1600CAFF64 /* MSChannelUnitConfiguration.h */; };
 		6EF628F51D371B1600CAFF64 /* MSChannelUnitConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EF628F31D371B1600CAFF64 /* MSChannelUnitConfiguration.m */; };
+		8007AA4F20C54E3100FA2C3B /* MSEncrypter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8087362820C134AC004C4157 /* MSEncrypter.m */; };
+		8007AA5020C54E3200FA2C3B /* MSEncrypter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8087362820C134AC004C4157 /* MSEncrypter.m */; };
 		805275C120A1A5F400704115 /* MSOneCollectorChannelDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 805275C020A1A5F400704115 /* MSOneCollectorChannelDelegate.m */; };
 		805275C220A1ADCD00704115 /* MSOneCollectorChannelDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 805275BF20A19F7B00704115 /* MSOneCollectorChannelDelegate.h */; };
 		805275C320A1ADCE00704115 /* MSOneCollectorChannelDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 805275BF20A19F7B00704115 /* MSOneCollectorChannelDelegate.h */; };
@@ -1988,6 +1990,7 @@
 				043120741EE0BCF9007054C5 /* MSAppCenter.m in Sources */,
 				E74B14EF20B3711F002C0183 /* MSSDKExtension.m in Sources */,
 				043120761EE0BCF9007054C5 /* MSLogger.m in Sources */,
+				8007AA5020C54E3200FA2C3B /* MSEncrypter.m in Sources */,
 				B2CD74BA1F22BE270070E7DF /* MSUtility+Environment.m in Sources */,
 				043120771EE0BCF9007054C5 /* MSChannelUnitConfiguration.m in Sources */,
 				043120781EE0BCF9007054C5 /* MSLogContainer.m in Sources */,
@@ -2129,6 +2132,7 @@
 				04754F511EA98182002CBA46 /* MSDeviceHistoryInfo.m in Sources */,
 				E74B14D620B36EC5002C0183 /* MSNetExtension.m in Sources */,
 				04873E831F2FCE3E00A13AFF /* MSAppDelegateForwarder.m in Sources */,
+				8007AA4F20C54E3100FA2C3B /* MSEncrypter.m in Sources */,
 				04754F541EA98182002CBA46 /* MSHttpSender.m in Sources */,
 				B28E41D72076ED1400CC6AD8 /* MSUtility+PropertyValidation.m in Sources */,
 				0499F8561EDF979A00C3EDDA /* MSDevice.m in Sources */,
