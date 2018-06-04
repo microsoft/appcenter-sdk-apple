@@ -217,7 +217,7 @@
   XCTAssertEqualObjects(csLog.ext.osExt.name, osName);
   XCTAssertEqualObjects(csLog.ext.osExt.ver, @"Version 1.2.4 (Build 2342EEWF)");
   XCTAssertEqualObjects(csLog.ext.appExt.appId, @"I:com.contoso.peach.app");
-  XCTAssertEqualObjects(csLog.ext.appExt.ver, appBuild);
+  XCTAssertEqualObjects(csLog.ext.appExt.ver, device.appVersion);
   XCTAssertEqualObjects(csLog.ext.netExt.provider, carrierName);
   XCTAssertEqualObjects(csLog.ext.sdkExt.libVer, @"appcenter.ios-1.0.0");
   XCTAssertEqualObjects(csLog.ext.locExt.tz, @"-07:00");
