@@ -63,19 +63,20 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   XCTAssertTrue(
       [[request.allHTTPHeaderFields objectForKey:kMSHeaderContentTypeKey] isEqualToString:kMSOneCollectorContentType]);
 
-  XCTAssertTrue([keys containsObject:kMSClientVersionKey]);
-  NSString *expectedClientVersion = [NSString stringWithFormat:kMSClientVersionFormat, [MSUtility sdkVersion]];
-  XCTAssertTrue([[request.allHTTPHeaderFields objectForKey:kMSClientVersionKey] isEqualToString:expectedClientVersion]);
+  XCTAssertTrue([keys containsObject:kMSOneCollectorClientVersionKey]);
+  NSString *formatString = kMSOneCollectorClientVersionFormat;
+  NSString *expectedClientVersion = [NSString stringWithFormat:formatString, [MSUtility sdkVersion]];
+  XCTAssertTrue([[request.allHTTPHeaderFields objectForKey:kMSOneCollectorClientVersionKey] isEqualToString:expectedClientVersion]);
 
-  XCTAssertTrue([keys containsObject:kMSApiKey]);
-  NSArray *tokens = [[request.allHTTPHeaderFields objectForKey:kMSApiKey] componentsSeparatedByString:@","];
+  XCTAssertTrue([keys containsObject:kMSOneCollectorApiKey]);
+  NSArray *tokens = [[request.allHTTPHeaderFields objectForKey:kMSOneCollectorApiKey] componentsSeparatedByString:@","];
   XCTAssertTrue([tokens count] == 3);
   for (NSString *token in @[ @"token1", @"token2", @"token3" ]) {
     XCTAssertTrue([tokens containsObject:token]);
   }
 
-  XCTAssertTrue([keys containsObject:kMSUploadTimeKey]);
-  NSString *uploadTimeString = [request.allHTTPHeaderFields objectForKey:kMSUploadTimeKey];
+  XCTAssertTrue([keys containsObject:kMSOneCollectorUploadTimeKey]);
+  NSString *uploadTimeString = [request.allHTTPHeaderFields objectForKey:kMSOneCollectorUploadTimeKey];
   NSNumberFormatter *formatter = [NSNumberFormatter new];
   [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
   XCTAssertNotNil([formatter numberFromString:uploadTimeString]);

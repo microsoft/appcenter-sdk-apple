@@ -8,15 +8,22 @@
 #import "MSOneCollectorIngestion.h"
 #import "MSUtility+Date.h"
 
+NSString *const kMSOneCollectorApiVersion = @"1.0";
+NSString *const kMSOneCollectorApiPath = @"/OneCollector";
+NSString *const kMSOneCollectorContentType = @"application/x-json-stream; charset=utf-8;";
+NSString *const kMSOneCollectorApiKey = @"apikey";
+NSString *const kMSOneCollectorClientVersionKey = @"Client-Version";
+NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
+
 @implementation MSOneCollectorIngestion
 
 - (id)initWithBaseUrl:(NSString *)baseUrl {
   self = [super initWithBaseUrl:baseUrl
-                        apiPath:[NSString stringWithFormat:@"%@/%@", kMSApiPath, kMSApiVersion]
+                        apiPath:[NSString stringWithFormat:@"%@/%@", kMSOneCollectorApiPath, kMSOneCollectorApiVersion]
                         headers:@{
                           kMSHeaderContentTypeKey : kMSOneCollectorContentType,
-                          kMSClientVersionKey :
-                              [NSString stringWithFormat:kMSClientVersionFormat, [MSUtility sdkVersion]]
+                          kMSOneCollectorClientVersionKey :
+                              [NSString stringWithFormat:kMSOneCollectorClientVersionFormat, [MSUtility sdkVersion]]
                         }
                    queryStrings:nil
                    reachability:[MS_Reachability reachabilityForInternetConnection]
@@ -60,9 +67,9 @@
   for (id<MSLog> log in container.logs) {
     [apiKeys addObjectsFromArray:[log.transmissionTargetTokens allObjects]];
   }
-  [headers setObject:[[apiKeys allObjects] componentsJoinedByString:@","] forKey:kMSApiKey];
+  [headers setObject:[[apiKeys allObjects] componentsJoinedByString:@","] forKey:kMSOneCollectorApiKey];
   [headers setObject:[NSString stringWithFormat:@"%lld", (long long)[MSUtility nowInMilliseconds]]
-              forKey:kMSUploadTimeKey];
+              forKey:kMSOneCollectorUploadTimeKey];
   request.allHTTPHeaderFields = headers;
 
   // Set body.
@@ -81,7 +88,7 @@
 }
 
 - (NSString *)obfuscateHeaderValue:(NSString *)key value:(NSString *)value {
-  return [key isEqualToString:kMSApiKey] ? [self obfuscateTargetTokens:value] : value;
+  return [key isEqualToString:kMSOneCollectorApiKey] ? [self obfuscateTargetTokens:value] : value;
 }
 
 - (NSString *)obfuscateTargetTokens:(NSString *)tokenString {
