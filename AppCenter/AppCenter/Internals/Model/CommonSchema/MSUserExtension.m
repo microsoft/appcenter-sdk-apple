@@ -1,4 +1,4 @@
-#import "MSCSConstants.h"
+#import "MSCSModelConstants.h"
 #import "MSUserExtension.h"
 
 @implementation MSUserExtension

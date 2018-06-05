@@ -1,15 +1,12 @@
 #import "MSAbstractLogInternal.h"
 #import "MSAbstractLogPrivate.h"
+#import "MSCommonSchemaLog.h"
+#import "MSACModelConstants.h"
+#import "MSCSModelConstants.h"
 #import "MSDevice.h"
 #import "MSDeviceInternal.h"
 #import "MSLogger.h"
 #import "MSUtility+Date.h"
-
-static NSString *const kMSSid = @"sid";
-static NSString *const kMSDistributionGroupId = @"distributionGroupId";
-static NSString *const kMSTimestamp = @"timestamp";
-static NSString *const kMSDevice = @"device";
-static NSString *const kMSType = @"type";
 
 @implementation MSAbstractLog
 
@@ -36,7 +33,7 @@ static NSString *const kMSType = @"type";
     dict[kMSTimestamp] = [MSUtility dateToISO8601:self.timestamp];
   }
   if (self.sid) {
-    dict[kMSSid] = self.sid;
+    dict[kMSSId] = self.sid;
   }
   if (self.distributionGroupId) {
     dict[kMSDistributionGroupId] = self.distributionGroupId;
@@ -59,7 +56,8 @@ static NSString *const kMSType = @"type";
   return ((!self.type && !log.type) || [self.type isEqualToString:log.type]) &&
          ((!self.timestamp && !log.timestamp) || [self.timestamp isEqualToDate:log.timestamp]) &&
          ((!self.sid && !log.sid) || [self.sid isEqualToString:log.sid]) &&
-         ((!self.distributionGroupId && !log.distributionGroupId) || [self.distributionGroupId isEqualToString:log.distributionGroupId]) &&
+         ((!self.distributionGroupId && !log.distributionGroupId) ||
+          [self.distributionGroupId isEqualToString:log.distributionGroupId]) &&
          ((!self.device && !log.device) || [self.device isEqual:log.device]);
 }
 
@@ -70,7 +68,7 @@ static NSString *const kMSType = @"type";
   if (self) {
     _type = [coder decodeObjectForKey:kMSType];
     _timestamp = [coder decodeObjectForKey:kMSTimestamp];
-    _sid = [coder decodeObjectForKey:kMSSid];
+    _sid = [coder decodeObjectForKey:kMSSId];
     _distributionGroupId = [coder decodeObjectForKey:kMSDistributionGroupId];
     _device = [coder decodeObjectForKey:kMSDevice];
   }
@@ -80,7 +78,7 @@ static NSString *const kMSType = @"type";
 - (void)encodeWithCoder:(NSCoder *)coder {
   [coder encodeObject:self.type forKey:kMSType];
   [coder encodeObject:self.timestamp forKey:kMSTimestamp];
-  [coder encodeObject:self.sid forKey:kMSSid];
+  [coder encodeObject:self.sid forKey:kMSSId];
   [coder encodeObject:self.distributionGroupId forKey:kMSDistributionGroupId];
   [coder encodeObject:self.device forKey:kMSDevice];
 }
@@ -110,13 +108,110 @@ static NSString *const kMSType = @"type";
 
 - (void)addTransmissionTargetToken:(NSString *)token {
   @synchronized(self) {
-    if(self.transmissionTargetTokens == nil) {
+    if (self.transmissionTargetTokens == nil) {
       self.transmissionTargetTokens = [NSSet new];
     }
     NSMutableSet *mutableSet = [self.transmissionTargetTokens mutableCopy];
     [mutableSet addObject:token];
     self.transmissionTargetTokens = mutableSet;
   }
+}
+
+#pragma mark - MSLogConversion
+
+- (NSArray<MSCommonSchemaLog *> *)toCommonSchemaLogs {
+  NSMutableArray<MSCommonSchemaLog *> *csLogs = [NSMutableArray new];
+  for (NSString *token in self.transmissionTargetTokens) {
+    MSCommonSchemaLog *csLog = [self toCommonSchemaLogForTargetToken:token];
+    if (csLog) {
+      [csLogs addObject:csLog];
+    }
+  }
+
+  // Return nil if none are converted.
+  return (csLogs.count > 0) ? csLogs : nil;
+}
+
+#pragma mark - Helper
+
+- (MSCommonSchemaLog *)toCommonSchemaLogForTargetToken:(NSString *)token {
+  MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
+  csLog.ver = kMSCSVerValue;
+  csLog.timestamp = self.timestamp;
+
+  // TODO popSample not supported at this time.
+
+  // Calculate iKey based on the target token.
+  if (token && token.length) {
+    csLog.iKey = [NSString stringWithFormat:@"o:%@", [token componentsSeparatedByString:@"-"][0]];
+  }
+
+  // TODO flags not supported at this time.
+  // TODO cV not supported at this time.
+
+  // Setup extensions.
+  csLog.ext = [MSCSExtensions new];
+
+  // Protocol extension.
+  csLog.ext.protocolExt = [MSProtocolExtension new];
+  csLog.ext.protocolExt.devMake = self.device.oemName;
+  csLog.ext.protocolExt.devModel = self.device.model;
+
+  // User extension.
+  csLog.ext.userExt = [MSUserExtension new];
+
+  // FIXME Country code can be wrong if the locale doesn't correspond to the region in the setting (i.e.:fr_US).
+  // Convert user local to use dash (-) as the separator as described in RFC 4646.  E.g., zh-Hans-CN.
+  // csLog.ext.userExt.locale = [self.device.locale stringByReplacingOccurrencesOfString:@"_" withString:@"-"];
+
+  // OS extension.
+  csLog.ext.osExt = [MSOSExtension new];
+  csLog.ext.osExt.name = self.device.osName;
+  csLog.ext.osExt.ver = [self combineOsVersion:self.device.osVersion withBuild:self.device.osBuild];
+
+  // App extension.
+  csLog.ext.appExt = [MSAppExtension new];
+  csLog.ext.appExt.appId = [NSString stringWithFormat:@"I:%@", self.device.appNamespace];
+  csLog.ext.appExt.ver = self.device.appVersion;
+  csLog.ext.appExt.locale = [[[NSBundle mainBundle] preferredLocalizations] firstObject];
+
+  // Net extension.
+  csLog.ext.netExt = [MSNetExtension new];
+  csLog.ext.netExt.provider = self.device.carrierName;
+
+  // SDK extension.
+  csLog.ext.sdkExt = [MSSDKExtension new];
+  csLog.ext.sdkExt.libVer = [self combineSDKLibVer:self.device.sdkName withVersion:self.device.sdkVersion];
+
+  // Loc extension.
+  csLog.ext.locExt = [MSLocExtension new];
+  csLog.ext.locExt.tz = [self convertTimeZoneOffsetToISO8601:[self.device.timeZoneOffset integerValue]];
+  return csLog;
+}
+
+- (NSString *)combineOsVersion:(NSString *)version withBuild:(NSString *)build {
+  NSString *combinedVersionAndBuild;
+  if (version && version.length) {
+    combinedVersionAndBuild = [NSString stringWithFormat:@"Version %@", version];
+  }
+  if (build && build.length) {
+    combinedVersionAndBuild = [NSString stringWithFormat:@"%@ (Build %@)", combinedVersionAndBuild, build];
+  }
+  return combinedVersionAndBuild;
+}
+
+- (NSString *)combineSDKLibVer:(NSString *)name withVersion:(NSString *)version {
+  NSString *combinedVersion;
+  if (name && name.length && version && version.length) {
+    combinedVersion = [NSString stringWithFormat:@"%@-%@", name, version];
+  }
+  return combinedVersion;
+}
+
+- (NSString *)convertTimeZoneOffsetToISO8601:(NSInteger)timeZoneOffset {
+  NSInteger offsetInHour = timeZoneOffset / 60;
+  NSInteger remainingMinutes = labs(timeZoneOffset) % 60;
+  return [NSString stringWithFormat:@"%+03ld:%02ld", (long)offsetInHour, (long)remainingMinutes];
 }
 
 @end
