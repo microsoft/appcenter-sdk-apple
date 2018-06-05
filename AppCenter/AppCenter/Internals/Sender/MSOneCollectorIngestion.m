@@ -28,7 +28,7 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
                    queryStrings:nil
                    reachability:[MS_Reachability reachabilityForInternetConnection]
                  retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]
-         maxNumberOfConnections:1];
+         maxNumberOfConnections:2];
   return self;
 }
 
