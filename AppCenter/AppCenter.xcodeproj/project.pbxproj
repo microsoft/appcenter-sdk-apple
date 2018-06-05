@@ -293,6 +293,10 @@
 		04A140891ECE63C3001CEE94 /* MSLoggerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B24F3F161D93A3FF00827213 /* MSLoggerTests.m */; };
 		04A1408A1ECE63C7001CEE94 /* MSLogContainerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E88EBBFA1D2C8CC7007E7785 /* MSLogContainerTests.m */; };
 		04A1408B1ECE63CB001CEE94 /* MSAppCenterIngestionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E829E4221D25C8BA00F19DA1 /* MSAppCenterIngestionTests.m */; };
+		04A79A4320C6F432006D0072 /* MSOneCollectorIngestion.h in Headers */ = {isa = PBXBuildFile; fileRef = B2B7D50920C5E562001D31B8 /* MSOneCollectorIngestion.h */; };
+		04A79A4420C6F433006D0072 /* MSOneCollectorIngestion.h in Headers */ = {isa = PBXBuildFile; fileRef = B2B7D50920C5E562001D31B8 /* MSOneCollectorIngestion.h */; };
+		04A79A4520C6F436006D0072 /* MSOneCollectorIngestion.m in Sources */ = {isa = PBXBuildFile; fileRef = B2B7D50A20C5E562001D31B8 /* MSOneCollectorIngestion.m */; };
+		04A79A4620C6F437006D0072 /* MSOneCollectorIngestion.m in Sources */ = {isa = PBXBuildFile; fileRef = B2B7D50A20C5E562001D31B8 /* MSOneCollectorIngestion.m */; };
 		04B7BBEF1E5FAD4D001A0CE1 /* MSSenderUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B7BBEE1E5FAD4D001A0CE1 /* MSSenderUtilTests.m */; };
 		04BED7101ECB63A800E20975 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BED70E1ECB63A100E20975 /* OCHamcrest.framework */; };
 		04F21A071ECB74200074978D /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04F21A041ECB73EE0074978D /* OHHTTPStubs.framework */; };
@@ -1470,6 +1474,7 @@
 				043120A51EE0BCF9007054C5 /* MSServiceAbstractInternal.h in Headers */,
 				043120A71EE0BCF9007054C5 /* MSServiceAbstractPrivate.h in Headers */,
 				043120A81EE0BCF9007054C5 /* MSSenderUtil.h in Headers */,
+				04A79A4420C6F433006D0072 /* MSOneCollectorIngestion.h in Headers */,
 				041EFD271EE1CAA1006DCD56 /* MSDevice.h in Headers */,
 				B2CD74B71F22BE270070E7DF /* MSUtility+Environment.h in Headers */,
 				043120A91EE0BCF9007054C5 /* MSSenderCallDelegate.h in Headers */,
@@ -1537,6 +1542,7 @@
 			files = (
 				04754F6C1EA98182002CBA46 /* MSUserDefaults.h in Headers */,
 				04754F6D1EA98182002CBA46 /* MSHttpSenderPrivate.h in Headers */,
+				04A79A4320C6F432006D0072 /* MSOneCollectorIngestion.h in Headers */,
 				E7D23C5E20B4EC3700A47D62 /* MSSerializableObject.h in Headers */,
 				04754F6E1EA98182002CBA46 /* MSSenderCall.h in Headers */,
 				04754F6F1EA98182002CBA46 /* MSSender.h in Headers */,
@@ -1994,6 +2000,7 @@
 				045C0BEF1EEB12300038FD6B /* MSAppDelegateForwarder.m in Sources */,
 				B2CD74A51F22BE270070E7DF /* MSUtility.m in Sources */,
 				0431207C1EE0BCF9007054C5 /* MSDeviceHistoryInfo.m in Sources */,
+				04A79A4620C6F437006D0072 /* MSOneCollectorIngestion.m in Sources */,
 				805275C620A1ADD300704115 /* MSOneCollectorChannelDelegate.m in Sources */,
 				B28E41DA2076ED1700CC6AD8 /* MSUtility+PropertyValidation.m in Sources */,
 				045C85171FE0B4F700089540 /* MSSessionContext.m in Sources */,
@@ -2111,6 +2118,7 @@
 				04754F491EA98182002CBA46 /* MSAppCenter.m in Sources */,
 				E74B14EE20B3711F002C0183 /* MSSDKExtension.m in Sources */,
 				04754F4B1EA98182002CBA46 /* MSLogger.m in Sources */,
+				04A79A4520C6F436006D0072 /* MSOneCollectorIngestion.m in Sources */,
 				B2CD74B31F22BE270070E7DF /* MSUtility+Date.m in Sources */,
 				04754F4C1EA98182002CBA46 /* MSChannelUnitConfiguration.m in Sources */,
 				B2CD74A41F22BE270070E7DF /* MSUtility.m in Sources */,
