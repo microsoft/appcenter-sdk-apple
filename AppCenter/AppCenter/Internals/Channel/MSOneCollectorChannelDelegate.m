@@ -8,7 +8,7 @@
 #import "MSUtility.h"
 
 static NSString *const kMSOneCollectorGroupIdSuffix = @"/one";
-static NSString *const kMSOneCollectorBaseUrl = @"https://browser.events.data.microsoft.com"; // TODO: move to constants?
+static NSString *const kMSOneCollectorBaseUrl = @"https://mobile.events.data.microsoft.com"; // TODO: move to constants?
 
 @implementation MSOneCollectorChannelDelegate
 
