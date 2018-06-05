@@ -1,4 +1,5 @@
 #import "MSAbstractLogInternal.h"
+#import "MSAbstractLogPrivate.h"
 #import "MSDevice.h"
 #import "MSTestFrameworks.h"
 
@@ -186,6 +187,37 @@
   XCTAssertEqual([transmissionTargets count], (uint)2);
   XCTAssertTrue([transmissionTargets containsObject:transmissionTargetToken1]);
   XCTAssertTrue([transmissionTargets containsObject:transmissionTargetToken]);
+}
+
+-(void)testToCommonSchemaLogs{
+  
+  // IF
+  self.sut.transmissionTargetTokens = nil;
+  
+  // When
+  NSArray<MSCommonSchemaLog*> *csLogs = [self.sut toCommonSchemaLogs];
+  
+  // Then
+  XCTAssertNil(csLogs);
+  
+  // IF
+  self.sut.transmissionTargetTokens = [@[] mutableCopy];
+  
+  // When
+  csLogs = [self.sut toCommonSchemaLogs];
+  
+  // Then
+  XCTAssertNil(csLogs);
+  
+  // IF
+  NSArray *expectedIKeys = @[@"o:iKey1", @"o:iKey2"];
+  self.sut.transmissionTargetTokens = @[@"iKey1-dummytoken", @"iKey2-dummytoken"];
+  // When
+  csLogs = [self.sut toCommonSchemaLogs];
+  
+  // Then
+  XCTAssertTrue([expectedIKeys containsObject:csLogs[0].iKey]);
+  XCTAssertTrue([expectedIKeys containsObject:csLogs[1].iKey]);
 }
 
 @end
