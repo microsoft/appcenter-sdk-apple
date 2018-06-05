@@ -379,6 +379,34 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
   XCTAssertFalse(shouldFilter);
 }
 
+- (void) testFiltersNonOneCollectorLogWhenLogHasTargetTokens {
+
+  // If
+  id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  NSString *groupId = @"baseGroupId";
+  MSChannelUnitConfiguration *unitConfig = [[MSChannelUnitConfiguration alloc] initWithGroupId:groupId
+                                                                                      priority:MSPriorityDefault
+                                                                                 flushInterval:3.0
+                                                                                batchSizeLimit:1024
+                                                                           pendingBatchesLimit:60];
+  OCMStub([channelUnitMock configuration]).andReturn(unitConfig);
+  id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  id<MSChannelUnitProtocol> oneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY withSender:OCMOCK_ANY]).andReturn(oneCollectorChannelUnitMock);
+  NSMutableSet *transmissionTargetTokens = [NSMutableSet new];
+  [transmissionTargetTokens addObject:@"fake-transmission-target-token"];
+  MSCommonSchemaLog *commonSchemaLog = [MSCommonSchemaLog new];
+  id<MSMockLogWithConversion> mockLog = OCMProtocolMock(@protocol(MSMockLogWithConversion));
+  OCMStub([mockLog toCommonSchemaLogs]).andReturn(@[commonSchemaLog]);
+  OCMStub(mockLog.transmissionTargetTokens).andReturn(transmissionTargetTokens);
+
+  // When
+  BOOL shouldFilter = [self.sut channelUnit:channelUnitMock shouldFilterLog:mockLog];
+
+  // Then
+  XCTAssertTrue(shouldFilter);
+}
+
 // A helper method to initialize the test expectation
 - (void)enqueueChannelEndJobExpectation {
   XCTestExpectation *channelEndJobExpectation = [self expectationWithDescription:@"Channel job should be finished"];
