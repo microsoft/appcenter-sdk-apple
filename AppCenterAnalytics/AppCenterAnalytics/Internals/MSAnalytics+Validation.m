@@ -8,9 +8,12 @@
 static const int minEventNameLength = 1;
 static const int maxEventNameLength = 256;
 
-// Alphanumeric characters, no heading or trailing periods, no consecutive periods, no heading underscores, max length of
-// 100.
+// Alphanumeric characters, no heading or trailing periods, no consecutive periods, no heading underscores, max length
+// of 100.
 static NSString *const kCSEventNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){0,99}$";
+
+// Must start with an alphabetic character.  It's 1 to 100 characters.  It allows dot, underscore and alphanumeric.
+static NSString *const kCSEventPropertyNameRegex = @"^[a-zA-Z]([\\._a-zA-Z0-9]){0,99}$";
 
 /*
  * Workaround for exporting symbols from category object files.
@@ -41,7 +44,7 @@ NSString *MSAnalyticsValidationCategory;
   log.name = validName;
 
   // Send only valid properties.
-  log.properties = [self validateProperties:log.properties forLogName:log.name andType:log.type];
+  log.properties = [self validateACProperties:log.properties forLogName:log.name andType:log.type];
   return YES;
 }
 
@@ -59,6 +62,14 @@ NSString *MSAnalyticsValidationCategory;
   return eventName;
 }
 
+- (NSDictionary<NSString *, NSString *> *)validateACProperties:(NSDictionary<NSString *, NSString *> *)properties
+                                                    forLogName:(NSString *)logName
+                                                       andType:(NSString *)logType {
+
+  // Keeping this method body in MSAnalytics to use it in unit tests.
+  return [MSUtility validateProperties:properties forLogName:logName type:logType];
+}
+
 - (BOOL)validateCSLog:(MSCommonSchemaLog *)log {
 
   // Validate core fields
@@ -66,14 +77,14 @@ NSString *MSAnalyticsValidationCategory;
     MSLogError([MSAnalytics logTag], @"Invalid event name '%@'", log.name);
     return NO;
   }
-
   if (![self validateCSPopSample:log.popSample]) {
     MSLogError([MSAnalytics logTag], @"Invalid popSample '%f'", log.popSample);
     return NO;
   }
-
-  // TODO Add Part C properties contraints.
-
+  if (![self validateCSDataPropertiesFieldNames:log.data]) {
+    MSLogError([MSAnalytics logTag], @"Invalid part C field name");
+    return NO;
+  }
   return [log isValid];
 }
 
@@ -84,26 +95,44 @@ NSString *MSAnalyticsValidationCategory;
   }
 
   NSError *error = nil;
-  NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:kCSEventNameRegex
-                                                                         options:NSRegularExpressionCaseInsensitive
-                                                                           error:&error];
+  NSRegularExpression *regex =
+      [NSRegularExpression regularExpressionWithPattern:kCSEventNameRegex options:0 error:&error];
   NSRange range = NSMakeRange(0, eventName.length);
-  if (regex) {
-    NSUInteger count = [regex numberOfMatchesInString:eventName options:0 range:range];
-    if (!count) {
-      MSLogError([MSAnalytics logTag], @"Invalid event name '%@'", eventName);
-      return NO;
-    }
+  if (!regex) {
+    MSLogError([MSAnalytics logTag], @"Couldn't create regular expression with pattern\"%@\": %@", kCSEventNameRegex,
+               error.localizedDescription);
+    return NO;
+  }
+
+  NSUInteger count = [regex numberOfMatchesInString:eventName options:0 range:range];
+  if (!count) {
+    MSLogError([MSAnalytics logTag], @"Invalid event name '%@'", eventName);
+    return NO;
   }
   return YES;
 }
 
-- (NSDictionary<NSString *, NSString *> *)validateProperties:(NSDictionary<NSString *, NSString *> *)properties
-                                                  forLogName:(NSString *)logName
-                                                     andType:(NSString *)logType {
-
-  // Keeping this method body in MSAnalytics to use it in unit tests.
-  return [MSUtility validateProperties:properties forLogName:logName type:logType];
+// Part B or C properties field names validation.
+- (BOOL)validateCSDataPropertiesFieldNames:(MSCSData *)data {
+  if (data && data.properties && data.properties.count) {
+    NSError *error = nil;
+    NSRegularExpression *regex =
+        [NSRegularExpression regularExpressionWithPattern:kCSEventPropertyNameRegex options:0 error:&error];
+    if (!regex) {
+      MSLogError([MSAnalytics logTag], @"Couldn't create regular expression with pattern\"%@\": %@",
+                 kCSEventPropertyNameRegex, error.localizedDescription);
+      return NO;
+    }
+    for (NSString *key in data.properties) {
+      NSRange range = NSMakeRange(0, key.length);
+      if (![regex numberOfMatchesInString:key options:0 range:range]) {
+        MSLogError([MSAnalytics logTag], @"Invalid property name '%@'", key);
+        return NO;
+      }
+    }
+    return YES;
+  }
+  return NO;
 }
 
 #pragma mark - Helper

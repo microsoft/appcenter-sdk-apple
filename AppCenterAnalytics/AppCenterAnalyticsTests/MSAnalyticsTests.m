@@ -139,6 +139,124 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   XCTAssertFalse(invalidCharactersOtherThanPeriodAndUnderscoreEventName);
 }
 
+- (void)testValidateCSDataPropertiesFieldNames {
+
+  // If
+  NSString *shortPropertyName = @"i";
+  NSString *propertyName100 =
+      [@"" stringByPaddingToLength:100 withString:@"cs.data.property.Name100" startingAtIndex:0];
+  NSString *emptyPropertyName = @"";
+  NSString *tooLongPropertyName =
+      [@"" stringByPaddingToLength:101 withString:@"cs.data.property.Name101" startingAtIndex:0];
+  NSString *leadingPeriod = @".hello.world";
+  NSString *leadingUnderscore = @"_hello.world";
+  NSString *dotInPropertyName = @"hello.world";
+  NSString *underscoreInPropertyName = @"hello_world";
+  NSString *doNotAllowSpaceInPropertyName = @"hello world";
+  NSString *notAllowOtherSpecialCharsInPropertyName = @"$#%^&*";
+  NSString *startWithNumberPropertyName = @"9.hello.world";
+  NSMutableDictionary *properties = [NSMutableDictionary new];
+  MSCSData *data = [MSCSData new];
+
+  // When
+  properties[shortPropertyName] = @"shortPropertyNameValue";
+  data.properties = properties;
+  BOOL validShortPropertyName = [[MSAnalytics sharedInstance] validateCSDataPropertiesFieldNames:data];
+
+  // Then
+  XCTAssertTrue(validShortPropertyName);
+  [properties removeAllObjects];
+
+  // When
+  properties[propertyName100] = @"propertyName100Value";
+  data.properties = properties;
+  BOOL validPropertyName100 = [[MSAnalytics sharedInstance] validateCSDataPropertiesFieldNames:data];
+
+  // Then
+  XCTAssertTrue(validPropertyName100);
+  [properties removeAllObjects];
+
+  // When
+  properties[emptyPropertyName] = @"";
+  data.properties = properties;
+  BOOL invalidEmptyPropertyName = [[MSAnalytics sharedInstance] validateCSDataPropertiesFieldNames:data];
+
+  // Then
+  XCTAssertFalse(invalidEmptyPropertyName);
+  [properties removeAllObjects];
+
+  // When
+  properties[tooLongPropertyName] = @"tooLongPropertyNameValue";
+  data.properties = properties;
+  BOOL invalidTooLongPropertyName = [[MSAnalytics sharedInstance] validateCSDataPropertiesFieldNames:data];
+
+  // Then
+  XCTAssertFalse(invalidTooLongPropertyName);
+  [properties removeAllObjects];
+
+  // When
+  properties[leadingPeriod] = @".leading.period";
+  data.properties = properties;
+  BOOL invalidLeadingPeriodPropertyName = [[MSAnalytics sharedInstance] validateCSDataPropertiesFieldNames:data];
+
+  // Then
+  XCTAssertFalse(invalidLeadingPeriodPropertyName);
+  [properties removeAllObjects];
+
+  // When
+  properties[leadingUnderscore] = @"_leading.period";
+  data.properties = properties;
+  BOOL invalidLeadingUnderscorePropertyName = [[MSAnalytics sharedInstance] validateCSDataPropertiesFieldNames:data];
+
+  // Then
+  XCTAssertFalse(invalidLeadingUnderscorePropertyName);
+  [properties removeAllObjects];
+
+  // When
+  properties[dotInPropertyName] = @"hello.world";
+  data.properties = properties;
+  BOOL validDotInPropertyName = [[MSAnalytics sharedInstance] validateCSDataPropertiesFieldNames:data];
+
+  // Then
+  XCTAssertTrue(validDotInPropertyName);
+  [properties removeAllObjects];
+
+  // When
+  properties[underscoreInPropertyName] = @"hello_world";
+  data.properties = properties;
+  BOOL validUnderscoreInPropertyName = [[MSAnalytics sharedInstance] validateCSDataPropertiesFieldNames:data];
+
+  XCTAssertTrue(validUnderscoreInPropertyName);
+  [properties removeAllObjects];
+
+  // When
+  properties[doNotAllowSpaceInPropertyName] = @"hello world";
+  data.properties = properties;
+  BOOL invalidDoNotAllowSpaceInPropertyName = [[MSAnalytics sharedInstance] validateCSDataPropertiesFieldNames:data];
+
+  // Then
+  XCTAssertFalse(invalidDoNotAllowSpaceInPropertyName);
+  [properties removeAllObjects];
+
+  // When
+  properties[notAllowOtherSpecialCharsInPropertyName] = @"special chars other than underscore and dot";
+  data.properties = properties;
+  BOOL invalidNotAllowOtherSpecialCharsInPropertyName =
+      [[MSAnalytics sharedInstance] validateCSDataPropertiesFieldNames:data];
+
+  // Then
+  XCTAssertFalse(invalidNotAllowOtherSpecialCharsInPropertyName);
+  [properties removeAllObjects];
+
+  // When
+  properties[startWithNumberPropertyName] = @"startWithNumberValue";
+  data.properties = properties;
+  BOOL invalidStartWithNumberPropertyName = [[MSAnalytics sharedInstance] validateCSDataPropertiesFieldNames:data];
+
+  // Then
+  XCTAssertFalse(invalidStartWithNumberPropertyName);
+}
+
 - (void)testApplyEnabledStateWorks {
   [[MSAnalytics sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                                             appSecret:kMSTestAppSecret
@@ -277,10 +395,11 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   id analyticsMock = OCMPartialMock([MSAnalytics sharedInstance]);
   OCMExpect([analyticsMock validateACLog:eventLog]).andForwardToRealObject();
   OCMExpect([analyticsMock validateACEventName:@"test" forLogType:@"event"]).andForwardToRealObject();
-  OCMExpect([analyticsMock validateProperties:OCMOCK_ANY forLogName:@"test" andType:@"event"]).andForwardToRealObject();
+  OCMExpect([analyticsMock validateACProperties:OCMOCK_ANY forLogName:@"test" andType:@"event"])
+      .andForwardToRealObject();
   OCMExpect([analyticsMock validateACLog:pageLog]).andForwardToRealObject();
   OCMExpect([analyticsMock validateACEventName:OCMOCK_ANY forLogType:@"page"]).andForwardToRealObject();
-  OCMReject([analyticsMock validateProperties:OCMOCK_ANY forLogName:OCMOCK_ANY andType:@"page"]);
+  OCMReject([analyticsMock validateACProperties:OCMOCK_ANY forLogName:OCMOCK_ANY andType:@"page"]);
   OCMReject([analyticsMock validateACLog:analyticsLog]);
 
   // When
@@ -369,7 +488,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
   // Will be validated in shouldFilterLog callback instead.
   OCMReject([analyticsMock validateACEventName:OCMOCK_ANY forLogType:OCMOCK_ANY]);
-  OCMReject([analyticsMock validateProperties:OCMOCK_ANY forLogName:OCMOCK_ANY andType:OCMOCK_ANY]);
+  OCMReject([analyticsMock validateACProperties:OCMOCK_ANY forLogName:OCMOCK_ANY andType:OCMOCK_ANY]);
   [[MSAnalytics sharedInstance] trackEvent:invalidEventName withProperties:nil forTransmissionTarget:nil];
 
   // Then
@@ -527,7 +646,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
   // Will be validated in shouldFilterLog callback instead.
   OCMReject([analyticsMock validateACEventName:OCMOCK_ANY forLogType:OCMOCK_ANY]);
-  OCMReject([analyticsMock validateProperties:OCMOCK_ANY forLogName:OCMOCK_ANY andType:OCMOCK_ANY]);
+  OCMReject([analyticsMock validateACProperties:OCMOCK_ANY forLogName:OCMOCK_ANY andType:OCMOCK_ANY]);
   [[MSAnalytics sharedInstance] trackPage:invalidPageName withProperties:nil];
 
   // Then
