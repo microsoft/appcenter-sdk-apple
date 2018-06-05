@@ -21,6 +21,10 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 
 @end
 
+// TODO: Separate base MSHttpSender tests from this test and instantiate MSAppCenterIngestion with initWithBaseUrl:, not
+// the one with multiple parameters.
+// Look at comments in each method.
+// Add testHeaders to verify headers are populated properly. Look at testHeaders in MSOneCollectorIngestionTests
 @implementation MSAppCenterIngestionTests
 
 - (void)setUp {
@@ -90,6 +94,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
                                }];
 }
 
+// TODO: Move this to base MSHttpSender test.
 - (void)testUnrecoverableError {
 
   // If
@@ -133,6 +138,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
                                }];
 }
 
+// TODO: Move this to base MSHttpSender test.
 - (void)testNetworkDown {
 
   // If
@@ -171,6 +177,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
                                }];
 }
 
+// TODO: Move this to base MSHttpSender test.
 - (void)testNetworkUpAgain {
 
   // If
@@ -222,6 +229,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
                                }];
 }
 
+// TODO: Move this to base MSHttpSender test.
 - (void)testTasksSuspendedOnSenderSuspended {
 
   // If
@@ -284,6 +292,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
                                }];
 }
 
+// TODO: Move this to base MSHttpSender test.
 - (void)testTasksRunningOnSenderResumed {
 
   // If
@@ -352,6 +361,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
                                }];
 }
 
+// TODO: Move this to base MSHttpSender test.
 - (void)testSuspendWhenAllRetriesUsed {
 
   // If
@@ -408,6 +418,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
                                }];
 }
 
+// TODO: Move this to base MSHttpSender test.
 - (void)testRetryStoppedWhileSuspended {
 
   // If
@@ -509,6 +520,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
                                }];
 }
 
+// TODO: Move this to base MSHttpSender test.
 - (void)testAddDelegate {
 
   // If
@@ -521,6 +533,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   assertThatBool([self.sut.delegates containsObject:delegateMock], isTrue());
 }
 
+// TODO: Move this to base MSHttpSender test.
 - (void)testAddMultipleDelegates {
 
   // If
@@ -536,6 +549,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   assertThatBool([self.sut.delegates containsObject:delegateMock2], isTrue());
 }
 
+// TODO: Move this to base MSHttpSender test.
 - (void)testAddTwiceSameDelegate {
 
   // If
@@ -550,6 +564,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   assertThatUnsignedLong(self.sut.delegates.count, equalToInt(1));
 }
 
+// TODO: Move this to base MSHttpSender test.
 - (void)testRemoveDelegate {
 
   // If
@@ -563,6 +578,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   assertThatBool([self.sut.delegates containsObject:delegateMock], isFalse());
 }
 
+// TODO: Move this to base MSHttpSender test.
 - (void)testRemoveTwiceSameDelegate {
 
   // If
@@ -581,6 +597,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   assertThatUnsignedLong(self.sut.delegates.count, equalToInt(1));
 }
 
+// TODO: Move this to base MSHttpSender test.
 - (void)testNullifiedDelegate {
 
   // If
@@ -598,6 +615,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   assertThatUnsignedLong(self.sut.delegates.allObjects.count, equalToInt(0));
 }
 
+// TODO: Move this to base MSHttpSender test.
 - (void)testCallDelegatesOnSuspended {
 
   // If
@@ -615,6 +633,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   OCMVerify([delegateMock2 senderDidSuspend:self.sut]);
 }
 
+// TODO: Move this to base MSHttpSender test.
 - (void)testCallDelegatesOnResumed {
 
   // If
@@ -631,42 +650,6 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   // Then
   OCMVerify([delegateMock1 senderDidResume:self.sut]);
   OCMVerify([delegateMock2 senderDidResume:self.sut]);
-}
-
-- (void)testLargeSecret {
-
-  // If
-  NSString *secret = @"shhhh-its-a-secret";
-  NSString *hiddenSecret;
-
-  // When
-  hiddenSecret = [MSSenderUtil hideSecret:secret];
-
-  // Then
-  NSString *fullyHiddenSecret =
-      [@"" stringByPaddingToLength:hiddenSecret.length withString:kMSHidingStringForAppSecret startingAtIndex:0];
-  NSString *appSecretHiddenPart = [hiddenSecret commonPrefixWithString:fullyHiddenSecret options:0];
-  NSString *appSecretVisiblePart = [hiddenSecret substringFromIndex:appSecretHiddenPart.length];
-  assertThatInteger(secret.length - appSecretHiddenPart.length, equalToShort(kMSMaxCharactersDisplayedForAppSecret));
-  assertThat(appSecretVisiblePart, is([secret substringFromIndex:appSecretHiddenPart.length]));
-}
-
-- (void)testShortSecret {
-
-  // If
-  NSString *secret = @"";
-  for (short i = 1; i <= kMSMaxCharactersDisplayedForAppSecret - 1; i++)
-    secret = [NSString stringWithFormat:@"%@%hd", secret, i];
-  NSString *hiddenSecret;
-
-  // When
-  hiddenSecret = [MSSenderUtil hideSecret:secret];
-
-  // Then
-  NSString *fullyHiddenSecret =
-      [@"" stringByPaddingToLength:hiddenSecret.length withString:kMSHidingStringForAppSecret startingAtIndex:0];
-  assertThatInteger(hiddenSecret.length, equalToInteger(secret.length));
-  assertThat(hiddenSecret, is(fullyHiddenSecret));
 }
 
 - (void)testSetBaseURL {
@@ -702,6 +685,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 
 #pragma mark - Test Helpers
 
+// TODO: Move this to base MSHttpSender test.
 - (void)simulateReachabilityChangedNotification:(NetworkStatus)status {
   self.currentNetworkStatus = status;
   [[NSNotificationCenter defaultCenter] postNotificationName:kMSReachabilityChangedNotification

@@ -10,14 +10,6 @@
 
 @implementation MSOneCollectorIngestion
 
-static NSString *const kMSApiVersion = @"1.0";
-static NSString *const kMSApiPath = @"/OneCollector";
-static NSString *const kMSOneCollectorContentType = @"application/x-json-stream; charset=utf-8;";
-static NSString *const kMSApiKey = @"apikey";
-static NSString *const kMSClientVersionKey = @"Client-Version";
-static NSString *const kMSClientVersionFormat = @"ACT-iOS-ObjectiveC-no-%@-%@"; // TODO confirm value for iOS
-static NSString *const kMSUploadTimeKey = @"Upload-Time";
-
 - (id)initWithBaseUrl:(NSString *)baseUrl {
   self = [super initWithBaseUrl:baseUrl
                         apiPath:[NSString stringWithFormat:@"%@/%@", kMSApiPath, kMSApiVersion]
@@ -69,7 +61,8 @@ static NSString *const kMSUploadTimeKey = @"Upload-Time";
     [apiKeys addObjectsFromArray:[log.transmissionTargetTokens allObjects]];
   }
   [headers setObject:[[apiKeys allObjects] componentsJoinedByString:@","] forKey:kMSApiKey];
-  [headers setObject:@((long long)[MSUtility nowInMilliseconds]) forKey:kMSUploadTimeKey];
+  [headers setObject:[NSString stringWithFormat:@"%lld", (long long)[MSUtility nowInMilliseconds]]
+              forKey:kMSUploadTimeKey];
   request.allHTTPHeaderFields = headers;
 
   // Set body.

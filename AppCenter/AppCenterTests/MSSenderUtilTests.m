@@ -133,6 +133,8 @@
       XCTAssertTrue(result);
     } else if (i == 408) {
       XCTAssertTrue(result);
+    } else if (i == 429) {
+      XCTAssertTrue(result);
     } else {
       XCTAssertFalse(result);
     }
