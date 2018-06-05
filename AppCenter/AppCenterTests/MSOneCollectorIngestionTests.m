@@ -64,7 +64,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
       [[request.allHTTPHeaderFields objectForKey:kMSHeaderContentTypeKey] isEqualToString:kMSOneCollectorContentType]);
 
   XCTAssertTrue([keys containsObject:kMSClientVersionKey]);
-  NSString *expectedClientVersion = [NSString stringWithFormat:kMSClientVersionFormat, [MSUtility sdkVersion], @"no"];
+  NSString *expectedClientVersion = [NSString stringWithFormat:kMSClientVersionFormat, [MSUtility sdkVersion]];
   XCTAssertTrue([[request.allHTTPHeaderFields objectForKey:kMSClientVersionKey] isEqualToString:expectedClientVersion]);
 
   XCTAssertTrue([keys containsObject:kMSApiKey]);

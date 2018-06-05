@@ -5,7 +5,7 @@ static NSString *const kMSApiPath = @"/OneCollector";
 static NSString *const kMSOneCollectorContentType = @"application/x-json-stream; charset=utf-8;";
 static NSString *const kMSApiKey = @"apikey";
 static NSString *const kMSClientVersionKey = @"Client-Version";
-static NSString *const kMSClientVersionFormat = @"ACT-iOS-ObjectiveC-no-%@-%@"; // TODO confirm value for iOS
+static NSString *const kMSClientVersionFormat = @"ACS-iOS-ObjectiveC-no-%@-no";
 static NSString *const kMSUploadTimeKey = @"Upload-Time";
 
 @interface MSOneCollectorIngestion : MSHttpSender

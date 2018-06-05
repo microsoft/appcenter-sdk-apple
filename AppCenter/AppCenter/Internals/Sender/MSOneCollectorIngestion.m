@@ -16,7 +16,7 @@
                         headers:@{
                           kMSHeaderContentTypeKey : kMSOneCollectorContentType,
                           kMSClientVersionKey :
-                              [NSString stringWithFormat:kMSClientVersionFormat, [MSUtility sdkVersion], @"no"]
+                              [NSString stringWithFormat:kMSClientVersionFormat, [MSUtility sdkVersion]]
                         }
                    queryStrings:nil
                    reachability:[MS_Reachability reachabilityForInternetConnection]
