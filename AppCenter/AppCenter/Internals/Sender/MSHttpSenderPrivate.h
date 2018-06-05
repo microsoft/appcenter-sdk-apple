@@ -10,7 +10,7 @@
 
 /**
  * The maximum number of connections for the session. The one collector endpoint only
- * allows for one connection.
+ * allows for two connections.
  */
 @property(nonatomic, readonly) NSInteger maxNumberOfConnections;
 
