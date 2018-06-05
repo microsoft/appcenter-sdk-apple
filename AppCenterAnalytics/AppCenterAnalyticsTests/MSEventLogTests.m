@@ -182,7 +182,7 @@
   NSString *osVer = @"1.2.4";
   NSString *osBuild = @"2342EEWF";
   NSString *appNamespace = @"com.contoso.peach.app";
-  NSString *appBuild = @"3.1.2";
+  NSString *appVersion = @"3.1.2";
   NSString *carrierName = @"P-Telecom";
   NSString *sdkVersion = @"1.0.0";
   device.oemName = oemName;
@@ -192,7 +192,7 @@
   device.osVersion = osVer;
   device.osBuild = osBuild;
   device.appNamespace = appNamespace;
-  device.appBuild = appBuild;
+  device.appVersion = appVersion;
   device.carrierName = carrierName;
   device.sdkName = @"appcenter.ios";
   device.sdkVersion = sdkVersion;
@@ -201,7 +201,6 @@
   self.sut.timestamp = timestamp;
   self.sut.name = name;
   self.sut.properties = properties;
-  
   
   // When
   MSCommonSchemaLog *csLog = [self.sut toCommonSchemaLogForTargetToken:targetToken];
@@ -213,7 +212,7 @@
   XCTAssertEqualObjects(csLog.iKey, @"o:aTarget");
   XCTAssertEqualObjects(csLog.ext.protocolExt.devMake, oemName);
   XCTAssertEqualObjects(csLog.ext.protocolExt.devModel, model);
-  XCTAssertEqualObjects(csLog.ext.userExt.locale, @"en-US");
+  XCTAssertEqualObjects(csLog.ext.appExt.locale, [[[NSBundle mainBundle] preferredLocalizations] firstObject]);
   XCTAssertEqualObjects(csLog.ext.osExt.name, osName);
   XCTAssertEqualObjects(csLog.ext.osExt.ver, @"Version 1.2.4 (Build 2342EEWF)");
   XCTAssertEqualObjects(csLog.ext.appExt.appId, @"I:com.contoso.peach.app");
