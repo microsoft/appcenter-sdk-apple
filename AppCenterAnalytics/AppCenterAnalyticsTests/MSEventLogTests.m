@@ -212,7 +212,7 @@
   XCTAssertEqualObjects(csLog.iKey, @"o:aTarget");
   XCTAssertEqualObjects(csLog.ext.protocolExt.devMake, oemName);
   XCTAssertEqualObjects(csLog.ext.protocolExt.devModel, model);
-  XCTAssertEqualObjects(csLog.ext.userExt.locale, @"en-US");
+  XCTAssertEqualObjects(csLog.ext.appExt.locale, [[[NSBundle mainBundle] preferredLocalizations] firstObject]);
   XCTAssertEqualObjects(csLog.ext.osExt.name, osName);
   XCTAssertEqualObjects(csLog.ext.osExt.ver, @"Version 1.2.4 (Build 2342EEWF)");
   XCTAssertEqualObjects(csLog.ext.appExt.appId, @"I:com.contoso.peach.app");
