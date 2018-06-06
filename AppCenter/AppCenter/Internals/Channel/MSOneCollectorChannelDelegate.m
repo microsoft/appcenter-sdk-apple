@@ -46,7 +46,6 @@ static NSString *const kMSOneCollectorBaseUrl = @"https://mobile.events.data.mic
         [NSString stringWithFormat:@"%@%@", channel.configuration.groupId, kMSOneCollectorGroupIdSuffix];
     MSChannelUnitConfiguration *channelUnitConfiguration =
         [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:oneCollectorGroupId];
-
     id<MSChannelUnitProtocol> channelUnit =
         [channelGroup addChannelUnitWithConfiguration:channelUnitConfiguration withSender:self.oneCollectorSender];
     self.oneCollectorChannels[groupId] = channelUnit;
