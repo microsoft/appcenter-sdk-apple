@@ -1,8 +1,14 @@
+#import "MSAbstractLogInternal.h"
+#import "MSAppCenterInternal.h"
+#import "MSChannelProtocol.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
 #import "MSCommonSchemaLog.h"
 #import "MSCSEpochAndSeq.h"
+#import "MSLog.h"
+#import "MSLogConversion.h"
+#import "MSLogger.h"
 #import "MSOneCollectorChannelDelegatePrivate.h"
 #import "MSOneCollectorIngestion.h"
 #import "MSUtility.h"
@@ -47,6 +53,15 @@ static NSString *const kMSOneCollectorBaseUrl = @"https://mobile.events.data.mic
   }
 }
 
+- (BOOL)channelUnit:(id<MSChannelUnitProtocol>)channelUnit shouldFilterLog:(id<MSLog>)log {
+
+  // Do not filter the log from one collector channels.
+  if ([self isOneCollectorGroup:channelUnit.configuration.groupId]) {
+    return NO;
+  }
+  return [[log transmissionTargetTokens] count] > 0;
+}
+
 - (void)channel:(id<MSChannelProtocol>)__unused channel prepareLog:(id<MSLog>)log {
 
   // Prepare Common Schema logs.
@@ -67,10 +82,6 @@ static NSString *const kMSOneCollectorBaseUrl = @"https://mobile.events.data.mic
   }
 }
 
-- (BOOL)shouldFilterLog:(id<MSLog>)__unused log {
-  return NO;
-}
-
 - (void)channel:(id<MSChannelProtocol>)channel didSetEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deletedData {
   if ([channel conformsToProtocol:@protocol(MSChannelUnitProtocol)]) {
     NSString *groupId = ((id<MSChannelUnitProtocol>)channel).configuration.groupId;
@@ -86,8 +97,31 @@ static NSString *const kMSOneCollectorBaseUrl = @"https://mobile.events.data.mic
   }
 }
 
+- (void)channel:(id<MSChannelProtocol>)channel didPrepareLog:(id<MSLog>)log withInternalId:(NSString *)__unused internalId {
+  if (![self shouldSendLogToOneCollector:log] ||
+      ![channel conformsToProtocol:@protocol(MSChannelUnitProtocol)]) {
+    return;
+  }
+  id<MSChannelUnitProtocol> channelUnit = (id<MSChannelUnitProtocol>)channel;
+  NSString *groupId = channelUnit.configuration.groupId;
+  id<MSChannelUnitProtocol> oneCollectorChannelUnit = [self.oneCollectorChannels objectForKey:groupId];
+  if (!oneCollectorChannelUnit) {
+    return;
+  }
+  id<MSLogConversion> logConversion = (id<MSLogConversion>)log;
+  NSArray<MSCommonSchemaLog *> *commonSchemaLogs = [logConversion toCommonSchemaLogs];
+  for (MSCommonSchemaLog *commonSchemaLog in commonSchemaLogs) {
+    [oneCollectorChannelUnit enqueueItem:commonSchemaLog];
+  }
+}
+
 - (BOOL)isOneCollectorGroup:(NSString *)groupId {
   return [groupId hasSuffix:kMSOneCollectorGroupIdSuffix];
+}
+
+- (BOOL)shouldSendLogToOneCollector:(id<MSLog>)log {
+  NSObject *logObject = (NSObject *)log;
+  return [[log transmissionTargetTokens] count] > 0 && [log conformsToProtocol:@protocol(MSLogConversion)] && ![logObject isKindOfClass:[MSCommonSchemaLog class]];
 }
 
 @end

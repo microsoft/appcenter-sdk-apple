@@ -142,11 +142,11 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
                             }];
 }
 
-- (BOOL)shouldFilterLog:(id<MSLog>)log {
+- (BOOL)channelUnit:(id<MSChannelUnitProtocol>)channelUnit shouldFilterLog:(id<MSLog>)log {
   __block BOOL shouldFilter = NO;
-  [self enumerateDelegatesForSelector:@selector(shouldFilterLog:)
+  [self enumerateDelegatesForSelector:@selector(channelUnit:shouldFilterLog:)
                             withBlock:^(id<MSChannelDelegate> delegate) {
-                              shouldFilter = shouldFilter || [delegate shouldFilterLog:log];
+                              shouldFilter = shouldFilter || [delegate channelUnit:channelUnit shouldFilterLog:log];
                             }];
   return shouldFilter;
 }

@@ -734,6 +734,7 @@
 		04F21A041ECB73EE0074978D /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = ../../macOS/OHHTTPStubs/OHHTTPStubs.framework; sourceTree = "<group>"; };
 		04F3613C1FE1A92000A5A6D2 /* MSNoAutoAssignSessionIdLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSNoAutoAssignSessionIdLog.h; sourceTree = "<group>"; };
 		04FD126A1E4103CC007ABFE7 /* MSKeychainUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSKeychainUtilTests.m; sourceTree = "<group>"; };
+		3511AE7C20C5FF150056A739 /* MSMockLogWithConversion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSMockLogWithConversion.h; sourceTree = "<group>"; };
 		3513432D2056FF9000E6DC7D /* MSAbstractLogPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAbstractLogPrivate.h; sourceTree = "<group>"; };
 		354274162012AE4000BE766F /* MSChannelProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSChannelProtocol.h; sourceTree = "<group>"; };
 		354274192012AEFC00BE766F /* MSChannelUnitProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSChannelUnitProtocol.h; sourceTree = "<group>"; };
@@ -744,6 +745,7 @@
 		358F9BC22019531F00B9E22C /* MSLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSLogger.h; sourceTree = "<group>"; };
 		3592ABA51DC90E3600EF4592 /* MSLoggerInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLoggerInternal.h; sourceTree = "<group>"; };
 		3592ABA61DC90E3600EF4592 /* MSLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLogger.m; sourceTree = "<group>"; };
+		35B80F9220C1FE1A00CDFA55 /* MSMockLogObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSMockLogObject.h; sourceTree = "<group>"; };
 		35C0E3C91FD6146A004E841E /* MSMockSecondService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSMockSecondService.m; sourceTree = "<group>"; };
 		35C0E3CA1FD6146A004E841E /* MSMockSecondService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSMockSecondService.h; sourceTree = "<group>"; };
 		35D0B7511DDFABFD003EACCD /* MSWrapperLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSWrapperLogger.h; sourceTree = "<group>"; };
@@ -1335,6 +1337,8 @@
 				35C0E3CA1FD6146A004E841E /* MSMockSecondService.h */,
 				35C0E3C91FD6146A004E841E /* MSMockSecondService.m */,
 				04311FEE1EE083C2007054C5 /* MSTestFrameworks.h */,
+				35B80F9220C1FE1A00CDFA55 /* MSMockLogObject.h */,
+				3511AE7C20C5FF150056A739 /* MSMockLogWithConversion.h */,
 			);
 			path = Util;
 			sourceTree = "<group>";
