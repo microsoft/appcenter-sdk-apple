@@ -1,11 +1,11 @@
 #import "AppCenter+Internal.h"
 #import "MSAppCenterErrors.h"
+#import "MSAppCenterIngestion.h"
 #import "MSAppCenterInternal.h"
 #import "MSChannelDelegate.h"
 #import "MSChannelGroupDefault.h"
 #import "MSChannelUnitDefault.h"
 #import "MSHttpSender.h"
-#import "MSIngestionSender.h"
 #import "MSLogDBStorage.h"
 #import "MSStorage.h"
 #import "MSSender.h"
@@ -22,9 +22,9 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 #pragma mark - Initialization
 
 - (instancetype)initWithAppSecret:(NSString *)appSecret installId:(NSUUID *)installId logUrl:(NSString *)logUrl {
-  self = [self initWithSender:[[MSIngestionSender alloc] initWithBaseUrl:logUrl
-                                                               appSecret:appSecret
-                                                               installId:[installId UUIDString]]];
+  self = [self initWithSender:[[MSAppCenterIngestion alloc] initWithBaseUrl:logUrl
+                                                                  appSecret:appSecret
+                                                                  installId:[installId UUIDString]]];
   return self;
 }
 
@@ -128,9 +128,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
                             }];
 }
 
-- (void)channel:(id<MSChannelProtocol>)channel
-              didSetEnabled:(BOOL)isEnabled
-    andDeleteDataOnDisabled:(BOOL)deletedData {
+- (void)channel:(id<MSChannelProtocol>)channel didSetEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deletedData {
   [self enumerateDelegatesForSelector:@selector(channel:didSetEnabled:andDeleteDataOnDisabled:)
                             withBlock:^(id<MSChannelDelegate> delegate) {
                               [delegate channel:channel didSetEnabled:isEnabled andDeleteDataOnDisabled:deletedData];
@@ -144,11 +142,11 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
                             }];
 }
 
-- (BOOL)shouldFilterLog:(id<MSLog>)log {
+- (BOOL)channelUnit:(id<MSChannelUnitProtocol>)channelUnit shouldFilterLog:(id<MSLog>)log {
   __block BOOL shouldFilter = NO;
-  [self enumerateDelegatesForSelector:@selector(shouldFilterLog:)
+  [self enumerateDelegatesForSelector:@selector(channelUnit:shouldFilterLog:)
                             withBlock:^(id<MSChannelDelegate> delegate) {
-                              shouldFilter = shouldFilter || [delegate shouldFilterLog:log];
+                              shouldFilter = shouldFilter || [delegate channelUnit:channelUnit shouldFilterLog:log];
                             }];
   return shouldFilter;
 }
@@ -164,7 +162,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
   for (id<MSChannelProtocol> channel in self.channels) {
     [channel setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
   }
-  
+
   // Notify delegates.
   [self enumerateDelegatesForSelector:@selector(channel:didSetEnabled:andDeleteDataOnDisabled:)
                             withBlock:^(id<MSChannelDelegate> delegate) {

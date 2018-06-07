@@ -125,9 +125,9 @@
 
     // Check if the log should be filtered out. If so, don't enqueue it.
     __block BOOL shouldFilter = NO;
-    [self enumerateDelegatesForSelector:@selector(shouldFilterLog:)
+    [self enumerateDelegatesForSelector:@selector(channelUnit:shouldFilterLog:)
                               withBlock:^(id<MSChannelDelegate> delegate) {
-                                shouldFilter = shouldFilter || [delegate shouldFilterLog:item];
+                                shouldFilter = shouldFilter || [delegate channelUnit:self shouldFilterLog:item];
                               }];
 
     // If sender is nil, there is nothing to do at this point.

@@ -35,6 +35,12 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
 @end
 
+@interface MSAnalytics ()
+
+- (void)shouldFilterLog:(id<MSLog>)log;
+
+@end
+
 /*
  * FIXME
  * Log manager mock is holding sessionTracker instance even after dealloc and this causes session tracker test failures.
