@@ -10,9 +10,11 @@
 #import "MSLogConversion.h"
 #import "MSLogger.h"
 #import "MSOneCollectorChannelDelegatePrivate.h"
+#import "MSOneCollectorIngestion.h"
 #import "MSUtility.h"
 
 static NSString *const kMSOneCollectorGroupIdSuffix = @"/one";
+static NSString *const kMSOneCollectorBaseUrl = @"https://mobile.events.data.microsoft.com"; // TODO: move to constants?
 
 @implementation MSOneCollectorChannelDelegate
 
@@ -20,6 +22,7 @@ static NSString *const kMSOneCollectorGroupIdSuffix = @"/one";
   self = [super init];
   if (self) {
     _oneCollectorChannels = [NSMutableDictionary new];
+    _oneCollectorSender = [[MSOneCollectorIngestion alloc] initWithBaseUrl:kMSOneCollectorBaseUrl];
     _epochsAndSeqsByIKey = [NSMutableDictionary new];
   }
 
@@ -43,10 +46,8 @@ static NSString *const kMSOneCollectorGroupIdSuffix = @"/one";
         [NSString stringWithFormat:@"%@%@", channel.configuration.groupId, kMSOneCollectorGroupIdSuffix];
     MSChannelUnitConfiguration *channelUnitConfiguration =
         [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:oneCollectorGroupId];
-
-    // TODO need to figure out actual sender for One Collector
     id<MSChannelUnitProtocol> channelUnit =
-        [channelGroup addChannelUnitWithConfiguration:channelUnitConfiguration withSender:nil];
+        [channelGroup addChannelUnitWithConfiguration:channelUnitConfiguration withSender:self.oneCollectorSender];
     self.oneCollectorChannels[groupId] = channelUnit;
   }
 }

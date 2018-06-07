@@ -1,4 +1,4 @@
-#import "MSIngestionSender.h"
+#import "MSAppCenterIngestion.h"
 #import "MSTestFrameworks.h"
 
 @interface MSSenderUtilTests : XCTestCase
@@ -132,6 +132,8 @@
     if (i >= 500) {
       XCTAssertTrue(result);
     } else if (i == 408) {
+      XCTAssertTrue(result);
+    } else if (i == 429) {
       XCTAssertTrue(result);
     } else {
       XCTAssertFalse(result);

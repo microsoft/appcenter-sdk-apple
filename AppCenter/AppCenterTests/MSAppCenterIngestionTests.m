@@ -1,10 +1,10 @@
 #import "AppCenter+Internal.h"
 #import "MSAppCenterErrors.h"
+#import "MSAppCenterIngestion.h"
 #import "MSDevice.h"
 #import "MSDeviceInternal.h"
 #import "MSHttpSenderPrivate.h"
 #import "MSHttpTestUtil.h"
-#import "MSIngestionSender.h"
 #import "MSMockLog.h"
 #import "MSSenderCall.h"
 #import "MSSenderDelegate.h"
@@ -13,15 +13,19 @@
 static NSTimeInterval const kMSTestTimeout = 5.0;
 static NSString *const kMSBaseUrl = @"https://test.com";
 
-@interface MSIngestionSenderTests : XCTestCase
+@interface MSAppCenterIngestionTests : XCTestCase
 
-@property(nonatomic) MSIngestionSender *sut;
+@property(nonatomic) MSAppCenterIngestion *sut;
 @property(nonatomic) id reachabilityMock;
 @property(nonatomic) NetworkStatus currentNetworkStatus;
 
 @end
 
-@implementation MSIngestionSenderTests
+// TODO: Separate base MSHttpSender tests from this test and instantiate MSAppCenterIngestion with initWithBaseUrl:, not
+// the one with multiple parameters.
+// Look at comments in each method.
+// Add testHeaders to verify headers are populated properly. Look at testHeaders in MSOneCollectorIngestionTests
+@implementation MSAppCenterIngestionTests
 
 - (void)setUp {
   [super setUp];
@@ -43,12 +47,12 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   });
 
   // sut: System under test
-  self.sut = [[MSIngestionSender alloc] initWithBaseUrl:kMSBaseUrl
-                                                apiPath:@"/test-path"
-                                                headers:headers
-                                           queryStrings:queryStrings
-                                           reachability:self.reachabilityMock
-                                         retryIntervals:@[ @(0.5), @(1), @(1.5) ]];
+  self.sut = [[MSAppCenterIngestion alloc] initWithBaseUrl:kMSBaseUrl
+                                                   apiPath:@"/test-path"
+                                                   headers:headers
+                                              queryStrings:queryStrings
+                                              reachability:self.reachabilityMock
+                                            retryIntervals:@[ @(0.5), @(1), @(1.5) ]];
 }
 
 - (void)tearDown {
@@ -90,6 +94,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
                                }];
 }
 
+// TODO: Move this to base MSHttpSender test.
 - (void)testUnrecoverableError {
 
   // If
@@ -133,6 +138,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
                                }];
 }
 
+// TODO: Move this to base MSHttpSender test.
 - (void)testNetworkDown {
 
   // If
@@ -171,6 +177,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
                                }];
 }
 
+// TODO: Move this to base MSHttpSender test.
 - (void)testNetworkUpAgain {
 
   // If
@@ -222,6 +229,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
                                }];
 }
 
+// TODO: Move this to base MSHttpSender test.
 - (void)testTasksSuspendedOnSenderSuspended {
 
   // If
@@ -235,14 +243,14 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   // Send logs
   for (NSUInteger i = 0; i < [containers count]; i++) {
     [self.sut sendAsync:containers[i]
-      completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
-                          __attribute__((unused)) NSData *data, __attribute__((unused)) NSError *error) {
-        @synchronized(tasks) {
-          if (!testFinished) {
-            XCTFail(@"Completion handler shouldn't be called as test will finish before the response timeout.");
+        completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
+                            __attribute__((unused)) NSData *data, __attribute__((unused)) NSError *error) {
+          @synchronized(tasks) {
+            if (!testFinished) {
+              XCTFail(@"Completion handler shouldn't be called as test will finish before the response timeout.");
+            }
           }
-        }
-      }];
+        }];
   }
 
   // When
@@ -284,6 +292,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
                                }];
 }
 
+// TODO: Move this to base MSHttpSender test.
 - (void)testTasksRunningOnSenderResumed {
 
   // If
@@ -352,6 +361,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
                                }];
 }
 
+// TODO: Move this to base MSHttpSender test.
 - (void)testSuspendWhenAllRetriesUsed {
 
   // If
@@ -375,19 +385,22 @@ static NSString *const kMSBaseUrl = @"https://test.com";
               callCompletedWithStatus:MSHTTPCodesNo500InternalServerError
                                  data:OCMOCK_ANY
                                 error:OCMOCK_ANY])
-  .andForwardToRealObject()
-  .andDo(^(__attribute__((unused)) NSInvocation *invocation) {
-    
-    /*
-     * Don't fulfill the expectation immediatelly as the sender won't be suspended yet. Instead of using a delay to wait
-     * for the retries, we use the retryCount as it retryCount will only be 0 before the first failed sending and after
-     * we've exhausted the retry attempts. The first one won't be the case during unit tests as the request will fail
-     * immediatelly, so the expectation will only by fulfilled once retries have been exhausted.
-     */
-    if(mockedCall.retryCount == 0) {
-      [responseReceivedExcpectation fulfill];
-    }
-  });
+      .andForwardToRealObject()
+      .andDo(^(__attribute__((unused)) NSInvocation *invocation) {
+
+        /*
+         * Don't fulfill the expectation immediatelly as the sender won't be suspended yet. Instead of using a delay to
+         * wait
+         * for the retries, we use the retryCount as it retryCount will only be 0 before the first failed sending and
+         * after
+         * we've exhausted the retry attempts. The first one won't be the case during unit tests as the request will
+         * fail
+         * immediatelly, so the expectation will only by fulfilled once retries have been exhausted.
+         */
+        if (mockedCall.retryCount == 0) {
+          [responseReceivedExcpectation fulfill];
+        }
+      });
   self.sut.pendingCalls[containerId] = mockedCall;
 
   // Respond with a retryable error.
@@ -405,6 +418,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
                                }];
 }
 
+// TODO: Move this to base MSHttpSender test.
 - (void)testRetryStoppedWhileSuspended {
 
   // If
@@ -445,9 +459,9 @@ static NSString *const kMSBaseUrl = @"https://test.com";
                                  // Suspend now that the call is retrying.
                                  [self.sut suspend];
 
-                                 // Then
-                                 // Retry must be stopped.
-                                 // 'dispatch_block_testcancel' is only available on macOS 10.10 or newer.
+// Then
+// Retry must be stopped.
+// 'dispatch_block_testcancel' is only available on macOS 10.10 or newer.
 #if !TARGET_OS_OSX || __MAC_OS_X_VERSION_MAX_ALLOWED > 1090
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpartial-availability"
@@ -506,6 +520,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
                                }];
 }
 
+// TODO: Move this to base MSHttpSender test.
 - (void)testAddDelegate {
 
   // If
@@ -518,6 +533,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   assertThatBool([self.sut.delegates containsObject:delegateMock], isTrue());
 }
 
+// TODO: Move this to base MSHttpSender test.
 - (void)testAddMultipleDelegates {
 
   // If
@@ -533,6 +549,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   assertThatBool([self.sut.delegates containsObject:delegateMock2], isTrue());
 }
 
+// TODO: Move this to base MSHttpSender test.
 - (void)testAddTwiceSameDelegate {
 
   // If
@@ -547,6 +564,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   assertThatUnsignedLong(self.sut.delegates.count, equalToInt(1));
 }
 
+// TODO: Move this to base MSHttpSender test.
 - (void)testRemoveDelegate {
 
   // If
@@ -560,6 +578,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   assertThatBool([self.sut.delegates containsObject:delegateMock], isFalse());
 }
 
+// TODO: Move this to base MSHttpSender test.
 - (void)testRemoveTwiceSameDelegate {
 
   // If
@@ -578,6 +597,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   assertThatUnsignedLong(self.sut.delegates.count, equalToInt(1));
 }
 
+// TODO: Move this to base MSHttpSender test.
 - (void)testNullifiedDelegate {
 
   // If
@@ -595,6 +615,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   assertThatUnsignedLong(self.sut.delegates.allObjects.count, equalToInt(0));
 }
 
+// TODO: Move this to base MSHttpSender test.
 - (void)testCallDelegatesOnSuspended {
 
   // If
@@ -612,6 +633,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   OCMVerify([delegateMock2 senderDidSuspend:self.sut]);
 }
 
+// TODO: Move this to base MSHttpSender test.
 - (void)testCallDelegatesOnResumed {
 
   // If
@@ -628,42 +650,6 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   // Then
   OCMVerify([delegateMock1 senderDidResume:self.sut]);
   OCMVerify([delegateMock2 senderDidResume:self.sut]);
-}
-
-- (void)testLargeSecret {
-
-  // If
-  NSString *secret = @"shhhh-its-a-secret";
-  NSString *hiddenSecret;
-
-  // When
-  hiddenSecret = [MSSenderUtil hideSecret:secret];
-
-  // Then
-  NSString *fullyHiddenSecret =
-      [@"" stringByPaddingToLength:hiddenSecret.length withString:kMSHidingStringForAppSecret startingAtIndex:0];
-  NSString *appSecretHiddenPart = [hiddenSecret commonPrefixWithString:fullyHiddenSecret options:0];
-  NSString *appSecretVisiblePart = [hiddenSecret substringFromIndex:appSecretHiddenPart.length];
-  assertThatInteger(secret.length - appSecretHiddenPart.length, equalToShort(kMSMaxCharactersDisplayedForAppSecret));
-  assertThat(appSecretVisiblePart, is([secret substringFromIndex:appSecretHiddenPart.length]));
-}
-
-- (void)testShortSecret {
-
-  // If
-  NSString *secret = @"";
-  for (short i = 1; i <= kMSMaxCharactersDisplayedForAppSecret - 1; i++)
-    secret = [NSString stringWithFormat:@"%@%hd", secret, i];
-  NSString *hiddenSecret;
-
-  // When
-  hiddenSecret = [MSSenderUtil hideSecret:secret];
-
-  // Then
-  NSString *fullyHiddenSecret =
-      [@"" stringByPaddingToLength:hiddenSecret.length withString:kMSHidingStringForAppSecret startingAtIndex:0];
-  assertThatInteger(hiddenSecret.length, equalToInteger(secret.length));
-  assertThat(hiddenSecret, is(fullyHiddenSecret));
 }
 
 - (void)testSetBaseURL {
@@ -699,6 +685,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 
 #pragma mark - Test Helpers
 
+// TODO: Move this to base MSHttpSender test.
 - (void)simulateReachabilityChangedNotification:(NetworkStatus)status {
   self.currentNetworkStatus = status;
   [[NSNotificationCenter defaultCenter] postNotificationName:kMSReachabilityChangedNotification
