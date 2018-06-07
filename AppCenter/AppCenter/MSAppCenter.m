@@ -31,7 +31,7 @@ static dispatch_once_t onceToken;
 /**
  * Base URL for HTTP Ingestion backend API calls.
  */
-static NSString *const kMSDefaultBaseUrl = @"https://in.appcenter.ms";
+static NSString *const kMSAppCenterBaseUrl = @"https://in.appcenter.ms";
 
 /**
  * Service name for initialization.
@@ -182,7 +182,7 @@ static NSString *const kMSGroupId = @"AppCenter";
 - (instancetype)init {
   if ((self = [super init])) {
     _services = [NSMutableArray new];
-    _logUrl = kMSDefaultBaseUrl;
+    _logUrl = kMSAppCenterBaseUrl;
     _enabledStateUpdating = NO;
   }
   return self;
