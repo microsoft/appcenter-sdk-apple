@@ -1,7 +1,9 @@
+
 #import <Foundation/Foundation.h>
 
 #pragma mark - MSCommonSchemaLog
 
+// Keys
 extern NSString *const kMSCSVer;
 extern NSString *const kMSCSName;
 extern NSString *const kMSCSTime;
@@ -11,6 +13,9 @@ extern NSString *const kMSCSFlags;
 extern NSString *const kMSCSCV;
 extern NSString *const kMSCSData;
 extern NSString *const kMSCSExt;
+
+// Values
+extern NSString *const kMSCSVerValue;
 
 #pragma mark - MSUserExtension
 
@@ -49,7 +54,8 @@ extern NSString *const kMSSDKInstallId;
 
 #pragma mark - MSCSData
 
-extern NSString *const kMSDataProperties;
+extern NSString *const kMSDataBaseDataType;
+extern NSString *const kMSDataBaseData;
 
 #pragma mark - MSCSExtensions
 

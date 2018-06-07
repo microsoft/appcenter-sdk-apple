@@ -1,23 +1,7 @@
 #import "MSDevice.h"
 #import "MSDeviceInternal.h"
 #import "MSWrapperSdkInternal.h"
-
-static NSString *const kMSSdkName = @"sdkName";
-static NSString *const kMSSdkVersion = @"sdkVersion";
-static NSString *const kMSModel = @"model";
-static NSString *const kMSOemName = @"oemName";
-static NSString *const kMSOsName = @"osName";
-static NSString *const kMSOsVersion = @"osVersion";
-static NSString *const kMSOsBuild = @"osBuild";
-static NSString *const kMSOsApiLevel = @"osApiLevel";
-static NSString *const kMSLocale = @"locale";
-static NSString *const kMSTimeZoneOffset = @"timeZoneOffset";
-static NSString *const kMSScreenSize = @"screenSize";
-static NSString *const kMSAppVersion = @"appVersion";
-static NSString *const kMSCarrierName = @"carrierName";
-static NSString *const kMSCarrierCountry = @"carrierCountry";
-static NSString *const kMSAppBuild = @"appBuild";
-static NSString *const kMSAppNamespace = @"appNamespace";
+#import "MSACModelConstants.h"
 
 @implementation MSDevice
 
@@ -25,28 +9,28 @@ static NSString *const kMSAppNamespace = @"appNamespace";
   NSMutableDictionary *dict = [super serializeToDictionary];
 
   if (self.sdkName) {
-    dict[kMSSdkName] = self.sdkName;
+    dict[kMSSDKName] = self.sdkName;
   }
   if (self.sdkVersion) {
-    dict[kMSSdkVersion] = self.sdkVersion;
+    dict[kMSSDKVersion] = self.sdkVersion;
   }
   if (self.model) {
     dict[kMSModel] = self.model;
   }
   if (self.oemName) {
-    dict[kMSOemName] = self.oemName;
+    dict[kMSOEMName] = self.oemName;
   }
   if (self.osName) {
-    dict[kMSOsName] = self.osName;
+    dict[kMSACOSName] = self.osName;
   }
   if (self.osVersion) {
-    dict[kMSOsVersion] = self.osVersion;
+    dict[kMSOSVersion] = self.osVersion;
   }
   if (self.osBuild) {
-    dict[kMSOsBuild] = self.osBuild;
+    dict[kMSOSBuild] = self.osBuild;
   }
   if (self.osApiLevel) {
-    dict[kMSOsApiLevel] = self.osApiLevel;
+    dict[kMSOSAPILevel] = self.osApiLevel;
   }
   if (self.locale) {
     dict[kMSLocale] = self.locale;
@@ -110,14 +94,14 @@ static NSString *const kMSAppNamespace = @"appNamespace";
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super initWithCoder:coder];
   if (self) {
-    _sdkName = [coder decodeObjectForKey:kMSSdkName];
-    _sdkVersion = [coder decodeObjectForKey:kMSSdkVersion];
+    _sdkName = [coder decodeObjectForKey:kMSSDKName];
+    _sdkVersion = [coder decodeObjectForKey:kMSSDKVersion];
     _model = [coder decodeObjectForKey:kMSModel];
-    _oemName = [coder decodeObjectForKey:kMSOemName];
-    _osName = [coder decodeObjectForKey:kMSOsName];
-    _osVersion = [coder decodeObjectForKey:kMSOsVersion];
-    _osBuild = [coder decodeObjectForKey:kMSOsBuild];
-    _osApiLevel = [coder decodeObjectForKey:kMSOsApiLevel];
+    _oemName = [coder decodeObjectForKey:kMSOEMName];
+    _osName = [coder decodeObjectForKey:kMSACOSName];
+    _osVersion = [coder decodeObjectForKey:kMSOSVersion];
+    _osBuild = [coder decodeObjectForKey:kMSOSBuild];
+    _osApiLevel = [coder decodeObjectForKey:kMSOSAPILevel];
     _locale = [coder decodeObjectForKey:kMSLocale];
     _timeZoneOffset = [coder decodeObjectForKey:kMSTimeZoneOffset];
     _screenSize = [coder decodeObjectForKey:kMSScreenSize];
@@ -132,14 +116,14 @@ static NSString *const kMSAppNamespace = @"appNamespace";
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
-  [coder encodeObject:self.sdkName forKey:kMSSdkName];
-  [coder encodeObject:self.sdkVersion forKey:kMSSdkVersion];
+  [coder encodeObject:self.sdkName forKey:kMSSDKName];
+  [coder encodeObject:self.sdkVersion forKey:kMSSDKVersion];
   [coder encodeObject:self.model forKey:kMSModel];
-  [coder encodeObject:self.oemName forKey:kMSOemName];
-  [coder encodeObject:self.osName forKey:kMSOsName];
-  [coder encodeObject:self.osVersion forKey:kMSOsVersion];
-  [coder encodeObject:self.osBuild forKey:kMSOsBuild];
-  [coder encodeObject:self.osApiLevel forKey:kMSOsApiLevel];
+  [coder encodeObject:self.oemName forKey:kMSOEMName];
+  [coder encodeObject:self.osName forKey:kMSACOSName];
+  [coder encodeObject:self.osVersion forKey:kMSOSVersion];
+  [coder encodeObject:self.osBuild forKey:kMSOSBuild];
+  [coder encodeObject:self.osApiLevel forKey:kMSOSAPILevel];
   [coder encodeObject:self.locale forKey:kMSLocale];
   [coder encodeObject:self.timeZoneOffset forKey:kMSTimeZoneOffset];
   [coder encodeObject:self.screenSize forKey:kMSScreenSize];

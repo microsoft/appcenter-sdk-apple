@@ -168,6 +168,9 @@
 		358F9BC82019596500B9E22C /* MSAbstractLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 358F9BC72019596400B9E22C /* MSAbstractLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		35BF19E51DF9D59E00193027 /* MSMockAnalyticsDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 35BF19E41DF9D59E00193027 /* MSMockAnalyticsDelegate.m */; };
 		3813B9651DBFE68200831214 /* MSAnalyticsInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3813B9641DBFE68200831214 /* MSAnalyticsInternal.h */; };
+		38337D6F20C0AB0D00CEDA17 /* MSEventLogPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38337D6E20C0AB0D00CEDA17 /* MSEventLogPrivate.h */; };
+		38337D7020C0AB0D00CEDA17 /* MSEventLogPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38337D6E20C0AB0D00CEDA17 /* MSEventLogPrivate.h */; };
+		38337D7120C0AB0D00CEDA17 /* MSEventLogPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38337D6E20C0AB0D00CEDA17 /* MSEventLogPrivate.h */; };
 		387C77051D6CC39400D68CC1 /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C77041D6CC39400D68CC1 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E0684381D35A3B900A8CC6C /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E0684371D35A3B900A8CC6C /* OCHamcrestIOS.framework */; };
 		6E3E2CCB1D359D5E00B1EE50 /* MSEventLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E3E2CC51D359D5E00B1EE50 /* MSEventLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -318,6 +321,7 @@
 		35BF19E31DF9D58F00193027 /* MSMockAnalyticsDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSMockAnalyticsDelegate.h; sourceTree = "<group>"; };
 		35BF19E41DF9D59E00193027 /* MSMockAnalyticsDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMockAnalyticsDelegate.m; sourceTree = "<group>"; };
 		3813B9641DBFE68200831214 /* MSAnalyticsInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsInternal.h; sourceTree = "<group>"; };
+		38337D6E20C0AB0D00CEDA17 /* MSEventLogPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSEventLogPrivate.h; sourceTree = "<group>"; };
 		387C77041D6CC39400D68CC1 /* MSServiceAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSServiceAbstract.h; path = ../AppCenter/AppCenter/MSServiceAbstract.h; sourceTree = "<group>"; };
 		6E0684371D35A3B900A8CC6C /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../../Vendor/iOS/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
 		6E3E2CC51D359D5E00B1EE50 /* MSEventLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSEventLog.h; sourceTree = "<group>"; };
@@ -539,6 +543,7 @@
 		6E3E2CC21D359D5E00B1EE50 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				38337D6E20C0AB0D00CEDA17 /* MSEventLogPrivate.h */,
 				6E3E2CC51D359D5E00B1EE50 /* MSEventLog.h */,
 				6E3E2CC61D359D5E00B1EE50 /* MSEventLog.m */,
 				E8E48FA01D51670100A8C1B0 /* MSStartSessionLog.h */,
@@ -662,6 +667,7 @@
 				0431215B1EE0C20A007054C5 /* AppCenter+Internal.h in Headers */,
 				0431215C1EE0C20A007054C5 /* MSPageLog.h in Headers */,
 				F834E37420AC8E25003CB54D /* MSLogWithNameAndProperties.h in Headers */,
+				38337D7120C0AB0D00CEDA17 /* MSEventLogPrivate.h in Headers */,
 				3568A7E0201A71D000F3B860 /* MSAbstractLog.h in Headers */,
 				3568A7E1201A71D000F3B860 /* MSLogWithProperties.h in Headers */,
 				043121661EE0C20A007054C5 /* MSEventLog.h in Headers */,
@@ -689,6 +695,7 @@
 				04A1409D1ECE728B001CEE94 /* MSAnalyticsCategory.h in Headers */,
 				F834E37320AC8E25003CB54D /* MSLogWithNameAndProperties.h in Headers */,
 				0485AF741EAA79E300C10CAF /* AppCenter+Internal.h in Headers */,
+				38337D7020C0AB0D00CEDA17 /* MSEventLogPrivate.h in Headers */,
 				3568A7ED201A9BBB00F3B860 /* MSAbstractLog.h in Headers */,
 				3568A7EE201A9BBB00F3B860 /* MSLogWithProperties.h in Headers */,
 				3568A7EF201A9BBB00F3B860 /* MSService.h in Headers */,
@@ -716,6 +723,7 @@
 				E89B33EC1D5A8F3500FDE8FB /* MSSessionTrackerDelegate.h in Headers */,
 				04A082061F74BB8600DC776D /* MSService.h in Headers */,
 				F8A10EBD20AD89010082014E /* MSLogWithNameAndProperties.h in Headers */,
+				38337D6F20C0AB0D00CEDA17 /* MSEventLogPrivate.h in Headers */,
 				358F9BC62019590200B9E22C /* MSLogWithProperties.h in Headers */,
 				387C77051D6CC39400D68CC1 /* MSServiceAbstract.h in Headers */,
 				E85547F91D2D6A9B002DF6E2 /* AppCenter+Internal.h in Headers */,
