@@ -3,15 +3,15 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * Class for Encryption. Uses RSA algorithm with key size 2048.
+ * Class for Encryption. Uses RSA algorithm with key size 256.
  * If no key pair is specified, generates new key pair and stores it in Keychain.
  * Key pair is loaded if it is present in Keychain.
  */
 @interface MSEncrypter : NSObject
 
-- (instancetype)initWithDefaultKeyPair;
+- (instancetype)initWithDefaultKey;
 
-- (instancetype)initWithPublicKey:(SecKeyRef)publicKey andPrivateKey:(SecKeyRef)privateKey;
+- (instancetype)initWithKey:(NSData *)key;
 
 - (NSString *_Nullable)encryptString:(NSString *)string;
 
@@ -20,4 +20,3 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
-

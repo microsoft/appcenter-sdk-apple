@@ -35,7 +35,7 @@ static const NSUInteger kMSSchemaVersion = 1;
     _targetTokenColumnIndex = ((NSNumber *)columnIndexes[kMSLogTableName][kMSTargetTokenColumnName]).unsignedIntegerValue;
     _capacity = NSUIntegerMax;
     _batches = [NSMutableDictionary<NSString *, NSArray<NSNumber *> *> new];
-    _targetTokenEncrypter = [[MSEncrypter alloc] initWithDefaultKeyPair];
+    _targetTokenEncrypter = [[MSEncrypter alloc] initWithDefaultKey];
   }
   return self;
 }

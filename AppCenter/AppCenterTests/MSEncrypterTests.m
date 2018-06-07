@@ -8,10 +8,9 @@
 @implementation MSEncrypterTests
 
 - (void)testEncryption {
-#if !TARGET_OS_OSX
 
   // If
-  MSEncrypter *encrypter = [[MSEncrypter alloc] initWithDefaultKeyPair];
+  MSEncrypter *encrypter = [[MSEncrypter alloc] initWithDefaultKey];
   NSString *stringToEncrypt = @"Test string";
 
   // When
@@ -25,7 +24,26 @@
 
   // Then
   XCTAssertEqualObjects(decrypted, stringToEncrypt);
-#endif
+}
+
+- (void)testKeyIsRestoredFromKeychain {
+
+  // If
+  MSEncrypter *encrypter = [[MSEncrypter alloc] initWithDefaultKey];
+  NSString *stringToEncrypt = @"Test string";
+
+  // When
+  NSString *encrypted = [encrypter encryptString:stringToEncrypt];
+
+  // Then
+  XCTAssertNotEqualObjects(encrypted, stringToEncrypt);
+
+  // When
+  MSEncrypter *newEncrypter = [[MSEncrypter alloc] initWithDefaultKey];
+  NSString *decrypted = [newEncrypter decryptString:encrypted];
+
+  // Then
+  XCTAssertEqualObjects(decrypted, stringToEncrypt);
 }
 
 @end
