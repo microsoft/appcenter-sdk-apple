@@ -50,7 +50,6 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
     handler(batchId, nil, nil, error);
     return;
   }
-
   [super sendAsync:container callId:container.batchId completionHandler:handler];
 }
 

@@ -10,7 +10,8 @@
 
 /**
  * The maximum number of connections for the session. The one collector endpoint only
- * allows for two connections.
+ * allows for two connections while the app center endpoint doesn't impose a limit, using the iOS default value of 4
+ * connections for this.
  */
 @property(nonatomic, readonly) NSInteger maxNumberOfConnections;
 
