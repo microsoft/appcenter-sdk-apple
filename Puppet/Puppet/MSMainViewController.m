@@ -9,6 +9,7 @@
 @interface MSMainViewController ()
 
 @property (weak, nonatomic) IBOutlet UISwitch *enabled;
+@property (weak, nonatomic) IBOutlet UISwitch *oneCollectorEnabled;
 @property (weak, nonatomic) IBOutlet UILabel *installId;
 @property (weak, nonatomic) IBOutlet UILabel *appSecret;
 @property (weak, nonatomic) IBOutlet UILabel *logUrl;
@@ -22,8 +23,8 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  
   self.enabled.on = [MSAppCenter isEnabled];
+  self.oneCollectorEnabled.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"isOneCollectorEnabled"];
   self.installId.text = [[MSAppCenter installId] UUIDString];
   self.appSecret.text = [[MSAppCenter sharedInstance] appSecret];
   self.logUrl.text = [[MSAppCenter sharedInstance] logUrl];
@@ -41,6 +42,25 @@
 - (IBAction)enabledSwitchUpdated:(UISwitch *)sender {
   [MSAppCenter setEnabled:sender.on];
   sender.on = [MSAppCenter isEnabled];
+}
+
+- (IBAction)enableOneCollectorSwitchUpdated:(UISwitch *)sender {
+  UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Restart" message:@"Please restart the app." preferredStyle:UIAlertControllerStyleActionSheet];
+  UIAlertAction *exitAction = [UIAlertAction actionWithTitle:@"Exit"
+                                                        style:UIAlertActionStyleDestructive
+                                                      handler:^(UIAlertAction *action) {
+                                                        [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"isOneCollectorEnabled"];
+                                                        exit(0);
+                                                      }];
+  UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
+                                                         style:UIAlertActionStyleCancel
+                                                       handler:^(UIAlertAction *action) {
+                                                         sender.on = !sender.on;
+                                                         [alert dismissViewControllerAnimated:YES completion:nil];
+                                                       }];
+  [alert addAction:exitAction];
+  [alert addAction:cancelAction];
+  [self presentViewController:alert animated:YES completion:nil];
 }
 
 @end
