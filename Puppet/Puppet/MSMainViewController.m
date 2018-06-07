@@ -8,12 +8,12 @@
 
 @interface MSMainViewController ()
 
-@property (weak, nonatomic) IBOutlet UISwitch *enabled;
-@property (weak, nonatomic) IBOutlet UISwitch *oneCollectorEnabled;
-@property (weak, nonatomic) IBOutlet UILabel *installId;
-@property (weak, nonatomic) IBOutlet UILabel *appSecret;
-@property (weak, nonatomic) IBOutlet UILabel *logUrl;
-@property (weak, nonatomic) IBOutlet UILabel *sdkVersion;
+@property(weak, nonatomic) IBOutlet UISwitch *enabled;
+@property(weak, nonatomic) IBOutlet UISwitch *oneCollectorEnabled;
+@property(weak, nonatomic) IBOutlet UILabel *installId;
+@property(weak, nonatomic) IBOutlet UILabel *appSecret;
+@property(weak, nonatomic) IBOutlet UILabel *logUrl;
+@property(weak, nonatomic) IBOutlet UILabel *sdkVersion;
 
 @end
 
@@ -45,13 +45,17 @@
 }
 
 - (IBAction)enableOneCollectorSwitchUpdated:(UISwitch *)sender {
-  UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Restart" message:@"Please restart the app." preferredStyle:UIAlertControllerStyleActionSheet];
-  UIAlertAction *exitAction = [UIAlertAction actionWithTitle:@"Exit"
-                                                        style:UIAlertActionStyleDestructive
-                                                      handler:^(UIAlertAction *action) {
-                                                        [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"isOneCollectorEnabled"];
-                                                        exit(0);
-                                                      }];
+  UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Restart"
+                                                                 message:@"Please restart the app for the change to
+                                                                         @"take effect."
+                                                          preferredStyle:UIAlertControllerStyleActionSheet];
+  UIAlertAction *exitAction = [UIAlertAction
+      actionWithTitle:@"Exit"
+                style:UIAlertActionStyleDestructive
+              handler:^(UIAlertAction *action) {
+                [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"isOneCollectorEnabled"];
+                exit(0);
+              }];
   UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
                                                          style:UIAlertActionStyleCancel
                                                        handler:^(UIAlertAction *action) {
