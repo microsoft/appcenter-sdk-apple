@@ -14,7 +14,7 @@ NSString *MSAnalyticsValidationCategory;
 
 @implementation MSAnalytics (Validation)
 
-- (BOOL)shouldFilterLog:(id<MSLog>)log {
+- (BOOL)channelUnit:(id<MSChannelUnitProtocol>)__unused channelUnit shouldFilterLog:(id<MSLog>)log {
   NSObject *logObject = (NSObject *)log;
   if ([logObject isKindOfClass:[MSEventLog class]]) {
     return ![self validateLog:(MSEventLog *)log];
@@ -25,14 +25,14 @@ NSString *MSAnalyticsValidationCategory;
 }
 
 - (BOOL)validateLog:(MSLogWithNameAndProperties *)log {
-  
+
   // Validate event name.
   NSString *validName = [self validateEventName:log.name forLogType:log.type];
   if (!validName) {
     return NO;
   }
   log.name = validName;
-  
+
   // Send only valid properties.
   log.properties = [self validateProperties:log.properties forLogName:log.name andType:log.type];
   return YES;
@@ -55,7 +55,7 @@ NSString *MSAnalyticsValidationCategory;
 - (NSDictionary<NSString *, NSString *> *)validateProperties:(NSDictionary<NSString *, NSString *> *)properties
                                                   forLogName:(NSString *)logName
                                                      andType:(NSString *)logType {
-  
+
   // Keeping this method body in MSAnalytics to use it in unit tests.
   return [MSUtility validateProperties:properties forLogName:logName type:logType];
 }

@@ -37,7 +37,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
 @interface MSAnalytics ()
 
-- (void)shouldFilterLog:(id<MSLog>)log;
+- (BOOL)channelUnit:(id<MSChannelUnitProtocol>)channelUnit shouldFilterLog:(id<MSLog>)log;
 
 @end
 
@@ -221,11 +221,11 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 }
 
 - (void)testAnalyticsLogsVerificationIsCalled {
-  
+
   // If
   MSEventLog *eventLog = [MSEventLog new];
   eventLog.name = @"test";
-  eventLog.properties = @{ @"test": @"test" };
+  eventLog.properties = @{ @"test" : @"test" };
   MSPageLog *pageLog = [MSPageLog new];
   MSLogWithNameAndProperties *analyticsLog = [MSLogWithNameAndProperties new];
   id analyticsMock = OCMPartialMock([MSAnalytics sharedInstance]);
@@ -236,12 +236,12 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   OCMExpect([analyticsMock validateEventName:OCMOCK_ANY forLogType:@"page"]).andForwardToRealObject();
   OCMReject([analyticsMock validateProperties:OCMOCK_ANY forLogName:OCMOCK_ANY andType:@"page"]);
   OCMReject([analyticsMock validateLog:analyticsLog]);
-  
+
   // When
-  [[MSAnalytics sharedInstance] shouldFilterLog:eventLog];
-  [[MSAnalytics sharedInstance] shouldFilterLog:pageLog];
-  [[MSAnalytics sharedInstance] shouldFilterLog:analyticsLog];
-  
+  [[MSAnalytics sharedInstance] channelUnit:nil shouldFilterLog:eventLog];
+  [[MSAnalytics sharedInstance] channelUnit:nil shouldFilterLog:pageLog];
+  [[MSAnalytics sharedInstance] channelUnit:nil shouldFilterLog:analyticsLog];
+
   // Then
   OCMVerifyAll(analyticsMock);
 }
@@ -320,7 +320,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
   // When
   OCMExpect([channelUnitMock enqueueItem:OCMOCK_ANY]);
-  
+
   // Will be validated in shouldFilterLog callback instead.
   OCMReject([analyticsMock validateEventName:OCMOCK_ANY forLogType:OCMOCK_ANY]);
   OCMReject([analyticsMock validateProperties:OCMOCK_ANY forLogName:OCMOCK_ANY andType:OCMOCK_ANY]);
