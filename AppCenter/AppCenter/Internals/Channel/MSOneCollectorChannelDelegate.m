@@ -1,7 +1,7 @@
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenterInternal.h"
-#import "MSChannelProtocol.h"
 #import "MSChannelGroupProtocol.h"
+#import "MSChannelProtocol.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
 #import "MSCommonSchemaLog.h"
@@ -55,11 +55,11 @@ static NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-
 }
 
 - (void)channel:(id<MSChannelProtocol>)__unused channel prepareLog:(id<MSLog>)log {
-  
+
   // Prepare Common Schema logs.
   if ([log isKindOfClass:[MSCommonSchemaLog class]]) {
     MSCommonSchemaLog *csLog = (MSCommonSchemaLog *)log;
-    
+
     // Set epoch and seq to SDK.
     MSCSEpochAndSeq *epochAndSeq = self.epochsAndSeqsByIKey[csLog.iKey];
     if (!epochAndSeq) {
@@ -68,15 +68,16 @@ static NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-
     csLog.ext.sdkExt.epoch = epochAndSeq.epoch;
     csLog.ext.sdkExt.seq = ++epochAndSeq.seq;
     self.epochsAndSeqsByIKey[csLog.iKey] = epochAndSeq;
-    
+
     // Set install ID to SDK.
     csLog.ext.sdkExt.installId = self.installId;
   }
 }
 
-- (void)channel:(id<MSChannelProtocol>)channel didPrepareLog:(id<MSLog>)log withInternalId:(NSString *)__unused internalId {
-  if (![self shouldSendLogToOneCollector:log] ||
-      ![channel conformsToProtocol:@protocol(MSChannelUnitProtocol)]) {
+- (void)channel:(id<MSChannelProtocol>)channel
+     didPrepareLog:(id<MSLog>)log
+    withInternalId:(NSString *)__unused internalId {
+  if (![self shouldSendLogToOneCollector:log] || ![channel conformsToProtocol:@protocol(MSChannelUnitProtocol)]) {
     return;
   }
   id<MSChannelUnitProtocol> channelUnit = (id<MSChannelUnitProtocol>)channel;
@@ -98,7 +99,7 @@ static NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-
   if ([log isKindOfClass:[MSCommonSchemaLog class]]) {
     return ![self validateLog:(MSCommonSchemaLog *)log];
   }
-  
+
   // It's an App Center log. Filter out if it countains token(s) since it's already re-enqeued as CS log(s).
   return [[log transmissionTargetTokens] count] > 0;
 }
@@ -126,7 +127,8 @@ static NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-
 
 - (BOOL)shouldSendLogToOneCollector:(id<MSLog>)log {
   NSObject *logObject = (NSObject *)log;
-  return [[log transmissionTargetTokens] count] > 0 && [log conformsToProtocol:@protocol(MSLogConversion)] && ![logObject isKindOfClass:[MSCommonSchemaLog class]];
+  return [[log transmissionTargetTokens] count] > 0 && [log conformsToProtocol:@protocol(MSLogConversion)] &&
+         ![logObject isKindOfClass:[MSCommonSchemaLog class]];
 }
 
 - (BOOL)validateLog:(MSCommonSchemaLog *)log {
@@ -135,20 +137,21 @@ static NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-
 
 - (BOOL)validateLogName:(NSString *)name {
   NSString *baseErrorMsg = @"Log validation failed.";
-  
+
   // Name mustn't be nil.
-  if (!name.length){
+  if (!name.length) {
     MSLogError([MSAppCenter logTag], @"%@ Name must not be nil or empty.", baseErrorMsg);
     return NO;
   }
-  
+
   // The Common Schema event name must conform to a regex.
   NSError *error = nil;
   NSRegularExpression *regex =
-  [NSRegularExpression regularExpressionWithPattern:kMSLogNameRegex options:0 error:&error];
+      [NSRegularExpression regularExpressionWithPattern:kMSLogNameRegex options:0 error:&error];
   NSRange range = NSMakeRange(0, name.length);
   if (!regex) {
-    MSLogError([MSAppCenter logTag], @"%@ Couldn't create regular expression with pattern \"%@\": %@", baseErrorMsg, kMSLogNameRegex, error.localizedDescription);
+    MSLogError([MSAppCenter logTag], @"%@ Couldn't create regular expression with pattern \"%@\": %@", baseErrorMsg,
+               kMSLogNameRegex, error.localizedDescription);
     return NO;
   }
   NSUInteger count = [regex numberOfMatchesInString:name options:0 range:range];
