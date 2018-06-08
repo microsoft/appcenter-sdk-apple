@@ -62,7 +62,7 @@ static NSString *kMSEncryptionKeyTag = @"kMSEncryptionKeyTag";
   size_t cipherBufferSize = CCCryptorGetOutputLength(self.encryptorObject, dataToEncrypt.length, true);
   uint8_t *cipherBuffer = malloc(cipherBufferSize * sizeof(uint8_t));
   size_t numBytesEncrypted = 0;
-  CCCryptorStatus status = CCCrypt(kCCEncrypt, kMSEncryptionAlgorithm, kCCOptionPKCS7Padding, (__bridge const void *)self.key, kMSCipherKeySize,
+  CCCryptorStatus status = CCCrypt(kCCEncrypt, kMSEncryptionAlgorithm, kCCOptionPKCS7Padding, [self.key bytes], kMSCipherKeySize,
                                    nil, [dataToEncrypt bytes], dataToEncrypt.length, cipherBuffer, cipherBufferSize, &numBytesEncrypted);
   if (status != kCCSuccess) {
     MSLogError([MSAppCenter logTag], @"Error performing encryption.");
@@ -83,7 +83,7 @@ static NSString *kMSEncryptionKeyTag = @"kMSEncryptionKeyTag";
   size_t cipherBufferSize = CCCryptorGetOutputLength(self.decryptorObject, dataToDecrypt.length, true);
   uint8_t *cipherBuffer = malloc(cipherBufferSize * sizeof(uint8_t));
   size_t numBytesDecrypted = 0;
-  CCCryptorStatus status = CCCrypt(kCCDecrypt, kMSEncryptionAlgorithm, kCCOptionPKCS7Padding, (__bridge const void *)self.key, kMSCipherKeySize,
+  CCCryptorStatus status = CCCrypt(kCCDecrypt, kMSEncryptionAlgorithm, kCCOptionPKCS7Padding, [self.key bytes], kMSCipherKeySize,
                                    nil, [dataToDecrypt bytes], dataToDecrypt.length, cipherBuffer, cipherBufferSize, &numBytesDecrypted);
   if(status != kCCSuccess) {
     MSLogError([MSAppCenter logTag], @"Error performing decryption.");
