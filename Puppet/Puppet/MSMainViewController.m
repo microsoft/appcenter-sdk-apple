@@ -63,6 +63,10 @@
                                                        }];
   [alert addAction:exitAction];
   [alert addAction:cancelAction];
+  
+  // Support display in iPad.
+  alert.popoverPresentationController.sourceView = self.oneCollectorEnabled.superview;
+  alert.popoverPresentationController.sourceRect = self.oneCollectorEnabled.frame;
   [self presentViewController:alert animated:YES completion:nil];
 }
 
