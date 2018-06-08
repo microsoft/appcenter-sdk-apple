@@ -432,7 +432,9 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
 }
 
 - (void)testValidateLog {
+
   // If
+  // Valid name.
   MSCommonSchemaLog *log = [MSCommonSchemaLog new];
   log.name = @"valid.CS.event.name";
 
@@ -440,7 +442,24 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
   XCTAssertTrue([self.sut validateLog:log]);
 
   // If
+  // Invalid name.
   log.name = nil;
+
+  // Then
+  XCTAssertFalse([self.sut validateLog:log]);
+
+  // If
+  // Valid data.
+  log.name = @"valid.CS.event.name";
+  log.data = [MSCSData new];
+  log.data.properties = @{ @"validkey" : @"validvalue" };
+
+  // Then
+  XCTAssertTrue([self.sut validateLog:log]);
+
+  // If
+  // Invalid data.
+  log.data.properties = @{ @"" : @"" };
 
   // Then
   XCTAssertFalse([self.sut validateLog:log]);
@@ -477,6 +496,29 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
   XCTAssertFalse([self.sut validateLogName:consecutivePeriodName]);
   XCTAssertFalse([self.sut validateLogName:headingUnderscoreName]);
   XCTAssertFalse([self.sut validateLogName:specialCharactersOtherThanPeriodAndUnderscore]);
+}
+
+- (void)testValidateLogData {
+
+  // If
+  MSCSData *newData = [MSCSData new];
+  MSCSData *nilData = nil;
+  MSCSData *nilDataPropsWithEmptyKey = [MSCSData new];
+  nilDataPropsWithEmptyKey.properties = @{ @"" : @"avalidvalue" };
+  MSCSData *nilDataPropsWithNonStringKey = [MSCSData new];
+  nilDataPropsWithNonStringKey.properties = @{ @(42) : @"avalidvalue" };
+  MSCSData *nilDataPropsWithEmptyValue = [MSCSData new];
+  nilDataPropsWithEmptyValue.properties = @{ @"avalidkey" : @"" };
+  MSCSData *nilDataPropsWithNonStringValue = [MSCSData new];
+  nilDataPropsWithNonStringValue.properties = @{ @"avalidkey" : @(42) };
+
+  // Then
+  XCTAssertTrue([self.sut validateLogData:newData]);
+  XCTAssertTrue([self.sut validateLogData:nilData]);
+  XCTAssertFalse([self.sut validateLogData:nilDataPropsWithEmptyKey]);
+  XCTAssertFalse([self.sut validateLogData:nilDataPropsWithNonStringKey]);
+  XCTAssertFalse([self.sut validateLogData:nilDataPropsWithEmptyValue]);
+  XCTAssertFalse([self.sut validateLogData:nilDataPropsWithNonStringValue]);
 }
 
 - (void)testPrepareLogWithEpochAndSeq {

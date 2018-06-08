@@ -15,6 +15,7 @@
 
 static NSString *const kMSOneCollectorGroupIdSuffix = @"/one";
 static NSString *const kMSOneCollectorBaseUrl = @"https://mobile.events.data.microsoft.com"; // TODO: move to constants?
+static NSString *const kMSBaseErrorMsg = @"Log validation failed.";
 
 // Alphanumeric characters, no heading or trailing periods, no heading underscores, min length of 4, max length of 100.
 static NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){3,99}$";
@@ -132,15 +133,20 @@ static NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-
 }
 
 - (BOOL)validateLog:(MSCommonSchemaLog *)log {
-  return [self validateLogName:log.name];
+  if (![self validateLogName:log.name]) {
+    return NO;
+  }
+  if (![self validateLogData:log.data]) {
+    return NO;
+  }
+  return YES;
 }
 
 - (BOOL)validateLogName:(NSString *)name {
-  NSString *baseErrorMsg = @"Log validation failed.";
 
   // Name mustn't be nil.
   if (!name.length) {
-    MSLogError([MSAppCenter logTag], @"%@ Name must not be nil or empty.", baseErrorMsg);
+    MSLogError([MSAppCenter logTag], @"%@ Name must not be nil or empty.", kMSBaseErrorMsg);
     return NO;
   }
 
@@ -150,14 +156,29 @@ static NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-
       [NSRegularExpression regularExpressionWithPattern:kMSLogNameRegex options:0 error:&error];
   NSRange range = NSMakeRange(0, name.length);
   if (!regex) {
-    MSLogError([MSAppCenter logTag], @"%@ Couldn't create regular expression with pattern \"%@\": %@", baseErrorMsg,
+    MSLogError([MSAppCenter logTag], @"%@ Couldn't create regular expression with pattern \"%@\": %@", kMSBaseErrorMsg,
                kMSLogNameRegex, error.localizedDescription);
     return NO;
   }
   NSUInteger count = [regex numberOfMatchesInString:name options:0 range:range];
   if (!count) {
-    MSLogError([MSAppCenter logTag], @"%@ Name must match '%@' but was '%@'", baseErrorMsg, kMSLogNameRegex, name);
+    MSLogError([MSAppCenter logTag], @"%@ Name must match '%@' but was '%@'", kMSBaseErrorMsg, kMSLogNameRegex, name);
     return NO;
+  }
+  return YES;
+}
+
+- (BOOL)validateLogData:(MSCSData *)data {
+  NSDictionary<NSString *, NSString *> *properties = data.properties;
+  for (NSString *key in properties) {
+    if (![key isKindOfClass:[NSString class]] || ![properties[key] isKindOfClass:[NSString class]]) {
+      MSLogError([MSAppCenter logTag], @"%@ Properties key and value must be of NSString.", kMSBaseErrorMsg);
+      return NO;
+    }
+    if (!key.length || !properties[key].length) {
+      MSLogError([MSAppCenter logTag], @"%@ Properties key or value must not be nil or empty.", kMSBaseErrorMsg);
+      return NO;
+    }
   }
   return YES;
 }
