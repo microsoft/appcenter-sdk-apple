@@ -338,7 +338,7 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
   XCTAssertFalse(shouldFilter);
 }
 
-- (void)testFilterInvalidCommonSchemaLogs {
+- (void)testFiltersInvalidCommonSchemaLogs {
 
   // If
   id<MSChannelUnitProtocol> oneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
@@ -459,7 +459,7 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
 
   // If
   // Invalid data.
-  log.data.properties = @{ @"" : @"" };
+  log.data.properties = @{ @(24) : @(42) };
 
   // Then
   XCTAssertFalse([self.sut validateLog:log]);
@@ -515,10 +515,24 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
   // Then
   XCTAssertTrue([self.sut validateLogData:newData]);
   XCTAssertTrue([self.sut validateLogData:nilData]);
-  XCTAssertFalse([self.sut validateLogData:nilDataPropsWithEmptyKey]);
+  XCTAssertTrue([self.sut validateLogData:nilDataPropsWithEmptyKey]);
   XCTAssertFalse([self.sut validateLogData:nilDataPropsWithNonStringKey]);
-  XCTAssertFalse([self.sut validateLogData:nilDataPropsWithEmptyValue]);
+  XCTAssertTrue([self.sut validateLogData:nilDataPropsWithEmptyValue]);
   XCTAssertFalse([self.sut validateLogData:nilDataPropsWithNonStringValue]);
+}
+
+-(void)testLogNameRegex {
+  
+  // If
+  NSError *error = nil;
+  
+  // When
+  NSRegularExpression *regex =
+  [NSRegularExpression regularExpressionWithPattern:kMSLogNameRegex options:0 error:&error];
+
+  // Then
+  XCTAssertNotNil(regex);
+  XCTAssertNil(error);
 }
 
 - (void)testPrepareLogWithEpochAndSeq {

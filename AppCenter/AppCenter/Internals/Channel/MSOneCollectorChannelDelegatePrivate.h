@@ -7,6 +7,11 @@
 
 @class MSCSEpochAndSeq;
 
+/**
+ * Regex for Custom Schema log name validation.
+ */
+extern NSString *const kMSLogNameRegex;
+
 @interface MSOneCollectorChannelDelegate ()
 
 /**

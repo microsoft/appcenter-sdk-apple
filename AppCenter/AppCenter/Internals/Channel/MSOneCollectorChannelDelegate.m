@@ -18,7 +18,7 @@ static NSString *const kMSOneCollectorBaseUrl = @"https://mobile.events.data.mic
 static NSString *const kMSBaseErrorMsg = @"Log validation failed.";
 
 // Alphanumeric characters, no heading or trailing periods, no heading underscores, min length of 4, max length of 100.
-static NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){3,99}$";
+NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){3,99}$";
 
 @implementation MSOneCollectorChannelDelegate
 
@@ -151,15 +151,9 @@ static NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-
   }
 
   // The Common Schema event name must conform to a regex.
-  NSError *error = nil;
   NSRegularExpression *regex =
-      [NSRegularExpression regularExpressionWithPattern:kMSLogNameRegex options:0 error:&error];
+  [NSRegularExpression regularExpressionWithPattern:kMSLogNameRegex options:0 error:nil];
   NSRange range = NSMakeRange(0, name.length);
-  if (!regex) {
-    MSLogError([MSAppCenter logTag], @"%@ Couldn't create regular expression with pattern \"%@\": %@", kMSBaseErrorMsg,
-               kMSLogNameRegex, error.localizedDescription);
-    return NO;
-  }
   NSUInteger count = [regex numberOfMatchesInString:name options:0 range:range];
   if (!count) {
     MSLogError([MSAppCenter logTag], @"%@ Name must match '%@' but was '%@'", kMSBaseErrorMsg, kMSLogNameRegex, name);
@@ -172,11 +166,7 @@ static NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-
   NSDictionary<NSString *, NSString *> *properties = data.properties;
   for (NSString *key in properties) {
     if (![key isKindOfClass:[NSString class]] || ![properties[key] isKindOfClass:[NSString class]]) {
-      MSLogError([MSAppCenter logTag], @"%@ Properties key and value must be of NSString.", kMSBaseErrorMsg);
-      return NO;
-    }
-    if (!key.length || !properties[key].length) {
-      MSLogError([MSAppCenter logTag], @"%@ Properties key or value must not be nil or empty.", kMSBaseErrorMsg);
+      MSLogError([MSAppCenter logTag], @"%@ Properties key and value must be of type NSString.", kMSBaseErrorMsg);
       return NO;
     }
   }
