@@ -1,8 +1,9 @@
+#import <CommonCrypto/CommonCryptor.h>
+
 #import "MSAppCenterInternal.h"
-#import "MSEncrypter.h"
+#import "MSEncrypterPrivate.h"
 #import "MSKeychainUtil.h"
 #import "MSLogger.h"
-#import <CommonCrypto/CommonCryptor.h>
 
 static int const kMSEncryptionAlgorithm = kCCAlgorithmAES128;
 static int const kMSCipherKeySize = kCCKeySizeAES256;
@@ -21,13 +22,16 @@ static NSString *kMSEncryptionKeyTag = @"kMSEncryptionKeyTag";
 @implementation MSEncrypter
 
 - (instancetype)initWithDefaultKey {
-  NSData *defaultKey = [MSEncrypter loadKeyFromKeychain];
+  self = [self initWitKeyTag:kMSEncryptionKeyTag];
+  return self;
+}
+
+- (instancetype)initWitKeyTag:(NSString *)keyTag {
+  NSData *defaultKey = [MSEncrypter loadKeyFromKeychainWithTag:keyTag];
   if (!defaultKey) {
-    defaultKey = [MSEncrypter generateKey];
+    defaultKey = [MSEncrypter generateKeyWithTag:keyTag];
   }
-  if (defaultKey) {
-    self = [self initWithKey:defaultKey];
-  }
+  self = [self initWithKey:defaultKey];
   return self;
 }
 
@@ -37,7 +41,7 @@ static NSString *kMSEncryptionKeyTag = @"kMSEncryptionKeyTag";
     CCCryptorStatus encStatus = CCCryptorCreate(kCCEncrypt, kMSEncryptionAlgorithm, kCCOptionPKCS7Padding, [self.key bytes], kMSCipherKeySize, NULL, &_encryptorObject);
     CCCryptorStatus decStatus = CCCryptorCreate(kCCDecrypt, kMSEncryptionAlgorithm, kCCOptionPKCS7Padding, [self.key bytes], kMSCipherKeySize, NULL, &_decryptorObject);
     if (encStatus != kCCSuccess || decStatus != kCCSuccess) {
-      MSLogError([MSAppCenter logTag], @"Could not create cryptor object");
+      MSLogError([MSAppCenter logTag], @"Could not create cryptor object.");
     }
   }
   return self;
@@ -50,6 +54,7 @@ static NSString *kMSEncryptionKeyTag = @"kMSEncryptionKeyTag";
 
 - (NSString *_Nullable)encryptString:(NSString *)string {
   if (!self.key) {
+    MSLogError([MSAppCenter logTag], @"Could not perform encryption. Encryption key is missing.");
     return nil;
   }
   NSString *result = nil;
@@ -57,11 +62,10 @@ static NSString *kMSEncryptionKeyTag = @"kMSEncryptionKeyTag";
   size_t cipherBufferSize = CCCryptorGetOutputLength(self.encryptorObject, dataToEncrypt.length, true);
   uint8_t *cipherBuffer = malloc(cipherBufferSize * sizeof(uint8_t));
   size_t numBytesEncrypted = 0;
-
   CCCryptorStatus status = CCCrypt(kCCEncrypt, kMSEncryptionAlgorithm, kCCOptionPKCS7Padding, (__bridge const void *)self.key, kMSCipherKeySize,
                                    nil, [dataToEncrypt bytes], dataToEncrypt.length, cipherBuffer, cipherBufferSize, &numBytesEncrypted);
   if (status != kCCSuccess) {
-    MSLogError([MSAppCenter logTag], @"Error performing encryption");
+    MSLogError([MSAppCenter logTag], @"Error performing encryption.");
   } else {
     result = [[NSData dataWithBytes:(const void *)cipherBuffer length:(NSUInteger)numBytesEncrypted] base64EncodedStringWithOptions:0];
   }
@@ -71,6 +75,7 @@ static NSString *kMSEncryptionKeyTag = @"kMSEncryptionKeyTag";
 
 - (NSString *_Nullable)decryptString:(NSString *)string {
   if (!self.key) {
+    MSLogError([MSAppCenter logTag], @"Could not perform decryption. Encryption key is missing.");
     return nil;
   }
   NSString *result = nil;
@@ -81,7 +86,7 @@ static NSString *kMSEncryptionKeyTag = @"kMSEncryptionKeyTag";
   CCCryptorStatus status = CCCrypt(kCCDecrypt, kMSEncryptionAlgorithm, kCCOptionPKCS7Padding, (__bridge const void *)self.key, kMSCipherKeySize,
                                    nil, [dataToDecrypt bytes], dataToDecrypt.length, cipherBuffer, cipherBufferSize, &numBytesDecrypted);
   if(status != kCCSuccess) {
-    MSLogError([MSAppCenter logTag], @"Error performing decryption");
+    MSLogError([MSAppCenter logTag], @"Error performing decryption.");
   }else {
     result = [[NSString alloc] initWithData:[NSData dataWithBytes:cipherBuffer length:numBytesDecrypted] encoding:NSUTF8StringEncoding];
   }
@@ -89,16 +94,20 @@ static NSString *kMSEncryptionKeyTag = @"kMSEncryptionKeyTag";
   return result;
 }
 
-+ (NSData *)loadKeyFromKeychain {
++ (void)deleteKeyWithTag:(NSString *)keyTag {
+  [MSKeychainUtil deleteStringForKey:keyTag];
+}
+
++ (NSData *)loadKeyFromKeychainWithTag:(NSString *)keyTag {
   NSData *keyData = nil;
-  NSString *stringKey = [MSKeychainUtil stringForKey:kMSEncryptionKeyTag];
+  NSString *stringKey = [MSKeychainUtil stringForKey:keyTag];
   if (stringKey) {
     keyData = [[NSData alloc] initWithBase64EncodedString: stringKey options:0];
   }
   return keyData;
 }
 
-+ (NSData *)generateKey {
++ (NSData *)generateKeyWithTag:(NSString *)keyTag {
   NSData *resultKey = nil;
   uint8_t *keyBytes = nil;
   keyBytes = malloc(kMSCipherKeySize * sizeof(uint8_t));
@@ -109,9 +118,12 @@ static NSString *kMSEncryptionKeyTag = @"kMSEncryptionKeyTag";
   }
   resultKey = [[NSData alloc] initWithBytes:keyBytes length:kMSCipherKeySize];
   free(keyBytes);
+
+  // Save key to the Keychain.
   NSString *stringKey = [resultKey base64EncodedStringWithOptions:0];
-  [MSKeychainUtil storeString:stringKey forKey:kMSEncryptionKeyTag];
+  [MSKeychainUtil storeString:stringKey forKey:keyTag];
   return resultKey;
 }
+
 @end
 

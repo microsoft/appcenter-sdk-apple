@@ -418,6 +418,12 @@
 		8087362C20C1DE1B004C4157 /* MSEncrypterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8087362A20C1DCCF004C4157 /* MSEncrypterTests.m */; };
 		8087362D20C1DE24004C4157 /* MSEncrypterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8087362A20C1DCCF004C4157 /* MSEncrypterTests.m */; };
 		8087362E20C1DE26004C4157 /* MSEncrypterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8087362A20C1DCCF004C4157 /* MSEncrypterTests.m */; };
+		80B7EA2120CA9C9C00DF524C /* MSEncrypterPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 80B7EA2020CA9C9C00DF524C /* MSEncrypterPrivate.h */; };
+		80B7EA2220CA9CBF00DF524C /* MSEncrypter.h in Headers */ = {isa = PBXBuildFile; fileRef = 8087362720C1348B004C4157 /* MSEncrypter.h */; };
+		80B7EA2320CA9CC000DF524C /* MSEncrypter.h in Headers */ = {isa = PBXBuildFile; fileRef = 8087362720C1348B004C4157 /* MSEncrypter.h */; };
+		80B7EA2420CA9CC100DF524C /* MSEncrypter.h in Headers */ = {isa = PBXBuildFile; fileRef = 8087362720C1348B004C4157 /* MSEncrypter.h */; };
+		80B7EA2520CA9CC400DF524C /* MSEncrypterPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 80B7EA2020CA9C9C00DF524C /* MSEncrypterPrivate.h */; };
+		80B7EA2620CA9CC500DF524C /* MSEncrypterPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 80B7EA2020CA9C9C00DF524C /* MSEncrypterPrivate.h */; };
 		B2181B7B1F26852600D2EEAE /* MSWrapperSdk.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74551F22BB710070E7DF /* MSWrapperSdk.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B2181B7C1F26852B00D2EEAE /* MSWrapperSdk.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74561F22BB710070E7DF /* MSWrapperSdk.m */; };
 		B24F3F171D93A3FF00827213 /* MSLoggerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B24F3F161D93A3FF00827213 /* MSLoggerTests.m */; };
@@ -829,6 +835,7 @@
 		8087362720C1348B004C4157 /* MSEncrypter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSEncrypter.h; sourceTree = "<group>"; };
 		8087362820C134AC004C4157 /* MSEncrypter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSEncrypter.m; sourceTree = "<group>"; };
 		8087362A20C1DCCF004C4157 /* MSEncrypterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSEncrypterTests.m; sourceTree = "<group>"; };
+		80B7EA2020CA9C9C00DF524C /* MSEncrypterPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSEncrypterPrivate.h; sourceTree = "<group>"; };
 		B24F3F161D93A3FF00827213 /* MSLoggerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLoggerTests.m; sourceTree = "<group>"; };
 		B28E41D32076EC4000CC6AD8 /* MSUtility+PropertyValidation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MSUtility+PropertyValidation.h"; sourceTree = "<group>"; };
 		B28E41D42076ECFE00CC6AD8 /* MSUtility+PropertyValidation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MSUtility+PropertyValidation.m"; sourceTree = "<group>"; };
@@ -1204,6 +1211,7 @@
 			children = (
 				B2CD748F1F22BE270070E7DF /* MSConstants+Internal.h */,
 				8087362720C1348B004C4157 /* MSEncrypter.h */,
+				80B7EA2020CA9C9C00DF524C /* MSEncrypterPrivate.h */,
 				8087362820C134AC004C4157 /* MSEncrypter.m */,
 				045BC3181E3FD8AC00B6C960 /* MSKeychainUtil.h */,
 				386A69EC1FD8843D0057B316 /* MSKeychainUtilPrivate.h */,
@@ -1297,7 +1305,6 @@
 				E7D23C6C20B6407E00A47D62 /* Model */,
 				6E23957C1D22EF4F00E543C8 /* Info.plist */,
 				384959D41D491D4F008F6B3A /* MSAppCenterTests.m */,
-				E829E4221D25C8BA00F19DA1 /* MSAppCenterIngestionTests.m */,
 				38641B041EB0F40800B2CE73 /* MSAppDelegateForwarderTests.m */,
 				6E48A5A61D383893006E8B5F /* MSChannelGroupDefaultTests.m */,
 				6E48A5A31D3831FE006E8B5F /* MSChannelUnitConfigurationTests.m */,
@@ -1307,7 +1314,7 @@
 				B2FD53641E567BCF0050F909 /* MSDeviceHistoryInfoTests.m */,
 				385FC0541D37EBD700A1799F /* MSDeviceTrackerTests.m */,
 				8087362A20C1DCCF004C4157 /* MSEncrypterTests.m */,
-				E829E4221D25C8BA00F19DA1 /* MSIngestionSenderTests.m */,
+				E829E4221D25C8BA00F19DA1 /* MSAppCenterIngestionTests.m */,
 				04FD126A1E4103CC007ABFE7 /* MSKeychainUtilTests.m */,
 				5C7877911EA0CFF3002263CC /* MSLogDBStorageTests.m */,
 				B24F3F161D93A3FF00827213 /* MSLoggerTests.m */,
@@ -1536,6 +1543,8 @@
 				043120A91EE0BCF9007054C5 /* MSSenderCallDelegate.h in Headers */,
 				38BC346F20B8CB0C00119C05 /* MSLogConversion.h in Headers */,
 				0446DF2E1F3B86C500C8E338 /* MSAbstractLogInternal.h in Headers */,
+				80B7EA2420CA9CC100DF524C /* MSEncrypter.h in Headers */,
+				80B7EA2620CA9CC500DF524C /* MSEncrypterPrivate.h in Headers */,
 				805275C420A1ADCF00704115 /* MSOneCollectorChannelDelegate.h in Headers */,
 				043120AA1EE0BCF9007054C5 /* MS_Reachability.h in Headers */,
 				043120AB1EE0BCF9007054C5 /* MSConstants.h in Headers */,
@@ -1637,6 +1646,7 @@
 				04754F7E1EA98182002CBA46 /* MSDeviceHistoryInfo.h in Headers */,
 				04754F801EA98182002CBA46 /* AppCenter+Internal.h in Headers */,
 				38BC346E20B8CB0C00119C05 /* MSLogConversion.h in Headers */,
+				80B7EA2320CA9CC000DF524C /* MSEncrypter.h in Headers */,
 				0446DF2D1F3B86C300C8E338 /* MSAbstractLogInternal.h in Headers */,
 				04754F821EA98182002CBA46 /* MSSenderDelegate.h in Headers */,
 				04754F831EA98182002CBA46 /* MSStartServiceLog.h in Headers */,
@@ -1673,6 +1683,7 @@
 				B2CD74A71F22BE270070E7DF /* MSUtility+Application.h in Headers */,
 				04754F9B1EA98182002CBA46 /* MSServiceInternal.h in Headers */,
 				B2CD74C21F22BE270070E7DF /* MSUtility+StringFormatting.h in Headers */,
+				80B7EA2520CA9CC400DF524C /* MSEncrypterPrivate.h in Headers */,
 				04754F9D1EA98182002CBA46 /* MSAppCenterErrors.h in Headers */,
 				B2CD74B01F22BE270070E7DF /* MSUtility+Date.h in Headers */,
 				045C85111FE0B2D200089540 /* MSSessionContext.h in Headers */,
@@ -1741,9 +1752,11 @@
 				6E04016D1D1C9E460051BCFA /* AppCenter+Internal.h in Headers */,
 				805275C220A1ADCD00704115 /* MSOneCollectorChannelDelegate.h in Headers */,
 				B2CD749D1F22BE270070E7DF /* MSConstants+Internal.h in Headers */,
+				80B7EA2120CA9C9C00DF524C /* MSEncrypterPrivate.h in Headers */,
 				384772A61DA5691F009365DE /* MSSenderDelegate.h in Headers */,
 				E7D23C6120B4EED000A47D62 /* MSModel.h in Headers */,
 				E7D23C5620B4E38B00A47D62 /* MSCSData.h in Headers */,
+				80B7EA2220CA9CBF00DF524C /* MSEncrypter.h in Headers */,
 				D38023E91E6EFC7C00466558 /* MSStartServiceLog.h in Headers */,
 				E74B149920B364EE002C0183 /* MSCommonSchemaLog.h in Headers */,
 				387C76FD1D6C9CF100D68CC1 /* MSServiceAbstract.h in Headers */,
@@ -2268,7 +2281,7 @@
 				F803BBF41E8E3677004B1E7A /* MSCustomProperties.m in Sources */,
 				B28E41D52076ECFE00CC6AD8 /* MSUtility+PropertyValidation.m in Sources */,
 				B2CD74881F22BD910070E7DF /* MSLogDBStorage.m in Sources */,
-				E7D23C7720B6549E00A47D62 /* MSCSConstants.m in Sources */,
+				E7D23C7720B6549E00A47D62 /* MSCSModelConstants.m in Sources */,
 				8087362920C134AC004C4157 /* MSEncrypter.m in Sources */,
 				E7D23C7720B6549E00A47D62 /* MSCSModelConstants.m in Sources */,
 				E84B8E361D235226006FD231 /* MSHttpSender.m in Sources */,

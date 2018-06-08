@@ -1,16 +1,23 @@
-#import "MSEncrypter.h"
+#import "MSEncrypterPrivate.h"
 #import "MSTestFrameworks.h"
 
 @interface MSEncrypterTests : XCTestCase
+
+@property(nonatomic) NSString *keyTag;
 
 @end
 
 @implementation MSEncrypterTests
 
+- (void)setUp {
+  [super setUp];
+  self.keyTag = @"kMSTestEncryptionKeyTag";
+}
+
 - (void)testEncryption {
 
   // If
-  MSEncrypter *encrypter = [[MSEncrypter alloc] initWithDefaultKey];
+  MSEncrypter *encrypter = [[MSEncrypter alloc] initWitKeyTag:self.keyTag];
   NSString *stringToEncrypt = @"Test string";
 
   // When
@@ -29,7 +36,7 @@
 - (void)testKeyIsRestoredFromKeychain {
 
   // If
-  MSEncrypter *encrypter = [[MSEncrypter alloc] initWithDefaultKey];
+  MSEncrypter *encrypter = [[MSEncrypter alloc] initWitKeyTag:self.keyTag];
   NSString *stringToEncrypt = @"Test string";
 
   // When
@@ -39,7 +46,7 @@
   XCTAssertNotEqualObjects(encrypted, stringToEncrypt);
 
   // When
-  MSEncrypter *newEncrypter = [[MSEncrypter alloc] initWithDefaultKey];
+  MSEncrypter *newEncrypter = [[MSEncrypter alloc] initWitKeyTag:self.keyTag];
   NSString *decrypted = [newEncrypter decryptString:encrypted];
 
   // Then
