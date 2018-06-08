@@ -59,7 +59,7 @@
   UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
                                                          style:UIAlertActionStyleCancel
                                                        handler:^(UIAlertAction *action) {
-                                                         sender.on = !sender.on;
+                                                         sender.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"isOneCollectorEnabled"];
                                                          [alert dismissViewControllerAnimated:YES completion:nil];
                                                        }];
   [alert addAction:exitAction];

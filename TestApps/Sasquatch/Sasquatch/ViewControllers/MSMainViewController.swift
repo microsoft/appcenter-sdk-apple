@@ -33,7 +33,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
       exit(0)
     }
     let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) {_ in
-      sender.isOn = !sender.isOn
+      sender.isOn = UserDefaults.standard.bool(forKey: "isOneCollectorEnabled")
       alert.dismiss(animated: true, completion: nil)
     }
     alert.addAction(exitAction)
