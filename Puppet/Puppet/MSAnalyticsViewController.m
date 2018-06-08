@@ -43,7 +43,7 @@ static NSInteger kPropertiesSection = 3;
 }
 
 - (IBAction)trackEvent {
-  if(self.oneCollectorEnabled.on) {
+  if (self.oneCollectorEnabled.on) {
     [[MSAnalytics transmissionTargetForToken:@"b9bb5bcb40f24830aa12f681e6462292-10b4c5da-67be-49ce-936b-8b2b80a83a80-7868"] trackEvent:self.eventName.text withProperties:self.properties];
   }
   else {

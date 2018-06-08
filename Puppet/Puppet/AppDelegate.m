@@ -47,7 +47,7 @@ static UIViewController *crashResultViewController = nil;
 
   // Start Mobile Center SDK.
   BOOL useOneCollector = [[NSUserDefaults standardUserDefaults] boolForKey:@"isOneCollectorEnabled"];
-  if(useOneCollector) {
+  if (useOneCollector) {
     [MSAppCenter start:@"target=09855e8251634d618c1d8ef3325e3530-8c17b252-f3c1-41e1-af64-78a72d13ac22-6684;appsecret="
      @"7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7"
           withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class] ]];
