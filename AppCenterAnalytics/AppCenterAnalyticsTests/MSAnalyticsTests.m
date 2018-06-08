@@ -59,7 +59,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
 #pragma mark - Tests
 
-- (void)testValidateEventName {
+- (void)testvalidateEventName {
   const int maxEventNameLength = 256;
 
   // If
@@ -71,6 +71,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   NSString *emptyEventName = @"";
   NSString *tooLongEventName =
       [@"" stringByPaddingToLength:(maxEventNameLength + 1) withString:@"tooLongEventName" startingAtIndex:0];
+  
   // When
   NSString *valid = [[MSAnalytics sharedInstance] validateEventName:validEventName forLogType:kMSTypeEvent];
   NSString *validShortEventName =
@@ -231,7 +232,8 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   id analyticsMock = OCMPartialMock([MSAnalytics sharedInstance]);
   OCMExpect([analyticsMock validateLog:eventLog]).andForwardToRealObject();
   OCMExpect([analyticsMock validateEventName:@"test" forLogType:@"event"]).andForwardToRealObject();
-  OCMExpect([analyticsMock validateProperties:OCMOCK_ANY forLogName:@"test" andType:@"event"]).andForwardToRealObject();
+  OCMExpect([analyticsMock validateProperties:OCMOCK_ANY forLogName:@"test" andType:@"event"])
+      .andForwardToRealObject();
   OCMExpect([analyticsMock validateLog:pageLog]).andForwardToRealObject();
   OCMExpect([analyticsMock validateEventName:OCMOCK_ANY forLogType:@"page"]).andForwardToRealObject();
   OCMReject([analyticsMock validateProperties:OCMOCK_ANY forLogName:OCMOCK_ANY andType:@"page"]);

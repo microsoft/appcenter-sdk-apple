@@ -1,11 +1,12 @@
 #import "AppCenter+Internal.h"
 #import "MSAnalytics+Validation.h"
+#import "MSCommonSchemaLog.h"
 #import "MSEventLog.h"
 #import "MSPageLog.h"
 
 // Events values limitations
-static const int minEventNameLength = 1;
-static const int maxEventNameLength = 256;
+static const int kMSMinEventNameLength = 1;
+static const int kMSMaxEventNameLength = 256;
 
 /*
  * Workaround for exporting symbols from category object files.
@@ -39,25 +40,24 @@ NSString *MSAnalyticsValidationCategory;
 }
 
 - (nullable NSString *)validateEventName:(NSString *)eventName forLogType:(NSString *)logType {
-  if (!eventName || [eventName length] < minEventNameLength) {
+  if (!eventName || [eventName length] < kMSMinEventNameLength) {
     MSLogError([MSAnalytics logTag], @"%@ name cannot be null or empty", logType);
     return nil;
   }
-  if ([eventName length] > maxEventNameLength) {
+  if ([eventName length] > kMSMaxEventNameLength) {
     MSLogWarning([MSAnalytics logTag],
                  @"%@ '%@' : name length cannot be longer than %d characters. Name will be truncated.", logType,
-                 eventName, maxEventNameLength);
-    eventName = [eventName substringToIndex:maxEventNameLength];
+                 eventName, kMSMaxEventNameLength);
+    eventName = [eventName substringToIndex:kMSMaxEventNameLength];
   }
   return eventName;
 }
 
 - (NSDictionary<NSString *, NSString *> *)validateProperties:(NSDictionary<NSString *, NSString *> *)properties
-                                                  forLogName:(NSString *)logName
-                                                     andType:(NSString *)logType {
+                                                    forLogName:(NSString *)logName
+                                                       andType:(NSString *)logType {
 
   // Keeping this method body in MSAnalytics to use it in unit tests.
   return [MSUtility validateProperties:properties forLogName:logName type:logType];
 }
-
 @end
