@@ -42,7 +42,9 @@
 #pragma mark - MSModel
 
 - (BOOL)isValid {
-  return [super isValid] && self.ver && self.name;
+  
+  // Do not call [super isValid] here as CS logs don't require the same validation as AC logs except for timestamp.
+  return super.timestamp && self.ver && self.name;
 }
 
 #pragma mark - NSObject

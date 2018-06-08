@@ -102,7 +102,7 @@
   csLog.timestamp = self.csLogDummyValues[kMSCSTime];
 
   // Then
-  XCTAssertFalse([csLog isValid]);
+  XCTAssertTrue([csLog isValid]);
 
   // IF
   [MSModelTestsUtililty populateAbstractLogWithDummies:csLog];

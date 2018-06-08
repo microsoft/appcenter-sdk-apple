@@ -41,7 +41,7 @@ static NSString *kMSAppSecretKey = @"appsecret=";
         NSString *secretString = [component stringByReplacingOccurrencesOfString:kMSAppSecretKey withString:@""];
         
         // Check for string length to avoid returning empty string.
-        if((secretString != nil) && (secretString.length > 0)) {
+        if ((secretString != nil) && (secretString.length > 0)) {
           return secretString;
         }
       }

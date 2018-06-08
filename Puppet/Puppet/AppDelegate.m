@@ -46,9 +46,16 @@ static UIViewController *crashResultViewController = nil;
   [MSAppCenter setLogLevel:MSLogLevelVerbose];
 
   // Start Mobile Center SDK.
-  [MSAppCenter start:@"7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7"
-           withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class] ]];
-
+  BOOL useOneCollector = [[NSUserDefaults standardUserDefaults] boolForKey:@"isOneCollectorEnabled"];
+  if (useOneCollector) {
+    [MSAppCenter start:@"target=09855e8251634d618c1d8ef3325e3530-8c17b252-f3c1-41e1-af64-78a72d13ac22-6684;appsecret="
+     @"7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7"
+          withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class] ]];
+  }
+  else {
+    [MSAppCenter start:@"7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7"
+          withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class] ]];
+  }
   [self crashes];
 
   // Print the install Id.
@@ -120,16 +127,18 @@ static UIViewController *crashResultViewController = nil;
       setUserConfirmationHandler:(^(NSArray<MSErrorReport *> *errorReports) {
         [NSNotificationCenter.defaultCenter postNotificationName:kDidShouldAwaitUserConfirmationEvent object:nil];
 
+        //TODO use UIAlertController in sample apps!
         // Show a dialog to the user where they can choose if they want to provide a crash report.
         MSAlertController *alertController = [MSAlertController
             alertControllerWithTitle:NSLocalizedStringFromTable(@"crash_alert_title", @"Puppet", @"")
                              message:NSLocalizedStringFromTable(@"crash_alert_message", @"Puppet", @"")];
 
         // Add a "No"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationDontSend
-        [alertController addCancelActionWithTitle:NSLocalizedStringFromTable(@"crash_alert_do_not_send", @"Puppet", @"")
-                                          handler:^(UIAlertAction *action) {
-                                            [MSCrashes notifyWithUserConfirmation:MSUserConfirmationDontSend];
-                                          }];
+        [alertController
+            addCancelActionWithTitle:NSLocalizedStringFromTable(@"crash_alert_do_not_send", @"Puppet", @"")
+                             handler:^(UIAlertAction *action) {
+                               [MSCrashes notifyWithUserConfirmation:MSUserConfirmationDontSend];
+                             }];
 
         // Add a "Yes"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationSend
         [alertController addDefaultActionWithTitle:NSLocalizedStringFromTable(@"crash_alert_send", @"Puppet", @"")
@@ -138,10 +147,11 @@ static UIViewController *crashResultViewController = nil;
                                            }];
 
         // Add a "No"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationAlways
-        [alertController addDefaultActionWithTitle:NSLocalizedStringFromTable(@"crash_alert_always_send", @"Puppet", @"")
-                                           handler:^(UIAlertAction *action) {
-                                             [MSCrashes notifyWithUserConfirmation:MSUserConfirmationAlways];
-                                           }];
+        [alertController
+            addDefaultActionWithTitle:NSLocalizedStringFromTable(@"crash_alert_always_send", @"Puppet", @"")
+                              handler:^(UIAlertAction *action) {
+                                [MSCrashes notifyWithUserConfirmation:MSUserConfirmationAlways];
+                              }];
         // Show the alert controller.
         [alertController show];
 
@@ -175,19 +185,18 @@ static UIViewController *crashResultViewController = nil;
 - (NSArray<MSErrorAttachmentLog *> *)attachmentsWithCrashes:(MSCrashes *)crashes
                                              forErrorReport:(MSErrorReport *)errorReport {
   NSMutableArray *attachments = [[NSMutableArray alloc] init];
-  
+
   // Text attachment.
   NSString *text = [[NSUserDefaults standardUserDefaults] objectForKey:@"textAttachment"];
   if (text != nil && text.length > 0) {
-    MSErrorAttachmentLog *textAttachment = [MSErrorAttachmentLog attachmentWithText:text
-                                                                           filename:@"user.log"];
+    MSErrorAttachmentLog *textAttachment = [MSErrorAttachmentLog attachmentWithText:text filename:@"user.log"];
     [attachments addObject:textAttachment];
   }
-  
+
   // Binary attachment.
   NSURL *referenceUrl = [[NSUserDefaults standardUserDefaults] URLForKey:@"fileAttachment"];
   if (referenceUrl) {
-    PHAsset *asset = [[PHAsset fetchAssetsWithALAssetURLs:@[referenceUrl] options:nil] lastObject];
+    PHAsset *asset = [[PHAsset fetchAssetsWithALAssetURLs:@[ referenceUrl ] options:nil] lastObject];
     if (asset) {
       PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
       options.synchronous = YES;
@@ -196,10 +205,13 @@ static UIViewController *crashResultViewController = nil;
                            options:options
                      resultHandler:^(NSData *_Nullable imageData, NSString *_Nullable dataUTI,
                                      __unused UIImageOrientation orientation, __unused NSDictionary *_Nullable info) {
-                       CFStringRef UTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef)[dataUTI pathExtension], nil);
-                       NSString *MIMEType = (__bridge_transfer NSString *)UTTypeCopyPreferredTagWithClass(UTI, kUTTagClassMIMEType);
+                       CFStringRef UTI = UTTypeCreatePreferredIdentifierForTag(
+                           kUTTagClassFilenameExtension, (__bridge CFStringRef)[dataUTI pathExtension], nil);
+                       NSString *MIMEType =
+                           (__bridge_transfer NSString *)UTTypeCopyPreferredTagWithClass(UTI, kUTTagClassMIMEType);
                        CFRelease(UTI);
-                       MSErrorAttachmentLog *binaryAttachment = [MSErrorAttachmentLog attachmentWithBinary:imageData filename:dataUTI contentType:MIMEType];
+                       MSErrorAttachmentLog *binaryAttachment =
+                           [MSErrorAttachmentLog attachmentWithBinary:imageData filename:dataUTI contentType:MIMEType];
                        [attachments addObject:binaryAttachment];
                        NSLog(@"Add binary attachment with %tu bytes", [imageData length]);
                      }];
@@ -253,13 +265,10 @@ static UIViewController *crashResultViewController = nil;
   } else {
     message = [NSString stringWithFormat:@"%@%@%@", (message ? message : @""), (message && customData ? @"\n" : @""),
                                          (customData ? customData : @"")];
-    
-    MSAlertController *alertController = [MSAlertController
-                                          alertControllerWithTitle:title
-                                          message:message];
-    [alertController addCancelActionWithTitle:@"OK"
-                                      handler:nil];
-    
+
+    MSAlertController *alertController = [MSAlertController alertControllerWithTitle:title message:message];
+    [alertController addCancelActionWithTitle:@"OK" handler:nil];
+
     // Show the alert controller.
     [alertController show];
   }
@@ -303,4 +312,3 @@ static UIViewController *crashResultViewController = nil;
 }
 
 @end
-
