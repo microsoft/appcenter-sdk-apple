@@ -34,4 +34,21 @@
  */
 - (BOOL) shouldSendLogToOneCollector:(id<MSLog>)log;
 
+/**
+ * Validate Common Schema 3.0 Log.
+ *
+ * @param log The Common Schema log.
+ *
+ * @return YES if Common Schema log is valid; NO otherwise.
+ */
+- (BOOL)validateLog:(MSCommonSchemaLog *)log;
+
+/**
+ * Validate Common Schema log name.
+ *
+ * @param name The log name.
+ *
+ * @return YES if name is valid, NO otherwise.
+ */
+- (BOOL)validateLogName:(NSString *)name;
 @end

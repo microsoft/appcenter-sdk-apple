@@ -16,6 +16,9 @@
 static NSString *const kMSOneCollectorGroupIdSuffix = @"/one";
 static NSString *const kMSOneCollectorBaseUrl = @"https://mobile.events.data.microsoft.com"; // TODO: move to constants?
 
+// Alphanumeric characters, no heading or trailing periods, no heading underscores, min length of 4, max length of 100.
+static NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){3,99}$";
+
 @implementation MSOneCollectorChannelDelegate
 
 - (instancetype)init {
@@ -25,7 +28,6 @@ static NSString *const kMSOneCollectorBaseUrl = @"https://mobile.events.data.mic
     _oneCollectorSender = [[MSOneCollectorIngestion alloc] initWithBaseUrl:kMSOneCollectorBaseUrl];
     _epochsAndSeqsByIKey = [NSMutableDictionary new];
   }
-
   return self;
 }
 
@@ -52,21 +54,12 @@ static NSString *const kMSOneCollectorBaseUrl = @"https://mobile.events.data.mic
   }
 }
 
-- (BOOL)channelUnit:(id<MSChannelUnitProtocol>)channelUnit shouldFilterLog:(id<MSLog>)log {
-
-  // Do not filter the log from one collector channels.
-  if ([self isOneCollectorGroup:channelUnit.configuration.groupId]) {
-    return NO;
-  }
-  return [[log transmissionTargetTokens] count] > 0;
-}
-
 - (void)channel:(id<MSChannelProtocol>)__unused channel prepareLog:(id<MSLog>)log {
-
+  
   // Prepare Common Schema logs.
   if ([log isKindOfClass:[MSCommonSchemaLog class]]) {
     MSCommonSchemaLog *csLog = (MSCommonSchemaLog *)log;
-
+    
     // Set epoch and seq to SDK.
     MSCSEpochAndSeq *epochAndSeq = self.epochsAndSeqsByIKey[csLog.iKey];
     if (!epochAndSeq) {
@@ -75,24 +68,9 @@ static NSString *const kMSOneCollectorBaseUrl = @"https://mobile.events.data.mic
     csLog.ext.sdkExt.epoch = epochAndSeq.epoch;
     csLog.ext.sdkExt.seq = ++epochAndSeq.seq;
     self.epochsAndSeqsByIKey[csLog.iKey] = epochAndSeq;
-
+    
     // Set install ID to SDK.
     csLog.ext.sdkExt.installId = self.installId;
-  }
-}
-
-- (void)channel:(id<MSChannelProtocol>)channel didSetEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deletedData {
-  if ([channel conformsToProtocol:@protocol(MSChannelUnitProtocol)]) {
-    NSString *groupId = ((id<MSChannelUnitProtocol>)channel).configuration.groupId;
-    if (![self isOneCollectorGroup:groupId]) {
-
-      // Mirror disabling state to OneCollector channels.
-      [self.oneCollectorChannels[groupId] setEnabled:isEnabled andDeleteDataOnDisabled:deletedData];
-    }
-  } else if ([channel conformsToProtocol:@protocol(MSChannelGroupProtocol)] && !isEnabled && deletedData) {
-
-    // Reset epoch and seq values when SDK is disabled as a whole.
-    [self.epochsAndSeqsByIKey removeAllObjects];
   }
 }
 
@@ -114,6 +92,34 @@ static NSString *const kMSOneCollectorBaseUrl = @"https://mobile.events.data.mic
   }
 }
 
+- (BOOL)channelUnit:(id<MSChannelUnitProtocol>)__unused channelUnit shouldFilterLog:(id<MSLog>)log {
+
+  // Validate Custom Schema logs, filter out invalid logs.
+  if ([log isKindOfClass:[MSCommonSchemaLog class]]) {
+    return ![self validateLog:(MSCommonSchemaLog *)log];
+  }
+  
+  // It's an App Center log. Filter out if it countains token(s) since it's already re-enqeued as CS log(s).
+  return [[log transmissionTargetTokens] count] > 0;
+}
+
+- (void)channel:(id<MSChannelProtocol>)channel didSetEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deletedData {
+  if ([channel conformsToProtocol:@protocol(MSChannelUnitProtocol)]) {
+    NSString *groupId = ((id<MSChannelUnitProtocol>)channel).configuration.groupId;
+    if (![self isOneCollectorGroup:groupId]) {
+
+      // Mirror disabling state to OneCollector channels.
+      [self.oneCollectorChannels[groupId] setEnabled:isEnabled andDeleteDataOnDisabled:deletedData];
+    }
+  } else if ([channel conformsToProtocol:@protocol(MSChannelGroupProtocol)] && !isEnabled && deletedData) {
+
+    // Reset epoch and seq values when SDK is disabled as a whole.
+    [self.epochsAndSeqsByIKey removeAllObjects];
+  }
+}
+
+#pragma mark - Helper
+
 - (BOOL)isOneCollectorGroup:(NSString *)groupId {
   return [groupId hasSuffix:kMSOneCollectorGroupIdSuffix];
 }
@@ -121,6 +127,36 @@ static NSString *const kMSOneCollectorBaseUrl = @"https://mobile.events.data.mic
 - (BOOL)shouldSendLogToOneCollector:(id<MSLog>)log {
   NSObject *logObject = (NSObject *)log;
   return [[log transmissionTargetTokens] count] > 0 && [log conformsToProtocol:@protocol(MSLogConversion)] && ![logObject isKindOfClass:[MSCommonSchemaLog class]];
+}
+
+- (BOOL)validateLog:(MSCommonSchemaLog *)log {
+  return [self validateLogName:log.name];
+}
+
+- (BOOL)validateLogName:(NSString *)name {
+  NSString *baseErrorMsg = @"Log validation failed.";
+  
+  // Name mustn't be nil.
+  if (!name.length){
+    MSLogError([MSAppCenter logTag], @"%@ Name must not be nil or empty.", baseErrorMsg);
+    return NO;
+  }
+  
+  // The Common Schema event name must conform to a regex.
+  NSError *error = nil;
+  NSRegularExpression *regex =
+  [NSRegularExpression regularExpressionWithPattern:kMSLogNameRegex options:0 error:&error];
+  NSRange range = NSMakeRange(0, name.length);
+  if (!regex) {
+    MSLogError([MSAppCenter logTag], @"%@ Couldn't create regular expression with pattern \"%@\": %@", baseErrorMsg, kMSLogNameRegex, error.localizedDescription);
+    return NO;
+  }
+  NSUInteger count = [regex numberOfMatchesInString:name options:0 range:range];
+  if (!count) {
+    MSLogError([MSAppCenter logTag], @"%@ Name must match '%@' but was '%@'", baseErrorMsg, kMSLogNameRegex, name);
+    return NO;
+  }
+  return YES;
 }
 
 @end

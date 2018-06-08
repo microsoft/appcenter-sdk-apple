@@ -19,50 +19,23 @@ extern NSString *MSAnalyticsValidationCategory;
  *
  * @return YES if AppCenter log is valid; NO otherwise.
  */
-- (BOOL)validateACLog:(MSLogWithNameAndProperties *)log;
+- (BOOL)validateLog:(MSLogWithNameAndProperties *)log;
 
 /**
  * Validate event name
  *
  * @return YES if event name is valid; NO otherwise.
  */
-- (nullable NSString *)validateACEventName:(NSString *)eventName forLogType:(NSString *)logType;
+- (nullable NSString *)validateEventName:(NSString *)eventName forLogType:(NSString *)logType;
 
 /**
  * Validate keys and values of properties. Intended for testing. Uses MSUtility+PropertyValidation internally.
  *
  * @return dictionary which contains only valid properties.
  */
-- (NSDictionary<NSString *, NSString *> *)validateACProperties:(NSDictionary<NSString *, NSString *> *)properties
+- (NSDictionary<NSString *, NSString *> *)validateProperties:(NSDictionary<NSString *, NSString *> *)properties
                                                     forLogName:(NSString *)logName
                                                        andType:(NSString *)logType;
-
-/**
- * Validate Common Schema 3.0 Log.
- *
- * @param log The Common Schema log.
- *
- * @return YES if Common Schema log is valid; NO otherwise.
- */
-- (BOOL)validateCSLog:(MSCommonSchemaLog *)log;
-
-/**
- * Validate Common Schema event name.
- *
- * @param eventName The event name.
- *
- * @return YES if event name is valid, NO otherwise.
- */
-- (BOOL)validateCSEventName:(nonnull NSString *)eventName;
-
-/**
- * Validate Common Schema Part B or C data properties field names.
- *
- * @param data The MSCSdata
- *
- * @return YES if all the field names of data properties are valid; NO otherwise.
- */
-- (BOOL)validateCSDataPropertiesFieldNames:(MSCSData *)data;
 
 @end
 

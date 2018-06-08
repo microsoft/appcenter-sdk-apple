@@ -313,7 +313,7 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
   [self.sut channel:channelUnitMock didPrepareLog:mockLog withInternalId:@"fake-id"];
 }
 
-- (void) testDoesNotFilterLogFromOneCollectorChannel {
+- (void) testDoesNotFilterValidCommonSchemaLogs {
 
   // If
   id<MSChannelUnitProtocol> oneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
@@ -324,16 +324,35 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
                                                                                 batchSizeLimit:1024
                                                                            pendingBatchesLimit:60];
   OCMStub([oneCollectorChannelUnitMock configuration]).andReturn(unitConfig);
-  NSMutableSet *transmissionTargetTokens = [NSMutableSet new];
-  [transmissionTargetTokens addObject:@"fake-transmission-target-token"];
-  id<MSLog> mockLog = OCMProtocolMock(@protocol(MSLog));
-  OCMStub(mockLog.transmissionTargetTokens).andReturn(transmissionTargetTokens);
+  MSCommonSchemaLog *log = [MSCommonSchemaLog new];
+  log.name = @"avalidname";
 
   // When
-  BOOL shouldFilter = [self.sut channelUnit:oneCollectorChannelUnitMock shouldFilterLog:mockLog];
+  BOOL shouldFilter = [self.sut channelUnit:oneCollectorChannelUnitMock shouldFilterLog:log];
 
   // Then
   XCTAssertFalse(shouldFilter);
+}
+
+- (void) testFilterInvalidCommonSchemaLogs {
+  
+  // If
+  id<MSChannelUnitProtocol> oneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  NSString *groupId = @"baseGroupId/one";
+  MSChannelUnitConfiguration *unitConfig = [[MSChannelUnitConfiguration alloc] initWithGroupId:groupId
+                                                                                      priority:MSPriorityDefault
+                                                                                 flushInterval:3.0
+                                                                                batchSizeLimit:1024
+                                                                           pendingBatchesLimit:60];
+  OCMStub([oneCollectorChannelUnitMock configuration]).andReturn(unitConfig);
+  MSCommonSchemaLog *log = [MSCommonSchemaLog new];
+  log.name = nil;
+  
+  // When
+  BOOL shouldFilter = [self.sut channelUnit:oneCollectorChannelUnitMock shouldFilterLog:log];
+  
+  // Then
+  XCTAssertTrue(shouldFilter);
 }
 
 - (void) testDoesNotFilterLogFromNonOneCollectorChannelWhenLogHasNoTargetTokens {
@@ -407,12 +426,53 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
   XCTAssertTrue(shouldFilter);
 }
 
-// A helper method to initialize the test expectation
-- (void)enqueueChannelEndJobExpectation {
-  XCTestExpectation *channelEndJobExpectation = [self expectationWithDescription:@"Channel job should be finished"];
-  dispatch_async(self.logsDispatchQueue, ^{
-    [channelEndJobExpectation fulfill];
-  });
+- (void)testValidateLog {
+  // If
+  MSCommonSchemaLog *log = [MSCommonSchemaLog new];
+  log.name = @"valid.CS.event.name";
+  
+  // Then
+  XCTAssertTrue([self.sut validateLog:log]);
+
+  // If
+  log.name = nil;
+  
+  // Then
+  XCTAssertFalse([self.sut validateLog:log]);
+}
+
+- (void)testValidateLogName {
+  const int maxNameLength = 100;
+  
+  // If
+  NSString *validName = @"valid.CS.event.name";
+  NSString *shortName = @"e";
+  NSString *name100 =
+  [@"" stringByPaddingToLength:maxNameLength withString:@"logName100" startingAtIndex:0];
+  NSString *nilLogName = nil;
+  NSString *emptyName = @"";
+  NSString *tooLongName =
+  [@"" stringByPaddingToLength:(maxNameLength + 1) withString:@"tooLongLogName" startingAtIndex:0];
+  NSString *periodAndUnderscoreName = @"hello.world_mamamia";
+  NSString *leadingPeriodName = @".hello.world";
+  NSString *trailingPeriodName = @"hello.world.";
+  NSString *consecutivePeriodName = @"hello..world";
+  NSString *headingUnderscoreName = @"_hello.world";
+  NSString *specialCharactersOtherThanPeriodAndUnderscore = @"hello%^&world";
+  
+  // Then
+  XCTAssertTrue([self.sut validateLogName:validName]);
+  XCTAssertFalse([self.sut validateLogName:shortName]);
+  XCTAssertTrue([self.sut validateLogName:name100]);
+  XCTAssertFalse([self.sut validateLogName:nilLogName]);
+  XCTAssertFalse([self.sut validateLogName:emptyName]);
+  XCTAssertFalse([self.sut validateLogName:tooLongName]);
+  XCTAssertTrue([self.sut validateLogName:periodAndUnderscoreName]);
+  XCTAssertFalse([self.sut validateLogName:leadingPeriodName]);
+  XCTAssertFalse([self.sut validateLogName:trailingPeriodName]);
+  XCTAssertFalse([self.sut validateLogName:consecutivePeriodName]);
+  XCTAssertFalse([self.sut validateLogName:headingUnderscoreName]);
+  XCTAssertFalse([self.sut validateLogName:specialCharactersOtherThanPeriodAndUnderscore]);
 }
 
 - (void)testPrepareLogWithEpochAndSeq {
@@ -463,4 +523,11 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
   XCTAssertTrue(self.sut.epochsAndSeqsByIKey.count == 0);
 }
 
+// A helper method to initialize the test expectation
+- (void)enqueueChannelEndJobExpectation {
+  XCTestExpectation *channelEndJobExpectation = [self expectationWithDescription:@"Channel job should be finished"];
+  dispatch_async(self.logsDispatchQueue, ^{
+    [channelEndJobExpectation fulfill];
+  });
+}
 @end
