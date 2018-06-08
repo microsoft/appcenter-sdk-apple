@@ -7,6 +7,11 @@
 
 @class MSCSEpochAndSeq;
 
+/**
+ * Regex for Custom Schema log name validation.
+ */
+extern NSString *const kMSLogNameRegex;
+
 @interface MSOneCollectorChannelDelegate ()
 
 /**
@@ -32,6 +37,32 @@
 /**
  * Returns 'YES' if the log should be sent to one collector.
  */
-- (BOOL) shouldSendLogToOneCollector:(id<MSLog>)log;
+- (BOOL)shouldSendLogToOneCollector:(id<MSLog>)log;
 
+/**
+ * Validate Common Schema 3.0 Log.
+ *
+ * @param log The Common Schema log.
+ *
+ * @return YES if Common Schema log is valid; NO otherwise.
+ */
+- (BOOL)validateLog:(MSCommonSchemaLog *)log;
+
+/**
+ * Validate Common Schema log name.
+ *
+ * @param name The log name.
+ *
+ * @return YES if name is valid, NO otherwise.
+ */
+- (BOOL)validateLogName:(NSString *)name;
+
+/**
+ * Validate Common Schema log data (part B & C).
+ *
+ * @param data The log data.
+ *
+ * @return YES if data is valid, NO otherwise.
+ */
+- (BOOL)validateLogData:(MSCSData *)data;
 @end

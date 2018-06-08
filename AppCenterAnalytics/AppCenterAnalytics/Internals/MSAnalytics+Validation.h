@@ -1,6 +1,7 @@
 #import "MSAnalyticsInternal.h"
 
 @class MSLogWithNameAndProperties;
+@class MSCommonSchemaLog;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -11,12 +12,19 @@ extern NSString *MSAnalyticsValidationCategory;
 
 @interface MSAnalytics (Validation)
 
+/**
+ * Validate AppCenter log.
+ *
+ * @param log The AppCenter log.
+ *
+ * @return YES if AppCenter log is valid; NO otherwise.
+ */
 - (BOOL)validateLog:(MSLogWithNameAndProperties *)log;
 
 /**
  * Validate event name
  *
- * @return YES if event name is valid, NO otherwise.
+ * @return YES if event name is valid; NO otherwise.
  */
 - (nullable NSString *)validateEventName:(NSString *)eventName forLogType:(NSString *)logType;
 
@@ -26,8 +34,8 @@ extern NSString *MSAnalyticsValidationCategory;
  * @return dictionary which contains only valid properties.
  */
 - (NSDictionary<NSString *, NSString *> *)validateProperties:(NSDictionary<NSString *, NSString *> *)properties
-                                                  forLogName:(NSString *)logName
-                                                     andType:(NSString *)logType;
+                                                    forLogName:(NSString *)logName
+                                                       andType:(NSString *)logType;
 
 @end
 
