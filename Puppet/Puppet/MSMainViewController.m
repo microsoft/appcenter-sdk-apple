@@ -46,8 +46,7 @@
 
 - (IBAction)enableOneCollectorSwitchUpdated:(UISwitch *)sender {
   UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Restart"
-                                                                 message:@"Please restart the app for the change to
-                                                                         @"take effect."
+                                                                 message:@"Please restart the app for the change to take effect."
                                                           preferredStyle:UIAlertControllerStyleActionSheet];
   UIAlertAction *exitAction = [UIAlertAction
       actionWithTitle:@"Exit"
