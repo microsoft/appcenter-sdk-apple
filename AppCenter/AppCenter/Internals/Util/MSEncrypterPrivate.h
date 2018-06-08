@@ -10,6 +10,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)deleteKeyWithTag:(NSString *)keyTag;
 
++ (NSData *)generateKeyWithTag:(NSString *)keyTag;
+
 @end
 
 NS_ASSUME_NONNULL_END

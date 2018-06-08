@@ -57,4 +57,19 @@
   XCTAssertEqualObjects(decrypted, stringToEncrypt);
 }
 
+- (void)testKeyIsNull {
+
+  // If
+  id encrypterMock = OCMClassMock([MSEncrypter class]);
+  OCMStub([encrypterMock generateKeyWithTag:[OCMArg any]]).andReturn(nil);
+  MSEncrypter *encrypter = [[MSEncrypter alloc] initWitKeyTag:self.keyTag];
+  NSString *stringToEncrypt = @"Test string";
+
+  // When
+  NSString *encrypted = [encrypter encryptString:stringToEncrypt];
+
+  // Then
+  XCTAssertNil(encrypted);
+}
+
 @end
