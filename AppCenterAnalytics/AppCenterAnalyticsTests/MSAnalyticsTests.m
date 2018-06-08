@@ -37,7 +37,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
 @interface MSAnalytics ()
 
-- (void)shouldFilterLog:(id<MSLog>)log;
+- (BOOL)channelUnit:(id<MSChannelUnitProtocol>)channelUnit shouldFilterLog:(id<MSLog>)log;
 
 @end
 
@@ -240,9 +240,9 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   OCMReject([analyticsMock validateLog:analyticsLog]);
 
   // When
-  [[MSAnalytics sharedInstance] shouldFilterLog:eventLog];
-  [[MSAnalytics sharedInstance] shouldFilterLog:pageLog];
-  [[MSAnalytics sharedInstance] shouldFilterLog:analyticsLog];
+  [[MSAnalytics sharedInstance] channelUnit:nil shouldFilterLog:eventLog];
+  [[MSAnalytics sharedInstance] channelUnit:nil shouldFilterLog:pageLog];
+  [[MSAnalytics sharedInstance] channelUnit:nil shouldFilterLog:analyticsLog];
 
   // Then
   OCMVerifyAll(analyticsMock);

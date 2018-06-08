@@ -15,7 +15,7 @@ NSString *MSAnalyticsValidationCategory;
 
 @implementation MSAnalytics (Validation)
 
-- (BOOL)shouldFilterLog:(id<MSLog>)log {
+- (BOOL)channelUnit:(id<MSChannelUnitProtocol>)__unused channelUnit shouldFilterLog:(id<MSLog>)log {
   NSObject *logObject = (NSObject *)log;
   if ([logObject isKindOfClass:[MSEventLog class]]) {
     return ![self validateLog:(MSEventLog *)log];

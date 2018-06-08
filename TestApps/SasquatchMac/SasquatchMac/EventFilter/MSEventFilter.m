@@ -56,7 +56,7 @@ static NSString *const kMSEventTypeName = @"event";
 
 #pragma mark - MSChannelDelegate
 
-- (BOOL)shouldFilterLog:(id<MSLog>)log {
+- (BOOL)channelUnit:(id<MSChannelUnitProtocol>)__unused channelUnit shouldFilterLog:(id<MSLog>)log {
   if (![MSEventFilter isEnabled]) {
     return NO;
   }
