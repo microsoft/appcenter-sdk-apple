@@ -14,6 +14,10 @@
   self.keyTag = @"kMSTestEncryptionKeyTag";
 }
 
+- (void)tearDown {
+  [MSEncrypter deleteKeyWithTag:self.keyTag];
+}
+
 - (void)testEncryption {
 
   // If
