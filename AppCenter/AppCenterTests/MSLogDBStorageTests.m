@@ -1,9 +1,12 @@
 #import "MSAbstractLogInternal.h"
+#import "MSCommonSchemaLog.h"
 #import "MSDBStoragePrivate.h"
+#import "MSKeychainUtil.h"
 #import "MSLogDBStoragePrivate.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility.h"
 #import "MSUtility+Date.h"
+#import "MSUtility+StringFormatting.h"
 
 static NSString *const kMSTestGroupId = @"TestGroupId";
 static short const kMSTestMaxCapacity = 50;
@@ -24,7 +27,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
 }
 
 - (void)tearDown {
-  [self.sut deleteDB];
+  [self.sut deleteDatabase];
   [super tearDown];
 }
 
@@ -345,6 +348,45 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
   assertThatInteger(self.sut.batches.count, equalToInteger(1));
 }
 
+- (void)testCommonSchemaLogTargetTokenIsSavedAndRestored {
+
+  // If
+  NSString *testTargetToken = @"testTargetToken";
+  MSCommonSchemaLog *log = [MSCommonSchemaLog new];
+  [log addTransmissionTargetToken:testTargetToken];
+
+  // When
+  [self.sut saveLog:log withGroupId:kMSTestGroupId];
+
+  // Then
+  [self.sut loadLogsWithGroupId:kMSTestGroupId
+                          limit:1
+                 withCompletion:^(NSArray<MSLog> *_Nonnull logArray, __unused NSString *batchId) {
+                   id<MSLog> restoredLog = logArray[0];
+                   NSString *restoredTargetToken = [[restoredLog transmissionTargetTokens] anyObject];
+                   assertThatInt([[restoredLog transmissionTargetTokens] count], equalToInt(1));
+                   XCTAssertEqualObjects(testTargetToken, restoredTargetToken);
+                 }];
+}
+
+- (void)testOnlyCommonSchemaLogTargetTokenIsSavedAndRestored {
+
+  // If
+  NSString *testTargetToken = @"testTargetToken";
+  MSAbstractLog *log = [MSAbstractLog new];
+  [log addTransmissionTargetToken:testTargetToken];
+
+  // When
+  [self.sut saveLog:log withGroupId:kMSTestGroupId];
+
+  // Then
+  [self.sut loadLogsWithGroupId:kMSTestGroupId
+                          limit:1
+                 withCompletion:^(NSArray<MSLog> *_Nonnull logArray, __unused NSString *batchId) {
+                   assertThatInt([[logArray[0] transmissionTargetTokens] count], equalToInt(0));
+                 }];
+}
+
 - (void)testDeleteLogsByBatchIdWithNoPendingBatches {
 
   // If
@@ -385,7 +427,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
   // Test at the limit.
 
   // If
-  [self.sut deleteDB];
+  [self.sut deleteDatabase];
   [expectedLogs removeAllObjects];
   expectedCapacity = 2;
   self.sut = [[MSLogDBStorage alloc] initWithCapacity:expectedCapacity];
@@ -408,7 +450,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
   // Test just over the limit.
 
   // If
-  [self.sut deleteDB];
+  [self.sut deleteDatabase];
   [expectedLogs removeAllObjects];
   expectedCapacity = 1;
   self.sut = [[MSLogDBStorage alloc] initWithCapacity:expectedCapacity];
@@ -434,7 +476,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
   // Test way over the limit.
 
   // If
-  [self.sut deleteDB];
+  [self.sut deleteDatabase];
   logCount = 10;
   [expectedLogs removeAllObjects];
   expectedCapacity = 1;
@@ -459,7 +501,42 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
   assertThat(expectedLogs, is(loadedLogs));
 }
 
+- (void)testMigration {
+  
+  // If
+  [self.sut deleteDatabase];
+  
+  // Create old version db.
+  // DO NOT CHANGE. THIS IS ALREADY PUBLISHED SCHEMA.
+  MSDBSchema *schema0 = @{
+   kMSLogTableName : @[
+     @{kMSIdColumnName : @[ kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey, kMSSQLiteConstraintAutoincrement ]},
+     @{kMSGroupIdColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]},
+     @{kMSLogColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]}
+   ]
+  };
+  MSDBStorage * storage0 = [[MSDBStorage alloc] initWithSchema:schema0 version:0 filename:kMSDBFileName];
+  [self generateAndSaveLogsWithCount:10 groupId:kMSTestGroupId storage:storage0];
+  
+  // When
+  self.sut = [[MSLogDBStorage alloc] initWithCapacity:kMSTestMaxCapacity];
+  
+  // Then
+  assertThatInt([self loadLogsWhere:nil].count, equalToUnsignedInt(10));
+  NSString *currentTable = [self.sut executeSelectionQuery:
+      [NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'", kMSLogTableName]][0][0];
+  assertThat(currentTable, is(@"CREATE TABLE \"logs\" ("
+                              @"\"id\" INTEGER PRIMARY KEY AUTOINCREMENT, "
+                              @"\"groupId\" TEXT NOT NULL, "
+                              @"\"log\" TEXT NOT NULL, "
+                              @"\"targetToken\" TEXT)"));
+}
+
 - (NSArray<id<MSLog>> *)generateAndSaveLogsWithCount:(NSUInteger)count groupId:(NSString *)groupId {
+  return [self generateAndSaveLogsWithCount:count groupId:groupId storage:self.sut];
+}
+
+- (NSArray<id<MSLog>> *)generateAndSaveLogsWithCount:(NSUInteger)count groupId:(NSString *)groupId storage:(MSDBStorage *)storage {
   NSMutableArray<id<MSLog>> *logs = [NSMutableArray arrayWithCapacity:count];
   NSUInteger truelogCount;
   for (NSUInteger i = 0; i < count; ++i) {
@@ -470,13 +547,13 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
     NSString *addLogQuery =
         [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\") VALUES ('%@', '%@')", kMSLogTableName,
                                    kMSGroupIdColumnName, kMSLogColumnName, groupId, base64Data];
-    [self.sut executeNonSelectionQuery:addLogQuery];
+    [storage executeNonSelectionQuery:addLogQuery];
     [logs addObject:log];
   }
 
   // Check the insertion worked.
   truelogCount =
-      [self.sut countEntriesForTable:kMSLogTableName
+      [storage countEntriesForTable:kMSLogTableName
                            condition:[NSString stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, groupId]];
   assertThatUnsignedInteger(truelogCount, equalToUnsignedInteger(count));
   return logs;

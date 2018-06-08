@@ -31,21 +31,15 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
 @interface MSDBStorage : NSObject
 
 /**
- * Database tables columns indexes, usefull to determine indexes of columns per column name in arrays
- * resulting from a selection query.
- */
-@property(nonatomic, readonly, nullable)
-    NSDictionary<NSString *, NSDictionary<NSString *, NSNumber *> *> *columnIndexes;
-
-/**
  * Initialize this database with a schema and a filename for its creation.
  *
  * @param schema Schema describing the database.
+ * @param version Version of the database.
  * @param filename Database filename in the file system.
  *
  * @return An instance of a database.
  */
-- (instancetype)initWithSchema:(MSDBSchema *)schema filename:(NSString *)filename;
+- (instancetype)initWithSchema:(MSDBSchema *)schema version:(NSUInteger)version filename:(NSString *)filename;
 
 /**
  * Count entries on a given table using the given SQLite "WHERE" clause's condition.
@@ -74,6 +68,15 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
  * @return The selectioned entries.
  */
 - (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query;
+
+/**
+ * Get columns indexes from schema.
+ *
+ * @param schema Schema describing the database.
+ *
+ * @return Database tables columns indexes.
+ */
++ (NSDictionary *)columnsIndexes:(MSDBSchema *)schema;
 
 @end
 

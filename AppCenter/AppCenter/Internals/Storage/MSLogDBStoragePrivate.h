@@ -1,3 +1,4 @@
+#import "MSEncrypter.h"
 #import "MSLogDBStorage.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -8,6 +9,7 @@ static NSString *const kMSLogTableName = @"logs";
 static NSString *const kMSIdColumnName = @"id";
 static NSString *const kMSGroupIdColumnName = @"groupId";
 static NSString *const kMSLogColumnName = @"log";
+static NSString *const kMSTargetTokenColumnName = @"targetToken";
 
 @protocol MSDatabaseConnection;
 
@@ -37,6 +39,16 @@ static NSString *const kMSLogColumnName = @"log";
  * "log" database column index.
  */
 @property(nonatomic, readonly) NSUInteger logColumnIndex;
+
+/**
+ * "targetToken" database column index.
+ */
+@property(nonatomic, readonly) NSUInteger targetTokenColumnIndex;
+
+/*
+ * Encrypter for target tokens.
+ */
+@property(nonatomic, readonly) MSEncrypter *targetTokenEncrypter;
 
 /**
  * Get all logs with the given group Id from the storage.

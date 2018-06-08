@@ -19,7 +19,7 @@ class AppCenterCUITests : XCTestCase {
     }
     let cell = app.cells.element(boundBy: 4);
     let texts = cell.children(matching: .staticText);
-    if( texts.element(boundBy: 1).label == "Disabled") {
+    if (texts.element(boundBy: 1).label == "Disabled") {
       press(button: .down, times: 4);
       XCUIRemote.shared().press(.select);
       press(button: .up, times: 4);
