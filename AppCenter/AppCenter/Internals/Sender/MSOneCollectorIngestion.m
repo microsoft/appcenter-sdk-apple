@@ -10,7 +10,7 @@
 
 NSString *const kMSOneCollectorApiVersion = @"1.0";
 NSString *const kMSOneCollectorApiPath = @"/OneCollector";
-NSString *const kMSOneCollectorContentType = @"application/x-json-stream; charset=utf-8;";
+NSString *const kMSOneCollectorContentType = @"application/x-json-stream; charset=utf-8";
 NSString *const kMSOneCollectorApiKey = @"apikey";
 NSString *const kMSOneCollectorClientVersionKey = @"Client-Version";
 NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
