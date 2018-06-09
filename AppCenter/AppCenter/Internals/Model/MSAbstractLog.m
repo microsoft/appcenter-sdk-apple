@@ -136,6 +136,7 @@
 
 - (MSCommonSchemaLog *)toCommonSchemaLogForTargetToken:(NSString *)token {
   MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
+  csLog.transmissionTargetTokens = [NSSet setWithObject:token];
   csLog.ver = kMSCSVerValue;
   csLog.timestamp = self.timestamp;
 
