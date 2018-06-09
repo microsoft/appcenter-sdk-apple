@@ -4,4 +4,6 @@
 
 @interface MSOneCollectorChannelDelegate : NSObject <MSChannelDelegate>
 
+- (instancetype)initWithInstallId:(NSUUID *)installId;
+
 @end
