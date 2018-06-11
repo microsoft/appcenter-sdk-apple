@@ -29,7 +29,7 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
 
 - (void)setUp {
   [super setUp];
-  self.sut = [MSOneCollectorChannelDelegate new];
+  self.sut = [[MSOneCollectorChannelDelegate alloc] initWithInstallId:[NSUUID new]];
   self.senderMock = OCMProtocolMock(@protocol(MSSender));
   self.storageMock = OCMProtocolMock(@protocol(MSStorage));
   self.logsDispatchQueue = dispatch_get_main_queue();
@@ -521,23 +521,25 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
   XCTAssertFalse([self.sut validateLogData:nilDataPropsWithNonStringValue]);
 }
 
--(void)testLogNameRegex {
-  
+- (void)testLogNameRegex {
+
   // If
   NSError *error = nil;
-  
+
   // When
   NSRegularExpression *regex =
-  [NSRegularExpression regularExpressionWithPattern:kMSLogNameRegex options:0 error:&error];
+      [NSRegularExpression regularExpressionWithPattern:kMSLogNameRegex options:0 error:&error];
 
   // Then
   XCTAssertNotNil(regex);
   XCTAssertNil(error);
 }
 
-- (void)testPrepareLogWithEpochAndSeq {
+- (void)testPrepareLogForSDKExtension {
 
   // If
+  NSUUID *installId = [NSUUID new];
+  self.sut = [[MSOneCollectorChannelDelegate alloc] initWithInstallId:installId];
   id channelMock = OCMProtocolMock(@protocol(MSChannelProtocol));
   MSCommonSchemaLog *csLogMock = OCMPartialMock([MSCommonSchemaLog new]);
   csLogMock.iKey = @"o:81439696f7164d7599d543f9bf37abb7";
@@ -551,6 +553,7 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
   [self.sut channel:channelMock prepareLog:csLogMock];
 
   // Then
+  XCTAssertEqualObjects(installId, csLogMock.ext.sdkExt.installId);
   XCTAssertNotNil(csLogMock.ext.sdkExt.epoch);
   XCTAssertEqual(csLogMock.ext.sdkExt.seq, 1);
   XCTAssertNotNil(self.sut.epochsAndSeqsByIKey);
