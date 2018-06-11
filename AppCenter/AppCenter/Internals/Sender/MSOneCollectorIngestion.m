@@ -1,3 +1,4 @@
+#import "MSAbstractLogInternal.h"
 #import "MSAppCenterInternal.h"
 #import "MSAppCenterErrors.h"
 #import "MSConstants+Internal.h"
@@ -8,11 +9,12 @@
 #import "MSOneCollectorIngestion.h"
 #import "MSUtility+Date.h"
 
-NSString *const kMSOneCollectorApiVersion = @"1.0";
-NSString *const kMSOneCollectorApiPath = @"/OneCollector";
-NSString *const kMSOneCollectorContentType = @"application/x-json-stream; charset=utf-8;";
 NSString *const kMSOneCollectorApiKey = @"apikey";
+NSString *const kMSOneCollectorApiPath = @"/OneCollector";
+NSString *const kMSOneCollectorApiVersion = @"1.0";
 NSString *const kMSOneCollectorClientVersionKey = @"Client-Version";
+NSString *const kMSOneCollectorContentType = @"application/x-json-stream; charset=utf-8";
+NSString *const kMSOneCollectorLogSeparator = @"\n";
 NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
 
 @implementation MSOneCollectorIngestion
@@ -72,7 +74,14 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
   request.allHTTPHeaderFields = headers;
 
   // Set body.
-  NSString *jsonString = [container serializeLog];
+  NSMutableString *jsonString = [NSMutableString new];
+  for(id<MSLog> log in container.logs) {
+    MSAbstractLog *abstractLog = (MSAbstractLog *)log;
+    [jsonString appendString:[abstractLog serializeLogWithPrettyPrinting:NO]];
+    
+    // Separator for one collector logs.
+    [jsonString appendString:kMSOneCollectorLogSeparator];
+  }
   request.HTTPBody = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
 
   // Always disable cookies.

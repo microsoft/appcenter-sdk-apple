@@ -22,13 +22,9 @@
   if (self.timestamp) {
     dict[kMSCSTime] = [MSUtility dateToISO8601:self.timestamp];
   }
-  dict[kMSCSPopSample] = @(self.popSample);
+  // TODO: Not supporting popSample, flags and cV today.
   if (self.iKey) {
     dict[kMSCSIKey] = self.iKey;
-  }
-  dict[kMSCSFlags] = @(self.flags);
-  if (self.cV) {
-    dict[kMSCSCV] = self.cV;
   }
   if (self.ext) {
     dict[kMSCSExt] = [self.ext serializeToDictionary];
