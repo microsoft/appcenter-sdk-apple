@@ -22,10 +22,7 @@
     kMSCSVer : @"3.0",
     kMSCSName : @"1DS",
     kMSCSTime : abstractDummies[kMSTimestamp],
-    kMSCSPopSample : @(100),
     kMSCSIKey : @"60cd0b94-6060-11e8-9c2d-fa7ae01bbebc",
-    kMSCSFlags : @(31415926),
-    kMSCSCV : @"HyCFaiQoBkyEp0L3.1.2",
     kMSCSExt : [self extWithDummyValues],
     kMSCSData : [self dataWithDummyValues]
   } mutableCopy];
@@ -268,10 +265,7 @@
   csLog.ver = dummyValues[kMSCSVer];
   csLog.name = dummyValues[kMSCSName];
   csLog.timestamp = dummyValues[kMSCSTime];
-  csLog.popSample = [dummyValues[kMSCSPopSample] doubleValue];
   csLog.iKey = dummyValues[kMSCSIKey];
-  csLog.flags = [dummyValues[kMSCSFlags] longLongValue];
-  csLog.cV = dummyValues[kMSCSCV];
   csLog.ext = dummyValues[kMSCSExt];
   csLog.data = dummyValues[kMSCSData];
   [MSModelTestsUtililty populateAbstractLogWithDummies:csLog];
