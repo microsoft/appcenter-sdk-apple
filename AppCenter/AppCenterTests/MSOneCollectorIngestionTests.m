@@ -51,6 +51,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 }
 
 - (void)testHeaders {
+  
   // Stub http response
   [MSHttpTestUtil stubHttp200Response];
   NSString *containerId = @"1";
@@ -80,6 +81,27 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   NSNumberFormatter *formatter = [NSNumberFormatter new];
   [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
   XCTAssertNotNil([formatter numberFromString:uploadTimeString]);
+}
+
+- (void)testCreateRequest {
+  
+  // Stub http response
+  NSString *containerId = @"1";
+  MSMockLog *log1 = [[MSMockLog alloc] init];
+  [log1 addTransmissionTargetToken:@"token1"];
+  MSMockLog *log2 = [[MSMockLog alloc] init];
+  [log2 addTransmissionTargetToken:@"token2"];
+  MSLogContainer *logContainer =
+  [[MSLogContainer alloc] initWithBatchId:containerId andLogs:(NSArray<id<MSLog>> *)@[ log1, log2 ]];
+  
+  // When
+  NSURLRequest *request = [self.sut createRequest:logContainer];
+  
+  // Then
+  XCTAssertNotNil(request);
+  NSString *containerString = [NSString stringWithFormat:@"%@%@",[log1 serializeLogWithPrettyPrinting:NO], [log2 serializeLogWithPrettyPrinting:NO]];
+  NSData *httpBodyData = [containerString dataUsingEncoding:NSUTF8StringEncoding];
+  XCTAssertEqualObjects(httpBodyData, request.HTTPBody);
 }
 
 - (void)testSendBatchLogs {
@@ -203,7 +225,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   log2.device = deviceMock;
   [log2 addTransmissionTargetToken:@"token2"];
   [log2 addTransmissionTargetToken:@"token3"];
-
+  
   MSLogContainer *logContainer =
       [[MSLogContainer alloc] initWithBatchId:batchId andLogs:(NSArray<id<MSLog>> *)@[ log1, log2 ]];
   return logContainer;

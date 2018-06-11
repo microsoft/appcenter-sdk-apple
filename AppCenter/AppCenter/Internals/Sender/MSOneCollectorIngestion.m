@@ -1,3 +1,4 @@
+#import "MSAbstractLogInternal.h"
 #import "MSAppCenterInternal.h"
 #import "MSAppCenterErrors.h"
 #import "MSConstants+Internal.h"
@@ -72,7 +73,11 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
   request.allHTTPHeaderFields = headers;
 
   // Set body.
-  NSString *jsonString = [container serializeLog];
+  NSMutableString *jsonString = [NSMutableString new];
+  for(id<MSLog> log in container.logs) {
+    MSAbstractLog *abstractLog = (MSAbstractLog *)log;
+    [jsonString appendString:[abstractLog serializeLogWithPrettyPrinting:NO]];
+  }
   request.HTTPBody = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
 
   // Always disable cookies.
