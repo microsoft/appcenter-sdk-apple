@@ -50,7 +50,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 }
 
 - (void)testHeaders {
-  
+
   // When
   NSString *containerId = @"1";
   MSLogContainer *container = [self createLogContainerWithId:containerId];
@@ -62,8 +62,10 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   XCTAssertTrue(
       [[request.allHTTPHeaderFields objectForKey:kMSHeaderContentTypeKey] isEqualToString:kMSOneCollectorContentType]);
   XCTAssertTrue([keys containsObject:kMSOneCollectorClientVersionKey]);
-  NSString *expectedClientVersion = [NSString stringWithFormat:kMSOneCollectorClientVersionFormat, [MSUtility sdkVersion]];
-  XCTAssertTrue([[request.allHTTPHeaderFields objectForKey:kMSOneCollectorClientVersionKey] isEqualToString:expectedClientVersion]);
+  NSString *expectedClientVersion =
+      [NSString stringWithFormat:kMSOneCollectorClientVersionFormat, [MSUtility sdkVersion]];
+  XCTAssertTrue([[request.allHTTPHeaderFields objectForKey:kMSOneCollectorClientVersionKey]
+      isEqualToString:expectedClientVersion]);
   XCTAssertTrue([keys containsObject:kMSOneCollectorApiKey]);
   NSArray *tokens = [[request.allHTTPHeaderFields objectForKey:kMSOneCollectorApiKey] componentsSeparatedByString:@","];
   XCTAssertTrue([tokens count] == 3);
@@ -78,7 +80,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 }
 
 - (void)testCreateRequest {
-  
+
   // If
   NSString *containerId = @"1";
   MSMockLog *log1 = [[MSMockLog alloc] init];
@@ -86,14 +88,16 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   MSMockLog *log2 = [[MSMockLog alloc] init];
   [log2 addTransmissionTargetToken:@"token2"];
   MSLogContainer *logContainer =
-  [[MSLogContainer alloc] initWithBatchId:containerId andLogs:(NSArray<id<MSLog>> *)@[ log1, log2 ]];
-  
+      [[MSLogContainer alloc] initWithBatchId:containerId andLogs:(NSArray<id<MSLog>> *)@[ log1, log2 ]];
+
   // When
   NSURLRequest *request = [self.sut createRequest:logContainer];
-  
+
   // Then
   XCTAssertNotNil(request);
-  NSString *containerString = [NSString stringWithFormat:@"%@%@%@%@",[log1 serializeLogWithPrettyPrinting:NO], kMSOneCollectorLogSeparator, [log2 serializeLogWithPrettyPrinting:NO], kMSOneCollectorLogSeparator];
+  NSString *containerString =
+      [NSString stringWithFormat:@"%@%@%@%@", [log1 serializeLogWithPrettyPrinting:NO], kMSOneCollectorLogSeparator,
+                                 [log2 serializeLogWithPrettyPrinting:NO], kMSOneCollectorLogSeparator];
   NSData *httpBodyData = [containerString dataUsingEncoding:NSUTF8StringEncoding];
   XCTAssertEqualObjects(httpBodyData, request.HTTPBody);
 }
@@ -101,7 +105,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 - (void)testSendBatchLogs {
 
   // When
-  
+
   // Stub http response
   [MSHttpTestUtil stubHttp200Response];
   NSString *containerId = @"1";
@@ -132,7 +136,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   log.sid = MS_UUID_STRING;
   log.timestamp = [NSDate date];
 
-  // Log does not have device info, therefore, it's an invalid log
+  // Log does not have device info, therefore, it's an invalid log.
   MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:@"1" andLogs:(NSArray<id<MSLog>> *)@[ log ]];
 
   // When
@@ -144,7 +148,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
         XCTAssertEqual(error.domain, kMSACErrorDomain);
         XCTAssertEqual(error.code, kMSACLogInvalidContainerErrorCode);
       }];
-  
+
   // Then
   XCTAssertEqual([self.sut.pendingCalls count], (unsigned long)0);
 }
@@ -164,7 +168,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
         XCTAssertNotNil(error);
         [expectation fulfill];
       }];
-  
+
   // Then
   [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *_Nullable error) {
@@ -208,11 +212,8 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 #pragma mark - Test Helpers
 
 - (MSLogContainer *)createLogContainerWithId:(NSString *)batchId {
-
-  // TODO: Build event logs with target tokens.
   id deviceMock = OCMPartialMock([MSDevice new]);
   OCMStub([deviceMock isValid]).andReturn(YES);
-
   MSMockLog *log1 = [[MSMockLog alloc] init];
   log1.sid = MS_UUID_STRING;
   log1.timestamp = [NSDate date];
@@ -225,7 +226,6 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   log2.device = deviceMock;
   [log2 addTransmissionTargetToken:@"token2"];
   [log2 addTransmissionTargetToken:@"token3"];
-  
   MSLogContainer *logContainer =
       [[MSLogContainer alloc] initWithBatchId:batchId andLogs:(NSArray<id<MSLog>> *)@[ log1, log2 ]];
   return logContainer;
