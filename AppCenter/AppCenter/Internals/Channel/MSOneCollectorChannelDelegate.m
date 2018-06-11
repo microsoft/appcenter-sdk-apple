@@ -61,13 +61,14 @@ NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){
   if ([log isKindOfClass:[MSCommonSchemaLog class]]) {
     MSCommonSchemaLog *csLog = (MSCommonSchemaLog *)log;
 
-    // Set epoch and seq to SDK.
+    // Set SDK extension values.
     MSCSEpochAndSeq *epochAndSeq = self.epochsAndSeqsByIKey[csLog.iKey];
     if (!epochAndSeq) {
       epochAndSeq = [[MSCSEpochAndSeq alloc] initWithEpoch:MS_UUID_STRING];
     }
     csLog.ext.sdkExt.epoch = epochAndSeq.epoch;
     csLog.ext.sdkExt.seq = ++epochAndSeq.seq;
+    csLog.ext.sdkExt.installId = self.installId;
     self.epochsAndSeqsByIKey[csLog.iKey] = epochAndSeq;
 
     // Set install ID to SDK.
@@ -151,8 +152,7 @@ NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){
   }
 
   // The Common Schema event name must conform to a regex.
-  NSRegularExpression *regex =
-  [NSRegularExpression regularExpressionWithPattern:kMSLogNameRegex options:0 error:nil];
+  NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:kMSLogNameRegex options:0 error:nil];
   NSRange range = NSMakeRange(0, name.length);
   NSUInteger count = [regex numberOfMatchesInString:name options:0 range:range];
   if (!count) {
