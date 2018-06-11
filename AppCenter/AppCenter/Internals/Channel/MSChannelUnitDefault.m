@@ -29,7 +29,7 @@
 }
 
 - (instancetype)initWithSender:(nullable id<MSSender>)sender
-                       storage:(nullable id<MSStorage>)storage
+                       storage:(id<MSStorage>)storage
                  configuration:(MSChannelUnitConfiguration *)configuration
              logsDispatchQueue:(dispatch_queue_t)logsDispatchQueue {
   if ((self = [self init])) {
@@ -37,7 +37,7 @@
     _storage = storage;
     _configuration = configuration;
     _logsDispatchQueue = logsDispatchQueue;
-    
+
     // Register as sender delegate.
     [_sender addDelegate:self];
 
@@ -81,7 +81,7 @@
 
 - (void)senderDidReceiveFatalError:(id<MSSender>)sender {
   (void)sender;
-  
+
   // Disable and delete data on fatal errors.
   [self setEnabled:NO andDeleteDataOnDisabled:YES];
 }
@@ -104,7 +104,7 @@
     MSLogWarning([MSAppCenter logTag], @"Log is not valid.");
     return;
   }
-  
+
   // Additional preparations for the log. Used to specify the session id and distribution group id.
   [self enumerateDelegatesForSelector:@selector(channel:prepareLog:)
                             withBlock:^(id<MSChannelDelegate> delegate) {
@@ -119,23 +119,26 @@
                             withBlock:^(id<MSChannelDelegate> delegate) {
                               [delegate channel:self didPrepareLog:item withInternalId:internalLogId];
                             }];
-  
+
   // Return fast in case our item is empty or we are discarding logs right now.
   dispatch_async(self.logsDispatchQueue, ^{
 
     // Check if the log should be filtered out. If so, don't enqueue it.
     __block BOOL shouldFilter = NO;
-    [self enumerateDelegatesForSelector:@selector(shouldFilterLog:)
+    [self enumerateDelegatesForSelector:@selector(channelUnit:shouldFilterLog:)
                               withBlock:^(id<MSChannelDelegate> delegate) {
-                                shouldFilter = shouldFilter || [delegate shouldFilterLog:item];
+                                shouldFilter = shouldFilter || [delegate channelUnit:self shouldFilterLog:item];
                               }];
 
-    // If sender or storage is nil, there is nothing to do at this point.
-    if (shouldFilter || !self.sender || !self.storage) {
-      [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:withInternalId:)
-                                withBlock:^(id<MSChannelDelegate> delegate) {
-                                  [delegate channel:self didCompleteEnqueueingLog:item withInternalId:internalLogId];
-                                }];
+    // If sender is nil, there is nothing to do at this point.
+    if (shouldFilter) {
+      MSLogDebug([MSAppCenter logTag], @"Log of type '%@' was filtered out by delegate(s)", item.type);
+      return;
+    }
+    if (!self.sender) {
+      MSLogDebug([MSAppCenter logTag], @"Log of type '%@' was not filtered out by delegate(s) but no app secret was "
+                                       @"provided. Not persisting/sending the log.",
+                 item.type);
       return;
     }
     if (self.discardLogs) {
@@ -159,7 +162,7 @@
                               withBlock:^(id<MSChannelDelegate> delegate) {
                                 [delegate channel:self didCompleteEnqueueingLog:item withInternalId:internalLogId];
                               }];
-    
+
     // Flush now if current batch is full or delay to later.
     if (self.itemsCount >= self.configuration.batchSizeLimit) {
       [self flushQueue];
@@ -175,8 +178,8 @@
 
 - (void)flushQueue {
 
-  // Nothing to flush if there is no sender or storage.
-  if (!self.sender || !self.storage) {
+  // Nothing to flush if there is no sender.
+  if (!self.sender) {
     return;
   }
 
@@ -383,6 +386,12 @@
       // Allow logs to be persisted.
       self.discardLogs = NO;
     }
+
+    // Notify delegates.
+    [self enumerateDelegatesForSelector:@selector(channel:didSetEnabled:andDeleteDataOnDisabled:)
+                              withBlock:^(id<MSChannelDelegate> delegate) {
+                                [delegate channel:self didSetEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
+                              }];
   });
 }
 

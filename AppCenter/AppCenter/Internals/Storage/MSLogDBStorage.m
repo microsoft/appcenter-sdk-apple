@@ -1,27 +1,41 @@
 #import "MSAppCenterInternal.h"
+#import "MSCommonSchemaLog.h"
+#import "MSDBStoragePrivate.h"
+#import "MSKeychainUtil.h"
 #import "MSLogDBStoragePrivate.h"
 #import "MSLogger.h"
 #import "MSUtility.h"
+#import "MSUtility+StringFormatting.h"
+
+static const NSUInteger kMSSchemaVersion = 1;
 
 @implementation MSLogDBStorage
 
 #pragma mark - Initialization
 
 - (instancetype)init {
+
+  /*
+   * DO NOT modify schema without a migration plan and bumping database version.
+   */
   MSDBSchema *schema = @{
     kMSLogTableName : @[
       @{kMSIdColumnName : @[ kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey, kMSSQLiteConstraintAutoincrement ]},
       @{kMSGroupIdColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]},
-      @{kMSLogColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]}
+      @{kMSLogColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]},
+      @{kMSTargetTokenColumnName : @[ kMSSQLiteTypeText ]}
     ]
   };
-  self = [super initWithSchema:schema filename:kMSDBFileName];
+  self = [super initWithSchema:schema version:kMSSchemaVersion filename:kMSDBFileName];
   if (self) {
-    _idColumnIndex = self.columnIndexes[kMSLogTableName][kMSIdColumnName].unsignedIntegerValue;
-    _groupIdColumnIndex = self.columnIndexes[kMSLogTableName][kMSGroupIdColumnName].unsignedIntegerValue;
-    _logColumnIndex = self.columnIndexes[kMSLogTableName][kMSLogColumnName].unsignedIntegerValue;
+    NSDictionary *columnIndexes = [MSDBStorage columnsIndexes:schema];
+    _idColumnIndex = ((NSNumber *)columnIndexes[kMSLogTableName][kMSIdColumnName]).unsignedIntegerValue;
+    _groupIdColumnIndex = ((NSNumber *)columnIndexes[kMSLogTableName][kMSGroupIdColumnName]).unsignedIntegerValue;
+    _logColumnIndex = ((NSNumber *)columnIndexes[kMSLogTableName][kMSLogColumnName]).unsignedIntegerValue;
+    _targetTokenColumnIndex = ((NSNumber *)columnIndexes[kMSLogTableName][kMSTargetTokenColumnName]).unsignedIntegerValue;
     _capacity = NSUIntegerMax;
     _batches = [NSMutableDictionary<NSString *, NSArray<NSNumber *> *> new];
+    _targetTokenEncrypter = [[MSEncrypter alloc] initWithDefaultKey];
   }
   return self;
 }
@@ -46,6 +60,14 @@
   NSString *addLogQuery =
       [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\") VALUES ('%@', '%@')", kMSLogTableName,
                                  kMSGroupIdColumnName, kMSLogColumnName, groupId, base64Data];
+
+  // Serialize target token.
+  if ([(NSObject *)log isKindOfClass:[MSCommonSchemaLog class]]) {
+    NSString *targetToken = [[log transmissionTargetTokens] anyObject];
+    NSString *encryptedToken = [self.targetTokenEncrypter encryptString:targetToken];
+    addLogQuery = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") VALUES ('%@', '%@', '%@')", kMSLogTableName,
+                   kMSGroupIdColumnName, kMSLogColumnName, kMSTargetTokenColumnName, groupId, base64Data, encryptedToken];
+  }
   BOOL succeeded = [self executeNonSelectionQuery:addLogQuery];
   NSUInteger logCount = [self countLogs];
 
@@ -204,6 +226,13 @@
       continue;
     }
 
+    // Deserialize target token.
+    NSString *encryptedToken = row[self.targetTokenColumnIndex];
+    if (![encryptedToken isKindOfClass:[NSNull class]]) {
+      NSString *targetToken = [self.targetTokenEncrypter decryptString:encryptedToken];
+      [log addTransmissionTargetToken:targetToken];
+    }
+    
     // Update with deserialized log.
     row[self.logColumnIndex] = log;
     [logEntries addObject:row];
@@ -228,9 +257,10 @@
   // Build up delete query.
   char surroundingChar = ([[columnValues firstObject] isKindOfClass:[NSString class]]) ? '\'' : '\0';
   NSString *valuesSeparation = [NSString stringWithFormat:@"%c, %c", surroundingChar, surroundingChar];
+  NSString *whereCondition = [NSString stringWithFormat:@"\"%@\" IN (%c%@%c)", columnName, surroundingChar,
+                              [columnValues componentsJoinedByString:valuesSeparation], surroundingChar];
   NSString *deleteLogsQuery = [NSString
-      stringWithFormat:@"DELETE FROM \"%@\" WHERE \"%@\" IN (%c%@%c)", kMSLogTableName, columnName, surroundingChar,
-                       [columnValues componentsJoinedByString:valuesSeparation], surroundingChar];
+      stringWithFormat:@"DELETE FROM \"%@\" WHERE %@", kMSLogTableName, whereCondition];
 
   // Execute.
   if ([self executeNonSelectionQuery:deleteLogsQuery]) {
@@ -250,6 +280,21 @@
 
 - (NSUInteger)countLogs {
   return [self countEntriesForTable:kMSLogTableName condition:nil];
+}
+
+#pragma mark - DB migration
+
+/*
+ * Migration process is implemented through database versioning.
+ * After altering current schema, database version should be bumped and
+ * actions for migration should be implemented in this method.
+ */
+- (void)migrateDatabase:(void *)db fromVersion:(NSUInteger)version {
+  if (version < 1) {
+    NSString *migrationQuery = [NSString stringWithFormat:@"ALTER TABLE \"%@\" ADD COLUMN \"%@\" TEXT",
+                                kMSLogTableName, kMSTargetTokenColumnName];
+    [MSDBStorage executeNonSelectionQuery:migrationQuery inOpenedDatabase:db];
+  }
 }
 
 @end

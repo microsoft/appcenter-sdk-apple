@@ -11,6 +11,7 @@
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
 #import "MSLoggerInternal.h"
+#import "MSOneCollectorChannelDelegate.h"
 #import "MSSessionContext.h"
 #import "MSStartServiceLog.h"
 #import "MSUtility.h"
@@ -30,7 +31,7 @@ static dispatch_once_t onceToken;
 /**
  * Base URL for HTTP Ingestion backend API calls.
  */
-static NSString *const kMSDefaultBaseUrl = @"https://in.appcenter.ms";
+static NSString *const kMSAppCenterBaseUrl = @"https://in.appcenter.ms";
 
 /**
  * Service name for initialization.
@@ -181,7 +182,7 @@ static NSString *const kMSGroupId = @"AppCenter";
 - (instancetype)init {
   if ((self = [super init])) {
     _services = [NSMutableArray new];
-    _logUrl = kMSDefaultBaseUrl;
+    _logUrl = kMSAppCenterBaseUrl;
     _enabledStateUpdating = NO;
   }
   return self;
@@ -420,9 +421,11 @@ static NSString *const kMSGroupId = @"AppCenter";
         [[MSChannelGroupDefault alloc] initWithAppSecret:self.appSecret installId:self.installId logUrl:self.logUrl];
   } else {
 
-    // If there is no app secret, create a channel group without sender or storage.
-    self.channelGroup = [[MSChannelGroupDefault alloc] initWithSender:nil storage:nil];
+    // If there is no app secret, create a channel group without sender.
+    self.channelGroup = [[MSChannelGroupDefault alloc] initWithSender:nil];
   }
+  self.oneCollectorChannelDelegate = [[MSOneCollectorChannelDelegate alloc] initWithInstallId:self.installId];
+  [self.channelGroup addDelegate:self.oneCollectorChannelDelegate];
 
   // Initialize a channel unit for start service logs.
   self.channelUnit = [self.channelGroup

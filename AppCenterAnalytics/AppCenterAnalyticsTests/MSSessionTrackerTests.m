@@ -178,7 +178,6 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
   [self.sut renewSessionId];
   NSString *sid = [self.sut.context sessionId];
 
-
   // Then
   XCTAssertNil(sid);
 }
@@ -256,7 +255,7 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
   OCMVerify([delegateMock sessionTracker:sut processLog:[OCMArg isKindOfClass:[MSStartSessionLog class]]]);
 }
 
-- (void)testOnEnqueuingLog {
+- (void)testDidEnqueueLog {
 
   // When
   MSLogWithProperties *log = [MSLogWithProperties new];

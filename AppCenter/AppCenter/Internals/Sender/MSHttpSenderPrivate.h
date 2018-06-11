@@ -9,6 +9,13 @@
 @property(nonatomic) NSURLSession *session;
 
 /**
+ * The maximum number of connections for the session. The one collector endpoint only
+ * allows for two connections while the app center endpoint doesn't impose a limit, using the iOS default value of 4
+ * connections for this.
+ */
+@property(nonatomic, readonly) NSInteger maxNumberOfConnections;
+
+/**
  * Retry intervals used by calls in case of recoverable errors.
  */
 @property(nonatomic) NSArray *callsRetryIntervals;
@@ -40,6 +47,25 @@
          queryStrings:(NSDictionary *)queryStrings
          reachability:(MS_Reachability *)reachability
        retryIntervals:(NSArray *)retryIntervals;
+
+/**
+ * Initialize the Sender.
+ *
+ * @param baseUrl Base url.
+ * @param apiPath Base API path.
+ * @param headers Http headers.
+ * @param queryStrings An array of query strings.
+ * @param reachability Network reachability helper.
+ * @param retryIntervals An array for retry intervals in second.
+ * @param maxNumberOfConnections The maximum number of connections per host.
+ */
+- (id)initWithBaseUrl:(NSString *)baseUrl
+                   apiPath:(NSString *)apiPath
+                   headers:(NSDictionary *)headers
+              queryStrings:(NSDictionary *)queryStrings
+              reachability:(MS_Reachability *)reachability
+            retryIntervals:(NSArray *)retryIntervals
+    maxNumberOfConnections:(NSInteger)maxNumberOfConnections;
 
 /**
  * Create a request based on data. Must override this method in sub classes.

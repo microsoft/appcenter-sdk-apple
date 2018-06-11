@@ -1,9 +1,12 @@
 #import "MSAppCenter.h"
 #import "MSChannelUnitProtocol.h"
+#import "MSOneCollectorChannelDelegate.h"
 
 @interface MSAppCenter ()
 
 @property(nonatomic) id<MSChannelUnitProtocol> channelUnit;
+
+@property(nonatomic) MSOneCollectorChannelDelegate *oneCollectorChannelDelegate;
 
 /**
  * Method to reset the singleton when running unit tests only. So calling sharedInstance returns a fresh instance.

@@ -35,11 +35,10 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param sender An HTTP sender instance that is used to send batches of log items to
  * the backend.
- * @param storage A storage instance to store and read enqueued log items.
  *
  * @return A new `MSChannelGroupDefault` instance.
  */
-- (instancetype)initWithSender:(nullable MSHttpSender *)sender storage:(nullable id<MSStorage>)storage;
+- (instancetype)initWithSender:(nullable MSHttpSender *)sender;
 
 /**
  * Collection of channel delegates.
@@ -54,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * A storage instance to store and read enqueued log items.
  */
-@property(nonatomic, strong, nullable) id<MSStorage> storage;
+@property(nonatomic, strong) id<MSStorage> storage;
 
 /**
  * A queue which makes adding new items thread safe.
