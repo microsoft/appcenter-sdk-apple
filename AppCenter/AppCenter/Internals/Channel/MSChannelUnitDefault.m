@@ -11,6 +11,7 @@
 @implementation MSChannelUnitDefault
 
 @synthesize configuration = _configuration;
+@synthesize logsDispatchQueue = _logsDispatchQueue;
 
 #pragma mark - Initialization
 

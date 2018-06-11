@@ -32,11 +32,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)flushQueue;
 
 /**
- * Queue used to process logs.
- */
-@property(nonatomic) dispatch_queue_t logsDispatchQueue;
-
-/**
  * Hash table of channel delegate.
  */
 @property(nonatomic) NSHashTable<id<MSChannelDelegate>> *delegates;

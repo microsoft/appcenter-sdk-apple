@@ -20,6 +20,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) MSChannelUnitConfiguration *configuration;
 
 /**
+ * Queue used to process logs.
+ */
+@property(nonatomic) dispatch_queue_t logsDispatchQueue;
+
+/**
  * Enqueues a new log item.
  *
  * @param item The log item that should be enqueued.
