@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @return A new `MSChannelUnitDefault` instance.
  */
 - (instancetype)initWithSender:(nullable id<MSSender>)sender
-                       storage:(nullable id<MSStorage>)storage
+                       storage:(id<MSStorage>)storage
                  configuration:(MSChannelUnitConfiguration *)configuration
              logsDispatchQueue:(dispatch_queue_t)logsDispatchQueue;
 
@@ -30,11 +30,6 @@ NS_ASSUME_NONNULL_BEGIN
  * Flush pending logs.
  */
 - (void)flushQueue;
-
-/**
- * Queue used to process logs.
- */
-@property(nonatomic) dispatch_queue_t logsDispatchQueue;
 
 /**
  * Hash table of channel delegate.
@@ -49,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * A storage instance to store and read enqueued log items.
  */
-@property(nonatomic, nullable) id<MSStorage> storage;
+@property(nonatomic) id<MSStorage> storage;
 
 /**
  * A timer source which is used to flush the queue after a certain amount of

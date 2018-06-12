@@ -4,7 +4,7 @@
 
 @interface MSDistributeInfoTrackerTests : XCTestCase
 
-@property (nonatomic) MSDistributeInfoTracker *sut;
+@property(nonatomic) MSDistributeInfoTracker *sut;
 
 @end
 

@@ -3,6 +3,7 @@
 #import "MSAnalyticsInternal.h"
 #import "MSAnalyticsPrivate.h"
 #import "MSAnalyticsTransmissionTargetInternal.h"
+#import "MSAnalytics+Validation.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
@@ -21,11 +22,16 @@ static NSString *const kMSGroupId = @"Analytics";
 static MSAnalytics *sharedInstance = nil;
 static dispatch_once_t onceToken;
 
-// Events values limitations
-static const int minEventNameLength = 1;
-static const int maxEventNameLength = 256;
-
 @implementation MSAnalytics
+
+/**
+ * @discussion
+ * Workaround for exporting symbols from category object files.
+ * See article https://medium.com/ios-os-x-development/categories-in-static-libraries-78e41f8ddb96#.aedfl1kl0
+ */
+__attribute__((used)) static void importCategories() {
+  [NSString stringWithFormat:@"%@", MSAnalyticsValidationCategory];
+}
 
 @synthesize autoPageTrackingEnabled = _autoPageTrackingEnabled;
 @synthesize channelUnitConfiguration = _channelUnitConfiguration;
@@ -187,33 +193,12 @@ static const int maxEventNameLength = 256;
 
 #pragma mark - Private methods
 
-- (nullable NSString *)validateEventName:(NSString *)eventName forLogType:(NSString *)logType {
-  if (!eventName || [eventName length] < minEventNameLength) {
-    MSLogError([MSAnalytics logTag], @"%@ name cannot be null or empty", logType);
-    return nil;
-  }
-  if ([eventName length] > maxEventNameLength) {
-    MSLogWarning([MSAnalytics logTag],
-                 @"%@ '%@' : name length cannot be longer than %d characters. Name will be truncated.", logType,
-                 eventName, maxEventNameLength);
-    eventName = [eventName substringToIndex:maxEventNameLength];
-  }
-  return eventName;
-}
-
-- (NSDictionary<NSString *, NSString *> *)validateProperties:(NSDictionary<NSString *, NSString *> *)properties
-                                                  forLogName:(NSString *)logName
-                                                     andType:(NSString *)logType {
-
-  // Keeping this method body in MSAnalytics to use it in unit tests.
-  return [MSUtility validateProperties:properties forLogName:logName type:logType];
-}
-
 - (void)trackEvent:(NSString *)eventName
            withProperties:(NSDictionary<NSString *, NSString *> *)properties
     forTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget {
-  if (![self isEnabled])
+  if (![self isEnabled]) {
     return;
+  }
 
   // Use default transmission target if no transmission target was provided.
   if (transmissionTarget == nil) {
@@ -223,19 +208,11 @@ static const int maxEventNameLength = 256;
   // Create an event log.
   MSEventLog *log = [MSEventLog new];
 
-  // Validate event name.
-  NSString *validName = [self validateEventName:eventName forLogType:log.type];
-  if (!validName) {
-    return;
-  }
-
   // Set properties of the event log.
-  log.name = validName;
+  log.name = eventName;
   log.eventId = MS_UUID_STRING;
   if (properties && properties.count > 0) {
-
-    // Send only valid properties.
-    log.properties = [self validateProperties:properties forLogName:log.name andType:log.type];
+    log.properties = [properties copy];
   }
 
   // Add transmission targets.
@@ -248,24 +225,17 @@ static const int maxEventNameLength = 256;
 }
 
 - (void)trackPage:(NSString *)pageName withProperties:(NSDictionary<NSString *, NSString *> *)properties {
-  if (![self isEnabled])
+  if (![self isEnabled]) {
     return;
+  }
 
   // Create an event log.
   MSPageLog *log = [MSPageLog new];
 
-  // Validate event name.
-  NSString *validName = [self validateEventName:pageName forLogType:log.type];
-  if (!validName) {
-    return;
-  }
-
   // Set properties of the event log.
-  log.name = validName;
+  log.name = pageName;
   if (properties && properties.count > 0) {
-
-    // Send only valid properties.
-    log.properties = [self validateProperties:properties forLogName:log.name andType:log.type];
+    log.properties = [properties copy];
   }
 
   // Send log to log manager.

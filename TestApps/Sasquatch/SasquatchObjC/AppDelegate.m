@@ -23,15 +23,27 @@
   [MSPush setDelegate:self];
   [MSAppCenter setLogLevel:MSLogLevelVerbose];
 
-// Start App Center SDK.
+  // Start App Center SDK.
+  BOOL useOneCollector = [[NSUserDefaults standardUserDefaults] boolForKey:@"isOneCollectorEnabled"];
+  if (useOneCollector) {
 #if DEBUG
-  [MSAppCenter start:@"3ccfe7f5-ec01-4de5-883c-f563bbbe147a"
-        withServices:@[ [MSAnalytics class], [MSCrashes class], [MSPush class] ]];
+    [MSAppCenter start:@"target=5a06bf4972a44a059d59c757e6d0b595-cb71af5d-2d79-4fb4-b969-01840f1543e9-6845;appsecret="
+                       @"3ccfe7f5-ec01-4de5-883c-f563bbbe147a"
+          withServices:@[ [MSAnalytics class], [MSCrashes class], [MSPush class] ]];
 #else
-  [MSAppCenter start:@"3ccfe7f5-ec01-4de5-883c-f563bbbe147a"
-        withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class] ]];
+    [MSAppCenter start:@"target=5a06bf4972a44a059d59c757e6d0b595-cb71af5d-2d79-4fb4-b969-01840f1543e9-6845;appsecret="
+                       @"3ccfe7f5-ec01-4de5-883c-f563bbbe147a"
+          withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class] ]];
 #endif
-
+  } else {
+#if DEBUG
+    [MSAppCenter start:@"3ccfe7f5-ec01-4de5-883c-f563bbbe147a"
+          withServices:@[ [MSAnalytics class], [MSCrashes class], [MSPush class] ]];
+#else
+    [MSAppCenter start:@"3ccfe7f5-ec01-4de5-883c-f563bbbe147a"
+          withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class] ]];
+#endif
+  }
   [self crashes];
   [self setAppCenterDelegate];
   return YES;
@@ -79,7 +91,8 @@
                                     message:@"Do you want to send an anonymous crash report so we can fix the issue?"
                              preferredStyle:UIAlertControllerStyleAlert];
 
-               // Add a "Don't send"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationDontSend
+               // Add a "Don't send"-Button and call the notifyWithUserConfirmation-callback with
+               // MSUserConfirmationDontSend
                [alertController
                    addAction:[UIAlertAction actionWithTitle:@"Don't send"
                                                       style:UIAlertActionStyleCancel
@@ -95,7 +108,8 @@
                                                       [MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
                                                     }]];
 
-               // Add a "Always send"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationAlways
+               // Add a "Always send"-Button and call the notifyWithUserConfirmation-callback with
+               // MSUserConfirmationAlways
                [alertController
                    addAction:[UIAlertAction actionWithTitle:@"Always send"
                                                       style:UIAlertActionStyleDefault
@@ -137,19 +151,18 @@
 - (NSArray<MSErrorAttachmentLog *> *)attachmentsWithCrashes:(MSCrashes *)crashes
                                              forErrorReport:(MSErrorReport *)errorReport {
   NSMutableArray *attachments = [[NSMutableArray alloc] init];
-  
+
   // Text attachment.
   NSString *text = [[NSUserDefaults standardUserDefaults] objectForKey:@"textAttachment"];
   if (text != nil && text.length > 0) {
-    MSErrorAttachmentLog *textAttachment = [MSErrorAttachmentLog attachmentWithText:text
-                                                                           filename:@"user.log"];
+    MSErrorAttachmentLog *textAttachment = [MSErrorAttachmentLog attachmentWithText:text filename:@"user.log"];
     [attachments addObject:textAttachment];
   }
-  
+
   // Binary attachment.
   NSURL *referenceUrl = [[NSUserDefaults standardUserDefaults] URLForKey:@"fileAttachment"];
   if (referenceUrl) {
-    PHAsset *asset = [[PHAsset fetchAssetsWithALAssetURLs:@[referenceUrl] options:nil] lastObject];
+    PHAsset *asset = [[PHAsset fetchAssetsWithALAssetURLs:@[ referenceUrl ] options:nil] lastObject];
     if (asset) {
       PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
       options.synchronous = YES;
@@ -158,8 +171,10 @@
                            options:options
                      resultHandler:^(NSData *_Nullable imageData, NSString *_Nullable dataUTI,
                                      __unused UIImageOrientation orientation, __unused NSDictionary *_Nullable info) {
-                       CFStringRef UTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef)[dataUTI pathExtension], nil);
-                       NSString *MIMEType = (__bridge_transfer NSString *)UTTypeCopyPreferredTagWithClass(UTI, kUTTagClassMIMEType);
+                       CFStringRef UTI = UTTypeCreatePreferredIdentifierForTag(
+                           kUTTagClassFilenameExtension, (__bridge CFStringRef)[dataUTI pathExtension], nil);
+                       NSString *MIMEType =
+                           (__bridge_transfer NSString *)UTTypeCopyPreferredTagWithClass(UTI, kUTTagClassMIMEType);
                        CFRelease(UTI);
                        MSErrorAttachmentLog *binaryAttachment =
                            [MSErrorAttachmentLog attachmentWithBinary:imageData filename:dataUTI contentType:MIMEType];
