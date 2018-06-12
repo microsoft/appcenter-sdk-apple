@@ -422,11 +422,11 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
   // FIXME: Rejecting MSCommonSchemaLog in the buffer for now.
   /*
-   * Don't buffer logs that are MSCommonSchemaLogs or contain one or more transmissiontargetTokens for now. The reason
+   * Don't buffer logs that contain one or more transmissiontargetTokens for now. The reason
    * is that the crash buffer currently cannot handle MSCommonSchemaLogs. It needs significant work, e.g. for
    * encrypting/decrypting the target tokens. Putting this in a separate paragraph for visibility.
    */
-  if ([logObject isKindOfClass:[MSCommonSchemaLog class]] || log.transmissionTargetTokens) {
+  if (log.transmissionTargetTokens) {
     return;
   }
 
