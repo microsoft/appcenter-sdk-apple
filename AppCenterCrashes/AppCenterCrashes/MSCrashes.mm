@@ -3,6 +3,7 @@
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
+#import "MSConstants+Internal.h"
 #import "MSCrashesCXXExceptionWrapperException.h"
 #import "MSCrashesDelegate.h"
 #import "MSCrashesInternal.h"
@@ -18,7 +19,6 @@
 #import "MSUtility+File.h"
 #import "MSWrapperExceptionManagerInternal.h"
 #import "MSWrapperCrashesHelper.h"
-#import "MSConstants+Internal.h"
 
 /**
  * Service name for initialization.
@@ -417,6 +417,16 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   NSObject *logObject = static_cast<NSObject *>(log);
   if (!log || ![self isEnabled] || [logObject isKindOfClass:[MSAppleErrorLog class]] ||
       [logObject isKindOfClass:[MSErrorAttachmentLog class]]) {
+    return;
+  }
+
+  // FIXME: Rejecting MSCommonSchemaLog in the buffer for now.
+  /*
+   * Don't buffer logs that contain one or more transmissiontargetTokens for now. The reason
+   * is that the crash buffer currently cannot handle MSCommonSchemaLogs. It needs significant work, e.g. for
+   * encrypting/decrypting the target tokens. Putting this in a separate paragraph for visibility.
+   */
+  if (log.transmissionTargetTokens) {
     return;
   }
 

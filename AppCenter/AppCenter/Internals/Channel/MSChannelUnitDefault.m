@@ -11,6 +11,7 @@
 @implementation MSChannelUnitDefault
 
 @synthesize configuration = _configuration;
+@synthesize logsDispatchQueue = _logsDispatchQueue;
 
 #pragma mark - Initialization
 
@@ -133,12 +134,20 @@
     // If sender is nil, there is nothing to do at this point.
     if (shouldFilter) {
       MSLogDebug([MSAppCenter logTag], @"Log of type '%@' was filtered out by delegate(s)", item.type);
+      [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:withInternalId:)
+                                withBlock:^(id<MSChannelDelegate> delegate) {
+                                  [delegate channel:self didCompleteEnqueueingLog:item withInternalId:internalLogId];
+                                }];
       return;
     }
     if (!self.sender) {
       MSLogDebug([MSAppCenter logTag], @"Log of type '%@' was not filtered out by delegate(s) but no app secret was "
                                        @"provided. Not persisting/sending the log.",
                  item.type);
+      [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:withInternalId:)
+                                withBlock:^(id<MSChannelDelegate> delegate) {
+                                  [delegate channel:self didCompleteEnqueueingLog:item withInternalId:internalLogId];
+                                }];
       return;
     }
     if (self.discardLogs) {
