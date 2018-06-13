@@ -683,6 +683,42 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   assertThat(self.sut.sendURL, is(expected));
 }
 
+- (void)testCompressHTTPBodyWhenNeeded {
+
+  // If
+
+  // HTTP body is too small, we don't compress.
+  id deviceMock = OCMPartialMock([MSDevice new]);
+  OCMStub([deviceMock isValid]).andReturn(YES);
+  MSMockLog *log1 = [[MSMockLog alloc] init];
+  log1.sid = @"";
+  log1.timestamp = [NSDate date];
+  MSLogContainer *logContainer =
+      [[MSLogContainer alloc] initWithBatchId:@"whatever" andLogs:(NSArray<id<MSLog>> *)@[ log1 ]];
+  NSString *jsonString = [logContainer serializeLog];
+  NSData *httpBody = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+
+  // When
+  NSURLRequest *request = [self.sut createRequest:logContainer];
+
+  // Then
+  XCTAssertEqualObjects(request.HTTPBody, httpBody);
+
+  // If
+
+  // HTTP body is big enough to be compressed.
+  log1.sid = [log1.sid stringByPaddingToLength:kMSHTTPMinGZipLength withString:@"." startingAtIndex:0];
+  logContainer.logs = @[ log1 ];
+  jsonString = [logContainer serializeLog];
+  httpBody = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+
+  // When
+  request = [self.sut createRequest:logContainer];
+
+  // Then
+  XCTAssertTrue(request.HTTPBody.length < httpBody.length);
+}
+
 #pragma mark - Test Helpers
 
 // TODO: Move this to base MSHttpSender test.

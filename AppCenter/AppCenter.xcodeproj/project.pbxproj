@@ -333,6 +333,12 @@
 		35D0B7531DDFABFD003EACCD /* MSWrapperLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 35D0B7511DDFABFD003EACCD /* MSWrapperLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		35D0B7541DDFABFD003EACCD /* MSWrapperLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D0B7521DDFABFD003EACCD /* MSWrapperLogger.m */; };
 		380A4DCB1DD6908A00E99219 /* MSUtilityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 380A4DCA1DD6908A00E99219 /* MSUtilityTests.m */; };
+		38148D8620D07FB70046257E /* MSCompression.h in Headers */ = {isa = PBXBuildFile; fileRef = 38148D8420D07FB70046257E /* MSCompression.h */; };
+		38148D8720D07FB70046257E /* MSCompression.m in Sources */ = {isa = PBXBuildFile; fileRef = 38148D8520D07FB70046257E /* MSCompression.m */; };
+		38148D8A20D07FD80046257E /* MSCompression.h in Headers */ = {isa = PBXBuildFile; fileRef = 38148D8420D07FB70046257E /* MSCompression.h */; };
+		38148D8B20D07FD90046257E /* MSCompression.h in Headers */ = {isa = PBXBuildFile; fileRef = 38148D8420D07FB70046257E /* MSCompression.h */; };
+		38148DB920D184AC0046257E /* MSCompression.m in Sources */ = {isa = PBXBuildFile; fileRef = 38148D8520D07FB70046257E /* MSCompression.m */; };
+		38148DBA20D184AD0046257E /* MSCompression.m in Sources */ = {isa = PBXBuildFile; fileRef = 38148D8520D07FB70046257E /* MSCompression.m */; };
 		3814A8E220BF5E790093AF45 /* MSCSEpochAndSeq.h in Headers */ = {isa = PBXBuildFile; fileRef = 3814A8E120BF5E790093AF45 /* MSCSEpochAndSeq.h */; };
 		3814A8E320BF5E790093AF45 /* MSCSEpochAndSeq.h in Headers */ = {isa = PBXBuildFile; fileRef = 3814A8E120BF5E790093AF45 /* MSCSEpochAndSeq.h */; };
 		3814A8E420BF5E790093AF45 /* MSCSEpochAndSeq.h in Headers */ = {isa = PBXBuildFile; fileRef = 3814A8E120BF5E790093AF45 /* MSCSEpochAndSeq.h */; };
@@ -763,6 +769,8 @@
 		35D0B7511DDFABFD003EACCD /* MSWrapperLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSWrapperLogger.h; sourceTree = "<group>"; };
 		35D0B7521DDFABFD003EACCD /* MSWrapperLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSWrapperLogger.m; sourceTree = "<group>"; };
 		380A4DCA1DD6908A00E99219 /* MSUtilityTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSUtilityTests.m; sourceTree = "<group>"; };
+		38148D8420D07FB70046257E /* MSCompression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCompression.h; sourceTree = "<group>"; };
+		38148D8520D07FB70046257E /* MSCompression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCompression.m; sourceTree = "<group>"; };
 		3814A8E120BF5E790093AF45 /* MSCSEpochAndSeq.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSCSEpochAndSeq.h; sourceTree = "<group>"; };
 		3814A8E520BF5FA00093AF45 /* MSCSEpochAndSeq.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSCSEpochAndSeq.m; sourceTree = "<group>"; };
 		381C91E51D3DB65D004512F1 /* MSDeviceTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDeviceTracker.h; sourceTree = "<group>"; };
@@ -1231,6 +1239,8 @@
 				B28E41D42076ECFE00CC6AD8 /* MSUtility+PropertyValidation.m */,
 				B2CD749B1F22BE270070E7DF /* MSUtility+StringFormatting.h */,
 				B2CD749C1F22BE270070E7DF /* MSUtility+StringFormatting.m */,
+				38148D8420D07FB70046257E /* MSCompression.h */,
+				38148D8520D07FB70046257E /* MSCompression.m */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -1573,6 +1583,7 @@
 				043120BE1EE0BCF9007054C5 /* MSDeviceTrackerPrivate.h in Headers */,
 				B2CD748C1F22BDA70070E7DF /* MSDBStorage.h in Headers */,
 				043120C01EE0BCF9007054C5 /* AppCenter.h in Headers */,
+				38148D8B20D07FD90046257E /* MSCompression.h in Headers */,
 				043120C11EE0BCF9007054C5 /* MSHttpSender.h in Headers */,
 				E74B14D420B36EC5002C0183 /* MSNetExtension.h in Headers */,
 				043120C21EE0BCF9007054C5 /* MSLogContainer.h in Headers */,
@@ -1624,6 +1635,7 @@
 				04754F9C1EA98182002CBA46 /* MSWrapperLogger.h in Headers */,
 				3568A7E7201A91A300F3B860 /* MSLogger.h in Headers */,
 				E74B14D320B36EC5002C0183 /* MSNetExtension.h in Headers */,
+				38148D8A20D07FD80046257E /* MSCompression.h in Headers */,
 				04754F881EA98182002CBA46 /* MSLog.h in Headers */,
 				E7D23C6720B6391700A47D62 /* MSCSExtensions.h in Headers */,
 				E74B14BB20B36C2B002C0183 /* MSOSExtension.h in Headers */,
@@ -1725,6 +1737,7 @@
 				6E3E2C9E1D35701000B1EE50 /* MSLog.h in Headers */,
 				354274212016769C00BE766F /* MSChannelProtocol.h in Headers */,
 				E74B14D220B36EC5002C0183 /* MSNetExtension.h in Headers */,
+				38148D8620D07FB70046257E /* MSCompression.h in Headers */,
 				35D0B7531DDFABFD003EACCD /* MSWrapperLogger.h in Headers */,
 				E7D23C6620B6391700A47D62 /* MSCSExtensions.h in Headers */,
 				E74B14BA20B36C2B002C0183 /* MSOSExtension.h in Headers */,
@@ -2071,6 +2084,7 @@
 				3814A8E820BF5FA00093AF45 /* MSCSEpochAndSeq.m in Sources */,
 				B2CD74BA1F22BE270070E7DF /* MSUtility+Environment.m in Sources */,
 				043120771EE0BCF9007054C5 /* MSChannelUnitConfiguration.m in Sources */,
+				38148DBA20D184AD0046257E /* MSCompression.m in Sources */,
 				043120781EE0BCF9007054C5 /* MSLogContainer.m in Sources */,
 				B2CD74AB1F22BE270070E7DF /* MSUtility+Application.m in Sources */,
 				0431207B1EE0BCF9007054C5 /* MSAppCenterErrors.m in Sources */,
@@ -2230,6 +2244,7 @@
 				049BC8421ECE4EDB00FB6719 /* MSDeviceTracker.m in Sources */,
 				B2CD74BF1F22BE270070E7DF /* MSUtility+File.m in Sources */,
 				04754F571EA98182002CBA46 /* MSStartServiceLog.m in Sources */,
+				38148DB920D184AC0046257E /* MSCompression.m in Sources */,
 				E7D23C5A20B4E38B00A47D62 /* MSCSData.m in Sources */,
 				04754F581EA98182002CBA46 /* MSSenderUtil.m in Sources */,
 				B2CD74CC1F22BFA30070E7DF /* MSDBStorage.m in Sources */,
@@ -2313,6 +2328,7 @@
 				805275C120A1A5F400704115 /* MSOneCollectorChannelDelegate.m in Sources */,
 				E7D23C6920B6391700A47D62 /* MSCSExtensions.m in Sources */,
 				BA682E63DDB55EED56809831 /* MSAppCenterIngestion.m in Sources */,
+				38148D8720D07FB70046257E /* MSCompression.m in Sources */,
 				B2CD74A91F22BE270070E7DF /* MSUtility+Application.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

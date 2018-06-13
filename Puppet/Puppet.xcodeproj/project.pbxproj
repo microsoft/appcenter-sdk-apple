@@ -21,6 +21,8 @@
 		380A4DC61DD68D1000E99219 /* libAppCenterCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E82E1B811D1CA62900D281C1 /* libAppCenterCrashes.a */; };
 		380A4DC81DD68D2B00E99219 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A201D4151A00016C325 /* CrashReporter.framework */; };
 		380A4DC91DD68D3F00E99219 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A271D4152FA0016C325 /* libc++.tbd */; };
+		38148D8C20D087BC0046257E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A251D4152EB0016C325 /* libz.tbd */; };
+		38148DB820D088090046257E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A251D4152EB0016C325 /* libz.tbd */; };
 		38484F6D1E53D57E00C5631C /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38484F691E537B9300C5631C /* SafariServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		38E1B65A1DDCDDF4000EFED1 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E1B6591DDCDDF4000EFED1 /* MSAlertController.m */; };
 		5C2BD19B1ED5D44400FB20C8 /* MSAnalyticsResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C2BD19A1ED5D44400FB20C8 /* MSAnalyticsResultViewController.m */; };
@@ -454,6 +456,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38148D8C20D087BC0046257E /* libz.tbd in Frameworks */,
 				B2F3FA981E96DB690065A3BE /* libsqlite3.tbd in Frameworks */,
 				380A4DC91DD68D3F00E99219 /* libc++.tbd in Frameworks */,
 				380A4DC81DD68D2B00E99219 /* CrashReporter.framework in Frameworks */,
@@ -468,6 +471,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38148DB820D088090046257E /* libz.tbd in Frameworks */,
 				B2F3FA8B1E96DB5A0065A3BE /* libsqlite3.tbd in Frameworks */,
 				38484F6D1E53D57E00C5631C /* SafariServices.framework in Frameworks */,
 				6EC99A281D4152FA0016C325 /* libc++.tbd in Frameworks */,

@@ -1,6 +1,7 @@
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenterInternal.h"
 #import "MSAppCenterErrors.h"
+#import "MSCompression.h"
 #import "MSConstants+Internal.h"
 #import "MSHttpSenderPrivate.h"
 #import "MSLog.h"
@@ -75,14 +76,24 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
 
   // Set body.
   NSMutableString *jsonString = [NSMutableString new];
-  for(id<MSLog> log in container.logs) {
+  for (id<MSLog> log in container.logs) {
     MSAbstractLog *abstractLog = (MSAbstractLog *)log;
     [jsonString appendString:[abstractLog serializeLogWithPrettyPrinting:NO]];
-    
+
     // Separator for one collector logs.
     [jsonString appendString:kMSOneCollectorLogSeparator];
   }
-  request.HTTPBody = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+  NSData *httpBody = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+
+  // Zip HTTP body if length worth it.
+  if (httpBody.length >= kMSHTTPMinGZipLength) {
+    NSData *compressedHttpBody = [MSCompression compressData:httpBody];
+    if (compressedHttpBody) {
+      [request setValue:kMSHeaderContentEncoding forHTTPHeaderField:kMSHeaderContentEncodingKey];
+      httpBody = compressedHttpBody;
+    }
+  }
+  request.HTTPBody = httpBody;
 
   // Always disable cookies.
   [request setHTTPShouldHandleCookies:NO];

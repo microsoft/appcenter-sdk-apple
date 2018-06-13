@@ -8,4 +8,5 @@ framework module AppCenter {
   link framework "SystemConfiguration"
   link framework "AppKit"
   link "sqlite3"
+  link "z"
 }
