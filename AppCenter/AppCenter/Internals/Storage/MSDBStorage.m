@@ -107,7 +107,7 @@
 
 + (NSUInteger)versionInOpenedDatabase:(void *)db {
   NSArray *result = [MSDBStorage executeSelectionQuery:@"PRAGMA user_version" inOpenedDatabase:db];
-  return [result[0][0] unsignedIntegerValue];
+  return (result.count > 0) ? [result[0][0] unsignedIntegerValue] : 0;
 }
 
 + (void)setVersion:(NSUInteger)version inOpenedDatabase:(void *)db {
@@ -146,7 +146,7 @@
     entries = [MSDBStorage executeSelectionQuery:query inOpenedDatabase:db];
     return SQLITE_OK;
   }];
-  return entries != nil ? entries : [NSArray<NSArray *> new];
+  return entries ?: [NSArray<NSArray *> new];
 }
 
 + (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query inOpenedDatabase:(void *)db {
@@ -180,7 +180,9 @@
         }
         [entry addObject:value];
       }
-      [entries addObject:entry];
+      if (entry.count > 0) {
+        [entries addObject:entry];
+      }
     }
     sqlite3_finalize(statement);
   } else {
