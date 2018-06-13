@@ -3,7 +3,7 @@
 @interface MSCompression : NSObject
 
 /**
- * Compress given data using zLib.
+ * Compress given data using zlib.
  *
  * @param data Data to compress.
  *

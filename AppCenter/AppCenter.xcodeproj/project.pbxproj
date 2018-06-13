@@ -337,6 +337,8 @@
 		38148D8720D07FB70046257E /* MSCompression.m in Sources */ = {isa = PBXBuildFile; fileRef = 38148D8520D07FB70046257E /* MSCompression.m */; };
 		38148D8A20D07FD80046257E /* MSCompression.h in Headers */ = {isa = PBXBuildFile; fileRef = 38148D8420D07FB70046257E /* MSCompression.h */; };
 		38148D8B20D07FD90046257E /* MSCompression.h in Headers */ = {isa = PBXBuildFile; fileRef = 38148D8420D07FB70046257E /* MSCompression.h */; };
+		38148DB920D184AC0046257E /* MSCompression.m in Sources */ = {isa = PBXBuildFile; fileRef = 38148D8520D07FB70046257E /* MSCompression.m */; };
+		38148DBA20D184AD0046257E /* MSCompression.m in Sources */ = {isa = PBXBuildFile; fileRef = 38148D8520D07FB70046257E /* MSCompression.m */; };
 		3814A8E220BF5E790093AF45 /* MSCSEpochAndSeq.h in Headers */ = {isa = PBXBuildFile; fileRef = 3814A8E120BF5E790093AF45 /* MSCSEpochAndSeq.h */; };
 		3814A8E320BF5E790093AF45 /* MSCSEpochAndSeq.h in Headers */ = {isa = PBXBuildFile; fileRef = 3814A8E120BF5E790093AF45 /* MSCSEpochAndSeq.h */; };
 		3814A8E420BF5E790093AF45 /* MSCSEpochAndSeq.h in Headers */ = {isa = PBXBuildFile; fileRef = 3814A8E120BF5E790093AF45 /* MSCSEpochAndSeq.h */; };
@@ -2082,6 +2084,7 @@
 				3814A8E820BF5FA00093AF45 /* MSCSEpochAndSeq.m in Sources */,
 				B2CD74BA1F22BE270070E7DF /* MSUtility+Environment.m in Sources */,
 				043120771EE0BCF9007054C5 /* MSChannelUnitConfiguration.m in Sources */,
+				38148DBA20D184AD0046257E /* MSCompression.m in Sources */,
 				043120781EE0BCF9007054C5 /* MSLogContainer.m in Sources */,
 				B2CD74AB1F22BE270070E7DF /* MSUtility+Application.m in Sources */,
 				0431207B1EE0BCF9007054C5 /* MSAppCenterErrors.m in Sources */,
@@ -2241,6 +2244,7 @@
 				049BC8421ECE4EDB00FB6719 /* MSDeviceTracker.m in Sources */,
 				B2CD74BF1F22BE270070E7DF /* MSUtility+File.m in Sources */,
 				04754F571EA98182002CBA46 /* MSStartServiceLog.m in Sources */,
+				38148DB920D184AC0046257E /* MSCompression.m in Sources */,
 				E7D23C5A20B4E38B00A47D62 /* MSCSData.m in Sources */,
 				04754F581EA98182002CBA46 /* MSSenderUtil.m in Sources */,
 				B2CD74CC1F22BFA30070E7DF /* MSDBStorage.m in Sources */,

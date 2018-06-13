@@ -5,9 +5,9 @@
 
 @implementation MSCompression
 
-+ (NSData *)compressData:(NSData *)data {
+// See https://www.zlib.net/manual.html for more details on zlib usage.
 
-  // return nil if failed
++ (NSData *)compressData:(NSData *)data {
   if (data == nil || data.length < 1) {
     return nil;
   }
@@ -24,8 +24,11 @@
 #pragma clang diagnostic pop
   zStreamStruct.avail_in = (unsigned int)data.length;
 
-  // Init zlib.
-  int initError = deflateInit2(&zStreamStruct, Z_DEFAULT_COMPRESSION, Z_DEFLATED, (15 + 16), 8, Z_DEFAULT_STRATEGY);
+  /*
+   * Init zlib. windowBits is 31: (15 max compression rate + 16 gzip header and trailer), memLevel is 8: default memory
+   * allocation.
+   */
+  int initError = deflateInit2(&zStreamStruct, Z_DEFAULT_COMPRESSION, Z_DEFLATED, 31, 8, Z_DEFAULT_STRATEGY);
   if (initError != Z_OK) {
     NSString *errorMsg = nil;
     switch (initError) {
@@ -65,9 +68,11 @@
   if (deflateStatus != Z_STREAM_END) {
     NSString *errorMsg = nil;
     switch (deflateStatus) {
-    case Z_ERRNO:
+    case Z_BUF_ERROR:
+      errorMsg = @"No progress is possible.";
+      break;
     case Z_STREAM_ERROR:
-      errorMsg = @"";
+      errorMsg = @"Inconsistent stream state.";
       break;
     default:
       errorMsg = @"Unknown error!";

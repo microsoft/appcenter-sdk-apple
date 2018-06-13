@@ -14,8 +14,6 @@ static NSString *const kMSHeaderContentEncoding = @"gzip";
 // HTTP constants.
 static short const kMSHTTPMinGZipLength = 1400;
 
-
-
 /**
  * Enum with the different HTTP status codes.
  */
