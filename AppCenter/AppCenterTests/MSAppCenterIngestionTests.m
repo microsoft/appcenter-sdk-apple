@@ -1,6 +1,4 @@
- 
-    
-  #import "AppCenter+Internal.h"
+#import "AppCenter+Internal.h"
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterIngestion.h"
 #import "MSDevice.h"

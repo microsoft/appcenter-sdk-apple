@@ -209,7 +209,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   assertThat(self.sut.sendURL, is(expected));
 }
 
-- (void)testCompressHTTPBodyWhenNeeded {
+- (void)testDoNotCompressHTTPBody {
 
   // If
 
@@ -235,21 +235,30 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   // Then
   XCTAssertNil(request.allHTTPHeaderFields[kMSHeaderContentEncodingKey]);
   XCTAssertEqualObjects(request.HTTPBody, httpBody);
+}
 
+- (void)testCompressHTTPBody {
   // If
 
   // HTTP body is big enough to be compressed.
+  id deviceMock = OCMPartialMock([MSDevice new]);
+  OCMStub([deviceMock isValid]).andReturn(YES);
+  MSMockLog *log1 = [[MSMockLog alloc] init];
+  log1.sid = @"";
+  log1.timestamp = [NSDate date];
+  NSMutableString *jsonString = [NSMutableString new];
   log1.sid = [log1.sid stringByPaddingToLength:kMSHTTPMinGZipLength withString:@"." startingAtIndex:0];
-  logContainer.logs = @[ log1 ];
+  MSLogContainer *logContainer =
+      [[MSLogContainer alloc] initWithBatchId:@"whatever" andLogs:(NSArray<id<MSLog>> *)@[ log1 ]];
   for (id<MSLog> log in logContainer.logs) {
     MSAbstractLog *abstractLog = (MSAbstractLog *)log;
     [jsonString appendString:[abstractLog serializeLogWithPrettyPrinting:NO]];
     [jsonString appendString:kMSOneCollectorLogSeparator];
   }
-  httpBody = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+  NSData *httpBody = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
 
   // When
-  request = [self.sut createRequest:logContainer];
+  NSURLRequest *request = [self.sut createRequest:logContainer];
 
   // Then
   XCTAssertEqual(request.allHTTPHeaderFields[kMSHeaderContentEncodingKey], kMSHeaderContentEncoding);

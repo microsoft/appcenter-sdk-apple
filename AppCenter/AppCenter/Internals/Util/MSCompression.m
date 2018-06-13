@@ -6,6 +6,7 @@
 @implementation MSCompression
 
 + (NSData *)compressData:(NSData *)data {
+
   // return nil if failed
   if (data == nil || data.length < 1) {
     return nil;
@@ -37,12 +38,10 @@
     case Z_VERSION_ERROR:
       errorMsg = @"Version of zlib.h & libz library do not match!";
       break;
-
     default:
       errorMsg = @"Unknown error!";
       break;
     }
-
     MSLogError(MSAppCenter.logTag, @"Compression failed with error: %@", errorMsg);
     return nil;
   }
@@ -53,6 +52,7 @@
   // Deflate data.
   int deflateStatus;
   do {
+
     // Set next_out to be beginning of mutable data + the total already output.
     zStreamStruct.next_out = (unsigned char *)[compressedData mutableBytes] + zStreamStruct.total_out;
 
@@ -66,12 +66,9 @@
     NSString *errorMsg = nil;
     switch (deflateStatus) {
     case Z_ERRNO:
-      errorMsg = @"";
-      break;
     case Z_STREAM_ERROR:
       errorMsg = @"";
       break;
-
     default:
       errorMsg = @"Unknown error!";
       break;
