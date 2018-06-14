@@ -2,12 +2,14 @@
 #import "MSAnalyticsInternal.h"
 #import "MSAnalyticsPrivate.h"
 #import "MSAnalyticsCategory.h"
+#import "MSAnalytics+Validation.h"
 #import "MSAppCenter.h"
 #import "MSAppCenterInternal.h"
 #import "MSChannelGroupDefault.h"
 #import "MSChannelUnitDefault.h"
 #import "MSConstants+Internal.h"
 #import "MSEventLog.h"
+#import "MSPageLog.h"
 #import "MSMockAnalyticsDelegate.h"
 #import "MSServiceAbstract.h"
 #import "MSServiceInternal.h"
@@ -25,15 +27,17 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
 @end
 
-@interface MSAnalytics ()
-
-@end
-
 @interface MSServiceAbstract ()
 
 - (BOOL)isEnabled;
 
 - (void)setEnabled:(BOOL)enabled;
+
+@end
+
+@interface MSAnalytics ()
+
+- (BOOL)channelUnit:(id<MSChannelUnitProtocol>)channelUnit shouldFilterLog:(id<MSLog>)log;
 
 @end
 
@@ -55,7 +59,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
 #pragma mark - Tests
 
-- (void)testValidateEventName {
+- (void)testvalidateEventName {
   const int maxEventNameLength = 256;
 
   // If
@@ -67,6 +71,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   NSString *emptyEventName = @"";
   NSString *tooLongEventName =
       [@"" stringByPaddingToLength:(maxEventNameLength + 1) withString:@"tooLongEventName" startingAtIndex:0];
+  
   // When
   NSString *valid = [[MSAnalytics sharedInstance] validateEventName:validEventName forLogType:kMSTypeEvent];
   NSString *validShortEventName =
@@ -216,6 +221,33 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   OCMVerify([delegateMock analytics:[MSAnalytics sharedInstance] didFailSendingEventLog:eventLog withError:nil]);
 }
 
+- (void)testAnalyticsLogsVerificationIsCalled {
+
+  // If
+  MSEventLog *eventLog = [MSEventLog new];
+  eventLog.name = @"test";
+  eventLog.properties = @{ @"test" : @"test" };
+  MSPageLog *pageLog = [MSPageLog new];
+  MSLogWithNameAndProperties *analyticsLog = [MSLogWithNameAndProperties new];
+  id analyticsMock = OCMPartialMock([MSAnalytics sharedInstance]);
+  OCMExpect([analyticsMock validateLog:eventLog]).andForwardToRealObject();
+  OCMExpect([analyticsMock validateEventName:@"test" forLogType:@"event"]).andForwardToRealObject();
+  OCMExpect([analyticsMock validateProperties:OCMOCK_ANY forLogName:@"test" andType:@"event"])
+      .andForwardToRealObject();
+  OCMExpect([analyticsMock validateLog:pageLog]).andForwardToRealObject();
+  OCMExpect([analyticsMock validateEventName:OCMOCK_ANY forLogType:@"page"]).andForwardToRealObject();
+  OCMReject([analyticsMock validateProperties:OCMOCK_ANY forLogName:OCMOCK_ANY andType:@"page"]);
+  OCMReject([analyticsMock validateLog:analyticsLog]);
+
+  // When
+  [[MSAnalytics sharedInstance] channelUnit:nil shouldFilterLog:eventLog];
+  [[MSAnalytics sharedInstance] channelUnit:nil shouldFilterLog:pageLog];
+  [[MSAnalytics sharedInstance] channelUnit:nil shouldFilterLog:analyticsLog];
+
+  // Then
+  OCMVerifyAll(analyticsMock);
+}
+
 - (void)testTrackEventWithoutProperties {
 
   // If
@@ -265,13 +297,11 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [[MSAnalytics sharedInstance].sessionTracker stop];
 
   // When
-  OCMReject([analyticsMock validateEventName:OCMOCK_ANY forLogType:OCMOCK_ANY]);
-  OCMReject([analyticsMock validateProperties:OCMOCK_ANY forLogName:OCMOCK_ANY andType:OCMOCK_ANY]);
   OCMReject([channelUnitMock enqueueItem:OCMOCK_ANY]);
   [[MSAnalytics sharedInstance] trackEvent:@"Some event" withProperties:nil forTransmissionTarget:nil];
+
   // Then
   OCMVerifyAll(channelUnitMock);
-  OCMVerifyAll(analyticsMock);
 }
 
 - (void)testTrackEventWithInvalidName {
@@ -291,8 +321,10 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [[MSAnalytics sharedInstance].sessionTracker stop];
 
   // When
-  OCMExpect([analyticsMock validateEventName:OCMOCK_ANY forLogType:OCMOCK_ANY]);
-  OCMReject([channelUnitMock enqueueItem:OCMOCK_ANY]);
+  OCMExpect([channelUnitMock enqueueItem:OCMOCK_ANY]);
+
+  // Will be validated in shouldFilterLog callback instead.
+  OCMReject([analyticsMock validateEventName:OCMOCK_ANY forLogType:OCMOCK_ANY]);
   OCMReject([analyticsMock validateProperties:OCMOCK_ANY forLogName:OCMOCK_ANY andType:OCMOCK_ANY]);
   [[MSAnalytics sharedInstance] trackEvent:invalidEventName withProperties:nil forTransmissionTarget:nil];
 
@@ -423,14 +455,11 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [[MSAnalytics sharedInstance].sessionTracker stop];
 
   // When
-  OCMReject([analyticsMock validateEventName:OCMOCK_ANY forLogType:OCMOCK_ANY]);
-  OCMReject([analyticsMock validateProperties:OCMOCK_ANY forLogName:OCMOCK_ANY andType:OCMOCK_ANY]);
   OCMReject([channelUnitMock enqueueItem:OCMOCK_ANY]);
   [[MSAnalytics sharedInstance] trackPage:@"Some page" withProperties:nil];
 
   // Then
   OCMVerifyAll(channelUnitMock);
-  OCMVerifyAll(analyticsMock);
 }
 
 - (void)testTrackPageWithInvalidName {
@@ -450,9 +479,11 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [[MSAnalytics sharedInstance].sessionTracker stop];
 
   // When
-  OCMExpect([analyticsMock validateEventName:OCMOCK_ANY forLogType:OCMOCK_ANY]);
+  OCMExpect([channelUnitMock enqueueItem:OCMOCK_ANY]);
+
+  // Will be validated in shouldFilterLog callback instead.
+  OCMReject([analyticsMock validateEventName:OCMOCK_ANY forLogType:OCMOCK_ANY]);
   OCMReject([analyticsMock validateProperties:OCMOCK_ANY forLogName:OCMOCK_ANY andType:OCMOCK_ANY]);
-  OCMReject([channelUnitMock enqueueItem:OCMOCK_ANY]);
   [[MSAnalytics sharedInstance] trackPage:invalidPageName withProperties:nil];
 
   // Then

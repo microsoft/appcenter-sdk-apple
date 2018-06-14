@@ -420,12 +420,12 @@
 				38A683631E774DCE00A63BC8 /* MSSemVerPreReleaseIdTest.m */,
 				38A683621E774DCE00A63BC8 /* MSSemVerTests.m */,
 				80324E2F1F4DC81E005F4E11 /* MSDistributeAppDelegateTests.m */,
+				586030B2AAEEE6A568D37CE9 /* MSDistributeInfoTrackerTests.m */,
 				040AF0101E523AC2005C1174 /* Fixtures */,
 				04FD4A491E453930009B4468 /* Frameworks */,
 				04A140BE1ECE84B7001CEE94 /* Model */,
 				04A140BF1ECE84C9001CEE94 /* Support */,
 				389638A21E79F557007C3809 /* Util */,
-				586030B2AAEEE6A568D37CE9 /* MSDistributeInfoTrackerTests.m */,
 			);
 			path = AppCenterDistributeTests;
 			sourceTree = "<group>";

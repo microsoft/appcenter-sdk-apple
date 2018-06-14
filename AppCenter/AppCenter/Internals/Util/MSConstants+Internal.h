@@ -3,11 +3,16 @@
 // Device manufacturer
 static NSString *const kMSDeviceManufacturer = @"Apple";
 
-// Http Headers + Query string.
+// HTTP Headers + Query string.
 static NSString *const kMSHeaderAppSecretKey = @"App-Secret";
 static NSString *const kMSHeaderInstallIDKey = @"Install-ID";
 static NSString *const kMSHeaderContentTypeKey = @"Content-Type";
-static NSString *const kMSContentType = @"application/json";
+static NSString *const kMSAppCenterContentType = @"application/json";
+static NSString *const kMSHeaderContentEncodingKey = @"Content-Encoding";
+static NSString *const kMSHeaderContentEncoding = @"gzip";
+
+// HTTP constants.
+static short const kMSHTTPMinGZipLength = 1400;
 
 /**
  * Enum with the different HTTP status codes.

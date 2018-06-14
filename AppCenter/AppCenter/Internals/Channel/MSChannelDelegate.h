@@ -1,6 +1,8 @@
 #import <Foundation/Foundation.h>
 
 @protocol MSLog;
+@protocol MSChannelUnitProtocol;
+@protocol MSChannelGroupProtocol;
 @protocol MSChannelProtocol;
 
 @protocol MSChannelDelegate <NSObject>
@@ -8,7 +10,16 @@
 @optional
 
 /**
- * A callback that is called when a log is just enqueued. Delegates may want to prepare the log a little more before further processing.
+ * A callback that is called when a channel unit is added to the channel group.
+ *
+ * @param channelGroup The channel group.
+ * @param channel The newly added channel.
+ */
+- (void)channelGroup:(id<MSChannelGroupProtocol>)channelGroup didAddChannelUnit:(id<MSChannelUnitProtocol>)channel;
+
+/**
+ * A callback that is called when a log is just enqueued. Delegates may want to prepare the log a little more before
+ * further processing.
  *
  * @param log The log to prepare.
  */
@@ -28,7 +39,9 @@
  * @param log The log.
  * @param internalId An internal Id to keep track of logs.
  */
-- (void)channel:(id<MSChannelProtocol>)channel didCompleteEnqueueingLog:(id<MSLog>)log withInternalId:(NSString *)internalId;
+- (void)channel:(id<MSChannelProtocol>)channel
+    didCompleteEnqueueingLog:(id<MSLog>)log
+              withInternalId:(NSString *)internalId;
 
 /**
  * Callback method that will be called before each log will be send to the server.
@@ -56,13 +69,25 @@
 - (void)channel:(id<MSChannelProtocol>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error;
 
 /**
+ * A callback that is called when setEnabled has been invoked.
+ *
+ * @param channel The channel.
+ * @param isEnabled The boolean that indicates enabled.
+ * @param deletedData The boolean that indicates deleting data on disabled.
+ */
+- (void)channel:(id<MSChannelProtocol>)channel
+              didSetEnabled:(BOOL)isEnabled
+    andDeleteDataOnDisabled:(BOOL)deletedData;
+
+/**
  * Callback method that will determine if a log should be filtered out from the
  * usual processing pipeline. If any delegate returns true, the log is filtered.
  *
+ * @param channelUnit The channel unit that is going to send the log.
  * @param log The log to be filtered or not.
  *
  * @return `true` if the log should be filtered out.
  */
-- (BOOL)shouldFilterLog:(id<MSLog>)log;
+- (BOOL)channelUnit:(id<MSChannelUnitProtocol>)channelUnit shouldFilterLog:(id<MSLog>)log;
 
 @end

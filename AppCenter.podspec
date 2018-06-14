@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name              = 'AppCenter'
-  s.version           = '1.6.1'
+  s.version           = '1.7.0'
 
   s.summary           = 'Visual Studio App Center is your continuous integration, delivery and learning solution for iOS and macOS apps.'
   s.description       = <<-DESC
@@ -45,7 +45,7 @@ Pod::Spec.new do |s|
     ss.osx.frameworks = 'AppKit'
     ss.ios.vendored_frameworks = "AppCenter-SDK-Apple/iOS/AppCenter.framework"
     ss.osx.vendored_frameworks = "AppCenter-SDK-Apple/macOS/AppCenter.framework"
-    ss.libraries = 'sqlite3'
+    ss.libraries = 'z', 'sqlite3'
   end
 
  s.subspec 'Analytics' do |ss|

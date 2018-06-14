@@ -1,12 +1,6 @@
+#import "MSACModelConstants.h"
 #import "MSWrapperSdk.h"
 #import "MSWrapperSdkInternal.h"
-
-static NSString *const kMSWrapperSdkVersion = @"wrapperSdkVersion";
-static NSString *const kMSWrapperSdkName = @"wrapperSdkName";
-static NSString *const kMSWrapperRuntimeVersion = @"wrapperRuntimeVersion";
-static NSString *const kMSLiveUpdateReleaseLabel = @"liveUpdateReleaseLabel";
-static NSString *const kMSLiveUpdateDeploymentKey = @"liveUpdateDeploymentKey";
-static NSString *const kMSLiveUpdatePackageHash = @"liveUpdatePackageHash";
 
 @implementation MSWrapperSdk
 
@@ -32,10 +26,10 @@ static NSString *const kMSLiveUpdatePackageHash = @"liveUpdatePackageHash";
   NSMutableDictionary *dict = [NSMutableDictionary new];
 
   if (self.wrapperSdkVersion) {
-    dict[kMSWrapperSdkVersion] = self.wrapperSdkVersion;
+    dict[kMSWrapperSDKVersion] = self.wrapperSdkVersion;
   }
   if (self.wrapperSdkName) {
-    dict[kMSWrapperSdkName] = self.wrapperSdkName;
+    dict[kMSWrapperSDKName] = self.wrapperSdkName;
   }
   if (self.wrapperRuntimeVersion) {
     dict[kMSWrapperRuntimeVersion] = self.wrapperRuntimeVersion;
@@ -80,8 +74,8 @@ static NSString *const kMSLiveUpdatePackageHash = @"liveUpdatePackageHash";
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super init];
   if (self) {
-    _wrapperSdkVersion = [coder decodeObjectForKey:kMSWrapperSdkVersion];
-    _wrapperSdkName = [coder decodeObjectForKey:kMSWrapperSdkName];
+    _wrapperSdkVersion = [coder decodeObjectForKey:kMSWrapperSDKVersion];
+    _wrapperSdkName = [coder decodeObjectForKey:kMSWrapperSDKName];
     _wrapperRuntimeVersion = [coder decodeObjectForKey:kMSWrapperRuntimeVersion];
     _liveUpdateReleaseLabel = [coder decodeObjectForKey:kMSLiveUpdateReleaseLabel];
     _liveUpdateDeploymentKey = [coder decodeObjectForKey:kMSLiveUpdateDeploymentKey];
@@ -91,8 +85,8 @@ static NSString *const kMSLiveUpdatePackageHash = @"liveUpdatePackageHash";
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
-  [coder encodeObject:self.wrapperSdkVersion forKey:kMSWrapperSdkVersion];
-  [coder encodeObject:self.wrapperSdkName forKey:kMSWrapperSdkName];
+  [coder encodeObject:self.wrapperSdkVersion forKey:kMSWrapperSDKVersion];
+  [coder encodeObject:self.wrapperSdkName forKey:kMSWrapperSDKName];
   [coder encodeObject:self.wrapperRuntimeVersion forKey:kMSWrapperRuntimeVersion];
   [coder encodeObject:self.liveUpdateReleaseLabel forKey:kMSLiveUpdateReleaseLabel];
   [coder encodeObject:self.liveUpdateDeploymentKey forKey:kMSLiveUpdateDeploymentKey];

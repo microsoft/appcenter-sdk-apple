@@ -1,5 +1,15 @@
 # App Center SDK for iOS and macOS Change Log
 
+## Version 1.7.0
+
+This version contains a new feature. 
+
+### AppCenterAnalytics
+
+* **[Feature]** Preparation work for a future change in transmission protocol and endpoint for Analytics data. There is no impact on your current workflow when using App Center.
+
+___
+
 ## Version 1.6.1
 
 This version contains bug fixes. 

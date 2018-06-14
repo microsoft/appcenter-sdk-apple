@@ -3,6 +3,7 @@
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
+#import "MSConstants+Internal.h"
 #import "MSCrashesCXXExceptionWrapperException.h"
 #import "MSCrashesDelegate.h"
 #import "MSCrashesInternal.h"
@@ -18,7 +19,6 @@
 #import "MSUtility+File.h"
 #import "MSWrapperExceptionManagerInternal.h"
 #import "MSWrapperCrashesHelper.h"
-#import "MSConstants+Internal.h"
 
 /**
  * Service name for initialization.
@@ -409,12 +409,24 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
  * the crash and then, at crash time, crashes has all info in place to save the buffer safely from the main thread
  * (other threads are killed at crash time).
  */
-- (void)channel:(id<MSChannelProtocol>)__unused channel didPrepareLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
-  
+- (void)channel:(id<MSChannelProtocol>)__unused channel
+     didPrepareLog:(id<MSLog>)log
+    withInternalId:(NSString *)internalId {
+
   // Don't buffer event if log is empty, crashes module is disabled or the log is related to crash.
   NSObject *logObject = static_cast<NSObject *>(log);
   if (!log || ![self isEnabled] || [logObject isKindOfClass:[MSAppleErrorLog class]] ||
       [logObject isKindOfClass:[MSErrorAttachmentLog class]]) {
+    return;
+  }
+
+  // FIXME: Rejecting MSCommonSchemaLog in the buffer for now.
+  /*
+   * Don't buffer logs that contain one or more transmissiontargetTokens for now. The reason
+   * is that the crash buffer currently cannot handle MSCommonSchemaLogs. It needs significant work, e.g. for
+   * encrypting/decrypting the target tokens. Putting this in a separate paragraph for visibility.
+   */
+  if (log.transmissionTargetTokens) {
     return;
   }
 
@@ -483,7 +495,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   }
 }
 
-- (void)channel:(id<MSChannelProtocol>)__unused channel didCompleteEnqueueingLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
+- (void)channel:(id<MSChannelProtocol>)__unused channel
+    didCompleteEnqueueingLog:(id<MSLog>)log
+              withInternalId:(NSString *)internalId {
   @synchronized(self) {
     for (auto it = msCrashesLogBuffer.begin(), end = msCrashesLogBuffer.end(); it != end; ++it) {
       NSString *bufferId = [NSString stringWithCString:it->internalId.c_str() encoding:NSUTF8StringEncoding];
@@ -761,12 +775,12 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 - (void)processLogBufferAfterCrash {
 
   // Initialize a dedicated channel for log buffer.
-  self.bufferChannelUnit = [self.channelGroup addChannelUnitWithConfiguration:
-                            [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSBufferGroupId
-                                                                       priority:MSPriorityHigh
-                                                                  flushInterval:1.0
-                                                                 batchSizeLimit:50
-                                                            pendingBatchesLimit:1]];
+  self.bufferChannelUnit = [self.channelGroup
+      addChannelUnitWithConfiguration:[[MSChannelUnitConfiguration alloc] initWithGroupId:kMSBufferGroupId
+                                                                                 priority:MSPriorityHigh
+                                                                            flushInterval:1.0
+                                                                           batchSizeLimit:50
+                                                                      pendingBatchesLimit:1]];
 
   // Iterate over each file in it with the kMSLogBufferFileExtension and send the log if a log can be deserialized.
   NSArray<NSURL *> *files =
