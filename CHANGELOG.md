@@ -1,5 +1,15 @@
 # App Center SDK for iOS and macOS Change Log
 
+## Version 1.7.1
+
+This version contains a bug fix. 
+
+### AppCenter
+
+* **[Fix]** Fix duplicate symbol errors discovered when using Xamarin wrapper SDK.
+
+___
+
 ## Version 1.7.0
 
 This version contains a new feature. 
