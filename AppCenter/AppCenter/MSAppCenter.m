@@ -59,7 +59,7 @@ static NSString *const kMSGroupId = @"AppCenter";
 #pragma mark - public
 
 + (void)configureWithAppSecret:(NSString *)appSecret {
-  [[self sharedInstance] configure:appSecret];
+  [[self sharedInstance] configureWithAppSecret:appSecret];
 }
 
 + (void)start:(NSString *)appSecret withServices:(NSArray<Class> *)services {
@@ -192,7 +192,7 @@ static NSString *const kMSGroupId = @"AppCenter";
  * Configuring without an app secret is valid. If that is the case, the app secret will
  * not be set.
  */
-- (BOOL)configure:(NSString *)appSecret {
+- (BOOL)configureWithAppSecret:(NSString *)appSecret {
   @synchronized(self) {
     BOOL success = false;
     if (self.sdkConfigured) {
@@ -235,7 +235,7 @@ static NSString *const kMSGroupId = @"AppCenter";
 
 - (void)start:(NSString *)appSecret withServices:(NSArray<Class> *)services {
   @synchronized(self) {
-    BOOL configured = [self configure:appSecret];
+    BOOL configured = [self configureWithAppSecret:appSecret];
     if (configured && services) {
       MSLogVerbose([MSAppCenter logTag], @"Prepare to start services: %@", [services componentsJoinedByString:@", "]);
       NSArray *sortedServices = [self sortServices:services];
