@@ -2298,7 +2298,6 @@
 				B2CD74881F22BD910070E7DF /* MSLogDBStorage.m in Sources */,
 				E7D23C7720B6549E00A47D62 /* MSCSModelConstants.m in Sources */,
 				8087362920C134AC004C4157 /* MSEncrypter.m in Sources */,
-				E7D23C7720B6549E00A47D62 /* MSCSModelConstants.m in Sources */,
 				E84B8E361D235226006FD231 /* MSHttpSender.m in Sources */,
 				D38024061E7126F500466558 /* MSServiceAbstract.m in Sources */,
 				B2CD74C41F22BE270070E7DF /* MSUtility+StringFormatting.m in Sources */,
