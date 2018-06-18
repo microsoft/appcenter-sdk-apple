@@ -499,7 +499,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // If
   id<MSChannelGroupProtocol> channelGroup = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
-  [self.sut configure:@"AnAppSecret"];
+  [self.sut configureWithAppSecret:@"AnAppSecret"];
   self.sut.channelGroup = channelGroup;
 
   // When
@@ -513,7 +513,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // If
   id<MSChannelGroupProtocol> channelGroup = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
-  [self.sut configure:@"AnAppSecret"];
+  [self.sut configureWithAppSecret:@"AnAppSecret"];
   self.sut.channelGroup = channelGroup;
 
   // When
