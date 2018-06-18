@@ -19,7 +19,6 @@
  * @discussion This may be called only once per application process lifetime.
  * @param appSecret A unique and secret key used to identify the application.
  */
-// FIXME: Rename to configureWithAppSecret
-- (BOOL)configure:(NSString *)appSecret;
+- (BOOL)configureWithAppSecret:(NSString *)appSecret;
 
 @end
