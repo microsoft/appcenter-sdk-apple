@@ -12,7 +12,11 @@ ___
 
 ## Version 1.7.0
 
-This version contains a new feature. 
+This version contains a new feature and an improvement.
+
+### AppCenter
+
+* **[Improvement]** Gzip is used over HTTPS when request size is larger than 1.4KB.
 
 ### AppCenterAnalytics
 
