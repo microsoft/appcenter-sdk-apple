@@ -50,7 +50,7 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
     NSError *error =
         [NSError errorWithDomain:kMSACErrorDomain code:kMSACLogInvalidContainerErrorCode userInfo:userInfo];
     MSLogError([MSAppCenter logTag], @"%@", [error localizedDescription]);
-    handler(batchId, nil, nil, error);
+    handler(batchId, 0, nil, error);
     return;
   }
   [super sendAsync:container callId:container.batchId completionHandler:handler];

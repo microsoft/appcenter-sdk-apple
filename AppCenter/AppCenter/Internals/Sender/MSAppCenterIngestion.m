@@ -44,7 +44,7 @@ static NSString *const kMSApiPath = @"/logs";
     NSError *error =
         [NSError errorWithDomain:kMSACErrorDomain code:kMSACLogInvalidContainerErrorCode userInfo:userInfo];
     MSLogError([MSAppCenter logTag], @"%@", [error localizedDescription]);
-    handler(batchId, nil, nil, error);
+    handler(batchId, 0, nil, error);
     return;
   }
 
