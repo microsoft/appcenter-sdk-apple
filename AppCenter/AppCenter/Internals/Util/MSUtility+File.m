@@ -31,7 +31,10 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
 
       // Create parent directories as needed.
       NSURL *directoryURL = [fileURL URLByDeletingLastPathComponent];
-      [self createDirectoryAtURL:directoryURL];
+      BOOL success = [self createDirectoryAtURL:directoryURL];
+      if(!success) {
+        return nil;
+      }
 
       // Create the file.
       NSData *theData = (data != nil) ? data : [NSData data];
@@ -171,6 +174,10 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
     dirURL = [baseDirUrl URLByAppendingPathComponent:kMSAppCenterBundleIdentifier];
 #endif
     [self createDirectoryAtURL:dirURL];
+    BOOL success = [self createDirectoryAtURL:dirURL];
+    if(!success) {
+      MSLogError([MSAppCenter logTag], @"Unable to create directory for AppCenter SDK.");
+    }
   });
 
   return dirURL;
