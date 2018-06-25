@@ -300,6 +300,9 @@
 		04A79A4920C6F63C006D0072 /* MSOneCollectorIngestionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A79A4720C6F635006D0072 /* MSOneCollectorIngestionTests.m */; };
 		04A79A4A20C6F63E006D0072 /* MSOneCollectorIngestionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A79A4720C6F635006D0072 /* MSOneCollectorIngestionTests.m */; };
 		04A79A4B20C6F63F006D0072 /* MSOneCollectorIngestionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A79A4720C6F635006D0072 /* MSOneCollectorIngestionTests.m */; };
+		04AB676320E18A75002828AA /* MSChannelGroupDefaultPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 04AB676220E18A74002828AA /* MSChannelGroupDefaultPrivate.h */; };
+		04AB676420E18ABB002828AA /* MSChannelGroupDefaultPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 04AB676220E18A74002828AA /* MSChannelGroupDefaultPrivate.h */; };
+		04AB676520E18ABD002828AA /* MSChannelGroupDefaultPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 04AB676220E18A74002828AA /* MSChannelGroupDefaultPrivate.h */; };
 		04B7BBEF1E5FAD4D001A0CE1 /* MSSenderUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B7BBEE1E5FAD4D001A0CE1 /* MSSenderUtilTests.m */; };
 		04BED7101ECB63A800E20975 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BED70E1ECB63A100E20975 /* OCHamcrest.framework */; };
 		04F21A071ECB74200074978D /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04F21A041ECB73EE0074978D /* OHHTTPStubs.framework */; };
@@ -747,6 +750,7 @@
 		049BC8281ECE3A5200FB6719 /* iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
 		049BC8291ECE3A5A00FB6719 /* macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		04A79A4720C6F635006D0072 /* MSOneCollectorIngestionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSOneCollectorIngestionTests.m; sourceTree = "<group>"; };
+		04AB676220E18A74002828AA /* MSChannelGroupDefaultPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSChannelGroupDefaultPrivate.h; sourceTree = "<group>"; };
 		04B7BBEE1E5FAD4D001A0CE1 /* MSSenderUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSenderUtilTests.m; sourceTree = "<group>"; };
 		04BED70E1ECB63A100E20975 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../../Vendor/macOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
 		04F21A041ECB73EE0074978D /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = ../../macOS/OHHTTPStubs/OHHTTPStubs.framework; sourceTree = "<group>"; };
@@ -1483,6 +1487,7 @@
 			isa = PBXGroup;
 			children = (
 				E84B8E2C1D2351DB006FD231 /* MSChannelGroupDefault.h */,
+				04AB676220E18A74002828AA /* MSChannelGroupDefaultPrivate.h */,
 				E84B8E2D1D2351DB006FD231 /* MSChannelGroupDefault.m */,
 				6EF628F21D371B1600CAFF64 /* MSChannelUnitConfiguration.h */,
 				6EF628F31D371B1600CAFF64 /* MSChannelUnitConfiguration.m */,
@@ -1529,6 +1534,7 @@
 				B2787219201AB9D8004AA9A5 /* MSChannelDelegate.h in Headers */,
 				B278721B201AB9D8004AA9A5 /* MSChannelGroupProtocol.h in Headers */,
 				B2787214201AB9D8004AA9A5 /* MSEnable.h in Headers */,
+				04AB676520E18ABD002828AA /* MSChannelGroupDefaultPrivate.h in Headers */,
 				B278721C201AB9D8004AA9A5 /* MSChannelProtocol.h in Headers */,
 				043120CB1EE0BCF9007054C5 /* MSWrapperLogger.h in Headers */,
 				043120B71EE0BCF9007054C5 /* MSLog.h in Headers */,
@@ -1707,6 +1713,7 @@
 				04754FA21EA98182002CBA46 /* MSDeviceTracker.h in Headers */,
 				04754FA31EA98182002CBA46 /* MSChannelGroupDefault.h in Headers */,
 				04873E821F2FCE3700A13AFF /* MSAppDelegateForwarder.h in Headers */,
+				04AB676420E18ABB002828AA /* MSChannelGroupDefaultPrivate.h in Headers */,
 				0446DF2F1F3B86CB00C8E338 /* MSWrapperSdkInternal.h in Headers */,
 				B2CD74B61F22BE270070E7DF /* MSUtility+Environment.h in Headers */,
 				E74B14CB20B36DF1002C0183 /* MSProtocolExtension.h in Headers */,
@@ -1809,6 +1816,7 @@
 				381C91E91D3DB65D004512F1 /* MSDeviceTracker.h in Headers */,
 				E84B8E2F1D2351DB006FD231 /* MSChannelGroupDefault.h in Headers */,
 				38C447221ECE5352002E1B11 /* MSAppDelegateForwarder.h in Headers */,
+				04AB676320E18A75002828AA /* MSChannelGroupDefaultPrivate.h in Headers */,
 				045BC3191E3FD8AC00B6C960 /* MSKeychainUtil.h in Headers */,
 				BA68281EA947BB6E7F78354F /* MSAppCenterIngestion.h in Headers */,
 				E74B14CA20B36DF1002C0183 /* MSProtocolExtension.h in Headers */,

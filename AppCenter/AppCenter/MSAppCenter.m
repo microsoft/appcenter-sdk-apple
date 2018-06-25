@@ -3,13 +3,13 @@
 #import "MSAppCenterInternal.h"
 #import "MSAppCenterPrivate.h"
 #import "MSAppDelegateForwarder.h"
+#import "MSChannelGroupDefault.h"
+#import "MSChannelUnitConfiguration.h"
+#import "MSChannelUnitProtocol.h"
 #import "MSConstants+Internal.h"
 #import "MSDeviceTracker.h"
 #import "MSDeviceTrackerPrivate.h"
 #import "MSHttpSender.h"
-#import "MSChannelGroupDefault.h"
-#import "MSChannelUnitConfiguration.h"
-#import "MSChannelUnitProtocol.h"
 #import "MSLoggerInternal.h"
 #import "MSOneCollectorChannelDelegate.h"
 #import "MSSessionContext.h"
@@ -416,13 +416,9 @@ static NSString *const kMSGroupId = @"AppCenter";
 - (void)initializeChannelGroup {
 
   // Construct channel group.
+  self.channelGroup = [MSChannelGroupDefault new];
   if (self.appSecret) {
-    self.channelGroup =
-        [[MSChannelGroupDefault alloc] initWithAppSecret:self.appSecret installId:self.installId logUrl:self.logUrl];
-  } else {
-
-    // If there is no app secret, create a channel group without sender.
-    self.channelGroup = [[MSChannelGroupDefault alloc] initWithSender:nil];
+    [self.channelGroup attachSenderWithAppSecret:self.appSecret installId:self.installId logUrl:self.logUrl];
   }
   self.oneCollectorChannelDelegate = [[MSOneCollectorChannelDelegate alloc] initWithInstallId:self.installId];
   [self.channelGroup addDelegate:self.oneCollectorChannelDelegate];

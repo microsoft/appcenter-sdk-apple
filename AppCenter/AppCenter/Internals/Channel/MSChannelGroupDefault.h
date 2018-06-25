@@ -22,23 +22,9 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Initializes a new `MSChannelGroupDefault` instance.
  *
- * @param appSecret A unique and secret key used to identify the application.
- * @param installId A unique installation identifier.
- * @param logUrl A base URL to use for backend communication.
- *
  * @return A new `MSChannelGroupDefault` instance.
  */
-- (instancetype)initWithAppSecret:(NSString *)appSecret installId:(NSUUID *)installId logUrl:(NSString *)logUrl;
-
-/**
- * Initializes a new `MSChannelGroupDefault` instance.
- *
- * @param sender An HTTP sender instance that is used to send batches of log items to
- * the backend.
- *
- * @return A new `MSChannelGroupDefault` instance.
- */
-- (instancetype)initWithSender:(nullable MSHttpSender *)sender;
+- (instancetype)init;
 
 /**
  * Collection of channel delegates.

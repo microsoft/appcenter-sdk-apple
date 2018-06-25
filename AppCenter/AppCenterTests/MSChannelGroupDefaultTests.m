@@ -1,13 +1,14 @@
 #import "MSAbstractLogInternal.h"
 #import "MSChannelDelegate.h"
+#import "MSChannelGroupDefault.h"
+#import "MSChannelGroupDefaultPrivate.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
 #import "MSHttpSenderPrivate.h"
-#import "MSChannelGroupDefault.h"
-#import "MSTestFrameworks.h"
 #import "MSMockLog.h"
-#import "MSStorage.h"
 #import "MSSender.h"
+#import "MSStorage.h"
+#import "MSTestFrameworks.h"
 
 @interface MSChannelGroupDefaultTests : XCTestCase
 @end
@@ -124,7 +125,7 @@
 }
 
 - (void)testSetEnabled {
-  
+
   // If
   MSHttpSender *senderMock = OCMClassMock([MSHttpSender class]);
   id<MSChannelUnitProtocol> channelMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
@@ -132,10 +133,10 @@
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock];
   [sut addDelegate:delegateMock];
   [sut.channels addObject:channelMock];
-  
+
   // When
   [sut setEnabled:NO andDeleteDataOnDisabled:YES];
-  
+
   // Then
   OCMVerify([senderMock setEnabled:NO andDeleteDataOnDisabled:YES]);
   OCMVerify([channelMock setEnabled:NO andDeleteDataOnDisabled:YES]);
@@ -155,7 +156,8 @@
 
   // Then
   OCMVerify([senderMock setEnabled:YES andDeleteDataOnDisabled:NO]);
-  dispatch_sync(sut.logsDispatchQueue, ^{});
+  dispatch_sync(sut.logsDispatchQueue, ^{
+                });
   OCMVerify([channelMock resume]);
 }
 
@@ -172,7 +174,8 @@
 
   // Then
   OCMVerify([senderMock setEnabled:NO andDeleteDataOnDisabled:NO]);
-  dispatch_sync(sut.logsDispatchQueue, ^{});
+  dispatch_sync(sut.logsDispatchQueue, ^{
+                });
   OCMVerify([channelMock suspend]);
 }
 
@@ -200,7 +203,8 @@
                                                                              flushInterval:flushInterval
                                                                             batchSizeLimit:batchSizeLimit
                                                                        pendingBatchesLimit:pendingBatchesLimit]];
-  dispatch_sync(sut.logsDispatchQueue, ^{});
+  dispatch_sync(sut.logsDispatchQueue, ^{
+                });
 
   // Then
   OCMVerify([channelUnitMock addDelegate:sut]);
