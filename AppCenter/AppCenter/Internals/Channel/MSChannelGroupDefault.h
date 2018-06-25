@@ -20,13 +20,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MSChannelGroupDefault : NSObject <MSChannelGroupProtocol>
 
 /**
- * Initializes a new `MSChannelGroupDefault` instance.
- *
- * @return A new `MSChannelGroupDefault` instance.
- */
-- (instancetype)init;
-
-/**
  * Collection of channel delegates.
  */
 @property(nonatomic) NSHashTable<id<MSChannelDelegate>> *delegates;
