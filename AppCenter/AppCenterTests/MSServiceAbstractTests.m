@@ -281,8 +281,7 @@
   __block BOOL forwardedEnabled;
   id channelGroup = OCMClassMock([MSChannelGroupDefault class]);
   id channelUnit = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
-  OCMStub([channelGroup alloc]).andReturn(channelGroup);
-  OCMStub([channelGroup initWithAppSecret:OCMOCK_ANY installId:OCMOCK_ANY logUrl:OCMOCK_ANY]).andReturn(channelGroup);
+  OCMStub([channelGroup new]).andReturn(channelGroup);
   OCMStub([channelGroup addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnit);
 
   OCMStub([channelUnit setEnabled:NO andDeleteDataOnDisabled:YES]).andDo(^(NSInvocation *invocation) {
