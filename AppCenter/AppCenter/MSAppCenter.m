@@ -70,6 +70,12 @@ static NSString *const kMSGroupId = @"AppCenter";
   [[self sharedInstance] startService:service andSendLog:YES];
 }
 
++ (void)startFromLibraryWithServices:(NSArray<Class> *)services {
+
+  // TODO: We cannot rely on appSecret == nil for starting from a library.
+  [[self sharedInstance] start:nil withServices:services];
+}
+
 + (BOOL)isConfigured {
   return [[self sharedInstance] sdkConfigured];
 }
