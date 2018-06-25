@@ -24,16 +24,14 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
     if (filePathComponent) {
       NSURL *fileURL = [[self appCenterDirectoryURL] URLByAppendingPathComponent:filePathComponent];
 
-      // Check if item already exists.
+      // Check if item already exists. We need to check this as writeToURL:atomically: can override an existing file.
       if (!forceOverwrite && [fileURL checkResourceIsReachableAndReturnError:nil]) {
         return fileURL;
       }
 
       // Create parent directories as needed.
       NSURL *directoryURL = [fileURL URLByDeletingLastPathComponent];
-      if (![directoryURL checkResourceIsReachableAndReturnError:nil]) {
-        [self createDirectoryAtURL:directoryURL];
-      }
+      [self createDirectoryAtURL:directoryURL];
 
       // Create the file.
       NSData *theData = (data != nil) ? data : [NSData data];
@@ -55,7 +53,7 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
       BOOL succeeded;
       succeeded = [[NSFileManager defaultManager] removeItemAtURL:itemURL error:&error];
       if (error) {
-        MSLogError([MSAppCenter logTag], @"Couldn't remove item at %@: %@", itemURL, error.localizedDescription);
+        MSLogDebug([MSAppCenter logTag], @"Couldn't remove item at %@: %@", itemURL, error.localizedDescription);
       }
       return succeeded;
     }
@@ -66,12 +64,18 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
 // TODO: We should remove this and just expose the method taking a pathComponent.
 + (BOOL)deleteFileAtURL:(NSURL *)fileURL {
   @synchronized(self) {
-    if (fileURL && [fileURL checkResourceIsReachableAndReturnError:nil]) {
+    if (fileURL) {
+
+      /*
+       * No need to check existence of directory as checkResourceIsReachableAndReturnError: is synchronous. From it's
+       * docs: "If your app must perform operations on the file, such as opening it or copying resource properties, it
+       * is more efficient to attempt the operation and handle any failure that may occur."
+       */
       NSError *error = nil;
       BOOL succeeded;
       succeeded = [[NSFileManager defaultManager] removeItemAtURL:fileURL error:&error];
       if (error) {
-        MSLogError([MSAppCenter logTag], @"Couldn't remove item at %@: %@", fileURL, error.localizedDescription);
+        MSLogDebug([MSAppCenter logTag], @"Couldn't remove item at %@: %@", fileURL, error.localizedDescription);
       }
       return succeeded;
     }
@@ -115,7 +119,7 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
                                                      options:(NSDirectoryEnumerationOptions)0
                                                        error:&error];
       if (!files) {
-        MSLogError([MSAppCenter logTag], @"Couldn't get files in the directory \"%@\": %@", directory,
+        MSLogDebug([MSAppCenter logTag], @"Couldn't get files in the directory \"%@\": %@", directory,
                    error.localizedDescription);
       }
       return files;
@@ -166,9 +170,7 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
 #else
     dirURL = [baseDirUrl URLByAppendingPathComponent:kMSAppCenterBundleIdentifier];
 #endif
-    if (![dirURL checkResourceIsReachableAndReturnError:nil]) {
-      [self createDirectoryAtURL:dirURL];
-    }
+    [self createDirectoryAtURL:dirURL];
   });
 
   return dirURL;
@@ -176,11 +178,16 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
 
 + (BOOL)createDirectoryAtURL:(NSURL *)fullDirURL {
   if (fullDirURL) {
-    if ([fullDirURL checkResourceIsReachableAndReturnError:nil]) {
-      return YES;
-    }
 
-    // Create directory also create parent directories if they don't exist.
+    /*
+     * No need to check existence of directory:
+     *
+     * 1. createDirectoryAtURL:withIntermediateDirectories:attributes:error: returns YES if the directory already
+     * exists.
+     * 2. checkResourceIsReachableAndReturnError: is synchronous. From it's docs: "If your app must perform operations
+     * on the file, such as opening it or copying resource properties, it is more efficient to attempt the operation and
+     * handle any failure that may occur."
+     */
     NSError *error = nil;
     if ([[NSFileManager defaultManager] createDirectoryAtURL:fullDirURL
                                  withIntermediateDirectories:YES
