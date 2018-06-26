@@ -16,9 +16,11 @@
 /**
  * Configure the SDK.
  *
- * @discussion This may be called only once per application process lifetime.
- * @param appSecret A unique and secret key used to identify the application.
+ * @param secretString A unique and secret key used to identify the application.
+ * @param fromLibrary Flag indicating that the sdk is configured from a library.
+ *
+ * @return success or fail.
  */
-- (BOOL)configureWithAppSecret:(NSString *)appSecret;
+- (BOOL)configureWithSecretString:(NSString *)secretString fromApplication:(BOOL)fromLibrary;
 
 @end

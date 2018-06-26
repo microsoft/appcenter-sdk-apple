@@ -26,6 +26,7 @@ static NSString *const kMSDisableAll = @"All";
 @property(nonatomic, readonly) NSUUID *installId;
 @property BOOL sdkConfigured;
 @property BOOL enabledStateUpdating;
+@property BOOL startedFromApplication;
 
 /**
  * Returns the singleton instance of App Center.
