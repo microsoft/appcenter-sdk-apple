@@ -1,5 +1,3 @@
-@import XCTest;
-
 #import "MSAnalyticsInternal.h"
 #import "MSAnalyticsTransmissionTargetInternal.h"
 #import "MSAnalyticsTransmissionTargetPrivate.h"
