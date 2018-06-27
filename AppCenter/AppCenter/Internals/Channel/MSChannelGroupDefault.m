@@ -43,10 +43,9 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
   return self;
 }
 
-- (void)attachSenderWithAppSecret:(NSString *)appSecret installId:(NSUUID *)installId logUrl:(NSString *)logUrl {
+- (void)attachSenderWithInstallId:(NSUUID *)installId logUrl:(NSString *)logUrl {
   if (!self.sender) {
-    self.sender =
-        [[MSAppCenterIngestion alloc] initWithBaseUrl:logUrl appSecret:appSecret installId:[installId UUIDString]];
+    self.sender = [[MSAppCenterIngestion alloc] initWithBaseUrl:logUrl installId:[installId UUIDString]];
   }
 }
 

@@ -8,7 +8,7 @@
 #import "MSSender.h"
 #import "MSStorage.h"
 
-@interface MSChannelUnitDefault()
+@interface MSChannelUnitDefault ()
 
 @property(nonatomic, copy) NSString *appSecret;
 
@@ -259,6 +259,7 @@
 
                // Forward logs to the sender.
                [self.sender sendAsync:container
+                            appSecret:self.appSecret
                     completionHandler:^(NSString *senderBatchId, NSUInteger statusCode,
                                         __attribute__((unused)) NSData *data, NSError *error) {
                       dispatch_async(self.logsDispatchQueue, ^{

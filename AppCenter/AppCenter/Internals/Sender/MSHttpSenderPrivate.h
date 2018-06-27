@@ -70,9 +70,10 @@
 /**
  * Create a request based on data. Must override this method in sub classes.
  * @param data A data instance that will be transformed to request body.
+ * @param appSecret The app secret.
  * @return A URL request.
  */
-- (NSURLRequest *)createRequest:(NSObject *)data;
+- (NSURLRequest *)createRequest:(NSObject *)data appSecret:(NSString *)appSecret;
 
 /**
  * Convert key/value pairs for headers to a string.
