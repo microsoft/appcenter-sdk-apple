@@ -8,6 +8,12 @@
 #import "MSSender.h"
 #import "MSStorage.h"
 
+@interface MSChannelUnitDefault()
+
+@property(nonatomic, copy) NSString *appSecret;
+
+@end
+
 @implementation MSChannelUnitDefault
 
 @synthesize configuration = _configuration;
@@ -48,6 +54,10 @@
     }
   }
   return self;
+}
+
+- (void)setAppSecret:(NSString *)appSecret {
+  _appSecret = appSecret;
 }
 
 #pragma mark - MSChannelDelegate

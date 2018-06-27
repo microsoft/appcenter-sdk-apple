@@ -37,6 +37,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)resume;
 
+- (void)setAppSecret:(NSString *)appSecret;
+
 @end
 
 NS_ASSUME_NONNULL_END

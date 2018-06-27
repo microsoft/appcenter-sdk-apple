@@ -15,9 +15,13 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 
 @interface MSChannelGroupDefault () <MSChannelDelegate>
 
+@property(nonatomic, copy) NSString *appSecret;
+
 @end
 
 @implementation MSChannelGroupDefault
+
+@synthesize appSecret = _appSecret;
 
 #pragma mark - Initialization
 
@@ -58,6 +62,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
                                                    storage:self.storage
                                              configuration:configuration
                                          logsDispatchQueue:self.logsDispatchQueue];
+    [channel setAppSecret:self.appSecret];
     [channel addDelegate:self];
     dispatch_async(self.logsDispatchQueue, ^{
       [channel flushQueue];
@@ -69,6 +74,13 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
                               }];
   }
   return channel;
+}
+
+- (void)setAppSecret:(NSString *)appSecret {
+  _appSecret = appSecret;
+  for (id<MSChannelUnitProtocol> unit in self.channels) {
+    [unit setAppSecret:appSecret];
+  }
 }
 
 #pragma mark - Delegate

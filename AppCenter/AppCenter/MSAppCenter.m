@@ -418,6 +418,7 @@ static NSString *const kMSGroupId = @"AppCenter";
   // Construct channel group.
   self.channelGroup = [MSChannelGroupDefault new];
   if (self.appSecret) {
+    [self.channelGroup setAppSecret:self.appSecret];
     [self.channelGroup attachSenderWithAppSecret:self.appSecret installId:self.installId logUrl:self.logUrl];
   }
   self.oneCollectorChannelDelegate = [[MSOneCollectorChannelDelegate alloc] initWithInstallId:self.installId];
