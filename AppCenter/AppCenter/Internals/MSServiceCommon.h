@@ -88,13 +88,27 @@ NS_ASSUME_NONNULL_BEGIN
  * @param channelGroup channel group used to persist and send logs.
  * @param appSecret app secret for the SDK.
  * @param token default transmission target token.
+ * @param fromApplication indicates whether the service started from an application or not.
  *
  * @discussion Note that this is defined both here and in MSServiceAbstract.h. This is intentional, and due to
  * the way the classes are factored.
  */
 - (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup
                     appSecret:(nullable NSString *)appSecret
-      transmissionTargetToken:(nullable NSString *)token;
+      transmissionTargetToken:(nullable NSString *)token
+              fromApplication:(BOOL)fromApplication;
+
+/**
+ * Update configuration when the service requires to start again. This method should only be called if the service is
+ * started from libraries and then is being started from an application.
+ *
+ * @param appSecret app secret for the SDK.
+ * @param token default transmission target token for this service.
+ *
+ * @discussion Note that this is defined both here and in MSServiceAbstract.h. This is intentional, and due to
+ * the way the classes are factored.
+ */
+- (void)updateConfigurationWithAppSecret:(NSString *)appSecret transmissionTargetToken:(NSString *)token;
 
 /**
  * Checks if the service needs the application secret.
@@ -102,6 +116,13 @@ NS_ASSUME_NONNULL_BEGIN
  * @return `YES` if the application secret is required, `NO` otherwise.
  */
 - (BOOL)isAppSecretRequired;
+
+/**
+ * Checks if the service is started from an application.
+ *
+ * @return `YES` if the service is started from an application, `NO` otherwise.
+ */
+- (BOOL)isStartedFromApplication;
 
 NS_ASSUME_NONNULL_END
 

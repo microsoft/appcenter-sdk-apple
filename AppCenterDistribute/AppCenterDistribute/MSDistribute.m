@@ -189,8 +189,11 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   self.releaseDetails = nil;
 }
 
-- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(nullable NSString *)appSecret transmissionTargetToken:(nullable NSString *)token {
-  [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token];
+- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup
+                    appSecret:(nullable NSString *)appSecret
+      transmissionTargetToken:(nullable NSString *)token
+              fromApplication:(BOOL)fromApplication {
+  [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
   MSLogVerbose([MSDistribute logTag], @"Started Distribute service.");
 }
 
@@ -745,8 +748,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 - (void)storeDownloadedReleaseDetails:(nullable MSReleaseDetails *)details {
   if (details == nil) {
-    MSLogDebug([MSDistribute logTag],
-               @"Downloaded release details are missing or broken, won't store.");
+    MSLogDebug([MSDistribute logTag], @"Downloaded release details are missing or broken, won't store.");
     return;
   }
   NSString *groupId = details.distributionGroupId;
@@ -756,8 +758,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
    * IPA can contain several hashes, each for different architecture and we can't predict which will be installed,
    * so save all hashes as comma separated string.
    */
-  NSString *releaseHashes = [details.packageHashes count] > 0 ? [details.packageHashes componentsJoinedByString:@","]
-                                                              : nil;
+  NSString *releaseHashes =
+      [details.packageHashes count] > 0 ? [details.packageHashes componentsJoinedByString:@","] : nil;
   [MS_USER_DEFAULTS setObject:groupId forKey:kMSDownloadedDistributionGroupIdKey];
   [MS_USER_DEFAULTS setObject:releaseId forKey:kMSDownloadedReleaseIdKey];
   [MS_USER_DEFAULTS setObject:releaseHashes forKey:kMSDownloadedReleaseHashKey];
@@ -823,16 +825,21 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
   // Skip if the current release was not updated.
   NSString *updatedReleaseHashes = [MS_USER_DEFAULTS objectForKey:kMSDownloadedReleaseHashKey];
-  if ((updatedReleaseHashes == nil) || ([updatedReleaseHashes rangeOfString:currentInstalledReleaseHash].location == NSNotFound)) {
+  if ((updatedReleaseHashes == nil) ||
+      ([updatedReleaseHashes rangeOfString:currentInstalledReleaseHash].location == NSNotFound)) {
     return;
   }
 
   // Skip if the group ID of an updated release is the same as the stored one.
   NSString *storedDistributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
-  if ((storedDistributionGroupId == nil) || ([updatedReleaseDistributionGroupId isEqualToString:storedDistributionGroupId] == NO)) {
+  if ((storedDistributionGroupId == nil) ||
+      ([updatedReleaseDistributionGroupId isEqualToString:storedDistributionGroupId] == NO)) {
 
-    // Set group ID from downloaded release details if an updated release was downloaded from another distribution group.
-    MSLogDebug([MSDistribute logTag], @"Stored group ID doesn't match the group ID of the updated release, updating group id: %@", updatedReleaseDistributionGroupId);
+    // Set group ID from downloaded release details if an updated release was downloaded from another distribution
+    // group.
+    MSLogDebug([MSDistribute logTag],
+               @"Stored group ID doesn't match the group ID of the updated release, updating group id: %@",
+               updatedReleaseDistributionGroupId);
     [MS_USER_DEFAULTS setObject:updatedReleaseDistributionGroupId forKey:kMSDistributionGroupIdKey];
   }
 

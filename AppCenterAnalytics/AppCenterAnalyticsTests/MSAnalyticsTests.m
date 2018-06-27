@@ -71,7 +71,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   NSString *emptyEventName = @"";
   NSString *tooLongEventName =
       [@"" stringByPaddingToLength:(maxEventNameLength + 1) withString:@"tooLongEventName" startingAtIndex:0];
-  
+
   // When
   NSString *valid = [[MSAnalytics sharedInstance] validateEventName:validEventName forLogType:kMSTypeEvent];
   NSString *validShortEventName =
@@ -97,7 +97,8 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 - (void)testApplyEnabledStateWorks {
   [[MSAnalytics sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                                             appSecret:kMSTestAppSecret
-                              transmissionTargetToken:nil];
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
 
   MSServiceAbstract *service = [MSAnalytics sharedInstance];
 
@@ -128,7 +129,8 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   // When
   [[MSAnalytics sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                                             appSecret:kMSTestAppSecret
-                              transmissionTargetToken:nil];
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
 
   // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
   [[MSAnalytics sharedInstance].sessionTracker stop];
@@ -167,6 +169,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   OCMReject([delegateMock analytics:[MSAnalytics sharedInstance] didSucceedSendingEventLog:eventLog]);
   OCMReject([delegateMock analytics:[MSAnalytics sharedInstance] didFailSendingEventLog:eventLog withError:nil]);
   [MSAppCenter sharedInstance].sdkConfigured = NO;
+  [MSAppCenter sharedInstance].configuredFromApplication = NO;
   [MSAppCenter start:kMSTestAppSecret withServices:@[ [MSAnalytics class] ]];
   MSChannelUnitDefault *channelMock = [MSAnalytics sharedInstance].channelUnit =
       OCMPartialMock([MSAnalytics sharedInstance].channelUnit);
@@ -195,6 +198,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [MSAnalytics resetSharedInstance];
   id<MSAnalyticsDelegate> delegateMock = OCMProtocolMock(@protocol(MSAnalyticsDelegate));
   [MSAppCenter sharedInstance].sdkConfigured = NO;
+  [MSAppCenter sharedInstance].configuredFromApplication = NO;
   [MSAppCenter start:kMSTestAppSecret withServices:@[ [MSAnalytics class] ]];
   MSChannelUnitDefault *channelMock = [MSAnalytics sharedInstance].channelUnit =
       OCMPartialMock([MSAnalytics sharedInstance].channelUnit);
@@ -232,8 +236,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   id analyticsMock = OCMPartialMock([MSAnalytics sharedInstance]);
   OCMExpect([analyticsMock validateLog:eventLog]).andForwardToRealObject();
   OCMExpect([analyticsMock validateEventName:@"test" forLogType:@"event"]).andForwardToRealObject();
-  OCMExpect([analyticsMock validateProperties:OCMOCK_ANY forLogName:@"test" andType:@"event"])
-      .andForwardToRealObject();
+  OCMExpect([analyticsMock validateProperties:OCMOCK_ANY forLogName:@"test" andType:@"event"]).andForwardToRealObject();
   OCMExpect([analyticsMock validateLog:pageLog]).andForwardToRealObject();
   OCMExpect([analyticsMock validateEventName:OCMOCK_ANY forLogType:@"page"]).andForwardToRealObject();
   OCMReject([analyticsMock validateProperties:OCMOCK_ANY forLogName:OCMOCK_ANY andType:@"page"]);
@@ -267,7 +270,8 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
   [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
                                             appSecret:kMSTestAppSecret
-                              transmissionTargetToken:nil];
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
 
   // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
   [[MSAnalytics sharedInstance].sessionTracker stop];
@@ -291,7 +295,8 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
   [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
                                             appSecret:kMSTestAppSecret
-                              transmissionTargetToken:nil];
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
 
   // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
   [[MSAnalytics sharedInstance].sessionTracker stop];
@@ -315,7 +320,8 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
   [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
                                             appSecret:kMSTestAppSecret
-                              transmissionTargetToken:nil];
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
 
   // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
   [[MSAnalytics sharedInstance].sessionTracker stop];
@@ -355,7 +361,8 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
   [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
                                             appSecret:kMSTestAppSecret
-                              transmissionTargetToken:nil];
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
 
   // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
   [[MSAnalytics sharedInstance].sessionTracker stop];
@@ -388,7 +395,8 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
   [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
                                             appSecret:kMSTestAppSecret
-                              transmissionTargetToken:nil];
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
 
   // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
   [[MSAnalytics sharedInstance].sessionTracker stop];
@@ -423,7 +431,8 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
   [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
                                             appSecret:kMSTestAppSecret
-                              transmissionTargetToken:nil];
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
 
   // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
   [[MSAnalytics sharedInstance].sessionTracker stop];
@@ -449,7 +458,8 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
   [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
                                             appSecret:kMSTestAppSecret
-                              transmissionTargetToken:nil];
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
 
   // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
   [[MSAnalytics sharedInstance].sessionTracker stop];
@@ -473,7 +483,8 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
   [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
                                             appSecret:kMSTestAppSecret
-                              transmissionTargetToken:nil];
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
 
   // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
   [[MSAnalytics sharedInstance].sessionTracker stop];
@@ -526,7 +537,8 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
   [[MSAnalytics sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                                             appSecret:kMSTestAppSecret
-                              transmissionTargetToken:nil];
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
 
   // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
   [[MSAnalytics sharedInstance].sessionTracker stop];
@@ -559,7 +571,8 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
   [[MSAnalytics sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                                             appSecret:kMSTestAppSecret
-                              transmissionTargetToken:nil];
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
 
   // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
   [[MSAnalytics sharedInstance].sessionTracker stop];
@@ -590,7 +603,8 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
   [[MSAnalytics sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                                             appSecret:kMSTestAppSecret
-                              transmissionTargetToken:nil];
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
 
   // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
   [[MSAnalytics sharedInstance].sessionTracker stop];
@@ -631,7 +645,8 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
       });
   [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
                                             appSecret:kMSTestAppSecret
-                              transmissionTargetToken:kMSTestTransmissionToken];
+                              transmissionTargetToken:kMSTestTransmissionToken
+                                      fromApplication:YES];
 
   // When
   [MSAnalytics trackEvent:@"eventName"];
@@ -659,7 +674,8 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
       });
   [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
                                             appSecret:nil
-                              transmissionTargetToken:kMSTestTransmissionToken];
+                              transmissionTargetToken:kMSTestTransmissionToken
+                                      fromApplication:YES];
 
   // When
   [MSAnalytics trackEvent:@"eventName"];

@@ -71,6 +71,11 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
   return channel;
 }
 
+// TODO: This is temporary workaround and it should be removed once sender refactoring is merged.
+- (void)attachSenderToChannelUnit:(id<MSChannelUnitProtocol>)channelUnit {
+  channelUnit.sender = self.sender;
+}
+
 #pragma mark - Delegate
 
 - (void)addDelegate:(id<MSChannelDelegate>)delegate {

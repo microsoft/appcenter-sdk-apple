@@ -71,7 +71,6 @@ static NSString *const kMSGroupId = @"AppCenter";
 }
 
 + (void)startFromLibraryWithServices:(NSArray<Class> *)services {
-
   [[self sharedInstance] start:nil withServices:services fromApplication:NO];
 }
 
@@ -200,7 +199,7 @@ static NSString *const kMSGroupId = @"AppCenter";
 - (BOOL)configureWithSecretString:(NSString *)secretString fromApplication:(BOOL)fromApplication {
   @synchronized(self) {
     BOOL success = false;
-    if (self.startedFromApplication && fromApplication) {
+    if (self.configuredFromApplication && fromApplication) {
       MSLogAssert([MSAppCenter logTag], @"App Center SDK has already been configured.");
     } else {
       self.appSecret = [MSUtility appSecretFrom:secretString];
@@ -210,7 +209,7 @@ static NSString *const kMSGroupId = @"AppCenter";
       [self initializeChannelGroup];
       [self applyPipelineEnabledState:self.isEnabled];
       self.sdkConfigured = YES;
-      self.startedFromApplication = self.startedFromApplication | fromApplication;
+      self.configuredFromApplication = self.configuredFromApplication | fromApplication;
 
       /*
        * If the loglevel hasn't been customized before and we are not running in an app store environment,
@@ -289,7 +288,7 @@ static NSString *const kMSGroupId = @"AppCenter";
       return NO;
     }
     id<MSServiceInternal> service = [clazz sharedInstance];
-    if (service.isAvailable) {
+    if (service.isAvailable && fromApplication && service.isStartedFromApplication) {
 
       // Service already works, we shouldn't send log with this service name
       return NO;
@@ -310,19 +309,29 @@ static NSString *const kMSGroupId = @"AppCenter";
       return NO;
     }
 
-    // Set appCenterDelegate.
-    [self.services addObject:service];
+    if (!service.isAvailable) {
 
-    // Start service with channel group.
-    [service startWithChannelGroup:self.channelGroup
-                         appSecret:self.appSecret
-           transmissionTargetToken:self.defaultTransmissionTargetToken];
+      // Set appCenterDelegate.
+      [self.services addObject:service];
 
-    // Disable service if AppCenter is disabled.
-    if ([clazz isEnabled] && !self.isEnabled) {
-      self.enabledStateUpdating = YES;
-      [clazz setEnabled:NO];
-      self.enabledStateUpdating = NO;
+      // Start service with channel group.
+      [service startWithChannelGroup:self.channelGroup
+                           appSecret:self.appSecret
+             transmissionTargetToken:self.defaultTransmissionTargetToken
+                     fromApplication:fromApplication];
+
+      // Disable service if AppCenter is disabled.
+      if ([clazz isEnabled] && !self.isEnabled) {
+        self.enabledStateUpdating = YES;
+        [clazz setEnabled:NO];
+        self.enabledStateUpdating = NO;
+      }
+    } else if (fromApplication) {
+
+      // TODO: This is temporary workaround and it should be removed once sender refactoring is merged.
+      [service.channelGroup attachSenderToChannelUnit:service.channelUnit];
+      [service updateConfigurationWithAppSecret:self.appSecret
+                        transmissionTargetToken:self.defaultTransmissionTargetToken];
     }
 
     // Send start service log.

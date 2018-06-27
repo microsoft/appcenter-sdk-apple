@@ -74,20 +74,37 @@
   return YES;
 }
 
+- (BOOL)isStartedFromApplication {
+  return self.startedFromApplication;
+}
+
 #pragma mark : - MSService
 
 - (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup
                     appSecret:(NSString *)appSecret
-      transmissionTargetToken:(NSString *)token {
+      transmissionTargetToken:(NSString *)token
+              fromApplication:(BOOL)fromApplication {
+  self.startedFromApplication = fromApplication;
   self.channelGroup = channelGroup;
   self.appSecret = appSecret;
   self.defaultTransmissionTargetToken = token;
   self.started = YES;
   if ([self respondsToSelector:@selector(channelUnitConfiguration)]) {
 
-    // Initialize channel unit for the service in log manager.
+    // Initialize channel unit for the service in channel group.
     self.channelUnit = [self.channelGroup addChannelUnitWithConfiguration:self.channelUnitConfiguration];
   }
+
+  // Enable this service as needed.
+  if (self.isEnabled) {
+    [self applyEnabledState:self.isEnabled];
+  }
+}
+
+- (void)updateConfigurationWithAppSecret:(NSString *)appSecret transmissionTargetToken:(NSString *)token {
+  self.startedFromApplication = YES;
+  self.appSecret = appSecret;
+  self.defaultTransmissionTargetToken = token;
 
   // Enable this service as needed.
   if (self.isEnabled) {
