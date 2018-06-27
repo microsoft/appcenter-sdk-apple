@@ -287,6 +287,12 @@ static NSString *const kMSGroupId = @"AppCenter";
       MSLogError([MSAppCenter logTag], @"Cannot start service %@. Provided value is nil or invalid.", clazz);
       return NO;
     }
+
+    // Check if App Center is not configured to start service.
+    if (!self.sdkConfigured || (!self.configuredFromApplication && fromApplication)) {
+      MSLogError([MSAppCenter logTag], @"App Center has not been configured so it couldn't start the service.");
+      return NO;
+    }
     id<MSServiceInternal> service = [clazz sharedInstance];
     if (service.isAvailable && fromApplication && service.isStartedFromApplication) {
 
