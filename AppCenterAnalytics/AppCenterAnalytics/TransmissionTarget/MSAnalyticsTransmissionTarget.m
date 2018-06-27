@@ -1,5 +1,5 @@
-#import "MSAnalyticsTransmissionTargetInternal.h"
 #import "MSAnalyticsInternal.h"
+#import "MSAnalyticsTransmissionTargetInternal.h"
 #import "MSAnalyticsTransmissionTargetPrivate.h"
 
 @implementation MSAnalyticsTransmissionTarget
