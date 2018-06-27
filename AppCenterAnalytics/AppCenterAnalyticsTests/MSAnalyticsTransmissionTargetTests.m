@@ -59,12 +59,19 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 - (void)testTransmissionTargetForToken {
 
   // If
+  OCMClassMock([MSAnalytics class]);
+  NSDictionary *properties = [NSDictionary new];
+  NSString *event1 = @"event1";
+  NSString *event2 = @"event2";
+  NSString *event3 = @"event3";
+
   MSAnalyticsTransmissionTarget *parentTransmissionTarget =
       [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken];
   MSAnalyticsTransmissionTarget *childTransmissionTarget;
 
   // When
   childTransmissionTarget = [parentTransmissionTarget transmissionTargetForToken:kMSTestTransmissionToken2];
+  [childTransmissionTarget trackEvent:event1 withProperties:properties];
 
   // Then
   XCTAssertEqualObjects(kMSTestTransmissionToken2, childTransmissionTarget.transmissionTargetToken);
@@ -74,6 +81,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   // When
   MSAnalyticsTransmissionTarget *childTransmissionTarget2 =
       [parentTransmissionTarget transmissionTargetForToken:kMSTestTransmissionToken2];
+  [childTransmissionTarget2 trackEvent:event2 withProperties:properties];
 
   // Then
   XCTAssertEqualObjects(childTransmissionTarget, childTransmissionTarget2);
@@ -81,12 +89,20 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
                         parentTransmissionTarget.childTransmissionTargets[kMSTestTransmissionToken2]);
 
   // When
-  childTransmissionTarget2 = [parentTransmissionTarget transmissionTargetForToken:kMSTestTransmissionToken];
+  MSAnalyticsTransmissionTarget *childTransmissionTarget3 =
+      [parentTransmissionTarget transmissionTargetForToken:kMSTestTransmissionToken];
+  [childTransmissionTarget3 trackEvent:event3 withProperties:properties];
 
   // Then
-  XCTAssertEqualObjects(parentTransmissionTarget, childTransmissionTarget2);
-  XCTAssertNil(parentTransmissionTarget.childTransmissionTargets[kMSTestTransmissionToken]);
+  XCTAssertNotEqualObjects(parentTransmissionTarget, childTransmissionTarget3);
+  XCTAssertEqualObjects(childTransmissionTarget3,
+                        parentTransmissionTarget.childTransmissionTargets[kMSTestTransmissionToken]);
+  OCMVerify(ClassMethod(
+      [MSAnalytics trackEvent:event1 withProperties:properties forTransmissionTarget:childTransmissionTarget]));
+  OCMVerify(ClassMethod(
+      [MSAnalytics trackEvent:event2 withProperties:properties forTransmissionTarget:childTransmissionTarget2]));
+  OCMVerify(ClassMethod(
+      [MSAnalytics trackEvent:event3 withProperties:properties forTransmissionTarget:childTransmissionTarget3]));
 }
 
 @end
-

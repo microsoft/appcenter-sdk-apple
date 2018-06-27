@@ -34,12 +34,7 @@
 
 - (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:(NSString *)token {
 
-  // Return this target when token is the same.
-  if ([token isEqualToString:self.transmissionTargetToken]) {
-    return self;
-  }
-
-  // Look up for the token in the dictionary, create one if doesn't exist.
+  // Look up for the token in the dictionary, create a new transmission target if doesn't exist.
   MSAnalyticsTransmissionTarget *target = self.childTransmissionTargets[token];
   if (!target) {
     target = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:token];
