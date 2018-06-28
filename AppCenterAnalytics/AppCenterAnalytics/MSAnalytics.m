@@ -270,11 +270,11 @@ __attribute__((used)) static void importCategories() {
 - (MSAnalyticsTransmissionTarget *)transmissionTargetFor:(NSString *)transmissionTargetToken {
   MSAnalyticsTransmissionTarget *transmissionTarget = [self.transmissionTargets objectForKey:transmissionTargetToken];
   if (transmissionTarget) {
-    MSLogDebug([MSAnalytics logTag], @"Returning transmission target found with id %@.", transmissionTargetToken); // TODO only print out the target id.
+    MSLogDebug([MSAnalytics logTag], @"Returning transmission target found with id %@.", [MSUtility targetIdFromTargetToken:transmissionTargetToken]);
     return transmissionTarget;
   }
   transmissionTarget = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:transmissionTargetToken parentTarget:nil];
-  MSLogDebug([MSAnalytics logTag], @"Created transmission target with id %@.", transmissionTargetToken); // TODO only print out the target id.
+  MSLogDebug([MSAnalytics logTag], @"Created transmission target with id %@.", [MSUtility targetIdFromTargetToken:transmissionTargetToken]);
   [self.transmissionTargets setObject:transmissionTarget forKey:transmissionTargetToken];
   
   // TODO: Start service if not already.

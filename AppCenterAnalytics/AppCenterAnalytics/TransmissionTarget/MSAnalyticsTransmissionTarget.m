@@ -74,9 +74,9 @@
 - (void)setEnabled:(BOOL)isEnabled {
   if (self.isEnabled != isEnabled) {
     
-    // Don't enable if the immediate parent is disabled.
-    if (isEnabled && ![self isImmediateParentEnabled]){
-      MSLogWarning([MSAnalytics logTag], @"Can't enable; parent transmission target and/or Analytics service is disabled.");
+    // Don't enable if any parent in chain is disabled
+    if (isEnabled && ![self isAncestorEnabled]){
+      MSLogWarning([MSAnalytics logTag], @"Can't enable; ancestor transmission target and/or Analytics service is disabled.");
       return;
     }
     
@@ -93,10 +93,17 @@
 /**
  * Check immediate parent enabled state.
  */
-- (BOOL)isImmediateParentEnabled{
-  
-  // Check immediate parent or Analytics if no target parent.
-  return self.parentTarget?self.parentTarget.isEnabled:[MSAnalytics isEnabled];
+- (BOOL)isAncestorEnabled{
+  BOOL ancestorsEnabled = self.parentTarget ? self.parentTarget.isEnabled : true;
+  MSAnalyticsTransmissionTarget parent = self.parentTarget;
+
+  // Check all parents in chain
+  while (parent && ancestorsEnabled) {
+    ancestorsEnabled = parent.parentTarget.isEnabled;
+    parent = parent.parentTarget;
+  }
+
+  return ancestorsEnabled && [MSAnalytics isEnabled];
 }
 
 @end
