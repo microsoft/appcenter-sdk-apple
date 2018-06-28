@@ -225,7 +225,7 @@ maxNumberOfConnections:(NSInteger)maxNumberOfConnections {
           completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
             @synchronized(self) {
               NSString *payload = nil;
-              NSInteger statusCode = [MSSenderUtil getStatusCode:response];
+              NSInteger statusCode = [MSIngestionUtil getStatusCode:response];
 
               // Trying to format json for log. Don't need to log json error here.
               if (data) {

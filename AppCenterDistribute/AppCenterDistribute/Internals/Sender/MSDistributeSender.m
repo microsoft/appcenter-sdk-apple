@@ -59,7 +59,7 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat =
   if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
     NSString *url =
         [request.URL.absoluteString stringByReplacingOccurrencesOfString:self.appSecret
-                                                              withString:[MSSenderUtil hideSecret:self.appSecret]];
+                                                              withString:[MSIngestionUtil hideSecret:self.appSecret]];
     MSLogVerbose([MSAppCenter logTag], @"URL: %@", url);
     MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [super prettyPrintHeaders:request.allHTTPHeaderFields]);
   }
@@ -68,7 +68,7 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat =
 }
 
 - (NSString *)obfuscateHeaderValue:(NSString *)key value:(NSString *)value {
-  return [key isEqualToString:kMSHeaderUpdateApiToken] ? [MSSenderUtil hideSecret:value] : value;
+  return [key isEqualToString:kMSHeaderUpdateApiToken] ? [MSIngestionUtil hideSecret:value] : value;
 }
 
 @end

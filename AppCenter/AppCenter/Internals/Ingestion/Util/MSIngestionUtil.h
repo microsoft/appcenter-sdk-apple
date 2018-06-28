@@ -5,7 +5,7 @@ typedef void (^MSSendAsyncCompletionHandler)(NSString *callId, NSUInteger status
 static short const kMSMaxCharactersDisplayedForAppSecret = 8;
 static NSString *const kMSHidingStringForAppSecret = @"*";
 
-@interface MSSenderUtil : NSObject
+@interface MSIngestionUtil : NSObject
 
 /**
  *  Indicate if the http response is recoverable.

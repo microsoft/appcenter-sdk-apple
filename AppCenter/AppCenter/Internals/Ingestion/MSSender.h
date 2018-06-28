@@ -2,7 +2,7 @@
 
 #import "MSEnable.h"
 #import "MSSenderCallDelegate.h"
-#import "MSSenderUtil.h"
+#import "MSIngestionUtil.h"
 #import "MS_Reachability.h"
 
 NS_ASSUME_NONNULL_BEGIN

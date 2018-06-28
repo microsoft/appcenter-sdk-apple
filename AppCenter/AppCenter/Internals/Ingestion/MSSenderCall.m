@@ -72,8 +72,8 @@
     callCompletedWithStatus:(NSUInteger)statusCode
                        data:(nullable NSData *)data
                       error:(NSError *)error {
-  BOOL internetIsDown = [MSSenderUtil isNoInternetConnectionError:error];
-  BOOL couldNotEstablishSecureConnection = [MSSenderUtil isSSLConnectionError:error];
+  BOOL internetIsDown = [MSIngestionUtil isNoInternetConnectionError:error];
+  BOOL couldNotEstablishSecureConnection = [MSIngestionUtil isSSLConnectionError:error];
 
   if (internetIsDown || couldNotEstablishSecureConnection) {
 
@@ -85,7 +85,7 @@
   }
 
   // Retry.
-  else if ([MSSenderUtil isRecoverableError:statusCode] && ![self hasReachedMaxRetries]) {
+  else if ([MSIngestionUtil isRecoverableError:statusCode] && ![self hasReachedMaxRetries]) {
     [self startRetryTimerWithStatusCode:statusCode];
   }
 
@@ -102,7 +102,7 @@
     }
 
     // Check for error.
-    BOOL recoverableError = ([MSSenderUtil isRecoverableError:statusCode] && [self hasReachedMaxRetries]);
+    BOOL recoverableError = ([MSIngestionUtil isRecoverableError:statusCode] && [self hasReachedMaxRetries]);
     BOOL fatalError;
     fatalError = recoverableError ? NO : (error && error.code != NSURLErrorCancelled);
 

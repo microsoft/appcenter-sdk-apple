@@ -114,7 +114,7 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
   NSArray *tokens = [tokenString componentsSeparatedByString:@","];
   NSMutableArray *obfuscatedTokens = [NSMutableArray new];
   for (NSString *token in tokens) {
-    [obfuscatedTokens addObject:[MSSenderUtil hideSecret:token]];
+    [obfuscatedTokens addObject:[MSIngestionUtil hideSecret:token]];
   }
   return [obfuscatedTokens componentsJoinedByString:@","];
 }
