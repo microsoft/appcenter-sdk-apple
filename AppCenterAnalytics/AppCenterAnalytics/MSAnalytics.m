@@ -11,6 +11,7 @@
 #import "MSEventLog.h"
 #import "MSPageLog.h"
 #import "MSServiceAbstractProtected.h"
+#import "MSUtility+StringFormatting.h"
 
 // Service name for initialization.
 static NSString *const kMSServiceName = @"Analytics";
@@ -268,13 +269,14 @@ __attribute__((used)) static void importCategories() {
  * @returns The transmission target object.
  */
 - (MSAnalyticsTransmissionTarget *)transmissionTargetFor:(NSString *)transmissionTargetToken {
+  NSString *targetId = [MSUtility targetIdFromTargetToken:transmissionTargetToken];
   MSAnalyticsTransmissionTarget *transmissionTarget = [self.transmissionTargets objectForKey:transmissionTargetToken];
   if (transmissionTarget) {
-    MSLogDebug([MSAnalytics logTag], @"Returning transmission target found with id %@.", transmissionTargetToken); // TODO only print out the target id.
+    MSLogDebug([MSAnalytics logTag], @"Returning transmission target found with id %@.", targetId);
     return transmissionTarget;
   }
   transmissionTarget = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:transmissionTargetToken parentTarget:nil];
-  MSLogDebug([MSAnalytics logTag], @"Created transmission target with id %@.", transmissionTargetToken); // TODO only print out the target id.
+  MSLogDebug([MSAnalytics logTag], @"Created transmission target with id %@.", targetId);
   [self.transmissionTargets setObject:transmissionTarget forKey:transmissionTargetToken];
   
   // TODO: Start service if not already.
