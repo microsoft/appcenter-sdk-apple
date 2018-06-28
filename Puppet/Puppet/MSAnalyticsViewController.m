@@ -2,10 +2,11 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
-#import "MSAnalyticsViewController.h"
-#import "MSAnalyticsResultViewController.h"
-#import "MSAnalyticsPropertyTableViewCell.h"
 #import "AppCenterAnalytics.h"
+#import "MSAnalyticsChildTransmissionTargetViewController.h"
+#import "MSAnalyticsViewController.h"
+#import "MSAnalyticsPropertyTableViewCell.h"
+#import "MSAnalyticsResultViewController.h"
 // trackPage has been hidden in MSAnalytics temporarily. Use internal until the feature comes back.
 #import "MSAnalyticsInternal.h"
 
@@ -13,12 +14,13 @@ static NSInteger kPropertiesSection = 3;
 
 @interface MSAnalyticsViewController ()
 
-@property (weak, nonatomic) IBOutlet UISwitch *enabled;
-@property (weak, nonatomic) IBOutlet UISwitch *oneCollectorEnabled;
-@property (weak, nonatomic) IBOutlet UITextField *eventName;
-@property (weak, nonatomic) IBOutlet UITextField *pageName;
-@property (nonatomic) MSAnalyticsResultViewController *analyticsResult;
-@property (nonatomic) NSInteger propertiesCount;
+@property(weak, nonatomic) IBOutlet UISwitch *enabled;
+@property(weak, nonatomic) IBOutlet UISwitch *oneCollectorEnabled;
+@property(weak, nonatomic) IBOutlet UITextField *eventName;
+@property(weak, nonatomic) IBOutlet UITextField *pageName;
+@property(nonatomic) MSAnalyticsResultViewController *analyticsResult;
+@property(nonatomic) NSInteger propertiesCount;
+@property (weak, nonatomic) IBOutlet UILabel *selectedChildTargetTokenLabel;
 
 @end
 
@@ -29,9 +31,19 @@ static NSInteger kPropertiesSection = 3;
 - (void)viewDidLoad {
   [super viewDidLoad];
   [self.tableView setEditing:YES animated:NO];
-  
+
   self.enabled.on = [MSAnalytics isEnabled];
   self.analyticsResult = [self.storyboard instantiateViewControllerWithIdentifier:@"analyticsResult"];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+  NSString *childTargetToken = [[NSUserDefaults standardUserDefaults] objectForKey:kMSChildTransmissionTargetTokenKey];
+  if (childTargetToken) {
+    childTargetToken = [childTargetToken substringToIndex:8];
+  } else {
+    childTargetToken = @"None";
+  }
+  [_selectedChildTargetTokenLabel setText:[NSString stringWithFormat:@"OneCollector Child Target: %@", childTargetToken]];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
@@ -44,9 +56,15 @@ static NSInteger kPropertiesSection = 3;
 
 - (IBAction)trackEvent {
   if (self.oneCollectorEnabled.on) {
-    [[MSAnalytics transmissionTargetForToken:@"b9bb5bcb40f24830aa12f681e6462292-10b4c5da-67be-49ce-936b-8b2b80a83a80-7868"] trackEvent:self.eventName.text withProperties:self.properties];
-  }
-  else {
+    MSAnalyticsTransmissionTarget *target = [MSAnalytics
+        transmissionTargetForToken:@"b9bb5bcb40f24830aa12f681e6462292-10b4c5da-67be-49ce-936b-8b2b80a83a80-7868"];
+    NSString *childTargetToken =
+        [[NSUserDefaults standardUserDefaults] objectForKey:kMSChildTransmissionTargetTokenKey];
+    if (childTargetToken) {
+      target = [target transmissionTargetForToken:childTargetToken];
+    }
+    [target trackEvent:self.eventName.text withProperties:self.properties];
+  } else {
     [MSAnalytics trackEvent:self.eventName.text withProperties:self.properties];
   }
 }
@@ -63,7 +81,8 @@ static NSInteger kPropertiesSection = 3;
 - (NSDictionary *)properties {
   NSMutableDictionary *properties = [NSMutableDictionary new];
   for (int i = 0; i < self.propertiesCount; i++) {
-    MSAnalyticsPropertyTableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:kPropertiesSection]];
+    MSAnalyticsPropertyTableViewCell *cell =
+        [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:kPropertiesSection]];
     if (cell) {
       [properties setObject:cell.valueField.text forKey:cell.keyField.text];
     }
@@ -76,10 +95,10 @@ static NSInteger kPropertiesSection = 3;
      forRowAtIndexPath:(NSIndexPath *)indexPath {
   if (editingStyle == UITableViewCellEditingStyleDelete) {
     self.propertiesCount--;
-    [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [tableView deleteRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
   } else if (editingStyle == UITableViewCellEditingStyleInsert) {
     self.propertiesCount++;
-    [tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [tableView insertRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
   }
 }
 
@@ -106,7 +125,7 @@ static NSInteger kPropertiesSection = 3;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   [tableView deselectRowAtIndexPath:indexPath animated:YES];
   if ([self isInsertRowAtIndexPath:indexPath]) {
-     [self tableView:tableView commitEditingStyle:UITableViewCellEditingStyleInsert forRowAtIndexPath:indexPath];
+    [self tableView:tableView commitEditingStyle:UITableViewCellEditingStyleInsert forRowAtIndexPath:indexPath];
   }
 }
 
@@ -122,7 +141,8 @@ static NSInteger kPropertiesSection = 3;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
   if ([self isPropertiesRowSection:indexPath.section]) {
-    return [super tableView:tableView heightForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:indexPath.section]];
+    return
+        [super tableView:tableView heightForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:indexPath.section]];
   } else {
     return [super tableView:tableView heightForRowAtIndexPath:indexPath];
   }
@@ -130,7 +150,8 @@ static NSInteger kPropertiesSection = 3;
 
 - (NSInteger)tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(NSIndexPath *)indexPath {
   if ([self isPropertiesRowSection:indexPath.section]) {
-    return [super tableView:tableView indentationLevelForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:indexPath.section]];
+    return [super tableView:tableView
+        indentationLevelForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:indexPath.section]];
   } else {
     return [super tableView:tableView indentationLevelForRowAtIndexPath:indexPath];
   }
@@ -150,7 +171,8 @@ static NSInteger kPropertiesSection = 3;
     cell.textLabel.text = @"Add Property";
     return cell;
   } else if ([self isPropertiesRowSection:indexPath.section]) {
-    return [[[NSBundle mainBundle] loadNibNamed:@"MSAnalyticsPropertyTableViewCell" owner:self options:nil] firstObject];
+    return
+        [[[NSBundle mainBundle] loadNibNamed:@"MSAnalyticsPropertyTableViewCell" owner:self options:nil] firstObject];
   } else {
     return [super tableView:tableView cellForRowAtIndexPath:indexPath];
   }
