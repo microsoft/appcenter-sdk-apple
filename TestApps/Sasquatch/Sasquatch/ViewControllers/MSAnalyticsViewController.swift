@@ -40,7 +40,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
       var target = MSAnalytics.transmissionTarget(forToken: token)
       let childTargetToken = UserDefaults.standard.string(forKey: kMSChildTransmissionTargetTokenKey)
       if childTargetToken != nil {
-        target = target.forToken(childTargetToken!)
+        target = target.transmissionTarget(forToken: childTargetToken!)
       }
       target.trackEvent(name, withProperties: properties())
     } else {

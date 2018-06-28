@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @returns A transmission target object nested to this parent transmission target.
  */
-- (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:(NSString *)token;
+- (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:(NSString *)token NS_SWIFT_NAME(transmissionTarget(forToken:));
 
 @end
 
