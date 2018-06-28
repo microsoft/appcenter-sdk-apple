@@ -1,9 +1,9 @@
+#import "MSAnalytics+Validation.h"
 #import "MSAnalytics.h"
 #import "MSAnalyticsCategory.h"
 #import "MSAnalyticsInternal.h"
 #import "MSAnalyticsPrivate.h"
 #import "MSAnalyticsTransmissionTargetInternal.h"
-#import "MSAnalytics+Validation.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
@@ -211,13 +211,13 @@ __attribute__((used)) static void importCategories() {
 
   // Add transmission target token.
   if (transmissionTarget) {
-    if (transmissionTarget.isEnabled){
+    if (transmissionTarget.isEnabled) {
       [log addTransmissionTargetToken:[transmissionTarget transmissionTargetToken]];
     } else {
       MSLogError([MSAnalytics logTag], @"This transmission target is disabled.");
     }
   }
-  
+
   // Set properties of the event log.
   log.name = eventName;
   log.eventId = MS_UUID_STRING;
@@ -275,10 +275,11 @@ __attribute__((used)) static void importCategories() {
     MSLogDebug([MSAnalytics logTag], @"Returning transmission target found with id %@.", targetId);
     return transmissionTarget;
   }
-  transmissionTarget = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:transmissionTargetToken parentTarget:nil];
+  transmissionTarget =
+      [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:transmissionTargetToken parentTarget:nil];
   MSLogDebug([MSAnalytics logTag], @"Created transmission target with id %@.", targetId);
   [self.transmissionTargets setObject:transmissionTarget forKey:transmissionTargetToken];
-  
+
   // TODO: Start service if not already.
   // Scenario: getTransmissionTarget gets called before App Center has an app secret or transmission target but start
   // has been called for this service.
