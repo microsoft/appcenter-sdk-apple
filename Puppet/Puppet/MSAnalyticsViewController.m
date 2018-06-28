@@ -20,7 +20,7 @@ static NSInteger kPropertiesSection = 3;
 @property(weak, nonatomic) IBOutlet UITextField *pageName;
 @property(nonatomic) MSAnalyticsResultViewController *analyticsResult;
 @property(nonatomic) NSInteger propertiesCount;
-@property (weak, nonatomic) IBOutlet UILabel *selectedChildTargetTokenLabel;
+@property(weak, nonatomic) IBOutlet UILabel *selectedChildTargetTokenLabel;
 
 @end
 
@@ -31,19 +31,19 @@ static NSInteger kPropertiesSection = 3;
 - (void)viewDidLoad {
   [super viewDidLoad];
   [self.tableView setEditing:YES animated:NO];
-
   self.enabled.on = [MSAnalytics isEnabled];
   self.analyticsResult = [self.storyboard instantiateViewControllerWithIdentifier:@"analyticsResult"];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
   NSString *childTargetToken = [[NSUserDefaults standardUserDefaults] objectForKey:kMSChildTransmissionTargetTokenKey];
   if (childTargetToken) {
     childTargetToken = [childTargetToken substringToIndex:8];
   } else {
     childTargetToken = @"None";
   }
-  [_selectedChildTargetTokenLabel setText:[NSString stringWithFormat:@"OneCollector Child Target: %@", childTargetToken]];
+  [self.selectedChildTargetTokenLabel setText:[NSString stringWithFormat:@"Child Target: %@", childTargetToken]];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {

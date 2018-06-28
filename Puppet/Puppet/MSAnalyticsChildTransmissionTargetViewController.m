@@ -15,9 +15,8 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-
-  [_childToken1Label setText:@"Child Target Token 1 - 602c2d52"];
-  [_childToken2Label setText:@"Child Target Token 2 - 902923eb"];
+  [self.childToken1Label setText:@"Child Target Token 1 - 602c2d52"];
+  [self.childToken2Label setText:@"Child Target Token 2 - 902923eb"];
 }
 
 #pragma mark - Table view data source
