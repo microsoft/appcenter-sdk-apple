@@ -15,8 +15,6 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 
 @interface MSChannelGroupDefault () <MSChannelDelegate>
 
-@property(nonatomic, copy) NSString *appSecret;
-
 @end
 
 @implementation MSChannelGroupDefault

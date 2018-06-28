@@ -31,6 +31,25 @@
   assertThat(sut.channels, isEmpty());
   assertThat(sut.sender, equalTo(senderMock));
   assertThat(sut.storage, notNilValue());
+  assertThat(sut.appSecret, nilValue());
+}
+
+- (void)testSetAppSecret {
+  
+  // If
+  id senderMock = OCMProtocolMock(@protocol(MSSender));
+  
+  // When
+  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock];
+  
+  // Then
+  assertThat(sut.appSecret, nilValue());
+  
+  // When
+  sut.appSecret = @"TestAppSecret";
+  
+  // Then
+  XCTAssertEqual(sut.appSecret, @"TestAppSecret");
 }
 
 - (void)testAddNewChannel {

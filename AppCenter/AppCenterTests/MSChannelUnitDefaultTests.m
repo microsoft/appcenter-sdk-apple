@@ -69,8 +69,23 @@ static NSString *const kMSTestGroupId = @"GroupId";
   assertThat(self.sut.configuration, equalTo(self.configMock));
   assertThat(self.sut.sender, equalTo(self.senderMock));
   assertThat(self.sut.storage, equalTo(self.storageMock));
+  assertThat(self.sut.appSecret, nilValue());
   assertThatUnsignedLong(self.sut.itemsCount, equalToInt(0));
   OCMVerify([self.senderMock addDelegate:self.sut]);
+}
+
+- (void)testSetAppSecret {
+
+  // When new MSChannelUnitDefault
+  
+  // Then
+  assertThat(self.sut.appSecret, nilValue());
+  
+  // When
+  self.sut.appSecret = @"TestAppSecret";
+  
+  // Then
+  XCTAssertEqual(self.sut.appSecret, @"TestAppSecret");
 }
 
 - (void)testLogsSentWithSuccess {
