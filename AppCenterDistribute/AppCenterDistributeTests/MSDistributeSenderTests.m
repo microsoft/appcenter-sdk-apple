@@ -26,7 +26,7 @@
                                                             retryIntervals:@[]];
 
   // When
-  NSURLRequest *request = [sender createRequest:[NSData new]];
+  NSURLRequest *request = [sender createRequest:[NSData new] appSecret:nil];
 
   // Then
   assertThat(request.HTTPMethod, equalTo(@"GET"));
@@ -51,7 +51,7 @@
                                                                queryStrings:@{}];
 
   // When
-  NSURLRequest *request1 = [sender1 createRequest:[NSData new]];
+  NSURLRequest *request1 = [sender1 createRequest:[NSData new] appSecret:nil];
 
   // Then
   assertThat(request1.HTTPMethod, equalTo(@"GET"));

@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param appSecret The app secret.
  * @param handler Completion handler.
  */
-- (void)sendAsync:(nullable NSObject *)data appSecret:(NSString *)appSecret completionHandler:(MSSendAsyncCompletionHandler)handler;
+- (void)sendAsync:(nullable NSObject *)data appSecret:(nullable NSString *)appSecret completionHandler:(MSSendAsyncCompletionHandler)handler;
 
 /**
  *  Add the given delegate to the sender.
