@@ -1,8 +1,8 @@
 #import "MSAnalyticsInternal.h"
-#import "MSServiceAbstractInternal.h"
 #import "MSAnalyticsTransmissionTargetInternal.h"
 #import "MSAnalyticsTransmissionTargetPrivate.h"
 #import "MSLogger.h"
+#import "MSServiceAbstractInternal.h"
 #import "MSUtility+StringFormatting.h"
 
 @implementation MSAnalyticsTransmissionTarget
@@ -18,13 +18,15 @@
   return self;
 }
 
-- (instancetype)initWithTransmissionTargetToken:(NSString *)token parentTarget:(MSAnalyticsTransmissionTarget *)parentTarget{
+- (instancetype)initWithTransmissionTargetToken:(NSString *)token
+                                   parentTarget:(MSAnalyticsTransmissionTarget *)parentTarget {
   if ((self = [self init])) {
     _parentTarget = parentTarget;
     _childTransmissionTargets = [NSMutableDictionary<NSString *, MSAnalyticsTransmissionTarget *> new];
     _transmissionTargetToken = token;
-    _isEnabledKey = [NSString stringWithFormat:@"%@/%@",[MSAnalytics sharedInstance].isEnabledKey, [MSUtility targetIdFromTargetToken:token]];
-    
+    _isEnabledKey = [NSString stringWithFormat:@"%@/%@", [MSAnalytics sharedInstance].isEnabledKey,
+                                               [MSUtility targetIdFromTargetToken:token]];
+
     // Match parent target or Analytics enabled state.
     [self setEnabled:[self isImmediateParentEnabled]];
   }
@@ -62,29 +64,29 @@
 }
 
 - (BOOL)isEnabled {
-  
+
   // Get isEnabled value from persistence.
   // No need to cache the value in a property, user settings already have their cache mechanism.
   NSNumber *isEnabledNumber = [self.storage objectForKey:self.isEnabledKey];
-  
+
   // Return the persisted value otherwise it's enabled by default.
   return (isEnabledNumber) ? [isEnabledNumber boolValue] : YES;
 }
 
 - (void)setEnabled:(BOOL)isEnabled {
   if (self.isEnabled != isEnabled) {
-    
-    // Don't enable if any parent in chain is disabled
-    if (isEnabled && ![self isAncestorEnabled]){
-      MSLogWarning([MSAnalytics logTag], @"Can't enable; ancestor transmission target and/or Analytics service is disabled.");
+    // Don't enable if the immediate parent is disabled.
+    if (isEnabled && ![self isAncestorEnabled]) {
+      MSLogWarning([MSAnalytics logTag],
+                   @"Can't enable; parent transmission target and/or Analytics service is disabled.");
       return;
     }
-    
+
     // Persist the enabled status.
     [self.storage setObject:@(isEnabled) forKey:self.isEnabledKey];
-    
+
     // Propagate to nested transmission targets. TODO Find a more effective approach.
-    for (NSString *token in self.childTransmissionTargets){
+    for (NSString *token in self.childTransmissionTargets) {
       [self.childTransmissionTargets[token] setEnabled:isEnabled];
     }
   }

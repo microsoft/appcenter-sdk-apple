@@ -39,7 +39,7 @@ static NSString *kMSAppSecretKey = @"appsecret=";
       // Component is app secret, return the component. Check for length > 0 as "foo;" will be parsed as 2 components.
       if (([component rangeOfString:kMSTransmissionTargetKey].location == NSNotFound) && (component.length > 0)) {
         NSString *secretString = [component stringByReplacingOccurrencesOfString:kMSAppSecretKey withString:@""];
-        
+
         // Check for string length to avoid returning empty string.
         if ((secretString != nil) && (secretString.length > 0)) {
           return secretString;
@@ -61,10 +61,11 @@ static NSString *kMSAppSecretKey = @"appsecret=";
 
       // Component is transmission target token, return the component.
       if (([component rangeOfString:kMSTransmissionTargetKey].location != NSNotFound) && (component.length > 0)) {
-        NSString *transmissionTarget = [component stringByReplacingOccurrencesOfString:kMSTransmissionTargetKey withString:@""];
-        
+        NSString *transmissionTarget =
+            [component stringByReplacingOccurrencesOfString:kMSTransmissionTargetKey withString:@""];
+
         // Check for string length to avoid returning empty string.
-        if(transmissionTarget.length > 0) {
+        if (transmissionTarget.length > 0) {
           return transmissionTarget;
         }
       }
@@ -76,15 +77,14 @@ static NSString *kMSAppSecretKey = @"appsecret=";
 }
 
 // TODO Add tests
-+ (nullable NSString *)iKeyFromTargetToken:(NSString *)token{
++ (nullable NSString *)iKeyFromTargetToken:(NSString *)token {
   NSString *targetId = [self targetIdFromTargetToken:token];
   return targetId.length ? [NSString stringWithFormat:@"o:%@", targetId] : nil;
 }
 
 // TODO Add tests
-+ (nullable NSString *)targetIdFromTargetToken:(NSString *)token{
++ (nullable NSString *)targetIdFromTargetToken:(NSString *)token {
   return [token componentsSeparatedByString:@"-"][0];
 }
-
 
 @end

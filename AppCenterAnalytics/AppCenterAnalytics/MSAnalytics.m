@@ -1,9 +1,9 @@
+#import "MSAnalytics+Validation.h"
 #import "MSAnalytics.h"
 #import "MSAnalyticsCategory.h"
 #import "MSAnalyticsInternal.h"
 #import "MSAnalyticsPrivate.h"
 #import "MSAnalyticsTransmissionTargetInternal.h"
-#import "MSAnalytics+Validation.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
@@ -11,6 +11,7 @@
 #import "MSEventLog.h"
 #import "MSPageLog.h"
 #import "MSServiceAbstractProtected.h"
+#import "MSUtility+StringFormatting.h"
 
 // Service name for initialization.
 static NSString *const kMSServiceName = @"Analytics";
@@ -210,13 +211,13 @@ __attribute__((used)) static void importCategories() {
 
   // Add transmission target token.
   if (transmissionTarget) {
-    if (transmissionTarget.isEnabled){
+    if (transmissionTarget.isEnabled) {
       [log addTransmissionTargetToken:[transmissionTarget transmissionTargetToken]];
     } else {
       MSLogError([MSAnalytics logTag], @"This transmission target is disabled.");
     }
   }
-  
+
   // Set properties of the event log.
   log.name = eventName;
   log.eventId = MS_UUID_STRING;
@@ -268,6 +269,7 @@ __attribute__((used)) static void importCategories() {
  * @returns The transmission target object.
  */
 - (MSAnalyticsTransmissionTarget *)transmissionTargetFor:(NSString *)transmissionTargetToken {
+  NSString *targetId = [MSUtility targetIdFromTargetToken:transmissionTargetToken];
   MSAnalyticsTransmissionTarget *transmissionTarget = [self.transmissionTargets objectForKey:transmissionTargetToken];
   if (transmissionTarget) {
     MSLogDebug([MSAnalytics logTag], @"Returning transmission target found with id %@.", [MSUtility targetIdFromTargetToken:transmissionTargetToken]);
@@ -276,7 +278,7 @@ __attribute__((used)) static void importCategories() {
   transmissionTarget = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:transmissionTargetToken parentTarget:nil];
   MSLogDebug([MSAnalytics logTag], @"Created transmission target with id %@.", [MSUtility targetIdFromTargetToken:transmissionTargetToken]);
   [self.transmissionTargets setObject:transmissionTarget forKey:transmissionTargetToken];
-  
+
   // TODO: Start service if not already.
   // Scenario: getTransmissionTarget gets called before App Center has an app secret or transmission target but start
   // has been called for this service.
