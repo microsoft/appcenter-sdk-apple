@@ -8,11 +8,6 @@
 @interface MSServiceAbstract ()
 
 /**
- *  isEnabled value storage key.
- */
-@property(nonatomic, copy, readonly) NSString *isEnabledKey;
-
-/**
  *  Storage used for persistence.
  */
 @property(nonatomic) MSUserDefaults *storage;

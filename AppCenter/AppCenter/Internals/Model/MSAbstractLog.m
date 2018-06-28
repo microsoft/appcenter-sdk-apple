@@ -7,6 +7,7 @@
 #import "MSDeviceInternal.h"
 #import "MSLogger.h"
 #import "MSUtility+Date.h"
+#import "MSUtility+StringFormatting.h"
 
 @implementation MSAbstractLog
 
@@ -143,9 +144,7 @@
   // TODO popSample not supported at this time.
 
   // Calculate iKey based on the target token.
-  if (token && token.length) {
-    csLog.iKey = [NSString stringWithFormat:@"o:%@", [token componentsSeparatedByString:@"-"][0]];
-  }
+  csLog.iKey = [MSUtility iKeyFromTargetToken:token];
 
   // TODO flags not supported at this time.
   // TODO cV not supported at this time.

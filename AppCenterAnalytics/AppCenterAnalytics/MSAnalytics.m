@@ -208,16 +208,20 @@ __attribute__((used)) static void importCategories() {
   // Create an event log.
   MSEventLog *log = [MSEventLog new];
 
+  // Add transmission target token.
+  if (transmissionTarget) {
+    if (transmissionTarget.isEnabled){
+      [log addTransmissionTargetToken:[transmissionTarget transmissionTargetToken]];
+    } else {
+      MSLogError([MSAnalytics logTag], @"This transmission target is disabled.");
+    }
+  }
+  
   // Set properties of the event log.
   log.name = eventName;
   log.eventId = MS_UUID_STRING;
   if (properties && properties.count > 0) {
     log.properties = [properties copy];
-  }
-
-  // Add transmission targets.
-  if (transmissionTarget) {
-    [log addTransmissionTargetToken:[transmissionTarget transmissionTargetToken]];
   }
 
   // Send log to log manager.
@@ -266,11 +270,11 @@ __attribute__((used)) static void importCategories() {
 - (MSAnalyticsTransmissionTarget *)transmissionTargetFor:(NSString *)transmissionTargetToken {
   MSAnalyticsTransmissionTarget *transmissionTarget = [self.transmissionTargets objectForKey:transmissionTargetToken];
   if (transmissionTarget) {
-    MSLogDebug([MSAnalytics logTag], @"Returning transmission target found with id %@.", transmissionTargetToken);
+    MSLogDebug([MSAnalytics logTag], @"Returning transmission target found with id %@.", transmissionTargetToken); // TODO only print out the target id.
     return transmissionTarget;
   }
-  transmissionTarget = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:transmissionTargetToken];
-  MSLogDebug([MSAnalytics logTag], @"Created transmission target with id %@.", transmissionTargetToken);
+  transmissionTarget = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:transmissionTargetToken parentTarget:nil];
+  MSLogDebug([MSAnalytics logTag], @"Created transmission target with id %@.", transmissionTargetToken); // TODO only print out the target id.
   [self.transmissionTargets setObject:transmissionTarget forKey:transmissionTargetToken];
   
   // TODO: Start service if not already.

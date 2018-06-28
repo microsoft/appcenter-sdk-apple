@@ -6,8 +6,8 @@
 /**
  * The transmission target token corresponding to this transmission target.
  */
-@property(nonatomic) NSString *transmissionTargetToken;
+@property(nonatomic, readonly) NSString *transmissionTargetToken;
 
-- (instancetype)initWithTransmissionTargetToken:(NSString *)token;
+- (instancetype)initWithTransmissionTargetToken:(NSString *)token parentTarget:(MSAnalyticsTransmissionTarget *)parentTarget;
 
 @end
