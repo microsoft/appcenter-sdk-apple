@@ -1,7 +1,7 @@
 #import "MSAppCenterInternal.h"
 #import "MSHttpSender.h"
 #import "MSHttpSenderPrivate.h"
-#import "MSSenderCall.h"
+#import "MSIngestionCall.h"
 #import "MSSenderDelegate.h"
 
 static NSTimeInterval kRequestTimeout = 60.0;
@@ -147,7 +147,7 @@ maxNumberOfConnections:(NSInteger)maxNumberOfConnections {
 
       // Suspend current calls' retry.
       [self.pendingCalls.allValues
-          enumerateObjectsUsingBlock:^(MSSenderCall *_Nonnull call, __attribute__((unused)) NSUInteger idx,
+          enumerateObjectsUsingBlock:^(MSIngestionCall *_Nonnull call, __attribute__((unused)) NSUInteger idx,
                                        __attribute__((unused)) BOOL *_Nonnull stop) {
             if (!call.submitted) {
               [call resetRetry];
@@ -185,7 +185,7 @@ maxNumberOfConnections:(NSInteger)maxNumberOfConnections {
 
       // Resume calls.
       [self.pendingCalls.allValues
-          enumerateObjectsUsingBlock:^(MSSenderCall *_Nonnull call, __attribute__((unused)) NSUInteger idx,
+          enumerateObjectsUsingBlock:^(MSIngestionCall *_Nonnull call, __attribute__((unused)) NSUInteger idx,
                                        __attribute__((unused)) BOOL *_Nonnull stop) {
             if (!call.submitted) {
               [self sendCallAsync:call];
@@ -203,7 +203,7 @@ maxNumberOfConnections:(NSInteger)maxNumberOfConnections {
 
 #pragma mark - MSSenderCallDelegate
 
-- (void)sendCallAsync:(MSSenderCall *)call {
+- (void)sendCallAsync:(MSIngestionCall *)call {
   @synchronized(self) {
     if (self.suspended || !self.enabled) {
       return;
@@ -269,7 +269,7 @@ maxNumberOfConnections:(NSInteger)maxNumberOfConnections {
   }
 }
 
-- (void)call:(MSSenderCall *)call completedWithResult:(MSSenderCallResult)result {
+- (void)call:(MSIngestionCall *)call completedWithResult:(MSSenderCallResult)result {
   @synchronized(self) {
     switch (result) {
     case MSSenderCallResultFatalError: {
@@ -411,9 +411,9 @@ maxNumberOfConnections:(NSInteger)maxNumberOfConnections {
   @synchronized(self) {
 
     // Check if call has already been created(retry scenario).
-    MSSenderCall *call = self.pendingCalls[callId];
+    MSIngestionCall *call = self.pendingCalls[callId];
     if (call == nil) {
-      call = [[MSSenderCall alloc] initWithRetryIntervals:self.callsRetryIntervals];
+      call = [[MSIngestionCall alloc] initWithRetryIntervals:self.callsRetryIntervals];
       call.delegate = self;
       call.data = data;
       call.callId = callId;

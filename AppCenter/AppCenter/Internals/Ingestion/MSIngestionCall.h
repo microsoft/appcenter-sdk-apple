@@ -4,12 +4,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MSSenderCall : NSObject
+@interface MSIngestionCall : NSObject
 
 /**
  *  Call delegate.
  */
-@property(nonatomic, weak) id<MSSenderCallDelegate> delegate;
+@property(nonatomic, weak) id<MSIngestionCallDelegate> delegate;
 
 /**
  *  Whether the request to send data has been submitted or not.

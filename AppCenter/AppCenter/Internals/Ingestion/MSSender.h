@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 
 #import "MSEnable.h"
-#import "MSSenderCallDelegate.h"
+#import "MSIngestionCallDelegate.h"
 #import "MSIngestionUtil.h"
 #import "MS_Reachability.h"
 
@@ -9,7 +9,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol MSSenderDelegate;
 
-@protocol MSSender <NSObject, MSSenderCallDelegate, MSEnable>
+@protocol MSSender <NSObject, MSIngestionCallDelegate, MSEnable>
 
 /**
  * Reachability library.

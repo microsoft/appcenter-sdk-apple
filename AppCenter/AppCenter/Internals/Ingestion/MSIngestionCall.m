@@ -1,8 +1,8 @@
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterInternal.h"
-#import "MSSenderCall.h"
+#import "MSIngestionCall.h"
 
-@implementation MSSenderCall
+@implementation MSIngestionCall
 
 @synthesize completionHandler = _completionHandler;
 @synthesize data = _data;

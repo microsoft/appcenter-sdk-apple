@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Pending http calls.
  */
-@property NSMutableDictionary<NSString *, MSSenderCall *> *pendingCalls;
+@property NSMutableDictionary<NSString *, MSIngestionCall *> *pendingCalls;
 
 /**
  *  Send data to backend

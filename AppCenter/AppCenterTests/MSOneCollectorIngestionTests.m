@@ -6,7 +6,7 @@
 #import "MSHttpTestUtil.h"
 #import "MSMockLog.h"
 #import "MSOneCollectorIngestion.h"
-#import "MSSenderCall.h"
+#import "MSIngestionCall.h"
 #import "MSSenderDelegate.h"
 #import "MSTestFrameworks.h"
 

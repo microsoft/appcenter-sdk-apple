@@ -6,7 +6,7 @@
 #import "MSHttpSenderPrivate.h"
 #import "MSHttpTestUtil.h"
 #import "MSMockLog.h"
-#import "MSSenderCall.h"
+#import "MSIngestionCall.h"
 #import "MSSenderDelegate.h"
 #import "MSTestFrameworks.h"
 
@@ -371,7 +371,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 
   // Mock the call to intercept the retry.
   NSArray *intervals = @[ @(0.5), @(1) ];
-  MSSenderCall *mockedCall = OCMPartialMock([[MSSenderCall alloc] initWithRetryIntervals:intervals]);
+  MSIngestionCall *mockedCall = OCMPartialMock([[MSIngestionCall alloc] initWithRetryIntervals:intervals]);
   mockedCall.delegate = self.sut;
   mockedCall.data = container;
   mockedCall.callId = container.batchId;
@@ -427,7 +427,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   MSLogContainer *container = [self createLogContainerWithId:containerId];
 
   // Mock the call to intercept the retry.
-  MSSenderCall *mockedCall = OCMPartialMock([[MSSenderCall alloc] initWithRetryIntervals:@[ @(UINT_MAX) ]]);
+  MSIngestionCall *mockedCall = OCMPartialMock([[MSIngestionCall alloc] initWithRetryIntervals:@[ @(UINT_MAX) ]]);
   mockedCall.delegate = self.sut;
   mockedCall.data = container;
   mockedCall.callId = container.batchId;
@@ -466,7 +466,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpartial-availability"
                                  XCTAssertNotEqual(
-                                     0, dispatch_testcancel(((MSSenderCall *)self.sut.pendingCalls[@"1"]).timerSource));
+                                     0, dispatch_testcancel(((MSIngestionCall *)self.sut.pendingCalls[@"1"]).timerSource));
 #pragma clang diagnostic pop
 #endif
 

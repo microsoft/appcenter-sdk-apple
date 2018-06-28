@@ -14,7 +14,7 @@
 #import "MSKeychainUtil.h"
 #import "MSMockUserDefaults.h"
 #import "MSLoggerInternal.h"
-#import "MSSenderCall.h"
+#import "MSIngestionCall.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSSessionContext.h"
 #import "MSSessionContextPrivate.h"
@@ -71,7 +71,7 @@ static NSURL *sfURL;
 
 @end
 
-@interface MSSenderCall ()
+@interface MSIngestionCall ()
 
 - (void)startRetryTimerWithStatusCode:(NSUInteger)statusCode;
 
@@ -810,7 +810,7 @@ static NSURL *sfURL;
   OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
   XCTestExpectation *expection = [self expectationWithDescription:@"Request completed."];
-  id senderCallMock = OCMPartialMock([MSSenderCall alloc]);
+  id senderCallMock = OCMPartialMock([MSIngestionCall alloc]);
   OCMStub([senderCallMock alloc]).andReturn(senderCallMock);
   OCMReject([senderCallMock startRetryTimerWithStatusCode:404]);
   OCMStub([senderCallMock sender:OCMOCK_ANY
@@ -869,7 +869,7 @@ static NSURL *sfURL;
   OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
   XCTestExpectation *expection = [self expectationWithDescription:@"Request completed."];
-  id senderCallMock = OCMPartialMock([MSSenderCall alloc]);
+  id senderCallMock = OCMPartialMock([MSIngestionCall alloc]);
   OCMStub([senderCallMock alloc]).andReturn(senderCallMock);
   OCMStub([senderCallMock startRetryTimerWithStatusCode:500]).andDo(nil);
   OCMStub([senderCallMock sender:OCMOCK_ANY
@@ -2173,7 +2173,7 @@ static NSURL *sfURL;
   OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
   XCTestExpectation *expection = [self expectationWithDescription:@"Request completed."];
-  id senderCallMock = OCMPartialMock([MSSenderCall alloc]);
+  id senderCallMock = OCMPartialMock([MSIngestionCall alloc]);
   OCMStub([senderCallMock alloc]).andReturn(senderCallMock);
   OCMReject([senderCallMock startRetryTimerWithStatusCode:404]);
   OCMStub([senderCallMock sender:OCMOCK_ANY
