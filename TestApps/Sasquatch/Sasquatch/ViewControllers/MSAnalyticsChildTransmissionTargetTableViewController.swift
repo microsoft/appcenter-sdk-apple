@@ -1,26 +1,19 @@
-//
-//  MSAnalyticsChildTransmissionTargetTableViewController.swift
-//  SasquatchObjC
-//
-//  Created by Benjamin Scholtysik on 6/28/18.
-//  Copyright © 2018 Microsoft Corp. All rights reserved.
-//
-
 import UIKit
 
 class MSAnalyticsChildTransmissionTargetTableViewController: UITableViewController, AppCenterProtocol {
-  var appCenter: AppCenterDelegate!
   @IBOutlet weak var childToken1Label: UILabel!
   @IBOutlet weak var childToken2Label: UILabel!
   
-    override func viewDidLoad() {
-      super.viewDidLoad()
-      self.childToken1Label.text = "Child Target Token 1 - 602c2d52"
-      self.childToken2Label.text = "Child Target Token 2 - 902923eb"
-    }
+  var appCenter: AppCenterDelegate!
   
-    // MARK: - Table view data source
-
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    self.childToken1Label.text = "Child Target Token 1 - 602c2d52"
+    self.childToken2Label.text = "Child Target Token 2 - 902923eb"
+  }
+  
+  // MARK: - Table view data source
+  
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     switch indexPath.row {
     case 0:
