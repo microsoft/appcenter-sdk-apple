@@ -37,6 +37,17 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)resume;
 
+/**
+ * Set the app secret.
+ *
+ * @param appSecret The app secret.
+ *
+ * @discussion The app secret should be a property on MSChannelProtocol with synthesize statements in
+ * MSDefaultChannelGroup and MSDefaultChannelUnit with MSDefaultChannelGroup having the custom setter (setAppSecret:).
+ * The problem is that the compiler somehow doesn't "understand" that setAppSecret: is a setter, and it throws a warning
+ * because we're accessing the ivar directly. This doesn't make any sense but we spent about 2hrs yesterday trying
+ * different solutions and this PR is what we came up with.
+ */
 - (void)setAppSecret:(NSString *)appSecret;
 
 @end
