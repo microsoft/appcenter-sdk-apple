@@ -17,17 +17,17 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSString *apiPath;
 
 /**
- *  Send Url.
+ * Send Url.
  */
 @property(nonatomic) NSURL *sendURL;
 
 /**
- *  Request header parameters.
+ * Request header parameters.
  */
 @property(nonatomic) NSDictionary *httpHeaders;
 
 /**
- *  Pending http calls.
+ * Pending http calls.
  */
 @property NSMutableDictionary<NSString *, MSSenderCall *> *pendingCalls;
 
