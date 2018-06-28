@@ -1209,7 +1209,7 @@
 				E84B8E241D234EC7006FD231 /* Channel */,
 				381C91E21D3DB65D004512F1 /* Device */,
 				6E171B511D234717000DC480 /* Model */,
-				E84B8E221D234EBB006FD231 /* Sender */,
+				E84B8E221D234EBB006FD231 /* Ingestion */,
 				045C850E1FE0B19C00089540 /* Session */,
 				E84B8E231D234EC1006FD231 /* Storage */,
 				6E0401481D1C99AC0051BCFA /* Util */,
@@ -1447,7 +1447,7 @@
 			path = Reachability;
 			sourceTree = "<group>";
 		};
-		E84B8E221D234EBB006FD231 /* Sender */ = {
+		E84B8E221D234EBB006FD231 /* Ingestion */ = {
 			isa = PBXGroup;
 			children = (
 				E8753D6B1D4BE4FC00241513 /* Util */,
@@ -1464,7 +1464,7 @@
 				B2B7D50920C5E562001D31B8 /* MSOneCollectorIngestion.h */,
 				B2B7D50A20C5E562001D31B8 /* MSOneCollectorIngestion.m */,
 			);
-			path = Sender;
+			path = Ingestion;
 			sourceTree = "<group>";
 		};
 		E84B8E231D234EC1006FD231 /* Storage */ = {
