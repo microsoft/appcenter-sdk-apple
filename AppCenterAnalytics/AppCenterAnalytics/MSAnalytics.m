@@ -96,6 +96,15 @@ __attribute__((used)) static void importCategories() {
 
 #pragma mark - MSServiceAbstract
 
+- (void)setEnabled:(BOOL)isEnabled {
+  [super setEnabled:isEnabled];
+
+  // Propagate to transmission targets.
+  for (NSString *token in self.transmissionTargets) {
+    [self.transmissionTargets[token] setEnabled:isEnabled];
+  }
+}
+
 - (void)applyEnabledState:(BOOL)isEnabled {
   [super applyEnabledState:isEnabled];
   if (isEnabled) {
@@ -269,14 +278,16 @@ __attribute__((used)) static void importCategories() {
  * @returns The transmission target object.
  */
 - (MSAnalyticsTransmissionTarget *)transmissionTargetFor:(NSString *)transmissionTargetToken {
-  NSString *targetId = [MSUtility targetIdFromTargetToken:transmissionTargetToken];
   MSAnalyticsTransmissionTarget *transmissionTarget = [self.transmissionTargets objectForKey:transmissionTargetToken];
   if (transmissionTarget) {
-    MSLogDebug([MSAnalytics logTag], @"Returning transmission target found with id %@.", [MSUtility targetIdFromTargetToken:transmissionTargetToken]);
+    MSLogDebug([MSAnalytics logTag], @"Returning transmission target found with id %@.",
+               [MSUtility targetIdFromTargetToken:transmissionTargetToken]);
     return transmissionTarget;
   }
-  transmissionTarget = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:transmissionTargetToken parentTarget:nil];
-  MSLogDebug([MSAnalytics logTag], @"Created transmission target with id %@.", [MSUtility targetIdFromTargetToken:transmissionTargetToken]);
+  transmissionTarget =
+      [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:transmissionTargetToken parentTarget:nil];
+  MSLogDebug([MSAnalytics logTag], @"Created transmission target with id %@.",
+             [MSUtility targetIdFromTargetToken:transmissionTargetToken]);
   [self.transmissionTargets setObject:transmissionTarget forKey:transmissionTargetToken];
 
   // TODO: Start service if not already.

@@ -6,9 +6,17 @@
 /**
  * The transmission target token corresponding to this transmission target.
  */
-@property(nonatomic, readonly) NSString *transmissionTargetToken;
+@property(nonatomic, copy, readonly) NSString *transmissionTargetToken;
 
+/**
+ * Initialize a transmission target with token and parent target.
+ *
+ * @param token A transmission target token.
+ * @param parentTarget Nested parent transmission target.
+ *
+ * @return A transmission target instance.
+ */
 - (instancetype)initWithTransmissionTargetToken:(NSString *)token
-                                   parentTarget:(MSAnalyticsTransmissionTarget *)parentTarget;
+                                   parentTarget:(nullable MSAnalyticsTransmissionTarget *)parentTarget;
 
 @end

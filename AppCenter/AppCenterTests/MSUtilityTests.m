@@ -724,9 +724,10 @@
   BOOL forceOverwrite = NO;
   BOOL atomical = YES;
   NSUInteger fileCount;
-  for (fileCount = 0; fileCount<3 ; fileCount++){
+  for (fileCount = 0; fileCount < 3; fileCount++) {
     [MSUtility createFileAtPathComponent:[NSString stringWithFormat:@"%@%lu", pathComponent, (unsigned long)fileCount]
-                                withData:[[NSString stringWithFormat:@"%@%lu", expectedString, (unsigned long)fileCount] dataUsingEncoding:NSUTF8StringEncoding]
+                                withData:[[NSString stringWithFormat:@"%@%lu", expectedString, (unsigned long)fileCount]
+                                             dataUsingEncoding:NSUTF8StringEncoding]
                               atomically:atomical
                           forceOverwrite:forceOverwrite];
   }
@@ -736,7 +737,7 @@
 
   // Then
   XCTAssertTrue(contents.count == fileCount);
-  for (NSURL *fileUrl in contents){
+  for (NSURL *fileUrl in contents) {
     NSString *testNb = fileUrl.pathExtension;
     NSString *content = [NSString stringWithContentsOfURL:fileUrl encoding:NSUTF8StringEncoding error:nil];
     XCTAssertTrue([fileUrl checkResourceIsReachableAndReturnError:nil]);
@@ -771,19 +772,19 @@
 }
 
 - (void)testDeleteFileAtURL {
-  
+
   // If
   NSString *expectedString = @"Something";
   NSString *pathComponent = @"testing/anotherfile.test";
   NSData *expectedData = [expectedString dataUsingEncoding:NSUTF8StringEncoding];
   BOOL forceOverwrite = NO;
-  
+
   // When
   NSURL *url = [MSUtility createFileAtPathComponent:pathComponent
                                            withData:expectedData
                                          atomically:YES
                                      forceOverwrite:forceOverwrite];
-  
+
   // Then
   XCTAssertNotNil(url);
   NSString *expectedFile;
@@ -798,32 +799,75 @@
 #endif
   XCTAssertTrue([[url relativeString] containsString:expectedFile]);
   XCTAssertTrue([url checkResourceIsReachableAndReturnError:nil]);
-  
+
   // When
   [MSUtility deleteFileAtURL:url];
-  
+
   // Then
   XCTAssertFalse([url checkResourceIsReachableAndReturnError:nil]);
 }
 
 - (void)testFullURLForPathComponent {
-  
+
   // If
   NSString *expectedString = @"Something";
   NSString *pathComponent = @"testing/anotherfile.test";
   NSData *expectedData = [expectedString dataUsingEncoding:NSUTF8StringEncoding];
   BOOL forceOverwrite = NO;
-  
+
   // When
   NSURL *url = [MSUtility createFileAtPathComponent:pathComponent
                                            withData:expectedData
                                          atomically:YES
                                      forceOverwrite:forceOverwrite];
   NSURL *actual = [MSUtility fullURLForPathComponent:pathComponent];
+
   // Then
   XCTAssertNotNil(url);
   XCTAssertNotNil(url);
-  XCTAssertTrue([[url absoluteString] isEqualToString:([actual absoluteString])?:@""]);
+  XCTAssertTrue([[url absoluteString] isEqualToString:([actual absoluteString]) ?: @""]);
+}
+
+- (void)testIKeyFromTargetToken {
+
+  // When
+  NSString *iKey = [MSUtility iKeyFromTargetToken:nil];
+
+  // Then
+  XCTAssertNil(iKey);
+
+  // When
+  iKey = [MSUtility iKeyFromTargetToken:@""];
+
+  // Then
+  XCTAssertNil(iKey);
+
+  // When
+  iKey = [MSUtility iKeyFromTargetToken:@"targetId-gu-id"];
+
+  // Then
+  XCTAssertEqualObjects(iKey, @"o:targetId");
+}
+
+- (void)testTargetIdFromTargetToken {
+
+  // When
+  NSString *targetId = [MSUtility targetIdFromTargetToken:nil];
+
+  // Then
+  XCTAssertNil(targetId);
+
+  // When
+  targetId = [MSUtility targetIdFromTargetToken:@""];
+
+  // Then
+  XCTAssertNil(targetId);
+
+  // When
+  targetId = [MSUtility targetIdFromTargetToken:@"targetId-gu-id"];
+
+  // Then
+  XCTAssertEqualObjects(targetId, @"targetId");
 }
 
 @end

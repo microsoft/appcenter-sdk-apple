@@ -7,30 +7,29 @@
 
 @implementation MSAnalyticsTransmissionTarget
 
-- (instancetype)init {
-  return [self initWithStorage:MS_USER_DEFAULTS];
-}
-
-- (instancetype)initWithStorage:(MSUserDefaults *)storage {
+- (instancetype)initWithTransmissionTargetToken:(NSString *)token
+                                   parentTarget:(nullable MSAnalyticsTransmissionTarget *)parentTarget
+                                        storage:(MSUserDefaults *)storage {
   if ((self = [super init])) {
     _storage = storage;
-  }
-  return self;
-}
-
-- (instancetype)initWithTransmissionTargetToken:(NSString *)token
-                                   parentTarget:(MSAnalyticsTransmissionTarget *)parentTarget {
-  if ((self = [self init])) {
     _parentTarget = parentTarget;
     _childTransmissionTargets = [NSMutableDictionary<NSString *, MSAnalyticsTransmissionTarget *> new];
     _transmissionTargetToken = token;
     _isEnabledKey = [NSString stringWithFormat:@"%@/%@", [MSAnalytics sharedInstance].isEnabledKey,
                                                [MSUtility targetIdFromTargetToken:token]];
 
-    // Match parent target or Analytics enabled state.
-    [self setEnabled:[self isImmediateParentEnabled]];
+    // Disable if ancestor is disabled.
+    if (![self isAncestorEnabled]) {
+      [_storage setObject:@(NO) forKey:self.isEnabledKey];
+      ;
+    }
   }
   return self;
+}
+
+- (instancetype)initWithTransmissionTargetToken:(NSString *)token
+                                   parentTarget:(MSAnalyticsTransmissionTarget *)parentTarget {
+  return [self initWithTransmissionTargetToken:token parentTarget:parentTarget storage:MS_USER_DEFAULTS];
 }
 
 /**
@@ -75,6 +74,7 @@
 
 - (void)setEnabled:(BOOL)isEnabled {
   if (self.isEnabled != isEnabled) {
+
     // Don't enable if the immediate parent is disabled.
     if (isEnabled && ![self isAncestorEnabled]) {
       MSLogWarning([MSAnalytics logTag],
@@ -84,28 +84,21 @@
 
     // Persist the enabled status.
     [self.storage setObject:@(isEnabled) forKey:self.isEnabledKey];
+  }
 
-    // Propagate to nested transmission targets. TODO Find a more effective approach.
-    for (NSString *token in self.childTransmissionTargets) {
-      [self.childTransmissionTargets[token] setEnabled:isEnabled];
-    }
+  // Propagate to nested transmission targets. TODO Find a more effective approach.
+  for (NSString *token in self.childTransmissionTargets) {
+    [self.childTransmissionTargets[token] setEnabled:isEnabled];
   }
 }
 
 /**
- * Check immediate parent enabled state.
+ * Check ancestor enabled state, the ancestor is either the immediate target parent if there is one or Analytics.
+ *
+ * @return YES if the immediate ancestor is enabled.
  */
-- (BOOL)isAncestorEnabled{
-  BOOL ancestorsEnabled = self.parentTarget ? self.parentTarget.isEnabled : true;
-  MSAnalyticsTransmissionTarget parent = self.parentTarget;
-
-  // Check all parents in chain
-  while (parent && ancestorsEnabled) {
-    ancestorsEnabled = parent.parentTarget.isEnabled;
-    parent = parent.parentTarget;
-  }
-
-  return ancestorsEnabled && [MSAnalytics isEnabled];
+- (BOOL)isAncestorEnabled {
+  return self.parentTarget ? self.parentTarget.isEnabled : [MSAnalytics isEnabled];
 }
 
 @end

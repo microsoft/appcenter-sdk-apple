@@ -27,6 +27,19 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic, readonly) NSString *isEnabledKey;
 
+/**
+ * For testing only. Initialize a transmission target with token, parent target and storage.
+ *
+ * @param token A transmission target token.
+ * @param parentTarget Nested parent transmission target.
+ * @param storage A storage to persist states of this transmission target.
+ *
+ * @return A transmission target instance.
+ */
+- (instancetype)initWithTransmissionTargetToken:(NSString *)token
+                                   parentTarget:(nullable MSAnalyticsTransmissionTarget *)parentTarget
+                                        storage:(MSUserDefaults *)storage;
+
 @end
 
 NS_ASSUME_NONNULL_END

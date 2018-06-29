@@ -76,15 +76,14 @@ static NSString *kMSAppSecretKey = @"appsecret=";
   }
 }
 
-// TODO Add tests
 + (nullable NSString *)iKeyFromTargetToken:(NSString *)token {
   NSString *targetId = [self targetIdFromTargetToken:token];
   return targetId.length ? [NSString stringWithFormat:@"o:%@", targetId] : nil;
 }
 
-// TODO Add tests
 + (nullable NSString *)targetIdFromTargetToken:(NSString *)token {
-  return [token componentsSeparatedByString:@"-"][0];
+  NSString *targetId = [token componentsSeparatedByString:@"-"][0];
+  return targetId.length ? targetId : nil;
 }
 
 @end

@@ -1,24 +1,26 @@
+#import "MSAnalytics+Validation.h"
 #import "MSAnalytics.h"
+#import "MSAnalyticsCategory.h"
 #import "MSAnalyticsInternal.h"
 #import "MSAnalyticsPrivate.h"
-#import "MSAnalyticsCategory.h"
-#import "MSAnalytics+Validation.h"
+#import "MSAnalyticsTransmissionTargetPrivate.h"
 #import "MSAppCenter.h"
 #import "MSAppCenterInternal.h"
 #import "MSChannelGroupDefault.h"
 #import "MSChannelUnitDefault.h"
 #import "MSConstants+Internal.h"
 #import "MSEventLog.h"
-#import "MSPageLog.h"
 #import "MSMockAnalyticsDelegate.h"
-#import "MSServiceAbstract.h"
+#import "MSPageLog.h"
+#import "MSServiceAbstractPrivate.h"
 #import "MSServiceInternal.h"
 #import "MSTestFrameworks.h"
 
 static NSString *const kMSTypeEvent = @"event";
 static NSString *const kMSTypePage = @"page";
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
-static NSString *const kMSTestTransmissionToken = @"TestTransmissionToken";
+static NSString *const kMSTestTransmissionToken = @"AnalyticsTestTransmissionToken";
+static NSString *const kMSTestTransmissionToken2 = @"AnalyticsTestTransmissionToken2";
 static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
 @class MSMockAnalyticsDelegate;
@@ -55,6 +57,12 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   // Make sure sessionTracker removes all observers.
   [MSAnalytics sharedInstance].sessionTracker = nil;
   [MSAnalytics resetSharedInstance];
+
+  // Reset storage for transmission targets enabled state.
+  MSAnalyticsTransmissionTarget *target = [MSAnalytics transmissionTargetForToken:kMSTestTransmissionToken];
+  [MS_USER_DEFAULTS removeObjectForKey:target.isEnabledKey];
+  MSAnalyticsTransmissionTarget *target2 = [MSAnalytics transmissionTargetForToken:kMSTestTransmissionToken2];
+  [MS_USER_DEFAULTS removeObjectForKey:target2.isEnabledKey];
 }
 
 #pragma mark - Tests
@@ -71,7 +79,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   NSString *emptyEventName = @"";
   NSString *tooLongEventName =
       [@"" stringByPaddingToLength:(maxEventNameLength + 1) withString:@"tooLongEventName" startingAtIndex:0];
-  
+
   // When
   NSString *valid = [[MSAnalytics sharedInstance] validateEventName:validEventName forLogType:kMSTypeEvent];
   NSString *validShortEventName =
@@ -232,8 +240,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   id analyticsMock = OCMPartialMock([MSAnalytics sharedInstance]);
   OCMExpect([analyticsMock validateLog:eventLog]).andForwardToRealObject();
   OCMExpect([analyticsMock validateEventName:@"test" forLogType:@"event"]).andForwardToRealObject();
-  OCMExpect([analyticsMock validateProperties:OCMOCK_ANY forLogName:@"test" andType:@"event"])
-      .andForwardToRealObject();
+  OCMExpect([analyticsMock validateProperties:OCMOCK_ANY forLogName:@"test" andType:@"event"]).andForwardToRealObject();
   OCMExpect([analyticsMock validateLog:pageLog]).andForwardToRealObject();
   OCMExpect([analyticsMock validateEventName:OCMOCK_ANY forLogType:@"page"]).andForwardToRealObject();
   OCMReject([analyticsMock validateProperties:OCMOCK_ANY forLogName:OCMOCK_ANY andType:@"page"]);
@@ -682,6 +689,53 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   // Then
   XCTAssertNotNil(transmissionTarget1);
   XCTAssertEqual(transmissionTarget1, transmissionTarget2);
+}
+
+- (void)testEnableStatePropagateToTransmissionTargets {
+
+  // If
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  [[MSAnalytics sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                                            appSecret:kMSTestAppSecret
+                              transmissionTargetToken:nil];
+  MSServiceAbstract *analytics = [MSAnalytics sharedInstance];
+  [analytics setEnabled:NO];
+
+  // When
+
+  // Analytics is disabled, targets must match Analytics enabled state.
+  MSAnalyticsTransmissionTarget *transmissionTarget = [MSAnalytics transmissionTargetForToken:kMSTestTransmissionToken];
+  MSAnalyticsTransmissionTarget *transmissionTarget2 =
+      [MSAnalytics transmissionTargetForToken:kMSTestTransmissionToken2];
+
+  // Then
+  XCTAssertFalse([transmissionTarget isEnabled]);
+  XCTAssertFalse([transmissionTarget2 isEnabled]);
+
+  // When
+
+  // Trying re-enabling will fail since Analytics is still disabled.
+  [transmissionTarget setEnabled:YES];
+
+  // Then
+  XCTAssertFalse([transmissionTarget isEnabled]);
+  XCTAssertFalse([transmissionTarget2 isEnabled]);
+
+  // When
+
+  // Enabling Analytics will enable all targets.
+  [analytics setEnabled:YES];
+
+  // Then
+  XCTAssertTrue([transmissionTarget isEnabled]);
+  XCTAssertTrue([transmissionTarget2 isEnabled]);
+
+  // Disabling Analytics will disable all targets.
+  [analytics setEnabled:NO];
+
+  // Then
+  XCTAssertFalse([transmissionTarget isEnabled]);
+  XCTAssertFalse([transmissionTarget2 isEnabled]);
 }
 
 - (void)testAppSecretNotRequired {

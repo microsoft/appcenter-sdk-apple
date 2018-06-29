@@ -49,7 +49,7 @@ extern NSString *MSUtilityStringFormattingCategory;
  *
  * @returns The iKey or nil if none was found.
  */
-+ (NSString *)iKeyFromTargetToken:(NSString *)token;
++ (nullable NSString *)iKeyFromTargetToken:(nullable NSString *)token;
 
 /**
  * Extract target id from a transmission target token string.
@@ -58,7 +58,7 @@ extern NSString *MSUtilityStringFormattingCategory;
  *
  * @returns The target id or nil if none was found.
  */
-+ (NSString *)targetIdFromTargetToken:(NSString *)token;
++ (nullable NSString *)targetIdFromTargetToken:(nullable NSString *)token;
 
 @end
 
