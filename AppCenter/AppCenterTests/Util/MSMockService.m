@@ -8,7 +8,6 @@ static MSMockService *sharedInstance = nil;
 @implementation MSMockService
 
 @synthesize appSecret;
-@synthesize available;
 @synthesize initializationPriority;
 @synthesize channelGroup;
 @synthesize channelUnit;

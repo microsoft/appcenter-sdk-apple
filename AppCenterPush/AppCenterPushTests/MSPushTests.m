@@ -222,7 +222,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   OCMStub([userNotificationUserInfoMock userInfo]).andReturn(userInfo);
 #endif
 
-// When
+  // When
 #if TARGET_OS_OSX
   [self.sut applicationDidFinishLaunching:notificationMock];
 #else
@@ -238,7 +238,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 #if TARGET_OS_OSX
                                  OCMVerify([pushMock didReceiveUserNotification:userNotificationUserInfoMock]);
 #else
-        OCMVerify([pushMock didReceiveRemoteNotification:userInfo]);
+                                 OCMVerify([pushMock didReceiveRemoteNotification:userInfo]);
 #endif
                                  OCMVerify([pushDelegateMock push:self.sut didReceivePushNotification:OCMOCK_ANY]);
                                  XCTAssertNotNil(pushNotification);
@@ -302,7 +302,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 #if TARGET_OS_OSX
                                  OCMVerify([pushMock didReceiveUserNotification:userNotificationUserInfoMock]);
 #else
-        OCMVerify([pushMock didReceiveRemoteNotification:userInfo]);
+                                 OCMVerify([pushMock didReceiveRemoteNotification:userInfo]);
 #endif
                                  OCMVerify([pushDelegateMock push:self.sut didReceivePushNotification:OCMOCK_ANY]);
                                  XCTAssertNotNil(pushNotification);
@@ -348,7 +348,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   OCMStub([userNotificationUserInfoMock userInfo]).andReturn(userInfo);
 #endif
 
-// When
+  // When
 #if TARGET_OS_OSX
   [self.sut applicationDidFinishLaunching:notificationMock];
 #else
@@ -409,7 +409,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   OCMStub([userNotificationUserInfoMock userInfo]).andReturn(userInfo);
 #endif
 
-// When
+  // When
 #if TARGET_OS_OSX
   [self.sut applicationDidFinishLaunching:notificationMock];
 #else
@@ -425,7 +425,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 #if TARGET_OS_OSX
                                  OCMVerify([pushMock didReceiveUserNotification:userNotificationUserInfoMock]);
 #else
-        OCMVerify([pushMock didReceiveRemoteNotification:userInfo]);
+                                 OCMVerify([pushMock didReceiveRemoteNotification:userInfo]);
 #endif
                                  OCMVerify([pushDelegateMock push:self.sut didReceivePushNotification:OCMOCK_ANY]);
                                  XCTAssertNotNil(pushNotification);

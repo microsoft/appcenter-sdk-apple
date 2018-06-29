@@ -67,7 +67,7 @@ static NSString *const kMSGroupId = @"AppCenter";
 }
 
 + (void)startService:(Class)service {
-  [[self sharedInstance] startService:service andSendLog:YES fromApplication:YES];
+  [[self sharedInstance] startService:service withAppSecret:[[self sharedInstance] appSecret] andSendLog:YES fromApplication:YES];
 }
 
 + (void)startFromLibraryWithServices:(NSArray<Class> *)services {
@@ -202,7 +202,9 @@ static NSString *const kMSGroupId = @"AppCenter";
     if (self.configuredFromApplication && fromApplication) {
       MSLogAssert([MSAppCenter logTag], @"App Center SDK has already been configured.");
     } else {
-      self.appSecret = [MSUtility appSecretFrom:secretString];
+      if (!self.appSecret) {
+        self.appSecret = [MSUtility appSecretFrom:secretString];
+      }
       self.defaultTransmissionTargetToken = [MSUtility transmissionTargetTokenFrom:secretString];
 
       // Init the main pipeline.
@@ -244,7 +246,7 @@ static NSString *const kMSGroupId = @"AppCenter";
       MSLogVerbose([MSAppCenter logTag], @"Start services %@", [sortedServices componentsJoinedByString:@", "]);
       NSMutableArray<NSString *> *servicesNames = [NSMutableArray arrayWithCapacity:sortedServices.count];
       for (Class service in sortedServices) {
-        if ([self startService:service andSendLog:NO fromApplication:fromApplication]) {
+        if ([self startService:service withAppSecret:appSecret andSendLog:NO fromApplication:fromApplication]) {
           [servicesNames addObject:[service serviceName]];
         }
       }
@@ -279,7 +281,7 @@ static NSString *const kMSGroupId = @"AppCenter";
   }
 }
 
-- (BOOL)startService:(Class)clazz andSendLog:(BOOL)sendLog fromApplication:(BOOL)fromApplication {
+- (BOOL)startService:(Class)clazz withAppSecret:(NSString *)appSecret andSendLog:(BOOL)sendLog fromApplication:(BOOL)fromApplication {
   @synchronized(self) {
 
     // Check if clazz is valid class
@@ -299,7 +301,7 @@ static NSString *const kMSGroupId = @"AppCenter";
       // Service already works, we shouldn't send log with this service name
       return NO;
     }
-    if (service.isAppSecretRequired && ![self.appSecret length]) {
+    if (service.isAppSecretRequired && ![appSecret length]) {
 
       // Service requires an app secret but none is provided.
       MSLogError([MSAppCenter logTag],
@@ -322,7 +324,7 @@ static NSString *const kMSGroupId = @"AppCenter";
 
       // Start service with channel group.
       [service startWithChannelGroup:self.channelGroup
-                           appSecret:self.appSecret
+                           appSecret:appSecret
              transmissionTargetToken:self.defaultTransmissionTargetToken
                      fromApplication:fromApplication];
 
@@ -333,7 +335,7 @@ static NSString *const kMSGroupId = @"AppCenter";
         self.enabledStateUpdating = NO;
       }
     } else if (fromApplication) {
-      [service updateConfigurationWithAppSecret:self.appSecret
+      [service updateConfigurationWithAppSecret:appSecret
                         transmissionTargetToken:self.defaultTransmissionTargetToken];
     }
 

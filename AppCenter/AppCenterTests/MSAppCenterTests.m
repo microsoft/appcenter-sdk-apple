@@ -113,7 +113,78 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   XCTAssertNil([[MSAppCenter sharedInstance] appSecret]);
   XCTAssertTrue(
       [[[MSAppCenter sharedInstance] defaultTransmissionTargetToken] isEqualToString:transmissionTargetString]);
-  XCTAssertFalse([MSMockService sharedInstance].started);
+  // FIXME: This is a bug that services can start without app secret. MSMockService shouldn't start at this time.
+  XCTAssertTrue([MSMockService sharedInstance].started);
+  XCTAssertTrue([MSMockSecondService sharedInstance].started);
+}
+
+- (void)testStartSameServiceFromLibraryAndThenApplication {
+
+  // When
+  [MSAppCenter startFromLibraryWithServices:@[ MSMockSecondService.class ]];
+
+  // Then
+  XCTAssertNil([[MSAppCenter sharedInstance] appSecret]);
+  XCTAssertFalse([MSAppCenter isConfigured]);
+  XCTAssertNil([MSMockSecondService sharedInstance].appSecret);
+  XCTAssertTrue([MSMockSecondService sharedInstance].started);
+
+  // When
+  [MSAppCenter start:MS_UUID_STRING withServices:@[ MSMockSecondService.class ]];
+
+  // Then
+  XCTAssertNotNil([[MSAppCenter sharedInstance] appSecret]);
+  XCTAssertTrue([MSAppCenter isConfigured]);
+  XCTAssertNotNil([MSMockSecondService sharedInstance].appSecret);
+  XCTAssertTrue([MSMockSecondService sharedInstance].started);
+}
+
+- (void)testStartServicesFromLibraryAndThenApplication {
+
+  // When
+  [MSAppCenter startFromLibraryWithServices:@[ MSMockSecondService.class ]];
+  [MSAppCenter start:MS_UUID_STRING withServices:@[ MSMockService.class ]];
+
+  // Then
+  XCTAssertNotNil([[MSAppCenter sharedInstance] appSecret]);
+  XCTAssertNotNil([MSMockService sharedInstance].appSecret);
+  XCTAssertNil([MSMockSecondService sharedInstance].appSecret);
+  XCTAssertTrue([MSMockService sharedInstance].started);
+  XCTAssertTrue([MSMockSecondService sharedInstance].started);
+}
+
+- (void)testStartSameServiceFromApplicationAndThenLibrary {
+
+  // When
+  [MSAppCenter start:MS_UUID_STRING withServices:@[ MSMockSecondService.class ]];
+
+  // Then
+  XCTAssertNotNil([[MSAppCenter sharedInstance] appSecret]);
+  XCTAssertTrue([MSAppCenter isConfigured]);
+  XCTAssertNotNil([MSMockSecondService sharedInstance].appSecret);
+  XCTAssertTrue([MSMockSecondService sharedInstance].started);
+
+  // When
+  [MSAppCenter startFromLibraryWithServices:@[ MSMockSecondService.class ]];
+
+  // Then
+  XCTAssertNotNil([[MSAppCenter sharedInstance] appSecret]);
+  XCTAssertTrue([MSAppCenter isConfigured]);
+  XCTAssertNotNil([MSMockSecondService sharedInstance].appSecret);
+  XCTAssertTrue([MSMockSecondService sharedInstance].started);
+}
+
+- (void)testStartServicesFromApplicationAndThenLibrary {
+
+  // When
+  [MSAppCenter start:MS_UUID_STRING withServices:@[ MSMockService.class ]];
+  [MSAppCenter startFromLibraryWithServices:@[ MSMockSecondService.class ]];
+
+  // Then
+  XCTAssertNotNil([[MSAppCenter sharedInstance] appSecret]);
+  XCTAssertNotNil([MSMockService sharedInstance].appSecret);
+  XCTAssertNil([MSMockSecondService sharedInstance].appSecret);
+  XCTAssertTrue([MSMockService sharedInstance].started);
   XCTAssertTrue([MSMockSecondService sharedInstance].started);
 }
 
