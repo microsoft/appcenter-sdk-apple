@@ -350,7 +350,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   [MSAppCenter startService:[MSMockService class]];
   XCTAssertEqual((uint)0, [[MSAppCenter sharedInstance] services].count);
   [MSAppCenter startService:[MSMockSecondService class]];
-  XCTAssertEqual((uint)1, [[MSAppCenter sharedInstance] services].count);
+  XCTAssertEqual((uint)0, [[MSAppCenter sharedInstance] services].count);
 }
 
 - (void)testStartWithoutServices {
