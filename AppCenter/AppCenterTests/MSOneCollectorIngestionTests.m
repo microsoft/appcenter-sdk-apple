@@ -7,7 +7,7 @@
 #import "MSMockLog.h"
 #import "MSOneCollectorIngestion.h"
 #import "MSIngestionCall.h"
-#import "MSSenderDelegate.h"
+#import "MSIngestionDelegate.h"
 #import "MSTestFrameworks.h"
 
 static NSTimeInterval const kMSTestTimeout = 5.0;

@@ -7,7 +7,7 @@
 #import "MSHttpTestUtil.h"
 #import "MSMockLog.h"
 #import "MSIngestionCall.h"
-#import "MSSenderDelegate.h"
+#import "MSIngestionDelegate.h"
 #import "MSTestFrameworks.h"
 
 static NSTimeInterval const kMSTestTimeout = 5.0;
@@ -102,7 +102,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   NSString *containerId = @"1";
   MSLogContainer *container = [self createLogContainerWithId:containerId];
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Response 200"];
-  id delegateMock = OCMProtocolMock(@protocol(MSSenderDelegate));
+  id delegateMock = OCMProtocolMock(@protocol(MSIngestionDelegate));
   [self.sut addDelegate:delegateMock];
 
   // When
@@ -147,7 +147,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   MSLogContainer *container = [self createLogContainerWithId:@"1"];
 
   // Set a delegate for suspending event.
-  id delegateMock = OCMProtocolMock(@protocol(MSSenderDelegate));
+  id delegateMock = OCMProtocolMock(@protocol(MSIngestionDelegate));
   OCMStub([delegateMock senderDidSuspend:self.sut]).andDo(^(__attribute__((unused)) NSInvocation *invocation) {
     [requestCompletedExcpectation fulfill];
   });
@@ -188,7 +188,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   MSLogContainer *container = [self createLogContainerWithId:@"1"];
 
   // Set a delegate for suspending/resuming event.
-  id delegateMock = OCMProtocolMock(@protocol(MSSenderDelegate));
+  id delegateMock = OCMProtocolMock(@protocol(MSIngestionDelegate));
   [self.sut addDelegate:delegateMock];
   OCMStub([delegateMock senderDidSuspend:self.sut]).andDo(^(__attribute__((unused)) NSInvocation *invocation) {
 
@@ -524,7 +524,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 - (void)testAddDelegate {
 
   // If
-  id delegateMock = OCMProtocolMock(@protocol(MSSenderDelegate));
+  id delegateMock = OCMProtocolMock(@protocol(MSIngestionDelegate));
 
   // When
   [self.sut addDelegate:delegateMock];
@@ -537,8 +537,8 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 - (void)testAddMultipleDelegates {
 
   // If
-  id delegateMock1 = OCMProtocolMock(@protocol(MSSenderDelegate));
-  id delegateMock2 = OCMProtocolMock(@protocol(MSSenderDelegate));
+  id delegateMock1 = OCMProtocolMock(@protocol(MSIngestionDelegate));
+  id delegateMock2 = OCMProtocolMock(@protocol(MSIngestionDelegate));
 
   // When
   [self.sut addDelegate:delegateMock1];
@@ -553,7 +553,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 - (void)testAddTwiceSameDelegate {
 
   // If
-  id delegateMock = OCMProtocolMock(@protocol(MSSenderDelegate));
+  id delegateMock = OCMProtocolMock(@protocol(MSIngestionDelegate));
 
   // When
   [self.sut addDelegate:delegateMock];
@@ -568,7 +568,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 - (void)testRemoveDelegate {
 
   // If
-  id delegateMock = OCMProtocolMock(@protocol(MSSenderDelegate));
+  id delegateMock = OCMProtocolMock(@protocol(MSIngestionDelegate));
   [self.sut addDelegate:delegateMock];
 
   // When
@@ -582,8 +582,8 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 - (void)testRemoveTwiceSameDelegate {
 
   // If
-  id delegateMock1 = OCMProtocolMock(@protocol(MSSenderDelegate));
-  id delegateMock2 = OCMProtocolMock(@protocol(MSSenderDelegate));
+  id delegateMock1 = OCMProtocolMock(@protocol(MSIngestionDelegate));
+  id delegateMock2 = OCMProtocolMock(@protocol(MSIngestionDelegate));
   [self.sut addDelegate:delegateMock1];
   [self.sut addDelegate:delegateMock2];
 
@@ -602,7 +602,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 
   // If
   @autoreleasepool {
-    __weak id delegateMock = OCMProtocolMock(@protocol(MSSenderDelegate));
+    __weak id delegateMock = OCMProtocolMock(@protocol(MSIngestionDelegate));
     [self.sut addDelegate:delegateMock];
 
     // When
@@ -619,8 +619,8 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 - (void)testCallDelegatesOnSuspended {
 
   // If
-  id delegateMock1 = OCMProtocolMock(@protocol(MSSenderDelegate));
-  id delegateMock2 = OCMProtocolMock(@protocol(MSSenderDelegate));
+  id delegateMock1 = OCMProtocolMock(@protocol(MSIngestionDelegate));
+  id delegateMock2 = OCMProtocolMock(@protocol(MSIngestionDelegate));
   [self.sut resume];
   [self.sut addDelegate:delegateMock1];
   [self.sut addDelegate:delegateMock2];
@@ -637,8 +637,8 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 - (void)testCallDelegatesOnResumed {
 
   // If
-  id delegateMock1 = OCMProtocolMock(@protocol(MSSenderDelegate));
-  id delegateMock2 = OCMProtocolMock(@protocol(MSSenderDelegate));
+  id delegateMock1 = OCMProtocolMock(@protocol(MSIngestionDelegate));
+  id delegateMock2 = OCMProtocolMock(@protocol(MSIngestionDelegate));
   [self.sut suspend];
   [self.sut addDelegate:delegateMock1];
   [self.sut addDelegate:delegateMock2];

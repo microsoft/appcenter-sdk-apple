@@ -2,7 +2,7 @@
 
 #import "MSHttpSender.h"
 
-@protocol MSSenderDelegate;
+@protocol MSIngestionDelegate;
 
 @interface MSHttpSender ()
 
@@ -23,7 +23,7 @@
 /**
  * Hash table containing all the delegates as weak references.
  */
-@property NSHashTable<id<MSSenderDelegate>> *delegates;
+@property NSHashTable<id<MSIngestionDelegate>> *delegates;
 
 /**
  * A boolean value set to YES if the sender is enabled or NO otherwise.

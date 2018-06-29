@@ -7,7 +7,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol MSSenderDelegate;
+@protocol MSIngestionDelegate;
 
 @protocol MSSender <NSObject, MSIngestionCallDelegate, MSEnable>
 
@@ -34,14 +34,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *  @param delegate Sender's delegate.
  */
-- (void)addDelegate:(id<MSSenderDelegate>)delegate;
+- (void)addDelegate:(id<MSIngestionDelegate>)delegate;
 
 /**
  *  Delete the given delegate from the sender.
  *
  *  @param delegate Sender's delegate.
  */
-- (void)removeDelegate:(id<MSSenderDelegate>)delegate;
+- (void)removeDelegate:(id<MSIngestionDelegate>)delegate;
 
 /**
  * Suspend the sender.

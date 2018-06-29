@@ -2,7 +2,7 @@
 #import "MSHttpSender.h"
 #import "MSHttpSenderPrivate.h"
 #import "MSIngestionCall.h"
-#import "MSSenderDelegate.h"
+#import "MSIngestionDelegate.h"
 
 static NSTimeInterval kRequestTimeout = 60.0;
 
@@ -85,13 +85,13 @@ maxNumberOfConnections:(NSInteger)maxNumberOfConnections {
   [self sendAsync:data callId:MS_UUID_STRING completionHandler:handler];
 }
 
-- (void)addDelegate:(id<MSSenderDelegate>)delegate {
+- (void)addDelegate:(id<MSIngestionDelegate>)delegate {
   @synchronized(self) {
     [self.delegates addObject:delegate];
   }
 }
 
-- (void)removeDelegate:(id<MSSenderDelegate>)delegate {
+- (void)removeDelegate:(id<MSIngestionDelegate>)delegate {
   @synchronized(self) {
     [self.delegates removeObject:delegate];
   }
@@ -156,7 +156,7 @@ maxNumberOfConnections:(NSInteger)maxNumberOfConnections {
 
       // Notify delegates.
       [self enumerateDelegatesForSelector:@selector(senderDidSuspend:)
-                                withBlock:^(id<MSSenderDelegate> delegate) {
+                                withBlock:^(id<MSIngestionDelegate> delegate) {
                                   [delegate senderDidSuspend:self];
                                 }];
     }
@@ -194,7 +194,7 @@ maxNumberOfConnections:(NSInteger)maxNumberOfConnections {
 
       // Propagate.
       [self enumerateDelegatesForSelector:@selector(senderDidResume:)
-                                withBlock:^(id<MSSenderDelegate> delegate) {
+                                withBlock:^(id<MSIngestionDelegate> delegate) {
                                   [delegate senderDidResume:self];
                                 }];
     }
@@ -279,7 +279,7 @@ maxNumberOfConnections:(NSInteger)maxNumberOfConnections {
 
       // Notify delegates.
       [self enumerateDelegatesForSelector:@selector(senderDidReceiveFatalError:)
-                                withBlock:^(id<MSSenderDelegate> delegate) {
+                                withBlock:^(id<MSIngestionDelegate> delegate) {
                                   [delegate senderDidReceiveFatalError:self];
                                 }];
       break;
@@ -389,8 +389,8 @@ maxNumberOfConnections:(NSInteger)maxNumberOfConnections {
   return _session;
 }
 
-- (void)enumerateDelegatesForSelector:(SEL)selector withBlock:(void (^)(id<MSSenderDelegate> delegate))block {
-  for (id<MSSenderDelegate> delegate in self.delegates) {
+- (void)enumerateDelegatesForSelector:(SEL)selector withBlock:(void (^)(id<MSIngestionDelegate> delegate))block {
+  for (id<MSIngestionDelegate> delegate in self.delegates) {
     if (delegate && [delegate respondsToSelector:selector]) {
       block(delegate);
     }
