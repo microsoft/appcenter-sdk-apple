@@ -22,9 +22,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) NSObject *data;
 
 /**
+ * The app secret.
+ */
+@property(nonatomic, copy) NSString *appSecret;
+
+/**
  * Unique call ID.
  */
-@property(nonatomic) NSString *callId;
+@property(nonatomic, copy) NSString *callId;
 
 /**
  *  Call completion handler used for communicating with calling component.

@@ -31,6 +31,25 @@
   assertThat(sut.channels, isEmpty());
   assertThat(sut.sender, equalTo(senderMock));
   assertThat(sut.storage, notNilValue());
+  assertThat(sut.appSecret, nilValue());
+}
+
+- (void)testSetAppSecret {
+  
+  // If
+  id senderMock = OCMProtocolMock(@protocol(MSSender));
+  
+  // When
+  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock];
+  
+  // Then
+  assertThat(sut.appSecret, nilValue());
+  
+  // When
+  sut.appSecret = @"TestAppSecret";
+  
+  // Then
+  XCTAssertEqual(sut.appSecret, @"TestAppSecret");
 }
 
 - (void)testAddNewChannel {
@@ -71,7 +90,7 @@
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock];
 
   // When
-  MSChannelUnitDefault *channelUnit = [sut addChannelUnitWithConfiguration:[MSChannelUnitConfiguration new]];
+  MSChannelUnitDefault *channelUnit = (MSChannelUnitDefault *)[sut addChannelUnitWithConfiguration:[MSChannelUnitConfiguration new]];
 
   // Then
   XCTAssertEqual(senderMock, channelUnit.sender);
@@ -86,7 +105,7 @@
 
   // When
   MSChannelUnitDefault *channelUnit =
-      [sut addChannelUnitWithConfiguration:[MSChannelUnitConfiguration new] withSender:senderMockCustom];
+      (MSChannelUnitDefault *)[sut addChannelUnitWithConfiguration:[MSChannelUnitConfiguration new] withSender:senderMockCustom];
 
   // Then
   XCTAssertNotEqual(senderMockDefault, channelUnit.sender);
@@ -207,7 +226,7 @@
                 });
 
   // Then
-  OCMVerify([channelUnitMock addDelegate:sut]);
+  OCMVerify([channelUnitMock addDelegate:(id<MSChannelDelegate>)sut]);
   OCMVerify([channelUnitMock flushQueue]);
 
   // Clear

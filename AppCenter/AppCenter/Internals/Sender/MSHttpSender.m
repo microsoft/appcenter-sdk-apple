@@ -24,16 +24,22 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
          queryStrings:(NSDictionary *)queryStrings
          reachability:(MS_Reachability *)reachability
        retryIntervals:(NSArray *)retryIntervals {
-  return [self initWithBaseUrl:baseUrl apiPath:apiPath headers:headers queryStrings:queryStrings reachability:reachability retryIntervals:retryIntervals maxNumberOfConnections:4];
+  return [self initWithBaseUrl:baseUrl
+                       apiPath:apiPath
+                       headers:headers
+                  queryStrings:queryStrings
+                  reachability:reachability
+                retryIntervals:retryIntervals
+        maxNumberOfConnections:4];
 }
 
 - (id)initWithBaseUrl:(NSString *)baseUrl
-              apiPath:(NSString *)apiPath
-              headers:(NSDictionary *)headers
-         queryStrings:(NSDictionary *)queryStrings
-         reachability:(MS_Reachability *)reachability
-       retryIntervals:(NSArray *)retryIntervals
-maxNumberOfConnections:(NSInteger)maxNumberOfConnections {
+                   apiPath:(NSString *)apiPath
+                   headers:(NSDictionary *)headers
+              queryStrings:(NSDictionary *)queryStrings
+              reachability:(MS_Reachability *)reachability
+            retryIntervals:(NSArray *)retryIntervals
+    maxNumberOfConnections:(NSInteger)maxNumberOfConnections {
   if ((self = [super init])) {
     _httpHeaders = headers;
     _pendingCalls = [NSMutableDictionary new];
@@ -81,8 +87,10 @@ maxNumberOfConnections:(NSInteger)maxNumberOfConnections {
 
 #pragma mark - MSSender
 
-- (void)sendAsync:(NSObject *)data completionHandler:(MSSendAsyncCompletionHandler)handler {
-  [self sendAsync:data callId:MS_UUID_STRING completionHandler:handler];
+- (void)sendAsync:(NSObject *)data
+            appSecret:(NSString *)appSecret
+    completionHandler:(MSSendAsyncCompletionHandler)handler {
+  [self sendAsync:data appSecret:(NSString *)appSecret callId:MS_UUID_STRING completionHandler:handler];
 }
 
 - (void)addDelegate:(id<MSSenderDelegate>)delegate {
@@ -208,13 +216,12 @@ maxNumberOfConnections:(NSInteger)maxNumberOfConnections {
     if (self.suspended || !self.enabled) {
       return;
     }
-
     if (!call) {
       return;
     }
 
     // Create the request.
-    NSURLRequest *request = [self createRequest:call.data];
+    NSURLRequest *request = [self createRequest:call.data appSecret:call.appSecret];
     if (!request) {
       return;
     }
@@ -362,8 +369,7 @@ maxNumberOfConnections:(NSInteger)maxNumberOfConnections {
 /**
  * This is an empty method and expect to be overridden in sub classes.
  */
-- (NSURLRequest *)createRequest:(NSObject *)data {
-  (void)data;
+- (NSURLRequest *)createRequest:(NSObject *)__unused data appSecret:(NSString *)__unused appSecret {
   return nil;
 }
 
@@ -407,7 +413,10 @@ maxNumberOfConnections:(NSInteger)maxNumberOfConnections {
   return [flattenedHeaders componentsJoinedByString:@", "];
 }
 
-- (void)sendAsync:(NSObject *)data callId:(NSString *)callId completionHandler:(MSSendAsyncCompletionHandler)handler {
+- (void)sendAsync:(NSObject *)data
+            appSecret:(NSString *)appSecret
+               callId:(NSString *)callId
+    completionHandler:(MSSendAsyncCompletionHandler)handler {
   @synchronized(self) {
 
     // Check if call has already been created(retry scenario).
@@ -416,6 +425,7 @@ maxNumberOfConnections:(NSInteger)maxNumberOfConnections {
       call = [[MSSenderCall alloc] initWithRetryIntervals:self.callsRetryIntervals];
       call.delegate = self;
       call.data = data;
+      call.appSecret = appSecret;
       call.callId = callId;
       call.completionHandler = handler;
 
