@@ -333,9 +333,7 @@ static NSString *const kMSGroupId = @"AppCenter";
         self.enabledStateUpdating = NO;
       }
     } else if (fromApplication) {
-
-      // TODO: This is temporary workaround and it should be removed once sender refactoring is merged.
-      [service.channelGroup attachSenderToChannelUnit:service.channelUnit];
+      [service.channelGroup setAppSecret:self.appSecret];
       [service updateConfigurationWithAppSecret:self.appSecret
                         transmissionTargetToken:self.defaultTransmissionTargetToken];
     }
@@ -439,12 +437,11 @@ static NSString *const kMSGroupId = @"AppCenter";
   self.oneCollectorChannelDelegate =
       self.oneCollectorChannelDelegate ?: [[MSOneCollectorChannelDelegate alloc] initWithInstallId:self.installId];
   if (self.channelGroup == nil) {
-    self.channelGroup = [MSChannelGroupDefault new];
+    self.channelGroup = [[MSChannelGroupDefault alloc] initWithInstallId:self.installId logUrl:self.logUrl];
     [self.channelGroup addDelegate:self.oneCollectorChannelDelegate];
   }
   if (self.appSecret) {
     [self.channelGroup setAppSecret:self.appSecret];
-    [self.channelGroup attachSenderWithInstallId:self.installId logUrl:self.logUrl];
   }
 
   // Initialize a channel unit for start service logs.

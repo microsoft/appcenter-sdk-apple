@@ -36,17 +36,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (id<MSChannelUnitProtocol>)addChannelUnitWithConfiguration:(MSChannelUnitConfiguration *)configuration
                                                   withSender:(nullable id<MSSender>)sender;
 
-// TODO: This is temporary workaround and it should be removed once sender refactoring is merged.
-- (void)attachSenderToChannelUnit:(id<MSChannelUnitProtocol>)channelUnit;
-
-/**
- * Attach an App Center sender to a channel group if a channel group started without an app secret.
- *
- * @param installId A unique installation identifier.
- * @param logUrl A base URL to use for backend communication.
- */
-- (void)attachSenderWithInstallId:(NSUUID *)installId logUrl:(NSString *)logUrl;
-
 /**
  * Change the base URL (schema + authority + port only) used to communicate with the backend.
  *

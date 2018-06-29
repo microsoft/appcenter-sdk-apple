@@ -10,7 +10,6 @@
 
 @implementation MSChannelUnitDefault
 
-@synthesize sender = _sender;
 @synthesize configuration = _configuration;
 @synthesize logsDispatchQueue = _logsDispatchQueue;
 

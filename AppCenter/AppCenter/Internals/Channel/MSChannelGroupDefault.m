@@ -23,28 +23,21 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 
 #pragma mark - Initialization
 
-- (instancetype)init {
-  if ((self = [super init])) {
-    dispatch_queue_t serialQueue = dispatch_queue_create(kMSlogsDispatchQueue, DISPATCH_QUEUE_SERIAL);
-    _logsDispatchQueue = serialQueue;
-    _channels = [NSMutableArray<id<MSChannelUnitProtocol>> new];
-    _delegates = [NSHashTable weakObjectsHashTable];
-    _storage = [[MSLogDBStorage alloc] initWithCapacity:kMSStorageMaxCapacity];
-  }
+- (instancetype)initWithInstallId:(NSUUID *)installId logUrl:(NSString *)logUrl {
+  self = [self initWithSender:[[MSAppCenterIngestion alloc] initWithBaseUrl:logUrl installId:[installId UUIDString]]];
   return self;
 }
 
 - (instancetype)initWithSender:(nullable MSHttpSender *)sender {
   if ((self = [self init])) {
+    dispatch_queue_t serialQueue = dispatch_queue_create(kMSlogsDispatchQueue, DISPATCH_QUEUE_SERIAL);
+    _logsDispatchQueue = serialQueue;
+    _channels = [NSMutableArray<id<MSChannelUnitProtocol>> new];
+    _delegates = [NSHashTable weakObjectsHashTable];
     _sender = sender;
+    _storage = [[MSLogDBStorage alloc] initWithCapacity:kMSStorageMaxCapacity];
   }
   return self;
-}
-
-- (void)attachSenderWithInstallId:(NSUUID *)installId logUrl:(NSString *)logUrl {
-  if (!self.sender) {
-    self.sender = [[MSAppCenterIngestion alloc] initWithBaseUrl:logUrl installId:[installId UUIDString]];
-  }
 }
 
 - (id<MSChannelUnitProtocol>)addChannelUnitWithConfiguration:(MSChannelUnitConfiguration *)configuration {
@@ -71,11 +64,6 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
                               }];
   }
   return channel;
-}
-
-// TODO: This is temporary workaround and it should be removed once sender refactoring is merged.
-- (void)attachSenderToChannelUnit:(id<MSChannelUnitProtocol>)channelUnit {
-  channelUnit.sender = self.sender;
 }
 
 - (void)setAppSecret:(NSString *)appSecret {

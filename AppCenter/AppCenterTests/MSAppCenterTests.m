@@ -358,7 +358,8 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   // If
   id channelGroup = OCMClassMock([MSChannelGroupDefault class]);
   id channelUnit = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
-  OCMStub([channelGroup new]).andReturn(channelGroup);
+  OCMStub([channelGroup alloc]).andReturn(channelGroup);
+  OCMStub([channelGroup initWithInstallId:OCMOCK_ANY logUrl:OCMOCK_ANY]).andReturn(channelGroup);
   OCMStub([channelGroup addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnit);
 
   // Not allow processLog.
@@ -420,7 +421,8 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   // If
   id channelGroup = OCMClassMock([MSChannelGroupDefault class]);
   id channelUnit = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
-  OCMStub([channelGroup new]).andReturn(channelGroup);
+  OCMStub([channelGroup alloc]).andReturn(channelGroup);
+  OCMStub([channelGroup initWithInstallId:OCMOCK_ANY logUrl:OCMOCK_ANY]).andReturn(channelGroup);
   OCMStub([channelGroup addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnit);
   __block NSInteger logsProcessed = 0;
   __block MSStartServiceLog *log = nil;
@@ -479,7 +481,8 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // If
   id channelGroup = OCMClassMock([MSChannelGroupDefault class]);
-  OCMStub([channelGroup new]).andReturn(channelGroup);
+  OCMStub([channelGroup alloc]).andReturn(channelGroup);
+  OCMStub([channelGroup initWithInstallId:OCMOCK_ANY logUrl:OCMOCK_ANY]).andReturn(channelGroup);
 
   // When
   [MSAppCenter start:MS_UUID_STRING withServices:nil];

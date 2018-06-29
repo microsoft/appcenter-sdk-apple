@@ -6,6 +6,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class MSChannelUnitConfiguration;
+@protocol MSSender;
 @protocol MSStorage;
 
 @interface MSChannelUnitDefault : NSObject <MSChannelUnitProtocol, MSSenderDelegate>
@@ -34,6 +35,11 @@ NS_ASSUME_NONNULL_BEGIN
  * Hash table of channel delegate.
  */
 @property(nonatomic) NSHashTable<id<MSChannelDelegate>> *delegates;
+
+/**
+ * A sender instance that is used to send batches of log items to the backend.
+ */
+@property(nonatomic, nullable) id<MSSender> sender;
 
 /**
  * A storage instance to store and read enqueued log items.

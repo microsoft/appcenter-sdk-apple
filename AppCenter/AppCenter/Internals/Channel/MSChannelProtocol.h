@@ -1,7 +1,6 @@
 #import <Foundation/Foundation.h>
 
 #import "MSEnable.h"
-#import "MSHttpSender.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -13,12 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
  * on disk.
  */
 @protocol MSChannelProtocol <NSObject, MSEnable>
-
-/**
- * TODO: This is temporarily moved from `MSChannelUnitDefault.h`. Move this back to original class once sender refactoring is merged.
- * A sender instance that is used to send batches of log items to the backend.
- */
-@property(nonatomic, nullable) MSHttpSender *sender;
 
 /**
  *  Add delegate.
