@@ -75,7 +75,7 @@ static NSString *const kMSGroupId = @"AppCenter";
 }
 
 + (BOOL)isConfigured {
-  return [[self sharedInstance] sdkConfigured];
+  return [[self sharedInstance] sdkConfigured] && [[self sharedInstance] configuredFromApplication];
 }
 
 + (void)setLogUrl:(NSString *)logUrl {
@@ -209,7 +209,7 @@ static NSString *const kMSGroupId = @"AppCenter";
       [self initializeChannelGroup];
       [self applyPipelineEnabledState:self.isEnabled];
       self.sdkConfigured = YES;
-      self.configuredFromApplication = self.configuredFromApplication | fromApplication;
+      self.configuredFromApplication |= fromApplication;
 
       /*
        * If the loglevel hasn't been customized before and we are not running in an app store environment,
@@ -333,7 +333,6 @@ static NSString *const kMSGroupId = @"AppCenter";
         self.enabledStateUpdating = NO;
       }
     } else if (fromApplication) {
-      [service.channelGroup setAppSecret:self.appSecret];
       [service updateConfigurationWithAppSecret:self.appSecret
                         transmissionTargetToken:self.defaultTransmissionTargetToken];
     }
@@ -436,19 +435,19 @@ static NSString *const kMSGroupId = @"AppCenter";
   // Construct channel group.
   self.oneCollectorChannelDelegate =
       self.oneCollectorChannelDelegate ?: [[MSOneCollectorChannelDelegate alloc] initWithInstallId:self.installId];
-  if (self.channelGroup == nil) {
+  if (!self.channelGroup) {
     self.channelGroup = [[MSChannelGroupDefault alloc] initWithInstallId:self.installId logUrl:self.logUrl];
     [self.channelGroup addDelegate:self.oneCollectorChannelDelegate];
   }
-  if (self.appSecret) {
-    [self.channelGroup setAppSecret:self.appSecret];
-  }
 
   // Initialize a channel unit for start service logs.
-  if (self.channelUnit == nil && self.appSecret) {
+  if (self.channelUnit) {
+    [self.channelUnit setAppSecret:self.appSecret];
+  } else {
     self.channelUnit = [self.channelGroup
         addChannelUnitWithConfiguration:[[MSChannelUnitConfiguration alloc]
                                             initDefaultConfigurationWithGroupId:[MSAppCenter groupId]]];
+    [self.channelUnit setAppSecret:self.appSecret];
   }
 }
 
