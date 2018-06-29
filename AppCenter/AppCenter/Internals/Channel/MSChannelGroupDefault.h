@@ -44,6 +44,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic, copy) NSMutableArray *channels;
 
+/**
+ * The app secret.
+ */
+@property(nonatomic, copy) NSString *appSecret;
+
 @end
 
 NS_ASSUME_NONNULL_END

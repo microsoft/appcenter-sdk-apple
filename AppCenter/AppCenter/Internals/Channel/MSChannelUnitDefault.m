@@ -51,6 +51,10 @@
   return self;
 }
 
+- (void)setAppSecret:(NSString *)appSecret {
+  _appSecret = appSecret;
+}
+
 #pragma mark - MSChannelDelegate
 
 - (void)addDelegate:(id<MSChannelDelegate>)delegate {
@@ -250,6 +254,7 @@
 
                // Forward logs to the sender.
                [self.sender sendAsync:container
+                            appSecret:self.appSecret
                     completionHandler:^(NSString *senderBatchId, NSUInteger statusCode,
                                         __attribute__((unused)) NSData *data, NSError *error) {
                       dispatch_async(self.logsDispatchQueue, ^{

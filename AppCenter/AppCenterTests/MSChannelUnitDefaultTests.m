@@ -69,8 +69,23 @@ static NSString *const kMSTestGroupId = @"GroupId";
   assertThat(self.sut.configuration, equalTo(self.configMock));
   assertThat(self.sut.sender, equalTo(self.senderMock));
   assertThat(self.sut.storage, equalTo(self.storageMock));
+  assertThat(self.sut.appSecret, nilValue());
   assertThatUnsignedLong(self.sut.itemsCount, equalToInt(0));
   OCMVerify([self.senderMock addDelegate:self.sut]);
+}
+
+- (void)testSetAppSecret {
+
+  // When new MSChannelUnitDefault
+  
+  // Then
+  assertThat(self.sut.appSecret, nilValue());
+  
+  // When
+  self.sut.appSecret = @"TestAppSecret";
+  
+  // Then
+  XCTAssertEqual(self.sut.appSecret, @"TestAppSecret");
 }
 
 - (void)testLogsSentWithSuccess {
@@ -88,11 +103,11 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // Init mocks.
   id<MSLog> enqueuedLog = [self getValidMockLog];
   id senderMock = OCMProtocolMock(@protocol(MSSender));
-  OCMStub([senderMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+  OCMStub([senderMock sendAsync:OCMOCK_ANY appSecret:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
 
     // Get sender bloc for later call.
     [invocation retainArguments];
-    [invocation getArgument:&senderBlock atIndex:3];
+    [invocation getArgument:&senderBlock atIndex:4];
     [invocation getArgument:&logContainer atIndex:2];
   });
 
@@ -121,6 +136,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                                                    storage:storageMock
                                                              configuration:config
                                                          logsDispatchQueue:dispatch_get_main_queue()];
+  [sut setAppSecret:@"TestAppSecret"];
   [sut addDelegate:delegateMock];
   OCMReject([delegateMock channel:sut didFailSendingLog:OCMOCK_ANY withError:OCMOCK_ANY]);
   OCMExpect([delegateMock channel:sut didSucceedSendingLog:expectedLog]);
@@ -181,11 +197,11 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // Init mocks.
   id<MSLog> enqueuedLog = [self getValidMockLog];
   id senderMock = OCMProtocolMock(@protocol(MSSender));
-  OCMStub([senderMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+  OCMStub([senderMock sendAsync:OCMOCK_ANY appSecret:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
 
     // Get sender bloc for later call.
     [invocation retainArguments];
-    [invocation getArgument:&senderBlock atIndex:3];
+    [invocation getArgument:&senderBlock atIndex:4];
     [invocation getArgument:&logContainer atIndex:2];
   });
 
@@ -213,6 +229,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                                                    storage:storageMock
                                                              configuration:config
                                                          logsDispatchQueue:dispatch_get_main_queue()];
+  [sut setAppSecret:@"TestAppSecret"];
   [sut addDelegate:delegateMock];
   OCMExpect([delegateMock channel:sut didFailSendingLog:expectedLog withError:OCMOCK_ANY]);
   OCMReject([delegateMock channel:sut didSucceedSendingLog:OCMOCK_ANY]);
@@ -338,7 +355,8 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // Set up mock and stubs.
   id senderMock = OCMProtocolMock(@protocol(MSSender));
-  OCMStub([senderMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+  OCMStub([senderMock sendAsync:OCMOCK_ANY appSecret:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    
     MSLogContainer *container;
     [invocation getArgument:&container atIndex:2];
     if (container) {
@@ -364,6 +382,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                                                    storage:storageMock
                                                              configuration:config
                                                          logsDispatchQueue:self.logsDispatchQueue];
+  [self.sut setAppSecret:@"TestAppSecret"];
 
   // When
   for (NSUInteger i = 1; i <= expectedMaxPendingBatched + 1; i++) {
@@ -399,11 +418,11 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // Init mocks.
   id senderMock = OCMProtocolMock(@protocol(MSSender));
-  OCMStub([senderMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+  OCMStub([senderMock sendAsync:OCMOCK_ANY appSecret:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
 
     // Get sender block for later call.
     [invocation retainArguments];
-    [invocation getArgument:&senderBlock atIndex:3];
+    [invocation getArgument:&senderBlock atIndex:4];
     [invocation getArgument:&lastBatchLogContainer atIndex:2];
   });
 
@@ -431,6 +450,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                                                    storage:storageMock
                                                              configuration:config
                                                          logsDispatchQueue:dispatch_get_main_queue()];
+  [sut setAppSecret:@"TestAppSecret"];
 
   // When
   [sut enqueueItem:[self getValidMockLog]];
@@ -473,8 +493,8 @@ static NSString *const kMSTestGroupId = @"GroupId";
   int batchSizeLimit = 1;
   id mockLog = [self getValidMockLog];
   id senderMock = OCMProtocolMock(@protocol(MSSender));
-  OCMReject([senderMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
-  OCMStub([senderMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  OCMReject([senderMock sendAsync:OCMOCK_ANY appSecret:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  OCMStub([senderMock sendAsync:OCMOCK_ANY appSecret:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
   OCMStub([storageMock
       loadLogsWithGroupId:kMSTestGroupId

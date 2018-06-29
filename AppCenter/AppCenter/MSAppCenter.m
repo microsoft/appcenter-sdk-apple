@@ -443,7 +443,8 @@ static NSString *const kMSGroupId = @"AppCenter";
     [self.channelGroup addDelegate:self.oneCollectorChannelDelegate];
   }
   if (self.appSecret) {
-    [self.channelGroup attachSenderWithAppSecret:self.appSecret installId:self.installId logUrl:self.logUrl];
+    [self.channelGroup setAppSecret:self.appSecret];
+    [self.channelGroup attachSenderWithInstallId:self.installId logUrl:self.logUrl];
   }
 
   // Initialize a channel unit for start service logs.

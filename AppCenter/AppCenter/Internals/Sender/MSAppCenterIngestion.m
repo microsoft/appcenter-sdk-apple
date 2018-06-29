@@ -13,12 +13,11 @@ static NSString *const kMSAPIVersion = @"1.0.0";
 static NSString *const kMSAPIVersionKey = @"api-version";
 static NSString *const kMSApiPath = @"/logs";
 
-- (id)initWithBaseUrl:(NSString *)baseUrl appSecret:(NSString *)appSecret installId:(NSString *)installId {
+- (id)initWithBaseUrl:(NSString *)baseUrl installId:(NSString *)installId {
   self = [super initWithBaseUrl:baseUrl
       apiPath:kMSApiPath
       headers:@{
         kMSHeaderContentTypeKey : kMSAppCenterContentType,
-        kMSHeaderAppSecretKey : appSecret,
         kMSHeaderInstallIDKey : installId
       }
       queryStrings:@{
@@ -29,7 +28,9 @@ static NSString *const kMSApiPath = @"/logs";
   return self;
 }
 
-- (void)sendAsync:(NSObject *)data completionHandler:(MSSendAsyncCompletionHandler)handler {
+- (void)sendAsync:(NSObject *)data
+            appSecret:(NSString *)appSecret
+    completionHandler:(MSSendAsyncCompletionHandler)handler {
   MSLogContainer *container = (MSLogContainer *)data;
   NSString *batchId = container.batchId;
 
@@ -48,10 +49,10 @@ static NSString *const kMSApiPath = @"/logs";
     return;
   }
 
-  [super sendAsync:container callId:container.batchId completionHandler:handler];
+  [super sendAsync:container appSecret:appSecret callId:container.batchId completionHandler:handler];
 }
 
-- (NSURLRequest *)createRequest:(NSObject *)data {
+- (NSURLRequest *)createRequest:(NSObject *)data appSecret:(NSString *)appSecret {
   MSLogContainer *container = (MSLogContainer *)data;
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.sendURL];
 
@@ -60,6 +61,7 @@ static NSString *const kMSApiPath = @"/logs";
 
   // Set Header params.
   request.allHTTPHeaderFields = self.httpHeaders;
+  [request setValue:appSecret forHTTPHeaderField:kMSHeaderAppSecretKey];
 
   // Set body.
   NSString *jsonString = [container serializeLog];

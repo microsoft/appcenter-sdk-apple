@@ -19,6 +19,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties;
 
+/**
+ * Get a nested transmission target.
+ *
+ * @param token The token of the transmission target to retrieve.
+ *
+ * @returns A transmission target object nested to this parent transmission target.
+ */
+- (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:(NSString *)token NS_SWIFT_NAME(transmissionTarget(forToken:));
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -19,6 +19,8 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 
 @implementation MSChannelGroupDefault
 
+@synthesize appSecret = _appSecret;
+
 #pragma mark - Initialization
 
 - (instancetype)init {
@@ -39,10 +41,9 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
   return self;
 }
 
-- (void)attachSenderWithAppSecret:(NSString *)appSecret installId:(NSUUID *)installId logUrl:(NSString *)logUrl {
+- (void)attachSenderWithInstallId:(NSUUID *)installId logUrl:(NSString *)logUrl {
   if (!self.sender) {
-    self.sender =
-        [[MSAppCenterIngestion alloc] initWithBaseUrl:logUrl appSecret:appSecret installId:[installId UUIDString]];
+    self.sender = [[MSAppCenterIngestion alloc] initWithBaseUrl:logUrl installId:[installId UUIDString]];
   }
 }
 
@@ -58,6 +59,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
                                                    storage:self.storage
                                              configuration:configuration
                                          logsDispatchQueue:self.logsDispatchQueue];
+    [channel setAppSecret:self.appSecret];
     [channel addDelegate:self];
     dispatch_async(self.logsDispatchQueue, ^{
       [channel flushQueue];
@@ -74,6 +76,13 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 // TODO: This is temporary workaround and it should be removed once sender refactoring is merged.
 - (void)attachSenderToChannelUnit:(id<MSChannelUnitProtocol>)channelUnit {
   channelUnit.sender = self.sender;
+}
+
+- (void)setAppSecret:(NSString *)appSecret {
+  _appSecret = appSecret;
+  for (id<MSChannelUnitProtocol> unit in self.channels) {
+    [unit setAppSecret:appSecret];
+  }
 }
 
 #pragma mark - Delegate
