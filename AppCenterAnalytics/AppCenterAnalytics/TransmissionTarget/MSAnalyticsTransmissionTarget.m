@@ -21,7 +21,6 @@
     // Disable if ancestor is disabled.
     if (![self isImmediateParent]) {
       [_storage setObject:@(NO) forKey:self.isEnabledKey];
-      ;
     }
   }
   return self;
