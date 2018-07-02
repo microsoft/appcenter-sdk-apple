@@ -89,7 +89,7 @@
       [self.storage setObject:@(isEnabled) forKey:self.isEnabledKey];
     }
 
-    // Propagate to nested transmission targets. TODO Find a more effective approach.
+    // Propagate to nested transmission targets.
     for (NSString *token in self.childTransmissionTargets) {
       [self.childTransmissionTargets[token] setEnabled:isEnabled];
     }
