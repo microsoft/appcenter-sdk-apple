@@ -51,5 +51,23 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     }
   }
   
-  @IBOutlet weak var startTarget: UISegmentedControl!
+  @IBAction func selectTarget(_ sender: UISegmentedControl) {
+    let alert = UIAlertController(title: "Restart", message: "Please restart the app for the change to take effect.",
+                                  preferredStyle: .actionSheet)
+    let exitAction = UIAlertAction(title: "Exit", style: .destructive) {_ in
+        UserDefaults.standard.set(sender.selectedSegmentIndex, forKey: "startTarget")
+        exit(0)
+    }
+    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) {_ in
+        sender.selectedSegmentIndex = UserDefaults.standard.integer(forKey: "startTarget")
+        alert.dismiss(animated: true, completion: nil)
+    }
+    alert.addAction(exitAction)
+    alert.addAction(cancelAction)
+    
+    // Support display in iPad.
+    alert.popoverPresentationController?.sourceView = self.oneCollectorEnabled.superview;
+    alert.popoverPresentationController?.sourceRect = self.oneCollectorEnabled.frame;
+    self.present(alert, animated: true, completion: nil)
+  }
 }
