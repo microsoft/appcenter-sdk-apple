@@ -16,6 +16,13 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
 - (void)setUp {
   [super setUp];
+
+  /*
+   * TODO There is no need to inject the storage into the target at init time,
+   * MSMockUserDefaults will actually mock the NSUserDefaults class directly. Remove the storage from
+   * initWithTransmissionTargetToken:parentTarget:storage and
+   * use MSMockUserDefaults directly instead of the storage property.
+   */
   self.storageMock = [MSMockUserDefaults new];
 
   // Analytics enabled state can prevent targets from tracking events.

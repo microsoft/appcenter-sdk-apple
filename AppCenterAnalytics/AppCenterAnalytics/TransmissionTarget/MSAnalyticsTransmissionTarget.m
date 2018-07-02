@@ -19,7 +19,7 @@
                                                [MSUtility targetIdFromTargetToken:token]];
 
     // Disable if ancestor is disabled.
-    if (![self isAncestorEnabled]) {
+    if (![self isImmediateParent]) {
       [_storage setObject:@(NO) forKey:self.isEnabledKey];
       ;
     }
@@ -79,7 +79,7 @@
     if (self.isEnabled != isEnabled) {
 
       // Don't enable if the immediate parent is disabled.
-      if (isEnabled && ![self isAncestorEnabled]) {
+      if (isEnabled && ![self isImmediateParent]) {
         MSLogWarning([MSAnalytics logTag],
                      @"Can't enable; parent transmission target and/or Analytics service is disabled.");
         return;
@@ -101,7 +101,7 @@
  *
  * @return YES if the immediate ancestor is enabled.
  */
-- (BOOL)isAncestorEnabled {
+- (BOOL)isImmediateParent {
   return self.parentTarget ? self.parentTarget.isEnabled : [MSAnalytics isEnabled];
 }
 
