@@ -5,6 +5,15 @@
 
 @implementation MSCommonSchemaLog
 
+static NSString *const kMSTypeCommonSchema = @"commonSchema";
+
+- (instancetype)init {
+  if ((self = [super init])) {
+    self.type = kMSTypeCommonSchema;
+  }
+  return self;
+}
+
 #pragma mark - MSSerializableObject
 
 - (NSMutableDictionary *)serializeToDictionary {
@@ -38,7 +47,7 @@
 #pragma mark - MSModel
 
 - (BOOL)isValid {
-  
+
   // Do not call [super isValid] here as CS logs don't require the same validation as AC logs except for timestamp.
   return super.timestamp && self.ver && self.name;
 }

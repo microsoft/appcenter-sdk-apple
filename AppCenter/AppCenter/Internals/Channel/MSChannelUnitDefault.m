@@ -144,7 +144,7 @@
                                 }];
       return;
     }
-    if (!self.sender) {
+    if (!self.appSecret && !item.transmissionTargetTokens) {
       MSLogDebug([MSAppCenter logTag], @"Log of type '%@' was not filtered out by delegate(s) but no app secret was "
                                        @"provided. Not persisting/sending the log.",
                  item.type);

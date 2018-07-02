@@ -39,6 +39,14 @@
 + (void)startService:(Class)service;
 
 /**
+ * Configure the SDK with an array of services to start from a library.
+ * This will not start the service at application level, it will enable the service only for the library.
+ *
+ * @param services  Array of services to start.
+ */
++ (void)startFromLibraryWithServices:(NSArray<Class> *)services;
+
+/**
  * Check whether the SDK has already been configured or not.
  *
  * @return YES if configured, NO otherwise.

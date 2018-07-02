@@ -374,8 +374,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 - (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup
                     appSecret:(nullable NSString *)appSecret
-      transmissionTargetToken:(nullable NSString *)token {
-  [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token];
+      transmissionTargetToken:(nullable NSString *)token
+              fromApplication:(BOOL)fromApplication {
+  [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
   [self.channelGroup addDelegate:self];
   [self processLogBufferAfterCrash];
   MSLogVerbose([MSCrashes logTag], @"Started crash service.");

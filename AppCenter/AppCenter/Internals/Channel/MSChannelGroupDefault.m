@@ -19,32 +19,23 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 
 @implementation MSChannelGroupDefault
 
-@synthesize appSecret = _appSecret;
-
 #pragma mark - Initialization
 
-- (instancetype)init {
-  if ((self = [super init])) {
-    dispatch_queue_t serialQueue = dispatch_queue_create(kMSlogsDispatchQueue, DISPATCH_QUEUE_SERIAL);
-    _logsDispatchQueue = serialQueue;
-    _channels = [NSMutableArray<id<MSChannelUnitProtocol>> new];
-    _delegates = [NSHashTable weakObjectsHashTable];
-    _storage = [[MSLogDBStorage alloc] initWithCapacity:kMSStorageMaxCapacity];
-  }
+- (instancetype)initWithInstallId:(NSUUID *)installId logUrl:(NSString *)logUrl {
+  self = [self initWithSender:[[MSAppCenterIngestion alloc] initWithBaseUrl:logUrl installId:[installId UUIDString]]];
   return self;
 }
 
 - (instancetype)initWithSender:(nullable MSHttpSender *)sender {
   if ((self = [self init])) {
+    dispatch_queue_t serialQueue = dispatch_queue_create(kMSlogsDispatchQueue, DISPATCH_QUEUE_SERIAL);
+    _logsDispatchQueue = serialQueue;
+    _channels = [NSMutableArray<id<MSChannelUnitProtocol>> new];
+    _delegates = [NSHashTable weakObjectsHashTable];
     _sender = sender;
+    _storage = [[MSLogDBStorage alloc] initWithCapacity:kMSStorageMaxCapacity];
   }
   return self;
-}
-
-- (void)attachSenderWithInstallId:(NSUUID *)installId logUrl:(NSString *)logUrl {
-  if (!self.sender) {
-    self.sender = [[MSAppCenterIngestion alloc] initWithBaseUrl:logUrl installId:[installId UUIDString]];
-  }
 }
 
 - (id<MSChannelUnitProtocol>)addChannelUnitWithConfiguration:(MSChannelUnitConfiguration *)configuration {
@@ -59,7 +50,6 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
                                                    storage:self.storage
                                              configuration:configuration
                                          logsDispatchQueue:self.logsDispatchQueue];
-    [channel setAppSecret:self.appSecret];
     [channel addDelegate:self];
     dispatch_async(self.logsDispatchQueue, ^{
       [channel flushQueue];
@@ -71,13 +61,6 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
                               }];
   }
   return channel;
-}
-
-- (void)setAppSecret:(NSString *)appSecret {
-  _appSecret = appSecret;
-  for (id<MSChannelUnitProtocol> unit in self.channels) {
-    [unit setAppSecret:appSecret];
-  }
 }
 
 #pragma mark - Delegate

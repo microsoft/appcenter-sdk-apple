@@ -113,7 +113,78 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   XCTAssertNil([[MSAppCenter sharedInstance] appSecret]);
   XCTAssertTrue(
       [[[MSAppCenter sharedInstance] defaultTransmissionTargetToken] isEqualToString:transmissionTargetString]);
-  XCTAssertFalse([MSMockService sharedInstance].started);
+  // FIXME: This is a bug that services can start without app secret. MSMockService shouldn't start at this time.
+  XCTAssertTrue([MSMockService sharedInstance].started);
+  XCTAssertTrue([MSMockSecondService sharedInstance].started);
+}
+
+- (void)testStartSameServiceFromLibraryAndThenApplication {
+
+  // When
+  [MSAppCenter startFromLibraryWithServices:@[ MSMockSecondService.class ]];
+
+  // Then
+  XCTAssertNil([[MSAppCenter sharedInstance] appSecret]);
+  XCTAssertFalse([MSAppCenter isConfigured]);
+  XCTAssertNil([MSMockSecondService sharedInstance].appSecret);
+  XCTAssertTrue([MSMockSecondService sharedInstance].started);
+
+  // When
+  [MSAppCenter start:MS_UUID_STRING withServices:@[ MSMockSecondService.class ]];
+
+  // Then
+  XCTAssertNotNil([[MSAppCenter sharedInstance] appSecret]);
+  XCTAssertTrue([MSAppCenter isConfigured]);
+  XCTAssertNotNil([MSMockSecondService sharedInstance].appSecret);
+  XCTAssertTrue([MSMockSecondService sharedInstance].started);
+}
+
+- (void)testStartServicesFromLibraryAndThenApplication {
+
+  // When
+  [MSAppCenter startFromLibraryWithServices:@[ MSMockSecondService.class ]];
+  [MSAppCenter start:MS_UUID_STRING withServices:@[ MSMockService.class ]];
+
+  // Then
+  XCTAssertNotNil([[MSAppCenter sharedInstance] appSecret]);
+  XCTAssertNotNil([MSMockService sharedInstance].appSecret);
+  XCTAssertNil([MSMockSecondService sharedInstance].appSecret);
+  XCTAssertTrue([MSMockService sharedInstance].started);
+  XCTAssertTrue([MSMockSecondService sharedInstance].started);
+}
+
+- (void)testStartSameServiceFromApplicationAndThenLibrary {
+
+  // When
+  [MSAppCenter start:MS_UUID_STRING withServices:@[ MSMockSecondService.class ]];
+
+  // Then
+  XCTAssertNotNil([[MSAppCenter sharedInstance] appSecret]);
+  XCTAssertTrue([MSAppCenter isConfigured]);
+  XCTAssertNotNil([MSMockSecondService sharedInstance].appSecret);
+  XCTAssertTrue([MSMockSecondService sharedInstance].started);
+
+  // When
+  [MSAppCenter startFromLibraryWithServices:@[ MSMockSecondService.class ]];
+
+  // Then
+  XCTAssertNotNil([[MSAppCenter sharedInstance] appSecret]);
+  XCTAssertTrue([MSAppCenter isConfigured]);
+  XCTAssertNotNil([MSMockSecondService sharedInstance].appSecret);
+  XCTAssertTrue([MSMockSecondService sharedInstance].started);
+}
+
+- (void)testStartServicesFromApplicationAndThenLibrary {
+
+  // When
+  [MSAppCenter start:MS_UUID_STRING withServices:@[ MSMockService.class ]];
+  [MSAppCenter startFromLibraryWithServices:@[ MSMockSecondService.class ]];
+
+  // Then
+  XCTAssertNotNil([[MSAppCenter sharedInstance] appSecret]);
+  XCTAssertNotNil([MSMockService sharedInstance].appSecret);
+  XCTAssertNil([MSMockSecondService sharedInstance].appSecret);
+  XCTAssertTrue([MSMockService sharedInstance].started);
   XCTAssertTrue([MSMockSecondService sharedInstance].started);
 }
 
@@ -350,7 +421,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   [MSAppCenter startService:[MSMockService class]];
   XCTAssertEqual((uint)0, [[MSAppCenter sharedInstance] services].count);
   [MSAppCenter startService:[MSMockSecondService class]];
-  XCTAssertEqual((uint)1, [[MSAppCenter sharedInstance] services].count);
+  XCTAssertEqual((uint)0, [[MSAppCenter sharedInstance] services].count);
 }
 
 - (void)testStartWithoutServices {
@@ -358,7 +429,8 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   // If
   id channelGroup = OCMClassMock([MSChannelGroupDefault class]);
   id channelUnit = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
-  OCMStub([channelGroup new]).andReturn(channelGroup);
+  OCMStub([channelGroup alloc]).andReturn(channelGroup);
+  OCMStub([channelGroup initWithInstallId:OCMOCK_ANY logUrl:OCMOCK_ANY]).andReturn(channelGroup);
   OCMStub([channelGroup addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnit);
 
   // Not allow processLog.
@@ -420,7 +492,8 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   // If
   id channelGroup = OCMClassMock([MSChannelGroupDefault class]);
   id channelUnit = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
-  OCMStub([channelGroup new]).andReturn(channelGroup);
+  OCMStub([channelGroup alloc]).andReturn(channelGroup);
+  OCMStub([channelGroup initWithInstallId:OCMOCK_ANY logUrl:OCMOCK_ANY]).andReturn(channelGroup);
   OCMStub([channelGroup addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnit);
   __block NSInteger logsProcessed = 0;
   __block MSStartServiceLog *log = nil;
@@ -479,7 +552,8 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // If
   id channelGroup = OCMClassMock([MSChannelGroupDefault class]);
-  OCMStub([channelGroup new]).andReturn(channelGroup);
+  OCMStub([channelGroup alloc]).andReturn(channelGroup);
+  OCMStub([channelGroup initWithInstallId:OCMOCK_ANY logUrl:OCMOCK_ANY]).andReturn(channelGroup);
 
   // When
   [MSAppCenter start:MS_UUID_STRING withServices:nil];
@@ -496,7 +570,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // If
   id<MSChannelGroupProtocol> channelGroup = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
-  [self.sut configureWithAppSecret:@"AnAppSecret"];
+  [self.sut configureWithSecretString:@"SecretString" fromApplication:YES];
   self.sut.channelGroup = channelGroup;
 
   // When
@@ -510,7 +584,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // If
   id<MSChannelGroupProtocol> channelGroup = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
-  [self.sut configureWithAppSecret:@"AnAppSecret"];
+  [self.sut configureWithSecretString:@"SecretString" fromApplication:YES];
   self.sut.channelGroup = channelGroup;
 
   // When

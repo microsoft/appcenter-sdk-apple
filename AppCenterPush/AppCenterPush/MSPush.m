@@ -125,8 +125,11 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
   return sharedInstance;
 }
 
-- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(nullable NSString *)appSecret transmissionTargetToken:(nullable NSString *)token {
-  [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token];
+- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup
+                    appSecret:(nullable NSString *)appSecret
+      transmissionTargetToken:(nullable NSString *)token
+              fromApplication:(BOOL)fromApplication {
+  [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
   MSLogVerbose([MSPush logTag], @"Started push service.");
 }
 
@@ -321,7 +324,8 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
   NSObject *alert;
 
   // The notification is not for App Center if customData is nil. Ignore the notification.
-  customData = [userInfo objectForKey:kMSPushNotificationCustomDataKey]?:[userInfo objectForKey:kMSPushNotificationOldCustomDataKey];
+  customData = [userInfo objectForKey:kMSPushNotificationCustomDataKey]
+                   ?: [userInfo objectForKey:kMSPushNotificationOldCustomDataKey];
   customData = ([customData isKindOfClass:[NSDictionary<NSString *, NSString *> class]]) ? customData : nil;
   if (customData) {
 
@@ -332,7 +336,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
       return YES;
     }
     alert = [aps objectForKey:kMSPushNotificationAlertKey];
-    
+
     // Retreive notification payload.
     if ([alert isKindOfClass:[NSDictionary class]]) {
       title = [alert valueForKey:kMSPushNotificationTitleKey];
