@@ -50,4 +50,6 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
       destination.appCenter = appCenter
     }
   }
+  
+  @IBOutlet weak var startTarget: UISegmentedControl!
 }
