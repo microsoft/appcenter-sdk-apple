@@ -202,11 +202,11 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   XCTAssertTrue([childTarget isEnabled]);
 
   // If
-  MSAnalyticsTransmissionTarget *subChildTarget = [childTarget transmissionTargetForToken:@"subChildTarge1-guid"];
+  MSAnalyticsTransmissionTarget *subChildTarget = [childTarget transmissionTargetForToken:@"subChildTarget1-guid"];
 
   // When
 
-  // Disabling the parent disables the childs.
+  // Disabling the parent disables its children.
   [target setEnabled:NO];
 
   // Then
@@ -237,7 +237,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // When
 
-  // Enabling a parent enables its childs.
+  // Enabling a parent enables its children.
   [target setEnabled:YES];
 
   // Then
@@ -248,7 +248,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // When
 
-  // Disabling a child only disables its childs.
+  // Disabling a child only disables its children.
   [childTarget setEnabled:NO];
 
   // Then
@@ -256,6 +256,60 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   XCTAssertFalse([childTarget isEnabled]);
   XCTAssertFalse([subChildTarget isEnabled]);
   XCTAssertTrue([childTarget2 isEnabled]);
+}
+
+- (void)testLongListOfImmediateChildren {
+
+  // If
+  short maxChildren = 50;
+  NSMutableArray<MSAnalyticsTransmissionTarget *> *childrenTargets;
+  MSAnalyticsTransmissionTarget *parentTarget =
+      [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
+                                                                parentTarget:nil
+                                                                     storage:self.storageMock];
+  for (short i = 1; i <= maxChildren; i++) {
+    [childrenTargets
+        addObject:[parentTarget transmissionTargetForToken:[NSString stringWithFormat:@"Child%d-guid", i]]];
+  }
+
+  // When
+  [self measureBlock:^{
+    [parentTarget setEnabled:NO];
+  }];
+
+  // Then
+  XCTAssertFalse(parentTarget.isEnabled);
+  for (MSAnalyticsTransmissionTarget *child in childrenTargets) {
+    XCTAssertFalse(child.isEnabled);
+  }
+}
+
+- (void)testLongListOfSubChildren {
+
+  // If
+  short maxSubChildren = 50;
+  NSMutableArray<MSAnalyticsTransmissionTarget *> *childrenTargets;
+  MSAnalyticsTransmissionTarget *parentTarget =
+      [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
+                                                                parentTarget:nil
+                                                                     storage:self.storageMock];
+  MSAnalyticsTransmissionTarget *currentChildren = [parentTarget transmissionTargetForToken:@"Child1-guid"];
+  [childrenTargets addObject:currentChildren];
+  for (short i = 2; i <= maxSubChildren; i++) {
+    currentChildren = [currentChildren transmissionTargetForToken:[NSString stringWithFormat:@"SubChild%d-guid", i]];
+    [childrenTargets addObject:currentChildren];
+  }
+
+  // When
+  [self measureBlock:^{
+    [parentTarget setEnabled:NO];
+  }];
+
+  // Then
+  XCTAssertFalse(parentTarget.isEnabled);
+  for (MSAnalyticsTransmissionTarget *child in childrenTargets) {
+    XCTAssertFalse(child.isEnabled);
+  }
 }
 
 @end

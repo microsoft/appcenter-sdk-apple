@@ -53,6 +53,9 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
 - (void)tearDown {
   [super tearDown];
+  
+  // Reset storage for Analytics service.
+  [[MSAnalytics sharedInstance].storage removeObjectForKey:[MSAnalytics sharedInstance].isEnabledKey];
 
   // Make sure sessionTracker removes all observers.
   [MSAnalytics sharedInstance].sessionTracker = nil;
