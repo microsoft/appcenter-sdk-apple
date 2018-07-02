@@ -15,12 +15,19 @@
 + (instancetype)sharedInstance;
 
 /**
- * Configure the SDK.
+ * Configure the SDK with an application secret.
  *
  * @discussion This may be called only once per application process lifetime.
  * @param appSecret A unique and secret key used to identify the application.
  */
 + (void)configureWithAppSecret:(NSString *)appSecret;
+
+/**
+ * Configure the SDK.
+ *
+ * @discussion This may be called only once per application process lifetime.
+ */
++ (void)configure;
 
 /**
  * Configure the SDK with an application secret and an array of services to start.
@@ -30,6 +37,14 @@
  * @param services  Array of services to start.
  */
 + (void)start:(NSString *)appSecret withServices:(NSArray<Class> *)services;
+
+/**
+ * Configure the SDK with an array of services to start.
+ *
+ * @discussion This may be called only once per application process lifetime.
+ * @param services  Array of services to start.
+ */
++ (void)startWithServices:(NSArray<Class> *)services;
 
 /**
  * Start a service.
