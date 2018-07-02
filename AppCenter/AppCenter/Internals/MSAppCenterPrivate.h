@@ -19,7 +19,7 @@
  * @param secretString A unique and secret key used to identify the application.
  * @param fromApplication A flag indicating that the sdk is configured from an application.
  *
- * @return `YES` if configured successfully, otherwise `NO`
+ * @return `YES` if configured successfully, otherwise `NO`.
  */
 - (BOOL)configureWithSecretString:(NSString *)secretString fromApplication:(BOOL)fromApplication;
 
