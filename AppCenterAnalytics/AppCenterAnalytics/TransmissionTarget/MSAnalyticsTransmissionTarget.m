@@ -63,32 +63,36 @@
 }
 
 - (BOOL)isEnabled {
+  @synchronized([MSAnalytics sharedInstance]) {
 
-  // Get isEnabled value from persistence.
-  // No need to cache the value in a property, user settings already have their cache mechanism.
-  NSNumber *isEnabledNumber = [self.storage objectForKey:self.isEnabledKey];
+    // Get isEnabled value from persistence.
+    // No need to cache the value in a property, user settings already have their cache mechanism.
+    NSNumber *isEnabledNumber = [self.storage objectForKey:self.isEnabledKey];
 
-  // Return the persisted value otherwise it's enabled by default.
-  return (isEnabledNumber) ? [isEnabledNumber boolValue] : YES;
+    // Return the persisted value otherwise it's enabled by default.
+    return (isEnabledNumber) ? [isEnabledNumber boolValue] : YES;
+  }
 }
 
 - (void)setEnabled:(BOOL)isEnabled {
-  if (self.isEnabled != isEnabled) {
+  @synchronized([MSAnalytics sharedInstance]) {
+    if (self.isEnabled != isEnabled) {
 
-    // Don't enable if the immediate parent is disabled.
-    if (isEnabled && ![self isAncestorEnabled]) {
-      MSLogWarning([MSAnalytics logTag],
-                   @"Can't enable; parent transmission target and/or Analytics service is disabled.");
-      return;
+      // Don't enable if the immediate parent is disabled.
+      if (isEnabled && ![self isAncestorEnabled]) {
+        MSLogWarning([MSAnalytics logTag],
+                     @"Can't enable; parent transmission target and/or Analytics service is disabled.");
+        return;
+      }
+
+      // Persist the enabled status.
+      [self.storage setObject:@(isEnabled) forKey:self.isEnabledKey];
     }
 
-    // Persist the enabled status.
-    [self.storage setObject:@(isEnabled) forKey:self.isEnabledKey];
-  }
-
-  // Propagate to nested transmission targets. TODO Find a more effective approach.
-  for (NSString *token in self.childTransmissionTargets) {
-    [self.childTransmissionTargets[token] setEnabled:isEnabled];
+    // Propagate to nested transmission targets. TODO Find a more effective approach.
+    for (NSString *token in self.childTransmissionTargets) {
+      [self.childTransmissionTargets[token] setEnabled:isEnabled];
+    }
   }
 }
 
