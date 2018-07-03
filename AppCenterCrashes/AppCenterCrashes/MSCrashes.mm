@@ -376,10 +376,25 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                     appSecret:(nullable NSString *)appSecret
       transmissionTargetToken:(nullable NSString *)token
               fromApplication:(BOOL)fromApplication {
-  [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
+  [super startWithChannelGroup:channelGroup
+                     appSecret:appSecret
+       transmissionTargetToken:token
+               fromApplication:fromApplication];
   [self.channelGroup addDelegate:self];
   [self processLogBufferAfterCrash];
   MSLogVerbose([MSCrashes logTag], @"Started crash service.");
+}
+
+- (void)updateConfigurationWithAppSecret:(NSString *)appSecret transmissionTargetToken:(NSString *)token {
+  if (self.bufferChannelUnit && self.appSecret) {
+    [self.bufferChannelUnit setAppSecret:self.appSecret];
+  }
+
+  /*
+   * updateConfigurationWithAppSecret:transmissionTargetToken: will apply enabled state at the end so all update for the
+   * service should be done prior to call super method.
+   */
+  [super updateConfigurationWithAppSecret:appSecret transmissionTargetToken:token];
 }
 
 + (NSString *)logTag {
