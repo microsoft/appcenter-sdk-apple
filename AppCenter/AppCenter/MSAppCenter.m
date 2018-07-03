@@ -67,7 +67,10 @@ static NSString *const kMSGroupId = @"AppCenter";
 }
 
 + (void)startService:(Class)service {
-  [[self sharedInstance] startService:service withAppSecret:[[self sharedInstance] appSecret] andSendLog:YES fromApplication:YES];
+  [[self sharedInstance] startService:service
+                        withAppSecret:[[self sharedInstance] appSecret]
+                           andSendLog:YES
+                      fromApplication:YES];
 }
 
 + (void)startFromLibraryWithServices:(NSArray<Class> *)services {
@@ -205,7 +208,9 @@ static NSString *const kMSGroupId = @"AppCenter";
       if (!self.appSecret) {
         self.appSecret = [MSUtility appSecretFrom:secretString];
       }
-      self.defaultTransmissionTargetToken = [MSUtility transmissionTargetTokenFrom:secretString];
+      if (!self.defaultTransmissionTargetToken) {
+        self.defaultTransmissionTargetToken = [MSUtility transmissionTargetTokenFrom:secretString];
+      }
 
       // Init the main pipeline.
       [self initializeChannelGroup];
@@ -228,10 +233,10 @@ static NSString *const kMSGroupId = @"AppCenter";
     }
     if (success) {
       MSLogInfo([MSAppCenter logTag], @"App Center SDK configured %@successfully.",
-                fromApplication ? @"" : @"from library ");
+                fromApplication ? @"" : @"from a library ");
     } else {
       MSLogAssert([MSAppCenter logTag], @"App Center SDK configuration %@failed.",
-                  fromApplication ? @"" : @"from library ");
+                  fromApplication ? @"" : @"from a library ");
     }
     return success;
   }
@@ -241,9 +246,9 @@ static NSString *const kMSGroupId = @"AppCenter";
   @synchronized(self) {
     BOOL configured = [self configureWithSecretString:appSecret fromApplication:fromApplication];
     if (configured && services) {
-      MSLogVerbose([MSAppCenter logTag], @"Prepare to start services: %@", [services componentsJoinedByString:@", "]);
       NSArray *sortedServices = [self sortServices:services];
-      MSLogVerbose([MSAppCenter logTag], @"Start services %@", [sortedServices componentsJoinedByString:@", "]);
+      MSLogVerbose([MSAppCenter logTag], @"Start services %@ from %@", [sortedServices componentsJoinedByString:@", "],
+                   (fromApplication ? @"an application" : @"a library"));
       NSMutableArray<NSString *> *servicesNames = [NSMutableArray arrayWithCapacity:sortedServices.count];
       for (Class service in sortedServices) {
         if ([self startService:service withAppSecret:appSecret andSendLog:NO fromApplication:fromApplication]) {
@@ -281,7 +286,10 @@ static NSString *const kMSGroupId = @"AppCenter";
   }
 }
 
-- (BOOL)startService:(Class)clazz withAppSecret:(NSString *)appSecret andSendLog:(BOOL)sendLog fromApplication:(BOOL)fromApplication {
+- (BOOL)startService:(Class)clazz
+       withAppSecret:(NSString *)appSecret
+          andSendLog:(BOOL)sendLog
+     fromApplication:(BOOL)fromApplication {
   @synchronized(self) {
 
     // Check if clazz is valid class
@@ -335,8 +343,7 @@ static NSString *const kMSGroupId = @"AppCenter";
         self.enabledStateUpdating = NO;
       }
     } else if (fromApplication) {
-      [service updateConfigurationWithAppSecret:appSecret
-                        transmissionTargetToken:self.defaultTransmissionTargetToken];
+      [service updateConfigurationWithAppSecret:appSecret transmissionTargetToken:self.defaultTransmissionTargetToken];
     }
 
     // Send start service log.
@@ -443,14 +450,12 @@ static NSString *const kMSGroupId = @"AppCenter";
   }
 
   // Initialize a channel unit for start service logs.
-  if (self.channelUnit) {
-    [self.channelUnit setAppSecret:self.appSecret];
-  } else {
-    self.channelUnit = [self.channelGroup
-        addChannelUnitWithConfiguration:[[MSChannelUnitConfiguration alloc]
-                                            initDefaultConfigurationWithGroupId:[MSAppCenter groupId]]];
-    [self.channelUnit setAppSecret:self.appSecret];
-  }
+  self.channelUnit =
+      self.channelUnit
+          ?: [self.channelGroup
+                 addChannelUnitWithConfiguration:[[MSChannelUnitConfiguration alloc]
+                                                     initDefaultConfigurationWithGroupId:[MSAppCenter groupId]]];
+  [self.channelUnit setAppSecret:self.appSecret];
 }
 
 - (NSString *)appSecret {

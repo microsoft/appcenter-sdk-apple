@@ -5,15 +5,6 @@
 
 @implementation MSCommonSchemaLog
 
-static NSString *const kMSTypeCommonSchema = @"commonSchema";
-
-- (instancetype)init {
-  if ((self = [super init])) {
-    self.type = kMSTypeCommonSchema;
-  }
-  return self;
-}
-
 #pragma mark - MSSerializableObject
 
 - (NSMutableDictionary *)serializeToDictionary {
