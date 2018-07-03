@@ -207,6 +207,10 @@ static NSString *const kMSGroupId = @"AppCenter";
     } else {
       if (!self.appSecret) {
         self.appSecret = [MSUtility appSecretFrom:secretString];
+
+        // Initialize session context.
+        // FIXME: It would be better to have obvious way to initialize session context instead of calling setSessionId.
+        [[MSSessionContext sharedInstance] setSessionId:nil];
       }
       if (!self.defaultTransmissionTargetToken) {
         self.defaultTransmissionTargetToken = [MSUtility transmissionTargetTokenFrom:secretString];
@@ -225,10 +229,6 @@ static NSString *const kMSGroupId = @"AppCenter";
       if ((![MSLogger isUserDefinedLogLevel]) && ([MSUtility currentAppEnvironment] == MSEnvironmentOther)) {
         [MSAppCenter setLogLevel:MSLogLevelWarning];
       }
-
-      // Initialize session context.
-      // FIXME: It would be better to have obvious way to initialize session context instead of calling setSessionId.
-      [[MSSessionContext sharedInstance] setSessionId:nil];
       success = true;
     }
     if (success) {
