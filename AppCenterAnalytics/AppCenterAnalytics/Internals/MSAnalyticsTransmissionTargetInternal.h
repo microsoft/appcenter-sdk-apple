@@ -1,6 +1,8 @@
 #import <Foundation/Foundation.h>
 #import "MSAnalyticsTransmissionTarget.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface MSAnalyticsTransmissionTarget ()
 
 /**
@@ -20,3 +22,5 @@
                                    parentTarget:(nullable MSAnalyticsTransmissionTarget *)parentTarget;
 
 @end
+
+NS_ASSUME_NONNULL_END
