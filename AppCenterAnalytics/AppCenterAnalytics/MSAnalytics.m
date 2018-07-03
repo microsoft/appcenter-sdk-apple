@@ -75,8 +75,9 @@ __attribute__((used)) static void importCategories() {
 
 - (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup
                     appSecret:(nullable NSString *)appSecret
-      transmissionTargetToken:(nullable NSString *)token {
-  [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token];
+      transmissionTargetToken:(nullable NSString *)token
+              fromApplication:(BOOL)fromApplication {
+  [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
   if (token) {
     self.defaultTransmissionTarget = [self transmissionTargetFor:(NSString *)token];
   }
@@ -108,30 +109,34 @@ __attribute__((used)) static void importCategories() {
 - (void)applyEnabledState:(BOOL)isEnabled {
   [super applyEnabledState:isEnabled];
   if (isEnabled) {
+    if (self.startedFromApplication) {
 
-    // Start session tracker.
-    [self.sessionTracker start];
+      // Start session tracker.
+      [self.sessionTracker start];
 
-    // Add delegates to log manager.
-    [self.channelGroup addDelegate:self.sessionTracker];
-    [self.channelGroup addDelegate:self];
+      // Add delegates to log manager.
+      [self.channelGroup addDelegate:self.sessionTracker];
+      [self.channelGroup addDelegate:self];
 
-    // Report current page while auto page tracking is on.
-    if (self.autoPageTrackingEnabled) {
+      // Report current page while auto page tracking is on.
+      if (self.autoPageTrackingEnabled) {
 
-      // Track on the main queue to avoid race condition with page swizzling.
-      dispatch_async(dispatch_get_main_queue(), ^{
-        if ([[MSAnalyticsCategory missedPageViewName] length] > 0) {
-          [[self class] trackPage:(NSString * _Nonnull)[MSAnalyticsCategory missedPageViewName]];
-        }
-      });
+        // Track on the main queue to avoid race condition with page swizzling.
+        dispatch_async(dispatch_get_main_queue(), ^{
+          if ([[MSAnalyticsCategory missedPageViewName] length] > 0) {
+            [[self class] trackPage:(NSString * _Nonnull)[MSAnalyticsCategory missedPageViewName]];
+          }
+        });
+      }
     }
 
     MSLogInfo([MSAnalytics logTag], @"Analytics service has been enabled.");
   } else {
-    [self.channelGroup removeDelegate:self.sessionTracker];
-    [self.channelGroup removeDelegate:self];
-    [self.sessionTracker stop];
+    if (self.startedFromApplication) {
+      [self.channelGroup removeDelegate:self.sessionTracker];
+      [self.channelGroup removeDelegate:self];
+      [self.sessionTracker stop];
+    }
     MSLogInfo([MSAnalytics logTag], @"Analytics service has been disabled.");
   }
 }

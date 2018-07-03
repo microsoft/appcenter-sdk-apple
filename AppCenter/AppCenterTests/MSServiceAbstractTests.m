@@ -41,7 +41,7 @@
 }
 
 - (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret {
-  [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:nil];
+  [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:nil fromApplication:YES];
 }
 
 - (MSInitializationPriority)initializationPriority {
