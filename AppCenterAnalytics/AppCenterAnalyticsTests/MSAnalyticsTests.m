@@ -13,7 +13,6 @@
 #import "MSMockAnalyticsDelegate.h"
 #import "MSMockUserDefaults.h"
 #import "MSPageLog.h"
-#import "MSServiceAbstractPrivate.h"
 #import "MSServiceInternal.h"
 #import "MSTestFrameworks.h"
 
