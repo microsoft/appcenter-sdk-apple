@@ -12,11 +12,6 @@ static NSString *const kMSPastSessionsKey = @"pastSessionsKey";
 @interface MSSessionTracker ()
 
 /**
- * Flag to indicate if session tracking has started or not.
- */
-@property(nonatomic) BOOL started;
-
-/**
  * Check if current session has timed out.
  *
  * @return YES if current session has timed out, NO otherwise.
