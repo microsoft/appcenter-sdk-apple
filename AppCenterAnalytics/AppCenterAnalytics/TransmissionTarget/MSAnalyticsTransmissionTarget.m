@@ -8,10 +8,8 @@
 @implementation MSAnalyticsTransmissionTarget
 
 - (instancetype)initWithTransmissionTargetToken:(NSString *)token
-                                   parentTarget:(nullable MSAnalyticsTransmissionTarget *)parentTarget
-                                        storage:(MSUserDefaults *)storage {
+                                   parentTarget:(MSAnalyticsTransmissionTarget *)parentTarget {
   if ((self = [super init])) {
-    _storage = storage;
     _parentTarget = parentTarget;
     _childTransmissionTargets = [NSMutableDictionary<NSString *, MSAnalyticsTransmissionTarget *> new];
     _transmissionTargetToken = token;
@@ -20,15 +18,10 @@
 
     // Disable if ancestor is disabled.
     if (![self isImmediateParent]) {
-      [_storage setObject:@(NO) forKey:self.isEnabledKey];
+      [MS_USER_DEFAULTS setObject:@(NO) forKey:self.isEnabledKey];
     }
   }
   return self;
-}
-
-- (instancetype)initWithTransmissionTargetToken:(NSString *)token
-                                   parentTarget:(MSAnalyticsTransmissionTarget *)parentTarget {
-  return [self initWithTransmissionTargetToken:token parentTarget:parentTarget storage:MS_USER_DEFAULTS];
 }
 
 /**
@@ -66,7 +59,7 @@
 
     // Get isEnabled value from persistence.
     // No need to cache the value in a property, user settings already have their cache mechanism.
-    NSNumber *isEnabledNumber = [self.storage objectForKey:self.isEnabledKey];
+    NSNumber *isEnabledNumber = [MS_USER_DEFAULTS objectForKey:self.isEnabledKey];
 
     // Return the persisted value otherwise it's enabled by default.
     return (isEnabledNumber) ? [isEnabledNumber boolValue] : YES;
@@ -85,7 +78,7 @@
       }
 
       // Persist the enabled status.
-      [self.storage setObject:@(isEnabled) forKey:self.isEnabledKey];
+      [MS_USER_DEFAULTS setObject:@(isEnabled) forKey:self.isEnabledKey];
     }
 
     // Propagate to nested transmission targets.

@@ -1,8 +1,6 @@
 #import <Foundation/Foundation.h>
 
-#import "MSUserDefaults.h"
-
-@interface MSMockUserDefaults : MSUserDefaults
+@interface MSMockUserDefaults : NSUserDefaults
 
 /*
  * Clear dictionary

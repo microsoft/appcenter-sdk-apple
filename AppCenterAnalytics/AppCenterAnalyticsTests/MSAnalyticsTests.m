@@ -11,6 +11,7 @@
 #import "MSConstants+Internal.h"
 #import "MSEventLog.h"
 #import "MSMockAnalyticsDelegate.h"
+#import "MSMockUserDefaults.h"
 #import "MSPageLog.h"
 #import "MSServiceAbstractPrivate.h"
 #import "MSServiceInternal.h"
@@ -26,6 +27,8 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 @class MSMockAnalyticsDelegate;
 
 @interface MSAnalyticsTests : XCTestCase <MSAnalyticsDelegate>
+
+@property(nonatomic) MSMockUserDefaults *settingsMock;
 
 @end
 
@@ -51,21 +54,20 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
  */
 @implementation MSAnalyticsTests
 
+- (void)setUp {
+  [super setUp];
+
+  // Mock NSUserDefaults
+  self.settingsMock = [MSMockUserDefaults new];
+}
+
 - (void)tearDown {
   [super tearDown];
-  
-  // Reset storage for Analytics service.
-  [[MSAnalytics sharedInstance].storage removeObjectForKey:[MSAnalytics sharedInstance].isEnabledKey];
+  [self.settingsMock stopMocking];
 
   // Make sure sessionTracker removes all observers.
   [MSAnalytics sharedInstance].sessionTracker = nil;
   [MSAnalytics resetSharedInstance];
-
-  // Reset storage for transmission targets enabled state.
-  MSAnalyticsTransmissionTarget *target = [MSAnalytics transmissionTargetForToken:kMSTestTransmissionToken];
-  [MS_USER_DEFAULTS removeObjectForKey:target.isEnabledKey];
-  MSAnalyticsTransmissionTarget *target2 = [MSAnalytics transmissionTargetForToken:kMSTestTransmissionToken2];
-  [MS_USER_DEFAULTS removeObjectForKey:target2.isEnabledKey];
 }
 
 #pragma mark - Tests

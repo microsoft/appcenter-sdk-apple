@@ -9,7 +9,8 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
 @interface MSAnalyticsTransmissionTargetTests : XCTestCase
 
-@property(nonatomic) MSMockUserDefaults *storageMock;
+@property(nonatomic) MSMockUserDefaults *settingsMock;
+
 @end
 
 @implementation MSAnalyticsTransmissionTargetTests
@@ -17,17 +18,17 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 - (void)setUp {
   [super setUp];
 
-  /*
-   * TODO There is no need to inject the storage into the target at init time,
-   * MSMockUserDefaults will actually mock the NSUserDefaults class directly. Remove the storage from
-   * initWithTransmissionTargetToken:parentTarget:storage and
-   * use MSMockUserDefaults directly instead of the storage property.
-   */
-  self.storageMock = [MSMockUserDefaults new];
+  // Mock NSUserDefaults
+  self.settingsMock = [MSMockUserDefaults new];
 
   // Analytics enabled state can prevent targets from tracking events.
   id AnalyticsClassMock = OCMClassMock([MSAnalytics class]);
   OCMStub(ClassMethod([AnalyticsClassMock isEnabled])).andReturn(YES);
+}
+
+- (void)tearDown {
+  [self.settingsMock stopMocking];
+  [super tearDown];
 }
 
 #pragma mark - Tests
@@ -36,9 +37,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // When
   MSAnalyticsTransmissionTarget *transmissionTarget =
-      [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
-                                                                parentTarget:nil
-                                                                     storage:self.storageMock];
+      [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken parentTarget:nil];
 
   // Then
   XCTAssertNotNil(transmissionTarget);
@@ -49,9 +48,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // If
   MSAnalyticsTransmissionTarget *transmissionTarget =
-      [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
-                                                                parentTarget:nil
-                                                                     storage:self.storageMock];
+      [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken parentTarget:nil];
   NSString *eventName = @"event";
 
   // When
@@ -65,9 +62,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // If
   MSAnalyticsTransmissionTarget *transmissionTarget =
-      [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
-                                                                parentTarget:nil
-                                                                     storage:self.storageMock];
+      [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken parentTarget:nil];
   NSString *eventName = @"event";
   NSDictionary *properties = @{ @"prop1" : @"val1", @"prop2" : @"val2" };
 
@@ -88,9 +83,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   NSString *event3 = @"event3";
 
   MSAnalyticsTransmissionTarget *parentTransmissionTarget =
-      [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
-                                                                parentTarget:nil
-                                                                     storage:self.storageMock];
+      [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken parentTarget:nil];
   MSAnalyticsTransmissionTarget *childTransmissionTarget;
 
   // When
@@ -149,9 +142,8 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   // When
 
   // Target enabled by default.
-  transmissionTarget = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
-                                                                                 parentTarget:nil
-                                                                                      storage:self.storageMock];
+  transmissionTarget =
+      [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken parentTarget:nil];
   [transmissionTarget setEnabled:YES];
 
   // Then
@@ -170,9 +162,8 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   // When
 
   // Allocating a new object with the same token should return the enabled state for this token.
-  transmissionTarget2 = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
-                                                                                  parentTarget:nil
-                                                                                       storage:self.storageMock];
+  transmissionTarget2 =
+      [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken parentTarget:nil];
   [transmissionTarget2 trackEvent:event3 withProperties:properties];
 
   // Then
@@ -196,9 +187,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // If
   MSAnalyticsTransmissionTarget *target =
-      [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
-                                                                parentTarget:nil
-                                                                     storage:self.storageMock];
+      [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken parentTarget:nil];
 
   // When
 
@@ -271,9 +260,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   short maxChildren = 50;
   NSMutableArray<MSAnalyticsTransmissionTarget *> *childrenTargets;
   MSAnalyticsTransmissionTarget *parentTarget =
-      [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
-                                                                parentTarget:nil
-                                                                     storage:self.storageMock];
+      [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken parentTarget:nil];
   for (short i = 1; i <= maxChildren; i++) {
     [childrenTargets
         addObject:[parentTarget transmissionTargetForToken:[NSString stringWithFormat:@"Child%d-guid", i]]];
@@ -297,9 +284,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   short maxSubChildren = 50;
   NSMutableArray<MSAnalyticsTransmissionTarget *> *childrenTargets;
   MSAnalyticsTransmissionTarget *parentTarget =
-      [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
-                                                                parentTarget:nil
-                                                                     storage:self.storageMock];
+      [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken parentTarget:nil];
   MSAnalyticsTransmissionTarget *currentChildren = [parentTarget transmissionTargetForToken:@"Child1-guid"];
   [childrenTargets addObject:currentChildren];
   for (short i = 2; i <= maxSubChildren; i++) {
