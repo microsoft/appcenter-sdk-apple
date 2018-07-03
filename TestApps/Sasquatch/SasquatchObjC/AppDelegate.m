@@ -35,7 +35,7 @@ enum {
   
   NSString *secretString = useOneCollector
     ? @"target=5a06bf4972a44a059d59c757e6d0b595-cb71af5d-2d79-4fb4-b969-01840f1543e9-6845;appsecret=3ccfe7f5-ec01-4de5-883c-f563bbbe147a"
-    : @"appsecret=3ccfe7f5-ec01-4de5-883c-f563bbbe147a";
+    : @"3ccfe7f5-ec01-4de5-883c-f563bbbe147a";
   
   switch (startTarget) {
     case START_FROM_LIBRARY:

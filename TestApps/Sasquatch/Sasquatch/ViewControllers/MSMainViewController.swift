@@ -8,6 +8,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   @IBOutlet weak var appSecret: UILabel!
   @IBOutlet weak var logUrl: UILabel!
   @IBOutlet weak var sdkVersion: UILabel!
+  @IBOutlet weak var startTarget: UISegmentedControl!
   var appCenter: AppCenterDelegate!
   
   override func viewDidLoad() {
@@ -18,6 +19,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     self.appSecret.text = appCenter.appSecret()
     self.logUrl.text = appCenter.logUrl()
     self.sdkVersion.text = appCenter.sdkVersion()
+    self.startTarget.selectedSegmentIndex = UserDefaults.standard.integer(forKey: "startTarget")
   }
   
   @IBAction func enabledSwitchUpdated(_ sender: UISwitch) {
