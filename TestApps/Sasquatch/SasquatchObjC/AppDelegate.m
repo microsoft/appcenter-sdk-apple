@@ -10,6 +10,12 @@
 @import AppCenterDistribute;
 @import AppCenterPush;
 
+enum {
+  START_FROM_APP = 0,
+  START_FROM_LIBRARY,
+  START_FROM_BOTH
+};
+
 @interface AppDelegate () <MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate>
 
 @end
@@ -25,22 +31,32 @@
 
   // Start App Center SDK.
   BOOL useOneCollector = [[NSUserDefaults standardUserDefaults] boolForKey:@"isOneCollectorEnabled"];
-  BOOL startFromLib = YES;
+  long startTarget = [[NSUserDefaults standardUserDefaults] integerForKey:@"startTarget"];
   
-  if (startFromLib) {
-    // Need to store target token and app secret
-    [MSAppCenter startFromLibraryWithServices:@[ [MSAnalytics class]]];
-  }
-  else if (useOneCollector) {
+  NSString *secretString = useOneCollector
+    ? @"target=5a06bf4972a44a059d59c757e6d0b595-cb71af5d-2d79-4fb4-b969-01840f1543e9-6845;appsecret=3ccfe7f5-ec01-4de5-883c-f563bbbe147a"
+    : @"appsecret=3ccfe7f5-ec01-4de5-883c-f563bbbe147a";
+  
+  switch (startTarget) {
+    case START_FROM_LIBRARY:
+      [MSAppCenter startFromLibraryWithServices:@[ [MSAnalytics class]]];
+      break;
+    case START_FROM_APP:
 #if DEBUG
-    [MSAppCenter start:@"target=5a06bf4972a44a059d59c757e6d0b595-cb71af5d-2d79-4fb4-b969-01840f1543e9-6845;appsecret="
-     @"3ccfe7f5-ec01-4de5-883c-f563bbbe147a"
-          withServices:@[ [MSAnalytics class], [MSCrashes class], [MSPush class] ]];
+      [MSAppCenter start:secretString withServices:@[ [MSAnalytics class], [MSCrashes class], [MSPush class] ]];
 #else
-    [MSAppCenter start:@"target=5a06bf4972a44a059d59c757e6d0b595-cb71af5d-2d79-4fb4-b969-01840f1543e9-6845;appsecret="
-     @"3ccfe7f5-ec01-4de5-883c-f563bbbe147a"
-          withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class] ]];
+      [MSAppCenter start:secretString withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class] ]];
 #endif
+      break;
+    case START_FROM_BOTH:
+      [MSAppCenter startFromLibraryWithServices:@[ [MSAnalytics class]]];
+      
+#if DEBUG
+      [MSAppCenter start:secretString withServices:@[ [MSAnalytics class], [MSCrashes class], [MSPush class] ]];
+#else
+      [MSAppCenter start:secretString withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class] ]];
+#endif
+      break;
   }
   
   [self crashes];
