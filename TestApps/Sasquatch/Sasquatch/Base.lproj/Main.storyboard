@@ -268,7 +268,11 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RFp-Bh-UVe">
+<<<<<<< Updated upstream
                                             <rect key="frame" x="308" y="6" width="48" height="31"/>
+=======
+                                            <rect key="frame" x="309" y="6" width="48" height="31"/>
+>>>>>>> Stashed changes
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
                                             <connections>
                                                 <action selector="enabledSwitchUpdated:" destination="MLz-YP-ZEx" eventType="valueChanged" id="C54-n8-7Gj"/>
@@ -338,7 +342,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RMC-6k-Ol7">
-                                                    <rect key="frame" x="307" y="6" width="46" height="31"/>
+                                                    <rect key="frame" x="307" y="6" width="45" height="31"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
                                                     <connections>
                                                         <action selector="enabledSwitchUpdated:" destination="axH-Yn-1RM" eventType="valueChanged" id="9B5-F2-39e"/>
@@ -503,7 +507,11 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q0F-SV-i0s">
+<<<<<<< Updated upstream
                                                     <rect key="frame" x="310" y="6" width="41" height="31"/>
+=======
+                                                    <rect key="frame" x="311" y="6" width="43" height="31"/>
+>>>>>>> Stashed changes
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
                                                     <connections>
                                                         <action selector="enabledSwitchUpdated:" destination="9Ck-4D-Ozb" eventType="valueChanged" id="MlW-XW-LQd"/>
@@ -527,7 +535,11 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hek-Vg-v2m">
+<<<<<<< Updated upstream
                                                     <rect key="frame" x="310" y="6" width="41" height="31"/>
+=======
+                                                    <rect key="frame" x="311" y="6" width="43" height="31"/>
+>>>>>>> Stashed changes
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
                                                     <connections>
                                                         <action selector="enableOneCollectorSwitchUpdated:" destination="9Ck-4D-Ozb" eventType="valueChanged" id="Qm3-t2-47k"/>
