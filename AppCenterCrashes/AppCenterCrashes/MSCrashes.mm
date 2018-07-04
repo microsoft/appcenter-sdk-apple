@@ -76,9 +76,7 @@ static void ms_save_log_buffer(const std::string &data,
   close(fd);
 }
 
-static void ms_save_log_buffer_callback(__unused siginfo_t *info,
-                                        __unused ucontext_t *uap,
-                                        __unused void *context) {
+void ms_save_log_buffer() {
 
   // Iterate over the buffered logs and write them to disk.
   writeBufferTaskStarted = YES;
@@ -97,15 +95,16 @@ static void ms_save_log_buffer_callback(__unused siginfo_t *info,
 /**
  * Proxy implementation for PLCrashReporter to keep our interface stable while this can change.
  */
-static void plcr_post_crash_callback(siginfo_t *info, ucontext_t *uap, void *context) {
-  ms_save_log_buffer_callback(info, uap, context);
+static void plcr_post_crash_callback(__unused siginfo_t *info, __unused ucontext_t *uap, void *context) {
+  ms_save_log_buffer();
   if (msCrashesCallbacks.handleSignal != nullptr) {
     msCrashesCallbacks.handleSignal(context);
   }
 }
 
 static PLCrashReporterCallbacks plCrashCallbacks = {
-    .version = 0, .context = nullptr, .handleSignal = plcr_post_crash_callback};
+    .version = 0, .context = nullptr, .handleSignal = plcr_post_crash_callback
+};
 
 /**
  * C++ Exception Handler

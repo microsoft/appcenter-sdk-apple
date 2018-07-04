@@ -42,6 +42,11 @@ const int ms_crashes_log_buffer_size = 60;
  */
 extern std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size> msCrashesLogBuffer;
 
+/**
+ * Save the log buffer to files.
+ */
+extern void ms_save_log_buffer();
+
 @interface MSCrashes () <MSChannelDelegate>
 
 /**
