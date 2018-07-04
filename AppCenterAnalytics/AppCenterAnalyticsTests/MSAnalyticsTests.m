@@ -719,8 +719,9 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   // If
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
   [[MSAnalytics sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                                            appSecret:kMSTestAppSecret
-                              transmissionTargetToken:nil];
+                                              appSecret:kMSTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:NO];
   MSServiceAbstract *analytics = [MSAnalytics sharedInstance];
   [analytics setEnabled:NO];
 
