@@ -20,6 +20,8 @@
 struct MSCrashesBufferedLog {
   std::string bufferPath;
   std::string buffer;
+  std::string targetTokenPath;
+  std::string targetToken;
   std::string internalId;
   std::string timestamp;
 
