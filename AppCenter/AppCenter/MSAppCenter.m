@@ -207,7 +207,6 @@ static NSString *const kMSGroupId = @"AppCenter";
     } else {
       if (!self.appSecret) {
         self.appSecret = [MSUtility appSecretFrom:secretString];
-        NSLog(@"secret string: %@", self.appSecret);
 
         // Initialize session context.
         // FIXME: It would be better to have obvious way to initialize session context instead of calling setSessionId.
@@ -253,7 +252,7 @@ static NSString *const kMSGroupId = @"AppCenter";
                    (fromApplication ? @"an application" : @"a library"));
       NSMutableArray<NSString *> *servicesNames = [NSMutableArray arrayWithCapacity:sortedServices.count];
       for (Class service in sortedServices) {
-        if ([self startService:service withAppSecret:appSecret andSendLog:NO fromApplication:fromApplication]) {
+        if ([self startService:service withAppSecret:self.appSecret andSendLog:NO fromApplication:fromApplication]) {
           [servicesNames addObject:[service serviceName]];
         }
       }
@@ -305,6 +304,7 @@ static NSString *const kMSGroupId = @"AppCenter";
       MSLogError([MSAppCenter logTag], @"App Center has not been configured so it couldn't start the service.");
       return NO;
     }
+    
     id<MSServiceInternal> service = [clazz sharedInstance];
     if (service.isAvailable && fromApplication && service.isStartedFromApplication) {
 
