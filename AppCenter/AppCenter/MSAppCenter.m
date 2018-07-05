@@ -207,6 +207,7 @@ static NSString *const kMSGroupId = @"AppCenter";
     } else {
       if (!self.appSecret) {
         self.appSecret = [MSUtility appSecretFrom:secretString];
+        NSLog(@"secret string: %@", self.appSecret);
 
         // Initialize session context.
         // FIXME: It would be better to have obvious way to initialize session context instead of calling setSessionId.
@@ -214,6 +215,7 @@ static NSString *const kMSGroupId = @"AppCenter";
       }
       if (!self.defaultTransmissionTargetToken) {
         self.defaultTransmissionTargetToken = [MSUtility transmissionTargetTokenFrom:secretString];
+        NSLog(@"TTT: %@", self.defaultTransmissionTargetToken);
       }
 
       // Init the main pipeline.
