@@ -99,6 +99,20 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   XCTAssertTrue([MSMockSecondService sharedInstance].started);
 }
 
+- (void)testStartWithNoAppSecret {
+
+  // If
+  NSArray *services = @[ MSMockService.class, MSMockSecondService.class ];
+
+  // When
+  [MSAppCenter startWithServices:services];
+
+  // Then
+  XCTAssertNil([[MSAppCenter sharedInstance] appSecret]);
+  XCTAssertFalse([MSMockService sharedInstance].started);
+  XCTAssertTrue([MSMockSecondService sharedInstance].started);
+}
+
 - (void)testStartWithTransmissionTokenOnly {
 
   // If
@@ -186,6 +200,15 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   XCTAssertNil([MSMockSecondService sharedInstance].appSecret);
   XCTAssertTrue([MSMockService sharedInstance].started);
   XCTAssertTrue([MSMockSecondService sharedInstance].started);
+}
+
+- (void)testConfigureWithNoAppSecret {
+
+  // When
+  [MSAppCenter configure];
+
+  // Then
+  XCTAssertTrue([MSAppCenter isConfigured]);
 }
 
 - (void)testGetInstallIdFromStorage {
