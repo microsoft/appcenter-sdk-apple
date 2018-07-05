@@ -42,6 +42,24 @@ extern NSString *MSUtilityStringFormattingCategory;
  */
 + (NSString *)transmissionTargetTokenFrom:(NSString *)string;
 
+/**
+ * Extract iKey from a transmission target token string.
+ *
+ * @param token The transmission target token as a string.
+ *
+ * @returns The iKey or nil if none was found.
+ */
++ (nullable NSString *)iKeyFromTargetToken:(nullable NSString *)token;
+
+/**
+ * Extract target id from a transmission target token string.
+ *
+ * @param token The transmission target token as a string.
+ *
+ * @returns The target id or nil if none was found.
+ */
++ (nullable NSString *)targetIdFromTargetToken:(nullable NSString *)token;
+
 @end
 
 NS_ASSUME_NONNULL_END
