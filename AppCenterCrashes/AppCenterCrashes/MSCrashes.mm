@@ -458,13 +458,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     if (serializedLog && (serializedLog.length > 0)) {
       
       // Serialize target token.
-      NSString *targetToken;
-      if ([logObject isKindOfClass:[MSCommonSchemaLog class]]) {
-        targetToken = [[log transmissionTargetTokens] anyObject];
-        targetToken = [self.targetTokenEncrypter encryptString:targetToken];
-      } else {
-        targetToken = @"";
-      }
+      NSString *targetToken = log.transmissionTargetTokens != nil ? log.transmissionTargetTokens.anyObject : nil;
+      targetToken = targetToken != nil ? [self.targetTokenEncrypter encryptString:targetToken] : @"";
       
       // Storing a log.
       NSNumber *oldestTimestamp;
@@ -844,6 +839,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
           }
 
           // Buffered logs are used sending their own channel. It will never contain more than 50 logs.
+          MSLogDebug([MSCrashes logTag], @"Re-enqueueing buffered log, type: %@.", item.type);
           [self.bufferChannelUnit enqueueItem:item];
         }
       }
