@@ -305,8 +305,10 @@ static NSString *const kMSGroupId = @"AppCenter";
     }
     if (service.isAppSecretRequired) {
 
-      // All services that require app secret cannot be started from library. This condition should be checked before
-      // app secret validation.
+      /*
+       * All services that require app secret cannot be started from library. This condition should be checked before
+       * app secret validation.
+       */
       if (!fromApplication) {
         MSLogError([MSAppCenter logTag], @"Cannot start service %@. The service cannot be started from a library.",
                    clazz);
