@@ -138,7 +138,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 - (void)suspend {
   @synchronized(self) {
     if (!self.suspended) {
-      MSLogInfo([MSAppCenter logTag], @"Suspend sender.");
+      MSLogInfo([MSAppCenter logTag], @"Suspend ingestion.");
       self.suspended = YES;
 
       // Suspend all tasks.
@@ -176,7 +176,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 
     // Resume only while enabled.
     if (self.suspended && self.enabled) {
-      MSLogInfo([MSAppCenter logTag], @"Resume sender.");
+      MSLogInfo([MSAppCenter logTag], @"Resume ingestion.");
       self.suspended = NO;
 
       // Resume existing calls.
@@ -301,7 +301,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     }
 
     // Remove call from pending call. This needs to happen after calling setEnabled:andDeleteDataOnDisabled:
-    // FIXME: Refactor dependency between calling setEnabled:andDeleteDataOnDisabled: and suspending the sender.
+    // FIXME: Refactor dependency between calling setEnabled:andDeleteDataOnDisabled: and suspending the ingestion.
     NSString *callId = call.callId;
     if (callId.length == 0) {
       MSLogWarning([MSAppCenter logTag], @"Call object is invalid");

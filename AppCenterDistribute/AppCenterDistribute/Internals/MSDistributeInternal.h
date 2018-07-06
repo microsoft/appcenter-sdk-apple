@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 
 #import "MSDistribute.h"
-#import "MSDistributeSender.h"
+#import "MSDistributeIngestion.h"
 #import "MSReleaseDetailsPrivate.h"
 #import "MSIngestionProtocol.h"
 #import "MSServiceInternal.h"
@@ -30,7 +30,7 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
 /**
  * A sender instance that is used to send a request for new release to the backend.
  */
-@property(nonatomic, nullable) MSDistributeSender *sender;
+@property(nonatomic, nullable) MSDistributeIngestion *sender;
 
 @end
 

@@ -54,8 +54,8 @@
 		048BB3041E60A40D009D92C2 /* MSReleaseDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 048BB2FD1E60A40D009D92C2 /* MSReleaseDetails.m */; };
 		048BB3051E60A40D009D92C2 /* MSDistributionGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 048BB2FF1E60A40D009D92C2 /* MSDistributionGroup.h */; };
 		048BB3061E60A40D009D92C2 /* MSDistributionGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 048BB3001E60A40D009D92C2 /* MSDistributionGroup.m */; };
-		048BB3071E60A40D009D92C2 /* MSDistributeSender.h in Headers */ = {isa = PBXBuildFile; fileRef = 048BB3011E60A40D009D92C2 /* MSDistributeSender.h */; };
-		048BB3081E60A40D009D92C2 /* MSDistributeSender.m in Sources */ = {isa = PBXBuildFile; fileRef = 048BB3021E60A40D009D92C2 /* MSDistributeSender.m */; };
+		048BB3071E60A40D009D92C2 /* MSDistributeIngestion.h in Headers */ = {isa = PBXBuildFile; fileRef = 048BB3011E60A40D009D92C2 /* MSDistributeIngestion.h */; };
+		048BB3081E60A40D009D92C2 /* MSDistributeIngestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 048BB3021E60A40D009D92C2 /* MSDistributeIngestion.m */; };
 		04A0820A1F74BBB100DC776D /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A082091F74BBB100DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04A140C91ECE89BD001CEE94 /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A140C61ECE89B2001CEE94 /* MSMockUserDefaults.m */; };
 		04DC2EC91E78A3B4003F23B5 /* error_details.json in Resources */ = {isa = PBXBuildFile; fileRef = 04DC2EC81E78A3B4003F23B5 /* error_details.json */; };
@@ -174,8 +174,8 @@
 		048BB2FD1E60A40D009D92C2 /* MSReleaseDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSReleaseDetails.m; sourceTree = "<group>"; };
 		048BB2FF1E60A40D009D92C2 /* MSDistributionGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSDistributionGroup.h; path = ../Sender/MSDistributionGroup.h; sourceTree = "<group>"; };
 		048BB3001E60A40D009D92C2 /* MSDistributionGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSDistributionGroup.m; path = ../Sender/MSDistributionGroup.m; sourceTree = "<group>"; };
-		048BB3011E60A40D009D92C2 /* MSDistributeSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDistributeSender.h; sourceTree = "<group>"; };
-		048BB3021E60A40D009D92C2 /* MSDistributeSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistributeSender.m; sourceTree = "<group>"; };
+		048BB3011E60A40D009D92C2 /* MSDistributeIngestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDistributeIngestion.h; sourceTree = "<group>"; };
+		048BB3021E60A40D009D92C2 /* MSDistributeIngestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistributeIngestion.m; sourceTree = "<group>"; };
 		049BC8221ECE349200FB6719 /* iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
 		049BC8271ECE387A00FB6719 /* iOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = iOS.modulemap; sourceTree = "<group>"; };
 		04A082091F74BBB100DC776D /* MSService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSService.h; path = ../AppCenter/AppCenter/MSService.h; sourceTree = "<group>"; };
@@ -337,8 +337,8 @@
 		048BB2FE1E60A40D009D92C2 /* Sender */ = {
 			isa = PBXGroup;
 			children = (
-				048BB3011E60A40D009D92C2 /* MSDistributeSender.h */,
-				048BB3021E60A40D009D92C2 /* MSDistributeSender.m */,
+				048BB3011E60A40D009D92C2 /* MSDistributeIngestion.h */,
+				048BB3021E60A40D009D92C2 /* MSDistributeIngestion.m */,
 			);
 			path = Sender;
 			sourceTree = "<group>";
@@ -553,7 +553,7 @@
 				0471B93C1E4557620022F951 /* MSServiceAbstract.h in Headers */,
 				B2C070A51E5E62330076D6A9 /* MSDistributeUtil.h in Headers */,
 				0471B9331E4555F20022F951 /* AppCenterDistribute.h in Headers */,
-				048BB3071E60A40D009D92C2 /* MSDistributeSender.h in Headers */,
+				048BB3071E60A40D009D92C2 /* MSDistributeIngestion.h in Headers */,
 				046FDBD31E5682FA00AF9DD1 /* MSAlertController.h in Headers */,
 				384135BE1FD99B5400FC7836 /* MSDistributeDataMigration.h in Headers */,
 				0471B9341E45560C0022F951 /* MSDistribute.h in Headers */,
@@ -749,7 +749,7 @@
 				38A683601E774D9F00A63BC8 /* MSSemVer.m in Sources */,
 				046FDBD41E5682FA00AF9DD1 /* MSAlertController.m in Sources */,
 				383A2FE61EBA30B300817742 /* MSDistributeAppDelegate.m in Sources */,
-				048BB3081E60A40D009D92C2 /* MSDistributeSender.m in Sources */,
+				048BB3081E60A40D009D92C2 /* MSDistributeIngestion.m in Sources */,
 				BA682C81BA750CA5FCB63A51 /* MSErrorDetails.m in Sources */,
 				586032CABA2AC5DAA00BAB53 /* MSDistributeInfoTracker.m in Sources */,
 			);

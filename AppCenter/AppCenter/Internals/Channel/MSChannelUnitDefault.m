@@ -39,10 +39,10 @@
     _configuration = configuration;
     _logsDispatchQueue = logsDispatchQueue;
 
-    // Register as sender delegate.
+    // Register as ingestion delegate.
     [_sender addDelegate:self];
 
-    // Match sender's current status, if one is passed.
+    // Match ingestion's current status, if one is passed.
     if (_sender && _sender.suspended) {
       [self suspend];
     }
@@ -135,7 +135,7 @@
                                 shouldFilter = shouldFilter || [delegate channelUnit:self shouldFilterLog:item];
                               }];
 
-    // If sender is nil, there is nothing to do at this point.
+    // If ingestion is nil, there is nothing to do at this point.
     if (shouldFilter) {
       MSLogDebug([MSAppCenter logTag], @"Log of type '%@' was filtered out by delegate(s)", item.type);
       [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:withInternalId:)
@@ -191,7 +191,7 @@
 
 - (void)flushQueue {
 
-  // Nothing to flush if there is no sender.
+  // Nothing to flush if there is no ingestion.
   if (!self.sender) {
     return;
   }
@@ -251,7 +251,7 @@
                                            }
                                          }];
 
-               // Forward logs to the sender.
+               // Forward logs to the ingestion.
                [self.sender sendAsync:container
                             appSecret:self.appSecret
                     completionHandler:^(NSString *senderBatchId, NSUInteger statusCode,

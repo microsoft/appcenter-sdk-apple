@@ -8,11 +8,11 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Initializes a new `MSChannelGroupDefault` instance.
  *
- * @param sender An HTTP sender instance that is used to send batches of log items to the backend.
+ * @param ingestion An HTTP sender instance that is used to send batches of log items to the backend.
  *
  * @return A new `MSChannelGroupDefault` instance.
  */
-- (instancetype)initWithSender:(nullable MSHttpIngestion *)sender;
+- (instancetype)initWithIngestion:(nullable MSHttpIngestion *)ingestion;
 
 @end
 

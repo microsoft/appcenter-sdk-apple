@@ -351,7 +351,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         [queryStrings addEntriesFromDictionary:reportingParametersForUpdatedRelease];
       }
       queryStrings[kMSURLQueryReleaseHashKey] = releaseHash;
-      self.sender = [[MSDistributeSender alloc] initWithBaseUrl:self.apiUrl
+      self.sender = [[MSDistributeIngestion alloc] initWithBaseUrl:self.apiUrl
                                                       appSecret:self.appSecret
                                                     updateToken:updateToken
                                             distributionGroupId:distributionGroupId
@@ -366,7 +366,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
               return;
             }
 
-            // Release sender instance.
+            // Release ingestion instance.
             strongSelf.sender = nil;
 
             // Ignore the response if the service is disabled.

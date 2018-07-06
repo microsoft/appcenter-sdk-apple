@@ -469,7 +469,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // Then
   MSChannelGroupDefault *channelGroup = (MSChannelGroupDefault *)[MSAppCenter sharedInstance].channelGroup;
-  XCTAssertFalse(channelGroup.sender.enabled);
+  XCTAssertFalse(channelGroup.ingestion.enabled);
   XCTAssertFalse([MSMockService isEnabled]);
 }
 
@@ -483,7 +483,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // Then
   MSChannelGroupDefault *channelGroup = (MSChannelGroupDefault *)[MSAppCenter sharedInstance].channelGroup;
-  XCTAssertFalse(channelGroup.sender.enabled);
+  XCTAssertFalse(channelGroup.ingestion.enabled);
   XCTAssertFalse([MSMockService isEnabled]);
 }
 

@@ -1,11 +1,11 @@
 #import "MSAppCenter.h"
 #import "MSAppCenterInternal.h"
 #import "MSDistribute.h"
-#import "MSDistributeSender.h"
+#import "MSDistributeIngestion.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSLoggerInternal.h"
 
-@implementation MSDistributeSender
+@implementation MSDistributeIngestion
 
 /**
  * The API paths for latest release requests.

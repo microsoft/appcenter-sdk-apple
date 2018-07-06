@@ -23,13 +23,13 @@
   id senderMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
 
   // When
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock];
+  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:senderMock];
 
   // Then
   assertThat(sut, notNilValue());
   assertThat(sut.logsDispatchQueue, notNilValue());
   assertThat(sut.channels, isEmpty());
-  assertThat(sut.sender, equalTo(senderMock));
+  assertThat(sut.ingestion, equalTo(senderMock));
   assertThat(sut.storage, notNilValue());
 }
 
@@ -42,7 +42,7 @@
   NSUInteger batchSizeLimit = 10;
   NSUInteger pendingBatchesLimit = 3;
   id<MSIngestionProtocol> senderMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock];
+  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:senderMock];
 
   // Then
   assertThat(sut.channels, isEmpty());
@@ -68,7 +68,7 @@
 
   // If
   id<MSIngestionProtocol> senderMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock];
+  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:senderMock];
 
   // When
   MSChannelUnitDefault *channelUnit = (MSChannelUnitDefault *)[sut addChannelUnitWithConfiguration:[MSChannelUnitConfiguration new]];
@@ -82,7 +82,7 @@
   // If
   id<MSIngestionProtocol> senderMockDefault = OCMProtocolMock(@protocol(MSIngestionProtocol));
   id<MSIngestionProtocol> senderMockCustom = OCMProtocolMock(@protocol(MSIngestionProtocol));
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMockDefault];
+  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:senderMockDefault];
 
   // When
   MSChannelUnitDefault *channelUnit =
@@ -97,7 +97,7 @@
 
   // If
   NSString *groupId = @"AppCenter";
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:OCMProtocolMock(@protocol(MSIngestionProtocol))];
+  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:OCMProtocolMock(@protocol(MSIngestionProtocol))];
   MSAbstractLog *log = [MSAbstractLog new];
   for (int j = 0; j < 10; j++) {
     id mockDelegate = OCMProtocolMock(@protocol(MSChannelDelegate));
@@ -130,7 +130,7 @@
   MSHttpIngestion *senderMock = OCMClassMock([MSHttpIngestion class]);
   id<MSChannelUnitProtocol> channelMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   id<MSChannelDelegate> delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock];
+  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:senderMock];
   [sut addDelegate:delegateMock];
   [sut.channels addObject:channelMock];
 
@@ -148,7 +148,7 @@
   // If
   MSHttpIngestion *senderMock = OCMClassMock([MSHttpIngestion class]);
   id<MSChannelUnitProtocol> channelMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock];
+  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:senderMock];
   [sut.channels addObject:channelMock];
 
   // When
@@ -166,7 +166,7 @@
   // If
   MSHttpIngestion *senderMock = OCMClassMock([MSHttpIngestion class]);
   id<MSChannelUnitProtocol> channelMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock];
+  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:senderMock];
   [sut.channels addObject:channelMock];
 
   // When
@@ -188,7 +188,7 @@
   NSUInteger batchSizeLimit = 10;
   NSUInteger pendingBatchesLimit = 3;
   id senderMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock];
+  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:senderMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
   OCMStub([channelUnitMock initWithSender:OCMOCK_ANY
@@ -225,7 +225,7 @@
   NSUInteger batchSizeLimit = 10;
   NSUInteger pendingBatchesLimit = 3;
   id senderMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock];
+  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:senderMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
   OCMStub([channelUnitMock initWithSender:OCMOCK_ANY

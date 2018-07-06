@@ -162,7 +162,7 @@ static NSURL *sfURL;
   id distributeMock = OCMPartialMock(self.sut);
   OCMStub([distributeMock openURLInSafariViewControllerWith:OCMOCK_ANY fromClass:OCMOCK_ANY]).andDo(nil);
 
-  // Disable for now to bypass initializing sender.
+  // Disable for now to bypass initializing ingestion.
   [distributeMock setEnabled:NO];
   [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                               appSecret:kMSTestAppSecret
@@ -988,7 +988,7 @@ static NSURL *sfURL;
   // Then
   assertThatBool(result, isFalse());
 
-  // Disable for now to bypass initializing sender.
+  // Disable for now to bypass initializing ingestion.
   [distributeMock setEnabled:NO];
   [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                               appSecret:kMSTestAppSecret
@@ -1062,7 +1062,7 @@ static NSURL *sfURL;
   OCMStub([appCenterMock isConfigured]).andReturn(YES);
   id utilityMock = [self mockMSPackageHash];
 
-  // Disable for now to bypass initializing sender.
+  // Disable for now to bypass initializing ingestion.
   [distributeMock setEnabled:NO];
   [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                               appSecret:kMSTestAppSecret
@@ -1132,7 +1132,7 @@ static NSURL *sfURL;
   OCMStub([appCenterMock isConfigured]).andReturn(YES);
   id utilityMock = [self mockMSPackageHash];
 
-  // Disable for now to bypass initializing sender.
+  // Disable for now to bypass initializing ingestion.
   [distributeMock setEnabled:NO];
   [distributeMock startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                               appSecret:kMSTestAppSecret

@@ -194,7 +194,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [self.sut addDelegate:delegateMock];
   OCMStub([delegateMock senderDidSuspend:self.sut]).andDo(^(__attribute__((unused)) NSInvocation *invocation) {
 
-    // Send one batch now that the sender is suspended.
+    // Send one batch now that the ingestion is suspended.
     [self.sut sendAsync:container
               appSecret:kMSTestAppSecret
         completionHandler:^(__attribute__((unused)) NSString *batchId, NSUInteger statusCode,
@@ -216,7 +216,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
 
-                                 // The sender got resumed.
+                                 // The ingestion got resumed.
                                  OCMVerify([delegateMock senderDidResume:self.sut]);
                                  assertThatBool(self.sut.suspended, isFalse());
 
@@ -321,7 +321,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
         }];
   }
 
-  // Make sure all log containers are enqueued before suspending sender.
+  // Make sure all log containers are enqueued before suspending ingestion.
   [NSThread sleepForTimeInterval:0.5];
   [self.sut suspend];
 
@@ -394,7 +394,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
       .andDo(^(__attribute__((unused)) NSInvocation *invocation) {
 
         /*
-         * Don't fulfill the expectation immediatelly as the sender won't be suspended yet. Instead of using a delay to
+         * Don't fulfill the expectation immediatelly as the ingestion won't be suspended yet. Instead of using a delay to
          * wait
          * for the retries, we use the retryCount as it retryCount will only be 0 before the first failed sending and
          * after

@@ -106,7 +106,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   OCMStub([senderMock sendAsync:OCMOCK_ANY appSecret:OCMOCK_ANY completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
 
-        // Get sender bloc for later call.
+        // Get ingestion bloc for later call.
         [invocation retainArguments];
         [invocation getArgument:&senderBlock atIndex:4];
         [invocation getArgument:&logContainer atIndex:2];
@@ -119,7 +119,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
       .andDo(^(NSInvocation *invocation) {
         MSLoadDataCompletionBlock loadCallback;
 
-        // Get sender bloc for later call.
+        // Get ingestion bloc for later call.
         [invocation getArgument:&loadCallback atIndex:4];
 
         // Mock load.
@@ -201,7 +201,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   OCMStub([senderMock sendAsync:OCMOCK_ANY appSecret:OCMOCK_ANY completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
 
-        // Get sender bloc for later call.
+        // Get ingestion bloc for later call.
         [invocation retainArguments];
         [invocation getArgument:&senderBlock atIndex:4];
         [invocation getArgument:&logContainer atIndex:2];
@@ -213,7 +213,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
       .andDo(^(NSInvocation *invocation) {
         MSLoadDataCompletionBlock loadCallback;
 
-        // Get sender bloc for later call.
+        // Get ingestion bloc for later call.
         [invocation getArgument:&loadCallback atIndex:4];
 
         // Mock load.
@@ -426,7 +426,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   OCMStub([senderMock sendAsync:OCMOCK_ANY appSecret:OCMOCK_ANY completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
 
-        // Get sender block for later call.
+        // Get ingestion block for later call.
         [invocation retainArguments];
         [invocation getArgument:&senderBlock atIndex:4];
         [invocation getArgument:&lastBatchLogContainer atIndex:2];
@@ -438,7 +438,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
       .andDo(^(NSInvocation *invocation) {
         MSLoadDataCompletionBlock loadCallback;
 
-        // Get sender bloc for later call.
+        // Get ingestion bloc for later call.
         [invocation getArgument:&loadCallback atIndex:4];
 
         // Mock load.

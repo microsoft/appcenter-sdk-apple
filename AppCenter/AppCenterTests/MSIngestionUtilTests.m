@@ -1,11 +1,11 @@
 #import "MSAppCenterIngestion.h"
 #import "MSTestFrameworks.h"
 
-@interface MSSenderUtilTests : XCTestCase
+@interface MSIngestionUtilTests : XCTestCase
 
 @end
 
-@implementation MSSenderUtilTests
+@implementation MSIngestionUtilTests
 
 - (void)testLargeSecret {
 

@@ -1,5 +1,5 @@
 #import "MSDistributePrivate.h"
-#import "MSDistributeSender.h"
+#import "MSDistributeIngestion.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSLoggerInternal.h"
 #import "MSTestFrameworks.h"
@@ -18,7 +18,7 @@
   NSString *baseUrl = @"https://contoso.com";
   NSString *apiPath = @"/test";
   NSDictionary *header = OCMClassMock([NSDictionary class]);
-  MSDistributeSender *sender = [[MSDistributeSender alloc] initWithBaseUrl:baseUrl
+  MSDistributeIngestion *sender = [[MSDistributeIngestion alloc] initWithBaseUrl:baseUrl
                                                                    apiPath:apiPath
                                                                    headers:header
                                                               queryStrings:nil
@@ -44,7 +44,7 @@
   [MSLogger setCurrentLogLevel:MSLogLevelVerbose];
   id distributeMock = OCMPartialMock([MSDistribute sharedInstance]);
   OCMStub([distributeMock appSecret]).andReturn(@"secret");
-  MSDistributeSender *sender1 = [[MSDistributeSender alloc] initWithBaseUrl:baseUrl
+  MSDistributeIngestion *sender1 = [[MSDistributeIngestion alloc] initWithBaseUrl:baseUrl
                                                                   appSecret:appSecret
                                                                 updateToken:updateToken
                                                         distributionGroupId:distributionGroupId
