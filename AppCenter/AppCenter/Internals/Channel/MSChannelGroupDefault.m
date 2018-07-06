@@ -8,7 +8,7 @@
 #import "MSHttpIngestion.h"
 #import "MSLogDBStorage.h"
 #import "MSStorage.h"
-#import "MSSender.h"
+#import "MSIngestionProtocol.h"
 
 static short const kMSStorageMaxCapacity = 300;
 static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQueue";
@@ -43,7 +43,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 }
 
 - (id<MSChannelUnitProtocol>)addChannelUnitWithConfiguration:(MSChannelUnitConfiguration *)configuration
-                                                  withSender:(nullable id<MSSender>)sender {
+                                                  withSender:(nullable id<MSIngestionProtocol>)sender {
   MSChannelUnitDefault *channel;
   if (configuration) {
     channel = [[MSChannelUnitDefault alloc] initWithSender:(sender ? sender : self.sender)

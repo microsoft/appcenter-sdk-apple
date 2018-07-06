@@ -8,7 +8,7 @@
 #import "MSDevice.h"
 #import "MSHttpIngestion.h"
 #import "MSLogContainer.h"
-#import "MSSender.h"
+#import "MSIngestionProtocol.h"
 #import "MSStorage.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility.h"
@@ -25,7 +25,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
 @property(nonatomic) id<MSStorage> storageMock;
 
-@property(nonatomic) id<MSSender> senderMock;
+@property(nonatomic) id<MSIngestionProtocol> senderMock;
 
 /**
  * Most of the channel APIs are asynchronous, this expectation is meant to be enqueued to the data dispatch queue
@@ -49,7 +49,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   self.configMock = OCMClassMock([MSChannelUnitConfiguration class]);
   self.storageMock = OCMProtocolMock(@protocol(MSStorage));
   OCMStub([self.storageMock saveLog:OCMOCK_ANY withGroupId:OCMOCK_ANY]).andReturn(YES);
-  self.senderMock = OCMProtocolMock(@protocol(MSSender));
+  self.senderMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
   self.sut = [[MSChannelUnitDefault alloc] initWithSender:self.senderMock
                                                   storage:self.storageMock
                                             configuration:self.configMock
@@ -102,7 +102,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // Init mocks.
   id<MSLog> enqueuedLog = [self getValidMockLog];
-  id senderMock = OCMProtocolMock(@protocol(MSSender));
+  id senderMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
   OCMStub([senderMock sendAsync:OCMOCK_ANY appSecret:OCMOCK_ANY completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
 
@@ -197,7 +197,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // Init mocks.
   id<MSLog> enqueuedLog = [self getValidMockLog];
-  id senderMock = OCMProtocolMock(@protocol(MSSender));
+  id senderMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
   OCMStub([senderMock sendAsync:OCMOCK_ANY appSecret:OCMOCK_ANY completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
 
@@ -357,7 +357,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   NSUInteger expectedMaxPendingBatched = 2;
 
   // Set up mock and stubs.
-  id senderMock = OCMProtocolMock(@protocol(MSSender));
+  id senderMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
   OCMStub([senderMock sendAsync:OCMOCK_ANY appSecret:OCMOCK_ANY completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
 
@@ -422,7 +422,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   int batchSizeLimit = 1;
 
   // Init mocks.
-  id senderMock = OCMProtocolMock(@protocol(MSSender));
+  id senderMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
   OCMStub([senderMock sendAsync:OCMOCK_ANY appSecret:OCMOCK_ANY completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
 
@@ -498,7 +498,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self initChannelEndJobExpectation];
   int batchSizeLimit = 1;
   id mockLog = [self getValidMockLog];
-  id senderMock = OCMProtocolMock(@protocol(MSSender));
+  id senderMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
   OCMReject([senderMock sendAsync:OCMOCK_ANY appSecret:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
   OCMStub([senderMock sendAsync:OCMOCK_ANY appSecret:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
@@ -536,7 +536,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // If
   [self initChannelEndJobExpectation];
   int batchSizeLimit = 1;
-  id senderMock = OCMProtocolMock(@protocol(MSSender));
+  id senderMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
   id mockLog = [self getValidMockLog];
   OCMStub([storageMock
@@ -871,7 +871,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 - (void)testDisableAndDeleteDataOnSenderFatalError {
 
   // If
-  id senderMock = OCMProtocolMock(@protocol(MSSender));
+  id senderMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
   MSChannelUnitDefault *sut = [self createChannelUnit];
 
   // When
@@ -884,7 +884,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 - (void)testSuspendOnSenderSuspended {
 
   // If
-  id senderMock = OCMProtocolMock(@protocol(MSSender));
+  id senderMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
   MSChannelUnitDefault *sut = [self createChannelUnit];
 
   // When
@@ -897,7 +897,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 - (void)testResumeOnSenderResumed {
 
   // If
-  id senderMock = OCMProtocolMock(@protocol(MSSender));
+  id senderMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
   MSChannelUnitDefault *sut = [self createChannelUnit];
 
   // When

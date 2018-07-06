@@ -5,7 +5,7 @@
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
 #import "MSDeviceTracker.h"
-#import "MSSender.h"
+#import "MSIngestionProtocol.h"
 #import "MSStorage.h"
 
 @implementation MSChannelUnitDefault
@@ -29,7 +29,7 @@
   return self;
 }
 
-- (instancetype)initWithSender:(nullable id<MSSender>)sender
+- (instancetype)initWithSender:(nullable id<MSIngestionProtocol>)sender
                        storage:(id<MSStorage>)storage
                  configuration:(MSChannelUnitConfiguration *)configuration
              logsDispatchQueue:(dispatch_queue_t)logsDispatchQueue {
@@ -74,17 +74,17 @@
 
 #pragma mark - MSSenderDelegate
 
-- (void)senderDidSuspend:(id<MSSender>)sender {
+- (void)senderDidSuspend:(id<MSIngestionProtocol>)sender {
   (void)sender;
   [self suspend];
 }
 
-- (void)senderDidResume:(id<MSSender>)sender {
+- (void)senderDidResume:(id<MSIngestionProtocol>)sender {
   (void)sender;
   [self resume];
 }
 
-- (void)senderDidReceiveFatalError:(id<MSSender>)sender {
+- (void)senderDidReceiveFatalError:(id<MSIngestionProtocol>)sender {
   (void)sender;
 
   // Disable and delete data on fatal errors.

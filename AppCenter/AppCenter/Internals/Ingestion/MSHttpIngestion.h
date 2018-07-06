@@ -1,10 +1,10 @@
 #import <Foundation/Foundation.h>
 
-#import "MSSender.h"
+#import "MSIngestionProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MSHttpIngestion : NSObject <MSSender>
+@interface MSHttpIngestion : NSObject <MSIngestionProtocol>
 
 /**
  * Base URL (schema + authority + port only) used to communicate with the server.

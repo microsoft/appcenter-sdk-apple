@@ -9,7 +9,7 @@
 #import "MSMockLogWithConversion.h"
 #import "MSOneCollectorChannelDelegatePrivate.h"
 #import "MSSDKExtension.h"
-#import "MSSender.h"
+#import "MSIngestionProtocol.h"
 #import "MSStorage.h"
 #import "MSTestFrameworks.h"
 
@@ -18,7 +18,7 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
 @interface MSOneCollectorChannelDelegateTests : XCTestCase
 
 @property(nonatomic) MSOneCollectorChannelDelegate *sut;
-@property(nonatomic) id<MSSender> senderMock;
+@property(nonatomic) id<MSIngestionProtocol> senderMock;
 @property(nonatomic) id<MSStorage> storageMock;
 @property(nonatomic) dispatch_queue_t logsDispatchQueue;
 @property(nonatomic) MSChannelUnitConfiguration *baseUnitConfigMock;
@@ -30,7 +30,7 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
 - (void)setUp {
   [super setUp];
   self.sut = [[MSOneCollectorChannelDelegate alloc] initWithInstallId:[NSUUID new]];
-  self.senderMock = OCMProtocolMock(@protocol(MSSender));
+  self.senderMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
   self.storageMock = OCMProtocolMock(@protocol(MSStorage));
   self.logsDispatchQueue = dispatch_get_main_queue();
   self.baseUnitConfigMock = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSBaseGroupId

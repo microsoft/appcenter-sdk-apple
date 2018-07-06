@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 
-#import "MSSender.h"
+#import "MSIngestionProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -80,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param data       response data.
  *  @param error      call error.
  */
-- (void)sender:(id<MSSender>)sender
+- (void)sender:(id<MSIngestionProtocol>)sender
     callCompletedWithStatus:(NSUInteger)statusCode
                        data:(nullable NSData *)data
                       error:(NSError *)error;

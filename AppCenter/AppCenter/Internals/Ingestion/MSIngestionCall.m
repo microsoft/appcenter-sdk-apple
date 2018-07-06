@@ -68,7 +68,7 @@
   [self resetTimer];
 }
 
-- (void)sender:(id<MSSender>)sender
+- (void)sender:(id<MSIngestionProtocol>)sender
     callCompletedWithStatus:(NSUInteger)statusCode
                        data:(nullable NSData *)data
                       error:(NSError *)error {

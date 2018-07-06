@@ -108,7 +108,7 @@
 		043120991EE0BCF9007054C5 /* MSUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = E8A8D1E91D3057A90022931E /* MSUserDefaults.h */; };
 		0431209A1EE0BCF9007054C5 /* MSHttpIngestionPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38F1944D1DADB93100D3E0FE /* MSHttpIngestionPrivate.h */; };
 		0431209B1EE0BCF9007054C5 /* MSIngestionCall.h in Headers */ = {isa = PBXBuildFile; fileRef = E80EB1051D50273700C9003F /* MSIngestionCall.h */; };
-		0431209C1EE0BCF9007054C5 /* MSSender.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E311D235209006FD231 /* MSSender.h */; };
+		0431209C1EE0BCF9007054C5 /* MSIngestionProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E311D235209006FD231 /* MSIngestionProtocol.h */; };
 		0431209D1EE0BCF9007054C5 /* MSServiceCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C758D1D64DF2500D68CC1 /* MSServiceCommon.h */; };
 		043120A21EE0BCF9007054C5 /* MSAppCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401551D1C9AAA0051BCFA /* MSAppCenter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		043120A41EE0BCF9007054C5 /* MSAppCenterPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38E1B6791DDE3FDF000EFED1 /* MSAppCenterPrivate.h */; };
@@ -233,7 +233,7 @@
 		04754F6C1EA98182002CBA46 /* MSUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = E8A8D1E91D3057A90022931E /* MSUserDefaults.h */; };
 		04754F6D1EA98182002CBA46 /* MSHttpIngestionPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38F1944D1DADB93100D3E0FE /* MSHttpIngestionPrivate.h */; };
 		04754F6E1EA98182002CBA46 /* MSIngestionCall.h in Headers */ = {isa = PBXBuildFile; fileRef = E80EB1051D50273700C9003F /* MSIngestionCall.h */; };
-		04754F6F1EA98182002CBA46 /* MSSender.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E311D235209006FD231 /* MSSender.h */; };
+		04754F6F1EA98182002CBA46 /* MSIngestionProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E311D235209006FD231 /* MSIngestionProtocol.h */; };
 		04754F701EA98182002CBA46 /* MSServiceCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C758D1D64DF2500D68CC1 /* MSServiceCommon.h */; };
 		04754F741EA98182002CBA46 /* MSAppCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401551D1C9AAA0051BCFA /* MSAppCenter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04754F761EA98182002CBA46 /* MSAppCenterPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38E1B6791DDE3FDF000EFED1 /* MSAppCenterPrivate.h */; };
@@ -617,7 +617,7 @@
 		E83283C71D46C62E000B029E /* MS_Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = E83283C51D46C62E000B029E /* MS_Reachability.m */; };
 		E84B8E2F1D2351DB006FD231 /* MSChannelGroupDefault.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E2C1D2351DB006FD231 /* MSChannelGroupDefault.h */; };
 		E84B8E301D2351DB006FD231 /* MSChannelGroupDefault.m in Sources */ = {isa = PBXBuildFile; fileRef = E84B8E2D1D2351DB006FD231 /* MSChannelGroupDefault.m */; };
-		E84B8E321D235209006FD231 /* MSSender.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E311D235209006FD231 /* MSSender.h */; };
+		E84B8E321D235209006FD231 /* MSIngestionProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E311D235209006FD231 /* MSIngestionProtocol.h */; };
 		E84B8E351D235226006FD231 /* MSHttpIngestion.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E331D235226006FD231 /* MSHttpIngestion.h */; };
 		E84B8E361D235226006FD231 /* MSHttpIngestion.m in Sources */ = {isa = PBXBuildFile; fileRef = E84B8E341D235226006FD231 /* MSHttpIngestion.m */; };
 		E84B8E391D235246006FD231 /* MSStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = E84B8E381D235246006FD231 /* MSStorage.h */; };
@@ -918,7 +918,7 @@
 		E83283C51D46C62E000B029E /* MS_Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MS_Reachability.m; sourceTree = "<group>"; };
 		E84B8E2C1D2351DB006FD231 /* MSChannelGroupDefault.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSChannelGroupDefault.h; sourceTree = "<group>"; };
 		E84B8E2D1D2351DB006FD231 /* MSChannelGroupDefault.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSChannelGroupDefault.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		E84B8E311D235209006FD231 /* MSSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MSSender.h; sourceTree = "<group>"; };
+		E84B8E311D235209006FD231 /* MSIngestionProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MSIngestionProtocol.h; sourceTree = "<group>"; };
 		E84B8E331D235226006FD231 /* MSHttpIngestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSHttpIngestion.h; sourceTree = "<group>"; };
 		E84B8E341D235226006FD231 /* MSHttpIngestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSHttpIngestion.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		E84B8E381D235246006FD231 /* MSStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSStorage.h; sourceTree = "<group>"; };
@@ -1446,7 +1446,7 @@
 			isa = PBXGroup;
 			children = (
 				E8753D6B1D4BE4FC00241513 /* Util */,
-				E84B8E311D235209006FD231 /* MSSender.h */,
+				E84B8E311D235209006FD231 /* MSIngestionProtocol.h */,
 				384772A51DA5691F009365DE /* MSIngestionDelegate.h */,
 				E80EB1051D50273700C9003F /* MSIngestionCall.h */,
 				E80EB1061D50273700C9003F /* MSIngestionCall.m */,
@@ -1521,7 +1521,7 @@
 				0431209A1EE0BCF9007054C5 /* MSHttpIngestionPrivate.h in Headers */,
 				B2CD74AE1F22BE270070E7DF /* MSUtility+ApplicationPrivate.h in Headers */,
 				0431209B1EE0BCF9007054C5 /* MSIngestionCall.h in Headers */,
-				0431209C1EE0BCF9007054C5 /* MSSender.h in Headers */,
+				0431209C1EE0BCF9007054C5 /* MSIngestionProtocol.h in Headers */,
 				B2CD74B11F22BE270070E7DF /* MSUtility+Date.h in Headers */,
 				B2CD74C91F22BEC70070E7DF /* MSDBStoragePrivate.h in Headers */,
 				0431209D1EE0BCF9007054C5 /* MSServiceCommon.h in Headers */,
@@ -1622,7 +1622,7 @@
 				04A79A4320C6F432006D0072 /* MSOneCollectorIngestion.h in Headers */,
 				E7D23C5E20B4EC3700A47D62 /* MSSerializableObject.h in Headers */,
 				04754F6E1EA98182002CBA46 /* MSIngestionCall.h in Headers */,
-				04754F6F1EA98182002CBA46 /* MSSender.h in Headers */,
+				04754F6F1EA98182002CBA46 /* MSIngestionProtocol.h in Headers */,
 				04754F701EA98182002CBA46 /* MSServiceCommon.h in Headers */,
 				04754F741EA98182002CBA46 /* MSAppCenter.h in Headers */,
 				B28E41D62076ED1400CC6AD8 /* MSUtility+PropertyValidation.h in Headers */,
@@ -1724,7 +1724,7 @@
 				B2B7D50B20C5E562001D31B8 /* MSOneCollectorIngestion.h in Headers */,
 				E7D23C5D20B4EC3700A47D62 /* MSSerializableObject.h in Headers */,
 				E80EB1071D50273700C9003F /* MSIngestionCall.h in Headers */,
-				E84B8E321D235209006FD231 /* MSSender.h in Headers */,
+				E84B8E321D235209006FD231 /* MSIngestionProtocol.h in Headers */,
 				3844FF1F1E8C2716003E9194 /* MSLogWithProperties.h in Headers */,
 				387C758F1D64E50800D68CC1 /* MSServiceCommon.h in Headers */,
 				B28E41D82076ED1500CC6AD8 /* MSUtility+PropertyValidation.h in Headers */,

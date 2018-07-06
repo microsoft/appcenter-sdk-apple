@@ -9,7 +9,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol MSIngestionDelegate;
 
-@protocol MSSender <NSObject, MSIngestionCallDelegate, MSEnable>
+@protocol MSIngestionProtocol <NSObject, MSIngestionCallDelegate, MSEnable>
 
 /**
  * Reachability library.

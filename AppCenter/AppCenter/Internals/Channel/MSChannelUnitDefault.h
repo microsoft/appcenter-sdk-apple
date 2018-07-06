@@ -6,7 +6,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class MSChannelUnitConfiguration;
-@protocol MSSender;
+@protocol MSIngestionProtocol;
 @protocol MSStorage;
 
 @interface MSChannelUnitDefault : NSObject <MSChannelUnitProtocol, MSIngestionDelegate>
@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A new `MSChannelUnitDefault` instance.
  */
-- (instancetype)initWithSender:(nullable id<MSSender>)sender
+- (instancetype)initWithSender:(nullable id<MSIngestionProtocol>)sender
                        storage:(id<MSStorage>)storage
                  configuration:(MSChannelUnitConfiguration *)configuration
              logsDispatchQueue:(dispatch_queue_t)logsDispatchQueue;
@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * A sender instance that is used to send batches of log items to the backend.
  */
-@property(nonatomic, nullable) id<MSSender> sender;
+@property(nonatomic, nullable) id<MSIngestionProtocol> sender;
 
 /**
  * A storage instance to store and read enqueued log items.

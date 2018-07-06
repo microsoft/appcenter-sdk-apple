@@ -4,7 +4,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol MSSender;
+@protocol MSIngestionProtocol;
 @protocol MSChannelUnitProtocol;
 @class MSChannelUnitConfiguration;
 
@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @return The added `MSChannelUnitProtocol`. Use this object to enqueue logs.
  */
 - (id<MSChannelUnitProtocol>)addChannelUnitWithConfiguration:(MSChannelUnitConfiguration *)configuration
-                                                  withSender:(nullable id<MSSender>)sender;
+                                                  withSender:(nullable id<MSIngestionProtocol>)sender;
 
 /**
  * Change the base URL (schema + authority + port only) used to communicate with the backend.

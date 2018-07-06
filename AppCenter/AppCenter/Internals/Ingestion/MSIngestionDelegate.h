@@ -1,4 +1,4 @@
-@protocol MSSender;
+@protocol MSIngestionProtocol;
 
 @protocol MSIngestionDelegate <NSObject>
 
@@ -9,20 +9,20 @@
  *
  * @param sender Sender.
  */
-- (void)senderDidSuspend:(id<MSSender>)sender;
+- (void)senderDidSuspend:(id<MSIngestionProtocol>)sender;
 
 /**
  * Triggered after the sender has resumed its state.
  *
  * @param sender Sender.
  */
-- (void)senderDidResume:(id<MSSender>)sender;
+- (void)senderDidResume:(id<MSIngestionProtocol>)sender;
 
 /**
  * Triggered when sender receives a fatal error.
  *
  * @param sender Sender.
  */
-- (void)senderDidReceiveFatalError:(id<MSSender>)sender;
+- (void)senderDidReceiveFatalError:(id<MSIngestionProtocol>)sender;
 
 @end
