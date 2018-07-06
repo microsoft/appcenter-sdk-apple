@@ -27,11 +27,7 @@
 
 static UIViewController *crashResultViewController = nil;
 
-enum {
-  START_FROM_APP = 0,
-  START_FROM_LIBRARY,
-  START_FROM_BOTH
-};
+enum { START_FROM_APP = 0, START_FROM_LIBRARY, START_FROM_BOTH };
 
 @interface AppDelegate () <MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate, MSAnalyticsDelegate>
 
@@ -50,28 +46,30 @@ enum {
   [MSPush setDelegate:self];
   [MSAnalytics setDelegate:self];
   [MSAppCenter setLogLevel:MSLogLevelVerbose];
-  
+
   // Start Mobile Center SDK.
   BOOL useOneCollector = [[NSUserDefaults standardUserDefaults] boolForKey:@"isOneCollectorEnabled"];
   long startTarget = [[NSUserDefaults standardUserDefaults] integerForKey:@"startTarget"];
-  
-  NSString *secretString = useOneCollector
-    ? @"target=09855e8251634d618c1d8ef3325e3530-8c17b252-f3c1-41e1-af64-78a72d13ac22-6684;appsecret=7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7"
-    : @"7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7";
-  
+
+  NSString *secretString = useOneCollector ? @"target=09855e8251634d618c1d8ef3325e3530-8c17b252-f3c1-41e1-af64-"
+                                             @"78a72d13ac22-6684;appsecret=7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7"
+                                           : @"7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7";
+
   switch (startTarget) {
-    case START_FROM_LIBRARY:
-      [MSAppCenter startFromLibraryWithServices:@[ [MSAnalytics class]]];
-      break;
-    case START_FROM_APP:
-      [MSAppCenter start:secretString withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class] ]];
-      break;
-    case START_FROM_BOTH:
-      [MSAppCenter startFromLibraryWithServices:@[ [MSAnalytics class]]];
-      [MSAppCenter start:secretString withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class] ]];
-      break;
+  case START_FROM_LIBRARY:
+    [MSAppCenter startFromLibraryWithServices:@[ [MSAnalytics class] ]];
+    break;
+  case START_FROM_APP:
+    [MSAppCenter start:secretString
+          withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class] ]];
+    break;
+  case START_FROM_BOTH:
+    [MSAppCenter startFromLibraryWithServices:@[ [MSAnalytics class] ]];
+    [MSAppCenter start:secretString
+          withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class] ]];
+    break;
   }
-  
+
   [self crashes];
 
   // Print the install Id.
@@ -143,7 +141,7 @@ enum {
       setUserConfirmationHandler:(^(NSArray<MSErrorReport *> *errorReports) {
         [NSNotificationCenter.defaultCenter postNotificationName:kDidShouldAwaitUserConfirmationEvent object:nil];
 
-        //TODO use UIAlertController in sample apps!
+        // TODO use UIAlertController in sample apps!
         // Show a dialog to the user where they can choose if they want to provide a crash report.
         MSAlertController *alertController = [MSAlertController
             alertControllerWithTitle:NSLocalizedStringFromTable(@"crash_alert_title", @"Puppet", @"")

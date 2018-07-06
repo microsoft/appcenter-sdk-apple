@@ -59,10 +59,14 @@ static NSString *const kMSGroupId = @"AppCenter";
 #pragma mark - public
 
 + (void)configureWithAppSecret:(NSString *)appSecret {
+
+  // 'appSecret' is actually a secret string
   [[self sharedInstance] configureWithSecretString:appSecret fromApplication:YES];
 }
 
 + (void)start:(NSString *)appSecret withServices:(NSArray<Class> *)services {
+
+  // 'appSecret' is actually a secret string
   [[self sharedInstance] start:appSecret withServices:services fromApplication:YES];
 }
 
@@ -214,7 +218,6 @@ static NSString *const kMSGroupId = @"AppCenter";
       }
       if (!self.defaultTransmissionTargetToken) {
         self.defaultTransmissionTargetToken = [MSUtility transmissionTargetTokenFrom:secretString];
-        NSLog(@"TTT: %@", self.defaultTransmissionTargetToken);
       }
 
       // Init the main pipeline.
@@ -243,9 +246,12 @@ static NSString *const kMSGroupId = @"AppCenter";
   }
 }
 
-- (void)start:(NSString *)appSecret withServices:(NSArray<Class> *)services fromApplication:(BOOL)fromApplication {
+- (void)start:(NSString *)secretString withServices:(NSArray<Class> *)services fromApplication:(BOOL)fromApplication {
   @synchronized(self) {
-    BOOL configured = [self configureWithSecretString:appSecret fromApplication:fromApplication];
+
+    // configureWithSecretString will set self.appSecret if successful
+    BOOL configured = [self configureWithSecretString:secretString fromApplication:fromApplication];
+
     if (configured && services) {
       NSArray *sortedServices = [self sortServices:services];
       MSLogVerbose([MSAppCenter logTag], @"Start services %@ from %@", [sortedServices componentsJoinedByString:@", "],
@@ -304,7 +310,7 @@ static NSString *const kMSGroupId = @"AppCenter";
       MSLogError([MSAppCenter logTag], @"App Center has not been configured so it couldn't start the service.");
       return NO;
     }
-    
+
     id<MSServiceInternal> service = [clazz sharedInstance];
     if (service.isAvailable && fromApplication && service.isStartedFromApplication) {
 

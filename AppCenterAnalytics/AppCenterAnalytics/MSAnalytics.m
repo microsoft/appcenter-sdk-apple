@@ -76,7 +76,10 @@ __attribute__((used)) static void importCategories() {
                     appSecret:(nullable NSString *)appSecret
       transmissionTargetToken:(nullable NSString *)token
               fromApplication:(BOOL)fromApplication {
-  [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
+  [super startWithChannelGroup:channelGroup
+                     appSecret:appSecret
+       transmissionTargetToken:token
+               fromApplication:fromApplication];
   if (token) {
     self.defaultTransmissionTarget = [self transmissionTargetFor:(NSString *)token];
   }
@@ -137,7 +140,7 @@ __attribute__((used)) static void importCategories() {
 
 - (void)updateConfigurationWithAppSecret:(NSString *)appSecret transmissionTargetToken:(NSString *)token {
   [super updateConfigurationWithAppSecret:appSecret transmissionTargetToken:token];
-  
+
   // Create the default target if not already created in start.
   if (token && !self.defaultTransmissionTarget) {
     self.defaultTransmissionTarget = [self transmissionTargetFor:(NSString *)token];
@@ -286,7 +289,7 @@ __attribute__((used)) static void importCategories() {
   transmissionTarget = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:transmissionTargetToken];
   MSLogDebug([MSAnalytics logTag], @"Created transmission target with id %@.", transmissionTargetToken);
   [self.transmissionTargets setObject:transmissionTarget forKey:transmissionTargetToken];
-  
+
   // TODO: Start service if not already.
   // Scenario: getTransmissionTarget gets called before App Center has an app secret or transmission target but start
   // has been called for this service.
