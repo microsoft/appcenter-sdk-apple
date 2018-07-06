@@ -132,7 +132,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *_Nullable error) {
                                  assertThatBool(self.sut.enabled, isFalse());
-                                 OCMVerify([delegateMock senderDidReceiveFatalError:self.sut]);
+                                 OCMVerify([delegateMock ingestionDidReceiveFatalError:self.sut]);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
@@ -149,7 +149,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // Set a delegate for suspending event.
   id delegateMock = OCMProtocolMock(@protocol(MSIngestionDelegate));
-  OCMStub([delegateMock senderDidSuspend:self.sut]).andDo(^(__attribute__((unused)) NSInvocation *invocation) {
+  OCMStub([delegateMock ingestionDidSuspend:self.sut]).andDo(^(__attribute__((unused)) NSInvocation *invocation) {
     [requestCompletedExcpectation fulfill];
   });
   [self.sut addDelegate:delegateMock];
@@ -192,7 +192,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // Set a delegate for suspending/resuming event.
   id delegateMock = OCMProtocolMock(@protocol(MSIngestionDelegate));
   [self.sut addDelegate:delegateMock];
-  OCMStub([delegateMock senderDidSuspend:self.sut]).andDo(^(__attribute__((unused)) NSInvocation *invocation) {
+  OCMStub([delegateMock ingestionDidSuspend:self.sut]).andDo(^(__attribute__((unused)) NSInvocation *invocation) {
 
     // Send one batch now that the ingestion is suspended.
     [self.sut sendAsync:container
@@ -217,7 +217,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                handler:^(NSError *error) {
 
                                  // The ingestion got resumed.
-                                 OCMVerify([delegateMock senderDidResume:self.sut]);
+                                 OCMVerify([delegateMock ingestionDidResume:self.sut]);
                                  assertThatBool(self.sut.suspended, isFalse());
 
                                  // The call as been removed.
@@ -636,8 +636,8 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [self.sut suspend];
 
   // Then
-  OCMVerify([delegateMock1 senderDidSuspend:self.sut]);
-  OCMVerify([delegateMock2 senderDidSuspend:self.sut]);
+  OCMVerify([delegateMock1 ingestionDidSuspend:self.sut]);
+  OCMVerify([delegateMock2 ingestionDidSuspend:self.sut]);
 }
 
 // TODO: Move this to base MSHttpIngestion test.
@@ -655,8 +655,8 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [self.sut resume];
 
   // Then
-  OCMVerify([delegateMock1 senderDidResume:self.sut]);
-  OCMVerify([delegateMock2 senderDidResume:self.sut]);
+  OCMVerify([delegateMock1 ingestionDidResume:self.sut]);
+  OCMVerify([delegateMock2 ingestionDidResume:self.sut]);
 }
 
 - (void)testSetBaseURL {

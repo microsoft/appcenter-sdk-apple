@@ -50,7 +50,7 @@ NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){
     MSChannelUnitConfiguration *channelUnitConfiguration =
         [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:oneCollectorGroupId];
     id<MSChannelUnitProtocol> channelUnit =
-        [channelGroup addChannelUnitWithConfiguration:channelUnitConfiguration withSender:self.oneCollectorSender];
+            [channelGroup addChannelUnitWithConfiguration:channelUnitConfiguration withIngestion:self.oneCollectorSender];
     self.oneCollectorChannels[groupId] = channelUnit;
   }
 }

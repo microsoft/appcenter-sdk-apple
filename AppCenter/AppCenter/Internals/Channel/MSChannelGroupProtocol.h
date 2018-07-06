@@ -29,12 +29,12 @@ NS_ASSUME_NONNULL_BEGIN
  * Initialize a channel unit with the given configuration.
  *
  * @param configuration channel configuration.
- * @param sender The alternative ingestion object
+ * @param ingestion The alternative ingestion object
  *
  * @return The added `MSChannelUnitProtocol`. Use this object to enqueue logs.
  */
 - (id<MSChannelUnitProtocol>)addChannelUnitWithConfiguration:(MSChannelUnitConfiguration *)configuration
-                                                  withSender:(nullable id<MSIngestionProtocol>)sender;
+                                               withIngestion:(nullable id<MSIngestionProtocol>)ingestion;
 
 /**
  * Change the base URL (schema + authority + port only) used to communicate with the backend.

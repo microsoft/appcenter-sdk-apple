@@ -14,17 +14,17 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Initializes a new `MSChannelUnitDefault` instance.
  *
- * @param sender A sender instance that is used to send batches of log items to the backend.
+ * @param ingestion An ingestion instance that is used to send batches of log items to the backend.
  * @param storage A storage instance to store and read enqueued log items.
  * @param configuration The configuration used by this channel.
  * @param logsDispatchQueue Queue used to process logs.
  *
  * @return A new `MSChannelUnitDefault` instance.
  */
-- (instancetype)initWithSender:(nullable id<MSIngestionProtocol>)sender
-                       storage:(id<MSStorage>)storage
-                 configuration:(MSChannelUnitConfiguration *)configuration
-             logsDispatchQueue:(dispatch_queue_t)logsDispatchQueue;
+- (instancetype)initWithIngestion:(nullable id <MSIngestionProtocol>)ingestion
+                          storage:(id <MSStorage>)storage
+                    configuration:(MSChannelUnitConfiguration *)configuration
+                logsDispatchQueue:(dispatch_queue_t)logsDispatchQueue;
 
 /**
  * Flush pending logs.
@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * A sender instance that is used to send batches of log items to the backend.
  */
-@property(nonatomic, nullable) id<MSIngestionProtocol> sender;
+@property(nonatomic, nullable) id<MSIngestionProtocol> ingestion;
 
 /**
  * A storage instance to store and read enqueued log items.

@@ -74,7 +74,7 @@
   MSChannelUnitDefault *channelUnit = (MSChannelUnitDefault *)[sut addChannelUnitWithConfiguration:[MSChannelUnitConfiguration new]];
 
   // Then
-  XCTAssertEqual(senderMock, channelUnit.sender);
+  XCTAssertEqual(senderMock, channelUnit.ingestion);
 }
 
 - (void)testAddChannelWithCustomSender {
@@ -86,11 +86,11 @@
 
   // When
   MSChannelUnitDefault *channelUnit =
-      (MSChannelUnitDefault *)[sut addChannelUnitWithConfiguration:[MSChannelUnitConfiguration new] withSender:senderMockCustom];
+      (MSChannelUnitDefault *) [sut addChannelUnitWithConfiguration:[MSChannelUnitConfiguration new] withIngestion:senderMockCustom];
 
   // Then
-  XCTAssertNotEqual(senderMockDefault, channelUnit.sender);
-  XCTAssertEqual(senderMockCustom, channelUnit.sender);
+  XCTAssertNotEqual(senderMockDefault, channelUnit.ingestion);
+  XCTAssertEqual(senderMockCustom, channelUnit.ingestion);
 }
 
 - (void)testDelegatesConcurrentAccess {
@@ -191,10 +191,10 @@
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:senderMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
-  OCMStub([channelUnitMock initWithSender:OCMOCK_ANY
-                                  storage:OCMOCK_ANY
-                            configuration:OCMOCK_ANY
-                        logsDispatchQueue:OCMOCK_ANY])
+  OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY
+                                     storage:OCMOCK_ANY
+                               configuration:OCMOCK_ANY
+                           logsDispatchQueue:OCMOCK_ANY])
       .andReturn(channelUnitMock);
 
   // When
@@ -228,10 +228,10 @@
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:senderMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
-  OCMStub([channelUnitMock initWithSender:OCMOCK_ANY
-                                  storage:OCMOCK_ANY
-                            configuration:OCMOCK_ANY
-                        logsDispatchQueue:OCMOCK_ANY])
+  OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY
+                                     storage:OCMOCK_ANY
+                               configuration:OCMOCK_ANY
+                           logsDispatchQueue:OCMOCK_ANY])
       .andReturn(channelUnitMock);
   id delegateMock1 = OCMProtocolMock(@protocol(MSChannelDelegate));
   OCMExpect([delegateMock1 channelGroup:sut didAddChannelUnit:channelUnitMock]);

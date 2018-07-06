@@ -163,9 +163,9 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
           }];
 
       // Notify delegates.
-      [self enumerateDelegatesForSelector:@selector(senderDidSuspend:)
+      [self enumerateDelegatesForSelector:@selector(ingestionDidSuspend:)
                                 withBlock:^(id<MSIngestionDelegate> delegate) {
-                                  [delegate senderDidSuspend:self];
+                                    [delegate ingestionDidSuspend:self];
                                 }];
     }
   }
@@ -201,9 +201,9 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
           }];
 
       // Propagate.
-      [self enumerateDelegatesForSelector:@selector(senderDidResume:)
+      [self enumerateDelegatesForSelector:@selector(ingestionDidResume:)
                                 withBlock:^(id<MSIngestionDelegate> delegate) {
-                                  [delegate senderDidResume:self];
+                                    [delegate ingestionDidResume:self];
                                 }];
     }
   }
@@ -285,9 +285,9 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
       [self setEnabled:NO andDeleteDataOnDisabled:YES];
 
       // Notify delegates.
-      [self enumerateDelegatesForSelector:@selector(senderDidReceiveFatalError:)
+      [self enumerateDelegatesForSelector:@selector(ingestionDidReceiveFatalError:)
                                 withBlock:^(id<MSIngestionDelegate> delegate) {
-                                  [delegate senderDidReceiveFatalError:self];
+                                    [delegate ingestionDidReceiveFatalError:self];
                                 }];
       break;
     }

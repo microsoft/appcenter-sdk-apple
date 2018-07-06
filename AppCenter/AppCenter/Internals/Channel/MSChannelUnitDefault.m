@@ -29,21 +29,21 @@
   return self;
 }
 
-- (instancetype)initWithSender:(nullable id<MSIngestionProtocol>)sender
-                       storage:(id<MSStorage>)storage
-                 configuration:(MSChannelUnitConfiguration *)configuration
-             logsDispatchQueue:(dispatch_queue_t)logsDispatchQueue {
+- (instancetype)initWithIngestion:(nullable id <MSIngestionProtocol>)ingestion
+                          storage:(id <MSStorage>)storage
+                    configuration:(MSChannelUnitConfiguration *)configuration
+                logsDispatchQueue:(dispatch_queue_t)logsDispatchQueue {
   if ((self = [self init])) {
-    _sender = sender;
+    _ingestion = ingestion;
     _storage = storage;
     _configuration = configuration;
     _logsDispatchQueue = logsDispatchQueue;
 
     // Register as ingestion delegate.
-    [_sender addDelegate:self];
+    [_ingestion addDelegate:self];
 
     // Match ingestion's current status, if one is passed.
-    if (_sender && _sender.suspended) {
+    if (_ingestion && _ingestion.suspended) {
       [self suspend];
     }
   }
@@ -72,20 +72,20 @@
   });
 }
 
-#pragma mark - MSSenderDelegate
+#pragma mark - MSIngestionDelegate
 
-- (void)senderDidSuspend:(id<MSIngestionProtocol>)sender {
-  (void)sender;
+- (void)ingestionDidSuspend:(id<MSIngestionProtocol>)ingestion {
+  (void)ingestion;
   [self suspend];
 }
 
-- (void)senderDidResume:(id<MSIngestionProtocol>)sender {
-  (void)sender;
+- (void)ingestionDidResume:(id<MSIngestionProtocol>)ingestion {
+  (void)ingestion;
   [self resume];
 }
 
-- (void)senderDidReceiveFatalError:(id<MSIngestionProtocol>)sender {
-  (void)sender;
+- (void)ingestionDidReceiveFatalError:(id<MSIngestionProtocol>)ingestion {
+  (void)ingestion;
 
   // Disable and delete data on fatal errors.
   [self setEnabled:NO andDeleteDataOnDisabled:YES];
@@ -192,7 +192,7 @@
 - (void)flushQueue {
 
   // Nothing to flush if there is no ingestion.
-  if (!self.sender) {
+  if (!self.ingestion) {
     return;
   }
 
@@ -252,7 +252,7 @@
                                          }];
 
                // Forward logs to the ingestion.
-               [self.sender sendAsync:container
+               [self.ingestion sendAsync:container
                             appSecret:self.appSecret
                     completionHandler:^(NSString *senderBatchId, NSUInteger statusCode,
                                         __attribute__((unused)) NSData *data, NSError *error) {
@@ -372,7 +372,7 @@
     if (self.enabled != isEnabled) {
       self.enabled = isEnabled;
       if (isEnabled) {
-        if (!self.sender.suspended) {
+        if (!self.ingestion.suspended) {
           [self resume];
         }
       } else {

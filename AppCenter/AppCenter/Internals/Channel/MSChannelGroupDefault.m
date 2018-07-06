@@ -39,17 +39,17 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 }
 
 - (id<MSChannelUnitProtocol>)addChannelUnitWithConfiguration:(MSChannelUnitConfiguration *)configuration {
-  return [self addChannelUnitWithConfiguration:configuration withSender:self.ingestion];
+  return [self addChannelUnitWithConfiguration:configuration withIngestion:self.ingestion];
 }
 
 - (id<MSChannelUnitProtocol>)addChannelUnitWithConfiguration:(MSChannelUnitConfiguration *)configuration
-                                                  withSender:(nullable id<MSIngestionProtocol>)sender {
+                                               withIngestion:(nullable id<MSIngestionProtocol>)ingestion {
   MSChannelUnitDefault *channel;
   if (configuration) {
-    channel = [[MSChannelUnitDefault alloc] initWithSender:(sender ? sender : self.ingestion)
-                                                   storage:self.storage
-                                             configuration:configuration
-                                         logsDispatchQueue:self.logsDispatchQueue];
+    channel = [[MSChannelUnitDefault alloc] initWithIngestion:(ingestion ? ingestion : self.ingestion)
+                                                      storage:self.storage
+                                                configuration:configuration
+                                            logsDispatchQueue:self.logsDispatchQueue];
     [channel addDelegate:self];
     dispatch_async(self.logsDispatchQueue, ^{
       [channel flushQueue];

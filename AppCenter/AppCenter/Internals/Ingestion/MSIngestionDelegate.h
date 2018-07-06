@@ -5,24 +5,24 @@
 @optional
 
 /**
- * Triggered after the sender has suspended its state.
+ * Triggered after the ingestion has suspended its state.
  *
- * @param sender Sender.
+ * @param ingestion Ingestion.
  */
-- (void)senderDidSuspend:(id<MSIngestionProtocol>)sender;
+- (void)ingestionDidSuspend:(id<MSIngestionProtocol>)ingestion;
 
 /**
- * Triggered after the sender has resumed its state.
+ * Triggered after the ingestion has resumed its state.
  *
- * @param sender Sender.
+ * @param ingestion Ingestion.
  */
-- (void)senderDidResume:(id<MSIngestionProtocol>)sender;
+- (void)ingestionDidResume:(id<MSIngestionProtocol>)ingestion;
 
 /**
- * Triggered when sender receives a fatal error.
+ * Triggered when ingestion receives a fatal error.
  *
- * @param sender Sender.
+ * @param ingestion Ingestion.
  */
-- (void)senderDidReceiveFatalError:(id<MSIngestionProtocol>)sender;
+- (void)ingestionDidReceiveFatalError:(id<MSIngestionProtocol>)ingestion;
 
 @end
