@@ -63,7 +63,7 @@ static NSString *const kMSGroupId = @"AppCenter";
 }
 
 + (void)configure {
-  [[self sharedInstance] configureWithAppSecret:nil];
+  [[self sharedInstance] configureWithSecretString:nil fromApplication:YES];
 }
 
 + (void)start:(NSString *)appSecret withServices:(NSArray<Class> *)services {
