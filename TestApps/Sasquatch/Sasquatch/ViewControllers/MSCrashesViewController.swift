@@ -117,7 +117,7 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
     let isSecond = indexPath.section == 1
     if isFirst {
       for index in 0...29 {
-        let eventName = "Breadcrumb \(index)"
+        let eventName = "Breadcrumb_\(index)"
         MSAnalytics.trackEvent(eventName)
       }
       appCenter.generateTestCrash()
