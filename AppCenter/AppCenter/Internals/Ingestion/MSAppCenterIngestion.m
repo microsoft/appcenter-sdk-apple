@@ -3,7 +3,7 @@
 #import "MSAppCenterInternal.h"
 #import "MSCompression.h"
 #import "MSConstants+Internal.h"
-#import "MSHttpSenderPrivate.h"
+#import "MSHttpIngestionPrivate.h"
 #import "MSLoggerInternal.h"
 #import "MSLogContainer.h"
 

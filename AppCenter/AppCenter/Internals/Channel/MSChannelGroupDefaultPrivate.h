@@ -1,6 +1,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
-@class MSHttpSender;
+@class MSHttpIngestion;
 @protocol MSStorage;
 
 @interface MSChannelGroupDefault ()
@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A new `MSChannelGroupDefault` instance.
  */
-- (instancetype)initWithSender:(nullable MSHttpSender *)sender;
+- (instancetype)initWithSender:(nullable MSHttpIngestion *)sender;
 
 @end
 

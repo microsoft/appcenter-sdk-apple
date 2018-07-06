@@ -5,7 +5,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class MSHttpSender;
+@class MSHttpIngestion;
 @protocol MSStorage;
 
 /**
@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * A sender instance that is used to send batches of log items to the backend.
  */
-@property(nonatomic, strong, nullable) MSHttpSender *sender;
+@property(nonatomic, strong, nullable) MSHttpIngestion *sender;
 
 /**
  * A storage instance to store and read enqueued log items.

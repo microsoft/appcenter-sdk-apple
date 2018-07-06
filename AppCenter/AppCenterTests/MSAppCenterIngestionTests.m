@@ -3,7 +3,7 @@
 #import "MSAppCenterIngestion.h"
 #import "MSDevice.h"
 #import "MSDeviceInternal.h"
-#import "MSHttpSenderPrivate.h"
+#import "MSHttpIngestionPrivate.h"
 #import "MSHttpTestUtil.h"
 #import "MSMockLog.h"
 #import "MSIngestionCall.h"
@@ -22,7 +22,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
 @end
 
-// TODO: Separate base MSHttpSender tests from this test and instantiate MSAppCenterIngestion with initWithBaseUrl:, not
+// TODO: Separate base MSHttpIngestion tests from this test and instantiate MSAppCenterIngestion with initWithBaseUrl:, not
 // the one with multiple parameters.
 // Look at comments in each method.
 // Add testHeaders to verify headers are populated properly. Look at testHeaders in MSOneCollectorIngestionTests
@@ -94,7 +94,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                }];
 }
 
-// TODO: Move this to base MSHttpSender test.
+// TODO: Move this to base MSHttpIngestion test.
 - (void)testUnrecoverableError {
 
   // If
@@ -139,7 +139,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                }];
 }
 
-// TODO: Move this to base MSHttpSender test.
+// TODO: Move this to base MSHttpIngestion test.
 - (void)testNetworkDown {
 
   // If
@@ -179,7 +179,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                }];
 }
 
-// TODO: Move this to base MSHttpSender test.
+// TODO: Move this to base MSHttpIngestion test.
 - (void)testNetworkUpAgain {
 
   // If
@@ -232,7 +232,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                }];
 }
 
-// TODO: Move this to base MSHttpSender test.
+// TODO: Move this to base MSHttpIngestion test.
 - (void)testTasksSuspendedOnSenderSuspended {
 
   // If
@@ -296,7 +296,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                }];
 }
 
-// TODO: Move this to base MSHttpSender test.
+// TODO: Move this to base MSHttpIngestion test.
 - (void)testTasksRunningOnSenderResumed {
 
   // If
@@ -366,7 +366,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                }];
 }
 
-// TODO: Move this to base MSHttpSender test.
+// TODO: Move this to base MSHttpIngestion test.
 - (void)testSuspendWhenAllRetriesUsed {
 
   // If
@@ -423,7 +423,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                }];
 }
 
-// TODO: Move this to base MSHttpSender test.
+// TODO: Move this to base MSHttpIngestion test.
 - (void)testRetryStoppedWhileSuspended {
 
   // If
@@ -527,7 +527,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                }];
 }
 
-// TODO: Move this to base MSHttpSender test.
+// TODO: Move this to base MSHttpIngestion test.
 - (void)testAddDelegate {
 
   // If
@@ -540,7 +540,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   assertThatBool([self.sut.delegates containsObject:delegateMock], isTrue());
 }
 
-// TODO: Move this to base MSHttpSender test.
+// TODO: Move this to base MSHttpIngestion test.
 - (void)testAddMultipleDelegates {
 
   // If
@@ -556,7 +556,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   assertThatBool([self.sut.delegates containsObject:delegateMock2], isTrue());
 }
 
-// TODO: Move this to base MSHttpSender test.
+// TODO: Move this to base MSHttpIngestion test.
 - (void)testAddTwiceSameDelegate {
 
   // If
@@ -571,7 +571,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   assertThatUnsignedLong(self.sut.delegates.count, equalToInt(1));
 }
 
-// TODO: Move this to base MSHttpSender test.
+// TODO: Move this to base MSHttpIngestion test.
 - (void)testRemoveDelegate {
 
   // If
@@ -585,7 +585,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   assertThatBool([self.sut.delegates containsObject:delegateMock], isFalse());
 }
 
-// TODO: Move this to base MSHttpSender test.
+// TODO: Move this to base MSHttpIngestion test.
 - (void)testRemoveTwiceSameDelegate {
 
   // If
@@ -604,7 +604,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   assertThatUnsignedLong(self.sut.delegates.count, equalToInt(1));
 }
 
-// TODO: Move this to base MSHttpSender test.
+// TODO: Move this to base MSHttpIngestion test.
 - (void)testNullifiedDelegate {
 
   // If
@@ -622,7 +622,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   assertThatUnsignedLong(self.sut.delegates.allObjects.count, equalToInt(0));
 }
 
-// TODO: Move this to base MSHttpSender test.
+// TODO: Move this to base MSHttpIngestion test.
 - (void)testCallDelegatesOnSuspended {
 
   // If
@@ -640,7 +640,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMVerify([delegateMock2 senderDidSuspend:self.sut]);
 }
 
-// TODO: Move this to base MSHttpSender test.
+// TODO: Move this to base MSHttpIngestion test.
 - (void)testCallDelegatesOnResumed {
 
   // If
@@ -728,7 +728,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
 #pragma mark - Test Helpers
 
-// TODO: Move this to base MSHttpSender test.
+// TODO: Move this to base MSHttpIngestion test.
 - (void)simulateReachabilityChangedNotification:(NetworkStatus)status {
   self.currentNetworkStatus = status;
   [[NSNotificationCenter defaultCenter] postNotificationName:kMSReachabilityChangedNotification

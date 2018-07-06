@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 
-#import "MSHttpSender.h"
+#import "MSHttpIngestion.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -9,7 +9,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 static NSString *const kMSHeaderUpdateApiToken = @"x-api-token";
 
-@interface MSDistributeSender : MSHttpSender
+@interface MSDistributeSender : MSHttpIngestion
 
 /**
  * AppSecret for the application.

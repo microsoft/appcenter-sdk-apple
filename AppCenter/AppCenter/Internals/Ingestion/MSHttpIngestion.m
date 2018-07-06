@@ -1,6 +1,6 @@
 #import "MSAppCenterInternal.h"
-#import "MSHttpSender.h"
-#import "MSHttpSenderPrivate.h"
+#import "MSHttpIngestion.h"
+#import "MSHttpIngestionPrivate.h"
 #import "MSIngestionCall.h"
 #import "MSIngestionDelegate.h"
 
@@ -9,7 +9,7 @@ static NSTimeInterval kRequestTimeout = 60.0;
 // URL components' name within a partial URL.
 static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"password", @"host", @"port", @"path"};
 
-@implementation MSHttpSender
+@implementation MSHttpIngestion
 
 @synthesize baseURL = _baseURL;
 @synthesize apiPath = _apiPath;

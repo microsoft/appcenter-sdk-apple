@@ -1,10 +1,10 @@
 #import <Foundation/Foundation.h>
 
-#import "MSHttpSender.h"
+#import "MSHttpIngestion.h"
 
 @protocol MSIngestionDelegate;
 
-@interface MSHttpSender ()
+@interface MSHttpIngestion ()
 
 @property(nonatomic) NSURLSession *session;
 

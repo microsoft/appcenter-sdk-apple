@@ -4,7 +4,7 @@
 #import "MSChannelGroupDefaultPrivate.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
-#import "MSHttpSenderPrivate.h"
+#import "MSHttpIngestionPrivate.h"
 #import "MSMockLog.h"
 #import "MSSender.h"
 #import "MSStorage.h"
@@ -127,7 +127,7 @@
 - (void)testSetEnabled {
 
   // If
-  MSHttpSender *senderMock = OCMClassMock([MSHttpSender class]);
+  MSHttpIngestion *senderMock = OCMClassMock([MSHttpIngestion class]);
   id<MSChannelUnitProtocol> channelMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   id<MSChannelDelegate> delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock];
@@ -146,7 +146,7 @@
 - (void)testResume {
 
   // If
-  MSHttpSender *senderMock = OCMClassMock([MSHttpSender class]);
+  MSHttpIngestion *senderMock = OCMClassMock([MSHttpIngestion class]);
   id<MSChannelUnitProtocol> channelMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock];
   [sut.channels addObject:channelMock];
@@ -164,7 +164,7 @@
 - (void)testSuspend {
 
   // If
-  MSHttpSender *senderMock = OCMClassMock([MSHttpSender class]);
+  MSHttpIngestion *senderMock = OCMClassMock([MSHttpIngestion class]);
   id<MSChannelUnitProtocol> channelMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithSender:senderMock];
   [sut.channels addObject:channelMock];

@@ -2,7 +2,7 @@
 #import "MSAppCenterInternal.h"
 #import "MSDistribute.h"
 #import "MSDistributeSender.h"
-#import "MSHttpSenderPrivate.h"
+#import "MSHttpIngestionPrivate.h"
 #import "MSLoggerInternal.h"
 
 @implementation MSDistributeSender

@@ -1,6 +1,6 @@
 #import "MSDistributePrivate.h"
 #import "MSDistributeSender.h"
-#import "MSHttpSenderPrivate.h"
+#import "MSHttpIngestionPrivate.h"
 #import "MSLoggerInternal.h"
 #import "MSTestFrameworks.h"
 

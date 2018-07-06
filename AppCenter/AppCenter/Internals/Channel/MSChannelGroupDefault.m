@@ -5,7 +5,7 @@
 #import "MSChannelDelegate.h"
 #import "MSChannelGroupDefault.h"
 #import "MSChannelUnitDefault.h"
-#import "MSHttpSender.h"
+#import "MSHttpIngestion.h"
 #import "MSLogDBStorage.h"
 #import "MSStorage.h"
 #import "MSSender.h"
@@ -26,7 +26,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
   return self;
 }
 
-- (instancetype)initWithSender:(nullable MSHttpSender *)sender {
+- (instancetype)initWithSender:(nullable MSHttpIngestion *)sender {
   if ((self = [self init])) {
     dispatch_queue_t serialQueue = dispatch_queue_create(kMSlogsDispatchQueue, DISPATCH_QUEUE_SERIAL);
     _logsDispatchQueue = serialQueue;

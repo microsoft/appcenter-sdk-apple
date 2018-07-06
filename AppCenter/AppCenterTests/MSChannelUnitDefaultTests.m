@@ -6,7 +6,7 @@
 #import "MSChannelUnitDefault.h"
 #import "MSChannelDelegate.h"
 #import "MSDevice.h"
-#import "MSHttpSender.h"
+#import "MSHttpIngestion.h"
 #import "MSLogContainer.h"
 #import "MSSender.h"
 #import "MSStorage.h"
@@ -678,7 +678,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // If
   __block BOOL result1, result2;
   [self initChannelEndJobExpectation];
-  MSHttpSender *sender = [MSHttpSender new];
+  MSHttpIngestion *sender = [MSHttpIngestion new];
   self.sut.sender = sender;
   [self.sut setEnabled:NO andDeleteDataOnDisabled:NO];
   dispatch_async(self.logsDispatchQueue, ^{

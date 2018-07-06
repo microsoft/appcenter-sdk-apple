@@ -8,7 +8,7 @@
 #import "MSAppCenterPrivate.h"
 #import "MSChannelUnitDefault.h"
 #import "MSChannelGroupDefault.h"
-#import "MSHttpSenderPrivate.h"
+#import "MSHttpIngestionPrivate.h"
 #import "MSMockService.h"
 #import "MSMockSecondService.h"
 #import "MSMockUserDefaults.h"

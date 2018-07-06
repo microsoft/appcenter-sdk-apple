@@ -2,7 +2,7 @@
 #import "MSAppCenterErrors.h"
 #import "MSDevice.h"
 #import "MSDeviceInternal.h"
-#import "MSHttpSenderPrivate.h"
+#import "MSHttpIngestionPrivate.h"
 #import "MSHttpTestUtil.h"
 #import "MSMockLog.h"
 #import "MSOneCollectorIngestion.h"
