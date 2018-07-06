@@ -59,13 +59,7 @@ static NSString *const kMSGroupId = @"AppCenter";
 #pragma mark - public
 
 + (void)configureWithAppSecret:(NSString *)appSecret {
-<<<<<<< HEAD
-
-  // 'appSecret' is actually a secret string
-  [[self sharedInstance] configureWithSecretString:appSecret fromApplication:YES];
-=======
   [[self sharedInstance] configureWithAppSecret:appSecret transmissionTargetToken:nil fromApplication:YES];
->>>>>>> develop
 }
 
 + (void)start:(NSString *)appSecret withServices:(NSArray<Class> *)services {
