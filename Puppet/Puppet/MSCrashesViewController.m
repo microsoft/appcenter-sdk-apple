@@ -228,7 +228,7 @@
   // Breadcrumbs cell.
   else if (indexPath.section == 0) {
     for (int i = 0; i < 30; i++) {
-      [MSAnalytics trackEvent:[NSString stringWithFormat:@"Breadcrumb: %d", i]];
+      [MSAnalytics trackEvent:[NSString stringWithFormat:@"Breadcrumb_%d", i]];
     }
     [MSCrashes generateTestCrash];
 

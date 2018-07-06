@@ -1,7 +1,6 @@
 #import "MSAppCenterInternal.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitProtocol.h"
-#import "MSServiceAbstractPrivate.h"
 
 @implementation MSServiceAbstract
 
@@ -11,14 +10,9 @@
 @synthesize defaultTransmissionTargetToken = _defaultTransmissionTargetToken;
 
 - (instancetype)init {
-  return [self initWithStorage:MS_USER_DEFAULTS];
-}
-
-- (instancetype)initWithStorage:(MSUserDefaults *)storage {
   if ((self = [super init])) {
     _started = NO;
     _isEnabledKey = [NSString stringWithFormat:@"kMS%@IsEnabledKey", self.groupId];
-    _storage = storage;
   }
   return self;
 }
@@ -29,7 +23,7 @@
 
   // Get isEnabled value from persistence.
   // No need to cache the value in a property, user settings already have their cache mechanism.
-  NSNumber *isEnabledNumber = [self.storage objectForKey:self.isEnabledKey];
+  NSNumber *isEnabledNumber = [MS_USER_DEFAULTS objectForKey:self.isEnabledKey];
 
   // Return the persisted value otherwise it's enabled by default.
   return (isEnabledNumber) ? [isEnabledNumber boolValue] : YES;
@@ -42,7 +36,7 @@
     [self applyEnabledState:isEnabled];
 
     // Persist the enabled status.
-    [self.storage setObject:@(isEnabled) forKey:self.isEnabledKey];
+    [MS_USER_DEFAULTS setObject:@(isEnabled) forKey:self.isEnabledKey];
   }
 }
 

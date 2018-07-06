@@ -113,8 +113,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   XCTAssertNil([[MSAppCenter sharedInstance] appSecret]);
   XCTAssertTrue(
       [[[MSAppCenter sharedInstance] defaultTransmissionTargetToken] isEqualToString:transmissionTargetString]);
-  // FIXME: This is a bug that services can start without app secret. MSMockService shouldn't start at this time.
-  XCTAssertTrue([MSMockService sharedInstance].started);
+  XCTAssertFalse([MSMockService sharedInstance].started);
   XCTAssertTrue([MSMockSecondService sharedInstance].started);
 }
 
@@ -570,7 +569,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // If
   id<MSChannelGroupProtocol> channelGroup = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
-  [self.sut configureWithSecretString:@"SecretString" fromApplication:YES];
+  [self.sut configureWithAppSecret:@"AppSecret" transmissionTargetToken:nil fromApplication:YES];
   self.sut.channelGroup = channelGroup;
 
   // When
@@ -584,7 +583,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // If
   id<MSChannelGroupProtocol> channelGroup = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
-  [self.sut configureWithSecretString:@"SecretString" fromApplication:YES];
+  [self.sut configureWithAppSecret:@"AppSecret" transmissionTargetToken:nil fromApplication:YES];
   self.sut.channelGroup = channelGroup;
 
   // When

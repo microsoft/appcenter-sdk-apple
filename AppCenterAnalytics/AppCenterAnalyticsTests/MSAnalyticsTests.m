@@ -1,8 +1,9 @@
+#import "MSAnalytics+Validation.h"
 #import "MSAnalytics.h"
+#import "MSAnalyticsCategory.h"
 #import "MSAnalyticsInternal.h"
 #import "MSAnalyticsPrivate.h"
-#import "MSAnalyticsCategory.h"
-#import "MSAnalytics+Validation.h"
+#import "MSAnalyticsTransmissionTargetPrivate.h"
 #import "MSAppCenter.h"
 #import "MSAppCenterInternal.h"
 #import "MSAppCenterPrivate.h"
@@ -10,9 +11,9 @@
 #import "MSChannelUnitDefault.h"
 #import "MSConstants+Internal.h"
 #import "MSEventLog.h"
-#import "MSPageLog.h"
 #import "MSMockAnalyticsDelegate.h"
-#import "MSServiceAbstract.h"
+#import "MSMockUserDefaults.h"
+#import "MSPageLog.h"
 #import "MSServiceInternal.h"
 #import "MSSessionTrackerPrivate.h"
 #import "MSTestFrameworks.h"
@@ -20,12 +21,15 @@
 static NSString *const kMSTypeEvent = @"event";
 static NSString *const kMSTypePage = @"page";
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
-static NSString *const kMSTestTransmissionToken = @"TestTransmissionToken";
+static NSString *const kMSTestTransmissionToken = @"AnalyticsTestTransmissionToken";
+static NSString *const kMSTestTransmissionToken2 = @"AnalyticsTestTransmissionToken2";
 static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
 @class MSMockAnalyticsDelegate;
 
 @interface MSAnalyticsTests : XCTestCase <MSAnalyticsDelegate>
+
+@property(nonatomic) MSMockUserDefaults *settingsMock;
 
 @end
 
@@ -51,8 +55,16 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
  */
 @implementation MSAnalyticsTests
 
+- (void)setUp {
+  [super setUp];
+
+  // Mock NSUserDefaults
+  self.settingsMock = [MSMockUserDefaults new];
+}
+
 - (void)tearDown {
   [super tearDown];
+  [self.settingsMock stopMocking];
 
   // Make sure sessionTracker removes all observers.
   [MSAnalytics sharedInstance].sessionTracker = nil;
@@ -700,6 +712,54 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   // Then
   XCTAssertNotNil(transmissionTarget1);
   XCTAssertEqual(transmissionTarget1, transmissionTarget2);
+}
+
+- (void)testEnableStatePropagateToTransmissionTargets {
+
+  // If
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  [[MSAnalytics sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                                              appSecret:kMSTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:NO];
+  MSServiceAbstract *analytics = [MSAnalytics sharedInstance];
+  [analytics setEnabled:NO];
+
+  // When
+
+  // Analytics is disabled, targets must match Analytics enabled state.
+  MSAnalyticsTransmissionTarget *transmissionTarget = [MSAnalytics transmissionTargetForToken:kMSTestTransmissionToken];
+  MSAnalyticsTransmissionTarget *transmissionTarget2 =
+      [MSAnalytics transmissionTargetForToken:kMSTestTransmissionToken2];
+
+  // Then
+  XCTAssertFalse([transmissionTarget isEnabled]);
+  XCTAssertFalse([transmissionTarget2 isEnabled]);
+
+  // When
+
+  // Trying re-enabling will fail since Analytics is still disabled.
+  [transmissionTarget setEnabled:YES];
+
+  // Then
+  XCTAssertFalse([transmissionTarget isEnabled]);
+  XCTAssertFalse([transmissionTarget2 isEnabled]);
+
+  // When
+
+  // Enabling Analytics will enable all targets.
+  [analytics setEnabled:YES];
+
+  // Then
+  XCTAssertTrue([transmissionTarget isEnabled]);
+  XCTAssertTrue([transmissionTarget2 isEnabled]);
+
+  // Disabling Analytics will disable all targets.
+  [analytics setEnabled:NO];
+
+  // Then
+  XCTAssertFalse([transmissionTarget isEnabled]);
+  XCTAssertFalse([transmissionTarget2 isEnabled]);
 }
 
 - (void)testAppSecretNotRequired {

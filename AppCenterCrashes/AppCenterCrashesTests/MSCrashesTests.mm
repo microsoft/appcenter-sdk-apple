@@ -1,4 +1,4 @@
-
+#import "MSAppCenterInternal.h"
 #import "MSAppleErrorLog.h"
 #import "MSChannelGroupDefault.h"
 #import "MSChannelUnitConfiguration.h"
@@ -14,16 +14,14 @@
 #import "MSErrorLogFormatter.h"
 #import "MSException.h"
 #import "MSHandledErrorLog.h"
-#import "MSAppCenter.h"
-#import "MSAppCenterInternal.h"
 #import "MSLoggerInternal.h"
 #import "MSMockCrashesDelegate.h"
-#import "MSServiceAbstractPrivate.h"
+#import "MSMockUserDefaults.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+File.h"
-#import "MSWrapperExceptionManagerInternal.h"
 #import "MSWrapperCrashesHelper.h"
+#import "MSWrapperExceptionManagerInternal.h"
 
 @class MSMockCrashesDelegate;
 
@@ -369,9 +367,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 - (void)testDeleteCrashReportsOnDisabled {
 
   // If
-  id settingsMock = OCMClassMock([NSUserDefaults class]);
-  OCMStub([settingsMock objectForKey:OCMOCK_ANY]).andReturn(@YES);
-  self.sut.storage = settingsMock;
+  MSMockUserDefaults *settings = [MSMockUserDefaults new];
+  [settings setObject:@(YES) forKey:self.sut.isEnabledKey];
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                         appSecret:kMSTestAppSecret
@@ -385,14 +382,14 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   assertThat(self.sut.crashFiles, hasCountOf(0));
   assertThatLong([MSUtility contentsOfDirectory:self.sut.crashesPathComponent propertiesForKeys:nil].count,
                  equalToLong(0));
+  [settings stopMocking];
 }
 
 - (void)testDeleteCrashReportsFromDisabledToEnabled {
 
   // If
-  id settingsMock = OCMClassMock([NSUserDefaults class]);
-  OCMStub([settingsMock objectForKey:OCMOCK_ANY]).andReturn(@NO);
-  self.sut.storage = settingsMock;
+  MSMockUserDefaults *settings = [MSMockUserDefaults new];
+  [settings setObject:@(NO) forKey:self.sut.isEnabledKey];
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                         appSecret:kMSTestAppSecret
@@ -406,6 +403,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   assertThat(self.sut.crashFiles, hasCountOf(0));
   assertThatLong([MSUtility contentsOfDirectory:self.sut.crashesPathComponent propertiesForKeys:nil].count,
                  equalToLong(0));
+  [settings stopMocking];
 }
 
 - (void)testSetupLogBufferWorks {
@@ -435,19 +433,14 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 }
 
 - (void)testEmptyLogBufferFiles {
+
   // If
   NSString *testName = @"afilename";
   NSString *dataString = @"SomeBufferedData";
   NSData *someData = [dataString dataUsingEncoding:NSUTF8StringEncoding];
   NSString *filePath = [NSString stringWithFormat:@"%@/%@", self.sut.logBufferPathComponent,
                                                   [testName stringByAppendingString:@".mscrasheslogbuffer"]];
-
-#if TARGET_OS_OSX
   [MSUtility createFileAtPathComponent:filePath withData:someData atomically:YES forceOverwrite:YES];
-#else
-  //  [someData writeToFile:filePath options:NSDataWritingFileProtectionNone error:nil];
-  [MSUtility createFileAtPathComponent:filePath withData:someData atomically:YES forceOverwrite:YES];
-#endif
 
   // When
   BOOL success = [MSUtility fileExistsForPathComponent:filePath];
@@ -536,28 +529,81 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 - (void)testBufferIndexOnPersistingLog {
 
   // When
-  MSLogWithProperties *log = [MSLogWithProperties new];
+  MSCommonSchemaLog *commonSchemaLog = [MSCommonSchemaLog new];
+  [commonSchemaLog addTransmissionTargetToken:MS_UUID_STRING];
   NSString *uuid1 = MS_UUID_STRING;
   NSString *uuid2 = MS_UUID_STRING;
   NSString *uuid3 = MS_UUID_STRING;
-  [self.sut channel:nil didPrepareLog:log withInternalId:uuid1];
-  [self.sut channel:nil didPrepareLog:log withInternalId:uuid2];
-  [self.sut channel:nil didPrepareLog:log withInternalId:uuid3];
+  [self.sut channel:nil didPrepareLog:[MSLogWithProperties new] withInternalId:uuid1];
+  [self.sut channel:nil didPrepareLog:commonSchemaLog withInternalId:uuid2];
+  
+  // Don't buffer event if log is related to crash.
+  [self.sut channel:nil didPrepareLog:[MSAppleErrorLog new] withInternalId:uuid3];
 
   // Then
-  XCTAssertTrue([self crashesLogBufferCount] == 3);
-
+  assertThatLong([self crashesLogBufferCount], equalToLong(2));
+  
   // When
-  [self.sut channel:nil didCompleteEnqueueingLog:nil withInternalId:uuid1];
-
+  [self.sut channel:nil didCompleteEnqueueingLog:nil withInternalId:uuid3];
+  
   // Then
-  XCTAssertTrue([self crashesLogBufferCount] == 2);
+  assertThatLong([self crashesLogBufferCount], equalToLong(2));
 
   // When
   [self.sut channel:nil didCompleteEnqueueingLog:nil withInternalId:uuid2];
 
   // Then
-  XCTAssertTrue([self crashesLogBufferCount] == 1);
+  assertThatLong([self crashesLogBufferCount], equalToLong(1));
+
+  // When
+  [self.sut channel:nil didCompleteEnqueueingLog:nil withInternalId:uuid1];
+
+  // Then
+  assertThatLong([self crashesLogBufferCount], equalToLong(0));
+}
+
+- (void)testLogBufferSave {
+  
+  // If
+  __block NSUInteger numInvocations = 0;
+  id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock
+           addChannelUnitWithConfiguration:[OCMArg checkWithBlock:^BOOL(MSChannelUnitConfiguration *configuration) {
+    return [configuration.groupId isEqualToString:@"CrashesBuffer"];
+  }]]).andReturn(channelUnitMock);
+  OCMStub([channelUnitMock enqueueItem:OCMOCK_ANY])
+    .andDo(^(__unused NSInvocation *invocation) {
+      numInvocations++;
+    });
+  
+  // When
+  MSCommonSchemaLog *commonSchemaLog = [MSCommonSchemaLog new];
+  [commonSchemaLog addTransmissionTargetToken:MS_UUID_STRING];
+  NSString *uuid1 = MS_UUID_STRING;
+  NSString *uuid2 = MS_UUID_STRING;
+  NSString *uuid3 = MS_UUID_STRING;
+  [self.sut channel:nil didPrepareLog:[MSLogWithProperties new] withInternalId:uuid1];
+  [self.sut channel:nil didPrepareLog:commonSchemaLog withInternalId:uuid2];
+  
+  // Don't buffer event if log is related to crash.
+  [self.sut channel:nil didPrepareLog:[MSAppleErrorLog new] withInternalId:uuid3];
+  
+  // Then
+  assertThatLong([self crashesLogBufferCount], equalToLong(2));
+  
+  // When
+  // Save on crash.
+  ms_save_log_buffer();
+  
+  // Recreate crashes.
+  [self.sut startWithChannelGroup:channelGroupMock
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
+
+  // Then
+  XCTAssertEqual(2U, numInvocations);
 }
 
 - (void)testInitializationPriorityCorrect {
