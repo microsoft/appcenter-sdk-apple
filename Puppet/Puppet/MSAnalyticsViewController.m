@@ -56,7 +56,6 @@ static NSInteger kPropertiesSection = 3;
 
 - (IBAction)trackEvent {
   [MSAnalytics trackEvent:self.eventName.text withProperties:self.properties];
-
   if (self.oneCollectorEnabled.on) {
     MSAnalyticsTransmissionTarget *target = [MSAnalytics
         transmissionTargetForToken:@"b9bb5bcb40f24830aa12f681e6462292-10b4c5da-67be-49ce-936b-8b2b80a83a80-7868"];

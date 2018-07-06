@@ -254,7 +254,6 @@ static NSString *const kMSGroupId = @"AppCenter";
     BOOL configured = [self configureWithAppSecret:appSecret
                            transmissionTargetToken:transmissionTargetToken
                                    fromApplication:fromApplication];
-    
     if (configured && services) {
       NSArray *sortedServices = [self sortServices:services];
       MSLogVerbose([MSAppCenter logTag], @"Start services %@ from %@", [sortedServices componentsJoinedByString:@", "],
@@ -318,7 +317,6 @@ static NSString *const kMSGroupId = @"AppCenter";
       MSLogError([MSAppCenter logTag], @"App Center has not been configured so it couldn't start the service.");
       return NO;
     }
-
     id<MSServiceInternal> service = [clazz sharedInstance];
     if (service.isAvailable && fromApplication && service.isStartedFromApplication) {
 
