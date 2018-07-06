@@ -286,6 +286,9 @@ static NSString *const kMSGroupId = @"AppCenter";
 - (BOOL)startService:(Class)clazz andSendLog:(BOOL)sendLog fromApplication:(BOOL)fromApplication {
   @synchronized(self) {
 
+    // If it is started from library, it shouldn't use app secret.
+    NSString *appSecret = fromApplication ? self.appSecret : nil;
+
     // Check if clazz is valid class
     if (![clazz conformsToProtocol:@protocol(MSServiceCommon)]) {
       MSLogError([MSAppCenter logTag], @"Cannot start service %@. Provided value is nil or invalid.", clazz);
@@ -316,7 +319,7 @@ static NSString *const kMSGroupId = @"AppCenter";
       }
 
       // Service requires an app secret but none is provided.
-      if (![self.appSecret length]) {
+      if (![appSecret length]) {
         MSLogError([MSAppCenter logTag],
                    @"Cannot start service %@. App Center was started without app secret, but the service requires it.",
                    clazz);
@@ -338,7 +341,7 @@ static NSString *const kMSGroupId = @"AppCenter";
 
       // Start service with channel group.
       [service startWithChannelGroup:self.channelGroup
-                           appSecret:self.appSecret
+                           appSecret:appSecret
              transmissionTargetToken:self.defaultTransmissionTargetToken
                      fromApplication:fromApplication];
 
@@ -348,8 +351,8 @@ static NSString *const kMSGroupId = @"AppCenter";
         [clazz setEnabled:NO];
         self.enabledStateUpdating = NO;
       }
-    } else if (fromApplication && self.appSecret) {
-      [service updateConfigurationWithAppSecret:self.appSecret
+    } else if (fromApplication && appSecret) {
+      [service updateConfigurationWithAppSecret:appSecret
                         transmissionTargetToken:self.defaultTransmissionTargetToken];
     }
 
