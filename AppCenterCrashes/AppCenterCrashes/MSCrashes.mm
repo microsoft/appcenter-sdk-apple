@@ -10,6 +10,7 @@
 #import "MSCrashesPrivate.h"
 #import "MSCrashesUtil.h"
 #import "MSCrashHandlerSetupDelegate.h"
+#import "MSEncrypter.h"
 #import "MSErrorAttachmentLog.h"
 #import "MSErrorAttachmentLogInternal.h"
 #import "MSErrorLogFormatter.h"
@@ -47,6 +48,8 @@ static NSString *const kMSAnalyzerFilename = @"MSCrashes.analyzer";
  */
 static NSString *const kMSLogBufferFileExtension = @"mscrasheslogbuffer";
 
+static NSString *const kMSTargetTokenFileExtension = @"targettoken";
+
 static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
 std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size> msCrashesLogBuffer;
@@ -63,38 +66,45 @@ static MSCrashesCallbacks msCrashesCallbacks = {.context = nullptr, .handleSigna
 static NSString *const kMSUserConfirmationKey = @"MSUserConfirmation";
 static volatile BOOL writeBufferTaskStarted = NO;
 
-static void ms_save_log_buffer_callback(__attribute__((unused)) siginfo_t *info,
-                                        __attribute__((unused)) ucontext_t *uap,
-                                        __attribute__((unused)) void *context) {
+static void ms_save_log_buffer(const std::string &data,
+                               const std::string &path) {
+  int fd = open(path.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
+  if (fd < 0) {
+    return;
+  }
+  write(fd, data.data(), data.size());
+  close(fd);
+}
+
+void ms_save_log_buffer() {
 
   // Iterate over the buffered logs and write them to disk.
   writeBufferTaskStarted = YES;
   for (int i = 0; i < ms_crashes_log_buffer_size; i++) {
 
     // Make sure not to allocate any memory (e.g. copy).
-    const std::string &data = msCrashesLogBuffer[i].buffer;
-    const std::string &path = msCrashesLogBuffer[i].bufferPath;
-    int fd = open(path.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    if (fd < 0) {
-      continue;
+    ms_save_log_buffer(msCrashesLogBuffer[i].buffer,
+                       msCrashesLogBuffer[i].bufferPath);
+    if (!msCrashesLogBuffer[i].targetToken.empty()) {
+      ms_save_log_buffer(msCrashesLogBuffer[i].targetToken,
+                         msCrashesLogBuffer[i].targetTokenPath);
     }
-    write(fd, data.data(), data.size());
-    close(fd);
   }
 }
 
 /**
  * Proxy implementation for PLCrashReporter to keep our interface stable while this can change.
  */
-static void plcr_post_crash_callback(siginfo_t *info, ucontext_t *uap, void *context) {
-  ms_save_log_buffer_callback(info, uap, context);
+static void plcr_post_crash_callback(__unused siginfo_t *info, __unused ucontext_t *uap, void *context) {
+  ms_save_log_buffer();
   if (msCrashesCallbacks.handleSignal != nullptr) {
     msCrashesCallbacks.handleSignal(context);
   }
 }
 
 static PLCrashReporterCallbacks plCrashCallbacks = {
-    .version = 0, .context = nullptr, .handleSignal = plcr_post_crash_callback};
+    .version = 0, .context = nullptr, .handleSignal = plcr_post_crash_callback
+};
 
 /**
  * C++ Exception Handler
@@ -153,6 +163,11 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
  * Channel unit for log buffer.
  */
 @property(nonatomic) id<MSChannelUnitProtocol> bufferChannelUnit;
+
+/*
+ * Encrypter for target tokens.
+ */
+@property(nonatomic, readonly) MSEncrypter *targetTokenEncrypter;
 
 @end
 
@@ -260,6 +275,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                                                                       flushInterval:1.0
                                                                      batchSizeLimit:1
                                                                 pendingBatchesLimit:3];
+    _targetTokenEncrypter = [[MSEncrypter alloc] initWithDefaultKey];
 
 #if TARGET_OS_OSX
     /*
@@ -374,11 +390,27 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 - (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup
                     appSecret:(nullable NSString *)appSecret
-      transmissionTargetToken:(nullable NSString *)token {
-  [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token];
+      transmissionTargetToken:(nullable NSString *)token
+              fromApplication:(BOOL)fromApplication {
+  [super startWithChannelGroup:channelGroup
+                     appSecret:appSecret
+       transmissionTargetToken:token
+               fromApplication:fromApplication];
   [self.channelGroup addDelegate:self];
   [self processLogBufferAfterCrash];
   MSLogVerbose([MSCrashes logTag], @"Started crash service.");
+}
+
+- (void)updateConfigurationWithAppSecret:(NSString *)appSecret transmissionTargetToken:(NSString *)token {
+  if (self.bufferChannelUnit && self.appSecret) {
+    [self.bufferChannelUnit setAppSecret:self.appSecret];
+  }
+
+  /*
+   * updateConfigurationWithAppSecret:transmissionTargetToken: will apply enabled state at the end so all update for the
+   * service should be done prior to call super method.
+   */
+  [super updateConfigurationWithAppSecret:appSecret transmissionTargetToken:token];
 }
 
 + (NSString *)logTag {
@@ -420,20 +452,16 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     return;
   }
 
-  // FIXME: Rejecting MSCommonSchemaLog in the buffer for now.
-  /*
-   * Don't buffer logs that contain one or more transmissiontargetTokens for now. The reason
-   * is that the crash buffer currently cannot handle MSCommonSchemaLogs. It needs significant work, e.g. for
-   * encrypting/decrypting the target tokens. Putting this in a separate paragraph for visibility.
-   */
-  if (log.transmissionTargetTokens) {
-    return;
-  }
-
   // The callback can be called from any thread, making sure we make this thread-safe.
   @synchronized(self) {
     NSData *serializedLog = [NSKeyedArchiver archivedDataWithRootObject:log];
     if (serializedLog && (serializedLog.length > 0)) {
+      
+      // Serialize target token.
+      NSString *targetToken = log.transmissionTargetTokens != nil ? log.transmissionTargetTokens.anyObject : nil;
+      targetToken = targetToken != nil ? [self.targetTokenEncrypter encryptString:targetToken] : @"";
+      
+      // Storing a log.
       NSNumber *oldestTimestamp;
       NSNumberFormatter *timestampFormatter = [[NSNumberFormatter alloc] init];
       timestampFormatter.numberStyle = NSNumberFormatterDecimalStyle;
@@ -445,6 +473,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
         if (it->buffer.empty()) {
           it->buffer = std::string(&reinterpret_cast<const char *>(serializedLog.bytes)[0],
                                    &reinterpret_cast<const char *>(serializedLog.bytes)[serializedLog.length]);
+          it->targetToken = targetToken.UTF8String;
           it->internalId = internalId.UTF8String;
           NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
           it->timestamp = [[NSString stringWithFormat:@"%f", now] cStringUsingEncoding:NSUTF8StringEncoding];
@@ -503,9 +532,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       NSString *bufferId = [NSString stringWithCString:it->internalId.c_str() encoding:NSUTF8StringEncoding];
       if (bufferId && bufferId.length > 0 && [bufferId isEqualToString:internalId]) {
         MSLogVerbose([MSCrashes logTag], @"Deleting a log from buffer with id %@", internalId);
-        it->buffer = [@"" cStringUsingEncoding:NSUTF8StringEncoding];
-        it->timestamp = [@"" cStringUsingEncoding:NSUTF8StringEncoding];
-        it->internalId = [@"" cStringUsingEncoding:NSUTF8StringEncoding];
+        it->buffer = "";
+        it->targetToken = "";
+        it->timestamp = "";
+        it->internalId = "";
         if (writeBufferTaskStarted) {
 
           /*
@@ -792,8 +822,24 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       if (serializedLog && serializedLog.length && serializedLog.length > 0) {
         id<MSLog> item = [NSKeyedUnarchiver unarchiveObjectWithData:serializedLog];
         if (item) {
+          
+          // Try to set target token.
+          NSString *targetTokenFilePath = [fileURL.path stringByReplacingOccurrencesOfString:kMSLogBufferFileExtension
+                                                                                  withString:kMSTargetTokenFileExtension];
+          NSURL *targetTokenFileURL = [NSURL fileURLWithPath:targetTokenFilePath];
+          NSString *targetToken = [NSString stringWithContentsOfURL:targetTokenFileURL
+                                                           encoding:NSUTF8StringEncoding
+                                                              error:nil];
+          if (targetToken != nil) {
+            targetToken = [self.targetTokenEncrypter decryptString:targetToken];
+            [item addTransmissionTargetToken:targetToken];
+            
+            // Delete target token file.
+            [MSUtility deleteFileAtURL:targetTokenFileURL];
+          }
 
           // Buffered logs are used sending their own channel. It will never contain more than 50 logs.
+          MSLogDebug([MSCrashes logTag], @"Re-enqueueing buffered log, type: %@.", item.type);
           [self.bufferChannelUnit enqueueItem:item];
         }
       }
@@ -977,20 +1023,18 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
      * Create missing buffer files if needed. We don't care about which one's are already there, we'll skip existing
      * ones.
      */
-    for (int i = 0; i < ms_crashes_log_buffer_size; i++) {
+    for (NSUInteger i = 0; i < ms_crashes_log_buffer_size; i++) {
 
       // Files are named N.mscrasheslogbuffer where N is between 0 and ms_crashes_log_buffer_size.
       NSString *logId = @(i).stringValue;
-      NSString *fileName = [NSString stringWithFormat:@"%@.%@", logId, kMSLogBufferFileExtension];
-      NSString *filePathComponent = [NSString stringWithFormat:@"%@/%@", self.logBufferPathComponent, fileName];
+      NSString *filePathComponent =
+          [NSString stringWithFormat:@"%@/%@.%@", self.logBufferPathComponent, logId, kMSLogBufferFileExtension];
       [files addObject:[MSUtility fullURLForPathComponent:filePathComponent]];
 
       // Create files asynchronously. We don't really care as they are only ever used in the post-crash callback.
       dispatch_group_async(self.bufferFileGroup, self.bufferFileQueue, ^{
         [MSUtility createFileAtPathComponent:filePathComponent withData:nil atomically:NO forceOverwrite:NO];
       });
-    }
-    for (NSUInteger i = 0; i < ms_crashes_log_buffer_size; i++) {
 
       // We need to convert the NSURL to NSString as we cannot safe NSURL to our async-safe log buffer.
       NSString *path = files[i].path;
@@ -1004,6 +1048,11 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
        * `while(begin != end)`, so the `nil` pointer is never dereferenced."
        */
       msCrashesLogBuffer[i] = MSCrashesBufferedLog(path, nil);
+
+      // Save target token path as well to avoid memory allocation when saving.
+      NSString *targetTokenPath = [path stringByReplacingOccurrencesOfString:kMSLogBufferFileExtension
+                                                                  withString:kMSTargetTokenFileExtension];
+      msCrashesLogBuffer[i].targetTokenPath = targetTokenPath.UTF8String;
     }
   }
 }

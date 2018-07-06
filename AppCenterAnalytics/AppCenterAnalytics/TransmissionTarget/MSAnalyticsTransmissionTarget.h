@@ -28,6 +28,22 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:(NSString *)token NS_SWIFT_NAME(transmissionTarget(forToken:));
 
+/**
+ * Enable or disable this transmission target. It will also enable or disable nested transmission targets.
+ *
+ * @param isEnabled YES to enable, NO to disable.
+ * @see isEnabled
+ */
+- (void)setEnabled:(BOOL)isEnabled;
+
+/**
+ * Check whether this transmission target is enabled or not.
+ *
+ * @return YES if enabled, NO otherwise.
+ * @see setEnabled:
+ */
+- (BOOL)isEnabled;
+
 @end
 
 NS_ASSUME_NONNULL_END

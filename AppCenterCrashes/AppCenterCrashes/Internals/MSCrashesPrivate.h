@@ -20,6 +20,8 @@
 struct MSCrashesBufferedLog {
   std::string bufferPath;
   std::string buffer;
+  std::string targetTokenPath;
+  std::string targetToken;
   std::string internalId;
   std::string timestamp;
 
@@ -39,6 +41,11 @@ const int ms_crashes_log_buffer_size = 60;
  * The log buffer object where we keep out BUFFERED_LOGs which will be written to disk in case of a crash.
  */
 extern std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size> msCrashesLogBuffer;
+
+/**
+ * Save the log buffer to files.
+ */
+extern void ms_save_log_buffer();
 
 @interface MSCrashes () <MSChannelDelegate>
 

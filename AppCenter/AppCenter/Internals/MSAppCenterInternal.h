@@ -19,12 +19,13 @@ static NSString *const kMSDisableAll = @"All";
 
 @property(nonatomic) id<MSChannelGroupProtocol> channelGroup;
 @property(nonatomic) NSMutableArray<NSObject<MSServiceInternal> *> *services;
-@property(nonatomic) NSMutableArray<NSString *> * startedServiceNames;
+@property(nonatomic) NSMutableArray<NSString *> *startedServiceNames;
 @property(nonatomic, copy) NSString *appSecret;
 @property(nonatomic, copy) NSString *defaultTransmissionTargetToken;
 @property(nonatomic, copy) NSString *logUrl;
 @property(nonatomic, readonly) NSUUID *installId;
 @property BOOL sdkConfigured;
+@property BOOL configuredFromApplication;
 @property BOOL enabledStateUpdating;
 
 /**
