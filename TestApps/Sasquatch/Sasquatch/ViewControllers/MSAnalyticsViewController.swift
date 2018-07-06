@@ -34,6 +34,9 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     guard let name = eventName.text else {
       return
     }
+    
+    appCenter.trackEvent(name, withProperties: properties())
+    
     if self.oneCollectorEnabled.isOn {
       let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
       let token = appName == "SasquatchSwift" ? "238db5abfbaa4c299b78dd539f78b829-cd10afb7-0ec2-496f-ac8a-c21974fbb82c-7564" : "1aa046cfdc8f49bdbd64190290caf7dd-ba041023-af4d-4432-a87e-eb2431150797-7361"
@@ -43,8 +46,6 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
         target = target.transmissionTarget(forToken: childTargetToken!)
       }
       target.trackEvent(name, withProperties: properties())
-    } else {
-      appCenter.trackEvent(name, withProperties: properties())
     }
   }
   

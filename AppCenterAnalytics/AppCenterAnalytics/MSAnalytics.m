@@ -135,6 +135,15 @@ __attribute__((used)) static void importCategories() {
   return NO;
 }
 
+- (void)updateConfigurationWithAppSecret:(NSString *)appSecret transmissionTargetToken:(NSString *)token {
+  [super updateConfigurationWithAppSecret:appSecret transmissionTargetToken:token];
+  
+  // Create the default target if not already created in start.
+  if (token && !self.defaultTransmissionTarget) {
+    self.defaultTransmissionTarget = [self transmissionTargetFor:(NSString *)token];
+  }
+}
+
 #pragma mark - Service methods
 
 + (void)trackEvent:(NSString *)eventName {
