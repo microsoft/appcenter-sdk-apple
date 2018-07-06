@@ -67,10 +67,7 @@ static NSString *const kMSGroupId = @"AppCenter";
 }
 
 + (void)startService:(Class)service {
-  [[self sharedInstance] startService:service
-                        withAppSecret:[[self sharedInstance] appSecret]
-                           andSendLog:YES
-                      fromApplication:YES];
+  [[self sharedInstance] startService:service andSendLog:YES fromApplication:YES];
 }
 
 + (void)startFromLibraryWithServices:(NSArray<Class> *)services {
@@ -251,7 +248,7 @@ static NSString *const kMSGroupId = @"AppCenter";
                    (fromApplication ? @"an application" : @"a library"));
       NSMutableArray<NSString *> *servicesNames = [NSMutableArray arrayWithCapacity:sortedServices.count];
       for (Class service in sortedServices) {
-        if ([self startService:service withAppSecret:appSecret andSendLog:NO fromApplication:fromApplication]) {
+        if ([self startService:service andSendLog:NO fromApplication:fromApplication]) {
           [servicesNames addObject:[service serviceName]];
         }
       }
@@ -286,11 +283,11 @@ static NSString *const kMSGroupId = @"AppCenter";
   }
 }
 
-- (BOOL)startService:(Class)clazz
-       withAppSecret:(NSString *)appSecret
-          andSendLog:(BOOL)sendLog
-     fromApplication:(BOOL)fromApplication {
+- (BOOL)startService:(Class)clazz andSendLog:(BOOL)sendLog fromApplication:(BOOL)fromApplication {
   @synchronized(self) {
+
+    // If it is started from library, it shouldn't use app secret.
+    NSString *appSecret = fromApplication ? self.appSecret : nil;
 
     // Check if clazz is valid class
     if (![clazz conformsToProtocol:@protocol(MSServiceCommon)]) {
@@ -309,13 +306,25 @@ static NSString *const kMSGroupId = @"AppCenter";
       // Service already works, we shouldn't send log with this service name
       return NO;
     }
-    if (service.isAppSecretRequired && ![appSecret length]) {
+    if (service.isAppSecretRequired) {
+
+      /*
+       * All services that require app secret cannot be started from library. This condition should be checked before
+       * app secret validation.
+       */
+      if (!fromApplication) {
+        MSLogError([MSAppCenter logTag], @"Cannot start service %@. The service cannot be started from a library.",
+                   clazz);
+        return NO;
+      }
 
       // Service requires an app secret but none is provided.
-      MSLogError([MSAppCenter logTag],
-                 @"Cannot start service %@. App Center was started without app secret, but the service requires it.",
-                 clazz);
-      return NO;
+      if (![appSecret length]) {
+        MSLogError([MSAppCenter logTag],
+                   @"Cannot start service %@. App Center was started without app secret, but the service requires it.",
+                   clazz);
+        return NO;
+      }
     }
 
     // Check if service should be disabled
@@ -342,8 +351,9 @@ static NSString *const kMSGroupId = @"AppCenter";
         [clazz setEnabled:NO];
         self.enabledStateUpdating = NO;
       }
-    } else if (fromApplication) {
-      [service updateConfigurationWithAppSecret:appSecret transmissionTargetToken:self.defaultTransmissionTargetToken];
+    } else if (fromApplication && appSecret) {
+      [service updateConfigurationWithAppSecret:appSecret
+                        transmissionTargetToken:self.defaultTransmissionTargetToken];
     }
 
     // Send start service log.
