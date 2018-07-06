@@ -13,9 +13,9 @@ NS_ASSUME_NONNULL_BEGIN
  * different channels. All items will be immediately passed to the persistence
  * layer in order to make the queue crash safe. Once a maximum number of items
  * have been enqueued or the internal timer finished running, events will be
- * forwarded to the sender. Furthermore, its responsibility is to tell the
+ * forwarded to the ingestion. Furthermore, its responsibility is to tell the
  * persistence layer what to do with a pending batch based on the status code
- * returned by the sender
+ * returned by the ingestion
  */
 @interface MSChannelGroupDefault : NSObject <MSChannelGroupProtocol>
 
@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) NSHashTable<id<MSChannelDelegate>> *delegates;
 
 /**
- * A sender instance that is used to send batches of log items to the backend.
+ * An ingestion instance that is used to send batches of log items to the backend.
  */
 @property(nonatomic, strong, nullable) MSHttpIngestion *ingestion;
 

@@ -17,11 +17,11 @@ extern NSString *const kMSOneCollectorUploadTimeKey;
 @interface MSOneCollectorIngestion : MSHttpIngestion
 
 /**
- * Initialize the Sender.
+ * Initialize the ingestion.
  *
  * @param baseUrl Base url.
  *
- * @return A sender instance.
+ * @return An ingestion instance.
  */
 - (id)initWithBaseUrl:(NSString *)baseUrl;
 

@@ -85,7 +85,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   return self;
 }
 
-#pragma mark - MSSender
+#pragma mark - MSIngestion
 
 - (void)sendAsync:(NSObject *)data
             appSecret:(NSString *)appSecret
@@ -209,7 +209,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   }
 }
 
-#pragma mark - MSSenderCallDelegate
+#pragma mark - MSIngestionCallDelegate
 
 - (void)sendCallAsync:(MSIngestionCall *)call {
   @synchronized(self) {
@@ -265,7 +265,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
               // Call handles the completion.
               if (call) {
                 call.submitted = NO;
-                [call sender:self callCompletedWithStatus:statusCode data:data error:error];
+                [call ingestion:self callCompletedWithStatus:statusCode data:data error:error];
               }
             }
           }];
@@ -276,10 +276,10 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   }
 }
 
-- (void)call:(MSIngestionCall *)call completedWithResult:(MSSenderCallResult)result {
+- (void)call:(MSIngestionCall *)call completedWithResult:(MSIngestionCallResult)result {
   @synchronized(self) {
     switch (result) {
-    case MSSenderCallResultFatalError: {
+    case MSIngestionCallResultFatalError: {
 
       // Disable and delete data.
       [self setEnabled:NO andDeleteDataOnDisabled:YES];
@@ -291,12 +291,12 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
                                 }];
       break;
     }
-    case MSSenderCallResultRecoverableError:
+    case MSIngestionCallResultRecoverableError:
 
       // Disable and do not delete data. Do not notify the delegates as this will cause data to be deleted.
       [self setEnabled:NO andDeleteDataOnDisabled:NO];
       break;
-    case MSSenderCallResultSuccess:
+    case MSIngestionCallResultSuccess:
       break;
     }
 

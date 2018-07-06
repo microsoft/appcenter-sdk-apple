@@ -26,13 +26,13 @@
 @property NSHashTable<id<MSIngestionDelegate>> *delegates;
 
 /**
- * A boolean value set to YES if the sender is enabled or NO otherwise.
- * Enable/disable does resume/suspend the sender as needed under the hood.
+ * A boolean value set to YES if the ingestion is enabled or NO otherwise.
+ * Enable/disable does resume/suspend the ingestion as needed under the hood.
  */
 @property(nonatomic) BOOL enabled;
 
 /**
- * Initialize the Sender.
+ * Initialize the Ingestion.
  *
  * @param baseUrl Base url.
  * @param apiPath Base API path.
@@ -49,7 +49,7 @@
        retryIntervals:(NSArray *)retryIntervals;
 
 /**
- * Initialize the Sender.
+ * Initialize the Ingestion.
  *
  * @param baseUrl Base url.
  * @param apiPath Base API path.

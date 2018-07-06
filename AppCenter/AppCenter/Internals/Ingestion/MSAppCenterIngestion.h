@@ -7,12 +7,12 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MSAppCenterIngestion : MSHttpIngestion
 
 /**
- * Initialize the Sender.
+ * Initialize the Ingestion.
  *
  * @param baseUrl Base url.
  * @param installId A unique installation identifier.
  *
- * @return A sender instance.
+ * @return An ingestion instance.
  */
 - (id)initWithBaseUrl:(NSString *)baseUrl installId:(NSString *)installId;
 

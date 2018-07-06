@@ -4,11 +4,11 @@
 #import "MSLoggerInternal.h"
 #import "MSTestFrameworks.h"
 
-@interface MSDistributeSenderTests : XCTestCase
+@interface MSDistributeIngestionTests : XCTestCase
 
 @end
 
-@implementation MSDistributeSenderTests
+@implementation MSDistributeIngestionTests
 
 #pragma mark - Tests
 
@@ -18,7 +18,7 @@
   NSString *baseUrl = @"https://contoso.com";
   NSString *apiPath = @"/test";
   NSDictionary *header = OCMClassMock([NSDictionary class]);
-  MSDistributeIngestion *sender = [[MSDistributeIngestion alloc] initWithBaseUrl:baseUrl
+  MSDistributeIngestion *ingestion = [[MSDistributeIngestion alloc] initWithBaseUrl:baseUrl
                                                                    apiPath:apiPath
                                                                    headers:header
                                                               queryStrings:nil
@@ -26,7 +26,7 @@
                                                             retryIntervals:@[]];
 
   // When
-  NSURLRequest *request = [sender createRequest:[NSData new] appSecret:nil];
+  NSURLRequest *request = [ingestion createRequest:[NSData new] appSecret:nil];
 
   // Then
   assertThat(request.HTTPMethod, equalTo(@"GET"));
@@ -44,14 +44,14 @@
   [MSLogger setCurrentLogLevel:MSLogLevelVerbose];
   id distributeMock = OCMPartialMock([MSDistribute sharedInstance]);
   OCMStub([distributeMock appSecret]).andReturn(@"secret");
-  MSDistributeIngestion *sender1 = [[MSDistributeIngestion alloc] initWithBaseUrl:baseUrl
+  MSDistributeIngestion *ingestion1 = [[MSDistributeIngestion alloc] initWithBaseUrl:baseUrl
                                                                   appSecret:appSecret
                                                                 updateToken:updateToken
                                                         distributionGroupId:distributionGroupId
                                                                queryStrings:@{}];
 
   // When
-  NSURLRequest *request1 = [sender1 createRequest:[NSData new] appSecret:nil];
+  NSURLRequest *request1 = [ingestion1 createRequest:[NSData new] appSecret:nil];
 
   // Then
   assertThat(request1.HTTPMethod, equalTo(@"GET"));

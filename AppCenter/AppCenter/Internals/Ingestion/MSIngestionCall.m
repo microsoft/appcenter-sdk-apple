@@ -68,10 +68,10 @@
   [self resetTimer];
 }
 
-- (void)sender:(id<MSIngestionProtocol>)sender
-    callCompletedWithStatus:(NSUInteger)statusCode
-                       data:(nullable NSData *)data
-                      error:(NSError *)error {
+- (void)      ingestion:(id <MSIngestionProtocol>)ingestion
+callCompletedWithStatus:(NSUInteger)statusCode
+                   data:(nullable NSData *)data
+                  error:(NSError *)error {
   BOOL internetIsDown = [MSIngestionUtil isNoInternetConnectionError:error];
   BOOL couldNotEstablishSecureConnection = [MSIngestionUtil isSSLConnectionError:error];
 
@@ -81,7 +81,7 @@
     [self resetRetry];
     NSString *logMessage = internetIsDown ? @"Internet connection is down." : @"Could not establish secure connection.";
     MSLogInfo([MSAppCenter logTag], logMessage);
-    [sender suspend];
+    [ingestion suspend];
   }
 
   // Retry.
@@ -113,17 +113,17 @@
 
     // Handle recoverable error.
     if (recoverableError) {
-      [sender call:self completedWithResult:MSSenderCallResultRecoverableError];
+      [ingestion call:self completedWithResult:MSIngestionCallResultRecoverableError];
     }
     
     // Handle fatal error.
     else if (fatalError) {
-      [sender call:self completedWithResult:MSSenderCallResultFatalError];
+      [ingestion call:self completedWithResult:MSIngestionCallResultFatalError];
     }
     
     // Handle success case.
     else {
-      [sender call:self completedWithResult:MSSenderCallResultSuccess];
+      [ingestion call:self completedWithResult:MSIngestionCallResultSuccess];
     }
   }
 }

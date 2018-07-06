@@ -171,7 +171,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                  // The call must still be in the pending calls, intended to be retried later.
                                  assertThatUnsignedLong(self.sut.pendingCalls.count, equalToInt(1));
 
-                                 // Sender must be suspended when network is down.
+                                 // Ingestion must be suspended when network is down.
                                  assertThatBool(self.sut.suspended, isTrue());
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
@@ -233,7 +233,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 }
 
 // TODO: Move this to base MSHttpIngestion test.
-- (void)testTasksSuspendedOnSenderSuspended {
+- (void)testTasksSuspendedOnIngestionSuspended {
 
   // If
   XCTestExpectation *tasksListedExpectation = [self expectationWithDescription:@"URL Session tasks listed."];
@@ -282,7 +282,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                      assertThatInteger(task.state, equalToInteger(NSURLSessionTaskStateSuspended));
                                    }];
 
-                                   // Sender must be suspended.
+                                   // Ingestion must be suspended.
                                    assertThatBool(self.sut.suspended, isTrue());
 
                                    // Calls must still be in the pending calls, intended to be resumed later.
@@ -297,7 +297,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 }
 
 // TODO: Move this to base MSHttpIngestion test.
-- (void)testTasksRunningOnSenderResumed {
+- (void)testTasksRunningOnIngestionResumed {
 
   // If
   XCTestExpectation *tasksListedExpectation = [self expectationWithDescription:@"Container 1 sent."];
@@ -355,7 +355,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                      assertThatInteger(task.state, equalToInteger(NSURLSessionTaskStateRunning));
                                    }];
 
-                                   // Sender must be suspended.
+                                   // Ingestion must be suspended.
                                    assertThatBool(self.sut.suspended, isFalse());
 
                                    // Calls must still be in the pending calls, not yet timed out.
@@ -386,10 +386,10 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   mockedCall.completionHandler = nil;
 #pragma clang diagnostic pop
 
-  OCMStub([mockedCall sender:self.sut
-              callCompletedWithStatus:MSHTTPCodesNo500InternalServerError
-                                 data:OCMOCK_ANY
-                                error:OCMOCK_ANY])
+  OCMStub([mockedCall ingestion:self.sut
+        callCompletedWithStatus:MSHTTPCodesNo500InternalServerError
+                           data:OCMOCK_ANY
+                          error:OCMOCK_ANY])
       .andForwardToRealObject()
       .andDo(^(__attribute__((unused)) NSInvocation *invocation) {
 
@@ -442,10 +442,10 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   mockedCall.completionHandler = nil;
 #pragma clang diagnostic pop
 
-  OCMStub([mockedCall sender:self.sut
-              callCompletedWithStatus:MSHTTPCodesNo500InternalServerError
-                                 data:OCMOCK_ANY
-                                error:OCMOCK_ANY])
+  OCMStub([mockedCall ingestion:self.sut
+        callCompletedWithStatus:MSHTTPCodesNo500InternalServerError
+                           data:OCMOCK_ANY
+                          error:OCMOCK_ANY])
       .andForwardToRealObject()
       .andDo(^(__attribute__((unused)) NSInvocation *invocation) {
         [responseReceivedExcpectation fulfill];

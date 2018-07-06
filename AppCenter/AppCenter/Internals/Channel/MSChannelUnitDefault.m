@@ -254,14 +254,14 @@
                // Forward logs to the ingestion.
                [self.ingestion sendAsync:container
                             appSecret:self.appSecret
-                    completionHandler:^(NSString *senderBatchId, NSUInteger statusCode,
+                    completionHandler:^(NSString *ingestionBatchId, NSUInteger statusCode,
                                         __attribute__((unused)) NSData *data, NSError *error) {
                       dispatch_async(self.logsDispatchQueue, ^{
-                        if ([self.pendingBatchIds containsObject:senderBatchId]) {
+                        if ([self.pendingBatchIds containsObject:ingestionBatchId]) {
 
                           // Success.
                           if (statusCode == MSHTTPCodesNo200OK) {
-                            MSLogDebug([MSAppCenter logTag], @"Log(s) sent with success, batch Id:%@.", senderBatchId);
+                            MSLogDebug([MSAppCenter logTag], @"Log(s) sent with success, batch Id:%@.", ingestionBatchId);
 
                             // Notify delegates.
                             [self enumerateDelegatesForSelector:@selector(channel:didSucceedSendingLog:)
@@ -272,8 +272,8 @@
                                                       }];
 
                             // Remove from pending logs and storage.
-                            [self.pendingBatchIds removeObject:senderBatchId];
-                            [self.storage deleteLogsWithBatchId:senderBatchId groupId:self.configuration.groupId];
+                            [self.pendingBatchIds removeObject:ingestionBatchId];
+                            [self.storage deleteLogsWithBatchId:ingestionBatchId groupId:self.configuration.groupId];
 
                             // Try to flush again if batch queue is not full anymore.
                             if (self.pendingBatchQueueFull &&
@@ -288,7 +288,7 @@
                           // Failure.
                           else {
                             MSLogError([MSAppCenter logTag], @"Log(s) sent with failure, batch Id:%@, status code:%tu",
-                                       senderBatchId, statusCode);
+                                       ingestionBatchId, statusCode);
 
                             // Notify delegates.
                             [self
@@ -300,8 +300,8 @@
                                                     }];
 
                             // Remove from pending logs.
-                            [self.pendingBatchIds removeObject:senderBatchId];
-                            [self.storage deleteLogsWithBatchId:senderBatchId groupId:self.configuration.groupId];
+                            [self.pendingBatchIds removeObject:ingestionBatchId];
+                            [self.storage deleteLogsWithBatchId:ingestionBatchId groupId:self.configuration.groupId];
 
                             // Update pending batch queue state.
                             if (self.pendingBatchQueueFull &&
@@ -310,7 +310,7 @@
                             }
                           }
                         } else
-                          MSLogWarning([MSAppCenter logTag], @"Batch Id %@ not expected, ignore.", senderBatchId);
+                          MSLogWarning([MSAppCenter logTag], @"Batch Id %@ not expected, ignore.", ingestionBatchId);
                       });
                     }];
              }

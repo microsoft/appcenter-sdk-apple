@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, readonly) NSUInteger batchSizeLimit;
 
 /**
- * Maximum number of batches forwarded to the sender at the same time.
+ * Maximum number of batches forwarded to the ingestion at the same time.
  */
 @property(nonatomic, readonly) NSUInteger pendingBatchesLimit;
 

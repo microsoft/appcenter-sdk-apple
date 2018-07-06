@@ -1,4 +1,4 @@
-@protocol MSSender;
+@protocol MSIngestionProtocol;
 
 @protocol MSIngestionDelegate <NSObject>
 

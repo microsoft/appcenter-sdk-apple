@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * Defines the class that implements the optional protocol `MSPushDelegate`.
  *
- * @param delegate Sender's delegate.
+ * @param delegate The delegate.
  *
  * @see MSPushDelegate
  */

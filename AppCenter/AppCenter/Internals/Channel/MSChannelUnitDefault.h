@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) NSHashTable<id<MSChannelDelegate>> *delegates;
 
 /**
- * A sender instance that is used to send batches of log items to the backend.
+ * An ingestion instance that is used to send batches of log items to the backend.
  */
 @property(nonatomic, nullable) id<MSIngestionProtocol> ingestion;
 
@@ -58,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, assign) NSUInteger itemsCount;
 
 /**
- * A list used to keep track of batches that have been forwarded to the sender component.
+ * A list used to keep track of batches that have been forwarded to the ingestion component.
  */
 @property(nonatomic, copy) NSMutableArray *pendingBatchIds;
 
@@ -81,8 +81,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * A boolean value set to YES if the channel is suspended or NO otherwise.
- * A channel is suspended when it becomes disabled or when its sender becomes suspended itself.
- * A suspended channel doesn't forward logs to the sender.
+ * A channel is suspended when it becomes disabled or when its ingestion becomes suspended itself.
+ * A suspended channel doesn't forward logs to the ingestion.
  * A suspended state doesn't impact the current enabled state.
  */
 @property(nonatomic) BOOL suspended;
