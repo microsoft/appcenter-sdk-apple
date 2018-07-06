@@ -10,12 +10,11 @@ NS_ASSUME_NONNULL_BEGIN
  * Initialize the Sender.
  *
  * @param baseUrl Base url.
- * @param appSecret A unique and secret key used to identify the application.
  * @param installId A unique installation identifier.
  *
  * @return A sender instance.
  */
-- (id)initWithBaseUrl:(NSString *)baseUrl appSecret:(NSString *)appSecret installId:(NSString *)installId;
+- (id)initWithBaseUrl:(NSString *)baseUrl installId:(NSString *)installId;
 
 @end
 

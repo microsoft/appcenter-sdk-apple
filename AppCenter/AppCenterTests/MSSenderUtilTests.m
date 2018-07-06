@@ -123,7 +123,7 @@
 }
 
 - (void)testIsRecoverableError {
-  for (int i = 100; i < 530; i++) {
+  for (int i = 0; i < 530; i++) {
 
     // When
     BOOL result = [MSIngestionUtil isRecoverableError:i];
@@ -134,6 +134,8 @@
     } else if (i == 408) {
       XCTAssertTrue(result);
     } else if (i == 429) {
+      XCTAssertTrue(result);
+    } else if (i == 0) {
       XCTAssertTrue(result);
     } else {
       XCTAssertFalse(result);

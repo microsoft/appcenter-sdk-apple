@@ -5,7 +5,6 @@
 #import "MSChannelGroupDefault.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSMockUserDefaults.h"
-#import "MSServiceAbstractPrivate.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSTestFrameworks.h"
 
@@ -42,7 +41,7 @@
 }
 
 - (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret {
-  [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:nil];
+  [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:nil fromApplication:YES];
 }
 
 - (MSInitializationPriority)initializationPriority {
@@ -79,7 +78,7 @@
   self.settingsMock = [MSMockUserDefaults new];
 
   // System Under Test.
-  self.abstractService = [[MSServiceAbstractImplementation alloc] initWithStorage:self.settingsMock];
+  self.abstractService = [MSServiceAbstractImplementation new];
 }
 
 - (void)tearDown {
@@ -276,18 +275,11 @@
 - (void)testLogDeletedOnDisabled {
 
   // If
-  __block NSString *groupId;
-  __block BOOL deleteLogs;
-  __block BOOL forwardedEnabled;
   id channelGroup = OCMClassMock([MSChannelGroupDefault class]);
   id channelUnit = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   OCMStub([channelGroup new]).andReturn(channelGroup);
   OCMStub([channelGroup addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnit);
-
-  OCMStub([channelUnit setEnabled:NO andDeleteDataOnDisabled:YES]).andDo(^(NSInvocation *invocation) {
-    [invocation getArgument:&deleteLogs atIndex:3];
-    [invocation getArgument:&forwardedEnabled atIndex:2];
-  });
+  OCMExpect([channelUnit setEnabled:NO andDeleteDataOnDisabled:YES]);
   self.abstractService.channelGroup = channelGroup;
   self.abstractService.channelUnit = channelUnit;
   [self.settingsMock setObject:@YES forKey:self.abstractService.isEnabledKey];
@@ -301,13 +293,7 @@
   OCMVerify([channelUnit setEnabled:NO andDeleteDataOnDisabled:YES]);
 
   // GroupId from the service must match the groupId used to delete logs.
-  XCTAssertTrue(self.abstractService.channelUnitConfiguration.groupId == groupId);
-
-  // Must request for deletion.
-  XCTAssertTrue(deleteLogs);
-
-  // Must request for disabling.
-  XCTAssertFalse(forwardedEnabled);
+  XCTAssertTrue(self.abstractService.channelUnitConfiguration.groupId == self.abstractService.groupId);
 
   // Clear
   [channelGroup stopMocking];

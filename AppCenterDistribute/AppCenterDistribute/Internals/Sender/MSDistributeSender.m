@@ -39,8 +39,9 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat =
   return self;
 }
 
-- (NSURLRequest *)createRequest:(NSObject *)data {
+- (NSURLRequest *)createRequest:(NSObject *)data appSecret:(NSString *)appSecret {
   (void)data;
+  (void)appSecret;
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.sendURL];
 
   // Set method.

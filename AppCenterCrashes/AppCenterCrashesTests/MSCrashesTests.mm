@@ -1,3 +1,4 @@
+#import "MSAppCenterInternal.h"
 #import "MSAppleErrorLog.h"
 #import "MSChannelGroupDefault.h"
 #import "MSChannelUnitConfiguration.h"
@@ -13,16 +14,14 @@
 #import "MSErrorLogFormatter.h"
 #import "MSException.h"
 #import "MSHandledErrorLog.h"
-#import "MSAppCenter.h"
-#import "MSAppCenterInternal.h"
 #import "MSLoggerInternal.h"
 #import "MSMockCrashesDelegate.h"
-#import "MSServiceAbstractPrivate.h"
+#import "MSMockUserDefaults.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+File.h"
-#import "MSWrapperExceptionManagerInternal.h"
 #import "MSWrapperCrashesHelper.h"
+#import "MSWrapperExceptionManagerInternal.h"
 
 @class MSMockCrashesDelegate;
 
@@ -99,7 +98,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   // When
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                         appSecret:kMSTestAppSecret
-          transmissionTargetToken:nil];
+          transmissionTargetToken:nil
+                  fromApplication:YES];
 
   // Then
   assertThat(self.sut.plCrashReporter, notNilValue());
@@ -111,7 +111,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   // When
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                         appSecret:kMSTestAppSecret
-          transmissionTargetToken:nil];
+          transmissionTargetToken:nil
+                  fromApplication:YES];
 
   // Then
   assertThat(self.sut.crashFiles, hasCountOf(1));
@@ -207,7 +208,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                         appSecret:kMSTestAppSecret
-          transmissionTargetToken:nil];
+          transmissionTargetToken:nil
+                  fromApplication:YES];
 
   // Then
   assertThat(self.sut.crashFiles, hasCountOf(1));
@@ -226,7 +228,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                         appSecret:kMSTestAppSecret
-          transmissionTargetToken:nil];
+          transmissionTargetToken:nil
+                  fromApplication:YES];
 
   // Then
   assertThat(self.sut.crashFiles, hasCountOf(1));
@@ -244,7 +247,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   self.sut.userConfirmationHandler = userConfirmationHandlerYES;
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                         appSecret:kMSTestAppSecret
-          transmissionTargetToken:nil];
+          transmissionTargetToken:nil
+                  fromApplication:YES];
   [self.sut startCrashProcessing];
   [self.sut notifyWithUserConfirmation:MSUserConfirmationDontSend];
   self.sut.userConfirmationHandler = nil;
@@ -260,7 +264,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                         appSecret:kMSTestAppSecret
-          transmissionTargetToken:nil];
+          transmissionTargetToken:nil
+                  fromApplication:YES];
 
   // Then
   assertThat(self.sut.crashFiles, hasCountOf(1));
@@ -277,7 +282,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   self.sut.userConfirmationHandler = userConfirmationHandlerNO;
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                         appSecret:kMSTestAppSecret
-          transmissionTargetToken:nil];
+          transmissionTargetToken:nil
+                  fromApplication:YES];
   [self.sut startCrashProcessing];
 
   // Then
@@ -325,7 +331,10 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   id crashesDelegateMock = OCMProtocolMock(@protocol(MSCrashesDelegate));
   OCMStub([crashesDelegateMock attachmentsWithCrashes:OCMOCK_ANY forErrorReport:OCMOCK_ANY]).andReturn(logs);
   OCMStub([crashesDelegateMock crashes:OCMOCK_ANY shouldProcessErrorReport:OCMOCK_ANY]).andReturn(YES);
-  [self.sut startWithChannelGroup:channelGroupMock appSecret:kMSTestAppSecret transmissionTargetToken:nil];
+  [self.sut startWithChannelGroup:channelGroupMock
+                        appSecret:kMSTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
   [self.sut setDelegate:crashesDelegateMock];
 
   // Then
@@ -340,11 +349,13 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                         appSecret:kMSTestAppSecret
-          transmissionTargetToken:nil];
+          transmissionTargetToken:nil
+                  fromApplication:YES];
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_signal"], isTrue());
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                         appSecret:kMSTestAppSecret
-          transmissionTargetToken:nil];
+          transmissionTargetToken:nil
+                  fromApplication:YES];
 
   // When
   [self.sut deleteAllFromCrashesDirectory];
@@ -356,13 +367,13 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 - (void)testDeleteCrashReportsOnDisabled {
 
   // If
-  id settingsMock = OCMClassMock([NSUserDefaults class]);
-  OCMStub([settingsMock objectForKey:OCMOCK_ANY]).andReturn(@YES);
-  self.sut.storage = settingsMock;
+  MSMockUserDefaults *settings = [MSMockUserDefaults new];
+  [settings setObject:@(YES) forKey:self.sut.isEnabledKey];
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                         appSecret:kMSTestAppSecret
-          transmissionTargetToken:nil];
+          transmissionTargetToken:nil
+                  fromApplication:YES];
 
   // When
   [self.sut setEnabled:NO];
@@ -371,18 +382,19 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   assertThat(self.sut.crashFiles, hasCountOf(0));
   assertThatLong([MSUtility contentsOfDirectory:self.sut.crashesPathComponent propertiesForKeys:nil].count,
                  equalToLong(0));
+  [settings stopMocking];
 }
 
 - (void)testDeleteCrashReportsFromDisabledToEnabled {
 
   // If
-  id settingsMock = OCMClassMock([NSUserDefaults class]);
-  OCMStub([settingsMock objectForKey:OCMOCK_ANY]).andReturn(@NO);
-  self.sut.storage = settingsMock;
+  MSMockUserDefaults *settings = [MSMockUserDefaults new];
+  [settings setObject:@(NO) forKey:self.sut.isEnabledKey];
   assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                         appSecret:kMSTestAppSecret
-          transmissionTargetToken:nil];
+          transmissionTargetToken:nil
+                  fromApplication:YES];
 
   // When
   [self.sut setEnabled:YES];
@@ -391,6 +403,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   assertThat(self.sut.crashFiles, hasCountOf(0));
   assertThatLong([MSUtility contentsOfDirectory:self.sut.crashesPathComponent propertiesForKeys:nil].count,
                  equalToLong(0));
+  [settings stopMocking];
 }
 
 - (void)testSetupLogBufferWorks {
@@ -639,7 +652,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   [self.sut setDelegate:self];
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
                         appSecret:kMSTestAppSecret
-          transmissionTargetToken:nil];
+          transmissionTargetToken:nil
+                  fromApplication:YES];
   [self.sut startCrashProcessing];
 
   XCTAssertTrue(warningMessageHasBeenPrinted);
@@ -670,7 +684,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
   [[MSCrashes sharedInstance] startWithChannelGroup:channelGroupMock
                                           appSecret:kMSTestAppSecret
-                            transmissionTargetToken:nil];
+                            transmissionTargetToken:nil
+                                    fromApplication:YES];
 
   // When
   MSException *expectedException = [MSException new];
@@ -711,7 +726,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
   [[MSCrashes sharedInstance] startWithChannelGroup:channelGroupMock
                                           appSecret:kMSTestAppSecret
-                            transmissionTargetToken:nil];
+                            transmissionTargetToken:nil
+                                    fromApplication:YES];
 
   // When
   MSException *expectedException = [MSException new];
@@ -1011,7 +1027,10 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   XCTestExpectation *expectation = [self expectationWithDescription:@"Start the Crashes module"];
   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    [crashes startWithChannelGroup:channelGroup appSecret:kMSTestAppSecret transmissionTargetToken:nil];
+    [crashes startWithChannelGroup:channelGroup
+                         appSecret:kMSTestAppSecret
+           transmissionTargetToken:nil
+                   fromApplication:YES];
     [expectation fulfill];
   });
   [self waitForExpectationsWithTimeout:1.0

@@ -1,13 +1,26 @@
 #import <Foundation/Foundation.h>
 #import "MSAnalyticsTransmissionTarget.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface MSAnalyticsTransmissionTarget ()
 
 /**
  * The transmission target token corresponding to this transmission target.
  */
-@property(nonatomic) NSString *transmissionTargetToken;
+@property(nonatomic, copy, readonly) NSString *transmissionTargetToken;
 
-- (instancetype)initWithTransmissionTargetToken:(NSString *)token;
+/**
+ * Initialize a transmission target with token and parent target.
+ *
+ * @param token A transmission target token.
+ * @param parentTarget Nested parent transmission target.
+ *
+ * @return A transmission target instance.
+ */
+- (instancetype)initWithTransmissionTargetToken:(NSString *)token
+                                   parentTarget:(nullable MSAnalyticsTransmissionTarget *)parentTarget;
 
 @end
+
+NS_ASSUME_NONNULL_END

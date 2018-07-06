@@ -37,15 +37,6 @@ NS_ASSUME_NONNULL_BEGIN
                                                   withSender:(nullable id<MSSender>)sender;
 
 /**
- * Attach an App Center sender to a channel group if a channel group started without an app secret.
- *
- * @param appSecret A unique and secret key used to identify the application.
- * @param installId A unique installation identifier.
- * @param logUrl A base URL to use for backend communication.
- */
-- (void)attachSenderWithAppSecret:(NSString *)appSecret installId:(NSUUID *)installId logUrl:(NSString *)logUrl;
-
-/**
  * Change the base URL (schema + authority + port only) used to communicate with the backend.
  *
  * @param logUrl base URL to use for backend communication.

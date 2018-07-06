@@ -8,6 +8,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   @IBOutlet weak var oneCollectorEnabled: UISwitch!
   @IBOutlet weak var eventName: UITextField!
   @IBOutlet weak var pageName: UITextField!
+  @IBOutlet weak var selectedChildTargetTokenLabel: UILabel!
   var appCenter: AppCenterDelegate!
   var propertiesCount: Int = 0
 
@@ -15,6 +16,18 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     super.viewDidLoad()
     tableView.setEditing(true, animated: false)
     self.enabled.isOn = appCenter.isAnalyticsEnabled()
+  }
+
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    var childTargetToken = UserDefaults.standard.string(forKey: kMSChildTransmissionTargetTokenKey)
+    if childTargetToken != nil {
+      let range = childTargetToken!.index(childTargetToken!.startIndex, offsetBy: 0)..<childTargetToken!.index(childTargetToken!.startIndex, offsetBy: 9)
+      childTargetToken = childTargetToken![range]
+    } else {
+      childTargetToken = "None"
+    }
+    self.selectedChildTargetTokenLabel.text = "Child Target: " + childTargetToken!;
   }
   
   @IBAction func trackEvent() {
@@ -24,7 +37,12 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     if self.oneCollectorEnabled.isOn {
       let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
       let token = appName == "SasquatchSwift" ? "238db5abfbaa4c299b78dd539f78b829-cd10afb7-0ec2-496f-ac8a-c21974fbb82c-7564" : "1aa046cfdc8f49bdbd64190290caf7dd-ba041023-af4d-4432-a87e-eb2431150797-7361"
-      MSAnalytics.transmissionTarget(forToken: token).trackEvent(name, withProperties: properties())
+      var target = MSAnalytics.transmissionTarget(forToken: token)
+      let childTargetToken = UserDefaults.standard.string(forKey: kMSChildTransmissionTargetTokenKey)
+      if childTargetToken != nil {
+        target = target.transmissionTarget(forToken: childTargetToken!)
+      }
+      target.trackEvent(name, withProperties: properties())
     } else {
       appCenter.trackEvent(name, withProperties: properties())
     }

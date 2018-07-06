@@ -50,6 +50,10 @@
   return self;
 }
 
+- (void)setAppSecret:(NSString *)appSecret {
+  _appSecret = appSecret;
+}
+
 #pragma mark - MSChannelDelegate
 
 - (void)addDelegate:(id<MSChannelDelegate>)delegate {
@@ -140,7 +144,7 @@
                                 }];
       return;
     }
-    if (!self.sender) {
+    if (!self.appSecret && !item.transmissionTargetTokens) {
       MSLogDebug([MSAppCenter logTag], @"Log of type '%@' was not filtered out by delegate(s) but no app secret was "
                                        @"provided. Not persisting/sending the log.",
                  item.type);
@@ -249,6 +253,7 @@
 
                // Forward logs to the sender.
                [self.sender sendAsync:container
+                            appSecret:self.appSecret
                     completionHandler:^(NSString *senderBatchId, NSUInteger statusCode,
                                         __attribute__((unused)) NSData *data, NSError *error) {
                       dispatch_async(self.logsDispatchQueue, ^{

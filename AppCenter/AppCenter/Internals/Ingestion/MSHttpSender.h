@@ -17,27 +17,31 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSString *apiPath;
 
 /**
- *	Send Url.
+ * Send Url.
  */
 @property(nonatomic) NSURL *sendURL;
 
 /**
- *	Request header parameters.
+ * Request header parameters.
  */
 @property(nonatomic) NSDictionary *httpHeaders;
 
 /**
- *  Pending http calls.
+ * Pending http calls.
  */
 @property NSMutableDictionary<NSString *, MSIngestionCall *> *pendingCalls;
 
 /**
  *  Send data to backend
  * @param data A data instance that will be transformed request body.
+ * @param appSecret The appSecret.
  * @param callId A unique ID that identify a request.
  * @param handler Completion handler
  */
-- (void)sendAsync:(NSObject *)data callId:(NSString *)callId completionHandler:(MSSendAsyncCompletionHandler)handler;
+- (void)sendAsync:(NSObject *)data
+            appSecret:(NSString *)appSecret
+               callId:(NSString *)callId
+    completionHandler:(MSSendAsyncCompletionHandler)handler;
 
 @end
 

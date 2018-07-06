@@ -113,7 +113,6 @@
 		043120A21EE0BCF9007054C5 /* MSAppCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401551D1C9AAA0051BCFA /* MSAppCenter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		043120A41EE0BCF9007054C5 /* MSAppCenterPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38E1B6791DDE3FDF000EFED1 /* MSAppCenterPrivate.h */; };
 		043120A51EE0BCF9007054C5 /* MSServiceAbstractInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C757F1D6270A300D68CC1 /* MSServiceAbstractInternal.h */; };
-		043120A71EE0BCF9007054C5 /* MSServiceAbstractPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C76D91D677EC100D68CC1 /* MSServiceAbstractPrivate.h */; };
 		043120A81EE0BCF9007054C5 /* MSIngestionUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = E8753D6C1D4BE53F00241513 /* MSIngestionUtil.h */; };
 		043120A91EE0BCF9007054C5 /* MSIngestionCallDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E8E48F941D50FF4300A8C1B0 /* MSIngestionCallDelegate.h */; };
 		043120AA1EE0BCF9007054C5 /* MS_Reachability.h in Headers */ = {isa = PBXBuildFile; fileRef = E83283C41D46C62E000B029E /* MS_Reachability.h */; };
@@ -239,7 +238,6 @@
 		04754F741EA98182002CBA46 /* MSAppCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401551D1C9AAA0051BCFA /* MSAppCenter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04754F761EA98182002CBA46 /* MSAppCenterPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38E1B6791DDE3FDF000EFED1 /* MSAppCenterPrivate.h */; };
 		04754F771EA98182002CBA46 /* MSServiceAbstractInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C757F1D6270A300D68CC1 /* MSServiceAbstractInternal.h */; };
-		04754F791EA98182002CBA46 /* MSServiceAbstractPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C76D91D677EC100D68CC1 /* MSServiceAbstractPrivate.h */; };
 		04754F7A1EA98182002CBA46 /* MSIngestionUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = E8753D6C1D4BE53F00241513 /* MSIngestionUtil.h */; };
 		04754F7B1EA98182002CBA46 /* MSIngestionCallDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E8E48F941D50FF4300A8C1B0 /* MSIngestionCallDelegate.h */; };
 		04754F7C1EA98182002CBA46 /* MS_Reachability.h in Headers */ = {isa = PBXBuildFile; fileRef = E83283C41D46C62E000B029E /* MS_Reachability.h */; };
@@ -375,7 +373,6 @@
 		387C75811D6270A300D68CC1 /* MSServiceAbstractInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C757F1D6270A300D68CC1 /* MSServiceAbstractInternal.h */; };
 		387C758F1D64E50800D68CC1 /* MSServiceCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C758D1D64DF2500D68CC1 /* MSServiceCommon.h */; };
 		387C75961D64EE1900D68CC1 /* MSServiceAbstractTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387C75951D64EE1900D68CC1 /* MSServiceAbstractTests.m */; };
-		387C76DA1D677EC100D68CC1 /* MSServiceAbstractPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C76D91D677EC100D68CC1 /* MSServiceAbstractPrivate.h */; };
 		387C76FD1D6C9CF100D68CC1 /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C76FC1D6C9CF100D68CC1 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3889933A1E29B26D00C27B36 /* MSAppCenterErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 388993391E29B26D00C27B36 /* MSAppCenterErrors.m */; };
 		38AE131120C1B54000FAB2AD /* MSModelTestsUtililty.m in Sources */ = {isa = PBXBuildFile; fileRef = 38AE131020C1B54000FAB2AD /* MSModelTestsUtililty.m */; };
@@ -801,7 +798,6 @@
 		387C757F1D6270A300D68CC1 /* MSServiceAbstractInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MSServiceAbstractInternal.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		387C758D1D64DF2500D68CC1 /* MSServiceCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MSServiceCommon.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		387C75951D64EE1900D68CC1 /* MSServiceAbstractTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSServiceAbstractTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		387C76D91D677EC100D68CC1 /* MSServiceAbstractPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSServiceAbstractPrivate.h; sourceTree = "<group>"; };
 		387C76FC1D6C9CF100D68CC1 /* MSServiceAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSServiceAbstract.h; sourceTree = "<group>"; };
 		3889932E1E29829700C27B36 /* MSAppCenterErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAppCenterErrors.h; sourceTree = "<group>"; };
 		388993391E29B26D00C27B36 /* MSAppCenterErrors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAppCenterErrors.m; sourceTree = "<group>"; };
@@ -1201,7 +1197,6 @@
 				F803BBF51E8E383E004B1E7A /* MSCustomPropertiesPrivate.h */,
 				3592ABA51DC90E3600EF4592 /* MSLoggerInternal.h */,
 				387C757F1D6270A300D68CC1 /* MSServiceAbstractInternal.h */,
-				387C76D91D677EC100D68CC1 /* MSServiceAbstractPrivate.h */,
 				385AD9211D95898D008B354A /* MSServiceAbstractProtected.h */,
 				387C758D1D64DF2500D68CC1 /* MSServiceCommon.h */,
 				6E0401471D1C99AC0051BCFA /* MSServiceInternal.h */,
@@ -1551,7 +1546,6 @@
 				043120A41EE0BCF9007054C5 /* MSAppCenterPrivate.h in Headers */,
 				3814A8E420BF5E790093AF45 /* MSCSEpochAndSeq.h in Headers */,
 				043120A51EE0BCF9007054C5 /* MSServiceAbstractInternal.h in Headers */,
-				043120A71EE0BCF9007054C5 /* MSServiceAbstractPrivate.h in Headers */,
 				043120A81EE0BCF9007054C5 /* MSIngestionUtil.h in Headers */,
 				04A79A4420C6F433006D0072 /* MSOneCollectorIngestion.h in Headers */,
 				041EFD271EE1CAA1006DCD56 /* MSDevice.h in Headers */,
@@ -1635,7 +1629,6 @@
 				3568A7E6201A8A6300F3B860 /* MSChannelProtocol.h in Headers */,
 				04754F761EA98182002CBA46 /* MSAppCenterPrivate.h in Headers */,
 				04754F771EA98182002CBA46 /* MSServiceAbstractInternal.h in Headers */,
-				04754F791EA98182002CBA46 /* MSServiceAbstractPrivate.h in Headers */,
 				B2CD74581F22BB710070E7DF /* MSWrapperSdk.h in Headers */,
 				04754F7A1EA98182002CBA46 /* MSIngestionUtil.h in Headers */,
 				04754F9C1EA98182002CBA46 /* MSWrapperLogger.h in Headers */,
@@ -1758,7 +1751,6 @@
 				38E1B67A1DDE3FDF000EFED1 /* MSAppCenterPrivate.h in Headers */,
 				387C75811D6270A300D68CC1 /* MSServiceAbstractInternal.h in Headers */,
 				3814A8E220BF5E790093AF45 /* MSCSEpochAndSeq.h in Headers */,
-				387C76DA1D677EC100D68CC1 /* MSServiceAbstractPrivate.h in Headers */,
 				E8753D6E1D4BE53F00241513 /* MSIngestionUtil.h in Headers */,
 				E74B14AA20B36B9B002C0183 /* MSLocExtension.h in Headers */,
 				045C85101FE0B1D900089540 /* MSSessionContext.h in Headers */,

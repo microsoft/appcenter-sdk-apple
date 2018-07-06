@@ -20,6 +20,16 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MSChannelGroupDefault : NSObject <MSChannelGroupProtocol>
 
 /**
+ * Initializes a new `MSChannelGroupDefault` instance.
+ *
+ * @param installId A unique installation identifier.
+ * @param logUrl A base URL to use for backend communication.
+ *
+ * @return A new `MSChannelGroupDefault` instance.
+ */
+- (instancetype)initWithInstallId:(NSUUID *)installId logUrl:(NSString *)logUrl;
+
+/**
  * Collection of channel delegates.
  */
 @property(nonatomic) NSHashTable<id<MSChannelDelegate>> *delegates;

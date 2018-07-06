@@ -12,6 +12,7 @@
 
 static NSTimeInterval const kMSTestTimeout = 5.0;
 static NSString *const kMSBaseUrl = @"https://test.com";
+static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
 @interface MSAppCenterIngestionTests : XCTestCase
 
@@ -30,11 +31,10 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 - (void)setUp {
   [super setUp];
 
-  NSDictionary *headers = @{
-    @"Content-Type" : @"application/json",
-    @"App-Secret" : @"myUnitTestAppSecret",
-    @"Install-ID" : MS_UUID_STRING
-  };
+  NSDictionary *headers =
+      @{ @"Content-Type" : @"application/json",
+         @"App-Secret" : kMSTestAppSecret,
+         @"Install-ID" : MS_UUID_STRING };
 
   NSDictionary *queryStrings = @{ @"api-version" : @"1.0.0" };
 
@@ -73,9 +73,9 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   [MSHttpTestUtil stubHttp200Response];
   NSString *containerId = @"1";
   MSLogContainer *container = [self createLogContainerWithId:containerId];
-
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Response 200"];
   [self.sut sendAsync:container
+              appSecret:kMSTestAppSecret
       completionHandler:^(NSString *batchId, NSUInteger statusCode, __attribute__((unused)) NSData *data,
                           NSError *error) {
 
@@ -107,6 +107,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 
   // When
   [self.sut sendAsync:container
+              appSecret:kMSTestAppSecret
       completionHandler:^(NSString *batchId, NSUInteger statusCode, __attribute__((unused)) NSData *data,
                           NSError *error) {
 
@@ -155,7 +156,8 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 
   // When
   [self.sut sendAsync:container
-      completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
+            appSecret:kMSTestAppSecret
+    completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
                           __attribute__((unused)) NSData *data, __attribute__((unused)) NSError *error) {
 
         // This should not be happening.
@@ -194,6 +196,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 
     // Send one batch now that the sender is suspended.
     [self.sut sendAsync:container
+              appSecret:kMSTestAppSecret
         completionHandler:^(__attribute__((unused)) NSString *batchId, NSUInteger statusCode,
                             __attribute__((unused)) NSData *data, NSError *error) {
           forwardedStatus = statusCode;
@@ -243,6 +246,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   // Send logs
   for (NSUInteger i = 0; i < [containers count]; i++) {
     [self.sut sendAsync:containers[i]
+              appSecret:kMSTestAppSecret
         completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
                             __attribute__((unused)) NSData *data, __attribute__((unused)) NSError *error) {
           @synchronized(tasks) {
@@ -306,6 +310,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   // Send logs
   for (NSUInteger i = 0; i < [containers count]; i++) {
     [self.sut sendAsync:containers[i]
+              appSecret:kMSTestAppSecret
         completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
                             __attribute__((unused)) NSData *data, __attribute__((unused)) NSError *error) {
           @synchronized(tasks) {
@@ -488,6 +493,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:@"1" andLogs:(NSArray<id<MSLog>> *)@[ log ]];
 
   [self.sut sendAsync:container
+            appSecret:kMSTestAppSecret
       completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
                           __attribute__((unused)) NSData *data, NSError *error) {
 
@@ -504,6 +510,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Network Down"];
   [self.sut sendAsync:container
+            appSecret:kMSTestAppSecret
       completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
                           __attribute__((unused)) NSData *data, NSError *error) {
 
@@ -699,7 +706,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   NSData *httpBody = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
 
   // When
-  NSURLRequest *request = [self.sut createRequest:logContainer];
+  NSURLRequest *request = [self.sut createRequest:logContainer appSecret:kMSTestAppSecret];
 
   // Then
   XCTAssertEqualObjects(request.HTTPBody, httpBody);
@@ -713,7 +720,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   httpBody = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
 
   // When
-  request = [self.sut createRequest:logContainer];
+  request = [self.sut createRequest:logContainer appSecret:kMSTestAppSecret];
 
   // Then
   XCTAssertTrue(request.HTTPBody.length < httpBody.length);

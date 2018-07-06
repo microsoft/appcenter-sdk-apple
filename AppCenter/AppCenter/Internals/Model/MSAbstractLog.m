@@ -1,12 +1,13 @@
 #import "MSAbstractLogInternal.h"
 #import "MSAbstractLogPrivate.h"
-#import "MSCommonSchemaLog.h"
 #import "MSACModelConstants.h"
+#import "MSCommonSchemaLog.h"
 #import "MSCSModelConstants.h"
 #import "MSDevice.h"
 #import "MSDeviceInternal.h"
 #import "MSLogger.h"
 #import "MSUtility+Date.h"
+#import "MSUtility+StringFormatting.h"
 
 @implementation MSAbstractLog
 
@@ -143,9 +144,7 @@
   // TODO popSample not supported at this time.
 
   // Calculate iKey based on the target token.
-  if (token && token.length) {
-    csLog.iKey = [NSString stringWithFormat:@"o:%@", [token componentsSeparatedByString:@"-"][0]];
-  }
+  csLog.iKey = [MSUtility iKeyFromTargetToken:token];
 
   // TODO flags not supported at this time.
   // TODO cV not supported at this time.
@@ -163,7 +162,7 @@
 
   // FIXME Country code can be wrong if the locale doesn't correspond to the region in the setting (i.e.:fr_US).
   // Convert user local to use dash (-) as the separator as described in RFC 4646.  E.g., zh-Hans-CN.
-   csLog.ext.userExt.locale = [self.device.locale stringByReplacingOccurrencesOfString:@"_" withString:@"-"];
+  csLog.ext.userExt.locale = [self.device.locale stringByReplacingOccurrencesOfString:@"_" withString:@"-"];
 
   // OS extension.
   csLog.ext.osExt = [MSOSExtension new];
