@@ -59,7 +59,7 @@ static NSString *const kMSGroupId = @"AppCenter";
 #pragma mark - public
 
 + (void)configureWithAppSecret:(NSString *)appSecret {
-  [[self sharedInstance] configureWithSecretString:appSecret fromApplication:YES];
+  [[self sharedInstance] configureWithAppSecret:appSecret transmissionTargetToken:nil fromApplication:YES];
 }
 
 + (void)configure {
@@ -77,6 +77,7 @@ static NSString *const kMSGroupId = @"AppCenter";
 + (void)startService:(Class)service {
   [[self sharedInstance] startService:service
                         withAppSecret:[[self sharedInstance] appSecret]
+              transmissionTargetToken:nil
                            andSendLog:YES
                       fromApplication:YES];
 }
@@ -207,21 +208,23 @@ static NSString *const kMSGroupId = @"AppCenter";
  * Configuring without an app secret is valid. If that is the case, the app secret will
  * not be set.
  */
-- (BOOL)configureWithSecretString:(NSString *)secretString fromApplication:(BOOL)fromApplication {
+- (BOOL)configureWithAppSecret:(NSString *)appSecret
+       transmissionTargetToken:(NSString *)transmissionTargetToken
+               fromApplication:(BOOL)fromApplication {
   @synchronized(self) {
     BOOL success = false;
     if (self.configuredFromApplication && fromApplication) {
       MSLogAssert([MSAppCenter logTag], @"App Center SDK has already been configured.");
     } else {
       if (!self.appSecret) {
-        self.appSecret = [MSUtility appSecretFrom:secretString];
+        self.appSecret = appSecret;
 
         // Initialize session context.
         // FIXME: It would be better to have obvious way to initialize session context instead of calling setSessionId.
         [[MSSessionContext sharedInstance] setSessionId:nil];
       }
       if (!self.defaultTransmissionTargetToken) {
-        self.defaultTransmissionTargetToken = [MSUtility transmissionTargetTokenFrom:secretString];
+        self.defaultTransmissionTargetToken = transmissionTargetToken;
       }
 
       // Init the main pipeline.
@@ -250,16 +253,24 @@ static NSString *const kMSGroupId = @"AppCenter";
   }
 }
 
-- (void)start:(NSString *)appSecret withServices:(NSArray<Class> *)services fromApplication:(BOOL)fromApplication {
+- (void)start:(NSString *)secretString withServices:(NSArray<Class> *)services fromApplication:(BOOL)fromApplication {
   @synchronized(self) {
-    BOOL configured = [self configureWithSecretString:appSecret fromApplication:fromApplication];
+    NSString *appSecret = [MSUtility appSecretFrom:secretString];
+    NSString *transmissionTargetToken = [MSUtility transmissionTargetTokenFrom:secretString];
+    BOOL configured = [self configureWithAppSecret:appSecret
+                           transmissionTargetToken:transmissionTargetToken
+                                   fromApplication:fromApplication];
     if (configured && services) {
       NSArray *sortedServices = [self sortServices:services];
       MSLogVerbose([MSAppCenter logTag], @"Start services %@ from %@", [sortedServices componentsJoinedByString:@", "],
                    (fromApplication ? @"an application" : @"a library"));
       NSMutableArray<NSString *> *servicesNames = [NSMutableArray arrayWithCapacity:sortedServices.count];
       for (Class service in sortedServices) {
-        if ([self startService:service withAppSecret:appSecret andSendLog:NO fromApplication:fromApplication]) {
+        if ([self startService:service
+                          withAppSecret:appSecret
+                transmissionTargetToken:transmissionTargetToken
+                             andSendLog:NO
+                        fromApplication:fromApplication]) {
           [servicesNames addObject:[service serviceName]];
         }
       }
@@ -295,9 +306,10 @@ static NSString *const kMSGroupId = @"AppCenter";
 }
 
 - (BOOL)startService:(Class)clazz
-       withAppSecret:(NSString *)appSecret
-          andSendLog:(BOOL)sendLog
-     fromApplication:(BOOL)fromApplication {
+              withAppSecret:(NSString *)appSecret
+    transmissionTargetToken:(NSString *)transmissionTargetToken
+                 andSendLog:(BOOL)sendLog
+            fromApplication:(BOOL)fromApplication {
   @synchronized(self) {
 
     // Check if clazz is valid class
@@ -341,7 +353,7 @@ static NSString *const kMSGroupId = @"AppCenter";
       // Start service with channel group.
       [service startWithChannelGroup:self.channelGroup
                            appSecret:appSecret
-             transmissionTargetToken:self.defaultTransmissionTargetToken
+             transmissionTargetToken:transmissionTargetToken
                      fromApplication:fromApplication];
 
       // Disable service if AppCenter is disabled.
@@ -351,7 +363,7 @@ static NSString *const kMSGroupId = @"AppCenter";
         self.enabledStateUpdating = NO;
       }
     } else if (fromApplication) {
-      [service updateConfigurationWithAppSecret:appSecret transmissionTargetToken:self.defaultTransmissionTargetToken];
+      [service updateConfigurationWithAppSecret:appSecret transmissionTargetToken:transmissionTargetToken];
     }
 
     // Send start service log.
