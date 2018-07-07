@@ -77,7 +77,10 @@ __attribute__((used)) static void importCategories() {
                     appSecret:(nullable NSString *)appSecret
       transmissionTargetToken:(nullable NSString *)token
               fromApplication:(BOOL)fromApplication {
-  [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
+  [super startWithChannelGroup:channelGroup
+                     appSecret:appSecret
+       transmissionTargetToken:token
+               fromApplication:fromApplication];
   if (token) {
     self.defaultTransmissionTarget = [self transmissionTargetFor:(NSString *)token];
   }
@@ -143,6 +146,15 @@ __attribute__((used)) static void importCategories() {
 
 - (BOOL)isAppSecretRequired {
   return NO;
+}
+
+- (void)updateConfigurationWithAppSecret:(NSString *)appSecret transmissionTargetToken:(NSString *)token {
+  [super updateConfigurationWithAppSecret:appSecret transmissionTargetToken:token];
+
+  // Create the default target if not already created in start.
+  if (token && !self.defaultTransmissionTarget) {
+    self.defaultTransmissionTarget = [self transmissionTargetFor:(NSString *)token];
+  }
 }
 
 #pragma mark - Service methods

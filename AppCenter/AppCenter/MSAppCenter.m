@@ -63,6 +63,8 @@ static NSString *const kMSGroupId = @"AppCenter";
 }
 
 + (void)start:(NSString *)appSecret withServices:(NSArray<Class> *)services {
+
+  // 'appSecret' is actually a secret string
   [[self sharedInstance] start:appSecret withServices:services fromApplication:YES];
 }
 

@@ -8,6 +8,10 @@ import AppCenterCrashes
 import AppCenterDistribute
 import AppCenterPush
 
+enum startFrom:Int {
+  case APP = 0, LIBRARY, BOTH
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate {
 
@@ -23,19 +27,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
 
     // Start App Center SDK.
     let useOneCollector = UserDefaults.standard.bool(forKey: "isOneCollectorEnabled");
-    if useOneCollector {
+    let startTarget = UserDefaults.standard.integer(forKey: "startTarget");
+    
+    let secretString = useOneCollector
+      ? "target=1dd3a9a64e144fcbbd4ce31c5def22e0-e57d4574-c5e7-4f89-a745-b2e850b54185-7090;appsecret=0dbca56b-b9ae-4d53-856a-7c2856137d85"
+      : "0dbca56b-b9ae-4d53-856a-7c2856137d85";
+    
+    switch startTarget {
+    case startFrom.LIBRARY.rawValue:
+      MSAppCenter.startFromLibrary(withServices: [MSAnalytics.self])
+      break;
+    case startFrom.APP.rawValue:
       #if DEBUG
-      MSAppCenter.start("target=1dd3a9a64e144fcbbd4ce31c5def22e0-e57d4574-c5e7-4f89-a745-b2e850b54185-7090;appsecret=0dbca56b-b9ae-4d53-856a-7c2856137d85", withServices: [MSAnalytics.self, MSCrashes.self, MSPush.self])
+        MSAppCenter.start(secretString, withServices: [MSAnalytics.self, MSCrashes.self, MSPush.self])
       #else
-      MSAppCenter.start("target=1dd3a9a64e144fcbbd4ce31c5def22e0-e57d4574-c5e7-4f89-a745-b2e850b54185-7090;appsecret=0dbca56b-b9ae-4d53-856a-7c2856137d85", withServices: [MSAnalytics.self, MSCrashes.self, MSDistribute.self, MSPush.self])
+        MSAppCenter.start(secretString, withServices: [MSAnalytics.self, MSCrashes.self, MSDistribute.self, MSPush.self])
       #endif
-    }
-    else {
+      break;
+    case startFrom.BOTH.rawValue:
+      MSAppCenter.startFromLibrary(withServices: [MSAnalytics.self])
+        
       #if DEBUG
-      MSAppCenter.start("0dbca56b-b9ae-4d53-856a-7c2856137d85", withServices: [MSAnalytics.self, MSCrashes.self, MSPush.self])
+        MSAppCenter.start(secretString, withServices: [MSAnalytics.self, MSCrashes.self, MSPush.self])
       #else
-      MSAppCenter.start("0dbca56b-b9ae-4d53-856a-7c2856137d85", withServices: [MSAnalytics.self, MSCrashes.self, MSDistribute.self, MSPush.self])
+        MSAppCenter.start(secretString, withServices: [MSAnalytics.self, MSCrashes.self, MSDistribute.self, MSPush.self])
       #endif
+      break;
+    default:
+      break;
     }
     
     // Crashes Delegate.
