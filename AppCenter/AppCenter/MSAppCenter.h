@@ -39,7 +39,7 @@
 + (void)start:(NSString *)appSecret withServices:(NSArray<Class> *)services;
 
 /**
- * Configure the SDK with an array of services to start.
+ * Start the SDK with an array of services.
  *
  * @discussion This may be called only once per application process lifetime.
  * @param services  Array of services to start.
