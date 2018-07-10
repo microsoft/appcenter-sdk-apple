@@ -5,9 +5,9 @@
 #import "MSDeviceInternal.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSHttpTestUtil.h"
-#import "MSMockLog.h"
 #import "MSIngestionCall.h"
 #import "MSIngestionDelegate.h"
+#import "MSMockLog.h"
 #import "MSTestFrameworks.h"
 
 static NSTimeInterval const kMSTestTimeout = 5.0;
@@ -22,10 +22,11 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
 @end
 
-// TODO: Separate base MSHttpIngestion tests from this test and instantiate MSAppCenterIngestion with initWithBaseUrl:, not
-// the one with multiple parameters.
-// Look at comments in each method.
-// Add testHeaders to verify headers are populated properly. Look at testHeaders in MSOneCollectorIngestionTests
+/*
+* TODO: Separate base MSHttpIngestion tests from this test and instantiate MSAppCenterIngestion with initWithBaseUrl:,
+* not the one with multiple parameters. Look at comments in each method. Add testHeaders to verify headers are populated
+* properly. Look at testHeaders in MSOneCollectorIngestionTests.
+*/
 @implementation MSAppCenterIngestionTests
 
 - (void)setUp {
@@ -121,7 +122,8 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
         /*
          * FIXME: This unit test failes intermittently because of timing issue. Wait a little bit of time
-         * here so that [MSIngestionProtocol call:completedWithFatalError:] can be invoked right after this completion handler.
+         * here so that [MSIngestionProtocol call:completedWithFatalError:] can be invoked right after this completion
+         * handler.
          */
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
           [expectation fulfill];
@@ -156,8 +158,8 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // When
   [self.sut sendAsync:container
-            appSecret:kMSTestAppSecret
-    completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
+              appSecret:kMSTestAppSecret
+      completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
                           __attribute__((unused)) NSData *data, __attribute__((unused)) NSError *error) {
 
         // This should not be happening.
@@ -196,7 +198,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
     // Send one batch now that the ingestion is suspended.
     [self.sut sendAsync:container
-              appSecret:kMSTestAppSecret
+                appSecret:kMSTestAppSecret
         completionHandler:^(__attribute__((unused)) NSString *batchId, NSUInteger statusCode,
                             __attribute__((unused)) NSData *data, NSError *error) {
           forwardedStatus = statusCode;
@@ -246,7 +248,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // Send logs
   for (NSUInteger i = 0; i < [containers count]; i++) {
     [self.sut sendAsync:containers[i]
-              appSecret:kMSTestAppSecret
+                appSecret:kMSTestAppSecret
         completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
                             __attribute__((unused)) NSData *data, __attribute__((unused)) NSError *error) {
           @synchronized(tasks) {
@@ -310,7 +312,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // Send logs
   for (NSUInteger i = 0; i < [containers count]; i++) {
     [self.sut sendAsync:containers[i]
-              appSecret:kMSTestAppSecret
+                appSecret:kMSTestAppSecret
         completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
                             __attribute__((unused)) NSData *data, __attribute__((unused)) NSError *error) {
           @synchronized(tasks) {
@@ -387,14 +389,15 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 #pragma clang diagnostic pop
 
   OCMStub([mockedCall ingestion:self.sut
-        callCompletedWithStatus:MSHTTPCodesNo500InternalServerError
-                           data:OCMOCK_ANY
-                          error:OCMOCK_ANY])
+              callCompletedWithStatus:MSHTTPCodesNo500InternalServerError
+                                 data:OCMOCK_ANY
+                                error:OCMOCK_ANY])
       .andForwardToRealObject()
       .andDo(^(__attribute__((unused)) NSInvocation *invocation) {
 
         /*
-         * Don't fulfill the expectation immediatelly as the ingestion won't be suspended yet. Instead of using a delay to
+         * Don't fulfill the expectation immediatelly as the ingestion won't be suspended yet. Instead of using a delay
+         * to
          * wait
          * for the retries, we use the retryCount as it retryCount will only be 0 before the first failed sending and
          * after
@@ -443,9 +446,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 #pragma clang diagnostic pop
 
   OCMStub([mockedCall ingestion:self.sut
-        callCompletedWithStatus:MSHTTPCodesNo500InternalServerError
-                           data:OCMOCK_ANY
-                          error:OCMOCK_ANY])
+              callCompletedWithStatus:MSHTTPCodesNo500InternalServerError
+                                 data:OCMOCK_ANY
+                                error:OCMOCK_ANY])
       .andForwardToRealObject()
       .andDo(^(__attribute__((unused)) NSInvocation *invocation) {
         [responseReceivedExcpectation fulfill];
@@ -471,7 +474,8 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpartial-availability"
                                  XCTAssertNotEqual(
-                                     0, dispatch_testcancel(((MSIngestionCall *)self.sut.pendingCalls[@"1"]).timerSource));
+                                     0,
+                                     dispatch_testcancel(((MSIngestionCall *)self.sut.pendingCalls[@"1"]).timerSource));
 #pragma clang diagnostic pop
 #endif
 
@@ -493,7 +497,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:@"1" andLogs:(NSArray<id<MSLog>> *)@[ log ]];
 
   [self.sut sendAsync:container
-            appSecret:kMSTestAppSecret
+              appSecret:kMSTestAppSecret
       completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
                           __attribute__((unused)) NSData *data, NSError *error) {
 
@@ -510,7 +514,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Network Down"];
   [self.sut sendAsync:container
-            appSecret:kMSTestAppSecret
+              appSecret:kMSTestAppSecret
       completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
                           __attribute__((unused)) NSData *data, NSError *error) {
 

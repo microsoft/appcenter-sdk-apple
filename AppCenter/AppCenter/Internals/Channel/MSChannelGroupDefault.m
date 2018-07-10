@@ -6,9 +6,9 @@
 #import "MSChannelGroupDefault.h"
 #import "MSChannelUnitDefault.h"
 #import "MSHttpIngestion.h"
+#import "MSIngestionProtocol.h"
 #import "MSLogDBStorage.h"
 #import "MSStorage.h"
-#import "MSIngestionProtocol.h"
 
 static short const kMSStorageMaxCapacity = 300;
 static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQueue";

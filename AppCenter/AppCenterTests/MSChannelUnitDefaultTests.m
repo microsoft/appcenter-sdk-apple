@@ -7,8 +7,8 @@
 #import "MSChannelDelegate.h"
 #import "MSDevice.h"
 #import "MSHttpIngestion.h"
-#import "MSLogContainer.h"
 #import "MSIngestionProtocol.h"
+#import "MSLogContainer.h"
 #import "MSStorage.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility.h"
@@ -106,7 +106,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   OCMStub([ingestionMock sendAsync:OCMOCK_ANY appSecret:OCMOCK_ANY completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
 
-        // Get ingestion bloc for later call.
+        // Get ingestion block for later call.
         [invocation retainArguments];
         [invocation getArgument:&ingestionBlock atIndex:4];
         [invocation getArgument:&logContainer atIndex:2];
@@ -119,7 +119,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
       .andDo(^(NSInvocation *invocation) {
         MSLoadDataCompletionBlock loadCallback;
 
-        // Get ingestion bloc for later call.
+        // Get ingestion block for later call.
         [invocation getArgument:&loadCallback atIndex:4];
 
         // Mock load.
@@ -201,7 +201,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   OCMStub([ingestionMock sendAsync:OCMOCK_ANY appSecret:OCMOCK_ANY completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
 
-        // Get ingestion bloc for later call.
+        // Get ingestion block for later call.
         [invocation retainArguments];
         [invocation getArgument:&ingestionBlock atIndex:4];
         [invocation getArgument:&logContainer atIndex:2];
@@ -213,7 +213,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
       .andDo(^(NSInvocation *invocation) {
         MSLoadDataCompletionBlock loadCallback;
 
-        // Get ingestion bloc for later call.
+        // Get ingestion block for later call.
         [invocation getArgument:&loadCallback atIndex:4];
 
         // Mock load.
@@ -438,7 +438,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
       .andDo(^(NSInvocation *invocation) {
         MSLoadDataCompletionBlock loadCallback;
 
-        // Get ingestion bloc for later call.
+        // Get ingestion block for later call.
         [invocation getArgument:&loadCallback atIndex:4];
 
         // Mock load.

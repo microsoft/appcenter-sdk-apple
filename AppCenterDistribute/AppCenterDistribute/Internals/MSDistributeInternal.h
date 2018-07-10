@@ -2,8 +2,8 @@
 
 #import "MSDistribute.h"
 #import "MSDistributeIngestion.h"
-#import "MSReleaseDetailsPrivate.h"
 #import "MSIngestionProtocol.h"
+#import "MSReleaseDetailsPrivate.h"
 #import "MSServiceInternal.h"
 
 #define APP_CENTER_DISTRIBUTE_BUNDLE @"AppCenterDistributeResources.bundle"

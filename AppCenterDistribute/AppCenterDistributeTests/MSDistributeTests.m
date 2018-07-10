@@ -6,15 +6,16 @@
 #import "MSBasicMachOParser.h"
 #import "MSChannelGroupDefault.h"
 #import "MSDistribute.h"
+#import "MSDistributeInfoTracker.h"
 #import "MSDistributeInternal.h"
 #import "MSDistributePrivate.h"
 #import "MSDistributeTestUtil.h"
 #import "MSDistributeUtil.h"
 #import "MSHttpTestUtil.h"
-#import "MSKeychainUtil.h"
-#import "MSMockUserDefaults.h"
-#import "MSLoggerInternal.h"
 #import "MSIngestionCall.h"
+#import "MSKeychainUtil.h"
+#import "MSLoggerInternal.h"
+#import "MSMockUserDefaults.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSSessionContext.h"
 #import "MSSessionContextPrivate.h"
@@ -25,7 +26,6 @@
 #import "MSUtility+Date.h"
 #import "MSUtility+Environment.h"
 #import "MSUtility+StringFormatting.h"
-#import "MSDistributeInfoTracker.h"
 
 static NSString *const kMSTestAppSecret = @"IAMSECRET";
 static NSString *const kMSTestReleaseHash = @"RELEASEHASH";

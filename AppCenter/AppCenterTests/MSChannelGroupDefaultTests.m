@@ -5,8 +5,8 @@
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
 #import "MSHttpIngestionPrivate.h"
-#import "MSMockLog.h"
 #import "MSIngestionProtocol.h"
+#import "MSMockLog.h"
 #import "MSStorage.h"
 #import "MSTestFrameworks.h"
 

@@ -5,11 +5,11 @@
 #import "MSChannelUnitProtocol.h"
 #import "MSCommonSchemaLog.h"
 #import "MSCSExtensions.h"
+#import "MSIngestionProtocol.h"
 #import "MSMockLogObject.h"
 #import "MSMockLogWithConversion.h"
 #import "MSOneCollectorChannelDelegatePrivate.h"
 #import "MSSDKExtension.h"
-#import "MSIngestionProtocol.h"
 #import "MSStorage.h"
 #import "MSTestFrameworks.h"
 

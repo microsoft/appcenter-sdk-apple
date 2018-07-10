@@ -4,10 +4,10 @@
 #import "MSDeviceInternal.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSHttpTestUtil.h"
-#import "MSMockLog.h"
-#import "MSOneCollectorIngestion.h"
 #import "MSIngestionCall.h"
 #import "MSIngestionDelegate.h"
+#import "MSMockLog.h"
+#import "MSOneCollectorIngestion.h"
 #import "MSTestFrameworks.h"
 
 static NSTimeInterval const kMSTestTimeout = 5.0;
