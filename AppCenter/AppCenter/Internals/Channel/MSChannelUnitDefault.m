@@ -74,18 +74,15 @@
 
 #pragma mark - MSIngestionDelegate
 
-- (void)ingestionDidSuspend:(id<MSIngestionProtocol>)ingestion {
-  (void)ingestion;
+- (void)ingestionDidSuspend:(__unused id<MSIngestionProtocol>)ingestion {
   [self suspend];
 }
 
-- (void)ingestionDidResume:(id<MSIngestionProtocol>)ingestion {
-  (void)ingestion;
+- (void)ingestionDidResume:(__unused id<MSIngestionProtocol>)ingestion {
   [self resume];
 }
 
-- (void)ingestionDidReceiveFatalError:(id<MSIngestionProtocol>)ingestion {
-  (void)ingestion;
+- (void)ingestionDidReceiveFatalError:(__unused id<MSIngestionProtocol>)ingestion {
 
   // Disable and delete data on fatal errors.
   [self setEnabled:NO andDeleteDataOnDisabled:YES];
