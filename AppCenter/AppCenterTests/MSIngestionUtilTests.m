@@ -1,11 +1,11 @@
 #import "MSAppCenterIngestion.h"
 #import "MSTestFrameworks.h"
 
-@interface MSSenderUtilTests : XCTestCase
+@interface MSIngestionUtilTests : XCTestCase
 
 @end
 
-@implementation MSSenderUtilTests
+@implementation MSIngestionUtilTests
 
 - (void)testLargeSecret {
 
@@ -14,7 +14,7 @@
   NSString *hiddenSecret;
 
   // When
-  hiddenSecret = [MSSenderUtil hideSecret:secret];
+  hiddenSecret = [MSIngestionUtil hideSecret:secret];
 
   // Then
   NSString *fullyHiddenSecret =
@@ -34,7 +34,7 @@
   NSString *hiddenSecret;
 
   // When
-  hiddenSecret = [MSSenderUtil hideSecret:secret];
+  hiddenSecret = [MSIngestionUtil hideSecret:secret];
 
   // Then
   NSString *fullyHiddenSecret =
@@ -49,13 +49,13 @@
   NSError *error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:NSURLErrorNotConnectedToInternet userInfo:nil];
 
   // Then
-  XCTAssertTrue([MSSenderUtil isNoInternetConnectionError:error]);
+  XCTAssertTrue([MSIngestionUtil isNoInternetConnectionError:error]);
 
   // When
   error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:NSURLErrorServerCertificateHasBadDate userInfo:nil];
 
   // Then
-  XCTAssertFalse([MSSenderUtil isNoInternetConnectionError:error]);
+  XCTAssertFalse([MSIngestionUtil isNoInternetConnectionError:error]);
 }
 
 - (void)testSSLConnectionErrorDetected {
@@ -64,69 +64,69 @@
   NSError *error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:NSURLErrorSecureConnectionFailed userInfo:nil];
 
   // Then
-  XCTAssertTrue([MSSenderUtil isSSLConnectionError:error]);
+  XCTAssertTrue([MSIngestionUtil isSSLConnectionError:error]);
 
   // When
   error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:NSURLErrorServerCertificateHasBadDate userInfo:nil];
 
   // Then
-  XCTAssertTrue([MSSenderUtil isSSLConnectionError:error]);
+  XCTAssertTrue([MSIngestionUtil isSSLConnectionError:error]);
 
   // When
   error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:NSURLErrorServerCertificateUntrusted userInfo:nil];
 
   // Then
-  XCTAssertTrue([MSSenderUtil isSSLConnectionError:error]);
+  XCTAssertTrue([MSIngestionUtil isSSLConnectionError:error]);
 
   // When
   error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:NSURLErrorServerCertificateHasUnknownRoot userInfo:nil];
 
   // Then
-  XCTAssertTrue([MSSenderUtil isSSLConnectionError:error]);
+  XCTAssertTrue([MSIngestionUtil isSSLConnectionError:error]);
 
   // When
   error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:NSURLErrorServerCertificateNotYetValid userInfo:nil];
 
   // Then
-  XCTAssertTrue([MSSenderUtil isSSLConnectionError:error]);
+  XCTAssertTrue([MSIngestionUtil isSSLConnectionError:error]);
 
   // When
   error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:NSURLErrorClientCertificateRejected userInfo:nil];
 
   // Then
-  XCTAssertTrue([MSSenderUtil isSSLConnectionError:error]);
+  XCTAssertTrue([MSIngestionUtil isSSLConnectionError:error]);
 
   // When
   error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:NSURLErrorClientCertificateRequired userInfo:nil];
 
   // Then
-  XCTAssertTrue([MSSenderUtil isSSLConnectionError:error]);
+  XCTAssertTrue([MSIngestionUtil isSSLConnectionError:error]);
 
   // When
   error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:NSURLErrorCannotLoadFromNetwork userInfo:nil];
 
   // Then
-  XCTAssertTrue([MSSenderUtil isSSLConnectionError:error]);
+  XCTAssertTrue([MSIngestionUtil isSSLConnectionError:error]);
 
   // When
   error =
       [[NSError alloc] initWithDomain:NSURLErrorFailingURLErrorKey code:NSURLErrorCannotLoadFromNetwork userInfo:nil];
 
   // Then
-  XCTAssertFalse([MSSenderUtil isSSLConnectionError:error]);
+  XCTAssertFalse([MSIngestionUtil isSSLConnectionError:error]);
 
   // When
   error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:10 userInfo:nil];
 
   // Then
-  XCTAssertFalse([MSSenderUtil isSSLConnectionError:error]);
+  XCTAssertFalse([MSIngestionUtil isSSLConnectionError:error]);
 }
 
 - (void)testIsRecoverableError {
   for (int i = 0; i < 530; i++) {
 
     // When
-    BOOL result = [MSSenderUtil isRecoverableError:i];
+    BOOL result = [MSIngestionUtil isRecoverableError:i];
 
     // Then
     if (i >= 500) {

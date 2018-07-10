@@ -113,12 +113,12 @@ typedef NS_ENUM(NSInteger, MSHTTPCodesNo) {
 };
 
 /**
- * Enum indicating result of a MSSenderCall.
+ * Enum indicating result of a MSIngestionCall.
  */
-typedef NS_ENUM(NSInteger, MSSenderCallResult) {
-  MSSenderCallResultSuccess = 100,
-  MSSenderCallResultRecoverableError = 500,
-  MSSenderCallResultFatalError = 999
+typedef NS_ENUM(NSInteger, MSIngestionCallResult) {
+  MSIngestionCallResultSuccess = 100,
+  MSIngestionCallResultRecoverableError = 500,
+  MSIngestionCallResultFatalError = 999
 };
 
 /**

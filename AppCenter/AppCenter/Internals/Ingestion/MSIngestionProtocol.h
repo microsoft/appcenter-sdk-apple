@@ -1,15 +1,15 @@
 #import <Foundation/Foundation.h>
 
 #import "MSEnable.h"
-#import "MSSenderCallDelegate.h"
-#import "MSSenderUtil.h"
+#import "MSIngestionCallDelegate.h"
+#import "MSIngestionUtil.h"
 #import "MS_Reachability.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol MSSenderDelegate;
+@protocol MSIngestionDelegate;
 
-@protocol MSSender <NSObject, MSSenderCallDelegate, MSEnable>
+@protocol MSIngestionProtocol <NSObject, MSIngestionCallDelegate, MSEnable>
 
 /**
  * Reachability library.
@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) MS_Reachability *reachability;
 
 /**
- * A boolean value set to YES if the sender is suspended or NO otherwise.
+ * A boolean value set to YES if the ingestion is suspended or NO otherwise.
  */
 @property(nonatomic) BOOL suspended;
 
@@ -31,29 +31,29 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sendAsync:(nullable NSObject *)data appSecret:(nullable NSString *)appSecret completionHandler:(MSSendAsyncCompletionHandler)handler;
 
 /**
- *  Add the given delegate to the sender.
+ *  Add the given delegate to the ingestion.
  *
- *  @param delegate Sender's delegate.
+ *  @param delegate Ingestion's delegate.
  */
-- (void)addDelegate:(id<MSSenderDelegate>)delegate;
+- (void)addDelegate:(id<MSIngestionDelegate>)delegate;
 
 /**
- *  Delete the given delegate from the sender.
+ *  Delete the given delegate from the ingestion.
  *
- *  @param delegate Sender's delegate.
+ *  @param delegate Ingestion's delegate.
  */
-- (void)removeDelegate:(id<MSSenderDelegate>)delegate;
+- (void)removeDelegate:(id<MSIngestionDelegate>)delegate;
 
 /**
- * Suspend the sender.
- * A sender is suspended when it becomes disabled or on network issues.
+ * Suspend the ingestion.
+ * An ingestion is suspended when it becomes disabled or on network issues.
  * A suspended state doesn't impact the current enabled state.
  * @see resume.
  */
 - (void)suspend;
 
 /**
- * Resume the sender.
+ * Resume the ingestion.
  * @see suspend.
  */
 - (void)resume;

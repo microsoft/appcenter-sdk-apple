@@ -26,7 +26,7 @@ NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){
   self = [super init];
   if (self) {
     _oneCollectorChannels = [NSMutableDictionary new];
-    _oneCollectorSender = [[MSOneCollectorIngestion alloc] initWithBaseUrl:kMSOneCollectorBaseUrl];
+    _oneCollectorIngestion = [[MSOneCollectorIngestion alloc] initWithBaseUrl:kMSOneCollectorBaseUrl];
     _epochsAndSeqsByIKey = [NSMutableDictionary new];
   }
   return self;
@@ -50,7 +50,7 @@ NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){
     MSChannelUnitConfiguration *channelUnitConfiguration =
         [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:oneCollectorGroupId];
     id<MSChannelUnitProtocol> channelUnit =
-        [channelGroup addChannelUnitWithConfiguration:channelUnitConfiguration withSender:self.oneCollectorSender];
+            [channelGroup addChannelUnitWithConfiguration:channelUnitConfiguration withIngestion:self.oneCollectorIngestion];
     self.oneCollectorChannels[groupId] = channelUnit;
   }
 }

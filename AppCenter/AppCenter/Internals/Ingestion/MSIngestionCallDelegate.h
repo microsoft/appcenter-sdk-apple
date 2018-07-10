@@ -2,16 +2,16 @@
 
 #import "MSConstants+Internal.h"
 
-@class MSSenderCall;
+@class MSIngestionCall;
 
-@protocol MSSenderCallDelegate <NSObject>
+@protocol MSIngestionCallDelegate <NSObject>
 
 /**
  *  Send call.
  *
  *  @param call Call object.
  */
-- (void)sendCallAsync:(MSSenderCall *)call;
+- (void)sendCallAsync:(MSIngestionCall *)call;
 
 /**
  *  Call completed callback.
@@ -19,6 +19,6 @@
  *  @param call Call object.
  *  @param result Enum indicating the result of the call.
  */
-- (void)call:(MSSenderCall *)call completedWithResult:(MSSenderCallResult)result;
+- (void)call:(MSIngestionCall *)call completedWithResult:(MSIngestionCallResult)result;
 
 @end

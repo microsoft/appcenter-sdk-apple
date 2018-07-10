@@ -1,15 +1,15 @@
 #import <Foundation/Foundation.h>
 
-#import "MSSender.h"
+#import "MSIngestionProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MSSenderCall : NSObject
+@interface MSIngestionCall : NSObject
 
 /**
  *  Call delegate.
  */
-@property(nonatomic, weak) id<MSSenderCallDelegate> delegate;
+@property(nonatomic, weak) id<MSIngestionCallDelegate> delegate;
 
 /**
  *  Whether the request to send data has been submitted or not.
@@ -75,15 +75,15 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Call completed with error/success.
  *
- *  @param sender     sender object.
+ *  @param ingestion     ingestion object.
  *  @param statusCode status code.
  *  @param data       response data.
  *  @param error      call error.
  */
-- (void)sender:(id<MSSender>)sender
-    callCompletedWithStatus:(NSUInteger)statusCode
-                       data:(nullable NSData *)data
-                      error:(NSError *)error;
+- (void)      ingestion:(id <MSIngestionProtocol>)ingestion
+callCompletedWithStatus:(NSUInteger)statusCode
+                   data:(nullable NSData *)data
+                  error:(NSError *)error;
 
 @end
 

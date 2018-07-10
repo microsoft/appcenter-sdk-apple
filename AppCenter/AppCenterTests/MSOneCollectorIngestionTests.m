@@ -2,12 +2,12 @@
 #import "MSAppCenterErrors.h"
 #import "MSDevice.h"
 #import "MSDeviceInternal.h"
-#import "MSHttpSenderPrivate.h"
+#import "MSHttpIngestionPrivate.h"
 #import "MSHttpTestUtil.h"
+#import "MSIngestionCall.h"
+#import "MSIngestionDelegate.h"
 #import "MSMockLog.h"
 #import "MSOneCollectorIngestion.h"
-#import "MSSenderCall.h"
-#import "MSSenderDelegate.h"
 #import "MSTestFrameworks.h"
 
 static NSTimeInterval const kMSTestTimeout = 5.0;

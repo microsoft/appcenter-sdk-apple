@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 
-#import "MSHttpSender.h"
+#import "MSHttpIngestion.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -9,7 +9,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 static NSString *const kMSHeaderUpdateApiToken = @"x-api-token";
 
-@interface MSDistributeSender : MSHttpSender
+@interface MSDistributeIngestion : MSHttpIngestion
 
 /**
  * AppSecret for the application.
@@ -17,7 +17,7 @@ static NSString *const kMSHeaderUpdateApiToken = @"x-api-token";
 @property(nonatomic) NSString *appSecret;
 
 /**
- * Initialize the Sender.
+ * Initialize the Ingestion.
  *
  * @param baseUrl Base url.
  * @param appSecret A unique and secret key used to identify the application.
@@ -26,7 +26,7 @@ static NSString *const kMSHeaderUpdateApiToken = @"x-api-token";
  * @param distributionGroupId The distribution group Id stored in storage.
  * @param queryStrings An array of query strings.
  *
- * @return A sender instance.
+ * @return An ingestion instance.
  */
 - (id)initWithBaseUrl:(nullable NSString *)baseUrl
               appSecret:(NSString *)appSecret

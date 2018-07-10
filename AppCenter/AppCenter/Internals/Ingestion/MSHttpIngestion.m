@@ -1,15 +1,15 @@
 #import "MSAppCenterInternal.h"
-#import "MSHttpSender.h"
-#import "MSHttpSenderPrivate.h"
-#import "MSSenderCall.h"
-#import "MSSenderDelegate.h"
+#import "MSHttpIngestion.h"
+#import "MSHttpIngestionPrivate.h"
+#import "MSIngestionCall.h"
+#import "MSIngestionDelegate.h"
 
 static NSTimeInterval kRequestTimeout = 60.0;
 
 // URL components' name within a partial URL.
 static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"password", @"host", @"port", @"path"};
 
-@implementation MSHttpSender
+@implementation MSHttpIngestion
 
 @synthesize baseURL = _baseURL;
 @synthesize apiPath = _apiPath;
@@ -85,7 +85,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   return self;
 }
 
-#pragma mark - MSSender
+#pragma mark - MSIngestion
 
 - (void)sendAsync:(NSObject *)data
             appSecret:(NSString *)appSecret
@@ -93,13 +93,13 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   [self sendAsync:data appSecret:(NSString *)appSecret callId:MS_UUID_STRING completionHandler:handler];
 }
 
-- (void)addDelegate:(id<MSSenderDelegate>)delegate {
+- (void)addDelegate:(id<MSIngestionDelegate>)delegate {
   @synchronized(self) {
     [self.delegates addObject:delegate];
   }
 }
 
-- (void)removeDelegate:(id<MSSenderDelegate>)delegate {
+- (void)removeDelegate:(id<MSIngestionDelegate>)delegate {
   @synchronized(self) {
     [self.delegates removeObject:delegate];
   }
@@ -138,7 +138,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 - (void)suspend {
   @synchronized(self) {
     if (!self.suspended) {
-      MSLogInfo([MSAppCenter logTag], @"Suspend sender.");
+      MSLogInfo([MSAppCenter logTag], @"Suspend ingestion.");
       self.suspended = YES;
 
       // Suspend all tasks.
@@ -155,7 +155,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 
       // Suspend current calls' retry.
       [self.pendingCalls.allValues
-          enumerateObjectsUsingBlock:^(MSSenderCall *_Nonnull call, __attribute__((unused)) NSUInteger idx,
+          enumerateObjectsUsingBlock:^(MSIngestionCall *_Nonnull call, __attribute__((unused)) NSUInteger idx,
                                        __attribute__((unused)) BOOL *_Nonnull stop) {
             if (!call.submitted) {
               [call resetRetry];
@@ -163,9 +163,9 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
           }];
 
       // Notify delegates.
-      [self enumerateDelegatesForSelector:@selector(senderDidSuspend:)
-                                withBlock:^(id<MSSenderDelegate> delegate) {
-                                  [delegate senderDidSuspend:self];
+      [self enumerateDelegatesForSelector:@selector(ingestionDidSuspend:)
+                                withBlock:^(id<MSIngestionDelegate> delegate) {
+                                    [delegate ingestionDidSuspend:self];
                                 }];
     }
   }
@@ -176,7 +176,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 
     // Resume only while enabled.
     if (self.suspended && self.enabled) {
-      MSLogInfo([MSAppCenter logTag], @"Resume sender.");
+      MSLogInfo([MSAppCenter logTag], @"Resume ingestion.");
       self.suspended = NO;
 
       // Resume existing calls.
@@ -193,7 +193,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 
       // Resume calls.
       [self.pendingCalls.allValues
-          enumerateObjectsUsingBlock:^(MSSenderCall *_Nonnull call, __attribute__((unused)) NSUInteger idx,
+          enumerateObjectsUsingBlock:^(MSIngestionCall *_Nonnull call, __attribute__((unused)) NSUInteger idx,
                                        __attribute__((unused)) BOOL *_Nonnull stop) {
             if (!call.submitted) {
               [self sendCallAsync:call];
@@ -201,17 +201,17 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
           }];
 
       // Propagate.
-      [self enumerateDelegatesForSelector:@selector(senderDidResume:)
-                                withBlock:^(id<MSSenderDelegate> delegate) {
-                                  [delegate senderDidResume:self];
+      [self enumerateDelegatesForSelector:@selector(ingestionDidResume:)
+                                withBlock:^(id<MSIngestionDelegate> delegate) {
+                                    [delegate ingestionDidResume:self];
                                 }];
     }
   }
 }
 
-#pragma mark - MSSenderCallDelegate
+#pragma mark - MSIngestionCallDelegate
 
-- (void)sendCallAsync:(MSSenderCall *)call {
+- (void)sendCallAsync:(MSIngestionCall *)call {
   @synchronized(self) {
     if (self.suspended || !self.enabled) {
       return;
@@ -232,7 +232,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
           completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
             @synchronized(self) {
               NSString *payload = nil;
-              NSInteger statusCode = [MSSenderUtil getStatusCode:response];
+              NSInteger statusCode = [MSIngestionUtil getStatusCode:response];
 
               // Trying to format json for log. Don't need to log json error here.
               if (data) {
@@ -265,7 +265,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
               // Call handles the completion.
               if (call) {
                 call.submitted = NO;
-                [call sender:self callCompletedWithStatus:statusCode data:data error:error];
+                [call ingestion:self callCompletedWithStatus:statusCode data:data error:error];
               }
             }
           }];
@@ -276,32 +276,32 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   }
 }
 
-- (void)call:(MSSenderCall *)call completedWithResult:(MSSenderCallResult)result {
+- (void)call:(MSIngestionCall *)call completedWithResult:(MSIngestionCallResult)result {
   @synchronized(self) {
     switch (result) {
-    case MSSenderCallResultFatalError: {
+    case MSIngestionCallResultFatalError: {
 
       // Disable and delete data.
       [self setEnabled:NO andDeleteDataOnDisabled:YES];
 
       // Notify delegates.
-      [self enumerateDelegatesForSelector:@selector(senderDidReceiveFatalError:)
-                                withBlock:^(id<MSSenderDelegate> delegate) {
-                                  [delegate senderDidReceiveFatalError:self];
+      [self enumerateDelegatesForSelector:@selector(ingestionDidReceiveFatalError:)
+                                withBlock:^(id<MSIngestionDelegate> delegate) {
+                                    [delegate ingestionDidReceiveFatalError:self];
                                 }];
       break;
     }
-    case MSSenderCallResultRecoverableError:
+    case MSIngestionCallResultRecoverableError:
 
       // Disable and do not delete data. Do not notify the delegates as this will cause data to be deleted.
       [self setEnabled:NO andDeleteDataOnDisabled:NO];
       break;
-    case MSSenderCallResultSuccess:
+    case MSIngestionCallResultSuccess:
       break;
     }
 
     // Remove call from pending call. This needs to happen after calling setEnabled:andDeleteDataOnDisabled:
-    // FIXME: Refactor dependency between calling setEnabled:andDeleteDataOnDisabled: and suspending the sender.
+    // FIXME: Refactor dependency between calling setEnabled:andDeleteDataOnDisabled: and suspending the ingestion.
     NSString *callId = call.callId;
     if (callId.length == 0) {
       MSLogWarning([MSAppCenter logTag], @"Call object is invalid");
@@ -395,8 +395,8 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   return _session;
 }
 
-- (void)enumerateDelegatesForSelector:(SEL)selector withBlock:(void (^)(id<MSSenderDelegate> delegate))block {
-  for (id<MSSenderDelegate> delegate in self.delegates) {
+- (void)enumerateDelegatesForSelector:(SEL)selector withBlock:(void (^)(id<MSIngestionDelegate> delegate))block {
+  for (id<MSIngestionDelegate> delegate in self.delegates) {
     if (delegate && [delegate respondsToSelector:selector]) {
       block(delegate);
     }
@@ -420,9 +420,9 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   @synchronized(self) {
 
     // Check if call has already been created(retry scenario).
-    MSSenderCall *call = self.pendingCalls[callId];
+    MSIngestionCall *call = self.pendingCalls[callId];
     if (call == nil) {
-      call = [[MSSenderCall alloc] initWithRetryIntervals:self.callsRetryIntervals];
+      call = [[MSIngestionCall alloc] initWithRetryIntervals:self.callsRetryIntervals];
       call.delegate = self;
       call.data = data;
       call.appSecret = appSecret;

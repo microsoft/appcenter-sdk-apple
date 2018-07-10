@@ -1,6 +1,6 @@
-#import "MSSenderUtil.h"
+#import "MSIngestionUtil.h"
 
-@implementation MSSenderUtil
+@implementation MSIngestionUtil
 
 + (BOOL)isRecoverableError:(NSInteger)statusCode {
 

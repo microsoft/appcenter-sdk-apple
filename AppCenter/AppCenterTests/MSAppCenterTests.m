@@ -8,7 +8,7 @@
 #import "MSAppCenterPrivate.h"
 #import "MSChannelUnitDefault.h"
 #import "MSChannelGroupDefault.h"
-#import "MSHttpSenderPrivate.h"
+#import "MSHttpIngestionPrivate.h"
 #import "MSMockService.h"
 #import "MSMockSecondService.h"
 #import "MSMockUserDefaults.h"
@@ -491,7 +491,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // Then
   MSChannelGroupDefault *channelGroup = (MSChannelGroupDefault *)[MSAppCenter sharedInstance].channelGroup;
-  XCTAssertFalse(channelGroup.sender.enabled);
+  XCTAssertFalse(channelGroup.ingestion.enabled);
   XCTAssertFalse([MSMockService isEnabled]);
 }
 
@@ -505,7 +505,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // Then
   MSChannelGroupDefault *channelGroup = (MSChannelGroupDefault *)[MSAppCenter sharedInstance].channelGroup;
-  XCTAssertFalse(channelGroup.sender.enabled);
+  XCTAssertFalse(channelGroup.ingestion.enabled);
   XCTAssertFalse([MSMockService isEnabled]);
 }
 

@@ -5,10 +5,10 @@
 #import "MSChannelDelegate.h"
 #import "MSChannelGroupDefault.h"
 #import "MSChannelUnitDefault.h"
-#import "MSHttpSender.h"
+#import "MSHttpIngestion.h"
+#import "MSIngestionProtocol.h"
 #import "MSLogDBStorage.h"
 #import "MSStorage.h"
-#import "MSSender.h"
 
 static short const kMSStorageMaxCapacity = 300;
 static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQueue";
@@ -22,34 +22,34 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 #pragma mark - Initialization
 
 - (instancetype)initWithInstallId:(NSUUID *)installId logUrl:(NSString *)logUrl {
-  self = [self initWithSender:[[MSAppCenterIngestion alloc] initWithBaseUrl:logUrl installId:[installId UUIDString]]];
+  self = [self initWithIngestion:[[MSAppCenterIngestion alloc] initWithBaseUrl:logUrl installId:[installId UUIDString]]];
   return self;
 }
 
-- (instancetype)initWithSender:(nullable MSHttpSender *)sender {
+- (instancetype)initWithIngestion:(nullable MSHttpIngestion *)ingestion {
   if ((self = [self init])) {
     dispatch_queue_t serialQueue = dispatch_queue_create(kMSlogsDispatchQueue, DISPATCH_QUEUE_SERIAL);
     _logsDispatchQueue = serialQueue;
     _channels = [NSMutableArray<id<MSChannelUnitProtocol>> new];
     _delegates = [NSHashTable weakObjectsHashTable];
-    _sender = sender;
+    _ingestion = ingestion;
     _storage = [[MSLogDBStorage alloc] initWithCapacity:kMSStorageMaxCapacity];
   }
   return self;
 }
 
 - (id<MSChannelUnitProtocol>)addChannelUnitWithConfiguration:(MSChannelUnitConfiguration *)configuration {
-  return [self addChannelUnitWithConfiguration:configuration withSender:self.sender];
+  return [self addChannelUnitWithConfiguration:configuration withIngestion:self.ingestion];
 }
 
 - (id<MSChannelUnitProtocol>)addChannelUnitWithConfiguration:(MSChannelUnitConfiguration *)configuration
-                                                  withSender:(nullable id<MSSender>)sender {
+                                               withIngestion:(nullable id<MSIngestionProtocol>)ingestion {
   MSChannelUnitDefault *channel;
   if (configuration) {
-    channel = [[MSChannelUnitDefault alloc] initWithSender:(sender ? sender : self.sender)
-                                                   storage:self.storage
-                                             configuration:configuration
-                                         logsDispatchQueue:self.logsDispatchQueue];
+    channel = [[MSChannelUnitDefault alloc] initWithIngestion:(ingestion ? ingestion : self.ingestion)
+                                                      storage:self.storage
+                                                configuration:configuration
+                                            logsDispatchQueue:self.logsDispatchQueue];
     [channel addDelegate:self];
     dispatch_async(self.logsDispatchQueue, ^{
       [channel flushQueue];
@@ -153,8 +153,8 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 
 - (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData {
 
-  // Propagate to sender.
-  [self.sender setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
+  // Propagate to ingestion.
+  [self.ingestion setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
 
   // Propagate to initialized channels.
   for (id<MSChannelProtocol> channel in self.channels) {
@@ -180,8 +180,8 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 
 - (void)suspend {
 
-  // Disable sender, sending log will not be possible but they'll still be stored.
-  [self.sender setEnabled:NO andDeleteDataOnDisabled:NO];
+  // Disable ingestion, sending log will not be possible but they'll still be stored.
+  [self.ingestion setEnabled:NO andDeleteDataOnDisabled:NO];
 
   // Suspend each channel asynchronously.
   for (id<MSChannelProtocol> channel in self.channels) {
@@ -193,8 +193,8 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 
 - (void)resume {
 
-  // Resume sender, logs can be sent again. Pending logs are sent.
-  [self.sender setEnabled:YES andDeleteDataOnDisabled:NO];
+  // Resume ingestion, logs can be sent again. Pending logs are sent.
+  [self.ingestion setEnabled:YES andDeleteDataOnDisabled:NO];
 
   // Resume each channel asynchronously.
   for (id<MSChannelProtocol> channel in self.channels) {
@@ -207,7 +207,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 #pragma mark - Other public methods
 
 - (void)setLogUrl:(NSString *)logUrl {
-  self.sender.baseURL = logUrl;
+  self.ingestion.baseURL = logUrl;
 }
 
 @end

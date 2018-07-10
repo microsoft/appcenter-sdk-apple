@@ -9,7 +9,7 @@
 #import "MSConstants+Internal.h"
 #import "MSDeviceTracker.h"
 #import "MSDeviceTrackerPrivate.h"
-#import "MSHttpSender.h"
+#import "MSHttpIngestion.h"
 #import "MSLoggerInternal.h"
 #import "MSOneCollectorChannelDelegate.h"
 #import "MSSessionContext.h"

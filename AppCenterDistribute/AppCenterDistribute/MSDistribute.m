@@ -341,7 +341,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         [MS_USER_DEFAULTS removeObjectForKey:kMSMandatoryReleaseKey];
       }
     }
-    if (self.sender == nil) {
+    if (self.ingestion == nil) {
       NSMutableDictionary *queryStrings = [[NSMutableDictionary alloc] init];
       NSMutableDictionary *reportingParametersForUpdatedRelease =
           [self getReportingParametersForUpdatedRelease:updateToken
@@ -351,13 +351,13 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         [queryStrings addEntriesFromDictionary:reportingParametersForUpdatedRelease];
       }
       queryStrings[kMSURLQueryReleaseHashKey] = releaseHash;
-      self.sender = [[MSDistributeSender alloc] initWithBaseUrl:self.apiUrl
+      self.ingestion = [[MSDistributeIngestion alloc] initWithBaseUrl:self.apiUrl
                                                       appSecret:self.appSecret
                                                     updateToken:updateToken
                                             distributionGroupId:distributionGroupId
                                                    queryStrings:queryStrings];
       __weak typeof(self) weakSelf = self;
-      [self.sender
+      [self.ingestion
                   sendAsync:nil
                   appSecret:self.appSecret
           completionHandler:^(__unused NSString *callId, NSUInteger statusCode, NSData *data, __unused NSError *error) {
@@ -366,8 +366,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
               return;
             }
 
-            // Release sender instance.
-            strongSelf.sender = nil;
+            // Release ingestion instance.
+            strongSelf.ingestion = nil;
 
             // Ignore the response if the service is disabled.
             if (![strongSelf isEnabled]) {
@@ -440,7 +440,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
               }
 
               // Check the status code to clean up Distribute data for an unrecoverable error.
-              if (![MSSenderUtil isRecoverableError:statusCode]) {
+              if (![MSIngestionUtil isRecoverableError:statusCode]) {
 
                 // Deserialize payload to check if it contains error details.
                 MSErrorDetails *details = nil;

@@ -5,7 +5,7 @@
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
 #import "MSDeviceTracker.h"
-#import "MSSender.h"
+#import "MSIngestionProtocol.h"
 #import "MSStorage.h"
 
 @implementation MSChannelUnitDefault
@@ -29,21 +29,21 @@
   return self;
 }
 
-- (instancetype)initWithSender:(nullable id<MSSender>)sender
-                       storage:(id<MSStorage>)storage
-                 configuration:(MSChannelUnitConfiguration *)configuration
-             logsDispatchQueue:(dispatch_queue_t)logsDispatchQueue {
+- (instancetype)initWithIngestion:(nullable id <MSIngestionProtocol>)ingestion
+                          storage:(id <MSStorage>)storage
+                    configuration:(MSChannelUnitConfiguration *)configuration
+                logsDispatchQueue:(dispatch_queue_t)logsDispatchQueue {
   if ((self = [self init])) {
-    _sender = sender;
+    _ingestion = ingestion;
     _storage = storage;
     _configuration = configuration;
     _logsDispatchQueue = logsDispatchQueue;
 
-    // Register as sender delegate.
-    [_sender addDelegate:self];
+    // Register as ingestion delegate.
+    [_ingestion addDelegate:self];
 
-    // Match sender's current status, if one is passed.
-    if (_sender && _sender.suspended) {
+    // Match ingestion's current status, if one is passed.
+    if (_ingestion && _ingestion.suspended) {
       [self suspend];
     }
   }
@@ -72,20 +72,17 @@
   });
 }
 
-#pragma mark - MSSenderDelegate
+#pragma mark - MSIngestionDelegate
 
-- (void)senderDidSuspend:(id<MSSender>)sender {
-  (void)sender;
+- (void)ingestionDidSuspend:(__unused id<MSIngestionProtocol>)ingestion {
   [self suspend];
 }
 
-- (void)senderDidResume:(id<MSSender>)sender {
-  (void)sender;
+- (void)ingestionDidResume:(__unused id<MSIngestionProtocol>)ingestion {
   [self resume];
 }
 
-- (void)senderDidReceiveFatalError:(id<MSSender>)sender {
-  (void)sender;
+- (void)ingestionDidReceiveFatalError:(__unused id<MSIngestionProtocol>)ingestion {
 
   // Disable and delete data on fatal errors.
   [self setEnabled:NO andDeleteDataOnDisabled:YES];
@@ -135,7 +132,7 @@
                                 shouldFilter = shouldFilter || [delegate channelUnit:self shouldFilterLog:item];
                               }];
 
-    // If sender is nil, there is nothing to do at this point.
+    // If ingestion is nil, there is nothing to do at this point.
     if (shouldFilter) {
       MSLogDebug([MSAppCenter logTag], @"Log of type '%@' was filtered out by delegate(s)", item.type);
       [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:withInternalId:)
@@ -191,8 +188,8 @@
 
 - (void)flushQueue {
 
-  // Nothing to flush if there is no sender.
-  if (!self.sender) {
+  // Nothing to flush if there is no ingestion.
+  if (!self.ingestion) {
     return;
   }
 
@@ -251,17 +248,17 @@
                                            }
                                          }];
 
-               // Forward logs to the sender.
-               [self.sender sendAsync:container
+               // Forward logs to the ingestion.
+               [self.ingestion sendAsync:container
                             appSecret:self.appSecret
-                    completionHandler:^(NSString *senderBatchId, NSUInteger statusCode,
+                    completionHandler:^(NSString *ingestionBatchId, NSUInteger statusCode,
                                         __attribute__((unused)) NSData *data, NSError *error) {
                       dispatch_async(self.logsDispatchQueue, ^{
-                        if ([self.pendingBatchIds containsObject:senderBatchId]) {
+                        if ([self.pendingBatchIds containsObject:ingestionBatchId]) {
 
                           // Success.
                           if (statusCode == MSHTTPCodesNo200OK) {
-                            MSLogDebug([MSAppCenter logTag], @"Log(s) sent with success, batch Id:%@.", senderBatchId);
+                            MSLogDebug([MSAppCenter logTag], @"Log(s) sent with success, batch Id:%@.", ingestionBatchId);
 
                             // Notify delegates.
                             [self enumerateDelegatesForSelector:@selector(channel:didSucceedSendingLog:)
@@ -272,8 +269,8 @@
                                                       }];
 
                             // Remove from pending logs and storage.
-                            [self.pendingBatchIds removeObject:senderBatchId];
-                            [self.storage deleteLogsWithBatchId:senderBatchId groupId:self.configuration.groupId];
+                            [self.pendingBatchIds removeObject:ingestionBatchId];
+                            [self.storage deleteLogsWithBatchId:ingestionBatchId groupId:self.configuration.groupId];
 
                             // Try to flush again if batch queue is not full anymore.
                             if (self.pendingBatchQueueFull &&
@@ -288,7 +285,7 @@
                           // Failure.
                           else {
                             MSLogError([MSAppCenter logTag], @"Log(s) sent with failure, batch Id:%@, status code:%tu",
-                                       senderBatchId, statusCode);
+                                       ingestionBatchId, statusCode);
 
                             // Notify delegates.
                             [self
@@ -300,8 +297,8 @@
                                                     }];
 
                             // Remove from pending logs.
-                            [self.pendingBatchIds removeObject:senderBatchId];
-                            [self.storage deleteLogsWithBatchId:senderBatchId groupId:self.configuration.groupId];
+                            [self.pendingBatchIds removeObject:ingestionBatchId];
+                            [self.storage deleteLogsWithBatchId:ingestionBatchId groupId:self.configuration.groupId];
 
                             // Update pending batch queue state.
                             if (self.pendingBatchQueueFull &&
@@ -310,7 +307,7 @@
                             }
                           }
                         } else
-                          MSLogWarning([MSAppCenter logTag], @"Batch Id %@ not expected, ignore.", senderBatchId);
+                          MSLogWarning([MSAppCenter logTag], @"Batch Id %@ not expected, ignore.", ingestionBatchId);
                       });
                     }];
              }
@@ -372,7 +369,7 @@
     if (self.enabled != isEnabled) {
       self.enabled = isEnabled;
       if (isEnabled) {
-        if (!self.sender.suspended) {
+        if (!self.ingestion.suspended) {
           [self resume];
         }
       } else {

@@ -1,10 +1,10 @@
 #import <Foundation/Foundation.h>
 
-#import "MSHttpSender.h"
+#import "MSHttpIngestion.h"
 
-@protocol MSSenderDelegate;
+@protocol MSIngestionDelegate;
 
-@interface MSHttpSender ()
+@interface MSHttpIngestion ()
 
 @property(nonatomic) NSURLSession *session;
 
@@ -23,16 +23,16 @@
 /**
  * Hash table containing all the delegates as weak references.
  */
-@property NSHashTable<id<MSSenderDelegate>> *delegates;
+@property NSHashTable<id<MSIngestionDelegate>> *delegates;
 
 /**
- * A boolean value set to YES if the sender is enabled or NO otherwise.
- * Enable/disable does resume/suspend the sender as needed under the hood.
+ * A boolean value set to YES if the ingestion is enabled or NO otherwise.
+ * Enable/disable does resume/suspend the ingestion as needed under the hood.
  */
 @property(nonatomic) BOOL enabled;
 
 /**
- * Initialize the Sender.
+ * Initialize the Ingestion.
  *
  * @param baseUrl Base url.
  * @param apiPath Base API path.
@@ -49,7 +49,7 @@
        retryIntervals:(NSArray *)retryIntervals;
 
 /**
- * Initialize the Sender.
+ * Initialize the Ingestion.
  *
  * @param baseUrl Base url.
  * @param apiPath Base API path.
