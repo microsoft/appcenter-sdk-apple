@@ -23,10 +23,11 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 @end
 
 /*
-* TODO: Separate base MSHttpIngestion tests from this test and instantiate MSAppCenterIngestion with initWithBaseUrl:,
-* not the one with multiple parameters. Look at comments in each method. Add testHeaders to verify headers are populated
-* properly. Look at testHeaders in MSOneCollectorIngestionTests.
-*/
+ * TODO: Separate base MSHttpIngestion tests from this test and instantiate MSAppCenterIngestion with initWithBaseUrl:,
+ * not the one with multiple parameters. Look at comments in each method. Add testHeaders to verify headers are
+ * populated
+ * properly. Look at testHeaders in MSOneCollectorIngestionTests.
+ */
 @implementation MSAppCenterIngestionTests
 
 - (void)setUp {
