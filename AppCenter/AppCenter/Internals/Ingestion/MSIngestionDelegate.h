@@ -9,20 +9,20 @@
  *
  * @param ingestion Ingestion.
  */
-- (void)ingestionDidSuspend:(id<MSIngestionProtocol>)ingestion;
+- (void)ingestionDidSuspend:(__unused id<MSIngestionProtocol>)ingestion;
 
 /**
  * Triggered after the ingestion has resumed its state.
  *
  * @param ingestion Ingestion.
  */
-- (void)ingestionDidResume:(id<MSIngestionProtocol>)ingestion;
+- (void)ingestionDidResume:(__unused id<MSIngestionProtocol>)ingestion;
 
 /**
  * Triggered when ingestion receives a fatal error.
  *
  * @param ingestion Ingestion.
  */
-- (void)ingestionDidReceiveFatalError:(id<MSIngestionProtocol>)ingestion;
+- (void)ingestionDidReceiveFatalError:(__unused id<MSIngestionProtocol>)ingestion;
 
 @end
