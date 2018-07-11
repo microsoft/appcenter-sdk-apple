@@ -428,7 +428,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   [MSAppCenter sharedInstance].sdkConfigured = YES;
   [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
                                             appSecret:@"appsecret"
-                              transmissionTargetToken:@"tocken"
+                              transmissionTargetToken:@"token"
                                       fromApplication:YES];
 
   // Prepare target instances.
