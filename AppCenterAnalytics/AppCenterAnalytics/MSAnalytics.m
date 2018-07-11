@@ -171,16 +171,6 @@ __attribute__((used)) static void importCategories() {
  * Track an event.
  *
  * @param eventName  event name.
- * @param transmissionTarget  the transmission target to associate to this event.
- */
-+ (void)trackEvent:(NSString *)eventName forTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget {
-  [self trackEvent:eventName withProperties:nil forTransmissionTarget:transmissionTarget];
-}
-
-/**
- * Track an event.
- *
- * @param eventName  event name.
  * @param properties dictionary of properties.
  * @param transmissionTarget  the transmission target to associate to this event.
  */
