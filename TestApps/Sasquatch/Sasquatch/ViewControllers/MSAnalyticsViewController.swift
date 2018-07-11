@@ -13,7 +13,6 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   var appCenter: AppCenterDelegate!
   var properties: [String: [(String, String)]]!
   var transmissionTargetSelectorCell: MSAnalyticsTranmissionTargetSelectorViewCell?
-  weak var addPropertyCell: MSAnalyticsPropertyTableViewCell?
   let propertyIndentationLevel = 1
   let defaultIndentationLevel = 0
   var propertyCounter = 0
@@ -21,7 +20,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   override func viewDidLoad() {
     properties = [String: [(String, String)]].init()
     transmissionTargetSelectorCell = loadCellFromNib()
-    for targetName in (transmissionTargetSelectorCell?.transmissionTargets())! {
+    for targetName in (transmissionTargetSelectorCell?.transmissionTargetMapping)! {
       properties[targetName] = [(String, String)].init()
     }
     transmissionTargetSelectorCell?.didSelectTransmissionTarget = didSelectTransmissionTarget
@@ -76,12 +75,17 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
     if editingStyle == .delete {
       let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
+      let key = properties[selectedTarget!]![indexPath.row - 2].0
+      let target = MSAnalytics.transmissionTarget(forToken: selectedTarget!)
+      target.removeEventPropertyforKey(key)
       properties[selectedTarget!]!.remove(at: indexPath.row - 2)
       tableView.deleteRows(at: [indexPath], with: .automatic)
     } else if editingStyle == .insert {
       let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
       let property = getNewDefaultProperty()
       properties[selectedTarget!]!.insert(property, at: 0)
+      let target = MSAnalytics.transmissionTarget(forToken: selectedTarget!)
+      target.setEventPropertyString(property.0, forKey: property.1)
       tableView.insertRows(at: [IndexPath(row: indexPath.row + 1, section: indexPath.section)], with: .automatic)
     }
   }
@@ -173,12 +177,24 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   func propertyKeyChanged(sender: UITextField!) {
     let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
     let arrayIndex = sender!.tag
+    if (selectedTarget != transmissionTargetSelectorCell!.eventPropertiesIdentifier) {
+      let currentPropertyKey = properties[selectedTarget!]![arrayIndex].0
+      let currentPropertyValue = properties[selectedTarget!]![arrayIndex].1
+      let target = MSAnalytics.transmissionTarget(forToken: selectedTarget!)
+      target.removeEventPropertyforKey(currentPropertyKey)
+      target.setEventPropertyString(currentPropertyValue, forKey: sender.text!)
+    }
     properties[selectedTarget!]![arrayIndex].0 = sender.text!
   }
 
   func propertyValueChanged(sender: UITextField!) {
     let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
     let arrayIndex = sender!.tag
+    if (selectedTarget != transmissionTargetSelectorCell!.eventPropertiesIdentifier) {
+      let currentPropertyKey = properties[selectedTarget!]![arrayIndex].0
+      let target = MSAnalytics.transmissionTarget(forToken: selectedTarget!)
+      target.setEventPropertyString(sender.text!, forKey: currentPropertyKey)
+    }
     properties[selectedTarget!]![arrayIndex].1 = sender.text!
   }
 

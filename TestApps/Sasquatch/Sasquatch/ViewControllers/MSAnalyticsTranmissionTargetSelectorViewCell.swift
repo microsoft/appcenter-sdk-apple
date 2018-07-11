@@ -5,24 +5,20 @@ import UIKit
 @IBOutlet weak var transmissionTargetSelector: UISegmentedControl!
 
   public var didSelectTransmissionTarget: (() -> Void)?
-  public let eventPropertiesIdentifier = "Event Arguments"
+  public let eventPropertiesIdentifier: String = "Event Arguments"
+  public var transmissionTargetMapping: [String]?
 
   override func awakeFromNib() {
     super.awakeFromNib()
+    let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
+    let runtimeToken: String = appName == "SasquatchSwift" ? kMSSwiftRuntimeTargetToken : kMSObjCRuntimeTargetToken
+    transmissionTargetMapping = [eventPropertiesIdentifier, kMSTargetToken1, kMSTargetToken2, runtimeToken]
     didSelectTransmissionTarget = {_ in}
     transmissionTargetSelector.addTarget(self, action: #selector(onSegmentSelected), for: .valueChanged)
   }
 
   public func selectedTransmissionTarget() -> String! {
-    return transmissionTargetSelector.titleForSegment(at: transmissionTargetSelector.selectedSegmentIndex)
-  }
-
-  public func transmissionTargets() -> [String]! {
-    var targets = [String].init()
-    for index in 0...transmissionTargetSelector.numberOfSegments - 1 {
-      targets.append(transmissionTargetSelector.titleForSegment(at: index)!)
-    }
-    return targets
+    return transmissionTargetMapping![transmissionTargetSelector.selectedSegmentIndex]
   }
 
   func onSegmentSelected() {
