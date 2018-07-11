@@ -326,6 +326,24 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // Then
   XCTAssertEqualObjects(target.eventProperties, @{});
+  
+  // When
+  [target removeEventPropertyforKey:nil];
+  
+  // Then
+  XCTAssertEqualObjects(target.eventProperties, @{});
+  
+  // When
+  [target setEventPropertyString:nil forKey:prop1Key];
+  
+  // Then
+  XCTAssertEqualObjects(target.eventProperties, @{});
+  
+  // When
+  [target setEventPropertyString:prop1Value forKey:nil];
+  
+  // Then
+  XCTAssertEqualObjects(target.eventProperties, @{});
 
   // When
   [target setEventPropertyString:prop1Value forKey:prop1Key];
