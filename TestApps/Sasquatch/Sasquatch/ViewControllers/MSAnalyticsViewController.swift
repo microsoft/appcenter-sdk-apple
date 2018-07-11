@@ -1,6 +1,6 @@
 import UIKit
 
-private var kPropertiesSection: Int = 3
+private var kPropertiesSection: Int = 2
 
 class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   
@@ -9,13 +9,26 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   @IBOutlet weak var eventName: UITextField!
   @IBOutlet weak var pageName: UITextField!
   @IBOutlet weak var selectedChildTargetTokenLabel: UILabel!
+
   var appCenter: AppCenterDelegate!
-  var propertiesCount: Int = 0
+  var properties: [String: [(String, String)]]!
+  var eventPropertiesIdentifier = "Event Arguments"
+  weak var transmissionTargetSelectorCell: MSAnalyticsTranmissionTargetSelectorViewCell?
+  weak var addPropertyCell: MSAnalyticsPropertyTableViewCell?
+  let propertyIndentationLevel = 1
+  let defaultIndentationLevel = 0
+  var propertyCounter = 0
 
   override func viewDidLoad() {
-    super.viewDidLoad()
+    properties = [String: [(String, String)]].init()
+    transmissionTargetSelectorCell = loadCellFromNib()
+    for targetName in (transmissionTargetSelectorCell?.transmissionTargets())! {
+      properties[targetName] = [(String, String)].init()
+    }
+    transmissionTargetSelectorCell?.onTransmissionTargetSelected = transmissionTargetSelected
     tableView.setEditing(true, animated: false)
     self.enabled.isOn = appCenter.isAnalyticsEnabled()
+    super.viewDidLoad()
   }
 
   override func viewWillAppear(_ animated: Bool) {
@@ -34,18 +47,17 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     guard let name = eventName.text else {
       return
     }
-    
-    appCenter.trackEvent(name, withProperties: properties())
-    
+    let eventProperties = pairsToDictionary(pairs: properties[eventPropertiesIdentifier]!)
+    appCenter.trackEvent(name, withProperties: eventProperties)
     if self.oneCollectorEnabled.isOn {
       let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
-      let token = appName == "SasquatchSwift" ? "238db5abfbaa4c299b78dd539f78b829-cd10afb7-0ec2-496f-ac8a-c21974fbb82c-7564" : "1aa046cfdc8f49bdbd64190290caf7dd-ba041023-af4d-4432-a87e-eb2431150797-7361"
+      let token = appName == "SasquatchSwift" ? kMSSwiftRuntimeTargetToken : kMSObjCRuntimeTargetToken
       var target = MSAnalytics.transmissionTarget(forToken: token)
       let childTargetToken = UserDefaults.standard.string(forKey: kMSChildTransmissionTargetTokenKey)
       if childTargetToken != nil {
         target = target.transmissionTarget(forToken: childTargetToken!)
       }
-      target.trackEvent(name, withProperties: properties())
+      target.trackEvent(name, withProperties: eventProperties)
     }
   }
   
@@ -53,43 +65,36 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     guard let name = eventName.text else {
       return
     }
-    appCenter.trackPage(name, withProperties: properties())
+    let eventProperties = pairsToDictionary(pairs: properties[eventPropertiesIdentifier]!)
+    appCenter.trackPage(name, withProperties: eventProperties)
   }
-  
+
   @IBAction func enabledSwitchUpdated(_ sender: UISwitch) {
     appCenter.setAnalyticsEnabled(sender.isOn)
     sender.isOn = appCenter.isAnalyticsEnabled()
   }
   
-  func properties() -> [String: String] {
-    var properties = [String: String]()
-    for i in 0..<propertiesCount {
-      guard let cell = tableView.cellForRow(at: IndexPath(row: i, section: kPropertiesSection)) as? MSAnalyticsPropertyTableViewCell else {
-        continue
-      }
-      guard let key = cell.keyField.text,
-            let value = cell.valueField.text else {
-        continue
-      }
-      properties[key] = value
-    }
-    return properties
-  }
-  
   override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
     if editingStyle == .delete {
-      propertiesCount -= 1
+      let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
+      properties[selectedTarget!]!.remove(at: indexPath.row - 2)
       tableView.deleteRows(at: [indexPath], with: .automatic)
     } else if editingStyle == .insert {
-      propertiesCount += 1
-      tableView.insertRows(at: [indexPath], with: .automatic)
+      let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
+      let property = getNewDefaultProperty()
+      properties[selectedTarget!]!.insert(property, at: 0)
+      tableView.insertRows(at: [IndexPath(row: indexPath.row + 1, section: indexPath.section)], with: .automatic)
     }
   }
   
   func isInsertRow(at indexPath: IndexPath) -> Bool {
-    return indexPath.section == kPropertiesSection && indexPath.row == tableView(tableView, numberOfRowsInSection: indexPath.section) - 1
+    return indexPath.section == kPropertiesSection && indexPath.row == 1
   }
-  
+
+  func isTargetSelectionRow(at indexPath: IndexPath) -> Bool {
+    return indexPath.section == kPropertiesSection && indexPath.row == 0
+  }
+
   func isPropertiesRowSection(_ section: Int) -> Bool {
     return section == kPropertiesSection
   }
@@ -97,9 +102,10 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
     if isInsertRow(at: indexPath) {
       return .insert
-    } else {
-      return .delete
+    } else if isTargetSelectionRow(at: indexPath) {
+      return .none
     }
+    return .delete
   }
   
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -111,7 +117,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     if isPropertiesRowSection(section) {
-      return propertiesCount + 1
+     return getPropertyCount() + 2
     } else {
       return super.tableView(tableView, numberOfRowsInSection: section)
     }
@@ -126,15 +132,15 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   }
 
   override func tableView(_ tableView: UITableView, indentationLevelForRowAt indexPath: IndexPath) -> Int {
-    if isPropertiesRowSection(indexPath.section) {
-      return super.tableView(tableView, indentationLevelForRowAt: IndexPath(row: 0, section: indexPath.section))
+    if isPropertiesRowSection(indexPath.section) && !isTargetSelectionRow(at: indexPath) {
+      return propertyIndentationLevel
     } else {
-      return super.tableView(tableView, indentationLevelForRowAt: indexPath)
+      return defaultIndentationLevel
     }
   }
-  
+
   override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-    return isPropertiesRowSection(indexPath.section)
+    return isPropertiesRowSection(indexPath.section) && !isTargetSelectionRow(at: indexPath)
   }
   
   override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
@@ -146,10 +152,43 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
       let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
       cell.textLabel?.text = "Add Property"
       return cell
+    } else if isTargetSelectionRow(at: indexPath) {
+      return transmissionTargetSelectorCell!
     } else if isPropertiesRowSection(indexPath.section) {
-      return Bundle.main.loadNibNamed("MSAnalyticsPropertyTableViewCell", owner: self, options: nil)?.first as? UITableViewCell ?? UITableViewCell()
+      let cell: MSAnalyticsPropertyTableViewCell? = loadCellFromNib()
+      let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
+      cell!.keyField.text = properties[selectedTarget!]![indexPath.row - 2].0
+      cell!.valueField.text = properties[selectedTarget!]![indexPath.row - 2].1
+      return cell!
     } else {
       return super.tableView(tableView, cellForRowAt: indexPath)
     }
+  }
+
+  func getPropertyCount() -> Int {
+    let selectedTarget = transmissionTargetSelectorCell!.selectedTransmissionTarget()
+    return (properties[selectedTarget!]!.count)
+  }
+
+  func loadCellFromNib<T: UITableViewCell>() -> T? {
+    return Bundle.main.loadNibNamed(String(describing: T.self), owner: self, options: nil)?.first as? T
+  }
+
+  func getNewDefaultProperty() -> (String, String) {
+    let keyValuePair = ("key\(propertyCounter)", "value\(propertyCounter)")
+    propertyCounter += 1
+    return keyValuePair
+  }
+
+  func pairsToDictionary(pairs: [(String, String)]) -> [String: String] {
+    var propertyDictionary = [String: String].init()
+    for pair in pairs {
+      propertyDictionary[pair.0] = pair.1
+    }
+    return propertyDictionary
+  }
+
+  func transmissionTargetSelected() {
+    NSLog("selected a target")
   }
 }
