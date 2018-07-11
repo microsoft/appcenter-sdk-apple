@@ -12,8 +12,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
 
   var appCenter: AppCenterDelegate!
   var properties: [String: [(String, String)]]!
-  var eventPropertiesIdentifier = "Event Arguments"
-  weak var transmissionTargetSelectorCell: MSAnalyticsTranmissionTargetSelectorViewCell?
+  var transmissionTargetSelectorCell: MSAnalyticsTranmissionTargetSelectorViewCell?
   weak var addPropertyCell: MSAnalyticsPropertyTableViewCell?
   let propertyIndentationLevel = 1
   let defaultIndentationLevel = 0
@@ -25,7 +24,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     for targetName in (transmissionTargetSelectorCell?.transmissionTargets())! {
       properties[targetName] = [(String, String)].init()
     }
-    transmissionTargetSelectorCell?.onTransmissionTargetSelected = transmissionTargetSelected
+    transmissionTargetSelectorCell?.didSelectTransmissionTarget = didSelectTransmissionTarget
     tableView.setEditing(true, animated: false)
     self.enabled.isOn = appCenter.isAnalyticsEnabled()
     super.viewDidLoad()
@@ -47,7 +46,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     guard let name = eventName.text else {
       return
     }
-    let eventProperties = pairsToDictionary(pairs: properties[eventPropertiesIdentifier]!)
+    let eventProperties = pairsToDictionary(pairs: properties[transmissionTargetSelectorCell!.eventPropertiesIdentifier]!)
     appCenter.trackEvent(name, withProperties: eventProperties)
     if self.oneCollectorEnabled.isOn {
       let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
@@ -65,7 +64,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     guard let name = eventName.text else {
       return
     }
-    let eventProperties = pairsToDictionary(pairs: properties[eventPropertiesIdentifier]!)
+    let eventProperties = pairsToDictionary(pairs: properties[transmissionTargetSelectorCell!.eventPropertiesIdentifier]!)
     appCenter.trackPage(name, withProperties: eventProperties)
   }
 
@@ -159,10 +158,28 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
       let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
       cell!.keyField.text = properties[selectedTarget!]![indexPath.row - 2].0
       cell!.valueField.text = properties[selectedTarget!]![indexPath.row - 2].1
+
+      // Set the tag to the array index so the callback can identify which property to change when the fields are edited.
+      cell!.keyField.tag = properties![selectedTarget!]!.count - 1
+      cell!.valueField.tag = properties![selectedTarget!]!.count - 1
+      cell!.keyField.addTarget(self, action: #selector(propertyKeyChanged), for: .editingChanged)
+      cell!.valueField.addTarget(self, action: #selector(propertyValueChanged), for: .editingChanged)
       return cell!
     } else {
       return super.tableView(tableView, cellForRowAt: indexPath)
     }
+  }
+
+  func propertyKeyChanged(sender: UITextField!) {
+    let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
+    let arrayIndex = sender!.tag
+    properties[selectedTarget!]![arrayIndex].0 = sender.text!
+  }
+
+  func propertyValueChanged(sender: UITextField!) {
+    let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
+    let arrayIndex = sender!.tag
+    properties[selectedTarget!]![arrayIndex].1 = sender.text!
   }
 
   func getPropertyCount() -> Int {
@@ -188,7 +205,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     return propertyDictionary
   }
 
-  func transmissionTargetSelected() {
-    NSLog("selected a target")
+  func didSelectTransmissionTarget() {
+    tableView.reloadData()
   }
 }

@@ -4,11 +4,12 @@ import UIKit
 
 @IBOutlet weak var transmissionTargetSelector: UISegmentedControl!
 
-  public var onTransmissionTargetSelected: (() -> Void)?
+  public var didSelectTransmissionTarget: (() -> Void)?
+  public let eventPropertiesIdentifier = "Event Arguments"
 
   override func awakeFromNib() {
     super.awakeFromNib()
-    onTransmissionTargetSelected = {_ in}
+    didSelectTransmissionTarget = {_ in}
     transmissionTargetSelector.addTarget(self, action: #selector(onSegmentSelected), for: .valueChanged)
   }
 
@@ -25,6 +26,6 @@ import UIKit
   }
 
   func onSegmentSelected() {
-    onTransmissionTargetSelected?()
+    didSelectTransmissionTarget?()
   }
 }
