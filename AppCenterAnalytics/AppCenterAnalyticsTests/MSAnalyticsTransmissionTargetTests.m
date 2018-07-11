@@ -1,6 +1,10 @@
 #import "MSAnalyticsInternal.h"
+#import "MSAnalyticsPrivate.h"
 #import "MSAnalyticsTransmissionTargetInternal.h"
 #import "MSAnalyticsTransmissionTargetPrivate.h"
+#import "MSAppCenterInternal.h"
+#import "MSChannelUnitProtocol.h"
+#import "MSEventLog.h"
 #import "MSMockUserDefaults.h"
 #import "MSTestFrameworks.h"
 
@@ -326,22 +330,22 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // Then
   XCTAssertEqualObjects(target.eventProperties, @{});
-  
+
   // When
   [target removeEventPropertyforKey:nil];
-  
+
   // Then
   XCTAssertEqualObjects(target.eventProperties, @{});
-  
+
   // When
   [target setEventPropertyString:nil forKey:prop1Key];
-  
+
   // Then
   XCTAssertEqualObjects(target.eventProperties, @{});
-  
+
   // When
   [target setEventPropertyString:prop1Value forKey:nil];
-  
+
   // Then
   XCTAssertEqualObjects(target.eventProperties, @{});
 
@@ -412,6 +416,75 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
                                                propTrackKey2 : propTrackValue2
                                              })
                                       forTransmissionTarget:target]));
+}
+
+- (void)testEventPropertiesCascading {
+
+  // If
+  [MSAnalytics resetSharedInstance];
+  id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  [MSAppCenter sharedInstance].sdkConfigured = YES;
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
+                                            appSecret:@"appsecret"
+                              transmissionTargetToken:@"tocken"
+                                      fromApplication:YES];
+
+  // Prepare target instances.
+  MSAnalyticsTransmissionTarget *grandParent = [MSAnalytics transmissionTargetForToken:@"grand-parent"];
+  MSAnalyticsTransmissionTarget *parent = [grandParent transmissionTargetForToken:@"parent"];
+  MSAnalyticsTransmissionTarget *child = [parent transmissionTargetForToken:@"child"];
+
+  // Set properties to grand parent.
+  [grandParent setEventPropertyString:@"1" forKey:@"a"];
+  [grandParent setEventPropertyString:@"2" forKey:@"b"];
+  [grandParent setEventPropertyString:@"3" forKey:@"c"];
+
+  // Override some properties.
+  [parent setEventPropertyString:@"11" forKey:@"a"];
+  [parent setEventPropertyString:@"22" forKey:@"b"];
+
+  // Set a new property in parent.
+  [parent setEventPropertyString:@"44" forKey:@"d"];
+
+  // Just to show we still get value from parent which is inherited from grand parent, if we remove an override. */
+  [parent setEventPropertyString:@"33" forKey:@"c"];
+  [parent removeEventPropertyforKey:@"c"];
+
+  // Override a property.
+  [child setEventPropertyString:@"444" forKey:@"d"];
+
+  // Set new properties in child.
+  [child setEventPropertyString:@"555" forKey:@"e"];
+  [child setEventPropertyString:@"666" forKey:@"f"];
+
+  // Track event in child. Override some properties in trackEvent.
+  NSMutableDictionary<NSString *, NSString *> *properties = [NSMutableDictionary new];
+  [properties setValue:@"6666" forKey:@"f"];
+  [properties setValue:@"7777" forKey:@"g"];
+
+  // Mock channel group.
+  __block MSEventLog *eventLog;
+  OCMStub([channelUnitMock enqueueItem:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    id<MSLog> log = nil;
+    [invocation getArgument:&log atIndex:2];
+    eventLog = (MSEventLog *)log;
+  });
+
+  // When
+  [child trackEvent:@"eventName" withProperties:properties];
+
+  // Then
+  XCTAssertNotNil(eventLog);
+  XCTAssertEqual([eventLog.properties count], (unsigned long)7);
+  XCTAssertEqual(eventLog.properties[@"a"], @"11");
+  XCTAssertEqual(eventLog.properties[@"b"], @"22");
+  XCTAssertEqual(eventLog.properties[@"c"], @"3");
+  XCTAssertEqual(eventLog.properties[@"d"], @"444");
+  XCTAssertEqual(eventLog.properties[@"e"], @"555");
+  XCTAssertEqual(eventLog.properties[@"f"], @"6666");
+  XCTAssertEqual(eventLog.properties[@"g"], @"7777");
 }
 
 @end
