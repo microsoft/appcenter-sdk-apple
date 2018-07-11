@@ -61,26 +61,24 @@
  * @param properties dictionary of properties.
  */
 - (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties {
-  @synchronized([MSAnalytics sharedInstance]) {
-    NSMutableDictionary *mergedProperties = [NSMutableDictionary new];
+  NSMutableDictionary *mergedProperties = [NSMutableDictionary new];
 
-    // Merge properties in its ancestors.
-    MSAnalyticsTransmissionTarget *target = self;
-    while (target != nil) {
-      [target mergeEventPropertiesWith:mergedProperties];
-      target = target.parentTarget;
-    }
-
-    // Override properties.
-    if (properties) {
-      [mergedProperties addEntriesFromDictionary:(NSDictionary * _Nonnull)properties];
-    } else if ([mergedProperties count] == 0) {
-
-      // Set nil for the properties to pass nil to trackEvent.
-      mergedProperties = nil;
-    }
-    [MSAnalytics trackEvent:eventName withProperties:mergedProperties forTransmissionTarget:self];
+  // Merge properties in its ancestors.
+  MSAnalyticsTransmissionTarget *target = self;
+  while (target != nil) {
+    [target mergeEventPropertiesWith:mergedProperties];
+    target = target.parentTarget;
   }
+
+  // Override properties.
+  if (properties) {
+    [mergedProperties addEntriesFromDictionary:(NSDictionary * _Nonnull)properties];
+  } else if ([mergedProperties count] == 0) {
+
+    // Set nil for the properties to pass nil to trackEvent.
+    mergedProperties = nil;
+  }
+  [MSAnalytics trackEvent:eventName withProperties:mergedProperties forTransmissionTarget:self];
 }
 
 - (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:(NSString *)token {
@@ -129,10 +127,12 @@
 }
 
 - (void)mergeEventPropertiesWith:(NSMutableDictionary<NSString *, NSString *> *)mergedProperties {
-  for (NSString *key in self.eventProperties) {
-    if ([mergedProperties objectForKey:key] == nil) {
-      NSString *value = [self.eventProperties objectForKey:key];
-      [mergedProperties setObject:value forKey:key];
+  @synchronized([MSAnalytics sharedInstance]) {
+    for (NSString *key in self.eventProperties) {
+      if ([mergedProperties objectForKey:key] == nil) {
+        NSString *value = [self.eventProperties objectForKey:key];
+        [mergedProperties setObject:value forKey:key];
+      }
     }
   }
 }
