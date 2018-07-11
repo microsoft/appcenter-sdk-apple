@@ -15,6 +15,7 @@
     _transmissionTargetToken = token;
     _isEnabledKey = [NSString stringWithFormat:@"%@/%@", [MSAnalytics sharedInstance].isEnabledKey,
                                                [MSUtility targetIdFromTargetToken:token]];
+    _eventProperties = [NSMutableDictionary<NSString *, NSString *> new];
 
     // Disable if ancestor is disabled.
     if (![self isImmediateParent]) {
@@ -24,13 +25,33 @@
   return self;
 }
 
+- (void)setEventPropertyString:(NSString *)propertyValue forKey:(NSString *)propertyKey {
+  @synchronized([MSAnalytics sharedInstance]) {
+    if (!propertyValue || !propertyKey) {
+      MSLogError([MSAnalytics logTag], @"Event property keys and values cannot be nil.");
+      return;
+    }
+    self.eventProperties[propertyKey] = propertyValue;
+  }
+}
+
+- (void)removeEventPropertyforKey:(NSString *)propertyKey {
+  @synchronized([MSAnalytics sharedInstance]) {
+    if (!propertyKey) {
+      MSLogError([MSAnalytics logTag], @"Event property key to remove cannot be nil.");
+      return;
+    }
+    [self.eventProperties removeObjectForKey:propertyKey];
+  }
+}
+
 /**
  * Track an event.
  *
  * @param eventName  event name.
  */
 - (void)trackEvent:(NSString *)eventName {
-  [MSAnalytics trackEvent:eventName forTransmissionTarget:self];
+  [self trackEvent:eventName withProperties:nil];
 }
 
 /**
@@ -40,7 +61,18 @@
  * @param properties dictionary of properties.
  */
 - (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties {
-  [MSAnalytics trackEvent:eventName withProperties:properties forTransmissionTarget:self];
+  @synchronized([MSAnalytics sharedInstance]) {
+    NSMutableDictionary *mergedProperties = nil;
+    if (properties || self.eventProperties.count > 0) {
+
+      // Combine properties, properties from the track event call has the highest priority.
+      mergedProperties = [self.eventProperties mutableCopy];
+      if (properties.count > 0) {
+        [mergedProperties addEntriesFromDictionary:(NSDictionary * _Nonnull)properties];
+      }
+    }
+    [MSAnalytics trackEvent:eventName withProperties:mergedProperties forTransmissionTarget:self];
+  }
 }
 
 - (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:(NSString *)token {
