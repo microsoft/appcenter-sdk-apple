@@ -11,20 +11,13 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Track an event.
  *
- * @param eventName  event name.
- * @param transmissionTarget The transmission target to associate to this event.
- */
-+ (void)trackEvent:(NSString *)eventName forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarget;
-
-/**
- * Track an event.
- *
  * @param eventName  Event name.
  * @param properties Dictionary of properties.
  * @param transmissionTarget  The transmission target to associate to this event.
  */
-+ (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarget;
-
++ (void)trackEvent:(NSString *)eventName
+           withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
+    forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarget;
 
 // Temporarily hiding tracking page feature.
 /**
