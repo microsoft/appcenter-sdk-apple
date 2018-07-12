@@ -61,18 +61,24 @@
  * @param properties dictionary of properties.
  */
 - (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties {
-  @synchronized([MSAnalytics sharedInstance]) {
-    NSMutableDictionary *mergedProperties = nil;
-    if (properties || self.eventProperties.count > 0) {
+  NSMutableDictionary *mergedProperties = [NSMutableDictionary new];
 
-      // Combine properties, properties from the track event call has the highest priority.
-      mergedProperties = [self.eventProperties mutableCopy];
-      if (properties.count > 0) {
-        [mergedProperties addEntriesFromDictionary:(NSDictionary * _Nonnull)properties];
-      }
-    }
-    [MSAnalytics trackEvent:eventName withProperties:mergedProperties forTransmissionTarget:self];
+  // Merge properties in its ancestors.
+  MSAnalyticsTransmissionTarget *target = self;
+  while (target != nil) {
+    [target mergeEventPropertiesWith:mergedProperties];
+    target = target.parentTarget;
   }
+
+  // Override properties.
+  if (properties) {
+    [mergedProperties addEntriesFromDictionary:(NSDictionary * _Nonnull)properties];
+  } else if ([mergedProperties count] == 0) {
+
+    // Set nil for the properties to pass nil to trackEvent.
+    mergedProperties = nil;
+  }
+  [MSAnalytics trackEvent:eventName withProperties:mergedProperties forTransmissionTarget:self];
 }
 
 - (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:(NSString *)token {
@@ -116,6 +122,17 @@
     // Propagate to nested transmission targets.
     for (NSString *token in self.childTransmissionTargets) {
       [self.childTransmissionTargets[token] setEnabled:isEnabled];
+    }
+  }
+}
+
+- (void)mergeEventPropertiesWith:(NSMutableDictionary<NSString *, NSString *> *)mergedProperties {
+  @synchronized([MSAnalytics sharedInstance]) {
+    for (NSString *key in self.eventProperties) {
+      if ([mergedProperties objectForKey:key] == nil) {
+        NSString *value = [self.eventProperties objectForKey:key];
+        [mergedProperties setObject:value forKey:key];
+      }
     }
   }
 }
