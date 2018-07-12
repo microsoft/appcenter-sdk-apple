@@ -169,7 +169,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   }
 
   override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-    return isEventPropertiesRowSection(indexPath.section) || isTargetPropertiesRowSection(indexPath.section)
+    return (isTargetPropertiesRowSection(indexPath.section) && !isTargetSelectionRow(at: indexPath)) || isEventPropertiesRowSection(indexPath.section)
   }
   
   override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
