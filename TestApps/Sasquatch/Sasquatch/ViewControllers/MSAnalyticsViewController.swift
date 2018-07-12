@@ -15,8 +15,6 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   var targetProperties: [String: [(String, String)]]!
   var eventProperties: [(String, String)]!
   var transmissionTargetSelectorCell: MSAnalyticsTranmissionTargetSelectorViewCell?
-  let propertyIndentationLevel = 0
-  let defaultIndentationLevel = 0
   var propertyCounter = 0
 
   override func viewDidLoad() {
@@ -156,15 +154,11 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   }
 
   override func tableView(_ tableView: UITableView, indentationLevelForRowAt indexPath: IndexPath) -> Int {
-    if (isTargetPropertiesRowSection(indexPath.section) && !isTargetSelectionRow(at: indexPath)) || isEventPropertiesRowSection(indexPath.section) {
-      return propertyIndentationLevel
-    } else {
-      return defaultIndentationLevel
-    }
+    return 0
   }
 
   override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-    return isEventPropertiesRowSection(indexPath.section) || isTargetPropertiesRowSection(indexPath.section)
+    return (isTargetPropertiesRowSection(indexPath.section) && !isTargetSelectionRow(at: indexPath)) || isEventPropertiesRowSection(indexPath.section)
   }
   
   override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
