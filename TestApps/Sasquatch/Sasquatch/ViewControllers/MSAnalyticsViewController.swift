@@ -14,21 +14,37 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   var appCenter: AppCenterDelegate!
   var targetProperties: [String: [(String, String)]]!
   var eventProperties: [(String, String)]!
+  var transmissionTargets: [String: MSAnalyticsTransmissionTarget]!
   var transmissionTargetSelectorCell: MSAnalyticsTranmissionTargetSelectorViewCell?
-  let propertyIndentationLevel = 0
-  let defaultIndentationLevel = 0
   var propertyCounter = 0
 
   override func viewDidLoad() {
-    targetProperties = [String: [(String, String)]]()
     eventProperties = [(String, String)]()
     transmissionTargetSelectorCell = loadCellFromNib()
-    for targetName in (transmissionTargetSelectorCell?.transmissionTargetMapping)! {
-      targetProperties[targetName] = [(String, String)]()
-    }
     transmissionTargetSelectorCell?.didSelectTransmissionTarget = didSelectTransmissionTarget
     tableView.setEditing(true, animated: false)
     self.enabled.isOn = appCenter.isAnalyticsEnabled()
+
+    // Set up all transmission targets and associated mappings. The three targets and their tokens are hard coded.
+    transmissionTargets = [String: MSAnalyticsTransmissionTarget]()
+    targetProperties = [String: [(String, String)]]()
+
+    // Parent target.
+    let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
+    let parentTargetToken = appName == "SasquatchSwift" ? kMSSwiftRuntimeTargetToken : kMSObjCRuntimeTargetToken
+    let parentTarget = MSAnalytics.transmissionTarget(forToken: parentTargetToken)
+    transmissionTargets[parentTargetToken] = parentTarget
+    targetProperties[parentTargetToken] = [(String, String)]()
+
+    // Child 1 target.
+    let childTarget1 = MSAnalytics.transmissionTarget(forToken: kMSTargetToken1)
+    transmissionTargets[kMSTargetToken1] = childTarget1
+    targetProperties[kMSTargetToken1] = [(String, String)]()
+
+    // Child 2 target.
+    let childTarget2 = MSAnalytics.transmissionTarget(forToken: kMSTargetToken2)
+    transmissionTargets[kMSTargetToken2] = childTarget2
+    targetProperties[kMSTargetToken2] = [(String, String)]()
     super.viewDidLoad()
   }
 
@@ -51,14 +67,8 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     let eventPropertiesDictionary = pairsToDictionary(pairs: eventProperties)
     appCenter.trackEvent(name, withProperties: eventPropertiesDictionary)
     if self.oneCollectorEnabled.isOn {
-      let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
-      let token = appName == "SasquatchSwift" ? kMSSwiftRuntimeTargetToken : kMSObjCRuntimeTargetToken
-      var target = MSAnalytics.transmissionTarget(forToken: token)
-      let childTargetToken = UserDefaults.standard.string(forKey: kMSChildTransmissionTargetTokenKey)
-      if childTargetToken != nil {
-        target = target.transmissionTarget(forToken: childTargetToken!)
-      }
-      target.trackEvent(name, withProperties: eventPropertiesDictionary)
+      let targetToken = UserDefaults.standard.string(forKey: kMSChildTransmissionTargetTokenKey)
+      transmissionTargets[targetToken!]!.trackEvent(name, withProperties: eventPropertiesDictionary)
     }
   }
   
@@ -66,8 +76,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     guard let name = eventName.text else {
       return
     }
-    let eventPropertiesDictionary = pairsToDictionary(pairs: eventProperties)
-    appCenter.trackPage(name, withProperties: eventPropertiesDictionary)
+    appCenter.trackPage(name)
   }
 
   @IBAction func enabledSwitchUpdated(_ sender: UISwitch) {
@@ -156,11 +165,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   }
 
   override func tableView(_ tableView: UITableView, indentationLevelForRowAt indexPath: IndexPath) -> Int {
-    if (isTargetPropertiesRowSection(indexPath.section) && !isTargetSelectionRow(at: indexPath)) || isEventPropertiesRowSection(indexPath.section) {
-      return propertyIndentationLevel
-    } else {
-      return defaultIndentationLevel
-    }
+    return 0
   }
 
   override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -200,7 +205,6 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
       cell!.valueField.tag = eventProperties.count - 1
       cell!.keyField.addTarget(self, action: #selector(eventArgumentPropertyKeyChanged), for: .editingChanged)
       cell!.valueField.addTarget(self, action: #selector(eventArgumentPropertyValueChanged), for: .editingChanged)
-
       return cell!
     } else {
       return super.tableView(tableView, cellForRowAt: indexPath)
