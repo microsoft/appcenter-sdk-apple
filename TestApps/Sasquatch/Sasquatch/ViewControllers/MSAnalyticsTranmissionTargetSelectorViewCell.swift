@@ -5,14 +5,13 @@ import UIKit
 @IBOutlet weak var transmissionTargetSelector: UISegmentedControl!
 
   public var didSelectTransmissionTarget: (() -> Void)?
-  public let eventPropertiesIdentifier: String = "Event Arguments"
   public var transmissionTargetMapping: [String]?
 
   override func awakeFromNib() {
     super.awakeFromNib()
     let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
     let runtimeToken: String = appName == "SasquatchSwift" ? kMSSwiftRuntimeTargetToken : kMSObjCRuntimeTargetToken
-    transmissionTargetMapping = [eventPropertiesIdentifier, kMSTargetToken1, kMSTargetToken2, runtimeToken]
+    transmissionTargetMapping = [kMSTargetToken1, kMSTargetToken2, runtimeToken]
     didSelectTransmissionTarget = {_ in}
     transmissionTargetSelector.addTarget(self, action: #selector(onSegmentSelected), for: .valueChanged)
   }
