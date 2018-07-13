@@ -1,8 +1,5 @@
 import UIKit
 
-private var kEventPropertiesSection: Int = 2
-private var kTargetPropertiesSection: Int = 3
-
 class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
 
   @IBOutlet weak var enabled: UISwitch!
@@ -15,9 +12,12 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   var eventPropertiesSection: EventPropertiesTableSection!
   var targetPropertiesSection: TargetPropertiesTableSection!
 
+  private var kEventPropertiesSectionIndex: Int = 2
+  private var kTargetPropertiesSectionIndex: Int = 3
+
   override func viewDidLoad() {
-    targetPropertiesSection = TargetPropertiesTableSection(tableSection: kTargetPropertiesSection, tableView: tableView)
-    eventPropertiesSection = EventPropertiesTableSection(tableSection: kEventPropertiesSection, tableView: tableView)
+    targetPropertiesSection = TargetPropertiesTableSection(tableSection: kTargetPropertiesSectionIndex, tableView: tableView)
+    eventPropertiesSection = EventPropertiesTableSection(tableSection: kEventPropertiesSectionIndex, tableView: tableView)
     super.viewDidLoad()
     tableView.setEditing(true, animated: false)
     self.enabled.isOn = appCenter.isAnalyticsEnabled()
@@ -94,6 +94,10 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     return super.tableView(tableView, heightForRowAt: indexPath)
   }
 
+  /**
+   * Without this override, the default implementation will try to get a table cell that is out of bounds
+   * (since they are inserted/removed at a slightly different time than the actual data source is updated).
+   */
   override func tableView(_ tableView: UITableView, indentationLevelForRowAt indexPath: IndexPath) -> Int {
     return 0
   }
