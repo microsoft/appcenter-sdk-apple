@@ -1,13 +1,13 @@
 import UIKit
 
 class TargetPropertiesTableSection : PropertiesTableSection {
-  
+
   var targetProperties: [String: [(String, String)]]!
   var transmissionTargetSelectorCell: MSAnalyticsTranmissionTargetSelectorViewCell?
   var transmissionTargets: [String: MSAnalyticsTransmissionTarget]!
 
-  init(tableSection: Int, tableView: UITableView) {
-    super.init(tableSection: tableSection)
+  override init(tableSection: Int, tableView: UITableView) {
+    super.init(tableSection: tableSection, tableView: tableView)
     // Set up all transmission targets and associated mappings. The three targets and their tokens are hard coded.
     transmissionTargets = [String: MSAnalyticsTransmissionTarget]()
     targetProperties = [String: [(String, String)]]()
@@ -46,7 +46,7 @@ class TargetPropertiesTableSection : PropertiesTableSection {
 
   override func propertyKeyChanged(sender: UITextField!) {
     let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
-    let arrayIndex = sender!.tag
+    let arrayIndex = getCellRow(forTextField: sender) - propertyCellOffset()
     let currentPropertyKey = targetProperties[selectedTarget!]![arrayIndex].0
     let currentPropertyValue = targetProperties[selectedTarget!]![arrayIndex].1
     let target = MSAnalytics.transmissionTarget(forToken: selectedTarget!)
@@ -57,7 +57,7 @@ class TargetPropertiesTableSection : PropertiesTableSection {
 
   override func propertyValueChanged(sender: UITextField!) {
     let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
-    let arrayIndex = sender!.tag
+    let arrayIndex = getCellRow(forTextField: sender) - propertyCellOffset()
     let currentPropertyKey = targetProperties[selectedTarget!]![arrayIndex].0
     let target = MSAnalytics.transmissionTarget(forToken: selectedTarget!)
     target.setEventPropertyString(sender.text!, forKey: currentPropertyKey)

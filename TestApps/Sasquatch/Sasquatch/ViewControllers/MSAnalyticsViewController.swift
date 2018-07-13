@@ -17,7 +17,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
 
   override func viewDidLoad() {
     targetPropertiesSection = TargetPropertiesTableSection(tableSection: kTargetPropertiesSection, tableView: tableView)
-    eventPropertiesSection = EventPropertiesTableSection(tableSection: kEventPropertiesSection)
+    eventPropertiesSection = EventPropertiesTableSection(tableSection: kEventPropertiesSection, tableView: tableView)
     super.viewDidLoad()
     tableView.setEditing(true, animated: false)
     self.enabled.isOn = appCenter.isAnalyticsEnabled()

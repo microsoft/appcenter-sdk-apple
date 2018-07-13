@@ -5,12 +5,12 @@ class EventPropertiesTableSection : PropertiesTableSection {
   var eventProperties: [(String, String)]! = [(String, String)]()
 
   override func propertyKeyChanged(sender: UITextField!) {
-    let arrayIndex = sender!.tag
+    let arrayIndex = getCellRow(forTextField: sender) - propertyCellOffset()
     eventProperties[arrayIndex].0 = sender.text!
   }
 
   override func propertyValueChanged(sender: UITextField!) {
-    let arrayIndex = sender!.tag
+    let arrayIndex = getCellRow(forTextField: sender) - propertyCellOffset()
     eventProperties[arrayIndex].1 = sender.text!
   }
 
