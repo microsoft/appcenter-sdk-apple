@@ -384,8 +384,8 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 #if TARGET_OS_OSX
     } else {
       NSUserNotification *notification = [[NSUserNotification alloc] init];
-      notification.title = title;
-      notification.informativeText = message;
+      notification.title = (NSString *)title;
+      notification.informativeText = (NSString *)message;
       notification.userInfo = userInfo;
       NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
       [center deliverNotification:notification];

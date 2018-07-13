@@ -67,7 +67,7 @@ static dispatch_once_t onceToken;
   }
 }
 
-- (NSString *)sessionIdAt:(NSDate *)date {
+- (nullable NSString *)sessionIdAt:(NSDate *)date {
   @synchronized(self) {
     for (MSSessionHistoryInfo *info in [self.sessionHistory reverseObjectEnumerator]) {
       if ([info.timestamp compare:date] == NSOrderedAscending) {
