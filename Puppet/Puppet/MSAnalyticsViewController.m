@@ -130,17 +130,17 @@ typedef NS_ENUM(short, MSPropertyType) {
   sender.on = [MSAnalytics isEnabled];
 }
 
-- (NSDictionary *)targetProperties {
-  NSMutableDictionary *properties = [NSMutableDictionary new];
-  for (int i = 0; i < self.propertiesCount; i++) {
-    MSAnalyticsPropertyTableViewCell *cell =
-        [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:kTargetPropertiesSection]];
-    if (cell) {
-      [properties setObject:cell.valueField.text forKey:cell.keyField.text];
-    }
-  }
-  return properties;
-}
+// TODO - (NSDictionary *)targetProperties {
+//  NSMutableDictionary *properties = [NSMutableDictionary new];
+//  for (int i = 0; i < self.propertiesCount; i++) {
+//    MSAnalyticsPropertyTableViewCell *cell =
+//        [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:kTargetPropertiesSection]];
+//    if (cell) {
+//      [properties setObject:cell.valueField.text forKey:cell.keyField.text];
+//    }
+//  }
+//  return properties;
+//}
 
 - (void)tableView:(UITableView *)tableView
     commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
@@ -157,7 +157,7 @@ typedef NS_ENUM(short, MSPropertyType) {
 
       // Remove it everywhere.
       [target removeEventPropertyforKey:propertyKey];
-      [self.targetProperties[selectedTarget] removeObjectForKey:selectedTarget];
+      [self.targetProperties[selectedTarget] removeObjectForKey:propertyKey];
       [tableView deleteRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
       // Adding a property.
@@ -166,7 +166,9 @@ typedef NS_ENUM(short, MSPropertyType) {
       [self setNewDefaultKey:&propertyKey andValue:&propertyValue];
 
       // Add it everywhere.
-      [self.targetProperties[selectedTarget] setObject:propertyValue forKey:propertyKey];
+      NSMutableDictionary* properties = self.targetProperties[selectedTarget]?:[NSMutableDictionary new];
+      [properties setObject:propertyValue forKey:propertyKey];
+      self.targetProperties[selectedTarget] = properties;
       [target setEventPropertyString:propertyValue forKey:propertyKey];
       [tableView insertRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section] ]
                        withRowAnimation:UITableViewRowAnimationAutomatic];
