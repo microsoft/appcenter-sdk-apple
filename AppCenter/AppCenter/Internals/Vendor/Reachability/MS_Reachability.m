@@ -25,7 +25,6 @@ static void PrintReachabilityFlags(__attribute__((unused)) SCNetworkReachability
 
   NSLog(@"Reachability Flag Status: %c%c %c%c%c%c%c%c%c %s\n", (flags & kSCNetworkReachabilityFlagsIsWWAN) ? 'W' : '-',
         (flags & kSCNetworkReachabilityFlagsReachable) ? 'R' : '-',
-
         (flags & kSCNetworkReachabilityFlagsTransientConnection) ? 't' : '-',
         (flags & kSCNetworkReachabilityFlagsConnectionRequired) ? 'c' : '-',
         (flags & kSCNetworkReachabilityFlagsConnectionOnTraffic) ? 'C' : '-',
