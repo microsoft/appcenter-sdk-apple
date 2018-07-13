@@ -64,7 +64,7 @@ static NSString *const kMSArchitecture = @"architecture";
 }
 
 - (BOOL)isEqual:(id)object {
-  if (![object isKindOfClass:[MSAbstractErrorLog class]] || ![super isEqual:object]) {
+  if (![(NSObject *)object isKindOfClass:[MSAbstractErrorLog class]] || ![super isEqual:object]) {
     return NO;
   }
   MSAbstractErrorLog *errorLog = (MSAbstractErrorLog *)object;

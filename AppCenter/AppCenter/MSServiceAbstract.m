@@ -112,6 +112,8 @@
   }
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-messaging-id"
 + (void)setEnabled:(BOOL)isEnabled {
   @synchronized([self sharedInstance]) {
     if ([[self sharedInstance] canBeUsed]) {
@@ -131,5 +133,6 @@
     return [[self sharedInstance] canBeUsed] && [[self sharedInstance] isEnabled];
   }
 }
+#pragma clang diagnostic pop
 
 @end

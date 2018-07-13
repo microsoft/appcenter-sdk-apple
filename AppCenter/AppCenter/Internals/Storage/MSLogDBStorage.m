@@ -255,7 +255,7 @@ static const NSUInteger kMSSchemaVersion = 1;
                                                        [columnValues componentsJoinedByString:@"','"]];
 
   // Build up delete query.
-  char surroundingChar = ([[columnValues firstObject] isKindOfClass:[NSString class]]) ? '\'' : '\0';
+  char surroundingChar = ([(NSObject *)[columnValues firstObject] isKindOfClass:[NSString class]]) ? '\'' : '\0';
   NSString *valuesSeparation = [NSString stringWithFormat:@"%c, %c", surroundingChar, surroundingChar];
   NSString *whereCondition = [NSString stringWithFormat:@"\"%@\" IN (%c%@%c)", columnName, surroundingChar,
                               [columnValues componentsJoinedByString:valuesSeparation], surroundingChar];

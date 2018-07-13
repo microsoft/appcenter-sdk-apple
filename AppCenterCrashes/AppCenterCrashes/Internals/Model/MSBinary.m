@@ -47,7 +47,7 @@ static NSString *const kMSArchitectureVariantId = @"architectureVariantId";
 }
 
 - (BOOL)isEqual:(id)object {
-  if (![object isKindOfClass:[MSBinary class]]) {
+  if (![(NSObject *)object isKindOfClass:[MSBinary class]]) {
     return NO;
   }
   MSBinary *binary = (MSBinary *)object;

@@ -30,7 +30,7 @@
 #pragma mark - NSObject
 
 - (BOOL)isEqual:(id)object {
-  if (![object isKindOfClass:[MSAppExtension class]]) {
+  if (![(NSObject *)object isKindOfClass:[MSAppExtension class]]) {
     return NO;
   }
   MSAppExtension *appExt = (MSAppExtension *)object;

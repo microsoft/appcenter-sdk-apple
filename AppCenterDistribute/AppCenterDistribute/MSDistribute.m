@@ -93,7 +93,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   static id sharedInstance = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-    sharedInstance = [[self alloc] init];
+    sharedInstance = [[MSDistribute alloc] init];
   });
   return sharedInstance;
 }
@@ -200,23 +200,23 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 #pragma mark - Public
 
 + (void)setApiUrl:(NSString *)apiUrl {
-  [[self sharedInstance] setApiUrl:apiUrl];
+  [[MSDistribute sharedInstance] setApiUrl:apiUrl];
 }
 
 + (void)setInstallUrl:(NSString *)installUrl {
-  [[self sharedInstance] setInstallUrl:installUrl];
+  [[MSDistribute sharedInstance] setInstallUrl:installUrl];
 }
 
 + (BOOL)openURL:(NSURL *)url {
-  return [[self sharedInstance] openURL:url];
+  return [[MSDistribute sharedInstance] openURL:url];
 }
 
 + (void)notifyUpdateAction:(MSUpdateAction)action {
-  [[self sharedInstance] notifyUpdateAction:action];
+  [[MSDistribute sharedInstance] notifyUpdateAction:action];
 }
 
 + (void)setDelegate:(id<MSDistributeDelegate>)delegate {
-  [[self sharedInstance] setDelegate:delegate];
+  [[MSDistribute sharedInstance] setDelegate:delegate];
 }
 
 #pragma mark - Private
@@ -583,7 +583,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
   // Check once more if we have the correct class.
   if (sessionClazz) {
-
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-messaging-id"
     id session = [sessionClazz alloc];
 
     // Create selector for [instanceOfSFAuthenticationSession initWithURL: callbackURLScheme: completionHandler:].
@@ -626,6 +627,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     if (success) {
       MSLogDebug([MSDistribute logTag], @"Authentication Session Started, showing confirmation dialog");
     }
+#pragma clang diagnostic pop
   }
 }
 
@@ -633,7 +635,10 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   MSLogDebug([MSDistribute logTag], @"Using SFSafariViewController to open URL: %@", url);
 
   // Init safari controller with the install URL.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-messaging-id"
   id safari = [[clazz alloc] initWithURL:url];
+#pragma clang diagnostic pop
 
   // Create an empty window + viewController to host the Safari UI.
   self.safariHostingViewController = [[UIViewController alloc] init];

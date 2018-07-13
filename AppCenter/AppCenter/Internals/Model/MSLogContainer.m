@@ -22,9 +22,9 @@ static NSString *const kMSLogs = @"logs";
 - (NSString *)serializeLogWithPrettyPrinting:(BOOL)prettyPrint {
   NSString *jsonString;
   NSMutableArray *jsonArray = [NSMutableArray array];
-  [self.logs enumerateObjectsUsingBlock:^(id _Nonnull obj, __attribute__((unused)) NSUInteger idx,
+  [self.logs enumerateObjectsUsingBlock:^(id<MSLog> _Nonnull obj, __attribute__((unused)) NSUInteger idx,
                                           __attribute__((unused)) BOOL *_Nonnull stop) {
-    NSMutableDictionary *dict = [obj serializeToDictionary];
+    NSMutableDictionary *dict = [(id<MSSerializableObject>)obj serializeToDictionary];
     if (dict) {
       [jsonArray addObject:dict];
     }
@@ -58,7 +58,7 @@ static NSString *const kMSLogs = @"logs";
 
   __block BOOL isValid = YES;
   [self.logs
-      enumerateObjectsUsingBlock:^(id _Nonnull obj, __attribute__((unused)) NSUInteger idx, BOOL *_Nonnull stop) {
+      enumerateObjectsUsingBlock:^(id<MSLog> _Nonnull obj, __attribute__((unused)) NSUInteger idx, BOOL *_Nonnull stop) {
         if (![obj isValid]) {
           *stop = YES;
           isValid = NO;

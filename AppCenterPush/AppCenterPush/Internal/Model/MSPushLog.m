@@ -28,7 +28,7 @@ static NSString *const kMSPushToken = @"pushToken";
 }
 
 - (BOOL)isEqual:(id)object {
-  if (![object isKindOfClass:[MSPushLog class]] || ![super isEqual:object]) {
+  if (![(NSObject *)object isKindOfClass:[MSPushLog class]] || ![super isEqual:object]) {
     return NO;
   }
   MSPushLog *log = (MSPushLog *)object;

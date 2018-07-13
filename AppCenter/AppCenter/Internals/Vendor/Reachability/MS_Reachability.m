@@ -75,10 +75,10 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
   SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithName(NULL, [hostName UTF8String]);
   if (reachability != NULL) {
     if ([NSThread isMainThread]) {
-      returnValue = [[self alloc] init];
+      returnValue = [[MS_Reachability alloc] init];
     } else {
       dispatch_sync(dispatch_get_main_queue(), ^{
-        returnValue = [[self alloc] init];
+        returnValue = [[MS_Reachability alloc] init];
       });
     }
     if (returnValue != NULL) {
@@ -97,10 +97,10 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
   SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithAddress(kCFAllocatorDefault, hostAddress);
   if (reachability != NULL) {
     if ([NSThread isMainThread]) {
-      returnValue = [[self alloc] init];
+      returnValue = [[MS_Reachability alloc] init];
     } else {
       dispatch_sync(dispatch_get_main_queue(), ^{
-        returnValue = [[self alloc] init];
+        returnValue = [[MS_Reachability alloc] init];
       });
     }
     if (returnValue != NULL) {

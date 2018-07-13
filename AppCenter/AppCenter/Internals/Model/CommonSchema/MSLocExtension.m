@@ -23,7 +23,7 @@
 #pragma mark - NSObject
 
 - (BOOL)isEqual:(id)object {
-  if (![object isKindOfClass:[MSLocExtension class]]) {
+  if (![(NSObject *)object isKindOfClass:[MSLocExtension class]]) {
     return NO;
   }
 

@@ -53,7 +53,7 @@ __attribute__((used)) static void importCategories() {
     _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
 
     // Set up transmission target dictionary.
-    _transmissionTargets = [NSMutableDictionary new];
+    _transmissionTargets = [NSMutableDictionary<NSString *, MSAnalyticsTransmissionTarget *> new];
   }
   return self;
 }
@@ -63,7 +63,7 @@ __attribute__((used)) static void importCategories() {
 + (instancetype)sharedInstance {
   dispatch_once(&onceToken, ^{
     if (sharedInstance == nil) {
-      sharedInstance = [[self alloc] init];
+      sharedInstance = [[MSAnalytics alloc] init];
     }
   });
   return sharedInstance;
@@ -178,8 +178,8 @@ __attribute__((used)) static void importCategories() {
            withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
     forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarget {
   @synchronized(self) {
-    if ([[self sharedInstance] canBeUsed]) {
-      [[self sharedInstance] trackEvent:eventName withProperties:properties forTransmissionTarget:transmissionTarget];
+    if ([[MSAnalytics sharedInstance] canBeUsed]) {
+      [[MSAnalytics sharedInstance] trackEvent:eventName withProperties:properties forTransmissionTarget:transmissionTarget];
     }
   }
 }
@@ -190,21 +190,21 @@ __attribute__((used)) static void importCategories() {
 
 + (void)trackPage:(NSString *)pageName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties {
   @synchronized(self) {
-    if ([[self sharedInstance] canBeUsed]) {
-      [[self sharedInstance] trackPage:pageName withProperties:properties];
+    if ([[MSAnalytics sharedInstance] canBeUsed]) {
+      [[MSAnalytics sharedInstance] trackPage:pageName withProperties:properties];
     }
   }
 }
 
 + (void)setAutoPageTrackingEnabled:(BOOL)isEnabled {
   @synchronized(self) {
-    [[self sharedInstance] setAutoPageTrackingEnabled:isEnabled];
+    [[MSAnalytics sharedInstance] setAutoPageTrackingEnabled:isEnabled];
   }
 }
 
 + (BOOL)isAutoPageTrackingEnabled {
   @synchronized(self) {
-    return [[self sharedInstance] isAutoPageTrackingEnabled];
+    return [[MSAnalytics sharedInstance] isAutoPageTrackingEnabled];
   }
 }
 
@@ -318,7 +318,7 @@ __attribute__((used)) static void importCategories() {
 }
 
 + (void)setDelegate:(nullable id<MSAnalyticsDelegate>)delegate {
-  [[self sharedInstance] setDelegate:delegate];
+  [[MSAnalytics sharedInstance] setDelegate:delegate];
 }
 
 #pragma mark - MSChannelDelegate
@@ -384,7 +384,7 @@ __attribute__((used)) static void importCategories() {
  * @returns The transmissionTarget object.
  */
 + (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:(NSString *)transmissionTargetToken {
-  return [[self sharedInstance] transmissionTargetFor:transmissionTargetToken];
+  return [[MSAnalytics sharedInstance] transmissionTargetFor:transmissionTargetToken];
 }
 
 @end

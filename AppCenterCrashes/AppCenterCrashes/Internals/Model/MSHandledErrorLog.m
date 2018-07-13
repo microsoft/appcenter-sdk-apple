@@ -31,7 +31,7 @@ static NSString *const kMSException = @"exception";
 }
 
 - (BOOL)isEqual:(id)object {
-    if (![object isKindOfClass:[MSHandledErrorLog class]] || ![super isEqual:object]) {
+    if (![(NSObject *)object isKindOfClass:[MSHandledErrorLog class]] || ![super isEqual:object]) {
         return NO;
     }
     MSHandledErrorLog *errorLog = (MSHandledErrorLog *)object;

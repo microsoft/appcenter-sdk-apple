@@ -27,7 +27,7 @@
 #pragma mark - NSObject
 
 - (BOOL)isEqual:(id)object {
-  if (![object isKindOfClass:[MSProtocolExtension class]]) {
+  if (![(NSObject *)object isKindOfClass:[MSProtocolExtension class]]) {
     return NO;
   }
   MSProtocolExtension *protocolExt = (MSProtocolExtension *)object;

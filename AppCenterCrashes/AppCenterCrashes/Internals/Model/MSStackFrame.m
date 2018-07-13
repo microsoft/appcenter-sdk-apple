@@ -34,7 +34,7 @@ static NSString *const kMSFileName = @"fileName";
 }
 
 - (BOOL)isEqual:(id)object {
-  if (![object isKindOfClass:[MSStackFrame class]]) {
+  if (![(NSObject *)object isKindOfClass:[MSStackFrame class]]) {
     return NO;
   }
   MSStackFrame *frame = (MSStackFrame *)object;

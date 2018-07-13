@@ -36,7 +36,7 @@ static NSString *const kMSCantReadErrorDescFormat = @"Cannot read data from file
   static MSBasicMachOParser *parser = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-    parser = [[self alloc] initWithBundle:MS_APP_MAIN_BUNDLE];
+    parser = [[MSBasicMachOParser alloc] initWithBundle:MS_APP_MAIN_BUNDLE];
   });
   return parser;
 }

@@ -19,7 +19,7 @@ static dispatch_once_t onceToken;
 + (instancetype)sharedInstance {
   dispatch_once(&onceToken, ^{
     if (sharedInstance == nil) {
-      sharedInstance = [[self alloc] init];
+      sharedInstance = [[MSSessionContext alloc] init];
     }
   });
   return sharedInstance;
@@ -31,7 +31,7 @@ static dispatch_once_t onceToken;
     NSData *data = [MS_USER_DEFAULTS objectForKey:kMSSessionIdHistoryKey];
     if (data != nil) {
       _sessionHistory =
-      (NSMutableArray *)[[NSKeyedUnarchiver unarchiveObjectWithData:data] mutableCopy];
+      (NSMutableArray *)[(NSObject *)[NSKeyedUnarchiver unarchiveObjectWithData:data] mutableCopy];
     }
     if (!_sessionHistory) {
       _sessionHistory = [NSMutableArray<MSSessionHistoryInfo *> new];

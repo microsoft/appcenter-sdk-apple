@@ -148,19 +148,19 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 #pragma mark - MSPush
 
 + (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-  [[self sharedInstance] didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+  [[MSPush sharedInstance] didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 
 + (void)didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-  [[self sharedInstance] didFailToRegisterForRemoteNotificationsWithError:error];
+  [[MSPush sharedInstance] didFailToRegisterForRemoteNotificationsWithError:error];
 }
 
 + (BOOL)didReceiveRemoteNotification:(NSDictionary *)userInfo {
-  return [[self sharedInstance] didReceiveRemoteNotification:userInfo fromUserNotification:NO];
+  return [[MSPush sharedInstance] didReceiveRemoteNotification:userInfo fromUserNotification:NO];
 }
 
 + (void)setDelegate:(nullable id<MSPushDelegate>)delegate {
-  [[self sharedInstance] setDelegate:delegate];
+  [[MSPush sharedInstance] setDelegate:delegate];
 }
 
 #pragma mark - MSServiceAbstract
@@ -317,11 +317,8 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
   (void)userNotification;
 #endif
   MSLogVerbose([MSPush logTag], @"User info for notification was forwarded to Push: %@", [userInfo description]);
-  id title;
-  id message;
-  id customData;
+  NSObject *title, *message, *customData, *alert;
   NSDictionary *aps = [userInfo objectForKey:kMSPushNotificationApsKey];
-  NSObject *alert;
 
   // The notification is not for App Center if customData is nil. Ignore the notification.
   customData = [userInfo objectForKey:kMSPushNotificationCustomDataKey]
@@ -376,7 +373,9 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 
       // Initialize push notification model.
       MSPushNotification *pushNotification =
-          [[MSPushNotification alloc] initWithTitle:title message:message customData:customData];
+          [[MSPushNotification alloc] initWithTitle:(NSString *)title
+                                            message:(NSString *)message
+                                         customData:(NSDictionary<NSString *, NSString *> *)customData];
 
       // Call push delegate and deliver notification back to the application.
       dispatch_async(dispatch_get_main_queue(), ^{

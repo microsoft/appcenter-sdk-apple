@@ -3,7 +3,7 @@
 @implementation MSDistributionGroup
 
 - (BOOL)isEqual:(id)object {
-  if (![object isKindOfClass:[MSDistributionGroup class]]) {
+  if (![(NSObject *)object isKindOfClass:[MSDistributionGroup class]]) {
     return NO;
   }
   return YES;

@@ -50,7 +50,7 @@ static NSString *const kMSGroupId = @"AppCenter";
 + (instancetype)sharedInstance {
   dispatch_once(&onceToken, ^{
     if (sharedInstance == nil) {
-      sharedInstance = [[self alloc] init];
+      sharedInstance = [[MSAppCenter alloc] init];
     }
   });
   return sharedInstance;
@@ -59,68 +59,68 @@ static NSString *const kMSGroupId = @"AppCenter";
 #pragma mark - public
 
 + (void)configureWithAppSecret:(NSString *)appSecret {
-  [[self sharedInstance] configureWithAppSecret:appSecret transmissionTargetToken:nil fromApplication:YES];
+  [[MSAppCenter sharedInstance] configureWithAppSecret:appSecret transmissionTargetToken:nil fromApplication:YES];
 }
 
 + (void)configure {
-  [[self sharedInstance] configureWithAppSecret:nil transmissionTargetToken:nil fromApplication:YES];
+  [[MSAppCenter sharedInstance] configureWithAppSecret:nil transmissionTargetToken:nil fromApplication:YES];
 }
 
 + (void)start:(NSString *)appSecret withServices:(NSArray<Class> *)services {
 
   // 'appSecret' is actually a secret string
-  [[self sharedInstance] start:appSecret withServices:services fromApplication:YES];
+  [[MSAppCenter sharedInstance] start:appSecret withServices:services fromApplication:YES];
 }
 
 + (void)startWithServices:(NSArray<Class> *)services {
-  [[self sharedInstance] start:nil withServices:services fromApplication:YES];
+  [[MSAppCenter sharedInstance] start:nil withServices:services fromApplication:YES];
 }
 
 + (void)startService:(Class)service {
-  [[self sharedInstance] startService:service
-                        withAppSecret:[[self sharedInstance] appSecret]
+  [[MSAppCenter sharedInstance] startService:service
+                        withAppSecret:[[MSAppCenter sharedInstance] appSecret]
               transmissionTargetToken:nil
                            andSendLog:YES
                       fromApplication:YES];
 }
 
 + (void)startFromLibraryWithServices:(NSArray<Class> *)services {
-  [[self sharedInstance] start:nil withServices:services fromApplication:NO];
+  [[MSAppCenter sharedInstance] start:nil withServices:services fromApplication:NO];
 }
 
 + (BOOL)isConfigured {
-  return [[self sharedInstance] sdkConfigured] && [[self sharedInstance] configuredFromApplication];
+  return [[MSAppCenter sharedInstance] sdkConfigured] && [[MSAppCenter sharedInstance] configuredFromApplication];
 }
 
 + (void)setLogUrl:(NSString *)logUrl {
-  [[self sharedInstance] setLogUrl:logUrl];
+  [[MSAppCenter sharedInstance] setLogUrl:logUrl];
 }
 
 + (void)setEnabled:(BOOL)isEnabled {
-  @synchronized([self sharedInstance]) {
-    if ([[self sharedInstance] canBeUsed]) {
-      [[self sharedInstance] setEnabled:isEnabled];
+  @synchronized([MSAppCenter sharedInstance]) {
+    if ([[MSAppCenter sharedInstance] canBeUsed]) {
+      [[MSAppCenter sharedInstance] setEnabled:isEnabled];
     }
   }
 }
 
 + (BOOL)isEnabled {
-  @synchronized([self sharedInstance]) {
-    if ([[self sharedInstance] canBeUsed]) {
-      return [[self sharedInstance] isEnabled];
+  @synchronized([MSAppCenter sharedInstance]) {
+    if ([[MSAppCenter sharedInstance] canBeUsed]) {
+      return [[MSAppCenter sharedInstance] isEnabled];
     }
   }
   return NO;
 }
 
 + (BOOL)isAppDelegateForwarderEnabled {
-  @synchronized([self sharedInstance]) {
+  @synchronized([MSAppCenter sharedInstance]) {
     return MSAppDelegateForwarder.enabled;
   }
 }
 
 + (NSUUID *)installId {
-  return [[self sharedInstance] installId];
+  return [[MSAppCenter sharedInstance] installId];
 }
 
 + (MSLogLevel)logLevel {
@@ -144,7 +144,7 @@ static NSString *const kMSGroupId = @"AppCenter";
 
 #if !TARGET_OS_TV
 + (void)setCustomProperties:(MSCustomProperties *)customProperties {
-  [[self sharedInstance] setCustomProperties:customProperties];
+  [[MSAppCenter sharedInstance] setCustomProperties:customProperties];
 }
 #endif
 
@@ -294,8 +294,11 @@ static NSString *const kMSGroupId = @"AppCenter";
 - (NSArray *)sortServices:(NSArray<Class> *)services {
   if (services && services.count > 1) {
     return [services sortedArrayUsingComparator:^NSComparisonResult(id clazzA, id clazzB) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-messaging-id"
       id<MSServiceInternal> serviceA = [clazzA sharedInstance];
       id<MSServiceInternal> serviceB = [clazzB sharedInstance];
+#pragma clang diagnostic pop
       if (serviceA.initializationPriority < serviceB.initializationPriority) {
         return NSOrderedDescending;
       } else {

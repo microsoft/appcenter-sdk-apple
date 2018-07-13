@@ -75,7 +75,7 @@ __attribute__((used)) static void importCategories() {
 }
 
 - (BOOL)isEqual:(id)object {
-  if (![object isKindOfClass:[MSErrorAttachmentLog class]] && ![super isEqual:object])
+  if (![(NSObject *)object isKindOfClass:[MSErrorAttachmentLog class]] && ![super isEqual:object])
     return NO;
   MSErrorAttachmentLog *attachment = (MSErrorAttachmentLog *)object;
   return ((!self.attachmentId && !attachment.attachmentId) ||

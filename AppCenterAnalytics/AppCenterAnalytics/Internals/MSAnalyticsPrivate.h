@@ -16,12 +16,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic) BOOL autoPageTrackingEnabled;
 
-@property(nonatomic) id<MSAnalyticsDelegate> delegate;
+@property(nonatomic, nullable) id<MSAnalyticsDelegate> delegate;
 
 /**
  * Transmission targets.
  */
-@property(nonatomic) NSMutableDictionary *transmissionTargets;
+@property(nonatomic) NSMutableDictionary<NSString *, MSAnalyticsTransmissionTarget *> *transmissionTargets;
 
 /**
  * Default transmission target.

@@ -28,7 +28,7 @@
   }
 
   // Create a random delay.
-  uint32_t delay = [self.retryIntervals[retryCount] unsignedIntValue] / 2;
+  uint32_t delay = [(NSNumber *)self.retryIntervals[retryCount] unsignedIntValue] / 2;
   delay += arc4random_uniform(delay);
 
   return delay;
