@@ -79,11 +79,10 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                                selector:@selector(applicationWillEnterForeground)
                                    name:UIApplicationWillEnterForegroundNotification
                                  object:nil];
+    
+    // Init the distribute info tracker.
+    _distributeInfoTracker = [[MSDistributeInfoTracker alloc] init];
   }
-
-  // Init the distribute info tracker.
-  _distributeInfoTracker = [[MSDistributeInfoTracker alloc] init];
-
   return self;
 }
 
@@ -458,7 +457,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                   [self.distributeInfoTracker removeDistributionGroupId];
                 }
               }
-              if (!jsonString) {
+              if (!jsonString && data) {
                 jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
               }
               MSLogError([MSDistribute logTag], @"Response:\n%@", jsonString ? jsonString : @"No payload");
@@ -805,9 +804,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   [MS_USER_DEFAULTS removeObjectForKey:kMSDownloadedReleaseHashKey];
 }
 
-- (NSMutableDictionary *)getReportingParametersForUpdatedRelease:(NSString *)updateToken
-                                     currentInstalledReleaseHash:(NSString *)currentInstalledReleaseHash
-                                             distributionGroupId:(NSString *)distributionGroupId {
+- (nullable NSMutableDictionary *)getReportingParametersForUpdatedRelease:(NSString *)updateToken
+                                              currentInstalledReleaseHash:(NSString *)currentInstalledReleaseHash
+                                                      distributionGroupId:(NSString *)distributionGroupId {
 
   // Check if we need to report release installation.
   NSString *lastDownloadedReleaseHashes = [MS_USER_DEFAULTS objectForKey:kMSDownloadedReleaseHashKey];
