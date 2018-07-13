@@ -295,6 +295,12 @@ static NSString *const kMSGroupId = @"AppCenter";
   if (services && services.count > 1) {
     return [services sortedArrayUsingComparator:^NSComparisonResult(id clazzA, id clazzB) {
 #pragma clang diagnostic push
+
+// Ignore "Unknown warning group '-Wobjc-messaging-id'" for old XCode
+#pragma clang diagnostic ignored "-Wunknown-pragmas"
+#pragma clang diagnostic ignored "-Wunknown-warning-option"
+      
+// Ignore "Messaging unqualified id" for XCode 10
 #pragma clang diagnostic ignored "-Wobjc-messaging-id"
       id<MSServiceInternal> serviceA = [clazzA sharedInstance];
       id<MSServiceInternal> serviceB = [clazzB sharedInstance];

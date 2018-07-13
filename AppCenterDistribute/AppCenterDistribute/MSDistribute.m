@@ -584,6 +584,12 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   // Check once more if we have the correct class.
   if (sessionClazz) {
 #pragma clang diagnostic push
+
+// Ignore "Unknown warning group '-Wobjc-messaging-id'" for old XCode
+#pragma clang diagnostic ignored "-Wunknown-pragmas"
+#pragma clang diagnostic ignored "-Wunknown-warning-option"
+    
+// Ignore "Messaging unqualified id" for XCode 10
 #pragma clang diagnostic ignored "-Wobjc-messaging-id"
     id session = [sessionClazz alloc];
 
@@ -633,10 +639,16 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 - (void)openURLInSafariViewControllerWith:(NSURL *)url fromClass:(Class)clazz {
   MSLogDebug([MSDistribute logTag], @"Using SFSafariViewController to open URL: %@", url);
-
-  // Init safari controller with the install URL.
 #pragma clang diagnostic push
+  
+// Ignore "Unknown warning group '-Wobjc-messaging-id'" for old XCode
+#pragma clang diagnostic ignored "-Wunknown-pragmas"
+#pragma clang diagnostic ignored "-Wunknown-warning-option"
+  
+// Ignore "Messaging unqualified id" for XCode 10
 #pragma clang diagnostic ignored "-Wobjc-messaging-id"
+  
+  // Init safari controller with the install URL.
   id safari = [[clazz alloc] initWithURL:url];
 #pragma clang diagnostic pop
 

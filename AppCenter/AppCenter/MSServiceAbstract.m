@@ -113,6 +113,12 @@
 }
 
 #pragma clang diagnostic push
+
+// Ignore "Unknown warning group '-Wobjc-messaging-id'" for old XCode
+#pragma clang diagnostic ignored "-Wunknown-pragmas"
+#pragma clang diagnostic ignored "-Wunknown-warning-option"
+
+// Ignore "Messaging unqualified id" for XCode 10
 #pragma clang diagnostic ignored "-Wobjc-messaging-id"
 + (void)setEnabled:(BOOL)isEnabled {
   @synchronized([self sharedInstance]) {
