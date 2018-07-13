@@ -12,7 +12,7 @@
 - (void)awakeFromNib {
   [super awakeFromNib];
   _transmissionTargetMapping =
-      @[ kMSEventPropertiesIdentifier, kMSTargetToken1, kMSTargetToken2, kMSRuntimeTargetToken ];
+      @[ kMSTargetToken1, kMSTargetToken2, kMSRuntimeTargetToken ];
   _didSelectTransmissionTarget = ^() {
   };
   [_transmissionTargetSelector addTarget:self
