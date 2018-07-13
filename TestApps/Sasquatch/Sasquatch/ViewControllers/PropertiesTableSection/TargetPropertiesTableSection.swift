@@ -8,11 +8,10 @@ class TargetPropertiesTableSection : PropertiesTableSection {
 
   init(tableSection: Int, tableView: UITableView) {
     super.init(tableSection: tableSection)
-    
     // Set up all transmission targets and associated mappings. The three targets and their tokens are hard coded.
     transmissionTargets = [String: MSAnalyticsTransmissionTarget]()
     targetProperties = [String: [(String, String)]]()
-
+ 
     // Parent target.
     let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
     let parentTargetToken = appName == "SasquatchSwift" ? kMSSwiftRuntimeTargetToken : kMSObjCRuntimeTargetToken
@@ -88,7 +87,7 @@ class TargetPropertiesTableSection : PropertiesTableSection {
     let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
     targetProperties[selectedTarget!]!.insert(property, at: 0)
     let target = MSAnalytics.transmissionTarget(forToken: selectedTarget!)
-    target.setEventPropertyString(property.0, forKey: property.1)
+    target.setEventPropertyString(property.1, forKey: property.0)
   }
 
   func isHeaderCell(_ indexPath: IndexPath) -> Bool {

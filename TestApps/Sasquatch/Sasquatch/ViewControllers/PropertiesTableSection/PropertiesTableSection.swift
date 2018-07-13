@@ -30,8 +30,8 @@ class PropertiesTableSection : NSObject, UITableViewDelegate {
       return cell
     }
     let cell: MSAnalyticsPropertyTableViewCell? = loadCellFromNib()
-    cell!.keyField.tag = getPropertyCount() - 1
-    cell!.valueField.tag = getPropertyCount() - 1
+    cell!.keyField.tag = indexPath.row - propertyCellOffset()
+    cell!.valueField.tag = indexPath.row - propertyCellOffset()
 
     // Set cell text.
     let property = propertyAtRow(row: indexPath.row)
@@ -52,6 +52,7 @@ class PropertiesTableSection : NSObject, UITableViewDelegate {
       addProperty(property: PropertiesTableSection.getNewDefaultProperty())
       tableView.insertRows(at: [IndexPath(row: indexPath.row + 1, section: indexPath.section)], with: .automatic)
     }
+    tableView.reloadData()
   }
 
   @objc(tableView:canEditRowAtIndexPath:) func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
