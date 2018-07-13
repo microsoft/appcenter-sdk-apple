@@ -47,6 +47,35 @@ typedef NS_ENUM(short, MSPropertyType) {
 }
 @end
 
+// TODO remove @interface MSTextFieldPropertyKey: NSString
+//@property (nonatomic) NSUInteger rowIndex;
+//+(nullable instancetype)propertyKeyFromDictionary:(NSDictionary<MSTextFieldPropertyKey*,NSString*>*)dictionary forRowIndex:(NSUInteger)index;
+//+(NSArray<MSTextFieldPropertyKey*>*)orderedPropertyKeyFromDictionary:(NSDictionary<MSTextFieldPropertyKey*,NSString*>*)dictionary;
+//@end
+//
+//@implementation MSTextFieldPropertyKey
+//+(nullable instancetype)propertyKeyFromDictionary:(NSDictionary<MSTextFieldPropertyKey*,NSString*>*)dictionary forRowIndex:(NSUInteger)index{
+//  for (MSTextFieldPropertyKey* key in dictionary){
+//    if (key.rowIndex == index){
+//      return key;
+//    }
+//  }
+//  return nil;
+//}
+//+(NSArray<MSTextFieldPropertyKey*>*)orderedPropertyKeyFromDictionary:(NSDictionary<MSTextFieldPropertyKey*,NSString*>*)dictionary{
+//  NSArray* keys = dictionary.allKeys;
+//  keys = [keys sortedArrayUsingComparator:^NSComparisonResult(MSTextFieldPropertyKey *a, MSTextFieldPropertyKey *b) {
+//    if(a.rowIndex < b.rowIndex){
+//      return NSOrderedAscending;
+//    }else if (a.rowIndex > b.rowIndex){
+//      return NSOrderedDescending;
+//    }
+//    return NSOrderedSame;
+//  }];
+//  return keys;
+//}
+//@end
+
 @interface MSAnalyticsViewController ()
 
 @property(weak, nonatomic) IBOutlet UISwitch *enabled;
@@ -58,7 +87,9 @@ typedef NS_ENUM(short, MSPropertyType) {
 @property(weak, nonatomic) IBOutlet UILabel *selectedChildTargetTokenLabel;
 @property(nonatomic) MSAnalyticsTranmissionTargetSelectorViewCell *transmissionTargetSelectorCell;
 @property(nonatomic) NSMutableDictionary<NSString *, NSMutableDictionary<NSString *, NSString *> *> *targetProperties;
+@property(nonatomic) NSMutableDictionary<NSString *,NSMutableArray<NSString *>*> *targetPropertiesKeysOrderedByRowIndex;
 @property(nonatomic) NSMutableDictionary<NSString *, NSString *> *eventProperties;
+@property(nonatomic) NSMutableArray<NSString *> *eventPropertiesKeysOrderedByRowIndex;
 @property(nonatomic) short propertyCounter;
 
 @end
@@ -71,7 +102,9 @@ typedef NS_ENUM(short, MSPropertyType) {
   [super viewDidLoad];
   self.propertyCounter = 0;
   self.targetProperties = [NSMutableDictionary new];
+  self.targetPropertiesKeysOrderedByRowIndex = [NSMutableDictionary new];
   self.eventProperties = [NSMutableDictionary new];
+  self.eventPropertiesKeysOrderedByRowIndex = [NSMutableArray new];
   self.transmissionTargetSelectorCell =
       [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([MSAnalyticsTranmissionTargetSelectorViewCell class])
                                      owner:self
@@ -158,6 +191,7 @@ typedef NS_ENUM(short, MSPropertyType) {
       // Remove it everywhere.
       [target removeEventPropertyforKey:propertyKey];
       [self.targetProperties[selectedTarget] removeObjectForKey:propertyKey];
+      [self.targetPropertiesKeysOrderedByRowIndex[selectedTarget] removeObject:propertyKey];
       [tableView deleteRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
       // Adding a property.
@@ -166,6 +200,8 @@ typedef NS_ENUM(short, MSPropertyType) {
       [self setNewDefaultKey:&propertyKey andValue:&propertyValue];
 
       // Add it everywhere.
+      NSMutableArray* orderedPropertiesKeys = orderedPropertiesKeys = [[@[propertyKey] arrayByAddingObjectsFromArray:self.targetPropertiesKeysOrderedByRowIndex[selectedTarget]] mutableCopy];
+      self.targetPropertiesKeysOrderedByRowIndex[selectedTarget] = orderedPropertiesKeys;
       NSMutableDictionary* properties = self.targetProperties[selectedTarget]?:[NSMutableDictionary new];
       [properties setObject:propertyValue forKey:propertyKey];
       self.targetProperties[selectedTarget] = properties;
@@ -178,9 +214,13 @@ typedef NS_ENUM(short, MSPropertyType) {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
       propertyKey = ((MSAnalyticsPropertyTableViewCell *)[tableView cellForRowAtIndexPath:indexPath]).keyField.text;
       [self.eventProperties removeObjectForKey:propertyKey];
+      [self.eventPropertiesKeysOrderedByRowIndex removeObject:propertyKey];
       [tableView deleteRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
       [self setNewDefaultKey:&propertyKey andValue:&propertyValue];
+      
+      // Add the object in the first position.
+      self.eventPropertiesKeysOrderedByRowIndex = [[@[propertyKey] arrayByAddingObjectsFromArray:self.eventPropertiesKeysOrderedByRowIndex] mutableCopy];
       self.eventProperties[propertyKey] = propertyValue;
       [tableView insertRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section] ]
                        withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -202,7 +242,7 @@ typedef NS_ENUM(short, MSPropertyType) {
                                      options:nil] firstObject];
     NSString *selectedTarget = self.transmissionTargetSelectorCell.selectedTransmissionTarget;
     cell.keyField.propertyType = MSPropertyTypeTargetKey;
-    cell.keyField.text = self.targetProperties[selectedTarget].allKeys[indexPath.row - 2];
+    cell.keyField.text = self.targetPropertiesKeysOrderedByRowIndex[selectedTarget][indexPath.row - 2];
     cell.keyField.propertyType = MSPropertyTypeTargetValue;
     cell.valueField.text = self.targetProperties[selectedTarget][cell.keyField.text];
 
@@ -221,7 +261,7 @@ typedef NS_ENUM(short, MSPropertyType) {
                                        owner:self
                                      options:nil] firstObject];
     cell.keyField.propertyType = MSPropertyTypeArgumentKey;
-    cell.keyField.text = self.eventProperties.allKeys[indexPath.row - 1];
+    cell.keyField.text = self.eventPropertiesKeysOrderedByRowIndex[indexPath.row - 1];
     cell.keyField.propertyType = MSPropertyTypeArgumentValue;
     cell.valueField.text = self.eventProperties[cell.keyField.text];
 
@@ -266,6 +306,7 @@ typedef NS_ENUM(short, MSPropertyType) {
 
 - (void)textFieldEditingDidChange:(UITextField *)sender {
   NSString *selectedTarget, *currentPropertyKey, *currentPropertyValue;
+  NSUInteger rowIndex;
   MSAnalyticsTransmissionTarget *target;
   switch (sender.propertyType) {
   case MSPropertyTypeTargetKey:
@@ -278,6 +319,8 @@ typedef NS_ENUM(short, MSPropertyType) {
     [target setEventPropertyString:currentPropertyValue forKey:sender.text];
     [self.targetProperties[selectedTarget] removeObjectForKey:currentPropertyKey];
     self.targetProperties[selectedTarget][sender.text] = currentPropertyValue;
+    rowIndex = [self.tableView indexPathForCell:(MSAnalyticsPropertyTableViewCell*)sender.superview.superview].row;
+    self.targetPropertiesKeysOrderedByRowIndex[selectedTarget][rowIndex] = sender.text;
     break;
   case MSPropertyTypeTargetValue:
     selectedTarget = [self.transmissionTargetSelectorCell selectedTransmissionTarget];
@@ -292,6 +335,8 @@ typedef NS_ENUM(short, MSPropertyType) {
     currentPropertyValue = self.eventProperties[currentPropertyKey];
     [self.eventProperties removeObjectForKey:currentPropertyKey];
     self.eventProperties[sender.text] = currentPropertyValue;
+    rowIndex = [self.tableView indexPathForCell:(MSAnalyticsPropertyTableViewCell*)sender.superview.superview].row;
+    self.eventPropertiesKeysOrderedByRowIndex[rowIndex] = sender.text;
     break;
   case MSPropertyTypeArgumentValue:
     currentPropertyKey = sender.associatedKey;
