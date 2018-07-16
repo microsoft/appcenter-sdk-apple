@@ -2,6 +2,7 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  */
 
+#import "Constants.h"
 #import "MSAnalyticsChildTransmissionTargetViewController.h"
 
 @interface MSAnalyticsChildTransmissionTargetViewController ()
@@ -30,13 +31,13 @@
     break;
   case 1:
     [[NSUserDefaults standardUserDefaults]
-        setObject:@"602c2d529a824339bef93a7b9a035e6a-a0189496-cc3a-41c6-9214-b479e5f44912-6819"
+        setObject:kMSTargetToken1
            forKey:kMSChildTransmissionTargetTokenKey];
     [self.navigationController popViewControllerAnimated:YES];
     break;
   case 2:
     [[NSUserDefaults standardUserDefaults]
-        setObject:@"902923ebd7a34552bd7a0c33207611ab-a48969f4-4823-428f-a88c-eff15e474137-7039"
+        setObject:kMSTargetToken2
            forKey:kMSChildTransmissionTargetTokenKey];
     [self.navigationController popViewControllerAnimated:YES];
     break;
