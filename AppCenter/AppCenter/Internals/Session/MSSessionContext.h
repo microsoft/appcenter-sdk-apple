@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return The session Id at the given time.
  */
-- (NSString *)sessionIdAt:(NSDate *)date;
+- (nullable NSString *)sessionIdAt:(NSDate *)date;
 
 /**
  * Clear all session Id history.

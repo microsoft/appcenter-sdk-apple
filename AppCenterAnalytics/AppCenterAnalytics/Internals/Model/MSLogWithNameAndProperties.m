@@ -19,7 +19,7 @@ static NSString *const kMSName = @"name";
 }
 
 - (BOOL)isEqual:(id)object {
-  if (![object isKindOfClass:[MSLogWithNameAndProperties class]] || ![super isEqual:object]) {
+  if (![(NSObject *)object isKindOfClass:[MSLogWithNameAndProperties class]] || ![super isEqual:object]) {
     return NO;
   }
   MSLogWithNameAndProperties *analyticsLog = (MSLogWithNameAndProperties *)object;

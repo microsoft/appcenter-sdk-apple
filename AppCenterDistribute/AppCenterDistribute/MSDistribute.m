@@ -79,11 +79,10 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                                selector:@selector(applicationWillEnterForeground)
                                    name:UIApplicationWillEnterForegroundNotification
                                  object:nil];
+    
+    // Init the distribute info tracker.
+    _distributeInfoTracker = [[MSDistributeInfoTracker alloc] init];
   }
-
-  // Init the distribute info tracker.
-  _distributeInfoTracker = [[MSDistributeInfoTracker alloc] init];
-
   return self;
 }
 
@@ -93,7 +92,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   static id sharedInstance = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-    sharedInstance = [[self alloc] init];
+    sharedInstance = [[MSDistribute alloc] init];
   });
   return sharedInstance;
 }
@@ -200,23 +199,23 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 #pragma mark - Public
 
 + (void)setApiUrl:(NSString *)apiUrl {
-  [[self sharedInstance] setApiUrl:apiUrl];
+  [[MSDistribute sharedInstance] setApiUrl:apiUrl];
 }
 
 + (void)setInstallUrl:(NSString *)installUrl {
-  [[self sharedInstance] setInstallUrl:installUrl];
+  [[MSDistribute sharedInstance] setInstallUrl:installUrl];
 }
 
 + (BOOL)openURL:(NSURL *)url {
-  return [[self sharedInstance] openURL:url];
+  return [[MSDistribute sharedInstance] openURL:url];
 }
 
 + (void)notifyUpdateAction:(MSUpdateAction)action {
-  [[self sharedInstance] notifyUpdateAction:action];
+  [[MSDistribute sharedInstance] notifyUpdateAction:action];
 }
 
 + (void)setDelegate:(id<MSDistributeDelegate>)delegate {
-  [[self sharedInstance] setDelegate:delegate];
+  [[MSDistribute sharedInstance] setDelegate:delegate];
 }
 
 #pragma mark - Private
@@ -458,7 +457,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                   [self.distributeInfoTracker removeDistributionGroupId];
                 }
               }
-              if (!jsonString) {
+              if (!jsonString && data) {
                 jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
               }
               MSLogError([MSDistribute logTag], @"Response:\n%@", jsonString ? jsonString : @"No payload");
@@ -583,7 +582,14 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
   // Check once more if we have the correct class.
   if (sessionClazz) {
+#pragma clang diagnostic push
 
+// Ignore "Unknown warning group '-Wobjc-messaging-id'" for old XCode
+#pragma clang diagnostic ignored "-Wunknown-pragmas"
+#pragma clang diagnostic ignored "-Wunknown-warning-option"
+    
+// Ignore "Messaging unqualified id" for XCode 10
+#pragma clang diagnostic ignored "-Wobjc-messaging-id"
     id session = [sessionClazz alloc];
 
     // Create selector for [instanceOfSFAuthenticationSession initWithURL: callbackURLScheme: completionHandler:].
@@ -626,14 +632,24 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     if (success) {
       MSLogDebug([MSDistribute logTag], @"Authentication Session Started, showing confirmation dialog");
     }
+#pragma clang diagnostic pop
   }
 }
 
 - (void)openURLInSafariViewControllerWith:(NSURL *)url fromClass:(Class)clazz {
   MSLogDebug([MSDistribute logTag], @"Using SFSafariViewController to open URL: %@", url);
-
+#pragma clang diagnostic push
+  
+// Ignore "Unknown warning group '-Wobjc-messaging-id'" for old XCode
+#pragma clang diagnostic ignored "-Wunknown-pragmas"
+#pragma clang diagnostic ignored "-Wunknown-warning-option"
+  
+// Ignore "Messaging unqualified id" for XCode 10
+#pragma clang diagnostic ignored "-Wobjc-messaging-id"
+  
   // Init safari controller with the install URL.
   id safari = [[clazz alloc] initWithURL:url];
+#pragma clang diagnostic pop
 
   // Create an empty window + viewController to host the Safari UI.
   self.safariHostingViewController = [[UIViewController alloc] init];
@@ -788,9 +804,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   [MS_USER_DEFAULTS removeObjectForKey:kMSDownloadedReleaseHashKey];
 }
 
-- (NSMutableDictionary *)getReportingParametersForUpdatedRelease:(NSString *)updateToken
-                                     currentInstalledReleaseHash:(NSString *)currentInstalledReleaseHash
-                                             distributionGroupId:(NSString *)distributionGroupId {
+- (nullable NSMutableDictionary *)getReportingParametersForUpdatedRelease:(NSString *)updateToken
+                                              currentInstalledReleaseHash:(NSString *)currentInstalledReleaseHash
+                                                      distributionGroupId:(NSString *)distributionGroupId {
 
   // Check if we need to report release installation.
   NSString *lastDownloadedReleaseHashes = [MS_USER_DEFAULTS objectForKey:kMSDownloadedReleaseHashKey];

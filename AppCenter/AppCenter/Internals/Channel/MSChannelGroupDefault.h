@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * An array containing all channels that are a part of this channel group.
  */
-@property(nonatomic, copy) NSMutableArray *channels;
+@property(nonatomic, strong) NSMutableArray *channels;
 
 @end
 

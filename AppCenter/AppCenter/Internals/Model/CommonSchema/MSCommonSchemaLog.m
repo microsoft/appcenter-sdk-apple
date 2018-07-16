@@ -46,7 +46,7 @@
 #pragma mark - NSObject
 
 - (BOOL)isEqual:(id)object {
-  if (![object isKindOfClass:[MSCommonSchemaLog class]] || ![super isEqual:object]) {
+  if (![(NSObject *)object isKindOfClass:[MSCommonSchemaLog class]] || ![super isEqual:object]) {
     return NO;
   }
 

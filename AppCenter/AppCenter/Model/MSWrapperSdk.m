@@ -51,7 +51,7 @@
 }
 
 - (BOOL)isEqual:(id)object {
-  if (![object isKindOfClass:[MSWrapperSdk class]]) {
+  if (![(NSObject *)object isKindOfClass:[MSWrapperSdk class]]) {
     return NO;
   }
   MSWrapperSdk *wrapperSdk = (MSWrapperSdk *)object;

@@ -65,7 +65,7 @@
 }
 
 - (BOOL)isEqual:(id)object {
-  if (![object isKindOfClass:[MSDevice class]] || ![super isEqual:object]) {
+  if (![(NSObject *)object isKindOfClass:[MSDevice class]] || ![super isEqual:object]) {
     return NO;
   }
   MSDevice *device = (MSDevice *)object;

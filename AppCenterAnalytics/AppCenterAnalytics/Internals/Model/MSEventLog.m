@@ -33,7 +33,7 @@ static NSString *const kMSId = @"id";
 }
 
 - (BOOL)isEqual:(id)object {
-  if (![object isKindOfClass:[MSEventLog class]] || ![super isEqual:object]) {
+  if (![(NSObject *)object isKindOfClass:[MSEventLog class]] || ![super isEqual:object]) {
     return NO;
   }
   MSEventLog *eventLog = (MSEventLog *)object;

@@ -25,7 +25,6 @@ static void PrintReachabilityFlags(__attribute__((unused)) SCNetworkReachability
 
   NSLog(@"Reachability Flag Status: %c%c %c%c%c%c%c%c%c %s\n", (flags & kSCNetworkReachabilityFlagsIsWWAN) ? 'W' : '-',
         (flags & kSCNetworkReachabilityFlagsReachable) ? 'R' : '-',
-
         (flags & kSCNetworkReachabilityFlagsTransientConnection) ? 't' : '-',
         (flags & kSCNetworkReachabilityFlagsConnectionRequired) ? 'c' : '-',
         (flags & kSCNetworkReachabilityFlagsConnectionOnTraffic) ? 'C' : '-',
@@ -75,10 +74,10 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
   SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithName(NULL, [hostName UTF8String]);
   if (reachability != NULL) {
     if ([NSThread isMainThread]) {
-      returnValue = [[self alloc] init];
+      returnValue = [[MS_Reachability alloc] init];
     } else {
       dispatch_sync(dispatch_get_main_queue(), ^{
-        returnValue = [[self alloc] init];
+        returnValue = [[MS_Reachability alloc] init];
       });
     }
     if (returnValue != NULL) {
@@ -97,10 +96,10 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
   SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithAddress(kCFAllocatorDefault, hostAddress);
   if (reachability != NULL) {
     if ([NSThread isMainThread]) {
-      returnValue = [[self alloc] init];
+      returnValue = [[MS_Reachability alloc] init];
     } else {
       dispatch_sync(dispatch_get_main_queue(), ^{
-        returnValue = [[self alloc] init];
+        returnValue = [[MS_Reachability alloc] init];
       });
     }
     if (returnValue != NULL) {

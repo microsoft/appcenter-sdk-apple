@@ -87,7 +87,7 @@ static NSString *const kMSException = @"exception";
 }
 
 - (BOOL)isEqual:(id)object {
-  if (![object isKindOfClass:[MSAppleErrorLog class]] || ![super isEqual:object]) {
+  if (![(NSObject *)object isKindOfClass:[MSAppleErrorLog class]] || ![super isEqual:object]) {
     return NO;
   }
   MSAppleErrorLog *errorLog = (MSAppleErrorLog *)object;

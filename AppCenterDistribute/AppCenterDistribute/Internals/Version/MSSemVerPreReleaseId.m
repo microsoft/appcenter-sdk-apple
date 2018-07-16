@@ -3,7 +3,7 @@
 @implementation MSSemVerPreReleaseId
 
 + (instancetype)identifierWithString:(NSString *)identifier {
-  return [[self alloc] initWithString:identifier];
+  return [[MSSemVerPreReleaseId alloc] initWithString:identifier];
 }
 
 - (instancetype)initWithString:(NSString *)identifier {

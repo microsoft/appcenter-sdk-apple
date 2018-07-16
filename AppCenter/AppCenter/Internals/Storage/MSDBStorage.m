@@ -60,7 +60,7 @@
       continue;
     }
     NSMutableArray *columnQueries = [NSMutableArray new];
-    NSArray<NSDictionary *> *columns = schema[tableName];
+    NSArray<NSDictionary<NSString *, NSArray<NSString *> *> *> *columns = schema[tableName];
 
     // Browse columns.
     for (NSUInteger i = 0; i < columns.count; i++) {
@@ -101,13 +101,13 @@
 + (BOOL)tableExists:(NSString *)tableName inOpenedDatabase:(void *)db {
   NSString *query = [NSString
       stringWithFormat:@"SELECT COUNT(*) FROM \"sqlite_master\" WHERE \"type\"='table' AND \"name\"='%@';", tableName];
-  NSArray *result = [self executeSelectionQuery:query inOpenedDatabase:db];
-  return (result.count > 0) ? [result[0][0] boolValue] : NO;
+  NSArray<NSArray *> *result = [MSDBStorage executeSelectionQuery:query inOpenedDatabase:db];
+  return (result.count > 0) ? [(NSNumber *)result[0][0] boolValue] : NO;
 }
 
 + (NSUInteger)versionInOpenedDatabase:(void *)db {
-  NSArray *result = [MSDBStorage executeSelectionQuery:@"PRAGMA user_version" inOpenedDatabase:db];
-  return (result.count > 0) ? [result[0][0] unsignedIntegerValue] : 0;
+  NSArray<NSArray *> *result = [MSDBStorage executeSelectionQuery:@"PRAGMA user_version" inOpenedDatabase:db];
+  return (result.count > 0) ? [(NSNumber *)result[0][0] unsignedIntegerValue] : 0;
 }
 
 + (void)setVersion:(NSUInteger)version inOpenedDatabase:(void *)db {

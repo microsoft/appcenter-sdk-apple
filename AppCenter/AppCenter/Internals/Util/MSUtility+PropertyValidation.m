@@ -24,7 +24,7 @@ NSString *MSUtilityPropertyValidationCategory;
                    logName, kMSMaxPropertiesPerLog);
       break;
     }
-    if (![key isKindOfClass:[NSString class]] || ![properties[key] isKindOfClass:[NSString class]]) {
+    if (![(NSObject *)key isKindOfClass:[NSString class]] || ![properties[key] isKindOfClass:[NSString class]]) {
       continue;
     }
 

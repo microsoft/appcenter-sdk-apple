@@ -24,7 +24,7 @@
 #pragma mark - NSObject
 
 - (BOOL)isEqual:(id)object {
-  if (![object isKindOfClass:[MSNetExtension class]]) {
+  if (![(NSObject *)object isKindOfClass:[MSNetExtension class]]) {
     return NO;
   }
   MSNetExtension *netExt = (MSNetExtension *)object;
