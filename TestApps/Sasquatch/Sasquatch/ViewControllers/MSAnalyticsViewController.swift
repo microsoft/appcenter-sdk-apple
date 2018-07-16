@@ -3,10 +3,8 @@ import UIKit
 class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
 
   @IBOutlet weak var enabled: UISwitch!
-  @IBOutlet weak var oneCollectorEnabled: UISwitch!
   @IBOutlet weak var eventName: UITextField!
   @IBOutlet weak var pageName: UITextField!
-  @IBOutlet weak var selectedChildTargetTokenLabel: UILabel!
 
   var appCenter: AppCenterDelegate!
   var eventPropertiesSection: EventPropertiesTableSection!
@@ -23,28 +21,17 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     self.enabled.isOn = appCenter.isAnalyticsEnabled()
   }
 
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    var childTargetToken = UserDefaults.standard.string(forKey: kMSChildTransmissionTargetTokenKey)
-    if childTargetToken != nil {
-      let range = childTargetToken!.index(childTargetToken!.startIndex, offsetBy: 0)..<childTargetToken!.index(childTargetToken!.startIndex, offsetBy: 9)
-      childTargetToken = childTargetToken![range]
-    } else {
-      childTargetToken = "None"
-    }
-    self.selectedChildTargetTokenLabel.text = "Child Target: " + childTargetToken!;
-  }
-
   @IBAction func trackEvent() {
     guard let name = eventName.text else {
       return
     }
     let eventPropertiesDictionary = eventPropertiesSection.eventPropertiesDictionary()
     appCenter.trackEvent(name, withProperties: eventPropertiesDictionary)
-    if self.oneCollectorEnabled.isOn {
-      let targetToken = UserDefaults.standard.string(forKey: kMSChildTransmissionTargetTokenKey)
-      let target = targetPropertiesSection.transmissionTarget(forTargetToken: targetToken!)
-      target.trackEvent(name, withProperties: eventPropertiesDictionary)
+    for targetToken in MSTransmissionTargets.shared.transmissionTargets.keys {
+      if MSTransmissionTargets.shared.targetShouldSendAnalyticsEvents(targetToken: targetToken) {
+        let target = MSTransmissionTargets.shared.transmissionTargets[targetToken]
+        target!.trackEvent(name, withProperties: eventPropertiesDictionary)
+      }
     }
   }
 
@@ -129,5 +116,3 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     return nil
   }
 }
-
-

@@ -28,6 +28,8 @@
 		359171F820F7F80800F3DDE6 /* PropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359171F620F7F80800F3DDE6 /* PropertiesTableSection.swift */; };
 		359171FA20F8001A00F3DDE6 /* TargetPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359171F920F8001A00F3DDE6 /* TargetPropertiesTableSection.swift */; };
 		359171FB20F8001A00F3DDE6 /* TargetPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359171F920F8001A00F3DDE6 /* TargetPropertiesTableSection.swift */; };
+		35FBE78120FD095200F7B05C /* MSTransmissionTargets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FBE78020FD095200F7B05C /* MSTransmissionTargets.swift */; };
+		35FBE78220FD095200F7B05C /* MSTransmissionTargets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FBE78020FD095200F7B05C /* MSTransmissionTargets.swift */; };
 		5CE2587F1EA5F60200DA8FB9 /* DistributeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE2587D1EA5F5FC00DA8FB9 /* DistributeUITests.swift */; };
 		5CE258801EA5F60500DA8FB9 /* CrashesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE2587B1EA5F5EB00DA8FB9 /* CrashesUITests.swift */; };
 		5CE258811EA5F60900DA8FB9 /* AnalyticsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE258791EA5F5DF00DA8FB9 /* AnalyticsUITests.swift */; };
@@ -244,6 +246,7 @@
 		359171EF20F5654600F3DDE6 /* MSAnalyticsTranmissionTargetSelectorViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MSAnalyticsTranmissionTargetSelectorViewCell.xib; sourceTree = "<group>"; };
 		359171F620F7F80800F3DDE6 /* PropertiesTableSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertiesTableSection.swift; sourceTree = "<group>"; };
 		359171F920F8001A00F3DDE6 /* TargetPropertiesTableSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetPropertiesTableSection.swift; sourceTree = "<group>"; };
+		35FBE78020FD095200F7B05C /* MSTransmissionTargets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTransmissionTargets.swift; sourceTree = "<group>"; };
 		384929201FACF5DA003F8736 /* SasquatchWatchObjC Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SasquatchWatchObjC Extension.entitlements"; sourceTree = SOURCE_ROOT; };
 		384929211FACF5F3003F8736 /* SasquatchWatchSwift Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SasquatchWatchSwift Extension.entitlements"; sourceTree = SOURCE_ROOT; };
 		5CD700E51EA4B74500FC5D12 /* SasquatchSwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchSwiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -436,6 +439,7 @@
 				84226CB11E8909F700798417 /* Storyboards */,
 				84226CB01E8909EA00798417 /* ViewControllers */,
 				84226CB21E8909FF00798417 /* Supporting Files */,
+				35FBE78020FD095200F7B05C /* MSTransmissionTargets.swift */,
 			);
 			name = Sasquatch;
 			path = ../TestApps/Sasquatch/Sasquatch;
@@ -983,6 +987,7 @@
 			files = (
 				352A3E7420F801A900D09CF0 /* EventPropertiesTableSection.swift in Sources */,
 				353332C820112EB4009B0946 /* MSEventFilterViewController.swift in Sources */,
+				35FBE78120FD095200F7B05C /* MSTransmissionTargets.swift in Sources */,
 				803CFF271F6A7E1D0072B9BA /* MSPushViewController.swift in Sources */,
 				F87E96141FDED64900AF2717 /* MSAnalyticsPropertyTableViewCell.swift in Sources */,
 				354273ED20126A3E00BE766F /* MSEventFilter.m in Sources */,
@@ -1020,6 +1025,7 @@
 				35396A7920F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift in Sources */,
 				84226D3D1E8938D200798417 /* AppCenterDelegate.swift in Sources */,
 				B2B36CE31EEF49C400230341 /* MSCustomPropertiesViewController.swift in Sources */,
+				35FBE78220FD095200F7B05C /* MSTransmissionTargets.swift in Sources */,
 				845178ED1E8A8B0D004A0A6F /* MSMainViewController.swift in Sources */,
 				353332C720112EB4009B0946 /* MSEventFilterViewController.swift in Sources */,
 				359171F820F7F80800F3DDE6 /* PropertiesTableSection.swift in Sources */,
