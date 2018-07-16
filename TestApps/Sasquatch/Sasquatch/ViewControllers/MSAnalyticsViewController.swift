@@ -8,13 +8,11 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
 
   var appCenter: AppCenterDelegate!
   var eventPropertiesSection: EventPropertiesTableSection!
-  var targetPropertiesSection: TargetPropertiesTableSection!
 
   private var kEventPropertiesSectionIndex: Int = 2
   private var kTargetPropertiesSectionIndex: Int = 3
 
   override func viewDidLoad() {
-    targetPropertiesSection = TargetPropertiesTableSection(tableSection: kTargetPropertiesSectionIndex, tableView: tableView)
     eventPropertiesSection = EventPropertiesTableSection(tableSection: kEventPropertiesSectionIndex, tableView: tableView)
     super.viewDidLoad()
     tableView.setEditing(true, animated: false)
@@ -48,34 +46,32 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   }
 
   override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-    let propertySection = getPropertySection(at: indexPath)
-    propertySection?.tableView(tableView, commit: editingStyle, forRowAt: indexPath)
+    eventPropertiesSection.tableView(tableView, commit: editingStyle, forRowAt: indexPath)
   }
 
   override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
-    if let propertySection = getPropertySection(at: indexPath) {
-      return propertySection.tableView(tableView, editingStyleForRowAt: indexPath)
+    if eventPropertiesSection.hasSectionId(indexPath.section) {
+      return eventPropertiesSection.tableView(tableView, editingStyleForRowAt: indexPath)
     }
     return .delete
   }
 
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)
-    let propertySection = getPropertySection(at: indexPath)
-    if propertySection != nil && propertySection!.isInsertRow(indexPath) {
+    if eventPropertiesSection.hasSectionId(indexPath.section) && eventPropertiesSection.isInsertRow(indexPath) {
       self.tableView(tableView, commit: .insert, forRowAt: indexPath)
     }
   }
 
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    if let propertySection = getPropertySection(at: IndexPath(row: 0, section: section)) {
-      return propertySection.tableView(tableView, numberOfRowsInSection: section)
+    if eventPropertiesSection.hasSectionId(section) {
+      return eventPropertiesSection.tableView(tableView, numberOfRowsInSection: section)
     }
     return super.tableView(tableView, numberOfRowsInSection: section)
   }
 
   override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    if getPropertySection(at: indexPath) != nil {
+    if eventPropertiesSection.hasSectionId(indexPath.section) {
       return super.tableView(tableView, heightForRowAt: IndexPath(row: 0, section: indexPath.section))
     }
     return super.tableView(tableView, heightForRowAt: indexPath)
@@ -90,8 +86,8 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   }
 
   override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-    if let propertySection = getPropertySection(at: indexPath) {
-      return propertySection.tableView(tableView, canEditRowAt:indexPath)
+    if eventPropertiesSection.hasSectionId(indexPath.section) {
+      return eventPropertiesSection.tableView(tableView, canEditRowAt:indexPath)
     }
     return false
   }
@@ -101,18 +97,9 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   }
 
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    if let propertySection = getPropertySection(at: indexPath) {
-      return propertySection.tableView(tableView, cellForRowAt:indexPath)
+    if eventPropertiesSection.hasSectionId(indexPath.section) {
+      return eventPropertiesSection.tableView(tableView, cellForRowAt:indexPath)
     }
     return super.tableView(tableView, cellForRowAt: indexPath)
-  }
-
-  func getPropertySection(at indexPath: IndexPath) -> PropertiesTableSection? {
-    if (eventPropertiesSection.hasSectionId(indexPath.section)) {
-      return eventPropertiesSection
-    } else if (targetPropertiesSection.hasSectionId(indexPath.section)) {
-      return targetPropertiesSection
-    }
-    return nil
   }
 }

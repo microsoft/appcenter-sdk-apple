@@ -26,9 +26,16 @@ class MSTransmissionTargetsViewController: UITableViewController {
   private let kAnalyticsSwitchCellId = "analyticsswitchcell"
   private let kTokenCellId = "tokencell"
   private let kTokenDisplayLabelTag = 1
+  private let kEnabledCellRowIndex = 0
+  private let kAnalyticsCellRowIndex = 1
+  private let kTokenCellRowIndex = 2
+  private let kTargetPropertiesSectionIndex = 3
+  private var targetPropertiesSection: TargetPropertiesTableSection?
 
   override func viewDidLoad() {
     super.viewDidLoad()
+
+    targetPropertiesSection = TargetPropertiesTableSection(tableSection: kTargetPropertiesSectionIndex, tableView: tableView)
 
     // Runtime target section.
     let runtimeTargetSection = MSTransmissionTargetSection()
@@ -49,28 +56,36 @@ class MSTransmissionTargetsViewController: UITableViewController {
 
     // The ordering of these target sections is important so they are displayed in the right order.
     transmissionTargetSections = [runtimeTargetSection, child1TargetSection, child2TargetSection]
+    tableView.setEditing(true, animated: false)
   }
 
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 3
+    if (targetPropertiesSection!.hasSectionId(section)) {
+      return targetPropertiesSection!.tableView(tableView, numberOfRowsInSection:section)
+    } else {
+      return 3
+    }
   }
 
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    if targetPropertiesSection!.hasSectionId(indexPath.section) {
+      return targetPropertiesSection!.tableView(tableView, cellForRowAt:indexPath)
+    }
     let section = transmissionTargetSections![indexPath.section]
     switch indexPath.row {
-    case 0: // Enabled cell
+    case kEnabledCellRowIndex:
       let cell = tableView.dequeueReusableCell(withIdentifier: kEnabledSwitchCellId)!
       let switcher: UISwitch? = getSubviewFromCell(cell)
       switcher?.isOn = section.getTransmissionTarget().isEnabled()
       switcher?.addTarget(self, action: #selector(targetEnabledSwitchValueChanged), for: .valueChanged)
       return cell
-    case 1: // Analytics enabled cell
+    case kAnalyticsCellRowIndex:
       let cell = tableView.dequeueReusableCell(withIdentifier: kAnalyticsSwitchCellId)!
       let switcher: UISwitch? = getSubviewFromCell(cell)
       switcher?.isOn = section.shouldSendAnalytics()
       switcher?.addTarget(self, action: #selector(targetShouldSendAnalyticsSwitchValueChanged), for: .valueChanged)
       return cell
-    case 2: // Token cell
+    case kTokenCellRowIndex:
       let cell = tableView.dequeueReusableCell(withIdentifier: kTokenCellId)!
       let label: UILabel? = getSubviewFromCell(cell, withTag:kTokenDisplayLabelTag)
       label?.text = section.token
@@ -86,7 +101,7 @@ class MSTransmissionTargetsViewController: UITableViewController {
     section.getTransmissionTarget().setEnabled(sender!.isOn)
     if (sectionIndex == 0) {
       for childSectionIndex in 1...2 {
-        let childCell = tableView.cellForRow(at: IndexPath(row: 0, section: childSectionIndex))
+        let childCell = tableView.cellForRow(at: IndexPath(row: kEnabledCellRowIndex, section: childSectionIndex))
         let childSwitch: UISwitch? = getSubviewFromCell(childCell!)
         let childTarget = transmissionTargetSections![childSectionIndex].getTransmissionTarget()
         childSwitch!.setOn(childTarget.isEnabled(), animated: true)
@@ -102,15 +117,67 @@ class MSTransmissionTargetsViewController: UITableViewController {
   }
 
   override func numberOfSections(in tableView: UITableView) -> Int {
-    return transmissionTargetSections!.count
+    return transmissionTargetSections!.count + 1
   }
 
   override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-    return transmissionTargetSections![section].headerText
+    if section < transmissionTargetSections!.count {
+      return transmissionTargetSections![section].headerText
+    }
+    return "Transmission Target Properties"
   }
 
   override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-    return transmissionTargetSections![section].footerText
+    if section < transmissionTargetSections!.count {
+      return transmissionTargetSections![section].footerText
+    }
+    return nil
+  }
+
+  override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    if targetPropertiesSection!.hasSectionId(indexPath.section) {
+      targetPropertiesSection?.tableView(tableView, commit: editingStyle, forRowAt: indexPath)
+    }
+  }
+
+  override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+    if targetPropertiesSection!.hasSectionId(indexPath.section) {
+      return targetPropertiesSection!.tableView(tableView, editingStyleForRowAt: indexPath)
+    }
+    return .none
+  }
+
+  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    tableView.deselectRow(at: indexPath, animated: true)
+    if targetPropertiesSection!.hasSectionId(indexPath.section) && targetPropertiesSection!.isInsertRow(indexPath) {
+      self.tableView(tableView, commit: .insert, forRowAt: indexPath)
+    }
+  }
+
+  override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    if targetPropertiesSection!.hasSectionId(indexPath.section) {
+      return super.tableView(tableView, heightForRowAt: IndexPath(row: 0, section: indexPath.section))
+    }
+    return super.tableView(tableView, heightForRowAt: indexPath)
+  }
+
+  /**
+   * Without this override, the default implementation will try to get a table cell that is out of bounds
+   * (since they are inserted/removed at a slightly different time than the actual data source is updated).
+   */
+  override func tableView(_ tableView: UITableView, indentationLevelForRowAt indexPath: IndexPath) -> Int {
+    return 0
+  }
+
+  override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    if targetPropertiesSection!.hasSectionId(indexPath.section) {
+      return targetPropertiesSection!.tableView(tableView, canEditRowAt:indexPath)
+    }
+    return false
+  }
+
+  override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+    return false
   }
 
   private func getSubviewFromCell<T: UIView>(_ cell: UITableViewCell, withTag tag:Int = 0) -> T? {
@@ -122,7 +189,7 @@ class MSTransmissionTargetsViewController: UITableViewController {
     return nil
   }
 
-  func getCellSection(forView view: UIView) -> Int {
+  private func getCellSection(forView view: UIView) -> Int {
     let cell = view.superview!.superview as! UITableViewCell
     let indexPath = tableView.indexPath(for: cell)!
     return indexPath.section

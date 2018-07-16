@@ -14,7 +14,7 @@ class TargetPropertiesTableSection : PropertiesTableSection {
     targetProperties[kMSTargetToken1] = [(String, String)]()
     targetProperties[kMSTargetToken2] = [(String, String)]()
     transmissionTargetSelectorCell = loadCellFromNib()
-    transmissionTargetSelectorCell?.didSelectTransmissionTarget = tableView.reloadData
+    transmissionTargetSelectorCell?.didSelectTransmissionTarget = reloadSection
   }
 
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -77,6 +77,10 @@ class TargetPropertiesTableSection : PropertiesTableSection {
 
   func isHeaderCell(_ indexPath: IndexPath) -> Bool {
     return !(isPropertyRow(indexPath) || isInsertRow(indexPath))
+  }
+
+  func reloadSection() {
+    tableView.reloadSections([tableSection], with: .none)
   }
 }
 
