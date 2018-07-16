@@ -92,8 +92,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
   }
 
   private func setAppCenterDelegate(){
-    let sasquatchController = (window?.rootViewController as! UINavigationController).topViewController as! MSMainViewController
-    sasquatchController.appCenter = AppCenterDelegateSwift()
+    let tabBarController = window?.rootViewController as? UITabBarController
+    for controller in tabBarController!.viewControllers! {
+      if controller is AppCenterProtocol {
+        (controller as! AppCenterProtocol).appCenter = AppCenterDelegateSwift()
+      }
+    }
   }
 
   /**

@@ -1,4 +1,5 @@
 import UIKit
+import AppCenterPush
 
 class MSMainViewController: UITableViewController, AppCenterProtocol {
   
@@ -9,17 +10,20 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   @IBOutlet weak var logUrl: UILabel!
   @IBOutlet weak var sdkVersion: UILabel!
   @IBOutlet weak var startTarget: UISegmentedControl!
+
+  @IBOutlet weak var pushEnabledSwitch: UISwitch!
   var appCenter: AppCenterDelegate!
   
   override func viewDidLoad() {
     super.viewDidLoad()
     self.enabled.isOn = appCenter.isAppCenterEnabled()
-    self.oneCollectorEnabled.isOn = UserDefaults.standard.bool(forKey: "isOneCollectorEnabled")
+    //self.oneCollectorEnabled.isOn = UserDefaults.standard.bool(forKey: "isOneCollectorEnabled")
     self.installId.text = appCenter.installId()
     self.appSecret.text = appCenter.appSecret()
     self.logUrl.text = appCenter.logUrl()
     self.sdkVersion.text = appCenter.sdkVersion()
     self.startTarget.selectedSegmentIndex = UserDefaults.standard.integer(forKey: "startTarget")
+    pushEnabledSwitch.isOn = MSPush.isEnabled()
   }
   
   @IBAction func enabledSwitchUpdated(_ sender: UISwitch) {
@@ -27,6 +31,11 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     sender.isOn = appCenter.isAppCenterEnabled()
   }
   
+  @IBAction func pushSwitchStateUpdated(_ sender: UISwitch) {
+    MSPush.setEnabled(sender.isOn)
+    sender.isOn = MSPush.isEnabled()
+  }
+
   @IBAction func enableOneCollectorSwitchUpdated(_ sender: UISwitch) {
     let alert = UIAlertController(title: "Restart", message: "Please restart the app for the change to take effect.",
                                   preferredStyle: .actionSheet)
