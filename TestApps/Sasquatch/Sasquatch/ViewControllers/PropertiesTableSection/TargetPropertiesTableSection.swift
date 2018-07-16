@@ -20,12 +20,13 @@ class TargetPropertiesTableSection : PropertiesTableSection {
     targetProperties[parentTargetToken] = [(String, String)]()
 
     // Child 1 target.
-    let childTarget1 = MSAnalytics.transmissionTarget(forToken: kMSTargetToken1)
+    let childTarget1 = parentTarget.transmissionTarget(forToken: kMSTargetToken1)
     transmissionTargets[kMSTargetToken1] = childTarget1
     targetProperties[kMSTargetToken1] = [(String, String)]()
 
     // Child 2 target.
-    let childTarget2 = MSAnalytics.transmissionTarget(forToken: kMSTargetToken2)
+    let childTarget2 = parentTarget
+      .transmissionTarget(forToken: kMSTargetToken2)
     transmissionTargets[kMSTargetToken2] = childTarget2
     targetProperties[kMSTargetToken2] = [(String, String)]()
     transmissionTargetSelectorCell = loadCellFromNib()
