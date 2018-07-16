@@ -31,6 +31,9 @@
     NSLog(@"Smashing [%p - %p]", memory, memory + PAGE_SIZE);
     memset((void *) trunc_page((vm_address_t) memory), 0xAB, PAGE_SIZE);
     memory += PAGE_SIZE;
+    
+    // Make some allocation to trigger a malloc error.
+    free(malloc(10));
   }
 }
 
