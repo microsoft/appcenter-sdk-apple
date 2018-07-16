@@ -24,6 +24,8 @@
 		380A4DC91DD68D3F00E99219 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A271D4152FA0016C325 /* libc++.tbd */; };
 		38148D8C20D087BC0046257E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A251D4152EB0016C325 /* libz.tbd */; };
 		38148DB820D088090046257E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A251D4152EB0016C325 /* libz.tbd */; };
+		3847DCC420F7B0AA003152CE /* MSAnalyticsTranmissionTargetSelectorViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3847DCC320F7B0AA003152CE /* MSAnalyticsTranmissionTargetSelectorViewCell.m */; };
+		3847DCC620F901F1003152CE /* MSAnalyticsTranmissionTargetSelectorViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3847DCC520F901F0003152CE /* MSAnalyticsTranmissionTargetSelectorViewCell.xib */; };
 		38484F6D1E53D57E00C5631C /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38484F691E537B9300C5631C /* SafariServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		38E1B65A1DDCDDF4000EFED1 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E1B6591DDCDDF4000EFED1 /* MSAlertController.m */; };
 		5C2BD19B1ED5D44400FB20C8 /* MSAnalyticsResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C2BD19A1ED5D44400FB20C8 /* MSAnalyticsResultViewController.m */; };
@@ -389,6 +391,9 @@
 		380A4D9C1DD6892F00E99219 /* TodayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodayViewController.m; sourceTree = "<group>"; };
 		380A4D9F1DD6892F00E99219 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		380A4DA11DD6892F00E99219 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3847DCC220F7B0AA003152CE /* MSAnalyticsTranmissionTargetSelectorViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsTranmissionTargetSelectorViewCell.h; sourceTree = "<group>"; };
+		3847DCC320F7B0AA003152CE /* MSAnalyticsTranmissionTargetSelectorViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSAnalyticsTranmissionTargetSelectorViewCell.m; sourceTree = "<group>"; };
+		3847DCC520F901F0003152CE /* MSAnalyticsTranmissionTargetSelectorViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MSAnalyticsTranmissionTargetSelectorViewCell.xib; sourceTree = "<group>"; };
 		38484F691E537B9300C5631C /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		3849294D1FACF63F003F8736 /* NotifExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NotifExtension.entitlements; sourceTree = "<group>"; };
 		384959D81D4972DA008F6B3A /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
@@ -706,6 +711,9 @@
 				F8EB8ED21FD83A1F00F7ADC1 /* MSAnalyticsPropertyTableViewCell.h */,
 				F8EB8ED31FD83A1F00F7ADC1 /* MSAnalyticsPropertyTableViewCell.m */,
 				F8EB8ED41FD83A1F00F7ADC1 /* MSAnalyticsPropertyTableViewCell.xib */,
+				3847DCC220F7B0AA003152CE /* MSAnalyticsTranmissionTargetSelectorViewCell.h */,
+				3847DCC320F7B0AA003152CE /* MSAnalyticsTranmissionTargetSelectorViewCell.m */,
+				3847DCC520F901F0003152CE /* MSAnalyticsTranmissionTargetSelectorViewCell.xib */,
 				E89E6A281D396D7900CAA2CD /* MSCrashesViewController.h */,
 				E89E6A291D396D7900CAA2CD /* MSCrashesViewController.m */,
 				5CE60DE01EDF0B3C0060303A /* MSCrashResultViewController.h */,
@@ -1129,6 +1137,7 @@
 				E82E1B721D1CA58D00D281C1 /* LaunchScreen.storyboard in Resources */,
 				B296D4211E5F5DEF0089F013 /* AppCenterDistributeResources.bundle in Resources */,
 				E82E1B6F1D1CA58D00D281C1 /* Assets.xcassets in Resources */,
+				3847DCC620F901F1003152CE /* MSAnalyticsTranmissionTargetSelectorViewCell.xib in Resources */,
 				E82E1B6D1D1CA58D00D281C1 /* Main.storyboard in Resources */,
 				F8EB8ED61FD83A1F00F7ADC1 /* MSAnalyticsPropertyTableViewCell.xib in Resources */,
 			);
@@ -1174,6 +1183,7 @@
 				F85AAE251E890226006797CA /* MSDeviceInfoViewController.m in Sources */,
 				38E1B65A1DDCDDF4000EFED1 /* MSAlertController.m in Sources */,
 				E82E1B671D1CA58D00D281C1 /* AppDelegate.m in Sources */,
+				3847DCC420F7B0AA003152CE /* MSAnalyticsTranmissionTargetSelectorViewCell.m in Sources */,
 				F8FF73DD1E922C9100D2B67D /* MSCustomPropertiesViewController.m in Sources */,
 				E89E6A2D1D396D7900CAA2CD /* MSMainViewController.m in Sources */,
 				5C2BD1A31ED5DE5700FB20C8 /* EventLog.m in Sources */,
@@ -1468,7 +1478,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -1527,6 +1537,7 @@
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
