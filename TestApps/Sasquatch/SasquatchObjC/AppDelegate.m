@@ -3,6 +3,7 @@
 #import "AppCenterDelegateObjC.h"
 #import "AppDelegate.h"
 #import "Constants.h"
+#import "SasquatchObjC-Swift.h"
 
 @import AppCenter;
 @import AppCenterAnalytics;
@@ -137,9 +138,11 @@ enum { START_FROM_APP = 0, START_FROM_LIBRARY, START_FROM_BOTH };
 }
 
 - (void)setAppCenterDelegate {
-  MSMainViewController *sasquatchController =
-      (MSMainViewController *)[(UINavigationController *)[[self window] rootViewController] topViewController];
-  sasquatchController.appCenter = [[AppCenterDelegateObjC alloc] init];
+   AppCenterDelegateObjC *appCenterDel = [[AppCenterDelegateObjC alloc] init];
+  for (UIViewController *controller in [(UITabBarController*)([[self window] rootViewController]) viewControllers]) {
+    id<AppCenterProtocol> sasquatchController = (id<AppCenterProtocol>)controller;
+    sasquatchController.appCenter = appCenterDel;
+  }
 }
 
 #pragma mark - MSCrashesDelegate
