@@ -14,8 +14,6 @@
 		048933631F8D395A00C38A87 /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
 		352A3E7420F801A900D09CF0 /* EventPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */; };
 		352A3E7520F80C8600D09CF0 /* EventPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */; };
-		353332C720112EB4009B0946 /* MSEventFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353332C620112EB4009B0946 /* MSEventFilterViewController.swift */; };
-		353332C820112EB4009B0946 /* MSEventFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353332C620112EB4009B0946 /* MSEventFilterViewController.swift */; };
 		35396A7820F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35396A7720F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift */; };
 		35396A7920F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35396A7720F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift */; };
 		354273ED20126A3E00BE766F /* MSEventFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 354273DE20126A3E00BE766F /* MSEventFilter.m */; };
@@ -238,7 +236,6 @@
 		047D13711EAFBDBE00D699BA /* AppCenterDistributeResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AppCenterDistributeResources.bundle; path = "../AppCenter-SDK-Apple/iOS/AppCenterDistributeResources.bundle"; sourceTree = "<group>"; };
 		0482105C1FD0B611006824F7 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Sasquatch.strings; sourceTree = "<group>"; };
 		352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventPropertiesTableSection.swift; sourceTree = "<group>"; };
-		353332C620112EB4009B0946 /* MSEventFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSEventFilterViewController.swift; sourceTree = "<group>"; };
 		35396A7720F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTransmissionTargetsViewController.swift; sourceTree = "<group>"; };
 		354273DE20126A3E00BE766F /* MSEventFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSEventFilter.m; sourceTree = "<group>"; };
 		354273DF20126A3E00BE766F /* MSEventFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSEventFilter.h; sourceTree = "<group>"; };
@@ -495,7 +492,6 @@
 				84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */,
 				B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */,
 				84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */,
-				353332C620112EB4009B0946 /* MSEventFilterViewController.swift */,
 				845964AC1E8A7E9700BABA51 /* MSMainViewController.swift */,
 				803CFF261F6A7E1D0072B9BA /* MSPushViewController.swift */,
 				35396A7720F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift */,
@@ -986,7 +982,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				352A3E7420F801A900D09CF0 /* EventPropertiesTableSection.swift in Sources */,
-				353332C820112EB4009B0946 /* MSEventFilterViewController.swift in Sources */,
 				35FBE78120FD095200F7B05C /* MSTransmissionTargets.swift in Sources */,
 				803CFF271F6A7E1D0072B9BA /* MSPushViewController.swift in Sources */,
 				F87E96141FDED64900AF2717 /* MSAnalyticsPropertyTableViewCell.swift in Sources */,
@@ -1027,7 +1022,6 @@
 				B2B36CE31EEF49C400230341 /* MSCustomPropertiesViewController.swift in Sources */,
 				35FBE78220FD095200F7B05C /* MSTransmissionTargets.swift in Sources */,
 				845178ED1E8A8B0D004A0A6F /* MSMainViewController.swift in Sources */,
-				353332C720112EB4009B0946 /* MSEventFilterViewController.swift in Sources */,
 				359171F820F7F80800F3DDE6 /* PropertiesTableSection.swift in Sources */,
 				84226D3F1E8939B700798417 /* AppCenterDelegateSwift.swift in Sources */,
 				F87E961A1FDEEA0900AF2717 /* MSCustomPropertyTableViewCell.swift in Sources */,

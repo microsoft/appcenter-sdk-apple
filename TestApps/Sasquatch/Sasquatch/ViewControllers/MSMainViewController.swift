@@ -10,7 +10,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   @IBOutlet weak var logUrl: UILabel!
   @IBOutlet weak var sdkVersion: UILabel!
   @IBOutlet weak var pushEnabledSwitch: UISwitch!
-
+  @IBOutlet weak var logFilterSwitch: UISwitch!
   var appCenter: AppCenterDelegate!
 
   static let kStartupTypeSectionIndex = 2
@@ -42,11 +42,15 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
 
     // Miscellaneous section.
     pushEnabledSwitch.isOn = appCenter.isPushEnabled()
+    appCenter.startEventFilterService()
+    self.logFilterSwitch.isOn = appCenter.isEventFilterEnabled()
     self.installId.text = appCenter.installId()
     self.appSecret.text = appCenter.appSecret()
     self.logUrl.text = appCenter.logUrl()
     self.sdkVersion.text = appCenter.sdkVersion()
   }
+
+  
   
   @IBAction func enabledSwitchUpdated(_ sender: UISwitch) {
     appCenter.setAppCenterEnabled(sender.isOn)
@@ -62,6 +66,11 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     UserDefaults.standard.set(sender.isOn, forKey: kMSOneCollectorEnabledKey)
   }
   
+  @IBAction func logFilterSwitchChanged(_ sender: UISwitch) {
+    appCenter.setEventFilterEnabled(sender.isOn)
+    sender.isOn = appCenter.isEventFilterEnabled()
+  }
+  
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: false)
     if (indexPath != informationCellIndexPath &&
@@ -71,6 +80,12 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     return
   }
 
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if let destination = segue.destination as? AppCenterProtocol {
+      destination.appCenter = appCenter
+    }
+  }
+  
   func didSelectStartupTypeCellAtIndexPath(_ indexPath: IndexPath) {
     let currentSelectionIndexPath = MSMainViewController.getIndexPathForSelectedStartupTypeCell()
     toggleSelectionForCellAtIndexPath(currentSelectionIndexPath)
