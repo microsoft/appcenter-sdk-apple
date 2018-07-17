@@ -36,7 +36,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iyL-fq-Rj1">
-                                                    <rect key="frame" x="301" y="6" width="55" height="31"/>
+                                                    <rect key="frame" x="300" y="6" width="55" height="31"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
                                                     <connections>
                                                         <action selector="enabledSwitchUpdated:" destination="GhP-bn-tCW" eventType="valueChanged" id="sdM-bB-si9"/>
@@ -157,7 +157,7 @@
                             <outlet property="delegate" destination="GhP-bn-tCW" id="IFf-IO-6UR"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Analytics" id="MSQ-GN-EOP"/>
+                    <tabBarItem key="tabBarItem" title="Analytics" image="analytics" id="MSQ-GN-EOP"/>
                     <connections>
                         <outlet property="enabled" destination="iyL-fq-Rj1" id="cOA-we-W2F"/>
                         <outlet property="eventName" destination="V6K-6G-Lx1" id="rd3-Yt-TrI"/>
@@ -226,7 +226,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RFp-Bh-UVe">
-                                            <rect key="frame" x="311" y="6" width="51" height="31"/>
+                                            <rect key="frame" x="311" y="6" width="50" height="31"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
                                             <connections>
                                                 <action selector="enabledSwitchUpdated:" destination="MLz-YP-ZEx" eventType="valueChanged" id="C54-n8-7Gj"/>
@@ -265,7 +265,7 @@
                             <outlet property="delegate" destination="MLz-YP-ZEx" id="x5y-f8-N4z"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Crashes" id="K2d-hQ-Jzu"/>
+                    <tabBarItem key="tabBarItem" title="Crashes" image="crashes" id="K2d-hQ-Jzu"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vze-KE-QLX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -358,7 +358,7 @@
                             <outlet property="delegate" destination="Rte-t5-OzE" id="ao6-Sb-p60"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Transmission" id="7ev-5H-vZP"/>
+                    <tabBarItem key="tabBarItem" title="Transmission" image="fuel" id="7ev-5H-vZP"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="35q-ZJ-VsH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -390,7 +390,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RMC-6k-Ol7">
-                                                    <rect key="frame" x="308" y="6" width="46" height="31"/>
+                                                    <rect key="frame" x="308" y="6" width="44" height="31"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
                                                     <connections>
                                                         <action selector="enabledSwitchUpdated:" destination="axH-Yn-1RM" eventType="valueChanged" id="9B5-F2-39e"/>
@@ -469,7 +469,7 @@
                             <outlet property="delegate" destination="axH-Yn-1RM" id="npk-MN-yUs"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Distribution" id="gHP-Uo-BJa"/>
+                    <tabBarItem key="tabBarItem" title="Distribution" image="distribute" id="gHP-Uo-BJa"/>
                     <connections>
                         <outlet property="customized" destination="Zxc-Dn-IKS" id="NJi-JI-t4o"/>
                         <outlet property="enabled" destination="RMC-6k-Ol7" id="v4D-rp-gom"/>
@@ -505,7 +505,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9G9-wl-jeN">
-                                                    <rect key="frame" x="306" y="6" width="50" height="31"/>
+                                                    <rect key="frame" x="307" y="6" width="49" height="31"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
                                                     <connections>
                                                         <action selector="enabledSwitchUpdated:" destination="1B5-mn-gom" eventType="valueChanged" id="2v8-jX-Lu7"/>
@@ -556,7 +556,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q0F-SV-i0s">
-                                                    <rect key="frame" x="306" y="6" width="43" height="31"/>
+                                                    <rect key="frame" x="306" y="6" width="42" height="31"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
                                                     <connections>
                                                         <action selector="enabledSwitchUpdated:" destination="9Ck-4D-Ozb" eventType="valueChanged" id="MlW-XW-LQd"/>
@@ -762,11 +762,11 @@
                                         <rect key="frame" x="0.0" y="655" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fkd-hK-q5r" id="JdX-qB-FcC">
-                                            <rect key="frame" x="0.0" y="0.0" width="341" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="349" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Custom Properties" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="uDM-hz-lCd">
-                                                    <rect key="frame" x="16" y="0.0" width="324" height="43.5"/>
+                                                    <rect key="frame" x="15" y="0.0" width="325" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -786,14 +786,14 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Install ID" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Xz8-oV-h4u">
-                                                    <rect key="frame" x="16" y="12" width="65.5" height="20.5"/>
+                                                    <rect key="frame" x="15" y="12" width="65.5" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" id="NtN-Tm-B6i" userLabel="Install ID">
-                                                    <rect key="frame" x="350.5" y="12" width="8.5" height="20.5"/>
+                                                    <rect key="frame" x="351.5" y="12" width="8.5" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -810,14 +810,14 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="App Secret" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="CkL-dm-RQv">
-                                                    <rect key="frame" x="16" y="12" width="85.5" height="20.5"/>
+                                                    <rect key="frame" x="15" y="12" width="85.5" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="?" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" id="yfU-RL-vIN">
-                                                    <rect key="frame" x="350.5" y="12" width="8.5" height="20.5"/>
+                                                    <rect key="frame" x="351.5" y="12" width="8.5" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -834,14 +834,14 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Log URL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Q0g-6H-vrt">
-                                                    <rect key="frame" x="16" y="12" width="65.5" height="20.5"/>
+                                                    <rect key="frame" x="15" y="12" width="65.5" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="?" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" id="XnS-uI-vJv" userLabel="Log URL">
-                                                    <rect key="frame" x="350.5" y="12" width="8.5" height="20.5"/>
+                                                    <rect key="frame" x="351.5" y="12" width="8.5" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -858,14 +858,14 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="SDK Version" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="d0B-bb-lji" userLabel="SDK Version">
-                                                    <rect key="frame" x="16" y="12" width="95" height="20.5"/>
+                                                    <rect key="frame" x="15" y="12" width="95" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="?" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" id="mii-om-0Af" userLabel="SDK Version">
-                                                    <rect key="frame" x="350.5" y="12" width="8.5" height="20.5"/>
+                                                    <rect key="frame" x="351.5" y="12" width="8.5" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -882,7 +882,7 @@
                             <outlet property="delegate" destination="9Ck-4D-Ozb" id="XKu-8j-qab"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="App Center" id="xhl-ug-PCm"/>
+                    <tabBarItem key="tabBarItem" title="App Center" image="dials" id="xhl-ug-PCm"/>
                     <navigationItem key="navigationItem" title="App Center" id="eqe-td-JIR"/>
                     <connections>
                         <outlet property="appCenterEnabledSwitch" destination="Q0F-SV-i0s" id="90F-m9-92r"/>
@@ -1100,4 +1100,11 @@
             <point key="canvasLocation" x="-666" y="897"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="analytics" width="23" height="23"/>
+        <image name="crashes" width="23" height="23"/>
+        <image name="dials" width="23" height="23"/>
+        <image name="distribute" width="23" height="23"/>
+        <image name="fuel" width="23" height="23"/>
+    </resources>
 </document>

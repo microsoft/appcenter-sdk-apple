@@ -26,6 +26,8 @@
 		359171F820F7F80800F3DDE6 /* PropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359171F620F7F80800F3DDE6 /* PropertiesTableSection.swift */; };
 		359171FA20F8001A00F3DDE6 /* TargetPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359171F920F8001A00F3DDE6 /* TargetPropertiesTableSection.swift */; };
 		359171FB20F8001A00F3DDE6 /* TargetPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359171F920F8001A00F3DDE6 /* TargetPropertiesTableSection.swift */; };
+		35ABB5D220FEAD8E002E6841 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C1C1E88FEFC00798417 /* Assets.xcassets */; };
+		35ABB5D320FEAD8F002E6841 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C1C1E88FEFC00798417 /* Assets.xcassets */; };
 		35FBE78120FD095200F7B05C /* MSTransmissionTargets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FBE78020FD095200F7B05C /* MSTransmissionTargets.swift */; };
 		35FBE78220FD095200F7B05C /* MSTransmissionTargets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FBE78020FD095200F7B05C /* MSTransmissionTargets.swift */; };
 		5CE2587F1EA5F60200DA8FB9 /* DistributeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE2587D1EA5F5FC00DA8FB9 /* DistributeUITests.swift */; };
@@ -902,6 +904,7 @@
 				F809D5041FC6DA2B005E0F83 /* LaunchScreen.storyboard in Resources */,
 				359171F020F5654600F3DDE6 /* MSAnalyticsTranmissionTargetSelectorViewCell.xib in Resources */,
 				845964AB1E8A7E6600BABA51 /* Main.storyboard in Resources */,
+				35ABB5D220FEAD8E002E6841 /* Assets.xcassets in Resources */,
 				F87E96161FDED64900AF2717 /* MSAnalyticsPropertyTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -916,6 +919,7 @@
 				F809D5051FC6DD80005E0F83 /* LaunchScreen.storyboard in Resources */,
 				359171F120F5654600F3DDE6 /* MSAnalyticsTranmissionTargetSelectorViewCell.xib in Resources */,
 				84D63FF91E8BAA90004C9F86 /* Main.storyboard in Resources */,
+				35ABB5D320FEAD8F002E6841 /* Assets.xcassets in Resources */,
 				F87E96171FDED64900AF2717 /* MSAnalyticsPropertyTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
