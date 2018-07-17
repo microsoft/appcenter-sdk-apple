@@ -93,9 +93,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
 
   private func setAppCenterDelegate(){
     let tabBarController = window?.rootViewController as? UITabBarController
+    var delegate = AppCenterDelegateSwift()
     for controller in tabBarController!.viewControllers! {
       if controller is AppCenterProtocol {
-        (controller as! AppCenterProtocol).appCenter = AppCenterDelegateSwift()
+        (controller as! AppCenterProtocol).appCenter = delegate
       }
     }
   }
