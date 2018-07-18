@@ -46,11 +46,11 @@ NSString *MSUtilityApplicationCategory;
 
 #if TARGET_OS_OSX
 + (MSApplicationState)sharedAppState {
-  return [[[self class] sharedApp] isHidden] ? MSApplicationStateBackground : MSApplicationStateActive;
+  return [[MSUtility sharedApp] isHidden] ? MSApplicationStateBackground : MSApplicationStateActive;
 }
 #else
 + (UIApplicationState)sharedAppState {
-  return [[[[self class] sharedApp] valueForKey:@"applicationState"] longValue];
+  return [(NSNumber *)[[MSUtility sharedApp] valueForKey:@"applicationState"] longValue];
 }
 #endif
 

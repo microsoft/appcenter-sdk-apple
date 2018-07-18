@@ -49,7 +49,7 @@ static NSString *const kMSWrapperSDKName = @"wrapperSdkName";
 }
 
 - (BOOL)isEqual:(id)object {
-  if (![object isKindOfClass:[MSException class]]) {
+  if (![(NSObject *)object isKindOfClass:[MSException class]]) {
     return NO;
   }
   MSException *exception = (MSException *)object;

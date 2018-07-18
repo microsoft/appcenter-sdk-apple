@@ -84,8 +84,8 @@ NSComparisonResult MSCompareCurrentReleaseWithRelease(MSReleaseDetails *releaseB
 
     // Same, use version field as numeric values for comparison.
     if (result == NSOrderedSame) {
-      result =
-          [[MS_APP_MAIN_BUNDLE infoDictionary][@"CFBundleVersion"] compare:releaseB.version options:NSNumericSearch];
+      result = [(NSString *)[MS_APP_MAIN_BUNDLE infoDictionary][@"CFBundleVersion"] compare:releaseB.version
+                                                                                    options:NSNumericSearch];
     }
 
     // Still same, compare UUIDs.

@@ -180,9 +180,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 #pragma mark - Public Methods
 
 + (void)generateTestCrash {
-
-  @synchronized([self sharedInstance]) {
-    if ([[self sharedInstance] canBeUsed]) {
+  @synchronized([MSCrashes sharedInstance]) {
+    if ([[MSCrashes sharedInstance] canBeUsed]) {
       if ([MSUtility currentAppEnvironment] != MSEnvironmentAppStore) {
         if ([MSAppCenter isDebuggerAttached]) {
           MSLogWarning([MSCrashes logTag],
@@ -200,7 +199,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 }
 
 + (BOOL)hasCrashedInLastSession {
-  return [[self sharedInstance] didCrashInLastSession];
+  return [[MSCrashes sharedInstance] didCrashInLastSession];
 }
 
 + (void)setUserConfirmationHandler:(_Nullable MSUserConfirmationHandler)userConfirmationHandler {
@@ -215,7 +214,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 }
 
 + (MSErrorReport *_Nullable)lastSessionCrashReport {
-  return [[self sharedInstance] getLastSessionCrashReport];
+  return [[MSCrashes sharedInstance] getLastSessionCrashReport];
 }
 
 /**
@@ -225,11 +224,11 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
  * The property is NO by default there.
  */
 + (void)disableMachExceptionHandler {
-  [[self sharedInstance] setEnableMachExceptionHandler:NO];
+  [[MSCrashes sharedInstance] setEnableMachExceptionHandler:NO];
 }
 
 + (void)setDelegate:(_Nullable id<MSCrashesDelegate>)delegate {
-  [[self sharedInstance] setDelegate:delegate];
+  [[MSCrashes sharedInstance] setDelegate:delegate];
 }
 
 /**
@@ -247,8 +246,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 + (void)trackModelException:(MSException *)exception
              withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties {
   @synchronized(self) {
-    if ([[self sharedInstance] canBeUsed]) {
-      [[self sharedInstance] trackModelException:exception withProperties:properties];
+    if ([[MSCrashes sharedInstance] canBeUsed]) {
+      [[MSCrashes sharedInstance] trackModelException:exception withProperties:properties];
     }
   }
 }
@@ -378,7 +377,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 + (instancetype)sharedInstance {
   dispatch_once(&onceToken, ^{
     if (sharedInstance == nil) {
-      sharedInstance = [[self alloc] init];
+      sharedInstance = [[MSCrashes alloc] init];
     }
   });
   return sharedInstance;

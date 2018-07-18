@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * A list used to keep track of batches that have been forwarded to the ingestion component.
  */
-@property(nonatomic, copy) NSMutableArray *pendingBatchIds;
+@property(nonatomic, strong) NSMutableArray *pendingBatchIds;
 
 /**
  * A boolean value set to YES if there is at least one available batch from the storage.

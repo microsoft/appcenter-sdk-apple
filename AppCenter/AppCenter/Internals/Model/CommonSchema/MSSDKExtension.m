@@ -35,7 +35,7 @@
 #pragma mark - NSObject
 
 - (BOOL)isEqual:(id)object {
-  if (![object isKindOfClass:[MSSDKExtension class]]) {
+  if (![(NSObject *)object isKindOfClass:[MSSDKExtension class]]) {
     return NO;
   }
   MSSDKExtension *sdkExt = (MSSDKExtension *)object;

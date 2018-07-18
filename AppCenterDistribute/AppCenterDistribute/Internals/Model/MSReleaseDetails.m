@@ -45,7 +45,7 @@ static NSString *const kMSPackageHashes = @"package_hashes";
       self.shortVersion = dictionary[kMSShortVersion];
     }
     if (dictionary[kMSReleaseNotes]) {
-      if ([dictionary[kMSReleaseNotes] isKindOfClass:[NSNull class]]) {
+      if ([(NSObject *)dictionary[kMSReleaseNotes] isKindOfClass:[NSNull class]]) {
         self.releaseNotes = nil;
       } else {
         self.releaseNotes = dictionary[kMSReleaseNotes];
@@ -61,7 +61,7 @@ static NSString *const kMSPackageHashes = @"package_hashes";
       self.minOs = dictionary[kMSMinOs];
     }
     if (dictionary[kMSMandatoryUpdate]) {
-      self.mandatoryUpdate = [dictionary[kMSMandatoryUpdate] isEqual:@YES] ? YES : NO;
+      self.mandatoryUpdate = [(NSObject *)dictionary[kMSMandatoryUpdate] isEqual:@YES] ? YES : NO;
     }
     if (dictionary[kMSFingerprint]) {
       self.fingerprint = dictionary[kMSFingerprint];
@@ -71,7 +71,7 @@ static NSString *const kMSPackageHashes = @"package_hashes";
       self.uploadedAt = [MSUtility dateFromISO8601:uploadedAt];
     }
     if (dictionary[kMSDownloadUrl]) {
-      if ([dictionary[kMSDownloadUrl] isKindOfClass:[NSNull class]]) {
+      if ([(NSObject *)dictionary[kMSDownloadUrl] isKindOfClass:[NSNull class]]) {
         self.downloadUrl = nil;
       } else {
         NSString *_Nonnull downloadUrl = (NSString * _Nonnull)dictionary[kMSDownloadUrl];
@@ -79,7 +79,7 @@ static NSString *const kMSPackageHashes = @"package_hashes";
       }
     }
     if (dictionary[kMSAppIconUrl]) {
-      if ([dictionary[kMSAppIconUrl] isKindOfClass:[NSNull class]]) {
+      if ([(NSObject *)dictionary[kMSAppIconUrl] isKindOfClass:[NSNull class]]) {
         self.appIconUrl = nil;
       } else {
         NSString *_Nonnull appIconUrl = (NSString * _Nonnull)dictionary[kMSAppIconUrl];
@@ -87,7 +87,7 @@ static NSString *const kMSPackageHashes = @"package_hashes";
       }
     }
     if (dictionary[kMSInstallUrl]) {
-      if ([dictionary[kMSInstallUrl] isKindOfClass:[NSNull class]]) {
+      if ([(NSObject *)dictionary[kMSInstallUrl] isKindOfClass:[NSNull class]]) {
         self.installUrl = nil;
       } else {
         NSString *_Nonnull installUrl = (NSString * _Nonnull)dictionary[kMSInstallUrl];
@@ -95,7 +95,7 @@ static NSString *const kMSPackageHashes = @"package_hashes";
       }
     }
     if (dictionary[kMSReleaseNotesUrl]) {
-      if ([dictionary[kMSReleaseNotesUrl] isKindOfClass:[NSNull class]]) {
+      if ([(NSObject *)dictionary[kMSReleaseNotesUrl] isKindOfClass:[NSNull class]]) {
         self.releaseNotesUrl = nil;
       } else {
         NSString *_Nonnull releaseNotesUrl = (NSString * _Nonnull)dictionary[kMSReleaseNotesUrl];
@@ -184,7 +184,7 @@ static NSString *const kMSPackageHashes = @"package_hashes";
 }
 
 - (BOOL)isEqual:(id)object {
-  if (![object isKindOfClass:[MSReleaseDetails class]]) {
+  if (![(NSObject *)object isKindOfClass:[MSReleaseDetails class]]) {
     return NO;
   }
   MSReleaseDetails *details = (MSReleaseDetails *)object;

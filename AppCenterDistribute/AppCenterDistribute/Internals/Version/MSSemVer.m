@@ -9,7 +9,7 @@ static NSString *const kMSMetaDataSeparator = @"+";
 @implementation MSSemVer
 
 + (instancetype)semVerWithString:(nullable NSString *)version {
-  return [[self alloc] initWithString:(NSString *)version];
+  return [[MSSemVer alloc] initWithString:(NSString *)version];
 }
 
 - (instancetype)initWithString:(nullable NSString *)version {

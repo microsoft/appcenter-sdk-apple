@@ -26,6 +26,9 @@
 		38148DB820D088090046257E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC99A251D4152EB0016C325 /* libz.tbd */; };
 		3847DCC420F7B0AA003152CE /* MSAnalyticsTranmissionTargetSelectorViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3847DCC320F7B0AA003152CE /* MSAnalyticsTranmissionTargetSelectorViewCell.m */; };
 		3847DCC620F901F1003152CE /* MSAnalyticsTranmissionTargetSelectorViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3847DCC520F901F0003152CE /* MSAnalyticsTranmissionTargetSelectorViewCell.xib */; };
+		3847DCCA20F96693003152CE /* MSPropertiesTableSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 3847DCC920F96693003152CE /* MSPropertiesTableSection.m */; };
+		3847DCCD20F968FA003152CE /* MSTargetPropertiesTableSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 3847DCCC20F968FA003152CE /* MSTargetPropertiesTableSection.m */; };
+		3847DCD020F969B5003152CE /* MSEventPropertiesTableSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 3847DCCF20F969B5003152CE /* MSEventPropertiesTableSection.m */; };
 		38484F6D1E53D57E00C5631C /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38484F691E537B9300C5631C /* SafariServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		38E1B65A1DDCDDF4000EFED1 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E1B6591DDCDDF4000EFED1 /* MSAlertController.m */; };
 		5C2BD19B1ED5D44400FB20C8 /* MSAnalyticsResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C2BD19A1ED5D44400FB20C8 /* MSAnalyticsResultViewController.m */; };
@@ -394,6 +397,12 @@
 		3847DCC220F7B0AA003152CE /* MSAnalyticsTranmissionTargetSelectorViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsTranmissionTargetSelectorViewCell.h; sourceTree = "<group>"; };
 		3847DCC320F7B0AA003152CE /* MSAnalyticsTranmissionTargetSelectorViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSAnalyticsTranmissionTargetSelectorViewCell.m; sourceTree = "<group>"; };
 		3847DCC520F901F0003152CE /* MSAnalyticsTranmissionTargetSelectorViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MSAnalyticsTranmissionTargetSelectorViewCell.xib; sourceTree = "<group>"; };
+		3847DCC820F96693003152CE /* MSPropertiesTableSection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSPropertiesTableSection.h; sourceTree = "<group>"; };
+		3847DCC920F96693003152CE /* MSPropertiesTableSection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSPropertiesTableSection.m; sourceTree = "<group>"; };
+		3847DCCB20F968FA003152CE /* MSTargetPropertiesTableSection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSTargetPropertiesTableSection.h; sourceTree = "<group>"; };
+		3847DCCC20F968FA003152CE /* MSTargetPropertiesTableSection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSTargetPropertiesTableSection.m; sourceTree = "<group>"; };
+		3847DCCE20F969B5003152CE /* MSEventPropertiesTableSection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSEventPropertiesTableSection.h; sourceTree = "<group>"; };
+		3847DCCF20F969B5003152CE /* MSEventPropertiesTableSection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSEventPropertiesTableSection.m; sourceTree = "<group>"; };
 		38484F691E537B9300C5631C /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		3849294D1FACF63F003F8736 /* NotifExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NotifExtension.entitlements; sourceTree = "<group>"; };
 		384959D81D4972DA008F6B3A /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
@@ -552,6 +561,19 @@
 			path = PuppetWidget;
 			sourceTree = "<group>";
 		};
+		3847DCC720F95A7D003152CE /* PropertiesTableSection */ = {
+			isa = PBXGroup;
+			children = (
+				3847DCC820F96693003152CE /* MSPropertiesTableSection.h */,
+				3847DCC920F96693003152CE /* MSPropertiesTableSection.m */,
+				3847DCCB20F968FA003152CE /* MSTargetPropertiesTableSection.h */,
+				3847DCCC20F968FA003152CE /* MSTargetPropertiesTableSection.m */,
+				3847DCCE20F969B5003152CE /* MSEventPropertiesTableSection.h */,
+				3847DCCF20F969B5003152CE /* MSEventPropertiesTableSection.m */,
+			);
+			name = PropertiesTableSection;
+			sourceTree = "<group>";
+		};
 		38E1B6571DDCDDF4000EFED1 /* MSAlertController */ = {
 			isa = PBXGroup;
 			children = (
@@ -698,6 +720,7 @@
 		E89E6A271D396D6700CAA2CD /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				3847DCC720F95A7D003152CE /* PropertiesTableSection */,
 				5C2BD1A01ED5DE2100FB20C8 /* Utils */,
 				E82E1B651D1CA58D00D281C1 /* AppDelegate.h */,
 				E82E1B661D1CA58D00D281C1 /* AppDelegate.m */,
@@ -1184,12 +1207,15 @@
 				38E1B65A1DDCDDF4000EFED1 /* MSAlertController.m in Sources */,
 				E82E1B671D1CA58D00D281C1 /* AppDelegate.m in Sources */,
 				3847DCC420F7B0AA003152CE /* MSAnalyticsTranmissionTargetSelectorViewCell.m in Sources */,
+				3847DCD020F969B5003152CE /* MSEventPropertiesTableSection.m in Sources */,
 				F8FF73DD1E922C9100D2B67D /* MSCustomPropertiesViewController.m in Sources */,
 				E89E6A2D1D396D7900CAA2CD /* MSMainViewController.m in Sources */,
 				5C2BD1A31ED5DE5700FB20C8 /* EventLog.m in Sources */,
 				5C2BD19B1ED5D44400FB20C8 /* MSAnalyticsResultViewController.m in Sources */,
 				B2E611F61DDE72BA00A9DF86 /* MSFakeCXXClass.mm in Sources */,
 				E89E6A2C1D396D7900CAA2CD /* MSCrashesViewController.m in Sources */,
+				3847DCCD20F968FA003152CE /* MSTargetPropertiesTableSection.m in Sources */,
+				3847DCCA20F96693003152CE /* MSPropertiesTableSection.m in Sources */,
 				E89E6A301D39704900CAA2CD /* MSAnalyticsViewController.m in Sources */,
 				E82E1B641D1CA58D00D281C1 /* main.m in Sources */,
 				80493AB71F6A701900E6E895 /* MSPushViewController.m in Sources */,

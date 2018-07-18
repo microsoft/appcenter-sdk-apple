@@ -259,9 +259,9 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSet
  *
  * @return Reporting parameters dictionary.
  */
-- (NSMutableDictionary *)getReportingParametersForUpdatedRelease:(NSString *)updateToken
-                                     currentInstalledReleaseHash:(NSString *)currentInstalledReleaseHash
-                                             distributionGroupId:(NSString *)distributionGroupId;
+- (nullable NSMutableDictionary *)getReportingParametersForUpdatedRelease:(NSString *)updateToken
+                                              currentInstalledReleaseHash:(NSString *)currentInstalledReleaseHash
+                                                      distributionGroupId:(NSString *)distributionGroupId;
 
 /**
  * After an app is updated and restarted, check if an updated release has different group ID and update current

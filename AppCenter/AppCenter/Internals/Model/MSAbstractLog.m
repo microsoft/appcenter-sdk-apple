@@ -50,7 +50,7 @@
 }
 
 - (BOOL)isEqual:(id)object {
-  if (![object isKindOfClass:[MSAbstractLog class]]) {
+  if (![(NSObject *)object isKindOfClass:[MSAbstractLog class]]) {
     return NO;
   }
   MSAbstractLog *log = (MSAbstractLog *)object;
