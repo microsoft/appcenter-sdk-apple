@@ -10,6 +10,9 @@
   if (self.appId) {
     dict[kMSAppId] = self.appId;
   }
+  if (self.name) {
+    dict[kMSAppName] = self.name;
+  }
   if (self.ver) {
     dict[kMSAppVer] = self.ver;
   }
@@ -24,6 +27,11 @@
 - (BOOL)isValid {
 
   // All attributes are optional.
+
+  // Name is an optional but shouldn't be an empty string.
+  if (self.name && [self.name length] == 0) {
+    return NO;
+  }
   return YES;
 }
 
@@ -35,6 +43,7 @@
   }
   MSAppExtension *appExt = (MSAppExtension *)object;
   return ((!self.appId && !appExt.appId) || [self.appId isEqualToString:appExt.appId]) &&
+         ((!self.name && !appExt.name) || [self.name isEqualToString:appExt.name]) &&
          ((!self.ver && !appExt.ver) || [self.ver isEqualToString:appExt.ver]) &&
          ((!self.locale && !appExt.locale) || [self.locale isEqualToString:appExt.locale]);
 }
@@ -44,6 +53,7 @@
 - (instancetype)initWithCoder:(NSCoder *)coder {
   if ((self = [super init])) {
     _appId = [coder decodeObjectForKey:kMSAppId];
+    _name = [coder decodeObjectForKey:kMSAppName];
     _ver = [coder decodeObjectForKey:kMSAppVer];
     _locale = [coder decodeObjectForKey:kMSAppLocale];
   }
@@ -52,6 +62,7 @@
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [coder encodeObject:self.appId forKey:kMSAppId];
+  [coder encodeObject:self.name forKey:kMSAppName];
   [coder encodeObject:self.ver forKey:kMSAppVer];
   [coder encodeObject:self.locale forKey:kMSAppLocale];
 }

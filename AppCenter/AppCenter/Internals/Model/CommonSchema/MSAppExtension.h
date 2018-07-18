@@ -14,6 +14,11 @@
 @property(nonatomic, copy) NSString *appId;
 
 /**
+ * The application's name.
+ */
+@property(nonatomic, copy) NSString *name;
+
+/**
  * The application's version.
  */
 @property(nonatomic, copy) NSString *ver;

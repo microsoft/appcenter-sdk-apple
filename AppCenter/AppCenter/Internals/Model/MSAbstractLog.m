@@ -172,6 +172,7 @@
   // App extension.
   csLog.ext.appExt = [MSAppExtension new];
   csLog.ext.appExt.appId = [NSString stringWithFormat:@"I:%@", self.device.appNamespace];
+  csLog.ext.appExt.name = @"TODO"; // TODO: What's the name??
   csLog.ext.appExt.ver = self.device.appVersion;
   csLog.ext.appExt.locale = [[[NSBundle mainBundle] preferredLocalizations] firstObject];
 

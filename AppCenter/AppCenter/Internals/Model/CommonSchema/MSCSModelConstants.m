@@ -32,6 +32,7 @@ NSString *const kMSOSName = @"name";
 #pragma mark - MSAppExtension
 
 NSString *const kMSAppId = @"id";
+NSString *const kMSAppName = @"name";
 NSString *const kMSAppVer = @"ver";
 NSString *const kMSAppLocale = @"locale";
 

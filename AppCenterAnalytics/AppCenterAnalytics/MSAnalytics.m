@@ -179,7 +179,9 @@ __attribute__((used)) static void importCategories() {
     forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarget {
   @synchronized(self) {
     if ([[MSAnalytics sharedInstance] canBeUsed]) {
-      [[MSAnalytics sharedInstance] trackEvent:eventName withProperties:properties forTransmissionTarget:transmissionTarget];
+      [[MSAnalytics sharedInstance] trackEvent:eventName
+                                withProperties:properties
+                         forTransmissionTarget:transmissionTarget];
     }
   }
 }
@@ -291,8 +293,9 @@ __attribute__((used)) static void importCategories() {
                [MSUtility targetIdFromTargetToken:transmissionTargetToken]);
     return transmissionTarget;
   }
-  transmissionTarget =
-      [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:transmissionTargetToken parentTarget:nil];
+  transmissionTarget = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:transmissionTargetToken
+                                                                                 parentTarget:nil
+                                                                                 channelGroup:self.channelGroup];
   MSLogDebug([MSAnalytics logTag], @"Created transmission target with id %@.",
              [MSUtility targetIdFromTargetToken:transmissionTargetToken]);
   [self.transmissionTargets setObject:transmissionTarget forKey:transmissionTargetToken];
