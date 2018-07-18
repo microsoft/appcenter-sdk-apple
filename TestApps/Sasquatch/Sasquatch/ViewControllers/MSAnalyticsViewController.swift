@@ -10,7 +10,6 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   var eventPropertiesSection: EventPropertiesTableSection!
 
   private var kEventPropertiesSectionIndex: Int = 2
-  private var kTargetPropertiesSectionIndex: Int = 3
 
   override func viewDidLoad() {
     eventPropertiesSection = EventPropertiesTableSection(tableSection: kEventPropertiesSectionIndex, tableView: tableView)
@@ -24,7 +23,9 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
       return
     }
     let eventPropertiesDictionary = eventPropertiesSection.eventPropertiesDictionary()
-    appCenter.trackEvent(name, withProperties: eventPropertiesDictionary)
+    if (MSTransmissionTargets.shared.defaultTargetShouldSendAnalyticsEvents()) {
+      appCenter.trackEvent(name, withProperties: eventPropertiesDictionary)
+    }
     for targetToken in MSTransmissionTargets.shared.transmissionTargets.keys {
       if MSTransmissionTargets.shared.targetShouldSendAnalyticsEvents(targetToken: targetToken) {
         let target = MSTransmissionTargets.shared.transmissionTargets[targetToken]
@@ -50,7 +51,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   }
 
   override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
-    if eventPropertiesSection.hasSectionId(indexPath.section) {
+    if indexPath.section == kEventPropertiesSectionIndex {
       return eventPropertiesSection.tableView(tableView, editingStyleForRowAt: indexPath)
     }
     return .delete
@@ -58,20 +59,20 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
 
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)
-    if eventPropertiesSection.hasSectionId(indexPath.section) && eventPropertiesSection.isInsertRow(indexPath) {
+    if indexPath.section == kEventPropertiesSectionIndex && eventPropertiesSection.isInsertRow(indexPath) {
       self.tableView(tableView, commit: .insert, forRowAt: indexPath)
     }
   }
 
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    if eventPropertiesSection.hasSectionId(section) {
+    if section == kEventPropertiesSectionIndex {
       return eventPropertiesSection.tableView(tableView, numberOfRowsInSection: section)
     }
     return super.tableView(tableView, numberOfRowsInSection: section)
   }
 
   override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    if eventPropertiesSection.hasSectionId(indexPath.section) {
+    if indexPath.section == kEventPropertiesSectionIndex {
       return super.tableView(tableView, heightForRowAt: IndexPath(row: 0, section: indexPath.section))
     }
     return super.tableView(tableView, heightForRowAt: indexPath)
@@ -86,7 +87,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   }
 
   override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-    if eventPropertiesSection.hasSectionId(indexPath.section) {
+    if indexPath.section == kEventPropertiesSectionIndex {
       return eventPropertiesSection.tableView(tableView, canEditRowAt:indexPath)
     }
     return false
@@ -97,7 +98,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   }
 
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    if eventPropertiesSection.hasSectionId(indexPath.section) {
+    if indexPath.section == kEventPropertiesSectionIndex {
       return eventPropertiesSection.tableView(tableView, cellForRowAt:indexPath)
     }
     return super.tableView(tableView, cellForRowAt: indexPath)

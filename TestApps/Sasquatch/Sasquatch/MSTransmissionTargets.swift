@@ -5,12 +5,16 @@ class MSTransmissionTargets {
   static let shared = MSTransmissionTargets.init()
   var transmissionTargets: [String: MSAnalyticsTransmissionTarget]!
   private var sendsAnalyticsEvents: [String: Bool]!
+  private let defaultTargetKey = "defaultTargetKey"
 
   private init() {
 
     // Set up all transmission targets and associated mappings. The three targets and their tokens are hard coded.
     transmissionTargets = [String: MSAnalyticsTransmissionTarget]()
     sendsAnalyticsEvents = [String: Bool]()
+
+    // Default target.
+    sendsAnalyticsEvents[defaultTargetKey] = true
 
     // Parent target.
     let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
@@ -36,5 +40,13 @@ class MSTransmissionTargets {
 
   func targetShouldSendAnalyticsEvents(targetToken: String) -> Bool {
     return sendsAnalyticsEvents[targetToken]!
+  }
+
+  func setShouldDefaultTargetSendAnalyticsEvents(enabledState: Bool) {
+    sendsAnalyticsEvents[defaultTargetKey] = enabledState
+  }
+
+  func defaultTargetShouldSendAnalyticsEvents() -> Bool {
+    return sendsAnalyticsEvents[defaultTargetKey]!
   }
 }

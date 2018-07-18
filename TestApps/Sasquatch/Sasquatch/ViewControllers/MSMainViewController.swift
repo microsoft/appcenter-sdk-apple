@@ -3,8 +3,6 @@ import UIKit
 class MSMainViewController: UITableViewController, AppCenterProtocol {
   
   @IBOutlet weak var appCenterEnabledSwitch: UISwitch!
-  @IBOutlet weak var oneCollectorEnabledLabel: UILabel!
-  @IBOutlet weak var oneCollectorEnabledSwitch: UISwitch!
   @IBOutlet weak var installId: UILabel!
   @IBOutlet weak var appSecret: UILabel!
   @IBOutlet weak var logUrl: UILabel!
@@ -22,11 +20,6 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   override func viewDidLoad() {
     super.viewDidLoad()
     appCenterEnabledSwitch.isOn = appCenter.isAppCenterEnabled()
-
-    // One Collector section.
-    let oneCollectorEnabled = UserDefaults.standard.bool(forKey: kMSOneCollectorEnabledKey)
-    oneCollectorEnabledSwitch.isOn = oneCollectorEnabled
-    oneCollectorEnabledLabel.text = oneCollectorEnabled ? "Enabled" : "Disabled"
 
     // Startup Targets section.
     let startupTypeCellIndexPath = MSMainViewController.getIndexPathForSelectedStartupTypeCell()
@@ -50,8 +43,6 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     self.sdkVersion.text = appCenter.sdkVersion()
   }
 
-  
-  
   @IBAction func enabledSwitchUpdated(_ sender: UISwitch) {
     appCenter.setAppCenterEnabled(sender.isOn)
     sender.isOn = appCenter.isAppCenterEnabled()
@@ -60,10 +51,6 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   @IBAction func pushSwitchStateUpdated(_ sender: UISwitch) {
     appCenter.setPushEnabled(sender.isOn)
     sender.isOn = appCenter.isPushEnabled()
-  }
-
-  @IBAction func enableOneCollectorSwitchUpdated(_ sender: UISwitch) {
-    UserDefaults.standard.set(sender.isOn, forKey: kMSOneCollectorEnabledKey)
   }
   
   @IBAction func logFilterSwitchChanged(_ sender: UISwitch) {
