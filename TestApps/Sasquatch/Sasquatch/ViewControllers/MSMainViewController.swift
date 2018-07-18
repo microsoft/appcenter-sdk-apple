@@ -11,7 +11,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   @IBOutlet weak var logFilterSwitch: UISwitch!
   var appCenter: AppCenterDelegate!
 
-  static let kStartupTypeSectionIndex = 2
+  static let kStartupTypeSectionIndex = 1
   var appTargetCellIndexPath = IndexPath(row:0, section:kStartupTypeSectionIndex)
   var libraryTargetCellIndexPath = IndexPath(row:1, section:kStartupTypeSectionIndex)
   var bothTargetsCellIndexPath = IndexPath(row: 2, section: kStartupTypeSectionIndex)
