@@ -13,8 +13,7 @@ class TargetPropertiesTableSection : PropertiesTableSection {
     targetProperties = [String: [(String, String)]]()
  
     // Parent target.
-    let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
-    let parentTargetToken = appName == "SasquatchSwift" ? kMSSwiftRuntimeTargetToken : kMSObjCRuntimeTargetToken
+    let parentTargetToken = TargetPropertiesTableSection.parentTransmissionTargetToken()
     let parentTarget = MSAnalytics.transmissionTarget(forToken: parentTargetToken)
     transmissionTargets[parentTargetToken] = parentTarget
     targetProperties[parentTargetToken] = [(String, String)]()
@@ -97,6 +96,11 @@ class TargetPropertiesTableSection : PropertiesTableSection {
 
   func transmissionTarget(forTargetToken token: String) -> MSAnalyticsTransmissionTarget {
     return transmissionTargets[token]!
+  }
+  
+ public class func parentTransmissionTargetToken() -> String {
+    let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
+    return appName == "SasquatchSwift" ? kMSSwiftRuntimeTargetToken : kMSObjCRuntimeTargetToken
   }
 }
 
