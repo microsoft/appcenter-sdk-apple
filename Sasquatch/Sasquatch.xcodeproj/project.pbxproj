@@ -435,7 +435,6 @@
 				84226CB11E8909F700798417 /* Storyboards */,
 				84226CB01E8909EA00798417 /* ViewControllers */,
 				84226CB21E8909FF00798417 /* Supporting Files */,
-				35FBE78020FD095200F7B05C /* MSTransmissionTargets.swift */,
 			);
 			name = Sasquatch;
 			path = ../TestApps/Sasquatch/Sasquatch;
@@ -512,6 +511,7 @@
 				045A947D1F97C840002B7CB1 /* App.xcconfig */,
 				84226C1C1E88FEFC00798417 /* Assets.xcassets */,
 				041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */,
+				35FBE78020FD095200F7B05C /* MSTransmissionTargets.swift */,
 				84226D091E891FB900798417 /* Sasquatch-Bridging-Header.h */,
 			);
 			name = "Supporting Files";

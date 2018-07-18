@@ -27,8 +27,8 @@ enum { START_FROM_APP = 0, START_FROM_LIBRARY, START_FROM_BOTH };
   [MSAppCenter setLogLevel:MSLogLevelVerbose];
 
   // Start App Center SDK.
-  BOOL useOneCollector = [[NSUserDefaults standardUserDefaults] boolForKey:@"isOneCollectorEnabled"];
-  long startTarget = [[NSUserDefaults standardUserDefaults] integerForKey:@"startTarget"];
+  BOOL useOneCollector = [[NSUserDefaults standardUserDefaults] boolForKey:kMSOneCollectorEnabledKey];
+  long startTarget = [[NSUserDefaults standardUserDefaults] integerForKey:kMSStartTargetKey];
 
   NSString *secretString = useOneCollector ? @"target=5a06bf4972a44a059d59c757e6d0b595-cb71af5d-2d79-4fb4-b969-"
                                              @"01840f1543e9-6845;appsecret=3ccfe7f5-ec01-4de5-883c-f563bbbe147a"
