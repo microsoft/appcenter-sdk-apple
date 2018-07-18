@@ -1,15 +1,15 @@
 #import "MSAppCenterInternal.h"
-#import "MSHttpSender.h"
-#import "MSHttpSenderPrivate.h"
-#import "MSSenderCall.h"
-#import "MSSenderDelegate.h"
+#import "MSHttpIngestion.h"
+#import "MSHttpIngestionPrivate.h"
+#import "MSIngestionCall.h"
+#import "MSIngestionDelegate.h"
 
 static NSTimeInterval kRequestTimeout = 60.0;
 
 // URL components' name within a partial URL.
 static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"password", @"host", @"port", @"path"};
 
-@implementation MSHttpSender
+@implementation MSHttpIngestion
 
 @synthesize baseURL = _baseURL;
 @synthesize apiPath = _apiPath;
@@ -24,16 +24,22 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
          queryStrings:(NSDictionary *)queryStrings
          reachability:(MS_Reachability *)reachability
        retryIntervals:(NSArray *)retryIntervals {
-  return [self initWithBaseUrl:baseUrl apiPath:apiPath headers:headers queryStrings:queryStrings reachability:reachability retryIntervals:retryIntervals maxNumberOfConnections:4];
+  return [self initWithBaseUrl:baseUrl
+                       apiPath:apiPath
+                       headers:headers
+                  queryStrings:queryStrings
+                  reachability:reachability
+                retryIntervals:retryIntervals
+        maxNumberOfConnections:4];
 }
 
 - (id)initWithBaseUrl:(NSString *)baseUrl
-              apiPath:(NSString *)apiPath
-              headers:(NSDictionary *)headers
-         queryStrings:(NSDictionary *)queryStrings
-         reachability:(MS_Reachability *)reachability
-       retryIntervals:(NSArray *)retryIntervals
-maxNumberOfConnections:(NSInteger)maxNumberOfConnections {
+                   apiPath:(NSString *)apiPath
+                   headers:(NSDictionary *)headers
+              queryStrings:(NSDictionary *)queryStrings
+              reachability:(MS_Reachability *)reachability
+            retryIntervals:(NSArray *)retryIntervals
+    maxNumberOfConnections:(NSInteger)maxNumberOfConnections {
   if ((self = [super init])) {
     _httpHeaders = headers;
     _pendingCalls = [NSMutableDictionary new];
@@ -79,19 +85,21 @@ maxNumberOfConnections:(NSInteger)maxNumberOfConnections {
   return self;
 }
 
-#pragma mark - MSSender
+#pragma mark - MSIngestion
 
-- (void)sendAsync:(NSObject *)data completionHandler:(MSSendAsyncCompletionHandler)handler {
-  [self sendAsync:data callId:MS_UUID_STRING completionHandler:handler];
+- (void)sendAsync:(NSObject *)data
+            appSecret:(NSString *)appSecret
+    completionHandler:(MSSendAsyncCompletionHandler)handler {
+  [self sendAsync:data appSecret:(NSString *)appSecret callId:MS_UUID_STRING completionHandler:handler];
 }
 
-- (void)addDelegate:(id<MSSenderDelegate>)delegate {
+- (void)addDelegate:(id<MSIngestionDelegate>)delegate {
   @synchronized(self) {
     [self.delegates addObject:delegate];
   }
 }
 
-- (void)removeDelegate:(id<MSSenderDelegate>)delegate {
+- (void)removeDelegate:(id<MSIngestionDelegate>)delegate {
   @synchronized(self) {
     [self.delegates removeObject:delegate];
   }
@@ -130,7 +138,7 @@ maxNumberOfConnections:(NSInteger)maxNumberOfConnections {
 - (void)suspend {
   @synchronized(self) {
     if (!self.suspended) {
-      MSLogInfo([MSAppCenter logTag], @"Suspend sender.");
+      MSLogInfo([MSAppCenter logTag], @"Suspend ingestion.");
       self.suspended = YES;
 
       // Suspend all tasks.
@@ -147,7 +155,7 @@ maxNumberOfConnections:(NSInteger)maxNumberOfConnections {
 
       // Suspend current calls' retry.
       [self.pendingCalls.allValues
-          enumerateObjectsUsingBlock:^(MSSenderCall *_Nonnull call, __attribute__((unused)) NSUInteger idx,
+          enumerateObjectsUsingBlock:^(MSIngestionCall *_Nonnull call, __attribute__((unused)) NSUInteger idx,
                                        __attribute__((unused)) BOOL *_Nonnull stop) {
             if (!call.submitted) {
               [call resetRetry];
@@ -155,9 +163,9 @@ maxNumberOfConnections:(NSInteger)maxNumberOfConnections {
           }];
 
       // Notify delegates.
-      [self enumerateDelegatesForSelector:@selector(senderDidSuspend:)
-                                withBlock:^(id<MSSenderDelegate> delegate) {
-                                  [delegate senderDidSuspend:self];
+      [self enumerateDelegatesForSelector:@selector(ingestionDidSuspend:)
+                                withBlock:^(id<MSIngestionDelegate> delegate) {
+                                    [delegate ingestionDidSuspend:self];
                                 }];
     }
   }
@@ -168,7 +176,7 @@ maxNumberOfConnections:(NSInteger)maxNumberOfConnections {
 
     // Resume only while enabled.
     if (self.suspended && self.enabled) {
-      MSLogInfo([MSAppCenter logTag], @"Resume sender.");
+      MSLogInfo([MSAppCenter logTag], @"Resume ingestion.");
       self.suspended = NO;
 
       // Resume existing calls.
@@ -185,7 +193,7 @@ maxNumberOfConnections:(NSInteger)maxNumberOfConnections {
 
       // Resume calls.
       [self.pendingCalls.allValues
-          enumerateObjectsUsingBlock:^(MSSenderCall *_Nonnull call, __attribute__((unused)) NSUInteger idx,
+          enumerateObjectsUsingBlock:^(MSIngestionCall *_Nonnull call, __attribute__((unused)) NSUInteger idx,
                                        __attribute__((unused)) BOOL *_Nonnull stop) {
             if (!call.submitted) {
               [self sendCallAsync:call];
@@ -193,28 +201,27 @@ maxNumberOfConnections:(NSInteger)maxNumberOfConnections {
           }];
 
       // Propagate.
-      [self enumerateDelegatesForSelector:@selector(senderDidResume:)
-                                withBlock:^(id<MSSenderDelegate> delegate) {
-                                  [delegate senderDidResume:self];
+      [self enumerateDelegatesForSelector:@selector(ingestionDidResume:)
+                                withBlock:^(id<MSIngestionDelegate> delegate) {
+                                    [delegate ingestionDidResume:self];
                                 }];
     }
   }
 }
 
-#pragma mark - MSSenderCallDelegate
+#pragma mark - MSIngestionCallDelegate
 
-- (void)sendCallAsync:(MSSenderCall *)call {
+- (void)sendCallAsync:(MSIngestionCall *)call {
   @synchronized(self) {
     if (self.suspended || !self.enabled) {
       return;
     }
-
     if (!call) {
       return;
     }
 
     // Create the request.
-    NSURLRequest *request = [self createRequest:call.data];
+    NSURLRequest *request = [self createRequest:call.data appSecret:call.appSecret];
     if (!request) {
       return;
     }
@@ -225,7 +232,7 @@ maxNumberOfConnections:(NSInteger)maxNumberOfConnections {
           completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
             @synchronized(self) {
               NSString *payload = nil;
-              NSInteger statusCode = [MSSenderUtil getStatusCode:response];
+              NSInteger statusCode = [MSIngestionUtil getStatusCode:response];
 
               // Trying to format json for log. Don't need to log json error here.
               if (data) {
@@ -258,7 +265,7 @@ maxNumberOfConnections:(NSInteger)maxNumberOfConnections {
               // Call handles the completion.
               if (call) {
                 call.submitted = NO;
-                [call sender:self callCompletedWithStatus:statusCode data:data error:error];
+                [call ingestion:self callCompletedWithStatus:statusCode data:data error:error];
               }
             }
           }];
@@ -269,32 +276,32 @@ maxNumberOfConnections:(NSInteger)maxNumberOfConnections {
   }
 }
 
-- (void)call:(MSSenderCall *)call completedWithResult:(MSSenderCallResult)result {
+- (void)call:(MSIngestionCall *)call completedWithResult:(MSIngestionCallResult)result {
   @synchronized(self) {
     switch (result) {
-    case MSSenderCallResultFatalError: {
+    case MSIngestionCallResultFatalError: {
 
       // Disable and delete data.
       [self setEnabled:NO andDeleteDataOnDisabled:YES];
 
       // Notify delegates.
-      [self enumerateDelegatesForSelector:@selector(senderDidReceiveFatalError:)
-                                withBlock:^(id<MSSenderDelegate> delegate) {
-                                  [delegate senderDidReceiveFatalError:self];
+      [self enumerateDelegatesForSelector:@selector(ingestionDidReceiveFatalError:)
+                                withBlock:^(id<MSIngestionDelegate> delegate) {
+                                    [delegate ingestionDidReceiveFatalError:self];
                                 }];
       break;
     }
-    case MSSenderCallResultRecoverableError:
+    case MSIngestionCallResultRecoverableError:
 
       // Disable and do not delete data. Do not notify the delegates as this will cause data to be deleted.
       [self setEnabled:NO andDeleteDataOnDisabled:NO];
       break;
-    case MSSenderCallResultSuccess:
+    case MSIngestionCallResultSuccess:
       break;
     }
 
     // Remove call from pending call. This needs to happen after calling setEnabled:andDeleteDataOnDisabled:
-    // FIXME: Refactor dependency between calling setEnabled:andDeleteDataOnDisabled: and suspending the sender.
+    // FIXME: Refactor dependency between calling setEnabled:andDeleteDataOnDisabled: and suspending the ingestion.
     NSString *callId = call.callId;
     if (callId.length == 0) {
       MSLogWarning([MSAppCenter logTag], @"Call object is invalid");
@@ -362,8 +369,7 @@ maxNumberOfConnections:(NSInteger)maxNumberOfConnections {
 /**
  * This is an empty method and expect to be overridden in sub classes.
  */
-- (NSURLRequest *)createRequest:(NSObject *)data {
-  (void)data;
+- (NSURLRequest *)createRequest:(NSObject *)__unused data appSecret:(NSString *)__unused appSecret {
   return nil;
 }
 
@@ -389,8 +395,8 @@ maxNumberOfConnections:(NSInteger)maxNumberOfConnections {
   return _session;
 }
 
-- (void)enumerateDelegatesForSelector:(SEL)selector withBlock:(void (^)(id<MSSenderDelegate> delegate))block {
-  for (id<MSSenderDelegate> delegate in self.delegates) {
+- (void)enumerateDelegatesForSelector:(SEL)selector withBlock:(void (^)(id<MSIngestionDelegate> delegate))block {
+  for (id<MSIngestionDelegate> delegate in self.delegates) {
     if (delegate && [delegate respondsToSelector:selector]) {
       block(delegate);
     }
@@ -407,15 +413,19 @@ maxNumberOfConnections:(NSInteger)maxNumberOfConnections {
   return [flattenedHeaders componentsJoinedByString:@", "];
 }
 
-- (void)sendAsync:(NSObject *)data callId:(NSString *)callId completionHandler:(MSSendAsyncCompletionHandler)handler {
+- (void)sendAsync:(NSObject *)data
+            appSecret:(NSString *)appSecret
+               callId:(NSString *)callId
+    completionHandler:(MSSendAsyncCompletionHandler)handler {
   @synchronized(self) {
 
     // Check if call has already been created(retry scenario).
-    MSSenderCall *call = self.pendingCalls[callId];
+    MSIngestionCall *call = self.pendingCalls[callId];
     if (call == nil) {
-      call = [[MSSenderCall alloc] initWithRetryIntervals:self.callsRetryIntervals];
+      call = [[MSIngestionCall alloc] initWithRetryIntervals:self.callsRetryIntervals];
       call.delegate = self;
       call.data = data;
+      call.appSecret = appSecret;
       call.callId = callId;
       call.completionHandler = handler;
 

@@ -1,11 +1,11 @@
 #import "MSAppCenter.h"
 #import "MSAppCenterInternal.h"
 #import "MSDistribute.h"
-#import "MSDistributeSender.h"
-#import "MSHttpSenderPrivate.h"
+#import "MSDistributeIngestion.h"
+#import "MSHttpIngestionPrivate.h"
 #import "MSLoggerInternal.h"
 
-@implementation MSDistributeSender
+@implementation MSDistributeIngestion
 
 /**
  * The API paths for latest release requests.
@@ -39,8 +39,9 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat =
   return self;
 }
 
-- (NSURLRequest *)createRequest:(NSObject *)data {
+- (NSURLRequest *)createRequest:(NSObject *)data appSecret:(NSString *)appSecret {
   (void)data;
+  (void)appSecret;
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.sendURL];
 
   // Set method.
@@ -59,7 +60,7 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat =
   if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
     NSString *url =
         [request.URL.absoluteString stringByReplacingOccurrencesOfString:self.appSecret
-                                                              withString:[MSSenderUtil hideSecret:self.appSecret]];
+                                                              withString:[MSIngestionUtil hideSecret:self.appSecret]];
     MSLogVerbose([MSAppCenter logTag], @"URL: %@", url);
     MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [super prettyPrintHeaders:request.allHTTPHeaderFields]);
   }
@@ -68,7 +69,7 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat =
 }
 
 - (NSString *)obfuscateHeaderValue:(NSString *)key value:(NSString *)value {
-  return [key isEqualToString:kMSHeaderUpdateApiToken] ? [MSSenderUtil hideSecret:value] : value;
+  return [key isEqualToString:kMSHeaderUpdateApiToken] ? [MSIngestionUtil hideSecret:value] : value;
 }
 
 @end

@@ -20,9 +20,9 @@ extern NSString *const kMSLogNameRegex;
 @property(nonatomic) NSMutableDictionary<NSString *, id<MSChannelUnitProtocol>> *oneCollectorChannels;
 
 /**
- * Http sender to send logs to One Collector endpoint.
+ * Http ingestion to send logs to One Collector endpoint.
  */
-@property(nonatomic) MSOneCollectorIngestion *oneCollectorSender;
+@property(nonatomic) MSOneCollectorIngestion *oneCollectorIngestion;
 
 /**
  * Keep track of epoch and sequence per tenant token.

@@ -125,8 +125,11 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
   return sharedInstance;
 }
 
-- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(nullable NSString *)appSecret transmissionTargetToken:(nullable NSString *)token {
-  [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token];
+- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup
+                    appSecret:(nullable NSString *)appSecret
+      transmissionTargetToken:(nullable NSString *)token
+              fromApplication:(BOOL)fromApplication {
+  [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
   MSLogVerbose([MSPush logTag], @"Started push service.");
 }
 
@@ -145,19 +148,19 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 #pragma mark - MSPush
 
 + (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-  [[self sharedInstance] didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+  [[MSPush sharedInstance] didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 
 + (void)didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-  [[self sharedInstance] didFailToRegisterForRemoteNotificationsWithError:error];
+  [[MSPush sharedInstance] didFailToRegisterForRemoteNotificationsWithError:error];
 }
 
 + (BOOL)didReceiveRemoteNotification:(NSDictionary *)userInfo {
-  return [[self sharedInstance] didReceiveRemoteNotification:userInfo fromUserNotification:NO];
+  return [[MSPush sharedInstance] didReceiveRemoteNotification:userInfo fromUserNotification:NO];
 }
 
 + (void)setDelegate:(nullable id<MSPushDelegate>)delegate {
-  [[self sharedInstance] setDelegate:delegate];
+  [[MSPush sharedInstance] setDelegate:delegate];
 }
 
 #pragma mark - MSServiceAbstract
@@ -314,14 +317,12 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
   (void)userNotification;
 #endif
   MSLogVerbose([MSPush logTag], @"User info for notification was forwarded to Push: %@", [userInfo description]);
-  id title;
-  id message;
-  id customData;
+  NSObject *title, *message, *customData, *alert;
   NSDictionary *aps = [userInfo objectForKey:kMSPushNotificationApsKey];
-  NSObject *alert;
 
   // The notification is not for App Center if customData is nil. Ignore the notification.
-  customData = [userInfo objectForKey:kMSPushNotificationCustomDataKey]?:[userInfo objectForKey:kMSPushNotificationOldCustomDataKey];
+  customData = [userInfo objectForKey:kMSPushNotificationCustomDataKey]
+                   ?: [userInfo objectForKey:kMSPushNotificationOldCustomDataKey];
   customData = ([customData isKindOfClass:[NSDictionary<NSString *, NSString *> class]]) ? customData : nil;
   if (customData) {
 
@@ -332,7 +333,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
       return YES;
     }
     alert = [aps objectForKey:kMSPushNotificationAlertKey];
-    
+
     // Retreive notification payload.
     if ([alert isKindOfClass:[NSDictionary class]]) {
       title = [alert valueForKey:kMSPushNotificationTitleKey];
@@ -372,7 +373,9 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 
       // Initialize push notification model.
       MSPushNotification *pushNotification =
-          [[MSPushNotification alloc] initWithTitle:title message:message customData:customData];
+          [[MSPushNotification alloc] initWithTitle:(NSString *)title
+                                            message:(NSString *)message
+                                         customData:(NSDictionary<NSString *, NSString *> *)customData];
 
       // Call push delegate and deliver notification back to the application.
       dispatch_async(dispatch_get_main_queue(), ^{
@@ -381,8 +384,8 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 #if TARGET_OS_OSX
     } else {
       NSUserNotification *notification = [[NSUserNotification alloc] init];
-      notification.title = title;
-      notification.informativeText = message;
+      notification.title = (NSString *)title;
+      notification.informativeText = (NSString *)message;
       notification.userInfo = userInfo;
       NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
       [center deliverNotification:notification];

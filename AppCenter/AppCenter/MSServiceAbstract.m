@@ -1,7 +1,6 @@
 #import "MSAppCenterInternal.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitProtocol.h"
-#import "MSServiceAbstractPrivate.h"
 
 @implementation MSServiceAbstract
 
@@ -11,14 +10,9 @@
 @synthesize defaultTransmissionTargetToken = _defaultTransmissionTargetToken;
 
 - (instancetype)init {
-  return [self initWithStorage:MS_USER_DEFAULTS];
-}
-
-- (instancetype)initWithStorage:(MSUserDefaults *)storage {
   if ((self = [super init])) {
     _started = NO;
     _isEnabledKey = [NSString stringWithFormat:@"kMS%@IsEnabledKey", self.groupId];
-    _storage = storage;
   }
   return self;
 }
@@ -29,7 +23,7 @@
 
   // Get isEnabled value from persistence.
   // No need to cache the value in a property, user settings already have their cache mechanism.
-  NSNumber *isEnabledNumber = [self.storage objectForKey:self.isEnabledKey];
+  NSNumber *isEnabledNumber = [MS_USER_DEFAULTS objectForKey:self.isEnabledKey];
 
   // Return the persisted value otherwise it's enabled by default.
   return (isEnabledNumber) ? [isEnabledNumber boolValue] : YES;
@@ -42,7 +36,7 @@
     [self applyEnabledState:isEnabled];
 
     // Persist the enabled status.
-    [self.storage setObject:@(isEnabled) forKey:self.isEnabledKey];
+    [MS_USER_DEFAULTS setObject:@(isEnabled) forKey:self.isEnabledKey];
   }
 }
 
@@ -74,19 +68,28 @@
   return YES;
 }
 
+- (BOOL)isStartedFromApplication {
+  return self.startedFromApplication;
+}
+
 #pragma mark : - MSService
 
 - (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup
                     appSecret:(NSString *)appSecret
-      transmissionTargetToken:(NSString *)token {
+      transmissionTargetToken:(NSString *)token
+              fromApplication:(BOOL)fromApplication {
+  self.startedFromApplication = fromApplication;
   self.channelGroup = channelGroup;
   self.appSecret = appSecret;
   self.defaultTransmissionTargetToken = token;
   self.started = YES;
   if ([self respondsToSelector:@selector(channelUnitConfiguration)]) {
 
-    // Initialize channel unit for the service in log manager.
+    // Initialize channel unit for the service in channel group.
     self.channelUnit = [self.channelGroup addChannelUnitWithConfiguration:self.channelUnitConfiguration];
+    if (self.appSecret) {
+      [self.channelUnit setAppSecret:self.appSecret];
+    }
   }
 
   // Enable this service as needed.
@@ -95,6 +98,28 @@
   }
 }
 
+- (void)updateConfigurationWithAppSecret:(NSString *)appSecret transmissionTargetToken:(NSString *)token {
+  self.startedFromApplication = YES;
+  self.appSecret = appSecret;
+  self.defaultTransmissionTargetToken = token;
+  if (self.appSecret) {
+    [self.channelUnit setAppSecret:self.appSecret];
+  }
+
+  // Enable this service as needed.
+  if (self.isEnabled) {
+    [self applyEnabledState:self.isEnabled];
+  }
+}
+
+#pragma clang diagnostic push
+
+// Ignore "Unknown warning group '-Wobjc-messaging-id'" for old XCode
+#pragma clang diagnostic ignored "-Wunknown-pragmas"
+#pragma clang diagnostic ignored "-Wunknown-warning-option"
+
+// Ignore "Messaging unqualified id" for XCode 10
+#pragma clang diagnostic ignored "-Wobjc-messaging-id"
 + (void)setEnabled:(BOOL)isEnabled {
   @synchronized([self sharedInstance]) {
     if ([[self sharedInstance] canBeUsed]) {
@@ -114,5 +139,6 @@
     return [[self sharedInstance] canBeUsed] && [[self sharedInstance] isEnabled];
   }
 }
+#pragma clang diagnostic pop
 
 @end

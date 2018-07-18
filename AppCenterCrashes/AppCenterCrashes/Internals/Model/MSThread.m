@@ -47,7 +47,7 @@ static NSString *const kMSException = @"exception";
 }
 
 - (BOOL)isEqual:(id)object {
-  if (![object isKindOfClass:[MSThread class]]) {
+  if (![(NSObject *)object isKindOfClass:[MSThread class]]) {
     return NO;
   }
   MSThread *thread = (MSThread *)object;

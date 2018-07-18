@@ -16,17 +16,17 @@
   static MSWrapperCrashesHelper *sharedInstance = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-    sharedInstance = [[self alloc] init];
+    sharedInstance = [[MSWrapperCrashesHelper alloc] init];
   });
   return sharedInstance;
 }
 
 + (void)setCrashHandlerSetupDelegate:(id<MSCrashHandlerSetupDelegate>)delegate {
-  [[self sharedInstance] setCrashHandlerSetupDelegate:delegate];
+  [[MSWrapperCrashesHelper sharedInstance] setCrashHandlerSetupDelegate:delegate];
 }
 
 + (id<MSCrashHandlerSetupDelegate>)getCrashHandlerSetupDelegate {
-  return [[self sharedInstance] crashHandlerSetupDelegate];
+  return [[MSWrapperCrashesHelper sharedInstance] crashHandlerSetupDelegate];
 }
 
 /**

@@ -1,4 +1,4 @@
-#import "MSHttpSender.h"
+#import "MSHttpIngestion.h"
 
 extern NSString *const kMSOneCollectorApiKey;
 extern NSString *const kMSOneCollectorApiPath;
@@ -14,14 +14,14 @@ extern NSString *const kMSOneCollectorContentType;
 extern NSString *const kMSOneCollectorLogSeparator;
 extern NSString *const kMSOneCollectorUploadTimeKey;
 
-@interface MSOneCollectorIngestion : MSHttpSender
+@interface MSOneCollectorIngestion : MSHttpIngestion
 
 /**
- * Initialize the Sender.
+ * Initialize the ingestion.
  *
  * @param baseUrl Base url.
  *
- * @return A sender instance.
+ * @return An ingestion instance.
  */
 - (id)initWithBaseUrl:(NSString *)baseUrl;
 

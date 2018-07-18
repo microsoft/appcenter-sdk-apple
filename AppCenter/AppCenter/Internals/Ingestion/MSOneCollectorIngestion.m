@@ -3,7 +3,7 @@
 #import "MSAppCenterErrors.h"
 #import "MSCompression.h"
 #import "MSConstants+Internal.h"
-#import "MSHttpSenderPrivate.h"
+#import "MSHttpIngestionPrivate.h"
 #import "MSLog.h"
 #import "MSLogContainer.h"
 #import "MSLoggerInternal.h"
@@ -35,7 +35,9 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
   return self;
 }
 
-- (void)sendAsync:(NSObject *)data completionHandler:(MSSendAsyncCompletionHandler)handler {
+- (void)sendAsync:(NSObject *)data
+            appSecret:(NSString *)appSecret
+    completionHandler:(MSSendAsyncCompletionHandler)handler {
   MSLogContainer *container = (MSLogContainer *)data;
   NSString *batchId = container.batchId;
 
@@ -50,13 +52,13 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
     NSError *error =
         [NSError errorWithDomain:kMSACErrorDomain code:kMSACLogInvalidContainerErrorCode userInfo:userInfo];
     MSLogError([MSAppCenter logTag], @"%@", [error localizedDescription]);
-    handler(batchId, nil, nil, error);
+    handler(batchId, 0, nil, error);
     return;
   }
-  [super sendAsync:container callId:container.batchId completionHandler:handler];
+  [super sendAsync:container appSecret:appSecret callId:container.batchId completionHandler:handler];
 }
 
-- (NSURLRequest *)createRequest:(NSObject *)data {
+- (NSURLRequest *)createRequest:(NSObject *)data appSecret:(NSString *)__unused appSecret {
   MSLogContainer *container = (MSLogContainer *)data;
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.sendURL];
 
@@ -114,7 +116,7 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
   NSArray *tokens = [tokenString componentsSeparatedByString:@","];
   NSMutableArray *obfuscatedTokens = [NSMutableArray new];
   for (NSString *token in tokens) {
-    [obfuscatedTokens addObject:[MSSenderUtil hideSecret:token]];
+    [obfuscatedTokens addObject:[MSIngestionUtil hideSecret:token]];
   }
   return [obfuscatedTokens componentsJoinedByString:@","];
 }

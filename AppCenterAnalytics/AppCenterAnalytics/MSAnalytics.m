@@ -1,9 +1,9 @@
+#import "MSAnalytics+Validation.h"
 #import "MSAnalytics.h"
 #import "MSAnalyticsCategory.h"
 #import "MSAnalyticsInternal.h"
 #import "MSAnalyticsPrivate.h"
 #import "MSAnalyticsTransmissionTargetInternal.h"
-#import "MSAnalytics+Validation.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
@@ -11,6 +11,7 @@
 #import "MSEventLog.h"
 #import "MSPageLog.h"
 #import "MSServiceAbstractProtected.h"
+#import "MSUtility+StringFormatting.h"
 
 // Service name for initialization.
 static NSString *const kMSServiceName = @"Analytics";
@@ -52,7 +53,7 @@ __attribute__((used)) static void importCategories() {
     _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
 
     // Set up transmission target dictionary.
-    _transmissionTargets = [NSMutableDictionary new];
+    _transmissionTargets = [NSMutableDictionary<NSString *, MSAnalyticsTransmissionTarget *> new];
   }
   return self;
 }
@@ -62,7 +63,7 @@ __attribute__((used)) static void importCategories() {
 + (instancetype)sharedInstance {
   dispatch_once(&onceToken, ^{
     if (sharedInstance == nil) {
-      sharedInstance = [[self alloc] init];
+      sharedInstance = [[MSAnalytics alloc] init];
     }
   });
   return sharedInstance;
@@ -74,8 +75,12 @@ __attribute__((used)) static void importCategories() {
 
 - (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup
                     appSecret:(nullable NSString *)appSecret
-      transmissionTargetToken:(nullable NSString *)token {
-  [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token];
+      transmissionTargetToken:(nullable NSString *)token
+              fromApplication:(BOOL)fromApplication {
+  [super startWithChannelGroup:channelGroup
+                     appSecret:appSecret
+       transmissionTargetToken:token
+               fromApplication:fromApplication];
   if (token) {
     self.defaultTransmissionTarget = [self transmissionTargetFor:(NSString *)token];
   }
@@ -95,39 +100,61 @@ __attribute__((used)) static void importCategories() {
 
 #pragma mark - MSServiceAbstract
 
+- (void)setEnabled:(BOOL)isEnabled {
+  [super setEnabled:isEnabled];
+
+  // Propagate to transmission targets.
+  for (NSString *token in self.transmissionTargets) {
+    [self.transmissionTargets[token] setEnabled:isEnabled];
+  }
+}
+
 - (void)applyEnabledState:(BOOL)isEnabled {
   [super applyEnabledState:isEnabled];
   if (isEnabled) {
+    if (self.startedFromApplication) {
 
-    // Start session tracker.
-    [self.sessionTracker start];
+      // Start session tracker.
+      [self.sessionTracker start];
 
-    // Add delegates to log manager.
-    [self.channelGroup addDelegate:self.sessionTracker];
-    [self.channelGroup addDelegate:self];
+      // Add delegates to log manager.
+      [self.channelGroup addDelegate:self.sessionTracker];
+      [self.channelGroup addDelegate:self];
 
-    // Report current page while auto page tracking is on.
-    if (self.autoPageTrackingEnabled) {
+      // Report current page while auto page tracking is on.
+      if (self.autoPageTrackingEnabled) {
 
-      // Track on the main queue to avoid race condition with page swizzling.
-      dispatch_async(dispatch_get_main_queue(), ^{
-        if ([[MSAnalyticsCategory missedPageViewName] length] > 0) {
-          [[self class] trackPage:(NSString * _Nonnull)[MSAnalyticsCategory missedPageViewName]];
-        }
-      });
+        // Track on the main queue to avoid race condition with page swizzling.
+        dispatch_async(dispatch_get_main_queue(), ^{
+          if ([[MSAnalyticsCategory missedPageViewName] length] > 0) {
+            [[self class] trackPage:(NSString * _Nonnull)[MSAnalyticsCategory missedPageViewName]];
+          }
+        });
+      }
     }
 
     MSLogInfo([MSAnalytics logTag], @"Analytics service has been enabled.");
   } else {
-    [self.channelGroup removeDelegate:self.sessionTracker];
-    [self.channelGroup removeDelegate:self];
-    [self.sessionTracker stop];
+    if (self.startedFromApplication) {
+      [self.channelGroup removeDelegate:self.sessionTracker];
+      [self.channelGroup removeDelegate:self];
+      [self.sessionTracker stop];
+    }
     MSLogInfo([MSAnalytics logTag], @"Analytics service has been disabled.");
   }
 }
 
 - (BOOL)isAppSecretRequired {
   return NO;
+}
+
+- (void)updateConfigurationWithAppSecret:(NSString *)appSecret transmissionTargetToken:(NSString *)token {
+  [super updateConfigurationWithAppSecret:appSecret transmissionTargetToken:token];
+
+  // Create the default target if not already created in start.
+  if (token && !self.defaultTransmissionTarget) {
+    self.defaultTransmissionTarget = [self transmissionTargetFor:(NSString *)token];
+  }
 }
 
 #pragma mark - Service methods
@@ -144,16 +171,6 @@ __attribute__((used)) static void importCategories() {
  * Track an event.
  *
  * @param eventName  event name.
- * @param transmissionTarget  the transmission target to associate to this event.
- */
-+ (void)trackEvent:(NSString *)eventName forTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget {
-  [self trackEvent:eventName withProperties:nil forTransmissionTarget:transmissionTarget];
-}
-
-/**
- * Track an event.
- *
- * @param eventName  event name.
  * @param properties dictionary of properties.
  * @param transmissionTarget  the transmission target to associate to this event.
  */
@@ -161,8 +178,8 @@ __attribute__((used)) static void importCategories() {
            withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
     forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarget {
   @synchronized(self) {
-    if ([[self sharedInstance] canBeUsed]) {
-      [[self sharedInstance] trackEvent:eventName withProperties:properties forTransmissionTarget:transmissionTarget];
+    if ([[MSAnalytics sharedInstance] canBeUsed]) {
+      [[MSAnalytics sharedInstance] trackEvent:eventName withProperties:properties forTransmissionTarget:transmissionTarget];
     }
   }
 }
@@ -173,21 +190,21 @@ __attribute__((used)) static void importCategories() {
 
 + (void)trackPage:(NSString *)pageName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties {
   @synchronized(self) {
-    if ([[self sharedInstance] canBeUsed]) {
-      [[self sharedInstance] trackPage:pageName withProperties:properties];
+    if ([[MSAnalytics sharedInstance] canBeUsed]) {
+      [[MSAnalytics sharedInstance] trackPage:pageName withProperties:properties];
     }
   }
 }
 
 + (void)setAutoPageTrackingEnabled:(BOOL)isEnabled {
   @synchronized(self) {
-    [[self sharedInstance] setAutoPageTrackingEnabled:isEnabled];
+    [[MSAnalytics sharedInstance] setAutoPageTrackingEnabled:isEnabled];
   }
 }
 
 + (BOOL)isAutoPageTrackingEnabled {
   @synchronized(self) {
-    return [[self sharedInstance] isAutoPageTrackingEnabled];
+    return [[MSAnalytics sharedInstance] isAutoPageTrackingEnabled];
   }
 }
 
@@ -208,16 +225,20 @@ __attribute__((used)) static void importCategories() {
   // Create an event log.
   MSEventLog *log = [MSEventLog new];
 
+  // Add transmission target token.
+  if (transmissionTarget) {
+    if (transmissionTarget.isEnabled) {
+      [log addTransmissionTargetToken:[transmissionTarget transmissionTargetToken]];
+    } else {
+      MSLogError([MSAnalytics logTag], @"This transmission target is disabled.");
+    }
+  }
+
   // Set properties of the event log.
   log.name = eventName;
   log.eventId = MS_UUID_STRING;
   if (properties && properties.count > 0) {
     log.properties = [properties copy];
-  }
-
-  // Add transmission targets.
-  if (transmissionTarget) {
-    [log addTransmissionTargetToken:[transmissionTarget transmissionTargetToken]];
   }
 
   // Send log to log manager.
@@ -266,13 +287,16 @@ __attribute__((used)) static void importCategories() {
 - (MSAnalyticsTransmissionTarget *)transmissionTargetFor:(NSString *)transmissionTargetToken {
   MSAnalyticsTransmissionTarget *transmissionTarget = [self.transmissionTargets objectForKey:transmissionTargetToken];
   if (transmissionTarget) {
-    MSLogDebug([MSAnalytics logTag], @"Returning transmission target found with id %@.", transmissionTargetToken);
+    MSLogDebug([MSAnalytics logTag], @"Returning transmission target found with id %@.",
+               [MSUtility targetIdFromTargetToken:transmissionTargetToken]);
     return transmissionTarget;
   }
-  transmissionTarget = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:transmissionTargetToken];
-  MSLogDebug([MSAnalytics logTag], @"Created transmission target with id %@.", transmissionTargetToken);
+  transmissionTarget =
+      [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:transmissionTargetToken parentTarget:nil];
+  MSLogDebug([MSAnalytics logTag], @"Created transmission target with id %@.",
+             [MSUtility targetIdFromTargetToken:transmissionTargetToken]);
   [self.transmissionTargets setObject:transmissionTarget forKey:transmissionTargetToken];
-  
+
   // TODO: Start service if not already.
   // Scenario: getTransmissionTarget gets called before App Center has an app secret or transmission target but start
   // has been called for this service.
@@ -294,7 +318,7 @@ __attribute__((used)) static void importCategories() {
 }
 
 + (void)setDelegate:(nullable id<MSAnalyticsDelegate>)delegate {
-  [[self sharedInstance] setDelegate:delegate];
+  [[MSAnalytics sharedInstance] setDelegate:delegate];
 }
 
 #pragma mark - MSChannelDelegate
@@ -360,7 +384,7 @@ __attribute__((used)) static void importCategories() {
  * @returns The transmissionTarget object.
  */
 + (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:(NSString *)transmissionTargetToken {
-  return [[self sharedInstance] transmissionTargetFor:transmissionTargetToken];
+  return [[MSAnalytics sharedInstance] transmissionTargetFor:transmissionTargetToken];
 }
 
 @end

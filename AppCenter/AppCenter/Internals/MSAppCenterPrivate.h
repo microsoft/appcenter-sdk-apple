@@ -16,9 +16,14 @@
 /**
  * Configure the SDK.
  *
- * @discussion This may be called only once per application process lifetime.
- * @param appSecret A unique and secret key used to identify the application.
+ * @param appSecret A unique and secret key used to identify the application for App Center ingestion.
+ * @param transmissionTargetToken A unique and secret key used to identify the application for One Collector ingestion.
+ * @param fromApplication A flag indicating that the sdk is configured from an application.
+ *
+ * @return `YES` if configured successfully, otherwise `NO`.
  */
-- (BOOL)configureWithAppSecret:(NSString *)appSecret;
+- (BOOL)configureWithAppSecret:(NSString *)appSecret
+       transmissionTargetToken:(NSString *)transmissionTargetToken
+               fromApplication:(BOOL)fromApplication;
 
 @end

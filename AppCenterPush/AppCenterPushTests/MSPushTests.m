@@ -84,7 +84,10 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 - (void)testApplyEnabledStateWorks {
 
   // If
-  [[MSPush sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol)) appSecret:kMSTestAppSecret transmissionTargetToken:nil];
+  [[MSPush sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                                       appSecret:kMSTestAppSecret
+                         transmissionTargetToken:nil
+                                 fromApplication:YES];
   MSServiceAbstract *service = (MSServiceAbstract *)[MSPush sharedInstance];
 
   // When
@@ -189,7 +192,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 }
 
 - (void)testNotificationReceivedWithMobileCenterCustomData {
-  
+
   // If
   XCTestExpectation *notificationReceived = [self expectationWithDescription:@"Valid notification received."];
   id pushMock = OCMPartialMock(self.sut);
@@ -205,9 +208,12 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   __block NSString *title = @"notification title";
   __block NSString *message = @"notification message";
   __block NSDictionary *customData = @{ @"key" : @"value" };
-  NSDictionary *userInfo =
-  @{ kMSPushNotificationApsKey : @{kMSPushNotificationAlertKey : @{kMSPushNotificationTitleKey : title, kMSPushNotificationMessageKey : message}},
-     @"mobile_center" : customData };
+  NSDictionary *userInfo = @{
+    kMSPushNotificationApsKey : @{
+      kMSPushNotificationAlertKey : @{kMSPushNotificationTitleKey : title, kMSPushNotificationMessageKey : message}
+    },
+    @"mobile_center" : customData
+  };
 #if TARGET_OS_OSX
   id userNotificationUserInfoMock = OCMClassMock([NSUserNotification class]);
   id notificationMock = OCMClassMock([NSNotification class]);
@@ -215,7 +221,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   OCMStub([notificationMock userInfo]).andReturn(notificationUserInfo);
   OCMStub([userNotificationUserInfoMock userInfo]).andReturn(userInfo);
 #endif
-  
+
   // When
 #if TARGET_OS_OSX
   [self.sut applicationDidFinishLaunching:notificationMock];
@@ -225,7 +231,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   dispatch_async(dispatch_get_main_queue(), ^{
     [notificationReceived fulfill];
   });
-  
+
   // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
@@ -249,7 +255,6 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   [pushMock stopMocking];
 }
 
-
 - (void)testNotificationReceivedWithAlertObject {
 
   // If
@@ -267,9 +272,12 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   __block NSString *title = @"notification title";
   __block NSString *message = @"notification message";
   __block NSDictionary *customData = @{ @"key" : @"value" };
-  NSDictionary *userInfo =
-      @{ kMSPushNotificationApsKey : @{kMSPushNotificationAlertKey : @{kMSPushNotificationTitleKey : title, kMSPushNotificationMessageKey : message}},
-         kMSPushNotificationCustomDataKey : customData };
+  NSDictionary *userInfo = @{
+    kMSPushNotificationApsKey : @{
+      kMSPushNotificationAlertKey : @{kMSPushNotificationTitleKey : title, kMSPushNotificationMessageKey : message}
+    },
+    kMSPushNotificationCustomDataKey : customData
+  };
 #if TARGET_OS_OSX
   id userNotificationUserInfoMock = OCMClassMock([NSUserNotification class]);
   id notificationMock = OCMClassMock([NSNotification class]);
@@ -328,9 +336,10 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   __block NSString *title = nil;
   __block NSNull *message = [NSNull new];
   __block NSDictionary *customData = @{};
-  NSDictionary *userInfo =
-  @{ kMSPushNotificationApsKey : @{kMSPushNotificationAlertKey : @{kMSPushNotificationMessageKey : message}},
-     @"mobile_center" : customData };
+  NSDictionary *userInfo = @{
+    kMSPushNotificationApsKey : @{kMSPushNotificationAlertKey : @{kMSPushNotificationMessageKey : message}},
+    @"mobile_center" : customData
+  };
 #if TARGET_OS_OSX
   id userNotificationUserInfoMock = OCMClassMock([NSUserNotification class]);
   id notificationMock = OCMClassMock([NSNotification class]);
@@ -355,7 +364,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 #if TARGET_OS_OSX
                                  OCMVerify([pushMock didReceiveUserNotification:userNotificationUserInfoMock]);
 #else
-                                 OCMVerify([pushMock didReceiveRemoteNotification:userInfo]);
+        OCMVerify([pushMock didReceiveRemoteNotification:userInfo]);
 #endif
                                  OCMVerify([pushDelegateMock push:self.sut didReceivePushNotification:OCMOCK_ANY]);
                                  XCTAssertNotNil(pushNotification);
@@ -388,7 +397,10 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   [MSPush setDelegate:pushDelegateMock];
   __block NSString *message = @"notification message";
   __block NSDictionary *customData = @{ @"key" : @"value" };
-  NSDictionary *userInfo = @{ kMSPushNotificationApsKey : @{kMSPushNotificationAlertKey : message}, kMSPushNotificationCustomDataKey : customData };
+  NSDictionary *userInfo = @{
+    kMSPushNotificationApsKey : @{kMSPushNotificationAlertKey : message},
+    kMSPushNotificationCustomDataKey : customData
+  };
 #if TARGET_OS_OSX
   id userNotificationUserInfoMock = OCMClassMock([NSUserNotification class]);
   id notificationMock = OCMClassMock([NSNotification class]);
@@ -397,7 +409,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   OCMStub([userNotificationUserInfoMock userInfo]).andReturn(userInfo);
 #endif
 
-// When
+  // When
 #if TARGET_OS_OSX
   [self.sut applicationDidFinishLaunching:notificationMock];
 #else
@@ -444,8 +456,14 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
     [invocation getArgument:&pushNotification atIndex:3];
   });
   [MSPush setDelegate:pushDelegateMock];
-  NSDictionary *invalidUserInfo =
-      @{ kMSPushNotificationApsKey : @{kMSPushNotificationAlertKey : @{kMSPushNotificationTitleKey : @"notification title", kMSPushNotificationMessageKey : @"notification message"}} };
+  NSDictionary *invalidUserInfo = @{
+    kMSPushNotificationApsKey : @{
+      kMSPushNotificationAlertKey : @{
+        kMSPushNotificationTitleKey : @"notification title",
+        kMSPushNotificationMessageKey : @"notification message"
+      }
+    }
+  };
 #if TARGET_OS_OSX
   id userNotificationUserInfoMock = OCMClassMock([NSUserNotification class]);
   id notificationMock = OCMClassMock([NSNotification class]);

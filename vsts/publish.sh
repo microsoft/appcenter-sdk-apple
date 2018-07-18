@@ -62,25 +62,12 @@ if [ "$mode" == "internal" ]; then
 
 else
 
-  ## 0. Download prerelease binary
-  prerelease_prefix=$(echo $FRAMEWORKS_ZIP_FILENAME | sed 's/.zip/-'$PRERELEASE_VERSION'/g')
-  resp="$(echo "Y" | azure storage blob list sdk ${prerelease_prefix})"
-  prerelease="$(echo $resp | sed 's/.*data:[[:space:]]\('$prerelease_prefix'+.\{40\}\.zip\).*/\1/1')"
-  if [[ $prerelease != $prerelease_prefix+*.zip ]]; then
-    if [ -z $PRERELEASE_VERSION ]; then
-      echo "You didn't provide a prerelease version to the build."
-      echo "If you didn't provide the prerelease version, add PRERELEASE_VERSION as a key and version as a value in Variables."
-    else
-      echo "Cannot find ("$PRERELEASE_VERSION") in Azure Blob Storage. Make sure you have provided a prerelease version to the build."
-    fi
-    exit 1
-  fi
-  commit_hash="$(echo $resp | sed 's/.*data:[[:space:]]'$prerelease_prefix'+\(.\{40\}\)\.zip.*/\1/1')"
-  echo "Y" | azure storage blob download sdk $prerelease
+  ## 0. Get artifact filename and commit hash from build
+  prerelease=$(echo '$ARTIFACT_PATH'/*.zip | rev | cut -d/ -f1 | rev)
+  commit_hash="$(echo $prerelease | sed 's/'$FRAMEWORKS_ZIP_FILENAME'-[[:digit:]]\{1,\}.[[:digit:]]\{1,\}.[[:digit:]]\{1,\}-[[:digit:]]\{1,\}+\(.\{40\}\)\.zip.*/\1/1')"
 
   ### Temporarily remove tvOS framework from binary
-  unzip $prerelease
-  rm -rf $prerelease
+  unzip $ARTIFACT_PATH/$prerelease
   rm -rf $FRAMEWORKS_ZIP_FOLDER/tvOS
   zip -r $FRAMEWORKS_ZIP_FILENAME $FRAMEWORKS_ZIP_FOLDER/
 

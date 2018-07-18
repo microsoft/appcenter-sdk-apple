@@ -26,7 +26,7 @@ static NSString *const kMSPropertyTypeString = @"string";
 }
 
 - (BOOL)isEqual:(id)object {
-  if (![object isKindOfClass:[MSCustomPropertiesLog class]] || ![super isEqual:object]) {
+  if (![(NSObject *)object isKindOfClass:[MSCustomPropertiesLog class]] || ![super isEqual:object]) {
     return NO;
   }
   MSCustomPropertiesLog *log = (MSCustomPropertiesLog *)object;

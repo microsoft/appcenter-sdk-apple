@@ -1,5 +1,20 @@
 # App Center SDK for iOS and macOS Change Log
 
+## Version 1.8.0
+
+This version contains bug fixes and a feature. 
+
+### AppCenterDistribute
+
+* **[Fix]** Fix in-app update occasional initialization failure caused by deletion of update token/group id on HTTP status code '0'.
+* **[Fix]** Fix Chinese translation of "side-loading".
+
+### AppCenterAnalytics
+
+* **[Feature]** Preparation work for a future change in transmission protocol and endpoint for Analytics data. There is no impact on your current workflow when using App Center.
+
+___
+
 ## Version 1.7.1
 
 This version contains a bug fix. 

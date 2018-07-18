@@ -27,7 +27,7 @@
 #pragma mark - NSObject
 
 - (BOOL)isEqual:(id)object {
-  if (![object isKindOfClass:[MSOSExtension class]]) {
+  if (![(NSObject *)object isKindOfClass:[MSOSExtension class]]) {
     return NO;
   }
   MSOSExtension *osExt = (MSOSExtension *)object;

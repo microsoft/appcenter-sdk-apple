@@ -24,7 +24,7 @@
 #pragma mark - NSObject
 
 - (BOOL)isEqual:(id)object {
-  if (![object isKindOfClass:[MSCSData class]]) {
+  if (![(NSObject *)object isKindOfClass:[MSCSData class]]) {
     return NO;
   }
   MSCSData *csData = (MSCSData *)object;

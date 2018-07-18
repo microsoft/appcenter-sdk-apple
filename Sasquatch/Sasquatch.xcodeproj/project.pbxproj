@@ -12,10 +12,20 @@
 		046790431E8DA7E90033FDEC /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046790411E8DA7D80033FDEC /* AppCenterPush.framework */; };
 		047D13721EAFBDBE00D699BA /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 047D13711EAFBDBE00D699BA /* AppCenterDistributeResources.bundle */; };
 		048933631F8D395A00C38A87 /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
+		352A3E7420F801A900D09CF0 /* EventPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */; };
+		352A3E7520F80C8600D09CF0 /* EventPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */; };
 		353332C720112EB4009B0946 /* MSEventFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353332C620112EB4009B0946 /* MSEventFilterViewController.swift */; };
 		353332C820112EB4009B0946 /* MSEventFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353332C620112EB4009B0946 /* MSEventFilterViewController.swift */; };
 		354273ED20126A3E00BE766F /* MSEventFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 354273DE20126A3E00BE766F /* MSEventFilter.m */; };
 		354273EE20126A3E00BE766F /* MSEventFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 354273DE20126A3E00BE766F /* MSEventFilter.m */; };
+		359171ED20F5651B00F3DDE6 /* MSAnalyticsTranmissionTargetSelectorViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359171EC20F5651B00F3DDE6 /* MSAnalyticsTranmissionTargetSelectorViewCell.swift */; };
+		359171EE20F5651B00F3DDE6 /* MSAnalyticsTranmissionTargetSelectorViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359171EC20F5651B00F3DDE6 /* MSAnalyticsTranmissionTargetSelectorViewCell.swift */; };
+		359171F020F5654600F3DDE6 /* MSAnalyticsTranmissionTargetSelectorViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 359171EF20F5654600F3DDE6 /* MSAnalyticsTranmissionTargetSelectorViewCell.xib */; };
+		359171F120F5654600F3DDE6 /* MSAnalyticsTranmissionTargetSelectorViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 359171EF20F5654600F3DDE6 /* MSAnalyticsTranmissionTargetSelectorViewCell.xib */; };
+		359171F720F7F80800F3DDE6 /* PropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359171F620F7F80800F3DDE6 /* PropertiesTableSection.swift */; };
+		359171F820F7F80800F3DDE6 /* PropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359171F620F7F80800F3DDE6 /* PropertiesTableSection.swift */; };
+		359171FA20F8001A00F3DDE6 /* TargetPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359171F920F8001A00F3DDE6 /* TargetPropertiesTableSection.swift */; };
+		359171FB20F8001A00F3DDE6 /* TargetPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359171F920F8001A00F3DDE6 /* TargetPropertiesTableSection.swift */; };
 		5CE2587F1EA5F60200DA8FB9 /* DistributeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE2587D1EA5F5FC00DA8FB9 /* DistributeUITests.swift */; };
 		5CE258801EA5F60500DA8FB9 /* CrashesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE2587B1EA5F5EB00DA8FB9 /* CrashesUITests.swift */; };
 		5CE258811EA5F60900DA8FB9 /* AnalyticsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE258791EA5F5DF00DA8FB9 /* AnalyticsUITests.swift */; };
@@ -53,6 +63,8 @@
 		84A0FF6C1E8A87E1000E7A28 /* MSDistributeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */; };
 		84A0FF6D1E8A87E1000E7A28 /* MSDistributeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */; };
 		84D63FF91E8BAA90004C9F86 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845964A91E8A7E6600BABA51 /* Main.storyboard */; };
+		B203FF4C20E57A5B002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B203FF4B20E57A5B002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift */; };
+		B203FF4D20E5922C002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B203FF4B20E57A5B002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift */; };
 		B27424851EF2193E00F591E5 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 047D13711EAFBDBE00D699BA /* AppCenterDistributeResources.bundle */; };
 		B2B36CE21EEF49B700230341 /* MSCustomPropertiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */; };
 		B2B36CE31EEF49C400230341 /* MSCustomPropertiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */; };
@@ -221,9 +233,14 @@
 		046790451E8DA8DD0033FDEC /* SasquatchObjC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchObjC.entitlements; sourceTree = "<group>"; };
 		047D13711EAFBDBE00D699BA /* AppCenterDistributeResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AppCenterDistributeResources.bundle; path = "../AppCenter-SDK-Apple/iOS/AppCenterDistributeResources.bundle"; sourceTree = "<group>"; };
 		0482105C1FD0B611006824F7 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Sasquatch.strings; sourceTree = "<group>"; };
+		352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventPropertiesTableSection.swift; sourceTree = "<group>"; };
 		353332C620112EB4009B0946 /* MSEventFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSEventFilterViewController.swift; sourceTree = "<group>"; };
 		354273DE20126A3E00BE766F /* MSEventFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSEventFilter.m; sourceTree = "<group>"; };
 		354273DF20126A3E00BE766F /* MSEventFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSEventFilter.h; sourceTree = "<group>"; };
+		359171EC20F5651B00F3DDE6 /* MSAnalyticsTranmissionTargetSelectorViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAnalyticsTranmissionTargetSelectorViewCell.swift; sourceTree = "<group>"; };
+		359171EF20F5654600F3DDE6 /* MSAnalyticsTranmissionTargetSelectorViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MSAnalyticsTranmissionTargetSelectorViewCell.xib; sourceTree = "<group>"; };
+		359171F620F7F80800F3DDE6 /* PropertiesTableSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertiesTableSection.swift; sourceTree = "<group>"; };
+		359171F920F8001A00F3DDE6 /* TargetPropertiesTableSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetPropertiesTableSection.swift; sourceTree = "<group>"; };
 		384929201FACF5DA003F8736 /* SasquatchWatchObjC Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SasquatchWatchObjC Extension.entitlements"; sourceTree = SOURCE_ROOT; };
 		384929211FACF5F3003F8736 /* SasquatchWatchSwift Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SasquatchWatchSwift Extension.entitlements"; sourceTree = SOURCE_ROOT; };
 		5CD700E51EA4B74500FC5D12 /* SasquatchSwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchSwiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -259,6 +276,7 @@
 		84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSCrashesViewController.swift; sourceTree = "<group>"; };
 		84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSAnalyticsViewController.swift; sourceTree = "<group>"; };
 		84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSDistributeViewController.swift; sourceTree = "<group>"; };
+		B203FF4B20E57A5B002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAnalyticsChildTransmissionTargetTableViewController.swift; sourceTree = "<group>"; };
 		B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSCustomPropertiesViewController.swift; sourceTree = "<group>"; };
 		D31EF9291E9517B500450162 /* SasquatchWatchObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchWatchObjC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D31EF92C1E9517B600450162 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
@@ -350,6 +368,16 @@
 				354273DE20126A3E00BE766F /* MSEventFilter.m */,
 			);
 			path = EventFilter;
+			sourceTree = "<group>";
+		};
+		359171F520F7F7F300F3DDE6 /* PropertiesTableSection */ = {
+			isa = PBXGroup;
+			children = (
+				359171F620F7F80800F3DDE6 /* PropertiesTableSection.swift */,
+				359171F920F8001A00F3DDE6 /* TargetPropertiesTableSection.swift */,
+				352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */,
+			);
+			path = PropertiesTableSection;
 			sourceTree = "<group>";
 		};
 		5CD700E61EA4B74600FC5D12 /* SasquatchUITests */ = {
@@ -449,15 +477,19 @@
 		84226CB01E8909EA00798417 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				845964AC1E8A7E9700BABA51 /* MSMainViewController.swift */,
+				359171F520F7F7F300F3DDE6 /* PropertiesTableSection */,
+				B203FF4B20E57A5B002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift */,
 				F87E96121FDED64900AF2717 /* MSAnalyticsPropertyTableViewCell.swift */,
 				F87E96131FDED64900AF2717 /* MSAnalyticsPropertyTableViewCell.xib */,
+				359171EC20F5651B00F3DDE6 /* MSAnalyticsTranmissionTargetSelectorViewCell.swift */,
+				359171EF20F5654600F3DDE6 /* MSAnalyticsTranmissionTargetSelectorViewCell.xib */,
 				84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */,
-				84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */,
 				84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */,
 				B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */,
 				F87E96181FDEEA0900AF2717 /* MSCustomPropertyTableViewCell.swift */,
+				84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */,
 				353332C620112EB4009B0946 /* MSEventFilterViewController.swift */,
+				845964AC1E8A7E9700BABA51 /* MSMainViewController.swift */,
 				803CFF261F6A7E1D0072B9BA /* MSPushViewController.swift */,
 			);
 			path = ViewControllers;
@@ -864,6 +896,7 @@
 				84226C561E88FF4A00798417 /* Assets.xcassets in Resources */,
 				047D13721EAFBDBE00D699BA /* AppCenterDistributeResources.bundle in Resources */,
 				F809D5041FC6DA2B005E0F83 /* LaunchScreen.storyboard in Resources */,
+				359171F020F5654600F3DDE6 /* MSAnalyticsTranmissionTargetSelectorViewCell.xib in Resources */,
 				845964AB1E8A7E6600BABA51 /* Main.storyboard in Resources */,
 				F87E96161FDED64900AF2717 /* MSAnalyticsPropertyTableViewCell.xib in Resources */,
 			);
@@ -877,6 +910,7 @@
 				B27424851EF2193E00F591E5 /* AppCenterDistributeResources.bundle in Resources */,
 				84226C8A1E8908CA00798417 /* Assets.xcassets in Resources */,
 				F809D5051FC6DD80005E0F83 /* LaunchScreen.storyboard in Resources */,
+				359171F120F5654600F3DDE6 /* MSAnalyticsTranmissionTargetSelectorViewCell.xib in Resources */,
 				84D63FF91E8BAA90004C9F86 /* Main.storyboard in Resources */,
 				F87E96171FDED64900AF2717 /* MSAnalyticsPropertyTableViewCell.xib in Resources */,
 			);
@@ -943,19 +977,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				352A3E7420F801A900D09CF0 /* EventPropertiesTableSection.swift in Sources */,
 				353332C820112EB4009B0946 /* MSEventFilterViewController.swift in Sources */,
 				803CFF271F6A7E1D0072B9BA /* MSPushViewController.swift in Sources */,
 				F87E96141FDED64900AF2717 /* MSAnalyticsPropertyTableViewCell.swift in Sources */,
 				354273ED20126A3E00BE766F /* MSEventFilter.m in Sources */,
 				F87E96191FDEEA0900AF2717 /* MSCustomPropertyTableViewCell.swift in Sources */,
+				359171FA20F8001A00F3DDE6 /* TargetPropertiesTableSection.swift in Sources */,
 				849A3E721E8A9922008711CB /* AppCenterProtocol.swift in Sources */,
 				845964AD1E8A7E9700BABA51 /* MSMainViewController.swift in Sources */,
 				84A0FF691E8A87C9000E7A28 /* MSAnalyticsViewController.swift in Sources */,
 				84226D421E8953F100798417 /* AppCenterDelegateObjC.m in Sources */,
 				84A0FF661E8A87B4000E7A28 /* MSCrashesViewController.swift in Sources */,
+				B203FF4C20E57A5B002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */,
 				84226C4E1E88FF4A00798417 /* AppDelegate.m in Sources */,
 				B2B36CE21EEF49B700230341 /* MSCustomPropertiesViewController.swift in Sources */,
 				84226C4B1E88FF4A00798417 /* main.m in Sources */,
+				359171F720F7F80800F3DDE6 /* PropertiesTableSection.swift in Sources */,
+				359171ED20F5651B00F3DDE6 /* MSAnalyticsTranmissionTargetSelectorViewCell.swift in Sources */,
 				84A0FF6C1E8A87E1000E7A28 /* MSDistributeViewController.swift in Sources */,
 				84226D3C1E8938D100798417 /* AppCenterDelegate.swift in Sources */,
 			);
@@ -966,19 +1005,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				803CFF281F6A7E1D0072B9BA /* MSPushViewController.swift in Sources */,
+				B203FF4D20E5922C002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */,
 				F87E96151FDED64900AF2717 /* MSAnalyticsPropertyTableViewCell.swift in Sources */,
 				849A3E731E8A9922008711CB /* AppCenterProtocol.swift in Sources */,
 				84A0FF671E8A87B4000E7A28 /* MSCrashesViewController.swift in Sources */,
+				352A3E7520F80C8600D09CF0 /* EventPropertiesTableSection.swift in Sources */,
 				354273EE20126A3E00BE766F /* MSEventFilter.m in Sources */,
 				84A0FF6A1E8A87C9000E7A28 /* MSAnalyticsViewController.swift in Sources */,
 				84226D3D1E8938D200798417 /* AppCenterDelegate.swift in Sources */,
 				B2B36CE31EEF49C400230341 /* MSCustomPropertiesViewController.swift in Sources */,
 				845178ED1E8A8B0D004A0A6F /* MSMainViewController.swift in Sources */,
 				353332C720112EB4009B0946 /* MSEventFilterViewController.swift in Sources */,
+				359171F820F7F80800F3DDE6 /* PropertiesTableSection.swift in Sources */,
 				84226D3F1E8939B700798417 /* AppCenterDelegateSwift.swift in Sources */,
 				F87E961A1FDEEA0900AF2717 /* MSCustomPropertyTableViewCell.swift in Sources */,
+				359171FB20F8001A00F3DDE6 /* TargetPropertiesTableSection.swift in Sources */,
 				84A0FF6D1E8A87E1000E7A28 /* MSDistributeViewController.swift in Sources */,
 				84226C831E8908CA00798417 /* AppDelegate.swift in Sources */,
+				359171EE20F5651B00F3DDE6 /* MSAnalyticsTranmissionTargetSelectorViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

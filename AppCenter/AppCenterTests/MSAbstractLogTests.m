@@ -211,7 +211,7 @@
   
   // IF
   NSArray *expectedIKeys = @[@"o:iKey1", @"o:iKey2"];
-  self.sut.transmissionTargetTokens = @[@"iKey1-dummytoken", @"iKey2-dummytoken"];
+  self.sut.transmissionTargetTokens = [NSSet setWithArray:@[@"iKey1-dummytoken", @"iKey2-dummytoken"]];
   // When
   csLogs = [self.sut toCommonSchemaLogs];
   

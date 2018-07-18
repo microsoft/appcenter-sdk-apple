@@ -1,30 +1,30 @@
 #import <Foundation/Foundation.h>
 
 #import "MSChannelUnitProtocol.h"
-#import "MSSenderDelegate.h"
+#import "MSIngestionDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class MSChannelUnitConfiguration;
-@protocol MSSender;
+@protocol MSIngestionProtocol;
 @protocol MSStorage;
 
-@interface MSChannelUnitDefault : NSObject <MSChannelUnitProtocol, MSSenderDelegate>
+@interface MSChannelUnitDefault : NSObject <MSChannelUnitProtocol, MSIngestionDelegate>
 
 /**
  * Initializes a new `MSChannelUnitDefault` instance.
  *
- * @param sender A sender instance that is used to send batches of log items to the backend.
+ * @param ingestion An ingestion instance that is used to send batches of log items to the backend.
  * @param storage A storage instance to store and read enqueued log items.
  * @param configuration The configuration used by this channel.
  * @param logsDispatchQueue Queue used to process logs.
  *
  * @return A new `MSChannelUnitDefault` instance.
  */
-- (instancetype)initWithSender:(nullable id<MSSender>)sender
-                       storage:(id<MSStorage>)storage
-                 configuration:(MSChannelUnitConfiguration *)configuration
-             logsDispatchQueue:(dispatch_queue_t)logsDispatchQueue;
+- (instancetype)initWithIngestion:(nullable id <MSIngestionProtocol>)ingestion
+                          storage:(id <MSStorage>)storage
+                    configuration:(MSChannelUnitConfiguration *)configuration
+                logsDispatchQueue:(dispatch_queue_t)logsDispatchQueue;
 
 /**
  * Flush pending logs.
@@ -37,9 +37,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) NSHashTable<id<MSChannelDelegate>> *delegates;
 
 /**
- * A sender instance that is used to send batches of log items to the backend.
+ * An ingestion instance that is used to send batches of log items to the backend.
  */
-@property(nonatomic, nullable) id<MSSender> sender;
+@property(nonatomic, nullable) id<MSIngestionProtocol> ingestion;
 
 /**
  * A storage instance to store and read enqueued log items.
@@ -58,9 +58,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, assign) NSUInteger itemsCount;
 
 /**
- * A list used to keep track of batches that have been forwarded to the sender component.
+ * A list used to keep track of batches that have been forwarded to the ingestion component.
  */
-@property(nonatomic, copy) NSMutableArray *pendingBatchIds;
+@property(nonatomic, strong) NSMutableArray *pendingBatchIds;
 
 /**
  * A boolean value set to YES if there is at least one available batch from the storage.
@@ -81,8 +81,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * A boolean value set to YES if the channel is suspended or NO otherwise.
- * A channel is suspended when it becomes disabled or when its sender becomes suspended itself.
- * A suspended channel doesn't forward logs to the sender.
+ * A channel is suspended when it becomes disabled or when its ingestion becomes suspended itself.
+ * A suspended channel doesn't forward logs to the ingestion.
  * A suspended state doesn't impact the current enabled state.
  */
 @property(nonatomic) BOOL suspended;
@@ -92,6 +92,11 @@ NS_ASSUME_NONNULL_BEGIN
  * Logs are discarded when the related service is disabled or an unrecoverable error happened.
  */
 @property(nonatomic) BOOL discardLogs;
+
+/**
+ * The app secret.
+ */
+@property(nonatomic, copy) NSString *appSecret;
 
 @end
 

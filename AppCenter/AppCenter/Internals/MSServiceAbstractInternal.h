@@ -13,6 +13,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MSServiceAbstract () <MSServiceCommon>
 
 /**
+ *  isEnabled value storage key.
+ */
+@property(nonatomic, copy, readonly) NSString *isEnabledKey;
+
+/**
  * Flag indicating if a service has been started or not.
  */
 @property(nonatomic) BOOL started;

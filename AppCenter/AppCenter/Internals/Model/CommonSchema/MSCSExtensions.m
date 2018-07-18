@@ -50,7 +50,7 @@
 #pragma mark - NSObject
 
 - (BOOL)isEqual:(id)object {
-  if (![object isKindOfClass:[MSCSExtensions class]]) {
+  if (![(NSObject *)object isKindOfClass:[MSCSExtensions class]]) {
     return NO;
   }
   MSCSExtensions *csExt = (MSCSExtensions *)object;

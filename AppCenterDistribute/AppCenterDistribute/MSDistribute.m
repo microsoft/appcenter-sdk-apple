@@ -79,11 +79,10 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                                selector:@selector(applicationWillEnterForeground)
                                    name:UIApplicationWillEnterForegroundNotification
                                  object:nil];
+    
+    // Init the distribute info tracker.
+    _distributeInfoTracker = [[MSDistributeInfoTracker alloc] init];
   }
-
-  // Init the distribute info tracker.
-  _distributeInfoTracker = [[MSDistributeInfoTracker alloc] init];
-
   return self;
 }
 
@@ -93,7 +92,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   static id sharedInstance = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-    sharedInstance = [[self alloc] init];
+    sharedInstance = [[MSDistribute alloc] init];
   });
   return sharedInstance;
 }
@@ -189,31 +188,34 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   self.releaseDetails = nil;
 }
 
-- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(nullable NSString *)appSecret transmissionTargetToken:(nullable NSString *)token {
-  [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token];
+- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup
+                    appSecret:(nullable NSString *)appSecret
+      transmissionTargetToken:(nullable NSString *)token
+              fromApplication:(BOOL)fromApplication {
+  [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
   MSLogVerbose([MSDistribute logTag], @"Started Distribute service.");
 }
 
 #pragma mark - Public
 
 + (void)setApiUrl:(NSString *)apiUrl {
-  [[self sharedInstance] setApiUrl:apiUrl];
+  [[MSDistribute sharedInstance] setApiUrl:apiUrl];
 }
 
 + (void)setInstallUrl:(NSString *)installUrl {
-  [[self sharedInstance] setInstallUrl:installUrl];
+  [[MSDistribute sharedInstance] setInstallUrl:installUrl];
 }
 
 + (BOOL)openURL:(NSURL *)url {
-  return [[self sharedInstance] openURL:url];
+  return [[MSDistribute sharedInstance] openURL:url];
 }
 
 + (void)notifyUpdateAction:(MSUpdateAction)action {
-  [[self sharedInstance] notifyUpdateAction:action];
+  [[MSDistribute sharedInstance] notifyUpdateAction:action];
 }
 
 + (void)setDelegate:(id<MSDistributeDelegate>)delegate {
-  [[self sharedInstance] setDelegate:delegate];
+  [[MSDistribute sharedInstance] setDelegate:delegate];
 }
 
 #pragma mark - Private
@@ -338,7 +340,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         [MS_USER_DEFAULTS removeObjectForKey:kMSMandatoryReleaseKey];
       }
     }
-    if (self.sender == nil) {
+    if (self.ingestion == nil) {
       NSMutableDictionary *queryStrings = [[NSMutableDictionary alloc] init];
       NSMutableDictionary *reportingParametersForUpdatedRelease =
           [self getReportingParametersForUpdatedRelease:updateToken
@@ -348,22 +350,23 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         [queryStrings addEntriesFromDictionary:reportingParametersForUpdatedRelease];
       }
       queryStrings[kMSURLQueryReleaseHashKey] = releaseHash;
-      self.sender = [[MSDistributeSender alloc] initWithBaseUrl:self.apiUrl
+      self.ingestion = [[MSDistributeIngestion alloc] initWithBaseUrl:self.apiUrl
                                                       appSecret:self.appSecret
                                                     updateToken:updateToken
                                             distributionGroupId:distributionGroupId
                                                    queryStrings:queryStrings];
       __weak typeof(self) weakSelf = self;
-      [self.sender
+      [self.ingestion
                   sendAsync:nil
+                  appSecret:self.appSecret
           completionHandler:^(__unused NSString *callId, NSUInteger statusCode, NSData *data, __unused NSError *error) {
             typeof(self) strongSelf = weakSelf;
             if (!strongSelf) {
               return;
             }
 
-            // Release sender instance.
-            strongSelf.sender = nil;
+            // Release ingestion instance.
+            strongSelf.ingestion = nil;
 
             // Ignore the response if the service is disabled.
             if (![strongSelf isEnabled]) {
@@ -436,7 +439,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
               }
 
               // Check the status code to clean up Distribute data for an unrecoverable error.
-              if (![MSSenderUtil isRecoverableError:statusCode]) {
+              if (![MSIngestionUtil isRecoverableError:statusCode]) {
 
                 // Deserialize payload to check if it contains error details.
                 MSErrorDetails *details = nil;
@@ -454,7 +457,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                   [self.distributeInfoTracker removeDistributionGroupId];
                 }
               }
-              if (!jsonString) {
+              if (!jsonString && data) {
                 jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
               }
               MSLogError([MSDistribute logTag], @"Response:\n%@", jsonString ? jsonString : @"No payload");
@@ -579,7 +582,14 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
   // Check once more if we have the correct class.
   if (sessionClazz) {
+#pragma clang diagnostic push
 
+// Ignore "Unknown warning group '-Wobjc-messaging-id'" for old XCode
+#pragma clang diagnostic ignored "-Wunknown-pragmas"
+#pragma clang diagnostic ignored "-Wunknown-warning-option"
+    
+// Ignore "Messaging unqualified id" for XCode 10
+#pragma clang diagnostic ignored "-Wobjc-messaging-id"
     id session = [sessionClazz alloc];
 
     // Create selector for [instanceOfSFAuthenticationSession initWithURL: callbackURLScheme: completionHandler:].
@@ -622,14 +632,24 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     if (success) {
       MSLogDebug([MSDistribute logTag], @"Authentication Session Started, showing confirmation dialog");
     }
+#pragma clang diagnostic pop
   }
 }
 
 - (void)openURLInSafariViewControllerWith:(NSURL *)url fromClass:(Class)clazz {
   MSLogDebug([MSDistribute logTag], @"Using SFSafariViewController to open URL: %@", url);
-
+#pragma clang diagnostic push
+  
+// Ignore "Unknown warning group '-Wobjc-messaging-id'" for old XCode
+#pragma clang diagnostic ignored "-Wunknown-pragmas"
+#pragma clang diagnostic ignored "-Wunknown-warning-option"
+  
+// Ignore "Messaging unqualified id" for XCode 10
+#pragma clang diagnostic ignored "-Wobjc-messaging-id"
+  
   // Init safari controller with the install URL.
   id safari = [[clazz alloc] initWithURL:url];
+#pragma clang diagnostic pop
 
   // Create an empty window + viewController to host the Safari UI.
   self.safariHostingViewController = [[UIViewController alloc] init];
@@ -745,8 +765,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
 - (void)storeDownloadedReleaseDetails:(nullable MSReleaseDetails *)details {
   if (details == nil) {
-    MSLogDebug([MSDistribute logTag],
-               @"Downloaded release details are missing or broken, won't store.");
+    MSLogDebug([MSDistribute logTag], @"Downloaded release details are missing or broken, won't store.");
     return;
   }
   NSString *groupId = details.distributionGroupId;
@@ -756,8 +775,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
    * IPA can contain several hashes, each for different architecture and we can't predict which will be installed,
    * so save all hashes as comma separated string.
    */
-  NSString *releaseHashes = [details.packageHashes count] > 0 ? [details.packageHashes componentsJoinedByString:@","]
-                                                              : nil;
+  NSString *releaseHashes =
+      [details.packageHashes count] > 0 ? [details.packageHashes componentsJoinedByString:@","] : nil;
   [MS_USER_DEFAULTS setObject:groupId forKey:kMSDownloadedDistributionGroupIdKey];
   [MS_USER_DEFAULTS setObject:releaseId forKey:kMSDownloadedReleaseIdKey];
   [MS_USER_DEFAULTS setObject:releaseHashes forKey:kMSDownloadedReleaseHashKey];
@@ -785,9 +804,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   [MS_USER_DEFAULTS removeObjectForKey:kMSDownloadedReleaseHashKey];
 }
 
-- (NSMutableDictionary *)getReportingParametersForUpdatedRelease:(NSString *)updateToken
-                                     currentInstalledReleaseHash:(NSString *)currentInstalledReleaseHash
-                                             distributionGroupId:(NSString *)distributionGroupId {
+- (nullable NSMutableDictionary *)getReportingParametersForUpdatedRelease:(NSString *)updateToken
+                                              currentInstalledReleaseHash:(NSString *)currentInstalledReleaseHash
+                                                      distributionGroupId:(NSString *)distributionGroupId {
 
   // Check if we need to report release installation.
   NSString *lastDownloadedReleaseHashes = [MS_USER_DEFAULTS objectForKey:kMSDownloadedReleaseHashKey];
@@ -823,16 +842,21 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
   // Skip if the current release was not updated.
   NSString *updatedReleaseHashes = [MS_USER_DEFAULTS objectForKey:kMSDownloadedReleaseHashKey];
-  if ((updatedReleaseHashes == nil) || ([updatedReleaseHashes rangeOfString:currentInstalledReleaseHash].location == NSNotFound)) {
+  if ((updatedReleaseHashes == nil) ||
+      ([updatedReleaseHashes rangeOfString:currentInstalledReleaseHash].location == NSNotFound)) {
     return;
   }
 
   // Skip if the group ID of an updated release is the same as the stored one.
   NSString *storedDistributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
-  if ((storedDistributionGroupId == nil) || ([updatedReleaseDistributionGroupId isEqualToString:storedDistributionGroupId] == NO)) {
+  if ((storedDistributionGroupId == nil) ||
+      ([updatedReleaseDistributionGroupId isEqualToString:storedDistributionGroupId] == NO)) {
 
-    // Set group ID from downloaded release details if an updated release was downloaded from another distribution group.
-    MSLogDebug([MSDistribute logTag], @"Stored group ID doesn't match the group ID of the updated release, updating group id: %@", updatedReleaseDistributionGroupId);
+    // Set group ID from downloaded release details if an updated release was downloaded from another distribution
+    // group.
+    MSLogDebug([MSDistribute logTag],
+               @"Stored group ID doesn't match the group ID of the updated release, updating group id: %@",
+               updatedReleaseDistributionGroupId);
     [MS_USER_DEFAULTS setObject:updatedReleaseDistributionGroupId forKey:kMSDistributionGroupIdKey];
   }
 

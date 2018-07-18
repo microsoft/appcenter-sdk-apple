@@ -1,9 +1,9 @@
 #import <Foundation/Foundation.h>
 
 #import "MSDistribute.h"
-#import "MSDistributeSender.h"
+#import "MSDistributeIngestion.h"
+#import "MSIngestionProtocol.h"
 #import "MSReleaseDetailsPrivate.h"
-#import "MSSender.h"
 #import "MSServiceInternal.h"
 
 #define APP_CENTER_DISTRIBUTE_BUNDLE @"AppCenterDistributeResources.bundle"
@@ -28,9 +28,9 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
 @property(nonatomic, copy) NSString *apiUrl;
 
 /**
- * A sender instance that is used to send a request for new release to the backend.
+ * An ingestion instance that is used to send a request for new release to the backend.
  */
-@property(nonatomic, nullable) MSDistributeSender *sender;
+@property(nonatomic, nullable) MSDistributeIngestion *ingestion;
 
 @end
 

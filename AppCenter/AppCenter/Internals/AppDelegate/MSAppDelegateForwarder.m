@@ -92,7 +92,7 @@ static BOOL _enabled = YES;
   return _originalImplementations ?: (_originalImplementations = [NSMutableDictionary new]);
 }
 
-+ (void)addTraceBlock:(void (^)())block {
++ (void)addTraceBlock:(void (^)(void))block {
   @synchronized(traceBuffer) {
     if (traceBuffer) {
       static dispatch_once_t onceToken = 0;
@@ -351,7 +351,7 @@ static BOOL _enabled = YES;
   @synchronized([self class]) {
     BOOL forwarded = NO;
     BOOL hasReturnedValue = ([NSStringFromSelector(invocation.selector) hasSuffix:kMSReturnedValueSelectorPart]);
-    NSUInteger returnedValueIdx = NULL;
+    NSUInteger returnedValueIdx = 0;
     void *returnedValuePtr = NULL;
 
     // Prepare returned value if any.
