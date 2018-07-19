@@ -54,7 +54,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   // Then
   XCTAssertNotNil(transmissionTarget);
   XCTAssertEqual(kMSTestTransmissionToken, transmissionTarget.transmissionTargetToken);
-  XCTAssertEqualObjects(transmissionTarget.eventProperties, @{});
+  XCTAssertEqualObjects(transmissionTarget.propertyConfigurator.eventProperties, @{});
 }
 
 - (void)testTrackEvent {
@@ -70,7 +70,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   [target trackEvent:eventName];
 
   // Then
-  XCTAssertTrue(target.eventProperties.count == 0);
+  XCTAssertTrue(target.propertyConfigurator.eventProperties.count == 0);
   OCMVerify(
       ClassMethod([self.analyticsClassMock trackEvent:eventName withProperties:nil forTransmissionTarget:target]));
 }
@@ -89,7 +89,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   [target trackEvent:eventName withProperties:properties];
 
   // Then
-  XCTAssertTrue(target.eventProperties.count == 0);
+  XCTAssertTrue(target.propertyConfigurator.eventProperties.count == 0);
   OCMVerify(ClassMethod(
       [self.analyticsClassMock trackEvent:eventName withProperties:properties forTransmissionTarget:target]));
 }
@@ -340,11 +340,12 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 - (void)testSetAndRemoveEventProperty {
 
   // If
-  MSPropertyConfigurator *configurator =
+  MSAnalyticsTransmissionTarget *targetMock =
       [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
                                                                 parentTarget:nil
-                                                                channelGroup:self.channelGroupMock]
-          .propertyConfigurator;
+                                                                channelGroup:self.channelGroupMock];
+  MSPropertyConfigurator *configurator = [[MSPropertyConfigurator alloc] initWithTransmissionTarget:targetMock];
+
   NSString *prop1Key = @"prop1";
   NSString *prop1Value = @"val1";
 
@@ -417,7 +418,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // Then
   id commonProperties = @{propCommonKey : propCommonValue, propCommonKey2 : propCommonValue2};
-  XCTAssertEqualObjects(target.eventProperties, commonProperties);
+  XCTAssertEqualObjects(target.propertyConfigurator.eventProperties, commonProperties);
   OCMVerify(ClassMethod(
       [self.analyticsClassMock trackEvent:eventName withProperties:commonProperties forTransmissionTarget:target]));
 
@@ -433,7 +434,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   [target trackEvent:eventName withProperties:@{propTrackKey : propTrackValue, propTrackKey2 : propTrackValue2}];
 
   // Then
-  XCTAssertEqualObjects(target.eventProperties, commonProperties);
+  XCTAssertEqualObjects(target.propertyConfigurator.eventProperties, commonProperties);
   OCMVerify(ClassMethod([self.analyticsClassMock trackEvent:eventName
                                              withProperties:(@{
                                                propCommonKey : propCommonValue,
