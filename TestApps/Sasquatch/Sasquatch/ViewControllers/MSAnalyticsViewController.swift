@@ -42,8 +42,8 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     let eventPropertiesDictionary = eventPropertiesSection.eventPropertiesDictionary()
     appCenter.trackEvent(name, withProperties: eventPropertiesDictionary)
     if self.oneCollectorEnabled.isOn {
-      let targetToken = UserDefaults.standard.string(forKey: kMSChildTransmissionTargetTokenKey)
-      let target = targetPropertiesSection.transmissionTarget(forTargetToken: targetToken!)
+      let targetToken = UserDefaults.standard.string(forKey: kMSChildTransmissionTargetTokenKey)  ?? TargetPropertiesTableSection.parentTransmissionTargetToken()
+      let target = targetPropertiesSection.transmissionTarget(forTargetToken: targetToken)
       target.trackEvent(name, withProperties: eventPropertiesDictionary)
     }
   }
