@@ -560,6 +560,62 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   XCTAssertEqual(log.ext.appExt.locale, grandParent.propertyConfigurator.appLocale);
 }
 
+- (void)testOverridingCommonSchemaPropertiesDoNothingWhenTargetIsDisabled {
+
+  // If
+  // Prepare target instances.
+  MSAnalyticsTransmissionTarget *grandParent = [MSAnalytics transmissionTargetForToken:@"grand-parent"];
+  MSAnalyticsTransmissionTarget *parent = [grandParent transmissionTargetForToken:@"parent"];
+  MSAnalyticsTransmissionTarget *child = [parent transmissionTargetForToken:@"child"];
+
+  // Set properties to grand parent.
+  [grandParent.propertyConfigurator setAppName:@"GrandParentAppName"];
+  [grandParent.propertyConfigurator setAppVersion:@"8.4.1"];
+  [grandParent.propertyConfigurator setAppLocale:@"en-us"];
+
+  // Set common properties to child.
+  [child.propertyConfigurator setAppName:@"ChildAppName"];
+  [child.propertyConfigurator setAppVersion:@"1.4.8"];
+  [child.propertyConfigurator setAppLocale:@"fr-ca"];
+
+  // Set a log.
+  MSCommonSchemaLog *log = [MSCommonSchemaLog new];
+  log.ext = [MSCSExtensions new];
+  log.ext.appExt = [MSAppExtension new];
+  log.ext.appExt.name = @"baseAppName";
+  log.ext.appExt.ver = @"0.0.1";
+  log.ext.appExt.locale = @"zh-cn";
+
+  [grandParent setEnabled:NO];
+
+  // When
+  [grandParent.propertyConfigurator channel:nil prepareLog:log];
+
+  // Then
+  XCTAssertNotEqual(log.ext.appExt.name, grandParent.propertyConfigurator.appName);
+  XCTAssertNotEqual(log.ext.appExt.ver, grandParent.propertyConfigurator.appVersion);
+  XCTAssertNotEqual(log.ext.appExt.locale, grandParent.propertyConfigurator.appLocale);
+
+  // If
+  [child setEnabled:NO];
+
+  // When
+  [child.propertyConfigurator channel:nil prepareLog:log];
+
+  // Then
+  XCTAssertNotEqual(log.ext.appExt.name, child.propertyConfigurator.appName);
+  XCTAssertNotEqual(log.ext.appExt.ver, child.propertyConfigurator.appVersion);
+  XCTAssertNotEqual(log.ext.appExt.locale, child.propertyConfigurator.appLocale);
+
+  // When
+  [parent.propertyConfigurator channel:nil prepareLog:log];
+
+  // Then
+  XCTAssertNotEqual(log.ext.appExt.name, grandParent.propertyConfigurator.appName);
+  XCTAssertNotEqual(log.ext.appExt.ver, grandParent.propertyConfigurator.appVersion);
+  XCTAssertNotEqual(log.ext.appExt.locale, grandParent.propertyConfigurator.appLocale);
+}
+
 - (void)testOverridingCommonSchemaPropertiesWithTwoChildrenUnderTheSameParent {
 
   // If
