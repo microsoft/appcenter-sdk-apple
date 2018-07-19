@@ -66,8 +66,7 @@ static MSCrashesCallbacks msCrashesCallbacks = {.context = nullptr, .handleSigna
 static NSString *const kMSUserConfirmationKey = @"MSUserConfirmation";
 static volatile BOOL writeBufferTaskStarted = NO;
 
-static void ms_save_log_buffer(const std::string &data,
-                               const std::string &path) {
+static void ms_save_log_buffer(const std::string &data, const std::string &path) {
   int fd = open(path.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
   if (fd < 0) {
     return;
@@ -83,11 +82,9 @@ void ms_save_log_buffer() {
   for (int i = 0; i < ms_crashes_log_buffer_size; i++) {
 
     // Make sure not to allocate any memory (e.g. copy).
-    ms_save_log_buffer(msCrashesLogBuffer[i].buffer,
-                       msCrashesLogBuffer[i].bufferPath);
+    ms_save_log_buffer(msCrashesLogBuffer[i].buffer, msCrashesLogBuffer[i].bufferPath);
     if (!msCrashesLogBuffer[i].targetToken.empty()) {
-      ms_save_log_buffer(msCrashesLogBuffer[i].targetToken,
-                         msCrashesLogBuffer[i].targetTokenPath);
+      ms_save_log_buffer(msCrashesLogBuffer[i].targetToken, msCrashesLogBuffer[i].targetTokenPath);
     }
   }
 }
@@ -396,14 +393,12 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
        transmissionTargetToken:token
                fromApplication:fromApplication];
   [self.channelGroup addDelegate:self];
-  [self processLogBufferAfterCrash];
+  [self processLogBufferAfterCrashWithAppSecret:appSecret];
   MSLogVerbose([MSCrashes logTag], @"Started crash service.");
 }
 
 - (void)updateConfigurationWithAppSecret:(NSString *)appSecret transmissionTargetToken:(NSString *)token {
-  if (self.bufferChannelUnit && self.appSecret) {
-    [self.bufferChannelUnit setAppSecret:self.appSecret];
-  }
+  [self processLogBufferAfterCrashWithAppSecret:appSecret];
 
   /*
    * updateConfigurationWithAppSecret:transmissionTargetToken: will apply enabled state at the end so all update for the
@@ -444,6 +439,15 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
      didPrepareLog:(id<MSLog>)log
     withInternalId:(NSString *)internalId {
 
+  /*
+   * FIXME: Don't buffer OC logs yet. OC logs from the buffer are currently queued to an AC channel which is wrong. It
+   * should either be enqueued to an OC channel or it should be cached by the log buffer just before the conversion to
+   * an OC log so that we'll never have to persist an OC log and we'll only have to deal with the AC channel.
+   */
+  if (log.transmissionTargetTokens) {
+    return;
+  }
+
   // Don't buffer event if log is empty, crashes module is disabled or the log is related to crash.
   NSObject *logObject = static_cast<NSObject *>(log);
   if (!log || ![self isEnabled] || [logObject isKindOfClass:[MSAppleErrorLog class]] ||
@@ -455,11 +459,11 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   @synchronized(self) {
     NSData *serializedLog = [NSKeyedArchiver archivedDataWithRootObject:log];
     if (serializedLog && (serializedLog.length > 0)) {
-      
+
       // Serialize target token.
       NSString *targetToken = log.transmissionTargetTokens != nil ? log.transmissionTargetTokens.anyObject : nil;
       targetToken = targetToken != nil ? [self.targetTokenEncrypter encryptString:targetToken] : @"";
-      
+
       // Storing a log.
       NSNumber *oldestTimestamp;
       NSNumberFormatter *timestampFormatter = [[NSNumberFormatter alloc] init];
@@ -801,50 +805,53 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   }
 }
 
-- (void)processLogBufferAfterCrash {
+- (void)processLogBufferAfterCrashWithAppSecret:(NSString *)appSecret {
+  if (appSecret) {
+    
+    // Initialize a dedicated channel for log buffer.
+    self.bufferChannelUnit = [self.channelGroup
+        addChannelUnitWithConfiguration:[[MSChannelUnitConfiguration alloc] initWithGroupId:kMSBufferGroupId
+                                                                                   priority:MSPriorityHigh
+                                                                              flushInterval:1.0
+                                                                             batchSizeLimit:50
+                                                                        pendingBatchesLimit:1]];
+    [self.bufferChannelUnit setAppSecret:appSecret];
 
-  // Initialize a dedicated channel for log buffer.
-  self.bufferChannelUnit = [self.channelGroup
-      addChannelUnitWithConfiguration:[[MSChannelUnitConfiguration alloc] initWithGroupId:kMSBufferGroupId
-                                                                                 priority:MSPriorityHigh
-                                                                            flushInterval:1.0
-                                                                           batchSizeLimit:50
-                                                                      pendingBatchesLimit:1]];
+    // Iterate over each file in it with the kMSLogBufferFileExtension and send the log if a log can be deserialized.
+    NSArray<NSURL *> *files =
+        [MSUtility contentsOfDirectory:[NSString stringWithFormat:@"%@", self.logBufferPathComponent]
+                     propertiesForKeys:nil];
+    for (NSURL *fileURL in files) {
+      if ([[fileURL pathExtension] isEqualToString:kMSLogBufferFileExtension]) {
+        NSData *serializedLog = [NSData dataWithContentsOfURL:fileURL];
+        if (serializedLog && serializedLog.length && serializedLog.length > 0) {
+          id<MSLog> item = [NSKeyedUnarchiver unarchiveObjectWithData:serializedLog];
+          if (item) {
 
-  // Iterate over each file in it with the kMSLogBufferFileExtension and send the log if a log can be deserialized.
-  NSArray<NSURL *> *files =
-      [MSUtility contentsOfDirectory:[NSString stringWithFormat:@"%@", self.logBufferPathComponent]
-                   propertiesForKeys:nil];
-  for (NSURL *fileURL in files) {
-    if ([[fileURL pathExtension] isEqualToString:kMSLogBufferFileExtension]) {
-      NSData *serializedLog = [NSData dataWithContentsOfURL:fileURL];
-      if (serializedLog && serializedLog.length && serializedLog.length > 0) {
-        id<MSLog> item = [NSKeyedUnarchiver unarchiveObjectWithData:serializedLog];
-        if (item) {
-          
-          // Try to set target token.
-          NSString *targetTokenFilePath = [fileURL.path stringByReplacingOccurrencesOfString:kMSLogBufferFileExtension
-                                                                                  withString:kMSTargetTokenFileExtension];
-          NSURL *targetTokenFileURL = [NSURL fileURLWithPath:targetTokenFilePath];
-          NSString *targetToken = [NSString stringWithContentsOfURL:targetTokenFileURL
-                                                           encoding:NSUTF8StringEncoding
-                                                              error:nil];
-          if (targetToken != nil) {
-            targetToken = [self.targetTokenEncrypter decryptString:targetToken];
-            [item addTransmissionTargetToken:targetToken];
-            
-            // Delete target token file.
-            [MSUtility deleteFileAtURL:targetTokenFileURL];
+            // Try to set target token.
+            NSString *targetTokenFilePath =
+                [fileURL.path stringByReplacingOccurrencesOfString:kMSLogBufferFileExtension
+                                                        withString:kMSTargetTokenFileExtension];
+            NSURL *targetTokenFileURL = [NSURL fileURLWithPath:targetTokenFilePath];
+            NSString *targetToken =
+                [NSString stringWithContentsOfURL:targetTokenFileURL encoding:NSUTF8StringEncoding error:nil];
+            if (targetToken != nil) {
+              targetToken = [self.targetTokenEncrypter decryptString:targetToken];
+              [item addTransmissionTargetToken:targetToken];
+
+              // Delete target token file.
+              [MSUtility deleteFileAtURL:targetTokenFileURL];
+            }
+
+            // Buffered logs are used sending their own channel. It will never contain more than 50 logs.
+            MSLogDebug([MSCrashes logTag], @"Re-enqueueing buffered log, type: %@.", item.type);
+            [self.bufferChannelUnit enqueueItem:item];
           }
-
-          // Buffered logs are used sending their own channel. It will never contain more than 50 logs.
-          MSLogDebug([MSCrashes logTag], @"Re-enqueueing buffered log, type: %@.", item.type);
-          [self.bufferChannelUnit enqueueItem:item];
         }
-      }
 
-      // Create empty new file, overwrites the old one.
-      [[NSData data] writeToURL:fileURL atomically:NO];
+        // Create empty new file, overwrites the old one.
+        [[NSData data] writeToURL:fileURL atomically:NO];
+      }
     }
   }
 }
@@ -1049,8 +1056,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       msCrashesLogBuffer[i] = MSCrashesBufferedLog(path, nil);
 
       // Save target token path as well to avoid memory allocation when saving.
-      NSString *targetTokenPath = [path stringByReplacingOccurrencesOfString:kMSLogBufferFileExtension
-                                                                  withString:kMSTargetTokenFileExtension];
+      NSString *targetTokenPath =
+          [path stringByReplacingOccurrencesOfString:kMSLogBufferFileExtension withString:kMSTargetTokenFileExtension];
       msCrashesLogBuffer[i].targetTokenPath = targetTokenPath.UTF8String;
     }
   }
