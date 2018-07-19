@@ -64,7 +64,8 @@ else
 
   ## 0. Get artifact filename and commit hash from build
   prerelease=$(echo "$ARTIFACT_PATH"/*.zip | rev | cut -d/ -f1 | rev)
-  commit_hash="$(echo $prerelease | sed 's/'$FRAMEWORKS_ZIP_FILENAME'-[[:digit:]]\{1,\}.[[:digit:]]\{1,\}.[[:digit:]]\{1,\}-[[:digit:]]\{1,\}+\(.\{40\}\)\.zip.*/\1/1')"
+  zip_filename="$(echo $FRAMEWORKS_ZIP_FILENAME | cut -d. -f1)"
+  commit_hash="$(echo $prerelease | sed 's/'$zip_filename'-[[:digit:]]\{1,\}.[[:digit:]]\{1,\}.[[:digit:]]\{1,\}-[[:digit:]]\{1,\}+\(.\{40\}\)\.zip.*/\1/1')"
 
   ### Temporarily remove tvOS framework from binary
   unzip $ARTIFACT_PATH/$prerelease
