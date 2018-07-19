@@ -15,11 +15,13 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param token A transmission target token.
  * @param parentTarget Nested parent transmission target.
+ * @param channelGroup The Channel group.
  *
  * @return A transmission target instance.
  */
 - (instancetype)initWithTransmissionTargetToken:(NSString *)token
-                                   parentTarget:(nullable MSAnalyticsTransmissionTarget *)parentTarget;
+                                   parentTarget:(nullable MSAnalyticsTransmissionTarget *)parentTarget
+                                   channelGroup:(nonnull id<MSChannelGroupProtocol>)channelGroup;
 
 @end
 

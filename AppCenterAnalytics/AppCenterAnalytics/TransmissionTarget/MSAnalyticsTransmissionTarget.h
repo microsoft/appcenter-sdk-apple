@@ -1,8 +1,15 @@
 #import <Foundation/Foundation.h>
 
+#import "MSPropertyConfigurator.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MSAnalyticsTransmissionTarget : NSObject
+
+/**
+ * Property configurator.
+ */
+@property(nonatomic, readonly) MSPropertyConfigurator *propertyConfigurator;
 
 /**
  * Set an event property to be attached to events tracked by this transmission target and its child transmission

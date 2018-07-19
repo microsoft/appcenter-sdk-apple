@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
 
 #import "MSAnalyticsTransmissionTarget.h"
+#import "MSChannelGroupProtocol.h"
 #import "MSUtility.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -26,6 +27,11 @@ NS_ASSUME_NONNULL_BEGIN
  * isEnabled value storage key.
  */
 @property(nonatomic, readonly) NSString *isEnabledKey;
+
+/**
+ * The channel group.
+ */
+@property(nonatomic, readonly) id<MSChannelGroupProtocol> channelGroup;
 
 @end
 

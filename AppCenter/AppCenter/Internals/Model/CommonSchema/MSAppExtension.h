@@ -19,6 +19,11 @@
 @property(nonatomic, copy) NSString *ver;
 
 /**
+ * The application's name.
+ */
+@property(nonatomic, copy) NSString *name;
+
+/**
  * The application's locale.
  */
 @property(nonatomic, copy) NSString *locale;
