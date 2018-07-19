@@ -18,6 +18,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 @property(nonatomic) MSMockUserDefaults *settingsMock;
 @property(nonatomic) id analyticsClassMock;
 @property(nonatomic) id<MSChannelGroupProtocol> channelGroupMock;
+
 @end
 
 @implementation MSAnalyticsTransmissionTargetTests
@@ -512,6 +513,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 - (void)testOverridingCommonSchemaProperties {
 
   // If
+
   // Prepare target instances.
   MSAnalyticsTransmissionTarget *grandParent = [MSAnalytics transmissionTargetForToken:@"grand-parent"];
   MSAnalyticsTransmissionTarget *parent = [grandParent transmissionTargetForToken:@"parent"];
@@ -563,6 +565,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 - (void)testOverridingCommonSchemaPropertiesDoNothingWhenTargetIsDisabled {
 
   // If
+
   // Prepare target instances.
   MSAnalyticsTransmissionTarget *grandParent = [MSAnalytics transmissionTargetForToken:@"grand-parent"];
   MSAnalyticsTransmissionTarget *parent = [grandParent transmissionTargetForToken:@"parent"];
@@ -592,9 +595,9 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   [grandParent.propertyConfigurator channel:nil prepareLog:log];
 
   // Then
-  XCTAssertNotEqual(log.ext.appExt.name, grandParent.propertyConfigurator.appName);
-  XCTAssertNotEqual(log.ext.appExt.ver, grandParent.propertyConfigurator.appVersion);
-  XCTAssertNotEqual(log.ext.appExt.locale, grandParent.propertyConfigurator.appLocale);
+  XCTAssertEqual(log.ext.appExt.name, @"baseAppName");
+  XCTAssertEqual(log.ext.appExt.ver, @"0.0.1");
+  XCTAssertEqual(log.ext.appExt.locale, @"zh-cn");
 
   // If
   [child setEnabled:NO];
@@ -607,13 +610,23 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   XCTAssertNotEqual(log.ext.appExt.ver, child.propertyConfigurator.appVersion);
   XCTAssertNotEqual(log.ext.appExt.locale, child.propertyConfigurator.appLocale);
 
+  // If
+
+  // Reset a log.
+  log = [MSCommonSchemaLog new];
+  log.ext = [MSCSExtensions new];
+  log.ext.appExt = [MSAppExtension new];
+  log.ext.appExt.name = @"baseAppName";
+  log.ext.appExt.ver = @"0.0.1";
+  log.ext.appExt.locale = @"zh-cn";
+
   // When
   [parent.propertyConfigurator channel:nil prepareLog:log];
 
   // Then
-  XCTAssertNotEqual(log.ext.appExt.name, grandParent.propertyConfigurator.appName);
-  XCTAssertNotEqual(log.ext.appExt.ver, grandParent.propertyConfigurator.appVersion);
-  XCTAssertNotEqual(log.ext.appExt.locale, grandParent.propertyConfigurator.appLocale);
+  XCTAssertEqual(log.ext.appExt.name, @"baseAppName");
+  XCTAssertEqual(log.ext.appExt.ver, @"0.0.1");
+  XCTAssertEqual(log.ext.appExt.locale, @"zh-cn");
 }
 
 - (void)testOverridingCommonSchemaPropertiesWithTwoChildrenUnderTheSameParent {

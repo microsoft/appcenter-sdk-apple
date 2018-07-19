@@ -27,7 +27,6 @@
 #pragma mark - MSChannelDelegate
 
 - (void)channel:(id<MSChannelProtocol>)__unused channel prepareLog:(id<MSLog>)log {
-
   if ([log isKindOfClass:[MSCommonSchemaLog class]]) {
 
     // Override the application name.

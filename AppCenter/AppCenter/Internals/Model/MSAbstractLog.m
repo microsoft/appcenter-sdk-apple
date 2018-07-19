@@ -172,7 +172,9 @@
   // App extension.
   csLog.ext.appExt = [MSAppExtension new];
   csLog.ext.appExt.appId = [NSString stringWithFormat:@"I:%@", self.device.appNamespace];
-  csLog.ext.appExt.name = @"TODO"; // TODO: What's the name??
+
+  // App Center and Aria don't collect application name so set an empty string for the application name.
+  csLog.ext.appExt.name = @"";
   csLog.ext.appExt.ver = self.device.appVersion;
   csLog.ext.appExt.locale = [[[NSBundle mainBundle] preferredLocalizations] firstObject];
 

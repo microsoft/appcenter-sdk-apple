@@ -7,23 +7,23 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MSPropertyConfigurator : NSObject <MSChannelDelegate>
 
 /**
- * The application name to be overriden.
+ * Override the application name.
  *
- * @param appName The application name.
+ * @param appName New application name for a tranmission target.
  */
 - (void)setAppName:(NSString *)appName;
 
 /**
- * The application version to be overriden.
+ * Override the application version.
  *
- * @param appVersion The application version.
+ * @param appVersion New application version for a tranmission target.
  */
 - (void)setAppVersion:(NSString *)appVersion;
 
 /**
- * The application locale to be overriden.
+ * Override the application locale.
  *
- * @param appLocale The application locale.
+ * @param appLocale New application locale for a tranmission target.
  */
 - (void)setAppLocale:(NSString *)appLocale;
 

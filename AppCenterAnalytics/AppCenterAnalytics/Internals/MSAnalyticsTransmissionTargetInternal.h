@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param token A transmission target token.
  * @param parentTarget Nested parent transmission target.
- * @param channelGroup Channel group.
+ * @param channelGroup The Channel group.
  *
  * @return A transmission target instance.
  */
