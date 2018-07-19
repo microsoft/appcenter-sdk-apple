@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
 
 #import "MSAnalyticsTransmissionTarget.h"
+#import "MSChannelGroupProtocol.h"
 #import "MSUtility.h"
 
 NS_ASSUME_NONNULL_BEGIN

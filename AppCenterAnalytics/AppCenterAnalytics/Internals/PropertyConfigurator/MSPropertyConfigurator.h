@@ -1,10 +1,8 @@
 #import <Foundation/Foundation.h>
 
-#import "MSChannelDelegate.h"
-
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MSPropertyConfigurator : NSObject <MSChannelDelegate>
+@interface MSPropertyConfigurator : NSObject
 
 /**
  * Override the application version.

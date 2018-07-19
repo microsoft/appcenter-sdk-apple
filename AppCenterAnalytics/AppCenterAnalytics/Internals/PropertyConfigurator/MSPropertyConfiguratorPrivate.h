@@ -1,10 +1,11 @@
 #import <Foundation/Foundation.h>
 
 #import "MSAnalyticsTransmissionTarget.h"
+#import "MSChannelDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MSPropertyConfigurator ()
+@interface MSPropertyConfigurator () <MSChannelDelegate>
 
 /**
  * The application version to be overriden.
