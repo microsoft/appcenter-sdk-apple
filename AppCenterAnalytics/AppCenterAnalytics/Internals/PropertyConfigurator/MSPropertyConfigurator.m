@@ -28,7 +28,7 @@
 
 - (void)channel:(id<MSChannelProtocol>)__unused channel prepareLog:(id<MSLog>)log {
 
-  if ([log isKindOfClass:[MSCommonSchemaLog class]]) {
+  if ([log isKindOfClass:[MSCommonSchemaLog class]] && [self.transmissionTarget isEnabled]) {
 
     // Override the application name.
     MSAnalyticsTransmissionTarget *target = self.transmissionTarget;
