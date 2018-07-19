@@ -14,11 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, nullable) MSAnalyticsTransmissionTarget *parentTarget;
 
 /**
- * Event properties attached to events tracked by this target.
- */
-@property(nonatomic, nullable) NSMutableDictionary<NSString *, NSString *> *eventProperties;
-
-/**
  * Child transmission targets nested to this transmission target.
  */
 @property(nonatomic) NSMutableDictionary<NSString *, MSAnalyticsTransmissionTarget *> *childTransmissionTargets;

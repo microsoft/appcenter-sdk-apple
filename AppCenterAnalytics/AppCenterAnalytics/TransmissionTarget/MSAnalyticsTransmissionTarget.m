@@ -20,8 +20,6 @@
     _transmissionTargetToken = token;
     _isEnabledKey = [NSString stringWithFormat:@"%@/%@", [MSAnalytics sharedInstance].isEnabledKey,
                                                [MSUtility targetIdFromTargetToken:token]];
-    _eventProperties = [NSMutableDictionary<NSString *, NSString *> new];
-
     // Disable if ancestor is disabled.
     if (![self isImmediateParent]) {
       [MS_USER_DEFAULTS setObject:@(NO) forKey:self.isEnabledKey];
@@ -31,26 +29,6 @@
     [_channelGroup addDelegate:_propertyConfigurator];
   }
   return self;
-}
-
-- (void)setEventPropertyString:(NSString *)propertyValue forKey:(NSString *)propertyKey {
-  @synchronized([MSAnalytics sharedInstance]) {
-    if (!propertyValue || !propertyKey) {
-      MSLogError([MSAnalytics logTag], @"Event property keys and values cannot be nil.");
-      return;
-    }
-    self.eventProperties[propertyKey] = propertyValue;
-  }
-}
-
-- (void)removeEventPropertyforKey:(NSString *)propertyKey {
-  @synchronized([MSAnalytics sharedInstance]) {
-    if (!propertyKey) {
-      MSLogError([MSAnalytics logTag], @"Event property key to remove cannot be nil.");
-      return;
-    }
-    [self.eventProperties removeObjectForKey:propertyKey];
-  }
 }
 
 /**
@@ -138,9 +116,9 @@
 
 - (void)mergeEventPropertiesWith:(NSMutableDictionary<NSString *, NSString *> *)mergedProperties {
   @synchronized([MSAnalytics sharedInstance]) {
-    for (NSString *key in self.eventProperties) {
+    for (NSString *key in self.propertyConfigurator.eventProperties) {
       if ([mergedProperties objectForKey:key] == nil) {
-        NSString *value = [self.eventProperties objectForKey:key];
+        NSString *value = [self.propertyConfigurator.eventProperties objectForKey:key];
         [mergedProperties setObject:value forKey:key];
       }
     }
