@@ -1,7 +1,7 @@
 #import "MSAnalyticsInternal.h"
 #import "MSAnalyticsTransmissionTargetInternal.h"
 #import "MSAnalyticsTransmissionTargetPrivate.h"
-#import "MSChannelProtocol.h"
+#import "MSChannelGroupProtocol.h"
 #import "MSLogger.h"
 #import "MSPropertyConfiguratorPrivate.h"
 #import "MSServiceAbstractInternal.h"
@@ -11,7 +11,7 @@
 
 - (instancetype)initWithTransmissionTargetToken:(NSString *)token
                                    parentTarget:(MSAnalyticsTransmissionTarget *)parentTarget
-                                   channelGroup:(id<MSChannelProtocol>)channelGroup {
+                                   channelGroup:(id<MSChannelGroupProtocol>)channelGroup {
   if ((self = [super init])) {
     _propertyConfigurator = [[MSPropertyConfigurator alloc] initWithTransmissionTarget:self];
     _channelGroup = channelGroup;
@@ -94,7 +94,9 @@
   // Look up for the token in the dictionary, create a new transmission target if doesn't exist.
   MSAnalyticsTransmissionTarget *target = self.childTransmissionTargets[token];
   if (!target) {
-    target = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:token parentTarget:self channelGroup:self.channelGroup];
+    target = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:token
+                                                                       parentTarget:self
+                                                                       channelGroup:self.channelGroup];
     self.childTransmissionTargets[token] = target;
   }
   return target;

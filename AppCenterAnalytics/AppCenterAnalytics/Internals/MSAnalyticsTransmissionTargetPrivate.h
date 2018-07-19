@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The channel group.
  */
-@property(nonatomic) id<MSChannelProtocol> channelGroup;
+@property(nonatomic) id<MSChannelGroupProtocol> channelGroup;
 
 /**
  * Property configurator.

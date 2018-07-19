@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithTransmissionTargetToken:(NSString *)token
                                    parentTarget:(nullable MSAnalyticsTransmissionTarget *)parentTarget
-                                   channelGroup:(nonnull id<MSChannelProtocol>)channelGroup;
+                                   channelGroup:(nonnull id<MSChannelGroupProtocol>)channelGroup;
 
 @end
 
