@@ -512,6 +512,60 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   XCTAssertEqual(eventLog.properties[@"g"], @"7777");
 }
 
+- (void)testAppExtentionCommonSchemaPropertiesWithoutOverriding {
+
+  // If
+
+  // Prepare target instance.
+  MSAnalyticsTransmissionTarget *target = [MSAnalytics transmissionTargetForToken:@"target"];
+
+  // Set a log.
+  MSCommonSchemaLog *log = [MSCommonSchemaLog new];
+  log.ext = [MSCSExtensions new];
+  log.ext.appExt = [MSAppExtension new];
+  log.ext.appExt.ver = @"0.0.1";
+  log.ext.appExt.name = @"baseAppName";
+  log.ext.appExt.locale = @"en-us";
+
+  // When
+  [target.propertyConfigurator channel:nil prepareLog:log];
+
+  // Then
+  XCTAssertNil(target.propertyConfigurator.appVersion);
+  XCTAssertNil(target.propertyConfigurator.appName);
+  XCTAssertNil(target.propertyConfigurator.appLocale);
+  XCTAssertEqual(log.ext.appExt.ver, @"0.0.1");
+  XCTAssertEqual(log.ext.appExt.name, @"baseAppName");
+  XCTAssertEqual(log.ext.appExt.locale, @"en-us");
+}
+
+- (void)testOverridingDefaultCommonSchemaProperties {
+
+  // If
+
+  // Prepare target instances.
+  MSAnalyticsTransmissionTarget *parent = [MSAnalytics transmissionTargetForToken:@"parent"];
+  MSAnalyticsTransmissionTarget *child = [parent transmissionTargetForToken:@"child"];
+
+  // Set properties to grand parent.
+  [parent.propertyConfigurator setAppVersion:@"8.4.1"];
+  [parent.propertyConfigurator setAppName:@"ParentAppName"];
+  [parent.propertyConfigurator setAppLocale:@"en-us"];
+
+  // Set a log with default values.
+  MSCommonSchemaLog *log = [MSCommonSchemaLog new];
+  log.ext = [MSCSExtensions new];
+  log.ext.appExt = [MSAppExtension new];
+
+  // When
+  [child.propertyConfigurator channel:nil prepareLog:log];
+
+  // Then
+  XCTAssertEqual(log.ext.appExt.ver, parent.propertyConfigurator.appVersion);
+  XCTAssertEqual(log.ext.appExt.name, parent.propertyConfigurator.appName);
+  XCTAssertEqual(log.ext.appExt.locale, parent.propertyConfigurator.appLocale);
+}
+
 - (void)testOverridingCommonSchemaProperties {
 
   // If
