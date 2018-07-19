@@ -1,7 +1,6 @@
 #import <Foundation/Foundation.h>
 
 #import "MSAnalyticsTransmissionTarget.h"
-#import "MSPropertyConfigurator.h"
 #import "MSUtility.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -31,12 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The channel group.
  */
-@property(nonatomic) id<MSChannelGroupProtocol> channelGroup;
-
-/**
- * Property configurator.
- */
-@property(nonatomic, readonly) MSPropertyConfigurator *propertyConfigurator;
+@property(nonatomic, readonly) id<MSChannelGroupProtocol> channelGroup;
 
 @end
 
