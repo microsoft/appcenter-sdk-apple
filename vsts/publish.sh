@@ -38,7 +38,7 @@ if [ "$AZURE_STORAGE_ACCOUNT" == "" ] || [ "$AZURE_STORAGE_ACCESS_KEY" == "" ] |
 fi
 
 ## II. Constants
-REPOSITORY="$(echo $BUILD_REPOSITORY_URI | awk -F "[:]" '{print $2}' | awk -F "[/]" '{print $4"/"$5}' | awk -F "[.]" '{print $1}')"
+REPOSITORY="$(echo $BUILD_BUILDURI | awk -F "[:]" '{print $2}' | awk -F "[/]" '{print $4"/"$5}' | awk -F "[.]" '{print $1}')"
 GITHUB_API_URL_TEMPLATE="https://%s.github.com/repos/%s/%s?access_token=%s%s"
 GITHUB_API_HOST="api"
 GITHUB_UPLOAD_HOST="uploads"
@@ -63,8 +63,9 @@ if [ "$mode" == "internal" ]; then
 else
 
   ## 0. Get artifact filename and commit hash from build
-  prerelease=$(echo '$ARTIFACT_PATH'/*.zip | rev | cut -d/ -f1 | rev)
-  commit_hash="$(echo $prerelease | sed 's/'$FRAMEWORKS_ZIP_FILENAME'-[[:digit:]]\{1,\}.[[:digit:]]\{1,\}.[[:digit:]]\{1,\}-[[:digit:]]\{1,\}+\(.\{40\}\)\.zip.*/\1/1')"
+  prerelease=$(echo "$ARTIFACT_PATH"/*.zip | rev | cut -d/ -f1 | rev)
+  zip_filename="$(echo $FRAMEWORKS_ZIP_FILENAME | cut -d. -f1)"
+  commit_hash="$(echo $prerelease | sed 's/'$zip_filename'-[[:digit:]]\{1,\}.[[:digit:]]\{1,\}.[[:digit:]]\{1,\}-[[:digit:]]\{1,\}+\(.\{40\}\)\.zip.*/\1/1')"
 
   ### Temporarily remove tvOS framework from binary
   unzip $ARTIFACT_PATH/$prerelease
