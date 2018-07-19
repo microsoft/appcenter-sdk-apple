@@ -50,8 +50,8 @@ class TargetPropertiesTableSection : PropertiesTableSection {
     let currentPropertyKey = targetProperties[selectedTarget!]![arrayIndex].0
     let currentPropertyValue = targetProperties[selectedTarget!]![arrayIndex].1
     let target = transmissionTargets![selectedTarget!]
-    target!.removeEventPropertyforKey(currentPropertyKey)
-    target!.setEventPropertyString(currentPropertyValue, forKey: sender.text!)
+    target!.propertyConfigurator.removeEventPropertyforKey(currentPropertyKey)
+    target!.propertyConfigurator.setEventPropertyString(currentPropertyValue, forKey: sender.text!)
     targetProperties[selectedTarget!]![arrayIndex].0 = sender.text!
   }
 
@@ -60,7 +60,7 @@ class TargetPropertiesTableSection : PropertiesTableSection {
     let arrayIndex = getCellRow(forTextField: sender) - propertyCellOffset()
     let currentPropertyKey = targetProperties[selectedTarget!]![arrayIndex].0
     let target = transmissionTargets![selectedTarget!]
-    target?.setEventPropertyString(sender.text!, forKey: currentPropertyKey)
+    target!.propertyConfigurator.setEventPropertyString(sender.text!, forKey: currentPropertyKey)
     targetProperties[selectedTarget!]![arrayIndex].1 = sender.text!
   }
 
@@ -79,7 +79,7 @@ class TargetPropertiesTableSection : PropertiesTableSection {
     let arrayIndex = row - propertyCellOffset()
     let key = targetProperties[selectedTarget!]![arrayIndex].0
     let target = transmissionTargets![selectedTarget!]
-    target!.removeEventPropertyforKey(key)
+    target!.propertyConfigurator.removeEventPropertyforKey(key)
     targetProperties[selectedTarget!]!.remove(at: arrayIndex)
   }
 
@@ -87,7 +87,7 @@ class TargetPropertiesTableSection : PropertiesTableSection {
     let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
     targetProperties[selectedTarget!]!.insert(property, at: 0)
     let target = transmissionTargets![selectedTarget!]
-    target!.setEventPropertyString(property.1, forKey: property.0)
+    target!.propertyConfigurator.setEventPropertyString(property.1, forKey: property.0)
   }
 
   func isHeaderCell(_ indexPath: IndexPath) -> Bool {
