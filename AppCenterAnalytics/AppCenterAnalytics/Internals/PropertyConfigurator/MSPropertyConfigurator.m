@@ -12,12 +12,12 @@
   return self;
 }
 
-- (void)setAppName:(NSString *)appName {
-  _appName = appName;
-}
-
 - (void)setAppVersion:(NSString *)appVersion {
   _appVersion = appVersion;
+}
+
+- (void)setAppName:(NSString *)appName {
+  _appName = appName;
 }
 
 - (void)setAppLocale:(NSString *)appLocale {
@@ -29,21 +29,21 @@
 - (void)channel:(id<MSChannelProtocol>)__unused channel prepareLog:(id<MSLog>)log {
   if ([log isKindOfClass:[MSCommonSchemaLog class]] && [self.transmissionTarget isEnabled]) {
 
-    // Override the application name.
+    // Override the application version.
     MSAnalyticsTransmissionTarget *target = self.transmissionTarget;
     while (target) {
-      if (target.propertyConfigurator.appName) {
-        [((MSCommonSchemaLog *)log)ext].appExt.name = target.propertyConfigurator.appName;
+      if (target.propertyConfigurator.appVersion) {
+        [((MSCommonSchemaLog *)log)ext].appExt.ver = target.propertyConfigurator.appVersion;
         break;
       }
       target = target.parentTarget;
     }
 
-    // Override the application version.
+    // Override the application name.
     target = self.transmissionTarget;
     while (target) {
-      if (target.propertyConfigurator.appVersion) {
-        [((MSCommonSchemaLog *)log)ext].appExt.ver = target.propertyConfigurator.appVersion;
+      if (target.propertyConfigurator.appName) {
+        [((MSCommonSchemaLog *)log)ext].appExt.name = target.propertyConfigurator.appName;
         break;
       }
       target = target.parentTarget;

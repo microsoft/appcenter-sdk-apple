@@ -518,24 +518,24 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   MSAnalyticsTransmissionTarget *target = [MSAnalytics transmissionTargetForToken:@"target"];
 
   // Set properties to the target.
-  [target.propertyConfigurator setAppName:@"NewAppName"];
   [target.propertyConfigurator setAppVersion:@"8.4.1"];
+  [target.propertyConfigurator setAppName:@"NewAppName"];
   [target.propertyConfigurator setAppLocale:@"en-us"];
 
   // Set a log.
   MSCommonSchemaLog *log = [MSCommonSchemaLog new];
   log.ext = [MSCSExtensions new];
   log.ext.appExt = [MSAppExtension new];
-  log.ext.appExt.name = @"baseAppName";
   log.ext.appExt.ver = @"0.0.1";
+  log.ext.appExt.name = @"baseAppName";
   log.ext.appExt.locale = @"zh-cn";
 
   // When
   [target.propertyConfigurator channel:nil prepareLog:log];
 
   // Then
-  XCTAssertEqual(log.ext.appExt.name, target.propertyConfigurator.appName);
   XCTAssertEqual(log.ext.appExt.ver, target.propertyConfigurator.appVersion);
+  XCTAssertEqual(log.ext.appExt.name, target.propertyConfigurator.appName);
   XCTAssertEqual(log.ext.appExt.locale, target.propertyConfigurator.appLocale);
 }
 
@@ -548,24 +548,24 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   MSAnalyticsTransmissionTarget *child = [parent transmissionTargetForToken:@"child"];
 
   // Set properties to grand parent.
-  [parent.propertyConfigurator setAppName:@"ParentAppName"];
   [parent.propertyConfigurator setAppVersion:@"8.4.1"];
+  [parent.propertyConfigurator setAppName:@"ParentAppName"];
   [parent.propertyConfigurator setAppLocale:@"en-us"];
 
   // Set a log.
   MSCommonSchemaLog *log = [MSCommonSchemaLog new];
   log.ext = [MSCSExtensions new];
   log.ext.appExt = [MSAppExtension new];
-  log.ext.appExt.name = @"baseAppName";
   log.ext.appExt.ver = @"0.0.1";
+  log.ext.appExt.name = @"baseAppName";
   log.ext.appExt.locale = @"zh-cn";
 
   // When
   [child.propertyConfigurator channel:nil prepareLog:log];
 
   // Then
-  XCTAssertEqual(log.ext.appExt.name, parent.propertyConfigurator.appName);
   XCTAssertEqual(log.ext.appExt.ver, parent.propertyConfigurator.appVersion);
+  XCTAssertEqual(log.ext.appExt.name, parent.propertyConfigurator.appName);
   XCTAssertEqual(log.ext.appExt.locale, parent.propertyConfigurator.appLocale);
 }
 
@@ -579,21 +579,21 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   MSAnalyticsTransmissionTarget *child = [parent transmissionTargetForToken:@"child"];
 
   // Set properties to grand parent.
-  [grandParent.propertyConfigurator setAppName:@"GrandParentAppName"];
   [grandParent.propertyConfigurator setAppVersion:@"8.4.1"];
+  [grandParent.propertyConfigurator setAppName:@"GrandParentAppName"];
   [grandParent.propertyConfigurator setAppLocale:@"en-us"];
 
   // Set common properties to child.
-  [child.propertyConfigurator setAppName:@"ChildAppName"];
   [child.propertyConfigurator setAppVersion:@"1.4.8"];
+  [child.propertyConfigurator setAppName:@"ChildAppName"];
   [child.propertyConfigurator setAppLocale:@"fr-ca"];
 
   // Set a log.
   MSCommonSchemaLog *log = [MSCommonSchemaLog new];
   log.ext = [MSCSExtensions new];
   log.ext.appExt = [MSAppExtension new];
-  log.ext.appExt.name = @"baseAppName";
   log.ext.appExt.ver = @"0.0.1";
+  log.ext.appExt.name = @"baseAppName";
   log.ext.appExt.locale = @"zh-cn";
 
   [grandParent setEnabled:NO];
@@ -602,8 +602,8 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   [grandParent.propertyConfigurator channel:nil prepareLog:log];
 
   // Then
-  XCTAssertEqual(log.ext.appExt.name, @"baseAppName");
   XCTAssertEqual(log.ext.appExt.ver, @"0.0.1");
+  XCTAssertEqual(log.ext.appExt.name, @"baseAppName");
   XCTAssertEqual(log.ext.appExt.locale, @"zh-cn");
 
   // If
@@ -613,8 +613,8 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   [child.propertyConfigurator channel:nil prepareLog:log];
 
   // Then
-  XCTAssertNotEqual(log.ext.appExt.name, child.propertyConfigurator.appName);
   XCTAssertNotEqual(log.ext.appExt.ver, child.propertyConfigurator.appVersion);
+  XCTAssertNotEqual(log.ext.appExt.name, child.propertyConfigurator.appName);
   XCTAssertNotEqual(log.ext.appExt.locale, child.propertyConfigurator.appLocale);
 
   // If
@@ -623,16 +623,16 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   log = [MSCommonSchemaLog new];
   log.ext = [MSCSExtensions new];
   log.ext.appExt = [MSAppExtension new];
-  log.ext.appExt.name = @"baseAppName";
   log.ext.appExt.ver = @"0.0.1";
+  log.ext.appExt.name = @"baseAppName";
   log.ext.appExt.locale = @"zh-cn";
 
   // When
   [parent.propertyConfigurator channel:nil prepareLog:log];
 
   // Then
-  XCTAssertEqual(log.ext.appExt.name, @"baseAppName");
   XCTAssertEqual(log.ext.appExt.ver, @"0.0.1");
+  XCTAssertEqual(log.ext.appExt.name, @"baseAppName");
   XCTAssertEqual(log.ext.appExt.locale, @"zh-cn");
 }
 
@@ -645,62 +645,62 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   MSAnalyticsTransmissionTarget *child2 = [parent transmissionTargetForToken:@"child2"];
 
   // Set properties to grand parent.
-  [parent.propertyConfigurator setAppName:@"ParentAppName"];
   [parent.propertyConfigurator setAppVersion:@"8.4.1"];
+  [parent.propertyConfigurator setAppName:@"ParentAppName"];
   [parent.propertyConfigurator setAppLocale:@"en-us"];
 
   // Set common properties to child1.
-  [child1.propertyConfigurator setAppName:@"Child1AppName"];
   [child1.propertyConfigurator setAppVersion:@"1.4.8"];
+  [child1.propertyConfigurator setAppName:@"Child1AppName"];
   [child1.propertyConfigurator setAppLocale:@"fr-ca"];
 
   // Set log1.
   MSCommonSchemaLog *log1 = [MSCommonSchemaLog new];
   log1.ext = [MSCSExtensions new];
   log1.ext.appExt = [MSAppExtension new];
-  log1.ext.appExt.name = @"base1AppName";
   log1.ext.appExt.ver = @"0.0.1";
+  log1.ext.appExt.name = @"base1AppName";
   log1.ext.appExt.locale = @"zh-cn";
 
   // When
   [parent.propertyConfigurator channel:nil prepareLog:log1];
 
   // Then
-  XCTAssertEqual(log1.ext.appExt.name, parent.propertyConfigurator.appName);
   XCTAssertEqual(log1.ext.appExt.ver, parent.propertyConfigurator.appVersion);
+  XCTAssertEqual(log1.ext.appExt.name, parent.propertyConfigurator.appName);
   XCTAssertEqual(log1.ext.appExt.locale, parent.propertyConfigurator.appLocale);
 
   // When
   [child1.propertyConfigurator channel:nil prepareLog:log1];
 
   // Then
-  XCTAssertEqual(log1.ext.appExt.name, child1.propertyConfigurator.appName);
   XCTAssertEqual(log1.ext.appExt.ver, child1.propertyConfigurator.appVersion);
+  XCTAssertEqual(log1.ext.appExt.name, child1.propertyConfigurator.appName);
   XCTAssertEqual(log1.ext.appExt.locale, child1.propertyConfigurator.appLocale);
-  XCTAssertNotEqual(log1.ext.appExt.name, parent.propertyConfigurator.appName);
   XCTAssertNotEqual(log1.ext.appExt.ver, parent.propertyConfigurator.appVersion);
+  XCTAssertNotEqual(log1.ext.appExt.name, parent.propertyConfigurator.appName);
   XCTAssertNotEqual(log1.ext.appExt.locale, parent.propertyConfigurator.appLocale);
-  XCTAssertNil(child2.propertyConfigurator.appName);
   XCTAssertNil(child2.propertyConfigurator.appVersion);
+  XCTAssertNil(child2.propertyConfigurator.appName);
   XCTAssertNil(child2.propertyConfigurator.appLocale);
 
   // If
   MSCommonSchemaLog *log2 = [MSCommonSchemaLog new];
   log2.ext = [MSCSExtensions new];
   log2.ext.appExt = [MSAppExtension new];
-  log2.ext.appExt.name = @"base2AppName";
   log2.ext.appExt.ver = @"0.0.2";
+  log2.ext.appExt.name = @"base2AppName";
   log2.ext.appExt.locale = @"en-us";
 
   // When
   [child2.propertyConfigurator channel:nil prepareLog:log2];
 
   // Then
-  XCTAssertEqual(log2.ext.appExt.name, parent.propertyConfigurator.appName);
   XCTAssertEqual(log2.ext.appExt.ver, parent.propertyConfigurator.appVersion);
+  XCTAssertEqual(log2.ext.appExt.name, parent.propertyConfigurator.appName);
   XCTAssertEqual(log2.ext.appExt.locale, parent.propertyConfigurator.appLocale);
-  XCTAssertNotEqual(log2.ext.appExt.name, child1.propertyConfigurator.appName);
   XCTAssertNotEqual(log2.ext.appExt.ver, child1.propertyConfigurator.appVersion);
+  XCTAssertNotEqual(log2.ext.appExt.name, child1.propertyConfigurator.appName);
   XCTAssertNotEqual(log2.ext.appExt.locale, child1.propertyConfigurator.appLocale);
 }
 

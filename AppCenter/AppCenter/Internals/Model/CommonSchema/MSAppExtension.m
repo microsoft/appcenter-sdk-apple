@@ -10,11 +10,11 @@
   if (self.appId) {
     dict[kMSAppId] = self.appId;
   }
-  if (self.name) {
-    dict[kMSAppName] = self.name;
-  }
   if (self.ver) {
     dict[kMSAppVer] = self.ver;
+  }
+  if (self.name) {
+    dict[kMSAppName] = self.name;
   }
   if (self.locale) {
     dict[kMSAppLocale] = self.locale;
@@ -43,8 +43,8 @@
   }
   MSAppExtension *appExt = (MSAppExtension *)object;
   return ((!self.appId && !appExt.appId) || [self.appId isEqualToString:appExt.appId]) &&
-         ((!self.name && !appExt.name) || [self.name isEqualToString:appExt.name]) &&
          ((!self.ver && !appExt.ver) || [self.ver isEqualToString:appExt.ver]) &&
+         ((!self.name && !appExt.name) || [self.name isEqualToString:appExt.name]) &&
          ((!self.locale && !appExt.locale) || [self.locale isEqualToString:appExt.locale]);
 }
 
@@ -53,8 +53,8 @@
 - (instancetype)initWithCoder:(NSCoder *)coder {
   if ((self = [super init])) {
     _appId = [coder decodeObjectForKey:kMSAppId];
-    _name = [coder decodeObjectForKey:kMSAppName];
     _ver = [coder decodeObjectForKey:kMSAppVer];
+    _name = [coder decodeObjectForKey:kMSAppName];
     _locale = [coder decodeObjectForKey:kMSAppLocale];
   }
   return self;
@@ -62,8 +62,8 @@
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [coder encodeObject:self.appId forKey:kMSAppId];
-  [coder encodeObject:self.name forKey:kMSAppName];
   [coder encodeObject:self.ver forKey:kMSAppVer];
+  [coder encodeObject:self.name forKey:kMSAppName];
   [coder encodeObject:self.locale forKey:kMSAppLocale];
 }
 

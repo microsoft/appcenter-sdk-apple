@@ -7,14 +7,14 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MSPropertyConfigurator ()
 
 /**
- * The application name to be overriden.
- */
-@property(nonatomic, copy) NSString *appName;
-
-/**
  * The application version to be overriden.
  */
 @property(nonatomic, copy) NSString *appVersion;
+
+/**
+ * The application name to be overriden.
+ */
+@property(nonatomic, copy) NSString *appName;
 
 /**
  * The application locale to be overriden.
