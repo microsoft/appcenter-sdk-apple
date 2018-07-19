@@ -28,12 +28,12 @@
 
 - (void)channel:(id<MSChannelProtocol>)__unused channel prepareLog:(id<MSLog>)log {
 
-  if ([log isKindOfClass:[MSCommonSchemaLog class]] && [self.transmissionTarget isEnabled]) {
+  if ([log isKindOfClass:[MSCommonSchemaLog class]]) {
 
     // Override the application name.
     MSAnalyticsTransmissionTarget *target = self.transmissionTarget;
     while (target) {
-      if (target.propertyConfigurator.appName) {
+      if (target.propertyConfigurator.appName && [target isEnabled]) {
         [((MSCommonSchemaLog *)log)ext].appExt.name = target.propertyConfigurator.appName;
         break;
       }
@@ -43,7 +43,7 @@
     // Override the application version.
     target = self.transmissionTarget;
     while (target) {
-      if (target.propertyConfigurator.appVersion) {
+      if (target.propertyConfigurator.appVersion && [target isEnabled]) {
         [((MSCommonSchemaLog *)log)ext].appExt.ver = target.propertyConfigurator.appVersion;
         break;
       }
@@ -53,7 +53,7 @@
     // Override the application locale.
     target = self.transmissionTarget;
     while (target) {
-      if (target.propertyConfigurator.appLocale) {
+      if (target.propertyConfigurator.appLocale && [target isEnabled]) {
         [((MSCommonSchemaLog *)log)ext].appExt.locale = target.propertyConfigurator.appLocale;
         break;
       }
