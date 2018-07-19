@@ -1,5 +1,5 @@
 #import "MSAnalytics.h"
-#import "MSAnalyticsTransmissionTarget.h"
+#import "MSAnalyticsTransmissionTargetPrivate.h"
 #import "MSAnalyticsTranmissionTargetSelectorViewCell.h"
 #import "Constants.h"
 #import "MSTargetPropertiesTableSection.h"
@@ -76,8 +76,8 @@
   NSString *currentPropertyValue = self.propertiesPerTransmissionTargets[selectedTarget][currentPropertyKey];
   NSString *newPropertyKey = sender.text;
   MSAnalyticsTransmissionTarget *target = self.transmissionTargets[selectedTarget];
-  [target removeEventPropertyforKey:currentPropertyKey];
-  [target setEventPropertyString:currentPropertyValue forKey:newPropertyKey];
+  [target.propertyConfigurator removeEventPropertyforKey:currentPropertyKey];
+  [target.propertyConfigurator setEventPropertyString:currentPropertyValue forKey:newPropertyKey];
   [self.propertiesPerTransmissionTargets[selectedTarget] removeObjectForKey:currentPropertyKey];
   self.propertiesPerTransmissionTargets[selectedTarget][newPropertyKey] = currentPropertyValue;
   self.propertiesKeysByRowIndexPerTransmissionTargets[selectedTarget][arrayIndex] = newPropertyKey;
@@ -89,7 +89,7 @@
   NSString *currentPropertyKey = self.propertiesKeysByRowIndexPerTransmissionTargets[selectedTarget][arrayIndex];
   NSString *newPropertyValue = sender.text;
   MSAnalyticsTransmissionTarget *target = self.transmissionTargets[selectedTarget];
-  [target setEventPropertyString:newPropertyValue forKey:currentPropertyKey];
+  [target.propertyConfigurator setEventPropertyString:newPropertyValue forKey:currentPropertyKey];
   self.propertiesPerTransmissionTargets[selectedTarget][currentPropertyKey] = newPropertyValue;
 }
 
@@ -107,7 +107,7 @@
   NSInteger arrayIndex = row - [self propertyCellOffset];
   NSString *key = self.propertiesKeysByRowIndexPerTransmissionTargets[selectedTarget][arrayIndex];
   MSAnalyticsTransmissionTarget *target = self.transmissionTargets[selectedTarget];
-  [target removeEventPropertyforKey:key];
+  [target.propertyConfigurator removeEventPropertyforKey:key];
   [self.propertiesKeysByRowIndexPerTransmissionTargets[selectedTarget] removeObject:key];
   [self.propertiesPerTransmissionTargets[selectedTarget] removeObjectForKey:key];
 }
@@ -119,7 +119,7 @@
       arrayByAddingObjectsFromArray:self.propertiesKeysByRowIndexPerTransmissionTargets[selectedTarget]] mutableCopy];
   self.propertiesKeysByRowIndexPerTransmissionTargets[selectedTarget] = orderedPropertiesKeys;
   MSAnalyticsTransmissionTarget *target = self.transmissionTargets[selectedTarget];
-  [target setEventPropertyString:property forKey:key];
+  [target.propertyConfigurator setEventPropertyString:property forKey:key];
 }
 
 - (NSString *)propertyKeyAtRow:(NSInteger)row {
