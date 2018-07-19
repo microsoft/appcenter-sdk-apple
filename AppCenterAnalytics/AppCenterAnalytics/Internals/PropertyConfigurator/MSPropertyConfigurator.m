@@ -29,6 +29,8 @@
 - (void)channel:(id<MSChannelProtocol>)__unused channel prepareLog:(id<MSLog>)log {
   if ([log isKindOfClass:[MSCommonSchemaLog class]] && [self.transmissionTarget isEnabled]) {
 
+    // TODO Find a better way to override properties.
+
     // Override the application version.
     MSAnalyticsTransmissionTarget *target = self.transmissionTarget;
     while (target) {
