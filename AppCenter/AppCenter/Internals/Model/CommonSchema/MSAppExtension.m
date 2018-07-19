@@ -27,11 +27,6 @@
 - (BOOL)isValid {
 
   // All attributes are optional.
-
-  // Name is an optional but shouldn't be an empty string.
-  if (self.name && [self.name length] == 0) {
-    return NO;
-  }
   return YES;
 }
 
