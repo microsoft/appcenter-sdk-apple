@@ -58,10 +58,6 @@ class PropertiesTableSection : NSObject, UITableViewDelegate {
     return isPropertyRow(indexPath) || isInsertRow(indexPath)
   }
 
-  func hasSectionId(_ sectionId: Int) -> Bool {
-    return sectionId == tableSection
-  }
-
   func numberOfCustomHeaderCells() -> Int {
     return 0
   }
