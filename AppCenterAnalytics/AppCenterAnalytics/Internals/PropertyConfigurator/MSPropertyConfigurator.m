@@ -1,5 +1,7 @@
+#import "MSAnalyticsInternal.h"
 #import "MSAnalyticsTransmissionTargetPrivate.h"
 #import "MSCommonSchemaLog.h"
+#import "MSLogger.h"
 #import "MSPropertyConfigurator.h"
 #import "MSPropertyConfiguratorPrivate.h"
 
@@ -8,6 +10,7 @@
 - (instancetype)initWithTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget {
   if ((self = [super init])) {
     _transmissionTarget = transmissionTarget;
+    _eventProperties = [NSMutableDictionary<NSString *, NSString *> new];
   }
   return self;
 }
@@ -22,6 +25,26 @@
 
 - (void)setAppLocale:(NSString *)appLocale {
   _appLocale = appLocale;
+}
+
+- (void)setEventPropertyString:(NSString *)propertyValue forKey:(NSString *)propertyKey {
+  @synchronized([MSAnalytics sharedInstance]) {
+    if (!propertyValue || !propertyKey) {
+      MSLogError([MSAnalytics logTag], @"Event property keys and values cannot be nil.");
+      return;
+    }
+    self.eventProperties[propertyKey] = propertyValue;
+  }
+}
+
+- (void)removeEventPropertyforKey:(NSString *)propertyKey {
+  @synchronized([MSAnalytics sharedInstance]) {
+    if (!propertyKey) {
+      MSLogError([MSAnalytics logTag], @"Event property key to remove cannot be nil.");
+      return;
+    }
+    [self.eventProperties removeObjectForKey:propertyKey];
+  }
 }
 
 #pragma mark - MSChannelDelegate

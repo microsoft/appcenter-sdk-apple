@@ -28,6 +28,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, weak) MSAnalyticsTransmissionTarget *transmissionTarget;
 
 /**
+ * Event properties attached to events tracked by this target.
+ */
+@property(nonatomic, nullable) NSMutableDictionary<NSString *, NSString *> *eventProperties;
+
+/**
  * Initialize property configurator with a transmission target.
  */
 - (instancetype)initWithTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget;

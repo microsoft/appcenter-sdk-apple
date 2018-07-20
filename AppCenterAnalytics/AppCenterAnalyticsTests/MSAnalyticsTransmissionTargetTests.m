@@ -54,7 +54,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   // Then
   XCTAssertNotNil(transmissionTarget);
   XCTAssertEqual(kMSTestTransmissionToken, transmissionTarget.transmissionTargetToken);
-  XCTAssertEqualObjects(transmissionTarget.eventProperties, @{});
+  XCTAssertEqualObjects(transmissionTarget.propertyConfigurator.eventProperties, @{});
 }
 
 - (void)testTrackEvent {
@@ -70,7 +70,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   [target trackEvent:eventName];
 
   // Then
-  XCTAssertTrue(target.eventProperties.count == 0);
+  XCTAssertTrue(target.propertyConfigurator.eventProperties.count == 0);
   OCMVerify(
       ClassMethod([self.analyticsClassMock trackEvent:eventName withProperties:nil forTransmissionTarget:target]));
 }
@@ -89,7 +89,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   [target trackEvent:eventName withProperties:properties];
 
   // Then
-  XCTAssertTrue(target.eventProperties.count == 0);
+  XCTAssertTrue(target.propertyConfigurator.eventProperties.count == 0);
   OCMVerify(ClassMethod(
       [self.analyticsClassMock trackEvent:eventName withProperties:properties forTransmissionTarget:target]));
 }
@@ -340,58 +340,60 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 - (void)testSetAndRemoveEventProperty {
 
   // If
-  MSAnalyticsTransmissionTarget *target =
+  MSAnalyticsTransmissionTarget *targetMock =
       [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
                                                                 parentTarget:nil
                                                                 channelGroup:self.channelGroupMock];
+  MSPropertyConfigurator *configurator = [[MSPropertyConfigurator alloc] initWithTransmissionTarget:targetMock];
+
   NSString *prop1Key = @"prop1";
   NSString *prop1Value = @"val1";
 
   // When
-  [target removeEventPropertyforKey:prop1Key];
+  [configurator removeEventPropertyforKey:prop1Key];
 
   // Then
-  XCTAssertEqualObjects(target.eventProperties, @{});
+  XCTAssertEqualObjects(configurator.eventProperties, @{});
 
   // When
-  [target removeEventPropertyforKey:nil];
+  [configurator removeEventPropertyforKey:nil];
 
   // Then
-  XCTAssertEqualObjects(target.eventProperties, @{});
+  XCTAssertEqualObjects(configurator.eventProperties, @{});
 
   // When
-  [target setEventPropertyString:nil forKey:prop1Key];
+  [configurator setEventPropertyString:nil forKey:prop1Key];
 
   // Then
-  XCTAssertEqualObjects(target.eventProperties, @{});
+  XCTAssertEqualObjects(configurator.eventProperties, @{});
 
   // When
-  [target setEventPropertyString:prop1Value forKey:nil];
+  [configurator setEventPropertyString:prop1Value forKey:nil];
 
   // Then
-  XCTAssertEqualObjects(target.eventProperties, @{});
+  XCTAssertEqualObjects(configurator.eventProperties, @{});
 
   // When
-  [target setEventPropertyString:prop1Value forKey:prop1Key];
+  [configurator setEventPropertyString:prop1Value forKey:prop1Key];
 
   // Then
-  XCTAssertEqualObjects(target.eventProperties, @{prop1Key : prop1Value});
+  XCTAssertEqualObjects(configurator.eventProperties, @{prop1Key : prop1Value});
 
   // If
   NSString *prop2Key = @"prop2";
   NSString *prop2Value = @"val2";
 
   // When
-  [target setEventPropertyString:prop2Value forKey:prop2Key];
+  [configurator setEventPropertyString:prop2Value forKey:prop2Key];
 
   // Then
-  XCTAssertEqualObjects(target.eventProperties, (@{prop1Key : prop1Value, prop2Key : prop2Value}));
+  XCTAssertEqualObjects(configurator.eventProperties, (@{prop1Key : prop1Value, prop2Key : prop2Value}));
 
   // When
-  [target removeEventPropertyforKey:prop1Key];
+  [configurator removeEventPropertyforKey:prop1Key];
 
   // Then
-  XCTAssertEqualObjects(target.eventProperties, @{prop2Key : prop2Value});
+  XCTAssertEqualObjects(configurator.eventProperties, @{prop2Key : prop2Value});
 }
 
 - (void)testMergingEventProperties {
@@ -408,15 +410,15 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   NSString *propCommonValue = @"propCommonValue";
   NSString *propCommonKey2 = @"sharedPropKey";
   NSString *propCommonValue2 = @"propCommonValue2";
-  [target setEventPropertyString:propCommonValue forKey:propCommonKey];
-  [target setEventPropertyString:propCommonValue2 forKey:propCommonKey2];
+  [target.propertyConfigurator setEventPropertyString:propCommonValue forKey:propCommonKey];
+  [target.propertyConfigurator setEventPropertyString:propCommonValue2 forKey:propCommonKey2];
 
   // When
   [target trackEvent:eventName];
 
   // Then
   id commonProperties = @{propCommonKey : propCommonValue, propCommonKey2 : propCommonValue2};
-  XCTAssertEqualObjects(target.eventProperties, commonProperties);
+  XCTAssertEqualObjects(target.propertyConfigurator.eventProperties, commonProperties);
   OCMVerify(ClassMethod(
       [self.analyticsClassMock trackEvent:eventName withProperties:commonProperties forTransmissionTarget:target]));
 
@@ -432,7 +434,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   [target trackEvent:eventName withProperties:@{propTrackKey : propTrackValue, propTrackKey2 : propTrackValue2}];
 
   // Then
-  XCTAssertEqualObjects(target.eventProperties, commonProperties);
+  XCTAssertEqualObjects(target.propertyConfigurator.eventProperties, commonProperties);
   OCMVerify(ClassMethod([self.analyticsClassMock trackEvent:eventName
                                              withProperties:(@{
                                                propCommonKey : propCommonValue,
@@ -460,27 +462,27 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   MSAnalyticsTransmissionTarget *child = [parent transmissionTargetForToken:@"child"];
 
   // Set properties to grand parent.
-  [grandParent setEventPropertyString:@"1" forKey:@"a"];
-  [grandParent setEventPropertyString:@"2" forKey:@"b"];
-  [grandParent setEventPropertyString:@"3" forKey:@"c"];
+  [grandParent.propertyConfigurator setEventPropertyString:@"1" forKey:@"a"];
+  [grandParent.propertyConfigurator setEventPropertyString:@"2" forKey:@"b"];
+  [grandParent.propertyConfigurator setEventPropertyString:@"3" forKey:@"c"];
 
   // Override some properties.
-  [parent setEventPropertyString:@"11" forKey:@"a"];
-  [parent setEventPropertyString:@"22" forKey:@"b"];
+  [parent.propertyConfigurator setEventPropertyString:@"11" forKey:@"a"];
+  [parent.propertyConfigurator setEventPropertyString:@"22" forKey:@"b"];
 
   // Set a new property in parent.
-  [parent setEventPropertyString:@"44" forKey:@"d"];
+  [parent.propertyConfigurator setEventPropertyString:@"44" forKey:@"d"];
 
   // Just to show we still get value from parent which is inherited from grand parent, if we remove an override. */
-  [parent setEventPropertyString:@"33" forKey:@"c"];
-  [parent removeEventPropertyforKey:@"c"];
+  [parent.propertyConfigurator setEventPropertyString:@"33" forKey:@"c"];
+  [parent.propertyConfigurator removeEventPropertyforKey:@"c"];
 
   // Override a property.
-  [child setEventPropertyString:@"444" forKey:@"d"];
+  [child.propertyConfigurator setEventPropertyString:@"444" forKey:@"d"];
 
   // Set new properties in child.
-  [child setEventPropertyString:@"555" forKey:@"e"];
-  [child setEventPropertyString:@"666" forKey:@"f"];
+  [child.propertyConfigurator setEventPropertyString:@"555" forKey:@"e"];
+  [child.propertyConfigurator setEventPropertyString:@"666" forKey:@"f"];
 
   // Track event in child. Override some properties in trackEvent.
   NSMutableDictionary<NSString *, NSString *> *properties = [NSMutableDictionary new];
