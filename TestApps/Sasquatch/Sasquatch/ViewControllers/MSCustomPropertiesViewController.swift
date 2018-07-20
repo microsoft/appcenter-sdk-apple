@@ -36,12 +36,18 @@ class MSCustomPropertiesViewController : UITableViewController, AppCenterProtoco
     present(alertController, animated: true)
   }
   
+  @IBAction func onDismissButtonPress(_ sender: Any) {
+    self.dismiss(animated: true, completion: nil)
+  }
+  
   func cellIdentifierForRow(at indexPath: IndexPath) -> String {
     var cellIdentifier: String? = nil
-    if !isPropertiesRowSection(indexPath.section) {
+    if isSendRow(at: indexPath) {
       cellIdentifier = "send"
     } else if isInsertRow(at: indexPath) {
       cellIdentifier = "insert"
+    } else if isDismissRow(at:indexPath) {
+      cellIdentifier = "dismiss"
     } else {
       cellIdentifier = "customProperty"
     }
@@ -51,7 +57,15 @@ class MSCustomPropertiesViewController : UITableViewController, AppCenterProtoco
   func isInsertRow(at indexPath: IndexPath) -> Bool {
     return indexPath.section == kPropertiesSection && indexPath.row == tableView(tableView, numberOfRowsInSection: indexPath.section) - 1
   }
-  
+
+  func isSendRow(at indexPath: IndexPath) -> Bool {
+    return !isPropertiesRowSection(indexPath.section) && indexPath.row == 0
+  }
+
+  func isDismissRow(at indexPath: IndexPath) -> Bool {
+    return !isPropertiesRowSection(indexPath.section) && indexPath.row == 1
+  }
+
   func isPropertiesRowSection(_ section: Int) -> Bool {
     return section == kPropertiesSection
   }
@@ -84,7 +98,7 @@ class MSCustomPropertiesViewController : UITableViewController, AppCenterProtoco
     if isPropertiesRowSection(section) {
       return propertiesCount + 1
     } else {
-      return 1
+      return 2
     }
   }
   

@@ -26,8 +26,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     MSAppCenter.setLogLevel(MSLogLevel.verbose)
 
     // Start App Center SDK.
-    let useOneCollector = UserDefaults.standard.bool(forKey: "isOneCollectorEnabled");
-    let startTarget = UserDefaults.standard.integer(forKey: "startTarget");
+    let useOneCollector = UserDefaults.standard.bool(forKey: kMSOneCollectorEnabledKey);
+    let startTarget = UserDefaults.standard.integer(forKey: kMSStartTargetKey);
     
     let secretString = useOneCollector
       ? "target=1dd3a9a64e144fcbbd4ce31c5def22e0-e57d4574-c5e7-4f89-a745-b2e850b54185-7090;appsecret=0dbca56b-b9ae-4d53-856a-7c2856137d85"
@@ -92,8 +92,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
   }
 
   private func setAppCenterDelegate(){
-    let sasquatchController = (window?.rootViewController as! UINavigationController).topViewController as! MSMainViewController
-    sasquatchController.appCenter = AppCenterDelegateSwift()
+    let tabBarController = window?.rootViewController as? UITabBarController
+    let delegate = AppCenterDelegateSwift()
+    for controller in tabBarController!.viewControllers! {
+      if controller is AppCenterProtocol {
+        (controller as! AppCenterProtocol).appCenter = delegate
+      }
+    }
   }
 
   /**
