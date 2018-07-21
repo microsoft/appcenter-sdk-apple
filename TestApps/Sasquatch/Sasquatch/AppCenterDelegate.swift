@@ -1,4 +1,7 @@
+#if PUPPET
+#else
 import AppCenter
+#endif
 
 /**
  * Protocol for interacting with AppCenter SDK.

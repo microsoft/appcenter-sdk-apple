@@ -546,13 +546,13 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0471B9331E4555F20022F951 /* AppCenterDistribute.h in Headers */,
 				048BB3051E60A40D009D92C2 /* MSDistributionGroup.h in Headers */,
 				38A683611E774D9F00A63BC8 /* MSSemVer.h in Headers */,
 				38C9C56C1E565BF600B0FA0D /* MSDistributePrivate.h in Headers */,
 				B25895AA1E4E9FD400123632 /* MSDistributeInternal.h in Headers */,
 				0471B93C1E4557620022F951 /* MSServiceAbstract.h in Headers */,
 				B2C070A51E5E62330076D6A9 /* MSDistributeUtil.h in Headers */,
-				0471B9331E4555F20022F951 /* AppCenterDistribute.h in Headers */,
 				048BB3071E60A40D009D92C2 /* MSDistributeIngestion.h in Headers */,
 				046FDBD31E5682FA00AF9DD1 /* MSAlertController.h in Headers */,
 				384135BE1FD99B5400FC7836 /* MSDistributeDataMigration.h in Headers */,

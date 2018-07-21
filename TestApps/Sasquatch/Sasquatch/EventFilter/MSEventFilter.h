@@ -1,5 +1,10 @@
+#ifdef IS_PUPPET
+#import "AppCenter.h"
+#import "AppCenterAnalytics.h"
+#else
 @import AppCenter;
 @import AppCenterAnalytics;
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 

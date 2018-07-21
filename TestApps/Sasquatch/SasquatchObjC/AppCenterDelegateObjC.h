@@ -1,4 +1,4 @@
-#import "SasquatchObjC-Swift.h"
+#import "Sasquatch-Swift.h"
 
 @interface AppCenterDelegateObjC : NSObject  <AppCenterDelegate>
 

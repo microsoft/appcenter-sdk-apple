@@ -3,17 +3,26 @@
 #import "AppCenterDelegateObjC.h"
 #import "AppDelegate.h"
 #import "Constants.h"
-#import "SasquatchObjC-Swift.h"
+#import "Sasquatch-Swift.h"
 
+#if IS_PUPPET
+#import "AppCenter.h"
+#import "AppCenterAnalytics.h"
+#import "AppCenterCrashes.h"
+#import "AppCenterDistribute.h"
+#import "AppCenterPush.h"
+#else
 @import AppCenter;
 @import AppCenterAnalytics;
 @import AppCenterCrashes;
 @import AppCenterDistribute;
 @import AppCenterPush;
+#endif
 
 enum { START_FROM_APP = 0, START_FROM_LIBRARY, START_FROM_BOTH };
 
-@interface AppDelegate () <MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate>
+//@interface AppDelegate () <MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate>
+@interface AppDelegate () <MSCrashesDelegate, MSPushDelegate>
 
 @end
 
@@ -22,7 +31,7 @@ enum { START_FROM_APP = 0, START_FROM_LIBRARY, START_FROM_BOTH };
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
   // Cusomize App Center SDK.
-  [MSDistribute setDelegate:self];
+//  [MSDistribute setDelegate:self];
   [MSPush setDelegate:self];
   [MSAppCenter setLogLevel:MSLogLevelVerbose];
 
@@ -204,38 +213,38 @@ enum { START_FROM_APP = 0, START_FROM_LIBRARY, START_FROM_BOTH };
 
 #pragma mark - MSDistributeDelegate
 
-- (BOOL)distribute:(MSDistribute *)distribute releaseAvailableWithDetails:(MSReleaseDetails *)details {
-
-  if ([[[NSUserDefaults new] objectForKey:kSASCustomizedUpdateAlertKey] isEqual:@1]) {
-
-    // Show a dialog to the user where they can choose if they want to update.
-    UIAlertController *alertController = [UIAlertController
-        alertControllerWithTitle:NSLocalizedStringFromTable(@"distribute_alert_title", @"Sasquatch", @"")
-                         message:NSLocalizedStringFromTable(@"distribute_alert_message", @"Sasquatch", @"")
-                  preferredStyle:UIAlertControllerStyleAlert];
-
-    // Add a "Yes"-Button and call the notifyUpdateAction-callback with MSUpdateActionUpdate
-    [alertController
-        addAction:[UIAlertAction actionWithTitle:NSLocalizedStringFromTable(@"distribute_alert_yes", @"Sasquatch", @"")
-                                           style:UIAlertActionStyleCancel
-                                         handler:^(UIAlertAction *action) {
-                                           [MSDistribute notifyUpdateAction:MSUpdateActionUpdate];
-                                         }]];
-
-    // Add a "No"-Button and call the notifyUpdateAction-callback with MSUpdateActionPostpone
-    [alertController
-        addAction:[UIAlertAction actionWithTitle:NSLocalizedStringFromTable(@"distribute_alert_no", @"Sasquatch", @"")
-                                           style:UIAlertActionStyleDefault
-                                         handler:^(UIAlertAction *action) {
-                                           [MSDistribute notifyUpdateAction:MSUpdateActionPostpone];
-                                         }]];
-
-    // Show the alert controller.
-    [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
-    return YES;
-  }
-  return NO;
-}
+//- (BOOL)distribute:(MSDistribute *)distribute releaseAvailableWithDetails:(MSReleaseDetails *)details {
+//
+//  if ([[[NSUserDefaults new] objectForKey:kSASCustomizedUpdateAlertKey] isEqual:@1]) {
+//
+//    // Show a dialog to the user where they can choose if they want to update.
+//    UIAlertController *alertController = [UIAlertController
+//        alertControllerWithTitle:NSLocalizedStringFromTable(@"distribute_alert_title", @"Sasquatch", @"")
+//                         message:NSLocalizedStringFromTable(@"distribute_alert_message", @"Sasquatch", @"")
+//                  preferredStyle:UIAlertControllerStyleAlert];
+//
+//    // Add a "Yes"-Button and call the notifyUpdateAction-callback with MSUpdateActionUpdate
+//    [alertController
+//        addAction:[UIAlertAction actionWithTitle:NSLocalizedStringFromTable(@"distribute_alert_yes", @"Sasquatch", @"")
+//                                           style:UIAlertActionStyleCancel
+//                                         handler:^(UIAlertAction *action) {
+//                                           [MSDistribute notifyUpdateAction:MSUpdateActionUpdate];
+//                                         }]];
+//
+//    // Add a "No"-Button and call the notifyUpdateAction-callback with MSUpdateActionPostpone
+//    [alertController
+//        addAction:[UIAlertAction actionWithTitle:NSLocalizedStringFromTable(@"distribute_alert_no", @"Sasquatch", @"")
+//                                           style:UIAlertActionStyleDefault
+//                                         handler:^(UIAlertAction *action) {
+//                                           [MSDistribute notifyUpdateAction:MSUpdateActionPostpone];
+//                                         }]];
+//
+//    // Show the alert controller.
+//    [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
+//    return YES;
+//  }
+//  return NO;
+//}
 
 #pragma mark - MSPushDelegate
 
