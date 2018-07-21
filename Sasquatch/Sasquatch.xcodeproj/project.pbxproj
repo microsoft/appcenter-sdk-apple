@@ -107,6 +107,11 @@
 		B20AE48A21028E3C00A1A195 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B20AE48921028E3C00A1A195 /* libz.tbd */; };
 		B27424851EF2193E00F591E5 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 047D13711EAFBDBE00D699BA /* AppCenterDistributeResources.bundle */; };
 		B2A888A62102A44B001ACFDF /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2A888A52102A44B001ACFDF /* SafariServices.framework */; };
+		B2A888EF2102B2C6001ACFDF /* AppCenterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A888EA2102B2C5001ACFDF /* AppCenterUITests.swift */; };
+		B2A888F02102B2C6001ACFDF /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A888EB2102B2C5001ACFDF /* Helpers.swift */; };
+		B2A888F12102B2C6001ACFDF /* AnalyticsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A888EC2102B2C5001ACFDF /* AnalyticsUITests.swift */; };
+		B2A888F22102B2C6001ACFDF /* DistributeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A888ED2102B2C5001ACFDF /* DistributeUITests.swift */; };
+		B2A888F32102B2C6001ACFDF /* CrashesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A888EE2102B2C5001ACFDF /* CrashesUITests.swift */; };
 		B2B36CE21EEF49B700230341 /* MSCustomPropertiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */; };
 		B2B36CE31EEF49C400230341 /* MSCustomPropertiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */; };
 		D31EF92D1E9517B600450162 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D31EF92B1E9517B600450162 /* Interface.storyboard */; };
@@ -371,6 +376,13 @@
 			remoteGlobalIDString = B2C070B71E5E68540076D6A9;
 			remoteInfo = AppCenterDistributeResources;
 		};
+		B2A888BA2102B1E7001ACFDF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 84226C0A1E88FEFC00798417 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B20AE37C21027D6200A1A195;
+			remoteInfo = SasquatchPuppet;
+		};
 		D31EF9371E9517B600450162 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 84226C0A1E88FEFC00798417 /* Project object */;
@@ -562,6 +574,13 @@
 		B20AE48721028E3300A1A195 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		B20AE48921028E3C00A1A195 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		B2A888A52102A44B001ACFDF /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
+		B2A888B52102B1E7001ACFDF /* SasquatchPuppetUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchPuppetUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B2A888B92102B1E7001ACFDF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B2A888EA2102B2C5001ACFDF /* AppCenterUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCenterUITests.swift; sourceTree = "<group>"; };
+		B2A888EB2102B2C5001ACFDF /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		B2A888EC2102B2C5001ACFDF /* AnalyticsUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsUITests.swift; sourceTree = "<group>"; };
+		B2A888ED2102B2C5001ACFDF /* DistributeUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistributeUITests.swift; sourceTree = "<group>"; };
+		B2A888EE2102B2C5001ACFDF /* CrashesUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashesUITests.swift; sourceTree = "<group>"; };
 		B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSCustomPropertiesViewController.swift; sourceTree = "<group>"; };
 		D31EF9291E9517B500450162 /* SasquatchWatchObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchWatchObjC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D31EF92C1E9517B600450162 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
@@ -647,6 +666,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B2A888B22102B1E7001ACFDF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D31EF9321E9517B600450162 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -707,6 +733,7 @@
 				D31EF9551E9517C500450162 /* SasquatchWatchSwift */,
 				D31EF9641E9517C600450162 /* SasquatchWatchSwift Extension */,
 				5CD700E61EA4B74600FC5D12 /* SasquatchUITests */,
+				B2A888B62102B1E7001ACFDF /* SasquatchPuppetUITests */,
 				84226C131E88FEFC00798417 /* Products */,
 				84226D0F1E8921DE00798417 /* Frameworks */,
 			);
@@ -724,6 +751,7 @@
 				5CD700E51EA4B74500FC5D12 /* SasquatchSwiftUITests.xctest */,
 				5CE258871EA5F62400DA8FB9 /* SasquatchObjCUITests.xctest */,
 				B20AE3AB21027D6200A1A195 /* SasquatchPuppet.app */,
+				B2A888B52102B1E7001ACFDF /* SasquatchPuppetUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -933,6 +961,19 @@
 			path = Vendor;
 			sourceTree = "<group>";
 		};
+		B2A888B62102B1E7001ACFDF /* SasquatchPuppetUITests */ = {
+			isa = PBXGroup;
+			children = (
+				B2A888EC2102B2C5001ACFDF /* AnalyticsUITests.swift */,
+				B2A888EA2102B2C5001ACFDF /* AppCenterUITests.swift */,
+				B2A888EE2102B2C5001ACFDF /* CrashesUITests.swift */,
+				B2A888ED2102B2C5001ACFDF /* DistributeUITests.swift */,
+				B2A888EB2102B2C5001ACFDF /* Helpers.swift */,
+				B2A888B92102B1E7001ACFDF /* Info.plist */,
+			);
+			path = SasquatchPuppetUITests;
+			sourceTree = "<group>";
+		};
 		D31EF92A1E9517B600450162 /* SasquatchWatchObjC */ = {
 			isa = PBXGroup;
 			children = (
@@ -1106,6 +1147,24 @@
 			productReference = B20AE3AB21027D6200A1A195 /* SasquatchPuppet.app */;
 			productType = "com.apple.product-type.application";
 		};
+		B2A888B42102B1E7001ACFDF /* SasquatchPuppetUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B2A888E92102B1E7001ACFDF /* Build configuration list for PBXNativeTarget "SasquatchPuppetUITests" */;
+			buildPhases = (
+				B2A888B12102B1E7001ACFDF /* Sources */,
+				B2A888B22102B1E7001ACFDF /* Frameworks */,
+				B2A888B32102B1E7001ACFDF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B2A888BB2102B1E7001ACFDF /* PBXTargetDependency */,
+			);
+			name = SasquatchPuppetUITests;
+			productName = SasquatchPuppetUITests;
+			productReference = B2A888B52102B1E7001ACFDF /* SasquatchPuppetUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		D31EF9281E9517B500450162 /* SasquatchWatchObjC */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D31EF94F1E9517B600450162 /* Build configuration list for PBXNativeTarget "SasquatchWatchObjC" */;
@@ -1180,7 +1239,7 @@
 		84226C0A1E88FEFC00798417 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0830;
+				LastSwiftUpdateCheck = 0940;
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Microsoft Corp.";
 				TargetAttributes = {
@@ -1225,6 +1284,13 @@
 					B20AE37C21027D6200A1A195 = {
 						DevelopmentTeam = 5Z97G9NZQ6;
 						ProvisioningStyle = Automatic;
+					};
+					B2A888B42102B1E7001ACFDF = {
+						CreatedOnToolsVersion = 9.4.1;
+						DevelopmentTeam = 5Z97G9NZQ6;
+						LastSwiftMigration = 0940;
+						ProvisioningStyle = Automatic;
+						TestTargetID = B20AE37C21027D6200A1A195;
 					};
 					D31EF9281E9517B500450162 = {
 						CreatedOnToolsVersion = 8.3;
@@ -1315,6 +1381,7 @@
 				5CD700E41EA4B74500FC5D12 /* SasquatchSwiftUITests */,
 				5CE258861EA5F62400DA8FB9 /* SasquatchObjCUITests */,
 				B20AE37C21027D6200A1A195 /* SasquatchPuppet */,
+				B2A888B42102B1E7001ACFDF /* SasquatchPuppetUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -1556,6 +1623,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B2A888B32102B1E7001ACFDF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D31EF9271E9517B500450162 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1693,6 +1767,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B2A888B12102B1E7001ACFDF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B2A888EF2102B2C6001ACFDF /* AppCenterUITests.swift in Sources */,
+				B2A888F02102B2C6001ACFDF /* Helpers.swift in Sources */,
+				B2A888F22102B2C6001ACFDF /* DistributeUITests.swift in Sources */,
+				B2A888F32102B2C6001ACFDF /* CrashesUITests.swift in Sources */,
+				B2A888F12102B2C6001ACFDF /* AnalyticsUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D31EF9311E9517B600450162 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1755,6 +1841,11 @@
 			isa = PBXTargetDependency;
 			name = AppCenterDistributeResources;
 			targetProxy = B2A888A32102A407001ACFDF /* PBXContainerItemProxy */;
+		};
+		B2A888BB2102B1E7001ACFDF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B20AE37C21027D6200A1A195 /* SasquatchPuppet */;
+			targetProxy = B2A888BA2102B1E7001ACFDF /* PBXContainerItemProxy */;
 		};
 		D31EF9381E9517B600450162 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2158,6 +2249,72 @@
 			};
 			name = Release;
 		};
+		B2A888BC2102B1E7001ACFDF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INFOPLIST_FILE = SasquatchPuppetUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = "-fno-optimize-sibling-calls";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.SasquatchPuppetUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = SasquatchPuppet;
+			};
+			name = Debug;
+		};
+		B2A888BD2102B1E7001ACFDF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INFOPLIST_FILE = SasquatchPuppetUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = "-fno-optimize-sibling-calls";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.SasquatchPuppetUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = SasquatchPuppet;
+			};
+			name = Release;
+		};
 		D31EF94C1E9517B600450162 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2399,6 +2556,15 @@
 			buildConfigurations = (
 				B20AE3A921027D6200A1A195 /* Debug */,
 				B20AE3AA21027D6200A1A195 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B2A888E92102B1E7001ACFDF /* Build configuration list for PBXNativeTarget "SasquatchPuppetUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B2A888BC2102B1E7001ACFDF /* Debug */,
+				B2A888BD2102B1E7001ACFDF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
