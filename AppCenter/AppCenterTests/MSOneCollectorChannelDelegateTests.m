@@ -240,7 +240,7 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
   [self.sut channel:channelUnitMock didPrepareLog:mockLog withInternalId:@"fake-id"];
 }
 
-- (void)testDidNotEnqueueLogWhenCommonSchemaLogIsPrepared {
+- (void)testReEnqueueLogWhenCommonSchemaLogIsPrepared {
 
   // If
   id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
@@ -253,6 +253,7 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
   OCMStub([channelUnitMock configuration]).andReturn(unitConfig);
   id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
   id<MSChannelUnitProtocol> oneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub(oneCollectorChannelUnitMock.logsDispatchQueue).andReturn(self.logsDispatchQueue);
   OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY withIngestion:OCMOCK_ANY])
       .andReturn(oneCollectorChannelUnitMock);
   NSMutableSet *transmissionTargetTokens = [NSMutableSet new];
@@ -260,12 +261,19 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
   id<MSLog> commonSchemaLog = [MSCommonSchemaLog new];
   OCMStub(commonSchemaLog.transmissionTargetTokens).andReturn(transmissionTargetTokens);
 
-  // Then
-  OCMReject([oneCollectorChannelUnitMock enqueueItem:OCMOCK_ANY]);
-
   // When
   [self.sut channelGroup:channelGroupMock didAddChannelUnit:channelUnitMock];
   [self.sut channel:channelUnitMock didPrepareLog:commonSchemaLog withInternalId:@"fake-id"];
+  
+  // Then
+  [self enqueueChannelEndJobExpectation];
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 OCMVerify([oneCollectorChannelUnitMock enqueueItem:commonSchemaLog]);
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
 }
 
 - (void)testDidNotEnqueueLogWhenLogHasNoTargetTokens {
