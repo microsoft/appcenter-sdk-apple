@@ -114,8 +114,8 @@
 		B2A888F32102B2C6001ACFDF /* CrashesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A888EE2102B2C5001ACFDF /* CrashesUITests.swift */; };
 		B2B36CE21EEF49B700230341 /* MSCustomPropertiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */; };
 		B2B36CE31EEF49C400230341 /* MSCustomPropertiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */; };
-		B2C97B8721064A5300042A03 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B2C97B5B21064A5300042A03 /* Assets.xcassets */; };
 		B2C97B892106512600042A03 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C1C1E88FEFC00798417 /* Assets.xcassets */; };
+		B2C97B8B2106535500042A03 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B2C97B8A2106535500042A03 /* Assets.xcassets */; };
 		D31EF92D1E9517B600450162 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D31EF92B1E9517B600450162 /* Interface.storyboard */; };
 		D31EF92F1E9517B600450162 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D31EF92E1E9517B600450162 /* Assets.xcassets */; };
 		D31EF9361E9517B600450162 /* SasquatchWatchObjC Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = D31EF9351E9517B600450162 /* SasquatchWatchObjC Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -584,7 +584,7 @@
 		B2A888ED2102B2C5001ACFDF /* DistributeUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistributeUITests.swift; sourceTree = "<group>"; };
 		B2A888EE2102B2C5001ACFDF /* CrashesUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashesUITests.swift; sourceTree = "<group>"; };
 		B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSCustomPropertiesViewController.swift; sourceTree = "<group>"; };
-		B2C97B5B21064A5300042A03 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B2C97B8A2106535500042A03 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D31EF9291E9517B500450162 /* SasquatchWatchObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchWatchObjC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D31EF92C1E9517B600450162 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		D31EF92E1E9517B600450162 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -981,7 +981,7 @@
 		B2C97B5A21064A5300042A03 /* SasquatchPuppet */ = {
 			isa = PBXGroup;
 			children = (
-				B2C97B5B21064A5300042A03 /* Assets.xcassets */,
+				B2C97B8A2106535500042A03 /* Assets.xcassets */,
 			);
 			name = SasquatchPuppet;
 			path = ../TestApps/Sasquatch/SasquatchPuppet;
@@ -1632,8 +1632,8 @@
 				B20AE39D21027D6200A1A195 /* Assets.xcassets in Resources */,
 				B20AE3A021027D6200A1A195 /* MSAnalyticsTranmissionTargetSelectorViewCell.xib in Resources */,
 				B20AE3A121027D6200A1A195 /* Main.storyboard in Resources */,
-				B2C97B8721064A5300042A03 /* Assets.xcassets in Resources */,
 				B2C97B892106512600042A03 /* Assets.xcassets in Resources */,
+				B2C97B8B2106535500042A03 /* Assets.xcassets in Resources */,
 				B20AE3A321027D6200A1A195 /* MSAnalyticsPropertyTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2204,7 +2204,7 @@
 		B20AE3A921027D6200A1A195 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = PuppetIcon;
 				CODE_SIGN_ENTITLEMENTS = ../TestApps/Sasquatch/SasquatchObjC/SasquatchObjC.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -2237,7 +2237,7 @@
 		B20AE3AA21027D6200A1A195 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = PuppetIcon;
 				CODE_SIGN_ENTITLEMENTS = ../TestApps/Sasquatch/SasquatchObjC/SasquatchObjC.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
