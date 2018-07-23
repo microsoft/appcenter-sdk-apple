@@ -58,8 +58,7 @@
   return [MSCrashes isEnabled];
 }
 - (BOOL) isDistributeEnabled{
-//  return [MSDistribute isEnabled];
-  return YES;
+  return [MSDistribute isEnabled];
 }
 - (BOOL) isPushEnabled{
   return [MSPush isEnabled];
@@ -71,7 +70,7 @@
   return [MSCrashes setEnabled:isEnabled];
 }
 - (void) setDistributeEnabled:(BOOL)isEnabled{
-//  return [MSDistribute setEnabled:isEnabled];
+  return [MSDistribute setEnabled:isEnabled];
 }
 - (void) setPushEnabled:(BOOL)isEnabled{
   return [MSPush setEnabled:isEnabled];
@@ -106,35 +105,35 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
 - (void) showConfirmationAlert{
-//  MSReleaseDetails *releaseDetails = [MSReleaseDetails new];
-//  releaseDetails.version = @"10";
-//  releaseDetails.shortVersion = @"1.0";
-//  if ([MSDistribute respondsToSelector:@selector(sharedInstance)]) {
-//    id distributeInstance = [MSDistribute performSelector:@selector(sharedInstance)];
-//    if ([distributeInstance respondsToSelector:@selector(showConfirmationAlert:)]) {
-//      [distributeInstance performSelector:@selector(showConfirmationAlert:) withObject:releaseDetails];
-//    }
-//  }
+  MSReleaseDetails *releaseDetails = [MSReleaseDetails new];
+  releaseDetails.version = @"10";
+  releaseDetails.shortVersion = @"1.0";
+  if ([MSDistribute respondsToSelector:@selector(sharedInstance)]) {
+    id distributeInstance = [MSDistribute performSelector:@selector(sharedInstance)];
+    if ([distributeInstance respondsToSelector:@selector(showConfirmationAlert:)]) {
+      [distributeInstance performSelector:@selector(showConfirmationAlert:) withObject:releaseDetails];
+    }
+  }
 }
 #pragma clang diagnostic pop
 
 - (void) showDistributeDisabledAlert{
-//  if ([MSDistribute respondsToSelector:@selector(sharedInstance)]) {
-//    id distributeInstance = [MSDistribute performSelector:@selector(sharedInstance)];
-//    if ([distributeInstance respondsToSelector:@selector(showDistributeDisabledAlert)]) {
-//      [distributeInstance performSelector:@selector(showDistributeDisabledAlert)];
-//    }
-//  }
+  if ([MSDistribute respondsToSelector:@selector(sharedInstance)]) {
+    id distributeInstance = [MSDistribute performSelector:@selector(sharedInstance)];
+    if ([distributeInstance respondsToSelector:@selector(showDistributeDisabledAlert)]) {
+      [distributeInstance performSelector:@selector(showDistributeDisabledAlert)];
+    }
+  }
 }
 
 - (void) showCustomConfirmationAlert{
-//  MSReleaseDetails *releaseDetails = [MSReleaseDetails new];
-//  releaseDetails.version = @"10";
-//  releaseDetails.shortVersion = @"1.0";
-//  if ([MSDistribute respondsToSelector:@selector(sharedInstance)]) {
-//    id distributeInstance = [MSDistribute performSelector:@selector(sharedInstance)];
-//    [[distributeInstance delegate] distribute:distributeInstance releaseAvailableWithDetails:releaseDetails];
-//  }
+  MSReleaseDetails *releaseDetails = [MSReleaseDetails new];
+  releaseDetails.version = @"10";
+  releaseDetails.shortVersion = @"1.0";
+  if ([MSDistribute respondsToSelector:@selector(sharedInstance)]) {
+    id distributeInstance = [MSDistribute performSelector:@selector(sharedInstance)];
+    [[distributeInstance delegate] distribute:distributeInstance releaseAvailableWithDetails:releaseDetails];
+  }
 }
 
 #pragma mark - Last crash report section.
