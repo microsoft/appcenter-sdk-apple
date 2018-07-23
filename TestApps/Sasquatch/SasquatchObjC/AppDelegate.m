@@ -5,7 +5,7 @@
 #import "Constants.h"
 #import "Sasquatch-Swift.h"
 
-#if IS_PUPPET
+#if GCC_PREPROCESSOR_MACRO_PUPPET
 #import "AppCenter.h"
 #import "AppCenterAnalytics.h"
 #import "AppCenterCrashes.h"

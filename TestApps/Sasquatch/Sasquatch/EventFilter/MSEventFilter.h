@@ -1,4 +1,4 @@
-#ifdef IS_PUPPET
+#ifdef GCC_PREPROCESSOR_MACRO_PUPPET
 #import "AppCenter.h"
 #import "AppCenterAnalytics.h"
 #else

@@ -1,7 +1,7 @@
 #import "AppCenterDelegateObjC.h"
 #import "MSEventFilter.h"
 
-#if IS_PUPPET
+#if GCC_PREPROCESSOR_MACRO_PUPPET
 #import "AppCenter.h"
 #import "AppCenterAnalytics.h"
 #import "AppCenterCrashes.h"

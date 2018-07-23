@@ -1,5 +1,4 @@
-#if PUPPET
-#else
+#if !ACTIVE_COMPILATION_CONDITION_PUPPET
 import AppCenter
 #endif
 
