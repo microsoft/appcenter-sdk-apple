@@ -767,6 +767,7 @@
 				354273DD20126A3E00BE766F /* EventFilter */,
 				84226D3A1E8937FF00798417 /* AppCenterDelegate.swift */,
 				849A3E711E8A9922008711CB /* AppCenterProtocol.swift */,
+				35FBE78020FD095200F7B05C /* MSTransmissionTargets.swift */,
 				041E2BEE1FB6465000793316 /* Constants.h */,
 				84226CB11E8909F700798417 /* Storyboards */,
 				84226CB01E8909EA00798417 /* ViewControllers */,
@@ -847,7 +848,6 @@
 				045A947D1F97C840002B7CB1 /* App.xcconfig */,
 				84226C1C1E88FEFC00798417 /* Assets.xcassets */,
 				041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */,
-				35FBE78020FD095200F7B05C /* MSTransmissionTargets.swift */,
 				84226D091E891FB900798417 /* Sasquatch-Bridging-Header.h */,
 			);
 			name = "Supporting Files";
