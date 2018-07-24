@@ -1,4 +1,6 @@
+#if !ACTIVE_COMPILATION_CONDITION_PUPPET
 import AppCenter
+#endif
 
 /**
  * Protocol for interacting with AppCenter SDK.

@@ -3,13 +3,21 @@
 #import "AppCenterDelegateObjC.h"
 #import "AppDelegate.h"
 #import "Constants.h"
-#import "SasquatchObjC-Swift.h"
+#import "Sasquatch-Swift.h"
 
+#if GCC_PREPROCESSOR_MACRO_PUPPET
+#import "AppCenter.h"
+#import "AppCenterAnalytics.h"
+#import "AppCenterCrashes.h"
+#import "AppCenterDistribute.h"
+#import "AppCenterPush.h"
+#else
 @import AppCenter;
 @import AppCenterAnalytics;
 @import AppCenterCrashes;
 @import AppCenterDistribute;
 @import AppCenterPush;
+#endif
 
 enum { START_FROM_APP = 0, START_FROM_LIBRARY, START_FROM_BOTH };
 

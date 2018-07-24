@@ -1,5 +1,4 @@
 import UIKit
-import AppCenter
 
 @objc(MSCustomPropertyTableViewCell) class MSCustomPropertyTableViewCell: UITableViewCell, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate {
   

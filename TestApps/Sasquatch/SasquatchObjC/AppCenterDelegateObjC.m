@@ -1,11 +1,19 @@
 #import "AppCenterDelegateObjC.h"
 #import "MSEventFilter.h"
 
+#if GCC_PREPROCESSOR_MACRO_PUPPET
+#import "AppCenter.h"
+#import "AppCenterAnalytics.h"
+#import "AppCenterCrashes.h"
+#import "AppCenterDistribute.h"
+#import "AppCenterPush.h"
+#else
 @import AppCenter;
 @import AppCenterAnalytics;
 @import AppCenterCrashes;
 @import AppCenterDistribute;
 @import AppCenterPush;
+#endif
 
 /**
  * AppCenterDelegate implementation in Objective C.
