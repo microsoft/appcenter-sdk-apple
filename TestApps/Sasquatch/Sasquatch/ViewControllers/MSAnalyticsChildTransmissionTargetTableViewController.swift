@@ -10,6 +10,9 @@ class MSAnalyticsChildTransmissionTargetTableViewController: UITableViewControll
     super.viewDidLoad()
     self.childToken1Label.text = "Child Target Token 1 - 602c2d52"
     self.childToken2Label.text = "Child Target Token 2 - 902923eb"
+    
+    // Make sure the UITabBarController does not cut off the last cell.
+    self.edgesForExtendedLayout = []
   }
   
   // MARK: - Table view data source

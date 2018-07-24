@@ -9,6 +9,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   @IBOutlet weak var sdkVersion: UILabel!
   @IBOutlet weak var pushEnabledSwitch: UISwitch!
   @IBOutlet weak var logFilterSwitch: UISwitch!
+  
   var appCenter: AppCenterDelegate!
 
   static let kStartupTypeSectionIndex = 1
@@ -41,6 +42,9 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     self.appSecret.text = appCenter.appSecret()
     self.logUrl.text = appCenter.logUrl()
     self.sdkVersion.text = appCenter.sdkVersion()
+    
+    // Make sure the UITabBarController does not cut off the last cell.
+    self.edgesForExtendedLayout = []
   }
 
   @IBAction func enabledSwitchUpdated(_ sender: UISwitch) {

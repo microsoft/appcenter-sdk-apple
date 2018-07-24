@@ -99,6 +99,9 @@ class MSTransmissionTargetsViewController: UITableViewController {
     // The ordering of these target sections is important so they are displayed in the right order.
     transmissionTargetSections = [defaultTargetSection, runtimeTargetSection, child1TargetSection, child2TargetSection]
     tableView.setEditing(true, animated: false)
+    
+    // Make sure the UITabBarController does not cut off the last cell.
+    self.edgesForExtendedLayout = []
   }
 
   override func numberOfSections(in tableView: UITableView) -> Int {
