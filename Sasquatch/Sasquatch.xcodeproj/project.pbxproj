@@ -90,7 +90,6 @@
 		B20AE39521027D6200A1A195 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F89D79081E93DA3A0094521F /* CrashLibIOS.framework */; };
 		B20AE39C21027D6200A1A195 /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
 		B20AE39D21027D6200A1A195 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C551E88FF4A00798417 /* Assets.xcassets */; };
-		B20AE39E21027D6200A1A195 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 047D13711EAFBDBE00D699BA /* AppCenterDistributeResources.bundle */; };
 		B20AE39F21027D6200A1A195 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F809D5021FC6DA2B005E0F83 /* LaunchScreen.storyboard */; };
 		B20AE3A021027D6200A1A195 /* MSAnalyticsTranmissionTargetSelectorViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 359171EF20F5654600F3DDE6 /* MSAnalyticsTranmissionTargetSelectorViewCell.xib */; };
 		B20AE3A121027D6200A1A195 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845964A91E8A7E6600BABA51 /* Main.storyboard */; };
@@ -106,6 +105,7 @@
 		B20AE48821028E3300A1A195 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B20AE48721028E3300A1A195 /* libc++.tbd */; };
 		B20AE48A21028E3C00A1A195 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B20AE48921028E3C00A1A195 /* libz.tbd */; };
 		B27424851EF2193E00F591E5 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 047D13711EAFBDBE00D699BA /* AppCenterDistributeResources.bundle */; };
+		B2A13BCC2107A81B00542B3B /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B20AE41A2102819C00A1A195 /* AppCenterDistributeResources.bundle */; };
 		B2A888A62102A44B001ACFDF /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2A888A52102A44B001ACFDF /* SafariServices.framework */; };
 		B2A888EF2102B2C6001ACFDF /* AppCenterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A888EA2102B2C5001ACFDF /* AppCenterUITests.swift */; };
 		B2A888F02102B2C6001ACFDF /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A888EB2102B2C5001ACFDF /* Helpers.swift */; };
@@ -1627,8 +1627,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				B20AE39C21027D6200A1A195 /* Sasquatch.strings in Resources */,
+				B2A13BCC2107A81B00542B3B /* AppCenterDistributeResources.bundle in Resources */,
 				B20AE39F21027D6200A1A195 /* LaunchScreen.storyboard in Resources */,
-				B20AE39E21027D6200A1A195 /* AppCenterDistributeResources.bundle in Resources */,
 				B20AE39D21027D6200A1A195 /* Assets.xcassets in Resources */,
 				B20AE3A021027D6200A1A195 /* MSAnalyticsTranmissionTargetSelectorViewCell.xib in Resources */,
 				B20AE3A121027D6200A1A195 /* Main.storyboard in Resources */,
