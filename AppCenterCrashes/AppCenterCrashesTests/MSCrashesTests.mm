@@ -541,13 +541,13 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   [self.sut channel:nil didPrepareLog:[MSAppleErrorLog new] withInternalId:uuid3];
 
   // Then
-  assertThatLong([self crashesLogBufferCount], equalToLong(1));
-
+  assertThatLong([self crashesLogBufferCount], equalToLong(2));
+  
   // When
   [self.sut channel:nil didCompleteEnqueueingLog:nil withInternalId:uuid3];
   
   // Then
-  assertThatLong([self crashesLogBufferCount], equalToLong(1));
+  assertThatLong([self crashesLogBufferCount], equalToLong(2));
 
   // When
   [self.sut channel:nil didCompleteEnqueueingLog:nil withInternalId:uuid2];
@@ -590,7 +590,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   [self.sut channel:nil didPrepareLog:[MSAppleErrorLog new] withInternalId:uuid3];
   
   // Then
-  assertThatLong([self crashesLogBufferCount], equalToLong(1));
+  assertThatLong([self crashesLogBufferCount], equalToLong(2));
   
   // When
   // Save on crash.
@@ -603,7 +603,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
                   fromApplication:YES];
 
   // Then
-  XCTAssertEqual(1U, numInvocations);
+  XCTAssertEqual(2U, numInvocations);
 }
 
 - (void)testInitializationPriorityCorrect {
