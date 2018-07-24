@@ -98,6 +98,8 @@ class AnalyticsUITests: XCTestCase {
     // Track event.
     self.trackEvent(name: "myEvent", propertiesCount: 0)
 
+    // TODO: Verify result (there is no UI now).
+    /*
     // Go to result page.
     app.buttons["Results"].tap()
 
@@ -119,6 +121,7 @@ class AnalyticsUITests: XCTestCase {
                                 handler: nil)
 
     wait(for: [eventNameExp, propNumExp, didSentExp, didSendingExp, failedExp], timeout: timeout)
+    */
   }
 
   func testTrackEventWithOneProps() {
@@ -139,6 +142,8 @@ class AnalyticsUITests: XCTestCase {
     // Track event with one property.
     self.trackEvent(name: "myEvent", propertiesCount: 1)
 
+    // TODO: Verify result (there is no UI now).
+    /*
     // Go to result page.
     app.buttons["Results"].tap()
 
@@ -160,6 +165,7 @@ class AnalyticsUITests: XCTestCase {
                                 handler: nil)
 
     wait(for: [eventNameExp, propNumExp, didSentExp, didSendingExp, failedExp], timeout: timeout)
+    */
   }
 
   func testTrackEventWithTooMuchProps() {
@@ -174,6 +180,8 @@ class AnalyticsUITests: XCTestCase {
     // Track event with seven properties.
     self.trackEvent(name: "myEvent", propertiesCount: 7)
 
+    // TODO: Verify result (there is no UI now).
+    /*
     // Go to result page.
     app.buttons["Results"].tap()
 
@@ -195,6 +203,7 @@ class AnalyticsUITests: XCTestCase {
                                 handler: nil)
 
     wait(for: [eventNameExp, propNumExp, didSentExp, didSendingExp, failedExp], timeout: timeout)
+    */
   }
 
   func testTrackEventWithDisabledAnalytics() {
@@ -215,6 +224,8 @@ class AnalyticsUITests: XCTestCase {
     // Track event.
     self.trackEvent(name: "myEvent", propertiesCount: 0)
 
+    // TODO: Verify result (there is no UI now).
+    /*
     // Go to result page.
     app.buttons["Results"].tap()
 
@@ -236,6 +247,7 @@ class AnalyticsUITests: XCTestCase {
                                 handler: nil)
 
     wait(for: [eventNameExp, propNumExp, didSentExp, didSendingExp, failedExp], timeout: timeout)
+    */
   }
 
   private func trackEvent(name : String, propertiesCount : UInt) {
@@ -245,11 +257,8 @@ class AnalyticsUITests: XCTestCase {
     }
     
     // Add properties.
-    for i in 0..<propertiesCount {
+    for _ in 0..<propertiesCount {
       analyticsTable.staticTexts["Add Property"].tap()
-      let propertyCell = analyticsTable.cells.containing(.textField, identifier: "Key").element(boundBy: i)
-      propertyCell.textFields["Key"].clearAndTypeText("key\(i)")
-      propertyCell.textFields["Value"].clearAndTypeText("value\(i)")
     }
     
     // Set name.

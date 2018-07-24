@@ -703,6 +703,8 @@
 		359171F520F7F7F300F3DDE6 /* PropertiesTableSection */ = {
 			isa = PBXGroup;
 			children = (
+				F87E96121FDED64900AF2717 /* MSAnalyticsPropertyTableViewCell.swift */,
+				F87E96131FDED64900AF2717 /* MSAnalyticsPropertyTableViewCell.xib */,
 				359171F620F7F80800F3DDE6 /* PropertiesTableSection.swift */,
 				359171F920F8001A00F3DDE6 /* TargetPropertiesTableSection.swift */,
 				352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */,
@@ -818,8 +820,6 @@
 				F87E96181FDEEA0900AF2717 /* MSCustomPropertyTableViewCell.swift */,
 				359171F520F7F7F300F3DDE6 /* PropertiesTableSection */,
 				B203FF4B20E57A5B002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift */,
-				F87E96121FDED64900AF2717 /* MSAnalyticsPropertyTableViewCell.swift */,
-				F87E96131FDED64900AF2717 /* MSAnalyticsPropertyTableViewCell.xib */,
 				359171EC20F5651B00F3DDE6 /* MSAnalyticsTranmissionTargetSelectorViewCell.swift */,
 				359171EF20F5654600F3DDE6 /* MSAnalyticsTranmissionTargetSelectorViewCell.xib */,
 				84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */,
