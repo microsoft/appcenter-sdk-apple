@@ -19,7 +19,6 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    appCenterEnabledSwitch.isOn = appCenter.isAppCenterEnabled()
 
     // Startup Targets section.
     let startupTypeCellIndexPath = MSMainViewController.getIndexPathForSelectedStartupTypeCell()
@@ -34,13 +33,18 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     }
 
     // Miscellaneous section.
-    pushEnabledSwitch.isOn = appCenter.isPushEnabled()
     appCenter.startEventFilterService()
     self.logFilterSwitch.isOn = appCenter.isEventFilterEnabled()
     self.installId.text = appCenter.installId()
     self.appSecret.text = appCenter.appSecret()
     self.logUrl.text = appCenter.logUrl()
     self.sdkVersion.text = appCenter.sdkVersion()
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    appCenterEnabledSwitch.isOn = appCenter.isAppCenterEnabled()
+    pushEnabledSwitch.isOn = appCenter.isPushEnabled()
   }
 
   @IBAction func enabledSwitchUpdated(_ sender: UISwitch) {
