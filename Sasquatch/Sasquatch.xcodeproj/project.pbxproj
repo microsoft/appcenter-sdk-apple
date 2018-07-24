@@ -20,8 +20,8 @@
 		354273EE20126A3E00BE766F /* MSEventFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 354273DE20126A3E00BE766F /* MSEventFilter.m */; };
 		359171ED20F5651B00F3DDE6 /* MSAnalyticsTransmissionTargetSelectorViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359171EC20F5651B00F3DDE6 /* MSAnalyticsTransmissionTargetSelectorViewCell.swift */; };
 		359171EE20F5651B00F3DDE6 /* MSAnalyticsTransmissionTargetSelectorViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359171EC20F5651B00F3DDE6 /* MSAnalyticsTransmissionTargetSelectorViewCell.swift */; };
-		359171F020F5654600F3DDE6 /* MSAnalyticsTranmissionTargetSelectorViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 359171EF20F5654600F3DDE6 /* MSAnalyticsTranmissionTargetSelectorViewCell.xib */; };
-		359171F120F5654600F3DDE6 /* MSAnalyticsTranmissionTargetSelectorViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 359171EF20F5654600F3DDE6 /* MSAnalyticsTranmissionTargetSelectorViewCell.xib */; };
+		359171F020F5654600F3DDE6 /* MSAnalyticsTransmissionTargetSelectorViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 359171EF20F5654600F3DDE6 /* MSAnalyticsTransmissionTargetSelectorViewCell.xib */; };
+		359171F120F5654600F3DDE6 /* MSAnalyticsTransmissionTargetSelectorViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 359171EF20F5654600F3DDE6 /* MSAnalyticsTransmissionTargetSelectorViewCell.xib */; };
 		359171F720F7F80800F3DDE6 /* PropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359171F620F7F80800F3DDE6 /* PropertiesTableSection.swift */; };
 		359171F820F7F80800F3DDE6 /* PropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359171F620F7F80800F3DDE6 /* PropertiesTableSection.swift */; };
 		359171FA20F8001A00F3DDE6 /* TargetPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359171F920F8001A00F3DDE6 /* TargetPropertiesTableSection.swift */; };
@@ -91,7 +91,7 @@
 		B20AE39C21027D6200A1A195 /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
 		B20AE39D21027D6200A1A195 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C551E88FF4A00798417 /* Assets.xcassets */; };
 		B20AE39F21027D6200A1A195 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F809D5021FC6DA2B005E0F83 /* LaunchScreen.storyboard */; };
-		B20AE3A021027D6200A1A195 /* MSAnalyticsTranmissionTargetSelectorViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 359171EF20F5654600F3DDE6 /* MSAnalyticsTranmissionTargetSelectorViewCell.xib */; };
+		B20AE3A021027D6200A1A195 /* MSAnalyticsTransmissionTargetSelectorViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 359171EF20F5654600F3DDE6 /* MSAnalyticsTransmissionTargetSelectorViewCell.xib */; };
 		B20AE3A121027D6200A1A195 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845964A91E8A7E6600BABA51 /* Main.storyboard */; };
 		B20AE3A321027D6200A1A195 /* MSAnalyticsPropertyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F87E96131FDED64900AF2717 /* MSAnalyticsPropertyTableViewCell.xib */; };
 		B20AE3A521027D6200A1A195 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F89D79081E93DA3A0094521F /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -524,7 +524,7 @@
 		354273DE20126A3E00BE766F /* MSEventFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSEventFilter.m; sourceTree = "<group>"; };
 		354273DF20126A3E00BE766F /* MSEventFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSEventFilter.h; sourceTree = "<group>"; };
 		359171EC20F5651B00F3DDE6 /* MSAnalyticsTransmissionTargetSelectorViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAnalyticsTransmissionTargetSelectorViewCell.swift; sourceTree = "<group>"; };
-		359171EF20F5654600F3DDE6 /* MSAnalyticsTranmissionTargetSelectorViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MSAnalyticsTranmissionTargetSelectorViewCell.xib; sourceTree = "<group>"; };
+		359171EF20F5654600F3DDE6 /* MSAnalyticsTransmissionTargetSelectorViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MSAnalyticsTransmissionTargetSelectorViewCell.xib; sourceTree = "<group>"; };
 		359171F620F7F80800F3DDE6 /* PropertiesTableSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertiesTableSection.swift; sourceTree = "<group>"; };
 		359171F920F8001A00F3DDE6 /* TargetPropertiesTableSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetPropertiesTableSection.swift; sourceTree = "<group>"; };
 		35FBE78020FD095200F7B05C /* MSTransmissionTargets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTransmissionTargets.swift; sourceTree = "<group>"; };
@@ -822,7 +822,7 @@
 				F87E96121FDED64900AF2717 /* MSAnalyticsPropertyTableViewCell.swift */,
 				F87E96131FDED64900AF2717 /* MSAnalyticsPropertyTableViewCell.xib */,
 				359171EC20F5651B00F3DDE6 /* MSAnalyticsTransmissionTargetSelectorViewCell.swift */,
-				359171EF20F5654600F3DDE6 /* MSAnalyticsTranmissionTargetSelectorViewCell.xib */,
+				359171EF20F5654600F3DDE6 /* MSAnalyticsTransmissionTargetSelectorViewCell.xib */,
 				84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */,
 				84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */,
 				B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */,
@@ -1595,7 +1595,7 @@
 				84226C561E88FF4A00798417 /* Assets.xcassets in Resources */,
 				047D13721EAFBDBE00D699BA /* AppCenterDistributeResources.bundle in Resources */,
 				F809D5041FC6DA2B005E0F83 /* LaunchScreen.storyboard in Resources */,
-				359171F020F5654600F3DDE6 /* MSAnalyticsTranmissionTargetSelectorViewCell.xib in Resources */,
+				359171F020F5654600F3DDE6 /* MSAnalyticsTransmissionTargetSelectorViewCell.xib in Resources */,
 				845964AB1E8A7E6600BABA51 /* Main.storyboard in Resources */,
 				35ABB5D220FEAD8E002E6841 /* Assets.xcassets in Resources */,
 				F87E96161FDED64900AF2717 /* MSAnalyticsPropertyTableViewCell.xib in Resources */,
@@ -1610,7 +1610,7 @@
 				B27424851EF2193E00F591E5 /* AppCenterDistributeResources.bundle in Resources */,
 				84226C8A1E8908CA00798417 /* Assets.xcassets in Resources */,
 				F809D5051FC6DD80005E0F83 /* LaunchScreen.storyboard in Resources */,
-				359171F120F5654600F3DDE6 /* MSAnalyticsTranmissionTargetSelectorViewCell.xib in Resources */,
+				359171F120F5654600F3DDE6 /* MSAnalyticsTransmissionTargetSelectorViewCell.xib in Resources */,
 				84D63FF91E8BAA90004C9F86 /* Main.storyboard in Resources */,
 				35ABB5D320FEAD8F002E6841 /* Assets.xcassets in Resources */,
 				F87E96171FDED64900AF2717 /* MSAnalyticsPropertyTableViewCell.xib in Resources */,
@@ -1625,7 +1625,7 @@
 				B20AE39F21027D6200A1A195 /* LaunchScreen.storyboard in Resources */,
 				F8FE7330210730EE005C6A74 /* AppCenterDistributeResources.bundle in Resources */,
 				B20AE39D21027D6200A1A195 /* Assets.xcassets in Resources */,
-				B20AE3A021027D6200A1A195 /* MSAnalyticsTranmissionTargetSelectorViewCell.xib in Resources */,
+				B20AE3A021027D6200A1A195 /* MSAnalyticsTransmissionTargetSelectorViewCell.xib in Resources */,
 				B20AE3A121027D6200A1A195 /* Main.storyboard in Resources */,
 				B2C97B892106512600042A03 /* Assets.xcassets in Resources */,
 				B2C97B8B2106535500042A03 /* Assets.xcassets in Resources */,
