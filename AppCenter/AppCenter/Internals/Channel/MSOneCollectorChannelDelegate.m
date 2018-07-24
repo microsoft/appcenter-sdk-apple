@@ -83,7 +83,10 @@ NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){
   id<MSChannelUnitProtocol> oneCollectorChannelUnit = nil;
   NSString *groupId = channelUnit.configuration.groupId;
   
-  // Re-enqueue the 1ds logs if the channel is not 1ds.
+  /*
+   * Reroute Custom Schema logs to their One Collector channel if they were enqueued to a non One Collector channel.
+   * Happens to logs from the log buffer after a crash.
+   */
   if ([(NSObject *)log isKindOfClass:[MSCommonSchemaLog class]] && ![self isOneCollectorGroup:groupId]) {
     oneCollectorChannelUnit = [self.oneCollectorChannels objectForKey:groupId];
     if (oneCollectorChannelUnit) {
