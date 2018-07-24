@@ -40,7 +40,10 @@ class PropertiesTableSection : NSObject, UITableViewDelegate {
 
     // Set cell to respond to being edited.
     cell!.keyField.addTarget(self, action: #selector(propertyKeyChanged), for: .editingChanged)
+    cell!.keyField.addTarget(self, action: #selector(dismissKeyboard), for: .editingDidEndOnExit)
     cell!.valueField.addTarget(self, action: #selector(propertyValueChanged), for: .editingChanged)
+    cell!.valueField.addTarget(self, action: #selector(dismissKeyboard), for: .editingDidEndOnExit)
+
     return cell!
   }
 
@@ -84,6 +87,10 @@ class PropertiesTableSection : NSObject, UITableViewDelegate {
 
   func propertyValueChanged(sender: UITextField!) {
     preconditionFailure("This method is abstract")
+  }
+  
+  func dismissKeyboard(sender: UITextField!) {
+    sender.resignFirstResponder()
   }
 
   func propertyAtRow(row: Int) -> (String, String) {

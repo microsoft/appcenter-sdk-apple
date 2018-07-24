@@ -31,6 +31,7 @@ class CommonSchemaPropertiesTableSection : PropertiesTableSection {
     } else {
       let cell: MSAnalyticsPropertyTableViewCell? = loadCellFromNib()
       cell?.valueField.placeholder = "Override value"
+      
       // Set cell text.
       var label : String = ""
       switch indexPath.row {
@@ -56,6 +57,7 @@ class CommonSchemaPropertiesTableSection : PropertiesTableSection {
       
       // Set cell to respond to being edited.
       cell!.valueField.addTarget(self, action: #selector(propertyValueChanged), for: .editingChanged)
+      cell!.valueField.addTarget(self, action: #selector(dismissKeyboard), for: .editingDidEndOnExit)
       return cell!
     }
   }
