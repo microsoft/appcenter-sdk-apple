@@ -18,7 +18,7 @@
   return @""
           "Overwrite data above the current stack pointer. This will destroy the current stack trace. "
           "Reporting of this crash is expected to fail. Succeeding is basically luck. "
-          "Apple added additional check that prevent this crash from happening in iOS 12 and up.";
+          "Apple added additional checks that prevent this crash from happening in iOS 12 and up.";
 }
 
 - (void)crash {
