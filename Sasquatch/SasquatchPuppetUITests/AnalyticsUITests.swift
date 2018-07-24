@@ -37,9 +37,9 @@ class AnalyticsUITests: XCTestCase {
       XCTFail()
       return
     }
-
+        
     // Go to analytics page and find "Set Enabled" button.
-    app.tables["App Center"].staticTexts["Analytics"].tap()
+    app.tabBars.buttons["Analytics"].tap()
     let analyticsButton = app.tables["Analytics"].switches["Set Enabled"]
 
     // Service should be enabled by default.
@@ -52,7 +52,7 @@ class AnalyticsUITests: XCTestCase {
     XCTAssertFalse(analyticsButton.boolValue)
 
     // Go back to start page and disable SDK.
-    app.buttons["App Center"].tap()
+    app.tabBars.buttons["App Center"].tap()
     let appCenterButton = app.tables["App Center"].switches["Set Enabled"]
 
     // SDK should be enabled.
@@ -62,19 +62,19 @@ class AnalyticsUITests: XCTestCase {
     appCenterButton.tap()
 
     // Go to analytics page.
-    app.tables["App Center"].staticTexts["Analytics"].tap()
+    app.tabBars.buttons["Analytics"].tap()
 
     // Button should be disabled.
     XCTAssertFalse(analyticsButton.boolValue)
 
     // Go back and enable SDK.
-    app.buttons["App Center"].tap()
+    app.tabBars.buttons["App Center"].tap()
 
     // Enable SDK.
     appCenterButton.tap()
 
     // Go to analytics page.
-    app.tables["App Center"].staticTexts["Analytics"].tap()
+    app.tabBars.buttons["Analytics"].tap()
 
     // Service should be enabled.
     XCTAssertTrue(analyticsButton.boolValue)
@@ -87,7 +87,7 @@ class AnalyticsUITests: XCTestCase {
     }
 
     // Go to analytics page.
-    app.tables["App Center"].staticTexts["Analytics"].tap()
+    app.tabBars.buttons["Analytics"].tap()
     
     // Make sure the module is enabled.
     let analyticsButton = app.tables["Analytics"].switches["Set Enabled"]
@@ -128,7 +128,7 @@ class AnalyticsUITests: XCTestCase {
     }
 
     // Go to analytics page.
-    app.tables["App Center"].staticTexts["Analytics"].tap()
+    app.tabBars.buttons["Analytics"].tap()
 
     // Make sure the module is enabled.
     let analyticsButton = app.tables["Analytics"].switches["Set Enabled"]
@@ -169,7 +169,7 @@ class AnalyticsUITests: XCTestCase {
     }
 
     // Go to analytics page.
-    app.tables["App Center"].staticTexts["Analytics"].tap()
+    app.tabBars.buttons["Analytics"].tap()
 
     // Track event with seven properties.
     self.trackEvent(name: "myEvent", propertiesCount: 7)
@@ -204,7 +204,7 @@ class AnalyticsUITests: XCTestCase {
     }
 
     // Go to analytics page.
-    app.tables["App Center"].staticTexts["Analytics"].tap()
+    app.tabBars.buttons["Analytics"].tap()
     
     // Disable service.
     let analyticsButton = app.tables["Analytics"].switches["Set Enabled"]
