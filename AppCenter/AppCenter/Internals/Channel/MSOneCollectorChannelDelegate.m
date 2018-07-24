@@ -79,12 +79,27 @@ NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){
 - (void)channel:(id<MSChannelProtocol>)channel
      didPrepareLog:(id<MSLog>)log
     withInternalId:(NSString *)__unused internalId {
+  id<MSChannelUnitProtocol> channelUnit = (id<MSChannelUnitProtocol>)channel;
+  id<MSChannelUnitProtocol> oneCollectorChannelUnit = nil;
+  NSString *groupId = channelUnit.configuration.groupId;
+  
+  /*
+   * Reroute Custom Schema logs to their One Collector channel if they were enqueued to a non One Collector channel.
+   * Happens to logs from the log buffer after a crash.
+   */
+  if ([(NSObject *)log isKindOfClass:[MSCommonSchemaLog class]] && ![self isOneCollectorGroup:groupId]) {
+    oneCollectorChannelUnit = [self.oneCollectorChannels objectForKey:groupId];
+    if (oneCollectorChannelUnit) {
+      dispatch_async(oneCollectorChannelUnit.logsDispatchQueue, ^{
+        [oneCollectorChannelUnit enqueueItem:log];
+      });
+    }
+    return;
+  }
   if (![self shouldSendLogToOneCollector:log] || ![channel conformsToProtocol:@protocol(MSChannelUnitProtocol)]) {
     return;
   }
-  id<MSChannelUnitProtocol> channelUnit = (id<MSChannelUnitProtocol>)channel;
-  NSString *groupId = channelUnit.configuration.groupId;
-  id<MSChannelUnitProtocol> oneCollectorChannelUnit = [self.oneCollectorChannels objectForKey:groupId];
+  oneCollectorChannelUnit = [self.oneCollectorChannels objectForKey:groupId];
   if (!oneCollectorChannelUnit) {
     return;
   }
@@ -97,10 +112,13 @@ NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){
   }
 }
 
-- (BOOL)channelUnit:(id<MSChannelUnitProtocol>)__unused channelUnit shouldFilterLog:(id<MSLog>)log {
+- (BOOL)channelUnit:(id<MSChannelUnitProtocol>) channelUnit shouldFilterLog:(id<MSLog>)log {
 
   // Validate Custom Schema logs, filter out invalid logs.
   if ([log isKindOfClass:[MSCommonSchemaLog class]]) {
+    if (![self isOneCollectorGroup:channelUnit.configuration.groupId]) {
+      return true;
+    }
     return ![self validateLog:(MSCommonSchemaLog *)log];
   }
 
