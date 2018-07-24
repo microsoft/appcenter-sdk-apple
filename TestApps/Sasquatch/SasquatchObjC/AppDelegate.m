@@ -47,22 +47,13 @@ enum { START_FROM_APP = 0, START_FROM_LIBRARY, START_FROM_BOTH };
     [MSAppCenter startFromLibraryWithServices:@[ [MSAnalytics class] ]];
     break;
   case START_FROM_APP:
-#if DEBUG
-    [MSAppCenter start:secretString withServices:@[ [MSAnalytics class], [MSCrashes class], [MSPush class] ]];
-#else
     [MSAppCenter start:secretString
           withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class] ]];
-#endif
     break;
   case START_FROM_BOTH:
     [MSAppCenter startFromLibraryWithServices:@[ [MSAnalytics class] ]];
-
-#if DEBUG
-    [MSAppCenter start:secretString withServices:@[ [MSAnalytics class], [MSCrashes class], [MSPush class] ]];
-#else
     [MSAppCenter start:secretString
           withServices:@[ [MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class] ]];
-#endif
     break;
   }
 
