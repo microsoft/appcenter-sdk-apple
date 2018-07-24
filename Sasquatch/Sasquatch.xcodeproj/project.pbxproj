@@ -90,7 +90,6 @@
 		B20AE39521027D6200A1A195 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F89D79081E93DA3A0094521F /* CrashLibIOS.framework */; };
 		B20AE39C21027D6200A1A195 /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
 		B20AE39D21027D6200A1A195 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C551E88FF4A00798417 /* Assets.xcassets */; };
-		B20AE39E21027D6200A1A195 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 047D13711EAFBDBE00D699BA /* AppCenterDistributeResources.bundle */; };
 		B20AE39F21027D6200A1A195 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F809D5021FC6DA2B005E0F83 /* LaunchScreen.storyboard */; };
 		B20AE3A021027D6200A1A195 /* MSAnalyticsTranmissionTargetSelectorViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 359171EF20F5654600F3DDE6 /* MSAnalyticsTranmissionTargetSelectorViewCell.xib */; };
 		B20AE3A121027D6200A1A195 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845964A91E8A7E6600BABA51 /* Main.storyboard */; };
@@ -101,7 +100,6 @@
 		B20AE43E210281F800A1A195 /* libAppCenterCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B20AE4022102818B00A1A195 /* libAppCenterCrashes.a */; };
 		B20AE43F210281FF00A1A195 /* libAppCenterDistribute.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B20AE4162102819C00A1A195 /* libAppCenterDistribute.a */; };
 		B20AE4402102820300A1A195 /* libAppCenterPush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B20AE435210281C400A1A195 /* libAppCenterPush.a */; };
-		B20AE47F21028D1500A1A195 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B20AE47E21028D1500A1A195 /* CrashReporter.framework */; };
 		B20AE48621028E2A00A1A195 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B20AE48521028E2A00A1A195 /* libsqlite3.tbd */; };
 		B20AE48821028E3300A1A195 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B20AE48721028E3300A1A195 /* libc++.tbd */; };
 		B20AE48A21028E3C00A1A195 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B20AE48921028E3C00A1A195 /* libz.tbd */; };
@@ -147,6 +145,8 @@
 		F89D790A1E93DA3A0094521F /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F89D79081E93DA3A0094521F /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F89D790C1E93DA500094521F /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F89D79081E93DA3A0094521F /* CrashLibIOS.framework */; };
 		F89D790D1E93DA500094521F /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F89D79081E93DA3A0094521F /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F8FE732F210730A8005C6A74 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8FE732E210730A8005C6A74 /* CrashReporter.framework */; };
+		F8FE7330210730EE005C6A74 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B20AE41A2102819C00A1A195 /* AppCenterDistributeResources.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -564,17 +564,11 @@
 		84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSDistributeViewController.swift; sourceTree = "<group>"; };
 		B203FF4B20E57A5B002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAnalyticsChildTransmissionTargetTableViewController.swift; sourceTree = "<group>"; };
 		B20AE3AB21027D6200A1A195 /* SasquatchPuppet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchPuppet.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		B20AE3AD21027DB900A1A195 /* libAppCenter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libAppCenter.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		B20AE3AF21027DCB00A1A195 /* libAppCenterAnalytics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libAppCenterAnalytics.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		B20AE3B121027DD400A1A195 /* libAppCenterCrashes.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libAppCenterCrashes.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		B20AE3B321027DDB00A1A195 /* libAppCenterDistribute.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libAppCenterDistribute.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		B20AE3B521027DE100A1A195 /* libAppCenterPush.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libAppCenterPush.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B20AE3B92102812300A1A195 /* AppCenter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AppCenter.xcodeproj; path = ../AppCenter/AppCenter.xcodeproj; sourceTree = "<group>"; };
 		B20AE3D42102813300A1A195 /* AppCenterAnalytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AppCenterAnalytics.xcodeproj; path = ../AppCenterAnalytics/AppCenterAnalytics.xcodeproj; sourceTree = "<group>"; };
 		B20AE3F22102818B00A1A195 /* AppCenterCrashes.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AppCenterCrashes.xcodeproj; path = ../AppCenterCrashes/AppCenterCrashes.xcodeproj; sourceTree = "<group>"; };
 		B20AE40D2102819C00A1A195 /* AppCenterDistribute.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AppCenterDistribute.xcodeproj; path = ../AppCenterDistribute/AppCenterDistribute.xcodeproj; sourceTree = "<group>"; };
 		B20AE429210281C400A1A195 /* AppCenterPush.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AppCenterPush.xcodeproj; path = ../AppCenterPush/AppCenterPush.xcodeproj; sourceTree = "<group>"; };
-		B20AE47E21028D1500A1A195 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = ../../../../Vendor/iOS/PLCrashReporter/CrashReporter.framework; sourceTree = "<group>"; };
 		B20AE48521028E2A00A1A195 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		B20AE48721028E3300A1A195 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		B20AE48921028E3C00A1A195 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -619,6 +613,7 @@
 		F87E96131FDED64900AF2717 /* MSAnalyticsPropertyTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MSAnalyticsPropertyTableViewCell.xib; sourceTree = "<group>"; };
 		F87E96181FDEEA0900AF2717 /* MSCustomPropertyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSCustomPropertyTableViewCell.swift; sourceTree = "<group>"; };
 		F89D79081E93DA3A0094521F /* CrashLibIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F8FE732E210730A8005C6A74 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = ../../Vendor/iOS/PLCrashReporter/CrashReporter.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -664,8 +659,8 @@
 				B2A888A62102A44B001ACFDF /* SafariServices.framework in Frameworks */,
 				B20AE48621028E2A00A1A195 /* libsqlite3.tbd in Frameworks */,
 				B20AE39521027D6200A1A195 /* CrashLibIOS.framework in Frameworks */,
-				B20AE47F21028D1500A1A195 /* CrashReporter.framework in Frameworks */,
 				B20AE4402102820300A1A195 /* libAppCenterPush.a in Frameworks */,
+				F8FE732F210730A8005C6A74 /* CrashReporter.framework in Frameworks */,
 				B20AE43F210281FF00A1A195 /* libAppCenterDistribute.a in Frameworks */,
 				B20AE43E210281F800A1A195 /* libAppCenterCrashes.a in Frameworks */,
 				B20AE43D210281F300A1A195 /* libAppCenterAnalytics.a in Frameworks */,
@@ -732,7 +727,6 @@
 		84226C091E88FEFC00798417 = {
 			isa = PBXGroup;
 			children = (
-				B2C97B5A21064A5300042A03 /* SasquatchPuppet */,
 				B20AE3F12102816B00A1A195 /* AppCenter */,
 				84226C141E88FEFC00798417 /* Sasquatch */,
 				84226C481E88FF4A00798417 /* SasquatchObjC */,
@@ -741,9 +735,11 @@
 				D31EF9391E9517B600450162 /* SasquatchWatchObjC Extension */,
 				D31EF9551E9517C500450162 /* SasquatchWatchSwift */,
 				D31EF9641E9517C600450162 /* SasquatchWatchSwift Extension */,
+				B2C97B5A21064A5300042A03 /* SasquatchPuppet */,
 				5CD700E61EA4B74600FC5D12 /* SasquatchUITests */,
 				B2A888B62102B1E7001ACFDF /* SasquatchPuppetUITests */,
 				84226C131E88FEFC00798417 /* Products */,
+				F8FE732D21073042005C6A74 /* Vendor */,
 				84226D0F1E8921DE00798417 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -768,7 +764,6 @@
 		84226C141E88FEFC00798417 /* Sasquatch */ = {
 			isa = PBXGroup;
 			children = (
-				B20AE47D21028D0900A1A195 /* Vendor */,
 				354273DD20126A3E00BE766F /* EventFilter */,
 				84226D3A1E8937FF00798417 /* AppCenterDelegate.swift */,
 				849A3E711E8A9922008711CB /* AppCenterProtocol.swift */,
@@ -865,11 +860,6 @@
 				B20AE48921028E3C00A1A195 /* libz.tbd */,
 				B20AE48721028E3300A1A195 /* libc++.tbd */,
 				B20AE48521028E2A00A1A195 /* libsqlite3.tbd */,
-				B20AE3B521027DE100A1A195 /* libAppCenterPush.a */,
-				B20AE3B321027DDB00A1A195 /* libAppCenterDistribute.a */,
-				B20AE3B121027DD400A1A195 /* libAppCenterCrashes.a */,
-				B20AE3AF21027DCB00A1A195 /* libAppCenterAnalytics.a */,
-				B20AE3AD21027DB900A1A195 /* libAppCenter.a */,
 				F89D79081E93DA3A0094521F /* CrashLibIOS.framework */,
 				047D13711EAFBDBE00D699BA /* AppCenterDistributeResources.bundle */,
 				046790411E8DA7D80033FDEC /* AppCenterPush.framework */,
@@ -960,14 +950,6 @@
 				B20AE43B210281C400A1A195 /* AppCenterPush.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		B20AE47D21028D0900A1A195 /* Vendor */ = {
-			isa = PBXGroup;
-			children = (
-				B20AE47E21028D1500A1A195 /* CrashReporter.framework */,
-			);
-			path = Vendor;
 			sourceTree = "<group>";
 		};
 		B2A888B62102B1E7001ACFDF /* SasquatchPuppetUITests */ = {
@@ -1061,6 +1043,14 @@
 				D31EF9661E9517C600450162 /* PushNotificationPayload.apns */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F8FE732D21073042005C6A74 /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				F8FE732E210730A8005C6A74 /* CrashReporter.framework */,
+			);
+			path = Vendor;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1633,7 +1623,7 @@
 			files = (
 				B20AE39C21027D6200A1A195 /* Sasquatch.strings in Resources */,
 				B20AE39F21027D6200A1A195 /* LaunchScreen.storyboard in Resources */,
-				B20AE39E21027D6200A1A195 /* AppCenterDistributeResources.bundle in Resources */,
+				F8FE7330210730EE005C6A74 /* AppCenterDistributeResources.bundle in Resources */,
 				B20AE39D21027D6200A1A195 /* Assets.xcassets in Resources */,
 				B20AE3A021027D6200A1A195 /* MSAnalyticsTranmissionTargetSelectorViewCell.xib in Resources */,
 				B20AE3A121027D6200A1A195 /* Main.storyboard in Resources */,
@@ -2223,14 +2213,13 @@
 					"$(SRCROOT)/../CrashLib/CrashLib",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
 					"$(inherited)",
 					"GCC_PREPROCESSOR_MACRO_PUPPET=1",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/../TestApps/Sasquatch/SasquatchObjC/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchPuppet;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchpuppet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2256,11 +2245,11 @@
 					"$(SRCROOT)/../Vendor/iOS/**",
 					"$(SRCROOT)/../CrashLib/CrashLib",
 				);
-				GCC_PREPROCESSOR_DEFINITIONS = "PUPPET=1";
+				GCC_PREPROCESSOR_DEFINITIONS = "GCC_PREPROCESSOR_MACRO_PUPPET=1";
 				INFOPLIST_FILE = "$(SRCROOT)/../TestApps/Sasquatch/SasquatchObjC/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchPuppet;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchpuppet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";

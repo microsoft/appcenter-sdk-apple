@@ -423,7 +423,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   _enableMachExceptionHandler = enableMachExceptionHandler;
 }
 
-#pragma mark - Channel Persist Delegate
+#pragma mark - Channel Delegate
 
 /**
  * Why are we doing the event-buffering inside crashes?
@@ -438,15 +438,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 - (void)channel:(id<MSChannelProtocol>)__unused channel
      didPrepareLog:(id<MSLog>)log
     withInternalId:(NSString *)internalId {
-
-  /*
-   * FIXME: Don't buffer OC logs yet. OC logs from the buffer are currently queued to an AC channel which is wrong. It
-   * should either be enqueued to an OC channel or it should be cached by the log buffer just before the conversion to
-   * an OC log so that we'll never have to persist an OC log and we'll only have to deal with the AC channel.
-   */
-  if (log.transmissionTargetTokens) {
-    return;
-  }
 
   // Don't buffer event if log is empty, crashes module is disabled or the log is related to crash.
   NSObject *logObject = static_cast<NSObject *>(log);
