@@ -33,7 +33,7 @@ class DistributeUITests: XCTestCase {
     }
 
     // Go to distribute page and find "Set Enabled" button.
-    app.tabBars.buttons["Distribute"].tap()
+    app.tabBars.buttons["Distribution"].tap()
     let distributeButton = app.tables["Distribution"].switches["Set Enabled"]
 
     // Service should be enabled by default.
