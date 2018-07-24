@@ -34,7 +34,6 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
 
     // Miscellaneous section.
     appCenter.startEventFilterService()
-    self.logFilterSwitch.isOn = appCenter.isEventFilterEnabled()
     self.installId.text = appCenter.installId()
     self.appSecret.text = appCenter.appSecret()
     self.logUrl.text = appCenter.logUrl()
@@ -43,23 +42,28 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    appCenterEnabledSwitch.isOn = appCenter.isAppCenterEnabled()
-    pushEnabledSwitch.isOn = appCenter.isPushEnabled()
+    updateViewState()
+  }
+  
+  func updateViewState() {
+    self.appCenterEnabledSwitch.isOn = appCenter.isAppCenterEnabled()
+    self.pushEnabledSwitch.isOn = appCenter.isPushEnabled()
+    self.logFilterSwitch.isOn = appCenter.isEventFilterEnabled()
   }
 
   @IBAction func enabledSwitchUpdated(_ sender: UISwitch) {
     appCenter.setAppCenterEnabled(sender.isOn)
-    sender.isOn = appCenter.isAppCenterEnabled()
+    updateViewState()
   }
   
   @IBAction func pushSwitchStateUpdated(_ sender: UISwitch) {
     appCenter.setPushEnabled(sender.isOn)
-    sender.isOn = appCenter.isPushEnabled()
+    updateViewState()
   }
   
   @IBAction func logFilterSwitchChanged(_ sender: UISwitch) {
     appCenter.setEventFilterEnabled(sender.isOn)
-    sender.isOn = appCenter.isEventFilterEnabled()
+    updateViewState()
   }
   
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
