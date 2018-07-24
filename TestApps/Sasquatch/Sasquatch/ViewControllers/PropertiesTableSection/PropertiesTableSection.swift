@@ -113,6 +113,10 @@ class PropertiesTableSection : NSObject, UITableViewDelegate {
     propertyCounter += 1
     return keyValuePair
   }
+  
+  func reloadSection() {
+    tableView.reloadSections([tableSection], with: .none)
+  }
 }
 
 
