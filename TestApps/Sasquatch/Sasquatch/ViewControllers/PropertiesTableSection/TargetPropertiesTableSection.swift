@@ -1,7 +1,6 @@
 import UIKit
 
 class TargetPropertiesTableSection : PropertiesTableSection {
-
   var targetProperties: [String: [(String, String)]]!
   var transmissionTargetSelectorCell: MSAnalyticsTranmissionTargetSelectorViewCell?
 
@@ -9,7 +8,12 @@ class TargetPropertiesTableSection : PropertiesTableSection {
     super.init(tableSection: tableSection, tableView: tableView)
     targetProperties = [String: [(String, String)]]()
     let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
-    let parentTargetToken = appName == "SasquatchSwift" ? kMSSwiftRuntimeTargetToken : kMSObjCRuntimeTargetToken
+    #if ACTIVE_COMPILATION_CONDITION_PUPPET
+    let objCRuntimeToken = kMSPuppetRuntimeTargetToken
+    #else
+    let objCRuntimeToken = kMSObjCRuntimeTargetToken
+    #endif
+    let parentTargetToken = appName == "SasquatchSwift" ? kMSSwiftRuntimeTargetToken : objCRuntimeToken
     targetProperties[parentTargetToken] = [(String, String)]()
     targetProperties[kMSTargetToken1] = [(String, String)]()
     targetProperties[kMSTargetToken2] = [(String, String)]()
@@ -83,4 +87,3 @@ class TargetPropertiesTableSection : PropertiesTableSection {
     tableView.reloadSections([tableSection], with: .none)
   }
 }
-
