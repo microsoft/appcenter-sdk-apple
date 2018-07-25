@@ -2203,7 +2203,6 @@
 					"$(SRCROOT)/../CrashLib/CrashLib",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
 					"$(inherited)",
 					"GCC_PREPROCESSOR_MACRO_PUPPET=1",
 				);
@@ -2236,7 +2235,7 @@
 					"$(SRCROOT)/../Vendor/iOS/**",
 					"$(SRCROOT)/../CrashLib/CrashLib",
 				);
-				GCC_PREPROCESSOR_DEFINITIONS = "PUPPET=1";
+				GCC_PREPROCESSOR_DEFINITIONS = "GCC_PREPROCESSOR_MACRO_PUPPET=1";
 				INFOPLIST_FILE = "$(SRCROOT)/../TestApps/Sasquatch/SasquatchObjC/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
