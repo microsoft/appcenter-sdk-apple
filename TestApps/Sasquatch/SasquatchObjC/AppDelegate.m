@@ -11,6 +11,10 @@
 #import "AppCenterCrashes.h"
 #import "AppCenterDistribute.h"
 #import "AppCenterPush.h"
+
+// Internal ones
+#import "MSAnalyticsInternal.h"
+
 #else
 @import AppCenter;
 @import AppCenterAnalytics;
@@ -21,7 +25,13 @@
 
 enum { START_FROM_APP = 0, START_FROM_LIBRARY, START_FROM_BOTH };
 
-@interface AppDelegate () <MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate>
+@interface AppDelegate () <
+#if GCC_PREPROCESSOR_MACRO_PUPPET
+    MSAnalyticsDelegate,
+#endif
+    MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate>
+
+@property(nonatomic) MSAnalyticsResult * analyticsResult;
 
 @end
 
@@ -29,6 +39,11 @@ enum { START_FROM_APP = 0, START_FROM_LIBRARY, START_FROM_BOTH };
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
+#if GCC_PREPROCESSOR_MACRO_PUPPET
+  self.analyticsResult = [MSAnalyticsResult new];
+  [MSAnalytics setDelegate:self];
+#endif
+  
   // Cusomize App Center SDK.
   [MSDistribute setDelegate:self];
   [MSPush setDelegate:self];
@@ -143,6 +158,28 @@ enum { START_FROM_APP = 0, START_FROM_LIBRARY, START_FROM_BOTH };
     sasquatchController.appCenter = appCenterDel;
   }
 }
+
+#if GCC_PREPROCESSOR_MACRO_PUPPET
+#pragma mark - MSAnalyticsDelegate
+
+- (void)analytics:(MSAnalytics *)analytics willSendEventLog:(MSEventLog *)eventLog {
+  [self.analyticsResult willSendWithEventLog:eventLog];
+  [NSNotificationCenter.defaultCenter postNotificationName:kUpdateAnalyticsResultNotification
+                                                    object:self.analyticsResult];
+}
+
+- (void)analytics:(MSAnalytics *)analytics didSucceedSendingEventLog:(MSEventLog *)eventLog {
+  [self.analyticsResult didSucceedSendingWithEventLog:eventLog];
+  [NSNotificationCenter.defaultCenter postNotificationName:kUpdateAnalyticsResultNotification
+                                                    object:self.analyticsResult];
+}
+
+- (void)analytics:(MSAnalytics *)analytics didFailSendingEventLog:(MSEventLog *)eventLog withError:(NSError *)error {
+  [self.analyticsResult didFailSendingWithEventLog:eventLog withError:error];
+  [NSNotificationCenter.defaultCenter postNotificationName:kUpdateAnalyticsResultNotification
+                                                    object:self.analyticsResult];
+}
+#endif
 
 #pragma mark - MSCrashesDelegate
 

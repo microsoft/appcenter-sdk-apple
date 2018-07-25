@@ -1,4 +1,4 @@
-class MSAnalyticsResult {
+@objc class MSAnalyticsResult : NSObject {
   var sendingEvents = [String: MSEventLog]()
   var succeededEvents = [String: MSEventLog]()
   var failedEvents = [String: (MSEventLog, NSError)]()

@@ -19,10 +19,8 @@ class MSAnalyticsResultViewController: UITableViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    self.updateLabels(appDelegate.analyticsResult)
-    NotificationCenter.default.addObserver(self, selector: #selector(updateAnalyticsResult), name: kUpdateAnalyticsResultNotification, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(updateAnalyticsResult),
+                                           name: NSNotification.Name.updateAnalyticsResult, object: nil)
   }
 
   deinit {

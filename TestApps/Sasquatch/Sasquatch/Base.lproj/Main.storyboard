@@ -1285,8 +1285,8 @@
                         <outlet property="eventPropertiesCountLabel" destination="AJW-X0-XHN" id="xBc-8u-5vh"/>
                         <outlet property="eventStatusLabel" destination="pWR-Qi-tIL" id="XLT-7N-ZmK"/>
                         <outlet property="failedCountLabel" destination="cjv-c1-1v4" id="Lfa-Mz-qf9"/>
-                        <outlet property="scceededCountLabel" destination="AHF-F0-Cqp" id="AAt-Wv-BTe"/>
                         <outlet property="sendingCountLabel" destination="AaP-8J-43z" id="RS5-qo-ZaC"/>
+                        <outlet property="succeededCountLabel" destination="AHF-F0-Cqp" id="Nwo-ec-ZcG"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4ZL-hh-Xdb" userLabel="First Responder" sceneMemberID="firstResponder"/>

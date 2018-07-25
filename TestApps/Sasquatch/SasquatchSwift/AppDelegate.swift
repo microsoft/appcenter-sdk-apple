@@ -13,15 +13,13 @@ enum startFrom:Int {
 }
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, MSAnalyticsDelegate, MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate {
 
-  let analyticsResult = MSAnalyticsResult()
   var window: UIWindow?
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
     // Customize App Center SDK.
-    MSAnalytics.setDelegate(self)
     MSCrashes.setDelegate(self)
     MSDistribute.setDelegate(self)
     MSPush.setDelegate(self)
@@ -149,23 +147,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSAnalyticsDelegate, MSCr
 
   func applicationWillTerminate(_ application: UIApplication) {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-  }
-  
-  // Analytics Delegate
-
-  func analytics(_ analytics: MSAnalytics!, willSend eventLog: MSEventLog!) {
-    analyticsResult.willSend(eventLog)
-    NotificationCenter.default.post(name: kUpdateAnalyticsResult, object: analyticsResult)
-  }
-  
-  func analytics(_ analytics: MSAnalytics!, didSucceedSending eventLog: MSEventLog!) {
-    analyticsResult.didSucceedSending(eventLog)
-    NotificationCenter.default.post(name: kUpdateAnalyticsResult, object: analyticsResult)
-  }
-  
-  func analytics(_ analytics: MSAnalytics!, didFailSending eventLog: MSEventLog!, withError error: NSError) {
-    analyticsResult.didFailSending(eventLog)
-    NotificationCenter.default.post(name: kUpdateAnalyticsResult, object: analyticsResult)
   }
 
   // Crashes Delegate
