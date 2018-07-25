@@ -1,4 +1,5 @@
 #import "MSAnalyticsInternal.h"
+#import "MSAnalyticsTransmissionTargetInternal.h"
 #import "MSAnalyticsTransmissionTargetPrivate.h"
 #import "MSCommonSchemaLog.h"
 #import "MSLogger.h"
@@ -50,12 +51,17 @@
 #pragma mark - MSChannelDelegate
 
 - (void)channel:(id<MSChannelProtocol>)__unused channel prepareLog:(id<MSLog>)log {
-  if ([log isKindOfClass:[MSCommonSchemaLog class]] && [self.transmissionTarget isEnabled]) {
+  MSAnalyticsTransmissionTarget *target = self.transmissionTarget;
+  if (target && [log isKindOfClass:[MSCommonSchemaLog class]] && [target isEnabled]) {
 
     // TODO Find a better way to override properties.
 
+    // Only override properties for owned target.
+    if(![log.transmissionTargetTokens containsObject:target.transmissionTargetToken]) {
+      return;
+    }
+    
     // Override the application version.
-    MSAnalyticsTransmissionTarget *target = self.transmissionTarget;
     while (target) {
       if (target.propertyConfigurator.appVersion) {
         [((MSCommonSchemaLog *)log)ext].appExt.ver = target.propertyConfigurator.appVersion;

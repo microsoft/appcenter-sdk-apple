@@ -84,7 +84,12 @@ class MSTransmissionTargetsViewController: UITableViewController {
     runtimeTargetSection.headerText = "Runtime Transmission Target"
     runtimeTargetSection.footerText = "This transmission target is the parent of the two transmission targets below."
     let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
-    runtimeTargetSection.token = appName == "SasquatchSwift" ? kMSSwiftRuntimeTargetToken : kMSObjCRuntimeTargetToken
+    #if ACTIVE_COMPILATION_CONDITION_PUPPET
+    let objCRuntimeToken = kMSPuppetRuntimeTargetToken
+    #else
+    let objCRuntimeToken = kMSObjCRuntimeTargetToken
+    #endif
+    runtimeTargetSection.token = appName == "SasquatchSwift" ? kMSSwiftRuntimeTargetToken : objCRuntimeToken
 
     // Child 1.
     let child1TargetSection = MSTransmissionTargetSection()
