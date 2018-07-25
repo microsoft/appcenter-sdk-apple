@@ -8,3 +8,4 @@ static NSString *const kMSSwiftRuntimeTargetToken = @"238db5abfbaa4c299b78dd539f
 static NSString *const kMSObjCRuntimeTargetToken = @"1aa046cfdc8f49bdbd64190290caf7dd-ba041023-af4d-4432-a87e-eb2431150797-7361";
 static NSString *const kMSOneCollectorEnabledKey = @"isOneCollectorEnabled";
 static NSString *const kMSStartTargetKey = @"startTarget";
+static NSNotificationName const kUpdateAnalyticsResultNotification = @"updateAnalyticsResult";
