@@ -1274,6 +1274,9 @@
                                 </cells>
                             </tableViewSection>
                         </sections>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="Analytics Result"/>
+                        </userDefinedRuntimeAttributes>
                         <connections>
                             <outlet property="dataSource" destination="1xp-vC-19M" id="HNf-yE-wEd"/>
                             <outlet property="delegate" destination="1xp-vC-19M" id="ee2-s0-HGj"/>

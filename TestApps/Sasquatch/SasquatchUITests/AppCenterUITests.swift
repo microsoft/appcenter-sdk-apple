@@ -193,20 +193,14 @@ class AppCenterUITests: XCTestCase {
     let installId : String = installIdCell.staticTexts.element(boundBy: 1).label
     XCTAssertNotNil(UUID(uuidString: installId))
 
-    // TODO: Uncomment when "App Secret" will be available. It's always "internal" now.
-    /*
     // Check app secret.
     let appSecretCell : XCUIElement = app.tables["App Center"].cell(containing: "App Secret")
     let appSecret : String = appSecretCell.staticTexts.element(boundBy: 1).label
     XCTAssertNotNil(UUID(uuidString: appSecret))
-    */
 
-    // TODO: Uncomment when "App Secret" will be available. It's always "internal" now.
-    /*
     // Check log url.
     let logUrlCell : XCUIElement = app.tables["App Center"].cell(containing: "Log URL")
     let logUrl : String = logUrlCell.staticTexts.element(boundBy: 1).label
     XCTAssertNotNil(URL(string: logUrl))
-    */
   }
 }
