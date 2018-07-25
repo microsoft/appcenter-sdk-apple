@@ -1964,6 +1964,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = "$(inherited)";
 				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
@@ -1994,6 +1995,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = "$(inherited)";
 				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
@@ -2094,7 +2096,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Piyush Joshi (L4RARDNZ2Y)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = NO;
