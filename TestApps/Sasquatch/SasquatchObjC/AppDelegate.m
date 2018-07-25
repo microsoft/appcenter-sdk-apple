@@ -59,9 +59,15 @@ enum { START_FROM_APP = 0, START_FROM_LIBRARY, START_FROM_BOTH };
   BOOL useOneCollector = [[NSUserDefaults standardUserDefaults] boolForKey:kMSOneCollectorEnabledKey];
   long startTarget = [[NSUserDefaults standardUserDefaults] integerForKey:kMSStartTargetKey];
 
+#if GCC_PREPROCESSOR_MACRO_PUPPET
+  NSString *secretString = useOneCollector ? @"target=09855e8251634d618c1d8ef3325e3530-8c17b252-f3c1-41e1-af64-"
+                                             @"78a72d13ac22-6684;appsecret=7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7"
+                                           : @"7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7";
+#else
   NSString *secretString = useOneCollector ? @"target=5a06bf4972a44a059d59c757e6d0b595-cb71af5d-2d79-4fb4-b969-"
                                              @"01840f1543e9-6845;appsecret=3ccfe7f5-ec01-4de5-883c-f563bbbe147a"
                                            : @"3ccfe7f5-ec01-4de5-883c-f563bbbe147a";
+#endif
 
   switch (startTarget) {
   case START_FROM_LIBRARY:

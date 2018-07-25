@@ -556,6 +556,8 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   MSCommonSchemaLog *log = [MSCommonSchemaLog new];
   log.ext = [MSCSExtensions new];
   log.ext.appExt = [MSAppExtension new];
+  [log addTransmissionTargetToken:@"parent"];
+  [log addTransmissionTargetToken:@"child"];
 
   // When
   [child.propertyConfigurator channel:nil prepareLog:log];
@@ -580,6 +582,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // Set a log.
   MSCommonSchemaLog *log = [MSCommonSchemaLog new];
+  [log addTransmissionTargetToken:@"target"];
   log.ext = [MSCSExtensions new];
   log.ext.appExt = [MSAppExtension new];
   log.ext.appExt.ver = @"0.0.1";
@@ -615,6 +618,8 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   log.ext.appExt.ver = @"0.0.1";
   log.ext.appExt.name = @"baseAppName";
   log.ext.appExt.locale = @"zh-cn";
+  [log addTransmissionTargetToken:@"parent"];
+  [log addTransmissionTargetToken:@"child"];
 
   // When
   [child.propertyConfigurator channel:nil prepareLog:log];
@@ -651,6 +656,9 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   log.ext.appExt.ver = @"0.0.1";
   log.ext.appExt.name = @"baseAppName";
   log.ext.appExt.locale = @"zh-cn";
+  [log addTransmissionTargetToken:@"parent"];
+  [log addTransmissionTargetToken:@"child"];
+  [log addTransmissionTargetToken:@"grand-parent"];
 
   [grandParent setEnabled:NO];
 
@@ -682,6 +690,9 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   log.ext.appExt.ver = @"0.0.1";
   log.ext.appExt.name = @"baseAppName";
   log.ext.appExt.locale = @"zh-cn";
+  [log addTransmissionTargetToken:@"parent"];
+  [log addTransmissionTargetToken:@"child"];
+  [log addTransmissionTargetToken:@"grand-parent"];
 
   // When
   [parent.propertyConfigurator channel:nil prepareLog:log];
@@ -717,6 +728,9 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   log1.ext.appExt.ver = @"0.0.1";
   log1.ext.appExt.name = @"base1AppName";
   log1.ext.appExt.locale = @"zh-cn";
+  [log1 addTransmissionTargetToken:@"parent"];
+  [log1 addTransmissionTargetToken:@"child1"];
+  [log1 addTransmissionTargetToken:@"child2"];
 
   // When
   [parent.propertyConfigurator channel:nil prepareLog:log1];
@@ -747,6 +761,9 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   log2.ext.appExt.ver = @"0.0.2";
   log2.ext.appExt.name = @"base2AppName";
   log2.ext.appExt.locale = @"en-us";
+  [log2 addTransmissionTargetToken:@"parent"];
+  [log2 addTransmissionTargetToken:@"child1"];
+  [log2 addTransmissionTargetToken:@"child2"];
 
   // When
   [child2.propertyConfigurator channel:nil prepareLog:log2];
