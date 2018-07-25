@@ -30,6 +30,11 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
     self.edgesForExtendedLayout = []
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    self.tableView.reloadData()
+  }
+  
   override func numberOfSections(in tableView: UITableView) -> Int {
     return categories.count + 2
   }
