@@ -42,6 +42,12 @@ enum { START_FROM_APP = 0, START_FROM_LIBRARY, START_FROM_BOTH };
 #if GCC_PREPROCESSOR_MACRO_PUPPET
   self.analyticsResult = [MSAnalyticsResult new];
   [MSAnalytics setDelegate:self];
+  
+  for (UIViewController *controller in [(UITabBarController *)self.window.rootViewController viewControllers]) {
+    if ([controller isKindOfClass:[MSAnalyticsViewController class]]) {
+      [(MSAnalyticsViewController *)controller setAnalyticsResult:self.analyticsResult];
+    }
+  }
 #endif
   
   // Cusomize App Center SDK.
@@ -152,8 +158,8 @@ enum { START_FROM_APP = 0, START_FROM_LIBRARY, START_FROM_BOTH };
 }
 
 - (void)setAppCenterDelegate {
-   AppCenterDelegateObjC *appCenterDel = [[AppCenterDelegateObjC alloc] init];
-  for (UIViewController *controller in [(UITabBarController*)([[self window] rootViewController]) viewControllers]) {
+  AppCenterDelegateObjC *appCenterDel = [[AppCenterDelegateObjC alloc] init];
+  for (UIViewController *controller in [(UITabBarController *)self.window.rootViewController viewControllers]) {
     id<AppCenterProtocol> sasquatchController = (id<AppCenterProtocol>)controller;
     sasquatchController.appCenter = appCenterDel;
   }

@@ -8,6 +8,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
 
   var appCenter: AppCenterDelegate!
   var eventPropertiesSection: EventPropertiesTableSection!
+  @objc(analyticsResult) var analyticsResult: MSAnalyticsResult? = nil
 
   private var kEventPropertiesSectionIndex: Int = 2
 
@@ -48,6 +49,12 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   @IBAction func enabledSwitchUpdated(_ sender: UISwitch) {
     appCenter.setAnalyticsEnabled(sender.isOn)
     sender.isOn = appCenter.isAnalyticsEnabled()
+  }
+  
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if let destination = segue.destination as? MSAnalyticsResultViewController {
+      destination.analyticsResult = analyticsResult
+    }
   }
 
   override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {

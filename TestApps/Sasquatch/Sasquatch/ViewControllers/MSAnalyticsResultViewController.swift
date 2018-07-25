@@ -2,6 +2,8 @@ import UIKit
 
 class MSAnalyticsResultViewController: UITableViewController {
 
+  var analyticsResult: MSAnalyticsResult? = nil
+  
   // Statistics
   @IBOutlet weak var sendingCountLabel: UILabel!
   @IBOutlet weak var succeededCountLabel: UILabel!
@@ -19,8 +21,8 @@ class MSAnalyticsResultViewController: UITableViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    NotificationCenter.default.addObserver(self, selector: #selector(updateAnalyticsResult),
-                                           name: NSNotification.Name.updateAnalyticsResult, object: nil)
+    self.updateLabels()
+    NotificationCenter.default.addObserver(self, selector: #selector(updateAnalyticsResult), name: .updateAnalyticsResult, object: nil)
   }
 
   deinit {
@@ -29,21 +31,23 @@ class MSAnalyticsResultViewController: UITableViewController {
   
   func updateAnalyticsResult(_ notification: Notification) {
     DispatchQueue.main.async {
-      let analyticsResult = notification.object as! MSAnalyticsResult
-      self.updateLabels(analyticsResult)
+      self.updateLabels()
       self.reloadCells()
     }
   }
 
-  func updateLabels(_ analyticsResult: MSAnalyticsResult!) {
+  func updateLabels() {
+    guard let analyticsResult = self.analyticsResult else {
+      return
+    }
     self.sendingCountLabel.text = "\(analyticsResult.sendingEvents.count)"
     self.succeededCountLabel.text = "\(analyticsResult.succeededEvents.count)"
-    self.failedCountLabel.text = "\(analyticsResult.sendingEvents.count)"
+    self.failedCountLabel.text = "\(analyticsResult.failedEvents.count)"
     
-    self.eventNameLabel.text = "\(analyticsResult.lastEvent?.name ?? " ")"
-    self.eventIdentifierLabel.text = "\(analyticsResult.lastEvent?.eventId ?? " ")"
+    self.eventNameLabel.text = analyticsResult.lastEvent?.name ?? " "
+    self.eventIdentifierLabel.text = analyticsResult.lastEvent?.eventId ?? " "
     self.eventPropertiesCountLabel.text = "\(analyticsResult.lastEvent?.properties?.count ?? 0)"
-    //self.eventStatusLabel.text = "\(analyticsResult.sendingEvents.count)"
+    self.eventStatusLabel.text = analyticsResult.lastEventState ?? " "
   }
   
   func reloadCells() {
