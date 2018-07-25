@@ -103,6 +103,7 @@
 		B23DF4FC2109335A00F1CAD7 /* MSAnalyticsPropertyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B23DF4F82109335A00F1CAD7 /* MSAnalyticsPropertyTableViewCell.swift */; };
 		B23DF4FD2109335A00F1CAD7 /* MSAnalyticsPropertyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B23DF4F82109335A00F1CAD7 /* MSAnalyticsPropertyTableViewCell.swift */; };
 		B23DF4FE2109335A00F1CAD7 /* MSAnalyticsPropertyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B23DF4F82109335A00F1CAD7 /* MSAnalyticsPropertyTableViewCell.swift */; };
+		B23DF4FF2109382200F1CAD7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C1C1E88FEFC00798417 /* Assets.xcassets */; };
 		B27424851EF2193E00F591E5 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 047D13711EAFBDBE00D699BA /* AppCenterDistributeResources.bundle */; };
 		B2A888A62102A44B001ACFDF /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2A888A52102A44B001ACFDF /* SafariServices.framework */; };
 		B2B36CE21EEF49B700230341 /* MSCustomPropertiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */; };
@@ -1630,6 +1631,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B23DF4FF2109382200F1CAD7 /* Assets.xcassets in Resources */,
 				B20AE39C21027D6200A1A195 /* Sasquatch.strings in Resources */,
 				B20AE39F21027D6200A1A195 /* LaunchScreen.storyboard in Resources */,
 				B23DF4F62109332800F1CAD7 /* MSAnalyticsTransmissionTargetSelectorViewCell.xib in Resources */,
