@@ -1,6 +1,7 @@
 import UIKit
 
-@objc(MSAnalyticsTranmissionTargetSelectorViewCell) class MSAnalyticsTranmissionTargetSelectorViewCell: UITableViewCell {
+@objc(MSAnalyticsTranmissionTargetSelectorViewCell)
+class MSAnalyticsTranmissionTargetSelectorViewCell: UITableViewCell {
   
   @IBOutlet weak var transmissionTargetSelector: UISegmentedControl!
   
