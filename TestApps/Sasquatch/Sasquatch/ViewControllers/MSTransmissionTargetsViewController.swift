@@ -62,14 +62,17 @@ class MSTransmissionTargetsViewController: UITableViewController {
   private let kEnabledStateIndicatorRowIndex = 2
   private let kDefaultTargetSectionIndex = 0
   private let kTargetPropertiesSectionIndex = 4
+  private let kCSPropertiesSectionIndex = 5
   private var targetPropertiesSection: TargetPropertiesTableSection?
+  private var csPropertiesSection: CommonSchemaPropertiesTableSection?
   private static let defaultTransmissionTargetIsEnabled = UserDefaults.standard.bool(forKey: kMSOneCollectorEnabledKey)
 
   override func viewDidLoad() {
     super.viewDidLoad()
 
     targetPropertiesSection = TargetPropertiesTableSection(tableSection: kTargetPropertiesSectionIndex, tableView: tableView)
-
+    csPropertiesSection = CommonSchemaPropertiesTableSection(tableSection: kCSPropertiesSectionIndex, tableView: tableView)
+    
     // Default target section.
     let defaultTargetSection = MSTransmissionTargetSection()
     defaultTargetSection.headerText = "Default Transmission Target"
@@ -101,16 +104,23 @@ class MSTransmissionTargetsViewController: UITableViewController {
     // The ordering of these target sections is important so they are displayed in the right order.
     transmissionTargetSections = [defaultTargetSection, runtimeTargetSection, child1TargetSection, child2TargetSection]
     tableView.setEditing(true, animated: false)
+    
+    // Make sure the UITabBarController does not cut off the last cell.
+    self.edgesForExtendedLayout = []
   }
 
   override func numberOfSections(in tableView: UITableView) -> Int {
-    return transmissionTargetSections!.count + 1
+    return transmissionTargetSections!.count + 2
   }
 
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     if section == kTargetPropertiesSectionIndex {
       return targetPropertiesSection!.tableView(tableView, numberOfRowsInSection:section)
-    } else {
+    }
+    else if section == kCSPropertiesSectionIndex {
+      return 4
+    }
+    else {
       return 3
     }
   }
@@ -118,6 +128,9 @@ class MSTransmissionTargetsViewController: UITableViewController {
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     if indexPath.section == kTargetPropertiesSectionIndex {
       return targetPropertiesSection!.tableView(tableView, cellForRowAt:indexPath)
+    }
+    else if indexPath.section == kCSPropertiesSectionIndex {
+      return csPropertiesSection!.tableView(tableView, cellForRowAt: indexPath)
     }
     let section = transmissionTargetSections![indexPath.section]
     switch indexPath.row {
@@ -181,6 +194,10 @@ class MSTransmissionTargetsViewController: UITableViewController {
     if section < transmissionTargetSections!.count {
       return transmissionTargetSections![section].headerText
     }
+    else if section == kCSPropertiesSectionIndex {
+      return "Override Common Schema Properties"
+    }
+
     return "Transmission Target Properties"
   }
 
@@ -212,7 +229,7 @@ class MSTransmissionTargetsViewController: UITableViewController {
   }
 
   override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    if indexPath.section == kTargetPropertiesSectionIndex {
+    if indexPath.section == kTargetPropertiesSectionIndex || indexPath.section == kCSPropertiesSectionIndex {
       return super.tableView(tableView, heightForRowAt: IndexPath(row: 0, section: indexPath.section))
     }
     return super.tableView(tableView, heightForRowAt: indexPath)

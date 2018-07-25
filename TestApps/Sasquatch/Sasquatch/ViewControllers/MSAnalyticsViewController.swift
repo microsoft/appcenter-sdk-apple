@@ -21,6 +21,9 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     self.enabled.isOn = appCenter.isAnalyticsEnabled()
+    
+    // Make sure the UITabBarController does not cut off the last cell.
+    self.edgesForExtendedLayout = []
   }
 
   @IBAction func trackEvent() {
