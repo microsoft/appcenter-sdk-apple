@@ -13,7 +13,7 @@ import UIKit
     #if ACTIVE_COMPILATION_CONDITION_PUPPET
     let objCRuntimeToken = kMSPuppetRuntimeTargetToken
     #else
-    let objcRuntimeToken = kMSObjCRuntimeTargetToken
+    let objCRuntimeToken = kMSObjCRuntimeTargetToken
     #endif
     let runtimeToken: String = appName == "SasquatchSwift" ? kMSSwiftRuntimeTargetToken : objCRuntimeToken
     transmissionTargetMapping = [kMSTargetToken1, kMSTargetToken2, runtimeToken]

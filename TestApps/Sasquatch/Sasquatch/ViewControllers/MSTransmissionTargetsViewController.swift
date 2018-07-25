@@ -84,7 +84,7 @@ class MSTransmissionTargetsViewController: UITableViewController {
     #if ACTIVE_COMPILATION_CONDITION_PUPPET
     let objCRuntimeToken = kMSPuppetRuntimeTargetToken
     #else
-    let objcRuntimeToken = kMSObjCRuntimeTargetToken
+    let objCRuntimeToken = kMSObjCRuntimeTargetToken
     #endif
     runtimeTargetSection.token = appName == "SasquatchSwift" ? kMSSwiftRuntimeTargetToken : objCRuntimeToken
 
