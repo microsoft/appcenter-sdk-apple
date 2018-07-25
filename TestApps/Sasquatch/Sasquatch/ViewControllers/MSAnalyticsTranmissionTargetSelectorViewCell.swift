@@ -6,7 +6,7 @@ import UIKit
   
   public var didSelectTransmissionTarget: (() -> Void)?
   public var transmissionTargetMapping: [String]?
-  
+
   override func awakeFromNib() {
     super.awakeFromNib()
     let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
@@ -20,11 +20,11 @@ import UIKit
     didSelectTransmissionTarget = {_ in}
     transmissionTargetSelector.addTarget(self, action: #selector(onSegmentSelected), for: .valueChanged)
   }
-  
+
   public func selectedTransmissionTarget() -> String! {
     return transmissionTargetMapping![transmissionTargetSelector.selectedSegmentIndex]
   }
-  
+
   func onSegmentSelected() {
     didSelectTransmissionTarget?()
   }
