@@ -175,8 +175,10 @@ class MSTransmissionTargetsViewController: UITableViewController {
     section.setTransmissionTargetEnabled(sender!.isOn)
     if (sectionIndex == 1) {
       for childSectionIndex in 2...3 {
-        let childCell = tableView.cellForRow(at: IndexPath(row: kEnabledCellRowIndex, section: childSectionIndex))
-        let childSwitch: UISwitch? = getSubviewFromCell(childCell!)
+        guard let childCell = tableView.cellForRow(at: IndexPath(row: kEnabledCellRowIndex, section: childSectionIndex)) else {
+          continue
+        }
+        let childSwitch: UISwitch? = getSubviewFromCell(childCell)
         let childTarget = transmissionTargetSections![childSectionIndex].getTransmissionTarget()
         childSwitch!.setOn(childTarget!.isEnabled(), animated: true)
         childSwitch?.isEnabled = sender!.isOn
