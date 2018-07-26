@@ -2,8 +2,8 @@ import UIKit
 
 @objc(MSAnalyticsTransmissionTargetSelectorViewCell) class MSAnalyticsTransmissionTargetSelectorViewCell: UITableViewCell {
 
-@IBOutlet weak var transmissionTargetSelector: UISegmentedControl!
-
+  @IBOutlet weak var transmissionTargetSelector: UISegmentedControl!
+  
   public var didSelectTransmissionTarget: (() -> Void)?
   public var transmissionTargetMapping: [String]?
 
