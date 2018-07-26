@@ -306,7 +306,7 @@
         <!--Transmission Targets-->
         <scene sceneID="TSt-rd-soE">
             <objects>
-                <tableViewController  storyboardIdentifier="transmissionTargets"  title="Transmission Targets" id="Rte-t5-OzE" customClass="MSTransmissionTargetsViewController" customModule="SasquatchObjC" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="transmissionTargets" title="Transmission Targets" id="Rte-t5-OzE" customClass="MSTransmissionTargetsViewController" customModule="SasquatchObjC" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="grouped" separatorStyle="default" allowsSelectionDuringEditing="YES" rowHeight="44" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="HgL-Dg-n9l">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -319,22 +319,22 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="J2Z-Ss-aMm">
-                                            <rect key="frame" x="308" y="6" width="51" height="31"/>
-                                        </switch>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Set Enabled" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G54-kX-Amu" userLabel="Set Enabled">
                                             <rect key="frame" x="16" y="11" width="92" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="J2Z-Ss-aMm">
+                                            <rect key="frame" x="308" y="6" width="51" height="31"/>
+                                        </switch>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="trailing" secondItem="J2Z-Ss-aMm" secondAttribute="trailing" constant="18" id="KYS-oB-5cc"/>
-                                        <constraint firstItem="G54-kX-Amu" firstAttribute="leading" secondItem="gAs-NG-l7k" secondAttribute="leading" constant="16" id="R7i-Ox-Vei"/>
-                                        <constraint firstItem="G54-kX-Amu" firstAttribute="centerY" secondItem="gAs-NG-l7k" secondAttribute="centerY" id="Vx1-XU-PYZ"/>
+                                        <constraint firstItem="J2Z-Ss-aMm" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="G54-kX-Amu" secondAttribute="trailing" constant="16" id="4Xe-AQ-tDf"/>
+                                        <constraint firstItem="G54-kX-Amu" firstAttribute="leading" secondItem="gAs-NG-l7k" secondAttribute="leadingMargin" id="BEP-fn-Nuz"/>
+                                        <constraint firstItem="G54-kX-Amu" firstAttribute="centerY" secondItem="gAs-NG-l7k" secondAttribute="centerY" id="KTw-D8-CCI"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="J2Z-Ss-aMm" secondAttribute="trailing" constant="2" id="KYS-oB-5cc"/>
                                         <constraint firstItem="J2Z-Ss-aMm" firstAttribute="centerY" secondItem="gAs-NG-l7k" secondAttribute="centerY" id="p0n-Ym-Zlg"/>
-                                        <constraint firstItem="J2Z-Ss-aMm" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="G54-kX-Amu" secondAttribute="trailing" constant="16" id="x7M-8D-pKz"/>
                                     </constraints>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -369,14 +369,14 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="q7843ofleh" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pIj-Tm-BtY">
-                                            <rect key="frame" x="270.5" y="11" width="88.5" height="21"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="000000-000000" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pIj-Tm-BtY">
+                                            <rect key="frame" x="227" y="11" width="132" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Token" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v1u-yv-TOn">
-                                            <rect key="frame" x="16" y="11.5" width="242.5" height="21"/>
+                                            <rect key="frame" x="16" y="11.5" width="199" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -831,14 +831,14 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="SDK Version" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="d0B-bb-lji" userLabel="SDK Version">
-                                                    <rect key="frame" x="16" y="12" width="95" height="20.5"/>
+                                                    <rect key="frame" x="15" y="12" width="95" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="?" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" id="mii-om-0Af" userLabel="SDK Version">
-                                                    <rect key="frame" x="350.5" y="12" width="8.5" height="20.5"/>
+                                                    <rect key="frame" x="351.5" y="12" width="8.5" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
