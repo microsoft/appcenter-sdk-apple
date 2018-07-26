@@ -78,7 +78,7 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
     }
     let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)!
     if isFirst{
-      cell.textLabel?.text = "Breadcrumbs";
+      cell.textLabel?.text = "Breadcrumbs"
     } else if isSecond {
       
       // Enable.
@@ -93,15 +93,15 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
         
         // Text attachment.
       } else if (indexPath.row == 1) {
-        cell.textLabel?.text = "Text Attachment";
-        let text = UserDefaults.standard.string(forKey: "textAttachment")
-        cell.detailTextLabel?.text = (text?.characters.count ?? 0) > 0 ? text : "Empty";
+        cell.textLabel?.text = "Text Attachment"
+        let text = UserDefaults.standard.string(forKey: "textAttachment") ?? ""
+        cell.detailTextLabel?.text = !text.isEmpty ? text : "Empty"
         
         // Binary attachment.
       } else if (indexPath.row == 2) {
-        cell.textLabel?.text = "Binary Attachment";
+        cell.textLabel?.text = "Binary Attachment"
         let referenceUrl = UserDefaults.standard.url(forKey: "fileAttachment")
-        cell.detailTextLabel?.text = referenceUrl != nil ? referenceUrl!.absoluteString : "Empty";
+        cell.detailTextLabel?.text = referenceUrl != nil ? referenceUrl!.absoluteString : "Empty"
         
         // Read async to display size instead of url.
         if referenceUrl != nil {
@@ -135,8 +135,8 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
       if indexPath.row == 1 {
         let alert = UIAlertController(title: "Text Attachment", message: nil, preferredStyle: .alert)
         let crashAction = UIAlertAction(title: "OK", style: .default, handler: {(_ action: UIAlertAction) -> Void in
-          let result: String? = alert.textFields?[0].text
-          if (result?.characters.count ?? 0) > 0 {
+          let result = alert.textFields?[0].text ?? ""
+          if !result.isEmpty {
             UserDefaults.standard.set(result, forKey: "textAttachment")
           } else {
             UserDefaults.standard.removeObject(forKey: "textAttachment")
