@@ -170,8 +170,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     var attachments = [MSErrorAttachmentLog]()
     
     // Text attachment.
-    let text = UserDefaults.standard.string(forKey: "textAttachment")
-    if (text?.characters.count ?? 0) > 0 {
+    let text = UserDefaults.standard.string(forKey: "textAttachment") ?? ""
+    if !text.isEmpty {
       let textAttachment = MSErrorAttachmentLog.attachment(withText: text, filename: "user.log")!
       attachments.append(textAttachment)
     }
