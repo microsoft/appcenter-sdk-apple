@@ -2,7 +2,7 @@ import UIKit
 
 class TargetPropertiesTableSection : PropertiesTableSection {
   var targetProperties: [String: [(String, String)]]!
-  var transmissionTargetSelectorCell: MSAnalyticsTranmissionTargetSelectorViewCell?
+  var transmissionTargetSelectorCell: MSAnalyticsTransmissionTargetSelectorViewCell?
 
   override init(tableSection: Int, tableView: UITableView) {
     super.init(tableSection: tableSection, tableView: tableView)
@@ -81,9 +81,5 @@ class TargetPropertiesTableSection : PropertiesTableSection {
 
   func isHeaderCell(_ indexPath: IndexPath) -> Bool {
     return !(isPropertyRow(indexPath) || isInsertRow(indexPath))
-  }
-
-  func reloadSection() {
-    tableView.reloadSections([tableSection], with: .none)
   }
 }

@@ -9,7 +9,14 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
   override func viewDidLoad() {
     super.viewDidLoad()
     self.customized.isOn = UserDefaults.init().bool(forKey: kSASCustomizedUpdateAlertKey)
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
     self.enabled.isOn = appCenter.isDistributeEnabled()
+    
+    // Make sure the UITabBarController does not cut off the last cell.
+    self.edgesForExtendedLayout = []
   }
   
   @IBAction func enabledSwitchUpdated(_ sender: UISwitch) {

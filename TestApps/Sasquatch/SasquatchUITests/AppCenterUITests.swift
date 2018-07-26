@@ -41,49 +41,40 @@ class AppCenterUITests: XCTestCase {
     appCenterButton.tap()
 
     // All services should be disabled.
+    // Push.
+    XCTAssertFalse(app.tables["App Center"].switches["Push Enabled"].boolValue)
+    
     // Analytics.
-    app.tables["App Center"].staticTexts["Analytics"].tap()
+    app.tabBars.buttons["Analytics"].tap()
     XCTAssertFalse(app.tables["Analytics"].switches["Set Enabled"].boolValue)
-    app.buttons["App Center"].tap()
 
     // Crashes.
-    app.tables["App Center"].staticTexts["Crashes"].tap()
+    app.tabBars.buttons["Crashes"].tap()
     XCTAssertFalse(app.tables["Crashes"].switches["Set Enabled"].boolValue)
-    app.buttons["App Center"].tap()
 
     // Distribute.
-    app.tables["App Center"].staticTexts["Distribute"].tap()
-    XCTAssertFalse(app.tables["Distribute"].switches["Set Enabled"].boolValue)
-    app.buttons["App Center"].tap()
-    
-    // Push.
-    app.tables["App Center"].staticTexts["Push"].tap()
-    XCTAssertFalse(app.tables["Push"].switches["Set Enabled"].boolValue)
-    app.buttons["App Center"].tap()
+    app.tabBars.buttons["Distribution"].tap()
+    XCTAssertFalse(app.tables["Distribution"].switches["Set Enabled"].boolValue)
 
     // Enable SDK.
+    app.tabBars.buttons["App Center"].tap()
     appCenterButton.tap()
 
     // All services should be enabled.
+    // Push.
+    XCTAssertTrue(app.tables["App Center"].switches["Push Enabled"].boolValue)
+    
     // Analytics.
-    app.tables["App Center"].staticTexts["Analytics"].tap()
+    app.tabBars.buttons["Analytics"].tap()
     XCTAssertTrue(app.tables["Analytics"].switches["Set Enabled"].boolValue)
-    app.buttons["App Center"].tap()
 
     // Crashes.
-    app.tables["App Center"].staticTexts["Crashes"].tap()
+    app.tabBars.buttons["Crashes"].tap()
     XCTAssertTrue(app.tables["Crashes"].switches["Set Enabled"].boolValue)
-    app.buttons["App Center"].tap()
 
     // Distribute.
-    app.tables["App Center"].staticTexts["Distribute"].tap()
-    XCTAssertTrue(app.tables["Distribute"].switches["Set Enabled"].boolValue)
-    app.buttons["App Center"].tap()
-    
-    // Push.
-    app.tables["App Center"].staticTexts["Push"].tap()
-    XCTAssertTrue(app.tables["Push"].switches["Set Enabled"].boolValue)
-    app.buttons["App Center"].tap()
+    app.tabBars.buttons["Distribution"].tap()
+    XCTAssertTrue(app.tables["Distribution"].switches["Set Enabled"].boolValue)
   }
 
   /**
@@ -183,6 +174,8 @@ class AppCenterUITests: XCTestCase {
       return
     }
 
+    // TODO: Uncomment when "Device Info" will be available. There is no UI now.
+    /*
     // Go to device info page.
     app.tables["App Center"].staticTexts["Device Info"].tap()
 
@@ -193,6 +186,7 @@ class AppCenterUITests: XCTestCase {
       XCTAssertNotNil(deviceInfo)
     }
     app.buttons["App Center"].tap()
+    */
 
     // Check install id.
     let installIdCell : XCUIElement = app.tables["App Center"].cell(containing: "Install ID")

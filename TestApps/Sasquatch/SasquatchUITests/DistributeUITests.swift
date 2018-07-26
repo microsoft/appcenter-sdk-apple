@@ -1,8 +1,7 @@
 import XCTest
 
 class DistributeUITests: XCTestCase {
-  private var app : XCUIApplication?;
-  private let DistributeCellIndex : UInt = 2;
+  private var app : XCUIApplication?
 
   override func setUp() {
     super.setUp()
@@ -11,62 +10,65 @@ class DistributeUITests: XCTestCase {
     continueAfterFailure = false
 
     // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
-    app = XCUIApplication();
-    app?.launch();
+    app = XCUIApplication()
+    app?.launch()
+    guard let `app` = app else {
+      return
+    }
 
     // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
+    handleSystemAlert()
 
     // Enable SDK (we need it in case SDK was disabled by the test, which then failed and didn't enabled SDK back).
-    if let appCenterButton : XCUIElement = app?.switches["Set Enabled"] {
-      if (appCenterButton.value as! String == "0") {
-        appCenterButton.tap();
-      }
+    let appCenterButton = app.tables["App Center"].switches["Set Enabled"]
+    if (!appCenterButton.boolValue) {
+      appCenterButton.tap()
     }
   }
 
   func testDistribute() {
     guard let `app` = app else {
-      XCTFail();
-      return;
+      XCTFail()
+      return
     }
 
     // Go to distribute page and find "Set Enabled" button.
-    app.tables.cells.element(boundBy: DistributeCellIndex).tap();
-    let distributeButton : XCUIElement = app.switches.element(matching: XCUIElementType.switch, identifier: "Set Enabled");
+    app.tabBars.buttons["Distribution"].tap()
+    let distributeButton = app.tables["Distribution"].switches["Set Enabled"]
 
     // Service should be enabled by default.
-    XCTAssertEqual("1", distributeButton.value as! String);
+    XCTAssertTrue(distributeButton.boolValue)
 
     // Disable service.
-    distributeButton.tap();
+    distributeButton.tap()
 
     // Button is disabled.
-    XCTAssertEqual("0", distributeButton.value as! String);
+    XCTAssertFalse(distributeButton.boolValue)
 
     // Go back to start page.
-    app.buttons["App Center"].tap();
-    let appCenterButton : XCUIElement = app.switches.element(boundBy: 0);
+    app.tabBars.buttons["App Center"].tap()
+    let appCenterButton = app.tables["App Center"].switches["Set Enabled"]
 
     // SDK should be enabled.
-    XCTAssertEqual("1", appCenterButton.value as! String);
+    XCTAssertTrue(appCenterButton.boolValue)
 
     // Disable SDK.
-    appCenterButton.tap();
+    appCenterButton.tap()
 
     // Go to distribute page.
-    app.tables.cells.element(boundBy: DistributeCellIndex).tap();
+    app.tabBars.buttons["Distribution"].tap()
 
     // Button should be disabled.
-    XCTAssertEqual("0", distributeButton.value as! String);
+    XCTAssertFalse(distributeButton.boolValue)
 
     // Go back and enable SDK.
-    app.buttons["App Center"].tap();
-    appCenterButton.tap();
+    app.tabBars.buttons["App Center"].tap()
+    appCenterButton.tap()
 
     // Go to distribute page.
-    app.tables.cells.element(boundBy: DistributeCellIndex).tap();
+    app.tabBars.buttons["Distribution"].tap()
     
     // Service should be enabled.
-    XCTAssertEqual("1", distributeButton.value as! String);
+    XCTAssertTrue(distributeButton.boolValue)
   }
 }

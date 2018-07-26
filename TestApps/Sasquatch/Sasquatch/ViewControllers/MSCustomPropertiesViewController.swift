@@ -13,6 +13,9 @@ class MSCustomPropertiesViewController : UITableViewController, AppCenterProtoco
     tableView.rowHeight = UITableViewAutomaticDimension
     tableView.estimatedRowHeight = kEstimatedRowHeight
     tableView.setEditing(true, animated: false)
+    
+    // Make sure the UITabBarController does not cut off the last cell.
+    self.edgesForExtendedLayout = []
   }
   
   @IBAction func send() {

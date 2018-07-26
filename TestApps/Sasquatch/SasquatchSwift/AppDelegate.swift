@@ -38,20 +38,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
       MSAppCenter.startFromLibrary(withServices: [MSAnalytics.self])
       break;
     case startFrom.APP.rawValue:
-      #if DEBUG
-        MSAppCenter.start(secretString, withServices: [MSAnalytics.self, MSCrashes.self, MSPush.self])
-      #else
-        MSAppCenter.start(secretString, withServices: [MSAnalytics.self, MSCrashes.self, MSDistribute.self, MSPush.self])
-      #endif
+      MSAppCenter.start(secretString, withServices: [MSAnalytics.self, MSCrashes.self, MSDistribute.self, MSPush.self])
       break;
     case startFrom.BOTH.rawValue:
       MSAppCenter.startFromLibrary(withServices: [MSAnalytics.self])
-        
-      #if DEBUG
-        MSAppCenter.start(secretString, withServices: [MSAnalytics.self, MSCrashes.self, MSPush.self])
-      #else
-        MSAppCenter.start(secretString, withServices: [MSAnalytics.self, MSCrashes.self, MSDistribute.self, MSPush.self])
-      #endif
+      MSAppCenter.start(secretString, withServices: [MSAnalytics.self, MSCrashes.self, MSDistribute.self, MSPush.self])
       break;
     default:
       break;

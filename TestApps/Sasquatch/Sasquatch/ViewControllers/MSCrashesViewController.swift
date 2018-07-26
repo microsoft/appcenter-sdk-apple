@@ -25,6 +25,14 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
       }
       categories[crash.category]!.append(crash)
     }
+    
+    // Make sure the UITabBarController does not cut off the last cell.
+    self.edgesForExtendedLayout = []
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    self.tableView.reloadData()
   }
   
   override func numberOfSections(in tableView: UITableView) -> Int {

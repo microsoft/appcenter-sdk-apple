@@ -9,3 +9,4 @@ static NSString *const kMSObjCRuntimeTargetToken = @"1aa046cfdc8f49bdbd64190290c
 static NSString *const kMSPuppetRuntimeTargetToken = @"b9bb5bcb40f24830aa12f681e6462292-10b4c5da-67be-49ce-936b-8b2b80a83a80-7868";
 static NSString *const kMSOneCollectorEnabledKey = @"isOneCollectorEnabled";
 static NSString *const kMSStartTargetKey = @"startTarget";
+static NSNotificationName const kUpdateAnalyticsResultNotification = @"updateAnalyticsResult";

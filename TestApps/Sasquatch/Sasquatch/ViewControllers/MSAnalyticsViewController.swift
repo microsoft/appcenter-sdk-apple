@@ -8,6 +8,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
 
   var appCenter: AppCenterDelegate!
   var eventPropertiesSection: EventPropertiesTableSection!
+  @objc(analyticsResult) var analyticsResult: MSAnalyticsResult? = nil
 
   private var kEventPropertiesSectionIndex: Int = 2
 
@@ -15,7 +16,14 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     eventPropertiesSection = EventPropertiesTableSection(tableSection: kEventPropertiesSectionIndex, tableView: tableView)
     super.viewDidLoad()
     tableView.setEditing(true, animated: false)
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
     self.enabled.isOn = appCenter.isAnalyticsEnabled()
+    
+    // Make sure the UITabBarController does not cut off the last cell.
+    self.edgesForExtendedLayout = []
   }
 
   @IBAction func trackEvent() {
@@ -44,6 +52,12 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   @IBAction func enabledSwitchUpdated(_ sender: UISwitch) {
     appCenter.setAnalyticsEnabled(sender.isOn)
     sender.isOn = appCenter.isAnalyticsEnabled()
+  }
+  
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if let destination = segue.destination as? MSAnalyticsResultViewController {
+      destination.analyticsResult = analyticsResult
+    }
   }
 
   override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
