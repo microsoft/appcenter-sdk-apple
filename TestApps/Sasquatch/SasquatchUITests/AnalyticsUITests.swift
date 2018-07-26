@@ -95,6 +95,7 @@ class AnalyticsUITests: XCTestCase {
     self.trackEvent(name: "myEvent", propertiesCount: 0)
 
     // Go to result page.
+    #if ACTIVE_COMPILATION_CONDITION_PUPPET
     app.tables["Analytics"].staticTexts["Results"].tap()
     
     let resultsTable = app.tables["Analytics Result"]
@@ -108,6 +109,7 @@ class AnalyticsUITests: XCTestCase {
                                 evaluatedWith: resultsTable.cells.element(boundBy: 6).staticTexts.element(boundBy: 1),
                                 handler: nil)
     wait(for: [nameExp, propsCountExp, statusExp], timeout: timeout)
+    #endif
   }
 
   func testTrackEventWithOneProps() {
@@ -129,6 +131,7 @@ class AnalyticsUITests: XCTestCase {
     self.trackEvent(name: "myEvent", propertiesCount: 1)
 
     // Go to result page.
+    #if ACTIVE_COMPILATION_CONDITION_PUPPET
     app.tables["Analytics"].staticTexts["Results"].tap()
     
     let resultsTable = app.tables["Analytics Result"]
@@ -142,6 +145,7 @@ class AnalyticsUITests: XCTestCase {
                                 evaluatedWith: resultsTable.cells.element(boundBy: 6).staticTexts.element(boundBy: 1),
                                 handler: nil)
     wait(for: [nameExp, propsCountExp, statusExp], timeout: timeout)
+    #endif
   }
 
   func testTrackEventWithTooMuchProps() {
@@ -163,6 +167,7 @@ class AnalyticsUITests: XCTestCase {
     self.trackEvent(name: "myEvent", propertiesCount: 23)
 
     // Go to result page.
+    #if ACTIVE_COMPILATION_CONDITION_PUPPET
     app.tables["Analytics"].staticTexts["Results"].tap()
     
     let resultsTable = app.tables["Analytics Result"]
@@ -176,6 +181,7 @@ class AnalyticsUITests: XCTestCase {
                                 evaluatedWith: resultsTable.cells.element(boundBy: 6).staticTexts.element(boundBy: 1),
                                 handler: nil)
     wait(for: [nameExp, propsCountExp, statusExp], timeout: timeout)
+    #endif
   }
 
   func testTrackEventWithDisabledAnalytics() {
@@ -197,6 +203,7 @@ class AnalyticsUITests: XCTestCase {
     self.trackEvent(name: "myEvent", propertiesCount: 0)
 
     // Go to result page.
+    #if ACTIVE_COMPILATION_CONDITION_PUPPET
     app.tables["Analytics"].staticTexts["Results"].tap()
     
     let resultsTable = app.tables["Analytics Result"]
@@ -210,6 +217,7 @@ class AnalyticsUITests: XCTestCase {
                                 evaluatedWith: resultsTable.cells.element(boundBy: 6).staticTexts.element(boundBy: 1),
                                 handler: nil)
     wait(for: [nameExp, propsCountExp, statusExp], timeout: timeout)
+    #endif
   }
 
   private func trackEvent(name: String, propertiesCount: UInt) {

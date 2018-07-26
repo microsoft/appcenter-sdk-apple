@@ -16,6 +16,13 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     eventPropertiesSection = EventPropertiesTableSection(tableSection: kEventPropertiesSectionIndex, tableView: tableView)
     super.viewDidLoad()
     tableView.setEditing(true, animated: false)
+    
+    // Disable results page.
+    #if !ACTIVE_COMPILATION_CONDITION_PUPPET
+    let cell = tableView.cellForRow(at: IndexPath(row: 1, section: 0))
+    cell?.isUserInteractionEnabled = false
+    cell?.contentView.alpha = 0.5
+    #endif
   }
   
   override func viewWillAppear(_ animated: Bool) {
