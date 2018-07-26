@@ -60,11 +60,11 @@
 		B241DE32201E7945009F135D /* MSEventFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = B241DE30201E793D009F135D /* MSEventFilter.m */; };
 		B25762BA210659A4008326CA /* MSTransmissionTargets.swift in Sources */ = {isa = PBXBuildFile; fileRef = B25762B9210659A4008326CA /* MSTransmissionTargets.swift */; };
 		B25762BB210659A4008326CA /* MSTransmissionTargets.swift in Sources */ = {isa = PBXBuildFile; fileRef = B25762B9210659A4008326CA /* MSTransmissionTargets.swift */; };
-		B2586C8D210A4C7A00664A43 /* CommonSchemaPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2586C8C210A4C7A00664A43 /* CommonSchemaPropertiesTableSection.swift */; };
-		B2586C8E210A4C7A00664A43 /* CommonSchemaPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2586C8C210A4C7A00664A43 /* CommonSchemaPropertiesTableSection.swift */; };
 		B2586C90210A4C9400664A43 /* MSAnalyticsResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2586C8F210A4C9400664A43 /* MSAnalyticsResult.swift */; };
 		B2586C91210A4C9400664A43 /* MSAnalyticsResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2586C8F210A4C9400664A43 /* MSAnalyticsResult.swift */; };
 		B27424851EF2193E00F591E5 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 047D13711EAFBDBE00D699BA /* AppCenterDistributeResources.bundle */; };
+		B27D548F210A53C7004E82C9 /* CommonSchemaPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27D548E210A53C7004E82C9 /* CommonSchemaPropertiesTableSection.swift */; };
+		B27D5490210A53C7004E82C9 /* CommonSchemaPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27D548E210A53C7004E82C9 /* CommonSchemaPropertiesTableSection.swift */; };
 		B290BE0C210A4D5000B560CC /* MSAnalyticsResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B290BE0B210A4D5000B560CC /* MSAnalyticsResultViewController.swift */; };
 		B290BE0D210A4D5000B560CC /* MSAnalyticsResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B290BE0B210A4D5000B560CC /* MSAnalyticsResultViewController.swift */; };
 		B2B36CE21EEF49B700230341 /* MSCustomPropertiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */; };
@@ -242,8 +242,8 @@
 		B241DE2F201E793D009F135D /* MSEventFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSEventFilter.h; path = EventFilter/MSEventFilter.h; sourceTree = "<group>"; };
 		B241DE30201E793D009F135D /* MSEventFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSEventFilter.m; path = EventFilter/MSEventFilter.m; sourceTree = "<group>"; };
 		B25762B9210659A4008326CA /* MSTransmissionTargets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSTransmissionTargets.swift; sourceTree = "<group>"; };
-		B2586C8C210A4C7A00664A43 /* CommonSchemaPropertiesTableSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommonSchemaPropertiesTableSection.swift; path = Sasquatch/ViewControllers/CommonSchemaPropertiesTableSection.swift; sourceTree = SOURCE_ROOT; };
 		B2586C8F210A4C9400664A43 /* MSAnalyticsResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSAnalyticsResult.swift; sourceTree = "<group>"; };
+		B27D548E210A53C7004E82C9 /* CommonSchemaPropertiesTableSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommonSchemaPropertiesTableSection.swift; path = Sections/CommonSchemaPropertiesTableSection.swift; sourceTree = "<group>"; };
 		B290BE0B210A4D5000B560CC /* MSAnalyticsResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSAnalyticsResultViewController.swift; sourceTree = "<group>"; };
 		B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSCustomPropertiesViewController.swift; sourceTree = "<group>"; };
 		B2E011E021091E04003F4A5B /* MSTransmissionTargetsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSTransmissionTargetsViewController.swift; sourceTree = "<group>"; };
@@ -498,7 +498,7 @@
 		B2E011DE21091DDB003F4A5B /* Sections */ = {
 			isa = PBXGroup;
 			children = (
-				B2586C8C210A4C7A00664A43 /* CommonSchemaPropertiesTableSection.swift */,
+				B27D548E210A53C7004E82C9 /* CommonSchemaPropertiesTableSection.swift */,
 				B2E011E321091ED0003F4A5B /* EventPropertiesTableSection.swift */,
 				B2E011E421091ED0003F4A5B /* PropertiesTableSection.swift */,
 				B2E011E521091ED0003F4A5B /* TargetPropertiesTableSection.swift */,
@@ -951,10 +951,10 @@
 				B290BE0C210A4D5000B560CC /* MSAnalyticsResultViewController.swift in Sources */,
 				3847DD1120FEDF58003152CE /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */,
 				84226C4E1E88FF4A00798417 /* AppDelegate.m in Sources */,
-				B2586C8D210A4C7A00664A43 /* CommonSchemaPropertiesTableSection.swift in Sources */,
 				B2B36CE21EEF49B700230341 /* MSCustomPropertiesViewController.swift in Sources */,
 				84226C4B1E88FF4A00798417 /* main.m in Sources */,
 				F87E961E1FDEFFD400AF2717 /* MSCustomPropertyTableViewCell.swift in Sources */,
+				B27D548F210A53C7004E82C9 /* CommonSchemaPropertiesTableSection.swift in Sources */,
 				84A0FF6C1E8A87E1000E7A28 /* MSDistributeViewController.swift in Sources */,
 				84226D3C1E8938D100798417 /* AppCenterDelegate.swift in Sources */,
 				B2E011E621091ED0003F4A5B /* EventPropertiesTableSection.swift in Sources */,
@@ -981,7 +981,7 @@
 				B2E011EB21091ED0003F4A5B /* TargetPropertiesTableSection.swift in Sources */,
 				84226D3D1E8938D200798417 /* AppCenterDelegate.swift in Sources */,
 				B2B36CE31EEF49C400230341 /* MSCustomPropertiesViewController.swift in Sources */,
-				B2586C8E210A4C7A00664A43 /* CommonSchemaPropertiesTableSection.swift in Sources */,
+				B27D5490210A53C7004E82C9 /* CommonSchemaPropertiesTableSection.swift in Sources */,
 				845178ED1E8A8B0D004A0A6F /* MSMainViewController.swift in Sources */,
 				84226D3F1E8939B700798417 /* AppCenterDelegateSwift.swift in Sources */,
 				B290BE0D210A4D5000B560CC /* MSAnalyticsResultViewController.swift in Sources */,
