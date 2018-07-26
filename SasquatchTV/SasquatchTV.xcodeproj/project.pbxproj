@@ -46,6 +46,48 @@
 		80F9916B1F027D250040FAD7 /* CrashesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F9916A1F027D250040FAD7 /* CrashesDetailViewController.swift */; };
 		80F9916C1F027D250040FAD7 /* CrashesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F9916A1F027D250040FAD7 /* CrashesDetailViewController.swift */; };
 		80F9916D1F0287B60040FAD7 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C4F926A1EE84260003140BF /* MSAlertController.m */; };
+		B25AE81C210A79FB00CC07A9 /* AppCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C481BA31EE586D2009329DD /* AppCenterProtocol.swift */; };
+		B25AE81D210A79FB00CC07A9 /* CrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F991611F0267B40040FAD7 /* CrashesViewController.swift */; };
+		B25AE81E210A79FB00CC07A9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D322EFF11E8E97DF00A8EDA5 /* AppDelegate.m */; };
+		B25AE81F210A79FB00CC07A9 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C4F926A1EE84260003140BF /* MSAlertController.m */; };
+		B25AE820210A79FB00CC07A9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D322EFEE1E8E97DF00A8EDA5 /* main.m */; };
+		B25AE821210A79FB00CC07A9 /* CrashesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F9916A1F027D250040FAD7 /* CrashesDetailViewController.swift */; };
+		B25AE822210A79FB00CC07A9 /* AppCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C481B9A1EE5794A009329DD /* AppCenterViewController.swift */; };
+		B25AE823210A79FB00CC07A9 /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C481B991EE5794A009329DD /* AnalyticsViewController.swift */; };
+		B25AE824210A79FB00CC07A9 /* EditPropertyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBE5F501F02BC89001ABD15 /* EditPropertyViewController.swift */; };
+		B25AE825210A79FB00CC07A9 /* MSPropertyViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C931C7A1F026688004AF9CD /* MSPropertyViewCell.swift */; };
+		B25AE826210A79FB00CC07A9 /* AppCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB338A31EE59C0F0089A60B /* AppCenterDelegate.swift */; };
+		B25AE827210A79FB00CC07A9 /* EventFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35427401201272AA00BE766F /* EventFilterViewController.swift */; };
+		B25AE828210A79FB00CC07A9 /* MSEventFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 358F9BCF201963A000B9E22C /* MSEventFilter.m */; };
+		B25AE829210A79FB00CC07A9 /* AppCenterDelegateObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CB338A11EE59B4B0089A60B /* AppCenterDelegateObjC.m */; };
+		B25AE82B210A79FB00CC07A9 /* CrashLibTV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 801C25641F040F3C00F4859B /* CrashLibTV.framework */; };
+		B25AE82C210A79FB00CC07A9 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 043121781EE0C65B007054C5 /* AppCenter.framework */; };
+		B25AE82D210A79FB00CC07A9 /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 043121791EE0C65B007054C5 /* AppCenterAnalytics.framework */; };
+		B25AE82E210A79FB00CC07A9 /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04EBBEFA1F01C88D0006B8AE /* AppCenterCrashes.framework */; };
+		B25AE830210A79FB00CC07A9 /* SasquatchTV.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D322EFC91E8E97A100A8EDA5 /* SasquatchTV.storyboard */; };
+		B25AE831210A79FB00CC07A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D322EFF91E8E97DF00A8EDA5 /* Assets.xcassets */; };
+		B25AE832210A79FB00CC07A9 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5C2CC7051EE6C08600E2BDA4 /* Info.plist */; };
+		B25AE834210A79FB00CC07A9 /* CrashLibTV.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 801C25641F040F3C00F4859B /* CrashLibTV.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B25AE83C210A7B8A00CC07A9 /* AppCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C481B9A1EE5794A009329DD /* AppCenterViewController.swift */; };
+		B25AE83D210A7B8A00CC07A9 /* MSPropertyViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C931C7A1F026688004AF9CD /* MSPropertyViewCell.swift */; };
+		B25AE83E210A7B8A00CC07A9 /* EditPropertyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBE5F501F02BC89001ABD15 /* EditPropertyViewController.swift */; };
+		B25AE83F210A7B8A00CC07A9 /* AppCenterDelegateSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5A41811EE5AEE800C377A7 /* AppCenterDelegateSwift.swift */; };
+		B25AE840210A7B8A00CC07A9 /* AppCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB338A31EE59C0F0089A60B /* AppCenterDelegate.swift */; };
+		B25AE841210A7B8A00CC07A9 /* CrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F991611F0267B40040FAD7 /* CrashesViewController.swift */; };
+		B25AE842210A7B8A00CC07A9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D322EFDA1E8E97C800A8EDA5 /* AppDelegate.swift */; };
+		B25AE843210A7B8A00CC07A9 /* CrashesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F9916A1F027D250040FAD7 /* CrashesDetailViewController.swift */; };
+		B25AE844210A7B8A00CC07A9 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C4F926A1EE84260003140BF /* MSAlertController.m */; };
+		B25AE845210A7B8A00CC07A9 /* MSEventFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 358F9BCF201963A000B9E22C /* MSEventFilter.m */; };
+		B25AE846210A7B8A00CC07A9 /* EventFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35427401201272AA00BE766F /* EventFilterViewController.swift */; };
+		B25AE847210A7B8A00CC07A9 /* AppCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C481BA31EE586D2009329DD /* AppCenterProtocol.swift */; };
+		B25AE848210A7B8A00CC07A9 /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C481B991EE5794A009329DD /* AnalyticsViewController.swift */; };
+		B25AE84A210A7B8A00CC07A9 /* CrashLibTV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 801C25641F040F3C00F4859B /* CrashLibTV.framework */; };
+		B25AE84B210A7B8A00CC07A9 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 043121781EE0C65B007054C5 /* AppCenter.framework */; };
+		B25AE84C210A7B8A00CC07A9 /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 043121791EE0C65B007054C5 /* AppCenterAnalytics.framework */; };
+		B25AE84D210A7B8A00CC07A9 /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04EBBEFA1F01C88D0006B8AE /* AppCenterCrashes.framework */; };
+		B25AE84F210A7B8A00CC07A9 /* SasquatchTV.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D322EFC91E8E97A100A8EDA5 /* SasquatchTV.storyboard */; };
+		B25AE850210A7B8A00CC07A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D322EFE11E8E97C800A8EDA5 /* Assets.xcassets */; };
+		B25AE852210A7B8A00CC07A9 /* CrashLibTV.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 801C25641F040F3C00F4859B /* CrashLibTV.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D322EFDB1E8E97C800A8EDA5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D322EFDA1E8E97C800A8EDA5 /* AppDelegate.swift */; };
 		D322EFE21E8E97C800A8EDA5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D322EFE11E8E97C800A8EDA5 /* Assets.xcassets */; };
 		D322EFEF1E8E97DF00A8EDA5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D322EFEE1E8E97DF00A8EDA5 /* main.m */; };
@@ -95,6 +137,28 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B25AE833210A79FB00CC07A9 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				B25AE834210A79FB00CC07A9 /* CrashLibTV.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B25AE851210A7B8A00CC07A9 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				B25AE852210A7B8A00CC07A9 /* CrashLibTV.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -126,6 +190,8 @@
 		80F991611F0267B40040FAD7 /* CrashesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = CrashesViewController.swift; sourceTree = "<group>"; tabWidth = 2; };
 		80F9916A1F027D250040FAD7 /* CrashesDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashesDetailViewController.swift; sourceTree = "<group>"; };
 		B2181B7D1F268AAD00D2EEAE /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		B25AE838210A79FB00CC07A9 /* SasquatchTVObjC-Preview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SasquatchTVObjC-Preview.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B25AE856210A7B8A00CC07A9 /* SasquatchTVSwift-Preview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SasquatchTVSwift-Preview.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D322EFCA1E8E97A100A8EDA5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SasquatchTV.storyboard; sourceTree = "<group>"; };
 		D322EFD81E8E97C800A8EDA5 /* SasquatchTVSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchTVSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D322EFDA1E8E97C800A8EDA5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -151,6 +217,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B25AE82A210A79FB00CC07A9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B25AE82B210A79FB00CC07A9 /* CrashLibTV.framework in Frameworks */,
+				B25AE82C210A79FB00CC07A9 /* AppCenter.framework in Frameworks */,
+				B25AE82D210A79FB00CC07A9 /* AppCenterAnalytics.framework in Frameworks */,
+				B25AE82E210A79FB00CC07A9 /* AppCenterCrashes.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B25AE849210A7B8A00CC07A9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B25AE84A210A7B8A00CC07A9 /* CrashLibTV.framework in Frameworks */,
+				B25AE84B210A7B8A00CC07A9 /* AppCenter.framework in Frameworks */,
+				B25AE84C210A7B8A00CC07A9 /* AppCenterAnalytics.framework in Frameworks */,
+				B25AE84D210A7B8A00CC07A9 /* AppCenterCrashes.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,6 +324,8 @@
 				D322EFEB1E8E97DF00A8EDA5 /* SasquatchTVObjC.app */,
 				5C2CC6ED1EE6BE5400E2BDA4 /* SasquatchTVObjCUITests.xctest */,
 				5C2CC6FB1EE6BEE000E2BDA4 /* SasquatchTVSwiftUITests.xctest */,
+				B25AE838210A79FB00CC07A9 /* SasquatchTVObjC-Preview.app */,
+				B25AE856210A7B8A00CC07A9 /* SasquatchTVSwift-Preview.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -380,6 +470,42 @@
 			productReference = 5C2CC6FB1EE6BEE000E2BDA4 /* SasquatchTVSwiftUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		B25AE81A210A79FB00CC07A9 /* SasquatchTVObjC-Preview */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B25AE835210A79FB00CC07A9 /* Build configuration list for PBXNativeTarget "SasquatchTVObjC-Preview" */;
+			buildPhases = (
+				B25AE81B210A79FB00CC07A9 /* Sources */,
+				B25AE82A210A79FB00CC07A9 /* Frameworks */,
+				B25AE82F210A79FB00CC07A9 /* Resources */,
+				B25AE833210A79FB00CC07A9 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "SasquatchTVObjC-Preview";
+			productName = SasquatchTVObjC;
+			productReference = B25AE838210A79FB00CC07A9 /* SasquatchTVObjC-Preview.app */;
+			productType = "com.apple.product-type.application";
+		};
+		B25AE83A210A7B8A00CC07A9 /* SasquatchTVSwift-Preview */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B25AE853210A7B8A00CC07A9 /* Build configuration list for PBXNativeTarget "SasquatchTVSwift-Preview" */;
+			buildPhases = (
+				B25AE83B210A7B8A00CC07A9 /* Sources */,
+				B25AE849210A7B8A00CC07A9 /* Frameworks */,
+				B25AE84E210A7B8A00CC07A9 /* Resources */,
+				B25AE851210A7B8A00CC07A9 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "SasquatchTVSwift-Preview";
+			productName = SasquatchTVSwift;
+			productReference = B25AE856210A7B8A00CC07A9 /* SasquatchTVSwift-Preview.app */;
+			productType = "com.apple.product-type.application";
+		};
 		D322EFD71E8E97C800A8EDA5 /* SasquatchTVSwift */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D322EFE41E8E97C800A8EDA5 /* Build configuration list for PBXNativeTarget "SasquatchTVSwift" */;
@@ -428,20 +554,32 @@
 				TargetAttributes = {
 					5C2CC6EC1EE6BE5400E2BDA4 = {
 						CreatedOnToolsVersion = 8.3.2;
+						DevelopmentTeam = 5Z97G9NZQ6;
 						ProvisioningStyle = Automatic;
 						TestTargetID = D322EFEA1E8E97DF00A8EDA5;
 					};
 					5C2CC6FA1EE6BEE000E2BDA4 = {
 						CreatedOnToolsVersion = 8.3.2;
+						DevelopmentTeam = 5Z97G9NZQ6;
 						ProvisioningStyle = Automatic;
 						TestTargetID = D322EFD71E8E97C800A8EDA5;
 					};
+					B25AE81A210A79FB00CC07A9 = {
+						DevelopmentTeam = 5Z97G9NZQ6;
+						ProvisioningStyle = Manual;
+					};
+					B25AE83A210A7B8A00CC07A9 = {
+						DevelopmentTeam = 5Z97G9NZQ6;
+						ProvisioningStyle = Automatic;
+					};
 					D322EFD71E8E97C800A8EDA5 = {
 						CreatedOnToolsVersion = 8.3.2;
+						DevelopmentTeam = 5Z97G9NZQ6;
 						ProvisioningStyle = Automatic;
 					};
 					D322EFEA1E8E97DF00A8EDA5 = {
 						CreatedOnToolsVersion = 8.3.2;
+						DevelopmentTeam = 5Z97G9NZQ6;
 						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
@@ -461,7 +599,9 @@
 			projectRoot = "";
 			targets = (
 				D322EFEA1E8E97DF00A8EDA5 /* SasquatchTVObjC */,
+				B25AE81A210A79FB00CC07A9 /* SasquatchTVObjC-Preview */,
 				D322EFD71E8E97C800A8EDA5 /* SasquatchTVSwift */,
+				B25AE83A210A7B8A00CC07A9 /* SasquatchTVSwift-Preview */,
 				5C2CC6EC1EE6BE5400E2BDA4 /* SasquatchTVObjCUITests */,
 				5C2CC6FA1EE6BEE000E2BDA4 /* SasquatchTVSwiftUITests */,
 			);
@@ -480,6 +620,25 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B25AE82F210A79FB00CC07A9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B25AE830210A79FB00CC07A9 /* SasquatchTV.storyboard in Resources */,
+				B25AE831210A79FB00CC07A9 /* Assets.xcassets in Resources */,
+				B25AE832210A79FB00CC07A9 /* Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B25AE84E210A7B8A00CC07A9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B25AE84F210A7B8A00CC07A9 /* SasquatchTV.storyboard in Resources */,
+				B25AE850210A7B8A00CC07A9 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -520,6 +679,47 @@
 			files = (
 				5C4F92631EE83E08003140BF /* AppCenterUITests.swift in Sources */,
 				5C2CC70A1EE6C0B600E2BDA4 /* AnalyticsUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B25AE81B210A79FB00CC07A9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B25AE81C210A79FB00CC07A9 /* AppCenterProtocol.swift in Sources */,
+				B25AE81D210A79FB00CC07A9 /* CrashesViewController.swift in Sources */,
+				B25AE81E210A79FB00CC07A9 /* AppDelegate.m in Sources */,
+				B25AE81F210A79FB00CC07A9 /* MSAlertController.m in Sources */,
+				B25AE820210A79FB00CC07A9 /* main.m in Sources */,
+				B25AE821210A79FB00CC07A9 /* CrashesDetailViewController.swift in Sources */,
+				B25AE822210A79FB00CC07A9 /* AppCenterViewController.swift in Sources */,
+				B25AE823210A79FB00CC07A9 /* AnalyticsViewController.swift in Sources */,
+				B25AE824210A79FB00CC07A9 /* EditPropertyViewController.swift in Sources */,
+				B25AE825210A79FB00CC07A9 /* MSPropertyViewCell.swift in Sources */,
+				B25AE826210A79FB00CC07A9 /* AppCenterDelegate.swift in Sources */,
+				B25AE827210A79FB00CC07A9 /* EventFilterViewController.swift in Sources */,
+				B25AE828210A79FB00CC07A9 /* MSEventFilter.m in Sources */,
+				B25AE829210A79FB00CC07A9 /* AppCenterDelegateObjC.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B25AE83B210A7B8A00CC07A9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B25AE83C210A7B8A00CC07A9 /* AppCenterViewController.swift in Sources */,
+				B25AE83D210A7B8A00CC07A9 /* MSPropertyViewCell.swift in Sources */,
+				B25AE83E210A7B8A00CC07A9 /* EditPropertyViewController.swift in Sources */,
+				B25AE83F210A7B8A00CC07A9 /* AppCenterDelegateSwift.swift in Sources */,
+				B25AE840210A7B8A00CC07A9 /* AppCenterDelegate.swift in Sources */,
+				B25AE841210A7B8A00CC07A9 /* CrashesViewController.swift in Sources */,
+				B25AE842210A7B8A00CC07A9 /* AppDelegate.swift in Sources */,
+				B25AE843210A7B8A00CC07A9 /* CrashesDetailViewController.swift in Sources */,
+				B25AE844210A7B8A00CC07A9 /* MSAlertController.m in Sources */,
+				B25AE845210A7B8A00CC07A9 /* MSEventFilter.m in Sources */,
+				B25AE846210A7B8A00CC07A9 /* EventFilterViewController.swift in Sources */,
+				B25AE847210A7B8A00CC07A9 /* AppCenterProtocol.swift in Sources */,
+				B25AE848210A7B8A00CC07A9 /* AnalyticsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -648,6 +848,85 @@
 				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = SasquatchTVSwift;
 				TVOS_DEPLOYMENT_TARGET = 10.2;
+			};
+			name = Release;
+		};
+		B25AE836210A79FB00CC07A9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
+				INFOPLIST_FILE = "$(SRCROOT)/../TestApps/SasquatchTV/SasquatchTVObjC/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc.tv;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "da9156c4-535c-4f0f-8739-c27cf24d0c0f";
+				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchObjC tvOS Debug";
+				SWIFT_OBJC_BRIDGING_HEADER = "../TestApps/SasquatchTV/SasquatchTV/SasquatchTV-Bridging-Header.h";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "SasquatchTVObjC-Swift.h";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		B25AE837210A79FB00CC07A9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
+				INFOPLIST_FILE = "$(SRCROOT)/../TestApps/SasquatchTV/SasquatchTVObjC/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc.tv;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "d1a7ae61-73b6-47da-bbe1-84654ca9ea33";
+				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchObjC tvOS Release In-house";
+				SWIFT_OBJC_BRIDGING_HEADER = "../TestApps/SasquatchTV/SasquatchTV/SasquatchTV-Bridging-Header.h";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "SasquatchTVObjC-Swift.h";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		B25AE854210A7B8A00CC07A9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "$(inherited)";
+				INFOPLIST_FILE = "$(SRCROOT)/../TestApps/SasquatchTV/SasquatchTVSwift/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.tv;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "../TestApps/SasquatchTV/SasquatchTV/SasquatchTV-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		B25AE855210A7B8A00CC07A9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "$(inherited)";
+				INFOPLIST_FILE = "$(SRCROOT)/../TestApps/SasquatchTV/SasquatchTVSwift/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.tv;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "../TestApps/SasquatchTV/SasquatchTV/SasquatchTV-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -845,6 +1124,24 @@
 			buildConfigurations = (
 				5C2CC7031EE6BEE000E2BDA4 /* Debug */,
 				5C2CC7041EE6BEE000E2BDA4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B25AE835210A79FB00CC07A9 /* Build configuration list for PBXNativeTarget "SasquatchTVObjC-Preview" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B25AE836210A79FB00CC07A9 /* Debug */,
+				B25AE837210A79FB00CC07A9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B25AE853210A7B8A00CC07A9 /* Build configuration list for PBXNativeTarget "SasquatchTVSwift-Preview" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B25AE854210A7B8A00CC07A9 /* Debug */,
+				B25AE855210A7B8A00CC07A9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
