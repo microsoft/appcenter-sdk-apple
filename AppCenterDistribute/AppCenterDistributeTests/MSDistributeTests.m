@@ -13,8 +13,8 @@
 #import "MSDistributeUtil.h"
 #import "MSHttpTestUtil.h"
 #import "MSIngestionCall.h"
-#import "MSKeychainUtil.h"
 #import "MSLoggerInternal.h"
+#import "MSMockKeychainUtil.h"
 #import "MSMockUserDefaults.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSSessionContext.h"
@@ -84,6 +84,7 @@ static NSURL *sfURL;
 @property(nonatomic) MSDistribute *sut;
 @property(nonatomic) id parserMock;
 @property(nonatomic) id settingsMock;
+@property(nonatomic) id keychainUtilMock;
 @property(nonatomic) id bundleMock;
 @property(nonatomic) id alertControllerMock;
 @property(nonatomic) id distributeInfoTrackerMock;
@@ -95,7 +96,7 @@ static NSURL *sfURL;
 - (void)setUp {
   [super setUp];
   [MSLogger setCurrentLogLevel:MSLogLevelVerbose];
-  [MSKeychainUtil clear];
+  self.keychainUtilMock = [MSMockKeychainUtil new];
   self.sut = [MSDistribute new];
   self.settingsMock = [MSMockUserDefaults new];
 
@@ -141,7 +142,7 @@ static NSURL *sfURL;
 
   // Clear
   [MSHttpTestUtil removeAllStubs];
-  [MSKeychainUtil clear];
+  [self.keychainUtilMock stopMocking];
   [self.parserMock stopMocking];
   [self.settingsMock stopMocking];
   [self.bundleMock stopMocking];
@@ -808,7 +809,6 @@ static NSURL *sfURL;
   id distributeMock = OCMPartialMock(self.sut);
   OCMReject([distributeMock handleUpdate:OCMOCK_ANY]);
   self.sut.appSecret = kMSTestAppSecret;
-  id keychainMock = OCMClassMock([MSKeychainUtil class]);
   id reachabilityMock = OCMClassMock([MS_Reachability class]);
   OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
@@ -817,9 +817,9 @@ static NSURL *sfURL;
   OCMStub([ingestionCallMock alloc]).andReturn(ingestionCallMock);
   OCMReject([ingestionCallMock startRetryTimerWithStatusCode:404]);
   OCMStub([ingestionCallMock ingestion:OCMOCK_ANY
-            callCompletedWithStatus:MSHTTPCodesNo404NotFound
-                               data:OCMOCK_ANY
-                              error:OCMOCK_ANY])
+               callCompletedWithStatus:MSHTTPCodesNo404NotFound
+                                  data:OCMOCK_ANY
+                                 error:OCMOCK_ANY])
       .andForwardToRealObject()
       .andDo(^(__unused NSInvocation *invocation) {
         [expection fulfill];
@@ -840,7 +840,7 @@ static NSURL *sfURL;
                                  // Then
                                  OCMVerifyAll(distributeMock);
                                  OCMVerifyAll(ingestionCallMock);
-                                 OCMVerify([keychainMock deleteStringForKey:kMSUpdateTokenKey]);
+                                 XCTAssertNil([MSMockKeychainUtil stringForKey:kMSUpdateTokenKey]);
                                  OCMVerify([self.settingsMock removeObjectForKey:kMSSDKHasLaunchedWithDistribute]);
                                  OCMVerify([self.settingsMock removeObjectForKey:kMSUpdateTokenRequestIdKey]);
                                  OCMVerify([self.settingsMock removeObjectForKey:kMSPostponedTimestampKey]);
@@ -857,7 +857,6 @@ static NSURL *sfURL;
 
   // Clear
   [distributeMock stopMocking];
-  [keychainMock stopMocking];
   [reachabilityMock stopMocking];
   [ingestionCallMock stopMocking];
 }
@@ -865,11 +864,10 @@ static NSURL *sfURL;
 - (void)testCheckLatestReleaseOnRecoverableError {
 
   // If
+  [MSKeychainUtil storeString:kMSTestUpdateToken forKey:kMSUpdateTokenKey];
   id distributeMock = OCMPartialMock(self.sut);
   OCMReject([distributeMock handleUpdate:OCMOCK_ANY]);
   self.sut.appSecret = kMSTestAppSecret;
-  id keychainMock = OCMClassMock([MSKeychainUtil class]);
-  OCMReject([keychainMock deleteStringForKey:kMSUpdateTokenKey]);
   id reachabilityMock = OCMClassMock([MS_Reachability class]);
   OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
   OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
@@ -878,9 +876,9 @@ static NSURL *sfURL;
   OCMStub([ingestionCallMock alloc]).andReturn(ingestionCallMock);
   OCMStub([ingestionCallMock startRetryTimerWithStatusCode:500]).andDo(nil);
   OCMStub([ingestionCallMock ingestion:OCMOCK_ANY
-            callCompletedWithStatus:MSHTTPCodesNo500InternalServerError
-                               data:OCMOCK_ANY
-                              error:OCMOCK_ANY])
+               callCompletedWithStatus:MSHTTPCodesNo500InternalServerError
+                                  data:OCMOCK_ANY
+                                 error:OCMOCK_ANY])
       .andForwardToRealObject()
       .andDo(^(__unused NSInvocation *invocation) {
         [expection fulfill];
@@ -904,8 +902,8 @@ static NSURL *sfURL;
 
                                  // Then
                                  OCMVerifyAll(distributeMock);
-                                 OCMVerifyAll(keychainMock);
                                  OCMVerify([ingestionCallMock startRetryTimerWithStatusCode:500]);
+                                 XCTAssertNotNil([MSKeychainUtil stringForKey:kMSUpdateTokenKey]);
                                  XCTAssertNotNil([self.settingsMock objectForKey:kMSSDKHasLaunchedWithDistribute]);
                                  XCTAssertNotNil([self.settingsMock objectForKey:kMSUpdateTokenRequestIdKey]);
                                  XCTAssertNotNil([self.settingsMock objectForKey:kMSPostponedTimestampKey]);
@@ -917,7 +915,6 @@ static NSURL *sfURL;
 
   // Clear
   [distributeMock stopMocking];
-  [keychainMock stopMocking];
   [reachabilityMock stopMocking];
   [ingestionCallMock stopMocking];
 }
@@ -1276,9 +1273,7 @@ static NSURL *sfURL;
   OCMVerify([distributeMock requestInstallInformationWith:kMSTestReleaseHash]);
 
   // If, private distribution
-  id keychainUtilMock = OCMClassMock([MSKeychainUtil class]);
-  OCMStub([keychainUtilMock stringForKey:kMSUpdateTokenKey]).andReturn(@"UpdateToken");
-  OCMExpect([keychainUtilMock deleteStringForKey:kMSUpdateTokenKey]);
+  [MSKeychainUtil storeString:@"UpdateToken" forKey:kMSUpdateTokenKey];
   [self.settingsMock setObject:@"DistributionGroupId" forKey:kMSDistributionGroupIdKey];
 
   // When
@@ -1313,7 +1308,7 @@ static NSURL *sfURL;
   XCTAssertNil([self.settingsMock objectForKey:kMSUpdateTokenRequestIdKey]);
   XCTAssertNil([self.settingsMock objectForKey:kMSSDKHasLaunchedWithDistribute]);
   XCTAssertNil([self.settingsMock objectForKey:kMSPostponedTimestampKey]);
-  OCMVerify([keychainUtilMock deleteStringForKey:kMSUpdateTokenKey]);
+  XCTAssertNil([MSKeychainUtil stringForKey:kMSUpdateTokenKey]);
 
   // Clear
   [distributeMock stopMocking];
@@ -2197,9 +2192,9 @@ static NSURL *sfURL;
   OCMStub([ingestionCallMock alloc]).andReturn(ingestionCallMock);
   OCMReject([ingestionCallMock startRetryTimerWithStatusCode:404]);
   OCMStub([ingestionCallMock ingestion:OCMOCK_ANY
-            callCompletedWithStatus:MSHTTPCodesNo404NotFound
-                               data:OCMOCK_ANY
-                              error:OCMOCK_ANY])
+               callCompletedWithStatus:MSHTTPCodesNo404NotFound
+                                  data:OCMOCK_ANY
+                                 error:OCMOCK_ANY])
       .andForwardToRealObject()
       .andDo(^(__unused NSInvocation *invocation) {
         [expection fulfill];

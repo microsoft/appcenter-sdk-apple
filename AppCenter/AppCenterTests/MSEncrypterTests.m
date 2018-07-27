@@ -1,9 +1,11 @@
 #import "MSEncrypterPrivate.h"
+#import "MSMockKeychainUtil.h"
 #import "MSTestFrameworks.h"
 
 @interface MSEncrypterTests : XCTestCase
 
 @property(nonatomic) NSString *keyTag;
+@property(nonatomic) id keychainUtilMock;
 
 @end
 
@@ -11,10 +13,12 @@
 
 - (void)setUp {
   [super setUp];
+  self.keychainUtilMock = [MSMockKeychainUtil new];
   self.keyTag = @"kMSTestEncryptionKeyTag";
 }
 
 - (void)tearDown {
+  [self.keychainUtilMock stopMocking];
   [MSEncrypter deleteKeyWithTag:self.keyTag];
 }
 

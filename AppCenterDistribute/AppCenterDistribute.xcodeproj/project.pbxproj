@@ -66,6 +66,7 @@
 		383A2FE61EBA30B300817742 /* MSDistributeAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 383A2FE51EBA30B300817742 /* MSDistributeAppDelegate.m */; };
 		384135BE1FD99B5400FC7836 /* MSDistributeDataMigration.h in Headers */ = {isa = PBXBuildFile; fileRef = 384135BD1FD99B5400FC7836 /* MSDistributeDataMigration.h */; };
 		384135C01FD99EB400FC7836 /* MSDistributeDataMigration.m in Sources */ = {isa = PBXBuildFile; fileRef = 384135BF1FD99EB400FC7836 /* MSDistributeDataMigration.m */; };
+		387CC631210A9D9C002BA068 /* MSMockKeychainUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 387CC630210A9D9C002BA068 /* MSMockKeychainUtil.m */; };
 		388B559B1E64B3FD00E4F1D7 /* MSBasicMachOParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 388B55991E64B3FD00E4F1D7 /* MSBasicMachOParser.m */; };
 		388B559C1E64B3FD00E4F1D7 /* MSBasicMachOParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 388B559A1E64B3FD00E4F1D7 /* MSBasicMachOParser.h */; };
 		389638A41E79F59D007C3809 /* MSDistributeTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 389638A31E79F59D007C3809 /* MSDistributeTestUtil.m */; };
@@ -195,6 +196,8 @@
 		384135BD1FD99B5400FC7836 /* MSDistributeDataMigration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDistributeDataMigration.h; sourceTree = "<group>"; };
 		384135BF1FD99EB400FC7836 /* MSDistributeDataMigration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistributeDataMigration.m; sourceTree = "<group>"; };
 		386A69EF1FD88A9B0057B316 /* MSDistributeDataMigrationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDistributeDataMigrationTests.m; sourceTree = "<group>"; };
+		387CC62F210A9D9C002BA068 /* MSMockKeychainUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSMockKeychainUtil.h; path = ../../../AppCenter/AppCenterTests/Util/MSMockKeychainUtil.h; sourceTree = "<group>"; };
+		387CC630210A9D9C002BA068 /* MSMockKeychainUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSMockKeychainUtil.m; path = ../../../AppCenter/AppCenterTests/Util/MSMockKeychainUtil.m; sourceTree = "<group>"; };
 		388B55991E64B3FD00E4F1D7 /* MSBasicMachOParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSBasicMachOParser.m; path = ../MSBasicMachOParser.m; sourceTree = "<group>"; };
 		388B559A1E64B3FD00E4F1D7 /* MSBasicMachOParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSBasicMachOParser.h; path = ../MSBasicMachOParser.h; sourceTree = "<group>"; };
 		389638A31E79F59D007C3809 /* MSDistributeTestUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistributeTestUtil.m; sourceTree = "<group>"; };
@@ -462,6 +465,8 @@
 		389638A21E79F557007C3809 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				387CC62F210A9D9C002BA068 /* MSMockKeychainUtil.h */,
+				387CC630210A9D9C002BA068 /* MSMockKeychainUtil.m */,
 				F8BEA3CC1FBB0BDE00D4DE37 /* MSHttpTestUtil.h */,
 				F8BEA3CB1FBB0BDE00D4DE37 /* MSHttpTestUtil.m */,
 				389638A51E79F60F007C3809 /* MSDistributeTestUtil.h */,
@@ -762,6 +767,7 @@
 				040AF0251E523B80005C1174 /* MSReleaseDetailsTests.m in Sources */,
 				B20DE7B71E5F97330023075C /* MSDistributeUtilTests.m in Sources */,
 				9E8E3A39203E68B4001A23FD /* MSDistributionStartSessionLogTest.m in Sources */,
+				387CC631210A9D9C002BA068 /* MSMockKeychainUtil.m in Sources */,
 				040AF02A1E52748D005C1174 /* MSDistributeIngestionTests.m in Sources */,
 				F8BEA3CF1FBB0BE400D4DE37 /* MSHttpTestUtil.m in Sources */,
 				04DC2ECB1E78A3E3003F23B5 /* MSErrorDetailsTests.m in Sources */,

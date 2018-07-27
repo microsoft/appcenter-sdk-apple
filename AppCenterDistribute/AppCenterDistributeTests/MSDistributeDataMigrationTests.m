@@ -1,11 +1,12 @@
 #import "MSDistributeInternal.h"
 #import "MSDistributeDataMigration.h"
 #import "MSKeychainUtilPrivate.h"
+#import "MSMockKeychainUtil.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility.h"
 
 @interface MSKeychainUtilDistributeMigrationTests : XCTestCase
-
+@property(nonatomic) id keychainUtilMock;
 @end
 
 @implementation MSKeychainUtilDistributeMigrationTests
@@ -14,12 +15,12 @@
 
 - (void)setUp {
   [super setUp];
-  [MSKeychainUtil clear];
+  self.keychainUtilMock = [MSMockKeychainUtil new];
 }
 
 - (void)tearDown {
   [super tearDown];
-  [MSKeychainUtil clear];
+  [self.keychainUtilMock stopMocking];
 }
 
 #if !TARGET_OS_TV
