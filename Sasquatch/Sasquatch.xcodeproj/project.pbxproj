@@ -859,7 +859,7 @@
 				B2A888B92102B1E7001ACFDF /* Info.plist */,
 			);
 			name = SasquatchUITests;
-			path = ../TestApps/Sasquatch/SasquatchUITests;
+			path = SasquatchUITests;
 			sourceTree = "<group>";
 		};
 		84226C091E88FEFC00798417 = {
@@ -915,7 +915,7 @@
 				84226CB21E8909FF00798417 /* Supporting Files */,
 			);
 			name = Sasquatch;
-			path = ../TestApps/Sasquatch/Sasquatch;
+			path = Sasquatch;
 			sourceTree = "<group>";
 		};
 		84226C481E88FF4A00798417 /* SasquatchObjC */ = {
@@ -929,7 +929,7 @@
 				84226C491E88FF4A00798417 /* Supporting Files */,
 			);
 			name = SasquatchObjC;
-			path = ../TestApps/Sasquatch/SasquatchObjC;
+			path = SasquatchObjC;
 			sourceTree = "<group>";
 		};
 		84226C491E88FF4A00798417 /* Supporting Files */ = {
@@ -951,7 +951,7 @@
 				84C7EA8C1E8968B900FAFE15 /* Supporting Files */,
 			);
 			name = SasquatchSwift;
-			path = ../TestApps/Sasquatch/SasquatchSwift;
+			path = SasquatchSwift;
 			sourceTree = "<group>";
 		};
 		84226CB01E8909EA00798417 /* ViewControllers */ = {
@@ -1104,7 +1104,7 @@
 				B2C97B8A2106535500042A03 /* Assets.xcassets */,
 			);
 			name = SasquatchPuppet;
-			path = ../TestApps/Sasquatch/SasquatchPuppet;
+			path = SasquatchPuppet;
 			sourceTree = "<group>";
 		};
 		B2E011A921091D50003F4A5B /* Cells */ = {
@@ -1127,7 +1127,7 @@
 				D31EF9301E9517B600450162 /* Info.plist */,
 			);
 			name = SasquatchWatchObjC;
-			path = ../TestApps/Sasquatch/SasquatchWatchObjC;
+			path = SasquatchWatchObjC;
 			sourceTree = "<group>";
 		};
 		D31EF9391E9517B600450162 /* SasquatchWatchObjC Extension */ = {
@@ -1143,7 +1143,7 @@
 				D31EF93A1E9517B600450162 /* Supporting Files */,
 			);
 			name = "SasquatchWatchObjC Extension";
-			path = "../TestApps/Sasquatch/SasquatchWatchObjC Extension";
+			path = "SasquatchWatchObjC Extension";
 			sourceTree = "<group>";
 		};
 		D31EF93A1E9517B600450162 /* Supporting Files */ = {
@@ -1164,7 +1164,7 @@
 				D31EF95B1E9517C500450162 /* Info.plist */,
 			);
 			name = SasquatchWatchSwift;
-			path = ../TestApps/Sasquatch/SasquatchWatchSwift;
+			path = SasquatchWatchSwift;
 			sourceTree = "<group>";
 		};
 		D31EF9641E9517C600450162 /* SasquatchWatchSwift Extension */ = {
@@ -1177,7 +1177,7 @@
 				D31EF9651E9517C600450162 /* Supporting Files */,
 			);
 			name = "SasquatchWatchSwift Extension";
-			path = "../TestApps/Sasquatch/SasquatchWatchSwift Extension";
+			path = "SasquatchWatchSwift Extension";
 			sourceTree = "<group>";
 		};
 		D31EF9651E9517C600450162 /* Supporting Files */ = {
@@ -2236,7 +2236,7 @@
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				DEVELOPMENT_TEAM = "$(inherited)";
-				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchUITests/Info.plist;
+				INFOPLIST_FILE = SasquatchUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.SasquatchSwiftUITests;
@@ -2252,7 +2252,7 @@
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = "$(inherited)";
-				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchUITests/Info.plist;
+				INFOPLIST_FILE = SasquatchUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.SasquatchSwiftUITests;
@@ -2267,7 +2267,7 @@
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				DEVELOPMENT_TEAM = "$(inherited)";
-				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchUITests/Info.plist;
+				INFOPLIST_FILE = SasquatchUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.SasquatchObjCUITests;
@@ -2283,7 +2283,7 @@
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = "$(inherited)";
-				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchUITests/Info.plist;
+				INFOPLIST_FILE = SasquatchUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.SasquatchObjCUITests;
@@ -2412,19 +2412,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = ../TestApps/Sasquatch/SasquatchObjC/SasquatchObjC.entitlements;
+				CODE_SIGN_ENTITLEMENTS = SasquatchObjC/SasquatchObjC.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = "$(inherited)";
-				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchObjC/Info.plist;
+				INFOPLIST_FILE = SasquatchObjC/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "../TestApps/Sasquatch/Sasquatch/Sasquatch-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Sasquatch/Sasquatch-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "Sasquatch-Swift.h";
 				SWIFT_VERSION = 3.0;
 			};
@@ -2434,19 +2434,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = ../TestApps/Sasquatch/SasquatchObjC/SasquatchObjC.entitlements;
+				CODE_SIGN_ENTITLEMENTS = SasquatchObjC/SasquatchObjC.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = "$(inherited)";
-				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchObjC/Info.plist;
+				INFOPLIST_FILE = SasquatchObjC/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "../TestApps/Sasquatch/Sasquatch/Sasquatch-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Sasquatch/Sasquatch-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "Sasquatch-Swift.h";
 				SWIFT_VERSION = 3.0;
 			};
@@ -2456,19 +2456,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = ../TestApps/Sasquatch/SasquatchSwift/SasquatchSwift.entitlements;
+				CODE_SIGN_ENTITLEMENTS = SasquatchSwift/SasquatchSwift.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "$(inherited)";
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
-				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchSwift/Info.plist;
+				INFOPLIST_FILE = SasquatchSwift/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "../TestApps/Sasquatch/Sasquatch/Sasquatch-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Sasquatch/Sasquatch-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -2477,18 +2477,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = ../TestApps/Sasquatch/SasquatchSwift/SasquatchSwift.entitlements;
+				CODE_SIGN_ENTITLEMENTS = SasquatchSwift/SasquatchSwift.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "$(inherited)";
-				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchSwift/Info.plist;
+				INFOPLIST_FILE = SasquatchSwift/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "../TestApps/Sasquatch/Sasquatch/Sasquatch-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Sasquatch/Sasquatch-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -2497,7 +2497,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = PuppetIcon;
-				CODE_SIGN_ENTITLEMENTS = ../TestApps/Sasquatch/SasquatchObjC/SasquatchObjC.entitlements;
+				CODE_SIGN_ENTITLEMENTS = SasquatchObjC/SasquatchObjC.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = NO;
@@ -2510,7 +2510,7 @@
 					"$(inherited)",
 					"GCC_PREPROCESSOR_MACRO_PUPPET=1",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/../TestApps/Sasquatch/SasquatchObjC/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/SasquatchObjC/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchpuppet;
@@ -2518,7 +2518,7 @@
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG ACTIVE_COMPILATION_CONDITION_PUPPET";
-				SWIFT_OBJC_BRIDGING_HEADER = "../TestApps/Sasquatch/Sasquatch/Sasquatch-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Sasquatch/Sasquatch-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "Sasquatch-Swift.h";
 				SWIFT_VERSION = 3.0;
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../AppCenter/AppCenter/** $(SRCROOT)/../AppCenterAnalytics/AppCenterAnalytics/** $(SRCROOT)/../AppCenterCrashes/AppCenterCrashes/** $(SRCROOT)/../AppCenterDistribute/AppCenterDistribute/** $(SRCROOT)/../AppCenterPush/AppCenterPush/**";
@@ -2529,7 +2529,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = PuppetIcon;
-				CODE_SIGN_ENTITLEMENTS = ../TestApps/Sasquatch/SasquatchObjC/SasquatchObjC.entitlements;
+				CODE_SIGN_ENTITLEMENTS = SasquatchObjC/SasquatchObjC.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -2540,7 +2540,7 @@
 					"$(SRCROOT)/../CrashLib/CrashLib",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = "GCC_PREPROCESSOR_MACRO_PUPPET=1";
-				INFOPLIST_FILE = "$(SRCROOT)/../TestApps/Sasquatch/SasquatchObjC/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/SasquatchObjC/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchpuppet;
@@ -2548,7 +2548,7 @@
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = ACTIVE_COMPILATION_CONDITION_PUPPET;
-				SWIFT_OBJC_BRIDGING_HEADER = "../TestApps/Sasquatch/Sasquatch/Sasquatch-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Sasquatch/Sasquatch-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "Sasquatch-Swift.h";
 				SWIFT_VERSION = 3.0;
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../AppCenter/AppCenter/** $(SRCROOT)/../AppCenterAnalytics/AppCenterAnalytics/** $(SRCROOT)/../AppCenterCrashes/AppCenterCrashes/** $(SRCROOT)/../AppCenterDistribute/AppCenterDistribute/** $(SRCROOT)/../AppCenterPush/AppCenterPush/**";
@@ -2559,19 +2559,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = ../TestApps/Sasquatch/SasquatchObjC/SasquatchObjC.entitlements;
+				CODE_SIGN_ENTITLEMENTS = SasquatchObjC/SasquatchObjC.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
-				INFOPLIST_FILE = "$(SRCROOT)/../TestApps/Sasquatch/SasquatchObjC/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/SasquatchObjC/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "c90ca77a-13f2-4e01-b886-639926a829f5";
 				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchObjC Debug";
-				SWIFT_OBJC_BRIDGING_HEADER = "../TestApps/Sasquatch/Sasquatch/Sasquatch-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Sasquatch/Sasquatch-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "Sasquatch-Swift.h";
 				SWIFT_VERSION = 3.0;
 			};
@@ -2581,20 +2581,20 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = ../TestApps/Sasquatch/SasquatchObjC/SasquatchObjC.entitlements;
+				CODE_SIGN_ENTITLEMENTS = SasquatchObjC/SasquatchObjC.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
-				INFOPLIST_FILE = "$(SRCROOT)/../TestApps/Sasquatch/SasquatchObjC/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/SasquatchObjC/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "b75f99a6-e2eb-48bb-8830-591610bc6b30";
 				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchObjC Release In-house";
-				SWIFT_OBJC_BRIDGING_HEADER = "../TestApps/Sasquatch/Sasquatch/Sasquatch-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Sasquatch/Sasquatch-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "Sasquatch-Swift.h";
 				SWIFT_VERSION = 3.0;
 			};
@@ -2604,19 +2604,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = ../TestApps/Sasquatch/SasquatchSwift/SasquatchSwift.entitlements;
+				CODE_SIGN_ENTITLEMENTS = SasquatchSwift/SasquatchSwift.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
-				INFOPLIST_FILE = "$(SRCROOT)/../TestApps/Sasquatch/SasquatchSwift/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/SasquatchSwift/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "13aa81a6-41a9-436b-bf26-b9910cfbee17";
 				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK Sasquatch Swift Debug";
-				SWIFT_OBJC_BRIDGING_HEADER = "../TestApps/Sasquatch/Sasquatch/Sasquatch-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Sasquatch/Sasquatch-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -2625,19 +2625,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = ../TestApps/Sasquatch/SasquatchSwift/SasquatchSwift.entitlements;
+				CODE_SIGN_ENTITLEMENTS = SasquatchSwift/SasquatchSwift.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
-				INFOPLIST_FILE = "$(SRCROOT)/../TestApps/Sasquatch/SasquatchSwift/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/SasquatchSwift/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "a4aa0a1a-5369-411d-9c93-1493db2dc33e";
 				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchSwift Release In-house";
-				SWIFT_OBJC_BRIDGING_HEADER = "../TestApps/Sasquatch/Sasquatch/Sasquatch-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Sasquatch/Sasquatch-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -2662,7 +2662,7 @@
 				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchUITests/Info.plist;
+				INFOPLIST_FILE = SasquatchUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_CFLAGS = "-fno-optimize-sibling-calls";
@@ -2697,7 +2697,7 @@
 				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchUITests/Info.plist;
+				INFOPLIST_FILE = SasquatchUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_CFLAGS = "-fno-optimize-sibling-calls";
@@ -2721,7 +2721,7 @@
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "$(inherited)";
-				INFOPLIST_FILE = "../TestApps/Sasquatch/SasquatchWatchObjC Extension/Info.plist";
+				INFOPLIST_FILE = "SasquatchWatchObjC Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
@@ -2745,7 +2745,7 @@
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "$(inherited)";
-				INFOPLIST_FILE = "../TestApps/Sasquatch/SasquatchWatchObjC Extension/Info.plist";
+				INFOPLIST_FILE = "SasquatchWatchObjC Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
@@ -2768,7 +2768,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "$(inherited)";
 				IBSC_MODULE = SasquatchWatchObjC_Extension;
-				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchWatchObjC/Info.plist;
+				INFOPLIST_FILE = SasquatchWatchObjC/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -2790,7 +2790,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "$(inherited)";
 				IBSC_MODULE = SasquatchWatchObjC_Extension;
-				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchWatchObjC/Info.plist;
+				INFOPLIST_FILE = SasquatchWatchObjC/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -2813,7 +2813,7 @@
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "$(inherited)";
-				INFOPLIST_FILE = "../TestApps/Sasquatch/SasquatchWatchSwift Extension/Info.plist";
+				INFOPLIST_FILE = "SasquatchWatchSwift Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
@@ -2838,7 +2838,7 @@
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "$(inherited)";
-				INFOPLIST_FILE = "../TestApps/Sasquatch/SasquatchWatchSwift Extension/Info.plist";
+				INFOPLIST_FILE = "SasquatchWatchSwift Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
@@ -2862,7 +2862,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "$(inherited)";
 				IBSC_MODULE = SasquatchWatchSwift_Extension;
-				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchWatchSwift/Info.plist;
+				INFOPLIST_FILE = SasquatchWatchSwift/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -2885,7 +2885,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "$(inherited)";
 				IBSC_MODULE = SasquatchWatchSwift_Extension;
-				INFOPLIST_FILE = ../TestApps/Sasquatch/SasquatchWatchSwift/Info.plist;
+				INFOPLIST_FILE = SasquatchWatchSwift/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
