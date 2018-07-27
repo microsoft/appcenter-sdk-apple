@@ -1,3 +1,4 @@
+#import "MSAbstractLogInternal.h"
 #import "MSDevice.h"
 #import <Foundation/Foundation.h>
 
