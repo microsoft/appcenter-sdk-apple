@@ -12,13 +12,14 @@
 /**
  * Update the distribution group ID value that is added to logs.
  *
- * @param distributionGroupId The distribution group ID value that is added to logs.
+ * @param distributionGroupId The distribution group ID value that is added to
+ * logs.
  */
-- (void) updateDistributionGroupId:(NSString *)distributionGroupId;
+- (void)updateDistributionGroupId:(NSString *)distributionGroupId;
 
 /**
  * Don't add the distribution group ID value to logs.
  */
-- (void) removeDistributionGroupId;
+- (void)removeDistributionGroupId;
 
 @end

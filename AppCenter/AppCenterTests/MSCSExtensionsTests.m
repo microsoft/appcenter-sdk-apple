@@ -44,19 +44,31 @@
   self.locExt = [self locExtensionWithDummyValues:self.locExtDummyValues];
   self.osExtDummyValues = @{ kMSOSName : @"iOS", kMSOSVer : @"9.0" };
   self.osExt = [self osExtensionWithDummyValues:self.osExtDummyValues];
-  self.appExtDummyValues = @{ kMSAppId : @"com.some.bundle.id", kMSAppVer : @"3.4.1", kMSAppLocale : @"en-us" };
+  self.appExtDummyValues = @{
+    kMSAppId : @"com.some.bundle.id",
+    kMSAppVer : @"3.4.1",
+    kMSAppLocale : @"en-us"
+  };
   self.appExt = [self appExtensionWithDummyValues:self.appExtDummyValues];
-  self.protocolExtDummyValues = @{ kMSDevMake : @"Apple", kMSDevModel : @"iPhone X" };
-  self.protocolExt = [self protocolExtensionWithDummyValues:self.protocolExtDummyValues];
+  self.protocolExtDummyValues =
+      @{ kMSDevMake : @"Apple",
+         kMSDevModel : @"iPhone X" };
+  self.protocolExt =
+      [self protocolExtensionWithDummyValues:self.protocolExtDummyValues];
   self.netExtDummyValues = @{ kMSNetProvider : @"Verizon" };
   self.netExt = [self netExtensionWithDummyValues:self.netExtDummyValues];
-  self.sdkExtDummyValues = [
-      @{ kMSSDKLibVer : @"1.2.0",
-         kMSSDKEpoch : MS_UUID_STRING,
-         kMSSDKSeq : @1,
-         kMSSDKInstallId : [NSUUID new] } mutableCopy];
+  self.sdkExtDummyValues = [@{
+    kMSSDKLibVer : @"1.2.0",
+    kMSSDKEpoch : MS_UUID_STRING,
+    kMSSDKSeq : @1,
+    kMSSDKInstallId : [NSUUID new]
+  } mutableCopy];
   self.sdkExt = [self sdkExtensionWithDummyValues:self.sdkExtDummyValues];
-  self.dataDummyValues = @{ @"akey" : @"avalue", @"anested.key" : @"anothervalue", @"anotherkey" : @"yetanothervalue" };
+  self.dataDummyValues = @{
+    @"akey" : @"avalue",
+    @"anested.key" : @"anothervalue",
+    @"anotherkey" : @"yetanothervalue"
+  };
   self.data = [self dataWithDummyValues:self.dataDummyValues];
   self.extDummyValues = [@{
     kMSCSUserExt : self.userExt,
@@ -83,20 +95,29 @@
 
   // Then
   XCTAssertNotNil(dict);
-  XCTAssertEqualObjects(dict[kMSCSAppExt], [self.extDummyValues[kMSCSAppExt] serializeToDictionary]);
-  XCTAssertEqualObjects(dict[kMSCSNetExt], [self.extDummyValues[kMSCSNetExt] serializeToDictionary]);
-  XCTAssertEqualObjects(dict[kMSCSLocExt], [self.extDummyValues[kMSCSLocExt] serializeToDictionary]);
-  XCTAssertEqualObjects(dict[kMSCSSDKExt], [self.extDummyValues[kMSCSSDKExt] serializeToDictionary]);
-  XCTAssertEqualObjects(dict[kMSCSUserExt], [self.extDummyValues[kMSCSUserExt] serializeToDictionary]);
-  XCTAssertEqualObjects(dict[kMSCSProtocolExt], [self.extDummyValues[kMSCSProtocolExt] serializeToDictionary]);
-  XCTAssertEqualObjects(dict[kMSCSOSExt], [self.extDummyValues[kMSCSOSExt] serializeToDictionary]);
+  XCTAssertEqualObjects(dict[kMSCSAppExt], [self.extDummyValues[kMSCSAppExt]
+                                               serializeToDictionary]);
+  XCTAssertEqualObjects(dict[kMSCSNetExt], [self.extDummyValues[kMSCSNetExt]
+                                               serializeToDictionary]);
+  XCTAssertEqualObjects(dict[kMSCSLocExt], [self.extDummyValues[kMSCSLocExt]
+                                               serializeToDictionary]);
+  XCTAssertEqualObjects(dict[kMSCSSDKExt], [self.extDummyValues[kMSCSSDKExt]
+                                               serializeToDictionary]);
+  XCTAssertEqualObjects(dict[kMSCSUserExt], [self.extDummyValues[kMSCSUserExt]
+                                                serializeToDictionary]);
+  XCTAssertEqualObjects(
+      dict[kMSCSProtocolExt],
+      [self.extDummyValues[kMSCSProtocolExt] serializeToDictionary]);
+  XCTAssertEqualObjects(dict[kMSCSOSExt], [self.extDummyValues[kMSCSOSExt]
+                                              serializeToDictionary]);
 }
 
 - (void)testExtNSCodingSerializationAndDeserialization {
 
   // When
   NSData *serializedExt = [NSKeyedArchiver archivedDataWithRootObject:self.ext];
-  MSCSExtensions *actualExt = [NSKeyedUnarchiver unarchiveObjectWithData:serializedExt];
+  MSCSExtensions *actualExt =
+      [NSKeyedUnarchiver unarchiveObjectWithData:serializedExt];
 
   // Then
   XCTAssertNotNil(actualExt);
@@ -105,7 +126,8 @@
   XCTAssertEqualObjects(actualExt.userExt, self.extDummyValues[kMSCSUserExt]);
   XCTAssertEqualObjects(actualExt.locExt, self.extDummyValues[kMSCSLocExt]);
   XCTAssertEqualObjects(actualExt.appExt, self.extDummyValues[kMSCSAppExt]);
-  XCTAssertEqualObjects(actualExt.protocolExt, self.extDummyValues[kMSCSProtocolExt]);
+  XCTAssertEqualObjects(actualExt.protocolExt,
+                        self.extDummyValues[kMSCSProtocolExt]);
   XCTAssertEqualObjects(actualExt.osExt, self.extDummyValues[kMSCSOSExt]);
   XCTAssertEqualObjects(actualExt.netExt, self.extDummyValues[kMSCSNetExt]);
   XCTAssertEqualObjects(actualExt.sdkExt, self.extDummyValues[kMSCSSDKExt]);
@@ -192,20 +214,24 @@
 
   // Then
   XCTAssertNotNil(dict);
-  XCTAssertEqualObjects(dict[kMSUserLocale], self.userExtDummyValues[kMSUserLocale]);
+  XCTAssertEqualObjects(dict[kMSUserLocale],
+                        self.userExtDummyValues[kMSUserLocale]);
 }
 
 - (void)testUserExtNSCodingSerializationAndDeserialization {
 
   // When
-  NSData *serializedUserExt = [NSKeyedArchiver archivedDataWithRootObject:self.userExt];
-  MSUserExtension *actualUserExt = [NSKeyedUnarchiver unarchiveObjectWithData:serializedUserExt];
+  NSData *serializedUserExt =
+      [NSKeyedArchiver archivedDataWithRootObject:self.userExt];
+  MSUserExtension *actualUserExt =
+      [NSKeyedUnarchiver unarchiveObjectWithData:serializedUserExt];
 
   // Then
   XCTAssertNotNil(actualUserExt);
   XCTAssertEqualObjects(self.userExt, actualUserExt);
   XCTAssertTrue([actualUserExt isMemberOfClass:[MSUserExtension class]]);
-  XCTAssertEqualObjects(actualUserExt.locale, self.userExtDummyValues[kMSUserLocale]);
+  XCTAssertEqualObjects(actualUserExt.locale,
+                        self.userExtDummyValues[kMSUserLocale]);
 }
 
 - (void)testUserExtIsValid {
@@ -253,8 +279,10 @@
 - (void)testLocExtNSCodingSerializationAndDeserialization {
 
   // When
-  NSData *serializedlocExt = [NSKeyedArchiver archivedDataWithRootObject:self.locExt];
-  MSLocExtension *actualLocExt = [NSKeyedUnarchiver unarchiveObjectWithData:serializedlocExt];
+  NSData *serializedlocExt =
+      [NSKeyedArchiver archivedDataWithRootObject:self.locExt];
+  MSLocExtension *actualLocExt =
+      [NSKeyedUnarchiver unarchiveObjectWithData:serializedlocExt];
 
   // Then
   XCTAssertNotNil(actualLocExt);
@@ -308,8 +336,10 @@
 - (void)testOSExtNSCodingSerializationAndDeserialization {
 
   // When
-  NSData *serializedOSExt = [NSKeyedArchiver archivedDataWithRootObject:self.osExt];
-  MSOSExtension *actualOSExt = [NSKeyedUnarchiver unarchiveObjectWithData:serializedOSExt];
+  NSData *serializedOSExt =
+      [NSKeyedArchiver archivedDataWithRootObject:self.osExt];
+  MSOSExtension *actualOSExt =
+      [NSKeyedUnarchiver unarchiveObjectWithData:serializedOSExt];
 
   // Then
   XCTAssertNotNil(actualOSExt);
@@ -371,8 +401,10 @@
 - (void)testAppExtNSCodingSerializationAndDeserialization {
 
   // When
-  NSData *serializedAppExt = [NSKeyedArchiver archivedDataWithRootObject:self.appExt];
-  MSAppExtension *actualAppExt = [NSKeyedUnarchiver unarchiveObjectWithData:serializedAppExt];
+  NSData *serializedAppExt =
+      [NSKeyedArchiver archivedDataWithRootObject:self.appExt];
+  MSAppExtension *actualAppExt =
+      [NSKeyedUnarchiver unarchiveObjectWithData:serializedAppExt];
 
   // Then
   XCTAssertNotNil(actualAppExt);
@@ -380,7 +412,8 @@
   XCTAssertTrue([actualAppExt isMemberOfClass:[MSAppExtension class]]);
   XCTAssertEqualObjects(actualAppExt.appId, self.appExtDummyValues[kMSAppId]);
   XCTAssertEqualObjects(actualAppExt.ver, self.appExtDummyValues[kMSAppVer]);
-  XCTAssertEqualObjects(actualAppExt.locale, self.appExtDummyValues[kMSAppLocale]);
+  XCTAssertEqualObjects(actualAppExt.locale,
+                        self.appExtDummyValues[kMSAppLocale]);
 }
 
 - (void)testAppExtIsValid {
@@ -442,15 +475,20 @@
 - (void)testProtocolExtNSCodingSerializationAndDeserialization {
 
   // When
-  NSData *serializedProtocolExt = [NSKeyedArchiver archivedDataWithRootObject:self.protocolExt];
-  MSProtocolExtension *actualProtocolExt = [NSKeyedUnarchiver unarchiveObjectWithData:serializedProtocolExt];
+  NSData *serializedProtocolExt =
+      [NSKeyedArchiver archivedDataWithRootObject:self.protocolExt];
+  MSProtocolExtension *actualProtocolExt =
+      [NSKeyedUnarchiver unarchiveObjectWithData:serializedProtocolExt];
 
   // Then
   XCTAssertNotNil(actualProtocolExt);
   XCTAssertEqualObjects(self.protocolExt, actualProtocolExt);
-  XCTAssertTrue([actualProtocolExt isMemberOfClass:[MSProtocolExtension class]]);
-  XCTAssertEqualObjects(actualProtocolExt.devMake, self.protocolExtDummyValues[kMSDevMake]);
-  XCTAssertEqualObjects(actualProtocolExt.devModel, self.protocolExtDummyValues[kMSDevModel]);
+  XCTAssertTrue(
+      [actualProtocolExt isMemberOfClass:[MSProtocolExtension class]]);
+  XCTAssertEqualObjects(actualProtocolExt.devMake,
+                        self.protocolExtDummyValues[kMSDevMake]);
+  XCTAssertEqualObjects(actualProtocolExt.devModel,
+                        self.protocolExtDummyValues[kMSDevModel]);
 }
 
 - (void)testProtocolExtIsValid {
@@ -471,7 +509,8 @@
   XCTAssertNotEqualObjects(anotherProtocolExt, self.protocolExt);
 
   // If
-  anotherProtocolExt = [self protocolExtensionWithDummyValues:self.protocolExtDummyValues];
+  anotherProtocolExt =
+      [self protocolExtensionWithDummyValues:self.protocolExtDummyValues];
 
   // Then
   XCTAssertEqualObjects(anotherProtocolExt, self.protocolExt);
@@ -505,14 +544,17 @@
 - (void)testNetExtNSCodingSerializationAndDeserialization {
 
   // When
-  NSData *serializedNetExt = [NSKeyedArchiver archivedDataWithRootObject:self.netExt];
-  MSNetExtension *actualNetExt = [NSKeyedUnarchiver unarchiveObjectWithData:serializedNetExt];
+  NSData *serializedNetExt =
+      [NSKeyedArchiver archivedDataWithRootObject:self.netExt];
+  MSNetExtension *actualNetExt =
+      [NSKeyedUnarchiver unarchiveObjectWithData:serializedNetExt];
 
   // Then
   XCTAssertNotNil(actualNetExt);
   XCTAssertEqualObjects(self.netExt, actualNetExt);
   XCTAssertTrue([actualNetExt isMemberOfClass:[MSNetExtension class]]);
-  XCTAssertEqualObjects(actualNetExt.provider, self.netExtDummyValues[kMSNetProvider]);
+  XCTAssertEqualObjects(actualNetExt.provider,
+                        self.netExtDummyValues[kMSNetProvider]);
 }
 
 - (void)testNetExtIsValid {
@@ -553,7 +595,8 @@
   NSMutableDictionary *dict = [self.sdkExt serializeToDictionary];
 
   // Then
-  self.sdkExtDummyValues[kMSSDKInstallId] = [((NSUUID *)self.sdkExtDummyValues[kMSSDKInstallId])UUIDString];
+  self.sdkExtDummyValues[kMSSDKInstallId] =
+      [((NSUUID *)self.sdkExtDummyValues[kMSSDKInstallId])UUIDString];
   XCTAssertNotNil(dict);
   XCTAssertEqualObjects(dict, self.sdkExtDummyValues);
 }
@@ -561,17 +604,23 @@
 - (void)testSDKExtNSCodingSerializationAndDeserialization {
 
   // When
-  NSData *serializedSDKExt = [NSKeyedArchiver archivedDataWithRootObject:self.sdkExt];
-  MSSDKExtension *actualSDKExt = [NSKeyedUnarchiver unarchiveObjectWithData:serializedSDKExt];
+  NSData *serializedSDKExt =
+      [NSKeyedArchiver archivedDataWithRootObject:self.sdkExt];
+  MSSDKExtension *actualSDKExt =
+      [NSKeyedUnarchiver unarchiveObjectWithData:serializedSDKExt];
 
   // Then
   XCTAssertNotNil(actualSDKExt);
   XCTAssertEqualObjects(self.sdkExt, actualSDKExt);
   XCTAssertTrue([actualSDKExt isMemberOfClass:[MSSDKExtension class]]);
-  XCTAssertEqualObjects(actualSDKExt.libVer, self.sdkExtDummyValues[kMSSDKLibVer]);
-  XCTAssertEqualObjects(actualSDKExt.epoch, self.sdkExtDummyValues[kMSSDKEpoch]);
-  XCTAssertTrue(actualSDKExt.seq == [self.sdkExtDummyValues[kMSSDKSeq] longLongValue]);
-  XCTAssertEqualObjects(actualSDKExt.installId, self.sdkExtDummyValues[kMSSDKInstallId]);
+  XCTAssertEqualObjects(actualSDKExt.libVer,
+                        self.sdkExtDummyValues[kMSSDKLibVer]);
+  XCTAssertEqualObjects(actualSDKExt.epoch,
+                        self.sdkExtDummyValues[kMSSDKEpoch]);
+  XCTAssertTrue(actualSDKExt.seq ==
+                [self.sdkExtDummyValues[kMSSDKSeq] longLongValue]);
+  XCTAssertEqualObjects(actualSDKExt.installId,
+                        self.sdkExtDummyValues[kMSSDKInstallId]);
 }
 
 - (void)testSDKExtIsValid {
@@ -640,8 +689,10 @@
 - (void)testDataNSCodingSerializationAndDeserialization {
 
   // When
-  NSData *serializedData = [NSKeyedArchiver archivedDataWithRootObject:self.data];
-  MSCSData *actualData = [NSKeyedUnarchiver unarchiveObjectWithData:serializedData];
+  NSData *serializedData =
+      [NSKeyedArchiver archivedDataWithRootObject:self.data];
+  MSCSData *actualData =
+      [NSKeyedUnarchiver unarchiveObjectWithData:serializedData];
 
   // Then
   XCTAssertNotNil(actualData);
@@ -721,7 +772,8 @@
   return appExt;
 }
 
-- (MSProtocolExtension *)protocolExtensionWithDummyValues:(NSDictionary *)dummyValues {
+- (MSProtocolExtension *)protocolExtensionWithDummyValues:
+    (NSDictionary *)dummyValues {
   MSProtocolExtension *protocolExt = [MSProtocolExtension new];
   protocolExt.devMake = dummyValues[kMSDevMake];
   protocolExt.devModel = dummyValues[kMSDevModel];

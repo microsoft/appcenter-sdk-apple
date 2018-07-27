@@ -25,8 +25,10 @@
   assertThat(actual[@"name"], equalTo(sut.name));
   assertThat(actual[@"path"], equalTo(sut.path));
   assertThat(actual[@"architecture"], equalTo(sut.architecture));
-  assertThat(actual[@"primaryArchitectureId"], equalTo(sut.primaryArchitectureId));
-  assertThat(actual[@"architectureVariantId"], equalTo(sut.architectureVariantId));
+  assertThat(actual[@"primaryArchitectureId"],
+             equalTo(sut.primaryArchitectureId));
+  assertThat(actual[@"architectureVariantId"],
+             equalTo(sut.architectureVariantId));
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {
@@ -50,8 +52,10 @@
   assertThat(actualBinary.name, equalTo(sut.name));
   assertThat(actualBinary.path, equalTo(sut.path));
   assertThat(actualBinary.architecture, equalTo(sut.architecture));
-  assertThat(actualBinary.primaryArchitectureId, equalTo(sut.primaryArchitectureId));
-  assertThat(actualBinary.architectureVariantId, equalTo(sut.architectureVariantId));
+  assertThat(actualBinary.primaryArchitectureId,
+             equalTo(sut.primaryArchitectureId));
+  assertThat(actualBinary.architectureVariantId,
+             equalTo(sut.architectureVariantId));
 }
 
 - (void)testIsValid {

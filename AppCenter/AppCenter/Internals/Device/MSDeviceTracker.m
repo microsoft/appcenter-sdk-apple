@@ -1,18 +1,19 @@
+#import "MSDeviceTracker.h"
 #import "MSConstants+Internal.h"
 #import "MSDeviceHistoryInfo.h"
-#import "MSDeviceTracker.h"
 #import "MSDeviceTrackerPrivate.h"
 #import "MSUserDefaults.h"
-#import "MSUtility.h"
 #import "MSUtility+Application.h"
 #import "MSUtility+Date.h"
+#import "MSUtility.h"
 #import "MSWrapperSdkInternal.h"
 
 static NSUInteger const kMSMaxDevicesHistoryCount = 5;
 
 @interface MSDeviceTracker ()
 
-// We need a private setter for the device to avoid the warning that is related to direct access of ivars.
+// We need a private setter for the device to avoid the warning that is related
+// to direct access of ivars.
 @property(nonatomic) MSDevice *device;
 
 @end
@@ -39,18 +40,21 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
     // Restore past sessions from NSUserDefaults.
     NSData *devices = [MS_USER_DEFAULTS objectForKey:kMSPastDevicesKey];
     if (devices != nil) {
-      NSArray *arrayFromData = [NSKeyedUnarchiver unarchiveObjectWithData:devices];
+      NSArray *arrayFromData =
+          [NSKeyedUnarchiver unarchiveObjectWithData:devices];
 
       // If array is not nil, create a mutable version.
       if (arrayFromData)
         _deviceHistory = [NSMutableArray arrayWithArray:arrayFromData];
     }
 
-    // Create new array and create device info in case we don't have any from disk.
+    // Create new array and create device info in case we don't have any from
+    // disk.
     if (_deviceHistory == nil) {
       _deviceHistory = [NSMutableArray<MSDeviceHistoryInfo *> new];
 
-      // This will instantiate the device property to make sure we have a history.
+      // This will instantiate the device property to make sure we have a
+      // history.
       [self device];
     }
   }
@@ -84,12 +88,15 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
 
       // Create new MSDeviceHistoryInfo.
       MSDeviceHistoryInfo *deviceHistoryInfo =
-          [[MSDeviceHistoryInfo alloc] initWithTimestamp:[NSDate date] andDevice:_device];
+          [[MSDeviceHistoryInfo alloc] initWithTimestamp:[NSDate date]
+                                               andDevice:_device];
 
-      // Insert new MSDeviceHistoryInfo at the proper index to keep self.deviceHistory sorted.
-      NSUInteger newIndex = [self.deviceHistory indexOfObject:deviceHistoryInfo
-          inSortedRange:(NSRange) { 0, [self.deviceHistory count] }
-          options:NSBinarySearchingInsertionIndex
+      // Insert new MSDeviceHistoryInfo at the proper index to keep
+      // self.deviceHistory sorted.
+      NSUInteger newIndex = [self.deviceHistory
+            indexOfObject:deviceHistoryInfo
+            inSortedRange:(NSRange){0, [self.deviceHistory count]}
+                  options:NSBinarySearchingInsertionIndex
           usingComparator:^(MSDeviceHistoryInfo *a, MSDeviceHistoryInfo *b) {
             return [a.timestamp compare:b.timestamp];
           }];
@@ -101,8 +108,10 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
       }
 
       // Persist the device history in NSData format.
-      [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.deviceHistory]
-                           forKey:kMSPastDevicesKey];
+      [MS_USER_DEFAULTS
+          setObject:[NSKeyedArchiver
+                        archivedDataWithRootObject:self.deviceHistory]
+             forKey:kMSPastDevicesKey];
     }
     return _device;
   }
@@ -115,7 +124,8 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
   @synchronized(self) {
     MSDevice *newDevice = [[MSDevice alloc] init];
 #if TARGET_OS_IOS
-    CTCarrier *carrier = [[[CTTelephonyNetworkInfo alloc] init] subscriberCellularProvider];
+    CTCarrier *carrier =
+        [[[CTTelephonyNetworkInfo alloc] init] subscriberCellularProvider];
 #endif
 
     // Collect device properties.
@@ -150,7 +160,8 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
     // Add wrapper SDK information
     [self refreshWrapperSdk:newDevice];
 
-    // Make sure we set the flag to indicate we don't need to update our device info.
+    // Make sure we set the flag to indicate we don't need to update our device
+    // info.
     needRefresh = NO;
 
     // Return new device.
@@ -166,8 +177,10 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
     device.wrapperSdkVersion = wrapperSdkInformation.wrapperSdkVersion;
     device.wrapperSdkName = wrapperSdkInformation.wrapperSdkName;
     device.wrapperRuntimeVersion = wrapperSdkInformation.wrapperRuntimeVersion;
-    device.liveUpdateReleaseLabel = wrapperSdkInformation.liveUpdateReleaseLabel;
-    device.liveUpdateDeploymentKey = wrapperSdkInformation.liveUpdateDeploymentKey;
+    device.liveUpdateReleaseLabel =
+        wrapperSdkInformation.liveUpdateReleaseLabel;
+    device.liveUpdateDeploymentKey =
+        wrapperSdkInformation.liveUpdateDeploymentKey;
     device.liveUpdatePackageHash = wrapperSdkInformation.liveUpdatePackageHash;
   }
 }
@@ -175,22 +188,27 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
 - (MSDevice *)deviceForTimestamp:(NSDate *)timestamp {
   if (!timestamp || self.deviceHistory.count == 0) {
 
-    // Return a new device in case we don't have a device in our history or timestamp is nil.
+    // Return a new device in case we don't have a device in our history or
+    // timestamp is nil.
     return [self device];
   } else {
 
     // This implements a binary search with complexity O(log n).
-    MSDeviceHistoryInfo *find = [[MSDeviceHistoryInfo alloc] initWithTimestamp:timestamp andDevice:nil];
-    NSUInteger index = [self.deviceHistory indexOfObject:find
-                                           inSortedRange:NSMakeRange(0, self.deviceHistory.count)
-                                                 options:NSBinarySearchingFirstEqual | NSBinarySearchingInsertionIndex
-                                         usingComparator:^(MSDeviceHistoryInfo *a, MSDeviceHistoryInfo *b) {
-                                           return [a.timestamp compare:b.timestamp];
-                                         }];
+    MSDeviceHistoryInfo *find =
+        [[MSDeviceHistoryInfo alloc] initWithTimestamp:timestamp andDevice:nil];
+    NSUInteger index = [self.deviceHistory
+          indexOfObject:find
+          inSortedRange:NSMakeRange(0, self.deviceHistory.count)
+                options:NSBinarySearchingFirstEqual |
+                        NSBinarySearchingInsertionIndex
+        usingComparator:^(MSDeviceHistoryInfo *a, MSDeviceHistoryInfo *b) {
+          return [a.timestamp compare:b.timestamp];
+        }];
 
     /*
      * All timestamps are larger.
-     * For now, the SDK picks up the oldest which is closer to the device info at the crash time.
+     * For now, the SDK picks up the oldest which is closer to the device info
+     * at the crash time.
      */
     if (index == 0) {
       return self.deviceHistory[0].device;
@@ -235,7 +253,8 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
     return nil;
   }
   sysctlbyname(name, answer, &size, NULL, 0);
-  NSString *model = [NSString stringWithCString:answer encoding:NSUTF8StringEncoding];
+  NSString *model =
+      [NSString stringWithCString:answer encoding:NSUTF8StringEncoding];
   free(answer);
   return model;
 }
@@ -256,12 +275,16 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
   NSString *osVersion = nil;
 
 #if __MAC_OS_X_VERSION_MAX_ALLOWED > 1090
-  if ([[NSProcessInfo processInfo] respondsToSelector:@selector(operatingSystemVersion)]) {
+  if ([[NSProcessInfo processInfo]
+          respondsToSelector:@selector(operatingSystemVersion)]) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpartial-availability"
-    NSOperatingSystemVersion osSystemVersion = [[NSProcessInfo processInfo] operatingSystemVersion];
-    osVersion = [NSString stringWithFormat:@"%ld.%ld.%ld", (long)osSystemVersion.majorVersion,
-                                           (long)osSystemVersion.minorVersion, (long)osSystemVersion.patchVersion];
+    NSOperatingSystemVersion osSystemVersion =
+        [[NSProcessInfo processInfo] operatingSystemVersion];
+    osVersion = [NSString stringWithFormat:@"%ld.%ld.%ld",
+                                           (long)osSystemVersion.majorVersion,
+                                           (long)osSystemVersion.minorVersion,
+                                           (long)osSystemVersion.patchVersion];
 #pragma clang diagnostic pop
   }
 #else
@@ -272,7 +295,8 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
   OSErr err2 = Gestalt(gestaltSystemVersionMinor, &minor);
   OSErr err3 = Gestalt(gestaltSystemVersionBugFix, &bugfix);
   if ((!err1) && (!err2) && (!err3)) {
-    osVersion = [NSString stringWithFormat:@"%ld.%ld.%ld", (long)major, (long)minor, (long)bugfix];
+    osVersion = [NSString stringWithFormat:@"%ld.%ld.%ld", (long)major,
+                                           (long)minor, (long)bugfix];
   }
 #pragma clang diagnostic pop
 #endif
@@ -292,7 +316,8 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
     return nil;
   }
   sysctlbyname("kern.osversion", answer, &size, NULL, 0);
-  NSString *osBuild = [NSString stringWithCString:answer encoding:NSUTF8StringEncoding];
+  NSString *osBuild =
+      [NSString stringWithCString:answer encoding:NSUTF8StringEncoding];
   free(answer);
   return osBuild;
 }
@@ -300,27 +325,38 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
 - (NSString *)locale:(NSLocale *)currentLocale {
 
   /*
-   * [currentLocale objectForKey:NSLocaleIdentifier] will return an alternate language if a language set in system is
-   * not supported by applications. If system language is set to en_US but an application doesn't support en_US, for
-   * example, the OS will return the next application supported language in Preferred Language Order list unless there
-   * is only one language in the list. The method will return the first language in the list to prevent from the above
-   * scenario.
+   * [currentLocale objectForKey:NSLocaleIdentifier] will return an alternate
+   * language if a language set in system is not supported by applications. If
+   * system language is set to en_US but an application doesn't support en_US,
+   * for example, the OS will return the next application supported language in
+   * Preferred Language Order list unless there is only one language in the
+   * list. The method will return the first language in the list to prevent from
+   * the above scenario.
    *
    * In addition to that;
-   *     1. preferred language returns "-" instead of "_" as a delimiter of language code and country code, the method
-   * will concatenate language code and country code with "_" and return it.
-   *     2. some languages can be set without country code so region code can be returned in this case.
-   *     3. some langugaes have script code which differentiate languages. E.g. zh-Hans and zh-Hant. This is a possible
-   * scenario in Apple platforms that a locale can be zh_CN for Traditional Chinese. The method will return zh-Hant_CN
-   * in this case to make sure system language is Traditional Chinese even though region is set to China.
+   *     1. preferred language returns "-" instead of "_" as a delimiter of
+   * language code and country code, the method will concatenate language code
+   * and country code with "_" and return it. 2. some languages can be set
+   * without country code so region code can be returned in this case. 3.
+   * some langugaes have script code which differentiate languages. E.g.
+   * zh-Hans and zh-Hant. This is a possible scenario in Apple platforms that a
+   * locale can be zh_CN for Traditional Chinese. The method will return
+   * zh-Hant_CN in this case to make sure system language is Traditional Chinese
+   * even though region is set to China.
    */
-  NSLocale *preferredLanguage = [[NSLocale alloc] initWithLocaleIdentifier:[NSLocale preferredLanguages][0]];
-  NSString *languageCode = [preferredLanguage objectForKey:NSLocaleLanguageCode];
+  NSLocale *preferredLanguage = [[NSLocale alloc]
+      initWithLocaleIdentifier:[NSLocale preferredLanguages][0]];
+  NSString *languageCode =
+      [preferredLanguage objectForKey:NSLocaleLanguageCode];
   NSString *scriptCode = [preferredLanguage objectForKey:NSLocaleScriptCode];
   NSString *countryCode = [preferredLanguage objectForKey:NSLocaleCountryCode];
-  NSString *locale = [NSString stringWithFormat:@"%@%@_%@", languageCode,
-                                                (scriptCode ? [NSString stringWithFormat:@"-%@", scriptCode] : @""),
-                                                countryCode ?: [currentLocale objectForKey:NSLocaleCountryCode]];
+  NSString *locale = [NSString
+      stringWithFormat:@"%@%@_%@", languageCode,
+                       (scriptCode
+                            ? [NSString stringWithFormat:@"-%@", scriptCode]
+                            : @""),
+                       countryCode
+                           ?: [currentLocale objectForKey:NSLocaleCountryCode]];
   return locale;
 }
 
@@ -338,7 +374,8 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
   CGFloat scale = [UIScreen mainScreen].scale;
   CGSize screenSize = [UIScreen mainScreen].bounds.size;
 #endif
-  return [NSString stringWithFormat:@"%dx%d", (int)(screenSize.height * scale), (int)(screenSize.width * scale)];
+  return [NSString stringWithFormat:@"%dx%d", (int)(screenSize.height * scale),
+                                    (int)(screenSize.width * scale)];
 }
 
 #if TARGET_OS_IOS

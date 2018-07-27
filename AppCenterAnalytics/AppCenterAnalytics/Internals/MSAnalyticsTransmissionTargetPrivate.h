@@ -16,7 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Child transmission targets nested to this transmission target.
  */
-@property(nonatomic) NSMutableDictionary<NSString *, MSAnalyticsTransmissionTarget *> *childTransmissionTargets;
+@property(nonatomic)
+    NSMutableDictionary<NSString *, MSAnalyticsTransmissionTarget *>
+        *childTransmissionTargets;
 
 /**
  * isEnabled value storage key.

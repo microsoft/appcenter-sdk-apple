@@ -23,7 +23,8 @@ static NSString *const kMSTargetTokenColumnName = @"targetToken";
 /**
  * Keep track of logs batches per group Id associated with their logs Ids.
  */
-@property(nonatomic) NSMutableDictionary<NSString *, NSArray<NSNumber *> *> *batches;
+@property(nonatomic)
+    NSMutableDictionary<NSString *, NSArray<NSNumber *> *> *batches;
 
 /**
  * "id" database column index.
@@ -55,7 +56,8 @@ static NSString *const kMSTargetTokenColumnName = @"targetToken";
  *
  * @param groupId The key used for grouping logs.
  *
- * @return Logs and their ids corresponding to the given group Id from the storage.
+ * @return Logs and their ids corresponding to the given group Id from the
+ * storage.
  */
 - (NSArray<id<MSLog>> *)logsFromDBWithGroupId:(NSString *)groupId;
 

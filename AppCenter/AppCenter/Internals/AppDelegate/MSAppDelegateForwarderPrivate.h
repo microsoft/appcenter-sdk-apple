@@ -7,22 +7,26 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Hash table containing all the delegates as weak references.
  */
-@property(nonatomic, class) NSHashTable<id<MSCustomApplicationDelegate>> *delegates;
+@property(nonatomic, class)
+    NSHashTable<id<MSCustomApplicationDelegate>> *delegates;
 
 /**
  * Keep track of original selectors to swizzle.
  */
-@property(nonatomic, class, readonly) NSMutableSet<NSString *> *selectorsToSwizzle;
+@property(nonatomic, class, readonly)
+    NSMutableSet<NSString *> *selectorsToSwizzle;
 
 /**
  * Dictionary of deprecated original selectors indexed by their new equivalent.
  */
-@property(nonatomic, class, readonly) NSDictionary<NSString *, NSString *> *deprecatedSelectors;
+@property(nonatomic, class, readonly)
+    NSDictionary<NSString *, NSString *> *deprecatedSelectors;
 
 /**
  * Keep track of the original delegate's method implementations.
  */
-@property(nonatomic, class, readonly) NSMutableDictionary<NSString *, NSValue *> *originalImplementations;
+@property(nonatomic, class, readonly)
+    NSMutableDictionary<NSString *, NSValue *> *originalImplementations;
 
 #if TARGET_OS_OSX
 /**

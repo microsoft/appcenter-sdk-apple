@@ -29,7 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithString:(nullable NSString *)version;
 
 /**
- * Allocate and initialize a semantic versioning object by parsing a version in string form.
+ * Allocate and initialize a semantic versioning object by parsing a version in
+ * string form.
  *
  * @param version A string representing a version.
  *
@@ -47,11 +48,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSComparisonResult)compare:(MSSemVer *)version;
 
 /**
- * Check whether the given string is conform to semantic versioning format or not.
+ * Check whether the given string is conform to semantic versioning format or
+ * not.
  *
  * @param version A version to check.
  *
- * @return `YES` if the given string is a valid non nil version conforming semantic versioning, `No` otherwise.
+ * @return `YES` if the given string is a valid non nil version conforming
+ * semantic versioning, `No` otherwise.
  */
 + (BOOL)isSemVerFormat:(nullable NSString *)version;
 

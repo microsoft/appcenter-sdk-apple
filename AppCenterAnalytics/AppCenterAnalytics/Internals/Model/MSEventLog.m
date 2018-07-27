@@ -1,8 +1,8 @@
 #import "AppCenter+Internal.h"
 #import "MSAbstractLogInternal.h"
 #import "MSAnalyticsInternal.h"
-#import "MSCommonSchemaLog.h"
 #import "MSCSModelConstants.h"
+#import "MSCommonSchemaLog.h"
 #import "MSEventLogPrivate.h"
 #import "MSLogConversion.h"
 
@@ -33,11 +33,13 @@ static NSString *const kMSId = @"id";
 }
 
 - (BOOL)isEqual:(id)object {
-  if (![(NSObject *)object isKindOfClass:[MSEventLog class]] || ![super isEqual:object]) {
+  if (![(NSObject *)object isKindOfClass:[MSEventLog class]] ||
+      ![super isEqual:object]) {
     return NO;
   }
   MSEventLog *eventLog = (MSEventLog *)object;
-  return ((!self.eventId && !eventLog.eventId) || [self.eventId isEqualToString:eventLog.eventId]);
+  return ((!self.eventId && !eventLog.eventId) ||
+          [self.eventId isEqualToString:eventLog.eventId]);
 }
 
 #pragma mark - NSCoding
@@ -67,7 +69,8 @@ static NSString *const kMSId = @"id";
   // Event properties goes to part C.
   MSCSData *data = [MSCSData new];
   csLog.data = data;
-  csLog.data.properties = [self convertACPropertiesToCSproperties:self.properties];
+  csLog.data.properties =
+      [self convertACPropertiesToCSproperties:self.properties];
   return csLog;
 }
 
@@ -80,13 +83,18 @@ static NSString *const kMSId = @"id";
     csProperties = [NSMutableDictionary new];
     for (NSString *acKey in acProperties) {
 
-      // Properties keys are mixed up with other keys from Data, make sure they don't conflict.
-      if ([acKey isEqualToString:kMSDataBaseData] || [acKey isEqualToString:kMSDataBaseDataType]) {
-        MSLogWarning(MSAnalytics.logTag, @"Cannot use %@ in properties, skipping that property.", acKey);
+      // Properties keys are mixed up with other keys from Data, make sure they
+      // don't conflict.
+      if ([acKey isEqualToString:kMSDataBaseData] ||
+          [acKey isEqualToString:kMSDataBaseDataType]) {
+        MSLogWarning(MSAnalytics.logTag,
+                     @"Cannot use %@ in properties, skipping that property.",
+                     acKey);
         continue;
       }
 
-      // If the key contains a '.' then it's nested objects (i.e: "a.b":"value" => {"a":{"b":"value"}}).
+      // If the key contains a '.' then it's nested objects (i.e: "a.b":"value"
+      // => {"a":{"b":"value"}}).
       NSArray *csKeys = [acKey componentsSeparatedByString:@"."];
       NSObject *csValue = acProperties[acKey];
       for (NSString *csKey in [csKeys reverseObjectEnumerator]) {

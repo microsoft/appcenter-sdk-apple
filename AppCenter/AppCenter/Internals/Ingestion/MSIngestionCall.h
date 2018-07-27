@@ -37,7 +37,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) MSSendAsyncCompletionHandler completionHandler;
 
 /**
- * A timer source which is used to flush the queue after a certain amount of time.
+ * A timer source which is used to flush the queue after a certain amount of
+ * time.
  */
 @property(nonatomic) dispatch_source_t timerSource;
 
@@ -80,10 +81,10 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param data       response data.
  *  @param error      call error.
  */
-- (void)      ingestion:(id <MSIngestionProtocol>)ingestion
-callCompletedWithStatus:(NSUInteger)statusCode
-                   data:(nullable NSData *)data
-                  error:(NSError *)error;
+- (void)ingestion:(id<MSIngestionProtocol>)ingestion
+    callCompletedWithStatus:(NSUInteger)statusCode
+                       data:(nullable NSData *)data
+                      error:(NSError *)error;
 
 @end
 

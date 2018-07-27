@@ -17,7 +17,8 @@ static MSMockService *sharedInstance = nil;
 - (instancetype)init {
   if ((self = [super init])) {
     // Init channel configuration.
-    channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
+    channelUnitConfiguration = [[MSChannelUnitConfiguration alloc]
+        initDefaultConfigurationWithGroupId:[self groupId]];
   }
   return self;
 }
@@ -45,7 +46,8 @@ static MSMockService *sharedInstance = nil;
   return kMSGroupId;
 }
 
-- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)__unused logManager appSecret:(NSString *)__unused appSecret {
+- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)__unused logManager
+                    appSecret:(NSString *)__unused appSecret {
   [self setStarted:YES];
 }
 

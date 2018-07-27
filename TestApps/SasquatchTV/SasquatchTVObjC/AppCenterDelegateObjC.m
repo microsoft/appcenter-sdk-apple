@@ -56,14 +56,16 @@
 - (void)trackEvent:(NSString *)eventName {
   [MSAnalytics trackEvent:eventName];
 }
-- (void)trackEvent:(NSString *)eventName withProperties:(NSDictionary<NSString *, NSString *> *)properties {
+- (void)trackEvent:(NSString *)eventName
+    withProperties:(NSDictionary<NSString *, NSString *> *)properties {
   [MSAnalytics trackEvent:eventName withProperties:properties];
 }
 - (void)trackPage:(NSString *)pageName {
   // TODO: Uncomment when trackPage is moved from internal to public module.
   // [MSAnalytics trackPage:pageName];
 }
-- (void)trackPage:(NSString *)pageName withProperties:(NSDictionary<NSString *, NSString *> *)properties {
+- (void)trackPage:(NSString *)pageName
+    withProperties:(NSDictionary<NSString *, NSString *> *)properties {
   // TODO: Uncomment when trackPage is moved from internal to public module.
   // [MSAnalytics trackPage:pageName withProperties:properties];
 }

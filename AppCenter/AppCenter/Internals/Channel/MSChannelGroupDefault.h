@@ -35,7 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) NSHashTable<id<MSChannelDelegate>> *delegates;
 
 /**
- * An ingestion instance that is used to send batches of log items to the backend.
+ * An ingestion instance that is used to send batches of log items to the
+ * backend.
  */
 @property(nonatomic, strong, nullable) MSHttpIngestion *ingestion;
 

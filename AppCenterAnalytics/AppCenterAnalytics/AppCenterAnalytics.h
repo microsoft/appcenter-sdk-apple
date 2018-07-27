@@ -2,5 +2,5 @@
 
 #import "MSAbstractLog.h"
 #import "MSAnalytics.h"
-#import "MSEventLog.h"
 #import "MSAnalyticsTransmissionTarget.h"
+#import "MSEventLog.h"

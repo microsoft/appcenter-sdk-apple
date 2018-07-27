@@ -1,6 +1,8 @@
 #import <Foundation/Foundation.h>
 
-typedef void (^MSSendAsyncCompletionHandler)(NSString *callId, NSUInteger statusCode, NSData *data, NSError *error);
+typedef void (^MSSendAsyncCompletionHandler)(NSString *callId,
+                                             NSUInteger statusCode,
+                                             NSData *data, NSError *error);
 
 static short const kMSMaxCharactersDisplayedForAppSecret = 8;
 static NSString *const kMSHidingStringForAppSecret = @"*";
@@ -35,8 +37,9 @@ static NSString *const kMSHidingStringForAppSecret = @"*";
 + (BOOL)isNoInternetConnectionError:(NSError *)error;
 
 /**
- * Indicate if error is because a secure connection could not be established, e.g. when using a public network that
- * is open but requires accepting terms and conditions, and the user hasn't done that, yet.
+ * Indicate if error is because a secure connection could not be established,
+ e.g. when using a public network that * is open but requires accepting terms
+ and conditions, and the user hasn't done that, yet.
  *
  * @param error http error.
  *

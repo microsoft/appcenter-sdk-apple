@@ -6,8 +6,9 @@ static MSLogLevel _currentLogLevel = MSLogLevelAssert;
 static MSLogHandler currentLogHandler;
 static BOOL _isUserDefinedLogLevel = NO;
 
-MSLogHandler const msDefaultLogHandler = ^(MSLogMessageProvider messageProvider, MSLogLevel logLevel, NSString *tag,
-                                           __attribute__((unused)) const char *file, const char *function, uint line) {
+MSLogHandler const msDefaultLogHandler = ^(
+    MSLogMessageProvider messageProvider, MSLogLevel logLevel, NSString *tag,
+    __attribute__((unused)) const char *file, const char *function, uint line) {
   if (messageProvider) {
     if (_currentLogLevel > logLevel) {
       return;
@@ -37,8 +38,9 @@ MSLogHandler const msDefaultLogHandler = ^(MSLogMessageProvider messageProvider,
       level = @"";
       break;
     }
-    NSLog(@"[%@] %@: %@/%d %@", tag, level, [NSString stringWithCString:function encoding:NSUTF8StringEncoding], line,
-          messageProvider());
+    NSLog(@"[%@] %@: %@/%d %@", tag, level,
+          [NSString stringWithCString:function encoding:NSUTF8StringEncoding],
+          line, messageProvider());
   }
 };
 

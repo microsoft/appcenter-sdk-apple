@@ -38,9 +38,9 @@ typedef NS_OPTIONS(NSUInteger, MSCompletionExecutor) {
  *
  * @param selector An app delegate selector to swizzle.
  *
- * @discussion Due to the early registration of swizzling on the original app delegate
- * each custom delegate must sign up for selectors to swizzle within the `load` method of a category over
- * the @see MSAppDelegateForwarder class.
+ * @discussion Due to the early registration of swizzling on the original app
+ * delegate each custom delegate must sign up for selectors to swizzle within
+ * the `load` method of a category over the @see MSAppDelegateForwarder class.
  */
 + (void)addAppDelegateSelectorToSwizzle:(SEL)selector;
 

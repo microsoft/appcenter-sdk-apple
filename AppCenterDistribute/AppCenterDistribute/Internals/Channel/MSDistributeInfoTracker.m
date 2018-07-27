@@ -2,7 +2,8 @@
 
 @implementation MSDistributeInfoTracker
 
-- (void)channel:(id<MSChannelProtocol>)__unused channel prepareLog:(id<MSLog>)log {
+- (void)channel:(id<MSChannelProtocol>)__unused channel
+     prepareLog:(id<MSLog>)log {
   if (self.distributionGroupId == nil) {
     return;
   }
@@ -11,7 +12,7 @@
   log.distributionGroupId = self.distributionGroupId;
 }
 
-- (void) updateDistributionGroupId:(NSString *)distributionGroupId {
+- (void)updateDistributionGroupId:(NSString *)distributionGroupId {
   @synchronized(self) {
     self.distributionGroupId = distributionGroupId;
   }

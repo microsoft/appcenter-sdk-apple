@@ -11,7 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @param logArray Array of logs loaded from the storage.
  * @param batchId Batch Id associated with the logs, `nil` if no logs available.
  */
-typedef void (^MSLoadDataCompletionBlock)(NSArray<id<MSLog>> *_Nullable logArray, NSString *_Nullable batchId);
+typedef void (^MSLoadDataCompletionBlock)(
+    NSArray<id<MSLog>> *_Nullable logArray, NSString *_Nullable batchId);
 
 /**
  * Defines the storage component which is responsible for persisting logs.
@@ -27,7 +28,8 @@ typedef void (^MSLoadDataCompletionBlock)(NSArray<id<MSLog>> *_Nullable logArray
  *
  * @return Return an instance of this storage.
  *
- * @discussion The storage removes the oldest log whenever its capacity goes over limit.
+ * @discussion The storage removes the oldest log whenever its capacity goes
+ * over limit.
  */
 - (instancetype)initWithCapacity:(NSUInteger)capacity;
 

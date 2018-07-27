@@ -21,18 +21,21 @@
   float flushInterval = 9.9f;
 
   // When
-  MSChannelUnitConfiguration *sut = [[MSChannelUnitConfiguration alloc] initWithGroupId:groupId
-                                                                               priority:priority
-                                                                          flushInterval:flushInterval
-                                                                         batchSizeLimit:batchSizeLimit
-                                                                    pendingBatchesLimit:pendingBatchesLimit];
+  MSChannelUnitConfiguration *sut =
+      [[MSChannelUnitConfiguration alloc] initWithGroupId:groupId
+                                                 priority:priority
+                                            flushInterval:flushInterval
+                                           batchSizeLimit:batchSizeLimit
+                                      pendingBatchesLimit:pendingBatchesLimit];
 
   // Then
   assertThat(sut, notNilValue());
   assertThat(sut.groupId, equalTo(groupId));
   XCTAssertTrue(sut.priority == priority);
-  assertThatUnsignedInteger(sut.batchSizeLimit, equalToUnsignedInteger(batchSizeLimit));
-  assertThatUnsignedInteger(sut.pendingBatchesLimit, equalToUnsignedInteger(pendingBatchesLimit));
+  assertThatUnsignedInteger(sut.batchSizeLimit,
+                            equalToUnsignedInteger(batchSizeLimit));
+  assertThatUnsignedInteger(sut.pendingBatchesLimit,
+                            equalToUnsignedInteger(pendingBatchesLimit));
   assertThatFloat(sut.flushInterval, equalToFloat(flushInterval));
 }
 
@@ -42,7 +45,8 @@
   NSString *groupId = @"FooBar";
 
   // When
-  MSChannelUnitConfiguration *sut = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:groupId];
+  MSChannelUnitConfiguration *sut = [[MSChannelUnitConfiguration alloc]
+      initDefaultConfigurationWithGroupId:groupId];
 
   // Then
   assertThat(sut, notNilValue());
@@ -54,4 +58,3 @@
 }
 
 @end
-
