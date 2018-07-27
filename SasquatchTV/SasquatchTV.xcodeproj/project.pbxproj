@@ -284,7 +284,7 @@
 				5C4F92611EE83E08003140BF /* AppCenterUITests.swift */,
 			);
 			name = SasquatchTVUITests;
-			path = ../TestApps/SasquatchTV/SasquatchTVUITests;
+			path = SasquatchTVUITests;
 			sourceTree = "<group>";
 		};
 		5C481BAB1EE58922009329DD /* MSAlertController */ = {
@@ -342,7 +342,7 @@
 				D322F0021E8E984400A8EDA5 /* ViewControllers */,
 			);
 			name = SasquatchTV;
-			path = ../TestApps/SasquatchTV/SasquatchTV;
+			path = SasquatchTV;
 			sourceTree = "<group>";
 		};
 		D322EFD91E8E97C800A8EDA5 /* SasquatchTVSwift */ = {
@@ -353,7 +353,7 @@
 				D322EFFF1E8E981800A8EDA5 /* Supporting Files */,
 			);
 			name = SasquatchTVSwift;
-			path = ../TestApps/SasquatchTV/SasquatchTVSwift;
+			path = SasquatchTVSwift;
 			sourceTree = "<group>";
 		};
 		D322EFEC1E8E97DF00A8EDA5 /* SasquatchTVObjC */ = {
@@ -366,7 +366,7 @@
 				D322EFED1E8E97DF00A8EDA5 /* Supporting Files */,
 			);
 			name = SasquatchTVObjC;
-			path = ../TestApps/SasquatchTV/SasquatchTVObjC;
+			path = SasquatchTVObjC;
 			sourceTree = "<group>";
 		};
 		D322EFED1E8E97DF00A8EDA5 /* Supporting Files */ = {
@@ -796,7 +796,7 @@
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				DEVELOPMENT_TEAM = "$(inherited)";
-				INFOPLIST_FILE = ../TestApps/SasquatchTV/SasquatchTVUITests/Info.plist;
+				INFOPLIST_FILE = SasquatchTVUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.SasquatchTVObjCUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -811,7 +811,7 @@
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				DEVELOPMENT_TEAM = "$(inherited)";
-				INFOPLIST_FILE = ../TestApps/SasquatchTV/SasquatchTVUITests/Info.plist;
+				INFOPLIST_FILE = SasquatchTVUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.SasquatchTVObjCUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -826,7 +826,7 @@
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				DEVELOPMENT_TEAM = "$(inherited)";
-				INFOPLIST_FILE = ../TestApps/SasquatchTV/SasquatchTVUITests/Info.plist;
+				INFOPLIST_FILE = SasquatchTVUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.SasquatchTVSwiftUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -841,7 +841,7 @@
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				DEVELOPMENT_TEAM = "$(inherited)";
-				INFOPLIST_FILE = ../TestApps/SasquatchTV/SasquatchTVUITests/Info.plist;
+				INFOPLIST_FILE = SasquatchTVUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.SasquatchTVSwiftUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -859,13 +859,13 @@
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
-				INFOPLIST_FILE = "$(SRCROOT)/../TestApps/SasquatchTV/SasquatchTVObjC/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/SasquatchTVObjC/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc.tv;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "da9156c4-535c-4f0f-8739-c27cf24d0c0f";
 				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchObjC tvOS Debug";
-				SWIFT_OBJC_BRIDGING_HEADER = "../TestApps/SasquatchTV/SasquatchTV/SasquatchTV-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "SasquatchTV/SasquatchTV-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "SasquatchTVObjC-Swift.h";
 				SWIFT_VERSION = 3.0;
 			};
@@ -880,13 +880,13 @@
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
-				INFOPLIST_FILE = "$(SRCROOT)/../TestApps/SasquatchTV/SasquatchTVObjC/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/SasquatchTVObjC/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc.tv;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "d1a7ae61-73b6-47da-bbe1-84654ca9ea33";
 				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchObjC tvOS Release In-house";
-				SWIFT_OBJC_BRIDGING_HEADER = "../TestApps/SasquatchTV/SasquatchTV/SasquatchTV-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "SasquatchTV/SasquatchTV-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "SasquatchTVObjC-Swift.h";
 				SWIFT_VERSION = 3.0;
 			};
@@ -900,13 +900,13 @@
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "$(inherited)";
-				INFOPLIST_FILE = "$(SRCROOT)/../TestApps/SasquatchTV/SasquatchTVSwift/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/SasquatchTVSwift/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.tv;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "../TestApps/SasquatchTV/SasquatchTV/SasquatchTV-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "SasquatchTV/SasquatchTV-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -919,13 +919,13 @@
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "$(inherited)";
-				INFOPLIST_FILE = "$(SRCROOT)/../TestApps/SasquatchTV/SasquatchTVSwift/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/SasquatchTVSwift/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.tv;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "../TestApps/SasquatchTV/SasquatchTV/SasquatchTV-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "SasquatchTV/SasquatchTV-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -1039,13 +1039,13 @@
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "$(inherited)";
-				INFOPLIST_FILE = ../TestApps/SasquatchTV/SasquatchTVSwift/Info.plist;
+				INFOPLIST_FILE = SasquatchTVSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.tv;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "../TestApps/SasquatchTV/SasquatchTV/SasquatchTV-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "SasquatchTV/SasquatchTV-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -1058,13 +1058,13 @@
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "$(inherited)";
-				INFOPLIST_FILE = ../TestApps/SasquatchTV/SasquatchTVSwift/Info.plist;
+				INFOPLIST_FILE = SasquatchTVSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.tv;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "../TestApps/SasquatchTV/SasquatchTV/SasquatchTV-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "SasquatchTV/SasquatchTV-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -1077,13 +1077,13 @@
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "$(inherited)";
-				INFOPLIST_FILE = ../TestApps/SasquatchTV/SasquatchTVObjC/Info.plist;
+				INFOPLIST_FILE = SasquatchTVObjC/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc.tv;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "../TestApps/SasquatchTV/SasquatchTV/SasquatchTV-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "SasquatchTV/SasquatchTV-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -1096,13 +1096,13 @@
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "$(inherited)";
-				INFOPLIST_FILE = ../TestApps/SasquatchTV/SasquatchTVObjC/Info.plist;
+				INFOPLIST_FILE = SasquatchTVObjC/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc.tv;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "../TestApps/SasquatchTV/SasquatchTV/SasquatchTV-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "SasquatchTV/SasquatchTV-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
