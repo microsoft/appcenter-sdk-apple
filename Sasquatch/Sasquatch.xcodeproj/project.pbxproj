@@ -622,7 +622,7 @@
 		041A4BBC1F8C2A84009E1B6C /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Sasquatch.strings"; sourceTree = "<group>"; };
 		041A4BBD1F8C2A8B009E1B6C /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Sasquatch.strings"; sourceTree = "<group>"; };
 		041E2BEE1FB6465000793316 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
-		045A947D1F97C840002B7CB1 /* App.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = App.xcconfig; path = ../../../Config/App.xcconfig; sourceTree = "<group>"; };
+		045A947D1F97C840002B7CB1 /* App.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = App.xcconfig; path = ../../Config/App.xcconfig; sourceTree = "<group>"; };
 		046790411E8DA7D80033FDEC /* AppCenterPush.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterPush.framework; path = "../AppCenter-SDK-Apple/iOS/AppCenterPush.framework"; sourceTree = "<group>"; };
 		046790441E8DA8D50033FDEC /* SasquatchSwift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchSwift.entitlements; sourceTree = "<group>"; };
 		046790451E8DA8DD0033FDEC /* SasquatchObjC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchObjC.entitlements; sourceTree = "<group>"; };

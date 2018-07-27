@@ -140,7 +140,7 @@
 		042496841EC3CE2F00502B62 /* AppCenterProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCenterProvider.swift; sourceTree = "<group>"; };
 		042496891EC3D29900502B62 /* AppCenterDelegateObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppCenterDelegateObjC.h; sourceTree = "<group>"; };
 		0424968A1EC3D29900502B62 /* AppCenterDelegateObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppCenterDelegateObjC.m; sourceTree = "<group>"; };
-		045A947F1F97C855002B7CB1 /* App.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = App.xcconfig; path = ../../../Config/App.xcconfig; sourceTree = "<group>"; };
+		045A947F1F97C855002B7CB1 /* App.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = App.xcconfig; path = ../../Config/App.xcconfig; sourceTree = "<group>"; };
 		046964541F2A5EE600F9D31F /* SasquatchMacObjC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchMacObjC.entitlements; sourceTree = "<group>"; };
 		046964551F2A607D00F9D31F /* AppCenterPush.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterPush.framework; path = "../AppCenter-SDK-Apple/macOS/AppCenterPush.framework"; sourceTree = "<group>"; };
 		046964571F2A721100F9D31F /* SasquatchMacSwift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchMacSwift.entitlements; sourceTree = "<group>"; };
