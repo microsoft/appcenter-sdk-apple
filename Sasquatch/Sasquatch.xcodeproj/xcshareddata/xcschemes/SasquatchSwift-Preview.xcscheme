@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0830"
+   LastUpgradeVersion = "0940"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,23 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D31EF9281E9517B500450162"
-               BuildableName = "SasquatchWatchObjC.app"
-               BlueprintName = "SasquatchWatchObjC"
-               ReferencedContainer = "container:Sasquatch.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "84226C461E88FF4A00798417"
-               BuildableName = "SasquatchObjC.app"
-               BlueprintName = "SasquatchObjC"
+               BlueprintIdentifier = "B2A4CF85210A6E6900199B4F"
+               BuildableName = "SasquatchSwift-Preview.app"
+               BlueprintName = "SasquatchSwift-Preview"
                ReferencedContainer = "container:Sasquatch.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -46,9 +32,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D31EF9281E9517B500450162"
-            BuildableName = "SasquatchWatchObjC.app"
-            BlueprintName = "SasquatchWatchObjC"
+            BlueprintIdentifier = "B2A4CF85210A6E6900199B4F"
+            BuildableName = "SasquatchSwift-Preview.app"
+            BlueprintName = "SasquatchSwift-Preview"
             ReferencedContainer = "container:Sasquatch.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -65,27 +51,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <RemoteRunnable
-         runnableDebuggingMode = "2"
-         BundleIdentifier = "com.apple.Carousel"
-         RemotePath = "/SasquatchObjC">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D31EF9281E9517B500450162"
-            BuildableName = "SasquatchWatchObjC.app"
-            BlueprintName = "SasquatchWatchObjC"
+            BlueprintIdentifier = "B2A4CF85210A6E6900199B4F"
+            BuildableName = "SasquatchSwift-Preview.app"
+            BlueprintName = "SasquatchSwift-Preview"
             ReferencedContainer = "container:Sasquatch.xcodeproj">
          </BuildableReference>
-      </RemoteRunnable>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D31EF9281E9517B500450162"
-            BuildableName = "SasquatchWatchObjC.app"
-            BlueprintName = "SasquatchWatchObjC"
-            ReferencedContainer = "container:Sasquatch.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -95,27 +70,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <RemoteRunnable
-         runnableDebuggingMode = "2"
-         BundleIdentifier = "com.apple.Carousel"
-         RemotePath = "/SasquatchObjC">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D31EF9281E9517B500450162"
-            BuildableName = "SasquatchWatchObjC.app"
-            BlueprintName = "SasquatchWatchObjC"
+            BlueprintIdentifier = "B2A4CF85210A6E6900199B4F"
+            BuildableName = "SasquatchSwift-Preview.app"
+            BlueprintName = "SasquatchSwift-Preview"
             ReferencedContainer = "container:Sasquatch.xcodeproj">
          </BuildableReference>
-      </RemoteRunnable>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D31EF9281E9517B500450162"
-            BuildableName = "SasquatchWatchObjC.app"
-            BlueprintName = "SasquatchWatchObjC"
-            ReferencedContainer = "container:Sasquatch.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

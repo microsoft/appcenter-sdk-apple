@@ -1,6 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
+   <Group
+      location = "group:Config"
+      name = "Config">
+      <FileRef
+         location = "group:App.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:Global Release.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:Global Debug.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:macOS.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:tvOS.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:Tests macOS.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:Global.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:Tests tvOS.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:Version.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:iOS.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:Tests.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:Tests iOS.xcconfig">
+      </FileRef>
+   </Group>
+   <FileRef
+      location = "group:AppCenter.podspec">
+   </FileRef>
+   <FileRef
+      location = "group:app-center-post-clone.sh">
+   </FileRef>
+   <FileRef
+      location = "group:CHANGELOG.md">
+   </FileRef>
+   <FileRef
+      location = "group:codecov.yml">
+   </FileRef>
+   <FileRef
+      location = "group:ISSUE_TEMPLATE.md">
+   </FileRef>
+   <FileRef
+      location = "group:LICENSE">
+   </FileRef>
+   <FileRef
+      location = "group:README.md">
+   </FileRef>
+   <FileRef
+      location = "group:ThirdPartyNotices.txt">
+   </FileRef>
+   <Group
+      location = "group:/Users/benny/Repositories/MS/mobile-center-sdk-ios/vsts"
+      name = "vsts">
+      <FileRef
+         location = "group:appcenter-build.sh">
+      </FileRef>
+      <FileRef
+         location = "group:zip.sh">
+      </FileRef>
+      <FileRef
+         location = "group:publish-podspec.sh">
+      </FileRef>
+      <FileRef
+         location = "group:commit-validation.sh">
+      </FileRef>
+      <FileRef
+         location = "group:post-release-version-bump.sh">
+      </FileRef>
+      <FileRef
+         location = "group:publish.sh">
+      </FileRef>
+      <FileRef
+         location = "group:internal-version-increment.sh">
+      </FileRef>
+   </Group>
    <FileRef
       location = "group:AppCenter/AppCenter.xcodeproj">
    </FileRef>

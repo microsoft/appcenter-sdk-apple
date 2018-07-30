@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0830"
+   LastUpgradeVersion = "0940"
    version = "1.3">
    <BuildAction
-      parallelizeBuildables = "NO"
+      parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
       <BuildActionEntries>
          <BuildActionEntry
@@ -14,52 +14,28 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B21A71DA1DD2A38C0044BB1C"
-               BuildableName = "CrashLibIOS.framework"
-               BlueprintName = "CrashLibIOS"
-               ReferencedContainer = "container:../../CrashLib/CrashLib.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "84226C7F1E8908C900798417"
-               BuildableName = "SasquatchSwift.app"
-               BlueprintName = "SasquatchSwift"
-               ReferencedContainer = "container:Sasquatch.xcodeproj">
+               BlueprintIdentifier = "B2A4CFD6210A77D400199B4F"
+               BuildableName = "SasquatchMacSwift-Preview.app"
+               BlueprintName = "SasquatchMacSwift-Preview"
+               ReferencedContainer = "container:SasquatchMac.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
-      buildConfiguration = "Release"
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5CD700E41EA4B74500FC5D12"
-               BuildableName = "SasquatchSwiftUITests.xctest"
-               BlueprintName = "SasquatchSwiftUITests"
-               ReferencedContainer = "container:Sasquatch.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "84226C7F1E8908C900798417"
-            BuildableName = "SasquatchSwift.app"
-            BlueprintName = "SasquatchSwift"
-            ReferencedContainer = "container:Sasquatch.xcodeproj">
+            BlueprintIdentifier = "B2A4CFD6210A77D400199B4F"
+            BuildableName = "SasquatchMacSwift-Preview.app"
+            BlueprintName = "SasquatchMacSwift-Preview"
+            ReferencedContainer = "container:SasquatchMac.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -79,10 +55,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "84226C7F1E8908C900798417"
-            BuildableName = "SasquatchSwift.app"
-            BlueprintName = "SasquatchSwift"
-            ReferencedContainer = "container:Sasquatch.xcodeproj">
+            BlueprintIdentifier = "B2A4CFD6210A77D400199B4F"
+            BuildableName = "SasquatchMacSwift-Preview.app"
+            BlueprintName = "SasquatchMacSwift-Preview"
+            ReferencedContainer = "container:SasquatchMac.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -98,10 +74,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "84226C7F1E8908C900798417"
-            BuildableName = "SasquatchSwift.app"
-            BlueprintName = "SasquatchSwift"
-            ReferencedContainer = "container:Sasquatch.xcodeproj">
+            BlueprintIdentifier = "B2A4CFD6210A77D400199B4F"
+            BuildableName = "SasquatchMacSwift-Preview.app"
+            BlueprintName = "SasquatchMacSwift-Preview"
+            ReferencedContainer = "container:SasquatchMac.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
