@@ -884,9 +884,12 @@
   [self waitForExpectations:@[ customCalledExpectation1, customCalledExpectation2, originalCalledExpectation ]
                     timeout:1000];
   
-  // In the end the completion handler must be called with the forwarded value.
-  assertThatBool(isExpectedHandlerCalled, isTrue());
-  assertThatInteger(forwardedFetchResult, equalToInteger(expectedFetchResult));
+  [self waitForExpectationsWithTimeout:1000 handler:^(__unused NSError *error) {
+    
+    // In the end the completion handler must be called with the forwarded value.
+    assertThatBool(isExpectedHandlerCalled, isTrue());
+    assertThatInteger(forwardedFetchResult, equalToInteger(expectedFetchResult));
+  }];
 }
 
 #endif
