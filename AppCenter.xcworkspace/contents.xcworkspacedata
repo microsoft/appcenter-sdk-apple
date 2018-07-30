@@ -45,7 +45,7 @@
       location = "group:AppCenter.podspec">
    </FileRef>
    <FileRef
-      location = "group:app-center-post-clone.sh">
+      location = "group:appcenter-post-clone.sh">
    </FileRef>
    <FileRef
       location = "group:CHANGELOG.md">
