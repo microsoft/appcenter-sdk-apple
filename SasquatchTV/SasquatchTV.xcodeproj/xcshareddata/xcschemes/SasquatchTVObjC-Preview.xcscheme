@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0830"
+   LastUpgradeVersion = "0940"
    version = "1.3">
    <BuildAction
-      parallelizeBuildables = "NO"
+      parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
       <BuildActionEntries>
          <BuildActionEntry
@@ -14,23 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "80F991201F0265070040FAD7"
-               BuildableName = "CrashLibTV.framework"
-               BlueprintName = "CrashLibTV"
-               ReferencedContainer = "container:../../CrashLib/CrashLib.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D322EFD71E8E97C800A8EDA5"
-               BuildableName = "SasquatchTVSwift.app"
-               BlueprintName = "SasquatchTVSwift"
+               BlueprintIdentifier = "B25AE81A210A79FB00CC07A9"
+               BuildableName = "SasquatchTVObjC-Preview.app"
+               BlueprintName = "SasquatchTVObjC-Preview"
                ReferencedContainer = "container:SasquatchTV.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -42,23 +28,13 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5C2CC6FA1EE6BEE000E2BDA4"
-               BuildableName = "SasquatchTVSwiftUITests.xctest"
-               BlueprintName = "SasquatchTVSwiftUITests"
-               ReferencedContainer = "container:SasquatchTV.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D322EFD71E8E97C800A8EDA5"
-            BuildableName = "SasquatchTVSwift.app"
-            BlueprintName = "SasquatchTVSwift"
+            BlueprintIdentifier = "B25AE81A210A79FB00CC07A9"
+            BuildableName = "SasquatchTVObjC-Preview.app"
+            BlueprintName = "SasquatchTVObjC-Preview"
             ReferencedContainer = "container:SasquatchTV.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -79,9 +55,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D322EFD71E8E97C800A8EDA5"
-            BuildableName = "SasquatchTVSwift.app"
-            BlueprintName = "SasquatchTVSwift"
+            BlueprintIdentifier = "B25AE81A210A79FB00CC07A9"
+            BuildableName = "SasquatchTVObjC-Preview.app"
+            BlueprintName = "SasquatchTVObjC-Preview"
             ReferencedContainer = "container:SasquatchTV.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -98,9 +74,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D322EFD71E8E97C800A8EDA5"
-            BuildableName = "SasquatchTVSwift.app"
-            BlueprintName = "SasquatchTVSwift"
+            BlueprintIdentifier = "B25AE81A210A79FB00CC07A9"
+            BuildableName = "SasquatchTVObjC-Preview.app"
+            BlueprintName = "SasquatchTVObjC-Preview"
             ReferencedContainer = "container:SasquatchTV.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
