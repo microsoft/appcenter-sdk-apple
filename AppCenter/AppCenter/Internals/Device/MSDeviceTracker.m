@@ -333,12 +333,13 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
    * list. The method will return the first language in the list to prevent from
    * the above scenario.
    *
-   * In addition to that;
+   * In addition to that:
    * 1. preferred language returns "-" instead of "_" as a delimiter of
    * language code and country code, the method will concatenate language code
-   * and country code with "_" and return it. 2. some languages can be set
-   * without country code so region code can be returned in this case. 3.
-   * some langugaes have script code which differentiate languages. E.g.
+   * and country code with "_" and return it.
+   * 2. some languages can be set
+   * without country code so region code can be returned in this case.
+   * 3. some langugaes have script code which differentiate languages. E.g.
    * zh-Hans and zh-Hant. This is a possible scenario in Apple platforms that a
    * locale can be zh_CN for Traditional Chinese. The method will return
    * zh-Hant_CN in this case to make sure system language is Traditional Chinese
