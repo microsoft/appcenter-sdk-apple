@@ -45,6 +45,9 @@
       location = "group:AppCenter.podspec">
    </FileRef>
    <FileRef
+      location = "group:app-center-post-clone.sh">
+   </FileRef>
+   <FileRef
       location = "group:CHANGELOG.md">
    </FileRef>
    <FileRef
@@ -62,13 +65,6 @@
    <FileRef
       location = "group:ThirdPartyNotices.txt">
    </FileRef>
-   <Group
-      location = "group:Scripts"
-      name = "Scripts">
-      <FileRef
-         location = "group:app-center-post-clone.sh">
-      </FileRef>
-   </Group>
    <Group
       location = "group:/Users/benny/Repositories/MS/mobile-center-sdk-ios/vsts"
       name = "vsts">
