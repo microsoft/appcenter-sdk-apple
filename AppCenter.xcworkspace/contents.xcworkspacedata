@@ -65,6 +65,38 @@
    <Group
       location = "group:Scripts"
       name = "Scripts">
+      <Group
+         location = "group:AppCenter"
+         name = "AppCenter">
+         <FileRef
+            location = "group:build-appcenter-ios-docs.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenter-ios-framework.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenter-macos-framework.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenter-tvos-framework.sh">
+         </FileRef>
+      </Group>
+      <Group
+         location = "group:AppCenterAnalytics"
+         name = "AppCenterAnalytics">
+      </Group>
+      <Group
+         location = "group:AppCenterCrashes"
+         name = "AppCenterCrashes">
+      </Group>
+      <Group
+         location = "group:AppCenterDistribute"
+         name = "AppCenterDistribute">
+      </Group>
+      <Group
+         location = "group:AppCenterPush"
+         name = "AppCenterPush">
+      </Group>
       <FileRef
          location = "group:app-center-post-clone.sh">
       </FileRef>
