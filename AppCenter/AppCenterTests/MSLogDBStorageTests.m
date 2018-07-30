@@ -1,12 +1,11 @@
 #import "MSAbstractLogInternal.h"
 #import "MSCommonSchemaLog.h"
 #import "MSDBStoragePrivate.h"
-#import "MSKeychainUtil.h"
 #import "MSLogDBStoragePrivate.h"
 #import "MSTestFrameworks.h"
+#import "MSUtility.h"
 #import "MSUtility+Date.h"
 #import "MSUtility+StringFormatting.h"
-#import "MSUtility.h"
 
 static NSString *const kMSTestGroupId = @"TestGroupId";
 static short const kMSTestMaxCapacity = 50;

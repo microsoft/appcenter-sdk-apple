@@ -1,8 +1,8 @@
 #import <Foundation/Foundation.h>
 
+#import "MSPushAppDelegate.h"
 #import "MSAppDelegateForwarderPrivate.h"
 #import "MSAppDelegateUtil.h"
-#import "MSPushAppDelegate.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+Application.h"
 
@@ -14,8 +14,8 @@
 
 /*
  * We use of blocks for test validition but test frameworks contain macro
- * capturing self that we can't avoid. Ignoring retain cycle warning for this
- * test code.
+ * capturing self that we can't avoid.
+ * Ignoring retain cycle warning for this test code.
  */
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-retain-cycles"
@@ -394,8 +394,9 @@
       [self createOriginalAppDelegateInstance];
   SEL didReceiveRemoteNotificationSel1 =
       @selector(application:didReceiveRemoteNotification:);
-  SEL didReceiveRemoteNotificationSel2 = @selector
-      (application:didReceiveRemoteNotification:fetchCompletionHandler:);
+  SEL didReceiveRemoteNotificationSel2 = @selector(application:
+                                  didReceiveRemoteNotification:
+                                        fetchCompletionHandler:);
   [MSAppDelegateForwarder
       addAppDelegateSelectorToSwizzle:didReceiveRemoteNotificationSel1];
   [MSAppDelegateForwarder
@@ -472,8 +473,9 @@
   // Setup the original delegate.
   id<MSApplicationDelegate> originalAppDelegate =
       [self createOriginalAppDelegateInstance];
-  SEL didReceiveRemoteNotificationSel = @selector
-      (application:didReceiveRemoteNotification:fetchCompletionHandler:);
+  SEL didReceiveRemoteNotificationSel = @selector(application:
+                                 didReceiveRemoteNotification:
+                                       fetchCompletionHandler:);
   id originalDidReceiveRemoteNotificationImp =
       ^(__attribute__((unused)) id itSelf,
         __attribute__((unused)) MSApplication *application,
@@ -546,8 +548,9 @@
   // Setup the original delegate.
   id<MSApplicationDelegate> originalAppDelegate =
       [self createOriginalAppDelegateInstance];
-  SEL didReceiveRemoteNotificationSel = @selector
-      (application:didReceiveRemoteNotification:fetchCompletionHandler:);
+  SEL didReceiveRemoteNotificationSel = @selector(application:
+                                 didReceiveRemoteNotification:
+                                       fetchCompletionHandler:);
   id originalDidReceiveRemoteNotificationImp =
       ^(__attribute__((unused)) id itSelf,
         __attribute__((unused)) MSApplication *application,
@@ -600,8 +603,9 @@
   // Setup the original delegate.
   id<MSApplicationDelegate> originalAppDelegate =
       [self createOriginalAppDelegateInstance];
-  SEL didReceiveRemoteNotificationSel = @selector
-      (application:didReceiveRemoteNotification:fetchCompletionHandler:);
+  SEL didReceiveRemoteNotificationSel = @selector(application:
+                                 didReceiveRemoteNotification:
+                                       fetchCompletionHandler:);
   [MSAppDelegateForwarder
       addAppDelegateSelectorToSwizzle:didReceiveRemoteNotificationSel];
 
@@ -644,8 +648,9 @@
   // Setup the original delegate.
   id<MSApplicationDelegate> originalAppDelegate =
       [self createOriginalAppDelegateInstance];
-  SEL didReceiveRemoteNotificationSel = @selector
-      (application:didReceiveRemoteNotification:fetchCompletionHandler:);
+  SEL didReceiveRemoteNotificationSel = @selector(application:
+                                 didReceiveRemoteNotification:
+                                       fetchCompletionHandler:);
   id originalDidReceiveRemoteNotificationImp =
       ^(__attribute__((unused)) id itSelf,
         __attribute__((unused)) MSApplication *application,
@@ -816,8 +821,9 @@
   // Setup the original delegate.
   id<MSApplicationDelegate> originalAppDelegate =
       [self createOriginalAppDelegateInstance];
-  SEL didReceiveRemoteNotificationSel = @selector
-      (application:didReceiveRemoteNotification:fetchCompletionHandler:);
+  SEL didReceiveRemoteNotificationSel = @selector(application:
+                                 didReceiveRemoteNotification:
+                                       fetchCompletionHandler:);
   id originalDidReceiveRemoteNotificationImp =
       ^(__attribute__((unused)) id itSelf,
         __attribute__((unused)) MSApplication *application,
@@ -903,8 +909,9 @@
   // Setup the original delegate.
   id<MSApplicationDelegate> originalAppDelegate =
       [self createOriginalAppDelegateInstance];
-  SEL didReceiveRemoteNotificationSel = @selector
-      (application:didReceiveRemoteNotification:fetchCompletionHandler:);
+  SEL didReceiveRemoteNotificationSel = @selector(application:
+                                 didReceiveRemoteNotification:
+                                       fetchCompletionHandler:);
   id originalDidReceiveRemoteNotificationImp =
       ^(__attribute__((unused)) id itSelf,
         __attribute__((unused)) MSApplication *application,
@@ -993,8 +1000,9 @@
   // Setup the original delegate.
   id<MSApplicationDelegate> originalAppDelegate =
       [self createOriginalAppDelegateInstance];
-  SEL didReceiveRemoteNotificationSel = @selector
-      (application:didReceiveRemoteNotification:fetchCompletionHandler:);
+  SEL didReceiveRemoteNotificationSel = @selector(application:
+                                 didReceiveRemoteNotification:
+                                       fetchCompletionHandler:);
   id originalDidReceiveRemoteNotificationImp =
       ^(__attribute__((unused)) id itSelf,
         __attribute__((unused)) MSApplication *application,
@@ -1078,9 +1086,17 @@
   ]
                     timeout:1000];
 
-  // In the end the completion handler must be called with the forwarded value.
-  assertThatBool(isExpectedHandlerCalled, isTrue());
-  assertThatInteger(forwardedFetchResult, equalToInteger(expectedFetchResult));
+  [self waitForExpectationsWithTimeout:1000
+                               handler:^(__unused NSError *error) {
+
+                                 // In the end the completion handler must be
+                                 // called with the forwarded value.
+                                 assertThatBool(isExpectedHandlerCalled,
+                                                isTrue());
+                                 assertThatInteger(
+                                     forwardedFetchResult,
+                                     equalToInteger(expectedFetchResult));
+                               }];
 }
 
 #endif

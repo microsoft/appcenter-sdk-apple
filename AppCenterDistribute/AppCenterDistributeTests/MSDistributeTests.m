@@ -1,5 +1,6 @@
 #import <UIKit/UIKit.h>
 
+#import "MS_Reachability.h"
 #import "MSAlertController.h"
 #import "MSAppCenter.h"
 #import "MSBasicMachOParser.h"
@@ -12,20 +13,19 @@
 #import "MSDistributeUtil.h"
 #import "MSHttpTestUtil.h"
 #import "MSIngestionCall.h"
-#import "MSKeychainUtil.h"
 #import "MSLoggerInternal.h"
+#import "MSMockKeychainUtil.h"
 #import "MSMockUserDefaults.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSSessionContext.h"
 #import "MSSessionContextPrivate.h"
 #import "MSTestFrameworks.h"
 #import "MSUserDefaults.h"
+#import "MSUtility.h"
 #import "MSUtility+Application.h"
 #import "MSUtility+Date.h"
 #import "MSUtility+Environment.h"
 #import "MSUtility+StringFormatting.h"
-#import "MSUtility.h"
-#import "MS_Reachability.h"
 
 static NSString *const kMSTestAppSecret = @"IAMSECRET";
 static NSString *const kMSTestReleaseHash = @"RELEASEHASH";
@@ -85,6 +85,7 @@ static NSURL *sfURL;
 @property(nonatomic) MSDistribute *sut;
 @property(nonatomic) id parserMock;
 @property(nonatomic) id settingsMock;
+@property(nonatomic) id keychainUtilMock;
 @property(nonatomic) id bundleMock;
 @property(nonatomic) id alertControllerMock;
 @property(nonatomic) id distributeInfoTrackerMock;
@@ -96,7 +97,7 @@ static NSURL *sfURL;
 - (void)setUp {
   [super setUp];
   [MSLogger setCurrentLogLevel:MSLogLevelVerbose];
-  [MSKeychainUtil clear];
+  self.keychainUtilMock = [MSMockKeychainUtil new];
   self.sut = [MSDistribute new];
   self.settingsMock = [MSMockUserDefaults new];
 
@@ -147,7 +148,7 @@ static NSURL *sfURL;
 
   // Clear
   [MSHttpTestUtil removeAllStubs];
-  [MSKeychainUtil clear];
+  [self.keychainUtilMock stopMocking];
   [self.parserMock stopMocking];
   [self.settingsMock stopMocking];
   [self.bundleMock stopMocking];
@@ -270,9 +271,9 @@ static NSURL *sfURL;
 
     /**
      * TODO: This is not a UI test so we expect it to fail with
-     * NSInternalInconsistencyException exception. Hopefully it doesn't prevent
-     * the URL to be set. Maybe introduce UI testing for this case in the
-     * future.
+     * NSInternalInconsistencyException exception.
+     * Hopefully it doesn't prevent the URL to be set. Maybe introduce UI
+     * testing for this case in the future.
      */
   }
 
@@ -407,9 +408,10 @@ static NSURL *sfURL;
 
   /*
    * The reason of this additional checking is that OCMock doesn't work properly
-   * sometimes for OCMVerify and OCMReject. The test won't be failed even though
-   * the above line is changed to OCMReject, we are preventing the issue by
-   * adding more explict checks.
+   * sometimes for OCMVerify and OCMReject.
+   * The test won't be failed even though the above line is changed to
+   * OCMReject, we are preventing the issue by adding
+   * more explict checks.
    */
   XCTAssertEqual(showConfirmationAlertCounter, 1);
 
@@ -419,8 +421,8 @@ static NSURL *sfURL;
 
 /**
  * This test is for various cases after update is postponed. This test doesn't
- * complete handleUpdate method and just check whether it passes the check and
- * then move to the next step or not.
+ * complete handleUpdate method and just
+ * check whether it passes the check and then move to the next step or not.
  */
 - (void)testHandleUpdateAfterPostpone {
 
@@ -943,7 +945,6 @@ static NSURL *sfURL;
   id distributeMock = OCMPartialMock(self.sut);
   OCMReject([distributeMock handleUpdate:OCMOCK_ANY]);
   self.sut.appSecret = kMSTestAppSecret;
-  id keychainMock = OCMClassMock([MSKeychainUtil class]);
   id reachabilityMock = OCMClassMock([MS_Reachability class]);
   OCMStub([reachabilityMock reachabilityForInternetConnection])
       .andReturn(reachabilityMock);
@@ -978,8 +979,8 @@ static NSURL *sfURL;
                                  // Then
                                  OCMVerifyAll(distributeMock);
                                  OCMVerifyAll(ingestionCallMock);
-                                 OCMVerify([keychainMock
-                                     deleteStringForKey:kMSUpdateTokenKey]);
+                                 XCTAssertNil([MSMockKeychainUtil
+                                     stringForKey:kMSUpdateTokenKey]);
                                  OCMVerify([self.settingsMock
                                      removeObjectForKey:
                                          kMSSDKHasLaunchedWithDistribute]);
@@ -1011,7 +1012,6 @@ static NSURL *sfURL;
 
   // Clear
   [distributeMock stopMocking];
-  [keychainMock stopMocking];
   [reachabilityMock stopMocking];
   [ingestionCallMock stopMocking];
 }
@@ -1019,11 +1019,10 @@ static NSURL *sfURL;
 - (void)testCheckLatestReleaseOnRecoverableError {
 
   // If
+  [MSKeychainUtil storeString:kMSTestUpdateToken forKey:kMSUpdateTokenKey];
   id distributeMock = OCMPartialMock(self.sut);
   OCMReject([distributeMock handleUpdate:OCMOCK_ANY]);
   self.sut.appSecret = kMSTestAppSecret;
-  id keychainMock = OCMClassMock([MSKeychainUtil class]);
-  OCMReject([keychainMock deleteStringForKey:kMSUpdateTokenKey]);
   id reachabilityMock = OCMClassMock([MS_Reachability class]);
   OCMStub([reachabilityMock reachabilityForInternetConnection])
       .andReturn(reachabilityMock);
@@ -1061,9 +1060,10 @@ static NSURL *sfURL;
 
                                  // Then
                                  OCMVerifyAll(distributeMock);
-                                 OCMVerifyAll(keychainMock);
                                  OCMVerify([ingestionCallMock
                                      startRetryTimerWithStatusCode:500]);
+                                 XCTAssertNotNil([MSKeychainUtil
+                                     stringForKey:kMSUpdateTokenKey]);
                                  XCTAssertNotNil([self.settingsMock
                                      objectForKey:
                                          kMSSDKHasLaunchedWithDistribute]);
@@ -1081,7 +1081,6 @@ static NSURL *sfURL;
 
   // Clear
   [distributeMock stopMocking];
-  [keychainMock stopMocking];
   [reachabilityMock stopMocking];
   [ingestionCallMock stopMocking];
 }
@@ -1495,10 +1494,7 @@ static NSURL *sfURL;
   OCMVerify([distributeMock requestInstallInformationWith:kMSTestReleaseHash]);
 
   // If, private distribution
-  id keychainUtilMock = OCMClassMock([MSKeychainUtil class]);
-  OCMStub([keychainUtilMock stringForKey:kMSUpdateTokenKey])
-      .andReturn(@"UpdateToken");
-  OCMExpect([keychainUtilMock deleteStringForKey:kMSUpdateTokenKey]);
+  [MSKeychainUtil storeString:@"UpdateToken" forKey:kMSUpdateTokenKey];
   [self.settingsMock setObject:@"DistributionGroupId"
                         forKey:kMSDistributionGroupIdKey];
 
@@ -1535,7 +1531,7 @@ static NSURL *sfURL;
   XCTAssertNil(
       [self.settingsMock objectForKey:kMSSDKHasLaunchedWithDistribute]);
   XCTAssertNil([self.settingsMock objectForKey:kMSPostponedTimestampKey]);
-  OCMVerify([keychainUtilMock deleteStringForKey:kMSUpdateTokenKey]);
+  XCTAssertNil([MSKeychainUtil stringForKey:kMSUpdateTokenKey]);
 
   // Clear
   [distributeMock stopMocking];
