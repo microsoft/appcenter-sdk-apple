@@ -54,6 +54,7 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
    * performance issues due to this validation, we will remove `[container
    * isValid]` call below.
    */
+  
   // Verify container.
   if (!container || ![container isValid]) {
     NSDictionary *userInfo =

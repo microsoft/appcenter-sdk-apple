@@ -83,8 +83,10 @@
 
   if (internetIsDown || couldNotEstablishSecureConnection) {
 
-    // Reset the retry count, will retry once the (secure) connection is
-    // established again.
+    /*
+     * Reset the retry count, will retry once the (secure) connection is
+     * established again.
+     */
     [self resetRetry];
     NSString *logMessage = internetIsDown
                                ? @"Internet connection is down."

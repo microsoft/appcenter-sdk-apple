@@ -38,13 +38,12 @@ static NSString *const kMSHidingStringForAppSecret = @"*";
 
 /**
  * Indicate if error is because a secure connection could not be established,
- e.g. when using a public network that * is open but requires accepting terms
- and conditions, and the user hasn't done that, yet.
+ * e.g. when using a public network that * is open but requires accepting terms
+ * and conditions, and the user hasn't done that, yet.
  *
  * @param error http error.
  *
  * @return YES if it is an SSL connection error, NO otherwise.
-
  */
 + (BOOL)isSSLConnectionError:(NSError *)error;
 

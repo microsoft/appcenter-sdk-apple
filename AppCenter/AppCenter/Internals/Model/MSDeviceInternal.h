@@ -84,7 +84,7 @@
 
 /*
  * The bundle identifier, package identifier, or namespace, depending on what
- * the individual plattforms use,  .e.g com.microsoft.example.  [optional]
+ * the individual plattforms use, .e.g com.microsoft.example.  [optional]
  */
 @property(nonatomic, copy) NSString *appNamespace;
 

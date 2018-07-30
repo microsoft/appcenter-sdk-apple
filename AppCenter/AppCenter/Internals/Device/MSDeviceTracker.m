@@ -334,7 +334,7 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
    * the above scenario.
    *
    * In addition to that;
-   *     1. preferred language returns "-" instead of "_" as a delimiter of
+   * 1. preferred language returns "-" instead of "_" as a delimiter of
    * language code and country code, the method will concatenate language code
    * and country code with "_" and return it. 2. some languages can be set
    * without country code so region code can be returned in this case. 3.

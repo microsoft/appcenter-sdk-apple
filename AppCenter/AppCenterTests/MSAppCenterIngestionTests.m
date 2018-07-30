@@ -179,10 +179,10 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // When
   [self.sut sendAsync:container
               appSecret:kMSTestAppSecret
-      completionHandler:^(__attribute__((unused)) NSString *batchId,
-                          __attribute__((unused)) NSUInteger statusCode,
-                          __attribute__((unused)) NSData *data,
-                          __attribute__((unused)) NSError *error) {
+      completionHandler:^(__unused NSString *batchId,
+                          __unused NSUInteger statusCode,
+                          __unused NSData *data,
+                          __unused NSError *error) {
 
         // This should not be happening.
         XCTFail(
