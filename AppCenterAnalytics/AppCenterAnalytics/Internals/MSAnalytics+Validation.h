@@ -26,16 +26,19 @@ extern NSString *MSAnalyticsValidationCategory;
  *
  * @return YES if event name is valid; NO otherwise.
  */
-- (nullable NSString *)validateEventName:(NSString *)eventName forLogType:(NSString *)logType;
+- (nullable NSString *)validateEventName:(NSString *)eventName
+                              forLogType:(NSString *)logType;
 
 /**
- * Validate keys and values of properties. Intended for testing. Uses MSUtility+PropertyValidation internally.
+ * Validate keys and values of properties. Intended for testing. Uses
+ * MSUtility+PropertyValidation internally.
  *
  * @return dictionary which contains only valid properties.
  */
-- (NSDictionary<NSString *, NSString *> *)validateProperties:(NSDictionary<NSString *, NSString *> *)properties
-                                                    forLogName:(NSString *)logName
-                                                       andType:(NSString *)logType;
+- (NSDictionary<NSString *, NSString *> *)
+validateProperties:(NSDictionary<NSString *, NSString *> *)properties
+        forLogName:(NSString *)logName
+           andType:(NSString *)logType;
 
 @end
 

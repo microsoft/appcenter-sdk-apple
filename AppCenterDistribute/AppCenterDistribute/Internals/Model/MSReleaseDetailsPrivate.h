@@ -10,11 +10,9 @@
 @interface MSReleaseDetails ()
 
 /**
- * OBSOLETE. Will be removed in next version. The availability concept is now replaced with distributed.
- * Any 'available' associated with the default distribution group of an app.
- * enum:
- *   available
- *   unavailable
+ * OBSOLETE. Will be removed in next version. The availability concept is now
+ * replaced with distributed. Any 'available' associated with the default
+ * distribution group of an app. enum: available unavailable
  */
 @property(nonatomic, copy) NSString *status;
 
@@ -60,7 +58,8 @@
 
 /**
  * The href required to install a release on a mobile device.
- * On iOS devices will be prefixed with 'itms-services://?action=download-manifest&url='
+ * On iOS devices will be prefixed with
+ * 'itms-services://?action=download-manifest&url='
  */
 @property(nonatomic) NSURL *installUrl;
 
@@ -75,7 +74,8 @@
 @property(nonatomic) NSArray<MSDistributionGroup *> *distributionGroups;
 
 /**
- * A list of package hashes associated with this release. There is one hash (UUID) per architecture.
+ * A list of package hashes associated with this release. There is one hash
+ * (UUID) per architecture.
  */
 @property(nonatomic) NSArray<NSString *> *packageHashes;
 

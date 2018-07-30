@@ -17,7 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Get the last missed page view name while available.
  *
- * @return the last page view name. Can be nil if no name available or the page has already been tracked.
+ * @return the last page view name. Can be nil if no name available or the page
+ * has already been tracked.
  */
 + (nullable NSString *)missedPageViewName;
 

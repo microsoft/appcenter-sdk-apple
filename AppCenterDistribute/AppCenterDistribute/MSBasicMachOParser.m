@@ -7,9 +7,12 @@
 #import "MSLogger.h"
 #import "MSUtility.h"
 
-static NSString *const kMSBigEndianErrorDesc = @"Big-endian file not supported.";
-static NSString *const kMSNotMachOErrorDesc = @"File is not a known type of Mach-O file.";
-static NSString *const kMSCantReadErrorDescFormat = @"Cannot read data from file %@";
+static NSString *const kMSBigEndianErrorDesc =
+    @"Big-endian file not supported.";
+static NSString *const kMSNotMachOErrorDesc =
+    @"File is not a known type of Mach-O file.";
+static NSString *const kMSCantReadErrorDescFormat =
+    @"Cannot read data from file %@";
 
 @interface MSBasicMachOParser ()
 
@@ -21,7 +24,9 @@ static NSString *const kMSCantReadErrorDescFormat = @"Cannot read data from file
 
 - (instancetype)initWithBundle:(NSBundle *)bundle {
   if (!bundle || !bundle.executableURL) {
-    MSLogError([MSDistribute logTag], @"Given bundle is null or doesn't contain a valid executable URL.");
+    MSLogError(
+        [MSDistribute logTag],
+        @"Given bundle is null or doesn't contain a valid executable URL.");
     return nil;
   }
   if ((self = [super init])) {
@@ -44,9 +49,12 @@ static NSString *const kMSCantReadErrorDescFormat = @"Cannot read data from file
 - (void)parse {
   NSError *error;
   UInt32 magic;
-  NSFileHandle *fh = [NSFileHandle fileHandleForReadingFromURL:self.fileURL error:&error];
+  NSFileHandle *fh =
+      [NSFileHandle fileHandleForReadingFromURL:self.fileURL error:&error];
   if (error) {
-    MSLogError([MSDistribute logTag], @"Cannot get file handle for reading: \n\t%@", error.localizedDescription);
+    MSLogError([MSDistribute logTag],
+               @"Cannot get file handle for reading: \n\t%@",
+               error.localizedDescription);
     return;
   }
   if (![self readDataFromFile:fh toBuffer:&magic ofLength:sizeof(magic)]) {
@@ -79,7 +87,9 @@ static NSString *const kMSCantReadErrorDescFormat = @"Cannot read data from file
   }
 
   struct mach_header header;
-  if (![self readDataFromFile:fh toBuffer:&header ofLength:sizeof(struct mach_header)]) {
+  if (![self readDataFromFile:fh
+                     toBuffer:&header
+                     ofLength:sizeof(struct mach_header)]) {
     return;
   }
 
@@ -108,12 +118,15 @@ static NSString *const kMSCantReadErrorDescFormat = @"Cannot read data from file
     if (![self readDataFromFile:fh toBuffer:&lcmd ofLength:sizeof(lcmd)]) {
       return;
     }
-    [fh seekToFileOffset:(fh.offsetInFile - (UInt64)sizeof(struct load_command))];
+    [fh seekToFileOffset:(fh.offsetInFile -
+                          (UInt64)sizeof(struct load_command))];
 
     // Get the UUID.
     if (lcmd.cmd == LC_UUID) {
       struct uuid_command uuidcmd;
-      if (![self readDataFromFile:fh toBuffer:&uuidcmd ofLength:sizeof(uuidcmd)]) {
+      if (![self readDataFromFile:fh
+                         toBuffer:&uuidcmd
+                         ofLength:sizeof(uuidcmd)]) {
         return;
       }
       self.uuid = [[NSUUID alloc] initWithUUIDBytes:uuidcmd.uuid];
@@ -124,7 +137,9 @@ static NSString *const kMSCantReadErrorDescFormat = @"Cannot read data from file
   }
 }
 
-- (BOOL)readDataFromFile:(NSFileHandle *)fh toBuffer:(void *)buffer ofLength:(NSUInteger)size {
+- (BOOL)readDataFromFile:(NSFileHandle *)fh
+                toBuffer:(void *)buffer
+                ofLength:(NSUInteger)size {
   NSData *data = [fh readDataOfLength:size];
   if (data.length != size) {
     MSLogError([MSDistribute logTag], kMSCantReadErrorDescFormat, fh);
@@ -166,8 +181,10 @@ static NSString *const kMSCantReadErrorDescFormat = @"Cannot read data from file
     myArch = NXGetArchInfoFromName("x86_64");
   }
 
-  // These loops might be inefficient that way but it's easier than dealing with pointers.
-  struct fat_arch *archs = (struct fat_arch *)malloc(sizeof(struct fat_arch) * nArch);
+  // These loops might be inefficient that way but it's easier than dealing with
+  // pointers.
+  struct fat_arch *archs =
+      (struct fat_arch *)malloc(sizeof(struct fat_arch) * nArch);
   for (UInt32 i = 0; i < nArch; i++) {
     struct fat_arch arch;
     if (![self readDataFromFile:fh toBuffer:&arch ofLength:sizeof(arch)]) {
@@ -181,9 +198,11 @@ static NSString *const kMSCantReadErrorDescFormat = @"Cannot read data from file
     arch.align = CFSwapInt32BigToHost(arch.align);
     *(archs + i) = arch;
   }
-  const struct fat_arch *p = NXFindBestFatArch(myArch->cputype, myArch->cpusubtype, archs, nArch);
+  const struct fat_arch *p =
+      NXFindBestFatArch(myArch->cputype, myArch->cpusubtype, archs, nArch);
   if (!p) {
-    MSLogError([MSDistribute logTag], @"Cannot find the best match fat architecture.");
+    MSLogError([MSDistribute logTag],
+               @"Cannot find the best match fat architecture.");
   } else {
     [fh seekToFileOffset:p->offset];
   }

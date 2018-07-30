@@ -1,6 +1,6 @@
-#import "MSErrorReportPrivate.h"
 #import "MSDevice.h"
 #import "MSDeviceInternal.h"
+#import "MSErrorReportPrivate.h"
 #import "MSTestFrameworks.h"
 #import "MSWrapperSdkInternal.h"
 
@@ -61,15 +61,16 @@
   NSUInteger processIdentifier = 4;
 
   // When
-  MSErrorReport *sut = [[MSErrorReport alloc] initWithErrorId:errorId
-                                                  reporterKey:reporterKey
-                                                       signal:signal
-                                                exceptionName:exceptionName
-                                              exceptionReason:exceptionReason
-                                                 appStartTime:appStartTime
-                                                 appErrorTime:appErrorTime
-                                                       device:device
-                                         appProcessIdentifier:processIdentifier];
+  MSErrorReport *sut =
+      [[MSErrorReport alloc] initWithErrorId:errorId
+                                 reporterKey:reporterKey
+                                      signal:signal
+                               exceptionName:exceptionName
+                             exceptionReason:exceptionReason
+                                appStartTime:appStartTime
+                                appErrorTime:appErrorTime
+                                      device:device
+                        appProcessIdentifier:processIdentifier];
 
   // Then
   assertThat(sut, notNilValue());
@@ -81,7 +82,8 @@
   assertThat(sut.appStartTime, equalTo(appStartTime));
   assertThat(sut.appErrorTime, equalTo(appErrorTime));
   assertThat(sut.device, equalTo(device));
-  assertThatUnsignedInteger(sut.appProcessIdentifier, equalToUnsignedInteger(processIdentifier));
+  assertThatUnsignedInteger(sut.appProcessIdentifier,
+                            equalToUnsignedInteger(processIdentifier));
 }
 
 - (void)testIsAppKill {

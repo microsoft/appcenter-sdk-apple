@@ -17,7 +17,8 @@ extern NSString *const kMSLogNameRegex;
 /**
  * Collection of channel unit protocols per group Id.
  */
-@property(nonatomic) NSMutableDictionary<NSString *, id<MSChannelUnitProtocol>> *oneCollectorChannels;
+@property(nonatomic) NSMutableDictionary<NSString *, id<MSChannelUnitProtocol>>
+    *oneCollectorChannels;
 
 /**
  * Http ingestion to send logs to One Collector endpoint.
@@ -27,7 +28,8 @@ extern NSString *const kMSLogNameRegex;
 /**
  * Keep track of epoch and sequence per tenant token.
  */
-@property(nonatomic) NSMutableDictionary<NSString *, MSCSEpochAndSeq *> *epochsAndSeqsByIKey;
+@property(nonatomic)
+    NSMutableDictionary<NSString *, MSCSEpochAndSeq *> *epochsAndSeqsByIKey;
 
 /**
  * UUID created on first-time SDK initialization.

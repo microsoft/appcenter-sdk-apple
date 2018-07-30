@@ -18,8 +18,9 @@ NSString *MSUtilityEnvironmentCategory;
   }
 
   /**
-   * TestFlight is only supported from iOS 8 onwards and as our deployment target is iOS 8, we don't have to do any
-   * checks for floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1).
+   * TestFlight is only supported from iOS 8 onwards and as our deployment
+   * target is iOS 8, we don't have to do any checks for
+   * floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1).
    */
   if ([self isAppStoreReceiptSandbox]) {
     return MSEnvironmentTestFlight;
@@ -30,7 +31,9 @@ NSString *MSUtilityEnvironmentCategory;
 }
 
 + (BOOL)hasEmbeddedMobileProvision {
-  BOOL hasEmbeddedMobileProvision = !![[NSBundle mainBundle] pathForResource:@"embedded" ofType:@"mobileprovision"];
+  BOOL hasEmbeddedMobileProvision =
+      !![[NSBundle mainBundle] pathForResource:@"embedded"
+                                        ofType:@"mobileprovision"];
   return hasEmbeddedMobileProvision;
 }
 
@@ -44,7 +47,8 @@ NSString *MSUtilityEnvironmentCategory;
   NSURL *appStoreReceiptURL = NSBundle.mainBundle.appStoreReceiptURL;
   NSString *appStoreReceiptLastComponent = appStoreReceiptURL.lastPathComponent;
 
-  BOOL isSandboxReceipt = [appStoreReceiptLastComponent isEqualToString:@"sandboxReceipt"];
+  BOOL isSandboxReceipt =
+      [appStoreReceiptLastComponent isEqualToString:@"sandboxReceipt"];
   return isSandboxReceipt;
 #endif
 }

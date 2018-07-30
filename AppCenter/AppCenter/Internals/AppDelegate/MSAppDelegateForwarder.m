@@ -1,23 +1,26 @@
 #import <objc/runtime.h>
 
-#import "MSCustomApplicationDelegate.h"
-#import "MSAppDelegateForwarderPrivate.h"
 #import "MSAppCenterInternal.h"
+#import "MSAppDelegateForwarderPrivate.h"
+#import "MSCustomApplicationDelegate.h"
 #import "MSLogger.h"
 #import "MSUtility+Application.h"
 
 static NSString *const kMSCustomSelectorPrefix = @"custom_";
 static NSString *const kMSReturnedValueSelectorPart = @"returnedValue:";
-static NSString *const kMSIsAppDelegateForwarderEnabledKey = @"AppCenterAppDelegateForwarderEnabled";
+static NSString *const kMSIsAppDelegateForwarderEnabledKey =
+    @"AppCenterAppDelegateForwarderEnabled";
 
 // Original selectors with special handling.
-static NSString *const kMSOpenURLSourceApplicationAnnotation = @"application:openURL:sourceApplication:annotation:";
+static NSString *const kMSOpenURLSourceApplicationAnnotation =
+    @"application:openURL:sourceApplication:annotation:";
 static NSString *const kMSOpenURLOptions = @"application:openURL:options:";
 
 static NSHashTable<id<MSCustomApplicationDelegate>> *_delegates = nil;
 static NSMutableSet<NSString *> *_selectorsToSwizzle = nil;
 static NSDictionary<NSString *, NSString *> *_deprecatedSelectors = nil;
-static NSMutableDictionary<NSString *, NSValue *> *_originalImplementations = nil;
+static NSMutableDictionary<NSString *, NSValue *> *_originalImplementations =
+    nil;
 static NSMutableArray<dispatch_block_t> *traceBuffer = nil;
 static IMP _originalSetDelegateImp = NULL;
 static BOOL _enabled = YES;
@@ -31,25 +34,32 @@ static BOOL _enabled = YES;
 + (void)load {
 
   /*
-   * The application starts querying its delegate for its implementation as soon as it is set then may never query
-   * again. It means that if the application delegate doesn't implement an optional method of the
-   * `UIApplicationDelegate` protocol at that time then that method may never be called even if added later via
-   * swizzling. This is why the application delegate swizzling should happen at the time it is set to the application
+   * The application starts querying its delegate for its implementation as soon
+   * as it is set then may never query again. It means that if the application
+   * delegate doesn't implement an optional method of the
+   * `UIApplicationDelegate` protocol at that time then that method may never be
+   * called even if added later via swizzling. This is why the application
+   * delegate swizzling should happen at the time it is set to the application
    * object.
    */
-  NSDictionary *appForwarderEnabledNum =
-      [[NSBundle mainBundle] objectForInfoDictionaryKey:kMSIsAppDelegateForwarderEnabledKey];
-  BOOL appForwarderEnabled = appForwarderEnabledNum ? [((NSNumber *)appForwarderEnabledNum)boolValue] : YES;
+  NSDictionary *appForwarderEnabledNum = [[NSBundle mainBundle]
+      objectForInfoDictionaryKey:kMSIsAppDelegateForwarderEnabledKey];
+  BOOL appForwarderEnabled =
+      appForwarderEnabledNum ? [((NSNumber *)appForwarderEnabledNum)boolValue]
+                             : YES;
   MSAppDelegateForwarder.enabled = appForwarderEnabled;
 
   // Swizzle `setDelegate:` of Application class.
   if (MSAppDelegateForwarder.enabled) {
     [self addTraceBlock:^{
-      MSLogDebug([MSAppCenter logTag], @"Application delegate forwarder is enabled. It may use swizzling.");
+      MSLogDebug(
+          [MSAppCenter logTag],
+          @"Application delegate forwarder is enabled. It may use swizzling.");
     }];
   } else {
     [self addTraceBlock:^{
-      MSLogDebug([MSAppCenter logTag], @"Application delegate forwarder is disabled. It won't use swizzling.");
+      MSLogDebug([MSAppCenter logTag], @"Application delegate forwarder is "
+                                       @"disabled. It won't use swizzling.");
     }];
   }
 }
@@ -82,14 +92,16 @@ static BOOL _enabled = YES;
 #if TARGET_OS_OSX
     _deprecatedSelectors = @{};
 #else
-    _deprecatedSelectors = @{kMSOpenURLOptions : kMSOpenURLSourceApplicationAnnotation};
+    _deprecatedSelectors =
+        @{kMSOpenURLOptions : kMSOpenURLSourceApplicationAnnotation};
 #endif
   }
   return _deprecatedSelectors;
 }
 
 + (NSMutableDictionary<NSString *, NSValue *> *)originalImplementations {
-  return _originalImplementations ?: (_originalImplementations = [NSMutableDictionary new]);
+  return _originalImplementations
+             ?: (_originalImplementations = [NSMutableDictionary new]);
 }
 
 + (void)addTraceBlock:(void (^)(void))block {
@@ -159,13 +171,16 @@ static BOOL _enabled = YES;
   // Swizzle all registered selectors.
   for (NSString *selectorString in self.selectorsToSwizzle) {
     originalSelector = NSSelectorFromString(selectorString);
-    customSelector = NSSelectorFromString([kMSCustomSelectorPrefix stringByAppendingString:selectorString]);
-    originalImp =
-        [self swizzleOriginalSelector:originalSelector withCustomSelector:customSelector originalClass:delegateClass];
+    customSelector = NSSelectorFromString(
+        [kMSCustomSelectorPrefix stringByAppendingString:selectorString]);
+    originalImp = [self swizzleOriginalSelector:originalSelector
+                             withCustomSelector:customSelector
+                                  originalClass:delegateClass];
     if (originalImp) {
 
       // Save the original implementation for later use.
-      self.originalImplementations[selectorString] = [NSValue valueWithBytes:&originalImp objCType:@encode(IMP)];
+      self.originalImplementations[selectorString] =
+          [NSValue valueWithBytes:&originalImp objCType:@encode(IMP)];
     }
   }
   [self.selectorsToSwizzle removeAllObjects];
@@ -177,7 +192,8 @@ static BOOL _enabled = YES;
 
   // Replace original implementation
   NSString *originalSelectorStr = NSStringFromSelector(originalSelector);
-  Method originalMethod = class_getInstanceMethod(originalClass, originalSelector);
+  Method originalMethod =
+      class_getInstanceMethod(originalClass, originalSelector);
   IMP customImp = class_getMethodImplementation(self, customSelector);
   IMP originalImp = NULL;
   BOOL methodAdded = NO;
@@ -192,38 +208,47 @@ static BOOL _enabled = YES;
   } else if (![originalClass instancesRespondToSelector:originalSelector]) {
 
     // Check for deprecation.
-    NSString *deprecatedSelectorStr = self.deprecatedSelectors[originalSelectorStr];
+    NSString *deprecatedSelectorStr =
+        self.deprecatedSelectors[originalSelectorStr];
     if (deprecatedSelectorStr &&
-        [originalClass instancesRespondToSelector:NSSelectorFromString(deprecatedSelectorStr)]) {
+        [originalClass instancesRespondToSelector:NSSelectorFromString(
+                                                      deprecatedSelectorStr)]) {
 
       /*
-       * An implementation for the deprecated selector exists. Don't add the new method, it might eclipse the original
-       * implementation.
+       * An implementation for the deprecated selector exists. Don't add the new
+       * method, it might eclipse the original implementation.
        */
-      warningMsg = [NSString
-          stringWithFormat:
-              @"No implementation found for this selector, though an implementation of its deprecated API '%@' exists.",
-              deprecatedSelectorStr];
+      warningMsg =
+          [NSString stringWithFormat:@"No implementation found for this "
+                                     @"selector, though an implementation of "
+                                     @"its deprecated API '%@' exists.",
+                                     deprecatedSelectorStr];
     } else {
 
-      // Skip this selector if it's deprecated and doesn't have an implementation.
-      if ([self.deprecatedSelectors.allValues containsObject:originalSelectorStr]) {
+      // Skip this selector if it's deprecated and doesn't have an
+      // implementation.
+      if ([self.deprecatedSelectors.allValues
+              containsObject:originalSelectorStr]) {
         skipped = YES;
       } else {
 
         /*
-         * The original class may not implement the selector (e.g.: optional method from protocol),
-         * add the method to the original class and associate it with the custom implementation.
+         * The original class may not implement the selector (e.g.: optional
+         * method from protocol), add the method to the original class and
+         * associate it with the custom implementation.
          */
         Method customMethod = class_getInstanceMethod(self, customSelector);
-        methodAdded = class_addMethod(originalClass, originalSelector, customImp, method_getTypeEncoding(customMethod));
+        methodAdded =
+            class_addMethod(originalClass, originalSelector, customImp,
+                            method_getTypeEncoding(customMethod));
       }
     }
   }
 
   /*
-   * If class instances respond to the selector but no implementation is found it's likely that the original class
-   * is doing message forwarding, in this case we can't add our implementation to the class or we will break the
+   * If class instances respond to the selector but no implementation is found
+   * it's likely that the original class is doing message forwarding, in this
+   * case we can't add our implementation to the class or we will break the
    * forwarding.
    */
 
@@ -232,7 +257,8 @@ static BOOL _enabled = YES;
     if (!originalImp && !methodAdded) {
       [self addTraceBlock:^{
         NSString *message = [NSString
-            stringWithFormat:@"Cannot swizzle selector '%@' of class '%@'.", originalSelectorStr, originalClass];
+            stringWithFormat:@"Cannot swizzle selector '%@' of class '%@'.",
+                             originalSelectorStr, originalClass];
         if (warningMsg) {
           MSLogWarning([MSAppCenter logTag], @"%@ %@", message, warningMsg);
         } else {
@@ -241,8 +267,9 @@ static BOOL _enabled = YES;
       }];
     } else {
       [self addTraceBlock:^{
-        MSLogDebug([MSAppCenter logTag], @"Selector '%@' of class '%@' is swizzled.", originalSelectorStr,
-                   originalClass);
+        MSLogDebug([MSAppCenter logTag],
+                   @"Selector '%@' of class '%@' is swizzled.",
+                   originalSelectorStr, originalClass);
       }];
     }
   }
@@ -252,22 +279,24 @@ static BOOL _enabled = YES;
 + (void)addAppDelegateSelectorToSwizzle:(SEL)selector {
   if (self.enabled) {
 
-    // Swizzle only once and only if needed. No selector to swizzle then no swizzling at all.
+    // Swizzle only once and only if needed. No selector to swizzle then no
+    // swizzling at all.
     static dispatch_once_t appSwizzleOnceToken;
     dispatch_once(&appSwizzleOnceToken, ^{
-      MSAppDelegateForwarder.originalSetDelegateImp =
-          [MSAppDelegateForwarder swizzleOriginalSelector:@selector(setDelegate:)
-                                       withCustomSelector:@selector(custom_setDelegate:)
+      MSAppDelegateForwarder.originalSetDelegateImp = [MSAppDelegateForwarder
+          swizzleOriginalSelector:@selector(setDelegate:)
+               withCustomSelector:@selector(custom_setDelegate:)
 #if TARGET_OS_OSX
-                                            originalClass:[NSApplication class]];
+                    originalClass:[NSApplication class]];
 #else
                                             originalClass:[UIApplication class]];
 #endif
     });
 
     /*
-     * TODO: We could register custom delegate classes and then query those classes if they responds to selector.
-     * If so just add that selector to be swizzled. Just make sure it doesn't have an heavy impact on performances.
+     * TODO: We could register custom delegate classes and then query those
+     * classes if they responds to selector. If so just add that selector to be
+     * swizzled. Just make sure it doesn't have an heavy impact on performances.
      */
     [self.selectorsToSwizzle addObject:NSStringFromSelector(selector)];
   }
@@ -288,7 +317,8 @@ static BOOL _enabled = YES;
   // Forward to the original `setDelegate:` implementation.
   IMP originalImp = MSAppDelegateForwarder.originalSetDelegateImp;
   if (originalImp) {
-    ((void (*)(id, SEL, id<MSApplicationDelegate>))originalImp)(self, _cmd, delegate);
+    ((void (*)(id, SEL, id<MSApplicationDelegate>))originalImp)(self, _cmd,
+                                                                delegate);
   }
 }
 
@@ -297,9 +327,10 @@ static BOOL _enabled = YES;
 #if !TARGET_OS_OSX
 
 /*
- * Those methods will never get called but their implementation will be used by swizzling.
- * Those implementations will run within the delegate context. Meaning that `self` will point
- * to the original app delegate and not this forwarder.
+ * Those methods will never get called but their implementation will be used by
+ * swizzling. Those implementations will run within the delegate context.
+ * Meaning that `self` will point to the original app delegate and not this
+ * forwarder.
  */
 - (BOOL)custom_application:(UIApplication *)application
                    openURL:(NSURL *)url
@@ -309,10 +340,12 @@ static BOOL _enabled = YES;
   IMP originalImp = NULL;
 
   // Forward to the original delegate.
-  [MSAppDelegateForwarder.originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
+  [MSAppDelegateForwarder.originalImplementations[NSStringFromSelector(_cmd)]
+      getValue:&originalImp];
   if (originalImp) {
-    result = ((BOOL(*)(id, SEL, UIApplication *, NSURL *, NSString *, id))originalImp)(self, _cmd, application, url,
-                                                                                       sourceApplication, annotation);
+    result = ((BOOL(*)(id, SEL, UIApplication *, NSURL *, NSString *,
+                       id))originalImp)(self, _cmd, application, url,
+                                        sourceApplication, annotation);
   }
 
   // Forward to custom delegates.
@@ -323,18 +356,21 @@ static BOOL _enabled = YES;
                                                 returnedValue:result];
 }
 
-- (BOOL)custom_application:(UIApplication *)application
-                   openURL:(nonnull NSURL *)url
-                   options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
+- (BOOL)
+custom_application:(UIApplication *)application
+           openURL:(nonnull NSURL *)url
+           options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey, id> *)
+                       options {
   BOOL result = NO;
   IMP originalImp = NULL;
 
   // Forward to the original delegate.
-  [MSAppDelegateForwarder.originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
+  [MSAppDelegateForwarder.originalImplementations[NSStringFromSelector(_cmd)]
+      getValue:&originalImp];
   if (originalImp) {
-    result =
-        ((BOOL(*)(id, SEL, UIApplication *, NSURL *, NSDictionary<UIApplicationOpenURLOptionsKey, id> *))originalImp)(
-            self, _cmd, application, url, options);
+    result = ((BOOL(*)(id, SEL, UIApplication *, NSURL *,
+                       NSDictionary<UIApplicationOpenURLOptionsKey, id> *))
+                  originalImp)(self, _cmd, application, url, options);
   }
 
   // Forward to custom delegates.
@@ -350,7 +386,8 @@ static BOOL _enabled = YES;
 - (void)forwardInvocation:(NSInvocation *)invocation {
   @synchronized([self class]) {
     BOOL forwarded = NO;
-    BOOL hasReturnedValue = ([NSStringFromSelector(invocation.selector) hasSuffix:kMSReturnedValueSelectorPart]);
+    BOOL hasReturnedValue = ([NSStringFromSelector(invocation.selector)
+        hasSuffix:kMSReturnedValueSelectorPart]);
     NSUInteger returnedValueIdx = 0;
     void *returnedValuePtr = NULL;
 
@@ -376,7 +413,8 @@ static BOOL _enabled = YES;
       }
     }
 
-    // Forward back the original return value if no delegates to receive the message.
+    // Forward back the original return value if no delegates to receive the
+    // message.
     if (hasReturnedValue && !forwarded) {
       [invocation getArgument:returnedValuePtr atIndex:returnedValueIdx];
       [invocation setReturnValue:returnedValuePtr];

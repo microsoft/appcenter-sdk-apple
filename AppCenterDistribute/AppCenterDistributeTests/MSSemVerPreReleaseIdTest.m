@@ -11,7 +11,8 @@
 
   // If
   NSString *idString = nil;
-  MSSemVerPreReleaseId *preReleaseId = [MSSemVerPreReleaseId identifierWithString:idString];
+  MSSemVerPreReleaseId *preReleaseId =
+      [MSSemVerPreReleaseId identifierWithString:idString];
 
   // Then
   assertThat(preReleaseId, nilValue());
@@ -34,8 +35,10 @@
 
   // If
   // Equal pre-releases ids.
-  MSSemVerPreReleaseId *preReleaseIdA = [MSSemVerPreReleaseId identifierWithString:@"alpha"];
-  MSSemVerPreReleaseId *preReleaseIdB = [MSSemVerPreReleaseId identifierWithString:@"alpha"];
+  MSSemVerPreReleaseId *preReleaseIdA =
+      [MSSemVerPreReleaseId identifierWithString:@"alpha"];
+  MSSemVerPreReleaseId *preReleaseIdB =
+      [MSSemVerPreReleaseId identifierWithString:@"alpha"];
 
   // When
   NSComparisonResult result = [preReleaseIdA compare:preReleaseIdB];
@@ -88,7 +91,8 @@
   assertThatInt(result, equalToInt(NSOrderedDescending));
 
   // If
-  // Numbers have lower precedence than alphanumeric values for pre-release identifiers.
+  // Numbers have lower precedence than alphanumeric values for pre-release
+  // identifiers.
   preReleaseIdA = [MSSemVerPreReleaseId identifierWithString:@"123"];
   preReleaseIdB = [MSSemVerPreReleaseId identifierWithString:@"A10"];
 

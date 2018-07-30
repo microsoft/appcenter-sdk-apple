@@ -9,6 +9,8 @@
  *
  *  @return `YES` if read succeeded else `NO`.
  */
-- (BOOL)readDataFromFile:(NSFileHandle *)fh toBuffer:(void *)buffer ofLength:(NSUInteger)size;
+- (BOOL)readDataFromFile:(NSFileHandle *)fh
+                toBuffer:(void *)buffer
+                ofLength:(NSUInteger)size;
 
 @end

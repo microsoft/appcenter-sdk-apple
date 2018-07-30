@@ -1,9 +1,9 @@
 #import <Foundation/Foundation.h>
 
-@interface MSCSEpochAndSeq: NSObject
+@interface MSCSEpochAndSeq : NSObject
 
-@property (nonatomic) NSUInteger seq;
-@property (nonatomic) NSString *epoch;
+@property(nonatomic) NSUInteger seq;
+@property(nonatomic) NSString *epoch;
 
 /**
  * Create a MSCSEpochAndSeq with the given epoch.

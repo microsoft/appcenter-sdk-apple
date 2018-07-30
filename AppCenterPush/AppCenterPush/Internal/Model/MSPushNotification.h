@@ -15,6 +15,7 @@
 /**
  * Custom data for the notification.
  */
-@property(nonatomic, copy, readonly) NSDictionary<NSString *, NSString *> *customData;
+@property(nonatomic, copy, readonly)
+    NSDictionary<NSString *, NSString *> *customData;
 
 @end

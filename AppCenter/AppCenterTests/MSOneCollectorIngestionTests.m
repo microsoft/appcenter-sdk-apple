@@ -29,10 +29,11 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   // Mock reachability.
   self.reachabilityMock = OCMClassMock([MS_Reachability class]);
   self.currentNetworkStatus = ReachableViaWiFi;
-  OCMStub([self.reachabilityMock currentReachabilityStatus]).andDo(^(NSInvocation *invocation) {
-    NetworkStatus test = self.currentNetworkStatus;
-    [invocation setReturnValue:&test];
-  });
+  OCMStub([self.reachabilityMock currentReachabilityStatus])
+      .andDo(^(NSInvocation *invocation) {
+        NetworkStatus test = self.currentNetworkStatus;
+        [invocation setReturnValue:&test];
+      });
 
   // sut: System under test
   self.sut = [[MSOneCollectorIngestion alloc] initWithBaseUrl:kMSBaseUrl];
@@ -43,8 +44,9 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   [MSHttpTestUtil removeAllStubs];
 
   /*
-   * Setting the variable to nil. We are experiencing test failure on Xcode 9 beta because the instance that was used
-   * for previous test method is not disposed and still listening to network changes in other tests.
+   * Setting the variable to nil. We are experiencing test failure on Xcode 9
+   * beta because the instance that was used for previous test method is not
+   * disposed and still listening to network changes in other tests.
    */
   self.sut = nil;
 }
@@ -54,27 +56,34 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   // When
   NSString *containerId = @"1";
   MSLogContainer *container = [self createLogContainerWithId:containerId];
-  NSURLRequest *request = [self.sut createRequest:container appSecret:@"TestAppSecret"];
+  NSURLRequest *request =
+      [self.sut createRequest:container appSecret:@"TestAppSecret"];
   NSArray *keys = [request.allHTTPHeaderFields allKeys];
 
   // Then
   XCTAssertTrue([keys containsObject:kMSHeaderContentTypeKey]);
   XCTAssertTrue(
-      [[request.allHTTPHeaderFields objectForKey:kMSHeaderContentTypeKey] isEqualToString:kMSOneCollectorContentType]);
+      [[request.allHTTPHeaderFields objectForKey:kMSHeaderContentTypeKey]
+          isEqualToString:kMSOneCollectorContentType]);
   XCTAssertTrue([keys containsObject:kMSOneCollectorClientVersionKey]);
   NSString *expectedClientVersion =
-      [NSString stringWithFormat:kMSOneCollectorClientVersionFormat, [MSUtility sdkVersion]];
-  XCTAssertTrue([[request.allHTTPHeaderFields objectForKey:kMSOneCollectorClientVersionKey]
+      [NSString stringWithFormat:kMSOneCollectorClientVersionFormat,
+                                 [MSUtility sdkVersion]];
+  XCTAssertTrue([
+      [request.allHTTPHeaderFields objectForKey:kMSOneCollectorClientVersionKey]
       isEqualToString:expectedClientVersion]);
-  XCTAssertNil([request.allHTTPHeaderFields objectForKey:kMSHeaderAppSecretKey]);
+  XCTAssertNil(
+      [request.allHTTPHeaderFields objectForKey:kMSHeaderAppSecretKey]);
   XCTAssertTrue([keys containsObject:kMSOneCollectorApiKey]);
-  NSArray *tokens = [[request.allHTTPHeaderFields objectForKey:kMSOneCollectorApiKey] componentsSeparatedByString:@","];
+  NSArray *tokens = [[request.allHTTPHeaderFields
+      objectForKey:kMSOneCollectorApiKey] componentsSeparatedByString:@","];
   XCTAssertTrue([tokens count] == 3);
   for (NSString *token in @[ @"token1", @"token2", @"token3" ]) {
     XCTAssertTrue([tokens containsObject:token]);
   }
   XCTAssertTrue([keys containsObject:kMSOneCollectorUploadTimeKey]);
-  NSString *uploadTimeString = [request.allHTTPHeaderFields objectForKey:kMSOneCollectorUploadTimeKey];
+  NSString *uploadTimeString =
+      [request.allHTTPHeaderFields objectForKey:kMSOneCollectorUploadTimeKey];
   NSNumberFormatter *formatter = [NSNumberFormatter new];
   [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
   XCTAssertNotNil([formatter numberFromString:uploadTimeString]);
@@ -88,18 +97,22 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   [log1 addTransmissionTargetToken:@"token1"];
   MSMockLog *log2 = [[MSMockLog alloc] init];
   [log2 addTransmissionTargetToken:@"token2"];
-  MSLogContainer *logContainer =
-      [[MSLogContainer alloc] initWithBatchId:containerId andLogs:(NSArray<id<MSLog>> *)@[ log1, log2 ]];
+  MSLogContainer *logContainer = [[MSLogContainer alloc]
+      initWithBatchId:containerId
+              andLogs:(NSArray<id<MSLog>> *)@[ log1, log2 ]];
 
   // When
   NSURLRequest *request = [self.sut createRequest:logContainer appSecret:nil];
 
   // Then
   XCTAssertNotNil(request);
-  NSString *containerString =
-      [NSString stringWithFormat:@"%@%@%@%@", [log1 serializeLogWithPrettyPrinting:NO], kMSOneCollectorLogSeparator,
-                                 [log2 serializeLogWithPrettyPrinting:NO], kMSOneCollectorLogSeparator];
-  NSData *httpBodyData = [containerString dataUsingEncoding:NSUTF8StringEncoding];
+  NSString *containerString = [NSString
+      stringWithFormat:@"%@%@%@%@", [log1 serializeLogWithPrettyPrinting:NO],
+                       kMSOneCollectorLogSeparator,
+                       [log2 serializeLogWithPrettyPrinting:NO],
+                       kMSOneCollectorLogSeparator];
+  NSData *httpBodyData =
+      [containerString dataUsingEncoding:NSUTF8StringEncoding];
   XCTAssertEqualObjects(httpBodyData, request.HTTPBody);
 }
 
@@ -111,10 +124,12 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   [MSHttpTestUtil stubHttp200Response];
   NSString *containerId = @"1";
   MSLogContainer *container = [self createLogContainerWithId:containerId];
-  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Response 200"];
+  __weak XCTestExpectation *expectation =
+      [self expectationWithDescription:@"HTTP Response 200"];
   [self.sut sendAsync:container
-            appSecret:nil
-      completionHandler:^(NSString *batchId, NSUInteger statusCode, __attribute__((unused)) NSData *data,
+              appSecret:nil
+      completionHandler:^(NSString *batchId, NSUInteger statusCode,
+                          __attribute__((unused)) NSData *data,
                           NSError *error) {
         XCTAssertNil(error);
         XCTAssertEqual(containerId, batchId);
@@ -126,7 +141,8 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *_Nullable error) {
                                  if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                   XCTFail(@"Expectation Failed with error: %@",
+                                           error);
                                  }
                                }];
 }
@@ -139,13 +155,17 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   log.timestamp = [NSDate date];
 
   // Log does not have device info, therefore, it's an invalid log.
-  MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:@"1" andLogs:(NSArray<id<MSLog>> *)@[ log ]];
+  MSLogContainer *container =
+      [[MSLogContainer alloc] initWithBatchId:@"1"
+                                      andLogs:(NSArray<id<MSLog>> *)@[ log ]];
 
   // When
   [self.sut sendAsync:container
-            appSecret:nil
-      completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
-                          __attribute__((unused)) NSData *data, NSError *error) {
+              appSecret:nil
+      completionHandler:^(__attribute__((unused)) NSString *batchId,
+                          __attribute__((unused)) NSUInteger statusCode,
+                          __attribute__((unused)) NSData *data,
+                          NSError *error) {
 
         // Then
         XCTAssertEqual(error.domain, kMSACErrorDomain);
@@ -162,11 +182,14 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   MSLogContainer *container = nil;
 
   // When
-  __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Network Down"];
+  __weak XCTestExpectation *expectation =
+      [self expectationWithDescription:@"HTTP Network Down"];
   [self.sut sendAsync:container
-            appSecret:nil
-      completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
-                          __attribute__((unused)) NSData *data, NSError *error) {
+              appSecret:nil
+      completionHandler:^(__attribute__((unused)) NSString *batchId,
+                          __attribute__((unused)) NSUInteger statusCode,
+                          __attribute__((unused)) NSData *data,
+                          NSError *error) {
 
         // Then
         XCTAssertNotNil(error);
@@ -177,7 +200,8 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *_Nullable error) {
                                  if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                   XCTFail(@"Expectation Failed with error: %@",
+                                           error);
                                  }
                                }];
 }
@@ -186,18 +210,24 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 
   // If
   NSString *path = @"path";
-  NSURL *expectedURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", @"https://www.contoso.com/", path]];
+  NSURL *expectedURL = [NSURL
+      URLWithString:[NSString stringWithFormat:@"%@%@",
+                                               @"https://www.contoso.com/",
+                                               path]];
   self.sut.apiPath = path;
 
   // Query should be the same.
   NSString *query = self.sut.sendURL.query;
 
   // When
-  [self.sut setBaseURL:(NSString * _Nonnull)[expectedURL.URLByDeletingLastPathComponent absoluteString]];
+  [self.sut setBaseURL:(NSString *
+                        _Nonnull)[expectedURL.URLByDeletingLastPathComponent
+                                      absoluteString]];
 
   // Then
   XCTAssertNil(query);
-  XCTAssertTrue([[self.sut.sendURL absoluteString] isEqualToString:(NSString * _Nonnull)expectedURL.absoluteString]);
+  XCTAssertTrue([[self.sut.sendURL absoluteString]
+      isEqualToString:(NSString * _Nonnull) expectedURL.absoluteString]);
 }
 
 - (void)testSetInvalidBaseURL {
@@ -224,7 +254,8 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   log1.sid = @"";
   log1.timestamp = [NSDate date];
   MSLogContainer *logContainer =
-      [[MSLogContainer alloc] initWithBatchId:@"whatever" andLogs:(NSArray<id<MSLog>> *)@[ log1 ]];
+      [[MSLogContainer alloc] initWithBatchId:@"whatever"
+                                      andLogs:(NSArray<id<MSLog>> *)@[ log1 ]];
   NSMutableString *jsonString = [NSMutableString new];
   for (id<MSLog> log in logContainer.logs) {
     MSAbstractLog *abstractLog = (MSAbstractLog *)log;
@@ -251,9 +282,12 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   log1.sid = @"";
   log1.timestamp = [NSDate date];
   NSMutableString *jsonString = [NSMutableString new];
-  log1.sid = [log1.sid stringByPaddingToLength:kMSHTTPMinGZipLength withString:@"." startingAtIndex:0];
+  log1.sid = [log1.sid stringByPaddingToLength:kMSHTTPMinGZipLength
+                                    withString:@"."
+                               startingAtIndex:0];
   MSLogContainer *logContainer =
-      [[MSLogContainer alloc] initWithBatchId:@"whatever" andLogs:(NSArray<id<MSLog>> *)@[ log1 ]];
+      [[MSLogContainer alloc] initWithBatchId:@"whatever"
+                                      andLogs:(NSArray<id<MSLog>> *)@[ log1 ]];
   for (id<MSLog> log in logContainer.logs) {
     MSAbstractLog *abstractLog = (MSAbstractLog *)log;
     [jsonString appendString:[abstractLog serializeLogWithPrettyPrinting:NO]];
@@ -265,7 +299,8 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   NSURLRequest *request = [self.sut createRequest:logContainer appSecret:nil];
 
   // Then
-  XCTAssertEqual(request.allHTTPHeaderFields[kMSHeaderContentEncodingKey], kMSHeaderContentEncoding);
+  XCTAssertEqual(request.allHTTPHeaderFields[kMSHeaderContentEncodingKey],
+                 kMSHeaderContentEncoding);
   XCTAssertTrue(request.HTTPBody.length < httpBody.length);
 }
 
@@ -286,8 +321,9 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   log2.device = deviceMock;
   [log2 addTransmissionTargetToken:@"token2"];
   [log2 addTransmissionTargetToken:@"token3"];
-  MSLogContainer *logContainer =
-      [[MSLogContainer alloc] initWithBatchId:batchId andLogs:(NSArray<id<MSLog>> *)@[ log1, log2 ]];
+  MSLogContainer *logContainer = [[MSLogContainer alloc]
+      initWithBatchId:batchId
+              andLogs:(NSArray<id<MSLog>> *)@[ log1, log2 ]];
   return logContainer;
 }
 

@@ -1,7 +1,7 @@
+#import "MSDistributeIngestion.h"
 #import "MSAppCenter.h"
 #import "MSAppCenterInternal.h"
 #import "MSDistribute.h"
-#import "MSDistributeIngestion.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSLoggerInternal.h"
 
@@ -10,7 +10,8 @@
 /**
  * The API paths for latest release requests.
  */
-static NSString *const kMSLatestPrivateReleaseApiPathFormat = @"/sdk/apps/%@/releases/latest";
+static NSString *const kMSLatestPrivateReleaseApiPathFormat =
+    @"/sdk/apps/%@/releases/latest";
 static NSString *const kMSLatestPublicReleaseApiPathFormat =
     @"/public/sdk/apps/%@/distribution_groups/%@/releases/latest";
 
@@ -22,27 +23,32 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat =
   NSString *apiPath;
   NSDictionary *header = nil;
   if (updateToken) {
-    apiPath = [NSString stringWithFormat:kMSLatestPrivateReleaseApiPathFormat, appSecret];
+    apiPath = [NSString
+        stringWithFormat:kMSLatestPrivateReleaseApiPathFormat, appSecret];
     header = @{kMSHeaderUpdateApiToken : updateToken};
   } else {
-    apiPath = [NSString stringWithFormat:kMSLatestPublicReleaseApiPathFormat, appSecret, distributionGroupId];
+    apiPath = [NSString stringWithFormat:kMSLatestPublicReleaseApiPathFormat,
+                                         appSecret, distributionGroupId];
   }
-  if ((self = [super initWithBaseUrl:baseUrl
-                             apiPath:apiPath
-                             headers:header
-                        queryStrings:queryStrings
-                        reachability:[MS_Reachability reachabilityForInternetConnection]
-                      retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]])) {
+  if ((self = [super
+           initWithBaseUrl:baseUrl
+                   apiPath:apiPath
+                   headers:header
+              queryStrings:queryStrings
+              reachability:[MS_Reachability reachabilityForInternetConnection]
+            retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]])) {
     _appSecret = appSecret;
   }
 
   return self;
 }
 
-- (NSURLRequest *)createRequest:(NSObject *)data appSecret:(NSString *)appSecret {
+- (NSURLRequest *)createRequest:(NSObject *)data
+                      appSecret:(NSString *)appSecret {
   (void)data;
   (void)appSecret;
-  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.sendURL];
+  NSMutableURLRequest *request =
+      [NSMutableURLRequest requestWithURL:self.sendURL];
 
   // Set method.
   request.HTTPMethod = @"GET";
@@ -58,18 +64,22 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat =
 
   // Don't lose time pretty printing headers if not going to be printed.
   if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
-    NSString *url =
-        [request.URL.absoluteString stringByReplacingOccurrencesOfString:self.appSecret
-                                                              withString:[MSIngestionUtil hideSecret:self.appSecret]];
+    NSString *url = [request.URL.absoluteString
+        stringByReplacingOccurrencesOfString:self.appSecret
+                                  withString:[MSIngestionUtil
+                                                 hideSecret:self.appSecret]];
     MSLogVerbose([MSAppCenter logTag], @"URL: %@", url);
-    MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [super prettyPrintHeaders:request.allHTTPHeaderFields]);
+    MSLogVerbose([MSAppCenter logTag], @"Headers: %@",
+                 [super prettyPrintHeaders:request.allHTTPHeaderFields]);
   }
 
   return request;
 }
 
 - (NSString *)obfuscateHeaderValue:(NSString *)key value:(NSString *)value {
-  return [key isEqualToString:kMSHeaderUpdateApiToken] ? [MSIngestionUtil hideSecret:value] : value;
+  return [key isEqualToString:kMSHeaderUpdateApiToken]
+             ? [MSIngestionUtil hideSecret:value]
+             : value;
 }
 
 @end

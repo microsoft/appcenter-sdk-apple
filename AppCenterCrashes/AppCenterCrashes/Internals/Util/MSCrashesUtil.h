@@ -2,7 +2,8 @@
 
 static NSString *const kMSCrashesDirectory = @"crashes";
 static NSString *const kMSLogBufferDirectory = @"crasheslogbuffer";
-static NSString *const kMSWrapperExceptionsDirectory = @"crasheswrapperexceptions";
+static NSString *const kMSWrapperExceptionsDirectory =
+    @"crasheswrapperexceptions";
 
 @interface MSCrashesUtil : NSObject
 
@@ -14,8 +15,8 @@ static NSString *const kMSWrapperExceptionsDirectory = @"crasheswrapperexception
 + (NSString *)crashesDir;
 
 /**
- * Returns the directory for storing and reading buffered logs. It will be used in case we crash to make sure we don't
- * loose any data.
+ * Returns the directory for storing and reading buffered logs. It will be used
+ * in case we crash to make sure we don't loose any data.
  *
  * @return The directory containing buffered events for an app
  */

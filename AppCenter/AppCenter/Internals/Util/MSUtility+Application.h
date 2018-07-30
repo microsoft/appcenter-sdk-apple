@@ -79,7 +79,8 @@ typedef NS_ENUM(NSInteger, MSOpenURLState) {
 @interface MSUtility (Application)
 
 /**
- * Get the Shared Application from either NSApplication (MacOS) or UIApplication.
+ * Get the Shared Application from either NSApplication (MacOS) or
+ * UIApplication.
  *
  * @return The shared application.
  */
@@ -103,10 +104,12 @@ typedef NS_ENUM(NSInteger, MSOpenURLState) {
 /**
  * Get current application state.
  *
- * @return Current state of the application or MSApplicationStateUnknown while the state can't be determined.
+ * @return Current state of the application or MSApplicationStateUnknown while
+ * the state can't be determined.
  *
- * @discussion The application state may not be available anywhere. Application extensions doesn't have it for instance,
- * in that case the MSApplicationStateUnknown value is returned.
+ * @discussion The application state may not be available anywhere. Application
+ * extensions doesn't have it for instance, in that case the
+ * MSApplicationStateUnknown value is returned.
  */
 + (MSApplicationState)applicationState;
 

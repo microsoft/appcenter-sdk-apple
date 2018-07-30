@@ -12,7 +12,8 @@ NSString *MSUtilityFileCategory;
 /**
  * Bundle identifier, used for storage directories.
  */
-static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter";
+static NSString *const kMSAppCenterBundleIdentifier =
+    @"com.microsoft.appcenter";
 
 @implementation MSUtility (File)
 
@@ -22,10 +23,13 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
                       forceOverwrite:(BOOL)forceOverwrite {
   @synchronized(self) {
     if (filePathComponent) {
-      NSURL *fileURL = [[self appCenterDirectoryURL] URLByAppendingPathComponent:filePathComponent];
+      NSURL *fileURL = [[self appCenterDirectoryURL]
+          URLByAppendingPathComponent:filePathComponent];
 
-      // Check if item already exists. We need to check this as writeToURL:atomically: can override an existing file.
-      if (!forceOverwrite && [fileURL checkResourceIsReachableAndReturnError:nil]) {
+      // Check if item already exists. We need to check this as
+      // writeToURL:atomically: can override an existing file.
+      if (!forceOverwrite &&
+          [fileURL checkResourceIsReachableAndReturnError:nil]) {
         return fileURL;
       }
 
@@ -38,7 +42,8 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
       if ([theData writeToURL:fileURL atomically:atomically]) {
         return fileURL;
       } else {
-        MSLogError([MSAppCenter logTag], @"Couldn't create new file at path %@", fileURL);
+        MSLogError([MSAppCenter logTag], @"Couldn't create new file at path %@",
+                   fileURL);
       }
     }
     return nil;
@@ -48,12 +53,15 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
 + (BOOL)deleteItemForPathComponent:(NSString *)itemPathComponent {
   @synchronized(self) {
     if (itemPathComponent) {
-      NSURL *itemURL = [[self appCenterDirectoryURL] URLByAppendingPathComponent:itemPathComponent];
+      NSURL *itemURL = [[self appCenterDirectoryURL]
+          URLByAppendingPathComponent:itemPathComponent];
       NSError *error = nil;
       BOOL succeeded;
-      succeeded = [[NSFileManager defaultManager] removeItemAtURL:itemURL error:&error];
+      succeeded =
+          [[NSFileManager defaultManager] removeItemAtURL:itemURL error:&error];
       if (error) {
-        MSLogDebug([MSAppCenter logTag], @"Couldn't remove item at %@: %@", itemURL, error.localizedDescription);
+        MSLogDebug([MSAppCenter logTag], @"Couldn't remove item at %@: %@",
+                   itemURL, error.localizedDescription);
       }
       return succeeded;
     }
@@ -61,21 +69,26 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
   }
 }
 
-// TODO: We should remove this and just expose the method taking a pathComponent.
+// TODO: We should remove this and just expose the method taking a
+// pathComponent.
 + (BOOL)deleteFileAtURL:(NSURL *)fileURL {
   @synchronized(self) {
     if (fileURL) {
 
       /*
-       * No need to check existence of directory as checkResourceIsReachableAndReturnError: is synchronous. From it's
-       * docs: "If your app must perform operations on the file, such as opening it or copying resource properties, it
-       * is more efficient to attempt the operation and handle any failure that may occur."
+       * No need to check existence of directory as
+       * checkResourceIsReachableAndReturnError: is synchronous. From it's docs:
+       * "If your app must perform operations on the file, such as opening it or
+       * copying resource properties, it is more efficient to attempt the
+       * operation and handle any failure that may occur."
        */
       NSError *error = nil;
       BOOL succeeded;
-      succeeded = [[NSFileManager defaultManager] removeItemAtURL:fileURL error:&error];
+      succeeded =
+          [[NSFileManager defaultManager] removeItemAtURL:fileURL error:&error];
       if (error) {
-        MSLogDebug([MSAppCenter logTag], @"Couldn't remove item at %@: %@", fileURL, error.localizedDescription);
+        MSLogDebug([MSAppCenter logTag], @"Couldn't remove item at %@: %@",
+                   fileURL, error.localizedDescription);
       }
       return succeeded;
     }
@@ -86,7 +99,8 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
 + (NSURL *)createDirectoryForPathComponent:(NSString *)directoryPathComponent {
   @synchronized(self) {
     if (directoryPathComponent) {
-      NSURL *subDirURL = [[self appCenterDirectoryURL] URLByAppendingPathComponent:directoryPathComponent];
+      NSURL *subDirURL = [[self appCenterDirectoryURL]
+          URLByAppendingPathComponent:directoryPathComponent];
       BOOL success = [self createDirectoryAtURL:subDirURL];
       return success ? subDirURL : nil;
     }
@@ -97,7 +111,8 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
 + (NSData *)loadDataForPathComponent:(NSString *)filePathComponent {
   @synchronized(self) {
     if (filePathComponent) {
-      NSURL *fileURL = [[self appCenterDirectoryURL] URLByAppendingPathComponent:filePathComponent];
+      NSURL *fileURL = [[self appCenterDirectoryURL]
+          URLByAppendingPathComponent:filePathComponent];
       return [NSData dataWithContentsOfURL:fileURL];
     }
     return nil;
@@ -105,21 +120,26 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
 }
 
 /**
- * TODO candidate for refactoring. Should return pathComponents and not full URLs.
- * Has big impact on crashes logic.
+ * TODO candidate for refactoring. Should return pathComponents and not full
+ * URLs. Has big impact on crashes logic.
  */
-+ (NSArray<NSURL *> *)contentsOfDirectory:(NSString *)directory propertiesForKeys:(NSArray *)propertiesForKeys {
++ (NSArray<NSURL *> *)contentsOfDirectory:(NSString *)directory
+                        propertiesForKeys:(NSArray *)propertiesForKeys {
   @synchronized(self) {
     if (directory && directory.length > 0) {
       NSFileManager *fileManager = [NSFileManager new];
       NSError *error = nil;
-      NSURL *dirURL = [[self appCenterDirectoryURL] URLByAppendingPathComponent:directory isDirectory:YES];
-      NSArray *files = [fileManager contentsOfDirectoryAtURL:dirURL
-                                  includingPropertiesForKeys:propertiesForKeys
-                                                     options:(NSDirectoryEnumerationOptions)0
-                                                       error:&error];
+      NSURL *dirURL =
+          [[self appCenterDirectoryURL] URLByAppendingPathComponent:directory
+                                                        isDirectory:YES];
+      NSArray *files =
+          [fileManager contentsOfDirectoryAtURL:dirURL
+                     includingPropertiesForKeys:propertiesForKeys
+                                        options:(NSDirectoryEnumerationOptions)0
+                                          error:&error];
       if (!files) {
-        MSLogDebug([MSAppCenter logTag], @"Couldn't get files in the directory \"%@\": %@", directory,
+        MSLogDebug([MSAppCenter logTag],
+                   @"Couldn't get files in the directory \"%@\": %@", directory,
                    error.localizedDescription);
       }
       return files;
@@ -130,7 +150,8 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
 
 + (BOOL)fileExistsForPathComponent:(NSString *)filePathComponent {
   {
-    NSURL *fileURL = [[self appCenterDirectoryURL] URLByAppendingPathComponent:filePathComponent];
+    NSURL *fileURL = [[self appCenterDirectoryURL]
+        URLByAppendingPathComponent:filePathComponent];
     return [fileURL checkResourceIsReachableAndReturnError:nil];
   }
 }
@@ -138,7 +159,8 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
 + (NSURL *)fullURLForPathComponent:(NSString *)filePathComponent {
   {
     if (filePathComponent) {
-      return [[self appCenterDirectoryURL] URLByAppendingPathComponent:filePathComponent];
+      return [[self appCenterDirectoryURL]
+          URLByAppendingPathComponent:filePathComponent];
     }
     return nil;
   }
@@ -158,13 +180,16 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
 #endif
 
     NSFileManager *fileManager = [[NSFileManager alloc] init];
-    NSArray<NSURL *> *urls = [fileManager URLsForDirectory:directory inDomains:NSUserDomainMask];
+    NSArray<NSURL *> *urls =
+        [fileManager URLsForDirectory:directory inDomains:NSUserDomainMask];
     NSURL *baseDirUrl = [urls objectAtIndex:0];
 
 #if TARGET_OS_OSX
 
-    // Use the application's bundle identifier for macOS to make sure to use separate directories for each app.
-    NSString *bundleIdentifier = [NSString stringWithFormat:@"%@/", [MS_APP_MAIN_BUNDLE bundleIdentifier]];
+    // Use the application's bundle identifier for macOS to make sure to use
+    // separate directories for each app.
+    NSString *bundleIdentifier = [NSString
+        stringWithFormat:@"%@/", [MS_APP_MAIN_BUNDLE bundleIdentifier]];
     dirURL = [[baseDirUrl URLByAppendingPathComponent:bundleIdentifier]
         URLByAppendingPathComponent:kMSAppCenterBundleIdentifier];
 #else
@@ -182,11 +207,12 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
     /*
      * No need to check existence of directory:
      *
-     * 1. createDirectoryAtURL:withIntermediateDirectories:attributes:error: returns YES if the directory already
-     * exists.
-     * 2. checkResourceIsReachableAndReturnError: is synchronous. From it's docs: "If your app must perform operations
-     * on the file, such as opening it or copying resource properties, it is more efficient to attempt the operation and
-     * handle any failure that may occur."
+     * 1. createDirectoryAtURL:withIntermediateDirectories:attributes:error:
+     * returns YES if the directory already exists. 2.
+     * checkResourceIsReachableAndReturnError: is synchronous. From it's docs:
+     * "If your app must perform operations on the file, such as opening it or
+     * copying resource properties, it is more efficient to attempt the
+     * operation and handle any failure that may occur."
      */
     NSError *error = nil;
     if ([[NSFileManager defaultManager] createDirectoryAtURL:fullDirURL
@@ -196,7 +222,8 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
       [self disableBackupForDirectoryURL:fullDirURL];
       return YES;
     } else {
-      MSLogError([MSAppCenter logTag], @"Couldn't create directory at %@: %@", fullDirURL, error.localizedDescription);
+      MSLogError([MSAppCenter logTag], @"Couldn't create directory at %@: %@",
+                 fullDirURL, error.localizedDescription);
     }
   }
   return NO;
@@ -206,8 +233,12 @@ static NSString *const kMSAppCenterBundleIdentifier = @"com.microsoft.appcenter"
   NSError *error = nil;
 
   // SDK files shouldn't be backed up in iCloud.
-  if (!directoryURL || ![directoryURL setResourceValue:@YES forKey:NSURLIsExcludedFromBackupKey error:&error]) {
-    MSLogError([MSAppCenter logTag], @"Error excluding %@ from iCloud backup %@", directoryURL,
+  if (!directoryURL ||
+      ![directoryURL setResourceValue:@YES
+                               forKey:NSURLIsExcludedFromBackupKey
+                                error:&error]) {
+    MSLogError([MSAppCenter logTag],
+               @"Error excluding %@ from iCloud backup %@", directoryURL,
                error.localizedDescription);
     return NO;
   } else {

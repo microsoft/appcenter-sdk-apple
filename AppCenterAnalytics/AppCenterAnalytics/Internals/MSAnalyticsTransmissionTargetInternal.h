@@ -1,5 +1,5 @@
-#import <Foundation/Foundation.h>
 #import "MSAnalyticsTransmissionTarget.h"
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -19,9 +19,12 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A transmission target instance.
  */
-- (instancetype)initWithTransmissionTargetToken:(NSString *)token
-                                   parentTarget:(nullable MSAnalyticsTransmissionTarget *)parentTarget
-                                   channelGroup:(nonnull id<MSChannelGroupProtocol>)channelGroup;
+- (instancetype)
+initWithTransmissionTargetToken:(NSString *)token
+                   parentTarget:
+                       (nullable MSAnalyticsTransmissionTarget *)parentTarget
+                   channelGroup:
+                       (nonnull id<MSChannelGroupProtocol>)channelGroup;
 
 @end
 

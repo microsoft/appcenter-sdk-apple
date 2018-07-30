@@ -47,23 +47,26 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // When
   MSAnalyticsTransmissionTarget *transmissionTarget =
-      [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
-                                                                parentTarget:nil
-                                                                channelGroup:self.channelGroupMock];
+      [[MSAnalyticsTransmissionTarget alloc]
+          initWithTransmissionTargetToken:kMSTestTransmissionToken
+                             parentTarget:nil
+                             channelGroup:self.channelGroupMock];
 
   // Then
   XCTAssertNotNil(transmissionTarget);
-  XCTAssertEqual(kMSTestTransmissionToken, transmissionTarget.transmissionTargetToken);
-  XCTAssertEqualObjects(transmissionTarget.propertyConfigurator.eventProperties, @{});
+  XCTAssertEqual(kMSTestTransmissionToken,
+                 transmissionTarget.transmissionTargetToken);
+  XCTAssertEqualObjects(transmissionTarget.propertyConfigurator.eventProperties,
+                        @{});
 }
 
 - (void)testTrackEvent {
 
   // If
-  MSAnalyticsTransmissionTarget *target =
-      [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
-                                                                parentTarget:nil
-                                                                channelGroup:self.channelGroupMock];
+  MSAnalyticsTransmissionTarget *target = [[MSAnalyticsTransmissionTarget alloc]
+      initWithTransmissionTargetToken:kMSTestTransmissionToken
+                         parentTarget:nil
+                         channelGroup:self.channelGroupMock];
   NSString *eventName = @"event";
 
   // When
@@ -71,17 +74,18 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // Then
   XCTAssertTrue(target.propertyConfigurator.eventProperties.count == 0);
-  OCMVerify(
-      ClassMethod([self.analyticsClassMock trackEvent:eventName withProperties:nil forTransmissionTarget:target]));
+  OCMVerify(ClassMethod([self.analyticsClassMock trackEvent:eventName
+                                             withProperties:nil
+                                      forTransmissionTarget:target]));
 }
 
 - (void)testTrackEventWithProperties {
 
   // If
-  MSAnalyticsTransmissionTarget *target =
-      [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
-                                                                parentTarget:nil
-                                                                channelGroup:self.channelGroupMock];
+  MSAnalyticsTransmissionTarget *target = [[MSAnalyticsTransmissionTarget alloc]
+      initWithTransmissionTargetToken:kMSTestTransmissionToken
+                         parentTarget:nil
+                         channelGroup:self.channelGroupMock];
   NSString *eventName = @"event";
   NSDictionary *properties = @{ @"prop1" : @"val1", @"prop2" : @"val2" };
 
@@ -90,8 +94,9 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // Then
   XCTAssertTrue(target.propertyConfigurator.eventProperties.count == 0);
-  OCMVerify(ClassMethod(
-      [self.analyticsClassMock trackEvent:eventName withProperties:properties forTransmissionTarget:target]));
+  OCMVerify(ClassMethod([self.analyticsClassMock trackEvent:eventName
+                                             withProperties:properties
+                                      forTransmissionTarget:target]));
 }
 
 - (void)testTransmissionTargetForToken {
@@ -103,48 +108,62 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   NSString *event3 = @"event3";
 
   MSAnalyticsTransmissionTarget *parentTransmissionTarget =
-      [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
-                                                                parentTarget:nil
-                                                                channelGroup:self.channelGroupMock];
+      [[MSAnalyticsTransmissionTarget alloc]
+          initWithTransmissionTargetToken:kMSTestTransmissionToken
+                             parentTarget:nil
+                             channelGroup:self.channelGroupMock];
   MSAnalyticsTransmissionTarget *childTransmissionTarget;
 
   // When
-  childTransmissionTarget = [parentTransmissionTarget transmissionTargetForToken:kMSTestTransmissionToken2];
+  childTransmissionTarget = [parentTransmissionTarget
+      transmissionTargetForToken:kMSTestTransmissionToken2];
   [childTransmissionTarget trackEvent:event1 withProperties:properties];
 
   // Then
-  XCTAssertEqualObjects(kMSTestTransmissionToken2, childTransmissionTarget.transmissionTargetToken);
-  XCTAssertEqualObjects(childTransmissionTarget,
-                        parentTransmissionTarget.childTransmissionTargets[kMSTestTransmissionToken2]);
+  XCTAssertEqualObjects(kMSTestTransmissionToken2,
+                        childTransmissionTarget.transmissionTargetToken);
+  XCTAssertEqualObjects(
+      childTransmissionTarget,
+      parentTransmissionTarget
+          .childTransmissionTargets[kMSTestTransmissionToken2]);
 
   // When
   MSAnalyticsTransmissionTarget *childTransmissionTarget2 =
-      [parentTransmissionTarget transmissionTargetForToken:kMSTestTransmissionToken2];
+      [parentTransmissionTarget
+          transmissionTargetForToken:kMSTestTransmissionToken2];
   [childTransmissionTarget2 trackEvent:event2 withProperties:properties];
 
   // Then
   XCTAssertEqualObjects(childTransmissionTarget, childTransmissionTarget2);
-  XCTAssertEqualObjects(childTransmissionTarget2,
-                        parentTransmissionTarget.childTransmissionTargets[kMSTestTransmissionToken2]);
+  XCTAssertEqualObjects(
+      childTransmissionTarget2,
+      parentTransmissionTarget
+          .childTransmissionTargets[kMSTestTransmissionToken2]);
 
   // When
   MSAnalyticsTransmissionTarget *childTransmissionTarget3 =
-      [parentTransmissionTarget transmissionTargetForToken:kMSTestTransmissionToken];
+      [parentTransmissionTarget
+          transmissionTargetForToken:kMSTestTransmissionToken];
   [childTransmissionTarget3 trackEvent:event3 withProperties:properties];
 
   // Then
   XCTAssertNotEqualObjects(parentTransmissionTarget, childTransmissionTarget3);
-  XCTAssertEqualObjects(childTransmissionTarget3,
-                        parentTransmissionTarget.childTransmissionTargets[kMSTestTransmissionToken]);
-  OCMVerify(ClassMethod([self.analyticsClassMock trackEvent:event1
-                                             withProperties:properties
-                                      forTransmissionTarget:childTransmissionTarget]));
-  OCMVerify(ClassMethod([self.analyticsClassMock trackEvent:event2
-                                             withProperties:properties
-                                      forTransmissionTarget:childTransmissionTarget2]));
-  OCMVerify(ClassMethod([self.analyticsClassMock trackEvent:event3
-                                             withProperties:properties
-                                      forTransmissionTarget:childTransmissionTarget3]));
+  XCTAssertEqualObjects(
+      childTransmissionTarget3,
+      parentTransmissionTarget
+          .childTransmissionTargets[kMSTestTransmissionToken]);
+  OCMVerify(ClassMethod([self.analyticsClassMock
+                 trackEvent:event1
+             withProperties:properties
+      forTransmissionTarget:childTransmissionTarget]));
+  OCMVerify(ClassMethod([self.analyticsClassMock
+                 trackEvent:event2
+             withProperties:properties
+      forTransmissionTarget:childTransmissionTarget2]));
+  OCMVerify(ClassMethod([self.analyticsClassMock
+                 trackEvent:event3
+             withProperties:properties
+      forTransmissionTarget:childTransmissionTarget3]));
 }
 
 - (void)testTransmissionTargetEnabledState {
@@ -159,17 +178,22 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   MSAnalyticsTransmissionTarget *transmissionTarget, *transmissionTarget2;
 
   // Events tracked when disabled mustn't be sent.
-  OCMReject(ClassMethod(
-      [self.analyticsClassMock trackEvent:event2 withProperties:properties forTransmissionTarget:transmissionTarget]));
-  OCMReject(ClassMethod(
-      [self.analyticsClassMock trackEvent:event3 withProperties:properties forTransmissionTarget:transmissionTarget2]));
+  OCMReject(
+      ClassMethod([self.analyticsClassMock trackEvent:event2
+                                       withProperties:properties
+                                forTransmissionTarget:transmissionTarget]));
+  OCMReject(
+      ClassMethod([self.analyticsClassMock trackEvent:event3
+                                       withProperties:properties
+                                forTransmissionTarget:transmissionTarget2]));
 
   // When
 
   // Target enabled by default.
-  transmissionTarget = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
-                                                                                 parentTarget:nil
-                                                                                 channelGroup:self.channelGroupMock];
+  transmissionTarget = [[MSAnalyticsTransmissionTarget alloc]
+      initWithTransmissionTargetToken:kMSTestTransmissionToken
+                         parentTarget:nil
+                         channelGroup:self.channelGroupMock];
   [transmissionTarget setEnabled:YES];
 
   // Then
@@ -187,10 +211,12 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // When
 
-  // Allocating a new object with the same token should return the enabled state for this token.
-  transmissionTarget2 = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
-                                                                                  parentTarget:nil
-                                                                                  channelGroup:self.channelGroupMock];
+  // Allocating a new object with the same token should return the enabled state
+  // for this token.
+  transmissionTarget2 = [[MSAnalyticsTransmissionTarget alloc]
+      initWithTransmissionTargetToken:kMSTestTransmissionToken
+                         parentTarget:nil
+                         channelGroup:self.channelGroupMock];
   [transmissionTarget2 trackEvent:event3 withProperties:properties];
 
   // Then
@@ -204,30 +230,36 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // Then
   XCTAssertTrue([transmissionTarget2 isEnabled]);
-  OCMVerify(ClassMethod(
-      [self.analyticsClassMock trackEvent:event1 withProperties:properties forTransmissionTarget:transmissionTarget]));
-  OCMVerify(ClassMethod(
-      [self.analyticsClassMock trackEvent:event4 withProperties:properties forTransmissionTarget:transmissionTarget2]));
+  OCMVerify(
+      ClassMethod([self.analyticsClassMock trackEvent:event1
+                                       withProperties:properties
+                                forTransmissionTarget:transmissionTarget]));
+  OCMVerify(
+      ClassMethod([self.analyticsClassMock trackEvent:event4
+                                       withProperties:properties
+                                forTransmissionTarget:transmissionTarget2]));
 }
 
 - (void)testTransmissionTargetNestedEnabledState {
 
   // If
-  MSAnalyticsTransmissionTarget *target =
-      [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
-                                                                parentTarget:nil
-                                                                channelGroup:self.channelGroupMock];
+  MSAnalyticsTransmissionTarget *target = [[MSAnalyticsTransmissionTarget alloc]
+      initWithTransmissionTargetToken:kMSTestTransmissionToken
+                         parentTarget:nil
+                         channelGroup:self.channelGroupMock];
 
   // When
 
   // Create a child while parent is enabled, child also enabled.
-  MSAnalyticsTransmissionTarget *childTarget = [target transmissionTargetForToken:@"childTarget1-guid"];
+  MSAnalyticsTransmissionTarget *childTarget =
+      [target transmissionTargetForToken:@"childTarget1-guid"];
 
   // Then
   XCTAssertTrue([childTarget isEnabled]);
 
   // If
-  MSAnalyticsTransmissionTarget *subChildTarget = [childTarget transmissionTargetForToken:@"subChildTarget1-guid"];
+  MSAnalyticsTransmissionTarget *subChildTarget =
+      [childTarget transmissionTargetForToken:@"subChildTarget1-guid"];
 
   // When
 
@@ -252,7 +284,8 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   // When
 
   // Adding another child, it's state should reflect its parent.
-  MSAnalyticsTransmissionTarget *childTarget2 = [target transmissionTargetForToken:@"childTarget2-guid"];
+  MSAnalyticsTransmissionTarget *childTarget2 =
+      [target transmissionTargetForToken:@"childTarget2-guid"];
 
   // Then
   XCTAssertFalse([target isEnabled]);
@@ -289,12 +322,15 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   short maxChildren = 50;
   NSMutableArray<MSAnalyticsTransmissionTarget *> *childrenTargets;
   MSAnalyticsTransmissionTarget *parentTarget =
-      [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
-                                                                parentTarget:nil
-                                                                channelGroup:self.channelGroupMock];
+      [[MSAnalyticsTransmissionTarget alloc]
+          initWithTransmissionTargetToken:kMSTestTransmissionToken
+                             parentTarget:nil
+                             channelGroup:self.channelGroupMock];
   for (short i = 1; i <= maxChildren; i++) {
     [childrenTargets
-        addObject:[parentTarget transmissionTargetForToken:[NSString stringWithFormat:@"Child%d-guid", i]]];
+        addObject:[parentTarget
+                      transmissionTargetForToken:
+                          [NSString stringWithFormat:@"Child%d-guid", i]]];
   }
 
   // When
@@ -315,13 +351,17 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   short maxSubChildren = 50;
   NSMutableArray<MSAnalyticsTransmissionTarget *> *childrenTargets;
   MSAnalyticsTransmissionTarget *parentTarget =
-      [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
-                                                                parentTarget:nil
-                                                                channelGroup:self.channelGroupMock];
-  MSAnalyticsTransmissionTarget *currentChildren = [parentTarget transmissionTargetForToken:@"Child1-guid"];
+      [[MSAnalyticsTransmissionTarget alloc]
+          initWithTransmissionTargetToken:kMSTestTransmissionToken
+                             parentTarget:nil
+                             channelGroup:self.channelGroupMock];
+  MSAnalyticsTransmissionTarget *currentChildren =
+      [parentTarget transmissionTargetForToken:@"Child1-guid"];
   [childrenTargets addObject:currentChildren];
   for (short i = 2; i <= maxSubChildren; i++) {
-    currentChildren = [currentChildren transmissionTargetForToken:[NSString stringWithFormat:@"SubChild%d-guid", i]];
+    currentChildren = [currentChildren
+        transmissionTargetForToken:[NSString
+                                       stringWithFormat:@"SubChild%d-guid", i]];
     [childrenTargets addObject:currentChildren];
   }
 
@@ -341,10 +381,12 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // If
   MSAnalyticsTransmissionTarget *targetMock =
-      [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
-                                                                parentTarget:nil
-                                                                channelGroup:self.channelGroupMock];
-  MSPropertyConfigurator *configurator = [[MSPropertyConfigurator alloc] initWithTransmissionTarget:targetMock];
+      [[MSAnalyticsTransmissionTarget alloc]
+          initWithTransmissionTargetToken:kMSTestTransmissionToken
+                             parentTarget:nil
+                             channelGroup:self.channelGroupMock];
+  MSPropertyConfigurator *configurator =
+      [[MSPropertyConfigurator alloc] initWithTransmissionTarget:targetMock];
 
   NSString *prop1Key = @"prop1";
   NSString *prop1Value = @"val1";
@@ -387,7 +429,8 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   [configurator setEventPropertyString:prop2Value forKey:prop2Key];
 
   // Then
-  XCTAssertEqualObjects(configurator.eventProperties, (@{prop1Key : prop1Value, prop2Key : prop2Value}));
+  XCTAssertEqualObjects(configurator.eventProperties,
+                        (@{prop1Key : prop1Value, prop2Key : prop2Value}));
 
   // When
   [configurator removeEventPropertyforKey:prop1Key];
@@ -401,26 +444,31 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   // If
 
   // Common properties only.
-  MSAnalyticsTransmissionTarget *target =
-      [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
-                                                                parentTarget:nil
-                                                                channelGroup:self.channelGroupMock];
+  MSAnalyticsTransmissionTarget *target = [[MSAnalyticsTransmissionTarget alloc]
+      initWithTransmissionTargetToken:kMSTestTransmissionToken
+                         parentTarget:nil
+                         channelGroup:self.channelGroupMock];
   NSString *eventName = @"event";
   NSString *propCommonKey = @"propCommonKey";
   NSString *propCommonValue = @"propCommonValue";
   NSString *propCommonKey2 = @"sharedPropKey";
   NSString *propCommonValue2 = @"propCommonValue2";
-  [target.propertyConfigurator setEventPropertyString:propCommonValue forKey:propCommonKey];
-  [target.propertyConfigurator setEventPropertyString:propCommonValue2 forKey:propCommonKey2];
+  [target.propertyConfigurator setEventPropertyString:propCommonValue
+                                               forKey:propCommonKey];
+  [target.propertyConfigurator setEventPropertyString:propCommonValue2
+                                               forKey:propCommonKey2];
 
   // When
   [target trackEvent:eventName];
 
   // Then
-  id commonProperties = @{propCommonKey : propCommonValue, propCommonKey2 : propCommonValue2};
-  XCTAssertEqualObjects(target.propertyConfigurator.eventProperties, commonProperties);
-  OCMVerify(ClassMethod(
-      [self.analyticsClassMock trackEvent:eventName withProperties:commonProperties forTransmissionTarget:target]));
+  id commonProperties =
+      @{propCommonKey : propCommonValue, propCommonKey2 : propCommonValue2};
+  XCTAssertEqualObjects(target.propertyConfigurator.eventProperties,
+                        commonProperties);
+  OCMVerify(ClassMethod([self.analyticsClassMock trackEvent:eventName
+                                             withProperties:commonProperties
+                                      forTransmissionTarget:target]));
 
   // If
 
@@ -431,25 +479,31 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   NSString *propTrackValue2 = @"propTrackValue2";
 
   // When
-  [target trackEvent:eventName withProperties:@{propTrackKey : propTrackValue, propTrackKey2 : propTrackValue2}];
+  [target trackEvent:eventName
+      withProperties:@{
+        propTrackKey : propTrackValue,
+        propTrackKey2 : propTrackValue2
+      }];
 
   // Then
-  XCTAssertEqualObjects(target.propertyConfigurator.eventProperties, commonProperties);
+  XCTAssertEqualObjects(target.propertyConfigurator.eventProperties,
+                        commonProperties);
   OCMVerify(ClassMethod([self.analyticsClassMock trackEvent:eventName
                                              withProperties:(@{
                                                propCommonKey : propCommonValue,
                                                propTrackKey : propTrackValue,
                                                propTrackKey2 : propTrackValue2
-                                             })
-                                      forTransmissionTarget:target]));
+                                             })forTransmissionTarget:target]));
 }
 
 - (void)testEventPropertiesCascading {
 
   // If
   [MSAnalytics resetSharedInstance];
-  id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
-  OCMStub([self.channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  id<MSChannelUnitProtocol> channelUnitMock =
+      OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub([self.channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY])
+      .andReturn(channelUnitMock);
   [MSAppCenter sharedInstance].sdkConfigured = YES;
   [[MSAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
                                             appSecret:@"appsecret"
@@ -457,9 +511,12 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
                                       fromApplication:YES];
 
   // Prepare target instances.
-  MSAnalyticsTransmissionTarget *grandParent = [MSAnalytics transmissionTargetForToken:@"grand-parent"];
-  MSAnalyticsTransmissionTarget *parent = [grandParent transmissionTargetForToken:@"parent"];
-  MSAnalyticsTransmissionTarget *child = [parent transmissionTargetForToken:@"child"];
+  MSAnalyticsTransmissionTarget *grandParent =
+      [MSAnalytics transmissionTargetForToken:@"grand-parent"];
+  MSAnalyticsTransmissionTarget *parent =
+      [grandParent transmissionTargetForToken:@"parent"];
+  MSAnalyticsTransmissionTarget *child =
+      [parent transmissionTargetForToken:@"child"];
 
   // Set properties to grand parent.
   [grandParent.propertyConfigurator setEventPropertyString:@"1" forKey:@"a"];
@@ -473,7 +530,8 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   // Set a new property in parent.
   [parent.propertyConfigurator setEventPropertyString:@"44" forKey:@"d"];
 
-  // Just to show we still get value from parent which is inherited from grand parent, if we remove an override. */
+  // Just to show we still get value from parent which is inherited from grand
+  // parent, if we remove an override. */
   [parent.propertyConfigurator setEventPropertyString:@"33" forKey:@"c"];
   [parent.propertyConfigurator removeEventPropertyforKey:@"c"];
 
@@ -485,17 +543,19 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   [child.propertyConfigurator setEventPropertyString:@"666" forKey:@"f"];
 
   // Track event in child. Override some properties in trackEvent.
-  NSMutableDictionary<NSString *, NSString *> *properties = [NSMutableDictionary new];
+  NSMutableDictionary<NSString *, NSString *> *properties =
+      [NSMutableDictionary new];
   [properties setValue:@"6666" forKey:@"f"];
   [properties setValue:@"7777" forKey:@"g"];
 
   // Mock channel group.
   __block MSEventLog *eventLog;
-  OCMStub([channelUnitMock enqueueItem:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
-    id<MSLog> log = nil;
-    [invocation getArgument:&log atIndex:2];
-    eventLog = (MSEventLog *)log;
-  });
+  OCMStub([channelUnitMock enqueueItem:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        id<MSLog> log = nil;
+        [invocation getArgument:&log atIndex:2];
+        eventLog = (MSEventLog *)log;
+      });
 
   // When
   [child trackEvent:@"eventName" withProperties:properties];
@@ -517,7 +577,8 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   // If
 
   // Prepare target instance.
-  MSAnalyticsTransmissionTarget *target = [MSAnalytics transmissionTargetForToken:@"target"];
+  MSAnalyticsTransmissionTarget *target =
+      [MSAnalytics transmissionTargetForToken:@"target"];
 
   // Set a log.
   MSCommonSchemaLog *log = [MSCommonSchemaLog new];
@@ -544,8 +605,10 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   // If
 
   // Prepare target instances.
-  MSAnalyticsTransmissionTarget *parent = [MSAnalytics transmissionTargetForToken:@"parent"];
-  MSAnalyticsTransmissionTarget *child = [parent transmissionTargetForToken:@"child"];
+  MSAnalyticsTransmissionTarget *parent =
+      [MSAnalytics transmissionTargetForToken:@"parent"];
+  MSAnalyticsTransmissionTarget *child =
+      [parent transmissionTargetForToken:@"child"];
 
   // Set properties to grand parent.
   [parent.propertyConfigurator setAppVersion:@"8.4.1"];
@@ -573,7 +636,8 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   // If
 
   // Prepare target instance.
-  MSAnalyticsTransmissionTarget *target = [MSAnalytics transmissionTargetForToken:@"target"];
+  MSAnalyticsTransmissionTarget *target =
+      [MSAnalytics transmissionTargetForToken:@"target"];
 
   // Set properties to the target.
   [target.propertyConfigurator setAppVersion:@"8.4.1"];
@@ -603,8 +667,10 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   // If
 
   // Prepare target instances.
-  MSAnalyticsTransmissionTarget *parent = [MSAnalytics transmissionTargetForToken:@"parent"];
-  MSAnalyticsTransmissionTarget *child = [parent transmissionTargetForToken:@"child"];
+  MSAnalyticsTransmissionTarget *parent =
+      [MSAnalytics transmissionTargetForToken:@"parent"];
+  MSAnalyticsTransmissionTarget *child =
+      [parent transmissionTargetForToken:@"child"];
 
   // Set properties to grand parent.
   [parent.propertyConfigurator setAppVersion:@"8.4.1"];
@@ -635,9 +701,12 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   // If
 
   // Prepare target instances.
-  MSAnalyticsTransmissionTarget *grandParent = [MSAnalytics transmissionTargetForToken:@"grand-parent"];
-  MSAnalyticsTransmissionTarget *parent = [grandParent transmissionTargetForToken:@"parent"];
-  MSAnalyticsTransmissionTarget *child = [parent transmissionTargetForToken:@"child"];
+  MSAnalyticsTransmissionTarget *grandParent =
+      [MSAnalytics transmissionTargetForToken:@"grand-parent"];
+  MSAnalyticsTransmissionTarget *parent =
+      [grandParent transmissionTargetForToken:@"parent"];
+  MSAnalyticsTransmissionTarget *child =
+      [parent transmissionTargetForToken:@"child"];
 
   // Set properties to grand parent.
   [grandParent.propertyConfigurator setAppVersion:@"8.4.1"];
@@ -679,7 +748,8 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   // Then
   XCTAssertNotEqual(log.ext.appExt.ver, child.propertyConfigurator.appVersion);
   XCTAssertNotEqual(log.ext.appExt.name, child.propertyConfigurator.appName);
-  XCTAssertNotEqual(log.ext.appExt.locale, child.propertyConfigurator.appLocale);
+  XCTAssertNotEqual(log.ext.appExt.locale,
+                    child.propertyConfigurator.appLocale);
 
   // If
 
@@ -707,9 +777,12 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // If
   // Prepare target instances.
-  MSAnalyticsTransmissionTarget *parent = [MSAnalytics transmissionTargetForToken:@"parent"];
-  MSAnalyticsTransmissionTarget *child1 = [parent transmissionTargetForToken:@"child1"];
-  MSAnalyticsTransmissionTarget *child2 = [parent transmissionTargetForToken:@"child2"];
+  MSAnalyticsTransmissionTarget *parent =
+      [MSAnalytics transmissionTargetForToken:@"parent"];
+  MSAnalyticsTransmissionTarget *child1 =
+      [parent transmissionTargetForToken:@"child1"];
+  MSAnalyticsTransmissionTarget *child2 =
+      [parent transmissionTargetForToken:@"child2"];
 
   // Set properties to grand parent.
   [parent.propertyConfigurator setAppVersion:@"8.4.1"];
@@ -747,9 +820,11 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   XCTAssertEqual(log1.ext.appExt.ver, child1.propertyConfigurator.appVersion);
   XCTAssertEqual(log1.ext.appExt.name, child1.propertyConfigurator.appName);
   XCTAssertEqual(log1.ext.appExt.locale, child1.propertyConfigurator.appLocale);
-  XCTAssertNotEqual(log1.ext.appExt.ver, parent.propertyConfigurator.appVersion);
+  XCTAssertNotEqual(log1.ext.appExt.ver,
+                    parent.propertyConfigurator.appVersion);
   XCTAssertNotEqual(log1.ext.appExt.name, parent.propertyConfigurator.appName);
-  XCTAssertNotEqual(log1.ext.appExt.locale, parent.propertyConfigurator.appLocale);
+  XCTAssertNotEqual(log1.ext.appExt.locale,
+                    parent.propertyConfigurator.appLocale);
   XCTAssertNil(child2.propertyConfigurator.appVersion);
   XCTAssertNil(child2.propertyConfigurator.appName);
   XCTAssertNil(child2.propertyConfigurator.appLocale);
@@ -772,9 +847,11 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   XCTAssertEqual(log2.ext.appExt.ver, parent.propertyConfigurator.appVersion);
   XCTAssertEqual(log2.ext.appExt.name, parent.propertyConfigurator.appName);
   XCTAssertEqual(log2.ext.appExt.locale, parent.propertyConfigurator.appLocale);
-  XCTAssertNotEqual(log2.ext.appExt.ver, child1.propertyConfigurator.appVersion);
+  XCTAssertNotEqual(log2.ext.appExt.ver,
+                    child1.propertyConfigurator.appVersion);
   XCTAssertNotEqual(log2.ext.appExt.name, child1.propertyConfigurator.appName);
-  XCTAssertNotEqual(log2.ext.appExt.locale, child1.propertyConfigurator.appLocale);
+  XCTAssertNotEqual(log2.ext.appExt.locale,
+                    child1.propertyConfigurator.appLocale);
 }
 
 @end

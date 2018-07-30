@@ -15,7 +15,8 @@ NSString *MSAnalyticsValidationCategory;
 
 @implementation MSAnalytics (Validation)
 
-- (BOOL)channelUnit:(id<MSChannelUnitProtocol>)__unused channelUnit shouldFilterLog:(id<MSLog>)log {
+- (BOOL)channelUnit:(id<MSChannelUnitProtocol>)__unused channelUnit
+    shouldFilterLog:(id<MSLog>)log {
   NSObject *logObject = (NSObject *)log;
   if ([logObject isKindOfClass:[MSEventLog class]]) {
     return ![self validateLog:(MSEventLog *)log];
@@ -35,29 +36,36 @@ NSString *MSAnalyticsValidationCategory;
   log.name = validName;
 
   // Send only valid properties.
-  log.properties = [self validateProperties:log.properties forLogName:log.name andType:log.type];
+  log.properties = [self validateProperties:log.properties
+                                 forLogName:log.name
+                                    andType:log.type];
   return YES;
 }
 
-- (nullable NSString *)validateEventName:(NSString *)eventName forLogType:(NSString *)logType {
+- (nullable NSString *)validateEventName:(NSString *)eventName
+                              forLogType:(NSString *)logType {
   if (!eventName || [eventName length] < kMSMinEventNameLength) {
-    MSLogError([MSAnalytics logTag], @"%@ name cannot be null or empty", logType);
+    MSLogError([MSAnalytics logTag], @"%@ name cannot be null or empty",
+               logType);
     return nil;
   }
   if ([eventName length] > kMSMaxEventNameLength) {
     MSLogWarning([MSAnalytics logTag],
-                 @"%@ '%@' : name length cannot be longer than %d characters. Name will be truncated.", logType,
-                 eventName, kMSMaxEventNameLength);
+                 @"%@ '%@' : name length cannot be longer than %d characters. "
+                 @"Name will be truncated.",
+                 logType, eventName, kMSMaxEventNameLength);
     eventName = [eventName substringToIndex:kMSMaxEventNameLength];
   }
   return eventName;
 }
 
-- (NSDictionary<NSString *, NSString *> *)validateProperties:(NSDictionary<NSString *, NSString *> *)properties
-                                                    forLogName:(NSString *)logName
-                                                       andType:(NSString *)logType {
+- (NSDictionary<NSString *, NSString *> *)
+validateProperties:(NSDictionary<NSString *, NSString *> *)properties
+        forLogName:(NSString *)logName
+           andType:(NSString *)logType {
 
   // Keeping this method body in MSAnalytics to use it in unit tests.
-  return [MSUtility validateProperties:properties forLogName:logName type:logType];
+  return
+      [MSUtility validateProperties:properties forLogName:logName type:logType];
 }
 @end

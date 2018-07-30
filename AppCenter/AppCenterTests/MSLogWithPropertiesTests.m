@@ -44,7 +44,8 @@
   self.sut.properties = properties;
 
   // When
-  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.sut];
+  NSData *serializedEvent =
+      [NSKeyedArchiver archivedDataWithRootObject:self.sut];
   id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
 
   // Then
@@ -62,12 +63,14 @@
   self.sut.properties = properties;
 
   // When
-  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.sut];
+  NSData *serializedEvent =
+      [NSKeyedArchiver archivedDataWithRootObject:self.sut];
   id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
   MSLogWithProperties *actualLogWithProperties = actual;
 
   // then
-  XCTAssertTrue([self.sut.properties isEqual:actualLogWithProperties.properties]);
+  XCTAssertTrue(
+      [self.sut.properties isEqual:actualLogWithProperties.properties]);
 }
 
 - (void)testIsNotEqualToNil {

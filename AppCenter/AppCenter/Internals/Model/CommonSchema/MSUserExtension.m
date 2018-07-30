@@ -1,5 +1,5 @@
-#import "MSCSModelConstants.h"
 #import "MSUserExtension.h"
+#import "MSCSModelConstants.h"
 
 @implementation MSUserExtension
 
@@ -28,7 +28,8 @@
     return NO;
   }
   MSUserExtension *userExt = (MSUserExtension *)object;
-  return (!self.locale && !userExt.locale) || [self.locale isEqualToString:userExt.locale];
+  return (!self.locale && !userExt.locale) ||
+         [self.locale isEqualToString:userExt.locale];
 }
 
 #pragma mark - NSCoding
