@@ -137,6 +137,12 @@
       <Group
          location = "group:AppCenterDistribute"
          name = "AppCenterDistribute">
+         <FileRef
+            location = "group:build-appcenterdistribute-ios-docs.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenterdistribute-ios-framework.sh">
+         </FileRef>
       </Group>
       <Group
          location = "group:AppCenterPush"
