@@ -5,3 +5,14 @@ IPHONEOS_DEPLOYMENT_TARGET = 9.0
 TVOS_DEPLOYMENT_TARGET = 10.0
 MACOSX_DEPLOYMENT_TARGET = 10.9
 WATCHOS_DEPLOYMENT_TARGET = 3.2
+
+// :Mark: Architectures
+ONLY_ACTIVE_ARCH[config=Debug] = YES
+ONLY_ACTIVE_ARCH[config=Release] = NO
+
+// :Mark: Build Options
+DEBUG_INFORMATION_FORMAT[config=Debug] = dwarf
+DEBUG_INFORMATION_FORMAT[config=Release] = dwarf-with-dsym
+
+GCC_PREPROCESSOR_DEFINITIONS[config=Debug] = $(inherited) DEBUG
+SWIFT_ACTIVE_COMPILATION_CONDITIONS[config=Debug] = $(inherited) DEBUG
