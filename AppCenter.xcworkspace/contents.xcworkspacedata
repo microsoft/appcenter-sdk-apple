@@ -115,6 +115,24 @@
       <Group
          location = "group:AppCenterCrashes"
          name = "AppCenterCrashes">
+         <FileRef
+            location = "group:build-appcentercrashes-ios-docs.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcentercrashes-ios-framework.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcentercrashes-macos-docs.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcentercrashes-macos-framework.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcentercrashes-tvos-docs.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcentercrashes-tvos-framework.sh">
+         </FileRef>
       </Group>
       <Group
          location = "group:AppCenterDistribute"
