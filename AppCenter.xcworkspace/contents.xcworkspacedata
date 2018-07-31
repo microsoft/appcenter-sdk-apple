@@ -66,7 +66,103 @@
       location = "group:ThirdPartyNotices.txt">
    </FileRef>
    <Group
-      location = "group:/Users/benny/Repositories/MS/mobile-center-sdk-ios/vsts"
+      location = "group:Scripts"
+      name = "Scripts">
+      <Group
+         location = "group:AppCenter"
+         name = "AppCenter">
+         <FileRef
+            location = "group:build-appcenter-ios-docs.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenter-ios-framework.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenter-macos-docs.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenter-macos-framework.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenter-tvos-docs.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenter-tvos-framework.sh">
+         </FileRef>
+      </Group>
+      <Group
+         location = "group:AppCenterAnalytics"
+         name = "AppCenterAnalytics">
+         <FileRef
+            location = "group:build-appcenteranalytics-ios-docs.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenteranalytics-ios-framework.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenteranalytics-macos-docs.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenteranalytics-macos-framework.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenteranalytics-tvos-docs.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenteranalytics-tvos-framework.sh">
+         </FileRef>
+      </Group>
+      <Group
+         location = "group:AppCenterCrashes"
+         name = "AppCenterCrashes">
+         <FileRef
+            location = "group:build-appcentercrashes-ios-docs.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcentercrashes-ios-framework.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcentercrashes-macos-docs.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcentercrashes-macos-framework.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcentercrashes-tvos-docs.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcentercrashes-tvos-framework.sh">
+         </FileRef>
+      </Group>
+      <Group
+         location = "group:AppCenterDistribute"
+         name = "AppCenterDistribute">
+         <FileRef
+            location = "group:build-appcenterdistribute-ios-docs.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenterdistribute-ios-framework.sh">
+         </FileRef>
+      </Group>
+      <Group
+         location = "group:AppCenterPush"
+         name = "AppCenterPush">
+         <FileRef
+            location = "group:build-appcenterpush-ios-docs.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenterpush-ios-framework.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenterpush-macos-docs.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenterpush-macos-framework.sh">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
+      location = "group:vsts"
       name = "vsts">
       <FileRef
          location = "group:appcenter-build.sh">
