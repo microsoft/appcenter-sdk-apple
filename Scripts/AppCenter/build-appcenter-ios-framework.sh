@@ -14,6 +14,7 @@ WRK_DIR=build
 DEVICE_DIR=${WRK_DIR}/Release-iphoneos
 SIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator
 
+# Make sure we're inside $SRCROOT
 cd "${SRCROOT}"
 
 # Cleaning previous build

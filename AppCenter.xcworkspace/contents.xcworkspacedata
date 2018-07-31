@@ -75,7 +75,13 @@
             location = "group:build-appcenter-ios-framework.sh">
          </FileRef>
          <FileRef
+            location = "group:build-appcenter-macos-docs.sh">
+         </FileRef>
+         <FileRef
             location = "group:build-appcenter-macos-framework.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenter-tvos-docs.sh">
          </FileRef>
          <FileRef
             location = "group:build-appcenter-tvos-framework.sh">
