@@ -93,6 +93,24 @@
       <Group
          location = "group:AppCenterAnalytics"
          name = "AppCenterAnalytics">
+         <FileRef
+            location = "group:build-appcenteranalytics-ios-docs.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenteranalytics-ios-framework.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenteranalytics-macos-docs.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenteranalytics-macos-framework.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenteranalytics-tvos-docs.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenteranalytics-tvos-framework.sh">
+         </FileRef>
       </Group>
       <Group
          location = "group:AppCenterCrashes"
