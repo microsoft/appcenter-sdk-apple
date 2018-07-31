@@ -147,6 +147,18 @@
       <Group
          location = "group:AppCenterPush"
          name = "AppCenterPush">
+         <FileRef
+            location = "group:build-appcenterpush-ios-docs.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenterpush-ios-framework.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenterpush-macos-docs.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenterpush-macos-framework.sh">
+         </FileRef>
       </Group>
    </Group>
    <Group
