@@ -49,36 +49,46 @@ static NSString *const kMSEventTypeName = @"event";
   }
 }
 
-- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup appSecret:(NSString *)appSecret transmissionTargetToken:(NSString *)token {
-  [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:YES];
+- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup
+                    appSecret:(NSString *)appSecret
+      transmissionTargetToken:(NSString *)token {
+  [super startWithChannelGroup:channelGroup
+                     appSecret:appSecret
+       transmissionTargetToken:token
+               fromApplication:YES];
   [channelGroup addDelegate:self];
 }
 
 #pragma mark - MSChannelDelegate
 
-- (BOOL)channelUnit:(id<MSChannelUnitProtocol>)__unused channelUnit shouldFilterLog:(id<MSLog>)log {
+- (BOOL)channelUnit:(id<MSChannelUnitProtocol>)__unused channelUnit
+    shouldFilterLog:(id<MSLog>)log {
   if (![MSEventFilter isEnabled]) {
     return NO;
   }
   if ([[log type] isEqualToString:kMSEventTypeName]) {
-    MSEventLog *eventLog = (MSEventLog*)log;
+    MSEventLog *eventLog = (MSEventLog *)log;
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"dd-MM-YYYY HH:mm:ss"];
     NSString *logTimestampString = [dateFormatter stringFromDate:log.timestamp];
-    NSString *message = [NSString stringWithFormat:@"Filtering out an event log. Details:\
+    NSString *message = [NSString
+        stringWithFormat:@"Filtering out an event log. Details:\
                          \n\tLog Type = %@\
                          \n\tLog Timestamp = %@\
                          \n\tLog SID = %@\
-                         \n\tEvent name = %@",log.type, logTimestampString, log.sid, eventLog.name];
+                         \n\tEvent name = %@",
+                         log.type, logTimestampString, log.sid, eventLog.name];
     [MSEventFilter logMessage:message withLogLevel:MSLogLevelInfo];
     return YES;
   }
   return NO;
 }
 
-# pragma mark - Helper methods
-+ (void) logMessage:(NSString*)message withLogLevel:(MSLogLevel)logLevel {
-  [MSWrapperLogger MSWrapperLog:^{return message;}
+#pragma mark - Helper methods
++ (void)logMessage:(NSString *)message withLogLevel:(MSLogLevel)logLevel {
+  [MSWrapperLogger MSWrapperLog:^{
+    return message;
+  }
                             tag:[MSEventFilter logTag]
                           level:logLevel];
 }

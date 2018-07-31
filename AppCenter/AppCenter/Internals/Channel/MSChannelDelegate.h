@@ -15,11 +15,12 @@
  * @param channelGroup The channel group.
  * @param channel The newly added channel.
  */
-- (void)channelGroup:(id<MSChannelGroupProtocol>)channelGroup didAddChannelUnit:(id<MSChannelUnitProtocol>)channel;
+- (void)channelGroup:(id<MSChannelGroupProtocol>)channelGroup
+    didAddChannelUnit:(id<MSChannelUnitProtocol>)channel;
 
 /**
- * A callback that is called when a log is just enqueued. Delegates may want to prepare the log a little more before
- * further processing.
+ * A callback that is called when a log is just enqueued. Delegates may want to
+ * prepare the log a little more before further processing.
  *
  * @param log The log to prepare.
  */
@@ -31,10 +32,13 @@
  * @param log The log.
  * @param internalId An internal Id to keep track of logs.
  */
-- (void)channel:(id<MSChannelProtocol>)channel didPrepareLog:(id<MSLog>)log withInternalId:(NSString *)internalId;
+- (void)channel:(id<MSChannelProtocol>)channel
+     didPrepareLog:(id<MSLog>)log
+    withInternalId:(NSString *)internalId;
 
 /**
- * A callback that is called after a log completed the enqueueing process weither it was successfull or not.
+ * A callback that is called after a log completed the enqueueing process
+ * weither it was successfull or not.
  *
  * @param log The log.
  * @param internalId An internal Id to keep track of logs.
@@ -44,7 +48,8 @@
               withInternalId:(NSString *)internalId;
 
 /**
- * Callback method that will be called before each log will be send to the server.
+ * Callback method that will be called before each log will be send to the
+ * server.
  *
  * @param channel The channel object.
  * @param log The log to be sent.
@@ -57,7 +62,8 @@
  * @param channel The channel object.
  * @param log The log to be sent.
  */
-- (void)channel:(id<MSChannelProtocol>)channel didSucceedSendingLog:(id<MSLog>)log;
+- (void)channel:(id<MSChannelProtocol>)channel
+    didSucceedSendingLog:(id<MSLog>)log;
 
 /**
  * Callback method that will be called in case the SDK was unable to send a log.
@@ -66,7 +72,9 @@
  * @param log The log to be sent.
  * @param error The error that occured.
  */
-- (void)channel:(id<MSChannelProtocol>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error;
+- (void)channel:(id<MSChannelProtocol>)channel
+    didFailSendingLog:(id<MSLog>)log
+            withError:(NSError *)error;
 
 /**
  * A callback that is called when setEnabled has been invoked.
@@ -88,6 +96,7 @@
  *
  * @return `true` if the log should be filtered out.
  */
-- (BOOL)channelUnit:(id<MSChannelUnitProtocol>)channelUnit shouldFilterLog:(id<MSLog>)log;
+- (BOOL)channelUnit:(id<MSChannelUnitProtocol>)channelUnit
+    shouldFilterLog:(id<MSLog>)log;
 
 @end

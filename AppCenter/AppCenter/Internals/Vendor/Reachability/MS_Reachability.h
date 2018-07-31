@@ -10,7 +10,11 @@
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <netinet/in.h>
 
-typedef enum : NSInteger { NotReachable = 0, ReachableViaWiFi, ReachableViaWWAN } NetworkStatus;
+typedef enum : NSInteger {
+  NotReachable = 0,
+  ReachableViaWiFi,
+  ReachableViaWWAN
+} NetworkStatus;
 
 #pragma mark IPv6 Support
 // Reachability fully support IPv6.  For full details, see ReadMe.md.
@@ -30,13 +34,14 @@ extern NSString *kMSReachabilityChangedNotification;
 + (instancetype)reachabilityWithAddress:(const struct sockaddr *)hostAddress;
 
 /*!
- * Checks whether the default route is available. Should be used by applications that do not connect to a particular
- * host.
+ * Checks whether the default route is available. Should be used by applications
+ * that do not connect to a particular host.
  */
 + (instancetype)reachabilityForInternetConnection;
 
 #pragma mark reachabilityForLocalWiFi
-// reachabilityForLocalWiFi has been removed from the sample.  See ReadMe.md for more information.
+// reachabilityForLocalWiFi has been removed from the sample.  See ReadMe.md for
+// more information.
 //+ (instancetype)reachabilityForLocalWiFi;
 
 /*!
@@ -48,8 +53,8 @@ extern NSString *kMSReachabilityChangedNotification;
 - (NetworkStatus)currentReachabilityStatus;
 
 /*!
- * WWAN may be available, but not active until a connection has been established. WiFi may require a connection for VPN
- * on Demand.
+ * WWAN may be available, but not active until a connection has been
+ * established. WiFi may require a connection for VPN on Demand.
  */
 - (BOOL)connectionRequired;
 

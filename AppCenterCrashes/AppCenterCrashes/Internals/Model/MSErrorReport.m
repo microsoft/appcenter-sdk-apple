@@ -38,7 +38,8 @@ NSString *const kMSErrorReportKillSignal = @"SIGKILL";
 - (BOOL)isAppKill {
   BOOL result = NO;
 
-  if (self.signal && [[self.signal uppercaseString] isEqualToString:kMSErrorReportKillSignal])
+  if (self.signal &&
+      [[self.signal uppercaseString] isEqualToString:kMSErrorReportKillSignal])
     result = YES;
 
   return result;

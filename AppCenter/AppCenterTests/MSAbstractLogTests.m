@@ -127,7 +127,8 @@
   self.sut.device = device;
 
   // When
-  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.sut];
+  NSData *serializedEvent =
+      [NSKeyedArchiver archivedDataWithRootObject:self.sut];
   id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
   MSAbstractLog *actualLog = actual;
 
@@ -160,28 +161,31 @@
   // When
   NSString *actual = [self.sut serializeLogWithPrettyPrinting:false];
   NSData *actualData = [actual dataUsingEncoding:NSUTF8StringEncoding];
-  id actualDict = [NSJSONSerialization JSONObjectWithData:actualData options:0 error:nil];
+  id actualDict =
+      [NSJSONSerialization JSONObjectWithData:actualData options:0 error:nil];
 
   // Then
   assertThat(actualDict, instanceOf([NSDictionary class]));
   assertThat([actualDict objectForKey:@"type"], equalTo(@"fake"));
-  assertThat([actualDict objectForKey:@"timestamp"], equalTo(@"1970-01-01T00:00:00.000Z"));
+  assertThat([actualDict objectForKey:@"timestamp"],
+             equalTo(@"1970-01-01T00:00:00.000Z"));
   assertThat([actualDict objectForKey:@"sid"], equalTo(@"FAKE-SESSION-ID"));
-  assertThat([actualDict objectForKey:@"distributionGroupId"], equalTo(@"FAKE-GROUP-ID"));
+  assertThat([actualDict objectForKey:@"distributionGroupId"],
+             equalTo(@"FAKE-GROUP-ID"));
   assertThat([actualDict objectForKey:@"device"], equalTo(@{}));
 }
 
 - (void)testTransmissionTargetsWork {
 
   // If
-  NSString* transmissionTargetToken1 = @"t1";
-  NSString* transmissionTargetToken = @"t2";
+  NSString *transmissionTargetToken1 = @"t1";
+  NSString *transmissionTargetToken = @"t2";
 
   // When
   [self.sut addTransmissionTargetToken:transmissionTargetToken1];
   [self.sut addTransmissionTargetToken:transmissionTargetToken1];
   [self.sut addTransmissionTargetToken:transmissionTargetToken];
-  NSSet* transmissionTargets = [self.sut transmissionTargetTokens];
+  NSSet *transmissionTargets = [self.sut transmissionTargetTokens];
 
   // Then
   XCTAssertEqual([transmissionTargets count], (uint)2);
@@ -189,36 +193,36 @@
   XCTAssertTrue([transmissionTargets containsObject:transmissionTargetToken]);
 }
 
--(void)testToCommonSchemaLogs{
-  
+- (void)testToCommonSchemaLogs {
+
   // IF
   self.sut.transmissionTargetTokens = nil;
-  
+
   // When
-  NSArray<MSCommonSchemaLog*> *csLogs = [self.sut toCommonSchemaLogs];
-  
+  NSArray<MSCommonSchemaLog *> *csLogs = [self.sut toCommonSchemaLogs];
+
   // Then
   XCTAssertNil(csLogs);
-  
+
   // IF
   self.sut.transmissionTargetTokens = [@[] mutableCopy];
-  
+
   // When
   csLogs = [self.sut toCommonSchemaLogs];
-  
+
   // Then
   XCTAssertNil(csLogs);
-  
+
   // IF
-  NSArray *expectedIKeys = @[@"o:iKey1", @"o:iKey2"];
-  self.sut.transmissionTargetTokens = [NSSet setWithArray:@[@"iKey1-dummytoken", @"iKey2-dummytoken"]];
+  NSArray *expectedIKeys = @[ @"o:iKey1", @"o:iKey2" ];
+  self.sut.transmissionTargetTokens =
+      [NSSet setWithArray:@[ @"iKey1-dummytoken", @"iKey2-dummytoken" ]];
   // When
   csLogs = [self.sut toCommonSchemaLogs];
-  
+
   // Then
   XCTAssertTrue([expectedIKeys containsObject:csLogs[0].iKey]);
   XCTAssertTrue([expectedIKeys containsObject:csLogs[1].iKey]);
 }
 
 @end
-

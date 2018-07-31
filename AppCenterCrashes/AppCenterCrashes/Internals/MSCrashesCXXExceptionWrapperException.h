@@ -8,6 +8,7 @@
  */
 @interface MSCrashesCXXExceptionWrapperException : NSException
 
-- (instancetype)initWithCXXExceptionInfo:(const MSCrashesUncaughtCXXExceptionInfo *)info;
+- (instancetype)initWithCXXExceptionInfo:
+    (const MSCrashesUncaughtCXXExceptionInfo *)info;
 
 @end

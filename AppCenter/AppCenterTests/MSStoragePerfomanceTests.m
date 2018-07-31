@@ -33,7 +33,8 @@ static NSString *const kMSTestGroupId = @"TestGroupId";
 
 - (void)testDatabaseWriteShortLogsPerformance {
   NSArray<MSStartServiceLog *> *arrayOfLogs =
-      [self generateLogsWithShortServicesNames:kMSNumLogs withNumService:kMSNumServices];
+      [self generateLogsWithShortServicesNames:kMSNumLogs
+                                withNumService:kMSNumServices];
   [self measureBlock:^{
     for (MSStartServiceLog *log in arrayOfLogs) {
       [self.dbStorage saveLog:log withGroupId:kMSTestGroupId];
@@ -43,7 +44,8 @@ static NSString *const kMSTestGroupId = @"TestGroupId";
 
 - (void)testDatabaseWriteLongLogsPerformance {
   NSArray<MSStartServiceLog *> *arrayOfLogs =
-      [self generateLogsWithLongServicesNames:kMSNumLogs withNumService:kMSNumServices];
+      [self generateLogsWithLongServicesNames:kMSNumLogs
+                               withNumService:kMSNumServices];
   [self measureBlock:^{
     for (MSStartServiceLog *log in arrayOfLogs) {
       [self.dbStorage saveLog:log withGroupId:kMSTestGroupId];
@@ -53,7 +55,8 @@ static NSString *const kMSTestGroupId = @"TestGroupId";
 
 - (void)testDatabaseWriteVeryLongLogsPerformance {
   NSArray<MSStartServiceLog *> *arrayOfLogs =
-      [self generateLogsWithVeryLongServicesNames:kMSNumLogs withNumService:kMSNumServices];
+      [self generateLogsWithVeryLongServicesNames:kMSNumLogs
+                                   withNumService:kMSNumServices];
   [self measureBlock:^{
     for (MSStartServiceLog *log in arrayOfLogs) {
       [self.dbStorage saveLog:log withGroupId:kMSTestGroupId];
@@ -65,7 +68,8 @@ static NSString *const kMSTestGroupId = @"TestGroupId";
 
 - (void)testFileStorageWriteShortLogsPerformance {
   NSArray<MSStartServiceLog *> *arrayOfLogs =
-      [self generateLogsWithShortServicesNames:kMSNumLogs withNumService:kMSNumServices];
+      [self generateLogsWithShortServicesNames:kMSNumLogs
+                                withNumService:kMSNumServices];
   [self measureBlock:^{
     for (MSStartServiceLog *log in arrayOfLogs) {
       [self.dbStorage saveLog:log withGroupId:kMSTestGroupId];
@@ -75,7 +79,8 @@ static NSString *const kMSTestGroupId = @"TestGroupId";
 
 - (void)testFileStorageWriteLongLogsPerformance {
   NSArray<MSStartServiceLog *> *arrayOfLogs =
-      [self generateLogsWithLongServicesNames:kMSNumLogs withNumService:kMSNumServices];
+      [self generateLogsWithLongServicesNames:kMSNumLogs
+                               withNumService:kMSNumServices];
   [self measureBlock:^{
     for (MSStartServiceLog *log in arrayOfLogs) {
       [self.dbStorage saveLog:log withGroupId:kMSTestGroupId];
@@ -85,7 +90,8 @@ static NSString *const kMSTestGroupId = @"TestGroupId";
 
 - (void)testFileStorageWriteVeryLongLogsPerformance {
   NSArray<MSStartServiceLog *> *arrayOfLogs =
-      [self generateLogsWithVeryLongServicesNames:kMSNumLogs withNumService:kMSNumServices];
+      [self generateLogsWithVeryLongServicesNames:kMSNumLogs
+                                   withNumService:kMSNumServices];
   [self measureBlock:^{
     for (MSStartServiceLog *log in arrayOfLogs) {
       [self.dbStorage saveLog:log withGroupId:kMSTestGroupId];
@@ -95,7 +101,9 @@ static NSString *const kMSTestGroupId = @"TestGroupId";
 
 #pragma mark - Private
 
-- (NSArray<MSStartServiceLog *> *)generateLogsWithShortServicesNames:(int)numLogs withNumService:(int)numServices {
+- (NSArray<MSStartServiceLog *> *)
+generateLogsWithShortServicesNames:(int)numLogs
+                    withNumService:(int)numServices {
   NSMutableArray<MSStartServiceLog *> *dic = [NSMutableArray new];
   for (int i = 0; i < numLogs; ++i) {
     MSStartServiceLog *log = [MSStartServiceLog new];
@@ -105,7 +113,9 @@ static NSString *const kMSTestGroupId = @"TestGroupId";
   return dic;
 }
 
-- (NSArray<MSStartServiceLog *> *)generateLogsWithLongServicesNames:(int)numLogs withNumService:(int)numServices {
+- (NSArray<MSStartServiceLog *> *)generateLogsWithLongServicesNames:(int)numLogs
+                                                     withNumService:
+                                                         (int)numServices {
   NSMutableArray<MSStartServiceLog *> *dic = [NSMutableArray new];
   for (int i = 0; i < numLogs; ++i) {
     MSStartServiceLog *log = [MSStartServiceLog new];
@@ -115,7 +125,9 @@ static NSString *const kMSTestGroupId = @"TestGroupId";
   return dic;
 }
 
-- (NSArray<MSStartServiceLog *> *)generateLogsWithVeryLongServicesNames:(int)numLogs withNumService:(int)numServices {
+- (NSArray<MSStartServiceLog *> *)
+generateLogsWithVeryLongServicesNames:(int)numLogs
+                       withNumService:(int)numServices {
   NSMutableArray<MSStartServiceLog *> *dic = [NSMutableArray new];
   for (int i = 0; i < numLogs; ++i) {
     MSStartServiceLog *log = [MSStartServiceLog new];

@@ -43,7 +43,8 @@ static NSString *const kMSArchitectureVariantId = @"architectureVariantId";
 }
 
 - (BOOL)isValid {
-  return self.binaryId && self.startAddress && self.endAddress && self.name && self.path;
+  return self.binaryId && self.startAddress && self.endAddress && self.name &&
+         self.path;
 }
 
 - (BOOL)isEqual:(id)object {
@@ -51,12 +52,18 @@ static NSString *const kMSArchitectureVariantId = @"architectureVariantId";
     return NO;
   }
   MSBinary *binary = (MSBinary *)object;
-  return ((!self.binaryId && !binary.binaryId) || [self.binaryId isEqualToString:binary.binaryId]) &&
-         ((!self.startAddress && !binary.startAddress) || [self.startAddress isEqualToString:binary.startAddress]) &&
-         ((!self.endAddress && !binary.endAddress) || [self.endAddress isEqualToString:binary.endAddress]) &&
-         ((!self.name && !binary.name) || [self.name isEqualToString:binary.name]) &&
-         ((!self.path && !binary.path) || [self.path isEqualToString:binary.path]) &&
-         ((!self.architecture && !binary.architecture) || [self.architecture isEqualToString:binary.architecture]) &&
+  return ((!self.binaryId && !binary.binaryId) ||
+          [self.binaryId isEqualToString:binary.binaryId]) &&
+         ((!self.startAddress && !binary.startAddress) ||
+          [self.startAddress isEqualToString:binary.startAddress]) &&
+         ((!self.endAddress && !binary.endAddress) ||
+          [self.endAddress isEqualToString:binary.endAddress]) &&
+         ((!self.name && !binary.name) ||
+          [self.name isEqualToString:binary.name]) &&
+         ((!self.path && !binary.path) ||
+          [self.path isEqualToString:binary.path]) &&
+         ((!self.architecture && !binary.architecture) ||
+          [self.architecture isEqualToString:binary.architecture]) &&
          ((!self.primaryArchitectureId && !binary.primaryArchitectureId) ||
           [self.primaryArchitectureId isEqual:binary.primaryArchitectureId]) &&
          ((!self.architectureVariantId && !binary.architectureVariantId) ||
@@ -74,8 +81,10 @@ static NSString *const kMSArchitectureVariantId = @"architectureVariantId";
     _name = [coder decodeObjectForKey:kMSName];
     _path = [coder decodeObjectForKey:kMSPath];
     _architecture = [coder decodeObjectForKey:kMSArchitecture];
-    _primaryArchitectureId = [coder decodeObjectForKey:kMSPrimaryArchitectureId];
-    _architectureVariantId = [coder decodeObjectForKey:kMSArchitectureVariantId];
+    _primaryArchitectureId =
+        [coder decodeObjectForKey:kMSPrimaryArchitectureId];
+    _architectureVariantId =
+        [coder decodeObjectForKey:kMSArchitectureVariantId];
   }
   return self;
 }
@@ -87,8 +96,10 @@ static NSString *const kMSArchitectureVariantId = @"architectureVariantId";
   [coder encodeObject:self.name forKey:kMSName];
   [coder encodeObject:self.path forKey:kMSPath];
   [coder encodeObject:self.architecture forKey:kMSArchitecture];
-  [coder encodeObject:self.primaryArchitectureId forKey:kMSPrimaryArchitectureId];
-  [coder encodeObject:self.architectureVariantId forKey:kMSArchitectureVariantId];
+  [coder encodeObject:self.primaryArchitectureId
+               forKey:kMSPrimaryArchitectureId];
+  [coder encodeObject:self.architectureVariantId
+               forKey:kMSArchitectureVariantId];
 }
 
 @end

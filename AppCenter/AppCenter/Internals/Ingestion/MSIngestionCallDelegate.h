@@ -19,6 +19,7 @@
  *  @param call Call object.
  *  @param result Enum indicating the result of the call.
  */
-- (void)call:(MSIngestionCall *)call completedWithResult:(MSIngestionCallResult)result;
+- (void)call:(MSIngestionCall *)call
+    completedWithResult:(MSIngestionCallResult)result;
 
 @end

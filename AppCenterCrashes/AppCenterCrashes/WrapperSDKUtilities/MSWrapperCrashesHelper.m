@@ -1,9 +1,10 @@
-#import "MSCrashesInternal.h"
 #import "MSWrapperCrashesHelper.h"
+#import "MSCrashesInternal.h"
 
 @interface MSWrapperCrashesHelper ()
 
-@property(weak, nonatomic) id<MSCrashHandlerSetupDelegate> crashHandlerSetupDelegate;
+@property(weak, nonatomic) id<MSCrashHandlerSetupDelegate>
+    crashHandlerSetupDelegate;
 
 @end
 
@@ -22,7 +23,8 @@
 }
 
 + (void)setCrashHandlerSetupDelegate:(id<MSCrashHandlerSetupDelegate>)delegate {
-  [[MSWrapperCrashesHelper sharedInstance] setCrashHandlerSetupDelegate:delegate];
+  [[MSWrapperCrashesHelper sharedInstance]
+      setCrashHandlerSetupDelegate:delegate];
 }
 
 + (id<MSCrashHandlerSetupDelegate>)getCrashHandlerSetupDelegate {
@@ -30,8 +32,8 @@
 }
 
 /**
- * Enables or disables automatic crash processing. Setting to 'NO'causes SDK not to send reports immediately, even if
- * ALWAYS_SEND is set.
+ * Enables or disables automatic crash processing. Setting to 'NO'causes SDK not
+ * to send reports immediately, even if ALWAYS_SEND is set.
  */
 + (void)setAutomaticProcessing:(BOOL)automaticProcessing {
   [[MSCrashes sharedInstance] setAutomaticProcessing:automaticProcessing];
@@ -45,10 +47,13 @@
 }
 
 /**
- * Resumes processing for a given subset of the unprocessed reports. Returns YES if should "AlwaysSend".
+ * Resumes processing for a given subset of the unprocessed reports. Returns YES
+ * if should "AlwaysSend".
  */
-+ (BOOL)sendCrashReportsOrAwaitUserConfirmationForFilteredIds:(NSArray<NSString *> *)filteredIds {
-  return [[MSCrashes sharedInstance] sendCrashReportsOrAwaitUserConfirmationForFilteredIds:filteredIds];
++ (BOOL)sendCrashReportsOrAwaitUserConfirmationForFilteredIds:
+    (NSArray<NSString *> *)filteredIds {
+  return [[MSCrashes sharedInstance]
+      sendCrashReportsOrAwaitUserConfirmationForFilteredIds:filteredIds];
 }
 
 /**
@@ -56,7 +61,8 @@
  */
 + (void)sendErrorAttachments:(NSArray<MSErrorAttachmentLog *> *)errorAttachments
       withIncidentIdentifier:(NSString *)incidentIdentifier {
-  [[MSCrashes sharedInstance] sendErrorAttachments:errorAttachments withIncidentIdentifier:incidentIdentifier];
+  [[MSCrashes sharedInstance] sendErrorAttachments:errorAttachments
+                            withIncidentIdentifier:incidentIdentifier];
 }
 
 @end

@@ -1,9 +1,9 @@
+#import "MSSessionTracker.h"
 #import "MSAnalyticsInternal.h"
 #import "MSSessionContext.h"
-#import "MSSessionTracker.h"
 #import "MSSessionTrackerPrivate.h"
-#import "MSStartSessionLog.h"
 #import "MSStartServiceLog.h"
+#import "MSStartSessionLog.h"
 #import "MSUtility+Date.h"
 
 static NSTimeInterval const kMSSessionTimeOut = 20;
@@ -71,17 +71,19 @@ static NSString *const kMSPastSessionsKey = @"pastSessionsKey";
 #if TARGET_OS_OSX
                                    name:NSApplicationDidResignActiveNotification
 #else
-                                   name:UIApplicationDidEnterBackgroundNotification
+                                   name:
+                                       UIApplicationDidEnterBackgroundNotification
 #endif
                                  object:nil];
-    [MS_NOTIFICATION_CENTER addObserver:self
-                               selector:@selector(applicationWillEnterForeground)
+    [MS_NOTIFICATION_CENTER
+        addObserver:self
+           selector:@selector(applicationWillEnterForeground)
 #if TARGET_OS_OSX
-                                   name:NSApplicationWillBecomeActiveNotification
+               name:NSApplicationWillBecomeActiveNotification
 #else
-                                   name:UIApplicationWillEnterForegroundNotification
+               name:UIApplicationWillEnterForegroundNotification
 #endif
-                                 object:nil];
+             object:nil];
   }
 }
 
@@ -104,25 +106,35 @@ static NSString *const kMSPastSessionsKey = @"pastSessionsKey";
   @synchronized(self) {
     NSDate *now = [NSDate date];
 
-    // Verify if a log has already been sent and if it was sent a longer time ago than the session timeout.
+    // Verify if a log has already been sent and if it was sent a longer time
+    // ago than the session timeout.
     BOOL noLogSentForLong =
-        !self.lastCreatedLogTime || [now timeIntervalSinceDate:self.lastCreatedLogTime] >= self.sessionTimeout;
+        !self.lastCreatedLogTime ||
+        [now timeIntervalSinceDate:self.lastCreatedLogTime] >=
+            self.sessionTimeout;
 
-    // FIXME: There is no life cycle for app extensions yet so ignoring the background tests for now.
+    // FIXME: There is no life cycle for app extensions yet so ignoring the
+    // background tests for now.
     if (MS_IS_APP_EXTENSION)
       return noLogSentForLong;
 
-    // Verify if app is currently in the background for a longer time than the session timeout.
+    // Verify if app is currently in the background for a longer time than the
+    // session timeout.
     BOOL isBackgroundForLong =
         (self.lastEnteredBackgroundTime && self.lastEnteredForegroundTime) &&
-        ([self.lastEnteredBackgroundTime compare:self.lastEnteredForegroundTime] == NSOrderedDescending) &&
-        ([now timeIntervalSinceDate:self.lastEnteredBackgroundTime] >= self.sessionTimeout);
+        ([self.lastEnteredBackgroundTime
+             compare:self.lastEnteredForegroundTime] == NSOrderedDescending) &&
+        ([now timeIntervalSinceDate:self.lastEnteredBackgroundTime] >=
+         self.sessionTimeout);
 
-    // Verify if app was in the background for a longer time than the session timeout time.
-    BOOL wasBackgroundForLong = (self.lastEnteredBackgroundTime)
-                                    ? [self.lastEnteredForegroundTime
-                                          timeIntervalSinceDate:self.lastEnteredBackgroundTime] >= self.sessionTimeout
-                                    : false;
+    // Verify if app was in the background for a longer time than the session
+    // timeout time.
+    BOOL wasBackgroundForLong =
+        (self.lastEnteredBackgroundTime)
+            ? [self.lastEnteredForegroundTime
+                  timeIntervalSinceDate:self.lastEnteredBackgroundTime] >=
+                  self.sessionTimeout
+            : false;
     return noLogSentForLong && (isBackgroundForLong || wasBackgroundForLong);
   }
 }
@@ -140,18 +152,21 @@ static NSString *const kMSPastSessionsKey = @"pastSessionsKey";
 
 #pragma mark - MSChannelDelegate
 
-- (void)channel:(id<MSChannelProtocol>)__unused channel prepareLog:(id<MSLog>)log {
+- (void)channel:(id<MSChannelProtocol>)__unused channel
+     prepareLog:(id<MSLog>)log {
 
   /*
-   * Start session log is created in this method, therefore, skip in order to avoid infinite loop.
-   * Also skip start service log as it's always sent and should not trigger a session.
+   * Start session log is created in this method, therefore, skip in order to
+   * avoid infinite loop. Also skip start service log as it's always sent and
+   * should not trigger a session.
    */
   if ([((NSObject *)log) isKindOfClass:[MSStartSessionLog class]] ||
       [((NSObject *)log) isKindOfClass:[MSStartServiceLog class]])
     return;
 
   // If the log requires session Id.
-  if (![(NSObject *)log conformsToProtocol:@protocol(MSNoAutoAssignSessionIdLog)]) {
+  if (![(NSObject *)log
+          conformsToProtocol:@protocol(MSNoAutoAssignSessionIdLog)]) {
     log.sid = [self.context sessionId];
   }
 

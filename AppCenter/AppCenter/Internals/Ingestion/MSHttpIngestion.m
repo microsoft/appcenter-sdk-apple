@@ -1,5 +1,5 @@
-#import "MSAppCenterInternal.h"
 #import "MSHttpIngestion.h"
+#import "MSAppCenterInternal.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSIngestionCall.h"
 #import "MSIngestionDelegate.h"
@@ -7,7 +7,8 @@
 static NSTimeInterval kRequestTimeout = 60.0;
 
 // URL components' name within a partial URL.
-static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"password", @"host", @"port", @"path"};
+static NSString *const kMSPartialURLComponentsName[] = {
+    @"scheme", @"user", @"password", @"host", @"port", @"path"};
 
 @implementation MSHttpIngestion
 
@@ -52,21 +53,28 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     _maxNumberOfConnections = maxNumberOfConnections;
 
     // Construct the URL string with the query string.
-    NSMutableString *urlString = [NSMutableString stringWithFormat:@"%@%@", baseUrl, apiPath];
+    NSMutableString *urlString =
+        [NSMutableString stringWithFormat:@"%@%@", baseUrl, apiPath];
     __block NSMutableString *queryStringForEncoding = [NSMutableString new];
 
     // Set query parameter.
-    [queryStrings enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id _Nonnull queryString,
-                                                      __attribute__((unused)) BOOL *_Nonnull stop) {
+    [queryStrings enumerateKeysAndObjectsUsingBlock:^(
+                      id _Nonnull key, id _Nonnull queryString,
+                      __attribute__((unused)) BOOL *_Nonnull stop) {
       [queryStringForEncoding
-          appendString:[NSString stringWithFormat:@"%@%@=%@", [queryStringForEncoding length] > 0 ? @"&" : @"", key,
-                                                  queryString]];
+          appendString:[NSString
+                           stringWithFormat:@"%@%@=%@",
+                                            [queryStringForEncoding length] > 0
+                                                ? @"&"
+                                                : @"",
+                                            key, queryString]];
     }];
     if ([queryStringForEncoding length] > 0) {
-      [urlString appendFormat:@"?%@",
-                              [queryStringForEncoding
-                                  stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet
-                                                                                         URLQueryAllowedCharacterSet]]];
+      [urlString
+          appendFormat:@"?%@",
+                       [queryStringForEncoding
+                           stringByAddingPercentEncodingWithAllowedCharacters:
+                               [NSCharacterSet URLQueryAllowedCharacterSet]]];
     }
 
     // Set send URL which can't be null
@@ -90,7 +98,10 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 - (void)sendAsync:(NSObject *)data
             appSecret:(NSString *)appSecret
     completionHandler:(MSSendAsyncCompletionHandler)handler {
-  [self sendAsync:data appSecret:(NSString *)appSecret callId:MS_UUID_STRING completionHandler:handler];
+  [self sendAsync:data
+              appSecret:(NSString *)appSecret
+                 callId:MS_UUID_STRING
+      completionHandler:handler];
 }
 
 - (void)addDelegate:(id<MSIngestionDelegate>)delegate {
@@ -114,7 +125,8 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
       if (isEnabled) {
         [self.reachability startNotifier];
 
-        // Apply current network state, this will resume if network state allows it.
+        // Apply current network state, this will resume if network state allows
+        // it.
         [self networkStateChanged];
       } else {
         [self.reachability stopNotifier];
@@ -123,7 +135,8 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
         // Data deletion is required.
         if (deleteData) {
 
-          // Cancel all the tasks and invalidate current session to free resources.
+          // Cancel all the tasks and invalidate current session to free
+          // resources.
           [self.session invalidateAndCancel];
           self.session = nil;
 
@@ -142,21 +155,27 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
       self.suspended = YES;
 
       // Suspend all tasks.
-      [self.session getTasksWithCompletionHandler:^(
-                        NSArray<NSURLSessionDataTask *> *_Nonnull dataTasks,
-                        __attribute__((unused)) NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
-                        __attribute__((unused)) NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
-        [dataTasks enumerateObjectsUsingBlock:^(__kindof NSURLSessionTask *_Nonnull call,
-                                                __attribute__((unused)) NSUInteger idx,
-                                                __attribute__((unused)) BOOL *_Nonnull stop) {
-          [call suspend];
-        }];
-      }];
+      [self.session
+          getTasksWithCompletionHandler:^(
+              NSArray<NSURLSessionDataTask *> *_Nonnull dataTasks,
+              __attribute__((unused))
+              NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
+              __attribute__((unused))
+              NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
+            [dataTasks enumerateObjectsUsingBlock:^(
+                           __kindof NSURLSessionTask *_Nonnull call,
+                           __attribute__((unused)) NSUInteger idx,
+                           __attribute__((unused)) BOOL *_Nonnull stop) {
+              [call suspend];
+            }];
+          }];
 
       // Suspend current calls' retry.
       [self.pendingCalls.allValues
-          enumerateObjectsUsingBlock:^(MSIngestionCall *_Nonnull call, __attribute__((unused)) NSUInteger idx,
-                                       __attribute__((unused)) BOOL *_Nonnull stop) {
+          enumerateObjectsUsingBlock:^(MSIngestionCall *_Nonnull call,
+                                       __attribute__((unused)) NSUInteger idx,
+                                       __attribute__((unused))
+                                       BOOL *_Nonnull stop) {
             if (!call.submitted) {
               [call resetRetry];
             }
@@ -165,7 +184,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
       // Notify delegates.
       [self enumerateDelegatesForSelector:@selector(ingestionDidSuspend:)
                                 withBlock:^(id<MSIngestionDelegate> delegate) {
-                                    [delegate ingestionDidSuspend:self];
+                                  [delegate ingestionDidSuspend:self];
                                 }];
     }
   }
@@ -180,21 +199,27 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
       self.suspended = NO;
 
       // Resume existing calls.
-      [self.session getTasksWithCompletionHandler:^(
-                        NSArray<NSURLSessionDataTask *> *_Nonnull dataTasks,
-                        __attribute__((unused)) NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
-                        __attribute__((unused)) NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
-        [dataTasks enumerateObjectsUsingBlock:^(__kindof NSURLSessionTask *_Nonnull call,
-                                                __attribute__((unused)) NSUInteger idx,
-                                                __attribute__((unused)) BOOL *_Nonnull stop) {
-          [call resume];
-        }];
-      }];
+      [self.session
+          getTasksWithCompletionHandler:^(
+              NSArray<NSURLSessionDataTask *> *_Nonnull dataTasks,
+              __attribute__((unused))
+              NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
+              __attribute__((unused))
+              NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
+            [dataTasks enumerateObjectsUsingBlock:^(
+                           __kindof NSURLSessionTask *_Nonnull call,
+                           __attribute__((unused)) NSUInteger idx,
+                           __attribute__((unused)) BOOL *_Nonnull stop) {
+              [call resume];
+            }];
+          }];
 
       // Resume calls.
       [self.pendingCalls.allValues
-          enumerateObjectsUsingBlock:^(MSIngestionCall *_Nonnull call, __attribute__((unused)) NSUInteger idx,
-                                       __attribute__((unused)) BOOL *_Nonnull stop) {
+          enumerateObjectsUsingBlock:^(MSIngestionCall *_Nonnull call,
+                                       __attribute__((unused)) NSUInteger idx,
+                                       __attribute__((unused))
+                                       BOOL *_Nonnull stop) {
             if (!call.submitted) {
               [self sendCallAsync:call];
             }
@@ -203,7 +228,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
       // Propagate.
       [self enumerateDelegatesForSelector:@selector(ingestionDidResume:)
                                 withBlock:^(id<MSIngestionDelegate> delegate) {
-                                    [delegate ingestionDidResume:self];
+                                  [delegate ingestionDidResume:self];
                                 }];
     }
   }
@@ -221,7 +246,8 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     }
 
     // Create the request.
-    NSURLRequest *request = [self createRequest:call.data appSecret:call.appSecret];
+    NSURLRequest *request =
+        [self createRequest:call.data appSecret:call.appSecret];
     if (!request) {
       return;
     }
@@ -229,43 +255,59 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     // Create a task for the request.
     NSURLSessionDataTask *task = [self.session
         dataTaskWithRequest:request
-          completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+          completionHandler:^(NSData *data, NSURLResponse *response,
+                              NSError *error) {
             @synchronized(self) {
               NSString *payload = nil;
               NSInteger statusCode = [MSIngestionUtil getStatusCode:response];
 
-              // Trying to format json for log. Don't need to log json error here.
+              // Trying to format json for log. Don't need to log json error
+              // here.
               if (data) {
 
                 // Error instance for JSON parsing.
                 NSError *jsonError = nil;
-                id dictionary = [NSJSONSerialization JSONObjectWithData:data
-                                                                options:NSJSONReadingMutableContainers
-                                                                  error:&jsonError];
+                id dictionary = [NSJSONSerialization
+                    JSONObjectWithData:data
+                               options:NSJSONReadingMutableContainers
+                                 error:&jsonError];
                 if (jsonError) {
-                  payload = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                  payload =
+                      [[NSString alloc] initWithData:data
+                                            encoding:NSUTF8StringEncoding];
                 } else {
-                  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
-                                                                     options:NSJSONWritingPrettyPrinted
-                                                                       error:&jsonError];
+                  NSData *jsonData = [NSJSONSerialization
+                      dataWithJSONObject:dictionary
+                                 options:NSJSONWritingPrettyPrinted
+                                   error:&jsonError];
                   if (!jsonData || jsonError) {
-                    payload = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                    payload =
+                        [[NSString alloc] initWithData:data
+                                              encoding:NSUTF8StringEncoding];
                   } else {
 
-                    // NSJSONSerialization escapes paths by default so we replace them.
-                    payload = [[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]
-                        stringByReplacingOccurrencesOfString:@"\\/"
-                                                  withString:@"/"];
+                    // NSJSONSerialization escapes paths by default so we
+                    // replace them.
+                    payload =
+                        [[[NSString alloc] initWithData:jsonData
+                                               encoding:NSUTF8StringEncoding]
+                            stringByReplacingOccurrencesOfString:@"\\/"
+                                                      withString:@"/"];
                   }
                 }
               }
-              MSLogVerbose([MSAppCenter logTag], @"HTTP response received with status code=%tu and payload=%@",
-                           statusCode, payload);
+              MSLogVerbose(
+                  [MSAppCenter logTag],
+                  @"HTTP response received with status code=%tu and payload=%@",
+                  statusCode, payload);
 
               // Call handles the completion.
               if (call) {
                 call.submitted = NO;
-                [call ingestion:self callCompletedWithStatus:statusCode data:data error:error];
+                [call ingestion:self
+                    callCompletedWithStatus:statusCode
+                                       data:data
+                                      error:error];
               }
             }
           }];
@@ -276,7 +318,8 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   }
 }
 
-- (void)call:(MSIngestionCall *)call completedWithResult:(MSIngestionCallResult)result {
+- (void)call:(MSIngestionCall *)call
+    completedWithResult:(MSIngestionCallResult)result {
   @synchronized(self) {
     switch (result) {
     case MSIngestionCallResultFatalError: {
@@ -285,31 +328,35 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
       [self setEnabled:NO andDeleteDataOnDisabled:YES];
 
       // Notify delegates.
-      [self enumerateDelegatesForSelector:@selector(ingestionDidReceiveFatalError:)
+      [self enumerateDelegatesForSelector:@selector
+            (ingestionDidReceiveFatalError:)
                                 withBlock:^(id<MSIngestionDelegate> delegate) {
-                                    [delegate ingestionDidReceiveFatalError:self];
+                                  [delegate ingestionDidReceiveFatalError:self];
                                 }];
       break;
     }
     case MSIngestionCallResultRecoverableError:
 
-      // Disable and do not delete data. Do not notify the delegates as this will cause data to be deleted.
+      // Disable and do not delete data. Do not notify the delegates as this
+      // will cause data to be deleted.
       [self setEnabled:NO andDeleteDataOnDisabled:NO];
       break;
     case MSIngestionCallResultSuccess:
       break;
     }
 
-    // Remove call from pending call. This needs to happen after calling setEnabled:andDeleteDataOnDisabled:
-    // FIXME: Refactor dependency between calling setEnabled:andDeleteDataOnDisabled: and suspending the ingestion.
+    // Remove call from pending call. This needs to happen after calling
+    // setEnabled:andDeleteDataOnDisabled:
+    // FIXME: Refactor dependency between calling
+    // setEnabled:andDeleteDataOnDisabled: and suspending the ingestion.
     NSString *callId = call.callId;
     if (callId.length == 0) {
       MSLogWarning([MSAppCenter logTag], @"Call object is invalid");
       return;
     }
     [self.pendingCalls removeObjectForKey:callId];
-    MSLogInfo([MSAppCenter logTag], @"Removed call id:%@ from pending calls:%@", callId,
-              [self.pendingCalls description]);
+    MSLogInfo([MSAppCenter logTag], @"Removed call id:%@ from pending calls:%@",
+              callId, [self.pendingCalls description]);
   }
 }
 
@@ -327,31 +374,38 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     BOOL success = false;
     NSURLComponents *components;
     _baseURL = baseURL;
-    NSURL *partialURL = [NSURL URLWithString:[baseURL stringByAppendingString:self.apiPath]];
+    NSURL *partialURL =
+        [NSURL URLWithString:[baseURL stringByAppendingString:self.apiPath]];
 
     // Merge new parial URL and current full URL.
     if (partialURL) {
-      components = [NSURLComponents componentsWithURL:self.sendURL resolvingAgainstBaseURL:NO];
+      components = [NSURLComponents componentsWithURL:self.sendURL
+                              resolvingAgainstBaseURL:NO];
       @try {
-        for (u_long i = 0; i < sizeof(kMSPartialURLComponentsName) / sizeof(*kMSPartialURLComponentsName); i++) {
+        for (u_long i = 0; i < sizeof(kMSPartialURLComponentsName) /
+                                   sizeof(*kMSPartialURLComponentsName);
+             i++) {
           NSString *propertyName = kMSPartialURLComponentsName[i];
-          [components setValue:[partialURL valueForKey:propertyName] forKey:propertyName];
+          [components setValue:[partialURL valueForKey:propertyName]
+                        forKey:propertyName];
         }
       } @catch (NSException *ex) {
-        MSLogInfo([MSAppCenter logTag], @"Error while updating HTTP URL %@ with %@: \n%@", self.sendURL.absoluteString,
-                  baseURL, ex);
+        MSLogInfo([MSAppCenter logTag],
+                  @"Error while updating HTTP URL %@ with %@: \n%@",
+                  self.sendURL.absoluteString, baseURL, ex);
       }
 
       // Update full URL.
       if (components.URL) {
-        self.sendURL = (NSURL * _Nonnull)components.URL;
+        self.sendURL = (NSURL * _Nonnull) components.URL;
         success = true;
       }
     }
 
     // Notify failure.
     if (!success) {
-      MSLogInfo([MSAppCenter logTag], @"Failed to update HTTP URL %@ with %@", self.sendURL.absoluteString, baseURL);
+      MSLogInfo([MSAppCenter logTag], @"Failed to update HTTP URL %@ with %@",
+                self.sendURL.absoluteString, baseURL);
     }
   }
 }
@@ -369,7 +423,8 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 /**
  * This is an empty method and expect to be overridden in sub classes.
  */
-- (NSURLRequest *)createRequest:(NSObject *)__unused data appSecret:(NSString *)__unused appSecret {
+- (NSURLRequest *)createRequest:(NSObject *)__unused data
+                      appSecret:(NSString *)__unused appSecret {
   return nil;
 }
 
@@ -380,22 +435,27 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 
 - (NSURLSession *)session {
   if (!_session) {
-    NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSessionConfiguration *sessionConfiguration =
+        [NSURLSessionConfiguration defaultSessionConfiguration];
     sessionConfiguration.timeoutIntervalForRequest = kRequestTimeout;
-    sessionConfiguration.HTTPMaximumConnectionsPerHost = self.maxNumberOfConnections;
+    sessionConfiguration.HTTPMaximumConnectionsPerHost =
+        self.maxNumberOfConnections;
     _session = [NSURLSession sessionWithConfiguration:sessionConfiguration];
 
     /*
-     * Limit callbacks execution concurrency to avoid race condition. This queue is used only for
-     * delegate method calls and completion handlers.
-     * See https://developer.apple.com/documentation/foundation/nsurlsession/1411571-delegatequeue
+     * Limit callbacks execution concurrency to avoid race condition. This queue
+     * is used only for delegate method calls and completion handlers. See
+     * https://developer.apple.com/documentation/foundation/nsurlsession/1411571-delegatequeue
      */
     _session.delegateQueue.maxConcurrentOperationCount = 1;
   }
   return _session;
 }
 
-- (void)enumerateDelegatesForSelector:(SEL)selector withBlock:(void (^)(id<MSIngestionDelegate> delegate))block {
+- (void)enumerateDelegatesForSelector:(SEL)selector
+                            withBlock:
+                                (void (^)(id<MSIngestionDelegate> delegate))
+                                    block {
   for (id<MSIngestionDelegate> delegate in self.delegates) {
     if (delegate && [delegate respondsToSelector:selector]) {
       block(delegate);
@@ -403,12 +463,17 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   }
 }
 
-- (NSString *)prettyPrintHeaders:(NSDictionary<NSString *, NSString *> *)headers {
-  NSMutableArray<NSString *> *flattenedHeaders = [NSMutableArray<NSString *> new];
+- (NSString *)prettyPrintHeaders:
+    (NSDictionary<NSString *, NSString *> *)headers {
+  NSMutableArray<NSString *> *flattenedHeaders =
+      [NSMutableArray<NSString *> new];
   for (NSString *headerKey in headers) {
     [flattenedHeaders
-        addObject:[NSString stringWithFormat:@"%@ = %@", headerKey,
-                                             [self obfuscateHeaderValue:headerKey value:headers[headerKey]]]];
+        addObject:[NSString
+                      stringWithFormat:
+                          @"%@ = %@", headerKey,
+                          [self obfuscateHeaderValue:headerKey
+                                               value:headers[headerKey]]]];
   }
   return [flattenedHeaders componentsJoinedByString:@", "];
 }
@@ -422,7 +487,8 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     // Check if call has already been created(retry scenario).
     MSIngestionCall *call = self.pendingCalls[callId];
     if (call == nil) {
-      call = [[MSIngestionCall alloc] initWithRetryIntervals:self.callsRetryIntervals];
+      call = [[MSIngestionCall alloc]
+          initWithRetryIntervals:self.callsRetryIntervals];
       call.delegate = self;
       call.data = data;
       call.appSecret = appSecret;
@@ -438,7 +504,9 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 
 - (void)dealloc {
   [self.reachability stopNotifier];
-  [MS_NOTIFICATION_CENTER removeObserver:self name:kMSReachabilityChangedNotification object:nil];
+  [MS_NOTIFICATION_CENTER removeObserver:self
+                                    name:kMSReachabilityChangedNotification
+                                  object:nil];
 }
 
 @end

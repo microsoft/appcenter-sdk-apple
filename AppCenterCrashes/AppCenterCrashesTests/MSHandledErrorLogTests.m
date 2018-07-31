@@ -50,14 +50,17 @@
   NSDictionary *exceptionDictionary = actual[@"exception"];
   XCTAssertNotNil(exceptionDictionary);
   assertThat(exceptionDictionary[@"type"], equalTo(self.sut.exception.type));
-  assertThat(exceptionDictionary[@"message"], equalTo(self.sut.exception.message));
-  assertThat(exceptionDictionary[@"wrapperSdkName"], equalTo(self.sut.exception.wrapperSdkName));
+  assertThat(exceptionDictionary[@"message"],
+             equalTo(self.sut.exception.message));
+  assertThat(exceptionDictionary[@"wrapperSdkName"],
+             equalTo(self.sut.exception.wrapperSdkName));
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {
 
   // When
-  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.sut];
+  NSData *serializedEvent =
+      [NSKeyedArchiver archivedDataWithRootObject:self.sut];
   id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
 
   // Then
@@ -75,7 +78,8 @@
   MSException *actualException = actualLog.exception;
   assertThat(actualException.type, equalTo(self.sut.exception.type));
   assertThat(actualException.message, equalTo(self.sut.exception.message));
-  assertThat(actualException.wrapperSdkName, equalTo(self.sut.exception.wrapperSdkName));
+  assertThat(actualException.wrapperSdkName,
+             equalTo(self.sut.exception.wrapperSdkName));
 }
 
 - (void)testIsEqual {

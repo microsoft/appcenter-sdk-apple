@@ -84,8 +84,10 @@
   assertThat(actual[@"carrierCountry"], equalTo(carrierCountry));
   assertThat(actual[@"wrapperSdkVersion"], equalTo(wrapperSdkVersion));
   assertThat(actual[@"wrapperSdkName"], equalTo(wrapperSdkName));
-  assertThat(actual[@"liveUpdateReleaseLabel"], equalTo(liveUpdateReleaseLabel));
-  assertThat(actual[@"liveUpdateDeploymentKey"], equalTo(liveUpdateDeploymentKey));
+  assertThat(actual[@"liveUpdateReleaseLabel"],
+             equalTo(liveUpdateReleaseLabel));
+  assertThat(actual[@"liveUpdateDeploymentKey"],
+             equalTo(liveUpdateDeploymentKey));
   assertThat(actual[@"liveUpdatePackageHash"], equalTo(liveUpdatePackageHash));
 }
 
@@ -131,7 +133,8 @@
   self.sut.liveUpdatePackageHash = liveUpdatePackageHash;
 
   // When
-  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.sut];
+  NSData *serializedEvent =
+      [NSKeyedArchiver archivedDataWithRootObject:self.sut];
   id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
 
   // Then
@@ -153,10 +156,14 @@
   assertThat(actualDevice.carrierCountry, equalTo(carrierCountry));
   assertThat(actualDevice.wrapperSdkVersion, equalTo(wrapperSdkVersion));
   assertThat(actualDevice.wrapperSdkName, equalTo(wrapperSdkName));
-  assertThat(actualDevice.wrapperRuntimeVersion, equalTo(wrapperRuntimeVersion));
-  assertThat(actualDevice.liveUpdateReleaseLabel, equalTo(liveUpdateReleaseLabel));
-  assertThat(actualDevice.liveUpdateDeploymentKey, equalTo(liveUpdateDeploymentKey));
-  assertThat(actualDevice.liveUpdatePackageHash, equalTo(liveUpdatePackageHash));
+  assertThat(actualDevice.wrapperRuntimeVersion,
+             equalTo(wrapperRuntimeVersion));
+  assertThat(actualDevice.liveUpdateReleaseLabel,
+             equalTo(liveUpdateReleaseLabel));
+  assertThat(actualDevice.liveUpdateDeploymentKey,
+             equalTo(liveUpdateDeploymentKey));
+  assertThat(actualDevice.liveUpdatePackageHash,
+             equalTo(liveUpdatePackageHash));
 }
 
 - (void)testIsEqual {
@@ -201,7 +208,8 @@
   self.sut.liveUpdatePackageHash = liveUpdatePackageHash;
 
   // When
-  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.sut];
+  NSData *serializedEvent =
+      [NSKeyedArchiver archivedDataWithRootObject:self.sut];
   id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
   MSDevice *actualDevice = actual;
 

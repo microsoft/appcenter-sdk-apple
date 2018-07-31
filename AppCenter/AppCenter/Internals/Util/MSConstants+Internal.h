@@ -143,4 +143,3 @@ static const int kMSMaxPropertyKeyLength = 125;
  * Maximum properties value length.
  */
 static const int kMSMaxPropertyValueLength = 125;
-

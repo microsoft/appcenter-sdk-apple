@@ -1,11 +1,11 @@
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenterInternal.h"
+#import "MSCSEpochAndSeq.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelProtocol.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
 #import "MSCommonSchemaLog.h"
-#import "MSCSEpochAndSeq.h"
 #import "MSLog.h"
 #import "MSLogConversion.h"
 #import "MSLogger.h"
@@ -14,11 +14,14 @@
 #import "MSUtility.h"
 
 static NSString *const kMSOneCollectorGroupIdSuffix = @"/one";
-static NSString *const kMSOneCollectorBaseUrl = @"https://mobile.events.data.microsoft.com"; // TODO: move to constants?
+static NSString *const kMSOneCollectorBaseUrl =
+    @"https://mobile.events.data.microsoft.com"; // TODO: move to constants?
 static NSString *const kMSBaseErrorMsg = @"Log validation failed.";
 
-// Alphanumeric characters, no heading or trailing periods, no heading underscores, min length of 4, max length of 100.
-NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){3,99}$";
+// Alphanumeric characters, no heading or trailing periods, no heading
+// underscores, min length of 4, max length of 100.
+NSString *const kMSLogNameRegex =
+    @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){3,99}$";
 
 @implementation MSOneCollectorChannelDelegate
 
@@ -26,7 +29,8 @@ NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){
   self = [super init];
   if (self) {
     _oneCollectorChannels = [NSMutableDictionary new];
-    _oneCollectorIngestion = [[MSOneCollectorIngestion alloc] initWithBaseUrl:kMSOneCollectorBaseUrl];
+    _oneCollectorIngestion = [[MSOneCollectorIngestion alloc]
+        initWithBaseUrl:kMSOneCollectorBaseUrl];
     _epochsAndSeqsByIKey = [NSMutableDictionary new];
   }
   return self;
@@ -40,22 +44,27 @@ NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){
   return self;
 }
 
-- (void)channelGroup:(id<MSChannelGroupProtocol>)channelGroup didAddChannelUnit:(id<MSChannelUnitProtocol>)channel {
+- (void)channelGroup:(id<MSChannelGroupProtocol>)channelGroup
+    didAddChannelUnit:(id<MSChannelUnitProtocol>)channel {
 
   // Add OneCollector group based on the given channel's group id.
   NSString *groupId = channel.configuration.groupId;
   if (![self isOneCollectorGroup:groupId]) {
     NSString *oneCollectorGroupId =
-        [NSString stringWithFormat:@"%@%@", channel.configuration.groupId, kMSOneCollectorGroupIdSuffix];
+        [NSString stringWithFormat:@"%@%@", channel.configuration.groupId,
+                                   kMSOneCollectorGroupIdSuffix];
     MSChannelUnitConfiguration *channelUnitConfiguration =
-        [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:oneCollectorGroupId];
-    id<MSChannelUnitProtocol> channelUnit =
-            [channelGroup addChannelUnitWithConfiguration:channelUnitConfiguration withIngestion:self.oneCollectorIngestion];
+        [[MSChannelUnitConfiguration alloc]
+            initDefaultConfigurationWithGroupId:oneCollectorGroupId];
+    id<MSChannelUnitProtocol> channelUnit = [channelGroup
+        addChannelUnitWithConfiguration:channelUnitConfiguration
+                          withIngestion:self.oneCollectorIngestion];
     self.oneCollectorChannels[groupId] = channelUnit;
   }
 }
 
-- (void)channel:(id<MSChannelProtocol>)__unused channel prepareLog:(id<MSLog>)log {
+- (void)channel:(id<MSChannelProtocol>)__unused channel
+     prepareLog:(id<MSLog>)log {
 
   // Prepare Common Schema logs.
   if ([log isKindOfClass:[MSCommonSchemaLog class]]) {
@@ -82,12 +91,14 @@ NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){
   id<MSChannelUnitProtocol> channelUnit = (id<MSChannelUnitProtocol>)channel;
   id<MSChannelUnitProtocol> oneCollectorChannelUnit = nil;
   NSString *groupId = channelUnit.configuration.groupId;
-  
+
   /*
-   * Reroute Custom Schema logs to their One Collector channel if they were enqueued to a non One Collector channel.
-   * Happens to logs from the log buffer after a crash.
+   * Reroute Custom Schema logs to their One Collector channel if they were
+   * enqueued to a non One Collector channel. Happens to logs from the log
+   * buffer after a crash.
    */
-  if ([(NSObject *)log isKindOfClass:[MSCommonSchemaLog class]] && ![self isOneCollectorGroup:groupId]) {
+  if ([(NSObject *)log isKindOfClass:[MSCommonSchemaLog class]] &&
+      ![self isOneCollectorGroup:groupId]) {
     oneCollectorChannelUnit = [self.oneCollectorChannels objectForKey:groupId];
     if (oneCollectorChannelUnit) {
       dispatch_async(oneCollectorChannelUnit.logsDispatchQueue, ^{
@@ -96,7 +107,8 @@ NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){
     }
     return;
   }
-  if (![self shouldSendLogToOneCollector:log] || ![channel conformsToProtocol:@protocol(MSChannelUnitProtocol)]) {
+  if (![self shouldSendLogToOneCollector:log] ||
+      ![channel conformsToProtocol:@protocol(MSChannelUnitProtocol)]) {
     return;
   }
   oneCollectorChannelUnit = [self.oneCollectorChannels objectForKey:groupId];
@@ -104,7 +116,8 @@ NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){
     return;
   }
   id<MSLogConversion> logConversion = (id<MSLogConversion>)log;
-  NSArray<MSCommonSchemaLog *> *commonSchemaLogs = [logConversion toCommonSchemaLogs];
+  NSArray<MSCommonSchemaLog *> *commonSchemaLogs =
+      [logConversion toCommonSchemaLogs];
   for (MSCommonSchemaLog *commonSchemaLog in commonSchemaLogs) {
     dispatch_async(oneCollectorChannelUnit.logsDispatchQueue, ^{
       [oneCollectorChannelUnit enqueueItem:commonSchemaLog];
@@ -112,7 +125,8 @@ NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){
   }
 }
 
-- (BOOL)channelUnit:(id<MSChannelUnitProtocol>) channelUnit shouldFilterLog:(id<MSLog>)log {
+- (BOOL)channelUnit:(id<MSChannelUnitProtocol>)channelUnit
+    shouldFilterLog:(id<MSLog>)log {
 
   // Validate Custom Schema logs, filter out invalid logs.
   if ([log isKindOfClass:[MSCommonSchemaLog class]]) {
@@ -122,19 +136,25 @@ NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){
     return ![self validateLog:(MSCommonSchemaLog *)log];
   }
 
-  // It's an App Center log. Filter out if it countains token(s) since it's already re-enqeued as CS log(s).
+  // It's an App Center log. Filter out if it countains token(s) since it's
+  // already re-enqeued as CS log(s).
   return [[log transmissionTargetTokens] count] > 0;
 }
 
-- (void)channel:(id<MSChannelProtocol>)channel didSetEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deletedData {
+- (void)channel:(id<MSChannelProtocol>)channel
+              didSetEnabled:(BOOL)isEnabled
+    andDeleteDataOnDisabled:(BOOL)deletedData {
   if ([channel conformsToProtocol:@protocol(MSChannelUnitProtocol)]) {
-    NSString *groupId = ((id<MSChannelUnitProtocol>)channel).configuration.groupId;
+    NSString *groupId =
+        ((id<MSChannelUnitProtocol>)channel).configuration.groupId;
     if (![self isOneCollectorGroup:groupId]) {
 
       // Mirror disabling state to OneCollector channels.
-      [self.oneCollectorChannels[groupId] setEnabled:isEnabled andDeleteDataOnDisabled:deletedData];
+      [self.oneCollectorChannels[groupId] setEnabled:isEnabled
+                             andDeleteDataOnDisabled:deletedData];
     }
-  } else if ([channel conformsToProtocol:@protocol(MSChannelGroupProtocol)] && !isEnabled && deletedData) {
+  } else if ([channel conformsToProtocol:@protocol(MSChannelGroupProtocol)] &&
+             !isEnabled && deletedData) {
 
     // Reset epoch and seq values when SDK is disabled as a whole.
     [self.epochsAndSeqsByIKey removeAllObjects];
@@ -149,7 +169,8 @@ NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){
 
 - (BOOL)shouldSendLogToOneCollector:(id<MSLog>)log {
   NSObject *logObject = (NSObject *)log;
-  return [[log transmissionTargetTokens] count] > 0 && [log conformsToProtocol:@protocol(MSLogConversion)] &&
+  return [[log transmissionTargetTokens] count] > 0 &&
+         [log conformsToProtocol:@protocol(MSLogConversion)] &&
          ![logObject isKindOfClass:[MSCommonSchemaLog class]];
 }
 
@@ -167,16 +188,21 @@ NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){
 
   // Name mustn't be nil.
   if (!name.length) {
-    MSLogError([MSAppCenter logTag], @"%@ Name must not be nil or empty.", kMSBaseErrorMsg);
+    MSLogError([MSAppCenter logTag], @"%@ Name must not be nil or empty.",
+               kMSBaseErrorMsg);
     return NO;
   }
 
   // The Common Schema event name must conform to a regex.
-  NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:kMSLogNameRegex options:0 error:nil];
+  NSRegularExpression *regex =
+      [NSRegularExpression regularExpressionWithPattern:kMSLogNameRegex
+                                                options:0
+                                                  error:nil];
   NSRange range = NSMakeRange(0, name.length);
   NSUInteger count = [regex numberOfMatchesInString:name options:0 range:range];
   if (!count) {
-    MSLogError([MSAppCenter logTag], @"%@ Name must match '%@' but was '%@'", kMSBaseErrorMsg, kMSLogNameRegex, name);
+    MSLogError([MSAppCenter logTag], @"%@ Name must match '%@' but was '%@'",
+               kMSBaseErrorMsg, kMSLogNameRegex, name);
     return NO;
   }
   return YES;
@@ -185,8 +211,11 @@ NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){
 - (BOOL)validateLogData:(MSCSData *)data {
   NSDictionary<NSString *, NSString *> *properties = data.properties;
   for (NSString *key in properties) {
-    if (![key isKindOfClass:[NSString class]] || ![properties[key] isKindOfClass:[NSString class]]) {
-      MSLogError([MSAppCenter logTag], @"%@ Properties key and value must be of type NSString.", kMSBaseErrorMsg);
+    if (![key isKindOfClass:[NSString class]] ||
+        ![properties[key] isKindOfClass:[NSString class]]) {
+      MSLogError([MSAppCenter logTag],
+                 @"%@ Properties key and value must be of type NSString.",
+                 kMSBaseErrorMsg);
       return NO;
     }
   }

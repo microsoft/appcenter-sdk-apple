@@ -1,21 +1,23 @@
-#import <string>
 #import <array>
+#import <string>
 #import <unordered_map>
 
-#import "MSCrashes.h"
-#import "MSCrashReporter.h"
 #import "MSChannelDelegate.h"
+#import "MSCrashReporter.h"
+#import "MSCrashes.h"
 
 @class MSMPLCrashReporter;
 
 /**
- * Data structure for logs that need to be flushed at crash time to make sure no log is lost at crash time.
+ * Data structure for logs that need to be flushed at crash time to make sure no
+ * log is lost at crash time.
  *
  * @property bufferPath The path where the buffered log should be persisted.
- * @property buffer The actual buffered data. It comes in the form of a std::string but actually contains an NSData
- * object which is a serialized log.
+ * @property buffer The actual buffered data. It comes in the form of a
+ * std::string but actually contains an NSData object which is a serialized log.
  * @property internalId An internal id that helps keep track of logs.
- * @property timestamp A timestamp that is used to determine which bufferedLog to delete in case the buffer is full.
+ * @property timestamp A timestamp that is used to determine which bufferedLog
+ * to delete in case the buffer is full.
  */
 struct MSCrashesBufferedLog {
   std::string bufferPath;
@@ -28,8 +30,9 @@ struct MSCrashesBufferedLog {
   MSCrashesBufferedLog() = default;
 
   MSCrashesBufferedLog(NSString *path, NSData *data)
-      : bufferPath(path.UTF8String), buffer(&reinterpret_cast<const char *>(data.bytes)[0],
-                                            &reinterpret_cast<const char *>(data.bytes)[data.length]) {}
+      : bufferPath(path.UTF8String),
+        buffer(&reinterpret_cast<const char *>(data.bytes)[0],
+               &reinterpret_cast<const char *>(data.bytes)[data.length]) {}
 };
 
 /**
@@ -38,9 +41,11 @@ struct MSCrashesBufferedLog {
 const int ms_crashes_log_buffer_size = 60;
 
 /**
- * The log buffer object where we keep out BUFFERED_LOGs which will be written to disk in case of a crash.
+ * The log buffer object where we keep out BUFFERED_LOGs which will be written
+ * to disk in case of a crash.
  */
-extern std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size> msCrashesLogBuffer;
+extern std::array<MSCrashesBufferedLog, ms_crashes_log_buffer_size>
+    msCrashesLogBuffer;
 
 /**
  * Save the log buffer to files.
@@ -51,7 +56,8 @@ extern void ms_save_log_buffer();
 
 /**
  * Prototype of a callback function used to execute additional user code. Called
- * upon completion of crash handling, after the crash report has been written to disk.
+ * upon completion of crash handling, after the crash report has been written to
+ * disk.
  *
  * @param context The API client's supplied context value.
  *
@@ -62,7 +68,8 @@ typedef void (*MSCrashesPostCrashSignalCallback)(void *context);
 
 /**
  * This structure contains callbacks supported by `MSCrashes` to allow the host
- * application to perform additional tasks prior to program termination after a crash has occurred.
+ * application to perform additional tasks prior to program termination after a
+ * crash has occurred.
  *
  * @see `MSCrashesPostCrashSignalCallback`
  * @see `[MSCrashes setCrashCallbacks:]`
@@ -80,7 +87,8 @@ typedef struct MSCrashesCallbacks {
   MSCrashesPostCrashSignalCallback handleSignal;
 } MSCrashesCallbacks;
 
-@property(nonatomic, assign, getter=isMachExceptionHandlerEnabled) BOOL enableMachExceptionHandler;
+@property(nonatomic, assign, getter=isMachExceptionHandlerEnabled)
+    BOOL enableMachExceptionHandler;
 
 /**
  * A list containing all crash files that currently stored on disk for this app.
@@ -98,8 +106,8 @@ typedef struct MSCrashesCallbacks {
 @property(nonatomic, copy) NSString *logBufferPathComponent;
 
 /**
- * A path component that's used to indicate that a crash which occurred in the last session is
- * currently written to disk.
+ * A path component that's used to indicate that a crash which occurred in the
+ * last session is currently written to disk.
  */
 @property(nonatomic, copy) NSString *analyzerInProgressFilePathComponent;
 
@@ -145,7 +153,8 @@ typedef struct MSCrashesCallbacks {
 - (BOOL)shouldProcessErrorReport:(MSErrorReport *)errorReport;
 
 /**
- * Determine whether delegate has an attachment callback for error report or not.
+ * Determine whether delegate has an attachment callback for error report or
+ * not.
  *
  * @return YES if delegate has an attachment callback, otherwise NO.
  */
@@ -155,8 +164,8 @@ typedef struct MSCrashesCallbacks {
  * Creates log buffer to buffer logs which will be saved in an async-safe manner
  * at crash time. The buffer makes sure we don't loose any logs at crashtime.
  * This method creates 20 files that will be used to buffer 20 logs.
- * The files will only be created once and not recreated from scratch every time MSCrashes
- * is initialized.
+ * The files will only be created once and not recreated from scratch every time
+ * MSCrashes is initialized.
  */
 - (void)setupLogBuffer;
 
@@ -166,14 +175,16 @@ typedef struct MSCrashesCallbacks {
 - (void)notifyWithUserConfirmation:(MSUserConfirmation)userConfirmation;
 
 /**
- * Does not delete the files for our log buffer but "resets" them to be empty. For this,
- * it actually overwrites the old file with an empty copy of the original one.
- * The reason why we are not truly deleting the files is that they need to exist at crash time.
+ * Does not delete the files for our log buffer but "resets" them to be empty.
+ * For this, it actually overwrites the old file with an empty copy of the
+ * original one. The reason why we are not truly deleting the files is that they
+ * need to exist at crash time.
  */
 - (void)emptyLogBufferFiles;
 
 /**
- * Method to reset the singleton when running unit tests only. So calling sharedInstance returns a fresh instance.
+ * Method to reset the singleton when running unit tests only. So calling
+ * sharedInstance returns a fresh instance.
  */
 + (void)resetSharedInstance;
 

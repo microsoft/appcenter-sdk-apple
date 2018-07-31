@@ -17,7 +17,7 @@ static NSString *MSMissedPageViewName;
   dispatch_once(&onceToken, ^{
     Class class = [self class];
 
-    // Get selectors.
+// Get selectors.
 #if TARGET_OS_OSX
     SEL originalSelector = NSSelectorFromString(@"viewWillAppear");
 #else
@@ -49,8 +49,11 @@ static NSString *MSMissedPageViewName;
     pageViewName = [[pageViewName componentsSeparatedByString:@"."] lastObject];
 
     // Remove suffix if any.
-    if ([pageViewName hasSuffix:kMSViewControllerSuffix] && [pageViewName length] > [kMSViewControllerSuffix length]) {
-      pageViewName = [pageViewName substringToIndex:[pageViewName length] - [kMSViewControllerSuffix length]];
+    if ([pageViewName hasSuffix:kMSViewControllerSuffix] &&
+        [pageViewName length] > [kMSViewControllerSuffix length]) {
+      pageViewName =
+          [pageViewName substringToIndex:[pageViewName length] -
+                                         [kMSViewControllerSuffix length]];
     }
 
     // Track page if ready.
@@ -78,13 +81,14 @@ BOOL ms_shouldTrackPageView(NSViewController *viewController) {
 BOOL ms_shouldTrackPageView(UIViewController *viewController) {
 #endif
 
-  // For container view controllers, auto page tracking is disabled(to avoid noise).
+  // For container view controllers, auto page tracking is disabled(to avoid
+  // noise).
   NSSet *viewControllerSet = [NSSet setWithArray:@[
 #if TARGET_OS_OSX
     @"NSTabViewController", @"NSSplitViewController", @"NSPageController"
 #else
-    @"UINavigationController", @"UITabBarController", @"UISplitViewController", @"UIInputWindowController",
-    @"UIPageViewController"
+    @"UINavigationController", @"UITabBarController", @"UISplitViewController",
+    @"UIInputWindowController", @"UIPageViewController"
 #endif
   ]];
   NSString *className = NSStringFromClass([viewController class]);

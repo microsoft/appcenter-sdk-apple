@@ -17,7 +17,8 @@ extern NSString const *kMSACLogInvalidContainerErrorDesc;
 #pragma mark - Connection
 
 // Error codes
-NS_ENUM(NSInteger){kMSACConnectionSuspendedErrorCode = 100, kMSACConnectionHttpErrorCode = 101};
+NS_ENUM(NSInteger){kMSACConnectionSuspendedErrorCode = 100,
+                   kMSACConnectionHttpErrorCode = 101};
 
 // Error descriptions
 extern NSString const *kMSACConnectionHttpErrorDesc;

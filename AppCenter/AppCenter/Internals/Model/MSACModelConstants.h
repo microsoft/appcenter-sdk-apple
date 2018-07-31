@@ -35,4 +35,3 @@ extern NSString *const kMSDistributionGroupId;
 extern NSString *const kMSTimestamp;
 extern NSString *const kMSDevice;
 extern NSString *const kMSType;
-

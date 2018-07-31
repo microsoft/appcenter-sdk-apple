@@ -19,7 +19,8 @@
   // When
   NSDate *timestamp = [NSDate dateWithTimeIntervalSince1970:42];
   MSDevice *aDevice = [MSDevice new];
-  expected = [[MSDeviceHistoryInfo alloc] initWithTimestamp:timestamp andDevice:aDevice];
+  expected = [[MSDeviceHistoryInfo alloc] initWithTimestamp:timestamp
+                                                  andDevice:aDevice];
 
   // Then
   XCTAssertNotNil(expected);

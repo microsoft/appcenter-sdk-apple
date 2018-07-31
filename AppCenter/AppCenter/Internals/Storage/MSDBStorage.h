@@ -3,9 +3,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /*
- * FIXME: We need ordered columns so we can't just use an `NSDictionary` to store them.
- * A workaround is to use an array of dictionaries instead, still works fine as literals.
- * But, we should use an array of tuples when we'll switch to Swift.
+ * FIXME: We need ordered columns so we can't just use an `NSDictionary` to
+ * store them. A workaround is to use an array of dictionaries instead, still
+ * works fine as literals. But, we should use an array of tuples when we'll
+ * switch to Swift.
  *
  * Database schema example:
  *
@@ -17,7 +18,9 @@ NS_ASSUME_NONNULL_BEGIN
  *           ...
  *        };
  */
-typedef NSDictionary<NSString *, NSArray<NSDictionary<NSString *, NSArray<NSString *> *> *> *> MSDBSchema;
+typedef NSDictionary<
+    NSString *, NSArray<NSDictionary<NSString *, NSArray<NSString *> *> *> *>
+    MSDBSchema;
 
 // SQLite types
 static NSString *const kMSSQLiteTypeText = @"TEXT";
@@ -39,20 +42,25 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
  *
  * @return An instance of a database.
  */
-- (instancetype)initWithSchema:(MSDBSchema *)schema version:(NSUInteger)version filename:(NSString *)filename;
+- (instancetype)initWithSchema:(MSDBSchema *)schema
+                       version:(NSUInteger)version
+                      filename:(NSString *)filename;
 
 /**
- * Count entries on a given table using the given SQLite "WHERE" clause's condition.
+ * Count entries on a given table using the given SQLite "WHERE" clause's
+ * condition.
  *
  * @param tableName Name of the table to inspect.
  * @param condition The SQLite "WHERE" clause's condition.
  *
  * @return The count of entries for this query.
  */
-- (NSUInteger)countEntriesForTable:(NSString *)tableName condition:(nullable NSString *)condition;
+- (NSUInteger)countEntriesForTable:(NSString *)tableName
+                         condition:(nullable NSString *)condition;
 
 /**
- * Execute a non selection SQLite query on the database (i.e.: "CREATE", "INSERTE", "UPDATE"... but not "SELECT").
+ * Execute a non selection SQLite query on the database (i.e.: "CREATE",
+ * "INSERTE", "UPDATE"... but not "SELECT").
  *
  * @param query An SQLite query to execute.
  *

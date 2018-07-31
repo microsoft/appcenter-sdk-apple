@@ -43,7 +43,8 @@ __attribute__((used)) static void importCategories() {
   return self;
 }
 
-- (instancetype)initWithFilename:(nullable NSString *)filename attachmentText:(NSString *)text {
+- (instancetype)initWithFilename:(nullable NSString *)filename
+                  attachmentText:(NSString *)text {
   if ((self = [self init])) {
     self = [self initWithFilename:filename
                  attachmentBinary:[text dataUsingEncoding:NSUTF8StringEncoding]
@@ -69,26 +70,33 @@ __attribute__((used)) static void importCategories() {
     dict[kMSFileName] = self.filename;
   }
   if (self.data) {
-    dict[kMSData] = [self.data base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithCarriageReturn];
+    dict[kMSData] =
+        [self.data base64EncodedStringWithOptions:
+                       NSDataBase64EncodingEndLineWithCarriageReturn];
   }
   return dict;
 }
 
 - (BOOL)isEqual:(id)object {
-  if (![(NSObject *)object isKindOfClass:[MSErrorAttachmentLog class]] && ![super isEqual:object])
+  if (![(NSObject *)object isKindOfClass:[MSErrorAttachmentLog class]] &&
+      ![super isEqual:object])
     return NO;
   MSErrorAttachmentLog *attachment = (MSErrorAttachmentLog *)object;
   return ((!self.attachmentId && !attachment.attachmentId) ||
           [self.attachmentId isEqualToString:attachment.attachmentId]) &&
-         ((!self.errorId && !attachment.errorId) || [self.errorId isEqualToString:attachment.errorId]) &&
+         ((!self.errorId && !attachment.errorId) ||
+          [self.errorId isEqualToString:attachment.errorId]) &&
          ((!self.contentType && !attachment.contentType) ||
           [self.contentType isEqualToString:attachment.contentType]) &&
-         ((!self.filename && !attachment.filename) || [self.filename isEqualToString:attachment.filename]) &&
-         ((!self.data && !attachment.data) || [self.data isEqualToData:attachment.data]);
+         ((!self.filename && !attachment.filename) ||
+          [self.filename isEqualToString:attachment.filename]) &&
+         ((!self.data && !attachment.data) ||
+          [self.data isEqualToData:attachment.data]);
 }
 
 - (BOOL)isValid {
-  return [super isValid] && self.errorId && self.attachmentId && self.data && self.contentType;
+  return [super isValid] && self.errorId && self.attachmentId && self.data &&
+         self.contentType;
 }
 
 #pragma mark - NSCoding
