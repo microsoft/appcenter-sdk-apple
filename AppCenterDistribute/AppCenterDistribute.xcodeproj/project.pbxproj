@@ -582,6 +582,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 04FD4A251E451E12009B4468 /* Build configuration list for PBXNativeTarget "AppCenterDistributeIOS" */;
 			buildPhases = (
+				F8B8EAE021105BD3004BCECB /* Verify no buildSettings */,
 				04FD4A181E451E12009B4468 /* Sources */,
 				04FD4A191E451E12009B4468 /* Frameworks */,
 				04FD4A1A1E451E12009B4468 /* CopyFiles */,
@@ -737,6 +738,23 @@
 			shellPath = /bin/sh;
 			shellScript = "cd ${SRCROOT}/../Scripts/AppCenterDistribute\n./build-appcenterdistribute-ios-docs.sh";
 		};
+		F8B8EAE021105BD3004BCECB /* Verify no buildSettings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/../Config/VerifyNoBS.swift",
+			);
+			name = "Verify no buildSettings";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/VerifyNoBS",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "xcrun -sdk macosx swiftc -target x86_64-macosx10.9 $SCRIPT_INPUT_FILE_0 -o $SCRIPT_OUTPUT_FILE_0\n$SCRIPT_OUTPUT_FILE_0 ${PROJECT_NAME}.xcodeproj/project.pbxproj";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -847,10 +865,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0471B5F41E45466F0022F951 /* AppCenterDistribute Debug.xcconfig */;
 			buildSettings = {
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
 			};
 			name = Debug;
 		};

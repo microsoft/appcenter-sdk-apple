@@ -477,6 +477,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0469640A1F2A558300F9D31F /* Build configuration list for PBXNativeTarget "AppCenterPushMacOS" */;
 			buildPhases = (
+				F8B8EAE421105C1D004BCECB /* Verify no buildSettings */,
 				046963F51F2A558300F9D31F /* Sources */,
 				046963FA1F2A558300F9D31F /* Frameworks */,
 				046963FC1F2A558300F9D31F /* CopyFiles */,
@@ -513,6 +514,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D33A945A1E5B11BB003966DB /* Build configuration list for PBXNativeTarget "AppCenterPushIOS" */;
 			buildPhases = (
+				F8B8EAE221105C11004BCECB /* Verify no buildSettings */,
 				D33A944D1E5B11BB003966DB /* Sources */,
 				D33A944E1E5B11BB003966DB /* Frameworks */,
 				D33A944F1E5B11BB003966DB /* CopyFiles */,
@@ -653,6 +655,40 @@
 			shellPath = /bin/sh;
 			shellScript = "cd ${SRCROOT}/../Scripts/AppCenterPush\n./build-appcenterpush-ios-docs.sh";
 		};
+		F8B8EAE221105C11004BCECB /* Verify no buildSettings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/../Config/VerifyNoBS.swift",
+			);
+			name = "Verify no buildSettings";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/VerifyNoBS",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "xcrun -sdk macosx swiftc -target x86_64-macosx10.9 $SCRIPT_INPUT_FILE_0 -o $SCRIPT_OUTPUT_FILE_0\n$SCRIPT_OUTPUT_FILE_0 ${PROJECT_NAME}.xcodeproj/project.pbxproj";
+			showEnvVarsInLog = 0;
+		};
+		F8B8EAE421105C1D004BCECB /* Verify no buildSettings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/../Config/VerifyNoBS.swift",
+			);
+			name = "Verify no buildSettings";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/VerifyNoBS",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "xcrun -sdk macosx swiftc -target x86_64-macosx10.9 $SCRIPT_INPUT_FILE_0 -o $SCRIPT_OUTPUT_FILE_0\n$SCRIPT_OUTPUT_FILE_0 ${PROJECT_NAME}.xcodeproj/project.pbxproj";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -785,10 +821,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D3AD5F051E5C7FFF001627AB /* AppCenterPush Debug.xcconfig */;
 			buildSettings = {
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
 			};
 			name = Debug;
 		};
