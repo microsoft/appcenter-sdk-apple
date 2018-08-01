@@ -7,74 +7,49 @@
 import Darwin
 import Foundation
 
-func reportError(message: String) {
-    print("error message was \(message)")
-    let stderr = FileHandle.standardError
-    if let data = message.data(using: String.Encoding.utf8, allowLossyConversion: false) {
-        stderr.write(data)
-    } else {
-        print("there was an error.  Could not convert error message to printable string")
-    }
+func reportError(_ message: String, file: String = "", line: Int = 0) {
+  let formatted = "\(file):\(line): error: \(message)\n"
+  if let data = formatted.data(using: .utf8, allowLossyConversion: false) {
+    FileHandle.standardError.write(data)
+  } else {
+    print("There was an error. Could not convert error message to printable string.")
+  }
 }
 
-public enum ProcessXcodeprojResult {
-    case FoundBuildSettings([String])
-    case Error(String)
-    case OK(String)
+let ignoreSettings = [
+  "CODE_SIGN_ENTITLEMENTS",
+  "CODE_SIGN_IDENTITY",
+  "CODE_SIGN_STYLE",
+  "DEVELOPMENT_TEAM",
+  "PROVISIONING_PROFILE",
+  "PROVISIONING_PROFILE_SPECIFIER"
+]
+let startTime = Date()
+let xcodeprojPath = CommandLine.arguments[1]
+print("Verifying no build settings for \"\(xcodeprojPath)\"")
+guard let xcodeproj = try? String(contentsOf: URL(fileURLWithPath:xcodeprojPath), encoding: .utf8) else {
+  reportError("Failed making xcodeproj from url")
+  exit(EXIT_FAILURE)
 }
-
-public func processXcodeprojAt(url: URL) -> ProcessXcodeprojResult {
-    let startTime = Date()
-    guard let xcodeproj = try? String(contentsOf: url, encoding: String.Encoding.utf8) else {
-        return .Error("failed making xcodeproj from url")
+var inBuildSettingsBlock = false
+var badLines = 0
+let lines = xcodeproj.components(separatedBy: .newlines)
+for (i, line) in lines.enumerated() {
+  if inBuildSettingsBlock {
+    if let _ = line.range(of:"\\u007d[:space:]*;", options: .regularExpression) {
+      inBuildSettingsBlock = false
+    } else if !ignoreSettings.contains(where: line.contains) {
+      badLines += 1
+      reportError("Build settings aren't allowed inside project files. Please move it into the .xcconfig file.\n" +
+                  "  \(line.trimmingCharacters(in: .whitespaces))",
+                  file: xcodeprojPath, line: i + 1)
     }
-    let lines = xcodeproj.components(separatedBy: CharacterSet.newlines)
-    print ("found \(lines.count) lines")
-
-    var badLines: [String] = []
-    var inBuildSettingsBlock = false
-    for nthLine in lines {
-        if inBuildSettingsBlock {
-            if let _ = nthLine.range(of:"\\u007d[:space:]*;", options: .regularExpression) {
-                inBuildSettingsBlock = false
-            } else if let _ = nthLine.range(of:"CODE_SIGN_IDENTITY") {
-
-            } else {
-                badLines.append(nthLine)
-            }
-        } else {
-            if let _ = nthLine.range(of:"buildSettings[:space:]*=", options: .regularExpression) {
-                inBuildSettingsBlock = true
-            }
-        }
+  } else {
+    if let _ = line.range(of:"buildSettings[:space:]*=", options: .regularExpression) {
+      inBuildSettingsBlock = true
     }
-
-    let timeInterval = Date().timeIntervalSince(startTime)
-    print ("process took \(timeInterval) seconds")
-    if (badLines.count > 0) {
-        return .FoundBuildSettings(badLines)
-    }
-    return .OK(":-)")
+  }
 }
-print("Verifying no buildSettings...")
-
-let commandLineArgs = CommandLine.arguments
-print("processArgs were \(commandLineArgs)")
-let xcodeprojfilepath = commandLineArgs[1]
-let myUrl = URL(fileURLWithPath:xcodeprojfilepath)
-let result = processXcodeprojAt(url: myUrl)
-
-switch result {
-    case .Error(let str):
-        reportError (message: "error verifying build settings: \(str)")
-        exit(EXIT_FAILURE)
-    case .FoundBuildSettings(let badLines):
-        reportError (message: "found buildSettings:")
-        for badLine in badLines {
-            reportError (message: "    \(badLine)\n")
-        }
-        exit(EXIT_FAILURE)
-    case .OK:
-        print ("Verified no buildSettings")
-        exit(EXIT_SUCCESS)
-}
+let timeInterval = Date().timeIntervalSince(startTime)
+print("Verified no build settings. Process took \(Int(timeInterval * 1000)) ms.")
+exit(badLines > 0 ? EXIT_FAILURE : EXIT_SUCCESS)
