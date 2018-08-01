@@ -746,15 +746,13 @@
 			files = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/../Config/VerifyNoBS.swift",
 			);
 			name = "Verify no buildSettings";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/VerifyNoBS",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "xcrun -sdk macosx swiftc -target x86_64-macosx10.9 $SCRIPT_INPUT_FILE_0 -o $SCRIPT_OUTPUT_FILE_0\n$SCRIPT_OUTPUT_FILE_0 ${PROJECT_NAME}.xcodeproj/project.pbxproj";
+			shellScript = "${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift ${PROJECT_NAME}.xcodeproj/project.pbxproj";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

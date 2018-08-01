@@ -5,9 +5,6 @@
       location = "group:Config"
       name = "Config">
       <FileRef
-         location = "group:VerifyNoBS.swift">
-      </FileRef>
-      <FileRef
          location = "group:App.xcconfig">
       </FileRef>
       <FileRef
@@ -71,6 +68,9 @@
    <Group
       location = "group:Scripts"
       name = "Scripts">
+      <FileRef
+         location = "group:VerifyNoBuildSettings.swift">
+      </FileRef>
       <Group
          location = "group:AppCenter"
          name = "AppCenter">

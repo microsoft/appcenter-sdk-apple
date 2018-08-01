@@ -1,19 +1,8 @@
-#!/usr/bin/swift
+#!/usr/bin/env xcrun --sdk macosx swift
 
 // This script is meant to be called from an Xcode run script build phase
 // It verifies there are no buildSettings embedded in the Xcode project
 // as it is preferable to have build settings specified in .xcconfig files
-
-// How to use:
-// Put this script in a foler called 'buildscripts' next to you xcode project
-// Then, add a Run script build phase to one of your targets with this as the script
-//
-//   xcrun -sdk macosx swiftc -target x86_64-macosx10.11  buildscripts/VerifyNoBS.swift -o $CONFIGURATION_TEMP_DIR/VerifyNoBS
-//   $CONFIGURATION_TEMP_DIR/VerifyNoBS ${PROJECT_NAME}.xcodeproj/project.pbxproj
-//
-// The first line, beginning with 'xcrun', tells the swift compiler ('swiftc') to compile the file buildscripts/VerifyNoBS.swift
-// and output the resulting executable to the folder $CONFIGURATION_TEMP_DIR in an executable file called VerifyNoBS
-// The second line executes that executable, with a command line arg pointing to the current .xcodeproj file
 
 import Darwin
 import Foundation
