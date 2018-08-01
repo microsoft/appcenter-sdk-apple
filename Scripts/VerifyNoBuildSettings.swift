@@ -17,6 +17,7 @@ func reportError(_ message: String, file: String = "", line: Int = 0) {
 }
 
 let ignoreSettings = [
+  "PRODUCT_BUNDLE_IDENTIFIER",
   "CODE_SIGN_ENTITLEMENTS",
   "CODE_SIGN_IDENTITY",
   "CODE_SIGN_STYLE",

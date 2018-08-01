@@ -1,7 +1,0 @@
-#include "../../Config/App.xcconfig"
-
-LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/Frameworks @loader_path/Frameworks
-
-SWIFT_OBJC_BRIDGING_HEADER = Sasquatch/Sasquatch-Bridging-Header.h
-SWIFT_OBJC_INTERFACE_HEADER_NAME = Sasquatch-Swift.h
-SWIFT_VERSION = 3.0
