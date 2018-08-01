@@ -33,22 +33,47 @@ guard let xcodeproj = try? String(contentsOf: URL(fileURLWithPath:xcodeprojPath)
   exit(EXIT_FAILURE)
 }
 var inBuildSettingsBlock = false
+var inListBlock = false
+var setting: String? = nil
 var badLines = 0
 let lines = xcodeproj.components(separatedBy: .newlines)
 for (i, line) in lines.enumerated() {
   if inBuildSettingsBlock {
-    if let _ = line.range(of:"\\u007d[:space:]*;", options: .regularExpression) {
+    if !inListBlock {
+      setting = nil
+    }
+    if let _ = line.range(of:"\\}\\s*;", options: .regularExpression) {
       inBuildSettingsBlock = false
-    } else if !ignoreSettings.contains(where: line.contains) {
-      badLines += 1
-      reportError("Build settings aren't allowed inside project files. Please move it into the .xcconfig file.\n" +
-                  "  \(line.trimmingCharacters(in: .whitespaces))",
-                  file: xcodeprojPath, line: i + 1)
+      continue
     }
-  } else {
-    if let _ = line.range(of:"buildSettings[:space:]*=", options: .regularExpression) {
-      inBuildSettingsBlock = true
+    
+    // Ignore allowed settings.
+    if ignoreSettings.contains(where: line.contains) {
+      continue
     }
+    
+    // Handle list settings.
+    if inListBlock {
+      setting! += line.trimmingCharacters(in: .whitespaces)
+      if let _ = line.range(of:"\\)\\s*;", options: .regularExpression) {
+        inListBlock = false
+      } else {
+        continue
+        
+      }
+    } else if let _ = line.range(of:"\\w+\\s*=\\s*\\(", options: .regularExpression) {
+      inListBlock = true
+      setting = line.trimmingCharacters(in: .whitespaces)
+      continue
+    }
+    
+    // Produce error.
+    badLines += 1
+    reportError("Build settings aren't allowed inside project files. Please move it into the .xcconfig file.\n" +
+                "  \(setting ?? line.trimmingCharacters(in: .whitespaces))",
+                file: xcodeprojPath, line: i + 1)
+  } else if let _ = line.range(of:"buildSettings\\s*=", options: .regularExpression) {
+    inBuildSettingsBlock = true
   }
 }
 let timeInterval = Date().timeIntervalSince(startTime)
