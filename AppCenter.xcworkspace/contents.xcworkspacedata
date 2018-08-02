@@ -68,6 +68,9 @@
    <Group
       location = "group:Scripts"
       name = "Scripts">
+      <FileRef
+         location = "group:VerifyNoBuildSettings.swift">
+      </FileRef>
       <Group
          location = "group:AppCenter"
          name = "AppCenter">

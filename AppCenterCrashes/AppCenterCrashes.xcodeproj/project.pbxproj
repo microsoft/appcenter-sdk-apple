@@ -1220,6 +1220,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0485AFD01EAA887500C10CAF /* Build configuration list for PBXNativeTarget "AppCenterCrashesMacOS" */;
 			buildPhases = (
+				F8B8EADC21105BB3004BCECB /* Verify no buildSettings */,
 				0485AFA01EAA887500C10CAF /* Sources */,
 				0485AFB01EAA887500C10CAF /* Frameworks */,
 				0485AFB21EAA887500C10CAF /* CopyFiles */,
@@ -1256,6 +1257,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 04EBBEE51F01C0C90006B8AE /* Build configuration list for PBXNativeTarget "AppCenterCrashesTVOS" */;
 			buildPhases = (
+				F8B8EADE21105BC1004BCECB /* Verify no buildSettings */,
 				04EBBEB11F01C0C90006B8AE /* Sources */,
 				04EBBEC11F01C0C90006B8AE /* Frameworks */,
 				04EBBEC21F01C0C90006B8AE /* CopyFiles */,
@@ -1274,6 +1276,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6E04013C1D1C98690051BCFA /* Build configuration list for PBXNativeTarget "AppCenterCrashesIOS" */;
 			buildPhases = (
+				F8B8EADA21105BA6004BCECB /* Verify no buildSettings */,
 				6E04012F1D1C98690051BCFA /* Sources */,
 				6E0401301D1C98690051BCFA /* Frameworks */,
 				6E0401311D1C98690051BCFA /* CopyFiles */,
@@ -1524,6 +1527,51 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "cd ${SRCROOT}/../Scripts/AppCenterCrashes\n./build-appcentercrashes-ios-docs.sh";
+		};
+		F8B8EADA21105BA6004BCECB /* Verify no buildSettings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Verify no buildSettings";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift ${PROJECT_NAME}.xcodeproj/project.pbxproj";
+			showEnvVarsInLog = 0;
+		};
+		F8B8EADC21105BB3004BCECB /* Verify no buildSettings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Verify no buildSettings";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift ${PROJECT_NAME}.xcodeproj/project.pbxproj";
+			showEnvVarsInLog = 0;
+		};
+		F8B8EADE21105BC1004BCECB /* Verify no buildSettings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Verify no buildSettings";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift ${PROJECT_NAME}.xcodeproj/project.pbxproj";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1830,10 +1878,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6E37297F1D1DE93800F1E4AE /* AppCenterCrashes Debug.xcconfig */;
 			buildSettings = {
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
 			};
 			name = Debug;
 		};
