@@ -23,7 +23,10 @@ let ignoreSettings = [
   "CODE_SIGN_STYLE",
   "DEVELOPMENT_TEAM",
   "PROVISIONING_PROFILE",
-  "PROVISIONING_PROFILE_SPECIFIER"
+  "PROVISIONING_PROFILE_SPECIFIER",
+  "INFOPLIST_FILE",
+  "TARGET_NAME",
+  "IBSC_MODULE"
 ]
 let startTime = Date()
 let xcodeprojPath = CommandLine.arguments[1]
