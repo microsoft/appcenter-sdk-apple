@@ -228,9 +228,6 @@
 		F8FE733C210756DC005C6A74 /* CrashesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A888EE2102B2C5001ACFDF /* CrashesUITests.swift */; };
 		F8FE733D210756DC005C6A74 /* DistributeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A888ED2102B2C5001ACFDF /* DistributeUITests.swift */; };
 		F8FE733E210756DC005C6A74 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A888EB2102B2C5001ACFDF /* Helpers.swift */; };
-		F8FE733F21075786005C6A74 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B2A888B92102B1E7001ACFDF /* Info.plist */; };
-		F8FE734021075787005C6A74 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B2A888B92102B1E7001ACFDF /* Info.plist */; };
-		F8FE734121075788005C6A74 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B2A888B92102B1E7001ACFDF /* Info.plist */; };
 		F8FE734321075803005C6A74 /* AnalyticsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FE734221075803005C6A74 /* AnalyticsUITests.swift */; };
 		F8FE734421075803005C6A74 /* AnalyticsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FE734221075803005C6A74 /* AnalyticsUITests.swift */; };
 		F8FE734521075803005C6A74 /* AnalyticsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FE734221075803005C6A74 /* AnalyticsUITests.swift */; };
@@ -723,6 +720,7 @@
 		F84924542111C83000E14DBE /* Watch.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Watch.xcconfig; sourceTree = "<group>"; };
 		F849248A2112FA3400E14DBE /* Watch Extension.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Watch Extension.xcconfig"; sourceTree = "<group>"; };
 		F89D79081E93DA3A0094521F /* CrashLibIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F8B224862113163D0052350E /* Sasquatch Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Sasquatch Debug.xcconfig"; sourceTree = "<group>"; };
 		F8B8EB15211070BE004BCECB /* Sasquatch.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Sasquatch.xcconfig; sourceTree = "<group>"; };
 		F8B8EB9421107890004BCECB /* Puppet.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Puppet.xcconfig; sourceTree = "<group>"; };
 		F8FE732E210730A8005C6A74 /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CrashReporter.framework; path = ../Vendor/iOS/PLCrashReporter/CrashReporter.framework; sourceTree = "<group>"; };
@@ -1191,6 +1189,7 @@
 				F84924542111C83000E14DBE /* Watch.xcconfig */,
 				F8B8EB9421107890004BCECB /* Puppet.xcconfig */,
 				F8B8EB15211070BE004BCECB /* Sasquatch.xcconfig */,
+				F8B224862113163D0052350E /* Sasquatch Debug.xcconfig */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -1441,7 +1440,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0940;
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = "Microsoft Corp.";
 				TargetAttributes = {
 					5CD700E41EA4B74500FC5D12 = {
@@ -1780,7 +1779,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8FE734121075788005C6A74 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1788,7 +1786,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8FE734021075787005C6A74 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1871,7 +1868,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8FE733F21075786005C6A74 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2389,7 +2385,7 @@
 		};
 		84226C381E88FEFC00798417 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F8B8EB15211070BE004BCECB /* Sasquatch.xcconfig */;
+			baseConfigurationReference = F8B224862113163D0052350E /* Sasquatch Debug.xcconfig */;
 			buildSettings = {
 			};
 			name = Debug;
