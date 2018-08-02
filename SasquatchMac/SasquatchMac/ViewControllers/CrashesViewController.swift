@@ -17,8 +17,8 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
     crashesTableView.delegate = self
     textAttachmentView.delegate = self
     
-    let text = UserDefaults.standard.string(forKey: "textAttachment")
-    if (text?.characters.count ?? 0) > 0 {
+    let text = UserDefaults.standard.string(forKey: "textAttachment") ?? ""
+    if !text.isEmpty {
       textAttachmentView.string = text;
     }
     let referenceUrl = UserDefaults.standard.url(forKey: "fileAttachment")
@@ -57,8 +57,8 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
   }
 
   func textDidChange(_ notification: Notification) {
-    let text = textAttachmentView.string;
-    if (text?.characters.count ?? 0) > 0 {
+    let text = textAttachmentView.string ?? ""
+    if !text.isEmpty {
       UserDefaults.standard.set(text, forKey: "textAttachment")
     } else {
       UserDefaults.standard.removeObject(forKey: "textAttachment")

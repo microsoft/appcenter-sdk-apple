@@ -77,7 +77,7 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
       }
     }
     let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)!
-    if isFirst{
+    if isFirst {
       cell.textLabel?.text = "Breadcrumbs"
     } else if isSecond {
       
