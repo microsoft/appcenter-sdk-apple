@@ -62,7 +62,6 @@ for (i, line) in lines.enumerated() {
         inListBlock = false
       } else {
         continue
-        
       }
     } else if let _ = line.range(of:"\\w+\\s*=\\s*\\(", options: .regularExpression) {
       inListBlock = true
