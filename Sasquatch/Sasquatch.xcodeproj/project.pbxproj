@@ -1386,7 +1386,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D31EF94B1E9517B600450162 /* Build configuration list for PBXNativeTarget "SasquatchWatchObjC Extension" */;
 			buildPhases = (
-				8099A57B21121524008E1466 /*  Verify no build settings */,
 				D31EF9311E9517B600450162 /* Sources */,
 				D31EF9321E9517B600450162 /* Frameworks */,
 				D31EF9331E9517B600450162 /* Resources */,
@@ -1422,7 +1421,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D31EF9731E9517C600450162 /* Build configuration list for PBXNativeTarget "SasquatchWatchSwift Extension" */;
 			buildPhases = (
-				8099A602211219A7008E1466 /* Verify no build settings */,
 				D31EF95C1E9517C600450162 /* Sources */,
 				D31EF95D1E9517C600450162 /* Frameworks */,
 				D31EF95E1E9517C600450162 /* Resources */,
@@ -1927,20 +1925,7 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift ${PROJECT_NAME}.xcodeproj/project.pbxproj";
-		};
-		8099A57B21121524008E1466 /*  Verify no build settings */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = " Verify no build settings";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift ${PROJECT_NAME}.xcodeproj/project.pbxproj";
+			showEnvVarsInLog = 0;
 		};
 		8099A5D62112198F008E1466 /* Verify no build settings */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1955,20 +1940,7 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift ${PROJECT_NAME}.xcodeproj/project.pbxproj";
-		};
-		8099A602211219A7008E1466 /* Verify no build settings */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Verify no build settings";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift ${PROJECT_NAME}.xcodeproj/project.pbxproj";
+			showEnvVarsInLog = 0;
 		};
 		F84923BB21119AE100E14DBE /* Verify no buildSettings */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2431,7 +2403,6 @@
 		};
 		84226C721E88FF4A00798417 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F8B8EB15211070BE004BCECB /* Sasquatch.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SasquatchObjC/SasquatchObjC.entitlements;
 				INFOPLIST_FILE = SasquatchObjC/Info.plist;
@@ -2441,7 +2412,6 @@
 		};
 		84226C731E88FF4A00798417 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F8B8EB15211070BE004BCECB /* Sasquatch.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SasquatchObjC/SasquatchObjC.entitlements;
 				INFOPLIST_FILE = SasquatchObjC/Info.plist;
@@ -2451,7 +2421,6 @@
 		};
 		84226CA61E8908CA00798417 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F8B8EB15211070BE004BCECB /* Sasquatch.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SasquatchSwift/SasquatchSwift.entitlements;
 				INFOPLIST_FILE = SasquatchSwift/Info.plist;
@@ -2461,7 +2430,6 @@
 		};
 		84226CA71E8908CA00798417 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F8B8EB15211070BE004BCECB /* Sasquatch.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SasquatchSwift/SasquatchSwift.entitlements;
 				INFOPLIST_FILE = SasquatchSwift/Info.plist;
@@ -2491,7 +2459,6 @@
 		};
 		B27D54D0210A5E7E004E82C9 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F8B8EB15211070BE004BCECB /* Sasquatch.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SasquatchObjC/SasquatchObjC.entitlements;
 				CODE_SIGN_STYLE = Manual;
@@ -2503,7 +2470,6 @@
 		};
 		B27D54D1210A5E7E004E82C9 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F8B8EB15211070BE004BCECB /* Sasquatch.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SasquatchObjC/SasquatchObjC.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -2516,7 +2482,6 @@
 		};
 		B2A4CFB4210A6E6900199B4F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F8B8EB15211070BE004BCECB /* Sasquatch.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SasquatchSwift/SasquatchSwift.entitlements;
 				CODE_SIGN_STYLE = Manual;
@@ -2528,7 +2493,6 @@
 		};
 		B2A4CFB5210A6E6900199B4F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F8B8EB15211070BE004BCECB /* Sasquatch.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SasquatchSwift/SasquatchSwift.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
