@@ -2489,9 +2489,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SasquatchObjC/SasquatchObjC.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchObjC/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc;
+				PROVISIONING_PROFILE = "c90ca77a-13f2-4e01-b886-639926a829f5";
 				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchObjC Debug";
 			};
 			name = Debug;
@@ -2502,8 +2505,10 @@
 				CODE_SIGN_ENTITLEMENTS = SasquatchObjC/SasquatchObjC.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchObjC/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc;
+				PROVISIONING_PROFILE = "b75f99a6-e2eb-48bb-8830-591610bc6b30";
 				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchObjC Release In-house";
 			};
 			name = Release;
@@ -2512,9 +2517,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SasquatchSwift/SasquatchSwift.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchSwift/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift;
+				PROVISIONING_PROFILE = "13aa81a6-41a9-436b-bf26-b9910cfbee17";
 				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK Sasquatch Swift Debug";
 			};
 			name = Debug;
@@ -2525,8 +2533,10 @@
 				CODE_SIGN_ENTITLEMENTS = SasquatchSwift/SasquatchSwift.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 5Z97G9NZQ6;
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchSwift/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift;
+				PROVISIONING_PROFILE = "a4aa0a1a-5369-411d-9c93-1493db2dc33e";
 				PROVISIONING_PROFILE_SPECIFIER = "AppCenter SDK SasquatchSwift Release In-house";
 			};
 			name = Release;
