@@ -720,8 +720,8 @@
 		D31EF96D1E9517C600450162 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D31EF96F1E9517C600450162 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F809D5031FC6DA2B005E0F83 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		F849241E2111C4C700E14DBE /* UITests.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = UITests.xcconfig; sourceTree = "<group>"; };
 		F84924542111C83000E14DBE /* Watch.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Watch.xcconfig; sourceTree = "<group>"; };
+		F849248A2112FA3400E14DBE /* Watch Extension.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Watch Extension.xcconfig"; sourceTree = "<group>"; };
 		F89D79081E93DA3A0094521F /* CrashLibIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8B8EB15211070BE004BCECB /* Sasquatch.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Sasquatch.xcconfig; sourceTree = "<group>"; };
 		F8B8EB9421107890004BCECB /* Puppet.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Puppet.xcconfig; sourceTree = "<group>"; };
@@ -1187,10 +1187,10 @@
 		F849241D2111C48A00E14DBE /* Config */ = {
 			isa = PBXGroup;
 			children = (
+				F849248A2112FA3400E14DBE /* Watch Extension.xcconfig */,
 				F84924542111C83000E14DBE /* Watch.xcconfig */,
 				F8B8EB9421107890004BCECB /* Puppet.xcconfig */,
 				F8B8EB15211070BE004BCECB /* Sasquatch.xcconfig */,
-				F849241E2111C4C700E14DBE /* UITests.xcconfig */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -2525,7 +2525,7 @@
 		};
 		D31EF94C1E9517B600450162 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F84924542111C83000E14DBE /* Watch.xcconfig */;
+			baseConfigurationReference = F849248A2112FA3400E14DBE /* Watch Extension.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "SasquatchWatchObjC Extension.entitlements";
 				INFOPLIST_FILE = "SasquatchWatchObjC Extension/Info.plist";
@@ -2535,7 +2535,7 @@
 		};
 		D31EF94D1E9517B600450162 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F84924542111C83000E14DBE /* Watch.xcconfig */;
+			baseConfigurationReference = F849248A2112FA3400E14DBE /* Watch Extension.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "SasquatchWatchObjC Extension.entitlements";
 				INFOPLIST_FILE = "SasquatchWatchObjC Extension/Info.plist";
@@ -2565,7 +2565,7 @@
 		};
 		D31EF9741E9517C600450162 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F84924542111C83000E14DBE /* Watch.xcconfig */;
+			baseConfigurationReference = F849248A2112FA3400E14DBE /* Watch Extension.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "SasquatchWatchSwift Extension.entitlements";
 				INFOPLIST_FILE = "SasquatchWatchSwift Extension/Info.plist";
@@ -2575,7 +2575,7 @@
 		};
 		D31EF9751E9517C600450162 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F84924542111C83000E14DBE /* Watch.xcconfig */;
+			baseConfigurationReference = F849248A2112FA3400E14DBE /* Watch Extension.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "SasquatchWatchSwift Extension.entitlements";
 				INFOPLIST_FILE = "SasquatchWatchSwift Extension/Info.plist";
