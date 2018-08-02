@@ -16,7 +16,7 @@ TARGETED_DEVICE_FAMILY = 1,2
 
 HEADER_SEARCH_PATHS = $(SRCROOT)/../CrashLib/CrashLib
 FRAMEWORK_SEARCH_PATHS = $(PROJECT_DIR)/../AppCenter-SDK-Apple/iOS/**
-LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/Frameworks @loader_path/Frameworks
+LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/Frameworks
 
 SWIFT_OBJC_BRIDGING_HEADER = Sasquatch/Sasquatch-Bridging-Header.h
 SWIFT_OBJC_INTERFACE_HEADER_NAME = Sasquatch-Swift.h
