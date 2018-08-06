@@ -1,15 +1,24 @@
 #import <Foundation/Foundation.h>
 
+#import "MSChannelDelegate.h"
 #import "MSPropertyConfigurator.h"
+#import "MSAuthenticationProvider.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MSAnalyticsTransmissionTarget : NSObject
+@interface MSAnalyticsTransmissionTarget : NSObject <MSChannelDelegate>
 
 /**
  * Property configurator.
  */
 @property(nonatomic, readonly) MSPropertyConfigurator *propertyConfigurator;
+
+/**
+ * Authentication provider.
+ */
+@property(class, nonatomic, nullable, setter=addAuthenticationProvider:) MSAuthenticationProvider* authenticationProvider;
+
++ (void)addAuthenticationProvider:(MSAuthenticationProvider *)authenticatioProvider;
 
 /**
  * Track an event.

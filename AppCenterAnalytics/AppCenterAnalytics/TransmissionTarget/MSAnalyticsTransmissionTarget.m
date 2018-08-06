@@ -2,12 +2,16 @@
 #import "MSAnalyticsTransmissionTargetInternal.h"
 #import "MSAnalyticsTransmissionTargetPrivate.h"
 #import "MSChannelGroupProtocol.h"
+#import "MSCommonSchemaLog.h"
 #import "MSLogger.h"
 #import "MSPropertyConfiguratorPrivate.h"
 #import "MSServiceAbstractInternal.h"
+
 #import "MSUtility+StringFormatting.h"
 
 @implementation MSAnalyticsTransmissionTarget
+
+static id _authenticationProvider;
 
 - (instancetype)
 initWithTransmissionTargetToken:(NSString *)token
@@ -31,8 +35,32 @@ initWithTransmissionTargetToken:(NSString *)token
 
     // Add property configurator to the channel group as a delegate.
     [_channelGroup addDelegate:_propertyConfigurator];
+
+    // Add self to channel group as delegate to decorate logs with tickets.
+    [_channelGroup addDelegate:self];
   }
   return self;
+}
+
++ (MSAuthenticationProvider *)authenticationProvider {
+  @synchronized(self) {
+    return _authenticationProvider;
+  }
+}
+
++ (void)addAuthenticationProvider:
+    (MSAuthenticationProvider *)authenticationProvider {
+  @synchronized(self) {
+
+    /*
+     * No need to validate the authentication provider's properties as they are
+     * required for initialization and can't be null.
+     */
+    _authenticationProvider = authenticationProvider;
+    
+    /* Request token now. */
+    [authenticationProvider acquireTokenAsync];
+  }
 }
 
 /**
@@ -64,7 +92,7 @@ initWithTransmissionTargetToken:(NSString *)token
   // Override properties.
   if (properties) {
     [mergedProperties
-        addEntriesFromDictionary:(NSDictionary * _Nonnull) properties];
+        addEntriesFromDictionary:(NSDictionary * _Nonnull)properties];
   } else if ([mergedProperties count] == 0) {
 
     // Set nil for the properties to pass nil to trackEvent.
@@ -127,6 +155,32 @@ initWithTransmissionTargetToken:(NSString *)token
     }
   }
 }
+
+#pragma mark - ChannelDelegate callbacks
+
+- (void)channel:(id<MSChannelProtocol>)__unused channel
+     prepareLog:(id<MSLog>)log {
+  // TODO synchronization required?!
+
+  /*
+   * Only set ticketKey for owned target. Not strictly necessary but this avoids
+   * setting the ticketKeyHash multiple times for a log.
+   */
+  if (![log.transmissionTargetTokens
+          containsObject:self.transmissionTargetToken]) {
+    return;
+  }
+  if ([log isKindOfClass:[MSCommonSchemaLog class]] && [self isEnabled]) {
+    if (MSAnalyticsTransmissionTarget.authenticationProvider) {
+      NSString *ticketKeyHash =
+          MSAnalyticsTransmissionTarget.authenticationProvider.ticketKeyHash;
+      ((MSCommonSchemaLog *)log).ext.protocolExt.ticketKeys =
+          @[ ticketKeyHash ];
+    }
+  }
+}
+
+#pragma mark - Private methods
 
 - (void)mergeEventPropertiesWith:
     (NSMutableDictionary<NSString *, NSString *> *)mergedProperties {
