@@ -14,6 +14,7 @@ static NSString *const kMSOneCollectorClientVersionFormat =
 extern NSString *const kMSOneCollectorClientVersionKey;
 extern NSString *const kMSOneCollectorContentType;
 extern NSString *const kMSOneCollectorLogSeparator;
+extern NSString *const kMSOneCollectorTicketsKey;
 extern NSString *const kMSOneCollectorUploadTimeKey;
 
 @interface MSOneCollectorIngestion : MSHttpIngestion

@@ -160,7 +160,6 @@ initWithTransmissionTargetToken:(NSString *)token
 
 - (void)channel:(id<MSChannelProtocol>)__unused channel
      prepareLog:(id<MSLog>)log {
-  // TODO synchronization required?!
 
   /*
    * Only set ticketKey for owned target. Not strictly necessary but this avoids

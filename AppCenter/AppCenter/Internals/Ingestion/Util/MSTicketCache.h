@@ -7,7 +7,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Dictionary to hold tickets.
  */
-@property (nonatomic) NSMutableDictionary *tickets;
+@property (nonatomic) NSMutableDictionary<NSString *, NSString *> *tickets;
 
 /**
  * Return singleton instance of MSTicketCache.

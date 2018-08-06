@@ -2,12 +2,14 @@
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterInternal.h"
+#import "MSCommonSchemaLog.h"
 #import "MSCompression.h"
 #import "MSConstants+Internal.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSLog.h"
 #import "MSLogContainer.h"
 #import "MSLoggerInternal.h"
+#import "MSTicketCache.h"
 #import "MSUtility+Date.h"
 
 NSString *const kMSOneCollectorApiKey = @"apikey";
@@ -17,6 +19,7 @@ NSString *const kMSOneCollectorClientVersionKey = @"Client-Version";
 NSString *const kMSOneCollectorContentType =
     @"application/x-json-stream; charset=utf-8";
 NSString *const kMSOneCollectorLogSeparator = @"\n";
+NSString *const kMSOneCollectorTicketsKey = @"Tickets";
 NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
 
 @implementation MSOneCollectorIngestion
@@ -54,7 +57,7 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
    * performance issues due to this validation, we will remove `[container
    * isValid]` call below.
    */
-  
+
   // Verify container.
   if (!container || ![container isValid]) {
     NSDictionary *userInfo =
@@ -94,6 +97,35 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
                     stringWithFormat:@"%lld",
                                      (long long)[MSUtility nowInMilliseconds]]
          forKey:kMSOneCollectorUploadTimeKey];
+
+  // Gather tokens from logs.
+  NSMutableString *ticketKeyString = [NSMutableString new];
+  for (id<MSLog> log in container.logs) {
+    MSCommonSchemaLog *csLog = (MSCommonSchemaLog *)log;
+    NSArray<NSString *> *ticketKeys = [[[csLog ext] protocolExt] ticketKeys];
+    if (ticketKeys) {
+      for (NSString *ticketKey in ticketKeys) {
+        NSString *token = [[MSTicketCache sharedInstance] ticketFor:ticketKey];
+        if (token) {
+
+          // Format to look like this:
+          // "ticketKey1"="p:token1";"ticketKey2"="p:token2".
+          [ticketKeyString appendString:@"\""];
+          [ticketKeyString appendString:ticketKey];
+          [ticketKeyString appendString:@"\"=\"p:"];
+          [ticketKeyString appendString:token];
+          [ticketKeyString appendString:@"\";"];
+        }
+      }
+    }
+  }
+
+  // Delete last ";" if applicable and set header.
+  if (ticketKeyString && (ticketKeyString.length > 0)) {
+    [ticketKeyString
+        deleteCharactersInRange:NSMakeRange([ticketKeyString length] - 1, 1)];
+    [headers setObject:ticketKeyString forKey:kMSOneCollectorTicketsKey];
+  }
   request.allHTTPHeaderFields = headers;
 
   // Set body.

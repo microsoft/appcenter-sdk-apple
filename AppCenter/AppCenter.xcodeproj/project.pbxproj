@@ -435,6 +435,12 @@
 		80B7EA2620CA9CC500DF524C /* MSEncrypterPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 80B7EA2020CA9C9C00DF524C /* MSEncrypterPrivate.h */; };
 		B2181B7B1F26852600D2EEAE /* MSWrapperSdk.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74551F22BB710070E7DF /* MSWrapperSdk.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B2181B7C1F26852B00D2EEAE /* MSWrapperSdk.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74561F22BB710070E7DF /* MSWrapperSdk.m */; };
+		B23507B52118D22800F98D4F /* MSTicketCache.m in Sources */ = {isa = PBXBuildFile; fileRef = B23507B32118D22800F98D4F /* MSTicketCache.m */; };
+		B23507B62118D22800F98D4F /* MSTicketCache.m in Sources */ = {isa = PBXBuildFile; fileRef = B23507B32118D22800F98D4F /* MSTicketCache.m */; };
+		B23507B72118D22800F98D4F /* MSTicketCache.m in Sources */ = {isa = PBXBuildFile; fileRef = B23507B32118D22800F98D4F /* MSTicketCache.m */; };
+		B23507B82118D22800F98D4F /* MSTicketCache.h in Headers */ = {isa = PBXBuildFile; fileRef = B23507B42118D22800F98D4F /* MSTicketCache.h */; };
+		B23507B92118D22800F98D4F /* MSTicketCache.h in Headers */ = {isa = PBXBuildFile; fileRef = B23507B42118D22800F98D4F /* MSTicketCache.h */; };
+		B23507BA2118D22800F98D4F /* MSTicketCache.h in Headers */ = {isa = PBXBuildFile; fileRef = B23507B42118D22800F98D4F /* MSTicketCache.h */; };
 		B24F3F171D93A3FF00827213 /* MSLoggerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B24F3F161D93A3FF00827213 /* MSLoggerTests.m */; };
 		B2787213201AAA7F004AA9A5 /* MSAppCenterErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 3889932E1E29829700C27B36 /* MSAppCenterErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B2787214201AB9D8004AA9A5 /* MSEnable.h in Headers */ = {isa = PBXBuildFile; fileRef = 3542742220167DA400BE766F /* MSEnable.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -849,6 +855,8 @@
 		8087362820C134AC004C4157 /* MSEncrypter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSEncrypter.m; sourceTree = "<group>"; };
 		8087362A20C1DCCF004C4157 /* MSEncrypterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSEncrypterTests.m; sourceTree = "<group>"; };
 		80B7EA2020CA9C9C00DF524C /* MSEncrypterPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSEncrypterPrivate.h; sourceTree = "<group>"; };
+		B23507B32118D22800F98D4F /* MSTicketCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSTicketCache.m; sourceTree = "<group>"; };
+		B23507B42118D22800F98D4F /* MSTicketCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSTicketCache.h; sourceTree = "<group>"; };
 		B24F3F161D93A3FF00827213 /* MSLoggerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLoggerTests.m; sourceTree = "<group>"; };
 		B28E41D32076EC4000CC6AD8 /* MSUtility+PropertyValidation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MSUtility+PropertyValidation.h"; sourceTree = "<group>"; };
 		B28E41D42076ECFE00CC6AD8 /* MSUtility+PropertyValidation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MSUtility+PropertyValidation.m"; sourceTree = "<group>"; };
@@ -1513,6 +1521,8 @@
 			children = (
 				E8753D6C1D4BE53F00241513 /* MSIngestionUtil.h */,
 				E8753D6D1D4BE53F00241513 /* MSIngestionUtil.m */,
+				B23507B42118D22800F98D4F /* MSTicketCache.h */,
+				B23507B32118D22800F98D4F /* MSTicketCache.m */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -1533,6 +1543,7 @@
 				B2CD74C91F22BEC70070E7DF /* MSDBStoragePrivate.h in Headers */,
 				0431209D1EE0BCF9007054C5 /* MSServiceCommon.h in Headers */,
 				B2181B7B1F26852600D2EEAE /* MSWrapperSdk.h in Headers */,
+				B23507BA2118D22800F98D4F /* MSTicketCache.h in Headers */,
 				B2787219201AB9D8004AA9A5 /* MSChannelDelegate.h in Headers */,
 				B278721B201AB9D8004AA9A5 /* MSChannelGroupProtocol.h in Headers */,
 				B2787214201AB9D8004AA9A5 /* MSEnable.h in Headers */,
@@ -1685,6 +1696,7 @@
 				04754F8B1EA98182002CBA46 /* MSLoggerInternal.h in Headers */,
 				385E319C20C1B90700BE7271 /* MSACModelConstants.h in Headers */,
 				B2CD749E1F22BE270070E7DF /* MSConstants+Internal.h in Headers */,
+				B23507B92118D22800F98D4F /* MSTicketCache.h in Headers */,
 				B2CD74BC1F22BE270070E7DF /* MSUtility+File.h in Headers */,
 				B2CD74CA1F22BF8C0070E7DF /* MSLogDBStoragePrivate.h in Headers */,
 				E74B14E620B370A5002C0183 /* MSUserExtension.h in Headers */,
@@ -1787,6 +1799,7 @@
 				383481731EA7FF6100787F56 /* MSLogDBStoragePrivate.h in Headers */,
 				E84B8E391D235246006FD231 /* MSStorage.h in Headers */,
 				385E319B20C1B90700BE7271 /* MSACModelConstants.h in Headers */,
+				B23507B82118D22800F98D4F /* MSTicketCache.h in Headers */,
 				B2CD74B51F22BE270070E7DF /* MSUtility+Environment.h in Headers */,
 				B2CD74851F22BD910070E7DF /* MSLogDBStorage.h in Headers */,
 				B2CD745E1F22BBBB0070E7DF /* MSWrapperSdkInternal.h in Headers */,
@@ -2174,6 +2187,7 @@
 				B2CD74C01F22BE270070E7DF /* MSUtility+File.m in Sources */,
 				E74B14E020B37043002C0183 /* MSOSExtension.m in Sources */,
 				047EBB9F1FE30842009BB1C8 /* MSSessionHistoryInfo.m in Sources */,
+				B23507B72118D22800F98D4F /* MSTicketCache.m in Sources */,
 				043120861EE0BCF9007054C5 /* MSAbstractLog.m in Sources */,
 				043120871EE0BCF9007054C5 /* MSKeychainUtil.m in Sources */,
 				E7D23C7920B6549E00A47D62 /* MSCSModelConstants.m in Sources */,
@@ -2315,6 +2329,7 @@
 				044864C71EBD13B400031019 /* MSCustomPropertiesLog.m in Sources */,
 				04754F591EA98182002CBA46 /* MSAbstractLog.m in Sources */,
 				385E319F20C1B90700BE7271 /* MSACModelConstants.m in Sources */,
+				B23507B62118D22800F98D4F /* MSTicketCache.m in Sources */,
 				04754F5A1EA98182002CBA46 /* MSKeychainUtil.m in Sources */,
 				04754F5B1EA98182002CBA46 /* MSWrapperLogger.m in Sources */,
 				04754F5D1EA98182002CBA46 /* MSChannelUnitDefault.m in Sources */,
@@ -2376,6 +2391,7 @@
 				35D0B7541DDFABFD003EACCD /* MSWrapperLogger.m in Sources */,
 				385E319E20C1B90700BE7271 /* MSACModelConstants.m in Sources */,
 				B2CD745A1F22BB710070E7DF /* MSWrapperSdk.m in Sources */,
+				B23507B52118D22800F98D4F /* MSTicketCache.m in Sources */,
 				3844FF201E8C2716003E9194 /* MSDevice.m in Sources */,
 				6E0684641D36BC8D00A8CC6C /* MSChannelUnitDefault.m in Sources */,
 				38C447231ECE5352002E1B11 /* MSAppDelegateForwarder.m in Sources */,

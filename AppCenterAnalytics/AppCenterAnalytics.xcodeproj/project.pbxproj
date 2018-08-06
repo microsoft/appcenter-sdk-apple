@@ -185,12 +185,6 @@
 		6E3E2CCE1D359D5E00B1EE50 /* MSPageLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3E2CC81D359D5E00B1EE50 /* MSPageLog.m */; };
 		6E3E2CD31D359F3300B1EE50 /* MSEventLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3E2CD01D359F3300B1EE50 /* MSEventLogTests.m */; };
 		6E3E2CD41D359F3300B1EE50 /* MSPageLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3E2CD11D359F3300B1EE50 /* MSPageLogTests.m */; };
-		B2CDF938211535F40042610B /* MSTicketCache.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CDF936211535F40042610B /* MSTicketCache.h */; };
-		B2CDF939211535F40042610B /* MSTicketCache.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CDF936211535F40042610B /* MSTicketCache.h */; };
-		B2CDF93A211535F40042610B /* MSTicketCache.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CDF936211535F40042610B /* MSTicketCache.h */; };
-		B2CDF93B211535F40042610B /* MSTicketCache.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CDF937211535F40042610B /* MSTicketCache.m */; };
-		B2CDF93C211535F40042610B /* MSTicketCache.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CDF937211535F40042610B /* MSTicketCache.m */; };
-		B2CDF93D211535F40042610B /* MSTicketCache.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CDF937211535F40042610B /* MSTicketCache.m */; };
 		B2E2ECB92114DAB800C688C0 /* MSAuthenticationProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = B2E2ECB72114DAB800C688C0 /* MSAuthenticationProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B2E2ECBA2114DAB800C688C0 /* MSAuthenticationProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = B2E2ECB82114DAB800C688C0 /* MSAuthenticationProvider.m */; };
 		B2E2ECBB2114DAC100C688C0 /* MSAuthenticationProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = B2E2ECB72114DAB800C688C0 /* MSAuthenticationProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -364,8 +358,6 @@
 		6E3E2CD01D359F3300B1EE50 /* MSEventLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSEventLogTests.m; sourceTree = "<group>"; };
 		6E3E2CD11D359F3300B1EE50 /* MSPageLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSPageLogTests.m; sourceTree = "<group>"; };
 		B2812EF21DA3148000307DCE /* AppCenterAnalytics Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "AppCenterAnalytics Debug.xcconfig"; sourceTree = "<group>"; };
-		B2CDF936211535F40042610B /* MSTicketCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSTicketCache.h; sourceTree = "<group>"; };
-		B2CDF937211535F40042610B /* MSTicketCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSTicketCache.m; sourceTree = "<group>"; };
 		B2E2ECB72114DAB800C688C0 /* MSAuthenticationProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAuthenticationProvider.h; sourceTree = "<group>"; };
 		B2E2ECB82114DAB800C688C0 /* MSAuthenticationProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSAuthenticationProvider.m; sourceTree = "<group>"; };
 		B2E2ECCB2114DC7000C688C0 /* MSAuthenticationProviderDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAuthenticationProviderDelegate.h; sourceTree = "<group>"; };
@@ -605,8 +597,6 @@
 		B2CDF934211535760042610B /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
-				B2CDF936211535F40042610B /* MSTicketCache.h */,
-				B2CDF937211535F40042610B /* MSTicketCache.m */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -744,7 +734,6 @@
 				0431215D1EE0C20A007054C5 /* MSStartSessionLog.h in Headers */,
 				B2E2ECBD2114DAC200C688C0 /* MSAuthenticationProvider.h in Headers */,
 				0431215E1EE0C20A007054C5 /* MSAnalyticsCategory.h in Headers */,
-				B2CDF93A211535F40042610B /* MSTicketCache.h in Headers */,
 				0431215F1EE0C20A007054C5 /* AppCenterAnalytics.h in Headers */,
 				351343432059DBD800E6DC7D /* MSAnalyticsTransmissionTargetInternal.h in Headers */,
 				043121601EE0C20A007054C5 /* MSServiceAbstract.h in Headers */,
@@ -778,7 +767,6 @@
 				3568A7F0201A9BBB00F3B860 /* MSServiceAbstract.h in Headers */,
 				B2E2ECBB2114DAC100C688C0 /* MSAuthenticationProvider.h in Headers */,
 				0485AF7F1EAA79E300C10CAF /* MSEventLog.h in Headers */,
-				B2CDF939211535F40042610B /* MSTicketCache.h in Headers */,
 				0485AF751EAA79E300C10CAF /* MSPageLog.h in Headers */,
 				0485AF761EAA79E300C10CAF /* MSStartSessionLog.h in Headers */,
 				351343452059DC0A00E6DC7D /* MSAnalyticsTransmissionTargetInternal.h in Headers */,
@@ -812,7 +800,6 @@
 				6E3E2CCD1D359D5E00B1EE50 /* MSPageLog.h in Headers */,
 				B2E2ECB92114DAB800C688C0 /* MSAuthenticationProvider.h in Headers */,
 				E8E48FA21D51670100A8C1B0 /* MSStartSessionLog.h in Headers */,
-				B2CDF938211535F40042610B /* MSTicketCache.h in Headers */,
 				6E3E2CCB1D359D5E00B1EE50 /* MSEventLog.h in Headers */,
 				351343472059DC1200E6DC7D /* MSAnalyticsTransmissionTargetInternal.h in Headers */,
 				0485AF8F1EAA852A00C10CAF /* MSAnalyticsCategory.h in Headers */,
@@ -1152,7 +1139,6 @@
 				F834E37720AC8E25003CB54D /* MSLogWithNameAndProperties.m in Sources */,
 				043121551EE0C20A007054C5 /* MSEventLog.m in Sources */,
 				043121561EE0C20A007054C5 /* MSStartSessionLog.m in Sources */,
-				B2CDF93D211535F40042610B /* MSTicketCache.m in Sources */,
 				C27452D420AE0DAC00B64B68 /* MSAnalytics+Validation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1203,7 +1189,6 @@
 				F834E37620AC8E25003CB54D /* MSLogWithNameAndProperties.m in Sources */,
 				04A1409E1ECE7316001CEE94 /* MSAnalyticsCategory.m in Sources */,
 				0485AF6F1EAA79E300C10CAF /* MSStartSessionLog.m in Sources */,
-				B2CDF93C211535F40042610B /* MSTicketCache.m in Sources */,
 				C27452D320AE0DAC00B64B68 /* MSAnalytics+Validation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1222,7 +1207,6 @@
 				F834E37520AC8E25003CB54D /* MSLogWithNameAndProperties.m in Sources */,
 				6E3E2CCC1D359D5E00B1EE50 /* MSEventLog.m in Sources */,
 				E8E48FA31D51670100A8C1B0 /* MSStartSessionLog.m in Sources */,
-				B2CDF93B211535F40042610B /* MSTicketCache.m in Sources */,
 				C27452D220AE0DAC00B64B68 /* MSAnalytics+Validation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
