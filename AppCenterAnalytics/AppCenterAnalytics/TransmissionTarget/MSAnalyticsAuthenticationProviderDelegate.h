@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol MSAnalyticsAuthenticationProviderDelegate <NSObject>
 
+@optional
+
 //TODO To be decided which callback to use.
 
 /**
