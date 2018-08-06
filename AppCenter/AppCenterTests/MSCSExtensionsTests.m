@@ -50,9 +50,11 @@
     kMSAppLocale : @"en-us"
   };
   self.appExt = [self appExtensionWithDummyValues:self.appExtDummyValues];
-  self.protocolExtDummyValues =
-      @{ kMSDevMake : @"Apple",
-         kMSDevModel : @"iPhone X" };
+  self.protocolExtDummyValues = @{
+    kMSTicketKeys : @[ @"ticketKey1", @"ticketKey2" ],
+    kMSDevMake : @"Apple",
+    kMSDevModel : @"iPhone X"
+  };
   self.protocolExt =
       [self protocolExtensionWithDummyValues:self.protocolExtDummyValues];
   self.netExtDummyValues = @{ kMSNetProvider : @"Verizon" };
@@ -775,6 +777,7 @@
 - (MSProtocolExtension *)protocolExtensionWithDummyValues:
     (NSDictionary *)dummyValues {
   MSProtocolExtension *protocolExt = [MSProtocolExtension new];
+  protocolExt.ticketKeys = dummyValues[kMSTicketKeys];
   protocolExt.devMake = dummyValues[kMSDevMake];
   protocolExt.devModel = dummyValues[kMSDevModel];
   return protocolExt;

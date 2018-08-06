@@ -38,6 +38,7 @@ NSString *const kMSAppLocale = @"locale";
 
 #pragma mark - MSProtocolExtension
 
+NSString *const kMSTicketKeys = @"ticketKeys";
 NSString *const kMSDevMake = @"devMake";
 NSString *const kMSDevModel = @"devModel";
 
