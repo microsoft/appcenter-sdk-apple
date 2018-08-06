@@ -42,14 +42,14 @@ initWithTransmissionTargetToken:(NSString *)token
   return self;
 }
 
-+ (MSAuthenticationProvider *)authenticationProvider {
++ (MSAnalyticsAuthenticationProvider *)authenticationProvider {
   @synchronized(self) {
     return _authenticationProvider;
   }
 }
 
 + (void)addAuthenticationProvider:
-    (MSAuthenticationProvider *)authenticationProvider {
+    (MSAnalyticsAuthenticationProvider *)authenticationProvider {
   @synchronized(self) {
 
     /*

@@ -1,26 +1,26 @@
 #import <Foundation/Foundation.h>
 
-@protocol MSAuthenticationProviderDelegate;
+@protocol MSAnalyticsAuthenticationProviderDelegate;
 
 /**
  *  Different authentication types, e.g. MSA, AAD,... .
  */
-typedef NS_ENUM(NSUInteger, MSAuthenticationType) {
+typedef NS_ENUM(NSUInteger, MSAnalyticsAuthenticationType) {
 
   /**
    *  AuthenticationType MSA.
    */
-  MSAuthenticationTypeMSA
+  MSAnalyticsAuthenticationTypeMSA
 };
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MSAuthenticationProvider : NSObject
+@interface MSAnalyticsAuthenticationProvider : NSObject
 
 /**
  * The type.
  */
-@property(nonatomic, readonly) MSAuthenticationType type;
+@property(nonatomic, readonly) MSAnalyticsAuthenticationType type;
 
 /**
  * The ticket key for this authentication provider.
@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The delegate that will be used to get an updated authentication token.
  */
-@property(nonatomic, readonly) id<MSAuthenticationProviderDelegate> delegate;
+@property(nonatomic, readonly) id<MSAnalyticsAuthenticationProviderDelegate> delegate;
 
 /**
  * Create a new authentication provider.
@@ -44,9 +44,9 @@ NS_ASSUME_NONNULL_BEGIN
  * @param delegate The delegate that will be used to get a current authentication token.
  * @return A new authentication provider.
  */
-- (instancetype)initWithAuthenticationType:(MSAuthenticationType)type
+- (instancetype)initWithAuthenticationType:(MSAnalyticsAuthenticationType)type
                                  ticketKey:(NSString *)ticketKey
-                                  delegate:(id<MSAuthenticationProviderDelegate>)delegate;
+                                  delegate:(id<MSAnalyticsAuthenticationProviderDelegate>)delegate;
 
 - (void)acquireTokenAsync;
 

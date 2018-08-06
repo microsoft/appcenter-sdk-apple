@@ -1,15 +1,15 @@
-#import "MSAuthenticationProvider.h"
+#import "MSAnalyticsAuthenticationProvider.h"
 
 #import "MSTicketCache.h"
-#import "MSAuthenticationProviderDelegate.h"
+#import "MSAnalyticsAuthenticationProviderDelegate.h"
 #import "MSUtility+StringFormatting.h"
 
-@implementation MSAuthenticationProvider
+@implementation MSAnalyticsAuthenticationProvider
 
 - (instancetype)
-initWithAuthenticationType:(MSAuthenticationType)type
+initWithAuthenticationType:(MSAnalyticsAuthenticationType)type
                  ticketKey:(NSString *)ticketKey
-                  delegate:(id<MSAuthenticationProviderDelegate>)delegate {
+                  delegate:(id<MSAnalyticsAuthenticationProviderDelegate>)delegate {
   if ((self = [super init])) {
     _type = type;
     _ticketKey = ticketKey;
@@ -22,9 +22,9 @@ initWithAuthenticationType:(MSAuthenticationType)type
 }
 
 - (void)acquireTokenAsync {
-  MSAuthenticationProvider *__weak weakSelf = self;
+  MSAnalyticsAuthenticationProvider *__weak weakSelf = self;
   dispatch_async(dispatch_get_main_queue(), ^{
-    MSAuthenticationProvider *strongSelf = weakSelf;
+    MSAnalyticsAuthenticationProvider *strongSelf = weakSelf;
 
     //TODO To be decided which callback to use.
     if ([strongSelf.delegate
