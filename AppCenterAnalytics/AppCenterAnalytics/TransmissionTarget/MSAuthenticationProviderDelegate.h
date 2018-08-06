@@ -9,7 +9,20 @@
  */
 typedef void (^MSAcquireTokenCompletionHandler)(NSString *_Nullable token);
 
-@protocol MSTokenProvider <NSObject>
+@protocol MSAuthenticationProviderDelegate <NSObject>
+
+//TODO To be decided which callback to use.
+
+/**
+ * Implement this method as part of you authentication flow.
+ *
+ * @param provider The authentication provider.
+ * @param ticketKey The ticket key that you use to get a token from your
+ * authentication/identity service/sdk.
+ * @return the acquired authentication token.
+ */
+- (NSString *)authenticationProvider:(MSAuthenticationProvider *)provider
+                         getTokenFor:(NSString *)ticketKey;
 
 /**
  * Implement this method as part of your authentication flow and return your

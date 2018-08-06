@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 
-@protocol MSTokenProvider;
+@protocol MSAuthenticationProviderDelegate;
 
 /**
  *  Different authentication types, e.g. MSA, AAD,... .
@@ -33,20 +33,20 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, readonly, copy) NSString *ticketKeyHash;
 
 /**
- * The token provider that will be used to gen an updated authentication token.
+ * The delegate that will be used to get an updated authentication token.
  */
-@property(nonatomic, readonly) id<MSTokenProvider> tokenProvider;
+@property(nonatomic, readonly) id<MSAuthenticationProviderDelegate> delegate;
 
 /**
  * Create a new authentication provider.
  * @param type The type for the provider, e.g. MSA.
  * @param ticketKey The ticket key for the provider.
- * @param tokenProvider The token provider that will be used to get a current authentication token.
+ * @param delegate The delegate that will be used to get a current authentication token.
  * @return A new authentication provider.
  */
 - (instancetype)initWithAuthenticationType:(MSAuthenticationType)type
                                  ticketKey:(NSString *)ticketKey
-                             tokenProvider:(id<MSTokenProvider>)tokenProvider;
+                                  delegate:(id<MSAuthenticationProviderDelegate>)delegate;
 
 - (void)acquireTokenAsync;
 
