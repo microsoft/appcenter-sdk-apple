@@ -1,4 +1,5 @@
 import MobileCoreServices
+import MSAL
 import Photos
 import UIKit
 
@@ -105,7 +106,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
    * failed.
    */
   func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-    
+    if MSALPublicClientApplication.handleMSALResponse(url) {
+      return true
+    }
+
     // Forward the URL to MSDistribute.
     return MSDistribute.open(url)
   }

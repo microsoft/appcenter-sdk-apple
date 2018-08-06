@@ -26,6 +26,16 @@
 		35ABB5D320FEAD8F002E6841 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C1C1E88FEFC00798417 /* Assets.xcassets */; };
 		35FBE78120FD095200F7B05C /* MSTransmissionTargets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FBE78020FD095200F7B05C /* MSTransmissionTargets.swift */; };
 		35FBE78220FD095200F7B05C /* MSTransmissionTargets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FBE78020FD095200F7B05C /* MSTransmissionTargets.swift */; };
+		801358132118999E00D334CF /* libIdentityCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 805A0C2521187DED006A1EB5 /* libIdentityCore.a */; };
+		801358882118ABDD00D334CF /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 807EBCC421184A5E007DE8CF /* MSAL.framework */; };
+		801358892118ABDD00D334CF /* MSAL.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 807EBCC421184A5E007DE8CF /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		805A0C5121187DED006A1EB5 /* libIdentityCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 805A0C2521187DED006A1EB5 /* libIdentityCore.a */; };
+		807EBCF021184ADC007DE8CF /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 807EBCC421184A5E007DE8CF /* MSAL.framework */; };
+		807EBCF121184ADC007DE8CF /* MSAL.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 807EBCC421184A5E007DE8CF /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		807EBCF82118631D007DE8CF /* MSMicrosoftAuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807EBCF72118631D007DE8CF /* MSMicrosoftAuthenticationViewController.swift */; };
+		807EBCF92118631D007DE8CF /* MSMicrosoftAuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807EBCF72118631D007DE8CF /* MSMicrosoftAuthenticationViewController.swift */; };
+		807EBCFA2118631D007DE8CF /* MSMicrosoftAuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807EBCF72118631D007DE8CF /* MSMicrosoftAuthenticationViewController.swift */; };
+		807EBCFB2118631D007DE8CF /* MSMicrosoftAuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807EBCF72118631D007DE8CF /* MSMicrosoftAuthenticationViewController.swift */; };
 		84226C4B1E88FF4A00798417 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226C4A1E88FF4A00798417 /* main.m */; };
 		84226C4E1E88FF4A00798417 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226C4D1E88FF4A00798417 /* AppDelegate.m */; };
 		84226C561E88FF4A00798417 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C551E88FF4A00798417 /* Assets.xcassets */; };
@@ -587,6 +597,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				F89D790A1E93DA3A0094521F /* CrashLibIOS.framework in Embed Frameworks */,
+				801358892118ABDD00D334CF /* MSAL.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -598,6 +609,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				F89D790D1E93DA500094521F /* CrashLibIOS.framework in Embed Frameworks */,
+				807EBCF121184ADC007DE8CF /* MSAL.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -635,6 +647,9 @@
 		384929211FACF5F3003F8736 /* SasquatchWatchSwift Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SasquatchWatchSwift Extension.entitlements"; sourceTree = SOURCE_ROOT; };
 		5CD700E51EA4B74500FC5D12 /* SasquatchSwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchSwiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CE258871EA5F62400DA8FB9 /* SasquatchObjCUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchObjCUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		805A0C2521187DED006A1EB5 /* libIdentityCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libIdentityCore.a; path = ../Vendor/iOS/MSAL/libIdentityCore.a; sourceTree = "<group>"; };
+		807EBCC421184A5E007DE8CF /* MSAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MSAL.framework; path = ../Vendor/iOS/MSAL/MSAL.framework; sourceTree = "<group>"; };
+		807EBCF72118631D007DE8CF /* MSMicrosoftAuthenticationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSMicrosoftAuthenticationViewController.swift; sourceTree = "<group>"; };
 		84226C1C1E88FEFC00798417 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		84226C471E88FF4A00798417 /* SasquatchObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchObjC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84226C4A1E88FF4A00798417 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -741,12 +756,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				801358132118999E00D334CF /* libIdentityCore.a in Frameworks */,
 				F89D79091E93DA3A0094521F /* CrashLibIOS.framework in Frameworks */,
 				84226D361E89302900798417 /* AppCenter.framework in Frameworks */,
 				84226D371E89302900798417 /* AppCenterAnalytics.framework in Frameworks */,
 				84226D381E89302900798417 /* AppCenterCrashes.framework in Frameworks */,
 				84226D391E89302900798417 /* AppCenterDistribute.framework in Frameworks */,
 				046790421E8DA7D80033FDEC /* AppCenterPush.framework in Frameworks */,
+				801358882118ABDD00D334CF /* MSAL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -754,9 +771,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				805A0C5121187DED006A1EB5 /* libIdentityCore.a in Frameworks */,
 				F89D790C1E93DA500094521F /* CrashLibIOS.framework in Frameworks */,
 				84226D321E89301B00798417 /* AppCenter.framework in Frameworks */,
 				84226D331E89301B00798417 /* AppCenterAnalytics.framework in Frameworks */,
+				807EBCF021184ADC007DE8CF /* MSAL.framework in Frameworks */,
 				84226D341E89301B00798417 /* AppCenterCrashes.framework in Frameworks */,
 				84226D351E89301B00798417 /* AppCenterDistribute.framework in Frameworks */,
 				046790431E8DA7E90033FDEC /* AppCenterPush.framework in Frameworks */,
@@ -967,6 +986,7 @@
 				84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */,
 				845964AC1E8A7E9700BABA51 /* MSMainViewController.swift */,
 				35396A7720F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift */,
+				807EBCF72118631D007DE8CF /* MSMicrosoftAuthenticationViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -993,6 +1013,7 @@
 		84226D0F1E8921DE00798417 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				805A0C2521187DED006A1EB5 /* libIdentityCore.a */,
 				B2A888A52102A44B001ACFDF /* SafariServices.framework */,
 				B20AE48921028E3C00A1A195 /* libz.tbd */,
 				B20AE48721028E3300A1A195 /* libc++.tbd */,
@@ -1201,6 +1222,7 @@
 		F8FE732D21073042005C6A74 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				807EBCC421184A5E007DE8CF /* MSAL.framework */,
 				F8FE732E210730A8005C6A74 /* CrashReporter.framework */,
 			);
 			name = Vendor;
@@ -2053,6 +2075,7 @@
 				354273ED20126A3E00BE766F /* MSEventFilter.m in Sources */,
 				B2586C85210A47A800664A43 /* MSAnalyticsResult.swift in Sources */,
 				359171FA20F8001A00F3DDE6 /* TargetPropertiesTableSection.swift in Sources */,
+				807EBCF92118631D007DE8CF /* MSMicrosoftAuthenticationViewController.swift in Sources */,
 				849A3E721E8A9922008711CB /* AppCenterProtocol.swift in Sources */,
 				B2E011F521091EF2003F4A5B /* MSAnalyticsPropertyTableViewCell.swift in Sources */,
 				845964AD1E8A7E9700BABA51 /* MSMainViewController.swift in Sources */,
@@ -2081,6 +2104,7 @@
 				B203FF4D20E5922C002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */,
 				849A3E731E8A9922008711CB /* AppCenterProtocol.swift in Sources */,
 				84A0FF671E8A87B4000E7A28 /* MSCrashesViewController.swift in Sources */,
+				807EBCFB2118631D007DE8CF /* MSMicrosoftAuthenticationViewController.swift in Sources */,
 				352A3E7520F80C8600D09CF0 /* EventPropertiesTableSection.swift in Sources */,
 				354273EE20126A3E00BE766F /* MSEventFilter.m in Sources */,
 				84A0FF6A1E8A87C9000E7A28 /* MSAnalyticsViewController.swift in Sources */,
@@ -2142,6 +2166,7 @@
 				B27D54A6210A5E7E004E82C9 /* MSEventFilter.m in Sources */,
 				B27D54A7210A5E7E004E82C9 /* MSAnalyticsResult.swift in Sources */,
 				B27D54A8210A5E7E004E82C9 /* TargetPropertiesTableSection.swift in Sources */,
+				807EBCF82118631D007DE8CF /* MSMicrosoftAuthenticationViewController.swift in Sources */,
 				B27D54A9210A5E7E004E82C9 /* AppCenterProtocol.swift in Sources */,
 				B27D54AA210A5E7E004E82C9 /* MSAnalyticsPropertyTableViewCell.swift in Sources */,
 				B27D54AB210A5E7E004E82C9 /* MSMainViewController.swift in Sources */,
@@ -2170,6 +2195,7 @@
 				B2A4CF89210A6E6900199B4F /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */,
 				B2A4CF8A210A6E6900199B4F /* AppCenterProtocol.swift in Sources */,
 				B2A4CF8B210A6E6900199B4F /* MSCrashesViewController.swift in Sources */,
+				807EBCFA2118631D007DE8CF /* MSMicrosoftAuthenticationViewController.swift in Sources */,
 				B2A4CF8C210A6E6900199B4F /* EventPropertiesTableSection.swift in Sources */,
 				B2A4CF8D210A6E6900199B4F /* MSEventFilter.m in Sources */,
 				B2A4CF8E210A6E6900199B4F /* MSAnalyticsViewController.swift in Sources */,
