@@ -9,7 +9,8 @@
 - (instancetype)
 initWithAuthenticationType:(MSAnalyticsAuthenticationType)type
                  ticketKey:(NSString *)ticketKey
-                  delegate:(id<MSAnalyticsAuthenticationProviderDelegate>)delegate {
+                  delegate:
+                      (id<MSAnalyticsAuthenticationProviderDelegate>)delegate {
   if ((self = [super init])) {
     _type = type;
     _ticketKey = ticketKey;
@@ -21,30 +22,33 @@ initWithAuthenticationType:(MSAnalyticsAuthenticationType)type
   return self;
 }
 
+- (instancetype)initWithAuthenticationType:(MSAnalyticsAuthenticationType)type ticketKey:(NSString *)ticketKey completionHandler:(MSAcquireTokenCompletionBlock)completionHandler {
+  if ((self = [super init])) {
+    _type = type;
+    _ticketKey = ticketKey;
+    _ticketKeyHash = [MSUtility sha256:ticketKey];
+    _completionHandler  = completionHandler;
+  }
+  return self;
+}
+
 - (void)acquireTokenAsync {
   MSAnalyticsAuthenticationProvider *__weak weakSelf = self;
   dispatch_async(dispatch_get_main_queue(), ^{
     MSAnalyticsAuthenticationProvider *strongSelf = weakSelf;
 
-    //TODO To be decided which callback to use.
-    if ([strongSelf.delegate
-            respondsToSelector:@selector(authenticationProvider:
-                                                    getTokenFor:
-                                              completionHandler:)]) {
-      [strongSelf.delegate authenticationProvider:strongSelf
-                                      getTokenFor:strongSelf.ticketKey
-                                completionHandler:^(NSString *token) {
-                                  [[MSTicketCache sharedInstance]
-                                      setTicket:token
-                                         forKey:strongSelf.ticketKeyHash];
-                                }];
-    } else {
-      NSString *token =
-          [strongSelf.delegate authenticationProvider:strongSelf
-                                          getTokenFor:strongSelf.ticketKey];
-      [[MSTicketCache sharedInstance] setTicket:token
-                                         forKey:strongSelf.ticketKeyHash];
+    // TODO To be decided which approach to use.
+    NSString *token;
+    if(strongSelf.completionHandler) {
+      token = self.completionHandler();
     }
+    else {
+      token = [strongSelf.delegate
+               tokenWithAuthenticationProvider:strongSelf
+               ticketKey:strongSelf.ticketKey];
+    }
+    [[MSTicketCache sharedInstance] setTicket:token
+                                       forKey:strongSelf.ticketKeyHash];
   });
 }
 

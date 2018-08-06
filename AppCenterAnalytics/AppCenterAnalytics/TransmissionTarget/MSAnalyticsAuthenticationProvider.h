@@ -15,6 +15,11 @@ typedef NS_ENUM(NSUInteger, MSAnalyticsAuthenticationType) {
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ * Completion handler that returns the authentication token.
+ */
+typedef NSString* _Nullable (^MSAcquireTokenCompletionBlock)(void);
+
 @interface MSAnalyticsAuthenticationProvider : NSObject
 
 /**
@@ -32,22 +37,46 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic, readonly, copy) NSString *ticketKeyHash;
 
+
+// TODO To be decided which approach to use.
+
 /**
  * The delegate that will be used to get an updated authentication token.
  */
 @property(nonatomic, readonly) id<MSAnalyticsAuthenticationProviderDelegate> delegate;
 
 /**
+ * Completion block that will be used to get an updated authentication token
+ */
+@property(nonatomic, readonly) MSAcquireTokenCompletionBlock completionHandler;
+
+/**
  * Create a new authentication provider.
  * @param type The type for the provider, e.g. MSA.
  * @param ticketKey The ticket key for the provider.
  * @param delegate The delegate that will be used to get a current authentication token.
+ *
  * @return A new authentication provider.
  */
 - (instancetype)initWithAuthenticationType:(MSAnalyticsAuthenticationType)type
                                  ticketKey:(NSString *)ticketKey
                                   delegate:(id<MSAnalyticsAuthenticationProviderDelegate>)delegate;
 
+/**
+ * Create a new authentication provider.
+ * @param type The type for the provider, e.g. MSA.
+ * @param ticketKey The ticket key for the provider.
+ * @param handler The completion block that will be used to get a current authentication token.
+ *
+ * @return A new authentication provider.
+ */
+- (instancetype)initWithAuthenticationType:(MSAnalyticsAuthenticationType)type
+                                 ticketKey:(NSString *)ticketKey
+                         completionHandler:(MSAcquireTokenCompletionBlock)handler;
+
+/**
+ * Request a new token from the app.
+ */
 - (void)acquireTokenAsync;
 
 @end
