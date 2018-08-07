@@ -106,6 +106,7 @@
 		B23508E1211A4DFC00F98D4F /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 807EBCC421184A5E007DE8CF /* MSAL.framework */; };
 		B23508E2211A4DFC00F98D4F /* MSAL.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 807EBCC421184A5E007DE8CF /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B235090E211A4E0300F98D4F /* libIdentityCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 805A0C2521187DED006A1EB5 /* libIdentityCore.a */; };
+		B2350914211A4E9C00F98D4F /* MSMicrosoftAuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807EBCF72118631D007DE8CF /* MSMicrosoftAuthenticationViewController.swift */; };
 		B23DF4FF2109382200F1CAD7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C1C1E88FEFC00798417 /* Assets.xcassets */; };
 		B2586C81210A478500664A43 /* CommonSchemaPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2586C80210A478500664A43 /* CommonSchemaPropertiesTableSection.swift */; };
 		B2586C82210A478500664A43 /* CommonSchemaPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2586C80210A478500664A43 /* CommonSchemaPropertiesTableSection.swift */; };
@@ -2154,6 +2155,7 @@
 				B20AE38121027D6200A1A195 /* MSTransmissionTargets.swift in Sources */,
 				B2586C87210A47A800664A43 /* MSAnalyticsResult.swift in Sources */,
 				B2E011FB21091F04003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.swift in Sources */,
+				B2350914211A4E9C00F98D4F /* MSMicrosoftAuthenticationViewController.swift in Sources */,
 				B20AE38321027D6200A1A195 /* MSEventFilter.m in Sources */,
 				B20AE38521027D6200A1A195 /* TargetPropertiesTableSection.swift in Sources */,
 				B20AE38621027D6200A1A195 /* AppCenterProtocol.swift in Sources */,
