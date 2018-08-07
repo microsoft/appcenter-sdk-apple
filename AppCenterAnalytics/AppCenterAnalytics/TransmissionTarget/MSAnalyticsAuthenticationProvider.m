@@ -22,34 +22,38 @@ initWithAuthenticationType:(MSAnalyticsAuthenticationType)type
   return self;
 }
 
-- (instancetype)initWithAuthenticationType:(MSAnalyticsAuthenticationType)type ticketKey:(NSString *)ticketKey completionHandler:(MSAcquireTokenCompletionBlock)completionHandler {
+- (instancetype)initWithAuthenticationType:(MSAnalyticsAuthenticationType)type
+                                 ticketKey:(NSString *)ticketKey
+                         completionHandler:
+                             (MSAcquireTokenCompletionBlock)completionHandler {
   if ((self = [super init])) {
     _type = type;
     _ticketKey = ticketKey;
     _ticketKeyHash = [MSUtility sha256:ticketKey];
-    _completionHandler  = completionHandler;
+    _completionHandler = completionHandler;
   }
   return self;
 }
 
 - (void)acquireTokenAsync {
-  MSAnalyticsAuthenticationProvider *__weak weakSelf = self;
-  dispatch_async(dispatch_get_main_queue(), ^{
-    MSAnalyticsAuthenticationProvider *strongSelf = weakSelf;
 
-    // TODO To be decided which approach to use.
-    NSString *token;
-    if(strongSelf.completionHandler) {
-      token = self.completionHandler();
-    }
-    else {
-      token = [strongSelf.delegate
-               tokenWithAuthenticationProvider:strongSelf
-               ticketKey:strongSelf.ticketKey];
-    }
+  // TODO To be decided which approach to use.
+  if (self.completionHandler) {
+    MSAnalyticsAuthenticationProvider *__weak weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+      MSAnalyticsAuthenticationProvider *strongSelf = weakSelf;
+      NSString *token = self.completionHandler();
+      [[MSTicketCache sharedInstance] setTicket:token
+                                         forKey:strongSelf.ticketKeyHash];
+    });
+  }
+  else {
+    NSString *token = [self.delegate
+        tokenWithAuthenticationProvider:self
+                              ticketKey:self.ticketKey];
     [[MSTicketCache sharedInstance] setTicket:token
-                                       forKey:strongSelf.ticketKeyHash];
-  });
+                                       forKey:self.ticketKeyHash];
+  }
 }
 
 @end
