@@ -10,6 +10,25 @@
  */
 + (NSDictionary *)deviceDummies;
 
++ (NSMutableDictionary *)extensionDummies;
+
++ (NSDictionary *)userExtensionDummies;
+
++ (NSDictionary *)locExtensionDummies;
+
++ (NSDictionary *)osExtensionDummies;
+
++ (NSDictionary *)appExtensionDummies;
+
++ (NSDictionary *)protocolExtensionDummies;
+
++ (NSDictionary *)netExtensionDummies;
+
++ (NSMutableDictionary *)sdkExtensionDummies;
+
++ (NSDictionary *)dataDummies;
+
+
 /**
  * Get a dummy device model.
  * @return A dummy device model.
@@ -21,6 +40,24 @@
  * @return Dummy values for abstract log.
  */
 + (NSDictionary *)abstractLogDummies;
+
++ (MSCSExtensions *)extensionsWithDummyValues:(NSDictionary *)dummyValues ;
+
++ (MSUserExtension *)userExtensionWithDummyValues:(NSDictionary *)dummyValues ;
+
++ (MSLocExtension *)locExtensionWithDummyValues:(NSDictionary *)dummyValues ;
+
++ (MSOSExtension *)osExtensionWithDummyValues:(NSDictionary *)dummyValues;
+
++ (MSAppExtension *)appExtensionWithDummyValues:(NSDictionary *)dummyValues;
+
++ (MSProtocolExtension *)protocolExtensionWithDummyValues:(NSDictionary *)dummyValues;
+
++ (MSNetExtension *)netExtensionWithDummyValues:(NSDictionary *)dummyValues;
+
++ (MSSDKExtension *)sdkExtensionWithDummyValues:(NSDictionary *)dummyValues;
+
++ (MSCSData *)dataWithDummyValues:(NSDictionary *)dummyValues;
 
 /**
  * Populate an abstract log with dummy values.

@@ -1,7 +1,10 @@
 #import "MSModelTestsUtililty.h"
 #import "MSACModelConstants.h"
+#import "MSCSModelConstants.h"
 #import "MSDeviceInternal.h"
 #import "MSWrapperSdkInternal.h"
+#import "MSUtility.h"
+
 
 @implementation MSModelTestsUtililty
 
@@ -31,6 +34,83 @@
     kMSLiveUpdateReleaseLabel : @"live-update-release",
     kMSLiveUpdateDeploymentKey : @"deployment-key"
   };
+}
+
++ (NSMutableDictionary *)extensionDummies {
+  // Set up all extensions with dummy values.
+  NSDictionary *userExtDummyValues = [MSModelTestsUtililty userExtensionDummies];
+  MSUserExtension *userExt = [MSModelTestsUtililty userExtensionWithDummyValues:userExtDummyValues];
+  NSDictionary *locExtDummyValues = [MSModelTestsUtililty locExtensionDummies];
+  MSLocExtension *locExt = [MSModelTestsUtililty locExtensionWithDummyValues:locExtDummyValues];
+  NSDictionary *osExtDummyValues = [MSModelTestsUtililty osExtensionDummies];
+  MSOSExtension *osExt = [MSModelTestsUtililty osExtensionWithDummyValues:osExtDummyValues];
+  NSDictionary *appExtDummyValues = [MSModelTestsUtililty appExtensionDummies];
+  MSAppExtension *appExt = [MSModelTestsUtililty appExtensionWithDummyValues:appExtDummyValues];
+  NSDictionary *protocolExtDummyValues = [MSModelTestsUtililty protocolExtensionDummies];
+  MSProtocolExtension *protocolExt =
+  [MSModelTestsUtililty protocolExtensionWithDummyValues:protocolExtDummyValues];
+  NSDictionary *netExtDummyValues = [MSModelTestsUtililty netExtensionDummies];
+  MSNetExtension *netExt = [MSModelTestsUtililty netExtensionWithDummyValues:netExtDummyValues];
+  NSDictionary *sdkExtDummyValues = [MSModelTestsUtililty sdkExtensionDummies];
+  MSSDKExtension *sdkExt = [MSModelTestsUtililty sdkExtensionWithDummyValues:sdkExtDummyValues];
+  return  [@{
+                           kMSCSUserExt : userExt,
+                           kMSCSLocExt : locExt,
+                           kMSCSOSExt : osExt,
+                           kMSCSAppExt : appExt,
+                           kMSCSProtocolExt : protocolExt,
+                           kMSCSNetExt : netExt,
+                           kMSCSSDKExt : sdkExt
+                           } mutableCopy];
+}
+
++ (NSDictionary *)userExtensionDummies {
+  return @{ kMSUserLocale : @"en-us" };
+}
+
++ (NSDictionary *)locExtensionDummies {
+  return @{ kMSTimezone : @"-03:00" };
+}
+
++ (NSDictionary *)osExtensionDummies {
+  return @{ kMSOSName : @"iOS", kMSOSVer : @"9.0" };
+}
+
++ (NSDictionary *)appExtensionDummies {
+  return @{
+           kMSAppId : @"com.some.bundle.id",
+           kMSAppVer : @"3.4.1",
+           kMSAppLocale : @"en-us"
+           };
+}
+
++ (NSDictionary *)protocolExtensionDummies {
+  return @{
+            kMSTicketKeys : @[ @"ticketKey1", @"ticketKey2" ],
+            kMSDevMake : @"Apple",
+            kMSDevModel : @"iPhone X"
+            };
+}
+
++ (NSDictionary *)netExtensionDummies {
+  return @{ kMSNetProvider : @"Verizon" };
+}
+
++ (NSMutableDictionary *)sdkExtensionDummies {
+  return [@{
+     kMSSDKLibVer : @"1.2.0",
+     kMSSDKEpoch : MS_UUID_STRING,
+     kMSSDKSeq : @1,
+     kMSSDKInstallId : [NSUUID new]
+     } mutableCopy];
+}
+
++ (NSDictionary *)dataDummies {
+  return @{
+           @"akey" : @"avalue",
+           @"anested.key" : @"anothervalue",
+           @"anotherkey" : @"yetanothervalue"
+           };
 }
 
 + (MSDevice *)dummyDevice {
@@ -79,6 +159,77 @@
   log.sid = dummyValues[kMSSId];
   log.distributionGroupId = dummyValues[kMSDistributionGroupId];
   log.device = dummyValues[kMSDevice];
+}
+
+#pragma mark - Extensions
+
++ (MSCSExtensions *)extensionsWithDummyValues:(NSDictionary *)dummyValues {
+  MSCSExtensions *ext = [MSCSExtensions new];
+  ext.userExt = dummyValues[kMSCSUserExt];
+  ext.locExt = dummyValues[kMSCSLocExt];
+  ext.osExt = dummyValues[kMSCSOSExt];
+  ext.appExt = dummyValues[kMSCSAppExt];
+  ext.protocolExt = dummyValues[kMSCSProtocolExt];
+  ext.netExt = dummyValues[kMSCSNetExt];
+  ext.sdkExt = dummyValues[kMSCSSDKExt];
+  return ext;
+}
+
++ (MSUserExtension *)userExtensionWithDummyValues:(NSDictionary *)dummyValues {
+  MSUserExtension *userExt = [MSUserExtension new];
+  userExt.locale = dummyValues[kMSUserLocale];
+  return userExt;
+}
+
++ (MSLocExtension *)locExtensionWithDummyValues:(NSDictionary *)dummyValues {
+  MSLocExtension *locExt = [MSLocExtension new];
+  locExt.tz = dummyValues[kMSTimezone];
+  return locExt;
+}
+
++ (MSOSExtension *)osExtensionWithDummyValues:(NSDictionary *)dummyValues {
+  MSOSExtension *osExt = [MSOSExtension new];
+  osExt.name = dummyValues[kMSOSName];
+  osExt.ver = dummyValues[kMSOSVer];
+  return osExt;
+}
+
++ (MSAppExtension *)appExtensionWithDummyValues:(NSDictionary *)dummyValues {
+  MSAppExtension *appExt = [MSAppExtension new];
+  appExt.appId = dummyValues[kMSAppId];
+  appExt.ver = dummyValues[kMSAppVer];
+  appExt.locale = dummyValues[kMSAppLocale];
+  return appExt;
+}
+
++ (MSProtocolExtension *)protocolExtensionWithDummyValues:
+(NSDictionary *)dummyValues {
+  MSProtocolExtension *protocolExt = [MSProtocolExtension new];
+  protocolExt.ticketKeys = dummyValues[kMSTicketKeys];
+  protocolExt.devMake = dummyValues[kMSDevMake];
+  protocolExt.devModel = dummyValues[kMSDevModel];
+  return protocolExt;
+}
+
++ (MSNetExtension *)netExtensionWithDummyValues:(NSDictionary *)dummyValues {
+  MSNetExtension *netExt = [MSNetExtension new];
+  netExt.provider = dummyValues[kMSNetProvider];
+  return netExt;
+}
+
++ (MSSDKExtension *)sdkExtensionWithDummyValues:(NSDictionary *)dummyValues {
+  MSSDKExtension *sdkExt = [MSSDKExtension new];
+  sdkExt.libVer = dummyValues[kMSSDKLibVer];
+  sdkExt.epoch = dummyValues[kMSSDKEpoch];
+  sdkExt.seq = [dummyValues[kMSSDKSeq] longLongValue];
+  sdkExt.installId = dummyValues[kMSSDKInstallId];
+  return sdkExt;
+}
+
++ (MSCSData *)dataWithDummyValues:(NSDictionary *)dummyValues {
+  MSCSData *data = [MSCSData new];
+  data.properties = dummyValues;
+  return data;
 }
 
 @end

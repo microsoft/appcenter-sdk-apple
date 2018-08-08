@@ -6,7 +6,8 @@
 #import "MSHttpTestUtil.h"
 #import "MSIngestionCall.h"
 #import "MSIngestionDelegate.h"
-#import "MSMockLog.h"
+#import "MSMockCommonSchemaLog.h"
+#import "MSModelTestsUtililty.h"
 #import "MSOneCollectorIngestion.h"
 #import "MSTestFrameworks.h"
 
@@ -93,9 +94,9 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 
   // If
   NSString *containerId = @"1";
-  MSMockLog *log1 = [[MSMockLog alloc] init];
+  MSMockCommonSchemaLog *log1 = [[MSMockCommonSchemaLog alloc] init];
   [log1 addTransmissionTargetToken:@"token1"];
-  MSMockLog *log2 = [[MSMockLog alloc] init];
+  MSMockCommonSchemaLog *log2 = [[MSMockCommonSchemaLog alloc] init];
   [log2 addTransmissionTargetToken:@"token2"];
   MSLogContainer *logContainer = [[MSLogContainer alloc]
       initWithBatchId:containerId
@@ -250,7 +251,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   // HTTP body is too small, we don't compress.
   id deviceMock = OCMPartialMock([MSDevice new]);
   OCMStub([deviceMock isValid]).andReturn(YES);
-  MSMockLog *log1 = [[MSMockLog alloc] init];
+  MSMockCommonSchemaLog *log1 = [[MSMockCommonSchemaLog alloc] init];
   log1.sid = @"";
   log1.timestamp = [NSDate date];
   MSLogContainer *logContainer =
@@ -278,18 +279,22 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   // HTTP body is big enough to be compressed.
   id deviceMock = OCMPartialMock([MSDevice new]);
   OCMStub([deviceMock isValid]).andReturn(YES);
-  MSMockLog *log1 = [[MSMockLog alloc] init];
+  MSMockCommonSchemaLog *log1 = [[MSMockCommonSchemaLog alloc] init];
   log1.sid = @"";
   log1.timestamp = [NSDate date];
+  log1.ext = [MSModelTestsUtililty extensionsWithDummyValues:[MSModelTestsUtililty extensionDummies]];
   NSMutableString *jsonString = [NSMutableString new];
   log1.sid = [log1.sid stringByPaddingToLength:kMSHTTPMinGZipLength
                                     withString:@"."
+                               startingAtIndex:0];
+  log1.name = [log1.sid stringByPaddingToLength:kMSHTTPMinGZipLength
+                                    withString:@"abcd"
                                startingAtIndex:0];
   MSLogContainer *logContainer =
       [[MSLogContainer alloc] initWithBatchId:@"whatever"
                                       andLogs:(NSArray<id<MSLog>> *)@[ log1 ]];
   for (id<MSLog> log in logContainer.logs) {
-    MSAbstractLog *abstractLog = (MSAbstractLog *)log;
+    MSCommonSchemaLog *abstractLog = (MSCommonSchemaLog *)log;
     [jsonString appendString:[abstractLog serializeLogWithPrettyPrinting:NO]];
     [jsonString appendString:kMSOneCollectorLogSeparator];
   }
@@ -309,18 +314,23 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 - (MSLogContainer *)createLogContainerWithId:(NSString *)batchId {
   id deviceMock = OCMPartialMock([MSDevice new]);
   OCMStub([deviceMock isValid]).andReturn(YES);
-  MSMockLog *log1 = [[MSMockLog alloc] init];
+  MSMockCommonSchemaLog *log1 = [[MSMockCommonSchemaLog alloc] init];
+  log1.name = @"log1";
+  log1.ver = @"3.0";
   log1.sid = MS_UUID_STRING;
   log1.timestamp = [NSDate date];
   log1.device = deviceMock;
   [log1 addTransmissionTargetToken:@"token1"];
   [log1 addTransmissionTargetToken:@"token2"];
-  MSMockLog *log2 = [[MSMockLog alloc] init];
+  MSMockCommonSchemaLog *log2 = [[MSMockCommonSchemaLog alloc] init];
+  log2.name = @"log2";
+  log2.ver = @"3.0";
   log2.sid = MS_UUID_STRING;
   log2.timestamp = [NSDate date];
   log2.device = deviceMock;
   [log2 addTransmissionTargetToken:@"token2"];
   [log2 addTransmissionTargetToken:@"token3"];
+  log2.ext.protocolExt.ticketKeys = @[@"ticketKey2", @"ticketKey3"];
   MSLogContainer *logContainer = [[MSLogContainer alloc]
       initWithBatchId:batchId
               andLogs:(NSArray<id<MSLog>> *)@[ log1, log2 ]];
