@@ -33,6 +33,12 @@
 		80B3CADB211B2686007C332E /* MSAuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B3CAD9211B2686007C332E /* MSAuthenticationViewController.swift */; };
 		80B3CADC211B2686007C332E /* MSAuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B3CAD9211B2686007C332E /* MSAuthenticationViewController.swift */; };
 		80B3CADD211B2686007C332E /* MSAuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B3CAD9211B2686007C332E /* MSAuthenticationViewController.swift */; };
+		80B3CADE211B27DE007C332E /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B3CA9A211B232C007C332E /* MSAL.framework */; };
+		80B3CADF211B27DE007C332E /* MSAL.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 80B3CA9A211B232C007C332E /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		80B3CAE0211B27E9007C332E /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B3CA9A211B232C007C332E /* MSAL.framework */; };
+		80B3CAE1211B27E9007C332E /* MSAL.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 80B3CA9A211B232C007C332E /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		80B3CAE2211B27F3007C332E /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B3CA9A211B232C007C332E /* MSAL.framework */; };
+		80B3CAE3211B27F3007C332E /* MSAL.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 80B3CA9A211B232C007C332E /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		84226C4B1E88FF4A00798417 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226C4A1E88FF4A00798417 /* main.m */; };
 		84226C4E1E88FF4A00798417 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226C4D1E88FF4A00798417 /* AppDelegate.m */; };
 		84226C561E88FF4A00798417 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C551E88FF4A00798417 /* Assets.xcassets */; };
@@ -528,6 +534,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				B27D54CC210A5E7E004E82C9 /* CrashLibIOS.framework in Embed Frameworks */,
+				80B3CADF211B27DE007C332E /* MSAL.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -539,6 +546,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				B2A4CFB0210A6E6900199B4F /* CrashLibIOS.framework in Embed Frameworks */,
+				80B3CAE3211B27F3007C332E /* MSAL.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -606,6 +614,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				F89D790D1E93DA500094521F /* CrashLibIOS.framework in Embed Frameworks */,
+				80B3CAE1211B27E9007C332E /* MSAL.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -768,6 +777,7 @@
 				F89D790C1E93DA500094521F /* CrashLibIOS.framework in Frameworks */,
 				84226D321E89301B00798417 /* AppCenter.framework in Frameworks */,
 				84226D331E89301B00798417 /* AppCenterAnalytics.framework in Frameworks */,
+				80B3CAE0211B27E9007C332E /* MSAL.framework in Frameworks */,
 				84226D341E89301B00798417 /* AppCenterCrashes.framework in Frameworks */,
 				84226D351E89301B00798417 /* AppCenterDistribute.framework in Frameworks */,
 				046790431E8DA7E90033FDEC /* AppCenterPush.framework in Frameworks */,
@@ -803,6 +813,7 @@
 				B27D54BF210A5E7E004E82C9 /* AppCenterCrashes.framework in Frameworks */,
 				B27D54C0210A5E7E004E82C9 /* AppCenterDistribute.framework in Frameworks */,
 				B27D54C1210A5E7E004E82C9 /* AppCenterPush.framework in Frameworks */,
+				80B3CADE211B27DE007C332E /* MSAL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -813,6 +824,7 @@
 				B2A4CFA0210A6E6900199B4F /* CrashLibIOS.framework in Frameworks */,
 				B2A4CFA1210A6E6900199B4F /* AppCenter.framework in Frameworks */,
 				B2A4CFA2210A6E6900199B4F /* AppCenterAnalytics.framework in Frameworks */,
+				80B3CAE2211B27F3007C332E /* MSAL.framework in Frameworks */,
 				B2A4CFA3210A6E6900199B4F /* AppCenterCrashes.framework in Frameworks */,
 				B2A4CFA4210A6E6900199B4F /* AppCenterDistribute.framework in Frameworks */,
 				B2A4CFA5210A6E6900199B4F /* AppCenterPush.framework in Frameworks */,

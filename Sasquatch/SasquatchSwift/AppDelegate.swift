@@ -8,6 +8,8 @@ import AppCenterCrashes
 import AppCenterDistribute
 import AppCenterPush
 
+import MSAL
+
 enum startFrom:Int {
   case APP = 0, LIBRARY, BOTH
 }
@@ -105,9 +107,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
    * failed.
    */
   func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-    
-    // Forward the URL to MSDistribute.
-    return MSDistribute.open(url)
+    // Forward the URL.
+    return MSALPublicClientApplication.handleMSALResponse(url) || MSDistribute.open(url)
   }
 
   func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
