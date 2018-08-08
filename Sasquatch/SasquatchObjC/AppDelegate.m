@@ -23,6 +23,8 @@
 @import AppCenterPush;
 #endif
 
+@import MSAL;
+
 enum { START_FROM_APP = 0, START_FROM_LIBRARY, START_FROM_BOTH };
 
 @interface AppDelegate () <
@@ -103,6 +105,12 @@ enum { START_FROM_APP = 0, START_FROM_LIBRARY, START_FROM_BOTH };
   [self setAppCenterDelegate];
   return YES;
 }
+
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options {
+  BOOL isMSALUrl = [MSALPublicClientApplication handleMSALResponse:url];
+  return isMSALUrl;
+}
+
 
 #pragma mark - Application life cycle
 
