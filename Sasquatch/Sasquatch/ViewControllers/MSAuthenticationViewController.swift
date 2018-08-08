@@ -32,8 +32,8 @@ class MSAuthenticationViewController : UITableViewController, AppCenterProtocol 
     dismiss(animated: true, completion: nil)
   }
 
-  func updateAuthentication(forUser: String, withAccessToken: String) {
-    
+  func updateAuthentication(forUser userId: String, withAccessToken accessToken: String) {
+    appCenter.addAuthenticationProvider(withUserId: userId, andAccessToken: accessToken)
   }
 
   func authenticationResultHandler() -> MSALCompletionBlock {

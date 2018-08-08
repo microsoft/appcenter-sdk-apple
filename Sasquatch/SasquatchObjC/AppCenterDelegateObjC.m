@@ -236,4 +236,11 @@
   [MSAppCenter startService:[MSEventFilter class]];
 }
 
+// Analytics transmission target
+- (void)addAuthenticationProviderWithUserId:(NSString *) userId andAccessToken:(NSString *) accessToken {
+  MSAnalyticsAuthenticationProvider *authProvider = [[MSAnalyticsAuthenticationProvider alloc] initWithAuthenticationType: MSAnalyticsAuthenticationTypeMSA ticketKey: userId completionHandler:^NSString* (void) {
+    return accessToken;
+  }];
+  [MSAnalyticsTransmissionTarget addAuthenticationProvider:authProvider];
+}
 @end
