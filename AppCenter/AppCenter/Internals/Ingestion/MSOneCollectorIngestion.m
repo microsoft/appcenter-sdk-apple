@@ -102,21 +102,24 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
   NSMutableString *ticketKeyString = [NSMutableString new];
   for (id<MSLog> log in container.logs) {
     MSCommonSchemaLog *csLog = (MSCommonSchemaLog *)log;
-    NSArray<NSString *> *ticketKeys = [[[csLog ext] protocolExt] ticketKeys];
-    if (ticketKeys) {
-      for (NSString *ticketKey in ticketKeys) {
-        NSString *token = [[MSTicketCache sharedInstance] ticketFor:ticketKey];
-        if (token) {
+    if (csLog.ext && csLog.ext.protocolExt) {
+      NSArray<NSString *> *ticketKeys = [[[csLog ext] protocolExt] ticketKeys];
+      if (ticketKeys) {
+        for (NSString *ticketKey in ticketKeys) {
+          NSString *token =
+              [[MSTicketCache sharedInstance] ticketFor:ticketKey];
+          if (token) {
 
-          /*
-           * Format to look like this:
-           * "ticketKey1"="d:token1";"ticketKey2"="d:token2".
-           */
-          [ticketKeyString appendString:@"\""];
-          [ticketKeyString appendString:ticketKey];
-          [ticketKeyString appendString:@"\"=\"d:"];
-          [ticketKeyString appendString:token];
-          [ticketKeyString appendString:@"\";"];
+            /*
+             * Format to look like this:
+             * "ticketKey1"="d:token1";"ticketKey2"="d:token2".
+             */
+            [ticketKeyString appendString:@"\""];
+            [ticketKeyString appendString:ticketKey];
+            [ticketKeyString appendString:@"\"=\"d:"];
+            [ticketKeyString appendString:token];
+            [ticketKeyString appendString:@"\";"];
+          }
         }
       }
     }
