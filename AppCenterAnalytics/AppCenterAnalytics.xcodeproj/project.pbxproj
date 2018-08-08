@@ -185,15 +185,15 @@
 		6E3E2CCE1D359D5E00B1EE50 /* MSPageLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3E2CC81D359D5E00B1EE50 /* MSPageLog.m */; };
 		6E3E2CD31D359F3300B1EE50 /* MSEventLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3E2CD01D359F3300B1EE50 /* MSEventLogTests.m */; };
 		6E3E2CD41D359F3300B1EE50 /* MSPageLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3E2CD11D359F3300B1EE50 /* MSPageLogTests.m */; };
+		B2350986211A69AA00F98D4F /* MSAnalyticsAuthenticationProviderInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B2350985211A69AA00F98D4F /* MSAnalyticsAuthenticationProviderInternal.h */; };
+		B2350987211A69AA00F98D4F /* MSAnalyticsAuthenticationProviderInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B2350985211A69AA00F98D4F /* MSAnalyticsAuthenticationProviderInternal.h */; };
+		B2350988211A69AA00F98D4F /* MSAnalyticsAuthenticationProviderInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B2350985211A69AA00F98D4F /* MSAnalyticsAuthenticationProviderInternal.h */; };
 		B2E2ECB92114DAB800C688C0 /* MSAnalyticsAuthenticationProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = B2E2ECB72114DAB800C688C0 /* MSAnalyticsAuthenticationProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B2E2ECBA2114DAB800C688C0 /* MSAnalyticsAuthenticationProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = B2E2ECB82114DAB800C688C0 /* MSAnalyticsAuthenticationProvider.m */; };
 		B2E2ECBB2114DAC100C688C0 /* MSAnalyticsAuthenticationProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = B2E2ECB72114DAB800C688C0 /* MSAnalyticsAuthenticationProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B2E2ECBC2114DAC100C688C0 /* MSAnalyticsAuthenticationProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = B2E2ECB82114DAB800C688C0 /* MSAnalyticsAuthenticationProvider.m */; };
 		B2E2ECBD2114DAC200C688C0 /* MSAnalyticsAuthenticationProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = B2E2ECB72114DAB800C688C0 /* MSAnalyticsAuthenticationProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B2E2ECBE2114DAC200C688C0 /* MSAnalyticsAuthenticationProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = B2E2ECB82114DAB800C688C0 /* MSAnalyticsAuthenticationProvider.m */; };
-		B2E2ECCC2114DC7000C688C0 /* MSAnalyticsAuthenticationProviderDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = B2E2ECCB2114DC7000C688C0 /* MSAnalyticsAuthenticationProviderDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B2E2ECCD2114DC7000C688C0 /* MSAnalyticsAuthenticationProviderDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = B2E2ECCB2114DC7000C688C0 /* MSAnalyticsAuthenticationProviderDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B2E2ECCE2114DC7000C688C0 /* MSAnalyticsAuthenticationProviderDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = B2E2ECCB2114DC7000C688C0 /* MSAnalyticsAuthenticationProviderDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C27452D220AE0DAC00B64B68 /* MSAnalytics+Validation.m in Sources */ = {isa = PBXBuildFile; fileRef = C27452D120AE0DAC00B64B68 /* MSAnalytics+Validation.m */; };
 		C27452D320AE0DAC00B64B68 /* MSAnalytics+Validation.m in Sources */ = {isa = PBXBuildFile; fileRef = C27452D120AE0DAC00B64B68 /* MSAnalytics+Validation.m */; };
 		C27452D420AE0DAC00B64B68 /* MSAnalytics+Validation.m in Sources */ = {isa = PBXBuildFile; fileRef = C27452D120AE0DAC00B64B68 /* MSAnalytics+Validation.m */; };
@@ -357,10 +357,10 @@
 		6E3E2CC81D359D5E00B1EE50 /* MSPageLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSPageLog.m; sourceTree = "<group>"; };
 		6E3E2CD01D359F3300B1EE50 /* MSEventLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSEventLogTests.m; sourceTree = "<group>"; };
 		6E3E2CD11D359F3300B1EE50 /* MSPageLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSPageLogTests.m; sourceTree = "<group>"; };
+		B2350985211A69AA00F98D4F /* MSAnalyticsAuthenticationProviderInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsAuthenticationProviderInternal.h; sourceTree = "<group>"; };
 		B2812EF21DA3148000307DCE /* AppCenterAnalytics Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "AppCenterAnalytics Debug.xcconfig"; sourceTree = "<group>"; };
 		B2E2ECB72114DAB800C688C0 /* MSAnalyticsAuthenticationProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsAuthenticationProvider.h; sourceTree = "<group>"; };
 		B2E2ECB82114DAB800C688C0 /* MSAnalyticsAuthenticationProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSAnalyticsAuthenticationProvider.m; sourceTree = "<group>"; };
-		B2E2ECCB2114DC7000C688C0 /* MSAnalyticsAuthenticationProviderDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsAuthenticationProviderDelegate.h; sourceTree = "<group>"; };
 		C27452D120AE0DAC00B64B68 /* MSAnalytics+Validation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "MSAnalytics+Validation.m"; sourceTree = "<group>"; };
 		C27452D520AE0EF100B64B68 /* MSAnalytics+Validation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MSAnalytics+Validation.h"; sourceTree = "<group>"; };
 		E758FA7B20FFDEE700011793 /* MSPropertyConfigurator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSPropertyConfigurator.h; sourceTree = "<group>"; };
@@ -547,8 +547,8 @@
 			isa = PBXGroup;
 			children = (
 				B2E2ECB72114DAB800C688C0 /* MSAnalyticsAuthenticationProvider.h */,
+				B2350985211A69AA00F98D4F /* MSAnalyticsAuthenticationProviderInternal.h */,
 				B2E2ECB82114DAB800C688C0 /* MSAnalyticsAuthenticationProvider.m */,
-				B2E2ECCB2114DC7000C688C0 /* MSAnalyticsAuthenticationProviderDelegate.h */,
 				3513432F205704A100E6DC7D /* MSAnalyticsTransmissionTarget.h */,
 				35134330205704C100E6DC7D /* MSAnalyticsTransmissionTarget.m */,
 			);
@@ -721,6 +721,7 @@
 				38337D7120C0AB0D00CEDA17 /* MSEventLogPrivate.h in Headers */,
 				3568A7E0201A71D000F3B860 /* MSAbstractLog.h in Headers */,
 				3568A7E1201A71D000F3B860 /* MSLogWithProperties.h in Headers */,
+				B2350988211A69AA00F98D4F /* MSAnalyticsAuthenticationProviderInternal.h in Headers */,
 				043121661EE0C20A007054C5 /* MSEventLog.h in Headers */,
 				351343422059DBD500E6DC7D /* MSAnalyticsTransmissionTarget.h in Headers */,
 				0431215D1EE0C20A007054C5 /* MSStartSessionLog.h in Headers */,
@@ -732,7 +733,6 @@
 				E758FA7F20FFDEE700011793 /* MSPropertyConfigurator.h in Headers */,
 				043121621EE0C20A007054C5 /* MSAnalyticsInternal.h in Headers */,
 				043121631EE0C20A007054C5 /* MSAnalyticsPrivate.h in Headers */,
-				B2E2ECCE2114DC7000C688C0 /* MSAnalyticsAuthenticationProviderDelegate.h in Headers */,
 				3855D51620E2F03000CBC499 /* MSAnalyticsTransmissionTargetPrivate.h in Headers */,
 				C27452D820AE0EF100B64B68 /* MSAnalytics+Validation.h in Headers */,
 				043121651EE0C20A007054C5 /* MSAnalytics.h in Headers */,
@@ -754,6 +754,7 @@
 				38337D7020C0AB0D00CEDA17 /* MSEventLogPrivate.h in Headers */,
 				3568A7ED201A9BBB00F3B860 /* MSAbstractLog.h in Headers */,
 				3568A7EE201A9BBB00F3B860 /* MSLogWithProperties.h in Headers */,
+				B2350987211A69AA00F98D4F /* MSAnalyticsAuthenticationProviderInternal.h in Headers */,
 				3568A7EF201A9BBB00F3B860 /* MSService.h in Headers */,
 				351343442059DC0700E6DC7D /* MSAnalyticsTransmissionTarget.h in Headers */,
 				3568A7F0201A9BBB00F3B860 /* MSServiceAbstract.h in Headers */,
@@ -765,7 +766,6 @@
 				E758FA7E20FFDEE700011793 /* MSPropertyConfigurator.h in Headers */,
 				0485AF781EAA79E300C10CAF /* AppCenterAnalytics.h in Headers */,
 				0485AF7B1EAA79E300C10CAF /* MSAnalyticsInternal.h in Headers */,
-				B2E2ECCD2114DC7000C688C0 /* MSAnalyticsAuthenticationProviderDelegate.h in Headers */,
 				3855D51520E2F03000CBC499 /* MSAnalyticsTransmissionTargetPrivate.h in Headers */,
 				C27452D720AE0EF100B64B68 /* MSAnalytics+Validation.h in Headers */,
 				0485AF7C1EAA79E300C10CAF /* MSAnalyticsPrivate.h in Headers */,
@@ -787,6 +787,7 @@
 				38337D6F20C0AB0D00CEDA17 /* MSEventLogPrivate.h in Headers */,
 				358F9BC62019590200B9E22C /* MSLogWithProperties.h in Headers */,
 				387C77051D6CC39400D68CC1 /* MSServiceAbstract.h in Headers */,
+				B2350986211A69AA00F98D4F /* MSAnalyticsAuthenticationProviderInternal.h in Headers */,
 				E85547F91D2D6A9B002DF6E2 /* AppCenter+Internal.h in Headers */,
 				351343462059DC1000E6DC7D /* MSAnalyticsTransmissionTarget.h in Headers */,
 				6E3E2CCD1D359D5E00B1EE50 /* MSPageLog.h in Headers */,
@@ -798,7 +799,6 @@
 				E758FA7D20FFDEE700011793 /* MSPropertyConfigurator.h in Headers */,
 				E85547F71D2D6A7D002DF6E2 /* AppCenterAnalytics.h in Headers */,
 				3813B9651DBFE68200831214 /* MSAnalyticsInternal.h in Headers */,
-				B2E2ECCC2114DC7000C688C0 /* MSAnalyticsAuthenticationProviderDelegate.h in Headers */,
 				3855D51420E2F03000CBC499 /* MSAnalyticsTransmissionTargetPrivate.h in Headers */,
 				C27452D620AE0EF100B64B68 /* MSAnalytics+Validation.h in Headers */,
 				E85547FA1D2D6A9E002DF6E2 /* MSAnalyticsPrivate.h in Headers */,

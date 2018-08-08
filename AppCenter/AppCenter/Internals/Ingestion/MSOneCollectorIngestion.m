@@ -108,11 +108,13 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
         NSString *token = [[MSTicketCache sharedInstance] ticketFor:ticketKey];
         if (token) {
 
-          // Format to look like this:
-          // "ticketKey1"="p:token1";"ticketKey2"="p:token2".
+          /*
+           * Format to look like this:
+           * "ticketKey1"="d:token1";"ticketKey2"="d:token2".
+           */
           [ticketKeyString appendString:@"\""];
           [ticketKeyString appendString:ticketKey];
-          [ticketKeyString appendString:@"\"=\"p:"];
+          [ticketKeyString appendString:@"\"=\"d:"];
           [ticketKeyString appendString:token];
           [ticketKeyString appendString:@"\";"];
         }

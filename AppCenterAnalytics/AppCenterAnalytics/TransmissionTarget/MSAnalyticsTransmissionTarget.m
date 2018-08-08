@@ -1,4 +1,5 @@
 #import "MSAnalyticsInternal.h"
+#import "MSAnalyticsAuthenticationProviderInternal.h"
 #import "MSAnalyticsTransmissionTargetInternal.h"
 #import "MSAnalyticsTransmissionTargetPrivate.h"
 #import "MSChannelGroupProtocol.h"
@@ -6,7 +7,6 @@
 #import "MSLogger.h"
 #import "MSPropertyConfiguratorPrivate.h"
 #import "MSServiceAbstractInternal.h"
-
 #import "MSUtility+StringFormatting.h"
 
 @implementation MSAnalyticsTransmissionTarget
@@ -57,7 +57,7 @@ initWithTransmissionTargetToken:(NSString *)token
      * required for initialization and can't be null.
      */
     _authenticationProvider = authenticationProvider;
-    
+
     /* Request token now. */
     [authenticationProvider acquireTokenAsync];
   }
