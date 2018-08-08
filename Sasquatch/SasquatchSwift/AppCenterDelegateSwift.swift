@@ -214,4 +214,12 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   func startEventFilterService() {
     MSAppCenter.startService(MSEventFilter.self)
   }
+
+  // Analytics transmission target
+  func addAuthenticationProvider(withUserId userId: String, andAccessToken accessToken: String) {
+    let authProvider = MSAnalyticsAuthenticationProvider(authenticationType: MSAnalyticsAuthenticationType.MSA, ticketKey: userId) { () -> String? in
+      return accessToken
+    }
+    MSAnalyticsTransmissionTarget.authenticationProvider = authProvider
+  }
 }
