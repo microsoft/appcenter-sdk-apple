@@ -1,3 +1,4 @@
+
 #import "MSAnalyticsAuthenticationProvider.h"
 
 #import "MSAnalyticsInternal.h"

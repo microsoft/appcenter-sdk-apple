@@ -8,6 +8,13 @@
 static MSTicketCache *sharedInstance = nil;
 static dispatch_once_t onceToken;
 
+- (instancetype)init {
+  if ((self = [super init])) {
+    _tickets = [NSMutableDictionary new];
+  }
+  return self;
+}
+
 + (instancetype)sharedInstance {
   dispatch_once(&onceToken, ^{
     if (sharedInstance == nil) {
@@ -27,15 +34,6 @@ static dispatch_once_t onceToken;
 
 - (void)clearCache {
   self.tickets = [NSMutableDictionary new];
-}
-
-#pragma mark - private methods
-
-- (instancetype)init {
-  if ((self = [super init])) {
-    _tickets = [NSMutableDictionary new];
-  }
-  return self;
 }
 
 @end

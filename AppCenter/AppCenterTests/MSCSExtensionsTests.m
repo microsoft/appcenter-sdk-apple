@@ -463,6 +463,8 @@
   XCTAssertEqualObjects(self.protocolExt, actualProtocolExt);
   XCTAssertTrue(
       [actualProtocolExt isMemberOfClass:[MSProtocolExtension class]]);
+  XCTAssertEqualObjects(actualProtocolExt.ticketKeys,
+                        self.protocolExtDummyValues[kMSTicketKeys]);
   XCTAssertEqualObjects(actualProtocolExt.devMake,
                         self.protocolExtDummyValues[kMSDevMake]);
   XCTAssertEqualObjects(actualProtocolExt.devModel,
