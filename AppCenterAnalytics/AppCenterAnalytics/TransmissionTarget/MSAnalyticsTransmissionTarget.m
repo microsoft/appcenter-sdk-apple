@@ -2,7 +2,6 @@
 #import "MSAnalyticsAuthenticationProviderInternal.h"
 #import "MSAnalyticsTransmissionTargetInternal.h"
 #import "MSAnalyticsTransmissionTargetPrivate.h"
-#import "MSChannelGroupProtocol.h"
 #import "MSCommonSchemaLog.h"
 #import "MSLogger.h"
 #import "MSPropertyConfiguratorPrivate.h"
@@ -16,7 +15,7 @@ static id _authenticationProvider;
 - (instancetype)
 initWithTransmissionTargetToken:(NSString *)token
                    parentTarget:(MSAnalyticsTransmissionTarget *)parentTarget
-                   channelGroup:(id<MSChannelGroupProtocol>)channelGroup {
+                   channelGroup:(id <MSChannelGroupProtocol>)channelGroup {
   if ((self = [super init])) {
     _propertyConfigurator =
         [[MSPropertyConfigurator alloc] initWithTransmissionTarget:self];
@@ -43,14 +42,14 @@ initWithTransmissionTargetToken:(NSString *)token
 }
 
 + (MSAnalyticsAuthenticationProvider *)authenticationProvider {
-  @synchronized(self) {
+  @synchronized (self) {
     return _authenticationProvider;
   }
 }
 
 + (void)addAuthenticationProvider:
     (MSAnalyticsAuthenticationProvider *)authenticationProvider {
-  @synchronized(self) {
+  @synchronized (self) {
 
     /*
      * No need to validate the authentication provider's properties as they are
@@ -92,15 +91,15 @@ initWithTransmissionTargetToken:(NSString *)token
   // Override properties.
   if (properties) {
     [mergedProperties
-        addEntriesFromDictionary:(NSDictionary * _Nonnull)properties];
+        addEntriesFromDictionary:(NSDictionary *_Nonnull) properties];
   } else if ([mergedProperties count] == 0) {
 
     // Set nil for the properties to pass nil to trackEvent.
     mergedProperties = nil;
   }
   [MSAnalytics trackEvent:eventName
-             withProperties:mergedProperties
-      forTransmissionTarget:self];
+           withProperties:mergedProperties
+    forTransmissionTarget:self];
 }
 
 - (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:
@@ -120,7 +119,7 @@ initWithTransmissionTargetToken:(NSString *)token
 }
 
 - (BOOL)isEnabled {
-  @synchronized([MSAnalytics sharedInstance]) {
+  @synchronized ([MSAnalytics sharedInstance]) {
 
     // Get isEnabled value from persistence.
     // No need to cache the value in a property, user settings already have
@@ -134,7 +133,7 @@ initWithTransmissionTargetToken:(NSString *)token
 }
 
 - (void)setEnabled:(BOOL)isEnabled {
-  @synchronized([MSAnalytics sharedInstance]) {
+  @synchronized ([MSAnalytics sharedInstance]) {
     if (self.isEnabled != isEnabled) {
 
       // Don't enable if the immediate parent is disabled.
@@ -158,23 +157,24 @@ initWithTransmissionTargetToken:(NSString *)token
 
 #pragma mark - ChannelDelegate callbacks
 
-- (void)channel:(id<MSChannelProtocol>)__unused channel
-     prepareLog:(id<MSLog>)log {
+- (void)channel:(id <MSChannelProtocol>)__unused channel
+     prepareLog:(id <MSLog>)log {
 
   /*
    * Only set ticketKey for owned target. Not strictly necessary but this avoids
    * setting the ticketKeyHash multiple times for a log.
    */
   if (![log.transmissionTargetTokens
-          containsObject:self.transmissionTargetToken]) {
+      containsObject:self.transmissionTargetToken]) {
     return;
   }
   if ([log isKindOfClass:[MSCommonSchemaLog class]] && [self isEnabled]) {
     if (MSAnalyticsTransmissionTarget.authenticationProvider) {
       NSString *ticketKeyHash =
           MSAnalyticsTransmissionTarget.authenticationProvider.ticketKeyHash;
-      ((MSCommonSchemaLog *)log).ext.protocolExt.ticketKeys =
-          @[ ticketKeyHash ];
+      ((MSCommonSchemaLog *) log).ext.protocolExt.ticketKeys =
+          @[ticketKeyHash];
+      [MSAnalyticsTransmissionTarget.authenticationProvider checkTokenExpiry];
     }
   }
 }
@@ -183,7 +183,7 @@ initWithTransmissionTargetToken:(NSString *)token
 
 - (void)mergeEventPropertiesWith:
     (NSMutableDictionary<NSString *, NSString *> *)mergedProperties {
-  @synchronized([MSAnalytics sharedInstance]) {
+  @synchronized ([MSAnalytics sharedInstance]) {
     for (NSString *key in self.propertyConfigurator.eventProperties) {
       if ([mergedProperties objectForKey:key] == nil) {
         NSString *value =
@@ -202,7 +202,7 @@ initWithTransmissionTargetToken:(NSString *)token
  */
 - (BOOL)isImmediateParent {
   return self.parentTarget ? self.parentTarget.isEnabled
-                           : [MSAnalytics isEnabled];
+      : [MSAnalytics isEnabled];
 }
 
 @end

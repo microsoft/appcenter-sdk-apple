@@ -216,9 +216,9 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   }
 
   // Analytics transmission target
-  func addAuthenticationProvider(withUserId userId: String, andAccessToken accessToken: String) {
-    let authProvider = MSAnalyticsAuthenticationProvider(authenticationType: MSAnalyticsAuthenticationType.MSA, ticketKey: userId) { () -> String? in
-      return accessToken
+  func addAuthenticationProvider(withUserId userId: String, expiryDate: Date, andAccessToken accessToken: String) {
+    let authProvider = MSAnalyticsAuthenticationProvider(authenticationType: MSAnalyticsAuthenticationType.MSA, ticketKey: userId) { () -> MSAnalyticsAuthenticationResult? in
+      return MSAnalyticsAuthenticationResult(accessToken, expiryDate)
     }
     MSAnalyticsTransmissionTarget.authenticationProvider = authProvider
   }

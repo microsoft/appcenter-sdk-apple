@@ -74,5 +74,5 @@ import AppCenter
   func startEventFilterService()
 
   // Analytics transmission target
-  func addAuthenticationProvider(withUserId userId: String, andAccessToken accessToken: String)
+  func addAuthenticationProvider(withUserId userId: String, expiryDate: Date, andAccessToken accessToken: String)
 }

@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
 
 @protocol MSAnalyticsAuthenticationProviderDelegate;
+@class MSAnalyticsAuthenticationResult;
 
 /**
  *  Different authentication types, e.g. MSA, AAD,... .
@@ -18,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Completion handler that returns the authentication token.
  */
-typedef NSString* _Nullable (^MSAcquireTokenCompletionBlock)(void);
+typedef MSAnalyticsAuthenticationResult* _Nullable (^MSAcquireTokenCompletionBlock)(void);
 
 @interface MSAnalyticsAuthenticationProvider : NSObject
 
@@ -53,6 +54,11 @@ typedef NSString* _Nullable (^MSAcquireTokenCompletionBlock)(void);
 - (instancetype)initWithAuthenticationType:(MSAnalyticsAuthenticationType)type
                                  ticketKey:(NSString *)ticketKey
                          completionHandler:(MSAcquireTokenCompletionBlock)completionHandler;
+
+/**
+ * Check expiration
+ */
+- (void)checkTokenExpiry;
 
 @end
 

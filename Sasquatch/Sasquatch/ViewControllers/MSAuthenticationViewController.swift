@@ -32,15 +32,15 @@ class MSAuthenticationViewController : UITableViewController, AppCenterProtocol 
     dismiss(animated: true, completion: nil)
   }
 
-  func updateAuthentication(forUser userId: String, withAccessToken accessToken: String) {
-    appCenter.addAuthenticationProvider(withUserId: userId, andAccessToken: accessToken)
+  func updateAuthentication(forUser userId: String, expiryDate: Date, withAccessToken accessToken: String) {
+    appCenter.addAuthenticationProvider(withUserId: userId, expiryDate: expiryDate,  andAccessToken: accessToken)
   }
 
   func authenticationResultHandler() -> MSALCompletionBlock {
     return { (result, error) in
       if error == nil {
         self.authenticationResult = result
-        self.updateAuthentication(forUser: result!.user.uid, withAccessToken: result!.accessToken)
+        self.updateAuthentication(forUser: result!.user.uid, expiryDate: result!.expiresOn, withAccessToken: result!.accessToken)
         NSLog("Authenticated successfully. User id: %@", result!.user.uid)
       } else {
         let nserror = error! as NSError

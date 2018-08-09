@@ -178,6 +178,12 @@
 		38C215E120E692C700191F3C /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C215DF20E692C700191F3C /* MSMockUserDefaults.m */; };
 		38C215E220E692C700191F3C /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C215DF20E692C700191F3C /* MSMockUserDefaults.m */; };
 		38C215E320E692C700191F3C /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C215DF20E692C700191F3C /* MSMockUserDefaults.m */; };
+		594930270A7315E489C12CB6 /* MSAnalyticsAuthenticationResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 594939544F353FD8DF6959C2 /* MSAnalyticsAuthenticationResult.m */; };
+		594930771B38F38775A204F7 /* MSAnalyticsAuthenticationResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 59493489F87BE9303D158888 /* MSAnalyticsAuthenticationResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		594931DB961B45B8FC37E2DB /* MSAnalyticsAuthenticationResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 59493489F87BE9303D158888 /* MSAnalyticsAuthenticationResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5949335C285860CFCD209A8D /* MSAnalyticsAuthenticationResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 594939544F353FD8DF6959C2 /* MSAnalyticsAuthenticationResult.m */; };
+		5949346129ECB761D62F5A15 /* MSAnalyticsAuthenticationResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 594939544F353FD8DF6959C2 /* MSAnalyticsAuthenticationResult.m */; };
+		594935B9D12AD70D0D44EA0A /* MSAnalyticsAuthenticationResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 59493489F87BE9303D158888 /* MSAnalyticsAuthenticationResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E0684381D35A3B900A8CC6C /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E0684371D35A3B900A8CC6C /* OCHamcrestIOS.framework */; };
 		6E3E2CCB1D359D5E00B1EE50 /* MSEventLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E3E2CC51D359D5E00B1EE50 /* MSEventLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E3E2CCC1D359D5E00B1EE50 /* MSEventLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3E2CC61D359D5E00B1EE50 /* MSEventLog.m */; };
@@ -353,6 +359,8 @@
 		387C77041D6CC39400D68CC1 /* MSServiceAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSServiceAbstract.h; path = ../AppCenter/AppCenter/MSServiceAbstract.h; sourceTree = "<group>"; };
 		38C215DF20E692C700191F3C /* MSMockUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSMockUserDefaults.m; path = ../../../AppCenter/AppCenterTests/Util/MSMockUserDefaults.m; sourceTree = "<group>"; };
 		38C215E020E692C700191F3C /* MSMockUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSMockUserDefaults.h; path = ../../../AppCenter/AppCenterTests/Util/MSMockUserDefaults.h; sourceTree = "<group>"; };
+		59493489F87BE9303D158888 /* MSAnalyticsAuthenticationResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsAuthenticationResult.h; sourceTree = "<group>"; };
+		594939544F353FD8DF6959C2 /* MSAnalyticsAuthenticationResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAnalyticsAuthenticationResult.m; sourceTree = "<group>"; };
 		6E0684371D35A3B900A8CC6C /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../../Vendor/iOS/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
 		6E3E2CC51D359D5E00B1EE50 /* MSEventLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSEventLog.h; sourceTree = "<group>"; };
 		6E3E2CC61D359D5E00B1EE50 /* MSEventLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSEventLog.m; sourceTree = "<group>"; };
@@ -553,6 +561,8 @@
 				B2E2ECB72114DAB800C688C0 /* MSAnalyticsAuthenticationProvider.h */,
 				B2350985211A69AA00F98D4F /* MSAnalyticsAuthenticationProviderInternal.h */,
 				B2E2ECB82114DAB800C688C0 /* MSAnalyticsAuthenticationProvider.m */,
+				59493489F87BE9303D158888 /* MSAnalyticsAuthenticationResult.h */,
+				594939544F353FD8DF6959C2 /* MSAnalyticsAuthenticationResult.m */,
 				3513432F205704A100E6DC7D /* MSAnalyticsTransmissionTarget.h */,
 				35134330205704C100E6DC7D /* MSAnalyticsTransmissionTarget.m */,
 			);
@@ -744,6 +754,7 @@
 				04A082071F74BB8C00DC776D /* MSService.h in Headers */,
 				043121681EE0C20A007054C5 /* MSSessionTracker.h in Headers */,
 				042B1D2C1FE3516200D6E04A /* MSSessionTrackerPrivate.h in Headers */,
+				594931DB961B45B8FC37E2DB /* MSAnalyticsAuthenticationResult.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -777,6 +788,7 @@
 				0485AF7E1EAA79E300C10CAF /* MSAnalytics.h in Headers */,
 				0485AF811EAA79E300C10CAF /* MSSessionTracker.h in Headers */,
 				042B1D2B1FE3516000D6E04A /* MSSessionTrackerPrivate.h in Headers */,
+				594935B9D12AD70D0D44EA0A /* MSAnalyticsAuthenticationResult.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -810,6 +822,7 @@
 				E85547F81D2D6A7D002DF6E2 /* MSAnalytics.h in Headers */,
 				E8E48F9E1D515C3900A8C1B0 /* MSSessionTracker.h in Headers */,
 				042B1D2A1FE3508100D6E04A /* MSSessionTrackerPrivate.h in Headers */,
+				594930771B38F38775A204F7 /* MSAnalyticsAuthenticationResult.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1138,6 +1151,7 @@
 				043121551EE0C20A007054C5 /* MSEventLog.m in Sources */,
 				043121561EE0C20A007054C5 /* MSStartSessionLog.m in Sources */,
 				C27452D420AE0DAC00B64B68 /* MSAnalytics+Validation.m in Sources */,
+				594930270A7315E489C12CB6 /* MSAnalyticsAuthenticationResult.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1189,6 +1203,7 @@
 				04A1409E1ECE7316001CEE94 /* MSAnalyticsCategory.m in Sources */,
 				0485AF6F1EAA79E300C10CAF /* MSStartSessionLog.m in Sources */,
 				C27452D320AE0DAC00B64B68 /* MSAnalytics+Validation.m in Sources */,
+				5949335C285860CFCD209A8D /* MSAnalyticsAuthenticationResult.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1207,6 +1222,7 @@
 				6E3E2CCC1D359D5E00B1EE50 /* MSEventLog.m in Sources */,
 				E8E48FA31D51670100A8C1B0 /* MSStartSessionLog.m in Sources */,
 				C27452D220AE0DAC00B64B68 /* MSAnalytics+Validation.m in Sources */,
+				5949346129ECB761D62F5A15 /* MSAnalyticsAuthenticationResult.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
