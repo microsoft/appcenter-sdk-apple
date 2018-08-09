@@ -53,7 +53,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 }
 
 - (void)testHeaders {
-
+  
   // When
   NSString *containerId = @"1";
   MSLogContainer *container = [self createLogContainerWithId:containerId];
@@ -322,6 +322,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   log1.device = deviceMock;
   [log1 addTransmissionTargetToken:@"token1"];
   [log1 addTransmissionTargetToken:@"token2"];
+  log1.ext = [MSModelTestsUtililty extensionsWithDummyValues:[MSModelTestsUtililty extensionDummies]];
   MSMockCommonSchemaLog *log2 = [[MSMockCommonSchemaLog alloc] init];
   log2.name = @"log2";
   log2.ver = @"3.0";
@@ -330,7 +331,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   log2.device = deviceMock;
   [log2 addTransmissionTargetToken:@"token2"];
   [log2 addTransmissionTargetToken:@"token3"];
-  log2.ext.protocolExt.ticketKeys = @[@"ticketKey2", @"ticketKey3"];
+  log2.ext = [MSModelTestsUtililty extensionsWithDummyValues:[MSModelTestsUtililty extensionDummies]];
   MSLogContainer *logContainer = [[MSLogContainer alloc]
       initWithBatchId:batchId
               andLogs:(NSArray<id<MSLog>> *)@[ log1, log2 ]];
