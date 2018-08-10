@@ -5,7 +5,9 @@
 @interface MSAnalyticsAuthenticationProvider()
 
 @property(nonatomic) signed char isAlreadyAcquiringToken;
+
 @property(nonatomic, strong) NSDate *expiryDate;
+
 /**
  * Request a new token from the app.
  */
