@@ -10,6 +10,7 @@
 #import "MSModelTestsUtililty.h"
 #import "MSOneCollectorIngestion.h"
 #import "MSTestFrameworks.h"
+#import "MSTicketCache.h"
 
 static NSTimeInterval const kMSTestTimeout = 5.0;
 static NSString *const kMSBaseUrl = @"https://test.com";
@@ -53,7 +54,12 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 }
 
 - (void)testHeaders {
-  
+
+  // If
+  id ticketCacheMock = OCMPartialMock([MSTicketCache sharedInstance]);
+  OCMStub([ticketCacheMock ticketFor:@"ticketKey1"]).andReturn(@"ticketKey1Token");
+  OCMStub([ticketCacheMock ticketFor:@"ticketKey2"]).andReturn(@"ticketKey2Token");
+
   // When
   NSString *containerId = @"1";
   MSLogContainer *container = [self createLogContainerWithId:containerId];
@@ -88,6 +94,12 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   NSNumberFormatter *formatter = [NSNumberFormatter new];
   [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
   XCTAssertNotNil([formatter numberFromString:uploadTimeString]);
+  XCTAssertTrue([keys containsObject:kMSOneCollectorTicketsKey]);
+  NSString *ticketsHeader = [request.allHTTPHeaderFields objectForKey:kMSOneCollectorTicketsKey];
+  XCTAssertTrue([ticketsHeader containsString:@"ticketKey1"]);
+  XCTAssertTrue([ticketsHeader containsString:@"ticketKey1Token"]);
+  XCTAssertTrue([ticketsHeader containsString:@"ticketKey2"]);
+  XCTAssertTrue([ticketsHeader containsString:@"ticketKey2Token"]);
 }
 
 - (void)testCreateRequest {
