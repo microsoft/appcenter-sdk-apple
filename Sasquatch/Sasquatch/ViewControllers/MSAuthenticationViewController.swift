@@ -1,11 +1,29 @@
 import UIKit
-import MSAL
 
 class MSAuthenticationViewController : UITableViewController, AppCenterProtocol {
 
+  var appCenter: AppCenterDelegate!
+
+  override func viewDidLoad() {
+    super.viewDidLoad()
+  }
+
+  @IBAction func login() {
+
+  }
+
+  @IBAction func refresh() {
+
+  }
+
+  @IBAction func dismiss() {
+    dismiss(animated: true, completion: nil)
+  }
+
+  /*
   let clientID = "06181c2a-2403-437f-a490-9bcb06f85281"
   let scopes = ["User.Read"]
-  var appCenter: AppCenterDelegate!
+
   var application: MSALPublicClientApplication?
   var authenticationResult: MSALResult?
 
@@ -51,5 +69,6 @@ class MSAuthenticationViewController : UITableViewController, AppCenterProtocol 
       }
     }
   }
+ */
 }
 
