@@ -238,7 +238,7 @@
 
 // Analytics transmission target
 - (void)addAuthenticationProviderWithUserId:(NSString *) userId expiryDate:(NSDate*)expiryDate andAccessToken:(NSString *) accessToken {
-  MSAnalyticsAuthenticationProvider *authProvider = [[MSAnalyticsAuthenticationProvider alloc] initWithAuthenticationType: MSAnalyticsAuthenticationTypeMSA ticketKey: userId completionHandler:^MSAnalyticsAuthenticationResult* (void) {
+  MSAnalyticsAuthenticationProvider *authProvider = [[MSAnalyticsAuthenticationProvider alloc] initWithAuthenticationType: MSAnalyticsAuthenticationTypeMsaCompact ticketKey: userId completionHandler:^MSAnalyticsAuthenticationResult* (void) {
     MSAnalyticsAuthenticationResult *result = [[MSAnalyticsAuthenticationResult alloc] initWithToken:accessToken expiryDate:expiryDate];
     return result;
   }];

@@ -42,7 +42,7 @@ createAuthenticationProviderWithTicketKey:(NSString *)ticketKey
                           andExpiryDate:(NSDate *)expiryDate {
 
   return [[MSAnalyticsAuthenticationProvider alloc]
-   initWithAuthenticationType:MSAnalyticsAuthenticationTypeMSA
+   initWithAuthenticationType:MSAnalyticsAuthenticationTypeMsaCompact
    ticketKey:ticketKey
    completionHandler:^MSAnalyticsAuthenticationResult* {
      return [[MSAnalyticsAuthenticationResult alloc] initWithToken:token expiryDate:expiryDate] ;
@@ -53,7 +53,7 @@ createAuthenticationProviderWithTicketKey:(NSString *)ticketKey
 
   // Then
   XCTAssertNotNil(self.sut);
-  XCTAssertEqual(self.sut.type, MSAnalyticsAuthenticationTypeMSA);
+  XCTAssertEqual(self.sut.type, MSAnalyticsAuthenticationTypeMsaCompact);
   XCTAssertNotNil(self.sut.ticketKey);
   XCTAssertNotNil(self.sut.ticketKeyHash);
   XCTAssertTrue([self.sut.ticketKeyHash
@@ -140,7 +140,40 @@ createAuthenticationProviderWithTicketKey:(NSString *)ticketKey
                                  // Then
                                  XCTAssertTrue([self.sut.expiryDate isEqualToDate:self.today]);
                                  NSString *savedToken = [[MSTicketCache sharedInstance] ticketFor:self.sut.ticketKeyHash];
-                                 XCTAssertTrue([savedToken isEqualToString:self.token]);
+                                 NSString *tokenWithPrefixString = [NSString stringWithFormat:@"p:%@", self.token];
+                                 XCTAssertTrue([savedToken isEqualToString:tokenWithPrefixString]);
+                               }];
+}
+
+- (void)testCompletionHandlerIsCalledForMSADelegateType {
+  
+  // If
+  self.sut = [[MSAnalyticsAuthenticationProvider alloc]
+              initWithAuthenticationType:MSAnalyticsAuthenticationTypeMsaDelegate
+              ticketKey:self.ticketKey
+              completionHandler:^MSAnalyticsAuthenticationResult* {
+                return [[MSAnalyticsAuthenticationResult alloc] initWithToken:self.token expiryDate:self.today] ;
+              }];
+  
+  // When
+  XCTestExpectation *expection = [self
+                                  expectationWithDescription:@"Completion handler is called"];
+  [self.sut acquireTokenAsync];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [expection fulfill];
+  });
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@",
+                                           error);
+                                 }
+                                 
+                                 // Then
+                                 XCTAssertTrue([self.sut.expiryDate isEqualToDate:self.today]);
+                                 NSString *savedToken = [[MSTicketCache sharedInstance] ticketFor:self.sut.ticketKeyHash];
+                                 NSString *tokenWithPrefixString = [NSString stringWithFormat:@"d:%@", self.token];
+                                 XCTAssertTrue([savedToken isEqualToString:tokenWithPrefixString]);
                                }];
 }
 

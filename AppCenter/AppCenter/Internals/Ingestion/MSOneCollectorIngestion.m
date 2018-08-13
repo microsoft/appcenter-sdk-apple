@@ -110,10 +110,13 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
 
           /*
            * Format to look like this:
-           * "ticketKey1"="d:token1";"ticketKey2"="d:token2".
+           * "ticketKey1"="d:token1";"ticketKey2"="d:token2" or
+           * "ticketKey1"="p:token1";"ticketKey2"="p:token2". The value (p: vs.
+           * d:) is determined by MSAnalyticsAuthenticationProvider before
+           * saving the token to the TicketCache.
            */
           NSString *ticketKeyAndToken =
-              [NSString stringWithFormat:@"\"%@\"=\"d:%@\";", ticketKey, token];
+              [NSString stringWithFormat:@"\"%@\"=\"%@\";", ticketKey, token];
           [ticketKeyString appendString:ticketKeyAndToken];
         }
       }

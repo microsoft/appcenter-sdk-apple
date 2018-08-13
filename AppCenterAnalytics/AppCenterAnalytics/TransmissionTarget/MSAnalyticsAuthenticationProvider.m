@@ -68,7 +68,8 @@ static int kMSRefreshThreshold = 10 * 60;
   if (!expiryDate) {
     MSLogError([MSAnalytics logTag], @"Date must not be null");
   }
-  [[MSTicketCache sharedInstance] setTicket:token forKey:self.ticketKeyHash];
+  NSString *tokenPrefix = (self.type == MSAnalyticsAuthenticationTypeMsaCompact) ? @"p:" : @"d:";
+  [[MSTicketCache sharedInstance] setTicket:[NSString stringWithFormat:@"%@%@", tokenPrefix, token] forKey:self.ticketKeyHash];
   self.expiryDate = expiryDate;
 }
 

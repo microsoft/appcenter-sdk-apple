@@ -4,14 +4,19 @@
 @class MSAnalyticsAuthenticationResult;
 
 /**
- *  Different authentication types, e.g. MSA, AAD,... .
+ *  Different authentication types, e.g. MSA Compact, MSA Delegate, AAD,... .
  */
 typedef NS_ENUM(NSUInteger, MSAnalyticsAuthenticationType) {
 
   /**
-   *  AuthenticationType MSA.
+   *  AuthenticationType MSA Compact.
    */
-  MSAnalyticsAuthenticationTypeMSA
+  MSAnalyticsAuthenticationTypeMsaCompact,
+  
+  /**
+   * AuthenticationType MSA Delegate.
+   */
+  MSAnalyticsAuthenticationTypeMsaDelegate
 };
 
 NS_ASSUME_NONNULL_BEGIN
