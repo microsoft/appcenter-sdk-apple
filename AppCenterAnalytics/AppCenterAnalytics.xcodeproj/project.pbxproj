@@ -195,8 +195,8 @@
 		B2350987211A69AA00F98D4F /* MSAnalyticsAuthenticationProviderInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B2350985211A69AA00F98D4F /* MSAnalyticsAuthenticationProviderInternal.h */; };
 		B2350988211A69AA00F98D4F /* MSAnalyticsAuthenticationProviderInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B2350985211A69AA00F98D4F /* MSAnalyticsAuthenticationProviderInternal.h */; };
 		B26D4DDF211BA99E00AB4E28 /* MSAnalyticsAuthenticationProviderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B26D4DDE211BA99E00AB4E28 /* MSAnalyticsAuthenticationProviderTests.m */; };
-		B26D4DE0211BA99F00AB4E28 /* MSAnalyticsAuthenticationProviderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B26D4DDE211BA99E00AB4E28 /* MSAnalyticsAuthenticationProviderTests.m */; };
-		B26D4DE1211BA99F00AB4E28 /* MSAnalyticsAuthenticationProviderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B26D4DDE211BA99E00AB4E28 /* MSAnalyticsAuthenticationProviderTests.m */; };
+		B26D4E18212240EB00AB4E28 /* MSAnalyticsAuthenticationProviderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B26D4DDE211BA99E00AB4E28 /* MSAnalyticsAuthenticationProviderTests.m */; };
+		B26D4E19212240F400AB4E28 /* MSAnalyticsAuthenticationProviderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B26D4DDE211BA99E00AB4E28 /* MSAnalyticsAuthenticationProviderTests.m */; };
 		B2E2ECB92114DAB800C688C0 /* MSAnalyticsAuthenticationProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = B2E2ECB72114DAB800C688C0 /* MSAnalyticsAuthenticationProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B2E2ECBA2114DAB800C688C0 /* MSAnalyticsAuthenticationProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = B2E2ECB82114DAB800C688C0 /* MSAnalyticsAuthenticationProvider.m */; };
 		B2E2ECBB2114DAC100C688C0 /* MSAnalyticsAuthenticationProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = B2E2ECB72114DAB800C688C0 /* MSAnalyticsAuthenticationProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1147,7 +1147,6 @@
 				043121531EE0C20A007054C5 /* MSPageLog.m in Sources */,
 				043121541EE0C20A007054C5 /* MSAnalyticsCategory.m in Sources */,
 				F834E37720AC8E25003CB54D /* MSLogWithNameAndProperties.m in Sources */,
-				B26D4DE1211BA99F00AB4E28 /* MSAnalyticsAuthenticationProviderTests.m in Sources */,
 				043121551EE0C20A007054C5 /* MSEventLog.m in Sources */,
 				043121561EE0C20A007054C5 /* MSStartSessionLog.m in Sources */,
 				C27452D420AE0DAC00B64B68 /* MSAnalytics+Validation.m in Sources */,
@@ -1164,6 +1163,7 @@
 				0446DF421F3B8E6300C8E338 /* MSMockAnalyticsDelegate.m in Sources */,
 				0446DF431F3B8E6300C8E338 /* MSSessionTrackerUtil.m in Sources */,
 				0446DF441F3B8E6300C8E338 /* MSEventLogTests.m in Sources */,
+				B26D4E19212240F400AB4E28 /* MSAnalyticsAuthenticationProviderTests.m in Sources */,
 				0446DF451F3B8E6300C8E338 /* MSPageLogTests.m in Sources */,
 				38C215E320E692C700191F3C /* MSMockUserDefaults.m in Sources */,
 				0446DF461F3B8E6300C8E338 /* MSSessionTrackerTests.m in Sources */,
@@ -1180,6 +1180,7 @@
 				046AEAB71ECA51AF00CBE511 /* MSMockAnalyticsDelegate.m in Sources */,
 				046AEAB81ECA51AF00CBE511 /* MSSessionTrackerUtil.m in Sources */,
 				046AEAB91ECA51AF00CBE511 /* MSEventLogTests.m in Sources */,
+				B26D4E18212240EB00AB4E28 /* MSAnalyticsAuthenticationProviderTests.m in Sources */,
 				046AEABA1ECA51AF00CBE511 /* MSPageLogTests.m in Sources */,
 				38C215E220E692C700191F3C /* MSMockUserDefaults.m in Sources */,
 				046AEABB1ECA51AF00CBE511 /* MSSessionTrackerTests.m in Sources */,
@@ -1199,7 +1200,6 @@
 				0485AF6C1EAA79E300C10CAF /* MSPageLog.m in Sources */,
 				0485AF6D1EAA79E300C10CAF /* MSEventLog.m in Sources */,
 				F834E37620AC8E25003CB54D /* MSLogWithNameAndProperties.m in Sources */,
-				B26D4DE0211BA99F00AB4E28 /* MSAnalyticsAuthenticationProviderTests.m in Sources */,
 				04A1409E1ECE7316001CEE94 /* MSAnalyticsCategory.m in Sources */,
 				0485AF6F1EAA79E300C10CAF /* MSStartSessionLog.m in Sources */,
 				C27452D320AE0DAC00B64B68 /* MSAnalytics+Validation.m in Sources */,

@@ -1,5 +1,3 @@
-#import <XCTest/XCTest.h>
-
 #import "MSAnalyticsAuthenticationProviderInternal.h"
 #import "MSAnalyticsAuthenticationResult.h"
 #import "MSTestFrameworks.h"
