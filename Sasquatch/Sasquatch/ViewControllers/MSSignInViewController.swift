@@ -3,7 +3,6 @@ import WebKit
 
 class MSSignInViewController: UIViewController, WKNavigationDelegate {
 
-
   var onAuthDataRecieved: ((_ token: String, _ userId: String, _ expiresAt: Date) -> Void)?
 
   enum AuthAction {
@@ -92,7 +91,6 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate {
   }
 
   func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-
     switch action {
     case .login:
       checkSignIn(url: webView.url!)

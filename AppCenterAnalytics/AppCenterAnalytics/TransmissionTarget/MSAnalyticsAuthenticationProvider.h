@@ -56,7 +56,7 @@ typedef MSAnalyticsAuthenticationResult* _Nullable (^MSAcquireTokenCompletionBlo
                          completionHandler:(MSAcquireTokenCompletionBlock)completionHandler;
 
 /**
- * Check expiration
+ * Check expiration.
  */
 - (void)checkTokenExpiry;
 

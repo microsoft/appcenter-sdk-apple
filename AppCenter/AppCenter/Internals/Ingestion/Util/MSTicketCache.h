@@ -11,12 +11,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Return singleton instance of MSTicketCache.
+ *
  * @return the instance.
  */
 + (instancetype)sharedInstance;
 
 /**
  * Retrieve a ticket from the ticket cache.
+ *
  * @param key The key for the ticket.
  * @return The ticket or nil.
  */
@@ -24,6 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Add a ticket to the cache.
+ *
  * @param value The ticket to cache.
  * @param key The key for the ticket to be cached.
  */
