@@ -39,9 +39,9 @@ typedef MSAnalyticsAuthenticationResult* _Nullable (^MSAcquireTokenCompletionBlo
 @property(nonatomic, readonly, copy) NSString *ticketKeyHash;
 
 /**
- * Completion block that will be used to get an updated authentication token
+ * Completion block that will be used to get an updated authentication token.
  */
-@property(nonatomic, readonly) MSAcquireTokenCompletionBlock completionHandler;
+@property(nonatomic, readonly, copy) MSAcquireTokenCompletionBlock completionHandler;
 
 /**
  * Create a new authentication provider.
