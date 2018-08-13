@@ -897,7 +897,7 @@
         <!--Sign In-->
         <scene sceneID="pBM-pU-cnv">
             <objects>
-                <viewController id="S30-Gm-fxy" userLabel="Sign In" customClass="MSSignInViewController" customModule="SasquatchObjC" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SignInViewController" id="S30-Gm-fxy" userLabel="Sign In" customClass="MSSignInViewController" customModule="SasquatchObjC" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="bVa-cJ-Kib"/>
                         <viewControllerLayoutGuide type="bottom" id="irb-7o-a4K"/>
@@ -980,7 +980,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                                     <state key="normal" title="Sign out"/>
                                                     <connections>
-                                                        <action selector="refresh" destination="utj-Ji-UwU" eventType="touchUpInside" id="S4I-JW-AXH"/>
+                                                        <action selector="signOut" destination="utj-Ji-UwU" eventType="touchUpInside" id="lN7-4l-nXj"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -1025,6 +1025,9 @@
                             <outlet property="delegate" destination="utj-Ji-UwU" id="YNt-eK-bSf"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="S30-Gm-fxy" kind="show" identifier="ShowSignIn" id="Bvq-Kk-oxz"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2uy-7M-p9v" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
