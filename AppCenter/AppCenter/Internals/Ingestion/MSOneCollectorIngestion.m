@@ -105,8 +105,8 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
     if (csLog.ext.protocolExt) {
       NSArray<NSString *> *ticketKeys = [[[csLog ext] protocolExt] ticketKeys];
       for (NSString *ticketKey in ticketKeys) {
-        NSString *token = [[MSTicketCache sharedInstance] ticketFor:ticketKey];
-        if (token) {
+        NSString *authenticationToken = [[MSTicketCache sharedInstance] ticketFor:ticketKey];
+        if (authenticationToken) {
 
           /*
            * Format to look like this:
@@ -116,7 +116,7 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
            * saving the token to the TicketCache.
            */
           NSString *ticketKeyAndToken =
-              [NSString stringWithFormat:@"\"%@\"=\"%@\";", ticketKey, token];
+              [NSString stringWithFormat:@"\"%@\"=\"%@\";", ticketKey, authenticationToken];
           [ticketKeyString appendString:ticketKeyAndToken];
         }
       }
