@@ -166,9 +166,12 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
 }
 
 - (NSString *)obfuscateHeaderValue:(NSString *)key value:(NSString *)value {
-  return [key isEqualToString:kMSOneCollectorApiKey]
-             ? [self obfuscateTargetTokens:value]
-             : value;
+  if ([key isEqualToString:kMSOneCollectorApiKey]) {
+    return [self obfuscateTargetTokens:value];
+  } else if ([key isEqualToString:kMSOneCollectorTicketsKey]) {
+    return [self obfuscateTickets:value];
+  }
+  return value;
 }
 
 - (NSString *)obfuscateTargetTokens:(NSString *)tokenString {
@@ -178,6 +181,25 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
     [obfuscatedTokens addObject:[MSIngestionUtil hideSecret:token]];
   }
   return [obfuscatedTokens componentsJoinedByString:@","];
+}
+
+- (NSString *)obfuscateTickets:(NSString *)tokenString {
+  NSArray *tickets = [tokenString componentsSeparatedByString:@";"];
+  NSMutableArray *obfuscatedTickets = [NSMutableArray new];
+  for (NSString *ticket in tickets) {
+    NSString *obfuscatedTicket;
+    NSRange separator = [ticket rangeOfString:@"\"=\""];
+    if (separator.location != NSNotFound) {
+      NSRange tokenRange = NSMakeRange(NSMaxRange(separator), ticket.length - NSMaxRange(separator) - 1);
+      NSString *token = [ticket substringWithRange:tokenRange];
+      token = [MSIngestionUtil hideSecret:token];
+      obfuscatedTicket = [ticket stringByReplacingCharactersInRange:tokenRange withString:token];
+    } else {
+      obfuscatedTicket = [MSIngestionUtil hideSecret:ticket];
+    }
+    [obfuscatedTickets addObject:obfuscatedTicket];
+  }
+  return [obfuscatedTickets componentsJoinedByString:@";"];
 }
 
 @end

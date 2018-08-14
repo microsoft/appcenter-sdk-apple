@@ -72,6 +72,9 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate {
 
       NSLog("Started refresh process")
       session.uploadTask(with: request as URLRequest, from: data) { (data, response, error) in
+        defer {
+          self.close()
+        }
         do {
           guard let data = data else {
             throw JSONError.NoData
@@ -79,18 +82,19 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate {
           guard let json = try JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary else {
             throw JSONError.ConversionFailed
           }
+          if let error = json["error"] as? String, let errorDescription = json["error_description"] as? String {
+            NSLog("Refresh token error: \"\(error)\": \(errorDescription)")
+            return
+          }
           let token = json["access_token"]! as! String
           let expiresIn = json["expires_in"]! as! Int64
           let userId = json["user_id"]! as! String
           NSLog("Successfully refreshed token for user: %@ token: %@", userId, token)
           self.onAuthDataRecieved?(token, userId, Date().addingTimeInterval(Double(expiresIn)))
-          self.close()
         } catch let error as JSONError {
           NSLog("Error while preforming refresh request: %@", error.rawValue)
-          self.close()
         } catch let error as NSError {
           NSLog("Error while preforming refresh request: %@", error.localizedDescription)
-          self.close()
         }
       }.resume()
     }
