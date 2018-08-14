@@ -7,6 +7,7 @@
 #import "MSUtility+StringFormatting.h"
 #import "MSAnalyticsAuthenticationResult.h"
 
+// Number of seconds to refresh token before it expires.
 static int kMSRefreshThreshold = 10 * 60;
 
 @interface MSAnalyticsAuthenticationProvider ()

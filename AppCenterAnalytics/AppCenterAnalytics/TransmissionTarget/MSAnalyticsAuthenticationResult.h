@@ -10,7 +10,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, readonly) NSString *token;
 
 /**
- * The expiry date for the token
+ * The expiry date for the token.
  */
 @property (nonatomic, readonly) NSDate *expiryDate;
 

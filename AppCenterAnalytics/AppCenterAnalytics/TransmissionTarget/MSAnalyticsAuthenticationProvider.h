@@ -4,15 +4,15 @@
 @class MSAnalyticsAuthenticationResult;
 
 /**
- *  Different authentication types, e.g. MSA Compact, MSA Delegate, AAD,... .
+ * Different authentication types, e.g. MSA Compact, MSA Delegate, AAD,... .
  */
 typedef NS_ENUM(NSUInteger, MSAnalyticsAuthenticationType) {
 
   /**
-   *  AuthenticationType MSA Compact.
+   * AuthenticationType MSA Compact.
    */
   MSAnalyticsAuthenticationTypeMsaCompact,
-  
+
   /**
    * AuthenticationType MSA Delegate.
    */
@@ -24,7 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Completion handler that returns the authentication token.
  */
-typedef MSAnalyticsAuthenticationResult* _Nullable (^MSAcquireTokenCompletionBlock)(void);
+typedef MSAnalyticsAuthenticationResult *_Nullable (
+    ^MSAcquireTokenCompletionBlock)(void);
 
 @interface MSAnalyticsAuthenticationProvider : NSObject
 
@@ -46,19 +47,23 @@ typedef MSAnalyticsAuthenticationResult* _Nullable (^MSAcquireTokenCompletionBlo
 /**
  * Completion block that will be used to get an updated authentication token.
  */
-@property(nonatomic, readonly, copy) MSAcquireTokenCompletionBlock completionHandler;
+@property(nonatomic, readonly, copy)
+    MSAcquireTokenCompletionBlock completionHandler;
 
 /**
  * Create a new authentication provider.
+ *
  * @param type The type for the provider, e.g. MSA.
  * @param ticketKey The ticket key for the provider.
- * @param completionHandler The completion block that will be used to get a current authentication token.
+ * @param completionHandler The completion block that will be used to get a
+ * current authentication token.
  *
  * @return A new authentication provider.
  */
 - (instancetype)initWithAuthenticationType:(MSAnalyticsAuthenticationType)type
                                  ticketKey:(NSString *)ticketKey
-                         completionHandler:(MSAcquireTokenCompletionBlock)completionHandler;
+                         completionHandler:
+                             (MSAcquireTokenCompletionBlock)completionHandler;
 
 /**
  * Check expiration.

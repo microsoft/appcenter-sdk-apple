@@ -3,7 +3,7 @@ import WebKit
 
 class MSSignInViewController: UIViewController, WKNavigationDelegate {
 
-  var onAuthDataRecieved: ((_ token: String, _ userId: String, _ expiresAt: Date) -> Void)?
+  var onAuthDataReceived: ((_ token: String, _ userId: String, _ expiresAt: Date) -> Void)?
 
   enum AuthAction {
     case login, signout
@@ -90,7 +90,7 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate {
           let expiresIn = json["expires_in"]! as! Int64
           let userId = json["user_id"]! as! String
           NSLog("Successfully refreshed token for user: %@ token: %@", userId, token)
-          self.onAuthDataRecieved?(token, userId, Date().addingTimeInterval(Double(expiresIn)))
+          self.onAuthDataReceived?(token, userId, Date().addingTimeInterval(Double(expiresIn)))
         } catch let error as JSONError {
           NSLog("Error while preforming refresh request: %@", error.rawValue)
         } catch let error as NSError {

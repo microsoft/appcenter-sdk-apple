@@ -12,7 +12,7 @@ class MSAuthenticationViewController : UITableViewController, AppCenterProtocol 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if let signInController = segue.destination as? MSSignInViewController {
       signInController.action = currentAction
-      signInController.onAuthDataRecieved = { [weak self](token, userId, expiresAt) in
+      signInController.onAuthDataReceived = { [weak self](token, userId, expiresAt) in
         if let vc = self {
           vc.appCenter.addAuthenticationProvider(withUserId: userId, expiryDate: expiresAt, andAccessToken: token)
         }
