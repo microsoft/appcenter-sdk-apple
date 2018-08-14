@@ -74,6 +74,9 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate {
       let data: Data = bodyString.data(using: String.Encoding.utf8)!
       
       session.uploadTask(with: request as URLRequest, from: data) { (data, response, error) in
+        defer {
+          self.close()
+        }
         do {
           guard let data = data else {
             throw JSONError.NoData
@@ -81,18 +84,18 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate {
           guard let json = try JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary else {
             throw JSONError.ConversionFailed
           }
-          print(json)
+          if let error = json["error"] as? String, let errorDescription = json["error_description"] as? String {
+            print("ERROR: \"\(error)\": \(errorDescription)")
+            return
+          }
           let token = json["access_token"]! as! String
           let expiresIn = json["expires_in"]! as! Int64
           let userId = json["user_id"]! as! String
           self.onAuthDataRecieved?(token, userId, Date().addingTimeInterval(Double(expiresIn)))
-          self.close()
         } catch let error as JSONError {
           print(error.rawValue)
-          self.close()
         } catch let error as NSError {
           print(error.debugDescription)
-          self.close()
         }
         }.resume()
     }
@@ -119,9 +122,9 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate {
   func checkSignOut(url: URL) {
     if url.absoluteString.starts(with: (self.baseUrl + self.redirectEndpoint)) {
       if let error = url.valueOf("error") {
-        NSLog("Error while signing out: %@", error)
+        print("Error while signing out: %@", error)
       } else {
-        NSLog("Successfully signed out")
+        print("Successfully signed out")
       }
       close()
     }
