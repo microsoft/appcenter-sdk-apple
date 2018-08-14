@@ -24,10 +24,6 @@ class MSAuthenticationViewController : UITableViewController, AppCenterProtocol 
     showSignInController(action: MSSignInViewController.AuthAction.login)
   }
 
-  @IBAction func refresh() {
-    showSignInController(action: MSSignInViewController.AuthAction.refresh)
-  }
-
   @IBAction func signOut() {
     showSignInController(action: MSSignInViewController.AuthAction.signout)
   }
