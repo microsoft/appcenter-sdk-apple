@@ -37,7 +37,7 @@
 @property(nonatomic) MSAppExtension *appExt;
 
 /**
- * The Network extension.
+ * The network extension.
  */
 @property(nonatomic) MSNetExtension *netExt;
 

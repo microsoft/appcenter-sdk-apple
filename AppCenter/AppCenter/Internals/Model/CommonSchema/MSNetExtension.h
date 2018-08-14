@@ -4,7 +4,7 @@
 #import "MSSerializableObject.h"
 
 /**
- * The Network extension contains network properties.
+ * The network extension contains network properties.
  */
 @interface MSNetExtension : NSObject <MSSerializableObject, MSModel>
 

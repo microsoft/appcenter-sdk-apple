@@ -17,10 +17,10 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate {
   let tokenEndpoint = "token.srf"
   let signOutEndpoint = "logout.srf"
   let clientIdParam = "&client_id=000000004C1D3F6C"
-  var redirectParam = "redirect_uri=https://login.live.com/oauth20_desktop.srf".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
-  var refreshParam = "&grant_type=refresh_token&refresh_token="
+  let redirectParam = "redirect_uri=https://login.live.com/oauth20_desktop.srf".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+  let refreshParam = "&grant_type=refresh_token&refresh_token="
   let refreshTokenParam = "refresh_token"
-  lazy var scopeParam = "&scope=service::events.data.microsoft.com::MBI_SSL"
+  let scopeParam = "&scope=service::events.data.microsoft.com::MBI_SSL"
   var refreshToken = ""
 
   var action: AuthAction = .login
