@@ -54,9 +54,9 @@
 + (NSDictionary *)protocolExtensionDummies;
 
 /**
- * Get dummy values for common schema net extensions.
+ * Get dummy values for common schema network extensions.
  *
- * @return Dummy values for common schema net extensions.
+ * @return Dummy values for common schema network extensions.
  */
 + (NSDictionary *)netExtensionDummies;
 
@@ -137,10 +137,10 @@
 + (MSProtocolExtension *)protocolExtensionWithDummyValues:(NSDictionary *)dummyValues;
 
 /**
- * Populate a dummy common schema net extension.
+ * Populate a dummy common schema network extension.
  *
  * @param dummyValues Dummy values to create the extension.
- * @return A dummy common schema net extension.
+ * @return A dummy common schema network extension.
  */
 + (MSNetExtension *)netExtensionWithDummyValues:(NSDictionary *)dummyValues;
 

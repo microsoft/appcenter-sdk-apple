@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Retrieve a ticket from the ticket cache.
  *
  * @param key The key for the ticket.
+ *
  * @return The ticket or nil.
  */
 - (NSString * _Nullable )ticketFor:(NSString *)key;
