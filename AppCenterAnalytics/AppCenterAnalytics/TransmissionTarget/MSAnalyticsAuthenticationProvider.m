@@ -1,4 +1,3 @@
-
 #import "MSAnalyticsAuthenticationProvider.h"
 
 #import "MSAnalyticsInternal.h"
@@ -69,16 +68,29 @@ static int kMSRefreshThreshold = 10 * 60;
   if (!expiryDate) {
     MSLogError([MSAnalytics logTag], @"Date must not be null");
   }
-  NSString *tokenPrefix = (self.type == MSAnalyticsAuthenticationTypeMsaCompact) ? @"p:" : @"d:";
-  [[MSTicketCache sharedInstance] setTicket:[NSString stringWithFormat:@"%@%@", tokenPrefix, token] forKey:self.ticketKeyHash];
+  NSString *tokenPrefix;
+  switch (self.type) {
+  case MSAnalyticsAuthenticationTypeMsaCompact:
+    tokenPrefix = @"p";
+    break;
+  case MSAnalyticsAuthenticationTypeMsaDelegate:
+    tokenPrefix = @"d";
+    break;
+  }
+  [[MSTicketCache sharedInstance]
+      setTicket:[NSString stringWithFormat:@"%@:%@", tokenPrefix, token]
+         forKey:self.ticketKeyHash];
   self.expiryDate = expiryDate;
 }
 
 - (void)checkTokenExpiry {
-  if (self.expiryDate &&
-      (long long) [self.expiryDate timeIntervalSince1970] <=
-          ((long long) [[NSDate date] timeIntervalSince1970] + kMSRefreshThreshold)) {
-    [self acquireTokenAsync];
+  @synchronized(self) {
+    if (self.expiryDate &&
+        (long long)[self.expiryDate timeIntervalSince1970] <=
+            ((long long)[[NSDate date] timeIntervalSince1970] +
+             kMSRefreshThreshold)) {
+      [self acquireTokenAsync];
+    }
   }
 }
 
