@@ -29,7 +29,6 @@
 			<string>com.microsoft.appcenter.sasquatchswift</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>msal06181c2a-2403-437f-a490-9bcb06f85281</string>
 				<string>appcenter-0dbca56b-b9ae-4d53-856a-7c2856137d85</string>
 			</array>
 		</dict>

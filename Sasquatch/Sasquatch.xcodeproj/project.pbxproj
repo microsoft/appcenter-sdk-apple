@@ -683,7 +683,6 @@
 		B20AE48521028E2A00A1A195 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		B20AE48721028E3300A1A195 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		B20AE48921028E3C00A1A195 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
-		B23DF4F32109332800F1CAD7 /* MSAnalyticsTransmissionTargetSelectorViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MSAnalyticsTransmissionTargetSelectorViewCell.xib; sourceTree = "<group>"; };
 		B2586C80210A478500664A43 /* CommonSchemaPropertiesTableSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonSchemaPropertiesTableSection.swift; sourceTree = "<group>"; };
 		B2586C84210A47A800664A43 /* MSAnalyticsResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSAnalyticsResult.swift; sourceTree = "<group>"; };
 		B2586C88210A485300664A43 /* MSAnalyticsResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSAnalyticsResultViewController.swift; sourceTree = "<group>"; };
@@ -893,7 +892,6 @@
 				84226C131E88FEFC00798417 /* Products */,
 				F8FE732D21073042005C6A74 /* Vendor */,
 				84226D0F1E8921DE00798417 /* Frameworks */,
-				B23DF4C72109329D00F1CAD7 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1101,14 +1099,6 @@
 				B20AE43B210281C400A1A195 /* AppCenterPush.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		B23DF4C72109329D00F1CAD7 /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				B23DF4F32109332800F1CAD7 /* MSAnalyticsTransmissionTargetSelectorViewCell.xib */,
-			);
-			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 		B2C97B5A21064A5300042A03 /* SasquatchPuppet */ = {
