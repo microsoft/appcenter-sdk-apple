@@ -6,7 +6,7 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate {
   var onAuthDataRecieved: ((_ token: String, _ userId: String, _ expiresAt: Date) -> Void)?
 
   enum AuthAction {
-    case login, refresh, signout
+    case login, signout
   }
 
   var webView: WKWebView!
@@ -31,6 +31,7 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate {
   override func loadView() {
     let configuration = WKWebViewConfiguration()
     configuration.preferences.javaScriptEnabled = true
+    configuration.websiteDataStore = WKWebsiteDataStore.nonPersistent()
     self.webView = WKWebView(frame: .zero, configuration: configuration)
     self.webView.navigationDelegate = self
     view = self.webView
@@ -45,22 +46,21 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate {
     switch self.action {
     case .login:
       self.login()
-    case .refresh:
-      self.refresh()
     case .signout:
       self.signOut()
     }
   }
 
   func login() {
+    NSLog("Started login process")
     if let signInUrl = URL(string: self.baseUrl + self.authorizeEndpoint + "?" + redirectParam + clientIdParam + "&response_type=token" + scopeParam) {
       self.webView.load(URLRequest(url: signInUrl))
     }
   }
 
   enum JSONError: String, Error {
-    case NoData = "ERROR: no data"
-    case ConversionFailed = "ERROR: conversion from JSON failed"
+    case NoData = "No data"
+    case ConversionFailed = "Conversion from JSON failed"
   }
   
   func refresh() {
@@ -72,7 +72,8 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate {
       request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
       let bodyString = redirectParam + clientIdParam + refreshParam + scopeParam
       let data: Data = bodyString.data(using: String.Encoding.utf8)!
-      
+
+      NSLog("Started refresh process")
       session.uploadTask(with: request as URLRequest, from: data) { (data, response, error) in
         do {
           guard let data = data else {
@@ -81,24 +82,25 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate {
           guard let json = try JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary else {
             throw JSONError.ConversionFailed
           }
-          print(json)
           let token = json["access_token"]! as! String
           let expiresIn = json["expires_in"]! as! Int64
           let userId = json["user_id"]! as! String
+          NSLog("Successfully refreshed token for user: %@ token: %@", userId, token)
           self.onAuthDataRecieved?(token, userId, Date().addingTimeInterval(Double(expiresIn)))
           self.close()
         } catch let error as JSONError {
-          print(error.rawValue)
+          NSLog("Error while preforming refresh request: %@", error.rawValue)
           self.close()
         } catch let error as NSError {
-          print(error.debugDescription)
+          NSLog("Error while preforming refresh request: %@", error.localizedDescription)
           self.close()
         }
-        }.resume()
+      }.resume()
     }
   }
 
   func signOut() {
+    NSLog("Started sign out process")
     if let url = URL(string: self.baseUrl + self.signOutEndpoint + "?" + redirectParam + clientIdParam) {
       self.webView.load(URLRequest(url: url))
     }
@@ -107,10 +109,16 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate {
   func checkSignIn(url: URL) {
     if url.absoluteString.starts(with: (self.baseUrl + self.redirectEndpoint)) {
       if let newUrl = URL(string: self.baseUrl + self.redirectEndpoint + "?" + url.fragment!) {
-        let refreshToken = newUrl.valueOf(self.refreshTokenParam)!
-        if(!refreshToken.isEmpty) {
-          self.refreshToken = refreshToken
-          self.refresh()
+        if let error = newUrl.valueOf("error") {
+          NSLog("Error while signing in: %@", error)
+          self.close()
+        } else {
+          let refreshToken = newUrl.valueOf(self.refreshTokenParam)!
+          if(!refreshToken.isEmpty) {
+            self.refreshToken = refreshToken
+            NSLog("Successfully signed in refresh_token: %@", self.refreshToken)
+            self.refresh()
+          }
         }
       }
     }
@@ -137,8 +145,6 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate {
       checkSignIn(url: webView.url!)
     case .signout:
       checkSignOut(url: webView.url!)
-    case .refresh:
-      refresh()
     }
   }
 }
