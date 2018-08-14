@@ -16,16 +16,13 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate {
   let authorizeEndpoint = "authorize.srf"
   let tokenEndpoint = "token.srf"
   let signOutEndpoint = "logout.srf"
-  let clientId = "000000004C1D3F6C"
-  let scope = "service::events.data.microsoft.com::MBI_SSL"
+  let clientIdParam = "&client_id=000000004C1D3F6C"
+  var redirectParam = "redirect_uri=https://login.live.com/oauth20_desktop.srf".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+  var refreshParam = "&grant_type=refresh_token&refresh_token="
   let refreshTokenParam = "refresh_token"
-  lazy var clientIdParam = { return "&client_id=" + self.clientId }()
-  lazy var redirectParam = { return "redirect_uri=" + (self.baseUrl + self.redirectEndpoint).addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)! }()
-  lazy var refreshParam = { return "&grant_type=" + self.refreshTokenParam + "&" + self.refreshTokenParam + "=" + self.refreshToken}()
-  lazy var scopeParam = { return "&scope=" + self.scope }()
-  
+  lazy var scopeParam = "&scope=service::events.data.microsoft.com::MBI_SSL"
   var refreshToken = ""
-  
+
   var action: AuthAction = .login
 
   override func loadView() {
@@ -70,7 +67,7 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate {
       let request = NSMutableURLRequest(url: refreshUrl)
       request.httpMethod = "POST"
       request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-      let bodyString = redirectParam + clientIdParam + refreshParam + scopeParam
+      let bodyString = redirectParam + clientIdParam + refreshParam + refreshToken + scopeParam
       let data: Data = bodyString.data(using: String.Encoding.utf8)!
 
       NSLog("Started refresh process")
@@ -107,7 +104,7 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate {
   }
 
   func checkSignIn(url: URL) {
-    if url.absoluteString.starts(with: (self.baseUrl + self.redirectEndpoint)) {
+    if url.absoluteString.contains((self.baseUrl + self.redirectEndpoint)) {
       if let newUrl = URL(string: self.baseUrl + self.redirectEndpoint + "?" + url.fragment!) {
         if let error = newUrl.valueOf("error") {
           NSLog("Error while signing in: %@", error)
@@ -125,7 +122,7 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate {
   }
 
   func checkSignOut(url: URL) {
-    if url.absoluteString.starts(with: (self.baseUrl + self.redirectEndpoint)) {
+    if url.absoluteString.contains((self.baseUrl + self.redirectEndpoint)) {
       if let error = url.valueOf("error") {
         NSLog("Error while signing out: %@", error)
       } else {
