@@ -11,24 +11,29 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate {
 
   var webView: WKWebView!
 
-  let baseUrl = "https://login.live.com"
-  let redirectEndpoint = "/oauth20_desktop.srf"
-  let authorizeEndpoint = "/oauth20_authorize.srf"
-  let signOutEndpoint = "/oauth20_logout.srf"
+  let baseUrl = "https://login.live.com/oauth20_"
+  let redirectEndpoint = "desktop.srf"
+  let authorizeEndpoint = "authorize.srf"
+  let tokenEndpoint = "token.srf"
+  let signOutEndpoint = "logout.srf"
   let clientId = "000000004C1D3F6C"
   let scope = "service::events.data.microsoft.com::MBI_SSL"
+  let refreshTokenParam = "refresh_token"
   lazy var clientIdParam = { return "&client_id=" + self.clientId }()
   lazy var redirectParam = { return "redirect_uri=" + (self.baseUrl + self.redirectEndpoint).addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)! }()
+  lazy var refreshParam = { return "&grant_type=" + self.refreshTokenParam + "&" + self.refreshTokenParam + "=" + self.refreshToken}()
   lazy var scopeParam = { return "&scope=" + self.scope }()
-
+  
+  var refreshToken = ""
+  
   var action: AuthAction = .login
 
   override func loadView() {
     let configuration = WKWebViewConfiguration()
     configuration.preferences.javaScriptEnabled = true
-    webView = WKWebView(frame: .zero, configuration: configuration)
-    webView.navigationDelegate = self
-    view = webView
+    self.webView = WKWebView(frame: .zero, configuration: configuration)
+    self.webView.navigationDelegate = self
+    view = self.webView
   }
 
   override func viewDidLoad() {
@@ -37,42 +42,77 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate {
   }
 
   func process() {
-    switch action {
+    switch self.action {
     case .login:
-      login()
+      self.login()
     case .refresh:
-      refresh()
+      self.refresh()
     case .signout:
-      signOut()
+      self.signOut()
     }
   }
 
   func login() {
     if let signInUrl = URL(string: self.baseUrl + self.authorizeEndpoint + "?" + redirectParam + clientIdParam + "&response_type=token" + scopeParam) {
-      webView.load(URLRequest(url: signInUrl))
+      self.webView.load(URLRequest(url: signInUrl))
     }
   }
 
+  enum JSONError: String, Error {
+    case NoData = "ERROR: no data"
+    case ConversionFailed = "ERROR: conversion from JSON failed"
+  }
+  
   func refresh() {
-
+    if let refreshUrl = URL(string: self.baseUrl + self.tokenEndpoint) {
+      let config = URLSessionConfiguration.default
+      let session = URLSession(configuration: config)
+      let request = NSMutableURLRequest(url: refreshUrl)
+      request.httpMethod = "POST"
+      request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+      let bodyString = redirectParam + clientIdParam + refreshParam + scopeParam
+      let data: Data = bodyString.data(using: String.Encoding.utf8)!
+      
+      session.uploadTask(with: request as URLRequest, from: data) { (data, response, error) in
+        do {
+          guard let data = data else {
+            throw JSONError.NoData
+          }
+          guard let json = try JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary else {
+            throw JSONError.ConversionFailed
+          }
+          print(json)
+          let token = json["access_token"]! as! String
+          let expiresIn = json["expires_in"]! as! Int64
+          let userId = json["user_id"]! as! String
+          self.onAuthDataRecieved?(token, userId, Date().addingTimeInterval(Double(expiresIn)))
+          self.close()
+        } catch let error as JSONError {
+          print(error.rawValue)
+          self.close()
+        } catch let error as NSError {
+          print(error.debugDescription)
+          self.close()
+        }
+        }.resume()
+    }
   }
 
   func signOut() {
     if let url = URL(string: self.baseUrl + self.signOutEndpoint + "?" + redirectParam + clientIdParam) {
-      webView.load(URLRequest(url: url))
+      self.webView.load(URLRequest(url: url))
     }
   }
 
   func checkSignIn(url: URL) {
     if url.absoluteString.starts(with: (self.baseUrl + self.redirectEndpoint)) {
       if let newUrl = URL(string: self.baseUrl + self.redirectEndpoint + "?" + url.fragment!) {
-        let token = newUrl.valueOf("access_token")!
-        let userId = newUrl.valueOf("user_id")!
-        let expiresIn = Int64(newUrl.valueOf("expires_in")!)!
-
-        onAuthDataRecieved?(token, userId, Date().addingTimeInterval(Double(expiresIn)))
+        let refreshToken = newUrl.valueOf(self.refreshTokenParam)!
+        if(!refreshToken.isEmpty) {
+          self.refreshToken = refreshToken
+          self.refresh()
+        }
       }
-      close()
     }
   }
 
@@ -98,7 +138,7 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate {
     case .signout:
       checkSignOut(url: webView.url!)
     case .refresh:
-      checkSignOut(url: webView.url!)
+      refresh()
     }
   }
 }
