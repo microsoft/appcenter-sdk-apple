@@ -1,4 +1,3 @@
-#import "MSOneCollectorIngestion.h"
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterInternal.h"
@@ -9,6 +8,7 @@
 #import "MSLog.h"
 #import "MSLogContainer.h"
 #import "MSLoggerInternal.h"
+#import "MSOneCollectorIngestionPrivate.h"
 #import "MSTicketCache.h"
 #import "MSUtility+Date.h"
 
@@ -99,28 +99,28 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
          forKey:kMSOneCollectorUploadTimeKey];
 
   // Gather tokens from logs.
-  NSMutableDictionary<NSString *, NSString *> *ticketsAndKeys = [NSMutableDictionary<NSString *, NSString *> new];
+  NSMutableDictionary<NSString *, NSString *> *ticketsAndKeys =
+      [NSMutableDictionary<NSString *, NSString *> new];
   for (id<MSLog> log in container.logs) {
     MSCommonSchemaLog *csLog = (MSCommonSchemaLog *)log;
     if (csLog.ext.protocolExt) {
       NSArray<NSString *> *ticketKeys = [[[csLog ext] protocolExt] ticketKeys];
       for (NSString *ticketKey in ticketKeys) {
-        NSString *authenticationToken = [[MSTicketCache sharedInstance] ticketFor:ticketKey];
+        NSString *authenticationToken =
+            [[MSTicketCache sharedInstance] ticketFor:ticketKey];
         if (authenticationToken) {
           [ticketsAndKeys setValue:authenticationToken forKey:ticketKey];
         }
       }
     }
   }
-  if (ticketsAndKeys && ticketsAndKeys.count > 0) {
-    NSError *error;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:ticketsAndKeys options:0 error:&error];
-    if (jsonData) {
-      NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-      [headers setValue:jsonString forKey:kMSOneCollectorTicketsKey];
-    } else {
-      MSLogError([MSAppCenter logTag], @"Could not serialize ticketKeys and authentication tokens with error %@.", error.localizedDescription);
-    }
+  if (ticketsAndKeys.count > 0) {
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:ticketsAndKeys
+                                                       options:0
+                                                         error:nil];
+    NSString *jsonString =
+        [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    [headers setValue:jsonString forKey:kMSOneCollectorTicketsKey];
   }
   request.allHTTPHeaderFields = headers;
 
@@ -177,15 +177,15 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
 }
 
 - (NSString *)obfuscateTickets:(NSString *)tokenString {
-  NSRegularExpression *regex = [NSRegularExpression
-                                regularExpressionWithPattern:@":[^\"]+"
-                                options:0
-                                error:nil];
-  return [regex
-          stringByReplacingMatchesInString:tokenString
-                                   options:0
-                                     range:NSMakeRange(0, tokenString.length)
-                              withTemplate:@":***"];
+  NSRegularExpression *regex =
+      [NSRegularExpression regularExpressionWithPattern:@":[^\"]+"
+                                                options:0
+                                                  error:nil];
+  return
+      [regex stringByReplacingMatchesInString:tokenString
+                                      options:0
+                                        range:NSMakeRange(0, tokenString.length)
+                                 withTemplate:@":***"];
 }
 
 @end
