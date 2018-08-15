@@ -39,6 +39,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 - (void)tearDown {
   [self.settingsMock stopMocking];
   [self.analyticsClassMock stopMocking];
+  MSAnalyticsTransmissionTarget.authenticationProvider = nil;
   [super tearDown];
 }
 
@@ -882,12 +883,6 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   
   // Then
   XCTAssertEqual(provider, MSAnalyticsTransmissionTarget.authenticationProvider);
-  
-  // When
-  [MSAnalyticsTransmissionTarget addAuthenticationProvider:nil];
-  
-  // Then
-  XCTAssertNil(MSAnalyticsTransmissionTarget.authenticationProvider);
 }
 
 @end
