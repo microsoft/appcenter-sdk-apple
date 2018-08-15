@@ -9,6 +9,7 @@ typedef void (^MSAnalyticsAuthenticationProviderCompletionBlock)(
     NSString *token, NSDate *expiryDate);
 
 @protocol MSAnalyticsAuthenticationProviderDelegate <NSObject>
+
 /**
  * Required method that needs to be called from within your authentication flow
  * to provide the authentication token and expiry date.
