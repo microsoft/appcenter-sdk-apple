@@ -99,7 +99,7 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
          forKey:kMSOneCollectorUploadTimeKey];
 
   // Gather tokens from logs.
-  NSMutableString *ticketKeyString = [NSMutableString new];
+  NSMutableDictionary<NSString *, NSString *> *ticketsAndKeys = [NSMutableDictionary<NSString *, NSString *> new];
   for (id<MSLog> log in container.logs) {
     MSCommonSchemaLog *csLog = (MSCommonSchemaLog *)log;
     if (csLog.ext.protocolExt) {
@@ -107,27 +107,21 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
       for (NSString *ticketKey in ticketKeys) {
         NSString *authenticationToken = [[MSTicketCache sharedInstance] ticketFor:ticketKey];
         if (authenticationToken) {
-
-          /*
-           * Format to look like this:
-           * "ticketKey1"="d:token1";"ticketKey2"="d:token2" or
-           * "ticketKey1"="p:token1";"ticketKey2"="p:token2". The value (p: vs.
-           * d:) is determined by MSAnalyticsAuthenticationProvider before
-           * saving the token to the TicketCache.
-           */
-          NSString *ticketKeyAndToken =
-              [NSString stringWithFormat:@"\"%@\"=\"%@\";", ticketKey, authenticationToken];
-          [ticketKeyString appendString:ticketKeyAndToken];
+          [ticketsAndKeys setValue:authenticationToken forKey:ticketKey];
         }
       }
     }
   }
-
-  // Delete last ";" if applicable and set header.
-  if (ticketKeyString && (ticketKeyString.length > 0)) {
-    [ticketKeyString
-        deleteCharactersInRange:NSMakeRange([ticketKeyString length] - 1, 1)];
-    [headers setObject:ticketKeyString forKey:kMSOneCollectorTicketsKey];
+  if (ticketsAndKeys && ticketsAndKeys.count > 0) {
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:ticketsAndKeys options:0 error:&error];
+    if(jsonData) {
+      NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+      [headers setValue:jsonString forKey:kMSOneCollectorTicketsKey];
+    }
+    else {
+      MSLogError([MSAppCenter logTag], @"Could not serialize ticketKeys and authentication tokens with error %@.", error.localizedDescription);
+    }
   }
   request.allHTTPHeaderFields = headers;
 
