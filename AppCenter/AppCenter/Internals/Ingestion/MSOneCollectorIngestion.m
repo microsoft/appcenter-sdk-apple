@@ -2,12 +2,14 @@
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterInternal.h"
+#import "MSCommonSchemaLog.h"
 #import "MSCompression.h"
 #import "MSConstants+Internal.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSLog.h"
 #import "MSLogContainer.h"
 #import "MSLoggerInternal.h"
+#import "MSTicketCache.h"
 #import "MSUtility+Date.h"
 
 NSString *const kMSOneCollectorApiKey = @"apikey";
@@ -17,6 +19,7 @@ NSString *const kMSOneCollectorClientVersionKey = @"Client-Version";
 NSString *const kMSOneCollectorContentType =
     @"application/x-json-stream; charset=utf-8";
 NSString *const kMSOneCollectorLogSeparator = @"\n";
+NSString *const kMSOneCollectorTicketsKey = @"Tickets";
 NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
 
 @implementation MSOneCollectorIngestion
@@ -54,7 +57,7 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
    * performance issues due to this validation, we will remove `[container
    * isValid]` call below.
    */
-  
+
   // Verify container.
   if (!container || ![container isValid]) {
     NSDictionary *userInfo =
@@ -94,6 +97,38 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
                     stringWithFormat:@"%lld",
                                      (long long)[MSUtility nowInMilliseconds]]
          forKey:kMSOneCollectorUploadTimeKey];
+
+  // Gather tokens from logs.
+  NSMutableString *ticketKeyString = [NSMutableString new];
+  for (id<MSLog> log in container.logs) {
+    MSCommonSchemaLog *csLog = (MSCommonSchemaLog *)log;
+    if (csLog.ext.protocolExt) {
+      NSArray<NSString *> *ticketKeys = [[[csLog ext] protocolExt] ticketKeys];
+      for (NSString *ticketKey in ticketKeys) {
+        NSString *authenticationToken = [[MSTicketCache sharedInstance] ticketFor:ticketKey];
+        if (authenticationToken) {
+
+          /*
+           * Format to look like this:
+           * "ticketKey1"="d:token1";"ticketKey2"="d:token2" or
+           * "ticketKey1"="p:token1";"ticketKey2"="p:token2". The value (p: vs.
+           * d:) is determined by MSAnalyticsAuthenticationProvider before
+           * saving the token to the TicketCache.
+           */
+          NSString *ticketKeyAndToken =
+              [NSString stringWithFormat:@"\"%@\"=\"%@\";", ticketKey, authenticationToken];
+          [ticketKeyString appendString:ticketKeyAndToken];
+        }
+      }
+    }
+  }
+
+  // Delete last ";" if applicable and set header.
+  if (ticketKeyString && (ticketKeyString.length > 0)) {
+    [ticketKeyString
+        deleteCharactersInRange:NSMakeRange([ticketKeyString length] - 1, 1)];
+    [headers setObject:ticketKeyString forKey:kMSOneCollectorTicketsKey];
+  }
   request.allHTTPHeaderFields = headers;
 
   // Set body.
@@ -131,9 +166,12 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
 }
 
 - (NSString *)obfuscateHeaderValue:(NSString *)key value:(NSString *)value {
-  return [key isEqualToString:kMSOneCollectorApiKey]
-             ? [self obfuscateTargetTokens:value]
-             : value;
+  if ([key isEqualToString:kMSOneCollectorApiKey]) {
+    return [self obfuscateTargetTokens:value];
+  } else if ([key isEqualToString:kMSOneCollectorTicketsKey]) {
+    return [self obfuscateTickets:value];
+  }
+  return value;
 }
 
 - (NSString *)obfuscateTargetTokens:(NSString *)tokenString {
@@ -143,6 +181,25 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
     [obfuscatedTokens addObject:[MSIngestionUtil hideSecret:token]];
   }
   return [obfuscatedTokens componentsJoinedByString:@","];
+}
+
+- (NSString *)obfuscateTickets:(NSString *)tokenString {
+  NSArray *tickets = [tokenString componentsSeparatedByString:@";"];
+  NSMutableArray *obfuscatedTickets = [NSMutableArray new];
+  for (NSString *ticket in tickets) {
+    NSString *obfuscatedTicket;
+    NSRange separator = [ticket rangeOfString:@"\"=\""];
+    if (separator.location != NSNotFound) {
+      NSRange tokenRange = NSMakeRange(NSMaxRange(separator), ticket.length - NSMaxRange(separator) - 1);
+      NSString *token = [ticket substringWithRange:tokenRange];
+      token = [MSIngestionUtil hideSecret:token];
+      obfuscatedTicket = [ticket stringByReplacingCharactersInRange:tokenRange withString:token];
+    } else {
+      obfuscatedTicket = [MSIngestionUtil hideSecret:ticket];
+    }
+    [obfuscatedTickets addObject:obfuscatedTicket];
+  }
+  return [obfuscatedTickets componentsJoinedByString:@";"];
 }
 
 @end

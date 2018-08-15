@@ -187,7 +187,7 @@
   csLog.ext.appExt.locale =
       [[[NSBundle mainBundle] preferredLocalizations] firstObject];
 
-  // Net extension.
+  // Network extension.
   csLog.ext.netExt = [MSNetExtension new];
   csLog.ext.netExt.provider = self.device.carrierName;
 

@@ -72,4 +72,7 @@ import AppCenter
   func isEventFilterEnabled() -> Bool
   func setEventFilterEnabled(_ isEnabled: Bool)
   func startEventFilterService()
+
+  // Analytics transmission target
+  func addAuthenticationProvider(withUserId userId: String, expiryDate: Date, andAccessToken accessToken: String)
 }

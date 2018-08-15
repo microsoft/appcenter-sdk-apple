@@ -9,6 +9,11 @@
 @interface MSProtocolExtension : NSObject <MSSerializableObject, MSModel>
 
 /**
+ * Ticket keys.
+ */
+@property(nonatomic) NSArray<NSString *> *ticketKeys;
+
+/**
  * The device's manufacturer.
  */
 @property(nonatomic, copy) NSString *devMake;

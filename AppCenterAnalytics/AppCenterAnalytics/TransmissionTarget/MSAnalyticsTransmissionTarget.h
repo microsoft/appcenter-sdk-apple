@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
 
 #import "MSPropertyConfigurator.h"
+#import "MSAnalyticsAuthenticationProvider.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -10,6 +11,13 @@ NS_ASSUME_NONNULL_BEGIN
  * Property configurator.
  */
 @property(nonatomic, readonly) MSPropertyConfigurator *propertyConfigurator;
+
+/**
+ * Authentication provider.
+ */
+@property(class, nonatomic, nullable, setter=addAuthenticationProvider:) MSAnalyticsAuthenticationProvider* authenticationProvider;
+
++ (void)addAuthenticationProvider:(MSAnalyticsAuthenticationProvider *)authenticatioProvider;
 
 /**
  * Track an event.

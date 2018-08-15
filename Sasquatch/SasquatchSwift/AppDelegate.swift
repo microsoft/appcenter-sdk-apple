@@ -105,8 +105,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
    * failed.
    */
   func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-    
-    // Forward the URL to MSDistribute.
+    // Forward the URL.
     return MSDistribute.open(url)
   }
 

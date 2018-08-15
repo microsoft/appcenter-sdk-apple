@@ -1,12 +1,13 @@
 #import <Foundation/Foundation.h>
 
 #import "MSAnalyticsTransmissionTarget.h"
+#import "MSChannelDelegate.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSUtility.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MSAnalyticsTransmissionTarget ()
+@interface MSAnalyticsTransmissionTarget () <MSChannelDelegate>
 
 /**
  * Parent transmission target of this target.

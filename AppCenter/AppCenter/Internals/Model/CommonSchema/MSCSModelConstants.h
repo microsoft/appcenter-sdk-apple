@@ -39,6 +39,7 @@ extern NSString *const kMSAppLocale;
 
 #pragma mark - MSProtocolExtension
 
+extern NSString *const kMSTicketKeys;
 extern NSString *const kMSDevMake;
 extern NSString *const kMSDevModel;
 
