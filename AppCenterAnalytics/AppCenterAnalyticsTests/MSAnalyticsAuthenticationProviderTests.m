@@ -23,12 +23,16 @@
   self.today = [NSDate date];
   self.ticketKey = @"ticketKey1";
   self.token = @"authenticationToken";
-  id mockDelegate = OCMProtocolMock(@protocol(MSAnalyticsAuthenticationProviderDelegate));
-  OCMStub([mockDelegate acquireTokenWithCompletionHandler:([OCMArg invokeBlockWithArgs:self.token, self.today, nil])]);
+  id mockDelegate =
+      OCMProtocolMock(@protocol(MSAnalyticsAuthenticationProviderDelegate));
+  OCMStub([mockDelegate
+      acquireTokenWithCompletionHandler:([OCMArg invokeBlockWithArgs:self.token,
+                                                                     self.today,
+                                                                     nil])]);
   self.sut = [[MSAnalyticsAuthenticationProvider alloc]
-              initWithAuthenticationType:MSAnalyticsAuthenticationTypeMsaDelegate
-              ticketKey:self.ticketKey
-              delegate:mockDelegate];
+      initWithAuthenticationType:MSAnalyticsAuthenticationTypeMsaDelegate
+                       ticketKey:self.ticketKey
+                        delegate:mockDelegate];
   self.sut = [self createAuthenticationProviderWithTicketKey:self.ticketKey
                                                     delegate:mockDelegate];
 }
@@ -71,9 +75,11 @@ createAuthenticationProviderWithTicketKey:(NSString *)ticketKey
       OCMProtocolMock(@protocol(MSAnalyticsAuthenticationProviderDelegate));
   NSTimeInterval plusDay = (24 * 60 * 60);
   OCMStub([mockDelegate
-           acquireTokenWithCompletionHandler:([OCMArg invokeBlockWithArgs:self.token,
-                                               [self.today dateByAddingTimeInterval:plusDay],
-                                               nil])]);
+      acquireTokenWithCompletionHandler:
+          ([OCMArg
+              invokeBlockWithArgs:self.token,
+                                  [self.today dateByAddingTimeInterval:plusDay],
+                                  nil])]);
   self.sut = [self createAuthenticationProviderWithTicketKey:self.ticketKey
                                                     delegate:mockDelegate];
   id sutMock = OCMPartialMock(self.sut);
@@ -101,15 +107,17 @@ createAuthenticationProviderWithTicketKey:(NSString *)ticketKey
 }
 
 - (void)testExpiryDateIsExpired {
-  
+
   // If
   id mockDelegate =
-  OCMProtocolMock(@protocol(MSAnalyticsAuthenticationProviderDelegate));
+      OCMProtocolMock(@protocol(MSAnalyticsAuthenticationProviderDelegate));
   NSTimeInterval minusDay = -(24 * 60 * 60);
   OCMStub([mockDelegate
-           acquireTokenWithCompletionHandler:([OCMArg invokeBlockWithArgs:self.token,
-                                               [self.today dateByAddingTimeInterval:minusDay],
-                                               nil])]);
+      acquireTokenWithCompletionHandler:
+          ([OCMArg invokeBlockWithArgs:self.token,
+                                       [self.today
+                                           dateByAddingTimeInterval:minusDay],
+                                       nil])]);
   self.sut = [self createAuthenticationProviderWithTicketKey:self.ticketKey
                                                     delegate:mockDelegate];
   id sutMock = OCMPartialMock(self.sut);
@@ -218,22 +226,23 @@ createAuthenticationProviderWithTicketKey:(NSString *)ticketKey
 }
 
 - (void)testDelegateReturnsNullToken {
-  
+
   // If
   id mockDelegate =
-  OCMProtocolMock(@protocol(MSAnalyticsAuthenticationProviderDelegate));
+      OCMProtocolMock(@protocol(MSAnalyticsAuthenticationProviderDelegate));
   OCMStub([mockDelegate
-           acquireTokenWithCompletionHandler:([OCMArg invokeBlockWithArgs:[NSNull null],
-                                               self.today,
-                                               nil])]);
+      acquireTokenWithCompletionHandler:([OCMArg
+                                            invokeBlockWithArgs:[NSNull null],
+                                                                self.today,
+                                                                nil])]);
   self.sut = [[MSAnalyticsAuthenticationProvider alloc]
-              initWithAuthenticationType:MSAnalyticsAuthenticationTypeMsaDelegate
-              ticketKey:self.ticketKey
-              delegate:mockDelegate];
-  
+      initWithAuthenticationType:MSAnalyticsAuthenticationTypeMsaDelegate
+                       ticketKey:self.ticketKey
+                        delegate:mockDelegate];
+
   // When
   XCTestExpectation *expection =
-  [self expectationWithDescription:@"Completion handler is called"];
+      [self expectationWithDescription:@"Completion handler is called"];
   [self.sut acquireTokenAsync];
   dispatch_async(dispatch_get_main_queue(), ^{
     [expection fulfill];
@@ -244,33 +253,34 @@ createAuthenticationProviderWithTicketKey:(NSString *)ticketKey
                                    XCTFail(@"Expectation Failed with error: %@",
                                            error);
                                  }
-                                 
+
                                  // Then
                                  XCTAssertNil(self.sut.expiryDate);
                                  NSString *savedToken =
-                                 [[MSTicketCache sharedInstance]
-                                  ticketFor:self.sut.ticketKeyHash];
+                                     [[MSTicketCache sharedInstance]
+                                         ticketFor:self.sut.ticketKeyHash];
                                  XCTAssertNil(savedToken);
                                }];
 }
 
 - (void)testDelegateReturnsNullExpiryDate {
-  
+
   // If
   id mockDelegate =
-  OCMProtocolMock(@protocol(MSAnalyticsAuthenticationProviderDelegate));
+      OCMProtocolMock(@protocol(MSAnalyticsAuthenticationProviderDelegate));
   OCMStub([mockDelegate
-           acquireTokenWithCompletionHandler:([OCMArg invokeBlockWithArgs:self.token,
-                                               [NSNull null],
-                                               nil])]);
+      acquireTokenWithCompletionHandler:([OCMArg
+                                            invokeBlockWithArgs:self.token,
+                                                                [NSNull null],
+                                                                nil])]);
   self.sut = [[MSAnalyticsAuthenticationProvider alloc]
-              initWithAuthenticationType:MSAnalyticsAuthenticationTypeMsaDelegate
-              ticketKey:self.ticketKey
-              delegate:mockDelegate];
-  
+      initWithAuthenticationType:MSAnalyticsAuthenticationTypeMsaDelegate
+                       ticketKey:self.ticketKey
+                        delegate:mockDelegate];
+
   // When
   XCTestExpectation *expection =
-  [self expectationWithDescription:@"Completion handler is called"];
+      [self expectationWithDescription:@"Completion handler is called"];
   [self.sut acquireTokenAsync];
   dispatch_async(dispatch_get_main_queue(), ^{
     [expection fulfill];
@@ -281,12 +291,12 @@ createAuthenticationProviderWithTicketKey:(NSString *)ticketKey
                                    XCTFail(@"Expectation Failed with error: %@",
                                            error);
                                  }
-                                 
+
                                  // Then
                                  XCTAssertNil(self.sut.expiryDate);
                                  NSString *savedToken =
-                                 [[MSTicketCache sharedInstance]
-                                  ticketFor:self.sut.ticketKeyHash];
+                                     [[MSTicketCache sharedInstance]
+                                         ticketFor:self.sut.ticketKeyHash];
                                  XCTAssertNil(savedToken);
                                }];
 }
