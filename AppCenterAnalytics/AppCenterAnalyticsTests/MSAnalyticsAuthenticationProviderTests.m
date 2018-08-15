@@ -37,6 +37,7 @@
   [super tearDown];
 
   self.sut = nil;
+  [[MSTicketCache sharedInstance] clearCache];
 }
 
 - (MSAnalyticsAuthenticationProvider *)
