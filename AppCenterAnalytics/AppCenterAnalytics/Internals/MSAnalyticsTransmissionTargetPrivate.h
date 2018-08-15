@@ -31,6 +31,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic, readonly) id<MSChannelGroupProtocol> channelGroup;
 
+/**
+ * Authentication provider.
+ */
+@property(class, nonatomic) MSAnalyticsAuthenticationProvider* authenticationProvider;
+
 @end
 
 NS_ASSUME_NONNULL_END

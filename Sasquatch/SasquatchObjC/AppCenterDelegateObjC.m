@@ -236,12 +236,4 @@
   [MSAppCenter startService:[MSEventFilter class]];
 }
 
-// Analytics transmission target
-- (void)addAuthenticationProviderWithUserId:(NSString *) userId expiryDate:(NSDate*)expiryDate andAccessToken:(NSString *) accessToken {
-  MSAnalyticsAuthenticationProvider *authProvider = [[MSAnalyticsAuthenticationProvider alloc] initWithAuthenticationType: MSAnalyticsAuthenticationTypeMsaCompact ticketKey: userId completionHandler:^MSAnalyticsAuthenticationResult* (void) {
-    MSAnalyticsAuthenticationResult *result = [[MSAnalyticsAuthenticationResult alloc] initWithToken:accessToken expiryDate:expiryDate];
-    return result;
-  }];
-  [MSAnalyticsTransmissionTarget addAuthenticationProvider:authProvider];
-}
 @end
