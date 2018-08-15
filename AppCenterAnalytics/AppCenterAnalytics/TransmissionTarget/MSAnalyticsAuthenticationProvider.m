@@ -1,56 +1,56 @@
 #import "MSAnalyticsAuthenticationProvider.h"
 
+#import "MSAnalyticsAuthenticationProviderDelegate.h"
 #import "MSAnalyticsInternal.h"
 #import "MSLogger.h"
 #import "MSTicketCache.h"
 #import "MSUtility+StringFormatting.h"
-#import "MSAnalyticsAuthenticationResult.h"
 
 // Number of seconds to refresh token before it expires.
 static int kMSRefreshThreshold = 10 * 60;
 
 @interface MSAnalyticsAuthenticationProvider ()
 
-@property(nonatomic) BOOL isAlreadyAcquiringToken;
-
 @property(nonatomic) NSDate *expiryDate;
+
+/**
+ * Completion block that will be used to get an updated authentication token.
+ */
+@property(nonatomic, copy)
+    MSAnalyticsAuthenticationProviderCompletionBlock completionHandler;
 
 @end
 
 @implementation MSAnalyticsAuthenticationProvider
 
-- (instancetype)initWithAuthenticationType:(MSAnalyticsAuthenticationType)type
-                                 ticketKey:(NSString *)ticketKey
-                         completionHandler:
-                             (MSAcquireTokenCompletionBlock)completionHandler {
+- (instancetype)
+initWithAuthenticationType:(MSAnalyticsAuthenticationType)type
+                 ticketKey:(NSString *)ticketKey
+                  delegate:
+                      (id<MSAnalyticsAuthenticationProviderDelegate>)delegate {
   if ((self = [super init])) {
     _type = type;
     _ticketKey = ticketKey;
     if (ticketKey) {
       _ticketKeyHash = [MSUtility sha256:ticketKey];
     }
-    _completionHandler = completionHandler;
+    _delegate = delegate;
   }
   return self;
 }
 
 - (void)acquireTokenAsync {
-  if (self.completionHandler) {
-    if (!self.isAlreadyAcquiringToken) {
-      self.isAlreadyAcquiringToken = YES;
+  id strongDelegate = self.delegate;
+  if (strongDelegate) {
+    if (!self.completionHandler) {
       MSAnalyticsAuthenticationProvider *__weak weakSelf = self;
-      dispatch_async(dispatch_get_main_queue(), ^{
+      self.completionHandler = ^void(NSString *token, NSDate *expiryDate) {
         MSAnalyticsAuthenticationProvider *strongSelf = weakSelf;
-        MSAnalyticsAuthenticationResult *result = self.completionHandler();
-        strongSelf.isAlreadyAcquiringToken = NO;
-        if (!result) {
-          MSLogError([MSAnalytics logTag],
-                     @"Result of authentication is null.");
-        } else {
-          [strongSelf handleTokenUpdateWithToken:result.token
-                                      expiryDate:result.expiryDate];
-        }
-      });
+        [strongSelf handleTokenUpdateWithToken:token
+                                    expiryDate:expiryDate
+                         withCompletionHandler:strongSelf.completionHandler];
+      };
+      [strongDelegate acquireTokenWithCompletionHandler:self.completionHandler];
     }
   } else {
     MSLogError([MSAnalytics logTag],
@@ -59,28 +59,36 @@ static int kMSRefreshThreshold = 10 * 60;
 }
 
 - (void)handleTokenUpdateWithToken:(NSString *)token
-                        expiryDate:(NSDate *)expiryDate {
-  MSLogDebug([MSAnalytics logTag],
-             @"Got result back from MSAcquireTokenCompletionBlock.");
-  if (!token) {
-    MSLogError([MSAnalytics logTag], @"Token must not be null");
+                        expiryDate:(NSDate *)expiryDate
+             withCompletionHandler:
+                 (MSAnalyticsAuthenticationProviderCompletionBlock)
+                     completionHandler {
+  @synchronized(self) {
+    if (self.completionHandler == completionHandler) {
+      MSLogDebug([MSAnalytics logTag],
+                 @"Got result back from MSAcquireTokenCompletionBlock.");
+      if (!token) {
+        MSLogError([MSAnalytics logTag], @"Token must not be null");
+      }
+      if (!expiryDate) {
+        MSLogError([MSAnalytics logTag], @"Date must not be null");
+      }
+      NSString *tokenPrefix;
+      switch (self.type) {
+      case MSAnalyticsAuthenticationTypeMsaCompact:
+        tokenPrefix = @"p";
+        break;
+      case MSAnalyticsAuthenticationTypeMsaDelegate:
+        tokenPrefix = @"d";
+        break;
+      }
+      [[MSTicketCache sharedInstance]
+          setTicket:[NSString stringWithFormat:@"%@:%@", tokenPrefix, token]
+             forKey:self.ticketKeyHash];
+      self.expiryDate = expiryDate;
+      self.completionHandler = nil;
+    }
   }
-  if (!expiryDate) {
-    MSLogError([MSAnalytics logTag], @"Date must not be null");
-  }
-  NSString *tokenPrefix;
-  switch (self.type) {
-  case MSAnalyticsAuthenticationTypeMsaCompact:
-    tokenPrefix = @"p";
-    break;
-  case MSAnalyticsAuthenticationTypeMsaDelegate:
-    tokenPrefix = @"d";
-    break;
-  }
-  [[MSTicketCache sharedInstance]
-      setTicket:[NSString stringWithFormat:@"%@:%@", tokenPrefix, token]
-         forKey:self.ticketKeyHash];
-  self.expiryDate = expiryDate;
 }
 
 - (void)checkTokenExpiry {
