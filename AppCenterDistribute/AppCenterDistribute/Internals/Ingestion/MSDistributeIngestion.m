@@ -76,7 +76,7 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat =
   return request;
 }
 
-- (NSString *)obfuscateHeaderValue:(NSString *)key value:(NSString *)value {
+- (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {
   return [key isEqualToString:kMSHeaderUpdateApiToken]
              ? [MSIngestionUtil hideSecret:value]
              : value;

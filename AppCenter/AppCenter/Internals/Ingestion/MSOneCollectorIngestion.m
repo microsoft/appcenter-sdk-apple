@@ -1,4 +1,3 @@
-#import "MSOneCollectorIngestion.h"
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterInternal.h"
@@ -9,6 +8,7 @@
 #import "MSLog.h"
 #import "MSLogContainer.h"
 #import "MSLoggerInternal.h"
+#import "MSOneCollectorIngestionPrivate.h"
 #import "MSTicketCache.h"
 #import "MSUtility+Date.h"
 
@@ -99,35 +99,28 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
          forKey:kMSOneCollectorUploadTimeKey];
 
   // Gather tokens from logs.
-  NSMutableString *ticketKeyString = [NSMutableString new];
+  NSMutableDictionary<NSString *, NSString *> *ticketsAndKeys =
+      [NSMutableDictionary<NSString *, NSString *> new];
   for (id<MSLog> log in container.logs) {
     MSCommonSchemaLog *csLog = (MSCommonSchemaLog *)log;
     if (csLog.ext.protocolExt) {
       NSArray<NSString *> *ticketKeys = [[[csLog ext] protocolExt] ticketKeys];
       for (NSString *ticketKey in ticketKeys) {
-        NSString *authenticationToken = [[MSTicketCache sharedInstance] ticketFor:ticketKey];
+        NSString *authenticationToken =
+            [[MSTicketCache sharedInstance] ticketFor:ticketKey];
         if (authenticationToken) {
-
-          /*
-           * Format to look like this:
-           * "ticketKey1"="d:token1";"ticketKey2"="d:token2" or
-           * "ticketKey1"="p:token1";"ticketKey2"="p:token2". The value (p: vs.
-           * d:) is determined by MSAnalyticsAuthenticationProvider before
-           * saving the token to the TicketCache.
-           */
-          NSString *ticketKeyAndToken =
-              [NSString stringWithFormat:@"\"%@\"=\"%@\";", ticketKey, authenticationToken];
-          [ticketKeyString appendString:ticketKeyAndToken];
+          [ticketsAndKeys setValue:authenticationToken forKey:ticketKey];
         }
       }
     }
   }
-
-  // Delete last ";" if applicable and set header.
-  if (ticketKeyString && (ticketKeyString.length > 0)) {
-    [ticketKeyString
-        deleteCharactersInRange:NSMakeRange([ticketKeyString length] - 1, 1)];
-    [headers setObject:ticketKeyString forKey:kMSOneCollectorTicketsKey];
+  if (ticketsAndKeys.count > 0) {
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:ticketsAndKeys
+                                                       options:0
+                                                         error:nil];
+    NSString *jsonString =
+        [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    [headers setValue:jsonString forKey:kMSOneCollectorTicketsKey];
   }
   request.allHTTPHeaderFields = headers;
 
@@ -165,7 +158,7 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
   return request;
 }
 
-- (NSString *)obfuscateHeaderValue:(NSString *)key value:(NSString *)value {
+- (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {
   if ([key isEqualToString:kMSOneCollectorApiKey]) {
     return [self obfuscateTargetTokens:value];
   } else if ([key isEqualToString:kMSOneCollectorTicketsKey]) {
@@ -184,22 +177,15 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
 }
 
 - (NSString *)obfuscateTickets:(NSString *)tokenString {
-  NSArray *tickets = [tokenString componentsSeparatedByString:@";"];
-  NSMutableArray *obfuscatedTickets = [NSMutableArray new];
-  for (NSString *ticket in tickets) {
-    NSString *obfuscatedTicket;
-    NSRange separator = [ticket rangeOfString:@"\"=\""];
-    if (separator.location != NSNotFound) {
-      NSRange tokenRange = NSMakeRange(NSMaxRange(separator), ticket.length - NSMaxRange(separator) - 1);
-      NSString *token = [ticket substringWithRange:tokenRange];
-      token = [MSIngestionUtil hideSecret:token];
-      obfuscatedTicket = [ticket stringByReplacingCharactersInRange:tokenRange withString:token];
-    } else {
-      obfuscatedTicket = [MSIngestionUtil hideSecret:ticket];
-    }
-    [obfuscatedTickets addObject:obfuscatedTicket];
-  }
-  return [obfuscatedTickets componentsJoinedByString:@";"];
+  NSRegularExpression *regex =
+      [NSRegularExpression regularExpressionWithPattern:@":[^\"]+"
+                                                options:0
+                                                  error:nil];
+  return
+      [regex stringByReplacingMatchesInString:tokenString
+                                      options:0
+                                        range:NSMakeRange(0, tokenString.length)
+                                 withTemplate:@":***"];
 }
 
 @end

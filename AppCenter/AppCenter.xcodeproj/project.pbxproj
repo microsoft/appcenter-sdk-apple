@@ -466,6 +466,9 @@
 		B28E41D82076ED1500CC6AD8 /* MSUtility+PropertyValidation.h in Headers */ = {isa = PBXBuildFile; fileRef = B28E41D32076EC4000CC6AD8 /* MSUtility+PropertyValidation.h */; };
 		B28E41D92076ED1700CC6AD8 /* MSUtility+PropertyValidation.h in Headers */ = {isa = PBXBuildFile; fileRef = B28E41D32076EC4000CC6AD8 /* MSUtility+PropertyValidation.h */; };
 		B28E41DA2076ED1700CC6AD8 /* MSUtility+PropertyValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = B28E41D42076ECFE00CC6AD8 /* MSUtility+PropertyValidation.m */; };
+		B2ADB1422124C13300D0D7D9 /* MSOneCollectorIngestionPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = B2ADB1412124C13300D0D7D9 /* MSOneCollectorIngestionPrivate.h */; };
+		B2ADB1432124C13300D0D7D9 /* MSOneCollectorIngestionPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = B2ADB1412124C13300D0D7D9 /* MSOneCollectorIngestionPrivate.h */; };
+		B2ADB1442124C13300D0D7D9 /* MSOneCollectorIngestionPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = B2ADB1412124C13300D0D7D9 /* MSOneCollectorIngestionPrivate.h */; };
 		B2B7D50B20C5E562001D31B8 /* MSOneCollectorIngestion.h in Headers */ = {isa = PBXBuildFile; fileRef = B2B7D50920C5E562001D31B8 /* MSOneCollectorIngestion.h */; };
 		B2B7D50C20C5E562001D31B8 /* MSOneCollectorIngestion.m in Sources */ = {isa = PBXBuildFile; fileRef = B2B7D50A20C5E562001D31B8 /* MSOneCollectorIngestion.m */; };
 		B2B9441E1DF0DF23009117D1 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2B9441D1DF0DF23009117D1 /* OHHTTPStubs.framework */; };
@@ -869,6 +872,7 @@
 		B26D4DD6211B9B5D00AB4E28 /* MSTicketCacheTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSTicketCacheTests.m; sourceTree = "<group>"; };
 		B28E41D32076EC4000CC6AD8 /* MSUtility+PropertyValidation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MSUtility+PropertyValidation.h"; sourceTree = "<group>"; };
 		B28E41D42076ECFE00CC6AD8 /* MSUtility+PropertyValidation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MSUtility+PropertyValidation.m"; sourceTree = "<group>"; };
+		B2ADB1412124C13300D0D7D9 /* MSOneCollectorIngestionPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSOneCollectorIngestionPrivate.h; sourceTree = "<group>"; };
 		B2B7D50920C5E562001D31B8 /* MSOneCollectorIngestion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSOneCollectorIngestion.h; sourceTree = "<group>"; };
 		B2B7D50A20C5E562001D31B8 /* MSOneCollectorIngestion.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSOneCollectorIngestion.m; sourceTree = "<group>"; };
 		B2B9441D1DF0DF23009117D1 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OHHTTPStubs.framework; sourceTree = "<group>"; };
@@ -1484,6 +1488,7 @@
 				BA6824A001520825F18DFC42 /* MSAppCenterIngestion.h */,
 				BA6822A89D38F04D8D95CE83 /* MSAppCenterIngestion.m */,
 				B2B7D50920C5E562001D31B8 /* MSOneCollectorIngestion.h */,
+				B2ADB1412124C13300D0D7D9 /* MSOneCollectorIngestionPrivate.h */,
 				B2B7D50A20C5E562001D31B8 /* MSOneCollectorIngestion.m */,
 			);
 			path = Ingestion;
@@ -1622,6 +1627,7 @@
 				045C85121FE0B2D300089540 /* MSSessionContext.h in Headers */,
 				043120C71EE0BCF9007054C5 /* MSAppCenterInternal.h in Headers */,
 				043120C81EE0BCF9007054C5 /* MSService.h in Headers */,
+				B2ADB1442124C13300D0D7D9 /* MSOneCollectorIngestionPrivate.h in Headers */,
 				045C0BF01EEB12320038FD6B /* MSAppDelegateForwarderPrivate.h in Headers */,
 				B2CD74CB1F22BF8D0070E7DF /* MSLogDBStoragePrivate.h in Headers */,
 				E7D23C6820B6391700A47D62 /* MSCSExtensions.h in Headers */,
@@ -1696,6 +1702,7 @@
 				B2CD74C81F22BEC60070E7DF /* MSDBStoragePrivate.h in Headers */,
 				E7D23C6220B4EED000A47D62 /* MSModel.h in Headers */,
 				E7D23C5720B4E38B00A47D62 /* MSCSData.h in Headers */,
+				B2ADB1432124C13300D0D7D9 /* MSOneCollectorIngestionPrivate.h in Headers */,
 				0499F8581EDF979F00C3EDDA /* MSAbstractLog.h in Headers */,
 				E74B149A20B364EE002C0183 /* MSCommonSchemaLog.h in Headers */,
 				04754F841EA98182002CBA46 /* MSServiceAbstract.h in Headers */,
@@ -1799,6 +1806,7 @@
 				384772A61DA5691F009365DE /* MSIngestionDelegate.h in Headers */,
 				E7D23C6120B4EED000A47D62 /* MSModel.h in Headers */,
 				E7D23C5620B4E38B00A47D62 /* MSCSData.h in Headers */,
+				B2ADB1422124C13300D0D7D9 /* MSOneCollectorIngestionPrivate.h in Headers */,
 				80B7EA2220CA9CBF00DF524C /* MSEncrypter.h in Headers */,
 				D38023E91E6EFC7C00466558 /* MSStartServiceLog.h in Headers */,
 				E74B149920B364EE002C0183 /* MSCommonSchemaLog.h in Headers */,

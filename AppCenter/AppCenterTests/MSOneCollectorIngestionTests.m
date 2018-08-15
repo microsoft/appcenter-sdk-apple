@@ -9,6 +9,7 @@
 #import "MSMockCommonSchemaLog.h"
 #import "MSModelTestsUtililty.h"
 #import "MSOneCollectorIngestion.h"
+#import "MSOneCollectorIngestionPrivate.h"
 #import "MSTestFrameworks.h"
 #import "MSTicketCache.h"
 
@@ -96,10 +97,43 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   XCTAssertNotNil([formatter numberFromString:uploadTimeString]);
   XCTAssertTrue([keys containsObject:kMSOneCollectorTicketsKey]);
   NSString *ticketsHeader = [request.allHTTPHeaderFields objectForKey:kMSOneCollectorTicketsKey];
-  XCTAssertTrue([ticketsHeader containsString:@"ticketKey1"]);
-  XCTAssertTrue([ticketsHeader containsString:@"ticketKey1Token"]);
-  XCTAssertTrue([ticketsHeader containsString:@"ticketKey2"]);
-  XCTAssertTrue([ticketsHeader containsString:@"ticketKey2Token"]);
+  XCTAssertTrue([ticketsHeader isEqualToString:@"{\"ticketKey2\":\"ticketKey2Token\",\"ticketKey1\":\"ticketKey1Token\"}"]);
+}
+
+- (void)testObfuscateHeaderValue {
+  
+  // If
+  NSString *testString = @"12345678";
+  
+  // When
+  NSString *result = [self.sut obfuscateHeaderValue:testString forKey:kMSOneCollectorApiKey];
+  
+  // If
+  testString = @"ThisWillBeObfuscated, ThisWillBeObfuscated, ThisWillBeObfuscated";
+  
+  // When
+  result = [self.sut obfuscateHeaderValue:testString forKey:kMSOneCollectorApiKey];
+  
+  // Then
+  XCTAssertTrue([result isEqualToString:@"************fuscated,*************fuscated,*************fuscated"]);
+
+  // If
+  testString = @"something";
+
+  // When
+  result = [self.sut obfuscateHeaderValue:testString forKey:kMSOneCollectorTicketsKey];
+
+  // Then
+  XCTAssertTrue([result isEqualToString:testString]);
+
+  // If
+  testString = @"{\"ticketKey1\":\"p:AuthorizationValue1\",\"ticketKey2\":\"d:AuthorizationValue2\"}";
+  
+  // When
+  result = [self.sut obfuscateHeaderValue:testString forKey:kMSOneCollectorTicketsKey];
+  
+  // Then
+  XCTAssertTrue([result isEqualToString:@"{\"ticketKey1\":\"p:***\",\"ticketKey2\":\"d:***\"}"]);
 }
 
 - (void)testCreateRequest {

@@ -94,6 +94,6 @@
  *
  * @return An obfuscated value.
  */
-- (NSString *)obfuscateHeaderValue:(NSString *)key value:(NSString *)value;
+- (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key;
 
 @end
