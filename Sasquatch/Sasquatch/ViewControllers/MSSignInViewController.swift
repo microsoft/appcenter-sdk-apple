@@ -122,7 +122,7 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate, MSAnalytic
             self.refreshToken = refreshToken
             NSLog("Successfully signed in with user_id: %@", newUrl.valueOf("user_id")!)
             let provider = MSAnalyticsAuthenticationProvider(authenticationType: .msaCompact, ticketKey: newUrl.valueOf("user_id")!, delegate: self)
-            MSAnalyticsTransmissionTarget.authenticationProvider = provider
+            MSAnalyticsTransmissionTarget.addAuthenticationProvider(authenticationProvider:provider)
           }
         }
       }
