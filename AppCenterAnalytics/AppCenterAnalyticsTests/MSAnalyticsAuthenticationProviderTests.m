@@ -1,5 +1,4 @@
 #import "MSAnalyticsAuthenticationProviderInternal.h"
-#import "MSAnalyticsAuthenticationResult.h"
 #import "MSTestFrameworks.h"
 #import "MSTicketCache.h"
 #import "MSUtility+StringFormatting.h"
@@ -24,8 +23,14 @@
   self.today = [NSDate date];
   self.ticketKey = @"ticketKey1";
   self.token = @"authenticationToken";
-
-  self.sut = [self createAuthenticationProviderWithTicketKey:self.ticketKey token:self.token andExpiryDate:self.today];
+  id mockDelegate = OCMProtocolMock(@protocol(MSAnalyticsAuthenticationProviderDelegate));
+  OCMStub([mockDelegate acquireTokenWithCompletionHandler:([OCMArg invokeBlockWithArgs:self.token, self.today, nil])]);
+  self.sut = [[MSAnalyticsAuthenticationProvider alloc]
+              initWithAuthenticationType:MSAnalyticsAuthenticationTypeMsaDelegate
+              ticketKey:self.ticketKey
+              delegate:mockDelegate];
+  self.sut = [self createAuthenticationProviderWithTicketKey:self.ticketKey
+                                                    delegate:mockDelegate];
 }
 
 - (void)tearDown {
@@ -36,15 +41,14 @@
 
 - (MSAnalyticsAuthenticationProvider *)
 createAuthenticationProviderWithTicketKey:(NSString *)ticketKey
-                                  token:(NSString *)token
-                          andExpiryDate:(NSDate *)expiryDate {
+                                 delegate:
+                                     (id<MSAnalyticsAuthenticationProviderDelegate>)
+                                         delegate {
 
   return [[MSAnalyticsAuthenticationProvider alloc]
-   initWithAuthenticationType:MSAnalyticsAuthenticationTypeMsaCompact
-   ticketKey:ticketKey
-   completionHandler:^MSAnalyticsAuthenticationResult* {
-     return [[MSAnalyticsAuthenticationResult alloc] initWithToken:token expiryDate:expiryDate] ;
-   }];
+      initWithAuthenticationType:MSAnalyticsAuthenticationTypeMsaCompact
+                       ticketKey:ticketKey
+                        delegate:delegate];
 }
 
 - (void)testInitialization {
@@ -55,23 +59,27 @@ createAuthenticationProviderWithTicketKey:(NSString *)ticketKey
   XCTAssertNotNil(self.sut.ticketKey);
   XCTAssertNotNil(self.sut.ticketKeyHash);
   XCTAssertTrue([self.sut.ticketKeyHash
-                 isEqualToString:[MSUtility sha256:@"ticketKey1"]]);
-  XCTAssertNotNil(self.sut.completionHandler);
-  MSAnalyticsAuthenticationResult *returnValue = self.sut.completionHandler();
-  XCTAssertTrue([returnValue.token isEqualToString:self.token]);
-  XCTAssertTrue([returnValue.expiryDate isEqualToDate:self.today]);
+      isEqualToString:[MSUtility sha256:@"ticketKey1"]]);
+  XCTAssertNotNil(self.sut.delegate);
 }
 
 - (void)testExpiryDateIsValid {
 
   // If
+  id mockDelegate =
+      OCMProtocolMock(@protocol(MSAnalyticsAuthenticationProviderDelegate));
   NSTimeInterval plusDay = (24 * 60 * 60);
-  self.sut = [self createAuthenticationProviderWithTicketKey:self.ticketKey token:self.token andExpiryDate:[self.today dateByAddingTimeInterval:plusDay]];
+  OCMStub([mockDelegate
+           acquireTokenWithCompletionHandler:([OCMArg invokeBlockWithArgs:self.token,
+                                               [self.today dateByAddingTimeInterval:plusDay],
+                                               nil])]);
+  self.sut = [self createAuthenticationProviderWithTicketKey:self.ticketKey
+                                                    delegate:mockDelegate];
   id sutMock = OCMPartialMock(self.sut);
 
   // When
-  XCTestExpectation *expection = [self
-                                  expectationWithDescription:@"Expiry date is valid"];
+  XCTestExpectation *expection =
+      [self expectationWithDescription:@"Expiry date is valid"];
   [self.sut acquireTokenAsync];
   dispatch_async(dispatch_get_main_queue(), ^{
     [expection fulfill];
@@ -89,18 +97,25 @@ createAuthenticationProviderWithTicketKey:(NSString *)ticketKey
                                  [self.sut checkTokenExpiry];
                                  OCMVerifyAll(sutMock);
                                }];
-
 }
 
 - (void)testExpiryDateIsExpired {
+  
   // If
+  id mockDelegate =
+  OCMProtocolMock(@protocol(MSAnalyticsAuthenticationProviderDelegate));
   NSTimeInterval minusDay = -(24 * 60 * 60);
-  self.sut = [self createAuthenticationProviderWithTicketKey:self.ticketKey token:self.token andExpiryDate:[self.today dateByAddingTimeInterval:minusDay]];
+  OCMStub([mockDelegate
+           acquireTokenWithCompletionHandler:([OCMArg invokeBlockWithArgs:self.token,
+                                               [self.today dateByAddingTimeInterval:minusDay],
+                                               nil])]);
+  self.sut = [self createAuthenticationProviderWithTicketKey:self.ticketKey
+                                                    delegate:mockDelegate];
   id sutMock = OCMPartialMock(self.sut);
 
   // When
-  XCTestExpectation *expection = [self
-                                  expectationWithDescription:@"Expiry date is expired"];
+  XCTestExpectation *expection =
+      [self expectationWithDescription:@"Expiry date is expired"];
   [self.sut acquireTokenAsync];
   dispatch_async(dispatch_get_main_queue(), ^{
     [expection fulfill];
@@ -121,9 +136,21 @@ createAuthenticationProviderWithTicketKey:(NSString *)ticketKey
 
 - (void)testCompletionHandlerIsCalled {
 
+  // If
+  id mockDelegate =
+      OCMProtocolMock(@protocol(MSAnalyticsAuthenticationProviderDelegate));
+  OCMStub([mockDelegate
+      acquireTokenWithCompletionHandler:([OCMArg invokeBlockWithArgs:self.token,
+                                                                     self.today,
+                                                                     nil])]);
+  self.sut = [[MSAnalyticsAuthenticationProvider alloc]
+      initWithAuthenticationType:MSAnalyticsAuthenticationTypeMsaCompact
+                       ticketKey:self.ticketKey
+                        delegate:mockDelegate];
+
   // When
-  XCTestExpectation *expection = [self
-                                  expectationWithDescription:@"Completion handler is called"];
+  XCTestExpectation *expection =
+      [self expectationWithDescription:@"Completion handler is called"];
   [self.sut acquireTokenAsync];
   dispatch_async(dispatch_get_main_queue(), ^{
     [expection fulfill];
@@ -136,26 +163,35 @@ createAuthenticationProviderWithTicketKey:(NSString *)ticketKey
                                  }
 
                                  // Then
-                                 XCTAssertTrue([self.sut.expiryDate isEqualToDate:self.today]);
-                                 NSString *savedToken = [[MSTicketCache sharedInstance] ticketFor:self.sut.ticketKeyHash];
-                                 NSString *tokenWithPrefixString = [NSString stringWithFormat:@"p:%@", self.token];
-                                 XCTAssertTrue([savedToken isEqualToString:tokenWithPrefixString]);
+                                 XCTAssertTrue([self.sut.expiryDate
+                                     isEqualToDate:self.today]);
+                                 NSString *savedToken =
+                                     [[MSTicketCache sharedInstance]
+                                         ticketFor:self.sut.ticketKeyHash];
+                                 NSString *tokenWithPrefixString = [NSString
+                                     stringWithFormat:@"p:%@", self.token];
+                                 XCTAssertTrue([savedToken
+                                     isEqualToString:tokenWithPrefixString]);
                                }];
 }
 
 - (void)testCompletionHandlerIsCalledForMSADelegateType {
-  
+
   // If
+  id mockDelegate =
+      OCMProtocolMock(@protocol(MSAnalyticsAuthenticationProviderDelegate));
+  OCMStub([mockDelegate
+      acquireTokenWithCompletionHandler:([OCMArg invokeBlockWithArgs:self.token,
+                                                                     self.today,
+                                                                     nil])]);
   self.sut = [[MSAnalyticsAuthenticationProvider alloc]
-              initWithAuthenticationType:MSAnalyticsAuthenticationTypeMsaDelegate
-              ticketKey:self.ticketKey
-              completionHandler:^MSAnalyticsAuthenticationResult* {
-                return [[MSAnalyticsAuthenticationResult alloc] initWithToken:self.token expiryDate:self.today] ;
-              }];
-  
+      initWithAuthenticationType:MSAnalyticsAuthenticationTypeMsaDelegate
+                       ticketKey:self.ticketKey
+                        delegate:mockDelegate];
+
   // When
-  XCTestExpectation *expection = [self
-                                  expectationWithDescription:@"Completion handler is called"];
+  XCTestExpectation *expection =
+      [self expectationWithDescription:@"Completion handler is called"];
   [self.sut acquireTokenAsync];
   dispatch_async(dispatch_get_main_queue(), ^{
     [expection fulfill];
@@ -166,12 +202,17 @@ createAuthenticationProviderWithTicketKey:(NSString *)ticketKey
                                    XCTFail(@"Expectation Failed with error: %@",
                                            error);
                                  }
-                                 
+
                                  // Then
-                                 XCTAssertTrue([self.sut.expiryDate isEqualToDate:self.today]);
-                                 NSString *savedToken = [[MSTicketCache sharedInstance] ticketFor:self.sut.ticketKeyHash];
-                                 NSString *tokenWithPrefixString = [NSString stringWithFormat:@"d:%@", self.token];
-                                 XCTAssertTrue([savedToken isEqualToString:tokenWithPrefixString]);
+                                 XCTAssertTrue([self.sut.expiryDate
+                                     isEqualToDate:self.today]);
+                                 NSString *savedToken =
+                                     [[MSTicketCache sharedInstance]
+                                         ticketFor:self.sut.ticketKeyHash];
+                                 NSString *tokenWithPrefixString = [NSString
+                                     stringWithFormat:@"d:%@", self.token];
+                                 XCTAssertTrue([savedToken
+                                     isEqualToString:tokenWithPrefixString]);
                                }];
 }
 

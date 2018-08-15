@@ -65,13 +65,16 @@ initWithAuthenticationType:(MSAnalyticsAuthenticationType)type
                      completionHandler {
   @synchronized(self) {
     if (self.completionHandler == completionHandler) {
+      self.completionHandler = nil;
       MSLogDebug([MSAnalytics logTag],
                  @"Got result back from MSAcquireTokenCompletionBlock.");
       if (!token) {
         MSLogError([MSAnalytics logTag], @"Token must not be null");
+        return;
       }
       if (!expiryDate) {
         MSLogError([MSAnalytics logTag], @"Date must not be null");
+        return;
       }
       NSString *tokenPrefix;
       switch (self.type) {
@@ -86,7 +89,6 @@ initWithAuthenticationType:(MSAnalyticsAuthenticationType)type
           setTicket:[NSString stringWithFormat:@"%@:%@", tokenPrefix, token]
              forKey:self.ticketKeyHash];
       self.expiryDate = expiryDate;
-      self.completionHandler = nil;
     }
   }
 }
