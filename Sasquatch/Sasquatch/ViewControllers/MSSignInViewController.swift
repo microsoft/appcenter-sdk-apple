@@ -60,7 +60,7 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate, MSAnalytic
     case ConversionFailed = "Conversion from JSON failed"
   }
   
-  func acquireToken(completionHandler : @escaping MSAnalyticsAuthenticationProviderCompletionBlock) {
+  func authenticationProvider(_ authenticationProvider: MSAnalyticsAuthenticationProvider!, acquireTokenWithCompletionHandler completionHandler: MSAnalyticsAuthenticationProviderCompletionBlock!) {
     if let refreshUrl = URL(string: self.baseUrl + self.tokenEndpoint) {
       let config = URLSessionConfiguration.default
       let session = URLSession(configuration: config)

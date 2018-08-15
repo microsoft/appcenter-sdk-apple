@@ -26,6 +26,7 @@
   id mockDelegate =
       OCMProtocolMock(@protocol(MSAnalyticsAuthenticationProviderDelegate));
   OCMStub([mockDelegate
+                 authenticationProvider:OCMOCK_ANY
       acquireTokenWithCompletionHandler:([OCMArg invokeBlockWithArgs:self.token,
                                                                      self.today,
                                                                      nil])]);
@@ -75,6 +76,7 @@ createAuthenticationProviderWithTicketKey:(NSString *)ticketKey
       OCMProtocolMock(@protocol(MSAnalyticsAuthenticationProviderDelegate));
   NSTimeInterval plusDay = (24 * 60 * 60);
   OCMStub([mockDelegate
+                 authenticationProvider:OCMOCK_ANY
       acquireTokenWithCompletionHandler:
           ([OCMArg
               invokeBlockWithArgs:self.token,
@@ -113,6 +115,7 @@ createAuthenticationProviderWithTicketKey:(NSString *)ticketKey
       OCMProtocolMock(@protocol(MSAnalyticsAuthenticationProviderDelegate));
   NSTimeInterval minusDay = -(24 * 60 * 60);
   OCMStub([mockDelegate
+                 authenticationProvider:OCMOCK_ANY
       acquireTokenWithCompletionHandler:
           ([OCMArg invokeBlockWithArgs:self.token,
                                        [self.today
@@ -149,6 +152,7 @@ createAuthenticationProviderWithTicketKey:(NSString *)ticketKey
   id mockDelegate =
       OCMProtocolMock(@protocol(MSAnalyticsAuthenticationProviderDelegate));
   OCMStub([mockDelegate
+                 authenticationProvider:OCMOCK_ANY
       acquireTokenWithCompletionHandler:([OCMArg invokeBlockWithArgs:self.token,
                                                                      self.today,
                                                                      nil])]);
@@ -190,6 +194,7 @@ createAuthenticationProviderWithTicketKey:(NSString *)ticketKey
   id mockDelegate =
       OCMProtocolMock(@protocol(MSAnalyticsAuthenticationProviderDelegate));
   OCMStub([mockDelegate
+                 authenticationProvider:OCMOCK_ANY
       acquireTokenWithCompletionHandler:([OCMArg invokeBlockWithArgs:self.token,
                                                                      self.today,
                                                                      nil])]);
@@ -231,6 +236,7 @@ createAuthenticationProviderWithTicketKey:(NSString *)ticketKey
   id mockDelegate =
       OCMProtocolMock(@protocol(MSAnalyticsAuthenticationProviderDelegate));
   OCMStub([mockDelegate
+                 authenticationProvider:OCMOCK_ANY
       acquireTokenWithCompletionHandler:([OCMArg
                                             invokeBlockWithArgs:[NSNull null],
                                                                 self.today,
@@ -269,6 +275,7 @@ createAuthenticationProviderWithTicketKey:(NSString *)ticketKey
   id mockDelegate =
       OCMProtocolMock(@protocol(MSAnalyticsAuthenticationProviderDelegate));
   OCMStub([mockDelegate
+                 authenticationProvider:OCMOCK_ANY
       acquireTokenWithCompletionHandler:([OCMArg
                                             invokeBlockWithArgs:self.token,
                                                                 [NSNull null],

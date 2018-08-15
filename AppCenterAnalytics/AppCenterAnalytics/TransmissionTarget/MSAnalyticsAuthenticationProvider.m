@@ -50,7 +50,7 @@ initWithAuthenticationType:(MSAnalyticsAuthenticationType)type
                                     expiryDate:expiryDate
                          withCompletionHandler:strongSelf.completionHandler];
       };
-      [strongDelegate acquireTokenWithCompletionHandler:self.completionHandler];
+      [strongDelegate authenticationProvider:self acquireTokenWithCompletionHandler:self.completionHandler];
     }
   } else {
     MSLogError([MSAnalytics logTag],
