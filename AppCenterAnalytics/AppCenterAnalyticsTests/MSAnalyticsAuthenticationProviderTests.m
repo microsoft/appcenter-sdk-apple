@@ -216,4 +216,78 @@ createAuthenticationProviderWithTicketKey:(NSString *)ticketKey
                                }];
 }
 
+- (void)testDelegateReturnsNullToken {
+  
+  // If
+  id mockDelegate =
+  OCMProtocolMock(@protocol(MSAnalyticsAuthenticationProviderDelegate));
+  OCMStub([mockDelegate
+           acquireTokenWithCompletionHandler:([OCMArg invokeBlockWithArgs:[NSNull null],
+                                               self.today,
+                                               nil])]);
+  self.sut = [[MSAnalyticsAuthenticationProvider alloc]
+              initWithAuthenticationType:MSAnalyticsAuthenticationTypeMsaDelegate
+              ticketKey:self.ticketKey
+              delegate:mockDelegate];
+  
+  // When
+  XCTestExpectation *expection =
+  [self expectationWithDescription:@"Completion handler is called"];
+  [self.sut acquireTokenAsync];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [expection fulfill];
+  });
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@",
+                                           error);
+                                 }
+                                 
+                                 // Then
+                                 XCTAssertNil(self.sut.expiryDate);
+                                 NSString *savedToken =
+                                 [[MSTicketCache sharedInstance]
+                                  ticketFor:self.sut.ticketKeyHash];
+                                 XCTAssertNil(savedToken);
+                               }];
+}
+
+- (void)testDelegateReturnsNullExpiryDate {
+  
+  // If
+  id mockDelegate =
+  OCMProtocolMock(@protocol(MSAnalyticsAuthenticationProviderDelegate));
+  OCMStub([mockDelegate
+           acquireTokenWithCompletionHandler:([OCMArg invokeBlockWithArgs:self.token,
+                                               [NSNull null],
+                                               nil])]);
+  self.sut = [[MSAnalyticsAuthenticationProvider alloc]
+              initWithAuthenticationType:MSAnalyticsAuthenticationTypeMsaDelegate
+              ticketKey:self.ticketKey
+              delegate:mockDelegate];
+  
+  // When
+  XCTestExpectation *expection =
+  [self expectationWithDescription:@"Completion handler is called"];
+  [self.sut acquireTokenAsync];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [expection fulfill];
+  });
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@",
+                                           error);
+                                 }
+                                 
+                                 // Then
+                                 XCTAssertNil(self.sut.expiryDate);
+                                 NSString *savedToken =
+                                 [[MSTicketCache sharedInstance]
+                                  ticketFor:self.sut.ticketKeyHash];
+                                 XCTAssertNil(savedToken);
+                               }];
+}
+
 @end
