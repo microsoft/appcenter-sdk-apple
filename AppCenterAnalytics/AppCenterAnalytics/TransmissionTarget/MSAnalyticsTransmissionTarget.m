@@ -44,6 +44,11 @@ initWithTransmissionTargetToken:(NSString *)token
 + (void)addAuthenticationProvider:
     (MSAnalyticsAuthenticationProvider *)authenticationProvider {
   @synchronized(self) {
+    if (!authenticationProvider) {
+      MSLogError([MSAnalytics logTag],
+                 @"Authentication provider may not be null.");
+      return;
+    }
 
     /*
      * No need to validate the authentication provider's properties as they are
@@ -51,8 +56,8 @@ initWithTransmissionTargetToken:(NSString *)token
      */
     self.authenticationProvider = authenticationProvider;
 
-    /* Request token now. */
-    [authenticationProvider acquireTokenAsync];
+    // Request token now.
+    [self.authenticationProvider acquireTokenAsync];
   }
 }
 
