@@ -89,7 +89,7 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate {
           let token = json["access_token"]! as! String
           let expiresIn = json["expires_in"]! as! Int64
           let userId = json["user_id"]! as! String
-          NSLog("Successfully refreshed token for user: %@ token: %@", userId, token)
+          NSLog("Successfully refreshed token for user: %@", userId)
           self.onAuthDataReceived?(token, userId, Date().addingTimeInterval(Double(expiresIn)))
         } catch let error as JSONError {
           NSLog("Error while preforming refresh request: %@", error.rawValue)
@@ -117,7 +117,6 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate {
           let refreshToken = newUrl.valueOf(self.refreshTokenParam)!
           if(!refreshToken.isEmpty) {
             self.refreshToken = refreshToken
-            NSLog("Successfully signed in refresh_token: %@", self.refreshToken)
             self.refresh()
           }
         }

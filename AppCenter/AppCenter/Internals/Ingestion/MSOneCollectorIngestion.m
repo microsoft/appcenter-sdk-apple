@@ -115,11 +115,10 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
   if (ticketsAndKeys && ticketsAndKeys.count > 0) {
     NSError *error;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:ticketsAndKeys options:0 error:&error];
-    if(jsonData) {
+    if (jsonData) {
       NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
       [headers setValue:jsonString forKey:kMSOneCollectorTicketsKey];
-    }
-    else {
+    } else {
       MSLogError([MSAppCenter logTag], @"Could not serialize ticketKeys and authentication tokens with error %@.", error.localizedDescription);
     }
   }
@@ -178,22 +177,15 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
 }
 
 - (NSString *)obfuscateTickets:(NSString *)tokenString {
-  NSArray *tickets = [tokenString componentsSeparatedByString:@";"];
-  NSMutableArray *obfuscatedTickets = [NSMutableArray new];
-  for (NSString *ticket in tickets) {
-    NSString *obfuscatedTicket;
-    NSRange separator = [ticket rangeOfString:@"\"=\""];
-    if (separator.location != NSNotFound) {
-      NSRange tokenRange = NSMakeRange(NSMaxRange(separator), ticket.length - NSMaxRange(separator) - 1);
-      NSString *token = [ticket substringWithRange:tokenRange];
-      token = [MSIngestionUtil hideSecret:token];
-      obfuscatedTicket = [ticket stringByReplacingCharactersInRange:tokenRange withString:token];
-    } else {
-      obfuscatedTicket = [MSIngestionUtil hideSecret:ticket];
-    }
-    [obfuscatedTickets addObject:obfuscatedTicket];
-  }
-  return [obfuscatedTickets componentsJoinedByString:@";"];
+  NSRegularExpression *regex = [NSRegularExpression
+                                regularExpressionWithPattern:@":[^\"]+"
+                                options:0
+                                error:nil];
+  return [regex
+          stringByReplacingMatchesInString:tokenString
+                                   options:0
+                                     range:NSMakeRange(0, tokenString.length)
+                              withTemplate:@":***"];
 }
 
 @end
