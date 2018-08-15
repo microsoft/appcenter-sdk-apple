@@ -1,8 +1,8 @@
 import UIKit
 import WebKit
 
-class MSSignInViewController: UIViewController, WKNavigationDelegate {
-
+class MSSignInViewController: UIViewController, WKNavigationDelegate, MSAnalyticsAuthenticationProviderDelegate {
+  
   var onAuthDataReceived: ((_ token: String, _ userId: String, _ expiresAt: Date) -> Void)?
 
   enum AuthAction {
@@ -60,7 +60,7 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate {
     case ConversionFailed = "Conversion from JSON failed"
   }
   
-  func refresh() {
+  func authenticationProvider(_ authenticationProvider: MSAnalyticsAuthenticationProvider!, acquireTokenWithCompletionHandler completionHandler: MSAnalyticsAuthenticationProviderCompletionBlock!) {
     if let refreshUrl = URL(string: self.baseUrl + self.tokenEndpoint) {
       let config = URLSessionConfiguration.default
       let session = URLSession(configuration: config)
@@ -77,20 +77,23 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate {
         }
         do {
           guard let data = data else {
+            completionHandler(nil, nil)
             throw JSONError.NoData
           }
           guard let json = try JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary else {
+            completionHandler(nil, nil)
             throw JSONError.ConversionFailed
           }
           if let error = json["error"] as? String, let errorDescription = json["error_description"] as? String {
             NSLog("Refresh token error: \"\(error)\": \(errorDescription)")
+            completionHandler(nil, nil)
             return
           }
           let token = json["access_token"]! as! String
           let expiresIn = json["expires_in"]! as! Int64
           let userId = json["user_id"]! as! String
           NSLog("Successfully refreshed token for user: %@", userId)
-          self.onAuthDataReceived?(token, userId, Date().addingTimeInterval(Double(expiresIn)))
+          completionHandler(token, Date().addingTimeInterval(Double(expiresIn)))
         } catch let error as JSONError {
           NSLog("Error while preforming refresh request: %@", error.rawValue)
         } catch let error as NSError {
@@ -117,7 +120,9 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate {
           let refreshToken = newUrl.valueOf(self.refreshTokenParam)!
           if(!refreshToken.isEmpty) {
             self.refreshToken = refreshToken
-            self.refresh()
+            NSLog("Successfully signed in with user_id: %@", newUrl.valueOf("user_id")!)
+            let provider = MSAnalyticsAuthenticationProvider(authenticationType: .msaCompact, ticketKey: newUrl.valueOf("user_id")!, delegate: self)
+            MSAnalyticsTransmissionTarget.addAuthenticationProvider(authenticationProvider:provider)
           }
         }
       }
