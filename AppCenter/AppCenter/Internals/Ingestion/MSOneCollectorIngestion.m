@@ -158,7 +158,7 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
   return request;
 }
 
-- (NSString *)obfuscateHeaderValue:(NSString *)key value:(NSString *)value {
+- (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {
   if ([key isEqualToString:kMSOneCollectorApiKey]) {
     return [self obfuscateTargetTokens:value];
   } else if ([key isEqualToString:kMSOneCollectorTicketsKey]) {

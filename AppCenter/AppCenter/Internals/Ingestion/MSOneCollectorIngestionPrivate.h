@@ -4,6 +4,6 @@
 
 @interface MSOneCollectorIngestion()
 
-- (NSString *)obfuscateHeaderValue:(NSString *)key value:(NSString *)value;
+- (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key;
 
 @end

@@ -428,7 +428,7 @@ static NSString *const kMSPartialURLComponentsName[] = {
   return nil;
 }
 
-- (NSString *)obfuscateHeaderValue:(NSString *)key value:(NSString *)value {
+- (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {
   (void)key;
   return value;
 }
@@ -470,10 +470,9 @@ static NSString *const kMSPartialURLComponentsName[] = {
   for (NSString *headerKey in headers) {
     [flattenedHeaders
         addObject:[NSString
-                      stringWithFormat:
-                          @"%@ = %@", headerKey,
-                          [self obfuscateHeaderValue:headerKey
-                                               value:headers[headerKey]]]];
+            stringWithFormat:
+                @"%@ = %@", headerKey,
+                [self obfuscateHeaderValue:headers[headerKey] forKey:headerKey]]];
   }
   return [flattenedHeaders componentsJoinedByString:@", "];
 }

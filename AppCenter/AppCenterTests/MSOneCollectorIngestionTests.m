@@ -106,13 +106,13 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   NSString *testString = @"12345678";
   
   // When
-  NSString *result = [self.sut obfuscateHeaderValue:kMSOneCollectorApiKey value:testString];
+  NSString *result = [self.sut obfuscateHeaderValue:testString forKey:kMSOneCollectorApiKey];
   
   // If
   testString = @"ThisWillBeObfuscated, ThisWillBeObfuscated, ThisWillBeObfuscated";
   
   // When
-  result = [self.sut obfuscateHeaderValue:kMSOneCollectorApiKey value:testString];
+  result = [self.sut obfuscateHeaderValue:testString forKey:kMSOneCollectorApiKey];
   
   // Then
   XCTAssertTrue([result isEqualToString:@"************fuscated,*************fuscated,*************fuscated"]);
@@ -121,7 +121,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   testString = @"something";
 
   // When
-  result = [self.sut obfuscateHeaderValue:kMSOneCollectorTicketsKey value:testString];
+  result = [self.sut obfuscateHeaderValue:testString forKey:kMSOneCollectorTicketsKey];
 
   // Then
   XCTAssertTrue([result isEqualToString:testString]);
@@ -130,7 +130,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   testString = @"{\"ticketKey1\":\"p:AuthorizationValue1\",\"ticketKey2\":\"d:AuthorizationValue2\"}";
   
   // When
-  result = [self.sut obfuscateHeaderValue:kMSOneCollectorTicketsKey value:testString];
+  result = [self.sut obfuscateHeaderValue:testString forKey:kMSOneCollectorTicketsKey];
   
   // Then
   XCTAssertTrue([result isEqualToString:@"{\"ticketKey1\":\"p:***\",\"ticketKey2\":\"d:***\"}"]);
