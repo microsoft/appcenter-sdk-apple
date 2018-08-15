@@ -12,11 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic, readonly) MSPropertyConfigurator *propertyConfigurator;
 
-/**
- * Authentication provider.
- */
-@property(class, nonatomic, setter=addAuthenticationProvider:) MSAnalyticsAuthenticationProvider* authenticationProvider;
-
 + (void)addAuthenticationProvider:(MSAnalyticsAuthenticationProvider *)authenticatioProvider;
 
 /**
