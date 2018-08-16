@@ -1,6 +1,13 @@
 import UIKit
 import WebKit
 
+extension URL {
+  func valueOf(_ queryParamaterName: String) -> String? {
+    guard let url = URLComponents(string: self.absoluteString) else { return nil }
+    return url.queryItems?.first(where: { $0.name == queryParamaterName })?.value
+  }
+}
+
 class MSSignInViewController: UIViewController, WKNavigationDelegate, MSAnalyticsAuthenticationProviderDelegate {
   
   var onAuthDataReceived: ((_ token: String, _ userId: String, _ expiresAt: Date) -> Void)?
@@ -25,6 +32,11 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate, MSAnalytic
 
   var action: AuthAction = .login
 
+  enum JSONError: String, Error {
+    case NoData = "No data"
+    case ConversionFailed = "Conversion from JSON failed"
+  }
+  
   override func loadView() {
     let configuration = WKWebViewConfiguration()
     configuration.preferences.javaScriptEnabled = true
@@ -55,54 +67,6 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate, MSAnalytic
     }
   }
 
-  enum JSONError: String, Error {
-    case NoData = "No data"
-    case ConversionFailed = "Conversion from JSON failed"
-  }
-  
-  func authenticationProvider(_ authenticationProvider: MSAnalyticsAuthenticationProvider!, acquireTokenWithCompletionHandler completionHandler: MSAnalyticsAuthenticationProviderCompletionBlock!) {
-    if let refreshUrl = URL(string: self.baseUrl + self.tokenEndpoint) {
-      let config = URLSessionConfiguration.default
-      let session = URLSession(configuration: config)
-      let request = NSMutableURLRequest(url: refreshUrl)
-      request.httpMethod = "POST"
-      request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-      let bodyString = redirectParam + clientIdParam + refreshParam + refreshToken + scopeParam
-      let data: Data = bodyString.data(using: String.Encoding.utf8)!
-
-      NSLog("Started refresh process")
-      session.uploadTask(with: request as URLRequest, from: data) { (data, response, error) in
-        defer {
-          self.close()
-        }
-        do {
-          guard let data = data else {
-            completionHandler(nil, nil)
-            throw JSONError.NoData
-          }
-          guard let json = try JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary else {
-            completionHandler(nil, nil)
-            throw JSONError.ConversionFailed
-          }
-          if let error = json["error"] as? String, let errorDescription = json["error_description"] as? String {
-            NSLog("Refresh token error: \"\(error)\": \(errorDescription)")
-            completionHandler(nil, nil)
-            return
-          }
-          let token = json["access_token"]! as! String
-          let expiresIn = json["expires_in"]! as! Int64
-          let userId = json["user_id"]! as! String
-          NSLog("Successfully refreshed token for user: %@", userId)
-          completionHandler(token, Date().addingTimeInterval(Double(expiresIn)))
-        } catch let error as JSONError {
-          NSLog("Error while preforming refresh request: %@", error.rawValue)
-        } catch let error as NSError {
-          NSLog("Error while preforming refresh request: %@", error.localizedDescription)
-        }
-      }.resume()
-    }
-  }
-
   func signOut() {
     NSLog("Started sign out process")
     if let url = URL(string: self.baseUrl + self.signOutEndpoint + "?" + redirectParam + clientIdParam) {
@@ -110,7 +74,8 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate, MSAnalytic
     }
   }
 
-  func checkSignIn(url: URL) {
+  // The sign in flow.
+  func signIn(url: URL) {
     if url.absoluteString.contains((self.baseUrl + self.redirectEndpoint)) {
       if let newUrl = URL(string: self.baseUrl + self.redirectEndpoint + "?" + url.fragment!) {
         if let error = newUrl.valueOf("error") {
@@ -121,6 +86,8 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate, MSAnalytic
           if(!refreshToken.isEmpty) {
             self.refreshToken = refreshToken
             NSLog("Successfully signed in with user_id: %@", newUrl.valueOf("user_id")!)
+            
+            // Create a MSAnalyticsAuthenticationProvider and register as an MSAnalyticsAuthenticationProvider.
             let provider = MSAnalyticsAuthenticationProvider(authenticationType: .msaCompact, ticketKey: newUrl.valueOf("user_id")!, delegate: self)
             MSAnalyticsTransmissionTarget.addAuthenticationProvider(authenticationProvider:provider)
           }
@@ -129,7 +96,7 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate, MSAnalytic
     }
   }
 
-  func checkSignOut(url: URL) {
+  func signOut(url: URL) {
     if url.absoluteString.contains((self.baseUrl + self.redirectEndpoint)) {
       if let error = url.valueOf("error") {
         NSLog("Error while signing out: %@", error)
@@ -147,16 +114,61 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate, MSAnalytic
   func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
     switch action {
     case .login:
-      checkSignIn(url: webView.url!)
+      signIn(url: webView.url!)
     case .signout:
-      checkSignOut(url: webView.url!)
+      signOut(url: webView.url!)
     }
   }
-}
-
-extension URL {
-  func valueOf(_ queryParamaterName: String) -> String? {
-    guard let url = URLComponents(string: self.absoluteString) else { return nil }
-    return url.queryItems?.first(where: { $0.name == queryParamaterName })?.value
+  
+  // Implement required method of MSanalyticsAuthenticationProviderDelegate protocol.
+  func authenticationProvider(_ authenticationProvider: MSAnalyticsAuthenticationProvider!, acquireTokenWithCompletionHandler completionHandler: MSAnalyticsAuthenticationProviderCompletionBlock!) {
+    if let refreshUrl = URL(string: self.baseUrl + self.tokenEndpoint) {
+      let config = URLSessionConfiguration.default
+      let session = URLSession(configuration: config)
+      let request = NSMutableURLRequest(url: refreshUrl)
+      request.httpMethod = "POST"
+      request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+      let bodyString = redirectParam + clientIdParam + refreshParam + refreshToken + scopeParam
+      let data: Data = bodyString.data(using: String.Encoding.utf8)!
+      
+      NSLog("Started refresh process")
+      session.uploadTask(with: request as URLRequest, from: data) { (data, response, error) in
+        defer {
+          self.close()
+        }
+        do {
+          guard let data = data else {
+            
+            // Call the completion handler in the error case to send anonymous logs.
+            completionHandler(nil, nil)
+            throw JSONError.NoData
+          }
+          guard let json = try JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary else {
+            
+            // Call the completion handler in the error case to send anonymous logs.
+            completionHandler(nil, nil)
+            throw JSONError.ConversionFailed
+          }
+          if let error = json["error"] as? String, let errorDescription = json["error_description"] as? String {
+            NSLog("Refresh token error: \"\(error)\": \(errorDescription)")
+            
+            // Call the completion handler in the error case to send anonymous logs.
+            completionHandler(nil, nil)
+            return
+          }
+          let token = json["access_token"]! as! String
+          let expiresIn = json["expires_in"]! as! Int64
+          let userId = json["user_id"]! as! String
+          NSLog("Successfully refreshed token for user: %@", userId)
+          
+          // Call the completion handler and pass in the updated token and expiryDate.
+          completionHandler(token, Date().addingTimeInterval(Double(expiresIn)))
+        } catch let error as JSONError {
+          NSLog("Error while preforming refresh request: %@", error.rawValue)
+        } catch let error as NSError {
+          NSLog("Error while preforming refresh request: %@", error.localizedDescription)
+        }
+        }.resume()
+    }
   }
 }
