@@ -39,7 +39,7 @@ class TargetPropertiesTableSection : PropertiesTableSection {
     let currentPropertyKey = targetProperties[selectedTarget!]![arrayIndex].0
     let currentPropertyValue = targetProperties[selectedTarget!]![arrayIndex].1
     let target = MSTransmissionTargets.shared.transmissionTargets[selectedTarget!]!
-    target.propertyConfigurator.removeEventPropertyforKey(currentPropertyKey)
+    target.propertyConfigurator.removeEventProperty(forKey: currentPropertyKey)
     target.propertyConfigurator.setEventPropertyString(currentPropertyValue, forKey: sender.text!)
     targetProperties[selectedTarget!]![arrayIndex].0 = sender.text!
   }
@@ -68,7 +68,7 @@ class TargetPropertiesTableSection : PropertiesTableSection {
     let arrayIndex = row - propertyCellOffset()
     let key = targetProperties[selectedTarget!]![arrayIndex].0
     let target = MSTransmissionTargets.shared.transmissionTargets[selectedTarget!]!
-    target.propertyConfigurator.removeEventPropertyforKey(key)
+    target.propertyConfigurator.removeEventProperty(forKey: key)
     targetProperties[selectedTarget!]!.remove(at: arrayIndex)
   }
 
