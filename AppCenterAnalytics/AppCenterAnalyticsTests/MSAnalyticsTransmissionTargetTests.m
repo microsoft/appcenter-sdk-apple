@@ -395,13 +395,13 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   NSString *prop1Value = @"val1";
 
   // When
-  [configurator removeEventPropertyforKey:prop1Key];
+  [configurator removeEventPropertyForKey:prop1Key];
 
   // Then
   XCTAssertEqualObjects(configurator.eventProperties, @{});
 
   // When
-  [configurator removeEventPropertyforKey:nil];
+  [configurator removeEventPropertyForKey:nil];
 
   // Then
   XCTAssertEqualObjects(configurator.eventProperties, @{});
@@ -436,7 +436,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
                         (@{prop1Key : prop1Value, prop2Key : prop2Value}));
 
   // When
-  [configurator removeEventPropertyforKey:prop1Key];
+  [configurator removeEventPropertyForKey:prop1Key];
 
   // Then
   XCTAssertEqualObjects(configurator.eventProperties, @{prop2Key : prop2Value});
@@ -536,7 +536,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   // Just to show we still get value from parent which is inherited from grand
   // parent, if we remove an override. */
   [parent.propertyConfigurator setEventPropertyString:@"33" forKey:@"c"];
-  [parent.propertyConfigurator removeEventPropertyforKey:@"c"];
+  [parent.propertyConfigurator removeEventPropertyForKey:@"c"];
 
   // Override a property.
   [child.propertyConfigurator setEventPropertyString:@"444" forKey:@"d"];

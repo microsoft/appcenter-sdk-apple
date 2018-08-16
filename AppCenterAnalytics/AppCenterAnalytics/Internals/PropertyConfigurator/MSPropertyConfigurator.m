@@ -41,7 +41,7 @@
   }
 }
 
-- (void)removeEventPropertyforKey:(NSString *)propertyKey {
+- (void)removeEventPropertyForKey:(NSString *)propertyKey {
   @synchronized([MSAnalytics sharedInstance]) {
     if (!propertyKey) {
       MSLogError([MSAnalytics logTag],

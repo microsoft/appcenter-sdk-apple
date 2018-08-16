@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @discussion This won't remove properties with the same name declared in other
  * nested transmission targets.
  */
-- (void)removeEventPropertyforKey:(NSString *)propertyKey;
+- (void)removeEventPropertyForKey:(NSString *)propertyKey;
 
 NS_ASSUME_NONNULL_END
 
