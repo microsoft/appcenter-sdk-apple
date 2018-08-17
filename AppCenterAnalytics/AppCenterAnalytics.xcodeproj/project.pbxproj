@@ -560,6 +560,8 @@
 				B2E2ECB82114DAB800C688C0 /* MSAnalyticsAuthenticationProvider.m */,
 				3513432F205704A100E6DC7D /* MSAnalyticsTransmissionTarget.h */,
 				35134330205704C100E6DC7D /* MSAnalyticsTransmissionTarget.m */,
+				E758FA7B20FFDEE700011793 /* MSPropertyConfigurator.h */,
+				E758FA7C20FFDEE700011793 /* MSPropertyConfigurator.m */,
 			);
 			path = TransmissionTarget;
 			sourceTree = "<group>";
@@ -601,16 +603,6 @@
 				F834E37120AC8E25003CB54D /* MSLogWithNameAndProperties.m */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		E758FA7A20FFDE7B00011793 /* PropertyConfigurator */ = {
-			isa = PBXGroup;
-			children = (
-				E758FA7B20FFDEE700011793 /* MSPropertyConfigurator.h */,
-				E758FA7C20FFDEE700011793 /* MSPropertyConfigurator.m */,
-				E758FA8320FFE0E200011793 /* MSPropertyConfiguratorPrivate.h */,
-			);
-			path = PropertyConfigurator;
 			sourceTree = "<group>";
 		};
 		E85547B71D2D6253002DF6E2 = {
@@ -663,8 +655,8 @@
 				351343352057093600E6DC7D /* MSAnalyticsTransmissionTargetInternal.h */,
 				C27452D520AE0EF100B64B68 /* MSAnalytics+Validation.h */,
 				C27452D120AE0DAC00B64B68 /* MSAnalytics+Validation.m */,
+				E758FA8320FFE0E200011793 /* MSPropertyConfiguratorPrivate.h */,
 				6E3E2CC21D359D5E00B1EE50 /* Model */,
-				E758FA7A20FFDE7B00011793 /* PropertyConfigurator */,
 				E8E48F9B1D515C1F00A8C1B0 /* Session */,
 				04A1409C1ECE7245001CEE94 /* Util */,
 			);
