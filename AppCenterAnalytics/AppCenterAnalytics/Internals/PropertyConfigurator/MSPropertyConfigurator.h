@@ -9,21 +9,21 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param appVersion New application version for a transmission target.
  */
-- (void)setAppVersion:(NSString *)appVersion;
+- (void)setAppVersion:(nullable NSString *)appVersion;
 
 /**
  * Override the application name.
  *
  * @param appName New application name for a transmission target.
  */
-- (void)setAppName:(NSString *)appName;
+- (void)setAppName:(nullable NSString *)appName;
 
 /**
  * Override the application locale.
  *
  * @param appLocale New application locale for a transmission target.
  */
-- (void)setAppLocale:(NSString *)appLocale;
+- (void)setAppLocale:(nullable NSString *)appLocale;
 
 /**
  * Set an event property to be attached to events tracked by this transmission
