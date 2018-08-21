@@ -59,8 +59,13 @@ static NSString *const kMSGroupId = @"AppCenter";
 #pragma mark - public
 
 + (void)configureWithAppSecret:(NSString *)appSecret {
-  [[MSAppCenter sharedInstance] configureWithAppSecret:appSecret
-                               transmissionTargetToken:nil
+
+  // 'appSecret' is actually a secret string
+  NSString *appSecretOnly = [MSUtility appSecretFrom:appSecret];
+  NSString *transmissionTargetToken =
+      [MSUtility transmissionTargetTokenFrom:appSecret];
+  [[MSAppCenter sharedInstance] configureWithAppSecret:appSecretOnly
+                               transmissionTargetToken:transmissionTargetToken
                                        fromApplication:YES];
 }
 
