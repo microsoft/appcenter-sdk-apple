@@ -359,11 +359,11 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat =
     // Log a message to notify the user why the SDK didn't check for updates.
     MSLogDebug([MSDistribute logTag],
                @"Distribute won't try to obtain an update token because of one "
-               @"of the following reasons: 1. A debugger is"
+               @"of the following reasons: 1. A debugger is "
                 "attached. 2. You are running the debug configuration. 3. The "
-                "app is running in a non-adhoc environment."
+                "app is running in a non-adhoc environment. "
                 "Detach the debugger and restart the app and/or run the app "
-                "with the release configuration to enable the"
+                "with the release configuration to enable the "
                 "feature.");
   }
 }
