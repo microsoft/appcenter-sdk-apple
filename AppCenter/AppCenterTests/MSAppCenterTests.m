@@ -106,10 +106,11 @@ static NSString *const kMSNullifiedInstallIdString =
       isEqualToString:transmissionTargetString]);
   XCTAssertTrue([MSMockService sharedInstance].started);
   XCTAssertTrue([[[MSMockService sharedInstance] defaultTransmissionTargetToken]
-                 isEqualToString:transmissionTargetString]);
+      isEqualToString:transmissionTargetString]);
   XCTAssertTrue([MSMockSecondService sharedInstance].started);
-  XCTAssertTrue([[[MSMockSecondService sharedInstance] defaultTransmissionTargetToken]
-                 isEqualToString:transmissionTargetString]);
+  XCTAssertTrue(
+      [[[MSMockSecondService sharedInstance] defaultTransmissionTargetToken]
+          isEqualToString:transmissionTargetString]);
 }
 
 - (void)testStartWithNoAppSecret {

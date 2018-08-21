@@ -88,7 +88,8 @@ static NSString *const kMSGroupId = @"AppCenter";
   [[MSAppCenter sharedInstance]
                  startService:service
                 withAppSecret:[[MSAppCenter sharedInstance] appSecret]
-      transmissionTargetToken:[[MSAppCenter sharedInstance] defaultTransmissionTargetToken]
+      transmissionTargetToken:[[MSAppCenter sharedInstance]
+                                  defaultTransmissionTargetToken]
                    andSendLog:YES
               fromApplication:YES];
 }
