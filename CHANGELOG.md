@@ -1,8 +1,26 @@
 # App Center SDK for iOS and macOS Change Log
 
+## Version 1.9.0
+
+This version contains bug fixes and a feature.
+
+### AppCenter
+
+* **[Fix]** Fixes a potential deadlock that can cause the application to take a long time to launch. This could cause the iOS watchdog to kill the application.
+
+### AppCenterCrashes
+
+* **[Fix]** Fixes a potential deadlock that can cause the application to take a long time to launch. This could cause the iOS watchdog to kill the application.
+
+### AppCenterAnalytics
+
+* **[Feature]** Preparation work for a future change in transmission protocol and endpoint for Analytics data. There is no impact on your current workflow when using App Center.
+
+___
+
 ## Version 1.8.0
 
-This version contains bug fixes and a feature. 
+This version contains bug fixes and a feature.
 
 ### AppCenterDistribute
 
@@ -17,7 +35,7 @@ ___
 
 ## Version 1.7.1
 
-This version contains a bug fix. 
+This version contains a bug fix.
 
 ### AppCenter
 
@@ -52,7 +70,7 @@ ___
 
 ## Version 1.6.0
 
-This version contains an improvement and bug fixes. Any macOS app with unsent logs prior to the update will discard these logs. 
+This version contains an improvement and bug fixes. Any macOS app with unsent logs prior to the update will discard these logs.
 
 ### AppCenter
 
@@ -124,7 +142,6 @@ This version has a **breaking change** with bug fixes and improvements.
     * If you don't see any implementation of `application:didReceiveRemoteNotification:fetchCompletionHandler` callback in your application delegate, you don't need to do anything, there is no breaking change for you.
     * If you want to keep automatic forwarding disabled, you also don't need to do anything.
     * If your application delegate contains implementation of `application:didReceiveRemoteNotification:fetchCompletionHandler`, you need to remove the following code from your implementation of the callback. This is typically the case when you or your 3rd party libraries implement the callback.
-
 
       **Objective-C**
       ```objc
@@ -282,7 +299,7 @@ This version contains bug fixes.
 
 ### MobileCenterDistribute
 
-* **[Fix]** Workaraound a bug on iOS 11 where the Safari in-app page remains stuck activating in-app update. It is now opening the Safari app.
+* **[Fix]** Workaround a bug on iOS 11 where the Safari in-app page remains stuck activating in-app update. It is now opening the Safari app.
 * **[Fix]** Fixed update won't start until the app is explicitly closed on iOS 11.
 
 ___
@@ -330,7 +347,7 @@ This version contains bug fixes and an improvement that changes the current beha
 
 ### MobileCenterCrashes
 
-* **[Fix]** Fixes two bugs that caused error logs to be assiciated with wrong session information.
+* **[Fix]** Fixes two bugs that caused error logs to be associated with wrong session information.
 
 ___
 
@@ -382,7 +399,7 @@ It contains improvements and new features.
 
 ### MobileCenterDistribute
 
-* **[Bug]** Fix a potential crash that occured in case the request for updates returned a 200 but the data was empty.
+* **[Bug]** Fix a potential crash that occurred in case the request for updates returned a 200 but the data was empty.
 
 ___
 
@@ -489,7 +506,7 @@ This version contains some bug fixes, improvements under the hood and renamed th
 
 ### Puppet
 
-* **[Bug]** Fixed navigaton issues in Puppet app.
+* **[Bug]** Fixed navigation issues in Puppet app.
  
 ### SasquatchSwift
 
@@ -525,7 +542,7 @@ This version reverts new implementations introduced in version 0.4.2.
 
 ### MobileCenterCrashes
 
-* **[Bug]** Revert recent Crashes implementions of buffering logs and retrieving device information from past sessions in version 0.4.2 due to regression.
+* **[Bug]** Revert recent Crashes implementations of buffering logs and retrieving device information from past sessions in version 0.4.2 due to regression.
 
 ___
 
@@ -654,7 +671,7 @@ This version has some internal changes and bug fixes.
 ### MobileCenterCrashes
 
 * **[Feature]** Add CrashProbe cases for testing.
-* **[Feature]** Allow wrapper SDKs such as Xamarin to store additiona crash data files.
+* **[Feature]** Allow wrapper SDKs such as Xamarin to store additional crash data files.
 * **[Bug]** Fix a crash issue when SDK tries to access crash data in the file system.
 
 ___
