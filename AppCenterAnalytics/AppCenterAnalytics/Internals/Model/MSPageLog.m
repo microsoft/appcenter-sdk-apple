@@ -13,7 +13,8 @@ static NSString *const kMSTypePage = @"page";
 }
 
 - (BOOL)isEqual:(id)object {
-  return [(NSObject *)object isKindOfClass:[MSPageLog class]] && [super isEqual:object];
+  return [(NSObject *)object isKindOfClass:[MSPageLog class]] &&
+         [super isEqual:object];
 }
 
 @end

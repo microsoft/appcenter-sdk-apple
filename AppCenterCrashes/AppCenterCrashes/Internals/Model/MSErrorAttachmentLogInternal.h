@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 
-#import "MSErrorAttachmentLog.h"
 #import "MSAbstractLogInternal.h"
+#import "MSErrorAttachmentLog.h"
 
 /**
  * Error attachment log.

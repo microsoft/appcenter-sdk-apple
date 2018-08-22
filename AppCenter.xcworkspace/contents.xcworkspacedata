@@ -1,6 +1,194 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
+   <Group
+      location = "group:Config"
+      name = "Config">
+      <FileRef
+         location = "group:App.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:Global Release.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:Global Debug.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:macOS.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:tvOS.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:Tests macOS.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:Global.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:Tests tvOS.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:Version.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:iOS.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:Tests.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:Tests iOS.xcconfig">
+      </FileRef>
+   </Group>
+   <FileRef
+      location = "group:AppCenter.podspec">
+   </FileRef>
+   <FileRef
+      location = "group:appcenter-post-clone.sh">
+   </FileRef>
+   <FileRef
+      location = "group:CHANGELOG.md">
+   </FileRef>
+   <FileRef
+      location = "group:codecov.yml">
+   </FileRef>
+   <FileRef
+      location = "group:ISSUE_TEMPLATE.md">
+   </FileRef>
+   <FileRef
+      location = "group:LICENSE">
+   </FileRef>
+   <FileRef
+      location = "group:README.md">
+   </FileRef>
+   <FileRef
+      location = "group:ThirdPartyNotices.txt">
+   </FileRef>
+   <Group
+      location = "group:Scripts"
+      name = "Scripts">
+      <FileRef
+         location = "group:VerifyNoBuildSettings.swift">
+      </FileRef>
+      <Group
+         location = "group:AppCenter"
+         name = "AppCenter">
+         <FileRef
+            location = "group:build-appcenter-ios-docs.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenter-ios-framework.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenter-macos-docs.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenter-macos-framework.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenter-tvos-docs.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenter-tvos-framework.sh">
+         </FileRef>
+      </Group>
+      <Group
+         location = "group:AppCenterAnalytics"
+         name = "AppCenterAnalytics">
+         <FileRef
+            location = "group:build-appcenteranalytics-ios-docs.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenteranalytics-ios-framework.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenteranalytics-macos-docs.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenteranalytics-macos-framework.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenteranalytics-tvos-docs.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenteranalytics-tvos-framework.sh">
+         </FileRef>
+      </Group>
+      <Group
+         location = "group:AppCenterCrashes"
+         name = "AppCenterCrashes">
+         <FileRef
+            location = "group:build-appcentercrashes-ios-docs.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcentercrashes-ios-framework.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcentercrashes-macos-docs.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcentercrashes-macos-framework.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcentercrashes-tvos-docs.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcentercrashes-tvos-framework.sh">
+         </FileRef>
+      </Group>
+      <Group
+         location = "group:AppCenterDistribute"
+         name = "AppCenterDistribute">
+         <FileRef
+            location = "group:build-appcenterdistribute-ios-docs.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenterdistribute-ios-framework.sh">
+         </FileRef>
+      </Group>
+      <Group
+         location = "group:AppCenterPush"
+         name = "AppCenterPush">
+         <FileRef
+            location = "group:build-appcenterpush-ios-docs.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenterpush-ios-framework.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenterpush-macos-docs.sh">
+         </FileRef>
+         <FileRef
+            location = "group:build-appcenterpush-macos-framework.sh">
+         </FileRef>
+      </Group>
+   </Group>
+   <Group
+      location = "group:vsts"
+      name = "vsts">
+      <FileRef
+         location = "group:appcenter-build.sh">
+      </FileRef>
+      <FileRef
+         location = "group:zip.sh">
+      </FileRef>
+      <FileRef
+         location = "group:publish-podspec.sh">
+      </FileRef>
+      <FileRef
+         location = "group:commit-validation.sh">
+      </FileRef>
+      <FileRef
+         location = "group:post-release-version-bump.sh">
+      </FileRef>
+      <FileRef
+         location = "group:publish.sh">
+      </FileRef>
+      <FileRef
+         location = "group:internal-version-increment.sh">
+      </FileRef>
+   </Group>
    <FileRef
       location = "group:AppCenter/AppCenter.xcodeproj">
    </FileRef>
@@ -15,9 +203,6 @@
    </FileRef>
    <FileRef
       location = "group:AppCenterPush/AppCenterPush.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:Puppet/Puppet.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:CrashLib/CrashLib.xcodeproj">

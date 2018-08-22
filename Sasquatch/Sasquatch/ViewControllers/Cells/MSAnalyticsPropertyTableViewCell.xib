@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="property" id="VGz-Vf-G1h" userLabel="Analytics Property Table View Cell" customClass="MSAnalyticsPropertyTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VGz-Vf-G1h" id="roe-Sg-weR">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Key" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0w8-gH-9IR">
+                        <rect key="frame" x="20" y="0.0" width="160" height="44"/>
+                        <nil key="textColor"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <textInputTraits key="textInputTraits" autocorrectionType="no"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="Key"/>
+                        </userDefinedRuntimeAttributes>
+                    </textField>
+                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Value" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="j3d-U5-snv">
+                        <rect key="frame" x="195.5" y="0.0" width="159.5" height="43"/>
+                        <nil key="textColor"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <textInputTraits key="textInputTraits" autocorrectionType="no"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="Value"/>
+                        </userDefinedRuntimeAttributes>
+                    </textField>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="0w8-gH-9IR" firstAttribute="leading" secondItem="roe-Sg-weR" secondAttribute="leading" constant="20" symbolic="YES" id="39f-HS-ceK"/>
+                    <constraint firstAttribute="trailing" secondItem="j3d-U5-snv" secondAttribute="trailing" constant="20" symbolic="YES" id="PMF-we-y0G"/>
+                    <constraint firstAttribute="bottom" secondItem="j3d-U5-snv" secondAttribute="bottom" id="Q0Z-9P-wgm"/>
+                    <constraint firstAttribute="centerX" secondItem="0w8-gH-9IR" secondAttribute="trailing" constant="8" id="WQe-2J-GJU"/>
+                    <constraint firstAttribute="bottom" secondItem="0w8-gH-9IR" secondAttribute="bottom" id="bbI-E6-TmC"/>
+                    <constraint firstItem="j3d-U5-snv" firstAttribute="top" secondItem="roe-Sg-weR" secondAttribute="top" id="p1N-Up-5s1"/>
+                    <constraint firstItem="0w8-gH-9IR" firstAttribute="top" secondItem="roe-Sg-weR" secondAttribute="top" id="w4X-t3-Bbl"/>
+                    <constraint firstItem="j3d-U5-snv" firstAttribute="leading" secondItem="roe-Sg-weR" secondAttribute="centerX" constant="8" id="wzr-by-Wt4"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="keyField" destination="0w8-gH-9IR" id="tfg-PA-wxs"/>
+                <outlet property="valueField" destination="j3d-U5-snv" id="bJJ-Fe-A1Q"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>

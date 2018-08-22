@@ -4,6 +4,7 @@
 
 - (instancetype)initWithTitle:(NSString *)title
                       message:(NSString *)message
-                   customData:(NSDictionary<NSString *, NSString *> *)customData;
+                   customData:
+                       (NSDictionary<NSString *, NSString *> *)customData;
 
 @end

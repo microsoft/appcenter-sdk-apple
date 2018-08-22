@@ -16,4 +16,3 @@
 #define MSApplication UIApplication
 #endif
 #endif
-

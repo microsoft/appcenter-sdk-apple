@@ -11,7 +11,7 @@
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 046964101F2A558F00F9D31F /* Build configuration list for PBXAggregateTarget "AppCenterPushMacOSFramework" */;
 			buildPhases = (
-				0469640F1F2A558F00F9D31F /* ShellScript */,
+				0469640F1F2A558F00F9D31F /* Build framework */,
 			);
 			dependencies = (
 			);
@@ -22,7 +22,7 @@
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 0469642B1F2A55A600F9D31F /* Build configuration list for PBXAggregateTarget "AppCenterPushMacOSDoc" */;
 			buildPhases = (
-				0469642A1F2A55A600F9D31F /* Run Script */,
+				0469642A1F2A55A600F9D31F /* Build docs */,
 			);
 			dependencies = (
 				046964321F2A569B00F9D31F /* PBXTargetDependency */,
@@ -34,7 +34,7 @@
 			isa = PBXAggregateTarget;
 			buildConfigurationList = D3AD5F251E5C9562001627AB /* Build configuration list for PBXAggregateTarget "AppCenterPushIOSFramework" */;
 			buildPhases = (
-				D3AD5F261E5C9588001627AB /* ShellScript */,
+				D3AD5F261E5C9588001627AB /* Build framework */,
 			);
 			dependencies = (
 			);
@@ -45,7 +45,7 @@
 			isa = PBXAggregateTarget;
 			buildConfigurationList = D3AD5F281E5C9633001627AB /* Build configuration list for PBXAggregateTarget "AppCenterPushIOSDoc" */;
 			buildPhases = (
-				D3AD5F2B1E5C9636001627AB /* Run Script */,
+				D3AD5F2B1E5C9636001627AB /* Build docs */,
 			);
 			dependencies = (
 				D3AD5F3D1E5D6809001627AB /* PBXTargetDependency */,
@@ -477,6 +477,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0469640A1F2A558300F9D31F /* Build configuration list for PBXNativeTarget "AppCenterPushMacOS" */;
 			buildPhases = (
+				F8B8EAE421105C1D004BCECB /* Verify no buildSettings */,
 				046963F51F2A558300F9D31F /* Sources */,
 				046963FA1F2A558300F9D31F /* Frameworks */,
 				046963FC1F2A558300F9D31F /* CopyFiles */,
@@ -513,6 +514,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D33A945A1E5B11BB003966DB /* Build configuration list for PBXNativeTarget "AppCenterPushIOS" */;
 			buildPhases = (
+				F8B8EAE221105C11004BCECB /* Verify no buildSettings */,
 				D33A944D1E5B11BB003966DB /* Sources */,
 				D33A944E1E5B11BB003966DB /* Frameworks */,
 				D33A944F1E5B11BB003966DB /* CopyFiles */,
@@ -597,59 +599,91 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0469640F1F2A558F00F9D31F /* ShellScript */ = {
+		0469640F1F2A558F00F9D31F /* Build framework */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Build framework";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=AppCenterPush\nTGT_NAME=${FMK_NAME}MacOS\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../AppCenter-SDK-Apple/macOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\"\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/macOS.modulemap\" \"${INSTALL_DIR}/Modules/module.modulemap\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n# Uses the Lipo Tool to copy binary file (x86_64) into final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"";
+			shellScript = "cd ${SRCROOT}/../Scripts/AppCenterPush\n./build-appcenterpush-macos-framework.sh";
 		};
-		0469642A1F2A55A600F9D31F /* Run Script */ = {
+		0469642A1F2A55A600F9D31F /* Build docs */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Run Script";
+			name = "Build docs";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ ! -x \"$(command -v jazzy)\" ]\nthen\necho \"Couldn't find jazzy. Install jazzy before building frameworks\"\nexit 1\nfi\n\njazzy --config ../Documentation/macOS/AppCenterPush/.jazzy.yaml\n\nFMK_NAME=AppCenterPush\nPRODUCTS_DIR=${SRCROOT}/../AppCenter-SDK-Apple/macOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\nDOCUMENTATION_DIR=${PRODUCTS_DIR}/Documentation/${FMK_NAME}\n\n# Create Documentation directory within folder.\nif [ ! -d \"${DOCUMENTATION_DIR}\" ]\nthen\nmkdir -p \"${DOCUMENTATION_DIR}\"\nfi\n\n# Copy generated documentation into the documentation folder\ncp -R \"${SRCROOT}/../Documentation/macOS/${FMK_NAME}/Generated/\" \"${DOCUMENTATION_DIR}\"";
+			shellScript = "cd ${SRCROOT}/../Scripts/AppCenterPush\n./build-appcenterpush-macos-docs.sh";
 		};
-		D3AD5F261E5C9588001627AB /* ShellScript */ = {
+		D3AD5F261E5C9588001627AB /* Build framework */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Build framework";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=AppCenterPush\nTGT_NAME=${FMK_NAME}IOS\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../AppCenter-SDK-Apple/iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/iOS.modulemap\" \"${INSTALL_DIR}/Modules/module.modulemap\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"";
+			shellScript = "cd ${SRCROOT}/../Scripts/AppCenterPush\n./build-appcenterpush-ios-framework.sh";
 		};
-		D3AD5F2B1E5C9636001627AB /* Run Script */ = {
+		D3AD5F2B1E5C9636001627AB /* Build docs */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Run Script";
+			name = "Build docs";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ ! -x \"$(command -v jazzy)\" ]\nthen\necho \"Couldn't find jazzy. Install jazzy before building frameworks\"\nexit 1\nfi\n\njazzy --config ../Documentation/iOS/AppCenterPush/.jazzy.yaml\n\nFMK_NAME=AppCenterPush\nPRODUCTS_DIR=${SRCROOT}/../AppCenter-SDK-Apple/iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\nDOCUMENTATION_DIR=${PRODUCTS_DIR}/Documentation/${FMK_NAME}\n\n# Create Documentation directory within folder.\nif [ ! -d \"${DOCUMENTATION_DIR}\" ]\nthen\nmkdir -p \"${DOCUMENTATION_DIR}\"\nfi\n\n# Copy generated documentation into the documentation folder\ncp -R \"${SRCROOT}/../Documentation/iOS/${FMK_NAME}/Generated/\" \"${DOCUMENTATION_DIR}\"";
+			shellScript = "cd ${SRCROOT}/../Scripts/AppCenterPush\n./build-appcenterpush-ios-docs.sh";
+		};
+		F8B8EAE221105C11004BCECB /* Verify no buildSettings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Verify no buildSettings";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift ${PROJECT_NAME}.xcodeproj/project.pbxproj";
+			showEnvVarsInLog = 0;
+		};
+		F8B8EAE421105C1D004BCECB /* Verify no buildSettings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Verify no buildSettings";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift ${PROJECT_NAME}.xcodeproj/project.pbxproj";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -783,10 +817,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D3AD5F051E5C7FFF001627AB /* AppCenterPush Debug.xcconfig */;
 			buildSettings = {
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
 			};
 			name = Debug;
 		};

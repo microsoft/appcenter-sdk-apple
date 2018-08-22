@@ -7,9 +7,9 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MSChannelDelegate;
 
 /**
- * `MSChannelProtocol` contains the essential operations of a channel. Channels are
- * broadly responsible for enqueuing logs to be sent to the backend and/or stored
- * on disk.
+ * `MSChannelProtocol` contains the essential operations of a channel. Channels
+ * are broadly responsible for enqueuing logs to be sent to the backend and/or
+ * stored on disk.
  */
 @protocol MSChannelProtocol <NSObject, MSEnable>
 

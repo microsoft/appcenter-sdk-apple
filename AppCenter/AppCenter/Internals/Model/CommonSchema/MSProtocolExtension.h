@@ -4,9 +4,14 @@
 #import "MSSerializableObject.h"
 
 /**
- * The Protocol extension contains device specific information. 
+ * The Protocol extension contains device specific information.
  */
 @interface MSProtocolExtension : NSObject <MSSerializableObject, MSModel>
+
+/**
+ * Ticket keys.
+ */
+@property(nonatomic) NSArray<NSString *> *ticketKeys;
 
 /**
  * The device's manufacturer.

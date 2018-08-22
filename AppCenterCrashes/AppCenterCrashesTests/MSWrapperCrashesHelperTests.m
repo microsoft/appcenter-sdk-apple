@@ -1,7 +1,7 @@
 #import "MSCrashHandlerSetupDelegate.h"
+#import "MSCrashesInternal.h"
 #import "MSTestFrameworks.h"
 #import "MSWrapperCrashesHelper.h"
-#import "MSCrashesInternal.h"
 
 @interface MSWrapperCrashesHelperTests : XCTestCase
 @end
@@ -11,11 +11,13 @@
 - (void)testSettingAndGettingDelegateWorks {
 
   // If
-  id<MSCrashHandlerSetupDelegate> delegateMock = OCMProtocolMock(@protocol(MSCrashHandlerSetupDelegate));
+  id<MSCrashHandlerSetupDelegate> delegateMock =
+      OCMProtocolMock(@protocol(MSCrashHandlerSetupDelegate));
   [MSWrapperCrashesHelper setCrashHandlerSetupDelegate:delegateMock];
 
   // When
-  id<MSCrashHandlerSetupDelegate> retrievedDelegate = [MSWrapperCrashesHelper getCrashHandlerSetupDelegate];
+  id<MSCrashHandlerSetupDelegate> retrievedDelegate =
+      [MSWrapperCrashesHelper getCrashHandlerSetupDelegate];
 
   // Then
   assertThat(delegateMock, equalTo(retrievedDelegate));

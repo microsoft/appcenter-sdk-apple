@@ -1,11 +1,13 @@
 #import <Foundation/Foundation.h>
 
 #import "MSAnalyticsTransmissionTarget.h"
+#import "MSChannelDelegate.h"
+#import "MSChannelGroupProtocol.h"
 #import "MSUtility.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MSAnalyticsTransmissionTarget ()
+@interface MSAnalyticsTransmissionTarget () <MSChannelDelegate>
 
 /**
  * Parent transmission target of this target.
@@ -13,19 +15,26 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, nullable) MSAnalyticsTransmissionTarget *parentTarget;
 
 /**
- * Event properties attached to events tracked by this target.
- */
-@property(nonatomic, nullable) NSMutableDictionary<NSString *, NSString *> *eventProperties;
-
-/**
  * Child transmission targets nested to this transmission target.
  */
-@property(nonatomic) NSMutableDictionary<NSString *, MSAnalyticsTransmissionTarget *> *childTransmissionTargets;
+@property(nonatomic)
+    NSMutableDictionary<NSString *, MSAnalyticsTransmissionTarget *>
+        *childTransmissionTargets;
 
 /**
  * isEnabled value storage key.
  */
 @property(nonatomic, readonly) NSString *isEnabledKey;
+
+/**
+ * The channel group.
+ */
+@property(nonatomic, readonly) id<MSChannelGroupProtocol> channelGroup;
+
+/**
+ * Authentication provider.
+ */
+@property(class, nonatomic) MSAnalyticsAuthenticationProvider* authenticationProvider;
 
 @end
 

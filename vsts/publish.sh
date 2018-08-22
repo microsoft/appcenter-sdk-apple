@@ -38,7 +38,7 @@ if [ "$AZURE_STORAGE_ACCOUNT" == "" ] || [ "$AZURE_STORAGE_ACCESS_KEY" == "" ] |
 fi
 
 ## II. Constants
-REPOSITORY="$(echo $BUILD_REPOSITORY_URI | awk -F "[:]" '{print $2}' | awk -F "[/]" '{print $4"/"$5}' | awk -F "[.]" '{print $1}')"
+REPOSITORY="$(echo $BUILD_BUILDURI | awk -F "[:]" '{print $2}' | awk -F "[/]" '{print $4"/"$5}' | awk -F "[.]" '{print $1}')"
 GITHUB_API_URL_TEMPLATE="https://%s.github.com/repos/%s/%s?access_token=%s%s"
 GITHUB_API_HOST="api"
 GITHUB_UPLOAD_HOST="uploads"

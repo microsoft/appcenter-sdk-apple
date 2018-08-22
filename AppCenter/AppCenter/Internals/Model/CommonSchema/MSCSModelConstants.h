@@ -34,10 +34,12 @@ extern NSString *const kMSOSName;
 
 extern NSString *const kMSAppId;
 extern NSString *const kMSAppVer;
+extern NSString *const kMSAppName;
 extern NSString *const kMSAppLocale;
 
 #pragma mark - MSProtocolExtension
 
+extern NSString *const kMSTicketKeys;
 extern NSString *const kMSDevMake;
 extern NSString *const kMSDevModel;
 

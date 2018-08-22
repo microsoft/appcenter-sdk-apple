@@ -1,9 +1,9 @@
+#import "MSChannelGroupDefault.h"
 #import "AppCenter+Internal.h"
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterIngestion.h"
 #import "MSAppCenterInternal.h"
 #import "MSChannelDelegate.h"
-#import "MSChannelGroupDefault.h"
 #import "MSChannelUnitDefault.h"
 #import "MSHttpIngestion.h"
 #import "MSIngestionProtocol.h"
@@ -11,7 +11,8 @@
 #import "MSStorage.h"
 
 static short const kMSStorageMaxCapacity = 300;
-static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQueue";
+static char *const kMSlogsDispatchQueue =
+    "com.microsoft.appcenter.ChannelGroupQueue";
 
 @interface MSChannelGroupDefault () <MSChannelDelegate>
 
@@ -21,14 +22,18 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 
 #pragma mark - Initialization
 
-- (instancetype)initWithInstallId:(NSUUID *)installId logUrl:(NSString *)logUrl {
-  self = [self initWithIngestion:[[MSAppCenterIngestion alloc] initWithBaseUrl:logUrl installId:[installId UUIDString]]];
+- (instancetype)initWithInstallId:(NSUUID *)installId
+                           logUrl:(NSString *)logUrl {
+  self = [self initWithIngestion:[[MSAppCenterIngestion alloc]
+                                     initWithBaseUrl:logUrl
+                                           installId:[installId UUIDString]]];
   return self;
 }
 
 - (instancetype)initWithIngestion:(nullable MSHttpIngestion *)ingestion {
   if ((self = [self init])) {
-    dispatch_queue_t serialQueue = dispatch_queue_create(kMSlogsDispatchQueue, DISPATCH_QUEUE_SERIAL);
+    dispatch_queue_t serialQueue =
+        dispatch_queue_create(kMSlogsDispatchQueue, DISPATCH_QUEUE_SERIAL);
     _logsDispatchQueue = serialQueue;
     _channels = [NSMutableArray<id<MSChannelUnitProtocol>> new];
     _delegates = [NSHashTable weakObjectsHashTable];
@@ -38,27 +43,33 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
   return self;
 }
 
-- (id<MSChannelUnitProtocol>)addChannelUnitWithConfiguration:(MSChannelUnitConfiguration *)configuration {
-  return [self addChannelUnitWithConfiguration:configuration withIngestion:self.ingestion];
+- (id<MSChannelUnitProtocol>)addChannelUnitWithConfiguration:
+    (MSChannelUnitConfiguration *)configuration {
+  return [self addChannelUnitWithConfiguration:configuration
+                                 withIngestion:self.ingestion];
 }
 
-- (id<MSChannelUnitProtocol>)addChannelUnitWithConfiguration:(MSChannelUnitConfiguration *)configuration
-                                               withIngestion:(nullable id<MSIngestionProtocol>)ingestion {
+- (id<MSChannelUnitProtocol>)
+addChannelUnitWithConfiguration:(MSChannelUnitConfiguration *)configuration
+                  withIngestion:(nullable id<MSIngestionProtocol>)ingestion {
   MSChannelUnitDefault *channel;
   if (configuration) {
-    channel = [[MSChannelUnitDefault alloc] initWithIngestion:(ingestion ? ingestion : self.ingestion)
-                                                      storage:self.storage
-                                                configuration:configuration
-                                            logsDispatchQueue:self.logsDispatchQueue];
+    channel = [[MSChannelUnitDefault alloc]
+        initWithIngestion:(ingestion ? ingestion : self.ingestion)
+                  storage:self.storage
+            configuration:configuration
+        logsDispatchQueue:self.logsDispatchQueue];
     [channel addDelegate:self];
     dispatch_async(self.logsDispatchQueue, ^{
       [channel flushQueue];
     });
     [self.channels addObject:channel];
-    [self enumerateDelegatesForSelector:@selector(channelGroup:didAddChannelUnit:)
-                              withBlock:^(id<MSChannelDelegate> channelDelegate) {
-                                [channelDelegate channelGroup:self didAddChannelUnit:channel];
-                              }];
+    [self
+        enumerateDelegatesForSelector:@selector(channelGroup:didAddChannelUnit:)
+                            withBlock:^(id<MSChannelDelegate> channelDelegate) {
+                              [channelDelegate channelGroup:self
+                                          didAddChannelUnit:channel];
+                            }];
   }
   return channel;
 }
@@ -77,12 +88,21 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
   }
 }
 
-- (void)enumerateDelegatesForSelector:(SEL)selector withBlock:(void (^)(id<MSChannelDelegate> delegate))block {
+- (void)enumerateDelegatesForSelector:(SEL)selector
+                            withBlock:(void (^)(id<MSChannelDelegate> delegate))
+                                          block {
+  NSArray *synchronizedDelegates;
   @synchronized(self) {
-    for (id<MSChannelDelegate> delegate in self.delegates) {
-      if (delegate && [delegate respondsToSelector:selector]) {
-        block(delegate);
-      }
+
+    /*
+     * Don't execute the block while locking; it might be locking too and
+     * deadlock ourselves.
+     */
+    synchronizedDelegates = [self.delegates allObjects];
+  }
+  for (id<MSChannelDelegate> delegate in synchronizedDelegates) {
+    if (delegate && [delegate respondsToSelector:selector]) {
+      block(delegate);
     }
   }
 }
@@ -96,19 +116,29 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
                             }];
 }
 
-- (void)channel:(id<MSChannelProtocol>)channel didPrepareLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
-  [self enumerateDelegatesForSelector:@selector(channel:didPrepareLog:withInternalId:)
+- (void)channel:(id<MSChannelProtocol>)channel
+     didPrepareLog:(id<MSLog>)log
+    withInternalId:(NSString *)internalId {
+  [self enumerateDelegatesForSelector:@selector(channel:
+                                           didPrepareLog:
+                                          withInternalId:)
                             withBlock:^(id<MSChannelDelegate> delegate) {
-                              [delegate channel:channel didPrepareLog:log withInternalId:internalId];
+                              [delegate channel:channel
+                                   didPrepareLog:log
+                                  withInternalId:internalId];
                             }];
 }
 
 - (void)channel:(id<MSChannelProtocol>)channel
     didCompleteEnqueueingLog:(id<MSLog>)log
               withInternalId:(NSString *)internalId {
-  [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:withInternalId:)
+  [self enumerateDelegatesForSelector:@selector(channel:
+                                          didCompleteEnqueueingLog:
+                                                    withInternalId:)
                             withBlock:^(id<MSChannelDelegate> delegate) {
-                              [delegate channel:channel didCompleteEnqueueingLog:log withInternalId:internalId];
+                              [delegate channel:channel
+                                  didCompleteEnqueueingLog:log
+                                            withInternalId:internalId];
                             }];
 }
 
@@ -119,32 +149,49 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
                             }];
 }
 
-- (void)channel:(id<MSChannelProtocol>)channel didSucceedSendingLog:(id<MSLog>)log {
-  [self enumerateDelegatesForSelector:@selector(channel:didSucceedSendingLog:)
+- (void)channel:(id<MSChannelProtocol>)channel
+    didSucceedSendingLog:(id<MSLog>)log {
+  [self
+      enumerateDelegatesForSelector:@selector(channel:didSucceedSendingLog:)
+                          withBlock:^(id<MSChannelDelegate> delegate) {
+                            [delegate channel:channel didSucceedSendingLog:log];
+                          }];
+}
+
+- (void)channel:(id<MSChannelProtocol>)channel
+              didSetEnabled:(BOOL)isEnabled
+    andDeleteDataOnDisabled:(BOOL)deletedData {
+  [self enumerateDelegatesForSelector:@selector(channel:
+                                                    didSetEnabled:
+                                          andDeleteDataOnDisabled:)
                             withBlock:^(id<MSChannelDelegate> delegate) {
-                              [delegate channel:channel didSucceedSendingLog:log];
+                              [delegate channel:channel
+                                            didSetEnabled:isEnabled
+                                  andDeleteDataOnDisabled:deletedData];
                             }];
 }
 
-- (void)channel:(id<MSChannelProtocol>)channel didSetEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deletedData {
-  [self enumerateDelegatesForSelector:@selector(channel:didSetEnabled:andDeleteDataOnDisabled:)
+- (void)channel:(id<MSChannelProtocol>)channel
+    didFailSendingLog:(id<MSLog>)log
+            withError:(NSError *)error {
+  [self enumerateDelegatesForSelector:@selector(channel:
+                                          didFailSendingLog:
+                                                  withError:)
                             withBlock:^(id<MSChannelDelegate> delegate) {
-                              [delegate channel:channel didSetEnabled:isEnabled andDeleteDataOnDisabled:deletedData];
+                              [delegate channel:channel
+                                  didFailSendingLog:log
+                                          withError:error];
                             }];
 }
 
-- (void)channel:(id<MSChannelProtocol>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error {
-  [self enumerateDelegatesForSelector:@selector(channel:didFailSendingLog:withError:)
-                            withBlock:^(id<MSChannelDelegate> delegate) {
-                              [delegate channel:channel didFailSendingLog:log withError:error];
-                            }];
-}
-
-- (BOOL)channelUnit:(id<MSChannelUnitProtocol>)channelUnit shouldFilterLog:(id<MSLog>)log {
+- (BOOL)channelUnit:(id<MSChannelUnitProtocol>)channelUnit
+    shouldFilterLog:(id<MSLog>)log {
   __block BOOL shouldFilter = NO;
   [self enumerateDelegatesForSelector:@selector(channelUnit:shouldFilterLog:)
                             withBlock:^(id<MSChannelDelegate> delegate) {
-                              shouldFilter = shouldFilter || [delegate channelUnit:channelUnit shouldFilterLog:log];
+                              shouldFilter = shouldFilter ||
+                                             [delegate channelUnit:channelUnit
+                                                   shouldFilterLog:log];
                             }];
   return shouldFilter;
 }
@@ -162,9 +209,13 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
   }
 
   // Notify delegates.
-  [self enumerateDelegatesForSelector:@selector(channel:didSetEnabled:andDeleteDataOnDisabled:)
+  [self enumerateDelegatesForSelector:@selector(channel:
+                                                    didSetEnabled:
+                                          andDeleteDataOnDisabled:)
                             withBlock:^(id<MSChannelDelegate> delegate) {
-                              [delegate channel:self didSetEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
+                              [delegate channel:self
+                                            didSetEnabled:isEnabled
+                                  andDeleteDataOnDisabled:deleteData];
                             }];
 
   /**
@@ -180,7 +231,8 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 
 - (void)suspend {
 
-  // Disable ingestion, sending log will not be possible but they'll still be stored.
+  // Disable ingestion, sending log will not be possible but they'll still be
+  // stored.
   [self.ingestion setEnabled:NO andDeleteDataOnDisabled:NO];
 
   // Suspend each channel asynchronously.

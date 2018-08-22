@@ -11,7 +11,7 @@
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 04FD4A291E451E90009B4468 /* Build configuration list for PBXAggregateTarget "AppCenterDistributeIOSFramework" */;
 			buildPhases = (
-				04FD4A2C1E453159009B4468 /* ShellScript */,
+				04FD4A2C1E453159009B4468 /* Build framework */,
 			);
 			dependencies = (
 				B2C070C31E5E69E70076D6A9 /* PBXTargetDependency */,
@@ -23,7 +23,7 @@
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 04FD4A3D1E453640009B4468 /* Build configuration list for PBXAggregateTarget "AppCenterDistributeIOSDoc" */;
 			buildPhases = (
-				04FD4A401E4536B0009B4468 /* Run Script */,
+				04FD4A401E4536B0009B4468 /* Build docs */,
 			);
 			dependencies = (
 				0471B9361E4556570022F951 /* PBXTargetDependency */,
@@ -40,7 +40,6 @@
 		040AF0331E52859F005C1174 /* MSIngestionProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 040AF0321E52859F005C1174 /* MSIngestionProtocol.h */; };
 		0415974B1E9D639D00EC6BDA /* MSDistributionGroupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0415974A1E9D639D00EC6BDA /* MSDistributionGroupTests.m */; };
 		0420A69C1ECA7C8E00915619 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420A69B1ECA7C8E00915619 /* OCMock.framework */; };
-		043E2AB41F4E024300615AD9 /* AppCenterDistribute Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 043E2AB31F4E024300615AD9 /* AppCenterDistribute Release.xcconfig */; };
 		046EF5891EAEB524002F6436 /* MSDistributeDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 046EF5881EAEB524002F6436 /* MSDistributeDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		046FDBD31E5682FA00AF9DD1 /* MSAlertController.h in Headers */ = {isa = PBXBuildFile; fileRef = 046FDBD11E5682FA00AF9DD1 /* MSAlertController.h */; };
 		046FDBD41E5682FA00AF9DD1 /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 046FDBD21E5682FA00AF9DD1 /* MSAlertController.m */; };
@@ -66,6 +65,7 @@
 		383A2FE61EBA30B300817742 /* MSDistributeAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 383A2FE51EBA30B300817742 /* MSDistributeAppDelegate.m */; };
 		384135BE1FD99B5400FC7836 /* MSDistributeDataMigration.h in Headers */ = {isa = PBXBuildFile; fileRef = 384135BD1FD99B5400FC7836 /* MSDistributeDataMigration.h */; };
 		384135C01FD99EB400FC7836 /* MSDistributeDataMigration.m in Sources */ = {isa = PBXBuildFile; fileRef = 384135BF1FD99EB400FC7836 /* MSDistributeDataMigration.m */; };
+		387CC631210A9D9C002BA068 /* MSMockKeychainUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 387CC630210A9D9C002BA068 /* MSMockKeychainUtil.m */; };
 		388B559B1E64B3FD00E4F1D7 /* MSBasicMachOParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 388B55991E64B3FD00E4F1D7 /* MSBasicMachOParser.m */; };
 		388B559C1E64B3FD00E4F1D7 /* MSBasicMachOParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 388B559A1E64B3FD00E4F1D7 /* MSBasicMachOParser.h */; };
 		389638A41E79F59D007C3809 /* MSDistributeTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 389638A31E79F59D007C3809 /* MSDistributeTestUtil.m */; };
@@ -195,6 +195,8 @@
 		384135BD1FD99B5400FC7836 /* MSDistributeDataMigration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDistributeDataMigration.h; sourceTree = "<group>"; };
 		384135BF1FD99EB400FC7836 /* MSDistributeDataMigration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistributeDataMigration.m; sourceTree = "<group>"; };
 		386A69EF1FD88A9B0057B316 /* MSDistributeDataMigrationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDistributeDataMigrationTests.m; sourceTree = "<group>"; };
+		387CC62F210A9D9C002BA068 /* MSMockKeychainUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSMockKeychainUtil.h; path = ../../../AppCenter/AppCenterTests/Util/MSMockKeychainUtil.h; sourceTree = "<group>"; };
+		387CC630210A9D9C002BA068 /* MSMockKeychainUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSMockKeychainUtil.m; path = ../../../AppCenter/AppCenterTests/Util/MSMockKeychainUtil.m; sourceTree = "<group>"; };
 		388B55991E64B3FD00E4F1D7 /* MSBasicMachOParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSBasicMachOParser.m; path = ../MSBasicMachOParser.m; sourceTree = "<group>"; };
 		388B559A1E64B3FD00E4F1D7 /* MSBasicMachOParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSBasicMachOParser.h; path = ../MSBasicMachOParser.h; sourceTree = "<group>"; };
 		389638A31E79F59D007C3809 /* MSDistributeTestUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistributeTestUtil.m; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 		BA6820A043C816916AF34A04 /* MSErrorDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorDetails.h; sourceTree = "<group>"; };
 		BA6826E3C58372A269A6B43A /* MSErrorDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSErrorDetails.m; sourceTree = "<group>"; };
 		F8646E651F349C6D006080AC /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = Resources/ru.lproj/AppCenterDistribute.strings; sourceTree = "<group>"; };
+		F8B8EAE621106436004BCECB /* Resources.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Resources.xcconfig; sourceTree = "<group>"; };
 		F8BEA3C81FBB0A5900D4DE37 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OHHTTPStubs.framework; sourceTree = "<group>"; };
 		F8BEA3CB1FBB0BDE00D4DE37 /* MSHttpTestUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSHttpTestUtil.m; path = ../../../AppCenter/AppCenterTests/Util/MSHttpTestUtil.m; sourceTree = "<group>"; };
 		F8BEA3CC1FBB0BDE00D4DE37 /* MSHttpTestUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSHttpTestUtil.h; path = ../../../AppCenter/AppCenterTests/Util/MSHttpTestUtil.h; sourceTree = "<group>"; };
@@ -314,6 +317,7 @@
 				043E2AB31F4E024300615AD9 /* AppCenterDistribute Release.xcconfig */,
 				049BC8221ECE349200FB6719 /* iOS.xcconfig */,
 				049BC8271ECE387A00FB6719 /* iOS.modulemap */,
+				F8B8EAE621106436004BCECB /* Resources.xcconfig */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -462,6 +466,8 @@
 		389638A21E79F557007C3809 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				387CC62F210A9D9C002BA068 /* MSMockKeychainUtil.h */,
+				387CC630210A9D9C002BA068 /* MSMockKeychainUtil.m */,
 				F8BEA3CC1FBB0BDE00D4DE37 /* MSHttpTestUtil.h */,
 				F8BEA3CB1FBB0BDE00D4DE37 /* MSHttpTestUtil.m */,
 				389638A51E79F60F007C3809 /* MSDistributeTestUtil.h */,
@@ -546,13 +552,13 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0471B9331E4555F20022F951 /* AppCenterDistribute.h in Headers */,
 				048BB3051E60A40D009D92C2 /* MSDistributionGroup.h in Headers */,
 				38A683611E774D9F00A63BC8 /* MSSemVer.h in Headers */,
 				38C9C56C1E565BF600B0FA0D /* MSDistributePrivate.h in Headers */,
 				B25895AA1E4E9FD400123632 /* MSDistributeInternal.h in Headers */,
 				0471B93C1E4557620022F951 /* MSServiceAbstract.h in Headers */,
 				B2C070A51E5E62330076D6A9 /* MSDistributeUtil.h in Headers */,
-				0471B9331E4555F20022F951 /* AppCenterDistribute.h in Headers */,
 				048BB3071E60A40D009D92C2 /* MSDistributeIngestion.h in Headers */,
 				046FDBD31E5682FA00AF9DD1 /* MSAlertController.h in Headers */,
 				384135BE1FD99B5400FC7836 /* MSDistributeDataMigration.h in Headers */,
@@ -577,6 +583,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 04FD4A251E451E12009B4468 /* Build configuration list for PBXNativeTarget "AppCenterDistributeIOS" */;
 			buildPhases = (
+				F8B8EAE021105BD3004BCECB /* Verify no buildSettings */,
 				04FD4A181E451E12009B4468 /* Sources */,
 				04FD4A191E451E12009B4468 /* Frameworks */,
 				04FD4A1A1E451E12009B4468 /* CopyFiles */,
@@ -696,7 +703,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B2C070C51E5E6A200076D6A9 /* AppCenterDistributeResources.bundle in Resources */,
-				043E2AB41F4E024300615AD9 /* AppCenterDistribute Release.xcconfig in Resources */,
 				040AF0121E523AC2005C1174 /* release_details.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -704,32 +710,48 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		04FD4A2C1E453159009B4468 /* ShellScript */ = {
+		04FD4A2C1E453159009B4468 /* Build framework */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Build framework";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=AppCenterDistribute\nTGT_NAME=${FMK_NAME}IOS\nFMK_RESOURCE_BUNDLE=AppCenterDistributeResources\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../AppCenter-SDK-Apple/iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/iOS.modulemap\" \"${INSTALL_DIR}/Modules/module.modulemap\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/${FMK_RESOURCE_BUNDLE}.bundle\" \"${PRODUCTS_DIR}\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"";
+			shellScript = "cd ${SRCROOT}/../Scripts/AppCenterDistribute\n./build-appcenterdistribute-ios-framework.sh";
 		};
-		04FD4A401E4536B0009B4468 /* Run Script */ = {
+		04FD4A401E4536B0009B4468 /* Build docs */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Run Script";
+			name = "Build docs";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ ! -x \"$(command -v jazzy)\" ]\nthen\necho \"Couldn't find jazzy. Install jazzy before building frameworks\"\nexit 1\nfi\n\njazzy --config ../Documentation/iOS/AppCenterDistribute/.jazzy.yaml\n\nFMK_NAME=AppCenterDistribute\n\nPRODUCTS_DIR=${SRCROOT}/../AppCenter-SDK-Apple/iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\nDOCUMENTATION_DIR=${PRODUCTS_DIR}/Documentation/${FMK_NAME}\n\n# Create Documentation directory within folder.\nif [ ! -d \"${DOCUMENTATION_DIR}\" ]\nthen\nmkdir -p \"${DOCUMENTATION_DIR}\"\nfi\n\n# Copy generated documentation into the documentation folder\ncp -R \"${SRCROOT}/../Documentation/iOS/${FMK_NAME}/Generated/\" \"${DOCUMENTATION_DIR}\"";
+			shellScript = "cd ${SRCROOT}/../Scripts/AppCenterDistribute\n./build-appcenterdistribute-ios-docs.sh";
+		};
+		F8B8EAE021105BD3004BCECB /* Verify no buildSettings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Verify no buildSettings";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift ${PROJECT_NAME}.xcodeproj/project.pbxproj";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -762,6 +784,7 @@
 				040AF0251E523B80005C1174 /* MSReleaseDetailsTests.m in Sources */,
 				B20DE7B71E5F97330023075C /* MSDistributeUtilTests.m in Sources */,
 				9E8E3A39203E68B4001A23FD /* MSDistributionStartSessionLogTest.m in Sources */,
+				387CC631210A9D9C002BA068 /* MSMockKeychainUtil.m in Sources */,
 				040AF02A1E52748D005C1174 /* MSDistributeIngestionTests.m in Sources */,
 				F8BEA3CF1FBB0BE400D4DE37 /* MSHttpTestUtil.m in Sources */,
 				04DC2ECB1E78A3E3003F23B5 /* MSErrorDetailsTests.m in Sources */,
@@ -840,10 +863,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0471B5F41E45466F0022F951 /* AppCenterDistribute Debug.xcconfig */;
 			buildSettings = {
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
 			};
 			name = Debug;
 		};
@@ -912,35 +931,15 @@
 		};
 		B2C070BC1E5E68540076D6A9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F8B8EAE621106436004BCECB /* Resources.xcconfig */;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = NO;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = AppCenterDistributeResources/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.distribute.resources.ios;
-				PRODUCT_NAME = "${PROJECT_NAME}Resources";
-				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "";
-				WRAPPER_EXTENSION = bundle;
 			};
 			name = Debug;
 		};
 		B2C070BD1E5E68540076D6A9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F8B8EAE621106436004BCECB /* Resources.xcconfig */;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = NO;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = AppCenterDistributeResources/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.distribute.resources.ios;
-				PRODUCT_NAME = "${PROJECT_NAME}Resources";
-				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "";
-				WRAPPER_EXTENSION = bundle;
 			};
 			name = Release;
 		};

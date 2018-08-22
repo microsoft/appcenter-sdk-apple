@@ -3,7 +3,8 @@
 @class MSDevice;
 
 /**
- * Model class that is intended to be used to correlate MSDevice to a crash at app relaunch.
+ * Model class that is intended to be used to correlate MSDevice to a crash at
+ * app relaunch.
  */
 @interface MSDeviceHistoryInfo : NSObject <NSCoding>
 
@@ -17,6 +18,7 @@
  */
 @property(nonatomic) MSDevice *device;
 
-- (instancetype)initWithTimestamp:(NSDate *)timestamp andDevice:(MSDevice *)device;
+- (instancetype)initWithTimestamp:(NSDate *)timestamp
+                        andDevice:(MSDevice *)device;
 
 @end

@@ -11,7 +11,7 @@
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 0431214B1EE0BFC7007054C5 /* Build configuration list for PBXAggregateTarget "AppCenterTVOSFramework" */;
 			buildPhases = (
-				0431214A1EE0BFC7007054C5 /* ShellScript */,
+				0431214A1EE0BFC7007054C5 /* Build framework */,
 			);
 			dependencies = (
 			);
@@ -22,7 +22,7 @@
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 0485AFE81EAA937000C10CAF /* Build configuration list for PBXAggregateTarget "AppCenterMacOSFramework" */;
 			buildPhases = (
-				0485AFE71EAA937000C10CAF /* ShellScript */,
+				0485AFE71EAA937000C10CAF /* Build framework */,
 			);
 			dependencies = (
 			);
@@ -33,7 +33,7 @@
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 04FD11501EF2F5F0000C5A5C /* Build configuration list for PBXAggregateTarget "AppCenterMacOSDoc" */;
 			buildPhases = (
-				04FD114F1EF2F5F0000C5A5C /* ShellScript */,
+				04FD114F1EF2F5F0000C5A5C /* Build docs */,
 			);
 			dependencies = (
 				04FD11541EF2F667000C5A5C /* PBXTargetDependency */,
@@ -45,7 +45,7 @@
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 04FD116B1EF2FE1D000C5A5C /* Build configuration list for PBXAggregateTarget "AppCenterTVOSDoc" */;
 			buildPhases = (
-				04FD116A1EF2FE1D000C5A5C /* ShellScript */,
+				04FD116A1EF2FE1D000C5A5C /* Build docs */,
 			);
 			dependencies = (
 				04FD116F1EF2FE2C000C5A5C /* PBXTargetDependency */,
@@ -57,7 +57,7 @@
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 6E0401801D1CAC710051BCFA /* Build configuration list for PBXAggregateTarget "AppCenterIOSFramework" */;
 			buildPhases = (
-				6E0401811D1CAC770051BCFA /* ShellScript */,
+				B2DA6594210F7FA2003541A3 /* Build framework */,
 			);
 			dependencies = (
 			);
@@ -68,7 +68,7 @@
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 6E6BFC341D234FAE00DF7617 /* Build configuration list for PBXAggregateTarget "AppCenterIOSDoc" */;
 			buildPhases = (
-				6E6BFC351D234FBF00DF7617 /* ShellScript */,
+				B23355C7210F8EC900999632 /* Build docs */,
 			);
 			dependencies = (
 				386352EF1D5114F200D0D450 /* PBXTargetDependency */,
@@ -375,6 +375,7 @@
 		387C75961D64EE1900D68CC1 /* MSServiceAbstractTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 387C75951D64EE1900D68CC1 /* MSServiceAbstractTests.m */; };
 		387C76FD1D6C9CF100D68CC1 /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C76FC1D6C9CF100D68CC1 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3889933A1E29B26D00C27B36 /* MSAppCenterErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 388993391E29B26D00C27B36 /* MSAppCenterErrors.m */; };
+		38A3891C212B6E3C00F1C0D8 /* MSDeadLockTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A3891B212B6E3C00F1C0D8 /* MSDeadLockTests.m */; };
 		38AE131120C1B54000FAB2AD /* MSModelTestsUtililty.m in Sources */ = {isa = PBXBuildFile; fileRef = 38AE131020C1B54000FAB2AD /* MSModelTestsUtililty.m */; };
 		38AE131220C1B54000FAB2AD /* MSModelTestsUtililty.m in Sources */ = {isa = PBXBuildFile; fileRef = 38AE131020C1B54000FAB2AD /* MSModelTestsUtililty.m */; };
 		38AE131320C1B54000FAB2AD /* MSModelTestsUtililty.m in Sources */ = {isa = PBXBuildFile; fileRef = 38AE131020C1B54000FAB2AD /* MSModelTestsUtililty.m */; };
@@ -387,8 +388,13 @@
 		38C633C71FDF15DD005F40C9 /* MSCustomApplicationDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C633C61FDF15DD005F40C9 /* MSCustomApplicationDelegate.h */; };
 		38C633C91FDF163D005F40C9 /* MSAppDelegateUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C633C81FDF163D005F40C9 /* MSAppDelegateUtil.h */; };
 		38E1B67A1DDE3FDF000EFED1 /* MSAppCenterPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38E1B6791DDE3FDF000EFED1 /* MSAppCenterPrivate.h */; };
+		38EDBCBD212CBB4B00C39B1E /* MSDeadLockTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A3891B212B6E3C00F1C0D8 /* MSDeadLockTests.m */; };
+		38EDBCBE212CBB4D00C39B1E /* MSDeadLockTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A3891B212B6E3C00F1C0D8 /* MSDeadLockTests.m */; };
 		38F1944E1DADB93100D3E0FE /* MSHttpIngestionPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38F1944D1DADB93100D3E0FE /* MSHttpIngestionPrivate.h */; };
 		38FD798F1EB7B0B800DE2FB3 /* MSAppCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401551D1C9AAA0051BCFA /* MSAppCenter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		38FDFF6A2109409900E17269 /* MSMockKeychainUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FDFF692109409900E17269 /* MSMockKeychainUtil.m */; };
+		38FDFF6B2109409900E17269 /* MSMockKeychainUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FDFF692109409900E17269 /* MSMockKeychainUtil.m */; };
+		38FDFF6C2109409900E17269 /* MSMockKeychainUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FDFF692109409900E17269 /* MSMockKeychainUtil.m */; };
 		58603633B718B7A2702C23CB /* MSAbstractLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58603EA088552D6FBB8EBE6C /* MSAbstractLogTests.m */; };
 		58603867BA3B4B1CB87D0E5D /* MSAbstractLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58603EA088552D6FBB8EBE6C /* MSAbstractLogTests.m */; };
 		5C7877921EA0CFF3002263CC /* MSLogDBStorageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C7877911EA0CFF3002263CC /* MSLogDBStorageTests.m */; };
@@ -432,7 +438,19 @@
 		80B7EA2620CA9CC500DF524C /* MSEncrypterPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 80B7EA2020CA9C9C00DF524C /* MSEncrypterPrivate.h */; };
 		B2181B7B1F26852600D2EEAE /* MSWrapperSdk.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74551F22BB710070E7DF /* MSWrapperSdk.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B2181B7C1F26852B00D2EEAE /* MSWrapperSdk.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74561F22BB710070E7DF /* MSWrapperSdk.m */; };
+		B23507B52118D22800F98D4F /* MSTicketCache.m in Sources */ = {isa = PBXBuildFile; fileRef = B23507B32118D22800F98D4F /* MSTicketCache.m */; };
+		B23507B62118D22800F98D4F /* MSTicketCache.m in Sources */ = {isa = PBXBuildFile; fileRef = B23507B32118D22800F98D4F /* MSTicketCache.m */; };
+		B23507B72118D22800F98D4F /* MSTicketCache.m in Sources */ = {isa = PBXBuildFile; fileRef = B23507B32118D22800F98D4F /* MSTicketCache.m */; };
+		B23507B82118D22800F98D4F /* MSTicketCache.h in Headers */ = {isa = PBXBuildFile; fileRef = B23507B42118D22800F98D4F /* MSTicketCache.h */; };
+		B23507B92118D22800F98D4F /* MSTicketCache.h in Headers */ = {isa = PBXBuildFile; fileRef = B23507B42118D22800F98D4F /* MSTicketCache.h */; };
+		B23507BA2118D22800F98D4F /* MSTicketCache.h in Headers */ = {isa = PBXBuildFile; fileRef = B23507B42118D22800F98D4F /* MSTicketCache.h */; };
 		B24F3F171D93A3FF00827213 /* MSLoggerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B24F3F161D93A3FF00827213 /* MSLoggerTests.m */; };
+		B26D4DBA211B5BE300AB4E28 /* MSMockCommonSchemaLog.m in Sources */ = {isa = PBXBuildFile; fileRef = B26D4DB9211B5BE300AB4E28 /* MSMockCommonSchemaLog.m */; };
+		B26D4DBB211B5BE300AB4E28 /* MSMockCommonSchemaLog.m in Sources */ = {isa = PBXBuildFile; fileRef = B26D4DB9211B5BE300AB4E28 /* MSMockCommonSchemaLog.m */; };
+		B26D4DBC211B5BE300AB4E28 /* MSMockCommonSchemaLog.m in Sources */ = {isa = PBXBuildFile; fileRef = B26D4DB9211B5BE300AB4E28 /* MSMockCommonSchemaLog.m */; };
+		B26D4DD7211B9B5E00AB4E28 /* MSTicketCacheTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B26D4DD6211B9B5D00AB4E28 /* MSTicketCacheTests.m */; };
+		B26D4DD8211B9B5E00AB4E28 /* MSTicketCacheTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B26D4DD6211B9B5D00AB4E28 /* MSTicketCacheTests.m */; };
+		B26D4DD9211B9B5E00AB4E28 /* MSTicketCacheTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B26D4DD6211B9B5D00AB4E28 /* MSTicketCacheTests.m */; };
 		B2787213201AAA7F004AA9A5 /* MSAppCenterErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 3889932E1E29829700C27B36 /* MSAppCenterErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B2787214201AB9D8004AA9A5 /* MSEnable.h in Headers */ = {isa = PBXBuildFile; fileRef = 3542742220167DA400BE766F /* MSEnable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B2787215201AB9D8004AA9A5 /* MSLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 358F9BC22019531F00B9E22C /* MSLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -451,6 +469,9 @@
 		B28E41D82076ED1500CC6AD8 /* MSUtility+PropertyValidation.h in Headers */ = {isa = PBXBuildFile; fileRef = B28E41D32076EC4000CC6AD8 /* MSUtility+PropertyValidation.h */; };
 		B28E41D92076ED1700CC6AD8 /* MSUtility+PropertyValidation.h in Headers */ = {isa = PBXBuildFile; fileRef = B28E41D32076EC4000CC6AD8 /* MSUtility+PropertyValidation.h */; };
 		B28E41DA2076ED1700CC6AD8 /* MSUtility+PropertyValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = B28E41D42076ECFE00CC6AD8 /* MSUtility+PropertyValidation.m */; };
+		B2ADB1422124C13300D0D7D9 /* MSOneCollectorIngestionPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = B2ADB1412124C13300D0D7D9 /* MSOneCollectorIngestionPrivate.h */; };
+		B2ADB1432124C13300D0D7D9 /* MSOneCollectorIngestionPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = B2ADB1412124C13300D0D7D9 /* MSOneCollectorIngestionPrivate.h */; };
+		B2ADB1442124C13300D0D7D9 /* MSOneCollectorIngestionPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = B2ADB1412124C13300D0D7D9 /* MSOneCollectorIngestionPrivate.h */; };
 		B2B7D50B20C5E562001D31B8 /* MSOneCollectorIngestion.h in Headers */ = {isa = PBXBuildFile; fileRef = B2B7D50920C5E562001D31B8 /* MSOneCollectorIngestion.h */; };
 		B2B7D50C20C5E562001D31B8 /* MSOneCollectorIngestion.m in Sources */ = {isa = PBXBuildFile; fileRef = B2B7D50A20C5E562001D31B8 /* MSOneCollectorIngestion.m */; };
 		B2B9441E1DF0DF23009117D1 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2B9441D1DF0DF23009117D1 /* OHHTTPStubs.framework */; };
@@ -801,6 +822,7 @@
 		387C76FC1D6C9CF100D68CC1 /* MSServiceAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSServiceAbstract.h; sourceTree = "<group>"; };
 		3889932E1E29829700C27B36 /* MSAppCenterErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAppCenterErrors.h; sourceTree = "<group>"; };
 		388993391E29B26D00C27B36 /* MSAppCenterErrors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAppCenterErrors.m; sourceTree = "<group>"; };
+		38A3891B212B6E3C00F1C0D8 /* MSDeadLockTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDeadLockTests.m; sourceTree = "<group>"; };
 		38AE130F20C1B54000FAB2AD /* MSModelTestsUtililty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSModelTestsUtililty.h; sourceTree = "<group>"; };
 		38AE131020C1B54000FAB2AD /* MSModelTestsUtililty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSModelTestsUtililty.m; sourceTree = "<group>"; };
 		38BC346C20B8CB0C00119C05 /* MSLogConversion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSLogConversion.h; sourceTree = "<group>"; };
@@ -811,6 +833,8 @@
 		38C633C81FDF163D005F40C9 /* MSAppDelegateUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAppDelegateUtil.h; sourceTree = "<group>"; };
 		38E1B6791DDE3FDF000EFED1 /* MSAppCenterPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAppCenterPrivate.h; sourceTree = "<group>"; };
 		38F1944D1DADB93100D3E0FE /* MSHttpIngestionPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSHttpIngestionPrivate.h; sourceTree = "<group>"; };
+		38FDFF682109409900E17269 /* MSMockKeychainUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSMockKeychainUtil.h; sourceTree = "<group>"; };
+		38FDFF692109409900E17269 /* MSMockKeychainUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSMockKeychainUtil.m; sourceTree = "<group>"; };
 		58603EA088552D6FBB8EBE6C /* MSAbstractLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAbstractLogTests.m; sourceTree = "<group>"; };
 		5C7877911EA0CFF3002263CC /* MSLogDBStorageTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLogDBStorageTests.m; sourceTree = "<group>"; };
 		6E0401031D1C98220051BCFA /* libAppCenter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppCenter.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -844,9 +868,15 @@
 		8087362820C134AC004C4157 /* MSEncrypter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSEncrypter.m; sourceTree = "<group>"; };
 		8087362A20C1DCCF004C4157 /* MSEncrypterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSEncrypterTests.m; sourceTree = "<group>"; };
 		80B7EA2020CA9C9C00DF524C /* MSEncrypterPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSEncrypterPrivate.h; sourceTree = "<group>"; };
+		B23507B32118D22800F98D4F /* MSTicketCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSTicketCache.m; sourceTree = "<group>"; };
+		B23507B42118D22800F98D4F /* MSTicketCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSTicketCache.h; sourceTree = "<group>"; };
 		B24F3F161D93A3FF00827213 /* MSLoggerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLoggerTests.m; sourceTree = "<group>"; };
+		B26D4DB8211B5BE300AB4E28 /* MSMockCommonSchemaLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSMockCommonSchemaLog.h; sourceTree = "<group>"; };
+		B26D4DB9211B5BE300AB4E28 /* MSMockCommonSchemaLog.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSMockCommonSchemaLog.m; sourceTree = "<group>"; };
+		B26D4DD6211B9B5D00AB4E28 /* MSTicketCacheTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSTicketCacheTests.m; sourceTree = "<group>"; };
 		B28E41D32076EC4000CC6AD8 /* MSUtility+PropertyValidation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MSUtility+PropertyValidation.h"; sourceTree = "<group>"; };
 		B28E41D42076ECFE00CC6AD8 /* MSUtility+PropertyValidation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MSUtility+PropertyValidation.m"; sourceTree = "<group>"; };
+		B2ADB1412124C13300D0D7D9 /* MSOneCollectorIngestionPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSOneCollectorIngestionPrivate.h; sourceTree = "<group>"; };
 		B2B7D50920C5E562001D31B8 /* MSOneCollectorIngestion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSOneCollectorIngestion.h; sourceTree = "<group>"; };
 		B2B7D50A20C5E562001D31B8 /* MSOneCollectorIngestion.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSOneCollectorIngestion.m; sourceTree = "<group>"; };
 		B2B9441D1DF0DF23009117D1 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OHHTTPStubs.framework; sourceTree = "<group>"; };
@@ -1313,6 +1343,7 @@
 			children = (
 				E7D23C6C20B6407E00A47D62 /* Model */,
 				6E23957C1D22EF4F00E543C8 /* Info.plist */,
+				E829E4221D25C8BA00F19DA1 /* MSAppCenterIngestionTests.m */,
 				384959D41D491D4F008F6B3A /* MSAppCenterTests.m */,
 				38641B041EB0F40800B2CE73 /* MSAppDelegateForwarderTests.m */,
 				6E48A5A61D383893006E8B5F /* MSChannelGroupDefaultTests.m */,
@@ -1320,10 +1351,10 @@
 				6EB1F40D1D2443B7005F9F99 /* MSChannelUnitDefaultTests.m */,
 				F803BC371E8E6927004B1E7A /* MSCustomPropertiesTests.m */,
 				3849BA7D1EF3489D0072E3E0 /* MSDBStorageTests.m */,
+				38A3891B212B6E3C00F1C0D8 /* MSDeadLockTests.m */,
 				B2FD53641E567BCF0050F909 /* MSDeviceHistoryInfoTests.m */,
 				385FC0541D37EBD700A1799F /* MSDeviceTrackerTests.m */,
 				8087362A20C1DCCF004C4157 /* MSEncrypterTests.m */,
-				E829E4221D25C8BA00F19DA1 /* MSAppCenterIngestionTests.m */,
 				04FD126A1E4103CC007ABFE7 /* MSKeychainUtilTests.m */,
 				5C7877911EA0CFF3002263CC /* MSLogDBStorageTests.m */,
 				B24F3F161D93A3FF00827213 /* MSLoggerTests.m */,
@@ -1334,6 +1365,7 @@
 				387C75951D64EE1900D68CC1 /* MSServiceAbstractTests.m */,
 				0493783F1FE4913C000ADBAF /* MSSessionContextTests.m */,
 				D36136821E7BB338004AE043 /* MSStoragePerfomanceTests.m */,
+				B26D4DD6211B9B5D00AB4E28 /* MSTicketCacheTests.m */,
 				380A4DCA1DD6908A00E99219 /* MSUtilityTests.m */,
 				6E2395831D22EF5F00E543C8 /* Frameworks */,
 				04A140AB1ECE7F6F001CEE94 /* Support */,
@@ -1357,8 +1389,12 @@
 			children = (
 				386E8D921E25932100EECF0F /* MSHttpTestUtil.h */,
 				386E8D911E25932100EECF0F /* MSHttpTestUtil.m */,
+				B26D4DB8211B5BE300AB4E28 /* MSMockCommonSchemaLog.h */,
+				B26D4DB9211B5BE300AB4E28 /* MSMockCommonSchemaLog.m */,
 				E88D17041D35B6B500A5EA57 /* MSMockLog.h */,
 				E88D17051D35B6B500A5EA57 /* MSMockLog.m */,
+				38FDFF682109409900E17269 /* MSMockKeychainUtil.h */,
+				38FDFF692109409900E17269 /* MSMockKeychainUtil.m */,
 				D377A30B1E83A04600B2C97A /* MSMockUserDefaults.h */,
 				D377A30C1E83A05900B2C97A /* MSMockUserDefaults.m */,
 				805F3F691F209C8A00B489E4 /* MSMockService.h */,
@@ -1457,6 +1493,7 @@
 				BA6824A001520825F18DFC42 /* MSAppCenterIngestion.h */,
 				BA6822A89D38F04D8D95CE83 /* MSAppCenterIngestion.m */,
 				B2B7D50920C5E562001D31B8 /* MSOneCollectorIngestion.h */,
+				B2ADB1412124C13300D0D7D9 /* MSOneCollectorIngestionPrivate.h */,
 				B2B7D50A20C5E562001D31B8 /* MSOneCollectorIngestion.m */,
 			);
 			path = Ingestion;
@@ -1506,6 +1543,8 @@
 			children = (
 				E8753D6C1D4BE53F00241513 /* MSIngestionUtil.h */,
 				E8753D6D1D4BE53F00241513 /* MSIngestionUtil.m */,
+				B23507B42118D22800F98D4F /* MSTicketCache.h */,
+				B23507B32118D22800F98D4F /* MSTicketCache.m */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -1526,6 +1565,7 @@
 				B2CD74C91F22BEC70070E7DF /* MSDBStoragePrivate.h in Headers */,
 				0431209D1EE0BCF9007054C5 /* MSServiceCommon.h in Headers */,
 				B2181B7B1F26852600D2EEAE /* MSWrapperSdk.h in Headers */,
+				B23507BA2118D22800F98D4F /* MSTicketCache.h in Headers */,
 				B2787219201AB9D8004AA9A5 /* MSChannelDelegate.h in Headers */,
 				B278721B201AB9D8004AA9A5 /* MSChannelGroupProtocol.h in Headers */,
 				B2787214201AB9D8004AA9A5 /* MSEnable.h in Headers */,
@@ -1592,6 +1632,7 @@
 				045C85121FE0B2D300089540 /* MSSessionContext.h in Headers */,
 				043120C71EE0BCF9007054C5 /* MSAppCenterInternal.h in Headers */,
 				043120C81EE0BCF9007054C5 /* MSService.h in Headers */,
+				B2ADB1442124C13300D0D7D9 /* MSOneCollectorIngestionPrivate.h in Headers */,
 				045C0BF01EEB12320038FD6B /* MSAppDelegateForwarderPrivate.h in Headers */,
 				B2CD74CB1F22BF8D0070E7DF /* MSLogDBStoragePrivate.h in Headers */,
 				E7D23C6820B6391700A47D62 /* MSCSExtensions.h in Headers */,
@@ -1666,6 +1707,7 @@
 				B2CD74C81F22BEC60070E7DF /* MSDBStoragePrivate.h in Headers */,
 				E7D23C6220B4EED000A47D62 /* MSModel.h in Headers */,
 				E7D23C5720B4E38B00A47D62 /* MSCSData.h in Headers */,
+				B2ADB1432124C13300D0D7D9 /* MSOneCollectorIngestionPrivate.h in Headers */,
 				0499F8581EDF979F00C3EDDA /* MSAbstractLog.h in Headers */,
 				E74B149A20B364EE002C0183 /* MSCommonSchemaLog.h in Headers */,
 				04754F841EA98182002CBA46 /* MSServiceAbstract.h in Headers */,
@@ -1678,6 +1720,7 @@
 				04754F8B1EA98182002CBA46 /* MSLoggerInternal.h in Headers */,
 				385E319C20C1B90700BE7271 /* MSACModelConstants.h in Headers */,
 				B2CD749E1F22BE270070E7DF /* MSConstants+Internal.h in Headers */,
+				B23507B92118D22800F98D4F /* MSTicketCache.h in Headers */,
 				B2CD74BC1F22BE270070E7DF /* MSUtility+File.h in Headers */,
 				B2CD74CA1F22BF8C0070E7DF /* MSLogDBStoragePrivate.h in Headers */,
 				E74B14E620B370A5002C0183 /* MSUserExtension.h in Headers */,
@@ -1768,6 +1811,7 @@
 				384772A61DA5691F009365DE /* MSIngestionDelegate.h in Headers */,
 				E7D23C6120B4EED000A47D62 /* MSModel.h in Headers */,
 				E7D23C5620B4E38B00A47D62 /* MSCSData.h in Headers */,
+				B2ADB1422124C13300D0D7D9 /* MSOneCollectorIngestionPrivate.h in Headers */,
 				80B7EA2220CA9CBF00DF524C /* MSEncrypter.h in Headers */,
 				D38023E91E6EFC7C00466558 /* MSStartServiceLog.h in Headers */,
 				E74B149920B364EE002C0183 /* MSCommonSchemaLog.h in Headers */,
@@ -1780,6 +1824,7 @@
 				383481731EA7FF6100787F56 /* MSLogDBStoragePrivate.h in Headers */,
 				E84B8E391D235246006FD231 /* MSStorage.h in Headers */,
 				385E319B20C1B90700BE7271 /* MSACModelConstants.h in Headers */,
+				B23507B82118D22800F98D4F /* MSTicketCache.h in Headers */,
 				B2CD74B51F22BE270070E7DF /* MSUtility+Environment.h in Headers */,
 				B2CD74851F22BD910070E7DF /* MSLogDBStorage.h in Headers */,
 				B2CD745E1F22BBBB0070E7DF /* MSWrapperSdkInternal.h in Headers */,
@@ -1824,6 +1869,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 043120D71EE0BCF9007054C5 /* Build configuration list for PBXNativeTarget "AppCenterTVOS" */;
 			buildPhases = (
+				F8B8EAD221105B46004BCECB /* Verify no buildSettings */,
 				043120731EE0BCF9007054C5 /* Sources */,
 				043120961EE0BCF9007054C5 /* Frameworks */,
 				043120971EE0BCF9007054C5 /* Copy Files */,
@@ -1878,6 +1924,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 04754FA81EA98182002CBA46 /* Build configuration list for PBXNativeTarget "AppCenterMacOS" */;
 			buildPhases = (
+				F8B8EAD021105B37004BCECB /* Verify no buildSettings */,
 				04754F481EA98182002CBA46 /* Sources */,
 				04754F691EA98182002CBA46 /* Frameworks */,
 				04754F6A1EA98182002CBA46 /* Copy Files */,
@@ -1896,6 +1943,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6E04010C1D1C98220051BCFA /* Build configuration list for PBXNativeTarget "AppCenterIOS" */;
 			buildPhases = (
+				F8EBA2722110516400A91468 /* Verify no buildSettings */,
 				6E0400FF1D1C98220051BCFA /* Sources */,
 				6E0401001D1C98220051BCFA /* Frameworks */,
 				6E0401011D1C98220051BCFA /* Copy Files */,
@@ -1991,83 +2039,135 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0431214A1EE0BFC7007054C5 /* ShellScript */ = {
+		0431214A1EE0BFC7007054C5 /* Build framework */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Build framework";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=AppCenter\nTGT_NAME=${FMK_NAME}TVOS\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../AppCenter-SDK-Apple/tvOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-appletvos\nSIMULATOR_DIR=${WRK_DIR}/Release-appletvsimulator\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" -sdk appletvos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" -sdk appletvsimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/tvOS.modulemap\" \"${INSTALL_DIR}/Modules/module.modulemap\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-appletvos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + arm64) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"\n\n# Copy license and readme\ncp -f \"${SRCROOT}/../LICENSE\" \"${PRODUCTS_DIR}\"\ncp -f \"${SRCROOT}/../README.md\" \"${PRODUCTS_DIR}\"\ncp -f \"${SRCROOT}/../CHANGELOG.md\" \"${PRODUCTS_DIR}\"\n";
+			shellScript = "cd ${SRCROOT}/../Scripts/AppCenter\n./build-appcenter-tvos-framework.sh";
 		};
-		0485AFE71EAA937000C10CAF /* ShellScript */ = {
+		0485AFE71EAA937000C10CAF /* Build framework */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Build framework";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=AppCenter\nTGT_NAME=${FMK_NAME}MacOS\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../AppCenter-SDK-Apple/macOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\"\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/macOS.modulemap\" \"${INSTALL_DIR}/Modules/module.modulemap\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n# Uses the Lipo Tool to copy binary file (x86_64) into final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"\n\n# Copy license and readme\ncp -f \"${SRCROOT}/../LICENSE\" \"${PRODUCTS_DIR}\"\ncp -f \"${SRCROOT}/../README.md\" \"${PRODUCTS_DIR}\"\ncp -f \"${SRCROOT}/../CHANGELOG.md\" \"${PRODUCTS_DIR}\"\n";
+			shellScript = "cd ${SRCROOT}/../Scripts/AppCenter\n./build-appcenter-macos-framework.sh";
 		};
-		04FD114F1EF2F5F0000C5A5C /* ShellScript */ = {
+		04FD114F1EF2F5F0000C5A5C /* Build docs */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Build docs";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ ! -x \"$(command -v jazzy)\" ]\nthen\n  echo \"Couldn't find jazzy. Install jazzy before building frameworks\"\n  exit 1\nfi\n\njazzy --config ../Documentation/macOS/AppCenter/.jazzy.yaml\n\nFMK_NAME=AppCenter\nPRODUCTS_DIR=${SRCROOT}/../AppCenter-SDK-Apple/macOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\nDOCUMENTATION_DIR=${PRODUCTS_DIR}/Documentation/${FMK_NAME}\n\n# Create Documentation directory within folder.\nif [ ! -d \"${DOCUMENTATION_DIR}\" ]\nthen\nmkdir -p \"${DOCUMENTATION_DIR}\"\nfi\n\n# Copy generated documentation into the documentation folder\ncp -R \"${SRCROOT}/../Documentation/macOS/${FMK_NAME}/Generated/\" \"${DOCUMENTATION_DIR}\"";
+			shellScript = "cd ${SRCROOT}/../Scripts/AppCenter\n./build-appcenter-macos-docs.sh";
 		};
-		04FD116A1EF2FE1D000C5A5C /* ShellScript */ = {
+		04FD116A1EF2FE1D000C5A5C /* Build docs */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Build docs";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ ! -x \"$(command -v jazzy)\" ]\nthen\necho \"Couldn't find jazzy. Install jazzy before building frameworks\"\nexit 1\nfi\n\njazzy --config ../Documentation/tvOS/AppCenter/.jazzy.yaml\n\nFMK_NAME=AppCenter\nPRODUCTS_DIR=${SRCROOT}/../AppCenter-SDK-Apple/tvOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\nDOCUMENTATION_DIR=${PRODUCTS_DIR}/Documentation/${FMK_NAME}\n\n# Create Documentation directory within folder.\nif [ ! -d \"${DOCUMENTATION_DIR}\" ]\nthen\nmkdir -p \"${DOCUMENTATION_DIR}\"\nfi\n\n# Copy generated documentation into the documentation folder\ncp -R \"${SRCROOT}/../Documentation/tvOS/${FMK_NAME}/Generated/\" \"${DOCUMENTATION_DIR}\"";
+			shellScript = "cd ${SRCROOT}/../Scripts/AppCenter\n./build-appcenter-tvos-docs.sh";
 		};
-		6E0401811D1CAC770051BCFA /* ShellScript */ = {
+		B23355C7210F8EC900999632 /* Build docs */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Build docs";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=AppCenter\nTGT_NAME=${FMK_NAME}IOS\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../AppCenter-SDK-Apple/iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\nDEVICE_DIR=${WRK_DIR}/Release-iphoneos\nSIMULATOR_DIR=${WRK_DIR}/Release-iphonesimulator\n\n# Cleaning previous build\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" clean\n\n# Building both architectures.\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" -sdk iphoneos\nxcodebuild -project \"${FMK_NAME}.xcodeproj\" -configuration \"Release\" -target \"${TGT_NAME}\" -sdk iphonesimulator\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ]\nthen\nrm -rf \"${INSTALL_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${INSTALL_DIR}\"\nmkdir -p \"${INSTALL_DIR}/Headers\"\nmkdir -p \"${INSTALL_DIR}/Modules\"\n\n# Copy the swift import file\ncp -f \"${SRCROOT}/${FMK_NAME}/Support/iOS.modulemap\" \"${INSTALL_DIR}/Modules/module.modulemap\"\n\n# Copies the headers and resources files to the final product folder.\ncp -R \"${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/\" \"${INSTALL_DIR}/Headers/\"\n\n# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7/armv7s/arm64) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/lib${FMK_NAME}.a\" \"${SIMULATOR_DIR}/lib${FMK_NAME}.a\" -output \"${INSTALL_DIR}/${FMK_NAME}\"\n\nrm -r \"${WRK_DIR}\"\n\n# Copy license and readme\ncp -f \"${SRCROOT}/../LICENSE\" \"${PRODUCTS_DIR}\"\ncp -f \"${SRCROOT}/../README.md\" \"${PRODUCTS_DIR}\"\ncp -f \"${SRCROOT}/../CHANGELOG.md\" \"${PRODUCTS_DIR}\"\n";
+			shellScript = "cd ${SRCROOT}/../Scripts/AppCenter\n./build-appcenter-ios-docs.sh";
 		};
-		6E6BFC351D234FBF00DF7617 /* ShellScript */ = {
+		B2DA6594210F7FA2003541A3 /* Build framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"",
+			);
+			name = "Build framework";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd ${SRCROOT}/../Scripts/AppCenter\n./build-appcenter-ios-framework.sh";
+		};
+		F8B8EAD021105B37004BCECB /* Verify no buildSettings */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Verify no buildSettings";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ ! -x \"$(command -v jazzy)\" ]\nthen\necho \"Couldn't find jazzy. Install jazzy before building frameworks\"\nexit 1\nfi\n\njazzy --config ../Documentation/iOS/AppCenter/.jazzy.yaml\n\nFMK_NAME=AppCenter\nPRODUCTS_DIR=${SRCROOT}/../AppCenter-SDK-Apple/iOS\nINSTALL_DIR=${PRODUCTS_DIR}/${FMK_NAME}.framework\nDOCUMENTATION_DIR=${PRODUCTS_DIR}/Documentation/${FMK_NAME}\n\n# Create Documentation directory within folder.\nif [ ! -d \"${DOCUMENTATION_DIR}\" ]\nthen\nmkdir -p \"${DOCUMENTATION_DIR}\"\nfi\n\n# Copy generated documentation into the documentation folder\ncp -R \"${SRCROOT}/../Documentation/iOS/${FMK_NAME}/Generated/\" \"${DOCUMENTATION_DIR}\"";
+			shellScript = "${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift ${PROJECT_NAME}.xcodeproj/project.pbxproj";
+			showEnvVarsInLog = 0;
+		};
+		F8B8EAD221105B46004BCECB /* Verify no buildSettings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Verify no buildSettings";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift ${PROJECT_NAME}.xcodeproj/project.pbxproj";
+			showEnvVarsInLog = 0;
+		};
+		F8EBA2722110516400A91468 /* Verify no buildSettings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Verify no buildSettings";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift ${PROJECT_NAME}.xcodeproj/project.pbxproj";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2112,6 +2212,7 @@
 				B2CD74C01F22BE270070E7DF /* MSUtility+File.m in Sources */,
 				E74B14E020B37043002C0183 /* MSOSExtension.m in Sources */,
 				047EBB9F1FE30842009BB1C8 /* MSSessionHistoryInfo.m in Sources */,
+				B23507B72118D22800F98D4F /* MSTicketCache.m in Sources */,
 				043120861EE0BCF9007054C5 /* MSAbstractLog.m in Sources */,
 				043120871EE0BCF9007054C5 /* MSKeychainUtil.m in Sources */,
 				E7D23C7920B6549E00A47D62 /* MSCSModelConstants.m in Sources */,
@@ -2138,9 +2239,11 @@
 				049378431FE4914E000ADBAF /* MSSessionContextTests.m in Sources */,
 				38AE131320C1B54000FAB2AD /* MSModelTestsUtililty.m in Sources */,
 				0446DF041F3B864600C8E338 /* MSMockUserDefaults.m in Sources */,
+				38FDFF6C2109409900E17269 /* MSMockKeychainUtil.m in Sources */,
 				0446DF051F3B864600C8E338 /* MSLogWithPropertiesTests.m in Sources */,
 				0446DF061F3B864600C8E338 /* MSDeviceLogTests.m in Sources */,
 				E7D23C7120B6412300A47D62 /* MSCSExtensionsTests.m in Sources */,
+				38EDBCBE212CBB4D00C39B1E /* MSDeadLockTests.m in Sources */,
 				0446DF081F3B864600C8E338 /* MSDeviceTrackerTests.m in Sources */,
 				0446DF091F3B864600C8E338 /* MSAppDelegateForwarderTests.m in Sources */,
 				0446DF0A1F3B864600C8E338 /* MSChannelUnitDefaultTests.m in Sources */,
@@ -2154,12 +2257,14 @@
 				0446DF111F3B864600C8E338 /* MSDBStorageTests.m in Sources */,
 				0446DF121F3B864600C8E338 /* MSAppCenterIngestionTests.m in Sources */,
 				0446DF131F3B864600C8E338 /* MSMockService.m in Sources */,
+				B26D4DD9211B9B5E00AB4E28 /* MSTicketCacheTests.m in Sources */,
 				8087362E20C1DE26004C4157 /* MSEncrypterTests.m in Sources */,
 				0446DF141F3B864600C8E338 /* MSLogContainerTests.m in Sources */,
 				0446DF151F3B864600C8E338 /* MSKeychainUtilTests.m in Sources */,
 				0446DF161F3B864600C8E338 /* MSStartServiceLogTests.m in Sources */,
 				0446DF171F3B864600C8E338 /* MSServiceAbstractTests.m in Sources */,
 				0446DF181F3B864600C8E338 /* MSChannelUnitConfigurationTests.m in Sources */,
+				B26D4DBC211B5BE300AB4E28 /* MSMockCommonSchemaLog.m in Sources */,
 				E7D23C5320B4E0CA00A47D62 /* MSCommonSchemaLogTests.m in Sources */,
 				0446DF191F3B864600C8E338 /* MSLoggerTests.m in Sources */,
 				35C0E3CB1FD6146A004E841E /* MSMockSecondService.m in Sources */,
@@ -2178,8 +2283,10 @@
 				E7D23C7020B6412300A47D62 /* MSCSExtensionsTests.m in Sources */,
 				04A140871ECE63BB001CEE94 /* MSServiceAbstractTests.m in Sources */,
 				0446DF311F3B86FE00C8E338 /* MSStoragePerfomanceTests.m in Sources */,
+				38FDFF6B2109409900E17269 /* MSMockKeychainUtil.m in Sources */,
 				04A79A4A20C6F63E006D0072 /* MSOneCollectorIngestionTests.m in Sources */,
 				046AEAD41ECA562A00CBE511 /* MSMockUserDefaults.m in Sources */,
+				B26D4DD8211B9B5E00AB4E28 /* MSTicketCacheTests.m in Sources */,
 				046AEAD71ECA562A00CBE511 /* MSLogWithPropertiesTests.m in Sources */,
 				046AEAD81ECA562A00CBE511 /* MSDeviceLogTests.m in Sources */,
 				046AEADA1ECA562A00CBE511 /* MSChannelUnitDefaultTests.m in Sources */,
@@ -2192,8 +2299,10 @@
 				04A1408B1ECE63CB001CEE94 /* MSAppCenterIngestionTests.m in Sources */,
 				35C0E3CC1FD6146A004E841E /* MSMockSecondService.m in Sources */,
 				046AEAE41ECA562A00CBE511 /* MSStartServiceLogTests.m in Sources */,
+				B26D4DBB211B5BE300AB4E28 /* MSMockCommonSchemaLog.m in Sources */,
 				0446DF331F3B870A00C8E338 /* MSLogDBStorageTests.m in Sources */,
 				046AEAE61ECA562A00CBE511 /* MSChannelUnitConfigurationTests.m in Sources */,
+				38EDBCBD212CBB4B00C39B1E /* MSDeadLockTests.m in Sources */,
 				046AEAE81ECA562A00CBE511 /* MSCustomPropertiesTests.m in Sources */,
 				38AE131220C1B54000FAB2AD /* MSModelTestsUtililty.m in Sources */,
 				04A140861ECE60C6001CEE94 /* MSUtilityTests.m in Sources */,
@@ -2251,6 +2360,7 @@
 				044864C71EBD13B400031019 /* MSCustomPropertiesLog.m in Sources */,
 				04754F591EA98182002CBA46 /* MSAbstractLog.m in Sources */,
 				385E319F20C1B90700BE7271 /* MSACModelConstants.m in Sources */,
+				B23507B62118D22800F98D4F /* MSTicketCache.m in Sources */,
 				04754F5A1EA98182002CBA46 /* MSKeychainUtil.m in Sources */,
 				04754F5B1EA98182002CBA46 /* MSWrapperLogger.m in Sources */,
 				04754F5D1EA98182002CBA46 /* MSChannelUnitDefault.m in Sources */,
@@ -2312,6 +2422,7 @@
 				35D0B7541DDFABFD003EACCD /* MSWrapperLogger.m in Sources */,
 				385E319E20C1B90700BE7271 /* MSACModelConstants.m in Sources */,
 				B2CD745A1F22BB710070E7DF /* MSWrapperSdk.m in Sources */,
+				B23507B52118D22800F98D4F /* MSTicketCache.m in Sources */,
 				3844FF201E8C2716003E9194 /* MSDevice.m in Sources */,
 				6E0684641D36BC8D00A8CC6C /* MSChannelUnitDefault.m in Sources */,
 				38C447231ECE5352002E1B11 /* MSAppDelegateForwarder.m in Sources */,
@@ -2349,12 +2460,14 @@
 				6EB1F40E1D2443B7005F9F99 /* MSChannelUnitDefaultTests.m in Sources */,
 				384959D51D491D4F008F6B3A /* MSAppCenterTests.m in Sources */,
 				D36136831E7BB338004AE043 /* MSStoragePerfomanceTests.m in Sources */,
+				38A3891C212B6E3C00F1C0D8 /* MSDeadLockTests.m in Sources */,
 				5C7877921EA0CFF3002263CC /* MSLogDBStorageTests.m in Sources */,
 				386E8D931E25932100EECF0F /* MSHttpTestUtil.m in Sources */,
 				B2FD53651E567BCF0050F909 /* MSDeviceHistoryInfoTests.m in Sources */,
 				380A4DCB1DD6908A00E99219 /* MSUtilityTests.m in Sources */,
 				04A79A4920C6F63C006D0072 /* MSOneCollectorIngestionTests.m in Sources */,
 				3849BA7E1EF3489D0072E3E0 /* MSDBStorageTests.m in Sources */,
+				38FDFF6A2109409900E17269 /* MSMockKeychainUtil.m in Sources */,
 				35C0E3CD1FD6146A004E841E /* MSMockSecondService.m in Sources */,
 				E829E4231D25C8BA00F19DA1 /* MSAppCenterIngestionTests.m in Sources */,
 				805F3F6B1F209C9D00B489E4 /* MSMockService.m in Sources */,
@@ -2369,8 +2482,10 @@
 				E88D17061D35B6B500A5EA57 /* MSMockLog.m in Sources */,
 				049378411FE4914B000ADBAF /* MSSessionContextTests.m in Sources */,
 				8087362C20C1DE1B004C4157 /* MSEncrypterTests.m in Sources */,
+				B26D4DD7211B9B5E00AB4E28 /* MSTicketCacheTests.m in Sources */,
 				6E48A5A71D383893006E8B5F /* MSChannelGroupDefaultTests.m in Sources */,
 				58603867BA3B4B1CB87D0E5D /* MSAbstractLogTests.m in Sources */,
+				B26D4DBA211B5BE300AB4E28 /* MSMockCommonSchemaLog.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2526,10 +2641,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6E0401841D1CAD810051BCFA /* AppCenter Debug.xcconfig */;
 			buildSettings = {
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
 			};
 			name = Debug;
 		};

@@ -7,7 +7,7 @@ static NSString *const kMSName = @"name";
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [super serializeToDictionary];
-  
+
   if (self.name) {
     dict[kMSName] = self.name;
   }
@@ -19,11 +19,14 @@ static NSString *const kMSName = @"name";
 }
 
 - (BOOL)isEqual:(id)object {
-  if (![(NSObject *)object isKindOfClass:[MSLogWithNameAndProperties class]] || ![super isEqual:object]) {
+  if (![(NSObject *)object isKindOfClass:[MSLogWithNameAndProperties class]] ||
+      ![super isEqual:object]) {
     return NO;
   }
-  MSLogWithNameAndProperties *analyticsLog = (MSLogWithNameAndProperties *)object;
-  return ((!self.name && !analyticsLog.name) || [self.name isEqualToString:analyticsLog.name]);
+  MSLogWithNameAndProperties *analyticsLog =
+      (MSLogWithNameAndProperties *)object;
+  return ((!self.name && !analyticsLog.name) ||
+          [self.name isEqualToString:analyticsLog.name]);
 }
 
 #pragma mark - NSCoding
@@ -33,7 +36,7 @@ static NSString *const kMSName = @"name";
   if (self) {
     _name = [coder decodeObjectForKey:kMSName];
   }
-  
+
   return self;
 }
 

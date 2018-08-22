@@ -4,8 +4,8 @@
 #import "MSKeychainUtil.h"
 #import "MSLogDBStoragePrivate.h"
 #import "MSLogger.h"
-#import "MSUtility.h"
 #import "MSUtility+StringFormatting.h"
+#import "MSUtility.h"
 
 static const NSUInteger kMSSchemaVersion = 1;
 
@@ -20,19 +20,37 @@ static const NSUInteger kMSSchemaVersion = 1;
    */
   MSDBSchema *schema = @{
     kMSLogTableName : @[
-      @{kMSIdColumnName : @[ kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey, kMSSQLiteConstraintAutoincrement ]},
-      @{kMSGroupIdColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]},
+      @{
+        kMSIdColumnName : @[
+          kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey,
+          kMSSQLiteConstraintAutoincrement
+        ]
+      },
+      @{
+        kMSGroupIdColumnName :
+            @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]
+      },
       @{kMSLogColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]},
       @{kMSTargetTokenColumnName : @[ kMSSQLiteTypeText ]}
     ]
   };
-  self = [super initWithSchema:schema version:kMSSchemaVersion filename:kMSDBFileName];
+  self = [super initWithSchema:schema
+                       version:kMSSchemaVersion
+                      filename:kMSDBFileName];
   if (self) {
     NSDictionary *columnIndexes = [MSDBStorage columnsIndexes:schema];
-    _idColumnIndex = ((NSNumber *)columnIndexes[kMSLogTableName][kMSIdColumnName]).unsignedIntegerValue;
-    _groupIdColumnIndex = ((NSNumber *)columnIndexes[kMSLogTableName][kMSGroupIdColumnName]).unsignedIntegerValue;
-    _logColumnIndex = ((NSNumber *)columnIndexes[kMSLogTableName][kMSLogColumnName]).unsignedIntegerValue;
-    _targetTokenColumnIndex = ((NSNumber *)columnIndexes[kMSLogTableName][kMSTargetTokenColumnName]).unsignedIntegerValue;
+    _idColumnIndex =
+        ((NSNumber *)columnIndexes[kMSLogTableName][kMSIdColumnName])
+            .unsignedIntegerValue;
+    _groupIdColumnIndex =
+        ((NSNumber *)columnIndexes[kMSLogTableName][kMSGroupIdColumnName])
+            .unsignedIntegerValue;
+    _logColumnIndex =
+        ((NSNumber *)columnIndexes[kMSLogTableName][kMSLogColumnName])
+            .unsignedIntegerValue;
+    _targetTokenColumnIndex =
+        ((NSNumber *)columnIndexes[kMSLogTableName][kMSTargetTokenColumnName])
+            .unsignedIntegerValue;
     _capacity = NSUIntegerMax;
     _batches = [NSMutableDictionary<NSString *, NSArray<NSNumber *> *> new];
     _targetTokenEncrypter = [[MSEncrypter alloc] initWithDefaultKey];
@@ -56,17 +74,25 @@ static const NSUInteger kMSSchemaVersion = 1;
 
   // Insert this log to the DB.
   NSData *logData = [NSKeyedArchiver archivedDataWithRootObject:log];
-  NSString *base64Data = [logData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
+  NSString *base64Data = [logData
+      base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
   NSString *addLogQuery =
-      [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\") VALUES ('%@', '%@')", kMSLogTableName,
-                                 kMSGroupIdColumnName, kMSLogColumnName, groupId, base64Data];
+      [NSString stringWithFormat:
+                    @"INSERT INTO \"%@\" (\"%@\", \"%@\") VALUES ('%@', '%@')",
+                    kMSLogTableName, kMSGroupIdColumnName, kMSLogColumnName,
+                    groupId, base64Data];
 
   // Serialize target token.
   if ([(NSObject *)log isKindOfClass:[MSCommonSchemaLog class]]) {
     NSString *targetToken = [[log transmissionTargetTokens] anyObject];
-    NSString *encryptedToken = [self.targetTokenEncrypter encryptString:targetToken];
-    addLogQuery = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") VALUES ('%@', '%@', '%@')", kMSLogTableName,
-                   kMSGroupIdColumnName, kMSLogColumnName, kMSTargetTokenColumnName, groupId, base64Data, encryptedToken];
+    NSString *encryptedToken =
+        [self.targetTokenEncrypter encryptString:targetToken];
+    addLogQuery =
+        [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", "
+                                   @"\"%@\") VALUES ('%@', '%@', '%@')",
+                                   kMSLogTableName, kMSGroupIdColumnName,
+                                   kMSLogColumnName, kMSTargetTokenColumnName,
+                                   groupId, base64Data, encryptedToken];
   }
   BOOL succeeded = [self executeNonSelectionQuery:addLogQuery];
   NSUInteger logCount = [self countLogs];
@@ -75,7 +101,9 @@ static const NSUInteger kMSSchemaVersion = 1;
   if (succeeded && logCount > self.capacity) {
     NSUInteger overflowCount = logCount - self.capacity;
     [self deleteOldestLogsWithCount:overflowCount];
-    MSLogDebug([MSAppCenter logTag], @"Log storage was over capacity, %ld oldest log(s) deleted.", (long)overflowCount);
+    MSLogDebug([MSAppCenter logTag],
+               @"Log storage was over capacity, %ld oldest log(s) deleted.",
+               (long)overflowCount);
   }
   return succeeded;
 }
@@ -96,32 +124,40 @@ static const NSUInteger kMSSchemaVersion = 1;
   NSMutableArray<NSNumber *> *idsInBatches = [NSMutableArray<NSNumber *> new];
   for (NSString *batchKey in [self.batches allKeys]) {
     if ([batchKey hasPrefix:groupId]) {
-      [idsInBatches addObjectsFromArray:(NSArray<NSNumber *> * _Nonnull)self.batches[batchKey]];
+      [idsInBatches addObjectsFromArray:(NSArray<NSNumber *> * _Nonnull)
+                                            self.batches[batchKey]];
     }
   }
 
   // Build the "WHERE" clause's condition.
-  NSMutableString *condition = [NSMutableString stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, groupId];
+  NSMutableString *condition = [NSMutableString
+      stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, groupId];
 
   // Take only logs that are not already part of a batch.
   if (idsInBatches.count > 0) {
-    [condition appendFormat:@" AND \"%@\" NOT IN (%@)", kMSIdColumnName, [idsInBatches componentsJoinedByString:@", "]];
+    [condition appendFormat:@" AND \"%@\" NOT IN (%@)", kMSIdColumnName,
+                            [idsInBatches componentsJoinedByString:@", "]];
   }
 
   /*
-   * There is a need to determine if there will be more logs available than those under the limit.
-   * This is just about knowing if there is at least 1 log above the limit.
+   * There is a need to determine if there will be more logs available than
+   * those under the limit. This is just about knowing if there is at least 1
+   * log above the limit.
    *
-   * FIXME: We should simply use a count API from the consumer object instead of the "limit + 1" technique, it only
-   * requires 1 SQL request instead of 2 for the count but it is a bit confusing and doesn't realy fit a database
+   * FIXME: We should simply use a count API from the consumer object instead of
+   * the "limit + 1" technique, it only requires 1 SQL request instead of 2 for
+   * the count but it is a bit confusing and doesn't realy fit a database
    * storage.
    */
-  [condition appendFormat:@" LIMIT %lu", (unsigned long)((limit < NSUIntegerMax) ? limit + 1 : limit)];
+  [condition appendFormat:@" LIMIT %lu",
+                          (unsigned long)((limit < NSUIntegerMax) ? limit + 1
+                                                                  : limit)];
 
   // Get log entries from DB.
   logEntries = [[self logsWithCondition:condition] mutableCopy];
 
-  // More logs available for the next batch, remove the log in excess for this batch.
+  // More logs available for the next batch, remove the log in excess for this
+  // batch.
   if (logEntries.count > 0 && logEntries.count > limit) {
     [logEntries removeLastObject];
     moreLogsAvailable = YES;
@@ -137,7 +173,8 @@ static const NSUInteger kMSSchemaVersion = 1;
   logsAvailable = logEntries.count > 0;
   if (logsAvailable) {
     batchId = MS_UUID_STRING;
-    [self.batches setObject:dbIds forKey:[groupId stringByAppendingString:batchId]];
+    [self.batches setObject:dbIds
+                     forKey:[groupId stringByAppendingString:batchId]];
   }
 
   // Load completed.
@@ -155,7 +192,8 @@ static const NSUInteger kMSSchemaVersion = 1;
   NSArray<id<MSLog>> *logs = [self logsFromDBWithGroupId:groupId];
 
   // Delete logs
-  [self deleteLogsFromDBWithColumnValue:groupId columnName:kMSGroupIdColumnName];
+  [self deleteLogsFromDBWithColumnValue:groupId
+                             columnName:kMSGroupIdColumnName];
 
   // Delete related batches.
   for (NSString *batchKey in [self.batches allKeys]) {
@@ -184,7 +222,8 @@ static const NSUInteger kMSSchemaVersion = 1;
 - (NSArray<id<MSLog>> *)logsFromDBWithGroupId:(NSString *)groupId {
 
   // Get log entries for the given group Id.
-  NSString *condition = [NSString stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, groupId];
+  NSString *condition = [NSString
+      stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, groupId];
   NSArray<NSArray *> *logEntries = [self logsWithCondition:condition];
 
   // Get logs only.
@@ -197,7 +236,8 @@ static const NSUInteger kMSSchemaVersion = 1;
 
 - (NSArray<NSArray *> *)logsWithCondition:(NSString *_Nullable)condition {
   NSMutableArray<NSArray *> *logEntries = [NSMutableArray<NSArray *> new];
-  NSMutableString *query = [NSMutableString stringWithFormat:@"SELECT * FROM \"%@\"", kMSLogTableName];
+  NSMutableString *query = [NSMutableString
+      stringWithFormat:@"SELECT * FROM \"%@\"", kMSLogTableName];
   if (condition.length > 0) {
     [query appendFormat:@" WHERE %@", condition];
   }
@@ -206,8 +246,10 @@ static const NSUInteger kMSSchemaVersion = 1;
   // Get logs from DB.
   for (NSMutableArray *row in entries) {
     NSNumber *dbId = row[self.idColumnIndex];
-    NSData *logData = [[NSData alloc] initWithBase64EncodedString:row[self.logColumnIndex]
-                                                          options:NSDataBase64DecodingIgnoreUnknownCharacters];
+    NSData *logData = [[NSData alloc]
+        initWithBase64EncodedString:row[self.logColumnIndex]
+                            options:
+                                NSDataBase64DecodingIgnoreUnknownCharacters];
     id<MSLog> log;
     NSException *exception;
 
@@ -220,8 +262,10 @@ static const NSUInteger kMSSchemaVersion = 1;
     if (!log || exception) {
 
       // The archived log is not valid.
-      MSLogError([MSAppCenter logTag], @"Deserialization failed for log with Id %@: %@", dbId,
-                 exception ? exception.reason : @"The log deserialized to NULL.");
+      MSLogError([MSAppCenter logTag],
+                 @"Deserialization failed for log with Id %@: %@", dbId,
+                 exception ? exception.reason
+                           : @"The log deserialized to NULL.");
       [self deleteLogFromDBWithId:dbId];
       continue;
     }
@@ -229,10 +273,11 @@ static const NSUInteger kMSSchemaVersion = 1;
     // Deserialize target token.
     NSString *encryptedToken = row[self.targetTokenColumnIndex];
     if (![encryptedToken isKindOfClass:[NSNull class]]) {
-      NSString *targetToken = [self.targetTokenEncrypter decryptString:encryptedToken];
+      NSString *targetToken =
+          [self.targetTokenEncrypter decryptString:encryptedToken];
       [log addTransmissionTargetToken:targetToken];
     }
-    
+
     // Update with deserialized log.
     row[self.logColumnIndex] = log;
     [logEntries addObject:row];
@@ -246,21 +291,33 @@ static const NSUInteger kMSSchemaVersion = 1;
   [self deleteLogsFromDBWithColumnValue:dbId columnName:kMSIdColumnName];
 }
 
-- (void)deleteLogsFromDBWithColumnValue:(id)columnValue columnName:(NSString *)columnName {
-  [self deleteLogsFromDBWithColumnValues:@[ columnValue ] columnName:columnName];
+- (void)deleteLogsFromDBWithColumnValue:(id)columnValue
+                             columnName:(NSString *)columnName {
+  [self deleteLogsFromDBWithColumnValues:@[ columnValue ]
+                              columnName:columnName];
 }
 
-- (void)deleteLogsFromDBWithColumnValues:(NSArray *)columnValues columnName:(NSString *)columnName {
-  NSString *deletionTrace = [NSString stringWithFormat:@"Deletion of log(s) by %@ with value(s) '%@'", columnName,
-                                                       [columnValues componentsJoinedByString:@"','"]];
+- (void)deleteLogsFromDBWithColumnValues:(NSArray *)columnValues
+                              columnName:(NSString *)columnName {
+  NSString *deletionTrace = [NSString
+      stringWithFormat:@"Deletion of log(s) by %@ with value(s) '%@'",
+                       columnName,
+                       [columnValues componentsJoinedByString:@"','"]];
 
   // Build up delete query.
-  char surroundingChar = ([(NSObject *)[columnValues firstObject] isKindOfClass:[NSString class]]) ? '\'' : '\0';
-  NSString *valuesSeparation = [NSString stringWithFormat:@"%c, %c", surroundingChar, surroundingChar];
-  NSString *whereCondition = [NSString stringWithFormat:@"\"%@\" IN (%c%@%c)", columnName, surroundingChar,
-                              [columnValues componentsJoinedByString:valuesSeparation], surroundingChar];
-  NSString *deleteLogsQuery = [NSString
-      stringWithFormat:@"DELETE FROM \"%@\" WHERE %@", kMSLogTableName, whereCondition];
+  char surroundingChar =
+      ([(NSObject *)[columnValues firstObject] isKindOfClass:[NSString class]])
+          ? '\''
+          : '\0';
+  NSString *valuesSeparation =
+      [NSString stringWithFormat:@"%c, %c", surroundingChar, surroundingChar];
+  NSString *whereCondition = [NSString
+      stringWithFormat:@"\"%@\" IN (%c%@%c)", columnName, surroundingChar,
+                       [columnValues componentsJoinedByString:valuesSeparation],
+                       surroundingChar];
+  NSString *deleteLogsQuery =
+      [NSString stringWithFormat:@"DELETE FROM \"%@\" WHERE %@",
+                                 kMSLogTableName, whereCondition];
 
   // Execute.
   if ([self executeNonSelectionQuery:deleteLogsQuery]) {
@@ -271,8 +328,9 @@ static const NSUInteger kMSSchemaVersion = 1;
 }
 
 - (void)deleteOldestLogsWithCount:(NSInteger)count {
-  NSString *deleteLogQuery = [NSString stringWithFormat:@"DELETE FROM \"%@\" ORDER BY \"%@\" ASC LIMIT %ld",
-                                                        kMSLogTableName, kMSIdColumnName, (long)count];
+  NSString *deleteLogQuery = [NSString
+      stringWithFormat:@"DELETE FROM \"%@\" ORDER BY \"%@\" ASC LIMIT %ld",
+                       kMSLogTableName, kMSIdColumnName, (long)count];
   [self executeNonSelectionQuery:deleteLogQuery];
 }
 
@@ -291,8 +349,9 @@ static const NSUInteger kMSSchemaVersion = 1;
  */
 - (void)migrateDatabase:(void *)db fromVersion:(NSUInteger)version {
   if (version < 1) {
-    NSString *migrationQuery = [NSString stringWithFormat:@"ALTER TABLE \"%@\" ADD COLUMN \"%@\" TEXT",
-                                kMSLogTableName, kMSTargetTokenColumnName];
+    NSString *migrationQuery =
+        [NSString stringWithFormat:@"ALTER TABLE \"%@\" ADD COLUMN \"%@\" TEXT",
+                                   kMSLogTableName, kMSTargetTokenColumnName];
     [MSDBStorage executeNonSelectionQuery:migrationQuery inOpenedDatabase:db];
   }
 }

@@ -5,7 +5,8 @@ static NSString *const kMSTimestampKey = @"timestampKey";
 
 @implementation MSDeviceHistoryInfo
 
-- (instancetype)initWithTimestamp:(NSDate *)timestamp andDevice:(MSDevice *)device {
+- (instancetype)initWithTimestamp:(NSDate *)timestamp
+                        andDevice:(MSDevice *)device {
   if ((self = [super init])) {
     _timestamp = timestamp;
     _device = device;

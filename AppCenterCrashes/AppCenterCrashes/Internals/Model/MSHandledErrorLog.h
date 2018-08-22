@@ -5,7 +5,8 @@
 @class MSException;
 
 /**
- * Handled Error log for managed platforms (such as Xamarin, Unity, Android Dalvik/ART).
+ * Handled Error log for managed platforms (such as Xamarin, Unity, Android
+ * Dalvik/ART).
  */
 @interface MSHandledErrorLog : MSLogWithProperties
 

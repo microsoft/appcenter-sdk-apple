@@ -1,0 +1,6 @@
+#include "Watch.xcconfig"
+
+ASSETCATALOG_COMPILER_APPICON_NAME =
+ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication
+LD_RUNPATH_SEARCH_PATHS = @executable_path/Frameworks @executable_path/../../Frameworks
+ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO

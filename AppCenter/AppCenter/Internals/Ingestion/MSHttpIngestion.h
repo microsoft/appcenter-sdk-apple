@@ -7,7 +7,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MSHttpIngestion : NSObject <MSIngestionProtocol>
 
 /**
- * Base URL (schema + authority + port only) used to communicate with the server.
+ * Base URL (schema + authority + port only) used to communicate with the
+ * server.
  */
 @property(nonatomic, copy) NSString *baseURL;
 

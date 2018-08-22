@@ -1,7 +1,7 @@
 #import "MSDistributeTestUtil.h"
+#import "AppCenter.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+Environment.h"
-#import "AppCenter.h"
 
 static id _appCenterMock;
 static id _utilMock;
