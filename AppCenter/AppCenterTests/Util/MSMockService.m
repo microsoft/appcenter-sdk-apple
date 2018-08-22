@@ -56,6 +56,8 @@ static MSMockService *sharedInstance = nil;
           [[MSChannelUnitConfiguration alloc]
               initDefaultConfigurationWithGroupId:[self groupId]]];
   self.appSecret = appSecret;
+  self.defaultTransmissionTargetToken = token;
+  self.startedFromApplication = fromApplication;
   [self setStarted:YES];
 }
 
