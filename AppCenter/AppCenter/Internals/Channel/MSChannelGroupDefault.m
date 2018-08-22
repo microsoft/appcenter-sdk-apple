@@ -55,8 +55,8 @@ addChannelUnitWithConfiguration:(MSChannelUnitConfiguration *)configuration
   MSChannelUnitDefault *channel;
   if (configuration) {
     channel = [[MSChannelUnitDefault alloc]
-        initWithIngestion:(ingestion ? ingestion : self.ingestion)storage
-                         :self.storage
+        initWithIngestion:(ingestion ? ingestion : self.ingestion)
+                  storage:self.storage
             configuration:configuration
         logsDispatchQueue:self.logsDispatchQueue];
     [channel addDelegate:self];
@@ -91,11 +91,18 @@ addChannelUnitWithConfiguration:(MSChannelUnitConfiguration *)configuration
 - (void)enumerateDelegatesForSelector:(SEL)selector
                             withBlock:(void (^)(id<MSChannelDelegate> delegate))
                                           block {
+  NSArray *synchronizedDelegates;
   @synchronized(self) {
-    for (id<MSChannelDelegate> delegate in self.delegates) {
-      if (delegate && [delegate respondsToSelector:selector]) {
-        block(delegate);
-      }
+
+    /*
+     * Don't execute the block while locking; it might be locking too and
+     * deadlock ourselves.
+     */
+    synchronizedDelegates = [self.delegates allObjects];
+  }
+  for (id<MSChannelDelegate> delegate in synchronizedDelegates) {
+    if (delegate && [delegate respondsToSelector:selector]) {
+      block(delegate);
     }
   }
 }
@@ -112,8 +119,9 @@ addChannelUnitWithConfiguration:(MSChannelUnitConfiguration *)configuration
 - (void)channel:(id<MSChannelProtocol>)channel
      didPrepareLog:(id<MSLog>)log
     withInternalId:(NSString *)internalId {
-  [self enumerateDelegatesForSelector:@selector
-        (channel:didPrepareLog:withInternalId:)
+  [self enumerateDelegatesForSelector:@selector(channel:
+                                           didPrepareLog:
+                                          withInternalId:)
                             withBlock:^(id<MSChannelDelegate> delegate) {
                               [delegate channel:channel
                                    didPrepareLog:log
@@ -124,8 +132,9 @@ addChannelUnitWithConfiguration:(MSChannelUnitConfiguration *)configuration
 - (void)channel:(id<MSChannelProtocol>)channel
     didCompleteEnqueueingLog:(id<MSLog>)log
               withInternalId:(NSString *)internalId {
-  [self enumerateDelegatesForSelector:@selector
-        (channel:didCompleteEnqueueingLog:withInternalId:)
+  [self enumerateDelegatesForSelector:@selector(channel:
+                                          didCompleteEnqueueingLog:
+                                                    withInternalId:)
                             withBlock:^(id<MSChannelDelegate> delegate) {
                               [delegate channel:channel
                                   didCompleteEnqueueingLog:log
@@ -152,8 +161,9 @@ addChannelUnitWithConfiguration:(MSChannelUnitConfiguration *)configuration
 - (void)channel:(id<MSChannelProtocol>)channel
               didSetEnabled:(BOOL)isEnabled
     andDeleteDataOnDisabled:(BOOL)deletedData {
-  [self enumerateDelegatesForSelector:@selector
-        (channel:didSetEnabled:andDeleteDataOnDisabled:)
+  [self enumerateDelegatesForSelector:@selector(channel:
+                                                    didSetEnabled:
+                                          andDeleteDataOnDisabled:)
                             withBlock:^(id<MSChannelDelegate> delegate) {
                               [delegate channel:channel
                                             didSetEnabled:isEnabled
@@ -164,8 +174,9 @@ addChannelUnitWithConfiguration:(MSChannelUnitConfiguration *)configuration
 - (void)channel:(id<MSChannelProtocol>)channel
     didFailSendingLog:(id<MSLog>)log
             withError:(NSError *)error {
-  [self enumerateDelegatesForSelector:@selector
-        (channel:didFailSendingLog:withError:)
+  [self enumerateDelegatesForSelector:@selector(channel:
+                                          didFailSendingLog:
+                                                  withError:)
                             withBlock:^(id<MSChannelDelegate> delegate) {
                               [delegate channel:channel
                                   didFailSendingLog:log
@@ -198,8 +209,9 @@ addChannelUnitWithConfiguration:(MSChannelUnitConfiguration *)configuration
   }
 
   // Notify delegates.
-  [self enumerateDelegatesForSelector:@selector
-        (channel:didSetEnabled:andDeleteDataOnDisabled:)
+  [self enumerateDelegatesForSelector:@selector(channel:
+                                                    didSetEnabled:
+                                          andDeleteDataOnDisabled:)
                             withBlock:^(id<MSChannelDelegate> delegate) {
                               [delegate channel:self
                                             didSetEnabled:isEnabled

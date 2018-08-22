@@ -1,4 +1,5 @@
 #import "MSMockService.h"
+#import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitConfiguration.h"
 
 static NSString *const kMSServiceName = @"MSMockService";
@@ -9,7 +10,6 @@ static MSMockService *sharedInstance = nil;
 
 @synthesize appSecret;
 @synthesize initializationPriority;
-@synthesize channelGroup;
 @synthesize channelUnit;
 @synthesize channelUnitConfiguration;
 @synthesize defaultTransmissionTargetToken;
@@ -46,8 +46,18 @@ static MSMockService *sharedInstance = nil;
   return kMSGroupId;
 }
 
-- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)__unused logManager
-                    appSecret:(NSString *)__unused appSecret {
+- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup
+                    appSecret:(nullable NSString *)appSecret
+      transmissionTargetToken:(nullable NSString *)token
+              fromApplication:(BOOL)fromApplication {
+  [channelGroup addDelegate:self];
+  self.channelUnit = [channelGroup
+      addChannelUnitWithConfiguration:
+          [[MSChannelUnitConfiguration alloc]
+              initDefaultConfigurationWithGroupId:[self groupId]]];
+  self.appSecret = appSecret;
+  self.defaultTransmissionTargetToken = token;
+  self.startedFromApplication = fromApplication;
   [self setStarted:YES];
 }
 
