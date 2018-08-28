@@ -198,18 +198,18 @@
           @"6dd79f2770a0bb38073b814a5ff000647b37be5abbde71ec9176c6ce0cb32a27"]);
 }
 
-- (void)testPrettyPrintJson {
-
-  // With nil.
+- (void)testPrettyPrintNil {
   XCTAssertNil([MSUtility prettyPrintJson:nil]);
+}
 
-  // With non JSON.
+- (void)testPrettyPrintNotJson {
   NSString *nonJson = @"[test] some non json string";
   XCTAssertTrue([[MSUtility
       prettyPrintJson:[nonJson dataUsingEncoding:NSUTF8StringEncoding]]
       isEqualToString:nonJson]);
+}
 
-  // With JSON.
+- (void)testPrettyPrintJson {
   XCTAssertTrue([[MSUtility
       prettyPrintJson:[@"{\"a\":1}" dataUsingEncoding:NSUTF8StringEncoding]]
       isEqualToString:@"{\n  \"a\" : 1\n}"]);
