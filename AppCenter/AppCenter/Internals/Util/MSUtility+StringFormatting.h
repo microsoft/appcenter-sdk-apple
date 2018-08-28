@@ -60,6 +60,15 @@ extern NSString *MSUtilityStringFormattingCategory;
  */
 + (nullable NSString *)targetIdFromTargetToken:(nullable NSString *)token;
 
+/**
+ * Pretty print json data payload.
+ *
+ * @param data A data payload.
+ *
+ * @returns The pretty printed json data payload.
+ */
++ (nullable NSString *)prettyPrintJson:(nullable NSData *)data;
+
 @end
 
 NS_ASSUME_NONNULL_END

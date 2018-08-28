@@ -3,6 +3,7 @@
 #import "MSHttpIngestionPrivate.h"
 #import "MSIngestionCall.h"
 #import "MSIngestionDelegate.h"
+#import "MSUtility+StringFormatting.h"
 
 static NSTimeInterval kRequestTimeout = 60.0;
 
@@ -258,48 +259,22 @@ static NSString *const kMSPartialURLComponentsName[] = {
           completionHandler:^(NSData *data, NSURLResponse *response,
                               NSError *error) {
             @synchronized(self) {
-              NSString *payload = nil;
               NSInteger statusCode = [MSIngestionUtil getStatusCode:response];
-
-              // Trying to format json for log. Don't need to log json error
-              // here.
-              if (data) {
-
-                // Error instance for JSON parsing.
-                NSError *jsonError = nil;
-                id dictionary = [NSJSONSerialization
-                    JSONObjectWithData:data
-                               options:NSJSONReadingMutableContainers
-                                 error:&jsonError];
-                if (jsonError) {
-                  payload =
-                      [[NSString alloc] initWithData:data
-                                            encoding:NSUTF8StringEncoding];
-                } else {
-                  NSData *jsonData = [NSJSONSerialization
-                      dataWithJSONObject:dictionary
-                                 options:NSJSONWritingPrettyPrinted
-                                   error:&jsonError];
-                  if (!jsonData || jsonError) {
-                    payload =
-                        [[NSString alloc] initWithData:data
-                                              encoding:NSUTF8StringEncoding];
-                  } else {
-
-                    // NSJSONSerialization escapes paths by default so we
-                    // replace them.
-                    payload =
-                        [[[NSString alloc] initWithData:jsonData
-                                               encoding:NSUTF8StringEncoding]
-                            stringByReplacingOccurrencesOfString:@"\\/"
-                                                      withString:@"/"];
-                  }
-                }
+              if (error) {
+                MSLogDebug(
+                    [MSAppCenter logTag], @"HTTP request error with code: %td, "
+                                          @"domain: %@, description: %@",
+                    error.code, error.domain, error.localizedDescription);
               }
-              MSLogVerbose(
-                  [MSAppCenter logTag],
-                  @"HTTP response received with status code=%tu and payload=%@",
-                  statusCode, payload);
+
+              // Don't loose time pretty printing if not going to be printed.
+              else if ([MSAppCenter logLevel] <= MSLogLevelVerbose) {
+                NSString *payload = [MSUtility prettyPrintJson:data];
+                MSLogVerbose([MSAppCenter logTag],
+                             @"HTTP response received with status code: %tu, "
+                             @"payload:\n%@",
+                             statusCode, payload);
+              }
 
               // Call handles the completion.
               if (call) {

@@ -5,7 +5,7 @@
 + (BOOL)isRecoverableError:(NSInteger)statusCode {
 
   // There are some cases when statusCode is 0, e.g., when server is
-  // unreachable.
+  // unreachable. If so, the error will contain more details.
   return statusCode >= 500 || statusCode == 408 || statusCode == 429 ||
          statusCode == 0;
 }
