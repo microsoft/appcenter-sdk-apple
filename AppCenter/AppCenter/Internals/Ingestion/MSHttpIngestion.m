@@ -267,7 +267,7 @@ static NSString *const kMSPartialURLComponentsName[] = {
                     error.code, error.domain, error.localizedDescription);
               }
 
-              // Don't loose time pretty printing if not going to be printed.
+              // Don't lose time pretty printing if not going to be printed.
               else if ([MSAppCenter logLevel] <= MSLogLevelVerbose) {
                 NSString *payload = [MSUtility prettyPrintJson:data];
                 MSLogVerbose([MSAppCenter logTag],

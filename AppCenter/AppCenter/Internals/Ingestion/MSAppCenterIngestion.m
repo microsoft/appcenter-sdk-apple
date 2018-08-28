@@ -89,7 +89,7 @@ static NSString *const kMSApiPath = @"/logs";
   // Always disable cookies.
   [request setHTTPShouldHandleCookies:NO];
 
-  // Don't loose time pretty printing headers if not going to be printed.
+  // Don't lose time pretty printing headers if not going to be printed.
   if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
     MSLogVerbose([MSAppCenter logTag], @"URL: %@", request.URL);
     MSLogVerbose([MSAppCenter logTag], @"Headers: %@",
