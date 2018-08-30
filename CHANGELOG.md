@@ -1,5 +1,13 @@
 # App Center SDK for iOS and macOS Change Log
 
+## Version 1.10.0 (Under active development)
+
+### AppCenter
+
+* **[Fix]** Add missing network request error logging.
+
+___
+
 ## Version 1.9.0
 
 This version contains bug fixes and a feature.
