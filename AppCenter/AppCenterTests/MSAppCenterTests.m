@@ -96,8 +96,8 @@ static NSString *const kMSNullifiedInstallIdString =
                                  transmissionTargetString];
 
   // When
-  [MSAppCenter start:secret
-        withServices:@[ MSMockService.class, MSMockSecondService.class ]];
+  [MSAppCenter start:secret withServices:@[ MSMockService.class ]];
+  [MSAppCenter startService:MSMockSecondService.class];
 
   // Then
   XCTAssertTrue(
@@ -105,7 +105,12 @@ static NSString *const kMSNullifiedInstallIdString =
   XCTAssertTrue([[[MSAppCenter sharedInstance] defaultTransmissionTargetToken]
       isEqualToString:transmissionTargetString]);
   XCTAssertTrue([MSMockService sharedInstance].started);
+  XCTAssertTrue([[[MSMockService sharedInstance] defaultTransmissionTargetToken]
+      isEqualToString:transmissionTargetString]);
   XCTAssertTrue([MSMockSecondService sharedInstance].started);
+  XCTAssertTrue(
+      [[[MSMockSecondService sharedInstance] defaultTransmissionTargetToken]
+          isEqualToString:transmissionTargetString]);
 }
 
 - (void)testStartWithNoAppSecret {
@@ -460,6 +465,27 @@ static NSString *const kMSNullifiedInstallIdString =
 - (void)testConfigureWithAppSecret {
   [MSAppCenter configureWithAppSecret:@"App-Secret"];
   XCTAssertTrue([MSAppCenter isConfigured]);
+}
+
+- (void)testConfigureWithAppSecretAndTransmissionToken {
+
+  // If
+  NSString *appSecret = MS_UUID_STRING;
+  NSString *transmissionTargetKey = @"target=";
+  NSString *transmissionTargetString = @"transmissionTargetToken";
+  NSString *secret =
+      [NSString stringWithFormat:@"%@;%@%@", appSecret, transmissionTargetKey,
+                                 transmissionTargetString];
+
+  // When
+  [MSAppCenter configureWithAppSecret:secret];
+
+  // Then
+  XCTAssertTrue([MSAppCenter isConfigured]);
+  XCTAssertTrue(
+      [[[MSAppCenter sharedInstance] appSecret] isEqualToString:appSecret]);
+  XCTAssertTrue([[[MSAppCenter sharedInstance] defaultTransmissionTargetToken]
+      isEqualToString:transmissionTargetString]);
 }
 
 - (void)testStartServiceWithInvalidValues {
