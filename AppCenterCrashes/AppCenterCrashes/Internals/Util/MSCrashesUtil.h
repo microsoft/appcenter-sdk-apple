@@ -16,7 +16,7 @@ static NSString *const kMSWrapperExceptionsDirectory =
 
 /**
  * Returns the directory for storing and reading buffered logs. It will be used
- * in case we crash to make sure we don't loose any data.
+ * in case we crash to make sure we don't lose any data.
  *
  * @return The directory containing buffered events for an app
  */

@@ -96,4 +96,40 @@ static NSString *kMSAppSecretKey = @"appsecret=";
   return targetId.length ? targetId : nil;
 }
 
++ (nullable NSString *)prettyPrintJson:(nullable NSData *)data {
+  if (!data) {
+    return nil;
+  }
+
+  // Error instance for JSON parsing. Trying to format json for log. Don't need
+  // to log json error here.
+  NSError *jsonError = nil;
+  NSString *result = nil;
+  id dictionary =
+      [NSJSONSerialization JSONObjectWithData:(NSData *)data
+                                      options:NSJSONReadingMutableContainers
+                                        error:&jsonError];
+  if (jsonError) {
+    result = [[NSString alloc] initWithData:(NSData *)data
+                                   encoding:NSUTF8StringEncoding];
+  } else {
+    NSData *jsonData =
+        [NSJSONSerialization dataWithJSONObject:dictionary
+                                        options:NSJSONWritingPrettyPrinted
+                                          error:&jsonError];
+    if (!jsonData || jsonError) {
+      result = [[NSString alloc] initWithData:(NSData *)data
+                                     encoding:NSUTF8StringEncoding];
+    } else {
+
+      // NSJSONSerialization escapes paths by default so we replace them.
+      result = [
+          [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]
+          stringByReplacingOccurrencesOfString:@"\\/"
+                                    withString:@"/"];
+    }
+  }
+  return result;
+}
+
 @end
