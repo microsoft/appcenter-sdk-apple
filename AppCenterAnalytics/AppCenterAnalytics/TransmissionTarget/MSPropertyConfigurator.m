@@ -52,6 +52,11 @@
   }
 }
 
+- (void)collectDeviceId {
+  self.shouldCollectDeviceId = YES;
+
+}
+
 #pragma mark - MSChannelDelegate
 
 - (void)channel:(id<MSChannelProtocol>)__unused channel
@@ -99,6 +104,17 @@
       }
       target = target.parentTarget;
     }
+    
+    // Should the target collect the device Id.
+    target = self.transmissionTarget;
+    while (target) {
+      if (target.propertyConfigurator.shouldCollectDeviceId) {
+        
+        break;
+      }
+      target = target.parentTarget;
+    }
+    
   }
 }
 

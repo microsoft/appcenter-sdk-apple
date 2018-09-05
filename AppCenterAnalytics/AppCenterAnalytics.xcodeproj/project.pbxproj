@@ -188,6 +188,8 @@
 		B2350986211A69AA00F98D4F /* MSAnalyticsAuthenticationProviderInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B2350985211A69AA00F98D4F /* MSAnalyticsAuthenticationProviderInternal.h */; };
 		B2350987211A69AA00F98D4F /* MSAnalyticsAuthenticationProviderInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B2350985211A69AA00F98D4F /* MSAnalyticsAuthenticationProviderInternal.h */; };
 		B2350988211A69AA00F98D4F /* MSAnalyticsAuthenticationProviderInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B2350985211A69AA00F98D4F /* MSAnalyticsAuthenticationProviderInternal.h */; };
+		B25E21CD214044A400CAA156 /* MSPropertyConfiguratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B25E21CC214044A400CAA156 /* MSPropertyConfiguratorTests.m */; };
+		B25E21CE214044A400CAA156 /* MSPropertyConfiguratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B25E21CC214044A400CAA156 /* MSPropertyConfiguratorTests.m */; };
 		B26D4DDF211BA99E00AB4E28 /* MSAnalyticsAuthenticationProviderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B26D4DDE211BA99E00AB4E28 /* MSAnalyticsAuthenticationProviderTests.m */; };
 		B26D4E18212240EB00AB4E28 /* MSAnalyticsAuthenticationProviderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B26D4DDE211BA99E00AB4E28 /* MSAnalyticsAuthenticationProviderTests.m */; };
 		B26D4E19212240F400AB4E28 /* MSAnalyticsAuthenticationProviderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B26D4DDE211BA99E00AB4E28 /* MSAnalyticsAuthenticationProviderTests.m */; };
@@ -364,6 +366,7 @@
 		6E3E2CD01D359F3300B1EE50 /* MSEventLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSEventLogTests.m; sourceTree = "<group>"; };
 		6E3E2CD11D359F3300B1EE50 /* MSPageLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSPageLogTests.m; sourceTree = "<group>"; };
 		B2350985211A69AA00F98D4F /* MSAnalyticsAuthenticationProviderInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsAuthenticationProviderInternal.h; sourceTree = "<group>"; };
+		B25E21CC214044A400CAA156 /* MSPropertyConfiguratorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSPropertyConfiguratorTests.m; sourceTree = "<group>"; };
 		B26D4DDE211BA99E00AB4E28 /* MSAnalyticsAuthenticationProviderTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSAnalyticsAuthenticationProviderTests.m; sourceTree = "<group>"; };
 		B2812EF21DA3148000307DCE /* AppCenterAnalytics Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "AppCenterAnalytics Debug.xcconfig"; sourceTree = "<group>"; };
 		B2ADB12F2123A72000D0D7D9 /* MSAnalyticsAuthenticationProviderDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsAuthenticationProviderDelegate.h; sourceTree = "<group>"; };
@@ -685,10 +688,11 @@
 				B26D4DDE211BA99E00AB4E28 /* MSAnalyticsAuthenticationProviderTests.m */,
 				042A17A71DEFA950003BA80A /* MSAnalyticsTests.m */,
 				351343362058900800E6DC7D /* MSAnalyticsTransmissionTargetTests.m */,
-				E815912B1D526A09003D5F3C /* MSSessionTrackerTests.m */,
-				E81591291D526956003D5F3C /* MSStartSessionLogTests.m */,
 				6E3E2CD01D359F3300B1EE50 /* MSEventLogTests.m */,
 				6E3E2CD11D359F3300B1EE50 /* MSPageLogTests.m */,
+				B25E21CC214044A400CAA156 /* MSPropertyConfiguratorTests.m */,
+				E815912B1D526A09003D5F3C /* MSSessionTrackerTests.m */,
+				E81591291D526956003D5F3C /* MSStartSessionLogTests.m */,
 				6E0684361D35A39300A8CC6C /* Frameworks */,
 				04A140B11ECE811D001CEE94 /* Model */,
 				04A140AE1ECE806B001CEE94 /* Support */,
@@ -1161,6 +1165,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B25E21CE214044A400CAA156 /* MSPropertyConfiguratorTests.m in Sources */,
 				351343382058900800E6DC7D /* MSAnalyticsTransmissionTargetTests.m in Sources */,
 				046AEAB61ECA51AF00CBE511 /* MSAnalyticsTests.m in Sources */,
 				046AEAB71ECA51AF00CBE511 /* MSMockAnalyticsDelegate.m in Sources */,
@@ -1214,6 +1219,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B25E21CD214044A400CAA156 /* MSPropertyConfiguratorTests.m in Sources */,
 				351343372058900800E6DC7D /* MSAnalyticsTransmissionTargetTests.m in Sources */,
 				042A17A81DEFA950003BA80A /* MSAnalyticsTests.m in Sources */,
 				35BF19E51DF9D59E00193027 /* MSMockAnalyticsDelegate.m in Sources */,
