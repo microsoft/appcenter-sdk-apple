@@ -1,6 +1,7 @@
 #import "MSCSExtensions.h"
 #import "MSAppExtension.h"
 #import "MSCSModelConstants.h"
+#import "MSDeviceExtension.h"
 #import "MSLocExtension.h"
 #import "MSNetExtension.h"
 #import "MSOSExtension.h"
@@ -34,6 +35,9 @@
   }
   if (self.locExt) {
     dict[kMSCSLocExt] = [self.locExt serializeToDictionary];
+  }
+  if (self.deviceExt) {
+    dict[kMSDeviceExt] = [self.deviceExt serializeToDictionary];
   }
   return dict;
 }

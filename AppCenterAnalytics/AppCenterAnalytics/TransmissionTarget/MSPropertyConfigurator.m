@@ -109,7 +109,7 @@
     target = self.transmissionTarget;
     while (target) {
       if (target.propertyConfigurator.shouldCollectDeviceId) {
-        
+        [((MSCommonSchemaLog *)log)ext].deviceExt.localId = @"id";
         break;
       }
       target = target.parentTarget;

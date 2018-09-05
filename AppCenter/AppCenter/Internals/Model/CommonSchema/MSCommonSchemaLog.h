@@ -1,7 +1,12 @@
+/**
+ * TODO clean up these imports - remove unused ones (within this file) and use
+ * forward declarations where possible
+ */
 #import "MSAbstractLogInternal.h"
 #import "MSAppExtension.h"
 #import "MSCSData.h"
 #import "MSCSExtensions.h"
+#import "MSDeviceExtension.h"
 #import "MSLocExtension.h"
 #import "MSModel.h"
 #import "MSNetExtension.h"

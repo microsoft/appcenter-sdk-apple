@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 
-#import "MSPropertyConfigurator.h"
 #import "MSAnalyticsAuthenticationProvider.h"
+#import "MSPropertyConfigurator.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

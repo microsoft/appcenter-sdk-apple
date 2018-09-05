@@ -328,6 +328,12 @@
 		358F9BC920195F3300B9E22C /* MSLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 358F9BC22019531F00B9E22C /* MSLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3592ABA71DC90E3600EF4592 /* MSLoggerInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3592ABA51DC90E3600EF4592 /* MSLoggerInternal.h */; };
 		3592ABA81DC90E3600EF4592 /* MSLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 3592ABA61DC90E3600EF4592 /* MSLogger.m */; };
+		359C38DD214079D90066C509 /* MSDeviceExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = 359C38DB214079D90066C509 /* MSDeviceExtension.h */; };
+		359C38DE214079D90066C509 /* MSDeviceExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = 359C38DB214079D90066C509 /* MSDeviceExtension.h */; };
+		359C38DF214079D90066C509 /* MSDeviceExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = 359C38DB214079D90066C509 /* MSDeviceExtension.h */; };
+		359C38E0214079D90066C509 /* MSDeviceExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 359C38DC214079D90066C509 /* MSDeviceExtension.m */; };
+		359C38E1214079D90066C509 /* MSDeviceExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 359C38DC214079D90066C509 /* MSDeviceExtension.m */; };
+		359C38E2214079D90066C509 /* MSDeviceExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 359C38DC214079D90066C509 /* MSDeviceExtension.m */; };
 		35C0E3CB1FD6146A004E841E /* MSMockSecondService.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C0E3C91FD6146A004E841E /* MSMockSecondService.m */; };
 		35C0E3CC1FD6146A004E841E /* MSMockSecondService.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C0E3C91FD6146A004E841E /* MSMockSecondService.m */; };
 		35C0E3CD1FD6146A004E841E /* MSMockSecondService.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C0E3C91FD6146A004E841E /* MSMockSecondService.m */; };
@@ -785,6 +791,8 @@
 		358F9BC22019531F00B9E22C /* MSLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSLogger.h; sourceTree = "<group>"; };
 		3592ABA51DC90E3600EF4592 /* MSLoggerInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLoggerInternal.h; sourceTree = "<group>"; };
 		3592ABA61DC90E3600EF4592 /* MSLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLogger.m; sourceTree = "<group>"; };
+		359C38DB214079D90066C509 /* MSDeviceExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSDeviceExtension.h; sourceTree = "<group>"; };
+		359C38DC214079D90066C509 /* MSDeviceExtension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDeviceExtension.m; sourceTree = "<group>"; };
 		35B80F9220C1FE1A00CDFA55 /* MSMockLogObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSMockLogObject.h; sourceTree = "<group>"; };
 		35C0E3C91FD6146A004E841E /* MSMockSecondService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSMockSecondService.m; sourceTree = "<group>"; };
 		35C0E3CA1FD6146A004E841E /* MSMockSecondService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSMockSecondService.h; sourceTree = "<group>"; };
@@ -1421,6 +1429,8 @@
 				E7D23C6520B6391700A47D62 /* MSCSExtensions.m */,
 				E7D23C7220B6450300A47D62 /* MSCSModelConstants.h */,
 				E7D23C7620B6549E00A47D62 /* MSCSModelConstants.m */,
+				359C38DB214079D90066C509 /* MSDeviceExtension.h */,
+				359C38DC214079D90066C509 /* MSDeviceExtension.m */,
 				E74B14A820B36B9B002C0183 /* MSLocExtension.h */,
 				E74B14A920B36B9B002C0183 /* MSLocExtension.m */,
 				E74B14D020B36EC5002C0183 /* MSNetExtension.h */,
@@ -1578,6 +1588,7 @@
 				B2787216201AB9D8004AA9A5 /* MSAppDelegateUtil.h in Headers */,
 				B2787217201AB9D8004AA9A5 /* MSCustomApplicationDelegate.h in Headers */,
 				B2787218201AB9D8004AA9A5 /* MSChannelUnitDefault.h in Headers */,
+				359C38DF214079D90066C509 /* MSDeviceExtension.h in Headers */,
 				043120D21EE0BCF9007054C5 /* MSChannelGroupDefault.h in Headers */,
 				385E319D20C1B90700BE7271 /* MSACModelConstants.h in Headers */,
 				B278721A201AB9D8004AA9A5 /* MSChannelUnitProtocol.h in Headers */,
@@ -1724,6 +1735,7 @@
 				B2CD74BC1F22BE270070E7DF /* MSUtility+File.h in Headers */,
 				B2CD74CA1F22BF8C0070E7DF /* MSLogDBStoragePrivate.h in Headers */,
 				E74B14E620B370A5002C0183 /* MSUserExtension.h in Headers */,
+				359C38DE214079D90066C509 /* MSDeviceExtension.h in Headers */,
 				04754F911EA98182002CBA46 /* AppCenter.h in Headers */,
 				04754F921EA98182002CBA46 /* MSHttpIngestion.h in Headers */,
 				04754F931EA98182002CBA46 /* MSLogContainer.h in Headers */,
@@ -1828,6 +1840,7 @@
 				B2CD74B51F22BE270070E7DF /* MSUtility+Environment.h in Headers */,
 				B2CD74851F22BD910070E7DF /* MSLogDBStorage.h in Headers */,
 				B2CD745E1F22BBBB0070E7DF /* MSWrapperSdkInternal.h in Headers */,
+				359C38DD214079D90066C509 /* MSDeviceExtension.h in Headers */,
 				E74B14E520B370A5002C0183 /* MSUserExtension.h in Headers */,
 				04754F431EA980FD002CBA46 /* MSDeviceTrackerPrivate.h in Headers */,
 				386A69ED1FD8843D0057B316 /* MSKeychainUtilPrivate.h in Headers */,
@@ -2195,6 +2208,7 @@
 				0431207C1EE0BCF9007054C5 /* MSDeviceHistoryInfo.m in Sources */,
 				04A79A4620C6F437006D0072 /* MSOneCollectorIngestion.m in Sources */,
 				805275C620A1ADD300704115 /* MSOneCollectorChannelDelegate.m in Sources */,
+				359C38E2214079D90066C509 /* MSDeviceExtension.m in Sources */,
 				B28E41DA2076ED1700CC6AD8 /* MSUtility+PropertyValidation.m in Sources */,
 				045C85171FE0B4F700089540 /* MSSessionContext.m in Sources */,
 				E74B14AF20B36B9B002C0183 /* MSLocExtension.m in Sources */,
@@ -2334,6 +2348,7 @@
 				04754F4D1EA98182002CBA46 /* MSLogContainer.m in Sources */,
 				B2CD74B91F22BE270070E7DF /* MSUtility+Environment.m in Sources */,
 				047EBB9E1FE30842009BB1C8 /* MSSessionHistoryInfo.m in Sources */,
+				359C38E1214079D90066C509 /* MSDeviceExtension.m in Sources */,
 				04754F501EA98182002CBA46 /* MSAppCenterErrors.m in Sources */,
 				E74B14A620B36AAB002C0183 /* MSUserExtension.m in Sources */,
 				E74B14DF20B37043002C0183 /* MSOSExtension.m in Sources */,
@@ -2396,6 +2411,7 @@
 				6E171B611D234717000DC480 /* MSLogContainer.m in Sources */,
 				B2CD74B81F22BE270070E7DF /* MSUtility+Environment.m in Sources */,
 				047EBB9D1FE30842009BB1C8 /* MSSessionHistoryInfo.m in Sources */,
+				359C38E0214079D90066C509 /* MSDeviceExtension.m in Sources */,
 				3889933A1E29B26D00C27B36 /* MSAppCenterErrors.m in Sources */,
 				E74B14A520B36AAB002C0183 /* MSUserExtension.m in Sources */,
 				E74B14DE20B37043002C0183 /* MSOSExtension.m in Sources */,
