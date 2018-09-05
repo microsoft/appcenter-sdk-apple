@@ -1,12 +1,24 @@
-#import "MSPropertyConfigurator.h"
+#import "MSPropertyConfiguratorPrivate.h"
+
+#if TARGET_OS_OSX
+#import <IOKit/IOKitLib.h>
+#else
+#import <UIKit/UIKit.h>
+#endif
+
 #import "MSAnalyticsInternal.h"
 #import "MSAnalyticsTransmissionTargetInternal.h"
 #import "MSAnalyticsTransmissionTargetPrivate.h"
 #import "MSCommonSchemaLog.h"
 #import "MSLogger.h"
-#import "MSPropertyConfiguratorPrivate.h"
 
 @implementation MSPropertyConfigurator
+
+#if TARGET_OS_OSX
+static const char deviceIdPrefix = 'u';
+#else
+static const char deviceIdPrefix = 'i';
+#endif
 
 - (instancetype)initWithTransmissionTarget:
     (MSAnalyticsTransmissionTarget *)transmissionTarget {
@@ -54,7 +66,6 @@
 
 - (void)collectDeviceId {
   self.shouldCollectDeviceId = YES;
-
 }
 
 #pragma mark - MSChannelDelegate
@@ -104,18 +115,44 @@
       }
       target = target.parentTarget;
     }
-    
+
     // Should the target collect the device Id.
     target = self.transmissionTarget;
     while (target) {
       if (target.propertyConfigurator.shouldCollectDeviceId) {
-        [((MSCommonSchemaLog *)log)ext].deviceExt.localId = @"id";
+        [((MSCommonSchemaLog *)log)ext].deviceExt.localId =
+            [MSPropertyConfigurator getDeviceIdentifier];
         break;
       }
       target = target.parentTarget;
     }
-    
   }
+}
+
+#pragma mark - Helper methods
+
++ (NSString *)getDeviceIdentifier {
+  NSString *baseIdentifier;
+#if TARGET_OS_OSX
+  io_service_t platformExpert = IOServiceGetMatchingService(
+      kIOMasterPortDefault, IOServiceMatching("IOPlatformExpertDevice"));
+  CFStringRef platformUUIDAsCFString = NULL;
+  if (platformExpert) {
+    platformUUIDAsCFString = (CFStringRef)IORegistryEntryCreateCFProperty(
+        platformExpert, CFSTR(kIOPlatformUUIDKey), kCFAllocatorDefault, 0);
+    IOObjectRelease(platformExpert);
+  }
+  NSString *platformUUIDAsNSString = nil;
+  if (platformUUIDAsCFString) {
+    platformUUIDAsNSString =
+        [NSString stringWithString:(__bridge NSString *)platformUUIDAsCFString];
+    CFRelease(platformUUIDAsCFString);
+  }
+  baseIdentifier = platformUUIDAsNSString;
+#else
+  baseIdentifier = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+#endif
+  return [NSString stringWithFormat:@"%c:%@", deviceIdPrefix, baseIdentifier];
 }
 
 @end
