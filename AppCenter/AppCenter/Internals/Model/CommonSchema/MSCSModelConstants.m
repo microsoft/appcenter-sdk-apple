@@ -71,4 +71,4 @@ NSString *const kMSCSAppExt = @"app";
 NSString *const kMSCSNetExt = @"net";
 NSString *const kMSCSSDKExt = @"sdk";
 NSString *const kMSCSLocExt = @"loc";
-NSString *const kMSDeviceExt = @"device";
+NSString *const kMSCSDeviceExt = @"device";

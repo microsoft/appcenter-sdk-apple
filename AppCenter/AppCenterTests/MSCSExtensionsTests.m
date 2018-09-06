@@ -2,6 +2,7 @@
 #import "MSCSData.h"
 #import "MSCSExtensions.h"
 #import "MSCSModelConstants.h"
+#import "MSDeviceExtension.h"
 #import "MSLocExtension.h"
 #import "MSModelTestsUtililty.h"
 #import "MSNetExtension.h"
@@ -29,6 +30,8 @@
 @property(nonatomic) NSDictionary *netExtDummyValues;
 @property(nonatomic) MSSDKExtension *sdkExt;
 @property(nonatomic) NSMutableDictionary *sdkExtDummyValues;
+@property(nonatomic) MSDeviceExtension *deviceExt;
+@property(nonatomic) NSMutableDictionary *deviceExtDummyValues;
 @property(nonatomic) MSCSData *data;
 @property(nonatomic) NSDictionary *dataDummyValues;
 @end
@@ -54,6 +57,8 @@
   self.netExt = [MSModelTestsUtililty netExtensionWithDummyValues:self.netExtDummyValues];
   self.sdkExtDummyValues = [MSModelTestsUtililty sdkExtensionDummies];
   self.sdkExt = [MSModelTestsUtililty sdkExtensionWithDummyValues:self.sdkExtDummyValues];
+  self.deviceExtDummyValues = [MSModelTestsUtililty deviceExtensionDummies];
+  self.deviceExt = [MSModelTestsUtililty deviceExtensionWithDummyValues:self.deviceExtDummyValues];
   self.dataDummyValues = [MSModelTestsUtililty dataDummies];
   self.data = [MSModelTestsUtililty dataWithDummyValues:self.dataDummyValues];
   self.extDummyValues = [MSModelTestsUtililty extensionDummies];
@@ -88,6 +93,8 @@
       [self.extDummyValues[kMSCSProtocolExt] serializeToDictionary]);
   XCTAssertEqualObjects(dict[kMSCSOSExt], [self.extDummyValues[kMSCSOSExt]
                                               serializeToDictionary]);
+  XCTAssertEqualObjects(dict[kMSCSDeviceExt], [self.extDummyValues[kMSCSDeviceExt]
+                                               serializeToDictionary]);
 }
 
 - (void)testExtNSCodingSerializationAndDeserialization {
@@ -652,6 +659,64 @@
 
   // Then
   XCTAssertNotEqualObjects(anotherSDKExt, self.appExt);
+}
+
+#pragma mark - MSDeviceExtension
+
+- (void)testDeviceExtJSONSerializingToDictionary {
+  
+  // When
+  NSMutableDictionary *dict = [self.deviceExt serializeToDictionary];
+  
+  // Then
+  XCTAssertNotNil(dict);
+  XCTAssertEqualObjects(dict, self.deviceExtDummyValues);
+}
+
+- (void)testDeviceExtNSCodingSerializationAndDeserialization {
+  
+  // When
+  NSData *serializedDeviceExt =
+  [NSKeyedArchiver archivedDataWithRootObject:self.deviceExt];
+  MSDeviceExtension *actualDeviceExt =
+  [NSKeyedUnarchiver unarchiveObjectWithData:serializedDeviceExt];
+  
+  // Then
+  XCTAssertNotNil(actualDeviceExt);
+  XCTAssertEqualObjects(self.deviceExt, actualDeviceExt);
+  XCTAssertTrue([actualDeviceExt isMemberOfClass:[MSDeviceExtension class]]);
+  XCTAssertEqualObjects(actualDeviceExt.localId,
+                        self.deviceExtDummyValues[kMSDeviceLocalId]);
+}
+
+- (void)testDeviceExtIsValid {
+  
+  // When
+  MSDeviceExtension *deviceExt = [MSDeviceExtension new];
+  
+  // Then
+  XCTAssertTrue([deviceExt isValid]);
+}
+
+- (void)testDeviceExtIsEqual {
+  
+  // If
+  MSDeviceExtension *anotherDeviceExt = [MSDeviceExtension new];
+  
+  // Then
+  XCTAssertNotEqualObjects(anotherDeviceExt, self.deviceExt);
+  
+  // If
+  anotherDeviceExt = [MSModelTestsUtililty deviceExtensionWithDummyValues:self.deviceExtDummyValues];
+  
+  // Then
+  XCTAssertEqualObjects(anotherDeviceExt, self.deviceExt);
+  
+  // If
+  anotherDeviceExt.localId = [[[NSUUID alloc] initWithUUIDString:@"11111111-1111-1111-1111-11111111111"] UUIDString];
+  
+  // Then
+  XCTAssertNotEqualObjects(anotherDeviceExt, self.deviceExt);
 }
 
 #pragma mark - MSCSData

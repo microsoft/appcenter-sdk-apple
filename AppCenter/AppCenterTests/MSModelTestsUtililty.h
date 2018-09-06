@@ -68,12 +68,18 @@
 + (NSMutableDictionary *)sdkExtensionDummies;
 
 /**
+ * Get dummy values for common schema sdk extensions.
+ *
+ * @return Dummy values for common schema device extensions.
+ */
++ (NSMutableDictionary *)deviceExtensionDummies;
+
+/**
  * Get dummy values data, e.g. properties.
  *
  * @return Dummy values data, e.g. properties.
  */
 + (NSDictionary *)dataDummies;
-
 
 /**
  * Get dummy values for abstract log.
@@ -152,6 +158,14 @@
  */
 + (MSSDKExtension *)sdkExtensionWithDummyValues:(NSDictionary *)dummyValues;
 
+/**
+ * Populate a dummy common schema device extension.
+ *
+ * @param dummyValues Dummy values to create the extension.
+ * @return A dummy common schema device extension.
+ */
++ (MSDeviceExtension *)deviceExtensionWithDummyValues:(NSDictionary *)dummyValues;
+ 
 /**
  * Populate a dummy common schema data.
  *
