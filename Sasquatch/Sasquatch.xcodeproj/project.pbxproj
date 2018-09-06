@@ -972,13 +972,13 @@
 				B203FF4B20E57A5B002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift */,
 				B2586C88210A485300664A43 /* MSAnalyticsResultViewController.swift */,
 				84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */,
+				80B3CAD9211B2686007C332E /* MSAuthenticationViewController.swift */,
 				84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */,
 				B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */,
 				84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */,
 				845964AC1E8A7E9700BABA51 /* MSMainViewController.swift */,
-				35396A7720F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift */,
-				80B3CAD9211B2686007C332E /* MSAuthenticationViewController.swift */,
 				807DB551212164E000F35E03 /* MSSignInViewController.swift */,
+				35396A7720F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
