@@ -11,7 +11,6 @@
 
 @implementation MSAbstractLogTests
 
-
 #pragma mark - Setup
 
 - (void)setUp {
@@ -47,9 +46,6 @@
 
 - (void)testNSCodingSerializationAndDeserializationWorks {
 
-  // If
-
-
   // When
   NSData *serializedLog = [NSKeyedArchiver archivedDataWithRootObject:self.sut];
   id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedLog];
@@ -62,7 +58,8 @@
   assertThat(actualLog.type, equalTo(self.sut.type));
   assertThat(actualLog.timestamp, equalTo(self.sut.timestamp));
   assertThat(actualLog.sid, equalTo(self.sut.sid));
-  assertThat(actualLog.distributionGroupId, equalTo(self.sut.distributionGroupId));
+  assertThat(actualLog.distributionGroupId,
+             equalTo(self.sut.distributionGroupId));
   assertThat(actualLog.device, equalTo(self.sut.device));
 }
 
@@ -111,7 +108,6 @@
   NSString *sid = @"FAKE-SESSION-ID";
   NSString *distributionGroupId = @"FAKE-GROUP-ID";
   MSDevice *device = [MSDevice new];
-
   self.sut.type = type;
   self.sut.timestamp = timestamp;
   self.sut.sid = sid;
@@ -186,6 +182,7 @@
 }
 
 - (void)testNoCommonSchemaLogCreatedWhenNilTargetTokenArray {
+  
   // If
   self.sut.transmissionTargetTokens = nil;
   
@@ -212,7 +209,8 @@
 
   // If
   NSArray *expectedIKeys = @[ @"o:iKey1", @"o:iKey2" ];
-  NSSet *expectedTokens = [NSSet setWithArray:@[ @"iKey1-dummytoken", @"iKey2-dummytoken" ]];
+  NSSet *expectedTokens = [NSSet setWithArray:@[ @"iKey1-dummytoken",
+                                                 @"iKey2-dummytoken" ]];
   self.sut.transmissionTargetTokens = expectedTokens;
   OCMStub(self.sut.device.oemName).andReturn(@"fakeOem");
   OCMStub(self.sut.device.model).andReturn(@"fakeModel");
@@ -231,7 +229,6 @@
   NSString *expectedLibVersion = @"AppCenter-1.0.0";
   OCMStub(self.sut.device.timeZoneOffset).andReturn(@100);
   NSString *expectedTimeZoneOffset = @"+01:40";
-  
   id bundleMock = OCMClassMock([NSBundle class]);
   NSString *expectedAppLocale = @"fr_DE";
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
@@ -293,8 +290,6 @@
     // Clean up.
     [bundleMock stopMocking];
   }
-  
-  
 }
 
 @end
