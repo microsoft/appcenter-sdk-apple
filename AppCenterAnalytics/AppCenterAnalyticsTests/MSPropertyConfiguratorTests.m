@@ -11,6 +11,7 @@
 @property(nonatomic) MSPropertyConfigurator *sut;
 @property(nonatomic) MSAnalyticsTransmissionTarget *transmissionTarget;
 @property(nonatomic) id configuratorClassMock;
+
 @end
 
 @implementation MSPropertyConfiguratorTests
@@ -37,10 +38,6 @@
 }
 
 - (void)testInitializationWorks {
-  
-  // If
-  
-  // When
   
   // Then
   XCTAssertNotNil(self.sut);

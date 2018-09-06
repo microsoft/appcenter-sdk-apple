@@ -17,7 +17,6 @@ extern NSString *const kMSCSExt;
 // Values
 extern NSString *const kMSCSVerValue;
 
-
 #pragma mark - MSUserExtension
 
 extern NSString *const kMSUserLocale;

@@ -16,7 +16,6 @@
 - (void)setUp {
   [super setUp];
   self.sut = [MSAbstractLog new];
-  
   self.sut.type = @"fake";
   self.sut.timestamp = [NSDate dateWithTimeIntervalSince1970:0];
   self.sut.sid = @"FAKE-SESSION-ID";
