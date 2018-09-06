@@ -145,6 +145,10 @@ class MSTransmissionTargetsViewController: UITableViewController {
         let label: UILabel? = getSubviewFromCell(cell)
         label!.text = "Enabled Next Launch"
       }
+      else {
+        let label: UILabel? = getSubviewFromCell(cell)
+        label!.text = "Enabled"
+      }
       return cell
     case kAnalyticsCellRowIndex:
       let cell = tableView.dequeueReusableCell(withIdentifier: kAnalyticsSwitchCellId)!
