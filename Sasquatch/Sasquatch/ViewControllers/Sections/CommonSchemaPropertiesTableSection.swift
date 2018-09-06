@@ -4,13 +4,13 @@ class CommonSchemaPropertiesTableSection : PropertiesTableSection {
   
   var targets: [String: [(String, String)]]!
   var transmissionTargetSelectorCell: MSAnalyticsTransmissionTargetSelectorViewCell?
-  
+  var switchCellIdentifier = "enabledswitchcell"
   enum CommonSchemaProperty : Int {
-    case AppName = 1
+    case AppName = 2
     case AppVersion
     case AppLocale
   }
-  
+  var propertyTitles = ["Device ID", "App Name", "App Version", "App Locale"]
   var propertyTuples = [("appName", ""), ("appVersion", ""), ("appLocale", "")]
   
   override init(tableSection: Int, tableView: UITableView) {
@@ -28,31 +28,16 @@ class CommonSchemaPropertiesTableSection : PropertiesTableSection {
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     if indexPath.row == 0 {
       return transmissionTargetSelectorCell!
-    } else {
+    }
+    else if indexPath.row == 1 {
+      let cell = tableView.dequeueReusableCell(withIdentifier: switchCellIdentifier)
+      return cell!
+    }
+    else {
       let cell: MSAnalyticsPropertyTableViewCell? = loadCellFromNib()
       cell?.valueField.placeholder = "Override value"
-      
-      // Set cell text.
-      var label : String = ""
-      switch indexPath.row {
-      case CommonSchemaProperty.AppName.rawValue:
-        label = "App Name"
-        break
-        
-      case CommonSchemaProperty.AppVersion.rawValue:
-        label = "App Version"
-        break
-        
-      case CommonSchemaProperty.AppLocale.rawValue:
-        label = "App Locale"
-        break
-      default:
-        break
-      }
-      cell!.keyField.text = label
-      
+      cell!.keyField.text = propertyTitles[indexPath.row];
       let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
-
       cell!.valueField.text = targets[selectedTarget!]![indexPath.row - 1].1
       
       // Set cell to respond to being edited.
@@ -87,8 +72,12 @@ class CommonSchemaPropertiesTableSection : PropertiesTableSection {
       break
     }
   }
-  
+
+  override func numberOfCustomHeaderCells() -> Int {
+    return 2
+  }
+
   override func getPropertyCount() -> Int {
-    return 3
+    return 2
   }
 }
