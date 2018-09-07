@@ -179,14 +179,6 @@ __attribute__((used)) static void importCategories() {
       forTransmissionTarget:nil];
 }
 
-/**
- * Track an event.
- *
- * @param eventName  event name.
- * @param properties dictionary of properties.
- * @param transmissionTarget  the transmission target to associate to this
- * event.
- */
 + (void)trackEvent:(NSString *)eventName
            withProperties:
                (nullable NSDictionary<NSString *, NSString *> *)properties
@@ -225,6 +217,14 @@ __attribute__((used)) static void importCategories() {
   @synchronized(self) {
     return [[MSAnalytics sharedInstance] isAutoPageTrackingEnabled];
   }
+}
+
+#pragma mark - Transmission Target
+
++ (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:
+(NSString *)token {
+  return [[MSAnalytics sharedInstance]
+          transmissionTargetForToken:token];
 }
 
 #pragma mark - Private methods
@@ -299,13 +299,6 @@ __attribute__((used)) static void importCategories() {
   [self.channelUnit enqueueItem:log];
 }
 
-/**
- * Get a transmission target.
- *
- * @param transmissionTargetToken token of the transmission target to retrieve.
- *
- * @returns The transmission target object.
- */
 - (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:
     (NSString *)transmissionTargetToken {
   MSAnalyticsTransmissionTarget *transmissionTarget =
@@ -413,21 +406,6 @@ __attribute__((used)) static void importCategories() {
         didFailSendingPageLog:pageLog
                     withError:error];
   }
-}
-
-#pragma mark Transmission Target
-
-/**
- * Get a transmission target.
- *
- * @param token The token of the transmission target to retrieve.
- *
- * @returns The transmissionTarget object.
- */
-+ (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:
-    (NSString *)token {
-  return [[MSAnalytics sharedInstance]
-      transmissionTargetForToken:token];
 }
 
 @end
