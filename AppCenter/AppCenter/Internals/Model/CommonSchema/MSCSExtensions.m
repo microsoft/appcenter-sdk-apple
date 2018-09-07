@@ -47,12 +47,12 @@
 - (BOOL)isValid {
   return (!self.protocolExt || [self.protocolExt isValid]) &&
          (!self.userExt || [self.userExt isValid]) &&
+         (!self.deviceExt || [self.deviceExt isValid]) &&
          (!self.osExt || [self.osExt isValid]) &&
          (!self.appExt || [self.appExt isValid]) &&
          (!self.netExt || [self.netExt isValid]) &&
          (!self.sdkExt || [self.sdkExt isValid]) &&
-         (!self.locExt || [self.locExt isValid]) &&
-         (!self.deviceExt || [self.deviceExt isValid]);
+         (!self.locExt || [self.locExt isValid]);
 }
 
 #pragma mark - NSObject
@@ -66,6 +66,8 @@
           [self.protocolExt isEqual:csExt.protocolExt]) &&
          ((!self.userExt && !csExt.userExt) ||
           [self.userExt isEqual:csExt.userExt]) &&
+         ((!self.deviceExt && !csExt.deviceExt) ||
+          [self.deviceExt isEqual:csExt.deviceExt]) &&
          ((!self.osExt && !csExt.osExt) || [self.osExt isEqual:csExt.osExt]) &&
          ((!self.appExt && !csExt.appExt) ||
           [self.appExt isEqual:csExt.appExt]) &&
@@ -74,9 +76,7 @@
          ((!self.sdkExt && !csExt.sdkExt) ||
           [self.sdkExt isEqual:csExt.sdkExt]) &&
          ((!self.locExt && !csExt.locExt) ||
-          [self.locExt isEqual:csExt.locExt]) &&
-         ((!self.deviceExt && !csExt.deviceExt) ||
-          [self.deviceExt isEqual:csExt.deviceExt]);
+          [self.locExt isEqual:csExt.locExt]);
 }
 
 #pragma mark - NSCoding
