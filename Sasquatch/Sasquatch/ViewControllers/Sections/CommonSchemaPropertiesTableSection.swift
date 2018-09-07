@@ -1,52 +1,44 @@
 import UIKit
 
 class CommonSchemaPropertiesTableSection : PropertiesTableSection {
-  
-  var targets: [String: [(String, String)]]!
+
+  let kTargetSelectorCellRow = 0
+  let kDeviceIdRow = 1
+  let switchCellIdentifier = "collectdeviceidswitchcell"
+  let propertyKeys = ["App Name", "App Version", "App Locale"]
+  var propertyValues: [String: [String]]!
   var transmissionTargetSelectorCell: MSAnalyticsTransmissionTargetSelectorViewCell?
-  var switchCellIdentifier = "collectdeviceidswitchcell"
-  enum CommonSchemaProperty : Int {
-    case AppName = 2
-    case AppVersion
-    case AppLocale
-  }
-  var propertyTuples = [("App Name", ""), ("App Version", ""), ("App Locale", "")]
-  
+  var collectDeviceIdStates: [String: Bool]!
+
   override init(tableSection: Int, tableView: UITableView) {
     super.init(tableSection: tableSection, tableView: tableView)
-    targets = [String: [(String, String)]]()
+    propertyValues = [String: [String]]()
+    collectDeviceIdStates = [String: Bool]()
     let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
     let parentTargetToken = appName == "SasquatchSwift" ? kMSSwiftRuntimeTargetToken : kMSObjCRuntimeTargetToken
-    targets[parentTargetToken] = [(String, String)](propertyTuples)
-    targets[kMSTargetToken1] = [(String, String)](propertyTuples)
-    targets[kMSTargetToken2] = [(String, String)](propertyTuples)
+    for token in [parentTargetToken, kMSTargetToken1, kMSTargetToken2] {
+      propertyValues[token] = Array(repeating: "", count: propertyKeys.count)
+      collectDeviceIdStates[token] = false
+    }
     transmissionTargetSelectorCell = loadCellFromNib()
     transmissionTargetSelectorCell?.didSelectTransmissionTarget = reloadSection
   }
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    if indexPath.row == 0 {
+    switch indexPath.row {
+    case kTargetSelectorCellRow:
       return transmissionTargetSelectorCell!
-    }
-    else if indexPath.row == 1 {
-      let cell = tableView.dequeueReusableCell(withIdentifier: switchCellIdentifier)
-      cell.
-      return cell!
-    }
-    else {
+    case kDeviceIdRow:
+        let cell = tableView.dequeueReusableCell(withIdentifier: switchCellIdentifier)!
+        let switcher: UISwitch? = cell.getSubview()
+        let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()!
+        switcher!.isOn = collectDeviceIdStates[selectedTarget!]!
+        switcher!.isEnabled = !switcher!.isOn
+        switcher!.addTarget(self, action: #selector(collectDeviceIdSwitchCellEnabled(sender:)), for: .valueChanged)
+        return cell
+    default:
       let cell = super.tableView(tableView, cellForRowAt: indexPath) as! MSAnalyticsPropertyTableViewCell
       cell.valueField.placeholder = "Override value"
-      //cell.keyField.text = propertyTitles[indexPath.row - numberOfCustomHeaderCells()];
-
-//      let cell: MSAnalyticsPropertyTableViewCell? = loadCellFromNib()
-//      cell?.valueField.placeholder = "Override value"
-//      cell!.keyField.text = propertyTitles[indexPath.row - numberOfCustomHeaderCells()];
-//      let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
-//      cell!.valueField.text = targets[selectedTarget!]![indexPath.row - numberOfCustomHeaderCells()].1
-//
-//      // Set cell to respond to being edited.
-//      cell!.valueField.addTarget(self, action: #selector(propertyValueChanged), for: .editingChanged)
-//      cell!.valueField.addTarget(self, action: #selector(dismissKeyboard), for: .editingDidEndOnExit)
       return cell
     }
   }
@@ -54,20 +46,16 @@ class CommonSchemaPropertiesTableSection : PropertiesTableSection {
   override func propertyValueChanged(sender: UITextField!) {
     let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
     let propertyIndex = getCellRow(forTextField: sender) - propertyCellOffset()
-    let tableIndex = propertyIndex + 1;
     let target = MSTransmissionTargets.shared.transmissionTargets[selectedTarget!]!
-    targets[selectedTarget!]![propertyIndex].1 = sender.text!
-    if sender.text == nil  || sender.text!.isEmpty {
-      return;
-    }
-    switch tableIndex {
-    case CommonSchemaProperty.AppName.rawValue:
+    propertyValues[selectedTarget!]![propertyIndex] = sender.text!
+    switch propertyIndex {
+    case 0: // App Name.
       target.propertyConfigurator.setAppName(sender.text!)
       break
-    case CommonSchemaProperty.AppVersion.rawValue:
+    case 1: // App Version.
       target.propertyConfigurator.setAppVersion(sender.text!)
       break
-    case CommonSchemaProperty.AppLocale.rawValue:
+    case 2: // App Locale.
       target.propertyConfigurator.setAppLocale(sender.text!)
       break
     default:
@@ -76,7 +64,10 @@ class CommonSchemaPropertiesTableSection : PropertiesTableSection {
   }
 
   override func propertyAtRow(row: Int) -> (String, String) {
-    return (propertyTuples[row - numberOfCustomHeaderCells()].0, propertyTuples[row - numberOfCustomHeaderCells()].1)
+    let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
+    let propertyIndex = row - propertyCellOffset()
+    let value = propertyValues[selectedTarget!]![propertyIndex]
+    return (propertyKeys[row - numberOfCustomHeaderCells()], value)
   }
 
   override func numberOfCustomHeaderCells() -> Int {
@@ -84,7 +75,7 @@ class CommonSchemaPropertiesTableSection : PropertiesTableSection {
   }
 
   override func getPropertyCount() -> Int {
-    return 3
+    return propertyKeys.count
   }
 
   // Since properties are static, there is no "insert" row.
@@ -92,7 +83,18 @@ class CommonSchemaPropertiesTableSection : PropertiesTableSection {
     return false
   }
 
-  func collectDeviceIdSwitchCellEnabled() {
+  func collectDeviceIdSwitchCellEnabled(sender: UISwitch?) {
     NSLog("test")
+
+    // Disable the switcher.
+    sender!.isEnabled = false
+
+    // Update the transmission target.
+    let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
+    let target = MSTransmissionTargets.shared.transmissionTargets[selectedTarget!]!
+    //TODO target.propertyConfigurator.collectDeviceId()
+
+    // Update in memory state for display.
+    collectDeviceIdStates[selectedTarget!] = true
   }
 }
