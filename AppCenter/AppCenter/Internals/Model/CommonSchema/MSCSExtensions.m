@@ -85,25 +85,27 @@
   if ((self = [super init])) {
     _protocolExt = [coder decodeObjectForKey:kMSCSProtocolExt];
     _userExt = [coder decodeObjectForKey:kMSCSUserExt];
+    _deviceExt = [coder decodeObjectForKey:kMSCSDeviceExt];
     _osExt = [coder decodeObjectForKey:kMSCSOSExt];
     _appExt = [coder decodeObjectForKey:kMSCSAppExt];
     _netExt = [coder decodeObjectForKey:kMSCSNetExt];
     _sdkExt = [coder decodeObjectForKey:kMSCSSDKExt];
     _locExt = [coder decodeObjectForKey:kMSCSLocExt];
-    _deviceExt = [coder decodeObjectForKey:kMSCSDeviceExt];
   }
   return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
+
+  // Fields must be encoded in the following order.
   [coder encodeObject:self.protocolExt forKey:kMSCSProtocolExt];
   [coder encodeObject:self.userExt forKey:kMSCSUserExt];
+  [coder encodeObject:self.deviceExt forKey:kMSCSDeviceExt];
   [coder encodeObject:self.osExt forKey:kMSCSOSExt];
   [coder encodeObject:self.appExt forKey:kMSCSAppExt];
   [coder encodeObject:self.netExt forKey:kMSCSNetExt];
   [coder encodeObject:self.sdkExt forKey:kMSCSSDKExt];
   [coder encodeObject:self.locExt forKey:kMSCSLocExt];
-  [coder encodeObject:self.deviceExt forKey:kMSCSDeviceExt];
 }
 
 @end
