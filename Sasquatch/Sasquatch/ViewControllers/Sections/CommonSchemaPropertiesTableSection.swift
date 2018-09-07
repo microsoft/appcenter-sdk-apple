@@ -84,15 +84,14 @@ class CommonSchemaPropertiesTableSection : PropertiesTableSection {
   }
 
   func collectDeviceIdSwitchCellEnabled(sender: UISwitch?) {
-    NSLog("test")
 
-    // Disable the switcher.
+    // Disable the switch.
     sender!.isEnabled = false
 
     // Update the transmission target.
     let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
     let target = MSTransmissionTargets.shared.transmissionTargets[selectedTarget!]!
-    //TODO target.propertyConfigurator.collectDeviceId()
+    target.propertyConfigurator.collectDeviceId()
 
     // Update in memory state for display.
     collectDeviceIdStates[selectedTarget!] = true

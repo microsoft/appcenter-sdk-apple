@@ -22,7 +22,7 @@ class PropertiesTableSection : NSObject, UITableViewDelegate {
   }
 
   @objc(tableView:numberOfRowsInSection:) func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return getPropertyCount() + numberOfCustomHeaderCells() + (hasInsertRow() ? 1 : 0)
+    return getPropertyCount() + propertyCellOffset()
   }
 
   @objc(tableView:cellForRowAtIndexPath:) func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -106,7 +106,7 @@ class PropertiesTableSection : NSObject, UITableViewDelegate {
   }
 
   func propertyCellOffset() -> Int {
-    return numberOfCustomHeaderCells()
+    return numberOfCustomHeaderCells() + (hasInsertRow() ? 1 : 0)
   }
 
   func hasInsertRow() -> Bool {
