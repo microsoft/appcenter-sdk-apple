@@ -87,7 +87,7 @@ static const char deviceIdPrefix = 'i';
     // Override the application version.
     while (target) {
       if (target.propertyConfigurator.appVersion) {
-        [((MSCommonSchemaLog *)log)ext].appExt.ver =
+        ((MSCommonSchemaLog *)log).ext.appExt.ver =
             target.propertyConfigurator.appVersion;
         break;
       }
@@ -98,7 +98,7 @@ static const char deviceIdPrefix = 'i';
     target = self.transmissionTarget;
     while (target) {
       if (target.propertyConfigurator.appName) {
-        [((MSCommonSchemaLog *)log)ext].appExt.name =
+        ((MSCommonSchemaLog *)log).ext.appExt.name =
             target.propertyConfigurator.appName;
         break;
       }
@@ -109,22 +109,21 @@ static const char deviceIdPrefix = 'i';
     target = self.transmissionTarget;
     while (target) {
       if (target.propertyConfigurator.appLocale) {
-        [((MSCommonSchemaLog *)log)ext].appExt.locale =
+        ((MSCommonSchemaLog *)log).ext.appExt.locale =
             target.propertyConfigurator.appLocale;
         break;
       }
       target = target.parentTarget;
     }
 
-    // Should the target collect the device Id.
+    /*
+     * Check if the target should collect the device. This MUST NOT propagate to
+     * a target's children.
+     */
     target = self.transmissionTarget;
-    while (target) {
-      if (target.propertyConfigurator.shouldCollectDeviceId) {
-        [((MSCommonSchemaLog *)log)ext].deviceExt.localId =
-            [MSPropertyConfigurator getDeviceIdentifier];
-        break;
-      }
-      target = target.parentTarget;
+    if (target.propertyConfigurator.shouldCollectDeviceId) {
+      [((MSCommonSchemaLog *)log) ext].deviceExt.localId =
+        [MSPropertyConfigurator getDeviceIdentifier];
     }
   }
 }

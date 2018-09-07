@@ -11,6 +11,7 @@
 
 @property(nonatomic) MSPropertyConfigurator *sut;
 @property(nonatomic) MSAnalyticsTransmissionTarget *transmissionTarget;
+@property(nonatomic) MSAnalyticsTransmissionTarget *parentTarget;
 @property(nonatomic) id configuratorClassMock;
 
 @end
@@ -24,9 +25,11 @@
   // Mock the init so that self.sut can be injected into the target.
   self.configuratorClassMock = OCMClassMock([MSPropertyConfigurator class]);
   OCMStub([self.configuratorClassMock alloc]).andReturn(self.configuratorClassMock);
-  OCMStub([self.configuratorClassMock initWithTransmissionTarget:OCMOCK_ANY]).andReturn(self.sut);
+  OCMStub([self.configuratorClassMock initWithTransmissionTarget:self.transmissionTarget]).andReturn(self.sut);
+  OCMStub([self.configuratorClassMock initWithTransmissionTarget:self.parentTarget]).andReturn([MSPropertyConfigurator new]);
   id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
-  self.transmissionTarget = OCMPartialMock([[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:@"123" parentTarget:nil channelGroup:channelGroupMock]);
+  self.parentTarget = OCMPartialMock([[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:@"456" parentTarget:nil channelGroup:channelGroupMock]);
+  self.transmissionTarget = OCMPartialMock([[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:@"123" parentTarget:self.parentTarget channelGroup:channelGroupMock]);
   OCMStub([self.transmissionTarget isEnabled]).andReturn(YES);
   self.sut.transmissionTarget = self.transmissionTarget;
 }
@@ -78,6 +81,22 @@
   // Clean up.
   [deviceMock stopMocking];
 #endif
+}
+
+- (void)testDeviceIdDoesNotPropagate {
+  
+  // If
+  MSCommonSchemaLog *mockLog = OCMPartialMock([MSCommonSchemaLog new]);
+  mockLog.ext = [MSCSExtensions new];
+  mockLog.ext.deviceExt = OCMPartialMock([MSDeviceExtension new]);
+  [mockLog addTransmissionTargetToken:self.transmissionTarget.transmissionTargetToken];
+  [self.parentTarget.propertyConfigurator collectDeviceId];
+  
+  // Then
+  OCMReject([mockLog.ext.deviceExt setLocalId:OCMOCK_ANY]);
+
+  // When
+  [self.sut channel:OCMOCK_ANY prepareLog:mockLog];
 }
 
 @end
