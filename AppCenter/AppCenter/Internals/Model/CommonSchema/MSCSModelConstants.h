@@ -21,9 +21,9 @@ extern NSString *const kMSCSVerValue;
 
 extern NSString *const kMSUserLocale;
 
-#pragma mark - MSLocExtension
+#pragma mark - MSDeviceExtension
 
-extern NSString *const kMSTimezone;
+extern NSString *const kMSDeviceLocalId;
 
 #pragma mark - MSOsExtension
 
@@ -54,9 +54,9 @@ extern NSString *const kMSSDKEpoch;
 extern NSString *const kMSSDKSeq;
 extern NSString *const kMSSDKInstallId;
 
-#pragma mark - MSDeviceExtension
+#pragma mark - MSLocExtension
 
-extern NSString *const kMSDeviceLocalId;
+extern NSString *const kMSTimezone;
 
 #pragma mark - MSCSData
 
