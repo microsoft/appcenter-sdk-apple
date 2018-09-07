@@ -66,16 +66,7 @@
 
   // Then
   XCTAssertNotNil(self.sut);
-  XCTAssertFalse(self.sut.shouldCollectDeviceId);
-}
-
-- (void)testCollectDeviceIdWorks {
-
-  // When
-  [self.sut collectDeviceId];
-
-  // Then
-  XCTAssertTrue(self.sut.shouldCollectDeviceId);
+  XCTAssertNil(self.sut.deviceId);
 }
 
 - (void)testCollectsDeviceIdWhenShouldCollectDeviceIdIsTrue {
@@ -118,11 +109,11 @@
                                           .transmissionTargetToken];
   [self.parentTarget.propertyConfigurator collectDeviceId];
 
-  // Then
-  OCMReject([mockLog.ext.deviceExt setLocalId:OCMOCK_ANY]);
-
   // When
   [self.sut channel:OCMOCK_ANY prepareLog:mockLog];
+
+  // Then
+  XCTAssertNil(self.sut.deviceId);
 }
 
 @end
