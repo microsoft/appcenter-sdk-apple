@@ -86,7 +86,7 @@ __attribute__((used)) static void importCategories() {
                fromApplication:fromApplication];
   if (token) {
     self.defaultTransmissionTarget =
-        [self transmissionTargetFor:(NSString *)token];
+        [self transmissionTargetForToken:(NSString *)token];
   }
 
   // Set up swizzling for auto page tracking.
@@ -162,7 +162,7 @@ __attribute__((used)) static void importCategories() {
   // Create the default target if not already created in start.
   if (token && !self.defaultTransmissionTarget) {
     self.defaultTransmissionTarget =
-        [self transmissionTargetFor:(NSString *)token];
+        [self transmissionTargetForToken:(NSString *)token];
   }
 }
 
@@ -179,14 +179,6 @@ __attribute__((used)) static void importCategories() {
       forTransmissionTarget:nil];
 }
 
-/**
- * Track an event.
- *
- * @param eventName  event name.
- * @param properties dictionary of properties.
- * @param transmissionTarget  the transmission target to associate to this
- * event.
- */
 + (void)trackEvent:(NSString *)eventName
            withProperties:
                (nullable NSDictionary<NSString *, NSString *> *)properties
@@ -225,6 +217,14 @@ __attribute__((used)) static void importCategories() {
   @synchronized(self) {
     return [[MSAnalytics sharedInstance] isAutoPageTrackingEnabled];
   }
+}
+
+#pragma mark - Transmission Target
+
++ (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:
+(NSString *)token {
+  return [[MSAnalytics sharedInstance]
+          transmissionTargetForToken:token];
 }
 
 #pragma mark - Private methods
@@ -299,14 +299,7 @@ __attribute__((used)) static void importCategories() {
   [self.channelUnit enqueueItem:log];
 }
 
-/**
- * Get a transmission target.
- *
- * @param transmissionTargetToken token of the transmission target to retrieve.
- *
- * @returns The transmission target object.
- */
-- (MSAnalyticsTransmissionTarget *)transmissionTargetFor:
+- (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:
     (NSString *)transmissionTargetToken {
   MSAnalyticsTransmissionTarget *transmissionTarget =
       [self.transmissionTargets objectForKey:transmissionTargetToken];
@@ -413,21 +406,6 @@ __attribute__((used)) static void importCategories() {
         didFailSendingPageLog:pageLog
                     withError:error];
   }
-}
-
-#pragma mark Transmission Target
-
-/**
- * Get a transmission target.
- *
- * @param transmissionTargetToken token of the transmission target to retrieve.
- *
- * @returns The transmissionTarget object.
- */
-+ (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:
-    (NSString *)transmissionTargetToken {
-  return [[MSAnalytics sharedInstance]
-      transmissionTargetFor:transmissionTargetToken];
 }
 
 @end
