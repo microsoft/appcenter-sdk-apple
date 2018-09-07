@@ -30,6 +30,12 @@ NS_ASSUME_NONNULL_BEGIN
  * @param token The token of the transmission target to retrieve.
  *
  * @returns The transmission target object.
+ *
+ * @discussion This method does not need to be annnotated with
+ * NS_SWIFT_NAME(transmissionTarget(forToken:)) as this is a static method that
+ * doesn't get translated like a setter in Swift.
+ *
+ * @see MSAnalyticsTransmissionTarget for comparison.
  */
 + (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:(NSString *)token;
 

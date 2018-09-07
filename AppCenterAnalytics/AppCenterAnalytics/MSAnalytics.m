@@ -86,7 +86,7 @@ __attribute__((used)) static void importCategories() {
                fromApplication:fromApplication];
   if (token) {
     self.defaultTransmissionTarget =
-        [self transmissionTargetFor:(NSString *)token];
+        [self transmissionTargetForToken:(NSString *)token];
   }
 
   // Set up swizzling for auto page tracking.
@@ -162,7 +162,7 @@ __attribute__((used)) static void importCategories() {
   // Create the default target if not already created in start.
   if (token && !self.defaultTransmissionTarget) {
     self.defaultTransmissionTarget =
-        [self transmissionTargetFor:(NSString *)token];
+        [self transmissionTargetForToken:(NSString *)token];
   }
 }
 
@@ -306,7 +306,7 @@ __attribute__((used)) static void importCategories() {
  *
  * @returns The transmission target object.
  */
-- (MSAnalyticsTransmissionTarget *)transmissionTargetFor:
+- (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:
     (NSString *)transmissionTargetToken {
   MSAnalyticsTransmissionTarget *transmissionTarget =
       [self.transmissionTargets objectForKey:transmissionTargetToken];
@@ -420,14 +420,14 @@ __attribute__((used)) static void importCategories() {
 /**
  * Get a transmission target.
  *
- * @param transmissionTargetToken token of the transmission target to retrieve.
+ * @param token The token of the transmission target to retrieve.
  *
  * @returns The transmissionTarget object.
  */
 + (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:
-    (NSString *)transmissionTargetToken {
+    (NSString *)token {
   return [[MSAnalytics sharedInstance]
-      transmissionTargetFor:transmissionTargetToken];
+      transmissionTargetForToken:token];
 }
 
 @end

@@ -55,12 +55,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Get a transmissionTarget.
  *
- * @param transmissionTargetToken Token of the transmission target to retrieve.
+ * @param token The token of the transmission target to retrieve.
  *
  * @returns The transmission target object.
  */
-- (MSAnalyticsTransmissionTarget *)transmissionTargetFor:
-    (NSString *)transmissionTargetToken;
+- (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:
+    (NSString *)token;
 
 /**
  * Method to reset the singleton when running unit tests only. So calling
