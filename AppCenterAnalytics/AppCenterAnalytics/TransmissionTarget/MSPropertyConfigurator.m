@@ -65,7 +65,7 @@ static const char deviceIdPrefix = 'i';
 }
 
 - (void)collectDeviceId {
-  self.shouldCollectDeviceId = YES;
+  self.deviceId = [MSPropertyConfigurator getDeviceIdentifier];
 }
 
 #pragma mark - MSChannelDelegate
@@ -116,15 +116,8 @@ static const char deviceIdPrefix = 'i';
       target = target.parentTarget;
     }
 
-    /*
-     * Check if the target should collect the device. This MUST NOT propagate to
-     * a target's children.
-     */
-    target = self.transmissionTarget;
-    if (target.propertyConfigurator.shouldCollectDeviceId) {
-      [((MSCommonSchemaLog *)log)ext].deviceExt.localId =
-          [MSPropertyConfigurator getDeviceIdentifier];
-    }
+    // The device ID must not be inherited from parent transmission targets.
+    [((MSCommonSchemaLog *)log)ext].deviceExt.localId = self.deviceId;
   }
 }
 

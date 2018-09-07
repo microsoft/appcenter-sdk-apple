@@ -42,9 +42,9 @@ NS_ASSUME_NONNULL_BEGIN
     (MSAnalyticsTransmissionTarget *)transmissionTarget;
 
 /**
- * Indicates if the SDK should collect the "device id" for common schema logs.
+ * The device id to send with common schema logs. If nil, nothing is sent.
  */
-@property(nonatomic, assign) BOOL shouldCollectDeviceId;
+@property(nonatomic, copy) NSString *deviceId;
 
 @end
 
