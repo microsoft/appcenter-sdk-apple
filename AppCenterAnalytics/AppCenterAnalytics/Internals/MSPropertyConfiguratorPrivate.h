@@ -1,7 +1,5 @@
 
 
-
-
 #import <Foundation/Foundation.h>
 
 #import "MSAnalyticsTransmissionTarget.h"
@@ -51,4 +49,3 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
-D

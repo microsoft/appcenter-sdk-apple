@@ -70,4 +70,3 @@ validateProperties:(NSDictionary<NSString *, NSString *> *)properties
 }
 @end
 
-d
