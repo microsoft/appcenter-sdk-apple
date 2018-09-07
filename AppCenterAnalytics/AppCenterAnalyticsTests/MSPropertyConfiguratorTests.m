@@ -26,17 +26,27 @@
   self.configuratorClassMock = OCMClassMock([MSPropertyConfigurator class]);
   OCMStub([self.configuratorClassMock alloc])
       .andReturn(self.configuratorClassMock);
-  OCMStub([self.configuratorClassMock
-              initWithTransmissionTarget:self.transmissionTarget])
-      .andReturn(self.sut);
-  OCMStub(
-      [self.configuratorClassMock initWithTransmissionTarget:self.parentTarget])
-      .andReturn([MSPropertyConfigurator new]);
   id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+
+  /*
+   * Need to stub this twice with OCMOCK_ANY, because passing self.parentTarget
+   * won't work until the targets have been initialized, but the stub must be
+   * invoked inside the "init" method.
+   */
+  OCMStub([self.configuratorClassMock initWithTransmissionTarget:OCMOCK_ANY])
+      .andReturn([MSPropertyConfigurator new]);
   self.parentTarget = OCMPartialMock([[MSAnalyticsTransmissionTarget alloc]
       initWithTransmissionTargetToken:@"456"
                          parentTarget:nil
                          channelGroup:channelGroupMock]);
+
+  // Need to reset the class mock.
+  [self.configuratorClassMock stopMocking];
+  self.configuratorClassMock = OCMClassMock([MSPropertyConfigurator class]);
+  OCMStub([self.configuratorClassMock alloc])
+      .andReturn(self.configuratorClassMock);
+  OCMStub([self.configuratorClassMock initWithTransmissionTarget:OCMOCK_ANY])
+      .andReturn(self.sut);
   self.transmissionTarget =
       OCMPartialMock([[MSAnalyticsTransmissionTarget alloc]
           initWithTransmissionTargetToken:@"123"
