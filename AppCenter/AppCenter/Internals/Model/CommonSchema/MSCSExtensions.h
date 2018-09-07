@@ -4,6 +4,7 @@
 #import "MSSerializableObject.h"
 
 @class MSAppExtension;
+@class MSDeviceExtension;
 @class MSLocExtension;
 @class MSNetExtension;
 @class MSOSExtension;
@@ -50,5 +51,10 @@
  * The Loc extension.
  */
 @property(nonatomic) MSLocExtension *locExt;
+
+/**
+ * The Device extension.
+ */
+@property(nonatomic) MSDeviceExtension *deviceExt;
 
 @end

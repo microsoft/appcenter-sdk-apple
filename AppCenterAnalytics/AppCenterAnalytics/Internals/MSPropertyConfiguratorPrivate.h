@@ -1,3 +1,5 @@
+
+
 #import <Foundation/Foundation.h>
 
 #import "MSAnalyticsTransmissionTarget.h"
@@ -38,6 +40,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithTransmissionTarget:
     (MSAnalyticsTransmissionTarget *)transmissionTarget;
+
+/**
+ * Indicates if the SDK should collect the "device id" for common schema logs.
+ */
+@property(nonatomic, assign) BOOL shouldCollectDeviceId;
 
 @end
 

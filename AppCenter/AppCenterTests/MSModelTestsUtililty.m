@@ -60,6 +60,11 @@
   NSDictionary *sdkExtDummyValues = [MSModelTestsUtililty sdkExtensionDummies];
   MSSDKExtension *sdkExt =
       [MSModelTestsUtililty sdkExtensionWithDummyValues:sdkExtDummyValues];
+  NSDictionary *deviceExtDummyValues =
+      [MSModelTestsUtililty deviceExtensionDummies];
+  MSDeviceExtension *deviceExt =
+      [MSModelTestsUtililty deviceExtensionWithDummyValues:deviceExtDummyValues];
+  
   return [@{
     kMSCSUserExt : userExt,
     kMSCSLocExt : locExt,
@@ -67,7 +72,8 @@
     kMSCSAppExt : appExt,
     kMSCSProtocolExt : protocolExt,
     kMSCSNetExt : netExt,
-    kMSCSSDKExt : sdkExt
+    kMSCSSDKExt : sdkExt,
+    kMSCSDeviceExt : deviceExt
   } mutableCopy];
 }
 
@@ -109,6 +115,12 @@
     kMSSDKEpoch : MS_UUID_STRING,
     kMSSDKSeq : @1,
     kMSSDKInstallId : [NSUUID new]
+  } mutableCopy];
+}
+
++ (NSMutableDictionary *)deviceExtensionDummies {
+  return [@{
+            kMSDeviceLocalId : @"00000000-0000-0000-0000-000000000000"
   } mutableCopy];
 }
 
@@ -179,6 +191,7 @@
   ext.protocolExt = dummyValues[kMSCSProtocolExt];
   ext.netExt = dummyValues[kMSCSNetExt];
   ext.sdkExt = dummyValues[kMSCSSDKExt];
+  ext.deviceExt = dummyValues[kMSCSDeviceExt];
   return ext;
 }
 
@@ -231,6 +244,12 @@
   sdkExt.seq = [dummyValues[kMSSDKSeq] longLongValue];
   sdkExt.installId = dummyValues[kMSSDKInstallId];
   return sdkExt;
+}
+
++ (MSDeviceExtension *)deviceExtensionWithDummyValues:(NSDictionary *)dummyValues {
+  MSDeviceExtension *deviceExt = [MSDeviceExtension new];
+  deviceExt.localId = dummyValues[kMSDeviceLocalId];
+  return deviceExt;
 }
 
 + (MSCSData *)dataWithDummyValues:(NSDictionary *)dummyValues {

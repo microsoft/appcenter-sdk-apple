@@ -53,6 +53,10 @@ NSString *const kMSSDKEpoch = @"epoch";
 NSString *const kMSSDKSeq = @"seq";
 NSString *const kMSSDKInstallId = @"installId";
 
+#pragma mark - MSDeviceExtension
+
+NSString *const kMSDeviceLocalId = @"localId";
+
 #pragma mark - MSCSData
 
 NSString *const kMSDataBaseData = @"baseData";
@@ -67,3 +71,4 @@ NSString *const kMSCSAppExt = @"app";
 NSString *const kMSCSNetExt = @"net";
 NSString *const kMSCSSDKExt = @"sdk";
 NSString *const kMSCSLocExt = @"loc";
+NSString *const kMSCSDeviceExt = @"device";

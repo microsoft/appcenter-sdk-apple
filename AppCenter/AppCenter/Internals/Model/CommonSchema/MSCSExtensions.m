@@ -1,6 +1,7 @@
 #import "MSCSExtensions.h"
 #import "MSAppExtension.h"
 #import "MSCSModelConstants.h"
+#import "MSDeviceExtension.h"
 #import "MSLocExtension.h"
 #import "MSNetExtension.h"
 #import "MSOSExtension.h"
@@ -35,6 +36,9 @@
   if (self.locExt) {
     dict[kMSCSLocExt] = [self.locExt serializeToDictionary];
   }
+  if (self.deviceExt) {
+    dict[kMSCSDeviceExt] = [self.deviceExt serializeToDictionary];
+  }
   return dict;
 }
 
@@ -47,7 +51,8 @@
          (!self.appExt || [self.appExt isValid]) &&
          (!self.netExt || [self.netExt isValid]) &&
          (!self.sdkExt || [self.sdkExt isValid]) &&
-         (!self.locExt || [self.locExt isValid]);
+         (!self.locExt || [self.locExt isValid]) &&
+         (!self.deviceExt || [self.deviceExt isValid]);
 }
 
 #pragma mark - NSObject
@@ -69,7 +74,9 @@
          ((!self.sdkExt && !csExt.sdkExt) ||
           [self.sdkExt isEqual:csExt.sdkExt]) &&
          ((!self.locExt && !csExt.locExt) ||
-          [self.locExt isEqual:csExt.locExt]);
+          [self.locExt isEqual:csExt.locExt]) &&
+         ((!self.deviceExt && !csExt.deviceExt) ||
+          [self.deviceExt isEqual:csExt.deviceExt]);
 }
 
 #pragma mark - NSCoding
@@ -83,6 +90,7 @@
     _netExt = [coder decodeObjectForKey:kMSCSNetExt];
     _sdkExt = [coder decodeObjectForKey:kMSCSSDKExt];
     _locExt = [coder decodeObjectForKey:kMSCSLocExt];
+    _deviceExt = [coder decodeObjectForKey:kMSCSDeviceExt];
   }
   return self;
 }
@@ -95,6 +103,7 @@
   [coder encodeObject:self.netExt forKey:kMSCSNetExt];
   [coder encodeObject:self.sdkExt forKey:kMSCSSDKExt];
   [coder encodeObject:self.locExt forKey:kMSCSLocExt];
+  [coder encodeObject:self.deviceExt forKey:kMSCSDeviceExt];
 }
 
 @end

@@ -54,6 +54,10 @@ extern NSString *const kMSSDKEpoch;
 extern NSString *const kMSSDKSeq;
 extern NSString *const kMSSDKInstallId;
 
+#pragma mark - MSDeviceExtension
+
+extern NSString *const kMSDeviceLocalId;
+
 #pragma mark - MSCSData
 
 extern NSString *const kMSDataBaseDataType;
@@ -68,3 +72,4 @@ extern NSString *const kMSCSAppExt;
 extern NSString *const kMSCSNetExt;
 extern NSString *const kMSCSSDKExt;
 extern NSString *const kMSCSLocExt;
+extern NSString *const kMSCSDeviceExt;

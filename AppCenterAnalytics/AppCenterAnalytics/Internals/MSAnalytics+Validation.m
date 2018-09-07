@@ -69,3 +69,4 @@ validateProperties:(NSDictionary<NSString *, NSString *> *)properties
       [MSUtility validateProperties:properties forLogName:logName type:logType];
 }
 @end
+
