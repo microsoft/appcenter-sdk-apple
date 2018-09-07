@@ -74,7 +74,7 @@
   // Then
   XCTAssertTrue([self.sut isValid]);
 
-  // If
+  // When
   self.sut.type = nil;
   self.sut.timestamp = [NSDate dateWithTimeIntervalSince1970:42];
   self.sut.device = device;

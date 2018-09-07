@@ -700,19 +700,19 @@
 
 - (void)testDeviceExtIsEqual {
   
-  // If
+  // When
   MSDeviceExtension *anotherDeviceExt = [MSDeviceExtension new];
   
   // Then
   XCTAssertNotEqualObjects(anotherDeviceExt, self.deviceExt);
   
-  // If
+  // When
   anotherDeviceExt = [MSModelTestsUtililty deviceExtensionWithDummyValues:self.deviceExtDummyValues];
   
   // Then
   XCTAssertEqualObjects(anotherDeviceExt, self.deviceExt);
   
-  // If
+  // When
   anotherDeviceExt.localId = [[[NSUUID alloc] initWithUUIDString:@"11111111-1111-1111-1111-11111111111"] UUIDString];
   
   // Then

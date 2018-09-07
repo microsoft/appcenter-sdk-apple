@@ -1,10 +1,10 @@
 #import <XCTest/XCTest.h>
 
+#import "MSAnalyticsTransmissionTargetInternal.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSCommonSchemaLog.h"
 #import "MSPropertyConfiguratorPrivate.h"
 #import "MSTestFrameworks.h"
-#import "MSAnalyticsTransmissionTargetInternal.h"
 
 @interface MSPropertyConfiguratorTests : XCTestCase
 
@@ -18,7 +18,6 @@
 
 - (void)setUp {
   [super setUp];
-  
   self.sut = [MSPropertyConfigurator new];
 
   // Mock the init so that self.sut can be injected into the target.

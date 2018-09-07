@@ -233,7 +233,7 @@
   NSInteger offsetInHour = timeZoneOffset / 60;
   NSInteger remainingMinutes = labs(timeZoneOffset) % 60;
   
-  // This will look like this: +hh:mm.
+  // This will look like this: +hhh:mm.
   return [NSString stringWithFormat:@"%+03ld:%02ld", (long)offsetInHour,
                                     (long)remainingMinutes];
 }
