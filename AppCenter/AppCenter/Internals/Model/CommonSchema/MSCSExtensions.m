@@ -21,6 +21,9 @@
   if (self.userExt) {
     dict[kMSCSUserExt] = [self.userExt serializeToDictionary];
   }
+  if (self.deviceExt) {
+    dict[kMSCSDeviceExt] = [self.deviceExt serializeToDictionary];
+  }
   if (self.osExt) {
     dict[kMSCSOSExt] = [self.osExt serializeToDictionary];
   }
@@ -35,9 +38,6 @@
   }
   if (self.locExt) {
     dict[kMSCSLocExt] = [self.locExt serializeToDictionary];
-  }
-  if (self.deviceExt) {
-    dict[kMSCSDeviceExt] = [self.deviceExt serializeToDictionary];
   }
   return dict;
 }
