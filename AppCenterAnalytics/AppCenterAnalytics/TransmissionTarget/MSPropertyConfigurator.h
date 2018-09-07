@@ -55,9 +55,8 @@ NS_ASSUME_NONNULL_BEGIN
  * UIDevice.identifierForVendor to common schema logs.
  *
  * @discussion Call this before starting the SDK. This setting is not persisted,
- * so you need to call this when setting
- * up the SDK every time. If you want to provide a way for users to opt-in or
- * opt-out of this setting, it is on you to
+ * so you need to call this when setting up the SDK every time. If you want to
+ * provide a way for users to opt-in or opt-out of this setting, it is on you to
  * persist their choice and configure the App Center SDK accordingly.
  */
 - (void)collectDeviceId;
