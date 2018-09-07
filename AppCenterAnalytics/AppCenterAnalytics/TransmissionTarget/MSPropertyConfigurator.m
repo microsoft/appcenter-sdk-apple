@@ -122,8 +122,8 @@ static const char deviceIdPrefix = 'i';
      */
     target = self.transmissionTarget;
     if (target.propertyConfigurator.shouldCollectDeviceId) {
-      [((MSCommonSchemaLog *)log) ext].deviceExt.localId =
-        [MSPropertyConfigurator getDeviceIdentifier];
+      [((MSCommonSchemaLog *)log)ext].deviceExt.localId =
+          [MSPropertyConfigurator getDeviceIdentifier];
     }
   }
 }

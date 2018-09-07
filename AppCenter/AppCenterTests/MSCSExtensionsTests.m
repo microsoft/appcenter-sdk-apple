@@ -43,26 +43,35 @@
 
   // Set up all extensions with dummy values.
   self.userExtDummyValues = [MSModelTestsUtililty userExtensionDummies];
-  self.userExt = [MSModelTestsUtililty userExtensionWithDummyValues:self.userExtDummyValues];
-  self.locExtDummyValues = [MSModelTestsUtililty locExtensionDummies];;
-  self.locExt = [MSModelTestsUtililty locExtensionWithDummyValues:self.locExtDummyValues];
+  self.userExt = [MSModelTestsUtililty
+      userExtensionWithDummyValues:self.userExtDummyValues];
+  self.locExtDummyValues = [MSModelTestsUtililty locExtensionDummies];
+  ;
+  self.locExt =
+      [MSModelTestsUtililty locExtensionWithDummyValues:self.locExtDummyValues];
   self.osExtDummyValues = [MSModelTestsUtililty osExtensionDummies];
-  self.osExt = [MSModelTestsUtililty osExtensionWithDummyValues:self.osExtDummyValues];
+  self.osExt =
+      [MSModelTestsUtililty osExtensionWithDummyValues:self.osExtDummyValues];
   self.appExtDummyValues = [MSModelTestsUtililty appExtensionDummies];
-  self.appExt = [MSModelTestsUtililty appExtensionWithDummyValues:self.appExtDummyValues];
+  self.appExt =
+      [MSModelTestsUtililty appExtensionWithDummyValues:self.appExtDummyValues];
   self.protocolExtDummyValues = [MSModelTestsUtililty protocolExtensionDummies];
-  self.protocolExt =
-      [MSModelTestsUtililty protocolExtensionWithDummyValues:self.protocolExtDummyValues];
+  self.protocolExt = [MSModelTestsUtililty
+      protocolExtensionWithDummyValues:self.protocolExtDummyValues];
   self.netExtDummyValues = [MSModelTestsUtililty netExtensionDummies];
-  self.netExt = [MSModelTestsUtililty netExtensionWithDummyValues:self.netExtDummyValues];
+  self.netExt =
+      [MSModelTestsUtililty netExtensionWithDummyValues:self.netExtDummyValues];
   self.sdkExtDummyValues = [MSModelTestsUtililty sdkExtensionDummies];
-  self.sdkExt = [MSModelTestsUtililty sdkExtensionWithDummyValues:self.sdkExtDummyValues];
+  self.sdkExt =
+      [MSModelTestsUtililty sdkExtensionWithDummyValues:self.sdkExtDummyValues];
   self.deviceExtDummyValues = [MSModelTestsUtililty deviceExtensionDummies];
-  self.deviceExt = [MSModelTestsUtililty deviceExtensionWithDummyValues:self.deviceExtDummyValues];
+  self.deviceExt = [MSModelTestsUtililty
+      deviceExtensionWithDummyValues:self.deviceExtDummyValues];
   self.dataDummyValues = [MSModelTestsUtililty dataDummies];
   self.data = [MSModelTestsUtililty dataWithDummyValues:self.dataDummyValues];
   self.extDummyValues = [MSModelTestsUtililty extensionDummies];
-  self.ext = [MSModelTestsUtililty extensionsWithDummyValues:self.extDummyValues];
+  self.ext =
+      [MSModelTestsUtililty extensionsWithDummyValues:self.extDummyValues];
 }
 
 - (void)tearDown {
@@ -93,8 +102,9 @@
       [self.extDummyValues[kMSCSProtocolExt] serializeToDictionary]);
   XCTAssertEqualObjects(dict[kMSCSOSExt], [self.extDummyValues[kMSCSOSExt]
                                               serializeToDictionary]);
-  XCTAssertEqualObjects(dict[kMSCSDeviceExt], [self.extDummyValues[kMSCSDeviceExt]
-                                               serializeToDictionary]);
+  XCTAssertEqualObjects(
+      dict[kMSCSDeviceExt],
+      [self.extDummyValues[kMSCSDeviceExt] serializeToDictionary]);
 }
 
 - (void)testExtNSCodingSerializationAndDeserialization {
@@ -136,7 +146,8 @@
   XCTAssertNotEqualObjects(anotherExt, self.ext);
 
   // If
-  anotherExt = [MSModelTestsUtililty extensionsWithDummyValues:self.extDummyValues];
+  anotherExt =
+      [MSModelTestsUtililty extensionsWithDummyValues:self.extDummyValues];
 
   // Then
   XCTAssertEqualObjects(anotherExt, self.ext);
@@ -237,7 +248,8 @@
   XCTAssertNotEqualObjects(anotherUserExt, self.userExt);
 
   // If
-  anotherUserExt = [MSModelTestsUtililty userExtensionWithDummyValues:self.userExtDummyValues];
+  anotherUserExt = [MSModelTestsUtililty
+      userExtensionWithDummyValues:self.userExtDummyValues];
 
   // Then
   XCTAssertEqualObjects(anotherUserExt, self.userExt);
@@ -294,7 +306,8 @@
   XCTAssertNotEqualObjects(anotherLocExt, self.locExt);
 
   // If
-  anotherLocExt = [MSModelTestsUtililty locExtensionWithDummyValues:self.locExtDummyValues];
+  anotherLocExt =
+      [MSModelTestsUtililty locExtensionWithDummyValues:self.locExtDummyValues];
 
   // Then
   XCTAssertEqualObjects(anotherLocExt, self.locExt);
@@ -352,7 +365,8 @@
   XCTAssertNotEqualObjects(anotherOSExt, self.osExt);
 
   // If
-  anotherOSExt = [MSModelTestsUtililty osExtensionWithDummyValues:self.osExtDummyValues];
+  anotherOSExt =
+      [MSModelTestsUtililty osExtensionWithDummyValues:self.osExtDummyValues];
 
   // Then
   XCTAssertEqualObjects(anotherOSExt, self.osExt);
@@ -419,7 +433,8 @@
   XCTAssertNotEqualObjects(anotherAppExt, self.appExt);
 
   // If
-  anotherAppExt = [MSModelTestsUtililty appExtensionWithDummyValues:self.appExtDummyValues];
+  anotherAppExt =
+      [MSModelTestsUtililty appExtensionWithDummyValues:self.appExtDummyValues];
 
   // Then
   XCTAssertEqualObjects(anotherAppExt, self.appExt);
@@ -496,8 +511,8 @@
   XCTAssertNotEqualObjects(anotherProtocolExt, self.protocolExt);
 
   // If
-  anotherProtocolExt =
-      [MSModelTestsUtililty protocolExtensionWithDummyValues:self.protocolExtDummyValues];
+  anotherProtocolExt = [MSModelTestsUtililty
+      protocolExtensionWithDummyValues:self.protocolExtDummyValues];
 
   // Then
   XCTAssertEqualObjects(anotherProtocolExt, self.protocolExt);
@@ -562,7 +577,8 @@
   XCTAssertNotEqualObjects(anotherNetExt, self.netExt);
 
   // If
-  anotherNetExt = [MSModelTestsUtililty netExtensionWithDummyValues:self.netExtDummyValues];
+  anotherNetExt =
+      [MSModelTestsUtililty netExtensionWithDummyValues:self.netExtDummyValues];
 
   // Then
   XCTAssertEqualObjects(anotherNetExt, self.netExt);
@@ -628,7 +644,8 @@
   XCTAssertNotEqualObjects(anotherSDKExt, self.sdkExt);
 
   // If
-  anotherSDKExt = [MSModelTestsUtililty sdkExtensionWithDummyValues:self.sdkExtDummyValues];
+  anotherSDKExt =
+      [MSModelTestsUtililty sdkExtensionWithDummyValues:self.sdkExtDummyValues];
 
   // Then
   XCTAssertEqualObjects(anotherSDKExt, self.sdkExt);
@@ -664,23 +681,23 @@
 #pragma mark - MSDeviceExtension
 
 - (void)testDeviceExtJSONSerializingToDictionary {
-  
+
   // When
   NSMutableDictionary *dict = [self.deviceExt serializeToDictionary];
-  
+
   // Then
   XCTAssertNotNil(dict);
   XCTAssertEqualObjects(dict, self.deviceExtDummyValues);
 }
 
 - (void)testDeviceExtNSCodingSerializationAndDeserialization {
-  
+
   // When
   NSData *serializedDeviceExt =
-  [NSKeyedArchiver archivedDataWithRootObject:self.deviceExt];
+      [NSKeyedArchiver archivedDataWithRootObject:self.deviceExt];
   MSDeviceExtension *actualDeviceExt =
-  [NSKeyedUnarchiver unarchiveObjectWithData:serializedDeviceExt];
-  
+      [NSKeyedUnarchiver unarchiveObjectWithData:serializedDeviceExt];
+
   // Then
   XCTAssertNotNil(actualDeviceExt);
   XCTAssertEqualObjects(self.deviceExt, actualDeviceExt);
@@ -690,31 +707,33 @@
 }
 
 - (void)testDeviceExtIsValid {
-  
+
   // When
   MSDeviceExtension *deviceExt = [MSDeviceExtension new];
-  
+
   // Then
   XCTAssertTrue([deviceExt isValid]);
 }
 
 - (void)testDeviceExtIsEqual {
-  
+
   // When
   MSDeviceExtension *anotherDeviceExt = [MSDeviceExtension new];
-  
+
   // Then
   XCTAssertNotEqualObjects(anotherDeviceExt, self.deviceExt);
-  
+
   // When
-  anotherDeviceExt = [MSModelTestsUtililty deviceExtensionWithDummyValues:self.deviceExtDummyValues];
-  
+  anotherDeviceExt = [MSModelTestsUtililty
+      deviceExtensionWithDummyValues:self.deviceExtDummyValues];
+
   // Then
   XCTAssertEqualObjects(anotherDeviceExt, self.deviceExt);
-  
+
   // When
-  anotherDeviceExt.localId = [[[NSUUID alloc] initWithUUIDString:@"11111111-1111-1111-1111-11111111111"] UUIDString];
-  
+  anotherDeviceExt.localId = [[[NSUUID alloc]
+      initWithUUIDString:@"11111111-1111-1111-1111-11111111111"] UUIDString];
+
   // Then
   XCTAssertNotEqualObjects(anotherDeviceExt, self.deviceExt);
 }

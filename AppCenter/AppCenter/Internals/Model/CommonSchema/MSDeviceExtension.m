@@ -30,7 +30,7 @@
   }
   MSDeviceExtension *deviceExt = (MSDeviceExtension *)object;
   return (!self.localId && !deviceExt.localId) ||
-  [self.localId isEqualToString:deviceExt.localId];
+         [self.localId isEqualToString:deviceExt.localId];
 }
 
 #pragma mark - NSCoding

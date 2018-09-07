@@ -181,25 +181,25 @@
 }
 
 - (void)testNoCommonSchemaLogCreatedWhenNilTargetTokenArray {
-  
+
   // If
   self.sut.transmissionTargetTokens = nil;
-  
+
   // When
   NSArray<MSCommonSchemaLog *> *csLogs = [self.sut toCommonSchemaLogs];
-  
+
   // Then
   XCTAssertNil(csLogs);
 }
 
 - (void)testNoCommonSchemaLogCreatedWhenEmptyTargetTokenArray {
-  
+
   // If
   self.sut.transmissionTargetTokens = [@[] mutableCopy];
-  
+
   // When
   NSArray<MSCommonSchemaLog *> *csLogs = [self.sut toCommonSchemaLogs];
-  
+
   // Then
   XCTAssertNil(csLogs);
 }
@@ -208,8 +208,8 @@
 
   // If
   NSArray *expectedIKeys = @[ @"o:iKey1", @"o:iKey2" ];
-  NSSet *expectedTokens = [NSSet setWithArray:@[ @"iKey1-dummytoken",
-                                                 @"iKey2-dummytoken" ]];
+  NSSet *expectedTokens =
+      [NSSet setWithArray:@[ @"iKey1-dummytoken", @"iKey2-dummytoken" ]];
   self.sut.transmissionTargetTokens = expectedTokens;
   OCMStub(self.sut.device.oemName).andReturn(@"fakeOem");
   OCMStub(self.sut.device.model).andReturn(@"fakeModel");
@@ -231,15 +231,17 @@
   id bundleMock = OCMClassMock([NSBundle class]);
   NSString *expectedAppLocale = @"fr_DE";
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
-  OCMStub([bundleMock preferredLocalizations]).andReturn(@[expectedAppLocale]);
-  
+  OCMStub([bundleMock preferredLocalizations]).andReturn(@[
+    expectedAppLocale
+  ]);
+
   // When
   NSArray<MSCommonSchemaLog *> *csLogs = [self.sut toCommonSchemaLogs];
 
   // Then
   XCTAssertEqual(csLogs.count, expectedTokens.count);
   for (MSCommonSchemaLog *log in csLogs) {
-    
+
     // Root.
     for (NSString *token in log.transmissionTargetTokens) {
       XCTAssertTrue([expectedTokens containsObject:token]);
@@ -247,10 +249,10 @@
     XCTAssertEqualObjects(log.ver, @"3.0");
     XCTAssertEqualObjects(self.sut.timestamp, log.timestamp);
     XCTAssertTrue([expectedIKeys containsObject:log.iKey]);
-    
+
     // Extension.
     XCTAssertNotNil(log.ext);
-    
+
     // Protocol extension.
     XCTAssertNotNil(log.ext.protocolExt);
     XCTAssertEqualObjects(log.ext.protocolExt.devMake, self.sut.device.oemName);
@@ -259,7 +261,7 @@
     // User extension.
     XCTAssertNotNil(log.ext.userExt);
     XCTAssertEqualObjects(log.ext.userExt.locale, expectedLocale);
-    
+
     // OS extension.
     XCTAssertNotNil(log.ext.osExt);
     XCTAssertEqualObjects(log.ext.osExt.name, self.sut.device.osName);
@@ -270,22 +272,22 @@
     XCTAssertEqualObjects(log.ext.appExt.appId, expectedAppId);
     XCTAssertEqualObjects(log.ext.appExt.ver, self.sut.device.appVersion);
     XCTAssertEqualObjects(log.ext.appExt.locale, expectedAppLocale);
-    
+
     // Network extension.
     XCTAssertNotNil(log.ext.netExt);
     XCTAssertEqualObjects(log.ext.netExt.provider, self.sut.device.carrierName);
-    
+
     // SDK extension.
     XCTAssertNotNil(log.ext.sdkExt);
     XCTAssertEqualObjects(log.ext.sdkExt.libVer, expectedLibVersion);
-    
+
     // Loc extension.
     XCTAssertNotNil(log.ext.locExt);
     XCTAssertEqualObjects(log.ext.locExt.tz, expectedTimeZoneOffset);
 
     // Device extension.
     XCTAssertNotNil(log.ext.deviceExt);
-    
+
     // Clean up.
     [bundleMock stopMocking];
   }

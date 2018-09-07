@@ -1,3 +1,7 @@
+
+
+
+
 #import <Foundation/Foundation.h>
 
 #import "MSAnalyticsTransmissionTarget.h"
@@ -30,8 +34,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Event properties attached to events tracked by this target.
  */
-@property(nonatomic, nullable) NSMutableDictionary<NSString *, NSString *>
-    *eventProperties;
+@property(nonatomic, nullable)
+    NSMutableDictionary<NSString *, NSString *> *eventProperties;
 
 /**
  * Initialize property configurator with a transmission target.
@@ -47,3 +51,4 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
+D

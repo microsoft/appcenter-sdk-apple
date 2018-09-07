@@ -75,8 +75,8 @@
           [self.sdkExt isEqual:csExt.sdkExt]) &&
          ((!self.locExt && !csExt.locExt) ||
           [self.locExt isEqual:csExt.locExt]) &&
-   ((!self.deviceExt && !csExt.deviceExt) ||
-        [self.deviceExt isEqual:csExt.deviceExt]);
+         ((!self.deviceExt && !csExt.deviceExt) ||
+          [self.deviceExt isEqual:csExt.deviceExt]);
 }
 
 #pragma mark - NSCoding
