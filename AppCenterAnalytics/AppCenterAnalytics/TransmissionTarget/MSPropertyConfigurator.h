@@ -51,8 +51,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)removeEventPropertyForKey:(NSString *)propertyKey;
 
 /**
- * Once called, the App Center SDK will add UIDevice.identifierForVendor to
- * common schema logs.
+ * Once called, the App Center SDK will automatically add
+ * UIDevice.identifierForVendor to common schema logs.
  *
  * @discussion Call this before starting the SDK. This setting is not persisted,
  * so you need to call this when setting
