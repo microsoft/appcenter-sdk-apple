@@ -10,8 +10,7 @@ class CommonSchemaPropertiesTableSection : PropertiesTableSection {
     case AppVersion
     case AppLocale
   }
-  var propertyTitles = ["Device ID", "App Name", "App Version", "App Locale"]
-  var propertyTuples = [("appName", ""), ("appVersion", ""), ("appLocale", "")]
+  var propertyTuples = [("App Name", ""), ("App Version", ""), ("App Locale", "")]
   
   override init(tableSection: Int, tableView: UITableView) {
     super.init(tableSection: tableSection, tableView: tableView)
@@ -31,19 +30,24 @@ class CommonSchemaPropertiesTableSection : PropertiesTableSection {
     }
     else if indexPath.row == 1 {
       let cell = tableView.dequeueReusableCell(withIdentifier: switchCellIdentifier)
+      cell.
       return cell!
     }
     else {
-      let cell: MSAnalyticsPropertyTableViewCell? = loadCellFromNib()
-      cell?.valueField.placeholder = "Override value"
-      cell!.keyField.text = propertyTitles[indexPath.row - numberOfCustomHeaderCells()];
-      let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
-      cell!.valueField.text = targets[selectedTarget!]![indexPath.row - numberOfCustomHeaderCells()].1
-      
-      // Set cell to respond to being edited.
-      cell!.valueField.addTarget(self, action: #selector(propertyValueChanged), for: .editingChanged)
-      cell!.valueField.addTarget(self, action: #selector(dismissKeyboard), for: .editingDidEndOnExit)
-      return cell!
+      let cell = super.tableView(tableView, cellForRowAt: indexPath) as! MSAnalyticsPropertyTableViewCell
+      cell.valueField.placeholder = "Override value"
+      //cell.keyField.text = propertyTitles[indexPath.row - numberOfCustomHeaderCells()];
+
+//      let cell: MSAnalyticsPropertyTableViewCell? = loadCellFromNib()
+//      cell?.valueField.placeholder = "Override value"
+//      cell!.keyField.text = propertyTitles[indexPath.row - numberOfCustomHeaderCells()];
+//      let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
+//      cell!.valueField.text = targets[selectedTarget!]![indexPath.row - numberOfCustomHeaderCells()].1
+//
+//      // Set cell to respond to being edited.
+//      cell!.valueField.addTarget(self, action: #selector(propertyValueChanged), for: .editingChanged)
+//      cell!.valueField.addTarget(self, action: #selector(dismissKeyboard), for: .editingDidEndOnExit)
+      return cell
     }
   }
   
@@ -71,11 +75,24 @@ class CommonSchemaPropertiesTableSection : PropertiesTableSection {
     }
   }
 
+  override func propertyAtRow(row: Int) -> (String, String) {
+    return (propertyTuples[row - numberOfCustomHeaderCells()].0, propertyTuples[row - numberOfCustomHeaderCells()].1)
+  }
+
   override func numberOfCustomHeaderCells() -> Int {
     return 2
   }
 
   override func getPropertyCount() -> Int {
-    return 2
+    return 3
+  }
+
+  // Since properties are static, there is no "insert" row.
+  override func hasInsertRow() -> Bool {
+    return false
+  }
+
+  func collectDeviceIdSwitchCellEnabled() {
+    NSLog("test")
   }
 }

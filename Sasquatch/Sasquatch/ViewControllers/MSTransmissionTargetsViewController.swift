@@ -143,11 +143,11 @@ class MSTransmissionTargetsViewController: UITableViewController {
       // Special label text for default target section.
       if indexPath.section == kDefaultTargetSectionIndex {
         let label: UILabel? = getSubviewFromCell(cell)
-        label!.text = "Enabled Next Launch"
+        label!.text = "Enable On Next Launch"
       }
       else {
         let label: UILabel? = getSubviewFromCell(cell)
-        label!.text = "Enabled"
+        label!.text = "Set Enabled"
       }
       return cell
     case kAnalyticsCellRowIndex:
@@ -203,7 +203,6 @@ class MSTransmissionTargetsViewController: UITableViewController {
     else if section == kCSPropertiesSectionIndex {
       return "Override Common Schema Properties"
     }
-
     return "Transmission Target Properties"
   }
 
