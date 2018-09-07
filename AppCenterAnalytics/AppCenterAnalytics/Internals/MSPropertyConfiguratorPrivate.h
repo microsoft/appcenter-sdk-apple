@@ -36,15 +36,15 @@ NS_ASSUME_NONNULL_BEGIN
     NSMutableDictionary<NSString *, NSString *> *eventProperties;
 
 /**
+ * The device id to send with common schema logs. If nil, nothing is sent.
+ */
+@property(nonatomic, copy) NSString *deviceId;
+
+/**
  * Initialize property configurator with a transmission target.
  */
 - (instancetype)initWithTransmissionTarget:
-    (MSAnalyticsTransmissionTarget *)transmissionTarget;
-
-/**
- * Indicates if the SDK should collect the "device id" for common schema logs.
- */
-@property(nonatomic, assign) BOOL shouldCollectDeviceId;
+(MSAnalyticsTransmissionTarget *)transmissionTarget;
 
 @end
 

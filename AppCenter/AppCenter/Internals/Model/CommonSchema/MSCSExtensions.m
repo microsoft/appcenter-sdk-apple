@@ -21,6 +21,9 @@
   if (self.userExt) {
     dict[kMSCSUserExt] = [self.userExt serializeToDictionary];
   }
+  if (self.deviceExt) {
+    dict[kMSCSDeviceExt] = [self.deviceExt serializeToDictionary];
+  }
   if (self.osExt) {
     dict[kMSCSOSExt] = [self.osExt serializeToDictionary];
   }
@@ -36,9 +39,6 @@
   if (self.locExt) {
     dict[kMSCSLocExt] = [self.locExt serializeToDictionary];
   }
-  if (self.deviceExt) {
-    dict[kMSCSDeviceExt] = [self.deviceExt serializeToDictionary];
-  }
   return dict;
 }
 
@@ -47,12 +47,12 @@
 - (BOOL)isValid {
   return (!self.protocolExt || [self.protocolExt isValid]) &&
          (!self.userExt || [self.userExt isValid]) &&
+         (!self.deviceExt || [self.deviceExt isValid]) &&
          (!self.osExt || [self.osExt isValid]) &&
          (!self.appExt || [self.appExt isValid]) &&
          (!self.netExt || [self.netExt isValid]) &&
          (!self.sdkExt || [self.sdkExt isValid]) &&
-         (!self.locExt || [self.locExt isValid]) &&
-         (!self.deviceExt || [self.deviceExt isValid]);
+         (!self.locExt || [self.locExt isValid]);
 }
 
 #pragma mark - NSObject
@@ -66,6 +66,8 @@
           [self.protocolExt isEqual:csExt.protocolExt]) &&
          ((!self.userExt && !csExt.userExt) ||
           [self.userExt isEqual:csExt.userExt]) &&
+         ((!self.deviceExt && !csExt.deviceExt) ||
+          [self.deviceExt isEqual:csExt.deviceExt]) &&
          ((!self.osExt && !csExt.osExt) || [self.osExt isEqual:csExt.osExt]) &&
          ((!self.appExt && !csExt.appExt) ||
           [self.appExt isEqual:csExt.appExt]) &&
@@ -74,9 +76,7 @@
          ((!self.sdkExt && !csExt.sdkExt) ||
           [self.sdkExt isEqual:csExt.sdkExt]) &&
          ((!self.locExt && !csExt.locExt) ||
-          [self.locExt isEqual:csExt.locExt]) &&
-         ((!self.deviceExt && !csExt.deviceExt) ||
-          [self.deviceExt isEqual:csExt.deviceExt]);
+          [self.locExt isEqual:csExt.locExt]);
 }
 
 #pragma mark - NSCoding
@@ -85,25 +85,27 @@
   if ((self = [super init])) {
     _protocolExt = [coder decodeObjectForKey:kMSCSProtocolExt];
     _userExt = [coder decodeObjectForKey:kMSCSUserExt];
+    _deviceExt = [coder decodeObjectForKey:kMSCSDeviceExt];
     _osExt = [coder decodeObjectForKey:kMSCSOSExt];
     _appExt = [coder decodeObjectForKey:kMSCSAppExt];
     _netExt = [coder decodeObjectForKey:kMSCSNetExt];
     _sdkExt = [coder decodeObjectForKey:kMSCSSDKExt];
     _locExt = [coder decodeObjectForKey:kMSCSLocExt];
-    _deviceExt = [coder decodeObjectForKey:kMSCSDeviceExt];
   }
   return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
+
+  // Fields must be encoded in the following order.
   [coder encodeObject:self.protocolExt forKey:kMSCSProtocolExt];
   [coder encodeObject:self.userExt forKey:kMSCSUserExt];
+  [coder encodeObject:self.deviceExt forKey:kMSCSDeviceExt];
   [coder encodeObject:self.osExt forKey:kMSCSOSExt];
   [coder encodeObject:self.appExt forKey:kMSCSAppExt];
   [coder encodeObject:self.netExt forKey:kMSCSNetExt];
   [coder encodeObject:self.sdkExt forKey:kMSCSSDKExt];
   [coder encodeObject:self.locExt forKey:kMSCSLocExt];
-  [coder encodeObject:self.deviceExt forKey:kMSCSDeviceExt];
 }
 
 @end

@@ -67,9 +67,9 @@ extern NSString *const kMSDataBaseData;
 
 extern NSString *const kMSCSProtocolExt;
 extern NSString *const kMSCSUserExt;
+extern NSString *const kMSCSDeviceExt;
 extern NSString *const kMSCSOSExt;
 extern NSString *const kMSCSAppExt;
 extern NSString *const kMSCSNetExt;
 extern NSString *const kMSCSSDKExt;
 extern NSString *const kMSCSLocExt;
-extern NSString *const kMSCSDeviceExt;
