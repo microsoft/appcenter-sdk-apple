@@ -4,7 +4,7 @@ class CommonSchemaPropertiesTableSection : PropertiesTableSection {
   
   var targets: [String: [(String, String)]]!
   var transmissionTargetSelectorCell: MSAnalyticsTransmissionTargetSelectorViewCell?
-  var switchCellIdentifier = "enabledswitchcell"
+  var switchCellIdentifier = "collectdeviceidswitchcell"
   enum CommonSchemaProperty : Int {
     case AppName = 2
     case AppVersion
@@ -36,9 +36,9 @@ class CommonSchemaPropertiesTableSection : PropertiesTableSection {
     else {
       let cell: MSAnalyticsPropertyTableViewCell? = loadCellFromNib()
       cell?.valueField.placeholder = "Override value"
-      cell!.keyField.text = propertyTitles[indexPath.row];
+      cell!.keyField.text = propertyTitles[indexPath.row - numberOfCustomHeaderCells()];
       let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
-      cell!.valueField.text = targets[selectedTarget!]![indexPath.row - 1].1
+      cell!.valueField.text = targets[selectedTarget!]![indexPath.row - numberOfCustomHeaderCells()].1
       
       // Set cell to respond to being edited.
       cell!.valueField.addTarget(self, action: #selector(propertyValueChanged), for: .editingChanged)
@@ -53,11 +53,9 @@ class CommonSchemaPropertiesTableSection : PropertiesTableSection {
     let tableIndex = propertyIndex + 1;
     let target = MSTransmissionTargets.shared.transmissionTargets[selectedTarget!]!
     targets[selectedTarget!]![propertyIndex].1 = sender.text!
-    
     if sender.text == nil  || sender.text!.isEmpty {
       return;
     }
-    
     switch tableIndex {
     case CommonSchemaProperty.AppName.rawValue:
       target.propertyConfigurator.setAppName(sender.text!)

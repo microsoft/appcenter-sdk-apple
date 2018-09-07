@@ -117,15 +117,12 @@ class MSTransmissionTargetsViewController: UITableViewController {
     if section == kTargetPropertiesSectionIndex {
       return targetPropertiesSection!.tableView(tableView, numberOfRowsInSection:section)
     }
-    else {
+    else if section == kCSPropertiesSectionIndex {
       return csPropertiesSection!.tableView(tableView, numberOfRowsInSection:section)
     }
-//    else if section == kCSPropertiesSectionIndex {
-//      return 4
-//    }
-//    else {
-//      return 3
-//    }
+    else {
+      return 3
+    }
   }
 
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
