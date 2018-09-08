@@ -28,6 +28,11 @@
 @property(nonatomic) MSUserExtension *userExt;
 
 /**
+ * The Device extension.
+ */
+@property(nonatomic) MSDeviceExtension *deviceExt;
+
+/**
  * The OS extension.
  */
 @property(nonatomic) MSOSExtension *osExt;
@@ -51,10 +56,5 @@
  * The Loc extension.
  */
 @property(nonatomic) MSLocExtension *locExt;
-
-/**
- * The Device extension.
- */
-@property(nonatomic) MSDeviceExtension *deviceExt;
 
 @end
