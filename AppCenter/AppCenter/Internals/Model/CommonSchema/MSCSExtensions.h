@@ -4,6 +4,7 @@
 #import "MSSerializableObject.h"
 
 @class MSAppExtension;
+@class MSDeviceExtension;
 @class MSLocExtension;
 @class MSNetExtension;
 @class MSOSExtension;
@@ -25,6 +26,11 @@
  * The User extension.
  */
 @property(nonatomic) MSUserExtension *userExt;
+
+/**
+ * The Device extension.
+ */
+@property(nonatomic) MSDeviceExtension *deviceExt;
 
 /**
  * The OS extension.

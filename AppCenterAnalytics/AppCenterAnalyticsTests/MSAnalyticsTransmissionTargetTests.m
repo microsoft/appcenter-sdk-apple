@@ -48,18 +48,15 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 - (void)testInitialization {
 
   // When
-  MSAnalyticsTransmissionTarget *sut =
-      [[MSAnalyticsTransmissionTarget alloc]
-          initWithTransmissionTargetToken:kMSTestTransmissionToken
-                             parentTarget:nil
-                             channelGroup:self.channelGroupMock];
+  MSAnalyticsTransmissionTarget *sut = [[MSAnalyticsTransmissionTarget alloc]
+      initWithTransmissionTargetToken:kMSTestTransmissionToken
+                         parentTarget:nil
+                         channelGroup:self.channelGroupMock];
 
   // Then
   XCTAssertNotNil(sut);
-  XCTAssertEqual(kMSTestTransmissionToken,
-                 sut.transmissionTargetToken);
-  XCTAssertEqualObjects(sut.propertyConfigurator.eventProperties,
-                        @{});
+  XCTAssertEqual(kMSTestTransmissionToken, sut.transmissionTargetToken);
+  XCTAssertEqualObjects(sut.propertyConfigurator.eventProperties, @{});
   XCTAssertNil(MSAnalyticsTransmissionTarget.authenticationProvider);
 }
 
@@ -496,7 +493,8 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
                                                propCommonKey : propCommonValue,
                                                propTrackKey : propTrackValue,
                                                propTrackKey2 : propTrackValue2
-                                             })forTransmissionTarget:target]));
+                                             })
+                                      forTransmissionTarget:target]));
 }
 
 - (void)testEventPropertiesCascading {
@@ -858,19 +856,28 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 }
 
 - (void)testAddAuthenticationProvider {
-  
+
   // If
-  MSAnalyticsAuthenticationProvider *provider = [[MSAnalyticsAuthenticationProvider alloc] initWithAuthenticationType:MSAnalyticsAuthenticationTypeMsaCompact ticketKey:@"ticketKey" delegate:OCMOCK_ANY];
+  MSAnalyticsAuthenticationProvider *provider =
+      [[MSAnalyticsAuthenticationProvider alloc]
+          initWithAuthenticationType:MSAnalyticsAuthenticationTypeMsaCompact
+                           ticketKey:@"ticketKey"
+                            delegate:OCMOCK_ANY];
 
   // When
   [MSAnalyticsTransmissionTarget addAuthenticationProvider:provider];
-  
+
   // Then
   XCTAssertNotNil(MSAnalyticsTransmissionTarget.authenticationProvider);
-  XCTAssertEqual(provider, MSAnalyticsTransmissionTarget.authenticationProvider);
-  
+  XCTAssertEqual(provider,
+                 MSAnalyticsTransmissionTarget.authenticationProvider);
+
   // If
-  MSAnalyticsAuthenticationProvider *provider2 = [[MSAnalyticsAuthenticationProvider alloc] initWithAuthenticationType:MSAnalyticsAuthenticationTypeMsaDelegate ticketKey:@"ticketKey2" delegate:OCMOCK_ANY];
+  MSAnalyticsAuthenticationProvider *provider2 =
+      [[MSAnalyticsAuthenticationProvider alloc]
+          initWithAuthenticationType:MSAnalyticsAuthenticationTypeMsaDelegate
+                           ticketKey:@"ticketKey2"
+                            delegate:OCMOCK_ANY];
 
   // When
   dispatch_async(dispatch_get_main_queue(), ^{
@@ -880,9 +887,10 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   dispatch_async(dispatch_get_main_queue(), ^{
     [MSAnalyticsTransmissionTarget addAuthenticationProvider:provider2];
   });
-  
+
   // Then
-  XCTAssertEqual(provider, MSAnalyticsTransmissionTarget.authenticationProvider);
+  XCTAssertEqual(provider,
+                 MSAnalyticsTransmissionTarget.authenticationProvider);
 }
 
 @end

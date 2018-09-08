@@ -20,9 +20,9 @@ NSString *const kMSCSVerValue = @"3.0";
 
 NSString *const kMSUserLocale = @"locale";
 
-#pragma mark - MSLocExtension
+#pragma mark - MSDeviceExtension
 
-NSString *const kMSTimezone = @"tz";
+NSString *const kMSDeviceLocalId = @"localId";
 
 #pragma mark - MSOsExtension
 
@@ -53,6 +53,10 @@ NSString *const kMSSDKEpoch = @"epoch";
 NSString *const kMSSDKSeq = @"seq";
 NSString *const kMSSDKInstallId = @"installId";
 
+#pragma mark - MSLocExtension
+
+NSString *const kMSTimezone = @"tz";
+
 #pragma mark - MSCSData
 
 NSString *const kMSDataBaseData = @"baseData";
@@ -62,6 +66,7 @@ NSString *const kMSDataBaseDataType = @"baseDataType";
 
 NSString *const kMSCSProtocolExt = @"protocol";
 NSString *const kMSCSUserExt = @"user";
+NSString *const kMSCSDeviceExt = @"device";
 NSString *const kMSCSOSExt = @"os";
 NSString *const kMSCSAppExt = @"app";
 NSString *const kMSCSNetExt = @"net";

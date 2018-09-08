@@ -1,3 +1,5 @@
+
+
 #import <Foundation/Foundation.h>
 
 #import "MSAnalyticsTransmissionTarget.h"
@@ -34,10 +36,15 @@ NS_ASSUME_NONNULL_BEGIN
     NSMutableDictionary<NSString *, NSString *> *eventProperties;
 
 /**
+ * The device id to send with common schema logs. If nil, nothing is sent.
+ */
+@property(nonatomic, copy) NSString *deviceId;
+
+/**
  * Initialize property configurator with a transmission target.
  */
 - (instancetype)initWithTransmissionTarget:
-    (MSAnalyticsTransmissionTarget *)transmissionTarget;
+(MSAnalyticsTransmissionTarget *)transmissionTarget;
 
 @end
 

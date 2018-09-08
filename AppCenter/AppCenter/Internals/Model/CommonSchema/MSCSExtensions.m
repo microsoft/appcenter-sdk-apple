@@ -1,6 +1,7 @@
 #import "MSCSExtensions.h"
 #import "MSAppExtension.h"
 #import "MSCSModelConstants.h"
+#import "MSDeviceExtension.h"
 #import "MSLocExtension.h"
 #import "MSNetExtension.h"
 #import "MSOSExtension.h"
@@ -19,6 +20,9 @@
   }
   if (self.userExt) {
     dict[kMSCSUserExt] = [self.userExt serializeToDictionary];
+  }
+  if (self.deviceExt) {
+    dict[kMSCSDeviceExt] = [self.deviceExt serializeToDictionary];
   }
   if (self.osExt) {
     dict[kMSCSOSExt] = [self.osExt serializeToDictionary];
@@ -43,6 +47,7 @@
 - (BOOL)isValid {
   return (!self.protocolExt || [self.protocolExt isValid]) &&
          (!self.userExt || [self.userExt isValid]) &&
+         (!self.deviceExt || [self.deviceExt isValid]) &&
          (!self.osExt || [self.osExt isValid]) &&
          (!self.appExt || [self.appExt isValid]) &&
          (!self.netExt || [self.netExt isValid]) &&
@@ -61,6 +66,8 @@
           [self.protocolExt isEqual:csExt.protocolExt]) &&
          ((!self.userExt && !csExt.userExt) ||
           [self.userExt isEqual:csExt.userExt]) &&
+         ((!self.deviceExt && !csExt.deviceExt) ||
+          [self.deviceExt isEqual:csExt.deviceExt]) &&
          ((!self.osExt && !csExt.osExt) || [self.osExt isEqual:csExt.osExt]) &&
          ((!self.appExt && !csExt.appExt) ||
           [self.appExt isEqual:csExt.appExt]) &&
@@ -78,6 +85,7 @@
   if ((self = [super init])) {
     _protocolExt = [coder decodeObjectForKey:kMSCSProtocolExt];
     _userExt = [coder decodeObjectForKey:kMSCSUserExt];
+    _deviceExt = [coder decodeObjectForKey:kMSCSDeviceExt];
     _osExt = [coder decodeObjectForKey:kMSCSOSExt];
     _appExt = [coder decodeObjectForKey:kMSCSAppExt];
     _netExt = [coder decodeObjectForKey:kMSCSNetExt];
@@ -88,8 +96,11 @@
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
+
+  // Fields must be encoded in the following order.
   [coder encodeObject:self.protocolExt forKey:kMSCSProtocolExt];
   [coder encodeObject:self.userExt forKey:kMSCSUserExt];
+  [coder encodeObject:self.deviceExt forKey:kMSCSDeviceExt];
   [coder encodeObject:self.osExt forKey:kMSCSOSExt];
   [coder encodeObject:self.appExt forKey:kMSCSAppExt];
   [coder encodeObject:self.netExt forKey:kMSCSNetExt];
