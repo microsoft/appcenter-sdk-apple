@@ -18,12 +18,7 @@ class MSTransmissionTargets {
 
     // Parent target.
     let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
-    #if ACTIVE_COMPILATION_CONDITION_PUPPET
-    let objCRuntimeToken = kMSPuppetRuntimeTargetToken
-    #else
-    let objCRuntimeToken = kMSObjCRuntimeTargetToken
-    #endif
-    let parentTargetToken = appName == "SasquatchSwift" ? kMSSwiftRuntimeTargetToken : objCRuntimeToken
+    let parentTargetToken = appName == "SasquatchSwift" ? kMSSwiftRuntimeTargetToken : kMSObjCRuntimeTargetToken
     let parentTarget = MSAnalytics.transmissionTarget(forToken: parentTargetToken)
     transmissionTargets[parentTargetToken] = parentTarget
     sendsAnalyticsEvents[parentTargetToken] = true
