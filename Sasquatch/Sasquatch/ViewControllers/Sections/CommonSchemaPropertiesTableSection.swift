@@ -4,11 +4,18 @@ class CommonSchemaPropertiesTableSection : PropertiesTableSection {
 
   let kTargetSelectorCellRow = 0
   let kDeviceIdRow = 1
+  let kNumberOfHeaderCells = 2
   let switchCellIdentifier = "collectdeviceidswitchcell"
   let propertyKeys = ["App Name", "App Version", "App Locale"]
   var propertyValues: [String: [String]]!
   var transmissionTargetSelectorCell: MSAnalyticsTransmissionTargetSelectorViewCell?
   var collectDeviceIdStates: [String: Bool]!
+  
+  enum CommonSchemaPropertyRow : Int {
+    case AppName = 0
+    case AppVersion
+    case AppLocale
+  }
 
   override init(tableSection: Int, tableView: UITableView) {
     super.init(tableSection: tableSection, tableView: tableView)
@@ -49,13 +56,13 @@ class CommonSchemaPropertiesTableSection : PropertiesTableSection {
     let target = MSTransmissionTargets.shared.transmissionTargets[selectedTarget!]!
     propertyValues[selectedTarget!]![propertyIndex] = sender.text!
     switch propertyIndex {
-    case 0: // App Name.
+    case CommonSchemaPropertyRow.AppName.rawValue:
       target.propertyConfigurator.setAppName(sender.text!)
       break
-    case 1: // App Version.
+    case CommonSchemaPropertyRow.AppVersion.rawValue:
       target.propertyConfigurator.setAppVersion(sender.text!)
       break
-    case 2: // App Locale.
+    case CommonSchemaPropertyRow.AppLocale.rawValue:
       target.propertyConfigurator.setAppLocale(sender.text!)
       break
     default:
@@ -71,7 +78,7 @@ class CommonSchemaPropertiesTableSection : PropertiesTableSection {
   }
 
   override func numberOfCustomHeaderCells() -> Int {
-    return 2
+    return kNumberOfHeaderCells;
   }
 
   override func getPropertyCount() -> Int {
