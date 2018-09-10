@@ -85,7 +85,10 @@ class CommonSchemaPropertiesTableSection : PropertiesTableSection {
 
   func collectDeviceIdSwitchCellEnabled(sender: UISwitch?) {
 
-    // Disable the switch.
+    /*
+     * Disable the switch. This results in the switch's color being muted to
+     * indicate that the switch is disabled. This is okay in this case.
+     */
     sender!.isEnabled = false
 
     // Update the transmission target.
