@@ -56,6 +56,7 @@ import UIKit
     datePickerView?.backgroundColor = UIColor.white
     datePickerView?.datePickerMode = .dateAndTime
     datePickerView?.date = Date()
+    
     // Update label.
     datePickerView?.addTarget(self, action: #selector(self.datePickerChanged), for: .valueChanged)
     datePickerChanged()

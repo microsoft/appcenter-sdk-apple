@@ -84,12 +84,7 @@ class MSTransmissionTargetsViewController: UITableViewController {
     runtimeTargetSection.headerText = "Runtime Transmission Target"
     runtimeTargetSection.footerText = "This transmission target is the parent of the two transmission targets below."
     let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
-    #if ACTIVE_COMPILATION_CONDITION_PUPPET
-    let objCRuntimeToken = kMSPuppetRuntimeTargetToken
-    #else
-    let objCRuntimeToken = kMSObjCRuntimeTargetToken
-    #endif
-    runtimeTargetSection.token = appName == "SasquatchSwift" ? kMSSwiftRuntimeTargetToken : objCRuntimeToken
+    runtimeTargetSection.token = appName == "SasquatchSwift" ? kMSSwiftRuntimeTargetToken : kMSObjCRuntimeTargetToken
 
     // Child 1.
     let child1TargetSection = MSTransmissionTargetSection()
@@ -118,7 +113,7 @@ class MSTransmissionTargetsViewController: UITableViewController {
       return targetPropertiesSection!.tableView(tableView, numberOfRowsInSection:section)
     }
     else if section == kCSPropertiesSectionIndex {
-      return 4
+      return csPropertiesSection!.tableView(tableView, numberOfRowsInSection:section)
     }
     else {
       return 3
@@ -136,19 +131,23 @@ class MSTransmissionTargetsViewController: UITableViewController {
     switch indexPath.row {
     case kEnabledCellRowIndex:
       let cell = tableView.dequeueReusableCell(withIdentifier: kEnabledSwitchCellId)!
-      let switcher: UISwitch? = getSubviewFromCell(cell)
+      let switcher: UISwitch? = cell.getSubview()
       switcher?.isOn = section.isTransmissionTargetEnabled()
       switcher?.addTarget(self, action: #selector(targetEnabledSwitchValueChanged), for: .valueChanged)
 
       // Special label text for default target section.
       if indexPath.section == kDefaultTargetSectionIndex {
-        let label: UILabel? = getSubviewFromCell(cell)
-        label!.text = "Enabled Next Launch"
+        let label: UILabel? = cell.getSubview()
+        label!.text = "Enable On Next Launch"
+      }
+      else {
+        let label: UILabel? = cell.getSubview()
+        label!.text = "Set Enabled"
       }
       return cell
     case kAnalyticsCellRowIndex:
       let cell = tableView.dequeueReusableCell(withIdentifier: kAnalyticsSwitchCellId)!
-      let switcher: UISwitch? = getSubviewFromCell(cell)
+      let switcher: UISwitch? = cell.getSubview()
       switcher?.isOn = section.shouldSendAnalytics()
       switcher?.addTarget(self, action: #selector(targetShouldSendAnalyticsSwitchValueChanged), for: .valueChanged)
       return cell
@@ -157,7 +156,7 @@ class MSTransmissionTargetsViewController: UITableViewController {
         fallthrough
       }
       let cell = tableView.dequeueReusableCell(withIdentifier: kTokenCellId)!
-      let label: UILabel? = getSubviewFromCell(cell, withTag:kTokenDisplayLabelTag)
+      let label: UILabel? = cell.getSubview(withTag: kTokenDisplayLabelTag)
       label?.text = section.token
       return cell
     case kEnabledStateIndicatorRowIndex:
@@ -178,7 +177,7 @@ class MSTransmissionTargetsViewController: UITableViewController {
         guard let childCell = tableView.cellForRow(at: IndexPath(row: kEnabledCellRowIndex, section: childSectionIndex)) else {
           continue
         }
-        let childSwitch: UISwitch? = getSubviewFromCell(childCell)
+        let childSwitch: UISwitch? = childCell.getSubview()
         let childTarget = transmissionTargetSections![childSectionIndex].getTransmissionTarget()
         childSwitch!.setOn(childTarget!.isEnabled(), animated: true)
         childSwitch?.isEnabled = sender!.isOn
@@ -199,7 +198,6 @@ class MSTransmissionTargetsViewController: UITableViewController {
     else if section == kCSPropertiesSectionIndex {
       return "Override Common Schema Properties"
     }
-
     return "Transmission Target Properties"
   }
 
@@ -237,7 +235,7 @@ class MSTransmissionTargetsViewController: UITableViewController {
     return super.tableView(tableView, heightForRowAt: indexPath)
   }
 
-  /**
+  /*
    * Without this override, the default implementation will try to get a table cell that is out of bounds
    * (since they are inserted/removed at a slightly different time than the actual data source is updated).
    */
@@ -254,15 +252,6 @@ class MSTransmissionTargetsViewController: UITableViewController {
 
   override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
     return false
-  }
-
-  private func getSubviewFromCell<T: UIView>(_ cell: UITableViewCell, withTag tag:Int = 0) -> T? {
-    for subview in cell.contentView.subviews {
-      if  (subview.tag == tag) && (subview is T) {
-        return subview as? T
-      }
-    }
-    return nil
   }
 
   private func getCellSection(forView view: UIView) -> Int {

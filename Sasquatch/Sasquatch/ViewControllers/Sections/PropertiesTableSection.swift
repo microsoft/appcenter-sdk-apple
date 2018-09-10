@@ -66,11 +66,11 @@ class PropertiesTableSection : NSObject, UITableViewDelegate {
   }
 
   func isInsertRow(_ indexPath: IndexPath) -> Bool {
-    return indexPath.row == numberOfCustomHeaderCells()
+    return hasInsertRow() && indexPath.row == numberOfCustomHeaderCells()
   }
 
   func isPropertyRow(_ indexPath: IndexPath) -> Bool {
-    return indexPath.row > numberOfCustomHeaderCells()
+    return indexPath.row >= propertyCellOffset()
   }
 
   func removeProperty(atRow row: Int) {
@@ -106,7 +106,11 @@ class PropertiesTableSection : NSObject, UITableViewDelegate {
   }
 
   func propertyCellOffset() -> Int {
-    return numberOfCustomHeaderCells() + 1
+    return numberOfCustomHeaderCells() + (hasInsertRow() ? 1 : 0)
+  }
+
+  func hasInsertRow() -> Bool {
+    return true
   }
 
   func getCellRow(forTextField textField: UITextField) -> Int {

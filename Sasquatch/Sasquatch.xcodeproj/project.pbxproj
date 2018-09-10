@@ -24,6 +24,11 @@
 		359171FB20F8001A00F3DDE6 /* TargetPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359171F920F8001A00F3DDE6 /* TargetPropertiesTableSection.swift */; };
 		35ABB5D220FEAD8E002E6841 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C1C1E88FEFC00798417 /* Assets.xcassets */; };
 		35ABB5D320FEAD8F002E6841 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C1C1E88FEFC00798417 /* Assets.xcassets */; };
+		35CAA2252143229300A8BED2 /* MSTableViewCellExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CAA1F92143229300A8BED2 /* MSTableViewCellExtension.swift */; };
+		35CAA2262143229300A8BED2 /* MSTableViewCellExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CAA1F92143229300A8BED2 /* MSTableViewCellExtension.swift */; };
+		35CAA2272143229300A8BED2 /* MSTableViewCellExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CAA1F92143229300A8BED2 /* MSTableViewCellExtension.swift */; };
+		35CAA2282143229300A8BED2 /* MSTableViewCellExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CAA1F92143229300A8BED2 /* MSTableViewCellExtension.swift */; };
+		35CAA2292143229300A8BED2 /* MSTableViewCellExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CAA1F92143229300A8BED2 /* MSTableViewCellExtension.swift */; };
 		35FBE78120FD095200F7B05C /* MSTransmissionTargets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FBE78020FD095200F7B05C /* MSTransmissionTargets.swift */; };
 		35FBE78220FD095200F7B05C /* MSTransmissionTargets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FBE78020FD095200F7B05C /* MSTransmissionTargets.swift */; };
 		807DB552212164E000F35E03 /* MSSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807DB551212164E000F35E03 /* MSSignInViewController.swift */; };
@@ -640,6 +645,7 @@
 		354273DF20126A3E00BE766F /* MSEventFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSEventFilter.h; sourceTree = "<group>"; };
 		359171F620F7F80800F3DDE6 /* PropertiesTableSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertiesTableSection.swift; sourceTree = "<group>"; };
 		359171F920F8001A00F3DDE6 /* TargetPropertiesTableSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetPropertiesTableSection.swift; sourceTree = "<group>"; };
+		35CAA1F92143229300A8BED2 /* MSTableViewCellExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTableViewCellExtension.swift; sourceTree = "<group>"; };
 		35FBE78020FD095200F7B05C /* MSTransmissionTargets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTransmissionTargets.swift; sourceTree = "<group>"; };
 		384929201FACF5DA003F8736 /* SasquatchWatchObjC Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SasquatchWatchObjC Extension.entitlements"; sourceTree = SOURCE_ROOT; };
 		384929211FACF5F3003F8736 /* SasquatchWatchSwift Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SasquatchWatchSwift Extension.entitlements"; sourceTree = SOURCE_ROOT; };
@@ -972,13 +978,13 @@
 				B203FF4B20E57A5B002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift */,
 				B2586C88210A485300664A43 /* MSAnalyticsResultViewController.swift */,
 				84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */,
+				80B3CAD9211B2686007C332E /* MSAuthenticationViewController.swift */,
 				84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */,
 				B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */,
 				84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */,
 				845964AC1E8A7E9700BABA51 /* MSMainViewController.swift */,
-				35396A7720F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift */,
-				80B3CAD9211B2686007C332E /* MSAuthenticationViewController.swift */,
 				807DB551212164E000F35E03 /* MSSignInViewController.swift */,
+				35396A7720F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -1113,6 +1119,7 @@
 			isa = PBXGroup;
 			children = (
 				B2E011F021091EF2003F4A5B /* MSAnalyticsPropertyTableViewCell.swift */,
+				35CAA1F92143229300A8BED2 /* MSTableViewCellExtension.swift */,
 				B2E011EF21091EF2003F4A5B /* MSAnalyticsPropertyTableViewCell.xib */,
 				B2E011EC21091EF1003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.swift */,
 				B2E011EE21091EF1003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.xib */,
@@ -2077,6 +2084,7 @@
 				84A0FF6C1E8A87E1000E7A28 /* MSDistributeViewController.swift in Sources */,
 				80B3CADB211B2686007C332E /* MSAuthenticationViewController.swift in Sources */,
 				84226D3C1E8938D100798417 /* AppCenterDelegate.swift in Sources */,
+				35CAA2262143229300A8BED2 /* MSTableViewCellExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2089,6 +2097,7 @@
 				84A0FF671E8A87B4000E7A28 /* MSCrashesViewController.swift in Sources */,
 				352A3E7520F80C8600D09CF0 /* EventPropertiesTableSection.swift in Sources */,
 				354273EE20126A3E00BE766F /* MSEventFilter.m in Sources */,
+				35CAA2272143229300A8BED2 /* MSTableViewCellExtension.swift in Sources */,
 				84A0FF6A1E8A87C9000E7A28 /* MSAnalyticsViewController.swift in Sources */,
 				807DB555212164E000F35E03 /* MSSignInViewController.swift in Sources */,
 				35396A7920F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift in Sources */,
@@ -2140,6 +2149,7 @@
 				B20AE39021027D6200A1A195 /* PropertiesTableSection.swift in Sources */,
 				B20AE39221027D6200A1A195 /* MSDistributeViewController.swift in Sources */,
 				B20AE39321027D6200A1A195 /* AppCenterDelegate.swift in Sources */,
+				35CAA2282143229300A8BED2 /* MSTableViewCellExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2172,6 +2182,7 @@
 				B27D54B9210A5E7E004E82C9 /* MSDistributeViewController.swift in Sources */,
 				80B3CADA211B2686007C332E /* MSAuthenticationViewController.swift in Sources */,
 				B27D54BA210A5E7E004E82C9 /* AppCenterDelegate.swift in Sources */,
+				35CAA2292143229300A8BED2 /* MSTableViewCellExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2184,6 +2195,7 @@
 				B2A4CF8B210A6E6900199B4F /* MSCrashesViewController.swift in Sources */,
 				B2A4CF8C210A6E6900199B4F /* EventPropertiesTableSection.swift in Sources */,
 				B2A4CF8D210A6E6900199B4F /* MSEventFilter.m in Sources */,
+				35CAA2252143229300A8BED2 /* MSTableViewCellExtension.swift in Sources */,
 				B2A4CF8E210A6E6900199B4F /* MSAnalyticsViewController.swift in Sources */,
 				807DB554212164E000F35E03 /* MSSignInViewController.swift in Sources */,
 				B2A4CF8F210A6E6900199B4F /* MSTransmissionTargetsViewController.swift in Sources */,
