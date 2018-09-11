@@ -189,7 +189,7 @@ class MSTransmissionTargetsViewController: UITableViewController {
         let childSwitch: UISwitch? = childCell.getSubview()
         let childTarget = transmissionTargetSections![childSectionIndex].getTransmissionTarget()
         childSwitch!.setOn(childTarget!.isEnabled(), animated: true)
-        childSwitch?.isEnabled = sender!.isOn
+        childSwitch!.isEnabled = sender!.isOn
       }
     }
     else if (sectionIndex == Section.Child1.rawValue || sectionIndex == Section.Child2.rawValue) {
@@ -200,7 +200,7 @@ class MSTransmissionTargetsViewController: UITableViewController {
         // Switch tried to enable the transmission target but it didn't work.
         sender!.setOn(false, animated: true)
         section.setTransmissionTargetEnabled(false)
-        sender?.isEnabled = false
+        sender!.isEnabled = false
       }
     }
   }
