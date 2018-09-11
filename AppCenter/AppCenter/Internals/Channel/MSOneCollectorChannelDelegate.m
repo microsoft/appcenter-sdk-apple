@@ -1,6 +1,8 @@
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenterInternal.h"
+#import "MSCSData.h"
 #import "MSCSEpochAndSeq.h"
+#import "MSCSExtensions.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelProtocol.h"
 #import "MSChannelUnitConfiguration.h"
@@ -11,6 +13,7 @@
 #import "MSLogger.h"
 #import "MSOneCollectorChannelDelegatePrivate.h"
 #import "MSOneCollectorIngestion.h"
+#import "MSSDKExtension.h"
 #import "MSUtility.h"
 
 static NSString *const kMSOneCollectorGroupIdSuffix = @"/one";

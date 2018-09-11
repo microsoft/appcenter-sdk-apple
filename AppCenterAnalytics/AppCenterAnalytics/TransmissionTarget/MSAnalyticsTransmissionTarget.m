@@ -3,8 +3,10 @@
 #import "MSAnalyticsTransmissionTargetInternal.h"
 #import "MSAnalyticsTransmissionTargetPrivate.h"
 #import "MSCommonSchemaLog.h"
+#import "MSCSExtensions.h"
 #import "MSLogger.h"
 #import "MSPropertyConfiguratorPrivate.h"
+#import "MSProtocolExtension.h"
 #import "MSServiceAbstractInternal.h"
 #import "MSUtility+StringFormatting.h"
 

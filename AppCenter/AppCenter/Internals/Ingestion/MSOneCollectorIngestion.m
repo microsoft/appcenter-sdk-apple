@@ -4,11 +4,13 @@
 #import "MSCommonSchemaLog.h"
 #import "MSCompression.h"
 #import "MSConstants+Internal.h"
+#import "MSCSExtensions.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSLog.h"
 #import "MSLogContainer.h"
 #import "MSLoggerInternal.h"
 #import "MSOneCollectorIngestionPrivate.h"
+#import "MSProtocolExtension.h"
 #import "MSTicketCache.h"
 #import "MSUtility+Date.h"
 

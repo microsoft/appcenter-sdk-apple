@@ -1,10 +1,11 @@
 #import <XCTest/XCTest.h>
 
-#import "MSPropertyConfiguratorPrivate.h"
-
+#import "MSCSExtensions.h"
 #import "MSAnalyticsTransmissionTargetInternal.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSCommonSchemaLog.h"
+#import "MSDeviceExtension.h"
+#import "MSPropertyConfiguratorPrivate.h"
 #import "MSTestFrameworks.h"
 
 @interface MSPropertyConfiguratorTests : XCTestCase

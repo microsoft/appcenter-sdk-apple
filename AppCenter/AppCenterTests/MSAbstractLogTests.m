@@ -1,7 +1,15 @@
 #import "MSAbstractLogInternal.h"
 #import "MSAbstractLogPrivate.h"
+#import "MSAppExtension.h"
+#import "MSCSExtensions.h"
 #import "MSDevice.h"
+#import "MSLocExtension.h"
+#import "MSNetExtension.h"
+#import "MSOSExtension.h"
+#import "MSProtocolExtension.h"
+#import "MSSDKExtension.h"
 #import "MSTestFrameworks.h"
+#import "MSUserExtension.h"
 
 @interface MSAbstractLogTests : XCTestCase
 

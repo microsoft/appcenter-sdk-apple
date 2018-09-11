@@ -1,6 +1,7 @@
 #import "AppCenter+Internal.h"
 #import "MSAbstractLogInternal.h"
 #import "MSAnalyticsInternal.h"
+#import "MSCSData.h"
 #import "MSCSModelConstants.h"
 #import "MSCommonSchemaLog.h"
 #import "MSEventLogPrivate.h"
