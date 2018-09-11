@@ -177,7 +177,10 @@ class MSTransmissionTargetsViewController: UITableViewController {
   func targetEnabledSwitchValueChanged(sender: UISwitch!) {
     let sectionIndex = getCellSection(forView: sender)
     let section = transmissionTargetSections![sectionIndex]
-    if (sectionIndex == Section.Runtime.rawValue) {
+    if (sectionIndex == Section.Default.rawValue) {
+      section.setTransmissionTargetEnabled(sender!.isOn)
+    }
+    else if (sectionIndex == Section.Runtime.rawValue) {
       section.setTransmissionTargetEnabled(sender!.isOn)
       for childSectionIndex in 2...3 {
         guard let childCell = tableView.cellForRow(at: IndexPath(row: kEnabledCellRowIndex, section: childSectionIndex)) else {
