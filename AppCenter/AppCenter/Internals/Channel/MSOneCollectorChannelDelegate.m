@@ -218,7 +218,6 @@ NSString *const kMSLogNameRegex =
     BOOL keyIsNSString = [key isKindOfClass:[NSString class]]; // is this actyally a case?!
     BOOL valueIsADictionary = [properties[key] isKindOfClass:[NSDictionary class]];
     valueIsAString = [properties[key] isKindOfClass:[NSString class]];
-
     if (!keyIsNSString) {
       MSLogError([MSAppCenter logTag],
                  @"%@ Property key must be of type NSString.",
@@ -227,6 +226,8 @@ NSString *const kMSLogNameRegex =
     }
     else {
       if(valueIsADictionary) {
+        
+        // Properties can be nested, verify the nested properties here.
         return [self validateProperties:properties[key]];
       }
       if(!valueIsAString) {
@@ -237,7 +238,9 @@ NSString *const kMSLogNameRegex =
       return valueIsAString;
     }
   }
-  return NO;
+  
+  // Empty property values are okay.
+  return YES;
 }
 
 @end

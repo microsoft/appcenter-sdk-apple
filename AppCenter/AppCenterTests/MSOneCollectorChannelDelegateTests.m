@@ -613,13 +613,20 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
   MSCSData *newData = [MSCSData new];
   MSCSData *nilData = nil;
   MSCSData *nilDataPropsWithEmptyKey = [MSCSData new];
-  nilDataPropsWithEmptyKey.properties = @{ @"" : @"avalidvalue" };
+  nilDataPropsWithEmptyKey.properties = @{ @"" : @"aValidValue" };
   MSCSData *nilDataPropsWithNonStringKey = [MSCSData new];
-  nilDataPropsWithNonStringKey.properties = @{ @(42) : @"avalidvalue" };
+  nilDataPropsWithNonStringKey.properties = @{ @(42) : @"aValidValue" };
   MSCSData *nilDataPropsWithEmptyValue = [MSCSData new];
-  nilDataPropsWithEmptyValue.properties = @{ @"avalidkey" : @"" };
+  nilDataPropsWithEmptyValue.properties = @{ @"aValidKey" : @"" };
   MSCSData *nilDataPropsWithNonStringValue = [MSCSData new];
-  nilDataPropsWithNonStringValue.properties = @{ @"avalidkey" : @(42) };
+  nilDataPropsWithNonStringValue.properties = @{ @"aValidKey" : @(42) };
+  MSCSData *nestedPropsWithCorrectValues = [MSCSData new];
+  nestedPropsWithCorrectValues.properties = @{ @"aValidKey1" : @"aValidValue1",
+                                               @"aValidKey2" : @ { @"aValidKey2" : @"aValidValue3" } };
+  MSCSData *nestedPropsWithInCorrectValues = [MSCSData new];
+  nestedPropsWithInCorrectValues.properties = @{ @"aValidKey1" : @"aValidValue1",
+                                               @"aValidKey2" : @ { @"aValidKey2" : @1 } };
+
 
   // Then
   XCTAssertTrue([self.sut validateLogData:newData]);
@@ -628,6 +635,8 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
   XCTAssertFalse([self.sut validateLogData:nilDataPropsWithNonStringKey]);
   XCTAssertTrue([self.sut validateLogData:nilDataPropsWithEmptyValue]);
   XCTAssertFalse([self.sut validateLogData:nilDataPropsWithNonStringValue]);
+  XCTAssertTrue([self.sut validateLogData:nestedPropsWithCorrectValues]);
+  XCTAssertFalse([self.sut validateLogData:nestedPropsWithInCorrectValues]);
 }
 
 - (void)testLogNameRegex {
