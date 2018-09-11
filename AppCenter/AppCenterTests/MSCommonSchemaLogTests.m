@@ -1,9 +1,18 @@
 #import "MSACModelConstants.h"
+#import "MSAppExtension.h"
+#import "MSCSData.h"
+#import "MSCSExtensions.h"
 #import "MSCSModelConstants.h"
 #import "MSCommonSchemaLog.h"
 #import "MSDevice.h"
+#import "MSLocExtension.h"
 #import "MSModelTestsUtililty.h"
+#import "MSNetExtension.h"
+#import "MSOSExtension.h"
+#import "MSProtocolExtension.h"
+#import "MSSDKExtension.h"
 #import "MSTestFrameworks.h"
+#import "MSUserExtension.h"
 #import "MSUtility+Date.h"
 
 @interface MSCommonSchemaLogTests : XCTestCase

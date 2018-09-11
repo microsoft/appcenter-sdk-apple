@@ -1,20 +1,9 @@
-/**
- * TODO clean up these imports - remove unused ones (within this file) and use
- * forward declarations where possible
- */
 #import "MSAbstractLogInternal.h"
-#import "MSAppExtension.h"
-#import "MSCSData.h"
-#import "MSCSExtensions.h"
-#import "MSDeviceExtension.h"
-#import "MSLocExtension.h"
 #import "MSModel.h"
-#import "MSNetExtension.h"
-#import "MSOSExtension.h"
-#import "MSProtocolExtension.h"
-#import "MSSDKExtension.h"
 #import "MSSerializableObject.h"
-#import "MSUserExtension.h"
+
+@class MSCSExtensions;
+@class MSCSData;
 
 /**
  * Common schema has one event type with extensions, everything is called an

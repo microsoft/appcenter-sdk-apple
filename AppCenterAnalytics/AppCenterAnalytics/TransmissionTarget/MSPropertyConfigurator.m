@@ -9,7 +9,10 @@
 #import "MSAnalyticsInternal.h"
 #import "MSAnalyticsTransmissionTargetInternal.h"
 #import "MSAnalyticsTransmissionTargetPrivate.h"
+#import "MSAppExtension.h"
 #import "MSCommonSchemaLog.h"
+#import "MSCSExtensions.h"
+#import "MSDeviceExtension.h"
 #import "MSLogger.h"
 
 @implementation MSPropertyConfigurator
