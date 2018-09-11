@@ -209,17 +209,35 @@ NSString *const kMSLogNameRegex =
 }
 
 - (BOOL)validateLogData:(MSCSData *)data {
-  NSDictionary<NSString *, NSString *> *properties = data.properties;
+  return [self validateProperties:data.properties];
+}
+
+- (BOOL)validateProperties:(NSDictionary<NSString *, id> *) properties {
+  BOOL valueIsAString;
   for (NSString *key in properties) {
-    if (![key isKindOfClass:[NSString class]] ||
-        ![properties[key] isKindOfClass:[NSString class]]) {
+    BOOL keyIsNSString = [key isKindOfClass:[NSString class]]; // is this actyally a case?!
+    BOOL valueIsADictionary = [properties[key] isKindOfClass:[NSDictionary class]];
+    valueIsAString = [properties[key] isKindOfClass:[NSString class]];
+
+    if (!keyIsNSString) {
       MSLogError([MSAppCenter logTag],
-                 @"%@ Properties key and value must be of type NSString.",
+                 @"%@ Property key must be of type NSString.",
                  kMSBaseErrorMsg);
       return NO;
     }
+    else {
+      if(valueIsADictionary) {
+        return [self validateProperties:properties[key]];
+      }
+      if(!valueIsAString) {
+        MSLogError([MSAppCenter logTag],
+                   @"%@ Property value must be of type NSString.",
+                   kMSBaseErrorMsg);
+      }
+      return valueIsAString;
+    }
   }
-  return YES;
+  return NO;
 }
 
 @end
