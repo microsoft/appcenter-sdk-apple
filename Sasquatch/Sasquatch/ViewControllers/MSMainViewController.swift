@@ -1,8 +1,19 @@
 import UIKit
 
-class MSMainViewController: UITableViewController, AppCenterProtocol {
+class MSMainViewController: UITableViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, AppCenterProtocol {
   
+  enum StartupMode : String {
+    case AppSecret = "App Secret"
+    case Target = "Target"
+    case Both = "Both"
+    case NoSecret = "No Secret"
+    case SkipStart = "Skip Start"
+    
+    static let allValues = [AppSecret, Target, Both, NoSecret, SkipStart]
+  }
+
   @IBOutlet weak var appCenterEnabledSwitch: UISwitch!
+  @IBOutlet weak var startupModeField: UITextField!
   @IBOutlet weak var installId: UILabel!
   @IBOutlet weak var appSecret: UILabel!
   @IBOutlet weak var logUrl: UILabel!
@@ -13,26 +24,14 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
 
   var appCenter: AppCenterDelegate!
 
-  static let kStartupTypeSectionIndex = 1
-  var appTargetCellIndexPath = IndexPath(row:0, section:kStartupTypeSectionIndex)
-  var libraryTargetCellIndexPath = IndexPath(row:1, section:kStartupTypeSectionIndex)
-  var bothTargetsCellIndexPath = IndexPath(row: 2, section: kStartupTypeSectionIndex)
-  var informationCellIndexPath = IndexPath(row: 3, section: kStartupTypeSectionIndex)
-
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    // Startup Targets section.
-    let startupTypeCellIndexPath = MSMainViewController.getIndexPathForSelectedStartupTypeCell()
-    toggleSelectionForCellAtIndexPath(startupTypeCellIndexPath)
-    let selectedCell = self.tableView(tableView, cellForRowAt: startupTypeCellIndexPath)
-    let informationCell = self.tableView(tableView, cellForRowAt: informationCellIndexPath)
-    for subview in selectedCell.contentView.subviews {
-      if let label = subview as? UILabel {
-        informationCell.detailTextLabel!.text = label.text
-        break
-      }
-    }
+    // Startup mode.
+    let startupMode = UserDefaults.standard.integer(forKey: kMSStartTargetKey)
+    self.startupModeField.delegate = self
+    self.startupModeField.text = StartupMode.allValues[startupMode].rawValue
+    self.startupModeField.tintColor = UIColor.clear
 
     // Miscellaneous section.
     appCenter.startEventFilterService()
@@ -71,42 +70,68 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     appCenter.setEventFilterEnabled(sender.isOn)
     updateViewState()
   }
-  
-  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    tableView.deselectRow(at: indexPath, animated: false)
-    if (indexPath != informationCellIndexPath &&
-      indexPath.section == MSMainViewController.kStartupTypeSectionIndex) {
-      didSelectStartupTypeCellAtIndexPath(indexPath)
-    }
-    return
-  }
 
+  func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+    if textField == self.startupModeField {
+      showStartupModePicker()
+      return true
+    }
+    return false
+  }
+  
+  func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    return false
+  }
+  
+  func numberOfComponents(in pickerView: UIPickerView) -> Int {
+    return 1
+  }
+  
+  func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    return StartupMode.allValues.count
+  }
+  
+  func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    return StartupMode.allValues[row].rawValue
+  }
+  
+  func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    UserDefaults.standard.set(row, forKey: kMSStartTargetKey)
+    self.startupModeField.text = StartupMode.allValues[row].rawValue
+  }
+  
+  func showStartupModePicker() {
+    let startupModePickerView = UIPickerView()
+    startupModePickerView.backgroundColor = UIColor.white
+    startupModePickerView.showsSelectionIndicator = true
+    startupModePickerView.dataSource = self
+    startupModePickerView.delegate = self
+    
+    // Select current type.
+    let startupMode = StartupMode(rawValue: self.startupModeField.text!)!
+    startupModePickerView.selectRow(StartupMode.allValues.index(of: startupMode)!, inComponent: 0, animated: false)
+    
+    let toolbar: UIToolbar? = toolBarForPicker()
+    self.startupModeField.inputView = startupModePickerView
+    self.startupModeField.inputAccessoryView = toolbar
+  }
+  
+  func toolBarForPicker() -> UIToolbar {
+    let toolbar = UIToolbar()
+    toolbar.sizeToFit()
+    let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+    let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.doneClicked))
+    toolbar.items = [flexibleSpace, doneButton]
+    return toolbar
+  }
+  
+  func doneClicked() {
+    self.startupModeField.resignFirstResponder()
+  }
+  
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if let destination = segue.destination as? AppCenterProtocol {
       destination.appCenter = appCenter
-    }
-  }
-  
-  func didSelectStartupTypeCellAtIndexPath(_ indexPath: IndexPath) {
-    let currentSelectionIndexPath = MSMainViewController.getIndexPathForSelectedStartupTypeCell()
-    toggleSelectionForCellAtIndexPath(currentSelectionIndexPath)
-    toggleSelectionForCellAtIndexPath(indexPath)
-  }
-
-  static func getIndexPathForSelectedStartupTypeCell() -> IndexPath {
-    let row = UserDefaults.standard.integer(forKey: kMSStartTargetKey)
-    return IndexPath(row: row, section: kStartupTypeSectionIndex)
-  }
-
-  func toggleSelectionForCellAtIndexPath(_ indexPath: IndexPath) {
-    let cell = self.tableView(tableView, cellForRowAt: indexPath)
-    if (cell.accessoryType == .checkmark) {
-      cell.accessoryType = .none
-      cell.selectionStyle = .blue
-    } else if (cell.accessoryType == .none) {
-      cell.accessoryType = .checkmark
-      cell.selectionStyle = .none
-      UserDefaults.standard.set(indexPath.row, forKey: kMSStartTargetKey)
     }
   }
 }

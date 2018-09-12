@@ -22,7 +22,6 @@ static NSString *const kMSObjCRuntimeTargetToken =
     @"1aa046cfdc8f49bdbd64190290caf7dd-ba041023-af4d-4432-a87e-eb2431150797-"
     @"7361";
 #endif
-static NSString *const kMSOneCollectorEnabledKey = @"isOneCollectorEnabled";
 static NSString *const kMSStartTargetKey = @"startTarget";
 static NSNotificationName const kUpdateAnalyticsResultNotification =
     @"updateAnalyticsResult";
