@@ -666,6 +666,51 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
   XCTAssertFalse([self.sut validateLogData:nestedPropsWithInCorrectValues]);
 }
 
+- (void)testDictionaryContainsInValidPropertiesValue {
+  NSDictionary *properties = @{ @"aValidKey1" : @"aValidValue1",
+                                @"aValidKey2" :
+                                  @ { @"aValidKey2" : @1 } };
+  XCTAssertFalse([self.sut validateProperties:properties]);
+}
+
+- (void)testDictionaryContainsInValidPropertiesKey {
+  NSDictionary *properties = @{ @1 : @"aValidValue1",
+                                @"aValidKey2" :
+                                  @ { @"aValidKey2" : @"aValidValue1" } };
+  XCTAssertFalse([self.sut validateProperties:properties]);
+}
+
+- (void)testDictionaryContainsValidProperties {
+  NSDictionary *properties = @{ @"aValidKey2" : @"aValidValue1",
+                                @"aValidKey2" :
+                                  @ { @"aValidKey2" : @"aValidValue1" } };
+  XCTAssertTrue([self.sut validateProperties:properties]);
+}
+
+- (void)testDictionaryContainsValidNestedProperties {
+  NSDictionary *properties = @{ @"aValidKey2" : @"aValidValue1",
+                                @"aValidKey2" :
+                                  @ { @"aValidKey2" : @"aValidValue1" },
+                                @"aValidKey3" :
+                                  @ { @"aValidKey2" : @"aValidValue1",
+                                    @"aValidKey3" : @ { @"aValidkey4" : @"" }
+                                  }
+                                };
+  XCTAssertTrue([self.sut validateProperties:properties]);
+}
+
+- (void)testDictionaryContainsInValidNestedProperties {
+  NSDictionary *properties = @{ @"aValidKey2" : @"aValidValue1",
+                                @"aValidKey2" :
+                                  @ { @"aValidKey2" : @"aValidValue1" },
+                                @"aValidKey3" :
+                                  @ { @"aValidKey2" : @"aValidValue1",
+                                    @"aValidKey3" : @ { @"aValidkey4" : @1 }
+                                  }
+                                };
+  XCTAssertFalse([self.sut validateProperties:properties]);
+}
+
 - (void)testLogNameRegex {
 
   // If
