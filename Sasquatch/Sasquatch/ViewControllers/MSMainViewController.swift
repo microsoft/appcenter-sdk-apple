@@ -1,6 +1,6 @@
 import UIKit
 
-class MSMainViewController: UITableViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, AppCenterProtocol {
+class MSMainViewController: UITableViewController, AppCenterProtocol {
   
   enum StartupMode : String {
     case AppSecret = "App Secret"
@@ -22,6 +22,7 @@ class MSMainViewController: UITableViewController, UIPickerViewDataSource, UIPic
   @IBOutlet weak var logFilterSwitch: UISwitch!
   @IBOutlet weak var deviceIdLabel: UILabel!
 
+  var startupModePicker: MSEnumPicker<StartupMode>?
   var appCenter: AppCenterDelegate!
 
   override func viewDidLoad() {
@@ -29,9 +30,11 @@ class MSMainViewController: UITableViewController, UIPickerViewDataSource, UIPic
 
     // Startup mode.
     let startupMode = UserDefaults.standard.integer(forKey: kMSStartTargetKey)
-    self.startupModeField.delegate = self
-    self.startupModeField.text = StartupMode.allValues[startupMode].rawValue
-    self.startupModeField.tintColor = UIColor.clear
+    self.startupModePicker = MSEnumPicker<StartupMode>(
+      textField: self.startupModeField,
+      initialValue: StartupMode.allValues[startupMode],
+      allValues: StartupMode.allValues,
+      onChange: {(index) in UserDefaults.standard.set(index, forKey: kMSStartTargetKey)})
 
     // Miscellaneous section.
     appCenter.startEventFilterService()
@@ -71,64 +74,6 @@ class MSMainViewController: UITableViewController, UIPickerViewDataSource, UIPic
     updateViewState()
   }
 
-  func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-    if textField == self.startupModeField {
-      showStartupModePicker()
-      return true
-    }
-    return false
-  }
-  
-  func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-    return false
-  }
-  
-  func numberOfComponents(in pickerView: UIPickerView) -> Int {
-    return 1
-  }
-  
-  func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-    return StartupMode.allValues.count
-  }
-  
-  func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-    return StartupMode.allValues[row].rawValue
-  }
-  
-  func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-    UserDefaults.standard.set(row, forKey: kMSStartTargetKey)
-    self.startupModeField.text = StartupMode.allValues[row].rawValue
-  }
-  
-  func showStartupModePicker() {
-    let startupModePickerView = UIPickerView()
-    startupModePickerView.backgroundColor = UIColor.white
-    startupModePickerView.showsSelectionIndicator = true
-    startupModePickerView.dataSource = self
-    startupModePickerView.delegate = self
-    
-    // Select current type.
-    let startupMode = StartupMode(rawValue: self.startupModeField.text!)!
-    startupModePickerView.selectRow(StartupMode.allValues.index(of: startupMode)!, inComponent: 0, animated: false)
-    
-    let toolbar: UIToolbar? = toolBarForPicker()
-    self.startupModeField.inputView = startupModePickerView
-    self.startupModeField.inputAccessoryView = toolbar
-  }
-  
-  func toolBarForPicker() -> UIToolbar {
-    let toolbar = UIToolbar()
-    toolbar.sizeToFit()
-    let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-    let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.doneClicked))
-    toolbar.items = [flexibleSpace, doneButton]
-    return toolbar
-  }
-  
-  func doneClicked() {
-    self.startupModeField.resignFirstResponder()
-  }
-  
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if let destination = segue.destination as? AppCenterProtocol {
       destination.appCenter = appCenter
