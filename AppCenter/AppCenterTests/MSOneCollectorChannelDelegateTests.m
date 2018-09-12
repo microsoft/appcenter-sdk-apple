@@ -607,35 +607,62 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
       [self.sut validateLogName:specialCharactersOtherThanPeriodAndUnderscore]);
 }
 
-- (void)testValidateLogData {
+- (void)testValidateLogDataWithNilProperties {
 
   // If
   MSCSData *newData = [MSCSData new];
   MSCSData *nilData = nil;
   MSCSData *nilDataPropsWithEmptyKey = [MSCSData new];
   nilDataPropsWithEmptyKey.properties = @{ @"" : @"aValidValue" };
-  MSCSData *nilDataPropsWithNonStringKey = [MSCSData new];
-  nilDataPropsWithNonStringKey.properties = @{ @(42) : @"aValidValue" };
   MSCSData *nilDataPropsWithEmptyValue = [MSCSData new];
   nilDataPropsWithEmptyValue.properties = @{ @"aValidKey" : @"" };
-  MSCSData *nilDataPropsWithNonStringValue = [MSCSData new];
-  nilDataPropsWithNonStringValue.properties = @{ @"aValidKey" : @(42) };
-  MSCSData *nestedPropsWithCorrectValues = [MSCSData new];
-  nestedPropsWithCorrectValues.properties = @{ @"aValidKey1" : @"aValidValue1",
-                                               @"aValidKey2" : @ { @"aValidKey2" : @"aValidValue3" } };
-  MSCSData *nestedPropsWithInCorrectValues = [MSCSData new];
-  nestedPropsWithInCorrectValues.properties = @{ @"aValidKey1" : @"aValidValue1",
-                                               @"aValidKey2" : @ { @"aValidKey2" : @1 } };
-
 
   // Then
   XCTAssertTrue([self.sut validateLogData:newData]);
   XCTAssertTrue([self.sut validateLogData:nilData]);
   XCTAssertTrue([self.sut validateLogData:nilDataPropsWithEmptyKey]);
+}
+
+- (void)testValidateLogDataWithNonStringKey {
+  
+  // If
+  MSCSData *nilDataPropsWithNonStringKey = [MSCSData new];
+  nilDataPropsWithNonStringKey.properties = @{ @(42) : @"aValidValue" };
+
+  // When
   XCTAssertFalse([self.sut validateLogData:nilDataPropsWithNonStringKey]);
-  XCTAssertTrue([self.sut validateLogData:nilDataPropsWithEmptyValue]);
+}
+
+- (void)testValidateLogDataWithNonStringValue {
+  
+  // If
+  MSCSData *nilDataPropsWithNonStringValue = [MSCSData new];
+  nilDataPropsWithNonStringValue.properties = @{ @"aValidKey" : @(42) };
+  
+  // Then
   XCTAssertFalse([self.sut validateLogData:nilDataPropsWithNonStringValue]);
+}
+
+- (void)testValidateLogDataWithCorrectNestedProperties {
+  
+  // If
+  MSCSData *nestedPropsWithCorrectValues = [MSCSData new];
+  nestedPropsWithCorrectValues.properties = @{ @"aValidKey1" : @"aValidValue1",
+                                               @"aValidKey2" : @ { @"aValidKey2" : @"aValidValue3" } };
+  
+  // Then
   XCTAssertTrue([self.sut validateLogData:nestedPropsWithCorrectValues]);
+}
+
+- (void)testValidateLogDataWithIncorrectNestedProperties {
+  
+  // If
+  MSCSData *nestedPropsWithInCorrectValues = [MSCSData new];
+  nestedPropsWithInCorrectValues.properties = @{ @"aValidKey1" : @"aValidValue1",
+                                                 @"aValidKey2" :
+                                                   @ { @"aValidKey2" : @1 } };
+
+  // Then
   XCTAssertFalse([self.sut validateLogData:nestedPropsWithInCorrectValues]);
 }
 
