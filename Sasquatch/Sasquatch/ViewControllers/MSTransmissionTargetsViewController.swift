@@ -140,7 +140,7 @@ class MSTransmissionTargetsViewController: UITableViewController {
       let switcher: UISwitch? = cell.getSubview()
       switcher?.isOn = section.isTransmissionTargetEnabled()
       switcher?.addTarget(self, action: #selector(targetEnabledSwitchValueChanged), for: .valueChanged)
-      
+
       // Special label text for default target section.
       if indexPath.section == Section.Default.rawValue {
         let label: UILabel? = cell.getSubview()
