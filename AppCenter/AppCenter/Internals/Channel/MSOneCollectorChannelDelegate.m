@@ -218,7 +218,7 @@ NSString *const kMSLogNameRegex =
 - (BOOL)validateProperties:(NSDictionary<NSString *, id> *) properties {
   BOOL valueIsAString;
   for (NSString *key in properties) {
-    BOOL keyIsNSString = [key isKindOfClass:[NSString class]]; // is this actyally a case?!
+    BOOL keyIsNSString = [key isKindOfClass:[NSString class]];
     BOOL valueIsADictionary = [properties[key] isKindOfClass:[NSDictionary class]];
     valueIsAString = [properties[key] isKindOfClass:[NSString class]];
     if (!keyIsNSString) {
