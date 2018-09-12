@@ -215,6 +215,12 @@ static NSString *const kMSGroupId = @"AppCenter";
   return kMSGroupId;
 }
 
++ (void)setStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))
+    completionHandler {
+  [[MSAppCenter sharedInstance] setStorageSize:sizeInBytes completionHandler:
+    completionHandler];
+}
+
 #pragma mark - private
 
 - (instancetype)init {
@@ -436,6 +442,15 @@ static NSString *const kMSGroupId = @"AppCenter";
       [self.channelGroup setLogUrl:logUrl];
     }
   }
+}
+
+- (void)setStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))
+completionHandler {
+  if (!self.channelGroup) {
+    // TODO error case
+  }
+  [self.channelGroup setStorageSize:sizeInBytes
+              completionHandler:completionHandler];
 }
 
 #if !TARGET_OS_TV

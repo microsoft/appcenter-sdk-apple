@@ -1,18 +1,14 @@
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterInternal.h"
-#import "MSCommonSchemaLog.h"
 #import "MSCompression.h"
 #import "MSConstants+Internal.h"
 #import "MSCSExtensions.h"
 #import "MSHttpIngestionPrivate.h"
-#import "MSLog.h"
-#import "MSLogContainer.h"
 #import "MSLoggerInternal.h"
 #import "MSOneCollectorIngestionPrivate.h"
 #import "MSProtocolExtension.h"
 #import "MSTicketCache.h"
-#import "MSUtility+Date.h"
 
 NSString *const kMSOneCollectorApiKey = @"apikey";
 NSString *const kMSOneCollectorApiPath = @"/OneCollector";
@@ -92,13 +88,11 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
   for (id<MSLog> log in container.logs) {
     [apiKeys addObjectsFromArray:[log.transmissionTargetTokens allObjects]];
   }
-  [headers setObject:[[apiKeys allObjects] componentsJoinedByString:@","]
-              forKey:kMSOneCollectorApiKey];
-  [headers
-      setObject:[NSString
-                    stringWithFormat:@"%lld",
-                                     (long long)[MSUtility nowInMilliseconds]]
-         forKey:kMSOneCollectorUploadTimeKey];
+  headers[kMSOneCollectorApiKey] = [[apiKeys allObjects]
+      componentsJoinedByString:@","];
+  headers[kMSOneCollectorUploadTimeKey] =
+      [NSString stringWithFormat:@"%lld", (long long)[MSUtility
+          nowInMilliseconds]];
 
   // Gather tokens from logs.
   NSMutableDictionary<NSString *, NSString *> *ticketsAndKeys =

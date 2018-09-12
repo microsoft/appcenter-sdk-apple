@@ -46,6 +46,21 @@ addChannelUnitWithConfiguration:(MSChannelUnitConfiguration *)configuration
  */
 - (void)setLogUrl:(NSString *)logUrl;
 
+/**
+ * Set the maximum size of the internal storage. This method must be called
+ * before App Center is started.
+ *
+ * @discussion The default maximum database size is 10485760 bytes (10 MiB).
+ *
+ * @param sizeInBytes Maximum size of in bytes. This will be rounded up to
+ * the nearest multiple of 4096. Values below 2097152 (2 MiB) will be ignored.
+ * @param completionHandler Callback that is invoked when the database size
+ * has been set. The `BOOL` parameter is `YES` if changing the size is
+ * successful, and `NO` otherwise.
+ */
+- (void)setStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))
+    completionHandler;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -2,10 +2,12 @@
 
 #import "MSAppCenterInternal.h"
 #import "MSDBStoragePrivate.h"
-#import "MSStorage.h"
 #import "MSUtility+File.h"
 
 @implementation MSDBStorage
+
+// 2 MiB.
+static const long kMSMaxLogSizeInBytes = 2*1024*1024;
 
 - (instancetype)initWithSchema:(MSDBSchema *)schema
                        version:(NSUInteger)version
@@ -40,6 +42,7 @@
       return SQLITE_OK;
     }];
   }
+  [self setStorageSize:1 completionHandler:nil];
   return self;
 }
 
@@ -233,6 +236,32 @@
 
 - (void)migrateDatabase:(void *)__unused db
             fromVersion:(NSUInteger)__unused version {
+}
+
+//TODO split this implementation with the subclass
+- (void)setStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))
+    completionHandler {
+  if (sizeInBytes > kMSMaxLogSizeInBytes) {
+    if (completionHandler) {
+      completionHandler(NO);
+    }
+    //TODO print error log
+    return;
+  }
+  [self executeQueryUsingBlock:^int(void *db) {
+    int result = sqlite3_exec(db, "PRAGMA  max_page_count = 1;", NULL, NULL,
+        NULL);
+
+    if (result == SQLITE_OK) {
+      NSLog(@"*******passed");
+    } else {
+      NSLog(@"*******failed");
+    }
+    return result;
+    // TODO check that the new size is not less than file size, and if it is,
+    // TODO error (or just call the pragma check the status)
+    //TODO check database size and ensure
+  }];
 }
 
 @end

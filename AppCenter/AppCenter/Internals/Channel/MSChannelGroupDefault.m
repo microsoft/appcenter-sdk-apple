@@ -262,4 +262,9 @@ addChannelUnitWithConfiguration:(MSChannelUnitConfiguration *)configuration
   self.ingestion.baseURL = logUrl;
 }
 
+- (void)setStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))
+    completionHandler {
+  [self.storage setStorageSize:sizeInBytes completionHandler:completionHandler];
+}
+
 @end

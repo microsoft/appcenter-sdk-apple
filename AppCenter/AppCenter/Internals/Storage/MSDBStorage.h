@@ -86,6 +86,10 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
  */
 + (NSDictionary *)columnsIndexes:(MSDBSchema *)schema;
 
+- (void)setStorageSize:(long)sizeInBytes completionHandler:(nullable void (^)
+(BOOL))
+    completionHandler;
+
 @end
 
 NS_ASSUME_NONNULL_END
