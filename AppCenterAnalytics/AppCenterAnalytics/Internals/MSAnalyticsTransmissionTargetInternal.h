@@ -1,6 +1,8 @@
 #import "MSAnalyticsTransmissionTarget.h"
 #import <Foundation/Foundation.h>
 
+@protocol MSChannelGroupProtocol;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MSAnalyticsTransmissionTarget ()

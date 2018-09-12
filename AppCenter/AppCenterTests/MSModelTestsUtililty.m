@@ -1,9 +1,19 @@
 #import "MSModelTestsUtililty.h"
 #import "MSACModelConstants.h"
+#import "MSAppExtension.h"
+#import "MSCSData.h"
+#import "MSCSExtensions.h"
 #import "MSCSModelConstants.h"
+#import "MSDeviceExtension.h"
 #import "MSDeviceInternal.h"
-#import "MSWrapperSdkInternal.h"
+#import "MSLocExtension.h"
+#import "MSNetExtension.h"
+#import "MSOSExtension.h"
+#import "MSProtocolExtension.h"
+#import "MSSDKExtension.h"
+#import "MSUserExtension.h"
 #import "MSUtility.h"
+#import "MSWrapperSdkInternal.h"
 
 @implementation MSModelTestsUtililty
 

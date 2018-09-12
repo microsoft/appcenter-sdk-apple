@@ -1,4 +1,6 @@
 #import "MSCommonSchemaLog.h"
+#import "MSCSData.h"
+#import "MSCSExtensions.h"
 #import "MSCSModelConstants.h"
 #import "MSModel.h"
 #import "MSUtility+Date.h"

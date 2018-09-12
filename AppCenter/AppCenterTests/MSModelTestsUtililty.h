@@ -2,6 +2,15 @@
 #import "MSDevice.h"
 #import <Foundation/Foundation.h>
 
+@class MSUserExtension;
+@class MSLocExtension;
+@class MSOSExtension;
+@class MSAppExtension;
+@class MSProtocolExtension;
+@class MSNetExtension;
+@class MSSDKExtension;
+@class MSDeviceExtension;
+
 @interface MSModelTestsUtililty : NSObject
 
 /**
@@ -101,7 +110,7 @@
  * @param dummyValues Dummy values to create the extension.
  * @return The dummy common schema extensions.
  */
-+ (MSCSExtensions *)extensionsWithDummyValues:(NSDictionary *)dummyValues ;
++ (MSCSExtensions *)extensionsWithDummyValues:(NSDictionary *)dummyValues;
 
 /**
  * Populate a dummy common schema user extension.
@@ -109,7 +118,7 @@
  * @param dummyValues Dummy values to create the extension.
  * @return A dummy common schema user extension.
  */
-+ (MSUserExtension *)userExtensionWithDummyValues:(NSDictionary *)dummyValues ;
++ (MSUserExtension *)userExtensionWithDummyValues:(NSDictionary *)dummyValues;
 
 /**
  * Populate a dummy common schema location extension.
@@ -117,7 +126,7 @@
  * @param dummyValues Dummy values to create the extension.
  * @return A dummy common schema location extension.
  */
-+ (MSLocExtension *)locExtensionWithDummyValues:(NSDictionary *)dummyValues ;
++ (MSLocExtension *)locExtensionWithDummyValues:(NSDictionary *)dummyValues;
 
 /**
  * Populate a dummy common schema os extension.

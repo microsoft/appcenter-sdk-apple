@@ -22,7 +22,7 @@ class CommonSchemaPropertiesTableSection : PropertiesTableSection {
     propertyValues = [String: [String]]()
     collectDeviceIdStates = [String: Bool]()
     let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
-    let parentTargetToken = appName == "SasquatchSwift" ? kMSSwiftRuntimeTargetToken : kMSObjCRuntimeTargetToken
+    let parentTargetToken = appName.contains("SasquatchSwift") ? kMSSwiftRuntimeTargetToken : kMSObjCRuntimeTargetToken
     for token in [parentTargetToken, kMSTargetToken1, kMSTargetToken2] {
       propertyValues[token] = Array(repeating: "", count: propertyKeys.count + 1)
       collectDeviceIdStates[token] = false
