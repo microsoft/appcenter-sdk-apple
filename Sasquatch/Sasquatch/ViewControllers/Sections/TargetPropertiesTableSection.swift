@@ -8,7 +8,7 @@ class TargetPropertiesTableSection : PropertiesTableSection {
     super.init(tableSection: tableSection, tableView: tableView)
     targetProperties = [String: [(String, String)]]()
     let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
-    let parentTargetToken = appName == "SasquatchSwift" ? kMSSwiftRuntimeTargetToken : kMSObjCRuntimeTargetToken
+    let parentTargetToken = appName.contains("SasquatchSwift") ? kMSSwiftRuntimeTargetToken : kMSObjCRuntimeTargetToken
     targetProperties[parentTargetToken] = [(String, String)]()
     targetProperties[kMSTargetToken1] = [(String, String)]()
     targetProperties[kMSTargetToken2] = [(String, String)]()
