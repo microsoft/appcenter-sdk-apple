@@ -8,8 +8,12 @@ import AppCenterCrashes
 import AppCenterDistribute
 import AppCenterPush
 
-enum startFrom:Int {
-  case APP = 0, LIBRARY, BOTH
+enum StartupMode: Int {
+  case APPCENTER
+  case ONECOLLECTOR
+  case BOTH
+  case NONE
+  case SKIP
 }
 
 @UIApplicationMain
@@ -26,26 +30,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     MSAppCenter.setLogLevel(MSLogLevel.verbose)
 
     // Start App Center SDK.
-    let useOneCollector = UserDefaults.standard.bool(forKey: kMSOneCollectorEnabledKey);
-    let startTarget = UserDefaults.standard.integer(forKey: kMSStartTargetKey);
-    
-    let secretString = useOneCollector
-      ? "target=1dd3a9a64e144fcbbd4ce31c5def22e0-e57d4574-c5e7-4f89-a745-b2e850b54185-7090;appsecret=0dbca56b-b9ae-4d53-856a-7c2856137d85"
-      : "0dbca56b-b9ae-4d53-856a-7c2856137d85";
-    
+    let appSecret = "0dbca56b-b9ae-4d53-856a-7c2856137d85"
+    let target = "1dd3a9a64e144fcbbd4ce31c5def22e0-e57d4574-c5e7-4f89-a745-b2e850b54185-7090"
+    MSAppCenter.startFromLibrary(withServices: [MSAnalytics.self])
+    let services = [MSAnalytics.self, MSCrashes.self, MSDistribute.self, MSPush.self]
+    let startTarget = StartupMode(rawValue: UserDefaults.standard.integer(forKey: kMSStartTargetKey))!
     switch startTarget {
-    case startFrom.LIBRARY.rawValue:
-      MSAppCenter.startFromLibrary(withServices: [MSAnalytics.self])
-      break;
-    case startFrom.APP.rawValue:
-      MSAppCenter.start(secretString, withServices: [MSAnalytics.self, MSCrashes.self, MSDistribute.self, MSPush.self])
-      break;
-    case startFrom.BOTH.rawValue:
-      MSAppCenter.startFromLibrary(withServices: [MSAnalytics.self])
-      MSAppCenter.start(secretString, withServices: [MSAnalytics.self, MSCrashes.self, MSDistribute.self, MSPush.self])
-      break;
-    default:
-      break;
+    case .APPCENTER:
+      MSAppCenter.start(appSecret, withServices: services)
+      break
+    case .ONECOLLECTOR:
+      MSAppCenter.start("target=\(target)", withServices: services)
+      break
+    case .BOTH:
+      MSAppCenter.start("appsecret=\(appSecret);target=\(target)", withServices: services)
+      break
+    case .NONE:
+      MSAppCenter.start(withServices: services)
+      break
+    case .SKIP:
+      return true
     }
     
     // Crashes Delegate.

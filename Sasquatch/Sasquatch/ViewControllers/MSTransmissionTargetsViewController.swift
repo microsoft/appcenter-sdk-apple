@@ -4,6 +4,8 @@ class MSTransmissionTargetsViewController: UITableViewController {
   var appCenter: AppCenterDelegate!
 
   private class MSTransmissionTargetSection: NSObject {
+    static var defaultTransmissionTargetIsEnabled: Bool?
+    
     var token: String?
     var headerText: String?
     var footerText: String?
@@ -11,7 +13,7 @@ class MSTransmissionTargetsViewController: UITableViewController {
 
     func isTransmissionTargetEnabled() -> Bool {
       if isDefault {
-        return MSTransmissionTargetsViewController.defaultTransmissionTargetIsEnabled
+        return MSTransmissionTargets.shared.defaultTransmissionTargetIsEnabled
       } else {
         return MSTransmissionTargets.shared.transmissionTargets[token!]!.isEnabled()
       }
@@ -59,7 +61,6 @@ class MSTransmissionTargetsViewController: UITableViewController {
   private let kTokenCellRowIndex = 2
   private var targetPropertiesSection: TargetPropertiesTableSection?
   private var csPropertiesSection: CommonSchemaPropertiesTableSection?
-  private static let defaultTransmissionTargetIsEnabled = true // TODO from start mode
   
   enum Section : Int {
     case Default = 0
@@ -79,7 +80,7 @@ class MSTransmissionTargetsViewController: UITableViewController {
     // Default target section.
     let defaultTargetSection = MSTransmissionTargetSection()
     defaultTargetSection.headerText = "Default Transmission Target"
-    defaultTargetSection.footerText = "You need to change startup mode and restart the app to get update this target's enabled state. While the default target is enabled, all services other than Analytics will be unusable."
+    defaultTargetSection.footerText = "You need to change startup mode and restart the app to get update this target's enabled state."
     defaultTargetSection.isDefault = true
 
     // Runtime target section.

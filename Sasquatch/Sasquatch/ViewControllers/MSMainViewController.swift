@@ -2,14 +2,14 @@ import UIKit
 
 class MSMainViewController: UITableViewController, AppCenterProtocol {
   
-  enum StartupMode : String {
-    case AppSecret = "App Secret"
-    case Target = "Target"
+  enum StartupMode: String {
+    case AppCenter = "AppCenter"
+    case OneCollector = "OneCollector"
     case Both = "Both"
-    case NoSecret = "No Secret"
-    case SkipStart = "Skip Start"
+    case None = "None"
+    case Skip = "Skip"
     
-    static let allValues = [AppSecret, Target, Both, NoSecret, SkipStart]
+    static let allValues = [AppCenter, OneCollector, Both, None, Skip]
   }
 
   @IBOutlet weak var appCenterEnabledSwitch: UISwitch!
@@ -35,6 +35,9 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
       initialValue: StartupMode.allValues[startupMode],
       allValues: StartupMode.allValues,
       onChange: {(index) in UserDefaults.standard.set(index, forKey: kMSStartTargetKey)})
+    
+    // Make sure it is initialized before changing the startup mode.
+    _ = MSTransmissionTargets.shared
 
     // Miscellaneous section.
     appCenter.startEventFilterService()
