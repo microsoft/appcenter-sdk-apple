@@ -666,14 +666,14 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
   XCTAssertFalse([self.sut validateLogData:nestedPropsWithInCorrectValues]);
 }
 
-- (void)testDictionaryContainsInValidPropertiesValue {
+- (void)testDictionaryContainsInvalidPropertiesValue {
   NSDictionary *properties = @{ @"aValidKey1" : @"aValidValue1",
                                 @"aValidKey2" :
                                   @ { @"aValidKey2" : @1 } };
   XCTAssertFalse([self.sut validateProperties:properties]);
 }
 
-- (void)testDictionaryContainsInValidPropertiesKey {
+- (void)testDictionaryContainsInvalidPropertiesKey {
   NSDictionary *properties = @{ @1 : @"aValidValue1",
                                 @"aValidKey2" :
                                   @ { @"aValidKey2" : @"aValidValue1" } };
@@ -699,7 +699,7 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
   XCTAssertTrue([self.sut validateProperties:properties]);
 }
 
-- (void)testDictionaryContainsInValidNestedProperties {
+- (void)testDictionaryContainsInvalidNestedProperties {
   NSDictionary *properties = @{ @"aValidKey2" : @"aValidValue1",
                                 @"aValidKey2" :
                                   @ { @"aValidKey2" : @"aValidValue1" },
