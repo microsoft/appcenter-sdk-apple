@@ -440,7 +440,7 @@ static NSString *const kMSGroupId = @"AppCenter";
 
 #if !TARGET_OS_TV
 - (void)setCustomProperties:(MSCustomProperties *)customProperties {
-  if (!customProperties || customProperties.properties == 0) {
+  if (!customProperties || customProperties.properties.count == 0) {
     MSLogError([MSAppCenter logTag],
                @"Custom properties may not be null or empty");
     return;
