@@ -280,7 +280,7 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
                result);
     return NULL;
   }
-  MSLogDebug([MSAppCenter logTag], @"Opened database at %@.", fileURL);
+  MSLogVerbose([MSAppCenter logTag], @"Opened database.");
   NSString *statement =
       [NSString stringWithFormat:@"PRAGMA max_page_count = %i;", maxPageCount];
   char *errorMessage;
@@ -293,7 +293,7 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
                                        "maximum size constraint. Error message:"
                                        " %@", printableErrorMessage);
   } else {
-    MSLogDebug([MSAppCenter logTag],
+    MSLogVerbose([MSAppCenter logTag],
                @"Database has maximum page count of %i.",
                maxPageCount);
   }
