@@ -264,8 +264,8 @@ static NSString *const kMSGroupId = @"AppCenter";
       self.configuredFromApplication |= fromApplication;
 
       /*
-       * If the loglevel hasn't been customized before and we are not running in
-       * an app store environment, we set the default loglevel to
+       * If the log level hasn't been customized before and we are not running in
+       * an app store environment, we set the default log level to
        * MSLogLevelWarning.
        */
       if ((![MSLogger isUserDefinedLogLevel]) &&
@@ -446,11 +446,19 @@ static NSString *const kMSGroupId = @"AppCenter";
 
 - (void)setStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))
 completionHandler {
-  if (!self.channelGroup) {
-    // TODO error case
+  if (self.configuredFromApplication) {
+    MSLogWarning([MSAppCenter logTag],
+        @"Unable to set storage size after the application has configured App"
+        "Center");
+    if (completionHandler) {
+      completionHandler(NO);
+    }
   }
-  [self.channelGroup setStorageSize:sizeInBytes
-              completionHandler:completionHandler];
+  self.requestedMaxStorageSizeInBytes = @(sizeInBytes);
+  if (self.channelGroup) {
+    [self.channelGroup setStorageSize:sizeInBytes
+                    completionHandler:completionHandler];
+  }
 }
 
 #if !TARGET_OS_TV
@@ -545,6 +553,11 @@ completionHandler {
         [[MSChannelGroupDefault alloc] initWithInstallId:self.installId
                                                   logUrl:self.logUrl];
     [self.channelGroup addDelegate:self.oneCollectorChannelDelegate];
+    if (self.requestedMaxStorageSizeInBytes) {
+      long storageSize = [self.requestedMaxStorageSizeInBytes longValue];
+      [self.channelGroup setStorageSize:storageSize
+                      completionHandler:self.setStorageSizeCompletionHandler];
+    }
   }
 
   // Initialize a channel unit for start service logs.
@@ -663,11 +676,11 @@ completionHandler {
 
   // Trim whitespace characters.
   for (NSUInteger i = 0; i < [disabledServicesList count]; ++i) {
-    NSString *service = [disabledServicesList objectAtIndex:i];
+    NSString *service = disabledServicesList[i];
     service =
         [service stringByTrimmingCharactersInSet:[NSCharacterSet
                                                      whitespaceCharacterSet]];
-    [disabledServicesList replaceObjectAtIndex:i withObject:service];
+    disabledServicesList[i] = service;
   }
   return [disabledServicesList containsObject:serviceName] ||
          [disabledServicesList containsObject:kMSDisableAll];

@@ -19,6 +19,7 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
     _dbFileURL =
         [MSUtility createFileAtPathComponent:filename withData:nil atomically:NO forceOverwrite:NO];
 
+    // Maximum number of pages in the database.
     _maxPageCount =
         [MSDBStorage numberOfPagesInBytes:kMSDefaultDatabaseSizeInBytes];
 
@@ -282,13 +283,15 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
   MSLogDebug([MSAppCenter logTag], @"Opened database at %@.", fileURL);
   NSString *statement =
       [NSString stringWithFormat:@"PRAGMA max_page_count = %i;", maxPageCount];
-  char *errMsg;
-  result = sqlite3_exec(db, [statement UTF8String], NULL, NULL, &errMsg);
+  char *errorMessage;
+  result = sqlite3_exec(db, [statement UTF8String], NULL, NULL, &errorMessage);
   if (result != SQLITE_OK) {
-    //TODO test %s with nil
+    errorMessage = errorMessage ? errorMessage : "(nil)";
+    NSString *printableErrorMessage =
+        [NSString stringWithCString:errorMessage encoding:NSUTF8StringEncoding];
     MSLogWarning([MSAppCenter logTag], @"Failed to open database with specified"
                                        "maximum size constraint. Error message:"
-                                       " %s", errMsg);
+                                       " %@", printableErrorMessage);
   } else {
     MSLogDebug([MSAppCenter logTag],
                @"Database has maximum page count of %i.",

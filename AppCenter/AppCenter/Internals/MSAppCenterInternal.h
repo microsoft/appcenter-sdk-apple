@@ -25,6 +25,8 @@ static NSString *const kMSDisableAll = @"All";
 @property(nonatomic, copy) NSString *defaultTransmissionTargetToken;
 @property(nonatomic, copy) NSString *logUrl;
 @property(nonatomic, readonly) NSUUID *installId;
+@property(nonatomic) NSNumber *requestedMaxStorageSizeInBytes;
+@property (nonatomic, copy) void (^setStorageSizeCompletionHandler)(BOOL);
 @property BOOL sdkConfigured;
 @property BOOL configuredFromApplication;
 @property BOOL enabledStateUpdating;
