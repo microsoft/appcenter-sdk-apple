@@ -16,7 +16,6 @@
 #import "MSAnalyticsInternal.h"
 
 #define APP_SECRET_VALUE "7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7"
-#define TARGET_VALUE "09855e8251634d618c1d8ef3325e3530-8c17b252-f3c1-41e1-af64-78a72d13ac22-6684"
 #else
 @import AppCenter;
 @import AppCenterAnalytics;
@@ -25,7 +24,6 @@
 @import AppCenterPush;
 
 #define APP_SECRET_VALUE "3ccfe7f5-ec01-4de5-883c-f563bbbe147a"
-#define TARGET_VALUE "5a06bf4972a44a059d59c757e6d0b595-cb71af5d-2d79-4fb4-b969-01840f1543e9-6845"
 #endif
 
 enum StartupMode {
@@ -81,11 +79,11 @@ enum StartupMode {
           withServices:services];
     break;
   case ONECOLLECTOR:
-    [MSAppCenter start:[NSString stringWithFormat:@"target=%s", TARGET_VALUE]
+    [MSAppCenter start:[NSString stringWithFormat:@"target=%s", kMSObjCTargetToken]
           withServices:services];
     break;
   case BOTH:
-    [MSAppCenter start:[NSString stringWithFormat:@"appsecret=%s;target=%s", APP_SECRET_VALUE, TARGET_VALUE]
+    [MSAppCenter start:[NSString stringWithFormat:@"appsecret=%s;target=%s", APP_SECRET_VALUE, kMSObjCTargetToken]
           withServices:services];
     break;
   case NONE:

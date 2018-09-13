@@ -76,18 +76,19 @@ class MSTransmissionTargetsViewController: UITableViewController {
 
     targetPropertiesSection = TargetPropertiesTableSection(tableSection: Section.TargetProperties.rawValue, tableView: tableView)
     csPropertiesSection = CommonSchemaPropertiesTableSection(tableSection: Section.CommonSchemaProperties.rawValue, tableView: tableView)
+    let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
     
     // Default target section.
     let defaultTargetSection = MSTransmissionTargetSection()
     defaultTargetSection.headerText = "Default Transmission Target"
     defaultTargetSection.footerText = "You need to change startup mode and restart the app to get update this target's enabled state."
     defaultTargetSection.isDefault = true
+    defaultTargetSection.token = appName.contains("SasquatchSwift") ? kMSSwiftTargetToken : kMSObjCTargetToken
 
     // Runtime target section.
     let runtimeTargetSection = MSTransmissionTargetSection()
     runtimeTargetSection.headerText = "Runtime Transmission Target"
     runtimeTargetSection.footerText = "This transmission target is the parent of the two transmission targets below."
-    let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
     runtimeTargetSection.token = appName.contains("SasquatchSwift") ? kMSSwiftRuntimeTargetToken : kMSObjCRuntimeTargetToken
 
     // Child 1.
@@ -120,7 +121,7 @@ class MSTransmissionTargetsViewController: UITableViewController {
       return csPropertiesSection!.tableView(tableView, numberOfRowsInSection:section)
     }
     else {
-      return section == Section.Default.rawValue ? 2 : 3
+      return 3
     }
   }
 

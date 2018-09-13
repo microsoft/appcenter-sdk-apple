@@ -31,7 +31,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
 
     // Start App Center SDK.
     let appSecret = "0dbca56b-b9ae-4d53-856a-7c2856137d85"
-    let target = "1dd3a9a64e144fcbbd4ce31c5def22e0-e57d4574-c5e7-4f89-a745-b2e850b54185-7090"
     MSAppCenter.startFromLibrary(withServices: [MSAnalytics.self])
     let services = [MSAnalytics.self, MSCrashes.self, MSDistribute.self, MSPush.self]
     let startTarget = StartupMode(rawValue: UserDefaults.standard.integer(forKey: kMSStartTargetKey))!
@@ -40,10 +39,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
       MSAppCenter.start(appSecret, withServices: services)
       break
     case .ONECOLLECTOR:
-      MSAppCenter.start("target=\(target)", withServices: services)
+      MSAppCenter.start("target=\(kMSSwiftTargetToken)", withServices: services)
       break
     case .BOTH:
-      MSAppCenter.start("appsecret=\(appSecret);target=\(target)", withServices: services)
+      MSAppCenter.start("appsecret=\(appSecret);target=\(kMSSwiftTargetToken)", withServices: services)
       break
     case .NONE:
       MSAppCenter.start(withServices: services)
