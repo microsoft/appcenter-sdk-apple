@@ -34,6 +34,11 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
 @interface MSDBStorage : NSObject
 
 /**
+ * Maximum number of pages allowed in the database.
+ */
+@property(nonatomic) int maxPageCount;
+
+/**
  * Initialize this database with a schema and a filename for its creation.
  *
  * @param schema Schema describing the database.
@@ -73,7 +78,7 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
  *
  * @param query An SQLite "SELECT" query to execute.
  *
- * @return The selectioned entries.
+ * @return The selected entries.
  */
 - (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query;
 
