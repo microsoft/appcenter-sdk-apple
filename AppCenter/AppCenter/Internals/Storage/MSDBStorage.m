@@ -235,16 +235,6 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
    */
   NSArray<NSArray *> *rows = [self executeSelectionQuery:@"PRAGMA "
                                                          "page_count;"];
-  if ([rows count] == 0 || [rows[0] count] == 0) {
-    MSLogError([MSAppCenter logTag],
-               @"Failed to determine number of pages in database; the default"
-               " size of %ld will not be overridden.",
-               kMSDefaultDatabaseSizeInBytes);
-    if (completionHandler) {
-      completionHandler(NO);
-    }
-    return;
-  }
   int currentPageCount = (int) rows[0][0];
   MSLogDebug([MSAppCenter logTag],
              @"Found %i pages in the database.",

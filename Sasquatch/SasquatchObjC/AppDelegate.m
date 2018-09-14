@@ -53,7 +53,7 @@ enum { START_FROM_APP = 0, START_FROM_LIBRARY, START_FROM_BOTH };
   }
 #endif
 
-  // Cusomize App Center SDK.
+  // Customize App Center SDK.
   [MSDistribute setDelegate:self];
   [MSPush setDelegate:self];
   [MSAppCenter setLogLevel:MSLogLevelVerbose];

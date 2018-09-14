@@ -1,3 +1,5 @@
+#import <sqlite3.h>
+
 #import "MSDBStoragePrivate.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+File.h"
@@ -294,7 +296,7 @@ static NSString *const kMSTestMealColName = @"meal";
                                                        kMSTestTableName]];
 
   // Then
-  assertThat(expectedGuys, is(result));
+  assertThat(result, is(expectedGuys));
 }
 
 - (void)testCount {
@@ -335,8 +337,7 @@ static NSString *const kMSTestMealColName = @"meal";
                                  @"VALUES ('%@', %@, '%@')",
                                  kMSTestTableName, kMSTestPersonColName,
                                  kMSTestHungrinessColName, kMSTestMealColName,
-                                 expectedPerson, expectedHungriness.stringValue,
-                                 expectedMeal];
+                                 expectedPerson, expectedHungriness.stringValue, expectedMeal];
   [self.sut executeNonSelectionQuery:query];
 
   // When
@@ -356,11 +357,32 @@ static NSString *const kMSTestMealColName = @"meal";
   assertThatUnsignedInteger(count, equalToInt(1));
 }
 
+#pragma mark - Set storage size
+- (void)testSetStorageSizeFailsWhenShrinkingDatabase {
+
+  // If
+  short itemCount = 10;
+  [self addGuysToTheTableWithCount:itemCount];
+
+  // When
+
+  // Then
+}
+
 #pragma mark - Private
 
 - (NSArray *)addGuysToTheTableWithCount:(short)guysCount {
   NSString *insertQuery;
   NSMutableArray *guys = [NSMutableArray new];
+  sqlite3 *db = NULL;
+  NSURL *dbURL =
+      [MSUtility createFileAtPathComponent:kMSTestDBFileName withData:nil
+          atomically:NO forceOverwrite:NO];
+  sqlite3_open_v2([[dbURL absoluteString] UTF8String],
+                               &db,
+                               SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE
+                                   | SQLITE_OPEN_URI,
+                               NULL);
   for (short i = 1; i <= guysCount; i++) {
     [guys addObject:@[
       @(i), [NSString stringWithFormat:@"%@%d", kMSTestPersonColName, i],
@@ -373,8 +395,9 @@ static NSString *const kMSTestMealColName = @"meal";
             kMSTestTableName, kMSTestPersonColName, kMSTestHungrinessColName,
             kMSTestMealColName, [guys lastObject][1],
             [[guys lastObject][2] stringValue], [guys lastObject][3]];
-    [self.sut executeNonSelectionQuery:insertQuery];
+    sqlite3_exec(db, [insertQuery UTF8String], NULL, NULL, NULL);
   }
+  sqlite3_close(db);
   return guys;
 }
 
