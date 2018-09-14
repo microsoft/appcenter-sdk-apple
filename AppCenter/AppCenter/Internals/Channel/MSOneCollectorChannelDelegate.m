@@ -208,6 +208,9 @@ andDeleteDataOnDisabled:(BOOL)deletedData {
   for (NSString *key in properties) {
     BOOL keyIsValid = [key isKindOfClass:[NSString class]] && (key.length > 0);
     if (!keyIsValid) {
+      MSLogError([MSAppCenter logTag],
+                 @"%@ Event property contains an invalid key, dropping the property.",
+                 kMSBaseErrorMsg);
       continue;
     }
 
@@ -221,7 +224,15 @@ andDeleteDataOnDisabled:(BOOL)deletedData {
       } else if ([value isKindOfClass:[NSDictionary class]]) {
         NSDictionary *nestedValidProperties = [self validateProperties:value];
         [validProperties setValue:nestedValidProperties forKey:key];
+      } else {
+        MSLogError([MSAppCenter logTag],
+                   @"%@ Event property contains an value, dropping the property.",
+                   kMSBaseErrorMsg);
       }
+    } else {
+      MSLogError([MSAppCenter logTag],
+                 @"%@ Event property contains a nil value, dropping the property.",
+                 kMSBaseErrorMsg);
     }
   }
 
