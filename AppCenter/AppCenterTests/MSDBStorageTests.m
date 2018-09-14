@@ -358,11 +358,55 @@ static NSString *const kMSTestMealColName = @"meal";
 }
 
 #pragma mark - Set storage size
-- (void)testSetStorageSizeFailsWhenShrinkingDatabase {
+
+- (void)testSetStorageSizeFailsWhenShrinkingDatabaseIsAttempted {
 
   // If
-  short itemCount = 10;
-  [self addGuysToTheTableWithCount:itemCount];
+
+  // When
+
+  // Then
+}
+
+- (void)testSetStorageSizePassesWhenSizeIsNotLessThanCurrentBytesOfActualData {
+
+  // If
+
+  // When
+
+  // Then
+}
+
+- (void)testMaximumPageCountDoesNotChangeWhenShrinkingDatabaseIsAttempted {
+
+  // If
+
+  // When
+
+  // Then
+}
+
+- (void)testCompletionHandlerCanBeNilWhenShrinkingDatabaseIsAttempted {
+
+  // If
+
+  // When
+
+  // Then
+}
+
+- (void)testCompletionHandlerCanBeNilWhenSizeIsNotLessThanCurrentBytesOfActualData  {
+
+  // If
+
+  // When
+
+  // Then
+}
+
+- (void)testDefaultDatabaseSizeIsUsedWhenNotOverridden {
+
+  // If
 
   // When
 
