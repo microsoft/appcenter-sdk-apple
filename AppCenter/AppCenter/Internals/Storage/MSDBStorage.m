@@ -16,12 +16,10 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
   if ((self = [super init])) {
 
     // Path to the database.
-    _dbFileURL =
-        [MSUtility createFileAtPathComponent:filename withData:nil atomically:NO forceOverwrite:NO];
+    _dbFileURL = [MSUtility createFileAtPathComponent:filename withData:nil atomically:NO forceOverwrite:NO];
 
     // Maximum number of pages in the database.
-    _maxPageCount =
-        [MSDBStorage numberOfPagesInBytes:kMSDefaultDatabaseSizeInBytes];
+    _maxPageCount = [MSDBStorage numberOfPagesInBytes:kMSDefaultDatabaseSizeInBytes];
 
     // If it is custom SQLite library we need to turn on URI filename
     // capability.
@@ -31,8 +29,7 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
     [self executeQueryUsingBlock:^int(void *db) {
 
       // Create tables based on schema.
-      NSUInteger tablesCreated =
-          [MSDBStorage createTablesWithSchema:schema inOpenedDatabase:db];
+      NSUInteger tablesCreated = [MSDBStorage createTablesWithSchema:schema inOpenedDatabase:db];
       BOOL newDatabase = tablesCreated == schema.count;
       NSUInteger databaseVersion = [MSDBStorage versionInOpenedDatabase:db];
       if (databaseVersion < version && !newDatabase) {
@@ -51,8 +48,7 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
 }
 
 - (BOOL)executeQueryUsingBlock:(MSDBStorageQueryBlock)callback {
-  sqlite3 *db =
-      [MSDBStorage openDatabaseAtFileURL:self.dbFileURL withMaxPageCount:self.maxPageCount];
+  sqlite3 *db = [MSDBStorage openDatabaseAtFileURL:self.dbFileURL withMaxPageCount:self.maxPageCount];
   if (!db) {
     return NO;
   }
@@ -72,8 +68,7 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
       continue;
     }
     NSMutableArray *columnQueries = [NSMutableArray new];
-    NSArray<NSDictionary<NSString *, NSArray<NSString *> *> *>
-        *columns = schema[tableName];
+    NSArray<NSDictionary<NSString *, NSArray<NSString *> *> *> *columns = schema[tableName];
 
     // Browse columns.
     for (NSUInteger i = 0; i < columns.count; i++) {
@@ -110,35 +105,28 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
 }
 
 + (BOOL)tableExists:(NSString *)tableName inOpenedDatabase:(void *)db {
-  NSString *query =
-      [NSString stringWithFormat:@"SELECT COUNT(*) FROM \"sqlite_master\" "
-                                 @"WHERE \"type\"='table' AND \"name\"='%@';", tableName];
-  NSArray<NSArray *>
-      *result = [MSDBStorage executeSelectionQuery:query inOpenedDatabase:db];
+  NSString *query = [NSString stringWithFormat:@"SELECT COUNT(*) FROM \"sqlite_master\" "
+                                               @"WHERE \"type\"='table' AND \"name\"='%@';", tableName];
+  NSArray<NSArray *> *result = [MSDBStorage executeSelectionQuery:query inOpenedDatabase:db];
   return (result.count > 0) ? [(NSNumber *) result[0][0] boolValue] : NO;
 }
 
 + (NSUInteger)versionInOpenedDatabase:(void *)db {
-  NSArray<NSArray *> *result =
-      [MSDBStorage executeSelectionQuery:@"PRAGMA user_version" inOpenedDatabase:db];
-  return (result.count
-      > 0) ? [(NSNumber *) result[0][0] unsignedIntegerValue] : 0;
+  NSArray<NSArray *> *result = [MSDBStorage executeSelectionQuery:@"PRAGMA user_version" inOpenedDatabase:db];
+  return (result.count > 0) ? [(NSNumber *) result[0][0] unsignedIntegerValue] : 0;
 }
 
 + (void)setVersion:(NSUInteger)version inOpenedDatabase:(void *)db {
-  NSString *query =
-      [NSString stringWithFormat:@"PRAGMA user_version = %lu", (unsigned long) version];
+  NSString *query = [NSString stringWithFormat:@"PRAGMA user_version = %lu", (unsigned long) version];
   [MSDBStorage executeNonSelectionQuery:query inOpenedDatabase:db];
 }
 
 - (NSUInteger)countEntriesForTable:(NSString *)tableName condition:(nullable NSString *)condition {
-  NSMutableString *countLogQuery =
-      [NSMutableString stringWithFormat:@"SELECT COUNT(*) FROM \"%@\" ", tableName];
+  NSMutableString *countLogQuery = [NSMutableString stringWithFormat:@"SELECT COUNT(*) FROM \"%@\" ", tableName];
   if (condition.length > 0) {
     [countLogQuery appendFormat:@"WHERE %@", condition];
   }
-  NSArray<NSArray<NSNumber *> *>
-      *result = [self executeSelectionQuery:countLogQuery];
+  NSArray<NSArray<NSNumber *> *> *result = [self executeSelectionQuery:countLogQuery];
   return (result.count > 0) ? result[0][0].unsignedIntegerValue : 0;
 }
 
@@ -171,8 +159,7 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
 }
 
 + (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query inOpenedDatabase:(void *)db {
-  NSMutableArray<NSMutableArray *>
-      *entries = [NSMutableArray<NSMutableArray *> new];
+  NSMutableArray<NSMutableArray *> *entries = [NSMutableArray<NSMutableArray *> new];
   sqlite3_stmt *statement = NULL;
   int result = sqlite3_prepare_v2(db, [query UTF8String], -1, &statement, NULL);
   if (result == SQLITE_OK) {
@@ -190,15 +177,14 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
          * TODO: Add here any other type it needs.
          */
         switch (sqlite3_column_type(statement, i)) {
-        case SQLITE_INTEGER:value = @(sqlite3_column_int(statement, i));
+        case SQLITE_INTEGER:
+          value = @(sqlite3_column_int(statement, i));
           break;
         case SQLITE_TEXT:
-          value =
-              [NSString stringWithUTF8String:(const char *) sqlite3_column_text(
-                  statement,
-                  i)];
+          value = [NSString stringWithUTF8String:(const char *) sqlite3_column_text(statement, i)];
           break;
-        default:value = [NSNull null];
+        default:
+          value = [NSNull null];
           break;
         }
         [entry addObject:value];
@@ -235,21 +221,17 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
    */
   NSArray<NSArray *> *rows = [self executeSelectionQuery:@"PRAGMA "
                                                          "page_count;"];
-  int currentPageCount = (int) rows[0][0];
-  MSLogDebug([MSAppCenter logTag],
-             @"Found %i pages in the database.",
-             currentPageCount);
+  int currentPageCount = [rows[0][0] intValue];
+  MSLogDebug([MSAppCenter logTag], @"Found %i pages in the database.", currentPageCount);
   int requestedMaxPageCount = [MSDBStorage numberOfPagesInBytes:sizeInBytes];
   if (currentPageCount > requestedMaxPageCount) {
-    MSLogWarning([MSAppCenter logTag],
-                 @"Cannot change database size to %ld bytes as it would "
-                 "cause a loss of data. The default maximum size of %ld will "
-                 "not be overridden.",
-                 sizeInBytes,
-                 kMSDefaultDatabaseSizeInBytes);
+    MSLogWarning([MSAppCenter logTag], @"Cannot change database size to %ld bytes as it would "
+                                       "cause a loss of data. The default maximum size of %ld will "
+                                       "not be overridden.", sizeInBytes, kMSDefaultDatabaseSizeInBytes);
     if (completionHandler) {
       completionHandler(NO);
     }
+    return;
   }
   self.maxPageCount = requestedMaxPageCount;
   if (completionHandler) {
@@ -261,31 +243,24 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
   sqlite3 *db = NULL;
   int result = sqlite3_open_v2([[fileURL absoluteString] UTF8String],
                                &db,
-                               SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE
-                                   | SQLITE_OPEN_URI,
+                               SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_URI,
                                NULL);
   if (result != SQLITE_OK) {
-    MSLogError([MSAppCenter logTag],
-               @"Failed to open database with result: %d.",
-               result);
+    MSLogError([MSAppCenter logTag], @"Failed to open database with result: %d.", result);
     return NULL;
   }
   MSLogVerbose([MSAppCenter logTag], @"Opened database.");
-  NSString *statement =
-      [NSString stringWithFormat:@"PRAGMA max_page_count = %i;", maxPageCount];
+  NSString *statement = [NSString stringWithFormat:@"PRAGMA max_page_count = %i;", maxPageCount];
   char *errorMessage;
   result = sqlite3_exec(db, [statement UTF8String], NULL, NULL, &errorMessage);
   if (result != SQLITE_OK) {
     errorMessage = errorMessage ? errorMessage : "(nil)";
-    NSString *printableErrorMessage =
-        [NSString stringWithCString:errorMessage encoding:NSUTF8StringEncoding];
+    NSString *printableErrorMessage = [NSString stringWithCString:errorMessage encoding:NSUTF8StringEncoding];
     MSLogWarning([MSAppCenter logTag], @"Failed to open database with specified"
                                        "maximum size constraint. Error message:"
                                        " %@", printableErrorMessage);
   } else {
-    MSLogVerbose([MSAppCenter logTag],
-               @"Database has maximum page count of %i.",
-               maxPageCount);
+    MSLogVerbose([MSAppCenter logTag], @"Database has maximum page count of %i.", maxPageCount);
   }
   return db;
 }

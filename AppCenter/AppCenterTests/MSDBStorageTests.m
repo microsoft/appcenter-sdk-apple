@@ -1,4 +1,5 @@
 #import <sqlite3.h>
+#import <XCTest/XCTest.h>
 
 #import "MSDBStoragePrivate.h"
 #import "MSTestFrameworks.h"
@@ -10,6 +11,8 @@ static NSString *const kMSTestPositionColName = @"position";
 static NSString *const kMSTestPersonColName = @"person";
 static NSString *const kMSTestHungrinessColName = @"hungriness";
 static NSString *const kMSTestMealColName = @"meal";
+static const long kMSDefaultPageSizeInBytes = 4096;
+static const long kMSDefaultDatabaseSizeInBytes = 10*1024*1024;
 
 @interface MSDBStorageTests : XCTestCase
 
@@ -362,55 +365,111 @@ static NSString *const kMSTestMealColName = @"meal";
 - (void)testSetStorageSizeFailsWhenShrinkingDatabaseIsAttempted {
 
   // If
+  long initialSizeInBytes = kMSDefaultPageSizeInBytes * 10;
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler invoked."];
+
+  // Fill the database with data to reach the desired initial size.
+  while ([self getDataLengthInBytes] < initialSizeInBytes) {
+    [self addGuysToTheTableWithCount:1000];
+  }
+  long bytesOfData = [self getDataLengthInBytes];
+  long shrunkenSizeInBytes = bytesOfData - kMSDefaultPageSizeInBytes * 3;
 
   // When
+  [self.sut setStorageSize:shrunkenSizeInBytes completionHandler:^(BOOL success) {
+
+    // Then
+    XCTAssertFalse(success);
+    [expectation fulfill];
+  }];
 
   // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@",
+                                           error);
+                                 }
+                               }];
 }
 
-- (void)testSetStorageSizePassesWhenSizeIsNotLessThanCurrentBytesOfActualData {
+- (void)testSetStorageSizePassesWhenSizeIsGreaterThanCurrentBytesOfActualData {
 
   // If
+  long initialSizeInBytes = kMSDefaultPageSizeInBytes * 10;
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler invoked."];
+
+  // Fill the database with data to reach the desired initial size.
+  while ([self getDataLengthInBytes] < initialSizeInBytes) {
+    [self addGuysToTheTableWithCount:1000];
+  }
+  long bytesOfData = [self getDataLengthInBytes];
+  NSLog(@"bytes of data: %ld", bytesOfData);
+  long expandedSizeInBytes = bytesOfData + kMSDefaultPageSizeInBytes * 3;
 
   // When
+  [self.sut setStorageSize:expandedSizeInBytes completionHandler:^(BOOL success) {
+
+    // Then
+    XCTAssertTrue(success);
+    [expectation fulfill];
+  }];
 
   // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@",
+                                           error);
+                                 }
+                               }];
 }
 
 - (void)testMaximumPageCountDoesNotChangeWhenShrinkingDatabaseIsAttempted {
 
   // If
+  const int initialMaxPageCount = self.sut.maxPageCount;
+  long initialSizeInBytes = kMSDefaultPageSizeInBytes * 10;
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler invoked."];
+
+  // Fill the database with data to reach the desired initial size.
+  while ([self getDataLengthInBytes] < initialSizeInBytes) {
+    [self addGuysToTheTableWithCount:1000];
+  }
+  long bytesOfData = [self getDataLengthInBytes];
+  long shrunkenSizeInBytes = bytesOfData - kMSDefaultPageSizeInBytes * 3;
 
   // When
+  [self.sut setStorageSize:shrunkenSizeInBytes completionHandler:^(BOOL success) {
+
+    // Then
+    XCTAssertEqual(initialMaxPageCount, self.sut.maxPageCount);
+    [expectation fulfill];
+  }];
 
   // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@",
+                                           error);
+                                 }
+                               }];
 }
 
-- (void)testCompletionHandlerCanBeNilWhenShrinkingDatabaseIsAttempted {
-
-  // If
+- (void)testCompletionHandlerCanBeNil {
 
   // When
+  [self.sut setStorageSize:kMSDefaultPageSizeInBytes completionHandler:nil];
 
   // Then
+  // Didn't crash.
 }
 
-- (void)testCompletionHandlerCanBeNilWhenSizeIsNotLessThanCurrentBytesOfActualData  {
+- (void)testDefaultDatabaseSize {
 
-  // If
-
-  // When
-
-  // Then
-}
-
-- (void)testDefaultDatabaseSizeIsUsedWhenNotOverridden {
-
-  // If
-
-  // When
-
-  // Then
+  long expectedPageCount = kMSDefaultDatabaseSizeInBytes / kMSDefaultPageSizeInBytes;
+  XCTAssertEqual(self.sut.maxPageCount, expectedPageCount);
 }
 
 #pragma mark - Private
@@ -418,15 +477,7 @@ static NSString *const kMSTestMealColName = @"meal";
 - (NSArray *)addGuysToTheTableWithCount:(short)guysCount {
   NSString *insertQuery;
   NSMutableArray *guys = [NSMutableArray new];
-  sqlite3 *db = NULL;
-  NSURL *dbURL =
-      [MSUtility createFileAtPathComponent:kMSTestDBFileName withData:nil
-          atomically:NO forceOverwrite:NO];
-  sqlite3_open_v2([[dbURL absoluteString] UTF8String],
-                               &db,
-                               SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE
-                                   | SQLITE_OPEN_URI,
-                               NULL);
+  sqlite3 *db = [self openDatabase];
   for (short i = 1; i <= guysCount; i++) {
     [guys addObject:@[
       @(i), [NSString stringWithFormat:@"%@%d", kMSTestPersonColName, i],
@@ -451,6 +502,30 @@ static NSString *const kMSTestMealColName = @"meal";
           [NSString
               stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'",
                                tableName]][0][0];
+}
+
+- (long) getDataLengthInBytes {
+  sqlite3 *db = [self openDatabase];
+  sqlite3_stmt *statement = NULL;
+  sqlite3_prepare_v2(db, "PRAGMA page_count;", -1, &statement, NULL);
+  sqlite3_step(statement);
+  NSNumber *pageCount = @(sqlite3_column_int(statement, 0));
+  sqlite3_finalize(statement);
+  sqlite3_close(db);
+  return [pageCount longValue] * kMSDefaultPageSizeInBytes;
+}
+
+- (sqlite3*)openDatabase {
+  sqlite3 *db = NULL;
+  NSURL *dbURL =
+      [MSUtility createFileAtPathComponent:kMSTestDBFileName withData:nil
+                                atomically:NO forceOverwrite:NO];
+  sqlite3_open_v2([[dbURL absoluteString] UTF8String],
+                  &db,
+                  SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE
+                      | SQLITE_OPEN_URI,
+                  NULL);
+  return db;
 }
 
 @end
