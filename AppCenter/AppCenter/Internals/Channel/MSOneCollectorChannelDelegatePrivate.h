@@ -60,21 +60,12 @@ extern NSString *const kMSLogNameRegex;
 - (BOOL)validateLogName:(NSString *)name;
 
 /**
- * Validate Common Schema log data (part B & C).
- *
- * @param data The log data.
- *
- * @return YES if data is valid, NO otherwise.
- */
-- (BOOL)validateLogData:(MSCSData *)data;
-
-/**
  * Validate a dictionary that contains properties for a common schema log.
  *
  * @param properties The properties.
  *
- * @return YES if properties are valid, NO otherwise.
+ * @return a dictionary that contains only valid properties.
  */
-- (BOOL)validateProperties:(NSDictionary<NSString *, id> *) properties;
+- (NSDictionary<NSString *, id> *)validateProperties:(NSDictionary<NSString *, id> *)properties;
 
 @end

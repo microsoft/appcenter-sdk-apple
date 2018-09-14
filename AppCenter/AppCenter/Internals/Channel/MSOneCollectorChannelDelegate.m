@@ -3,18 +3,11 @@
 #import "MSCSData.h"
 #import "MSCSEpochAndSeq.h"
 #import "MSCSExtensions.h"
-#import "MSChannelGroupProtocol.h"
-#import "MSChannelProtocol.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
-#import "MSCommonSchemaLog.h"
-#import "MSLog.h"
-#import "MSLogConversion.h"
-#import "MSLogger.h"
 #import "MSOneCollectorChannelDelegatePrivate.h"
 #import "MSOneCollectorIngestion.h"
 #import "MSSDKExtension.h"
-#import "MSUtility.h"
 
 static NSString *const kMSOneCollectorGroupIdSuffix = @"/one";
 static NSString *const kMSOneCollectorBaseUrl =
@@ -47,8 +40,8 @@ NSString *const kMSLogNameRegex =
   return self;
 }
 
-- (void)channelGroup:(id<MSChannelGroupProtocol>)channelGroup
-    didAddChannelUnit:(id<MSChannelUnitProtocol>)channel {
+- (void)channelGroup:(id <MSChannelGroupProtocol>)channelGroup
+   didAddChannelUnit:(id <MSChannelUnitProtocol>)channel {
 
   // Add OneCollector group based on the given channel's group id.
   NSString *groupId = channel.configuration.groupId;
@@ -59,19 +52,19 @@ NSString *const kMSLogNameRegex =
     MSChannelUnitConfiguration *channelUnitConfiguration =
         [[MSChannelUnitConfiguration alloc]
             initDefaultConfigurationWithGroupId:oneCollectorGroupId];
-    id<MSChannelUnitProtocol> channelUnit = [channelGroup
+    id <MSChannelUnitProtocol> channelUnit = [channelGroup
         addChannelUnitWithConfiguration:channelUnitConfiguration
                           withIngestion:self.oneCollectorIngestion];
     self.oneCollectorChannels[groupId] = channelUnit;
   }
 }
 
-- (void)channel:(id<MSChannelProtocol>)__unused channel
-     prepareLog:(id<MSLog>)log {
+- (void)channel:(id <MSChannelProtocol>)__unused channel
+     prepareLog:(id <MSLog>)log {
 
   // Prepare Common Schema logs.
   if ([log isKindOfClass:[MSCommonSchemaLog class]]) {
-    MSCommonSchemaLog *csLog = (MSCommonSchemaLog *)log;
+    MSCommonSchemaLog *csLog = (MSCommonSchemaLog *) log;
 
     // Set SDK extension values.
     MSCSEpochAndSeq *epochAndSeq = self.epochsAndSeqsByIKey[csLog.iKey];
@@ -88,11 +81,11 @@ NSString *const kMSLogNameRegex =
   }
 }
 
-- (void)channel:(id<MSChannelProtocol>)channel
-     didPrepareLog:(id<MSLog>)log
-    withInternalId:(NSString *)__unused internalId {
-  id<MSChannelUnitProtocol> channelUnit = (id<MSChannelUnitProtocol>)channel;
-  id<MSChannelUnitProtocol> oneCollectorChannelUnit = nil;
+- (void)channel:(id <MSChannelProtocol>)channel
+  didPrepareLog:(id <MSLog>)log
+ withInternalId:(NSString *)__unused internalId {
+  id <MSChannelUnitProtocol> channelUnit = (id <MSChannelUnitProtocol>) channel;
+  id <MSChannelUnitProtocol> oneCollectorChannelUnit = nil;
   NSString *groupId = channelUnit.configuration.groupId;
 
   /*
@@ -100,9 +93,9 @@ NSString *const kMSLogNameRegex =
    * enqueued to a non One Collector channel. Happens to logs from the log
    * buffer after a crash.
    */
-  if ([(NSObject *)log isKindOfClass:[MSCommonSchemaLog class]] &&
+  if ([(NSObject *) log isKindOfClass:[MSCommonSchemaLog class]] &&
       ![self isOneCollectorGroup:groupId]) {
-    oneCollectorChannelUnit = [self.oneCollectorChannels objectForKey:groupId];
+    oneCollectorChannelUnit = self.oneCollectorChannels[groupId];
     if (oneCollectorChannelUnit) {
       dispatch_async(oneCollectorChannelUnit.logsDispatchQueue, ^{
         [oneCollectorChannelUnit enqueueItem:log];
@@ -114,11 +107,11 @@ NSString *const kMSLogNameRegex =
       ![channel conformsToProtocol:@protocol(MSChannelUnitProtocol)]) {
     return;
   }
-  oneCollectorChannelUnit = [self.oneCollectorChannels objectForKey:groupId];
+  oneCollectorChannelUnit = self.oneCollectorChannels[groupId];
   if (!oneCollectorChannelUnit) {
     return;
   }
-  id<MSLogConversion> logConversion = (id<MSLogConversion>)log;
+  id <MSLogConversion> logConversion = (id <MSLogConversion>) log;
   NSArray<MSCommonSchemaLog *> *commonSchemaLogs =
       [logConversion toCommonSchemaLogs];
   for (MSCommonSchemaLog *commonSchemaLog in commonSchemaLogs) {
@@ -128,28 +121,28 @@ NSString *const kMSLogNameRegex =
   }
 }
 
-- (BOOL)channelUnit:(id<MSChannelUnitProtocol>)channelUnit
-    shouldFilterLog:(id<MSLog>)log {
+- (BOOL)channelUnit:(id <MSChannelUnitProtocol>)channelUnit
+    shouldFilterLog:(id <MSLog>)log {
 
   // Validate Custom Schema logs, filter out invalid logs.
   if ([log isKindOfClass:[MSCommonSchemaLog class]]) {
     if (![self isOneCollectorGroup:channelUnit.configuration.groupId]) {
       return true;
     }
-    return ![self validateLog:(MSCommonSchemaLog *)log];
+    return ![self validateLog:(MSCommonSchemaLog *) log];
   }
 
-  // It's an App Center log. Filter out if it countains token(s) since it's
-  // already re-enqeued as CS log(s).
+  // It's an App Center log. Filter out if it contains token(s) since it's
+  // already re-enqueued as CS log(s).
   return [[log transmissionTargetTokens] count] > 0;
 }
 
-- (void)channel:(id<MSChannelProtocol>)channel
-              didSetEnabled:(BOOL)isEnabled
-    andDeleteDataOnDisabled:(BOOL)deletedData {
+- (void)        channel:(id <MSChannelProtocol>)channel
+          didSetEnabled:(BOOL)isEnabled
+andDeleteDataOnDisabled:(BOOL)deletedData {
   if ([channel conformsToProtocol:@protocol(MSChannelUnitProtocol)]) {
     NSString *groupId =
-        ((id<MSChannelUnitProtocol>)channel).configuration.groupId;
+        ((id <MSChannelUnitProtocol>) channel).configuration.groupId;
     if (![self isOneCollectorGroup:groupId]) {
 
       // Mirror disabling state to OneCollector channels.
@@ -157,7 +150,7 @@ NSString *const kMSLogNameRegex =
                              andDeleteDataOnDisabled:deletedData];
     }
   } else if ([channel conformsToProtocol:@protocol(MSChannelGroupProtocol)] &&
-             !isEnabled && deletedData) {
+      !isEnabled && deletedData) {
 
     // Reset epoch and seq values when SDK is disabled as a whole.
     [self.epochsAndSeqsByIKey removeAllObjects];
@@ -170,20 +163,18 @@ NSString *const kMSLogNameRegex =
   return [groupId hasSuffix:kMSOneCollectorGroupIdSuffix];
 }
 
-- (BOOL)shouldSendLogToOneCollector:(id<MSLog>)log {
-  NSObject *logObject = (NSObject *)log;
+- (BOOL)shouldSendLogToOneCollector:(id <MSLog>)log {
+  NSObject *logObject = (NSObject *) log;
   return [[log transmissionTargetTokens] count] > 0 &&
-         [log conformsToProtocol:@protocol(MSLogConversion)] &&
-         ![logObject isKindOfClass:[MSCommonSchemaLog class]];
+      [log conformsToProtocol:@protocol(MSLogConversion)] &&
+      ![logObject isKindOfClass:[MSCommonSchemaLog class]];
 }
 
 - (BOOL)validateLog:(MSCommonSchemaLog *)log {
   if (![self validateLogName:log.name]) {
     return NO;
   }
-  if (![self validateLogData:log.data]) {
-    return NO;
-  }
+  log.data.properties = [self validateProperties:log.data.properties];
   return YES;
 }
 
@@ -211,39 +202,32 @@ NSString *const kMSLogNameRegex =
   return YES;
 }
 
-- (BOOL)validateLogData:(MSCSData *)data {
-  return [self validateProperties:data.properties];
-}
-
-- (BOOL)validateProperties:(NSDictionary<NSString *, id> *) properties {
-  BOOL valueIsAString;
+- (NSDictionary<NSString *, id> *)validateProperties:(NSDictionary<NSString *, id> *)properties {
+  NSMutableDictionary<NSString *, id>
+      *validProperties = [NSMutableDictionary new];
   for (NSString *key in properties) {
-    BOOL keyIsNSString = [key isKindOfClass:[NSString class]];
-    BOOL valueIsADictionary = [properties[key] isKindOfClass:[NSDictionary class]];
-    valueIsAString = [properties[key] isKindOfClass:[NSString class]];
-    if (!keyIsNSString) {
-      MSLogError([MSAppCenter logTag],
-                 @"%@ Property key must be of type NSString.",
-                 kMSBaseErrorMsg);
-      return NO;
+    BOOL keyIsValid = NO;
+    if ([key isKindOfClass:[NSString class]] && key.length > 0) {
+      keyIsValid = YES;
     }
-    else {
-      if(valueIsADictionary) {
-        
-        // Properties can be nested, verify the nested properties here.
-        return [self validateProperties:properties[key]];
+    id value = properties[key];
+    if (value) {
+
+      // Not checking for empty string, as values can be empty strings.
+      if ([value isKindOfClass:[NSString class]]) {
+        if (keyIsValid) {
+          [validProperties setValue:value forKey:key];
+        }
+      } else if ([value isKindOfClass:[NSDictionary class]]) {
+        NSDictionary *nestedValidProperties = [self validateProperties:value];
+        if (keyIsValid) {
+          [validProperties setValue:nestedValidProperties forKey:key];
+        }
       }
-      if(!valueIsAString) {
-        MSLogError([MSAppCenter logTag],
-                   @"%@ Property value must be of type NSString.",
-                   kMSBaseErrorMsg);
-      }
-      return valueIsAString;
     }
   }
-  
-  // Empty property values are okay.
-  return YES;
+
+  return validProperties;
 }
 
 @end

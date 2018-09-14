@@ -567,8 +567,12 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
   // Invalid data.
   log.data.properties = @{ @(24) : @(42) };
 
+  // When
+  BOOL validLog = [self.sut validateLog:log];
+  
   // Then
-  XCTAssertFalse([self.sut validateLog:log]);
+  XCTAssertTrue(validLog);
+  XCTAssertTrue(log.data.properties.count == 0);
 }
 
 - (void)testValidateLogName {
@@ -608,84 +612,104 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
       [self.sut validateLogName:specialCharactersOtherThanPeriodAndUnderscore]);
 }
 
-- (void)testValidateLogDataWithNilProperties {
+- (void)testValidatePropertiesWithEmptyValue {
 
   // If
-  MSCSData *newData = [MSCSData new];
-  MSCSData *nilData = nil;
-  MSCSData *nilDataPropsWithEmptyKey = [MSCSData new];
-  nilDataPropsWithEmptyKey.properties = @{ @"" : @"aValidValue" };
-  MSCSData *nilDataPropsWithEmptyValue = [MSCSData new];
-  nilDataPropsWithEmptyValue.properties = @{ @"aValidKey" : @"" };
-
-  // Then
-  XCTAssertTrue([self.sut validateLogData:newData]);
-  XCTAssertTrue([self.sut validateLogData:nilData]);
-  XCTAssertTrue([self.sut validateLogData:nilDataPropsWithEmptyKey]);
-}
-
-- (void)testValidateLogDataWithNonStringKey {
-  
-  // If
-  MSCSData *nilDataPropsWithNonStringKey = [MSCSData new];
-  nilDataPropsWithNonStringKey.properties = @{ @(42) : @"aValidValue" };
+  NSDictionary *emptyValueProperties = @{ @"aValidKey" : @"" };
 
   // When
-  XCTAssertFalse([self.sut validateLogData:nilDataPropsWithNonStringKey]);
+  NSDictionary *result = [self.sut validateProperties:emptyValueProperties];
+  
+  // Then
+  XCTAssertTrue(result.count == 1);
+  XCTAssertEqualObjects(result, emptyValueProperties);
+}
+
+- (void)testValidatePropertiesWithEmptyKey {
+  
+  // If
+  NSDictionary *emptyKeyProperties = @{ @"" : @"aValidValue" };
+
+  // When
+  NSDictionary *result = [self.sut validateProperties:emptyKeyProperties];
+  
+  // Then
+  XCTAssertTrue(result.count == 0);
+}
+
+- (void)testValidatePropertiesWithNonStringKey {
+
+  // If
+  NSDictionary *numberAsKeyProperties = @{ @(42) : @"aValidValue" };
+
+  // When
+  NSDictionary *result = [self.sut validateProperties:numberAsKeyProperties];
+  
+  // Then
+  XCTAssertTrue(result.count == 0);
 }
 
 - (void)testValidateLogDataWithNonStringValue {
-  
+
   // If
-  MSCSData *nilDataPropsWithNonStringValue = [MSCSData new];
-  nilDataPropsWithNonStringValue.properties = @{ @"aValidKey" : @(42) };
+  NSDictionary *numberAsValueProperties = @{ @"aValidKey" : @(42) };
+
+  // When
+  NSDictionary *result = [self.sut validateProperties:numberAsValueProperties];
   
   // Then
-  XCTAssertFalse([self.sut validateLogData:nilDataPropsWithNonStringValue]);
+  XCTAssertTrue(result.count == 0);
 }
 
 - (void)testValidateLogDataWithCorrectNestedProperties {
-  
+
   // If
-  MSCSData *nestedPropsWithCorrectValues = [MSCSData new];
-  nestedPropsWithCorrectValues.properties = @{ @"aValidKey1" : @"aValidValue1",
+  NSDictionary *correctlyNestedProperties = @{ @"aValidKey1" : @"aValidValue1",
                                                @"aValidKey2" : @ { @"aValidKey2" : @"aValidValue3" } };
+
+  // When
+  NSDictionary *result = [self.sut validateProperties:correctlyNestedProperties];
   
   // Then
-  XCTAssertTrue([self.sut validateLogData:nestedPropsWithCorrectValues]);
+  XCTAssertTrue(result.count == 2);
+  XCTAssertEqualObjects(result, correctlyNestedProperties);
 }
 
 - (void)testValidateLogDataWithIncorrectNestedProperties {
-  
+
   // If
-  MSCSData *nestedPropsWithInCorrectValues = [MSCSData new];
-  nestedPropsWithInCorrectValues.properties = @{ @"aValidKey1" : @"aValidValue1",
+  NSDictionary *incorrectNestedProperties = @{ @"aValidKey1" : @"aValidValue1",
                                                  @"aValidKey2" :
                                                    @ { @"aValidKey2" : @1 } };
 
+  // When
+  NSDictionary *result = [self.sut validateProperties:incorrectNestedProperties];
+  
   // Then
-  XCTAssertFalse([self.sut validateLogData:nestedPropsWithInCorrectValues]);
-}
-
-- (void)testDictionaryContainsInvalidPropertiesValue {
-  NSDictionary *properties = @{ @"aValidKey1" : @"aValidValue1",
-                                @"aValidKey2" :
-                                  @ { @"aValidKey2" : @1 } };
-  XCTAssertFalse([self.sut validateProperties:properties]);
+  XCTAssertTrue(result.count == 2);
+  XCTAssertNotNil(result[@"aValidKey2"]);
+  XCTAssertTrue(((NSDictionary *)result[@"aValidKey2"]).count == 0);
+  XCTAssertTrue([result[@"aValidKey2"] isKindOfClass:[NSDictionary class]]);
+  XCTAssertNotEqualObjects(result, incorrectNestedProperties);
 }
 
 - (void)testDictionaryContainsInvalidPropertiesKey {
-  NSDictionary *properties = @{ @1 : @"aValidValue1",
+  
+  // If
+  NSDictionary *incorrectNestedProperties = @{ @1 : @"aValidValue1",
                                 @"aValidKey2" :
                                   @ { @"aValidKey2" : @"aValidValue1" } };
-  XCTAssertFalse([self.sut validateProperties:properties]);
-}
-
-- (void)testDictionaryContainsValidProperties {
-  NSDictionary *properties = @{ @"aValidKey2" : @"aValidValue1",
-                                @"aValidKey2" :
-                                  @ { @"aValidKey2" : @"aValidValue1" } };
-  XCTAssertTrue([self.sut validateProperties:properties]);
+  
+  // When
+  NSDictionary *result = [self.sut validateProperties:incorrectNestedProperties];
+  
+  // Then
+  XCTAssertTrue(result.count == 1);
+  XCTAssertNotNil(result[@"aValidKey2"]);
+  XCTAssertTrue(((NSDictionary *)result[@"aValidKey2"]).count == 1);
+  XCTAssertTrue([result[@"aValidKey2"] isKindOfClass:[NSDictionary class]]);
+  NSDictionary *innerProperties = result[@"aValidKey2"];
+  XCTAssertEqualObjects(innerProperties, @ { @"aValidKey2" : @"aValidValue1" });
 }
 
 - (void)testDictionaryContainsValidNestedProperties {
@@ -697,19 +721,12 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
                                     @"aValidKey3" : @ { @"aValidkey4" : @"" }
                                   }
                                 };
-  XCTAssertTrue([self.sut validateProperties:properties]);
-}
 
-- (void)testDictionaryContainsInvalidNestedProperties {
-  NSDictionary *properties = @{ @"aValidKey2" : @"aValidValue1",
-                                @"aValidKey2" :
-                                  @ { @"aValidKey2" : @"aValidValue1" },
-                                @"aValidKey3" :
-                                  @ { @"aValidKey2" : @"aValidValue1",
-                                    @"aValidKey3" : @ { @"aValidkey4" : @1 }
-                                  }
-                                };
-  XCTAssertFalse([self.sut validateProperties:properties]);
+  // When
+  NSDictionary *result = [self.sut validateProperties:properties];
+  
+  // Then
+  XCTAssertEqualObjects(result, properties);
 }
 
 - (void)testLogNameRegex {
