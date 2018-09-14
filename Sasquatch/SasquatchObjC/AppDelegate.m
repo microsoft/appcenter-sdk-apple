@@ -72,25 +72,27 @@ enum StartupMode {
   NSArray<Class> *services = @[
     [MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class]
   ];
-  NSInteger startTarget = [[NSUserDefaults standardUserDefaults] integerForKey:kMSStartTargetKey];
+  NSInteger startTarget =
+      [[NSUserDefaults standardUserDefaults] integerForKey:kMSStartTargetKey];
   switch (startTarget) {
   case APPCENTER:
     [MSAppCenter start:[NSString stringWithUTF8String:APP_SECRET_VALUE]
           withServices:services];
     break;
   case ONECOLLECTOR:
-    [MSAppCenter start:[NSString stringWithFormat:@"target=%s", kMSObjCTargetToken]
+    [MSAppCenter start:[NSString
+                           stringWithFormat:@"target=%@", kMSObjCTargetToken]
           withServices:services];
     break;
   case BOTH:
-    [MSAppCenter start:[NSString stringWithFormat:@"appsecret=%s;target=%s", APP_SECRET_VALUE, kMSObjCTargetToken]
+    [MSAppCenter start:[NSString stringWithFormat:@"appsecret=%s;target=%@",
+                                                  APP_SECRET_VALUE,
+                                                  kMSObjCTargetToken]
           withServices:services];
     break;
   case NONE:
     [MSAppCenter startWithServices:services];
     break;
-  case SKIP:
-    return YES;
   }
   [self crashes];
   [self setAppCenterDelegate];

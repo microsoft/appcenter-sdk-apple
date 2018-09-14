@@ -48,7 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
       MSAppCenter.start(withServices: services)
       break
     case .SKIP:
-      return true
+      break
     }
     
     // Crashes Delegate.
