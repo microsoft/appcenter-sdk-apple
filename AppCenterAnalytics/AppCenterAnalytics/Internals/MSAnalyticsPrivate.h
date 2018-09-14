@@ -68,6 +68,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (void)resetSharedInstance;
 
+/**
+ * Removes properties with keys that are not a string or that have non-string values.
+ *
+ * @param properties A dictionary of properties.
+ *
+ * @returns A dictionary of valid properties or an empty dictionay.
+ */
+- (NSDictionary<NSString *, NSString *> *)removeInvalidProperties:(NSDictionary<NSString *, NSString *> *)properties;
+
 @end
 
 NS_ASSUME_NONNULL_END

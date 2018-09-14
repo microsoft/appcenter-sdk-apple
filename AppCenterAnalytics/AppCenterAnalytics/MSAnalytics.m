@@ -259,11 +259,38 @@ __attribute__((used)) static void importCategories() {
   log.name = eventName;
   log.eventId = MS_UUID_STRING;
   if (properties && properties.count > 0) {
-    log.properties = [properties copy];
+    log.properties =  [self removeInvalidProperties:properties];
   }
 
   // Send log to log manager.
   [self sendLog:log];
+}
+
+- (NSDictionary<NSString *, NSString *> *)removeInvalidProperties:(NSDictionary<NSString *, NSString *> *)properties {
+  NSMutableDictionary<NSString *, id>
+  *validProperties = [NSMutableDictionary new];
+  for (NSString *key in properties) {
+    if (![key isKindOfClass:[NSString class]]) {
+      MSLogError([MSAnalytics logTag],
+                 @"Event property contains an invalid key, dropping the property.");
+      continue;
+    }
+    
+    // We have a valid key, so let's validate the value.
+    id value = properties[key];
+    if (value) {
+      
+      // Not checking for empty string, as values can be empty strings.
+      if ([value isKindOfClass:[NSString class]]) {
+        [validProperties setValue:value forKey:key];
+      }
+    } else {
+      MSLogError([MSAnalytics logTag],
+                 @"Event property contains an invalid value, dropping the property.");
+    }
+  }
+  
+  return validProperties;
 }
 
 - (void)trackPage:(NSString *)pageName
@@ -278,7 +305,7 @@ __attribute__((used)) static void importCategories() {
   // Set properties of the event log.
   log.name = pageName;
   if (properties && properties.count > 0) {
-    log.properties = [properties copy];
+    log.properties = [self removeInvalidProperties:properties];
   }
 
   // Send log to log manager.

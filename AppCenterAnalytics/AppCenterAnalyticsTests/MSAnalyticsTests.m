@@ -926,4 +926,111 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                                }];
 }
 
+#pragma mark - Property validation tests
+
+- (void)testremoveInvalidPropertiesWithEmptyValue {
+  
+  // If
+  NSDictionary *emptyValueProperties = @{ @"aValidKey" : @"" };
+  
+  // When
+  NSDictionary *result = [[MSAnalytics sharedInstance] removeInvalidProperties:emptyValueProperties];
+  
+  // Then
+  XCTAssertTrue(result.count == 1);
+  XCTAssertEqualObjects(result, emptyValueProperties);
+}
+
+- (void)testremoveInvalidPropertiesWithEmptyKey {
+  
+  // If
+  NSDictionary *emptyKeyProperties = @{ @"" : @"aValidValue" };
+  
+  // When
+  NSDictionary *result = [[MSAnalytics sharedInstance] removeInvalidProperties:emptyKeyProperties];
+  
+  // Then
+  XCTAssertTrue(result.count == 1);
+}
+
+- (void)testremoveInvalidPropertiesWithNonStringKey {
+  
+  // If
+  NSDictionary *numberAsKeyProperties = @{ @(42) : @"aValidValue" };
+  
+  // When
+  NSDictionary *result = [[MSAnalytics sharedInstance] removeInvalidProperties:numberAsKeyProperties];
+  
+  // Then
+  XCTAssertTrue(result.count == 0);
+}
+
+- (void)testValidateLogDataWithNonStringValue {
+  
+  // If
+  NSDictionary *numberAsValueProperties = @{ @"aValidKey" : @(42) };
+  
+  // When
+  NSDictionary *result = [[MSAnalytics sharedInstance] removeInvalidProperties:numberAsValueProperties];
+  
+  // Then
+  XCTAssertTrue(result.count == 0);
+}
+
+- (void)testValidateLogDataWithCorrectNestedProperties {
+  
+  // If
+  NSDictionary *correctlyNestedProperties = @{ @"aValidKey1" : @"aValidValue1",
+                                               @"aValidKey2.aValidKey2" : @"aValidValue3" };
+  
+  // When
+  NSDictionary *result = [[MSAnalytics sharedInstance] removeInvalidProperties:correctlyNestedProperties];
+  
+  // Then
+  XCTAssertTrue(result.count == 2);
+  XCTAssertEqualObjects(result, correctlyNestedProperties);
+}
+
+- (void)testValidateLogDataWithIncorrectNestedProperties {
+  
+  // If
+  NSDictionary *incorrectNestedProperties = @{ @"aValidKey1" : @"aValidValue1",
+                                               @"aValidKey2" : @1,
+                                               };
+  
+  // When
+  NSDictionary *result = [[MSAnalytics sharedInstance] removeInvalidProperties:incorrectNestedProperties];
+  
+  // Then
+  XCTAssertTrue(result.count == 1);
+  XCTAssertNil(result[@"aValidKey2"]);
+  XCTAssertNotNil(result[@"aValidKey1"]);
+  XCTAssertEqualObjects(result[@"aValidKey1"], @"aValidValue1");
+  XCTAssertNotEqualObjects(result, incorrectNestedProperties);
+}
+
+- (void)testDictionaryContainsInvalidPropertiesKey {
+  
+  // If
+  NSDictionary *incorrectNestedProperties = @{ @1 : @"aValidValue1",
+                                               @"aValidKey2" : @"aValidValue2" };
+  
+  // When
+  NSDictionary *result = [[MSAnalytics sharedInstance] removeInvalidProperties:incorrectNestedProperties];
+  
+  // Then
+  XCTAssertTrue(result.count == 1);
+  XCTAssertNotNil(result[@"aValidKey2"]);
+}
+
+- (void)testDictionaryContainsValidNestedProperties {
+  NSDictionary *properties = @{ @"aValidKey2" : @"aValidValue1",
+                                @"aValidKey1.avalidKey2" :@"aValidValue1" };
+  // When
+  NSDictionary *result = [[MSAnalytics sharedInstance] removeInvalidProperties:properties];
+  
+  // Then
+  XCTAssertEqualObjects(result, properties);
+}
+
 @end

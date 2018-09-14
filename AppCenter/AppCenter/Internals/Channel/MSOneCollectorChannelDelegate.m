@@ -132,8 +132,10 @@ NSString *const kMSLogNameRegex =
     return ![self validateLog:(MSCommonSchemaLog *) log];
   }
 
-  // It's an App Center log. Filter out if it contains token(s) since it's
-  // already re-enqueued as CS log(s).
+  /*
+   * It's an App Center log. Filter out if it contains token(s) since it's
+   * already re-enqueued as CS log(s).
+   */
   return [[log transmissionTargetTokens] count] > 0;
 }
 
@@ -174,7 +176,9 @@ andDeleteDataOnDisabled:(BOOL)deletedData {
   if (![self validateLogName:log.name]) {
     return NO;
   }
-  log.data.properties = [self validateProperties:log.data.properties];
+  
+  // Property values are valid strings already.
+  
   return YES;
 }
 
@@ -200,43 +204,6 @@ andDeleteDataOnDisabled:(BOOL)deletedData {
     return NO;
   }
   return YES;
-}
-
-- (NSDictionary<NSString *, id> *)validateProperties:(NSDictionary<NSString *, id> *)properties {
-  NSMutableDictionary<NSString *, id>
-      *validProperties = [NSMutableDictionary new];
-  for (NSString *key in properties) {
-    BOOL keyIsValid = [key isKindOfClass:[NSString class]] && (key.length > 0);
-    if (!keyIsValid) {
-      MSLogError([MSAppCenter logTag],
-                 @"%@ Event property contains an invalid key, dropping the property.",
-                 kMSBaseErrorMsg);
-      continue;
-    }
-
-    // We have a valid key, so let's validate the value.
-    id value = properties[key];
-    if (value) {
-
-      // Not checking for empty string, as values can be empty strings.
-      if ([value isKindOfClass:[NSString class]]) {
-        [validProperties setValue:value forKey:key];
-      } else if ([value isKindOfClass:[NSDictionary class]]) {
-        NSDictionary *nestedValidProperties = [self validateProperties:value];
-        [validProperties setValue:nestedValidProperties forKey:key];
-      } else {
-        MSLogError([MSAppCenter logTag],
-                   @"%@ Event property contains an value, dropping the property.",
-                   kMSBaseErrorMsg);
-      }
-    } else {
-      MSLogError([MSAppCenter logTag],
-                 @"%@ Event property contains a nil value, dropping the property.",
-                 kMSBaseErrorMsg);
-    }
-  }
-
-  return validProperties;
 }
 
 @end
