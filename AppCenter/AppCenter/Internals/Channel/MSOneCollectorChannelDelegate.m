@@ -206,26 +206,21 @@ andDeleteDataOnDisabled:(BOOL)deletedData {
   NSMutableDictionary<NSString *, id>
       *validProperties = [NSMutableDictionary new];
   for (NSString *key in properties) {
-    BOOL keyIsValid = NO;
-    if ([key isKindOfClass:[NSString class]] && key.length > 0) {
-      keyIsValid = YES;
-    }
-    else {
+    BOOL keyIsValid = [key isKindOfClass:[NSString class]] && (key.length > 0);
+    if (!keyIsValid) {
       continue;
     }
+
+    // We have a valid key, so let's validate the value.
     id value = properties[key];
     if (value) {
 
       // Not checking for empty string, as values can be empty strings.
       if ([value isKindOfClass:[NSString class]]) {
-        if (keyIsValid) {
-          [validProperties setValue:value forKey:key];
-        }
+        [validProperties setValue:value forKey:key];
       } else if ([value isKindOfClass:[NSDictionary class]]) {
         NSDictionary *nestedValidProperties = [self validateProperties:value];
-        if (keyIsValid) {
-          [validProperties setValue:nestedValidProperties forKey:key];
-        }
+        [validProperties setValue:nestedValidProperties forKey:key];
       }
     }
   }
