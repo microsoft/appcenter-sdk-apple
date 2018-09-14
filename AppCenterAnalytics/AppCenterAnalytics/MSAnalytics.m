@@ -252,6 +252,7 @@ __attribute__((used)) static void importCategories() {
     } else {
       MSLogError([MSAnalytics logTag],
                  @"This transmission target is disabled.");
+      return;
     }
   }
 
