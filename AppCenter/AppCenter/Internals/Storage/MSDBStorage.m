@@ -47,14 +47,16 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
   return self;
 }
 
-- (BOOL)executeQueryUsingBlock:(MSDBStorageQueryBlock)callback {
-  sqlite3 *db = [MSDBStorage openDatabaseAtFileURL:self.dbFileURL withMaxPageCount:self.maxPageCount];
+- (int)executeQueryUsingBlock:(MSDBStorageQueryBlock)callback {
+  int result;
+  sqlite3 *db = [MSDBStorage openDatabaseAtFileURL:self.dbFileURL withMaxPageCount:self.maxPageCount
+      withResult:&result];
   if (!db) {
-    return NO;
+    return result;
   }
-  int result = callback(db);
+  result = callback(db);
   sqlite3_close(db);
-  return SQLITE_OK == result;
+  return result;
 }
 
 + (NSUInteger)createTablesWithSchema:(MSDBSchema *)schema inOpenedDatabase:(void *)db {
@@ -130,7 +132,7 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
   return (result.count > 0) ? result[0][0].unsignedIntegerValue : 0;
 }
 
-- (BOOL)executeNonSelectionQuery:(NSString *)query {
+- (int)executeNonSelectionQuery:(NSString *)query {
   return [self executeQueryUsingBlock:^int(void *db) {
     return [MSDBStorage executeNonSelectionQuery:query inOpenedDatabase:db];
   }];
@@ -239,21 +241,21 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
   }
 }
 
-+ (sqlite3 *)openDatabaseAtFileURL:(NSURL *)fileURL withMaxPageCount:(int)maxPageCount {
++ (sqlite3 *)openDatabaseAtFileURL:(NSURL *)fileURL withMaxPageCount:(int)maxPageCount withResult:(int*)result {
   sqlite3 *db = NULL;
-  int result = sqlite3_open_v2([[fileURL absoluteString] UTF8String],
+  *result = sqlite3_open_v2([[fileURL absoluteString] UTF8String],
                                &db,
                                SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_URI,
                                NULL);
-  if (result != SQLITE_OK) {
-    MSLogError([MSAppCenter logTag], @"Failed to open database with result: %d.", result);
+  if (*result != SQLITE_OK) {
+    MSLogError([MSAppCenter logTag], @"Failed to open database with result: %d.", *result);
     return NULL;
   }
   MSLogVerbose([MSAppCenter logTag], @"Opened database.");
   NSString *statement = [NSString stringWithFormat:@"PRAGMA max_page_count = %i;", maxPageCount];
   char *errorMessage;
-  result = sqlite3_exec(db, [statement UTF8String], NULL, NULL, &errorMessage);
-  if (result != SQLITE_OK) {
+  *result = sqlite3_exec(db, [statement UTF8String], NULL, NULL, &errorMessage);
+  if (*result != SQLITE_OK) {
     errorMessage = errorMessage ? errorMessage : "(nil)";
     NSString *printableErrorMessage = [NSString stringWithCString:errorMessage encoding:NSUTF8StringEncoding];
     MSLogWarning([MSAppCenter logTag], @"Failed to open database with specified"

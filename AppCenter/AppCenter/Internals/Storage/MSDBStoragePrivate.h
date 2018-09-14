@@ -29,7 +29,7 @@ typedef int (^MSDBStorageQueryBlock)(void *);
  *
  * @param block Actions to perform in query.
  */
-- (BOOL)executeQueryUsingBlock:(MSDBStorageQueryBlock)block;
+- (int)executeQueryUsingBlock:(MSDBStorageQueryBlock)block;
 
 /**
  * Check if a table exists in this database.

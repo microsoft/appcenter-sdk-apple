@@ -22,18 +22,6 @@ typedef void (^MSLoadDataCompletionBlock)(
 @required
 
 /**
- * Create a storage with a capacity.
- *
- * @param capacity Maximum allowed capacity in this storage.
- *
- * @return Return an instance of this storage.
- *
- * @discussion The storage removes the oldest log whenever its capacity goes
- * over limit.
- */
-- (instancetype)initWithCapacity:(NSUInteger)capacity;
-
-/**
  * Store a log.
  *
  * @param log The log to be stored.
@@ -64,7 +52,7 @@ typedef void (^MSLoadDataCompletionBlock)(
  * Return the most recent logs for a Group Id.
  *
  * @param groupId The key used for grouping.
- * @param limit Limit the maximum number of logs to be loaded from the server.
+ * @param limit Limit the maximum number of logs to be loaded from disk.
  *
  * @return a list of logs.
  */

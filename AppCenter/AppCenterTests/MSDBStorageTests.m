@@ -223,14 +223,14 @@ static const long kMSDefaultDatabaseSizeInBytes = 10*1024*1024;
                                  kMSTestHungrinessColName, kMSTestMealColName,
                                  expectedPerson, expectedHungriness.stringValue,
                                  expectedMeal];
-  BOOL result;
+  int result;
   NSArray *entry;
 
   // When
   result = [self.sut executeNonSelectionQuery:query];
 
   // Then
-  assertThatBool(result, isTrue());
+  assertThatInteger(result, equalToInt(SQLITE_OK));
 
   // If
   query = [NSString stringWithFormat:@"SELECT * FROM \"%@\"", kMSTestTableName];
@@ -254,7 +254,7 @@ static const long kMSDefaultDatabaseSizeInBytes = 10*1024*1024;
   result = [self.sut executeNonSelectionQuery:query];
 
   // Then
-  assertThatBool(result, isTrue());
+  assertThatInteger(result, equalToInt(SQLITE_OK));
 
   // If
   query = [NSString stringWithFormat:@"SELECT * FROM \"%@\"", kMSTestTableName];
@@ -276,7 +276,7 @@ static const long kMSDefaultDatabaseSizeInBytes = 10*1024*1024;
   result = [self.sut executeNonSelectionQuery:query];
 
   // Then
-  assertThatBool(result, isTrue());
+  assertThatInteger(result, equalToInt(SQLITE_OK));
 
   // If
   query = [NSString stringWithFormat:@"SELECT * FROM \"%@\"", kMSTestTableName];
@@ -461,6 +461,7 @@ static const long kMSDefaultDatabaseSizeInBytes = 10*1024*1024;
 
   // When
   [self.sut setStorageSize:kMSDefaultPageSizeInBytes completionHandler:nil];
+  [self addGuysToTheTableWithCount:100];
 
   // Then
   // Didn't crash.

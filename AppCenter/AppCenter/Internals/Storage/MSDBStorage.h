@@ -65,13 +65,13 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
 
 /**
  * Execute a non selection SQLite query on the database (i.e.: "CREATE",
- * "INSERTE", "UPDATE"... but not "SELECT").
+ * "INSERT", "UPDATE"... but not "SELECT").
  *
  * @param query An SQLite query to execute.
  *
  * @return `YES` if the query executed successfully, otherwise `NO`.
  */
-- (BOOL)executeNonSelectionQuery:(NSString *)query;
+- (int)executeNonSelectionQuery:(NSString *)query;
 
 /**
  * Execute a "SELECT" SQLite query on the database.

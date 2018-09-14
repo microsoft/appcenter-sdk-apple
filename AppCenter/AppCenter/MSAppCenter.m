@@ -580,8 +580,7 @@ completionHandler {
     if (!_installId) {
 
       // Check if install Id has already been persisted.
-      NSString *savedInstallId =
-          [MS_USER_DEFAULTS objectForKey:kMSInstallIdKey];
+      NSString *savedInstallId = [MS_USER_DEFAULTS objectForKey:kMSInstallIdKey];
       if (savedInstallId) {
         _installId = MS_UUID_FROM_STRING(savedInstallId);
       }
@@ -591,8 +590,7 @@ completionHandler {
         _installId = [NSUUID UUID];
 
         // Persist the install Id string.
-        [MS_USER_DEFAULTS setObject:[_installId UUIDString]
-                             forKey:kMSInstallIdKey];
+        [MS_USER_DEFAULTS setObject:[_installId UUIDString] forKey:kMSInstallIdKey];
       }
     }
     return _installId;
@@ -624,8 +622,7 @@ completionHandler {
 }
 
 #if !TARGET_OS_TV
-- (void)sendCustomPropertiesLog:
-    (NSDictionary<NSString *, NSObject *> *)properties {
+- (void)sendCustomPropertiesLog:(NSDictionary<NSString *, NSObject *> *)properties {
   MSCustomPropertiesLog *customPropertiesLog = [MSCustomPropertiesLog new];
   customPropertiesLog.properties = properties;
   [self.channelUnit enqueueItem:customPropertiesLog];
@@ -665,25 +662,21 @@ completionHandler {
  * @return YES if the service should be disabled.
  */
 - (BOOL)shouldDisable:(NSString *)serviceName {
-  NSDictionary *environmentVariables =
-      [[NSProcessInfo processInfo] environment];
+  NSDictionary *environmentVariables = [[NSProcessInfo processInfo] environment];
   NSString *disabledServices = environmentVariables[kMSDisableVariable];
   if (!disabledServices) {
     return NO;
   }
-  NSMutableArray *disabledServicesList = [NSMutableArray
-      arrayWithArray:[disabledServices componentsSeparatedByString:@","]];
+  NSMutableArray *disabledServicesList = [NSMutableArray arrayWithArray:[disabledServices
+      componentsSeparatedByString:@","]];
 
   // Trim whitespace characters.
   for (NSUInteger i = 0; i < [disabledServicesList count]; ++i) {
     NSString *service = disabledServicesList[i];
-    service =
-        [service stringByTrimmingCharactersInSet:[NSCharacterSet
-                                                     whitespaceCharacterSet]];
+    service = [service stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     disabledServicesList[i] = service;
   }
-  return [disabledServicesList containsObject:serviceName] ||
-         [disabledServicesList containsObject:kMSDisableAll];
+  return [disabledServicesList containsObject:serviceName] || [disabledServicesList containsObject:kMSDisableAll];
 }
 
 @end

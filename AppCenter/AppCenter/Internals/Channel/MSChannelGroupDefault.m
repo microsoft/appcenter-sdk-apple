@@ -10,7 +10,6 @@
 #import "MSLogDBStorage.h"
 #import "MSStorage.h"
 
-static short const kMSStorageMaxCapacity = 300;
 static char *const kMSlogsDispatchQueue =
     "com.microsoft.appcenter.ChannelGroupQueue";
 
@@ -38,7 +37,7 @@ static char *const kMSlogsDispatchQueue =
     _channels = [NSMutableArray<id<MSChannelUnitProtocol>> new];
     _delegates = [NSHashTable weakObjectsHashTable];
     _ingestion = ingestion;
-    _storage = [[MSLogDBStorage alloc] initWithCapacity:kMSStorageMaxCapacity];
+    _storage = [[MSLogDBStorage alloc] init];
   }
   return self;
 }
