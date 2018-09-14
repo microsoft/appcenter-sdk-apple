@@ -24,6 +24,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
 
   var startupModePicker: MSEnumPicker<StartupMode>?
   var appCenter: AppCenterDelegate!
+  var eventFilterStarted = false
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -40,7 +41,6 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     _ = MSTransmissionTargets.shared
 
     // Miscellaneous section.
-    appCenter.startEventFilterService()
     self.installId.text = appCenter.installId()
     self.appSecret.text = appCenter.appSecret()
     self.logUrl.text = appCenter.logUrl()
@@ -73,6 +73,10 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   }
   
   @IBAction func logFilterSwitchChanged(_ sender: UISwitch) {
+    if !eventFilterStarted {
+      appCenter.startEventFilterService()
+      eventFilterStarted = true
+    }
     appCenter.setEventFilterEnabled(sender.isOn)
     updateViewState()
   }
