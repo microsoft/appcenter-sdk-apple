@@ -210,6 +210,9 @@ andDeleteDataOnDisabled:(BOOL)deletedData {
     if ([key isKindOfClass:[NSString class]] && key.length > 0) {
       keyIsValid = YES;
     }
+    else {
+      continue;
+    }
     id value = properties[key];
     if (value) {
 
