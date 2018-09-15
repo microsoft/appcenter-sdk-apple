@@ -7,12 +7,10 @@
 #import "MSAppCenterInternal.h"
 #import "MSAppCenterPrivate.h"
 #import "MSChannelGroupDefault.h"
-#import "MSChannelUnitDefault.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSMockSecondService.h"
 #import "MSMockService.h"
 #import "MSMockUserDefaults.h"
-#import "MSOneCollectorChannelDelegate.h"
 #import "MSStartServiceLog.h"
 #import "MSTestFrameworks.h"
 
@@ -431,6 +429,26 @@ static NSString *const kMSNullifiedInstallIdString =
 }
 
 #if !TARGET_OS_TV
+
+- (void)testSetCustomPropertiesWithEmptyPropertiesDoesNotEnqueueCustomPropertiesLog {
+  // If
+  [MSAppCenter start:MS_UUID_STRING withServices:nil];
+  id channelUnit = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub([channelUnit
+              enqueueItem:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]]])
+      .andDo(nil);
+  [MSAppCenter sharedInstance].channelUnit = channelUnit;
+
+  // When
+  OCMReject([channelUnit
+             enqueueItem:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]]]);
+  MSCustomProperties *customProperties = [MSCustomProperties new];
+  [MSAppCenter setCustomProperties:customProperties];
+
+  // Then
+  OCMVerifyAll(channelUnit);
+}
+
 - (void)testSetCustomProperties {
 
   // If
