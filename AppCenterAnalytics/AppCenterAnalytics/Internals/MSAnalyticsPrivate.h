@@ -16,14 +16,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic) BOOL autoPageTrackingEnabled;
 
-@property(nonatomic, nullable) id<MSAnalyticsDelegate> delegate;
+@property(nonatomic, nullable) id <MSAnalyticsDelegate> delegate;
 
 /**
  * Transmission targets.
  */
-@property(nonatomic)
-    NSMutableDictionary<NSString *, MSAnalyticsTransmissionTarget *>
-        *transmissionTargets;
+@property(nonatomic) NSMutableDictionary<NSString *, MSAnalyticsTransmissionTarget *> *transmissionTargets;
 
 /**
  * Default transmission target.
@@ -37,11 +35,9 @@ NS_ASSUME_NONNULL_BEGIN
  * @param properties dictionary of properties.
  * @param transmissionTarget Transmission target to associate with the event.
  */
-- (void)trackEvent:(NSString *)eventName
-           withProperties:
-               (nullable NSDictionary<NSString *, NSString *> *)properties
-    forTransmissionTarget:
-        (nullable MSAnalyticsTransmissionTarget *)transmissionTarget;
+- (void)   trackEvent:(NSString *)eventName
+       withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
+forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarget;
 
 /**
  * Track a page.
@@ -49,8 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param pageName  page name.
  * @param properties dictionary of properties.
  */
-- (void)trackPage:(NSString *)pageName
-    withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties;
+- (void)trackPage:(NSString *)pageName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties;
 
 /**
  * Get a transmissionTarget.
@@ -59,8 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @returns The transmission target object.
  */
-- (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:
-    (NSString *)token;
+- (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:(NSString *)token;
 
 /**
  * Method to reset the singleton when running unit tests only. So calling
