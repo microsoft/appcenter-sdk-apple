@@ -230,6 +230,7 @@ forTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget {
       [log addTransmissionTargetToken:[transmissionTarget transmissionTargetToken]];
     } else {
       MSLogError([MSAnalytics logTag], @"This transmission target is disabled.");
+      return;
     }
   }
 

@@ -2,7 +2,18 @@ import UIKit
 
 class MSMainViewController: UITableViewController, AppCenterProtocol {
   
+  enum StartupMode: String {
+    case AppCenter = "AppCenter"
+    case OneCollector = "OneCollector"
+    case Both = "Both"
+    case None = "None"
+    case Skip = "Skip"
+    
+    static let allValues = [AppCenter, OneCollector, Both, None, Skip]
+  }
+
   @IBOutlet weak var appCenterEnabledSwitch: UISwitch!
+  @IBOutlet weak var startupModeField: UITextField!
   @IBOutlet weak var installId: UILabel!
   @IBOutlet weak var appSecret: UILabel!
   @IBOutlet weak var logUrl: UILabel!
@@ -11,31 +22,25 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   @IBOutlet weak var logFilterSwitch: UISwitch!
   @IBOutlet weak var deviceIdLabel: UILabel!
 
+  var startupModePicker: MSEnumPicker<StartupMode>?
   var appCenter: AppCenterDelegate!
-
-  static let kStartupTypeSectionIndex = 1
-  var appTargetCellIndexPath = IndexPath(row:0, section:kStartupTypeSectionIndex)
-  var libraryTargetCellIndexPath = IndexPath(row:1, section:kStartupTypeSectionIndex)
-  var bothTargetsCellIndexPath = IndexPath(row: 2, section: kStartupTypeSectionIndex)
-  var informationCellIndexPath = IndexPath(row: 3, section: kStartupTypeSectionIndex)
+  var eventFilterStarted = false
 
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    // Startup Targets section.
-    let startupTypeCellIndexPath = MSMainViewController.getIndexPathForSelectedStartupTypeCell()
-    toggleSelectionForCellAtIndexPath(startupTypeCellIndexPath)
-    let selectedCell = self.tableView(tableView, cellForRowAt: startupTypeCellIndexPath)
-    let informationCell = self.tableView(tableView, cellForRowAt: informationCellIndexPath)
-    for subview in selectedCell.contentView.subviews {
-      if let label = subview as? UILabel {
-        informationCell.detailTextLabel!.text = label.text
-        break
-      }
-    }
+    // Startup mode.
+    let startupMode = UserDefaults.standard.integer(forKey: kMSStartTargetKey)
+    self.startupModePicker = MSEnumPicker<StartupMode>(
+      textField: self.startupModeField,
+      initialValue: StartupMode.allValues[startupMode],
+      allValues: StartupMode.allValues,
+      onChange: {(index) in UserDefaults.standard.set(index, forKey: kMSStartTargetKey)})
+    
+    // Make sure it is initialized before changing the startup mode.
+    _ = MSTransmissionTargets.shared
 
     // Miscellaneous section.
-    appCenter.startEventFilterService()
     self.installId.text = appCenter.installId()
     self.appSecret.text = appCenter.appSecret()
     self.logUrl.text = appCenter.logUrl()
@@ -68,45 +73,17 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   }
   
   @IBAction func logFilterSwitchChanged(_ sender: UISwitch) {
+    if !eventFilterStarted {
+      appCenter.startEventFilterService()
+      eventFilterStarted = true
+    }
     appCenter.setEventFilterEnabled(sender.isOn)
     updateViewState()
-  }
-  
-  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    tableView.deselectRow(at: indexPath, animated: false)
-    if (indexPath != informationCellIndexPath &&
-      indexPath.section == MSMainViewController.kStartupTypeSectionIndex) {
-      didSelectStartupTypeCellAtIndexPath(indexPath)
-    }
-    return
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if let destination = segue.destination as? AppCenterProtocol {
       destination.appCenter = appCenter
-    }
-  }
-  
-  func didSelectStartupTypeCellAtIndexPath(_ indexPath: IndexPath) {
-    let currentSelectionIndexPath = MSMainViewController.getIndexPathForSelectedStartupTypeCell()
-    toggleSelectionForCellAtIndexPath(currentSelectionIndexPath)
-    toggleSelectionForCellAtIndexPath(indexPath)
-  }
-
-  static func getIndexPathForSelectedStartupTypeCell() -> IndexPath {
-    let row = UserDefaults.standard.integer(forKey: kMSStartTargetKey)
-    return IndexPath(row: row, section: kStartupTypeSectionIndex)
-  }
-
-  func toggleSelectionForCellAtIndexPath(_ indexPath: IndexPath) {
-    let cell = self.tableView(tableView, cellForRowAt: indexPath)
-    if (cell.accessoryType == .checkmark) {
-      cell.accessoryType = .none
-      cell.selectionStyle = .blue
-    } else if (cell.accessoryType == .none) {
-      cell.accessoryType = .checkmark
-      cell.selectionStyle = .none
-      UserDefaults.standard.set(indexPath.row, forKey: kMSStartTargetKey)
     }
   }
 }

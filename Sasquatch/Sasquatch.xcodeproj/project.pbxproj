@@ -229,6 +229,11 @@
 		F89D790A1E93DA3A0094521F /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F89D79081E93DA3A0094521F /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F89D790C1E93DA500094521F /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F89D79081E93DA3A0094521F /* CrashLibIOS.framework */; };
 		F89D790D1E93DA500094521F /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F89D79081E93DA3A0094521F /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F8A502262149339100872B3B /* MSEnumPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A502252149339100872B3B /* MSEnumPicker.swift */; };
+		F8A502272149339100872B3B /* MSEnumPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A502252149339100872B3B /* MSEnumPicker.swift */; };
+		F8A502282149339100872B3B /* MSEnumPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A502252149339100872B3B /* MSEnumPicker.swift */; };
+		F8A502292149339100872B3B /* MSEnumPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A502252149339100872B3B /* MSEnumPicker.swift */; };
+		F8A5022A2149339100872B3B /* MSEnumPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A502252149339100872B3B /* MSEnumPicker.swift */; };
 		F8FE732F210730A8005C6A74 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8FE732E210730A8005C6A74 /* CrashReporter.framework */; };
 		F8FE7330210730EE005C6A74 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B20AE41A2102819C00A1A195 /* AppCenterDistributeResources.bundle */; };
 		F8FE73312107568A005C6A74 /* DistributeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A888ED2102B2C5001ACFDF /* DistributeUITests.swift */; };
@@ -739,6 +744,7 @@
 		F84BA0D6211342620020F13B /* Puppet UITests.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Puppet UITests.xcconfig"; sourceTree = "<group>"; };
 		F84BA102211342620020F13B /* UITests.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = UITests.xcconfig; sourceTree = "<group>"; };
 		F89D79081E93DA3A0094521F /* CrashLibIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F8A502252149339100872B3B /* MSEnumPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSEnumPicker.swift; sourceTree = "<group>"; };
 		F8B224862113163D0052350E /* Sasquatch Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Sasquatch Debug.xcconfig"; sourceTree = "<group>"; };
 		F8B8EB15211070BE004BCECB /* Sasquatch.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Sasquatch.xcconfig; sourceTree = "<group>"; };
 		F8B8EB9421107890004BCECB /* Puppet.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Puppet.xcconfig; sourceTree = "<group>"; };
@@ -985,6 +991,7 @@
 				845964AC1E8A7E9700BABA51 /* MSMainViewController.swift */,
 				807DB551212164E000F35E03 /* MSSignInViewController.swift */,
 				35396A7720F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift */,
+				F8A502252149339100872B3B /* MSEnumPicker.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -2083,6 +2090,7 @@
 				359171F720F7F80800F3DDE6 /* PropertiesTableSection.swift in Sources */,
 				84A0FF6C1E8A87E1000E7A28 /* MSDistributeViewController.swift in Sources */,
 				80B3CADB211B2686007C332E /* MSAuthenticationViewController.swift in Sources */,
+				F8A502272149339100872B3B /* MSEnumPicker.swift in Sources */,
 				84226D3C1E8938D100798417 /* AppCenterDelegate.swift in Sources */,
 				35CAA2262143229300A8BED2 /* MSTableViewCellExtension.swift in Sources */,
 			);
@@ -2116,6 +2124,7 @@
 				80B3CADD211B2686007C332E /* MSAuthenticationViewController.swift in Sources */,
 				B2586C86210A47A800664A43 /* MSAnalyticsResult.swift in Sources */,
 				84A0FF6D1E8A87E1000E7A28 /* MSDistributeViewController.swift in Sources */,
+				F8A502292149339100872B3B /* MSEnumPicker.swift in Sources */,
 				84226C831E8908CA00798417 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2148,6 +2157,7 @@
 				B20AE38F21027D6200A1A195 /* main.m in Sources */,
 				B20AE39021027D6200A1A195 /* PropertiesTableSection.swift in Sources */,
 				B20AE39221027D6200A1A195 /* MSDistributeViewController.swift in Sources */,
+				F8A5022A2149339100872B3B /* MSEnumPicker.swift in Sources */,
 				B20AE39321027D6200A1A195 /* AppCenterDelegate.swift in Sources */,
 				35CAA2282143229300A8BED2 /* MSTableViewCellExtension.swift in Sources */,
 			);
@@ -2181,6 +2191,7 @@
 				B27D54B8210A5E7E004E82C9 /* PropertiesTableSection.swift in Sources */,
 				B27D54B9210A5E7E004E82C9 /* MSDistributeViewController.swift in Sources */,
 				80B3CADA211B2686007C332E /* MSAuthenticationViewController.swift in Sources */,
+				F8A502262149339100872B3B /* MSEnumPicker.swift in Sources */,
 				B27D54BA210A5E7E004E82C9 /* AppCenterDelegate.swift in Sources */,
 				35CAA2292143229300A8BED2 /* MSTableViewCellExtension.swift in Sources */,
 			);
@@ -2214,6 +2225,7 @@
 				80B3CADC211B2686007C332E /* MSAuthenticationViewController.swift in Sources */,
 				B2A4CF9C210A6E6900199B4F /* MSAnalyticsResult.swift in Sources */,
 				B2A4CF9D210A6E6900199B4F /* MSDistributeViewController.swift in Sources */,
+				F8A502282149339100872B3B /* MSEnumPicker.swift in Sources */,
 				B2A4CF9E210A6E6900199B4F /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
