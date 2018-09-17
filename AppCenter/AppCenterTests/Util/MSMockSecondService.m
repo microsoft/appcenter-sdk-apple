@@ -7,18 +7,17 @@ static MSMockSecondService *sharedInstance = nil;
 
 @implementation MSMockSecondService
 
-@synthesize appSecret;
-@synthesize initializationPriority;
-@synthesize channelGroup;
-@synthesize channelUnit;
-@synthesize channelUnitConfiguration;
-@synthesize defaultTransmissionTargetToken;
+@synthesize channelGroup = _channelGroup;
+@synthesize channelUnit = _channelUnit;
+@synthesize channelUnitConfiguration = _channelUnitConfiguration;
+@synthesize appSecret = _appSecret;
+@synthesize defaultTransmissionTargetToken = _defaultTransmissionTargetToken;
 
 - (instancetype)init {
   if ((self = [super init])) {
 
     // Init channel configuration.
-    channelUnitConfiguration = [[MSChannelUnitConfiguration alloc]
+    _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc]
         initDefaultConfigurationWithGroupId:[self groupId]];
   }
   return self;
@@ -49,7 +48,7 @@ static MSMockSecondService *sharedInstance = nil;
 
 - (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)__unused logManager
                     appSecret:(NSString *)__unused appSecret {
-  [self setStarted:YES];
+  self.started = YES;
 }
 
 - (void)applyEnabledState:(BOOL)__unused isEnabled {
@@ -57,6 +56,14 @@ static MSMockSecondService *sharedInstance = nil;
 
 - (BOOL)isAppSecretRequired {
   return NO;
+}
+
+- (BOOL)isAvailable {
+  return self.started;
+}
+
+- (MSInitializationPriority)initializationPriority {
+  return MSInitializationPriorityDefault;
 }
 
 @end
