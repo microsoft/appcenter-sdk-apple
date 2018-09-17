@@ -120,7 +120,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [self.sut sendAsync:container
               appSecret:kMSTestAppSecret
       completionHandler:^(NSString *batchId, NSUInteger statusCode,
-                          __attribute__((unused)) NSData *data,
+                          __unused NSData *data,
                           NSError *error) {
 
         // Then
@@ -130,8 +130,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
         XCTAssertEqual(error.code, kMSACConnectionHttpErrorCode);
         XCTAssertEqual(error.localizedDescription,
                        kMSACConnectionHttpErrorDesc);
-        XCTAssertTrue([error.userInfo[kMSACConnectionHttpCodeErrorKey]
-            isEqual:@(MSHTTPCodesNo404NotFound)]);
+        XCTAssertTrue(
+            [error.userInfo[(NSString *)kMSACConnectionHttpCodeErrorKey]
+                isEqual:@(MSHTTPCodesNo404NotFound)]);
 
         /*
          * FIXME: This unit test failes intermittently because of timing issue.

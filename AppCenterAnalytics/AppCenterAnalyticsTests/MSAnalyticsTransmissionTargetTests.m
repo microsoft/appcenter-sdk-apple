@@ -41,7 +41,10 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 - (void)tearDown {
   [self.settingsMock stopMocking];
   [self.analyticsClassMock stopMocking];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
   MSAnalyticsTransmissionTarget.authenticationProvider = nil;
+#pragma clang diagnostic pop
   [super tearDown];
 }
 
@@ -399,6 +402,8 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   // Then
   XCTAssertEqualObjects(configurator.eventProperties, @{});
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
   // When
   [configurator removeEventPropertyForKey:nil];
 
@@ -416,6 +421,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // Then
   XCTAssertEqualObjects(configurator.eventProperties, @{});
+#pragma clang diagnostic pop
 
   // When
   [configurator setEventPropertyString:prop1Value forKey:prop1Key];
