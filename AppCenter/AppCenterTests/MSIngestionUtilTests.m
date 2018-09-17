@@ -47,7 +47,7 @@
       [@"" stringByPaddingToLength:hiddenSecret.length
                          withString:kMSHidingStringForAppSecret
                     startingAtIndex:0];
-  assertThatInteger(hiddenSecret.length, equalToInteger(secret.length));
+  assertThatInteger(hiddenSecret.length, equalToUnsignedInteger(secret.length));
   assertThat(hiddenSecret, is(fullyHiddenSecret));
 }
 

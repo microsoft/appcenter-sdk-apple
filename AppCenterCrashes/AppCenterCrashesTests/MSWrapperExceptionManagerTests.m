@@ -101,7 +101,7 @@ static NSString *const kMSLastWrapperExceptionFileName =
   MSErrorReport *report = [mockReports objectAtIndex:(rand() % numReports)];
   MSWrapperException *wrapperException = [self getWrapperException];
   wrapperException.processId =
-      [NSNumber numberWithInteger:[report appProcessIdentifier]];
+      [NSNumber numberWithUnsignedInteger:[report appProcessIdentifier]];
 
   // When
   [MSWrapperExceptionManager saveWrapperException:wrapperException];

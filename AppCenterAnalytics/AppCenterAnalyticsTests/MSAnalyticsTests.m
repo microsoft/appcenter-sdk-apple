@@ -243,8 +243,9 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [MSAppCenter sharedInstance].sdkConfigured = NO;
   [MSAppCenter sharedInstance].configuredFromApplication = NO;
   [MSAppCenter start:kMSTestAppSecret withServices:@[ [MSAnalytics class] ]];
-  MSChannelUnitDefault *channelMock = [MSAnalytics sharedInstance].channelUnit =
+  MSChannelUnitDefault *channelMock =
       OCMPartialMock([MSAnalytics sharedInstance].channelUnit);
+  [MSAnalytics sharedInstance].channelUnit = channelMock;
   OCMStub([channelMock enqueueItem:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         id<MSLog> log = nil;

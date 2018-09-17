@@ -427,7 +427,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // Then
   NSArray *second = [MSUtility contentsOfDirectory:self.sut.logBufferPathComponent propertiesForKeys:nil];
-  for (int i = 0; i < ms_crashes_log_buffer_size; i++) {
+  for (NSUInteger i = 0; i < ms_crashes_log_buffer_size; i++) {
     XCTAssertTrue([([first[i] absoluteString] ?: @"") isEqualToString:([second[i] absoluteString] ?: @"")]);
   }
 }

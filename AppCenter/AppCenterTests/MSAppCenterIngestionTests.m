@@ -215,7 +215,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // If
   XCTestExpectation *requestCompletedExcpectation =
       [self expectationWithDescription:@"Request completed."];
-  __block NSInteger forwardedStatus;
+  __block NSUInteger forwardedStatus;
   __block NSError *forwardedError;
   [MSHttpTestUtil stubHttp200Response];
   MSLogContainer *container = [self createLogContainerWithId:@"1"];
@@ -261,8 +261,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                    self.sut.pendingCalls.count, equalToInt(0));
 
                                // Status codes and error must be the same.
-                               assertThatLong(MSHTTPCodesNo200OK,
-                                              equalToLong(forwardedStatus));
+                               assertThatLong(
+                                   MSHTTPCodesNo200OK,
+                                   equalToUnsignedInteger(forwardedStatus));
                                assertThat(forwardedError, nilValue());
                                if (error) {
                                  XCTFail(@"Expectation Failed with error: %@",

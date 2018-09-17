@@ -464,7 +464,7 @@ static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
 
   // If
   // Test just below the limit.
-  short expectedCapacity = 3;
+  NSUInteger expectedCapacity = 3;
   __block int logCount = 2;
   self.sut = [[MSLogDBStorage alloc] initWithCapacity:expectedCapacity];
   NSMutableArray<id<MSLog>> *expectedLogs = [NSMutableArray<id<MSLog>> new];
