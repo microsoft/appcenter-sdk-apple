@@ -18,6 +18,7 @@ import AppCenter
   func logUrl() -> String
   func sdkVersion() -> String
   func isDebuggerAttached() -> Bool
+  func startAnalyticsFromLibrary()
   
   // Modules section.
   func isAnalyticsEnabled() -> Bool
