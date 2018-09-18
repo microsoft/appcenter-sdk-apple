@@ -50,9 +50,7 @@ static const long kMSDefaultPageSizeInBytes = 4096;
  *
  * @return An instance of a database.
  */
-- (instancetype)initWithSchema:(MSDBSchema *)schema
-                       version:(NSUInteger)version
-                      filename:(NSString *)filename;
+- (instancetype)initWithSchema:(MSDBSchema *)schema version:(NSUInteger)version filename:(NSString *)filename;
 
 /**
  * Count entries on a given table using the given SQLite "WHERE" clause's
@@ -63,8 +61,7 @@ static const long kMSDefaultPageSizeInBytes = 4096;
  *
  * @return The count of entries for this query.
  */
-- (NSUInteger)countEntriesForTable:(NSString *)tableName
-                         condition:(nullable NSString *)condition;
+- (NSUInteger)countEntriesForTable:(NSString *)tableName condition:(nullable NSString *)condition;
 
 /**
  * Execute a non selection SQLite query on the database (i.e.: "CREATE",
@@ -94,9 +91,7 @@ static const long kMSDefaultPageSizeInBytes = 4096;
  */
 + (NSDictionary *)columnsIndexes:(MSDBSchema *)schema;
 
-- (void)setStorageSize:(long)sizeInBytes completionHandler:(nullable void (^)
-(BOOL))
-    completionHandler;
+- (void)setStorageSize:(long)sizeInBytes completionHandler:(nullable void (^)(BOOL))completionHandler;
 
 @end
 

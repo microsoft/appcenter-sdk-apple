@@ -46,8 +46,8 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
 
 - (int)executeQueryUsingBlock:(MSDBStorageQueryBlock)callback {
   int result;
-  sqlite3 *db = [MSDBStorage openDatabaseAtFileURL:self.dbFileURL withMaxPageCount:self.maxPageCount
-      withResult:&result];
+  sqlite3
+      *db = [MSDBStorage openDatabaseAtFileURL:self.dbFileURL withMaxPageCount:self.maxPageCount withResult:&result];
   if (!db) {
     return result;
   }
@@ -74,11 +74,15 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
       NSString *columnName = columns[i].allKeys[0];
 
       // Compute column query.
-      [columnQueries addObject:[NSString stringWithFormat:@"\"%@\" %@", columnName, [columns[i][columnName] componentsJoinedByString:@" "]]];
+      [columnQueries addObject:[NSString stringWithFormat:@"\"%@\" %@",
+                                                          columnName,
+                                                          [columns[i][columnName] componentsJoinedByString:@" "]]];
     }
 
     // Compute table query.
-    [tableQueries addObject:[NSString stringWithFormat:@"CREATE TABLE \"%@\" (%@);", tableName, [columnQueries componentsJoinedByString:@", "]]];
+    [tableQueries addObject:[NSString stringWithFormat:@"CREATE TABLE \"%@\" (%@);",
+                                                       tableName,
+                                                       [columnQueries componentsJoinedByString:@", "]]];
   }
 
   // Create the tables.
@@ -214,19 +218,17 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
 
 - (void)setStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))completionHandler {
 
-  /*
-   * Check the current number of pages in the database to determine whether
-   * the requested size will shrink the database.
-   */
-  NSArray<NSArray *> *rows = [self executeSelectionQuery:@"PRAGMA "
-                                                         "page_count;"];
+  // Check the current number of pages in the database to determine whether the requested size will shrink the database.
+  NSArray<NSArray *> *rows = [self executeSelectionQuery:@"PRAGMA page_count;"];
   int currentPageCount = [rows[0][0] intValue];
   MSLogDebug([MSAppCenter logTag], @"Found %i pages in the database.", currentPageCount);
   int requestedMaxPageCount = [MSDBStorage numberOfPagesInBytes:sizeInBytes];
   if (currentPageCount > requestedMaxPageCount) {
-    MSLogWarning([MSAppCenter logTag], @"Cannot change database size to %ld bytes as it would "
-                                       "cause a loss of data. The default maximum size of %ld will "
-                                       "not be overridden.", sizeInBytes, kMSDefaultDatabaseSizeInBytes);
+    MSLogWarning([MSAppCenter logTag],
+                 @"Cannot change database size to %ld bytes as it would cause a loss of data. The"
+                 " default maximum size of %ld will not be overridden.",
+                 sizeInBytes,
+                 kMSDefaultDatabaseSizeInBytes);
     if (completionHandler) {
       completionHandler(NO);
     }
@@ -238,12 +240,12 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
   }
 }
 
-+ (sqlite3 *)openDatabaseAtFileURL:(NSURL *)fileURL withMaxPageCount:(int)maxPageCount withResult:(int*)result {
++ (sqlite3 *)openDatabaseAtFileURL:(NSURL *)fileURL withMaxPageCount:(int)maxPageCount withResult:(int *)result {
   sqlite3 *db = NULL;
   *result = sqlite3_open_v2([[fileURL absoluteString] UTF8String],
-                               &db,
-                               SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_URI,
-                               NULL);
+                            &db,
+                            SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_URI,
+                            NULL);
   if (*result != SQLITE_OK) {
     MSLogError([MSAppCenter logTag], @"Failed to open database with result: %d.", *result);
     return NULL;
