@@ -2,21 +2,22 @@
 #import <XCTest/XCTest.h>
 
 #import "MSDBStoragePrivate.h"
+#import "MSStorageTestUtil.h"
 #import "MSTestFrameworks.h"
-#import "MSUtility+File.h"
 
-static NSString *const kMSTestDBFileName = @"Test.sqlite";
 static NSString *const kMSTestTableName = @"table";
 static NSString *const kMSTestPositionColName = @"position";
 static NSString *const kMSTestPersonColName = @"person";
 static NSString *const kMSTestHungrinessColName = @"hungriness";
 static NSString *const kMSTestMealColName = @"meal";
-static const long kMSDefaultDatabaseSizeInBytes = 10*1024*1024;
+
+static NSString *const kMSTestDBFileName = @"Test.sqlite";
 
 @interface MSDBStorageTests : XCTestCase
 
 @property(nonatomic) MSDBStorage *sut;
 @property(nonatomic) MSDBSchema *schema;
+@property(nonatomic) MSStorageTestUtil *storageTestUtil;
 
 @end
 
@@ -45,6 +46,7 @@ static const long kMSDefaultDatabaseSizeInBytes = 10*1024*1024;
   self.sut = [[MSDBStorage alloc] initWithSchema:self.schema
                                          version:0
                                         filename:kMSTestDBFileName];
+  self.storageTestUtil = [[MSStorageTestUtil alloc] initWithDbFileName:kMSTestDBFileName];
 }
 
 - (void)tearDown {
@@ -368,10 +370,10 @@ static const long kMSDefaultDatabaseSizeInBytes = 10*1024*1024;
   XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler invoked."];
 
   // Fill the database with data to reach the desired initial size.
-  while ([self getDataLengthInBytes] < initialSizeInBytes) {
+  while ([self.storageTestUtil getDataLengthInBytes] < initialSizeInBytes) {
     [self addGuysToTheTableWithCount:1000];
   }
-  long bytesOfData = [self getDataLengthInBytes];
+  long bytesOfData = [self.storageTestUtil getDataLengthInBytes];
   long shrunkenSizeInBytes = bytesOfData - kMSDefaultPageSizeInBytes * 3;
 
   // When
@@ -399,10 +401,10 @@ static const long kMSDefaultDatabaseSizeInBytes = 10*1024*1024;
   XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler invoked."];
 
   // Fill the database with data to reach the desired initial size.
-  while ([self getDataLengthInBytes] < initialSizeInBytes) {
+  while ([self.storageTestUtil getDataLengthInBytes] < initialSizeInBytes) {
     [self addGuysToTheTableWithCount:1000];
   }
-  long bytesOfData = [self getDataLengthInBytes];
+  long bytesOfData = [self.storageTestUtil getDataLengthInBytes];
   NSLog(@"bytes of data: %ld", bytesOfData);
   long expandedSizeInBytes = bytesOfData + kMSDefaultPageSizeInBytes * 3;
 
@@ -432,10 +434,10 @@ static const long kMSDefaultDatabaseSizeInBytes = 10*1024*1024;
   XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler invoked."];
 
   // Fill the database with data to reach the desired initial size.
-  while ([self getDataLengthInBytes] < initialSizeInBytes) {
+  while ([self.storageTestUtil getDataLengthInBytes] < initialSizeInBytes) {
     [self addGuysToTheTableWithCount:1000];
   }
-  long bytesOfData = [self getDataLengthInBytes];
+  long bytesOfData = [self.storageTestUtil getDataLengthInBytes];
   long shrunkenSizeInBytes = bytesOfData - kMSDefaultPageSizeInBytes * 3;
 
   // When
@@ -477,7 +479,7 @@ static const long kMSDefaultDatabaseSizeInBytes = 10*1024*1024;
 - (NSArray *)addGuysToTheTableWithCount:(short)guysCount {
   NSString *insertQuery;
   NSMutableArray *guys = [NSMutableArray new];
-  sqlite3 *db = [self openDatabase];
+  sqlite3 *db = [self.storageTestUtil openDatabase];
   for (short i = 1; i <= guysCount; i++) {
     [guys addObject:@[
       @(i), [NSString stringWithFormat:@"%@%d", kMSTestPersonColName, i],
@@ -502,30 +504,6 @@ static const long kMSDefaultDatabaseSizeInBytes = 10*1024*1024;
           [NSString
               stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'",
                                tableName]][0][0];
-}
-
-- (long) getDataLengthInBytes {
-  sqlite3 *db = [self openDatabase];
-  sqlite3_stmt *statement = NULL;
-  sqlite3_prepare_v2(db, "PRAGMA page_count;", -1, &statement, NULL);
-  sqlite3_step(statement);
-  NSNumber *pageCount = @(sqlite3_column_int(statement, 0));
-  sqlite3_finalize(statement);
-  sqlite3_close(db);
-  return [pageCount longValue] * kMSDefaultPageSizeInBytes;
-}
-
-- (sqlite3*)openDatabase {
-  sqlite3 *db = NULL;
-  NSURL *dbURL =
-      [MSUtility createFileAtPathComponent:kMSTestDBFileName withData:nil
-                                atomically:NO forceOverwrite:NO];
-  sqlite3_open_v2([[dbURL absoluteString] UTF8String],
-                  &db,
-                  SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE
-                      | SQLITE_OPEN_URI,
-                  NULL);
-  return db;
 }
 
 @end

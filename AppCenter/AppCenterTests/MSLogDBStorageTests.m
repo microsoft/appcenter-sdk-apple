@@ -4,11 +4,9 @@
 #import "MSConstants+Internal.h"
 #import "MSDBStoragePrivate.h"
 #import "MSLogDBStoragePrivate.h"
+#import "MSStorageTestUtil.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility.h"
-#import "MSUtility+Date.h"
-#import "MSUtility+StringFormatting.h"
-#import "MSUtility+File.h"
 
 static NSString *const kMSTestGroupId = @"TestGroupId";
 static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
@@ -19,6 +17,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
 @interface MSLogDBStorageTests : XCTestCase
 
 @property(nonatomic) MSLogDBStorage *sut;
+@property(nonatomic) MSStorageTestUtil *storageTestUtil;
 
 @end
 
@@ -29,6 +28,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   [super setUp];
   [self.sut deleteDatabase];
   self.sut = [[MSLogDBStorage alloc] initWithMinimumUpperSizeLimitInBytes:kMSTestStorageSizeMinimumUpperLimitInBytes];
+  self.storageTestUtil = [[MSStorageTestUtil alloc] initWithDbFileName:kMSDBFileName];
 }
 
 - (void)tearDown {
@@ -186,9 +186,10 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
 - (void)testDeleteLogsWithGroupId {
 
   // Test deletion with no batch.
-
+  
   // If
-  [self.sut.batches removeAllObjects];
+  self.sut = [MSLogDBStorage new];
+//  [self.sut.batches removeAllObjects];
   [self generateAndSaveLogsWithCount:5 groupId:kMSTestGroupId];
 
   // When
@@ -246,7 +247,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
 
   // Then
   NSArray *remainingLogs = [self loadLogsWhere:nil];
-  assertThat(expectedLogs, is(remainingLogs));
+  assertThat(remainingLogs, is(expectedLogs));
   assertThatInteger(self.sut.batches.count, equalToInteger(1));
   assertThatBool([self.sut.batches.allKeys containsObject:batchIdToDelete], isFalse());
 }
@@ -461,7 +462,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
       ++additionalLogs;
 
       // Then
-      XCTAssertTrue([self getDataLengthInBytes] <= maxCapacityInBytes);
+      XCTAssertTrue([self.storageTestUtil getDataLengthInBytes] <= maxCapacityInBytes);
       XCTAssertTrue(logSavedSuccessfully);
     }
     [expectation fulfill];
@@ -501,7 +502,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
       }
       
       // Then
-      XCTAssertTrue([self getDataLengthInBytes] <= maxCapacityInBytes);
+      XCTAssertTrue([self.storageTestUtil getDataLengthInBytes] <= maxCapacityInBytes);
       XCTAssertTrue(logSavedSuccessfully);
     }
     [expectation fulfill];
@@ -607,7 +608,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   if (whereCondition.length > 0) {
     [selectLogQuery appendFormat:@" WHERE %@", whereCondition];
   }
-  sqlite3 *db = [self openDatabase];
+  sqlite3 *db = [self.storageTestUtil openDatabase];
   sqlite3_stmt *statement = NULL;
   sqlite3_prepare_v2(db, [selectLogQuery UTF8String], -1, &statement, NULL);
 
@@ -645,34 +646,12 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   return logs;
 }
 
-//TODO: Move these into a utility
-- (long)getDataLengthInBytes {
-  sqlite3 *db = [self openDatabase];
-  sqlite3_stmt *statement = NULL;
-  sqlite3_prepare_v2(db, "PRAGMA page_count;", -1, &statement, NULL);
-  sqlite3_step(statement);
-  NSNumber *pageCount = @(sqlite3_column_int(statement, 0));
-  sqlite3_finalize(statement);
-  sqlite3_close(db);
-  return [pageCount longValue] * kMSDefaultPageSizeInBytes;
-}
-
-- (sqlite3 *)openDatabase {
-  sqlite3 *db = NULL;
-  NSURL *dbURL = [MSUtility createFileAtPathComponent:kMSDBFileName withData:nil atomically:NO forceOverwrite:NO];
-  sqlite3_open_v2([[dbURL absoluteString] UTF8String],
-                  &db,
-                  SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_URI,
-                  NULL);
-  return db;
-}
-
 - (NSArray<id <MSLog>> *)fillDatabaseWithLogsOfSizeInBytes:(long)sizeInBytes {
   NSMutableArray *logsAdded = [NSMutableArray new];
   int result = 0;
   int maxPageCount = sizeInBytes / kMSDefaultPageSizeInBytes;
   do {
-    sqlite3 *db = [self openDatabase];
+    sqlite3 *db = [self.storageTestUtil openDatabase];
     NSString *statement = [NSString stringWithFormat:@"PRAGMA max_page_count = %i;", maxPageCount];
     sqlite3_exec(db, [statement UTF8String], NULL, NULL, NULL);
     MSAbstractLog *log = [MSAbstractLog new];

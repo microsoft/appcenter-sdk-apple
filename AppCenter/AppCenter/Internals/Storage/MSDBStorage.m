@@ -6,9 +6,6 @@
 
 @implementation MSDBStorage
 
-// 10 MiB.
-static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
-
 - (instancetype)initWithSchema:(MSDBSchema *)schema version:(NSUInteger)version filename:(NSString *)filename {
   if ((self = [super init])) {
 
