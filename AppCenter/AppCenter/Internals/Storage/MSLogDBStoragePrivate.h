@@ -49,7 +49,7 @@ static NSString *const kMSTargetTokenColumnName = @"targetToken";
 /*
  * Minimum size of database upper size limit.
  */
-@property(nonatomic, readonly) int minimumUpperSizeLimitInBytes;
+@property(nonatomic, readonly) long minimumUpperSizeLimitInBytes;
 
 /**
  * Initialize object with a minimum upper size limit (in bytes). Intended for unit tests only.

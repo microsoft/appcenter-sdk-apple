@@ -408,113 +408,108 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   assertThatInteger([self.sut countEntriesForTable:kMSLogTableName condition:nil], equalToInteger(5));
 }
 
-- (void)testStorageCapacityWhenBelowLimit {
+- (void)testAddLogsWhenBelowStorageCapacity {
 
   // If
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler invoked."];
   long maxCapacityInBytes = kMSTestStorageSizeMinimumUpperLimitInBytes + kMSDefaultPageSizeInBytes;
-  long initialDataLengthInBytes = maxCapacityInBytes - 3*kMSDefaultPageSizeInBytes;
-  MSAbstractLog * additionalLog = [MSAbstractLog new];
+  long initialDataLengthInBytes = maxCapacityInBytes - 3 * kMSDefaultPageSizeInBytes;
+  MSAbstractLog *additionalLog = [MSAbstractLog new];
   additionalLog.sid = MS_UUID_STRING;
   NSArray *addedLogs = [self fillDatabaseWithLogsOfSizeInBytes:initialDataLengthInBytes];
 
   // When
-  BOOL success = [self.sut saveLog:additionalLog withGroupId:kMSAnotherTestGroupId];
+  [self.sut setStorageSize:maxCapacityInBytes completionHandler:^(BOOL success) {
+    BOOL logSavedSuccessfully = [self.sut saveLog:additionalLog withGroupId:kMSAnotherTestGroupId];
+
+    // Then
+    XCTAssertTrue(success);
+    XCTAssertTrue(logSavedSuccessfully);
+    NSString
+        *whereCondition = [NSString stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, kMSAnotherTestGroupId];
+    NSArray<id <MSLog>> *loadedLogs = [self loadLogsWhere:whereCondition];
+    NSArray<id <MSLog>> *allLogs = [self loadLogsWhere:nil];
+    XCTAssertEqual(loadedLogs.count, 1);
+    XCTAssertEqualObjects(loadedLogs[0].sid, additionalLog.sid);
+    XCTAssertEqual(addedLogs.count + 1, allLogs.count);
+    [expectation fulfill];
+  }];
 
   // Then
-  XCTAssertTrue(success);
-  NSString *whereCondition = [NSString stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, kMSAnotherTestGroupId];
-  NSArray<id<MSLog>> *loadedLogs = [self loadLogsWhere:whereCondition];
-  NSArray<id<MSLog>> *allLogs = [self loadLogsWhere:nil];
-
-  XCTAssertEqual(loadedLogs.count, 1);
-  XCTAssertEqualObjects(loadedLogs[0].sid, additionalLog.sid);
-  XCTAssertEqual(addedLogs.count + 1, allLogs.count);
+  [self waitForExpectationsWithTimeout:1 handler:^(NSError *_Nullable error) {
+        if (error) {
+          XCTFail(@"Expectation Failed with error: %@", error);
+        }
+      }];
 }
 
-//
-//  // Then
-//  // Get logs from DB.
-//  loadedLogs = [self loadLogsWhere:nil];
-//  assertThat(expectedLogs, is(loadedLogs));
-//
-//  // Test at the limit.
-//
-//  // If
-//  [self.sut deleteDatabase];
-//  [expectedLogs removeAllObjects];
-//  expectedCapacity = 2;
-//  self.sut = [[MSLogDBStorage alloc] initWithCapacity:expectedCapacity];
-//
-//  // When
-//  for (int i = 0; i < logCount; i++) {
-//    id <MSLog> log = [MSAbstractLog new];
-//    log.sid = MS_UUID_STRING;
-//
-//    // Save this log.
-//    [self.sut saveLog:log withGroupId:kMSTestGroupId];
-//    [expectedLogs addObject:log];
-//  }
-//
-//  // Then
-//  // Get logs from DB.
-//  loadedLogs = [self loadLogsWhere:nil];
-//  assertThat(expectedLogs, is(loadedLogs));
-//
-//  // Test just over the limit.
-//
-//  // If
-//  [self.sut deleteDatabase];
-//  [expectedLogs removeAllObjects];
-//  expectedCapacity = 1;
-//  self.sut = [[MSLogDBStorage alloc] initWithCapacity:expectedCapacity];
-//
-//  // When
-//  for (int i = 0; i < logCount; i++) {
-//    id <MSLog> log = [MSAbstractLog new];
-//    log.sid = MS_UUID_STRING;
-//
-//    // Save this log.
-//    [self.sut saveLog:log withGroupId:kMSTestGroupId];
-//    [expectedLogs addObject:log];
-//  }
-//
-//  // Then
-//  // The first is expected to be removed.
-//  [expectedLogs removeObjectAtIndex:0];
-//
-//  // Get logs from DB.
-//  loadedLogs = [self loadLogsWhere:nil];
-//  assertThat(expectedLogs, is(loadedLogs));
-//
-//  // Test way over the limit.
-//
-//  // If
-//  [self.sut deleteDatabase];
-//  logCount = 10;
-//  [expectedLogs removeAllObjects];
-//  expectedCapacity = 1;
-//  self.sut = [[MSLogDBStorage alloc] initWithCapacity:expectedCapacity];
-//
-//  // When
-//  for (int i = 0; i < logCount; i++) {
-//    id <MSLog> log = [MSAbstractLog new];
-//    log.sid = MS_UUID_STRING;
-//
-//    // Save this log.
-//    [self.sut saveLog:log withGroupId:kMSTestGroupId];
-//    [expectedLogs addObject:log];
-//  }
-//
-//  // Then
-//  // Only the last logs are expected.
-//  [expectedLogs removeObjectsInRange:NSMakeRange(0,
-//                                                 expectedLogs.count
-//                                                     - expectedCapacity)];
-//
-//  // Get logs from DB.
-//  loadedLogs = [self loadLogsWhere:nil];
-//  assertThat(expectedLogs, is(loadedLogs));
-//}
+- (void)testAddLogsDoesNotExceedCapacity {
+
+  // If
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler invoked."];
+  long maxCapacityInBytes = kMSTestStorageSizeMinimumUpperLimitInBytes + kMSDefaultPageSizeInBytes;
+  NSArray *addedLogs = [self fillDatabaseWithLogsOfSizeInBytes:maxCapacityInBytes];
+
+  // When
+  [self.sut setStorageSize:maxCapacityInBytes completionHandler:^(BOOL success) {
+
+    int additionalLogs = 0;
+    while (additionalLogs <= [addedLogs count]*2) {
+      MSAbstractLog *additionalLog = [MSAbstractLog new];
+      additionalLog.sid = MS_UUID_STRING;
+      BOOL logSavedSuccessfully = [self.sut saveLog:additionalLog withGroupId:kMSTestGroupId];
+      ++additionalLogs;
+
+      // Then
+      XCTAssertTrue([self getDataLengthInBytes] <= maxCapacityInBytes);
+      XCTAssertTrue(logSavedSuccessfully);
+    }
+    [expectation fulfill];
+  }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1 handler:^(NSError *_Nullable error) {
+    if (error) {
+      XCTFail(@"Expectation Failed with error: %@", error);
+    }
+  }];
+}
+
+- (void)testOldestLogsAreDeletedFirstWhenCapacityIsReached {
+
+  // If
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler invoked."];
+  long maxCapacityInBytes = kMSTestStorageSizeMinimumUpperLimitInBytes + kMSDefaultPageSizeInBytes;
+  NSArray *addedLogs = [self fillDatabaseWithLogsOfSizeInBytes:maxCapacityInBytes];
+  MSAbstractLog *firstLog = addedLogs[0];
+  
+  // When
+  [self.sut setStorageSize:maxCapacityInBytes completionHandler:^(BOOL success) {
+
+    int additionalLogs = 0;
+    while (additionalLogs < [addedLogs count]) {
+      MSAbstractLog *additionalLog = [MSAbstractLog new];
+      additionalLog.sid = MS_UUID_STRING;
+      BOOL logSavedSuccessfully = [self.sut saveLog:additionalLog withGroupId:kMSAnotherTestGroupId];
+      NSString *whereCondition = [NSString stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, kMSAnotherTestGroupId];
+      NSArray<id <MSLog>> *loadedLogs = [self loadLogsWhere:whereCondition];
+      ++additionalLogs;
+
+      // Then
+      XCTAssertTrue([self getDataLengthInBytes] <= maxCapacityInBytes);
+      XCTAssertTrue(logSavedSuccessfully);
+      XCTAssertEqual([loadedLogs count], additionalLogs);
+    }
+    [expectation fulfill];
+  }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1 handler:^(NSError *_Nullable error) {
+    if (error) {
+      XCTFail(@"Expectation Failed with error: %@", error);
+    }
+  }];
+}
 
 - (void)testMigration {
 
@@ -561,10 +556,10 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
 
   // Then
   [self waitForExpectationsWithTimeout:1 handler:^(NSError *_Nullable error) {
-        if (error) {
-          XCTFail(@"Expectation Failed with error: %@", error);
-        }
-      }];
+    if (error) {
+      XCTFail(@"Expectation Failed with error: %@", error);
+    }
+  }];
 }
 
 - (NSArray<id <MSLog>> *)generateAndSaveLogsWithCount:(NSUInteger)count groupId:(NSString *)groupId {
@@ -669,11 +664,14 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
 
 - (NSArray<id <MSLog>> *)fillDatabaseWithLogsOfSizeInBytes:(long)sizeInBytes {
   NSMutableArray *logsAdded = [NSMutableArray new];
-  while ([self getDataLengthInBytes] < sizeInBytes) {
+  int result = 0;
+  int maxPageCount = sizeInBytes / kMSDefaultPageSizeInBytes;
+  do {
     sqlite3 *db = [self openDatabase];
+    NSString *statement = [NSString stringWithFormat:@"PRAGMA max_page_count = %i;", maxPageCount];
+    sqlite3_exec(db, [statement UTF8String], NULL, NULL, NULL);
     MSAbstractLog *log = [MSAbstractLog new];
     log.sid = MS_UUID_STRING;
-    [logsAdded addObject:log];
     NSData *logData = [NSKeyedArchiver archivedDataWithRootObject:log];
     NSString *base64Data = [logData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
     NSString *addLogQuery = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\") VALUES ('%@', '%@')",
@@ -682,10 +680,23 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
                                                        kMSLogColumnName,
                                                        kMSTestGroupId,
                                                        base64Data];
-    sqlite3_exec(db, [addLogQuery UTF8String], NULL, NULL, NULL);
+    result = sqlite3_exec(db, [addLogQuery UTF8String], NULL, NULL, NULL);
     sqlite3_close(db);
-  }
+    if (result == SQLITE_OK) {
+      [logsAdded addObject:log];
+    }
+  } while (result == SQLITE_OK);
   return logsAdded;
+}
+
+- (BOOL)logs:(NSArray<id <MSLog>> *)logs containLogWithSessionId:(NSString*)sessionId {
+  for (MSAbstractLog *log in logs) {
+    if ([log.sid isEqualToString:sessionId]) {
+      return YES;
+      break;
+    }
+  }
+  return NO;
 }
 
 @end

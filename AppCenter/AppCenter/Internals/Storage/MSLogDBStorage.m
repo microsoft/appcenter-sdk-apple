@@ -85,8 +85,8 @@ static const long kMSMinimumDatabaseSize = kMSMaximumCommonSchemaLogSizeInBytes 
   long countOfLogsDeleted = 0;
   while (result == SQLITE_FULL) {
     [self deleteOldestLogsWithCount:1];
-    result = [self executeNonSelectionQuery:addLogQuery];
     ++countOfLogsDeleted;
+    result = [self executeNonSelectionQuery:addLogQuery];
   }
   if (countOfLogsDeleted > 0) {
     MSLogDebug([MSAppCenter logTag],
@@ -328,12 +328,12 @@ static const long kMSMinimumDatabaseSize = kMSMaximumCommonSchemaLogSizeInBytes 
 #pragma mark - DB size
 
 - (void)setStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))completionHandler {
-  if (sizeInBytes < kMSMinimumDatabaseSize) {
+  if (sizeInBytes < self.minimumUpperSizeLimitInBytes) {
     if (completionHandler) {
       completionHandler(NO);
     }
     MSLogWarning([MSAppCenter logTag], @"Cannot set storage size to %ld bytes, minimum value is %ld"
-                                       " bytes", sizeInBytes, kMSMinimumDatabaseSize);
+                                       " bytes", sizeInBytes, self.minimumUpperSizeLimitInBytes);
     return;
   }
   [super setStorageSize:sizeInBytes completionHandler:completionHandler];
