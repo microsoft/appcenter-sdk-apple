@@ -10,6 +10,8 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   @IBOutlet weak var pushEnabledSwitch: UISwitch!
   @IBOutlet weak var logFilterSwitch: UISwitch!
   @IBOutlet weak var deviceIdLabel: UILabel!
+  @IBOutlet weak var storageMaxSizeField: UITextField!
+  @IBOutlet weak var storageFileSizeLabel: UILabel!
 
   var appCenter: AppCenterDelegate!
 
@@ -45,12 +47,12 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     // Make sure the UITabBarController does not cut off the last cell.
     self.edgesForExtendedLayout = []
   }
-  
+
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     updateViewState()
   }
-  
+
   func updateViewState() {
     self.appCenterEnabledSwitch.isOn = appCenter.isAppCenterEnabled()
     self.pushEnabledSwitch.isOn = appCenter.isPushEnabled()
@@ -61,17 +63,20 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     appCenter.setAppCenterEnabled(sender.isOn)
     updateViewState()
   }
-  
+
   @IBAction func pushSwitchStateUpdated(_ sender: UISwitch) {
     appCenter.setPushEnabled(sender.isOn)
     updateViewState()
   }
-  
+
   @IBAction func logFilterSwitchChanged(_ sender: UISwitch) {
     appCenter.setEventFilterEnabled(sender.isOn)
     updateViewState()
   }
-  
+
+  @IBAction func storageMaxSizeUpdated(_ sender: UITextField) {
+  }
+
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: false)
     if (indexPath != informationCellIndexPath &&
