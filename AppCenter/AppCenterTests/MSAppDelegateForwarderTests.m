@@ -62,7 +62,7 @@
 
   // Then
   assertThatInteger(MSAppDelegateForwarder.selectorsToSwizzle.count,
-                    equalToInteger(currentCount + 1));
+                    equalToUnsignedInteger(currentCount + 1));
   assertThatBool([MSAppDelegateForwarder.selectorsToSwizzle
                      containsObject:expectedSelectorStr],
                  isTrue());
@@ -72,7 +72,7 @@
 
   // Then
   assertThatInteger(MSAppDelegateForwarder.selectorsToSwizzle.count,
-                    equalToInteger(currentCount + 1));
+                    equalToUnsignedInteger(currentCount + 1));
   assertThatBool([MSAppDelegateForwarder.selectorsToSwizzle
                      containsObject:expectedSelectorStr],
                  isTrue());

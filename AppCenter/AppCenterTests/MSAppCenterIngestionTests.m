@@ -120,7 +120,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [self.sut sendAsync:container
               appSecret:kMSTestAppSecret
       completionHandler:^(NSString *batchId, NSUInteger statusCode,
-                          __attribute__((unused)) NSData *data,
+                          __unused NSData *data,
                           NSError *error) {
 
         // Then
@@ -130,8 +130,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
         XCTAssertEqual(error.code, kMSACConnectionHttpErrorCode);
         XCTAssertEqual(error.localizedDescription,
                        kMSACConnectionHttpErrorDesc);
-        XCTAssertTrue([error.userInfo[kMSACConnectionHttpCodeErrorKey]
-            isEqual:@(MSHTTPCodesNo404NotFound)]);
+        XCTAssertTrue(
+            [error.userInfo[(NSString *)kMSACConnectionHttpCodeErrorKey]
+                isEqual:@(MSHTTPCodesNo404NotFound)]);
 
         /*
          * FIXME: This unit test failes intermittently because of timing issue.
@@ -215,7 +216,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // If
   XCTestExpectation *requestCompletedExcpectation =
       [self expectationWithDescription:@"Request completed."];
-  __block NSInteger forwardedStatus;
+  __block NSUInteger forwardedStatus;
   __block NSError *forwardedError;
   [MSHttpTestUtil stubHttp200Response];
   MSLogContainer *container = [self createLogContainerWithId:@"1"];
@@ -261,8 +262,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                    self.sut.pendingCalls.count, equalToInt(0));
 
                                // Status codes and error must be the same.
-                               assertThatLong(MSHTTPCodesNo200OK,
-                                              equalToLong(forwardedStatus));
+                               assertThatLong(
+                                   MSHTTPCodesNo200OK,
+                                   equalToUnsignedInteger(forwardedStatus));
                                assertThat(forwardedError, nilValue());
                                if (error) {
                                  XCTFail(@"Expectation Failed with error: %@",
