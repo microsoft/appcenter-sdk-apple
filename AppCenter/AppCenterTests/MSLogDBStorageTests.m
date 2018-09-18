@@ -549,13 +549,14 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   // If
   long storageSize = kMSMaximumCommonSchemaLogSizeInBytes - 1;
   XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler invoked."];
+  self.sut = [MSLogDBStorage new];
 
   // When
   [self.sut setStorageSize:storageSize completionHandler:^(BOOL success) {
-    [expectation fulfill];
 
     // Then
     XCTAssertFalse(success);
+    [expectation fulfill];
   }];
 
   // Then
