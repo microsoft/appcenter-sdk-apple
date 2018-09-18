@@ -11,7 +11,6 @@ static NSString *const kMSTestPositionColName = @"position";
 static NSString *const kMSTestPersonColName = @"person";
 static NSString *const kMSTestHungrinessColName = @"hungriness";
 static NSString *const kMSTestMealColName = @"meal";
-static const long kMSDefaultPageSizeInBytes = 4096;
 static const long kMSDefaultDatabaseSizeInBytes = 10*1024*1024;
 
 @interface MSDBStorageTests : XCTestCase

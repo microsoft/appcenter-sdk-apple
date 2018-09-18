@@ -57,7 +57,7 @@ typedef int (^MSDBStorageQueryBlock)(void *);
 
 /**
  * Execute a non selection SQLite query on the database (i.e.: "CREATE",
- * "INSERTE", "UPDATE"... but not "SELECT").
+ * "INSERT", "UPDATE"... but not "SELECT").
  *
  * @param query An SQLite query to execute.
  * @param db Database handle.
@@ -72,7 +72,7 @@ typedef int (^MSDBStorageQueryBlock)(void *);
  * @param query An SQLite "SELECT" query to execute.
  * @param db Database handle.
  *
- * @return The selectioned entries.
+ * @return The selected entries.
  */
 + (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query
                              inOpenedDatabase:(void *)db;

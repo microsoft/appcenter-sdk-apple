@@ -14,8 +14,8 @@ static NSString *const kMSTestGroupId = @"TestGroupId";
 static NSString *const kMSAnotherTestGroupId = @"AnotherGroupId";
 
 // 40 KiB (10 pages).
-static const int kMSDefaultPageSizeInBytes = 4096;
 static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPageSizeInBytes;
+
 @interface MSLogDBStorageTests : XCTestCase
 
 @property(nonatomic) MSLogDBStorage *sut;

@@ -11,7 +11,9 @@
 #import "MSUtility.h"
 
 static const NSUInteger kMSSchemaVersion = 1;
-static const long kMSMinimumDatabaseSize = kMSMaximumCommonSchemaLogSizeInBytes;
+
+// Minimum database upper limit is the maximum common schema log size plus a small amount of buffer (1 page).
+static const long kMSMinimumDatabaseSize = kMSMaximumCommonSchemaLogSizeInBytes + kMSDefaultPageSizeInBytes;
 
 @implementation MSLogDBStorage
 
@@ -98,7 +100,7 @@ static const long kMSMinimumDatabaseSize = kMSMaximumCommonSchemaLogSizeInBytes;
 
 - (BOOL)loadLogsWithGroupId:(NSString *)groupId limit:(NSUInteger)limit
              withCompletion:(nullable MSLoadDataCompletionBlock)completion {
-  BOOL logsAvailable = NO;
+  BOOL logsAvailable;
   BOOL moreLogsAvailable = NO;
   NSString *batchId;
   NSMutableArray<NSArray *> *logEntries;
@@ -153,7 +155,7 @@ static const long kMSMinimumDatabaseSize = kMSMaximumCommonSchemaLogSizeInBytes;
   logsAvailable = logEntries.count > 0;
   if (logsAvailable) {
     batchId = MS_UUID_STRING;
-    [self.batches setObject:dbIds forKey:[groupId stringByAppendingString:batchId]];
+    self.batches[[groupId stringByAppendingString:batchId]] = dbIds;
   }
 
   // Load completed.
