@@ -431,6 +431,7 @@ static NSString *const kMSNullifiedInstallIdString =
 #if !TARGET_OS_TV
 
 - (void)testSetCustomPropertiesWithEmptyPropertiesDoesNotEnqueueCustomPropertiesLog {
+  
   // If
   [MSAppCenter start:MS_UUID_STRING withServices:nil];
   id channelUnit = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
