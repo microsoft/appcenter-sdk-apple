@@ -58,6 +58,11 @@ enum { START_FROM_APP = 0, START_FROM_LIBRARY, START_FROM_BOTH };
   [MSPush setDelegate:self];
   [MSAppCenter setLogLevel:MSLogLevelVerbose];
 
+  // Set max storage size.
+  NSInteger storageMaxSize = [[NSUserDefaults standardUserDefaults]
+      integerForKey:kMSStorageMaxSizeKey];
+  [MSAppCenter setStorageSize:storageMaxSize completionHandler:nil];
+
   // Start App Center SDK.
   BOOL useOneCollector = [[NSUserDefaults standardUserDefaults]
       boolForKey:kMSOneCollectorEnabledKey];

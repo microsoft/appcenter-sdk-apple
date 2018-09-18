@@ -36,6 +36,10 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
       }
     }
 
+    // Storage size section.
+    let storageMaxSize = UserDefaults.standard.integer(forKey: kMSStorageMaxSizeKey)
+    storageMaxSizeField.text = "\(storageMaxSize)"
+
     // Miscellaneous section.
     appCenter.startEventFilterService()
     self.installId.text = appCenter.installId()
@@ -75,6 +79,8 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   }
 
   @IBAction func storageMaxSizeUpdated(_ sender: UITextField) {
+    let maxSize = (Int(sender.text ?? "0") ?? 0) * 1000
+    UserDefaults.standard.set(maxSize, forKey: kMSStorageMaxSizeKey)
   }
 
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

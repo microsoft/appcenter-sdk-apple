@@ -24,5 +24,6 @@ static NSString *const kMSObjCRuntimeTargetToken =
 #endif
 static NSString *const kMSOneCollectorEnabledKey = @"isOneCollectorEnabled";
 static NSString *const kMSStartTargetKey = @"startTarget";
+static NSString *const kMSStorageMaxSizeKey = @"storageMaxSize";
 static NSNotificationName const kUpdateAnalyticsResultNotification =
     @"updateAnalyticsResult";

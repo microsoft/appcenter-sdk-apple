@@ -25,6 +25,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     MSPush.setDelegate(self)
     MSAppCenter.setLogLevel(MSLogLevel.verbose)
 
+    // Set max storage size.
+    let storageMaxSize = UserDefaults.standard.integer(forKey: kMSStorageMaxSizeKey)
+    MSAppCenter.setStorageSize(storageMaxSize, completionHandler: nil)
+
     // Start App Center SDK.
     let useOneCollector = UserDefaults.standard.bool(forKey: kMSOneCollectorEnabledKey);
     let startTarget = UserDefaults.standard.integer(forKey: kMSStartTargetKey);
