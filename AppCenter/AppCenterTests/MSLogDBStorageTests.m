@@ -482,23 +482,27 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   long maxCapacityInBytes = kMSTestStorageSizeMinimumUpperLimitInBytes + kMSDefaultPageSizeInBytes;
   NSArray *addedLogs = [self fillDatabaseWithLogsOfSizeInBytes:maxCapacityInBytes];
   MSAbstractLog *firstLog = addedLogs[0];
-  
+  int initialLogCount = [addedLogs count];
+  __block int originalLogsCount = initialLogCount;
+
   // When
   [self.sut setStorageSize:maxCapacityInBytes completionHandler:^(BOOL success) {
-
-    int additionalLogs = 0;
-    while (additionalLogs < [addedLogs count]) {
+    while (originalLogsCount < initialLogCount) {
       MSAbstractLog *additionalLog = [MSAbstractLog new];
       additionalLog.sid = MS_UUID_STRING;
       BOOL logSavedSuccessfully = [self.sut saveLog:additionalLog withGroupId:kMSAnotherTestGroupId];
-      NSString *whereCondition = [NSString stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, kMSAnotherTestGroupId];
-      NSArray<id <MSLog>> *loadedLogs = [self loadLogsWhere:whereCondition];
-      ++additionalLogs;
-
+      NSString *originalLogsFilter = [NSString stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, kMSTestGroupId];
+      NSArray<id <MSLog>> *originalLogs = [self loadLogsWhere:originalLogsFilter];
+      originalLogsCount = [originalLogs count];
+      if (originalLogsCount < initialLogCount) {
+        XCTAssertEqual(originalLogsCount, initialLogCount - 1);
+        BOOL containsFirstLog = [self logs:originalLogs containLogWithSessionId:firstLog.sid];
+        XCTAssertFalse(containsFirstLog);
+      }
+      
       // Then
       XCTAssertTrue([self getDataLengthInBytes] <= maxCapacityInBytes);
       XCTAssertTrue(logSavedSuccessfully);
-      XCTAssertEqual([loadedLogs count], additionalLogs);
     }
     [expectation fulfill];
   }];
