@@ -477,13 +477,13 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
       .andDo(^(__attribute__((unused)) NSInvocation *invocation) {
 
         /*
-         * Don't fulfill the expectation immediatelly as the ingestion won't be
+         * Don't fulfill the expectation immediately as the ingestion won't be
          * suspended yet. Instead of using a delay to wait for the retries, we
          * use the retryCount as it retryCount will only be 0 before the first
          * failed sending and after we've exhausted the retry attempts. The
          * first one won't be the case during unit tests as the request will
          * fail
-         * immediatelly, so the expectation will only by fulfilled once retries
+         * immediately, so the expectation will only by fulfilled once retries
          * have been exhausted.
          */
         if (mockedCall.retryCount == 0) {

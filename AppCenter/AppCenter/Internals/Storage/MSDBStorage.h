@@ -31,6 +31,9 @@ static NSString *const kMSSQLiteConstraintNotNull = @"NOT NULL";
 static NSString *const kMSSQLiteConstraintPrimaryKey = @"PRIMARY KEY";
 static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
 
+// 4 KiB.
+static const long kMSDefaultPageSizeInBytes = 4096;
+
 @interface MSDBStorage : NSObject
 
 /**
