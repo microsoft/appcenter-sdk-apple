@@ -71,7 +71,10 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [self.settingsMock stopMocking];
 
   // Make sure sessionTracker removes all observers.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
   [MSAnalytics sharedInstance].sessionTracker = nil;
+#pragma clang diagnostic pop
   [MSAnalytics resetSharedInstance];
 }
 
@@ -212,8 +215,9 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [MSAppCenter sharedInstance].sdkConfigured = NO;
   [MSAppCenter sharedInstance].configuredFromApplication = NO;
   [MSAppCenter start:kMSTestAppSecret withServices:@[ [MSAnalytics class] ]];
-  MSChannelUnitDefault *channelMock = [MSAnalytics sharedInstance].channelUnit =
+  MSChannelUnitDefault *channelMock =
       OCMPartialMock([MSAnalytics sharedInstance].channelUnit);
+  [MSAnalytics sharedInstance].channelUnit = channelMock;
   OCMStub([channelMock enqueueItem:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         id<MSLog> log = nil;
@@ -243,8 +247,9 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [MSAppCenter sharedInstance].sdkConfigured = NO;
   [MSAppCenter sharedInstance].configuredFromApplication = NO;
   [MSAppCenter start:kMSTestAppSecret withServices:@[ [MSAnalytics class] ]];
-  MSChannelUnitDefault *channelMock = [MSAnalytics sharedInstance].channelUnit =
+  MSChannelUnitDefault *channelMock =
       OCMPartialMock([MSAnalytics sharedInstance].channelUnit);
+  [MSAnalytics sharedInstance].channelUnit = channelMock;
   OCMStub([channelMock enqueueItem:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         id<MSLog> log = nil;
@@ -368,6 +373,32 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [[MSAnalytics sharedInstance] trackEvent:@"Some event"
                             withProperties:nil
                      forTransmissionTarget:nil];
+
+  // Then
+  OCMVerifyAll(channelUnitMock);
+}
+
+- (void)testTrackEventWhenTransmissionTargetDisabled {
+
+  // If
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY])
+      .andReturn(channelUnitMock);
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
+                                            appSecret:kMSTestAppSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
+
+  // When
+  OCMReject([channelUnitMock enqueueItem:OCMOCK_ANY]);
+  MSAnalyticsTransmissionTarget *target =
+      [MSAnalytics transmissionTargetForToken:@"test"];
+  [target setEnabled:NO];
+  [[MSAnalytics sharedInstance] trackEvent:@"Some event"
+                            withProperties:nil
+                     forTransmissionTarget:target];
 
   // Then
   OCMVerifyAll(channelUnitMock);

@@ -100,7 +100,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   __block MSSendAsyncCompletionHandler ingestionBlock;
   __block MSLogContainer *logContainer;
   __block NSString *expectedBatchId = @"1";
-  int batchSizeLimit = 1;
+  NSUInteger batchSizeLimit = 1;
   id<MSLog> expectedLog = [MSAbstractLog new];
   expectedLog.sid = MS_UUID_STRING;
 
@@ -215,7 +215,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   __block MSSendAsyncCompletionHandler ingestionBlock;
   __block MSLogContainer *logContainer;
   __block NSString *expectedBatchId = @"1";
-  int batchSizeLimit = 1;
+  NSUInteger batchSizeLimit = 1;
   id<MSLog> expectedLog = [MSAbstractLog new];
   expectedLog.sid = MS_UUID_STRING;
 
@@ -404,7 +404,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // If
   [self initChannelEndJobExpectation];
-  int batchSizeLimit = 1;
+  NSUInteger batchSizeLimit = 1;
   __block int currentBatchId = 1;
   __block NSMutableArray<NSString *> *sentBatchIds = [NSMutableArray new];
   NSUInteger expectedMaxPendingBatched = 2;
@@ -487,7 +487,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   __block MSSendAsyncCompletionHandler ingestionBlock;
   __block MSLogContainer *lastBatchLogContainer;
   __block int currentBatchId = 1;
-  int batchSizeLimit = 1;
+  NSUInteger batchSizeLimit = 1;
 
   // Init mocks.
   id ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
@@ -575,7 +575,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // If
   [self initChannelEndJobExpectation];
-  int batchSizeLimit = 1;
+  NSUInteger batchSizeLimit = 1;
   id mockLog = [self getValidMockLog];
   id ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
   OCMReject([ingestionMock sendAsync:OCMOCK_ANY
@@ -623,7 +623,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // If
   [self initChannelEndJobExpectation];
-  int batchSizeLimit = 1;
+  NSUInteger batchSizeLimit = 1;
   id ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
   id mockLog = [self getValidMockLog];

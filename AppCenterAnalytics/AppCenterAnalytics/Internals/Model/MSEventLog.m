@@ -97,11 +97,17 @@ static NSString *const kMSId = @"id";
       // If the key contains a '.' then it's nested objects (i.e: "a.b":"value"
       // => {"a":{"b":"value"}}).
       NSArray *csKeys = [acKey componentsSeparatedByString:@"."];
-      NSObject *csValue = acProperties[acKey];
-      for (NSString *csKey in [csKeys reverseObjectEnumerator]) {
-        csProperties[csKeys[0]] = csValue;
-        csValue = @{csKey : csValue};
+      NSUInteger lastIndex = csKeys.count - 1;
+      NSMutableDictionary *destProperties = csProperties;
+      for (NSUInteger i = 0; i < lastIndex; i++) {
+        NSMutableDictionary *subObject = destProperties[csKeys[i]];
+        if (!subObject) {
+          subObject = [NSMutableDictionary new];
+          destProperties[csKeys[i]] = subObject;
+        }
+        destProperties = subObject;
       }
+      destProperties[csKeys[lastIndex]] = acProperties[acKey];
     }
   }
   return csProperties;

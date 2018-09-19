@@ -128,7 +128,7 @@
                                           pendingBatchesLimit:3]];
 
   // When
-  void (^block)() = ^{
+  void (^block)(void) = ^{
     for (int i = 0; i < 10; i++) {
       [addedChannel enqueueItem:log];
     }
