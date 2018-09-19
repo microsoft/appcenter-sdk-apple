@@ -414,19 +414,30 @@ transmissionTargetToken:(NSString *)transmissionTargetToken
 
 - (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))
 completionHandler {
-  if (self.configuredFromApplication) {
-    MSLogWarning([MSAppCenter logTag],
-        @"Unable to set storage size after the application has configured App"
-        "Center");
-    if (completionHandler) {
-      completionHandler(NO);
+  @synchronized (self) {
+    if (self.setMaxStorageSizeHasBeenCalled) {
+      MSLogWarning([MSAppCenter logTag], @"setMaxStorageSize:completionHandler: may only be called once per app "
+                                         "launch");
+      if (completionHandler) {
+        completionHandler(NO);
+      }
     }
-  }
-  self.requestedMaxStorageSizeInBytes = @(sizeInBytes);
-  self.setStorageSizeCompletionHandler = completionHandler;
-  if (self.channelGroup) {
-    [self.channelGroup setStorageSize:sizeInBytes
-                    completionHandler:completionHandler];
+    else{
+      self.setMaxStorageSizeHasBeenCalled = YES;
+      if (self.configuredFromApplication) {
+        MSLogWarning([MSAppCenter logTag], @"Unable to set storage size after the application has configured App"
+                                           "Center");
+        if (completionHandler) {
+          completionHandler(NO);
+          return;
+        }
+      }
+      self.requestedMaxStorageSizeInBytes = @(sizeInBytes);
+      self.setStorageSizeCompletionHandler = completionHandler;
+      if (self.channelGroup) {
+        [self.channelGroup setStorageSize:sizeInBytes completionHandler:completionHandler];
+      }
+    }
   }
 }
 

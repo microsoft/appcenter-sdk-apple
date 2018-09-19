@@ -30,7 +30,7 @@ static NSString *const kMSDisableAll = @"All";
 @property BOOL sdkConfigured;
 @property BOOL configuredFromApplication;
 @property BOOL enabledStateUpdating;
-
+@property BOOL setMaxStorageSizeHasBeenCalled;
 /**
  * Returns the singleton instance of App Center.
  */

@@ -756,6 +756,12 @@ static NSString *const kMSNullifiedInstallIdString =
 
 - (void)testSetStorageHandlerCanOnlyBeCalledOnce {
 
+  // When
+  [MSAppCenter setMaxStorageSize:2 * 1024 completionHandler:^(__unused BOOL success) {}];
+  [MSAppCenter setMaxStorageSize:3 * 1024 completionHandler:^(__unused BOOL success) {}];
+
+  // Then
+  XCTAssertEqualObjects(@(2 * 1024), [MSAppCenter sharedInstance].requestedMaxStorageSizeInBytes);
 }
 
 @end
