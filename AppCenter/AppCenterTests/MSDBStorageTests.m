@@ -377,7 +377,8 @@ static NSString *const kMSTestDBFileName = @"Test.sqlite";
   long shrunkenSizeInBytes = bytesOfData - kMSDefaultPageSizeInBytes * 3;
 
   // When
-  [self.sut setStorageSize:shrunkenSizeInBytes completionHandler:^(BOOL success) {
+  __weak typeof(self) weakSelf = self;
+  [weakSelf.sut setStorageSize:shrunkenSizeInBytes completionHandler:^(BOOL success) {
 
     // Then
     XCTAssertFalse(success);
@@ -409,7 +410,8 @@ static NSString *const kMSTestDBFileName = @"Test.sqlite";
   long expandedSizeInBytes = bytesOfData + kMSDefaultPageSizeInBytes * 3;
 
   // When
-  [self.sut setStorageSize:expandedSizeInBytes completionHandler:^(BOOL success) {
+  __weak typeof(self) weakSelf = self;
+  [weakSelf.sut setStorageSize:expandedSizeInBytes completionHandler:^(BOOL success) {
 
     // Then
     XCTAssertTrue(success);
@@ -429,7 +431,7 @@ static NSString *const kMSTestDBFileName = @"Test.sqlite";
 - (void)testMaximumPageCountDoesNotChangeWhenShrinkingDatabaseIsAttempted {
 
   // If
-  const int initialMaxPageCount = self.sut.maxPageCount;
+  __block const int initialMaxPageCount = self.sut.maxPageCount;
   long initialSizeInBytes = kMSDefaultPageSizeInBytes * 10;
   XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler invoked."];
 
@@ -441,10 +443,12 @@ static NSString *const kMSTestDBFileName = @"Test.sqlite";
   long shrunkenSizeInBytes = bytesOfData - kMSDefaultPageSizeInBytes * 3;
 
   // When
-  [self.sut setStorageSize:shrunkenSizeInBytes completionHandler:^(BOOL success) {
+  __weak typeof(self)weakSelf = self;
+  [weakSelf.sut setStorageSize:shrunkenSizeInBytes completionHandler:^(__unused BOOL success) {
 
     // Then
-    XCTAssertEqual(initialMaxPageCount, self.sut.maxPageCount);
+    typeof(self) strongSelf = weakSelf;
+    XCTAssertEqual(initialMaxPageCount, strongSelf.sut.maxPageCount);
     [expectation fulfill];
   }];
 

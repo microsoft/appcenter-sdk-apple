@@ -199,8 +199,7 @@ static NSString *const kMSGroupId = @"AppCenter";
   return kMSGroupId;
 }
 
-+ (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))
-    completionHandler {
++ (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))completionHandler {
   [[MSAppCenter sharedInstance] setMaxStorageSize:sizeInBytes completionHandler:completionHandler];
 }
 
@@ -412,8 +411,7 @@ transmissionTargetToken:(NSString *)transmissionTargetToken
   }
 }
 
-- (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))
-completionHandler {
+- (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))completionHandler {
   @synchronized (self) {
     if (self.setMaxStorageSizeHasBeenCalled) {
       MSLogWarning([MSAppCenter logTag], @"setMaxStorageSize:completionHandler: may only be called once per app "
@@ -421,8 +419,7 @@ completionHandler {
       if (completionHandler) {
         completionHandler(NO);
       }
-    }
-    else{
+    } else {
       self.setMaxStorageSizeHasBeenCalled = YES;
       if (self.configuredFromApplication) {
         MSLogWarning([MSAppCenter logTag], @"Unable to set storage size after the application has configured App"
@@ -528,8 +525,7 @@ completionHandler {
     [self.channelGroup addDelegate:self.oneCollectorChannelDelegate];
     if (self.requestedMaxStorageSizeInBytes) {
       long storageSize = [self.requestedMaxStorageSizeInBytes longValue];
-      [self.channelGroup setStorageSize:storageSize
-                      completionHandler:self.setStorageSizeCompletionHandler];
+      [self.channelGroup setStorageSize:storageSize completionHandler:self.setStorageSizeCompletionHandler];
     }
   }
 
@@ -634,8 +630,8 @@ completionHandler {
   if (!disabledServices) {
     return NO;
   }
-  NSMutableArray *disabledServicesList = [NSMutableArray arrayWithArray:[disabledServices
-      componentsSeparatedByString:@","]];
+  NSMutableArray
+      *disabledServicesList = [NSMutableArray arrayWithArray:[disabledServices componentsSeparatedByString:@","]];
 
   // Trim whitespace characters.
   for (NSUInteger i = 0; i < [disabledServicesList count]; ++i) {

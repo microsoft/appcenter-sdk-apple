@@ -9,8 +9,7 @@
 static NSString *const kMSInstallIdKey = @"MSInstallId";
 static NSString *const kMSAppCenterIsEnabledKey = @"MSAppCenterIsEnabled";
 
-// Name of the environment variable to check for which services should be
-// disabled.
+// Name of the environment variable to check for which services should be disabled.
 static NSString *const kMSDisableVariable = @"APP_CENTER_DISABLE";
 
 // Value that would cause all services to be disabled.
@@ -33,14 +32,16 @@ static NSString *const kMSDisableAll = @"All";
 @property BOOL setMaxStorageSizeHasBeenCalled;
 /**
  * Returns the singleton instance of App Center.
+ *
+ * @return The singleton instance.
  */
 + (instancetype)sharedInstance;
 - (NSString *)logUrl;
 - (NSString *)appSecret;
 
 /**
- * Enable or disable the SDK as a whole. In addition to AppCenter resources, it
- * will also enable or disable all registered services.
+ * Enable or disable the SDK as a whole. In addition to AppCenter resources, it will also enable or disable all
+ * registered services.
  *
  * @param isEnabled YES to enable, NO to disable.
  * @see isEnabled

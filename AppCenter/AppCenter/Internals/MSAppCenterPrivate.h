@@ -4,7 +4,7 @@
 
 @interface MSAppCenter ()
 
-@property(nonatomic) id<MSChannelUnitProtocol> channelUnit;
+@property(nonatomic) id <MSChannelUnitProtocol> channelUnit;
 
 @property(nonatomic) MSOneCollectorChannelDelegate *oneCollectorChannelDelegate;
 
