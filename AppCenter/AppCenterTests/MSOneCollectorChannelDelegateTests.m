@@ -1,10 +1,8 @@
 #import "MSCSData.h"
 #import "MSCSExtensions.h"
 #import "MSChannelGroupProtocol.h"
-#import "MSChannelProtocol.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
-#import "MSChannelUnitProtocol.h"
 #import "MSCommonSchemaLog.h"
 #import "MSIngestionProtocol.h"
 #import "MSMockLogObject.h"
@@ -19,8 +17,8 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
 @interface MSOneCollectorChannelDelegateTests : XCTestCase
 
 @property(nonatomic) MSOneCollectorChannelDelegate *sut;
-@property(nonatomic) id<MSIngestionProtocol> ingestionMock;
-@property(nonatomic) id<MSStorage> storageMock;
+@property(nonatomic) id <MSIngestionProtocol> ingestionMock;
+@property(nonatomic) id <MSStorage> storageMock;
 @property(nonatomic) dispatch_queue_t logsDispatchQueue;
 @property(nonatomic) MSChannelUnitConfiguration *baseUnitConfigMock;
 
@@ -30,17 +28,16 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
 
 - (void)setUp {
   [super setUp];
-  self.sut =
-      [[MSOneCollectorChannelDelegate alloc] initWithInstallId:[NSUUID new]];
+  self.sut = [[MSOneCollectorChannelDelegate alloc] initWithInstallId:[NSUUID new]];
   self.ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
   self.storageMock = OCMProtocolMock(@protocol(MSStorage));
   self.logsDispatchQueue = dispatch_get_main_queue();
-  self.baseUnitConfigMock =
-      [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSBaseGroupId
-                                                 priority:MSPriorityDefault
-                                            flushInterval:3.0
-                                           batchSizeLimit:1024
-                                      pendingBatchesLimit:60];
+  self.baseUnitConfigMock = [[MSChannelUnitConfiguration alloc]
+                                                         initWithGroupId:kMSBaseGroupId
+                                                                priority:MSPriorityDefault
+                                                           flushInterval:3.0
+                                                          batchSizeLimit:1024
+                                                     pendingBatchesLimit:60];
 }
 
 - (void)testDidAddChannelUnitWithBaseGroupId {
@@ -49,22 +46,19 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
   // One Collector channel unit.
 
   // If
-  id<MSChannelUnitProtocol> channelUnitMock =
-      OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id <MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   NSString *expectedGroupId = @"baseGroupId/one";
 
   OCMStub([channelUnitMock configuration]).andReturn(self.baseUnitConfigMock);
   id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
-  __block id<MSChannelUnitProtocol> expectedChannelUnitMock =
-      OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  __block id <MSChannelUnitProtocol> expectedChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   __block MSChannelUnitConfiguration *oneCollectorChannelConfig = nil;
   OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY
-                                              withIngestion:OCMOCK_ANY])
-      .andDo(^(NSInvocation *invocation) {
-        [invocation retainArguments];
-        [invocation getArgument:&oneCollectorChannelConfig atIndex:2];
-        [invocation setReturnValue:&expectedChannelUnitMock];
-      });
+                                              withIngestion:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    [invocation retainArguments];
+    [invocation getArgument:&oneCollectorChannelConfig atIndex:2];
+    [invocation setReturnValue:&expectedChannelUnitMock];
+  });
 
   // When
   [self.sut channelGroup:channelGroupMock didAddChannelUnit:channelUnitMock];
@@ -72,10 +66,8 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
   // Then
   XCTAssertNotNil(self.sut.oneCollectorChannels[kMSBaseGroupId]);
   XCTAssertTrue([self.sut.oneCollectorChannels count] == 1);
-  XCTAssertEqual(expectedChannelUnitMock,
-                 self.sut.oneCollectorChannels[kMSBaseGroupId]);
-  XCTAssertTrue(
-      [oneCollectorChannelConfig.groupId isEqualToString:expectedGroupId]);
+  XCTAssertEqual(expectedChannelUnitMock, self.sut.oneCollectorChannels[kMSBaseGroupId]);
+  XCTAssertTrue([oneCollectorChannelConfig.groupId isEqualToString:expectedGroupId]);
   OCMVerifyAll(channelGroupMock);
 }
 
@@ -88,15 +80,14 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
    */
 
   // If
-  id<MSChannelUnitProtocol> channelUnitMock =
-      OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id <MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   NSString *groupId = @"baseGroupId/one";
-  MSChannelUnitConfiguration *unitConfig =
-      [[MSChannelUnitConfiguration alloc] initWithGroupId:groupId
-                                                 priority:MSPriorityDefault
-                                            flushInterval:3.0
-                                           batchSizeLimit:1024
-                                      pendingBatchesLimit:60];
+  MSChannelUnitConfiguration *unitConfig = [[MSChannelUnitConfiguration alloc]
+                                                                        initWithGroupId:groupId
+                                                                               priority:MSPriorityDefault
+                                                                          flushInterval:3.0
+                                                                         batchSizeLimit:1024
+                                                                    pendingBatchesLimit:60];
   OCMStub([channelUnitMock configuration]).andReturn(unitConfig);
   id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
   OCMReject([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]);
@@ -120,33 +111,27 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
    */
 
   // If
-  MSChannelUnitDefault *channelUnitMock =
-      [[MSChannelUnitDefault alloc] initWithIngestion:self.ingestionMock
-                                              storage:self.storageMock
-                                        configuration:self.baseUnitConfigMock
-                                    logsDispatchQueue:self.logsDispatchQueue];
+  MSChannelUnitDefault *channelUnitMock = [[MSChannelUnitDefault alloc]
+                                                                 initWithIngestion:self.ingestionMock
+                                                                           storage:self.storageMock
+                                                                     configuration:self.baseUnitConfigMock
+                                                                 logsDispatchQueue:self.logsDispatchQueue];
   id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
-  OCMStub([channelGroupMock
-      addChannelUnitWithConfiguration:self.baseUnitConfigMock]);
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:self.baseUnitConfigMock]);
   OCMStub([channelUnitMock setEnabled:NO andDeleteDataOnDisabled:YES]);
 
   // When
   [self.sut channelGroup:channelGroupMock didAddChannelUnit:channelUnitMock];
-  [self.sut channel:channelUnitMock
-                didSetEnabled:NO
-      andDeleteDataOnDisabled:YES];
+  [self.sut channel:channelUnitMock didSetEnabled:NO andDeleteDataOnDisabled:YES];
 
   // Then
   [self enqueueChannelEndJobExpectation];
-  [self waitForExpectationsWithTimeout:1
-                               handler:^(NSError *error) {
-                                 OCMVerify([self.storageMock
-                                     deleteLogsWithGroupId:kMSBaseGroupId]);
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@",
-                                           error);
-                                 }
-                               }];
+  [self waitForExpectationsWithTimeout:1 handler:^(NSError *error) {
+        OCMVerify([self.storageMock deleteLogsWithGroupId:kMSBaseGroupId]);
+        if (error) {
+          XCTFail(@"Expectation Failed with error: %@", error);
+        }
+      }];
 }
 
 - (void)testDidSetEnabledAndDeleteDataOnDisabledWithOneCollectorGroupId {
@@ -159,118 +144,94 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
 
   // If
   NSString *oneCollectorGroupId = @"baseGroupId/one";
-  MSChannelUnitConfiguration *oneCollectorUnitConfig =
-      [[MSChannelUnitConfiguration alloc] initWithGroupId:oneCollectorGroupId
-                                                 priority:MSPriorityDefault
-                                            flushInterval:3.0
-                                           batchSizeLimit:1024
-                                      pendingBatchesLimit:60];
+  MSChannelUnitConfiguration *oneCollectorUnitConfig = [[MSChannelUnitConfiguration alloc]
+                                                                                    initWithGroupId:oneCollectorGroupId
+                                                                                           priority:MSPriorityDefault
+                                                                                      flushInterval:3.0
+                                                                                     batchSizeLimit:1024
+                                                                                pendingBatchesLimit:60];
 
-  MSChannelUnitDefault *oneCollectorChannelUnitMock =
-      [[MSChannelUnitDefault alloc] initWithIngestion:self.ingestionMock
-                                              storage:self.storageMock
-                                        configuration:oneCollectorUnitConfig
-                                    logsDispatchQueue:self.logsDispatchQueue];
+  MSChannelUnitDefault *oneCollectorChannelUnitMock = [[MSChannelUnitDefault alloc]
+                                                                             initWithIngestion:self.ingestionMock
+                                                                                       storage:self.storageMock
+                                                                                 configuration:oneCollectorUnitConfig
+                                                                             logsDispatchQueue:self.logsDispatchQueue];
   id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
   OCMReject([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]);
-  OCMStub(
-      [oneCollectorChannelUnitMock setEnabled:NO andDeleteDataOnDisabled:YES]);
+  OCMStub([oneCollectorChannelUnitMock setEnabled:NO andDeleteDataOnDisabled:YES]);
 
   // When
-  [self.sut channel:oneCollectorChannelUnitMock
-                didSetEnabled:NO
-      andDeleteDataOnDisabled:YES];
+  [self.sut channel:oneCollectorChannelUnitMock didSetEnabled:NO andDeleteDataOnDisabled:YES];
 
   // Then
   XCTAssertTrue(self.sut.oneCollectorChannels.count == 0);
   [self enqueueChannelEndJobExpectation];
-  [self
-      waitForExpectationsWithTimeout:1
-                             handler:^(NSError *error) {
-                               OCMVerify([self.storageMock
-                                   deleteLogsWithGroupId:oneCollectorGroupId]);
-                               if (error) {
-                                 XCTFail(@"Expectation Failed with error: %@",
-                                         error);
-                               }
-                             }];
+  [self waitForExpectationsWithTimeout:1 handler:^(NSError *error) {
+        OCMVerify([self.storageMock deleteLogsWithGroupId:oneCollectorGroupId]);
+        if (error) {
+          XCTFail(@"Expectation Failed with error: %@", error);
+        }
+      }];
 }
 
-- (void)
-    testDidEnqueueLogToOneCollectorChannelWhenLogHasTargetTokensAndLogIsNotCommonSchemaLog {
+- (void)testDidEnqueueLogToOneCollectorChannelWhenLogHasTargetTokensAndLogIsNotCommonSchemaLog {
 
   // If
-  id<MSChannelUnitProtocol> channelUnitMock =
-      OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id <MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   NSString *groupId = @"baseGroupId";
-  MSChannelUnitConfiguration *unitConfig =
-      [[MSChannelUnitConfiguration alloc] initWithGroupId:groupId
-                                                 priority:MSPriorityDefault
-                                            flushInterval:3.0
-                                           batchSizeLimit:1024
-                                      pendingBatchesLimit:60];
+  MSChannelUnitConfiguration *unitConfig = [[MSChannelUnitConfiguration alloc]
+                                                                        initWithGroupId:groupId
+                                                                               priority:MSPriorityDefault
+                                                                          flushInterval:3.0
+                                                                         batchSizeLimit:1024
+                                                                    pendingBatchesLimit:60];
   OCMStub([channelUnitMock configuration]).andReturn(unitConfig);
-  id<MSChannelGroupProtocol> channelGroupMock =
-      OCMProtocolMock(@protocol(MSChannelGroupProtocol));
-  id<MSChannelUnitProtocol> oneCollectorChannelUnitMock =
-      OCMProtocolMock(@protocol(MSChannelUnitProtocol));
-  OCMStub(oneCollectorChannelUnitMock.logsDispatchQueue)
-      .andReturn(self.logsDispatchQueue);
-  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY
-                                              withIngestion:OCMOCK_ANY])
-      .andReturn(oneCollectorChannelUnitMock);
+  id <MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  id <MSChannelUnitProtocol> oneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub(oneCollectorChannelUnitMock.logsDispatchQueue).andReturn(self.logsDispatchQueue);
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY withIngestion:OCMOCK_ANY]).andReturn(
+      oneCollectorChannelUnitMock);
   NSMutableSet *transmissionTargetTokens = [NSMutableSet new];
   [transmissionTargetTokens addObject:@"fake-transmission-target-token"];
   MSCommonSchemaLog *commonSchemaLog = [MSCommonSchemaLog new];
-  id<MSMockLogWithConversion> mockLog =
-      OCMProtocolMock(@protocol(MSMockLogWithConversion));
-  OCMStub([mockLog toCommonSchemaLogs]).andReturn(@[ commonSchemaLog ]);
+  id <MSMockLogWithConversion> mockLog = OCMProtocolMock(@protocol(MSMockLogWithConversion));
+  OCMStub([mockLog toCommonSchemaLogs]).andReturn(@[commonSchemaLog]);
   OCMStub(mockLog.transmissionTargetTokens).andReturn(transmissionTargetTokens);
 
   // When
   [self.sut channelGroup:channelGroupMock didAddChannelUnit:channelUnitMock];
-  [self.sut channel:channelUnitMock
-       didPrepareLog:mockLog
-      withInternalId:@"fake-id"];
+  [self.sut channel:channelUnitMock didPrepareLog:mockLog withInternalId:@"fake-id"];
 
   // Then
   [self enqueueChannelEndJobExpectation];
-  [self waitForExpectationsWithTimeout:1
-                               handler:^(NSError *error) {
-                                 OCMVerify([oneCollectorChannelUnitMock
-                                     enqueueItem:commonSchemaLog]);
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@",
-                                           error);
-                                 }
-                               }];
+  [self waitForExpectationsWithTimeout:1 handler:^(NSError *error) {
+        OCMVerify([oneCollectorChannelUnitMock enqueueItem:commonSchemaLog]);
+        if (error) {
+          XCTFail(@"Expectation Failed with error: %@", error);
+        }
+      }];
 }
 
-- (void)
-    testDidNotEnqueueLogToOneCollectorChannelWhenLogDoesNotConformToMSLogConversionProtocol {
+- (void)testDidNotEnqueueLogToOneCollectorChannelWhenLogDoesNotConformToMSLogConversionProtocol {
 
   // If
-  id<MSChannelUnitProtocol> channelUnitMock =
-      OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id <MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   NSString *groupId = @"baseGroupId";
-  MSChannelUnitConfiguration *unitConfig =
-      [[MSChannelUnitConfiguration alloc] initWithGroupId:groupId
-                                                 priority:MSPriorityDefault
-                                            flushInterval:3.0
-                                           batchSizeLimit:1024
-                                      pendingBatchesLimit:60];
+  MSChannelUnitConfiguration *unitConfig = [[MSChannelUnitConfiguration alloc]
+                                                                        initWithGroupId:groupId
+                                                                               priority:MSPriorityDefault
+                                                                          flushInterval:3.0
+                                                                         batchSizeLimit:1024
+                                                                    pendingBatchesLimit:60];
   OCMStub([channelUnitMock configuration]).andReturn(unitConfig);
-  id<MSChannelGroupProtocol> channelGroupMock =
-      OCMProtocolMock(@protocol(MSChannelGroupProtocol));
-  id<MSChannelUnitProtocol> oneCollectorChannelUnitMock =
-      OCMProtocolMock(@protocol(MSChannelUnitProtocol));
-  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY
-                                              withIngestion:OCMOCK_ANY])
-      .andReturn(oneCollectorChannelUnitMock);
+  id <MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  id <MSChannelUnitProtocol> oneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY withIngestion:OCMOCK_ANY]).andReturn(
+      oneCollectorChannelUnitMock);
   NSMutableSet *transmissionTargetTokens = [NSMutableSet new];
   [transmissionTargetTokens addObject:@"fake-transmission-target-token"];
   MSCommonSchemaLog *commonSchemaLog = [MSCommonSchemaLog new];
-  id<MSMockLogObject> mockLog = OCMProtocolMock(@protocol(MSMockLogObject));
+  id <MSMockLogObject> mockLog = OCMProtocolMock(@protocol(MSMockLogObject));
   OCMStub(mockLog.transmissionTargetTokens).andReturn(transmissionTargetTokens);
 
   // Then
@@ -278,83 +239,65 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
 
   // When
   [self.sut channelGroup:channelGroupMock didAddChannelUnit:channelUnitMock];
-  [self.sut channel:channelUnitMock
-       didPrepareLog:mockLog
-      withInternalId:@"fake-id"];
+  [self.sut channel:channelUnitMock didPrepareLog:mockLog withInternalId:@"fake-id"];
 }
 
 - (void)testReEnqueueLogWhenCommonSchemaLogIsPrepared {
 
   // If
-  id<MSChannelUnitProtocol> channelUnitMock =
-      OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id <MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   NSString *groupId = @"baseGroupId";
-  MSChannelUnitConfiguration *unitConfig =
-      [[MSChannelUnitConfiguration alloc] initWithGroupId:groupId
-                                                 priority:MSPriorityDefault
-                                            flushInterval:3.0
-                                           batchSizeLimit:1024
-                                      pendingBatchesLimit:60];
+  MSChannelUnitConfiguration *unitConfig = [[MSChannelUnitConfiguration alloc]
+                                                                        initWithGroupId:groupId
+                                                                               priority:MSPriorityDefault
+                                                                          flushInterval:3.0
+                                                                         batchSizeLimit:1024
+                                                                    pendingBatchesLimit:60];
   OCMStub([channelUnitMock configuration]).andReturn(unitConfig);
-  id<MSChannelGroupProtocol> channelGroupMock =
-      OCMProtocolMock(@protocol(MSChannelGroupProtocol));
-  id<MSChannelUnitProtocol> oneCollectorChannelUnitMock =
-      OCMProtocolMock(@protocol(MSChannelUnitProtocol));
-  OCMStub(oneCollectorChannelUnitMock.logsDispatchQueue)
-      .andReturn(self.logsDispatchQueue);
-  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY
-                                              withIngestion:OCMOCK_ANY])
-      .andReturn(oneCollectorChannelUnitMock);
+  id <MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  id <MSChannelUnitProtocol> oneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub(oneCollectorChannelUnitMock.logsDispatchQueue).andReturn(self.logsDispatchQueue);
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY withIngestion:OCMOCK_ANY]).andReturn(
+      oneCollectorChannelUnitMock);
   NSMutableSet *transmissionTargetTokens = [NSMutableSet new];
   [transmissionTargetTokens addObject:@"fake-transmission-target-token"];
-  id<MSLog> commonSchemaLog = [MSCommonSchemaLog new];
-  OCMStub(commonSchemaLog.transmissionTargetTokens)
-      .andReturn(transmissionTargetTokens);
+  id <MSLog> commonSchemaLog = [MSCommonSchemaLog new];
+  OCMStub(commonSchemaLog.transmissionTargetTokens).andReturn(transmissionTargetTokens);
 
   // When
   [self.sut channelGroup:channelGroupMock didAddChannelUnit:channelUnitMock];
-  [self.sut channel:channelUnitMock
-       didPrepareLog:commonSchemaLog
-      withInternalId:@"fake-id"];
+  [self.sut channel:channelUnitMock didPrepareLog:commonSchemaLog withInternalId:@"fake-id"];
 
   // Then
   [self enqueueChannelEndJobExpectation];
-  [self waitForExpectationsWithTimeout:1
-                               handler:^(NSError *error) {
-                                 OCMVerify([oneCollectorChannelUnitMock
-                                     enqueueItem:commonSchemaLog]);
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@",
-                                           error);
-                                 }
-                               }];
+  [self waitForExpectationsWithTimeout:1 handler:^(NSError *error) {
+        OCMVerify([oneCollectorChannelUnitMock enqueueItem:commonSchemaLog]);
+        if (error) {
+          XCTFail(@"Expectation Failed with error: %@", error);
+        }
+      }];
 }
 
 - (void)testDidNotEnqueueLogWhenLogHasNoTargetTokens {
 
   // If
-  id<MSChannelUnitProtocol> channelUnitMock =
-      OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id <MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   NSString *groupId = @"baseGroupId";
-  MSChannelUnitConfiguration *unitConfig =
-      [[MSChannelUnitConfiguration alloc] initWithGroupId:groupId
-                                                 priority:MSPriorityDefault
-                                            flushInterval:3.0
-                                           batchSizeLimit:1024
-                                      pendingBatchesLimit:60];
+  MSChannelUnitConfiguration *unitConfig = [[MSChannelUnitConfiguration alloc]
+                                                                        initWithGroupId:groupId
+                                                                               priority:MSPriorityDefault
+                                                                          flushInterval:3.0
+                                                                         batchSizeLimit:1024
+                                                                    pendingBatchesLimit:60];
   OCMStub([channelUnitMock configuration]).andReturn(unitConfig);
-  id<MSChannelGroupProtocol> channelGroupMock =
-      OCMProtocolMock(@protocol(MSChannelGroupProtocol));
-  id<MSChannelUnitProtocol> oneCollectorChannelUnitMock =
-      OCMProtocolMock(@protocol(MSChannelUnitProtocol));
-  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY
-                                              withIngestion:OCMOCK_ANY])
-      .andReturn(oneCollectorChannelUnitMock);
+  id <MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  id <MSChannelUnitProtocol> oneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY withIngestion:OCMOCK_ANY]).andReturn(
+      oneCollectorChannelUnitMock);
   NSMutableSet *transmissionTargetTokens = [NSMutableSet new];
-  id<MSMockLogWithConversion> mockLog =
-      OCMProtocolMock(@protocol(MSMockLogWithConversion));
+  id <MSMockLogWithConversion> mockLog = OCMProtocolMock(@protocol(MSMockLogWithConversion));
   OCMStub(mockLog.transmissionTargetTokens).andReturn(transmissionTargetTokens);
-  OCMStub([mockLog toCommonSchemaLogs]).andReturn(@[ [MSCommonSchemaLog new] ]);
+  OCMStub([mockLog toCommonSchemaLogs]).andReturn(@[[MSCommonSchemaLog new]]);
   OCMStub([mockLog isKindOfClass:[MSCommonSchemaLog class]]).andReturn(NO);
 
   // Then
@@ -362,66 +305,55 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
 
   // When
   [self.sut channelGroup:channelGroupMock didAddChannelUnit:channelUnitMock];
-  [self.sut channel:channelUnitMock
-       didPrepareLog:mockLog
-      withInternalId:@"fake-id"];
+  [self.sut channel:channelUnitMock didPrepareLog:mockLog withInternalId:@"fake-id"];
 }
 
 - (void)testDidNotEnqueueLogWhenLogHasNilTargetTokens {
 
   // If
-  id<MSChannelUnitProtocol> channelUnitMock =
-      OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id <MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   NSString *groupId = @"baseGroupId";
-  MSChannelUnitConfiguration *unitConfig =
-      [[MSChannelUnitConfiguration alloc] initWithGroupId:groupId
-                                                 priority:MSPriorityDefault
-                                            flushInterval:3.0
-                                           batchSizeLimit:1024
-                                      pendingBatchesLimit:60];
+  MSChannelUnitConfiguration *unitConfig = [[MSChannelUnitConfiguration alloc]
+                                                                        initWithGroupId:groupId
+                                                                               priority:MSPriorityDefault
+                                                                          flushInterval:3.0
+                                                                         batchSizeLimit:1024
+                                                                    pendingBatchesLimit:60];
   OCMStub([channelUnitMock configuration]).andReturn(unitConfig);
-  id<MSChannelGroupProtocol> channelGroupMock =
-      OCMProtocolMock(@protocol(MSChannelGroupProtocol));
-  id<MSChannelUnitProtocol> oneCollectorChannelUnitMock =
-      OCMProtocolMock(@protocol(MSChannelUnitProtocol));
-  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY
-                                              withIngestion:OCMOCK_ANY])
-      .andReturn(oneCollectorChannelUnitMock);
-  id<MSMockLogWithConversion> mockLog =
-      OCMProtocolMock(@protocol(MSMockLogWithConversion));
+  id <MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  id <MSChannelUnitProtocol> oneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY withIngestion:OCMOCK_ANY]).andReturn(
+      oneCollectorChannelUnitMock);
+  id <MSMockLogWithConversion> mockLog = OCMProtocolMock(@protocol(MSMockLogWithConversion));
   OCMStub([mockLog isKindOfClass:[MSCommonSchemaLog class]]).andReturn(NO);
   OCMStub(mockLog.transmissionTargetTokens).andReturn(nil);
-  OCMStub([mockLog toCommonSchemaLogs]).andReturn(@[ [MSCommonSchemaLog new] ]);
+  OCMStub([mockLog toCommonSchemaLogs]).andReturn(@[[MSCommonSchemaLog new]]);
 
   // Then
   OCMReject([oneCollectorChannelUnitMock enqueueItem:OCMOCK_ANY]);
 
   // When
   [self.sut channelGroup:channelGroupMock didAddChannelUnit:channelUnitMock];
-  [self.sut channel:channelUnitMock
-       didPrepareLog:mockLog
-      withInternalId:@"fake-id"];
+  [self.sut channel:channelUnitMock didPrepareLog:mockLog withInternalId:@"fake-id"];
 }
 
 - (void)testDoesNotFilterValidCommonSchemaLogs {
 
   // If
-  id<MSChannelUnitProtocol> oneCollectorChannelUnitMock =
-      OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id <MSChannelUnitProtocol> oneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   NSString *groupId = @"baseGroupId/one";
-  MSChannelUnitConfiguration *unitConfig =
-      [[MSChannelUnitConfiguration alloc] initWithGroupId:groupId
-                                                 priority:MSPriorityDefault
-                                            flushInterval:3.0
-                                           batchSizeLimit:1024
-                                      pendingBatchesLimit:60];
+  MSChannelUnitConfiguration *unitConfig = [[MSChannelUnitConfiguration alloc]
+                                                                        initWithGroupId:groupId
+                                                                               priority:MSPriorityDefault
+                                                                          flushInterval:3.0
+                                                                         batchSizeLimit:1024
+                                                                    pendingBatchesLimit:60];
   OCMStub([oneCollectorChannelUnitMock configuration]).andReturn(unitConfig);
   MSCommonSchemaLog *log = [MSCommonSchemaLog new];
   log.name = @"avalidname";
 
   // When
-  BOOL shouldFilter =
-      [self.sut channelUnit:oneCollectorChannelUnitMock shouldFilterLog:log];
+  BOOL shouldFilter = [self.sut channelUnit:oneCollectorChannelUnitMock shouldFilterLog:log];
 
   // Then
   XCTAssertFalse(shouldFilter);
@@ -430,22 +362,20 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
 - (void)testFiltersInvalidCommonSchemaLogs {
 
   // If
-  id<MSChannelUnitProtocol> oneCollectorChannelUnitMock =
-      OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id <MSChannelUnitProtocol> oneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   NSString *groupId = @"baseGroupId/one";
-  MSChannelUnitConfiguration *unitConfig =
-      [[MSChannelUnitConfiguration alloc] initWithGroupId:groupId
-                                                 priority:MSPriorityDefault
-                                            flushInterval:3.0
-                                           batchSizeLimit:1024
-                                      pendingBatchesLimit:60];
+  MSChannelUnitConfiguration *unitConfig = [[MSChannelUnitConfiguration alloc]
+                                                                        initWithGroupId:groupId
+                                                                               priority:MSPriorityDefault
+                                                                          flushInterval:3.0
+                                                                         batchSizeLimit:1024
+                                                                    pendingBatchesLimit:60];
   OCMStub([oneCollectorChannelUnitMock configuration]).andReturn(unitConfig);
   MSCommonSchemaLog *log = [MSCommonSchemaLog new];
   log.name = nil;
 
   // When
-  BOOL shouldFilter =
-      [self.sut channelUnit:oneCollectorChannelUnitMock shouldFilterLog:log];
+  BOOL shouldFilter = [self.sut channelUnit:oneCollectorChannelUnitMock shouldFilterLog:log];
 
   // Then
   XCTAssertTrue(shouldFilter);
@@ -454,48 +384,43 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
 - (void)testDoesNotFilterLogFromNonOneCollectorChannelWhenLogHasNoTargetTokens {
 
   // If
-  id<MSChannelUnitProtocol> channelUnitMock =
-      OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id <MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   NSString *groupId = @"baseGroupId";
-  MSChannelUnitConfiguration *unitConfig =
-      [[MSChannelUnitConfiguration alloc] initWithGroupId:groupId
-                                                 priority:MSPriorityDefault
-                                            flushInterval:3.0
-                                           batchSizeLimit:1024
-                                      pendingBatchesLimit:60];
+  MSChannelUnitConfiguration *unitConfig = [[MSChannelUnitConfiguration alloc]
+                                                                        initWithGroupId:groupId
+                                                                               priority:MSPriorityDefault
+                                                                          flushInterval:3.0
+                                                                         batchSizeLimit:1024
+                                                                    pendingBatchesLimit:60];
   OCMStub([channelUnitMock configuration]).andReturn(unitConfig);
   NSMutableSet *transmissionTargetTokens = [NSMutableSet new];
-  id<MSLog> mockLog = OCMProtocolMock(@protocol(MSLog));
+  id <MSLog> mockLog = OCMProtocolMock(@protocol(MSLog));
   OCMStub(mockLog.transmissionTargetTokens).andReturn(transmissionTargetTokens);
 
   // When
-  BOOL shouldFilter =
-      [self.sut channelUnit:channelUnitMock shouldFilterLog:mockLog];
+  BOOL shouldFilter = [self.sut channelUnit:channelUnitMock shouldFilterLog:mockLog];
 
   // Then
   XCTAssertFalse(shouldFilter);
 }
 
-- (void)
-    testDoesNotFilterLogFromNonOneCollectorChannelWhenLogHasNilTargetTokenSet {
+- (void)testDoesNotFilterLogFromNonOneCollectorChannelWhenLogHasNilTargetTokenSet {
 
   // If
-  id<MSChannelUnitProtocol> channelUnitMock =
-      OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id <MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   NSString *groupId = @"baseGroupId";
-  MSChannelUnitConfiguration *unitConfig =
-      [[MSChannelUnitConfiguration alloc] initWithGroupId:groupId
-                                                 priority:MSPriorityDefault
-                                            flushInterval:3.0
-                                           batchSizeLimit:1024
-                                      pendingBatchesLimit:60];
+  MSChannelUnitConfiguration *unitConfig = [[MSChannelUnitConfiguration alloc]
+                                                                        initWithGroupId:groupId
+                                                                               priority:MSPriorityDefault
+                                                                          flushInterval:3.0
+                                                                         batchSizeLimit:1024
+                                                                    pendingBatchesLimit:60];
   OCMStub([channelUnitMock configuration]).andReturn(unitConfig);
-  id<MSLog> mockLog = OCMProtocolMock(@protocol(MSLog));
+  id <MSLog> mockLog = OCMProtocolMock(@protocol(MSLog));
   OCMStub(mockLog.transmissionTargetTokens).andReturn(nil);
 
   // When
-  BOOL shouldFilter =
-      [self.sut channelUnit:channelUnitMock shouldFilterLog:mockLog];
+  BOOL shouldFilter = [self.sut channelUnit:channelUnitMock shouldFilterLog:mockLog];
 
   // Then
   XCTAssertFalse(shouldFilter);
@@ -504,34 +429,28 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
 - (void)testFiltersNonOneCollectorLogWhenLogHasTargetTokens {
 
   // If
-  id<MSChannelUnitProtocol> channelUnitMock =
-      OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id <MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   NSString *groupId = @"baseGroupId";
-  MSChannelUnitConfiguration *unitConfig =
-      [[MSChannelUnitConfiguration alloc] initWithGroupId:groupId
-                                                 priority:MSPriorityDefault
-                                            flushInterval:3.0
-                                           batchSizeLimit:1024
-                                      pendingBatchesLimit:60];
+  MSChannelUnitConfiguration *unitConfig = [[MSChannelUnitConfiguration alloc]
+                                                                        initWithGroupId:groupId
+                                                                               priority:MSPriorityDefault
+                                                                          flushInterval:3.0
+                                                                         batchSizeLimit:1024
+                                                                    pendingBatchesLimit:60];
   OCMStub([channelUnitMock configuration]).andReturn(unitConfig);
-  id<MSChannelGroupProtocol> channelGroupMock =
-      OCMProtocolMock(@protocol(MSChannelGroupProtocol));
-  id<MSChannelUnitProtocol> oneCollectorChannelUnitMock =
-      OCMProtocolMock(@protocol(MSChannelUnitProtocol));
-  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY
-                                              withIngestion:OCMOCK_ANY])
-      .andReturn(oneCollectorChannelUnitMock);
+  id <MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  id <MSChannelUnitProtocol> oneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY withIngestion:OCMOCK_ANY]).andReturn(
+      oneCollectorChannelUnitMock);
   NSMutableSet *transmissionTargetTokens = [NSMutableSet new];
   [transmissionTargetTokens addObject:@"fake-transmission-target-token"];
   MSCommonSchemaLog *commonSchemaLog = [MSCommonSchemaLog new];
-  id<MSMockLogWithConversion> mockLog =
-      OCMProtocolMock(@protocol(MSMockLogWithConversion));
-  OCMStub([mockLog toCommonSchemaLogs]).andReturn(@[ commonSchemaLog ]);
+  id <MSMockLogWithConversion> mockLog = OCMProtocolMock(@protocol(MSMockLogWithConversion));
+  OCMStub([mockLog toCommonSchemaLogs]).andReturn(@[commonSchemaLog]);
   OCMStub(mockLog.transmissionTargetTokens).andReturn(transmissionTargetTokens);
 
   // When
-  BOOL shouldFilter =
-      [self.sut channelUnit:channelUnitMock shouldFilterLog:mockLog];
+  BOOL shouldFilter = [self.sut channelUnit:channelUnitMock shouldFilterLog:mockLog];
 
   // Then
   XCTAssertTrue(shouldFilter);
@@ -558,17 +477,10 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
   // Valid data.
   log.name = @"valid.CS.event.name";
   log.data = [MSCSData new];
-  log.data.properties = @{ @"validkey" : @"validvalue" };
+  log.data.properties = @{@"validkey": @"validvalue"};
 
   // Then
   XCTAssertTrue([self.sut validateLog:log]);
-
-  // If
-  // Invalid data.
-  log.data.properties = @{ @(24) : @(42) };
-
-  // Then
-  XCTAssertFalse([self.sut validateLog:log]);
 }
 
 - (void)testValidateLogName {
@@ -577,14 +489,11 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
   // If
   NSString *validName = @"valid.CS.event.name";
   NSString *shortName = @"e";
-  NSString *name100 = [@"" stringByPaddingToLength:maxNameLength
-                                         withString:@"logName100"
-                                    startingAtIndex:0];
+  NSString *name100 = [@"" stringByPaddingToLength:maxNameLength withString:@"logName100" startingAtIndex:0];
   NSString *nilLogName = nil;
   NSString *emptyName = @"";
-  NSString *tooLongName = [@"" stringByPaddingToLength:(maxNameLength + 1)
-                                             withString:@"tooLongLogName"
-                                        startingAtIndex:0];
+  NSString
+      *tooLongName = [@"" stringByPaddingToLength:(maxNameLength + 1) withString:@"tooLongLogName" startingAtIndex:0];
   NSString *periodAndUnderscoreName = @"hello.world_mamamia";
   NSString *leadingPeriodName = @".hello.world";
   NSString *trailingPeriodName = @"hello.world.";
@@ -604,31 +513,7 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
   XCTAssertFalse([self.sut validateLogName:trailingPeriodName]);
   XCTAssertFalse([self.sut validateLogName:consecutivePeriodName]);
   XCTAssertFalse([self.sut validateLogName:headingUnderscoreName]);
-  XCTAssertFalse(
-      [self.sut validateLogName:specialCharactersOtherThanPeriodAndUnderscore]);
-}
-
-- (void)testValidateLogData {
-
-  // If
-  MSCSData *newData = [MSCSData new];
-  MSCSData *nilData = nil;
-  MSCSData *nilDataPropsWithEmptyKey = [MSCSData new];
-  nilDataPropsWithEmptyKey.properties = @{ @"" : @"avalidvalue" };
-  MSCSData *nilDataPropsWithNonStringKey = [MSCSData new];
-  nilDataPropsWithNonStringKey.properties = @{ @(42) : @"avalidvalue" };
-  MSCSData *nilDataPropsWithEmptyValue = [MSCSData new];
-  nilDataPropsWithEmptyValue.properties = @{ @"avalidkey" : @"" };
-  MSCSData *nilDataPropsWithNonStringValue = [MSCSData new];
-  nilDataPropsWithNonStringValue.properties = @{ @"avalidkey" : @(42) };
-
-  // Then
-  XCTAssertTrue([self.sut validateLogData:newData]);
-  XCTAssertTrue([self.sut validateLogData:nilData]);
-  XCTAssertTrue([self.sut validateLogData:nilDataPropsWithEmptyKey]);
-  XCTAssertFalse([self.sut validateLogData:nilDataPropsWithNonStringKey]);
-  XCTAssertTrue([self.sut validateLogData:nilDataPropsWithEmptyValue]);
-  XCTAssertFalse([self.sut validateLogData:nilDataPropsWithNonStringValue]);
+  XCTAssertFalse([self.sut validateLogName:specialCharactersOtherThanPeriodAndUnderscore]);
 }
 
 - (void)testLogNameRegex {
@@ -637,10 +522,8 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
   NSError *error = nil;
 
   // When
-  NSRegularExpression *regex =
-      [NSRegularExpression regularExpressionWithPattern:kMSLogNameRegex
-                                                options:0
-                                                  error:&error];
+  NSRegularExpression
+      *regex = [NSRegularExpression regularExpressionWithPattern:kMSLogNameRegex options:0 error:&error];
 
   // Then
   XCTAssertNotNil(regex);
@@ -651,8 +534,7 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
 
   // If
   NSUUID *installId = [NSUUID new];
-  self.sut =
-      [[MSOneCollectorChannelDelegate alloc] initWithInstallId:installId];
+  self.sut = [[MSOneCollectorChannelDelegate alloc] initWithInstallId:installId];
   id channelMock = OCMProtocolMock(@protocol(MSChannelProtocol));
   MSCommonSchemaLog *csLogMock = OCMPartialMock([MSCommonSchemaLog new]);
   csLogMock.iKey = @"o:81439696f7164d7599d543f9bf37abb7";
@@ -693,9 +575,7 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
   XCTAssertTrue(self.sut.epochsAndSeqsByIKey.count == 1);
 
   // When
-  [self.sut channel:channelGroupMock
-                didSetEnabled:NO
-      andDeleteDataOnDisabled:YES];
+  [self.sut channel:channelGroupMock didSetEnabled:NO andDeleteDataOnDisabled:YES];
 
   // Then
   XCTAssertTrue(self.sut.epochsAndSeqsByIKey.count == 0);
@@ -703,8 +583,7 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
 
 // A helper method to initialize the test expectation
 - (void)enqueueChannelEndJobExpectation {
-  XCTestExpectation *channelEndJobExpectation =
-      [self expectationWithDescription:@"Channel job should be finished"];
+  XCTestExpectation *channelEndJobExpectation = [self expectationWithDescription:@"Channel job should be finished"];
   dispatch_async(self.logsDispatchQueue, ^{
     [channelEndJobExpectation fulfill];
   });
