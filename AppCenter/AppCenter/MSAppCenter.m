@@ -430,7 +430,7 @@ transmissionTargetToken:(NSString *)transmissionTargetToken
         }
       }
       self.requestedMaxStorageSizeInBytes = @(sizeInBytes);
-      self.setStorageSizeCompletionHandler = completionHandler;
+      self.setMaxStorageSizeCompletionHandler = completionHandler;
       if (self.channelGroup) {
         [self.channelGroup setStorageSize:sizeInBytes completionHandler:completionHandler];
       }
@@ -525,7 +525,7 @@ transmissionTargetToken:(NSString *)transmissionTargetToken
     [self.channelGroup addDelegate:self.oneCollectorChannelDelegate];
     if (self.requestedMaxStorageSizeInBytes) {
       long storageSize = [self.requestedMaxStorageSizeInBytes longValue];
-      [self.channelGroup setStorageSize:storageSize completionHandler:self.setStorageSizeCompletionHandler];
+      [self.channelGroup setStorageSize:storageSize completionHandler:self.setMaxStorageSizeCompletionHandler];
     }
   }
 
