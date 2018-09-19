@@ -262,9 +262,9 @@ forTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget {
         [validProperties setValue:value forKey:key];
       }
     } else {
-      MSLogError([MSAnalytics logTag],
-                 @"Event property contains an invalid value for key %@, dropping the property.",
-                 key);
+      MSLogWarning([MSAnalytics logTag],
+                   @"Event property contains an invalid value for key %@, dropping the property.",
+                   key);
     }
   }
 
