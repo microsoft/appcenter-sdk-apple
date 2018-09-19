@@ -731,7 +731,7 @@ static NSString *const kMSNullifiedInstallIdString =
   void (^completionBlock)(BOOL) = ^(__unused BOOL success) {};
 
   // When
-  [MSAppCenter setStorageSize:dbSize completionHandler:completionBlock];
+  [MSAppCenter setMaxStorageSize:dbSize completionHandler:completionBlock];
 
   // Then
   XCTAssertNotNil([MSAppCenter sharedInstance].requestedMaxStorageSizeInBytes);
@@ -747,7 +747,7 @@ static NSString *const kMSNullifiedInstallIdString =
   long dbSize = 2*1024;
 
   // When
-  [MSAppCenter setStorageSize:dbSize completionHandler:^(BOOL success) {
+  [MSAppCenter setMaxStorageSize:dbSize completionHandler:^(BOOL success) {
 
     // Then
     XCTAssertFalse(success);

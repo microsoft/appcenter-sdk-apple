@@ -199,10 +199,9 @@ static NSString *const kMSGroupId = @"AppCenter";
   return kMSGroupId;
 }
 
-+ (void)setStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))
++ (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))
     completionHandler {
-  [[MSAppCenter sharedInstance] setStorageSize:sizeInBytes completionHandler:
-    completionHandler];
+  [[MSAppCenter sharedInstance] setMaxStorageSize:sizeInBytes completionHandler:completionHandler];
 }
 
 #pragma mark - private
@@ -413,7 +412,7 @@ transmissionTargetToken:(NSString *)transmissionTargetToken
   }
 }
 
-- (void)setStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))
+- (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))
 completionHandler {
   if (self.configuredFromApplication) {
     MSLogWarning([MSAppCenter logTag],

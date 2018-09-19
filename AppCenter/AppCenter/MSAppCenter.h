@@ -192,7 +192,7 @@
  * has been set. The `BOOL` parameter is `YES` if changing the size is
  * successful, and `NO` otherwise.
  */
-+ (void)setStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))
++ (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))
     completionHandler;
 
 @end
