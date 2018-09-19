@@ -249,7 +249,7 @@ forTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget {
   NSMutableDictionary<NSString *, id> *validProperties = [NSMutableDictionary new];
   for (NSString *key in properties) {
     if (![key isKindOfClass:[NSString class]]) {
-      MSLogError([MSAnalytics logTag], @"Event property contains an invalid key, dropping the property.");
+      MSLogWarning([MSAnalytics logTag], @"Event property contains an invalid key, dropping the property.");
       continue;
     }
 
