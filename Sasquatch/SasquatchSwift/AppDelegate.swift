@@ -31,7 +31,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
 
     // Set max storage size.
     let storageMaxSize = UserDefaults.standard.integer(forKey: kMSStorageMaxSizeKey)
-    MSAppCenter.setStorageSize(storageMaxSize, completionHandler: nil)
+    if storageMaxSize > 0 {
+      MSAppCenter.setStorageSize(storageMaxSize, completionHandler: nil)
+    }
 
     // Start App Center SDK.
     let appSecret = "0dbca56b-b9ae-4d53-856a-7c2856137d85"

@@ -70,7 +70,9 @@ enum StartupMode {
   // Set max storage size.
   NSInteger storageMaxSize = [[NSUserDefaults standardUserDefaults]
       integerForKey:kMSStorageMaxSizeKey];
-  [MSAppCenter setStorageSize:storageMaxSize completionHandler:nil];
+  if (storageMaxSize > 0) {
+    [MSAppCenter setStorageSize:storageMaxSize completionHandler:nil];
+  }
 
   // Start App Center SDK.
   [MSAppCenter startFromLibraryWithServices:@[ [MSAnalytics class] ]];

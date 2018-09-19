@@ -24,9 +24,16 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   @IBOutlet weak var storageMaxSizeField: UITextField!
   @IBOutlet weak var storageFileSizeLabel: UILabel!
 
-  var startupModePicker: MSEnumPicker<StartupMode>?
   var appCenter: AppCenterDelegate!
-  var eventFilterStarted = false
+  private var startupModePicker: MSEnumPicker<StartupMode>?
+  private var eventFilterStarted = false
+  private var dbFileDescriptor: CInt = 0
+  private var dbFileSource: DispatchSourceProtocol?
+
+  deinit {
+    self.dbFileSource?.cancel()
+    close(self.dbFileDescriptor)
+  }
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -44,7 +51,23 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
 
     // Storage size section.
     let storageMaxSize = UserDefaults.standard.integer(forKey: kMSStorageMaxSizeKey)
-    storageMaxSizeField.text = "\(storageMaxSize)"
+    self.storageMaxSizeField.text = "\(storageMaxSize / 1024)"
+    self.storageMaxSizeField.addTarget(self, action: #selector(storageMaxSizeUpdated(_:)), for: .editingChanged)
+    if let supportDirectory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
+      let dbFile = supportDirectory.appendingPathComponent("com.microsoft.appcenter").appendingPathComponent("Logs.sqlite")
+      func getFileSize(_ file: URL) -> Int {
+        return (try? file.resourceValues(forKeys:[.fileSizeKey]))?.fileSize ?? 0
+      }
+      self.dbFileDescriptor = dbFile.withUnsafeFileSystemRepresentation { fileSystemPath -> CInt in
+        return open(fileSystemPath!, O_EVTONLY)
+      }
+      self.dbFileSource = DispatchSource.makeFileSystemObjectSource(fileDescriptor: self.dbFileDescriptor, eventMask: [.write], queue: DispatchQueue.main)
+      self.dbFileSource!.setEventHandler {
+        self.storageFileSizeLabel.text = "\(getFileSize(dbFile) / 1024) KiB"
+      }
+      self.dbFileSource!.resume()
+      self.storageFileSizeLabel.text = "\(getFileSize(dbFile) / 1024) KiB"
+    }
 
     // Miscellaneous section.
     self.installId.text = appCenter.installId()
@@ -52,7 +75,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     self.logUrl.text = appCenter.logUrl()
     self.sdkVersion.text = appCenter.sdkVersion()
     self.deviceIdLabel.text = UIDevice.current.identifierForVendor?.uuidString
-    
+
     // Make sure the UITabBarController does not cut off the last cell.
     self.edgesForExtendedLayout = []
   }
@@ -87,8 +110,8 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     updateViewState()
   }
 
-  @IBAction func storageMaxSizeUpdated(_ sender: UITextField) {
-    let maxSize = (Int(sender.text ?? "0") ?? 0) * 1000
+  func storageMaxSizeUpdated(_ sender: UITextField) {
+    let maxSize = (Int(sender.text ?? "0") ?? 0) * 1024
     UserDefaults.standard.set(maxSize, forKey: kMSStorageMaxSizeKey)
   }
 
