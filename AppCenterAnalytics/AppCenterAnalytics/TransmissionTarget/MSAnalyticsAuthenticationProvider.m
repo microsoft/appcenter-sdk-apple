@@ -40,7 +40,7 @@ initWithAuthenticationType:(MSAnalyticsAuthenticationType)type
 }
 
 - (void)acquireTokenAsync {
-  id strongDelegate = self.delegate;
+  id<MSAnalyticsAuthenticationProviderDelegate> strongDelegate = self.delegate;
   if (strongDelegate) {
     if (!self.completionHandler) {
       MSAnalyticsAuthenticationProvider *__weak weakSelf = self;
@@ -50,7 +50,8 @@ initWithAuthenticationType:(MSAnalyticsAuthenticationType)type
                                     expiryDate:expiryDate
                          withCompletionHandler:strongSelf.completionHandler];
       };
-      [strongDelegate authenticationProvider:self acquireTokenWithCompletionHandler:self.completionHandler];
+      [strongDelegate authenticationProvider:self
+           acquireTokenWithCompletionHandler:self.completionHandler];
     }
   } else {
     MSLogError([MSAnalytics logTag],

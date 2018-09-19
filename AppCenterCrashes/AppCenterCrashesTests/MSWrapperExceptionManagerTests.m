@@ -98,10 +98,11 @@ static NSString *const kMSLastWrapperExceptionFileName =
         .andReturn([[NSUUID UUID] UUIDString]);
     [mockReports addObject:reportMock];
   }
-  MSErrorReport *report = [mockReports objectAtIndex:(rand() % numReports)];
+  MSErrorReport *report =
+      [mockReports objectAtIndex:(NSUInteger)(rand() % numReports)];
   MSWrapperException *wrapperException = [self getWrapperException];
   wrapperException.processId =
-      [NSNumber numberWithInteger:[report appProcessIdentifier]];
+      [NSNumber numberWithUnsignedInteger:[report appProcessIdentifier]];
 
   // When
   [MSWrapperExceptionManager saveWrapperException:wrapperException];
