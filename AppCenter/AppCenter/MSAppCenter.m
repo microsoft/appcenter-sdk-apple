@@ -424,6 +424,7 @@ completionHandler {
     }
   }
   self.requestedMaxStorageSizeInBytes = @(sizeInBytes);
+  self.setStorageSizeCompletionHandler = completionHandler;
   if (self.channelGroup) {
     [self.channelGroup setStorageSize:sizeInBytes
                     completionHandler:completionHandler];

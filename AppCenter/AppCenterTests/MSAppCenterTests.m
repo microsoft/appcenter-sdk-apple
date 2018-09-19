@@ -724,4 +724,39 @@ static NSString *const kMSNullifiedInstallIdString =
 }
 #endif
 
+- (void)testSetStorageSizeSetsProperties {
+
+  // If
+  long dbSize = 2*1024;
+  void (^completionBlock)(BOOL) = ^(BOOL success) {
+  };
+
+  // When
+  [MSAppCenter setStorageSize:dbSize completionHandler:completionBlock];
+
+  // Then
+  XCTAssertNotNil([MSAppCenter sharedInstance].requestedMaxStorageSizeInBytes);
+  XCTAssertEqualObjects(@(dbSize), [MSAppCenter sharedInstance].requestedMaxStorageSizeInBytes);
+  XCTAssertNotNil([MSAppCenter sharedInstance].setStorageSizeCompletionHandler);
+  XCTAssertEqual(completionBlock, [MSAppCenter sharedInstance].setStorageSizeCompletionHandler);
+}
+
+- (void)testSetStorageHandlerCannotBeCalledAfterStart {
+
+  // If
+  [MSAppCenter start:MS_UUID_STRING withServices:nil];
+  long dbSize = 2*1024;
+
+  // When
+  [MSAppCenter setStorageSize:dbSize completionHandler:^(BOOL success) {
+
+    // Then
+    XCTAssertFalse(success);
+  }];
+}
+
+- (void)testSetStorageHandlerCanOnlyBeCalledOnce {
+
+}
+
 @end
