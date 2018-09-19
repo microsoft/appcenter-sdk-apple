@@ -5,19 +5,12 @@
 #import "MSAppDelegateForwarder.h"
 #import "MSChannelGroupDefault.h"
 #import "MSChannelUnitConfiguration.h"
-#import "MSChannelUnitProtocol.h"
-#import "MSConstants+Internal.h"
-#import "MSDeviceTracker.h"
 #import "MSDeviceTrackerPrivate.h"
-#import "MSHttpIngestion.h"
 #import "MSLoggerInternal.h"
-#import "MSOneCollectorChannelDelegate.h"
 #import "MSSessionContext.h"
 #import "MSStartServiceLog.h"
 #import "MSUtility+StringFormatting.h"
-#import "MSUtility.h"
 #if !TARGET_OS_TV
-#import "MSCustomProperties.h"
 #import "MSCustomPropertiesLog.h"
 #import "MSCustomPropertiesPrivate.h"
 #endif
@@ -62,52 +55,42 @@ static NSString *const kMSGroupId = @"AppCenter";
 
   // 'appSecret' is actually a secret string
   NSString *appSecretOnly = [MSUtility appSecretFrom:appSecret];
-  NSString *transmissionTargetToken =
-      [MSUtility transmissionTargetTokenFrom:appSecret];
-  [[MSAppCenter sharedInstance] configureWithAppSecret:appSecretOnly
-                               transmissionTargetToken:transmissionTargetToken
-                                       fromApplication:YES];
+  NSString *transmissionTargetToken = [MSUtility transmissionTargetTokenFrom:appSecret];
+  [[MSAppCenter sharedInstance]
+                configureWithAppSecret:appSecretOnly
+               transmissionTargetToken:transmissionTargetToken
+                       fromApplication:YES];
 }
 
 + (void)configure {
-  [[MSAppCenter sharedInstance] configureWithAppSecret:nil
-                               transmissionTargetToken:nil
-                                       fromApplication:YES];
+  [[MSAppCenter sharedInstance] configureWithAppSecret:nil transmissionTargetToken:nil fromApplication:YES];
 }
 
 + (void)start:(NSString *)appSecret withServices:(NSArray<Class> *)services {
 
   // 'appSecret' is actually a secret string
-  [[MSAppCenter sharedInstance] start:appSecret
-                         withServices:services
-                      fromApplication:YES];
+  [[MSAppCenter sharedInstance] start:appSecret withServices:services fromApplication:YES];
 }
 
 + (void)startWithServices:(NSArray<Class> *)services {
-  [[MSAppCenter sharedInstance] start:nil
-                         withServices:services
-                      fromApplication:YES];
+  [[MSAppCenter sharedInstance] start:nil withServices:services fromApplication:YES];
 }
 
 + (void)startService:(Class)service {
   [[MSAppCenter sharedInstance]
-                 startService:service
-                withAppSecret:[[MSAppCenter sharedInstance] appSecret]
-      transmissionTargetToken:[[MSAppCenter sharedInstance]
-                                  defaultTransmissionTargetToken]
-                   andSendLog:YES
-              fromApplication:YES];
+                startService:service
+               withAppSecret:[[MSAppCenter sharedInstance] appSecret]
+     transmissionTargetToken:[[MSAppCenter sharedInstance] defaultTransmissionTargetToken]
+                  andSendLog:YES
+             fromApplication:YES];
 }
 
 + (void)startFromLibraryWithServices:(NSArray<Class> *)services {
-  [[MSAppCenter sharedInstance] start:nil
-                         withServices:services
-                      fromApplication:NO];
+  [[MSAppCenter sharedInstance] start:nil withServices:services fromApplication:NO];
 }
 
 + (BOOL)isConfigured {
-  return [[MSAppCenter sharedInstance] sdkConfigured] &&
-         [[MSAppCenter sharedInstance] configuredFromApplication];
+  return [[MSAppCenter sharedInstance] sdkConfigured] && [[MSAppCenter sharedInstance] configuredFromApplication];
 }
 
 + (void)setLogUrl:(NSString *)logUrl {
@@ -115,7 +98,7 @@ static NSString *const kMSGroupId = @"AppCenter";
 }
 
 + (void)setEnabled:(BOOL)isEnabled {
-  @synchronized([MSAppCenter sharedInstance]) {
+  @synchronized ([MSAppCenter sharedInstance]) {
     if ([[MSAppCenter sharedInstance] canBeUsed]) {
       [[MSAppCenter sharedInstance] setEnabled:isEnabled];
     }
@@ -123,7 +106,7 @@ static NSString *const kMSGroupId = @"AppCenter";
 }
 
 + (BOOL)isEnabled {
-  @synchronized([MSAppCenter sharedInstance]) {
+  @synchronized ([MSAppCenter sharedInstance]) {
     if ([[MSAppCenter sharedInstance] canBeUsed]) {
       return [[MSAppCenter sharedInstance] isEnabled];
     }
@@ -132,7 +115,7 @@ static NSString *const kMSGroupId = @"AppCenter";
 }
 
 + (BOOL)isAppDelegateForwarderEnabled {
-  @synchronized([MSAppCenter sharedInstance]) {
+  @synchronized ([MSAppCenter sharedInstance]) {
     return MSAppDelegateForwarder.enabled;
   }
 }
@@ -196,8 +179,9 @@ static NSString *const kMSGroupId = @"AppCenter";
       debuggerIsAttached = false;
     }
 
-    if (!debuggerIsAttached && (info.kp_proc.p_flag & P_TRACED) != 0)
+    if (!debuggerIsAttached && (info.kp_proc.p_flag & P_TRACED) != 0) {
       debuggerIsAttached = true;
+    }
   });
 
   return debuggerIsAttached;
@@ -239,11 +223,10 @@ static NSString *const kMSGroupId = @"AppCenter";
 - (BOOL)configureWithAppSecret:(NSString *)appSecret
        transmissionTargetToken:(NSString *)transmissionTargetToken
                fromApplication:(BOOL)fromApplication {
-  @synchronized(self) {
+  @synchronized (self) {
     BOOL success = false;
     if (self.configuredFromApplication && fromApplication) {
-      MSLogAssert([MSAppCenter logTag],
-                  @"App Center SDK has already been configured.");
+      MSLogAssert([MSAppCenter logTag], @"App Center SDK has already been configured.");
     } else {
       if (!self.appSecret) {
         self.appSecret = appSecret;
@@ -268,8 +251,7 @@ static NSString *const kMSGroupId = @"AppCenter";
        * an app store environment, we set the default log level to
        * MSLogLevelWarning.
        */
-      if ((![MSLogger isUserDefinedLogLevel]) &&
-          ([MSUtility currentAppEnvironment] == MSEnvironmentOther)) {
+      if ((![MSLogger isUserDefinedLogLevel]) && ([MSUtility currentAppEnvironment] == MSEnvironmentOther)) {
         [MSAppCenter setLogLevel:MSLogLevelWarning];
       }
       success = true;
@@ -287,29 +269,26 @@ static NSString *const kMSGroupId = @"AppCenter";
   }
 }
 
-- (void)start:(NSString *)secretString
-       withServices:(NSArray<Class> *)services
-    fromApplication:(BOOL)fromApplication {
-  @synchronized(self) {
+- (void)start:(NSString *)secretString withServices:(NSArray<Class> *)services fromApplication:(BOOL)fromApplication {
+  @synchronized (self) {
     NSString *appSecret = [MSUtility appSecretFrom:secretString];
-    NSString *transmissionTargetToken =
-        [MSUtility transmissionTargetTokenFrom:secretString];
+    NSString *transmissionTargetToken = [MSUtility transmissionTargetTokenFrom:secretString];
     BOOL configured = [self configureWithAppSecret:appSecret
                            transmissionTargetToken:transmissionTargetToken
                                    fromApplication:fromApplication];
     if (configured && services) {
       NSArray *sortedServices = [self sortServices:services];
-      MSLogVerbose([MSAppCenter logTag], @"Start services %@ from %@",
+      MSLogVerbose([MSAppCenter logTag],
+                   @"Start services %@ from %@",
                    [sortedServices componentsJoinedByString:@", "],
                    (fromApplication ? @"an application" : @"a library"));
-      NSMutableArray<NSString *> *servicesNames =
-          [NSMutableArray arrayWithCapacity:sortedServices.count];
+      NSMutableArray<NSString *> *servicesNames = [NSMutableArray arrayWithCapacity:sortedServices.count];
       for (Class service in sortedServices) {
         if ([self startService:service
-                          withAppSecret:appSecret
-                transmissionTargetToken:transmissionTargetToken
-                             andSendLog:NO
-                        fromApplication:fromApplication]) {
+                 withAppSecret:appSecret
+       transmissionTargetToken:transmissionTargetToken
+                    andSendLog:NO
+               fromApplication:fromApplication]) {
           [servicesNames addObject:[service serviceName]];
         }
       }
@@ -331,8 +310,7 @@ static NSString *const kMSGroupId = @"AppCenter";
  */
 - (NSArray *)sortServices:(NSArray<Class> *)services {
   if (services && services.count > 1) {
-    return [services sortedArrayUsingComparator:^NSComparisonResult(id clazzA,
-                                                                    id clazzB) {
+    return [services sortedArrayUsingComparator:^NSComparisonResult(id clazzA, id clazzB) {
 #pragma clang diagnostic push
 
 // Ignore "Unknown warning group '-Wobjc-messaging-id'" for old XCode
@@ -341,8 +319,8 @@ static NSString *const kMSGroupId = @"AppCenter";
 
 // Ignore "Messaging unqualified id" for XCode 10
 #pragma clang diagnostic ignored "-Wobjc-messaging-id"
-      id<MSServiceInternal> serviceA = [clazzA sharedInstance];
-      id<MSServiceInternal> serviceB = [clazzB sharedInstance];
+      id <MSServiceInternal> serviceA = [clazzA sharedInstance];
+      id <MSServiceInternal> serviceB = [clazzB sharedInstance];
 #pragma clang diagnostic pop
       if (serviceA.initializationPriority < serviceB.initializationPriority) {
         return NSOrderedDescending;
@@ -355,31 +333,27 @@ static NSString *const kMSGroupId = @"AppCenter";
   }
 }
 
-- (BOOL)startService:(Class)clazz
-              withAppSecret:(NSString *)appSecret
-    transmissionTargetToken:(NSString *)transmissionTargetToken
-                 andSendLog:(BOOL)sendLog
-            fromApplication:(BOOL)fromApplication {
-  @synchronized(self) {
+- (BOOL)   startService:(Class)clazz
+          withAppSecret:(NSString *)appSecret
+transmissionTargetToken:(NSString *)transmissionTargetToken
+             andSendLog:(BOOL)sendLog
+        fromApplication:(BOOL)fromApplication {
+  @synchronized (self) {
 
     // Check if clazz is valid class
     if (![clazz conformsToProtocol:@protocol(MSServiceCommon)]) {
-      MSLogError([MSAppCenter logTag],
-                 @"Cannot start service %@. Provided value is nil or invalid.",
-                 clazz);
+      MSLogError([MSAppCenter logTag], @"Cannot start service %@. Provided value is nil or invalid.", clazz);
       return NO;
     }
 
     // Check if App Center is not configured to start service.
-    if (!self.sdkConfigured ||
-        (!self.configuredFromApplication && fromApplication)) {
+    if (!self.sdkConfigured || (!self.configuredFromApplication && fromApplication)) {
       MSLogError([MSAppCenter logTag], @"App Center has not been configured so "
                                        @"it couldn't start the service.");
       return NO;
     }
-    id<MSServiceInternal> service = [clazz sharedInstance];
-    if (service.isAvailable && fromApplication &&
-        service.isStartedFromApplication) {
+    id <MSServiceInternal> service = [clazz sharedInstance];
+    if (service.isAvailable && fromApplication && service.isStartedFromApplication) {
 
       // Service already works, we shouldn't send log with this service name
       return NO;
@@ -387,19 +361,15 @@ static NSString *const kMSGroupId = @"AppCenter";
     if (service.isAppSecretRequired && ![appSecret length]) {
 
       // Service requires an app secret but none is provided.
-      MSLogError([MSAppCenter logTag],
-                 @"Cannot start service %@. App Center was started without app "
-                 @"secret, but the service requires it.",
-                 clazz);
+      MSLogError([MSAppCenter logTag], @"Cannot start service %@. App Center was started without app "
+                                       @"secret, but the service requires it.", clazz);
       return NO;
     }
 
     // Check if service should be disabled
     if ([self shouldDisable:[clazz serviceName]]) {
-      MSLogDebug([MSAppCenter logTag],
-                 @"Environment variable to disable service has been set; not "
-                 @"starting service %@",
-                 clazz);
+      MSLogDebug([MSAppCenter logTag], @"Environment variable to disable service has been set; not "
+                                       @"starting service %@", clazz);
       return NO;
     }
 
@@ -421,13 +391,12 @@ static NSString *const kMSGroupId = @"AppCenter";
         self.enabledStateUpdating = NO;
       }
     } else if (fromApplication) {
-      [service updateConfigurationWithAppSecret:appSecret
-                        transmissionTargetToken:transmissionTargetToken];
+      [service updateConfigurationWithAppSecret:appSecret transmissionTargetToken:transmissionTargetToken];
     }
 
     // Send start service log.
     if (sendLog && fromApplication) {
-      [self sendStartServiceLog:@[ [clazz serviceName] ]];
+      [self sendStartServiceLog:@[[clazz serviceName]]];
     }
 
     // Service started.
@@ -436,7 +405,7 @@ static NSString *const kMSGroupId = @"AppCenter";
 }
 
 - (void)setLogUrl:(NSString *)logUrl {
-  @synchronized(self) {
+  @synchronized (self) {
     _logUrl = logUrl;
     if (self.channelGroup) {
       [self.channelGroup setLogUrl:logUrl];
@@ -455,6 +424,7 @@ completionHandler {
     }
   }
   self.requestedMaxStorageSizeInBytes = @(sizeInBytes);
+  self.setStorageSizeCompletionHandler = completionHandler;
   if (self.channelGroup) {
     [self.channelGroup setStorageSize:sizeInBytes
                     completionHandler:completionHandler];
@@ -463,9 +433,8 @@ completionHandler {
 
 #if !TARGET_OS_TV
 - (void)setCustomProperties:(MSCustomProperties *)customProperties {
-  if (!customProperties || customProperties.properties == 0) {
-    MSLogError([MSAppCenter logTag],
-               @"Custom properties may not be null or empty");
+  if (!customProperties || (customProperties.properties.count == 0)) {
+    MSLogError([MSAppCenter logTag], @"Custom properties may not be null or empty");
     return;
   }
   [self sendCustomPropertiesLog:customProperties.properties];
@@ -484,12 +453,11 @@ completionHandler {
   }
 
   // Propagate enable/disable on all services.
-  for (id<MSServiceInternal> service in self.services) {
+  for (id <MSServiceInternal> service in self.services) {
     [[service class] setEnabled:isEnabled];
   }
   self.enabledStateUpdating = NO;
-  MSLogInfo([MSAppCenter logTag], @"App Center SDK %@.",
-            isEnabled ? @"enabled" : @"disabled");
+  MSLogInfo([MSAppCenter logTag], @"App Center SDK %@.", isEnabled ? @"enabled" : @"disabled");
 }
 
 - (BOOL)isEnabled {
@@ -499,8 +467,7 @@ completionHandler {
    * No need to cache the value in a property, user settings already have their
    * cache mechanism.
    */
-  NSNumber *isEnabledNumber =
-      [MS_USER_DEFAULTS objectForKey:kMSAppCenterIsEnabledKey];
+  NSNumber *isEnabledNumber = [MS_USER_DEFAULTS objectForKey:kMSAppCenterIsEnabledKey];
 
   // Return the persisted value otherwise it's enabled by default.
   return (isEnabledNumber) ? [isEnabledNumber boolValue] : YES;
@@ -545,13 +512,9 @@ completionHandler {
 
   // Construct channel group.
   self.oneCollectorChannelDelegate =
-      self.oneCollectorChannelDelegate
-          ?: [[MSOneCollectorChannelDelegate alloc]
-                 initWithInstallId:self.installId];
+      self.oneCollectorChannelDelegate ?: [[MSOneCollectorChannelDelegate alloc] initWithInstallId:self.installId];
   if (!self.channelGroup) {
-    self.channelGroup =
-        [[MSChannelGroupDefault alloc] initWithInstallId:self.installId
-                                                  logUrl:self.logUrl];
+    self.channelGroup = [[MSChannelGroupDefault alloc] initWithInstallId:self.installId logUrl:self.logUrl];
     [self.channelGroup addDelegate:self.oneCollectorChannelDelegate];
     if (self.requestedMaxStorageSizeInBytes) {
       long storageSize = [self.requestedMaxStorageSizeInBytes longValue];
@@ -562,12 +525,8 @@ completionHandler {
 
   // Initialize a channel unit for start service logs.
   self.channelUnit =
-      self.channelUnit
-          ?: [self.channelGroup
-                 addChannelUnitWithConfiguration:
-                     [[MSChannelUnitConfiguration alloc]
-                         initDefaultConfigurationWithGroupId:[MSAppCenter
-                                                                 groupId]]];
+      self.channelUnit ?: [self.channelGroup addChannelUnitWithConfiguration:[[MSChannelUnitConfiguration alloc]
+                                                                                                          initDefaultConfigurationWithGroupId:[MSAppCenter groupId]]];
   [self.channelUnit setAppSecret:self.appSecret];
 }
 
@@ -576,7 +535,7 @@ completionHandler {
 }
 
 - (NSUUID *)installId {
-  @synchronized(self) {
+  @synchronized (self) {
     if (!_installId) {
 
       // Check if install Id has already been persisted.
@@ -600,10 +559,8 @@ completionHandler {
 - (BOOL)canBeUsed {
   BOOL canBeUsed = self.sdkConfigured;
   if (!canBeUsed) {
-    MSLogError(
-        [MSAppCenter logTag],
-        @"App Center SDK hasn't been configured. You need to call [MSAppCenter "
-        @"start:YOUR_APP_SECRET withServices:LIST_OF_SERVICES] first.");
+    MSLogError([MSAppCenter logTag], @"App Center SDK hasn't been configured. You need to call [MSAppCenter "
+                                     @"start:YOUR_APP_SECRET withServices:LIST_OF_SERVICES] first.");
   }
   return canBeUsed;
 }

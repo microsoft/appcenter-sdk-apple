@@ -7,12 +7,10 @@
 #import "MSAppCenterInternal.h"
 #import "MSAppCenterPrivate.h"
 #import "MSChannelGroupDefault.h"
-#import "MSChannelUnitDefault.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSMockSecondService.h"
 #import "MSMockService.h"
 #import "MSMockUserDefaults.h"
-#import "MSOneCollectorChannelDelegate.h"
 #import "MSStartServiceLog.h"
 #import "MSTestFrameworks.h"
 
@@ -431,6 +429,27 @@ static NSString *const kMSNullifiedInstallIdString =
 }
 
 #if !TARGET_OS_TV
+
+- (void)testSetCustomPropertiesWithEmptyPropertiesDoesNotEnqueueCustomPropertiesLog {
+  
+  // If
+  [MSAppCenter start:MS_UUID_STRING withServices:nil];
+  id channelUnit = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub([channelUnit
+              enqueueItem:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]]])
+      .andDo(nil);
+  [MSAppCenter sharedInstance].channelUnit = channelUnit;
+
+  // When
+  OCMReject([channelUnit
+             enqueueItem:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]]]);
+  MSCustomProperties *customProperties = [MSCustomProperties new];
+  [MSAppCenter setCustomProperties:customProperties];
+
+  // Then
+  OCMVerifyAll(channelUnit);
+}
+
 - (void)testSetCustomProperties {
 
   // If
@@ -704,5 +723,39 @@ static NSString *const kMSNullifiedInstallIdString =
   OCMVerify([channelGroup resume]);
 }
 #endif
+
+- (void)testSetStorageSizeSetsProperties {
+
+  // If
+  long dbSize = 2*1024;
+  void (^completionBlock)(BOOL) = ^(__unused BOOL success) {};
+
+  // When
+  [MSAppCenter setStorageSize:dbSize completionHandler:completionBlock];
+
+  // Then
+  XCTAssertNotNil([MSAppCenter sharedInstance].requestedMaxStorageSizeInBytes);
+  XCTAssertEqualObjects(@(dbSize), [MSAppCenter sharedInstance].requestedMaxStorageSizeInBytes);
+  XCTAssertNotNil([MSAppCenter sharedInstance].setStorageSizeCompletionHandler);
+  XCTAssertEqual(completionBlock, [MSAppCenter sharedInstance].setStorageSizeCompletionHandler);
+}
+
+- (void)testSetStorageHandlerCannotBeCalledAfterStart {
+
+  // If
+  [MSAppCenter start:MS_UUID_STRING withServices:nil];
+  long dbSize = 2*1024;
+
+  // When
+  [MSAppCenter setStorageSize:dbSize completionHandler:^(BOOL success) {
+
+    // Then
+    XCTAssertFalse(success);
+  }];
+}
+
+- (void)testSetStorageHandlerCanOnlyBeCalledOnce {
+
+}
 
 @end

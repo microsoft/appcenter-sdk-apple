@@ -1,3 +1,5 @@
+#import "MSCustomProperties.h"
+
 /**
  *  Private declarations for MSCustomProperties.
  */

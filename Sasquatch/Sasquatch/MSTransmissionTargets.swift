@@ -4,6 +4,7 @@ class MSTransmissionTargets {
 
   static let shared = MSTransmissionTargets.init()
   var transmissionTargets: [String: MSAnalyticsTransmissionTarget]!
+  let defaultTransmissionTargetIsEnabled: Bool
   private var sendsAnalyticsEvents: [String: Bool]!
   private let defaultTargetKey = "defaultTargetKey"
 
@@ -14,6 +15,11 @@ class MSTransmissionTargets {
     sendsAnalyticsEvents = [String: Bool]()
 
     // Default target.
+    let startTarget = UserDefaults.standard.integer(forKey: kMSStartTargetKey)
+    let startMode = MSMainViewController.StartupMode.allValues[startTarget]
+    defaultTransmissionTargetIsEnabled =
+      startMode == MSMainViewController.StartupMode.OneCollector ||
+      startMode == MSMainViewController.StartupMode.Both
     sendsAnalyticsEvents[defaultTargetKey] = true
 
     // Parent target.

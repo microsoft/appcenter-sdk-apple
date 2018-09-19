@@ -4,6 +4,8 @@ class MSTransmissionTargetsViewController: UITableViewController {
   var appCenter: AppCenterDelegate!
 
   private class MSTransmissionTargetSection: NSObject {
+    static var defaultTransmissionTargetIsEnabled: Bool?
+    
     var token: String?
     var headerText: String?
     var footerText: String?
@@ -11,16 +13,14 @@ class MSTransmissionTargetsViewController: UITableViewController {
 
     func isTransmissionTargetEnabled() -> Bool {
       if isDefault {
-        return UserDefaults.standard.bool(forKey: kMSOneCollectorEnabledKey)
+        return MSTransmissionTargets.shared.defaultTransmissionTargetIsEnabled
       } else {
         return MSTransmissionTargets.shared.transmissionTargets[token!]!.isEnabled()
       }
     }
 
     func setTransmissionTargetEnabled(_ enabledState: Bool) {
-      if isDefault {
-        UserDefaults.standard.set(enabledState, forKey: kMSOneCollectorEnabledKey)
-      } else {
+      if !isDefault {
         MSTransmissionTargets.shared.transmissionTargets[token!]!.setEnabled(enabledState)
       }
     }
@@ -59,10 +59,8 @@ class MSTransmissionTargetsViewController: UITableViewController {
   private let kEnabledCellRowIndex = 0
   private let kAnalyticsCellRowIndex = 1
   private let kTokenCellRowIndex = 2
-  private let kEnabledStateIndicatorRowIndex = 2
   private var targetPropertiesSection: TargetPropertiesTableSection?
   private var csPropertiesSection: CommonSchemaPropertiesTableSection?
-  private static let defaultTransmissionTargetIsEnabled = UserDefaults.standard.bool(forKey: kMSOneCollectorEnabledKey)
   
   enum Section : Int {
     case Default = 0
@@ -78,18 +76,19 @@ class MSTransmissionTargetsViewController: UITableViewController {
 
     targetPropertiesSection = TargetPropertiesTableSection(tableSection: Section.TargetProperties.rawValue, tableView: tableView)
     csPropertiesSection = CommonSchemaPropertiesTableSection(tableSection: Section.CommonSchemaProperties.rawValue, tableView: tableView)
+    let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
     
     // Default target section.
     let defaultTargetSection = MSTransmissionTargetSection()
     defaultTargetSection.headerText = "Default Transmission Target"
-    defaultTargetSection.footerText = "Changing this target's enabled state will not take effect until the app is restarted. While the default target is enabled, all services other than Analytics will be unusable."
+    defaultTargetSection.footerText = "You need to change startup mode and restart the app to get update this target's enabled state."
     defaultTargetSection.isDefault = true
+    defaultTargetSection.token = appName.contains("SasquatchSwift") ? kMSSwiftTargetToken : kMSObjCTargetToken
 
     // Runtime target section.
     let runtimeTargetSection = MSTransmissionTargetSection()
     runtimeTargetSection.headerText = "Runtime Transmission Target"
     runtimeTargetSection.footerText = "This transmission target is the parent of the two transmission targets below."
-    let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
     runtimeTargetSection.token = appName.contains("SasquatchSwift") ? kMSSwiftRuntimeTargetToken : kMSObjCRuntimeTargetToken
 
     // Child 1.
@@ -139,17 +138,10 @@ class MSTransmissionTargetsViewController: UITableViewController {
       let cell = tableView.dequeueReusableCell(withIdentifier: kEnabledSwitchCellId)!
       let switcher: UISwitch? = cell.getSubview()
       switcher?.isOn = section.isTransmissionTargetEnabled()
+      switcher?.isEnabled = indexPath.section != Section.Default.rawValue
       switcher?.addTarget(self, action: #selector(targetEnabledSwitchValueChanged), for: .valueChanged)
-
-      // Special label text for default target section.
-      if indexPath.section == Section.Default.rawValue {
-        let label: UILabel? = cell.getSubview()
-        label!.text = "Enable On Next Launch"
-      }
-      else {
-        let label: UILabel? = cell.getSubview()
-        label!.text = "Set Enabled"
-      }
+      let label: UILabel? = cell.getSubview()
+      label!.text = "Set Enabled"
       return cell
     case kAnalyticsCellRowIndex:
       let cell = tableView.dequeueReusableCell(withIdentifier: kAnalyticsSwitchCellId)!
@@ -158,16 +150,9 @@ class MSTransmissionTargetsViewController: UITableViewController {
       switcher?.addTarget(self, action: #selector(targetShouldSendAnalyticsSwitchValueChanged), for: .valueChanged)
       return cell
     case kTokenCellRowIndex:
-      if indexPath.section == Section.Default.rawValue {
-        fallthrough
-      }
       let cell = tableView.dequeueReusableCell(withIdentifier: kTokenCellId)!
       let label: UILabel? = cell.getSubview(withTag: kTokenDisplayLabelTag)
       label?.text = section.token
-      return cell
-    case kEnabledStateIndicatorRowIndex:
-      let cell = tableView.dequeueReusableCell(withIdentifier: kEnabledStateIndicatorCellId)!
-      cell.detailTextLabel!.text = MSTransmissionTargetsViewController.defaultTransmissionTargetIsEnabled ? "Enabled" : "Disabled"
       return cell
     default:
       return super.tableView(tableView, cellForRowAt: indexPath)

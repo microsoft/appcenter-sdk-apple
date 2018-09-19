@@ -171,14 +171,16 @@
   // If
   acProperties =
       @{ @"key" : @"value",
-         @"nes.t.ed" : @"buriedValue",
+         @"nes.a" : @"1",
+         @"nes.t.ed" : @"2",
+         @"nes.t.ed2" : @"3",
          @"key2" : @"value2" };
 
   // When
   csProperties = [self.sut convertACPropertiesToCSproperties:acProperties];
   NSDictionary *test = @{
     @"key" : @"value",
-    @"nes" : @{@"t" : @{@"ed" : @"buriedValue"}},
+    @"nes" : @{@"a" : @"1", @"t" : @{@"ed" : @"2", @"ed2" : @"3"}},
     @"key2" : @"value2"
   };
 

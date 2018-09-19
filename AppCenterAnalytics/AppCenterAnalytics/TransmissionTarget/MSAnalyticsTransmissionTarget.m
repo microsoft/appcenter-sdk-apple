@@ -12,7 +12,7 @@
 
 @implementation MSAnalyticsTransmissionTarget
 
-static id _authenticationProvider;
+static MSAnalyticsAuthenticationProvider *_authenticationProvider;
 
 - (instancetype)
 initWithTransmissionTargetToken:(NSString *)token
