@@ -77,7 +77,10 @@ class MSTransmissionTargetsViewController: UITableViewController {
     targetPropertiesSection = TargetPropertiesTableSection(tableSection: Section.TargetProperties.rawValue, tableView: tableView)
     csPropertiesSection = CommonSchemaPropertiesTableSection(tableSection: Section.CommonSchemaProperties.rawValue, tableView: tableView)
     let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
-    
+
+    // Test start from library.
+    appCenter.startAnalyticsFromLibrary()
+
     // Default target section.
     let defaultTargetSection = MSTransmissionTargetSection()
     defaultTargetSection.headerText = "Default Transmission Target"
