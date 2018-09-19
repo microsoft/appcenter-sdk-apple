@@ -81,7 +81,7 @@ __attribute__((used)) static void importCategories() {
        transmissionTargetToken:token
                fromApplication:fromApplication];
   if (token) {
-    self.defaultTransmissionTarget = [self transmissionTargetForToken:(NSString *)token];
+    self.defaultTransmissionTarget = [self transmissionTargetForToken:(NSString *) token];
   }
 
   // Set up swizzling for auto page tracking.
@@ -126,7 +126,7 @@ __attribute__((used)) static void importCategories() {
         // Track on the main queue to avoid race condition with page swizzling.
         dispatch_async(dispatch_get_main_queue(), ^{
           if ([[MSAnalyticsCategory missedPageViewName] length] > 0) {
-            [[self class] trackPage:(NSString *)[MSAnalyticsCategory missedPageViewName]];
+            [[self class] trackPage:(NSString *) [MSAnalyticsCategory missedPageViewName]];
           }
         });
       }
@@ -262,7 +262,9 @@ forTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget {
         [validProperties setValue:value forKey:key];
       }
     } else {
-      MSLogError([MSAnalytics logTag], @"Event property contains an invalid value, dropping the property.");
+      MSLogError([MSAnalytics logTag],
+                 @"Event property contains an invalid value for key %@, dropping the property.",
+                 key);
     }
   }
 
