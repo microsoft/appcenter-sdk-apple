@@ -21,6 +21,8 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   @IBOutlet weak var pushEnabledSwitch: UISwitch!
   @IBOutlet weak var logFilterSwitch: UISwitch!
   @IBOutlet weak var deviceIdLabel: UILabel!
+  @IBOutlet weak var storageMaxSizeField: UITextField!
+  @IBOutlet weak var storageFileSizeLabel: UILabel!
 
   var startupModePicker: MSEnumPicker<StartupMode>?
   var appCenter: AppCenterDelegate!
@@ -40,6 +42,10 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     // Make sure it is initialized before changing the startup mode.
     _ = MSTransmissionTargets.shared
 
+    // Storage size section.
+    let storageMaxSize = UserDefaults.standard.integer(forKey: kMSStorageMaxSizeKey)
+    storageMaxSizeField.text = "\(storageMaxSize)"
+
     // Miscellaneous section.
     self.installId.text = appCenter.installId()
     self.appSecret.text = appCenter.appSecret()
@@ -50,12 +56,12 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     // Make sure the UITabBarController does not cut off the last cell.
     self.edgesForExtendedLayout = []
   }
-  
+
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     updateViewState()
   }
-  
+
   func updateViewState() {
     self.appCenterEnabledSwitch.isOn = appCenter.isAppCenterEnabled()
     self.pushEnabledSwitch.isOn = appCenter.isPushEnabled()
@@ -66,12 +72,12 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     appCenter.setAppCenterEnabled(sender.isOn)
     updateViewState()
   }
-  
+
   @IBAction func pushSwitchStateUpdated(_ sender: UISwitch) {
     appCenter.setPushEnabled(sender.isOn)
     updateViewState()
   }
-  
+
   @IBAction func logFilterSwitchChanged(_ sender: UISwitch) {
     if !eventFilterStarted {
       appCenter.startEventFilterService()
@@ -79,6 +85,11 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     }
     appCenter.setEventFilterEnabled(sender.isOn)
     updateViewState()
+  }
+
+  @IBAction func storageMaxSizeUpdated(_ sender: UITextField) {
+    let maxSize = (Int(sender.text ?? "0") ?? 0) * 1000
+    UserDefaults.standard.set(maxSize, forKey: kMSStorageMaxSizeKey)
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
