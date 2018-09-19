@@ -12,8 +12,8 @@
 
 static const NSUInteger kMSSchemaVersion = 1;
 
-// Minimum database upper limit is the maximum common schema log size plus a small amount of buffer (1 page).
-static const long kMSMinimumDatabaseSize = kMSMaximumCommonSchemaLogSizeInBytes + kMSDefaultPageSizeInBytes;
+// Minimum database upper limit is the maximum common schema log size.
+static const long kMSMinimumDatabaseSize = 20 * 1024;
 
 @implementation MSLogDBStorage
 

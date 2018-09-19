@@ -418,18 +418,20 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   MSAbstractLog *additionalLog = [MSAbstractLog new];
   additionalLog.sid = MS_UUID_STRING;
   NSArray *addedLogs = [self fillDatabaseWithLogsOfSizeInBytes:initialDataLengthInBytes];
-
+  __weak typeof(self) weakSelf = self;
+  
   // When
-  [self.sut setStorageSize:maxCapacityInBytes completionHandler:^(BOOL success) {
-    BOOL logSavedSuccessfully = [self.sut saveLog:additionalLog withGroupId:kMSAnotherTestGroupId];
+  [weakSelf.sut setStorageSize:maxCapacityInBytes completionHandler:^(BOOL success) {
+    typeof(self) strongSelf = weakSelf;
+    BOOL logSavedSuccessfully = [strongSelf.sut saveLog:additionalLog withGroupId:kMSAnotherTestGroupId];
 
     // Then
     XCTAssertTrue(success);
     XCTAssertTrue(logSavedSuccessfully);
     NSString
         *whereCondition = [NSString stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, kMSAnotherTestGroupId];
-    NSArray<id <MSLog>> *loadedLogs = [self loadLogsWhere:whereCondition];
-    NSArray<id <MSLog>> *allLogs = [self loadLogsWhere:nil];
+    NSArray<id <MSLog>> *loadedLogs = [strongSelf loadLogsWhere:whereCondition];
+    NSArray<id <MSLog>> *allLogs = [strongSelf loadLogsWhere:nil];
     XCTAssertEqual(loadedLogs.count, 1);
     XCTAssertEqualObjects(loadedLogs[0].sid, additionalLog.sid);
     XCTAssertEqual(addedLogs.count + 1, allLogs.count);
@@ -448,7 +450,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
 
   // If
   XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler invoked."];
-  long maxCapacityInBytes = kMSTestStorageSizeMinimumUpperLimitInBytes + kMSDefaultPageSizeInBytes;
+  long maxCapacityInBytes = kMSTestStorageSizeMinimumUpperLimitInBytes;
   NSArray *addedLogs = [self fillDatabaseWithLogsOfSizeInBytes:maxCapacityInBytes];
 
   // When
@@ -548,7 +550,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
 - (void)testSetStorageSizeBelowMaximumLogSizeFails {
 
   // If
-  long storageSize = kMSMaximumCommonSchemaLogSizeInBytes - 1;
+  long storageSize = 19 * 1024;
   XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler invoked."];
   self.sut = [MSLogDBStorage new];
 

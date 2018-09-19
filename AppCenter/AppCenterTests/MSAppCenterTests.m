@@ -728,8 +728,7 @@ static NSString *const kMSNullifiedInstallIdString =
 
   // If
   long dbSize = 2*1024;
-  void (^completionBlock)(BOOL) = ^(BOOL success) {
-  };
+  void (^completionBlock)(BOOL) = ^(__unused BOOL success) {};
 
   // When
   [MSAppCenter setStorageSize:dbSize completionHandler:completionBlock];
