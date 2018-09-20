@@ -18,12 +18,12 @@ static short const kMSHTTPMinGZipLength = 1400;
  * Enum with the different HTTP status codes.
  */
 typedef NS_ENUM(NSInteger, MSHTTPCodesNo) { // Informational
-      MSHTTPCodesNo1XXInformationalUnknown = 1,
+  MSHTTPCodesNo1XXInformationalUnknown = 1,
   MSHTTPCodesNo100Continue = 100,
   MSHTTPCodesNo101SwitchingProtocols = 101, MSHTTPCodesNo102Processing = 102,
 
   // Success
-      MSHTTPCodesNo2XXSuccessUnknown = 2,
+  MSHTTPCodesNo2XXSuccessUnknown = 2,
   MSHTTPCodesNo200OK = 200,
   MSHTTPCodesNo201Created = 201,
   MSHTTPCodesNo202Accepted = 202,
@@ -35,7 +35,7 @@ typedef NS_ENUM(NSInteger, MSHTTPCodesNo) { // Informational
   MSHTTPCodesNo208AlreadyReported = 208, MSHTTPCodesNo209IMUsed = 209,
 
   // Redirection
-      MSHTTPCodesNo3XXSuccessUnknown = 3,
+  MSHTTPCodesNo3XXSuccessUnknown = 3,
   MSHTTPCodesNo300MultipleChoices = 300,
   MSHTTPCodesNo301MovedPermanently = 301,
   MSHTTPCodesNo302Found = 302,
@@ -47,7 +47,7 @@ typedef NS_ENUM(NSInteger, MSHTTPCodesNo) { // Informational
   MSHTTPCodesNo308PermanentRedirect = 308,
 
   // Client error
-      MSHTTPCodesNo4XXSuccessUnknown = 4,
+  MSHTTPCodesNo4XXSuccessUnknown = 4,
   MSHTTPCodesNo400BadRequest = 400,
   MSHTTPCodesNo401Unauthorised = 401,
   MSHTTPCodesNo402PaymentRequired = 402,
@@ -88,7 +88,7 @@ typedef NS_ENUM(NSInteger, MSHTTPCodesNo) { // Informational
   MSHTTPCodesNo499ClientClosedRequestNginx = 499,
 
   // Server error
-      MSHTTPCodesNo5XXSuccessUnknown = 5,
+  MSHTTPCodesNo5XXSuccessUnknown = 5,
   MSHTTPCodesNo500InternalServerError = 500,
   MSHTTPCodesNo501NotImplemented = 501,
   MSHTTPCodesNo502BadGateway = 502,

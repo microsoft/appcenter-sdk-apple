@@ -255,9 +255,8 @@ static dispatch_once_t setMaxStorageSizeOnceToken;
   if (*result != SQLITE_OK) {
     errorMessage = errorMessage ? errorMessage : "(nil)";
     NSString *printableErrorMessage = [NSString stringWithCString:errorMessage encoding:NSUTF8StringEncoding];
-    MSLogWarning([MSAppCenter logTag], @"Failed to open database with specified"
-                                       "maximum size constraint. Error message:"
-                                       " %@", printableErrorMessage);
+    MSLogError([MSAppCenter logTag], @"Failed to open database with specified maximum size constraint. Error message:"
+                                     " %@", printableErrorMessage);
 
     // Call the callback for setting the maximum storage size only once.
     dispatch_once(&setMaxStorageSizeOnceToken, ^{
