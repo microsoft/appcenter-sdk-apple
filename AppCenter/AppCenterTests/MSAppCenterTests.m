@@ -675,8 +675,8 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   // Then
   XCTAssertNotNil([MSAppCenter sharedInstance].requestedMaxStorageSizeInBytes);
   XCTAssertEqualObjects(@(dbSize), [MSAppCenter sharedInstance].requestedMaxStorageSizeInBytes);
-  XCTAssertNotNil([MSAppCenter sharedInstance].setMaxStorageSizeCompletionHandler);
-  XCTAssertEqual(completionBlock, [MSAppCenter sharedInstance].setMaxStorageSizeCompletionHandler);
+  XCTAssertNotNil([MSAppCenter sharedInstance].maxStorageSizeCompletionHandler);
+  XCTAssertEqual(completionBlock, [MSAppCenter sharedInstance].maxStorageSizeCompletionHandler);
 }
 
 - (void)testSetStorageHandlerCannotBeCalledAfterStart {

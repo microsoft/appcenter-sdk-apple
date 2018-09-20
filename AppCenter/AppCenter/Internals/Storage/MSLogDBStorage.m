@@ -1,14 +1,8 @@
 #import <sqlite3.h>
 
 #import "MSAppCenterInternal.h"
-#import "MSCommonSchemaLog.h"
-#import "MSConstants+Internal.h"
 #import "MSDBStoragePrivate.h"
-#import "MSKeychainUtil.h"
 #import "MSLogDBStoragePrivate.h"
-#import "MSLogger.h"
-#import "MSUtility+StringFormatting.h"
-#import "MSUtility.h"
 
 static const NSUInteger kMSSchemaVersion = 1;
 
@@ -98,7 +92,8 @@ static const long kMSMinimumDatabaseSize = 20 * 1024;
 
 #pragma mark - Load logs
 
-- (BOOL)loadLogsWithGroupId:(NSString *)groupId limit:(NSUInteger)limit
+- (BOOL)loadLogsWithGroupId:(NSString *)groupId
+                      limit:(NSUInteger)limit
              withCompletion:(nullable MSLoadDataCompletionBlock)completion {
   BOOL logsAvailable;
   BOOL moreLogsAvailable = NO;
@@ -327,8 +322,10 @@ static const long kMSMinimumDatabaseSize = 20 * 1024;
 
 #pragma mark - DB size
 
-- (void)setStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))completionHandler {
+- (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(nullable void (^)(BOOL))completionHandler {
   if (sizeInBytes < self.minimumUpperSizeLimitInBytes) {
+
+    // No need to assign the completion handler to the property, we're just executing it right away.
     if (completionHandler) {
       completionHandler(NO);
     }
@@ -336,7 +333,7 @@ static const long kMSMinimumDatabaseSize = 20 * 1024;
                                        " bytes", sizeInBytes, self.minimumUpperSizeLimitInBytes);
     return;
   }
-  [super setStorageSize:sizeInBytes completionHandler:completionHandler];
+  [super setMaxStorageSize:sizeInBytes completionHandler:completionHandler];
 }
 
 @end

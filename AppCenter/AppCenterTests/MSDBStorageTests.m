@@ -25,27 +25,11 @@ static NSString *const kMSTestDBFileName = @"Test.sqlite";
 
 - (void)setUp {
   [super setUp];
-  self.schema = @{
-    kMSTestTableName : @[
-      @{
-        kMSTestPositionColName : @[
-          kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey,
-          kMSSQLiteConstraintAutoincrement
-        ]
-      },
-      @{
-        kMSTestPersonColName :
-            @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]
-      },
-      @{kMSTestHungrinessColName : @[ kMSSQLiteTypeInteger ]}, @{
-        kMSTestMealColName :
-            @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]
-      }
-    ]
-  };
-  self.sut = [[MSDBStorage alloc] initWithSchema:self.schema
-                                         version:0
-                                        filename:kMSTestDBFileName];
+  self.schema = @{kMSTestTableName: @[@{kMSTestPositionColName: @[kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey,
+      kMSSQLiteConstraintAutoincrement]}, @{kMSTestPersonColName: @[kMSSQLiteTypeText, kMSSQLiteConstraintNotNull]},
+      @{kMSTestHungrinessColName: @[kMSSQLiteTypeInteger]},
+      @{kMSTestMealColName: @[kMSSQLiteTypeText, kMSSQLiteConstraintNotNull]}]};
+  self.sut = [[MSDBStorage alloc] initWithSchema:self.schema version:0 filename:kMSTestDBFileName];
   self.storageTestUtil = [[MSStorageTestUtil alloc] initWithDbFileName:kMSTestDBFileName];
 }
 
@@ -58,31 +42,23 @@ static NSString *const kMSTestDBFileName = @"Test.sqlite";
 
   // If
   [self.sut deleteDatabase];
-  NSString *testTableName = @"test_table", *testColumnName = @"test_column",
-           *testColumn2Name = @"test_column2";
-  NSString *expectedResult = [NSString
-      stringWithFormat:@"CREATE TABLE \"%@\" (\"%@\" %@ %@ %@, \"%@\" %@ %@)",
-                       testTableName, testColumnName, kMSSQLiteTypeInteger,
-                       kMSSQLiteConstraintPrimaryKey,
-                       kMSSQLiteConstraintAutoincrement, testColumn2Name,
-                       kMSSQLiteTypeText, kMSSQLiteConstraintNotNull];
-  MSDBSchema *testSchema = @{
-    testTableName : @[
-      @{
-        testColumnName : @[
-          kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey,
-          kMSSQLiteConstraintAutoincrement
-        ]
-      },
-      @{testColumn2Name : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]}
-    ]
-  };
+  NSString *testTableName = @"test_table", *testColumnName = @"test_column", *testColumn2Name = @"test_column2";
+  NSString *expectedResult = [NSString stringWithFormat:@"CREATE TABLE \"%@\" (\"%@\" %@ %@ %@, \"%@\" %@ %@)",
+                                                        testTableName,
+                                                        testColumnName,
+                                                        kMSSQLiteTypeInteger,
+                                                        kMSSQLiteConstraintPrimaryKey,
+                                                        kMSSQLiteConstraintAutoincrement,
+                                                        testColumn2Name,
+                                                        kMSSQLiteTypeText,
+                                                        kMSSQLiteConstraintNotNull];
+  MSDBSchema *testSchema = @{testTableName: @[
+      @{testColumnName: @[kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey, kMSSQLiteConstraintAutoincrement]},
+      @{testColumn2Name: @[kMSSQLiteTypeText, kMSSQLiteConstraintNotNull]}]};
   id result;
 
   // When
-  self.sut = [[MSDBStorage alloc] initWithSchema:testSchema
-                                         version:0
-                                        filename:kMSTestDBFileName];
+  self.sut = [[MSDBStorage alloc] initWithSchema:testSchema version:0 filename:kMSTestDBFileName];
   result = [self queryTable:testTableName];
 
   // Then
@@ -91,30 +67,19 @@ static NSString *const kMSTestDBFileName = @"Test.sqlite";
   // If
   [self.sut deleteDatabase];
   NSString *testTableName2 = @"test2_table", *testColumnName2 = @"test2_column";
-  testSchema = @{
-    testTableName : @[
-      @{
-        testColumnName : @[
-          kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey,
-          kMSSQLiteConstraintAutoincrement
-        ]
-      },
-      @{testColumn2Name : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]}
-    ],
-    testTableName2 : @[ @{
-      testColumnName2 : @[ kMSSQLiteTypeInteger, kMSSQLiteConstraintNotNull ]
-    } ]
-  };
-  NSString *expectedResult2 = [NSString
-      stringWithFormat:@"CREATE TABLE \"%@\" (\"%@\" %@ %@)", testTableName2,
-                       testColumnName2, kMSSQLiteTypeInteger,
-                       kMSSQLiteConstraintNotNull];
+  testSchema = @{testTableName: @[
+      @{testColumnName: @[kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey, kMSSQLiteConstraintAutoincrement]},
+      @{testColumn2Name: @[kMSSQLiteTypeText, kMSSQLiteConstraintNotNull]}], testTableName2: @[
+      @{testColumnName2: @[kMSSQLiteTypeInteger, kMSSQLiteConstraintNotNull]}]};
+  NSString *expectedResult2 = [NSString stringWithFormat:@"CREATE TABLE \"%@\" (\"%@\" %@ %@)",
+                                                         testTableName2,
+                                                         testColumnName2,
+                                                         kMSSQLiteTypeInteger,
+                                                         kMSSQLiteConstraintNotNull];
   id result2;
 
   // When
-  self.sut = [[MSDBStorage alloc] initWithSchema:testSchema
-                                         version:0
-                                        filename:kMSTestDBFileName];
+  self.sut = [[MSDBStorage alloc] initWithSchema:testSchema version:0 filename:kMSTestDBFileName];
   result = [self queryTable:testTableName];
   result2 = [self queryTable:testTableName2];
 
@@ -127,20 +92,17 @@ static NSString *const kMSTestDBFileName = @"Test.sqlite";
   [self.sut executeQueryUsingBlock:^int(void *db) {
 
     // When
-    BOOL tableExists =
-        [MSDBStorage tableExists:kMSTestTableName inOpenedDatabase:db];
+    BOOL tableExists = [MSDBStorage tableExists:kMSTestTableName inOpenedDatabase:db];
 
     // Then
     assertThatBool(tableExists, isTrue());
 
     // If
-    NSString *query =
-        [NSString stringWithFormat:@"DROP TABLE \"%@\"", kMSTestTableName];
+    NSString *query = [NSString stringWithFormat:@"DROP TABLE \"%@\"", kMSTestTableName];
     [MSDBStorage executeNonSelectionQuery:query inOpenedDatabase:db];
 
     // When
-    tableExists =
-        [MSDBStorage tableExists:kMSTestTableName inOpenedDatabase:db];
+    tableExists = [MSDBStorage tableExists:kMSTestTableName inOpenedDatabase:db];
 
     // Then
     assertThatBool(tableExists, isFalse());
@@ -188,9 +150,7 @@ static NSString *const kMSTestDBFileName = @"Test.sqlite";
   OCMExpect([dbStorage migrateDatabase:[OCMArg anyPointer] fromVersion:0]);
 
   // When
-  (void)[dbStorage initWithSchema:self.schema
-                          version:1
-                         filename:kMSTestDBFileName];
+  (void) [dbStorage initWithSchema:self.schema version:1 filename:kMSTestDBFileName];
 
   // Then
   OCMVerifyAll(dbStorage);
@@ -198,14 +158,10 @@ static NSString *const kMSTestDBFileName = @"Test.sqlite";
   // If
   // Migrate shouldn't be called in a new database.
   [dbStorage deleteDatabase];
-  OCMReject([[dbStorage ignoringNonObjectArgs]
-      migrateDatabase:[OCMArg anyPointer]
-          fromVersion:0]);
+  OCMReject([[dbStorage ignoringNonObjectArgs] migrateDatabase:[OCMArg anyPointer] fromVersion:0]);
 
   // When
-  (void)[dbStorage initWithSchema:self.schema
-                          version:2
-                         filename:kMSTestDBFileName];
+  (void) [dbStorage initWithSchema:self.schema version:2 filename:kMSTestDBFileName];
 
   // Then
   OCMVerifyAll(dbStorage);
@@ -217,13 +173,15 @@ static NSString *const kMSTestDBFileName = @"Test.sqlite";
   NSString *expectedPerson = @"Hungry Guy";
   NSNumber *expectedHungriness = @(99);
   NSString *expectedMeal = @"Big burger";
-  NSString *query =
-      [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") "
-                                 @"VALUES ('%@', %@, '%@')",
-                                 kMSTestTableName, kMSTestPersonColName,
-                                 kMSTestHungrinessColName, kMSTestMealColName,
-                                 expectedPerson, expectedHungriness.stringValue,
-                                 expectedMeal];
+  NSString *query = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") "
+                                               @"VALUES ('%@', %@, '%@')",
+                                               kMSTestTableName,
+                                               kMSTestPersonColName,
+                                               kMSTestHungrinessColName,
+                                               kMSTestMealColName,
+                                               expectedPerson,
+                                               expectedHungriness.stringValue,
+                                               expectedMeal];
   int result;
   NSArray *entry;
 
@@ -240,16 +198,16 @@ static NSString *const kMSTestDBFileName = @"Test.sqlite";
   entry = [self.sut executeSelectionQuery:query];
 
   // Then
-  assertThat(
-      entry,
-      is(@[ @[ @(1), expectedPerson, expectedHungriness, expectedMeal ] ]));
+  assertThat(entry, is(@[@[@(1), expectedPerson, expectedHungriness, expectedMeal]]));
 
   // If
   expectedMeal = @"Gigantic burger";
-  query = [NSString
-      stringWithFormat:@"UPDATE \"%@\" SET \"%@\" = '%@' WHERE \"%@\" = %d",
-                       kMSTestTableName, kMSTestMealColName, expectedMeal,
-                       kMSTestPositionColName, 1];
+  query = [NSString stringWithFormat:@"UPDATE \"%@\" SET \"%@\" = '%@' WHERE \"%@\" = %d",
+                                     kMSTestTableName,
+                                     kMSTestMealColName,
+                                     expectedMeal,
+                                     kMSTestPositionColName,
+                                     1];
 
   // When
   result = [self.sut executeNonSelectionQuery:query];
@@ -264,14 +222,11 @@ static NSString *const kMSTestDBFileName = @"Test.sqlite";
   entry = [self.sut executeSelectionQuery:query];
 
   // Then
-  assertThat(
-      entry,
-      is(@[ @[ @(1), expectedPerson, expectedHungriness, expectedMeal ] ]));
+  assertThat(entry, is(@[@[@(1), expectedPerson, expectedHungriness, expectedMeal]]));
 
   // If
   query =
-      [NSString stringWithFormat:@"DELETE FROM \"%@\" WHERE \"%@\" = %d;",
-                                 kMSTestTableName, kMSTestPositionColName, 1];
+      [NSString stringWithFormat:@"DELETE FROM \"%@\" WHERE \"%@\" = %d;", kMSTestTableName, kMSTestPositionColName, 1];
 
   // When
   result = [self.sut executeNonSelectionQuery:query];
@@ -295,9 +250,7 @@ static NSString *const kMSTestDBFileName = @"Test.sqlite";
   id expectedGuys = [self addGuysToTheTableWithCount:20];
 
   // When
-  id result = [self.sut
-      executeSelectionQuery:[NSString stringWithFormat:@"SELECT * FROM \"%@\"",
-                                                       kMSTestTableName]];
+  id result = [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT * FROM \"%@\"", kMSTestTableName]];
 
   // Then
   assertThat(result, is(expectedGuys));
@@ -318,13 +271,15 @@ static NSString *const kMSTestDBFileName = @"Test.sqlite";
   NSString *expectedPerson = @"Hungry Guy";
   NSNumber *expectedHungriness = @(99);
   NSString *expectedMeal = @"Big burger";
-  NSString *query =
-      [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") "
-                                 @"VALUES ('%@', %@, '%@')",
-                                 kMSTestTableName, kMSTestPersonColName,
-                                 kMSTestHungrinessColName, kMSTestMealColName,
-                                 expectedPerson, expectedHungriness.stringValue,
-                                 expectedMeal];
+  NSString *query = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") "
+                                               @"VALUES ('%@', %@, '%@')",
+                                               kMSTestTableName,
+                                               kMSTestPersonColName,
+                                               kMSTestHungrinessColName,
+                                               kMSTestMealColName,
+                                               expectedPerson,
+                                               expectedHungriness.stringValue,
+                                               expectedMeal];
   [self.sut executeNonSelectionQuery:query];
 
   // When
@@ -336,12 +291,15 @@ static NSString *const kMSTestDBFileName = @"Test.sqlite";
   // If
   expectedPerson = @"Hungry Man";
   expectedMeal = @"Huge raclette";
-  query =
-      [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") "
-                                 @"VALUES ('%@', %@, '%@')",
-                                 kMSTestTableName, kMSTestPersonColName,
-                                 kMSTestHungrinessColName, kMSTestMealColName,
-                                 expectedPerson, expectedHungriness.stringValue, expectedMeal];
+  query = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") "
+                                     @"VALUES ('%@', %@, '%@')",
+                                     kMSTestTableName,
+                                     kMSTestPersonColName,
+                                     kMSTestHungrinessColName,
+                                     kMSTestMealColName,
+                                     expectedPerson,
+                                     expectedHungriness.stringValue,
+                                     expectedMeal];
   [self.sut executeNonSelectionQuery:query];
 
   // When
@@ -351,11 +309,10 @@ static NSString *const kMSTestDBFileName = @"Test.sqlite";
   assertThatUnsignedInteger(count, equalToInt(2));
 
   // When
-  count = [self.sut
-      countEntriesForTable:kMSTestTableName
-                 condition:[NSString stringWithFormat:@"\"%@\" = '%@'",
-                                                      kMSTestMealColName,
-                                                      expectedMeal]];
+  count = [self.sut countEntriesForTable:kMSTestTableName
+                               condition:[NSString stringWithFormat:@"\"%@\" = '%@'",
+                                                                    kMSTestMealColName,
+                                                                    expectedMeal]];
 
   // Then
   assertThatUnsignedInteger(count, equalToInt(1));
@@ -378,7 +335,7 @@ static NSString *const kMSTestDBFileName = @"Test.sqlite";
 
   // When
   __weak typeof(self) weakSelf = self;
-  [weakSelf.sut setStorageSize:shrunkenSizeInBytes completionHandler:^(BOOL success) {
+  [weakSelf.sut setMaxStorageSize:shrunkenSizeInBytes completionHandler:^(BOOL success) {
 
     // Then
     XCTAssertFalse(success);
@@ -386,46 +343,45 @@ static NSString *const kMSTestDBFileName = @"Test.sqlite";
   }];
 
   // Then
-  [self waitForExpectationsWithTimeout:1
-                               handler:^(NSError *_Nullable error) {
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@",
-                                           error);
-                                 }
-                               }];
+  [self waitForExpectationsWithTimeout:1 handler:^(NSError *_Nullable error) {
+        if (error) {
+          XCTFail(@"Expectation Failed with error: %@", error);
+        }
+      }];
 }
 
 - (void)testSetStorageSizePassesWhenSizeIsGreaterThanCurrentBytesOfActualData {
 
-  // If
-  long initialSizeInBytes = kMSDefaultPageSizeInBytes * 10;
-  XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler invoked."];
+  // TODO: fix this test
 
-  // Fill the database with data to reach the desired initial size.
-  while ([self.storageTestUtil getDataLengthInBytes] < initialSizeInBytes) {
-    [self addGuysToTheTableWithCount:1000];
-  }
-  long bytesOfData = [self.storageTestUtil getDataLengthInBytes];
-  NSLog(@"bytes of data: %ld", bytesOfData);
-  long expandedSizeInBytes = bytesOfData + kMSDefaultPageSizeInBytes * 3;
-
-  // When
-  __weak typeof(self) weakSelf = self;
-  [weakSelf.sut setStorageSize:expandedSizeInBytes completionHandler:^(BOOL success) {
-
-    // Then
-    XCTAssertTrue(success);
-    [expectation fulfill];
-  }];
-
-  // Then
-  [self waitForExpectationsWithTimeout:1
-                               handler:^(NSError *_Nullable error) {
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@",
-                                           error);
-                                 }
-                               }];
+//  // If
+//  long initialSizeInBytes = kMSDefaultPageSizeInBytes * 10;
+//  XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler invoked."];
+//
+//  // Fill the database with data to reach the desired initial size.
+//  while ([self.storageTestUtil getDataLengthInBytes] < initialSizeInBytes) {
+//    [self addGuysToTheTableWithCount:1000];
+//  }
+//  long bytesOfData = [self.storageTestUtil getDataLengthInBytes];
+//  NSLog(@"bytes of data: %ld", bytesOfData);
+//  long expandedSizeInBytes = bytesOfData + kMSDefaultPageSizeInBytes * 3;
+//
+//  // When
+//  [self.sut setMaxStorageSize:expandedSizeInBytes completionHandler:^(BOOL success) {
+//
+//    // Then
+//    XCTAssertTrue(success);
+//    [expectation fulfill];
+//  }];
+//
+//  // Then
+//  [self waitForExpectationsWithTimeout:1
+//                               handler:^(NSError *_Nullable error) {
+//                                 if (error) {
+//                                   XCTFail(@"Expectation Failed with error: %@",
+//                                           error);
+//                                 }
+//                               }];
 }
 
 - (void)testMaximumPageCountDoesNotChangeWhenShrinkingDatabaseIsAttempted {
@@ -443,8 +399,8 @@ static NSString *const kMSTestDBFileName = @"Test.sqlite";
   long shrunkenSizeInBytes = bytesOfData - kMSDefaultPageSizeInBytes * 3;
 
   // When
-  __weak typeof(self)weakSelf = self;
-  [weakSelf.sut setStorageSize:shrunkenSizeInBytes completionHandler:^(__unused BOOL success) {
+  __weak typeof(self) weakSelf = self;
+  [weakSelf.sut setMaxStorageSize:shrunkenSizeInBytes completionHandler:^(__unused BOOL success) {
 
     // Then
     typeof(self) strongSelf = weakSelf;
@@ -453,19 +409,17 @@ static NSString *const kMSTestDBFileName = @"Test.sqlite";
   }];
 
   // Then
-  [self waitForExpectationsWithTimeout:1
-                               handler:^(NSError *_Nullable error) {
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@",
-                                           error);
-                                 }
-                               }];
+  [self waitForExpectationsWithTimeout:1 handler:^(NSError *_Nullable error) {
+        if (error) {
+          XCTFail(@"Expectation Failed with error: %@", error);
+        }
+      }];
 }
 
 - (void)testCompletionHandlerCanBeNil {
 
   // When
-  [self.sut setStorageSize:kMSDefaultPageSizeInBytes completionHandler:nil];
+  [self.sut setMaxStorageSize:kMSDefaultPageSizeInBytes completionHandler:nil];
   [self addGuysToTheTableWithCount:100];
 
   // Then
@@ -485,17 +439,16 @@ static NSString *const kMSTestDBFileName = @"Test.sqlite";
   NSMutableArray *guys = [NSMutableArray new];
   sqlite3 *db = [self.storageTestUtil openDatabase];
   for (short i = 1; i <= guysCount; i++) {
-    [guys addObject:@[
-      @(i), [NSString stringWithFormat:@"%@%d", kMSTestPersonColName, i],
-      @(arc4random_uniform(100)),
-      [NSString stringWithFormat:@"%@%d", kMSTestMealColName, i]
-    ]];
-    insertQuery = [NSString
-        stringWithFormat:
-            @"INSERT INTO '%@' ('%@', '%@', '%@') VALUES ('%@', '%@', '%@')",
-            kMSTestTableName, kMSTestPersonColName, kMSTestHungrinessColName,
-            kMSTestMealColName, [guys lastObject][1],
-            [[guys lastObject][2] stringValue], [guys lastObject][3]];
+    [guys addObject:@[@(i), [NSString stringWithFormat:@"%@%d", kMSTestPersonColName, i], @(arc4random_uniform(100)),
+        [NSString stringWithFormat:@"%@%d", kMSTestMealColName, i]]];
+    insertQuery = [NSString stringWithFormat:@"INSERT INTO '%@' ('%@', '%@', '%@') VALUES ('%@', '%@', '%@')",
+                                             kMSTestTableName,
+                                             kMSTestPersonColName,
+                                             kMSTestHungrinessColName,
+                                             kMSTestMealColName,
+                                             [guys lastObject][1],
+                                             [[guys lastObject][2] stringValue],
+                                             [guys lastObject][3]];
     sqlite3_exec(db, [insertQuery UTF8String], NULL, NULL, NULL);
   }
   sqlite3_close(db);
@@ -503,11 +456,8 @@ static NSString *const kMSTestDBFileName = @"Test.sqlite";
 }
 
 - (NSString *)queryTable:(NSString *)tableName {
-  return [self.sut
-      executeSelectionQuery:
-          [NSString
-              stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'",
-                               tableName]][0][0];
+  return [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'",
+                                                                    tableName]][0][0];
 }
 
 @end

@@ -43,15 +43,18 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   [expectedLogs removeLastObject];
 
   // When
-  BOOL moreLogsAvailable = [self.sut loadLogsWithGroupId:kMSTestGroupId
-                                                   limit:expectedLogsCount
-                                          withCompletion:^(NSArray<id <MSLog>> *_Nonnull logArray,
-                                                           NSString *_Nonnull batchId) {
+  BOOL moreLogsAvailable = [self.sut loadLogsWithGroupId:kMSTestGroupId limit:expectedLogsCount
+  withCompletion:
+  ^(
+  NSArray < id < MSLog >> *
+  _Nonnull logArray,
+  NSString *
+  _Nonnull batchId) {
 
-                                            // Then
-                                            assertThat(batchId, notNilValue());
-                                            assertThat(expectedLogs, is(logArray));
-                                          }];
+    // Then
+    assertThat(batchId, notNilValue());
+    assertThat(expectedLogs, is(logArray));
+  }];
   XCTAssertTrue(moreLogsAvailable);
 }
 
@@ -62,15 +65,18 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   NSArray *expectedLogs = [self generateAndSaveLogsWithCount:expectedLogsCount groupId:kMSTestGroupId];
 
   // When
-  BOOL moreLogsAvailable = [self.sut loadLogsWithGroupId:kMSTestGroupId
-                                                   limit:expectedLogsCount
-                                          withCompletion:^(NSArray<id <MSLog>> *_Nonnull logArray,
-                                                           NSString *_Nonnull batchId) {
+  BOOL moreLogsAvailable = [self.sut loadLogsWithGroupId:kMSTestGroupId limit:expectedLogsCount
+  withCompletion:
+  ^(
+  NSArray < id < MSLog >> *
+  _Nonnull logArray,
+  NSString *
+  _Nonnull batchId) {
 
-                                            // Then
-                                            assertThat(batchId, notNilValue());
-                                            assertThat(expectedLogs, is(logArray));
-                                          }];
+    // Then
+    assertThat(batchId, notNilValue());
+    assertThat(expectedLogs, is(logArray));
+  }];
   XCTAssertFalse(moreLogsAvailable);
 }
 
@@ -82,15 +88,18 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   NSArray *expectedLogs = [self generateAndSaveLogsWithCount:expectedLogsCount groupId:kMSTestGroupId];
 
   // When
-  BOOL moreLogsAvailable = [self.sut loadLogsWithGroupId:kMSTestGroupId
-                                                   limit:limit
-                                          withCompletion:^(NSArray<id <MSLog>> *_Nonnull logArray,
-                                                           NSString *_Nonnull batchId) {
+  BOOL moreLogsAvailable = [self.sut loadLogsWithGroupId:kMSTestGroupId limit:limit
+  withCompletion:
+  ^(
+  NSArray < id < MSLog >> *
+  _Nonnull logArray,
+  NSString *
+  _Nonnull batchId) {
 
-                                            // Then
-                                            assertThat(batchId, notNilValue());
-                                            assertThat(expectedLogs, is(logArray));
-                                          }];
+    // Then
+    assertThat(batchId, notNilValue());
+    assertThat(expectedLogs, is(logArray));
+  }];
   XCTAssertFalse(moreLogsAvailable);
 }
 
@@ -104,30 +113,33 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   __block NSString *unexpectedBatchId;
 
   // Load some logs to trigger a new batch.
-  [self.sut loadLogsWithGroupId:kMSTestGroupId
-                          limit:2
-                 withCompletion:^(NSArray<id <MSLog>> *_Nonnull logArray, NSString *_Nonnull batchId) {
+  [self.sut loadLogsWithGroupId:kMSTestGroupId limit:2 withCompletion:^(
+  NSArray < id < MSLog >> *
+  _Nonnull logArray, NSString *
+  _Nonnull batchId) {
 
-                   // Those values shouldn't be in the next batch.
-                   unexpectedLogs = logArray;
-                   unexpectedBatchId = batchId;
-                 }];
+    // Those values shouldn't be in the next batch.
+    unexpectedLogs = logArray;
+    unexpectedBatchId = batchId;
+  }];
 
   // When
-  BOOL moreLogsAvailable = [self.sut loadLogsWithGroupId:kMSTestGroupId
-                                                   limit:expectedLogsCount
-                                          withCompletion:^(NSArray<id <MSLog>> *_Nonnull logArray,
-                                                           NSString *_Nonnull batchId) {
+  BOOL moreLogsAvailable = [self.sut loadLogsWithGroupId:kMSTestGroupId limit:expectedLogsCount
+  withCompletion:
+  ^(
+  NSArray < id < MSLog >> *
+  _Nonnull logArray,
+  NSString *
+  _Nonnull batchId) {
 
-                                            // Then
-                                            // Logs from previous batch are not expected here.
-                                            NSPredicate *predicate =
-                                                [NSPredicate predicateWithFormat:@"NOT (SELF IN %@)", unexpectedLogs];
-                                            expectedLogs = [expectedLogs filteredArrayUsingPredicate:predicate];
-                                            assertThat(batchId, notNilValue());
-                                            assertThat(expectedLogs, is(logArray));
-                                            assertThat(batchId, isNot(unexpectedBatchId));
-                                          }];
+    // Then
+    // Logs from previous batch are not expected here.
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"NOT (SELF IN %@)", unexpectedLogs];
+    expectedLogs = [expectedLogs filteredArrayUsingPredicate:predicate];
+    assertThat(batchId, notNilValue());
+    assertThat(expectedLogs, is(logArray));
+    assertThat(batchId, isNot(unexpectedBatchId));
+  }];
   XCTAssertFalse(moreLogsAvailable);
 }
 
@@ -141,30 +153,33 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   __block NSString *unexpectedBatchId;
 
   // Load some logs to trigger a new batch from another group Id.
-  [self.sut loadLogsWithGroupId:kMSAnotherTestGroupId
-                          limit:2
-                 withCompletion:^(NSArray<id <MSLog>> *_Nonnull logArray, NSString *_Nonnull batchId) {
+  [self.sut loadLogsWithGroupId:kMSAnotherTestGroupId limit:2 withCompletion:^(
+  NSArray < id < MSLog >> *
+  _Nonnull logArray, NSString *
+  _Nonnull batchId) {
 
-                   // Those values shouldn't be in the next batch.
-                   unexpectedLogs = logArray;
-                   unexpectedBatchId = batchId;
-                 }];
+    // Those values shouldn't be in the next batch.
+    unexpectedLogs = logArray;
+    unexpectedBatchId = batchId;
+  }];
 
   // When
-  BOOL moreLogsAvailable = [self.sut loadLogsWithGroupId:kMSTestGroupId
-                                                   limit:expectedLogsCount
-                                          withCompletion:^(NSArray<id <MSLog>> *_Nonnull logArray,
-                                                           NSString *_Nonnull batchId) {
+  BOOL moreLogsAvailable = [self.sut loadLogsWithGroupId:kMSTestGroupId limit:expectedLogsCount
+  withCompletion:
+  ^(
+  NSArray < id < MSLog >> *
+  _Nonnull logArray,
+  NSString *
+  _Nonnull batchId) {
 
-                                            // Then
-                                            // Logs from previous batch are not expected here.
-                                            NSPredicate *predicate =
-                                                [NSPredicate predicateWithFormat:@"NOT (SELF IN %@)", unexpectedLogs];
-                                            expectedLogs = [expectedLogs filteredArrayUsingPredicate:predicate];
-                                            assertThat(batchId, notNilValue());
-                                            assertThat(expectedLogs, is(logArray));
-                                            assertThat(batchId, isNot(unexpectedBatchId));
-                                          }];
+    // Then
+    // Logs from previous batch are not expected here.
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"NOT (SELF IN %@)", unexpectedLogs];
+    expectedLogs = [expectedLogs filteredArrayUsingPredicate:predicate];
+    assertThat(batchId, notNilValue());
+    assertThat(expectedLogs, is(logArray));
+    assertThat(batchId, isNot(unexpectedBatchId));
+  }];
   XCTAssertFalse(moreLogsAvailable);
 }
 
@@ -367,12 +382,13 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   // Then
   [self.sut loadLogsWithGroupId:kMSTestGroupId
                           limit:1
-                 withCompletion:^(NSArray <MSLog> *_Nonnull logArray, __unused NSString *batchId) {
-                   id <MSLog> restoredLog = logArray[0];
-                   NSString *restoredTargetToken = [[restoredLog transmissionTargetTokens] anyObject];
-                   assertThatInt([[restoredLog transmissionTargetTokens] count], equalToInt(1));
-                   XCTAssertEqualObjects(testTargetToken, restoredTargetToken);
-                 }];
+                 withCompletion:^(NSArray <MSLog> *_Nonnull logArray, __unused NSString * batchId)
+  {
+    id <MSLog> restoredLog = logArray[0];
+    NSString * restoredTargetToken = [[restoredLog transmissionTargetTokens] anyObject];
+    assertThatInt([[restoredLog transmissionTargetTokens] count], equalToInt(1));
+    XCTAssertEqualObjects(testTargetToken, restoredTargetToken);
+  }];
 }
 
 - (void)testOnlyCommonSchemaLogTargetTokenIsSavedAndRestored {
@@ -388,9 +404,10 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   // Then
   [self.sut loadLogsWithGroupId:kMSTestGroupId
                           limit:1
-                 withCompletion:^(NSArray <MSLog> *_Nonnull logArray, __unused NSString *batchId) {
-                   assertThatInt([[logArray[0] transmissionTargetTokens] count], equalToInt(0));
-                 }];
+                 withCompletion:^(NSArray <MSLog> *_Nonnull logArray, __unused NSString * batchId)
+  {
+    assertThatInt([[logArray[0] transmissionTargetTokens] count], equalToInt(0));
+  }];
 }
 
 - (void)testDeleteLogsByBatchIdWithNoPendingBatches {
@@ -419,7 +436,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   __weak typeof(self) weakSelf = self;
 
   // When
-  [weakSelf.sut setStorageSize:maxCapacityInBytes completionHandler:^(BOOL success) {
+  [weakSelf.sut setMaxStorageSize:maxCapacityInBytes completionHandler:^(BOOL success) {
     typeof(self) strongSelf = weakSelf;
     BOOL logSavedSuccessfully = [strongSelf.sut saveLog:additionalLog withGroupId:kMSAnotherTestGroupId];
 
@@ -428,8 +445,8 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
     XCTAssertTrue(logSavedSuccessfully);
     NSString
         *whereCondition = [NSString stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, kMSAnotherTestGroupId];
-    NSArray<id <MSLog>> *loadedLogs = [strongSelf loadLogsWhere:whereCondition];
-    NSArray<id <MSLog>> *allLogs = [strongSelf loadLogsWhere:nil];
+    NSArray < id < MSLog >> *loadedLogs = [strongSelf loadLogsWhere:whereCondition];
+    NSArray < id < MSLog >> *allLogs = [strongSelf loadLogsWhere:nil];
     XCTAssertEqual(loadedLogs.count, 1);
     XCTAssertEqualObjects(loadedLogs[0].sid, additionalLog.sid);
     XCTAssertEqual(addedLogs.count + 1, allLogs.count);
@@ -447,75 +464,52 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
 - (void)testAddLogsDoesNotExceedCapacity {
 
   // If
-  XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler invoked."];
   __block long maxCapacityInBytes = kMSTestStorageSizeMinimumUpperLimitInBytes;
   NSArray *addedLogs = [self fillDatabaseWithLogsOfSizeInBytes:maxCapacityInBytes];
+  [self.sut setMaxStorageSize:maxCapacityInBytes completionHandler:^(__unused BOOL success) {}];
 
   // When
-  __weak typeof(self) weakSelf = self;
-  [self.sut setStorageSize:maxCapacityInBytes completionHandler:^(__unused BOOL success) {
+  int additionalLogs = 0;
+  while (additionalLogs <= [addedLogs count] * 2) {
+    MSAbstractLog *additionalLog = [MSAbstractLog new];
+    additionalLog.sid = MS_UUID_STRING;
+    BOOL logSavedSuccessfully = [self.sut saveLog:additionalLog withGroupId:kMSTestGroupId];
+    ++additionalLogs;
 
-    int additionalLogs = 0;
-    while (additionalLogs <= [addedLogs count] * 2) {
-      MSAbstractLog *additionalLog = [MSAbstractLog new];
-      additionalLog.sid = MS_UUID_STRING;
-      typeof(self) strongSelf = weakSelf;
-      BOOL logSavedSuccessfully = [strongSelf.sut saveLog:additionalLog withGroupId:kMSTestGroupId];
-      ++additionalLogs;
-
-      // Then
-      XCTAssertTrue([strongSelf.storageTestUtil getDataLengthInBytes] <= maxCapacityInBytes);
-      XCTAssertTrue(logSavedSuccessfully);
-    }
-    [expectation fulfill];
-  }];
-
-  // Then
-  [self waitForExpectationsWithTimeout:1 handler:^(NSError *_Nullable error) {
-    if (error) {
-      XCTFail(@"Expectation Failed with error: %@", error);
-    }
-  }];
+    // Then
+    XCTAssertTrue([self.storageTestUtil getDataLengthInBytes] <= maxCapacityInBytes);
+    XCTAssertTrue(logSavedSuccessfully);
+  }
 }
 
 - (void)testOldestLogsAreDeletedFirstWhenCapacityIsReached {
 
   // If
-  XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler invoked."];
   long maxCapacityInBytes = kMSTestStorageSizeMinimumUpperLimitInBytes + kMSDefaultPageSizeInBytes;
   NSArray *addedLogs = [self fillDatabaseWithLogsOfSizeInBytes:maxCapacityInBytes];
   MSAbstractLog *firstLog = addedLogs[0];
-  int initialLogCount = (int)[addedLogs count];
+  int initialLogCount = (int) [addedLogs count];
   __block int originalLogsCount = initialLogCount;
 
   // When
-  [self.sut setStorageSize:maxCapacityInBytes completionHandler:^(__unused BOOL success) {
-    while (originalLogsCount < initialLogCount) {
-      MSAbstractLog *additionalLog = [MSAbstractLog new];
-      additionalLog.sid = MS_UUID_STRING;
-      BOOL logSavedSuccessfully = [self.sut saveLog:additionalLog withGroupId:kMSAnotherTestGroupId];
-      NSString *originalLogsFilter = [NSString stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, kMSTestGroupId];
-      NSArray<id <MSLog>> *originalLogs = [self loadLogsWhere:originalLogsFilter];
-      originalLogsCount = (int)[originalLogs count];
-      if (originalLogsCount < initialLogCount) {
-        XCTAssertEqual(originalLogsCount, initialLogCount - 1);
-        BOOL containsFirstLog = [self logs:originalLogs containLogWithSessionId:firstLog.sid];
-        XCTAssertFalse(containsFirstLog);
-      }
-
-      // Then
-      XCTAssertTrue([self.storageTestUtil getDataLengthInBytes] <= maxCapacityInBytes);
-      XCTAssertTrue(logSavedSuccessfully);
+  [self.sut setMaxStorageSize:maxCapacityInBytes completionHandler:^(__unused BOOL success) {}];
+  while (originalLogsCount < initialLogCount) {
+    MSAbstractLog *additionalLog = [MSAbstractLog new];
+    additionalLog.sid = MS_UUID_STRING;
+    BOOL logSavedSuccessfully = [self.sut saveLog:additionalLog withGroupId:kMSAnotherTestGroupId];
+    NSString *originalLogsFilter = [NSString stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, kMSTestGroupId];
+    NSArray < id < MSLog >> *originalLogs = [self loadLogsWhere:originalLogsFilter];
+    originalLogsCount = (int) [originalLogs count];
+    if (originalLogsCount < initialLogCount) {
+      XCTAssertEqual(originalLogsCount, initialLogCount - 1);
+      BOOL containsFirstLog = [self logs:originalLogs containLogWithSessionId:firstLog.sid];
+      XCTAssertFalse(containsFirstLog);
     }
-    [expectation fulfill];
-  }];
 
-  // Then
-  [self waitForExpectationsWithTimeout:1 handler:^(NSError *_Nullable error) {
-    if (error) {
-      XCTFail(@"Expectation Failed with error: %@", error);
-    }
-  }];
+    // Then
+    XCTAssertTrue([self.storageTestUtil getDataLengthInBytes] <= maxCapacityInBytes);
+    XCTAssertTrue(logSavedSuccessfully);
+  }
 }
 
 - (void)testMigration {
@@ -555,7 +549,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   self.sut = [MSLogDBStorage new];
 
   // When
-  [self.sut setStorageSize:storageSize completionHandler:^(BOOL success) {
+  [self.sut setMaxStorageSize:storageSize completionHandler:^(BOOL success) {
 
     // Then
     XCTAssertFalse(success);
@@ -572,14 +566,20 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
 
 #pragma mark - Helper methods
 
-- (NSArray<id <MSLog>> *)generateAndSaveLogsWithCount:(NSUInteger)count groupId:(NSString *)groupId {
+- (NSArray
+<id <MSLog>> *)generateAndSaveLogsWithCount:(NSUInteger)
+count groupId
+:(NSString *)groupId {
   return [self generateAndSaveLogsWithCount:count groupId:groupId storage:self.sut];
 }
 
-- (NSArray<id <MSLog>> *)generateAndSaveLogsWithCount:(NSUInteger)count
-                                              groupId:(NSString *)groupId
-                                              storage:(MSDBStorage *)storage {
-  NSMutableArray<id <MSLog>> *logs = [NSMutableArray arrayWithCapacity:count];
+- (NSArray
+<id <MSLog>> *)generateAndSaveLogsWithCount:(NSUInteger)
+count groupId
+:(NSString *)
+groupId storage
+:(MSDBStorage *)storage {
+  NSMutableArray < id < MSLog >> *logs = [NSMutableArray arrayWithCapacity:count];
   NSUInteger truelogCount;
   for (NSUInteger i = 0; i < count; ++i) {
     id <MSLog> log = [MSAbstractLog new];
@@ -605,8 +605,11 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   return logs;
 }
 
-- (NSArray<id <MSLog>> *)loadLogsWhere:(nullable NSString *)whereCondition {
-  NSMutableArray<id <MSLog>> *logs = [NSMutableArray<id <MSLog>> new];
+- (NSArray
+<id <MSLog>> *)loadLogsWhere:(
+nullable NSString
+*)whereCondition {
+  NSMutableArray < id < MSLog >> *logs = [NSMutableArray < id < MSLog >> new];
   NSMutableArray *rows = [NSMutableArray new];
   NSMutableString *selectLogQuery = [NSMutableString stringWithFormat:@"SELECT * FROM \"%@\"", kMSLogTableName];
   if (whereCondition.length > 0) {
@@ -640,7 +643,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   }
   sqlite3_finalize(statement);
   for (NSArray *row in rows) {
-    NSString *base64Data = row[2];
+    NSString * base64Data = row[2];
     NSData *logData =
         [[NSData alloc] initWithBase64EncodedString:base64Data options:NSDataBase64DecodingIgnoreUnknownCharacters];
     id <MSLog> log = [NSKeyedUnarchiver unarchiveObjectWithData:logData];
@@ -650,24 +653,25 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   return logs;
 }
 
-- (NSArray<id <MSLog>> *)fillDatabaseWithLogsOfSizeInBytes:(long)sizeInBytes {
+- (NSArray
+<id <MSLog>> *)fillDatabaseWithLogsOfSizeInBytes:(long)sizeInBytes {
   NSMutableArray *logsAdded = [NSMutableArray new];
   int result = 0;
-  int maxPageCount = (int)(sizeInBytes / kMSDefaultPageSizeInBytes);
+  int maxPageCount = (int) (sizeInBytes / kMSDefaultPageSizeInBytes);
   do {
     sqlite3 *db = [self.storageTestUtil openDatabase];
-    NSString *statement = [NSString stringWithFormat:@"PRAGMA max_page_count = %i;", maxPageCount];
+    NSString * statement = [NSString stringWithFormat:@"PRAGMA max_page_count = %i;", maxPageCount];
     sqlite3_exec(db, [statement UTF8String], NULL, NULL, NULL);
     MSAbstractLog *log = [MSAbstractLog new];
     log.sid = MS_UUID_STRING;
     NSData *logData = [NSKeyedArchiver archivedDataWithRootObject:log];
-    NSString *base64Data = [logData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
-    NSString *addLogQuery = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\") VALUES ('%@', '%@')",
-                                                       kMSLogTableName,
-                                                       kMSGroupIdColumnName,
-                                                       kMSLogColumnName,
-                                                       kMSTestGroupId,
-                                                       base64Data];
+    NSString * base64Data = [logData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
+    NSString * addLogQuery = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\") VALUES ('%@', '%@')",
+                                                        kMSLogTableName,
+                                                        kMSGroupIdColumnName,
+                                                        kMSLogColumnName,
+                                                        kMSTestGroupId,
+                                                        base64Data];
     result = sqlite3_exec(db, [addLogQuery UTF8String], NULL, NULL, NULL);
     sqlite3_close(db);
     if (result == SQLITE_OK) {
@@ -677,7 +681,10 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   return logsAdded;
 }
 
-- (BOOL)logs:(NSArray<id <MSLog>> *)logs containLogWithSessionId:(NSString *)sessionId {
+- (BOOL)logs:(NSArray
+<id <MSLog>> *)
+logs containLogWithSessionId
+:(NSString *)sessionId {
   for (MSAbstractLog *log in logs) {
     if ([log.sid isEqualToString:sessionId]) {
       return YES;

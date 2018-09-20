@@ -17,18 +17,18 @@ static NSString *const kMSDisableAll = @"All";
 
 @interface MSAppCenter ()
 
-@property(nonatomic) id<MSChannelGroupProtocol> channelGroup;
-@property(nonatomic) NSMutableArray<NSObject<MSServiceInternal> *> *services;
+@property(nonatomic) id <MSChannelGroupProtocol> channelGroup;
+@property(nonatomic) NSMutableArray<NSObject <MSServiceInternal> *> *services;
 @property(nonatomic) NSMutableArray<NSString *> *startedServiceNames;
 @property(nonatomic, copy) NSString *appSecret;
 @property(nonatomic, copy) NSString *defaultTransmissionTargetToken;
 @property(nonatomic, copy) NSString *logUrl;
 @property(nonatomic, readonly) NSUUID *installId;
 @property(nonatomic) NSNumber *requestedMaxStorageSizeInBytes;
-@property (nonatomic, copy) void (^setMaxStorageSizeCompletionHandler)(BOOL);
 @property BOOL sdkConfigured;
 @property BOOL configuredFromApplication;
 @property BOOL enabledStateUpdating;
+@property(nonatomic, copy) void (^maxStorageSizeCompletionHandler)(BOOL);
 @property BOOL setMaxStorageSizeHasBeenCalled;
 /**
  * Returns the singleton instance of App Center.

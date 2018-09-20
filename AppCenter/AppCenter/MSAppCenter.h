@@ -184,7 +184,7 @@
  * @param sizeInBytes Maximum size of in bytes. This will be rounded up to the nearest multiple of 4096. Values below
  * 2097152 (2 MiB) will be ignored.
  * @param completionHandler Callback that is invoked when the database size has been set. The `BOOL` parameter is
- * `YES` if changing the size is successful, and `NO` otherwise.
+ * `YES` if changing the size is successful, and `NO` otherwise. This parameter can be null.
  */
 + (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))completionHandler;
 

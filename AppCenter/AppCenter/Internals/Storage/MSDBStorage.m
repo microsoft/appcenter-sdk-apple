@@ -6,6 +6,8 @@
 
 @implementation MSDBStorage
 
+static dispatch_once_t setMaxStorageSizeOnceToken;
+
 - (instancetype)initWithSchema:(MSDBSchema *)schema version:(NSUInteger)version filename:(NSString *)filename {
   if ((self = [super init])) {
 
@@ -43,8 +45,7 @@
 
 - (int)executeQueryUsingBlock:(MSDBStorageQueryBlock)callback {
   int result;
-  sqlite3
-      *db = [MSDBStorage openDatabaseAtFileURL:self.dbFileURL withMaxPageCount:self.maxPageCount withResult:&result];
+  sqlite3 *db = [self openDatabaseAtFileURL:self.dbFileURL withMaxPageCount:self.maxPageCount withResult:&result];
   if (!db) {
     return result;
   }
@@ -213,7 +214,7 @@
 - (void)migrateDatabase:(void *)__unused db fromVersion:(NSUInteger)__unused version {
 }
 
-- (void)setStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))completionHandler {
+- (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(nullable void (^)(BOOL))completionHandler {
 
   // Check the current number of pages in the database to determine whether the requested size will shrink the database.
   NSArray<NSArray *> *rows = [self executeSelectionQuery:@"PRAGMA page_count;"];
@@ -232,12 +233,12 @@
     return;
   }
   self.maxPageCount = requestedMaxPageCount;
-  if (completionHandler) {
-    completionHandler(YES);
-  }
+
+  // Capture the completion handler in the property. It will be executed once when opening the DB connection.
+  self.maxStorageSizeCompletionHandler = completionHandler;
 }
 
-+ (sqlite3 *)openDatabaseAtFileURL:(NSURL *)fileURL withMaxPageCount:(int)maxPageCount withResult:(int *)result {
+- (sqlite3 *)openDatabaseAtFileURL:(NSURL *)fileURL withMaxPageCount:(int)maxPageCount withResult:(int *)result {
   sqlite3 *db = NULL;
   *result = sqlite3_open_v2([[fileURL absoluteString] UTF8String],
                             &db,
@@ -257,8 +258,22 @@
     MSLogWarning([MSAppCenter logTag], @"Failed to open database with specified"
                                        "maximum size constraint. Error message:"
                                        " %@", printableErrorMessage);
+
+    // Call the callback for setting the maximum storage size only once.
+    dispatch_once(&setMaxStorageSizeOnceToken, ^{
+      if (self.maxStorageSizeCompletionHandler) {
+        self.maxStorageSizeCompletionHandler(NO);
+      }
+    });
   } else {
     MSLogVerbose([MSAppCenter logTag], @"Database has maximum page count of %i.", maxPageCount);
+
+    // Call the callback for setting the maximum storage size only once.
+    dispatch_once(&setMaxStorageSizeOnceToken, ^{
+      if (self.maxStorageSizeCompletionHandler) {
+        self.maxStorageSizeCompletionHandler(YES);
+      }
+    });
   }
   return db;
 }

@@ -430,9 +430,9 @@ transmissionTargetToken:(NSString *)transmissionTargetToken
         }
       }
       self.requestedMaxStorageSizeInBytes = @(sizeInBytes);
-      self.setMaxStorageSizeCompletionHandler = completionHandler;
+      self.maxStorageSizeCompletionHandler = completionHandler;
       if (self.channelGroup) {
-        [self.channelGroup setStorageSize:sizeInBytes completionHandler:completionHandler];
+        [self.channelGroup setStorageSize:sizeInBytes completionHandler:self.maxStorageSizeCompletionHandler];
       }
     }
   }
@@ -525,7 +525,7 @@ transmissionTargetToken:(NSString *)transmissionTargetToken
     [self.channelGroup addDelegate:self.oneCollectorChannelDelegate];
     if (self.requestedMaxStorageSizeInBytes) {
       long storageSize = [self.requestedMaxStorageSizeInBytes longValue];
-      [self.channelGroup setStorageSize:storageSize completionHandler:self.setMaxStorageSizeCompletionHandler];
+      [self.channelGroup setStorageSize:storageSize completionHandler:self.maxStorageSizeCompletionHandler];
     }
   }
 
