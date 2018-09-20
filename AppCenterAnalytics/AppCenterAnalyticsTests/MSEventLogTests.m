@@ -202,6 +202,7 @@
   };
 
   // Then
+  XCTAssertEqual([csProperties count], 1);
   XCTAssertEqualObjects(csProperties, test);
 }
 
@@ -219,6 +220,7 @@
   };
 
   // Then
+  XCTAssertEqual([csProperties count], 1);
   XCTAssertEqualObjects(csProperties, test);
 }
 
@@ -239,6 +241,7 @@
   };
 
   // Then
+  XCTAssertEqual([csProperties count], 1);
   XCTAssertTrue([csProperties isEqualToDictionary:test1] || [csProperties isEqualToDictionary:test2]);
 }
 
