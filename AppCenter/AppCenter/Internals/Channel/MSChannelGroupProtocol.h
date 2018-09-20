@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
  * has been set. The `BOOL` parameter is `YES` if changing the size is
  * successful, and `NO` otherwise.
  */
-- (void)setStorageSize:(long)sizeInBytes completionHandler:(nullable void (^)(BOOL))completionHandler;
+- (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(nullable void (^)(BOOL))completionHandler;
 
 @end
 

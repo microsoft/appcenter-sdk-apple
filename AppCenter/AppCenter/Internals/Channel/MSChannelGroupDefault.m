@@ -218,7 +218,7 @@ andDeleteDataOnDisabled:(BOOL)deletedData {
   self.ingestion.baseURL = logUrl;
 }
 
-- (void)setStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))completionHandler {
+- (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(nullable void (^)(BOOL))completionHandler {
   [self.storage setMaxStorageSize:sizeInBytes completionHandler:completionHandler];
 }
 

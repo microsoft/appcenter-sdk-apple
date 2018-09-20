@@ -412,6 +412,9 @@ transmissionTargetToken:(NSString *)transmissionTargetToken
 }
 
 - (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))completionHandler {
+
+  // TODO: Check if sizeInBytes is > 20KiB, remove check in MSLogDBStorage.m
+
   @synchronized (self) {
     if (self.setMaxStorageSizeHasBeenCalled) {
       MSLogWarning([MSAppCenter logTag], @"setMaxStorageSize:completionHandler: may only be called once per app "
@@ -432,7 +435,7 @@ transmissionTargetToken:(NSString *)transmissionTargetToken
       self.requestedMaxStorageSizeInBytes = @(sizeInBytes);
       self.maxStorageSizeCompletionHandler = completionHandler;
       if (self.channelGroup) {
-        [self.channelGroup setStorageSize:sizeInBytes completionHandler:self.maxStorageSizeCompletionHandler];
+        [self.channelGroup setMaxStorageSize:sizeInBytes completionHandler:self.maxStorageSizeCompletionHandler];
       }
     }
   }
@@ -525,7 +528,7 @@ transmissionTargetToken:(NSString *)transmissionTargetToken
     [self.channelGroup addDelegate:self.oneCollectorChannelDelegate];
     if (self.requestedMaxStorageSizeInBytes) {
       long storageSize = [self.requestedMaxStorageSizeInBytes longValue];
-      [self.channelGroup setStorageSize:storageSize completionHandler:self.maxStorageSizeCompletionHandler];
+      [self.channelGroup setMaxStorageSize:storageSize completionHandler:self.maxStorageSizeCompletionHandler];
     }
   }
 
