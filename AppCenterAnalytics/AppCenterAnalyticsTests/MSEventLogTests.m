@@ -193,7 +193,7 @@
   // If
   NSDictionary *acProperties =
     @{ @"a.b" : @"1",
-       @"a.b.c" : @"2",
+       @"a.b.c.d" : @"2",
        @"a.b.c" : @"3" };
 
   // When
