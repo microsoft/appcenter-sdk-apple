@@ -1,6 +1,6 @@
 import UIKit
 
-class MSTransmissionTargetsViewController: UITableViewController {
+class MSTransmissionTargetsViewController: UITableViewController, AppCenterProtocol {
   var appCenter: AppCenterDelegate!
 
   private class MSTransmissionTargetSection: NSObject {
