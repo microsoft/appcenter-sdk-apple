@@ -289,7 +289,7 @@ static const long kMSMinimumDatabaseSize = 20 * 1024;
       *deleteLogsQuery = [NSString stringWithFormat:@"DELETE FROM \"%@\" WHERE %@", kMSLogTableName, whereCondition];
 
   // Execute.
-  if ([self executeNonSelectionQuery:deleteLogsQuery]) {
+  if ([self executeNonSelectionQuery:deleteLogsQuery] == SQLITE_OK) {
     MSLogVerbose([MSAppCenter logTag], @"%@ %@", deletionTrace, @"succeeded.");
   } else {
     MSLogError([MSAppCenter logTag], @"%@ %@", deletionTrace, @"failed.");
