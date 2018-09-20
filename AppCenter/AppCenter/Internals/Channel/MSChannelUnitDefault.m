@@ -6,6 +6,7 @@
 #import "MSChannelUnitConfiguration.h"
 #import "MSDeviceTracker.h"
 #import "MSIngestionProtocol.h"
+#import "MSAppCenterIngestion.h"
 #import "MSStorage.h"
 
 @implementation MSChannelUnitDefault
@@ -225,6 +226,11 @@
 
   // Don't flush while disabled.
   if (!self.enabled) {
+    return;
+  }
+
+  // TODO: Remove type checking.
+  if (!self.appSecret && [self.ingestion isKindOfClass:MSAppCenterIngestion.class]) {
     return;
   }
 
