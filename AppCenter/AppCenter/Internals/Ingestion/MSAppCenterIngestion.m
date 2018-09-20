@@ -32,6 +32,16 @@ static NSString *const kMSApiPath = @"/logs";
     completionHandler:(MSSendAsyncCompletionHandler)handler {
   MSLogContainer *container = (MSLogContainer *)data;
   NSString *batchId = container.batchId;
+  if (!appSecret) {
+    NSError *error = [NSError
+        errorWithDomain:kMSACErrorDomain
+                   code:kMSACInternalErrorCode
+               userInfo:@{NSLocalizedDescriptionKey : kMSACInternalErrorDesc}];
+    MSLogError([MSAppCenter logTag],
+               @"AppCenter ingestion is used without app secret.");
+    handler(batchId, 0, nil, error);
+    return;
+  }
 
   /*
    * FIXME: All logs are already validated at the time the logs are enqueued to

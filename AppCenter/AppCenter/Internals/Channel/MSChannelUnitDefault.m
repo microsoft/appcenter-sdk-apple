@@ -158,8 +158,7 @@
     if (!self.appSecret && !item.transmissionTargetTokens) {
       MSLogDebug([MSAppCenter logTag],
                  @"Log of type '%@' was not filtered out by delegate(s) but no "
-                 @"app secret was "
-                 @"provided. Not persisting/sending the log.",
+                 @"app secret was provided. Not persisting/sending the log.",
                  item.type);
       [self enumerateDelegatesForSelector:@selector
             (channel:didCompleteEnqueueingLog:withInternalId:)
