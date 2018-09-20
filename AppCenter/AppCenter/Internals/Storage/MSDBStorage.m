@@ -278,7 +278,16 @@ static dispatch_once_t setMaxStorageSizeOnceToken;
 }
 
 + (int)numberOfPagesInBytes:(long)bytes {
-  return (int) (ceil((double) bytes / (double) kMSDefaultPageSizeInBytes));
+  int numberOfPages = (int) (ceil((double) bytes / (double) kMSDefaultPageSizeInBytes));
+  long actualSize = numberOfPages * kMSDefaultPageSizeInBytes;
+  if (actualSize > bytes) {
+    MSLogWarning([MSAppCenter logTag],
+                 @" Will be able to change database size but is slightly larger than expected (next multiple of 4KB),"
+                 " requestedMaxSize=%ld, actualMaxSize=%ld",
+                 bytes,
+                 actualSize);
+  }
+  return numberOfPages;
 }
 
 @end
