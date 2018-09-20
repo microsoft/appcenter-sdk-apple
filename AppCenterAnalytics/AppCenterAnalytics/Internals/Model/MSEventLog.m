@@ -104,6 +104,10 @@ static NSString *const kMSId = @"id";
         if (!subObject) {
           subObject = [NSMutableDictionary new];
           destProperties[csKeys[i]] = subObject;
+        } else {
+          MSLogWarning(MSAnalytics.logTag,
+                       @"Property key '%@' already has a value, the old value will be overridden.",
+                       csKeys[i]);
         }
         destProperties = subObject;
       }
