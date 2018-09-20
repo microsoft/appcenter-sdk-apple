@@ -194,16 +194,23 @@
   NSDictionary *acProperties =
     @{ @"a.b" : @"1",
        @"a.b.c.d" : @"2",
-       @"a.b.c" : @"3" };
+       @"a.b.c" : @"3",
+       @"a.b.c" : @"4" };
 
   // When
   NSDictionary *csProperties = [self.sut convertACPropertiesToCSproperties:acProperties];
-  NSDictionary *test = @{
+  NSDictionary *test1 = @{
+    @"a" : @{@"b" : @"1"}
+  };
+  NSDictionary *test2 = @{
+    @"a" : @{@"b" : @{@"c" : @"3"}}
+  };
+  NSDictionary *test3 = @{
     @"a" : @{@"b" : @{@"c" : @"3"}}
   };
 
   // Then
-  XCTAssertEqualObjects(csProperties, test);
+  XCTAssertTrue([csProperties isEqualToDictionary:test1] || [csProperties isEqualToDictionary:test2] || [csProperties isEqualToDictionary:test3]);
 }
 
 - (void)testToCommonSchemaLogForTargetToken {
