@@ -1,5 +1,4 @@
 #import <sqlite3.h>
-#import <XCTest/XCTest.h>
 
 #import "MSDBStoragePrivate.h"
 #import "MSStorageTestUtil.h"
@@ -10,7 +9,6 @@ static NSString *const kMSTestPositionColName = @"position";
 static NSString *const kMSTestPersonColName = @"person";
 static NSString *const kMSTestHungrinessColName = @"hungriness";
 static NSString *const kMSTestMealColName = @"meal";
-
 static NSString *const kMSTestDBFileName = @"Test.sqlite";
 
 @interface MSDBStorageTests : XCTestCase
@@ -341,8 +339,6 @@ static NSString *const kMSTestDBFileName = @"Test.sqlite";
 }
 
 - (void)testSetStorageSizePassesWhenSizeIsGreaterThanCurrentBytesOfActualData {
-
-  // TODO: fix this test
 
   // If
   long initialSizeInBytes = kMSDefaultPageSizeInBytes * 10;
