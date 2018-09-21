@@ -193,15 +193,7 @@
 }
 
 - (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(nullable void (^)(BOOL))completionHandler {
-  if (sizeInBytes < kMSMinUpperSizeLimitInBytes) {
-    if (completionHandler) {
-      completionHandler(NO);
-    }
-    MSLogWarning([MSAppCenter logTag], @"Cannot set storage size to %ld bytes, minimum value is %ld bytes",
-        sizeInBytes, kMSMinUpperSizeLimitInBytes);
-    return;
-  }
-
+  
   // Check the current number of pages in the database to determine whether the requested size will shrink the database.
   NSArray<NSArray *> *rows = [self executeSelectionQuery:@"PRAGMA page_count;"];
   int currentPageCount = [rows[0][0] intValue];

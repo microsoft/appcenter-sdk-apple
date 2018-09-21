@@ -36,6 +36,12 @@ static NSString *const kMSServiceName = @"AppCenter";
  */
 static NSString *const kMSGroupId = @"AppCenter";
 
+/**
+ * The minimum storage size.
+ * 20 KiB to be consistent with Android SDK, limited by SQLite.
+ */
+static const long kMSMinUpperSizeLimitInBytes = 20 * 1024;
+
 @implementation MSAppCenter
 
 @synthesize installId = _installId;
@@ -413,7 +419,20 @@ transmissionTargetToken:(NSString *)transmissionTargetToken
 
 - (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))completionHandler {
 
-  // TODO: Check if sizeInBytes is > 20KiB, remove check in MSLogDBStorage.m
+  // Check if sizeInBytes is greater than minimum size.
+  if (sizeInBytes < kMSMinUpperSizeLimitInBytes) {
+
+    // No need to assign the completion handler to the property, we're just executing it right away.
+    if (completionHandler) {
+      completionHandler(NO);
+    }
+    MSLogWarning([MSAppCenter logTag], @"Cannot set storage size to %ld bytes, minimum value is %ld"
+                                        " bytes",
+                 sizeInBytes, kMSMinUpperSizeLimitInBytes);
+    return;
+  }
+
+  // Change the max storage size.
   BOOL setMaxSizeFailed = NO;
   @synchronized (self) {
     if (self.setMaxStorageSizeHasBeenCalled) {

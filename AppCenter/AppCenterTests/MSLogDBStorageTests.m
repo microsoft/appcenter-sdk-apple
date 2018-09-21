@@ -519,31 +519,6 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
                               @"\"targetToken\" TEXT)"));
 }
 
-- (void)testSetStorageSizeBelowMaximumLogSizeFails {
-
-  // If
-  long storageSize = 19 * 1024;
-  XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler invoked."];
-  self.sut = [MSLogDBStorage new];
-
-  // When
-  [self.sut setMaxStorageSize:storageSize
-            completionHandler:^(BOOL success) {
-
-              // Then
-              XCTAssertFalse(success);
-              [expectation fulfill];
-            }];
-
-  // Then
-  [self waitForExpectationsWithTimeout:1
-                               handler:^(NSError *_Nullable error) {
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@", error);
-                                 }
-                               }];
-}
-
 #pragma mark - Helper methods
 
 - (NSArray<id<MSLog>> *)generateAndSaveLogsWithCount:(NSUInteger)count groupId:(NSString *)groupId {

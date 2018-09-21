@@ -661,7 +661,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 - (void)testSetStorageSizeSetsProperties {
 
   // If
-  long dbSize = 2 * 1024;
+  long dbSize = 2 * 1024 * 1024;
   void (^completionBlock)(BOOL) = ^(__unused BOOL success) {
   };
 
@@ -679,7 +679,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // If
   [MSAppCenter start:MS_UUID_STRING withServices:nil];
-  long dbSize = 2 * 1024;
+  long dbSize = 2 * 1024 * 1024;
 
   // When
   [MSAppCenter setMaxStorageSize:dbSize
@@ -692,16 +692,42 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
 - (void)testSetStorageHandlerCanOnlyBeCalledOnce {
 
+  // If
+  long dbSize = 2 * 1024 * 1024;
+
   // When
-  [MSAppCenter setMaxStorageSize:2 * 1024
+  [MSAppCenter setMaxStorageSize:dbSize
                completionHandler:^(__unused BOOL success){
                }];
-  [MSAppCenter setMaxStorageSize:3 * 1024
+  [MSAppCenter setMaxStorageSize:dbSize + 1
                completionHandler:^(__unused BOOL success){
                }];
 
   // Then
-  XCTAssertEqualObjects(@(2 * 1024), [MSAppCenter sharedInstance].requestedMaxStorageSizeInBytes);
+  XCTAssertEqual(dbSize, [[MSAppCenter sharedInstance].requestedMaxStorageSizeInBytes longValue]);
+}
+
+- (void)testSetStorageSizeBelowMaximumLogSizeFails {
+
+  // If
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler invoked."];
+
+  // When
+  [MSAppCenter setMaxStorageSize:10
+               completionHandler:^(BOOL success) {
+
+                 // Then
+                 XCTAssertFalse(success);
+                 [expectation fulfill];
+               }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
 }
 
 @end
