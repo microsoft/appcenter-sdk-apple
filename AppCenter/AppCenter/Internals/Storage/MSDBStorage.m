@@ -224,7 +224,9 @@
       MSLogWarning([MSAppCenter logTag], @"Cannot change maximum database size to %ld bytes right now.", sizeInBytes);
       success = NO;
     } else {
-      MSLogDebug([MSAppCenter logTag], @"Successfully changed maximum storage size to %ld bytes.", sizeInBytes);
+      long actualSize = requestedMaxPageCount * kMSDefaultPageSizeInBytes;
+      MSLogDebug([MSAppCenter logTag], @"Successfully changed maximum storage size to %ld bytes (rounded to next "
+                                       "multiple of 4KiB).", actualSize);
       self.maxPageCount = requestedMaxPageCount;
       success = YES;
     }
@@ -256,15 +258,7 @@
 }
 
 + (int)numberOfPagesInBytes:(long)bytes {
-  int numberOfPages = (int)(ceil((double)bytes / (double)kMSDefaultPageSizeInBytes));
-  long actualSize = numberOfPages * kMSDefaultPageSizeInBytes;
-  if (actualSize > bytes) {
-    MSLogWarning([MSAppCenter logTag],
-                 @" Will be able to change database size but is slightly larger than expected (next multiple of 4KB),"
-                  " requestedMaxSize=%ld, actualMaxSize=%ld",
-                 bytes, actualSize);
-  }
-  return numberOfPages;
+  return (int)(ceil((double)bytes / (double)kMSDefaultPageSizeInBytes));
 }
 
 @end

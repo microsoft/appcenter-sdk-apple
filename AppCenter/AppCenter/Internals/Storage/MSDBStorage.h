@@ -64,7 +64,7 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
  *
  * @param query An SQLite query to execute.
  *
- * @return `YES` if the query executed successfully, otherwise `NO`.
+ * @return The SQLite return code.
  */
 - (int)executeNonSelectionQuery:(NSString *)query;
 
