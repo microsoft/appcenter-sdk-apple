@@ -27,6 +27,10 @@ static NSString *const kMSApiPath = @"/logs";
   return self;
 }
 
+- (BOOL)isReadyToSend {
+  return self.appSecret != nil;
+}
+
 - (void)sendAsync:(NSObject *)data
     completionHandler:(MSSendAsyncCompletionHandler)handler {
   MSLogContainer *container = (MSLogContainer *)data;

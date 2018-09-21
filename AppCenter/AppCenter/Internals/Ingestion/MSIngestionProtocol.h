@@ -22,6 +22,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) BOOL suspended;
 
 /**
+ * The indicator of readiness to send data.
+ */
+@property(nonatomic, readonly, getter=isReadyToSend) BOOL readyToSend;
+
+/**
  * Send data.
  *
  * @param data Instance that will be transformed to request body.

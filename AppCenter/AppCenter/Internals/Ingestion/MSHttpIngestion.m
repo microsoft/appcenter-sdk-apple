@@ -96,6 +96,10 @@ static NSString *const kMSPartialURLComponentsName[] = {
 
 #pragma mark - MSIngestion
 
+- (BOOL)isReadyToSend {
+  return YES;
+}
+
 - (void)sendAsync:(NSObject *)data
     completionHandler:(MSSendAsyncCompletionHandler)handler {
   [self sendAsync:data callId:MS_UUID_STRING completionHandler:handler];

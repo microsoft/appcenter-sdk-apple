@@ -152,12 +152,10 @@
                                 }];
       return;
     }
-    /*
-    if (!self.appSecret && !item.transmissionTargetTokens) {
+    if (!self.ingestion.isReadyToSend) {
       MSLogDebug([MSAppCenter logTag],
-                 @"Log of type '%@' was not filtered out by delegate(s) but no "
-                 @"app secret was provided. Not persisting/sending the log.",
-                 item.type);
+                 @"Log of type '%@' was not filtered out by delegate(s) but "
+                 @"ingestion is not ready to send it.", item.type);
       [self enumerateDelegatesForSelector:@selector
             (channel:didCompleteEnqueueingLog:withInternalId:)
                                 withBlock:^(id<MSChannelDelegate> delegate) {
@@ -167,7 +165,6 @@
                                 }];
       return;
     }
-    */
     if (self.discardLogs) {
       MSLogWarning(
           [MSAppCenter logTag],
@@ -227,11 +224,10 @@
     return;
   }
 
-  /*
-  if (!self.appSecret && [self.ingestion isKindOfClass:MSAppCenterIngestion.class]) {
+  // Ingestion is not ready.
+  if (!self.ingestion.isReadyToSend) {
     return;
   }
-  */
 
   // Cancel any timer.
   [self resetTimer];
