@@ -414,30 +414,29 @@ transmissionTargetToken:(NSString *)transmissionTargetToken
 - (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))completionHandler {
 
   // TODO: Check if sizeInBytes is > 20KiB, remove check in MSLogDBStorage.m
-
+  BOOL setMaxSizeFailed = NO;
   @synchronized (self) {
     if (self.setMaxStorageSizeHasBeenCalled) {
       MSLogWarning([MSAppCenter logTag], @"setMaxStorageSize:completionHandler: may only be called once per app "
                                          "launch");
-      if (completionHandler) {
-        completionHandler(NO);
-      }
+      setMaxSizeFailed = YES;
     } else {
       self.setMaxStorageSizeHasBeenCalled = YES;
       if (self.configuredFromApplication) {
         MSLogWarning([MSAppCenter logTag], @"Unable to set storage size after the application has configured App"
                                            "Center");
-        if (completionHandler) {
-          completionHandler(NO);
-          return;
+        setMaxSizeFailed = YES;
+      }else {
+        self.requestedMaxStorageSizeInBytes = @(sizeInBytes);
+        self.maxStorageSizeCompletionHandler = completionHandler;
+        if (self.channelGroup) {
+          [self.channelGroup setMaxStorageSize:sizeInBytes completionHandler:self.maxStorageSizeCompletionHandler];
         }
       }
-      self.requestedMaxStorageSizeInBytes = @(sizeInBytes);
-      self.maxStorageSizeCompletionHandler = completionHandler;
-      if (self.channelGroup) {
-        [self.channelGroup setMaxStorageSize:sizeInBytes completionHandler:self.maxStorageSizeCompletionHandler];
-      }
     }
+  }
+  if (setMaxSizeFailed && completionHandler) {
+    completionHandler(NO);
   }
 }
 

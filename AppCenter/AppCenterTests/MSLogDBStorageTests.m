@@ -25,13 +25,14 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
 #pragma mark - Setup
 - (void)setUp {
   [super setUp];
-  [self.sut deleteDatabase];
-  self.sut = [[MSLogDBStorage alloc] initWithMinimumUpperSizeLimitInBytes:kMSTestStorageSizeMinimumUpperLimitInBytes];
   self.storageTestUtil = [[MSStorageTestUtil alloc] initWithDbFileName:kMSDBFileName];
+  [self.storageTestUtil deleteDatabase];
+  XCTAssertEqual([self.storageTestUtil getDataLengthInBytes], 0);
+  self.sut = [MSLogDBStorage new];
 }
 
 - (void)tearDown {
-  [self.sut deleteDatabase];
+  [self.storageTestUtil deleteDatabase];
   [super tearDown];
 }
 
@@ -436,15 +437,15 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
 - (void)testAddLogsDoesNotExceedCapacity {
 
   // If
-  __block long maxCapacityInBytes = kMSTestStorageSizeMinimumUpperLimitInBytes;
-  NSArray *addedLogs = [self fillDatabaseWithLogsOfSizeInBytes:maxCapacityInBytes];
+  long maxCapacityInBytes = kMSTestStorageSizeMinimumUpperLimitInBytes;
+  [self fillDatabaseWithLogsOfSizeInBytes:maxCapacityInBytes];
   [self.sut setMaxStorageSize:maxCapacityInBytes
             completionHandler:^(__unused BOOL success){
             }];
 
   // When
   int additionalLogs = 0;
-  while (additionalLogs <= [addedLogs count] * 2) {
+  while (additionalLogs <= 50) {
     MSAbstractLog *additionalLog = [MSAbstractLog new];
     additionalLog.sid = MS_UUID_STRING;
     BOOL logSavedSuccessfully = [self.sut saveLog:additionalLog withGroupId:kMSTestGroupId];
@@ -491,8 +492,6 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
 - (void)testMigration {
 
   // If
-  [self.sut deleteDatabase];
-
   // Create old version db.
   // DO NOT CHANGE. THIS IS ALREADY PUBLISHED SCHEMA.
   MSDBSchema *schema0 = @{

@@ -17,6 +17,11 @@
 - (instancetype)initWithDbFileName:(NSString *)fileName;
 
 /**
+ * Delete the database file, this can't be undone. Only used while testing.
+ */
+- (void)deleteDatabase;
+
+/**
  * Get the size of the data in the test db.
  *
  * @return tThe size of the data in the db.

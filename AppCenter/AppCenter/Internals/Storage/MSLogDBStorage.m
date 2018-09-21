@@ -6,18 +6,11 @@
 
 static const NSUInteger kMSSchemaVersion = 1;
 
-// Minimum database upper limit is the maximum common schema log size.
-static const long kMSMinimumDatabaseSize = 20 * 1024;
-
 @implementation MSLogDBStorage
 
 #pragma mark - Initialization
 
 - (instancetype)init {
-  return [self initWithMinimumUpperSizeLimitInBytes:kMSMinimumDatabaseSize];
-}
-
-- (instancetype)initWithMinimumUpperSizeLimitInBytes:(int)minimumUpperSizeLimitInBytes {
 
   /*
    * DO NOT modify schema without a migration plan and bumping database version.
@@ -40,7 +33,6 @@ static const long kMSMinimumDatabaseSize = 20 * 1024;
         ((NSNumber *)columnIndexes[kMSLogTableName][kMSTargetTokenColumnName]).unsignedIntegerValue;
     _batches = [NSMutableDictionary<NSString *, NSArray<NSNumber *> *> new];
     _targetTokenEncrypter = [[MSEncrypter alloc] initWithDefaultKey];
-    _minimumUpperSizeLimitInBytes = minimumUpperSizeLimitInBytes;
   }
   return self;
 }
@@ -305,23 +297,6 @@ static const long kMSMinimumDatabaseSize = 20 * 1024;
                                                           kMSLogTableName, kMSTargetTokenColumnName];
     [MSDBStorage executeNonSelectionQuery:migrationQuery inOpenedDatabase:db];
   }
-}
-
-#pragma mark - DB size
-
-- (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(nullable void (^)(BOOL))completionHandler {
-  if (sizeInBytes < self.minimumUpperSizeLimitInBytes) {
-
-    // No need to assign the completion handler to the property, we're just executing it right away.
-    if (completionHandler) {
-      completionHandler(NO);
-    }
-    MSLogWarning([MSAppCenter logTag], @"Cannot set storage size to %ld bytes, minimum value is %ld"
-                                        " bytes",
-                 sizeInBytes, self.minimumUpperSizeLimitInBytes);
-    return;
-  }
-  [super setMaxStorageSize:sizeInBytes completionHandler:completionHandler];
 }
 
 @end

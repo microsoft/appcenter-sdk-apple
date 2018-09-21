@@ -36,19 +36,19 @@ static NSString *const kMSTestDBFileName = @"Test.sqlite";
       @{kMSTestMealColName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]}
     ]
   };
-  self.sut = [[MSDBStorage alloc] initWithSchema:self.schema version:0 filename:kMSTestDBFileName];
   self.storageTestUtil = [[MSStorageTestUtil alloc] initWithDbFileName:kMSTestDBFileName];
+  [self.storageTestUtil deleteDatabase];
+  self.sut = [[MSDBStorage alloc] initWithSchema:self.schema version:0 filename:kMSTestDBFileName];
 }
 
 - (void)tearDown {
-  [self.sut deleteDatabase];
+  [self.storageTestUtil deleteDatabase];
   [super tearDown];
 }
 
 - (void)testInitWithSchema {
 
   // If
-  [self.sut deleteDatabase];
   NSString *testTableName = @"test_table", *testColumnName = @"test_column", *testColumn2Name = @"test_column2";
   NSString *expectedResult =
       [NSString stringWithFormat:@"CREATE TABLE \"%@\" (\"%@\" %@ %@ %@, \"%@\" %@ %@)", testTableName, testColumnName,
@@ -70,7 +70,7 @@ static NSString *const kMSTestDBFileName = @"Test.sqlite";
   assertThat(result, is(expectedResult));
 
   // If
-  [self.sut deleteDatabase];
+  [self.storageTestUtil deleteDatabase];
   NSString *testTableName2 = @"test2_table", *testColumnName2 = @"test2_column";
   testSchema = @{
     testTableName : @[
@@ -163,7 +163,7 @@ static NSString *const kMSTestDBFileName = @"Test.sqlite";
 
   // If
   // Migrate shouldn't be called in a new database.
-  [dbStorage deleteDatabase];
+  [self.storageTestUtil deleteDatabase];
   OCMReject([[dbStorage ignoringNonObjectArgs] migrateDatabase:[OCMArg anyPointer] fromVersion:0]);
 
   // When
@@ -344,34 +344,37 @@ static NSString *const kMSTestDBFileName = @"Test.sqlite";
 
   // TODO: fix this test
 
-  //  // If
-  //  long initialSizeInBytes = kMSDefaultPageSizeInBytes * 10;
-  //  XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler invoked."];
-  //
-  //  // Fill the database with data to reach the desired initial size.
-  //  while ([self.storageTestUtil getDataLengthInBytes] < initialSizeInBytes) {
-  //    [self addGuysToTheTableWithCount:1000];
-  //  }
-  //  long bytesOfData = [self.storageTestUtil getDataLengthInBytes];
-  //  NSLog(@"bytes of data: %ld", bytesOfData);
-  //  long expandedSizeInBytes = bytesOfData + kMSDefaultPageSizeInBytes * 3;
-  //
-  //  // When
-  //  [self.sut setMaxStorageSize:expandedSizeInBytes completionHandler:^(BOOL success) {
-  //
-  //    // Then
-  //    XCTAssertTrue(success);
-  //    [expectation fulfill];
-  //  }];
-  //
-  //  // Then
-  //  [self waitForExpectationsWithTimeout:1
-  //                               handler:^(NSError *_Nullable error) {
-  //                                 if (error) {
-  //                                   XCTFail(@"Expectation Failed with error: %@",
-  //                                           error);
-  //                                 }
-  //                               }];
+  // If
+  long initialSizeInBytes = kMSDefaultPageSizeInBytes * 10;
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler invoked."];
+
+  // Fill the database with data to reach the desired initial size.
+  while ([self.storageTestUtil getDataLengthInBytes] < initialSizeInBytes) {
+    [self addGuysToTheTableWithCount:1000];
+  }
+  long bytesOfData = [self.storageTestUtil getDataLengthInBytes];
+  NSLog(@"bytes of data: %ld", bytesOfData);
+  long expandedSizeInBytes = bytesOfData + kMSDefaultPageSizeInBytes * 3;
+
+  // When
+  [self.sut setMaxStorageSize:expandedSizeInBytes completionHandler:^(BOOL success) {
+
+    // Then
+    XCTAssertTrue(success);
+    [expectation fulfill];
+  }];
+
+  // Open DB to trigger completion handler.
+  [self.sut executeQueryUsingBlock:^(__unused void *db){return SQLITE_OK;}];
+  
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@",
+                                           error);
+                                 }
+                               }];
 }
 
 - (void)testMaximumPageCountDoesNotChangeWhenShrinkingDatabaseIsAttempted {

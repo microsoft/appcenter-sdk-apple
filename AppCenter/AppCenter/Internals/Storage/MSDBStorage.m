@@ -8,13 +8,9 @@
 
 static dispatch_once_t setMaxStorageSizeOnceToken;
 
-- (instancetype)initWithSchema:(MSDBSchema *)schema version:(NSUInteger)version filename:(NSString *)filename {
+- (instancetype)initWithSchema:(MSDBSchema *)schema version:(NSUInteger)version filename:(NSString *)filename{
   if ((self = [super init])) {
-
-    // Path to the database.
     _dbFileURL = [MSUtility createFileAtPathComponent:filename withData:nil atomically:NO forceOverwrite:NO];
-
-    // Maximum number of pages in the database.
     _maxPageCount = [MSDBStorage numberOfPagesInBytes:kMSDefaultDatabaseSizeInBytes];
 
     // If it is custom SQLite library we need to turn on URI filename
@@ -195,16 +191,21 @@ static dispatch_once_t setMaxStorageSizeOnceToken;
   return entries;
 }
 
-- (void)deleteDatabase {
-  if (self.dbFileURL) {
-    [MSUtility deleteFileAtURL:self.dbFileURL];
-  }
-}
-
 - (void)migrateDatabase:(void *)__unused db fromVersion:(NSUInteger)__unused version {
 }
 
 - (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(nullable void (^)(BOOL))completionHandler {
+  if (sizeInBytes < kMSMinUpperSizeLimitInBytes) {
+    
+    // No need to assign the completion handler to the property, we're just executing it right away.
+    if (completionHandler) {
+      completionHandler(NO);
+    }
+    MSLogWarning([MSAppCenter logTag], @"Cannot set storage size to %ld bytes, minimum value is %ld"
+                 " bytes",
+                 sizeInBytes, kMSMinUpperSizeLimitInBytes);
+    return;
+  }
 
   // Check the current number of pages in the database to determine whether the requested size will shrink the database.
   NSArray<NSArray *> *rows = [self executeSelectionQuery:@"PRAGMA page_count;"];

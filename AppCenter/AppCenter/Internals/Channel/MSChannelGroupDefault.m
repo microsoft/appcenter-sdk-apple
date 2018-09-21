@@ -213,7 +213,9 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 }
 
 - (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(nullable void (^)(BOOL))completionHandler {
-  [self.storage setMaxStorageSize:sizeInBytes completionHandler:completionHandler];
+  dispatch_async(self.logsDispatchQueue, ^{
+    [self.storage setMaxStorageSize:sizeInBytes completionHandler:completionHandler];
+  });
 }
 
 @end

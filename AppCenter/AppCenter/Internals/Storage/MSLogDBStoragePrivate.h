@@ -46,20 +46,6 @@ static NSString *const kMSTargetTokenColumnName = @"targetToken";
  */
 @property(nonatomic, readonly) MSEncrypter *targetTokenEncrypter;
 
-/*
- * Minimum size of database upper size limit.
- */
-@property(nonatomic, readonly) long minimumUpperSizeLimitInBytes;
-
-/**
- * Initialize object with a minimum upper size limit (in bytes). Intended for unit tests only.
- *
- * @param minimumUpperSizeLimitInBytes The minimum size that will be allowed to set as the storage size limit.
- *
- * @return The newly created instance.
- */
-- (instancetype)initWithMinimumUpperSizeLimitInBytes:(int)minimumUpperSizeLimitInBytes;
-
 /**
  * Get all logs with the given group Id from the storage.
  *

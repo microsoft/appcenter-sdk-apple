@@ -12,6 +12,13 @@
   return self;
 }
 
+- (void)deleteDatabase {
+  if (self.path) {
+    [MSUtility deleteItemForPathComponent:self.path];
+  }
+}
+
+
 - (long)getDataLengthInBytes {
   sqlite3 *db = [self openDatabase];
   sqlite3_stmt *statement = NULL;
