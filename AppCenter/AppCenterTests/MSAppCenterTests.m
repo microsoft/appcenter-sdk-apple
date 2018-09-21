@@ -7,10 +7,12 @@
 #import "MSAppCenterInternal.h"
 #import "MSAppCenterPrivate.h"
 #import "MSChannelGroupDefault.h"
+#import "MSChannelGroupDefaultPrivate.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSMockSecondService.h"
 #import "MSMockService.h"
 #import "MSMockUserDefaults.h"
+#import "MSOneCollectorChannelDelegate.h"
 #import "MSStartServiceLog.h"
 #import "MSTestFrameworks.h"
 
@@ -528,7 +530,7 @@ static NSString *const kMSNullifiedInstallIdString =
   id channelGroup = OCMClassMock([MSChannelGroupDefault class]);
   id channelUnit = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   OCMStub([channelGroup alloc]).andReturn(channelGroup);
-  OCMStub([channelGroup initWithInstallId:OCMOCK_ANY logUrl:OCMOCK_ANY])
+  OCMStub([channelGroup initWithIngestion:OCMOCK_ANY])
       .andReturn(channelGroup);
   OCMStub([channelGroup addChannelUnitWithConfiguration:OCMOCK_ANY])
       .andReturn(channelUnit);
@@ -599,7 +601,7 @@ static NSString *const kMSNullifiedInstallIdString =
   id channelGroup = OCMClassMock([MSChannelGroupDefault class]);
   id channelUnit = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   OCMStub([channelGroup alloc]).andReturn(channelGroup);
-  OCMStub([channelGroup initWithInstallId:OCMOCK_ANY logUrl:OCMOCK_ANY])
+  OCMStub([channelGroup initWithIngestion:OCMOCK_ANY])
       .andReturn(channelGroup);
   OCMStub([channelGroup addChannelUnitWithConfiguration:OCMOCK_ANY])
       .andReturn(channelUnit);
@@ -670,7 +672,7 @@ static NSString *const kMSNullifiedInstallIdString =
   // If
   id channelGroup = OCMClassMock([MSChannelGroupDefault class]);
   OCMStub([channelGroup alloc]).andReturn(channelGroup);
-  OCMStub([channelGroup initWithInstallId:OCMOCK_ANY logUrl:OCMOCK_ANY])
+  OCMStub([channelGroup initWithIngestion:OCMOCK_ANY])
       .andReturn(channelGroup);
 
   // When

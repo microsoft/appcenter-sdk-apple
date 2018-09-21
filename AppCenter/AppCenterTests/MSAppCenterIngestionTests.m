@@ -59,6 +59,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                        queryStrings:queryStrings
                                        reachability:self.reachabilityMock
                                      retryIntervals:@[ @(0.5), @(1), @(1.5) ]];
+  [self.sut setAppSecret:kMSTestAppSecret];
 }
 
 - (void)tearDown {
@@ -83,7 +84,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   __weak XCTestExpectation *expectation =
       [self expectationWithDescription:@"HTTP Response 200"];
   [self.sut sendAsync:container
-              appSecret:kMSTestAppSecret
       completionHandler:^(NSString *batchId, NSUInteger statusCode,
                           __attribute__((unused)) NSData *data,
                           NSError *error) {
@@ -118,7 +118,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // When
   [self.sut sendAsync:container
-              appSecret:kMSTestAppSecret
       completionHandler:^(NSString *batchId, NSUInteger statusCode,
                           __unused NSData *data,
                           NSError *error) {
@@ -179,7 +178,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // When
   [self.sut sendAsync:container
-              appSecret:kMSTestAppSecret
       completionHandler:^(__unused NSString *batchId,
                           __unused NSUInteger statusCode,
                           __unused NSData *data,
@@ -229,7 +227,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
         // Send one batch now that the ingestion is suspended.
         [self.sut sendAsync:container
-                    appSecret:kMSTestAppSecret
             completionHandler:^(__attribute__((unused)) NSString *batchId,
                                 NSUInteger statusCode,
                                 __attribute__((unused)) NSData *data,
@@ -289,7 +286,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // Send logs
   for (NSUInteger i = 0; i < [containers count]; i++) {
     [self.sut sendAsync:containers[i]
-                appSecret:kMSTestAppSecret
         completionHandler:^(__attribute__((unused)) NSString *batchId,
                             __attribute__((unused)) NSUInteger statusCode,
                             __attribute__((unused)) NSData *data,
@@ -374,7 +370,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // Send logs
   for (NSUInteger i = 0; i < [containers count]; i++) {
     [self.sut sendAsync:containers[i]
-                appSecret:kMSTestAppSecret
         completionHandler:^(__attribute__((unused)) NSString *batchId,
                             __attribute__((unused)) NSUInteger statusCode,
                             __attribute__((unused)) NSData *data,
@@ -591,7 +586,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                       andLogs:(NSArray<id<MSLog>> *)@[ log ]];
 
   [self.sut sendAsync:container
-              appSecret:kMSTestAppSecret
       completionHandler:^(__attribute__((unused)) NSString *batchId,
                           __attribute__((unused)) NSUInteger statusCode,
                           __attribute__((unused)) NSData *data,
@@ -611,7 +605,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   __weak XCTestExpectation *expectation =
       [self expectationWithDescription:@"HTTP Network Down"];
   [self.sut sendAsync:container
-              appSecret:kMSTestAppSecret
       completionHandler:^(__attribute__((unused)) NSString *batchId,
                           __attribute__((unused)) NSUInteger statusCode,
                           __attribute__((unused)) NSData *data,
@@ -818,8 +811,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   NSData *httpBody = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
 
   // When
-  NSURLRequest *request =
-      [self.sut createRequest:logContainer appSecret:kMSTestAppSecret];
+  NSURLRequest *request = [self.sut createRequest:logContainer];
 
   // Then
   XCTAssertEqualObjects(request.HTTPBody, httpBody);
@@ -835,7 +827,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   httpBody = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
 
   // When
-  request = [self.sut createRequest:logContainer appSecret:kMSTestAppSecret];
+  request = [self.sut createRequest:logContainer];
 
   // Then
   XCTAssertTrue(request.HTTPBody.length < httpBody.length);
