@@ -6,13 +6,10 @@
 
 NSString *const kMSACErrorDomain = MS_APP_CENTER_BASE_DOMAIN @"ErrorDomain";
 
-// Error descriptions
-NSString const *kMSACInternalErrorDesc = @"AppCenter internal error.";
-
 #pragma mark - Log
 
 // Error descriptions
-NSString const *kMSACLogInvalidContainerErrorDesc = @"Invalid log container.";
+NSString const *kMSACLogInvalidContainerErrorDesc = @"Invalid log container";
 
 #pragma mark - Connection
 

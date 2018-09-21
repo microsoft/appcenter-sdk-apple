@@ -6,12 +6,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 extern NSString *const kMSACErrorDomain;
 
-// Error codes
-NS_ENUM(NSInteger){kMSACInternalErrorCode = 0};
-
-// Error descriptions
-extern NSString const *kMSACInternalErrorDesc;
-
 #pragma mark - Log
 
 // Error codes
