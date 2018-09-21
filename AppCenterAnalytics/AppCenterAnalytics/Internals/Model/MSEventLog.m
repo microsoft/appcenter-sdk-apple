@@ -100,12 +100,26 @@ static NSString *const kMSId = @"id";
       NSUInteger lastIndex = csKeys.count - 1;
       NSMutableDictionary *destProperties = csProperties;
       for (NSUInteger i = 0; i < lastIndex; i++) {
-        NSMutableDictionary *subObject = destProperties[csKeys[i]];
+        NSMutableDictionary *subObject = nil;
+        if ([destProperties[csKeys[i]] isKindOfClass:[NSMutableDictionary class]]) {
+          subObject = destProperties[csKeys[i]];
+        }
         if (!subObject) {
+          if ([destProperties objectForKey:csKeys[i]]) {
+            MSLogWarning(MSAnalytics.logTag,
+                         @"Property key '%@' already has a value, the old value will be overridden.",
+                         csKeys[i]);
+          }
           subObject = [NSMutableDictionary new];
           destProperties[csKeys[i]] = subObject;
         }
         destProperties = subObject;
+      }
+      if ([destProperties objectForKey:csKeys[lastIndex]]) {
+        [destProperties removeObjectForKey:csKeys[lastIndex]];
+        MSLogWarning(MSAnalytics.logTag,
+                     @"Property key '%@' already has a value, the old value will be overridden.",
+                     csKeys[lastIndex]);
       }
       destProperties[csKeys[lastIndex]] = acProperties[acKey];
     }

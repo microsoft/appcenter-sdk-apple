@@ -188,6 +188,63 @@
   XCTAssertEqualObjects(csProperties, test);
 }
 
+- (void)testOverrideValueToObjectProperties {
+
+  // If
+  NSDictionary *acProperties =
+    @{ @"a.b" : @"1",
+       @"a.b.c.d" : @"2" };
+
+  // When
+  NSDictionary *csProperties = [self.sut convertACPropertiesToCSproperties:acProperties];
+  NSDictionary *test = @{
+    @"a" : @{@"b" : @{@"c" : @{@"d" : @"2"}}}
+  };
+
+  // Then
+  XCTAssertEqual([csProperties count], 1);
+  XCTAssertEqualObjects(csProperties, test);
+}
+
+- (void)testOverrideObjectToValueProperties {
+
+  // If
+  NSDictionary *acProperties =
+  @{ @"a.b.c.d" : @"1",
+     @"a.b" : @"2" };
+
+  // When
+  NSDictionary *csProperties = [self.sut convertACPropertiesToCSproperties:acProperties];
+  NSDictionary *test = @{
+    @"a" : @{@"b" : @"2"}
+  };
+
+  // Then
+  XCTAssertEqual([csProperties count], 1);
+  XCTAssertEqualObjects(csProperties, test);
+}
+
+- (void)testOverrideValueToValueProperties {
+
+  // If
+  NSDictionary *acProperties =
+  @{ @"a.b" : @"1",
+     @"a.b" : @"2" };
+
+  // When
+  NSDictionary *csProperties = [self.sut convertACPropertiesToCSproperties:acProperties];
+  NSDictionary *test1 = @{
+    @"a" : @{@"b" : @"1"}
+  };
+  NSDictionary *test2 = @{
+    @"a" : @{@"b" : @"2"}
+  };
+
+  // Then
+  XCTAssertEqual([csProperties count], 1);
+  XCTAssertTrue([csProperties isEqualToDictionary:test1] || [csProperties isEqualToDictionary:test2]);
+}
+
 - (void)testToCommonSchemaLogForTargetToken {
 
   // If
