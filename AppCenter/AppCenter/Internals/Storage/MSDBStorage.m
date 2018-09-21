@@ -243,7 +243,6 @@
     MSLogError([MSAppCenter logTag], @"Failed to open database with result: %d.", *result);
     return NULL;
   }
-  MSLogVerbose([MSAppCenter logTag], @"Opened database.");
   NSString *statement = [NSString stringWithFormat:@"PRAGMA max_page_count = %i;", maxPageCount];
   char *errorMessage;
   *result = sqlite3_exec(db, [statement UTF8String], NULL, NULL, &errorMessage);
@@ -251,10 +250,8 @@
     errorMessage = errorMessage ? errorMessage : "(nil)";
     NSString *printableErrorMessage = [NSString stringWithCString:errorMessage encoding:NSUTF8StringEncoding];
     MSLogError([MSAppCenter logTag], @"Failed to open database with specified maximum size constraint. Error message:"
-                                      " %@",
-               printableErrorMessage);
-  } else {
-    MSLogVerbose([MSAppCenter logTag], @"Database has maximum page count of %i.", maxPageCount);
+                                     " %@", printableErrorMessage);
+
   }
   return db;
 }
