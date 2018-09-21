@@ -62,7 +62,7 @@ enum StartupMode {
   }
 #endif
 
-  // Cusomize App Center SDK.
+  // Customize App Center SDK.
   [MSDistribute setDelegate:self];
   [MSPush setDelegate:self];
   [MSAppCenter setLogLevel:MSLogLevelVerbose];

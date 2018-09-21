@@ -36,6 +36,12 @@ static NSString *const kMSServiceName = @"AppCenter";
  */
 static NSString *const kMSGroupId = @"AppCenter";
 
+/**
+ * The minimum storage size.
+ * 20 KiB to be consistent with Android SDK, limited by SQLite.
+ */
+static const long kMSMinUpperSizeLimitInBytes = 20 * 1024;
+
 @implementation MSAppCenter
 
 @synthesize installId = _installId;
@@ -199,6 +205,10 @@ static NSString *const kMSGroupId = @"AppCenter";
   return kMSGroupId;
 }
 
++ (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))completionHandler {
+  [[MSAppCenter sharedInstance] setMaxStorageSize:sizeInBytes completionHandler:completionHandler];
+}
+
 #pragma mark - private
 
 - (instancetype)init {
@@ -241,8 +251,8 @@ static NSString *const kMSGroupId = @"AppCenter";
       self.configuredFromApplication |= fromApplication;
 
       /*
-       * If the loglevel hasn't been customized before and we are not running in
-       * an app store environment, we set the default loglevel to
+       * If the log level hasn't been customized before and we are not running in
+       * an app store environment, we set the default log level to
        * MSLogLevelWarning.
        */
       if ((![MSLogger isUserDefinedLogLevel]) && ([MSUtility currentAppEnvironment] == MSEnvironmentOther)) {
@@ -407,6 +417,45 @@ transmissionTargetToken:(NSString *)transmissionTargetToken
   }
 }
 
+- (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))completionHandler {
+
+  // Check if sizeInBytes is greater than minimum size.
+  if (sizeInBytes < kMSMinUpperSizeLimitInBytes) {
+    if (completionHandler) {
+      completionHandler(NO);
+    }
+    MSLogWarning([MSAppCenter logTag], @"Cannot set storage size to %ld bytes, minimum value is %ld"
+                                        " bytes", sizeInBytes, kMSMinUpperSizeLimitInBytes);
+    return;
+  }
+
+  // Change the max storage size.
+  BOOL setMaxSizeFailed = NO;
+  @synchronized (self) {
+    if (self.setMaxStorageSizeHasBeenCalled) {
+      MSLogWarning([MSAppCenter logTag], @"setMaxStorageSize:completionHandler: may only be called once per app "
+                                         "launch");
+      setMaxSizeFailed = YES;
+    } else {
+      self.setMaxStorageSizeHasBeenCalled = YES;
+      if (self.configuredFromApplication) {
+        MSLogWarning([MSAppCenter logTag], @"Unable to set storage size after the application has configured App"
+                                           "Center");
+        setMaxSizeFailed = YES;
+      }else {
+        self.requestedMaxStorageSizeInBytes = @(sizeInBytes);
+        self.maxStorageSizeCompletionHandler = completionHandler;
+        if (self.channelGroup) {
+          [self.channelGroup setMaxStorageSize:sizeInBytes completionHandler:self.maxStorageSizeCompletionHandler];
+        }
+      }
+    }
+  }
+  if (setMaxSizeFailed && completionHandler) {
+    completionHandler(NO);
+  }
+}
+
 #if !TARGET_OS_TV
 - (void)setCustomProperties:(MSCustomProperties *)customProperties {
   if (!customProperties || (customProperties.properties.count == 0)) {
@@ -492,6 +541,10 @@ transmissionTargetToken:(NSString *)transmissionTargetToken
   if (!self.channelGroup) {
     self.channelGroup = [[MSChannelGroupDefault alloc] initWithInstallId:self.installId logUrl:self.logUrl];
     [self.channelGroup addDelegate:self.oneCollectorChannelDelegate];
+    if (self.requestedMaxStorageSizeInBytes) {
+      long storageSize = [self.requestedMaxStorageSizeInBytes longValue];
+      [self.channelGroup setMaxStorageSize:storageSize completionHandler:self.maxStorageSizeCompletionHandler];
+    }
   }
 
   // Initialize a channel unit for start service logs.
