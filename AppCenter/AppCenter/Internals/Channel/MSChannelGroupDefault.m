@@ -27,7 +27,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
     _channels = [NSMutableArray<id<MSChannelUnitProtocol>> new];
     _delegates = [NSHashTable weakObjectsHashTable];
     _ingestion = ingestion;
-    _storage = [[MSLogDBStorage alloc] init];
+    _storage = [MSLogDBStorage new];
   }
   return self;
 }

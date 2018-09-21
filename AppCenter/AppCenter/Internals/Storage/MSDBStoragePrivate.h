@@ -10,9 +10,6 @@ static const long kMSDefaultPageSizeInBytes = 4 * 1024;
 // 10 MiB.
 static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
 
-// 20 KiB to be consistent with Android SDK, limited by SQLite.
-static const long kMSMinUpperSizeLimitInBytes = 20 * 1024;
-
 @interface MSDBStorage ()
 
 /**
