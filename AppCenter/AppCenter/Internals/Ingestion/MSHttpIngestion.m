@@ -97,12 +97,8 @@ static NSString *const kMSPartialURLComponentsName[] = {
 #pragma mark - MSIngestion
 
 - (void)sendAsync:(NSObject *)data
-            appSecret:(NSString *)appSecret
     completionHandler:(MSSendAsyncCompletionHandler)handler {
-  [self sendAsync:data
-              appSecret:(NSString *)appSecret
-                 callId:MS_UUID_STRING
-      completionHandler:handler];
+  [self sendAsync:data callId:MS_UUID_STRING completionHandler:handler];
 }
 
 - (void)addDelegate:(id<MSIngestionDelegate>)delegate {
@@ -247,8 +243,7 @@ static NSString *const kMSPartialURLComponentsName[] = {
     }
 
     // Create the request.
-    NSURLRequest *request =
-        [self createRequest:call.data appSecret:call.appSecret];
+    NSURLRequest *request = [self createRequest:call.data];
     if (!request) {
       return;
     }
@@ -398,8 +393,7 @@ static NSString *const kMSPartialURLComponentsName[] = {
 /**
  * This is an empty method and expect to be overridden in sub classes.
  */
-- (NSURLRequest *)createRequest:(NSObject *)__unused data
-                      appSecret:(NSString *)__unused appSecret {
+- (NSURLRequest *)createRequest:(NSObject *)__unused data {
   return nil;
 }
 
@@ -453,7 +447,6 @@ static NSString *const kMSPartialURLComponentsName[] = {
 }
 
 - (void)sendAsync:(NSObject *)data
-            appSecret:(NSString *)appSecret
                callId:(NSString *)callId
     completionHandler:(MSSendAsyncCompletionHandler)handler {
   @synchronized(self) {
@@ -465,7 +458,6 @@ static NSString *const kMSPartialURLComponentsName[] = {
           initWithRetryIntervals:self.callsRetryIntervals];
       call.delegate = self;
       call.data = data;
-      call.appSecret = appSecret;
       call.callId = callId;
       call.completionHandler = handler;
 

@@ -51,10 +51,6 @@
   return self;
 }
 
-- (void)setAppSecret:(NSString *)appSecret {
-  _appSecret = appSecret;
-}
-
 #pragma mark - MSChannelDelegate
 
 - (void)addDelegate:(id<MSChannelDelegate>)delegate {
@@ -156,6 +152,7 @@
                                 }];
       return;
     }
+    /*
     if (!self.appSecret && !item.transmissionTargetTokens) {
       MSLogDebug([MSAppCenter logTag],
                  @"Log of type '%@' was not filtered out by delegate(s) but no "
@@ -170,6 +167,7 @@
                                 }];
       return;
     }
+    */
     if (self.discardLogs) {
       MSLogWarning(
           [MSAppCenter logTag],
@@ -229,10 +227,11 @@
     return;
   }
 
-  // TODO: Remove type checking.
+  /*
   if (!self.appSecret && [self.ingestion isKindOfClass:MSAppCenterIngestion.class]) {
     return;
   }
+  */
 
   // Cancel any timer.
   [self resetTimer];
@@ -298,7 +297,6 @@
                // Forward logs to the ingestion.
                [self.ingestion
                            sendAsync:container
-                           appSecret:self.appSecret
                    completionHandler:^(
                        NSString *ingestionBatchId, NSUInteger statusCode,
                        __attribute__((unused)) NSData *data, NSError *error) {

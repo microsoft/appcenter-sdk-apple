@@ -25,11 +25,9 @@ NS_ASSUME_NONNULL_BEGIN
  * Send data.
  *
  * @param data Instance that will be transformed to request body.
- * @param appSecret The app secret.
  * @param handler Completion handler.
  */
 - (void)sendAsync:(nullable NSObject *)data
-            appSecret:(nullable NSString *)appSecret
     completionHandler:(MSSendAsyncCompletionHandler)handler;
 
 /**

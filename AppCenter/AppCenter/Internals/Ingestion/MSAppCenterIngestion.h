@@ -7,6 +7,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MSAppCenterIngestion : MSHttpIngestion
 
 /**
+ * The app secret.
+ */
+@property(nonatomic, copy) NSString *appSecret;
+
+/**
  * Initialize the Ingestion.
  *
  * @param baseUrl Base url.

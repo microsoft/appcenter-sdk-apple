@@ -1,12 +1,15 @@
 #import <Foundation/Foundation.h>
 
+#import "MSAppCenterIngestion.h"
 #import "MSAppCenterInternal.h"
 #import "MSAppCenterPrivate.h"
 #import "MSAppDelegateForwarder.h"
 #import "MSChannelGroupDefault.h"
+#import "MSChannelGroupDefaultPrivate.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSDeviceTrackerPrivate.h"
 #import "MSLoggerInternal.h"
+#import "MSOneCollectorChannelDelegate.h"
 #import "MSSessionContext.h"
 #import "MSStartServiceLog.h"
 #import "MSUtility+StringFormatting.h"
@@ -490,15 +493,16 @@ transmissionTargetToken:(NSString *)transmissionTargetToken
   self.oneCollectorChannelDelegate =
       self.oneCollectorChannelDelegate ?: [[MSOneCollectorChannelDelegate alloc] initWithInstallId:self.installId];
   if (!self.channelGroup) {
-    self.channelGroup = [[MSChannelGroupDefault alloc] initWithInstallId:self.installId logUrl:self.logUrl];
+    self.ingestion = [[MSAppCenterIngestion alloc] initWithBaseUrl:self.logUrl installId:[self.installId UUIDString]];
+    self.channelGroup = [[MSChannelGroupDefault alloc] initWithIngestion:self.ingestion];
     [self.channelGroup addDelegate:self.oneCollectorChannelDelegate];
   }
+  [self.ingestion setAppSecret:self.appSecret];
 
   // Initialize a channel unit for start service logs.
   self.channelUnit =
       self.channelUnit ?: [self.channelGroup addChannelUnitWithConfiguration:[[MSChannelUnitConfiguration alloc]
                                                                                                           initDefaultConfigurationWithGroupId:[MSAppCenter groupId]]];
-  [self.channelUnit setAppSecret:self.appSecret];
 }
 
 - (NSString *)appSecret {

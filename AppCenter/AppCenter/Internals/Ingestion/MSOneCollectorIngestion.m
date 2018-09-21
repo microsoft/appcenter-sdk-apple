@@ -47,7 +47,6 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
 }
 
 - (void)sendAsync:(NSObject *)data
-            appSecret:(NSString *)appSecret
     completionHandler:(MSSendAsyncCompletionHandler)handler {
   MSLogContainer *container = (MSLogContainer *)data;
   NSString *batchId = container.batchId;
@@ -72,13 +71,11 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
     return;
   }
   [super sendAsync:container
-              appSecret:appSecret
                  callId:container.batchId
       completionHandler:handler];
 }
 
-- (NSURLRequest *)createRequest:(NSObject *)data
-                      appSecret:(NSString *)__unused appSecret {
+- (NSURLRequest *)createRequest:(NSObject *)data {
   MSLogContainer *container = (MSLogContainer *)data;
   NSMutableURLRequest *request =
       [NSMutableURLRequest requestWithURL:self.sendURL];
