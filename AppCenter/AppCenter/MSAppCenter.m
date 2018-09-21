@@ -421,14 +421,11 @@ transmissionTargetToken:(NSString *)transmissionTargetToken
 
   // Check if sizeInBytes is greater than minimum size.
   if (sizeInBytes < kMSMinUpperSizeLimitInBytes) {
-
-    // No need to assign the completion handler to the property, we're just executing it right away.
     if (completionHandler) {
       completionHandler(NO);
     }
     MSLogWarning([MSAppCenter logTag], @"Cannot set storage size to %ld bytes, minimum value is %ld"
-                                        " bytes",
-                 sizeInBytes, kMSMinUpperSizeLimitInBytes);
+                                        " bytes", sizeInBytes, kMSMinUpperSizeLimitInBytes);
     return;
   }
 

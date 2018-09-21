@@ -193,7 +193,7 @@
 }
 
 - (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(nullable void (^)(BOOL))completionHandler {
-  
+
   // Check the current number of pages in the database to determine whether the requested size will shrink the database.
   NSArray<NSArray *> *rows = [self executeSelectionQuery:@"PRAGMA page_count;"];
   int currentPageCount = [rows[0][0] intValue];
