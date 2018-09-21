@@ -20,7 +20,8 @@ static short const kMSHTTPMinGZipLength = 1400;
 typedef NS_ENUM(NSInteger, MSHTTPCodesNo) { // Informational
   MSHTTPCodesNo1XXInformationalUnknown = 1,
   MSHTTPCodesNo100Continue = 100,
-  MSHTTPCodesNo101SwitchingProtocols = 101, MSHTTPCodesNo102Processing = 102,
+  MSHTTPCodesNo101SwitchingProtocols = 101,
+  MSHTTPCodesNo102Processing = 102,
 
   // Success
   MSHTTPCodesNo2XXSuccessUnknown = 2,
@@ -32,7 +33,8 @@ typedef NS_ENUM(NSInteger, MSHTTPCodesNo) { // Informational
   MSHTTPCodesNo205ResetContent = 205,
   MSHTTPCodesNo206PartialContent = 206,
   MSHTTPCodesNo207MultiStatus = 207,
-  MSHTTPCodesNo208AlreadyReported = 208, MSHTTPCodesNo209IMUsed = 209,
+  MSHTTPCodesNo208AlreadyReported = 208,
+  MSHTTPCodesNo209IMUsed = 209,
 
   // Redirection
   MSHTTPCodesNo3XXSuccessUnknown = 3,
@@ -53,7 +55,8 @@ typedef NS_ENUM(NSInteger, MSHTTPCodesNo) { // Informational
   MSHTTPCodesNo402PaymentRequired = 402,
   MSHTTPCodesNo403Forbidden = 403,
   MSHTTPCodesNo404NotFound = 404,
-  MSHTTPCodesNo405MethodNotAllowed = 405, MSHTTPCodesNo406NotAcceptable = 406,
+  MSHTTPCodesNo405MethodNotAllowed = 405,
+  MSHTTPCodesNo406NotAcceptable = 406,
   MSHTTPCodesNo407ProxyAuthenticationRequired = 407,
   MSHTTPCodesNo408RequestTimeout = 408,
   MSHTTPCodesNo409Conflict = 409,
@@ -65,7 +68,8 @@ typedef NS_ENUM(NSInteger, MSHTTPCodesNo) { // Informational
   MSHTTPCodesNo415UnsupportedMediaType = 415,
   MSHTTPCodesNo416RequestedRangeNotSatisfiable = 416,
   MSHTTPCodesNo417ExpectationFailed = 417,
-  MSHTTPCodesNo418IamATeapot = 418, MSHTTPCodesNo419AuthenticationTimeout = 419,
+  MSHTTPCodesNo418IamATeapot = 418,
+  MSHTTPCodesNo419AuthenticationTimeout = 419,
   MSHTTPCodesNo420MethodFailureSpringFramework = 420,
   MSHTTPCodesNo420EnhanceYourCalmTwitter = 4200,
   MSHTTPCodesNo422UnprocessableEntity = 422,
@@ -84,7 +88,8 @@ typedef NS_ENUM(NSInteger, MSHTTPCodesNo) { // Informational
   MSHTTPCodesNo451UnavailableForLegalReasons = 4510,
   MSHTTPCodesNo494RequestHeaderTooLargeNginx = 494,
   MSHTTPCodesNo495CertErrorNginx = 495,
-  MSHTTPCodesNo496NoCertNginx = 496, MSHTTPCodesNo497HTTPToHTTPSNginx = 497,
+  MSHTTPCodesNo496NoCertNginx = 496,
+  MSHTTPCodesNo497HTTPToHTTPSNginx = 497,
   MSHTTPCodesNo499ClientClosedRequestNginx = 499,
 
   // Server error
@@ -103,7 +108,8 @@ typedef NS_ENUM(NSInteger, MSHTTPCodesNo) { // Informational
   MSHTTPCodesNo511NetworkAuthenticationRequired = 511,
   MSHTTPCodesNo522ConnectionTimedOut = 522,
   MSHTTPCodesNo598NetworkReadTimeoutErrorUnknown = 598,
-  MSHTTPCodesNo599NetworkConnectTimeoutErrorUnknown = 599 };
+  MSHTTPCodesNo599NetworkConnectTimeoutErrorUnknown = 599
+};
 
 /**
  * Enum indicating result of a MSIngestionCall.
@@ -111,7 +117,8 @@ typedef NS_ENUM(NSInteger, MSHTTPCodesNo) { // Informational
 typedef NS_ENUM(NSInteger, MSIngestionCallResult) {
   MSIngestionCallResultSuccess = 100,
   MSIngestionCallResultRecoverableError = 500,
-  MSIngestionCallResultFatalError = 999 };
+  MSIngestionCallResultFatalError = 999
+};
 
 /**
  * Constants for maximum number and length of log properties.

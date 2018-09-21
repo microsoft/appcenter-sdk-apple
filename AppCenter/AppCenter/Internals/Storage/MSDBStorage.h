@@ -18,8 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
  *           ...
  *        };
  */
-typedef NSDictionary<
-NSString *, NSArray<NSDictionary<NSString *, NSArray<NSString *> *> *> *> MSDBSchema;
+typedef NSDictionary<NSString *, NSArray<NSDictionary<NSString *, NSArray<NSString *> *> *> *> MSDBSchema;
 
 // SQLite types
 static NSString *const kMSSQLiteTypeText = @"TEXT";

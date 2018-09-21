@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return The added `MSChannelUnitProtocol`. Use this object to enqueue logs.
  */
-- (id <MSChannelUnitProtocol>)addChannelUnitWithConfiguration:(MSChannelUnitConfiguration *)configuration;
+- (id<MSChannelUnitProtocol>)addChannelUnitWithConfiguration:(MSChannelUnitConfiguration *)configuration;
 
 /**
  * Initialize a channel unit with the given configuration.
@@ -33,8 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return The added `MSChannelUnitProtocol`. Use this object to enqueue logs.
  */
-- (id <MSChannelUnitProtocol>)addChannelUnitWithConfiguration:(MSChannelUnitConfiguration *)configuration
-                                                withIngestion:(nullable id <MSIngestionProtocol>)ingestion;
+- (id<MSChannelUnitProtocol>)addChannelUnitWithConfiguration:(MSChannelUnitConfiguration *)configuration
+                                               withIngestion:(nullable id<MSIngestionProtocol>)ingestion;
 
 /**
  * Change the base URL (schema + authority + port only) used to communicate with

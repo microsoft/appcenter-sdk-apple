@@ -29,11 +29,8 @@ static dispatch_once_t setMaxStorageSizeOnceToken;
       BOOL newDatabase = tablesCreated == schema.count;
       NSUInteger databaseVersion = [MSDBStorage versionInOpenedDatabase:db];
       if (databaseVersion < version && !newDatabase) {
-        MSLogInfo([MSAppCenter logTag],
-                  @"Migrate \"%@\" database from %lu to %lu version.",
-                  filename,
-                  (unsigned long) databaseVersion,
-                  (unsigned long) version);
+        MSLogInfo([MSAppCenter logTag], @"Migrate \"%@\" database from %lu to %lu version.", filename,
+                  (unsigned long)databaseVersion, (unsigned long)version);
         [self migrateDatabase:db fromVersion:databaseVersion];
       }
       [MSDBStorage setVersion:version inOpenedDatabase:db];
@@ -72,14 +69,12 @@ static dispatch_once_t setMaxStorageSizeOnceToken;
       NSString *columnName = columns[i].allKeys[0];
 
       // Compute column query.
-      [columnQueries addObject:[NSString stringWithFormat:@"\"%@\" %@",
-                                                          columnName,
+      [columnQueries addObject:[NSString stringWithFormat:@"\"%@\" %@", columnName,
                                                           [columns[i][columnName] componentsJoinedByString:@" "]]];
     }
 
     // Compute table query.
-    [tableQueries addObject:[NSString stringWithFormat:@"CREATE TABLE \"%@\" (%@);",
-                                                       tableName,
+    [tableQueries addObject:[NSString stringWithFormat:@"CREATE TABLE \"%@\" (%@);", tableName,
                                                        [columnQueries componentsJoinedByString:@", "]]];
   }
 
@@ -107,18 +102,19 @@ static dispatch_once_t setMaxStorageSizeOnceToken;
 
 + (BOOL)tableExists:(NSString *)tableName inOpenedDatabase:(void *)db {
   NSString *query = [NSString stringWithFormat:@"SELECT COUNT(*) FROM \"sqlite_master\" "
-                                               @"WHERE \"type\"='table' AND \"name\"='%@';", tableName];
+                                               @"WHERE \"type\"='table' AND \"name\"='%@';",
+                                               tableName];
   NSArray<NSArray *> *result = [MSDBStorage executeSelectionQuery:query inOpenedDatabase:db];
-  return (result.count > 0) ? [(NSNumber *) result[0][0] boolValue] : NO;
+  return (result.count > 0) ? [(NSNumber *)result[0][0] boolValue] : NO;
 }
 
 + (NSUInteger)versionInOpenedDatabase:(void *)db {
   NSArray<NSArray *> *result = [MSDBStorage executeSelectionQuery:@"PRAGMA user_version" inOpenedDatabase:db];
-  return (result.count > 0) ? [(NSNumber *) result[0][0] unsignedIntegerValue] : 0;
+  return (result.count > 0) ? [(NSNumber *)result[0][0] unsignedIntegerValue] : 0;
 }
 
 + (void)setVersion:(NSUInteger)version inOpenedDatabase:(void *)db {
-  NSString *query = [NSString stringWithFormat:@"PRAGMA user_version = %lu", (unsigned long) version];
+  NSString *query = [NSString stringWithFormat:@"PRAGMA user_version = %lu", (unsigned long)version];
   [MSDBStorage executeNonSelectionQuery:query inOpenedDatabase:db];
 }
 
@@ -141,10 +137,7 @@ static dispatch_once_t setMaxStorageSizeOnceToken;
   char *errMsg;
   int result = sqlite3_exec(db, [query UTF8String], NULL, NULL, &errMsg);
   if (result != SQLITE_OK) {
-    MSLogError([MSAppCenter logTag],
-               @"Query \"%@\" failed with error: %d - %@",
-               query,
-               result,
+    MSLogError([MSAppCenter logTag], @"Query \"%@\" failed with error: %d - %@", query, result,
                [[NSString alloc] initWithUTF8String:errMsg]);
   }
   return result;
@@ -182,7 +175,7 @@ static dispatch_once_t setMaxStorageSizeOnceToken;
           value = @(sqlite3_column_int(statement, i));
           break;
         case SQLITE_TEXT:
-          value = [NSString stringWithUTF8String:(const char *) sqlite3_column_text(statement, i)];
+          value = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(statement, i)];
           break;
         default:
           value = [NSNull null];
@@ -196,10 +189,7 @@ static dispatch_once_t setMaxStorageSizeOnceToken;
     }
     sqlite3_finalize(statement);
   } else {
-    MSLogError([MSAppCenter logTag],
-               @"Query \"%@\" failed with error: %d - %@",
-               query,
-               result,
+    MSLogError([MSAppCenter logTag], @"Query \"%@\" failed with error: %d - %@", query, result,
                [[NSString alloc] initWithUTF8String:sqlite3_errmsg(db)]);
   }
   return entries;
@@ -222,11 +212,9 @@ static dispatch_once_t setMaxStorageSizeOnceToken;
   MSLogDebug([MSAppCenter logTag], @"Found %i pages in the database.", currentPageCount);
   int requestedMaxPageCount = [MSDBStorage numberOfPagesInBytes:sizeInBytes];
   if (currentPageCount > requestedMaxPageCount) {
-    MSLogWarning([MSAppCenter logTag],
-                 @"Cannot change database size to %ld bytes as it would cause a loss of data. The"
-                 " default maximum size of %ld will not be overridden.",
-                 sizeInBytes,
-                 kMSDefaultDatabaseSizeInBytes);
+    MSLogWarning([MSAppCenter logTag], @"Cannot change database size to %ld bytes as it would cause a loss of data. The"
+                                        " default maximum size of %ld will not be overridden.",
+                 sizeInBytes, kMSDefaultDatabaseSizeInBytes);
     if (completionHandler) {
       completionHandler(NO);
     }
@@ -240,10 +228,8 @@ static dispatch_once_t setMaxStorageSizeOnceToken;
 
 - (sqlite3 *)openDatabaseAtFileURL:(NSURL *)fileURL withMaxPageCount:(int)maxPageCount withResult:(int *)result {
   sqlite3 *db = NULL;
-  *result = sqlite3_open_v2([[fileURL absoluteString] UTF8String],
-                            &db,
-                            SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_URI,
-                            NULL);
+  *result = sqlite3_open_v2([[fileURL absoluteString] UTF8String], &db,
+                            SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_URI, NULL);
   if (*result != SQLITE_OK) {
     MSLogError([MSAppCenter logTag], @"Failed to open database with result: %d.", *result);
     return NULL;
@@ -256,7 +242,8 @@ static dispatch_once_t setMaxStorageSizeOnceToken;
     errorMessage = errorMessage ? errorMessage : "(nil)";
     NSString *printableErrorMessage = [NSString stringWithCString:errorMessage encoding:NSUTF8StringEncoding];
     MSLogError([MSAppCenter logTag], @"Failed to open database with specified maximum size constraint. Error message:"
-                                     " %@", printableErrorMessage);
+                                      " %@",
+               printableErrorMessage);
 
     // Call the callback for setting the maximum storage size only once.
     dispatch_once(&setMaxStorageSizeOnceToken, ^{
@@ -278,14 +265,13 @@ static dispatch_once_t setMaxStorageSizeOnceToken;
 }
 
 + (int)numberOfPagesInBytes:(long)bytes {
-  int numberOfPages = (int) (ceil((double) bytes / (double) kMSDefaultPageSizeInBytes));
+  int numberOfPages = (int)(ceil((double)bytes / (double)kMSDefaultPageSizeInBytes));
   long actualSize = numberOfPages * kMSDefaultPageSizeInBytes;
   if (actualSize > bytes) {
     MSLogWarning([MSAppCenter logTag],
                  @" Will be able to change database size but is slightly larger than expected (next multiple of 4KB),"
-                 " requestedMaxSize=%ld, actualMaxSize=%ld",
-                 bytes,
-                 actualSize);
+                  " requestedMaxSize=%ld, actualMaxSize=%ld",
+                 bytes, actualSize);
   }
   return numberOfPages;
 }

@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param logArray Array of logs loaded from the storage.
  * @param batchId Batch Id associated with the logs, `nil` if no logs available.
  */
-typedef void (^MSLoadDataCompletionBlock)(NSArray<id <MSLog>> *_Nullable logArray, NSString *_Nullable batchId);
+typedef void (^MSLoadDataCompletionBlock)(NSArray<id<MSLog>> *_Nullable logArray, NSString *_Nullable batchId);
 
 /**
  * Defines the storage component which is responsible for persisting logs.
@@ -28,7 +28,7 @@ typedef void (^MSLoadDataCompletionBlock)(NSArray<id <MSLog>> *_Nullable logArra
  *
  * @return BOOL that indicates if the log was saved successfully.
  */
-- (BOOL)saveLog:(id <MSLog>)log withGroupId:(NSString *)groupId;
+- (BOOL)saveLog:(id<MSLog>)log withGroupId:(NSString *)groupId;
 
 /**
  * Delete logs related to given group from the storage.
@@ -37,7 +37,7 @@ typedef void (^MSLoadDataCompletionBlock)(NSArray<id <MSLog>> *_Nullable logArra
  *
  * @return The list of deleted logs.
  */
-- (NSArray<id <MSLog>> *)deleteLogsWithGroupId:(NSString *)groupId;
+- (NSArray<id<MSLog>> *)deleteLogsWithGroupId:(NSString *)groupId;
 
 /**
  * Delete a log from the storage.
