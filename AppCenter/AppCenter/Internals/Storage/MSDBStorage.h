@@ -37,11 +37,6 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
 @property(nonatomic) int maxPageCount;
 
 /**
- * Completion handler for setMaxStorageSize:completionHandler:.
-*/
-@property(nonatomic, copy, nullable) void (^maxStorageSizeCompletionHandler)(BOOL);
-
-/**
  * Initialize this database with a schema and a filename for its creation.
  *
  * @param schema Schema describing the database.

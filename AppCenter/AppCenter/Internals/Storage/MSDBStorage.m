@@ -6,8 +6,6 @@
 
 @implementation MSDBStorage
 
-static dispatch_once_t setMaxStorageSizeOnceToken;
-
 - (instancetype)initWithSchema:(MSDBSchema *)schema version:(NSUInteger)version filename:(NSString *)filename{
   if ((self = [super init])) {
     _dbFileURL = [MSUtility createFileAtPathComponent:filename withData:nil atomically:NO forceOverwrite:NO];
@@ -196,14 +194,11 @@ static dispatch_once_t setMaxStorageSizeOnceToken;
 
 - (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(nullable void (^)(BOOL))completionHandler {
   if (sizeInBytes < kMSMinUpperSizeLimitInBytes) {
-    
-    // No need to assign the completion handler to the property, we're just executing it right away.
     if (completionHandler) {
       completionHandler(NO);
     }
-    MSLogWarning([MSAppCenter logTag], @"Cannot set storage size to %ld bytes, minimum value is %ld"
-                 " bytes",
-                 sizeInBytes, kMSMinUpperSizeLimitInBytes);
+    MSLogWarning([MSAppCenter logTag], @"Cannot set storage size to %ld bytes, minimum value is %ld bytes",
+        sizeInBytes, kMSMinUpperSizeLimitInBytes);
     return;
   }
 
@@ -221,10 +216,31 @@ static dispatch_once_t setMaxStorageSizeOnceToken;
     }
     return;
   }
-  self.maxPageCount = requestedMaxPageCount;
 
-  // Capture the completion handler in the property. It will be executed once when opening the DB connection.
-  self.maxStorageSizeCompletionHandler = completionHandler;
+  // Attempt to open the database with the given limit and check the page count to make sure the given limit works.
+  int result;
+  BOOL success;
+  sqlite3 *db = [self openDatabaseAtFileURL:self.dbFileURL withMaxPageCount:requestedMaxPageCount withResult:&result];
+  if (result != SQLITE_OK) {
+    MSLogWarning([MSAppCenter logTag], @"Cannot change maximum database size to %ld bytes right now. SQLite error "
+                                       "code: %i", sizeInBytes, result);
+    success = NO;
+  } else {
+    rows = [MSDBStorage executeSelectionQuery:@"PRAGMA max_page_count;" inOpenedDatabase:db];
+    int currentMaxPageCount = [rows[0][0] intValue];
+    if (requestedMaxPageCount != currentMaxPageCount) {
+      MSLogWarning([MSAppCenter logTag], @"Cannot change maximum database size to %ld bytes right now.", sizeInBytes);
+      success = NO;
+    } else {
+      MSLogDebug([MSAppCenter logTag], @"Successfully changed maximum storage size to %ld bytes.", sizeInBytes);
+      self.maxPageCount = requestedMaxPageCount;
+      success = YES;
+    }
+  }
+  if (completionHandler) {
+    completionHandler(success);
+  }
+  sqlite3_close(db);
 }
 
 - (sqlite3 *)openDatabaseAtFileURL:(NSURL *)fileURL withMaxPageCount:(int)maxPageCount withResult:(int *)result {
@@ -245,22 +261,8 @@ static dispatch_once_t setMaxStorageSizeOnceToken;
     MSLogError([MSAppCenter logTag], @"Failed to open database with specified maximum size constraint. Error message:"
                                       " %@",
                printableErrorMessage);
-
-    // Call the callback for setting the maximum storage size only once.
-    dispatch_once(&setMaxStorageSizeOnceToken, ^{
-      if (self.maxStorageSizeCompletionHandler) {
-        self.maxStorageSizeCompletionHandler(NO);
-      }
-    });
   } else {
     MSLogVerbose([MSAppCenter logTag], @"Database has maximum page count of %i.", maxPageCount);
-
-    // Call the callback for setting the maximum storage size only once.
-    dispatch_once(&setMaxStorageSizeOnceToken, ^{
-      if (self.maxStorageSizeCompletionHandler) {
-        self.maxStorageSizeCompletionHandler(YES);
-      }
-    });
   }
   return db;
 }
