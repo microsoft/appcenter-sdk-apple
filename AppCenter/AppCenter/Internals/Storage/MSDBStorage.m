@@ -251,7 +251,6 @@
     NSString *printableErrorMessage = [NSString stringWithCString:errorMessage encoding:NSUTF8StringEncoding];
     MSLogError([MSAppCenter logTag], @"Failed to open database with specified maximum size constraint. Error message:"
                                      " %@", printableErrorMessage);
-
   }
   return db;
 }

@@ -175,7 +175,8 @@
 + (NSString *)sdkVersion;
 
 /**
- * Set the maximum size of the internal storage. This method must be called before App Center is started.
+ * Set the maximum size of the internal storage. This method must be called before App Center is started. This method
+ * is only intended for applications.
  *
  * @discussion This only sets the maximum size of the database, but App Center modules might store additional data.
  * The value passed to this method is not persisted on disk. The default maximum database size is 10485760 bytes (10
