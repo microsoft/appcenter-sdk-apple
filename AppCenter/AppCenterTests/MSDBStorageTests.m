@@ -419,7 +419,10 @@ static NSString *const kMSTestDBFileName = @"Test.sqlite";
 
 - (void)testDefaultDatabaseSize {
 
+  // If
   long expectedPageCount = kMSDefaultDatabaseSizeInBytes / kMSDefaultPageSizeInBytes;
+
+  // Then
   XCTAssertEqual(self.sut.maxPageCount, expectedPageCount);
 }
 
