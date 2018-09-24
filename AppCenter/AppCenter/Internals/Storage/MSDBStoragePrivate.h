@@ -5,7 +5,7 @@ NS_ASSUME_NONNULL_BEGIN
 typedef int (^MSDBStorageQueryBlock)(void *);
 
 // 4 KiB.
-static const long kMSDefaultPageSizeInBytes = 4096;
+static const long kMSDefaultPageSizeInBytes = 4 * 1024;
 
 // 10 MiB.
 static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
@@ -16,11 +16,6 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
  * Database file name.
  */
 @property(nonatomic, readonly, nullable) NSURL *dbFileURL;
-
-/**
- * Delete the database file, this can't be undone. Only used while testing.
- */
-- (void)deleteDatabase;
 
 /**
  * Called when migration is needed. Override to customize.

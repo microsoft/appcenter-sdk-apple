@@ -17,8 +17,7 @@ extern NSString *const kMSLogNameRegex;
 /**
  * Collection of channel unit protocols per group Id.
  */
-@property(nonatomic) NSMutableDictionary<NSString *, id<MSChannelUnitProtocol>>
-    *oneCollectorChannels;
+@property(nonatomic) NSMutableDictionary<NSString *, id <MSChannelUnitProtocol>> *oneCollectorChannels;
 
 /**
  * Http ingestion to send logs to One Collector endpoint.
@@ -28,8 +27,7 @@ extern NSString *const kMSLogNameRegex;
 /**
  * Keep track of epoch and sequence per tenant token.
  */
-@property(nonatomic)
-    NSMutableDictionary<NSString *, MSCSEpochAndSeq *> *epochsAndSeqsByIKey;
+@property(nonatomic) NSMutableDictionary<NSString *, MSCSEpochAndSeq *> *epochsAndSeqsByIKey;
 
 /**
  * UUID created on first-time SDK initialization.
@@ -39,7 +37,7 @@ extern NSString *const kMSLogNameRegex;
 /**
  * Returns 'YES' if the log should be sent to one collector.
  */
-- (BOOL)shouldSendLogToOneCollector:(id<MSLog>)log;
+- (BOOL)shouldSendLogToOneCollector:(id <MSLog>)log;
 
 /**
  * Validate Common Schema 3.0 Log.
@@ -59,12 +57,4 @@ extern NSString *const kMSLogNameRegex;
  */
 - (BOOL)validateLogName:(NSString *)name;
 
-/**
- * Validate Common Schema log data (part B & C).
- *
- * @param data The log data.
- *
- * @return YES if data is valid, NO otherwise.
- */
-- (BOOL)validateLogData:(MSCSData *)data;
 @end

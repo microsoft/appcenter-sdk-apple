@@ -75,7 +75,6 @@ enum StartupMode {
   }
 
   // Start App Center SDK.
-  [MSAppCenter startFromLibraryWithServices:@[ [MSAnalytics class] ]];
   NSArray<Class> *services = @[
     [MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class]
   ];

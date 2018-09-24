@@ -1,4 +1,5 @@
 #import <sqlite3.h>
+
 #import "MSDBStoragePrivate.h"
 #import "MSStorageTestUtil.h"
 #import "MSUtility+File.h"
@@ -11,6 +12,13 @@
   }
   return self;
 }
+
+- (void)deleteDatabase {
+  if (self.path) {
+    [MSUtility deleteItemForPathComponent:self.path];
+  }
+}
+
 
 - (long)getDataLengthInBytes {
   sqlite3 *db = [self openDatabase];

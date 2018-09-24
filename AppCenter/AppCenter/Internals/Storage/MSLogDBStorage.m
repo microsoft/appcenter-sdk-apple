@@ -1,56 +1,45 @@
 #import <sqlite3.h>
 
 #import "MSAppCenterInternal.h"
-#import "MSCommonSchemaLog.h"
-#import "MSConstants+Internal.h"
 #import "MSDBStoragePrivate.h"
-#import "MSKeychainUtil.h"
 #import "MSLogDBStoragePrivate.h"
-#import "MSLogger.h"
-#import "MSUtility+StringFormatting.h"
-#import "MSUtility.h"
 
 static const NSUInteger kMSSchemaVersion = 1;
-
-// Minimum database upper limit is the maximum common schema log size.
-static const long kMSMinimumDatabaseSize = 20 * 1024;
 
 @implementation MSLogDBStorage
 
 #pragma mark - Initialization
 
 - (instancetype)init {
-  return [self initWithMinimumUpperSizeLimitInBytes:kMSMinimumDatabaseSize];
-}
-
-- (instancetype)initWithMinimumUpperSizeLimitInBytes:(int)minimumUpperSizeLimitInBytes {
 
   /*
    * DO NOT modify schema without a migration plan and bumping database version.
    */
-  MSDBSchema *schema = @{kMSLogTableName: @[
-      @{kMSIdColumnName: @[kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey, kMSSQLiteConstraintAutoincrement]},
-      @{kMSGroupIdColumnName: @[kMSSQLiteTypeText, kMSSQLiteConstraintNotNull]},
-      @{kMSLogColumnName: @[kMSSQLiteTypeText, kMSSQLiteConstraintNotNull]},
-      @{kMSTargetTokenColumnName: @[kMSSQLiteTypeText]}]};
+  MSDBSchema *schema = @{
+    kMSLogTableName : @[
+      @{kMSIdColumnName : @[ kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey, kMSSQLiteConstraintAutoincrement ]},
+      @{kMSGroupIdColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]},
+      @{kMSLogColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]},
+      @{kMSTargetTokenColumnName : @[ kMSSQLiteTypeText ]}
+    ]
+  };
   self = [super initWithSchema:schema version:kMSSchemaVersion filename:kMSDBFileName];
   if (self) {
     NSDictionary *columnIndexes = [MSDBStorage columnsIndexes:schema];
-    _idColumnIndex = ((NSNumber *) columnIndexes[kMSLogTableName][kMSIdColumnName]).unsignedIntegerValue;
-    _groupIdColumnIndex = ((NSNumber *) columnIndexes[kMSLogTableName][kMSGroupIdColumnName]).unsignedIntegerValue;
-    _logColumnIndex = ((NSNumber *) columnIndexes[kMSLogTableName][kMSLogColumnName]).unsignedIntegerValue;
+    _idColumnIndex = ((NSNumber *)columnIndexes[kMSLogTableName][kMSIdColumnName]).unsignedIntegerValue;
+    _groupIdColumnIndex = ((NSNumber *)columnIndexes[kMSLogTableName][kMSGroupIdColumnName]).unsignedIntegerValue;
+    _logColumnIndex = ((NSNumber *)columnIndexes[kMSLogTableName][kMSLogColumnName]).unsignedIntegerValue;
     _targetTokenColumnIndex =
-        ((NSNumber *) columnIndexes[kMSLogTableName][kMSTargetTokenColumnName]).unsignedIntegerValue;
+        ((NSNumber *)columnIndexes[kMSLogTableName][kMSTargetTokenColumnName]).unsignedIntegerValue;
     _batches = [NSMutableDictionary<NSString *, NSArray<NSNumber *> *> new];
     _targetTokenEncrypter = [[MSEncrypter alloc] initWithDefaultKey];
-    _minimumUpperSizeLimitInBytes = minimumUpperSizeLimitInBytes;
   }
   return self;
 }
 
 #pragma mark - Save logs
 
-- (BOOL)saveLog:(id <MSLog>)log withGroupId:(NSString *)groupId {
+- (BOOL)saveLog:(id<MSLog>)log withGroupId:(NSString *)groupId {
   if (!log) {
     return NO;
   }
@@ -58,26 +47,18 @@ static const long kMSMinimumDatabaseSize = 20 * 1024;
   // Insert this log to the DB.
   NSData *logData = [NSKeyedArchiver archivedDataWithRootObject:log];
   NSString *base64Data = [logData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
-  NSString *addLogQuery = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\") VALUES ('%@', '%@')",
-                                                     kMSLogTableName,
-                                                     kMSGroupIdColumnName,
-                                                     kMSLogColumnName,
-                                                     groupId,
-                                                     base64Data];
+  NSString *addLogQuery =
+      [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\") VALUES ('%@', '%@')", kMSLogTableName,
+                                 kMSGroupIdColumnName, kMSLogColumnName, groupId, base64Data];
 
   // Serialize target token.
-  if ([(NSObject *) log isKindOfClass:[MSCommonSchemaLog class]]) {
+  if ([(NSObject *)log isKindOfClass:[MSCommonSchemaLog class]]) {
     NSString *targetToken = [[log transmissionTargetTokens] anyObject];
     NSString *encryptedToken = [self.targetTokenEncrypter encryptString:targetToken];
     addLogQuery = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", "
                                              @"\"%@\") VALUES ('%@', '%@', '%@')",
-                                             kMSLogTableName,
-                                             kMSGroupIdColumnName,
-                                             kMSLogColumnName,
-                                             kMSTargetTokenColumnName,
-                                             groupId,
-                                             base64Data,
-                                             encryptedToken];
+                                             kMSLogTableName, kMSGroupIdColumnName, kMSLogColumnName,
+                                             kMSTargetTokenColumnName, groupId, base64Data, encryptedToken];
   }
   int result = [self executeNonSelectionQuery:addLogQuery];
 
@@ -89,29 +70,29 @@ static const long kMSMinimumDatabaseSize = 20 * 1024;
     result = [self executeNonSelectionQuery:addLogQuery];
   }
   if (countOfLogsDeleted > 0) {
-    MSLogDebug([MSAppCenter logTag],
-               @"Log storage was over capacity, %ld oldest log(s) deleted.",
-               (long) countOfLogsDeleted);
+    MSLogDebug([MSAppCenter logTag], @"Log storage was over capacity, %ld oldest log(s) deleted.",
+               (long)countOfLogsDeleted);
   }
   return result == SQLITE_OK;
 }
 
 #pragma mark - Load logs
 
-- (BOOL)loadLogsWithGroupId:(NSString *)groupId limit:(NSUInteger)limit
+- (BOOL)loadLogsWithGroupId:(NSString *)groupId
+                      limit:(NSUInteger)limit
              withCompletion:(nullable MSLoadDataCompletionBlock)completion {
   BOOL logsAvailable;
   BOOL moreLogsAvailable = NO;
   NSString *batchId;
   NSMutableArray<NSArray *> *logEntries;
   NSMutableArray<NSNumber *> *dbIds = [NSMutableArray<NSNumber *> new];
-  NSMutableArray<id <MSLog>> *logs = [NSMutableArray<id <MSLog>> new];
+  NSMutableArray<id<MSLog>> *logs = [NSMutableArray<id<MSLog>> new];
 
   // Get ids from batches.
   NSMutableArray<NSNumber *> *idsInBatches = [NSMutableArray<NSNumber *> new];
   for (NSString *batchKey in [self.batches allKeys]) {
     if ([batchKey hasPrefix:groupId]) {
-      [idsInBatches addObjectsFromArray:(NSArray<NSNumber *> *_Nonnull) self.batches[batchKey]];
+      [idsInBatches addObjectsFromArray:(NSArray<NSNumber *> * _Nonnull)self.batches[batchKey]];
     }
   }
 
@@ -133,7 +114,7 @@ static const long kMSMinimumDatabaseSize = 20 * 1024;
    * the count but it is a bit confusing and doesn't really fit a database
    * storage.
    */
-  [condition appendFormat:@" LIMIT %lu", (unsigned long) ((limit < NSUIntegerMax) ? limit + 1 : limit)];
+  [condition appendFormat:@" LIMIT %lu", (unsigned long)((limit < NSUIntegerMax) ? limit + 1 : limit)];
 
   // Get log entries from DB.
   logEntries = [[self logsWithCondition:condition] mutableCopy];
@@ -169,8 +150,8 @@ static const long kMSMinimumDatabaseSize = 20 * 1024;
 
 #pragma mark - Delete logs
 
-- (NSArray<id <MSLog>> *)deleteLogsWithGroupId:(NSString *)groupId {
-  NSArray<id <MSLog>> *logs = [self logsFromDBWithGroupId:groupId];
+- (NSArray<id<MSLog>> *)deleteLogsWithGroupId:(NSString *)groupId {
+  NSArray<id<MSLog>> *logs = [self logsFromDBWithGroupId:groupId];
 
   // Delete logs.
   [self deleteLogsFromDBWithColumnValue:groupId columnName:kMSGroupIdColumnName];
@@ -199,14 +180,14 @@ static const long kMSMinimumDatabaseSize = 20 * 1024;
 
 #pragma mark - DB selection
 
-- (NSArray<id <MSLog>> *)logsFromDBWithGroupId:(NSString *)groupId {
+- (NSArray<id<MSLog>> *)logsFromDBWithGroupId:(NSString *)groupId {
 
   // Get log entries for the given group Id.
   NSString *condition = [NSString stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, groupId];
   NSArray<NSArray *> *logEntries = [self logsWithCondition:condition];
 
   // Get logs only.
-  NSMutableArray<id <MSLog>> *logs = [NSMutableArray<id <MSLog>> new];
+  NSMutableArray<id<MSLog>> *logs = [NSMutableArray<id<MSLog>> new];
   for (NSArray *logEntry in logEntries) {
     [logs addObject:logEntry[self.logColumnIndex]];
   }
@@ -224,10 +205,9 @@ static const long kMSMinimumDatabaseSize = 20 * 1024;
   // Get logs from DB.
   for (NSMutableArray *row in entries) {
     NSNumber *dbId = row[self.idColumnIndex];
-    NSData *logData = [[NSData alloc]
-                               initWithBase64EncodedString:row[self.logColumnIndex]
-                                                   options:NSDataBase64DecodingIgnoreUnknownCharacters];
-    id <MSLog> log;
+    NSData *logData = [[NSData alloc] initWithBase64EncodedString:row[self.logColumnIndex]
+                                                          options:NSDataBase64DecodingIgnoreUnknownCharacters];
+    id<MSLog> log;
     NSException *exception;
 
     // Deserialize the log.
@@ -239,9 +219,7 @@ static const long kMSMinimumDatabaseSize = 20 * 1024;
     if (!log || exception) {
 
       // The archived log is not valid.
-      MSLogError([MSAppCenter logTag],
-                 @"Deserialization failed for log with Id %@: %@",
-                 dbId,
+      MSLogError([MSAppCenter logTag], @"Deserialization failed for log with Id %@: %@", dbId,
                  exception ? exception.reason : @"The log deserialized to NULL.");
       [self deleteLogFromDBWithId:dbId];
       continue;
@@ -268,28 +246,25 @@ static const long kMSMinimumDatabaseSize = 20 * 1024;
 }
 
 - (void)deleteLogsFromDBWithColumnValue:(id)columnValue columnName:(NSString *)columnName {
-  [self deleteLogsFromDBWithColumnValues:@[columnValue] columnName:columnName];
+  [self deleteLogsFromDBWithColumnValues:@[ columnValue ] columnName:columnName];
 }
 
 - (void)deleteLogsFromDBWithColumnValues:(NSArray *)columnValues columnName:(NSString *)columnName {
-  NSString *deletionTrace = [NSString stringWithFormat:@"Deletion of log(s) by %@ with value(s) '%@'",
-                                                       columnName,
+  NSString *deletionTrace = [NSString stringWithFormat:@"Deletion of log(s) by %@ with value(s) '%@'", columnName,
                                                        [columnValues componentsJoinedByString:@"','"]];
 
   // Build up delete query.
   char surroundingChar =
-      (char) (([(NSObject *) [columnValues firstObject] isKindOfClass:[NSString class]]) ? '\'' : '\0');
+      (char)(([(NSObject *)[columnValues firstObject] isKindOfClass:[NSString class]]) ? '\'' : '\0');
   NSString *valuesSeparation = [NSString stringWithFormat:@"%c, %c", surroundingChar, surroundingChar];
-  NSString *whereCondition = [NSString stringWithFormat:@"\"%@\" IN (%c%@%c)",
-                                                        columnName,
-                                                        surroundingChar,
-                                                        [columnValues componentsJoinedByString:valuesSeparation],
-                                                        surroundingChar];
-  NSString
-      *deleteLogsQuery = [NSString stringWithFormat:@"DELETE FROM \"%@\" WHERE %@", kMSLogTableName, whereCondition];
+  NSString *whereCondition =
+      [NSString stringWithFormat:@"\"%@\" IN (%c%@%c)", columnName, surroundingChar,
+                                 [columnValues componentsJoinedByString:valuesSeparation], surroundingChar];
+  NSString *deleteLogsQuery =
+      [NSString stringWithFormat:@"DELETE FROM \"%@\" WHERE %@", kMSLogTableName, whereCondition];
 
   // Execute.
-  if ([self executeNonSelectionQuery:deleteLogsQuery]) {
+  if ([self executeNonSelectionQuery:deleteLogsQuery] == SQLITE_OK) {
     MSLogVerbose([MSAppCenter logTag], @"%@ %@", deletionTrace, @"succeeded.");
   } else {
     MSLogError([MSAppCenter logTag], @"%@ %@", deletionTrace, @"failed.");
@@ -298,9 +273,7 @@ static const long kMSMinimumDatabaseSize = 20 * 1024;
 
 - (void)deleteOldestLogsWithCount:(NSInteger)count {
   NSString *deleteLogQuery = [NSString stringWithFormat:@"DELETE FROM \"%@\" ORDER BY \"%@\" ASC LIMIT %ld",
-                                                        kMSLogTableName,
-                                                        kMSIdColumnName,
-                                                        (long) count];
+                                                        kMSLogTableName, kMSIdColumnName, (long)count];
   [self executeNonSelectionQuery:deleteLogQuery];
 }
 
@@ -320,23 +293,10 @@ static const long kMSMinimumDatabaseSize = 20 * 1024;
 - (void)migrateDatabase:(void *)db fromVersion:(NSUInteger)version {
   if (version < 1) {
     NSString *migrationQuery = [NSString stringWithFormat:@"ALTER TABLE \"%@\" ADD COLUMN \"%@\" "
-                                                          "TEXT", kMSLogTableName, kMSTargetTokenColumnName];
+                                                           "TEXT",
+                                                          kMSLogTableName, kMSTargetTokenColumnName];
     [MSDBStorage executeNonSelectionQuery:migrationQuery inOpenedDatabase:db];
   }
-}
-
-#pragma mark - DB size
-
-- (void)setStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))completionHandler {
-  if (sizeInBytes < self.minimumUpperSizeLimitInBytes) {
-    if (completionHandler) {
-      completionHandler(NO);
-    }
-    MSLogWarning([MSAppCenter logTag], @"Cannot set storage size to %ld bytes, minimum value is %ld"
-                                       " bytes", sizeInBytes, self.minimumUpperSizeLimitInBytes);
-    return;
-  }
-  [super setStorageSize:sizeInBytes completionHandler:completionHandler];
 }
 
 @end

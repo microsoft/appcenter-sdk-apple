@@ -36,6 +36,12 @@ static NSString *const kMSServiceName = @"AppCenter";
  */
 static NSString *const kMSGroupId = @"AppCenter";
 
+/**
+ * The minimum storage size.
+ * 20 KiB to be consistent with Android SDK, limited by SQLite.
+ */
+static const long kMSMinUpperSizeLimitInBytes = 20 * 1024;
+
 @implementation MSAppCenter
 
 @synthesize installId = _installId;
@@ -199,10 +205,8 @@ static NSString *const kMSGroupId = @"AppCenter";
   return kMSGroupId;
 }
 
-+ (void)setStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))
-    completionHandler {
-  [[MSAppCenter sharedInstance] setStorageSize:sizeInBytes completionHandler:
-    completionHandler];
++ (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))completionHandler {
+  [[MSAppCenter sharedInstance] setMaxStorageSize:sizeInBytes completionHandler:completionHandler];
 }
 
 #pragma mark - private
@@ -413,21 +417,42 @@ transmissionTargetToken:(NSString *)transmissionTargetToken
   }
 }
 
-- (void)setStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))
-completionHandler {
-  if (self.configuredFromApplication) {
-    MSLogWarning([MSAppCenter logTag],
-        @"Unable to set storage size after the application has configured App"
-        "Center");
+- (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))completionHandler {
+
+  // Check if sizeInBytes is greater than minimum size.
+  if (sizeInBytes < kMSMinUpperSizeLimitInBytes) {
     if (completionHandler) {
       completionHandler(NO);
     }
+    MSLogWarning([MSAppCenter logTag], @"Cannot set storage size to %ld bytes, minimum value is %ld"
+                                        " bytes", sizeInBytes, kMSMinUpperSizeLimitInBytes);
+    return;
   }
-  self.requestedMaxStorageSizeInBytes = @(sizeInBytes);
-  self.setStorageSizeCompletionHandler = completionHandler;
-  if (self.channelGroup) {
-    [self.channelGroup setStorageSize:sizeInBytes
-                    completionHandler:completionHandler];
+
+  // Change the max storage size.
+  BOOL setMaxSizeFailed = NO;
+  @synchronized (self) {
+    if (self.setMaxStorageSizeHasBeenCalled) {
+      MSLogWarning([MSAppCenter logTag], @"setMaxStorageSize:completionHandler: may only be called once per app "
+                                         "launch");
+      setMaxSizeFailed = YES;
+    } else {
+      self.setMaxStorageSizeHasBeenCalled = YES;
+      if (self.configuredFromApplication) {
+        MSLogWarning([MSAppCenter logTag], @"Unable to set storage size after the application has configured App"
+                                           "Center");
+        setMaxSizeFailed = YES;
+      }else {
+        self.requestedMaxStorageSizeInBytes = @(sizeInBytes);
+        self.maxStorageSizeCompletionHandler = completionHandler;
+        if (self.channelGroup) {
+          [self.channelGroup setMaxStorageSize:sizeInBytes completionHandler:self.maxStorageSizeCompletionHandler];
+        }
+      }
+    }
+  }
+  if (setMaxSizeFailed && completionHandler) {
+    completionHandler(NO);
   }
 }
 
@@ -518,8 +543,7 @@ completionHandler {
     [self.channelGroup addDelegate:self.oneCollectorChannelDelegate];
     if (self.requestedMaxStorageSizeInBytes) {
       long storageSize = [self.requestedMaxStorageSizeInBytes longValue];
-      [self.channelGroup setStorageSize:storageSize
-                      completionHandler:self.setStorageSizeCompletionHandler];
+      [self.channelGroup setMaxStorageSize:storageSize completionHandler:self.maxStorageSizeCompletionHandler];
     }
   }
 
@@ -624,8 +648,8 @@ completionHandler {
   if (!disabledServices) {
     return NO;
   }
-  NSMutableArray *disabledServicesList = [NSMutableArray arrayWithArray:[disabledServices
-      componentsSeparatedByString:@","]];
+  NSMutableArray
+      *disabledServicesList = [NSMutableArray arrayWithArray:[disabledServices componentsSeparatedByString:@","]];
 
   // Trim whitespace characters.
   for (NSUInteger i = 0; i < [disabledServicesList count]; ++i) {
