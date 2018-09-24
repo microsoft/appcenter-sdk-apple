@@ -71,7 +71,24 @@ enum StartupMode {
   NSInteger storageMaxSize = [[NSUserDefaults standardUserDefaults]
       integerForKey:kMSStorageMaxSizeKey];
   if (storageMaxSize > 0) {
-    [MSAppCenter setStorageSize:storageMaxSize completionHandler:nil];
+    [MSAppCenter setMaxStorageSize:storageMaxSize completionHandler:^(BOOL success) {
+      if (!success) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+          UIAlertController *alertController = [UIAlertController
+                                                alertControllerWithTitle:@"Warning!"
+                                                message:@"The maximum size of the internal "
+                                                @"storage wasn't set."
+                                                preferredStyle:UIAlertControllerStyleAlert];
+          [alertController
+              addAction:[UIAlertAction actionWithTitle:@"OK"
+                                                 style:UIAlertActionStyleDefault
+                                               handler:nil]];
+          [self.window.rootViewController presentViewController:alertController
+                                                       animated:YES
+                                                     completion:nil];
+        });
+      }
+    }];
   }
 
   // Start App Center SDK.
@@ -181,6 +198,7 @@ enum StartupMode {
                                     [MSCrashes notifyWithUserConfirmation:
                                                    MSUserConfirmationAlways];
                                   }]];
+
         // Show the alert controller.
         [self.window.rootViewController presentViewController:alertController
                                                      animated:YES

@@ -32,7 +32,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     // Set max storage size.
     let storageMaxSize = UserDefaults.standard.integer(forKey: kMSStorageMaxSizeKey)
     if storageMaxSize > 0 {
-      MSAppCenter.setStorageSize(storageMaxSize, completionHandler: nil)
+      MSAppCenter.setMaxStorageSize(storageMaxSize, completionHandler: { success in
+        if !success {
+          DispatchQueue.main.async {
+            let alertController = UIAlertController(title: "Warning!",
+                                                    message: "The maximum size of the internal storage wasn't set.",
+                                                    preferredStyle:.alert)
+            alertController.addAction(UIAlertAction(title: "OK", style: .default))
+            self.window?.rootViewController?.present(alertController, animated: true)
+          }
+        }
+      })
     }
 
     // Start App Center SDK.
