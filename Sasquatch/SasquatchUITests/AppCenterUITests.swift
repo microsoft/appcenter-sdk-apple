@@ -193,10 +193,12 @@ class AppCenterUITests: XCTestCase {
     let installId : String = installIdCell.staticTexts.element(boundBy: 1).label
     XCTAssertNotNil(UUID(uuidString: installId))
 
+    #if ACTIVE_COMPILATION_CONDITION_PUPPET
     // Check app secret.
     let appSecretCell : XCUIElement = app.tables["App Center"].cell(containing: "App Secret")
     let appSecret : String = appSecretCell.staticTexts.element(boundBy: 1).label
     XCTAssertNotNil(UUID(uuidString: appSecret))
+    #endif
 
     // Check log url.
     let logUrlCell : XCUIElement = app.tables["App Center"].cell(containing: "Log URL")
