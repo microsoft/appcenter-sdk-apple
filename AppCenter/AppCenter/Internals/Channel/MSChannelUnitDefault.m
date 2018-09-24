@@ -43,7 +43,7 @@
     [_ingestion addDelegate:self];
 
     // Match ingestion's current status, if one is passed.
-    if (_ingestion && _ingestion.suspended) {
+    if (_ingestion && _ingestion.paused) {
       [self pause];
     }
   }
@@ -448,7 +448,7 @@
     if (self.enabled != isEnabled) {
       self.enabled = isEnabled;
       if (isEnabled) {
-        if (!self.ingestion.suspended) {
+        if (!self.ingestion.paused) {
           [self resume];
         }
       } else {

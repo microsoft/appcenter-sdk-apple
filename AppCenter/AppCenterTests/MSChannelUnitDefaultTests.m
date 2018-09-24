@@ -791,7 +791,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   self.sut.ingestion = ingestion;
   [self.sut setEnabled:NO andDeleteDataOnDisabled:NO];
   dispatch_async(self.logsDispatchQueue, ^{
-    ingestion.suspended = NO;
+    ingestion.paused = NO;
   });
 
   // When
@@ -803,7 +803,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // If
   [self.sut setEnabled:NO andDeleteDataOnDisabled:NO];
   dispatch_async(self.logsDispatchQueue, ^{
-    ingestion.suspended = YES;
+    ingestion.paused = YES;
   });
 
   // When
