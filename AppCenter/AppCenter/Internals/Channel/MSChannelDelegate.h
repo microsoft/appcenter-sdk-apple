@@ -88,6 +88,21 @@
     andDeleteDataOnDisabled:(BOOL)deletedData;
 
 /**
+ * A callback that is called when pause has been invoked.
+ *
+ * @param channel The channel.
+ */
+- (void)channelDidPause:(id<MSChannelProtocol>)channel;
+
+/**
+ * A callback that is called when resume has been invoked.
+ *
+ * @param channel The channel.
+ */
+- (void)channelDidResume:(id<MSChannelProtocol>)channel;
+
+
+/**
  * Callback method that will determine if a log should be filtered out from the
  * usual processing pipeline. If any delegate returns true, the log is filtered.
  *

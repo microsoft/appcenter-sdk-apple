@@ -159,6 +159,22 @@ andDeleteDataOnDisabled:(BOOL)deletedData {
   }
 }
 
+- (void)channelDidPause:(id<MSChannelProtocol>)channel {
+  if ([channel conformsToProtocol:@protocol(MSChannelUnitProtocol)]) {
+    NSString *groupId = ((id <MSChannelUnitProtocol>) channel).configuration.groupId;
+    id<MSChannelUnitProtocol> oneCollectorChannel = self.oneCollectorChannels[groupId];
+    [oneCollectorChannel pause];
+  }
+}
+
+- (void)channelDidResume:(id<MSChannelProtocol>)channel {
+  if ([channel conformsToProtocol:@protocol(MSChannelUnitProtocol)]) {
+    NSString *groupId = ((id <MSChannelUnitProtocol>) channel).configuration.groupId;
+    id<MSChannelUnitProtocol> oneCollectorChannel = self.oneCollectorChannels[groupId];
+    [oneCollectorChannel resume];
+  }
+}
+
 #pragma mark - Helper
 
 - (BOOL)isOneCollectorGroup:(NSString *)groupId {
@@ -178,7 +194,6 @@ andDeleteDataOnDisabled:(BOOL)deletedData {
   }
   
   // Property values are valid strings already.
-  
   return YES;
 }
 

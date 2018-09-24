@@ -174,6 +174,89 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
       }];
 }
 
+- (void)testOneCollectorChannelUnitIsPausedWhenBaseChannelUnitIsPaused {
+
+  // If
+  MSChannelUnitDefault *channelUnitMock = [[MSChannelUnitDefault alloc]
+                                                                 initWithIngestion:self.ingestionMock
+                                                                           storage:self.storageMock
+                                                                     configuration:self.baseUnitConfigMock
+                                                                 logsDispatchQueue:self.logsDispatchQueue];
+  id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  id oneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(oneCollectorChannelUnitMock);
+  OCMExpect([oneCollectorChannelUnitMock pause]);
+
+  // When
+  [self.sut channelGroup:channelGroupMock didAddChannelUnit:channelUnitMock];
+  [self.sut channelDidPause:channelUnitMock];
+
+  // Then
+  OCMVerify([oneCollectorChannelUnitMock pause]);
+}
+
+- (void)testOneCollectorChannelUnitIsNotPausedWhenNonBaseChannelUnitIsPaused {
+
+  // If
+  MSChannelUnitDefault *channelUnitMock = [[MSChannelUnitDefault alloc]
+                                                                 initWithIngestion:self.ingestionMock
+                                                                           storage:self.storageMock
+                                                                     configuration:self.baseUnitConfigMock
+                                                                 logsDispatchQueue:self.logsDispatchQueue];
+  id oneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id otherOneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  self.sut.oneCollectorChannels[kMSBaseGroupId] = otherOneCollectorChannelUnitMock;
+  self.sut.oneCollectorChannels[@"someOtherGroupId"] = oneCollectorChannelUnitMock;
+
+  // Then
+  OCMReject([oneCollectorChannelUnitMock pause]);
+
+  // When
+  [self.sut channelDidPause:channelUnitMock];
+}
+
+- (void)testOneCollectorChannelUnitIsResumedWhenBaseChannelUnitIsResumed {
+
+  // If
+  MSChannelUnitDefault *channelUnitMock = [[MSChannelUnitDefault alloc]
+                                                                 initWithIngestion:self.ingestionMock
+                                                                           storage:self.storageMock
+                                                                     configuration:self.baseUnitConfigMock
+                                                                 logsDispatchQueue:self.logsDispatchQueue];
+  id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  id oneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:self.baseUnitConfigMock]).andReturn
+                                                                                         (oneCollectorChannelUnitMock);
+  OCMExpect([oneCollectorChannelUnitMock pause]);
+
+  // When
+  [self.sut channelGroup:channelGroupMock didAddChannelUnit:channelUnitMock];
+  [self.sut channelDidResume:channelUnitMock];
+
+  // Then
+  OCMVerify([oneCollectorChannelUnitMock resume]);
+}
+
+- (void)testOneCollectorChannelUnitIsNotResumedWhenNonBaseChannelUnitIsResumed {
+
+  // If
+  MSChannelUnitDefault *channelUnitMock = [[MSChannelUnitDefault alloc]
+                                                                 initWithIngestion:self.ingestionMock
+                                                                           storage:self.storageMock
+                                                                     configuration:self.baseUnitConfigMock
+                                                                 logsDispatchQueue:self.logsDispatchQueue];
+  id oneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id otherOneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  self.sut.oneCollectorChannels[kMSBaseGroupId] = otherOneCollectorChannelUnitMock;
+  self.sut.oneCollectorChannels[@"someOtherGroupId"] = oneCollectorChannelUnitMock;
+
+  // Then
+  OCMReject([oneCollectorChannelUnitMock resume]);
+
+  // When
+  [self.sut channelDidResume:channelUnitMock];
+}
+
 - (void)testDidEnqueueLogToOneCollectorChannelWhenLogHasTargetTokensAndLogIsNotCommonSchemaLog {
 
   // If
