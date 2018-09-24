@@ -36,7 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
         if !success {
           DispatchQueue.main.async {
             let alertController = UIAlertController(title: "Warning!",
-                                                    message: "The maximum size of the internal storage could not be set.	",
+                                                    message: "The maximum size of the internal storage could not be set.",
                                                     preferredStyle:.alert)
             alertController.addAction(UIAlertAction(title: "OK", style: .default))
             self.window?.rootViewController?.present(alertController, animated: true)
