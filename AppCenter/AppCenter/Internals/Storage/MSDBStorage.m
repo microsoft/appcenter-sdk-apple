@@ -214,7 +214,7 @@
   BOOL success;
   sqlite3 *db = [self openDatabaseAtFileURL:self.dbFileURL withMaxPageCount:requestedMaxPageCount withResult:&result];
   if (result != SQLITE_OK) {
-    MSLogError([MSAppCenter logTag], @"Cound not change maximum database size to %ld bytes. SQLite error "
+    MSLogError([MSAppCenter logTag], @"Could not change maximum database size to %ld bytes. SQLite error "
                                        "code: %i", sizeInBytes, result);
     success = NO;
   } else {
