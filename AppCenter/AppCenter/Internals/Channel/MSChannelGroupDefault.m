@@ -179,7 +179,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 
 #pragma mark - Suspend / Resume
 
-- (void)suspend {
+- (void)pause {
 
   // Disable ingestion, sending log will not be possible but they'll still be
   // stored.
@@ -188,7 +188,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
   // Suspend each channel asynchronously.
   for (id<MSChannelProtocol> channel in self.channels) {
     dispatch_async(self.logsDispatchQueue, ^{
-      [channel suspend];
+      [channel pause];
     });
   }
 }

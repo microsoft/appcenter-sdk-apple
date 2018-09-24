@@ -91,7 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
  * suspended itself. A suspended channel doesn't forward logs to the ingestion.
  * A suspended state doesn't impact the current enabled state.
  */
-@property(nonatomic) BOOL suspended;
+@property(nonatomic) BOOL paused;
 
 /**
  * A boolean value set to YES if logs are discarded (not persisted) or NO

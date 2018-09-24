@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) dispatch_queue_t logsDispatchQueue;
 
 /**
- * Enqueues a new log item.
+ * Enqueue a new log item.
  *
  * @param item The log item that should be enqueued.
  */

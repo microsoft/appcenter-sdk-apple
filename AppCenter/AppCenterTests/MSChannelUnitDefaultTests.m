@@ -774,7 +774,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
                                  assertThatBool(self.sut.enabled, isFalse());
-                                 assertThatBool(self.sut.suspended, isTrue());
+                                 assertThatBool(self.sut.paused, isTrue());
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@",
                                            error);
@@ -797,7 +797,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // When
   [self.sut setEnabled:YES andDeleteDataOnDisabled:NO];
   dispatch_async(self.logsDispatchQueue, ^{
-    result1 = self.sut.suspended;
+    result1 = self.sut.paused;
   });
 
   // If
@@ -809,7 +809,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // When
   [self.sut setEnabled:YES andDeleteDataOnDisabled:NO];
   dispatch_async(self.logsDispatchQueue, ^{
-    result2 = self.sut.suspended;
+    result2 = self.sut.paused;
   });
 
   // Then
@@ -1021,7 +1021,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [sut ingestionDidSuspend:ingestionMock];
 
   // Then
-  OCMVerify([sut suspend]);
+  OCMVerify([sut pause]);
 }
 
 - (void)testResumeOnIngestionResumed {

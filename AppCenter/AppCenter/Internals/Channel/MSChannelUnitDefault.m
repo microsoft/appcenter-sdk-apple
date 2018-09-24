@@ -22,7 +22,7 @@
     _pendingBatchQueueFull = NO;
     _availableBatchFromStorage = NO;
     _enabled = YES;
-    _suspended = NO;
+    _paused = NO;
     _discardLogs = NO;
     _delegates = [NSHashTable weakObjectsHashTable];
   }
@@ -44,7 +44,7 @@
 
     // Match ingestion's current status, if one is passed.
     if (_ingestion && _ingestion.suspended) {
-      [self suspend];
+      [self pause];
     }
   }
   return self;
@@ -75,7 +75,7 @@
 #pragma mark - MSIngestionDelegate
 
 - (void)ingestionDidSuspend:(__unused id<MSIngestionProtocol>)ingestion {
-  [self suspend];
+  [self pause];
 }
 
 - (void)ingestionDidResume:(__unused id<MSIngestionProtocol>)ingestion {
@@ -202,18 +202,7 @@
                                     didCompleteEnqueueingLog:item
                                               withInternalId:internalLogId];
                               }];
-
-    // Flush now if current batch is full or delay to later.
-    if (self.itemsCount >= self.configuration.batchSizeLimit) {
-      [self flushQueue];
-    } else if (self.itemsCount == 1) {
-
-      // Don't delay if channel is suspended but stack logs until current batch
-      // max out.
-      if (!self.suspended) {
-        [self startTimer];
-      }
-    }
+    [self checkPendingLogs];
   });
 }
 
@@ -232,8 +221,8 @@
   // Cancel any timer.
   [self resetTimer];
 
-  // Don't flush while suspended or if pending bach queue is full.
-  if (self.suspended || self.pendingBatchQueueFull) {
+  // Don't flush while paused or if pending bach queue is full.
+  if (self.paused || self.pendingBatchQueueFull) {
 
     // Still close the current batch it will be flushed later.
     if (self.itemsCount >= self.configuration.batchSizeLimit) {
@@ -393,6 +382,18 @@
   }
 }
 
+- (void)checkPendingLogs {
+
+  // Flush now if current batch is full or delay to later.
+  if (self.itemsCount >= self.configuration.batchSizeLimit) {
+    [self flushQueue];
+  } else if (self.itemsCount == 1 && !self.paused) {
+
+    // Only start timer if channel is not paused. Otherwise, logs will stack.
+    [self startTimer];
+  }
+}
+
 #pragma mark - Timer
 
 - (void)startTimer {
@@ -451,7 +452,7 @@
           [self resume];
         }
       } else {
-        [self suspend];
+        [self pause];
       }
     }
 
@@ -492,20 +493,20 @@
   });
 }
 
-- (void)suspend {
-  if (!self.suspended) {
+- (void)pause {
+  if (!self.paused) {
     MSLogDebug([MSAppCenter logTag], @"Suspend channel for group Id %@.",
                self.configuration.groupId);
-    self.suspended = YES;
+    self.paused = YES;
     [self resetTimer];
   }
 }
 
 - (void)resume {
-  if (self.suspended && self.enabled) {
+  if (self.paused && self.enabled) {
     MSLogDebug([MSAppCenter logTag], @"Resume channel for group Id %@.",
                self.configuration.groupId);
-    self.suspended = NO;
+    self.paused = NO;
     [self flushQueue];
   }
 }

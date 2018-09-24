@@ -195,13 +195,13 @@
   [sut.channels addObject:channelMock];
 
   // When
-  [sut suspend];
+  [sut pause];
 
   // Then
   OCMVerify([ingestionMock setEnabled:NO andDeleteDataOnDisabled:NO]);
   dispatch_sync(sut.logsDispatchQueue, ^{
                 });
-  OCMVerify([channelMock suspend]);
+  OCMVerify([channelMock pause]);
 }
 
 - (void)testChannelUnitIsCorrectlyInitialized {

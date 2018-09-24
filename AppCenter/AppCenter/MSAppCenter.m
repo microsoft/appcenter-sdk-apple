@@ -629,7 +629,7 @@ transmissionTargetToken:(NSString *)transmissionTargetToken
  *  The application will go to the background.
  */
 - (void)applicationDidEnterBackground {
-  [self.channelGroup suspend];
+  [self.channelGroup pause];
 }
 #endif
 

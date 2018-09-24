@@ -639,7 +639,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidEnterBackgroundNotification
                                                       object:self.sut];
   // Then
-  OCMVerify([channelGroup suspend]);
+  OCMVerify([channelGroup pause]);
 }
 
 - (void)testAppIsForegrounded {

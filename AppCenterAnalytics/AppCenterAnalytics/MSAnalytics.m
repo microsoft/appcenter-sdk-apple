@@ -189,6 +189,22 @@ forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarg
   }
 }
 
++ (void)pause {
+  @synchronized(self) {
+    if ([[MSAnalytics sharedInstance] canBeUsed]) {
+      [[MSAnalytics sharedInstance] pause];
+    }
+  }
+}
+
++ (void)resume {
+  @synchronized(self) {
+    if ([[MSAnalytics sharedInstance] canBeUsed]) {
+      [[MSAnalytics sharedInstance] resume];
+    }
+  }
+}
+
 + (void)setAutoPageTrackingEnabled:(BOOL)isEnabled {
   @synchronized (self) {
     [[MSAnalytics sharedInstance] setAutoPageTrackingEnabled:isEnabled];
@@ -243,6 +259,14 @@ forTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget {
 
   // Send log to log manager.
   [self sendLog:log];
+}
+
+- (void)pause {
+  [self.channelUnit pause];
+}
+
+- (void)resume {
+  [self.channelUnit resume];
 }
 
 - (NSDictionary<NSString *, NSString *> *)removeInvalidProperties:(NSDictionary<NSString *, NSString *> *)properties {

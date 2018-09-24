@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Suspend operations, logs will be stored but not sent.
  */
-- (void)suspend;
+- (void)pause;
 
 /**
  * Resume operations, logs can be sent again.
