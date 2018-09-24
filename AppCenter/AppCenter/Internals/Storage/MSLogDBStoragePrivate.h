@@ -16,11 +16,6 @@ static NSString *const kMSTargetTokenColumnName = @"targetToken";
 @interface MSLogDBStorage ()
 
 /**
- * Maximum allowed capacity in this storage.
- */
-@property(nonatomic, readonly) NSUInteger capacity;
-
-/**
  * Keep track of logs batches per group Id associated with their logs Ids.
  */
 @property(nonatomic)

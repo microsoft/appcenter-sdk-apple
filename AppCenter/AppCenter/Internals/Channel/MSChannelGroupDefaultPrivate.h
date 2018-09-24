@@ -1,7 +1,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class MSHttpIngestion;
-@protocol MSStorage;
 
 @interface MSChannelGroupDefault ()
 
