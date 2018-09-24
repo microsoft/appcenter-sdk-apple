@@ -197,13 +197,16 @@
 
   // When
   NSDictionary *csProperties = [self.sut convertACPropertiesToCSproperties:acProperties];
-  NSDictionary *test = @{
+  NSDictionary *test1 = @{
+    @"a" : @{@"b" : @"1"}
+  };
+  NSDictionary *test2 = @{
     @"a" : @{@"b" : @{@"c" : @{@"d" : @"2"}}}
   };
 
   // Then
   XCTAssertEqual([csProperties count], 1);
-  XCTAssertEqualObjects(csProperties, test);
+  XCTAssertTrue([csProperties isEqualToDictionary:test1] || [csProperties isEqualToDictionary:test2]);
 }
 
 - (void)testOverrideObjectToValueProperties {
@@ -215,13 +218,16 @@
 
   // When
   NSDictionary *csProperties = [self.sut convertACPropertiesToCSproperties:acProperties];
-  NSDictionary *test = @{
+  NSDictionary *test1 = @{
+    @"a" : @{@"b" : @{@"c" : @{@"d" : @"1"}}}
+  };
+  NSDictionary *test2 = @{
     @"a" : @{@"b" : @"2"}
   };
 
   // Then
   XCTAssertEqual([csProperties count], 1);
-  XCTAssertEqualObjects(csProperties, test);
+  XCTAssertTrue([csProperties isEqualToDictionary:test1] || [csProperties isEqualToDictionary:test2]);
 }
 
 - (void)testOverrideValueToValueProperties {
