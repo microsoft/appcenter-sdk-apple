@@ -1,5 +1,8 @@
 import UIKit
 
+// 10 MiB.
+let kMSDefaultDatabaseSize = 10 * 1024 * 1024
+
 class MSMainViewController: UITableViewController, AppCenterProtocol {
   
   enum StartupMode: String {
@@ -50,9 +53,10 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     _ = MSTransmissionTargets.shared
 
     // Storage size section.
-    let storageMaxSize = UserDefaults.standard.integer(forKey: kMSStorageMaxSizeKey)
+    let storageMaxSize = UserDefaults.standard.object(forKey: kMSStorageMaxSizeKey) as? Int ?? kMSDefaultDatabaseSize
     self.storageMaxSizeField.text = "\(storageMaxSize / 1024)"
     self.storageMaxSizeField.addTarget(self, action: #selector(storageMaxSizeUpdated(_:)), for: .editingChanged)
+    self.storageMaxSizeField.inputAccessoryView = self.toolBarForKeyboard()
     if let supportDirectory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
       let dbFile = supportDirectory.appendingPathComponent("com.microsoft.appcenter").appendingPathComponent("Logs.sqlite")
       func getFileSize(_ file: URL) -> Int {
@@ -113,6 +117,19 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   func storageMaxSizeUpdated(_ sender: UITextField) {
     let maxSize = (Int(sender.text ?? "0") ?? 0) * 1024
     UserDefaults.standard.set(maxSize, forKey: kMSStorageMaxSizeKey)
+  }
+
+  func toolBarForKeyboard() -> UIToolbar {
+    let toolbar = UIToolbar()
+    toolbar.sizeToFit()
+    let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+    let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.doneClicked))
+    toolbar.items = [flexibleSpace, doneButton]
+    return toolbar
+  }
+
+  func doneClicked() {
+    self.storageMaxSizeField.resignFirstResponder()
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

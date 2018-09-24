@@ -77,7 +77,7 @@ enum StartupMode {
           UIAlertController *alertController = [UIAlertController
                                                 alertControllerWithTitle:@"Warning!"
                                                 message:@"The maximum size of the internal "
-                                                @"storage wasn't set."
+                                                @"storage could not be set."
                                                 preferredStyle:UIAlertControllerStyleAlert];
           [alertController
               addAction:[UIAlertAction actionWithTitle:@"OK"
