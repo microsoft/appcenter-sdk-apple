@@ -167,7 +167,7 @@ static NSString *const kMSPartialURLComponentsName[] = {
                            __kindof NSURLSessionTask *_Nonnull call,
                            __attribute__((unused)) NSUInteger idx,
                            __attribute__((unused)) BOOL *_Nonnull stop) {
-              [call pause];
+              [call suspend];
             }];
           }];
 
@@ -183,9 +183,9 @@ static NSString *const kMSPartialURLComponentsName[] = {
           }];
 
       // Notify delegates.
-      [self enumerateDelegatesForSelector:@selector(ingestionDidSuspend:)
+      [self enumerateDelegatesForSelector:@selector(ingestionDidPause:)
                                 withBlock:^(id<MSIngestionDelegate> delegate) {
-                                  [delegate ingestionDidSuspend:self];
+                                  [delegate ingestionDidPause:self];
                                 }];
     }
   }

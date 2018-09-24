@@ -171,7 +171,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // Set a delegate for suspending event.
   id delegateMock = OCMProtocolMock(@protocol(MSIngestionDelegate));
-  OCMStub([delegateMock ingestionDidSuspend:self.sut])
+  OCMStub([delegateMock ingestionDidPause:self.sut])
       .andDo(^(__attribute__((unused)) NSInvocation *invocation) {
         [requestCompletedExcpectation fulfill];
       });
@@ -224,7 +224,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // Set a delegate for suspending/resuming event.
   id delegateMock = OCMProtocolMock(@protocol(MSIngestionDelegate));
   [self.sut addDelegate:delegateMock];
-  OCMStub([delegateMock ingestionDidSuspend:self.sut])
+  OCMStub([delegateMock ingestionDidPause:self.sut])
       .andDo(^(__attribute__((unused)) NSInvocation *invocation) {
 
         // Send one batch now that the ingestion is paused.
@@ -741,8 +741,8 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [self.sut pause];
 
   // Then
-  OCMVerify([delegateMock1 ingestionDidSuspend:self.sut]);
-  OCMVerify([delegateMock2 ingestionDidSuspend:self.sut]);
+  OCMVerify([delegateMock1 ingestionDidPause:self.sut]);
+  OCMVerify([delegateMock2 ingestionDidPause:self.sut]);
 }
 
 // TODO: Move this to base MSHttpIngestion test.

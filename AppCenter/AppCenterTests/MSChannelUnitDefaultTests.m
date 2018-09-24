@@ -1018,7 +1018,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   MSChannelUnitDefault *sut = [self createChannelUnit];
 
   // When
-  [sut ingestionDidSuspend:ingestionMock];
+  [sut ingestionDidPause:ingestionMock];
 
   // Then
   OCMVerify([sut pause]);

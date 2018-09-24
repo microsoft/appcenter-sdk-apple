@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) MS_Reachability *reachability;
 
 /**
- * A boolean value set to YES if the ingestion is suspended or NO otherwise.
+ * A boolean value set to YES if the ingestion is paused or NO otherwise.
  */
 @property(nonatomic) BOOL paused;
 
@@ -57,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Resume the ingestion.
- * 
+ *
  * @see pause.
  */
 - (void)resume;

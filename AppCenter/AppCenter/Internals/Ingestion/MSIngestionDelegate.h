@@ -5,11 +5,11 @@
 @optional
 
 /**
- * Triggered after the ingestion has suspended its state.
+ * Triggered after the ingestion has paused its state.
  *
  * @param ingestion Ingestion.
  */
-- (void)ingestionDidSuspend:(id<MSIngestionProtocol>)ingestion;
+- (void)ingestionDidPause:(id<MSIngestionProtocol>)ingestion;
 
 /**
  * Triggered after the ingestion has resumed its state.
