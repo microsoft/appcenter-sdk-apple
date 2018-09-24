@@ -214,18 +214,24 @@
   BOOL success;
   sqlite3 *db = [self openDatabaseAtFileURL:self.dbFileURL withMaxPageCount:requestedMaxPageCount withResult:&result];
   if (result != SQLITE_OK) {
-    MSLogWarning([MSAppCenter logTag], @"Cannot change maximum database size to %ld bytes right now. SQLite error "
+    MSLogError([MSAppCenter logTag], @"Cound not change maximum database size to %ld bytes. SQLite error "
                                        "code: %i", sizeInBytes, result);
     success = NO;
   } else {
     rows = [MSDBStorage executeSelectionQuery:@"PRAGMA max_page_count;" inOpenedDatabase:db];
     int currentMaxPageCount = [rows[0][0] intValue];
+    long actualSize = requestedMaxPageCount * kMSDefaultPageSizeInBytes;
     if (requestedMaxPageCount != currentMaxPageCount) {
-      MSLogWarning([MSAppCenter logTag], @"Cannot change maximum database size to %ld bytes right now.", sizeInBytes);
+      MSLogError([MSAppCenter logTag], @"Could not change maximum database size to %ld bytes, "
+                 @"current maximum size is %ld bytes.", sizeInBytes, actualSize);
       success = NO;
     } else {
-      long actualSize = requestedMaxPageCount * kMSDefaultPageSizeInBytes;
-      MSLogInfo([MSAppCenter logTag], @"Will attempt to change database size to %ld bytes (next multiple of 4KiB).", actualSize);
+      if (sizeInBytes == actualSize) {
+        MSLogInfo([MSAppCenter logTag], @"Changed maximum database size to %ld bytes.", actualSize);
+      } else {
+        MSLogInfo([MSAppCenter logTag], @"Changed maximum database size to %ld bytes (next multiple of 4KiB).",
+                  actualSize);
+      }
       self.maxPageCount = requestedMaxPageCount;
       success = YES;
     }
