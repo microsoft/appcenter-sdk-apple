@@ -225,8 +225,7 @@
       success = NO;
     } else {
       long actualSize = requestedMaxPageCount * kMSDefaultPageSizeInBytes;
-      MSLogDebug([MSAppCenter logTag], @"Successfully changed maximum storage size to %ld bytes (rounded to next "
-                                       "multiple of 4KiB).", actualSize);
+      MSLogInfo([MSAppCenter logTag], @"Will attempt to change database size to %ld bytes (next multiple of 4KiB).", actualSize);
       self.maxPageCount = requestedMaxPageCount;
       success = YES;
     }
