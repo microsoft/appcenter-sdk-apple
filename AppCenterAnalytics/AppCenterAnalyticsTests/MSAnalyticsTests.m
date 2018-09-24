@@ -969,4 +969,52 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   XCTAssertEqualObjects(result, properties);
 }
 
+-(void)testPause {
+  
+  // If
+  id appCenterMock = OCMClassMock([MSAppCenter class]);
+  OCMStub([appCenterMock sharedInstance]).andReturn(appCenterMock);
+  OCMStub([appCenterMock sdkConfigured]).andReturn(YES);
+  id <MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id <MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  [[MSAnalytics sharedInstance]
+   startWithChannelGroup:channelGroupMock
+   appSecret:kMSTestAppSecret
+   transmissionTargetToken:nil
+   fromApplication:YES];
+  OCMExpect([[MSAnalytics sharedInstance].channelUnit pause]);
+  
+  // When
+  [MSAnalytics pause];
+  
+  // Then
+  OCMVerify([[MSAnalytics sharedInstance].channelUnit pause]);
+  [appCenterMock stopMocking];
+}
+
+-(void)testResume {
+  
+  // If
+  id appCenterMock = OCMClassMock([MSAppCenter class]);
+  OCMStub([appCenterMock sharedInstance]).andReturn(appCenterMock);
+  OCMStub([appCenterMock sdkConfigured]).andReturn(YES);
+  id <MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id <MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  [[MSAnalytics sharedInstance]
+   startWithChannelGroup:channelGroupMock
+   appSecret:kMSTestAppSecret
+   transmissionTargetToken:nil
+   fromApplication:YES];
+  OCMExpect([[MSAnalytics sharedInstance].channelUnit resume]);
+  
+  // When
+  [MSAnalytics resume];
+  
+  // Then
+  OCMVerify([[MSAnalytics sharedInstance].channelUnit resume]);
+  [appCenterMock stopMocking];
+}
+
 @end
