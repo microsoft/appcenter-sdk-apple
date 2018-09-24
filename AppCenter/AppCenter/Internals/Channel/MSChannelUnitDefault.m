@@ -74,7 +74,7 @@
 
 #pragma mark - MSIngestionDelegate
 
-- (void)ingestionDidPause:(id <MSIngestionProtocol>)ingestion {
+- (void)ingestionDidPause:(__unused id <MSIngestionProtocol>)ingestion {
   [self pause];
 }
 
