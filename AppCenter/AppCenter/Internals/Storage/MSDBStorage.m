@@ -200,9 +200,9 @@
   MSLogDebug([MSAppCenter logTag], @"Found %i pages in the database.", currentPageCount);
   int requestedMaxPageCount = [MSDBStorage numberOfPagesInBytes:sizeInBytes];
   if (currentPageCount > requestedMaxPageCount) {
-    MSLogWarning([MSAppCenter logTag], @"Cannot change database size to %ld bytes as it would cause a loss of data. The"
-                                        " default maximum size of %ld will not be overridden.",
-                 sizeInBytes, kMSDefaultDatabaseSizeInBytes);
+    MSLogWarning([MSAppCenter logTag], @"Cannot change database size to %ld bytes as it would cause a loss of data. "
+                                       "Maximum database size will not be changed.",
+                 sizeInBytes);
     if (completionHandler) {
       completionHandler(NO);
     }
