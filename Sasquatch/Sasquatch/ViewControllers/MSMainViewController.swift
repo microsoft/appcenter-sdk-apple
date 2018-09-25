@@ -36,6 +36,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   deinit {
     self.dbFileSource?.cancel()
     close(self.dbFileDescriptor)
+    UserDefaults.standard.removeObserver(self, forKeyPath: kMSStorageMaxSizeKey)
   }
 
   override func viewDidLoad() {
@@ -54,6 +55,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
 
     // Storage size section.
     let storageMaxSize = UserDefaults.standard.object(forKey: kMSStorageMaxSizeKey) as? Int ?? kMSDefaultDatabaseSize
+    UserDefaults.standard.addObserver(self, forKeyPath: kMSStorageMaxSizeKey, options: .new, context: nil)
     self.storageMaxSizeField.text = "\(storageMaxSize / 1024)"
     self.storageMaxSizeField.addTarget(self, action: #selector(storageMaxSizeUpdated(_:)), for: .editingChanged)
     self.storageMaxSizeField.inputAccessoryView = self.toolBarForKeyboard()
@@ -82,6 +84,11 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
 
     // Make sure the UITabBarController does not cut off the last cell.
     self.edgesForExtendedLayout = []
+  }
+
+  override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    let storageMaxSize = UserDefaults.standard.object(forKey: kMSStorageMaxSizeKey) as? Int ?? kMSDefaultDatabaseSize
+    self.storageMaxSizeField.text = "\(storageMaxSize / 1024)"
   }
 
   override func viewWillAppear(_ animated: Bool) {
@@ -115,8 +122,9 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   }
 
   func storageMaxSizeUpdated(_ sender: UITextField) {
-    let maxSize = (Int(sender.text ?? "0") ?? 0) * 1024
-    UserDefaults.standard.set(maxSize, forKey: kMSStorageMaxSizeKey)
+    let maxSize = Int(sender.text ?? "0") ?? 0
+    sender.text = "\(maxSize)"
+    UserDefaults.standard.set(maxSize * 1024, forKey: kMSStorageMaxSizeKey)
   }
 
   func toolBarForKeyboard() -> UIToolbar {

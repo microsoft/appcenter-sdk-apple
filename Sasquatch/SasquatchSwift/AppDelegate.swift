@@ -30,11 +30,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     MSAppCenter.setLogLevel(MSLogLevel.verbose)
 
     // Set max storage size.
-    let storageMaxSize = UserDefaults.standard.integer(forKey: kMSStorageMaxSizeKey)
-    if storageMaxSize > 0 {
-      MSAppCenter.setMaxStorageSize(storageMaxSize, completionHandler: { success in
+    let storageMaxSize = UserDefaults.standard.object(forKey: kMSStorageMaxSizeKey) as? Int
+    if storageMaxSize != nil {
+      MSAppCenter.setMaxStorageSize(storageMaxSize!, completionHandler: { success in
         if !success {
           DispatchQueue.main.async {
+
+            // Remove invalid value.
+            UserDefaults.standard.removeObject(forKey: kMSStorageMaxSizeKey)
+
+            // Show alert.
             let alertController = UIAlertController(title: "Warning!",
                                                     message: "The maximum size of the internal storage could not be set.",
                                                     preferredStyle:.alert)
