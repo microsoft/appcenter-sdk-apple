@@ -22,7 +22,7 @@ NS_ENUM(NSInteger){kMSACConnectionSuspendedErrorCode = 100,
 
 // Error descriptions
 extern NSString const *kMSACConnectionHttpErrorDesc;
-extern NSString const *kMSACConnectionSuspendedErrorDesc;
+extern NSString const *kMSACConnectionPausedErrorDesc;
 
 // Error user info keys
 extern NSString const *kMSACConnectionHttpCodeErrorKey;

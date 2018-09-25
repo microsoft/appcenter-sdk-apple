@@ -178,7 +178,7 @@
           errorWithDomain:kMSACErrorDomain
                      code:kMSACConnectionSuspendedErrorCode
                  userInfo:@{
-                   NSLocalizedDescriptionKey : kMSACConnectionSuspendedErrorDesc
+                   NSLocalizedDescriptionKey : kMSACConnectionPausedErrorDesc
                  }];
       [self notifyFailureBeforeSendingForItem:item withError:error];
       [self enumerateDelegatesForSelector:@selector
@@ -465,7 +465,7 @@
           errorWithDomain:kMSACErrorDomain
                      code:kMSACConnectionSuspendedErrorCode
                  userInfo:@{
-                   NSLocalizedDescriptionKey : kMSACConnectionSuspendedErrorDesc
+                   NSLocalizedDescriptionKey : kMSACConnectionPausedErrorDesc
                  }];
       [self deleteAllLogsWithErrorSync:error];
 
@@ -495,7 +495,7 @@
 
 - (void)pause {
   if (!self.paused) {
-    MSLogDebug([MSAppCenter logTag], @"Suspend channel for group Id %@.",
+    MSLogDebug([MSAppCenter logTag], @"Pause channel for group Id %@.",
                self.configuration.groupId);
     self.paused = YES;
     [self resetTimer];
