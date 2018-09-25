@@ -5,7 +5,6 @@
 #import "MSLogger.h"
 #import "MSSemVer.h"
 #import "MSUtility+StringFormatting.h"
-#import "MSUtility.h"
 
 NSBundle *MSDistributeBundle(void) {
   static NSBundle *bundle = nil;
