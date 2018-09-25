@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nullable, readonly) NSString *preRelease;
 
 /**
- * Metadat part of the version.
+ * Metadata part of the version.
  */
 @property(nullable, readonly) NSString *metadata;
 
