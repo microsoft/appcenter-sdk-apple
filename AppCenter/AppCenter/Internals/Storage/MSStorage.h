@@ -49,7 +49,7 @@ typedef void (^MSLoadDataCompletionBlock)(NSArray<id<MSLog>> *_Nullable logArray
 
 /**
  * Return the most recent logs for a Group Id.
- * 
+ *
  * @param groupId The key used for grouping.
  * @param limit Limit the maximum number of logs to be loaded from disk.
  * @param iKeys The list of iKeys for the logs.
