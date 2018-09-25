@@ -196,7 +196,7 @@
 
   // Check the current number of pages in the database to determine whether the requested size will shrink the database.
   NSArray<NSArray *> *rows = [self executeSelectionQuery:@"PRAGMA page_count;"];
-  int currentPageCount = [rows[0][0] intValue];
+  int currentPageCount = [(NSNumber *)rows[0][0] intValue];
   MSLogDebug([MSAppCenter logTag], @"Found %i pages in the database.", currentPageCount);
   int requestedMaxPageCount = [MSDBStorage numberOfPagesInBytes:sizeInBytes];
   if (currentPageCount > requestedMaxPageCount) {
@@ -219,7 +219,7 @@
     success = NO;
   } else {
     rows = [MSDBStorage executeSelectionQuery:@"PRAGMA max_page_count;" inOpenedDatabase:db];
-    int currentMaxPageCount = [rows[0][0] intValue];
+    int currentMaxPageCount = [(NSNumber *)rows[0][0] intValue];
     long actualSize = requestedMaxPageCount * kMSDefaultPageSizeInBytes;
     if (requestedMaxPageCount != currentMaxPageCount) {
       MSLogError([MSAppCenter logTag], @"Could not change maximum database size to %ld bytes, "
