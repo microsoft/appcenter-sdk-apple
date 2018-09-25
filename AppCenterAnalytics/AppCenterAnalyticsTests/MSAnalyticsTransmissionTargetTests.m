@@ -6,7 +6,6 @@
 #import "MSAppCenterInternal.h"
 #import "MSAppExtension.h"
 #import "MSChannelUnitDefault.h"
-#import "MSChannelUnitProtocol.h"
 #import "MSCSExtensions.h"
 #import "MSEventLog.h"
 #import "MSMockUserDefaults.h"
@@ -581,7 +580,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   XCTAssertEqual(eventLog.properties[@"g"], @"7777");
 }
 
-- (void)testAppExtentionCommonSchemaPropertiesWithoutOverriding {
+- (void)testAppExtensionCommonSchemaPropertiesWithoutOverriding {
 
   // If
 
