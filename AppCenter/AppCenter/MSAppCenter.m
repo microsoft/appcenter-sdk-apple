@@ -622,14 +622,14 @@ transmissionTargetToken:(NSString *)transmissionTargetToken
  *  The application will go to the foreground.
  */
 - (void)applicationWillEnterForeground {
-  [self.channelGroup resume];
+  [self.channelGroup resumeWithToken:self];
 }
 
 /**
  *  The application will go to the background.
  */
 - (void)applicationDidEnterBackground {
-  [self.channelGroup pause];
+  [self.channelGroup pauseWithToken:self];
 }
 #endif
 

@@ -91,16 +91,17 @@
  * A callback that is called when pause has been invoked.
  *
  * @param channel The channel.
+ * @param token The token used to pause the channel.
  */
-- (void)channelDidPause:(id<MSChannelProtocol>)channel;
+- (void)channel:(id <MSChannelProtocol>)channel didPauseWithToken:(NSObject *)token;
 
 /**
  * A callback that is called when resume has been invoked.
  *
  * @param channel The channel.
+ * @param token The token used to resume the channel.
  */
-- (void)channelDidResume:(id<MSChannelProtocol>)channel;
-
+- (void)channel:(id <MSChannelProtocol>)channel didResumeWithToken:(NSObject *)token;
 
 /**
  * Callback method that will determine if a log should be filtered out from the
@@ -111,7 +112,6 @@
  *
  * @return `true` if the log should be filtered out.
  */
-- (BOOL)channelUnit:(id<MSChannelUnitProtocol>)channelUnit
-    shouldFilterLog:(id<MSLog>)log;
+- (BOOL)channelUnit:(id<MSChannelUnitProtocol>)channelUnit shouldFilterLog:(id<MSLog>)log;
 
 @end

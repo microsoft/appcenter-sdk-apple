@@ -262,11 +262,11 @@ forTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget {
 }
 
 - (void)pause {
-  [self.channelUnit pause];
+  [self.channelUnit pauseWithToken:self];
 }
 
 - (void)resume {
-  [self.channelUnit resume];
+  [self.channelUnit resumeWithToken:self];
 }
 
 - (NSDictionary<NSString *, NSString *> *)removeInvalidProperties:(NSDictionary<NSString *, NSString *> *)properties {

@@ -44,7 +44,7 @@
 
     // Match ingestion's current status, if one is passed.
     if (_ingestion && _ingestion.paused) {
-      [self pause];
+      [self pauseWithToken:(_Nonnull id<MSIngestionProtocol>)_ingestion];
     }
   }
   return self;
@@ -74,12 +74,12 @@
 
 #pragma mark - MSIngestionDelegate
 
-- (void)ingestionDidPause:(__unused id <MSIngestionProtocol>)ingestion {
-  [self pause];
+- (void)ingestionDidPause:(id <MSIngestionProtocol>)ingestion {
+  [self pauseWithToken:ingestion];
 }
 
-- (void)ingestionDidResume:(__unused id<MSIngestionProtocol>)ingestion {
-  [self resume];
+- (void)ingestionDidResume:(id<MSIngestionProtocol>)ingestion {
+  [self resumeWithToken:ingestion];
 }
 
 - (void)ingestionDidReceiveFatalError:
@@ -448,11 +448,9 @@
     if (self.enabled != isEnabled) {
       self.enabled = isEnabled;
       if (isEnabled) {
-        if (!self.ingestion.paused) {
-          [self resume];
-        }
+        [self resumeWithToken:self];
       } else {
-        [self pause];
+        [self pauseWithToken:self];
       }
     }
 
@@ -493,7 +491,7 @@
   });
 }
 
-- (void)pause {
+- (void)pauseWithToken:(__unused NSObject *)token {
   if (!self.paused) {
     MSLogDebug([MSAppCenter logTag], @"Pause channel for group Id %@.",
                self.configuration.groupId);
@@ -502,7 +500,7 @@
   }
 }
 
-- (void)resume {
+- (void)resumeWithToken:(__unused NSObject *)token {
   if (self.paused && self.enabled) {
     MSLogDebug([MSAppCenter logTag], @"Resume channel for group Id %@.",
                self.configuration.groupId);

@@ -173,18 +173,19 @@
   MSChannelGroupDefault *sut =
       [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   [sut.channels addObject:channelMock];
+  NSObject *token = [NSObject new];
 
   // When
-  [sut resume];
+  [sut resumeWithToken:token];
 
   // Then
   OCMVerify([ingestionMock setEnabled:YES andDeleteDataOnDisabled:NO]);
   dispatch_sync(sut.logsDispatchQueue, ^{
                 });
-  OCMVerify([channelMock resume]);
+  OCMVerify([channelMock resumeWithToken:token]);
 }
 
-- (void)testSuspend {
+- (void)testPause {
 
   // If
   MSHttpIngestion *ingestionMock = OCMClassMock([MSHttpIngestion class]);
@@ -193,15 +194,16 @@
   MSChannelGroupDefault *sut =
       [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   [sut.channels addObject:channelMock];
+  NSObject *token = [NSObject new];
 
   // When
-  [sut pause];
+  [sut pauseWithToken:token];
 
   // Then
   OCMVerify([ingestionMock setEnabled:NO andDeleteDataOnDisabled:NO]);
   dispatch_sync(sut.logsDispatchQueue, ^{
                 });
-  OCMVerify([channelMock pause]);
+  OCMVerify([channelMock pauseWithToken:token]);
 }
 
 - (void)testChannelUnitIsCorrectlyInitialized {

@@ -1021,7 +1021,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [sut ingestionDidPause:ingestionMock];
 
   // Then
-  OCMVerify([sut pause]);
+  OCMVerify([sut pauseWithToken:ingestionMock]);
 }
 
 - (void)testResumeOnIngestionResumed {
@@ -1034,7 +1034,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [sut ingestionDidResume:ingestionMock];
 
   // Then
-  OCMVerify([sut resume]);
+  OCMVerify([sut resumeWithToken:ingestionMock]);
 }
 
 #pragma mark - Helper

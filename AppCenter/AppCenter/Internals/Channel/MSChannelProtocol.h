@@ -14,28 +14,40 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MSChannelProtocol <NSObject, MSEnable>
 
 /**
- *  Add delegate.
+ * Add delegate.
  *
- *  @param delegate delegate.
+ * @param delegate delegate.
  */
 - (void)addDelegate:(id<MSChannelDelegate>)delegate;
 
 /**
- *  Remove delegate.
+ * Remove delegate.
  *
- *  @param delegate delegate.
+ * @param delegate delegate.
  */
 - (void)removeDelegate:(id<MSChannelDelegate>)delegate;
 
 /**
- * Suspend operations, logs will be stored but not sent.
+ * Pause operations, logs will be stored but not sent.
+ *
+ * @param token Token used to identify the pause request, can be any object.
+ *
+ * @discussion The same token must be used to call resume.
+ *
+ * @see resumeWithToken:
  */
-- (void)pause;
+- (void)pauseWithToken:(NSObject*)token;
 
 /**
  * Resume operations, logs can be sent again.
+ *
+ * @param token Token used to passed to the pause method.
+ *
+ * @discussion The channel only resume when all the outstanding tokens have been resumed.
+ *
+ * @see pauseWithToken:
  */
-- (void)resume;
+- (void)resumeWithToken:(NSObject*)token;
 
 @end
 

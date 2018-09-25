@@ -179,7 +179,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 
 #pragma mark - Suspend / Resume
 
-- (void)pause {
+- (void)pauseWithToken:(NSObject*)token {
 
   // Disable ingestion, sending log will not be possible but they'll still be
   // stored.
@@ -188,12 +188,12 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
   // Suspend each channel asynchronously.
   for (id<MSChannelProtocol> channel in self.channels) {
     dispatch_async(self.logsDispatchQueue, ^{
-      [channel pause];
+      [channel pauseWithToken:token];
     });
   }
 }
 
-- (void)resume {
+- (void)resumeWithToken:(NSObject *)token {
 
   // Resume ingestion, logs can be sent again. Pending logs are sent.
   [self.ingestion setEnabled:YES andDeleteDataOnDisabled:NO];
@@ -201,7 +201,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
   // Resume each channel asynchronously.
   for (id<MSChannelProtocol> channel in self.channels) {
     dispatch_async(self.logsDispatchQueue, ^{
-      [channel resume];
+      [channel resumeWithToken:token];
     });
   }
 }
