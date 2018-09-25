@@ -137,6 +137,107 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   XCTAssertFalse(moreLogsAvailable);
 }
 
+- (void)testLoadCommonSchemaLogsWhilePendingBatchesWithSpecificIKeys {
+
+  // If
+  NSString *testTargetToken = @"testTargetToken";
+
+  // When
+  for (int i = 0; i < 10; i++) {
+    MSCommonSchemaLog *log = [MSCommonSchemaLog new];
+    [log addTransmissionTargetToken:testTargetToken];
+    log.iKey = [NSString stringWithFormat:@"testIKey%d", i % 3];
+    if (i % 2 == 0) {
+      [self.sut saveLog:log withGroupId:kMSTestGroupId];
+    } else {
+      [self.sut saveLog:log withGroupId:kMSAnotherTestGroupId];
+    }
+  }
+
+  // Then
+  [self.sut loadLogsWithGroupId:kMSTestGroupId
+                          limit:10
+                          iKeys:@[@"testIKey0"]
+              completionHandler:^(NSArray <MSLog> *_Nonnull logArray, __unused NSString *batchId) {
+                assertThatInt([logArray count], equalToInt(2));
+                for (MSCommonSchemaLog *log in logArray) {
+                  XCTAssertEqualObjects(log.iKey, @"testIKey0");
+                }
+              }];
+  [self.sut loadLogsWithGroupId:kMSTestGroupId
+                          limit:10
+                          iKeys:@[@"testIKey1"]
+              completionHandler:^(NSArray <MSLog> *_Nonnull logArray, __unused NSString *batchId) {
+                assertThatInt([logArray count], equalToInt(1));
+                for (MSCommonSchemaLog *log in logArray) {
+                  XCTAssertEqualObjects(log.iKey, @"testIKey1");
+                }
+              }];
+  [self.sut loadLogsWithGroupId:kMSTestGroupId
+                          limit:10
+                          iKeys:@[@"testIKey2"]
+              completionHandler:^(NSArray <MSLog> *_Nonnull logArray, __unused NSString *batchId) {
+                assertThatInt([logArray count], equalToInt(2));
+                for (MSCommonSchemaLog *log in logArray) {
+                  XCTAssertEqualObjects(log.iKey, @"testIKey2");
+                }
+              }];
+  [self.sut loadLogsWithGroupId:kMSTestGroupId
+                          limit:10
+                          iKeys:@[@"testIKey3"]
+              completionHandler:^(NSArray <MSLog> *_Nonnull logArray, __unused NSString *batchId) {
+                assertThatInt([logArray count], equalToInt(0));
+              }];
+}
+
+- (void)testLoadCommonSchemaLogsWhilePendingBatchesWithIKeysForBackwardCompatibility {
+
+  // If
+  NSString *testTargetToken = @"testTargetToken";
+
+  // When
+  for (int i = 0; i < 20; i++) {
+    MSCommonSchemaLog *log = [MSCommonSchemaLog new];
+    [log addTransmissionTargetToken:testTargetToken];
+    if (i % 4 != 0) {
+      log.iKey = [NSString stringWithFormat:@"testIKey%d", i % 4];
+    }
+    [self.sut saveLog:log withGroupId:kMSTestGroupId];
+  }
+
+  // Then
+  [self.sut loadLogsWithGroupId:kMSTestGroupId
+                          limit:20
+                          iKeys:@[@"testIKey1", @"testIKey2"]
+              completionHandler:^(NSArray <MSLog> *_Nonnull logArray, __unused NSString *batchId) {
+                assertThatInt([logArray count], equalToInt(15));
+              }];
+}
+
+- (void)testLoadCommonSchemaLogsWhilePendingBatchesWithoutIKeysForBackwardCompatibility {
+
+  // If
+  NSString *testTargetToken = @"testTargetToken";
+
+  // When
+  for (int i = 0; i < 10; i++) {
+    MSCommonSchemaLog *log = [MSCommonSchemaLog new];
+    [log addTransmissionTargetToken:testTargetToken];
+    if (i % 2 == 0) {
+      log.iKey = [NSString stringWithFormat:@"testIKey%d", i % 2];
+    }
+    [self.sut saveLog:log withGroupId:kMSTestGroupId];
+  }
+
+  // Then
+  [self.sut loadLogsWithGroupId:kMSTestGroupId
+                          limit:10
+                          iKeys:nil
+              completionHandler:^(NSArray <MSLog> *_Nonnull logArray, __unused NSString *batchId) {
+                assertThatInt([logArray count], equalToInt(10));
+              }];
+}
+
 - (void)testLoadLogsWhilePendingBatchesFromOtherGroupId {
 
   // If
@@ -574,7 +675,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
                                               groupId:(NSString *)groupId
                                               storage:(MSDBStorage *)storage {
   NSMutableArray<id <MSLog>> *logs = [NSMutableArray arrayWithCapacity:count];
-  NSUInteger truelogCount;
+  NSUInteger trueLogCount;
   for (NSUInteger i = 0; i < count; ++i) {
     id <MSLog> log = [MSAbstractLog new];
     log.sid = MS_UUID_STRING;
@@ -588,10 +689,10 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   }
 
   // Check the insertion worked.
-  truelogCount =
+  trueLogCount =
       [storage countEntriesForTable:kMSLogTableName
                           condition:[NSString stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, groupId]];
-  assertThatUnsignedInteger(truelogCount, equalToUnsignedInteger(count));
+  assertThatUnsignedInteger(trueLogCount, equalToUnsignedInteger(count));
   return logs;
 }
 

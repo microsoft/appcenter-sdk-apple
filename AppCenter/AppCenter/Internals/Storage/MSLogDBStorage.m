@@ -57,7 +57,7 @@ static const NSUInteger kMSSchemaVersion = 2;
     NSString *encryptedToken = [self.targetTokenEncrypter encryptString:targetToken];
     NSString *iKey = ((MSCommonSchemaLog *) log).iKey;
     addLogQuery = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", "
-                                             @"\"%@\", \"%@\") VALUES ('%@', '%@', '%@', '%@')",
+                                             @"\"%@\", \"%@\") VALUES ('%@', '%@', '%@', %@)",
                                              kMSLogTableName,
                                              kMSGroupIdColumnName,
                                              kMSLogColumnName,
@@ -66,7 +66,7 @@ static const NSUInteger kMSSchemaVersion = 2;
                                              groupId,
                                              base64Data,
                                              encryptedToken,
-                                             iKey];
+                                             iKey ? [NSString stringWithFormat:@"'%@'", iKey] : @"NULL"];
   }
   int result = [self executeNonSelectionQuery:addLogQuery];
 
@@ -110,14 +110,11 @@ static const NSUInteger kMSSchemaVersion = 2;
 
   // Get iKeys from batches.
   if (iKeys.count > 0) {
-    [condition appendString:@" AND ("];
+    [condition appendFormat:@" AND ( \"%@\" IS NULL", kMSIKeyColumnName];
     for (NSUInteger i = 0; i < iKeys.count; i++) {
-      if (i != 0) {
-        [condition appendFormat:@" OR "];
-      }
-      [condition appendFormat:@"\"%@\" = '%@'", kMSIKeyColumnName, iKeys[i]];
+      [condition appendFormat:@" OR \"%@\" = '%@'", kMSIKeyColumnName, iKeys[i]];
     }
-    [condition appendString:@")"];
+    [condition appendString:@" )"];
   }
 
   // Take only logs that are not already part of a batch.
