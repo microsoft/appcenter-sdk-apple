@@ -250,142 +250,142 @@
       loadLogsWithGroupId:self.configuration.groupId
                     limit:self.configuration.batchSizeLimit
                     iKeys:nil
-           withCompletion:^(NSArray <MSLog> *_Nonnull logArray,
+        completionHandler:^(NSArray <MSLog> *_Nonnull logArray,
                             NSString *batchId) {
 
-             // Logs may be deleted from storage before this flush.
-             if (batchId.length > 0) {
-               [self.pendingBatchIds addObject:batchId];
-               if (self.pendingBatchIds.count >=
-                   self.configuration.pendingBatchesLimit) {
-                 self.pendingBatchQueueFull = YES;
-               }
-               MSLogContainer *container =
-                   [[MSLogContainer alloc] initWithBatchId:batchId
-                                                   andLogs:logArray];
+          // Logs may be deleted from storage before this flush.
+          if (batchId.length > 0) {
+            [self.pendingBatchIds addObject:batchId];
+            if (self.pendingBatchIds.count >=
+                self.configuration.pendingBatchesLimit) {
+              self.pendingBatchQueueFull = YES;
+            }
+            MSLogContainer *container =
+                [[MSLogContainer alloc] initWithBatchId:batchId
+                                                andLogs:logArray];
 
-               // Optimization. If the current log level is greater than
-               // MSLogLevelDebug, we can skip it.
-               if ([MSAppCenter logLevel] <= MSLogLevelDebug) {
-                 NSUInteger count = [container.logs count];
-                 for (NSUInteger i = 0; i < count; i++) {
-                   MSLogDebug([MSAppCenter logTag],
-                              @"Sending %tu/%tu log, group Id: %@, batch Id: "
-                              @"%@, session Id: %@, payload:\n%@",
-                              (i + 1), count, self.configuration.groupId,
-                              batchId, container.logs[i].sid,
-                              [(MSAbstractLog *) container.logs[i]
-                                  serializeLogWithPrettyPrinting:YES]);
-                 }
-               }
+            // Optimization. If the current log level is greater than
+            // MSLogLevelDebug, we can skip it.
+            if ([MSAppCenter logLevel] <= MSLogLevelDebug) {
+              NSUInteger count = [container.logs count];
+              for (NSUInteger i = 0; i < count; i++) {
+                MSLogDebug([MSAppCenter logTag],
+                           @"Sending %tu/%tu log, group Id: %@, batch Id: "
+                           @"%@, session Id: %@, payload:\n%@",
+                           (i + 1), count, self.configuration.groupId,
+                           batchId, container.logs[i].sid,
+                           [(MSAbstractLog *) container.logs[i]
+                               serializeLogWithPrettyPrinting:YES]);
+              }
+            }
 
-               // Notify delegates.
-               [self
-                   enumerateDelegatesForSelector:@selector(channel:willSendLog:)
-                                       withBlock:^(
-                                           id <MSChannelDelegate> delegate) {
-                                         for (id <MSLog> aLog in logArray) {
-                                           [delegate channel:self
-                                                 willSendLog:aLog];
-                                         }
-                                       }];
+            // Notify delegates.
+            [self
+                enumerateDelegatesForSelector:@selector(channel:willSendLog:)
+                                    withBlock:^(
+                                        id <MSChannelDelegate> delegate) {
+                                      for (id <MSLog> aLog in logArray) {
+                                        [delegate channel:self
+                                              willSendLog:aLog];
+                                      }
+                                    }];
 
-               // Forward logs to the ingestion.
-               [self.ingestion
-                   sendAsync:container
-                   appSecret:self.appSecret
-           completionHandler:^(
-               NSString *ingestionBatchId, NSUInteger statusCode,
-               __attribute__((unused)) NSData *data, NSError *error) {
-             dispatch_async(self.logsDispatchQueue, ^{
-               if ([self.pendingBatchIds
-                   containsObject:ingestionBatchId]) {
+            // Forward logs to the ingestion.
+            [self.ingestion
+                sendAsync:container
+                appSecret:self.appSecret
+        completionHandler:^(
+            NSString *ingestionBatchId, NSUInteger statusCode,
+            __attribute__((unused)) NSData *data, NSError *error) {
+          dispatch_async(self.logsDispatchQueue, ^{
+            if ([self.pendingBatchIds
+                containsObject:ingestionBatchId]) {
 
-                 // Success.
-                 if (statusCode == MSHTTPCodesNo200OK) {
-                   MSLogDebug([MSAppCenter logTag],
-                              @"Log(s) sent with success, batch Id:%@.",
-                              ingestionBatchId);
+              // Success.
+              if (statusCode == MSHTTPCodesNo200OK) {
+                MSLogDebug([MSAppCenter logTag],
+                           @"Log(s) sent with success, batch Id:%@.",
+                           ingestionBatchId);
 
-                   // Notify delegates.
-                   [self
-                       enumerateDelegatesForSelector:@selector
-                       (channel:didSucceedSendingLog:)
-                                           withBlock:^(
-                                               id <MSChannelDelegate>
-                                               delegate) {
-                                             for (id <MSLog> aLog in
-                                                 logArray) {
-                                               [delegate channel:self
-                                            didSucceedSendingLog:
-                                                aLog];
-                                             }
-                                           }];
+                // Notify delegates.
+                [self
+                    enumerateDelegatesForSelector:@selector
+                    (channel:didSucceedSendingLog:)
+                                        withBlock:^(
+                                            id <MSChannelDelegate>
+                                            delegate) {
+                                          for (id <MSLog> aLog in
+                                              logArray) {
+                                            [delegate channel:self
+                                         didSucceedSendingLog:
+                                             aLog];
+                                          }
+                                        }];
 
-                   // Remove from pending logs and storage.
-                   [self.pendingBatchIds removeObject:ingestionBatchId];
-                   [self.storage
-                       deleteLogsWithBatchId:ingestionBatchId
-                                     groupId:self.configuration
-                                                 .groupId];
+                // Remove from pending logs and storage.
+                [self.pendingBatchIds removeObject:ingestionBatchId];
+                [self.storage
+                    deleteLogsWithBatchId:ingestionBatchId
+                                  groupId:self.configuration
+                                              .groupId];
 
-                   // Try to flush again if batch queue is not full
-                   // anymore.
-                   if (self.pendingBatchQueueFull &&
-                       self.pendingBatchIds.count <
-                           self.configuration.pendingBatchesLimit) {
-                     self.pendingBatchQueueFull = NO;
-                     if (self.availableBatchFromStorage) {
-                       [self flushQueue];
-                     }
-                   }
-                 }
+                // Try to flush again if batch queue is not full
+                // anymore.
+                if (self.pendingBatchQueueFull &&
+                    self.pendingBatchIds.count <
+                        self.configuration.pendingBatchesLimit) {
+                  self.pendingBatchQueueFull = NO;
+                  if (self.availableBatchFromStorage) {
+                    [self flushQueue];
+                  }
+                }
+              }
 
-                   // Failure.
-                 else {
-                   MSLogError([MSAppCenter logTag],
-                              @"Log(s) sent with failure, batch Id:%@, "
-                              @"status code:%tu",
-                              ingestionBatchId, statusCode);
+                // Failure.
+              else {
+                MSLogError([MSAppCenter logTag],
+                           @"Log(s) sent with failure, batch Id:%@, "
+                           @"status code:%tu",
+                           ingestionBatchId, statusCode);
 
-                   // Notify delegates.
-                   [self enumerateDelegatesForSelector:@selector
-                    (channel:didFailSendingLog:withError:)
-                                             withBlock:^(
-                                                 id <MSChannelDelegate>
-                                                 delegate) {
-                                               for (id <MSLog> aLog in
-                                                   logArray) {
-                                                 [delegate channel:self
-                                                 didFailSendingLog:
-                                                     aLog
-                                                         withError:
-                                                             error];
-                                               }
-                                             }];
+                // Notify delegates.
+                [self enumerateDelegatesForSelector:@selector
+                 (channel:didFailSendingLog:withError:)
+                                          withBlock:^(
+                                              id <MSChannelDelegate>
+                                              delegate) {
+                                            for (id <MSLog> aLog in
+                                                logArray) {
+                                              [delegate channel:self
+                                              didFailSendingLog:
+                                                  aLog
+                                                      withError:
+                                                          error];
+                                            }
+                                          }];
 
-                   // Remove from pending logs.
-                   [self.pendingBatchIds removeObject:ingestionBatchId];
-                   [self.storage
-                       deleteLogsWithBatchId:ingestionBatchId
-                                     groupId:self.configuration
-                                                 .groupId];
+                // Remove from pending logs.
+                [self.pendingBatchIds removeObject:ingestionBatchId];
+                [self.storage
+                    deleteLogsWithBatchId:ingestionBatchId
+                                  groupId:self.configuration
+                                              .groupId];
 
-                   // Update pending batch queue state.
-                   if (self.pendingBatchQueueFull &&
-                       self.pendingBatchIds.count <
-                           self.configuration.pendingBatchesLimit) {
-                     self.pendingBatchQueueFull = NO;
-                   }
-                 }
-               } else
-                 MSLogWarning([MSAppCenter logTag],
-                              @"Batch Id %@ not expected, ignore.",
-                              ingestionBatchId);
-             });
-           }];
-             }
-           }];
+                // Update pending batch queue state.
+                if (self.pendingBatchQueueFull &&
+                    self.pendingBatchIds.count <
+                        self.configuration.pendingBatchesLimit) {
+                  self.pendingBatchQueueFull = NO;
+                }
+              }
+            } else
+              MSLogWarning([MSAppCenter logTag],
+                           @"Batch Id %@ not expected, ignore.",
+                           ingestionBatchId);
+          });
+        }];
+          }
+        }];
 
   // Flush again if there is another batch to send.
   if (self.availableBatchFromStorage && !self.pendingBatchQueueFull) {

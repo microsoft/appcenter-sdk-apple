@@ -49,18 +49,18 @@ typedef void (^MSLoadDataCompletionBlock)(NSArray<id<MSLog>> *_Nullable logArray
 
 /**
  * Return the most recent logs for a Group Id.
- *
+ * 
  * @param groupId The key used for grouping.
  * @param limit Limit the maximum number of logs to be loaded from disk.
  * @param iKeys The list of iKeys for the logs.
- * @param completion The completion block for loading the logs.
+ * @param completionHandler The completion block for loading the logs.
  *
  * @return a list of logs.
  */
 - (BOOL)loadLogsWithGroupId:(NSString *)groupId
                       limit:(NSUInteger)limit
                       iKeys:(nullable NSArray< NSString *> *)iKeys
-             withCompletion:(nullable MSLoadDataCompletionBlock)completion;
+          completionHandler:(nullable MSLoadDataCompletionBlock)completionHandler;
 
 /**
  * Set the maximum size of the internal storage. This method must be called

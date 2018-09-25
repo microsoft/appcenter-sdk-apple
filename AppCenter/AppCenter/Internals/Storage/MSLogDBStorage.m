@@ -88,8 +88,8 @@ static const NSUInteger kMSSchemaVersion = 2;
 
 - (BOOL)loadLogsWithGroupId:(NSString *)groupId
                       limit:(NSUInteger)limit
-                      iKeys:(NSArray< NSString *> *)iKeys
-             withCompletion:(nullable MSLoadDataCompletionBlock)completion {
+                      iKeys:(nullable NSArray< NSString *> *)iKeys
+          completionHandler:(nullable MSLoadDataCompletionBlock)completionHandler {
   BOOL logsAvailable;
   BOOL moreLogsAvailable = NO;
   NSString *batchId;
@@ -161,8 +161,8 @@ static const NSUInteger kMSSchemaVersion = 2;
   }
 
   // Load completed.
-  if (completion) {
-    completion(logs, batchId);
+  if (completionHandler) {
+    completionHandler(logs, batchId);
   }
 
   // Return YES if more logs available.
