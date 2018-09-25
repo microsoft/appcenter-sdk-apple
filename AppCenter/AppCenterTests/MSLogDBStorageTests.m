@@ -3,6 +3,7 @@
 #import "MSAbstractLogInternal.h"
 #import "MSDBStoragePrivate.h"
 #import "MSLogDBStoragePrivate.h"
+#import "MSLogDBStorageVersion.h"
 #import "MSStorageTestUtil.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility.h"
@@ -614,7 +615,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
           @{kMSLogColumnName: @[kMSSQLiteTypeText, kMSSQLiteConstraintNotNull]}
       ]
   };
-  MSDBStorage *storage0 = [[MSDBStorage alloc] initWithSchema:schema0 version:0 filename:kMSDBFileName];
+  MSDBStorage *storage0 = [[MSDBStorage alloc] initWithSchema:schema0 version:kMSInitialVersion filename:kMSDBFileName];
   [self generateAndSaveLogsWithCount:10 groupId:kMSTestGroupId storage:storage0];
 
   // When
@@ -646,7 +647,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
           @{kMSTargetTokenColumnName: @[kMSSQLiteTypeText]}
       ]
   };
-  MSDBStorage *storage1 = [[MSDBStorage alloc] initWithSchema:schema1 version:1 filename:kMSDBFileName];
+  MSDBStorage *storage1 = [[MSDBStorage alloc] initWithSchema:schema1 version:kMSTargetTokenVersion filename:kMSDBFileName];
   [self generateAndSaveLogsWithCount:10 groupId:kMSTestGroupId storage:storage1];
 
   // When

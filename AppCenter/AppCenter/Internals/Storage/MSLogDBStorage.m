@@ -3,6 +3,7 @@
 #import "MSAppCenterInternal.h"
 #import "MSDBStoragePrivate.h"
 #import "MSLogDBStoragePrivate.h"
+#import "MSLogDBStorageVersion.h"
 
 static const NSUInteger kMSSchemaVersion = 2;
 
@@ -309,13 +310,13 @@ static const NSUInteger kMSSchemaVersion = 2;
  * actions for migration should be implemented in this method.
  */
 - (void)migrateDatabase:(void *)db fromVersion:(NSUInteger)version {
-  if (version < 1) {
+  if (version < kMSTargetTokenVersion) {
     NSString *migrationQuery = [NSString stringWithFormat:@"ALTER TABLE \"%@\" ADD COLUMN \"%@\" "
                                                           "TEXT",
                                                           kMSLogTableName, kMSTargetTokenColumnName];
     [MSDBStorage executeNonSelectionQuery:migrationQuery inOpenedDatabase:db];
   }
-  if (version < 2) {
+  if (version < kMSIKeyVersion) {
     NSString *migrationQuery = [NSString stringWithFormat:@"ALTER TABLE \"%@\" ADD COLUMN \"%@\" "
                                                           "TEXT",
                                                           kMSLogTableName, kMSIKeyColumnName];
