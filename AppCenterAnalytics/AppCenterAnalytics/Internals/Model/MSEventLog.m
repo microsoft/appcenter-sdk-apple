@@ -101,7 +101,7 @@ static NSString *const kMSId = @"id";
       NSMutableDictionary *destProperties = csProperties;
       for (NSUInteger i = 0; i < lastIndex; i++) {
         NSMutableDictionary *subObject = nil;
-        if ([destProperties[csKeys[i]] isKindOfClass:[NSMutableDictionary class]]) {
+        if ([(NSObject *)destProperties[csKeys[i]] isKindOfClass:[NSMutableDictionary class]]) {
           subObject = destProperties[csKeys[i]];
         }
         if (!subObject) {
