@@ -1,12 +1,12 @@
-#import "MSChannelUnitDefault.h"
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenterErrors.h"
+#import "MSAppCenterIngestion.h"
 #import "MSAppCenterInternal.h"
 #import "MSChannelDelegate.h"
 #import "MSChannelUnitConfiguration.h"
+#import "MSChannelUnitDefault.h"
 #import "MSDeviceTracker.h"
 #import "MSIngestionProtocol.h"
-#import "MSAppCenterIngestion.h"
 #import "MSStorage.h"
 
 @implementation MSChannelUnitDefault
