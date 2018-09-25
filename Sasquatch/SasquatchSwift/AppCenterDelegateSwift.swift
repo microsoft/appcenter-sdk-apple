@@ -112,6 +112,14 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     // MSAnalytics.trackPage(pageName, withProperties: properties)
   }
 
+  func resume() {
+    MSAnalytics.resume()
+  }
+
+  func pause() {
+    MSAnalytics.pause()
+  }
+
   // MSCrashes section.
   func hasCrashedInLastSession() -> Bool {
     return MSCrashes.hasCrashedInLastSession()

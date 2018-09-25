@@ -126,6 +126,14 @@
 #endif
 }
 
+- (void)resume {
+  [MSAnalytics resume];
+}
+
+- (void)pause {
+  [MSAnalytics pause];
+}
+
 #pragma mark - MSCrashes section.
 - (BOOL)hasCrashedInLastSession {
   return [MSCrashes hasCrashedInLastSession];

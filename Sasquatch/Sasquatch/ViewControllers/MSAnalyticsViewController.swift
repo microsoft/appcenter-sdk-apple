@@ -3,6 +3,7 @@ import UIKit
 class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
 
   @IBOutlet weak var enabled: UISwitch!
+  @IBOutlet weak var paused: UISwitch!
   @IBOutlet weak var eventName: UITextField!
   @IBOutlet weak var pageName: UITextField!
 
@@ -10,7 +11,9 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   var eventPropertiesSection: EventPropertiesTableSection!
   @objc(analyticsResult) var analyticsResult: MSAnalyticsResult? = nil
 
+  private var isPaused = false
   private var kEventPropertiesSectionIndex: Int = 2
+  private var kResultsPageIndex: Int = 2
 
   override func viewDidLoad() {
     eventPropertiesSection = EventPropertiesTableSection(tableSection: kEventPropertiesSectionIndex, tableView: tableView)
@@ -19,7 +22,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     
     // Disable results page.
     #if !ACTIVE_COMPILATION_CONDITION_PUPPET
-    let cell = tableView.cellForRow(at: IndexPath(row: 1, section: 0))
+    let cell = tableView.cellForRow(at: IndexPath(row: kResultsPageIndex, section: 0))
     cell?.isUserInteractionEnabled = false
     cell?.contentView.alpha = 0.5
     #endif
@@ -28,6 +31,10 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     self.enabled.isOn = appCenter.isAnalyticsEnabled()
+    if !appCenter.isAnalyticsEnabled() {
+      isPaused = false
+    }
+    self.paused.isOn = isPaused
     
     // Make sure the UITabBarController does not cut off the last cell.
     self.edgesForExtendedLayout = []
@@ -59,8 +66,27 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   @IBAction func enabledSwitchUpdated(_ sender: UISwitch) {
     appCenter.setAnalyticsEnabled(sender.isOn)
     sender.isOn = appCenter.isAnalyticsEnabled()
+    updatePausedState(isPaused: false)
   }
-  
+
+  @IBAction func pausedSwitchUpdated(_ sender: UISwitch) {
+    if !appCenter.isAnalyticsEnabled() {
+      updatePausedState(isPaused: false)
+    } else {
+      isPaused = sender.isOn
+      if isPaused {
+        appCenter.pause()
+      } else {
+        appCenter.resume()
+      }
+    }
+  }
+
+  func updatePausedState(isPaused: Bool) {
+    self.isPaused = isPaused
+    paused.isOn = self.isPaused
+  }
+
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if let destination = segue.destination as? MSAnalyticsResultViewController {
       destination.analyticsResult = analyticsResult
