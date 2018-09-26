@@ -12,11 +12,6 @@ static NSString *const kMSHeaderUpdateApiToken = @"x-api-token";
 @interface MSDistributeIngestion : MSHttpIngestion
 
 /**
- * AppSecret for the application.
- */
-@property(nonatomic) NSString *appSecret;
-
-/**
  * Initialize the Ingestion.
  *
  * @param baseUrl Base url.

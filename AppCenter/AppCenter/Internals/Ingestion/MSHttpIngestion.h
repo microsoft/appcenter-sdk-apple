@@ -28,6 +28,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) NSDictionary *httpHeaders;
 
 /**
+ * The app secret.
+ */
+@property(nonatomic, copy) NSString *appSecret;
+
+/**
  * Pending http calls.
  */
 @property NSMutableDictionary<NSString *, MSIngestionCall *> *pendingCalls;
