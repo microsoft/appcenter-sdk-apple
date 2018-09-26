@@ -45,6 +45,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setLogUrl:(NSString *)logUrl;
 
 /**
+ * Set the app secret.
+ *
+ * @param appSecret The app secret.
+ */
+- (void)setAppSecret:(NSString *)appSecret;
+
+/**
  * Set the maximum size of the internal storage. This method must be called
  * before App Center is started.
  *

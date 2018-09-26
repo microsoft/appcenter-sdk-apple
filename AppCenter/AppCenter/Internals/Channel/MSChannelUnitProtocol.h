@@ -31,13 +31,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)enqueueItem:(id<MSLog>)item;
 
-/**
- * Set the app secret.
- *
- * @param appSecret The app secret.
- */
-- (void)setAppSecret:(NSString *)appSecret;
-
 @end
 
 NS_ASSUME_NONNULL_END

@@ -64,8 +64,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   // When
   NSString *containerId = @"1";
   MSLogContainer *container = [self createLogContainerWithId:containerId];
-  NSURLRequest *request =
-      [self.sut createRequest:container appSecret:@"TestAppSecret"];
+  NSURLRequest *request = [self.sut createRequest:container];
   NSArray *keys = [request.allHTTPHeaderFields allKeys];
 
   // Then
@@ -149,7 +148,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
               andLogs:(NSArray<id<MSLog>> *)@[ log1, log2 ]];
 
   // When
-  NSURLRequest *request = [self.sut createRequest:logContainer appSecret:nil];
+  NSURLRequest *request = [self.sut createRequest:logContainer];
 
   // Then
   XCTAssertNotNil(request);
@@ -174,7 +173,6 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   __weak XCTestExpectation *expectation =
       [self expectationWithDescription:@"HTTP Response 200"];
   [self.sut sendAsync:container
-              appSecret:nil
       completionHandler:^(NSString *batchId, NSUInteger statusCode,
                           __attribute__((unused)) NSData *data,
                           NSError *error) {
@@ -208,7 +206,6 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 
   // When
   [self.sut sendAsync:container
-              appSecret:nil
       completionHandler:^(__attribute__((unused)) NSString *batchId,
                           __attribute__((unused)) NSUInteger statusCode,
                           __attribute__((unused)) NSData *data,
@@ -232,7 +229,6 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   __weak XCTestExpectation *expectation =
       [self expectationWithDescription:@"HTTP Network Down"];
   [self.sut sendAsync:container
-              appSecret:nil
       completionHandler:^(__attribute__((unused)) NSString *batchId,
                           __attribute__((unused)) NSUInteger statusCode,
                           __attribute__((unused)) NSData *data,
@@ -312,7 +308,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   NSData *httpBody = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
 
   // When
-  NSURLRequest *request = [self.sut createRequest:logContainer appSecret:nil];
+  NSURLRequest *request = [self.sut createRequest:logContainer];
 
   // Then
   XCTAssertNil(request.allHTTPHeaderFields[kMSHeaderContentEncodingKey]);
@@ -347,7 +343,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   NSData *httpBody = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
 
   // When
-  NSURLRequest *request = [self.sut createRequest:logContainer appSecret:nil];
+  NSURLRequest *request = [self.sut createRequest:logContainer];
 
   // Then
   XCTAssertEqual(request.allHTTPHeaderFields[kMSHeaderContentEncodingKey],

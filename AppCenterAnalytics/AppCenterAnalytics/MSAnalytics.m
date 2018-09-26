@@ -258,7 +258,7 @@ forTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget {
     if (value) {
 
       // Not checking for empty string, as values can be empty strings.
-      if ([value isKindOfClass:[NSString class]]) {
+      if ([(NSObject *)value isKindOfClass:[NSString class]]) {
         [validProperties setValue:value forKey:key];
       }
     } else {

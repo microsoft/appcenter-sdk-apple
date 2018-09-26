@@ -35,10 +35,10 @@
   XCTAssertTrue([test isEqualToString:@""]);
 
   // When
-  test = MSDistributeLocalizedString(@"NonExistendString");
+  test = MSDistributeLocalizedString(@"NonExistentString");
 
   // Then
-  XCTAssertTrue([test isEqualToString:@"NonExistendString"]);
+  XCTAssertTrue([test isEqualToString:@"NonExistentString"]);
 
   // When
   test = MSDistributeLocalizedString(@"Ignore");
@@ -124,7 +124,7 @@
 
   // If
   // Mock current versions.
-  NSString *expectedShortVer = @"not sementic versioning";
+  NSString *expectedShortVer = @"not semantic versioning";
   NSDictionary<NSString *, id> *plist =
       @{ @"CFBundleShortVersionString" : expectedShortVer };
   id bundleMock = OCMClassMock([NSBundle class]);
@@ -156,7 +156,7 @@
 
   // Define release details.
   MSReleaseDetails *details = [MSReleaseDetails new];
-  details.shortVersion = @"not sementic versioning";
+  details.shortVersion = @"not semantic versioning";
 
   // When
   NSComparisonResult result = MSCompareCurrentReleaseWithRelease(details);
@@ -179,7 +179,7 @@
   // Mock current versions.
   NSString *expectedVersion = @"2.5.3.1";
   NSDictionary<NSString *, id> *plist = @{
-    @"CFBundleShortVersionString" : @"not sementic versioning",
+      @"CFBundleShortVersionString": @"not semantic versioning",
     @"CFBundleVersion" : expectedVersion
   };
   id bundleMock = OCMClassMock([NSBundle class]);
@@ -188,7 +188,7 @@
 
   // Define release details.
   MSReleaseDetails *details = [MSReleaseDetails new];
-  details.shortVersion = @" still different but not sementic versioning";
+  details.shortVersion = @" still different but not semantic versioning";
   details.version = expectedVersion;
   details.packageHashes = @[ @"Something different package hash" ];
 
@@ -214,7 +214,7 @@
   // Mock current versions.
   NSString *expectedVersion = @"2.5.3.1";
   NSDictionary<NSString *, id> *plist = @{
-    @"CFBundleShortVersionString" : @"not sementic versioning",
+      @"CFBundleShortVersionString": @"not semantic versioning",
     @"CFBundleVersion" : expectedVersion
   };
   id bundleMock = OCMClassMock([NSBundle class]);
@@ -223,7 +223,7 @@
 
   // Define release details.
   MSReleaseDetails *details = [MSReleaseDetails new];
-  details.shortVersion = @" still different but not sementic versioning";
+  details.shortVersion = @" still different but not semantic versioning";
   details.version = expectedVersion;
   details.packageHashes = @[ MSPackageHash() ];
 

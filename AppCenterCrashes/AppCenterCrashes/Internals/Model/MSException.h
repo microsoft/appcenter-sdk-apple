@@ -34,7 +34,7 @@
 @property(nonatomic) NSArray<MSException *> *innerExceptions;
 
 /*
- * Name of the wrapper SDK that emitted this exeption.
+ * Name of the wrapper SDK that emitted this exception.
  * Consists of the name of the SDK and the wrapper platform, e.g.
  * "appcenter.xamarin", "hockeysdk.cordova".
  */

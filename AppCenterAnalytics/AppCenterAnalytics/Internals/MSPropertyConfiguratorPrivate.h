@@ -10,22 +10,22 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MSPropertyConfigurator () <MSChannelDelegate>
 
 /**
- * The application version to be overriden.
+ * The application version to be overwritten.
  */
 @property(nonatomic, copy) NSString *appVersion;
 
 /**
- * The application name to be overriden.
+ * The application name to be overwritten.
  */
 @property(nonatomic, copy) NSString *appName;
 
 /**
- * The application locale to be overriden.
+ * The application locale to be overwritten.
  */
 @property(nonatomic, copy) NSString *appLocale;
 
 /**
- * The transmission target which will have overriden properties.
+ * The transmission target which will have overwritten properties.
  */
 @property(nonatomic, weak) MSAnalyticsTransmissionTarget *transmissionTarget;
 

@@ -4,43 +4,6 @@
 
 @implementation MSCrashesTestUtil
 
-/*
- * loads test fixture from json file
- * http://blog.roberthoglund.com/2010/12/ios-unit-testing-loading-bundle.html
- */
-+ (NSString *)jsonFixture:(NSString *)fixture {
-  NSString *path =
-      [[NSBundle bundleForClass:self.class] pathForResource:fixture
-                                                     ofType:@"json"];
-  NSError *error = nil;
-  NSString *content = [NSString stringWithContentsOfFile:path
-                                                encoding:NSUTF8StringEncoding
-                                                   error:&error];
-
-  if (error) {
-    NSLog(@"Couldn't load fixture with error: %@", error.localizedDescription);
-  }
-
-  return content;
-}
-
-- (BOOL)createTempDirectory:(NSString *)directory {
-  NSFileManager *fm = [[NSFileManager alloc] init];
-
-  if (![fm fileExistsAtPath:directory]) {
-    NSDictionary *attributes = @{ NSFilePosixPermissions : @0755 };
-    NSError *error;
-    [fm createDirectoryAtPath:directory
-        withIntermediateDirectories:YES
-                         attributes:attributes
-                              error:&error];
-    if (error)
-      return NO;
-  }
-
-  return YES;
-}
-
 + (BOOL)createTempDirectory:(NSString *)directory {
   NSFileManager *fm = [[NSFileManager alloc] init];
 
@@ -61,14 +24,14 @@
 + (BOOL)copyFixtureCrashReportWithFileName:(NSString *)filename {
   NSFileManager *fm = [[NSFileManager alloc] init];
 
-  // the bundle identifier when running with unit tets is "otest"
-  const char *progname = getprogname();
-  if (progname == NULL) {
+  // the bundle identifier when running with unit tests is "otest"
+  const char *progName = getprogname();
+  if (progName == NULL) {
     return NO;
   }
 
   NSString *bundleIdentifierPathString =
-      [NSString stringWithUTF8String:progname];
+      [NSString stringWithUTF8String:progName];
   NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory,
                                                        NSUserDomainMask, YES);
 
@@ -147,15 +110,6 @@
   exception.frames = frames;
 
   return exception;
-}
-
-+ (void)deleteAllFilesInDirectory:(NSString *)directoryPath {
-  NSError *error = nil;
-  for (NSString *filePath in
-       [[NSFileManager defaultManager] enumeratorAtPath:directoryPath]) {
-    NSString *path = [directoryPath stringByAppendingPathComponent:filePath];
-    [[NSFileManager defaultManager] removeItemAtPath:path error:&error];
-  }
 }
 
 @end
