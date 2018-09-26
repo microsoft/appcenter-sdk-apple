@@ -504,6 +504,11 @@
     self.paused = YES;
     [self resetTimer];
   }
+  [self enumerateDelegatesForSelector:@selector
+   (channel:didPauseWithIdentifyingObject:)
+                            withBlock:^(id<MSChannelDelegate> delegate) {
+                              [delegate channel:self didPauseWithIdentifyingObject:identifyingObject];
+                            }];
 }
 
 - (void)resumeWithIdentifyingObject:(id <NSObject>)identifyingObject {
@@ -515,6 +520,11 @@
     self.paused = NO;
     [self flushQueue];
   }
+  [self enumerateDelegatesForSelector:@selector
+   (channel:didResumeWithIdentifyingObject:)
+                            withBlock:^(id<MSChannelDelegate> delegate) {
+                              [delegate channel:self didResumeWithIdentifyingObject:identifyingObject];
+                            }];
 }
 
 #pragma mark - Storage

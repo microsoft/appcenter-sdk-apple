@@ -846,6 +846,76 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                }];
 }
 
+- (void)testDelegateAfterChannelPaused {
+  
+  // If
+  NSObject *identifyingObject = [NSObject new];
+  [self initChannelEndJobExpectation];
+  id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
+  MSChannelUnitDefault *sut = [[MSChannelUnitDefault alloc]
+                               initWithIngestion:self.ingestionMock
+                               storage:self.storageMock
+                               configuration:self.configMock
+                               logsDispatchQueue:dispatch_get_main_queue()];
+  
+  // When
+  [sut addDelegate:delegateMock];
+  
+  // Pause now that the delegate is set.
+  dispatch_async(self.logsDispatchQueue, ^{
+    [sut pauseWithIdentifyingObject:identifyingObject];
+    [self enqueueChannelEndJobExpectation];
+  });
+  
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 
+                                 // Check the callbacks were invoked for logs.
+                                 OCMVerify([delegateMock channel:sut
+                                                   didPauseWithIdentifyingObject:identifyingObject]);
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@",
+                                           error);
+                                 }
+                               }];
+}
+
+- (void)testDelegateAfterChannelResumed {
+  
+  // If
+  NSObject *identifyingObject = [NSObject new];
+  [self initChannelEndJobExpectation];
+  id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
+  MSChannelUnitDefault *sut = [[MSChannelUnitDefault alloc]
+                               initWithIngestion:self.ingestionMock
+                               storage:self.storageMock
+                               configuration:self.configMock
+                               logsDispatchQueue:dispatch_get_main_queue()];
+  
+  // When
+  [sut addDelegate:delegateMock];
+  
+  // Resume now that the delegate is set.
+  dispatch_async(self.logsDispatchQueue, ^{
+    [sut resumeWithIdentifyingObject:identifyingObject];
+    [self enqueueChannelEndJobExpectation];
+  });
+  
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 
+                                 // Check the callbacks were invoked for logs.
+                                 OCMVerify([delegateMock channel:sut
+                                   didResumeWithIdentifyingObject:identifyingObject]);
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@",
+                                           error);
+                                 }
+                               }];
+}
+
 - (void)testDeviceAndTimestampAreAddedOnEnqueuing {
 
   // If
