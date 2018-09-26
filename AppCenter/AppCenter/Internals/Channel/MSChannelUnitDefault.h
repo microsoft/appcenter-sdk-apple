@@ -98,11 +98,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic) BOOL discardLogs;
 
-/**
- * The app secret.
- */
-@property(nonatomic, copy) NSString *appSecret;
-
 @end
 
 NS_ASSUME_NONNULL_END

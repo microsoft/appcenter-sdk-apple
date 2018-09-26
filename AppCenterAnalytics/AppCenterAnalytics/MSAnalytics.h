@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @returns The transmission target object.
  *
- * @discussion This method does not need to be annnotated with
+ * @discussion This method does not need to be annotated with
  * NS_SWIFT_NAME(transmissionTarget(forToken:)) as this is a static method that
  * doesn't get translated like a setter in Swift.
  *

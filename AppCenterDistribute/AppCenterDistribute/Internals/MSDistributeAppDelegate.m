@@ -39,7 +39,7 @@
 
 + (void)load {
 
-  // Register selectors to swizzle for Ditribute.
+  // Register selectors to swizzle for Distribute.
   [self
       addAppDelegateSelectorToSwizzle:@selector(application:openURL:options:)];
   [self addAppDelegateSelectorToSwizzle:@selector

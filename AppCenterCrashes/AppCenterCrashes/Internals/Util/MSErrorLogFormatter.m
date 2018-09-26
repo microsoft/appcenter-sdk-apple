@@ -92,7 +92,7 @@ static const char *safer_string_read(const char *string, const char *limit) {
 
 static NSString *formatted_address_matching_architecture(uint64_t address,
                                                          BOOL is64bit) {
-  return [NSString stringWithFormat:@"0x%0*" PRIx64, 8 << !!is64bit, address];
+  return [NSString stringWithFormat:@"0x%0*" PRIx64, 8 << is64bit, address];
 }
 
 /**

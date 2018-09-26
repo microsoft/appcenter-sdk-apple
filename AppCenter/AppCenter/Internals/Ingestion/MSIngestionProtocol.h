@@ -22,14 +22,17 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) BOOL paused;
 
 /**
+ * The indicator of readiness to send data.
+ */
+@property(nonatomic, readonly, getter=isReadyToSend) BOOL readyToSend;
+
+/**
  * Send data.
  *
  * @param data Instance that will be transformed to request body.
- * @param appSecret The app secret.
  * @param handler Completion handler.
  */
 - (void)sendAsync:(nullable NSObject *)data
-            appSecret:(nullable NSString *)appSecret
     completionHandler:(MSSendAsyncCompletionHandler)handler;
 
 /**

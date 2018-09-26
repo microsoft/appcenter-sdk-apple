@@ -1,10 +1,9 @@
 #import <inttypes.h>
 
 #import "MSAppleErrorLog.h"
-#import "MSCrashesTestUtil.h"
 #import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
-#import "MSCrashReporter.h"
+#import "MSCrashesTestUtil.h"
 #import "MSDeviceTrackerPrivate.h"
 #import "MSErrorLogFormatterPrivate.h"
 #import "MSException.h"
@@ -444,10 +443,10 @@
              equalTo(@"/private/var/mobile/Containers/Bundle/Application/253BCE7D-4032-4FB2-AC63-C16F5C0BCBFA/"
                      @"CrashProbeiOS.app/CrashProbeiOS"));
 
-  NSString *signalAdress = [NSString stringWithFormat:@"0x%" PRIx64, crashReport.signalInfo.address];
+  NSString *signalAddress = [NSString stringWithFormat:@"0x%" PRIx64, crashReport.signalInfo.address];
   assertThat(errorLog.osExceptionType, equalTo(crashReport.signalInfo.name));
   assertThat(errorLog.osExceptionCode, equalTo(crashReport.signalInfo.code));
-  assertThat(errorLog.osExceptionAddress, equalTo(signalAdress));
+  assertThat(errorLog.osExceptionAddress, equalTo(signalAddress));
 
   if (crashReport.hasExceptionInfo) {
     assertThat(errorLog.exceptionType, equalTo(crashReport.exceptionInfo.exceptionName));

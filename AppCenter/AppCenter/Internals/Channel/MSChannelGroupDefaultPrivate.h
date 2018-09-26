@@ -1,6 +1,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
-@class MSHttpIngestion;
+@class MSAppCenterIngestion;
 
 @interface MSChannelGroupDefault ()
 
@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A new `MSChannelGroupDefault` instance.
  */
-- (instancetype)initWithIngestion:(nullable MSHttpIngestion *)ingestion;
+- (instancetype)initWithIngestion:(nullable MSAppCenterIngestion *)ingestion;
 
 @end
 

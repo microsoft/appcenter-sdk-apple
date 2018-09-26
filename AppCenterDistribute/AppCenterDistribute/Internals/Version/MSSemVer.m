@@ -1,5 +1,4 @@
 #import "MSSemVer.h"
-#import "MSDistributeUtil.h"
 #import "MSSemVerPreReleaseId.h"
 
 static NSString *const kMSPreReleaseSeparator = @"-";

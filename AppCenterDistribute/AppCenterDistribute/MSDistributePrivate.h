@@ -80,7 +80,7 @@ static NSString *const kMSSDKHasLaunchedWithDistribute =
     @"MSSDKHasLaunchedWithDistribute";
 
 /**
- * The storage key for last madatory release details.
+ * The storage key for last mandatory release details.
  */
 static NSString *const kMSMandatoryReleaseKey = @"MSMandatoryRelease";
 

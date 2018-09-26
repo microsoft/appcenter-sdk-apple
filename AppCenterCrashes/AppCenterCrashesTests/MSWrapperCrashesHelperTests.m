@@ -1,5 +1,4 @@
 #import "MSCrashHandlerSetupDelegate.h"
-#import "MSCrashesInternal.h"
 #import "MSTestFrameworks.h"
 #import "MSWrapperCrashesHelper.h"
 

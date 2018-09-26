@@ -1,10 +1,7 @@
 #import "MSAppCenterInternal.h"
 #import "MSAppleErrorLog.h"
-#import "MSChannelGroupDefault.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
-#import "MSConstants+Internal.h"
-#import "MSCrashesDelegate.h"
 #import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
 #import "MSCrashesTestUtil.h"
@@ -21,15 +18,12 @@
 #import "MSTestFrameworks.h"
 #import "MSUtility+File.h"
 #import "MSWrapperCrashesHelper.h"
-#import "MSWrapperExceptionManagerInternal.h"
 
 @class MSMockCrashesDelegate;
 
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
-static NSString *const kMSCrashesServiceName = @"Crashes";
 static NSString *const kMSFatal = @"fatal";
 static NSString *const kMSTypeHandledError = @"handledError";
-static NSString *const kMSUserConfirmationKey = @"MSUserConfirmation";
 static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
 @interface MSCrashes ()
@@ -435,8 +429,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 - (void)testEmptyLogBufferFiles {
 
   // If
-  NSString *testName = @"afilename";
-  NSString *dataString = @"SomeBufferedData";
+  NSString *testName = @"aFilename";
+  NSString *dataString = @"someBufferedData";
   NSData *someData = [dataString dataUsingEncoding:NSUTF8StringEncoding];
   NSString *filePath = [NSString stringWithFormat:@"%@/%@", self.sut.logBufferPathComponent,
                                                   [testName stringByAppendingString:@".mscrasheslogbuffer"]];
@@ -485,14 +479,12 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   NSNumberFormatter *timestampFormatter = [[NSNumberFormatter alloc] init];
   timestampFormatter.numberStyle = NSNumberFormatterDecimalStyle;
   int indexOfLatestObject = 0;
-  NSNumber *oldestTimestamp;
+  NSTimeInterval oldestTimestamp = DBL_MAX;
   for (auto it = msCrashesLogBuffer.begin(), end = msCrashesLogBuffer.end(); it != end; ++it) {
-    NSString *timestampString = [NSString stringWithCString:it->timestamp.c_str() encoding:NSUTF8StringEncoding];
-    NSNumber *bufferedLogTimestamp = [timestampFormatter numberFromString:timestampString];
 
     // Remember the timestamp if the log is older than the previous one or the initial one.
-    if (!oldestTimestamp || oldestTimestamp.doubleValue > bufferedLogTimestamp.doubleValue) {
-      oldestTimestamp = bufferedLogTimestamp;
+    if (oldestTimestamp > it->timestamp) {
+      oldestTimestamp = it->timestamp;
       indexOfLatestObject = static_cast<int>(it - msCrashesLogBuffer.begin());
     }
   }
@@ -509,14 +501,12 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   }
 
   indexOfLatestObject = 0;
-  oldestTimestamp = nil;
+  oldestTimestamp = DBL_MAX;
   for (auto it = msCrashesLogBuffer.begin(), end = msCrashesLogBuffer.end(); it != end; ++it) {
-    NSString *timestampString = [NSString stringWithCString:it->timestamp.c_str() encoding:NSUTF8StringEncoding];
-    NSNumber *bufferedLogTimestamp = [timestampFormatter numberFromString:timestampString];
 
     // Remember the timestamp if the log is older than the previous one or the initial one.
-    if (!oldestTimestamp || oldestTimestamp.doubleValue > bufferedLogTimestamp.doubleValue) {
-      oldestTimestamp = bufferedLogTimestamp;
+    if (oldestTimestamp > it->timestamp) {
+      oldestTimestamp = it->timestamp;
       indexOfLatestObject = static_cast<int>(it - msCrashesLogBuffer.begin());
     }
   }
@@ -648,7 +638,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   NSDictionary *serializedLog = [log serializeToDictionary];
 
   // Then
-  XCTAssertFalse([static_cast<NSNumber *>([serializedLog objectForKey:kMSFatal]) boolValue]);
+  XCTAssertFalse([static_cast<NSNumber *>(serializedLog[kMSFatal]) boolValue]);
 
   // If
   log.fatal = NO;
@@ -657,7 +647,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   serializedLog = [log serializeToDictionary];
 
   // Then
-  XCTAssertFalse([static_cast<NSNumber *>([serializedLog objectForKey:kMSFatal]) boolValue]);
+  XCTAssertFalse([static_cast<NSNumber *>(serializedLog[kMSFatal]) boolValue]);
 
   // If
   log.fatal = YES;
@@ -666,7 +656,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   serializedLog = [log serializeToDictionary];
 
   // Then
-  XCTAssertTrue([static_cast<NSNumber *>([serializedLog objectForKey:kMSFatal]) boolValue]);
+  XCTAssertTrue([static_cast<NSNumber *>(serializedLog[kMSFatal]) boolValue]);
 }
 
 - (void)testWarningMessageAboutTooManyErrorAttachments {
@@ -738,7 +728,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   // When
   MSException *expectedException = [MSException new];
   expectedException.message = @"Oh this is wrong...";
-  expectedException.stackTrace = @"mock strace";
+  expectedException.stackTrace = @"mock stacktrace";
   expectedException.type = @"Some.Exception";
   [MSCrashes trackModelException:expectedException];
 
@@ -780,7 +770,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   // When
   MSException *expectedException = [MSException new];
   expectedException.message = @"Oh this is wrong...";
-  expectedException.stackTrace = @"mock strace";
+  expectedException.stackTrace = @"mock stacktrace";
   expectedException.type = @"Some.Exception";
   NSDictionary *expectedProperties = @{ @"milk" : @"yes", @"cookie" : @"of course" };
   [MSCrashes trackModelException:expectedException withProperties:expectedProperties];

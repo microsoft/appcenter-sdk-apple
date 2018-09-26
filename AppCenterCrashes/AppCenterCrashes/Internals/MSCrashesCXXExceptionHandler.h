@@ -17,14 +17,14 @@ typedef void (*MSCrashesUncaughtCXXExceptionHandler)(
 @interface MSCrashesUncaughtCXXExceptionHandlerManager : NSObject
 
 /**
- * Add a XCXX exceptionhandler.
+ * Add a XCXX exceptionHandler.
  * @param handler The MSCrashesUncaughtCXXExceptionHandler that should be added.
  */
 + (void)addCXXExceptionHandler:
     (nonnull MSCrashesUncaughtCXXExceptionHandler)handler;
 
 /**
- * Remove a XCXX exceptionhandler.
+ * Remove a XCXX exceptionHandler.
  * @param handler The MSCrashesUncaughtCXXExceptionHandler that should be
  * removed.
  */

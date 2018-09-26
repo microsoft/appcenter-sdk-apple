@@ -6,7 +6,6 @@
 #import <pthread.h>
 #import <stdexcept>
 #import <string>
-#import <typeinfo>
 #import <vector>
 
 #import "MSCrashesCXXExceptionHandler.h"
@@ -81,8 +80,8 @@ __cxa_throw(void *exception_object, std::type_info *tinfo, void (*dest)(void *))
     }
     info->exception_object = exception_object;
     // XXX: All significant time in this call is spent right here.
-    info->num_frames = backtrace(reinterpret_cast<void **>(&info->call_stack[0]),
-                                 sizeof(info->call_stack) / sizeof(info->call_stack[0]));
+    info->num_frames = static_cast<uint32_t>(backtrace(reinterpret_cast<void **>(&info->call_stack[0]),
+                                                       sizeof(info->call_stack) / sizeof(info->call_stack[0])));
   }
 
 callthrough:
@@ -134,7 +133,8 @@ static void MSCrashesUncaughtCXXTerminateHandler(void) {
          */
         void *frames[128] = {nullptr};
 
-        info.exception_frames_count = backtrace(&frames[0], sizeof(frames) / sizeof(frames[0])) - 1;
+        info.exception_frames_count =
+            static_cast<uint32_t>(backtrace(&frames[0], sizeof(frames) / sizeof(frames[0])) - 1);
         info.exception_frames = reinterpret_cast<uintptr_t *>(&frames[1]);
       }
 

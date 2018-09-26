@@ -152,9 +152,9 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [[MSAnalytics sharedInstance].sessionTracker stop];
 
   XCTestExpectation
-      *expection = [self expectationWithDescription:@"Wait for block in applyEnabledState to be dispatched"];
+      *expectation = [self expectationWithDescription:@"Wait for block in applyEnabledState to be dispatched"];
   dispatch_async(dispatch_get_main_queue(), ^{
-    [expection fulfill];
+    [expectation fulfill];
   });
 
   [self waitForExpectationsWithTimeout:1 handler:^(NSError *error) {
@@ -850,9 +850,9 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
   // Then
   XCTestExpectation
-      *expection = [self expectationWithDescription:@"Wait for block in applyEnabledState to be dispatched"];
+      *expectation = [self expectationWithDescription:@"Wait for block in applyEnabledState to be dispatched"];
   dispatch_async(dispatch_get_main_queue(), ^{
-    [expection fulfill];
+    [expectation fulfill];
   });
 
   [self waitForExpectationsWithTimeout:1 handler:^(NSError *error) {
@@ -868,7 +868,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
 #pragma mark - Property validation tests
 
-- (void)testremoveInvalidPropertiesWithEmptyValue {
+- (void)testRemoveInvalidPropertiesWithEmptyValue {
 
   // If
   NSDictionary *emptyValueProperties = @{@"aValidKey": @""};
@@ -881,7 +881,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   XCTAssertEqualObjects(result, emptyValueProperties);
 }
 
-- (void)testremoveInvalidPropertiesWithEmptyKey {
+- (void)testRemoveInvalidPropertiesWithEmptyKey {
 
   // If
   NSDictionary *emptyKeyProperties = @{@"": @"aValidValue"};

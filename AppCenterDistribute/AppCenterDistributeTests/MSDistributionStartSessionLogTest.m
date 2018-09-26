@@ -1,9 +1,7 @@
 #import "MSAbstractLogInternal.h"
 #import "MSDevice.h"
 #import "MSDistributionStartSessionLog.h"
-#import "MSLogWithProperties.h"
 #import "MSTestFrameworks.h"
-#import "MSUtility.h"
 
 @interface MSDistributionStartSessionLogTests : XCTestCase
 

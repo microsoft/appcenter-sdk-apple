@@ -26,7 +26,7 @@ NSBundle *MSDistributeBundle(void);
 NSString *MSDistributeLocalizedString(NSString *stringToken);
 
 /**
- * Check compliancy of given version against semantic versioning format.
+ * Check compliance of given version against semantic versioning format.
  *
  * @param version A version to check against semantic versioning format.
  *
