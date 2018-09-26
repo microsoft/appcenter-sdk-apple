@@ -542,15 +542,14 @@ transmissionTargetToken:(NSString *)transmissionTargetToken
   self.oneCollectorChannelDelegate =
       self.oneCollectorChannelDelegate ?: [[MSOneCollectorChannelDelegate alloc] initWithInstallId:self.installId];
   if (!self.channelGroup) {
-    self.ingestion = [[MSAppCenterIngestion alloc] initWithBaseUrl:self.logUrl installId:[self.installId UUIDString]];
-    self.channelGroup = [[MSChannelGroupDefault alloc] initWithIngestion:self.ingestion];
+    self.channelGroup = [[MSChannelGroupDefault alloc] initWithInstallId:self.installId logUrl:self.logUrl];
     [self.channelGroup addDelegate:self.oneCollectorChannelDelegate];
     if (self.requestedMaxStorageSizeInBytes) {
       long storageSize = [self.requestedMaxStorageSizeInBytes longValue];
       [self.channelGroup setMaxStorageSize:storageSize completionHandler:self.maxStorageSizeCompletionHandler];
     }
   }
-  [self.ingestion setAppSecret:self.appSecret];
+  [self.channelGroup setAppSecret:self.appSecret];
 
   // Initialize a channel unit for start service logs.
   self.channelUnit =

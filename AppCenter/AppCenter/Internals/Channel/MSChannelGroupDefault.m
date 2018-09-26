@@ -20,7 +20,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
   return self;
 }
 
-- (instancetype)initWithIngestion:(nullable MSHttpIngestion *)ingestion {
+- (instancetype)initWithIngestion:(nullable MSAppCenterIngestion *)ingestion {
   if ((self = [self init])) {
     dispatch_queue_t serialQueue = dispatch_queue_create(kMSlogsDispatchQueue, DISPATCH_QUEUE_SERIAL);
     _logsDispatchQueue = serialQueue;
@@ -210,6 +210,10 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 
 - (void)setLogUrl:(NSString *)logUrl {
   self.ingestion.baseURL = logUrl;
+}
+
+- (void)setAppSecret:(NSString *)appSecret {
+  self.ingestion.appSecret = appSecret;
 }
 
 - (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(nullable void (^)(BOOL))completionHandler {

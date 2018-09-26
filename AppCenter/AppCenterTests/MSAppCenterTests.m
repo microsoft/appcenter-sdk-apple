@@ -4,10 +4,10 @@
 #import "MSCustomPropertiesLog.h"
 #endif
 #import "MSAppCenter.h"
+#import "MSAppCenterIngestion.h"
 #import "MSAppCenterInternal.h"
 #import "MSAppCenterPrivate.h"
 #import "MSChannelGroupDefault.h"
-#import "MSChannelGroupDefaultPrivate.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSMockSecondService.h"
 #import "MSMockService.h"
@@ -494,7 +494,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   id channelGroup = OCMClassMock([MSChannelGroupDefault class]);
   id channelUnit = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   OCMStub([channelGroup alloc]).andReturn(channelGroup);
-  OCMStub([channelGroup initWithIngestion:OCMOCK_ANY]).andReturn(channelGroup);
+  OCMStub([channelGroup initWithInstallId:OCMOCK_ANY logUrl:OCMOCK_ANY]).andReturn(channelGroup);
   OCMStub([channelGroup addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnit);
 
   // Not allow processLog.
@@ -557,7 +557,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   id channelGroup = OCMClassMock([MSChannelGroupDefault class]);
   id channelUnit = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   OCMStub([channelGroup alloc]).andReturn(channelGroup);
-  OCMStub([channelGroup initWithIngestion:OCMOCK_ANY]).andReturn(channelGroup);
+  OCMStub([channelGroup initWithInstallId:OCMOCK_ANY logUrl:OCMOCK_ANY]).andReturn(channelGroup);
   OCMStub([channelGroup addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnit);
   __block NSInteger logsProcessed = 0;
   __block MSStartServiceLog *log = nil;
@@ -617,7 +617,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   // If
   id channelGroup = OCMClassMock([MSChannelGroupDefault class]);
   OCMStub([channelGroup alloc]).andReturn(channelGroup);
-  OCMStub([channelGroup initWithIngestion:OCMOCK_ANY]).andReturn(channelGroup);
+  OCMStub([channelGroup initWithInstallId:OCMOCK_ANY logUrl:OCMOCK_ANY]).andReturn(channelGroup);
 
   // When
   [MSAppCenter start:MS_UUID_STRING withServices:nil];
