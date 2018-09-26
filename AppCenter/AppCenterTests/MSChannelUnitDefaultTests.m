@@ -111,7 +111,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                      iKeys:OCMOCK_ANY
                          completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
-        MSLoadDataCompletionBlock loadCallback;
+        MSLoadDataCompletionHandler loadCallback;
 
         // Get ingestion block for later call.
         [invocation getArgument:&loadCallback atIndex:5];
@@ -224,7 +224,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                      iKeys:OCMOCK_ANY
                          completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
-        MSLoadDataCompletionBlock loadCallback;
+        MSLoadDataCompletionHandler loadCallback;
 
         // Get ingestion block for later call.
         [invocation getArgument:&loadCallback atIndex:5];
@@ -411,7 +411,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                      iKeys:OCMOCK_ANY
                          completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
-        MSLoadDataCompletionBlock loadCallback;
+        MSLoadDataCompletionHandler loadCallback;
 
         // Mock load.
         [invocation getArgument:&loadCallback atIndex:5];
@@ -491,7 +491,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                      iKeys:OCMOCK_ANY
                          completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
-        MSLoadDataCompletionBlock loadCallback;
+        MSLoadDataCompletionHandler loadCallback;
 
         // Get ingestion block for later call.
         [invocation getArgument:&loadCallback atIndex:5];

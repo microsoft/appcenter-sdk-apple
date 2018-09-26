@@ -90,7 +90,7 @@ static const NSUInteger kMSSchemaVersion = 2;
 - (BOOL)loadLogsWithGroupId:(NSString *)groupId
                       limit:(NSUInteger)limit
                       iKeys:(nullable NSArray< NSString *> *)iKeys
-          completionHandler:(nullable MSLoadDataCompletionBlock)completionHandler {
+          completionHandler:(nullable MSLoadDataCompletionHandler)completionHandler {
   BOOL logsAvailable;
   BOOL moreLogsAvailable = NO;
   NSString *batchId;
