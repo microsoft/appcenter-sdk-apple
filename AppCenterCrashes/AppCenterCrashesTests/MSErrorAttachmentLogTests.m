@@ -1,6 +1,5 @@
 #import "MSDevice.h"
 #import "MSErrorAttachmentLog+Utility.h"
-#import "MSErrorAttachmentLog.h"
 #import "MSErrorAttachmentLogInternal.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility.h"
@@ -175,7 +174,7 @@
   assertThatBool(validity, isFalse());
 }
 
-- (void)testSerialilzingToDictionary {
+- (void)testSerializingToDictionary {
 
   // When
   NSMutableDictionary *actual = [self.sut serializeToDictionary];

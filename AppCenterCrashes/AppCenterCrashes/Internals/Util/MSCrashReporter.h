@@ -6,7 +6,7 @@
 
 // -disabled-macro-expansion
 // This silences warnings when consuming PLCrashReporter for macOS. The warning
-// here actualy just complains about regular Preprocessor behavior.
+// here actually just complains about regular Preprocessor behavior.
 
 // -objc-interface-ivars
 // This causes warnings when consuming PLCrashReporter for macOS. It complains

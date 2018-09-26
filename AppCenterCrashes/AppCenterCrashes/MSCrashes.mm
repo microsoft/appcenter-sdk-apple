@@ -1,9 +1,7 @@
 #import "MSAppCenterInternal.h"
 #import "MSAppleErrorLog.h"
-#import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
-#import "MSConstants+Internal.h"
 #import "MSCrashesCXXExceptionWrapperException.h"
 #import "MSCrashesDelegate.h"
 #import "MSCrashesInternal.h"
@@ -666,8 +664,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   /*
    * FIXME: If application is crashed and relaunched from multitasking view, the SDK starts faster than normal launch
    * and application state is not updated from inactive to active at this time. Give more delay here for a workaround
-   * but we need to fix it eventually. This can also be happen if application is launched from Xcode and stoped by
-   * clicking stop button on Xcode.
+   * but we need to fix it eventually. This can also happen if the application is launched from Xcode and stopped by
+   * clicking the stop button on Xcode.
    * In addition to that, we also need it to be delayed because
    * 1. it sometimes needs to "warm up" internet connection on iOS 8,
    * 2. giving some time to start and let all Crashes initialization happen before processing crashes.
@@ -905,7 +903,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 - (void)sendErrorAttachments:(NSArray<MSErrorAttachmentLog *> *)errorAttachments
       withIncidentIdentifier:(NSString *)incidentIdentifier {
 
-  // Send attachements log to log manager.
+  // Send attachments log to log manager.
   unsigned int totalProcessedAttachments = 0;
   for (MSErrorAttachmentLog *attachment in errorAttachments) {
     attachment.errorId = incidentIdentifier;
@@ -937,7 +935,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   NSError *error = nil;
 
   // Check if the next call ran successfully the last time.
-  if ([MSUtility fileExistsForPathComponent:self.analyzerInProgressFilePathComponent] == false) {
+  if (![MSUtility fileExistsForPathComponent:self.analyzerInProgressFilePathComponent]) {
 
     // Mark the start of the routine.
     [self createAnalyzerFile];
@@ -1198,7 +1196,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       MSLogDebug([MSCrashes logTag], @"attachmentsWithCrashes is not implemented");
     }
 
-    // First, get corelated session Id.
+    // First, get correlated session Id.
     log.sid = [[MSSessionContext sharedInstance] sessionIdAt:log.timestamp];
 
     // Then, enqueue crash log.
