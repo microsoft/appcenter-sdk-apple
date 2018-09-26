@@ -101,77 +101,164 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
   OCMVerifyAll(channelGroupMock);
 }
 
-- (void)testDidSetEnabledAndDeleteDataOnDisabledWithBaseGroupId {
+// TODO Those tests aren't testing anything, they should test that calling setEnable on a base channel unit also disable the corresponding OC channel unit.
+//- (void)testDidSetEnabledAndDeleteDataOnDisabledWithBaseGroupId {
+//
+//  /*
+//   * Test base channel unit's logs are cleared when the base channel unit is
+//   * disabled. First, add a base channel unit to the channel group. Then,
+//   * disable the base channel unit. Lastly, verify the storage deletion is
+//   * called for the base channel group id.
+//   */
+//
+//  // If
+//  MSChannelUnitDefault *channelUnitMock = [[MSChannelUnitDefault alloc]
+//                                                                 initWithIngestion:self.ingestionMock
+//                                                                           storage:self.storageMock
+//                                                                     configuration:self.baseUnitConfigMock
+//                                                                 logsDispatchQueue:self.logsDispatchQueue];
+//  id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+//  OCMStub([channelGroupMock addChannelUnitWithConfiguration:self.baseUnitConfigMock]);
+//  OCMStub([channelUnitMock setEnabled:NO andDeleteDataOnDisabled:YES]);
+//
+//  // When
+//  [self.sut channelGroup:channelGroupMock didAddChannelUnit:channelUnitMock];
+//  [self.sut channel:channelUnitMock didSetEnabled:NO andDeleteDataOnDisabled:YES];
+//
+//  // Then
+//  [self enqueueChannelEndJobExpectation];
+//  [self waitForExpectationsWithTimeout:1 handler:^(NSError *error) {
+//        OCMVerify([self.storageMock deleteLogsWithGroupId:kMSBaseGroupId]);
+//        if (error) {
+//          XCTFail(@"Expectation Failed with error: %@", error);
+//        }
+//      }];
+//}
+//
+//- (void)testDidSetEnabledAndDeleteDataOnDisabledWithOneCollectorGroupId {
+//
+//  /*
+//   * Test One Collector channel unit's logs are cleared when the One Collector
+//   * channel unit is disabled. Disable One Collector channel unit. Verify the
+//   * storage deletion is called for the One Collector channel group id.
+//   */
+//
+//  // If
+//  NSString *oneCollectorGroupId = @"baseGroupId/one";
+//  MSChannelUnitConfiguration *oneCollectorUnitConfig = [[MSChannelUnitConfiguration alloc]
+//                                                                                    initWithGroupId:oneCollectorGroupId
+//                                                                                           priority:MSPriorityDefault
+//                                                                                      flushInterval:3.0
+//                                                                                     batchSizeLimit:1024
+//                                                                                pendingBatchesLimit:60];
+//
+//  MSChannelUnitDefault *oneCollectorChannelUnitMock = [[MSChannelUnitDefault alloc]
+//                                                                             initWithIngestion:self.ingestionMock
+//                                                                                       storage:self.storageMock
+//                                                                                 configuration:oneCollectorUnitConfig
+//                                                                             logsDispatchQueue:self.logsDispatchQueue];
+//  id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+//  OCMReject([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]);
+//  OCMStub([oneCollectorChannelUnitMock setEnabled:NO andDeleteDataOnDisabled:YES]);
+//
+//  // When
+//  [self.sut channel:oneCollectorChannelUnitMock didSetEnabled:NO andDeleteDataOnDisabled:YES];
+//
+//  // Then
+//  XCTAssertTrue(self.sut.oneCollectorChannels.count == 0);
+//  [self enqueueChannelEndJobExpectation];
+//  [self waitForExpectationsWithTimeout:1 handler:^(NSError *error) {
+//        OCMVerify([self.storageMock deleteLogsWithGroupId:oneCollectorGroupId]);
+//        if (error) {
+//          XCTFail(@"Expectation Failed with error: %@", error);
+//        }
+//      }];
+//}
 
-  /*
-   * Test base channel unit's logs are cleared when the base channel unit is
-   * disabled. First, add a base channel unit to the channel group. Then,
-   * disable the base channel unit. Lastly, verify the storage deletion is
-   * called for the base channel group id.
-   */
+- (void)testOneCollectorChannelUnitIsPausedWhenBaseChannelUnitIsPaused {
 
   // If
+  NSObject *token = [NSObject new];
   MSChannelUnitDefault *channelUnitMock = [[MSChannelUnitDefault alloc]
                                                                  initWithIngestion:self.ingestionMock
                                                                            storage:self.storageMock
                                                                      configuration:self.baseUnitConfigMock
                                                                  logsDispatchQueue:self.logsDispatchQueue];
   id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
-  OCMStub([channelGroupMock addChannelUnitWithConfiguration:self.baseUnitConfigMock]);
-  OCMStub([channelUnitMock setEnabled:NO andDeleteDataOnDisabled:YES]);
+  id oneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY withIngestion:OCMOCK_ANY]).andReturn
+                                                                                     (oneCollectorChannelUnitMock);
 
   // When
   [self.sut channelGroup:channelGroupMock didAddChannelUnit:channelUnitMock];
-  [self.sut channel:channelUnitMock didSetEnabled:NO andDeleteDataOnDisabled:YES];
+  [self.sut channel:channelUnitMock didPauseWithIdentifyingObject:token];
 
   // Then
-  [self enqueueChannelEndJobExpectation];
-  [self waitForExpectationsWithTimeout:1 handler:^(NSError *error) {
-        OCMVerify([self.storageMock deleteLogsWithGroupId:kMSBaseGroupId]);
-        if (error) {
-          XCTFail(@"Expectation Failed with error: %@", error);
-        }
-      }];
+  OCMVerify([oneCollectorChannelUnitMock pauseWithIdentifyingObject:token]);
 }
 
-- (void)testDidSetEnabledAndDeleteDataOnDisabledWithOneCollectorGroupId {
-
-  /*
-   * Test One Collector channel unit's logs are cleared when the One Collector
-   * channel unit is disabled. Disable One Collector channel unit. Verify the
-   * storage deletion is called for the One Collector channel group id.
-   */
+- (void)testOneCollectorChannelUnitIsNotPausedWhenNonBaseChannelUnitIsPaused {
 
   // If
-  NSString *oneCollectorGroupId = @"baseGroupId/one";
-  MSChannelUnitConfiguration *oneCollectorUnitConfig = [[MSChannelUnitConfiguration alloc]
-                                                                                    initWithGroupId:oneCollectorGroupId
-                                                                                           priority:MSPriorityDefault
-                                                                                      flushInterval:3.0
-                                                                                     batchSizeLimit:1024
-                                                                                pendingBatchesLimit:60];
-
-  MSChannelUnitDefault *oneCollectorChannelUnitMock = [[MSChannelUnitDefault alloc]
-                                                                             initWithIngestion:self.ingestionMock
-                                                                                       storage:self.storageMock
-                                                                                 configuration:oneCollectorUnitConfig
-                                                                             logsDispatchQueue:self.logsDispatchQueue];
-  id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
-  OCMReject([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]);
-  OCMStub([oneCollectorChannelUnitMock setEnabled:NO andDeleteDataOnDisabled:YES]);
-
-  // When
-  [self.sut channel:oneCollectorChannelUnitMock didSetEnabled:NO andDeleteDataOnDisabled:YES];
+  NSObject *token = [NSObject new];
+  MSChannelUnitDefault *channelUnitMock = [[MSChannelUnitDefault alloc]
+                                                                 initWithIngestion:self.ingestionMock
+                                                                           storage:self.storageMock
+                                                                     configuration:self.baseUnitConfigMock
+                                                                 logsDispatchQueue:self.logsDispatchQueue];
+  id oneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id otherOneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  self.sut.oneCollectorChannels[kMSBaseGroupId] = oneCollectorChannelUnitMock;
+  self.sut.oneCollectorChannels[@"someOtherGroupId"] = otherOneCollectorChannelUnitMock;
 
   // Then
-  XCTAssertTrue(self.sut.oneCollectorChannels.count == 0);
-  [self enqueueChannelEndJobExpectation];
-  [self waitForExpectationsWithTimeout:1 handler:^(NSError *error) {
-        OCMVerify([self.storageMock deleteLogsWithGroupId:oneCollectorGroupId]);
-        if (error) {
-          XCTFail(@"Expectation Failed with error: %@", error);
-        }
-      }];
+  OCMReject([otherOneCollectorChannelUnitMock pauseWithIdentifyingObject:token]);
+
+  // When
+  [self.sut channel:channelUnitMock didPauseWithIdentifyingObject:token];
+}
+
+- (void)testOneCollectorChannelUnitIsResumedWhenBaseChannelUnitIsResumed {
+
+  // If
+  NSObject *token = [NSObject new];
+  MSChannelUnitDefault *channelUnitMock = [[MSChannelUnitDefault alloc]
+                                                                 initWithIngestion:self.ingestionMock
+                                                                           storage:self.storageMock
+                                                                     configuration:self.baseUnitConfigMock
+                                                                 logsDispatchQueue:self.logsDispatchQueue];
+  id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  id oneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY withIngestion:OCMOCK_ANY])
+      .andReturn(oneCollectorChannelUnitMock);
+
+  // When
+  [self.sut channelGroup:channelGroupMock didAddChannelUnit:channelUnitMock];
+  [self.sut channel:channelUnitMock didResumeWithIdentifyingObject:token];
+
+  // Then
+  OCMVerify([oneCollectorChannelUnitMock resumeWithIdentifyingObject:token]);
+}
+
+- (void)testOneCollectorChannelUnitIsNotResumedWhenNonBaseChannelUnitIsResumed {
+
+  // If
+  NSObject *token = [NSObject new];
+  MSChannelUnitDefault *channelUnitMock = [[MSChannelUnitDefault alloc]
+                                                                 initWithIngestion:self.ingestionMock
+                                                                           storage:self.storageMock
+                                                                     configuration:self.baseUnitConfigMock
+                                                                 logsDispatchQueue:self.logsDispatchQueue];
+  id oneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id otherOneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  self.sut.oneCollectorChannels[kMSBaseGroupId] = oneCollectorChannelUnitMock;
+  self.sut.oneCollectorChannels[@"someOtherGroupId"] = otherOneCollectorChannelUnitMock;
+
+  // Then
+  OCMReject([otherOneCollectorChannelUnitMock resumeWithIdentifyingObject:token]);
+
+  // When
+  [self.sut channel:channelUnitMock didResumeWithIdentifyingObject:token];
 }
 
 - (void)testDidEnqueueLogToOneCollectorChannelWhenLogHasTargetTokensAndLogIsNotCommonSchemaLog {

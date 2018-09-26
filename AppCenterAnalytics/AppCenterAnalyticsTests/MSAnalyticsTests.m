@@ -969,4 +969,52 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   XCTAssertEqualObjects(result, properties);
 }
 
+-(void)testPause {
+  
+  // If
+  id appCenterMock = OCMClassMock([MSAppCenter class]);
+  OCMStub([appCenterMock sharedInstance]).andReturn(appCenterMock);
+  OCMStub([appCenterMock sdkConfigured]).andReturn(YES);
+  id <MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id <MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  [[MSAnalytics sharedInstance]
+   startWithChannelGroup:channelGroupMock
+   appSecret:kMSTestAppSecret
+   transmissionTargetToken:nil
+   fromApplication:YES];
+  OCMExpect([[MSAnalytics sharedInstance].channelUnit pauseWithIdentifyingObject:[MSAnalytics sharedInstance]]);
+  
+  // When
+  [MSAnalytics pause];
+  
+  // Then
+  OCMVerify([[MSAnalytics sharedInstance].channelUnit pauseWithIdentifyingObject:[MSAnalytics sharedInstance]]);
+  [appCenterMock stopMocking];
+}
+
+-(void)testResume {
+  
+  // If
+  id appCenterMock = OCMClassMock([MSAppCenter class]);
+  OCMStub([appCenterMock sharedInstance]).andReturn(appCenterMock);
+  OCMStub([appCenterMock sdkConfigured]).andReturn(YES);
+  id <MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id <MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  [[MSAnalytics sharedInstance]
+   startWithChannelGroup:channelGroupMock
+   appSecret:kMSTestAppSecret
+   transmissionTargetToken:nil
+   fromApplication:YES];
+  OCMExpect([[MSAnalytics sharedInstance].channelUnit resumeWithIdentifyingObject:[MSAnalytics sharedInstance]]);
+  
+  // When
+  [MSAnalytics resume];
+  
+  // Then
+  OCMVerify([[MSAnalytics sharedInstance].channelUnit resumeWithIdentifyingObject:[MSAnalytics sharedInstance]]);
+  [appCenterMock stopMocking];
+}
+
 @end

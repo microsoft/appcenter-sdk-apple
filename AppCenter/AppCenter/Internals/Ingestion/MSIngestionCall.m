@@ -92,7 +92,7 @@
                                ? @"Internet connection is down."
                                : @"Could not establish secure connection.";
     MSLogInfo([MSAppCenter logTag], logMessage);
-    [ingestion suspend];
+    [ingestion pause];
   }
 
   // Retry.

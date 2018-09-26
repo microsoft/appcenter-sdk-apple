@@ -744,7 +744,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                              }];
 }
 
-- (void)testSuspendOnDisabled {
+- (void)testPauseOnDisabled {
 
   // If
   [self initChannelEndJobExpectation];
@@ -758,7 +758,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
                                  assertThatBool(self.sut.enabled, isFalse());
-                                 assertThatBool(self.sut.suspended, isTrue());
+                                 assertThatBool(self.sut.paused, isTrue());
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@",
                                            error);
@@ -771,29 +771,25 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // If
   __block BOOL result1, result2;
   [self initChannelEndJobExpectation];
-  MSHttpIngestion *ingestion = [MSHttpIngestion new];
-  self.sut.ingestion = ingestion;
-  [self.sut setEnabled:NO andDeleteDataOnDisabled:NO];
-  dispatch_async(self.logsDispatchQueue, ^{
-    ingestion.suspended = NO;
-  });
+  id<MSIngestionProtocol> ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
+  self.sut.ingestion = ingestionMock;
 
   // When
-  [self.sut setEnabled:YES andDeleteDataOnDisabled:NO];
-  dispatch_async(self.logsDispatchQueue, ^{
-    result1 = self.sut.suspended;
-  });
-
-  // If
   [self.sut setEnabled:NO andDeleteDataOnDisabled:NO];
   dispatch_async(self.logsDispatchQueue, ^{
-    ingestion.suspended = YES;
+    [self.sut ingestionDidResume:ingestionMock];
   });
-
-  // When
   [self.sut setEnabled:YES andDeleteDataOnDisabled:NO];
   dispatch_async(self.logsDispatchQueue, ^{
-    result2 = self.sut.suspended;
+    result1 = self.sut.paused;
+  });
+  [self.sut setEnabled:NO andDeleteDataOnDisabled:NO];
+  dispatch_async(self.logsDispatchQueue, ^{
+    [self.sut ingestionDidPause:ingestionMock];
+  });
+  [self.sut setEnabled:YES andDeleteDataOnDisabled:NO];
+  dispatch_async(self.logsDispatchQueue, ^{
+    result2 = self.sut.paused;
   });
 
   // Then
@@ -993,30 +989,130 @@ static NSString *const kMSTestGroupId = @"GroupId";
   OCMVerify([sut setEnabled:NO andDeleteDataOnDisabled:YES]);
 }
 
-- (void)testSuspendOnIngestionSuspended {
+- (void)testPauseOnIngestionPaused {
 
   // If
   id ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
-  MSChannelUnitDefault *sut = [self createChannelUnit];
+  MSChannelUnitDefault *sut = OCMPartialMock([self createChannelUnit]);
 
   // When
-  [sut ingestionDidSuspend:ingestionMock];
+  [sut ingestionDidPause:ingestionMock];
 
   // Then
-  OCMVerify([sut suspend]);
+  OCMVerify([sut pauseWithIdentifyingObject:ingestionMock]);
 }
 
 - (void)testResumeOnIngestionResumed {
 
   // If
   id ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
-  MSChannelUnitDefault *sut = [self createChannelUnit];
+  MSChannelUnitDefault *sut = OCMPartialMock([self createChannelUnit]);
 
   // When
   [sut ingestionDidResume:ingestionMock];
 
   // Then
-  OCMVerify([sut resume]);
+  OCMVerify([sut resumeWithIdentifyingObject:ingestionMock]);
+}
+
+- (void)testDoesntResumeWhenNotAllPauseTokensResumed {
+
+  // If
+  NSObject *token1 = [NSObject new];
+  NSObject *token2 = [NSObject new];
+  NSObject *token3 = [NSObject new];
+  [self.sut pauseWithIdentifyingObject:token1];
+  [self.sut pauseWithIdentifyingObject:token2];
+  [self.sut pauseWithIdentifyingObject:token3];
+
+  // When
+  [self.sut resumeWithIdentifyingObject:token1];
+  [self.sut resumeWithIdentifyingObject:token3];
+
+  // Then
+  XCTAssertTrue([self.sut paused]);
+}
+
+- (void)testResumesWhenAllPauseTokensResumed {
+
+  // If
+  NSObject *token1 = [NSObject new];
+  NSObject *token2 = [NSObject new];
+  NSObject *token3 = [NSObject new];
+  [self.sut pauseWithIdentifyingObject:token1];
+  [self.sut pauseWithIdentifyingObject:token2];
+  [self.sut pauseWithIdentifyingObject:token3];
+
+  // When
+  [self.sut resumeWithIdentifyingObject:token1];
+  [self.sut resumeWithIdentifyingObject:token2];
+  [self.sut resumeWithIdentifyingObject:token3];
+
+  // Then
+  XCTAssertFalse([self.sut paused]);
+}
+
+- (void)testResumeWhenOnlyPausedTokenIsDeallocated {
+
+  // If
+  [self.sut pauseWithIdentifyingObject:[NSObject new]];
+
+  // When
+  [self.sut resumeWithIdentifyingObject:[NSObject new]];
+
+  // Then
+  XCTAssertFalse([self.sut paused]);
+}
+
+- (void)testResumeWithTokenThatDoesNotExistDoesNotResumeIfCurrentlyPaused {
+
+  // If
+  NSObject *token1 = [NSObject new];
+  NSObject *token2 = [NSObject new];
+  [self.sut pauseWithIdentifyingObject:token1];
+
+  // When
+  [self.sut resumeWithIdentifyingObject:token2];
+
+  // Then
+  XCTAssertTrue([self.sut paused]);
+}
+
+- (void)testResumeWithTokenThatDoesNotExistDoesNotPauseIfPreviouslyResumed {
+
+  // When
+  [self.sut resumeWithIdentifyingObject:[NSObject new]];
+
+  // Then
+  XCTAssertFalse([self.sut paused]);
+}
+
+- (void)testResumeTwiceInARowResumesWhenPaused {
+
+  // If
+  NSObject *token = [NSObject new];
+  [self.sut pauseWithIdentifyingObject:token];
+
+  // When
+  [self.sut resumeWithIdentifyingObject:token];
+  [self.sut resumeWithIdentifyingObject:token];
+
+  // Then
+  XCTAssertFalse([self.sut paused]);
+}
+
+- (void)testResumeOnceResumesWhenPausedTwiceWithSingleToken{
+
+  // If
+  NSObject *token = [NSObject new];
+  [self.sut pauseWithIdentifyingObject:token];
+  [self.sut pauseWithIdentifyingObject:token];
+
+  // When
+  [self.sut resumeWithIdentifyingObject:token];
+
+  // Then
+  XCTAssertFalse([self.sut paused]);
 }
 
 #pragma mark - Helper

@@ -88,6 +88,22 @@
     andDeleteDataOnDisabled:(BOOL)deletedData;
 
 /**
+ * A callback that is called when pause has been invoked.
+ *
+ * @param channel The channel.
+ * @param identifyingObject The identifying object used to pause the channel.
+ */
+- (void)channel:(id <MSChannelProtocol>)channel didPauseWithIdentifyingObject:(id <NSObject>)identifyingObject;
+
+/**
+ * A callback that is called when resume has been invoked.
+ *
+ * @param channel The channel.
+ * @param identifyingObject The identifying object used to resume the channel.
+ */
+- (void)channel:(id <MSChannelProtocol>)channel didResumeWithIdentifyingObject:(id <NSObject>)identifyingObject;
+
+/**
  * Callback method that will determine if a log should be filtered out from the
  * usual processing pipeline. If any delegate returns true, the log is filtered.
  *
@@ -96,7 +112,6 @@
  *
  * @return `true` if the log should be filtered out.
  */
-- (BOOL)channelUnit:(id<MSChannelUnitProtocol>)channelUnit
-    shouldFilterLog:(id<MSLog>)log;
+- (BOOL)channelUnit:(id<MSChannelUnitProtocol>)channelUnit shouldFilterLog:(id<MSLog>)log;
 
 @end

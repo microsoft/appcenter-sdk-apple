@@ -4,6 +4,7 @@
 #import "MSAppCenterInternal.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
+#import "MSChannelUnitDefaultPrivate.h"
 #import "MSDeviceTracker.h"
 #import "MSIngestionProtocol.h"
 #import "MSStorage.h"
@@ -22,9 +23,10 @@
     _pendingBatchQueueFull = NO;
     _availableBatchFromStorage = NO;
     _enabled = YES;
-    _suspended = NO;
+    _paused = NO;
     _discardLogs = NO;
     _delegates = [NSHashTable weakObjectsHashTable];
+    _pausedTokens = [NSHashTable weakObjectsHashTable];
   }
   return self;
 }
@@ -43,8 +45,8 @@
     [_ingestion addDelegate:self];
 
     // Match ingestion's current status, if one is passed.
-    if (_ingestion && _ingestion.suspended) {
-      [self suspend];
+    if (_ingestion && _ingestion.paused) {
+      [self pauseWithIdentifyingObject:(_Nonnull id <MSIngestionProtocol>) _ingestion];
     }
   }
   return self;
@@ -70,12 +72,12 @@
 
 #pragma mark - MSIngestionDelegate
 
-- (void)ingestionDidSuspend:(__unused id<MSIngestionProtocol>)ingestion {
-  [self suspend];
+- (void)ingestionDidPause:(id <MSIngestionProtocol>)ingestion {
+  [self pauseWithIdentifyingObject:ingestion];
 }
 
-- (void)ingestionDidResume:(__unused id<MSIngestionProtocol>)ingestion {
-  [self resume];
+- (void)ingestionDidResume:(id<MSIngestionProtocol>)ingestion {
+  [self resumeWithIdentifyingObject:ingestion];
 }
 
 - (void)ingestionDidReceiveFatalError:
@@ -141,8 +143,6 @@
                                       shouldFilter || [delegate channelUnit:self
                                                             shouldFilterLog:item];
                                 }];
-
-      // If ingestion is nil, there is nothing to do at this point.
       if (shouldFilter) {
         MSLogDebug([MSAppCenter logTag],
                    @"Log of type '%@' was filtered out by delegate(s)",
@@ -178,7 +178,7 @@
             errorWithDomain:kMSACErrorDomain
                        code:kMSACConnectionSuspendedErrorCode
                    userInfo:@{
-                     NSLocalizedDescriptionKey : kMSACConnectionSuspendedErrorDesc
+                     NSLocalizedDescriptionKey : kMSACConnectionPausedErrorDesc
                    }];
         [self notifyFailureBeforeSendingForItem:item withError:error];
         [self enumerateDelegatesForSelector:@selector
@@ -203,17 +203,7 @@
                                       didCompleteEnqueueingLog:item
                                                 withInternalId:internalLogId];
                                 }];
-
-      // Flush now if current batch is full or delay to later.
-      if (self.itemsCount >= self.configuration.batchSizeLimit) {
-        [self flushQueue];
-      } else if (self.itemsCount == 1) {
-
-        // Don't delay if channel is suspended but stack logs until current batch max out.
-        if (!self.suspended) {
-          [self startTimer];
-        }
-      }
+      [self checkPendingLogs];
     }
   });
 }
@@ -238,8 +228,8 @@
   // Cancel any timer.
   [self resetTimer];
 
-  // Don't flush while suspended or if pending bach queue is full.
-  if (self.suspended || self.pendingBatchQueueFull) {
+  // Don't flush while paused or if pending bach queue is full.
+  if (self.paused || self.pendingBatchQueueFull) {
 
     // Still close the current batch it will be flushed later.
     if (self.itemsCount >= self.configuration.batchSizeLimit) {
@@ -399,6 +389,18 @@
   }
 }
 
+- (void)checkPendingLogs {
+
+  // Flush now if current batch is full or delay to later.
+  if (self.itemsCount >= self.configuration.batchSizeLimit) {
+    [self flushQueue];
+  } else if (self.itemsCount == 1 && !self.paused) {
+
+    // Only start timer if channel is not paused. Otherwise, logs will stack.
+    [self startTimer];
+  }
+}
+
 #pragma mark - Timer
 
 - (void)startTimer {
@@ -453,11 +455,9 @@
     if (self.enabled != isEnabled) {
       self.enabled = isEnabled;
       if (isEnabled) {
-        if (!self.ingestion.suspended) {
-          [self resume];
-        }
+        [self resumeWithIdentifyingObject:self];
       } else {
-        [self suspend];
+        [self pauseWithIdentifyingObject:self];
       }
     }
 
@@ -470,7 +470,7 @@
           errorWithDomain:kMSACErrorDomain
                      code:kMSACConnectionSuspendedErrorCode
                  userInfo:@{
-                   NSLocalizedDescriptionKey : kMSACConnectionSuspendedErrorDesc
+                   NSLocalizedDescriptionKey : kMSACConnectionPausedErrorDesc
                  }];
       [self deleteAllLogsWithErrorSync:error];
 
@@ -498,20 +498,24 @@
   });
 }
 
-- (void)suspend {
-  if (!self.suspended) {
-    MSLogDebug([MSAppCenter logTag], @"Suspend channel for group Id %@.",
-               self.configuration.groupId);
-    self.suspended = YES;
+- (void)pauseWithIdentifyingObject:(id <NSObject>)identifyingObject {
+  [self.pausedTokens addObject:identifyingObject];
+  MSLogDebug([MSAppCenter logTag], @"Pause token %@ added to channel with group Id %@.",
+             identifyingObject, self.configuration.groupId);
+  if (!self.paused) {
+    MSLogDebug([MSAppCenter logTag], @"Pause channel for group Id %@.", self.configuration.groupId);
+    self.paused = YES;
     [self resetTimer];
   }
 }
 
-- (void)resume {
-  if (self.suspended && self.enabled) {
-    MSLogDebug([MSAppCenter logTag], @"Resume channel for group Id %@.",
-               self.configuration.groupId);
-    self.suspended = NO;
+- (void)resumeWithIdentifyingObject:(id <NSObject>)identifyingObject {
+  [self.pausedTokens removeObject:identifyingObject];
+  MSLogDebug([MSAppCenter logTag], @"Pause token %@ removed from channel with group Id %@.",
+             identifyingObject, self.configuration.groupId);
+  if ([self.pausedTokens count] == 0) {
+    MSLogDebug([MSAppCenter logTag], @"Resume channel for group Id %@.", self.configuration.groupId);
+    self.paused = NO;
     [self flushQueue];
   }
 }

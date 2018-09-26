@@ -311,6 +311,9 @@
 		04F3613E1FE1A95600A5A6D2 /* MSNoAutoAssignSessionIdLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 04F3613C1FE1A92000A5A6D2 /* MSNoAutoAssignSessionIdLog.h */; };
 		04F3613F1FE1A95700A5A6D2 /* MSNoAutoAssignSessionIdLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 04F3613C1FE1A92000A5A6D2 /* MSNoAutoAssignSessionIdLog.h */; };
 		04FD126B1E4103CC007ABFE7 /* MSKeychainUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FD126A1E4103CC007ABFE7 /* MSKeychainUtilTests.m */; };
+		2DA0322920F747CAB5668AAA /* MSChannelUnitDefaultPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DA030B94CD3D38725671A79 /* MSChannelUnitDefaultPrivate.h */; };
+		2DA034555E2CB013B268C82C /* MSChannelUnitDefaultPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DA030B94CD3D38725671A79 /* MSChannelUnitDefaultPrivate.h */; };
+		2DA03DF6ADD26CAC19463B5C /* MSChannelUnitDefaultPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DA030B94CD3D38725671A79 /* MSChannelUnitDefaultPrivate.h */; };
 		3542741D2016769C00BE766F /* MSChannelUnitDefault.h in Headers */ = {isa = PBXBuildFile; fileRef = 3542741C2012B53B00BE766F /* MSChannelUnitDefault.h */; };
 		3542741E2016769C00BE766F /* MSChannelDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 3542741B2012B02600BE766F /* MSChannelDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3542741F2016769C00BE766F /* MSChannelUnitProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 354274192012AEFC00BE766F /* MSChannelUnitProtocol.h */; };
@@ -790,6 +793,7 @@
 		04F21A041ECB73EE0074978D /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = ../../macOS/OHHTTPStubs/OHHTTPStubs.framework; sourceTree = "<group>"; };
 		04F3613C1FE1A92000A5A6D2 /* MSNoAutoAssignSessionIdLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSNoAutoAssignSessionIdLog.h; sourceTree = "<group>"; };
 		04FD126A1E4103CC007ABFE7 /* MSKeychainUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSKeychainUtilTests.m; sourceTree = "<group>"; };
+		2DA030B94CD3D38725671A79 /* MSChannelUnitDefaultPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSChannelUnitDefaultPrivate.h; sourceTree = "<group>"; };
 		3511AE7C20C5FF150056A739 /* MSMockLogWithConversion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSMockLogWithConversion.h; sourceTree = "<group>"; };
 		3513432D2056FF9000E6DC7D /* MSAbstractLogPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAbstractLogPrivate.h; sourceTree = "<group>"; };
 		354274162012AE4000BE766F /* MSChannelProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSChannelProtocol.h; sourceTree = "<group>"; };
@@ -1549,6 +1553,7 @@
 				6EF628F21D371B1600CAFF64 /* MSChannelUnitConfiguration.h */,
 				6EF628F31D371B1600CAFF64 /* MSChannelUnitConfiguration.m */,
 				3542741C2012B53B00BE766F /* MSChannelUnitDefault.h */,
+				2DA030B94CD3D38725671A79 /* MSChannelUnitDefaultPrivate.h */,
 				6E0684621D36BC8D00A8CC6C /* MSChannelUnitDefault.m */,
 				3542741B2012B02600BE766F /* MSChannelDelegate.h */,
 				805275BF20A19F7B00704115 /* MSOneCollectorChannelDelegate.h */,
@@ -1679,6 +1684,7 @@
 				E74B14AC20B36B9B002C0183 /* MSLocExtension.h in Headers */,
 				041EFD291EE1CAAC006DCD56 /* MSLogWithProperties.h in Headers */,
 				043120D61EE0BCF9007054C5 /* MSAppCenterIngestion.h in Headers */,
+				2DA0322920F747CAB5668AAA /* MSChannelUnitDefaultPrivate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1786,6 +1792,7 @@
 				E74B14CB20B36DF1002C0183 /* MSProtocolExtension.h in Headers */,
 				04754FA41EA98182002CBA46 /* MSKeychainUtil.h in Headers */,
 				04754FA71EA98182002CBA46 /* MSAppCenterIngestion.h in Headers */,
+				2DA03DF6ADD26CAC19463B5C /* MSChannelUnitDefaultPrivate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1893,6 +1900,7 @@
 				E74B14CA20B36DF1002C0183 /* MSProtocolExtension.h in Headers */,
 				38FD798F1EB7B0B800DE2FB3 /* MSAppCenter.h in Headers */,
 				049378391FE44539000ADBAF /* MSSessionContextPrivate.h in Headers */,
+				2DA034555E2CB013B268C82C /* MSChannelUnitDefaultPrivate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
