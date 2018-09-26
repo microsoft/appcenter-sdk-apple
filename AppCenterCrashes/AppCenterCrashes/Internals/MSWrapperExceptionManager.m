@@ -1,6 +1,5 @@
 #import "MSCrashesInternal.h"
 #import "MSCrashesUtil.h"
-#import "MSErrorReport.h"
 #import "MSException.h"
 #import "MSUtility+File.h"
 #import "MSWrapperExceptionInternal.h"
@@ -23,8 +22,7 @@ static NSMutableDictionary *unprocessedWrapperExceptions;
  */
 + (MSWrapperException *)loadWrapperExceptionWithUUIDString:
     (NSString *)uuidString {
-  MSWrapperException *foundException =
-      [unprocessedWrapperExceptions objectForKey:uuidString];
+  MSWrapperException *foundException = unprocessedWrapperExceptions[uuidString];
   return foundException
              ? foundException
              : [self loadWrapperExceptionWithBaseFilename:uuidString];

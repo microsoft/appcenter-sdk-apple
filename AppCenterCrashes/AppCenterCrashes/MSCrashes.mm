@@ -1,9 +1,7 @@
 #import "MSAppCenterInternal.h"
 #import "MSAppleErrorLog.h"
-#import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
-#import "MSConstants+Internal.h"
 #import "MSCrashesCXXExceptionWrapperException.h"
 #import "MSCrashesDelegate.h"
 #import "MSCrashesInternal.h"
@@ -456,9 +454,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       targetToken = targetToken != nil ? [self.targetTokenEncrypter encryptString:targetToken] : @"";
 
       // Storing a log.
-      NSNumber *oldestTimestamp;
-      NSNumberFormatter *timestampFormatter = [[NSNumberFormatter alloc] init];
-      timestampFormatter.numberStyle = NSNumberFormatterDecimalStyle;
+      NSTimeInterval oldestTimestamp = DBL_MAX;
       long indexToDelete = 0;
       MSLogVerbose([MSCrashes logTag], @"Storing a log to Crashes Buffer: (sid: %@, type: %@)", log.sid, log.type);
       for (auto it = msCrashesLogBuffer.begin(), end = msCrashesLogBuffer.end(); it != end; ++it) {
@@ -469,8 +465,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                                    &reinterpret_cast<const char *>(serializedLog.bytes)[serializedLog.length]);
           it->targetToken = targetToken.UTF8String;
           it->internalId = internalId.UTF8String;
-          NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
-          it->timestamp = [[NSString stringWithFormat:@"%f", now] cStringUsingEncoding:NSUTF8StringEncoding];
+          it->timestamp = [[NSDate date] timeIntervalSince1970];
 
           MSLogVerbose([MSCrashes logTag], @"Found an empty buffer position.");
 
@@ -482,14 +477,12 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
            * The current element is full. Save the timestamp if applicable and continue iterating unless we have
            * reached the last element.
            */
-          NSString *timestamp = [NSString stringWithCString:it->timestamp.c_str() encoding:NSUTF8StringEncoding];
-          NSNumber *bufferedLogTimestamp = [timestampFormatter numberFromString:timestamp];
 
           // Remember the timestamp if the log is older than the previous one or the initial one.
-          if (!oldestTimestamp || oldestTimestamp.doubleValue > bufferedLogTimestamp.doubleValue) {
-            oldestTimestamp = bufferedLogTimestamp;
+          if (oldestTimestamp > it->timestamp) {
+            oldestTimestamp = it->timestamp;
             indexToDelete = it - msCrashesLogBuffer.begin();
-            MSLogVerbose([MSCrashes logTag], @"Remembering index %ld for oldest timestamp %@.", indexToDelete,
+            MSLogVerbose([MSCrashes logTag], @"Remembering index %ld for oldest timestamp %f.", indexToDelete,
                          oldestTimestamp);
           }
         }
@@ -508,9 +501,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
           std::string(&reinterpret_cast<const char *>(serializedLog.bytes)[0],
                       &reinterpret_cast<const char *>(serializedLog.bytes)[serializedLog.length]);
       msCrashesLogBuffer[indexToDelete].internalId = internalId.UTF8String;
-      NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
-      msCrashesLogBuffer[indexToDelete].timestamp =
-          [[NSString stringWithFormat:@"%f", now] cStringUsingEncoding:NSUTF8StringEncoding];
+      msCrashesLogBuffer[indexToDelete].timestamp = [[NSDate date] timeIntervalSince1970];
       MSLogVerbose([MSCrashes logTag], @"Overwrote buffered log at index %ld.", indexToDelete);
 
       // We're done, no need to iterate any more. But no need to `return;` as we're at the end of the buffer.
@@ -528,7 +519,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
         MSLogVerbose([MSCrashes logTag], @"Deleting a log from buffer with id %@", internalId);
         it->buffer = "";
         it->targetToken = "";
-        it->timestamp = "";
+        it->timestamp = 0;
         it->internalId = "";
         if (writeBufferTaskStarted) {
 
@@ -666,8 +657,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   /*
    * FIXME: If application is crashed and relaunched from multitasking view, the SDK starts faster than normal launch
    * and application state is not updated from inactive to active at this time. Give more delay here for a workaround
-   * but we need to fix it eventually. This can also be happen if application is launched from Xcode and stoped by
-   * clicking stop button on Xcode.
+   * but we need to fix it eventually. This can also happen if the application is launched from Xcode and stopped by
+   * clicking the stop button on Xcode.
    * In addition to that, we also need it to be delayed because
    * 1. it sometimes needs to "warm up" internet connection on iOS 8,
    * 2. giving some time to start and let all Crashes initialization happen before processing crashes.
@@ -902,7 +893,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 - (void)sendErrorAttachments:(NSArray<MSErrorAttachmentLog *> *)errorAttachments
       withIncidentIdentifier:(NSString *)incidentIdentifier {
 
-  // Send attachements log to log manager.
+  // Send attachments log to log manager.
   unsigned int totalProcessedAttachments = 0;
   for (MSErrorAttachmentLog *attachment in errorAttachments) {
     attachment.errorId = incidentIdentifier;
@@ -934,7 +925,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   NSError *error = nil;
 
   // Check if the next call ran successfully the last time.
-  if ([MSUtility fileExistsForPathComponent:self.analyzerInProgressFilePathComponent] == false) {
+  if (![MSUtility fileExistsForPathComponent:self.analyzerInProgressFilePathComponent]) {
 
     // Mark the start of the routine.
     [self createAnalyzerFile];
@@ -1195,7 +1186,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       MSLogDebug([MSCrashes logTag], @"attachmentsWithCrashes is not implemented");
     }
 
-    // First, get corelated session Id.
+    // First, get correlated session Id.
     log.sid = [[MSSessionContext sharedInstance] sessionIdAt:log.timestamp];
 
     // Then, enqueue crash log.
