@@ -143,8 +143,6 @@
                                       shouldFilter || [delegate channelUnit:self
                                                             shouldFilterLog:item];
                                 }];
-
-      // If ingestion is nil, there is nothing to do at this point.
       if (shouldFilter) {
         MSLogDebug([MSAppCenter logTag],
                    @"Log of type '%@' was filtered out by delegate(s)",
@@ -191,18 +189,6 @@
                                   }];
         return;
       }
-
-      // Save the log first.
-      MSLogDebug([MSAppCenter logTag], @"Saving log, type: %@.", item.type);
-      [self.storage saveLog:item withGroupId:self.configuration.groupId];
-      self.itemsCount += 1;
-      [self enumerateDelegatesForSelector:@selector
-            (channel:didCompleteEnqueueingLog:withInternalId:)
-                                withBlock:^(id<MSChannelDelegate> delegate) {
-                                  [delegate channel:self
-                                      didCompleteEnqueueingLog:item
-                                                withInternalId:internalLogId];
-                                }];
 
       // Save the log first.
       MSLogDebug([MSAppCenter logTag], @"Saving log, type: %@.", item.type);
