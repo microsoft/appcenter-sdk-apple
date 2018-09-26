@@ -87,11 +87,11 @@ createAuthenticationProviderWithTicketKey:(NSString *)ticketKey
   id sutMock = OCMPartialMock(self.sut);
 
   // When
-  XCTestExpectation *expection =
+  XCTestExpectation *expectation =
       [self expectationWithDescription:@"Expiry date is valid"];
   [self.sut acquireTokenAsync];
   dispatch_async(dispatch_get_main_queue(), ^{
-    [expection fulfill];
+    [expectation fulfill];
   });
 
   [self waitForExpectationsWithTimeout:1
@@ -126,11 +126,11 @@ createAuthenticationProviderWithTicketKey:(NSString *)ticketKey
   id sutMock = OCMPartialMock(self.sut);
 
   // When
-  XCTestExpectation *expection =
+  XCTestExpectation *expectation =
       [self expectationWithDescription:@"Expiry date is expired"];
   [self.sut acquireTokenAsync];
   dispatch_async(dispatch_get_main_queue(), ^{
-    [expection fulfill];
+    [expectation fulfill];
   });
 
   [self waitForExpectationsWithTimeout:1
@@ -162,11 +162,11 @@ createAuthenticationProviderWithTicketKey:(NSString *)ticketKey
                         delegate:mockDelegate];
 
   // When
-  XCTestExpectation *expection =
+  XCTestExpectation *expectation =
       [self expectationWithDescription:@"Completion handler is called"];
   [self.sut acquireTokenAsync];
   dispatch_async(dispatch_get_main_queue(), ^{
-    [expection fulfill];
+    [expectation fulfill];
   });
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
@@ -204,11 +204,11 @@ createAuthenticationProviderWithTicketKey:(NSString *)ticketKey
                         delegate:mockDelegate];
 
   // When
-  XCTestExpectation *expection =
+  XCTestExpectation *expectation =
       [self expectationWithDescription:@"Completion handler is called"];
   [self.sut acquireTokenAsync];
   dispatch_async(dispatch_get_main_queue(), ^{
-    [expection fulfill];
+    [expectation fulfill];
   });
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
@@ -247,11 +247,11 @@ createAuthenticationProviderWithTicketKey:(NSString *)ticketKey
                         delegate:mockDelegate];
 
   // When
-  XCTestExpectation *expection =
+  XCTestExpectation *expectation =
       [self expectationWithDescription:@"Completion handler is called"];
   [self.sut acquireTokenAsync];
   dispatch_async(dispatch_get_main_queue(), ^{
-    [expection fulfill];
+    [expectation fulfill];
   });
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
@@ -286,11 +286,11 @@ createAuthenticationProviderWithTicketKey:(NSString *)ticketKey
                         delegate:mockDelegate];
 
   // When
-  XCTestExpectation *expection =
+  XCTestExpectation *expectation =
       [self expectationWithDescription:@"Completion handler is called"];
   [self.sut acquireTokenAsync];
   dispatch_async(dispatch_get_main_queue(), ^{
-    [expection fulfill];
+    [expectation fulfill];
   });
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {

@@ -25,7 +25,7 @@ struct MSCrashesBufferedLog {
   std::string targetTokenPath;
   std::string targetToken;
   std::string internalId;
-  std::string timestamp;
+  NSTimeInterval timestamp;
 
   MSCrashesBufferedLog() = default;
 
@@ -162,7 +162,7 @@ typedef struct MSCrashesCallbacks {
 
 /**
  * Creates log buffer to buffer logs which will be saved in an async-safe manner
- * at crash time. The buffer makes sure we don't lose any logs at crashtime.
+ * at crash time. The buffer makes sure we don't lose any logs at crash time.
  * This method creates 20 files that will be used to buffer 20 logs.
  * The files will only be created once and not recreated from scratch every time
  * MSCrashes is initialized.

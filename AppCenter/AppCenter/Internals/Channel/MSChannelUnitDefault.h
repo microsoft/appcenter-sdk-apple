@@ -79,17 +79,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * A boolean value set to YES if the channel is enabled or NO otherwise.
- * Enable/disable does resume/suspend the channel as needed under the hood.
+ * Enable/disable does resume/pause the channel as needed under the hood.
  * When a channel is disabled with data deletion it deletes persisted logs and
  * discards incoming logs.
  */
 @property(nonatomic) BOOL enabled;
 
 /**
- * A boolean value set to YES if the channel is suspended or NO otherwise.
- * A channel is suspended when it becomes disabled or when its ingestion becomes
- * suspended itself. A suspended channel doesn't forward logs to the ingestion.
- * A suspended state doesn't impact the current enabled state.
+ * A boolean value set to YES if the channel is paused or NO otherwise. A paused channel doesn't forward logs to the
+ * ingestion. A suspended state doesn't impact the current enabled state.
  */
 @property(nonatomic) BOOL paused;
 
@@ -99,11 +97,6 @@ NS_ASSUME_NONNULL_BEGIN
  * unrecoverable error happened.
  */
 @property(nonatomic) BOOL discardLogs;
-
-/**
- * The app secret.
- */
-@property(nonatomic, copy) NSString *appSecret;
 
 @end
 

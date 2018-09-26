@@ -31,7 +31,7 @@
  *
  * @param errorLog The error log object that will be returned.
  * @param crashReport The crash
- * @return The error log with process informaton and the application path.
+ * @return The error log with process information and the application path.
  */
 + (MSAppleErrorLog *)
 addProcessInfoAndApplicationPathTo:(MSAppleErrorLog *)errorLog

@@ -1,12 +1,15 @@
 #import <Foundation/Foundation.h>
 
+#import "MSAppCenterIngestion.h"
 #import "MSAppCenterInternal.h"
 #import "MSAppCenterPrivate.h"
 #import "MSAppDelegateForwarder.h"
 #import "MSChannelGroupDefault.h"
+#import "MSChannelGroupDefaultPrivate.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSDeviceTrackerPrivate.h"
 #import "MSLoggerInternal.h"
+#import "MSOneCollectorChannelDelegate.h"
 #import "MSSessionContext.h"
 #import "MSStartServiceLog.h"
 #import "MSUtility+StringFormatting.h"
@@ -442,7 +445,7 @@ transmissionTargetToken:(NSString *)transmissionTargetToken
         MSLogWarning([MSAppCenter logTag], @"Unable to set storage size after the application has configured App"
                                            "Center");
         setMaxSizeFailed = YES;
-      }else {
+      } else {
         self.requestedMaxStorageSizeInBytes = @(sizeInBytes);
         self.maxStorageSizeCompletionHandler = completionHandler;
         if (self.channelGroup) {
@@ -546,12 +549,12 @@ transmissionTargetToken:(NSString *)transmissionTargetToken
       [self.channelGroup setMaxStorageSize:storageSize completionHandler:self.maxStorageSizeCompletionHandler];
     }
   }
+  [self.channelGroup setAppSecret:self.appSecret];
 
   // Initialize a channel unit for start service logs.
   self.channelUnit =
       self.channelUnit ?: [self.channelGroup addChannelUnitWithConfiguration:[[MSChannelUnitConfiguration alloc]
                                                                                                           initDefaultConfigurationWithGroupId:[MSAppCenter groupId]]];
-  [self.channelUnit setAppSecret:self.appSecret];
 }
 
 - (NSString *)appSecret {
@@ -622,14 +625,14 @@ transmissionTargetToken:(NSString *)transmissionTargetToken
  *  The application will go to the foreground.
  */
 - (void)applicationWillEnterForeground {
-  [self.channelGroup resume];
+  [self.channelGroup resumeWithIdentifyingObject:self];
 }
 
 /**
  *  The application will go to the background.
  */
 - (void)applicationDidEnterBackground {
-  [self.channelGroup pause];
+  [self.channelGroup pauseWithIdentifyingObject:self];
 }
 #endif
 

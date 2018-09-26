@@ -63,7 +63,7 @@
  * @param crashes The instance of MSCrashes.
  * @param errorReport The errorReport associated with the returned attachments.
  *
- * @return The attachements associated with the given error report or nil if the
+ * @return The attachments associated with the given error report or nil if the
  * error report doesn't have any attachments.
  *
  * @discussion Implement this method if you want attachments to the given error

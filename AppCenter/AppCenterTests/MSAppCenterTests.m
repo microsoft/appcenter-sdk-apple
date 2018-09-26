@@ -4,6 +4,7 @@
 #import "MSCustomPropertiesLog.h"
 #endif
 #import "MSAppCenter.h"
+#import "MSAppCenterIngestion.h"
 #import "MSAppCenterInternal.h"
 #import "MSAppCenterPrivate.h"
 #import "MSChannelGroupDefault.h"
@@ -11,6 +12,7 @@
 #import "MSMockSecondService.h"
 #import "MSMockService.h"
 #import "MSMockUserDefaults.h"
+#import "MSOneCollectorChannelDelegate.h"
 #import "MSStartServiceLog.h"
 #import "MSTestFrameworks.h"
 
@@ -639,7 +641,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidEnterBackgroundNotification
                                                       object:self.sut];
   // Then
-  OCMVerify([channelGroup pause]);
+  OCMVerify([channelGroup pauseWithIdentifyingObject:self.sut]);
 }
 
 - (void)testAppIsForegrounded {
@@ -654,7 +656,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
                                                       object:self.sut];
   // Then
-  OCMVerify([channelGroup resume]);
+  OCMVerify([channelGroup resumeWithIdentifyingObject:self.sut]);
 }
 #endif
 

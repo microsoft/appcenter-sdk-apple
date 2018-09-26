@@ -4,7 +4,6 @@
 #import "MSSessionTrackerPrivate.h"
 #import "MSStartServiceLog.h"
 #import "MSStartSessionLog.h"
-#import "MSUtility+Date.h"
 
 static NSTimeInterval const kMSSessionTimeOut = 20;
 static NSString *const kMSPastSessionsKey = @"pastSessionsKey";

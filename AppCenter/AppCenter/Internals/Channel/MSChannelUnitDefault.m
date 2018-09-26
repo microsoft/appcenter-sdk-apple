@@ -1,9 +1,11 @@
-#import "MSChannelUnitDefault.h"
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenterErrors.h"
+#import "MSAppCenterIngestion.h"
 #import "MSAppCenterInternal.h"
 #import "MSChannelDelegate.h"
 #import "MSChannelUnitConfiguration.h"
+#import "MSChannelUnitDefault.h"
+#import "MSChannelUnitDefaultPrivate.h"
 #import "MSDeviceTracker.h"
 #import "MSIngestionProtocol.h"
 #import "MSStorage.h"
@@ -25,6 +27,7 @@
     _paused = NO;
     _discardLogs = NO;
     _delegates = [NSHashTable weakObjectsHashTable];
+    _pausedTokens = [NSHashTable weakObjectsHashTable];
   }
   return self;
 }
@@ -44,14 +47,10 @@
 
     // Match ingestion's current status, if one is passed.
     if (_ingestion && _ingestion.paused) {
-      [self pause];
+      [self pauseWithIdentifyingObject:(_Nonnull id <MSIngestionProtocol>) _ingestion];
     }
   }
   return self;
-}
-
-- (void)setAppSecret:(NSString *)appSecret {
-  _appSecret = appSecret;
 }
 
 #pragma mark - MSChannelDelegate
@@ -74,12 +73,12 @@
 
 #pragma mark - MSIngestionDelegate
 
-- (void)ingestionDidPause:(__unused id <MSIngestionProtocol>)ingestion {
-  [self pause];
+- (void)ingestionDidPause:(id <MSIngestionProtocol>)ingestion {
+  [self pauseWithIdentifyingObject:ingestion];
 }
 
-- (void)ingestionDidResume:(__unused id<MSIngestionProtocol>)ingestion {
-  [self resume];
+- (void)ingestionDidResume:(id<MSIngestionProtocol>)ingestion {
+  [self resumeWithIdentifyingObject:ingestion];
 }
 
 - (void)ingestionDidReceiveFatalError:
@@ -92,6 +91,7 @@
 #pragma mark - Managing queue
 
 - (void)enqueueItem:(id<MSLog>)item {
+
   /*
    * Set common log info.
    * Only add timestamp and device info in case the log doesn't have one. In
@@ -132,77 +132,77 @@
   // Return fast in case our item is empty or we are discarding logs right now.
   dispatch_async(self.logsDispatchQueue, ^{
 
-    // Check if the log should be filtered out. If so, don't enqueue it.
-    __block BOOL shouldFilter = NO;
-    [self enumerateDelegatesForSelector:@selector(channelUnit:shouldFilterLog:)
-                              withBlock:^(id<MSChannelDelegate> delegate) {
-                                shouldFilter =
-                                    shouldFilter || [delegate channelUnit:self
-                                                          shouldFilterLog:item];
-                              }];
+    // Use separate autorelease pool for enqueuing logs.
+    @autoreleasepool {
 
-    // If ingestion is nil, there is nothing to do at this point.
-    if (shouldFilter) {
-      MSLogDebug([MSAppCenter logTag],
-                 @"Log of type '%@' was filtered out by delegate(s)",
-                 item.type);
-      [self enumerateDelegatesForSelector:@selector
-            (channel:didCompleteEnqueueingLog:withInternalId:)
+      // Check if the log should be filtered out. If so, don't enqueue it.
+      __block BOOL shouldFilter = NO;
+      [self enumerateDelegatesForSelector:@selector(channelUnit:shouldFilterLog:)
                                 withBlock:^(id<MSChannelDelegate> delegate) {
-                                  [delegate channel:self
-                                      didCompleteEnqueueingLog:item
-                                                withInternalId:internalLogId];
+                                  shouldFilter =
+                                      shouldFilter || [delegate channelUnit:self
+                                                            shouldFilterLog:item];
                                 }];
-      return;
-    }
-    if (!self.appSecret && !item.transmissionTargetTokens) {
-      MSLogDebug([MSAppCenter logTag],
-                 @"Log of type '%@' was not filtered out by delegate(s) but no "
-                 @"app secret was "
-                 @"provided. Not persisting/sending the log.",
-                 item.type);
-      [self enumerateDelegatesForSelector:@selector
-            (channel:didCompleteEnqueueingLog:withInternalId:)
-                                withBlock:^(id<MSChannelDelegate> delegate) {
-                                  [delegate channel:self
-                                      didCompleteEnqueueingLog:item
-                                                withInternalId:internalLogId];
-                                }];
-      return;
-    }
-    if (self.discardLogs) {
-      MSLogWarning(
-          [MSAppCenter logTag],
-          @"Channel disabled in log discarding mode, discard this log.");
-      NSError *error = [NSError
-          errorWithDomain:kMSACErrorDomain
-                     code:kMSACConnectionSuspendedErrorCode
-                 userInfo:@{
-                   NSLocalizedDescriptionKey : kMSACConnectionSuspendedErrorDesc
-                 }];
-      [self notifyFailureBeforeSendingForItem:item withError:error];
-      [self enumerateDelegatesForSelector:@selector
-            (channel:didCompleteEnqueueingLog:withInternalId:)
-                                withBlock:^(id<MSChannelDelegate> delegate) {
-                                  [delegate channel:self
-                                      didCompleteEnqueueingLog:item
-                                                withInternalId:internalLogId];
-                                }];
-      return;
-    }
+      if (shouldFilter) {
+        MSLogDebug([MSAppCenter logTag],
+                   @"Log of type '%@' was filtered out by delegate(s)",
+                   item.type);
+        [self enumerateDelegatesForSelector:@selector
+              (channel:didCompleteEnqueueingLog:withInternalId:)
+                                  withBlock:^(id<MSChannelDelegate> delegate) {
+                                    [delegate channel:self
+                                        didCompleteEnqueueingLog:item
+                                                  withInternalId:internalLogId];
+                                  }];
+        return;
+      }
+      if (!self.ingestion.isReadyToSend) {
+        MSLogDebug([MSAppCenter logTag],
+                   @"Log of type '%@' was not filtered out by delegate(s) but "
+                   @"ingestion is not ready to send it.", item.type);
+        [self enumerateDelegatesForSelector:@selector
+              (channel:didCompleteEnqueueingLog:withInternalId:)
+                                  withBlock:^(id<MSChannelDelegate> delegate) {
+                                    [delegate channel:self
+                                        didCompleteEnqueueingLog:item
+                                                  withInternalId:internalLogId];
+                                  }];
+        return;
+      }
+      if (self.discardLogs) {
+        MSLogWarning(
+            [MSAppCenter logTag],
+            @"Channel disabled in log discarding mode, discard this log.");
+        NSError *error = [NSError
+            errorWithDomain:kMSACErrorDomain
+                       code:kMSACConnectionSuspendedErrorCode
+                   userInfo:@{
+                     NSLocalizedDescriptionKey : kMSACConnectionPausedErrorDesc
+                   }];
+        [self notifyFailureBeforeSendingForItem:item withError:error];
+        [self enumerateDelegatesForSelector:@selector
+              (channel:didCompleteEnqueueingLog:withInternalId:)
+                                  withBlock:^(id<MSChannelDelegate> delegate) {
+                                    [delegate channel:self
+                                        didCompleteEnqueueingLog:item
+                                                  withInternalId:internalLogId];
+                                  }];
+        return;
+      }
 
-    // Save the log first.
-    MSLogDebug([MSAppCenter logTag], @"Saving log, type: %@.", item.type);
-    [self.storage saveLog:item withGroupId:self.configuration.groupId];
-    self.itemsCount += 1;
-    [self enumerateDelegatesForSelector:@selector
-          (channel:didCompleteEnqueueingLog:withInternalId:)
-                              withBlock:^(id<MSChannelDelegate> delegate) {
-                                [delegate channel:self
-                                    didCompleteEnqueueingLog:item
-                                              withInternalId:internalLogId];
-                              }];
-    [self checkPendingLogs];
+      // Save the log first.
+      MSLogDebug([MSAppCenter logTag], @"Saving log, type: %@.", item.type);
+      [self.storage saveLog:item withGroupId:self.configuration.groupId];
+      self.itemsCount += 1;
+      [self enumerateDelegatesForSelector:@selector
+            (channel:didCompleteEnqueueingLog:withInternalId:)
+                                withBlock:^(id<MSChannelDelegate> delegate) {
+                                  [delegate channel:self
+                                      didCompleteEnqueueingLog:item
+                                                withInternalId:internalLogId];
+                                }];
+      [self checkPendingLogs];
+    }
   });
 }
 
@@ -215,6 +215,11 @@
 
   // Don't flush while disabled.
   if (!self.enabled) {
+    return;
+  }
+
+  // Ingestion is not ready.
+  if (!self.ingestion.isReadyToSend) {
     return;
   }
 
@@ -282,7 +287,6 @@
                // Forward logs to the ingestion.
                [self.ingestion
                            sendAsync:container
-                           appSecret:self.appSecret
                    completionHandler:^(
                        NSString *ingestionBatchId, NSUInteger statusCode,
                        __attribute__((unused)) NSData *data, NSError *error) {
@@ -448,11 +452,9 @@
     if (self.enabled != isEnabled) {
       self.enabled = isEnabled;
       if (isEnabled) {
-        if (!self.ingestion.paused) {
-          [self resume];
-        }
+        [self resumeWithIdentifyingObject:self];
       } else {
-        [self pause];
+        [self pauseWithIdentifyingObject:self];
       }
     }
 
@@ -465,7 +467,7 @@
           errorWithDomain:kMSACErrorDomain
                      code:kMSACConnectionSuspendedErrorCode
                  userInfo:@{
-                   NSLocalizedDescriptionKey : kMSACConnectionSuspendedErrorDesc
+                   NSLocalizedDescriptionKey : kMSACConnectionPausedErrorDesc
                  }];
       [self deleteAllLogsWithErrorSync:error];
 
@@ -493,22 +495,36 @@
   });
 }
 
-- (void)pause {
+- (void)pauseWithIdentifyingObject:(id <NSObject>)identifyingObject {
+  [self.pausedTokens addObject:identifyingObject];
+  MSLogDebug([MSAppCenter logTag], @"Pause token %@ added to channel with group Id %@.",
+             identifyingObject, self.configuration.groupId);
   if (!self.paused) {
-    MSLogDebug([MSAppCenter logTag], @"Suspend channel for group Id %@.",
-               self.configuration.groupId);
+    MSLogDebug([MSAppCenter logTag], @"Pause channel for group Id %@.", self.configuration.groupId);
     self.paused = YES;
     [self resetTimer];
   }
+  [self enumerateDelegatesForSelector:@selector
+   (channel:didPauseWithIdentifyingObject:)
+                            withBlock:^(id<MSChannelDelegate> delegate) {
+                              [delegate channel:self didPauseWithIdentifyingObject:identifyingObject];
+                            }];
 }
 
-- (void)resume {
-  if (self.paused && self.enabled) {
-    MSLogDebug([MSAppCenter logTag], @"Resume channel for group Id %@.",
-               self.configuration.groupId);
+- (void)resumeWithIdentifyingObject:(id <NSObject>)identifyingObject {
+  [self.pausedTokens removeObject:identifyingObject];
+  MSLogDebug([MSAppCenter logTag], @"Pause token %@ removed from channel with group Id %@.",
+             identifyingObject, self.configuration.groupId);
+  if ([self.pausedTokens count] == 0) {
+    MSLogDebug([MSAppCenter logTag], @"Resume channel for group Id %@.", self.configuration.groupId);
     self.paused = NO;
     [self flushQueue];
   }
+  [self enumerateDelegatesForSelector:@selector
+   (channel:didResumeWithIdentifyingObject:)
+                            withBlock:^(id<MSChannelDelegate> delegate) {
+                              [delegate channel:self didResumeWithIdentifyingObject:identifyingObject];
+                            }];
 }
 
 #pragma mark - Storage

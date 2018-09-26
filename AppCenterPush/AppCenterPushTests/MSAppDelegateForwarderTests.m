@@ -981,6 +981,7 @@
     testDidReceiveRemoteNotificationCompletionHandlerAsyncWithMultipleCustomDelegates {
 
   // If
+  __block int delegateCalledCounter = 0;
   __block UIBackgroundFetchResult forwardedFetchResult =
       UIBackgroundFetchResultFailed;
   UIBackgroundFetchResult expectedFetchResult = UIBackgroundFetchResultNewData;
@@ -1018,6 +1019,7 @@
               [NSThread sleepForTimeInterval:arc4random_uniform(2) / 100];
               assertThatBool(isExpectedHandlerCalled, isFalse());
               fetchHandler(expectedFetchResult);
+              delegateCalledCounter++;
               [originalCalledExpectation fulfill];
             });
       };
@@ -1045,6 +1047,7 @@
               [NSThread sleepForTimeInterval:arc4random_uniform(2) / 100];
               assertThatBool(isExpectedHandlerCalled, isFalse());
               fetchHandler(expectedFetchResult);
+              delegateCalledCounter++;
               [customCalledExpectation1 fulfill];
             });
       };
@@ -1061,6 +1064,7 @@
               [NSThread sleepForTimeInterval:arc4random_uniform(2) / 100];
               assertThatBool(isExpectedHandlerCalled, isFalse());
               fetchHandler(expectedFetchResult);
+              delegateCalledCounter++;
               [customCalledExpectation2 fulfill];
             });
       };
@@ -1080,22 +1084,23 @@
             fetchCompletionHandler:expectedFetchHandler];
 
   // Then
-  [self waitForExpectations:@[
-    customCalledExpectation1, customCalledExpectation2,
-    originalCalledExpectation
-  ]
-                    timeout:1000];
-
   [self waitForExpectationsWithTimeout:1000
                                handler:^(__unused NSError *error) {
 
                                  // In the end the completion handler must be
                                  // called with the forwarded value.
-                                 assertThatBool(isExpectedHandlerCalled,
-                                                isTrue());
-                                 assertThatInteger(
-                                     forwardedFetchResult,
-                                     equalToInteger(expectedFetchResult));
+                                 if (error) {
+                                   XCTFail(@"Failed to complete all delegate "
+                                           @"invocations with error: %@",
+                                           error.localizedDescription);
+                                 } else {
+                                   XCTAssertTrue(delegateCalledCounter == 3);
+                                   assertThatBool(isExpectedHandlerCalled,
+                                                  isTrue());
+                                   assertThatInteger(
+                                       forwardedFetchResult,
+                                       equalToInteger(expectedFetchResult));
+                                 }
                                }];
 }
 
