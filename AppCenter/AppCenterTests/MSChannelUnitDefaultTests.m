@@ -420,11 +420,11 @@ static NSString *const kMSTestGroupId = @"GroupId";
             [@(currentBatchId++) stringValue]);
       });
   MSChannelUnitConfiguration *config = [[MSChannelUnitConfiguration alloc]
-                                                                    initWithGroupId:kMSTestGroupId
-                                                                           priority:MSPriorityDefault
-                                                                      flushInterval:0.0
-                                                                     batchSizeLimit:batchSizeLimit
-                                                                pendingBatchesLimit:expectedMaxPendingBatched];
+          initWithGroupId:kMSTestGroupId
+                 priority:MSPriorityDefault
+            flushInterval:0.0
+           batchSizeLimit:batchSizeLimit
+      pendingBatchesLimit:expectedMaxPendingBatched];
   self.sut.configuration = config;
   MSChannelUnitDefault *sut =
       [[MSChannelUnitDefault alloc] initWithIngestion:ingestionMock
@@ -569,12 +569,12 @@ static NSString *const kMSTestGroupId = @"GroupId";
                  completionHandler:OCMOCK_ANY]);
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
   OCMStub([storageMock
-              loadLogsWithGroupId:kMSTestGroupId
-                            limit:batchSizeLimit
-                            iKeys:OCMOCK_ANY
-                completionHandler:([OCMArg invokeBlockWithArgs:((NSArray<id <MSLog>> *)
-                    @[mockLog]),
-                                                               @"1", nil])]);
+      loadLogsWithGroupId:kMSTestGroupId
+                    limit:batchSizeLimit
+                    iKeys:OCMOCK_ANY
+        completionHandler:([OCMArg invokeBlockWithArgs:((NSArray<id <MSLog>> *)
+            @[mockLog]),
+                                                       @"1", nil])]);
   MSChannelUnitConfiguration *config =
       [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
                                                  priority:MSPriorityDefault
@@ -583,10 +583,10 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                       pendingBatchesLimit:10];
   self.sut.configuration = config;
   MSChannelUnitDefault *sut = [[MSChannelUnitDefault alloc]
-                                                     initWithIngestion:ingestionMock
-                                                               storage:storageMock
-                                                         configuration:config
-                                                     logsDispatchQueue:dispatch_get_main_queue()];
+      initWithIngestion:ingestionMock
+                storage:storageMock
+          configuration:config
+      logsDispatchQueue:dispatch_get_main_queue()];
   // When
   [sut setEnabled:NO andDeleteDataOnDisabled:NO];
   [sut enqueueItem:mockLog];
@@ -625,10 +625,10 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                            batchSizeLimit:batchSizeLimit
                                       pendingBatchesLimit:10];
   MSChannelUnitDefault *sut = [[MSChannelUnitDefault alloc]
-                                                     initWithIngestion:ingestionMock
-                                                               storage:storageMock
-                                                         configuration:config
-                                                     logsDispatchQueue:dispatch_get_main_queue()];
+      initWithIngestion:ingestionMock
+                storage:storageMock
+          configuration:config
+      logsDispatchQueue:dispatch_get_main_queue()];
   self.sut.configuration = config;
 
   // When
@@ -660,8 +660,8 @@ static NSString *const kMSTestGroupId = @"GroupId";
   MSChannelUnitDefault *sut = [self createChannelUnit];
   id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
   OCMStub([delegateMock channel:sut
-       didCompleteEnqueueingLog:mockLog
-                 withInternalId:OCMOCK_ANY])
+              didCompleteEnqueueingLog:mockLog
+                        withInternalId:OCMOCK_ANY])
       .andDo(^(__unused NSInvocation *invocation) {
         [self enqueueChannelEndJobExpectation];
       });
@@ -691,8 +691,8 @@ static NSString *const kMSTestGroupId = @"GroupId";
   id <MSLog> mockLog = [self getValidMockLog];
   id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
   OCMStub([delegateMock channel:sut
-       didCompleteEnqueueingLog:mockLog
-                 withInternalId:OCMOCK_ANY])
+              didCompleteEnqueueingLog:mockLog
+                        withInternalId:OCMOCK_ANY])
       .andDo(^(__unused NSInvocation *invocation) {
         [self enqueueChannelEndJobExpectation];
       });
@@ -720,8 +720,8 @@ static NSString *const kMSTestGroupId = @"GroupId";
   id <MSLog> otherMockLog = [self getValidMockLog];
   [sut setEnabled:NO andDeleteDataOnDisabled:NO];
   OCMStub([delegateMock channel:sut
-       didCompleteEnqueueingLog:otherMockLog
-                 withInternalId:OCMOCK_ANY])
+              didCompleteEnqueueingLog:otherMockLog
+                        withInternalId:OCMOCK_ANY])
       .andDo(^(__unused NSInvocation *invocation) {
         [self enqueueChannelEndJobExpectation];
       });
