@@ -1,11 +1,8 @@
 #import "AppCenter+Internal.h"
-#import "MSAbstractLogInternal.h"
 #import "MSAnalyticsInternal.h"
 #import "MSCSData.h"
 #import "MSCSModelConstants.h"
-#import "MSCommonSchemaLog.h"
 #import "MSEventLogPrivate.h"
-#import "MSLogConversion.h"
 
 static NSString *const kMSTypeEvent = @"event";
 
@@ -101,11 +98,11 @@ static NSString *const kMSId = @"id";
       NSMutableDictionary *destProperties = csProperties;
       for (NSUInteger i = 0; i < lastIndex; i++) {
         NSMutableDictionary *subObject = nil;
-        if ([destProperties[csKeys[i]] isKindOfClass:[NSMutableDictionary class]]) {
+        if ([(NSObject *)destProperties[csKeys[i]] isKindOfClass:[NSMutableDictionary class]]) {
           subObject = destProperties[csKeys[i]];
         }
         if (!subObject) {
-          if ([destProperties objectForKey:csKeys[i]]) {
+          if (destProperties[csKeys[i]]) {
             MSLogWarning(MSAnalytics.logTag,
                          @"Property key '%@' already has a value, the old value will be overridden.",
                          csKeys[i]);
@@ -115,7 +112,7 @@ static NSString *const kMSId = @"id";
         }
         destProperties = subObject;
       }
-      if ([destProperties objectForKey:csKeys[lastIndex]]) {
+      if (destProperties[csKeys[lastIndex]]) {
         [destProperties removeObjectForKey:csKeys[lastIndex]];
         MSLogWarning(MSAnalytics.logTag,
                      @"Property key '%@' already has a value, the old value will be overridden.",

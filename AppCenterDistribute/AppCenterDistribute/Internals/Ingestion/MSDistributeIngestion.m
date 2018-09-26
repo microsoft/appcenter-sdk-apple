@@ -1,7 +1,6 @@
 #import "MSDistributeIngestion.h"
 #import "MSAppCenter.h"
 #import "MSAppCenterInternal.h"
-#import "MSDistribute.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSLoggerInternal.h"
 

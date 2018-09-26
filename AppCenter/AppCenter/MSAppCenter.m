@@ -445,7 +445,7 @@ transmissionTargetToken:(NSString *)transmissionTargetToken
         MSLogWarning([MSAppCenter logTag], @"Unable to set storage size after the application has configured App"
                                            "Center");
         setMaxSizeFailed = YES;
-      }else {
+      } else {
         self.requestedMaxStorageSizeInBytes = @(sizeInBytes);
         self.maxStorageSizeCompletionHandler = completionHandler;
         if (self.channelGroup) {

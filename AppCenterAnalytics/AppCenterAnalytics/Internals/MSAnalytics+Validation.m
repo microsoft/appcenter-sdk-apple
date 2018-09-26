@@ -1,6 +1,5 @@
 #import "AppCenter+Internal.h"
 #import "MSAnalytics+Validation.h"
-#import "MSCommonSchemaLog.h"
 #import "MSEventLog.h"
 #import "MSPageLog.h"
 
