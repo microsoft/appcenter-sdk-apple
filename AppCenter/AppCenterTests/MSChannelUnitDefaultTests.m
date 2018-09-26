@@ -995,7 +995,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [sut ingestionDidPause:ingestionMock];
 
   // Then
-  OCMVerify([sut pauseWithToken:ingestionMock]);
+  OCMVerify([sut pauseWithIdentifyingObject:ingestionMock]);
 }
 
 - (void)testResumeOnIngestionResumed {
@@ -1008,7 +1008,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [sut ingestionDidResume:ingestionMock];
 
   // Then
-  OCMVerify([sut resumeWithToken:ingestionMock]);
+  OCMVerify([sut resumeWithIdentifyingObject:ingestionMock]);
 }
 
 - (void)testDoesntResumeWhenNotAllPauseTokensResumed {
@@ -1017,13 +1017,13 @@ static NSString *const kMSTestGroupId = @"GroupId";
   NSObject *token1 = [NSObject new];
   NSObject *token2 = [NSObject new];
   NSObject *token3 = [NSObject new];
-  [self.sut pauseWithToken:token1];
-  [self.sut pauseWithToken:token2];
-  [self.sut pauseWithToken:token3];
+  [self.sut pauseWithIdentifyingObject:token1];
+  [self.sut pauseWithIdentifyingObject:token2];
+  [self.sut pauseWithIdentifyingObject:token3];
 
   // When
-  [self.sut resumeWithToken:token1];
-  [self.sut resumeWithToken:token3];
+  [self.sut resumeWithIdentifyingObject:token1];
+  [self.sut resumeWithIdentifyingObject:token3];
 
   // Then
   XCTAssertTrue([self.sut paused]);
@@ -1035,14 +1035,14 @@ static NSString *const kMSTestGroupId = @"GroupId";
   NSObject *token1 = [NSObject new];
   NSObject *token2 = [NSObject new];
   NSObject *token3 = [NSObject new];
-  [self.sut pauseWithToken:token1];
-  [self.sut pauseWithToken:token2];
-  [self.sut pauseWithToken:token3];
+  [self.sut pauseWithIdentifyingObject:token1];
+  [self.sut pauseWithIdentifyingObject:token2];
+  [self.sut pauseWithIdentifyingObject:token3];
 
   // When
-  [self.sut resumeWithToken:token1];
-  [self.sut resumeWithToken:token2];
-  [self.sut resumeWithToken:token3];
+  [self.sut resumeWithIdentifyingObject:token1];
+  [self.sut resumeWithIdentifyingObject:token2];
+  [self.sut resumeWithIdentifyingObject:token3];
 
   // Then
   XCTAssertFalse([self.sut paused]);
@@ -1051,10 +1051,10 @@ static NSString *const kMSTestGroupId = @"GroupId";
 - (void)testResumeWhenOnlyPausedTokenIsDeallocated {
 
   // If
-  [self.sut pauseWithToken:[NSObject new]];
+  [self.sut pauseWithIdentifyingObject:[NSObject new]];
 
   // When
-  [self.sut resumeWithToken:[NSObject new]];
+  [self.sut resumeWithIdentifyingObject:[NSObject new]];
 
   // Then
   XCTAssertFalse([self.sut paused]);
@@ -1065,10 +1065,10 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // If
   NSObject *token1 = [NSObject new];
   NSObject *token2 = [NSObject new];
-  [self.sut pauseWithToken:token1];
+  [self.sut pauseWithIdentifyingObject:token1];
 
   // When
-  [self.sut resumeWithToken:token2];
+  [self.sut resumeWithIdentifyingObject:token2];
 
   // Then
   XCTAssertTrue([self.sut paused]);
@@ -1077,7 +1077,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 - (void)testResumeWithTokenThatDoesNotExistDoesNotPauseIfPreviouslyResumed {
 
   // When
-  [self.sut resumeWithToken:[NSObject new]];
+  [self.sut resumeWithIdentifyingObject:[NSObject new]];
 
   // Then
   XCTAssertFalse([self.sut paused]);
@@ -1087,11 +1087,11 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // If
   NSObject *token = [NSObject new];
-  [self.sut pauseWithToken:token];
+  [self.sut pauseWithIdentifyingObject:token];
 
   // When
-  [self.sut resumeWithToken:token];
-  [self.sut resumeWithToken:token];
+  [self.sut resumeWithIdentifyingObject:token];
+  [self.sut resumeWithIdentifyingObject:token];
 
   // Then
   XCTAssertFalse([self.sut paused]);
@@ -1101,11 +1101,11 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // If
   NSObject *token = [NSObject new];
-  [self.sut pauseWithToken:token];
-  [self.sut pauseWithToken:token];
+  [self.sut pauseWithIdentifyingObject:token];
+  [self.sut pauseWithIdentifyingObject:token];
 
   // When
-  [self.sut resumeWithToken:token];
+  [self.sut resumeWithIdentifyingObject:token];
 
   // Then
   XCTAssertFalse([self.sut paused]);

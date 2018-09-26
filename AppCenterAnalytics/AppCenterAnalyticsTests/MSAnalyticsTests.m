@@ -983,13 +983,13 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
    appSecret:kMSTestAppSecret
    transmissionTargetToken:nil
    fromApplication:YES];
-  OCMExpect([[MSAnalytics sharedInstance].channelUnit pauseWithToken:[MSAnalytics sharedInstance]]);
+  OCMExpect([[MSAnalytics sharedInstance].channelUnit pauseWithIdentifyingObject:[MSAnalytics sharedInstance]]);
   
   // When
   [MSAnalytics pause];
   
   // Then
-  OCMVerify([[MSAnalytics sharedInstance].channelUnit pauseWithToken:[MSAnalytics sharedInstance]]);
+  OCMVerify([[MSAnalytics sharedInstance].channelUnit pauseWithIdentifyingObject:[MSAnalytics sharedInstance]]);
   [appCenterMock stopMocking];
 }
 
@@ -1007,13 +1007,13 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
    appSecret:kMSTestAppSecret
    transmissionTargetToken:nil
    fromApplication:YES];
-  OCMExpect([[MSAnalytics sharedInstance].channelUnit resumeWithToken:[MSAnalytics sharedInstance]]);
+  OCMExpect([[MSAnalytics sharedInstance].channelUnit resumeWithIdentifyingObject:[MSAnalytics sharedInstance]]);
   
   // When
   [MSAnalytics resume];
   
   // Then
-  OCMVerify([[MSAnalytics sharedInstance].channelUnit resumeWithToken:[MSAnalytics sharedInstance]]);
+  OCMVerify([[MSAnalytics sharedInstance].channelUnit resumeWithIdentifyingObject:[MSAnalytics sharedInstance]]);
   [appCenterMock stopMocking];
 }
 

@@ -30,24 +30,24 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Pause operations, logs will be stored but not sent.
  *
- * @param token Token used to identify the pause request, can be any object.
+ * @param identifyingObject Object used to identify the pause request.
  *
- * @discussion The same token must be used to call resume.
+ * @discussion The same identifying object must be used to call resume.
  *
- * @see resumeWithToken:
+ * @see resumeWithIdentifyingObject:
  */
-- (void)pauseWithToken:(id <NSObject>)token;
+- (void)pauseWithIdentifyingObject:(id <NSObject>)identifyingObject;
 
 /**
  * Resume operations, logs can be sent again.
  *
- * @param token Token used to passed to the pause method.
+ * @param identifyingObject Object used to passed to the pause method.
  *
- * @discussion The channel only resume when all the outstanding tokens have been resumed.
+ * @discussion The channel only resume when all the outstanding identifying objects have been resumed.
  *
- * @see pauseWithToken:
+ * @see pauseWithIdentifyingObject:
  */
-- (void)resumeWithToken:(id <NSObject>)token;
+- (void)resumeWithIdentifyingObject:(id <NSObject>)identifyingObject;
 
 @end
 

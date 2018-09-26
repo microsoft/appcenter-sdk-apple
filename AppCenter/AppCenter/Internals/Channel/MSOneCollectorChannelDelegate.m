@@ -163,7 +163,7 @@ andDeleteDataOnDisabled:(BOOL)deletedData {
   if ([channel conformsToProtocol:@protocol(MSChannelUnitProtocol)]) {
     NSString *groupId = ((id <MSChannelUnitProtocol>) channel).configuration.groupId;
     id<MSChannelUnitProtocol> oneCollectorChannel = self.oneCollectorChannels[groupId];
-    [oneCollectorChannel pauseWithToken:token];
+    [oneCollectorChannel pauseWithIdentifyingObject:token];
   }
 }
 
@@ -171,7 +171,7 @@ andDeleteDataOnDisabled:(BOOL)deletedData {
   if ([channel conformsToProtocol:@protocol(MSChannelUnitProtocol)]) {
     NSString *groupId = ((id <MSChannelUnitProtocol>) channel).configuration.groupId;
     id<MSChannelUnitProtocol> oneCollectorChannel = self.oneCollectorChannels[groupId];
-    [oneCollectorChannel resumeWithToken:token];
+    [oneCollectorChannel resumeWithIdentifyingObject:token];
   }
 }
 

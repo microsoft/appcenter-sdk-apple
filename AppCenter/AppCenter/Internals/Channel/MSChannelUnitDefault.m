@@ -47,7 +47,7 @@
 
     // Match ingestion's current status, if one is passed.
     if (_ingestion && _ingestion.paused) {
-      [self pauseWithToken:(_Nonnull id<MSIngestionProtocol>)_ingestion];
+      [self pauseWithIdentifyingObject:(_Nonnull id <MSIngestionProtocol>) _ingestion];
     }
   }
   return self;
@@ -74,11 +74,11 @@
 #pragma mark - MSIngestionDelegate
 
 - (void)ingestionDidPause:(id <MSIngestionProtocol>)ingestion {
-  [self pauseWithToken:ingestion];
+  [self pauseWithIdentifyingObject:ingestion];
 }
 
 - (void)ingestionDidResume:(id<MSIngestionProtocol>)ingestion {
-  [self resumeWithToken:ingestion];
+  [self resumeWithIdentifyingObject:ingestion];
 }
 
 - (void)ingestionDidReceiveFatalError:
@@ -452,9 +452,9 @@
     if (self.enabled != isEnabled) {
       self.enabled = isEnabled;
       if (isEnabled) {
-        [self resumeWithToken:self];
+        [self resumeWithIdentifyingObject:self];
       } else {
-        [self pauseWithToken:self];
+        [self pauseWithIdentifyingObject:self];
       }
     }
 
@@ -495,10 +495,10 @@
   });
 }
 
-- (void)pauseWithToken:(id <NSObject>)token {
-  [self.pausedTokens addObject:token];
+- (void)pauseWithIdentifyingObject:(id <NSObject>)identifyingObject {
+  [self.pausedTokens addObject:identifyingObject];
   MSLogDebug([MSAppCenter logTag], @"Pause token %@ added to channel with group Id %@.",
-             token, self.configuration.groupId);
+             identifyingObject, self.configuration.groupId);
   if (!self.paused) {
     MSLogDebug([MSAppCenter logTag], @"Pause channel for group Id %@.", self.configuration.groupId);
     self.paused = YES;
@@ -506,10 +506,10 @@
   }
 }
 
-- (void)resumeWithToken:(id <NSObject>)token {
-  [self.pausedTokens removeObject:token];
+- (void)resumeWithIdentifyingObject:(id <NSObject>)identifyingObject {
+  [self.pausedTokens removeObject:identifyingObject];
   MSLogDebug([MSAppCenter logTag], @"Pause token %@ removed from channel with group Id %@.",
-             token, self.configuration.groupId);
+             identifyingObject, self.configuration.groupId);
   if ([self.pausedTokens count] == 0) {
     MSLogDebug([MSAppCenter logTag], @"Resume channel for group Id %@.", self.configuration.groupId);
     self.paused = NO;

@@ -194,7 +194,7 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
   [self.sut channel:channelUnitMock didPauseWithToken:token];
 
   // Then
-  OCMVerify([oneCollectorChannelUnitMock pauseWithToken:token]);
+  OCMVerify([oneCollectorChannelUnitMock pauseWithIdentifyingObject:token]);
 }
 
 - (void)testOneCollectorChannelUnitIsNotPausedWhenNonBaseChannelUnitIsPaused {
@@ -212,7 +212,7 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
   self.sut.oneCollectorChannels[@"someOtherGroupId"] = otherOneCollectorChannelUnitMock;
 
   // Then
-  OCMReject([otherOneCollectorChannelUnitMock pauseWithToken:token]);
+  OCMReject([otherOneCollectorChannelUnitMock pauseWithIdentifyingObject:token]);
 
   // When
   [self.sut channel:channelUnitMock didPauseWithToken:token];
@@ -237,7 +237,7 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
   [self.sut channel:channelUnitMock didResumeWithToken:token];
 
   // Then
-  OCMVerify([oneCollectorChannelUnitMock resumeWithToken:token]);
+  OCMVerify([oneCollectorChannelUnitMock resumeWithIdentifyingObject:token]);
 }
 
 - (void)testOneCollectorChannelUnitIsNotResumedWhenNonBaseChannelUnitIsResumed {
@@ -255,7 +255,7 @@ static NSString *const kMSBaseGroupId = @"baseGroupId";
   self.sut.oneCollectorChannels[@"someOtherGroupId"] = otherOneCollectorChannelUnitMock;
 
   // Then
-  OCMReject([otherOneCollectorChannelUnitMock resumeWithToken:token]);
+  OCMReject([otherOneCollectorChannelUnitMock resumeWithIdentifyingObject:token]);
 
   // When
   [self.sut channel:channelUnitMock didResumeWithToken:token];

@@ -176,13 +176,13 @@
   NSObject *token = [NSObject new];
 
   // When
-  [sut resumeWithToken:token];
+  [sut resumeWithIdentifyingObject:token];
 
   // Then
   OCMVerify([ingestionMock setEnabled:YES andDeleteDataOnDisabled:NO]);
   dispatch_sync(sut.logsDispatchQueue, ^{
                 });
-  OCMVerify([channelMock resumeWithToken:token]);
+  OCMVerify([channelMock resumeWithIdentifyingObject:token]);
 }
 
 - (void)testPause {
@@ -197,13 +197,13 @@
   NSObject *token = [NSObject new];
 
   // When
-  [sut pauseWithToken:token];
+  [sut pauseWithIdentifyingObject:token];
 
   // Then
   OCMVerify([ingestionMock setEnabled:NO andDeleteDataOnDisabled:NO]);
   dispatch_sync(sut.logsDispatchQueue, ^{
                 });
-  OCMVerify([channelMock pauseWithToken:token]);
+  OCMVerify([channelMock pauseWithIdentifyingObject:token]);
 }
 
 - (void)testChannelUnitIsCorrectlyInitialized {
