@@ -25,7 +25,7 @@ struct MSCrashesBufferedLog {
   std::string targetTokenPath;
   std::string targetToken;
   std::string internalId;
-  std::string timestamp;
+  NSTimeInterval timestamp;
 
   MSCrashesBufferedLog() = default;
 
