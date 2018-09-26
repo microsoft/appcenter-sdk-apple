@@ -485,14 +485,12 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   NSNumberFormatter *timestampFormatter = [[NSNumberFormatter alloc] init];
   timestampFormatter.numberStyle = NSNumberFormatterDecimalStyle;
   int indexOfLatestObject = 0;
-  NSNumber *oldestTimestamp;
+  NSTimeInterval oldestTimestamp = DBL_MAX;
   for (auto it = msCrashesLogBuffer.begin(), end = msCrashesLogBuffer.end(); it != end; ++it) {
-    NSString *timestampString = [NSString stringWithCString:it->timestamp.c_str() encoding:NSUTF8StringEncoding];
-    NSNumber *bufferedLogTimestamp = [timestampFormatter numberFromString:timestampString];
 
     // Remember the timestamp if the log is older than the previous one or the initial one.
-    if (!oldestTimestamp || oldestTimestamp.doubleValue > bufferedLogTimestamp.doubleValue) {
-      oldestTimestamp = bufferedLogTimestamp;
+    if (oldestTimestamp > it->timestamp) {
+      oldestTimestamp = it->timestamp;
       indexOfLatestObject = static_cast<int>(it - msCrashesLogBuffer.begin());
     }
   }
@@ -509,14 +507,12 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   }
 
   indexOfLatestObject = 0;
-  oldestTimestamp = nil;
+  oldestTimestamp = DBL_MAX;
   for (auto it = msCrashesLogBuffer.begin(), end = msCrashesLogBuffer.end(); it != end; ++it) {
-    NSString *timestampString = [NSString stringWithCString:it->timestamp.c_str() encoding:NSUTF8StringEncoding];
-    NSNumber *bufferedLogTimestamp = [timestampFormatter numberFromString:timestampString];
 
     // Remember the timestamp if the log is older than the previous one or the initial one.
-    if (!oldestTimestamp || oldestTimestamp.doubleValue > bufferedLogTimestamp.doubleValue) {
-      oldestTimestamp = bufferedLogTimestamp;
+    if (oldestTimestamp > it->timestamp) {
+      oldestTimestamp = it->timestamp;
       indexOfLatestObject = static_cast<int>(it - msCrashesLogBuffer.begin());
     }
   }
