@@ -92,6 +92,7 @@
 #pragma mark - Managing queue
 
 - (void)enqueueItem:(id<MSLog>)item {
+
   /*
    * Set common log info.
    * Only add timestamp and device info in case the log doesn't have one. In
@@ -132,20 +133,72 @@
   // Return fast in case our item is empty or we are discarding logs right now.
   dispatch_async(self.logsDispatchQueue, ^{
 
-    // Check if the log should be filtered out. If so, don't enqueue it.
-    __block BOOL shouldFilter = NO;
-    [self enumerateDelegatesForSelector:@selector(channelUnit:shouldFilterLog:)
-                              withBlock:^(id<MSChannelDelegate> delegate) {
-                                shouldFilter =
-                                    shouldFilter || [delegate channelUnit:self
-                                                          shouldFilterLog:item];
-                              }];
+    // Use separate autorelease pool for enqueuing logs.
+    @autoreleasepool {
 
-    // If ingestion is nil, there is nothing to do at this point.
-    if (shouldFilter) {
-      MSLogDebug([MSAppCenter logTag],
-                 @"Log of type '%@' was filtered out by delegate(s)",
-                 item.type);
+      // Check if the log should be filtered out. If so, don't enqueue it.
+      __block BOOL shouldFilter = NO;
+      [self enumerateDelegatesForSelector:@selector(channelUnit:shouldFilterLog:)
+                                withBlock:^(id<MSChannelDelegate> delegate) {
+                                  shouldFilter =
+                                      shouldFilter || [delegate channelUnit:self
+                                                            shouldFilterLog:item];
+                                }];
+
+      // If ingestion is nil, there is nothing to do at this point.
+      if (shouldFilter) {
+        MSLogDebug([MSAppCenter logTag],
+                   @"Log of type '%@' was filtered out by delegate(s)",
+                   item.type);
+        [self enumerateDelegatesForSelector:@selector
+              (channel:didCompleteEnqueueingLog:withInternalId:)
+                                  withBlock:^(id<MSChannelDelegate> delegate) {
+                                    [delegate channel:self
+                                        didCompleteEnqueueingLog:item
+                                                  withInternalId:internalLogId];
+                                  }];
+        return;
+      }
+      if (!self.appSecret && !item.transmissionTargetTokens) {
+        MSLogDebug([MSAppCenter logTag],
+                   @"Log of type '%@' was not filtered out by delegate(s) but no "
+                   @"app secret was "
+                   @"provided. Not persisting/sending the log.",
+                   item.type);
+        [self enumerateDelegatesForSelector:@selector
+              (channel:didCompleteEnqueueingLog:withInternalId:)
+                                  withBlock:^(id<MSChannelDelegate> delegate) {
+                                    [delegate channel:self
+                                        didCompleteEnqueueingLog:item
+                                                  withInternalId:internalLogId];
+                                  }];
+        return;
+      }
+      if (self.discardLogs) {
+        MSLogWarning(
+            [MSAppCenter logTag],
+            @"Channel disabled in log discarding mode, discard this log.");
+        NSError *error = [NSError
+            errorWithDomain:kMSACErrorDomain
+                       code:kMSACConnectionSuspendedErrorCode
+                   userInfo:@{
+                     NSLocalizedDescriptionKey : kMSACConnectionSuspendedErrorDesc
+                   }];
+        [self notifyFailureBeforeSendingForItem:item withError:error];
+        [self enumerateDelegatesForSelector:@selector
+              (channel:didCompleteEnqueueingLog:withInternalId:)
+                                  withBlock:^(id<MSChannelDelegate> delegate) {
+                                    [delegate channel:self
+                                        didCompleteEnqueueingLog:item
+                                                  withInternalId:internalLogId];
+                                  }];
+        return;
+      }
+
+      // Save the log first.
+      MSLogDebug([MSAppCenter logTag], @"Saving log, type: %@.", item.type);
+      [self.storage saveLog:item withGroupId:self.configuration.groupId];
+      self.itemsCount += 1;
       [self enumerateDelegatesForSelector:@selector
             (channel:didCompleteEnqueueingLog:withInternalId:)
                                 withBlock:^(id<MSChannelDelegate> delegate) {
@@ -153,65 +206,17 @@
                                       didCompleteEnqueueingLog:item
                                                 withInternalId:internalLogId];
                                 }];
-      return;
-    }
-    if (!self.appSecret && !item.transmissionTargetTokens) {
-      MSLogDebug([MSAppCenter logTag],
-                 @"Log of type '%@' was not filtered out by delegate(s) but no "
-                 @"app secret was "
-                 @"provided. Not persisting/sending the log.",
-                 item.type);
-      [self enumerateDelegatesForSelector:@selector
-            (channel:didCompleteEnqueueingLog:withInternalId:)
-                                withBlock:^(id<MSChannelDelegate> delegate) {
-                                  [delegate channel:self
-                                      didCompleteEnqueueingLog:item
-                                                withInternalId:internalLogId];
-                                }];
-      return;
-    }
-    if (self.discardLogs) {
-      MSLogWarning(
-          [MSAppCenter logTag],
-          @"Channel disabled in log discarding mode, discard this log.");
-      NSError *error = [NSError
-          errorWithDomain:kMSACErrorDomain
-                     code:kMSACConnectionSuspendedErrorCode
-                 userInfo:@{
-                   NSLocalizedDescriptionKey : kMSACConnectionSuspendedErrorDesc
-                 }];
-      [self notifyFailureBeforeSendingForItem:item withError:error];
-      [self enumerateDelegatesForSelector:@selector
-            (channel:didCompleteEnqueueingLog:withInternalId:)
-                                withBlock:^(id<MSChannelDelegate> delegate) {
-                                  [delegate channel:self
-                                      didCompleteEnqueueingLog:item
-                                                withInternalId:internalLogId];
-                                }];
-      return;
-    }
 
-    // Save the log first.
-    MSLogDebug([MSAppCenter logTag], @"Saving log, type: %@.", item.type);
-    [self.storage saveLog:item withGroupId:self.configuration.groupId];
-    self.itemsCount += 1;
-    [self enumerateDelegatesForSelector:@selector
-          (channel:didCompleteEnqueueingLog:withInternalId:)
-                              withBlock:^(id<MSChannelDelegate> delegate) {
-                                [delegate channel:self
-                                    didCompleteEnqueueingLog:item
-                                              withInternalId:internalLogId];
-                              }];
+      // Flush now if current batch is full or delay to later.
+      if (self.itemsCount >= self.configuration.batchSizeLimit) {
+        [self flushQueue];
+      } else if (self.itemsCount == 1) {
 
-    // Flush now if current batch is full or delay to later.
-    if (self.itemsCount >= self.configuration.batchSizeLimit) {
-      [self flushQueue];
-    } else if (self.itemsCount == 1) {
-
-      // Don't delay if channel is suspended but stack logs until current batch
-      // max out.
-      if (!self.suspended) {
-        [self startTimer];
+        // Don't delay if channel is suspended but stack logs until current batch
+        // max out.
+        if (!self.suspended) {
+          [self startTimer];
+        }
       }
     }
   });
