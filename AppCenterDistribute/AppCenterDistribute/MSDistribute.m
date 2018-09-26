@@ -406,7 +406,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat =
       __weak typeof(self) weakSelf = self;
       [self.ingestion
                   sendAsync:nil
-                  appSecret:self.appSecret
           completionHandler:^(__unused NSString *callId, NSUInteger statusCode,
                               NSData *data, __unused NSError *error) {
             typeof(self) strongSelf = weakSelf;

@@ -92,9 +92,6 @@
     // Initialize channel unit for the service in channel group.
     self.channelUnit = [self.channelGroup
         addChannelUnitWithConfiguration:self.channelUnitConfiguration];
-    if (self.appSecret) {
-      [self.channelUnit setAppSecret:self.appSecret];
-    }
   }
 
   // Enable this service as needed.
@@ -108,9 +105,6 @@
   self.startedFromApplication = YES;
   self.appSecret = appSecret;
   self.defaultTransmissionTargetToken = token;
-  if (self.appSecret) {
-    [self.channelUnit setAppSecret:self.appSecret];
-  }
 
   // Enable this service as needed.
   if (self.isEnabled) {

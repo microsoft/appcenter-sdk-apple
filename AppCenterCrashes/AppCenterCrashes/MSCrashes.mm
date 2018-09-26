@@ -391,12 +391,12 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
        transmissionTargetToken:token
                fromApplication:fromApplication];
   [self.channelGroup addDelegate:self];
-  [self processLogBufferAfterCrashWithAppSecret:appSecret];
+  [self processLogBufferAfterCrash];
   MSLogVerbose([MSCrashes logTag], @"Started crash service.");
 }
 
 - (void)updateConfigurationWithAppSecret:(NSString *)appSecret transmissionTargetToken:(NSString *)token {
-  [self processLogBufferAfterCrashWithAppSecret:appSecret];
+  [self processLogBufferAfterCrash];
 
   /*
    * updateConfigurationWithAppSecret:transmissionTargetToken: will apply enabled state at the end so all update for the
@@ -787,53 +787,50 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   }
 }
 
-- (void)processLogBufferAfterCrashWithAppSecret:(NSString *)appSecret {
-  if (appSecret) {
-    
-    // Initialize a dedicated channel for log buffer.
-    self.bufferChannelUnit = [self.channelGroup
-        addChannelUnitWithConfiguration:[[MSChannelUnitConfiguration alloc] initWithGroupId:kMSBufferGroupId
-                                                                                   priority:MSPriorityHigh
-                                                                              flushInterval:1.0
-                                                                             batchSizeLimit:50
-                                                                        pendingBatchesLimit:1]];
-    [self.bufferChannelUnit setAppSecret:appSecret];
+- (void)processLogBufferAfterCrash {
 
-    // Iterate over each file in it with the kMSLogBufferFileExtension and send the log if a log can be deserialized.
-    NSArray<NSURL *> *files =
-        [MSUtility contentsOfDirectory:[NSString stringWithFormat:@"%@", self.logBufferPathComponent]
-                     propertiesForKeys:nil];
-    for (NSURL *fileURL in files) {
-      if ([[fileURL pathExtension] isEqualToString:kMSLogBufferFileExtension]) {
-        NSData *serializedLog = [NSData dataWithContentsOfURL:fileURL];
-        if (serializedLog && serializedLog.length && serializedLog.length > 0) {
-          id<MSLog> item = [NSKeyedUnarchiver unarchiveObjectWithData:serializedLog];
-          if (item) {
+  // Initialize a dedicated channel for log buffer.
+  self.bufferChannelUnit = [self.channelGroup
+      addChannelUnitWithConfiguration:[[MSChannelUnitConfiguration alloc] initWithGroupId:kMSBufferGroupId
+                                                                                 priority:MSPriorityHigh
+                                                                            flushInterval:1.0
+                                                                           batchSizeLimit:50
+                                                                      pendingBatchesLimit:1]];
 
-            // Try to set target token.
-            NSString *targetTokenFilePath =
-                [fileURL.path stringByReplacingOccurrencesOfString:kMSLogBufferFileExtension
-                                                        withString:kMSTargetTokenFileExtension];
-            NSURL *targetTokenFileURL = [NSURL fileURLWithPath:targetTokenFilePath];
-            NSString *targetToken =
-                [NSString stringWithContentsOfURL:targetTokenFileURL encoding:NSUTF8StringEncoding error:nil];
-            if (targetToken != nil) {
-              targetToken = [self.targetTokenEncrypter decryptString:targetToken];
-              [item addTransmissionTargetToken:targetToken];
+  // Iterate over each file in it with the kMSLogBufferFileExtension and send the log if a log can be deserialized.
+  NSArray<NSURL *> *files =
+      [MSUtility contentsOfDirectory:[NSString stringWithFormat:@"%@", self.logBufferPathComponent]
+                   propertiesForKeys:nil];
+  for (NSURL *fileURL in files) {
+    if ([[fileURL pathExtension] isEqualToString:kMSLogBufferFileExtension]) {
+      NSData *serializedLog = [NSData dataWithContentsOfURL:fileURL];
+      if (serializedLog && serializedLog.length && serializedLog.length > 0) {
+        id<MSLog> item = [NSKeyedUnarchiver unarchiveObjectWithData:serializedLog];
+        if (item) {
 
-              // Delete target token file.
-              [MSUtility deleteFileAtURL:targetTokenFileURL];
-            }
+          // Try to set target token.
+          NSString *targetTokenFilePath =
+              [fileURL.path stringByReplacingOccurrencesOfString:kMSLogBufferFileExtension
+                                                      withString:kMSTargetTokenFileExtension];
+          NSURL *targetTokenFileURL = [NSURL fileURLWithPath:targetTokenFilePath];
+          NSString *targetToken =
+              [NSString stringWithContentsOfURL:targetTokenFileURL encoding:NSUTF8StringEncoding error:nil];
+          if (targetToken != nil) {
+            targetToken = [self.targetTokenEncrypter decryptString:targetToken];
+            [item addTransmissionTargetToken:targetToken];
 
-            // Buffered logs are used sending their own channel. It will never contain more than 50 logs.
-            MSLogDebug([MSCrashes logTag], @"Re-enqueueing buffered log, type: %@.", item.type);
-            [self.bufferChannelUnit enqueueItem:item];
+            // Delete target token file.
+            [MSUtility deleteFileAtURL:targetTokenFileURL];
           }
-        }
 
-        // Create empty new file, overwrites the old one.
-        [[NSData data] writeToURL:fileURL atomically:NO];
+          // Buffered logs are used sending their own channel. It will never contain more than 50 logs.
+          MSLogDebug([MSCrashes logTag], @"Re-enqueueing buffered log, type: %@.", item.type);
+          [self.bufferChannelUnit enqueueItem:item];
+        }
       }
+
+      // Create empty new file, overwrites the old one.
+      [[NSData data] writeToURL:fileURL atomically:NO];
     }
   }
 }

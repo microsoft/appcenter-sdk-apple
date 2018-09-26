@@ -1,12 +1,15 @@
 #import <Foundation/Foundation.h>
 
+#import "MSAppCenterIngestion.h"
 #import "MSAppCenterInternal.h"
 #import "MSAppCenterPrivate.h"
 #import "MSAppDelegateForwarder.h"
 #import "MSChannelGroupDefault.h"
+#import "MSChannelGroupDefaultPrivate.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSDeviceTrackerPrivate.h"
 #import "MSLoggerInternal.h"
+#import "MSOneCollectorChannelDelegate.h"
 #import "MSSessionContext.h"
 #import "MSStartServiceLog.h"
 #import "MSUtility+StringFormatting.h"
@@ -546,12 +549,12 @@ transmissionTargetToken:(NSString *)transmissionTargetToken
       [self.channelGroup setMaxStorageSize:storageSize completionHandler:self.maxStorageSizeCompletionHandler];
     }
   }
+  [self.channelGroup setAppSecret:self.appSecret];
 
   // Initialize a channel unit for start service logs.
   self.channelUnit =
       self.channelUnit ?: [self.channelGroup addChannelUnitWithConfiguration:[[MSChannelUnitConfiguration alloc]
                                                                                                           initDefaultConfigurationWithGroupId:[MSAppCenter groupId]]];
-  [self.channelUnit setAppSecret:self.appSecret];
 }
 
 - (NSString *)appSecret {

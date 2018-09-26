@@ -178,7 +178,6 @@ andDeleteDataOnDisabled:(BOOL)deletedData {
   }
   
   // Property values are valid strings already.
-  
   return YES;
 }
 

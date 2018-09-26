@@ -1,11 +1,11 @@
 #import "MSAppCenter.h"
 #import "MSChannelUnitProtocol.h"
-#import "MSOneCollectorChannelDelegate.h"
+
+@class MSOneCollectorChannelDelegate;
 
 @interface MSAppCenter ()
 
-@property(nonatomic) id <MSChannelUnitProtocol> channelUnit;
-
+@property(nonatomic) id<MSChannelUnitProtocol> channelUnit;
 @property(nonatomic) MSOneCollectorChannelDelegate *oneCollectorChannelDelegate;
 
 /**

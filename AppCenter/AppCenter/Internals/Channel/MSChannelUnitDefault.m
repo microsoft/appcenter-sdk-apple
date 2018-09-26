@@ -1,9 +1,10 @@
-#import "MSChannelUnitDefault.h"
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenterErrors.h"
+#import "MSAppCenterIngestion.h"
 #import "MSAppCenterInternal.h"
 #import "MSChannelDelegate.h"
 #import "MSChannelUnitConfiguration.h"
+#import "MSChannelUnitDefault.h"
 #import "MSDeviceTracker.h"
 #import "MSIngestionProtocol.h"
 #import "MSStorage.h"
@@ -48,10 +49,6 @@
     }
   }
   return self;
-}
-
-- (void)setAppSecret:(NSString *)appSecret {
-  _appSecret = appSecret;
 }
 
 #pragma mark - MSChannelDelegate
@@ -159,12 +156,10 @@
                                   }];
         return;
       }
-      if (!self.appSecret && !item.transmissionTargetTokens) {
+      if (!self.ingestion.isReadyToSend) {
         MSLogDebug([MSAppCenter logTag],
-                   @"Log of type '%@' was not filtered out by delegate(s) but no "
-                   @"app secret was "
-                   @"provided. Not persisting/sending the log.",
-                   item.type);
+                   @"Log of type '%@' was not filtered out by delegate(s) but "
+                   @"ingestion is not ready to send it.", item.type);
         [self enumerateDelegatesForSelector:@selector
               (channel:didCompleteEnqueueingLog:withInternalId:)
                                   withBlock:^(id<MSChannelDelegate> delegate) {
@@ -234,6 +229,11 @@
     return;
   }
 
+  // Ingestion is not ready.
+  if (!self.ingestion.isReadyToSend) {
+    return;
+  }
+
   // Cancel any timer.
   [self resetTimer];
 
@@ -298,7 +298,6 @@
                // Forward logs to the ingestion.
                [self.ingestion
                            sendAsync:container
-                           appSecret:self.appSecret
                    completionHandler:^(
                        NSString *ingestionBatchId, NSUInteger statusCode,
                        __attribute__((unused)) NSData *data, NSError *error) {
