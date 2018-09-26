@@ -1,4 +1,4 @@
-#import "MSChannelUnitDefault.h"
+#import "MSChannelUnitDefaultPrivate.h"
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterInternal.h"
@@ -25,6 +25,7 @@
     _paused = NO;
     _discardLogs = NO;
     _delegates = [NSHashTable weakObjectsHashTable];
+    _pausedTokens = [NSMutableSet new];
   }
   return self;
 }
@@ -491,19 +492,23 @@
   });
 }
 
-- (void)pauseWithToken:(__unused NSObject *)token {
+- (void)pauseWithToken:(id <NSObject>)token {
+  [self.pausedTokens addObject:token];
+  MSLogDebug([MSAppCenter logTag], @"Pause token %@ added to channel with group Id %@.",
+             token, self.configuration.groupId);
   if (!self.paused) {
-    MSLogDebug([MSAppCenter logTag], @"Pause channel for group Id %@.",
-               self.configuration.groupId);
+    MSLogDebug([MSAppCenter logTag], @"Pause channel for group Id %@.", self.configuration.groupId);
     self.paused = YES;
     [self resetTimer];
   }
 }
 
-- (void)resumeWithToken:(__unused NSObject *)token {
-  if (self.paused && self.enabled) {
-    MSLogDebug([MSAppCenter logTag], @"Resume channel for group Id %@.",
-               self.configuration.groupId);
+- (void)resumeWithToken:(id <NSObject>)token {
+  [self.pausedTokens removeObject:token];
+  MSLogDebug([MSAppCenter logTag], @"Pause token %@ removed from channel with group Id %@.",
+             token, self.configuration.groupId);
+  if ([self.pausedTokens count] == 0) {
+    MSLogDebug([MSAppCenter logTag], @"Resume channel for group Id %@.", self.configuration.groupId);
     self.paused = NO;
     [self flushQueue];
   }

@@ -760,7 +760,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                              }];
 }
 
-- (void)testSuspendOnDisabled {
+- (void)testPauseOnDisabled {
 
   // If
   [self initChannelEndJobExpectation];
@@ -787,26 +787,22 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // If
   __block BOOL result1, result2;
   [self initChannelEndJobExpectation];
-  MSHttpIngestion *ingestion = [MSHttpIngestion new];
-  self.sut.ingestion = ingestion;
-  [self.sut setEnabled:NO andDeleteDataOnDisabled:NO];
-  dispatch_async(self.logsDispatchQueue, ^{
-    ingestion.paused = NO;
-  });
+  id<MSIngestionProtocol> ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
+  self.sut.ingestion = ingestionMock;
 
   // When
+  [self.sut setEnabled:NO andDeleteDataOnDisabled:NO];
+  dispatch_async(self.logsDispatchQueue, ^{
+    [self.sut ingestionDidResume:ingestionMock];
+  });
   [self.sut setEnabled:YES andDeleteDataOnDisabled:NO];
   dispatch_async(self.logsDispatchQueue, ^{
     result1 = self.sut.paused;
   });
-
-  // If
   [self.sut setEnabled:NO andDeleteDataOnDisabled:NO];
   dispatch_async(self.logsDispatchQueue, ^{
-    ingestion.paused = YES;
+    [self.sut ingestionDidPause:ingestionMock];
   });
-
-  // When
   [self.sut setEnabled:YES andDeleteDataOnDisabled:NO];
   dispatch_async(self.logsDispatchQueue, ^{
     result2 = self.sut.paused;
@@ -1011,11 +1007,11 @@ static NSString *const kMSTestGroupId = @"GroupId";
   OCMVerify([sut setEnabled:NO andDeleteDataOnDisabled:YES]);
 }
 
-- (void)testSuspendOnIngestionSuspended {
+- (void)testPauseOnIngestionPaused {
 
   // If
   id ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
-  MSChannelUnitDefault *sut = [self createChannelUnit];
+  MSChannelUnitDefault *sut = OCMPartialMock([self createChannelUnit]);
 
   // When
   [sut ingestionDidPause:ingestionMock];
@@ -1028,13 +1024,99 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // If
   id ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
-  MSChannelUnitDefault *sut = [self createChannelUnit];
+  MSChannelUnitDefault *sut = OCMPartialMock([self createChannelUnit]);
 
   // When
   [sut ingestionDidResume:ingestionMock];
 
   // Then
   OCMVerify([sut resumeWithToken:ingestionMock]);
+}
+
+- (void)testDoesntResumeWhenNotAllPauseTokensResumed {
+
+  // If
+  NSObject *token1 = [NSObject new];
+  NSObject *token2 = [NSObject new];
+  NSObject *token3 = [NSObject new];
+  [self.sut pauseWithToken:token1];
+  [self.sut pauseWithToken:token2];
+  [self.sut pauseWithToken:token3];
+
+  // When
+  [self.sut resumeWithToken:token1];
+  [self.sut resumeWithToken:token3];
+
+  // Then
+  XCTAssertTrue([self.sut paused]);
+}
+
+- (void)testResumesWhenAllPauseTokensResumed {
+
+  // If
+  NSObject *token1 = [NSObject new];
+  NSObject *token2 = [NSObject new];
+  NSObject *token3 = [NSObject new];
+  [self.sut pauseWithToken:token1];
+  [self.sut pauseWithToken:token2];
+  [self.sut pauseWithToken:token3];
+
+  // When
+  [self.sut resumeWithToken:token1];
+  [self.sut resumeWithToken:token2];
+  [self.sut resumeWithToken:token3];
+
+  // Then
+  XCTAssertFalse([self.sut paused]);
+}
+
+- (void)testResumeWithTokenThatDoesNotExistDoesNotResumeIfCurrentlyPaused {
+
+  // If
+  [self.sut pauseWithToken:[NSObject new]];
+
+  // When
+  [self.sut resumeWithToken:[NSObject new]];
+
+  // Then
+  XCTAssertTrue([self.sut paused]);
+}
+
+- (void)testResumeWithTokenThatDoesNotExistDoesNotPauseIfPreviouslyResumed {
+
+  // When
+  [self.sut resumeWithToken:[NSObject new]];
+
+  // Then
+  XCTAssertFalse([self.sut paused]);
+}
+
+- (void)testResumeTwiceInARowResumesWhenPaused {
+
+  // If
+  NSObject *token = [NSObject new];
+  [self.sut pauseWithToken:token];
+
+  // When
+  [self.sut resumeWithToken:token];
+  [self.sut resumeWithToken:token];
+
+  // Then
+  XCTAssertFalse([self.sut paused]);
+}
+
+- (void)testResumeOnceResumesWhenPausedTwiceWithSingleToken{
+
+  // If
+  NSObject *token = [NSObject new];
+  [self.sut pauseWithToken:token];
+  [self.sut pauseWithToken:token];
+
+  // When
+  [self.sut resumeWithToken:token];
+
+  // Then
+  XCTAssertFalse([self.sut paused]);
 }
 
 #pragma mark - Helper

@@ -93,7 +93,7 @@
  * @param channel The channel.
  * @param token The token used to pause the channel.
  */
-- (void)channel:(id <MSChannelProtocol>)channel didPauseWithToken:(NSObject *)token;
+- (void)channel:(id <MSChannelProtocol>)channel didPauseWithToken:(id <NSObject>)token;
 
 /**
  * A callback that is called when resume has been invoked.
@@ -101,7 +101,7 @@
  * @param channel The channel.
  * @param token The token used to resume the channel.
  */
-- (void)channel:(id <MSChannelProtocol>)channel didResumeWithToken:(NSObject *)token;
+- (void)channel:(id <MSChannelProtocol>)channel didResumeWithToken:(id <NSObject>)token;
 
 /**
  * Callback method that will determine if a log should be filtered out from the

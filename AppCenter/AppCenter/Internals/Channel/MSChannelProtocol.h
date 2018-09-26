@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @see resumeWithToken:
  */
-- (void)pauseWithToken:(NSObject*)token;
+- (void)pauseWithToken:(id <NSObject>)token;
 
 /**
  * Resume operations, logs can be sent again.
@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @see pauseWithToken:
  */
-- (void)resumeWithToken:(NSObject*)token;
+- (void)resumeWithToken:(id <NSObject>)token;
 
 @end
 
