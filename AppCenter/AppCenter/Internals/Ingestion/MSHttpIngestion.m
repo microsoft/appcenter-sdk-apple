@@ -17,6 +17,7 @@ static NSString *const kMSPartialURLComponentsName[] = {
 @synthesize apiPath = _apiPath;
 @synthesize reachability = _reachability;
 @synthesize suspended = _suspended;
+@synthesize appSecret = _appSecret;
 
 #pragma mark - Initialize
 

@@ -1,10 +1,10 @@
 #import "MSAbstractLogInternal.h"
-#import "MSAppCenterIngestion.h"
 #import "MSChannelDelegate.h"
 #import "MSChannelGroupDefault.h"
 #import "MSChannelGroupDefaultPrivate.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
+#import "MSHttpIngestionPrivate.h"
 #import "MSIngestionProtocol.h"
 #import "MSMockLog.h"
 #import "MSStorage.h"
@@ -144,7 +144,7 @@
 - (void)testSetEnabled {
 
   // If
-  MSAppCenterIngestion *ingestionMock = OCMClassMock(MSAppCenterIngestion.class);
+  MSHttpIngestion *ingestionMock = OCMClassMock(MSHttpIngestion.class);
   id<MSChannelUnitProtocol> channelMock =
       OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   id<MSChannelDelegate> delegateMock =
@@ -167,7 +167,7 @@
 - (void)testResume {
 
   // If
-  MSAppCenterIngestion *ingestionMock = OCMClassMock(MSAppCenterIngestion.class);
+  MSHttpIngestion *ingestionMock = OCMClassMock(MSHttpIngestion.class);
   id<MSChannelUnitProtocol> channelMock =
       OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   MSChannelGroupDefault *sut =
@@ -187,7 +187,7 @@
 - (void)testSuspend {
 
   // If
-  MSAppCenterIngestion *ingestionMock = OCMClassMock(MSAppCenterIngestion.class);
+  MSHttpIngestion *ingestionMock = OCMClassMock(MSHttpIngestion.class);
   id<MSChannelUnitProtocol> channelMock =
       OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   MSChannelGroupDefault *sut =

@@ -6,6 +6,8 @@
 
 @implementation MSDistributeIngestion
 
+@synthesize appSecret = _appSecret;
+
 /**
  * The API paths for latest release requests.
  */

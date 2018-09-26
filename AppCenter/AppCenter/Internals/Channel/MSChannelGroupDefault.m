@@ -20,7 +20,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
   return self;
 }
 
-- (instancetype)initWithIngestion:(nullable MSAppCenterIngestion *)ingestion {
+- (instancetype)initWithIngestion:(nullable MSHttpIngestion *)ingestion {
   if ((self = [self init])) {
     dispatch_queue_t serialQueue = dispatch_queue_create(kMSlogsDispatchQueue, DISPATCH_QUEUE_SERIAL);
     _logsDispatchQueue = serialQueue;
