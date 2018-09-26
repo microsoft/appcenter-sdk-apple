@@ -21,7 +21,7 @@
 
 - (MSWrapperException *)wrapperException {
   MSWrapperException *exception = [MSWrapperException new];
-  exception.processId = @(4);
+  exception.processId = @4;
   exception.exceptionData =
       [@"data string" dataUsingEncoding:NSUTF8StringEncoding];
   exception.modelException = [[MSException alloc] init];
