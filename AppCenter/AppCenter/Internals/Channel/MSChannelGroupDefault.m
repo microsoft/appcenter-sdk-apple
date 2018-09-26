@@ -1,14 +1,11 @@
 #import "MSChannelGroupDefault.h"
+#import "MSChannelGroupDefaultPrivate.h"
 #import "AppCenter+Internal.h"
 #import "MSAppCenterIngestion.h"
 #import "MSChannelUnitDefault.h"
 #import "MSLogDBStorage.h"
 
 static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQueue";
-
-@interface MSChannelGroupDefault () <MSChannelDelegate>
-
-@end
 
 @implementation MSChannelGroupDefault
 
