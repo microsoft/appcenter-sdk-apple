@@ -1548,6 +1548,7 @@
 				6EF628F21D371B1600CAFF64 /* MSChannelUnitConfiguration.h */,
 				6EF628F31D371B1600CAFF64 /* MSChannelUnitConfiguration.m */,
 				3542741C2012B53B00BE766F /* MSChannelUnitDefault.h */,
+				2DA030B94CD3D38725671A79 /* MSChannelUnitDefaultPrivate.h */,
 				6E0684621D36BC8D00A8CC6C /* MSChannelUnitDefault.m */,
 				3542741B2012B02600BE766F /* MSChannelDelegate.h */,
 				805275BF20A19F7B00704115 /* MSOneCollectorChannelDelegate.h */,
@@ -1558,7 +1559,6 @@
 				354274162012AE4000BE766F /* MSChannelProtocol.h */,
 				3814A8E120BF5E790093AF45 /* MSCSEpochAndSeq.h */,
 				3814A8E520BF5FA00093AF45 /* MSCSEpochAndSeq.m */,
-				2DA030B94CD3D38725671A79 /* MSChannelUnitDefaultPrivate.h */,
 			);
 			path = Channel;
 			sourceTree = "<group>";

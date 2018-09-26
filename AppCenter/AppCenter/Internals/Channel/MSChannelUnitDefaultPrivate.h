@@ -6,7 +6,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MSChannelUnitDefault ()
 
-@property(nonatomic) NSMutableSet *pausedTokens;
+@property(nonatomic) NSHashTable *pausedTokens;
 
 @end
 

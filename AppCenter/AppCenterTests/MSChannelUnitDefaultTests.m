@@ -1070,13 +1070,27 @@ static NSString *const kMSTestGroupId = @"GroupId";
   XCTAssertFalse([self.sut paused]);
 }
 
-- (void)testResumeWithTokenThatDoesNotExistDoesNotResumeIfCurrentlyPaused {
+- (void)testResumeWhenOnlyPausedTokenIsDeallocated {
 
   // If
   [self.sut pauseWithToken:[NSObject new]];
 
   // When
   [self.sut resumeWithToken:[NSObject new]];
+
+  // Then
+  XCTAssertFalse([self.sut paused]);
+}
+
+- (void)testResumeWithTokenThatDoesNotExistDoesNotResumeIfCurrentlyPaused {
+
+  // If
+  NSObject *token1 = [NSObject new];
+  NSObject *token2 = [NSObject new];
+  [self.sut pauseWithToken:token1];
+
+  // When
+  [self.sut resumeWithToken:token2];
 
   // Then
   XCTAssertTrue([self.sut paused]);

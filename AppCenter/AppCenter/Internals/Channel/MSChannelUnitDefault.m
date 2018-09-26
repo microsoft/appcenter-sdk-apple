@@ -25,7 +25,7 @@
     _paused = NO;
     _discardLogs = NO;
     _delegates = [NSHashTable weakObjectsHashTable];
-    _pausedTokens = [NSMutableSet new];
+    _pausedTokens = [NSHashTable weakObjectsHashTable];
   }
   return self;
 }
