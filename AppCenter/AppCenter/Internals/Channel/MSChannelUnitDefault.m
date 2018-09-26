@@ -145,8 +145,8 @@
       // If ingestion is nil, there is nothing to do at this point.
       if (shouldFilter) {
         MSLogDebug([MSAppCenter logTag],
-                  @"Log of type '%@' was filtered out by delegate(s)",
-                  item.type);
+                   @"Log of type '%@' was filtered out by delegate(s)",
+                   item.type);
         [self enumerateDelegatesForSelector:@selector
               (channel:didCompleteEnqueueingLog:withInternalId:)
                                   withBlock:^(id<MSChannelDelegate> delegate) {
@@ -158,8 +158,8 @@
       }
       if (!self.ingestion.isReadyToSend) {
         MSLogDebug([MSAppCenter logTag],
-                  @"Log of type '%@' was not filtered out by delegate(s) but "
-                  @"ingestion is not ready to send it.", item.type);
+                   @"Log of type '%@' was not filtered out by delegate(s) but "
+                   @"ingestion is not ready to send it.", item.type);
         [self enumerateDelegatesForSelector:@selector
               (channel:didCompleteEnqueueingLog:withInternalId:)
                                   withBlock:^(id<MSChannelDelegate> delegate) {
@@ -175,10 +175,10 @@
             @"Channel disabled in log discarding mode, discard this log.");
         NSError *error = [NSError
             errorWithDomain:kMSACErrorDomain
-                      code:kMSACConnectionSuspendedErrorCode
-                  userInfo:@{
-                    NSLocalizedDescriptionKey : kMSACConnectionSuspendedErrorDesc
-                  }];
+                       code:kMSACConnectionSuspendedErrorCode
+                   userInfo:@{
+                     NSLocalizedDescriptionKey : kMSACConnectionSuspendedErrorDesc
+                   }];
         [self notifyFailureBeforeSendingForItem:item withError:error];
         [self enumerateDelegatesForSelector:@selector
               (channel:didCompleteEnqueueingLog:withInternalId:)
