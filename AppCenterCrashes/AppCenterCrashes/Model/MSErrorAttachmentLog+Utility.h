@@ -18,7 +18,7 @@ extern NSString *MSMSErrorLogAttachmentLogUtilityCategory;
                                     filename:(NSString *)filename;
 
 /**
- * Create an attachement with a given filename and `NSData` object.
+ * Create an attachment with a given filename and `NSData` object.
  *
  * @param filename The filename the attachment should get. If nil will get an
  * automatically generated filename.

@@ -1,9 +1,6 @@
 #import "MSCrashes.h"
-#import "MSCrashesUtil.h"
-#import "MSErrorReport.h"
 #import "MSException.h"
 #import "MSTestFrameworks.h"
-#import "MSUtility+File.h"
 #import "MSWrapperException.h"
 #import "MSWrapperExceptionManagerInternal.h"
 
@@ -18,7 +15,7 @@ static NSString *const kMSLastWrapperExceptionFileName =
 @interface MSWrapperExceptionManager ()
 
 + (MSWrapperException *)loadWrapperExceptionWithBaseFilename:
-    (NSString *)baseFilename;
+                            (NSString *)baseFilename;
 
 @end
 
@@ -48,7 +45,7 @@ static NSString *const kMSLastWrapperExceptionFileName =
   MSWrapperException *wrapperException = [[MSWrapperException alloc] init];
   wrapperException.modelException = [self getModelException];
   wrapperException.exceptionData = [self getData];
-  wrapperException.processId = [NSNumber numberWithInteger:rand()];
+  wrapperException.processId = @(rand());
   return wrapperException;
 }
 
@@ -98,11 +95,9 @@ static NSString *const kMSLastWrapperExceptionFileName =
         .andReturn([[NSUUID UUID] UUIDString]);
     [mockReports addObject:reportMock];
   }
-  MSErrorReport *report =
-      [mockReports objectAtIndex:(NSUInteger)(rand() % numReports)];
+  MSErrorReport *report = mockReports[(NSUInteger) (rand() % numReports)];
   MSWrapperException *wrapperException = [self getWrapperException];
-  wrapperException.processId =
-      [NSNumber numberWithUnsignedInteger:[report appProcessIdentifier]];
+  wrapperException.processId = @([report appProcessIdentifier]);
 
   // When
   [MSWrapperExceptionManager saveWrapperException:wrapperException];
@@ -120,7 +115,7 @@ static NSString *const kMSLastWrapperExceptionFileName =
 
   // If
   MSWrapperException *wrapperException = [self getWrapperException];
-  wrapperException.processId = [NSNumber numberWithInteger:4];
+  wrapperException.processId = @4;
   NSMutableArray *mockReports = [NSMutableArray new];
   id reportMock = OCMPartialMock([MSErrorReport new]);
   OCMStub([reportMock appProcessIdentifier]).andReturn(9);
