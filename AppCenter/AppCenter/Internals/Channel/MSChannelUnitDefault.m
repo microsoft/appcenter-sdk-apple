@@ -175,7 +175,7 @@
             @"Channel disabled in log discarding mode, discard this log.");
         NSError *error = [NSError
             errorWithDomain:kMSACErrorDomain
-                       code:kMSACConnectionSuspendedErrorCode
+                       code:kMSACConnectionPausedErrorCode
                    userInfo:@{
                      NSLocalizedDescriptionKey : kMSACConnectionPausedErrorDesc
                    }];
@@ -465,7 +465,7 @@
                  self.configuration.groupId);
       NSError *error = [NSError
           errorWithDomain:kMSACErrorDomain
-                     code:kMSACConnectionSuspendedErrorCode
+                     code:kMSACConnectionPausedErrorCode
                  userInfo:@{
                    NSLocalizedDescriptionKey : kMSACConnectionPausedErrorDesc
                  }];
