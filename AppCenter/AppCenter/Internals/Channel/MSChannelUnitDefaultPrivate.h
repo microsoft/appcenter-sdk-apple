@@ -6,7 +6,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MSChannelUnitDefault ()
 
-@property(nonatomic) NSHashTable *pausedTokens;
+@property(nonatomic) NSHashTable *pausedIdentifyingObjects;
 
 /**
  * Synchronously pause operations, logs will be stored but not sent.

@@ -27,7 +27,7 @@
     _paused = NO;
     _discardLogs = NO;
     _delegates = [NSHashTable weakObjectsHashTable];
-    _pausedTokens = [NSHashTable weakObjectsHashTable];
+    _pausedIdentifyingObjects = [NSHashTable weakObjectsHashTable];
   }
   return self;
 }
@@ -172,7 +172,7 @@
       if (self.discardLogs) {
         MSLogWarning(
             [MSAppCenter logTag],
-            @"Channel disabled in log discarding mode, discard this log.");
+            @"Channel %@ disabled in log discarding mode, discard this log.", self.configuration.groupId);
         NSError *error = [NSError
             errorWithDomain:kMSACErrorDomain
                        code:kMSACConnectionPausedErrorCode
@@ -508,11 +508,11 @@
 }
 
 - (void)pauseWithIdentifyingObjectSync:(id <NSObject>)identifyingObject {
-  [self.pausedTokens addObject:identifyingObject];
-  MSLogVerbose([MSAppCenter logTag], @"Pause object %@ added to channel with group Id %@.",
+  [self.pausedIdentifyingObjects addObject:identifyingObject];
+  MSLogVerbose([MSAppCenter logTag], @"Identifying object %@ added to pause lane for channel %@.",
                identifyingObject, self.configuration.groupId);
   if (!self.paused) {
-    MSLogDebug([MSAppCenter logTag], @"Pause channel for group Id %@.", self.configuration.groupId);
+    MSLogDebug([MSAppCenter logTag], @"Pause channel %@.", self.configuration.groupId);
     self.paused = YES;
     [self resetTimer];
   }
@@ -524,11 +524,11 @@
 }
 
 - (void)resumeWithIdentifyingObjectSync:(id <NSObject>)identifyingObject {
-  [self.pausedTokens removeObject:identifyingObject];
-  MSLogVerbose([MSAppCenter logTag], @"Pause object %@ removed from channel with group Id %@.",
+  [self.pausedIdentifyingObjects removeObject:identifyingObject];
+  MSLogVerbose([MSAppCenter logTag], @"Identifying object %@ removed from pause lane for channel %@.",
                identifyingObject, self.configuration.groupId);
-  if ([self.pausedTokens count] == 0) {
-    MSLogDebug([MSAppCenter logTag], @"Resume channel for group Id %@.", self.configuration.groupId);
+  if ([self.pausedIdentifyingObjects count] == 0) {
+    MSLogDebug([MSAppCenter logTag], @"Resume channel %@.", self.configuration.groupId);
     self.paused = NO;
     [self flushQueue];
   }
