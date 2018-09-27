@@ -112,6 +112,7 @@ __attribute__((used)) static void importCategories() {
   [super applyEnabledState:isEnabled];
   if (isEnabled) {
     if (self.startedFromApplication) {
+      [self resume];
 
       // Start session tracker.
       [self.sessionTracker start];
