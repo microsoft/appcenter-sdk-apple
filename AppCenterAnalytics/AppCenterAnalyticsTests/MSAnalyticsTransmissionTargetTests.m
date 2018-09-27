@@ -869,7 +869,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
       [[MSAnalyticsAuthenticationProvider alloc]
           initWithAuthenticationType:MSAnalyticsAuthenticationTypeMsaCompact
                            ticketKey:@"ticketKey"
-                            delegate:OCMOCK_ANY];
+                            delegate:OCMProtocolMock(@protocol(MSAnalyticsAuthenticationProviderDelegate))];
 
   // When
   [MSAnalyticsTransmissionTarget addAuthenticationProvider:provider];
