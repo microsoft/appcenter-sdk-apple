@@ -27,8 +27,7 @@ initWithTransmissionTargetToken:(NSString *)token
         [NSMutableDictionary<NSString *, MSAnalyticsTransmissionTarget *> new];
     _transmissionTargetToken = token;
     _isEnabledKey = [NSString
-        stringWithFormat:@"%@/%@", [MSAnalytics sharedInstance].isEnabledKey,
-                         [MSUtility targetIdFromTargetToken:token]];
+        stringWithFormat:@"%@/%@", [MSAnalytics sharedInstance].isEnabledKey, [MSUtility targetKeyFromTargetToken:token]];
     // Disable if ancestor is disabled.
     if (![self isImmediateParent]) {
       [MS_USER_DEFAULTS setObject:@(NO) forKey:self.isEnabledKey];

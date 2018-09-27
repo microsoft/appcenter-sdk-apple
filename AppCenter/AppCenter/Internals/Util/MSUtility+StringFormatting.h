@@ -38,7 +38,7 @@ extern NSString *MSUtilityStringFormattingCategory;
  *
  * @param string A string.
  *
- * @returns The tennant id or nil if none was found.
+ * @returns The tenant id or nil if none was found.
  */
 + (NSString *)transmissionTargetTokenFrom:(NSString *)string;
 
@@ -52,13 +52,13 @@ extern NSString *MSUtilityStringFormattingCategory;
 + (nullable NSString *)iKeyFromTargetToken:(nullable NSString *)token;
 
 /**
- * Extract target id from a transmission target token string.
+ * Extract target key from a transmission target token string.
  *
  * @param token The transmission target token as a string.
  *
- * @returns The target id or nil if none was found.
+ * @returns The target key or nil if none was found.
  */
-+ (nullable NSString *)targetIdFromTargetToken:(nullable NSString *)token;
++ (nullable NSString *)targetKeyFromTargetToken:(NSString *)token;
 
 /**
  * Pretty print json data payload.

@@ -87,13 +87,13 @@ static NSString *kMSAppSecretKey = @"appsecret=";
 }
 
 + (nullable NSString *)iKeyFromTargetToken:(NSString *)token {
-  NSString *targetId = [self targetIdFromTargetToken:token];
-  return targetId.length ? [NSString stringWithFormat:@"o:%@", targetId] : nil;
+  NSString *targetKey = [self targetKeyFromTargetToken:token];
+  return targetKey.length ? [NSString stringWithFormat:@"o:%@", targetKey] : nil;
 }
 
-+ (nullable NSString *)targetIdFromTargetToken:(NSString *)token {
-  NSString *targetId = [token componentsSeparatedByString:@"-"][0];
-  return targetId.length ? targetId : nil;
++ (nullable NSString *)targetKeyFromTargetToken:(NSString *)token {
+  NSString *targetKey = [token componentsSeparatedByString:@"-"][0];
+  return targetKey.length ? targetKey : nil;
 }
 
 + (nullable NSString *)prettyPrintJson:(nullable NSData *)data {

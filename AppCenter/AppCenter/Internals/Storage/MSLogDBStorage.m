@@ -4,6 +4,7 @@
 #import "MSDBStoragePrivate.h"
 #import "MSLogDBStoragePrivate.h"
 #import "MSLogDBStorageVersion.h"
+#import "MSUtility+StringFormatting.h"
 
 static const NSUInteger kMSSchemaVersion = 2;
 
@@ -22,7 +23,7 @@ static const NSUInteger kMSSchemaVersion = 2;
           @{kMSGroupIdColumnName: @[kMSSQLiteTypeText, kMSSQLiteConstraintNotNull]},
           @{kMSLogColumnName: @[kMSSQLiteTypeText, kMSSQLiteConstraintNotNull]},
           @{kMSTargetTokenColumnName: @[kMSSQLiteTypeText]},
-          @{kMSIKeyColumnName: @[kMSSQLiteTypeText]}]
+          @{kMSTargetKeyColumnName: @[kMSSQLiteTypeText]}]
   };
   self = [super initWithSchema:schema version:kMSSchemaVersion filename:kMSDBFileName];
   if (self) {
@@ -56,18 +57,18 @@ static const NSUInteger kMSSchemaVersion = 2;
   if ([(NSObject *) log isKindOfClass:[MSCommonSchemaLog class]]) {
     NSString *targetToken = [[log transmissionTargetTokens] anyObject];
     NSString *encryptedToken = [self.targetTokenEncrypter encryptString:targetToken];
-    NSString *iKey = ((MSCommonSchemaLog *) log).iKey;
+    NSString *targetKey = [MSUtility targetKeyFromTargetToken:targetToken];
     addLogQuery = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", "
                                              @"\"%@\", \"%@\") VALUES ('%@', '%@', '%@', %@)",
                                              kMSLogTableName,
                                              kMSGroupIdColumnName,
                                              kMSLogColumnName,
                                              kMSTargetTokenColumnName,
-                                             kMSIKeyColumnName,
+                                             kMSTargetKeyColumnName,
                                              groupId,
                                              base64Data,
                                              encryptedToken,
-                                             iKey ? [NSString stringWithFormat:@"'%@'", iKey] : @"NULL"];
+                            targetKey ? [NSString stringWithFormat:@"'%@'", targetKey] : @"NULL"];
   }
   int result = [self executeNonSelectionQuery:addLogQuery];
 
@@ -89,7 +90,7 @@ static const NSUInteger kMSSchemaVersion = 2;
 
 - (BOOL)loadLogsWithGroupId:(NSString *)groupId
                       limit:(NSUInteger)limit
-                      iKeys:(nullable NSArray<NSString *> *)iKeys
+                 targetKeys:(nullable NSArray< NSString *> *)targetKeys
           completionHandler:(nullable MSLoadDataCompletionHandler)completionHandler {
   BOOL logsAvailable;
   BOOL moreLogsAvailable = NO;
@@ -110,8 +111,8 @@ static const NSUInteger kMSSchemaVersion = 2;
   NSMutableString *condition = [NSMutableString stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, groupId];
 
   // Filter out paused iKeys.
-  if (iKeys.count > 0) {
-    [condition appendFormat:@" AND \"%@\" NOT IN (%@)", kMSIKeyColumnName, [iKeys componentsJoinedByString:@", "]];
+  if (targetKeys.count > 0) {
+    [condition appendFormat:@" AND \"%@\" NOT IN (%@)", kMSTargetKeyColumnName, [targetKeys componentsJoinedByString:@", "]];
   }
 
   // Take only logs that are not already part of a batch.
@@ -312,10 +313,10 @@ static const NSUInteger kMSSchemaVersion = 2;
                                                           kMSLogTableName, kMSTargetTokenColumnName];
     [MSDBStorage executeNonSelectionQuery:migrationQuery inOpenedDatabase:db];
   }
-  if (version < kMSIKeyVersion) {
+  if (version < kMSTargetKeyVersion) {
     NSString *migrationQuery = [NSString stringWithFormat:@"ALTER TABLE \"%@\" ADD COLUMN \"%@\" "
                                                           "TEXT",
-                                                          kMSLogTableName, kMSIKeyColumnName];
+                                                          kMSLogTableName, kMSTargetKeyColumnName];
     [MSDBStorage executeNonSelectionQuery:migrationQuery inOpenedDatabase:db];
   }
 }
