@@ -452,9 +452,9 @@
     if (self.enabled != isEnabled) {
       self.enabled = isEnabled;
       if (isEnabled) {
-        [self resumeWithIdentifyingObject:self];
+        [self resumeWithIdentifyingObjectSync:self];
       } else {
-        [self pauseWithIdentifyingObject:self];
+        [self pauseWithIdentifyingObjectSync:self];
       }
     }
 
@@ -496,9 +496,21 @@
 }
 
 - (void)pauseWithIdentifyingObject:(id <NSObject>)identifyingObject {
+  dispatch_async(self.logsDispatchQueue, ^{
+    [self pauseWithIdentifyingObjectSync:identifyingObject];
+  });
+}
+
+- (void)resumeWithIdentifyingObject:(id <NSObject>)identifyingObject {
+  dispatch_async(self.logsDispatchQueue, ^{
+    [self resumeWithIdentifyingObjectSync:identifyingObject];
+  });
+}
+
+- (void)pauseWithIdentifyingObjectSync:(id <NSObject>)identifyingObject {
   [self.pausedTokens addObject:identifyingObject];
-  MSLogDebug([MSAppCenter logTag], @"Pause token %@ added to channel with group Id %@.",
-             identifyingObject, self.configuration.groupId);
+  MSLogVerbose([MSAppCenter logTag], @"Pause object %@ added to channel with group Id %@.",
+               identifyingObject, self.configuration.groupId);
   if (!self.paused) {
     MSLogDebug([MSAppCenter logTag], @"Pause channel for group Id %@.", self.configuration.groupId);
     self.paused = YES;
@@ -511,10 +523,10 @@
                             }];
 }
 
-- (void)resumeWithIdentifyingObject:(id <NSObject>)identifyingObject {
+- (void)resumeWithIdentifyingObjectSync:(id <NSObject>)identifyingObject {
   [self.pausedTokens removeObject:identifyingObject];
-  MSLogDebug([MSAppCenter logTag], @"Pause token %@ removed from channel with group Id %@.",
-             identifyingObject, self.configuration.groupId);
+  MSLogVerbose([MSAppCenter logTag], @"Pause object %@ removed from channel with group Id %@.",
+               identifyingObject, self.configuration.groupId);
   if ([self.pausedTokens count] == 0) {
     MSLogDebug([MSAppCenter logTag], @"Resume channel for group Id %@.", self.configuration.groupId);
     self.paused = NO;
