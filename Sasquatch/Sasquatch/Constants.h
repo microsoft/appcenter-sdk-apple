@@ -32,5 +32,6 @@ static NSString *const kMSObjCRuntimeTargetToken =
     @"7361";
 #endif
 static NSString *const kMSStartTargetKey = @"startTarget";
+static NSString *const kMSStorageMaxSizeKey = @"storageMaxSize";
 static NSNotificationName const kUpdateAnalyticsResultNotification =
     @"updateAnalyticsResult";

@@ -6,12 +6,12 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * Completion block triggered when data is loaded from the storage.
+ * Completion handler triggered when data is loaded from the storage.
  *
  * @param logArray Array of logs loaded from the storage.
  * @param batchId Batch Id associated with the logs, `nil` if no logs available.
  */
-typedef void (^MSLoadDataCompletionBlock)(NSArray<id<MSLog>> *_Nullable logArray, NSString *_Nullable batchId);
+typedef void (^MSLoadDataCompletionHandler)(NSArray<id<MSLog>> *_Nullable logArray, NSString *_Nullable batchId);
 
 /**
  * Defines the storage component which is responsible for persisting logs.
@@ -52,12 +52,15 @@ typedef void (^MSLoadDataCompletionBlock)(NSArray<id<MSLog>> *_Nullable logArray
  *
  * @param groupId The key used for grouping.
  * @param limit Limit the maximum number of logs to be loaded from disk.
+ * @param iKeys The list of iKeys for the logs.
+ * @param completionHandler The completion handler for loading the logs.
  *
  * @return a list of logs.
  */
 - (BOOL)loadLogsWithGroupId:(NSString *)groupId
                       limit:(NSUInteger)limit
-             withCompletion:(nullable MSLoadDataCompletionBlock)completion;
+                      iKeys:(nullable NSArray< NSString *> *)iKeys
+          completionHandler:(nullable MSLoadDataCompletionHandler)completionHandler;
 
 /**
  * Set the maximum size of the internal storage. This method must be called

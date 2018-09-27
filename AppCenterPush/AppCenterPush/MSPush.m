@@ -8,7 +8,6 @@
 
 #import "MSAppCenterInternal.h"
 #import "MSAppDelegateForwarder.h"
-#import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
 #import "MSPush.h"
@@ -60,7 +59,7 @@ static void *UserNotificationCenterDelegateContext =
 
     // Init channel configuration.
     _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc]
-        initDefaultConfigurationWithGroupId:[self groupId]];
+                                                             initDefaultConfigurationWithGroupId:[self groupId]];
     _appDelegate = [MSPushAppDelegate new];
 
 #if TARGET_OS_OSX
@@ -134,7 +133,7 @@ static void *UserNotificationCenterDelegateContext =
   return sharedInstance;
 }
 
-- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup
+- (void)startWithChannelGroup:(id <MSChannelGroupProtocol>)channelGroup
                     appSecret:(nullable NSString *)appSecret
       transmissionTargetToken:(nullable NSString *)token
               fromApplication:(BOOL)fromApplication {
@@ -161,12 +160,12 @@ static void *UserNotificationCenterDelegateContext =
 
 + (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
   [[MSPush sharedInstance]
-      didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+           didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 
 + (void)didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
   [[MSPush sharedInstance]
-      didFailToRegisterForRemoteNotificationsWithError:error];
+           didFailToRegisterForRemoteNotificationsWithError:error];
 }
 
 + (BOOL)didReceiveRemoteNotification:(NSDictionary *)userInfo {
@@ -174,7 +173,7 @@ static void *UserNotificationCenterDelegateContext =
                                           fromUserNotification:NO];
 }
 
-+ (void)setDelegate:(nullable id<MSPushDelegate>)delegate {
++ (void)setDelegate:(nullable id <MSPushDelegate>)delegate {
   [[MSPush sharedInstance] setDelegate:delegate];
 }
 
@@ -225,14 +224,14 @@ static void *UserNotificationCenterDelegateContext =
 #elif TARGET_OS_IOS
   if (floor(NSFoundationVersionNumber) <=
       NSFoundationVersionNumber_iOS_9_x_Max) {
-    UIUserNotificationType allNotificationTypes = (UIUserNotificationType)(
+    UIUserNotificationType allNotificationTypes = (UIUserNotificationType) (
         UIUserNotificationTypeSound | UIUserNotificationTypeAlert |
-        UIUserNotificationTypeBadge);
+            UIUserNotificationTypeBadge);
     UIUserNotificationSettings *settings =
         [UIUserNotificationSettings settingsForTypes:allNotificationTypes
                                           categories:nil];
     [[UIApplication sharedApplication]
-        registerUserNotificationSettings:settings];
+                    registerUserNotificationSettings:settings];
   } else {
 
 // Ignore the partial availability warning as the compiler doesn't get that we
@@ -241,9 +240,9 @@ static void *UserNotificationCenterDelegateContext =
 #pragma clang diagnostic ignored "-Wpartial-availability"
     UNUserNotificationCenter *center =
         [UNUserNotificationCenter currentNotificationCenter];
-    UNAuthorizationOptions authOptions = (UNAuthorizationOptions)(
+    UNAuthorizationOptions authOptions = (UNAuthorizationOptions) (
         UNAuthorizationOptionAlert | UNAuthorizationOptionSound |
-        UNAuthorizationOptionBadge);
+            UNAuthorizationOptionBadge);
     [center
         requestAuthorizationWithOptions:authOptions
                       completionHandler:^(BOOL granted,
@@ -365,19 +364,17 @@ static void *UserNotificationCenterDelegateContext =
                 fromUserNotification:(BOOL)userNotification {
 
 #if !TARGET_OS_OSX
-  (void)userNotification;
+  (void) userNotification;
 #endif
   MSLogVerbose([MSPush logTag],
                @"User info for notification was forwarded to Push: %@",
                [userInfo description]);
   NSObject *title, *message, *customData, *alert;
-  NSDictionary *aps = [userInfo objectForKey:kMSPushNotificationApsKey];
+  NSDictionary *aps = userInfo[kMSPushNotificationApsKey];
 
   // The notification is not for App Center if customData is nil. Ignore the
   // notification.
-  customData =
-      [userInfo objectForKey:kMSPushNotificationCustomDataKey]
-          ?: [userInfo objectForKey:kMSPushNotificationOldCustomDataKey];
+  customData = userInfo[kMSPushNotificationCustomDataKey] ?: userInfo[kMSPushNotificationOldCustomDataKey];
   customData =
       ([customData isKindOfClass:[NSDictionary<NSString *, NSString *> class]])
           ? customData
@@ -391,9 +388,9 @@ static void *UserNotificationCenterDelegateContext =
                                     @"the notification.");
       return YES;
     }
-    alert = [aps objectForKey:kMSPushNotificationAlertKey];
+    alert = aps[kMSPushNotificationAlertKey];
 
-    // Retreive notification payload.
+    // Retrieve notification payload.
     if ([alert isKindOfClass:[NSDictionary class]]) {
       title = [alert valueForKey:kMSPushNotificationTitleKey];
       message = [alert valueForKey:kMSPushNotificationMessageKey];
@@ -407,7 +404,7 @@ static void *UserNotificationCenterDelegateContext =
       alert = [aps valueForKey:kMSPushNotificationAlertKey];
       if ([alert isKindOfClass:[NSString class]]) {
         title = @"";
-        message = (NSString *)alert;
+        message = (NSString *) alert;
       } else {
 
         // "alert" value is not a supported type.
@@ -435,16 +432,16 @@ static void *UserNotificationCenterDelegateContext =
     if ([NSApp isActive] || userNotification) {
 #endif
 
-      // Initialize push notification model.
-      MSPushNotification *pushNotification = [[MSPushNotification alloc]
-          initWithTitle:(NSString *)title
-                message:(NSString *)message
-             customData:(NSDictionary<NSString *, NSString *> *)customData];
+    // Initialize push notification model.
+    MSPushNotification *pushNotification = [[MSPushNotification alloc]
+                                                                initWithTitle:(NSString *) title
+                                                                      message:(NSString *) message
+                                                                   customData:(NSDictionary<NSString *, NSString *> *) customData];
 
-      // Call push delegate and deliver notification back to the application.
-      dispatch_async(dispatch_get_main_queue(), ^{
-        [self.delegate push:self didReceivePushNotification:pushNotification];
-      });
+    // Call push delegate and deliver notification back to the application.
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [self.delegate push:self didReceivePushNotification:pushNotification];
+    });
 #if TARGET_OS_OSX
     } else {
       NSUserNotification *notification = [[NSUserNotification alloc] init];

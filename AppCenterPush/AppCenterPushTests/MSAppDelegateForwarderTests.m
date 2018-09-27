@@ -2,7 +2,6 @@
 
 #import "MSPushAppDelegate.h"
 #import "MSAppDelegateForwarderPrivate.h"
-#import "MSAppDelegateUtil.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+Application.h"
 
@@ -13,7 +12,7 @@
 @end
 
 /*
- * We use of blocks for test validition but test frameworks contain macro
+ * We use of blocks for test validation but test frameworks contain macro
  * capturing self that we can't avoid.
  * Ignoring retain cycle warning for this test code.
  */
@@ -370,7 +369,7 @@
 
 #if TARGET_OS_IOS
 
-// TODO: Push doesn't support tvOS. Temporaily disable the test.
+// TODO: Push doesn't support tvOS. Temporarily disable the test.
 - (void)testDidReceiveRemoteNotification {
 
   // If

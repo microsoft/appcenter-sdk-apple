@@ -191,6 +191,9 @@
 		045C85151FE0B4F500089540 /* MSSessionContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 045C85131FE0B31600089540 /* MSSessionContext.m */; };
 		045C85161FE0B4F600089540 /* MSSessionContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 045C85131FE0B31600089540 /* MSSessionContext.m */; };
 		045C85171FE0B4F700089540 /* MSSessionContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 045C85131FE0B31600089540 /* MSSessionContext.m */; };
+		046658B8215AD59D0079DCC7 /* MSLogDBStorageVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = 046658B7215AD59D0079DCC7 /* MSLogDBStorageVersion.h */; };
+		046658B9215AD59D0079DCC7 /* MSLogDBStorageVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = 046658B7215AD59D0079DCC7 /* MSLogDBStorageVersion.h */; };
+		046658BA215AD59D0079DCC7 /* MSLogDBStorageVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = 046658B7215AD59D0079DCC7 /* MSLogDBStorageVersion.h */; };
 		046AEAD31ECA562A00CBE511 /* MSCustomPropertiesLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BC391E8E6963004B1E7A /* MSCustomPropertiesLogTests.m */; };
 		046AEAD41ECA562A00CBE511 /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = D377A30C1E83A05900B2C97A /* MSMockUserDefaults.m */; };
 		046AEAD71ECA562A00CBE511 /* MSLogWithPropertiesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 045660FA1D99EEEB002F7055 /* MSLogWithPropertiesTests.m */; };
@@ -762,6 +765,7 @@
 		045BC3181E3FD8AC00B6C960 /* MSKeychainUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSKeychainUtil.h; sourceTree = "<group>"; };
 		045C850F1FE0B1D900089540 /* MSSessionContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSSessionContext.h; sourceTree = "<group>"; };
 		045C85131FE0B31600089540 /* MSSessionContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSSessionContext.m; sourceTree = "<group>"; };
+		046658B7215AD59D0079DCC7 /* MSLogDBStorageVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSLogDBStorageVersion.h; sourceTree = "<group>"; };
 		0469D1B11F4DF89A00A43A8E /* AppCenter Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "AppCenter Release.xcconfig"; sourceTree = "<group>"; };
 		046AEAF61ECA562A00CBE511 /* AppCenter.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenter.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		046AEB081ECA727200CBE511 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../iOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
@@ -1535,6 +1539,7 @@
 				B2CD74831F22BD910070E7DF /* MSLogDBStorage.h */,
 				383481721EA7FF6100787F56 /* MSLogDBStoragePrivate.h */,
 				B2CD74841F22BD910070E7DF /* MSLogDBStorage.m */,
+				046658B7215AD59D0079DCC7 /* MSLogDBStorageVersion.h */,
 			);
 			path = Storage;
 			sourceTree = "<group>";
@@ -1587,6 +1592,7 @@
 				0431209B1EE0BCF9007054C5 /* MSIngestionCall.h in Headers */,
 				0431209C1EE0BCF9007054C5 /* MSIngestionProtocol.h in Headers */,
 				B2CD74B11F22BE270070E7DF /* MSUtility+Date.h in Headers */,
+				046658BA215AD59D0079DCC7 /* MSLogDBStorageVersion.h in Headers */,
 				B2CD74C91F22BEC70070E7DF /* MSDBStoragePrivate.h in Headers */,
 				0431209D1EE0BCF9007054C5 /* MSServiceCommon.h in Headers */,
 				B2181B7B1F26852600D2EEAE /* MSWrapperSdk.h in Headers */,
@@ -1714,6 +1720,7 @@
 				3568A7EC201A921600F3B860 /* MSSessionContextPrivate.h in Headers */,
 				3568A7E9201A91D100F3B860 /* MSAppDelegateUtil.h in Headers */,
 				3568A7EA201A91D100F3B860 /* MSCustomApplicationDelegate.h in Headers */,
+				046658B9215AD59D0079DCC7 /* MSLogDBStorageVersion.h in Headers */,
 				3568A7EB201A91D100F3B860 /* MSCustomPropertiesLog.h in Headers */,
 				3568A7E2201A8A6300F3B860 /* MSChannelUnitDefault.h in Headers */,
 				3568A7E4201A8A6300F3B860 /* MSChannelUnitProtocol.h in Headers */,
@@ -1821,6 +1828,7 @@
 				B2787213201AAA7F004AA9A5 /* MSAppCenterErrors.h in Headers */,
 				358F9BC920195F3300B9E22C /* MSLogger.h in Headers */,
 				3592ABA71DC90E3600EF4592 /* MSLoggerInternal.h in Headers */,
+				046658B8215AD59D0079DCC7 /* MSLogDBStorageVersion.h in Headers */,
 				3542741F2016769C00BE766F /* MSChannelUnitProtocol.h in Headers */,
 				3542741D2016769C00BE766F /* MSChannelUnitDefault.h in Headers */,
 				38E1B67A1DDE3FDF000EFED1 /* MSAppCenterPrivate.h in Headers */,

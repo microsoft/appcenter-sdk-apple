@@ -11,9 +11,6 @@
 #import "MSPushNotification.h"
 #import "MSPushPrivate.h"
 #import "MSPushTestUtil.h"
-#import "MSService.h"
-#import "MSServiceAbstract.h"
-#import "MSServiceInternal.h"
 #import "MSTestFrameworks.h"
 
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
