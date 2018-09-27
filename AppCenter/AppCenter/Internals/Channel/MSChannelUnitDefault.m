@@ -2,7 +2,6 @@
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterIngestion.h"
 #import "MSAppCenterInternal.h"
-#import "MSChannelDelegate.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
 #import "MSDeviceTracker.h"
@@ -135,7 +134,8 @@
 
       // Check if the log should be filtered out. If so, don't enqueue it.
       __block BOOL shouldFilter = NO;
-      [self enumerateDelegatesForSelector:@selector(channelUnit:shouldFilterLog:)
+      [self enumerateDelegatesForSelector:@selector
+            (channelUnit:shouldFilterLog:)
                                 withBlock:^(id<MSChannelDelegate> delegate) {
                                   shouldFilter =
                                       shouldFilter || [delegate channelUnit:self
@@ -147,8 +147,9 @@
         MSLogDebug([MSAppCenter logTag],
                    @"Log of type '%@' was filtered out by delegate(s)",
                    item.type);
-        [self enumerateDelegatesForSelector:@selector
-              (channel:didCompleteEnqueueingLog:withInternalId:)
+        [self enumerateDelegatesForSelector:@selector(channel:
+                                                didCompleteEnqueueingLog:
+                                                          withInternalId:)
                                   withBlock:^(id<MSChannelDelegate> delegate) {
                                     [delegate channel:self
                                         didCompleteEnqueueingLog:item
@@ -194,8 +195,9 @@
       MSLogDebug([MSAppCenter logTag], @"Saving log, type: %@.", item.type);
       [self.storage saveLog:item withGroupId:self.configuration.groupId];
       self.itemsCount += 1;
-      [self enumerateDelegatesForSelector:@selector
-            (channel:didCompleteEnqueueingLog:withInternalId:)
+      [self enumerateDelegatesForSelector:@selector(channel:
+                                              didCompleteEnqueueingLog:
+                                                        withInternalId:)
                                 withBlock:^(id<MSChannelDelegate> delegate) {
                                   [delegate channel:self
                                       didCompleteEnqueueingLog:item
@@ -207,8 +209,7 @@
         [self flushQueue];
       } else if (self.itemsCount == 1) {
 
-        // Don't delay if channel is suspended but stack logs until current batch
-        // max out.
+        // Don't delay if channel is suspended but stack logs until current batch max out.
         if (!self.suspended) {
           [self startTimer];
         }
@@ -255,7 +256,8 @@
   self.availableBatchFromStorage = [self.storage
       loadLogsWithGroupId:self.configuration.groupId
                     limit:self.configuration.batchSizeLimit
-           withCompletion:^(NSArray<MSLog> *_Nonnull logArray,
+                    iKeys:nil
+        completionHandler:^(NSArray<MSLog> *_Nonnull logArray,
                             NSString *batchId) {
 
              // Logs may be deleted from storage before this flush.
@@ -277,8 +279,8 @@
                    MSLogDebug([MSAppCenter logTag],
                               @"Sending %tu/%tu log, group Id: %@, batch Id: "
                               @"%@, session Id: %@, payload:\n%@",
-                              (i + 1), count, self.configuration.groupId,
-                              batchId, container.logs[i].sid,
+                              (i + 1), count, self.configuration.groupId, batchId,
+                              container.logs[i].sid,
                               [(MSAbstractLog *)container.logs[i]
                                   serializeLogWithPrettyPrinting:YES]);
                  }
