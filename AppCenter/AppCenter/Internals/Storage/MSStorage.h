@@ -52,14 +52,14 @@ typedef void (^MSLoadDataCompletionHandler)(NSArray<id<MSLog>> *_Nullable logArr
  *
  * @param groupId The key used for grouping.
  * @param limit Limit the maximum number of logs to be loaded from disk.
- * @param targetKeys The array of target keys for the logs.
+ * @param excludedTargetKeys The array of target keys to exclude for the logs.
  * @param completionHandler The completion handler for loading the logs.
  *
  * @return a list of logs.
  */
 - (BOOL)loadLogsWithGroupId:(NSString *)groupId
                       limit:(NSUInteger)limit
-                 targetKeys:(nullable NSArray< NSString *> *)targetKeys
+         excludedTargetKeys:(nullable NSArray< NSString *> *)excludedTargetKeys
           completionHandler:(nullable MSLoadDataCompletionHandler)completionHandler;
 
 /**

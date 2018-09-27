@@ -8,7 +8,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic) NSHashTable *pausedTokens;
 
-@property(nonatomic) NSHashTable<NSString *> *pausedIKeys;
+@property(nonatomic) NSHashTable<NSString *> *pausedTargetKeys;
 
 @end
 
