@@ -1,5 +1,6 @@
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenterInternal.h"
+#import "MSConstants+Internal.h"
 #import "MSCSData.h"
 #import "MSCSEpochAndSeq.h"
 #import "MSCSExtensions.h"
@@ -9,7 +10,6 @@
 #import "MSOneCollectorIngestion.h"
 #import "MSSDKExtension.h"
 
-static NSString *const kMSOneCollectorGroupIdSuffix = @"/one";
 static NSString *const kMSOneCollectorBaseUrl =
     @"https://mobile.events.data.microsoft.com"; // TODO: move to constants?
 static NSString *const kMSBaseErrorMsg = @"Log validation failed.";

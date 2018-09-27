@@ -156,6 +156,26 @@ initWithTransmissionTargetToken:(NSString *)token
   }
 }
 
+- (void)pause {
+  @synchronized (self) {
+    if (!self.isPaused) {
+      [MSAnalytics pauseTransmissionTargetForToken:self.transmissionTargetToken];
+      self.isPaused = YES;
+      MSLogInfo([MSAnalytics logTag], @"Paused transmission target.");
+    }
+  }
+}
+
+- (void)resume {
+  @synchronized (self) {
+    if (self.isPaused) {
+      [MSAnalytics resumeTransmissionTargetForToken:self.transmissionTargetToken];
+      self.isPaused = NO;
+      MSLogInfo([MSAnalytics logTag], @"Resumed transmission target.");
+    }
+  }
+}
+
 #pragma mark - ChannelDelegate callbacks
 
 - (void)channel:(id <MSChannelProtocol>)__unused channel

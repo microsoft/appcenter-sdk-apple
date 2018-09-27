@@ -65,6 +65,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(nullable void (^)(BOOL))completionHandler;
 
+/**
+ * Return a channel unit instance for the given groupId.
+ *
+ * @param groupId The group ID for a channel unit.
+ *
+ * @return A channel unit instance or `nil`.
+ */
+- (id<MSChannelUnitProtocol>)channelUnitForGroupId:(NSString *)groupId;
+
 @end
 
 NS_ASSUME_NONNULL_END

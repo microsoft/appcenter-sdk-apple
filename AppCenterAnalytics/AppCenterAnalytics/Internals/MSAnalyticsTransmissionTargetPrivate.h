@@ -36,6 +36,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(class, nonatomic) MSAnalyticsAuthenticationProvider* authenticationProvider;
 
+/**
+ * The flag that indicates whether the transmission target is paused.
+ */
+@property(nonatomic) BOOL isPaused;
+
 @end
 
 NS_ASSUME_NONNULL_END

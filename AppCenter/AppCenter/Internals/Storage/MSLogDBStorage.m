@@ -89,7 +89,7 @@ static const NSUInteger kMSSchemaVersion = 2;
 
 - (BOOL)loadLogsWithGroupId:(NSString *)groupId
                       limit:(NSUInteger)limit
-                      iKeys:(nullable NSArray< NSString *> *)iKeys
+                      iKeys:(nullable NSArray<NSString *> *)iKeys
           completionHandler:(nullable MSLoadDataCompletionHandler)completionHandler {
   BOOL logsAvailable;
   BOOL moreLogsAvailable = NO;
@@ -109,13 +109,9 @@ static const NSUInteger kMSSchemaVersion = 2;
   // Build the "WHERE" clause's condition.
   NSMutableString *condition = [NSMutableString stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, groupId];
 
-  // Get iKeys from batches.
+  // Filter out paused iKeys.
   if (iKeys.count > 0) {
-    [condition appendFormat:@" AND ( \"%@\" IS NULL", kMSIKeyColumnName];
-    for (NSUInteger i = 0; i < iKeys.count; i++) {
-      [condition appendFormat:@" OR \"%@\" = '%@'", kMSIKeyColumnName, iKeys[i]];
-    }
-    [condition appendString:@" )"];
+    [condition appendFormat:@" AND \"%@\" NOT IN (%@)", kMSIKeyColumnName, [iKeys componentsJoinedByString:@", "]];
   }
 
   // Take only logs that are not already part of a batch.

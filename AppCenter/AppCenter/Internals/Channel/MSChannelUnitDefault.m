@@ -8,6 +8,7 @@
 #import "MSDeviceTracker.h"
 #import "MSIngestionProtocol.h"
 #import "MSStorage.h"
+#import "MSUtility+StringFormatting.h"
 
 @implementation MSChannelUnitDefault
 
@@ -246,7 +247,7 @@
   self.availableBatchFromStorage = [self.storage
       loadLogsWithGroupId:self.configuration.groupId
                     limit:self.configuration.batchSizeLimit
-                    iKeys:nil
+                    iKeys:[self.pausedIKeys allObjects]
         completionHandler:^(NSArray<MSLog> *_Nonnull logArray,
                             NSString *batchId) {
 
@@ -518,6 +519,19 @@
     self.paused = NO;
     [self flushQueue];
   }
+}
+
+- (void)pauseSendingLogsWithToken:(NSString *)token {
+  if (!self.pausedIKeys) {
+    self.pausedIKeys = [NSHashTable new];
+  }
+  NSString *iKey = [MSUtility iKeyFromTargetToken:token];
+  [self.pausedIKeys addObject:iKey];
+}
+
+- (void)resumeSendingLogsWithToken:(NSString *)token {
+  NSString *iKey = [MSUtility iKeyFromTargetToken:token];
+  [self.pausedIKeys removeObject:iKey];
 }
 
 #pragma mark - Storage
