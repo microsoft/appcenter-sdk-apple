@@ -67,6 +67,37 @@ enum StartupMode {
   [MSPush setDelegate:self];
   [MSAppCenter setLogLevel:MSLogLevelVerbose];
 
+  // Set max storage size.
+  NSNumber *storageMaxSize = [[NSUserDefaults standardUserDefaults]
+      objectForKey:kMSStorageMaxSizeKey];
+  if (storageMaxSize) {
+    [MSAppCenter setMaxStorageSize:storageMaxSize.integerValue
+                 completionHandler:^(BOOL success) {
+      if (!success) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+
+          // Remove invalid value.
+          [[NSUserDefaults standardUserDefaults]
+              removeObjectForKey:kMSStorageMaxSizeKey];
+
+          // Show alert.
+          UIAlertController *alertController = [UIAlertController
+              alertControllerWithTitle:@"Warning!"
+                               message:@"The maximum size of the internal "
+                                       @"storage could not be set."
+                        preferredStyle:UIAlertControllerStyleAlert];
+          [alertController
+              addAction:[UIAlertAction actionWithTitle:@"OK"
+                                                 style:UIAlertActionStyleDefault
+                                               handler:nil]];
+          [self.window.rootViewController presentViewController:alertController
+                                                       animated:YES
+                                                     completion:nil];
+        });
+      }
+    }];
+  }
+
   // Start App Center SDK.
   NSArray<Class> *services = @[
     [MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class]
@@ -174,6 +205,7 @@ enum StartupMode {
                                     [MSCrashes notifyWithUserConfirmation:
                                                    MSUserConfirmationAlways];
                                   }]];
+
         // Show the alert controller.
         [self.window.rootViewController presentViewController:alertController
                                                      animated:YES
