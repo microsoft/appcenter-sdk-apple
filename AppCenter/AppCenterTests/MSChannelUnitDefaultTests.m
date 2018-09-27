@@ -5,6 +5,7 @@
 #import "MSChannelDelegate.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
+#import "MSChannelUnitDefaultPrivate.h"
 #import "MSDevice.h"
 #import "MSHttpIngestion.h"
 #import "MSIngestionProtocol.h"
@@ -782,14 +783,16 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self.sut setEnabled:NO andDeleteDataOnDisabled:NO];
   dispatch_async(self.logsDispatchQueue, ^{
     [self.sut ingestionDidPause:ingestionMock];
-  });
-  [self.sut setEnabled:YES andDeleteDataOnDisabled:NO];
-  dispatch_async(self.logsDispatchQueue, ^{
-    result2 = self.sut.paused;
+    dispatch_async(self.logsDispatchQueue, ^{
+      [self.sut setEnabled:YES andDeleteDataOnDisabled:NO];
+    });
+    dispatch_async(self.logsDispatchQueue, ^{
+      result2 = self.sut.paused;
+    });
+    [self enqueueChannelEndJobExpectation];
   });
 
   // Then
-  [self enqueueChannelEndJobExpectation];
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
                                  assertThatBool(result1, isFalse());
@@ -1081,73 +1084,73 @@ static NSString *const kMSTestGroupId = @"GroupId";
   OCMVerify([sut resumeWithIdentifyingObject:ingestionMock]);
 }
 
-- (void)testDoesntResumeWhenNotAllPauseTokensResumed {
+- (void)testDoesntResumeWhenNotAllPauseObjectsResumed {
 
   // If
-  NSObject *token1 = [NSObject new];
-  NSObject *token2 = [NSObject new];
-  NSObject *token3 = [NSObject new];
-  [self.sut pauseWithIdentifyingObject:token1];
-  [self.sut pauseWithIdentifyingObject:token2];
-  [self.sut pauseWithIdentifyingObject:token3];
+  NSObject *object1 = [NSObject new];
+  NSObject *object2 = [NSObject new];
+  NSObject *object3 = [NSObject new];
+  [self.sut pauseWithIdentifyingObjectSync:object1];
+  [self.sut pauseWithIdentifyingObjectSync:object2];
+  [self.sut pauseWithIdentifyingObjectSync:object3];
 
   // When
-  [self.sut resumeWithIdentifyingObject:token1];
-  [self.sut resumeWithIdentifyingObject:token3];
+  [self.sut resumeWithIdentifyingObjectSync:object1];
+  [self.sut resumeWithIdentifyingObjectSync:object3];
 
   // Then
   XCTAssertTrue([self.sut paused]);
 }
 
-- (void)testResumesWhenAllPauseTokensResumed {
+- (void)testResumesWhenAllPauseObjectsResumed {
 
   // If
-  NSObject *token1 = [NSObject new];
-  NSObject *token2 = [NSObject new];
-  NSObject *token3 = [NSObject new];
-  [self.sut pauseWithIdentifyingObject:token1];
-  [self.sut pauseWithIdentifyingObject:token2];
-  [self.sut pauseWithIdentifyingObject:token3];
+  NSObject *object1 = [NSObject new];
+  NSObject *object2 = [NSObject new];
+  NSObject *object3 = [NSObject new];
+  [self.sut pauseWithIdentifyingObjectSync:object1];
+  [self.sut pauseWithIdentifyingObjectSync:object2];
+  [self.sut pauseWithIdentifyingObjectSync:object3];
 
   // When
-  [self.sut resumeWithIdentifyingObject:token1];
-  [self.sut resumeWithIdentifyingObject:token2];
-  [self.sut resumeWithIdentifyingObject:token3];
+  [self.sut resumeWithIdentifyingObjectSync:object1];
+  [self.sut resumeWithIdentifyingObjectSync:object2];
+  [self.sut resumeWithIdentifyingObjectSync:object3];
 
   // Then
   XCTAssertFalse([self.sut paused]);
 }
 
-- (void)testResumeWhenOnlyPausedTokenIsDeallocated {
+- (void)testResumeWhenOnlyPausedObjectIsDeallocated {
 
   // If
-  [self.sut pauseWithIdentifyingObject:[NSObject new]];
+  [self.sut pauseWithIdentifyingObjectSync:[NSObject new]];
 
   // When
-  [self.sut resumeWithIdentifyingObject:[NSObject new]];
+  [self.sut resumeWithIdentifyingObjectSync:[NSObject new]];
 
   // Then
   XCTAssertFalse([self.sut paused]);
 }
 
-- (void)testResumeWithTokenThatDoesNotExistDoesNotResumeIfCurrentlyPaused {
+- (void)testResumeWithObjectThatDoesNotExistDoesNotResumeIfCurrentlyPaused {
 
   // If
-  NSObject *token1 = [NSObject new];
-  NSObject *token2 = [NSObject new];
-  [self.sut pauseWithIdentifyingObject:token1];
+  NSObject *object1 = [NSObject new];
+  NSObject *object2 = [NSObject new];
+  [self.sut pauseWithIdentifyingObjectSync:object1];
 
   // When
-  [self.sut resumeWithIdentifyingObject:token2];
+  [self.sut resumeWithIdentifyingObjectSync:object2];
 
   // Then
   XCTAssertTrue([self.sut paused]);
 }
 
-- (void)testResumeWithTokenThatDoesNotExistDoesNotPauseIfPreviouslyResumed {
+- (void)testResumeWithObjectThatDoesNotExistDoesNotPauseIfPreviouslyResumed {
 
   // When
-  [self.sut resumeWithIdentifyingObject:[NSObject new]];
+  [self.sut resumeWithIdentifyingObjectSync:[NSObject new]];
 
   // Then
   XCTAssertFalse([self.sut paused]);
@@ -1156,26 +1159,26 @@ static NSString *const kMSTestGroupId = @"GroupId";
 - (void)testResumeTwiceInARowResumesWhenPaused {
 
   // If
-  NSObject *token = [NSObject new];
-  [self.sut pauseWithIdentifyingObject:token];
+  NSObject *object = [NSObject new];
+  [self.sut pauseWithIdentifyingObjectSync:object];
 
   // When
-  [self.sut resumeWithIdentifyingObject:token];
-  [self.sut resumeWithIdentifyingObject:token];
+  [self.sut resumeWithIdentifyingObjectSync:object];
+  [self.sut resumeWithIdentifyingObjectSync:object];
 
   // Then
   XCTAssertFalse([self.sut paused]);
 }
 
-- (void)testResumeOnceResumesWhenPausedTwiceWithSingleToken{
+- (void)testResumeOnceResumesWhenPausedTwiceWithSingleObject {
 
   // If
-  NSObject *token = [NSObject new];
-  [self.sut pauseWithIdentifyingObject:token];
-  [self.sut pauseWithIdentifyingObject:token];
+  NSObject *object = [NSObject new];
+  [self.sut pauseWithIdentifyingObjectSync:object];
+  [self.sut pauseWithIdentifyingObjectSync:object];
 
   // When
-  [self.sut resumeWithIdentifyingObject:token];
+  [self.sut resumeWithIdentifyingObjectSync:object];
 
   // Then
   XCTAssertFalse([self.sut paused]);
