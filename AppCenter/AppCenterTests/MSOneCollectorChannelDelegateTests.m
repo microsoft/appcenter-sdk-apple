@@ -101,7 +101,7 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
   OCMVerifyAll(channelGroupMock);
 }
 
-- (void)testDidSetEnabledAndDeleteDataOnDisabledWithBaseGroupId {
+- (void)testDidSetEnabledAndDeleteDataOnDisabled {
 
   /*
    * Test base channel unit's logs are cleared when the base channel unit is
@@ -146,38 +146,6 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
       XCTFail(@"Expectation Failed with error: %@", error);
     }
   }];
-}
-
-- (void)testDidSetEnabledAndDeleteDataOnDisabledWithOneCollectorGroupId {
-
-  /*
-   * Test One Collector channel unit's logs are cleared when the One Collector
-   * channel unit is disabled. Disable One Collector channel unit. Verify the
-   * storage deletion is called for the One Collector channel group id.
-   */
-
-  // If
-  MSChannelUnitDefault *oneCollectorChannelUnit =
-      [[MSChannelUnitDefault alloc] initWithIngestion:self.ingestionMock
-                                              storage:self.storageMock
-                                        configuration:self.oneCollectorUnitConfig
-                                    logsDispatchQueue:self.logsDispatchQueue];
-  id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
-  OCMReject([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]);
-  OCMStub([oneCollectorChannelUnit setEnabled:NO andDeleteDataOnDisabled:YES]);
-
-  // When
-  [self.sut channel:oneCollectorChannelUnit didSetEnabled:NO andDeleteDataOnDisabled:YES];
-
-  // Then
-  XCTAssertTrue(self.sut.oneCollectorChannels.count == 0);
-  [self enqueueChannelEndJobExpectation];
-  [self waitForExpectationsWithTimeout:1 handler:^(NSError *error) {
-        OCMVerify([self.storageMock deleteLogsWithGroupId:kMSOneCollectorGroupId]);
-        if (error) {
-          XCTFail(@"Expectation Failed with error: %@", error);
-        }
-      }];
 }
 
 - (void)testDidEnqueueLogToOneCollectorChannelWhenLogHasTargetTokensAndLogIsNotCommonSchemaLog {
