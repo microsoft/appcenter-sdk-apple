@@ -28,6 +28,7 @@
     _discardLogs = NO;
     _delegates = [NSHashTable weakObjectsHashTable];
     _pausedIdentifyingObjects = [NSHashTable weakObjectsHashTable];
+    _pausedTargetKeys = [NSHashTable new];
   }
   return self;
 }
@@ -533,18 +534,19 @@
 }
 
 - (void)pauseSendingLogsWithToken:(NSString *)token {
-  if (!self.pausedTargetKeys) {
-    self.pausedTargetKeys = [NSHashTable new];
-  }
   NSString *targetKey = [MSUtility targetKeyFromTargetToken:token];
-  MSLogDebug([MSAppCenter logTag], @"Pause channel for target key %@.", targetKey);
-  [self.pausedTargetKeys addObject:targetKey];
+  @synchronized (self.pausedTargetKeys) {
+    MSLogDebug([MSAppCenter logTag], @"Pause channel for target key %@.", targetKey);
+    [self.pausedTargetKeys addObject:targetKey];
+  }
 }
 
 - (void)resumeSendingLogsWithToken:(NSString *)token {
   NSString *targetKey = [MSUtility targetKeyFromTargetToken:token];
-  MSLogDebug([MSAppCenter logTag], @"Resume channel for target key %@.", targetKey);
-  [self.pausedTargetKeys removeObject:targetKey];
+  @synchronized (self.pausedTargetKeys) {
+    MSLogDebug([MSAppCenter logTag], @"Resume channel for target key %@.", targetKey);
+    [self.pausedTargetKeys removeObject:targetKey];
+  }
 }
 
 #pragma mark - Storage

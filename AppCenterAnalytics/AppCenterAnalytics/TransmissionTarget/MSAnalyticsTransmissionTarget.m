@@ -156,15 +156,11 @@ initWithTransmissionTargetToken:(NSString *)token
 }
 
 - (void)pause {
-  @synchronized (self) {
-    [MSAnalytics pauseTransmissionTargetForToken:self.transmissionTargetToken];
-  }
+  [MSAnalytics pauseTransmissionTargetForToken:self.transmissionTargetToken];
 }
 
 - (void)resume {
-  @synchronized (self) {
-    [MSAnalytics resumeTransmissionTargetForToken:self.transmissionTargetToken];
-  }
+  [MSAnalytics resumeTransmissionTargetForToken:self.transmissionTargetToken];
 }
 
 #pragma mark - ChannelDelegate callbacks
