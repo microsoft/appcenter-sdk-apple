@@ -160,7 +160,6 @@ initWithTransmissionTargetToken:(NSString *)token
     if (!self.isPaused) {
       [MSAnalytics pauseTransmissionTargetForToken:self.transmissionTargetToken];
       self.isPaused = YES;
-      MSLogInfo([MSAnalytics logTag], @"Paused transmission target.");
     }
   }
 }
@@ -170,7 +169,6 @@ initWithTransmissionTargetToken:(NSString *)token
     if (self.isPaused) {
       [MSAnalytics resumeTransmissionTargetForToken:self.transmissionTargetToken];
       self.isPaused = NO;
-      MSLogInfo([MSAnalytics logTag], @"Resumed transmission target.");
     }
   }
 }

@@ -515,11 +515,13 @@
     self.pausedTargetKeys = [NSHashTable new];
   }
   NSString *targetKey = [MSUtility targetKeyFromTargetToken:token];
+  MSLogDebug([MSAppCenter logTag], @"Pause channel for target key %@.", targetKey);
   [self.pausedTargetKeys addObject:targetKey];
 }
 
 - (void)resumeSendingLogsWithToken:(NSString *)token {
   NSString *targetKey = [MSUtility targetKeyFromTargetToken:token];
+  MSLogDebug([MSAppCenter logTag], @"Resume channel for target key %@.", targetKey);
   [self.pausedTargetKeys removeObject:targetKey];
 }
 
