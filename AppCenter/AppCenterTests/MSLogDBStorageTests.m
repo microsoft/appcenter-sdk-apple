@@ -142,63 +142,67 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
 - (void)testLoadCommonSchemaLogsWhilePendingBatchesWithSpecificTargetKeys {
 
   // If
-  NSString *targetKeyFormat =  @"testTargetKey%d";
+
+  // Key: 1, group: A.
+  MSCommonSchemaLog *log1 = [MSCommonSchemaLog new];
+  [log1 addTransmissionTargetToken:@"1-t"];
+  log1.iKey = @"o:1";
+  [self.sut saveLog:log1 withGroupId:kMSTestGroupId];
+
+  // Key: 2, group: A.
+  MSCommonSchemaLog *log2 = [MSCommonSchemaLog new];
+  [log2 addTransmissionTargetToken:@"2-t"];
+  log2.iKey = @"o:2";
+  [self.sut saveLog:log2 withGroupId:kMSTestGroupId];
+
+  // Key: 2, group: B.
+  MSCommonSchemaLog *log3 = [MSCommonSchemaLog new];
+  [log3 addTransmissionTargetToken:@"2-t"];
+  log3.iKey = @"o:2";
+  [self.sut saveLog:log3 withGroupId:kMSAnotherTestGroupId];
+
+  // Key: 1, group: A.
+  MSCommonSchemaLog *log4 = [MSCommonSchemaLog new];
+  [log4 addTransmissionTargetToken:@"1-t"];
+  log4.iKey = @"o:1";
+  [self.sut saveLog:log4 withGroupId:kMSTestGroupId];
+
+  // Key: 2, group: A.
+  MSCommonSchemaLog *log5 = [MSCommonSchemaLog new];
+  [log5 addTransmissionTargetToken:@"2-t"];
+  log5.iKey = @"o:2";
+  [self.sut saveLog:log5 withGroupId:kMSTestGroupId];
 
   // When
-  for (int i = 0; i < 10; i++) {
-    MSCommonSchemaLog *log = [MSCommonSchemaLog new];
-    NSString *targetKey = [NSString stringWithFormat:targetKeyFormat, i % 3];
-     NSString *targetToken = [targetKey stringByAppendingString:@"-secret"];
-    [log addTransmissionTargetToken:targetToken];
-    log.iKey = targetKey;
-    if (i % 2 == 0) {
-      [self.sut saveLog:log withGroupId:kMSTestGroupId];
-    } else {
-      [self.sut saveLog:log withGroupId:kMSAnotherTestGroupId];
-    }
-  }
+  [self.sut loadLogsWithGroupId:kMSTestGroupId
+                          limit:10
+             excludedTargetKeys:@[@"1"]
+              completionHandler:^(NSArray <MSLog> *_Nonnull logArray, __unused NSString *batchId) {
 
-  // Then
-  [self.sut loadLogsWithGroupId:kMSTestGroupId
-                          limit:10
-             excludedTargetKeys:@[@"testTargetKey0"]
-              completionHandler:^(NSArray <MSLog> *_Nonnull logArray, __unused NSString *batchId) {
-                assertThatInt([logArray count], equalToInt(8));
+                // Then
+                assertThatInt([logArray count], equalToInt(2));
                 for (MSCommonSchemaLog *log in logArray) {
-                  XCTAssertTrue([log.iKey isEqualToString:@"testTargetKey1"] || [log.iKey
-                    isEqualToString:@"testTargetKey2"]);
+                  XCTAssertTrue([log.iKey isEqualToString:@"o:2"]);
                 }
               }];
   [self.sut loadLogsWithGroupId:kMSTestGroupId
                           limit:10
-             excludedTargetKeys:@[@"testTargetKey1"]
+             excludedTargetKeys:@[@"2"]
               completionHandler:^(NSArray <MSLog> *_Nonnull logArray, __unused NSString *batchId) {
-                assertThatInt([logArray count], equalToInt(9));
-                for (MSCommonSchemaLog *log in logArray) {
-                  XCTAssertTrue([log.iKey isEqualToString:@"testTargetKey0"] || [log.iKey
-                    isEqualToString:@"testTargetKey2"]);
-                }
-              }];
-  [self.sut loadLogsWithGroupId:kMSTestGroupId
-                          limit:10
-             excludedTargetKeys:@[@"testTargetKey2"]
-              completionHandler:^(NSArray <MSLog> *_Nonnull logArray, __unused NSString *batchId) {
-                assertThatInt([logArray count], equalToInt(8));
-                for (MSCommonSchemaLog *log in logArray) {
-                  XCTAssertTrue([log.iKey isEqualToString:@"testTargetKey0"] || [log.iKey
-                    isEqualToString:@"testTargetKey1"]);
-                }
-              }];
-  [self.sut loadLogsWithGroupId:kMSTestGroupId
-                          limit:10
-             excludedTargetKeys:@[@"testTargetKey3"]
-              completionHandler:^(NSArray <MSLog> *_Nonnull logArray, __unused NSString *batchId) {
-                assertThatInt([logArray count], equalToInt(10));
-                for (MSCommonSchemaLog *log in logArray) {
-                  XCTAssertTrue([log.iKey isEqualToString:@"testTargetKey0"] || [log.iKey
-                    isEqualToString:@"testTargetKey1"] || [log.iKey isEqualToString:@"testTargetKey2"]);
-                }
 
+                // Then
+                assertThatInt([logArray count], equalToInt(2));
+                for (MSCommonSchemaLog *log in logArray) {
+                  XCTAssertTrue([log.iKey isEqualToString:@"o:1"]);
+                }
+              }];
+  [self.sut loadLogsWithGroupId:kMSTestGroupId
+                          limit:10
+             excludedTargetKeys:nil
+              completionHandler:^(NSArray <MSLog> *_Nonnull logArray, __unused NSString *batchId) {
+
+                // Then
+                assertThatInt([logArray count], equalToInt(0));
               }];
 }
 
