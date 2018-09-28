@@ -3,15 +3,15 @@ import UIKit
 class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
 
   @IBOutlet weak var enabled: UISwitch!
-  @IBOutlet weak var paused: UISwitch!
   @IBOutlet weak var eventName: UITextField!
   @IBOutlet weak var pageName: UITextField!
+  @IBOutlet weak var pause: UIButton!
+  @IBOutlet weak var resume: UIButton!
 
   var appCenter: AppCenterDelegate!
   var eventPropertiesSection: EventPropertiesTableSection!
   @objc(analyticsResult) var analyticsResult: MSAnalyticsResult? = nil
 
-  private var isPaused = false
   private var kEventPropertiesSectionIndex: Int = 2
   private var kResultsPageIndex: Int = 2
 
@@ -27,14 +27,17 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     cell?.contentView.alpha = 0.5
     #endif
   }
-  
+
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     self.enabled.isOn = appCenter.isAnalyticsEnabled()
-    if !appCenter.isAnalyticsEnabled() {
-      isPaused = false
+    enablePauseResume(enable: appCenter.isAnalyticsEnabled())
+
+    // First appearence
+    if !pause.isSelected && !resume.isSelected {
+      updatePausedState(isPaused: false)
+      enablePauseResume(enable: enabled.isOn)
     }
-    self.paused.isOn = isPaused
     
     // Make sure the UITabBarController does not cut off the last cell.
     self.edgesForExtendedLayout = []
@@ -66,25 +69,32 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   @IBAction func enabledSwitchUpdated(_ sender: UISwitch) {
     appCenter.setAnalyticsEnabled(sender.isOn)
     sender.isOn = appCenter.isAnalyticsEnabled()
-    updatePausedState(isPaused: false)
+    enablePauseResume(enable: sender.isOn)
   }
 
-  @IBAction func pausedSwitchUpdated(_ sender: UISwitch) {
-    if !appCenter.isAnalyticsEnabled() {
-      updatePausedState(isPaused: false)
-    } else {
-      isPaused = sender.isOn
-      if isPaused {
-        appCenter.pause()
-      } else {
-        appCenter.resume()
-      }
-    }
+  @IBAction func pause(_ sender: UIButton) {
+    updatePausedState(isPaused: true)
+    appCenter.pause()
+  }
+
+  @IBAction func resume(_ sender: UIButton) {
+    updatePausedState(isPaused: false)
+    appCenter.resume()
   }
 
   func updatePausedState(isPaused: Bool) {
-    self.isPaused = isPaused
-    paused.isOn = self.isPaused
+    if isPaused {
+      pause.isSelected = true
+      resume.isSelected = false
+    } else {
+      pause.isSelected = false
+      resume.isSelected = true
+    }
+  }
+
+  func enablePauseResume(enable: Bool) {
+    pause.isEnabled = enable
+    resume.isEnabled = enable
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
