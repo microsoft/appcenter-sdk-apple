@@ -2,7 +2,6 @@
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterIngestion.h"
 #import "MSAppCenterInternal.h"
-#import "MSChannelDelegate.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
 #import "MSChannelUnitDefaultPrivate.h"
@@ -27,7 +26,7 @@
     _paused = NO;
     _discardLogs = NO;
     _delegates = [NSHashTable weakObjectsHashTable];
-    _pausedTokens = [NSHashTable weakObjectsHashTable];
+    _pausedIdentifyingObjects = [NSHashTable weakObjectsHashTable];
   }
   return self;
 }
@@ -137,7 +136,8 @@
 
       // Check if the log should be filtered out. If so, don't enqueue it.
       __block BOOL shouldFilter = NO;
-      [self enumerateDelegatesForSelector:@selector(channelUnit:shouldFilterLog:)
+      [self enumerateDelegatesForSelector:@selector
+            (channelUnit:shouldFilterLog:)
                                 withBlock:^(id<MSChannelDelegate> delegate) {
                                   shouldFilter =
                                       shouldFilter || [delegate channelUnit:self
@@ -147,8 +147,9 @@
         MSLogDebug([MSAppCenter logTag],
                    @"Log of type '%@' was filtered out by delegate(s)",
                    item.type);
-        [self enumerateDelegatesForSelector:@selector
-              (channel:didCompleteEnqueueingLog:withInternalId:)
+        [self enumerateDelegatesForSelector:@selector(channel:
+                                                didCompleteEnqueueingLog:
+                                                          withInternalId:)
                                   withBlock:^(id<MSChannelDelegate> delegate) {
                                     [delegate channel:self
                                         didCompleteEnqueueingLog:item
@@ -172,10 +173,10 @@
       if (self.discardLogs) {
         MSLogWarning(
             [MSAppCenter logTag],
-            @"Channel disabled in log discarding mode, discard this log.");
+            @"Channel %@ disabled in log discarding mode, discard this log.", self.configuration.groupId);
         NSError *error = [NSError
             errorWithDomain:kMSACErrorDomain
-                       code:kMSACConnectionSuspendedErrorCode
+                       code:kMSACConnectionPausedErrorCode
                    userInfo:@{
                      NSLocalizedDescriptionKey : kMSACConnectionPausedErrorDesc
                    }];
@@ -194,8 +195,9 @@
       MSLogDebug([MSAppCenter logTag], @"Saving log, type: %@.", item.type);
       [self.storage saveLog:item withGroupId:self.configuration.groupId];
       self.itemsCount += 1;
-      [self enumerateDelegatesForSelector:@selector
-            (channel:didCompleteEnqueueingLog:withInternalId:)
+      [self enumerateDelegatesForSelector:@selector(channel:
+                                              didCompleteEnqueueingLog:
+                                                        withInternalId:)
                                 withBlock:^(id<MSChannelDelegate> delegate) {
                                   [delegate channel:self
                                       didCompleteEnqueueingLog:item
@@ -244,7 +246,8 @@
   self.availableBatchFromStorage = [self.storage
       loadLogsWithGroupId:self.configuration.groupId
                     limit:self.configuration.batchSizeLimit
-           withCompletion:^(NSArray<MSLog> *_Nonnull logArray,
+                    iKeys:nil
+        completionHandler:^(NSArray<MSLog> *_Nonnull logArray,
                             NSString *batchId) {
 
              // Logs may be deleted from storage before this flush.
@@ -266,8 +269,8 @@
                    MSLogDebug([MSAppCenter logTag],
                               @"Sending %tu/%tu log, group Id: %@, batch Id: "
                               @"%@, session Id: %@, payload:\n%@",
-                              (i + 1), count, self.configuration.groupId,
-                              batchId, container.logs[i].sid,
+                              (i + 1), count, self.configuration.groupId, batchId,
+                              container.logs[i].sid,
                               [(MSAbstractLog *)container.logs[i]
                                   serializeLogWithPrettyPrinting:YES]);
                  }
@@ -465,7 +468,7 @@
                  self.configuration.groupId);
       NSError *error = [NSError
           errorWithDomain:kMSACErrorDomain
-                     code:kMSACConnectionSuspendedErrorCode
+                     code:kMSACConnectionPausedErrorCode
                  userInfo:@{
                    NSLocalizedDescriptionKey : kMSACConnectionPausedErrorDesc
                  }];
@@ -508,11 +511,11 @@
 }
 
 - (void)pauseWithIdentifyingObjectSync:(id <NSObject>)identifyingObject {
-  [self.pausedTokens addObject:identifyingObject];
-  MSLogVerbose([MSAppCenter logTag], @"Pause object %@ added to channel with group Id %@.",
+  [self.pausedIdentifyingObjects addObject:identifyingObject];
+  MSLogVerbose([MSAppCenter logTag], @"Identifying object %@ added to pause lane for channel %@.",
                identifyingObject, self.configuration.groupId);
   if (!self.paused) {
-    MSLogDebug([MSAppCenter logTag], @"Pause channel for group Id %@.", self.configuration.groupId);
+    MSLogDebug([MSAppCenter logTag], @"Pause channel %@.", self.configuration.groupId);
     self.paused = YES;
     [self resetTimer];
   }
@@ -524,11 +527,11 @@
 }
 
 - (void)resumeWithIdentifyingObjectSync:(id <NSObject>)identifyingObject {
-  [self.pausedTokens removeObject:identifyingObject];
-  MSLogVerbose([MSAppCenter logTag], @"Pause object %@ removed from channel with group Id %@.",
+  [self.pausedIdentifyingObjects removeObject:identifyingObject];
+  MSLogVerbose([MSAppCenter logTag], @"Identifying object %@ removed from pause lane for channel %@.",
                identifyingObject, self.configuration.groupId);
-  if ([self.pausedTokens count] == 0) {
-    MSLogDebug([MSAppCenter logTag], @"Resume channel for group Id %@.", self.configuration.groupId);
+  if ([self.pausedIdentifyingObjects count] == 0) {
+    MSLogDebug([MSAppCenter logTag], @"Resume channel %@.", self.configuration.groupId);
     self.paused = NO;
     [self flushQueue];
   }

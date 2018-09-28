@@ -188,7 +188,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
    */
 }
 
-#pragma mark - Suspend / Resume
+#pragma mark - Pause / Resume
 
 - (void)pauseWithIdentifyingObject:(id <NSObject>)identifyingObject {
 
@@ -196,7 +196,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
   // stored.
   [self.ingestion setEnabled:NO andDeleteDataOnDisabled:NO];
 
-  // Suspend each channel asynchronously.
+  // Pause each channel asynchronously.
   for (id<MSChannelProtocol> channel in self.channels) {
       [channel pauseWithIdentifyingObject:identifyingObject];
   }
