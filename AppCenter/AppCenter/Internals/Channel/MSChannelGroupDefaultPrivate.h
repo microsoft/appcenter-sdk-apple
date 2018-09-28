@@ -1,8 +1,10 @@
+#import "MSChannelDelegate.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @class MSAppCenterIngestion;
 
-@interface MSChannelGroupDefault ()
+@interface MSChannelGroupDefault () <MSChannelDelegate>
 
 /**
  * Initializes a new `MSChannelGroupDefault` instance.

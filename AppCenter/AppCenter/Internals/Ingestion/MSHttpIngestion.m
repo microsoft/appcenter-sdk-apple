@@ -16,7 +16,7 @@ static NSString *const kMSPartialURLComponentsName[] = {
 @synthesize baseURL = _baseURL;
 @synthesize apiPath = _apiPath;
 @synthesize reachability = _reachability;
-@synthesize paused = _suspended;
+@synthesize paused = _paused;
 
 #pragma mark - Initialize
 
@@ -47,7 +47,7 @@ static NSString *const kMSPartialURLComponentsName[] = {
     _pendingCalls = [NSMutableDictionary new];
     _reachability = reachability;
     _enabled = YES;
-    _suspended = NO;
+    _paused = NO;
     _delegates = [NSHashTable weakObjectsHashTable];
     _callsRetryIntervals = retryIntervals;
     _apiPath = apiPath;
@@ -152,7 +152,7 @@ static NSString *const kMSPartialURLComponentsName[] = {
 - (void)pause {
   @synchronized(self) {
     if (!self.paused) {
-      MSLogInfo([MSAppCenter logTag], @"Suspend ingestion.");
+      MSLogInfo([MSAppCenter logTag], @"Pause ingestion.");
       self.paused = YES;
 
       // Suspend all tasks.
@@ -322,7 +322,7 @@ static NSString *const kMSPartialURLComponentsName[] = {
     // Remove call from pending call. This needs to happen after calling
     // setEnabled:andDeleteDataOnDisabled:
     // FIXME: Refactor dependency between calling
-    // setEnabled:andDeleteDataOnDisabled: and suspending the ingestion.
+    // setEnabled:andDeleteDataOnDisabled: and pause the ingestion.
     NSString *callId = call.callId;
     if (callId.length == 0) {
       MSLogWarning([MSAppCenter logTag], @"Call object is invalid");

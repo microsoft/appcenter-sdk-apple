@@ -27,7 +27,7 @@
 
 /**
  * A boolean value set to YES if the ingestion is enabled or NO otherwise.
- * Enable/disable does resume/suspend the ingestion as needed under the hood.
+ * Enable/disable does resume/pause the ingestion as needed under the hood.
  */
 @property(nonatomic) BOOL enabled;
 

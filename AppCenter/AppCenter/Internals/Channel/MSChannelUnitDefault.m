@@ -27,7 +27,7 @@
     _paused = NO;
     _discardLogs = NO;
     _delegates = [NSHashTable weakObjectsHashTable];
-    _pausedTokens = [NSHashTable weakObjectsHashTable];
+    _pausedIdentifyingObjects = [NSHashTable weakObjectsHashTable];
   }
   return self;
 }
@@ -174,10 +174,10 @@
       if (self.discardLogs) {
         MSLogWarning(
             [MSAppCenter logTag],
-            @"Channel disabled in log discarding mode, discard this log.");
+            @"Channel %@ disabled in log discarding mode, discard this log.", self.configuration.groupId);
         NSError *error = [NSError
             errorWithDomain:kMSACErrorDomain
-                       code:kMSACConnectionSuspendedErrorCode
+                       code:kMSACConnectionPausedErrorCode
                    userInfo:@{
                      NSLocalizedDescriptionKey : kMSACConnectionPausedErrorDesc
                    }];
@@ -445,9 +445,9 @@
     if (self.enabled != isEnabled) {
       self.enabled = isEnabled;
       if (isEnabled) {
-        [self resumeWithIdentifyingObject:self];
+        [self resumeWithIdentifyingObjectSync:self];
       } else {
-        [self pauseWithIdentifyingObject:self];
+        [self pauseWithIdentifyingObjectSync:self];
       }
     }
 
@@ -458,7 +458,7 @@
                  self.configuration.groupId);
       NSError *error = [NSError
           errorWithDomain:kMSACErrorDomain
-                     code:kMSACConnectionSuspendedErrorCode
+                     code:kMSACConnectionPausedErrorCode
                  userInfo:@{
                    NSLocalizedDescriptionKey : kMSACConnectionPausedErrorDesc
                  }];
@@ -489,25 +489,47 @@
 }
 
 - (void)pauseWithIdentifyingObject:(id <NSObject>)identifyingObject {
-  [self.pausedTokens addObject:identifyingObject];
-  MSLogDebug([MSAppCenter logTag], @"Pause token %@ added to channel with group Id %@.",
-             identifyingObject, self.configuration.groupId);
-  if (!self.paused) {
-    MSLogDebug([MSAppCenter logTag], @"Pause channel for group Id %@.", self.configuration.groupId);
-    self.paused = YES;
-    [self resetTimer];
-  }
+  dispatch_async(self.logsDispatchQueue, ^{
+    [self pauseWithIdentifyingObjectSync:identifyingObject];
+  });
 }
 
 - (void)resumeWithIdentifyingObject:(id <NSObject>)identifyingObject {
-  [self.pausedTokens removeObject:identifyingObject];
-  MSLogDebug([MSAppCenter logTag], @"Pause token %@ removed from channel with group Id %@.",
-             identifyingObject, self.configuration.groupId);
-  if ([self.pausedTokens count] == 0) {
-    MSLogDebug([MSAppCenter logTag], @"Resume channel for group Id %@.", self.configuration.groupId);
+  dispatch_async(self.logsDispatchQueue, ^{
+    [self resumeWithIdentifyingObjectSync:identifyingObject];
+  });
+}
+
+- (void)pauseWithIdentifyingObjectSync:(id <NSObject>)identifyingObject {
+  [self.pausedIdentifyingObjects addObject:identifyingObject];
+  MSLogVerbose([MSAppCenter logTag], @"Identifying object %@ added to pause lane for channel %@.",
+               identifyingObject, self.configuration.groupId);
+  if (!self.paused) {
+    MSLogDebug([MSAppCenter logTag], @"Pause channel %@.", self.configuration.groupId);
+    self.paused = YES;
+    [self resetTimer];
+  }
+  [self enumerateDelegatesForSelector:@selector
+   (channel:didPauseWithIdentifyingObject:)
+                            withBlock:^(id<MSChannelDelegate> delegate) {
+                              [delegate channel:self didPauseWithIdentifyingObject:identifyingObject];
+                            }];
+}
+
+- (void)resumeWithIdentifyingObjectSync:(id <NSObject>)identifyingObject {
+  [self.pausedIdentifyingObjects removeObject:identifyingObject];
+  MSLogVerbose([MSAppCenter logTag], @"Identifying object %@ removed from pause lane for channel %@.",
+               identifyingObject, self.configuration.groupId);
+  if ([self.pausedIdentifyingObjects count] == 0) {
+    MSLogDebug([MSAppCenter logTag], @"Resume channel %@.", self.configuration.groupId);
     self.paused = NO;
     [self flushQueue];
   }
+  [self enumerateDelegatesForSelector:@selector
+   (channel:didResumeWithIdentifyingObject:)
+                            withBlock:^(id<MSChannelDelegate> delegate) {
+                              [delegate channel:self didResumeWithIdentifyingObject:identifyingObject];
+                            }];
 }
 
 - (void)pauseSendingLogsWithToken:(NSString *)token {

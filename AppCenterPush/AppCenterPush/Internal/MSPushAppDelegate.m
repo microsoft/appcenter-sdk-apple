@@ -125,13 +125,13 @@
   __block MSCompletionExecutor executors = MSCompletionExecutorNone;
 
   // This handler will be used by all the delegates, it unifies the results and
-  // execte the real handler at the end.
+  // execute the real handler at the end.
   void (^commonCompletionHandler)(UIBackgroundFetchResult,
                                   MSCompletionExecutor) =
       ^(UIBackgroundFetchResult fetchResult, MSCompletionExecutor executor) {
 
         /*
-         * As per the Apple dicumentation:
+         * As per the Apple documentation:
          * https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623013-application
          * The `fetchCompletionHandler` is used to let the app the background
          * time for processing the notification and download any data that will

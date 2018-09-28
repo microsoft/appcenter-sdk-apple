@@ -1,5 +1,8 @@
 import UIKit
 
+// 10 MiB.
+let kMSDefaultDatabaseSize = 10 * 1024 * 1024
+
 class MSMainViewController: UITableViewController, AppCenterProtocol {
   
   enum StartupMode: String {
@@ -21,10 +24,20 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   @IBOutlet weak var pushEnabledSwitch: UISwitch!
   @IBOutlet weak var logFilterSwitch: UISwitch!
   @IBOutlet weak var deviceIdLabel: UILabel!
+  @IBOutlet weak var storageMaxSizeField: UITextField!
+  @IBOutlet weak var storageFileSizeLabel: UILabel!
 
-  var startupModePicker: MSEnumPicker<StartupMode>?
   var appCenter: AppCenterDelegate!
-  var eventFilterStarted = false
+  private var startupModePicker: MSEnumPicker<StartupMode>?
+  private var eventFilterStarted = false
+  private var dbFileDescriptor: CInt = 0
+  private var dbFileSource: DispatchSourceProtocol?
+
+  deinit {
+    self.dbFileSource?.cancel()
+    close(self.dbFileDescriptor)
+    UserDefaults.standard.removeObserver(self, forKeyPath: kMSStorageMaxSizeKey)
+  }
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -40,22 +53,49 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     // Make sure it is initialized before changing the startup mode.
     _ = MSTransmissionTargets.shared
 
+    // Storage size section.
+    let storageMaxSize = UserDefaults.standard.object(forKey: kMSStorageMaxSizeKey) as? Int ?? kMSDefaultDatabaseSize
+    UserDefaults.standard.addObserver(self, forKeyPath: kMSStorageMaxSizeKey, options: .new, context: nil)
+    self.storageMaxSizeField.text = "\(storageMaxSize / 1024)"
+    self.storageMaxSizeField.addTarget(self, action: #selector(storageMaxSizeUpdated(_:)), for: .editingChanged)
+    self.storageMaxSizeField.inputAccessoryView = self.toolBarForKeyboard()
+    if let supportDirectory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
+      let dbFile = supportDirectory.appendingPathComponent("com.microsoft.appcenter").appendingPathComponent("Logs.sqlite")
+      func getFileSize(_ file: URL) -> Int {
+        return (try? file.resourceValues(forKeys:[.fileSizeKey]))?.fileSize ?? 0
+      }
+      self.dbFileDescriptor = dbFile.withUnsafeFileSystemRepresentation { fileSystemPath -> CInt in
+        return open(fileSystemPath!, O_EVTONLY)
+      }
+      self.dbFileSource = DispatchSource.makeFileSystemObjectSource(fileDescriptor: self.dbFileDescriptor, eventMask: [.write], queue: DispatchQueue.main)
+      self.dbFileSource!.setEventHandler {
+        self.storageFileSizeLabel.text = "\(getFileSize(dbFile) / 1024) KiB"
+      }
+      self.dbFileSource!.resume()
+      self.storageFileSizeLabel.text = "\(getFileSize(dbFile) / 1024) KiB"
+    }
+
     // Miscellaneous section.
     self.installId.text = appCenter.installId()
     self.appSecret.text = appCenter.appSecret()
     self.logUrl.text = appCenter.logUrl()
     self.sdkVersion.text = appCenter.sdkVersion()
     self.deviceIdLabel.text = UIDevice.current.identifierForVendor?.uuidString
-    
+
     // Make sure the UITabBarController does not cut off the last cell.
     self.edgesForExtendedLayout = []
   }
-  
+
+  override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    let storageMaxSize = UserDefaults.standard.object(forKey: kMSStorageMaxSizeKey) as? Int ?? kMSDefaultDatabaseSize
+    self.storageMaxSizeField.text = "\(storageMaxSize / 1024)"
+  }
+
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     updateViewState()
   }
-  
+
   func updateViewState() {
     self.appCenterEnabledSwitch.isOn = appCenter.isAppCenterEnabled()
     self.pushEnabledSwitch.isOn = appCenter.isPushEnabled()
@@ -66,12 +106,12 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     appCenter.setAppCenterEnabled(sender.isOn)
     updateViewState()
   }
-  
+
   @IBAction func pushSwitchStateUpdated(_ sender: UISwitch) {
     appCenter.setPushEnabled(sender.isOn)
     updateViewState()
   }
-  
+
   @IBAction func logFilterSwitchChanged(_ sender: UISwitch) {
     if !eventFilterStarted {
       appCenter.startEventFilterService()
@@ -79,6 +119,25 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     }
     appCenter.setEventFilterEnabled(sender.isOn)
     updateViewState()
+  }
+
+  func storageMaxSizeUpdated(_ sender: UITextField) {
+    let maxSize = Int(sender.text ?? "0") ?? 0
+    sender.text = "\(maxSize)"
+    UserDefaults.standard.set(maxSize * 1024, forKey: kMSStorageMaxSizeKey)
+  }
+
+  func toolBarForKeyboard() -> UIToolbar {
+    let toolbar = UIToolbar()
+    toolbar.sizeToFit()
+    let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+    let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.doneClicked))
+    toolbar.items = [flexibleSpace, doneButton]
+    return toolbar
+  }
+
+  func doneClicked() {
+    self.storageMaxSizeField.resignFirstResponder()
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

@@ -1,4 +1,5 @@
 #import "MSChannelGroupDefault.h"
+#import "MSChannelGroupDefaultPrivate.h"
 #import "AppCenter+Internal.h"
 #import "MSAppCenterIngestion.h"
 #import "MSChannelUnitConfiguration.h"
@@ -6,10 +7,6 @@
 #import "MSLogDBStorage.h"
 
 static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQueue";
-
-@interface MSChannelGroupDefault () <MSChannelDelegate>
-
-@end
 
 @implementation MSChannelGroupDefault
 
@@ -160,6 +157,20 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
   return shouldFilter;
 }
 
+- (void)channel:(id<MSChannelProtocol>)channel didPauseWithIdentifyingObject:(id<NSObject>)identifyingObject {
+  [self enumerateDelegatesForSelector:@selector(channel:didPauseWithIdentifyingObject:)
+                            withBlock:^(id<MSChannelDelegate> delegate) {
+                              [delegate channel:channel didPauseWithIdentifyingObject:identifyingObject];
+                            }];
+}
+
+- (void)channel:(id<MSChannelProtocol>)channel didResumeWithIdentifyingObject:(id<NSObject>)identifyingObject {
+  [self enumerateDelegatesForSelector:@selector(channel:didResumeWithIdentifyingObject:)
+                            withBlock:^(id<MSChannelDelegate> delegate) {
+                              [delegate channel:channel didResumeWithIdentifyingObject:identifyingObject];
+                            }];
+}
+
 #pragma mark - Enable / Disable
 
 - (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData {
@@ -187,7 +198,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
    */
 }
 
-#pragma mark - Suspend / Resume
+#pragma mark - Pause / Resume
 
 - (void)pauseWithIdentifyingObject:(id <NSObject>)identifyingObject {
 
@@ -195,11 +206,9 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
   // stored.
   [self.ingestion setEnabled:NO andDeleteDataOnDisabled:NO];
 
-  // Suspend each channel asynchronously.
+  // Pause each channel asynchronously.
   for (id<MSChannelProtocol> channel in self.channels) {
-    dispatch_async(self.logsDispatchQueue, ^{
       [channel pauseWithIdentifyingObject:identifyingObject];
-    });
   }
 }
 
@@ -210,9 +219,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 
   // Resume each channel asynchronously.
   for (id<MSChannelProtocol> channel in self.channels) {
-    dispatch_async(self.logsDispatchQueue, ^{
       [channel resumeWithIdentifyingObject:identifyingObject];
-    });
   }
 }
 

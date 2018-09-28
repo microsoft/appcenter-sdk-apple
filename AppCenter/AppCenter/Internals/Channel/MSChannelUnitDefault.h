@@ -87,7 +87,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * A boolean value set to YES if the channel is paused or NO otherwise. A paused channel doesn't forward logs to the
- * ingestion. A suspended state doesn't impact the current enabled state.
+ * ingestion. A paused state doesn't impact the current enabled state.
  */
 @property(nonatomic) BOOL paused;
 

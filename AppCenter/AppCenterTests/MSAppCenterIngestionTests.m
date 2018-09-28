@@ -168,7 +168,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
       [self expectationWithDescription:@"Request completed."];
   MSLogContainer *container = [self createLogContainerWithId:@"1"];
 
-  // Set a delegate for suspending event.
+  // Set a delegate for pause event.
   id delegateMock = OCMProtocolMock(@protocol(MSIngestionDelegate));
   OCMStub([delegateMock ingestionDidPause:self.sut])
       .andDo(^(__attribute__((unused)) NSInvocation *invocation) {
@@ -219,7 +219,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [MSHttpTestUtil stubHttp200Response];
   MSLogContainer *container = [self createLogContainerWithId:@"1"];
 
-  // Set a delegate for suspending/resuming event.
+  // Set a delegate for pause/resume event.
   id delegateMock = OCMProtocolMock(@protocol(MSIngestionDelegate));
   [self.sut addDelegate:delegateMock];
   OCMStub([delegateMock ingestionDidPause:self.sut])
@@ -271,7 +271,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 }
 
 // TODO: Move this to base MSHttpIngestion test.
-- (void)testTasksSuspendedOnIngestionSuspended {
+- (void)testTasksSuspendedOnIngestionPaused {
 
   // If
   XCTestExpectation *tasksListedExpectation =
@@ -383,7 +383,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
         }];
   }
 
-  // Make sure all log containers are enqueued before suspending ingestion.
+  // Make sure all log containers are enqueued before pausing ingestion.
   [NSThread sleepForTimeInterval:0.5];
   [self.sut pause];
 
@@ -445,7 +445,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 }
 
 // TODO: Move this to base MSHttpIngestion test.
-- (void)testSuspendWhenAllRetriesUsed {
+- (void)testPausedWhenAllRetriesUsed {
 
   // If
   XCTestExpectation *responseReceivedExcpectation =
@@ -479,8 +479,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
          * use the retryCount as it retryCount will only be 0 before the first
          * failed sending and after we've exhausted the retry attempts. The
          * first one won't be the case during unit tests as the request will
-         * fail
-         * immediately, so the expectation will only by fulfilled once retries
+         * fail immediately, so the expectation will only by fulfilled once retries
          * have been exhausted.
          */
         if (mockedCall.retryCount == 0) {
@@ -507,7 +506,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 }
 
 // TODO: Move this to base MSHttpIngestion test.
-- (void)testRetryStoppedWhileSuspended {
+- (void)testRetryStoppedWhilePaused {
 
   // If
   XCTestExpectation *responseReceivedExcpectation =
@@ -546,7 +545,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                handler:^(NSError *error) {
 
                                  // When
-                                 // Suspend now that the call is retrying.
+                                 // Pause now that the call is retrying.
                                  [self.sut pause];
 
 // Then
@@ -721,7 +720,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 }
 
 // TODO: Move this to base MSHttpIngestion test.
-- (void)testCallDelegatesOnSuspended {
+- (void)testCallDelegatesOnPaused {
 
   // If
   id delegateMock1 = OCMProtocolMock(@protocol(MSIngestionDelegate));
