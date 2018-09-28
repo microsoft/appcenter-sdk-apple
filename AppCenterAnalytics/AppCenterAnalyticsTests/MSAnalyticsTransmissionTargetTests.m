@@ -900,7 +900,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
                  MSAnalyticsTransmissionTarget.authenticationProvider);
 }
 
--(void) testPauseCallsAnalyticsPauseForTransmissionTarget {
+-(void) testPauseSucceedsWhenTargetIsEnabled {
 
   // If
   id analyticsMock = OCMPartialMock([MSAnalytics sharedInstance]);
@@ -913,7 +913,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   OCMVerify([analyticsMock pauseTransmissionTargetForToken:kMSTestTransmissionToken]);
 }
 
--(void) testResumeCallsAnalyticsResumeForTransmissionTarget {
+-(void) testResumeSucceedsWhenTargetIsEnabled {
 
   // If
   id analyticsMock = OCMPartialMock([MSAnalytics sharedInstance]);
@@ -924,6 +924,18 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // Then
   OCMVerify([analyticsMock resumeTransmissionTargetForToken:kMSTestTransmissionToken]);
+}
+
+-(void) testPauseDoesNotPauseWhenTargetIsDisabled {
+  XCTAssertFalse(true);
+}
+
+-(void) testResumeDoesNotResumeWhenTargetIsDisabled {
+  XCTAssertFalse(true);
+}
+
+- (void) testPausedAndDisabledTargetIsResumedWhenEnabled {
+  XCTAssertFalse(true);
 }
 
 @end

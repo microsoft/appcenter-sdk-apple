@@ -970,7 +970,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 }
 
 -(void)testPause {
-  
+
   // If
   id appCenterMock = OCMClassMock([MSAppCenter class]);
   OCMStub([appCenterMock sharedInstance]).andReturn(appCenterMock);
@@ -983,17 +983,17 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
    appSecret:kMSTestAppSecret
    transmissionTargetToken:nil
    fromApplication:YES];
-  
+
   // When
   [MSAnalytics pause];
-  
+
   // Then
   OCMVerify([[MSAnalytics sharedInstance].channelUnit pauseWithIdentifyingObject:[MSAnalytics sharedInstance]]);
   [appCenterMock stopMocking];
 }
 
 -(void)testResume {
-  
+
   // If
   id appCenterMock = OCMClassMock([MSAppCenter class]);
   OCMStub([appCenterMock sharedInstance]).andReturn(appCenterMock);
@@ -1006,17 +1006,17 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
    appSecret:kMSTestAppSecret
    transmissionTargetToken:nil
    fromApplication:YES];
-  
+
   // When
   [MSAnalytics resume];
-  
+
   // Then
   OCMVerify([[MSAnalytics sharedInstance].channelUnit resumeWithIdentifyingObject:[MSAnalytics sharedInstance]]);
   [appCenterMock stopMocking];
 }
 
 - (void)testEnablingAnalyticsResumesIt {
-  
+
   // If
   id appCenterMock = OCMClassMock([MSAppCenter class]);
   OCMStub([appCenterMock sharedInstance]).andReturn(appCenterMock);
@@ -1030,16 +1030,24 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
    transmissionTargetToken:nil
    fromApplication:YES];
   [MSAnalytics setEnabled:NO];
-  
+
   // Reset ChannelUnitMock since it's already called at startup and we want to verify at enabling time.
   [MSAnalytics sharedInstance].channelUnit = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
-  
+
   // When
   [MSAnalytics setEnabled:YES];
 
   // Then
   OCMVerify([[MSAnalytics sharedInstance].channelUnit resumeWithIdentifyingObject:[MSAnalytics sharedInstance]]);
   [appCenterMock stopMocking];
+}
+
+- (void)testPauseTransmissionTargetInOneCollectorChannelUnitWhenPausedWithTargetKey {
+  XCTAssertTrue(false);
+}
+
+- (void)testResumeTransmissionTargetInOneCollectorChannelUnitWhenResumedWithTargetKey {
+  XCTAssertTrue(false);
 }
 
 @end

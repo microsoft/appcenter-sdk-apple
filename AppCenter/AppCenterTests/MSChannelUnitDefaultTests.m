@@ -1178,6 +1178,30 @@ static NSString *const kMSTestGroupId = @"GroupId";
   XCTAssertFalse([self.sut paused]);
 }
 
+- (void)testPausedTargetKeysNotAlteredWhenChannelUnitPaused {
+  XCTAssertTrue(false);
+}
+
+- (void)testPausedTargetKeysNotAlteredWhenChannelUnitResumed {
+  XCTAssertTrue(false);
+}
+
+- (void)testLogsNotSentWhenTargetKeyIsPaused {
+  XCTAssertTrue(false);
+}
+
+- (void)testLogsStoredWhenTargetKeyIsPaused {
+  XCTAssertTrue(false);
+}
+
+(void)testTargetKeyRemainsPausedWhenPausedASecondTime {
+  XCTAssertTrue(false);
+}
+
+- (void)testTargetKeyRemainsResumedWhenResumedASecondTime {
+  XCTAssertTrue(false);
+}
+
 #pragma mark - Helper
 
 - (void)initChannelEndJobExpectation {
