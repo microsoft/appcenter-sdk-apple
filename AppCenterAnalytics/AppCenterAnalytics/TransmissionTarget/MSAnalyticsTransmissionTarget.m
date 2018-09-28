@@ -157,19 +157,13 @@ initWithTransmissionTargetToken:(NSString *)token
 
 - (void)pause {
   @synchronized (self) {
-    if (!self.isPaused) {
-      [MSAnalytics pauseTransmissionTargetForToken:self.transmissionTargetToken];
-      self.isPaused = YES;
-    }
+    [MSAnalytics pauseTransmissionTargetForToken:self.transmissionTargetToken];
   }
 }
 
 - (void)resume {
   @synchronized (self) {
-    if (self.isPaused) {
-      [MSAnalytics resumeTransmissionTargetForToken:self.transmissionTargetToken];
-      self.isPaused = NO;
-    }
+    [MSAnalytics resumeTransmissionTargetForToken:self.transmissionTargetToken];
   }
 }
 
