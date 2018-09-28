@@ -900,4 +900,30 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
                  MSAnalyticsTransmissionTarget.authenticationProvider);
 }
 
+-(void) testPauseCallsAnalyticsPauseForTransmissionTarget {
+
+  // If
+  id analyticsMock = OCMPartialMock([MSAnalytics sharedInstance]);
+  MSAnalyticsTransmissionTarget *sut = [MSAnalytics transmissionTargetForToken:kMSTestTransmissionToken];
+
+  // When
+  [sut pause];
+
+  // Then
+  OCMVerify([analyticsMock pauseTransmissionTargetForToken:kMSTestTransmissionToken]);
+}
+
+-(void) testResumeCallsAnalyticsResumeForTransmissionTarget {
+
+  // If
+  id analyticsMock = OCMPartialMock([MSAnalytics sharedInstance]);
+  MSAnalyticsTransmissionTarget *sut = [MSAnalytics transmissionTargetForToken:kMSTestTransmissionToken];
+
+  // When
+  [sut resume];
+
+  // Then
+  OCMVerify([analyticsMock resumeTransmissionTargetForToken:kMSTestTransmissionToken]);
+}
+
 @end
