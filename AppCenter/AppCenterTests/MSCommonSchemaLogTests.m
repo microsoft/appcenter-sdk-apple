@@ -31,7 +31,7 @@
     kMSCSVer : @"3.0",
     kMSCSName : @"1DS",
     kMSCSTime : abstractDummies[kMSTimestamp],
-    kMSCSIKey : @"60cd0b94-6060-11e8-9c2d-fa7ae01bbebc",
+    kMSCSIKey : @"o:60cd0b94-6060-11e8-9c2d-fa7ae01bbebc",
     kMSCSExt : [self extWithDummyValues],
     kMSCSData : [self dataWithDummyValues]
   } mutableCopy];
@@ -169,7 +169,7 @@
   // If
   anotherCommonSchemaLog.popSample =
       [self.csLogDummyValues[kMSCSPopSample] doubleValue];
-  anotherCommonSchemaLog.iKey = @"0bcff4a2-6377-11e8-adc0-fa7ae01bbebc";
+  anotherCommonSchemaLog.iKey = @"o:0bcff4a2-6377-11e8-adc0-fa7ae01bbebc";
 
   // Then
   XCTAssertNotEqualObjects(anotherCommonSchemaLog, self.commonSchemaLog);

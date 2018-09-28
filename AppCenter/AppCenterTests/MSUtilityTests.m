@@ -948,19 +948,19 @@
 - (void)testTargetIdFromTargetToken {
 
   // When
-  NSString *targetId = [MSUtility targetIdFromTargetToken:nil];
+  NSString *targetId = [MSUtility targetKeyFromTargetToken:nil];
 
   // Then
   XCTAssertNil(targetId);
 
   // When
-  targetId = [MSUtility targetIdFromTargetToken:@""];
+  targetId = [MSUtility targetKeyFromTargetToken:@""];
 
   // Then
   XCTAssertNil(targetId);
 
   // When
-  targetId = [MSUtility targetIdFromTargetToken:@"targetId-gu-id"];
+  targetId = [MSUtility targetKeyFromTargetToken:@"targetId-gu-id"];
 
   // Then
   XCTAssertEqualObjects(targetId, @"targetId");

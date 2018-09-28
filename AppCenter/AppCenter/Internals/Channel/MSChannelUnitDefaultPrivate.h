@@ -52,6 +52,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)resumeWithIdentifyingObjectSync:(id <NSObject>)identifyingObject;
 
+@property(nonatomic) NSHashTable<NSString *> *pausedTargetKeys;
+
 @end
 
 NS_ASSUME_NONNULL_END

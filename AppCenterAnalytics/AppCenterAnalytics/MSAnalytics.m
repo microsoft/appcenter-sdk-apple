@@ -6,6 +6,7 @@
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
+#import "MSConstants+Internal.h"
 #import "MSEventLog.h"
 #import "MSPageLog.h"
 #import "MSServiceAbstractProtected.h"
@@ -224,6 +225,14 @@ forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarg
   return [[MSAnalytics sharedInstance] transmissionTargetForToken:token];
 }
 
++ (void)pauseTransmissionTargetForToken:(NSString *)token {
+  [[MSAnalytics sharedInstance] pauseTransmissionTargetForToken:token];
+}
+
++ (void)resumeTransmissionTargetForToken:(NSString *)token {
+  [[MSAnalytics sharedInstance] resumeTransmissionTargetForToken:token];
+}
+
 #pragma mark - Private methods
 
 - (void)   trackEvent:(NSString *)eventName
@@ -333,7 +342,7 @@ forTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget {
   if (transmissionTarget) {
     MSLogDebug([MSAnalytics logTag],
                @"Returning transmission target found with id %@.",
-               [MSUtility targetIdFromTargetToken:transmissionTargetToken]);
+               [MSUtility targetKeyFromTargetToken:transmissionTargetToken]);
     return transmissionTarget;
   }
   transmissionTarget = [[MSAnalyticsTransmissionTarget alloc]
@@ -341,14 +350,33 @@ forTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget {
                                                                           parentTarget:nil
                                                                           channelGroup:self.channelGroup];
   MSLogDebug([MSAnalytics logTag],
-             @"Created transmission target with id %@.",
-             [MSUtility targetIdFromTargetToken:transmissionTargetToken]);
+             @"Created transmission target with id %@.", [MSUtility targetKeyFromTargetToken:transmissionTargetToken]);
   self.transmissionTargets[transmissionTargetToken] = transmissionTarget;
 
   // TODO: Start service if not already.
   // Scenario: getTransmissionTarget gets called before App Center has an app
   // secret or transmission target but start has been called for this service.
   return transmissionTarget;
+}
+
+- (void)pauseTransmissionTargetForToken:(NSString *)token {
+  if (self.oneCollectorChannelUnit) {
+    [self.oneCollectorChannelUnit pauseSendingLogsWithToken:token];
+  }
+}
+
+- (void)resumeTransmissionTargetForToken:(NSString *)token {
+  if (self.oneCollectorChannelUnit) {
+    [self.oneCollectorChannelUnit resumeSendingLogsWithToken:token];
+  }
+}
+
+- (id<MSChannelUnitProtocol>)oneCollectorChannelUnit {
+  if (!_oneCollectorChannelUnit) {
+    NSString *oneCollectorGroupId = [NSString stringWithFormat:@"%@%@", self.groupId, kMSOneCollectorGroupIdSuffix];
+    self.oneCollectorChannelUnit = [self.channelGroup channelUnitForGroupId:oneCollectorGroupId];
+  }
+  return _oneCollectorChannelUnit;
 }
 
 + (void)resetSharedInstance {

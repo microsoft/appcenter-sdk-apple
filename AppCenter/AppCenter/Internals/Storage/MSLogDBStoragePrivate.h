@@ -10,7 +10,7 @@ static NSString *const kMSIdColumnName = @"id";
 static NSString *const kMSGroupIdColumnName = @"groupId";
 static NSString *const kMSLogColumnName = @"log";
 static NSString *const kMSTargetTokenColumnName = @"targetToken";
-static NSString *const kMSIKeyColumnName = @"iKey";
+static NSString *const kMSTargetKeyColumnName = @"targetKey";
 
 @protocol MSDatabaseConnection;
 

@@ -27,8 +27,7 @@ initWithTransmissionTargetToken:(NSString *)token
         [NSMutableDictionary<NSString *, MSAnalyticsTransmissionTarget *> new];
     _transmissionTargetToken = token;
     _isEnabledKey = [NSString
-        stringWithFormat:@"%@/%@", [MSAnalytics sharedInstance].isEnabledKey,
-                         [MSUtility targetIdFromTargetToken:token]];
+        stringWithFormat:@"%@/%@", [MSAnalytics sharedInstance].isEnabledKey, [MSUtility targetKeyFromTargetToken:token]];
     // Disable if ancestor is disabled.
     if (![self isImmediateParent]) {
       [MS_USER_DEFAULTS setObject:@(NO) forKey:self.isEnabledKey];
@@ -152,6 +151,26 @@ initWithTransmissionTargetToken:(NSString *)token
     // Propagate to nested transmission targets.
     for (NSString *token in self.childTransmissionTargets) {
       [self.childTransmissionTargets[token] setEnabled:isEnabled];
+    }
+  }
+}
+
+- (void)pause {
+  @synchronized (self) {
+    if (!self.isPaused) {
+      [MSAnalytics pauseTransmissionTargetForToken:self.transmissionTargetToken];
+      self.isPaused = YES;
+      MSLogInfo([MSAnalytics logTag], @"Paused transmission target.");
+    }
+  }
+}
+
+- (void)resume {
+  @synchronized (self) {
+    if (self.isPaused) {
+      [MSAnalytics resumeTransmissionTargetForToken:self.transmissionTargetToken];
+      self.isPaused = NO;
+      MSLogInfo([MSAnalytics logTag], @"Resumed transmission target.");
     }
   }
 }
