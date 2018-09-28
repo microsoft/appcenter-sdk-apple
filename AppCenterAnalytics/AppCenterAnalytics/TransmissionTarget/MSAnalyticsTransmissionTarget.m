@@ -135,22 +135,23 @@ initWithTransmissionTargetToken:(NSString *)token
 - (void)setEnabled:(BOOL)isEnabled {
   @synchronized ([MSAnalytics sharedInstance]) {
     if (self.isEnabled != isEnabled) {
-      if (isEnabled) {
 
-        // Don't enable if the immediate parent is disabled.
-        if (![self isImmediateParent]) {
-          MSLogWarning([MSAnalytics logTag], @"Can't enable; parent transmission "
-                       @"target and/or Analytics service "
-                       @"is disabled.");
-          return;
-        }
-
-        // Resume the target on enable
-        [self resume];
+      // Don't enable if the immediate parent is disabled.
+      if (isEnabled && ![self isImmediateParent]) {
+        MSLogWarning([MSAnalytics logTag], @"Can't enable; parent transmission "
+                     @"target and/or Analytics service "
+                     @"is disabled.");
+        return;
       }
 
       // Persist the enabled status.
       [MS_USER_DEFAULTS setObject:@(isEnabled) forKey:self.isEnabledKey];
+
+      if (isEnabled) {
+
+        // Resume the target on enable
+        [self resume];
+      }
     }
 
     // Propagate to nested transmission targets.
@@ -161,11 +162,15 @@ initWithTransmissionTargetToken:(NSString *)token
 }
 
 - (void)pause {
-  [MSAnalytics pauseTransmissionTargetForToken:self.transmissionTargetToken];
+  if (self.isEnabled) {
+    [MSAnalytics pauseTransmissionTargetForToken:self.transmissionTargetToken];
+  }
 }
 
 - (void)resume {
-  [MSAnalytics resumeTransmissionTargetForToken:self.transmissionTargetToken];
+  if (self.isEnabled) {
+    [MSAnalytics resumeTransmissionTargetForToken:self.transmissionTargetToken];
+  }
 }
 
 #pragma mark - ChannelDelegate callbacks
