@@ -27,23 +27,19 @@
 #define APP_SECRET_VALUE "3ccfe7f5-ec01-4de5-883c-f563bbbe147a"
 #endif
 
-enum StartupMode {
-  APPCENTER,
-  ONECOLLECTOR,
-  BOTH,
-  NONE,
-  SKIP
-};
+enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 
 @interface AppDelegate () <
 #if GCC_PREPROCESSOR_MACRO_PUPPET
     MSAnalyticsDelegate,
 #endif
-    MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate, UNUserNotificationCenterDelegate>
+    MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate,
+    UNUserNotificationCenterDelegate>
 
 @property(nonatomic) MSAnalyticsResult *analyticsResult;
 
 @property(nonatomic) BOOL didReceiveNotificationInForeground;
+@property(nonatomic, copy) NSString *notificationResponse;
 @end
 
 @implementation AppDelegate
@@ -66,7 +62,8 @@ enum StartupMode {
 
   // Customize App Center SDK.
   if (@available(iOS 10.0, *)) {
-    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+    UNUserNotificationCenter *center =
+        [UNUserNotificationCenter currentNotificationCenter];
     center.delegate = self;
   }
   [MSPush setDelegate:self];
@@ -74,34 +71,37 @@ enum StartupMode {
   [MSAppCenter setLogLevel:MSLogLevelVerbose];
 
   // Set max storage size.
-  NSNumber *storageMaxSize = [[NSUserDefaults standardUserDefaults]
-      objectForKey:kMSStorageMaxSizeKey];
+  NSNumber *storageMaxSize =
+      [[NSUserDefaults standardUserDefaults] objectForKey:kMSStorageMaxSizeKey];
   if (storageMaxSize) {
-    [MSAppCenter setMaxStorageSize:storageMaxSize.integerValue
-                 completionHandler:^(BOOL success) {
-      if (!success) {
-        dispatch_async(dispatch_get_main_queue(), ^{
+    [MSAppCenter
+        setMaxStorageSize:storageMaxSize.integerValue
+        completionHandler:^(BOOL success) {
+          if (!success) {
+            dispatch_async(dispatch_get_main_queue(), ^{
 
-          // Remove invalid value.
-          [[NSUserDefaults standardUserDefaults]
-              removeObjectForKey:kMSStorageMaxSizeKey];
+              // Remove invalid value.
+              [[NSUserDefaults standardUserDefaults]
+                  removeObjectForKey:kMSStorageMaxSizeKey];
 
-          // Show alert.
-          UIAlertController *alertController = [UIAlertController
-              alertControllerWithTitle:@"Warning!"
-                               message:@"The maximum size of the internal "
-                                       @"storage could not be set."
-                        preferredStyle:UIAlertControllerStyleAlert];
-          [alertController
-              addAction:[UIAlertAction actionWithTitle:@"OK"
-                                                 style:UIAlertActionStyleDefault
-                                               handler:nil]];
-          [self.window.rootViewController presentViewController:alertController
-                                                       animated:YES
-                                                     completion:nil];
-        });
-      }
-    }];
+              // Show alert.
+              UIAlertController *alertController = [UIAlertController
+                  alertControllerWithTitle:@"Warning!"
+                                   message:@"The maximum size of the internal "
+                                           @"storage could not be set."
+                            preferredStyle:UIAlertControllerStyleAlert];
+              [alertController
+                  addAction:[UIAlertAction
+                                actionWithTitle:@"OK"
+                                          style:UIAlertActionStyleDefault
+                                        handler:nil]];
+              [self.window.rootViewController
+                  presentViewController:alertController
+                               animated:YES
+                             completion:nil];
+            });
+          }
+        }];
   }
 
   // Start App Center SDK.
@@ -391,14 +391,30 @@ enum StartupMode {
 
 #pragma mark - Push callbacks
 
-// iOS 10 and later, called when a notification is delivered to an app that is in the foreground.
-// When this callback is called, this disables the other callback that MSPush handles.
--(void)userNotificationCenter:(UNUserNotificationCenter *)center
-      willPresentNotification:(UNNotification *)notification
-        withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler API_AVAILABLE(ios(10.0)) {
+// iOS 10 and later, called when a notification is delivered to an app that is
+// in the foreground.
+// When this callback is called, this disables the other callback that MSPush
+// handles.
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center
+       willPresentNotification:(UNNotification *)notification
+         withCompletionHandler:
+             (void (^)(UNNotificationPresentationOptions options))
+                 completionHandler API_AVAILABLE(ios(10.0)) {
   self.didReceiveNotificationInForeground = YES;
   [MSPush didReceiveRemoteNotification:notification.request.content.userInfo];
   completionHandler(UNNotificationPresentationOptionNone);
+}
+
+// iOS 10 and later, asks the delegate to process the user's response to a
+// delivered notification.
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center
+    didReceiveNotificationResponse:(UNNotificationResponse *)response
+             withCompletionHandler:(void (^)(void))completionHandler
+    API_AVAILABLE(ios(10.0)) {
+  self.notificationResponse = [response actionIdentifier];
+  [MSPush didReceiveRemoteNotification:response.notification.request.content
+                                           .userInfo];
+  completionHandler();
 }
 
 - (void)push:(MSPush *)push
@@ -409,31 +425,36 @@ enum StartupMode {
   for (NSString *key in pushNotification.customData) {
     ([customData length] == 0) ? customData = [NSMutableString new]
                                : [customData appendString:@", "];
-      [customData appendFormat:@"%@: %@", key,
-                               pushNotification.customData[key]];
+    [customData appendFormat:@"%@: %@", key, pushNotification.customData[key]];
   }
   if (UIApplication.sharedApplication.applicationState ==
       UIApplicationStateBackground) {
-    NSLog(@"Notification received in background, title: \"%@\", message: "
+    NSLog(@"Notification received in background (silent push), title: \"%@\", "
+          @"message: "
           @"\"%@\", custom data: \"%@\"",
           title, message, customData);
   } else {
-    NSString *stateMessage;
+    NSString *stateMessage = @"";
     if (@available(iOS 10.0, *)) {
       if (self.didReceiveNotificationInForeground) {
         stateMessage = @"Received in foreground\n";
-      }
-      else {
+      } else {
         stateMessage = @"Received in background\n";
       }
     }
-    else {
-      stateMessage = @"";
+    NSString *actionMessage = @"";
+    if (@available(iOS 10.0, *)) {
+      if (self.notificationResponse &&
+          [self.notificationResponse
+              isEqualToString:UNNotificationDefaultActionIdentifier]) {
+        actionMessage = @"Notification was tapped\n";
+      }
     }
-    message = [NSString stringWithFormat:@"%@%@%@%@", stateMessage,
-                                         (message ? message : @""),
-                                         (message && customData ? @"\n" : @""),
-                                         (customData ? customData : [@"" mutableCopy])];
+    message = [NSString
+        stringWithFormat:@"%@%@%@%@%@", stateMessage, actionMessage,
+                         (message ? message : @""),
+                         (message && customData ? @"\n" : @""),
+                         (customData ? customData : [@"" mutableCopy])];
 
     UIAlertController *alertController = [UIAlertController
         alertControllerWithTitle:title
@@ -450,6 +471,7 @@ enum StartupMode {
                                                completion:nil];
   }
   self.didReceiveNotificationInForeground = NO;
+  self.notificationResponse = nil;
 }
 
 @end
