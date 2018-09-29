@@ -4,6 +4,7 @@
 #import "Sasquatch-Swift.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <Photos/Photos.h>
+@import UserNotifications;
 
 #if GCC_PREPROCESSOR_MACRO_PUPPET
 #import "AppCenter.h"
@@ -38,10 +39,11 @@ enum StartupMode {
 #if GCC_PREPROCESSOR_MACRO_PUPPET
     MSAnalyticsDelegate,
 #endif
-    MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate>
+    MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate, UNUserNotificationCenterDelegate>
 
 @property(nonatomic) MSAnalyticsResult *analyticsResult;
 
+@property(nonatomic) BOOL didReceiveNotificationInForeground;
 @end
 
 @implementation AppDelegate
@@ -63,8 +65,12 @@ enum StartupMode {
 #endif
 
   // Customize App Center SDK.
-  [MSDistribute setDelegate:self];
+  if (@available(iOS 10.0, *)) {
+    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+    center.delegate = self;
+  }
   [MSPush setDelegate:self];
+  [MSDistribute setDelegate:self];
   [MSAppCenter setLogLevel:MSLogLevelVerbose];
 
   // Set max storage size.
@@ -383,7 +389,17 @@ enum StartupMode {
   return NO;
 }
 
-#pragma mark - MSPushDelegate
+#pragma mark - Push callbacks
+
+// iOS 10 and later, called when a notification is delivered to an app that is in the foreground.
+// When this callback is called, this disables the other callback that MSPush handles.
+-(void)userNotificationCenter:(UNUserNotificationCenter *)center
+      willPresentNotification:(UNNotification *)notification
+        withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler API_AVAILABLE(ios(10.0)) {
+  self.didReceiveNotificationInForeground = YES;
+  [MSPush didReceiveRemoteNotification:notification.request.content.userInfo];
+  completionHandler(UNNotificationPresentationOptionNone);
+}
 
 - (void)push:(MSPush *)push
     didReceivePushNotification:(MSPushNotification *)pushNotification {
@@ -393,8 +409,8 @@ enum StartupMode {
   for (NSString *key in pushNotification.customData) {
     ([customData length] == 0) ? customData = [NSMutableString new]
                                : [customData appendString:@", "];
-    [customData appendFormat:@"%@: %@", key,
-                             [pushNotification.customData objectForKey:key]];
+      [customData appendFormat:@"%@: %@", key,
+                               pushNotification.customData[key]];
   }
   if (UIApplication.sharedApplication.applicationState ==
       UIApplicationStateBackground) {
@@ -402,9 +418,22 @@ enum StartupMode {
           @"\"%@\", custom data: \"%@\"",
           title, message, customData);
   } else {
-    message = [NSString stringWithFormat:@"%@%@%@", (message ? message : @""),
+    NSString *stateMessage;
+    if (@available(iOS 10.0, *)) {
+      if (self.didReceiveNotificationInForeground) {
+        stateMessage = @"Received in foreground\n";
+      }
+      else {
+        stateMessage = @"Received in background\n";
+      }
+    }
+    else {
+      stateMessage = @"";
+    }
+    message = [NSString stringWithFormat:@"%@%@%@%@", stateMessage,
+                                         (message ? message : @""),
                                          (message && customData ? @"\n" : @""),
-                                         (customData ? customData : @"")];
+                                         (customData ? customData : [@"" mutableCopy])];
 
     UIAlertController *alertController = [UIAlertController
         alertControllerWithTitle:title
@@ -420,6 +449,7 @@ enum StartupMode {
                                                  animated:YES
                                                completion:nil];
   }
+  self.didReceiveNotificationInForeground = NO;
 }
 
 @end
