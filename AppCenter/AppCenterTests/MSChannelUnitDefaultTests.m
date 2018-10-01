@@ -1274,11 +1274,42 @@ static NSString *const kMSTestGroupId = @"GroupId";
 }
 
 - (void)testTargetKeyRemainsPausedWhenPausedASecondTime {
-  XCTAssertTrue(false);
+
+  // If
+  NSString *targetKey = @"targetKey";
+  NSString *token = [NSString stringWithFormat:@"%@-secret", targetKey];
+  [self.sut pauseSendingLogsWithToken:token];
+
+  // When
+  [self.sut pauseSendingLogsWithToken:token];
+
+  // Then
+  XCTAssertTrue([self.sut.pausedTargetKeys count] == 1);
+  XCTAssertTrue([self.sut.pausedTargetKeys containsObject:targetKey]);
 }
 
 - (void)testTargetKeyRemainsResumedWhenResumedASecondTime {
-  XCTAssertTrue(false);
+
+  // If
+  NSString *targetKey = @"targetKey";
+  NSString *token = [NSString stringWithFormat:@"%@-secret", targetKey];
+  [self.sut pauseSendingLogsWithToken:token];
+
+  // Then
+  XCTAssertTrue([self.sut.pausedTargetKeys count] == 1);
+  XCTAssertTrue([self.sut.pausedTargetKeys containsObject:targetKey]);
+
+  // When
+  [self.sut resumeSendingLogsWithToken:token];
+
+  // Then
+  XCTAssertTrue([self.sut.pausedTargetKeys count] == 0);
+
+  // When
+  [self.sut resumeSendingLogsWithToken:token];
+
+  // Then
+  XCTAssertTrue([self.sut.pausedTargetKeys count] == 0);
 }
 
 #pragma mark - Helper
