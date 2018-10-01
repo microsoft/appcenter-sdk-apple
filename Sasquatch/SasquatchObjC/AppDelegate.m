@@ -4,6 +4,7 @@
 #import "Sasquatch-Swift.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <Photos/Photos.h>
+#import <UserNotifications/UserNotifications.h>
 
 #if GCC_PREPROCESSOR_MACRO_PUPPET
 #import "AppCenter.h"
@@ -26,22 +27,18 @@
 #define APP_SECRET_VALUE "3ccfe7f5-ec01-4de5-883c-f563bbbe147a"
 #endif
 
-enum StartupMode {
-  APPCENTER,
-  ONECOLLECTOR,
-  BOTH,
-  NONE,
-  SKIP
-};
+enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 
 @interface AppDelegate () <
 #if GCC_PREPROCESSOR_MACRO_PUPPET
     MSAnalyticsDelegate,
 #endif
-    MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate>
+    MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate,
+    UNUserNotificationCenterDelegate>
 
 @property(nonatomic) MSAnalyticsResult *analyticsResult;
 
+@property(nonatomic) BOOL didTapNotification;
 @end
 
 @implementation AppDelegate
@@ -62,40 +59,50 @@ enum StartupMode {
   }
 #endif
 
-  // Customize App Center SDK.
-  [MSDistribute setDelegate:self];
+// Customize App Center SDK.
+#pragma clang diagnostic ignored "-Wpartial-availability"
+  if ([[NSProcessInfo processInfo] operatingSystemVersion].majorVersion >= 10) {
+    UNUserNotificationCenter *center =
+        [UNUserNotificationCenter currentNotificationCenter];
+    center.delegate = self;
+  }
+#pragma clang diagnostic pop
   [MSPush setDelegate:self];
+  [MSDistribute setDelegate:self];
   [MSAppCenter setLogLevel:MSLogLevelVerbose];
 
   // Set max storage size.
-  NSNumber *storageMaxSize = [[NSUserDefaults standardUserDefaults]
-      objectForKey:kMSStorageMaxSizeKey];
+  NSNumber *storageMaxSize =
+      [[NSUserDefaults standardUserDefaults] objectForKey:kMSStorageMaxSizeKey];
   if (storageMaxSize) {
-    [MSAppCenter setMaxStorageSize:storageMaxSize.integerValue
-                 completionHandler:^(BOOL success) {
-      if (!success) {
-        dispatch_async(dispatch_get_main_queue(), ^{
+    [MSAppCenter
+        setMaxStorageSize:storageMaxSize.integerValue
+        completionHandler:^(BOOL success) {
+          if (!success) {
+            dispatch_async(dispatch_get_main_queue(), ^{
 
-          // Remove invalid value.
-          [[NSUserDefaults standardUserDefaults]
-              removeObjectForKey:kMSStorageMaxSizeKey];
+              // Remove invalid value.
+              [[NSUserDefaults standardUserDefaults]
+                  removeObjectForKey:kMSStorageMaxSizeKey];
 
-          // Show alert.
-          UIAlertController *alertController = [UIAlertController
-              alertControllerWithTitle:@"Warning!"
-                               message:@"The maximum size of the internal "
-                                       @"storage could not be set."
-                        preferredStyle:UIAlertControllerStyleAlert];
-          [alertController
-              addAction:[UIAlertAction actionWithTitle:@"OK"
-                                                 style:UIAlertActionStyleDefault
-                                               handler:nil]];
-          [self.window.rootViewController presentViewController:alertController
-                                                       animated:YES
-                                                     completion:nil];
-        });
-      }
-    }];
+              // Show alert.
+              UIAlertController *alertController = [UIAlertController
+                  alertControllerWithTitle:@"Warning!"
+                                   message:@"The maximum size of the internal "
+                                           @"storage could not be set."
+                            preferredStyle:UIAlertControllerStyleAlert];
+              [alertController
+                  addAction:[UIAlertAction
+                                actionWithTitle:@"OK"
+                                          style:UIAlertActionStyleDefault
+                                        handler:nil]];
+              [self.window.rootViewController
+                  presentViewController:alertController
+                               animated:YES
+                             completion:nil];
+            });
+          }
+        }];
   }
 
   // Start App Center SDK.
@@ -383,7 +390,48 @@ enum StartupMode {
   return NO;
 }
 
-#pragma mark - MSPushDelegate
+#pragma mark - Push callbacks
+
+// iOS 10 and later, called when a notification is delivered to an app that is
+// in the foreground.
+// When this callback is called, this disables the other callback that MSPush
+// handles.
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center
+       willPresentNotification:(UNNotification *)notification
+         withCompletionHandler:
+             (void (^)(UNNotificationPresentationOptions options))
+                 completionHandler API_AVAILABLE(ios(10.0)) {
+  id appCenter = notification.request.content.userInfo[@"mobile_center"];
+  id presentation = [appCenter isKindOfClass:[NSDictionary class]]
+                        ? appCenter[@"presentation"]
+                        : nil;
+  if ([presentation isKindOfClass:[NSString class]] &&
+      [presentation isEqualToString:@"alert"]) {
+
+    // Show alert if custom data enabled it.
+    // Note that if silent push is enabled, we'll get both dialog and
+    // notification, doing it on purpose.
+    completionHandler(UNNotificationPresentationOptionAlert);
+  } else {
+    [MSPush didReceiveRemoteNotification:notification.request.content.userInfo];
+    completionHandler(UNNotificationPresentationOptionNone);
+  }
+}
+
+// iOS 10 and later, asks the delegate to process the user's response to a
+// delivered notification.
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center
+    didReceiveNotificationResponse:(UNNotificationResponse *)response
+             withCompletionHandler:(void (^)(void))completionHandler
+    API_AVAILABLE(ios(10.0)) {
+  if ([[response actionIdentifier]
+          isEqualToString:UNNotificationDefaultActionIdentifier]) {
+    self.didTapNotification = YES;
+  }
+  [MSPush didReceiveRemoteNotification:response.notification.request.content
+                                           .userInfo];
+  completionHandler();
+}
 
 - (void)push:(MSPush *)push
     didReceivePushNotification:(MSPushNotification *)pushNotification {
@@ -393,18 +441,28 @@ enum StartupMode {
   for (NSString *key in pushNotification.customData) {
     ([customData length] == 0) ? customData = [NSMutableString new]
                                : [customData appendString:@", "];
-    [customData appendFormat:@"%@: %@", key,
-                             [pushNotification.customData objectForKey:key]];
+    [customData appendFormat:@"%@: %@", key, pushNotification.customData[key]];
   }
   if (UIApplication.sharedApplication.applicationState ==
       UIApplicationStateBackground) {
-    NSLog(@"Notification received in background, title: \"%@\", message: "
+    NSLog(@"Notification received in background (silent push), title: \"%@\", "
+          @"message: "
           @"\"%@\", custom data: \"%@\"",
           title, message, customData);
   } else {
-    message = [NSString stringWithFormat:@"%@%@%@", (message ? message : @""),
-                                         (message && customData ? @"\n" : @""),
-                                         (customData ? customData : @"")];
+    NSString *stateMessage;
+    if ([[NSProcessInfo processInfo] operatingSystemVersion].majorVersion <
+        10) {
+      stateMessage = @"";
+    } else if (self.didTapNotification) {
+      stateMessage = @"Tapped notification\n";
+    } else {
+      stateMessage = @"Received in foreground\n";
+    }
+    message = [NSString
+        stringWithFormat:@"%@%@%@%@", stateMessage, (message ? message : @""),
+                         (message && customData ? @"\n" : @""),
+                         (customData ? customData : [@"" mutableCopy])];
 
     UIAlertController *alertController = [UIAlertController
         alertControllerWithTitle:title
@@ -420,6 +478,7 @@ enum StartupMode {
                                                  animated:YES
                                                completion:nil];
   }
+  self.didTapNotification = NO;
 }
 
 @end
