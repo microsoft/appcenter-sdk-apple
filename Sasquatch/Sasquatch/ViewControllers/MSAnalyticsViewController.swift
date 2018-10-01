@@ -5,12 +5,15 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   @IBOutlet weak var enabled: UISwitch!
   @IBOutlet weak var eventName: UITextField!
   @IBOutlet weak var pageName: UITextField!
+  @IBOutlet weak var pause: UIButton!
+  @IBOutlet weak var resume: UIButton!
 
   var appCenter: AppCenterDelegate!
   var eventPropertiesSection: EventPropertiesTableSection!
   @objc(analyticsResult) var analyticsResult: MSAnalyticsResult? = nil
 
   private var kEventPropertiesSectionIndex: Int = 2
+  private var kResultsPageIndex: Int = 2
 
   override func viewDidLoad() {
     eventPropertiesSection = EventPropertiesTableSection(tableSection: kEventPropertiesSectionIndex, tableView: tableView)
@@ -19,12 +22,12 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     
     // Disable results page.
     #if !ACTIVE_COMPILATION_CONDITION_PUPPET
-    let cell = tableView.cellForRow(at: IndexPath(row: 1, section: 0))
+    let cell = tableView.cellForRow(at: IndexPath(row: kResultsPageIndex, section: 0))
     cell?.isUserInteractionEnabled = false
     cell?.contentView.alpha = 0.5
     #endif
   }
-  
+
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     self.enabled.isOn = appCenter.isAnalyticsEnabled()
@@ -60,7 +63,20 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     appCenter.setAnalyticsEnabled(sender.isOn)
     sender.isOn = appCenter.isAnalyticsEnabled()
   }
-  
+
+  @IBAction func pause(_ sender: UIButton) {
+    appCenter.pause()
+  }
+
+  @IBAction func resume(_ sender: UIButton) {
+    appCenter.resume()
+  }
+
+  func enablePauseResume(enable: Bool) {
+    pause.isEnabled = enable
+    resume.isEnabled = enable
+  }
+
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if let destination = segue.destination as? MSAnalyticsResultViewController {
       destination.analyticsResult = analyticsResult
