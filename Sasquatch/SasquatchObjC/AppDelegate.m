@@ -60,7 +60,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 #endif
 
   // Customize App Center SDK.
-  if (@available(iOS 10.0, *)) {
+  if ([[NSProcessInfo processInfo] operatingSystemVersion].majorVersion >= 10) {
     UNUserNotificationCenter *center =
         [UNUserNotificationCenter currentNotificationCenter];
     center.delegate = self;
@@ -407,7 +407,8 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
       [presentation isEqualToString:@"alert"]) {
 
     // Show alert if custom data enabled it.
-    // Note that if silent push is enabled, we'll get both dialog and notification, doing it on purpose.
+    // Note that if silent push is enabled, we'll get both dialog and
+    // notification, doing it on purpose.
     completionHandler(UNNotificationPresentationOptionAlert);
   } else {
     [MSPush didReceiveRemoteNotification:notification.request.content.userInfo];
@@ -421,7 +422,8 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
     didReceiveNotificationResponse:(UNNotificationResponse *)response
              withCompletionHandler:(void (^)(void))completionHandler
     API_AVAILABLE(ios(10.0)) {
-  if ([[response actionIdentifier] isEqualToString:UNNotificationDefaultActionIdentifier]) {
+  if ([[response actionIdentifier]
+          isEqualToString:UNNotificationDefaultActionIdentifier]) {
     self.didTapNotification = YES;
   }
   [MSPush didReceiveRemoteNotification:response.notification.request.content
@@ -447,14 +449,16 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
           title, message, customData);
   } else {
     NSString *stateMessage;
-    if (self.didTapNotification) {
-      stateMessage = @"Tapped notification";
+    if ([[NSProcessInfo processInfo] operatingSystemVersion].majorVersion <
+        10) {
+      stateMessage = @"";
+    } else if (self.didTapNotification) {
+      stateMessage = @"Tapped notification\n";
     } else {
-      stateMessage = @"Received in foreground";
+      stateMessage = @"Received in foreground\n";
     }
     message = [NSString
-        stringWithFormat:@"%@\n%@%@%@", stateMessage,
-                         (message ? message : @""),
+        stringWithFormat:@"%@%@%@%@", stateMessage, (message ? message : @""),
                          (message && customData ? @"\n" : @""),
                          (customData ? customData : [@"" mutableCopy])];
 
