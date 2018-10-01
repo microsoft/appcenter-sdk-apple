@@ -4,7 +4,7 @@
 #import "Sasquatch-Swift.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <Photos/Photos.h>
-@import UserNotifications;
+#import <UserNotifications/UserNotifications.h>
 
 #if GCC_PREPROCESSOR_MACRO_PUPPET
 #import "AppCenter.h"
