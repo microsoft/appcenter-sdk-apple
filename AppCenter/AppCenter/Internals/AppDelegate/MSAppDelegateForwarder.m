@@ -42,10 +42,10 @@ static BOOL _enabled = YES;
    * delegate swizzling should happen at the time it is set to the application
    * object.
    */
-  NSDictionary *appForwarderEnabledNum = [[NSBundle mainBundle]
+  NSNumber *appForwarderEnabledNum = [[NSBundle mainBundle]
       objectForInfoDictionaryKey:kMSIsAppDelegateForwarderEnabledKey];
   BOOL appForwarderEnabled =
-      appForwarderEnabledNum ? [((NSNumber *)appForwarderEnabledNum)boolValue]
+      appForwarderEnabledNum ? [appForwarderEnabledNum boolValue]
                              : YES;
   MSAppDelegateForwarder.enabled = appForwarderEnabled;
 
