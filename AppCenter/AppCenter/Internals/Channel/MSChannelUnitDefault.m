@@ -385,7 +385,7 @@
   // Flush now if current batch is full or delay to later.
   if (self.itemsCount >= self.configuration.batchSizeLimit) {
     [self flushQueue];
-  } else if (self.itemsCount == 1 && !self.paused) {
+  } else if (self.itemsCount > 0 && !self.paused) {
 
     // Only start timer if channel is not paused. Otherwise, logs will stack.
     [self startTimer];
@@ -546,6 +546,10 @@
   @synchronized (self.pausedTargetKeys) {
     MSLogDebug([MSAppCenter logTag], @"Resume channel for target key %@.", targetKey);
     [self.pausedTargetKeys removeObject:targetKey];
+
+    // Update item count and check logs if it meets the conditions to send logs.
+    self.itemsCount = [self.storage countLogs];
+    [self checkPendingLogs];
   }
 }
 

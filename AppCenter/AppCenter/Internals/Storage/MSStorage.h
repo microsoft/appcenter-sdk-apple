@@ -31,6 +31,13 @@ typedef void (^MSLoadDataCompletionHandler)(NSArray<id<MSLog>> *_Nullable logArr
 - (BOOL)saveLog:(id<MSLog>)log withGroupId:(NSString *)groupId;
 
 /**
+ * Get the number of logs stored in the storage.
+ *
+ * @return The number of logs.
+ */
+- (NSUInteger)countLogs;
+
+/**
  * Delete logs related to given group from the storage.
  *
  * @param groupId The key used for grouping logs.

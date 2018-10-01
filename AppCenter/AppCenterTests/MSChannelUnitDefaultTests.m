@@ -1273,6 +1273,26 @@ static NSString *const kMSTestGroupId = @"GroupId";
                              }];
 }
 
+- (void)testSendingPendingLogsOnResume {
+
+  // If
+  NSString *targetKey = @"targetKey";
+  NSString *token = [NSString stringWithFormat:@"%@-secret", targetKey];
+  id channelUnitMock = OCMPartialMock(self.sut);
+  [self.sut pauseSendingLogsWithToken:token];
+  OCMStub([self.storageMock countLogs]).andReturn(10);
+
+  // When
+  [self.sut resumeSendingLogsWithToken:token];
+
+  // Then
+  OCMVerify([self.storageMock countLogs]);
+  OCMVerify([channelUnitMock checkPendingLogs]);
+
+  // The count should be 0 since the logs were sent and not in pending state anymore.
+  XCTAssertTrue(self.sut.itemsCount == 0);
+}
+
 - (void)testTargetKeyRemainsPausedWhenPausedASecondTime {
 
   // If

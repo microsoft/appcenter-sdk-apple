@@ -8,6 +8,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic) NSHashTable *pausedIdentifyingObjects;
 
+@property(nonatomic) NSHashTable<NSString *> *pausedTargetKeys;
+
+/**
+ * Check any pending logs in the storage and send logs to ingestion.
+ */
+- (void)checkPendingLogs;
+
 /**
  * Synchronously pause operations, logs will be stored but not sent.
  *
