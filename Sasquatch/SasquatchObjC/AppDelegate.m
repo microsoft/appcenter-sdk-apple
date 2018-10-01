@@ -59,12 +59,14 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   }
 #endif
 
-  // Customize App Center SDK.
+// Customize App Center SDK.
+#pragma clang diagnostic ignored "-Wpartial-availability"
   if ([[NSProcessInfo processInfo] operatingSystemVersion].majorVersion >= 10) {
     UNUserNotificationCenter *center =
         [UNUserNotificationCenter currentNotificationCenter];
     center.delegate = self;
   }
+#pragma clang diagnostic pop
   [MSPush setDelegate:self];
   [MSDistribute setDelegate:self];
   [MSAppCenter setLogLevel:MSLogLevelVerbose];
