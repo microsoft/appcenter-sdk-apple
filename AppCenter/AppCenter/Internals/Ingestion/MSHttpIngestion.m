@@ -16,7 +16,7 @@ static NSString *const kMSPartialURLComponentsName[] = {
 @synthesize baseURL = _baseURL;
 @synthesize apiPath = _apiPath;
 @synthesize reachability = _reachability;
-@synthesize suspended = _suspended;
+@synthesize paused = _paused;
 
 #pragma mark - Initialize
 
@@ -47,7 +47,7 @@ static NSString *const kMSPartialURLComponentsName[] = {
     _pendingCalls = [NSMutableDictionary new];
     _reachability = reachability;
     _enabled = YES;
-    _suspended = NO;
+    _paused = NO;
     _delegates = [NSHashTable weakObjectsHashTable];
     _callsRetryIntervals = retryIntervals;
     _apiPath = apiPath;
@@ -131,7 +131,7 @@ static NSString *const kMSPartialURLComponentsName[] = {
         [self networkStateChanged];
       } else {
         [self.reachability stopNotifier];
-        [self suspend];
+        [self pause];
 
         // Data deletion is required.
         if (deleteData) {
@@ -149,11 +149,11 @@ static NSString *const kMSPartialURLComponentsName[] = {
   }
 }
 
-- (void)suspend {
+- (void)pause {
   @synchronized(self) {
-    if (!self.suspended) {
-      MSLogInfo([MSAppCenter logTag], @"Suspend ingestion.");
-      self.suspended = YES;
+    if (!self.paused) {
+      MSLogInfo([MSAppCenter logTag], @"Pause ingestion.");
+      self.paused = YES;
 
       // Suspend all tasks.
       [self.session
@@ -183,9 +183,9 @@ static NSString *const kMSPartialURLComponentsName[] = {
           }];
 
       // Notify delegates.
-      [self enumerateDelegatesForSelector:@selector(ingestionDidSuspend:)
+      [self enumerateDelegatesForSelector:@selector(ingestionDidPause:)
                                 withBlock:^(id<MSIngestionDelegate> delegate) {
-                                  [delegate ingestionDidSuspend:self];
+                                  [delegate ingestionDidPause:self];
                                 }];
     }
   }
@@ -195,9 +195,9 @@ static NSString *const kMSPartialURLComponentsName[] = {
   @synchronized(self) {
 
     // Resume only while enabled.
-    if (self.suspended && self.enabled) {
+    if (self.paused && self.enabled) {
       MSLogInfo([MSAppCenter logTag], @"Resume ingestion.");
-      self.suspended = NO;
+      self.paused = NO;
 
       // Resume existing calls.
       [self.session
@@ -239,7 +239,7 @@ static NSString *const kMSPartialURLComponentsName[] = {
 
 - (void)sendCallAsync:(MSIngestionCall *)call {
   @synchronized(self) {
-    if (self.suspended || !self.enabled) {
+    if (self.paused || !self.enabled) {
       return;
     }
     if (!call) {
@@ -322,7 +322,7 @@ static NSString *const kMSPartialURLComponentsName[] = {
     // Remove call from pending call. This needs to happen after calling
     // setEnabled:andDeleteDataOnDisabled:
     // FIXME: Refactor dependency between calling
-    // setEnabled:andDeleteDataOnDisabled: and suspending the ingestion.
+    // setEnabled:andDeleteDataOnDisabled: and pause the ingestion.
     NSString *callId = call.callId;
     if (callId.length == 0) {
       MSLogWarning([MSAppCenter logTag], @"Call object is invalid");
@@ -387,7 +387,7 @@ static NSString *const kMSPartialURLComponentsName[] = {
 - (void)networkStateChanged {
   if ([self.reachability currentReachabilityStatus] == NotReachable) {
     MSLogInfo([MSAppCenter logTag], @"Internet connection is down.");
-    [self suspend];
+    [self pause];
   } else {
     MSLogInfo([MSAppCenter logTag], @"Internet connection is up.");
     [self resume];

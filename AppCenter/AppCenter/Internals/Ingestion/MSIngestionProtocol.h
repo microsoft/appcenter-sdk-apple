@@ -17,9 +17,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) MS_Reachability *reachability;
 
 /**
- * A boolean value set to YES if the ingestion is suspended or NO otherwise.
+ * A boolean value set to YES if the ingestion is paused or NO otherwise.
  */
-@property(nonatomic) BOOL suspended;
+@property(nonatomic) BOOL paused;
 
 /**
  * The indicator of readiness to send data.
@@ -50,16 +50,18 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)removeDelegate:(id<MSIngestionDelegate>)delegate;
 
 /**
- * Suspend the ingestion.
- * An ingestion is suspended when it becomes disabled or on network issues.
- * A suspended state doesn't impact the current enabled state.
+ * Pause the ingestion.
+ * An ingestion is paused when it becomes disabled or on network issues.
+ * A paused state doesn't impact the current enabled state.
+ *
  * @see resume.
  */
-- (void)suspend;
+- (void)pause;
 
 /**
  * Resume the ingestion.
- * @see suspend.
+ *
+ * @see pause.
  */
 - (void)resume;
 

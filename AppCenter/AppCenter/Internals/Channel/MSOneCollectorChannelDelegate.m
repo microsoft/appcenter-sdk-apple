@@ -159,6 +159,22 @@ andDeleteDataOnDisabled:(BOOL)deletedData {
   }
 }
 
+- (void)channel:(id <MSChannelProtocol>)channel didPauseWithIdentifyingObject:(id <NSObject>)identifyingObject {
+  if ([channel conformsToProtocol:@protocol(MSChannelUnitProtocol)]) {
+    NSString *groupId = ((id <MSChannelUnitProtocol>) channel).configuration.groupId;
+    id<MSChannelUnitProtocol> oneCollectorChannel = self.oneCollectorChannels[groupId];
+    [oneCollectorChannel pauseWithIdentifyingObject:identifyingObject];
+  }
+}
+
+- (void)channel:(id <MSChannelProtocol>)channel didResumeWithIdentifyingObject:(id <NSObject>)identifyingObject {
+  if ([channel conformsToProtocol:@protocol(MSChannelUnitProtocol)]) {
+    NSString *groupId = ((id <MSChannelUnitProtocol>) channel).configuration.groupId;
+    id<MSChannelUnitProtocol> oneCollectorChannel = self.oneCollectorChannels[groupId];
+    [oneCollectorChannel resumeWithIdentifyingObject:identifyingObject];
+  }
+}
+
 #pragma mark - Helper
 
 - (BOOL)isOneCollectorGroup:(NSString *)groupId {

@@ -25,6 +25,21 @@ NS_ASSUME_NONNULL_BEGIN
     withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties;
 
 /**
+ * Pause transmission of Analytics logs. While paused, Analytics logs are saved to disk.
+ *
+ * @see resume
+ */
++ (void)pause;
+
+/**
+ * Resume transmission of Analytics logs. Any Analytics logs that accumulated on disk while paused are sent to the
+ * server.
+ *
+ * @see pause
+ */
++ (void)resume;
+
+/**
  * Get a transmission target.
  *
  * @param token The token of the transmission target to retrieve.

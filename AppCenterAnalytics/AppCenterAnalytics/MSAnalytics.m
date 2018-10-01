@@ -112,6 +112,7 @@ __attribute__((used)) static void importCategories() {
   [super applyEnabledState:isEnabled];
   if (isEnabled) {
     if (self.startedFromApplication) {
+      [self resume];
 
       // Start session tracker.
       [self.sessionTracker start];
@@ -189,6 +190,22 @@ forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarg
   }
 }
 
++ (void)pause {
+  @synchronized(self) {
+    if ([[MSAnalytics sharedInstance] canBeUsed]) {
+      [[MSAnalytics sharedInstance] pause];
+    }
+  }
+}
+
++ (void)resume {
+  @synchronized(self) {
+    if ([[MSAnalytics sharedInstance] canBeUsed]) {
+      [[MSAnalytics sharedInstance] resume];
+    }
+  }
+}
+
 + (void)setAutoPageTrackingEnabled:(BOOL)isEnabled {
   @synchronized (self) {
     [[MSAnalytics sharedInstance] setAutoPageTrackingEnabled:isEnabled];
@@ -243,6 +260,14 @@ forTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget {
 
   // Send log to log manager.
   [self sendLog:log];
+}
+
+- (void)pause {
+  [self.channelUnit pauseWithIdentifyingObject:self];
+}
+
+- (void)resume {
+  [self.channelUnit resumeWithIdentifyingObject:self];
 }
 
 - (NSDictionary<NSString *, NSString *> *)removeInvalidProperties:(NSDictionary<NSString *, NSString *> *)properties {

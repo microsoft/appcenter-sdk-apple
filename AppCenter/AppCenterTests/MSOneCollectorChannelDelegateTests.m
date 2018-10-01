@@ -101,6 +101,92 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
   OCMVerifyAll(channelGroupMock);
 }
 
+- (void)testOneCollectorChannelUnitIsPausedWhenBaseChannelUnitIsPaused {
+
+  // If
+  NSObject *token = [NSObject new];
+  MSChannelUnitDefault *channelUnitMock = [[MSChannelUnitDefault alloc]
+                                                                 initWithIngestion:self.ingestionMock
+                                                                           storage:self.storageMock
+                                                                     configuration:self.baseUnitConfig
+                                                                 logsDispatchQueue:self.logsDispatchQueue];
+  id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  id oneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY withIngestion:OCMOCK_ANY]).andReturn
+                                                                                     (oneCollectorChannelUnitMock);
+
+  // When
+  [self.sut channelGroup:channelGroupMock didAddChannelUnit:channelUnitMock];
+  [self.sut channel:channelUnitMock didPauseWithIdentifyingObject:token];
+
+  // Then
+  OCMVerify([oneCollectorChannelUnitMock pauseWithIdentifyingObject:token]);
+}
+
+- (void)testOneCollectorChannelUnitIsNotPausedWhenNonBaseChannelUnitIsPaused {
+
+  // If
+  NSObject *token = [NSObject new];
+  MSChannelUnitDefault *channelUnitMock = [[MSChannelUnitDefault alloc]
+                                                                 initWithIngestion:self.ingestionMock
+                                                                           storage:self.storageMock
+                                                                     configuration:self.baseUnitConfig
+                                                                 logsDispatchQueue:self.logsDispatchQueue];
+  id oneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id otherOneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  self.sut.oneCollectorChannels[kMSBaseGroupId] = oneCollectorChannelUnitMock;
+  self.sut.oneCollectorChannels[@"someOtherGroupId"] = otherOneCollectorChannelUnitMock;
+
+  // Then
+  OCMReject([otherOneCollectorChannelUnitMock pauseWithIdentifyingObject:token]);
+
+  // When
+  [self.sut channel:channelUnitMock didPauseWithIdentifyingObject:token];
+}
+
+- (void)testOneCollectorChannelUnitIsResumedWhenBaseChannelUnitIsResumed {
+
+  // If
+  NSObject *token = [NSObject new];
+  MSChannelUnitDefault *channelUnitMock = [[MSChannelUnitDefault alloc]
+                                                                 initWithIngestion:self.ingestionMock
+                                                                           storage:self.storageMock
+                                                                     configuration:self.baseUnitConfig
+                                                                 logsDispatchQueue:self.logsDispatchQueue];
+  id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  id oneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY withIngestion:OCMOCK_ANY])
+      .andReturn(oneCollectorChannelUnitMock);
+
+  // When
+  [self.sut channelGroup:channelGroupMock didAddChannelUnit:channelUnitMock];
+  [self.sut channel:channelUnitMock didResumeWithIdentifyingObject:token];
+
+  // Then
+  OCMVerify([oneCollectorChannelUnitMock resumeWithIdentifyingObject:token]);
+}
+
+- (void)testOneCollectorChannelUnitIsNotResumedWhenNonBaseChannelUnitIsResumed {
+
+  // If
+  NSObject *token = [NSObject new];
+  MSChannelUnitDefault *channelUnitMock = [[MSChannelUnitDefault alloc]
+                                                                 initWithIngestion:self.ingestionMock
+                                                                           storage:self.storageMock
+                                                                     configuration:self.baseUnitConfig
+                                                                 logsDispatchQueue:self.logsDispatchQueue];
+  id oneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id otherOneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  self.sut.oneCollectorChannels[kMSBaseGroupId] = oneCollectorChannelUnitMock;
+  self.sut.oneCollectorChannels[@"someOtherGroupId"] = otherOneCollectorChannelUnitMock;
+
+  // Then
+  OCMReject([otherOneCollectorChannelUnitMock resumeWithIdentifyingObject:token]);
+
+  // When
+  [self.sut channel:channelUnitMock didResumeWithIdentifyingObject:token];
+}
+
 - (void)testDidSetEnabledAndDeleteDataOnDisabled {
 
   /*

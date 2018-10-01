@@ -969,4 +969,77 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   XCTAssertEqualObjects(result, properties);
 }
 
+-(void)testPause {
+  
+  // If
+  id appCenterMock = OCMClassMock([MSAppCenter class]);
+  OCMStub([appCenterMock sharedInstance]).andReturn(appCenterMock);
+  OCMStub([appCenterMock sdkConfigured]).andReturn(YES);
+  id <MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id <MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  [[MSAnalytics sharedInstance]
+   startWithChannelGroup:channelGroupMock
+   appSecret:kMSTestAppSecret
+   transmissionTargetToken:nil
+   fromApplication:YES];
+  
+  // When
+  [MSAnalytics pause];
+  
+  // Then
+  OCMVerify([[MSAnalytics sharedInstance].channelUnit pauseWithIdentifyingObject:[MSAnalytics sharedInstance]]);
+  [appCenterMock stopMocking];
+}
+
+-(void)testResume {
+  
+  // If
+  id appCenterMock = OCMClassMock([MSAppCenter class]);
+  OCMStub([appCenterMock sharedInstance]).andReturn(appCenterMock);
+  OCMStub([appCenterMock sdkConfigured]).andReturn(YES);
+  id <MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id <MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  [[MSAnalytics sharedInstance]
+   startWithChannelGroup:channelGroupMock
+   appSecret:kMSTestAppSecret
+   transmissionTargetToken:nil
+   fromApplication:YES];
+  
+  // When
+  [MSAnalytics resume];
+  
+  // Then
+  OCMVerify([[MSAnalytics sharedInstance].channelUnit resumeWithIdentifyingObject:[MSAnalytics sharedInstance]]);
+  [appCenterMock stopMocking];
+}
+
+- (void)testEnablingAnalyticsResumesIt {
+  
+  // If
+  id appCenterMock = OCMClassMock([MSAppCenter class]);
+  OCMStub([appCenterMock sharedInstance]).andReturn(appCenterMock);
+  OCMStub([appCenterMock sdkConfigured]).andReturn(YES);
+  OCMStub(ClassMethod([appCenterMock isEnabled])).andReturn(YES);
+  id <MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(OCMProtocolMock(@protocol(MSChannelUnitProtocol)));
+  [[MSAnalytics sharedInstance]
+   startWithChannelGroup:channelGroupMock
+   appSecret:kMSTestAppSecret
+   transmissionTargetToken:nil
+   fromApplication:YES];
+  [MSAnalytics setEnabled:NO];
+  
+  // Reset ChannelUnitMock since it's already called at startup and we want to verify at enabling time.
+  [MSAnalytics sharedInstance].channelUnit = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  
+  // When
+  [MSAnalytics setEnabled:YES];
+
+  // Then
+  OCMVerify([[MSAnalytics sharedInstance].channelUnit resumeWithIdentifyingObject:[MSAnalytics sharedInstance]]);
+  [appCenterMock stopMocking];
+}
+
 @end
