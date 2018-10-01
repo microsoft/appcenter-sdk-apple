@@ -38,8 +38,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 
 @property(nonatomic) MSAnalyticsResult *analyticsResult;
 
-@property(nonatomic) BOOL didReceiveNotificationInForeground;
-@property(nonatomic, copy) NSString *notificationResponse;
+@property(nonatomic) BOOL didTapNotification;
 @end
 
 @implementation AppDelegate
@@ -400,9 +399,20 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
          withCompletionHandler:
              (void (^)(UNNotificationPresentationOptions options))
                  completionHandler API_AVAILABLE(ios(10.0)) {
-  self.didReceiveNotificationInForeground = YES;
-  [MSPush didReceiveRemoteNotification:notification.request.content.userInfo];
-  completionHandler(UNNotificationPresentationOptionNone);
+  id appCenter = notification.request.content.userInfo[@"mobile_center"];
+  id presentation = [appCenter isKindOfClass:[NSDictionary class]]
+                        ? appCenter[@"presentation"]
+                        : nil;
+  if ([presentation isKindOfClass:[NSString class]] &&
+      [presentation isEqualToString:@"alert"]) {
+
+    // Show alert if custom data enabled it.
+    // Note that if silent push is enabled, we'll get both dialog and notification, doing it on purpose.
+    completionHandler(UNNotificationPresentationOptionAlert);
+  } else {
+    [MSPush didReceiveRemoteNotification:notification.request.content.userInfo];
+    completionHandler(UNNotificationPresentationOptionNone);
+  }
 }
 
 // iOS 10 and later, asks the delegate to process the user's response to a
@@ -411,7 +421,9 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
     didReceiveNotificationResponse:(UNNotificationResponse *)response
              withCompletionHandler:(void (^)(void))completionHandler
     API_AVAILABLE(ios(10.0)) {
-  self.notificationResponse = [response actionIdentifier];
+  if ([[response actionIdentifier] isEqualToString:UNNotificationDefaultActionIdentifier]) {
+    self.didTapNotification = YES;
+  }
   [MSPush didReceiveRemoteNotification:response.notification.request.content
                                            .userInfo];
   completionHandler();
@@ -434,24 +446,14 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
           @"\"%@\", custom data: \"%@\"",
           title, message, customData);
   } else {
-    NSString *stateMessage = @"";
-    if (@available(iOS 10.0, *)) {
-      if (self.didReceiveNotificationInForeground) {
-        stateMessage = @"Received in foreground\n";
-      } else {
-        stateMessage = @"Received in background\n";
-      }
-    }
-    NSString *actionMessage = @"";
-    if (@available(iOS 10.0, *)) {
-      if (self.notificationResponse &&
-          [self.notificationResponse
-              isEqualToString:UNNotificationDefaultActionIdentifier]) {
-        actionMessage = @"Notification was tapped\n";
-      }
+    NSString *stateMessage;
+    if (self.didTapNotification) {
+      stateMessage = @"Tapped notification";
+    } else {
+      stateMessage = @"Received in foreground";
     }
     message = [NSString
-        stringWithFormat:@"%@%@%@%@%@", stateMessage, actionMessage,
+        stringWithFormat:@"%@\n%@%@%@", stateMessage,
                          (message ? message : @""),
                          (message && customData ? @"\n" : @""),
                          (customData ? customData : [@"" mutableCopy])];
@@ -470,8 +472,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
                                                  animated:YES
                                                completion:nil];
   }
-  self.didReceiveNotificationInForeground = NO;
-  self.notificationResponse = nil;
+  self.didTapNotification = NO;
 }
 
 @end
