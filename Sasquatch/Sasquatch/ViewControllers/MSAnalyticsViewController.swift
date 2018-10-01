@@ -31,13 +31,6 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     self.enabled.isOn = appCenter.isAnalyticsEnabled()
-    enablePauseResume(enable: appCenter.isAnalyticsEnabled())
-
-    // First appearence
-    if !pause.isSelected && !resume.isSelected {
-      updatePausedState(isPaused: false)
-      enablePauseResume(enable: enabled.isOn)
-    }
     
     // Make sure the UITabBarController does not cut off the last cell.
     self.edgesForExtendedLayout = []
@@ -69,27 +62,14 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   @IBAction func enabledSwitchUpdated(_ sender: UISwitch) {
     appCenter.setAnalyticsEnabled(sender.isOn)
     sender.isOn = appCenter.isAnalyticsEnabled()
-    enablePauseResume(enable: sender.isOn)
   }
 
   @IBAction func pause(_ sender: UIButton) {
-    updatePausedState(isPaused: true)
     appCenter.pause()
   }
 
   @IBAction func resume(_ sender: UIButton) {
-    updatePausedState(isPaused: false)
     appCenter.resume()
-  }
-
-  func updatePausedState(isPaused: Bool) {
-    if isPaused {
-      pause.isSelected = true
-      resume.isSelected = false
-    } else {
-      pause.isSelected = false
-      resume.isSelected = true
-    }
   }
 
   func enablePauseResume(enable: Bool) {
