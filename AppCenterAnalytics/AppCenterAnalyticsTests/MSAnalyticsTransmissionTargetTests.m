@@ -900,4 +900,75 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
                  MSAnalyticsTransmissionTarget.authenticationProvider);
 }
 
+-(void) testPauseSucceedsWhenTargetIsEnabled {
+
+  // If
+  id analyticsMock = OCMPartialMock([MSAnalytics sharedInstance]);
+  MSAnalyticsTransmissionTarget *sut = [MSAnalytics transmissionTargetForToken:kMSTestTransmissionToken];
+
+  // When
+  [sut pause];
+
+  // Then
+  OCMVerify([analyticsMock pauseTransmissionTargetForToken:kMSTestTransmissionToken]);
+}
+
+-(void) testResumeSucceedsWhenTargetIsEnabled {
+
+  // If
+  id analyticsMock = OCMPartialMock([MSAnalytics sharedInstance]);
+  MSAnalyticsTransmissionTarget *sut = [MSAnalytics transmissionTargetForToken:kMSTestTransmissionToken];
+
+  // When
+  [sut resume];
+
+  // Then
+  OCMVerify([analyticsMock resumeTransmissionTargetForToken:kMSTestTransmissionToken]);
+}
+
+-(void) testPauseDoesNotPauseWhenTargetIsDisabled {
+
+  // If
+  id analyticsMock = OCMPartialMock([MSAnalytics sharedInstance]);
+  MSAnalyticsTransmissionTarget *sut = [MSAnalytics transmissionTargetForToken:kMSTestTransmissionToken];
+
+  // Then
+  OCMReject([analyticsMock pauseTransmissionTargetForToken:kMSTestTransmissionToken]);
+
+  // When
+  [MSAnalytics setEnabled:NO];
+  [sut pause];
+}
+
+-(void) testResumeDoesNotResumeWhenTargetIsDisabled {
+
+  // If
+  id analyticsMock = OCMPartialMock([MSAnalytics sharedInstance]);
+  OCMStub([analyticsMock canBeUsed]).andReturn(YES);
+  MSAnalyticsTransmissionTarget *sut = [MSAnalytics transmissionTargetForToken:kMSTestTransmissionToken];
+
+  // Then
+  OCMReject([analyticsMock resumeTransmissionTargetForToken:kMSTestTransmissionToken]);
+
+  // When
+  [sut setEnabled:NO];
+  [sut resume];
+}
+
+- (void) testPausedAndDisabledTargetIsResumedWhenEnabled {
+
+  // If
+  id analyticsMock = OCMPartialMock([MSAnalytics sharedInstance]);
+  OCMStub([analyticsMock canBeUsed]).andReturn(YES);
+  MSAnalyticsTransmissionTarget *sut = [MSAnalytics transmissionTargetForToken:kMSTestTransmissionToken];
+  [sut pause];
+  [sut setEnabled:NO];
+
+  // When
+  [sut setEnabled:YES];
+
+  // Then
+  OCMVerify([analyticsMock resumeTransmissionTargetForToken:kMSTestTransmissionToken]);
+}
+
 @end

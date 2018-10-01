@@ -139,13 +139,19 @@ initWithTransmissionTargetToken:(NSString *)token
       // Don't enable if the immediate parent is disabled.
       if (isEnabled && ![self isImmediateParent]) {
         MSLogWarning([MSAnalytics logTag], @"Can't enable; parent transmission "
-                                           @"target and/or Analytics service "
-                                           @"is disabled.");
+                     @"target and/or Analytics service "
+                     @"is disabled.");
         return;
       }
 
       // Persist the enabled status.
       [MS_USER_DEFAULTS setObject:@(isEnabled) forKey:self.isEnabledKey];
+
+      if (isEnabled) {
+
+        // Resume the target on enable
+        [self resume];
+      }
     }
 
     // Propagate to nested transmission targets.
@@ -156,22 +162,14 @@ initWithTransmissionTargetToken:(NSString *)token
 }
 
 - (void)pause {
-  @synchronized (self) {
-    if (!self.isPaused) {
-      [MSAnalytics pauseTransmissionTargetForToken:self.transmissionTargetToken];
-      self.isPaused = YES;
-      MSLogInfo([MSAnalytics logTag], @"Paused transmission target.");
-    }
+  if (self.isEnabled) {
+    [MSAnalytics pauseTransmissionTargetForToken:self.transmissionTargetToken];
   }
 }
 
 - (void)resume {
-  @synchronized (self) {
-    if (self.isPaused) {
-      [MSAnalytics resumeTransmissionTargetForToken:self.transmissionTargetToken];
-      self.isPaused = NO;
-      MSLogInfo([MSAnalytics logTag], @"Resumed transmission target.");
-    }
+  if (self.isEnabled) {
+    [MSAnalytics resumeTransmissionTargetForToken:self.transmissionTargetToken];
   }
 }
 

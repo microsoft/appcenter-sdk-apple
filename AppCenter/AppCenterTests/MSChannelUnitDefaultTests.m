@@ -563,11 +563,13 @@ static NSString *const kMSTestGroupId = @"GroupId";
   OCMReject([ingestionMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
   OCMStub([ingestionMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
-  OCMStub([storageMock loadLogsWithGroupId:kMSTestGroupId
-                                     limit:batchSizeLimit
-                        excludedTargetKeys:OCMOCK_ANY
-                         completionHandler:([OCMArg invokeBlockWithArgs:((NSArray<id <MSLog>> *) @[mockLog]),
-                                                                        @"1", nil])]);
+  OCMStub([storageMock
+      loadLogsWithGroupId:kMSTestGroupId
+                    limit:batchSizeLimit
+       excludedTargetKeys:OCMOCK_ANY
+        completionHandler:([OCMArg invokeBlockWithArgs:((NSArray<id<MSLog>> *)
+                                                            @[ mockLog ]),
+                                                       @"1", nil])]);
   MSChannelUnitConfiguration *config =
       [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
                                                  priority:MSPriorityDefault
@@ -604,11 +606,13 @@ static NSString *const kMSTestGroupId = @"GroupId";
   id ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
   id mockLog = [self getValidMockLog];
-  OCMStub([storageMock loadLogsWithGroupId:kMSTestGroupId
-                                     limit:batchSizeLimit
-                        excludedTargetKeys:OCMOCK_ANY
-                         completionHandler:([OCMArg invokeBlockWithArgs:((NSArray<id <MSLog>> *) @[mockLog]),
-                                                                        @"1", nil])]);
+  OCMStub([storageMock
+      loadLogsWithGroupId:kMSTestGroupId
+                    limit:batchSizeLimit
+       excludedTargetKeys:OCMOCK_ANY
+        completionHandler:([OCMArg invokeBlockWithArgs:((NSArray<id<MSLog>> *)
+                                                            @[ mockLog ]),
+                                                       @"1", nil])]);
   MSChannelUnitConfiguration *config =
       [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
                                                  priority:MSPriorityDefault
@@ -762,7 +766,8 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // If
   __block BOOL result1, result2;
   [self initChannelEndJobExpectation];
-  id<MSIngestionProtocol> ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
+  id<MSIngestionProtocol> ingestionMock =
+      OCMProtocolMock(@protocol(MSIngestionProtocol));
   self.sut.ingestion = ingestionMock;
 
   // When
@@ -844,33 +849,34 @@ static NSString *const kMSTestGroupId = @"GroupId";
 }
 
 - (void)testDelegateAfterChannelPaused {
-  
+
   // If
   NSObject *identifyingObject = [NSObject new];
   [self initChannelEndJobExpectation];
   id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
   MSChannelUnitDefault *sut = [[MSChannelUnitDefault alloc]
-                               initWithIngestion:self.ingestionMock
-                               storage:self.storageMock
-                               configuration:self.configMock
-                               logsDispatchQueue:dispatch_get_main_queue()];
-  
+      initWithIngestion:self.ingestionMock
+                storage:self.storageMock
+          configuration:self.configMock
+      logsDispatchQueue:dispatch_get_main_queue()];
+
   // When
   [sut addDelegate:delegateMock];
-  
+
   // Pause now that the delegate is set.
   dispatch_async(self.logsDispatchQueue, ^{
     [sut pauseWithIdentifyingObject:identifyingObject];
     [self enqueueChannelEndJobExpectation];
   });
-  
+
   // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
-                                 
+
                                  // Check the callbacks were invoked for logs.
                                  OCMVerify([delegateMock channel:sut
-                                                   didPauseWithIdentifyingObject:identifyingObject]);
+                                     didPauseWithIdentifyingObject:
+                                         identifyingObject]);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@",
                                            error);
@@ -879,33 +885,34 @@ static NSString *const kMSTestGroupId = @"GroupId";
 }
 
 - (void)testDelegateAfterChannelResumed {
-  
+
   // If
   NSObject *identifyingObject = [NSObject new];
   [self initChannelEndJobExpectation];
   id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
   MSChannelUnitDefault *sut = [[MSChannelUnitDefault alloc]
-                               initWithIngestion:self.ingestionMock
-                               storage:self.storageMock
-                               configuration:self.configMock
-                               logsDispatchQueue:dispatch_get_main_queue()];
-  
+      initWithIngestion:self.ingestionMock
+                storage:self.storageMock
+          configuration:self.configMock
+      logsDispatchQueue:dispatch_get_main_queue()];
+
   // When
   [sut addDelegate:delegateMock];
-  
+
   // Resume now that the delegate is set.
   dispatch_async(self.logsDispatchQueue, ^{
     [sut resumeWithIdentifyingObject:identifyingObject];
     [self enqueueChannelEndJobExpectation];
   });
-  
+
   // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
-                                 
+
                                  // Check the callbacks were invoked for logs.
                                  OCMVerify([delegateMock channel:sut
-                                   didResumeWithIdentifyingObject:identifyingObject]);
+                                     didResumeWithIdentifyingObject:
+                                         identifyingObject]);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@",
                                            error);
@@ -1176,6 +1183,133 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // Then
   XCTAssertFalse([self.sut paused]);
+}
+
+- (void)testPausedTargetKeysNotAlteredWhenChannelUnitPaused {
+
+  // If
+  NSObject *object = [NSObject new];
+  NSString *targetKey = @"targetKey";
+  NSString *token = [NSString stringWithFormat:@"%@-secret", targetKey];
+  [self.sut pauseSendingLogsWithToken:token];
+
+  // When
+  [self.sut pauseWithIdentifyingObjectSync:object];
+
+  // Then
+  XCTAssertTrue([self.sut.pausedTargetKeys count] == 1);
+  XCTAssertTrue([self.sut.pausedTargetKeys containsObject:targetKey]);
+}
+
+- (void)testPausedTargetKeysNotAlteredWhenChannelUnitResumed {
+
+  // If
+  NSObject *object = [NSObject new];
+  NSString *targetKey = @"targetKey";
+  NSString *token = [NSString stringWithFormat:@"%@-secret", targetKey];
+  [self.sut pauseSendingLogsWithToken:token];
+  [self.sut pauseWithIdentifyingObjectSync:object];
+
+  // When
+  [self.sut resumeWithIdentifyingObjectSync:object];
+
+  // Then
+  XCTAssertTrue([self.sut.pausedTargetKeys count] == 1);
+  XCTAssertTrue([self.sut.pausedTargetKeys containsObject:targetKey]);
+}
+
+- (void)testNoLogsRetrievedFromStorageWhenTargetKeyIsPaused {
+
+  // If
+  NSString *targetKey = @"targetKey";
+  NSString *token = [NSString stringWithFormat:@"%@-secret", targetKey];
+  __block NSArray *excludedKeys;
+  [self.sut pauseSendingLogsWithToken:token];
+  OCMStub([self.storageMock
+              loadLogsWithGroupId:self.sut.configuration.groupId
+                            limit:self.sut.configuration.batchSizeLimit
+               excludedTargetKeys:OCMOCK_ANY
+                completionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        [invocation getArgument:&excludedKeys atIndex:4];
+      });
+
+  // When
+  [self.sut flushQueue];
+
+  // Then
+  XCTAssertTrue([excludedKeys count] == 1);
+  XCTAssertTrue([excludedKeys containsObject:targetKey]);
+}
+
+- (void)testLogsStoredWhenTargetKeyIsPaused {
+
+  // If
+  [self initChannelEndJobExpectation];
+  NSString *targetKey = @"targetKey";
+  NSString *token = [NSString stringWithFormat:@"%@-secret", targetKey];
+  [self.sut pauseSendingLogsWithToken:token];
+  MSCommonSchemaLog *log = [MSCommonSchemaLog new];
+  [log addTransmissionTargetToken:token];
+  log.ver = @"3.0";
+  log.name = @"test";
+  log.iKey = targetKey;
+
+  // When
+  [self.sut enqueueItem:log];
+
+  // Then
+  [self enqueueChannelEndJobExpectation];
+  [self
+      waitForExpectationsWithTimeout:1
+                             handler:^(NSError *error) {
+                               if (error) {
+                                 XCTFail(@"Expectation Failed with error: %@",
+                                         error);
+                               }
+                               OCMVerify([self.storageMock
+                                       saveLog:log
+                                   withGroupId:self.sut.configuration.groupId]);
+                             }];
+}
+
+- (void)testTargetKeyRemainsPausedWhenPausedASecondTime {
+
+  // If
+  NSString *targetKey = @"targetKey";
+  NSString *token = [NSString stringWithFormat:@"%@-secret", targetKey];
+  [self.sut pauseSendingLogsWithToken:token];
+
+  // When
+  [self.sut pauseSendingLogsWithToken:token];
+
+  // Then
+  XCTAssertTrue([self.sut.pausedTargetKeys count] == 1);
+  XCTAssertTrue([self.sut.pausedTargetKeys containsObject:targetKey]);
+}
+
+- (void)testTargetKeyRemainsResumedWhenResumedASecondTime {
+
+  // If
+  NSString *targetKey = @"targetKey";
+  NSString *token = [NSString stringWithFormat:@"%@-secret", targetKey];
+  [self.sut pauseSendingLogsWithToken:token];
+
+  // Then
+  XCTAssertTrue([self.sut.pausedTargetKeys count] == 1);
+  XCTAssertTrue([self.sut.pausedTargetKeys containsObject:targetKey]);
+
+  // When
+  [self.sut resumeSendingLogsWithToken:token];
+
+  // Then
+  XCTAssertTrue([self.sut.pausedTargetKeys count] == 0);
+
+  // When
+  [self.sut resumeSendingLogsWithToken:token];
+
+  // Then
+  XCTAssertTrue([self.sut.pausedTargetKeys count] == 0);
 }
 
 #pragma mark - Helper
