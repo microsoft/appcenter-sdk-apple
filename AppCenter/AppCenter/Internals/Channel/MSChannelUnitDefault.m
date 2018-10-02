@@ -28,7 +28,7 @@
     _discardLogs = NO;
     _delegates = [NSHashTable weakObjectsHashTable];
     _pausedIdentifyingObjects = [NSHashTable weakObjectsHashTable];
-    _pausedTargetKeys = [NSHashTable new];
+    _pausedTargetKeys = [NSMutableSet new];
   }
   return self;
 }
@@ -535,15 +535,15 @@
 
 - (void)pauseSendingLogsWithToken:(NSString *)token {
   NSString *targetKey = [MSUtility targetKeyFromTargetToken:token];
-  @synchronized (self.pausedTargetKeys) {
+  dispatch_async(self.logsDispatchQueue, ^{
     MSLogDebug([MSAppCenter logTag], @"Pause channel for target key %@.", targetKey);
     [self.pausedTargetKeys addObject:targetKey];
-  }
+  });
 }
 
 - (void)resumeSendingLogsWithToken:(NSString *)token {
   NSString *targetKey = [MSUtility targetKeyFromTargetToken:token];
-  @synchronized (self.pausedTargetKeys) {
+  dispatch_async(self.logsDispatchQueue, ^{
     MSLogDebug([MSAppCenter logTag], @"Resume channel for target key %@.", targetKey);
     [self.pausedTargetKeys removeObject:targetKey];
 
@@ -554,7 +554,7 @@
     // Aligned with Android implementation.
     self.itemsCount = [self.storage countLogs];
     [self checkPendingLogs];
-  }
+  });
 }
 
 #pragma mark - Storage

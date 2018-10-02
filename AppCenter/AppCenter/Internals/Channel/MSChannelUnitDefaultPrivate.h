@@ -8,7 +8,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic) NSHashTable *pausedIdentifyingObjects;
 
-@property(nonatomic) NSHashTable<NSString *> *pausedTargetKeys;
+@property(nonatomic) NSMutableSet<NSString *> *pausedTargetKeys;
 
 /**
  * Check any enqueued logs to send it to ingestion.
