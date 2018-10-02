@@ -1,3 +1,5 @@
+#import <objc/runtime.h>
+
 #import "MSAppCenterInternal.h"
 #import "MSAppleErrorLog.h"
 #import "MSChannelUnitConfiguration.h"
@@ -277,6 +279,22 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
      * Setting this flag will let application crash on uncaught exceptions.
      */
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{ @"NSApplicationCrashOnExceptions" : @YES }];
+
+    /*
+     * Exceptions on the main thread of a Cocoa application do not typically rise to the level of
+     * the uncaught exception handler because the global application object catches all such exceptions.
+     * See: https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Exceptions/Concepts/UncaughtExceptions.html
+     */
+    if (![MSAppCenter isDebuggerAttached]) {
+      SEL selector = @selector(reportException:);
+      Method method = class_getInstanceMethod([NSApplication class], selector);
+      IMP implementation = class_getMethodImplementation([MSCrashes class], selector);
+      if (method && implementation) {
+        method_setImplementation(method, implementation);
+        MSLogDebug([MSCrashes logTag],  @"Selector '%@' of class '%@' is swizzled.",
+                   NSStringFromSelector(selector), [NSApplication class]);
+      }
+    }
 #endif
 
     /*
@@ -630,8 +648,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     NSUncaughtExceptionHandler *initialHandler = NSGetUncaughtExceptionHandler();
     NSError *error = nil;
     [self.plCrashReporter setCrashCallbacks:&plCrashCallbacks];
-    if (![self.plCrashReporter enableCrashReporterAndReturnError:&error])
+    if (![self.plCrashReporter enableCrashReporterAndReturnError:&error]) {
       MSLogError([MSCrashes logTag], @"Could not enable crash reporter: %@", [error localizedDescription]);
+    }
     NSUncaughtExceptionHandler *currentHandler = NSGetUncaughtExceptionHandler();
     if (currentHandler && currentHandler != initialHandler) {
       self.exceptionHandler = currentHandler;
@@ -911,6 +930,19 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 }
 
 #pragma mark - Helper
+
+- (void)reportException:(NSException *)exception {
+
+  /*
+   * Forward the exception to custom UncaughtExceptionHandler.
+   * Don't use NSGetUncaughtExceptionHandler() to avoid an infinite loop.
+   * Note: "self" points to instance of the original class (NSApplication).
+   */
+  NSUncaughtExceptionHandler *exceptionHandler = [MSCrashes sharedInstance].exceptionHandler;
+  if (exceptionHandler) {
+    exceptionHandler(exception);
+  }
+}
 
 - (void)deleteAllFromCrashesDirectory {
   [MSUtility deleteItemForPathComponent:self.crashesPathComponent];

@@ -289,7 +289,7 @@ static BOOL _enabled = YES;
 #if TARGET_OS_OSX
                     originalClass:[NSApplication class]];
 #else
-                                            originalClass:[UIApplication class]];
+                    originalClass:[UIApplication class]];
 #endif
     });
 
