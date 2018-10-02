@@ -164,12 +164,16 @@ initWithTransmissionTargetToken:(NSString *)token
 - (void)pause {
   if (self.isEnabled) {
     [MSAnalytics pauseTransmissionTargetForToken:self.transmissionTargetToken];
+  } else {
+    MSLogError([MSAnalytics logTag], @"This transmission target is disabled.");
   }
 }
 
 - (void)resume {
   if (self.isEnabled) {
     [MSAnalytics resumeTransmissionTargetForToken:self.transmissionTargetToken];
+  } else {
+    MSLogError([MSAnalytics logTag], @"This transmission target is disabled.");
   }
 }
 
