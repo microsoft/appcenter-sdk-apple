@@ -26,13 +26,11 @@ static NSString *const kMSPropertyTypeString = @"string";
 }
 
 - (BOOL)isEqual:(id)object {
-  if (![(NSObject *)object isKindOfClass:[MSCustomPropertiesLog class]] ||
-      ![super isEqual:object]) {
+  if (![(NSObject *)object isKindOfClass:[MSCustomPropertiesLog class]] || ![super isEqual:object]) {
     return NO;
   }
   MSCustomPropertiesLog *log = (MSCustomPropertiesLog *)object;
-  return ((!self.properties && !log.properties) ||
-          [self.properties isEqualToDictionary:log.properties]);
+  return ((!self.properties && !log.properties) || [self.properties isEqualToDictionary:log.properties]);
 }
 
 - (BOOL)isValid {
@@ -47,8 +45,7 @@ static NSString *const kMSPropertyTypeString = @"string";
     NSMutableArray *propertiesArray = [NSMutableArray array];
     for (NSString *key in self.properties) {
       NSObject *value = [self.properties objectForKey:key];
-      NSMutableDictionary *property =
-          [MSCustomPropertiesLog serializeProperty:value];
+      NSMutableDictionary *property = [MSCustomPropertiesLog serializeProperty:value];
       if (property) {
         [property setObject:key forKey:kMSPropertyName];
         [propertiesArray addObject:property];
@@ -70,8 +67,7 @@ static NSString *const kMSPropertyTypeString = @"string";
 
     /**
      * NSNumber is “toll-free bridged” with its Core Foundation counterparts:
-     * CFNumber for integer and floating point values, and CFBoolean for Boolean
-     * values.
+     * CFNumber for integer and floating point values, and CFBoolean for Boolean values.
      *
      * NSCFBoolean is a private class in the NSNumber class cluster.
      */
@@ -84,8 +80,7 @@ static NSString *const kMSPropertyTypeString = @"string";
     }
   } else if ([value isKindOfClass:[NSDate class]]) {
     [property setObject:kMSPropertyTypeDateTime forKey:kMSPropertyType];
-    [property setObject:[MSUtility dateToISO8601:(NSDate *)value]
-                 forKey:kMSPropertyValue];
+    [property setObject:[MSUtility dateToISO8601:(NSDate *)value] forKey:kMSPropertyValue];
   } else if ([value isKindOfClass:[NSString class]]) {
     [property setObject:kMSPropertyTypeString forKey:kMSPropertyType];
     [property setObject:value forKey:kMSPropertyValue];

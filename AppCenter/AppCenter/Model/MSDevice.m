@@ -1,5 +1,5 @@
-#import "MSDevice.h"
 #import "MSACModelConstants.h"
+#import "MSDevice.h"
 #import "MSDeviceInternal.h"
 #import "MSWrapperSdkInternal.h"
 
@@ -60,49 +60,31 @@
 }
 
 - (BOOL)isValid {
-  return [super isValid] && self.sdkName && self.sdkVersion && self.osName &&
-         self.osVersion && self.locale && self.timeZoneOffset &&
+  return [super isValid] && self.sdkName && self.sdkVersion && self.osName && self.osVersion && self.locale && self.timeZoneOffset &&
          self.appVersion && self.appBuild;
 }
 
 - (BOOL)isEqual:(id)object {
-  if (![(NSObject *)object isKindOfClass:[MSDevice class]] ||
-      ![super isEqual:object]) {
+  if (![(NSObject *)object isKindOfClass:[MSDevice class]] || ![super isEqual:object]) {
     return NO;
   }
   MSDevice *device = (MSDevice *)object;
-  return ((!self.sdkName && !device.sdkName) ||
-          [self.sdkName isEqualToString:device.sdkName]) &&
-         ((!self.sdkVersion && !device.sdkVersion) ||
-          [self.sdkVersion isEqualToString:device.sdkVersion]) &&
-         ((!self.model && !device.model) ||
-          [self.model isEqualToString:device.model]) &&
-         ((!self.oemName && !device.oemName) ||
-          [self.oemName isEqualToString:device.oemName]) &&
-         ((!self.osName && !device.osName) ||
-          [self.osName isEqualToString:device.osName]) &&
-         ((!self.osVersion && !device.osVersion) ||
-          [self.osVersion isEqualToString:device.osVersion]) &&
-         ((!self.osBuild && !device.osBuild) ||
-          [self.osBuild isEqualToString:device.osBuild]) &&
-         ((!self.osApiLevel && !device.osApiLevel) ||
-          [self.osApiLevel isEqualToNumber:device.osApiLevel]) &&
-         ((!self.locale && !device.locale) ||
-          [self.locale isEqualToString:device.locale]) &&
-         ((!self.timeZoneOffset && !device.timeZoneOffset) ||
-          [self.timeZoneOffset isEqualToNumber:device.timeZoneOffset]) &&
-         ((!self.screenSize && !device.screenSize) ||
-          [self.screenSize isEqualToString:device.screenSize]) &&
-         ((!self.appVersion && !device.appVersion) ||
-          [self.appVersion isEqualToString:device.appVersion]) &&
-         ((!self.carrierName && !device.carrierName) ||
-          [self.carrierName isEqualToString:device.carrierName]) &&
-         ((!self.carrierCountry && !device.carrierCountry) ||
-          [self.carrierCountry isEqualToString:device.carrierCountry]) &&
-         ((!self.appBuild && !device.appBuild) ||
-          [self.appBuild isEqualToString:device.appBuild]) &&
-         ((!self.appNamespace && !device.appNamespace) ||
-          [self.appNamespace isEqualToString:device.appNamespace]);
+  return ((!self.sdkName && !device.sdkName) || [self.sdkName isEqualToString:device.sdkName]) &&
+         ((!self.sdkVersion && !device.sdkVersion) || [self.sdkVersion isEqualToString:device.sdkVersion]) &&
+         ((!self.model && !device.model) || [self.model isEqualToString:device.model]) &&
+         ((!self.oemName && !device.oemName) || [self.oemName isEqualToString:device.oemName]) &&
+         ((!self.osName && !device.osName) || [self.osName isEqualToString:device.osName]) &&
+         ((!self.osVersion && !device.osVersion) || [self.osVersion isEqualToString:device.osVersion]) &&
+         ((!self.osBuild && !device.osBuild) || [self.osBuild isEqualToString:device.osBuild]) &&
+         ((!self.osApiLevel && !device.osApiLevel) || [self.osApiLevel isEqualToNumber:device.osApiLevel]) &&
+         ((!self.locale && !device.locale) || [self.locale isEqualToString:device.locale]) &&
+         ((!self.timeZoneOffset && !device.timeZoneOffset) || [self.timeZoneOffset isEqualToNumber:device.timeZoneOffset]) &&
+         ((!self.screenSize && !device.screenSize) || [self.screenSize isEqualToString:device.screenSize]) &&
+         ((!self.appVersion && !device.appVersion) || [self.appVersion isEqualToString:device.appVersion]) &&
+         ((!self.carrierName && !device.carrierName) || [self.carrierName isEqualToString:device.carrierName]) &&
+         ((!self.carrierCountry && !device.carrierCountry) || [self.carrierCountry isEqualToString:device.carrierCountry]) &&
+         ((!self.appBuild && !device.appBuild) || [self.appBuild isEqualToString:device.appBuild]) &&
+         ((!self.appNamespace && !device.appNamespace) || [self.appNamespace isEqualToString:device.appNamespace]);
 }
 
 #pragma mark - NSCoding

@@ -8,8 +8,7 @@
 
 /**
  * Set the specified property value with the specified key.
- * If the properties previously contained a property for the key, the old value
- * is replaced.
+ * If the properties previously contained a property for the key, the old value is replaced.
  *
  * @param key   Key with which the specified value is to be set.
  * @param value Value to be set with the specified key.
@@ -20,8 +19,7 @@
 
 /**
  * Set the specified property value with the specified key.
- * If the properties previously contained a property for the key, the old value
- * is replaced.
+ * If the properties previously contained a property for the key, the old value is replaced.
  *
  * @param key   Key with which the specified value is to be set.
  * @param value Value to be set with the specified key.
@@ -32,8 +30,7 @@
 
 /**
  * Set the specified property value with the specified key.
- * If the properties previously contained a property for the key, the old value
- * is replaced.
+ * If the properties previously contained a property for the key, the old value is replaced.
  *
  * @param key   Key with which the specified value is to be set.
  * @param value Value to be set with the specified key.
@@ -44,8 +41,7 @@
 
 /**
  * Set the specified property value with the specified key.
- * If the properties previously contained a property for the key, the old value
- * is replaced.
+ * If the properties previously contained a property for the key, the old value is replaced.
  *
  * @param key   Key with which the specified value is to be set.
  * @param value Value to be set with the specified key.
