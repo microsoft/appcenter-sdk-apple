@@ -60,6 +60,20 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (BOOL)isEnabled;
 
+/**
+ * Pause sending logs for the transmission target. It doesn't pause any of its decendants.
+ *
+ * @see resume
+ */
+- (void)pause;
+
+/**
+ * Resume sending logs for the transmission target.
+ *
+ * @see pause
+ */
+- (void)resume;
+
 @end
 
 NS_ASSUME_NONNULL_END

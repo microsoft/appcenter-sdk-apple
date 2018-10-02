@@ -8,6 +8,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic) NSHashTable *pausedIdentifyingObjects;
 
+@property(nonatomic) NSMutableSet<NSString *> *pausedTargetKeys;
+
+/**
+ * Check any enqueued logs to send it to ingestion.
+ */
+- (void)checkPendingLogs;
+
 /**
  * Synchronously pause operations, logs will be stored but not sent.
  *

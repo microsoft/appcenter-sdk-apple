@@ -29,6 +29,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) MSAnalyticsTransmissionTarget *defaultTransmissionTarget;
 
 /**
+ * The channel unit for common schema logs.
+ */
+@property(nonatomic) id<MSChannelUnitProtocol> oneCollectorChannelUnit;
+
+/**
  * Track an event.
  *
  * @param eventName  event name.

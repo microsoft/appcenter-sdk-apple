@@ -55,6 +55,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)setDelegate:(nullable id<MSAnalyticsDelegate>)delegate;
 
+/**
+ * Pause transmission target for the given token.
+ *
+ * @param token The token of the transmission target.
+ */
++ (void)pauseTransmissionTargetForToken:(NSString *)token;
+
+/**
+ * Resume transmission target for the given token.
+ *
+ * @param token The token of the transmission target.
+ */
++ (void)resumeTransmissionTargetForToken:(NSString *)token;
+
 @end
 
 NS_ASSUME_NONNULL_END

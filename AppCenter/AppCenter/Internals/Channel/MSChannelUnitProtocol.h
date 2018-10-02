@@ -31,6 +31,27 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)enqueueItem:(id<MSLog>)item;
 
+/**
+ * Pause sending logs with the given transmission target token.
+ *
+ * @param token The transmission target token.
+ *
+ * @discussion The logs with the given token will continue to be persisted in
+ * the storage but they will only be sent once it resumes sending logs.
+ *
+ * @see resumeSendingLogsWithToken:
+ */
+- (void)pauseSendingLogsWithToken:(NSString *)token;
+
+/**
+ * Resume sending logs with the given transmission target token.
+ *
+ * @param token The transmission target token.
+ *
+ * @see pauseSendingLogsWithToken:
+ */
+- (void)resumeSendingLogsWithToken:(NSString *)token;
+
 @end
 
 NS_ASSUME_NONNULL_END

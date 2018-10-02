@@ -2,6 +2,7 @@
 #import "MSChannelGroupDefaultPrivate.h"
 #import "AppCenter+Internal.h"
 #import "MSAppCenterIngestion.h"
+#import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
 #import "MSLogDBStorage.h"
 
@@ -52,6 +53,15 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
                               }];
   }
   return channel;
+}
+
+- (id<MSChannelUnitProtocol>)channelUnitForGroupId:(NSString *)groupId {
+  for (MSChannelUnitDefault *channel in self.channels) {
+    if ([channel.configuration.groupId isEqualToString:groupId]) {
+      return channel;
+    }
+  }
+  return nil;
 }
 
 #pragma mark - Delegate

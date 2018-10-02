@@ -27,8 +27,7 @@ initWithTransmissionTargetToken:(NSString *)token
         [NSMutableDictionary<NSString *, MSAnalyticsTransmissionTarget *> new];
     _transmissionTargetToken = token;
     _isEnabledKey = [NSString
-        stringWithFormat:@"%@/%@", [MSAnalytics sharedInstance].isEnabledKey,
-                         [MSUtility targetIdFromTargetToken:token]];
+        stringWithFormat:@"%@/%@", [MSAnalytics sharedInstance].isEnabledKey, [MSUtility targetKeyFromTargetToken:token]];
     // Disable if ancestor is disabled.
     if (![self isImmediateParent]) {
       [MS_USER_DEFAULTS setObject:@(NO) forKey:self.isEnabledKey];
@@ -140,19 +139,41 @@ initWithTransmissionTargetToken:(NSString *)token
       // Don't enable if the immediate parent is disabled.
       if (isEnabled && ![self isImmediateParent]) {
         MSLogWarning([MSAnalytics logTag], @"Can't enable; parent transmission "
-                                           @"target and/or Analytics service "
-                                           @"is disabled.");
+                     @"target and/or Analytics service "
+                     @"is disabled.");
         return;
       }
 
       // Persist the enabled status.
       [MS_USER_DEFAULTS setObject:@(isEnabled) forKey:self.isEnabledKey];
+
+      if (isEnabled) {
+
+        // Resume the target on enable
+        [self resume];
+      }
     }
 
     // Propagate to nested transmission targets.
     for (NSString *token in self.childTransmissionTargets) {
       [self.childTransmissionTargets[token] setEnabled:isEnabled];
     }
+  }
+}
+
+- (void)pause {
+  if (self.isEnabled) {
+    [MSAnalytics pauseTransmissionTargetForToken:self.transmissionTargetToken];
+  } else {
+    MSLogError([MSAnalytics logTag], @"This transmission target is disabled.");
+  }
+}
+
+- (void)resume {
+  if (self.isEnabled) {
+    [MSAnalytics resumeTransmissionTargetForToken:self.transmissionTargetToken];
+  } else {
+    MSLogError([MSAnalytics logTag], @"This transmission target is disabled.");
   }
 }
 
