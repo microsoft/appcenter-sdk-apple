@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) NSHashTable<NSString *> *pausedTargetKeys;
 
 /**
- * Check any pending logs in the storage and send logs to ingestion.
+ * Check any enqueued logs to send it to ingestion.
  */
 - (void)checkPendingLogs;
 
