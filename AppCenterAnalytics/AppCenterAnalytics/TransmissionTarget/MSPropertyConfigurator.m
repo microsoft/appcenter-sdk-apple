@@ -1,5 +1,3 @@
-#import "MSPropertyConfiguratorPrivate.h"
-
 #if TARGET_OS_OSX
 #import <IOKit/IOKitLib.h>
 #else
@@ -14,6 +12,7 @@
 #import "MSCSExtensions.h"
 #import "MSDeviceExtension.h"
 #import "MSLogger.h"
+#import "MSPropertyConfiguratorPrivate.h"
 
 @implementation MSPropertyConfigurator
 
@@ -23,8 +22,7 @@ static const char deviceIdPrefix = 'u';
 static const char deviceIdPrefix = 'i';
 #endif
 
-- (instancetype)initWithTransmissionTarget:
-    (MSAnalyticsTransmissionTarget *)transmissionTarget {
+- (instancetype)initWithTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget {
   if ((self = [super init])) {
     _transmissionTarget = transmissionTarget;
     _eventProperties = [NSMutableDictionary<NSString *, NSString *> new];
@@ -44,12 +42,10 @@ static const char deviceIdPrefix = 'i';
   _appLocale = appLocale;
 }
 
-- (void)setEventPropertyString:(NSString *)propertyValue
-                        forKey:(NSString *)propertyKey {
+- (void)setEventPropertyString:(NSString *)propertyValue forKey:(NSString *)propertyKey {
   @synchronized([MSAnalytics sharedInstance]) {
     if (!propertyValue || !propertyKey) {
-      MSLogError([MSAnalytics logTag],
-                 @"Event property keys and values cannot be nil.");
+      MSLogError([MSAnalytics logTag], @"Event property keys and values cannot be nil.");
       return;
     }
     self.eventProperties[propertyKey] = propertyValue;
@@ -59,8 +55,7 @@ static const char deviceIdPrefix = 'i';
 - (void)removeEventPropertyForKey:(NSString *)propertyKey {
   @synchronized([MSAnalytics sharedInstance]) {
     if (!propertyKey) {
-      MSLogError([MSAnalytics logTag],
-                 @"Event property key to remove cannot be nil.");
+      MSLogError([MSAnalytics logTag], @"Event property key to remove cannot be nil.");
       return;
     }
     [self.eventProperties removeObjectForKey:propertyKey];
@@ -73,25 +68,21 @@ static const char deviceIdPrefix = 'i';
 
 #pragma mark - MSChannelDelegate
 
-- (void)channel:(id<MSChannelProtocol>)__unused channel
-     prepareLog:(id<MSLog>)log {
+- (void)channel:(id<MSChannelProtocol>)__unused channel prepareLog:(id<MSLog>)log {
   MSAnalyticsTransmissionTarget *target = self.transmissionTarget;
-  if (target && [log isKindOfClass:[MSCommonSchemaLog class]] &&
-      [target isEnabled]) {
+  if (target && [log isKindOfClass:[MSCommonSchemaLog class]] && [target isEnabled]) {
 
     // TODO Find a better way to override properties.
 
     // Only override properties for owned target.
-    if (![log.transmissionTargetTokens
-            containsObject:target.transmissionTargetToken]) {
+    if (![log.transmissionTargetTokens containsObject:target.transmissionTargetToken]) {
       return;
     }
 
     // Override the application version.
     while (target) {
       if (target.propertyConfigurator.appVersion) {
-        ((MSCommonSchemaLog *)log).ext.appExt.ver =
-            target.propertyConfigurator.appVersion;
+        ((MSCommonSchemaLog *)log).ext.appExt.ver = target.propertyConfigurator.appVersion;
         break;
       }
       target = target.parentTarget;
@@ -101,8 +92,7 @@ static const char deviceIdPrefix = 'i';
     target = self.transmissionTarget;
     while (target) {
       if (target.propertyConfigurator.appName) {
-        ((MSCommonSchemaLog *)log).ext.appExt.name =
-            target.propertyConfigurator.appName;
+        ((MSCommonSchemaLog *)log).ext.appExt.name = target.propertyConfigurator.appName;
         break;
       }
       target = target.parentTarget;
@@ -112,8 +102,7 @@ static const char deviceIdPrefix = 'i';
     target = self.transmissionTarget;
     while (target) {
       if (target.propertyConfigurator.appLocale) {
-        ((MSCommonSchemaLog *)log).ext.appExt.locale =
-            target.propertyConfigurator.appLocale;
+        ((MSCommonSchemaLog *)log).ext.appExt.locale = target.propertyConfigurator.appLocale;
         break;
       }
       target = target.parentTarget;
