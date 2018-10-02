@@ -18,8 +18,7 @@
 @property(nonatomic, copy) NSString *message;
 
 /*
- * Raw stack trace. Sent when the frames property is either missing or
- * unreliable.
+ * Raw stack trace. Sent when the frames property is either missing or unreliable.
  */
 @property(nonatomic, copy) NSString *stackTrace;
 
@@ -35,8 +34,7 @@
 
 /*
  * Name of the wrapper SDK that emitted this exception.
- * Consists of the name of the SDK and the wrapper platform, e.g.
- * "appcenter.xamarin", "hockeysdk.cordova".
+ * Consists of the name of the SDK and the wrapper platform, e.g. "appcenter.xamarin", "hockeysdk.cordova".
  */
 @property(nonatomic, copy) NSString *wrapperSdkName;
 

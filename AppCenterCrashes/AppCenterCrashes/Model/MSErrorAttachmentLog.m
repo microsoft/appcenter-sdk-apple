@@ -16,13 +16,10 @@ static NSString *const kMSData = @"data";
 @implementation MSErrorAttachmentLog
 
 /**
- * @discussion
- * Workaround for exporting symbols from category object files. See article
+ * @discussion Workaround for exporting symbols from category object files. See article
  * https://medium.com/ios-os-x-development/categories-in-static-libraries-78e41f8ddb96#.aedfl1kl0
  */
-__attribute__((used)) static void importCategories() {
-  [NSString stringWithFormat:@"%@", MSMSErrorLogAttachmentLogUtilityCategory];
-}
+__attribute__((used)) static void importCategories() { [NSString stringWithFormat:@"%@", MSMSErrorLogAttachmentLogUtilityCategory]; }
 
 - (instancetype)init {
   if ((self = [super init])) {
@@ -32,9 +29,7 @@ __attribute__((used)) static void importCategories() {
   return self;
 }
 
-- (instancetype)initWithFilename:(nullable NSString *)filename
-                attachmentBinary:(NSData *)data
-                     contentType:(NSString *)contentType {
+- (instancetype)initWithFilename:(nullable NSString *)filename attachmentBinary:(NSData *)data contentType:(NSString *)contentType {
   if ((self = [self init])) {
     _data = data;
     _contentType = contentType;
@@ -43,12 +38,9 @@ __attribute__((used)) static void importCategories() {
   return self;
 }
 
-- (instancetype)initWithFilename:(nullable NSString *)filename
-                  attachmentText:(NSString *)text {
+- (instancetype)initWithFilename:(nullable NSString *)filename attachmentText:(NSString *)text {
   if ((self = [self init])) {
-    self = [self initWithFilename:filename
-                 attachmentBinary:[text dataUsingEncoding:NSUTF8StringEncoding]
-                      contentType:kMSTextType];
+    self = [self initWithFilename:filename attachmentBinary:[text dataUsingEncoding:NSUTF8StringEncoding] contentType:kMSTextType];
   }
   return self;
 }
@@ -70,33 +62,24 @@ __attribute__((used)) static void importCategories() {
     dict[kMSFileName] = self.filename;
   }
   if (self.data) {
-    dict[kMSData] =
-        [self.data base64EncodedStringWithOptions:
-                       NSDataBase64EncodingEndLineWithCarriageReturn];
+    dict[kMSData] = [self.data base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithCarriageReturn];
   }
   return dict;
 }
 
 - (BOOL)isEqual:(id)object {
-  if (![(NSObject *)object isKindOfClass:[MSErrorAttachmentLog class]] &&
-      ![super isEqual:object])
+  if (![(NSObject *)object isKindOfClass:[MSErrorAttachmentLog class]] && ![super isEqual:object])
     return NO;
   MSErrorAttachmentLog *attachment = (MSErrorAttachmentLog *)object;
-  return ((!self.attachmentId && !attachment.attachmentId) ||
-          [self.attachmentId isEqualToString:attachment.attachmentId]) &&
-         ((!self.errorId && !attachment.errorId) ||
-          [self.errorId isEqualToString:attachment.errorId]) &&
-         ((!self.contentType && !attachment.contentType) ||
-          [self.contentType isEqualToString:attachment.contentType]) &&
-         ((!self.filename && !attachment.filename) ||
-          [self.filename isEqualToString:attachment.filename]) &&
-         ((!self.data && !attachment.data) ||
-          [self.data isEqualToData:attachment.data]);
+  return ((!self.attachmentId && !attachment.attachmentId) || [self.attachmentId isEqualToString:attachment.attachmentId]) &&
+         ((!self.errorId && !attachment.errorId) || [self.errorId isEqualToString:attachment.errorId]) &&
+         ((!self.contentType && !attachment.contentType) || [self.contentType isEqualToString:attachment.contentType]) &&
+         ((!self.filename && !attachment.filename) || [self.filename isEqualToString:attachment.filename]) &&
+         ((!self.data && !attachment.data) || [self.data isEqualToData:attachment.data]);
 }
 
 - (BOOL)isValid {
-  return [super isValid] && self.errorId && self.attachmentId && self.data &&
-         self.contentType;
+  return [super isValid] && self.errorId && self.attachmentId && self.data && self.contentType;
 }
 
 #pragma mark - NSCoding
