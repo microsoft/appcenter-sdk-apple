@@ -27,6 +27,7 @@
                   (unsigned long)databaseVersion, (unsigned long)version);
         [self migrateDatabase:db fromVersion:databaseVersion];
       }
+      [MSDBStorage enableAutoVacuumInOpenedDatabase:db];
       [MSDBStorage setVersion:version inOpenedDatabase:db];
       return SQLITE_OK;
     }];
@@ -110,6 +111,17 @@
 + (void)setVersion:(NSUInteger)version inOpenedDatabase:(void *)db {
   NSString *query = [NSString stringWithFormat:@"PRAGMA user_version = %lu", (unsigned long)version];
   [MSDBStorage executeNonSelectionQuery:query inOpenedDatabase:db];
+}
+
++ (void)enableAutoVacuumInOpenedDatabase:(void *)db {
+  NSArray<NSArray *> *result = [MSDBStorage executeSelectionQuery:@"PRAGMA auto_vacuum" inOpenedDatabase:db];
+  int vacuumMode = [(NSNumber *)result[0][0] intValue];
+  BOOL autoVacuumDisabled = vacuumMode == 0;
+  [MSDBStorage executeNonSelectionQuery:@"PRAGMA auto_vacuum = FULL;" inOpenedDatabase:db];
+  if (autoVacuumDisabled) {
+    MSLogDebug([MSAppCenter logTag], @"Vacuuming database to enable auto_vacuum");
+    [MSDBStorage executeNonSelectionQuery:@"VACUUM" inOpenedDatabase:db];
+  }
 }
 
 - (NSUInteger)countEntriesForTable:(NSString *)tableName condition:(nullable NSString *)condition {
