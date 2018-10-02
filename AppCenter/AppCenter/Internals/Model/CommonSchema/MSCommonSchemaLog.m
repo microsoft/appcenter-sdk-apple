@@ -11,8 +11,7 @@
 
 - (NSMutableDictionary *)serializeToDictionary {
 
-  // No call to super here, it already contains everything needed for CS JSON
-  // serialization.
+  // No call to super here, it already contains everything needed for CS JSON serialization.
   NSMutableDictionary *dict = [NSMutableDictionary new];
   if (self.ver) {
     dict[kMSCSVer] = self.ver;
@@ -21,11 +20,11 @@
     dict[kMSCSName] = self.name;
   }
 
-  // Timestamp already exists in the parent implementation but the serialized
-  // key is different.
+  // Timestamp already exists in the parent implementation but the serialized key is different.
   if (self.timestamp) {
     dict[kMSCSTime] = [MSUtility dateToISO8601:self.timestamp];
   }
+
   // TODO: Not supporting popSample, flags and cV today.
   if (self.iKey) {
     dict[kMSCSIKey] = self.iKey;
@@ -43,29 +42,22 @@
 
 - (BOOL)isValid {
 
-  // Do not call [super isValid] here as CS logs don't require the same
-  // validation as AC logs except for timestamp.
+  // Do not call [super isValid] here as CS logs don't require the same validation as AC logs except for timestamp.
   return super.timestamp && self.ver && self.name;
 }
 
 #pragma mark - NSObject
 
 - (BOOL)isEqual:(id)object {
-  if (![(NSObject *)object isKindOfClass:[MSCommonSchemaLog class]] ||
-      ![super isEqual:object]) {
+  if (![(NSObject *)object isKindOfClass:[MSCommonSchemaLog class]] || ![super isEqual:object]) {
     return NO;
   }
 
   MSCommonSchemaLog *csLog = (MSCommonSchemaLog *)object;
   return ((!self.ver && !csLog.ver) || [self.ver isEqualToString:csLog.ver]) &&
-         ((!self.name && !csLog.name) ||
-          [self.name isEqualToString:csLog.name]) &&
-         self.popSample == csLog.popSample &&
-         ((!self.iKey && !csLog.iKey) ||
-          [self.iKey isEqualToString:csLog.iKey]) &&
-         self.flags == csLog.flags &&
-         ((!self.cV && !csLog.cV) || [self.cV isEqualToString:csLog.cV]) &&
-         ((!self.ext && !csLog.ext) || [self.ext isEqual:csLog.ext]) &&
+         ((!self.name && !csLog.name) || [self.name isEqualToString:csLog.name]) && self.popSample == csLog.popSample &&
+         ((!self.iKey && !csLog.iKey) || [self.iKey isEqualToString:csLog.iKey]) && self.flags == csLog.flags &&
+         ((!self.cV && !csLog.cV) || [self.cV isEqualToString:csLog.cV]) && ((!self.ext && !csLog.ext) || [self.ext isEqual:csLog.ext]) &&
          ((!self.data && !csLog.data) || [self.data isEqual:csLog.data]);
 }
 

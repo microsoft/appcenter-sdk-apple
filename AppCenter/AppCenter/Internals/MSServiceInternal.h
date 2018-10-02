@@ -2,17 +2,14 @@
 #import "MSServiceCommon.h"
 
 /**
- *  Protocol declaring all the logic of a service. This is what concrete
- * services needs to conform to. The difference is that MSServiceCommon is
- * public, while MSServiceInternal is private. Some properties are present in
- * both, which is counter-intuitive but the way we implemented this to achieve
- * abstraction and not have empty implementations in MSServiceAbstract.
+ * Protocol declaring all the logic of a service. This is what concrete services needs to conform to. The difference is that MSServiceCommon
+ * is public, while MSServiceInternal is private. Some properties are present in both, which is counter-intuitive but the way we implemented
+ * this to achieve abstraction and not have empty implementations in MSServiceAbstract.
  */
 @protocol MSServiceInternal <MSService, MSServiceCommon>
 
 /**
- * The initialization priority for this service. Defined here as well as in
- * MSServiceCommon to achieve abstraction.
+ * The initialization priority for this service. Defined here as well as in MSServiceCommon to achieve abstraction.
  */
 @property(nonatomic, readonly) MSInitializationPriority initializationPriority;
 
@@ -22,20 +19,19 @@
 @property(nonatomic) NSString *appSecret;
 
 /**
+ * Service unique key for storage purpose.
+ *
+ * @discussion: IMPORTANT, This string is used to point to the right storage value for this service. Changing this string results in data
+ * lost if previous data is not migrated.
+ */
+@property(nonatomic, copy, readonly) NSString *groupId;
+
+/**
  * Get the unique instance.
  *
  * @return The unique instance.
  */
 + (instancetype)sharedInstance;
-
-/**
- * Service unique key for storage purpose.
- *
- * @discussion: IMPORTANT, This string is used to point to the right storage
- * value for this service. Changing this string results in data lost if previous
- * data is not migrated.
- */
-@property(nonatomic, copy, readonly) NSString *groupId;
 
 /**
  * Get a service name.

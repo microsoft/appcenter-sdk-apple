@@ -6,11 +6,9 @@ extern NSString *const kMSOneCollectorApiVersion;
 
 /**
  * Assign value in header to avoid "format is not a string literal" warning.
- * The convention for this format string is
- * <sdktype>-<platform>-<language>-<projection>-<version>-<tag>.
+ * The convention for this format string is <sdktype>-<platform>-<language>-<projection>-<version>-<tag>.
  */
-static NSString *const kMSOneCollectorClientVersionFormat =
-    @"ACS-iOS-ObjectiveC-no-%@-no";
+static NSString *const kMSOneCollectorClientVersionFormat = @"ACS-iOS-ObjectiveC-no-%@-no";
 extern NSString *const kMSOneCollectorClientVersionKey;
 extern NSString *const kMSOneCollectorContentType;
 extern NSString *const kMSOneCollectorLogSeparator;

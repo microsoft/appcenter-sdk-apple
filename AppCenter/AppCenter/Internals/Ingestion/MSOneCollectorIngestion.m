@@ -36,24 +36,20 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
   return self;
 }
 
-- (void)sendAsync:(NSObject *)data
-    completionHandler:(MSSendAsyncCompletionHandler)handler {
+- (void)sendAsync:(NSObject *)data completionHandler:(MSSendAsyncCompletionHandler)handler {
   MSLogContainer *container = (MSLogContainer *)data;
   NSString *batchId = container.batchId;
 
   /*
-   * FIXME: All logs are already validated at the time the logs are enqueued to
-   * Channel. It is not necessary but it can still protect against invalid logs
-   * being sent to server that are messed up somehow in Storage. If we see
-   * performance issues due to this validation, we will remove `[container
-   * isValid]` call below.
+   * FIXME: All logs are already validated at the time the logs are enqueued to Channel. It is not necessary but it can still protect
+   * against invalid logs being sent to server that are messed up somehow in Storage. If we see performance issues due to this validation,
+   * we will remove `[container isValid]` call below.
    */
 
   // Verify container.
   if (!container || ![container isValid]) {
     NSDictionary *userInfo = @{NSLocalizedDescriptionKey : kMSACLogInvalidContainerErrorDesc};
-    NSError *error =
-        [NSError errorWithDomain:kMSACErrorDomain code:kMSACLogInvalidContainerErrorCode userInfo:userInfo];
+    NSError *error = [NSError errorWithDomain:kMSACErrorDomain code:kMSACLogInvalidContainerErrorCode userInfo:userInfo];
     MSLogError([MSAppCenter logTag], @"%@", [error localizedDescription]);
     handler(batchId, 0, nil, error);
     return;
@@ -150,10 +146,7 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
 
 - (NSString *)obfuscateTickets:(NSString *)tokenString {
   NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@":[^\"]+" options:0 error:nil];
-  return [regex stringByReplacingMatchesInString:tokenString
-                                         options:0
-                                           range:NSMakeRange(0, tokenString.length)
-                                    withTemplate:@":***"];
+  return [regex stringByReplacingMatchesInString:tokenString options:0 range:NSMakeRange(0, tokenString.length) withTemplate:@":***"];
 }
 
 @end

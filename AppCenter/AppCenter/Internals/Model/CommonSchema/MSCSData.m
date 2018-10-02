@@ -28,8 +28,7 @@
     return NO;
   }
   MSCSData *csData = (MSCSData *)object;
-  return (!self.properties && !csData.properties) ||
-         [self.properties isEqualToDictionary:csData.properties];
+  return (!self.properties && !csData.properties) || [self.properties isEqualToDictionary:csData.properties];
 }
 
 #pragma mark - NSCoding

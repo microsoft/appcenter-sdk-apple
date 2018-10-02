@@ -9,9 +9,8 @@
 @property(nonatomic) NSURLSession *session;
 
 /**
- * The maximum number of connections for the session. The one collector endpoint
- * only allows for two connections while the app center endpoint doesn't impose
- * a limit, using the iOS default value of 4 connections for this.
+ * The maximum number of connections for the session. The one collector endpoint only allows for two connections while the app center
+ * endpoint doesn't impose a limit, using the iOS default value of 4 connections for this.
  */
 @property(nonatomic, readonly) NSInteger maxNumberOfConnections;
 
@@ -78,11 +77,12 @@
 
 /**
  * Convert key/value pairs for headers to a string.
+ *
  * @param headers A dictionary that contains header as key/value pair.
+ *
  * @return A string that contains headers.
  */
-- (NSString *)prettyPrintHeaders:
-    (NSDictionary<NSString *, NSString *> *)headers;
+- (NSString *)prettyPrintHeaders:(NSDictionary<NSString *, NSString *> *)headers;
 
 /**
  * Hide a part of sensitive value for log.

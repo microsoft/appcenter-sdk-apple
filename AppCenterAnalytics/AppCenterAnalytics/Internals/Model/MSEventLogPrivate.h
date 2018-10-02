@@ -9,7 +9,6 @@
  *
  * @return A dictionary of key-value pairs.
  */
-- (NSDictionary<NSString *, NSObject *> *)convertACPropertiesToCSproperties:
-    (NSDictionary<NSString *, NSString *> *)acProperties;
+- (NSDictionary<NSString *, NSObject *> *)convertACPropertiesToCSproperties:(NSDictionary<NSString *, NSString *> *)acProperties;
 
 @end

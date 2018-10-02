@@ -1,17 +1,17 @@
 /**
- *  Protected declarations for MSServiceAbstract.
+ * Protected declarations for MSServiceAbstract.
  */
 @interface MSServiceAbstract ()
 
 /**
- *  Enable/Disable this service.
+ * Enable/Disable this service.
  *
- *  @param isEnabled is this service enabled or not.
+ * @param isEnabled is this service enabled or not.
  */
 - (void)setEnabled:(BOOL)isEnabled;
 
 /**
- *  Check whether this service is enabled or not.
+ * Check whether this service is enabled or not.
  */
 - (BOOL)isEnabled;
 

@@ -1,8 +1,10 @@
 #include <Foundation/Foundation.h>
+
 #if !TARGET_OS_TV
 #import "MSCustomProperties.h"
 #import "MSCustomPropertiesLog.h"
 #endif
+
 #import "MSAppCenter.h"
 #import "MSAppCenterIngestion.h"
 #import "MSAppCenterInternal.h"
@@ -18,8 +20,7 @@
 
 static NSString *const kMSInstallIdStringExample = @"F18499DA-5C3D-4F05-B4E8-D8C9C06A6F09";
 
-// NSUUID can return this nullified InstallId while creating a UUID from a nil
-// string, we want to avoid this.
+// NSUUID can return this nullified InstallId while creating a UUID from a nil string, we want to avoid this.
 static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-000000000000";
 
 @interface MSAppCenterTest : XCTestCase
@@ -95,14 +96,11 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // Then
   XCTAssertTrue([[[MSAppCenter sharedInstance] appSecret] isEqualToString:appSecret]);
-  XCTAssertTrue(
-      [[[MSAppCenter sharedInstance] defaultTransmissionTargetToken] isEqualToString:transmissionTargetString]);
+  XCTAssertTrue([[[MSAppCenter sharedInstance] defaultTransmissionTargetToken] isEqualToString:transmissionTargetString]);
   XCTAssertTrue([MSMockService sharedInstance].started);
-  XCTAssertTrue(
-      [[[MSMockService sharedInstance] defaultTransmissionTargetToken] isEqualToString:transmissionTargetString]);
+  XCTAssertTrue([[[MSMockService sharedInstance] defaultTransmissionTargetToken] isEqualToString:transmissionTargetString]);
   XCTAssertTrue([MSMockSecondService sharedInstance].started);
-  XCTAssertTrue(
-      [[[MSMockSecondService sharedInstance] defaultTransmissionTargetToken] isEqualToString:transmissionTargetString]);
+  XCTAssertTrue([[[MSMockSecondService sharedInstance] defaultTransmissionTargetToken] isEqualToString:transmissionTargetString]);
 }
 
 - (void)testStartWithNoAppSecret {
@@ -131,8 +129,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // Then
   XCTAssertNil([[MSAppCenter sharedInstance] appSecret]);
-  XCTAssertTrue(
-      [[[MSAppCenter sharedInstance] defaultTransmissionTargetToken] isEqualToString:transmissionTargetString]);
+  XCTAssertTrue([[[MSAppCenter sharedInstance] defaultTransmissionTargetToken] isEqualToString:transmissionTargetString]);
   XCTAssertFalse([MSMockService sharedInstance].started);
   XCTAssertTrue([MSMockSecondService sharedInstance].started);
 }
@@ -370,8 +367,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   XCTAssertTrue([[MSMockSecondService sharedInstance] started]);
 
   // If
-  NSString *disableList =
-      [NSString stringWithFormat:@"%@,SomeService,%@", [MSMockService serviceName], [MSMockSecondService serviceName]];
+  NSString *disableList = [NSString stringWithFormat:@"%@,SomeService,%@", [MSMockService serviceName], [MSMockSecondService serviceName]];
   setenv(disableVariableCstr, [disableList UTF8String], 1);
   [[MSMockService sharedInstance] setStarted:NO];
   [[MSMockSecondService sharedInstance] setStarted:NO];
@@ -386,8 +382,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // Repeat previous test but with some whitespace.
   // If
-  disableList = [NSString
-      stringWithFormat:@" %@ , SomeService,%@ ", [MSMockService serviceName], [MSMockSecondService serviceName]];
+  disableList = [NSString stringWithFormat:@" %@ , SomeService,%@ ", [MSMockService serviceName], [MSMockSecondService serviceName]];
   setenv(disableVariableCstr, [disableList UTF8String], 1);
   [[MSMockService sharedInstance] setStarted:NO];
   [[MSMockSecondService sharedInstance] setStarted:NO];
@@ -469,8 +464,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   // Then
   XCTAssertTrue([MSAppCenter isConfigured]);
   XCTAssertTrue([[[MSAppCenter sharedInstance] appSecret] isEqualToString:appSecret]);
-  XCTAssertTrue(
-      [[[MSAppCenter sharedInstance] defaultTransmissionTargetToken] isEqualToString:transmissionTargetString]);
+  XCTAssertTrue([[[MSAppCenter sharedInstance] defaultTransmissionTargetToken] isEqualToString:transmissionTargetString]);
 }
 
 - (void)testStartServiceWithInvalidValues {
@@ -561,11 +555,10 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   OCMStub([channelGroup addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnit);
   __block NSInteger logsProcessed = 0;
   __block MSStartServiceLog *log = nil;
-  OCMStub([channelUnit enqueueItem:[OCMArg isKindOfClass:[MSStartServiceLog class]]])
-      .andDo(^(NSInvocation *invocation) {
-        [invocation getArgument:&log atIndex:2];
-        logsProcessed++;
-      });
+  OCMStub([channelUnit enqueueItem:[OCMArg isKindOfClass:[MSStartServiceLog class]]]).andDo(^(NSInvocation *invocation) {
+    [invocation getArgument:&log atIndex:2];
+    logsProcessed++;
+  });
 
   // When
   [MSAppCenter start:MS_UUID_STRING withServices:nil];
@@ -604,8 +597,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   OCMStub([mockServiceDefaultPrio initializationPriority]).andReturn(MSInitializationPriorityDefault);
 
   // When
-  NSArray<MSServiceAbstract *> *sorted =
-      [self.sut sortServices:@[ (Class)mockServiceDefaultPrio, (Class)mockServiceMaxPrio ]];
+  NSArray<MSServiceAbstract *> *sorted = [self.sut sortServices:@[ (Class)mockServiceDefaultPrio, (Class)mockServiceMaxPrio ]];
 
   // Then
   XCTAssertTrue([sorted[0] initializationPriority] == MSInitializationPriorityMax);
@@ -638,8 +630,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   self.sut.channelGroup = channelGroup;
 
   // When
-  [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidEnterBackgroundNotification
-                                                      object:self.sut];
+  [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidEnterBackgroundNotification object:self.sut];
   // Then
   OCMVerify([channelGroup pauseWithIdentifyingObject:self.sut]);
 }

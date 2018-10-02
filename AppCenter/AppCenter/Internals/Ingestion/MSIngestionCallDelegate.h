@@ -7,19 +7,18 @@
 @protocol MSIngestionCallDelegate <NSObject>
 
 /**
- *  Send call.
+ * Send call.
  *
- *  @param call Call object.
+ * @param call Call object.
  */
 - (void)sendCallAsync:(MSIngestionCall *)call;
 
 /**
- *  Call completed callback.
+ * Call completed callback.
  *
- *  @param call Call object.
- *  @param result Enum indicating the result of the call.
+ * @param call Call object.
+ * @param result Enum indicating the result of the call.
  */
-- (void)call:(MSIngestionCall *)call
-    completedWithResult:(MSIngestionCallResult)result;
+- (void)call:(MSIngestionCall *)call completedWithResult:(MSIngestionCallResult)result;
 
 @end
