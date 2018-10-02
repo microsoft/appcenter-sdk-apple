@@ -146,6 +146,8 @@
 		04A1409D1ECE728B001CEE94 /* MSAnalyticsCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = 0485AF8D1EAA852A00C10CAF /* MSAnalyticsCategory.h */; };
 		04A1409E1ECE7316001CEE94 /* MSAnalyticsCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485AF8E1EAA852A00C10CAF /* MSAnalyticsCategory.m */; };
 		04BED7181ECB64FB00E20975 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BED7161ECB64CE00E20975 /* OCHamcrest.framework */; };
+		266ED99A87F6251A106F7945 /* MSEventProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 266ED289BE3D9562F1F61348 /* MSEventProperties.h */; };
+		266EDF36E3620945679A8585 /* MSEventProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 266EDBD8487DA42DAB601DD9 /* MSEventProperties.m */; };
 		35134331205704C100E6DC7D /* MSAnalyticsTransmissionTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 35134330205704C100E6DC7D /* MSAnalyticsTransmissionTarget.m */; };
 		35134332205704C100E6DC7D /* MSAnalyticsTransmissionTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 35134330205704C100E6DC7D /* MSAnalyticsTransmissionTarget.m */; };
 		35134333205704C100E6DC7D /* MSAnalyticsTransmissionTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 35134330205704C100E6DC7D /* MSAnalyticsTransmissionTarget.m */; };
@@ -343,6 +345,8 @@
 		04BED7161ECB64CE00E20975 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../../Vendor/macOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
 		04ED31E91EAAD32B0033BAAE /* macOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = macOS.modulemap; sourceTree = "<group>"; };
 		04ED31EB1EAAD3390033BAAE /* iOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = iOS.modulemap; sourceTree = "<group>"; };
+		266ED289BE3D9562F1F61348 /* MSEventProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSEventProperties.h; sourceTree = "<group>"; };
+		266EDBD8487DA42DAB601DD9 /* MSEventProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSEventProperties.m; sourceTree = "<group>"; };
 		3513432F205704A100E6DC7D /* MSAnalyticsTransmissionTarget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsTransmissionTarget.h; sourceTree = "<group>"; };
 		35134330205704C100E6DC7D /* MSAnalyticsTransmissionTarget.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSAnalyticsTransmissionTarget.m; sourceTree = "<group>"; };
 		351343352057093600E6DC7D /* MSAnalyticsTransmissionTargetInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsTransmissionTargetInternal.h; sourceTree = "<group>"; };
@@ -643,6 +647,8 @@
 				3513432E2057046700E6DC7D /* TransmissionTarget */,
 				E85547CD1D2D64B0002DF6E2 /* Internals */,
 				E85547D01D2D65AF002DF6E2 /* Support */,
+				266EDBD8487DA42DAB601DD9 /* MSEventProperties.m */,
+				266ED289BE3D9562F1F61348 /* MSEventProperties.h */,
 			);
 			path = AppCenterAnalytics;
 			sourceTree = "<group>";
@@ -814,6 +820,7 @@
 				E85547F81D2D6A7D002DF6E2 /* MSAnalytics.h in Headers */,
 				E8E48F9E1D515C3900A8C1B0 /* MSSessionTracker.h in Headers */,
 				042B1D2A1FE3508100D6E04A /* MSSessionTrackerPrivate.h in Headers */,
+				266ED99A87F6251A106F7945 /* MSEventProperties.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1212,6 +1219,7 @@
 				6E3E2CCC1D359D5E00B1EE50 /* MSEventLog.m in Sources */,
 				E8E48FA31D51670100A8C1B0 /* MSStartSessionLog.m in Sources */,
 				C27452D220AE0DAC00B64B68 /* MSAnalytics+Validation.m in Sources */,
+				266EDF36E3620945679A8585 /* MSEventProperties.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

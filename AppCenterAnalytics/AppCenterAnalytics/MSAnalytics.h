@@ -1,6 +1,8 @@
 #import "MSAnalyticsTransmissionTarget.h"
 #import "MSServiceAbstract.h"
 
+@class MSEventProperties;
+
 NS_ASSUME_NONNULL_BEGIN
 
 /**
@@ -16,13 +18,22 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)trackEvent:(NSString *)eventName;
 
 /**
- * Track an event.
+ * Track an event with properties.
  *
  * @param eventName  event name.
  * @param properties dictionary of properties.
  */
 + (void)trackEvent:(NSString *)eventName
     withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties;
+
+/**
+ * Track an event with typed properties.
+ *
+ * @param eventName  event name.
+ * @param properties an MSEventProperties object.
+ */
++ (void) trackEvent:(NSString *)eventName
+withTypedProperties:(nullable MSEventProperties *)properties;
 
 /**
  * Pause transmission of Analytics logs. While paused, Analytics logs are saved to disk.
