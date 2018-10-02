@@ -28,8 +28,7 @@ static NSString *const kMSUpdateTokenKey = @"MSUpdateToken";
 @property(nonatomic, copy) NSString *apiUrl;
 
 /**
- * An ingestion instance that is used to send a request for new release to the
- * backend.
+ * An ingestion instance that is used to send a request for new release to the backend.
  */
 @property(nonatomic, nullable) MSDistributeIngestion *ingestion;
 

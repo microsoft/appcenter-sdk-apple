@@ -2,8 +2,7 @@
 
 @implementation MSDistributeInfoTracker
 
-- (void)channel:(id<MSChannelProtocol>)__unused channel
-     prepareLog:(id<MSLog>)log {
+- (void)channel:(id<MSChannelProtocol>)__unused channel prepareLog:(id<MSLog>)log {
   if (self.distributionGroupId == nil) {
     return;
   }
