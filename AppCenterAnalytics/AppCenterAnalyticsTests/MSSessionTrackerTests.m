@@ -214,8 +214,7 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
 
 - (void)testStartSessionOnStart {
 
-  // Clean up session context and stop session tracker which is initialized in
-  // setUp.
+  // Clean up session context and stop session tracker which is initialized in setUp.
   [MSSessionContext resetSharedInstance];
   [self.sut stop];
 
@@ -224,17 +223,14 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
   OCMStub([analyticsMock isAvailable]).andReturn(YES);
   OCMStub([analyticsMock sharedInstance]).andReturn(analyticsMock);
   [self.sut setSessionTimeout:kMSTestSessionTimeout];
-  id<MSSessionTrackerDelegate> delegateMock =
-      OCMProtocolMock(@protocol(MSSessionTrackerDelegate));
+  id<MSSessionTrackerDelegate> delegateMock = OCMProtocolMock(@protocol(MSSessionTrackerDelegate));
   self.sut.delegate = delegateMock;
 
   // When
   [self.sut start];
 
   // Then
-  OCMVerify([delegateMock
-      sessionTracker:self.sut
-          processLog:[OCMArg isKindOfClass:[MSStartSessionLog class]]]);
+  OCMVerify([delegateMock sessionTracker:self.sut processLog:[OCMArg isKindOfClass:[MSStartSessionLog class]]]);
 }
 
 - (void)testStartSessionOnAppForegrounded {
@@ -245,8 +241,7 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
   OCMStub([analyticsMock sharedInstance]).andReturn(analyticsMock);
   MSSessionTracker *sut = [[MSSessionTracker alloc] init];
   [sut setSessionTimeout:0];
-  id<MSSessionTrackerDelegate> delegateMock =
-      OCMProtocolMock(@protocol(MSSessionTrackerDelegate));
+  id<MSSessionTrackerDelegate> delegateMock = OCMProtocolMock(@protocol(MSSessionTrackerDelegate));
   [sut start];
 
   // When
@@ -256,9 +251,7 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
   [MSSessionTrackerUtil simulateWillEnterForegroundNotification];
 
   // Then
-  OCMVerify([delegateMock
-      sessionTracker:sut
-          processLog:[OCMArg isKindOfClass:[MSStartSessionLog class]]]);
+  OCMVerify([delegateMock sessionTracker:sut processLog:[OCMArg isKindOfClass:[MSStartSessionLog class]]]);
 }
 
 - (void)testDidEnqueueLog {

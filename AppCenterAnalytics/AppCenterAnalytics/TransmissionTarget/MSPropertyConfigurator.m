@@ -1,3 +1,5 @@
+#import <Foundation/Foundation.h>
+
 #if TARGET_OS_OSX
 #import <IOKit/IOKitLib.h>
 #else
