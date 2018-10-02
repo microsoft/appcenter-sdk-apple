@@ -1,4 +1,3 @@
-#import "MSModelTestsUtililty.h"
 #import "MSACModelConstants.h"
 #import "MSAppExtension.h"
 #import "MSCSData.h"
@@ -7,6 +6,7 @@
 #import "MSDeviceExtension.h"
 #import "MSDeviceInternal.h"
 #import "MSLocExtension.h"
+#import "MSModelTestsUtililty.h"
 #import "MSNetExtension.h"
 #import "MSOSExtension.h"
 #import "MSProtocolExtension.h"
@@ -46,35 +46,25 @@
 }
 
 + (NSMutableDictionary *)extensionDummies {
+
   // Set up all extensions with dummy values.
-  NSDictionary *userExtDummyValues =
-      [MSModelTestsUtililty userExtensionDummies];
-  MSUserExtension *userExt =
-      [MSModelTestsUtililty userExtensionWithDummyValues:userExtDummyValues];
+  NSDictionary *userExtDummyValues = [MSModelTestsUtililty userExtensionDummies];
+  MSUserExtension *userExt = [MSModelTestsUtililty userExtensionWithDummyValues:userExtDummyValues];
   NSDictionary *locExtDummyValues = [MSModelTestsUtililty locExtensionDummies];
-  MSLocExtension *locExt =
-      [MSModelTestsUtililty locExtensionWithDummyValues:locExtDummyValues];
+  MSLocExtension *locExt = [MSModelTestsUtililty locExtensionWithDummyValues:locExtDummyValues];
   NSDictionary *osExtDummyValues = [MSModelTestsUtililty osExtensionDummies];
-  MSOSExtension *osExt =
-      [MSModelTestsUtililty osExtensionWithDummyValues:osExtDummyValues];
+  MSOSExtension *osExt = [MSModelTestsUtililty osExtensionWithDummyValues:osExtDummyValues];
   NSDictionary *appExtDummyValues = [MSModelTestsUtililty appExtensionDummies];
-  MSAppExtension *appExt =
-      [MSModelTestsUtililty appExtensionWithDummyValues:appExtDummyValues];
-  NSDictionary *protocolExtDummyValues =
-      [MSModelTestsUtililty protocolExtensionDummies];
-  MSProtocolExtension *protocolExt = [MSModelTestsUtililty
-      protocolExtensionWithDummyValues:protocolExtDummyValues];
+  MSAppExtension *appExt = [MSModelTestsUtililty appExtensionWithDummyValues:appExtDummyValues];
+  NSDictionary *protocolExtDummyValues = [MSModelTestsUtililty protocolExtensionDummies];
+  MSProtocolExtension *protocolExt = [MSModelTestsUtililty protocolExtensionWithDummyValues:protocolExtDummyValues];
   NSDictionary *netExtDummyValues = [MSModelTestsUtililty netExtensionDummies];
-  MSNetExtension *netExt =
-      [MSModelTestsUtililty netExtensionWithDummyValues:netExtDummyValues];
+  MSNetExtension *netExt = [MSModelTestsUtililty netExtensionWithDummyValues:netExtDummyValues];
   NSDictionary *sdkExtDummyValues = [MSModelTestsUtililty sdkExtensionDummies];
-  MSSDKExtension *sdkExt =
-      [MSModelTestsUtililty sdkExtensionWithDummyValues:sdkExtDummyValues];
-  NSDictionary *deviceExtDummyValues =
-      [MSModelTestsUtililty deviceExtensionDummies];
-  MSDeviceExtension *deviceExt =
-      [MSModelTestsUtililty deviceExtensionWithDummyValues:deviceExtDummyValues];
-  
+  MSSDKExtension *sdkExt = [MSModelTestsUtililty sdkExtensionWithDummyValues:sdkExtDummyValues];
+  NSDictionary *deviceExtDummyValues = [MSModelTestsUtililty deviceExtensionDummies];
+  MSDeviceExtension *deviceExt = [MSModelTestsUtililty deviceExtensionWithDummyValues:deviceExtDummyValues];
+
   return [@{
     kMSCSUserExt : userExt,
     kMSCSLocExt : locExt,
@@ -100,19 +90,11 @@
 }
 
 + (NSDictionary *)appExtensionDummies {
-  return @{
-    kMSAppId : @"com.some.bundle.id",
-    kMSAppVer : @"3.4.1",
-    kMSAppLocale : @"en-us"
-  };
+  return @{ kMSAppId : @"com.some.bundle.id", kMSAppVer : @"3.4.1", kMSAppLocale : @"en-us" };
 }
 
 + (NSDictionary *)protocolExtensionDummies {
-  return @{
-    kMSTicketKeys : @[ @"ticketKey1", @"ticketKey2" ],
-    kMSDevMake : @"Apple",
-    kMSDevModel : @"iPhone X"
-  };
+  return @{ kMSTicketKeys : @[ @"ticketKey1", @"ticketKey2" ], kMSDevMake : @"Apple", kMSDevModel : @"iPhone X" };
 }
 
 + (NSDictionary *)netExtensionDummies {
@@ -120,26 +102,15 @@
 }
 
 + (NSMutableDictionary *)sdkExtensionDummies {
-  return [@{
-    kMSSDKLibVer : @"1.2.0",
-    kMSSDKEpoch : MS_UUID_STRING,
-    kMSSDKSeq : @1,
-    kMSSDKInstallId : [NSUUID new]
-  } mutableCopy];
+  return [@{ kMSSDKLibVer : @"1.2.0", kMSSDKEpoch : MS_UUID_STRING, kMSSDKSeq : @1, kMSSDKInstallId : [NSUUID new] } mutableCopy];
 }
 
 + (NSMutableDictionary *)deviceExtensionDummies {
-  return [@{
-            kMSDeviceLocalId : @"00000000-0000-0000-0000-000000000000"
-  } mutableCopy];
+  return [@{ kMSDeviceLocalId : @"00000000-0000-0000-0000-000000000000" } mutableCopy];
 }
 
 + (NSDictionary *)dataDummies {
-  return @{
-    @"akey" : @"avalue",
-    @"anested.key" : @"anothervalue",
-    @"anotherkey" : @"yetanothervalue"
-  };
+  return @{ @"akey" : @"avalue", @"anested.key" : @"anothervalue", @"anotherkey" : @"yetanothervalue" };
 }
 
 + (MSDevice *)dummyDevice {
@@ -232,8 +203,7 @@
   return appExt;
 }
 
-+ (MSProtocolExtension *)protocolExtensionWithDummyValues:
-    (NSDictionary *)dummyValues {
++ (MSProtocolExtension *)protocolExtensionWithDummyValues:(NSDictionary *)dummyValues {
   MSProtocolExtension *protocolExt = [MSProtocolExtension new];
   protocolExt.ticketKeys = dummyValues[kMSTicketKeys];
   protocolExt.devMake = dummyValues[kMSDevMake];
