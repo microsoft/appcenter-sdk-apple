@@ -1,5 +1,5 @@
-#import "MSDistributeTestUtil.h"
 #import "AppCenter.h"
+#import "MSDistributeTestUtil.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+Environment.h"
 

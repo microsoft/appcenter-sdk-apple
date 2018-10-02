@@ -59,8 +59,7 @@
   self.startSessionLog.sid = sessionId;
 
   // When
-  NSData *serializedEvent =
-      [NSKeyedArchiver archivedDataWithRootObject:self.startSessionLog];
+  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.startSessionLog];
   id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
 
   // Then
