@@ -294,10 +294,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
       NSLog("Notification received in background (silent push), title: \"\(title)\", message: \"\(message)\", custom data: \"\(customData)\"");
     } else {
       if #available(iOS 10.0, *) {
+        if (!message.isEmpty) {
+          message += "\n"
+        }
         if didTapNotification {
-          message += "\nTapped notification"
+          message += "Tapped notification"
         } else {
-          message += "\nReceived in foreground"
+          message += "Received in foreground"
         }
       }
       message += (customData.isEmpty ? "" : "\n\(customData)")
