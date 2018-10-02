@@ -12,8 +12,7 @@
 - (instancetype)init {
   if ((self = [super init])) {
     _started = NO;
-    _isEnabledKey =
-        [NSString stringWithFormat:@"kMS%@IsEnabledKey", self.groupId];
+    _isEnabledKey = [NSString stringWithFormat:@"kMS%@IsEnabledKey", self.groupId];
   }
   return self;
 }
@@ -23,8 +22,7 @@
 - (BOOL)isEnabled {
 
   // Get isEnabled value from persistence.
-  // No need to cache the value in a property, user settings already have their
-  // cache mechanism.
+  // No need to cache the value in a property, user settings already have their cache mechanism.
   NSNumber *isEnabledNumber = [MS_USER_DEFAULTS objectForKey:self.isEnabledKey];
 
   // Return the persisted value otherwise it's enabled by default.
@@ -52,9 +50,7 @@
   BOOL canBeUsed = [MSAppCenter sharedInstance].sdkConfigured && self.started;
   if (!canBeUsed) {
     MSLogError([MSAppCenter logTag],
-               @"%@ service hasn't been started. You need to call "
-               @"[MSAppCenter start:YOUR_APP_SECRET "
-               @"withServices:LIST_OF_SERVICES] first.",
+               @"%@ service hasn't been started. You need to call [MSAppCenter start:YOUR_APP_SECRET withServices:LIST_OF_SERVICES] first.",
                MS_CLASS_NAME_WITHOUT_PREFIX);
   }
   return canBeUsed;
@@ -90,8 +86,7 @@
   if ([self respondsToSelector:@selector(channelUnitConfiguration)]) {
 
     // Initialize channel unit for the service in channel group.
-    self.channelUnit = [self.channelGroup
-        addChannelUnitWithConfiguration:self.channelUnitConfiguration];
+    self.channelUnit = [self.channelGroup addChannelUnitWithConfiguration:self.channelUnitConfiguration];
   }
 
   // Enable this service as needed.
@@ -100,8 +95,7 @@
   }
 }
 
-- (void)updateConfigurationWithAppSecret:(NSString *)appSecret
-                 transmissionTargetToken:(NSString *)token {
+- (void)updateConfigurationWithAppSecret:(NSString *)appSecret transmissionTargetToken:(NSString *)token {
   self.startedFromApplication = YES;
   self.appSecret = appSecret;
   self.defaultTransmissionTargetToken = token;
@@ -123,13 +117,9 @@
 + (void)setEnabled:(BOOL)isEnabled {
   @synchronized([self sharedInstance]) {
     if ([[self sharedInstance] canBeUsed]) {
-      if (![MSAppCenter isEnabled] &&
-          ![MSAppCenter sharedInstance].enabledStateUpdating) {
-        MSLogError(
-            [MSAppCenter logTag],
-            @"The SDK is disabled. Re-enable the whole SDK from AppCenter "
-            @"first before enabling %@ service.",
-            MS_CLASS_NAME_WITHOUT_PREFIX);
+      if (![MSAppCenter isEnabled] && ![MSAppCenter sharedInstance].enabledStateUpdating) {
+        MSLogError([MSAppCenter logTag], @"The SDK is disabled. Re-enable the whole SDK from AppCenter first before enabling %@ service.",
+                   MS_CLASS_NAME_WITHOUT_PREFIX);
       } else {
         [[self sharedInstance] setEnabled:isEnabled];
       }
@@ -139,8 +129,7 @@
 
 + (BOOL)isEnabled {
   @synchronized([self sharedInstance]) {
-    return
-        [[self sharedInstance] canBeUsed] && [[self sharedInstance] isEnabled];
+    return [[self sharedInstance] canBeUsed] && [[self sharedInstance] isEnabled];
   }
 }
 #pragma clang diagnostic pop

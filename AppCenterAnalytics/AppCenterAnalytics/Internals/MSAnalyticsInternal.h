@@ -13,14 +13,11 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param eventName  Event name.
  * @param properties Dictionary of properties.
- * @param transmissionTarget  The transmission target to associate to this
- * event.
+ * @param transmissionTarget  The transmission target to associate to this event.
  */
 + (void)trackEvent:(NSString *)eventName
-           withProperties:
-               (nullable NSDictionary<NSString *, NSString *> *)properties
-    forTransmissionTarget:
-        (nullable MSAnalyticsTransmissionTarget *)transmissionTarget;
+           withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
+    forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarget;
 
 // Temporarily hiding tracking page feature.
 /**
@@ -36,8 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param pageName  page name.
  * @param properties dictionary of properties.
  */
-+ (void)trackPage:(NSString *)pageName
-    withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties;
++ (void)trackPage:(NSString *)pageName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties;
 
 /**
  * Set the page auto-tracking property.

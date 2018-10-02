@@ -1,6 +1,6 @@
-#import "MSUserDefaults.h"
 #import "MSAppCenterInternal.h"
 #import "MSLogger.h"
+#import "MSUserDefaults.h"
 
 static NSString *const kMSUserDefaultsTs = @"_ts";
 
@@ -27,21 +27,16 @@ static NSString *const kMSUserDefaultsTs = @"_ts";
   [[NSUserDefaults standardUserDefaults] removeObjectForKey:key];
 }
 
-- (NSDictionary *)updateDictionary:(NSDictionary *)dict
-                            forKey:(NSString *)key
-                        expiration:(float)expiration {
-  NSMutableDictionary *update =
-      [[NSMutableDictionary alloc] initWithDictionary:dict];
+- (NSDictionary *)updateDictionary:(NSDictionary *)dict forKey:(NSString *)key expiration:(float)expiration {
+  NSMutableDictionary *update = [[NSMutableDictionary alloc] initWithDictionary:dict];
 
   // Get from local store.
-  NSDictionary *store =
-      [[NSUserDefaults standardUserDefaults] dictionaryForKey:key];
+  NSDictionary *store = [[NSUserDefaults standardUserDefaults] dictionaryForKey:key];
   CFAbsoluteTime ts = [(NSNumber *)store[kMSUserDefaultsTs] doubleValue];
   MSLogVerbose([MSAppCenter logTag], @"Settings:store[%@]=%@", key, store);
 
   // Force update if timestamp expiration is reached.
-  if (ts <= 0.0 || expiration <= 0.0f ||
-      fabs(CFAbsoluteTimeGetCurrent() - ts) < (double)expiration) {
+  if (ts <= 0.0 || expiration <= 0.0f || fabs(CFAbsoluteTimeGetCurrent() - ts) < (double)expiration) {
 
     // Remove if already in store and value is the same.
     for (NSString *k in [store allKeys]) {
@@ -77,11 +72,7 @@ static NSString *const kMSUserDefaultsTs = @"_ts";
 }
 
 - (BOOL)updateObject:(id)o forKey:(NSString *)key expiration:(float)expiration {
-  NSDictionary *update = [self updateDictionary:@{
-    @"v" : o
-  }
-                                         forKey:key
-                                     expiration:expiration];
+  NSDictionary *update = [self updateDictionary:@{ @"v" : o } forKey:key expiration:expiration];
   return update[@"v"] != nil;
 }
 

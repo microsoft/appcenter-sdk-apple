@@ -4,8 +4,7 @@
 #import "MSSerializableObject.h"
 
 /**
- * The SDK extension is used by platform specific library to record field that
- * are specifically required for a specific SDK.
+ * The SDK extension is used by platform specific library to record field that are specifically required for a specific SDK.
  */
 @interface MSSDKExtension : NSObject <MSSerializableObject, MSModel>
 
@@ -25,8 +24,7 @@
 @property(nonatomic) int64_t seq;
 
 /**
- * ID created on first-time SDK initialization. It may serves as the
- * device.localId.
+ * ID created on first-time SDK initialization. It may serves as the device.localId.
  */
 @property(nonatomic) NSUUID *installId;
 

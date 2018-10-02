@@ -3,8 +3,7 @@
 #import "MSChannelDelegate.h"
 
 /**
- * One Collector channel delegate used to redirect selected traffic to One
- * Collector.
+ * One Collector channel delegate used to redirect selected traffic to One Collector.
  */
 @interface MSOneCollectorChannelDelegate : NSObject <MSChannelDelegate>
 

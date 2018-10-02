@@ -15,10 +15,9 @@ extern NSString *MSUtilityPropertyValidationCategory;
  */
 @interface MSUtility (PropertyValidation)
 
-+ (NSDictionary<NSString *, NSString *> *)
-validateProperties:(NSDictionary<NSString *, NSString *> *)properties
-        forLogName:(NSString *)logName
-              type:(NSString *)logType;
++ (NSDictionary<NSString *, NSString *> *)validateProperties:(NSDictionary<NSString *, NSString *> *)properties
+                                                  forLogName:(NSString *)logName
+                                                        type:(NSString *)logType;
 
 @end
 

@@ -8,8 +8,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MSLog;
 
 /**
- * `MSChannelUnitProtocol` represents a kind of channel that is able
- * to actually store/send logs (as opposed to a channel group, which
+ * `MSChannelUnitProtocol` represents a kind of channel that is able to actually store/send logs (as opposed to a channel group, which
  * simply contains a collection of channel units).
  */
 @protocol MSChannelUnitProtocol <MSChannelProtocol>
@@ -36,8 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param token The transmission target token.
  *
- * @discussion The logs with the given token will continue to be persisted in
- * the storage but they will only be sent once it resumes sending logs.
+ * @discussion The logs with the given token will continue to be persisted in the storage but they will only be sent once it resumes sending
+ * logs.
  *
  * @see resumeSendingLogsWithToken:
  */

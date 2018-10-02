@@ -7,9 +7,8 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MSChannelDelegate;
 
 /**
- * `MSChannelProtocol` contains the essential operations of a channel. Channels
- * are broadly responsible for enqueuing logs to be sent to the backend and/or
- * stored on disk.
+ * `MSChannelProtocol` contains the essential operations of a channel. Channels are broadly responsible for enqueuing logs to be sent to the
+ * backend and/or stored on disk.
  */
 @protocol MSChannelProtocol <NSObject, MSEnable>
 
@@ -32,11 +31,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param identifyingObject Object used to identify the pause request.
  *
- * @discussion A paused channel doesn't forward logs to the ingestion. The
- * identifying object used to pause the channel can be any unique object. The
- * same identifying object must be used to call resume. For
- * simplicity if the caller is the one owning the channel then @c self can be
- * used as identifying object.
+ * @discussion A paused channel doesn't forward logs to the ingestion. The identifying object used to pause the channel can be any unique
+ * object. The same identifying object must be used to call resume. For simplicity if the caller is the one owning the channel then @c self
+ * can be used as identifying object.
  *
  * @see resumeWithIdentifyingObject:
  */
@@ -47,8 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param identifyingObject Object used to passed to the pause method.
  *
- * @discussion The channel only resume when all the outstanding identifying
- * objects have been resumed.
+ * @discussion The channel only resume when all the outstanding identifying objects have been resumed.
  *
  * @see pauseWithIdentifyingObject:
  */

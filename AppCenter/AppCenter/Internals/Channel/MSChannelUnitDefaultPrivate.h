@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @see resumeWithIdentifyingObject:
  */
-- (void)pauseWithIdentifyingObjectSync:(id <NSObject>)identifyingObject;
+- (void)pauseWithIdentifyingObjectSync:(id<NSObject>)identifyingObject;
 
 /**
  * Synchronously resume operations, logs can be sent again.
@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @see pauseWithIdentifyingObject:
  */
-- (void)resumeWithIdentifyingObjectSync:(id <NSObject>)identifyingObject;
+- (void)resumeWithIdentifyingObjectSync:(id<NSObject>)identifyingObject;
 
 @end
 

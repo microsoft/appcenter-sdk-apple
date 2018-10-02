@@ -1,6 +1,6 @@
-#import "MSMockService.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitConfiguration.h"
+#import "MSMockService.h"
 
 static NSString *const kMSServiceName = @"MSMockService";
 static NSString *const kMSGroupId = @"MSMock";
@@ -18,8 +18,7 @@ static MSMockService *sharedInstance = nil;
   if ((self = [super init])) {
 
     // Init channel configuration.
-    _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc]
-        initDefaultConfigurationWithGroupId:[self groupId]];
+    _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
   }
   return self;
 }
@@ -56,8 +55,7 @@ static MSMockService *sharedInstance = nil;
   self.appSecret = appSecret;
   self.defaultTransmissionTargetToken = token;
   self.started = YES;
-  self.channelUnit = [self.channelGroup
-      addChannelUnitWithConfiguration:self.channelUnitConfiguration];
+  self.channelUnit = [self.channelGroup addChannelUnitWithConfiguration:self.channelUnitConfiguration];
 }
 
 - (void)applyEnabledState:(BOOL)__unused isEnabled {
