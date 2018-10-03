@@ -114,9 +114,14 @@
 + (void)enableAutoVacuumInOpenedDatabase:(void *)db {
   NSArray<NSArray *> *result = [MSDBStorage executeSelectionQuery:@"PRAGMA auto_vacuum" inOpenedDatabase:db];
   int vacuumMode = [(NSNumber *)result[0][0] intValue];
-  BOOL autoVacuumDisabled = vacuumMode == 0;
-  [MSDBStorage executeNonSelectionQuery:@"PRAGMA auto_vacuum = FULL;" inOpenedDatabase:db];
+  BOOL autoVacuumDisabled = vacuumMode != 1;
+
+  /*
+   * If `auto_vacuum` is disabled, change it to `FULL` and then manually `VACUUM` the database. Per the SQLite docs, changing the state of
+   * `auto_vacuum` must be followed by a manual `VACUUM` before the change can take effect.
+   */
   if (autoVacuumDisabled) {
+    [MSDBStorage executeNonSelectionQuery:@"PRAGMA auto_vacuum = FULL" inOpenedDatabase:db];
     MSLogDebug([MSAppCenter logTag], @"Vacuuming database to enable auto_vacuum");
     [MSDBStorage executeNonSelectionQuery:@"VACUUM" inOpenedDatabase:db];
   }
