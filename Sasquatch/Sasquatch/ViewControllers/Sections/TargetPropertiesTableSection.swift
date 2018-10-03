@@ -1,6 +1,6 @@
 import UIKit
 
-class TargetPropertiesTableSection : PropertiesTableSection {
+class TargetPropertiesTableSection : SimplePropertiesTableSection {
   var targetProperties: [String: [(String, String)]]!
   var transmissionTargetSelectorCell: MSAnalyticsTransmissionTargetSelectorViewCell?
 
@@ -24,13 +24,13 @@ class TargetPropertiesTableSection : PropertiesTableSection {
     }
   }
 
-  override func numberOfCustomHeaderCells() -> Int {
-    return 1
+  override var numberOfCustomHeaderCells: Int {
+    get { return 1 }
   }
 
   override func propertyKeyChanged(sender: UITextField!) {
     let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
-    let arrayIndex = getCellRow(forTextField: sender) - propertyCellOffset()
+    let arrayIndex = getCellRow(forTextField: sender) - self.propertyCellOffset
     let currentPropertyKey = targetProperties[selectedTarget!]![arrayIndex].0
     let currentPropertyValue = targetProperties[selectedTarget!]![arrayIndex].1
     let target = MSTransmissionTargets.shared.transmissionTargets[selectedTarget!]!
@@ -41,7 +41,7 @@ class TargetPropertiesTableSection : PropertiesTableSection {
 
   override func propertyValueChanged(sender: UITextField!) {
     let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
-    let arrayIndex = getCellRow(forTextField: sender) - propertyCellOffset()
+    let arrayIndex = getCellRow(forTextField: sender) - self.propertyCellOffset
     let currentPropertyKey = targetProperties[selectedTarget!]![arrayIndex].0
     let target = MSTransmissionTargets.shared.transmissionTargets[selectedTarget!]!
     target.propertyConfigurator.setEventPropertyString(sender.text!, forKey: currentPropertyKey)
@@ -50,7 +50,7 @@ class TargetPropertiesTableSection : PropertiesTableSection {
 
   override func propertyAtRow(row: Int) -> (String, String) {
     let selectedTarget = transmissionTargetSelectorCell!.selectedTransmissionTarget()
-    return targetProperties[selectedTarget!]![row - propertyCellOffset()]
+    return targetProperties[selectedTarget!]![row - self.propertyCellOffset]
   }
 
   override func getPropertyCount() -> Int {
@@ -60,7 +60,7 @@ class TargetPropertiesTableSection : PropertiesTableSection {
 
   override func removeProperty(atRow row: Int) {
     let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
-    let arrayIndex = row - propertyCellOffset()
+    let arrayIndex = row - self.propertyCellOffset
     let key = targetProperties[selectedTarget!]![arrayIndex].0
     let target = MSTransmissionTargets.shared.transmissionTargets[selectedTarget!]!
     target.propertyConfigurator.removeEventProperty(forKey: key)

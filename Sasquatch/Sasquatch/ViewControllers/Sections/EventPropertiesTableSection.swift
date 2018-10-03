@@ -1,21 +1,21 @@
 import UIKit
 
-class EventPropertiesTableSection : PropertiesTableSection {
+class EventPropertiesTableSection : SimplePropertiesTableSection {
 
   var eventProperties: [(String, String)]! = [(String, String)]()
 
   override func propertyKeyChanged(sender: UITextField!) {
-    let arrayIndex = getCellRow(forTextField: sender) - propertyCellOffset()
+    let arrayIndex = getCellRow(forTextField: sender) - self.propertyCellOffset
     eventProperties[arrayIndex].0 = sender.text!
   }
 
   override func propertyValueChanged(sender: UITextField!) {
-    let arrayIndex = getCellRow(forTextField: sender) - propertyCellOffset()
+    let arrayIndex = getCellRow(forTextField: sender) - self.propertyCellOffset
     eventProperties[arrayIndex].1 = sender.text!
   }
 
   override func propertyAtRow(row: Int) -> (String, String) {
-    return eventProperties[row - propertyCellOffset()]
+    return eventProperties[row - self.propertyCellOffset]
   }
 
   override func getPropertyCount() -> Int {
@@ -23,7 +23,7 @@ class EventPropertiesTableSection : PropertiesTableSection {
   }
 
   override func removeProperty(atRow row: Int) {
-    eventProperties!.remove(at: row - propertyCellOffset())
+    eventProperties!.remove(at: row - self.propertyCellOffset)
   }
 
   override func addProperty(property: (String, String)) {

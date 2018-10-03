@@ -1,6 +1,6 @@
 import UIKit
 
-class CommonSchemaPropertiesTableSection : PropertiesTableSection {
+class CommonSchemaPropertiesTableSection : SimplePropertiesTableSection {
 
   let kTargetSelectorCellRow = 0
   let kDeviceIdRow = 1
@@ -15,6 +15,15 @@ class CommonSchemaPropertiesTableSection : PropertiesTableSection {
     case AppName = 0
     case AppVersion
     case AppLocale
+  }
+
+  override var numberOfCustomHeaderCells: Int {
+    get { return kNumberOfHeaderCells }
+  }
+
+  // Since properties are static, there is no "insert" row.
+  override var hasInsertRow: Bool {
+    get { return false }
   }
 
   override init(tableSection: Int, tableView: UITableView) {
@@ -52,7 +61,7 @@ class CommonSchemaPropertiesTableSection : PropertiesTableSection {
   
   override func propertyValueChanged(sender: UITextField!) {
     let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
-    let propertyIndex = getCellRow(forTextField: sender) - propertyCellOffset()
+    let propertyIndex = getCellRow(forTextField: sender) - self.propertyCellOffset
     let target = MSTransmissionTargets.shared.transmissionTargets[selectedTarget!]!
     propertyValues[selectedTarget!]![propertyIndex] = sender.text!
     switch propertyIndex {
@@ -72,22 +81,13 @@ class CommonSchemaPropertiesTableSection : PropertiesTableSection {
 
   override func propertyAtRow(row: Int) -> (String, String) {
     let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
-    let propertyIndex = row - propertyCellOffset()
+    let propertyIndex = row - self.propertyCellOffset
     let value = propertyValues[selectedTarget!]![propertyIndex]
-    return (propertyKeys[row - numberOfCustomHeaderCells()], value)
-  }
-
-  override func numberOfCustomHeaderCells() -> Int {
-    return kNumberOfHeaderCells;
+    return (propertyKeys[row - numberOfCustomHeaderCells], value)
   }
 
   override func getPropertyCount() -> Int {
     return propertyKeys.count
-  }
-
-  // Since properties are static, there is no "insert" row.
-  override func hasInsertRow() -> Bool {
-    return false
   }
 
   func collectDeviceIdSwitchCellEnabled(sender: UISwitch?) {
