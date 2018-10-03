@@ -31,7 +31,7 @@
     kMSCSVer : @"3.0",
     kMSCSName : @"1DS",
     kMSCSTime : abstractDummies[kMSTimestamp],
-    kMSCSIKey : @"60cd0b94-6060-11e8-9c2d-fa7ae01bbebc",
+    kMSCSIKey : @"o:60cd0b94-6060-11e8-9c2d-fa7ae01bbebc",
     kMSCSExt : [self extWithDummyValues],
     kMSCSData : [self dataWithDummyValues]
   } mutableCopy];
@@ -51,12 +51,9 @@
   NSMutableDictionary *dict = [self.commonSchemaLog serializeToDictionary];
 
   // Then
-  self.csLogDummyValues[kMSCSTime] =
-      [MSUtility dateToISO8601:self.csLogDummyValues[kMSCSTime]];
-  self.csLogDummyValues[kMSCSData] =
-      [self.csLogDummyValues[kMSCSData] serializeToDictionary];
-  self.csLogDummyValues[kMSCSExt] =
-      [self.csLogDummyValues[kMSCSExt] serializeToDictionary];
+  self.csLogDummyValues[kMSCSTime] = [MSUtility dateToISO8601:self.csLogDummyValues[kMSCSTime]];
+  self.csLogDummyValues[kMSCSData] = [self.csLogDummyValues[kMSCSData] serializeToDictionary];
+  self.csLogDummyValues[kMSCSExt] = [self.csLogDummyValues[kMSCSExt] serializeToDictionary];
   [self.csLogDummyValues removeObjectForKey:kMSDevice];
   [self.csLogDummyValues removeObjectForKey:kMSDistributionGroupId];
   [self.csLogDummyValues removeObjectForKey:kMSTimestamp];
@@ -69,10 +66,8 @@
 - (void)testCSLogNSCodingSerializationAndDeserialization {
 
   // When
-  NSData *serializedCSLog =
-      [NSKeyedArchiver archivedDataWithRootObject:self.commonSchemaLog];
-  MSCommonSchemaLog *actualCSLog =
-      [NSKeyedUnarchiver unarchiveObjectWithData:serializedCSLog];
+  NSData *serializedCSLog = [NSKeyedArchiver archivedDataWithRootObject:self.commonSchemaLog];
+  MSCommonSchemaLog *actualCSLog = [NSKeyedUnarchiver unarchiveObjectWithData:serializedCSLog];
 
   // Then
   XCTAssertNotNil(actualCSLog);
@@ -80,13 +75,10 @@
   XCTAssertTrue([actualCSLog isMemberOfClass:[MSCommonSchemaLog class]]);
   XCTAssertEqualObjects(actualCSLog.ver, self.csLogDummyValues[kMSCSVer]);
   XCTAssertEqualObjects(actualCSLog.name, self.csLogDummyValues[kMSCSName]);
-  XCTAssertEqualObjects(actualCSLog.timestamp,
-                        self.csLogDummyValues[kMSCSTime]);
-  XCTAssertEqual(actualCSLog.popSample,
-                 [self.csLogDummyValues[kMSCSPopSample] doubleValue]);
+  XCTAssertEqualObjects(actualCSLog.timestamp, self.csLogDummyValues[kMSCSTime]);
+  XCTAssertEqual(actualCSLog.popSample, [self.csLogDummyValues[kMSCSPopSample] doubleValue]);
   XCTAssertEqualObjects(actualCSLog.iKey, self.csLogDummyValues[kMSCSIKey]);
-  XCTAssertEqual(actualCSLog.flags,
-                 [self.csLogDummyValues[kMSCSFlags] longLongValue]);
+  XCTAssertEqual(actualCSLog.flags, [self.csLogDummyValues[kMSCSFlags] longLongValue]);
   XCTAssertEqualObjects(actualCSLog.cV, self.csLogDummyValues[kMSCSCV]);
   XCTAssertEqualObjects(actualCSLog.ext, self.csLogDummyValues[kMSCSExt]);
   XCTAssertEqualObjects(actualCSLog.data, self.csLogDummyValues[kMSCSData]);
@@ -167,9 +159,8 @@
   XCTAssertNotEqualObjects(anotherCommonSchemaLog, self.commonSchemaLog);
 
   // If
-  anotherCommonSchemaLog.popSample =
-      [self.csLogDummyValues[kMSCSPopSample] doubleValue];
-  anotherCommonSchemaLog.iKey = @"0bcff4a2-6377-11e8-adc0-fa7ae01bbebc";
+  anotherCommonSchemaLog.popSample = [self.csLogDummyValues[kMSCSPopSample] doubleValue];
+  anotherCommonSchemaLog.iKey = @"o:0bcff4a2-6377-11e8-adc0-fa7ae01bbebc";
 
   // Then
   XCTAssertNotEqualObjects(anotherCommonSchemaLog, self.commonSchemaLog);
@@ -182,8 +173,7 @@
   XCTAssertNotEqualObjects(anotherCommonSchemaLog, self.commonSchemaLog);
 
   // If
-  anotherCommonSchemaLog.flags =
-      [self.csLogDummyValues[kMSCSFlags] longLongValue];
+  anotherCommonSchemaLog.flags = [self.csLogDummyValues[kMSCSFlags] longLongValue];
   anotherCommonSchemaLog.cV = @"HyCFaiQoBkyEp0L3.1.3";
 
   // Then

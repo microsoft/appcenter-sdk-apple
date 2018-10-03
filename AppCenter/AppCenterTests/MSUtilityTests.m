@@ -46,8 +46,7 @@
 - (void)testMSAppStateMatchesUIAppStateWhenAvailable {
 
   // Then
-  assertThat(@([MSUtility applicationState]),
-             is(@([UIApplication sharedApplication].applicationState)));
+  assertThat(@([MSUtility applicationState]), is(@([UIApplication sharedApplication].applicationState)));
 }
 #endif
 
@@ -56,8 +55,7 @@
   // If
   // Mock the helper itself to monitor method calls.
   id bundleMock = OCMClassMock([NSBundle class]);
-  OCMStub([bundleMock executablePath])
-      .andReturn(@"/apath/coolappext.appex/coolappext");
+  OCMStub([bundleMock executablePath]).andReturn(@"/apath/coolappext.appex/coolappext");
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
   OCMReject([self.utils sharedAppState]);
 
@@ -157,8 +155,7 @@
 - (void)testSharedAppOpenEmptyCallCallback {
 
   // If
-  XCTestExpectation *openURLCalledExpectation =
-      [self expectationWithDescription:@"openURL Called."];
+  XCTestExpectation *openURLCalledExpectation = [self expectationWithDescription:@"openURL Called."];
   __block BOOL handlerHasBeenCalled = NO;
 
   // When
@@ -177,8 +174,7 @@
                                handler:^(NSError *error) {
                                  XCTAssertTrue(handlerHasBeenCalled);
                                  if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@",
-                                           error);
+                                   XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
 }
@@ -193,9 +189,7 @@
   NSString *result = [MSUtility sha256:test];
 
   // Then
-  XCTAssertTrue([result
-      isEqualToString:
-          @"6dd79f2770a0bb38073b814a5ff000647b37be5abbde71ec9176c6ce0cb32a27"]);
+  XCTAssertTrue([result isEqualToString:@"6dd79f2770a0bb38073b814a5ff000647b37be5abbde71ec9176c6ce0cb32a27"]);
 }
 
 - (void)testPrettyPrintNil {
@@ -204,15 +198,11 @@
 
 - (void)testPrettyPrintNotJson {
   NSString *nonJson = @"[test] some non json string";
-  XCTAssertTrue([[MSUtility
-      prettyPrintJson:[nonJson dataUsingEncoding:NSUTF8StringEncoding]]
-      isEqualToString:nonJson]);
+  XCTAssertTrue([[MSUtility prettyPrintJson:[nonJson dataUsingEncoding:NSUTF8StringEncoding]] isEqualToString:nonJson]);
 }
 
 - (void)testPrettyPrintJson {
-  XCTAssertTrue([[MSUtility
-      prettyPrintJson:[@"{\"a\":1}" dataUsingEncoding:NSUTF8StringEncoding]]
-      isEqualToString:@"{\n  \"a\" : 1\n}"]);
+  XCTAssertTrue([[MSUtility prettyPrintJson:[@"{\"a\":1}" dataUsingEncoding:NSUTF8StringEncoding]] isEqualToString:@"{\n  \"a\" : 1\n}"]);
 }
 
 #pragma mark - MSUtility+PropertyValidation.h
@@ -241,32 +231,28 @@
   XCTAssertTrue([uuidString isEqualToString:result]);
 
   // When
-  test = [NSString
-      stringWithFormat:@"%@;target={transmissionTargetToken}", uuidString];
+  test = [NSString stringWithFormat:@"%@;target={transmissionTargetToken}", uuidString];
   result = [MSUtility appSecretFrom:test];
 
   // Then
   XCTAssertTrue([uuidString isEqualToString:result]);
 
   // When
-  test = [NSString
-      stringWithFormat:@"%@;target={transmissionTargetToken};", uuidString];
+  test = [NSString stringWithFormat:@"%@;target={transmissionTargetToken};", uuidString];
   result = [MSUtility appSecretFrom:test];
 
   // Then
   XCTAssertTrue([uuidString isEqualToString:result]);
 
   // When
-  test = [NSString
-      stringWithFormat:@"target={transmissionTargetToken};%@", uuidString];
+  test = [NSString stringWithFormat:@"target={transmissionTargetToken};%@", uuidString];
   result = [MSUtility appSecretFrom:test];
 
   // Then
   XCTAssertTrue([uuidString isEqualToString:result]);
 
   // When
-  test = [NSString
-      stringWithFormat:@"target={transmissionTargetToken};%@;", uuidString];
+  test = [NSString stringWithFormat:@"target={transmissionTargetToken};%@;", uuidString];
 
   result = [MSUtility appSecretFrom:test];
 
@@ -288,9 +274,7 @@
   XCTAssertNil(result);
 
   // When
-  test = [NSString
-      stringWithFormat:@"appsecret=%@;target={transmissionTargetToken};",
-                       uuidString];
+  test = [NSString stringWithFormat:@"appsecret=%@;target={transmissionTargetToken};", uuidString];
   result = [MSUtility appSecretFrom:test];
 
   // Then
@@ -311,18 +295,14 @@
   XCTAssertTrue([uuidString isEqualToString:result]);
 
   // When
-  test = [NSString
-      stringWithFormat:@"target={transmissionTargetToken};appsecret=%@;",
-                       uuidString];
+  test = [NSString stringWithFormat:@"target={transmissionTargetToken};appsecret=%@;", uuidString];
   result = [MSUtility appSecretFrom:test];
 
   // Then
   XCTAssertTrue([uuidString isEqualToString:result]);
 
   // When
-  test = [NSString
-      stringWithFormat:@"target={transmissionTargetToken};appsecret=%@",
-                       uuidString];
+  test = [NSString stringWithFormat:@"target={transmissionTargetToken};appsecret=%@", uuidString];
   result = [MSUtility appSecretFrom:test];
 
   // Then
@@ -434,8 +414,7 @@
 
   // When
   NSString *guidString = @"{app-secret}";
-  NSString *test =
-      [NSString stringWithFormat:@"target=;appsecret=%@", guidString];
+  NSString *test = [NSString stringWithFormat:@"target=;appsecret=%@", guidString];
   NSString *tokenResult = [MSUtility transmissionTargetTokenFrom:test];
   NSString *secretResult = [MSUtility appSecretFrom:test];
 
@@ -454,10 +433,7 @@
 
   // When
   guidString = MS_UUID_STRING;
-  test = [NSString
-      stringWithFormat:
-          @"target=;target={transmissionTargetToken};appsecret=;appsecret=%@;",
-          guidString];
+  test = [NSString stringWithFormat:@"target=;target={transmissionTargetToken};appsecret=;appsecret=%@;", guidString];
   tokenResult = [MSUtility transmissionTargetTokenFrom:test];
   secretResult = [MSUtility appSecretFrom:test];
 
@@ -468,31 +444,21 @@
 }
 
 - (void)testValidatePropertyType {
-  NSString *longStringValue =
-      [@"" stringByPaddingToLength:(kMSMaxPropertyValueLength + 1)
-                         withString:@"value"
-                    startingAtIndex:0];
-  NSString *stringValue125 =
-      [@"" stringByPaddingToLength:kMSMaxPropertyValueLength
-                         withString:@"value"
-                    startingAtIndex:0];
+  NSString *longStringValue = [@"" stringByPaddingToLength:(kMSMaxPropertyValueLength + 1) withString:@"value" startingAtIndex:0];
+  NSString *stringValue125 = [@"" stringByPaddingToLength:kMSMaxPropertyValueLength withString:@"value" startingAtIndex:0];
   NSString *testLogTypeString = @"testLog";
 
   // Test valid properties
   // If
-  NSDictionary *validProperties = @{
-    @"Key1" : @"Value1",
-    stringValue125 : @"Value2",
-    @"Key3" : stringValue125,
-    @"Key4" : @"Value4",
-    @"Key5" : @""
-  };
+  NSDictionary *validProperties =
+      @{ @"Key1" : @"Value1",
+         stringValue125 : @"Value2",
+         @"Key3" : stringValue125,
+         @"Key4" : @"Value4",
+         @"Key5" : @"" };
 
   // When
-  NSDictionary *validatedProperties =
-      [MSUtility validateProperties:validProperties
-                         forLogName:testLogTypeString
-                               type:testLogTypeString];
+  NSDictionary *validatedProperties = [MSUtility validateProperties:validProperties forLogName:testLogTypeString type:testLogTypeString];
 
   // Then
   XCTAssertTrue([validatedProperties count] == [validProperties count]);
@@ -525,58 +491,41 @@
   };
 
   // When
-  validatedProperties = [MSUtility validateProperties:tooManyProperties
-                                           forLogName:testLogTypeString
-                                                 type:testLogTypeString];
+  validatedProperties = [MSUtility validateProperties:tooManyProperties forLogName:testLogTypeString type:testLogTypeString];
 
   // Then
   XCTAssertTrue([validatedProperties count] == kMSMaxPropertiesPerLog);
 
   // Test invalid properties
   // If
-  NSDictionary *invalidKeysInProperties =
-      @{ @"Key1" : @"Value1",
-         @(2) : @"Value2",
-         @"" : @"Value4" };
+  NSDictionary *invalidKeysInProperties = @{ @"Key1" : @"Value1", @(2) : @"Value2", @"" : @"Value4" };
 
   // When
-  validatedProperties = [MSUtility validateProperties:invalidKeysInProperties
-                                           forLogName:testLogTypeString
-                                                 type:testLogTypeString];
+  validatedProperties = [MSUtility validateProperties:invalidKeysInProperties forLogName:testLogTypeString type:testLogTypeString];
 
   // Then
   XCTAssertTrue([validatedProperties count] == 1);
 
   // Test invalid values
   // If
-  NSDictionary *invalidValuesInProperties =
-      @{ @"Key1" : @"Value1",
-         @"Key2" : @(2) };
+  NSDictionary *invalidValuesInProperties = @{ @"Key1" : @"Value1", @"Key2" : @(2) };
 
   // When
-  validatedProperties = [MSUtility validateProperties:invalidValuesInProperties
-                                           forLogName:testLogTypeString
-                                                 type:testLogTypeString];
+  validatedProperties = [MSUtility validateProperties:invalidValuesInProperties forLogName:testLogTypeString type:testLogTypeString];
 
   // Then
   XCTAssertTrue([validatedProperties count] == 1);
 
   // Test long keys and values are truncated.
   // If
-  NSDictionary *tooLongKeysAndValuesInProperties =
-      @{longStringValue : longStringValue};
+  NSDictionary *tooLongKeysAndValuesInProperties = @{longStringValue : longStringValue};
 
   // When
-  validatedProperties =
-      [MSUtility validateProperties:tooLongKeysAndValuesInProperties
-                         forLogName:testLogTypeString
-                               type:testLogTypeString];
+  validatedProperties = [MSUtility validateProperties:tooLongKeysAndValuesInProperties forLogName:testLogTypeString type:testLogTypeString];
 
   // Then
-  NSString *truncatedKey =
-      (NSString *)[[validatedProperties allKeys] firstObject];
-  NSString *truncatedValue =
-      (NSString *)[[validatedProperties allValues] firstObject];
+  NSString *truncatedKey = (NSString *)[[validatedProperties allKeys] firstObject];
+  NSString *truncatedValue = (NSString *)[[validatedProperties allValues] firstObject];
   XCTAssertTrue([validatedProperties count] == 1);
   XCTAssertEqual([truncatedKey length], kMSMaxPropertyKeyLength);
   XCTAssertEqual([truncatedValue length], kMSMaxPropertyValueLength);
@@ -621,9 +570,7 @@
   };
 
   // When
-  validatedProperties = [MSUtility validateProperties:mixedProperties
-                                           forLogName:testLogTypeString
-                                                 type:testLogTypeString];
+  validatedProperties = [MSUtility validateProperties:mixedProperties forLogName:testLogTypeString type:testLogTypeString];
 
   // Then
   XCTAssertTrue([validatedProperties count] == kMSMaxPropertiesPerLog);
@@ -642,15 +589,11 @@
   // If
   NSString *expectedString = @"Something";
   NSString *pathComponent = @"testing/afile.test";
-  NSData *expectedData =
-      [expectedString dataUsingEncoding:NSUTF8StringEncoding];
+  NSData *expectedData = [expectedString dataUsingEncoding:NSUTF8StringEncoding];
   BOOL forceOverwrite = NO;
 
   // When
-  NSURL *url = [MSUtility createFileAtPathComponent:pathComponent
-                                           withData:expectedData
-                                         atomically:YES
-                                     forceOverwrite:forceOverwrite];
+  NSURL *url = [MSUtility createFileAtPathComponent:pathComponent withData:expectedData atomically:YES forceOverwrite:forceOverwrite];
 
   // Then
   XCTAssertNotNil(url);
@@ -659,50 +602,38 @@
   expectedFile = @"/Library/Caches/com.microsoft.appcenter/testing/afile.test";
 #else
 #if TARGET_OS_OSX
-  expectedFile = @"/Library/Application%20Support/(null)/"
-                 @"com.microsoft.appcenter/testing/afile.test";
+  expectedFile = @"/Library/Application%20Support/(null)/com.microsoft.appcenter/testing/afile.test";
 #else
-  expectedFile = @"/Library/Application%20Support/com.microsoft.appcenter/"
-                 @"testing/afile.test";
+  expectedFile = @"/Library/Application%20Support/com.microsoft.appcenter/testing/afile.test";
 #endif
 #endif
   XCTAssertTrue([[url relativeString] containsString:expectedFile]);
   XCTAssertTrue([url checkResourceIsReachableAndReturnError:nil]);
   NSData *actualData = [NSData dataWithContentsOfURL:url];
   XCTAssertNotNil(actualData);
-  NSString *actualContent =
-      [[NSString alloc] initWithData:actualData encoding:NSUTF8StringEncoding];
+  NSString *actualContent = [[NSString alloc] initWithData:actualData encoding:NSUTF8StringEncoding];
   XCTAssertTrue([actualContent isEqualToString:expectedString]);
 
   // When
   NSString *newString = @"Hello";
   NSData *newData = [newString dataUsingEncoding:NSUTF8StringEncoding];
 
-  // Try to create a file that already exists with forceOverwrite set to NO.
-  // This shouldn't change the file.
-  url = [MSUtility createFileAtPathComponent:pathComponent
-                                    withData:newData
-                                  atomically:YES
-                              forceOverwrite:NO];
+  // Try to create a file that already exists with forceOverwrite set to NO. This shouldn't change the file.
+  url = [MSUtility createFileAtPathComponent:pathComponent withData:newData atomically:YES forceOverwrite:NO];
 
   // Then
   actualData = [NSData dataWithContentsOfURL:url];
   XCTAssertNotNil(actualData);
-  actualContent =
-      [[NSString alloc] initWithData:actualData encoding:NSUTF8StringEncoding];
+  actualContent = [[NSString alloc] initWithData:actualData encoding:NSUTF8StringEncoding];
   XCTAssertTrue([actualContent isEqualToString:expectedString]);
 
   // When
-  url = [MSUtility createFileAtPathComponent:pathComponent
-                                    withData:newData
-                                  atomically:YES
-                              forceOverwrite:YES];
+  url = [MSUtility createFileAtPathComponent:pathComponent withData:newData atomically:YES forceOverwrite:YES];
 
   // Then
   actualData = [NSData dataWithContentsOfURL:url];
   XCTAssertNotNil(actualData);
-  actualContent =
-      [[NSString alloc] initWithData:actualData encoding:NSUTF8StringEncoding];
+  actualContent = [[NSString alloc] initWithData:actualData encoding:NSUTF8StringEncoding];
   XCTAssertTrue([actualContent isEqualToString:newString]);
 }
 
@@ -711,29 +642,22 @@
   // If
   NSString *expectedString = @"Something";
   NSString *pathComponent = @"testing/anotherfile.test";
-  NSData *expectedData =
-      [expectedString dataUsingEncoding:NSUTF8StringEncoding];
+  NSData *expectedData = [expectedString dataUsingEncoding:NSUTF8StringEncoding];
   BOOL forceOverwrite = NO;
 
   // When
-  NSURL *url = [MSUtility createFileAtPathComponent:pathComponent
-                                           withData:expectedData
-                                         atomically:YES
-                                     forceOverwrite:forceOverwrite];
+  NSURL *url = [MSUtility createFileAtPathComponent:pathComponent withData:expectedData atomically:YES forceOverwrite:forceOverwrite];
 
   // Then
   XCTAssertNotNil(url);
   NSString *expectedFile;
 #if TARGET_OS_TV
-  expectedFile =
-      @"/Library/Caches/com.microsoft.appcenter/testing/anotherfile.test";
+  expectedFile = @"/Library/Caches/com.microsoft.appcenter/testing/anotherfile.test";
 #else
 #if TARGET_OS_OSX
-  expectedFile = @"/Library/Application%20Support/(null)/"
-                 @"com.microsoft.appcenter/testing/anotherfile.test";
+  expectedFile = @"/Library/Application%20Support/(null)/com.microsoft.appcenter/testing/anotherfile.test";
 #else
-  expectedFile = @"/Library/Application%20Support/com.microsoft.appcenter/"
-                 @"testing/anotherfile.test";
+  expectedFile = @"/Library/Application%20Support/com.microsoft.appcenter/testing/anotherfile.test";
 #endif
 #endif
   XCTAssertTrue([[url relativeString] containsString:expectedFile]);
@@ -759,11 +683,9 @@
   expectedFile = @"/Library/Caches/com.microsoft.appcenter/testing";
 #else
 #if TARGET_OS_OSX
-  expectedFile =
-      @"/Library/Application%20Support/(null)/com.microsoft.appcenter/testing";
+  expectedFile = @"/Library/Application%20Support/(null)/com.microsoft.appcenter/testing";
 #else
-  expectedFile =
-      @"/Library/Application%20Support/com.microsoft.appcenter/testing";
+  expectedFile = @"/Library/Application%20Support/com.microsoft.appcenter/testing";
 #endif
 #endif
   XCTAssertTrue([[url relativeString] containsString:expectedFile]);
@@ -775,21 +697,16 @@
   // If
   NSString *expectedString = @"Something";
   NSString *pathComponent = @"testing/anotherfile.test";
-  NSData *expectedData =
-      [expectedString dataUsingEncoding:NSUTF8StringEncoding];
+  NSData *expectedData = [expectedString dataUsingEncoding:NSUTF8StringEncoding];
   BOOL forceOverwrite = NO;
-  [MSUtility createFileAtPathComponent:pathComponent
-                              withData:expectedData
-                            atomically:YES
-                        forceOverwrite:forceOverwrite];
+  [MSUtility createFileAtPathComponent:pathComponent withData:expectedData atomically:YES forceOverwrite:forceOverwrite];
 
   // When
   NSData *actualData = [MSUtility loadDataForPathComponent:pathComponent];
 
   // Then
   XCTAssertNotNil(actualData);
-  NSString *actualContent =
-      [[NSString alloc] initWithData:actualData encoding:NSUTF8StringEncoding];
+  NSString *actualContent = [[NSString alloc] initWithData:actualData encoding:NSUTF8StringEncoding];
   XCTAssertTrue([actualContent isEqualToString:expectedString]);
 }
 
@@ -798,39 +715,28 @@
   // If
   NSString *expectedString = @"Something";
   NSString *parentDir = @"testing";
-  NSString *pathComponent =
-      [NSString stringWithFormat:@"%@%@", parentDir, @"/testFile."];
+  NSString *pathComponent = [NSString stringWithFormat:@"%@%@", parentDir, @"/testFile."];
   BOOL forceOverwrite = NO;
   BOOL atomical = YES;
   NSUInteger fileCount;
   for (fileCount = 0; fileCount < 3; fileCount++) {
-    [MSUtility
-        createFileAtPathComponent:[NSString
-                                      stringWithFormat:@"%@%lu", pathComponent,
-                                                       (unsigned long)fileCount]
-                         withData:[[NSString
-                                      stringWithFormat:@"%@%lu", expectedString,
-                                                       (unsigned long)fileCount]
-                                      dataUsingEncoding:NSUTF8StringEncoding]
-                       atomically:atomical
-                   forceOverwrite:forceOverwrite];
+    [MSUtility createFileAtPathComponent:[NSString stringWithFormat:@"%@%lu", pathComponent, (unsigned long)fileCount]
+                                withData:[[NSString stringWithFormat:@"%@%lu", expectedString, (unsigned long)fileCount]
+                                             dataUsingEncoding:NSUTF8StringEncoding]
+                              atomically:atomical
+                          forceOverwrite:forceOverwrite];
   }
 
   // When
-  NSArray<NSURL *> *contents =
-      [MSUtility contentsOfDirectory:parentDir propertiesForKeys:nil];
+  NSArray<NSURL *> *contents = [MSUtility contentsOfDirectory:parentDir propertiesForKeys:nil];
 
   // Then
   XCTAssertTrue(contents.count == fileCount);
   for (NSURL *fileUrl in contents) {
     NSString *testNb = fileUrl.pathExtension;
-    NSString *content = [NSString stringWithContentsOfURL:fileUrl
-                                                 encoding:NSUTF8StringEncoding
-                                                    error:nil];
+    NSString *content = [NSString stringWithContentsOfURL:fileUrl encoding:NSUTF8StringEncoding error:nil];
     XCTAssertTrue([fileUrl checkResourceIsReachableAndReturnError:nil]);
-    BOOL test = [content
-        isEqualToString:[NSString
-                            stringWithFormat:@"%@%@", expectedString, testNb]];
+    BOOL test = [content isEqualToString:[NSString stringWithFormat:@"%@%@", expectedString, testNb]];
     XCTAssertTrue(test);
   }
 }
@@ -840,13 +746,9 @@
   // If
   NSString *expectedString = @"Something";
   NSString *pathComponent = @"testing/anotherfile.test";
-  NSData *expectedData =
-      [expectedString dataUsingEncoding:NSUTF8StringEncoding];
+  NSData *expectedData = [expectedString dataUsingEncoding:NSUTF8StringEncoding];
   BOOL forceOverwrite = NO;
-  [MSUtility createFileAtPathComponent:pathComponent
-                              withData:expectedData
-                            atomically:YES
-                        forceOverwrite:forceOverwrite];
+  [MSUtility createFileAtPathComponent:pathComponent withData:expectedData atomically:YES forceOverwrite:forceOverwrite];
 
   // When
   BOOL actual = [MSUtility fileExistsForPathComponent:pathComponent];
@@ -866,29 +768,22 @@
   // If
   NSString *expectedString = @"Something";
   NSString *pathComponent = @"testing/anotherfile.test";
-  NSData *expectedData =
-      [expectedString dataUsingEncoding:NSUTF8StringEncoding];
+  NSData *expectedData = [expectedString dataUsingEncoding:NSUTF8StringEncoding];
   BOOL forceOverwrite = NO;
 
   // When
-  NSURL *url = [MSUtility createFileAtPathComponent:pathComponent
-                                           withData:expectedData
-                                         atomically:YES
-                                     forceOverwrite:forceOverwrite];
+  NSURL *url = [MSUtility createFileAtPathComponent:pathComponent withData:expectedData atomically:YES forceOverwrite:forceOverwrite];
 
   // Then
   XCTAssertNotNil(url);
   NSString *expectedFile;
 #if TARGET_OS_TV
-  expectedFile =
-      @"/Library/Caches/com.microsoft.appcenter/testing/anotherfile.test";
+  expectedFile = @"/Library/Caches/com.microsoft.appcenter/testing/anotherfile.test";
 #else
 #if TARGET_OS_OSX
-  expectedFile = @"/Library/Application%20Support/(null)/"
-                 @"com.microsoft.appcenter/testing/anotherfile.test";
+  expectedFile = @"/Library/Application%20Support/(null)/com.microsoft.appcenter/testing/anotherfile.test";
 #else
-  expectedFile = @"/Library/Application%20Support/com.microsoft.appcenter/"
-                 @"testing/anotherfile.test";
+  expectedFile = @"/Library/Application%20Support/com.microsoft.appcenter/testing/anotherfile.test";
 #endif
 #endif
   XCTAssertTrue([[url relativeString] containsString:expectedFile]);
@@ -906,22 +801,17 @@
   // If
   NSString *expectedString = @"Something";
   NSString *pathComponent = @"testing/anotherfile.test";
-  NSData *expectedData =
-      [expectedString dataUsingEncoding:NSUTF8StringEncoding];
+  NSData *expectedData = [expectedString dataUsingEncoding:NSUTF8StringEncoding];
   BOOL forceOverwrite = NO;
 
   // When
-  NSURL *url = [MSUtility createFileAtPathComponent:pathComponent
-                                           withData:expectedData
-                                         atomically:YES
-                                     forceOverwrite:forceOverwrite];
+  NSURL *url = [MSUtility createFileAtPathComponent:pathComponent withData:expectedData atomically:YES forceOverwrite:forceOverwrite];
   NSURL *actual = [MSUtility fullURLForPathComponent:pathComponent];
 
   // Then
   XCTAssertNotNil(url);
   XCTAssertNotNil(url);
-  XCTAssertTrue(
-      [[url absoluteString] isEqualToString:([actual absoluteString]) ?: @""]);
+  XCTAssertTrue([[url absoluteString] isEqualToString:([actual absoluteString]) ?: @""]);
 }
 
 - (void)testIKeyFromTargetToken {
@@ -948,19 +838,19 @@
 - (void)testTargetIdFromTargetToken {
 
   // When
-  NSString *targetId = [MSUtility targetIdFromTargetToken:nil];
+  NSString *targetId = [MSUtility targetKeyFromTargetToken:nil];
 
   // Then
   XCTAssertNil(targetId);
 
   // When
-  targetId = [MSUtility targetIdFromTargetToken:@""];
+  targetId = [MSUtility targetKeyFromTargetToken:@""];
 
   // Then
   XCTAssertNil(targetId);
 
   // When
-  targetId = [MSUtility targetIdFromTargetToken:@"targetId-gu-id"];
+  targetId = [MSUtility targetKeyFromTargetToken:@"targetId-gu-id"];
 
   // Then
   XCTAssertEqualObjects(targetId, @"targetId");

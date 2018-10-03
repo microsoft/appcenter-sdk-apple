@@ -1,5 +1,5 @@
-#import "MSOSExtension.h"
 #import "MSCSModelConstants.h"
+#import "MSOSExtension.h"
 
 @implementation MSOSExtension
 
@@ -32,8 +32,7 @@
   }
   MSOSExtension *osExt = (MSOSExtension *)object;
   return ((!self.ver && !osExt.ver) || [self.ver isEqualToString:osExt.ver]) &&
-         ((!self.name && !osExt.name) ||
-          [self.name isEqualToString:osExt.name]);
+         ((!self.name && !osExt.name) || [self.name isEqualToString:osExt.name]);
 }
 
 #pragma mark - NSCoding

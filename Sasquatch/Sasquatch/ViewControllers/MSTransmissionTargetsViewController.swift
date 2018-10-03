@@ -15,13 +15,13 @@ class MSTransmissionTargetsViewController: UITableViewController, AppCenterProto
       if isDefault {
         return MSTransmissionTargets.shared.defaultTransmissionTargetIsEnabled
       } else {
-        return MSTransmissionTargets.shared.transmissionTargets[token!]!.isEnabled()
+        return getTransmissionTarget()!.isEnabled()
       }
     }
 
     func setTransmissionTargetEnabled(_ enabledState: Bool) {
       if !isDefault {
-        MSTransmissionTargets.shared.transmissionTargets[token!]!.setEnabled(enabledState)
+        getTransmissionTarget()!.setEnabled(enabledState)
       }
     }
 
@@ -48,17 +48,27 @@ class MSTransmissionTargetsViewController: UITableViewController, AppCenterProto
         MSTransmissionTargets.shared.setShouldSendAnalyticsEvents(targetToken: token!, enabledState: enabledState)
       }
     }
+
+    func pause() {
+      getTransmissionTarget()!.pause()
+    }
+
+    func resume() {
+      getTransmissionTarget()!.resume()
+    }
   }
 
   private var transmissionTargetSections: [MSTransmissionTargetSection]?
   private let kEnabledSwitchCellId = "enabledswitchcell"
   private let kAnalyticsSwitchCellId = "analyticsswitchcell"
   private let kTokenCellId = "tokencell"
+  private let kPauseCellId = "pausecell"
   private let kEnabledStateIndicatorCellId = "enabledstateindicator"
   private let kTokenDisplayLabelTag = 1
   private let kEnabledCellRowIndex = 0
   private let kAnalyticsCellRowIndex = 1
   private let kTokenCellRowIndex = 2
+  private let kPauseCellRowIndex = 3
   private var targetPropertiesSection: TargetPropertiesTableSection?
   private var csPropertiesSection: CommonSchemaPropertiesTableSection?
   
@@ -123,8 +133,11 @@ class MSTransmissionTargetsViewController: UITableViewController, AppCenterProto
     else if section == Section.CommonSchemaProperties.rawValue {
       return csPropertiesSection!.tableView(tableView, numberOfRowsInSection:section)
     }
-    else {
+    else if section == Section.Default.rawValue {
       return 3
+    }
+    else {
+      return 4
     }
   }
 
@@ -157,6 +170,8 @@ class MSTransmissionTargetsViewController: UITableViewController, AppCenterProto
       let label: UILabel? = cell.getSubview(withTag: kTokenDisplayLabelTag)
       label?.text = section.token
       return cell
+    case kPauseCellRowIndex:
+      return tableView.dequeueReusableCell(withIdentifier: kPauseCellId)!
     default:
       return super.tableView(tableView, cellForRowAt: indexPath)
     }
@@ -168,7 +183,7 @@ class MSTransmissionTargetsViewController: UITableViewController, AppCenterProto
     if (sectionIndex == Section.Default.rawValue) {
       section.setTransmissionTargetEnabled(sender!.isOn)
     }
-    else if (sectionIndex == Section.Runtime.rawValue) {
+    else if sectionIndex == Section.Runtime.rawValue {
       section.setTransmissionTargetEnabled(sender!.isOn)
       for childSectionIndex in 2...3 {
         guard let childCell = tableView.cellForRow(at: IndexPath(row: kEnabledCellRowIndex, section: childSectionIndex)) else {
@@ -180,10 +195,10 @@ class MSTransmissionTargetsViewController: UITableViewController, AppCenterProto
         childSwitch!.isEnabled = sender!.isOn
       }
     }
-    else if (sectionIndex == Section.Child1.rawValue || sectionIndex == Section.Child2.rawValue) {
+    else if sectionIndex == Section.Child1.rawValue || sectionIndex == Section.Child2.rawValue {
       let switchEnabled = sender!.isOn
       section.setTransmissionTargetEnabled(switchEnabled)
-      if(switchEnabled && (section.isTransmissionTargetEnabled() == false)) {
+      if switchEnabled && !section.isTransmissionTargetEnabled() {
         
         // Switch tried to enable the transmission target but it didn't work.
         sender!.setOn(false, animated: true)
@@ -197,6 +212,18 @@ class MSTransmissionTargetsViewController: UITableViewController, AppCenterProto
     let sectionIndex = getCellSection(forView: sender)
     let section = transmissionTargetSections![sectionIndex]
     section.setShouldSendAnalytics(enabledState: sender!.isOn)
+  }
+
+  @IBAction func pause(_ sender: UIButton) {
+    let sectionIndex = getCellSection(forView: sender)
+    let section = transmissionTargetSections![sectionIndex]
+    section.pause()
+  }
+
+  @IBAction func resume(_ sender: UIButton) {
+    let sectionIndex = getCellSection(forView: sender)
+    let section = transmissionTargetSections![sectionIndex]
+    section.resume()
   }
 
   override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

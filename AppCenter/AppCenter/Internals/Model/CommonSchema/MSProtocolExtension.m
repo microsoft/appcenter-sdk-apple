@@ -1,5 +1,5 @@
-#import "MSProtocolExtension.h"
 #import "MSCSModelConstants.h"
+#import "MSProtocolExtension.h"
 
 @implementation MSProtocolExtension
 
@@ -34,12 +34,9 @@
     return NO;
   }
   MSProtocolExtension *protocolExt = (MSProtocolExtension *)object;
-  return ((!self.ticketKeys && !protocolExt.ticketKeys) ||
-          [self.ticketKeys isEqualToArray:protocolExt.ticketKeys]) &&
-         ((!self.devMake && !protocolExt.devMake) ||
-          [self.devMake isEqualToString:protocolExt.devMake]) &&
-         ((!self.devModel && !protocolExt.devModel) ||
-          [self.devModel isEqualToString:protocolExt.devModel]);
+  return ((!self.ticketKeys && !protocolExt.ticketKeys) || [self.ticketKeys isEqualToArray:protocolExt.ticketKeys]) &&
+         ((!self.devMake && !protocolExt.devMake) || [self.devMake isEqualToString:protocolExt.devMake]) &&
+         ((!self.devModel && !protocolExt.devModel) || [self.devModel isEqualToString:protocolExt.devModel]);
 }
 
 #pragma mark - NSCoding

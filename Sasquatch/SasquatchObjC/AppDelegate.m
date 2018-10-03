@@ -39,6 +39,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 @property(nonatomic) MSAnalyticsResult *analyticsResult;
 
 @property(nonatomic) BOOL didTapNotification;
+
 @end
 
 @implementation AppDelegate

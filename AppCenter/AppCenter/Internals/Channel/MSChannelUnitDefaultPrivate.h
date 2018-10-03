@@ -8,6 +8,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic) NSHashTable *pausedIdentifyingObjects;
 
+@property(nonatomic) NSMutableSet<NSString *> *pausedTargetKeys;
+
+/**
+ * Check any enqueued logs to send it to ingestion.
+ */
+- (void)checkPendingLogs;
+
 /**
  * Synchronously pause operations, logs will be stored but not sent.
  *
@@ -17,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @see resumeWithIdentifyingObject:
  */
-- (void)pauseWithIdentifyingObjectSync:(id <NSObject>)identifyingObject;
+- (void)pauseWithIdentifyingObjectSync:(id<NSObject>)identifyingObject;
 
 /**
  * Synchronously resume operations, logs can be sent again.
@@ -28,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @see pauseWithIdentifyingObject:
  */
-- (void)resumeWithIdentifyingObjectSync:(id <NSObject>)identifyingObject;
+- (void)resumeWithIdentifyingObjectSync:(id<NSObject>)identifyingObject;
 
 @end
 

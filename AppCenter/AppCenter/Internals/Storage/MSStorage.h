@@ -31,6 +31,13 @@ typedef void (^MSLoadDataCompletionHandler)(NSArray<id<MSLog>> *_Nullable logArr
 - (BOOL)saveLog:(id<MSLog>)log withGroupId:(NSString *)groupId;
 
 /**
+ * Get the number of logs stored in the storage.
+ *
+ * @return The number of logs.
+ */
+- (NSUInteger)countLogs;
+
+/**
  * Delete logs related to given group from the storage.
  *
  * @param groupId The key used for grouping logs.
@@ -52,28 +59,25 @@ typedef void (^MSLoadDataCompletionHandler)(NSArray<id<MSLog>> *_Nullable logArr
  *
  * @param groupId The key used for grouping.
  * @param limit Limit the maximum number of logs to be loaded from disk.
- * @param iKeys The list of iKeys for the logs.
+ * @param excludedTargetKeys The array of target keys to exclude for the logs.
  * @param completionHandler The completion handler for loading the logs.
  *
  * @return a list of logs.
  */
 - (BOOL)loadLogsWithGroupId:(NSString *)groupId
                       limit:(NSUInteger)limit
-                      iKeys:(nullable NSArray< NSString *> *)iKeys
+         excludedTargetKeys:(nullable NSArray<NSString *> *)excludedTargetKeys
           completionHandler:(nullable MSLoadDataCompletionHandler)completionHandler;
 
 /**
- * Set the maximum size of the internal storage. This method must be called
- * before App Center is started.
+ * Set the maximum size of the internal storage. This method must be called before App Center is started.
  *
- * @param sizeInBytes Maximum size of in bytes. This will be rounded up to
- * the nearest multiple of 4096. Values below 20480 (20 KiB) will be ignored.
- * @param completionHandler Callback that is invoked when the database size
- * has been set. The `BOOL` parameter is `YES` if changing the size is
- * successful, and `NO` otherwise.
+ * @param sizeInBytes Maximum size of in bytes. This will be rounded up to the nearest multiple of 4096. Values below 20480 (20 KiB) will be
+ * ignored.
+ * @param completionHandler Callback that is invoked when the database size has been set. The `BOOL` parameter is `YES` if changing the size
+ * is successful, and `NO` otherwise.
  *
- * @discussion  The value passed to this method is not persisted on disk. The
- * default maximum database size is 10485760 bytes (10 MiB).
+ * @discussion  The value passed to this method is not persisted on disk. The default maximum database size is 10485760 bytes (10 MiB).
  *
  */
 - (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(nullable void (^)(BOOL))completionHandler;

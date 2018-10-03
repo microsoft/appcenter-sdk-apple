@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+
 #if TARGET_OS_OSX
 #import <AppKit/AppKit.h>
 #else
@@ -20,7 +21,6 @@
 }
 
 + (void)simulateWillEnterForegroundNotification {
-  // Enter foreground
   [[NSNotificationCenter defaultCenter]
 #if TARGET_OS_OSX
       postNotificationName:NSApplicationWillBecomeActiveNotification

@@ -147,3 +147,8 @@ static const int kMSMaxPropertyValueLength = 125;
  * Maximum allowable size of a common schema log in bytes.
  */
 static const long kMSMaximumCommonSchemaLogSizeInBytes = 2 * 1024 * 1024;
+
+/**
+ * Suffix for One Collector group ID.
+ */
+static NSString *const kMSOneCollectorGroupIdSuffix = @"/one";
