@@ -18,6 +18,8 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   override func viewDidLoad() {
     eventPropertiesSection = EventPropertiesTableSection(tableSection: kEventPropertiesSectionIndex, tableView: tableView)
     super.viewDidLoad()
+    tableView.estimatedRowHeight = tableView.rowHeight
+    tableView.rowHeight = UITableViewAutomaticDimension
     tableView.setEditing(true, animated: false)
     
     // Disable results page.
@@ -37,6 +39,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   }
 
   @IBAction func trackEvent() {
+    /*
     guard let name = eventName.text else {
       return
     }
@@ -50,6 +53,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
         target!.trackEvent(name, withProperties: eventPropertiesDictionary)
       }
     }
+    */
   }
 
   @IBAction func trackPage() {
@@ -109,10 +113,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   }
 
   override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    if indexPath.section == kEventPropertiesSectionIndex {
-      return super.tableView(tableView, heightForRowAt: IndexPath(row: 0, section: indexPath.section))
-    }
-    return super.tableView(tableView, heightForRowAt: indexPath)
+    return UITableViewAutomaticDimension
   }
 
   /**

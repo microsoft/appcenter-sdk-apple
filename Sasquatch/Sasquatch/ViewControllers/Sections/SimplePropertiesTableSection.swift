@@ -1,8 +1,8 @@
 import UIKit
 
 class SimplePropertiesTableSection : PropertiesTableSection {
-  
-  static var propertyCounter = 0
+
+  private var propertyCounter = 0
 
   override func loadCell(row: Int) -> UITableViewCell {
     guard let cell: MSAnalyticsPropertyTableViewCell = loadCellFromNib() else {
@@ -24,7 +24,7 @@ class SimplePropertiesTableSection : PropertiesTableSection {
   }
 
   override func addProperty() {
-    addProperty(property: SimplePropertiesTableSection.getNewDefaultProperty())
+    addProperty(property: getNewDefaultProperty())
   }
 
   func addProperty(property: (String, String)) {
@@ -47,7 +47,7 @@ class SimplePropertiesTableSection : PropertiesTableSection {
     sender.resignFirstResponder()
   }
 
-  static func getNewDefaultProperty() -> (String, String) {
+  func getNewDefaultProperty() -> (String, String) {
     let keyValuePair = ("key\(propertyCounter)", "value\(propertyCounter)")
     propertyCounter += 1
     return keyValuePair

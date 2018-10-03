@@ -77,8 +77,7 @@ class MSCustomPropertiesViewController : UITableViewController, AppCenterProtoco
   override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
     if isInsertRow(at: indexPath) {
       return .insert
-    }
-    else {
+    } else {
       return .delete
     }
   }
