@@ -7,4 +7,10 @@
  */
 @property(nonatomic, copy) NSString *eventId;
 
+/**
+ * Event properties.
+ */
+@property(nonatomic) MSEventProperties *typedProperties;
+
 @end
+

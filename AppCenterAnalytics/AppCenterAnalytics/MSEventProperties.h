@@ -3,7 +3,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * Typed event properties.
+ * Contains typed event properties.
  */
 @interface MSEventProperties : NSObject
 
