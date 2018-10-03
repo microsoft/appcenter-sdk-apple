@@ -1,6 +1,6 @@
-#import "MSThread.h"
 #import "MSException.h"
 #import "MSStackFrame.h"
+#import "MSThread.h"
 
 static NSString *const kMSThreadId = @"id";
 static NSString *const kMSName = @"name";
@@ -51,14 +51,10 @@ static NSString *const kMSException = @"exception";
     return NO;
   }
   MSThread *thread = (MSThread *)object;
-  return ((!self.threadId && !thread.threadId) ||
-          [self.threadId isEqual:thread.threadId]) &&
-         ((!self.name && !thread.name) ||
-          [self.name isEqualToString:thread.name]) &&
-         ((!self.frames && !thread.frames) ||
-          [self.frames isEqualToArray:thread.frames]) &&
-         ((!self.exception && !thread.exception) ||
-          [self.exception isEqual:thread.exception]);
+  return ((!self.threadId && !thread.threadId) || [self.threadId isEqual:thread.threadId]) &&
+         ((!self.name && !thread.name) || [self.name isEqualToString:thread.name]) &&
+         ((!self.frames && !thread.frames) || [self.frames isEqualToArray:thread.frames]) &&
+         ((!self.exception && !thread.exception) || [self.exception isEqual:thread.exception]);
 }
 
 #pragma mark - NSCoding

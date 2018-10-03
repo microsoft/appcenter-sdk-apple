@@ -55,18 +55,15 @@
   assertThat(actual, notNilValue());
   assertThat(actual[@"id"], equalTo(sut.threadId));
   assertThat(actual[@"name"], equalTo(sut.name));
-  assertThat([actual[@"exception"] valueForKey:@"type"],
-             equalTo(sut.exception.type));
-  assertThat([actual[@"exception"] valueForKey:@"message"],
-             equalTo(sut.exception.message));
+  assertThat([actual[@"exception"] valueForKey:@"type"], equalTo(sut.exception.type));
+  assertThat([actual[@"exception"] valueForKey:@"message"], equalTo(sut.exception.message));
 
   NSArray *actualFrames = [actual[@"exception"] valueForKey:@"frames"];
   XCTAssertEqual(actualFrames.count, sut.exception.frames.count);
   NSDictionary *actualFrame = [actualFrames firstObject];
   MSStackFrame *expectedFrame = [sut.exception.frames firstObject];
   assertThat([actualFrame valueForKey:@"code"], equalTo(expectedFrame.code));
-  assertThat([actualFrame valueForKey:@"address"],
-             equalTo(expectedFrame.address));
+  assertThat([actualFrame valueForKey:@"address"], equalTo(expectedFrame.address));
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {
@@ -87,8 +84,7 @@
   assertThat(actualThread.name, equalTo(sut.name));
   assertThat(actualThread.exception.type, equalTo(sut.exception.type));
   assertThat(actualThread.exception.message, equalTo(sut.exception.message));
-  assertThatUnsignedLong(actualThread.exception.frames.count,
-                         equalToUnsignedLong(sut.exception.frames.count));
+  assertThatUnsignedLong(actualThread.exception.frames.count, equalToUnsignedLong(sut.exception.frames.count));
 
   assertThatInteger(actualThread.frames.count, equalToInteger(1));
 }

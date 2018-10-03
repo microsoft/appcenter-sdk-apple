@@ -22,16 +22,14 @@ static NSString *const kMSMetaDataSeparator = @"+";
   if ((self = [super init])) {
     NSRange preReleaseSepRange = [version rangeOfString:kMSPreReleaseSeparator];
     NSRange metadataSepRange = [version rangeOfString:kMSMetaDataSeparator];
-    _base = (NSString * _Nonnull) version;
+    _base = (NSString * _Nonnull)version;
     if (metadataSepRange.length > 0) {
-      _base = (NSString *
-               _Nonnull)[version substringToIndex:metadataSepRange.location];
+      _base = (NSString * _Nonnull)[version substringToIndex:metadataSepRange.location];
       _metadata = [version substringFromIndex:metadataSepRange.location + 1];
     }
     if (preReleaseSepRange.length > 0) {
       _preRelease = [_base substringFromIndex:preReleaseSepRange.location + 1];
-      _base = (NSString *
-               _Nonnull)[version substringToIndex:preReleaseSepRange.location];
+      _base = (NSString * _Nonnull)[version substringToIndex:preReleaseSepRange.location];
     }
   }
   return self;
@@ -40,8 +38,7 @@ static NSString *const kMSMetaDataSeparator = @"+";
 - (NSComparisonResult)compare:(MSSemVer *)version {
 
   // Compare base version first.
-  __block NSComparisonResult comparisonResult =
-      [self.base compare:version.base options:NSNumericSearch];
+  __block NSComparisonResult comparisonResult = [self.base compare:version.base options:NSNumericSearch];
 
   // If same then compare pre-release.
   if (comparisonResult == NSOrderedSame) {
@@ -49,8 +46,7 @@ static NSString *const kMSMetaDataSeparator = @"+";
     NSString *preReleaseB = version.preRelease;
 
     // No/same pre-release.
-    if ((!preReleaseA && !preReleaseB) ||
-        [preReleaseA isEqualToString:(NSString * _Nonnull) preReleaseB]) {
+    if ((!preReleaseA && !preReleaseB) || [preReleaseA isEqualToString:(NSString * _Nonnull)preReleaseB]) {
       return NSOrderedSame;
     }
 
@@ -63,19 +59,12 @@ static NSString *const kMSMetaDataSeparator = @"+";
     }
 
     // Compare pre-release identifiers.
-    NSArray<NSString *> *preReleaseAIds =
-        [preReleaseA componentsSeparatedByString:kMSPreReleaseIdsSeparator];
-    NSArray<NSString *> *preReleaseBIds =
-        [preReleaseB componentsSeparatedByString:kMSPreReleaseIdsSeparator];
-    [preReleaseAIds enumerateObjectsUsingBlock:^(NSString *_Nonnull identifier,
-                                                 NSUInteger idx,
-                                                 BOOL *_Nonnull stop) {
-      MSSemVerPreReleaseId *identifierA =
-          [MSSemVerPreReleaseId identifierWithString:identifier];
+    NSArray<NSString *> *preReleaseAIds = [preReleaseA componentsSeparatedByString:kMSPreReleaseIdsSeparator];
+    NSArray<NSString *> *preReleaseBIds = [preReleaseB componentsSeparatedByString:kMSPreReleaseIdsSeparator];
+    [preReleaseAIds enumerateObjectsUsingBlock:^(NSString *_Nonnull identifier, NSUInteger idx, BOOL *_Nonnull stop) {
+      MSSemVerPreReleaseId *identifierA = [MSSemVerPreReleaseId identifierWithString:identifier];
       MSSemVerPreReleaseId *identifierB =
-          (preReleaseBIds.count > idx)
-              ? [MSSemVerPreReleaseId identifierWithString:preReleaseBIds[idx]]
-              : nil;
+          (preReleaseBIds.count > idx) ? [MSSemVerPreReleaseId identifierWithString:preReleaseBIds[idx]] : nil;
       if (identifierB) {
         comparisonResult = [identifierA compare:identifierB];
         if (comparisonResult != NSOrderedSame) {
@@ -83,17 +72,14 @@ static NSString *const kMSMetaDataSeparator = @"+";
         }
       } else {
 
-        // Pre-release A starts with same identifiers but got more of them, it's
-        // higher precedence.
+        // Pre-release A starts with same identifiers but got more of them, it's higher precedence.
         comparisonResult = NSOrderedDescending;
         *stop = YES;
       }
     }];
 
-    // Pre-release B starts with same identifiers but got more of them, it's
-    // higher precedence.
-    if (comparisonResult == NSOrderedSame &&
-        preReleaseBIds.count > preReleaseAIds.count) {
+    // Pre-release B starts with same identifiers but got more of them, it's higher precedence.
+    if (comparisonResult == NSOrderedSame && preReleaseBIds.count > preReleaseAIds.count) {
       return NSOrderedAscending;
     }
   }
@@ -101,12 +87,10 @@ static NSString *const kMSMetaDataSeparator = @"+";
 }
 
 + (BOOL)isSemVerFormat:(NSString *)version {
-  NSString *semVerPattern =
-      @"^v?(?:0|[1-9]\\d*)(\\.(?:[x*]|0|[1-9]\\d*)(\\.(?:[x*]|0|[1-9]\\d*)(?:-["
-      @"\\da-z\\-]+(?:\\.["
-      @"\\da-z\\-]+)*)?(?:\\+[\\da-z\\-]+(?:\\.[\\da-z\\-]+)*)?)?)?$";
-  NSPredicate *myTest =
-      [NSPredicate predicateWithFormat:@"SELF MATCHES[c]  %@", semVerPattern];
+  NSString *semVerPattern = @"^v?(?:0|[1-9]\\d*)(\\.(?:[x*]|0|[1-9]\\d*)(\\.(?:[x*]|0|[1-9]\\d*)(?:-["
+                            @"\\da-z\\-]+(?:\\.["
+                            @"\\da-z\\-]+)*)?(?:\\+[\\da-z\\-]+(?:\\.[\\da-z\\-]+)*)?)?)?$";
+  NSPredicate *myTest = [NSPredicate predicateWithFormat:@"SELF MATCHES[c]  %@", semVerPattern];
   return [myTest evaluateWithObject:version];
 }
 

@@ -50,8 +50,7 @@ static NSString *const kMSArchitecture = @"architecture";
   }
   dict[kMSFatal] = self.fatal ? @YES : @NO;
   if (self.appLaunchTimestamp) {
-    dict[kMSAppLaunchTimestamp] =
-        [MSUtility dateToISO8601:self.appLaunchTimestamp];
+    dict[kMSAppLaunchTimestamp] = [MSUtility dateToISO8601:self.appLaunchTimestamp];
   }
   if (self.architecture) {
     dict[kMSArchitecture] = self.architecture;
@@ -65,31 +64,21 @@ static NSString *const kMSArchitecture = @"architecture";
 }
 
 - (BOOL)isEqual:(id)object {
-  if (![(NSObject *)object isKindOfClass:[MSAbstractErrorLog class]] ||
-      ![super isEqual:object]) {
+  if (![(NSObject *)object isKindOfClass:[MSAbstractErrorLog class]] || ![super isEqual:object]) {
     return NO;
   }
   MSAbstractErrorLog *errorLog = (MSAbstractErrorLog *)object;
-  return ((!self.errorId && !errorLog.errorId) ||
-          [self.errorId isEqualToString:errorLog.errorId]) &&
-         ((!self.processId && !errorLog.processId) ||
-          [self.processId isEqual:errorLog.processId]) &&
-         ((!self.processName && !errorLog.processName) ||
-          [self.processName isEqualToString:errorLog.processName]) &&
-         ((!self.parentProcessId && !errorLog.parentProcessId) ||
-          [self.parentProcessId isEqual:errorLog.parentProcessId]) &&
+  return ((!self.errorId && !errorLog.errorId) || [self.errorId isEqualToString:errorLog.errorId]) &&
+         ((!self.processId && !errorLog.processId) || [self.processId isEqual:errorLog.processId]) &&
+         ((!self.processName && !errorLog.processName) || [self.processName isEqualToString:errorLog.processName]) &&
+         ((!self.parentProcessId && !errorLog.parentProcessId) || [self.parentProcessId isEqual:errorLog.parentProcessId]) &&
          ((!self.parentProcessName && !errorLog.parentProcessName) ||
-          [self.parentProcessName
-              isEqualToString:errorLog.parentProcessName]) &&
-         ((!self.errorThreadId && !errorLog.errorThreadId) ||
-          [self.errorThreadId isEqual:errorLog.errorThreadId]) &&
-         ((!self.errorThreadName && !errorLog.errorThreadName) ||
-          [self.errorThreadName isEqualToString:errorLog.errorThreadName]) &&
+          [self.parentProcessName isEqualToString:errorLog.parentProcessName]) &&
+         ((!self.errorThreadId && !errorLog.errorThreadId) || [self.errorThreadId isEqual:errorLog.errorThreadId]) &&
+         ((!self.errorThreadName && !errorLog.errorThreadName) || [self.errorThreadName isEqualToString:errorLog.errorThreadName]) &&
          (self.fatal == errorLog.fatal) &&
-         ((!self.appLaunchTimestamp && !errorLog.appLaunchTimestamp) ||
-          [self.appLaunchTimestamp isEqual:errorLog.appLaunchTimestamp]) &&
-         ((!self.architecture && !errorLog.architecture) ||
-          [self.architecture isEqualToString:errorLog.architecture]);
+         ((!self.appLaunchTimestamp && !errorLog.appLaunchTimestamp) || [self.appLaunchTimestamp isEqual:errorLog.appLaunchTimestamp]) &&
+         ((!self.architecture && !errorLog.architecture) || [self.architecture isEqualToString:errorLog.architecture]);
 }
 
 #pragma mark - NSCoding

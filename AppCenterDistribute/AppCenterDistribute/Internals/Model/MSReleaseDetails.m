@@ -8,8 +8,7 @@ static NSString *const kMSAppName = @"app_name";
 static NSString *const kMSVersion = @"version";
 static NSString *const kMSShortVersion = @"short_version";
 static NSString *const kMSReleaseNotes = @"release_notes";
-static NSString *const kMSProvisioningProfileName =
-    @"provisioning_profile_name";
+static NSString *const kMSProvisioningProfileName = @"provisioning_profile_name";
 static NSString *const kMSSize = @"size";
 static NSString *const kMSMinOs = @"min_os";
 static NSString *const kMSMandatoryUpdate = @"mandatory_update";
@@ -46,8 +45,7 @@ static NSString *const kMSPackageHashes = @"package_hashes";
       self.shortVersion = dictionary[kMSShortVersion];
     }
     if (dictionary[kMSReleaseNotes]) {
-      if ([(NSObject *)dictionary[kMSReleaseNotes]
-              isKindOfClass:[NSNull class]]) {
+      if ([(NSObject *)dictionary[kMSReleaseNotes] isKindOfClass:[NSNull class]]) {
         self.releaseNotes = nil;
       } else {
         self.releaseNotes = dictionary[kMSReleaseNotes];
@@ -63,54 +61,44 @@ static NSString *const kMSPackageHashes = @"package_hashes";
       self.minOs = dictionary[kMSMinOs];
     }
     if (dictionary[kMSMandatoryUpdate]) {
-      self.mandatoryUpdate =
-          [(NSObject *)dictionary[kMSMandatoryUpdate] isEqual:@YES] ? YES : NO;
+      self.mandatoryUpdate = [(NSObject *)dictionary[kMSMandatoryUpdate] isEqual:@YES] ? YES : NO;
     }
     if (dictionary[kMSFingerprint]) {
       self.fingerprint = dictionary[kMSFingerprint];
     }
     if (dictionary[kMSUploadedAt]) {
-      NSString *_Nonnull uploadedAt =
-          (NSString * _Nonnull) dictionary[kMSUploadedAt];
+      NSString *_Nonnull uploadedAt = (NSString * _Nonnull)dictionary[kMSUploadedAt];
       self.uploadedAt = [MSUtility dateFromISO8601:uploadedAt];
     }
     if (dictionary[kMSDownloadUrl]) {
-      if ([(NSObject *)dictionary[kMSDownloadUrl]
-              isKindOfClass:[NSNull class]]) {
+      if ([(NSObject *)dictionary[kMSDownloadUrl] isKindOfClass:[NSNull class]]) {
         self.downloadUrl = nil;
       } else {
-        NSString *_Nonnull downloadUrl =
-            (NSString * _Nonnull) dictionary[kMSDownloadUrl];
+        NSString *_Nonnull downloadUrl = (NSString * _Nonnull)dictionary[kMSDownloadUrl];
         self.downloadUrl = [NSURL URLWithString:downloadUrl];
       }
     }
     if (dictionary[kMSAppIconUrl]) {
-      if ([(NSObject *)dictionary[kMSAppIconUrl]
-              isKindOfClass:[NSNull class]]) {
+      if ([(NSObject *)dictionary[kMSAppIconUrl] isKindOfClass:[NSNull class]]) {
         self.appIconUrl = nil;
       } else {
-        NSString *_Nonnull appIconUrl =
-            (NSString * _Nonnull) dictionary[kMSAppIconUrl];
+        NSString *_Nonnull appIconUrl = (NSString * _Nonnull)dictionary[kMSAppIconUrl];
         self.appIconUrl = [NSURL URLWithString:appIconUrl];
       }
     }
     if (dictionary[kMSInstallUrl]) {
-      if ([(NSObject *)dictionary[kMSInstallUrl]
-              isKindOfClass:[NSNull class]]) {
+      if ([(NSObject *)dictionary[kMSInstallUrl] isKindOfClass:[NSNull class]]) {
         self.installUrl = nil;
       } else {
-        NSString *_Nonnull installUrl =
-            (NSString * _Nonnull) dictionary[kMSInstallUrl];
+        NSString *_Nonnull installUrl = (NSString * _Nonnull)dictionary[kMSInstallUrl];
         self.installUrl = [NSURL URLWithString:installUrl];
       }
     }
     if (dictionary[kMSReleaseNotesUrl]) {
-      if ([(NSObject *)dictionary[kMSReleaseNotesUrl]
-              isKindOfClass:[NSNull class]]) {
+      if ([(NSObject *)dictionary[kMSReleaseNotesUrl] isKindOfClass:[NSNull class]]) {
         self.releaseNotesUrl = nil;
       } else {
-        NSString *_Nonnull releaseNotesUrl =
-            (NSString * _Nonnull) dictionary[kMSReleaseNotesUrl];
+        NSString *_Nonnull releaseNotesUrl = (NSString * _Nonnull)dictionary[kMSReleaseNotesUrl];
         self.releaseNotesUrl = [NSURL URLWithString:releaseNotesUrl];
       }
     }
@@ -119,8 +107,7 @@ static NSString *const kMSPackageHashes = @"package_hashes";
     }
     if (dictionary[kMSDistributionGroups]) {
 
-      // TODO: DistributionGroup has no properties so skip it until it has
-      // properties.
+      // TODO: DistributionGroup has no properties so skip it until it has properties.
     }
     if (dictionary[kMSPackageHashes]) {
       self.packageHashes = dictionary[kMSPackageHashes];
@@ -165,8 +152,7 @@ static NSString *const kMSPackageHashes = @"package_hashes";
     dictionary[kMSFingerprint] = self.fingerprint;
   }
   if (self.uploadedAt) {
-    dictionary[kMSUploadedAt] =
-        [MSUtility dateToISO8601:(NSDate * _Nonnull) self.uploadedAt];
+    dictionary[kMSUploadedAt] = [MSUtility dateToISO8601:(NSDate * _Nonnull)self.uploadedAt];
   }
   if (self.downloadUrl) {
     dictionary[kMSDownloadUrl] = [self.downloadUrl absoluteString];
@@ -185,8 +171,7 @@ static NSString *const kMSPackageHashes = @"package_hashes";
   }
   if (self.distributionGroups) {
 
-    // TODO: DistributionGroup has no properties so skip it until it has
-    // properties.
+    // TODO: DistributionGroup has no properties so skip it until it has properties.
   }
   if (self.packageHashes) {
     dictionary[kMSPackageHashes] = self.packageHashes;
@@ -204,47 +189,31 @@ static NSString *const kMSPackageHashes = @"package_hashes";
   }
   MSReleaseDetails *details = (MSReleaseDetails *)object;
   return ((!self.id && !details.id) || [self.id isEqualToNumber:details.id]) &&
-         ((!self.status && !details.status) ||
-          [self.status isEqualToString:details.status]) &&
-         ((!self.appName && !details.appName) ||
-          [self.appName isEqualToString:details.appName]) &&
-         ((!self.version && !details.version) ||
-          [self.version isEqualToString:details.version]) &&
-         ((!self.shortVersion && !details.shortVersion) ||
-          [self.shortVersion isEqualToString:details.shortVersion]) &&
-         ((!self.releaseNotes && !details.releaseNotes) ||
-          [self.releaseNotes isEqualToString:details.releaseNotes]) &&
+         ((!self.status && !details.status) || [self.status isEqualToString:details.status]) &&
+         ((!self.appName && !details.appName) || [self.appName isEqualToString:details.appName]) &&
+         ((!self.version && !details.version) || [self.version isEqualToString:details.version]) &&
+         ((!self.shortVersion && !details.shortVersion) || [self.shortVersion isEqualToString:details.shortVersion]) &&
+         ((!self.releaseNotes && !details.releaseNotes) || [self.releaseNotes isEqualToString:details.releaseNotes]) &&
          ((!self.provisioningProfileName && !details.provisioningProfileName) ||
-          [self.provisioningProfileName
-              isEqualToString:details.provisioningProfileName]) &&
-         ((!self.size && !details.size) ||
-          [self.size isEqualToNumber:details.size]) &&
-         ((!self.minOs && !details.minOs) ||
-          [self.minOs isEqualToString:details.minOs]) &&
+          [self.provisioningProfileName isEqualToString:details.provisioningProfileName]) &&
+         ((!self.size && !details.size) || [self.size isEqualToNumber:details.size]) &&
+         ((!self.minOs && !details.minOs) || [self.minOs isEqualToString:details.minOs]) &&
          (self.mandatoryUpdate == details.mandatoryUpdate) &&
-         ((!self.fingerprint && !details.fingerprint) ||
-          [self.fingerprint isEqualToString:details.fingerprint]) &&
-         ((!self.uploadedAt && !details.uploadedAt) ||
-          [self.uploadedAt isEqual:details.uploadedAt]) &&
+         ((!self.fingerprint && !details.fingerprint) || [self.fingerprint isEqualToString:details.fingerprint]) &&
+         ((!self.uploadedAt && !details.uploadedAt) || [self.uploadedAt isEqual:details.uploadedAt]) &&
 
-         // Don't compare downloadUrl. downloadUrl contains pltoken param which
-         // will have different values every time.
+         // Don't compare downloadUrl. downloadUrl contains pltoken param which will have different values every time.
          // ((!self.downloadUrl && !details.downloadUrl) || [self.downloadUrl
          // isEqual:details.downloadUrl]) &&
-         ((!self.appIconUrl && !details.appIconUrl) ||
-          [self.appIconUrl isEqual:details.appIconUrl]) &&
-         ((!self.installUrl && !details.installUrl) ||
-          [self.installUrl isEqual:details.installUrl]) &&
-         ((!self.releaseNotesUrl && !details.releaseNotesUrl) ||
-          [self.releaseNotesUrl isEqual:details.releaseNotesUrl]) &&
+         ((!self.appIconUrl && !details.appIconUrl) || [self.appIconUrl isEqual:details.appIconUrl]) &&
+         ((!self.installUrl && !details.installUrl) || [self.installUrl isEqual:details.installUrl]) &&
+         ((!self.releaseNotesUrl && !details.releaseNotesUrl) || [self.releaseNotesUrl isEqual:details.releaseNotesUrl]) &&
 
-         // Don't compare distributionGroups. The property has no spec so it is
-         // not implemented yet.
+         // Don't compare distributionGroups. The property has no spec so it is not implemented yet.
          // ((!self.distributionGroups && !details.distributionGroups) ||
          //  [self.distributionGroups
          //  isEqualToArray:details.distributionGroups]) &&
-         ((!self.packageHashes && !details.packageHashes) ||
-          [self.packageHashes isEqualToArray:details.packageHashes]);
+         ((!self.packageHashes && !details.packageHashes) || [self.packageHashes isEqualToArray:details.packageHashes]);
 }
 
 @end
