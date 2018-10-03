@@ -19,11 +19,11 @@ This version contains bug fixes and a feature.
 
 ### AppCenter
 
-* **[Fix]** Fixes a potential deadlock that can cause the application to take a long time to launch. This could cause the iOS watchdog to kill the application.
+* **[Fix]** Fix a potential deadlock that can freeze the application launch causing the iOS watchdog to kill the application.
 
 ### AppCenterCrashes
 
-* **[Fix]** Fixes a potential deadlock that can cause the application to take a long time to launch. This could cause the iOS watchdog to kill the application.
+* **[Fix]** The above deadlock was mostly impacting the Crashes module.
 
 ### AppCenterAnalytics
 
