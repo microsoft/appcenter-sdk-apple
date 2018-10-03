@@ -46,9 +46,11 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     let startupMode = UserDefaults.standard.integer(forKey: kMSStartTargetKey)
     self.startupModePicker = MSEnumPicker<StartupMode>(
       textField: self.startupModeField,
-      initialValue: StartupMode.allValues[startupMode],
       allValues: StartupMode.allValues,
       onChange: {(index) in UserDefaults.standard.set(index, forKey: kMSStartTargetKey)})
+    self.startupModeField.delegate = self.startupModePicker
+    self.startupModeField.text = StartupMode.allValues[startupMode].rawValue
+    self.startupModeField.tintColor = UIColor.clear
     
     // Make sure it is initialized before changing the startup mode.
     _ = MSTransmissionTargets.shared

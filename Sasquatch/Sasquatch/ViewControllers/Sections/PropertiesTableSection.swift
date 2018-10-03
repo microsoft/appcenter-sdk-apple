@@ -1,6 +1,6 @@
 import UIKit
 
-class PropertiesTableSection : NSObject, UITableViewDelegate {
+class PropertiesTableSection : NSObject {
 
   static var propertyCounter = 0
   var tableSection: Int
@@ -12,7 +12,7 @@ class PropertiesTableSection : NSObject, UITableViewDelegate {
     super.init()
   }
 
-  @objc(tableView:editingStyleForRowAtIndexPath:) func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+  func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
     if isInsertRow(indexPath) {
       return .insert
     } else if isPropertyRow(indexPath) {
@@ -21,11 +21,11 @@ class PropertiesTableSection : NSObject, UITableViewDelegate {
     return .none
   }
 
-  @objc(tableView:numberOfRowsInSection:) func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return getPropertyCount() + propertyCellOffset()
   }
 
-  @objc(tableView:cellForRowAtIndexPath:) func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     if isInsertRow(indexPath) {
       let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
       cell.textLabel?.text = "Add Property"
@@ -47,7 +47,7 @@ class PropertiesTableSection : NSObject, UITableViewDelegate {
     return cell!
   }
 
-  @objc(tableView:commitEditingStyle:forRowAtIndexPath:) func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+  func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
     if editingStyle == .delete {
       removeProperty(atRow: indexPath.row)
       tableView.deleteRows(at: [indexPath], with: .automatic)
@@ -57,7 +57,7 @@ class PropertiesTableSection : NSObject, UITableViewDelegate {
     }
   }
 
-  @objc(tableView:canEditRowAtIndexPath:) func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+  func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
     return isPropertyRow(indexPath) || isInsertRow(indexPath)
   }
 
