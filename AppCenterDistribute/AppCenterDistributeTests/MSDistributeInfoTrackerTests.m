@@ -16,6 +16,7 @@
 }
 
 - (void)testAddDistributionGroupIdToLogs {
+
   // If
   NSString *expectedDistributionGroupId = @"GROUP-ID";
   MSAbstractLog *log = [MSAbstractLog new];

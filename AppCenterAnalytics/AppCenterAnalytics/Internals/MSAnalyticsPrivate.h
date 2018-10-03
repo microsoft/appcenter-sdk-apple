@@ -10,13 +10,13 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MSAnalytics () <MSSessionTrackerDelegate>
 
 /**
- *  Session tracking component.
+ * Session tracking component.
  */
 @property(nonatomic) MSSessionTracker *sessionTracker;
 
 @property(nonatomic) BOOL autoPageTrackingEnabled;
 
-@property(nonatomic, nullable) id <MSAnalyticsDelegate> delegate;
+@property(nonatomic, nullable) id<MSAnalyticsDelegate> delegate;
 
 /**
  * Transmission targets.
@@ -40,9 +40,9 @@ NS_ASSUME_NONNULL_BEGIN
  * @param properties dictionary of properties.
  * @param transmissionTarget Transmission target to associate with the event.
  */
-- (void)   trackEvent:(NSString *)eventName
-       withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
-forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarget;
+- (void)trackEvent:(NSString *)eventName
+           withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
+    forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarget;
 
 /**
  * Track a page.
@@ -62,8 +62,7 @@ forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarg
 - (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:(NSString *)token;
 
 /**
- * Method to reset the singleton when running unit tests only. So calling
- * sharedInstance returns a fresh instance.
+ * Method to reset the singleton when running unit tests only. So calling sharedInstance returns a fresh instance.
  */
 + (void)resetSharedInstance;
 

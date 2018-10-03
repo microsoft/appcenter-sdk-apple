@@ -24,12 +24,11 @@
   float flushInterval = 1.0;
   NSUInteger batchSizeLimit = 10;
   NSUInteger pendingBatchesLimit = 3;
-  _validConfiguration = [[MSChannelUnitConfiguration alloc]
-                       initWithGroupId:groupId
-                       priority:priority
-                       flushInterval:flushInterval
-                       batchSizeLimit:batchSizeLimit
-                         pendingBatchesLimit:pendingBatchesLimit];
+  _validConfiguration = [[MSChannelUnitConfiguration alloc] initWithGroupId:groupId
+                                                                   priority:priority
+                                                              flushInterval:flushInterval
+                                                             batchSizeLimit:batchSizeLimit
+                                                        pendingBatchesLimit:pendingBatchesLimit];
 }
 
 #pragma mark - Tests
@@ -40,8 +39,7 @@
   id ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
 
   // When
-  MSChannelGroupDefault *sut =
-      [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
+  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
 
   // Then
   assertThat(sut, notNilValue());
@@ -67,25 +65,19 @@
   XCTAssertTrue([sut.channels containsObject:addedChannel]);
   assertThat(addedChannel, notNilValue());
   XCTAssertTrue(addedChannel.configuration.priority == self.validConfiguration.priority);
-  assertThatFloat(addedChannel.configuration.flushInterval,
-                  equalToFloat(self.validConfiguration.flushInterval));
-  assertThatUnsignedLong(addedChannel.configuration.batchSizeLimit,
-                         equalToUnsignedLong(self.validConfiguration.batchSizeLimit));
-  assertThatUnsignedLong(addedChannel.configuration.pendingBatchesLimit,
-                         equalToUnsignedLong(self.validConfiguration.pendingBatchesLimit));
+  assertThatFloat(addedChannel.configuration.flushInterval, equalToFloat(self.validConfiguration.flushInterval));
+  assertThatUnsignedLong(addedChannel.configuration.batchSizeLimit, equalToUnsignedLong(self.validConfiguration.batchSizeLimit));
+  assertThatUnsignedLong(addedChannel.configuration.pendingBatchesLimit, equalToUnsignedLong(self.validConfiguration.pendingBatchesLimit));
 }
 
 - (void)testAddNewChannelWithDefaultIngestion {
 
   // If
-  id<MSIngestionProtocol> ingestionMock =
-      OCMProtocolMock(@protocol(MSIngestionProtocol));
-  MSChannelGroupDefault *sut =
-      [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
+  id<MSIngestionProtocol> ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
+  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
 
   // When
-  MSChannelUnitDefault *channelUnit =
-    (MSChannelUnitDefault *)[sut addChannelUnitWithConfiguration:self.validConfiguration];
+  MSChannelUnitDefault *channelUnit = (MSChannelUnitDefault *)[sut addChannelUnitWithConfiguration:self.validConfiguration];
 
   // Then
   XCTAssertEqual(ingestionMock, channelUnit.ingestion);
@@ -94,17 +86,13 @@
 - (void)testAddChannelWithCustomIngestion {
 
   // If
-  id<MSIngestionProtocol> ingestionMockDefault =
-      OCMProtocolMock(@protocol(MSIngestionProtocol));
-  id<MSIngestionProtocol> ingestionMockCustom =
-      OCMProtocolMock(@protocol(MSIngestionProtocol));
-  MSChannelGroupDefault *sut =
-      [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMockDefault];
+  id<MSIngestionProtocol> ingestionMockDefault = OCMProtocolMock(@protocol(MSIngestionProtocol));
+  id<MSIngestionProtocol> ingestionMockCustom = OCMProtocolMock(@protocol(MSIngestionProtocol));
+  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMockDefault];
 
   // When
-  MSChannelUnitDefault *channelUnit = (MSChannelUnitDefault *)[sut
-      addChannelUnitWithConfiguration:[MSChannelUnitConfiguration new]
-                        withIngestion:ingestionMockCustom];
+  MSChannelUnitDefault *channelUnit =
+      (MSChannelUnitDefault *)[sut addChannelUnitWithConfiguration:[MSChannelUnitConfiguration new] withIngestion:ingestionMockCustom];
 
   // Then
   XCTAssertNotEqual(ingestionMockDefault, channelUnit.ingestion);
@@ -114,8 +102,7 @@
 - (void)testDelegatesConcurrentAccess {
 
   // If
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc]
-      initWithIngestion:OCMProtocolMock(@protocol(MSIngestionProtocol))];
+  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:OCMProtocolMock(@protocol(MSIngestionProtocol))];
   MSAbstractLog *log = [MSAbstractLog new];
   for (int j = 0; j < 10; j++) {
     id mockDelegate = OCMProtocolMock(@protocol(MSChannelDelegate));
@@ -141,12 +128,9 @@
 
   // If
   MSAppCenterIngestion *ingestionMock = OCMClassMock(MSAppCenterIngestion.class);
-  id<MSChannelUnitProtocol> channelMock =
-      OCMProtocolMock(@protocol(MSChannelUnitProtocol));
-  id<MSChannelDelegate> delegateMock =
-      OCMProtocolMock(@protocol(MSChannelDelegate));
-  MSChannelGroupDefault *sut =
-      [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
+  id<MSChannelUnitProtocol> channelMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id<MSChannelDelegate> delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
+  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   [sut addDelegate:delegateMock];
   [sut.channels addObject:channelMock];
 
@@ -156,18 +140,15 @@
   // Then
   OCMVerify([ingestionMock setEnabled:NO andDeleteDataOnDisabled:YES]);
   OCMVerify([channelMock setEnabled:NO andDeleteDataOnDisabled:YES]);
-  OCMVerify(
-      [delegateMock channel:sut didSetEnabled:NO andDeleteDataOnDisabled:YES]);
+  OCMVerify([delegateMock channel:sut didSetEnabled:NO andDeleteDataOnDisabled:YES]);
 }
 
 - (void)testResume {
 
   // If
   MSAppCenterIngestion *ingestionMock = OCMClassMock(MSAppCenterIngestion.class);
-  id<MSChannelUnitProtocol> channelMock =
-      OCMProtocolMock(@protocol(MSChannelUnitProtocol));
-  MSChannelGroupDefault *sut =
-      [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
+  id<MSChannelUnitProtocol> channelMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   [sut.channels addObject:channelMock];
   NSObject *token = [NSObject new];
 
@@ -185,10 +166,8 @@
 
   // If
   MSAppCenterIngestion *ingestionMock = OCMClassMock(MSAppCenterIngestion.class);
-  id<MSChannelUnitProtocol> channelMock =
-      OCMProtocolMock(@protocol(MSChannelUnitProtocol));
-  MSChannelGroupDefault *sut =
-      [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
+  id<MSChannelUnitProtocol> channelMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   [sut.channels addObject:channelMock];
   NSObject *identifyingObject = [NSObject new];
 
@@ -206,14 +185,10 @@
 
   // If
   id ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
-  MSChannelGroupDefault *sut =
-      [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
+  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
-  OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY
-                                     storage:OCMOCK_ANY
-                               configuration:OCMOCK_ANY
-                           logsDispatchQueue:OCMOCK_ANY])
+  OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY storage:OCMOCK_ANY configuration:OCMOCK_ANY logsDispatchQueue:OCMOCK_ANY])
       .andReturn(channelUnitMock);
 
   // When
@@ -236,14 +211,10 @@
 
   // If
   id ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
-  MSChannelGroupDefault *sut =
-      [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
+  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
-  OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY
-                                     storage:OCMOCK_ANY
-                               configuration:OCMOCK_ANY
-                           logsDispatchQueue:OCMOCK_ANY])
+  OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY storage:OCMOCK_ANY configuration:OCMOCK_ANY logsDispatchQueue:OCMOCK_ANY])
       .andReturn(channelUnitMock);
   id delegateMock1 = OCMProtocolMock(@protocol(MSChannelDelegate));
   OCMExpect([delegateMock1 channelGroup:sut didAddChannelUnit:channelUnitMock]);
@@ -271,11 +242,8 @@
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
-  OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY
-                                     storage:OCMOCK_ANY
-                               configuration:OCMOCK_ANY
-                           logsDispatchQueue:OCMOCK_ANY])
-  .andReturn(channelUnitMock);
+  OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY storage:OCMOCK_ANY configuration:OCMOCK_ANY logsDispatchQueue:OCMOCK_ANY])
+      .andReturn(channelUnitMock);
   [sut addChannelUnitWithConfiguration:self.validConfiguration];
   id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
   [sut addDelegate:delegateMock];
@@ -298,11 +266,8 @@
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
-  OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY
-                                     storage:OCMOCK_ANY
-                               configuration:OCMOCK_ANY
-                           logsDispatchQueue:OCMOCK_ANY])
-  .andReturn(channelUnitMock);
+  OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY storage:OCMOCK_ANY configuration:OCMOCK_ANY logsDispatchQueue:OCMOCK_ANY])
+      .andReturn(channelUnitMock);
   [sut addChannelUnitWithConfiguration:self.validConfiguration];
   id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
   [sut addDelegate:delegateMock];
@@ -325,11 +290,8 @@
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
-  OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY
-                                     storage:OCMOCK_ANY
-                               configuration:OCMOCK_ANY
-                           logsDispatchQueue:OCMOCK_ANY])
-  .andReturn(channelUnitMock);
+  OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY storage:OCMOCK_ANY configuration:OCMOCK_ANY logsDispatchQueue:OCMOCK_ANY])
+      .andReturn(channelUnitMock);
   [sut addChannelUnitWithConfiguration:self.validConfiguration];
   id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
   [sut addDelegate:delegateMock];
@@ -353,11 +315,8 @@
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
-  OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY
-                                     storage:OCMOCK_ANY
-                               configuration:OCMOCK_ANY
-                           logsDispatchQueue:OCMOCK_ANY])
-  .andReturn(channelUnitMock);
+  OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY storage:OCMOCK_ANY configuration:OCMOCK_ANY logsDispatchQueue:OCMOCK_ANY])
+      .andReturn(channelUnitMock);
   [sut addChannelUnitWithConfiguration:self.validConfiguration];
   id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
   [sut addDelegate:delegateMock];
@@ -381,11 +340,8 @@
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
-  OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY
-                                     storage:OCMOCK_ANY
-                               configuration:OCMOCK_ANY
-                           logsDispatchQueue:OCMOCK_ANY])
-  .andReturn(channelUnitMock);
+  OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY storage:OCMOCK_ANY configuration:OCMOCK_ANY logsDispatchQueue:OCMOCK_ANY])
+      .andReturn(channelUnitMock);
   [sut addChannelUnitWithConfiguration:self.validConfiguration];
   id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
   [sut addDelegate:delegateMock];
@@ -408,11 +364,8 @@
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
-  OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY
-                                     storage:OCMOCK_ANY
-                               configuration:OCMOCK_ANY
-                           logsDispatchQueue:OCMOCK_ANY])
-  .andReturn(channelUnitMock);
+  OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY storage:OCMOCK_ANY configuration:OCMOCK_ANY logsDispatchQueue:OCMOCK_ANY])
+      .andReturn(channelUnitMock);
   [sut addChannelUnitWithConfiguration:self.validConfiguration];
   id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
   [sut addDelegate:delegateMock];
@@ -427,7 +380,6 @@
   [channelUnitMock stopMocking];
 }
 
-
 - (void)testDelegateCalledWhenChannelUnitDidSucceedSendingLog {
 
   // If
@@ -436,11 +388,8 @@
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
-  OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY
-                                     storage:OCMOCK_ANY
-                               configuration:OCMOCK_ANY
-                           logsDispatchQueue:OCMOCK_ANY])
-  .andReturn(channelUnitMock);
+  OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY storage:OCMOCK_ANY configuration:OCMOCK_ANY logsDispatchQueue:OCMOCK_ANY])
+      .andReturn(channelUnitMock);
   [sut addChannelUnitWithConfiguration:self.validConfiguration];
   id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
   [sut addDelegate:delegateMock];
@@ -462,11 +411,8 @@
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
-  OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY
-                                     storage:OCMOCK_ANY
-                               configuration:OCMOCK_ANY
-                           logsDispatchQueue:OCMOCK_ANY])
-  .andReturn(channelUnitMock);
+  OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY storage:OCMOCK_ANY configuration:OCMOCK_ANY logsDispatchQueue:OCMOCK_ANY])
+      .andReturn(channelUnitMock);
   [sut addChannelUnitWithConfiguration:self.validConfiguration];
   id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
   [sut addDelegate:delegateMock];
@@ -490,11 +436,8 @@
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
-  OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY
-                                     storage:OCMOCK_ANY
-                               configuration:OCMOCK_ANY
-                           logsDispatchQueue:OCMOCK_ANY])
-  .andReturn(channelUnitMock);
+  OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY storage:OCMOCK_ANY configuration:OCMOCK_ANY logsDispatchQueue:OCMOCK_ANY])
+      .andReturn(channelUnitMock);
   [sut addChannelUnitWithConfiguration:self.validConfiguration];
   id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
   [sut addDelegate:delegateMock];
@@ -517,11 +460,8 @@
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
-  OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY
-                                     storage:OCMOCK_ANY
-                               configuration:OCMOCK_ANY
-                           logsDispatchQueue:OCMOCK_ANY])
-  .andReturn(channelUnitMock);
+  OCMStub([channelUnitMock initWithIngestion:OCMOCK_ANY storage:OCMOCK_ANY configuration:OCMOCK_ANY logsDispatchQueue:OCMOCK_ANY])
+      .andReturn(channelUnitMock);
   [sut addChannelUnitWithConfiguration:self.validConfiguration];
   id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
   [sut addDelegate:delegateMock];

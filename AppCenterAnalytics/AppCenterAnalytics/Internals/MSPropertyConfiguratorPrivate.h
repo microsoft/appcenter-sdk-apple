@@ -1,5 +1,3 @@
-
-
 #import <Foundation/Foundation.h>
 
 #import "MSAnalyticsTransmissionTarget.h"
@@ -32,8 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Event properties attached to events tracked by this target.
  */
-@property(nonatomic, nullable)
-    NSMutableDictionary<NSString *, NSString *> *eventProperties;
+@property(nonatomic, nullable) NSMutableDictionary<NSString *, NSString *> *eventProperties;
 
 /**
  * The device id to send with common schema logs. If nil, nothing is sent.
@@ -43,8 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Initialize property configurator with a transmission target.
  */
-- (instancetype)initWithTransmissionTarget:
-(MSAnalyticsTransmissionTarget *)transmissionTarget;
+- (instancetype)initWithTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget;
 
 @end
 

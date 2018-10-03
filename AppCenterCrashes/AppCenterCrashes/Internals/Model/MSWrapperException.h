@@ -3,8 +3,7 @@
 @class MSException;
 
 /**
- * This class represents a wrapper exception that augments the data
- * recorded when the application crashes.
+ * This class represents a wrapper exception that augments the data recorded when the application crashes.
  */
 @interface MSWrapperException : NSObject
 

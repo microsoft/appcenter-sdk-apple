@@ -50,8 +50,7 @@
 
   // Too long key.
   // When
-  NSString *tooLongKey =
-      [@"" stringByPaddingToLength:129 withString:@"a" startingAtIndex:0];
+  NSString *tooLongKey = [@"" stringByPaddingToLength:129 withString:@"a" startingAtIndex:0];
   [customProperties setString:string forKey:tooLongKey];
   [customProperties setDate:date forKey:tooLongKey];
   [customProperties setNumber:number forKey:tooLongKey];
@@ -63,8 +62,7 @@
 
   // Normal keys.
   // When
-  NSString *maxLongKey =
-      [@"" stringByPaddingToLength:128 withString:@"a" startingAtIndex:0];
+  NSString *maxLongKey = [@"" stringByPaddingToLength:128 withString:@"a" startingAtIndex:0];
   [customProperties setString:string forKey:@"t1"];
   [customProperties setDate:date forKey:@"t2"];
   [customProperties setNumber:number forKey:@"t3"];
@@ -97,8 +95,7 @@
   // Maximum properties count.
   // When
   for (int i = 0; i < maxPropertiesCount; i++) {
-    [customProperties setNumber:@(i)
-                         forKey:[NSString stringWithFormat:@"key%d", i]];
+    [customProperties setNumber:@(i) forKey:[NSString stringWithFormat:@"key%d", i]];
   }
 
   // Then
@@ -139,8 +136,7 @@
 
   // Too long value.
   // When
-  NSString *tooLongValue =
-      [@"" stringByPaddingToLength:129 withString:@"a" startingAtIndex:0];
+  NSString *tooLongValue = [@"" stringByPaddingToLength:129 withString:@"a" startingAtIndex:0];
   [customProperties setString:tooLongValue forKey:key];
 
   // Then
@@ -166,8 +162,7 @@
 
   // Normal value with maximum length.
   // When
-  NSString *maxLongValue =
-      [@"" stringByPaddingToLength:128 withString:@"a" startingAtIndex:0];
+  NSString *maxLongValue = [@"" stringByPaddingToLength:128 withString:@"a" startingAtIndex:0];
   [customProperties setString:maxLongValue forKey:key];
 
   // Then

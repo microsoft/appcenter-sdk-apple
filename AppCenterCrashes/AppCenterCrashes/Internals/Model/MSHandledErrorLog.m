@@ -1,5 +1,5 @@
-#import "MSHandledErrorLog.h"
 #import "MSException.h"
+#import "MSHandledErrorLog.h"
 
 static NSString *const kMSTypeError = @"handledError";
 static NSString *const kMSId = @"id";
@@ -31,15 +31,12 @@ static NSString *const kMSException = @"exception";
 }
 
 - (BOOL)isEqual:(id)object {
-  if (![(NSObject *)object isKindOfClass:[MSHandledErrorLog class]] ||
-      ![super isEqual:object]) {
+  if (![(NSObject *)object isKindOfClass:[MSHandledErrorLog class]] || ![super isEqual:object]) {
     return NO;
   }
   MSHandledErrorLog *errorLog = (MSHandledErrorLog *)object;
-  return ((!self.errorId && !errorLog.errorId) ||
-          [self.errorId isEqual:errorLog.errorId]) &&
-         ((!self.exception && !errorLog.exception) ||
-          [self.exception isEqual:errorLog.exception]);
+  return ((!self.errorId && !errorLog.errorId) || [self.errorId isEqual:errorLog.errorId]) &&
+         ((!self.exception && !errorLog.exception) || [self.exception isEqual:errorLog.exception]);
 }
 
 #pragma mark - NSCoding

@@ -53,10 +53,8 @@
   // None is numeric only, compare by ASCII order.
   idALength = identifierA.length;
   idBLength = identifierB.length;
-  const char *idAASCIIChars =
-      [identifierA cStringUsingEncoding:NSASCIIStringEncoding];
-  const char *idBASCIIChars =
-      [identifierB cStringUsingEncoding:NSASCIIStringEncoding];
+  const char *idAASCIIChars = [identifierA cStringUsingEncoding:NSASCIIStringEncoding];
+  const char *idBASCIIChars = [identifierB cStringUsingEncoding:NSASCIIStringEncoding];
   for (NSUInteger i = 0; i < MIN(idALength, idBLength); i++) {
     if (*(idAASCIIChars + i) > *(idBASCIIChars + i)) {
       return NSOrderedDescending;
@@ -69,11 +67,9 @@
    * At this point we know that:
    *  - Identifiers are not equals.
    *  - Identifiers contains alphanumeric values.
-   *  - One identifier starts with the same characters but is longer than the
-   * other.
+   *  - One identifier starts with the same characters but is longer than the other.
    *
-   * The final decision now relies on identifiers' length, the longest is higher
-   * precedence.
+   * The final decision now relies on identifiers' length, the longest is higher precedence.
    */
   return (idALength < idBLength) ? NSOrderedAscending : NSOrderedDescending;
 }

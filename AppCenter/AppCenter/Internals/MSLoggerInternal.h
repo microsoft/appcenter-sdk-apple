@@ -12,7 +12,9 @@ FOUNDATION_EXPORT MSLogHandler const msDefaultLogHandler;
 + (void)setIsUserDefinedLogLevel:(BOOL)isUserDefinedLogLevel;
 
 + (MSLogLevel)currentLogLevel;
+
 + (void)setCurrentLogLevel:(MSLogLevel)currentLogLevel;
+
 + (void)setLogHandler:(MSLogHandler)logHandler;
 
 @end

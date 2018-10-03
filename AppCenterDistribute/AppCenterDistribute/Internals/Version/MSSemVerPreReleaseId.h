@@ -3,8 +3,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * This class represents a pre-release identifier from a semantic versioning
- * version.
+ * This class represents a pre-release identifier from a semantic versioning version.
  */
 @interface MSSemVerPreReleaseId : NSObject
 
@@ -14,8 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(readonly) NSString *identifier;
 
 /**
- * Allocate and initialize a semantic versioning pre-release identifier object
- * by parsing an identifier in string form.
+ * Allocate and initialize a semantic versioning pre-release identifier object by parsing an identifier in string form.
  *
  * @param identifier A string representing a pre-release identifier.
  *
@@ -24,8 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)identifierWithString:(NSString *)identifier;
 
 /**
- * Initialize a semantic versioning pre-release identifier object by parsing an
- * identifier in string form.
+ * Initialize a semantic versioning pre-release identifier object by parsing an identifier in string form.
  *
  * @param identifier A string representing a pre-release identifier.
  *

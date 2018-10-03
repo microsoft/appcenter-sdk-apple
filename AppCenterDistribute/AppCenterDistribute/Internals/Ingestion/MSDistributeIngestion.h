@@ -21,9 +21,8 @@ static NSString *const kMSHeaderUpdateApiToken = @"x-api-token";
  *
  * @param baseUrl Base url.
  * @param appSecret A unique and secret key used to identify the application.
- * @param updateToken The update token stored in keychain. This parameter is
- * optional and the update will be considered as public distribution if it is
- * nil.
+ * @param updateToken The update token stored in keychain. This parameter is optional and the update will be considered as public
+ * distribution if it is nil.
  * @param distributionGroupId The distribution group Id stored in storage.
  * @param queryStrings An array of query strings.
  *

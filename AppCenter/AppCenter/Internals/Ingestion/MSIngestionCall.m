@@ -1,6 +1,6 @@
-#import "MSIngestionCall.h"
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterInternal.h"
+#import "MSIngestionCall.h"
 
 @implementation MSIngestionCall
 
@@ -28,8 +28,7 @@
   }
 
   // Create a random delay.
-  uint32_t delay =
-      [(NSNumber *)self.retryIntervals[retryCount] unsignedIntValue] / 2;
+  uint32_t delay = [(NSNumber *)self.retryIntervals[retryCount] unsignedIntValue] / 2;
   delay += arc4random_uniform(delay);
 
   return delay;
@@ -39,16 +38,12 @@
   [self resetTimer];
 
   // Create queue.
-  self.timerSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0,
-                                            DISPATCH_TARGET_QUEUE_DEFAULT);
+  self.timerSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, DISPATCH_TARGET_QUEUE_DEFAULT);
   int64_t delta = NSEC_PER_SEC * [self delayForRetryCount:self.retryCount];
-  MSLogWarning([MSAppCenter logTag],
-               @"Call attempt #%tu failed with status code: %tu, it will be "
-               @"retried in %.f ms.",
-               self.retryCount, statusCode, round(delta / 1000000));
+  MSLogWarning([MSAppCenter logTag], @"Call attempt #%tu failed with status code: %tu, it will be retried in %.f ms.", self.retryCount,
+               statusCode, round(delta / 1000000));
   self.retryCount++;
-  dispatch_source_set_timer(self.timerSource, dispatch_walltime(NULL, delta),
-                            1ull * NSEC_PER_SEC, 1ull * NSEC_PER_SEC);
+  dispatch_source_set_timer(self.timerSource, dispatch_walltime(NULL, delta), 1ull * NSEC_PER_SEC, 1ull * NSEC_PER_SEC);
   __weak typeof(self) weakSelf = self;
   dispatch_source_set_event_handler(self.timerSource, ^{
     typeof(self) strongSelf = weakSelf;
@@ -78,50 +73,37 @@
                        data:(nullable NSData *)data
                       error:(NSError *)error {
   BOOL internetIsDown = [MSIngestionUtil isNoInternetConnectionError:error];
-  BOOL couldNotEstablishSecureConnection =
-      [MSIngestionUtil isSSLConnectionError:error];
+  BOOL couldNotEstablishSecureConnection = [MSIngestionUtil isSSLConnectionError:error];
 
   if (internetIsDown || couldNotEstablishSecureConnection) {
 
-    /*
-     * Reset the retry count, will retry once the (secure) connection is
-     * established again.
-     */
+    // Reset the retry count, will retry once the (secure) connection is established again.
     [self resetRetry];
-    NSString *logMessage = internetIsDown
-                               ? @"Internet connection is down."
-                               : @"Could not establish secure connection.";
+    NSString *logMessage = internetIsDown ? @"Internet connection is down." : @"Could not establish secure connection.";
     MSLogInfo([MSAppCenter logTag], logMessage);
     [ingestion pause];
   }
 
   // Retry.
-  else if ([MSIngestionUtil isRecoverableError:statusCode] &&
-           ![self hasReachedMaxRetries]) {
+  else if ([MSIngestionUtil isRecoverableError:statusCode] && ![self hasReachedMaxRetries]) {
     [self startRetryTimerWithStatusCode:statusCode];
   }
 
-  // Call was a) successful, b) we exhausted retries for a recoverable error or
-  // c) have an unrecoverable error.
+  // Call was a) successful, b) we exhausted retries for a recoverable error or c) have an unrecoverable error.
   else {
 
     // Wrap the status code in an error whenever the call failed.
     if (!error && statusCode != MSHTTPCodesNo200OK) {
-      NSDictionary *userInfo = @{
-        NSLocalizedDescriptionKey : kMSACConnectionHttpErrorDesc,
-        kMSACConnectionHttpCodeErrorKey : @(statusCode)
-      };
-      error = [NSError errorWithDomain:kMSACErrorDomain
-                                  code:kMSACConnectionHttpErrorCode
-                              userInfo:userInfo];
+      NSDictionary *userInfo =
+          @{ NSLocalizedDescriptionKey : kMSACConnectionHttpErrorDesc,
+             kMSACConnectionHttpCodeErrorKey : @(statusCode) };
+      error = [NSError errorWithDomain:kMSACErrorDomain code:kMSACConnectionHttpErrorCode userInfo:userInfo];
     }
 
     // Check for error.
-    BOOL recoverableError = ([MSIngestionUtil isRecoverableError:statusCode] &&
-                             [self hasReachedMaxRetries]);
+    BOOL recoverableError = ([MSIngestionUtil isRecoverableError:statusCode] && [self hasReachedMaxRetries]);
     BOOL fatalError;
-    fatalError =
-        recoverableError ? NO : (error && error.code != NSURLErrorCancelled);
+    fatalError = recoverableError ? NO : (error && error.code != NSURLErrorCancelled);
 
     // Call completion handler.
     if (self.completionHandler) {
@@ -130,8 +112,7 @@
 
     // Handle recoverable error.
     if (recoverableError) {
-      [ingestion call:self
-          completedWithResult:MSIngestionCallResultRecoverableError];
+      [ingestion call:self completedWithResult:MSIngestionCallResultRecoverableError];
     }
 
     // Handle fatal error.

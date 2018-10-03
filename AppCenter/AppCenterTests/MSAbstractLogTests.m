@@ -65,8 +65,7 @@
   assertThat(actualLog.type, equalTo(self.sut.type));
   assertThat(actualLog.timestamp, equalTo(self.sut.timestamp));
   assertThat(actualLog.sid, equalTo(self.sut.sid));
-  assertThat(actualLog.distributionGroupId,
-             equalTo(self.sut.distributionGroupId));
+  assertThat(actualLog.distributionGroupId, equalTo(self.sut.distributionGroupId));
   assertThat(actualLog.device, equalTo(self.sut.device));
 }
 
@@ -122,8 +121,7 @@
   self.sut.device = device;
 
   // When
-  NSData *serializedEvent =
-      [NSKeyedArchiver archivedDataWithRootObject:self.sut];
+  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.sut];
   id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
   MSAbstractLog *actualLog = actual;
 
@@ -156,17 +154,14 @@
   // When
   NSString *actual = [self.sut serializeLogWithPrettyPrinting:false];
   NSData *actualData = [actual dataUsingEncoding:NSUTF8StringEncoding];
-  id actualDict =
-      [NSJSONSerialization JSONObjectWithData:actualData options:0 error:nil];
+  id actualDict = [NSJSONSerialization JSONObjectWithData:actualData options:0 error:nil];
 
   // Then
   assertThat(actualDict, instanceOf([NSDictionary class]));
   assertThat([actualDict objectForKey:@"type"], equalTo(@"fake"));
-  assertThat([actualDict objectForKey:@"timestamp"],
-             equalTo(@"1970-01-01T00:00:00.000Z"));
+  assertThat([actualDict objectForKey:@"timestamp"], equalTo(@"1970-01-01T00:00:00.000Z"));
   assertThat([actualDict objectForKey:@"sid"], equalTo(@"FAKE-SESSION-ID"));
-  assertThat([actualDict objectForKey:@"distributionGroupId"],
-             equalTo(@"FAKE-GROUP-ID"));
+  assertThat([actualDict objectForKey:@"distributionGroupId"], equalTo(@"FAKE-GROUP-ID"));
   assertThat([actualDict objectForKey:@"device"], equalTo(@{}));
 }
 
@@ -216,8 +211,7 @@
 
   // If
   NSArray *expectedIKeys = @[ @"o:iKey1", @"o:iKey2" ];
-  NSSet *expectedTokens =
-      [NSSet setWithArray:@[ @"iKey1-dummytoken", @"iKey2-dummytoken" ]];
+  NSSet *expectedTokens = [NSSet setWithArray:@[ @"iKey1-dummytoken", @"iKey2-dummytoken" ]];
   self.sut.transmissionTargetTokens = expectedTokens;
   OCMStub(self.sut.device.oemName).andReturn(@"fakeOem");
   OCMStub(self.sut.device.model).andReturn(@"fakeModel");
@@ -239,9 +233,7 @@
   id bundleMock = OCMClassMock([NSBundle class]);
   NSString *expectedAppLocale = @"fr_DE";
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
-  OCMStub([bundleMock preferredLocalizations]).andReturn(@[
-    expectedAppLocale
-  ]);
+  OCMStub([bundleMock preferredLocalizations]).andReturn(@[ expectedAppLocale ]);
 
   // When
   NSArray<MSCommonSchemaLog *> *csLogs = [self.sut toCommonSchemaLogs];

@@ -37,10 +37,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @param groupId The id used by the channel to determine a group of logs.
  * @param priority The priority of logs being sent by the channel.
  * @param flushInterval The interval after which a new batch will be finished.
- * @param batchSizeLimit The maximum number of logs after which a new batch will
- * be finished.
- * @param pendingBatchesLimit The maximum number of batches that have currently
- * been forwarded to another component.
+ * @param batchSizeLimit The maximum number of logs after which a new batch will be finished.
+ * @param pendingBatchesLimit The maximum number of batches that have currently been forwarded to another component.
  *
  * @return a fully configured `MSChannelUnitConfiguration` instance.
  */
@@ -55,8 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param groupId The id used by the channel to determine a group of logs.
  *
- * @return a fully configured `MSChannelConfiguration` instance with default
- * settings.
+ * @return a fully configured `MSChannelConfiguration` instance with default settings.
  */
 - (instancetype)initDefaultConfigurationWithGroupId:(NSString *)groupId;
 

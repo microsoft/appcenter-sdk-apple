@@ -66,21 +66,18 @@ typedef void (^MSLoadDataCompletionHandler)(NSArray<id<MSLog>> *_Nullable logArr
  */
 - (BOOL)loadLogsWithGroupId:(NSString *)groupId
                       limit:(NSUInteger)limit
-         excludedTargetKeys:(nullable NSArray< NSString *> *)excludedTargetKeys
+         excludedTargetKeys:(nullable NSArray<NSString *> *)excludedTargetKeys
           completionHandler:(nullable MSLoadDataCompletionHandler)completionHandler;
 
 /**
- * Set the maximum size of the internal storage. This method must be called
- * before App Center is started.
+ * Set the maximum size of the internal storage. This method must be called before App Center is started.
  *
- * @param sizeInBytes Maximum size of in bytes. This will be rounded up to
- * the nearest multiple of 4096. Values below 20480 (20 KiB) will be ignored.
- * @param completionHandler Callback that is invoked when the database size
- * has been set. The `BOOL` parameter is `YES` if changing the size is
- * successful, and `NO` otherwise.
+ * @param sizeInBytes Maximum size of in bytes. This will be rounded up to the nearest multiple of 4096. Values below 20480 (20 KiB) will be
+ * ignored.
+ * @param completionHandler Callback that is invoked when the database size has been set. The `BOOL` parameter is `YES` if changing the size
+ * is successful, and `NO` otherwise.
  *
- * @discussion  The value passed to this method is not persisted on disk. The
- * default maximum database size is 10485760 bytes (10 MiB).
+ * @discussion  The value passed to this method is not persisted on disk. The default maximum database size is 10485760 bytes (10 MiB).
  *
  */
 - (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(nullable void (^)(BOOL))completionHandler;
