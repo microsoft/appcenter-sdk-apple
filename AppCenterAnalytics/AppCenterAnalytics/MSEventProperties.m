@@ -28,8 +28,8 @@
  * @param key Property key.
  * @param value Property value.
  */
-- (void)setStringForKey:(NSString *)key
-                  value:(NSString *)value {
+- (void)setString:(NSString *)key
+           forKey:(NSString *)value {
     [self.properties setValue:value forKey:key];
 }
 
@@ -39,8 +39,7 @@
  * @param key Property key.
  * @param value Property value.
  */
-- (void)setDoubleForKey:(NSString *)key
-                  value:(double)value {
+- (void)setDouble:(double)value forKey:(NSString *)key {
     [self.properties setValue:@(value) forKey:key];
 }
 
@@ -50,8 +49,7 @@
  * @param key Property key.
  * @param value Property value.
  */
-- (void)setLongLongForKey:(NSString *)key
-                    value:(long long)value {
+- (void)setLongLong:(long long)value forKey:(NSString *)key {
     [self.properties setValue:@(value) forKey:key];
 }
 
@@ -61,8 +59,7 @@
  * @param key Property key.
  * @param value Property value.
  */
-- (void)setBoolForKey:(NSString *)key
-                value:(BOOL)value {
+- (void)setBool:(BOOL)value forKey:(NSString *)key {
     [self.properties setValue:@(value) forKey:key];
 }
 
@@ -72,8 +69,7 @@
  * @param key Property key.
  * @param value Property value.
  */
-- (void)setDateForKey:(NSString *)key
-                value:(NSDate *)value {
+- (void)setDate:(NSDate *)value forKey:(NSString *)key {
     [self.properties setValue:value forKey:key];
 }
 
