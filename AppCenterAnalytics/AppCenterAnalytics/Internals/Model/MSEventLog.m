@@ -53,14 +53,15 @@ static NSString *const kMSTypedProperties = @"typedProperties";
     self = [super initWithCoder:coder];
     if (self) {
         _eventId = [coder decodeObjectForKey:kMSId];
+        _typedProperties = [coder decodeObjectForKey:kMSTypedProperties];
     }
-
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
     [super encodeWithCoder:coder];
     [coder encodeObject:self.eventId forKey:kMSId];
+    [coder encodeObject:self.typedProperties forKey:kMSTypedProperties];
 }
 
 #pragma mark - MSAbstractLog

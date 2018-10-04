@@ -1,7 +1,5 @@
 #import "MSLongTypedProperty.h"
 
-extern NSString *const kMSTypedPropertyValue;
-
 @implementation MSLongTypedProperty
 
 - (instancetype)init {
@@ -9,6 +7,19 @@ extern NSString *const kMSTypedPropertyValue;
         self.type = @"long";
     }
     return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)coder {
+    self = [super initWithCoder:coder];
+    if (self) {
+        _value = [coder decodeInt64ForKey:kMSTypedPropertyValue];
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+    [super encodeWithCoder:coder];
+    [coder encodeInt64:self.value forKey:kMSTypedPropertyValue];
 }
 
 /**

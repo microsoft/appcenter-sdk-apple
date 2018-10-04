@@ -1,14 +1,18 @@
 #import "MSEventProperties.h"
 #import "MSEventPropertiesInternal.h"
-#import "MSTypedProperty.h"
+#import "MSBooleanTypedProperty.h"
+#import "MSDateTimeTypedProperty.h"
+#import "MSDoubleTypedProperty.h"
+#import "MSLongTypedProperty.h"
+#import "MSStringTypedProperty.h"
 
 @implementation MSEventProperties
 
 - (instancetype)init {
-    if ((self = [super init])) {
-        _properties = [NSMutableArray new];
-    }
-    return self;
+  if ((self = [super init])) {
+    _properties = [NSMutableArray new];
+  }
+  return self;
 }
 
 /**
@@ -17,10 +21,32 @@
  * @param properties A dictionary of properties.
  * @return An instance of EventProperties.
  */
-- (instancetype)initWithDictionary:(__unused NSDictionary<NSString *, NSString *> *)properties {
-    //TODO implement this - convert to properties array
-    return [self init];
+- (instancetype)initWithDictionary:(NSDictionary<NSString *, NSString *> *)properties {
+  if ((self = [self init])) {
+    for (NSString *propertyKey in properties) {
+      MSStringTypedProperty *stringProperty = [MSStringTypedProperty new];
+      stringProperty.name = propertyKey;
+      stringProperty.value = properties[propertyKey];
+      [_properties addObject:stringProperty];
+    }
+  }
+  return self;
 }
+
+#pragma mark - NSCoding
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+  [coder encodeObject:self.properties];
+}
+
+- (instancetype)initWithCoder:(NSCoder *)coder {
+  if ((self = [super init])) {
+    _properties = (NSMutableArray<MSTypedProperty *> *_Nonnull) [coder decodeObject];
+  }
+  return self;
+}
+
+#pragma mark - Public methods
 
 /**
  * Set a string property.
@@ -30,7 +56,10 @@
  */
 - (void)setString:(NSString *)key
            forKey:(NSString *)value {
-    [self.properties setValue:value forKey:key];
+  MSStringTypedProperty *stringProperty = [MSStringTypedProperty new];
+  stringProperty.name = key;
+  stringProperty.value = value;
+  [self.properties addObject:stringProperty];
 }
 
 /**
@@ -40,7 +69,10 @@
  * @param value Property value.
  */
 - (void)setDouble:(double)value forKey:(NSString *)key {
-    [self.properties setValue:@(value) forKey:key];
+  MSDoubleTypedProperty *doubleProperty = [MSDoubleTypedProperty new];
+  doubleProperty.name = key;
+  doubleProperty.value = value;
+  [self.properties addObject:doubleProperty];
 }
 
 /**
@@ -50,7 +82,10 @@
  * @param value Property value.
  */
 - (void)setLongLong:(long long)value forKey:(NSString *)key {
-    [self.properties setValue:@(value) forKey:key];
+  MSLongTypedProperty *longProperty = [MSLongTypedProperty new];
+  longProperty.name = key;
+  longProperty.value = value;
+  [self.properties addObject:longProperty];
 }
 
 /**
@@ -60,7 +95,10 @@
  * @param value Property value.
  */
 - (void)setBool:(BOOL)value forKey:(NSString *)key {
-    [self.properties setValue:@(value) forKey:key];
+  MSBooleanTypedProperty *boolProperty = [MSBooleanTypedProperty new];
+  boolProperty.name = key;
+  boolProperty.value = value;
+  [self.properties addObject:boolProperty];
 }
 
 /**
@@ -70,7 +108,10 @@
  * @param value Property value.
  */
 - (void)setDate:(NSDate *)value forKey:(NSString *)key {
-    [self.properties setValue:value forKey:key];
+  MSDateTimeTypedProperty *dateTimeProperty = [MSDateTimeTypedProperty new];
+  dateTimeProperty.name = key;
+  dateTimeProperty.value = value;
+  [self.properties addObject:dateTimeProperty];
 }
 
 /**
@@ -79,11 +120,11 @@
  * @return An array representing this object.
  */
 - (NSMutableArray *)serializeToArray {
-    NSMutableArray *propertiesArray = [NSMutableArray new];
-    for (MSTypedProperty * typedProperty in self.properties) {
-        [propertiesArray addObject:[typedProperty serializeToDictionary]];
-    }
-    return propertiesArray;
+  NSMutableArray *propertiesArray = [NSMutableArray new];
+  for (MSTypedProperty *typedProperty in self.properties) {
+    [propertiesArray addObject:[typedProperty serializeToDictionary]];
+  }
+  return propertiesArray;
 }
 
 @end

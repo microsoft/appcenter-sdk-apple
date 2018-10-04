@@ -1,14 +1,25 @@
 #import "MSDoubleTypedProperty.h"
 
-extern NSString *const kMSTypedPropertyValue;
-
 @implementation MSDoubleTypedProperty
 
 - (instancetype)init {
-    if ((self = [super init])) {
-        self.type = @"double";
-    }
-    return self;
+  if ((self = [super init])) {
+    self.type = @"double";
+  }
+  return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)coder {
+  self = [super initWithCoder:coder];
+  if (self) {
+    _value = [coder decodeDoubleForKey:kMSTypedPropertyValue];
+  }
+  return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+  [super encodeWithCoder:coder];
+  [coder encodeDouble:self.value forKey:kMSTypedPropertyValue];
 }
 
 /**
@@ -17,9 +28,9 @@ extern NSString *const kMSTypedPropertyValue;
  * @return A dictionary representing this object.
  */
 - (NSMutableDictionary *)serializeToDictionary {
-    NSMutableDictionary *dict = [super serializeToDictionary];
-    dict[kMSTypedPropertyValue] = @(self.value);
-    return dict;
+  NSMutableDictionary *dict = [super serializeToDictionary];
+  dict[kMSTypedPropertyValue] = @(self.value);
+  return dict;
 }
 
 @end

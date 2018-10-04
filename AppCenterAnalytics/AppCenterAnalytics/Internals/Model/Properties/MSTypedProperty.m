@@ -4,8 +4,6 @@ static NSString *const kMSTypedPropertyType = @"type";
 
 static NSString *const kMSTypedPropertyName = @"name";
 
-static NSString *const kMSTypedPropertyValue = @"value";
-
 @implementation MSTypedProperty
 
 - (instancetype)initWithCoder:(NSCoder *)coder {

@@ -7,7 +7,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Typed event properties.
  */
-@interface MSEventProperties ()
+@interface MSEventProperties () <NSCoding>
 
 /**
  * String and date properties.
