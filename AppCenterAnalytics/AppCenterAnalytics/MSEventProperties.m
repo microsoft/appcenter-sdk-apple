@@ -54,8 +54,8 @@
  * @param key Property key.
  * @param value Property value.
  */
-- (void)setString:(NSString *)key
-           forKey:(NSString *)value {
+- (void)setString:(NSString *)value
+           forKey:(NSString *)key {
   MSStringTypedProperty *stringProperty = [MSStringTypedProperty new];
   stringProperty.name = key;
   stringProperty.value = value;

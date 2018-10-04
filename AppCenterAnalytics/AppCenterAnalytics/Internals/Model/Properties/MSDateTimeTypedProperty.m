@@ -24,6 +24,7 @@
   NSString *dateTimeString = [MSUtility dateToISO8601:self.value];
   [coder encodeObject:dateTimeString forKey:kMSTypedPropertyValue];
 }
+
 /**
  * Serialize this object to a dictionary.
  *
