@@ -3,6 +3,8 @@
 #import "MSCSData.h"
 #import "MSCSModelConstants.h"
 #import "MSEventLogPrivate.h"
+#import "MSEventProperties.h"
+#import "MSEventPropertiesInternal.h"
 
 static NSString *const kMSTypeEvent = @"event";
 
@@ -26,7 +28,7 @@ static NSString *const kMSTypedProperties = @"typedProperties";
         dict[kMSId] = self.eventId;
     }
     if (self.typedProperties) {
-        dict[kMSTypedProperties] = [self.typedProperties serializeToDictionary];
+        dict[kMSTypedProperties] = [self.typedProperties serializeToArray];
     }
     return dict;
 }

@@ -1,11 +1,12 @@
 #import "MSEventProperties.h"
 #import "MSEventPropertiesInternal.h"
+#import "MSTypedProperty.h"
 
 @implementation MSEventProperties
 
 - (instancetype)init {
     if ((self = [super init])) {
-        _properties = [NSMutableDictionary new];
+        _properties = [NSMutableArray new];
     }
     return self;
 }
@@ -17,6 +18,7 @@
  * @return An instance of EventProperties.
  */
 - (instancetype)initWithDictionary:(__unused NSDictionary<NSString *, NSString *> *)properties {
+    //TODO implement this - convert to properties array
     return [self init];
 }
 
@@ -76,13 +78,16 @@
 }
 
 /**
- * Serialize this object to a dictionary.
+ * Serialize this object to an array.
  *
- * @return A dictionary representing this object.
+ * @return An array representing this object.
  */
-- (NSMutableDictionary *)serializeToDictionary {
-    //TODO implement!
-    return nil;
+- (NSMutableArray *)serializeToArray {
+    NSMutableArray *propertiesArray = [NSMutableArray new];
+    for (MSTypedProperty * typedProperty in self.properties) {
+        [propertiesArray addObject:[typedProperty serializeToDictionary]];
+    }
+    return propertiesArray;
 }
 
 @end
