@@ -118,8 +118,8 @@
 
   /*
    * If `auto_vacuum` is disabled, change it to `FULL` and then manually `VACUUM` the database. Per the SQLite docs, changing the state of
-   * `auto_vacuum` must be followed by a manual `VACUUM` before the change can take effect (technically it's not needed if the database is
-   * empty, but just vacuum either way).
+   * `auto_vacuum` must be followed by a manual `VACUUM` before the change can take effect (for more information,
+   * see https://www.sqlite.org/pragma.html#pragma_auto_vacuum).
    */
   if (autoVacuumDisabled) {
     MSLogDebug([MSAppCenter logTag], @"Vacuuming database and enabling auto_vacuum");

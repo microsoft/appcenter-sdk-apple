@@ -442,7 +442,7 @@ static NSString *const kMSTestDBFileName = @"Test.sqlite";
   XCTAssertTrue([self autoVacuumIsSetToFull]);
 }
 
-- (void) testDatabaseThatIsAutoVacuumedNotManuallyVacuumedWhenInitialized {
+- (void)testDatabaseThatIsAutoVacuumedNotManuallyVacuumedWhenInitialized {
 
   // If
 
