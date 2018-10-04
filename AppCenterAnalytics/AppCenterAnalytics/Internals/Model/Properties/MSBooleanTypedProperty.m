@@ -18,7 +18,7 @@ extern NSString *const kMSTypedPropertyValue;
  */
 - (NSMutableDictionary *)serializeToDictionary {
     NSMutableDictionary *dict = [super serializeToDictionary];
-    dict[kMSTypedPropertyValue] = self.value;
+    dict[kMSTypedPropertyValue] = @(self.value);
     return dict;
 }
 

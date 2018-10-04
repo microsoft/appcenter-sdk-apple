@@ -81,12 +81,12 @@ static NSString *const kMSTypedProperties = @"typedProperties";
 
 #pragma mark - Helper
 
-- (MSEventProperties *)convertACPropertiesToCSproperties:
-        (MSEventProperties *)acProperties {
+- (NSDictionary<NSString *, NSString *> *)convertACPropertiesToCSproperties:
+        (NSDictionary<NSString *, NSString *> *)acProperties {
     NSMutableDictionary *csProperties;
     if (acProperties) {
         csProperties = [NSMutableDictionary new];
-        for (NSString *acKey in acProperties.properties) {
+        for (NSString *acKey in acProperties) {
 
             // Properties keys are mixed up with other keys from Data, make sure they
             // don't conflict.
