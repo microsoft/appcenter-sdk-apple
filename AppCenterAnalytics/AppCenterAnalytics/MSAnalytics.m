@@ -12,6 +12,7 @@
 #import "MSServiceAbstractProtected.h"
 #import "MSUtility+StringFormatting.h"
 #import "MSEventProperties.h"
+#import "MSEventPropertiesInternal.h"
 
 // Service name for initialization.
 static NSString *const kMSServiceName = @"Analytics";
@@ -170,7 +171,7 @@ __attribute__((used)) static void importCategories() {
 }
 
 + (void)trackEvent:(NSString *)eventName withTypedProperties:(nullable MSEventProperties *)properties {
-    // TODO - don't redirect to TT, that's for later
+    [self trackEvent:eventName withTypedProperties:properties forTransmissionTarget:nil];
 }
 
 + (void)   trackEvent:(NSString *)eventName
@@ -180,6 +181,17 @@ forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarg
         if ([[MSAnalytics sharedInstance] canBeUsed]) {
             [[MSAnalytics sharedInstance]
                     trackEvent:eventName withProperties:properties forTransmissionTarget:transmissionTarget];
+        }
+    }
+}
+
++ (void)   trackEvent:(NSString *)eventName
+  withTypedProperties:(nullable MSEventProperties *)properties
+forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarget {
+    @synchronized (self) {
+        if ([[MSAnalytics sharedInstance] canBeUsed]) {
+            [[MSAnalytics sharedInstance]
+                    trackEvent:eventName withTypedProperties:properties forTransmissionTarget:transmissionTarget];
         }
     }
 }
@@ -243,6 +255,14 @@ forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarg
 - (void)   trackEvent:(NSString *)eventName
        withProperties:(NSDictionary<NSString *, NSString *> *)properties
 forTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget {
+    NSDictionary *validProperties = [self removeInvalidProperties:properties];
+    MSEventProperties *eventProperties = [[MSEventProperties alloc] initWithDictionary:validProperties];
+    [self trackEvent:eventName withTypedProperties:eventProperties forTransmissionTarget:transmissionTarget];
+}
+
+- (void)   trackEvent:(NSString *)eventName
+  withTypedProperties:(MSEventProperties *)properties
+forTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget {
     if (![self isEnabled]) {
         return;
     }
@@ -268,9 +288,7 @@ forTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget {
     // Set properties of the event log.
     log.name = eventName;
     log.eventId = MS_UUID_STRING;
-    if (properties && properties.count > 0) {
-        log.properties = [self removeInvalidProperties:properties];
-    }
+    log.properties = properties;
 
     // Send log to log manager.
     [self sendLog:log];
