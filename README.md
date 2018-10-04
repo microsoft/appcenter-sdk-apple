@@ -37,7 +37,7 @@ You must sign a [Contributor License Agreement](https://cla.microsoft.com/) befo
 
 ### 2.3 Code Formatting
 
-All Objective-C files follow LLVM coding style (with a few exceptions) and are formatted accordingly. If you use Xcode for your contribution, use our [.clang_format](https://github.com/Microsoft/AppCenter-SDK-Apple/blob/develop/.clang-format) file to make sure files have the correct code format before submitting PRs. You can find a clang formatting tool [here](https://github.com/mapbox/XcodeClangFormat) if you don't have a proper tool for formatting code.
+All Objective-C files follow LLVM coding style (with a few exceptions) and are formatted accordingly. If you use Xcode for your contribution, use our [.clang_format](https://github.com/Microsoft/AppCenter-SDK-Apple/blob/develop/.clang-format) file to make sure files have the correct code format before submitting PRs. You can find a clang formatting tool [here](https://github.com/mapbox/XcodeClangFormat) if you don't have a tool for formatting code.
 
 ## 3. Contact
 
