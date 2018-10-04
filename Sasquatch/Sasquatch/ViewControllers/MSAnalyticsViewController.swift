@@ -39,21 +39,25 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   }
 
   @IBAction func trackEvent() {
-    /*
     guard let name = eventName.text else {
       return
     }
-    let eventPropertiesDictionary = eventPropertiesSection.eventPropertiesDictionary()
+    let eventProperties = eventPropertiesSection.eventProperties()
     if (MSTransmissionTargets.shared.defaultTargetShouldSendAnalyticsEvents()) {
-      appCenter.trackEvent(name, withProperties: eventPropertiesDictionary)
+      if let properties = eventProperties as? MSEventProperties {
+        appCenter.trackEvent(name, withTypedProperties: properties)
+      } else if let dictionary = eventProperties as? [String: String] {
+        appCenter.trackEvent(name, withProperties: dictionary)
+      } else {
+        appCenter.trackEvent(name)
+      }
     }
     for targetToken in MSTransmissionTargets.shared.transmissionTargets.keys {
       if MSTransmissionTargets.shared.targetShouldSendAnalyticsEvents(targetToken: targetToken) {
         let target = MSTransmissionTargets.shared.transmissionTargets[targetToken]
-        target!.trackEvent(name, withProperties: eventPropertiesDictionary)
+        target!.trackEvent(name/*, withProperties: eventPropertiesDictionary*/)
       }
     }
-    */
   }
 
   @IBAction func trackPage() {

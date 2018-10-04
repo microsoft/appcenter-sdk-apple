@@ -2,28 +2,40 @@ import UIKit
 
 class EventPropertiesTableSection : TypedPropertiesTableSection {
 
-  private var eventProperties: [(String, String)]! = [(String, String)]()
+  private var propertiesCount = 0
 
   override func getPropertyCount() -> Int {
-    return eventProperties!.count
+    return propertiesCount
   }
 
   override func addProperty() {
-    eventProperties!.insert(("", ""), at: 0)
+    propertiesCount += 1
   }
 
   override func removeProperty(atRow row: Int) {
-    eventProperties!.remove(at: row - self.propertyCellOffset)
+    propertiesCount -= 1
   }
 
-  /*
-  func eventPropertiesDictionary() -> [String: String] {
-    var propertyDictionary = [String: String]()
-    for pair in eventProperties {
-      propertyDictionary[pair.0] = pair.1
+  func eventProperties() -> Any? {
+    if propertiesCount < 1 {
+      return nil
     }
-    return propertyDictionary
+    var onlyStrings = true
+    var propertyDictionary = [String: String]()
+    let eventProperties = MSEventProperties()
+    for i in 1...propertiesCount {
+      let indexPath = IndexPath(row: i, section: self.tableSection)
+      if let cell = self.tableView.cellForRow(at: indexPath) as? MSAnalyticsTypedPropertyTableViewCell {
+        cell.setPropertyTo(eventProperties)
+        if cell.type == .String {
+          let key = cell.keyTextField.text
+          propertyDictionary[key!] = cell.valueTextField.text
+        } else {
+          onlyStrings = false
+        }
+      }
+    }
+    return onlyStrings ? propertyDictionary : eventProperties
   }
- */
 }
 

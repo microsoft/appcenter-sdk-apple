@@ -21,6 +21,10 @@ import UIKit
   private var typePickerView: MSEnumPicker<EventPropertyType>?
   private var datePickerView: MSDatePicker?
 
+  public var type: EventPropertyType {
+    get { return EventPropertyType(rawValue: typeTextField.text!)! }
+  }
+
   override func awakeFromNib() {
     super.awakeFromNib()
     self.typePickerView = MSEnumPicker<EventPropertyType>(
@@ -79,8 +83,29 @@ import UIKit
     }
   }
 
-  func setPropertyTo(_ properties: MSCustomProperties) {
-    //let type = EventPropertyType(rawValue: typeTextField.text!)!
-
+  func setPropertyTo(_ properties: MSEventProperties) {
+    switch self.type {
+    case .String:
+      properties.setStringForKey(keyTextField.text!, value:valueTextField.text!)
+      break
+    case .Double:
+      let formatter = NumberFormatter()
+      formatter.numberStyle = .decimal
+      let double = formatter.number(from: valueTextField.text ?? "")?.doubleValue ?? 0
+      properties.setDoubleForKey(keyTextField.text!, value:double)
+      break
+    case .Long:
+      let formatter = NumberFormatter()
+      formatter.numberStyle = .decimal
+      let long = formatter.number(from: valueTextField.text ?? "")?.int64Value ?? 0
+      properties.setLongLongForKey(keyTextField.text!, value:long)
+      break
+    case .Boolean:
+      properties.setBoolForKey(keyTextField.text!, value:boolValue.isOn)
+      break
+    case .DateTime:
+      properties.setDateForKey(keyTextField.text!, value:datePickerView!.date!)
+      break
+    }
   }
 }

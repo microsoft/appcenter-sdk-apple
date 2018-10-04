@@ -21,6 +21,10 @@ import UIKit
   private var typePickerView: MSEnumPicker<CustomPropertyType>?
   private var datePickerView: MSDatePicker?
 
+  public var type: CustomPropertyType {
+    get { return CustomPropertyType(rawValue: typeTextField.text!)! }
+  }
+
   override func awakeFromNib() {
     super.awakeFromNib()
     self.typePickerView = MSEnumPicker<CustomPropertyType>(
@@ -101,8 +105,7 @@ import UIKit
   }
   
   func setPropertyTo(_ properties: MSCustomProperties) {
-    let type = CustomPropertyType(rawValue: typeTextField.text!)!
-    switch type {
+    switch self.type {
     case .Clear:
       properties.clearProperty(forKey: keyTextField.text)
     case .String:

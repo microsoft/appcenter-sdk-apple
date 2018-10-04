@@ -113,6 +113,11 @@
   [MSAnalytics trackEvent:eventName withProperties:properties];
 }
 
+- (void)trackEvent:(NSString *)eventName
+    withTypedProperties:(MSEventProperties *)properties {
+  [MSAnalytics trackEvent:eventName withTypedProperties:properties];
+}
+
 - (void)trackPage:(NSString *)pageName {
 #if GCC_PREPROCESSOR_MACRO_PUPPET
   [MSAnalytics trackPage:pageName];
