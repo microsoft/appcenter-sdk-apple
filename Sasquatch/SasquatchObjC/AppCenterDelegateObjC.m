@@ -108,13 +108,11 @@
   [MSAnalytics trackEvent:eventName];
 }
 
-- (void)trackEvent:(NSString *)eventName
-    withProperties:(NSDictionary<NSString *, NSString *> *)properties {
+- (void)trackEvent:(NSString *)eventName withProperties:(NSDictionary<NSString *, NSString *> *)properties {
   [MSAnalytics trackEvent:eventName withProperties:properties];
 }
 
-- (void)trackEvent:(NSString *)eventName
-    withTypedProperties:(MSEventProperties *)properties {
+- (void)trackEvent:(NSString *)eventName withTypedProperties:(MSEventProperties *)properties {
   [MSAnalytics trackEvent:eventName withTypedProperties:properties];
 }
 
@@ -124,8 +122,7 @@
 #endif
 }
 
-- (void)trackPage:(NSString *)pageName
-    withProperties:(NSDictionary<NSString *, NSString *> *)properties {
+- (void)trackPage:(NSString *)pageName withProperties:(NSDictionary<NSString *, NSString *> *)properties {
 #if GCC_PREPROCESSOR_MACRO_PUPPET
   [MSAnalytics trackPage:pageName withProperties:properties];
 #endif
@@ -157,12 +154,9 @@
   releaseDetails.version = @"10";
   releaseDetails.shortVersion = @"1.0";
   if ([MSDistribute respondsToSelector:@selector(sharedInstance)]) {
-    id distributeInstance =
-        [MSDistribute performSelector:@selector(sharedInstance)];
-    if ([distributeInstance
-            respondsToSelector:@selector(showConfirmationAlert:)]) {
-      [distributeInstance performSelector:@selector(showConfirmationAlert:)
-                               withObject:releaseDetails];
+    id distributeInstance = [MSDistribute performSelector:@selector(sharedInstance)];
+    if ([distributeInstance respondsToSelector:@selector(showConfirmationAlert:)]) {
+      [distributeInstance performSelector:@selector(showConfirmationAlert:) withObject:releaseDetails];
     }
   }
 }
@@ -170,12 +164,9 @@
 
 - (void)showDistributeDisabledAlert {
   if ([MSDistribute respondsToSelector:@selector(sharedInstance)]) {
-    id distributeInstance =
-        [MSDistribute performSelector:@selector(sharedInstance)];
-    if ([distributeInstance
-            respondsToSelector:@selector(showDistributeDisabledAlert)]) {
-      [distributeInstance
-          performSelector:@selector(showDistributeDisabledAlert)];
+    id distributeInstance = [MSDistribute performSelector:@selector(sharedInstance)];
+    if ([distributeInstance respondsToSelector:@selector(showDistributeDisabledAlert)]) {
+      [distributeInstance performSelector:@selector(showDistributeDisabledAlert)];
     }
   }
 }
@@ -185,10 +176,8 @@
   releaseDetails.version = @"10";
   releaseDetails.shortVersion = @"1.0";
   if ([MSDistribute respondsToSelector:@selector(sharedInstance)]) {
-    id distributeInstance =
-        [MSDistribute performSelector:@selector(sharedInstance)];
-    [[distributeInstance delegate] distribute:distributeInstance
-                  releaseAvailableWithDetails:releaseDetails];
+    id distributeInstance = [MSDistribute performSelector:@selector(sharedInstance)];
+    [[distributeInstance delegate] distribute:distributeInstance releaseAvailableWithDetails:releaseDetails];
   }
 }
 
