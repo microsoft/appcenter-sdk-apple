@@ -86,25 +86,25 @@ import UIKit
   func setPropertyTo(_ properties: MSEventProperties) {
     switch self.type {
     case .String:
-      properties.setStringForKey(keyTextField.text!, value:valueTextField.text!)
+      properties.setString(valueTextField.text!, forKey:keyTextField.text!)
       break
     case .Double:
       let formatter = NumberFormatter()
       formatter.numberStyle = .decimal
       let double = formatter.number(from: valueTextField.text ?? "")?.doubleValue ?? 0
-      properties.setDoubleForKey(keyTextField.text!, value:double)
+      properties.setDouble(double, forKey:keyTextField.text!)
       break
     case .Long:
       let formatter = NumberFormatter()
       formatter.numberStyle = .decimal
       let long = formatter.number(from: valueTextField.text ?? "")?.int64Value ?? 0
-      properties.setLongLongForKey(keyTextField.text!, value:long)
+      properties.setLongLong(long, forKey:keyTextField.text!)
       break
     case .Boolean:
-      properties.setBoolForKey(keyTextField.text!, value:boolValue.isOn)
+      properties.setBool(boolValue.isOn, forKey:keyTextField.text!)
       break
     case .DateTime:
-      properties.setDateForKey(keyTextField.text!, value:datePickerView!.date!)
+      properties.setDate(datePickerView!.date!, forKey:keyTextField.text!)
       break
     }
   }
