@@ -10,47 +10,43 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Set a string property.
  *
- * @param key Property key.
  * @param value Property value.
+ * @param key Property key.
  */
-- (void)setStringForKey:(NSString *)key
-                  value:(NSString *)value;
+- (void)setString:(NSString *)value
+           forKey:(NSString *)key;
 
 /**
  * Set a double property.
  *
- * @param key Property key.
  * @param value Property value.
+ * @param key Property key.
  */
-- (void)setDoubleForKey:(NSString *)key
-                  value:(double)value;
+- (void)setDouble:(double)value forKey:(NSString *)key;
 
 /**
  * Set a long long (64-bit) property.
  *
- * @param key Property key.
  * @param value Property value.
+ * @param key Property key.
  */
-- (void)setLongLongForKey:(NSString *)key
-                    value:(long long)value;
+- (void)setLongLong:(long long)value forKey:(NSString *)key;
 
 /**
  * Set a boolean property.
  *
- * @param key Property key.
  * @param value Property value.
+ * @param key Property key.
  */
-- (void)setBoolForKey:(NSString *)key
-                value:(BOOL)value;
+- (void)setBool:(BOOL)value forKey:(NSString *)key;
 
 /**
  * Set a Date property.
  *
- * @param key Property key.
  * @param value Property value.
+ * @param key Property key.
  */
-- (void)setDateForKey:(NSString *)key
-                value:(NSDate *)value;
+- (void)setDate:(NSDate *)value forKey:(NSString *)key;
 
 @end
 

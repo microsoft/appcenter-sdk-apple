@@ -4,9 +4,21 @@ static NSString *const kMSTypedPropertyType = @"type";
 
 static NSString *const kMSTypedPropertyName = @"name";
 
-static NSString *const kMSTypedPropertyValue = @"value";
-
 @implementation MSTypedProperty
+
+- (instancetype)initWithCoder:(NSCoder *)coder {
+    self = [super init];
+    if (self) {
+        _type = [coder decodeObjectForKey:kMSTypedPropertyType];
+        _name = [coder decodeObjectForKey:kMSTypedPropertyName];
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+    [coder encodeObject:self.type forKey:kMSTypedPropertyType];
+    [coder encodeObject:self.name forKey:kMSTypedPropertyName];
+}
 
 /**
  * Serialize this object to a dictionary.
