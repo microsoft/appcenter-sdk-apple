@@ -5,6 +5,7 @@
 #import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
 #import "MSCrashesTestUtil.h"
+#import "MSCrashReporter.h"
 #import "MSDeviceTrackerPrivate.h"
 #import "MSErrorLogFormatterPrivate.h"
 #import "MSException.h"
