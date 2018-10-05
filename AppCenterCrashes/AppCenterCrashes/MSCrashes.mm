@@ -1,6 +1,7 @@
 #import <objc/runtime.h>
 
 #import "MSAppCenterInternal.h"
+#import "MSAppDelegateForwarder.h"
 #import "MSAppleErrorLog.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
@@ -276,7 +277,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
      * the uncaught exception handler because the global application object catches all such exceptions.
      * See: https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Exceptions/Concepts/UncaughtExceptions.html
      */
-    if (![MSAppCenter isDebuggerAttached]) {
+    if (MSAppDelegateForwarder.enabled) {
       SEL selector = @selector(reportException:);
       Method method = class_getInstanceMethod([NSApplication class], selector);
       IMP implementation = class_getMethodImplementation([MSCrashes class], selector);
