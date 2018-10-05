@@ -2,8 +2,7 @@
 
 #import "MSDistributionStartSessionLog.h"
 
-static NSString *const kMSTypeDistributionStartSessionLog =
-    @"distributionStartSession";
+static NSString *const kMSTypeDistributionStartSessionLog = @"distributionStartSession";
 
 @implementation MSDistributionStartSessionLog
 

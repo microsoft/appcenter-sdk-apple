@@ -53,18 +53,12 @@ static NSString *const kMSWrapperSDKName = @"wrapperSdkName";
     return NO;
   }
   MSException *exception = (MSException *)object;
-  return ((!self.type && !exception.type) ||
-          [self.type isEqualToString:exception.type]) &&
-         ((!self.wrapperSdkName && !exception.wrapperSdkName) ||
-          [self.wrapperSdkName isEqualToString:exception.wrapperSdkName]) &&
-         ((!self.message && !exception.message) ||
-          [self.message isEqualToString:exception.message]) &&
-         ((!self.frames && !exception.frames) ||
-          [self.frames isEqualToArray:exception.frames]) &&
-         ((!self.innerExceptions && !exception.innerExceptions) ||
-          [self.innerExceptions isEqualToArray:exception.innerExceptions]) &&
-         ((!self.stackTrace && !exception.stackTrace) ||
-          [self.stackTrace isEqualToString:exception.stackTrace]);
+  return ((!self.type && !exception.type) || [self.type isEqualToString:exception.type]) &&
+         ((!self.wrapperSdkName && !exception.wrapperSdkName) || [self.wrapperSdkName isEqualToString:exception.wrapperSdkName]) &&
+         ((!self.message && !exception.message) || [self.message isEqualToString:exception.message]) &&
+         ((!self.frames && !exception.frames) || [self.frames isEqualToArray:exception.frames]) &&
+         ((!self.innerExceptions && !exception.innerExceptions) || [self.innerExceptions isEqualToArray:exception.innerExceptions]) &&
+         ((!self.stackTrace && !exception.stackTrace) || [self.stackTrace isEqualToString:exception.stackTrace]);
 }
 
 #pragma mark - NSCoding

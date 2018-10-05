@@ -3,7 +3,7 @@
 #import "AppCenter+Internal.h"
 #import "MSSerializableObject.h"
 
-/*
+/**
  * Binary (library) definition for any platform.
  */
 @interface MSBinary : NSObject <MSSerializableObject>

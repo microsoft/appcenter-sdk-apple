@@ -6,12 +6,12 @@
 
 @class MSThread, MSBinary, MSException;
 
-/*
+/**
  * Error log for Apple platforms.
  */
 @interface MSAppleErrorLog : MSAbstractErrorLog <MSNoAutoAssignSessionIdLog>
 
-/*
+/**
  * CPU primary architecture.
  * Expected values are as follows:
  * public static primary_i386 = 0x00000007;
@@ -21,7 +21,7 @@
  */
 @property(nonatomic) NSNumber *primaryArchitectureId;
 
-/*
+/**
  * CPU architecture variant [optional].
  *
  * If primary is arm64, the possible variants are
@@ -37,57 +37,57 @@
  */
 @property(nonatomic) NSNumber *architectureVariantId;
 
-/*
+/**
  * Path to the application.
  */
 @property(nonatomic, copy) NSString *applicationPath;
 
-/*
+/**
  * OS exception type.
  */
 @property(nonatomic, copy) NSString *osExceptionType;
 
-/*
+/**
  * OS exception code.
  */
 @property(nonatomic, copy) NSString *osExceptionCode;
 
-/*
+/**
  * OS exception address.
  */
 @property(nonatomic, copy) NSString *osExceptionAddress;
 
-/*
+/**
  * Exception type [optional].
  */
 @property(nonatomic, copy) NSString *exceptionType;
 
-/*
+/**
  * Exception reason [optional].
  */
 @property(nonatomic, copy) NSString *exceptionReason;
 
-/*
+/**
  * Content of register that might contain last method call [optional].
  */
 @property(nonatomic, copy) NSString *selectorRegisterValue;
 
-/*
+/**
  * Thread stack frames associated to the error [optional].
  */
 @property(nonatomic) NSArray<MSThread *> *threads;
 
-/*
+/**
  * Binaries associated to the error [optional].
  */
 @property(nonatomic) NSArray<MSBinary *> *binaries;
 
-/*
+/**
  * Registers. [optional]
  */
 @property(nonatomic) NSDictionary<NSString *, NSString *> *registers;
 
-/*
+/**
  * The last exception backtrace.
  */
 @property(nonatomic) MSException *exception;

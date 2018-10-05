@@ -67,19 +67,15 @@
   NSDictionary *actual = [self.sut serializeToDictionary];
   XCTAssertNotNil(actual);
   assertThat(actual[@"type"], equalTo(self.sut.type));
-  assertThat(actual[@"primaryArchitectureId"],
-             equalTo(self.sut.primaryArchitectureId));
-  assertThat(actual[@"architectureVariantId"],
-             equalTo(self.sut.architectureVariantId));
+  assertThat(actual[@"primaryArchitectureId"], equalTo(self.sut.primaryArchitectureId));
+  assertThat(actual[@"architectureVariantId"], equalTo(self.sut.architectureVariantId));
   assertThat(actual[@"applicationPath"], equalTo(self.sut.applicationPath));
   assertThat(actual[@"osExceptionType"], equalTo(self.sut.osExceptionType));
   assertThat(actual[@"osExceptionCode"], equalTo(self.sut.osExceptionCode));
-  assertThat(actual[@"osExceptionAddress"],
-             equalTo(self.sut.osExceptionAddress));
+  assertThat(actual[@"osExceptionAddress"], equalTo(self.sut.osExceptionAddress));
   assertThat(actual[@"exceptionType"], equalTo(self.sut.exceptionType));
   assertThat(actual[@"exceptionReason"], equalTo(self.sut.exceptionReason));
-  assertThat(actual[@"selectorRegisterValue"],
-             equalTo(self.sut.selectorRegisterValue));
+  assertThat(actual[@"selectorRegisterValue"], equalTo(self.sut.selectorRegisterValue));
   assertThat(actual[@"id"], equalTo(self.sut.errorId));
   assertThat(actual[@"processId"], equalTo(self.sut.processId));
   assertThat(actual[@"processName"], equalTo(self.sut.processName));
@@ -88,25 +84,21 @@
   assertThat(actual[@"errorThreadId"], equalTo(self.sut.errorThreadId));
   assertThat(actual[@"errorThreadName"], equalTo(self.sut.errorThreadName));
   XCTAssertEqual([actual[@"fatal"] boolValue], self.sut.fatal);
-  assertThat(actual[@"appLaunchTimestamp"],
-             equalTo(@"1970-01-01T00:00:42.000Z"));
+  assertThat(actual[@"appLaunchTimestamp"], equalTo(@"1970-01-01T00:00:42.000Z"));
   assertThat(actual[@"architecture"], equalTo(self.sut.architecture));
 
   // Exception fields.
   NSDictionary *exceptionDictionary = actual[@"exception"];
   XCTAssertNotNil(exceptionDictionary);
   assertThat(exceptionDictionary[@"type"], equalTo(self.sut.exception.type));
-  assertThat(exceptionDictionary[@"message"],
-             equalTo(self.sut.exception.message));
-  assertThat(exceptionDictionary[@"wrapperSdkName"],
-             equalTo(self.sut.exception.wrapperSdkName));
+  assertThat(exceptionDictionary[@"message"], equalTo(self.sut.exception.message));
+  assertThat(exceptionDictionary[@"wrapperSdkName"], equalTo(self.sut.exception.wrapperSdkName));
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {
 
   // When
-  NSData *serializedEvent =
-      [NSKeyedArchiver archivedDataWithRootObject:self.sut];
+  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.sut];
   id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
 
   // Then
@@ -118,27 +110,22 @@
   assertThat(actualLog, equalTo(self.sut));
   XCTAssertTrue([actualLog isEqual:self.sut]);
   assertThat(actualLog.type, equalTo(self.sut.type));
-  assertThat(actualLog.primaryArchitectureId,
-             equalTo(self.sut.primaryArchitectureId));
-  assertThat(actualLog.architectureVariantId,
-             equalTo(self.sut.architectureVariantId));
+  assertThat(actualLog.primaryArchitectureId, equalTo(self.sut.primaryArchitectureId));
+  assertThat(actualLog.architectureVariantId, equalTo(self.sut.architectureVariantId));
   assertThat(actualLog.architecture, equalTo(self.sut.architecture));
   assertThat(actualLog.applicationPath, equalTo(self.sut.applicationPath));
   assertThat(actualLog.osExceptionType, equalTo(self.sut.osExceptionType));
   assertThat(actualLog.osExceptionCode, equalTo(self.sut.osExceptionCode));
-  assertThat(actualLog.osExceptionAddress,
-             equalTo(self.sut.osExceptionAddress));
+  assertThat(actualLog.osExceptionAddress, equalTo(self.sut.osExceptionAddress));
   assertThat(actualLog.exceptionType, equalTo(self.sut.exceptionType));
   assertThat(actualLog.exceptionReason, equalTo(self.sut.exceptionReason));
-  assertThat(actualLog.selectorRegisterValue,
-             equalTo(self.sut.selectorRegisterValue));
+  assertThat(actualLog.selectorRegisterValue, equalTo(self.sut.selectorRegisterValue));
 
   // The exception field.
   MSException *actualException = actualLog.exception;
   assertThat(actualException.type, equalTo(self.sut.exception.type));
   assertThat(actualException.message, equalTo(self.sut.exception.message));
-  assertThat(actualException.wrapperSdkName,
-             equalTo(self.sut.exception.wrapperSdkName));
+  assertThat(actualException.wrapperSdkName, equalTo(self.sut.exception.wrapperSdkName));
 }
 
 - (void)testIsEqual {

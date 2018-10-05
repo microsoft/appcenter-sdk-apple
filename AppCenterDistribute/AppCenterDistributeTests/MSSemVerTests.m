@@ -35,8 +35,7 @@
   NSString *preRelease = @"alpha";
 
   // When
-  version = [MSSemVer
-      semVerWithString:[NSString stringWithFormat:@"%@-%@", base, preRelease]];
+  version = [MSSemVer semVerWithString:[NSString stringWithFormat:@"%@-%@", base, preRelease]];
 
   // Then
   assertThat(version.base, is(base));
@@ -49,9 +48,7 @@
   NSString *metadata = @"42meta";
 
   // When
-  version = [MSSemVer
-      semVerWithString:[NSString stringWithFormat:@"%@-%@+%@", base, preRelease,
-                                                  metadata]];
+  version = [MSSemVer semVerWithString:[NSString stringWithFormat:@"%@-%@+%@", base, preRelease, metadata]];
 
   // Then
   assertThat(version.base, is(base));
@@ -63,8 +60,7 @@
   metadata = @"42meta";
 
   // When
-  version = [MSSemVer
-      semVerWithString:[NSString stringWithFormat:@"%@+%@", base, metadata]];
+  version = [MSSemVer semVerWithString:[NSString stringWithFormat:@"%@+%@", base, metadata]];
 
   // Then
   assertThat(version.base, is(base));

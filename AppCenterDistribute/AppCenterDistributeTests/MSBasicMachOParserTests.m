@@ -24,12 +24,12 @@ static NSUInteger const kMSBytesToRead = 10;
 }
 
 - (void)testReturnsNilIfBundleIsInvalid {
+
   // If
   NSBundle *nilBundle = nil;
 
   // When
-  MSBasicMachOParser *parser =
-      [[MSBasicMachOParser alloc] initWithBundle:nilBundle];
+  MSBasicMachOParser *parser = [[MSBasicMachOParser alloc] initWithBundle:nilBundle];
 
   // Then
   XCTAssertNil(parser);
@@ -45,13 +45,12 @@ static NSUInteger const kMSBytesToRead = 10;
 }
 
 - (void)testReturnsParserForBundle {
+
   // If
-  NSBundle *validBundle =
-      [NSBundle bundleForClass:[MSBasicMachOParserTests class]];
+  NSBundle *validBundle = [NSBundle bundleForClass:[MSBasicMachOParserTests class]];
 
   // When
-  MSBasicMachOParser *parser =
-      [[MSBasicMachOParser alloc] initWithBundle:validBundle];
+  MSBasicMachOParser *parser = [[MSBasicMachOParser alloc] initWithBundle:validBundle];
 
   // Then
   XCTAssertNotNil(parser);
@@ -59,11 +58,10 @@ static NSUInteger const kMSBytesToRead = 10;
 }
 
 - (void)testReturnsParserForMainBundle {
+
   // When
-  MSBasicMachOParser *parserForBundle =
-      [[MSBasicMachOParser alloc] initWithBundle:MS_APP_MAIN_BUNDLE];
-  MSBasicMachOParser *parserForMainBundle =
-      [MSBasicMachOParser machOParserForMainBundle];
+  MSBasicMachOParser *parserForBundle = [[MSBasicMachOParser alloc] initWithBundle:MS_APP_MAIN_BUNDLE];
+  MSBasicMachOParser *parserForMainBundle = [MSBasicMachOParser machOParserForMainBundle];
 
   // Then
   XCTAssertNotNil(parserForMainBundle);
@@ -72,35 +70,30 @@ static NSUInteger const kMSBytesToRead = 10;
 }
 
 - (void)testReadDataFromFileReturnsNOIfCannotRead {
+
   // If
   unsigned char buffer[kMSBytesToRead];
   NSData *emptyData = [NSData data];
-  OCMStub([self.fileHandleMock readDataOfLength:kMSBytesToRead])
-      .andReturn(emptyData);
+  OCMStub([self.fileHandleMock readDataOfLength:kMSBytesToRead]).andReturn(emptyData);
   MSBasicMachOParser *parser = [MSBasicMachOParser machOParserForMainBundle];
 
   // When
-  BOOL result = [parser readDataFromFile:self.fileHandleMock
-                                toBuffer:buffer
-                                ofLength:kMSBytesToRead];
+  BOOL result = [parser readDataFromFile:self.fileHandleMock toBuffer:buffer ofLength:kMSBytesToRead];
 
   // Then
   XCTAssertFalse(result);
 }
 
 - (void)testReadDataFromFileReturnsYesIfCanRead {
+
   // If
   unsigned char buffer[kMSBytesToRead];
-  NSData *dataWithContents =
-      [NSData dataWithBytes:buffer length:kMSBytesToRead];
-  OCMStub([self.fileHandleMock readDataOfLength:kMSBytesToRead])
-      .andReturn(dataWithContents);
+  NSData *dataWithContents = [NSData dataWithBytes:buffer length:kMSBytesToRead];
+  OCMStub([self.fileHandleMock readDataOfLength:kMSBytesToRead]).andReturn(dataWithContents);
   MSBasicMachOParser *parser = [MSBasicMachOParser machOParserForMainBundle];
 
   // When
-  BOOL result = [parser readDataFromFile:self.fileHandleMock
-                                toBuffer:buffer
-                                ofLength:kMSBytesToRead];
+  BOOL result = [parser readDataFromFile:self.fileHandleMock toBuffer:buffer ofLength:kMSBytesToRead];
 
   // Then
   XCTAssertTrue(result);

@@ -10,13 +10,11 @@
 - (void)testSettingAndGettingDelegateWorks {
 
   // If
-  id<MSCrashHandlerSetupDelegate> delegateMock =
-      OCMProtocolMock(@protocol(MSCrashHandlerSetupDelegate));
+  id<MSCrashHandlerSetupDelegate> delegateMock = OCMProtocolMock(@protocol(MSCrashHandlerSetupDelegate));
   [MSWrapperCrashesHelper setCrashHandlerSetupDelegate:delegateMock];
 
   // When
-  id<MSCrashHandlerSetupDelegate> retrievedDelegate =
-      [MSWrapperCrashesHelper getCrashHandlerSetupDelegate];
+  id<MSCrashHandlerSetupDelegate> retrievedDelegate = [MSWrapperCrashesHelper getCrashHandlerSetupDelegate];
 
   // Then
   assertThat(delegateMock, equalTo(retrievedDelegate));
