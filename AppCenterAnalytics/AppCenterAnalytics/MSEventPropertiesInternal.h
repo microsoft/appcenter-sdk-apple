@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * String and date properties.
  */
-@property (nonatomic) NSMutableArray<MSTypedProperty *> *properties;
+@property (nonatomic) NSMutableDictionary<NSString *, MSTypedProperty *> *properties;
 
 /**
  * Creates an instance of EventProperties with a string-string properties dictionary.

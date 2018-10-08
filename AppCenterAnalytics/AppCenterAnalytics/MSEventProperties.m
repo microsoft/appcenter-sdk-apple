@@ -2,6 +2,7 @@
 #import "MSEventPropertiesInternal.h"
 #import "MSAnalyticsInternal.h"
 #import "MSBooleanTypedProperty.h"
+#import "MSConstants+Internal.h"
 #import "MSDateTimeTypedProperty.h"
 #import "MSDoubleTypedProperty.h"
 #import "MSLogger.h"
@@ -10,13 +11,12 @@
 
 static NSString *const kMSNullPropertyKeyMessage = @"Key cannot be null. Property will not be added.";
 static NSString *const kMSNullPropertyValueMessage = @"Value cannot be null. Property will not be added.";
-static int const kMSMaxPropertyCount = 20;
 
 @implementation MSEventProperties
 
 - (instancetype)init {
   if ((self = [super init])) {
-    _properties = [NSMutableArray new];
+    _properties = [NSMutableDictionary new];
   }
   return self;
 }
@@ -27,7 +27,7 @@ static int const kMSMaxPropertyCount = 20;
       MSStringTypedProperty *stringProperty = [MSStringTypedProperty new];
       stringProperty.name = propertyKey;
       stringProperty.value = properties[propertyKey];
-      [_properties addObject:stringProperty];
+      _properties[propertyKey] = stringProperty;
     }
   }
   return self;
@@ -40,8 +40,8 @@ static int const kMSMaxPropertyCount = 20;
 }
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
-  if ((self = [super init])) {
-    _properties = (NSMutableArray<MSTypedProperty *> *_Nonnull) [coder decodeObject];
+  if ((self = [self init])) {
+    [coder decodeObject];
   }
   return self;
 }
@@ -60,7 +60,7 @@ static int const kMSMaxPropertyCount = 20;
   MSStringTypedProperty *stringProperty = [MSStringTypedProperty new];
   stringProperty.name = key;
   stringProperty.value = value;
-  [self.properties addObject:stringProperty];
+  self.properties[key] = stringProperty;
   return self;
 }
 
@@ -76,7 +76,7 @@ static int const kMSMaxPropertyCount = 20;
   MSDoubleTypedProperty *doubleProperty = [MSDoubleTypedProperty new];
   doubleProperty.name = key;
   doubleProperty.value = value;
-  [self.properties addObject:doubleProperty];
+  self.properties[key] = doubleProperty;
   return self;
 }
 
@@ -88,7 +88,7 @@ static int const kMSMaxPropertyCount = 20;
   MSLongTypedProperty *longProperty = [MSLongTypedProperty new];
   longProperty.name = key;
   longProperty.value = value;
-  [self.properties addObject:longProperty];
+  self.properties[key] = longProperty;
   return self;
 }
 
@@ -100,7 +100,7 @@ static int const kMSMaxPropertyCount = 20;
   MSBooleanTypedProperty *boolProperty = [MSBooleanTypedProperty new];
   boolProperty.name = key;
   boolProperty.value = value;
-  [self.properties addObject:boolProperty];
+  self.properties[key] = boolProperty;
   return self;
 }
 
@@ -116,7 +116,7 @@ static int const kMSMaxPropertyCount = 20;
   MSDateTimeTypedProperty *dateTimeProperty = [MSDateTimeTypedProperty new];
   dateTimeProperty.name = key;
   dateTimeProperty.value = value;
-  [self.properties addObject:dateTimeProperty];
+  self.properties[key] = dateTimeProperty;
   return self;
 }
 
@@ -132,14 +132,15 @@ static int const kMSMaxPropertyCount = 20;
 
 - (instancetype)createValidCopyForAppCenter {
   MSEventProperties *validCopy = [MSEventProperties new];
-  for (MSTypedProperty *property in self.properties) {
-    if ([validCopy.properties count] == kMSMaxPropertyCount) {
-      MSLogWarning([MSAnalytics logTag], @"Typed properties cannot contain more than %i items. Skipping other properties.", kMSMaxPropertyCount);
+  for (NSString *propertyKey in self.properties) {
+    if ([validCopy.properties count] == kMSMaxPropertiesPerLog) {
+      MSLogWarning([MSAnalytics logTag], @"Typed properties cannot contain more than %i items. Skipping other properties.", kMSMaxPropertiesPerLog);
       break;
     }
+    MSTypedProperty *property = self.properties[propertyKey];
     MSTypedProperty *validProperty = [property createValidCopyForAppCenter];
     if (validProperty) {
-      [validCopy.properties addObject:validProperty];
+      validCopy.properties[propertyKey] = validProperty;
     }
   }
   return self;

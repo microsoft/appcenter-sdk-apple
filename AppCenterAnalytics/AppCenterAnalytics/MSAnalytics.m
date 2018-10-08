@@ -282,15 +282,15 @@ forTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget {
         if (transmissionTarget.isEnabled) {
             [log addTransmissionTargetToken:[transmissionTarget transmissionTargetToken]];
         } else {
-            MSLogError([MSAnalytics logTag], @"This transmission target is disabled.");
-            return;
+          MSLogError([MSAnalytics logTag], @"This transmission target is disabled.");
+          return;
         }
     }
 
     // Set properties of the event log.
     log.name = eventName;
     log.eventId = MS_UUID_STRING;
-    log.typedProperties = properties;
+  log.typedProperties = [self removeInvalidTypedProperties:properties];
 
     // Send log to log manager.
     [self sendLog:log];

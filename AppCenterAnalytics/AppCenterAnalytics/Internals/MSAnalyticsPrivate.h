@@ -45,6 +45,17 @@ NS_ASSUME_NONNULL_BEGIN
     forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarget;
 
 /**
+ * Track an event with typed properties.
+ *
+ * @param eventName  event name.
+ * @param properties typed properties.
+ * @param transmissionTarget Transmission target to associate with the event.
+ */
+- (void)trackEvent:(NSString *)eventName
+      withTypedProperties:(nullable MSEventProperties *)properties
+    forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarget;
+
+/**
  * Track a page.
  *
  * @param pageName  page name.

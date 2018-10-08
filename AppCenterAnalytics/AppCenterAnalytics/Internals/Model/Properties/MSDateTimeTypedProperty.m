@@ -40,7 +40,7 @@
 - (instancetype)createValidCopyForAppCenter {
   [super createValidCopyForAppCenter];
   MSDateTimeTypedProperty *validProperty = [MSDateTimeTypedProperty new];
-  validProperty.name = [self.name substringToIndex:kMSMaxPropertyKeyLength];
+  validProperty.name = [self.name substringToIndex:MIN(kMSMaxPropertyKeyLength, [self.name length])];
   validProperty.value = self.value;
   return validProperty;
 }

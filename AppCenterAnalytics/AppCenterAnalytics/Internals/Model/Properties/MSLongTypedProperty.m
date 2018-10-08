@@ -37,7 +37,7 @@
 - (instancetype)createValidCopyForAppCenter {
     [super createValidCopyForAppCenter];
     MSLongTypedProperty *validProperty = [MSLongTypedProperty new];
-    validProperty.name = [self.name substringToIndex:kMSMaxPropertyKeyLength];
+    validProperty.name = [self.name substringToIndex:MIN(kMSMaxPropertyKeyLength, [self.name length])];
     validProperty.value = self.value;
     return validProperty;
 }
