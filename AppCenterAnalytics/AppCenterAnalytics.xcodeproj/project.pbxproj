@@ -168,7 +168,7 @@
 		266ED8969C431B7DADB1F57A /* MSEventPropertiesInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 266ED07D29C2A2CC67AD1F60 /* MSEventPropertiesInternal.h */; };
 		266ED8D24A872899E58A670C /* MSLongTypedProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 266ED4B89C26822E6245514F /* MSLongTypedProperty.m */; };
 		266ED94E43B5A8F53475B188 /* MSTypedProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 266ED03B292C98C79C3AFBEB /* MSTypedProperty.m */; };
-		266ED99A87F6251A106F7945 /* MSEventProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 266ED289BE3D9562F1F61348 /* MSEventProperties.h */; };
+		266ED99A87F6251A106F7945 /* MSEventProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 266ED289BE3D9562F1F61348 /* MSEventProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		266ED9C3872EE2C96AD6737E /* MSBooleanTypedProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 266EDF40B71F40D6439E5255 /* MSBooleanTypedProperty.m */; };
 		266EDA9067B846AE5BC9D885 /* MSDateTimeTypedProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 266EDAEDB0B590412ECAC0BF /* MSDateTimeTypedProperty.m */; };
 		266EDAB60BEE1A07AF0B86F5 /* MSDateTimeTypedProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 266EDAEDB0B590412ECAC0BF /* MSDateTimeTypedProperty.m */; };
@@ -224,6 +224,12 @@
 		6E3E2CCE1D359D5E00B1EE50 /* MSPageLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3E2CC81D359D5E00B1EE50 /* MSPageLog.m */; };
 		6E3E2CD31D359F3300B1EE50 /* MSEventLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3E2CD01D359F3300B1EE50 /* MSEventLogTests.m */; };
 		6E3E2CD41D359F3300B1EE50 /* MSPageLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3E2CD11D359F3300B1EE50 /* MSPageLogTests.m */; };
+		99B8D3C4216BCEB50021C47D /* MSEventProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 266EDBD8487DA42DAB601DD9 /* MSEventProperties.m */; };
+		99B8D3C5216BCEB60021C47D /* MSEventProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 266EDBD8487DA42DAB601DD9 /* MSEventProperties.m */; };
+		99B8D3C6216BCEC90021C47D /* MSEventProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 266ED289BE3D9562F1F61348 /* MSEventProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		99B8D3C7216BCECA0021C47D /* MSEventProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 266ED289BE3D9562F1F61348 /* MSEventProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		99B8D3C8216BCED60021C47D /* MSEventPropertiesInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 266ED07D29C2A2CC67AD1F60 /* MSEventPropertiesInternal.h */; };
+		99B8D3C9216BCED70021C47D /* MSEventPropertiesInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 266ED07D29C2A2CC67AD1F60 /* MSEventPropertiesInternal.h */; };
 		B2350986211A69AA00F98D4F /* MSAnalyticsAuthenticationProviderInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B2350985211A69AA00F98D4F /* MSAnalyticsAuthenticationProviderInternal.h */; };
 		B2350987211A69AA00F98D4F /* MSAnalyticsAuthenticationProviderInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B2350985211A69AA00F98D4F /* MSAnalyticsAuthenticationProviderInternal.h */; };
 		B2350988211A69AA00F98D4F /* MSAnalyticsAuthenticationProviderInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B2350985211A69AA00F98D4F /* MSAnalyticsAuthenticationProviderInternal.h */; };
@@ -822,6 +828,8 @@
 				043121651EE0C20A007054C5 /* MSAnalytics.h in Headers */,
 				04A082071F74BB8C00DC776D /* MSService.h in Headers */,
 				043121681EE0C20A007054C5 /* MSSessionTracker.h in Headers */,
+				99B8D3C9216BCED70021C47D /* MSEventPropertiesInternal.h in Headers */,
+				99B8D3C7216BCECA0021C47D /* MSEventProperties.h in Headers */,
 				042B1D2C1FE3516200D6E04A /* MSSessionTrackerPrivate.h in Headers */,
 				266ED86CE49B8E44D1F853BB /* MSTypedProperty.h in Headers */,
 				266ED5132FD62A651C4442C6 /* MSStringTypedProperty.h in Headers */,
@@ -862,6 +870,8 @@
 				0485AF7C1EAA79E300C10CAF /* MSAnalyticsPrivate.h in Headers */,
 				0485AF7E1EAA79E300C10CAF /* MSAnalytics.h in Headers */,
 				0485AF811EAA79E300C10CAF /* MSSessionTracker.h in Headers */,
+				99B8D3C8216BCED60021C47D /* MSEventPropertiesInternal.h in Headers */,
+				99B8D3C6216BCEC90021C47D /* MSEventProperties.h in Headers */,
 				042B1D2B1FE3516000D6E04A /* MSSessionTrackerPrivate.h in Headers */,
 				266ED7667BE195CD0C133F89 /* MSTypedProperty.h in Headers */,
 				266EDDA2C88544CE1C1228AD /* MSStringTypedProperty.h in Headers */,
@@ -1234,6 +1244,7 @@
 				E758FA8220FFDEE700011793 /* MSPropertyConfigurator.m in Sources */,
 				043121531EE0C20A007054C5 /* MSPageLog.m in Sources */,
 				043121541EE0C20A007054C5 /* MSAnalyticsCategory.m in Sources */,
+				99B8D3C5216BCEB60021C47D /* MSEventProperties.m in Sources */,
 				F834E37720AC8E25003CB54D /* MSLogWithNameAndProperties.m in Sources */,
 				043121551EE0C20A007054C5 /* MSEventLog.m in Sources */,
 				043121561EE0C20A007054C5 /* MSStartSessionLog.m in Sources */,
@@ -1293,6 +1304,7 @@
 				E758FA8120FFDEE700011793 /* MSPropertyConfigurator.m in Sources */,
 				0485AF6C1EAA79E300C10CAF /* MSPageLog.m in Sources */,
 				0485AF6D1EAA79E300C10CAF /* MSEventLog.m in Sources */,
+				99B8D3C4216BCEB50021C47D /* MSEventProperties.m in Sources */,
 				F834E37620AC8E25003CB54D /* MSLogWithNameAndProperties.m in Sources */,
 				04A1409E1ECE7316001CEE94 /* MSAnalyticsCategory.m in Sources */,
 				0485AF6F1EAA79E300C10CAF /* MSStartSessionLog.m in Sources */,
