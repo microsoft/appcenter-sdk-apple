@@ -25,12 +25,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setDouble:(double)value forKey:(NSString *)key;
 
 /**
- * Set a long long (64-bit) property.
+ * Set a 64-bit integer property.
  *
  * @param value Property value.
  * @param key Property key.
  */
-- (void)setLongLong:(long long)value forKey:(NSString *)key;
+- (void)setInt64:(int64_t)value forKey:(NSString *)key;
 
 /**
  * Set a boolean property.

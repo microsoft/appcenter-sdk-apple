@@ -6,6 +6,6 @@
 /**
  * Long property value (64-bit signed integer).
  */
-@property(nonatomic) long long value;
+@property(nonatomic) int64_t value;
 
 @end

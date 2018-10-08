@@ -51,8 +51,8 @@
 /**
  * Set a string property.
  *
- * @param key Property key.
  * @param value Property value.
+ * @param key Property key.
  */
 - (void)setString:(NSString *)value
            forKey:(NSString *)key {
@@ -65,8 +65,8 @@
 /**
  * Set a double property.
  *
- * @param key Property key.
  * @param value Property value.
+ * @param key Property key.
  */
 - (void)setDouble:(double)value forKey:(NSString *)key {
   MSDoubleTypedProperty *doubleProperty = [MSDoubleTypedProperty new];
@@ -76,12 +76,12 @@
 }
 
 /**
- * Set a long long (64-bit) property.
+ * Set a 64-bit integer property.
  *
- * @param key Property key.
  * @param value Property value.
+ * @param key Property key.
  */
-- (void)setLongLong:(long long)value forKey:(NSString *)key {
+- (void)setInt64:(int64_t)value forKey:(NSString *)key {
   MSLongTypedProperty *longProperty = [MSLongTypedProperty new];
   longProperty.name = key;
   longProperty.value = value;
@@ -91,8 +91,8 @@
 /**
  * Set a boolean property.
  *
- * @param key Property key.
  * @param value Property value.
+ * @param key Property key.
  */
 - (void)setBool:(BOOL)value forKey:(NSString *)key {
   MSBooleanTypedProperty *boolProperty = [MSBooleanTypedProperty new];
@@ -104,8 +104,8 @@
 /**
  * Set a Date property.
  *
- * @param key Property key.
  * @param value Property value.
+ * @param key Property key.
  */
 - (void)setDate:(NSDate *)value forKey:(NSString *)key {
   MSDateTimeTypedProperty *dateTimeProperty = [MSDateTimeTypedProperty new];
