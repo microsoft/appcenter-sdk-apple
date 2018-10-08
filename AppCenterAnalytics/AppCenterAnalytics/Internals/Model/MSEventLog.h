@@ -1,4 +1,5 @@
 #import "MSLogWithNameAndProperties.h"
+#import "MSEventProperties.h"
 
 @interface MSEventLog : MSLogWithNameAndProperties
 
@@ -13,4 +14,3 @@
 @property(nonatomic) MSEventProperties *typedProperties;
 
 @end
-
