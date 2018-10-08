@@ -8,8 +8,8 @@
 #import "MSLongTypedProperty.h"
 #import "MSStringTypedProperty.h"
 
-static NSString *const kMSNullPropertyKeyMessage = @"Property key must be non-null. Not setting property.";
-static NSString *const kMSNullPropertyValueMessage = @"Property value must be non-null. Not setting property.";
+static NSString *const kMSNullPropertyKeyMessage = @"Key cannot be null. Property will not be added.";
+static NSString *const kMSNullPropertyValueMessage = @"Value cannot be null. Property will not be added.";
 
 @implementation MSEventProperties
 
