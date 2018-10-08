@@ -46,6 +46,12 @@ static NSString *const kMSBufferGroupId = @"CrashesBuffer";
 static NSString *const kMSAnalyzerFilename = @"MSCrashes.analyzer";
 
 /**
+ * Use swizzling to catch additional details of crashes.
+ * Currently used only for macOS.
+ */
+static NSString *const kMSIsAppCenterCrashForwarderEnabledKey = @"AppCenterCrashForwarderEnabled";
+
+/**
  * File extension for buffer files. Files will have a GUID as the file name and a .mscrasheslogbuffer as file extension.
  */
 static NSString *const kMSLogBufferFileExtension = @"mscrasheslogbuffer";
@@ -269,6 +275,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     /*
      * AppKit is preventing applications from crashing on macOS so PLCrashReport cannot catch any crashes.
      * Setting this flag will let application crash on uncaught exceptions.
+     *
+     * TODO: Track handled exceptions instead of crashing the applciation.
      */
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{ @"NSApplicationCrashOnExceptions" : @YES }];
 
@@ -277,7 +285,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
      * the uncaught exception handler because the global application object catches all such exceptions.
      * See: https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Exceptions/Concepts/UncaughtExceptions.html
      */
-    if (MSAppDelegateForwarder.enabled) {
+    NSNumber *crashForwarderValue = [[NSBundle mainBundle] objectForInfoDictionaryKey:kMSIsAppCenterCrashForwarderEnabledKey];
+    BOOL crashForwarderEnabled = crashForwarderValue ? [crashForwarderValue boolValue] : YES;
+    if (crashForwarderEnabled) {
       SEL selector = @selector(reportException:);
       Method method = class_getInstanceMethod([NSApplication class], selector);
       IMP implementation = class_getMethodImplementation([MSCrashes class], selector);
