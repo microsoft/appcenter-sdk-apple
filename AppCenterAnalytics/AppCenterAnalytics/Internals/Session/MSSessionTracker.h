@@ -9,12 +9,12 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MSSessionTracker : NSObject <MSChannelDelegate>
 
 /**
- *  Session tracker delegate.
+ * Session tracker delegate.
  */
 @property(nonatomic) id<MSSessionTrackerDelegate> delegate;
 
 /**
- *  Session timeout time.
+ * Session timeout time.
  */
 @property(nonatomic) NSTimeInterval sessionTimeout;
 
@@ -24,22 +24,22 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) NSDate *lastCreatedLogTime;
 
 /**
- *  Timestamp of the last time that the app entered foreground.
+ * Timestamp of the last time that the app entered foreground.
  */
 @property(nonatomic) NSDate *lastEnteredForegroundTime;
 
 /**
- *  Timestamp of the last time that the app entered background.
+ * Timestamp of the last time that the app entered background.
  */
 @property(nonatomic) NSDate *lastEnteredBackgroundTime;
 
 /**
- *  Start session tracking.
+ * Start session tracking.
  */
 - (void)start;
 
 /**
- *  Stop session tracking.
+ * Stop session tracking.
  */
 - (void)stop;
 

@@ -38,13 +38,11 @@ static NSString *const kMSTypedProperties = @"typedProperties";
 }
 
 - (BOOL)isEqual:(id)object {
-  if (![(NSObject *) object isKindOfClass:[MSEventLog class]] ||
-      ![super isEqual:object]) {
+  if (![(NSObject *)object isKindOfClass:[MSEventLog class]] || ![super isEqual:object]) {
     return NO;
   }
-  MSEventLog *eventLog = (MSEventLog *) object;
-  return ((!self.eventId && !eventLog.eventId) ||
-      [self.eventId isEqualToString:eventLog.eventId]);
+  MSEventLog *eventLog = (MSEventLog *)object;
+  return ((!self.eventId && !eventLog.eventId) || [self.eventId isEqualToString:eventLog.eventId]);
 }
 
 #pragma mark - NSCoding
@@ -75,32 +73,25 @@ static NSString *const kMSTypedProperties = @"typedProperties";
   // Event properties goes to part C.
   MSCSData *data = [MSCSData new];
   csLog.data = data;
-  csLog.data.properties =
-      [self convertACPropertiesToCSproperties:self.properties];
+  csLog.data.properties = [self convertACPropertiesToCSproperties:self.properties];
   return csLog;
 }
 
 #pragma mark - Helper
 
-- (NSDictionary<NSString *, NSString *> *)convertACPropertiesToCSproperties:
-    (NSDictionary<NSString *, NSString *> *)acProperties {
+- (NSDictionary<NSString *, NSObject *> *)convertACPropertiesToCSproperties:(NSDictionary<NSString *, NSString *> *)acProperties {
   NSMutableDictionary *csProperties;
   if (acProperties) {
     csProperties = [NSMutableDictionary new];
     for (NSString *acKey in acProperties) {
 
-      // Properties keys are mixed up with other keys from Data, make sure they
-      // don't conflict.
-      if ([acKey isEqualToString:kMSDataBaseData] ||
-          [acKey isEqualToString:kMSDataBaseDataType]) {
-        MSLogWarning(MSAnalytics.logTag,
-            @"Cannot use %@ in properties, skipping that property.",
-            acKey);
+      // Properties keys are mixed up with other keys from Data, make sure they don't conflict.
+      if ([acKey isEqualToString:kMSDataBaseData] || [acKey isEqualToString:kMSDataBaseDataType]) {
+        MSLogWarning(MSAnalytics.logTag, @"Cannot use %@ in properties, skipping that property.", acKey);
         continue;
       }
 
-      // If the key contains a '.' then it's nested objects (i.e: "a.b":"value"
-      // => {"a":{"b":"value"}}).
+      // If the key contains a '.' then it's nested objects (i.e: "a.b":"value" => {"a":{"b":"value"}}).
       NSArray *csKeys = [acKey componentsSeparatedByString:@"."];
       NSUInteger lastIndex = csKeys.count - 1;
       NSMutableDictionary *destProperties = csProperties;
@@ -111,9 +102,7 @@ static NSString *const kMSTypedProperties = @"typedProperties";
         }
         if (!subObject) {
           if (destProperties[csKeys[i]]) {
-            MSLogWarning(MSAnalytics.logTag,
-                @"Property key '%@' already has a value, the old value will be overridden.",
-                csKeys[i]);
+            MSLogWarning(MSAnalytics.logTag, @"Property key '%@' already has a value, the old value will be overridden.", csKeys[i]);
           }
           subObject = [NSMutableDictionary new];
           destProperties[csKeys[i]] = subObject;
@@ -122,9 +111,7 @@ static NSString *const kMSTypedProperties = @"typedProperties";
       }
       if (destProperties[csKeys[lastIndex]]) {
         [destProperties removeObjectForKey:csKeys[lastIndex]];
-        MSLogWarning(MSAnalytics.logTag,
-            @"Property key '%@' already has a value, the old value will be overridden.",
-            csKeys[lastIndex]);
+        MSLogWarning(MSAnalytics.logTag, @"Property key '%@' already has a value, the old value will be overridden.", csKeys[lastIndex]);
       }
       destProperties[csKeys[lastIndex]] = acProperties[acKey];
     }

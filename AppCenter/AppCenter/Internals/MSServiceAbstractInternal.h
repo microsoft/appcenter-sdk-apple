@@ -8,13 +8,13 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Abstraction of services internal common logic.
  * This class is intended to be subclassed only not instantiated directly.
- * @see MSServiceInternal protocol, any service subclassing this class must also
- * conform to this protocol.
+ *
+ * @see MSServiceInternal protocol, any service subclassing this class must also conform to this protocol.
  */
 @interface MSServiceAbstract () <MSServiceCommon>
 
 /**
- *  isEnabled value storage key.
+ * isEnabled value storage key.
  */
 @property(nonatomic, copy, readonly) NSString *isEnabledKey;
 

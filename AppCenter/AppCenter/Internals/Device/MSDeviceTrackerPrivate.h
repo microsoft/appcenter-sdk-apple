@@ -2,18 +2,22 @@
 #import <CoreTelephony/CTCarrier.h>
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
 #endif
+
 #if TARGET_OS_OSX
 #import <AppKit/AppKit.h>
 #else
 #import <UIKit/UIKit.h>
 #endif
+
 #import <sys/sysctl.h>
 
 #import "MSDeviceInternal.h"
 #import "MSDeviceTracker.h"
 #import "MSWrapperSdk.h"
 
-// Key to device history.
+/**
+ * Key for device history.
+ */
 static NSString *const kMSPastDevicesKey = @"pastDevicesKey";
 
 @class MSDeviceHistoryInfo;
@@ -26,14 +30,13 @@ static NSString *const kMSPastDevicesKey = @"pastDevicesKey";
 @property(nonatomic) NSMutableArray<MSDeviceHistoryInfo *> *deviceHistory;
 
 /**
- * Sets a flag that will cause MSDeviceTracker to update it's device info the
- * next time the device property is accessed. Mostly intended for Unit Testing.
+ * Sets a flag that will cause MSDeviceTracker to update it's device info the next time the device property is accessed. Mostly intended for
+ * Unit Testing.
  */
 + (void)refreshDeviceNextTime;
 
 /**
- * Clears the device history in memory and in NSUserDefaults as well as the
- * current device.
+ * Clears the device history in memory and in NSUserDefaults as well as the current device.
  */
 - (void)clearDevices;
 
@@ -45,7 +48,6 @@ static NSString *const kMSPastDevicesKey = @"pastDevicesKey";
 - (NSString *)deviceModel;
 
 #if TARGET_OS_OSX
-
 /**
  * Get the OS name.
  *
@@ -53,7 +55,6 @@ static NSString *const kMSPastDevicesKey = @"pastDevicesKey";
  */
 - (NSString *)osName;
 #else
-
 /**
  * Get the OS name.
  *
@@ -65,7 +66,6 @@ static NSString *const kMSPastDevicesKey = @"pastDevicesKey";
 #endif
 
 #if TARGET_OS_OSX
-
 /**
  * Get the OS version.
  *
@@ -73,7 +73,6 @@ static NSString *const kMSPastDevicesKey = @"pastDevicesKey";
  */
 - (NSString *)osVersion;
 #else
-
 /**
  * Get the OS version.
  *
@@ -110,7 +109,6 @@ static NSString *const kMSPastDevicesKey = @"pastDevicesKey";
 - (NSString *)screenSize;
 
 #if TARGET_OS_IOS
-
 /**
  * Get the network carrier name.
  *
@@ -169,23 +167,19 @@ static NSString *const kMSPastDevicesKey = @"pastDevicesKey";
  *
  * @returns A new Instance of MSDevice. @see MSDevice
  *
- * @discussion Intended to be used to update the device-property of
- * MSDeviceTracker @see MSDeviceTracker.
+ * @discussion Intended to be used to update the device-property of MSDeviceTracker @see MSDeviceTracker.
  */
 - (MSDevice *)updatedDevice;
 
 /**
- * Return a device from the history of past devices. This will be used e.g. for
- * Crashes after relaunch.
+ * Return a device from the history of past devices. This will be used e.g. for Crashes after relaunch.
  *
- * @param timestamp Timestamp that will be used to find a matching MSDevice in
- * history.
+ * @param timestamp Timestamp that will be used to find a matching MSDevice in history.
  *
  * @return Instance of MSDevice that's closest to timestamp.
  *
- * @discussion If we cannot find a device that's within the range of the
- * timestamp, the latest device from history will be returned. If there is no
- * history, we return the current MSDevice.
+ * @discussion If we cannot find a device that's within the range of the timestamp, the latest device from history will be returned. If
+ * there is no history, we return the current MSDevice.
  */
 - (MSDevice *)deviceForTimestamp:(NSDate *)timestamp;
 

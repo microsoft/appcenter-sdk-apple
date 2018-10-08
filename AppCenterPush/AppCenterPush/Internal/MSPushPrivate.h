@@ -27,8 +27,7 @@ static NSString *const kMSPushNotificationOldCustomDataKey = @"mobile_center";
 @property(nonatomic) NSString *pushToken;
 
 #if TARGET_OS_OSX
-@property(nonatomic) id<NSUserNotificationCenterDelegate>
-    originalUserNotificationCenterDelegate;
+@property(nonatomic) id<NSUserNotificationCenterDelegate> originalUserNotificationCenterDelegate;
 #endif
 
 /**
@@ -37,8 +36,7 @@ static NSString *const kMSPushNotificationOldCustomDataKey = @"mobile_center";
 @property(nonatomic) id<MSCustomApplicationDelegate> appDelegate;
 
 /**
- * Method to reset the singleton when running unit tests only. So calling
- * sharedInstance returns a fresh instance.
+ * Method to reset the singleton when running unit tests only. So calling sharedInstance returns a fresh instance.
  */
 + (void)resetSharedInstance;
 
@@ -57,8 +55,7 @@ static NSString *const kMSPushNotificationOldCustomDataKey = @"mobile_center";
 - (NSString *)convertTokenToString:(NSData *)token;
 
 /**
- * Method registers notification settings and an application for remote
- * notifications.
+ * Method registers notification settings and an application for remote notifications.
  */
 - (void)registerForRemoteNotifications;
 
@@ -70,18 +67,14 @@ static NSString *const kMSPushNotificationOldCustomDataKey = @"mobile_center";
 + (void *)userNotificationCenterDelegateContext;
 
 /**
- * Observer to register user notification center delegate when application
- * launches.
+ * Observer to register user notification center delegate when application launches.
  */
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 
 /**
  * Method that is called by NSUserNotificationCenter when its delegate changes.
  */
-- (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
-                        change:(NSDictionary *)change
-                       context:(void *)context;
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context;
 #endif
 
 @end

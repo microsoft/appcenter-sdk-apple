@@ -20,9 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * A day in milliseconds.
  */
-static long long const kMSDayInMillisecond = 24 /* Hours */ * 60 /* Minutes */ *
-                                             60 /* Seconds */ *
-                                             1000 /* Milliseconds */;
+static long long const kMSDayInMillisecond = 24 /* Hours */ * 60 /* Minutes */ * 60 /* Seconds */ * 1000 /* Milliseconds */;
 
 /**
  * Base URL for HTTP Distribute install API calls.
@@ -42,16 +40,12 @@ static NSString *const kMSURLQueryReleaseHashKey = @"release_hash";
 static NSString *const kMSURLQueryRedirectIdKey = @"redirect_id";
 static NSString *const kMSURLQueryRequestIdKey = @"request_id";
 static NSString *const kMSURLQueryUpdateTokenKey = @"update_token";
-static NSString *const kMSURLQueryDistributionGroupIdKey =
-    @"distribution_group_id";
-static NSString *const kMSURLQueryEnableUpdateSetupFailureRedirectKey =
-    @"enable_failure_redirect";
+static NSString *const kMSURLQueryDistributionGroupIdKey = @"distribution_group_id";
+static NSString *const kMSURLQueryEnableUpdateSetupFailureRedirectKey = @"enable_failure_redirect";
 static NSString *const kMSURLQueryUpdateSetupFailedKey = @"update_setup_failed";
-static NSString *const kMSURLQueryDownloadedReleaseIdKey =
-    @"downloaded_release_id";
+static NSString *const kMSURLQueryDownloadedReleaseIdKey = @"downloaded_release_id";
 static NSString *const kMSURLQueryInstallIdKey = @"install_id";
-static NSString *const kMSURLQueryTesterAppUpdateSetupFailedKey =
-    @"tester_app_update_setup_failed";
+static NSString *const kMSURLQueryTesterAppUpdateSetupFailedKey = @"tester_app_update_setup_failed";
 
 /**
  * Distribute url query parameter value strings.
@@ -76,8 +70,7 @@ static NSString *const kMSUpdateTokenRequestIdKey = @"MSUpdateTokenRequestId";
 /**
  * The storage key for flag that can determine to clean up update token.
  */
-static NSString *const kMSSDKHasLaunchedWithDistribute =
-    @"MSSDKHasLaunchedWithDistribute";
+static NSString *const kMSSDKHasLaunchedWithDistribute = @"MSSDKHasLaunchedWithDistribute";
 
 /**
  * The storage key for last mandatory release details.
@@ -92,8 +85,7 @@ static NSString *const kMSDistributionGroupIdKey = @"MSDistributionGroupId";
 /**
  * The storage key for update setup failure package hash.
  */
-static NSString *const kMSUpdateSetupFailedPackageHashKey =
-    @"MSUpdateSetupFailedPackageHash";
+static NSString *const kMSUpdateSetupFailedPackageHashKey = @"MSUpdateSetupFailedPackageHash";
 
 /**
  * The storage key for latest downloaded release hash.
@@ -108,14 +100,12 @@ static NSString *const kMSDownloadedReleaseIdKey = @"MSDownloadedReleaseId";
 /**
  * The storage key for distribution group ID of latest downloaded release.
  */
-static NSString *const kMSDownloadedDistributionGroupIdKey =
-    @"MSDownloadedDistributionGroupId";
+static NSString *const kMSDownloadedDistributionGroupIdKey = @"MSDownloadedDistributionGroupId";
 
 /**
  * The storage key for tester app update setup failure.
  */
-static NSString *const kMSTesterAppUpdateSetupFailedKey =
-    @"MSTesterAppUpdateSetupFailed";
+static NSString *const kMSTesterAppUpdateSetupFailedKey = @"MSTesterAppUpdateSetupFailed";
 
 @interface MSDistribute ()
 
@@ -135,8 +125,7 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey =
 @property(nullable, nonatomic) MSReleaseDetails *releaseDetails;
 
 /**
- * A Distribute delegate that will be called whenever a new release is available
- * for update.
+ * A Distribute delegate that will be called whenever a new release is available for update.
  */
 @property(nonatomic, weak) id<MSDistributeDelegate> delegate;
 
@@ -164,8 +153,7 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey =
  *
  * @param appSecret Application secret.
  * @param releaseHash The release hash of the current version.
- * @param isTesterApp Whether the URL should be constructed to link to the
- * tester app.
+ * @param isTesterApp Whether the URL should be constructed to link to the tester app.
  *
  * @return The final URL to request the token or nil if an error occurred.
  */
@@ -183,26 +171,22 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey =
 - (BOOL)openUrlUsingSharedApp:(NSURL *)url;
 
 /**
- * Open the given URL using either SFAuthenticationSession,
- * SFSafariViewController, or the Safari app based on which iOS version is used.
+ * Open the given URL using either SFAuthenticationSession, SFSafariViewController, or the Safari app based on which iOS version is used.
  *
  * @param url URL to open.
  */
 - (void)openUrlInAuthenticationSessionOrSafari:(NSURL *)url;
 
 /**
- * Open the given URL using an `SFAuthenticationSession`. Must run on the UI
- * thread! iOS 11 only.
+ * Open the given URL using an `SFAuthenticationSession`. Must run on the UI thread! iOS 11 only.
  *
  * @param url URL to open.
  * @param sessionClazz `SFAuthenticationSession` class.
  */
-- (void)openURLInAuthenticationSessionWith:(NSURL *)url
-                                 fromClass:(Class)sessionClazz;
+- (void)openURLInAuthenticationSessionWith:(NSURL *)url fromClass:(Class)sessionClazz;
 
 /**
- * Open the given URL using an `SFSafariViewController`. Must run on the UI
- * thread! iOS 9 and 10 only.
+ * Open the given URL using an `SFSafariViewController`. Must run on the UI thread! iOS 9 and 10 only.
  *
  * @param url URL to open.
  * @param clazz `SFSafariViewController` class.
@@ -214,16 +198,14 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey =
  *
  * @param url  The url with parameters.
  *
- * @return `YES` if the URL is intended for App Center Distribute and the
- * current application, `NO` otherwise.
+ * @return `YES` if the URL is intended for App Center Distribute and the current application, `NO` otherwise.
  */
 - (BOOL)openURL:(NSURL *)url;
 
 /**
  * Send a request to get the latest release.
  *
- * @param updateToken The update token stored in keychain. This value can be nil
- * if it is public distribution.
+ * @param updateToken The update token stored in keychain. This value can be nil if it is public distribution.
  * @param distributionGroupId The distribution group Id in keychain.
  * @param releaseHash The release hash of the current version.
  */
@@ -253,9 +235,8 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey =
 - (BOOL)handleUpdate:(MSReleaseDetails *)details;
 
 /**
- * Save details about a downloaded release.
- * After an app is updated and restarted, this info will be used to report a
- * download and to update the group ID (if it was changed).
+ * Save details about a downloaded release. After an app is updated and restarted, this info will be used to report a download and to update
+ * the group ID (if it was changed).
  *
  * @param details Release details.
  */
@@ -266,34 +247,28 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey =
  *
  * @param currentInstalledReleaseHash The release hash of the current version.
  */
-- (void)removeDownloadedReleaseDetailsIfUpdated:
-    (NSString *)currentInstalledReleaseHash;
+- (void)removeDownloadedReleaseDetailsIfUpdated:(NSString *)currentInstalledReleaseHash;
 
 /**
  * Get reporting parameters for updated release.
  *
- * @param updateToken The update token stored in keychain. This value can be nil
- * if it is public distribution.
+ * @param updateToken The update token stored in keychain. This value can be nil if it is public distribution.
  * @param currentInstalledReleaseHash The release hash of the current version.
  * @param distributionGroupId The distribution group Id in keychain.
  *
  * @return Reporting parameters dictionary.
  */
-- (nullable NSMutableDictionary *)
-getReportingParametersForUpdatedRelease:(NSString *)updateToken
-            currentInstalledReleaseHash:(NSString *)currentInstalledReleaseHash
-                    distributionGroupId:(NSString *)distributionGroupId;
+- (nullable NSMutableDictionary *)getReportingParametersForUpdatedRelease:(NSString *)updateToken
+                                              currentInstalledReleaseHash:(NSString *)currentInstalledReleaseHash
+                                                      distributionGroupId:(NSString *)distributionGroupId;
 
 /**
- * After an app is updated and restarted, check if an updated release has
- * different group ID and update current group ID if needed. Group ID may change
- * if one user is added to different distribution groups and a new release was
- * updated from another group.
+ * After an app is updated and restarted, check if an updated release has different group ID and update current group ID if needed. Group ID
+ * may change if one user is added to different distribution groups and a new release was updated from another group.
  *
  * @param currentInstalledReleaseHash The release hash of the current version.
  */
-- (void)changeDistributionGroupIdAfterAppUpdateIfNeeded:
-    (NSString *)currentInstalledReleaseHash;
+- (void)changeDistributionGroupIdAfterAppUpdateIfNeeded:(NSString *)currentInstalledReleaseHash;
 
 /**
  * Show a dialog to ask a user to confirm update for a new release.
@@ -305,28 +280,24 @@ getReportingParametersForUpdatedRelease:(NSString *)updateToken
  *
  * @param action The action for the release.
  *
- * @discussion This method will be moved to public once Distribute allows to
- * customize the update dialog.
+ * @discussion This method will be moved to public once Distribute allows to customize the update dialog.
  */
 - (void)notifyUpdateAction:(MSUpdateAction)action;
 
 /**
- * Show a dialog to the user in case MSDistribute was disabled while the
- * updates-alert is shown.
+ * Show a dialog to the user in case MSDistribute was disabled while the updates-alert is shown.
  */
 - (void)showDistributeDisabledAlert;
 
 /**
- * Show a dialog to the user in case in-app updates are disabled due to update
- * setup failure.
+ * Show a dialog to the user in case in-app updates are disabled due to update setup failure.
  *
  * @param errorMessage An error message to show in the dialog.
  */
 - (void)showUpdateSetupFailedAlert:(NSString *)errorMessage;
 
 /**
- * Check whether release details contain a newer version of release than current
- * version.
+ * Check whether release details contain a newer version of release than current version.
  */
 - (BOOL)isNewerVersion:(MSReleaseDetails *)details;
 

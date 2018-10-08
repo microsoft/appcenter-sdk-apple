@@ -32,27 +32,25 @@ NS_ASSUME_NONNULL_BEGIN
  * @param data Instance that will be transformed to request body.
  * @param handler Completion handler.
  */
-- (void)sendAsync:(nullable NSObject *)data
-    completionHandler:(MSSendAsyncCompletionHandler)handler;
+- (void)sendAsync:(nullable NSObject *)data completionHandler:(MSSendAsyncCompletionHandler)handler;
 
 /**
- *  Add the given delegate to the ingestion.
+ * Add the given delegate to the ingestion.
  *
- *  @param delegate Ingestion's delegate.
+ * @param delegate Ingestion's delegate.
  */
 - (void)addDelegate:(id<MSIngestionDelegate>)delegate;
 
 /**
- *  Delete the given delegate from the ingestion.
+ * Delete the given delegate from the ingestion.
  *
- *  @param delegate Ingestion's delegate.
+ * @param delegate Ingestion's delegate.
  */
 - (void)removeDelegate:(id<MSIngestionDelegate>)delegate;
 
 /**
  * Pause the ingestion.
- * An ingestion is paused when it becomes disabled or on network issues.
- * A paused state doesn't impact the current enabled state.
+ * An ingestion is paused when it becomes disabled or on network issues. A paused state doesn't impact the current enabled state.
  *
  * @see resume.
  */

@@ -2,7 +2,6 @@
 
 static NSString *const kMSTypeMockCommonSchemaLog = @"mockCommonSchemaLog";
 
-
 @implementation MSMockCommonSchemaLog
 
 - (instancetype)init {

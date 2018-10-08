@@ -14,27 +14,19 @@
   MSDistributeAppDelegate *appDelegate = [[MSDistributeAppDelegate alloc] init];
   id distributeMock = OCMPartialMock([MSDistribute sharedInstance]);
   __block int count = 0;
-  OCMStub([distributeMock openURL:OCMOCK_ANY])
-      .andDo(^(__unused NSInvocation *invocation) {
-        count++;
-      });
+  OCMStub([distributeMock openURL:OCMOCK_ANY]).andDo(^(__unused NSInvocation *invocation) {
+    count++;
+  });
   NSURL *url = [[NSURL alloc] init];
 
   // When
-  [appDelegate application:[UIApplication sharedApplication]
-                   openURL:url
-                   options:@{}
-             returnedValue:YES];
+  [appDelegate application:[UIApplication sharedApplication] openURL:url options:@{} returnedValue:YES];
 
   // Then
   OCMVerify([distributeMock openURL:url]);
 
   // When
-  [appDelegate application:[UIApplication sharedApplication]
-                   openURL:url
-         sourceApplication:@""
-                annotation:@""
-             returnedValue:YES];
+  [appDelegate application:[UIApplication sharedApplication] openURL:url sourceApplication:@"" annotation:@"" returnedValue:YES];
 
   // Then
   OCMVerify([distributeMock openURL:url]);

@@ -3,10 +3,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /*
- * FIXME: We need ordered columns so we can't just use an `NSDictionary` to
- * store them. A workaround is to use an array of dictionaries instead, still
- * works fine as literals. But, we should use an array of tuples when we'll
- * switch to Swift.
+ * FIXME: We need ordered columns so we can't just use an `NSDictionary` to store them. A workaround is to use an array of dictionaries
+ * instead, still works fine as literals. But, we should use an array of tuples when we'll switch to Swift.
  *
  * Database schema example:
  *
@@ -48,8 +46,7 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
 - (instancetype)initWithSchema:(MSDBSchema *)schema version:(NSUInteger)version filename:(NSString *)filename;
 
 /**
- * Count entries on a given table using the given SQLite "WHERE" clause's
- * condition.
+ * Count entries on a given table using the given SQLite "WHERE" clause's condition.
  *
  * @param tableName Name of the table to inspect.
  * @param condition The SQLite "WHERE" clause's condition.
@@ -59,8 +56,7 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
 - (NSUInteger)countEntriesForTable:(NSString *)tableName condition:(nullable NSString *)condition;
 
 /**
- * Execute a non selection SQLite query on the database (i.e.: "CREATE",
- * "INSERT", "UPDATE"... but not "SELECT").
+ * Execute a non selection SQLite query on the database (i.e.: "CREATE", "INSERT", "UPDATE"... but not "SELECT").
  *
  * @param query An SQLite query to execute.
  *
@@ -89,14 +85,13 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
 /**
  * Set the maximum size of the internal storage. This method must be called before App Center is started.
  *
- * @discussion This only sets the maximum size of the database, but App Center modules might store additional data.
- * The value passed to this method is not persisted on disk. The default maximum database size is 10485760 bytes (10
- * MiB).
+ * @param sizeInBytes Maximum size of in bytes. This will be rounded up to the nearest multiple of 4096. Values below 20,480 (20 KiB) will
+ * be ignored.
+ * @param completionHandler Callback that is invoked when the database size has been set. The `BOOL` parameter is `YES` if changing the size
+ * is successful, and `NO` otherwise.
  *
- * @param sizeInBytes Maximum size of in bytes. This will be rounded up to the nearest multiple of 4096. Values below
- * 20,480 (20 KiB) will be ignored.
- * @param completionHandler Callback that is invoked when the database size has been set. The `BOOL` parameter is
- * `YES` if changing the size is successful, and `NO` otherwise.
+ * @discussion This only sets the maximum size of the database, but App Center modules might store additional data.
+ * The value passed to this method is not persisted on disk. The default maximum database size is 10485760 bytes (10 MiB).
  */
 - (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(nullable void (^)(BOOL))completionHandler;
 

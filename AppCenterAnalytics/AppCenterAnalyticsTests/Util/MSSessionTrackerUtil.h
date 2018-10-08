@@ -3,6 +3,7 @@
 @interface MSSessionTrackerUtil : NSObject
 
 + (void)simulateDidEnterBackgroundNotification;
+
 + (void)simulateWillEnterForegroundNotification;
 
 @end

@@ -5,8 +5,7 @@
 @interface MSDevice : MSWrapperSdk
 
 /*
- * Name of the SDK. Consists of the name of the SDK and the platform, e.g.
- * "appcenter.ios", "appcenter.android"
+ * Name of the SDK. Consists of the name of the SDK and the platform, e.g. "appcenter.ios", "appcenter.android"
  */
 @property(nonatomic, copy, readonly) NSString *sdkName;
 
@@ -41,7 +40,7 @@
 @property(nonatomic, copy, readonly) NSString *osBuild;
 
 /*
- * API level when applicable like in Android (example: 15).  [optional]
+ * API level when applicable like in Android (example: 15). [optional]
  */
 @property(nonatomic, copy, readonly) NSNumber *osApiLevel;
 
@@ -51,8 +50,7 @@
 @property(nonatomic, copy, readonly) NSString *locale;
 
 /*
- * The offset in minutes from UTC for the device time zone, including daylight
- * savings time.
+ * The offset in minutes from UTC for the device time zone, including daylight savings time.
  */
 @property(nonatomic, readonly) NSNumber *timeZoneOffset;
 
@@ -67,12 +65,12 @@
 @property(nonatomic, copy, readonly) NSString *appVersion;
 
 /*
- * Carrier name (for mobile devices).  [optional]
+ * Carrier name (for mobile devices). [optional]
  */
 @property(nonatomic, copy, readonly) NSString *carrierName;
 
 /*
- * Carrier country code (for mobile devices).  [optional]
+ * Carrier country code (for mobile devices). [optional]
  */
 @property(nonatomic, copy, readonly) NSString *carrierCountry;
 
@@ -82,8 +80,8 @@
 @property(nonatomic, copy, readonly) NSString *appBuild;
 
 /*
- * The bundle identifier, package identifier, or namespace, depending on what
- * the individual plattforms use,  .e.g com.microsoft.example.  [optional]
+ * The bundle identifier, package identifier, or namespace, depending on what the individual plattforms use,  .e.g com.microsoft.example.
+ * [optional]
  */
 @property(nonatomic, copy, readonly) NSString *appNamespace;
 

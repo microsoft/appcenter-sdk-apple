@@ -3,5 +3,4 @@
 #import "MSCustomApplicationDelegate.h"
 
 @interface MSDistributeAppDelegate : NSObject <MSCustomApplicationDelegate>
-
 @end

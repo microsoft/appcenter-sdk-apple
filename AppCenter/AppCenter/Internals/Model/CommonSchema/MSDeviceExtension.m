@@ -1,6 +1,5 @@
-#import "MSDeviceExtension.h"
-
 #import "MSCSModelConstants.h"
+#import "MSDeviceExtension.h"
 
 @implementation MSDeviceExtension
 
@@ -29,8 +28,7 @@
     return NO;
   }
   MSDeviceExtension *deviceExt = (MSDeviceExtension *)object;
-  return (!self.localId && !deviceExt.localId) ||
-         [self.localId isEqualToString:deviceExt.localId];
+  return (!self.localId && !deviceExt.localId) || [self.localId isEqualToString:deviceExt.localId];
 }
 
 #pragma mark - NSCoding

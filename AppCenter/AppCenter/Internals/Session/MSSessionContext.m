@@ -30,17 +30,14 @@ static dispatch_once_t onceToken;
   if (self) {
     NSData *data = [MS_USER_DEFAULTS objectForKey:kMSSessionIdHistoryKey];
     if (data != nil) {
-      _sessionHistory = (NSMutableArray *)[(NSObject *)[NSKeyedUnarchiver
-          unarchiveObjectWithData:data] mutableCopy];
+      _sessionHistory = (NSMutableArray *)[(NSObject *)[NSKeyedUnarchiver unarchiveObjectWithData:data] mutableCopy];
     }
     if (!_sessionHistory) {
       _sessionHistory = [NSMutableArray<MSSessionHistoryInfo *> new];
     }
     NSUInteger count = [_sessionHistory count];
     MSLogDebug([MSAppCenter logTag], @"%tu session(s) in the history.", count);
-    _currentSessionInfo =
-        [[MSSessionHistoryInfo alloc] initWithTimestamp:[NSDate date]
-                                           andSessionId:nil];
+    _currentSessionInfo = [[MSSessionHistoryInfo alloc] initWithTimestamp:[NSDate date] andSessionId:nil];
     [_sessionHistory addObject:_currentSessionInfo];
   }
   return self;
@@ -61,21 +58,15 @@ static dispatch_once_t onceToken;
     self.currentSessionInfo.sessionId = sessionId;
     self.currentSessionInfo.timestamp = [NSDate date];
     [self.sessionHistory addObject:self.currentSessionInfo];
-    [MS_USER_DEFAULTS
-        setObject:[NSKeyedArchiver
-                      archivedDataWithRootObject:self.sessionHistory]
-           forKey:kMSSessionIdHistoryKey];
-    MSLogVerbose([MSAppCenter logTag],
-                 @"Stored new session with id:%@ and timestamp: %@.",
-                 self.currentSessionInfo.sessionId,
+    [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.sessionHistory] forKey:kMSSessionIdHistoryKey];
+    MSLogVerbose([MSAppCenter logTag], @"Stored new session with id:%@ and timestamp: %@.", self.currentSessionInfo.sessionId,
                  self.currentSessionInfo.timestamp);
   }
 }
 
 - (nullable NSString *)sessionIdAt:(NSDate *)date {
   @synchronized(self) {
-    for (MSSessionHistoryInfo *info in
-         [self.sessionHistory reverseObjectEnumerator]) {
+    for (MSSessionHistoryInfo *info in [self.sessionHistory reverseObjectEnumerator]) {
       if ([info.timestamp compare:date] == NSOrderedAscending) {
         return info.sessionId;
       }
@@ -88,10 +79,7 @@ static dispatch_once_t onceToken;
   @synchronized(self) {
     [self.sessionHistory removeAllObjects];
     [self.sessionHistory addObject:self.currentSessionInfo];
-    [MS_USER_DEFAULTS
-        setObject:[NSKeyedArchiver
-                      archivedDataWithRootObject:self.sessionHistory]
-           forKey:kMSSessionIdHistoryKey];
+    [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.sessionHistory] forKey:kMSSessionIdHistoryKey];
     MSLogVerbose([MSAppCenter logTag], @"Cleared old sessions.");
   }
 }

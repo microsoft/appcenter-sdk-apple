@@ -30,14 +30,13 @@
   NSDate *date = [NSDate dateWithTimeIntervalSince1970:0];
   NSNumber *number = @0;
   NSNumber *boolean = @NO;
-  NSDictionary<NSString *, NSObject *> *properties = @{
-    @"t1" : string,
-    @"t2" : date,
-    @"t3" : number,
-    @"t4" : boolean,
-    @"t5" : [NSNull null],
-    @"t6" : [NSData new]
-  };
+  NSDictionary<NSString *, NSObject *> *properties =
+      @{ @"t1" : string,
+         @"t2" : date,
+         @"t3" : number,
+         @"t4" : boolean,
+         @"t5" : [NSNull null],
+         @"t6" : [NSData new] };
   self.sut.properties = properties;
 
   // When
@@ -51,11 +50,9 @@
     @{ @"name" : @"t1",
        @"type" : @"string",
        @"value" : string },
-    @{
-      @"name" : @"t2",
-      @"type" : @"dateTime",
-      @"value" : @"1970-01-01T00:00:00.000Z"
-    },
+    @{ @"name" : @"t2",
+       @"type" : @"dateTime",
+       @"value" : @"1970-01-01T00:00:00.000Z" },
     @{ @"name" : @"t3",
        @"type" : @"number",
        @"value" : number },
@@ -65,9 +62,7 @@
     @{ @"name" : @"t5",
        @"type" : @"clear" }
   ];
-  actualProperties = [actualProperties sortedArrayUsingDescriptors:@[
-    [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]
-  ]];
+  actualProperties = [actualProperties sortedArrayUsingDescriptors:@[ [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES] ]];
   assertThat(actualProperties, equalTo(needProperties));
 }
 
@@ -78,13 +73,12 @@
   NSDate *date = [NSDate dateWithTimeIntervalSince1970:0];
   NSNumber *number = @0;
   BOOL boolean = NO;
-  NSDictionary<NSString *, NSObject *> *properties = @{
-    @"t1" : string,
-    @"t2" : date,
-    @"t3" : number,
-    @"t4" : @(boolean),
-    @"t5" : [NSNull null]
-  };
+  NSDictionary<NSString *, NSObject *> *properties =
+      @{ @"t1" : string,
+         @"t2" : date,
+         @"t3" : number,
+         @"t4" : @(boolean),
+         @"t5" : [NSNull null] };
   self.sut.properties = properties;
 
   // When

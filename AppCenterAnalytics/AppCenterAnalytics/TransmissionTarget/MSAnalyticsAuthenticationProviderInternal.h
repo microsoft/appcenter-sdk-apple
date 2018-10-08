@@ -2,7 +2,7 @@
 
 #import "MSAnalyticsAuthenticationProvider.h"
 
-@interface MSAnalyticsAuthenticationProvider()
+@interface MSAnalyticsAuthenticationProvider ()
 
 @property(nonatomic) signed char isAlreadyAcquiringToken;
 

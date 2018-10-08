@@ -1,6 +1,5 @@
-#import <XCTest/XCTest.h>
-
 #import "MSTicketCache.h"
+#import "MSTestFrameworks.h"
 
 @interface MSTicketCacheTests : XCTestCase
 
@@ -23,13 +22,12 @@
 }
 
 - (void)testInitialization {
-  
+
   // When
-  
+
   // Then
   XCTAssertNotNil(self.sut);
-  XCTAssertEqual([MSTicketCache sharedInstance],
-                 [MSTicketCache sharedInstance]);
+  XCTAssertEqual([MSTicketCache sharedInstance], [MSTicketCache sharedInstance]);
   XCTAssertNotNil(self.sut.tickets);
   XCTAssertTrue(self.sut.tickets.count == 0);
 }
@@ -53,7 +51,7 @@
 }
 
 - (void)testClearingTickets {
-  
+
   // If
   [self.sut setTicket:@"ticket1" forKey:@"ticketKey1"];
   [self.sut setTicket:@"ticket2" forKey:@"ticketKey2"];
@@ -61,7 +59,7 @@
 
   // When
   [self.sut clearCache];
-  
+
   // Then
   XCTAssertTrue(self.sut.tickets.count == 0);
 }
