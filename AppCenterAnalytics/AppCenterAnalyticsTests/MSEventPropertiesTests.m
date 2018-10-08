@@ -94,4 +94,19 @@
   XCTAssertEqual(property.value, value);
 }
 
+- (void)testAppCenterCopyHas20PropertiesWhenSelfHasMoreThan20 {
+
+  // If
+  MSEventProperties *sut = [MSEventProperties new];
+
+  // When
+  for (int i = 0; i < 25; i++) {
+    [sut setBool:YES forKey:[NSString stringWithFormat:@"%i", i]];
+  }
+  MSEventProperties *appCenterCopy = [sut createValidCopyForAppCenter];
+
+  // Then
+  XCTAssertEqual([appCenterCopy.properties count], 20);
+}
+
 @end

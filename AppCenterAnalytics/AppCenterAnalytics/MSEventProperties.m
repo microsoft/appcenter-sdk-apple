@@ -143,7 +143,7 @@ static NSString *const kMSNullPropertyValueMessage = @"Value cannot be null. Pro
       validCopy.properties[propertyKey] = validProperty;
     }
   }
-  return self;
+  return validCopy;
 }
 
 - (instancetype)createValidCopyForOneCollector {

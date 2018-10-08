@@ -525,7 +525,34 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   // Then
   assertThat(type, is(kMSTypeEvent));
   assertThat(name, is(expectedName));
-  assertThat(eventProperties, is(expectedProperties));
+
+  for (NSString *propertyKey in eventProperties.properties) {
+    MSTypedProperty *typedProperty = eventProperties.properties[propertyKey];
+    XCTAssertEqual(typedProperty.name, propertyKey);
+    if ([typedProperty isKindOfClass:[MSBooleanTypedProperty class]]) {
+      MSBooleanTypedProperty *expectedProperty = (MSBooleanTypedProperty *)expectedProperties.properties[propertyKey];
+      MSBooleanTypedProperty *property = (MSBooleanTypedProperty *)eventProperties.properties[propertyKey];
+      XCTAssertEqual(property.value, expectedProperty.value);
+    } else if ([typedProperty isKindOfClass:[MSDoubleTypedProperty class]]) {
+      MSDoubleTypedProperty *expectedProperty = (MSDoubleTypedProperty *)expectedProperties.properties[propertyKey];
+      MSDoubleTypedProperty *property = (MSDoubleTypedProperty *)eventProperties.properties[propertyKey];
+      XCTAssertEqual(property.value, expectedProperty.value);
+    } else if ([typedProperty isKindOfClass:[MSLongTypedProperty class]]) {
+      MSLongTypedProperty *expectedProperty = (MSLongTypedProperty *)expectedProperties.properties[propertyKey];
+      MSLongTypedProperty *property = (MSLongTypedProperty *)eventProperties.properties[propertyKey];
+      XCTAssertEqual(property.value, expectedProperty.value);
+    } else if ([typedProperty isKindOfClass:[MSStringTypedProperty class]]) {
+      MSStringTypedProperty *expectedProperty = (MSStringTypedProperty *)expectedProperties.properties[propertyKey];
+      MSStringTypedProperty *property = (MSStringTypedProperty *)eventProperties.properties[propertyKey];
+      XCTAssertEqual(property.value, expectedProperty.value);
+    } else if ([typedProperty isKindOfClass:[MSDateTimeTypedProperty class]]) {
+      MSDateTimeTypedProperty *expectedProperty = (MSDateTimeTypedProperty *)expectedProperties.properties[propertyKey];
+      MSDateTimeTypedProperty *property = (MSDateTimeTypedProperty *)eventProperties.properties[propertyKey];
+      XCTAssertEqual(property.value, expectedProperty.value);
+    }
+    [expectedProperties.properties removeObjectForKey:propertyKey];
+  }
+  XCTAssertEqual([expectedProperties.properties count], 0);
 }
 
 - (void)testTrackPageWithoutProperties {

@@ -42,6 +42,7 @@ static NSString *const kMSTypedPropertyName = @"name";
     }
     return nil;
 }
+
 - (instancetype)createValidCopyForOneCollector {
     return nil;
 }
