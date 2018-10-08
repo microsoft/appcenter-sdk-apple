@@ -273,14 +273,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 #if TARGET_OS_OSX
     /*
-     * AppKit is preventing applications from crashing on macOS so PLCrashReport cannot catch any crashes.
-     * Setting this flag will let application crash on uncaught exceptions.
-     *
-     * TODO: Track handled exceptions instead of crashing the applciation.
-     */
-    [[NSUserDefaults standardUserDefaults] registerDefaults:@{ @"NSApplicationCrashOnExceptions" : @YES }];
-
-    /*
      * Exceptions on the main thread of a Cocoa application do not typically rise to the level of
      * the uncaught exception handler because the global application object catches all such exceptions.
      * See: https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Exceptions/Concepts/UncaughtExceptions.html
@@ -296,6 +288,15 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
         MSLogDebug([MSCrashes logTag],  @"Selector '%@' of class '%@' is swizzled.",
                    NSStringFromSelector(selector), [NSApplication class]);
       }
+    } else {
+
+      /*
+       * AppKit is preventing applications from crashing on macOS so PLCrashReport cannot catch any crashes.
+       * Setting this flag will let application crash on uncaught exceptions.
+       *
+       * Makes sense only if we are not overriding "reportException:".
+       */
+      [[NSUserDefaults standardUserDefaults] registerDefaults:@{ @"NSApplicationCrashOnExceptions" : @YES }];
     }
 #endif
 
@@ -899,6 +900,12 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 #pragma mark - Helper
 
 - (void)reportException:(NSException *)exception {
+
+  // TODO: Track handled exceptions instead of crashing the applciation if "NSApplicationCrashOnExceptions" is set.
+
+  // Log the exception (original method behaviour and formatting).
+  NSLog(@"%@", exception.reason);
+  NSLog(@"%@", exception.callStackSymbols);
 
   /*
    * Forward the exception to custom UncaughtExceptionHandler.
