@@ -15,4 +15,18 @@ static NSString *const kMSTypedPropertyValue = @"value";
  */
 @property(nonatomic, copy) NSString *name;
 
+/**
+ * Creates a copy of `self` that is valid for App Center.
+ *
+ * @return A copy of `self` that is valid for App Center.
+ */
+- (instancetype)createValidCopyForAppCenter;
+
+/**
+ * Creates a copy of `self` that is valid for One Collector.
+ *
+ * @return A copy of `self` that is valid for One Collector.
+ */
+- (instancetype)createValidCopyForOneCollector;
+
 @end

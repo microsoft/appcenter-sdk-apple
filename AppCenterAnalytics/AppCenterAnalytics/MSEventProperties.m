@@ -10,6 +10,7 @@
 
 static NSString *const kMSNullPropertyKeyMessage = @"Key cannot be null. Property will not be added.";
 static NSString *const kMSNullPropertyValueMessage = @"Value cannot be null. Property will not be added.";
+static int const kMSMaxPropertyCount = 20;
 
 @implementation MSEventProperties
 
@@ -47,68 +48,79 @@ static NSString *const kMSNullPropertyValueMessage = @"Value cannot be null. Pro
 
 #pragma mark - Public methods
 
-- (void)setString:(NSString *)value forKey:(NSString *)key {
+- (instancetype)setString:(NSString *)value forKey:(NSString *)key {
   if (!key) {
     MSLogWarning([MSAnalytics logTag], kMSNullPropertyKeyMessage);
-    return;
+    return self;
   }
   if (!value) {
     MSLogWarning([MSAnalytics logTag], kMSNullPropertyValueMessage);
-    return;
+    return self;
   }
   MSStringTypedProperty *stringProperty = [MSStringTypedProperty new];
   stringProperty.name = key;
   stringProperty.value = value;
   [self.properties addObject:stringProperty];
+  return self;
 }
 
-- (void)setDouble:(double)value forKey:(NSString *)key {
+- (instancetype)setDouble:(double)value forKey:(NSString *)key {
   if (!key) {
     MSLogWarning([MSAnalytics logTag], kMSNullPropertyKeyMessage);
-    return;
+    return self;
+  }
+  if (value == (double)INFINITY || value == (double)NAN) {
+    MSLogError([MSAnalytics logTag], @"Double value for property '%@' must be finite (cannot be INFINITY or NAN).", key);
+    return self;
   }
   MSDoubleTypedProperty *doubleProperty = [MSDoubleTypedProperty new];
   doubleProperty.name = key;
   doubleProperty.value = value;
   [self.properties addObject:doubleProperty];
+  return self;
 }
 
-- (void)setInt64:(int64_t)value forKey:(NSString *)key {
+- (instancetype)setInt64:(int64_t)value forKey:(NSString *)key {
   if (!key) {
     MSLogWarning([MSAnalytics logTag], kMSNullPropertyKeyMessage);
-    return;
+    return self;
   }
   MSLongTypedProperty *longProperty = [MSLongTypedProperty new];
   longProperty.name = key;
   longProperty.value = value;
   [self.properties addObject:longProperty];
+  return self;
 }
 
-- (void)setBool:(BOOL)value forKey:(NSString *)key {
+- (instancetype)setBool:(BOOL)value forKey:(NSString *)key {
   if (!key) {
     MSLogWarning([MSAnalytics logTag], kMSNullPropertyKeyMessage);
-    return;
+    return self;
   }
   MSBooleanTypedProperty *boolProperty = [MSBooleanTypedProperty new];
   boolProperty.name = key;
   boolProperty.value = value;
   [self.properties addObject:boolProperty];
+  return self;
 }
 
-- (void)setDate:(NSDate *)value forKey:(NSString *)key {
+- (instancetype)setDate:(NSDate *)value forKey:(NSString *)key {
   if (!key) {
     MSLogWarning([MSAnalytics logTag], kMSNullPropertyKeyMessage);
-    return;
+    return self;
   }
   if (!value) {
     MSLogWarning([MSAnalytics logTag], kMSNullPropertyValueMessage);
-    return;
+    return self;
   }
   MSDateTimeTypedProperty *dateTimeProperty = [MSDateTimeTypedProperty new];
   dateTimeProperty.name = key;
   dateTimeProperty.value = value;
   [self.properties addObject:dateTimeProperty];
+  return self;
 }
+
+#pragma mark - Internal methods
 
 - (NSMutableArray *)serializeToArray {
   NSMutableArray *propertiesArray = [NSMutableArray new];
@@ -116,6 +128,25 @@ static NSString *const kMSNullPropertyValueMessage = @"Value cannot be null. Pro
     [propertiesArray addObject:[typedProperty serializeToDictionary]];
   }
   return propertiesArray;
+}
+
+- (instancetype)createValidCopyForAppCenter {
+  MSEventProperties *validCopy = [MSEventProperties new];
+  for (MSTypedProperty *property in self.properties) {
+    if ([validCopy.properties count] == kMSMaxPropertyCount) {
+      MSLogWarning([MSAnalytics logTag], @"Typed properties cannot contain more than %i items. Skipping other properties.", kMSMaxPropertyCount);
+      break;
+    }
+    MSTypedProperty *validProperty = [property createValidCopyForAppCenter];
+    if (validProperty) {
+      [validCopy.properties addObject:validProperty];
+    }
+  }
+  return self;
+}
+
+- (instancetype)createValidCopyForOneCollector {
+  return self;
 }
 
 @end

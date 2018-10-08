@@ -13,16 +13,16 @@ NS_ASSUME_NONNULL_BEGIN
  * @param value Property value.
  * @param key Property key.
  */
-- (void)setString:(NSString *)value
+- (instancetype)setString:(NSString *)value
            forKey:(NSString *)key;
 
 /**
  * Set a double property.
  *
- * @param value Property value.
+ * @param value Property value. Must be finite (`NAN` and `INFINITY` not allowed).
  * @param key Property key.
  */
-- (void)setDouble:(double)value forKey:(NSString *)key;
+- (instancetype)setDouble:(double)value forKey:(NSString *)key;
 
 /**
  * Set a 64-bit integer property.
@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param value Property value.
  * @param key Property key.
  */
-- (void)setInt64:(int64_t)value forKey:(NSString *)key;
+- (instancetype)setInt64:(int64_t)value forKey:(NSString *)key;
 
 /**
  * Set a boolean property.
@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param value Property value.
  * @param key Property key.
  */
-- (void)setBool:(BOOL)value forKey:(NSString *)key;
+- (instancetype)setBool:(BOOL)value forKey:(NSString *)key;
 
 /**
  * Set a Date property.
@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param value Property value.
  * @param key Property key.
  */
-- (void)setDate:(NSDate *)value forKey:(NSString *)key;
+- (instancetype)setDate:(NSDate *)value forKey:(NSString *)key;
 
 @end
 

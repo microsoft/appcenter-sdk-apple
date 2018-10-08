@@ -1,4 +1,5 @@
 #import "MSLongTypedProperty.h"
+#import "MSConstants+Internal.h"
 
 @implementation MSLongTypedProperty
 
@@ -31,6 +32,18 @@
     NSMutableDictionary *dict = [super serializeToDictionary];
     dict[kMSTypedPropertyValue] = @(self.value);
     return dict;
+}
+
+- (instancetype)createValidCopyForAppCenter {
+    [super createValidCopyForAppCenter];
+    MSLongTypedProperty *validProperty = [MSLongTypedProperty new];
+    validProperty.name = [self.name substringToIndex:kMSMaxPropertyKeyLength];
+    validProperty.value = self.value;
+    return validProperty;
+}
+
+- (instancetype)createValidCopyForOneCollector {
+    return self;
 }
 
 @end

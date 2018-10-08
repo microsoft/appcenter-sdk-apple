@@ -1,4 +1,7 @@
 #import "MSTypedProperty.h"
+#import "MSAnalyticsInternal.h"
+#import "MSConstants+Internal.h"
+#import "MSLogger.h"
 
 static NSString *const kMSTypedPropertyType = @"type";
 
@@ -30,6 +33,17 @@ static NSString *const kMSTypedPropertyName = @"name";
     dict[kMSTypedPropertyType] = self.type;
     dict[kMSTypedPropertyName] = self.name;
     return dict;
+}
+
+- (instancetype)createValidCopyForAppCenter {
+    if ([self.name length] > 125) {
+        MSLogWarning([MSAnalytics logTag], @"Typed property '%@': property key length cannot exceed %i characters. Property key will be truncated.",
+            self.name, kMSMaxPropertyKeyLength);
+    }
+    return nil;
+}
+- (instancetype)createValidCopyForOneCollector {
+    return nil;
 }
 
 @end

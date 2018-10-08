@@ -1,4 +1,5 @@
 #import "MSDateTimeTypedProperty.h"
+#import "MSConstants+Internal.h"
 #import "MSUtility+Date.h"
 
 @implementation MSDateTimeTypedProperty
@@ -34,6 +35,18 @@
   NSMutableDictionary *dict = [super serializeToDictionary];
   dict[kMSTypedPropertyValue] = self.value;
   return dict;
+}
+
+- (instancetype)createValidCopyForAppCenter {
+  [super createValidCopyForAppCenter];
+  MSDateTimeTypedProperty *validProperty = [MSDateTimeTypedProperty new];
+  validProperty.name = [self.name substringToIndex:kMSMaxPropertyKeyLength];
+  validProperty.value = self.value;
+  return validProperty;
+}
+
+- (instancetype)createValidCopyForOneCollector {
+  return self;
 }
 
 @end
