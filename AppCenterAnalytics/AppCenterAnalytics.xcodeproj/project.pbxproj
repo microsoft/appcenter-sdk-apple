@@ -727,11 +727,11 @@
 				B25E21CC214044A400CAA156 /* MSPropertyConfiguratorTests.m */,
 				E815912B1D526A09003D5F3C /* MSSessionTrackerTests.m */,
 				E81591291D526956003D5F3C /* MSStartSessionLogTests.m */,
+				2DA039541DA70540CB367D6C /* MSTypedPropertyTests.m */,
 				6E0684361D35A39300A8CC6C /* Frameworks */,
 				04A140B11ECE811D001CEE94 /* Model */,
 				04A140AE1ECE806B001CEE94 /* Support */,
 				04A140B21ECE814E001CEE94 /* Util */,
-				2DA039541DA70540CB367D6C /* MSTypedPropertyTests.m */,
 			);
 			path = AppCenterAnalyticsTests;
 			sourceTree = "<group>";

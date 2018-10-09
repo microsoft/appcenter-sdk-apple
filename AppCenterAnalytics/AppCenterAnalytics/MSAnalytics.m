@@ -64,12 +64,12 @@ __attribute__((used)) static void importCategories() {
 #pragma mark - MSServiceInternal
 
 + (instancetype)sharedInstance {
-    dispatch_once(&onceToken, ^{
-        if (sharedInstance == nil) {
-            sharedInstance = [[MSAnalytics alloc] init];
-        }
-    });
-    return sharedInstance;
+  dispatch_once(&onceToken, ^{
+    if (sharedInstance == nil) {
+      sharedInstance = [[MSAnalytics alloc] init];
+    }
+  });
+  return sharedInstance;
 }
 
 + (NSString *)serviceName {

@@ -92,7 +92,7 @@
   MSEventProperties *sut = [MSEventProperties new];
   NSString *value = @"value";
   NSString *key = @"key";
-  NSString *type = @"string";
+
   // When
   [sut setString:value forKey:key];
 
