@@ -297,6 +297,28 @@
   [self testiOSAppFrameworkAtProcessPath:processPath appBundlePath:appBundlePath];
 }
 
+- (void)testAddressesFromReport {
+
+  // If
+  NSData *crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:@"live_report_objc_released"];
+  NSError *error = nil;
+  MSPLCrashReport *crashReport = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
+  id mockCrashReport = OCMPartialMock(crashReport);
+  NSUInteger originalImagesCount = crashReport.images.count;
+  NSMutableArray *mockedImages = [crashReport.images mutableCopy];
+  [mockedImages addObject:crashReport.images[0]];
+  OCMStub([mockCrashReport images]).andReturn(mockedImages);
+
+  // When
+  NSArray *addresses = [MSErrorLogFormatter addressesFromReport:mockCrashReport];
+
+  // Then
+
+  // The first assert verifies that mocking worked.
+  XCTAssertEqual(crashReport.images.count, originalImagesCount + 1);
+  XCTAssertEqual(addresses.count, originalImagesCount);
+}
+
 #pragma mark - Helpers
 
 - (void)testOSXNonAppSpecificImagesForProcessPath:(NSString *)processPath {
@@ -427,7 +449,9 @@
       assertThat(errorLog.architectureVariantId, equalTo(@(image.codeType.subtype)));
     }
   }
-
+  
+  // Our fixtures don't have duplicate images, so number of images should always be the same as the number of addresses.
+  XCTAssertEqual(images.count, [MSErrorLogFormatter addressesFromReport:crashReport].count);
   XCTAssertNotNil(errorLog.applicationPath);
 
   // Not using the report.processInfo.processPath directly to compare as it will be anonymized in the Simulator.
