@@ -108,7 +108,7 @@
 
 + (BOOL)validateKey:(NSString *)key {
   if (!key) {
-    MSLogWarning([MSAnalytics logTag], @"Key cannot be null. Property will not be added.");
+    MSLogError([MSAnalytics logTag], @"Key cannot be null. Property will not be added.");
     return NO;
   }
   return YES;
@@ -116,7 +116,7 @@
 
 + (BOOL)validateValue:(NSObject *)value {
   if (!value) {
-    MSLogWarning([MSAnalytics logTag], @"Value cannot be null. Property will not be added.");
+    MSLogError([MSAnalytics logTag], @"Value cannot be null. Property will not be added.");
     return NO;
   }
   return YES;
