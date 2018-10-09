@@ -13,6 +13,14 @@
  */
 + (NSString *)anonymizedPathFromPath:(NSString *)path;
 
+/**
+ * Determines the type of a binary image.
+ *
+ * @param imagePath The path to the binary.
+ * @param processPath The path to the process.
+ *
+ * @return the type of the image, e.g. MSBinaryImageTypeAppFramework. @see MSBinaryImageType.
+ */
 + (MSBinaryImageType)imageTypeForImagePath:(NSString *)imagePath processPath:(NSString *)processPath;
 
 /**
@@ -20,7 +28,7 @@
  *
  * @param report The crash report.
  *
- * @return an error id as a NSString.
+ * @return An error id as a NSString.
  */
 + (NSString *)errorIdForCrashReport:(MSPLCrashReport *)report;
 
@@ -41,8 +49,17 @@
  *
  * @param report The crash report.
  *
- * @return the crashed thread info.
+ * @return The crashed thread info.
  */
 + (MSPLCrashReportThreadInfo *)findCrashedThreadInReport:(MSPLCrashReport *)report;
+
+/**
+ * Extract image addresses from a crash report.
+ *
+ * @param report The crash report.
+ *
+ * @return An array of addresses without duplicates.
+ */
++ (NSArray *)addressesFromReport:(MSPLCrashReport *)report;
 
 @end

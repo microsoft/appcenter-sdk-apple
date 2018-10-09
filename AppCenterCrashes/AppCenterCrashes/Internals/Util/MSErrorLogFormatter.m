@@ -295,11 +295,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID,
                                             is64bit:is64bit];
   errorLog.registers =
       [self extractRegistersFromCrashedThread:crashedThread is64bit:is64bit];
-
-  // Gather all addresses for which we need to preserve the binary images.
-  NSArray *addresses = [self addressesFromReport:report];
   errorLog.binaries = [self extractBinaryImagesFromReport:report
-                                                addresses:addresses
                                                  codeType:codeType
                                                   is64bit:is64bit];
 
@@ -635,13 +631,12 @@ extractRegistersFromCrashedThread:(MSPLCrashReportThreadInfo *)crashedThread
 }
 
 + (NSArray<MSBinary *> *)extractBinaryImagesFromReport:(MSPLCrashReport *)report
-                                             addresses:(NSArray *)addresses
                                               codeType:(NSNumber *)codeType
                                                is64bit:(BOOL)is64bit {
   NSMutableArray<MSBinary *> *binaryImages = [NSMutableArray array];
+  NSArray *addresses = [self addressesFromReport:report];
 
-  // Images. The iPhone crash report format sorts these in ascending order, by
-  // the base address.
+  // Images. The iPhone crash report format sorts these in ascending order, by the base address.
   for (MSPLCrashReportBinaryImageInfo *imageInfo in
        [report.images sortedArrayUsingFunction:bit_binaryImageSort
                                        context:nil]) {
@@ -891,25 +886,17 @@ extractRegistersFromCrashedThread:(MSPLCrashReportThreadInfo *)crashedThread
 
 + (NSArray *)addressesFromReport:(MSPLCrashReport *)report {
   NSMutableArray *addresses = [NSMutableArray new];
+  for (MSPLCrashReportBinaryImageInfo *info in report.images) {
 
-  if (report.exceptionInfo != nil && report.exceptionInfo.stackFrames != nil &&
-      [report.exceptionInfo.stackFrames count] > 0) {
-    MSPLCrashReportExceptionInfo *exception = report.exceptionInfo;
-
-    for (MSPLCrashReportStackFrameInfo *frameInfo in exception.stackFrames) {
-      [addresses addObject:@(frameInfo.instructionPointer)];
-    }
-  }
-
-  for (MSPLCrashReportThreadInfo *plCrashReporterThread in report.threads) {
-    for (MSPLCrashReportStackFrameInfo
-             *plCrashReporterFrameInfo in plCrashReporterThread.stackFrames) {
-      [addresses addObject:@(plCrashReporterFrameInfo.instructionPointer)];
-    }
-
-    for (MSPLCrashReportRegisterInfo *registerInfo in plCrashReporterThread
-             .registers) {
-      [addresses addObject:@(registerInfo.registerValue)];
+    /*
+     * Make sure we don't include the same address twice because it can lead to issues when symbolicating crashes.
+     * See https://github.com/bitstadium/HockeySDK-iOS/pull/203 for the original PR on HockeySDK-iOS and the issue related to
+     * PLCrashReporter at https://groups.google.com/forum/#!msg/plcrashreporter/i6rYc2f4yBo/G8uBTEnMAgAJ.
+     */
+    if ([addresses containsObject:@(info.imageBaseAddress)]) {
+      continue;
+    } else {
+      [addresses addObject:@(info.imageBaseAddress)];
     }
   }
 
