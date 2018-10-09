@@ -7,6 +7,7 @@
 #import "MSAppCenterPrivate.h"
 #import "MSChannelUnitDefault.h"
 #import "MSEventLog.h"
+#import "MSEventProperties.h"
 #import "MSEventPropertiesInternal.h"
 #import "MSMockUserDefaults.h"
 #import "MSPageLog.h"
