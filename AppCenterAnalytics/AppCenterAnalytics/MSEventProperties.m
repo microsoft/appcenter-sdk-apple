@@ -1,13 +1,8 @@
 #import "MSEventProperties.h"
 #import "MSEventPropertiesInternal.h"
 #import "MSAnalyticsInternal.h"
-#import "MSBooleanTypedProperty.h"
-#import "MSConstants+Internal.h"
-#import "MSDateTimeTypedProperty.h"
-#import "MSDoubleTypedProperty.h"
 #import "MSLogger.h"
-#import "MSLongTypedProperty.h"
-#import "MSStringTypedProperty.h"
+#import "MSTypedProperty.h"
 
 static NSString *const kMSNullPropertyKeyMessage = @"Key cannot be null. Property will not be added.";
 static NSString *const kMSNullPropertyValueMessage = @"Value cannot be null. Property will not be added.";
@@ -24,7 +19,7 @@ static NSString *const kMSNullPropertyValueMessage = @"Value cannot be null. Pro
 - (instancetype)initWithDictionary:(NSDictionary<NSString *, NSString *> *)properties {
   if ((self = [self init])) {
     for (NSString *propertyKey in properties) {
-      MSStringTypedProperty *stringProperty = [MSStringTypedProperty new];
+      MSTypedProperty *stringProperty = [MSTypedProperty stringTypedProperty];
       stringProperty.name = propertyKey;
       stringProperty.value = properties[propertyKey];
       _properties[propertyKey] = stringProperty;
@@ -57,7 +52,7 @@ static NSString *const kMSNullPropertyValueMessage = @"Value cannot be null. Pro
     MSLogWarning([MSAnalytics logTag], kMSNullPropertyValueMessage);
     return self;
   }
-  MSStringTypedProperty *stringProperty = [MSStringTypedProperty new];
+  MSTypedProperty *stringProperty = [MSTypedProperty stringTypedProperty];
   stringProperty.name = key;
   stringProperty.value = value;
   self.properties[key] = stringProperty;
@@ -73,9 +68,9 @@ static NSString *const kMSNullPropertyValueMessage = @"Value cannot be null. Pro
     MSLogError([MSAnalytics logTag], @"Double value for property '%@' must be finite (cannot be INFINITY or NAN).", key);
     return self;
   }
-  MSDoubleTypedProperty *doubleProperty = [MSDoubleTypedProperty new];
+  MSTypedProperty *doubleProperty = [MSTypedProperty doubleTypedProperty];
   doubleProperty.name = key;
-  doubleProperty.value = value;
+  doubleProperty.value = @(value);
   self.properties[key] = doubleProperty;
   return self;
 }
@@ -85,9 +80,9 @@ static NSString *const kMSNullPropertyValueMessage = @"Value cannot be null. Pro
     MSLogWarning([MSAnalytics logTag], kMSNullPropertyKeyMessage);
     return self;
   }
-  MSLongTypedProperty *longProperty = [MSLongTypedProperty new];
+  MSTypedProperty *longProperty = [MSTypedProperty longTypedProperty];
   longProperty.name = key;
-  longProperty.value = value;
+  longProperty.value = @(value);
   self.properties[key] = longProperty;
   return self;
 }
@@ -97,9 +92,9 @@ static NSString *const kMSNullPropertyValueMessage = @"Value cannot be null. Pro
     MSLogWarning([MSAnalytics logTag], kMSNullPropertyKeyMessage);
     return self;
   }
-  MSBooleanTypedProperty *boolProperty = [MSBooleanTypedProperty new];
+  MSTypedProperty *boolProperty = [MSTypedProperty boolTypedProperty];
   boolProperty.name = key;
-  boolProperty.value = value;
+  boolProperty.value = @(value);
   self.properties[key] = boolProperty;
   return self;
 }
@@ -113,7 +108,7 @@ static NSString *const kMSNullPropertyValueMessage = @"Value cannot be null. Pro
     MSLogWarning([MSAnalytics logTag], kMSNullPropertyValueMessage);
     return self;
   }
-  MSDateTimeTypedProperty *dateTimeProperty = [MSDateTimeTypedProperty new];
+  MSTypedProperty *dateTimeProperty = [MSTypedProperty dateTypedProperty];
   dateTimeProperty.name = key;
   dateTimeProperty.value = value;
   self.properties[key] = dateTimeProperty;

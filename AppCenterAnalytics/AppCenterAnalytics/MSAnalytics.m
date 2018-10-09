@@ -14,7 +14,6 @@
 #import "MSEventProperties.h"
 #import "MSEventPropertiesInternal.h"
 #import "MSTypedProperty.h"
-#import "MSStringTypedProperty.h"
 
 // Service name for initialization.
 static NSString *const kMSServiceName = @"Analytics";
@@ -331,7 +330,9 @@ forTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget {
 }
 
 - (MSEventProperties *)removeInvalidTypedProperties:(MSEventProperties *)typedProperties {
-    return self.defaultTransmissionTarget ? [typedProperties createValidCopyForOneCollector] : [typedProperties createValidCopyForAppCenter];
+
+    //TODO use one collector validation if one collector is receiving the log.
+    return [self validateAppCenterEventProperties:typedProperties];
 }
 
 - (void)trackPage:(NSString *)pageName withProperties:(NSDictionary<NSString *, NSString *> *)properties {

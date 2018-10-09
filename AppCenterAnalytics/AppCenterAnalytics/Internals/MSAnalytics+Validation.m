@@ -4,7 +4,7 @@
 #import "MSEventLog.h"
 #import "MSEventPropertiesInternal.h"
 #import "MSPageLog.h"
-#import "MSStringTypedProperty.h"
+#import "MSTypedProperty.h"
 
 // Events values limitations
 static const int kMSMinEventNameLength = 1;
@@ -87,11 +87,14 @@ NSString *MSAnalyticsValidationCategory;
 }
 
 - (NSString *)validateAppCenterPropertyName:(NSString *)propertyKey {
-  return nil;
+  return propertyKey;
 }
 
-- (NSString *)validateAppCenterPropertyValue:(NSObject *)stringValue {
-  return nil;
+- (NSObject *)validateAppCenterPropertyValue:(NSObject *)value {
+//  if ([value isKindOfClass:[NSString class]]) {
+//
+//  }
+  return value;
 }
 
 

@@ -5,18 +5,14 @@
 #import "MSAppCenter.h"
 #import "MSAppCenterInternal.h"
 #import "MSAppCenterPrivate.h"
-#import "MSBooleanTypedProperty.h"
 #import "MSChannelUnitDefault.h"
-#import "MSDateTimeTypedProperty.h"
-#import "MSDoubleTypedProperty.h"
 #import "MSEventLog.h"
-#import "MSLongTypedProperty.h"
+#import "MSEventPropertiesInternal.h"
 #import "MSMockUserDefaults.h"
 #import "MSPageLog.h"
 #import "MSSessionTrackerPrivate.h"
-#import "MSStringTypedProperty.h"
 #import "MSTestFrameworks.h"
-#import "MSEventPropertiesInternal.h"
+#import "MSTypedProperty.h"
 
 static NSString *const kMSTypeEvent = @"event";
 static NSString *const kMSTypePage = @"page";
@@ -480,9 +476,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   assertThat(type, is(kMSTypeEvent));
   assertThat(name, is(expectedName));
   for (MSTypedProperty *typedProperty in eventProperties.properties) {
-    assertThat(typedProperty, isA([MSStringTypedProperty class]));
-    MSStringTypedProperty *stringTypedProperty = (MSStringTypedProperty*)typedProperty;
-    assertThat(stringTypedProperty.value, equalTo(expectedProperties[stringTypedProperty.name]));
+    assertThat(typedProperty.value, equalTo(expectedProperties[typedProperty.name]));
   }
   XCTAssertEqual([expectedProperties count], [eventProperties.properties count]);
 }
@@ -494,11 +488,10 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   __block NSString *name;
   __block MSEventProperties *eventProperties;
   MSEventProperties *expectedProperties = [MSEventProperties new];
-  [expectedProperties setString:@"string" forKey:@"stringKey"];
-  [expectedProperties setBool:YES forKey:@"boolKey"];
-  [expectedProperties setDate:[NSDate new] forKey:@"dateKey"];
-  [expectedProperties setInt64:123 forKey:@"longKey"];
   [expectedProperties setDouble:1.23e2 forKey:@"doubleKey"];
+  id eventPropertiesClassMock = OCMClassMock([MSEventProperties class]);
+  OCMStub([eventPropertiesClassMock new]).andReturn(expectedProperties);
+
   NSString *expectedName = @"gotACoffee";
   id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
@@ -521,38 +514,10 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   
   // When
   [MSAnalytics trackEvent:expectedName withTypedProperties:expectedProperties];
-  
-  // Then
-  assertThat(type, is(kMSTypeEvent));
-  assertThat(name, is(expectedName));
 
-  for (NSString *propertyKey in eventProperties.properties) {
-    MSTypedProperty *typedProperty = eventProperties.properties[propertyKey];
-    XCTAssertEqual(typedProperty.name, propertyKey);
-    if ([typedProperty isKindOfClass:[MSBooleanTypedProperty class]]) {
-      MSBooleanTypedProperty *expectedProperty = (MSBooleanTypedProperty *)expectedProperties.properties[propertyKey];
-      MSBooleanTypedProperty *property = (MSBooleanTypedProperty *)eventProperties.properties[propertyKey];
-      XCTAssertEqual(property.value, expectedProperty.value);
-    } else if ([typedProperty isKindOfClass:[MSDoubleTypedProperty class]]) {
-      MSDoubleTypedProperty *expectedProperty = (MSDoubleTypedProperty *)expectedProperties.properties[propertyKey];
-      MSDoubleTypedProperty *property = (MSDoubleTypedProperty *)eventProperties.properties[propertyKey];
-      XCTAssertEqual(property.value, expectedProperty.value);
-    } else if ([typedProperty isKindOfClass:[MSLongTypedProperty class]]) {
-      MSLongTypedProperty *expectedProperty = (MSLongTypedProperty *)expectedProperties.properties[propertyKey];
-      MSLongTypedProperty *property = (MSLongTypedProperty *)eventProperties.properties[propertyKey];
-      XCTAssertEqual(property.value, expectedProperty.value);
-    } else if ([typedProperty isKindOfClass:[MSStringTypedProperty class]]) {
-      MSStringTypedProperty *expectedProperty = (MSStringTypedProperty *)expectedProperties.properties[propertyKey];
-      MSStringTypedProperty *property = (MSStringTypedProperty *)eventProperties.properties[propertyKey];
-      XCTAssertEqual(property.value, expectedProperty.value);
-    } else if ([typedProperty isKindOfClass:[MSDateTimeTypedProperty class]]) {
-      MSDateTimeTypedProperty *expectedProperty = (MSDateTimeTypedProperty *)expectedProperties.properties[propertyKey];
-      MSDateTimeTypedProperty *property = (MSDateTimeTypedProperty *)eventProperties.properties[propertyKey];
-      XCTAssertEqual(property.value, expectedProperty.value);
-    }
-    [expectedProperties.properties removeObjectForKey:propertyKey];
-  }
-  XCTAssertEqual([expectedProperties.properties count], 0);
+  // Then
+  XCTAssertEqual(eventProperties, expectedProperties);
+  
 }
 
 - (void)testTrackPageWithoutProperties {
@@ -1083,52 +1048,6 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
   // Then
   XCTAssertEqualObjects(result, properties);
-}
-
-- (void)testTrackEventWithTypedPropertiesUsesValidPropertiesWhenSendingToAppCenter {
-  
-  // If
-  id appCenterMock = OCMClassMock([MSAppCenter class]);
-  OCMStub([appCenterMock sharedInstance]).andReturn(appCenterMock);
-  OCMStub([appCenterMock sdkConfigured]).andReturn(YES);
-  MSEventProperties *eventPropertiesMock = OCMPartialMock([MSEventProperties new]);
-  id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
-  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
-                                            appSecret:kMSTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
-  
-  // When
-  [MSAnalytics trackEvent:@"test" withTypedProperties:eventPropertiesMock];
-  
-  // Then
-  OCMVerify([eventPropertiesMock createValidCopyForAppCenter]);
-  
-  // Cleanup
-  [appCenterMock stopMocking];
-}
-
-- (void)testTrackEventWithTypedPropertiesUsesValidPropertiesWhenSendingToOneCollector {
-  
-  // If
-  id appCenterMock = OCMClassMock([MSAppCenter class]);
-  OCMStub([appCenterMock sharedInstance]).andReturn(appCenterMock);
-  OCMStub([appCenterMock sdkConfigured]).andReturn(YES);
-  MSEventProperties *eventPropertiesMock = OCMPartialMock([MSEventProperties new]);
-  id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
-  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
-                                            appSecret:kMSTestAppSecret
-                              transmissionTargetToken:kMSTestTransmissionToken
-                                      fromApplication:YES];
-  
-  // When
-  [MSAnalytics trackEvent:@"test" withTypedProperties:eventPropertiesMock];
-  
-  // Then
-  OCMVerify([eventPropertiesMock createValidCopyForOneCollector]);
-  
-  // Cleanup
-  [appCenterMock stopMocking];
 }
 
 - (void)testPause {

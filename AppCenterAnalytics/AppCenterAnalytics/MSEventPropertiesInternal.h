@@ -29,20 +29,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (NSMutableArray *)serializeToArray;
 
-/**
- * Creates a copy of `self` that is valid for App Center.
- *
- * @return A copy of `self` that is valid for App Center.
- */
-- (instancetype)createValidCopyForAppCenter;
-
-/**
- * Creates a copy of `self` that is valid for One Collector.
- *
- * @return A copy of `self` that is valid for One Collector.
- */
-- (instancetype)createValidCopyForOneCollector;
-
 @end
 
 NS_ASSUME_NONNULL_END

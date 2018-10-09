@@ -1,11 +1,8 @@
-#import "MSBooleanTypedProperty.h"
-#import "MSDateTimeTypedProperty.h"
-#import "MSDoubleTypedProperty.h"
+#import "MSConstants+Internal.h"
 #import "MSEventProperties.h"
 #import "MSEventPropertiesInternal.h"
-#import "MSLongTypedProperty.h"
-#import "MSStringTypedProperty.h"
 #import "MSTestFrameworks.h"
+#import "MSTypedProperty.h"
 
 @interface MSEventPropertiesTests : XCTestCase
 
@@ -24,9 +21,10 @@
   [sut setBool:value forKey:key];
 
   // Then
-  MSBooleanTypedProperty *property = (MSBooleanTypedProperty*)sut.properties[key];
-  XCTAssertEqual(property.name, key);
-  XCTAssertEqual(property.value, value);
+  MSTypedProperty *property = sut.properties[key];
+  XCTAssertEqualObjects(property.name, key);
+  XCTAssertEqualObjects(property.value, @(value));
+  XCTAssertEqualObjects(property.type, kMSPropertyTypeBoolean);
 }
 
 - (void)testSetInt64ForKey {
@@ -35,14 +33,16 @@
   MSEventProperties *sut = [MSEventProperties new];
   int64_t value = 10;
   NSString *key = @"key";
+  NSString *type = @"long";
 
   // When
   [sut setInt64:value forKey:key];
 
   // Then
-  MSLongTypedProperty *property = (MSLongTypedProperty*)sut.properties[key];
-  XCTAssertEqual(property.name, key);
-  XCTAssertEqual(property.value, value);
+  MSTypedProperty *property = sut.properties[key];
+  XCTAssertEqualObjects(property.name, key);
+  XCTAssertEqualObjects(property.value, @(value));
+  XCTAssertEqualObjects(property.type, type);
 }
 
 - (void)testSetDoubleForKey {
@@ -51,14 +51,15 @@
   MSEventProperties *sut = [MSEventProperties new];
   double value = 10.43;
   NSString *key = @"key";
-
+  NSString *type = @"double";
   // When
   [sut setDouble:value forKey:key];
 
   // Then
-  MSDoubleTypedProperty *property = (MSDoubleTypedProperty*)sut.properties[key];
-  XCTAssertEqual(property.name, key);
-  XCTAssertEqual(property.value, value);
+  MSTypedProperty *property = sut.properties[key];
+  XCTAssertEqualObjects(property.name, key);
+  XCTAssertEqualObjects(property.value, @(value));
+  XCTAssertEqualObjects(property.type, type);
 }
 
 - (void)testSetDoubleForKeyWhenValueIsInfinity {
@@ -91,14 +92,15 @@
   MSEventProperties *sut = [MSEventProperties new];
   NSString *value = @"value";
   NSString *key = @"key";
-
+  NSString *type = @"string";
   // When
   [sut setString:value forKey:key];
 
   // Then
-  MSStringTypedProperty *property = (MSStringTypedProperty*)sut.properties[key];
-  XCTAssertEqual(property.name, key);
-  XCTAssertEqual(property.value, value);
+  MSTypedProperty *property = sut.properties[key];
+  XCTAssertEqualObjects(property.name, key);
+  XCTAssertEqualObjects(property.value, value);
+  XCTAssertEqualObjects(property.type, kMSPropertyTypeString);
 }
 
 - (void)testSetDateForKey {
@@ -112,42 +114,10 @@
   [sut setDate:value forKey:key];
 
   // Then
-  MSDateTimeTypedProperty *property = (MSDateTimeTypedProperty*)sut.properties[key];
-  XCTAssertEqual(property.name, key);
-  XCTAssertEqual(property.value, value);
-}
-
-- (void)testAppCenterCopyHas20PropertiesWhenSelfHasMoreThan20 {
-
-  // If
-  MSEventProperties *sut = [MSEventProperties new];
-
-  // When
-  for (int i = 0; i < 25; i++) {
-    [sut setBool:YES forKey:[NSString stringWithFormat:@"%i", i]];
-  }
-  MSEventProperties *appCenterCopy = [sut createValidCopyForAppCenter];
-
-  // Then
-  XCTAssertEqual([appCenterCopy.properties count], 20);
-}
-
-- (void)testEventPropertiesHaveValidPropertiesForAppCenterWhenSutIsCopiedForAppCenter {
-
-  // If
-  MSEventProperties *sut = [MSEventProperties new];
-  MSTypedProperty *property = OCMPartialMock([MSTypedProperty new]);
-  MSTypedProperty *validPropertyCopy = [MSTypedProperty new];
-  OCMStub([property createValidCopyForAppCenter]).andReturn(validPropertyCopy);
-  NSString *propertyKey = @"key";
-  sut.properties[propertyKey] = property;
-
-  // When
-  MSEventProperties *validProperties = [sut createValidCopyForAppCenter];
-
-  // Then
-  XCTAssertEqual([validProperties.properties count], [sut.properties count]);
-  XCTAssertEqual(validProperties.properties[propertyKey], validPropertyCopy);
+  MSTypedProperty *property = sut.properties[key];
+  XCTAssertEqualObjects(property.name, key);
+  XCTAssertEqualObjects(property.value, value);
+  XCTAssertEqualObjects(property.type, kMSPropertyTypeDateTime);
 }
 
 - (void)testSerializeToArray {

@@ -1,3 +1,4 @@
+#import "MSConstants+Internal.h"
 #import "MSTypedProperty.h"
 
 static NSString *const kMSTypedPropertyType = @"type";
@@ -5,6 +6,10 @@ static NSString *const kMSTypedPropertyType = @"type";
 static NSString *const kMSTypedPropertyName = @"name";
 
 static NSString *const kMSTypedPropertyValue = @"value";
+
+static NSString *const kMSPropertyTypeLong = @"long";
+
+static NSString *const kMSPropertyTypeDouble = @"double";
 
 @implementation MSTypedProperty
 
@@ -14,6 +19,7 @@ static NSString *const kMSTypedPropertyValue = @"value";
   if (self) {
     _type = [coder decodeObjectForKey:kMSTypedPropertyType];
     _name = [coder decodeObjectForKey:kMSTypedPropertyName];
+    _value = [coder decodeObjectForKey:kMSTypedPropertyValue];
   }
   return self;
 }
@@ -22,6 +28,7 @@ static NSString *const kMSTypedPropertyValue = @"value";
 - (void)encodeWithCoder:(NSCoder *)coder {
   [coder encodeObject:self.type forKey:kMSTypedPropertyType];
   [coder encodeObject:self.name forKey:kMSTypedPropertyName];
+  [coder encodeObject:self.value forKey:kMSTypedPropertyValue];
 }
 
 /**
@@ -37,4 +44,33 @@ static NSString *const kMSTypedPropertyValue = @"value";
   return dict;
 }
 
++ (instancetype)stringTypedProperty {
+  MSTypedProperty *property = [MSTypedProperty new];
+  property.type = kMSPropertyTypeString;
+  return property;
+}
+
++ (instancetype)longTypedProperty {
+  MSTypedProperty *property = [MSTypedProperty new];
+  property.type = kMSPropertyTypeLong;
+  return property;
+}
+
++ (instancetype)doubleTypedProperty {
+  MSTypedProperty *property = [MSTypedProperty new];
+  property.type = kMSPropertyTypeDouble;
+  return property;
+}
+
++ (instancetype)boolTypedProperty {
+  MSTypedProperty *property = [MSTypedProperty new];
+  property.type = kMSPropertyTypeBoolean;
+  return property;
+}
+
++ (instancetype)dateTypedProperty {
+  MSTypedProperty *property = [MSTypedProperty new];
+  property.type = kMSPropertyTypeDateTime;
+  return property;
+}
 @end

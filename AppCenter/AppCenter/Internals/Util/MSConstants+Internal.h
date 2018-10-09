@@ -152,3 +152,19 @@ static const long kMSMaximumCommonSchemaLogSizeInBytes = 2 * 1024 * 1024;
  * Suffix for One Collector group ID.
  */
 static NSString *const kMSOneCollectorGroupIdSuffix = @"/one";
+
+/**
+ * Serialization keys for properties in logs. (Used by MSCustomProperties and others).
+ */
+static NSString *const kMSPropertyType = @"type";
+static NSString *const kMSPropertyName = @"name";
+static NSString *const kMSPropertyValue = @"value";
+
+/**
+ * Property types.
+ */
+static NSString *const kMSPropertyTypeClear = @"clear";
+static NSString *const kMSPropertyTypeBoolean = @"boolean";
+static NSString *const kMSPropertyTypeNumber = @"number";
+static NSString *const kMSPropertyTypeDateTime = @"dateTime";
+static NSString *const kMSPropertyTypeString = @"string";
