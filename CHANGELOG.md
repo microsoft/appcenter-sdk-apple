@@ -6,6 +6,10 @@
 
 * **[Fix]** Add missing network request error logging.
 
+### AppCenterCrashes
+
+* **[Improvement][macOS]** Catch additional information about exceptions thrown in the main thread. Please note: swizzling is used. To disable this behavior you can set `0` to `AppCenterCrashForwarderEnabled` setting in your `Info.plist` file.`
+
 ### AppCenterAnalytics
 
 * **[Feature]** Preparation work for a future change in transmission protocol and endpoint for Analytics data. There is no impact on your current workflow when using App Center.

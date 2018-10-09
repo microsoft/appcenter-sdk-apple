@@ -1,13 +1,18 @@
+#import <objc/runtime.h>
+
 #import "MSAppCenterInternal.h"
+#import "MSAppDelegateForwarder.h"
 #import "MSAppleErrorLog.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
+#import "MSCrashesBufferedLog.h"
 #import "MSCrashesCXXExceptionWrapperException.h"
 #import "MSCrashesDelegate.h"
 #import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
 #import "MSCrashesUtil.h"
 #import "MSCrashHandlerSetupDelegate.h"
+#import "MSCrashReporter.h"
 #import "MSEncrypter.h"
 #import "MSErrorAttachmentLog.h"
 #import "MSErrorAttachmentLogInternal.h"
@@ -39,6 +44,12 @@ static NSString *const kMSBufferGroupId = @"CrashesBuffer";
  * faster and more reliable as e.g. storing a flag in the NSUserDefaults.
  */
 static NSString *const kMSAnalyzerFilename = @"MSCrashes.analyzer";
+
+/**
+ * Use swizzling to catch additional details of crashes.
+ * Currently used only for macOS.
+ */
+static NSString *const kMSIsAppCenterCrashForwarderEnabledKey = @"AppCenterCrashForwarderEnabled";
 
 /**
  * File extension for buffer files. Files will have a GUID as the file name and a .mscrasheslogbuffer as file extension.
@@ -262,10 +273,31 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 #if TARGET_OS_OSX
     /*
-     * AppKit is preventing applications from crashing on macOS so PLCrashReport cannot catch any crashes.
-     * Setting this flag will let application crash on uncaught exceptions.
+     * Exceptions on the main thread of a Cocoa application do not typically rise to the level of
+     * the uncaught exception handler because the global application object catches all such exceptions.
+     * See: https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Exceptions/Concepts/UncaughtExceptions.html
      */
-    [[NSUserDefaults standardUserDefaults] registerDefaults:@{ @"NSApplicationCrashOnExceptions" : @YES }];
+    NSNumber *crashForwarderValue = [[NSBundle mainBundle] objectForInfoDictionaryKey:kMSIsAppCenterCrashForwarderEnabledKey];
+    BOOL crashForwarderEnabled = crashForwarderValue ? [crashForwarderValue boolValue] : YES;
+    if (crashForwarderEnabled) {
+      SEL selector = @selector(reportException:);
+      Method method = class_getInstanceMethod([NSApplication class], selector);
+      IMP implementation = class_getMethodImplementation([MSCrashes class], selector);
+      if (method && implementation) {
+        method_setImplementation(method, implementation);
+        MSLogDebug([MSCrashes logTag],  @"Selector '%@' of class '%@' is swizzled.",
+                   NSStringFromSelector(selector), [NSApplication class]);
+      }
+    } else {
+
+      /*
+       * AppKit is preventing applications from crashing on macOS so PLCrashReport cannot catch any crashes.
+       * Setting this flag will let application crash on uncaught exceptions.
+       *
+       * Makes sense only if we are not overriding "reportException:".
+       */
+      [[NSUserDefaults standardUserDefaults] registerDefaults:@{ @"NSApplicationCrashOnExceptions" : @YES }];
+    }
 #endif
 
     /*
@@ -596,8 +628,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     NSUncaughtExceptionHandler *initialHandler = NSGetUncaughtExceptionHandler();
     NSError *error = nil;
     [self.plCrashReporter setCrashCallbacks:&plCrashCallbacks];
-    if (![self.plCrashReporter enableCrashReporterAndReturnError:&error])
+    if (![self.plCrashReporter enableCrashReporterAndReturnError:&error]) {
       MSLogError([MSCrashes logTag], @"Could not enable crash reporter: %@", [error localizedDescription]);
+    }
     NSUncaughtExceptionHandler *currentHandler = NSGetUncaughtExceptionHandler();
     if (currentHandler && currentHandler != initialHandler) {
       self.exceptionHandler = currentHandler;
@@ -865,6 +898,25 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 }
 
 #pragma mark - Helper
+
+- (void)reportException:(NSException *)exception {
+
+  // TODO: Track handled exceptions instead of crashing the applciation if "NSApplicationCrashOnExceptions" is set.
+
+  // Log the exception (original method behaviour and formatting).
+  NSLog(@"%@", exception.reason);
+  NSLog(@"%@", exception.callStackSymbols);
+
+  /*
+   * Forward the exception to custom UncaughtExceptionHandler.
+   * Don't use NSGetUncaughtExceptionHandler() to avoid an infinite loop.
+   * Note: "self" points to instance of the original class (NSApplication).
+   */
+  NSUncaughtExceptionHandler *exceptionHandler = [MSCrashes sharedInstance].exceptionHandler;
+  if (exceptionHandler) {
+    exceptionHandler(exception);
+  }
+}
 
 - (void)deleteAllFromCrashesDirectory {
   [MSUtility deleteItemForPathComponent:self.crashesPathComponent];
