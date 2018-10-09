@@ -44,4 +44,49 @@
   XCTAssertEqualObjects(actual[@"name"], sut.name);
 }
 
+- (void)testCreateStringPropertyUsesCorrectTypeValue {
+
+  // If
+  MSTypedProperty *sut = [MSTypedProperty stringTypedProperty];
+
+  // Then
+  XCTAssertEqualObjects(sut.type, @"string");
+}
+
+- (void)testCreateLongPropertyUsesCorrectTypeValue {
+
+  // If
+  MSTypedProperty *sut = [MSTypedProperty longTypedProperty];
+
+  // Then
+  XCTAssertEqualObjects(sut.type, @"long");
+}
+
+- (void)testCreateBooleanPropertyUsesCorrectTypeValue {
+
+  // If
+  MSTypedProperty *sut = [MSTypedProperty boolTypedProperty];
+
+  // Then
+  XCTAssertEqualObjects(sut.type, @"boolean");
+}
+
+- (void)testCreateDatePropertyUsesCorrectTypeValue {
+
+  // If
+  MSTypedProperty *sut = [MSTypedProperty dateTypedProperty];
+
+  // Then
+  XCTAssertEqualObjects(sut.type, @"dateTime");
+}
+
+- (void)testCreateDoublePropertyUsesCorrectTypeValue {
+
+  // If
+  MSTypedProperty *sut = [MSTypedProperty doubleTypedProperty];
+
+  // Then
+  XCTAssertEqualObjects(sut.type, @"double");
+}
+
 @end

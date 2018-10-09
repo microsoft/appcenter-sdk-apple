@@ -1072,6 +1072,57 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [appCenterMock stopMocking];
 }
 
+- (void)testEventPropertiesTrunctedWhenValidatedForAppCenter {
+
+  // If
+  MSEventProperties *eventProperties = [MSEventProperties new];
+  for (int i = 0; i < 25; ++i) {
+    eventProperties.properties[[@(i) stringValue]] = [MSTypedProperty new];
+  }
+
+  // When
+  MSEventProperties *validatedProperties = [[MSAnalytics sharedInstance] validateAppCenterEventProperties:eventProperties];
+
+  // Then
+  XCTAssertEqual([validatedProperties.properties count], 20);
+}
+
+- (void)testLongEventPropertyNameTruncatedWhenValidatedForAppCenter {
+
+  // If
+  MSEventProperties *eventProperties = [MSEventProperties new];
+  NSString *longKey = [@"" stringByPaddingToLength:150 withString:@"hi" startingAtIndex:0];
+  NSString *expectedTruncatedKey = [longKey substringToIndex:125];
+  MSTypedProperty *property = [MSTypedProperty new];
+  property.name = longKey;
+  eventProperties.properties[longKey] = property;
+
+  // When
+  MSEventProperties *validatedProperties = [[MSAnalytics sharedInstance] validateAppCenterEventProperties:eventProperties];
+
+  // Then
+  XCTAssertEqualObjects(validatedProperties.properties[expectedTruncatedKey].name, expectedTruncatedKey);
+}
+
+- (void)testLongEventPropertyValueTruncatedWhenValidatedForAppCenter {
+
+  // If
+  MSEventProperties *eventProperties = [MSEventProperties new];
+  NSString *key = @"key";
+  NSString *longValue = [@"" stringByPaddingToLength:150 withString:@"hi" startingAtIndex:0];
+  NSString *expectedTruncatedValue= [longKey substringToIndex:125];
+  MSTypedProperty *property = [MSTypedProperty new];
+  property.value = longValue;
+  property.name = key;
+  eventProperties.properties[key] = property;
+
+  // When
+  MSEventProperties *validatedProperties = [[MSAnalytics sharedInstance] validateAppCenterEventProperties:eventProperties];
+
+  // Then
+  XCTAssertEqualObjects(validatedProperties.properties[key].value, expectedTruncatedValue);
+}
+
 - (void)testResume {
 
   // If
