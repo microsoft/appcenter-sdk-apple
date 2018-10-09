@@ -4,7 +4,6 @@
 #import "MSEventProperties.h"
 #import "MSEventPropertiesInternal.h"
 #import "MSLongTypedProperty.h"
-#import "MSSessionTrackerPrivate.h"
 #import "MSStringTypedProperty.h"
 #import "MSTestFrameworks.h"
 
@@ -60,6 +59,30 @@
   MSDoubleTypedProperty *property = (MSDoubleTypedProperty*)sut.properties[key];
   XCTAssertEqual(property.name, key);
   XCTAssertEqual(property.value, value);
+}
+
+- (void)testSetDoubleForKeyWhenValueIsInfinity {
+
+  // If
+  MSEventProperties *sut = [MSEventProperties new];
+
+  // When
+  [sut setDouble:INFINITY forKey:@"key"];
+
+  // Then
+  XCTAssertEqual([sut.properties count], 0);
+}
+
+- (void)testSetDoubleForKeyWhenValueIsNaN {
+
+  // If
+  MSEventProperties *sut = [MSEventProperties new];
+
+  // When
+  [sut setDouble:NAN forKey:@"key"];
+
+  // Then
+  XCTAssertEqual([sut.properties count], 0);
 }
 
 - (void)testSetStringForKey {
@@ -125,6 +148,24 @@
   // Then
   XCTAssertEqual([validProperties.properties count], [sut.properties count]);
   XCTAssertEqual(validProperties.properties[propertyKey], validPropertyCopy);
+}
+
+- (void)testSerializeToArray {
+
+  // If
+  MSEventProperties *sut = [MSEventProperties new];
+  MSTypedProperty *property = OCMPartialMock([MSTypedProperty new]);
+  NSDictionary *serializedProperty = [NSDictionary new];
+  OCMStub([property serializeToDictionary]).andReturn(serializedProperty);
+  NSString *propertyKey = @"key";
+  sut.properties[propertyKey] = property;
+
+  // When
+  NSArray *propertiesArray = [sut serializeToArray];
+
+  // Then
+  XCTAssertEqual([propertiesArray count], 1);
+  XCTAssertEqualObjects(propertiesArray[0], serializedProperty);
 }
 
 @end

@@ -2,11 +2,11 @@
 #import "MSConstants+Internal.h"
 #import "MSTestFrameworks.h"
 
-@interface MSBooleanTypedPropertyTests : XCTestCase
+@interface MSLongTypedPropertyTests : XCTestCase
 
 @end
 
-@implementation MSBooleanTypedPropertyTests
+@implementation MSLongTypedPropertyTests
 
 - (void)testNSCodingSerializationAndDeserializationWorks {
 
