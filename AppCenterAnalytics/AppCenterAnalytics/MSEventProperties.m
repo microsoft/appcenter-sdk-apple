@@ -124,7 +124,7 @@ static NSString *const kMSNullPropertyValueMessage = @"Value cannot be null. Pro
 
 - (NSMutableArray *)serializeToArray {
   NSMutableArray *propertiesArray = [NSMutableArray new];
-  for (MSTypedProperty *typedProperty in self.properties) {
+  for (MSTypedProperty *typedProperty in [self.properties objectEnumerator]) {
     [propertiesArray addObject:[typedProperty serializeToDictionary]];
   }
   return propertiesArray;
