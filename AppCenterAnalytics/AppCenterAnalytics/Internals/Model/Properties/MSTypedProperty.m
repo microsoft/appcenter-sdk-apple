@@ -1,26 +1,27 @@
 #import "MSTypedProperty.h"
-#import "MSAnalyticsInternal.h"
-#import "MSConstants+Internal.h"
-#import "MSLogger.h"
 
 static NSString *const kMSTypedPropertyType = @"type";
 
 static NSString *const kMSTypedPropertyName = @"name";
 
+static NSString *const kMSTypedPropertyValue = @"value";
+
 @implementation MSTypedProperty
 
+// Subclasses need to decode "value" since the type might be saved as a primitive.
 - (instancetype)initWithCoder:(NSCoder *)coder {
-    self = [super init];
-    if (self) {
-        _type = [coder decodeObjectForKey:kMSTypedPropertyType];
-        _name = [coder decodeObjectForKey:kMSTypedPropertyName];
-    }
-    return self;
+  self = [super init];
+  if (self) {
+    _type = [coder decodeObjectForKey:kMSTypedPropertyType];
+    _name = [coder decodeObjectForKey:kMSTypedPropertyName];
+  }
+  return self;
 }
 
+// Subclasses need to encode "value" since the type might be saved as a primitive.
 - (void)encodeWithCoder:(NSCoder *)coder {
-    [coder encodeObject:self.type forKey:kMSTypedPropertyType];
-    [coder encodeObject:self.name forKey:kMSTypedPropertyName];
+  [coder encodeObject:self.type forKey:kMSTypedPropertyType];
+  [coder encodeObject:self.name forKey:kMSTypedPropertyName];
 }
 
 /**
@@ -29,22 +30,11 @@ static NSString *const kMSTypedPropertyName = @"name";
  * @return A dictionary representing this object.
  */
 - (NSMutableDictionary *)serializeToDictionary {
-    NSMutableDictionary * dict = [NSMutableDictionary new];
-    dict[kMSTypedPropertyType] = self.type;
-    dict[kMSTypedPropertyName] = self.name;
-    return dict;
-}
-
-- (instancetype)createValidCopyForAppCenter {
-    if ([self.name length] > 125) {
-        MSLogWarning([MSAnalytics logTag], @"Typed property '%@': property key length cannot exceed %i characters. Property key will be truncated.",
-            self.name, kMSMaxPropertyKeyLength);
-    }
-    return nil;
-}
-
-- (instancetype)createValidCopyForOneCollector {
-    return nil;
+  NSMutableDictionary *dict = [NSMutableDictionary new];
+  dict[kMSTypedPropertyType] = self.type;
+  dict[kMSTypedPropertyName] = self.name;
+  dict[kMSTypedPropertyValue] = self.value;
+  return dict;
 }
 
 @end

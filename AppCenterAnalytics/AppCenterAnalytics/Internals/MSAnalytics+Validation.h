@@ -37,6 +37,13 @@ extern NSString *MSAnalyticsValidationCategory;
                                                   forLogName:(NSString *)logName
                                                      andType:(NSString *)logType;
 
+/**
+ * Validate MSEventProperties for App Center's ingestion.
+ *
+ * @return MSEventProperties object which contains only valid properties.
+ */
+- (MSEventProperties *)validateAppCenterEventProperties:(MSEventProperties *)properties;
+
 @end
 
 NS_ASSUME_NONNULL_END

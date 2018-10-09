@@ -1,7 +1,10 @@
 #import "AppCenter+Internal.h"
 #import "MSAnalytics+Validation.h"
+#import "MSConstants+Internal.h"
 #import "MSEventLog.h"
+#import "MSEventPropertiesInternal.h"
 #import "MSPageLog.h"
+#import "MSStringTypedProperty.h"
 
 // Events values limitations
 static const int kMSMinEventNameLength = 1;
@@ -59,4 +62,37 @@ NSString *MSAnalyticsValidationCategory;
   // Keeping this method body in MSAnalytics to use it in unit tests.
   return [MSUtility validateProperties:properties forLogName:logName type:logType];
 }
+
+- (MSEventProperties *)validateAppCenterEventProperties:(MSEventProperties *)eventProperties {
+  MSEventProperties *validCopy = [MSEventProperties new];
+  for (NSString *propertyKey in eventProperties.properties) {
+    if ([validCopy.properties count] == kMSMaxPropertiesPerLog) {
+      MSLogWarning([MSAnalytics logTag], @"Typed properties cannot contain more than %i items. Skipping other properties.", kMSMaxPropertiesPerLog);
+      break;
+    }
+    MSTypedProperty *property = eventProperties.properties[propertyKey];
+    MSTypedProperty *validProperty = [self validateAppCenterTypedProperty:property];
+    if (validProperty) {
+      validCopy.properties[validProperty.name] = validProperty;
+    }
+  }
+  return validCopy;
+}
+
+- (MSTypedProperty *)validateAppCenterTypedProperty:(MSTypedProperty *)typedProperty {
+  MSTypedProperty *validProperty = (MSTypedProperty *)[[typedProperty class] new];
+  validProperty.name = [self validateAppCenterPropertyName:typedProperty.name];
+  validProperty.value = [self validateAppCenterPropertyValue:typedProperty.value];
+  return validProperty;
+}
+
+- (NSString *)validateAppCenterPropertyName:(NSString *)propertyKey {
+  return nil;
+}
+
+- (NSString *)validateAppCenterPropertyValue:(NSObject *)stringValue {
+  return nil;
+}
+
+
 @end

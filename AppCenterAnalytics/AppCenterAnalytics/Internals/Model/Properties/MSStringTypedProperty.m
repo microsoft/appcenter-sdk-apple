@@ -36,20 +36,4 @@
     return dict;
 }
 
-- (instancetype)createValidCopyForAppCenter {
-    [super createValidCopyForAppCenter];
-    MSStringTypedProperty *validProperty = [MSStringTypedProperty new];
-    if ([self.value length] > kMSMaxPropertyValueLength) {
-        MSLogWarning([MSAnalytics logTag], @"Typed property '%@': property value length cannot exceed %i characters. Property value will be truncated.", self
-            .name, kMSMaxPropertyValueLength);
-    }
-  validProperty.name = [self.name substringToIndex:MIN(kMSMaxPropertyKeyLength, [self.name length])];
-  validProperty.value = [self.value substringToIndex:MIN(kMSMaxPropertyValueLength, [self.value length])];
-  return validProperty;
-}
-
-- (instancetype)createValidCopyForOneCollector {
-    return self;
-}
-
 @end

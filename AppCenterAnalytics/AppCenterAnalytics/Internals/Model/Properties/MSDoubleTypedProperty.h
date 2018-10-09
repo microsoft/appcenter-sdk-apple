@@ -4,8 +4,8 @@
 @interface MSDoubleTypedProperty : MSTypedProperty
 
 /**
- * Double property value.
+ * Double property value. Saved as NSNumber
  */
-@property(nonatomic) double value;
+@property(nonatomic) id value;
 
 @end

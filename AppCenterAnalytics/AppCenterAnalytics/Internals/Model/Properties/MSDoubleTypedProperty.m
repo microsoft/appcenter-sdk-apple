@@ -13,14 +13,14 @@
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super initWithCoder:coder];
   if (self) {
-    _value = [coder decodeDoubleForKey:kMSTypedPropertyValue];
+    _value = @([coder decodeDoubleForKey:kMSTypedPropertyValue]);
   }
   return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
-  [coder encodeDouble:self.value forKey:kMSTypedPropertyValue];
+  [coder encodeDouble:[self.value doubleValue] forKey:kMSTypedPropertyValue];
 }
 
 /**

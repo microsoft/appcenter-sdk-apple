@@ -130,24 +130,4 @@ static NSString *const kMSNullPropertyValueMessage = @"Value cannot be null. Pro
   return propertiesArray;
 }
 
-- (instancetype)createValidCopyForAppCenter {
-  MSEventProperties *validCopy = [MSEventProperties new];
-  for (NSString *propertyKey in self.properties) {
-    if ([validCopy.properties count] == kMSMaxPropertiesPerLog) {
-      MSLogWarning([MSAnalytics logTag], @"Typed properties cannot contain more than %i items. Skipping other properties.", kMSMaxPropertiesPerLog);
-      break;
-    }
-    MSTypedProperty *property = self.properties[propertyKey];
-    MSTypedProperty *validProperty = [property createValidCopyForAppCenter];
-    if (validProperty) {
-      validCopy.properties[propertyKey] = validProperty;
-    }
-  }
-  return validCopy;
-}
-
-- (instancetype)createValidCopyForOneCollector {
-  return self;
-}
-
 @end
