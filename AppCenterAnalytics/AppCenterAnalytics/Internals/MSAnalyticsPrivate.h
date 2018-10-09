@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param eventName  event name.
  * @param properties dictionary of properties.
- * @param transmissionTarget Transmission target to associate with the event.
+ * @param transmissionTarget transmission target to associate with the event.
  */
 - (void)trackEvent:(NSString *)eventName
            withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param eventName  event name.
  * @param properties typed properties.
- * @param transmissionTarget Transmission target to associate with the event.
+ * @param transmissionTarget transmission target to associate with the event.
  */
 - (void)trackEvent:(NSString *)eventName
       withTypedProperties:(nullable MSEventProperties *)properties

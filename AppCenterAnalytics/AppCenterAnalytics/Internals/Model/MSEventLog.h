@@ -1,5 +1,6 @@
 #import "MSLogWithNameAndProperties.h"
-#import "MSEventProperties.h"
+
+@class MSEventProperties;
 
 @interface MSEventLog : MSLogWithNameAndProperties
 
