@@ -476,7 +476,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   // Then
   assertThat(type, is(kMSTypeEvent));
   assertThat(name, is(expectedName));
-  for (MSTypedProperty *typedProperty in eventProperties.properties) {
+  for (MSTypedProperty *typedProperty in [eventProperties.properties objectEnumerator]) {
     assertThat(typedProperty.value, equalTo(expectedProperties[typedProperty.name]));
   }
   XCTAssertEqual([expectedProperties count], [eventProperties.properties count]);
@@ -1072,12 +1072,12 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [appCenterMock stopMocking];
 }
 
-- (void)testEventPropertiesTrunctedWhenValidatedForAppCenter {
+- (void)testEventPropertiesTruncatedWhenValidatedForAppCenter {
 
   // If
   MSEventProperties *eventProperties = [MSEventProperties new];
   for (int i = 0; i < 25; ++i) {
-    eventProperties.properties[[@(i) stringValue]] = [MSTypedProperty new];
+    [eventProperties setString:[@(i) stringValue] forKey:[@(i) stringValue]];
   }
 
   // When
@@ -1092,8 +1092,9 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   // If
   MSEventProperties *eventProperties = [MSEventProperties new];
   NSString *longKey = [@"" stringByPaddingToLength:150 withString:@"hi" startingAtIndex:0];
-  NSString *expectedTruncatedKey = [longKey substringToIndex:125];
+  NSString *expectedTruncatedKey = [longKey substringToIndex:124];
   MSTypedProperty *property = [MSTypedProperty new];
+  property.value = @"value";
   property.name = longKey;
   eventProperties.properties[longKey] = property;
 
@@ -1101,7 +1102,8 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   MSEventProperties *validatedProperties = [[MSAnalytics sharedInstance] validateAppCenterEventProperties:eventProperties];
 
   // Then
-  XCTAssertEqualObjects(validatedProperties.properties[expectedTruncatedKey].name, expectedTruncatedKey);
+  MSTypedProperty *validatedProperty = validatedProperties.properties[expectedTruncatedKey];
+  XCTAssertEqualObjects(validatedProperty.name, expectedTruncatedKey);
 }
 
 - (void)testLongEventPropertyValueTruncatedWhenValidatedForAppCenter {
@@ -1110,7 +1112,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   MSEventProperties *eventProperties = [MSEventProperties new];
   NSString *key = @"key";
   NSString *longValue = [@"" stringByPaddingToLength:150 withString:@"hi" startingAtIndex:0];
-  NSString *expectedTruncatedValue= [longKey substringToIndex:125];
+  NSString *expectedTruncatedValue= [longValue substringToIndex:124];
   MSTypedProperty *property = [MSTypedProperty new];
   property.value = longValue;
   property.name = key;

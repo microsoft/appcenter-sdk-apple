@@ -17,12 +17,12 @@ NSString *MSAnalyticsValidationCategory;
 
 @implementation MSAnalytics (Validation)
 
-- (BOOL)channelUnit:(id<MSChannelUnitProtocol>)__unused channelUnit shouldFilterLog:(id<MSLog>)log {
-  NSObject *logObject = (NSObject *)log;
+- (BOOL)channelUnit:(id <MSChannelUnitProtocol>)__unused channelUnit shouldFilterLog:(id <MSLog>)log {
+  NSObject *logObject = (NSObject *) log;
   if ([logObject isKindOfClass:[MSEventLog class]]) {
-    return ![self validateLog:(MSEventLog *)log];
+    return ![self validateLog:(MSEventLog *) log];
   } else if ([logObject isKindOfClass:[MSPageLog class]]) {
-    return ![self validateLog:(MSPageLog *)log];
+    return ![self validateLog:(MSPageLog *) log];
   }
   return NO;
 }
@@ -80,22 +80,31 @@ NSString *MSAnalyticsValidationCategory;
 }
 
 - (MSTypedProperty *)validateAppCenterTypedProperty:(MSTypedProperty *)typedProperty {
-  MSTypedProperty *validProperty = (MSTypedProperty *)[[typedProperty class] new];
+  MSTypedProperty *validProperty = (MSTypedProperty *) [[typedProperty class] new];
   validProperty.name = [self validateAppCenterPropertyName:typedProperty.name];
   validProperty.value = [self validateAppCenterPropertyValue:typedProperty.value];
   return validProperty;
 }
 
 - (NSString *)validateAppCenterPropertyName:(NSString *)propertyKey {
+  if ([propertyKey length] > kMSMaxPropertyKeyLength) {
+    MSLogWarning([MSAnalytics logTag], @"Typed property '%@': key length cannot exceed %i characters. Property value will be truncated.", propertyKey,
+                 kMSMaxPropertyKeyLength);
+    return [propertyKey substringToIndex:(kMSMaxPropertyKeyLength - 1)];
+  }
   return propertyKey;
 }
 
 - (NSObject *)validateAppCenterPropertyValue:(NSObject *)value {
-//  if ([value isKindOfClass:[NSString class]]) {
-//
-//  }
+  if ([value isKindOfClass:[NSString class]]) {
+    NSString *stringValue = (NSString *) value;
+    if ([stringValue length] > kMSMaxPropertyValueLength) {
+      MSLogWarning([MSAnalytics logTag], @"Typed property value length cannot exceed %i characters. Property value will be truncated.",
+                   kMSMaxPropertyValueLength);
+      return [stringValue substringToIndex:(kMSMaxPropertyValueLength - 1)];
+    }
+  }
   return value;
 }
-
 
 @end

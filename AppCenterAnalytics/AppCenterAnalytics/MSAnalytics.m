@@ -289,7 +289,7 @@ forTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget {
     // Set properties of the event log.
     log.name = eventName;
     log.eventId = MS_UUID_STRING;
-  log.typedProperties = [self removeInvalidTypedProperties:properties];
+    log.typedProperties = [self removeInvalidTypedProperties:properties];
 
     // Send log to log manager.
     [self sendLog:log];
