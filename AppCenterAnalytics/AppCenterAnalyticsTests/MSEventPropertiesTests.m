@@ -109,4 +109,22 @@
   XCTAssertEqual([appCenterCopy.properties count], 20);
 }
 
+- (void)testEventPropertiesHaveValidPropertiesForAppCenterWhenSutIsCopiedForAppCenter {
+
+  // If
+  MSEventProperties *sut = [MSEventProperties new];
+  MSTypedProperty *property = OCMPartialMock([MSTypedProperty new]);
+  MSTypedProperty *validPropertyCopy = [MSTypedProperty new];
+  OCMStub([property createValidCopyForAppCenter]).andReturn(validPropertyCopy);
+  NSString *propertyKey = @"key";
+  sut.properties[propertyKey] = property;
+
+  // When
+  MSEventProperties *validProperties = [sut createValidCopyForAppCenter];
+
+  // Then
+  XCTAssertEqual([validProperties.properties count], [sut.properties count]);
+  XCTAssertEqual(validProperties.properties[propertyKey], validPropertyCopy);
+}
+
 @end

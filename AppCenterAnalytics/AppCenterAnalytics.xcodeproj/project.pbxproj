@@ -185,6 +185,24 @@
 		266EDF36E3620945679A8585 /* MSEventProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 266EDBD8487DA42DAB601DD9 /* MSEventProperties.m */; };
 		266EDFD86BA0E2D63D783DAA /* MSDateTimeTypedProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 266EDAEDB0B590412ECAC0BF /* MSDateTimeTypedProperty.m */; };
 		266EDFDBADB403FD96D1A5F0 /* MSTypedProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 266ED03B292C98C79C3AFBEB /* MSTypedProperty.m */; };
+		2DA03034D8F3DD2333EC0197 /* MSStringTypedPropertyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA031013CB53DFEA86C1FBA /* MSStringTypedPropertyTests.m */; };
+		2DA030A3F17510B1555C7763 /* MSTypedPropertyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA039541DA70540CB367D6C /* MSTypedPropertyTests.m */; };
+		2DA030BAA4EFC166C19340CF /* MSDateTimeTypedProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA03EF70AF59F47B9438E65 /* MSDateTimeTypedProperty.m */; };
+		2DA0313FDC60E32504E80F12 /* MSLongTypedPropertyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA03753D2BD98F05F9C83C9 /* MSLongTypedPropertyTests.m */; };
+		2DA031E4DA171CCEBA3642CE /* MSTypedPropertyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA039541DA70540CB367D6C /* MSTypedPropertyTests.m */; };
+		2DA03285FA3B74C1489AE42B /* MSBooleanTypedPropertyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA03DDA76F1A7DAD008DBBC /* MSBooleanTypedPropertyTests.m */; };
+		2DA032F9E392E3731FE8324C /* MSDoubleTypedPropertyTests.m in Resources */ = {isa = PBXBuildFile; fileRef = 2DA036D59196223B9AD57529 /* MSDoubleTypedPropertyTests.m */; };
+		2DA03305FA726CC24DCF3951 /* MSDoubleTypedPropertyTests.m in Resources */ = {isa = PBXBuildFile; fileRef = 2DA036D59196223B9AD57529 /* MSDoubleTypedPropertyTests.m */; };
+		2DA03347680B5EE8EF4074C1 /* MSStringTypedPropertyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA031013CB53DFEA86C1FBA /* MSStringTypedPropertyTests.m */; };
+		2DA0336D6D368FAD68B9D937 /* MSTypedPropertyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA039541DA70540CB367D6C /* MSTypedPropertyTests.m */; };
+		2DA034BE6F5963F1F08B34DB /* MSBooleanTypedPropertyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA03DDA76F1A7DAD008DBBC /* MSBooleanTypedPropertyTests.m */; };
+		2DA034D7E0B88B04705AEF4D /* MSStringTypedPropertyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA031013CB53DFEA86C1FBA /* MSStringTypedPropertyTests.m */; };
+		2DA034E07A268EE3FA7E1A8B /* MSDateTimeTypedProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA03EF70AF59F47B9438E65 /* MSDateTimeTypedProperty.m */; };
+		2DA03531F9C62FE11406AEAD /* MSLongTypedPropertyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA03753D2BD98F05F9C83C9 /* MSLongTypedPropertyTests.m */; };
+		2DA0394FBAEFC6C556F9E600 /* MSDateTimeTypedProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA03EF70AF59F47B9438E65 /* MSDateTimeTypedProperty.m */; };
+		2DA03D094B531A9F4ABFC447 /* MSBooleanTypedPropertyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA03DDA76F1A7DAD008DBBC /* MSBooleanTypedPropertyTests.m */; };
+		2DA03E89BDD71D8178BFC133 /* MSLongTypedPropertyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA03753D2BD98F05F9C83C9 /* MSLongTypedPropertyTests.m */; };
+		2DA03F46F2B509DDFCD9E032 /* MSDoubleTypedPropertyTests.m in Resources */ = {isa = PBXBuildFile; fileRef = 2DA036D59196223B9AD57529 /* MSDoubleTypedPropertyTests.m */; };
 		35134331205704C100E6DC7D /* MSAnalyticsTransmissionTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 35134330205704C100E6DC7D /* MSAnalyticsTransmissionTarget.m */; };
 		35134332205704C100E6DC7D /* MSAnalyticsTransmissionTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 35134330205704C100E6DC7D /* MSAnalyticsTransmissionTarget.m */; };
 		35134333205704C100E6DC7D /* MSAnalyticsTransmissionTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 35134330205704C100E6DC7D /* MSAnalyticsTransmissionTarget.m */; };
@@ -406,6 +424,12 @@
 		266EDC53A2142132F651FE83 /* MSBooleanTypedProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSBooleanTypedProperty.h; sourceTree = "<group>"; };
 		266EDD0943923656426C65B9 /* MSDoubleTypedProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDoubleTypedProperty.h; sourceTree = "<group>"; };
 		266EDF40B71F40D6439E5255 /* MSBooleanTypedProperty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSBooleanTypedProperty.m; sourceTree = "<group>"; };
+		2DA031013CB53DFEA86C1FBA /* MSStringTypedPropertyTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSStringTypedPropertyTests.m; sourceTree = "<group>"; };
+		2DA036D59196223B9AD57529 /* MSDoubleTypedPropertyTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDoubleTypedPropertyTests.m; sourceTree = "<group>"; };
+		2DA03753D2BD98F05F9C83C9 /* MSLongTypedPropertyTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLongTypedPropertyTests.m; sourceTree = "<group>"; };
+		2DA039541DA70540CB367D6C /* MSTypedPropertyTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSTypedPropertyTests.m; sourceTree = "<group>"; };
+		2DA03DDA76F1A7DAD008DBBC /* MSBooleanTypedPropertyTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSBooleanTypedPropertyTests.m; sourceTree = "<group>"; };
+		2DA03EF70AF59F47B9438E65 /* MSDateTimeTypedProperty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDateTimeTypedProperty.m; sourceTree = "<group>"; };
 		3513432F205704A100E6DC7D /* MSAnalyticsTransmissionTarget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsTransmissionTarget.h; sourceTree = "<group>"; };
 		35134330205704C100E6DC7D /* MSAnalyticsTransmissionTarget.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSAnalyticsTransmissionTarget.m; sourceTree = "<group>"; };
 		351343352057093600E6DC7D /* MSAnalyticsTransmissionTargetInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsTransmissionTargetInternal.h; sourceTree = "<group>"; };
@@ -785,6 +809,12 @@
 				04A140B11ECE811D001CEE94 /* Model */,
 				04A140AE1ECE806B001CEE94 /* Support */,
 				04A140B21ECE814E001CEE94 /* Util */,
+				2DA039541DA70540CB367D6C /* MSTypedPropertyTests.m */,
+				2DA03DDA76F1A7DAD008DBBC /* MSBooleanTypedPropertyTests.m */,
+				2DA031013CB53DFEA86C1FBA /* MSStringTypedPropertyTests.m */,
+				2DA03753D2BD98F05F9C83C9 /* MSLongTypedPropertyTests.m */,
+				2DA036D59196223B9AD57529 /* MSDoubleTypedPropertyTests.m */,
+				2DA03EF70AF59F47B9438E65 /* MSDateTimeTypedProperty.m */,
 			);
 			path = AppCenterAnalyticsTests;
 			sourceTree = "<group>";
@@ -1086,6 +1116,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2DA03F46F2B509DDFCD9E032 /* MSDoubleTypedPropertyTests.m in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1093,6 +1124,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2DA032F9E392E3731FE8324C /* MSDoubleTypedPropertyTests.m in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1100,6 +1132,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2DA03305FA726CC24DCF3951 /* MSDoubleTypedPropertyTests.m in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1278,6 +1311,11 @@
 				38C215E320E692C700191F3C /* MSMockUserDefaults.m in Sources */,
 				0446DF461F3B8E6300C8E338 /* MSSessionTrackerTests.m in Sources */,
 				0446DF471F3B8E6300C8E338 /* MSStartSessionLogTests.m in Sources */,
+				2DA031E4DA171CCEBA3642CE /* MSTypedPropertyTests.m in Sources */,
+				2DA03285FA3B74C1489AE42B /* MSBooleanTypedPropertyTests.m in Sources */,
+				2DA034D7E0B88B04705AEF4D /* MSStringTypedPropertyTests.m in Sources */,
+				2DA03E89BDD71D8178BFC133 /* MSLongTypedPropertyTests.m in Sources */,
+				2DA034E07A268EE3FA7E1A8B /* MSDateTimeTypedProperty.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1297,6 +1335,11 @@
 				38C215E220E692C700191F3C /* MSMockUserDefaults.m in Sources */,
 				046AEABB1ECA51AF00CBE511 /* MSSessionTrackerTests.m in Sources */,
 				046AEABC1ECA51AF00CBE511 /* MSStartSessionLogTests.m in Sources */,
+				2DA0336D6D368FAD68B9D937 /* MSTypedPropertyTests.m in Sources */,
+				2DA03D094B531A9F4ABFC447 /* MSBooleanTypedPropertyTests.m in Sources */,
+				2DA03347680B5EE8EF4074C1 /* MSStringTypedPropertyTests.m in Sources */,
+				2DA0313FDC60E32504E80F12 /* MSLongTypedPropertyTests.m in Sources */,
+				2DA030BAA4EFC166C19340CF /* MSDateTimeTypedProperty.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1366,6 +1409,11 @@
 				38C215E120E692C700191F3C /* MSMockUserDefaults.m in Sources */,
 				E815912C1D526A09003D5F3C /* MSSessionTrackerTests.m in Sources */,
 				E815912A1D526956003D5F3C /* MSStartSessionLogTests.m in Sources */,
+				2DA030A3F17510B1555C7763 /* MSTypedPropertyTests.m in Sources */,
+				2DA034BE6F5963F1F08B34DB /* MSBooleanTypedPropertyTests.m in Sources */,
+				2DA03034D8F3DD2333EC0197 /* MSStringTypedPropertyTests.m in Sources */,
+				2DA03531F9C62FE11406AEAD /* MSLongTypedPropertyTests.m in Sources */,
+				2DA0394FBAEFC6C556F9E600 /* MSDateTimeTypedProperty.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
