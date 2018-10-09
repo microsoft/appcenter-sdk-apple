@@ -8,7 +8,7 @@
 
 ### AppCenterCrashes
 
-* **[Improvement]** Catch additional exceptions on macOS.
+* **[Improvement][macOS]** Catch additional information about exceptions thrown in the main thread. Please note: swizzling is used. To disable this behavior you can set `0` to `AppCenterCrashForwarderEnabled` setting in your `Info.plist` file.`
 
 ### AppCenterAnalytics
 
