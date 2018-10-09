@@ -492,7 +492,6 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [expectedProperties setDouble:1.23e2 forKey:@"doubleKey"];
   id eventPropertiesClassMock = OCMClassMock([MSEventProperties class]);
   OCMStub([eventPropertiesClassMock new]).andReturn(expectedProperties);
-
   NSString *expectedName = @"gotACoffee";
   id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
