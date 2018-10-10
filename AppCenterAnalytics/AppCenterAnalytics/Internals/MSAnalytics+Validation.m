@@ -92,12 +92,16 @@ NSString *MSAnalyticsValidationCategory;
     validProperty = validStringProperty;
   } else if ([typedProperty isKindOfClass:[MSBooleanTypedProperty class]]) {
     validProperty = [MSBooleanTypedProperty new];
+    ((MSBooleanTypedProperty *)validProperty).value =  ((MSBooleanTypedProperty *)typedProperty).value;
   } else if ([typedProperty isKindOfClass:[MSLongTypedProperty class]]) {
     validProperty = [MSLongTypedProperty new];
+    ((MSLongTypedProperty *)validProperty).value =  ((MSLongTypedProperty *)typedProperty).value;
   } else if ([typedProperty isKindOfClass:[MSDoubleTypedProperty class]]) {
     validProperty = [MSDoubleTypedProperty new];
+    ((MSDoubleTypedProperty *)validProperty).value =  ((MSDoubleTypedProperty *)typedProperty).value;
   } else if ([typedProperty isKindOfClass:[MSDateTimeTypedProperty class]]) {
     validProperty = [MSDateTimeTypedProperty new];
+    ((MSDateTimeTypedProperty *)validProperty).value =  ((MSDateTimeTypedProperty *)typedProperty).value;
   }
   validProperty.name = [self validateAppCenterPropertyName:typedProperty.name];
   return validProperty;

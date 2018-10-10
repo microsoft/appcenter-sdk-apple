@@ -32,7 +32,7 @@
  */
 - (NSMutableDictionary *)serializeToDictionary {
     NSMutableDictionary *dict = [super serializeToDictionary];
-    dict[@"value"] = self.value;
+    dict[kMSTypedPropertyValue] = self.value;
     return dict;
 }
 

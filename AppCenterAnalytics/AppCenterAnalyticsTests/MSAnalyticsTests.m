@@ -480,7 +480,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   // Then
   assertThat(type, is(kMSTypeEvent));
   assertThat(name, is(expectedName));
-  for (MSTypedProperty *typedProperty in eventProperties.properties) {
+  for (MSTypedProperty *typedProperty in [eventProperties.properties objectEnumerator]) {
     assertThat(typedProperty, isA([MSStringTypedProperty class]));
     MSStringTypedProperty *stringTypedProperty = (MSStringTypedProperty*)typedProperty;
     assertThat(stringTypedProperty.value, equalTo(expectedProperties[stringTypedProperty.name]));
@@ -545,7 +545,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
     } else if ([typedProperty isKindOfClass:[MSStringTypedProperty class]]) {
       MSStringTypedProperty *expectedProperty = (MSStringTypedProperty *)expectedProperties.properties[propertyKey];
       MSStringTypedProperty *property = (MSStringTypedProperty *)eventProperties.properties[propertyKey];
-      XCTAssertEqual(property.value, expectedProperty.value);
+      XCTAssertEqualObjects(property.value, expectedProperty.value);
     } else if ([typedProperty isKindOfClass:[MSDateTimeTypedProperty class]]) {
       MSDateTimeTypedProperty *expectedProperty = (MSDateTimeTypedProperty *)expectedProperties.properties[propertyKey];
       MSDateTimeTypedProperty *property = (MSDateTimeTypedProperty *)eventProperties.properties[propertyKey];
@@ -1091,7 +1091,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   // If
   MSEventProperties *properties = [MSEventProperties new];
   NSString *longKey = [@"" stringByPaddingToLength:kMSMaxPropertyKeyLength + 2 withString:@"hi" startingAtIndex:0];
-  NSString *truncatedKey = [longKey substringToIndex:kMSMaxPropertyKeyLength];
+  NSString *truncatedKey = [longKey substringToIndex:kMSMaxPropertyKeyLength - 1];
   [properties setString:@"test" forKey:longKey];
 
   // When
@@ -1109,7 +1109,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   MSEventProperties *properties = [MSEventProperties new];
   NSString *key = @"key";
   NSString *longValue = [@"" stringByPaddingToLength:kMSMaxPropertyValueLength + 2 withString:@"hi" startingAtIndex:0];
-  NSString *truncatedValue = [longValue substringToIndex:kMSMaxPropertyValueLength];
+  NSString *truncatedValue = [longValue substringToIndex:kMSMaxPropertyValueLength - 1];
   [properties setString:longValue forKey:key];
 
   // When

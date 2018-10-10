@@ -6,6 +6,7 @@
 #import "MSLongTypedProperty.h"
 #import "MSStringTypedProperty.h"
 #import "MSTestFrameworks.h"
+#import "MSUtility+Date.h"
 
 @interface MSEventPropertiesTests : XCTestCase
 
@@ -176,7 +177,9 @@
     } else if ([deserializedSutProperty isKindOfClass:[MSDateTimeTypedProperty class]]) {
       MSDateTimeTypedProperty *deserializedProperty = (MSDateTimeTypedProperty *)deserializedSutProperty;
       MSDateTimeTypedProperty *originalProperty = (MSDateTimeTypedProperty *)sutProperty;
-      XCTAssertEqualObjects(originalProperty.value, deserializedProperty.value);
+      NSString *originalDateString = [MSUtility dateToISO8601:originalProperty.value];
+      NSString *deserializedDateString = [MSUtility dateToISO8601:deserializedProperty.value];
+      XCTAssertEqualObjects(originalDateString, deserializedDateString);
     }
   }
 }
