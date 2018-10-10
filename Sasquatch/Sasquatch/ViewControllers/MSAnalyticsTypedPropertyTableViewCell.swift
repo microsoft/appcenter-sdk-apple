@@ -98,7 +98,7 @@ import UIKit
       let formatter = NumberFormatter()
       formatter.numberStyle = .decimal
       let long = formatter.number(from: valueTextField.text ?? "")?.int64Value ?? 0
-      properties.setLongLong(long, forKey:keyTextField.text!)
+      properties.setInt64(long, forKey:keyTextField.text!)
       break
     case .Boolean:
       properties.setBool(boolValue.isOn, forKey:keyTextField.text!)
