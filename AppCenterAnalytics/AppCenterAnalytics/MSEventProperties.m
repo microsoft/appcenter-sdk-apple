@@ -33,7 +33,9 @@
 #pragma mark - NSCoding
 
 - (void)encodeWithCoder:(NSCoder *)coder {
-  [coder encodeObject:self.properties];
+  @synchronized (self.properties) {
+    [coder encodeObject:self.properties];
+  }
 }
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
@@ -46,13 +48,15 @@
 #pragma mark - Public methods
 
 - (instancetype)setString:(NSString *)value forKey:(NSString *)key {
-  if ([MSEventProperties validateKey:key] && [MSEventProperties validateValue:value]) {
-    MSStringTypedProperty *stringProperty = [MSStringTypedProperty new];
-    stringProperty.name = key;
-    stringProperty.value = value;
-    self.properties[key] = stringProperty;
-  }
-  return self;
+    if ([MSEventProperties validateKey:key] && [MSEventProperties validateValue:value]) {
+      MSStringTypedProperty *stringProperty = [MSStringTypedProperty new];
+      stringProperty.name = key;
+      stringProperty.value = value;
+      @synchronized (self.properties) {
+        self.properties[key] = stringProperty;
+      }
+    }
+    return self;
 }
 
 - (instancetype)setDouble:(double)value forKey:(NSString *)key {
@@ -66,7 +70,9 @@
     MSDoubleTypedProperty *doubleProperty = [MSDoubleTypedProperty new];
     doubleProperty.name = key;
     doubleProperty.value = value;
-    self.properties[key] = doubleProperty;
+    @synchronized (self.properties) {
+      self.properties[key] = doubleProperty;
+    }
   }
   return self;
 }
@@ -76,7 +82,9 @@
     MSLongTypedProperty *longProperty = [MSLongTypedProperty new];
     longProperty.name = key;
     longProperty.value = value;
-    self.properties[key] = longProperty;
+    @synchronized (self.properties) {
+      self.properties[key] = longProperty;
+    }
   }
   return self;
 }
@@ -86,7 +94,9 @@
     MSBooleanTypedProperty *boolProperty = [MSBooleanTypedProperty new];
     boolProperty.name = key;
     boolProperty.value = value;
-    self.properties[key] = boolProperty;
+    @synchronized (self.properties) {
+      self.properties[key] = boolProperty;
+    }
   }
   return self;
 }
@@ -96,7 +106,9 @@
     MSDateTimeTypedProperty *dateTimeProperty = [MSDateTimeTypedProperty new];
     dateTimeProperty.name = key;
     dateTimeProperty.value = value;
-    self.properties[key] = dateTimeProperty;
+    @synchronized (self.properties) {
+      self.properties[key] = dateTimeProperty;
+    }
   }
   return self;
 }
@@ -105,8 +117,10 @@
 
 - (NSMutableArray *)serializeToArray {
   NSMutableArray *propertiesArray = [NSMutableArray new];
-  for (MSTypedProperty *typedProperty in [self.properties objectEnumerator]) {
-    [propertiesArray addObject:[typedProperty serializeToDictionary]];
+  @synchronized (self.properties) {
+      for (MSTypedProperty *typedProperty in [self.properties objectEnumerator]) {
+        [propertiesArray addObject:[typedProperty serializeToDictionary]];
+      }
   }
   return propertiesArray;
 }
