@@ -138,8 +138,30 @@
   XCTAssertEqualObjects(propertiesArray[0], serializedProperty);
 }
 
-- (void) testEncodeAndDecode {
 
+- (void)testNSCodingSerializationAndDeserializationWorks {
+
+  // If
+  MSEventProperties *sut = [MSEventProperties new];
+  [sut setString:@"stringVal" forKey:@"stringKey"];
+  [sut setBool:YES forKey:@"boolKey"];
+  [sut setDouble:1.4 forKey:@"doubleKey"];
+  [sut setInt64:43 forKey:@"intKey"];
+  [sut setDate:[NSDate new] forKey:@"dateKey"];
+
+  // When
+  NSData *serializedSut = [NSKeyedArchiver archivedDataWithRootObject:sut];
+  MSEventProperties *deserializedSut = [NSKeyedUnarchiver unarchiveObjectWithData:serializedSut];
+
+  // Then
+  assertThat(deserializedSut, notNilValue());
+  assertThat(deserializedSut, instanceOf([MSEventProperties class]));
+  for (NSString *key in sut.properties) {
+    MSTypedProperty *sutProperty = sut.properties[key];
+    MSTypedProperty *deserializedSutProperty = deserializedSut.properties[key];
+    XCTAssertEqualObjects(sutProperty.name, deserializedSutProperty.name);
+    XCTAssertEqualObjects(sutProperty.type, deserializedSutProperty.type);
+    XCTAssertEqualObjects(sutProperty.value, deserializedSutProperty.value);
+  }
 }
-
 @end
