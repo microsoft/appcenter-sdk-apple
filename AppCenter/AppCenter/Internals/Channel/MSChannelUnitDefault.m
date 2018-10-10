@@ -33,8 +33,8 @@
   return self;
 }
 
-- (instancetype)initWithIngestion:(nullable id <MSIngestionProtocol>)ingestion
-                          storage:(id <MSStorage>)storage
+- (instancetype)initWithIngestion:(nullable id<MSIngestionProtocol>)ingestion
+                          storage:(id<MSStorage>)storage
                     configuration:(MSChannelUnitConfiguration *)configuration
                 logsDispatchQueue:(dispatch_queue_t)logsDispatchQueue {
   if ((self = [self init])) {
@@ -56,17 +56,17 @@
 
 #pragma mark - MSChannelDelegate
 
-- (void)addDelegate:(id <MSChannelDelegate>)delegate {
+- (void)addDelegate:(id<MSChannelDelegate>)delegate {
   dispatch_async(self.logsDispatchQueue, ^{
-    @synchronized (self.delegates) {
+    @synchronized(self.delegates) {
       [self.delegates addObject:delegate];
     }
   });
 }
 
-- (void)removeDelegate:(id <MSChannelDelegate>)delegate {
+- (void)removeDelegate:(id<MSChannelDelegate>)delegate {
   dispatch_async(self.logsDispatchQueue, ^{
-    @synchronized (self.delegates) {
+    @synchronized(self.delegates) {
       [self.delegates removeObject:delegate];
     }
   });
@@ -78,7 +78,7 @@
   [self pauseWithIdentifyingObject:ingestion];
 }
 
-- (void)ingestionDidResume:(id <MSIngestionProtocol>)ingestion {
+- (void)ingestionDidResume:(id<MSIngestionProtocol>)ingestion {
   [self resumeWithIdentifyingObject:ingestion];
 }
 
@@ -90,7 +90,7 @@
 
 #pragma mark - Managing queue
 
-- (void)enqueueItem:(id <MSLog>)item {
+- (void)enqueueItem:(id<MSLog>)item {
 
   /*
    * Set common log info.
@@ -110,7 +110,7 @@
 
   // Additional preparations for the log. Used to specify the session id and distribution group id.
   [self enumerateDelegatesForSelector:@selector(channel:prepareLog:)
-                            withBlock:^(id <MSChannelDelegate> delegate) {
+                            withBlock:^(id<MSChannelDelegate> delegate) {
                               [delegate channel:self prepareLog:item];
                             }];
 
@@ -482,7 +482,7 @@
 }
 
 - (void)deleteAllLogsWithErrorSync:(NSError *)error {
-  NSArray<id <MSLog>> *deletedLogs;
+  NSArray<id<MSLog>> *deletedLogs;
 
   // Delete pending batches first.
   for (NSString *batchId in self.pendingBatchIds) {
@@ -493,7 +493,7 @@
   deletedLogs = [self.storage deleteLogsWithGroupId:self.configuration.groupId];
 
   // Notify failure of remaining logs.
-  for (id <MSLog> log in deletedLogs) {
+  for (id<MSLog> log in deletedLogs) {
     [self notifyFailureBeforeSendingForItem:log withError:error];
   }
 }
