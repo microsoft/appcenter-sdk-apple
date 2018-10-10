@@ -1,6 +1,8 @@
 #import "MSAnalyticsTransmissionTarget.h"
 #import "MSServiceAbstract.h"
 
+@class MSEventProperties;
+
 NS_ASSUME_NONNULL_BEGIN
 
 /**
@@ -16,13 +18,32 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)trackEvent:(NSString *)eventName;
 
 /**
- * Track an event.
+ * Track an event with properties.
  *
  * @param eventName  event name.
  * @param properties dictionary of properties.
  */
 + (void)trackEvent:(NSString *)eventName
     withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties;
+
+/**
+ * Track an event with typed properties.
+ *
+ * @param eventName  event name.
+ * @param properties an MSEventProperties object.
+ *
+ * @discussion For events going to App Center, the following validation rules are applied:
+ *
+ * - The event name cannot be longer than 256 and is truncated otherwise.
+ *
+ * - The property names cannot be empty.
+ *
+ * - The property names and values are limited to 125 characters each (truncated).
+ *
+ * - The number of properties per event is limited to 20 (truncated).
+ */
++ (void) trackEvent:(NSString *)eventName
+withTypedProperties:(nullable MSEventProperties *)properties;
 
 /**
  * Pause transmission of Analytics logs. While paused, Analytics logs are saved to disk.

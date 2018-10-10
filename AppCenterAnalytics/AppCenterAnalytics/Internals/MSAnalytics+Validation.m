@@ -1,7 +1,10 @@
 #import "AppCenter+Internal.h"
 #import "MSAnalytics+Validation.h"
+#import "MSConstants+Internal.h"
 #import "MSEventLog.h"
+#import "MSEventPropertiesInternal.h"
 #import "MSPageLog.h"
+#import "MSTypedProperty.h"
 
 // Events values limitations
 static const int kMSMinEventNameLength = 1;
@@ -14,12 +17,12 @@ NSString *MSAnalyticsValidationCategory;
 
 @implementation MSAnalytics (Validation)
 
-- (BOOL)channelUnit:(id<MSChannelUnitProtocol>)__unused channelUnit shouldFilterLog:(id<MSLog>)log {
-  NSObject *logObject = (NSObject *)log;
+- (BOOL)channelUnit:(id <MSChannelUnitProtocol>)__unused channelUnit shouldFilterLog:(id <MSLog>)log {
+  NSObject *logObject = (NSObject *) log;
   if ([logObject isKindOfClass:[MSEventLog class]]) {
-    return ![self validateLog:(MSEventLog *)log];
+    return ![self validateLog:(MSEventLog *) log];
   } else if ([logObject isKindOfClass:[MSPageLog class]]) {
-    return ![self validateLog:(MSPageLog *)log];
+    return ![self validateLog:(MSPageLog *) log];
   }
   return NO;
 }
@@ -59,4 +62,49 @@ NSString *MSAnalyticsValidationCategory;
   // Keeping this method body in MSAnalytics to use it in unit tests.
   return [MSUtility validateProperties:properties forLogName:logName type:logType];
 }
+
+- (MSEventProperties *)validateAppCenterEventProperties:(MSEventProperties *)eventProperties {
+  MSEventProperties *validCopy = [MSEventProperties new];
+  for (NSString *propertyKey in eventProperties.properties) {
+    if ([validCopy.properties count] == kMSMaxPropertiesPerLog) {
+      MSLogWarning([MSAnalytics logTag], @"Typed properties cannot contain more than %i items. Skipping other properties.", kMSMaxPropertiesPerLog);
+      break;
+    }
+    MSTypedProperty *property = eventProperties.properties[propertyKey];
+    MSTypedProperty *validProperty = [self validateAppCenterTypedProperty:property];
+    if (validProperty) {
+      validCopy.properties[validProperty.name] = validProperty;
+    }
+  }
+  return validCopy;
+}
+
+- (MSTypedProperty *)validateAppCenterTypedProperty:(MSTypedProperty *)typedProperty {
+  MSTypedProperty *validProperty = (MSTypedProperty *) [[typedProperty class] new];
+  validProperty.name = [self validateAppCenterPropertyName:typedProperty.name];
+  validProperty.value = [self validateAppCenterPropertyValue:typedProperty.value];
+  return validProperty;
+}
+
+- (NSString *)validateAppCenterPropertyName:(NSString *)propertyKey {
+  if ([propertyKey length] > kMSMaxPropertyKeyLength) {
+    MSLogWarning([MSAnalytics logTag], @"Typed property '%@': key length cannot exceed %i characters. Property value will be truncated.", propertyKey,
+                 kMSMaxPropertyKeyLength);
+    return [propertyKey substringToIndex:(kMSMaxPropertyKeyLength - 1)];
+  }
+  return propertyKey;
+}
+
+- (NSObject *)validateAppCenterPropertyValue:(NSObject *)value {
+  if ([value isKindOfClass:[NSString class]]) {
+    NSString *stringValue = (NSString *) value;
+    if ([stringValue length] > kMSMaxPropertyValueLength) {
+      MSLogWarning([MSAnalytics logTag], @"Typed property value length cannot exceed %i characters. Property value will be truncated.",
+                   kMSMaxPropertyValueLength);
+      return [stringValue substringToIndex:(kMSMaxPropertyValueLength - 1)];
+    }
+  }
+  return value;
+}
+
 @end
