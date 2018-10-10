@@ -5,9 +5,11 @@
 
 @implementation MSStringTypedProperty
 
+static NSString *const kMSStringTypedPropertyType = @"string";
+
 - (instancetype)init {
     if ((self = [super init])) {
-        self.type = @"string";
+        self.type = kMSStringTypedPropertyType;
     }
     return self;
 }

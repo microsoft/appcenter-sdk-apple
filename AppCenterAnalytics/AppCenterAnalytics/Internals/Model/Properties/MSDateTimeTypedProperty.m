@@ -2,11 +2,13 @@
 #import "MSConstants+Internal.h"
 #import "MSUtility+Date.h"
 
+static NSString *const kMSDateTimeTypedPropertyType = @"dateTime";
+
 @implementation MSDateTimeTypedProperty
 
 - (instancetype)init {
   if ((self = [super init])) {
-    self.type = @"dateTime";
+    self.type = kMSDateTimeTypedPropertyType;
   }
   return self;
 }

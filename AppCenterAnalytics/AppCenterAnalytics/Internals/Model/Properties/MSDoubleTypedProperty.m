@@ -1,10 +1,12 @@
 #import "MSDoubleTypedProperty.h"
 
+static NSString *const kMSDoubleTypedPropertyType = @"double";
+
 @implementation MSDoubleTypedProperty
 
 - (instancetype)init {
   if ((self = [super init])) {
-    self.type = @"double";
+    self.type = kMSDoubleTypedPropertyType;
   }
   return self;
 }

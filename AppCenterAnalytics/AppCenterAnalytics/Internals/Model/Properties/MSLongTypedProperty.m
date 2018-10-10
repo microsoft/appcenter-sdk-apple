@@ -1,11 +1,13 @@
 #import "MSLongTypedProperty.h"
 #import "MSConstants+Internal.h"
 
+static NSString *const kMSLongTypedPropertyType = @"long";
+
 @implementation MSLongTypedProperty
 
 - (instancetype)init {
     if ((self = [super init])) {
-        self.type = @"long";
+        self.type = kMSLongTypedPropertyType;
     }
     return self;
 }

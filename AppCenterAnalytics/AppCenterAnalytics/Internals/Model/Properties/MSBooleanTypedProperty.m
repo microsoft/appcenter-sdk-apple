@@ -1,11 +1,13 @@
 #import "MSBooleanTypedProperty.h"
 #import "MSConstants+Internal.h"
 
+static NSString *const kMSBooleanTypedPropertyType = @"boolean";
+
 @implementation MSBooleanTypedProperty
 
 - (instancetype)init {
   if ((self = [super init])) {
-    self.type = @"boolean";
+    self.type = kMSBooleanTypedPropertyType;
   }
   return self;
 }
