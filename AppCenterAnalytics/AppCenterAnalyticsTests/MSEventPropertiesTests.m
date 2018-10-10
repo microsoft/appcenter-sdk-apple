@@ -138,4 +138,8 @@
   XCTAssertEqualObjects(propertiesArray[0], serializedProperty);
 }
 
+- (void) testEncodeAndDecode {
+
+}
+
 @end

@@ -33,7 +33,7 @@
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
   if ((self = [self init])) {
-    [coder decodeObject];
+    self.properties = (NSMutableDictionary *)[coder decodeObject];
   }
   return self;
 }
