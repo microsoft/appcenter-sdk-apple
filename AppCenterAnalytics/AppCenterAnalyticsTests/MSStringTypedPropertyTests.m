@@ -8,7 +8,7 @@
 
 @implementation MSStringTypedPropertyTests
 
-- (void)testNSCodingSerializationAndDeserializationWorks {
+- (void)testNSCodingSerializationAndDeserialization {
 
   // If
   MSStringTypedProperty *sut = [MSStringTypedProperty new];
@@ -28,7 +28,7 @@
   XCTAssertEqualObjects(actual.value, sut.value);
 }
 
-- (void)testSerializeToDictionaryWorks {
+- (void)testSerializeToDictionary {
 
   // If
   MSStringTypedProperty *sut = [MSStringTypedProperty new];

@@ -7,7 +7,7 @@
 
 @implementation MSDateTimeTypedPropertyTests
 
-- (void)testNSCodingSerializationAndDeserializationWorks {
+- (void)testNSCodingSerializationAndDeserialization {
 
   // If
   MSDateTimeTypedProperty *sut = [MSDateTimeTypedProperty new];
@@ -27,7 +27,7 @@
   XCTAssertEqualObjects(actual.value, sut.value);
 }
 
-- (void)testSerializeToDictionaryWorks {
+- (void)testSerializeToDictionary {
 
   // If
   MSDateTimeTypedProperty *sut = [MSDateTimeTypedProperty new];

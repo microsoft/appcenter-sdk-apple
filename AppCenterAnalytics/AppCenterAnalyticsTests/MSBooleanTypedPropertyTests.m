@@ -8,26 +8,6 @@
 
 @implementation MSBooleanTypedPropertyTests
 
-- (void)testNSCodingSerializationAndDeserializationWorks {
-
-  // If
-  MSBooleanTypedProperty *sut = [MSBooleanTypedProperty new];
-  sut.type = @"type";
-  sut.name = @"name";
-  sut.value = YES;
-
-  // When
-  NSData *serializedProperty = [NSKeyedArchiver archivedDataWithRootObject:sut];
-  MSBooleanTypedProperty *actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedProperty];
-
-  // Then
-  XCTAssertNotNil(actual);
-  XCTAssertTrue([actual isKindOfClass:[MSBooleanTypedProperty class]]);
-  XCTAssertEqualObjects(actual.name, sut.name);
-  XCTAssertEqualObjects(actual.type, sut.type);
-  XCTAssertEqual(actual.value, sut.value);
-}
-
 - (void)testSerializeToDictionary {
 
   // If

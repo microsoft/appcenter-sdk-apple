@@ -8,7 +8,7 @@
 
 @implementation MSLongTypedPropertyTests
 
-- (void)testNSCodingSerializationAndDeserializationWorks {
+- (void)testNSCodingSerializationAndDeserialization {
 
   // If
   MSLongTypedProperty *sut = [MSLongTypedProperty new];
@@ -28,7 +28,7 @@
   XCTAssertEqual(actual.value, sut.value);
 }
 
-- (void)testSerializeToDictionaryWorks {
+- (void)testSerializeToDictionary {
 
   // If
   MSLongTypedProperty *sut = [MSLongTypedProperty new];

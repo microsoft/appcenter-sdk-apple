@@ -7,7 +7,7 @@
 
 @implementation MSTypedPropertyTests
 
-- (void)testNSCodingSerializationAndDeserializationWorks {
+- (void)testNSCodingSerializationAndDeserialization {
 
   // If
   NSString *propertyType = @"propertyType";
@@ -27,7 +27,7 @@
   XCTAssertEqualObjects(actual.type, propertyType);
 }
 
-- (void)testSerializingTypedPropertyToDictionaryWorks {
+- (void)testSerializingTypedPropertyToDictionary {
 
   // If
   NSString *propertyType = @"propertyType";
