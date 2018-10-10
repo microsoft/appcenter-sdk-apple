@@ -1,14 +1,14 @@
 #import "AppCenter+Internal.h"
 #import "MSAnalytics+Validation.h"
+#import "MSBooleanTypedProperty.h"
 #import "MSConstants+Internal.h"
+#import "MSDateTimeTypedProperty.h"
+#import "MSDoubleTypedProperty.h"
 #import "MSEventLog.h"
 #import "MSEventPropertiesInternal.h"
 #import "MSPageLog.h"
-#import "MSStringTypedProperty.h"
-#import "MSBooleanTypedProperty.h"
 #import "MSLongTypedProperty.h"
-#import "MSDoubleTypedProperty.h"
-#import "MSDateTimeTypedProperty.h"
+#import "MSStringTypedProperty.h"
 
 // Events values limitations
 static const int kMSMinEventNameLength = 1;
@@ -103,6 +103,8 @@ NSString *MSAnalyticsValidationCategory;
     validProperty = [MSDateTimeTypedProperty new];
     ((MSDateTimeTypedProperty *)validProperty).value =  ((MSDateTimeTypedProperty *)typedProperty).value;
   }
+
+
   validProperty.name = [self validateAppCenterPropertyName:typedProperty.name];
   return validProperty;
 }
