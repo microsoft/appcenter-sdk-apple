@@ -9,9 +9,6 @@
 #import "MSLongTypedProperty.h"
 #import "MSStringTypedProperty.h"
 
-static NSString *const kMSNullPropertyKeyMessage = @"Key cannot be null. Property will not be added.";
-static NSString *const kMSNullPropertyValueMessage = @"Value cannot be null. Property will not be added.";
-
 @implementation MSEventProperties
 
 - (instancetype)init {
@@ -49,76 +46,58 @@ static NSString *const kMSNullPropertyValueMessage = @"Value cannot be null. Pro
 #pragma mark - Public methods
 
 - (instancetype)setString:(NSString *)value forKey:(NSString *)key {
-  if (!key) {
-    MSLogWarning([MSAnalytics logTag], kMSNullPropertyKeyMessage);
-    return self;
+  if ([MSEventProperties validateKey:key] && [MSEventProperties validateValue:value]) {
+    MSStringTypedProperty *stringProperty = [MSStringTypedProperty new];
+    stringProperty.name = key;
+    stringProperty.value = value;
+    self.properties[key] = stringProperty;
   }
-  if (!value) {
-    MSLogWarning([MSAnalytics logTag], kMSNullPropertyValueMessage);
-    return self;
-  }
-  MSStringTypedProperty *stringProperty = [MSStringTypedProperty new];
-  stringProperty.name = key;
-  stringProperty.value = value;
-  self.properties[key] = stringProperty;
   return self;
 }
 
 - (instancetype)setDouble:(double)value forKey:(NSString *)key {
-  if (!key) {
-    MSLogWarning([MSAnalytics logTag], kMSNullPropertyKeyMessage);
-    return self;
-  }
+  if ([MSEventProperties validateKey:key]) {
 
-  // NaN returns false for all statements, so the only way to check if value is NaN is by value != value.
-  if (value == (double)INFINITY || value != value) {
-    MSLogError([MSAnalytics logTag], @"Double value for property '%@' must be finite (cannot be INFINITY or NAN).", key);
-    return self;
+    // NaN returns false for all statements, so the only way to check if value is NaN is by value != value.
+    if (value == (double)INFINITY || value != value) {
+      MSLogError([MSAnalytics logTag], @"Double value for property '%@' must be finite (cannot be INFINITY or NAN).", key);
+      return self;
+    }
+    MSDoubleTypedProperty *doubleProperty = [MSDoubleTypedProperty new];
+    doubleProperty.name = key;
+    doubleProperty.value = value;
+    self.properties[key] = doubleProperty;
   }
-  MSDoubleTypedProperty *doubleProperty = [MSDoubleTypedProperty new];
-  doubleProperty.name = key;
-  doubleProperty.value = value;
-  self.properties[key] = doubleProperty;
   return self;
 }
 
 - (instancetype)setInt64:(int64_t)value forKey:(NSString *)key {
-  if (!key) {
-    MSLogWarning([MSAnalytics logTag], kMSNullPropertyKeyMessage);
-    return self;
+  if ([MSEventProperties validateKey:key]) {
+    MSLongTypedProperty *longProperty = [MSLongTypedProperty new];
+    longProperty.name = key;
+    longProperty.value = value;
+    self.properties[key] = longProperty;
   }
-  MSLongTypedProperty *longProperty = [MSLongTypedProperty new];
-  longProperty.name = key;
-  longProperty.value = value;
-  self.properties[key] = longProperty;
   return self;
 }
 
 - (instancetype)setBool:(BOOL)value forKey:(NSString *)key {
-  if (!key) {
-    MSLogWarning([MSAnalytics logTag], kMSNullPropertyKeyMessage);
-    return self;
+  if ([MSEventProperties validateKey:key]) {
+    MSBooleanTypedProperty *boolProperty = [MSBooleanTypedProperty new];
+    boolProperty.name = key;
+    boolProperty.value = value;
+    self.properties[key] = boolProperty;
   }
-  MSBooleanTypedProperty *boolProperty = [MSBooleanTypedProperty new];
-  boolProperty.name = key;
-  boolProperty.value = value;
-  self.properties[key] = boolProperty;
   return self;
 }
 
 - (instancetype)setDate:(NSDate *)value forKey:(NSString *)key {
-  if (!key) {
-    MSLogWarning([MSAnalytics logTag], kMSNullPropertyKeyMessage);
-    return self;
+  if ([MSEventProperties validateKey:key] && [MSEventProperties validateValue:value]) {
+    MSDateTimeTypedProperty *dateTimeProperty = [MSDateTimeTypedProperty new];
+    dateTimeProperty.name = key;
+    dateTimeProperty.value = value;
+    self.properties[key] = dateTimeProperty;
   }
-  if (!value) {
-    MSLogWarning([MSAnalytics logTag], kMSNullPropertyValueMessage);
-    return self;
-  }
-  MSDateTimeTypedProperty *dateTimeProperty = [MSDateTimeTypedProperty new];
-  dateTimeProperty.name = key;
-  dateTimeProperty.value = value;
-  self.properties[key] = dateTimeProperty;
   return self;
 }
 
@@ -130,6 +109,24 @@ static NSString *const kMSNullPropertyValueMessage = @"Value cannot be null. Pro
     [propertiesArray addObject:[typedProperty serializeToDictionary]];
   }
   return propertiesArray;
+}
+
+#pragma mark - Helper methods
+
++ (BOOL)validateKey:(NSString *)key {
+  if (!key) {
+    MSLogError([MSAnalytics logTag], @"Key cannot be null. Property will not be added.");
+    return NO;
+  }
+  return YES;
+}
+
++ (BOOL)validateValue:(NSObject *)value {
+  if (!value) {
+    MSLogError([MSAnalytics logTag], @"Value cannot be null. Property will not be added.");
+    return NO;
+  }
+  return YES;
 }
 
 @end
