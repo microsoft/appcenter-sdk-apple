@@ -52,7 +52,9 @@
 
 - (instancetype)setDouble:(double)value forKey:(NSString *)key {
   if ([MSEventProperties validateKey:key]) {
-    if (value == (double)INFINITY || value == (double)NAN) {
+
+    // NaN returns false for all statements, so the only way to check if value is NaN is by value != value.
+    if (value == (double)INFINITY || value != value) {
       MSLogError([MSAnalytics logTag], @"Double value for property '%@' must be finite (cannot be INFINITY or NAN).", key);
       return self;
     }
