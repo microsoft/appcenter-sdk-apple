@@ -45,4 +45,13 @@
  */
 + (MSPLCrashReportThreadInfo *)findCrashedThreadInReport:(MSPLCrashReport *)report;
 
+/**
+ * Normalize an address. This is intended to be used for arm64 addresses.
+ *
+ * @param address the address to normalize.
+ *
+ * @return the normalized address.
+ */
++ (uint64_t)normalizeAddress:(uint64_t)address;
+
 @end

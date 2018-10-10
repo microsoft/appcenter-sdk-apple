@@ -49,7 +49,7 @@
 #import "MSCrashReporter.h"
 #import "MSCrashesInternal.h"
 #import "MSDeviceTrackerPrivate.h"
-#import "MSErrorLogFormatter.h"
+#import "MSErrorLogFormatterPrivate.h"
 #import "MSErrorReportPrivate.h"
 #import "MSException.h"
 #import "MSStackFrame.h"
@@ -92,6 +92,9 @@ static const char *safer_string_read(const char *string, const char *limit) {
 
 static NSString *formatted_address_matching_architecture(uint64_t address,
                                                          BOOL is64bit) {
+  if(is64bit) {
+    address = [MSErrorLogFormatter normalizeAddress:address];
+  }
   return [NSString stringWithFormat:@"0x%0*" PRIx64, 8 << is64bit, address];
 }
 
@@ -295,11 +298,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID,
                                             is64bit:is64bit];
   errorLog.registers =
       [self extractRegistersFromCrashedThread:crashedThread is64bit:is64bit];
-
-  // Gather all addresses for which we need to preserve the binary images.
-  NSArray *addresses = [self addressesFromReport:report];
   errorLog.binaries = [self extractBinaryImagesFromReport:report
-                                                addresses:addresses
                                                  codeType:codeType
                                                   is64bit:is64bit];
 
@@ -635,9 +634,12 @@ extractRegistersFromCrashedThread:(MSPLCrashReportThreadInfo *)crashedThread
 }
 
 + (NSArray<MSBinary *> *)extractBinaryImagesFromReport:(MSPLCrashReport *)report
-                                             addresses:(NSArray *)addresses
                                               codeType:(NSNumber *)codeType
                                                is64bit:(BOOL)is64bit {
+  
+  // Gather all addresses for which we need to preserve the binary images.
+  NSArray *addresses = [self addressesFromReport:report is64bit:is64bit];
+
   NSMutableArray<MSBinary *> *binaryImages = [NSMutableArray array];
 
   // Images. The iPhone crash report format sorts these in ascending order, by
@@ -889,27 +891,42 @@ extractRegistersFromCrashedThread:(MSPLCrashReportThreadInfo *)crashedThread
   return crashedThread;
 }
 
-+ (NSArray *)addressesFromReport:(MSPLCrashReport *)report {
++ (NSArray *)addressesFromReport:(MSPLCrashReport *)report is64bit:(BOOL)is64bit {
   NSMutableArray *addresses = [NSMutableArray new];
-
   if (report.exceptionInfo != nil && report.exceptionInfo.stackFrames != nil &&
       [report.exceptionInfo.stackFrames count] > 0) {
     MSPLCrashReportExceptionInfo *exception = report.exceptionInfo;
 
     for (MSPLCrashReportStackFrameInfo *frameInfo in exception.stackFrames) {
-      [addresses addObject:@(frameInfo.instructionPointer)];
+      
+      // When on an ARM64 architecture, normalize the address to remove possible pointer signatures
+      uint64_t normalizedAddress = frameInfo.instructionPointer;
+      if (is64bit) {
+        normalizedAddress = [self normalizeAddress:normalizedAddress];
+      }
+      [addresses addObject:@(normalizedAddress)];
     }
   }
 
   for (MSPLCrashReportThreadInfo *plCrashReporterThread in report.threads) {
-    for (MSPLCrashReportStackFrameInfo
-             *plCrashReporterFrameInfo in plCrashReporterThread.stackFrames) {
-      [addresses addObject:@(plCrashReporterFrameInfo.instructionPointer)];
+    for (MSPLCrashReportStackFrameInfo *plCrashReporterFrameInfo in plCrashReporterThread.stackFrames) {
+
+      // When on an ARM64 architecture, normalize the address to remove possible pointer signatures
+      uint64_t normalizedAddress = plCrashReporterFrameInfo.instructionPointer;
+      if (is64bit) {
+        normalizedAddress = [self normalizeAddress:normalizedAddress];
+      }
+      [addresses addObject:@(normalizedAddress)];
     }
 
-    for (MSPLCrashReportRegisterInfo *registerInfo in plCrashReporterThread
-             .registers) {
-      [addresses addObject:@(registerInfo.registerValue)];
+    for (MSPLCrashReportRegisterInfo *registerInfo in plCrashReporterThread.registers) {
+      
+      // When on an ARM64 architecture, normalize the address to remove possible pointer signatures
+      uint64_t normalizedAddress = registerInfo.registerValue;
+      if (is64bit) {
+        normalizedAddress = [self normalizeAddress:normalizedAddress];
+      }
+      [addresses addObject:@(normalizedAddress)];
     }
   }
 
@@ -922,6 +939,10 @@ extractRegistersFromCrashedThread:(MSPLCrashReportThreadInfo *)crashedThread
   }
   CFStringRef uuidStringRef = CFUUIDCreateString(kCFAllocatorDefault, uuidRef);
   return (__bridge_transfer NSString *)uuidStringRef;
+}
+
++ (uint64_t)normalizeAddress:(uint64_t)address {
+  return address & 0x0000000fffffffff;
 }
 
 @end
