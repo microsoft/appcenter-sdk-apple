@@ -1,5 +1,6 @@
 #import "MSTypedProperty.h"
 #import "MSTestFrameworks.h"
+#import "MSUtility+Date.h"
 
 @interface MSTypedPropertyTests : XCTestCase
 
@@ -10,11 +11,10 @@
 - (void)testNSCodingSerializationAndDeserializationWorks {
 
   // If
-  NSString *propertyType = @"propertyType";
-  NSString *propertyName = @"propertyName";
   MSTypedProperty *sut = [MSTypedProperty new];
-  sut.type = propertyType;
-  sut.name = propertyName;
+  sut.type = @"propertyType";
+  sut.name = @"propertyName";
+  sut.value = @"some value";
 
   // When
   NSData *serializedProperty = [NSKeyedArchiver archivedDataWithRootObject:sut];
@@ -23,18 +23,18 @@
   // Then
   XCTAssertNotNil(actual);
   XCTAssertTrue([actual isKindOfClass:[MSTypedProperty class]]);
-  XCTAssertEqualObjects(actual.name, propertyName);
-  XCTAssertEqualObjects(actual.type, propertyType);
+  XCTAssertEqualObjects(actual.name, sut.name);
+  XCTAssertEqualObjects(actual.type, sut.type);
+  XCTAssertEqualObjects(actual.value, sut.value);
 }
 
 - (void)testSerializingTypedPropertyToDictionaryWorks {
 
   // If
-  NSString *propertyType = @"propertyType";
-  NSString *propertyName = @"propertyName";
   MSTypedProperty *sut = [MSTypedProperty new];
-  sut.type = propertyType;
-  sut.name = propertyName;
+  sut.type =  @"propertyType";
+  sut.name = @"propertyName";
+  sut.value = @"some value";
 
   // When
   NSMutableDictionary *actual = [sut serializeToDictionary];
@@ -42,6 +42,7 @@
   // Then
   XCTAssertEqualObjects(actual[@"type"], sut.type);
   XCTAssertEqualObjects(actual[@"name"], sut.name);
+  XCTAssertEqualObjects(actual[@"value"], sut.value);
 }
 
 - (void)testCreateStringPropertyUsesCorrectTypeValue {
@@ -87,6 +88,23 @@
 
   // Then
   XCTAssertEqualObjects(sut.type, @"double");
+}
+
+- (void)testDateIsSerializedAsStringWhenSerializingToDictionary {
+
+  // If
+  MSTypedProperty *sut = [MSTypedProperty new];
+  sut.type =  @"dateTime";
+  sut.name = @"propertyName";
+  sut.value = [NSDate new];
+
+  // When
+  NSMutableDictionary *actual = [sut serializeToDictionary];
+
+  // Then
+  XCTAssertEqualObjects(actual[@"type"], sut.type);
+  XCTAssertEqualObjects(actual[@"name"], sut.name);
+  XCTAssertEqualObjects(actual[@"value"], [MSUtility dateToISO8601:(NSDate *)sut.value]);
 }
 
 @end

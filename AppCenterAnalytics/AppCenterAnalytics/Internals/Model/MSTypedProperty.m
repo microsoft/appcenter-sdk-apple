@@ -1,5 +1,6 @@
 #import "MSConstants+Internal.h"
 #import "MSTypedProperty.h"
+#import "MSUtility+Date.h"
 
 static NSString *const kMSTypedPropertyType = @"type";
 
@@ -31,16 +32,15 @@ static NSString *const kMSPropertyTypeDouble = @"double";
   [coder encodeObject:self.value forKey:kMSTypedPropertyValue];
 }
 
-/**
- * Serialize this object to a dictionary.
- *
- * @return A dictionary representing this object.
- */
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [NSMutableDictionary new];
   dict[kMSTypedPropertyType] = self.type;
   dict[kMSTypedPropertyName] = self.name;
-  dict[kMSTypedPropertyValue] = self.value;
+  if ([self.value isKindOfClass:[NSDate class]]) {
+    dict[kMSTypedPropertyValue] = [MSUtility dateToISO8601:(NSDate *)self.value];
+  } else {
+    dict[kMSTypedPropertyValue] = self.value;
+  }
   return dict;
 }
 
