@@ -1,5 +1,4 @@
 #import "MSBooleanTypedProperty.h"
-#import "MSConstants+Internal.h"
 
 static NSString *const kMSBooleanTypedPropertyType = @"boolean";
 

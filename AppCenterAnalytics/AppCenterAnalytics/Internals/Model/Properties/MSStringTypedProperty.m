@@ -1,7 +1,4 @@
 #import "MSStringTypedProperty.h"
-#import "MSAnalyticsInternal.h"
-#import "MSConstants+Internal.h"
-#import "MSLogger.h"
 
 @implementation MSStringTypedProperty
 

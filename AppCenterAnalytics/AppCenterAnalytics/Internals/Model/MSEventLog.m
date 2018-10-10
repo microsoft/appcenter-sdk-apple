@@ -3,7 +3,6 @@
 #import "MSCSData.h"
 #import "MSCSModelConstants.h"
 #import "MSEventLogPrivate.h"
-#import "MSEventProperties.h"
 #import "MSEventPropertiesInternal.h"
 
 static NSString *const kMSTypeEvent = @"event";

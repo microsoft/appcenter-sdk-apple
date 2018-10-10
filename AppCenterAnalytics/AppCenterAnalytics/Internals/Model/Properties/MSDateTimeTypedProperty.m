@@ -1,5 +1,4 @@
 #import "MSDateTimeTypedProperty.h"
-#import "MSConstants+Internal.h"
 #import "MSUtility+Date.h"
 
 static NSString *const kMSDateTimeTypedPropertyType = @"dateTime";

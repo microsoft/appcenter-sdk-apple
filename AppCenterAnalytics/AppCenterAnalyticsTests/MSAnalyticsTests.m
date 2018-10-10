@@ -7,17 +7,17 @@
 #import "MSAppCenterPrivate.h"
 #import "MSBooleanTypedProperty.h"
 #import "MSChannelUnitDefault.h"
+#import "MSConstants+Internal.h"
 #import "MSDateTimeTypedProperty.h"
 #import "MSDoubleTypedProperty.h"
 #import "MSEventLog.h"
+#import "MSEventPropertiesInternal.h"
 #import "MSLongTypedProperty.h"
 #import "MSMockUserDefaults.h"
 #import "MSPageLog.h"
 #import "MSSessionTrackerPrivate.h"
 #import "MSStringTypedProperty.h"
 #import "MSTestFrameworks.h"
-#import "MSEventPropertiesInternal.h"
-#import "MSConstants+Internal.h"
 
 static NSString *const kMSTypeEvent = @"event";
 static NSString *const kMSTypePage = @"page";
@@ -1080,7 +1080,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   MSEventProperties *properties = [MSEventProperties new];
 
   // When
-  for (int i = 0; i < 25; i++) {
+  for (int i = 0; i < kMSMaxPropertiesPerLog + 5; i++) {
     [properties setBool:YES forKey:[@(i) stringValue]];
   }
   MSEventProperties *validProperties = [[MSAnalytics sharedInstance] validateAppCenterEventProperties:properties];

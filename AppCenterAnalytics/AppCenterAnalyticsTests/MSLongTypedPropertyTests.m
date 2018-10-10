@@ -1,5 +1,4 @@
 #import "MSLongTypedProperty.h"
-#import "MSConstants+Internal.h"
 #import "MSTestFrameworks.h"
 
 @interface MSLongTypedPropertyTests : XCTestCase

@@ -1,7 +1,6 @@
 #import "MSTypedProperty.h"
 
 static NSString *const kMSTypedPropertyType = @"type";
-
 static NSString *const kMSTypedPropertyName = @"name";
 
 @implementation MSTypedProperty

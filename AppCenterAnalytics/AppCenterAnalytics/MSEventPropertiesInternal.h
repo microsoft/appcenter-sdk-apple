@@ -1,5 +1,7 @@
 #import <Foundation/Foundation.h>
 
+#import "MSEventProperties.h"
+
 @class MSTypedProperty;
 
 NS_ASSUME_NONNULL_BEGIN

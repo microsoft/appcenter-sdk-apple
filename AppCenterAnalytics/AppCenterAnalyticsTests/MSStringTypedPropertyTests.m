@@ -1,5 +1,4 @@
 #import "MSStringTypedProperty.h"
-#import "MSConstants+Internal.h"
 #import "MSTestFrameworks.h"
 
 @interface MSStringTypedPropertyTests : XCTestCase

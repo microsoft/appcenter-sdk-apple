@@ -1,5 +1,4 @@
 #import "MSDoubleTypedProperty.h"
-#import "MSConstants+Internal.h"
 #import "MSTestFrameworks.h"
 
 @interface MSDoubleTypedPropertyTests : XCTestCase

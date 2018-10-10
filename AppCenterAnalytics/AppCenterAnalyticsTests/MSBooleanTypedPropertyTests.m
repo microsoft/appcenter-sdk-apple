@@ -1,5 +1,4 @@
 #import "MSBooleanTypedProperty.h"
-#import "MSConstants+Internal.h"
 #import "MSTestFrameworks.h"
 
 @interface MSBooleanTypedPropertyTests : XCTestCase
