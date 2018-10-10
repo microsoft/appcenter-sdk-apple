@@ -1,5 +1,6 @@
 #import "MSDateTimeTypedProperty.h"
 #import "MSTestFrameworks.h"
+#import "MSUtility+Date.h"
 
 @interface MSDateTimeTypedPropertyTests : XCTestCase
 
@@ -40,16 +41,17 @@
   // Then
   XCTAssertEqualObjects(dictionary[@"type"], sut.type);
   XCTAssertEqualObjects(dictionary[@"name"], sut.name);
-  XCTAssertEqualObjects(dictionary[@"value"], sut.value);
+  XCTAssertTrue([dictionary[@"value"] isKindOfClass:[NSString class]]);
+  XCTAssertEqualObjects(dictionary[@"value"], [MSUtility dateToISO8601:sut.value]);
 }
 
-- (void)testPropertyTypeIsCorrectWhenPropertyIsInitialized {
+- (void) testPropertyTypeIsCorrectWhenPropertyIsInitialized {
 
-  // If
-  MSDateTimeTypedProperty *sut = [MSDateTimeTypedProperty new];
+    // If
+    MSDateTimeTypedProperty *sut = [MSDateTimeTypedProperty new];
 
-  // Then
-  XCTAssertEqualObjects(sut.type, @"dateTime");
-}
+    // Then
+    XCTAssertEqualObjects(sut.type, @"dateTime");
+  }
 
 @end
