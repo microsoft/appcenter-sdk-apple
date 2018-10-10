@@ -50,7 +50,7 @@
 
   // If
   MSEventProperties *sut = [MSEventProperties new];
-  double value = 10.43;
+  double value = 10.43e3;
   NSString *key = @"key";
 
   // When
@@ -143,7 +143,7 @@
   [sut setString:@"stringVal" forKey:@"stringKey"];
   [sut setBool:YES forKey:@"boolKey"];
   [sut setDouble:1.4 forKey:@"doubleKey"];
-  [sut setInt64:43 forKey:@"intKey"];
+  [sut setInt64:8589934592ll forKey:@"intKey"];
   [sut setDate:[NSDate new] forKey:@"dateKey"];
 
   // When
