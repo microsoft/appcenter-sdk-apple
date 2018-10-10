@@ -282,9 +282,6 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                               transmissionTargetToken:nil
                                       fromApplication:YES];
 
-  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
-  [[MSAnalytics sharedInstance].sessionTracker stop];
-
   // When
   [MSAnalytics trackEvent:expectedName];
 
@@ -307,9 +304,6 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                               transmissionTargetToken:nil
                                       fromApplication:YES];
 
-  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
-  [[MSAnalytics sharedInstance].sessionTracker stop];
-
   // When
   OCMReject([channelUnitMock enqueueItem:OCMOCK_ANY]);
   [[MSAnalytics sharedInstance] trackEvent:@"Some event" withProperties:nil forTransmissionTarget:nil];
@@ -331,10 +325,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                                             appSecret:kMSTestAppSecret
                               transmissionTargetToken:nil
                                       fromApplication:YES];
-  
-  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
-  [[MSAnalytics sharedInstance].sessionTracker stop];
-  
+
   // When
   OCMReject([channelUnitMock enqueueItem:OCMOCK_ANY]);
   [[MSAnalytics sharedInstance] trackEvent:@"Some event" withTypedProperties:nil forTransmissionTarget:nil];
@@ -401,9 +392,6 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                               transmissionTargetToken:nil
                                       fromApplication:YES];
 
-  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
-  [[MSAnalytics sharedInstance].sessionTracker stop];
-
   // When
   OCMExpect([channelUnitMock enqueueItem:OCMOCK_ANY]);
 
@@ -430,10 +418,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                                             appSecret:kMSTestAppSecret
                               transmissionTargetToken:nil
                                       fromApplication:YES];
-  
-  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
-  [[MSAnalytics sharedInstance].sessionTracker stop];
-  
+
   // When
   OCMExpect([channelUnitMock enqueueItem:OCMOCK_ANY]);
   
@@ -470,9 +455,6 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                                             appSecret:kMSTestAppSecret
                               transmissionTargetToken:nil
                                       fromApplication:YES];
-
-  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
-  [[MSAnalytics sharedInstance].sessionTracker stop];
 
   // When
   [MSAnalytics trackEvent:expectedName withProperties:expectedProperties];
@@ -516,10 +498,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                                             appSecret:kMSTestAppSecret
                               transmissionTargetToken:nil
                                       fromApplication:YES];
-  
-  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
-  [[MSAnalytics sharedInstance].sessionTracker stop];
-  
+
   // When
   [MSAnalytics trackEvent:expectedName withTypedProperties:expectedProperties];
   
@@ -577,9 +556,6 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                               transmissionTargetToken:nil
                                       fromApplication:YES];
 
-  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
-  [[MSAnalytics sharedInstance].sessionTracker stop];
-
   // When
   [MSAnalytics trackPage:expectedName];
 
@@ -612,9 +588,6 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                               transmissionTargetToken:nil
                                       fromApplication:YES];
 
-  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
-  [[MSAnalytics sharedInstance].sessionTracker stop];
-
   // When
   [MSAnalytics trackPage:expectedName withProperties:expectedProperties];
 
@@ -639,9 +612,6 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                               transmissionTargetToken:nil
                                       fromApplication:YES];
 
-  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
-  [[MSAnalytics sharedInstance].sessionTracker stop];
-
   // When
   OCMReject([channelUnitMock enqueueItem:OCMOCK_ANY]);
   [[MSAnalytics sharedInstance] trackPage:@"Some page" withProperties:nil];
@@ -663,9 +633,6 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                                             appSecret:kMSTestAppSecret
                               transmissionTargetToken:nil
                                       fromApplication:YES];
-
-  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
-  [[MSAnalytics sharedInstance].sessionTracker stop];
 
   // When
   OCMExpect([channelUnitMock enqueueItem:OCMOCK_ANY]);
@@ -718,9 +685,6 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                               transmissionTargetToken:nil
                                       fromApplication:YES];
 
-  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
-  [[MSAnalytics sharedInstance].sessionTracker stop];
-
 // When
 #if TARGET_OS_OSX
   NSViewController *viewController = [[NSViewController alloc] init];
@@ -752,9 +716,6 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                               transmissionTargetToken:nil
                                       fromApplication:YES];
 
-  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
-  [[MSAnalytics sharedInstance].sessionTracker stop];
-
 // When
 #if TARGET_OS_OSX
   NSViewController *viewController = [[NSViewController alloc] init];
@@ -783,9 +744,6 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                                             appSecret:kMSTestAppSecret
                               transmissionTargetToken:nil
                                       fromApplication:YES];
-
-  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
-  [[MSAnalytics sharedInstance].sessionTracker stop];
 
   // When
   OCMExpect([analyticsMock isAutoPageTrackingEnabled]).andReturn(YES);
@@ -941,10 +899,6 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
   // Then
   XCTAssertTrue([MSAnalytics sharedInstance].sessionTracker.started);
-
-  // FIXME: logManager holds session tracker somehow and it causes other test
-  // failures. Stop it for hack.
-  [[MSAnalytics sharedInstance].sessionTracker stop];
 }
 
 - (void)testAutoPageTrackingWhenStartedFromLibrary {
