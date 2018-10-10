@@ -36,11 +36,7 @@ static NSString *const kMSPropertyTypeDouble = @"double";
   NSMutableDictionary *dict = [NSMutableDictionary new];
   dict[kMSTypedPropertyType] = self.type;
   dict[kMSTypedPropertyName] = self.name;
-  if ([self.value isKindOfClass:[NSDate class]]) {
-    dict[kMSTypedPropertyValue] = [MSUtility dateToISO8601:(NSDate *)self.value];
-  } else {
-    dict[kMSTypedPropertyValue] = self.value;
-  }
+  dict[kMSTypedPropertyValue] = self.value;
   return dict;
 }
 

@@ -3,6 +3,7 @@
 #import "MSAnalyticsInternal.h"
 #import "MSLogger.h"
 #import "MSTypedProperty.h"
+#import "MSUtility+Date.h"
 
 @implementation MSEventProperties
 
@@ -90,7 +91,7 @@
   if ([MSEventProperties validateKey:key] && [MSEventProperties validateValue:value]) {
     MSTypedProperty *dateTimeProperty = [MSTypedProperty dateTypedProperty];
     dateTimeProperty.name = key;
-    dateTimeProperty.value = value;
+    dateTimeProperty.value = [MSUtility dateToISO8601:value];
     self.properties[key] = dateTimeProperty;
   }
   return self;
