@@ -330,9 +330,12 @@ forTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget {
 }
 
 - (MSEventProperties *)removeInvalidTypedProperties:(MSEventProperties *)typedProperties {
+    if (self.defaultTransmissionTarget) {
+        return [self validateAppCenterEventProperties:typedProperties];
+    }
 
     //TODO use one collector validation if one collector is receiving the log.
-    return [self validateAppCenterEventProperties:typedProperties];
+    return typedProperties;
 }
 
 - (void)trackPage:(NSString *)pageName withProperties:(NSDictionary<NSString *, NSString *> *)properties {
