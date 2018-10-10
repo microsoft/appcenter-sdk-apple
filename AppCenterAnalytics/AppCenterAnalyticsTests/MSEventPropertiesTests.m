@@ -117,39 +117,6 @@
   XCTAssertEqual(property.value, value);
 }
 
-- (void)testAppCenterCopyHas20PropertiesWhenSelfHasMoreThan20 {
-
-  // If
-  MSEventProperties *sut = [MSEventProperties new];
-
-  // When
-  for (int i = 0; i < 25; i++) {
-    [sut setBool:YES forKey:[NSString stringWithFormat:@"%i", i]];
-  }
-  MSEventProperties *appCenterCopy = [sut createValidCopyForAppCenter];
-
-  // Then
-  XCTAssertEqual([appCenterCopy.properties count], 20);
-}
-
-- (void)testEventPropertiesHaveValidPropertiesForAppCenterWhenSutIsCopiedForAppCenter {
-
-  // If
-  MSEventProperties *sut = [MSEventProperties new];
-  MSTypedProperty *property = OCMPartialMock([MSTypedProperty new]);
-  MSTypedProperty *validPropertyCopy = [MSTypedProperty new];
-  OCMStub([property createValidCopyForAppCenter]).andReturn(validPropertyCopy);
-  NSString *propertyKey = @"key";
-  sut.properties[propertyKey] = property;
-
-  // When
-  MSEventProperties *validProperties = [sut createValidCopyForAppCenter];
-
-  // Then
-  XCTAssertEqual([validProperties.properties count], [sut.properties count]);
-  XCTAssertEqual(validProperties.properties[propertyKey], validPropertyCopy);
-}
-
 - (void)testSerializeToArray {
 
   // If
@@ -166,6 +133,52 @@
   // Then
   XCTAssertEqual([propertiesArray count], 1);
   XCTAssertEqualObjects(propertiesArray[0], serializedProperty);
+}
+
+- (void)testNSCodingSerializationAndDeserialization {
+
+  // If
+  MSEventProperties *sut = [MSEventProperties new];
+  [sut setString:@"stringVal" forKey:@"stringKey"];
+  [sut setBool:YES forKey:@"boolKey"];
+  [sut setDouble:1.4 forKey:@"doubleKey"];
+  [sut setInt64:43 forKey:@"intKey"];
+  [sut setDate:[NSDate new] forKey:@"dateKey"];
+
+  // When
+  NSData *serializedSut = [NSKeyedArchiver archivedDataWithRootObject:sut];
+  MSEventProperties *deserializedSut = [NSKeyedUnarchiver unarchiveObjectWithData:serializedSut];
+
+  // Then
+  XCTAssertNotNil(deserializedSut);
+  XCTAssertTrue([deserializedSut isKindOfClass:[MSEventProperties class]]);
+  for (NSString *key in sut.properties) {
+    MSTypedProperty *sutProperty = sut.properties[key];
+    MSTypedProperty *deserializedSutProperty = deserializedSut.properties[key];
+    XCTAssertEqualObjects(sutProperty.name, deserializedSutProperty.name);
+    XCTAssertEqualObjects(sutProperty.type, deserializedSutProperty.type);
+    if ([deserializedSutProperty isKindOfClass:[MSStringTypedProperty class]]) {
+      MSStringTypedProperty *deserializedProperty = (MSStringTypedProperty *)deserializedSutProperty;
+      MSStringTypedProperty *originalProperty = (MSStringTypedProperty *)sutProperty;
+      XCTAssertEqualObjects(originalProperty.value, deserializedProperty.value);
+    } else if ([deserializedSutProperty isKindOfClass:[MSBooleanTypedProperty class]]) {
+      MSBooleanTypedProperty *deserializedProperty = (MSBooleanTypedProperty *)deserializedSutProperty;
+      MSBooleanTypedProperty *originalProperty = (MSBooleanTypedProperty *)sutProperty;
+      XCTAssertEqual(originalProperty.value, deserializedProperty.value);
+    } else if ([deserializedSutProperty isKindOfClass:[MSLongTypedProperty class]]) {
+      MSLongTypedProperty *deserializedProperty = (MSLongTypedProperty *)deserializedSutProperty;
+      MSLongTypedProperty *originalProperty = (MSLongTypedProperty *)sutProperty;
+      XCTAssertEqual(originalProperty.value, deserializedProperty.value);
+    } else if ([deserializedSutProperty isKindOfClass:[MSDoubleTypedProperty class]]) {
+      MSDoubleTypedProperty *deserializedProperty = (MSDoubleTypedProperty *)deserializedSutProperty;
+      MSDoubleTypedProperty *originalProperty = (MSDoubleTypedProperty *)sutProperty;
+      XCTAssertEqual(originalProperty.value, deserializedProperty.value);
+    } else if ([deserializedSutProperty isKindOfClass:[MSDateTimeTypedProperty class]]) {
+      MSDateTimeTypedProperty *deserializedProperty = (MSDateTimeTypedProperty *)deserializedSutProperty;
+      MSDateTimeTypedProperty *originalProperty = (MSDateTimeTypedProperty *)sutProperty;
+      XCTAssertEqualObjects(originalProperty.value, deserializedProperty.value);
+    }
+  }
 }
 
 @end

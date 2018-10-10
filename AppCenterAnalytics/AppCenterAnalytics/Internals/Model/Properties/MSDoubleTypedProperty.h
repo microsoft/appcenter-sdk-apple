@@ -6,6 +6,6 @@
 /**
  * Double property value. Saved as NSNumber
  */
-@property(nonatomic) id value;
+@property(nonatomic) double value;
 
 @end

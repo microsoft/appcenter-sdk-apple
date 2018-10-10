@@ -44,37 +44,6 @@
   XCTAssertEqualObjects(dictionary[@"value"], sut.value);
 }
 
-- (void)testCreateValidCopyForAppCenterWorksWhenNameIsTooLong {
-
-  // If
-  MSStringTypedProperty *sut = [MSStringTypedProperty new];
-  sut.name = [@"" stringByPaddingToLength:kMSMaxPropertyKeyLength + 2 withString:@"hi" startingAtIndex:0];
-  sut.value = @"value";
-
-  // When
-  MSStringTypedProperty *validCopy = [sut createValidCopyForAppCenter];
-
-  // Then
-  XCTAssertEqualObjects(validCopy.type, sut.type);
-  XCTAssertEqualObjects(validCopy.name, [sut.name substringToIndex:kMSMaxPropertyKeyLength]);
-  XCTAssertEqual(validCopy.value, sut.value);
-}
-
-- (void)testCreateValidCopyForAppCenterWorksWhenValueIsTooLong {
-
-  // If
-  MSStringTypedProperty *sut = [MSStringTypedProperty new];
-  sut.name = @"name";
-  sut.value = [@"" stringByPaddingToLength:kMSMaxPropertyValueLength + 2 withString:@"hi" startingAtIndex:0];
-
-  // When
-  MSStringTypedProperty *validCopy = [sut createValidCopyForAppCenter];
-
-  // Then
-  XCTAssertEqualObjects(validCopy.type, sut.type);
-  XCTAssertEqualObjects(validCopy.name, sut.name);
-  XCTAssertEqual(validCopy.value, [sut.value substringToIndex:kMSMaxPropertyValueLength]);
-}
 
 - (void)testPropertyTypeIsCorrectWhenPropertyIsInitialized {
 

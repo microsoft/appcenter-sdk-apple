@@ -23,27 +23,10 @@
   [coder encodeBool:self.value forKey:kMSTypedPropertyValue];
 }
 
-/**
- * Serialize this object to a dictionary.
- *
- * @return A dictionary representing this object.
- */
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [super serializeToDictionary];
   dict[kMSTypedPropertyValue] = @(self.value);
   return dict;
-}
-
-- (instancetype)createValidCopyForAppCenter {
-  [super createValidCopyForAppCenter];
-  MSBooleanTypedProperty *validProperty = [MSBooleanTypedProperty new];
-  validProperty.name = [self.name substringToIndex:MIN(kMSMaxPropertyKeyLength, [self.name length])];
-  validProperty.value = self.value;
-  return validProperty;
-}
-
-- (instancetype)createValidCopyForOneCollector {
-  return self;
 }
 
 @end

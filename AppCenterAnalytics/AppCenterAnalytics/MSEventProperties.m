@@ -41,7 +41,7 @@ static NSString *const kMSNullPropertyValueMessage = @"Value cannot be null. Pro
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
   if ((self = [self init])) {
-    [coder decodeObject];
+    _properties = (NSMutableDictionary *)[coder decodeObject];
   }
   return self;
 }

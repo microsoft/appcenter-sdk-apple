@@ -8,7 +8,7 @@
 
 @implementation MSDoubleTypedPropertyTests
 
-- (void)testNSCodingSerializationAndDeserializationWorks {
+- (void)testNSCodingSerializationAndDeserialization {
 
   // If
   MSDoubleTypedProperty *sut = [MSDoubleTypedProperty new];
@@ -28,7 +28,7 @@
   XCTAssertEqual(actual.value, sut.value);
 }
 
-- (void)testSerializeToDictionaryWorks {
+- (void)testSerializeToDictionary {
 
   // If
   MSDoubleTypedProperty *sut = [MSDoubleTypedProperty new];
@@ -42,22 +42,6 @@
   XCTAssertEqualObjects(dictionary[@"type"], sut.type);
   XCTAssertEqualObjects(dictionary[@"name"], sut.name);
   XCTAssertEqual([dictionary[@"value"] doubleValue], sut.value);
-}
-
-- (void)testCreateValidCopyForAppCenterWorksWhenNameIsTooLong {
-
-  // If
-  MSDoubleTypedProperty *sut = [MSDoubleTypedProperty new];
-  sut.name = [@"" stringByPaddingToLength:kMSMaxPropertyKeyLength + 2 withString:@"hi" startingAtIndex:0];
-  sut.value = 12.23;
-
-  // When
-  MSDoubleTypedProperty *validCopy = [sut createValidCopyForAppCenter];
-
-  // Then
-  XCTAssertEqualObjects(validCopy.type, sut.type);
-  XCTAssertEqualObjects(validCopy.name, [sut.name substringToIndex:kMSMaxPropertyKeyLength]);
-  XCTAssertEqual(validCopy.value, sut.value);
 }
 
 - (void)testPropertyTypeIsCorrectWhenPropertyIsInitialized {

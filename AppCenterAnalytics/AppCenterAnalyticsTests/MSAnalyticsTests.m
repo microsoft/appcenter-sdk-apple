@@ -17,6 +17,7 @@
 #import "MSStringTypedProperty.h"
 #import "MSTestFrameworks.h"
 #import "MSEventPropertiesInternal.h"
+#import "MSConstants+Internal.h"
 
 static NSString *const kMSTypeEvent = @"event";
 static NSString *const kMSTypePage = @"page";
@@ -1085,50 +1086,53 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   XCTAssertEqualObjects(result, properties);
 }
 
-- (void)testTrackEventWithTypedPropertiesUsesValidPropertiesWhenSendingToAppCenter {
-  
+- (void)testPropertyNameIsTruncatedWhenValidatingForAppCenter {
+
   // If
-  id appCenterMock = OCMClassMock([MSAppCenter class]);
-  OCMStub([appCenterMock sharedInstance]).andReturn(appCenterMock);
-  OCMStub([appCenterMock sdkConfigured]).andReturn(YES);
-  MSEventProperties *eventPropertiesMock = OCMPartialMock([MSEventProperties new]);
-  id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
-  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
-                                            appSecret:kMSTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
-  
+  MSEventProperties *properties = [MSEventProperties new];
+  NSString *longKey = [@"" stringByPaddingToLength:kMSMaxPropertyKeyLength + 2 withString:@"hi" startingAtIndex:0];
+  NSString *truncatedKey = [longKey substringToIndex:kMSMaxPropertyKeyLength];
+  [properties setString:@"test" forKey:longKey];
+
   // When
-  [MSAnalytics trackEvent:@"test" withTypedProperties:eventPropertiesMock];
-  
+  MSEventProperties *validProperties = [[MSAnalytics sharedInstance] validateAppCenterEventProperties:properties];
+
   // Then
-  OCMVerify([eventPropertiesMock createValidCopyForAppCenter]);
-  
-  // Cleanup
-  [appCenterMock stopMocking];
+  MSStringTypedProperty *validProperty = (MSStringTypedProperty *)validProperties.properties[truncatedKey];
+  XCTAssertNotNil(validProperty);
+  XCTAssertEqualObjects(validProperty.name, truncatedKey);
 }
 
-- (void)testTrackEventWithTypedPropertiesUsesValidPropertiesWhenSendingToOneCollector {
-  
+- (void)testPropertyValueIsTruncatedWhenValidatingForAppCenter {
+
   // If
-  id appCenterMock = OCMClassMock([MSAppCenter class]);
-  OCMStub([appCenterMock sharedInstance]).andReturn(appCenterMock);
-  OCMStub([appCenterMock sdkConfigured]).andReturn(YES);
-  MSEventProperties *eventPropertiesMock = OCMPartialMock([MSEventProperties new]);
-  id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
-  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
-                                            appSecret:kMSTestAppSecret
-                              transmissionTargetToken:kMSTestTransmissionToken
-                                      fromApplication:YES];
-  
+  MSEventProperties *properties = [MSEventProperties new];
+  NSString *key = @"key";
+  NSString *longValue = [@"" stringByPaddingToLength:kMSMaxPropertyValueLength + 2 withString:@"hi" startingAtIndex:0];
+  NSString *truncatedValue = [longValue substringToIndex:kMSMaxPropertyValueLength];
+  [properties setString:longValue forKey:key];
+
   // When
-  [MSAnalytics trackEvent:@"test" withTypedProperties:eventPropertiesMock];
-  
+  MSEventProperties *validProperties = [[MSAnalytics sharedInstance] validateAppCenterEventProperties:properties];
+
   // Then
-  OCMVerify([eventPropertiesMock createValidCopyForOneCollector]);
-  
-  // Cleanup
-  [appCenterMock stopMocking];
+  MSStringTypedProperty *validProperty = (MSStringTypedProperty *)validProperties.properties[key];
+  XCTAssertEqualObjects(validProperty.value, truncatedValue);
+}
+
+- (void)testAppCenterCopyHas20PropertiesWhenSelfHasMoreThan20 {
+
+  // If
+  MSEventProperties *properties = [MSEventProperties new];
+
+  // When
+  for (int i = 0; i < 25; i++) {
+    [properties setBool:YES forKey:[@(i) stringValue]];
+  }
+  MSEventProperties *validProperties = [[MSAnalytics sharedInstance] validateAppCenterEventProperties:properties];
+
+  // Then
+  XCTAssertEqual([validProperties.properties count], kMSMaxPropertiesPerLog);
 }
 
 - (void)testPause {

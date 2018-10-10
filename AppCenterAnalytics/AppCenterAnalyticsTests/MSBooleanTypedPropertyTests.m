@@ -28,7 +28,7 @@
   XCTAssertEqual(actual.value, sut.value);
 }
 
-- (void)testSerializeToDictionaryWorks {
+- (void)testSerializeToDictionary {
 
   // If
   MSBooleanTypedProperty *sut = [MSBooleanTypedProperty new];
@@ -44,20 +44,25 @@
   XCTAssertEqual([dictionary[@"value"] boolValue], sut.value);
 }
 
-- (void)testCreateValidCopyForAppCenterWorksWhenNameIsTooLong {
+
+- (void)testNSCodingSerializationAndDeserialization {
 
   // If
   MSBooleanTypedProperty *sut = [MSBooleanTypedProperty new];
-  sut.name = [@"" stringByPaddingToLength:kMSMaxPropertyKeyLength + 2 withString:@"hi" startingAtIndex:0];
+  sut.type = @"type";
+  sut.name = @"name";
   sut.value = YES;
 
   // When
-  MSBooleanTypedProperty *validCopy = [sut createValidCopyForAppCenter];
+  NSData *serializedProperty = [NSKeyedArchiver archivedDataWithRootObject:sut];
+  MSBooleanTypedProperty *actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedProperty];
 
   // Then
-  XCTAssertEqualObjects(validCopy.type, sut.type);
-  XCTAssertEqualObjects(validCopy.name, [sut.name substringToIndex:kMSMaxPropertyKeyLength]);
-  XCTAssertEqual(validCopy.value, sut.value);
+  XCTAssertNotNil(actual);
+  XCTAssertTrue([actual isKindOfClass:[MSBooleanTypedProperty class]]);
+  XCTAssertEqualObjects(actual.name, sut.name);
+  XCTAssertEqualObjects(actual.type, sut.type);
+  XCTAssertEqual(actual.value, sut.value);
 }
 
 - (void)testPropertyTypeIsCorrectWhenPropertyIsInitialized {

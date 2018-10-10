@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
 #import "MSSerializableObject.h"
 
+static NSString *const kMSTypedPropertyValue = @"value";
 
 @interface MSTypedProperty : NSObject <MSSerializableObject>
 
@@ -13,10 +14,5 @@
 * Property name.
 */
 @property(nonatomic, copy) NSString *name;
-
-/**
-* Property value.
-*/
-@property(nonatomic, copy) NSObject *value;
 
 @end
