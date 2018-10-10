@@ -187,8 +187,8 @@
 		266EDFDBADB403FD96D1A5F0 /* MSTypedProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 266ED03B292C98C79C3AFBEB /* MSTypedProperty.m */; };
 		2DA03034D8F3DD2333EC0197 /* MSStringTypedPropertyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA031013CB53DFEA86C1FBA /* MSStringTypedPropertyTests.m */; };
 		2DA030A3F17510B1555C7763 /* MSTypedPropertyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA039541DA70540CB367D6C /* MSTypedPropertyTests.m */; };
-		2DA030BAA4EFC166C19340CF /* MSDateTimeTypedProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA03EF70AF59F47B9438E65 /* MSDateTimeTypedProperty.m */; };
 		2DA0313FDC60E32504E80F12 /* MSLongTypedPropertyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA03753D2BD98F05F9C83C9 /* MSLongTypedPropertyTests.m */; };
+		2DA03154877E25DBD661815D /* MSDateTimeTypedPropertyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA037E5C990E0B22A9FDEBD /* MSDateTimeTypedPropertyTests.m */; };
 		2DA031E4DA171CCEBA3642CE /* MSTypedPropertyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA039541DA70540CB367D6C /* MSTypedPropertyTests.m */; };
 		2DA03285FA3B74C1489AE42B /* MSBooleanTypedPropertyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA03DDA76F1A7DAD008DBBC /* MSBooleanTypedPropertyTests.m */; };
 		2DA032F9E392E3731FE8324C /* MSDoubleTypedPropertyTests.m in Resources */ = {isa = PBXBuildFile; fileRef = 2DA036D59196223B9AD57529 /* MSDoubleTypedPropertyTests.m */; };
@@ -197,9 +197,9 @@
 		2DA0336D6D368FAD68B9D937 /* MSTypedPropertyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA039541DA70540CB367D6C /* MSTypedPropertyTests.m */; };
 		2DA034BE6F5963F1F08B34DB /* MSBooleanTypedPropertyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA03DDA76F1A7DAD008DBBC /* MSBooleanTypedPropertyTests.m */; };
 		2DA034D7E0B88B04705AEF4D /* MSStringTypedPropertyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA031013CB53DFEA86C1FBA /* MSStringTypedPropertyTests.m */; };
-		2DA034E07A268EE3FA7E1A8B /* MSDateTimeTypedProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA03EF70AF59F47B9438E65 /* MSDateTimeTypedProperty.m */; };
 		2DA03531F9C62FE11406AEAD /* MSLongTypedPropertyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA03753D2BD98F05F9C83C9 /* MSLongTypedPropertyTests.m */; };
-		2DA0394FBAEFC6C556F9E600 /* MSDateTimeTypedProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA03EF70AF59F47B9438E65 /* MSDateTimeTypedProperty.m */; };
+		2DA03A8B74B043D58EBB4CBB /* MSDateTimeTypedPropertyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA037E5C990E0B22A9FDEBD /* MSDateTimeTypedPropertyTests.m */; };
+		2DA03C848911BB08714A7D32 /* MSDateTimeTypedPropertyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA037E5C990E0B22A9FDEBD /* MSDateTimeTypedPropertyTests.m */; };
 		2DA03D094B531A9F4ABFC447 /* MSBooleanTypedPropertyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA03DDA76F1A7DAD008DBBC /* MSBooleanTypedPropertyTests.m */; };
 		2DA03E89BDD71D8178BFC133 /* MSLongTypedPropertyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA03753D2BD98F05F9C83C9 /* MSLongTypedPropertyTests.m */; };
 		2DA03F46F2B509DDFCD9E032 /* MSDoubleTypedPropertyTests.m in Resources */ = {isa = PBXBuildFile; fileRef = 2DA036D59196223B9AD57529 /* MSDoubleTypedPropertyTests.m */; };
@@ -427,9 +427,9 @@
 		2DA031013CB53DFEA86C1FBA /* MSStringTypedPropertyTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSStringTypedPropertyTests.m; sourceTree = "<group>"; };
 		2DA036D59196223B9AD57529 /* MSDoubleTypedPropertyTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDoubleTypedPropertyTests.m; sourceTree = "<group>"; };
 		2DA03753D2BD98F05F9C83C9 /* MSLongTypedPropertyTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSLongTypedPropertyTests.m; sourceTree = "<group>"; };
+		2DA037E5C990E0B22A9FDEBD /* MSDateTimeTypedPropertyTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDateTimeTypedPropertyTests.m; sourceTree = "<group>"; };
 		2DA039541DA70540CB367D6C /* MSTypedPropertyTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSTypedPropertyTests.m; sourceTree = "<group>"; };
 		2DA03DDA76F1A7DAD008DBBC /* MSBooleanTypedPropertyTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSBooleanTypedPropertyTests.m; sourceTree = "<group>"; };
-		2DA03EF70AF59F47B9438E65 /* MSDateTimeTypedProperty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDateTimeTypedProperty.m; sourceTree = "<group>"; };
 		3513432F205704A100E6DC7D /* MSAnalyticsTransmissionTarget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsTransmissionTarget.h; sourceTree = "<group>"; };
 		35134330205704C100E6DC7D /* MSAnalyticsTransmissionTarget.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSAnalyticsTransmissionTarget.m; sourceTree = "<group>"; };
 		351343352057093600E6DC7D /* MSAnalyticsTransmissionTargetInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsTransmissionTargetInternal.h; sourceTree = "<group>"; };
@@ -814,7 +814,7 @@
 				2DA031013CB53DFEA86C1FBA /* MSStringTypedPropertyTests.m */,
 				2DA03753D2BD98F05F9C83C9 /* MSLongTypedPropertyTests.m */,
 				2DA036D59196223B9AD57529 /* MSDoubleTypedPropertyTests.m */,
-				2DA03EF70AF59F47B9438E65 /* MSDateTimeTypedProperty.m */,
+				2DA037E5C990E0B22A9FDEBD /* MSDateTimeTypedPropertyTests.m */,
 			);
 			path = AppCenterAnalyticsTests;
 			sourceTree = "<group>";
@@ -1315,7 +1315,7 @@
 				2DA03285FA3B74C1489AE42B /* MSBooleanTypedPropertyTests.m in Sources */,
 				2DA034D7E0B88B04705AEF4D /* MSStringTypedPropertyTests.m in Sources */,
 				2DA03E89BDD71D8178BFC133 /* MSLongTypedPropertyTests.m in Sources */,
-				2DA034E07A268EE3FA7E1A8B /* MSDateTimeTypedProperty.m in Sources */,
+				2DA03C848911BB08714A7D32 /* MSDateTimeTypedPropertyTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1339,7 +1339,7 @@
 				2DA03D094B531A9F4ABFC447 /* MSBooleanTypedPropertyTests.m in Sources */,
 				2DA03347680B5EE8EF4074C1 /* MSStringTypedPropertyTests.m in Sources */,
 				2DA0313FDC60E32504E80F12 /* MSLongTypedPropertyTests.m in Sources */,
-				2DA030BAA4EFC166C19340CF /* MSDateTimeTypedProperty.m in Sources */,
+				2DA03154877E25DBD661815D /* MSDateTimeTypedPropertyTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1413,7 +1413,7 @@
 				2DA034BE6F5963F1F08B34DB /* MSBooleanTypedPropertyTests.m in Sources */,
 				2DA03034D8F3DD2333EC0197 /* MSStringTypedPropertyTests.m in Sources */,
 				2DA03531F9C62FE11406AEAD /* MSLongTypedPropertyTests.m in Sources */,
-				2DA0394FBAEFC6C556F9E600 /* MSDateTimeTypedProperty.m in Sources */,
+				2DA03A8B74B043D58EBB4CBB /* MSDateTimeTypedPropertyTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
