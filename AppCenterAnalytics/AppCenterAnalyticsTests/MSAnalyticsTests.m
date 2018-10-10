@@ -1040,13 +1040,14 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   XCTAssertEqualObjects(result, properties);
 }
 
-- (void)testPropertyNameIsTruncatedWhenValidatingForAppCenter {
+- (void)testPropertyNameIsTruncatedInACopyWhenValidatingForAppCenter {
 
   // If
   MSEventProperties *properties = [MSEventProperties new];
   NSString *longKey = [@"" stringByPaddingToLength:kMSMaxPropertyKeyLength + 2 withString:@"hi" startingAtIndex:0];
   NSString *truncatedKey = [longKey substringToIndex:kMSMaxPropertyKeyLength - 1];
   [properties setString:@"test" forKey:longKey];
+  MSStringTypedProperty *originalProperty = (MSStringTypedProperty *)properties.properties[longKey];
 
   // When
   MSEventProperties *validProperties = [[MSAnalytics sharedInstance] validateAppCenterEventProperties:properties];
@@ -1055,9 +1056,11 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   MSStringTypedProperty *validProperty = (MSStringTypedProperty *)validProperties.properties[truncatedKey];
   XCTAssertNotNil(validProperty);
   XCTAssertEqualObjects(validProperty.name, truncatedKey);
+  XCTAssertNotEqual(originalProperty, validProperty);
+  XCTAssertEqualObjects(originalProperty.name, longKey);
 }
 
-- (void)testPropertyValueIsTruncatedWhenValidatingForAppCenter {
+- (void)testPropertyValueIsTruncatedInACopyWhenValidatingForAppCenter {
 
   // If
   MSEventProperties *properties = [MSEventProperties new];
@@ -1065,6 +1068,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   NSString *longValue = [@"" stringByPaddingToLength:kMSMaxPropertyValueLength + 2 withString:@"hi" startingAtIndex:0];
   NSString *truncatedValue = [longValue substringToIndex:kMSMaxPropertyValueLength - 1];
   [properties setString:longValue forKey:key];
+  MSStringTypedProperty *originalProperty = (MSStringTypedProperty *)properties.properties[key];
 
   // When
   MSEventProperties *validProperties = [[MSAnalytics sharedInstance] validateAppCenterEventProperties:properties];
@@ -1072,6 +1076,8 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   // Then
   MSStringTypedProperty *validProperty = (MSStringTypedProperty *)validProperties.properties[key];
   XCTAssertEqualObjects(validProperty.value, truncatedValue);
+  XCTAssertNotEqual(originalProperty, validProperty);
+  XCTAssertEqualObjects(originalProperty.value, longValue);
 }
 
 - (void)testAppCenterCopyHas20PropertiesWhenSelfHasMoreThan20 {
