@@ -23,7 +23,6 @@
   XCTAssertEqual([dictionary[@"value"] boolValue], sut.value);
 }
 
-
 - (void)testNSCodingSerializationAndDeserialization {
 
   // If
