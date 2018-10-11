@@ -22,7 +22,6 @@ static NSString *const kMSTypedProperties = @"typedProperties";
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [super serializeToDictionary];
-
   if (self.eventId) {
     dict[kMSId] = self.eventId;
   }

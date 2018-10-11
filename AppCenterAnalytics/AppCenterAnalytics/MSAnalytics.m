@@ -283,9 +283,27 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   // Set properties of the event log.
   log.name = eventName;
   log.eventId = MS_UUID_STRING;
-  log.typedProperties = [self removeInvalidTypedProperties:properties];
+  MSEventProperties *validProperties = [self removeInvalidTypedProperties:properties];
+  if (![validProperties isEmpty]) {
+    log.typedProperties = validProperties;
+  }
 
-  // Send log to log manager.
+  //TODO Remove the workaround below once transmission targets support EventProperties.
+  /*
+   * If there are any target tokens, the typed properties must be moved into the old "properties" field. This can be removed once the One Collector
+   * logic is able to deal with the EventProperties object. Until then, this workaround prevents One Collector logs from breaking.
+   */
+  NSMutableDictionary *oldStyleStringProperties = [NSMutableDictionary new];
+  if ([log.transmissionTargetTokens count] != 0) {
+    for (MSTypedProperty *property in [log.typedProperties.properties objectEnumerator]) {
+      if ([property isKindOfClass:[MSStringTypedProperty class]]) {
+        oldStyleStringProperties[property.name] = ((MSStringTypedProperty *)property).value;
+      }
+    }
+  }
+  log.properties = oldStyleStringProperties;
+
+  // Send log to channel.
   [self sendLog:log];
 }
 

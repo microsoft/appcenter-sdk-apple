@@ -31,6 +31,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (NSMutableArray *)serializeToArray;
 
+/**
+ * Indicates whether there are any properties in the collection.
+ *
+ * @return `YES` if there are no properties in the collection, `NO` otherwise.
+ */
+- (BOOL)isEmpty;
+
 @end
 
 NS_ASSUME_NONNULL_END

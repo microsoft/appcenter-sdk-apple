@@ -125,6 +125,10 @@
   return propertiesArray;
 }
 
+- (BOOL) isEmpty {
+  return [self.properties count] == 0;
+}
+
 #pragma mark - Helper methods
 
 + (BOOL)validateKey:(NSString *)key {
