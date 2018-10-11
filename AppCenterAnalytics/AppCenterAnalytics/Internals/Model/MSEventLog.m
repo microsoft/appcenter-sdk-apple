@@ -71,17 +71,17 @@ static NSString *const kMSTypedProperties = @"typedProperties";
   // Event properties goes to part C.
   MSCSData *data = [MSCSData new];
   csLog.data = data;
-  csLog.data.properties = [self convertACPropertiesToCSproperties:self.properties];
+  csLog.data.properties = [self convertACPropertiesToCSProperties:self.typedProperties];
   return csLog;
 }
 
 #pragma mark - Helper
 
-- (NSDictionary<NSString *, NSObject *> *)convertACPropertiesToCSproperties:(NSDictionary<NSString *, NSString *> *)acProperties {
+- (NSDictionary<NSString *, NSObject *> *)convertACPropertiesToCSProperties:(MSEventProperties *)eventProperties {
   NSMutableDictionary *csProperties;
-  if (acProperties) {
+  if (eventProperties) {
     csProperties = [NSMutableDictionary new];
-    for (NSString *acKey in acProperties) {
+    for (NSString *acKey in eventProperties) {
 
       // Properties keys are mixed up with other keys from Data, make sure they don't conflict.
       if ([acKey isEqualToString:kMSDataBaseData] || [acKey isEqualToString:kMSDataBaseDataType]) {
@@ -111,7 +111,7 @@ static NSString *const kMSTypedProperties = @"typedProperties";
         [destProperties removeObjectForKey:csKeys[lastIndex]];
         MSLogWarning(MSAnalytics.logTag, @"Property key '%@' already has a value, the old value will be overridden.", csKeys[lastIndex]);
       }
-      destProperties[csKeys[lastIndex]] = acProperties[acKey];
+      destProperties[csKeys[lastIndex]] = eventProperties[acKey];
     }
   }
   return csProperties;

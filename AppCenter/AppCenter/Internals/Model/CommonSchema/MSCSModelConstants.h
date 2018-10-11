@@ -64,6 +64,7 @@ extern NSString *const kMSDataBaseData;
 
 #pragma mark - MSCSExtensions
 
+extern NSString *const kMSCSMetadataExt;
 extern NSString *const kMSCSProtocolExt;
 extern NSString *const kMSCSUserExt;
 extern NSString *const kMSCSDeviceExt;

@@ -1,13 +1,13 @@
-#import "MSCSData.h"
+#import "MSMetadataExtension.h"
 
-@implementation MSCSData
+@implementation MSMetadataExtension
 
 #pragma mark - MSSerializableObject
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [NSMutableDictionary new];
-  if (self.properties) {
-    [dict addEntriesFromDictionary:self.properties];
+  if (self.metadata) {
+    [dict addEntriesFromDictionary:self.metadata];
   }
   return dict;
 }
@@ -23,24 +23,24 @@
 #pragma mark - NSObject
 
 - (BOOL)isEqual:(id)object {
-  if (![(NSObject *)object isKindOfClass:[MSCSData class]]) {
+  if (![(NSObject *)object isKindOfClass:[MSMetadataExtension class]]) {
     return NO;
   }
-  MSCSData *csData = (MSCSData *)object;
-  return (!self.properties && !csData.properties) || [self.properties isEqualToDictionary:csData.properties];
+  MSMetadataExtension *csMetadata = (MSMetadataExtension *)object;
+  return (!self.metadata && !csMetadata) || [self.metadata isEqualToDictionary:csMetadata.metadata];
 }
 
 #pragma mark - NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
   if ((self = [super init])) {
-    _properties = [coder decodeObject];
+    _metadata = [coder decodeObject];
   }
   return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
-  [coder encodeRootObject:self.properties];
+  [coder encodeRootObject:self.metadata];
 }
 
 @end

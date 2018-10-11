@@ -5,10 +5,10 @@
 /**
  * Convert AppCenter properties to Common Schema 3.0 Part C properties.
  *
- * @param acProperties The AppCenter properties.
+ * @param eventProperties The event properties.
  *
  * @return A dictionary of key-value pairs.
  */
-- (NSDictionary<NSString *, NSObject *> *)convertACPropertiesToCSproperties:(NSDictionary<NSString *, NSString *> *)acProperties;
+- (NSDictionary<NSString *, NSObject *> *)convertACPropertiesToCSProperties:(MSEventProperties *)eventProperties;
 
 @end

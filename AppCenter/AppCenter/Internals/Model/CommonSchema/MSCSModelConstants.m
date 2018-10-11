@@ -64,6 +64,7 @@ NSString *const kMSDataBaseDataType = @"baseDataType";
 
 #pragma mark - MSCSExtensions
 
+NSString *const kMSCSMetadataExt = @"metadata";
 NSString *const kMSCSProtocolExt = @"protocol";
 NSString *const kMSCSUserExt = @"user";
 NSString *const kMSCSDeviceExt = @"device";

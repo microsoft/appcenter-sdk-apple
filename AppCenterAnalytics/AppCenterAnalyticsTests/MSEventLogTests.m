@@ -141,7 +141,7 @@
   NSDictionary *acProperties = nil;
 
   // When
-  NSDictionary *csProperties = [self.sut convertACPropertiesToCSproperties:acProperties];
+  NSDictionary *csProperties = [self.sut convertACPropertiesToCSProperties:acProperties];
 
   // Then
   XCTAssertNil(csProperties);
@@ -150,7 +150,7 @@
   acProperties = @{ @"key" : @"value", @"key2" : @"value2" };
 
   // When
-  csProperties = [self.sut convertACPropertiesToCSproperties:acProperties];
+  csProperties = [self.sut convertACPropertiesToCSProperties:acProperties];
 
   // Then
   XCTAssertEqualObjects(csProperties, acProperties);
@@ -159,7 +159,7 @@
   acProperties = @{ @"nes.t.ed" : @"buriedValue" };
 
   // When
-  csProperties = [self.sut convertACPropertiesToCSproperties:acProperties];
+  csProperties = [self.sut convertACPropertiesToCSProperties:acProperties];
 
   // Then
   XCTAssertEqualObjects(csProperties, @{ @"nes" : @{@"t" : @{@"ed" : @"buriedValue"}} });
@@ -168,7 +168,7 @@
   acProperties = @{ @"key" : @"value", @"nes.a" : @"1", @"nes.t.ed" : @"2", @"nes.t.ed2" : @"3", @"key2" : @"value2" };
 
   // When
-  csProperties = [self.sut convertACPropertiesToCSproperties:acProperties];
+  csProperties = [self.sut convertACPropertiesToCSProperties:acProperties];
   NSDictionary *test = @{ @"key" : @"value", @"nes" : @{@"a" : @"1", @"t" : @{@"ed" : @"2", @"ed2" : @"3"}}, @"key2" : @"value2" };
 
   // Then
@@ -181,7 +181,7 @@
   NSDictionary *acProperties = @{ @"a.b" : @"1", @"a.b.c.d" : @"2" };
 
   // When
-  NSDictionary *csProperties = [self.sut convertACPropertiesToCSproperties:acProperties];
+  NSDictionary *csProperties = [self.sut convertACPropertiesToCSProperties:acProperties];
   NSDictionary *test1 = @{ @"a" : @{@"b" : @"1"} };
   NSDictionary *test2 = @{ @"a" : @{@"b" : @{@"c" : @{@"d" : @"2"}}} };
 
@@ -196,7 +196,7 @@
   NSDictionary *acProperties = @{ @"a.b.c.d" : @"1", @"a.b" : @"2" };
 
   // When
-  NSDictionary *csProperties = [self.sut convertACPropertiesToCSproperties:acProperties];
+  NSDictionary *csProperties = [self.sut convertACPropertiesToCSProperties:acProperties];
   NSDictionary *test1 = @{ @"a" : @{@"b" : @{@"c" : @{@"d" : @"1"}}} };
   NSDictionary *test2 = @{ @"a" : @{@"b" : @"2"} };
 
@@ -211,7 +211,7 @@
   NSDictionary *acProperties = @{ @"a.b" : @"1", @"a.b" : @"2" };
 
   // When
-  NSDictionary *csProperties = [self.sut convertACPropertiesToCSproperties:acProperties];
+  NSDictionary *csProperties = [self.sut convertACPropertiesToCSProperties:acProperties];
   NSDictionary *test1 = @{ @"a" : @{@"b" : @"1"} };
   NSDictionary *test2 = @{ @"a" : @{@"b" : @"2"} };
 
