@@ -19,11 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Creates an instance of EventProperties with a string-string properties dictionary.
  *
- * @param properties A dictionary of properties.
+ * @param properties A dictionary of properties with string keys and string values.
  *
  * @return An instance of EventProperties.
  */
-- (instancetype)initWithDictionary:(NSDictionary<NSString *, NSString *> *)properties;
+- (instancetype)initWithStringDictionary:(NSDictionary<NSString *, NSString *> *)properties;
 
 /**
  * Serialize this object to an array.

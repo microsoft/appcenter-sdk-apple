@@ -8,13 +8,13 @@
 #import "MSChannelUnitProtocol.h"
 #import "MSConstants+Internal.h"
 #import "MSEventLog.h"
-#import "MSPageLog.h"
-#import "MSServiceAbstractProtected.h"
-#import "MSUtility+StringFormatting.h"
 #import "MSEventProperties.h"
 #import "MSEventPropertiesInternal.h"
-#import "MSTypedProperty.h"
+#import "MSPageLog.h"
+#import "MSServiceAbstractProtected.h"
 #import "MSStringTypedProperty.h"
+#import "MSTypedProperty.h"
+#import "MSUtility+StringFormatting.h"
 
 // Service name for initialization.
 static NSString *const kMSServiceName = @"Analytics";
@@ -251,7 +251,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
            withProperties:(NSDictionary<NSString *, NSString *> *)properties
     forTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget {
   NSDictionary *validProperties = [self removeInvalidProperties:properties];
-  MSEventProperties *eventProperties = [[MSEventProperties alloc] initWithDictionary:validProperties];
+  MSEventProperties *eventProperties = [[MSEventProperties alloc] initWithStringDictionary:validProperties];
   [self trackEvent:eventName withTypedProperties:eventProperties forTransmissionTarget:transmissionTarget];
 }
 
