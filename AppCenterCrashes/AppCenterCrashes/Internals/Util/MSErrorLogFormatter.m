@@ -831,7 +831,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   return address & 0x0000000fffffffff;
 }
 
-+ (NSString *)formatAddress:(uint64_t)address is64bit: (BOOLis64bit {
++ (NSString *)formatAddress:(uint64_t)address is64bit:(BOOL)is64bit {
   if (is64bit) {
     address = [MSErrorLogFormatter normalizeAddress:address];
   }
