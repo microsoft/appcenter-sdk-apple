@@ -6,3 +6,4 @@
 #import "MSAnalyticsAuthenticationProvider.h"
 #import "MSAnalyticsAuthenticationProviderDelegate.h"
 #import "MSEventLog.h"
+#import "MSEventProperties.h"

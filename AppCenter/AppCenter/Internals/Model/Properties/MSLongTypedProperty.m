@@ -1,0 +1,33 @@
+#import "MSLongTypedProperty.h"
+
+static NSString *const kMSLongTypedPropertyType = @"long";
+
+@implementation MSLongTypedProperty
+
+- (instancetype)init {
+    if ((self = [super init])) {
+        self.type = kMSLongTypedPropertyType;
+    }
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)coder {
+    self = [super initWithCoder:coder];
+    if (self) {
+        _value = [coder decodeInt64ForKey:kMSTypedPropertyValue];
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+    [super encodeWithCoder:coder];
+    [coder encodeInt64:self.value forKey:kMSTypedPropertyValue];
+}
+
+- (NSMutableDictionary *)serializeToDictionary {
+    NSMutableDictionary *dict = [super serializeToDictionary];
+    dict[kMSTypedPropertyValue] = @(self.value);
+    return dict;
+}
+
+@end

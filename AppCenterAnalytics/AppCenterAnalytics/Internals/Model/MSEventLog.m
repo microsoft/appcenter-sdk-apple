@@ -3,10 +3,13 @@
 #import "MSCSData.h"
 #import "MSCSModelConstants.h"
 #import "MSEventLogPrivate.h"
+#import "MSEventPropertiesInternal.h"
 
 static NSString *const kMSTypeEvent = @"event";
 
 static NSString *const kMSId = @"id";
+
+static NSString *const kMSTypedProperties = @"typedProperties";
 
 @implementation MSEventLog
 
@@ -19,9 +22,11 @@ static NSString *const kMSId = @"id";
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [super serializeToDictionary];
-
   if (self.eventId) {
     dict[kMSId] = self.eventId;
+  }
+  if (self.typedProperties) {
+    dict[kMSTypedProperties] = [self.typedProperties serializeToArray];
   }
   return dict;
 }
@@ -44,14 +49,15 @@ static NSString *const kMSId = @"id";
   self = [super initWithCoder:coder];
   if (self) {
     _eventId = [coder decodeObjectForKey:kMSId];
+    _typedProperties = [coder decodeObjectForKey:kMSTypedProperties];
   }
-
   return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
   [coder encodeObject:self.eventId forKey:kMSId];
+  [coder encodeObject:self.typedProperties forKey:kMSTypedProperties];
 }
 
 #pragma mark - MSAbstractLog
@@ -89,7 +95,7 @@ static NSString *const kMSId = @"id";
       NSMutableDictionary *destProperties = csProperties;
       for (NSUInteger i = 0; i < lastIndex; i++) {
         NSMutableDictionary *subObject = nil;
-        if ([(NSObject *)destProperties[csKeys[i]] isKindOfClass:[NSMutableDictionary class]]) {
+        if ([(NSObject *) destProperties[csKeys[i]] isKindOfClass:[NSMutableDictionary class]]) {
           subObject = destProperties[csKeys[i]];
         }
         if (!subObject) {
