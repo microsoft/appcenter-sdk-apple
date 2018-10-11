@@ -24,11 +24,6 @@ static NSString *const kMSStringTypedPropertyType = @"string";
     [coder encodeObject:self.value forKey:kMSTypedPropertyValue];
 }
 
-/**
- * Serialize this object to a dictionary.
- *
- * @return A dictionary representing this object.
- */
 - (NSMutableDictionary *)serializeToDictionary {
     NSMutableDictionary *dict = [super serializeToDictionary];
     dict[kMSTypedPropertyValue] = self.value;
