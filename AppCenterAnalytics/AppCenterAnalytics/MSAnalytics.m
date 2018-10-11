@@ -283,10 +283,10 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   // Set properties of the event log.
   log.name = eventName;
   log.eventId = MS_UUID_STRING;
-  MSEventProperties *validProperties = [self removeInvalidTypedProperties:properties];
-  if (![validProperties isEmpty]) {
-    log.typedProperties = validProperties;
+  if (!self.defaultTransmissionTarget) {
+    properties = [self validateAppCenterEventProperties:properties];
   }
+  log.typedProperties = [properties isEmpty] ? nil : properties;
 
   //TODO Remove the workaround below once transmission targets support EventProperties.
   /*
@@ -337,11 +337,6 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   }
 
   return validProperties;
-}
-
-- (MSEventProperties *)removeInvalidTypedProperties:(MSEventProperties *)typedProperties {
-  return self.defaultTransmissionTarget ? [self validateOneCollectorEventProperties:typedProperties]
-                                        : [self validateAppCenterEventProperties:typedProperties];
 }
 
 - (void)trackPage:(NSString *)pageName withProperties:(NSDictionary<NSString *, NSString *> *)properties {

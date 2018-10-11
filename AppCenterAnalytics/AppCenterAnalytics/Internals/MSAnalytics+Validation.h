@@ -44,13 +44,6 @@ extern NSString *MSAnalyticsValidationCategory;
  */
 - (MSEventProperties *)validateAppCenterEventProperties:(MSEventProperties *)properties;
 
-/**
- * Validate MSEventProperties for One Collector.
- *
- * @return MSEventProperties object which contains only valid properties.
- */
-- (MSEventProperties *)validateOneCollectorEventProperties:(MSEventProperties *)properties;
-
 @end
 
 NS_ASSUME_NONNULL_END

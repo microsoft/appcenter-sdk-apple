@@ -125,10 +125,4 @@ NSString *MSAnalyticsValidationCategory;
   return value;
 }
 
-- (MSEventProperties *)validateOneCollectorEventProperties:(MSEventProperties *)properties {
-
-  //TODO implementation required.
-  return properties;
-}
-
 @end
