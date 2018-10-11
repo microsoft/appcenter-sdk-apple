@@ -462,4 +462,25 @@
   assertThat(errorLog.registers, hasCountOf([crashedThread.registers count]));
 }
 
+- (void)testNormalizeAddress {
+
+  // If
+  uint64_t address32Bit = 0x123456789;
+
+  // When
+  uint64_t normalizedAddress = [MSErrorLogFormatter normalizeAddress:address32Bit];
+
+  // Then
+  XCTAssertEqual(address32Bit, normalizedAddress);
+
+  // If
+  uint64_t address64Bit = 0x1234567890abcdef;
+
+  // When
+  normalizedAddress = [MSErrorLogFormatter normalizeAddress:address64Bit];
+
+  // Then
+  XCTAssertEqual(0x0000000890abcdef, normalizedAddress);
+}
+
 @end
