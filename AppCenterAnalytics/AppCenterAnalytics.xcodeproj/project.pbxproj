@@ -645,18 +645,18 @@
 		266ED633EDAE5FB0B4506BCF /* Properties */ = {
 			isa = PBXGroup;
 			children = (
-				266ED03B292C98C79C3AFBEB /* MSTypedProperty.m */,
-				266ED0BD4A4779B7D977F3EF /* MSTypedProperty.h */,
-				266ED2E1616E66D97DA54378 /* MSStringTypedProperty.m */,
-				266ED09E4C5FE14D8941F2D8 /* MSStringTypedProperty.h */,
-				266ED4B89C26822E6245514F /* MSLongTypedProperty.m */,
-				266ED625D343D6D4C9EDC5C5 /* MSLongTypedProperty.h */,
-				266ED096396BDCCF62E8D38A /* MSDoubleTypedProperty.m */,
-				266EDD0943923656426C65B9 /* MSDoubleTypedProperty.h */,
-				266EDF40B71F40D6439E5255 /* MSBooleanTypedProperty.m */,
 				266EDC53A2142132F651FE83 /* MSBooleanTypedProperty.h */,
-				266EDAEDB0B590412ECAC0BF /* MSDateTimeTypedProperty.m */,
+				266EDF40B71F40D6439E5255 /* MSBooleanTypedProperty.m */,
 				266EDB262E9FBCE475E50EB9 /* MSDateTimeTypedProperty.h */,
+				266EDAEDB0B590412ECAC0BF /* MSDateTimeTypedProperty.m */,
+				266EDD0943923656426C65B9 /* MSDoubleTypedProperty.h */,
+				266ED096396BDCCF62E8D38A /* MSDoubleTypedProperty.m */,
+				266ED625D343D6D4C9EDC5C5 /* MSLongTypedProperty.h */,
+				266ED4B89C26822E6245514F /* MSLongTypedProperty.m */,
+				266ED09E4C5FE14D8941F2D8 /* MSStringTypedProperty.h */,
+				266ED2E1616E66D97DA54378 /* MSStringTypedProperty.m */,
+				266ED0BD4A4779B7D977F3EF /* MSTypedProperty.h */,
+				266ED03B292C98C79C3AFBEB /* MSTypedProperty.m */,
 			);
 			path = Properties;
 			sourceTree = "<group>";
@@ -705,12 +705,13 @@
 				38337D6E20C0AB0D00CEDA17 /* MSEventLogPrivate.h */,
 				6E3E2CC51D359D5E00B1EE50 /* MSEventLog.h */,
 				6E3E2CC61D359D5E00B1EE50 /* MSEventLog.m */,
-				E8E48FA01D51670100A8C1B0 /* MSStartSessionLog.h */,
-				E8E48FA11D51670100A8C1B0 /* MSStartSessionLog.m */,
-				6E3E2CC71D359D5E00B1EE50 /* MSPageLog.h */,
-				6E3E2CC81D359D5E00B1EE50 /* MSPageLog.m */,
+				266ED07D29C2A2CC67AD1F60 /* MSEventPropertiesInternal.h */,
 				F834E37020AC8E25003CB54D /* MSLogWithNameAndProperties.h */,
 				F834E37120AC8E25003CB54D /* MSLogWithNameAndProperties.m */,
+				6E3E2CC71D359D5E00B1EE50 /* MSPageLog.h */,
+				6E3E2CC81D359D5E00B1EE50 /* MSPageLog.m */,
+				E8E48FA01D51670100A8C1B0 /* MSStartSessionLog.h */,
+				E8E48FA11D51670100A8C1B0 /* MSStartSessionLog.m */,
 				266ED633EDAE5FB0B4506BCF /* Properties */,
 			);
 			path = Model;
@@ -748,12 +749,11 @@
 				E85547CC1D2D63EF002DF6E2 /* AppCenterAnalytics.h */,
 				E85547C31D2D6253002DF6E2 /* MSAnalytics.h */,
 				E85547C51D2D6253002DF6E2 /* MSAnalytics.m */,
+				266ED289BE3D9562F1F61348 /* MSEventProperties.h */,
+				266EDBD8487DA42DAB601DD9 /* MSEventProperties.m */,
 				3513432E2057046700E6DC7D /* TransmissionTarget */,
 				E85547CD1D2D64B0002DF6E2 /* Internals */,
 				E85547D01D2D65AF002DF6E2 /* Support */,
-				266EDBD8487DA42DAB601DD9 /* MSEventProperties.m */,
-				266ED289BE3D9562F1F61348 /* MSEventProperties.h */,
-				266ED07D29C2A2CC67AD1F60 /* MSEventPropertiesInternal.h */,
 			);
 			path = AppCenterAnalytics;
 			sourceTree = "<group>";
