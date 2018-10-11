@@ -89,13 +89,6 @@ static const char *safer_string_read(const char *string, const char *limit) {
   return string;
 }
 
-static NSString *formatted_address_matching_architecture(uint64_t address, BOOL is64bit) {
-  if (is64bit) {
-    address = [MSErrorLogFormatter normalizeAddress:address];
-  }
-  return [NSString stringWithFormat:@"0x%0*" PRIx64, 8 << is64bit, address];
-}
-
 /**
  * The relativeAddress should be `<ecx/rsi/r1/x1 ...> - <image base>`, extracted
  * from the crash report's thread
@@ -169,7 +162,6 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
     // Apply the slide, as per getsectdatafromheader(3)
     methname_sect += slide;
-
     if (methname_sect == NULL) {
       return NULL;
     }
@@ -407,7 +399,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
     // Gather frames from the thread's exception.
     for (MSPLCrashReportStackFrameInfo *frameInfo in exception.stackFrames) {
       MSStackFrame *frame = [MSStackFrame new];
-      frame.address = formatted_address_matching_architecture(frameInfo.instructionPointer, is64bit);
+      frame.address = [MSErrorLogFormatter formatAddress:frameInfo.instructionPointer is64bit:is64bit];
       [exceptionThread.frames addObject:frame];
     }
 
@@ -439,7 +431,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
      */
     for (MSPLCrashReportStackFrameInfo *plCrashReporterFrameInfo in plCrashReporterThread.stackFrames) {
       MSStackFrame *frame = [MSStackFrame new];
-      frame.address = formatted_address_matching_architecture(plCrashReporterFrameInfo.instructionPointer, is64bit);
+      frame.address = [MSErrorLogFormatter formatAddress:plCrashReporterFrameInfo.instructionPointer is64bit:is64bit];
       frame.code = [self formatStackFrame:plCrashReporterFrameInfo report:report];
       [thread.frames addObject:frame];
     }
@@ -514,8 +506,8 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
     // No need to format the register's name but, we need to format the value.
     NSString *registerName = registerInfo.registerName;
-    NSString *formattedRegValue = formatted_address_matching_architecture(registerInfo.registerValue, is64bit);
-    registers[registerName] = formattedRegValue;
+    NSString *formattedRegisterValue = [MSErrorLogFormatter formatAddress:registerInfo.registerValue is64bit:is64bit];
+    registers[registerName] = formattedRegisterValue;
   }
 
   return registers;
@@ -571,15 +563,14 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
   NSMutableArray<MSBinary *> *binaryImages = [NSMutableArray array];
 
-  // Images. The iPhone crash report format sorts these in ascending order, by
-  // the base address.
+  // Images. The iPhone crash report format sorts these in ascending order, by the base address.
   for (MSPLCrashReportBinaryImageInfo *imageInfo in [report.images sortedArrayUsingFunction:bit_binaryImageSort context:nil]) {
     MSBinary *binary = [MSBinary new];
     binary.binaryId = (imageInfo.hasImageUUID) ? imageInfo.imageUUID : unknownString;
     uint64_t startAddress = imageInfo.imageBaseAddress;
-    binary.startAddress = formatted_address_matching_architecture(startAddress, is64bit);
+    binary.startAddress = [MSErrorLogFormatter formatAddress:startAddress is64bit:is64bit];
     uint64_t endAddress = imageInfo.imageBaseAddress + (MAX((uint64_t)1, imageInfo.imageSize) - 1);
-    binary.endAddress = formatted_address_matching_architecture(endAddress, is64bit);
+    binary.endAddress = [MSErrorLogFormatter formatAddress:endAddress is64bit:is64bit];
     BOOL binaryIsInAddresses = [self isBinaryWithStart:startAddress end:endAddress inAddresses:addresses];
     MSBinaryImageType imageType = [self imageTypeForImagePath:imageInfo.imageName processPath:report.processInfo.processPath];
 
@@ -649,8 +640,10 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
                  error.localizedDescription);
       return anonymizedProcessPath;
     }
-    anonymizedProcessPath =
-        [regex stringByReplacingMatchesInString:path options:0 range:NSMakeRange(0, [path length]) withTemplate:@"/Users/USER/"];
+    anonymizedProcessPath = [regex stringByReplacingMatchesInString:path
+                                                            options:0
+                                                              range:NSMakeRange(0, [path length])
+                                                       withTemplate:@"/Users/USER/"];
   } else if (([path length] > 0) && ([path rangeOfString:@"Users"].length == 0)) {
     return path;
   }
@@ -836,6 +829,13 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
 + (uint64_t)normalizeAddress:(uint64_t)address {
   return address & 0x0000000fffffffff;
+}
+
++ (NSString *)formatAddress:(uint64_t)address is64bit: (BOOLis64bit {
+  if (is64bit) {
+    address = [MSErrorLogFormatter normalizeAddress:address];
+  }
+  return [NSString stringWithFormat:@"0x%0*" PRIx64, 8 << is64bit, address];
 }
 
 @end

@@ -462,25 +462,46 @@
   assertThat(errorLog.registers, hasCountOf([crashedThread.registers count]));
 }
 
-- (void)testNormalizeAddress {
+- (void)testNormalize32BitAddress {
 
   // If
   uint64_t address32Bit = 0x123456789;
 
   // When
-  uint64_t normalizedAddress = [MSErrorLogFormatter normalizeAddress:address32Bit];
+  NSString *actual = [MSErrorLogFormatter formatAddress:address32Bit is64bit:NO];
+  NSString *expected = [NSString stringWithFormat:@"0x%0*" PRIx64, 8 << NO, address32Bit];
 
   // Then
-  XCTAssertEqual(address32Bit, normalizedAddress);
+  XCTAssertEqualObjects(expected, actual);
+}
+
+- (void)testNormalize64BitAddress {
 
   // If
   uint64_t address64Bit = 0x1234567890abcdef;
+  uint64_t normalizedAddress = 0x0000000890abcdef;
 
   // When
-  normalizedAddress = [MSErrorLogFormatter normalizeAddress:address64Bit];
+  NSString *actual = [MSErrorLogFormatter formatAddress:address64Bit is64bit:YES];
+  NSString *expected = [NSString stringWithFormat:@"0x%0*" PRIx64, 8 << YES, normalizedAddress];
 
   // Then
-  XCTAssertEqual(0x0000000890abcdef, normalizedAddress);
+  XCTAssertEqualObjects(expected, actual);
+}
+
+- (void)testBinaryImageCountFromReportIsCorrect {
+
+  // If
+  NSData *crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:@"live_report_arm64e"];
+  NSError *error = nil;
+  MSPLCrashReport *crashReport = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
+  NSUInteger expectedCount = 14;
+
+  // When
+  NSArray *binaryImages = [MSErrorLogFormatter extractBinaryImagesFromReport:crashReport codeType:@(CPU_TYPE_ARM64) is64bit:YES];
+
+  // Then
+  XCTAssertEqual(expectedCount, binaryImages.count);
 }
 
 @end
