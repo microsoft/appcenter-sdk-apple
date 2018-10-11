@@ -293,15 +293,15 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
    * If there are any target tokens, the typed properties must be moved into the old "properties" field. This can be removed once the One Collector
    * logic is able to deal with the EventProperties object. Until then, this workaround prevents One Collector logs from breaking.
    */
-  NSMutableDictionary *oldStyleStringProperties = [NSMutableDictionary new];
-  if ([log.transmissionTargetTokens count] != 0) {
+  if (log.typedProperties && [log.transmissionTargetTokens count] != 0) {
+    NSMutableDictionary *oldStyleStringProperties = [NSMutableDictionary new];
     for (MSTypedProperty *property in [log.typedProperties.properties objectEnumerator]) {
       if ([property isKindOfClass:[MSStringTypedProperty class]]) {
         oldStyleStringProperties[property.name] = ((MSStringTypedProperty *)property).value;
       }
     }
+    log.properties = oldStyleStringProperties;
   }
-  log.properties = oldStyleStringProperties;
 
   // Send log to channel.
   [self sendLog:log];
