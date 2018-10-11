@@ -20,7 +20,6 @@ NS_ASSUME_NONNULL_BEGIN
  * For App Center, the name cannot be longer than 256 and is truncated otherwise.
  *
  * For One Collector, the name needs to match the `[a-zA-Z0-9]((\.(?!(\.|$)))|[_a-zA-Z0-9]){3,99}` regular expression.
- *
  */
 + (void)trackEvent:(NSString *)eventName;
 
