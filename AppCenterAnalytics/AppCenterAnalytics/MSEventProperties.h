@@ -13,8 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param value Property value.
  * @param key Property key.
  */
-- (instancetype)setString:(NSString *)value
-           forKey:(NSString *)key;
+- (instancetype)setString:(NSString *)value forKey:(NSString *)key;
 
 /**
  * Set a double property.

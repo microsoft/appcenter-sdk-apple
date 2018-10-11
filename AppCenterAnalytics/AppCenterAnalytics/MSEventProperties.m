@@ -18,7 +18,7 @@
   return self;
 }
 
-- (instancetype)initWithDictionary:(NSDictionary<NSString *, NSString *> *)properties {
+- (instancetype)initWithStringDictionary:(NSDictionary<NSString *, NSString *> *)properties {
   if ((self = [self init])) {
     for (NSString *propertyKey in properties) {
       MSStringTypedProperty *stringProperty = [MSStringTypedProperty new];

@@ -14,6 +14,23 @@
 
 @implementation MSEventPropertiesTests
 
+- (void)testInitWithStringDictionaryWhenStringDictionaryHasValues {
+
+  // If
+  NSDictionary *stringProperties = @{ @"key1":@"val1", @"key2":@"val2" };
+
+  // When
+  MSEventProperties *sut = [[MSEventProperties alloc] initWithStringDictionary:stringProperties];
+
+  // Then
+  XCTAssertEqual([sut.properties count], 2);
+  for (NSString *propertyKey in stringProperties) {
+    XCTAssertTrue([sut.properties[propertyKey] isKindOfClass:[MSStringTypedProperty class]]);
+    XCTAssertEqualObjects(stringProperties[propertyKey], ((MSStringTypedProperty *)sut.properties[propertyKey]).value);
+    XCTAssertEqualObjects(propertyKey, sut.properties[propertyKey].name);
+  }
+}
+
 - (void)testSetBoolForKey {
 
   // If
@@ -182,6 +199,31 @@
       XCTAssertEqualObjects(originalDateString, deserializedDateString);
     }
   }
+}
+
+- (void)testIsEmptyReturnsTrueWhenContainsNoProperties {
+
+  // If
+  MSEventProperties *sut = [MSEventProperties new];
+
+  // When
+  BOOL isEmpty = [sut isEmpty];
+
+  // Then
+  XCTAssertTrue(isEmpty);
+}
+
+- (void)testIsEmptyReturnsFalseWhenContainsProperties {
+
+  // If
+  MSEventProperties *sut = [MSEventProperties new];
+  [sut setBool:YES forKey:@"key"];
+
+  // When
+  BOOL isEmpty = [sut isEmpty];
+
+  // Then
+  XCTAssertFalse(isEmpty);
 }
 
 @end
