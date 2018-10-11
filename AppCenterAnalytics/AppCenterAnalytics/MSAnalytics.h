@@ -87,7 +87,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * - The `baseData` and `baseDataType` properties are reserved and thus discarded.
  *
- * - The full event size when encoded as a JSON string cannot be larger than 1.9MB.</li>
+ * - The full event size when encoded as a JSON string cannot be larger than 1.9MB.
  */
 + (void)trackEvent:(NSString *)eventName withTypedProperties:(nullable MSEventProperties *)properties;
 
