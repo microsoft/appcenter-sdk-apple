@@ -6,8 +6,8 @@
 #import "MSDoubleTypedProperty.h"
 #import "MSEventLog.h"
 #import "MSEventPropertiesInternal.h"
-#import "MSPageLog.h"
 #import "MSLongTypedProperty.h"
+#import "MSPageLog.h"
 #import "MSStringTypedProperty.h"
 
 // Events values limitations
@@ -71,7 +71,7 @@ NSString *MSAnalyticsValidationCategory;
   MSEventProperties *validCopy = [MSEventProperties new];
   for (NSString *propertyKey in eventProperties.properties) {
     if ([validCopy.properties count] == kMSMaxPropertiesPerLog) {
-      MSLogWarning([MSAnalytics logTag], @"Typed properties cannot contain more than %i items. Skipping other properties.", kMSMaxPropertiesPerLog);
+      MSLogWarning([MSAnalytics logTag], @"Typed properties cannot contain more than %d items. Skipping other properties.", kMSMaxPropertiesPerLog);
       break;
     }
     MSTypedProperty *property = eventProperties.properties[propertyKey];
@@ -103,15 +103,13 @@ NSString *MSAnalyticsValidationCategory;
     validProperty = [MSDateTimeTypedProperty new];
     ((MSDateTimeTypedProperty *)validProperty).value =  ((MSDateTimeTypedProperty *)typedProperty).value;
   }
-
-
   validProperty.name = [self validateAppCenterPropertyName:typedProperty.name];
   return validProperty;
 }
 
 - (NSString *)validateAppCenterPropertyName:(NSString *)propertyKey {
   if ([propertyKey length] > kMSMaxPropertyKeyLength) {
-    MSLogWarning([MSAnalytics logTag], @"Typed property '%@': key length cannot exceed %i characters. Property value will be truncated.", propertyKey,
+    MSLogWarning([MSAnalytics logTag], @"Typed property '%@': key length cannot exceed %d characters. Property value will be truncated.", propertyKey,
                  kMSMaxPropertyKeyLength);
     return [propertyKey substringToIndex:(kMSMaxPropertyKeyLength - 1)];
   }
@@ -120,7 +118,7 @@ NSString *MSAnalyticsValidationCategory;
 
 - (NSString *)validateAppCenterStringTypedPropertyValue:(NSString *)value {
   if ([value length] > kMSMaxPropertyValueLength) {
-    MSLogWarning([MSAnalytics logTag], @"Typed property value length cannot exceed %i characters. Property value will be truncated.",
+    MSLogWarning([MSAnalytics logTag], @"Typed property value length cannot exceed %d characters. Property value will be truncated.",
                  kMSMaxPropertyValueLength);
     return [value substringToIndex:(kMSMaxPropertyValueLength - 1)];
   }
@@ -128,6 +126,7 @@ NSString *MSAnalyticsValidationCategory;
 }
 
 - (MSEventProperties *)validateOneCollectorEventProperties:(MSEventProperties *)properties {
+
   //TODO implementation required.
   return properties;
 }
