@@ -1236,7 +1236,7 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
-		35DFC18C217002D300455589 /* Properties */ = {
+		354B79E0217109CE002183B5 /* Properties */ = {
 			isa = PBXGroup;
 			children = (
 				35DFC1C72170030C00455589 /* MSBooleanTypedProperty.h */,
@@ -1252,8 +1252,7 @@
 				35DFC1BF2170030C00455589 /* MSTypedProperty.h */,
 				35DFC1C32170030C00455589 /* MSTypedProperty.m */,
 			);
-			name = Properties;
-			path = ../../../../AppCenterAnalytics/AppCenterAnalytics/Internals/Model/Properties;
+			path = Properties;
 			sourceTree = "<group>";
 		};
 		381C91E21D3DB65D004512F1 /* Device */ = {
@@ -1458,7 +1457,7 @@
 				38BC346C20B8CB0C00119C05 /* MSLogConversion.h */,
 				385E319920C1B90700BE7271 /* MSACModelConstants.h */,
 				385E319A20C1B90700BE7271 /* MSACModelConstants.m */,
-				35DFC18C217002D300455589 /* Properties */,
+				354B79E0217109CE002183B5 /* Properties */,
 			);
 			path = Model;
 			sourceTree = "<group>";
