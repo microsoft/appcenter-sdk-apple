@@ -21,27 +21,84 @@ import UIKit
   private var typePickerView: MSEnumPicker<CustomPropertyType>?
   private var datePickerView: MSDatePicker?
 
+  public var key: String {
+    get { return self.keyTextField.text! }
+    set(key) { self.keyTextField.text = key }
+  }
+
   public var type: CustomPropertyType {
     get { return CustomPropertyType(rawValue: typeTextField.text!)! }
+    set(type) { self.onChangeType(type) }
   }
+
+  public var value: Any? {
+    get {
+      switch type {
+      case .Clear:
+        return nil
+      case .String:
+        return valueTextField.text!
+      case .Number:
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        return formatter.number(from: valueTextField.text ?? "") ?? 0
+      case .Boolean:
+        return boolValue.isOn
+      case .DateTime:
+        return datePickerView!.date!
+      }
+    }
+    set(value) {
+      switch type {
+      case .Clear:
+        break
+      case .String, .Number:
+        valueTextField.text = value as? String
+      case .Boolean:
+        boolValue.isOn = value as! Bool
+      case .DateTime:
+        datePickerView!.date = value as? Date
+      }
+    }
+  }
+
+  public var state: (key: String, type: CustomPropertyType, value: Any?) {
+    get { return (key, type, value) }
+    set(state) {
+      key = state.key
+      type = state.type
+      value = state.value
+    }
+  }
+
+  public var onChange: (((key: String, type: CustomPropertyType, value: Any?)) -> Void)?
 
   override func awakeFromNib() {
     super.awakeFromNib()
     self.typePickerView = MSEnumPicker<CustomPropertyType>(
       textField: self.typeTextField,
       allValues: CustomPropertyType.allValues,
-      onChange: {(index) in self.onChangeType(CustomPropertyType.allValues[index])})
+      onChange: { index in
+        self.type = CustomPropertyType.allValues[index]
+        self.onChange?(self.state)
+      }
+    )
     self.typeTextField.delegate = self.typePickerView
     self.typeTextField.tintColor = UIColor.clear
     self.datePickerView = MSDatePicker(textField: self.valueTextField)
+    self.keyTextField.addTarget(self, action: #selector(onChangeKey), for: .editingChanged)
+    self.valueTextField.addTarget(self, action: #selector(onChangeValue), for: .editingChanged)
+    self.boolValue.addTarget(self, action: #selector(onChangeValue), for: .valueChanged)
     prepareForReuse()
   }
   
   override func prepareForReuse() {
     super.prepareForReuse()
-    self.keyTextField.text = ""
-    self.typeTextField.text = CustomPropertyType.Clear.rawValue
-    self.onChangeType(CustomPropertyType.Clear)
+    state = ("", CustomPropertyType.String, "")
+  }
+
+  func onChangeKey() {
+    self.onChange?(self.state)
   }
 
   func onChangeType(_ type: CustomPropertyType) {
@@ -96,28 +153,15 @@ import UIKit
     tableView?.endUpdates()
   }
 
+  func onChangeValue() {
+    self.onChange?(self.state)
+  }
+
   func tableView() -> UITableView? {
     var view = superview
     while view != nil && (view is UITableView) == false {
       view = view?.superview
     }
     return view as? UITableView
-  }
-  
-  func setPropertyTo(_ properties: MSCustomProperties) {
-    switch self.type {
-    case .Clear:
-      properties.clearProperty(forKey: keyTextField.text)
-    case .String:
-      properties.setString(valueTextField.text, forKey: keyTextField.text)
-    case .Number:
-      let formatter = NumberFormatter()
-      formatter.numberStyle = .decimal
-      properties.setNumber(formatter.number(from: valueTextField.text ?? ""), forKey: keyTextField.text)
-    case .Boolean:
-      properties.setBool(boolValue.isOn, forKey: keyTextField.text)
-    case .DateTime:
-      properties.setDate(datePickerView?.date, forKey: keyTextField.text)
-    }
   }
 }
