@@ -1,12 +1,11 @@
 import UIKit
 
 class TargetPropertiesTableSection : SimplePropertiesTableSection {
-  var targetProperties: [String: [(String, String)]]!
-  var transmissionTargetSelectorCell: MSAnalyticsTransmissionTargetSelectorViewCell?
+  private var targetProperties = [String: [(key: String, value: String)]]()
+  private var transmissionTargetSelectorCell: MSAnalyticsTransmissionTargetSelectorViewCell?
 
   override init(tableSection: Int, tableView: UITableView) {
     super.init(tableSection: tableSection, tableView: tableView)
-    targetProperties = [String: [(String, String)]]()
     let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
     let parentTargetToken = appName.contains("SasquatchSwift") ? kMSSwiftRuntimeTargetToken : kMSObjCRuntimeTargetToken
     targetProperties[parentTargetToken] = [(String, String)]()
@@ -31,24 +30,24 @@ class TargetPropertiesTableSection : SimplePropertiesTableSection {
   override func propertyKeyChanged(sender: UITextField!) {
     let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
     let arrayIndex = getCellRow(forTextField: sender) - self.propertyCellOffset
-    let currentPropertyKey = targetProperties[selectedTarget!]![arrayIndex].0
-    let currentPropertyValue = targetProperties[selectedTarget!]![arrayIndex].1
+    let currentPropertyKey = targetProperties[selectedTarget!]![arrayIndex].key
+    let currentPropertyValue = targetProperties[selectedTarget!]![arrayIndex].value
     let target = MSTransmissionTargets.shared.transmissionTargets[selectedTarget!]!
     target.propertyConfigurator.removeEventProperty(forKey: currentPropertyKey)
     target.propertyConfigurator.setEventPropertyString(currentPropertyValue, forKey: sender.text!)
-    targetProperties[selectedTarget!]![arrayIndex].0 = sender.text!
+    targetProperties[selectedTarget!]![arrayIndex].key = sender.text!
   }
 
   override func propertyValueChanged(sender: UITextField!) {
     let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
     let arrayIndex = getCellRow(forTextField: sender) - self.propertyCellOffset
-    let currentPropertyKey = targetProperties[selectedTarget!]![arrayIndex].0
+    let currentPropertyKey = targetProperties[selectedTarget!]![arrayIndex].key
     let target = MSTransmissionTargets.shared.transmissionTargets[selectedTarget!]!
     target.propertyConfigurator.setEventPropertyString(sender.text!, forKey: currentPropertyKey)
-    targetProperties[selectedTarget!]![arrayIndex].1 = sender.text!
+    targetProperties[selectedTarget!]![arrayIndex].value = sender.text!
   }
 
-  override func propertyAtRow(row: Int) -> (String, String) {
+  override func propertyAtRow(row: Int) -> (key: String, value: String) {
     let selectedTarget = transmissionTargetSelectorCell!.selectedTransmissionTarget()
     return targetProperties[selectedTarget!]![row - self.propertyCellOffset]
   }
@@ -61,17 +60,17 @@ class TargetPropertiesTableSection : SimplePropertiesTableSection {
   override func removeProperty(atRow row: Int) {
     let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
     let arrayIndex = row - self.propertyCellOffset
-    let key = targetProperties[selectedTarget!]![arrayIndex].0
+    let key = targetProperties[selectedTarget!]![arrayIndex].key
     let target = MSTransmissionTargets.shared.transmissionTargets[selectedTarget!]!
     target.propertyConfigurator.removeEventProperty(forKey: key)
     targetProperties[selectedTarget!]!.remove(at: arrayIndex)
   }
 
-  override func addProperty(property: (String, String)) {
+  override func addProperty(property: (key: String, value: String)) {
     let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
     targetProperties[selectedTarget!]!.insert(property, at: 0)
     let target = MSTransmissionTargets.shared.transmissionTargets[selectedTarget!]!
-    target.propertyConfigurator.setEventPropertyString(property.1, forKey: property.0)
+    target.propertyConfigurator.setEventPropertyString(property.value, forKey: property.key)
   }
 
   func isHeaderCell(_ indexPath: IndexPath) -> Bool {

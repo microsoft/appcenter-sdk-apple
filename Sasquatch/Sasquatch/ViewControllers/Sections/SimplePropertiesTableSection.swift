@@ -2,8 +2,6 @@ import UIKit
 
 class SimplePropertiesTableSection : PropertiesTableSection {
 
-  private var propertyCounter = 0
-
   override func loadCell(row: Int) -> UITableViewCell {
     guard let cell: MSAnalyticsPropertyTableViewCell = loadCellFromNib() else {
       preconditionFailure("Cannot load table view cell")
@@ -11,8 +9,8 @@ class SimplePropertiesTableSection : PropertiesTableSection {
 
     // Set cell text.
     let property = propertyAtRow(row: row)
-    cell.keyField.text = property.0
-    cell.valueField.text = property.1
+    cell.keyField.text = property.key
+    cell.valueField.text = property.value
 
     // Set cell to respond to being edited.
     cell.keyField.addTarget(self, action: #selector(propertyKeyChanged), for: .editingChanged)
@@ -24,14 +22,15 @@ class SimplePropertiesTableSection : PropertiesTableSection {
   }
 
   override func addProperty() {
-    addProperty(property: getNewDefaultProperty())
+    let count = getPropertyCount()
+    addProperty(property: ("key\(count)", "value\(count)"))
   }
 
-  func addProperty(property: (String, String)) {
+  func addProperty(property: (key: String, value: String)) {
     preconditionFailure("This method is abstract")
   }
 
-  func propertyAtRow(row: Int) -> (String, String) {
+  func propertyAtRow(row: Int) -> (key: String, value: String) {
     preconditionFailure("This method is abstract")
   }
 
@@ -45,11 +44,5 @@ class SimplePropertiesTableSection : PropertiesTableSection {
 
   func dismissKeyboard(sender: UITextField!) {
     sender.resignFirstResponder()
-  }
-
-  func getNewDefaultProperty() -> (String, String) {
-    let keyValuePair = ("key\(propertyCounter)", "value\(propertyCounter)")
-    propertyCounter += 1
-    return keyValuePair
   }
 }

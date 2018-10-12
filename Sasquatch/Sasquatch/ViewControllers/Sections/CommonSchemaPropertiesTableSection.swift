@@ -45,13 +45,13 @@ class CommonSchemaPropertiesTableSection : SimplePropertiesTableSection {
     case kTargetSelectorCellRow:
       return transmissionTargetSelectorCell!
     case kDeviceIdRow:
-        let cell = tableView.dequeueReusableCell(withIdentifier: switchCellIdentifier)!
-        let switcher: UISwitch? = cell.getSubview()
-        let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()!
-        switcher!.isOn = collectDeviceIdStates[selectedTarget!]!
-        switcher!.isEnabled = !switcher!.isOn
-        switcher!.addTarget(self, action: #selector(collectDeviceIdSwitchCellEnabled(sender:)), for: .valueChanged)
-        return cell
+      let cell = tableView.dequeueReusableCell(withIdentifier: switchCellIdentifier)!
+      let switcher: UISwitch? = cell.getSubview()
+      let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()!
+      switcher!.isOn = collectDeviceIdStates[selectedTarget!]!
+      switcher!.isEnabled = !switcher!.isOn
+      switcher!.addTarget(self, action: #selector(collectDeviceIdSwitchCellEnabled(sender:)), for: .valueChanged)
+      return cell
     default:
       let cell = super.tableView(tableView, cellForRowAt: indexPath) as! MSAnalyticsPropertyTableViewCell
       cell.valueField.placeholder = "Override value"
