@@ -8,9 +8,11 @@
 #import "MSDoubleTypedProperty.h"
 #import "MSEventLogPrivate.h"
 #import "MSEventPropertiesInternal.h"
+#import "MSMetadataExtension.h"
 #import "MSLongTypedProperty.h"
 #import "MSStringTypedProperty.h"
 #import "MSUtility+Date.h"
+#import "MSCSExtensions.h"
 
 static NSString *const kMSTypeEvent = @"event";
 
@@ -75,17 +77,21 @@ static NSString *const kMSTypedProperties = @"typedProperties";
   // Event name goes to part A.
   csLog.name = self.name;
 
+  // Metadata extension must accompany data.
+  csLog.ext.metadataExt = [self generateMetadataExtension];
+
   // Event properties goes to part C.
   MSCSData *data = [MSCSData new];
   csLog.data = data;
-  csLog.data.properties = [self convertACPropertiesToCSProperties:self.typedProperties];
+  csLog.data.properties = [self convertTypedPropertiesToCSProperties];
   return csLog;
 }
 
 #pragma mark - Helper
 
-- (NSDictionary<NSString *, NSObject *> *)convertACPropertiesToCSProperties:(MSEventProperties *)eventProperties {
+- (NSDictionary<NSString *, NSObject *> *)convertTypedPropertiesToCSProperties {
   NSMutableDictionary *csProperties;
+  MSEventProperties *eventProperties = self.typedProperties;
   if (eventProperties) {
     csProperties = [NSMutableDictionary new];
     for (NSString *acKey in eventProperties.properties) {
@@ -139,6 +145,12 @@ static NSString *const kMSTypedProperties = @"typedProperties";
     }
   }
   return csProperties;
+}
+
+- (MSMetadataExtension *)generateMetadataExtension {
+
+  //TODO needs implementation
+  return nil;
 }
 
 @end

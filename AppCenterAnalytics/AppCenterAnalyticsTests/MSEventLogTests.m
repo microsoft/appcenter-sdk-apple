@@ -6,6 +6,7 @@
 #import "MSCSModelConstants.h"
 #import "MSDeviceInternal.h"
 #import "MSEventLogPrivate.h"
+#import "MSEventPropertiesInternal.h"
 #import "MSLocExtension.h"
 #import "MSLogWithProperties.h"
 #import "MSNetExtension.h"
@@ -135,68 +136,93 @@
   XCTAssertFalse([self.sut isEqual:nil]);
 }
 
-- (void)testConvertACPropertiesToCSproperties {
+- (void)testConvertACPropertiesToCSPropertiesWhenACPropertiesNil {
 
   // If
-  NSDictionary *acProperties = nil;
+  MSEventProperties *acProperties = nil;
 
   // When
-  NSDictionary *csProperties = [self.sut convertACPropertiesToCSProperties:acProperties];
+  NSDictionary *csProperties = [self.sut convertTypedPropertiesToCSProperties];
 
   // Then
   XCTAssertNil(csProperties);
+}
+
+- (void)testConvertACPropertiesToCSPropertiesWhenPropertiesAreNotNested {
 
   // If
-  acProperties = @{ @"key" : @"value", @"key2" : @"value2" };
+  MSEventProperties *acProperties = [MSEventProperties new];
+  [acProperties setString:@"value" forKey:@"key"];
+  [acProperties setString:@"value2" forKey:@"key2"];
+  self.sut.typedProperties = acProperties;
 
   // When
-  csProperties = [self.sut convertACPropertiesToCSProperties:acProperties];
+  NSDictionary *csProperties = [self.sut convertTypedPropertiesToCSProperties];
 
   // Then
   XCTAssertEqualObjects(csProperties, acProperties);
+}
+
+- (void)testConvertACPropertiesToCSPropertiesWhenPropertiesAreNested {
 
   // If
-  acProperties = @{ @"nes.t.ed" : @"buriedValue" };
+  MSEventProperties *acProperties = [MSEventProperties new];
+  [acProperties setString:@"buriedValue" forKey:@"nes.t.ed"];
+  self.sut.typedProperties = acProperties;
 
   // When
-  csProperties = [self.sut convertACPropertiesToCSProperties:acProperties];
+  NSDictionary *csProperties = [self.sut convertTypedPropertiesToCSProperties];
 
   // Then
-  XCTAssertEqualObjects(csProperties, @{ @"nes" : @{@"t" : @{@"ed" : @"buriedValue"}} });
+  XCTAssertEqualObjects(csProperties, @{@"nes": @{@"t": @{@"ed": @"buriedValue"}}});
+}
 
+- (void)testConvertACPropertiesToCSPropertiesWhenPropertiesAreNestedWithSiblings {
   // If
-  acProperties = @{ @"key" : @"value", @"nes.a" : @"1", @"nes.t.ed" : @"2", @"nes.t.ed2" : @"3", @"key2" : @"value2" };
+  MSEventProperties *acProperties = [MSEventProperties new];
+  [acProperties setString:@"value" forKey:@"key"];
+  [acProperties setString:@"1" forKey:@"nes.a"];
+  [acProperties setString:@"2" forKey:@"nes.t.ed"];
+  [acProperties setString:@"3" forKey:@"nes.t.ed2"];
+  [acProperties setString:@"value2" forKey:@"key2"];
+  self.sut.typedProperties = acProperties;
+  NSDictionary *expectedResult = @{ @"key" : @"value", @"nes" : @{@"a" : @"1", @"t" : @{@"ed" : @"2", @"ed2" : @"3"}}, @"key2" : @"value2" };
 
   // When
-  csProperties = [self.sut convertACPropertiesToCSProperties:acProperties];
-  NSDictionary *test = @{ @"key" : @"value", @"nes" : @{@"a" : @"1", @"t" : @{@"ed" : @"2", @"ed2" : @"3"}}, @"key2" : @"value2" };
+  NSDictionary *csProperties = [self.sut convertTypedPropertiesToCSProperties];
 
   // Then
-  XCTAssertEqualObjects(csProperties, test);
+  XCTAssertEqualObjects(csProperties, expectedResult);
 }
 
 - (void)testOverrideValueToObjectProperties {
 
   // If
-  NSDictionary *acProperties = @{ @"a.b" : @"1", @"a.b.c.d" : @"2" };
+  MSEventProperties *acProperties = [MSEventProperties new];
+  [acProperties setString:@"1" forKey: @"a.b"];
+  [acProperties setString:@"2" forKey:@"a.b.c.d" ];
+  self.sut.typedProperties = acProperties;
+  NSDictionary *possibleResult1 = @{ @"a" : @{@"b" : @"1"} };
+  NSDictionary *possibleResult2 = @{ @"a" : @{@"b" : @{@"c" : @{@"d" : @"2"}}} };
 
   // When
-  NSDictionary *csProperties = [self.sut convertACPropertiesToCSProperties:acProperties];
-  NSDictionary *test1 = @{ @"a" : @{@"b" : @"1"} };
-  NSDictionary *test2 = @{ @"a" : @{@"b" : @{@"c" : @{@"d" : @"2"}}} };
+  NSDictionary *csProperties = [self.sut convertTypedPropertiesToCSProperties];
 
   // Then
   XCTAssertEqual([csProperties count], 1);
-  XCTAssertTrue([csProperties isEqualToDictionary:test1] || [csProperties isEqualToDictionary:test2]);
+  XCTAssertTrue([csProperties isEqualToDictionary:possibleResult1] || [csProperties isEqualToDictionary:possibleResult2]);
 }
 
 - (void)testOverrideObjectToValueProperties {
 
   // If
-  NSDictionary *acProperties = @{ @"a.b.c.d" : @"1", @"a.b" : @"2" };
+  MSEventProperties *acProperties = [MSEventProperties new];
+  [acProperties setString:@"1" forKey:@"a.b.c.d"];
+  [acProperties setString:@"2" forKey:@"a.b"];
+  self.sut.typedProperties = acProperties;
 
   // When
-  NSDictionary *csProperties = [self.sut convertACPropertiesToCSProperties:acProperties];
+  NSDictionary *csProperties = [self.sut convertTypedPropertiesToCSProperties];
   NSDictionary *test1 = @{ @"a" : @{@"b" : @{@"c" : @{@"d" : @"1"}}} };
   NSDictionary *test2 = @{ @"a" : @{@"b" : @"2"} };
 
@@ -208,10 +234,13 @@
 - (void)testOverrideValueToValueProperties {
 
   // If
-  NSDictionary *acProperties = @{ @"a.b" : @"1", @"a.b" : @"2" };
+  MSEventProperties *acProperties = [MSEventProperties new];
+  [acProperties setString:@"1" forKey:@"a.b"];
+  [acProperties setString:@"2" forKey:@"a.b"];
+  self.sut.typedProperties = acProperties;
 
   // When
-  NSDictionary *csProperties = [self.sut convertACPropertiesToCSProperties:acProperties];
+  NSDictionary *csProperties = [self.sut convertTypedPropertiesToCSProperties];
   NSDictionary *test1 = @{ @"a" : @{@"b" : @"1"} };
   NSDictionary *test2 = @{ @"a" : @{@"b" : @"2"} };
 
