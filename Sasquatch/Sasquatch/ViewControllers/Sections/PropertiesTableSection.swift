@@ -1,10 +1,21 @@
 import UIKit
 
-class PropertiesTableSection : NSObject, UITableViewDelegate {
+class PropertiesTableSection : NSObject {
 
-  static var propertyCounter = 0
   var tableSection: Int
   var tableView: UITableView
+
+  var numberOfCustomHeaderCells: Int {
+    get { return 0 }
+  }
+
+  var hasInsertRow: Bool {
+    get { return true }
+  }
+
+  var propertyCellOffset: Int {
+    get { return self.numberOfCustomHeaderCells + (self.hasInsertRow ? 1 : 0) }
+  }
 
   init(tableSection: Int, tableView: UITableView) {
     self.tableSection = tableSection
@@ -12,7 +23,7 @@ class PropertiesTableSection : NSObject, UITableViewDelegate {
     super.init()
   }
 
-  @objc(tableView:editingStyleForRowAtIndexPath:) func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+  func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
     if isInsertRow(indexPath) {
       return .insert
     } else if isPropertyRow(indexPath) {
@@ -21,79 +32,51 @@ class PropertiesTableSection : NSObject, UITableViewDelegate {
     return .none
   }
 
-  @objc(tableView:numberOfRowsInSection:) func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return getPropertyCount() + propertyCellOffset()
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return getPropertyCount() + self.propertyCellOffset
   }
 
-  @objc(tableView:cellForRowAtIndexPath:) func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     if isInsertRow(indexPath) {
       let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
       cell.textLabel?.text = "Add Property"
       return cell
     }
-    let cell: MSAnalyticsPropertyTableViewCell? = loadCellFromNib()
 
-    // Set cell text.
-    let property = propertyAtRow(row: indexPath.row)
-    cell!.keyField.text = property.0
-    cell!.valueField.text = property.1
-
-    // Set cell to respond to being edited.
-    cell!.keyField.addTarget(self, action: #selector(propertyKeyChanged), for: .editingChanged)
-    cell!.keyField.addTarget(self, action: #selector(dismissKeyboard), for: .editingDidEndOnExit)
-    cell!.valueField.addTarget(self, action: #selector(propertyValueChanged), for: .editingChanged)
-    cell!.valueField.addTarget(self, action: #selector(dismissKeyboard), for: .editingDidEndOnExit)
-
-    return cell!
+    return loadCell(row: indexPath.row)
   }
 
-  @objc(tableView:commitEditingStyle:forRowAtIndexPath:) func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+  func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
     if editingStyle == .delete {
       removeProperty(atRow: indexPath.row)
       tableView.deleteRows(at: [indexPath], with: .automatic)
     } else if editingStyle == .insert {
-      addProperty(property: PropertiesTableSection.getNewDefaultProperty())
+      addProperty()
       tableView.insertRows(at: [IndexPath(row: indexPath.row + 1, section: indexPath.section)], with: .automatic)
     }
   }
 
-  @objc(tableView:canEditRowAtIndexPath:) func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+  func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
     return isPropertyRow(indexPath) || isInsertRow(indexPath)
   }
 
-  func numberOfCustomHeaderCells() -> Int {
-    return 0
-  }
-
   func isInsertRow(_ indexPath: IndexPath) -> Bool {
-    return hasInsertRow() && indexPath.row == numberOfCustomHeaderCells()
+    return self.hasInsertRow && indexPath.row == self.numberOfCustomHeaderCells
   }
 
   func isPropertyRow(_ indexPath: IndexPath) -> Bool {
-    return indexPath.row >= propertyCellOffset()
+    return indexPath.row >= self.propertyCellOffset
+  }
+
+  func loadCell(row: Int) -> UITableViewCell {
+    preconditionFailure("This method is abstract")
+  }
+
+  func addProperty() {
+    preconditionFailure("This method is abstract")
   }
 
   func removeProperty(atRow row: Int) {
-    preconditionFailure("This method is abstract")
-  }
-
-  func addProperty(property: (String, String)) {
-    preconditionFailure("This method is abstract")
-  }
-
-  func propertyKeyChanged(sender: UITextField!) {
-    preconditionFailure("This method is abstract")
-  }
-
-  func propertyValueChanged(sender: UITextField!) {
-    preconditionFailure("This method is abstract")
-  }
-  
-  func dismissKeyboard(sender: UITextField!) {
-    sender.resignFirstResponder()
-  }
-
-  func propertyAtRow(row: Int) -> (String, String) {
     preconditionFailure("This method is abstract")
   }
 
@@ -105,30 +88,13 @@ class PropertiesTableSection : NSObject, UITableViewDelegate {
     return Bundle.main.loadNibNamed(String(describing: T.self), owner: self, options: nil)?.first as? T
   }
 
-  func propertyCellOffset() -> Int {
-    return numberOfCustomHeaderCells() + (hasInsertRow() ? 1 : 0)
-  }
-
-  func hasInsertRow() -> Bool {
-    return true
-  }
-
   func getCellRow(forTextField textField: UITextField) -> Int {
-    let cell = textField.superview!.superview as! MSAnalyticsPropertyTableViewCell
+    let cell = textField.superview!.superview as! UITableViewCell
     let indexPath = tableView.indexPath(for: cell)!
     return indexPath.row
-  }
-
-  static func getNewDefaultProperty() -> (String, String) {
-    let keyValuePair = ("key\(propertyCounter)", "value\(propertyCounter)")
-    propertyCounter += 1
-    return keyValuePair
   }
   
   func reloadSection() {
     tableView.reloadSections([tableSection], with: .none)
   }
 }
-
-
-

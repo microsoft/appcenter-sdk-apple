@@ -102,6 +102,10 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     MSAnalytics.trackEvent(eventName, withProperties: properties)
   }
 
+  func trackEvent(_ eventName: String, withTypedProperties properties: MSEventProperties) {
+    MSAnalytics.trackEvent(eventName, withTypedProperties: properties)
+  }
+
   func trackPage(_ pageName: String) {
     // TODO: Uncomment when trackPage is moved from internal to public
     // MSAnalytics.trackPage(pageName)
