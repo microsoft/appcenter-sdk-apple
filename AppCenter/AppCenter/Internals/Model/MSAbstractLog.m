@@ -1,6 +1,6 @@
-#import "MSACModelConstants.h"
 #import "MSAbstractLogInternal.h"
 #import "MSAbstractLogPrivate.h"
+#import "MSACModelConstants.h"
 #import "MSAppExtension.h"
 #import "MSCSExtensions.h"
 #import "MSCSModelConstants.h"
@@ -62,11 +62,9 @@
   }
   MSAbstractLog *log = (MSAbstractLog *)object;
   return ((!self.type && !log.type) || [self.type isEqualToString:log.type]) &&
-         ((!self.timestamp && !log.timestamp) ||
-          [self.timestamp isEqualToDate:log.timestamp]) &&
+         ((!self.timestamp && !log.timestamp) || [self.timestamp isEqualToDate:log.timestamp]) &&
          ((!self.sid && !log.sid) || [self.sid isEqualToString:log.sid]) &&
-         ((!self.distributionGroupId && !log.distributionGroupId) ||
-          [self.distributionGroupId isEqualToString:log.distributionGroupId]) &&
+         ((!self.distributionGroupId && !log.distributionGroupId) || [self.distributionGroupId isEqualToString:log.distributionGroupId]) &&
          ((!self.device && !log.device) || [self.device isEqual:log.device]);
 }
 
@@ -96,18 +94,12 @@
 
 - (NSString *)serializeLogWithPrettyPrinting:(BOOL)prettyPrint {
   NSString *jsonString;
-  NSJSONWritingOptions printOptions =
-      prettyPrint ? NSJSONWritingPrettyPrinted : (NSJSONWritingOptions)0;
-  NSData *jsonData =
-      [NSJSONSerialization dataWithJSONObject:[self serializeToDictionary]
-                                      options:printOptions
-                                        error:nil];
+  NSJSONWritingOptions printOptions = prettyPrint ? NSJSONWritingPrettyPrinted : (NSJSONWritingOptions)0;
+  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[self serializeToDictionary] options:printOptions error:nil];
 
   if (jsonData) {
-    jsonString =
-        [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    jsonString = [jsonString stringByReplacingOccurrencesOfString:@"\\/"
-                                                       withString:@"/"];
+    jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    jsonString = [jsonString stringByReplacingOccurrencesOfString:@"\\/" withString:@"/"];
   }
   return jsonString;
 }
@@ -173,26 +165,20 @@
   // User extension.
   csLog.ext.userExt = [MSUserExtension new];
 
-  // FIXME Country code can be wrong if the locale doesn't correspond to the
-  // region in the setting (i.e.:fr_US). Convert user local to use dash (-) as
-  // the separator as described in RFC 4646.  E.g., zh-Hans-CN.
-  csLog.ext.userExt.locale =
-      [self.device.locale stringByReplacingOccurrencesOfString:@"_"
-                                                    withString:@"-"];
+  // FIXME Country code can be wrong if the locale doesn't correspond to the region in the setting (i.e.:fr_US). Convert user local to use
+  // dash (-) as the separator as described in RFC 4646.  E.g., zh-Hans-CN.
+  csLog.ext.userExt.locale = [self.device.locale stringByReplacingOccurrencesOfString:@"_" withString:@"-"];
 
   // OS extension.
   csLog.ext.osExt = [MSOSExtension new];
   csLog.ext.osExt.name = self.device.osName;
-  csLog.ext.osExt.ver = [self combineOsVersion:self.device.osVersion
-                                     withBuild:self.device.osBuild];
+  csLog.ext.osExt.ver = [self combineOsVersion:self.device.osVersion withBuild:self.device.osBuild];
 
   // App extension.
   csLog.ext.appExt = [MSAppExtension new];
-  csLog.ext.appExt.appId =
-      [NSString stringWithFormat:@"I:%@", self.device.appNamespace];
+  csLog.ext.appExt.appId = [NSString stringWithFormat:@"I:%@", self.device.appNamespace];
   csLog.ext.appExt.ver = self.device.appVersion;
-  csLog.ext.appExt.locale =
-      [[[NSBundle mainBundle] preferredLocalizations] firstObject];
+  csLog.ext.appExt.locale = [[[NSBundle mainBundle] preferredLocalizations] firstObject];
 
   // Network extension.
   csLog.ext.netExt = [MSNetExtension new];
@@ -200,13 +186,11 @@
 
   // SDK extension.
   csLog.ext.sdkExt = [MSSDKExtension new];
-  csLog.ext.sdkExt.libVer = [self combineSDKLibVer:self.device.sdkName
-                                       withVersion:self.device.sdkVersion];
+  csLog.ext.sdkExt.libVer = [self combineSDKLibVer:self.device.sdkName withVersion:self.device.sdkVersion];
 
   // Loc extension.
   csLog.ext.locExt = [MSLocExtension new];
-  csLog.ext.locExt.tz = [self
-      convertTimeZoneOffsetToISO8601:[self.device.timeZoneOffset integerValue]];
+  csLog.ext.locExt.tz = [self convertTimeZoneOffsetToISO8601:[self.device.timeZoneOffset integerValue]];
 
   // Device extension.
   csLog.ext.deviceExt = [MSDeviceExtension new];
@@ -217,18 +201,15 @@
 - (NSString *)combineOsVersion:(NSString *)version withBuild:(NSString *)build {
   NSString *combinedVersionAndBuild;
   if (version && version.length) {
-    combinedVersionAndBuild =
-        [NSString stringWithFormat:@"Version %@", version];
+    combinedVersionAndBuild = [NSString stringWithFormat:@"Version %@", version];
   }
   if (build && build.length) {
-    combinedVersionAndBuild = [NSString
-        stringWithFormat:@"%@ (Build %@)", combinedVersionAndBuild, build];
+    combinedVersionAndBuild = [NSString stringWithFormat:@"%@ (Build %@)", combinedVersionAndBuild, build];
   }
   return combinedVersionAndBuild;
 }
 
-- (NSString *)combineSDKLibVer:(NSString *)name
-                   withVersion:(NSString *)version {
+- (NSString *)combineSDKLibVer:(NSString *)name withVersion:(NSString *)version {
   NSString *combinedVersion;
   if (name && name.length && version && version.length) {
     combinedVersion = [NSString stringWithFormat:@"%@-%@", name, version];
@@ -241,8 +222,7 @@
   NSInteger remainingMinutes = labs(timeZoneOffset) % 60;
 
   // This will look like this: +hhh:mm.
-  return [NSString stringWithFormat:@"%+03ld:%02ld", (long)offsetInHour,
-                                    (long)remainingMinutes];
+  return [NSString stringWithFormat:@"%+03ld:%02ld", (long)offsetInHour, (long)remainingMinutes];
 }
 
 @end

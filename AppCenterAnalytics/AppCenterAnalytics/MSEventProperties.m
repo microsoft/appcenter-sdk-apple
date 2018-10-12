@@ -1,8 +1,11 @@
-#import "MSEventProperties.h"
-#import "MSEventPropertiesInternal.h"
+#import "MSAnalyticsInternal.h"
 #import "MSBooleanTypedProperty.h"
+#import "MSConstants+Internal.h"
 #import "MSDateTimeTypedProperty.h"
 #import "MSDoubleTypedProperty.h"
+#import "MSEventProperties.h"
+#import "MSEventPropertiesInternal.h"
+#import "MSLogger.h"
 #import "MSLongTypedProperty.h"
 #import "MSStringTypedProperty.h"
 
@@ -10,24 +13,18 @@
 
 - (instancetype)init {
   if ((self = [super init])) {
-    _properties = [NSMutableArray new];
+    _properties = [NSMutableDictionary new];
   }
   return self;
 }
 
-/**
- * Creates an instance of EventProperties with a string-string properties dictionary.
- *
- * @param properties A dictionary of properties.
- * @return An instance of EventProperties.
- */
-- (instancetype)initWithDictionary:(NSDictionary<NSString *, NSString *> *)properties {
+- (instancetype)initWithStringDictionary:(NSDictionary<NSString *, NSString *> *)properties {
   if ((self = [self init])) {
     for (NSString *propertyKey in properties) {
       MSStringTypedProperty *stringProperty = [MSStringTypedProperty new];
       stringProperty.name = propertyKey;
       stringProperty.value = properties[propertyKey];
-      [_properties addObject:stringProperty];
+      _properties[propertyKey] = stringProperty;
     }
   }
   return self;
@@ -36,95 +33,118 @@
 #pragma mark - NSCoding
 
 - (void)encodeWithCoder:(NSCoder *)coder {
-  [coder encodeObject:self.properties];
+  @synchronized (self.properties) {
+    [coder encodeObject:self.properties];
+  }
 }
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
-  if ((self = [super init])) {
-    _properties = (NSMutableArray<MSTypedProperty *> *_Nonnull) [coder decodeObject];
+  if ((self = [self init])) {
+    _properties = (NSMutableDictionary *)[coder decodeObject];
   }
   return self;
 }
 
 #pragma mark - Public methods
 
-/**
- * Set a string property.
- *
- * @param key Property key.
- * @param value Property value.
- */
-- (void)setString:(NSString *)value
-           forKey:(NSString *)key {
-  MSStringTypedProperty *stringProperty = [MSStringTypedProperty new];
-  stringProperty.name = key;
-  stringProperty.value = value;
-  [self.properties addObject:stringProperty];
+- (instancetype)setString:(NSString *)value forKey:(NSString *)key {
+    if ([MSEventProperties validateKey:key] && [MSEventProperties validateValue:value]) {
+      MSStringTypedProperty *stringProperty = [MSStringTypedProperty new];
+      stringProperty.name = key;
+      stringProperty.value = value;
+      @synchronized (self.properties) {
+        self.properties[key] = stringProperty;
+      }
+    }
+    return self;
 }
 
-/**
- * Set a double property.
- *
- * @param key Property key.
- * @param value Property value.
- */
-- (void)setDouble:(double)value forKey:(NSString *)key {
-  MSDoubleTypedProperty *doubleProperty = [MSDoubleTypedProperty new];
-  doubleProperty.name = key;
-  doubleProperty.value = value;
-  [self.properties addObject:doubleProperty];
+- (instancetype)setDouble:(double)value forKey:(NSString *)key {
+  if ([MSEventProperties validateKey:key]) {
+
+    // NaN returns false for all statements, so the only way to check if value is NaN is by value != value.
+    if (value == (double)INFINITY || value != value) {
+      MSLogError([MSAnalytics logTag], @"Double value for property '%@' must be finite (cannot be INFINITY or NAN).", key);
+      return self;
+    }
+    MSDoubleTypedProperty *doubleProperty = [MSDoubleTypedProperty new];
+    doubleProperty.name = key;
+    doubleProperty.value = value;
+    @synchronized (self.properties) {
+      self.properties[key] = doubleProperty;
+    }
+  }
+  return self;
 }
 
-/**
- * Set a long long (64-bit) property.
- *
- * @param key Property key.
- * @param value Property value.
- */
-- (void)setLongLong:(long long)value forKey:(NSString *)key {
-  MSLongTypedProperty *longProperty = [MSLongTypedProperty new];
-  longProperty.name = key;
-  longProperty.value = value;
-  [self.properties addObject:longProperty];
+- (instancetype)setInt64:(int64_t)value forKey:(NSString *)key {
+  if ([MSEventProperties validateKey:key]) {
+    MSLongTypedProperty *longProperty = [MSLongTypedProperty new];
+    longProperty.name = key;
+    longProperty.value = value;
+    @synchronized (self.properties) {
+      self.properties[key] = longProperty;
+    }
+  }
+  return self;
 }
 
-/**
- * Set a boolean property.
- *
- * @param key Property key.
- * @param value Property value.
- */
-- (void)setBool:(BOOL)value forKey:(NSString *)key {
-  MSBooleanTypedProperty *boolProperty = [MSBooleanTypedProperty new];
-  boolProperty.name = key;
-  boolProperty.value = value;
-  [self.properties addObject:boolProperty];
+- (instancetype)setBool:(BOOL)value forKey:(NSString *)key {
+  if ([MSEventProperties validateKey:key]) {
+    MSBooleanTypedProperty *boolProperty = [MSBooleanTypedProperty new];
+    boolProperty.name = key;
+    boolProperty.value = value;
+    @synchronized (self.properties) {
+      self.properties[key] = boolProperty;
+    }
+  }
+  return self;
 }
 
-/**
- * Set a Date property.
- *
- * @param key Property key.
- * @param value Property value.
- */
-- (void)setDate:(NSDate *)value forKey:(NSString *)key {
-  MSDateTimeTypedProperty *dateTimeProperty = [MSDateTimeTypedProperty new];
-  dateTimeProperty.name = key;
-  dateTimeProperty.value = value;
-  [self.properties addObject:dateTimeProperty];
+- (instancetype)setDate:(NSDate *)value forKey:(NSString *)key {
+  if ([MSEventProperties validateKey:key] && [MSEventProperties validateValue:value]) {
+    MSDateTimeTypedProperty *dateTimeProperty = [MSDateTimeTypedProperty new];
+    dateTimeProperty.name = key;
+    dateTimeProperty.value = value;
+    @synchronized (self.properties) {
+      self.properties[key] = dateTimeProperty;
+    }
+  }
+  return self;
 }
 
-/**
- * Serialize this object to an array.
- *
- * @return An array representing this object.
- */
+#pragma mark - Internal methods
+
 - (NSMutableArray *)serializeToArray {
   NSMutableArray *propertiesArray = [NSMutableArray new];
-  for (MSTypedProperty *typedProperty in self.properties) {
-    [propertiesArray addObject:[typedProperty serializeToDictionary]];
+  @synchronized (self.properties) {
+      for (MSTypedProperty *typedProperty in [self.properties objectEnumerator]) {
+        [propertiesArray addObject:[typedProperty serializeToDictionary]];
+      }
   }
   return propertiesArray;
+}
+
+- (BOOL) isEmpty {
+  return [self.properties count] == 0;
+}
+
+#pragma mark - Helper methods
+
++ (BOOL)validateKey:(NSString *)key {
+  if (!key) {
+    MSLogError([MSAnalytics logTag], @"Key cannot be null. Property will not be added.");
+    return NO;
+  }
+  return YES;
+}
+
++ (BOOL)validateValue:(NSObject *)value {
+  if (!value) {
+    MSLogError([MSAnalytics logTag], @"Value cannot be null. Property will not be added.");
+    return NO;
+  }
+  return YES;
 }
 
 @end

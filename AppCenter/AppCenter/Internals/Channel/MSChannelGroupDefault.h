@@ -6,16 +6,14 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class MSAppCenterIngestion;
+
 @protocol MSStorage;
 
 /**
- * A channel group which triggers and manages the processing of log items on
- * different channels. All items will be immediately passed to the persistence
- * layer in order to make the queue crash safe. Once a maximum number of items
- * have been enqueued or the internal timer finished running, events will be
- * forwarded to the ingestion. Furthermore, its responsibility is to tell the
- * persistence layer what to do with a pending batch based on the status code
- * returned by the ingestion
+ * A channel group which triggers and manages the processing of log items on different channels. All items will be immediately passed to the
+ * persistence layer in order to make the queue crash safe. Once a maximum number of items have been enqueued or the internal timer finished
+ * running, events will be forwarded to the ingestion. Furthermore, its responsibility is to tell the persistence layer what to do with a
+ * pending batch based on the status code returned by the ingestion
  */
 @interface MSChannelGroupDefault : NSObject <MSChannelGroupProtocol>
 
@@ -35,8 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) NSHashTable<id<MSChannelDelegate>> *delegates;
 
 /**
- * An ingestion instance that is used to send batches of log items to the
- * backend.
+ * An ingestion instance that is used to send batches of log items to the backend.
  */
 @property(nonatomic, strong, nullable) MSAppCenterIngestion *ingestion;
 

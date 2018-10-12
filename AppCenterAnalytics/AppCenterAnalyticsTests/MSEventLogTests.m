@@ -66,8 +66,7 @@
   assertThat(actual[@"type"], equalTo(typeName));
   assertThat(actual[@"properties"], equalTo(properties));
   assertThat(actual[@"device"], notNilValue());
-  assertThat(actual[@"timestamp"],
-             equalTo([MSUtility dateToISO8601:timestamp]));
+  assertThat(actual[@"timestamp"], equalTo([MSUtility dateToISO8601:timestamp]));
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {
@@ -89,8 +88,7 @@
   self.sut.properties = properties;
 
   // When
-  NSData *serializedEvent =
-      [NSKeyedArchiver archivedDataWithRootObject:self.sut];
+  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.sut];
   id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
 
   // Then
@@ -143,8 +141,7 @@
   NSDictionary *acProperties = nil;
 
   // When
-  NSDictionary *csProperties =
-      [self.sut convertACPropertiesToCSproperties:acProperties];
+  NSDictionary *csProperties = [self.sut convertACPropertiesToCSproperties:acProperties];
 
   // Then
   XCTAssertNil(csProperties);
@@ -165,24 +162,14 @@
   csProperties = [self.sut convertACPropertiesToCSproperties:acProperties];
 
   // Then
-  XCTAssertEqualObjects(csProperties,
-                        @{ @"nes" : @{@"t" : @{@"ed" : @"buriedValue"}} });
+  XCTAssertEqualObjects(csProperties, @{ @"nes" : @{@"t" : @{@"ed" : @"buriedValue"}} });
 
   // If
-  acProperties =
-      @{ @"key" : @"value",
-         @"nes.a" : @"1",
-         @"nes.t.ed" : @"2",
-         @"nes.t.ed2" : @"3",
-         @"key2" : @"value2" };
+  acProperties = @{ @"key" : @"value", @"nes.a" : @"1", @"nes.t.ed" : @"2", @"nes.t.ed2" : @"3", @"key2" : @"value2" };
 
   // When
   csProperties = [self.sut convertACPropertiesToCSproperties:acProperties];
-  NSDictionary *test = @{
-    @"key" : @"value",
-    @"nes" : @{@"a" : @"1", @"t" : @{@"ed" : @"2", @"ed2" : @"3"}},
-    @"key2" : @"value2"
-  };
+  NSDictionary *test = @{ @"key" : @"value", @"nes" : @{@"a" : @"1", @"t" : @{@"ed" : @"2", @"ed2" : @"3"}}, @"key2" : @"value2" };
 
   // Then
   XCTAssertEqualObjects(csProperties, test);
@@ -191,18 +178,12 @@
 - (void)testOverrideValueToObjectProperties {
 
   // If
-  NSDictionary *acProperties =
-    @{ @"a.b" : @"1",
-       @"a.b.c.d" : @"2" };
+  NSDictionary *acProperties = @{ @"a.b" : @"1", @"a.b.c.d" : @"2" };
 
   // When
   NSDictionary *csProperties = [self.sut convertACPropertiesToCSproperties:acProperties];
-  NSDictionary *test1 = @{
-    @"a" : @{@"b" : @"1"}
-  };
-  NSDictionary *test2 = @{
-    @"a" : @{@"b" : @{@"c" : @{@"d" : @"2"}}}
-  };
+  NSDictionary *test1 = @{ @"a" : @{@"b" : @"1"} };
+  NSDictionary *test2 = @{ @"a" : @{@"b" : @{@"c" : @{@"d" : @"2"}}} };
 
   // Then
   XCTAssertEqual([csProperties count], 1);
@@ -212,18 +193,12 @@
 - (void)testOverrideObjectToValueProperties {
 
   // If
-  NSDictionary *acProperties =
-  @{ @"a.b.c.d" : @"1",
-     @"a.b" : @"2" };
+  NSDictionary *acProperties = @{ @"a.b.c.d" : @"1", @"a.b" : @"2" };
 
   // When
   NSDictionary *csProperties = [self.sut convertACPropertiesToCSproperties:acProperties];
-  NSDictionary *test1 = @{
-    @"a" : @{@"b" : @{@"c" : @{@"d" : @"1"}}}
-  };
-  NSDictionary *test2 = @{
-    @"a" : @{@"b" : @"2"}
-  };
+  NSDictionary *test1 = @{ @"a" : @{@"b" : @{@"c" : @{@"d" : @"1"}}} };
+  NSDictionary *test2 = @{ @"a" : @{@"b" : @"2"} };
 
   // Then
   XCTAssertEqual([csProperties count], 1);
@@ -233,18 +208,12 @@
 - (void)testOverrideValueToValueProperties {
 
   // If
-  NSDictionary *acProperties =
-  @{ @"a.b" : @"1",
-     @"a.b" : @"2" };
+  NSDictionary *acProperties = @{ @"a.b" : @"1", @"a.b" : @"2" };
 
   // When
   NSDictionary *csProperties = [self.sut convertACPropertiesToCSproperties:acProperties];
-  NSDictionary *test1 = @{
-    @"a" : @{@"b" : @"1"}
-  };
-  NSDictionary *test2 = @{
-    @"a" : @{@"b" : @"2"}
-  };
+  NSDictionary *test1 = @{ @"a" : @{@"b" : @"1"} };
+  NSDictionary *test2 = @{ @"a" : @{@"b" : @"2"} };
 
   // Then
   XCTAssertEqual([csProperties count], 1);
@@ -256,9 +225,7 @@
   // If
   NSString *targetToken = @"aTarget-Token";
   NSString *name = @"SolarEclipse";
-  NSDictionary *properties =
-      @{ @"StartedAt" : @"11:00",
-         @"VisibleFrom" : @"Redmond" };
+  NSDictionary *properties = @{ @"StartedAt" : @"11:00", @"VisibleFrom" : @"Redmond" };
   NSDate *timestamp = [NSDate date];
   MSDevice *device = [MSDevice new];
   NSString *oemName = @"Peach";
@@ -289,8 +256,7 @@
   self.sut.properties = properties;
 
   // When
-  MSCommonSchemaLog *csLog =
-      [self.sut toCommonSchemaLogForTargetToken:targetToken];
+  MSCommonSchemaLog *csLog = [self.sut toCommonSchemaLogForTargetToken:targetToken];
 
   // Then
   XCTAssertEqualObjects(csLog.ver, kMSCSVerValue);
@@ -299,9 +265,7 @@
   XCTAssertEqualObjects(csLog.iKey, @"o:aTarget");
   XCTAssertEqualObjects(csLog.ext.protocolExt.devMake, oemName);
   XCTAssertEqualObjects(csLog.ext.protocolExt.devModel, model);
-  XCTAssertEqualObjects(
-      csLog.ext.appExt.locale,
-      [[[NSBundle mainBundle] preferredLocalizations] firstObject]);
+  XCTAssertEqualObjects(csLog.ext.appExt.locale, [[[NSBundle mainBundle] preferredLocalizations] firstObject]);
   XCTAssertEqualObjects(csLog.ext.osExt.name, osName);
   XCTAssertEqualObjects(csLog.ext.osExt.ver, @"Version 1.2.4 (Build 2342EEWF)");
   XCTAssertEqualObjects(csLog.ext.appExt.appId, @"I:com.contoso.peach.app");

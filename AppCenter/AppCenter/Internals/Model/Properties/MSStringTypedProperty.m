@@ -2,9 +2,11 @@
 
 @implementation MSStringTypedProperty
 
+static NSString *const kMSStringTypedPropertyType = @"string";
+
 - (instancetype)init {
     if ((self = [super init])) {
-        self.type = @"string";
+        self.type = kMSStringTypedPropertyType;
     }
     return self;
 }
@@ -22,14 +24,9 @@
     [coder encodeObject:self.value forKey:kMSTypedPropertyValue];
 }
 
-/**
- * Serialize this object to a dictionary.
- *
- * @return A dictionary representing this object.
- */
 - (NSMutableDictionary *)serializeToDictionary {
     NSMutableDictionary *dict = [super serializeToDictionary];
-    dict[@"value"] = self.value;
+    dict[kMSTypedPropertyValue] = self.value;
     return dict;
 }
 

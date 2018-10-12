@@ -35,6 +35,10 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 
 You must sign a [Contributor License Agreement](https://cla.microsoft.com/) before submitting your pull request. To complete the Contributor License Agreement (CLA), you will need to submit a request via the [form](https://cla.microsoft.com/) and then electronically sign the CLA when you receive the email containing the link to the document. You need to sign the CLA only once to cover submission to any Microsoft OSS project. 
 
+### 2.3 Code Formatting
+
+All Objective-C files follow LLVM coding style (with a few exceptions) and are formatted accordingly. If you use Xcode for your contribution, use our [.clang_format](https://github.com/Microsoft/AppCenter-SDK-Apple/blob/develop/.clang-format) file to make sure files have the correct code format before submitting PRs. You can find a clang formatting tool [here](https://github.com/mapbox/XcodeClangFormat) if you don't have a tool for formatting code.
+
 ## 3. Contact
 
 ### 3.1 Intercom

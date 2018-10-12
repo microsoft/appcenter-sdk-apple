@@ -1,10 +1,12 @@
-#import "MSBooleanTypedProperty.h"
+#import "MSDoubleTypedProperty.h"
 
-@implementation MSBooleanTypedProperty
+static NSString *const kMSDoubleTypedPropertyType = @"double";
+
+@implementation MSDoubleTypedProperty
 
 - (instancetype)init {
   if ((self = [super init])) {
-    self.type = @"boolean";
+    self.type = kMSDoubleTypedPropertyType;
   }
   return self;
 }
@@ -12,21 +14,16 @@
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super initWithCoder:coder];
   if (self) {
-    _value = [coder decodeBoolForKey:kMSTypedPropertyValue];
+    _value = [coder decodeDoubleForKey:kMSTypedPropertyValue];
   }
   return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
-  [coder encodeBool:self.value forKey:kMSTypedPropertyValue];
+  [coder encodeDouble:self.value forKey:kMSTypedPropertyValue];
 }
 
-/**
- * Serialize this object to a dictionary.
- *
- * @return A dictionary representing this object.
- */
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [super serializeToDictionary];
   dict[kMSTypedPropertyValue] = @(self.value);

@@ -1,6 +1,7 @@
+#import <Foundation/Foundation.h>
+
 #import "MSAbstractLogInternal.h"
 #import "MSDevice.h"
-#import <Foundation/Foundation.h>
 
 @class MSUserExtension;
 @class MSLocExtension;
@@ -108,6 +109,7 @@
  * Populate dummy common schema extensions.
  *
  * @param dummyValues Dummy values to create the extension.
+ *
  * @return The dummy common schema extensions.
  */
 + (MSCSExtensions *)extensionsWithDummyValues:(NSDictionary *)dummyValues;
@@ -116,6 +118,7 @@
  * Populate a dummy common schema user extension.
  *
  * @param dummyValues Dummy values to create the extension.
+ *
  * @return A dummy common schema user extension.
  */
 + (MSUserExtension *)userExtensionWithDummyValues:(NSDictionary *)dummyValues;
@@ -124,6 +127,7 @@
  * Populate a dummy common schema location extension.
  *
  * @param dummyValues Dummy values to create the extension.
+ *
  * @return A dummy common schema location extension.
  */
 + (MSLocExtension *)locExtensionWithDummyValues:(NSDictionary *)dummyValues;
@@ -132,6 +136,7 @@
  * Populate a dummy common schema os extension.
  *
  * @param dummyValues Dummy values to create the extension.
+ *
  * @return A dummy common schema os extension.
  */
 + (MSOSExtension *)osExtensionWithDummyValues:(NSDictionary *)dummyValues;
@@ -139,6 +144,7 @@
  * Populate a dummy common schema app extension.
  *
  * @param dummyValues Dummy values to create the extension.
+ *
  * @return A dummy common schema app extension.
  */
 + (MSAppExtension *)appExtensionWithDummyValues:(NSDictionary *)dummyValues;
@@ -147,6 +153,7 @@
  * Populate a dummy common schema protocol extension.
  *
  * @param dummyValues Dummy values to create the extension.
+ *
  * @return A dummy common schema protocol extension.
  */
 + (MSProtocolExtension *)protocolExtensionWithDummyValues:(NSDictionary *)dummyValues;
@@ -155,6 +162,7 @@
  * Populate a dummy common schema network extension.
  *
  * @param dummyValues Dummy values to create the extension.
+ *
  * @return A dummy common schema network extension.
  */
 + (MSNetExtension *)netExtensionWithDummyValues:(NSDictionary *)dummyValues;
@@ -163,6 +171,7 @@
  * Populate a dummy common schema sdk extension.
  *
  * @param dummyValues Dummy values to create the extension.
+ *
  * @return A dummy common schema sdk extension.
  */
 + (MSSDKExtension *)sdkExtensionWithDummyValues:(NSDictionary *)dummyValues;
@@ -171,14 +180,16 @@
  * Populate a dummy common schema device extension.
  *
  * @param dummyValues Dummy values to create the extension.
+ *
  * @return A dummy common schema device extension.
  */
 + (MSDeviceExtension *)deviceExtensionWithDummyValues:(NSDictionary *)dummyValues;
- 
+
 /**
  * Populate a dummy common schema data.
  *
  * @param dummyValues Dummy values to create the data.
+ *
  * @return A dummy common schema data.
  */
 + (MSCSData *)dataWithDummyValues:(NSDictionary *)dummyValues;

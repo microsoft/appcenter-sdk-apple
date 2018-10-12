@@ -45,15 +45,12 @@ NS_ASSUME_NONNULL_BEGIN
  * @param type The type for the provider, e.g. MSA.
  * @param ticketKey The ticket key for the provider.
  * @param delegate The delegate.
- * current authentication token.
  *
  * @return A new authentication provider.
  */
-- (instancetype)
-initWithAuthenticationType:(MSAnalyticsAuthenticationType)type
-                 ticketKey:(NSString *)ticketKey
-                  delegate:
-                      (id<MSAnalyticsAuthenticationProviderDelegate>) delegate;
+- (instancetype)initWithAuthenticationType:(MSAnalyticsAuthenticationType)type
+                                 ticketKey:(NSString *)ticketKey
+                                  delegate:(id<MSAnalyticsAuthenticationProviderDelegate>)delegate;
 
 /**
  * Check expiration.

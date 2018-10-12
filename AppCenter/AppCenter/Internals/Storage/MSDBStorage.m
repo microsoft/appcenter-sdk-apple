@@ -6,13 +6,12 @@
 
 @implementation MSDBStorage
 
-- (instancetype)initWithSchema:(MSDBSchema *)schema version:(NSUInteger)version filename:(NSString *)filename{
+- (instancetype)initWithSchema:(MSDBSchema *)schema version:(NSUInteger)version filename:(NSString *)filename {
   if ((self = [super init])) {
     _dbFileURL = [MSUtility createFileAtPathComponent:filename withData:nil atomically:NO forceOverwrite:NO];
     _maxPageCount = [MSDBStorage numberOfPagesInBytes:kMSDefaultDatabaseSizeInBytes];
 
-    // If it is custom SQLite library we need to turn on URI filename
-    // capability.
+    // If it is custom SQLite library we need to turn on URI filename capability.
     sqlite3_config(SQLITE_CONFIG_URI, 1);
 
     // Execute all initialize operation with one database instance.
@@ -23,10 +22,11 @@
       BOOL newDatabase = tablesCreated == schema.count;
       NSUInteger databaseVersion = [MSDBStorage versionInOpenedDatabase:db];
       if (databaseVersion < version && !newDatabase) {
-        MSLogInfo([MSAppCenter logTag], @"Migrate \"%@\" database from %lu to %lu version.", filename,
-                  (unsigned long)databaseVersion, (unsigned long)version);
+        MSLogInfo([MSAppCenter logTag], @"Migrate \"%@\" database from %lu to %lu version.", filename, (unsigned long)databaseVersion,
+                  (unsigned long)version);
         [self migrateDatabase:db fromVersion:databaseVersion];
       }
+      [MSDBStorage enableAutoVacuumInOpenedDatabase:db];
       [MSDBStorage setVersion:version inOpenedDatabase:db];
       return SQLITE_OK;
     }];
@@ -63,13 +63,13 @@
       NSString *columnName = columns[i].allKeys[0];
 
       // Compute column query.
-      [columnQueries addObject:[NSString stringWithFormat:@"\"%@\" %@", columnName,
-                                                          [columns[i][columnName] componentsJoinedByString:@" "]]];
+      [columnQueries
+          addObject:[NSString stringWithFormat:@"\"%@\" %@", columnName, [columns[i][columnName] componentsJoinedByString:@" "]]];
     }
 
     // Compute table query.
-    [tableQueries addObject:[NSString stringWithFormat:@"CREATE TABLE \"%@\" (%@);", tableName,
-                                                       [columnQueries componentsJoinedByString:@", "]]];
+    [tableQueries
+        addObject:[NSString stringWithFormat:@"CREATE TABLE \"%@\" (%@);", tableName, [columnQueries componentsJoinedByString:@", "]]];
   }
 
   // Create the tables.
@@ -95,9 +95,8 @@
 }
 
 + (BOOL)tableExists:(NSString *)tableName inOpenedDatabase:(void *)db {
-  NSString *query = [NSString stringWithFormat:@"SELECT COUNT(*) FROM \"sqlite_master\" "
-                                               @"WHERE \"type\"='table' AND \"name\"='%@';",
-                                               tableName];
+  NSString *query =
+      [NSString stringWithFormat:@"SELECT COUNT(*) FROM \"sqlite_master\" WHERE \"type\"='table' AND \"name\"='%@';", tableName];
   NSArray<NSArray *> *result = [MSDBStorage executeSelectionQuery:query inOpenedDatabase:db];
   return (result.count > 0) ? [(NSNumber *)result[0][0] boolValue] : NO;
 }
@@ -110,6 +109,22 @@
 + (void)setVersion:(NSUInteger)version inOpenedDatabase:(void *)db {
   NSString *query = [NSString stringWithFormat:@"PRAGMA user_version = %lu", (unsigned long)version];
   [MSDBStorage executeNonSelectionQuery:query inOpenedDatabase:db];
+}
+
++ (void)enableAutoVacuumInOpenedDatabase:(void *)db {
+  NSArray<NSArray *> *result = [MSDBStorage executeSelectionQuery:@"PRAGMA auto_vacuum" inOpenedDatabase:db];
+  int vacuumMode = [(NSNumber *)result[0][0] intValue];
+  BOOL autoVacuumDisabled = vacuumMode != 1;
+
+  /*
+   * If `auto_vacuum` is disabled, change it to `FULL` and then manually `VACUUM` the database. Per the SQLite docs, changing the state of
+   * `auto_vacuum` must be followed by a manual `VACUUM` before the change can take effect (for more information,
+   * see https://www.sqlite.org/pragma.html#pragma_auto_vacuum).
+   */
+  if (autoVacuumDisabled) {
+    MSLogDebug([MSAppCenter logTag], @"Vacuuming database and enabling auto_vacuum");
+    [MSDBStorage executeNonSelectionQuery:@"PRAGMA auto_vacuum = FULL; VACUUM" inOpenedDatabase:db];
+  }
 }
 
 - (NSUInteger)countEntriesForTable:(NSString *)tableName condition:(nullable NSString *)condition {
@@ -201,7 +216,7 @@
   int requestedMaxPageCount = [MSDBStorage numberOfPagesInBytes:sizeInBytes];
   if (currentPageCount > requestedMaxPageCount) {
     MSLogWarning([MSAppCenter logTag], @"Cannot change database size to %ld bytes as it would cause a loss of data. "
-                                       "Maximum database size will not be changed.",
+                                        "Maximum database size will not be changed.",
                  sizeInBytes);
     if (completionHandler) {
       completionHandler(NO);
@@ -214,23 +229,21 @@
   BOOL success;
   sqlite3 *db = [self openDatabaseAtFileURL:self.dbFileURL withMaxPageCount:requestedMaxPageCount withResult:&result];
   if (result != SQLITE_OK) {
-    MSLogError([MSAppCenter logTag], @"Could not change maximum database size to %ld bytes. SQLite error "
-                                       "code: %i", sizeInBytes, result);
+    MSLogError([MSAppCenter logTag], @"Could not change maximum database size to %ld bytes. SQLite error code: %i", sizeInBytes, result);
     success = NO;
   } else {
     rows = [MSDBStorage executeSelectionQuery:@"PRAGMA max_page_count;" inOpenedDatabase:db];
     int currentMaxPageCount = [(NSNumber *)rows[0][0] intValue];
     long actualSize = requestedMaxPageCount * kMSDefaultPageSizeInBytes;
     if (requestedMaxPageCount != currentMaxPageCount) {
-      MSLogError([MSAppCenter logTag], @"Could not change maximum database size to %ld bytes, "
-                 @"current maximum size is %ld bytes.", sizeInBytes, actualSize);
+      MSLogError([MSAppCenter logTag], @"Could not change maximum database size to %ld bytes, current maximum size is %ld bytes.",
+                 sizeInBytes, actualSize);
       success = NO;
     } else {
       if (sizeInBytes == actualSize) {
         MSLogInfo([MSAppCenter logTag], @"Changed maximum database size to %ld bytes.", actualSize);
       } else {
-        MSLogInfo([MSAppCenter logTag], @"Changed maximum database size to %ld bytes (next multiple of 4KiB).",
-                  actualSize);
+        MSLogInfo([MSAppCenter logTag], @"Changed maximum database size to %ld bytes (next multiple of 4KiB).", actualSize);
       }
       self.maxPageCount = requestedMaxPageCount;
       success = YES;
@@ -244,8 +257,7 @@
 
 - (sqlite3 *)openDatabaseAtFileURL:(NSURL *)fileURL withMaxPageCount:(int)maxPageCount withResult:(int *)result {
   sqlite3 *db = NULL;
-  *result = sqlite3_open_v2([[fileURL absoluteString] UTF8String], &db,
-                            SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_URI, NULL);
+  *result = sqlite3_open_v2([[fileURL absoluteString] UTF8String], &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_URI, NULL);
   if (*result != SQLITE_OK) {
     MSLogError([MSAppCenter logTag], @"Failed to open database with result: %d.", *result);
     return NULL;
@@ -256,8 +268,8 @@
   if (*result != SQLITE_OK) {
     errorMessage = errorMessage ? errorMessage : "(nil)";
     NSString *printableErrorMessage = [NSString stringWithCString:errorMessage encoding:NSUTF8StringEncoding];
-    MSLogError([MSAppCenter logTag], @"Failed to open database with specified maximum size constraint. Error message:"
-                                     " %@", printableErrorMessage);
+    MSLogError([MSAppCenter logTag], @"Failed to open database with specified maximum size constraint. Error message: %@",
+               printableErrorMessage);
   }
   return db;
 }

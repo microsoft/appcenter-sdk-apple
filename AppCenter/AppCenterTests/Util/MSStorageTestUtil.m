@@ -7,7 +7,7 @@
 @implementation MSStorageTestUtil
 
 - (instancetype)initWithDbFileName:(NSString *)fileName {
-  if((self = [super init])) {
+  if ((self = [super init])) {
     _path = fileName;
   }
   return self;
@@ -18,7 +18,6 @@
     [MSUtility deleteItemForPathComponent:self.path];
   }
 }
-
 
 - (long)getDataLengthInBytes {
   sqlite3 *db = [self openDatabase];
@@ -34,10 +33,7 @@
 - (sqlite3 *)openDatabase {
   sqlite3 *db = NULL;
   NSURL *dbURL = [MSUtility createFileAtPathComponent:self.path withData:nil atomically:NO forceOverwrite:NO];
-  sqlite3_open_v2([[dbURL absoluteString] UTF8String],
-                  &db,
-                  SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_URI,
-                  NULL);
+  sqlite3_open_v2([[dbURL absoluteString] UTF8String], &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_URI, NULL);
   return db;
 }
 

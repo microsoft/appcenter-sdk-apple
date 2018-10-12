@@ -1,5 +1,5 @@
-#import "MSPageLog.h"
 #import "AppCenter+Internal.h"
+#import "MSPageLog.h"
 
 static NSString *const kMSTypePage = @"page";
 
@@ -13,8 +13,7 @@ static NSString *const kMSTypePage = @"page";
 }
 
 - (BOOL)isEqual:(id)object {
-  return [(NSObject *)object isKindOfClass:[MSPageLog class]] &&
-         [super isEqual:object];
+  return [(NSObject *)object isKindOfClass:[MSPageLog class]] && [super isEqual:object];
 }
 
 @end

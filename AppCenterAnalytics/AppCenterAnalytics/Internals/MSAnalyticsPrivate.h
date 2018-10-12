@@ -10,13 +10,13 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MSAnalytics () <MSSessionTrackerDelegate>
 
 /**
- *  Session tracking component.
+ * Session tracking component.
  */
 @property(nonatomic) MSSessionTracker *sessionTracker;
 
 @property(nonatomic) BOOL autoPageTrackingEnabled;
 
-@property(nonatomic, nullable) id <MSAnalyticsDelegate> delegate;
+@property(nonatomic, nullable) id<MSAnalyticsDelegate> delegate;
 
 /**
  * Transmission targets.
@@ -36,19 +36,30 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Track an event.
  *
- * @param eventName  event name.
- * @param properties dictionary of properties.
+ * @param eventName  Event name.
+ * @param properties Dictionary of properties.
  * @param transmissionTarget Transmission target to associate with the event.
  */
-- (void)   trackEvent:(NSString *)eventName
-       withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
-forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarget;
+- (void)trackEvent:(NSString *)eventName
+           withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
+    forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarget;
+
+/**
+ * Track an event with typed properties.
+ *
+ * @param eventName  Event name.
+ * @param properties Typed properties.
+ * @param transmissionTarget Transmission target to associate with the event.
+ */
+- (void)trackEvent:(NSString *)eventName
+      withTypedProperties:(nullable MSEventProperties *)properties
+    forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarget;
 
 /**
  * Track a page.
  *
- * @param pageName  page name.
- * @param properties dictionary of properties.
+ * @param pageName  Page name.
+ * @param properties Dictionary of properties.
  */
 - (void)trackPage:(NSString *)pageName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties;
 
@@ -62,8 +73,7 @@ forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarg
 - (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:(NSString *)token;
 
 /**
- * Method to reset the singleton when running unit tests only. So calling
- * sharedInstance returns a fresh instance.
+ * Method to reset the singleton when running unit tests only. So calling sharedInstance returns a fresh instance.
  */
 + (void)resetSharedInstance;
 

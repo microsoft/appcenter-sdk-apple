@@ -20,6 +20,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
 - (void)setUp {
   [super setUp];
+
   // System Under Test.
   self.sut = [MSDeviceTracker sharedInstance];
 }
@@ -52,15 +53,11 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
   assertThat(self.sut.device.screenSize, notNilValue());
 
-  // Can't access carrier name and country in test context but it's optional and
-  // in that case it has to be nil.
+  // Can't access carrier name and country in test context but it's optional and in that case it has to be nil.
   assertThat(self.sut.device.carrierCountry, nilValue());
   assertThat(self.sut.device.carrierName, nilValue());
 
-  /*
-   * Can't access a valid main bundle from test context so we can't test for App
-   * namespace (bundle ID), version and build.
-   */
+  // Can't access a valid main bundle from test context so we can't test for App namespace (bundle ID), version and build.
 }
 
 - (void)testDeviceModel {
@@ -110,13 +107,11 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   osSystemVersionMock.patchVersion = 6;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpartial-availability"
-  OCMStub([processInfoMock operatingSystemVersion])
-      .andReturn(osSystemVersionMock);
+  OCMStub([processInfoMock operatingSystemVersion]).andReturn(osSystemVersionMock);
 #pragma clang diagnostic pop
 #else
 
-// TODO: No way to mock C-style functions like Gestalt. Skip the test on machine
-// running on macOS version <= 10.9.
+// TODO: No way to mock C-style functions like Gestalt. Skip the test on machine running on macOS version <= 10.9.
 #endif
 #else
   UIDevice *deviceMock = OCMClassMock([UIDevice class]);
@@ -129,8 +124,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   NSString *osVersion = [self.sut osVersion];
 #else
 
-  // TODO: No way to mock C-style functions like Gestalt. Skip the test on
-  // machine running on macOS version <= 10.9.
+  // TODO: No way to mock C-style functions like Gestalt. Skip the test on machine running on macOS version <= 10.9.
   NSString *osVersion = expected;
 #endif
 #else
@@ -278,8 +272,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
   // If
   NSString *expected = @"7.8.9";
-  NSDictionary<NSString *, id> *plist =
-      @{ @"CFBundleShortVersionString" : expected };
+  NSDictionary<NSString *, id> *plist = @{ @"CFBundleShortVersionString" : expected };
   NSBundle *bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock infoDictionary]).andReturn(plist);
 
@@ -322,13 +315,12 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 - (void)testWrapperSdk {
 
   // If
-  MSWrapperSdk *wrapperSdk =
-      [[MSWrapperSdk alloc] initWithWrapperSdkVersion:@"10.11.12"
-                                       wrapperSdkName:@"Wrapper SDK for iOS"
-                                wrapperRuntimeVersion:@"13.14"
-                               liveUpdateReleaseLabel:@"Release Label"
-                              liveUpdateDeploymentKey:@"Deployment Key"
-                                liveUpdatePackageHash:@"Package Hash"];
+  MSWrapperSdk *wrapperSdk = [[MSWrapperSdk alloc] initWithWrapperSdkVersion:@"10.11.12"
+                                                              wrapperSdkName:@"Wrapper SDK for iOS"
+                                                       wrapperRuntimeVersion:@"13.14"
+                                                      liveUpdateReleaseLabel:@"Release Label"
+                                                     liveUpdateDeploymentKey:@"Deployment Key"
+                                                       liveUpdatePackageHash:@"Package Hash"];
 
   // When
   [[MSDeviceTracker sharedInstance] setWrapperSdk:wrapperSdk];
@@ -337,14 +329,10 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   // Then
   XCTAssertEqual(device.wrapperSdkVersion, wrapperSdk.wrapperSdkVersion);
   XCTAssertEqual(device.wrapperSdkName, wrapperSdk.wrapperSdkName);
-  XCTAssertEqual(device.wrapperRuntimeVersion,
-                 wrapperSdk.wrapperRuntimeVersion);
-  XCTAssertEqual(device.liveUpdateReleaseLabel,
-                 wrapperSdk.liveUpdateReleaseLabel);
-  XCTAssertEqual(device.liveUpdateDeploymentKey,
-                 wrapperSdk.liveUpdateDeploymentKey);
-  XCTAssertEqual(device.liveUpdatePackageHash,
-                 wrapperSdk.liveUpdatePackageHash);
+  XCTAssertEqual(device.wrapperRuntimeVersion, wrapperSdk.wrapperRuntimeVersion);
+  XCTAssertEqual(device.liveUpdateReleaseLabel, wrapperSdk.liveUpdateReleaseLabel);
+  XCTAssertEqual(device.liveUpdateDeploymentKey, wrapperSdk.liveUpdateDeploymentKey);
+  XCTAssertEqual(device.liveUpdatePackageHash, wrapperSdk.liveUpdatePackageHash);
 
   // Update wrapper SDK
   // If
@@ -392,13 +380,11 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
   assertThat(expected.screenSize, notNilValue());
 
-  // Can't access carrier name and country in test context but it's optional and
-  // in that case it has to be nil.
+  // Can't access carrier name and country in test context but it's optional and in that case it has to be nil.
   assertThat(expected.carrierCountry, nilValue());
   assertThat(expected.carrierName, nilValue());
 
-  // Can't access a valid main bundle from test context so we can't test for App
-  // namespace (bundle ID), version and build.
+  // Can't access a valid main bundle from test context so we can't test for App namespace (bundle ID), version and build.
 
   XCTAssertNotEqual(expected, self.sut.device);
 }
@@ -468,8 +454,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   MSDevice *sixth = [tracker device];
 
   // Then
-  // The new device should be added at the end and the first one removed so that
-  // second is at index 0
+  // The new device should be added at the end and the first one removed so that second is at index 0
   XCTAssertTrue([[tracker deviceHistory] count] == 5);
   XCTAssertTrue([tracker.deviceHistory[0].device isEqual:second]);
   XCTAssertTrue([tracker.deviceHistory[4].device isEqual:sixth]);
@@ -479,8 +464,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   MSDevice *seventh = [tracker device];
 
   // Then
-  // The new device should be added at the end and the first one removed so that
-  // third is at index 0
+  // The new device should be added at the end and the first one removed so that third is at index 0
   XCTAssertTrue([[tracker deviceHistory] count] == 5);
   XCTAssertTrue([tracker.deviceHistory[0].device isEqual:third]);
   XCTAssertTrue([tracker.deviceHistory[4].device isEqual:seventh]);
@@ -493,8 +477,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   [tracker clearDevices];
 
   // When
-  MSDevice *actual =
-      [tracker deviceForTimestamp:[NSDate dateWithTimeIntervalSince1970:1]];
+  MSDevice *actual = [tracker deviceForTimestamp:[NSDate dateWithTimeIntervalSince1970:1]];
 
   // Then
   XCTAssertTrue([actual isEqual:tracker.device]);
@@ -508,8 +491,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   MSDevice *third = [tracker device];
 
   // When
-  actual =
-      [tracker deviceForTimestamp:[NSDate dateWithTimeIntervalSince1970:1]];
+  actual = [tracker deviceForTimestamp:[NSDate dateWithTimeIntervalSince1970:1]];
 
   // Then
   XCTAssertTrue([actual isEqual:first]);

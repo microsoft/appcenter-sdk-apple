@@ -12,16 +12,13 @@ NSBundle *MSDistributeBundle(void);
 /**
  * Return a localized string for the given token.
  *
- * @param stringToken The string token that will be looked for in the .strings
- * file.
+ * @param stringToken The string token that will be looked for in the .strings file.
  *
  * @return A localized string.
  *
- * @discussion This needs the AppCenterDistributeResources.bundle to be added to
- * the project. If the bundle is missing, the method will return the provided
- * stringToken. In case nil or an empty string is passed to the method, it will
- * return an empty string. If the .strings file does not contain a string for
- * the token, it will return the token.
+ * @discussion This needs the AppCenterDistributeResources.bundle to be added to the project. If the bundle is missing, the method will
+ * return the provided stringToken. In case nil or an empty string is passed to the method, it will return an empty string. If the .strings
+ * file does not contain a string for the token, it will return the token.
  */
 NSString *MSDistributeLocalizedString(NSString *stringToken);
 
@@ -30,8 +27,7 @@ NSString *MSDistributeLocalizedString(NSString *stringToken);
  *
  * @param version A version to check against semantic versioning format.
  *
- * @return `YES` if the given version is compatible with semantic versioning
- * format.
+ * @return `YES` if the given version is compatible with semantic versioning format.
  */
 BOOL MSisSemVerFormat(NSString *version);
 
@@ -42,8 +38,7 @@ BOOL MSisSemVerFormat(NSString *version);
  *
  * @return The comparison result determining releases precedence.
  */
-NSComparisonResult
-MSCompareCurrentReleaseWithRelease(MSReleaseDetails *release);
+NSComparisonResult MSCompareCurrentReleaseWithRelease(MSReleaseDetails *release);
 
 /**
  * Get package hash of the application.

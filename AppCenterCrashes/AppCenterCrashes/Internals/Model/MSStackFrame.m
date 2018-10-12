@@ -38,18 +38,12 @@ static NSString *const kMSFileName = @"fileName";
     return NO;
   }
   MSStackFrame *frame = (MSStackFrame *)object;
-  return ((!self.address && !frame.address) ||
-          [self.address isEqualToString:frame.address]) &&
-         ((!self.code && !frame.code) ||
-          [self.code isEqualToString:frame.code]) &&
-         ((!self.className && !frame.className) ||
-          [self.className isEqualToString:frame.className]) &&
-         ((!self.methodName && !frame.methodName) ||
-          [self.methodName isEqualToString:frame.methodName]) &&
-         ((!self.lineNumber && !frame.lineNumber) ||
-          [self.lineNumber isEqual:frame.lineNumber]) &&
-         ((!self.fileName && !frame.fileName) ||
-          [self.fileName isEqualToString:frame.fileName]);
+  return ((!self.address && !frame.address) || [self.address isEqualToString:frame.address]) &&
+         ((!self.code && !frame.code) || [self.code isEqualToString:frame.code]) &&
+         ((!self.className && !frame.className) || [self.className isEqualToString:frame.className]) &&
+         ((!self.methodName && !frame.methodName) || [self.methodName isEqualToString:frame.methodName]) &&
+         ((!self.lineNumber && !frame.lineNumber) || [self.lineNumber isEqual:frame.lineNumber]) &&
+         ((!self.fileName && !frame.fileName) || [self.fileName isEqualToString:frame.fileName]);
 }
 
 #pragma mark - NSCoding

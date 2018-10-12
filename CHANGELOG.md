@@ -8,8 +8,13 @@
 
 ### AppCenterAnalytics
 
+* **[Feature]** Adding support for typed properties. Note that these APIs still convert properties back to strings on the App Center backend. More work is needed to store and display typed properties in the App Center portal. Using the new APIs now will enable future scenarios, but for now the behavior will be the same as it is for current event properties.
 * **[Feature]** Preparation work for a future change in transmission protocol and endpoint for Analytics data. There is no impact on your current workflow when using App Center.
 * **[Fix]** Fix an bug where nested custom properties for an event would not pass validation.
+
+### AppCenterDistribute
+
+* **[Fix]** Fix translation of closing a dialog in Portuguese.
 
 ___
 
@@ -19,11 +24,11 @@ This version contains bug fixes and a feature.
 
 ### AppCenter
 
-* **[Fix]** Fixes a potential deadlock that can cause the application to take a long time to launch. This could cause the iOS watchdog to kill the application.
+* **[Fix]** Fix a potential deadlock that can freeze the application launch causing the iOS watchdog to kill the application.
 
 ### AppCenterCrashes
 
-* **[Fix]** Fixes a potential deadlock that can cause the application to take a long time to launch. This could cause the iOS watchdog to kill the application.
+* **[Fix]** The above deadlock was mostly impacting the Crashes module.
 
 ### AppCenterAnalytics
 

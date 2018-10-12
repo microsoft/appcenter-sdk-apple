@@ -2,5 +2,4 @@
 #import <WatchKit/WatchKit.h>
 
 @interface NotificationController : WKUserNotificationInterfaceController
-
 @end
