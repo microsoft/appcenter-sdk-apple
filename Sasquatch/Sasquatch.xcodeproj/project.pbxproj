@@ -249,11 +249,6 @@
 		F8AA9F3F2164FD1C009104E3 /* MSDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F3C2164FD1C009104E3 /* MSDatePicker.swift */; };
 		F8AA9F402164FD1C009104E3 /* MSDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F3C2164FD1C009104E3 /* MSDatePicker.swift */; };
 		F8AA9F412164FD1C009104E3 /* MSDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F3C2164FD1C009104E3 /* MSDatePicker.swift */; };
-		F8AA9F4321650B35009104E3 /* TypedPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F4221650B35009104E3 /* TypedPropertiesTableSection.swift */; };
-		F8AA9F4421650B35009104E3 /* TypedPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F4221650B35009104E3 /* TypedPropertiesTableSection.swift */; };
-		F8AA9F4521650B35009104E3 /* TypedPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F4221650B35009104E3 /* TypedPropertiesTableSection.swift */; };
-		F8AA9F4621650B35009104E3 /* TypedPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F4221650B35009104E3 /* TypedPropertiesTableSection.swift */; };
-		F8AA9F4721650B35009104E3 /* TypedPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F4221650B35009104E3 /* TypedPropertiesTableSection.swift */; };
 		F8AA9F4921650C04009104E3 /* SimplePropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F4821650C04009104E3 /* SimplePropertiesTableSection.swift */; };
 		F8AA9F4A21650C04009104E3 /* SimplePropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F4821650C04009104E3 /* SimplePropertiesTableSection.swift */; };
 		F8AA9F4B21650C04009104E3 /* SimplePropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F4821650C04009104E3 /* SimplePropertiesTableSection.swift */; };
@@ -773,7 +768,6 @@
 		F8AA9F052164F91B009104E3 /* MSAnalyticsTypedPropertyTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MSAnalyticsTypedPropertyTableViewCell.xib; sourceTree = "<group>"; };
 		F8AA9F322164F994009104E3 /* MSAnalyticsTypedPropertyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAnalyticsTypedPropertyTableViewCell.swift; sourceTree = "<group>"; };
 		F8AA9F3C2164FD1C009104E3 /* MSDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSDatePicker.swift; sourceTree = "<group>"; };
-		F8AA9F4221650B35009104E3 /* TypedPropertiesTableSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypedPropertiesTableSection.swift; sourceTree = "<group>"; };
 		F8AA9F4821650C04009104E3 /* SimplePropertiesTableSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimplePropertiesTableSection.swift; sourceTree = "<group>"; };
 		F8B224862113163D0052350E /* Sasquatch Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Sasquatch Debug.xcconfig"; sourceTree = "<group>"; };
 		F8B8EB15211070BE004BCECB /* Sasquatch.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Sasquatch.xcconfig; sourceTree = "<group>"; };
@@ -899,9 +893,8 @@
 				B2586C80210A478500664A43 /* CommonSchemaPropertiesTableSection.swift */,
 				352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */,
 				359171F620F7F80800F3DDE6 /* PropertiesTableSection.swift */,
-				359171F920F8001A00F3DDE6 /* TargetPropertiesTableSection.swift */,
-				F8AA9F4221650B35009104E3 /* TypedPropertiesTableSection.swift */,
 				F8AA9F4821650C04009104E3 /* SimplePropertiesTableSection.swift */,
+				359171F920F8001A00F3DDE6 /* TargetPropertiesTableSection.swift */,
 			);
 			path = Sections;
 			sourceTree = "<group>";
@@ -2123,7 +2116,6 @@
 				B2586C81210A478500664A43 /* CommonSchemaPropertiesTableSection.swift in Sources */,
 				B2E011F221091EF2003F4A5B /* MSCustomPropertyTableViewCell.swift in Sources */,
 				35396A7820F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift in Sources */,
-				F8AA9F4421650B35009104E3 /* TypedPropertiesTableSection.swift in Sources */,
 				84A0FF661E8A87B4000E7A28 /* MSCrashesViewController.swift in Sources */,
 				B203FF4C20E57A5B002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */,
 				84226C4E1E88FF4A00798417 /* AppDelegate.m in Sources */,
@@ -2145,7 +2137,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B203FF4D20E5922C002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */,
-				F8AA9F4621650B35009104E3 /* TypedPropertiesTableSection.swift in Sources */,
 				849A3E731E8A9922008711CB /* AppCenterProtocol.swift in Sources */,
 				84A0FF671E8A87B4000E7A28 /* MSCrashesViewController.swift in Sources */,
 				F8AA9F362164F994009104E3 /* MSAnalyticsTypedPropertyTableViewCell.swift in Sources */,
@@ -2198,7 +2189,6 @@
 				B2E011FF21091F0F003F4A5B /* MSCustomPropertyTableViewCell.swift in Sources */,
 				B2586C83210A478500664A43 /* CommonSchemaPropertiesTableSection.swift in Sources */,
 				B20AE38921027D6200A1A195 /* AppCenterDelegateObjC.m in Sources */,
-				F8AA9F4721650B35009104E3 /* TypedPropertiesTableSection.swift in Sources */,
 				B20AE38A21027D6200A1A195 /* MSTransmissionTargetsViewController.swift in Sources */,
 				B20AE38B21027D6200A1A195 /* MSCrashesViewController.swift in Sources */,
 				B20AE38C21027D6200A1A195 /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */,
@@ -2236,7 +2226,6 @@
 				B27D54B0210A5E7E004E82C9 /* CommonSchemaPropertiesTableSection.swift in Sources */,
 				B27D54B1210A5E7E004E82C9 /* MSCustomPropertyTableViewCell.swift in Sources */,
 				B27D54B2210A5E7E004E82C9 /* MSTransmissionTargetsViewController.swift in Sources */,
-				F8AA9F4321650B35009104E3 /* TypedPropertiesTableSection.swift in Sources */,
 				B27D54B3210A5E7E004E82C9 /* MSCrashesViewController.swift in Sources */,
 				B27D54B4210A5E7E004E82C9 /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */,
 				B27D54B5210A5E7E004E82C9 /* AppDelegate.m in Sources */,
@@ -2258,7 +2247,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B2A4CF89210A6E6900199B4F /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */,
-				F8AA9F4521650B35009104E3 /* TypedPropertiesTableSection.swift in Sources */,
 				B2A4CF8A210A6E6900199B4F /* AppCenterProtocol.swift in Sources */,
 				B2A4CF8B210A6E6900199B4F /* MSCrashesViewController.swift in Sources */,
 				F8AA9F352164F994009104E3 /* MSAnalyticsTypedPropertyTableViewCell.swift in Sources */,

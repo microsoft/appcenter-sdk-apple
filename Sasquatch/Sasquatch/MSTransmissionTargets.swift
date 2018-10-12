@@ -1,18 +1,15 @@
 import Foundation
 
-class MSTransmissionTargets {
+private let kDefaultTargetKey = "defaultTargetKey"
 
+class MSTransmissionTargets {
   static let shared = MSTransmissionTargets.init()
-  var transmissionTargets: [String: MSAnalyticsTransmissionTarget]!
+
+  var transmissionTargets = [String: MSAnalyticsTransmissionTarget]()
   let defaultTransmissionTargetIsEnabled: Bool
-  private var sendsAnalyticsEvents: [String: Bool]!
-  private let defaultTargetKey = "defaultTargetKey"
+  private var sendsAnalyticsEvents = [String: Bool]()
 
   private init() {
-
-    // Set up all transmission targets and associated mappings. The three targets and their tokens are hard coded.
-    transmissionTargets = [String: MSAnalyticsTransmissionTarget]()
-    sendsAnalyticsEvents = [String: Bool]()
 
     // Default target.
     let startTarget = UserDefaults.standard.integer(forKey: kMSStartTargetKey)
@@ -20,7 +17,7 @@ class MSTransmissionTargets {
     defaultTransmissionTargetIsEnabled =
       startMode == MSMainViewController.StartupMode.OneCollector ||
       startMode == MSMainViewController.StartupMode.Both
-    sendsAnalyticsEvents[defaultTargetKey] = true
+    sendsAnalyticsEvents[kDefaultTargetKey] = true
 
     // Parent target.
     let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
@@ -49,10 +46,10 @@ class MSTransmissionTargets {
   }
 
   func setShouldDefaultTargetSendAnalyticsEvents(enabledState: Bool) {
-    sendsAnalyticsEvents[defaultTargetKey] = enabledState
+    sendsAnalyticsEvents[kDefaultTargetKey] = enabledState
   }
 
   func defaultTargetShouldSendAnalyticsEvents() -> Bool {
-    return sendsAnalyticsEvents[defaultTargetKey]!
+    return sendsAnalyticsEvents[kDefaultTargetKey]!
   }
 }

@@ -54,13 +54,10 @@ import UIKit
       switch type {
       case .String, .Double, .Long:
         valueTextField.text = value as? String
-        break
       case .Boolean:
         boolValue.isOn = value as! Bool
-        break
       case .DateTime:
         datePickerView!.date = value as? Date
-        break
       }
     }
   }
