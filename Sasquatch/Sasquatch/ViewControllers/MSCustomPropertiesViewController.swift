@@ -1,12 +1,14 @@
 import UIKit
 
-private var kPropertiesSection: Int = 0
-private var kEstimatedRowHeight: CGFloat = 88.0
+private let kPropertiesSection: Int = 0
+private let kEstimatedRowHeight: CGFloat = 88.0
 
 class MSCustomPropertiesViewController : UITableViewController, AppCenterProtocol {
-  
-  var propertiesCount: Int = 0
+  typealias CustomPropertyType = MSCustomPropertyTableViewCell.CustomPropertyType
+
   var appCenter: AppCenterDelegate!
+
+  private var properties = [(key: String, type: CustomPropertyType, value: Any?)]()
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -20,14 +22,24 @@ class MSCustomPropertiesViewController : UITableViewController, AppCenterProtoco
   
   @IBAction func send() {
     let customProperties = MSCustomProperties()
-    for i in 0..<propertiesCount {
-      let cell = tableView.cellForRow(at: IndexPath(row: i, section: kPropertiesSection)) as? MSCustomPropertyTableViewCell
-      cell?.setPropertyTo(customProperties)
+    for property in properties {
+      switch property.type {
+      case .Clear:
+        customProperties.clearProperty(forKey: property.key)
+      case .String:
+        customProperties.setString(property.value as? String, forKey: property.key)
+      case .Number:
+        customProperties.setNumber(property.value as? NSNumber, forKey: property.key)
+      case .Boolean:
+        customProperties.setBool(property.value as! Bool, forKey: property.key)
+      case .DateTime:
+        customProperties.setDate(property.value as? Date, forKey: property.key)
+      }
     }
     appCenter.setCustomProperties(customProperties)
     
     // Clear the list.
-    propertiesCount = 0
+    properties.removeAll()
     tableView.reloadData()
     
     // Display a dialog.
@@ -57,7 +69,7 @@ class MSCustomPropertiesViewController : UITableViewController, AppCenterProtoco
   }
   
   func isInsertRow(at indexPath: IndexPath) -> Bool {
-    return indexPath.section == kPropertiesSection && indexPath.row == tableView(tableView, numberOfRowsInSection: indexPath.section) - 1
+    return isPropertiesRowSection(indexPath.section) && indexPath.row == 0
   }
 
   func isSendRow(at indexPath: IndexPath) -> Bool {
@@ -77,8 +89,7 @@ class MSCustomPropertiesViewController : UITableViewController, AppCenterProtoco
   override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
     if isInsertRow(at: indexPath) {
       return .insert
-    }
-    else {
+    } else {
       return .delete
     }
   }
@@ -98,7 +109,7 @@ class MSCustomPropertiesViewController : UITableViewController, AppCenterProtoco
   
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     if isPropertiesRowSection(section) {
-      return propertiesCount + 1
+      return properties.count + 1
     } else {
       return 2
     }
@@ -117,20 +128,25 @@ class MSCustomPropertiesViewController : UITableViewController, AppCenterProtoco
   
   override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
     if editingStyle == .delete {
-      propertiesCount -= 1
+      properties.remove(at: indexPath.row - 1)
       tableView.deleteRows(at: [indexPath], with: .automatic)
     } else if editingStyle == .insert {
-      propertiesCount += 1
-      tableView.insertRows(at: [indexPath], with: .automatic)
+      let count = properties.count
+      properties.insert(("key\(count)", CustomPropertyType.String, "value\(count)"), at: 0)
+      tableView.insertRows(at: [IndexPath(row: indexPath.row + 1, section: indexPath.section)], with: .automatic)
     }
   }
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cellIdentifier = cellIdentifierForRow(at: indexPath)
-    var cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)
-    if cell == nil {
-      cell = UITableViewCell(style: .default, reuseIdentifier: cellIdentifier)
+    let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) ??
+      UITableViewCell(style: .default, reuseIdentifier: cellIdentifier)
+    if let customPropertyCell = cell as? MSCustomPropertyTableViewCell {
+      customPropertyCell.state = properties[indexPath.row - 1]
+      customPropertyCell.onChange = { state in
+        self.properties[indexPath.row - 1] = state
+      }
     }
-    return cell!
+    return cell
   }
 }

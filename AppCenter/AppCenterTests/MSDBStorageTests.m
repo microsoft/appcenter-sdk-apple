@@ -419,6 +419,47 @@ static NSString *const kMSTestDBFileName = @"Test.sqlite";
   XCTAssertEqual(self.sut.maxPageCount, expectedPageCount);
 }
 
+- (void)testNewDatabaseIsAutoVacuumed {
+
+  // Then
+  XCTAssertTrue([self autoVacuumIsSetToFull]);
+}
+
+- (void)testNonAutoVacuumingDatabaseIsManuallyVacuumedAndAutoVacuumedWhenInitialized {
+
+  // If
+
+  // Reset database and ensure that auto_vacuum is disabled.
+  [self.storageTestUtil deleteDatabase];
+  sqlite3 *db = [self.storageTestUtil openDatabase];
+  sqlite3_exec(db, "PRAGMA auto_vacuum = NONE; VACUUM", NULL, NULL, NULL);
+  sqlite3_close(db);
+
+  // When
+  self.sut = [[MSDBStorage alloc] initWithSchema:self.schema version:0 filename:kMSTestDBFileName];
+
+  // Then
+  XCTAssertTrue([self autoVacuumIsSetToFull]);
+}
+
+- (void)testDatabaseThatIsAutoVacuumedNotManuallyVacuumedWhenInitialized {
+
+  // If
+
+  // Reset database and ensure that auto_vacuum is enabled.
+  [self.storageTestUtil deleteDatabase];
+  sqlite3 *db = [self.storageTestUtil openDatabase];
+  sqlite3_exec(db, "PRAGMA auto_vacuum = FULL; VACUUM", NULL, NULL, NULL);
+  sqlite3_close(db);
+  id dbStorageMock = OCMClassMock([MSDBStorage class]);
+
+  // Then
+  OCMReject([dbStorageMock executeNonSelectionQuery:@"VACUUM" inOpenedDatabase:[OCMArg anyPointer]]);
+
+  // When
+  self.sut = [[MSDBStorage alloc] initWithSchema:self.schema version:0 filename:kMSTestDBFileName];
+}
+
 #pragma mark - Private
 
 - (NSArray *)addGuysToTheTableWithCount:(short)guysCount {
@@ -443,4 +484,15 @@ static NSString *const kMSTestDBFileName = @"Test.sqlite";
   return [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'", tableName]][0][0];
 }
 
+- (BOOL)autoVacuumIsSetToFull {
+  int autoVacuumFullState = 1;
+  sqlite3 *db = [self.storageTestUtil openDatabase];
+  sqlite3_stmt *statement = NULL;
+  sqlite3_prepare_v2(db, "PRAGMA auto_vacuum", -1, &statement, NULL);
+  sqlite3_step(statement);
+  NSNumber *autoVacuum = @(sqlite3_column_int(statement, 0));
+  sqlite3_finalize(statement);
+  sqlite3_close(db);
+  return [autoVacuum intValue] == autoVacuumFullState;
+}
 @end
