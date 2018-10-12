@@ -1,9 +1,16 @@
 #import "AppCenter+Internal.h"
 #import "MSAnalyticsInternal.h"
+#import "MSBooleanTypedProperty.h"
+#import "MSConstants+Internal.h"
 #import "MSCSData.h"
 #import "MSCSModelConstants.h"
+#import "MSDateTimeTypedProperty.h"
+#import "MSDoubleTypedProperty.h"
 #import "MSEventLogPrivate.h"
 #import "MSEventPropertiesInternal.h"
+#import "MSLongTypedProperty.h"
+#import "MSStringTypedProperty.h"
+#import "MSUtility+Date.h"
 
 static NSString *const kMSTypeEvent = @"event";
 
@@ -81,7 +88,7 @@ static NSString *const kMSTypedProperties = @"typedProperties";
   NSMutableDictionary *csProperties;
   if (eventProperties) {
     csProperties = [NSMutableDictionary new];
-    for (NSString *acKey in eventProperties) {
+    for (NSString *acKey in eventProperties.properties) {
 
       // Properties keys are mixed up with other keys from Data, make sure they don't conflict.
       if ([acKey isEqualToString:kMSDataBaseData] || [acKey isEqualToString:kMSDataBaseDataType]) {
@@ -107,11 +114,28 @@ static NSString *const kMSTypedProperties = @"typedProperties";
         }
         destProperties = subObject;
       }
-      if (destProperties[csKeys[lastIndex]]) {
-        [destProperties removeObjectForKey:csKeys[lastIndex]];
-        MSLogWarning(MSAnalytics.logTag, @"Property key '%@' already has a value, the old value will be overridden.", csKeys[lastIndex]);
+      id lastKey = csKeys[lastIndex];
+      if (destProperties[lastKey]) {
+        [destProperties removeObjectForKey:lastKey];
+        MSLogWarning(MSAnalytics.logTag, @"Property key '%@' already has a value, the old value will be overridden.", lastKey);
       }
-      destProperties[csKeys[lastIndex]] = eventProperties[acKey];
+      id typedProperty = eventProperties.properties[acKey];
+      if ([typedProperty isKindOfClass:[MSStringTypedProperty class]]) {
+        MSStringTypedProperty *stringProperty = (MSStringTypedProperty *)typedProperty;
+        destProperties[lastKey] = stringProperty.value;
+      } else if ([typedProperty isKindOfClass:[MSBooleanTypedProperty class]]) {
+        MSBooleanTypedProperty *boolProperty = (MSBooleanTypedProperty *)typedProperty;
+        destProperties[lastKey] = @(boolProperty.value);
+      } else if ([typedProperty isKindOfClass:[MSLongTypedProperty class]]) {
+        MSLongTypedProperty *longProperty = (MSLongTypedProperty *)typedProperty;
+        destProperties[lastKey] = @(longProperty.value);
+      } else if ([typedProperty isKindOfClass:[MSDoubleTypedProperty class]]) {
+        MSDoubleTypedProperty *doubleProperty = (MSDoubleTypedProperty *)typedProperty;
+        destProperties[lastKey] = @(doubleProperty.value);
+      } else if ([typedProperty isKindOfClass:[MSDateTimeTypedProperty class]]) {
+        MSDateTimeTypedProperty *dateProperty = (MSDateTimeTypedProperty *)typedProperty;
+        destProperties[lastKey] = [MSUtility dateToISO8601:dateProperty.value];
+      }
     }
   }
   return csProperties;
