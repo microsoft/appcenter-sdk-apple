@@ -2,37 +2,35 @@ import UIKit
 
 class EventPropertiesTableSection : TypedPropertiesTableSection {
 
-  private var propertiesCount = 0
-
-  override func getPropertyCount() -> Int {
-    return propertiesCount
-  }
-
-  override func addProperty() {
-    propertiesCount += 1
-  }
-
-  override func removeProperty(atRow row: Int) {
-    propertiesCount -= 1
-  }
-
   func eventProperties() -> Any? {
-    if propertiesCount < 1 {
+    if typedProperties.count < 1 {
       return nil
     }
     var onlyStrings = true
     var propertyDictionary = [String: String]()
     let eventProperties = MSEventProperties()
-    for i in 1...propertiesCount {
-      let indexPath = IndexPath(row: i, section: self.tableSection)
-      if let cell = self.tableView.cellForRow(at: indexPath) as? MSAnalyticsTypedPropertyTableViewCell {
-        cell.setPropertyTo(eventProperties)
-        if cell.type == .String {
-          let key = cell.keyTextField.text
-          propertyDictionary[key!] = cell.valueTextField.text
-        } else {
-          onlyStrings = false
-        }
+    for property in typedProperties {
+      switch property.type {
+      case .String:
+        eventProperties.setString(property.value as! String, forKey:property.key)
+        propertyDictionary[property.key] = (property.value as! String)
+        break
+      case .Double:
+        eventProperties.setDouble(property.value as! Double, forKey:property.key)
+        onlyStrings = false
+        break
+      case .Long:
+        eventProperties.setInt64(property.value as! Int64, forKey:property.key)
+        onlyStrings = false
+        break
+      case .Boolean:
+        eventProperties.setBool(property.value as! Bool, forKey:property.key)
+        onlyStrings = false
+        break
+      case .DateTime:
+        eventProperties.setDate(property.value as! Date, forKey:property.key)
+        onlyStrings = false
+        break
       }
     }
     return onlyStrings ? propertyDictionary : eventProperties

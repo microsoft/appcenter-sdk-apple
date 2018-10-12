@@ -21,27 +21,87 @@ import UIKit
   private var typePickerView: MSEnumPicker<EventPropertyType>?
   private var datePickerView: MSDatePicker?
 
+  public var key: String {
+    get { return self.keyTextField.text! }
+    set(key) { self.keyTextField.text = key }
+  }
+
   public var type: EventPropertyType {
     get { return EventPropertyType(rawValue: typeTextField.text!)! }
+    set(type) { self.onChangeType(type) }
   }
+
+  public var value: Any {
+    get {
+      switch type {
+      case .String:
+        return valueTextField.text!
+      case .Double:
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        return formatter.number(from: valueTextField.text ?? "")?.doubleValue ?? 0
+      case .Long:
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        return formatter.number(from: valueTextField.text ?? "")?.int64Value ?? 0
+      case .Boolean:
+        return boolValue.isOn
+      case .DateTime:
+        return datePickerView!.date!
+      }
+    }
+    set(value) {
+      switch type {
+      case .String, .Double, .Long:
+        valueTextField.text = value as? String
+        break
+      case .Boolean:
+        boolValue.isOn = value as! Bool
+        break
+      case .DateTime:
+        datePickerView!.date = value as? Date
+        break
+      }
+    }
+  }
+
+  public var state: (key: String, type: EventPropertyType, value: Any) {
+    get { return (key, type, value) }
+    set(state) {
+      key = state.key
+      type = state.type
+      value = state.value
+    }
+  }
+
+  public var onChange: (((key: String, type: EventPropertyType, value: Any)) -> Void)?
 
   override func awakeFromNib() {
     super.awakeFromNib()
     self.typePickerView = MSEnumPicker<EventPropertyType>(
       textField: self.typeTextField,
       allValues: EventPropertyType.allValues,
-      onChange: {(index) in self.onChangeType(EventPropertyType.allValues[index])})
+      onChange: { index in
+        self.type = EventPropertyType.allValues[index]
+        self.onChange?(self.state)
+      }
+    )
     self.typeTextField.delegate = self.typePickerView
     self.typeTextField.tintColor = UIColor.clear
     self.datePickerView = MSDatePicker(textField: self.valueTextField)
+    self.keyTextField.addTarget(self, action: #selector(onChangeKey), for: .editingChanged)
+    self.valueTextField.addTarget(self, action: #selector(onChangeValue), for: .editingChanged)
+    self.boolValue.addTarget(self, action: #selector(onChangeValue), for: .valueChanged)
     prepareForReuse()
   }
 
   override func prepareForReuse() {
     super.prepareForReuse()
-    self.keyTextField.text = ""
-    self.typeTextField.text = EventPropertyType.String.rawValue
-    self.onChangeType(EventPropertyType.String)
+    state = ("", EventPropertyType.String, "")
+  }
+
+  func onChangeKey() {
+    self.onChange?(self.state)
   }
 
   func onChangeType(_ type: EventPropertyType) {
@@ -83,29 +143,7 @@ import UIKit
     }
   }
 
-  func setPropertyTo(_ properties: MSEventProperties) {
-    switch self.type {
-    case .String:
-      properties.setString(valueTextField.text!, forKey:keyTextField.text!)
-      break
-    case .Double:
-      let formatter = NumberFormatter()
-      formatter.numberStyle = .decimal
-      let double = formatter.number(from: valueTextField.text ?? "")?.doubleValue ?? 0
-      properties.setDouble(double, forKey:keyTextField.text!)
-      break
-    case .Long:
-      let formatter = NumberFormatter()
-      formatter.numberStyle = .decimal
-      let long = formatter.number(from: valueTextField.text ?? "")?.int64Value ?? 0
-      properties.setInt64(long, forKey:keyTextField.text!)
-      break
-    case .Boolean:
-      properties.setBool(boolValue.isOn, forKey:keyTextField.text!)
-      break
-    case .DateTime:
-      properties.setDate(datePickerView!.date!, forKey:keyTextField.text!)
-      break
-    }
+  func onChangeValue() {
+    self.onChange?(self.state)
   }
 }

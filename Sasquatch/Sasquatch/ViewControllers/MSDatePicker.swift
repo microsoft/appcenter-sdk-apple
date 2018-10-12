@@ -7,6 +7,7 @@ class MSDatePicker: NSObject, UITextFieldDelegate {
 
   var date: Date? {
     get { return datePickerView?.date }
+    set(date) { datePickerView?.date = date ?? Date() }
   }
 
   init(textField: UITextField!) {
