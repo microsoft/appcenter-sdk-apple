@@ -1,7 +1,6 @@
 #import "AppCenter+Internal.h"
 #import "MSAnalyticsInternal.h"
 #import "MSBooleanTypedProperty.h"
-#import "MSConstants+Internal.h"
 #import "MSCSData.h"
 #import "MSCSModelConstants.h"
 #import "MSDateTimeTypedProperty.h"
@@ -11,7 +10,6 @@
 #import "MSMetadataExtension.h"
 #import "MSLongTypedProperty.h"
 #import "MSStringTypedProperty.h"
-#import "MSUtility+Date.h"
 #import "MSCSExtensions.h"
 
 static NSString *const kMSTypeEvent = @"event";
@@ -19,6 +17,12 @@ static NSString *const kMSTypeEvent = @"event";
 static NSString *const kMSId = @"id";
 
 static NSString *const kMSTypedProperties = @"typedProperties";
+
+static const int kMSLongMetadataTypeId = 4;
+
+static const int kMSDoubleMetadataTypeId = 6;
+
+static const int kMSDateTimeMetadataTypeId = 9;
 
 @implementation MSEventLog
 

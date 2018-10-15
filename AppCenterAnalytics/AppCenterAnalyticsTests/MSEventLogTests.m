@@ -1,5 +1,4 @@
 #import "MSAbstractLogInternal.h"
-#import "MSAbstractLogPrivate.h"
 #import "MSAppExtension.h"
 #import "MSCSData.h"
 #import "MSCSExtensions.h"
@@ -15,6 +14,12 @@
 #import "MSSDKExtension.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+Date.h"
+
+extern static const int kMSLongMetadataTypeId;
+
+extern static const int kMSDoubleMetadataTypeId;
+
+extern static const int kMSDateTimeMetadataTypeId;
 
 @interface MSEventLogTests : XCTestCase
 
@@ -151,6 +156,101 @@
   XCTAssertNil(csLog.ext.metadataExt.metadata);
 }
 
+- (void)testConvertDateTimePropertyToCSProperty {
+
+  // If
+  MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
+  csLog.data = [MSCSData new];
+  csLog.ext.metadataExt = [MSMetadataExtension new];
+  MSEventProperties *acProperties = [MSEventProperties new];
+  NSDate *date = [NSDate dateWithTimeIntervalSince1970:10000];
+  [acProperties setDate:date forKey:@"time"];
+  self.sut.typedProperties = acProperties;
+
+  // When
+  [self.sut setPropertiesAndMetadataForCSLog:csLog];
+
+  // Then
+  XCTAssertEqualObjects(csLog.data.properties[@"time"], [MSUtility dateToISO8601:date]);
+  XCTAssertEqualObjects(csLog.ext.metadataExt.metadata[kMSFieldDelimiter][@"time"], @(kMSDateTimeMetadataTypeId));
+}
+
+- (void)testConvertLongPropertyToCSProperty {
+
+  // If
+  MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
+  csLog.data = [MSCSData new];
+  csLog.ext.metadataExt = [MSMetadataExtension new];
+  MSEventProperties *acProperties = [MSEventProperties new];
+  int64_t largeNumber = 1234567890;
+  [acProperties setInt64:largeNumber forKey:@"largeNumber"];
+  self.sut.typedProperties = acProperties;
+
+  // When
+  [self.sut setPropertiesAndMetadataForCSLog:csLog];
+
+  // Then
+  XCTAssertEqualObjects(csLog.data.properties[@"largeNumber"], @(largeNumber));
+  XCTAssertEqualObjects(csLog.ext.metadataExt.metadata[kMSFieldDelimiter][@"largeNumber"], @(kMSLongMetadataTypeId));
+}
+
+- (void)testConvertDoublePropertyToCSProperty {
+
+  // If
+  MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
+  csLog.data = [MSCSData new];
+  csLog.ext.metadataExt = [MSMetadataExtension new];
+  MSEventProperties *acProperties = [MSEventProperties new];
+  double pi = 3.1415926;
+  [acProperties setDouble:pi forKey:@"pi"];
+  self.sut.typedProperties = acProperties;
+
+  // When
+  [self.sut setPropertiesAndMetadataForCSLog:csLog];
+
+  // Then
+  XCTAssertEqualObjects(csLog.data.properties[@"pi"], @(pi));
+  XCTAssertEqualObjects(csLog.ext.metadataExt.metadata[kMSFieldDelimiter][@"pi"], @(kMSDoubleMetadataTypeId));
+}
+
+- (void)testConvertStringPropertyToCSProperty {
+
+  // If
+  MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
+  csLog.data = [MSCSData new];
+  csLog.ext.metadataExt = [MSMetadataExtension new];
+  MSEventProperties *acProperties = [MSEventProperties new];
+  NSString *stringValue = @"hello";
+  [acProperties setString:stringValue forKey:@"text"];
+  self.sut.typedProperties = acProperties;
+
+  // When
+  [self.sut setPropertiesAndMetadataForCSLog:csLog];
+
+  // Then
+  XCTAssertEqualObjects(csLog.data.properties[@"text"], stringValue);
+  XCTAssertNil(csLog.ext.metadataExt.metadata);
+}
+
+- (void)testConvertBooleanPropertyToCSProperty {
+
+  // If
+  MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
+  csLog.data = [MSCSData new];
+  csLog.ext.metadataExt = [MSMetadataExtension new];
+  MSEventProperties *acProperties = [MSEventProperties new];
+  BOOL boolValue = YES;
+  [acProperties setBool:boolValue forKey:@"BoolKey"];
+  self.sut.typedProperties = acProperties;
+
+  // When
+  [self.sut setPropertiesAndMetadataForCSLog:csLog];
+
+  // Then
+  XCTAssertEqualObjects(csLog.data.properties[@"BoolKey"], @(boolValue));
+  XCTAssertNil(csLog.ext.metadataExt.metadata);
+}
+
 - (void)testConvertACPropertiesToCSPropertiesWhenPropertiesAreNotNested {
 
   // If
@@ -177,14 +277,30 @@
   csLog.data = [MSCSData new];
   csLog.ext.metadataExt = [MSMetadataExtension new];
   MSEventProperties *acProperties = [MSEventProperties new];
-  [acProperties setString:@"buriedValue" forKey:@"nes.t.ed"];
+  [acProperties setInt64:1 forKey:@"p.a"];
+  [acProperties setDouble:2.0 forKey:@"p.b"];
+  [acProperties setBool:YES forKey:@"p.c"];
   self.sut.typedProperties = acProperties;
+  NSDictionary *expectedProperties = @{@"p": @{@"a": @1, @"b": @2.0, @"c": @YES}};
+  NSDictionary *expectedMetadata = @{
+      @"f":
+      @{
+          @"p":
+          @{
+              @"f":
+              @{
+                  @"a": @(kMSLongMetadataTypeId),
+                  @"b": @(kMSDoubleMetadataTypeId)
+              }
+          }
+      }};
 
   // When
   [self.sut setPropertiesAndMetadataForCSLog:csLog];
 
   // Then
-  XCTAssertEqualObjects(csLog.data.properties, @{@"nes": @{@"t": @{@"ed": @"buriedValue"}}});
+  XCTAssertEqualObjects(csLog.data.properties, expectedProperties);
+  XCTAssertEqualObjects(csLog.ext.metadataExt.metadata, expectedMetadata);
 }
 
 - (void)testConvertACPropertiesToCSPropertiesWhenPropertiesAreNestedWithSiblings {
