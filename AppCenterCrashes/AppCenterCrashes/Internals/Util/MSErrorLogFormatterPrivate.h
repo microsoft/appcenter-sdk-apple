@@ -13,6 +13,14 @@
  */
 + (NSString *)anonymizedPathFromPath:(NSString *)path;
 
+/**
+ * Determines the MSBinaryImageType.
+ *
+ * @param imagePath The path to a binary image.
+ * @param processPath The process path.
+ *
+ * @return The type of the binary image.
+ */
 + (MSBinaryImageType)imageTypeForImagePath:(NSString *)imagePath processPath:(NSString *)processPath;
 
 /**
@@ -41,8 +49,39 @@
  *
  * @param report The crash report.
  *
- * @return the crashed thread info.
+ * @return The crashed thread info.
  */
 + (MSPLCrashReportThreadInfo *)findCrashedThreadInReport:(MSPLCrashReport *)report;
+
+/**
+ * Normalize an address. This is intended to be used for arm64 addresses.
+ *
+ * @param address The address to normalize.
+ *
+ * @return The normalized address.
+ */
++ (uint64_t)normalizeAddress:(uint64_t)address;
+
+/**
+ * Extract binary images from a crash report. This only extracts the binary images that we "care" about, meaning those that are contained
+ * in the crash's stack frames.
+ *
+ * @param report The crash report.
+ * @param codeType The code type, meaning the architecture CPU code type.
+ * @param is64bit A flag that indicates if this is a 64bit architecture.
+ *
+ * @return An array of binary images.
+ */
++ (NSArray<MSBinary *> *)extractBinaryImagesFromReport:(MSPLCrashReport *)report codeType:(NSNumber *)codeType is64bit:(BOOL)is64bit;
+
+/**
+ * Format a memory address into a string. This normalizes arm64 addresses.
+ *
+ * @param address The address that will be formatted.
+ * @param is64bit A flag that indicates if this is a 64bit architecture.
+ *
+ * @return A formatted memory address as a string.
+ */
++ (NSString *)formatAddress:(uint64_t)address is64bit:(BOOL)is64bit;
 
 @end
