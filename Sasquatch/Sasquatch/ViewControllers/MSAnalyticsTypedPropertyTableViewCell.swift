@@ -1,6 +1,7 @@
 import UIKit
 
 @objc(MSAnalyticsTypedPropertyTableViewCell) class MSAnalyticsTypedPropertyTableViewCell: UITableViewCell {
+  typealias PropertyState = (key: String, type: EventPropertyType, value: Any)
 
   enum EventPropertyType : String {
     case String = "String"
@@ -62,7 +63,7 @@ import UIKit
     }
   }
 
-  public var state: (key: String, type: EventPropertyType, value: Any) {
+  public var state: PropertyState {
     get { return (key, type, value) }
     set(state) {
       key = state.key
@@ -71,7 +72,7 @@ import UIKit
     }
   }
 
-  public var onChange: (((key: String, type: EventPropertyType, value: Any)) -> Void)?
+  public var onChange: ((PropertyState) -> Void)?
 
   override func awakeFromNib() {
     super.awakeFromNib()

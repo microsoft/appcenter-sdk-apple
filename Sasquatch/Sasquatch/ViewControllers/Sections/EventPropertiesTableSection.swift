@@ -2,8 +2,9 @@ import UIKit
 
 class EventPropertiesTableSection : PropertiesTableSection {
   typealias EventPropertyType = MSAnalyticsTypedPropertyTableViewCell.EventPropertyType
+  typealias PropertyState = MSAnalyticsTypedPropertyTableViewCell.PropertyState
 
-  private var typedProperties = [(key: String, type: EventPropertyType, value: Any)]()
+  private var typedProperties = [PropertyState]()
 
   override func loadCell(row: Int) -> UITableViewCell {
     guard let cell: MSAnalyticsTypedPropertyTableViewCell = loadCellFromNib() else {
