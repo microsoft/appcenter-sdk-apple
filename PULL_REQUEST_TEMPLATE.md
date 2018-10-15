@@ -1,6 +1,5 @@
-<!-- Hello,
-
-Thank you for submitting a pull request, that's awesome! Please add some info (if applicable) to give us some context on the PR.
+<!-- 
+Thank you for submitting a pull request! Please add some info (if applicable) to give us some context on the PR.
 
 Things to consider before you submit the PR:
 
