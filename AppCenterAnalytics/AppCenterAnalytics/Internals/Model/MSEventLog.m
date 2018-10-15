@@ -25,6 +25,7 @@ static NSString *const kMSTypedProperties = @"typedProperties";
 - (instancetype)init {
   if ((self = [super init])) {
     self.type = kMSTypeEvent;
+    _metadataTypeIdMapping = @{@"long" : @1 };
   }
   return self;
 }
@@ -78,8 +79,6 @@ static NSString *const kMSTypedProperties = @"typedProperties";
   csLog.name = self.name;
 
   // Metadata extension must accompany data.
-  csLog.ext.metadataExt = [self generateMetadataExtension];
-
   // Event properties goes to part C.
   MSCSData *data = [MSCSData new];
   csLog.data = data;
@@ -90,10 +89,15 @@ static NSString *const kMSTypedProperties = @"typedProperties";
 #pragma mark - Helper
 
 - (NSDictionary<NSString *, NSObject *> *)convertTypedPropertiesToCSProperties {
+
+  //TODO clean up bools and strings from metadata.
+  //TODO use the generated metadata
   NSMutableDictionary *csProperties;
+  NSMutableDictionary *metadata;
   MSEventProperties *eventProperties = self.typedProperties;
   if (eventProperties) {
     csProperties = [NSMutableDictionary new];
+    metadata = [NSMutableDictionary new];
     for (NSString *acKey in eventProperties.properties) {
 
       // Properties keys are mixed up with other keys from Data, make sure they don't conflict.
@@ -104,53 +108,62 @@ static NSString *const kMSTypedProperties = @"typedProperties";
 
       // If the key contains a '.' then it's nested objects (i.e: "a.b":"value" => {"a":{"b":"value"}}).
       NSArray *csKeys = [acKey componentsSeparatedByString:@"."];
-      NSUInteger lastIndex = csKeys.count - 1;
-      NSMutableDictionary *destProperties = csProperties;
-      for (NSUInteger i = 0; i < lastIndex; i++) {
-        NSMutableDictionary *subObject = nil;
-        if ([(NSObject *) destProperties[csKeys[i]] isKindOfClass:[NSMutableDictionary class]]) {
-          subObject = destProperties[csKeys[i]];
+      NSMutableDictionary *propertyTree = csProperties;
+      NSMutableDictionary *metadataTree = metadata;
+      for (NSUInteger i = 0; i < csKeys.count - 1; i++) {
+        NSMutableDictionary *propertySubtree = nil;
+        NSMutableDictionary *metadataSubtree = nil;
+
+        // If there is no field delimiter for this level in the metadata tree, create one.
+        if (!metadataTree[kMSFieldDelimiter]) {
+          metadataTree[kMSFieldDelimiter] = [NSMutableDictionary new];
         }
-        if (!subObject) {
-          if (destProperties[csKeys[i]]) {
-            MSLogWarning(MSAnalytics.logTag, @"Property key '%@' already has a value, the old value will be overridden.", csKeys[i]);
+        if ([(NSObject *) propertyTree[csKeys[i]] isKindOfClass:[NSMutableDictionary class]]) {
+          propertySubtree = propertyTree[csKeys[i]];
+          metadataSubtree = metadataTree[kMSFieldDelimiter][csKeys[i]];
+        }
+        if (!propertySubtree) {
+          if (propertyTree[csKeys[i]]) {
+            propertyTree = nil;
+            MSLogWarning(MSAnalytics.logTag, @"Property key '%@' already has a value, choosing one.", csKeys[i]);
+            break;
           }
-          subObject = [NSMutableDictionary new];
-          destProperties[csKeys[i]] = subObject;
+          propertySubtree = [NSMutableDictionary new];
+          metadataSubtree = [NSMutableDictionary new];
+          metadataTree[kMSFieldDelimiter][csKeys[i]] = metadataSubtree;
+          propertyTree[csKeys[i]] = propertySubtree;
         }
-        destProperties = subObject;
+        propertyTree = propertySubtree;
+        metadataTree = metadataSubtree;
       }
-      id lastKey = csKeys[lastIndex];
-      if (destProperties[lastKey]) {
-        [destProperties removeObjectForKey:lastKey];
-        MSLogWarning(MSAnalytics.logTag, @"Property key '%@' already has a value, the old value will be overridden.", lastKey);
+      id lastKey = csKeys.lastObject;
+      if (!propertyTree || propertyTree[lastKey]) {
+        MSLogWarning(MSAnalytics.logTag, @"Property key '%@' already has a value, choosing one.", lastKey);
+        continue;
       }
       id typedProperty = eventProperties.properties[acKey];
       if ([typedProperty isKindOfClass:[MSStringTypedProperty class]]) {
         MSStringTypedProperty *stringProperty = (MSStringTypedProperty *)typedProperty;
-        destProperties[lastKey] = stringProperty.value;
+        propertyTree[lastKey] = stringProperty.value;
       } else if ([typedProperty isKindOfClass:[MSBooleanTypedProperty class]]) {
         MSBooleanTypedProperty *boolProperty = (MSBooleanTypedProperty *)typedProperty;
-        destProperties[lastKey] = @(boolProperty.value);
+        propertyTree[lastKey] = @(boolProperty.value);
       } else if ([typedProperty isKindOfClass:[MSLongTypedProperty class]]) {
         MSLongTypedProperty *longProperty = (MSLongTypedProperty *)typedProperty;
-        destProperties[lastKey] = @(longProperty.value);
+        metadataTree[lastKey] = self.metadataTypeIdMapping[longProperty.type];
+        propertyTree[lastKey] = @(longProperty.value);
       } else if ([typedProperty isKindOfClass:[MSDoubleTypedProperty class]]) {
         MSDoubleTypedProperty *doubleProperty = (MSDoubleTypedProperty *)typedProperty;
-        destProperties[lastKey] = @(doubleProperty.value);
+        metadataTree[lastKey] = self.metadataTypeIdMapping[doubleProperty.type];
+        propertyTree[lastKey] = @(doubleProperty.value);
       } else if ([typedProperty isKindOfClass:[MSDateTimeTypedProperty class]]) {
         MSDateTimeTypedProperty *dateProperty = (MSDateTimeTypedProperty *)typedProperty;
-        destProperties[lastKey] = [MSUtility dateToISO8601:dateProperty.value];
+        metadataTree[lastKey] = self.metadataTypeIdMapping[dateProperty.type];
+        propertyTree[lastKey] = [MSUtility dateToISO8601:dateProperty.value];
       }
     }
   }
   return csProperties;
-}
-
-- (MSMetadataExtension *)generateMetadataExtension {
-
-  //TODO needs implementation
-  return nil;
 }
 
 @end

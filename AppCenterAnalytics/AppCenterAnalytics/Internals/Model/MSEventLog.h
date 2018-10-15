@@ -15,5 +15,4 @@
  */
 @property(nonatomic) MSEventProperties *typedProperties;
 
-- (MSMetadataExtension *)generateMetadataExtension;
 @end
