@@ -104,6 +104,40 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   OCMVerify(ClassMethod([self.analyticsClassMock trackEvent:eventName withTypedProperties:expectedProperties forTransmissionTarget:sut]));
 }
 
+- (void)testTrackEventWithNilDictionaryProperties {
+
+  // If
+  MSAnalyticsTransmissionTarget *sut = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
+                                                                                                 parentTarget:nil
+                                                                                                 channelGroup:self.channelGroupMock];
+  NSString *eventName = @"event";
+  OCMStub([self.analyticsClassMock canBeUsed]).andReturn(YES);
+
+  // When
+  [sut trackEvent:eventName withProperties:nil];
+
+  // Then
+  XCTAssertTrue(sut.propertyConfigurator.eventProperties.properties.count == 0);
+  OCMVerify(ClassMethod([self.analyticsClassMock trackEvent:eventName withTypedProperties:nil forTransmissionTarget:sut]));
+}
+
+- (void)testTrackEventWithNilEventProperties {
+
+  // If
+  MSAnalyticsTransmissionTarget *sut = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
+                                                                                                 parentTarget:nil
+                                                                                                 channelGroup:self.channelGroupMock];
+  NSString *eventName = @"event";
+  OCMStub([self.analyticsClassMock canBeUsed]).andReturn(YES);
+
+  // When
+  [sut trackEvent:eventName withTypedProperties:nil];
+
+  // Then
+  XCTAssertTrue(sut.propertyConfigurator.eventProperties.properties.count == 0);
+  OCMVerify(ClassMethod([self.analyticsClassMock trackEvent:eventName withTypedProperties:nil forTransmissionTarget:sut]));
+}
+
 - (void)testTransmissionTargetForToken {
 
   // If
@@ -162,9 +196,8 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   NSString *event2 = @"event2";
   NSString *event3 = @"event3";
   NSString *event4 = @"event4";
-
   MSAnalyticsTransmissionTarget *transmissionTarget, *transmissionTarget2;
-
+  OCMStub([self.analyticsClassMock canBeUsed]).andReturn(YES);
   // Events tracked when disabled mustn't be sent.
   OCMReject(ClassMethod([self.analyticsClassMock trackEvent:event2 withProperties:properties forTransmissionTarget:transmissionTarget]));
   OCMReject(ClassMethod([self.analyticsClassMock trackEvent:event3 withProperties:properties forTransmissionTarget:transmissionTarget2]));
@@ -432,7 +465,8 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   // Then
   XCTAssertEqual([target.propertyConfigurator.eventProperties.properties count], 2);
   XCTAssertEqual(((MSStringTypedProperty *)(target.propertyConfigurator.eventProperties.properties[propCommonKey])).value, propCommonValue);
-  XCTAssertEqual(((MSStringTypedProperty *)(target.propertyConfigurator.eventProperties.properties[propCommonKey2])).value, propCommonValue2);
+  XCTAssertEqual(((MSStringTypedProperty *)(target.propertyConfigurator.eventProperties.properties[propCommonKey2])).value,
+                 propCommonValue2);
   OCMVerify(
       ClassMethod([self.analyticsClassMock trackEvent:eventName withTypedProperties:expectedProperties forTransmissionTarget:target]));
 
@@ -452,7 +486,8 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   // Then
   XCTAssertEqual([target.propertyConfigurator.eventProperties.properties count], 2);
   XCTAssertEqual(((MSStringTypedProperty *)(target.propertyConfigurator.eventProperties.properties[propCommonKey])).value, propCommonValue);
-  XCTAssertEqual(((MSStringTypedProperty *)(target.propertyConfigurator.eventProperties.properties[propCommonKey2])).value, propCommonValue2);
+  XCTAssertEqual(((MSStringTypedProperty *)(target.propertyConfigurator.eventProperties.properties[propCommonKey2])).value,
+                 propCommonValue2);
   OCMVerify(
       ClassMethod([self.analyticsClassMock trackEvent:eventName withTypedProperties:expectedProperties forTransmissionTarget:target]));
 }
@@ -853,6 +888,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // If
   MSAnalyticsTransmissionTarget *sut = [MSAnalytics transmissionTargetForToken:kMSTestTransmissionToken];
+  OCMStub([self.analyticsClassMock canBeUsed]).andReturn(YES);
 
   // Then
   OCMReject([self.analyticsClassMock pauseTransmissionTargetForToken:kMSTestTransmissionToken]);
@@ -866,6 +902,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // If
   MSAnalyticsTransmissionTarget *sut = [MSAnalytics transmissionTargetForToken:kMSTestTransmissionToken];
+  OCMStub([self.analyticsClassMock canBeUsed]).andReturn(YES);
 
   // Then
   OCMReject([self.analyticsClassMock resumeTransmissionTargetForToken:kMSTestTransmissionToken]);
