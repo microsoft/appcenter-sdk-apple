@@ -6,6 +6,7 @@
 #import "MSDeviceExtension.h"
 #import "MSDeviceInternal.h"
 #import "MSLocExtension.h"
+#import "MSMetadataExtension.h"
 #import "MSModelTestsUtililty.h"
 #import "MSNetExtension.h"
 #import "MSOSExtension.h"
@@ -75,6 +76,10 @@
     kMSCSSDKExt : sdkExt,
     kMSCSDeviceExt : deviceExt
   } mutableCopy];
+}
+
++ (NSDictionary *)metadataExtensionDummies {
+  return @{ kMSFieldDelimiter : @{ @"baseData" : @{ kMSFieldDelimiter : @{@"screenSize" : @2 } } } };
 }
 
 + (NSDictionary *)userExtensionDummies {
@@ -230,6 +235,12 @@
   MSDeviceExtension *deviceExt = [MSDeviceExtension new];
   deviceExt.localId = dummyValues[kMSDeviceLocalId];
   return deviceExt;
+}
+
++ (MSMetadataExtension *)metadataExtensionWithDummyValues:(NSDictionary *)dummyValues {
+  MSMetadataExtension *metadataExt = [MSMetadataExtension new];
+  metadataExt.metadata = dummyValues;
+  return metadataExt;
 }
 
 + (MSCSData *)dataWithDummyValues:(NSDictionary *)dummyValues {
