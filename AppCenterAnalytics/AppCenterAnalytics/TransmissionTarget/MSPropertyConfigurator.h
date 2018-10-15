@@ -1,5 +1,7 @@
 #import <Foundation/Foundation.h>
 
+#import "MSEventPropertiesInternal.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MSPropertyConfigurator : NSObject
@@ -54,6 +56,13 @@ NS_ASSUME_NONNULL_BEGIN
  * App Center SDK accordingly.
  */
 - (void)collectDeviceId;
+
+/**
+ * Merge typed properties.
+ *
+ * @param mergedEventProperties The destination event properties that merges current event properties to.
+ */
+- (void)mergeTypedPropertiesWith:(MSEventProperties *)mergedEventProperties;
 
 NS_ASSUME_NONNULL_END
 

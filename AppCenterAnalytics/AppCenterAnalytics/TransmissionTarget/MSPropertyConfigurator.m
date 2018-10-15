@@ -150,4 +150,15 @@ static const char deviceIdPrefix = 'i';
   return [NSString stringWithFormat:@"%c:%@", deviceIdPrefix, baseIdentifier];
 }
 
+- (void)mergeTypedPropertiesWith:(MSEventProperties *)mergedEventProperties {
+  @synchronized([MSAnalytics sharedInstance]) {
+    for (NSString *key in self.eventProperties) {
+      if (mergedEventProperties.properties[key] == nil) {
+        MSTypedProperty *value = self.eventProperties[key];
+        mergedEventProperties.properties[key] = value;
+      }
+    }
+  }
+}
+
 @end
