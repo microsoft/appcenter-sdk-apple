@@ -11,6 +11,10 @@
 * **[Feature]** Preparation work for a future change in transmission protocol and endpoint for Analytics data. There is no impact on your current workflow when using App Center.
 * **[Fix]** Fix an bug where nested custom properties for an event would not pass validation.
 
+### AppCenterCrashes
+
+* **[Fix]** Fix the list of binary images in crash reports for arm64e-based devices.
+
 ___
 
 ## Version 1.9.0
