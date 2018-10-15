@@ -116,6 +116,8 @@ class MSTransmissionTargetsViewController: UITableViewController, AppCenterProto
 
     // The ordering of these target sections is important so they are displayed in the right order.
     transmissionTargetSections = [defaultTargetSection, runtimeTargetSection, child1TargetSection, child2TargetSection]
+    tableView.estimatedRowHeight = tableView.rowHeight
+    tableView.rowHeight = UITableViewAutomaticDimension
     tableView.setEditing(true, animated: false)
     
     // Make sure the UITabBarController does not cut off the last cell.
@@ -264,10 +266,7 @@ class MSTransmissionTargetsViewController: UITableViewController, AppCenterProto
   }
 
   override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    if indexPath.section == Section.TargetProperties.rawValue || indexPath.section == Section.CommonSchemaProperties.rawValue {
-      return super.tableView(tableView, heightForRowAt: IndexPath(row: 0, section: indexPath.section))
-    }
-    return super.tableView(tableView, heightForRowAt: indexPath)
+    return UITableViewAutomaticDimension
   }
 
   /*
