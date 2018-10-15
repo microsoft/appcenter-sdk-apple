@@ -242,10 +242,10 @@
   XCTAssertEqualObjects(anotherMetadataExt, self.metadataExt);
 
   // If
-  actualMetadataExt.metadata = @{};
+  anotherMetadataExt.metadata = @{};
 
   // Then
-  XCTAssertNotEqualObjects(actualMetadataExt, self.metadataExt);
+  XCTAssertNotEqualObjects(anotherMetadataExt, self.metadataExt);
 }
 
 #pragma mark - MSUserExtension
