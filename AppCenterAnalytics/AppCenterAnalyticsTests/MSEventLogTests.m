@@ -138,9 +138,6 @@
 
 - (void)testConvertACPropertiesToCSPropertiesWhenACPropertiesNil {
 
-  // If
-  MSEventProperties *acProperties = nil;
-
   // When
   NSDictionary *csProperties = [self.sut convertTypedPropertiesToCSProperties];
 
