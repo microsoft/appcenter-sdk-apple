@@ -13,6 +13,7 @@
 #import "MSCSExtensions.h"
 #import "MSCommonSchemaLog.h"
 #import "MSDeviceExtension.h"
+#import "MSEventPropertiesInternal.h"
 #import "MSLogger.h"
 #import "MSPropertyConfiguratorPrivate.h"
 #import "MSStringTypedProperty.h"

@@ -6,7 +6,7 @@
 #import "MSCommonSchemaLog.h"
 #import "MSEventPropertiesInternal.h"
 #import "MSLogger.h"
-#import "MSPropertyConfiguratorPrivate.h"
+#import "MSPropertyConfiguratorInternal.h"
 #import "MSProtocolExtension.h"
 #import "MSServiceAbstractInternal.h"
 #import "MSUtility+StringFormatting.h"
