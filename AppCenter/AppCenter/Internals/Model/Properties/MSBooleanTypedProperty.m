@@ -30,4 +30,12 @@ static NSString *const kMSBooleanTypedPropertyType = @"boolean";
   return dict;
 }
 
+- (BOOL)isEqual:(id)object {
+  if (![(NSObject *)object isKindOfClass:[MSBooleanTypedProperty class]] || ![super isEqual:object]) {
+    return NO;
+  }
+  MSBooleanTypedProperty *property = (MSBooleanTypedProperty *)object;
+  return (self.value == property.value);
+}
+
 @end

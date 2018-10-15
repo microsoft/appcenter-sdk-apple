@@ -30,4 +30,12 @@ static NSString *const kMSDoubleTypedPropertyType = @"double";
   return dict;
 }
 
+- (BOOL)isEqual:(id)object {
+  if (![(NSObject *)object isKindOfClass:[MSDoubleTypedProperty class]] || ![super isEqual:object]) {
+    return NO;
+  }
+  MSDoubleTypedProperty *property = (MSDoubleTypedProperty *)object;
+  return (self.value == property.value);
+}
+
 @end

@@ -31,4 +31,12 @@ static NSString *const kMSDateTimeTypedPropertyType = @"dateTime";
   return dict;
 }
 
+- (BOOL)isEqual:(id)object {
+  if (![(NSObject *)object isKindOfClass:[MSDateTimeTypedProperty class]] || ![super isEqual:object]) {
+    return NO;
+  }
+  MSDateTimeTypedProperty *property = (MSDateTimeTypedProperty *)object;
+  return ((!self.value && !property.value) || [self.value isEqualToDate:property.value]);
+}
+
 @end
