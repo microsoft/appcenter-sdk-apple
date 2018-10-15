@@ -8,7 +8,7 @@
 #import "MSEventLogPrivate.h"
 #import "MSEventPropertiesInternal.h"
 #import "MSLocExtension.h"
-#import "MSLogWithProperties.h"
+#import "MSMetadataExtension.h"
 #import "MSNetExtension.h"
 #import "MSOSExtension.h"
 #import "MSProtocolExtension.h"
@@ -139,47 +139,61 @@
 
 - (void)testConvertACPropertiesToCSPropertiesWhenACPropertiesNil {
 
+  // If
+  MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
+  csLog.data = [MSCSData new];
+  csLog.ext.metadataExt = [MSMetadataExtension new];
+
   // When
-  NSDictionary *csProperties = [self.sut convertTypedPropertiesToCSProperties];
+  [self.sut setPropertiesAndMetadataForCSLog:csLog];
 
   // Then
-  XCTAssertNil(csProperties);
+  XCTAssertNil(csLog.data.properties);
+  XCTAssertNil(csLog.ext.metadataExt.metadata);
 }
 
 - (void)testConvertACPropertiesToCSPropertiesWhenPropertiesAreNotNested {
 
   // If
+  MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
+  csLog.data = [MSCSData new];
+  csLog.ext.metadataExt = [MSMetadataExtension new];
   MSEventProperties *acProperties = [MSEventProperties new];
   [acProperties setString:@"value" forKey:@"key"];
   [acProperties setString:@"value2" forKey:@"key2"];
   self.sut.typedProperties = acProperties;
+  NSDictionary *expectedProperties = @{@"key": @"value", @"key2": @"value2"};
 
   // When
-  NSDictionary *csProperties = [self.sut convertTypedPropertiesToCSProperties];
+  [self.sut setPropertiesAndMetadataForCSLog:csLog];
 
   // Then
-  XCTAssertEqual([csProperties count], [acProperties.properties count]);
-  for (NSString *key in acProperties.properties.allKeys) {
-    XCTAssertEqual(csProperties[key], ((MSStringTypedProperty *)acProperties.properties[key]).value);
-  }
+  XCTAssertEqualObjects(csLog.data.properties, expectedProperties);
 }
 
 - (void)testConvertACPropertiesToCSPropertiesWhenPropertiesAreNested {
 
   // If
+  MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
+  csLog.data = [MSCSData new];
+  csLog.ext.metadataExt = [MSMetadataExtension new];
   MSEventProperties *acProperties = [MSEventProperties new];
   [acProperties setString:@"buriedValue" forKey:@"nes.t.ed"];
   self.sut.typedProperties = acProperties;
 
   // When
-  NSDictionary *csProperties = [self.sut convertTypedPropertiesToCSProperties];
+  [self.sut setPropertiesAndMetadataForCSLog:csLog];
 
   // Then
-  XCTAssertEqualObjects(csProperties, @{@"nes": @{@"t": @{@"ed": @"buriedValue"}}});
+  XCTAssertEqualObjects(csLog.data.properties, @{@"nes": @{@"t": @{@"ed": @"buriedValue"}}});
 }
 
 - (void)testConvertACPropertiesToCSPropertiesWhenPropertiesAreNestedWithSiblings {
+
   // If
+  MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
+  csLog.data = [MSCSData new];
+  csLog.ext.metadataExt = [MSMetadataExtension new];
   MSEventProperties *acProperties = [MSEventProperties new];
   [acProperties setString:@"value" forKey:@"key"];
   [acProperties setString:@"1" forKey:@"nes.a"];
@@ -190,15 +204,18 @@
   NSDictionary *expectedResult = @{ @"key" : @"value", @"nes" : @{@"a" : @"1", @"t" : @{@"ed" : @"2", @"ed2" : @"3"}}, @"key2" : @"value2" };
 
   // When
-  NSDictionary *csProperties = [self.sut convertTypedPropertiesToCSProperties];
+  [self.sut setPropertiesAndMetadataForCSLog:csLog];
 
   // Then
-  XCTAssertEqualObjects(csProperties, expectedResult);
+  XCTAssertEqualObjects(csLog.data.properties, expectedResult);
 }
 
 - (void)testOverrideValueToObjectProperties {
 
   // If
+  MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
+  csLog.data = [MSCSData new];
+  csLog.ext.metadataExt = [MSMetadataExtension new];
   MSEventProperties *acProperties = [MSEventProperties new];
   [acProperties setString:@"1" forKey: @"a.b"];
   [acProperties setString:@"2" forKey:@"a.b.c.d" ];
@@ -207,47 +224,53 @@
   NSDictionary *possibleResult2 = @{ @"a" : @{@"b" : @{@"c" : @{@"d" : @"2"}}} };
 
   // When
-  NSDictionary *csProperties = [self.sut convertTypedPropertiesToCSProperties];
+  [self.sut setPropertiesAndMetadataForCSLog:csLog];
 
   // Then
-  XCTAssertEqual([csProperties count], 1);
-  XCTAssertTrue([csProperties isEqualToDictionary:possibleResult1] || [csProperties isEqualToDictionary:possibleResult2]);
+  XCTAssertEqual([csLog.data.properties count], 1);
+  XCTAssertTrue([csLog.data.properties isEqualToDictionary:possibleResult1] || [csLog.data.properties isEqualToDictionary:possibleResult2]);
 }
 
 - (void)testOverrideObjectToValueProperties {
 
   // If
+  MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
+  csLog.data = [MSCSData new];
+  csLog.ext.metadataExt = [MSMetadataExtension new];
   MSEventProperties *acProperties = [MSEventProperties new];
   [acProperties setString:@"1" forKey:@"a.b.c.d"];
   [acProperties setString:@"2" forKey:@"a.b"];
   self.sut.typedProperties = acProperties;
 
   // When
-  NSDictionary *csProperties = [self.sut convertTypedPropertiesToCSProperties];
+  [self.sut setPropertiesAndMetadataForCSLog:csLog];
   NSDictionary *test1 = @{ @"a" : @{@"b" : @{@"c" : @{@"d" : @"1"}}} };
   NSDictionary *test2 = @{ @"a" : @{@"b" : @"2"} };
 
   // Then
-  XCTAssertEqual([csProperties count], 1);
-  XCTAssertTrue([csProperties isEqualToDictionary:test1] || [csProperties isEqualToDictionary:test2]);
+  XCTAssertEqual([csLog.data.properties count], 1);
+  XCTAssertTrue([csLog.data.properties isEqualToDictionary:test1] || [csLog.data.properties isEqualToDictionary:test2]);
 }
 
 - (void)testOverrideValueToValueProperties {
 
   // If
+  MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
+  csLog.data = [MSCSData new];
+  csLog.ext.metadataExt = [MSMetadataExtension new];
   MSEventProperties *acProperties = [MSEventProperties new];
   [acProperties setString:@"1" forKey:@"a.b"];
   [acProperties setString:@"2" forKey:@"a.b"];
   self.sut.typedProperties = acProperties;
 
   // When
-  NSDictionary *csProperties = [self.sut convertTypedPropertiesToCSProperties];
+  [self.sut setPropertiesAndMetadataForCSLog:csLog];
   NSDictionary *test1 = @{ @"a" : @{@"b" : @"1"} };
   NSDictionary *test2 = @{ @"a" : @{@"b" : @"2"} };
 
   // Then
-  XCTAssertEqual([csProperties count], 1);
-  XCTAssertTrue([csProperties isEqualToDictionary:test1] || [csProperties isEqualToDictionary:test2]);
+  XCTAssertEqual([csLog.data.properties count], 1);
+  XCTAssertTrue([csLog.data.properties isEqualToDictionary:test1] || [csLog.data.properties isEqualToDictionary:test2]);
 }
 
 - (void)testToCommonSchemaLogForTargetToken {
@@ -255,7 +278,8 @@
   // If
   NSString *targetToken = @"aTarget-Token";
   NSString *name = @"SolarEclipse";
-  NSDictionary *properties = @{ @"StartedAt" : @"11:00", @"VisibleFrom" : @"Redmond" };
+  NSDictionary *properties = @{ @"aStringValue" : @"hello", @"aLongValue" : @1234567890, @"aDoubleValue" : @3.14, @"aDateTimeValue" : @"2018-10-15T22:16:22Z", @"aBooleanValue" : @YES};
+  NSDictionary *expectedMetadata = @{ @"f": @{@"aLongValue" : @4, @"aDoubleValue" : @6, @"aDateTimeValue" : @9}};
   NSDate *timestamp = [NSDate date];
   MSDevice *device = [MSDevice new];
   NSString *oemName = @"Peach";
@@ -304,6 +328,7 @@
   XCTAssertEqualObjects(csLog.ext.sdkExt.libVer, @"appcenter.ios-1.0.0");
   XCTAssertEqualObjects(csLog.ext.locExt.tz, @"-07:00");
   XCTAssertEqualObjects(csLog.data.properties, properties);
+  XCTAssertEqualObjects(csLog.ext.metadataExt.metadata, expectedMetadata);
 }
 
 @end
