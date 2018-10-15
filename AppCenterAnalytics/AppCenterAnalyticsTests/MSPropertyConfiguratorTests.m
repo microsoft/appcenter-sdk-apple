@@ -3,6 +3,7 @@
 #import "MSCommonSchemaLog.h"
 #import "MSCSExtensions.h"
 #import "MSDeviceExtension.h"
+#import "MSPropertyConfiguratorInternal.h"
 #import "MSPropertyConfiguratorPrivate.h"
 #import "MSTestFrameworks.h"
 

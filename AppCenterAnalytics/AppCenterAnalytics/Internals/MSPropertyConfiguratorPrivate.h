@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Event properties attached to events tracked by this target.
  */
-@property(nonatomic, nullable) NSMutableDictionary<NSString *, MSTypedProperty *> *eventProperties;
+@property(nonatomic, nullable) MSEventProperties *eventProperties;
 
 /**
  * The device id to send with common schema logs. If nil, nothing is sent.

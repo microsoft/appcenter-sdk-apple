@@ -30,7 +30,7 @@ static const char deviceIdPrefix = 'i';
 - (instancetype)initWithTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget {
   if ((self = [super init])) {
     _transmissionTarget = transmissionTarget;
-    _eventProperties = [NSMutableDictionary<NSString *, MSTypedProperty *> new];
+    _eventProperties = [MSEventProperties new];
   }
   return self;
 }
@@ -53,10 +53,7 @@ static const char deviceIdPrefix = 'i';
       MSLogError([MSAnalytics logTag], @"Event property keys and values cannot be nil.");
       return;
     }
-    MSStringTypedProperty *property = [MSStringTypedProperty new];
-    property.name = propertyKey;
-    property.value = propertyValue;
-    self.eventProperties[propertyKey] = property;
+    [self.eventProperties setString:propertyValue forKey:propertyKey];
   }
 }
 
@@ -66,7 +63,7 @@ static const char deviceIdPrefix = 'i';
       MSLogError([MSAnalytics logTag], @"Event property key to remove cannot be nil.");
       return;
     }
-    [self.eventProperties removeObjectForKey:propertyKey];
+    [self.eventProperties.properties removeObjectForKey:propertyKey];
   }
 }
 
@@ -153,9 +150,9 @@ static const char deviceIdPrefix = 'i';
 
 - (void)mergeTypedPropertiesWith:(MSEventProperties *)mergedEventProperties {
   @synchronized([MSAnalytics sharedInstance]) {
-    for (NSString *key in self.eventProperties) {
+    for (NSString *key in self.eventProperties.properties) {
       if (mergedEventProperties.properties[key] == nil) {
-        MSTypedProperty *value = self.eventProperties[key];
+        MSTypedProperty *value = self.eventProperties.properties[key];
         mergedEventProperties.properties[key] = value;
       }
     }
