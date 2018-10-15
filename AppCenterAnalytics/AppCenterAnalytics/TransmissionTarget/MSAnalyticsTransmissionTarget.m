@@ -80,7 +80,7 @@ static MSAnalyticsAuthenticationProvider *_authenticationProvider;
       [eventProperties setString:value forKey:key];
     }
   }
-  [MSAnalytics trackEvent:eventName withTypedProperties:eventProperties];
+  [self trackEvent:eventName withTypedProperties:eventProperties];
 }
 
 - (void)trackEvent:(NSString *)eventName withTypedProperties:(nullable MSEventProperties *)properties {
