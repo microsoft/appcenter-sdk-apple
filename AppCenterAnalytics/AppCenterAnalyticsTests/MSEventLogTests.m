@@ -13,6 +13,7 @@
 #import "MSOSExtension.h"
 #import "MSProtocolExtension.h"
 #import "MSSDKExtension.h"
+#import "MSStringTypedProperty.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+Date.h"
 
@@ -157,7 +158,10 @@
   NSDictionary *csProperties = [self.sut convertTypedPropertiesToCSProperties];
 
   // Then
-  XCTAssertEqualObjects(csProperties, acProperties);
+  XCTAssertEqual([csProperties count], [acProperties.properties count]);
+  for (NSString *key in acProperties.properties.allKeys) {
+    XCTAssertEqual(csProperties[key], ((MSStringTypedProperty *)acProperties.properties[key]).value);
+  }
 }
 
 - (void)testConvertACPropertiesToCSPropertiesWhenPropertiesAreNested {

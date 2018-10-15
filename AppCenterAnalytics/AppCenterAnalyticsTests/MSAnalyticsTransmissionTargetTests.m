@@ -63,7 +63,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   // Then
   XCTAssertNotNil(sut);
   XCTAssertEqual(kMSTestTransmissionToken, sut.transmissionTargetToken);
-  XCTAssertEqualObjects(sut.propertyConfigurator.eventProperties, @{});
+  XCTAssertTrue([sut.propertyConfigurator.eventProperties isEmpty]);
   XCTAssertNil(MSAnalyticsTransmissionTarget.authenticationProvider);
 }
 
@@ -357,7 +357,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   [configurator removeEventPropertyForKey:prop1Key];
 
   // Then
-  XCTAssertEqualObjects(configurator.eventProperties, @{});
+  XCTAssertTrue([configurator.eventProperties isEmpty]);
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wnonnull"
@@ -365,19 +365,19 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   [configurator removeEventPropertyForKey:nil];
 
   // Then
-  XCTAssertEqualObjects(configurator.eventProperties, @{});
+  XCTAssertTrue([configurator.eventProperties isEmpty]);
 
   // When
   [configurator setEventPropertyString:nil forKey:prop1Key];
 
   // Then
-  XCTAssertEqualObjects(configurator.eventProperties, @{});
+  XCTAssertTrue([configurator.eventProperties isEmpty]);
 
   // When
   [configurator setEventPropertyString:prop1Value forKey:nil];
 
   // Then
-  XCTAssertEqualObjects(configurator.eventProperties, @{});
+  XCTAssertTrue([configurator.eventProperties isEmpty]);
 #pragma clang diagnostic pop
 
   // When
