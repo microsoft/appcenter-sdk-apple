@@ -1,6 +1,5 @@
 #import "MSAnalyticsInternal.h"
 #import "MSBooleanTypedProperty.h"
-#import "MSConstants+Internal.h"
 #import "MSDateTimeTypedProperty.h"
 #import "MSDoubleTypedProperty.h"
 #import "MSEventProperties.h"

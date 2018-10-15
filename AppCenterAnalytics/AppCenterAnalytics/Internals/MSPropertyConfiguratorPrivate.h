@@ -3,6 +3,8 @@
 #import "MSAnalyticsTransmissionTarget.h"
 #import "MSChannelDelegate.h"
 
+@class MSTypedProperty;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MSPropertyConfigurator () <MSChannelDelegate>
@@ -30,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Event properties attached to events tracked by this target.
  */
-@property(nonatomic, nullable) NSMutableDictionary<NSString *, NSString *> *eventProperties;
+@property(nonatomic, nullable) NSMutableDictionary<NSString *, MSTypedProperty *> *eventProperties;
 
 /**
  * The device id to send with common schema logs. If nil, nothing is sent.

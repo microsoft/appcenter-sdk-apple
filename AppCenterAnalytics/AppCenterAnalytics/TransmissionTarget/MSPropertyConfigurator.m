@@ -10,11 +10,13 @@
 #import "MSAnalyticsTransmissionTargetInternal.h"
 #import "MSAnalyticsTransmissionTargetPrivate.h"
 #import "MSAppExtension.h"
-#import "MSCommonSchemaLog.h"
 #import "MSCSExtensions.h"
+#import "MSCommonSchemaLog.h"
 #import "MSDeviceExtension.h"
 #import "MSLogger.h"
 #import "MSPropertyConfiguratorPrivate.h"
+#import "MSStringTypedProperty.h"
+#import "MSTypedProperty.h"
 
 @implementation MSPropertyConfigurator
 
@@ -27,7 +29,7 @@ static const char deviceIdPrefix = 'i';
 - (instancetype)initWithTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget {
   if ((self = [super init])) {
     _transmissionTarget = transmissionTarget;
-    _eventProperties = [NSMutableDictionary<NSString *, NSString *> new];
+    _eventProperties = [NSMutableDictionary<NSString *, MSTypedProperty *> new];
   }
   return self;
 }
@@ -50,7 +52,10 @@ static const char deviceIdPrefix = 'i';
       MSLogError([MSAnalytics logTag], @"Event property keys and values cannot be nil.");
       return;
     }
-    self.eventProperties[propertyKey] = propertyValue;
+    MSStringTypedProperty *property = [MSStringTypedProperty new];
+    property.name = propertyKey;
+    property.value = propertyValue;
+    self.eventProperties[propertyKey] = property;
   }
 }
 
@@ -111,7 +116,7 @@ static const char deviceIdPrefix = 'i';
     }
 
     // The device ID must not be inherited from parent transmission targets.
-    [((MSCommonSchemaLog *)log)ext].deviceExt.localId = self.deviceId;
+    [((MSCommonSchemaLog *)log) ext].deviceExt.localId = self.deviceId;
   }
 }
 

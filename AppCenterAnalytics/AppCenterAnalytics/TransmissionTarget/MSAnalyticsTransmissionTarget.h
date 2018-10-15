@@ -3,6 +3,8 @@
 #import "MSAnalyticsAuthenticationProvider.h"
 #import "MSPropertyConfigurator.h"
 
+@class MSEventProperties;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MSAnalyticsTransmissionTarget : NSObject
@@ -29,6 +31,30 @@ NS_ASSUME_NONNULL_BEGIN
  * @param properties dictionary of properties.
  */
 - (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties;
+
+/**
+ * Track a custom event with name and optional typed properties.
+ *
+ * @param eventName  Event name.
+ * @param properties Typed properties.
+ *
+ * @discussion The following validation rules are applied:
+ *
+ * The name cannot be null or empty.
+ *
+ * The property names or values cannot be null.
+ *
+ * Double values must be finite (NaN or Infinite values are discarded).
+ *
+ * Additional validation rules apply depending on the configured secret.
+ *
+ * - The event name needs to match the `[a-zA-Z0-9]((\.(?!(\.|$)))|[_a-zA-Z0-9]){3,99}` regular expression.
+ *
+ * - The `baseData` and `baseDataType` properties are reserved and thus discarded.
+ *
+ * - The full event size when encoded as a JSON string cannot be larger than 1.9MB.
+ */
+- (void)trackEvent:(NSString *)eventName withTypedProperties:(nullable MSEventProperties *)properties;
 
 /**
  * Get a nested transmission target.

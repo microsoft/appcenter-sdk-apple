@@ -1,18 +1,18 @@
 #import "AppCenter+Internal.h"
 #import "MSAnalyticsInternal.h"
 #import "MSBooleanTypedProperty.h"
-#import "MSConstants+Internal.h"
 #import "MSCSData.h"
+#import "MSCSExtensions.h"
 #import "MSCSModelConstants.h"
+#import "MSConstants+Internal.h"
 #import "MSDateTimeTypedProperty.h"
 #import "MSDoubleTypedProperty.h"
 #import "MSEventLogPrivate.h"
 #import "MSEventPropertiesInternal.h"
-#import "MSMetadataExtension.h"
 #import "MSLongTypedProperty.h"
+#import "MSMetadataExtension.h"
 #import "MSStringTypedProperty.h"
 #import "MSUtility+Date.h"
-#import "MSCSExtensions.h"
 
 static NSString *const kMSTypeEvent = @"event";
 
@@ -108,7 +108,7 @@ static NSString *const kMSTypedProperties = @"typedProperties";
       NSMutableDictionary *destProperties = csProperties;
       for (NSUInteger i = 0; i < lastIndex; i++) {
         NSMutableDictionary *subObject = nil;
-        if ([(NSObject *) destProperties[csKeys[i]] isKindOfClass:[NSMutableDictionary class]]) {
+        if ([(NSObject *)destProperties[csKeys[i]] isKindOfClass:[NSMutableDictionary class]]) {
           subObject = destProperties[csKeys[i]];
         }
         if (!subObject) {
@@ -126,19 +126,19 @@ static NSString *const kMSTypedProperties = @"typedProperties";
         MSLogWarning(MSAnalytics.logTag, @"Property key '%@' already has a value, the old value will be overridden.", lastKey);
       }
       id typedProperty = eventProperties.properties[acKey];
-      if ([typedProperty isKindOfClass:[MSStringTypedProperty class]]) {
+      if ([(NSObject *)typedProperty isKindOfClass:[MSStringTypedProperty class]]) {
         MSStringTypedProperty *stringProperty = (MSStringTypedProperty *)typedProperty;
         destProperties[lastKey] = stringProperty.value;
-      } else if ([typedProperty isKindOfClass:[MSBooleanTypedProperty class]]) {
+      } else if ([(NSObject *)typedProperty isKindOfClass:[MSBooleanTypedProperty class]]) {
         MSBooleanTypedProperty *boolProperty = (MSBooleanTypedProperty *)typedProperty;
         destProperties[lastKey] = @(boolProperty.value);
-      } else if ([typedProperty isKindOfClass:[MSLongTypedProperty class]]) {
+      } else if ([(NSObject *)typedProperty isKindOfClass:[MSLongTypedProperty class]]) {
         MSLongTypedProperty *longProperty = (MSLongTypedProperty *)typedProperty;
         destProperties[lastKey] = @(longProperty.value);
-      } else if ([typedProperty isKindOfClass:[MSDoubleTypedProperty class]]) {
+      } else if ([(NSObject *)typedProperty isKindOfClass:[MSDoubleTypedProperty class]]) {
         MSDoubleTypedProperty *doubleProperty = (MSDoubleTypedProperty *)typedProperty;
         destProperties[lastKey] = @(doubleProperty.value);
-      } else if ([typedProperty isKindOfClass:[MSDateTimeTypedProperty class]]) {
+      } else if ([(NSObject *)typedProperty isKindOfClass:[MSDateTimeTypedProperty class]]) {
         MSDateTimeTypedProperty *dateProperty = (MSDateTimeTypedProperty *)typedProperty;
         destProperties[lastKey] = [MSUtility dateToISO8601:dateProperty.value];
       }
@@ -149,7 +149,7 @@ static NSString *const kMSTypedProperties = @"typedProperties";
 
 - (MSMetadataExtension *)generateMetadataExtension {
 
-  //TODO needs implementation
+  // TODO needs implementation
   return nil;
 }
 
