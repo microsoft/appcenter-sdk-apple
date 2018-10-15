@@ -63,6 +63,7 @@
   }
   MSCSExtensions *csExt = (MSCSExtensions *) object;
   return ((!self.protocolExt && !csExt.protocolExt) || [self.protocolExt isEqual:csExt.protocolExt]) &&
+      ((!self.metadataExt && !csExt.metadataExt) || [self.metadataExt isEqual:csExt.metadataExt]) &&
       ((!self.userExt && !csExt.userExt) || [self.userExt isEqual:csExt.userExt]) &&
       ((!self.deviceExt && !csExt.deviceExt) || [self.deviceExt isEqual:csExt.deviceExt]) &&
       ((!self.osExt && !csExt.osExt) || [self.osExt isEqual:csExt.osExt]) &&
