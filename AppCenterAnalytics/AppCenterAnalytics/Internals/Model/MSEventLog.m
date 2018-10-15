@@ -80,15 +80,15 @@ static NSString *const kMSTypedProperties = @"typedProperties";
 
   // Metadata extension must accompany data.
   // Event properties goes to part C.
-  MSCSData *data = [MSCSData new];
-  csLog.data = data;
-  csLog.data.properties = [self convertTypedPropertiesToCSProperties];
+  csLog.data = [MSCSData new];
+  csLog.ext.metadataExt = [MSMetadataExtension new];
+  [self setPropertiesAndMetadataForCSLog:csLog];
   return csLog;
 }
 
 #pragma mark - Helper
 
-- (NSDictionary<NSString *, NSObject *> *)convertTypedPropertiesToCSProperties {
+- (void)setPropertiesAndMetadataForCSLog:(MSCommonSchemaLog *)csLog {
   NSMutableDictionary *csProperties;
   NSMutableDictionary *metadata;
   MSEventProperties *eventProperties = self.typedProperties;
@@ -169,7 +169,8 @@ static NSString *const kMSTypedProperties = @"typedProperties";
       }
     }
   }
-  return csProperties;
+  csLog.data.properties = csProperties;
+  csLog.ext.metadataExt.metadata = metadata;
 }
 
 @end
