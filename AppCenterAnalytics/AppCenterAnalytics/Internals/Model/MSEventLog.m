@@ -89,9 +89,6 @@ static NSString *const kMSTypedProperties = @"typedProperties";
 #pragma mark - Helper
 
 - (NSDictionary<NSString *, NSObject *> *)convertTypedPropertiesToCSProperties {
-
-  //TODO clean up bools and strings from metadata.
-  //TODO use the generated metadata
   NSMutableDictionary *csProperties;
   NSMutableDictionary *metadata;
   MSEventProperties *eventProperties = self.typedProperties;
@@ -105,7 +102,13 @@ static NSString *const kMSTypedProperties = @"typedProperties";
         MSLogWarning(MSAnalytics.logTag, @"Cannot use %@ in properties, skipping that property.", acKey);
         continue;
       }
+      MSTypedProperty *typedProperty = eventProperties.properties[acKey];
+      BOOL addMetadata = YES;
 
+      //TODO use constants here
+      if ([typedProperty.type isEqualToString:@"string"] || [typedProperty.type isEqualToString:@"boolean"]) {
+        addMetadata = NO;
+      }
       // If the key contains a '.' then it's nested objects (i.e: "a.b":"value" => {"a":{"b":"value"}}).
       NSArray *csKeys = [acKey componentsSeparatedByString:@"."];
       NSMutableDictionary *propertyTree = csProperties;
@@ -115,12 +118,14 @@ static NSString *const kMSTypedProperties = @"typedProperties";
         NSMutableDictionary *metadataSubtree = nil;
 
         // If there is no field delimiter for this level in the metadata tree, create one.
-        if (!metadataTree[kMSFieldDelimiter]) {
+        if (addMetadata && !metadataTree[kMSFieldDelimiter]) {
           metadataTree[kMSFieldDelimiter] = [NSMutableDictionary new];
         }
         if ([(NSObject *) propertyTree[csKeys[i]] isKindOfClass:[NSMutableDictionary class]]) {
           propertySubtree = propertyTree[csKeys[i]];
-          metadataSubtree = metadataTree[kMSFieldDelimiter][csKeys[i]];
+          if (addMetadata) {
+            metadataSubtree = metadataTree[kMSFieldDelimiter][csKeys[i]];
+          }
         }
         if (!propertySubtree) {
           if (propertyTree[csKeys[i]]) {
@@ -129,9 +134,11 @@ static NSString *const kMSTypedProperties = @"typedProperties";
             break;
           }
           propertySubtree = [NSMutableDictionary new];
-          metadataSubtree = [NSMutableDictionary new];
-          metadataTree[kMSFieldDelimiter][csKeys[i]] = metadataSubtree;
           propertyTree[csKeys[i]] = propertySubtree;
+          if (addMetadata) {
+            metadataSubtree = [NSMutableDictionary new];
+            metadataTree[kMSFieldDelimiter][csKeys[i]] = metadataSubtree;
+          }
         }
         propertyTree = propertySubtree;
         metadataTree = metadataSubtree;
@@ -141,7 +148,6 @@ static NSString *const kMSTypedProperties = @"typedProperties";
         MSLogWarning(MSAnalytics.logTag, @"Property key '%@' already has a value, choosing one.", lastKey);
         continue;
       }
-      id typedProperty = eventProperties.properties[acKey];
       if ([typedProperty isKindOfClass:[MSStringTypedProperty class]]) {
         MSStringTypedProperty *stringProperty = (MSStringTypedProperty *)typedProperty;
         propertyTree[lastKey] = stringProperty.value;
@@ -150,16 +156,16 @@ static NSString *const kMSTypedProperties = @"typedProperties";
         propertyTree[lastKey] = @(boolProperty.value);
       } else if ([typedProperty isKindOfClass:[MSLongTypedProperty class]]) {
         MSLongTypedProperty *longProperty = (MSLongTypedProperty *)typedProperty;
-        metadataTree[lastKey] = self.metadataTypeIdMapping[longProperty.type];
         propertyTree[lastKey] = @(longProperty.value);
       } else if ([typedProperty isKindOfClass:[MSDoubleTypedProperty class]]) {
         MSDoubleTypedProperty *doubleProperty = (MSDoubleTypedProperty *)typedProperty;
-        metadataTree[lastKey] = self.metadataTypeIdMapping[doubleProperty.type];
         propertyTree[lastKey] = @(doubleProperty.value);
       } else if ([typedProperty isKindOfClass:[MSDateTimeTypedProperty class]]) {
         MSDateTimeTypedProperty *dateProperty = (MSDateTimeTypedProperty *)typedProperty;
-        metadataTree[lastKey] = self.metadataTypeIdMapping[dateProperty.type];
         propertyTree[lastKey] = [MSUtility dateToISO8601:dateProperty.value];
+      }
+      if (addMetadata) {
+        metadataTree[lastKey] = self.metadataTypeIdMapping[typedProperty.type];
       }
     }
   }
