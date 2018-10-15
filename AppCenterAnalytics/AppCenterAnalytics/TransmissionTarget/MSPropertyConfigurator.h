@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setAppLocale:(nullable NSString *)appLocale;
 
 /**
- * Set an event property to be attached to events tracked by this transmission target and its child transmission targets.
+ * Set a string event property to be attached to events tracked by this transmission target and its child transmission targets.
  *
  * @param propertyValue Property value.
  * @param propertyKey Property key.
@@ -36,6 +36,54 @@ NS_ASSUME_NONNULL_BEGIN
  * parents.
  */
 - (void)setEventPropertyString:(NSString *)propertyValue forKey:(NSString *)propertyKey;
+
+/**
+ * Set a double event property to be attached to events tracked by this transmission target and its child transmission targets.
+ *
+ * @param propertyValue Property value. Must be finite (`NAN` and `INFINITY` not allowed).
+ * @param propertyKey Property key.
+ *
+ * @discussion A property set in a child transmission target overrides a property with the same key inherited from its parents. Also, the
+ * properties passed to the `trackEvent:withProperties:` override any property with the same key from the transmission target itself or its
+ * parents.
+ */
+- (void)setEventPropertyDouble:(double)propertyValue forKey:(NSString *)propertyKey;
+
+/**
+ * Set a 64-bit integer event property to be attached to events tracked by this transmission target and its child transmission targets.
+ *
+ * @param propertyValue Property value.
+ * @param propertyKey Property key.
+ *
+ * @discussion A property set in a child transmission target overrides a property with the same key inherited from its parents. Also, the
+ * properties passed to the `trackEvent:withProperties:` override any property with the same key from the transmission target itself or its
+ * parents.
+ */
+- (void)setEventPropertyInt64:(int64_t)propertyValue forKey:(NSString *)propertyKey;
+
+/**
+ * Set a boolean event property to be attached to events tracked by this transmission target and its child transmission targets.
+ *
+ * @param propertyValue Property value.
+ * @param propertyKey Property key.
+ *
+ * @discussion A property set in a child transmission target overrides a property with the same key inherited from its parents. Also, the
+ * properties passed to the `trackEvent:withProperties:` override any property with the same key from the transmission target itself or its
+ * parents.
+ */
+- (void)setEventPropertyBool:(BOOL)propertyValue forKey:(NSString *)propertyKey;
+
+/**
+ * Set a date event property to be attached to events tracked by this transmission target and its child transmission targets.
+ *
+ * @param propertyValue Property value.
+ * @param propertyKey Property key.
+ *
+ * @discussion A property set in a child transmission target overrides a property with the same key inherited from its parents. Also, the
+ * properties passed to the `trackEvent:withProperties:` override any property with the same key from the transmission target itself or its
+ * parents.
+ */
+- (void)setEventPropertyDate:(NSDate *)propertyValue forKey:(NSString *)propertyKey;
 
 /**
  * Remove an event property from this transmission target.

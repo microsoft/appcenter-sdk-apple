@@ -94,7 +94,7 @@ static MSAnalyticsAuthenticationProvider *_authenticationProvider;
   }
 
   // Override properties.
-  if (properties && properties.properties) {
+  if (properties) {
     [mergedProperties.properties addEntriesFromDictionary:(NSDictionary<NSString *, MSTypedProperty *> *)properties.properties];
   } else if ([mergedProperties.properties count] == 0) {
 
