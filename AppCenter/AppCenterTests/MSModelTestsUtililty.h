@@ -3,6 +3,7 @@
 #import "MSAbstractLogInternal.h"
 #import "MSDevice.h"
 
+@class MSMetadataExtension;
 @class MSUserExtension;
 @class MSLocExtension;
 @class MSOSExtension;
@@ -27,6 +28,13 @@
  * @return Dummy values for common schema extensions.
  */
 + (NSMutableDictionary *)extensionDummies;
+
+/**
+ * Get dummy values for common schema metadata extensions.
+ *
+ * @return Dummy values for common schema metadata extensions.
+ */
++ (NSDictionary *)metadataExtensionDummies;
 
 /**
  * Get dummy values for common schema user extensions.
@@ -113,6 +121,16 @@
  * @return The dummy common schema extensions.
  */
 + (MSCSExtensions *)extensionsWithDummyValues:(NSDictionary *)dummyValues;
+
+
+/**
+ * Populate a dummy common schema user extension.
+ *
+ * @param dummyValues Dummy values to create the extension.
+ *
+ * @return A dummy common schema user extension.
+ */
++ (MSMetadataExtension *)metadataExtensionWithDummyValues:(NSDictionary *)dummyValues;
 
 /**
  * Populate a dummy common schema user extension.

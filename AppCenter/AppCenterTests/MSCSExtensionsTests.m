@@ -4,6 +4,7 @@
 #import "MSCSModelConstants.h"
 #import "MSDeviceExtension.h"
 #import "MSLocExtension.h"
+#import "MSMetadataExtension.h"
 #import "MSModelTestsUtililty.h"
 #import "MSNetExtension.h"
 #import "MSOSExtension.h"
@@ -32,6 +33,8 @@
 @property(nonatomic) NSMutableDictionary *sdkExtDummyValues;
 @property(nonatomic) MSDeviceExtension *deviceExt;
 @property(nonatomic) NSMutableDictionary *deviceExtDummyValues;
+@property(nonatomic) MSMetadataExtension *metadataExt;
+@property(nonatomic) NSDictionary *metadataExtDummyValues;
 @property(nonatomic) MSCSData *data;
 @property(nonatomic) NSDictionary *dataDummyValues;
 @end
@@ -59,6 +62,8 @@
   self.sdkExt = [MSModelTestsUtililty sdkExtensionWithDummyValues:self.sdkExtDummyValues];
   self.deviceExtDummyValues = [MSModelTestsUtililty deviceExtensionDummies];
   self.deviceExt = [MSModelTestsUtililty deviceExtensionWithDummyValues:self.deviceExtDummyValues];
+  self.metadataExtDummyValues = [MSModelTestsUtililty metadataExtensionDummies];
+  self.metadataExt = [MSModelTestsUtililty metadataExtensionWithDummyValues:self.metadataExtDummyValues];
   self.dataDummyValues = [MSModelTestsUtililty dataDummies];
   self.data = [MSModelTestsUtililty dataWithDummyValues:self.dataDummyValues];
   self.extDummyValues = [MSModelTestsUtililty extensionDummies];
@@ -86,6 +91,7 @@
   XCTAssertEqualObjects(dict[kMSCSProtocolExt], [self.extDummyValues[kMSCSProtocolExt] serializeToDictionary]);
   XCTAssertEqualObjects(dict[kMSCSOSExt], [self.extDummyValues[kMSCSOSExt] serializeToDictionary]);
   XCTAssertEqualObjects(dict[kMSCSDeviceExt], [self.extDummyValues[kMSCSDeviceExt] serializeToDictionary]);
+  XCTAssertEqualObjects(dict[kMSCSMetadataExt], [self.extDummyValues[kMSCSMetadataExt] serializeToDictionary]);
 }
 
 - (void)testExtNSCodingSerializationAndDeserialization {
@@ -98,6 +104,7 @@
   XCTAssertNotNil(actualExt);
   XCTAssertEqualObjects(self.ext, actualExt);
   XCTAssertTrue([actualExt isMemberOfClass:[MSCSExtensions class]]);
+  XCTAssertEqualObjects(actualExt.metadataExt, self.extDummyValues[kMSCSMetadataExt]);
   XCTAssertEqualObjects(actualExt.userExt, self.extDummyValues[kMSCSUserExt]);
   XCTAssertEqualObjects(actualExt.locExt, self.extDummyValues[kMSCSLocExt]);
   XCTAssertEqualObjects(actualExt.appExt, self.extDummyValues[kMSCSAppExt]);
@@ -131,6 +138,13 @@
   XCTAssertEqualObjects(anotherExt, self.ext);
 
   // If
+  anotherExt.metadataExt = OCMClassMock([MSMetadataExtension class]);
+
+  // Then
+  XCTAssertNotEqualObjects(anotherExt, self.ext);
+
+  // If
+  anotherExt.metadataExt = self.extDummyValues[kMSCSMetadataExt];
   anotherExt.userExt = OCMClassMock([MSUserExtension class]);
 
   // Then
@@ -177,6 +191,61 @@
 
   // Then
   XCTAssertNotEqualObjects(anotherExt, self.ext);
+}
+
+#pragma mark - MSMetadataExtension
+
+- (void)testMetadataExtJSONSerializingToDictionary {
+
+  // When
+  NSMutableDictionary *dict = [self.metadataExt serializeToDictionary];
+
+  // Then
+  XCTAssertNotNil(dict);
+  XCTAssertEqualObjects(dict, self.metadataExtDummyValues);
+}
+
+- (void)testMetadataExtNSCodingSerializationAndDeserialization {
+
+  // When
+  NSData *serializedMetadataExt = [NSKeyedArchiver archivedDataWithRootObject:self.metadataExt];
+  MSMetadataExtension *actualMetadataExt = [NSKeyedUnarchiver unarchiveObjectWithData:serializedMetadataExt];
+
+  // Then
+  XCTAssertNotNil(actualMetadataExt);
+  XCTAssertEqualObjects(self.metadataExt, actualMetadataExt);
+  XCTAssertTrue([actualMetadataExt isMemberOfClass:[MSMetadataExtension class]]);
+  XCTAssertEqualObjects(actualMetadataExt.metadata, self.metadataExtDummyValues);
+}
+
+- (void)testMetadataExtIsValid {
+
+  // If
+  MSMetadataExtension *metadataExt = [MSMetadataExtension new];
+
+  // Then
+  XCTAssertTrue([metadataExt isValid]);
+}
+
+- (void)testMetadataExtIsEqual {
+
+  // If
+  MSMetadataExtension *anotherMetadataExt = [MSMetadataExtension new];
+
+  // Then
+  XCTAssertNotEqualObjects(anotherMetadataExt, self.metadataExt);
+
+  // If
+  anotherMetadataExt = [MSModelTestsUtililty metadataExtensionWithDummyValues:self.metadataExtDummyValues];
+
+  // Then
+  XCTAssertEqualObjects(anotherMetadataExt, self.metadataExt);
+
+  // If
+  anotherMetadataExt.metadata = @{};
+
+  // Then
+  XCTAssertNotEqualObjects(anotherMetadataExt, self.metadataExt);
 }
 
 #pragma mark - MSUserExtension
