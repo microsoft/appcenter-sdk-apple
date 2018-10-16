@@ -16,12 +16,6 @@
 #import "MSTestFrameworks.h"
 #import "MSUtility+Date.h"
 
-extern static const int kMSLongMetadataTypeId;
-
-extern static const int kMSDoubleMetadataTypeId;
-
-extern static const int kMSDateTimeMetadataTypeId;
-
 @interface MSEventLogTests : XCTestCase
 
 @property(nonatomic) MSEventLog *sut;
@@ -147,6 +141,7 @@ extern static const int kMSDateTimeMetadataTypeId;
   // If
   MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
   csLog.data = [MSCSData new];
+  csLog.ext = [MSCSExtensions new];
   csLog.ext.metadataExt = [MSMetadataExtension new];
 
   // When
@@ -162,6 +157,7 @@ extern static const int kMSDateTimeMetadataTypeId;
   // If
   MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
   csLog.data = [MSCSData new];
+  csLog.ext = [MSCSExtensions new];
   csLog.ext.metadataExt = [MSMetadataExtension new];
   MSEventProperties *acProperties = [MSEventProperties new];
   NSDate *date = [NSDate dateWithTimeIntervalSince1970:10000];
@@ -181,6 +177,7 @@ extern static const int kMSDateTimeMetadataTypeId;
   // If
   MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
   csLog.data = [MSCSData new];
+  csLog.ext = [MSCSExtensions new];
   csLog.ext.metadataExt = [MSMetadataExtension new];
   MSEventProperties *acProperties = [MSEventProperties new];
   int64_t largeNumber = 1234567890;
@@ -200,6 +197,7 @@ extern static const int kMSDateTimeMetadataTypeId;
   // If
   MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
   csLog.data = [MSCSData new];
+  csLog.ext = [MSCSExtensions new];
   csLog.ext.metadataExt = [MSMetadataExtension new];
   MSEventProperties *acProperties = [MSEventProperties new];
   double pi = 3.1415926;
@@ -219,6 +217,7 @@ extern static const int kMSDateTimeMetadataTypeId;
   // If
   MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
   csLog.data = [MSCSData new];
+  csLog.ext = [MSCSExtensions new];
   csLog.ext.metadataExt = [MSMetadataExtension new];
   MSEventProperties *acProperties = [MSEventProperties new];
   NSString *stringValue = @"hello";
@@ -238,6 +237,7 @@ extern static const int kMSDateTimeMetadataTypeId;
   // If
   MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
   csLog.data = [MSCSData new];
+  csLog.ext = [MSCSExtensions new];
   csLog.ext.metadataExt = [MSMetadataExtension new];
   MSEventProperties *acProperties = [MSEventProperties new];
   BOOL boolValue = YES;
@@ -257,6 +257,7 @@ extern static const int kMSDateTimeMetadataTypeId;
   // If
   MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
   csLog.data = [MSCSData new];
+  csLog.ext = [MSCSExtensions new];
   csLog.ext.metadataExt = [MSMetadataExtension new];
   MSEventProperties *acProperties = [MSEventProperties new];
   [acProperties setString:@"value" forKey:@"key"];
@@ -276,6 +277,7 @@ extern static const int kMSDateTimeMetadataTypeId;
   // If
   MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
   csLog.data = [MSCSData new];
+  csLog.ext = [MSCSExtensions new];
   csLog.ext.metadataExt = [MSMetadataExtension new];
   MSEventProperties *acProperties = [MSEventProperties new];
   [acProperties setInt64:1 forKey:@"p.a"];
@@ -309,6 +311,7 @@ extern static const int kMSDateTimeMetadataTypeId;
   // If
   MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
   csLog.data = [MSCSData new];
+  csLog.ext = [MSCSExtensions new];
   csLog.ext.metadataExt = [MSMetadataExtension new];
   MSEventProperties *acProperties = [MSEventProperties new];
   [acProperties setString:@"value" forKey:@"key"];
@@ -317,7 +320,7 @@ extern static const int kMSDateTimeMetadataTypeId;
   [acProperties setString:@"3" forKey:@"nes.t.ed2"];
   [acProperties setString:@"value2" forKey:@"key2"];
   self.sut.typedProperties = acProperties;
-  NSDictionary *expectedResult = @{ @"key" : @"value", @"nes" : @{@"a" : @"1", @"t" : @{@"ed" : @"2", @"ed2" : @"3"}}, @"key2" : @"value2" };
+  NSDictionary *expectedResult = @{@"key": @"value", @"nes": @{@"a": @"1", @"t": @{@"ed": @"2", @"ed2": @"3"}}, @"key2": @"value2"};
 
   // When
   [self.sut setPropertiesAndMetadataForCSLog:csLog];
@@ -326,11 +329,87 @@ extern static const int kMSDateTimeMetadataTypeId;
   XCTAssertEqualObjects(csLog.data.properties, expectedResult);
 }
 
+- (void)testPropertiesAreNotNestedWhenAtTheSameDepth {
+
+  // If
+  MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
+  csLog.data = [MSCSData new];
+  csLog.ext = [MSCSExtensions new];
+  csLog.ext.metadataExt = [MSMetadataExtension new];
+  MSEventProperties *acProperties = [MSEventProperties new];
+  [acProperties setInt64:1 forKey:@"a.b"];
+  [acProperties setDouble:2.2 forKey:@"b.c"];
+  self.sut.typedProperties = acProperties;
+  NSDictionary *expectedProperties = @{@"a": @{@"b": @1}, @"b": @{@"c": @2.2} };
+  NSDictionary *expectedMetadata =
+      @{
+          @"f":
+          @{
+              @"a":
+              @{
+                  @"f":
+                  @{
+                      @"b": @(kMSLongMetadataTypeId)
+                  }
+              },
+              @"b":
+              @{
+                  @"f":
+                  @{
+                      @"c": @(kMSDoubleMetadataTypeId)
+                  }
+              }
+          }
+      };
+
+  // When
+  [self.sut setPropertiesAndMetadataForCSLog:csLog];
+
+  // Then
+  XCTAssertEqualObjects(csLog.data.properties, expectedProperties);
+  XCTAssertEqualObjects(csLog.ext.metadataExt.metadata, expectedMetadata);
+}
+
+- (void)testMetadataDoesNotCreateLevelsForPropertyWhenPropertyIsString {
+
+  // If
+  MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
+  csLog.data = [MSCSData new];
+  csLog.ext = [MSCSExtensions new];
+  csLog.ext.metadataExt = [MSMetadataExtension new];
+  MSEventProperties *acProperties = [MSEventProperties new];
+  [acProperties setInt64:1 forKey:@"a.b"];
+  [acProperties setString:@"2.2" forKey:@"b.c"];
+  self.sut.typedProperties = acProperties;
+  NSDictionary *expectedProperties = @{@"a": @{@"b": @1}, @"b": @{@"c": @"2.2"} };
+  NSDictionary *expectedMetadata =
+      @{
+          @"f":
+          @{
+              @"a":
+              @{
+                  @"f":
+                  @{
+                      @"b": @(kMSLongMetadataTypeId)
+                  }
+              },
+          }
+      };
+
+  // When
+  [self.sut setPropertiesAndMetadataForCSLog:csLog];
+
+  // Then
+  XCTAssertEqualObjects(csLog.data.properties, expectedProperties);
+  XCTAssertEqualObjects(csLog.ext.metadataExt.metadata, expectedMetadata);
+}
+
 - (void)testOverrideValueToObjectProperties {
 
   // If
   MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
   csLog.data = [MSCSData new];
+  csLog.ext = [MSCSExtensions new];
   csLog.ext.metadataExt = [MSMetadataExtension new];
   MSEventProperties *acProperties = [MSEventProperties new];
   [acProperties setString:@"1" forKey: @"a.b"];
@@ -352,6 +431,7 @@ extern static const int kMSDateTimeMetadataTypeId;
   // If
   MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
   csLog.data = [MSCSData new];
+  csLog.ext = [MSCSExtensions new];
   csLog.ext.metadataExt = [MSMetadataExtension new];
   MSEventProperties *acProperties = [MSEventProperties new];
   [acProperties setString:@"1" forKey:@"a.b.c.d"];
@@ -373,6 +453,7 @@ extern static const int kMSDateTimeMetadataTypeId;
   // If
   MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
   csLog.data = [MSCSData new];
+  csLog.ext = [MSCSExtensions new];
   csLog.ext.metadataExt = [MSMetadataExtension new];
   MSEventProperties *acProperties = [MSEventProperties new];
   [acProperties setString:@"1" forKey:@"a.b"];
@@ -394,7 +475,14 @@ extern static const int kMSDateTimeMetadataTypeId;
   // If
   NSString *targetToken = @"aTarget-Token";
   NSString *name = @"SolarEclipse";
-  NSDictionary *properties = @{ @"aStringValue" : @"hello", @"aLongValue" : @1234567890, @"aDoubleValue" : @3.14, @"aDateTimeValue" : @"2018-10-15T22:16:22Z", @"aBooleanValue" : @YES};
+  MSEventProperties *eventProperties = [MSEventProperties new];
+  [eventProperties setString:@"hello" forKey:@"aStringValue"];
+  [eventProperties setInt64:1234567890l forKey:@"aLongValue"];
+  [eventProperties setDouble:3.14 forKey:@"aDoubleValue"];
+  [eventProperties setDate:[NSDate dateWithTimeIntervalSince1970:10000] forKey:@"aDateTimeValue"];
+  [eventProperties setBool:YES forKey:@"aBooleanValue"];
+  NSDictionary *expectedProperties = @{ @"aStringValue" : @"hello", @"aLongValue" : @1234567890, @"aDoubleValue" : @3.14, @"aDateTimeValue" :
+      @"2018-10-15T22:16:22Z", @"aBooleanValue" : @YES};
   NSDictionary *expectedMetadata = @{ @"f": @{@"aLongValue" : @4, @"aDoubleValue" : @6, @"aDateTimeValue" : @9}};
   NSDate *timestamp = [NSDate date];
   MSDevice *device = [MSDevice new];
@@ -423,7 +511,7 @@ extern static const int kMSDateTimeMetadataTypeId;
   self.sut.device = device;
   self.sut.timestamp = timestamp;
   self.sut.name = name;
-  self.sut.properties = properties;
+  self.sut.typedProperties = eventProperties;
 
   // When
   MSCommonSchemaLog *csLog = [self.sut toCommonSchemaLogForTargetToken:targetToken];
@@ -443,8 +531,9 @@ extern static const int kMSDateTimeMetadataTypeId;
   XCTAssertEqualObjects(csLog.ext.netExt.provider, carrierName);
   XCTAssertEqualObjects(csLog.ext.sdkExt.libVer, @"appcenter.ios-1.0.0");
   XCTAssertEqualObjects(csLog.ext.locExt.tz, @"-07:00");
-  XCTAssertEqualObjects(csLog.data.properties, properties);
+  XCTAssertEqualObjects(csLog.data.properties, expectedProperties);
   XCTAssertEqualObjects(csLog.ext.metadataExt.metadata, expectedMetadata);
+  XCTAssertNil(csLog.data.properties);
 }
 
 @end

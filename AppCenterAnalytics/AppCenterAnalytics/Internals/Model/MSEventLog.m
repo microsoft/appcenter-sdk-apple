@@ -19,18 +19,14 @@ static NSString *const kMSId = @"id";
 
 static NSString *const kMSTypedProperties = @"typedProperties";
 
-static const int kMSLongMetadataTypeId = 4;
-
-static const int kMSDoubleMetadataTypeId = 6;
-
-static const int kMSDateTimeMetadataTypeId = 9;
-
 @implementation MSEventLog
 
 - (instancetype)init {
   if ((self = [super init])) {
     self.type = kMSTypeEvent;
-    _metadataTypeIdMapping = @{@"long" : @1 };
+
+    //TODO use constants here
+    _metadataTypeIdMapping = @{@"long" : @(kMSLongMetadataTypeId), @"double": @(kMSDoubleMetadataTypeId), @"dateTime":@(kMSDateTimeMetadataTypeId) };
   }
   return self;
 }
@@ -108,12 +104,8 @@ static const int kMSDateTimeMetadataTypeId = 9;
         continue;
       }
       MSTypedProperty *typedProperty = eventProperties.properties[acKey];
-      BOOL addMetadata = YES;
+      NSNumber *typeId = self.metadataTypeIdMapping[typedProperty.type];
 
-      //TODO use constants here
-      if ([typedProperty.type isEqualToString:@"string"] || [typedProperty.type isEqualToString:@"boolean"]) {
-        addMetadata = NO;
-      }
       // If the key contains a '.' then it's nested objects (i.e: "a.b":"value" => {"a":{"b":"value"}}).
       NSArray *csKeys = [acKey componentsSeparatedByString:@"."];
       NSMutableDictionary *propertyTree = csProperties;
@@ -123,12 +115,12 @@ static const int kMSDateTimeMetadataTypeId = 9;
         NSMutableDictionary *metadataSubtree = nil;
 
         // If there is no field delimiter for this level in the metadata tree, create one.
-        if (addMetadata && !metadataTree[kMSFieldDelimiter]) {
+        if (typeId && !metadataTree[kMSFieldDelimiter]) {
           metadataTree[kMSFieldDelimiter] = [NSMutableDictionary new];
         }
         if ([(NSObject *) propertyTree[csKeys[i]] isKindOfClass:[NSMutableDictionary class]]) {
           propertySubtree = propertyTree[csKeys[i]];
-          if (addMetadata) {
+          if (typeId) {
             metadataSubtree = metadataTree[kMSFieldDelimiter][csKeys[i]];
           }
         }
@@ -140,7 +132,7 @@ static const int kMSDateTimeMetadataTypeId = 9;
           }
           propertySubtree = [NSMutableDictionary new];
           propertyTree[csKeys[i]] = propertySubtree;
-          if (addMetadata) {
+          if (typeId) {
             metadataSubtree = [NSMutableDictionary new];
             metadataTree[kMSFieldDelimiter][csKeys[i]] = metadataSubtree;
           }
@@ -169,13 +161,22 @@ static const int kMSDateTimeMetadataTypeId = 9;
         MSDateTimeTypedProperty *dateProperty = (MSDateTimeTypedProperty *)typedProperty;
         propertyTree[lastKey] = [MSUtility dateToISO8601:dateProperty.value];
       }
-      if (addMetadata) {
-        metadataTree[lastKey] = self.metadataTypeIdMapping[typedProperty.type];
+      if (typeId) {
+
+        // If there is no field delimiter for this level in the metadata tree, create one.
+        if (!metadataTree[kMSFieldDelimiter]) {
+          metadataTree[kMSFieldDelimiter] = [NSMutableDictionary new];
+        }
+        metadataTree[kMSFieldDelimiter][lastKey] = typeId;
       }
     }
   }
-  csLog.data.properties = csProperties;
-  csLog.ext.metadataExt.metadata = metadata;
+  if (csProperties.count != 0) {
+    csLog.data.properties = csProperties;
+  }
+  if (metadata.count != 0) {
+    csLog.ext.metadataExt.metadata = metadata;
+  }
 }
 
 @end
