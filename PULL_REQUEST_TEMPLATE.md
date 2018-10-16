@@ -1,13 +1,6 @@
 <!-- 
 Thank you for submitting a pull request! Please add some info (if applicable) to give us some context on the PR.
 
-Things to consider before you submit the PR:
-
-* [x] Has `CHANGELOG.md` been updated?
-* [] Are tests passing locally?
-* [] Are the files formatted correctly?
-* [] Did you add unit tests?
-
 We will review the PR as soon as possible, leave feedback, add a tag, etc. and let you know what's going on.
 
 Cheers!
