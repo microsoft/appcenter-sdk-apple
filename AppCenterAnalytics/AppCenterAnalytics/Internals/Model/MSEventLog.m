@@ -1,4 +1,5 @@
 #import "AppCenter+Internal.h"
+#import "MSAnalyticsConstants.h"
 #import "MSAnalyticsInternal.h"
 #import "MSBooleanTypedProperty.h"
 #import "MSConstants+Internal.h"
