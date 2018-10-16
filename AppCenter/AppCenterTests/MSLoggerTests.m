@@ -52,6 +52,8 @@
 
   // If
   MSLogMessageProvider messageProvider = ^() {
+
+    // Then
     XCTFail(@"Log shouldn't be printed.");
     return @"";
   };
