@@ -18,18 +18,14 @@ static NSString *const kMSId = @"id";
 
 static NSString *const kMSTypedProperties = @"typedProperties";
 
-static const int kMSLongMetadataTypeId = 4;
-
-static const int kMSDoubleMetadataTypeId = 6;
-
-static const int kMSDateTimeMetadataTypeId = 9;
-
 @implementation MSEventLog
 
 - (instancetype)init {
   if ((self = [super init])) {
     self.type = kMSTypeEvent;
-    _metadataTypeIdMapping = @{@"long" : @1 };
+
+    //TODO use constants here
+    _metadataTypeIdMapping = @{@"long" : @(kMSLongMetadataTypeId), @"string": @(kMSDoubleMetadataTypeId), @"dateTime":@(kMSDateTimeMetadataTypeId) };
   }
   return self;
 }

@@ -15,11 +15,6 @@
 #import "MSTestFrameworks.h"
 #import "MSUtility+Date.h"
 
-extern static const int kMSLongMetadataTypeId;
-
-extern static const int kMSDoubleMetadataTypeId;
-
-extern static const int kMSDateTimeMetadataTypeId;
 
 @interface MSEventLogTests : XCTestCase
 
@@ -316,13 +311,86 @@ extern static const int kMSDateTimeMetadataTypeId;
   [acProperties setString:@"3" forKey:@"nes.t.ed2"];
   [acProperties setString:@"value2" forKey:@"key2"];
   self.sut.typedProperties = acProperties;
-  NSDictionary *expectedResult = @{ @"key" : @"value", @"nes" : @{@"a" : @"1", @"t" : @{@"ed" : @"2", @"ed2" : @"3"}}, @"key2" : @"value2" };
+  NSDictionary *expectedResult = @{@"key": @"value", @"nes": @{@"a": @"1", @"t": @{@"ed": @"2", @"ed2": @"3"}}, @"key2": @"value2"};
 
   // When
   [self.sut setPropertiesAndMetadataForCSLog:csLog];
 
   // Then
   XCTAssertEqualObjects(csLog.data.properties, expectedResult);
+}
+
+- (void)testPropertiesAreNotNestedWhenAtTheSameDepth {
+
+  // If
+  MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
+  csLog.data = [MSCSData new];
+  csLog.ext.metadataExt = [MSMetadataExtension new];
+  MSEventProperties *acProperties = [MSEventProperties new];
+  [acProperties setInt64:1 forKey:@"a.b"];
+  [acProperties setDouble:2.2 forKey:@"b.c"];
+  self.sut.typedProperties = acProperties;
+  NSDictionary *expectedProperties = @{@"a": @{@"b": @1}, @"b": @{@"c": @2.2} };
+  NSDictionary *expectedMetadata =
+      @{
+          @"f":
+          @{
+              @"a":
+              @{
+                  @"f":
+                  @{
+                      @"b": @1
+                  }
+              },
+              @"b":
+              @{
+                  @"f":
+                  @{
+                      @"c": @2.2
+                  }
+              }
+          }
+      };
+
+  // When
+  [self.sut setPropertiesAndMetadataForCSLog:csLog];
+
+  // Then
+  XCTAssertEqualObjects(csLog.data.properties, expectedProperties);
+  XCTAssertEqualObjects(csLog.ext.metadataExt.metadata, expectedMetadata);
+}
+
+- (void)testMetadataDoesNotCreateLevelsForPropertyWhenPropertyIsString {
+
+  // If
+  MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
+  csLog.data = [MSCSData new];
+  csLog.ext.metadataExt = [MSMetadataExtension new];
+  MSEventProperties *acProperties = [MSEventProperties new];
+  [acProperties setInt64:1 forKey:@"a.b"];
+  [acProperties setString:@"2.2" forKey:@"b.c"];
+  self.sut.typedProperties = acProperties;
+  NSDictionary *expectedProperties = @{@"a": @{@"b": @1}, @"b": @{@"c": @"2.2"} };
+  NSDictionary *expectedMetadata =
+      @{
+          @"f":
+          @{
+              @"a":
+              @{
+                  @"f":
+                  @{
+                      @"b": @1
+                  }
+              },
+          }
+      };
+
+  // When
+  [self.sut setPropertiesAndMetadataForCSLog:csLog];
+
+  // Then
+  XCTAssertEqualObjects(csLog.data.properties, expectedProperties);
+  XCTAssertEqualObjects(csLog.ext.metadataExt.metadata, expectedMetadata);
 }
 
 - (void)testOverrideValueToObjectProperties {
