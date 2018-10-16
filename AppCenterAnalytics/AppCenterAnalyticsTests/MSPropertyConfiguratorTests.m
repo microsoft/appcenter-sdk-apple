@@ -1,17 +1,16 @@
 #import "MSAnalyticsTransmissionTargetInternal.h"
+#import "MSBooleanTypedProperty.h"
+#import "MSCSExtensions.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSCommonSchemaLog.h"
-#import "MSCSExtensions.h"
-#import "MSDeviceExtension.h"
-#import "MSPropertyConfiguratorInternal.h"
-#import "MSPropertyConfiguratorPrivate.h"
-#import "MSTestFrameworks.h"
-#import "MSStringTypedProperty.h"
 #import "MSDateTimeTypedProperty.h"
+#import "MSDeviceExtension.h"
 #import "MSDoubleTypedProperty.h"
 #import "MSLongTypedProperty.h"
-#import "MSBooleanTypedProperty.h"
-
+#import "MSPropertyConfiguratorInternal.h"
+#import "MSPropertyConfiguratorPrivate.h"
+#import "MSStringTypedProperty.h"
+#import "MSTestFrameworks.h"
 
 @interface MSPropertyConfiguratorTests : XCTestCase
 
@@ -91,10 +90,10 @@
 }
 
 - (void)testRemoveNonExistingEventProperty {
-  
+
   // When
   [self.sut removeEventPropertyForKey:@"APropKey"];
-  
+
   // Then
   XCTAssertTrue([self.sut.eventProperties isEmpty]);
 }
@@ -104,10 +103,10 @@
 #pragma clang diagnostic ignored "-Wnonnull"
   // When
   [self.sut removeEventPropertyForKey:nil];
-  
+
   // Then
   XCTAssertTrue([self.sut.eventProperties isEmpty]);
-  
+
   // When
   [self.sut setEventPropertyString:@"val1" forKey:nil];
   [self.sut setEventPropertyDouble:234 forKey:nil];
@@ -115,34 +114,34 @@
   [self.sut setEventPropertyBool:YES forKey:nil];
   [self.sut setEventPropertyDate:[NSDate new] forKey:nil];
 #pragma clang diagnostic pop
-  
+
   // Then
   XCTAssertTrue([self.sut.eventProperties isEmpty]);
 }
 
 - (void)testSetEventPropertiesWithInvalidValues {
-  
+
   // If
   NSString *propStringKey = @"propString";
   NSString *propDateKey = @"propDate";
   NSString *propNanKey = @"propNan";
   NSString *propInfinityKey = @"propInfinity";
-  
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wnonnull"
   // When
   [self.sut removeEventPropertyForKey:nil];
-  
+
   // Then
   XCTAssertTrue([self.sut.eventProperties isEmpty]);
-  
+
   // When
   [self.sut setEventPropertyString:nil forKey:propStringKey];
   [self.sut setEventPropertyDate:nil forKey:propDateKey];
 #pragma clang diagnostic pop
   [self.sut setEventPropertyDouble:INFINITY forKey:propInfinityKey];
   [self.sut setEventPropertyDouble:NAN forKey:propNanKey];
-  
+
   // Then
   XCTAssertTrue([self.sut.eventProperties isEmpty]);
 }

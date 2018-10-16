@@ -6,8 +6,8 @@
 #import "MSAppCenterInternal.h"
 #import "MSAppExtension.h"
 #import "MSBooleanTypedProperty.h"
-#import "MSChannelUnitDefault.h"
 #import "MSCSExtensions.h"
+#import "MSChannelUnitDefault.h"
 #import "MSDateTimeTypedProperty.h"
 #import "MSDoubleTypedProperty.h"
 #import "MSEventLog.h"
@@ -416,7 +416,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   MSAnalyticsTransmissionTarget *target = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
                                                                                                     parentTarget:nil
                                                                                                     channelGroup:self.channelGroupMock];
-  
+
   // Common properties.
   NSString *eventName = @"event";
   NSString *propCommonKey = @"propCommonKey";
@@ -428,7 +428,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   [target.propertyConfigurator setEventPropertyString:propCommonValue forKey:propCommonKey];
   [target.propertyConfigurator setEventPropertyDouble:propCommonDoubleValue forKey:propCommonDoubleKey];
   [target.propertyConfigurator setEventPropertyDate:propCommonValue2 forKey:propCommonKey2];
-  
+
   // Track event properties.
   NSString *propTrackKey = @"propTrackKey";
   NSString *propTrackValue = @"propTrackValue";
@@ -450,12 +450,12 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 }
 
 - (void)testMergingEventPropertiesWithCommonAndTrackEventTypedProperties {
-  
+
   // If
   MSAnalyticsTransmissionTarget *target = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
                                                                                                     parentTarget:nil
                                                                                                     channelGroup:self.channelGroupMock];
-  
+
   // Common properties.
   NSString *eventName = @"event";
   NSString *propCommonKey = @"propCommonKey";
@@ -467,7 +467,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   [target.propertyConfigurator setEventPropertyString:propCommonValue forKey:propCommonKey];
   [target.propertyConfigurator setEventPropertyDouble:propCommonDoubleValue forKey:propCommonDoubleKey];
   [target.propertyConfigurator setEventPropertyDate:propCommonValue2 forKey:propCommonKey2];
-  
+
   // Track event properties.
   NSString *propTrackKey = @"propTrackKey";
   NSString *propTrackValue = @"propTrackValue";
@@ -482,13 +482,13 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   MSEventProperties *trackEventProperties = [MSEventProperties new];
   [trackEventProperties setString:propTrackValue forKey:propTrackKey];
   [trackEventProperties setBool:propTrackValue2 forKey:propTrackKey2];
-  
+
   // When
   [target trackEvent:eventName withTypedProperties:trackEventProperties];
-  
+
   // Then
   OCMVerify(
-            ClassMethod([self.analyticsClassMock trackEvent:eventName withTypedProperties:expectedProperties forTransmissionTarget:target]));
+      ClassMethod([self.analyticsClassMock trackEvent:eventName withTypedProperties:expectedProperties forTransmissionTarget:target]));
 }
 
 - (void)testEventPropertiesCascading {
@@ -560,7 +560,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 }
 
 - (void)testEventPropertiesCascadingWithTypes {
-  
+
   // If
   [MSAnalytics resetSharedInstance];
   id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
@@ -570,40 +570,40 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
                                             appSecret:@"appsecret"
                               transmissionTargetToken:@"token"
                                       fromApplication:YES];
-  
+
   // Prepare target instances.
   MSAnalyticsTransmissionTarget *grandParent = [MSAnalytics transmissionTargetForToken:@"grand-parent"];
   MSAnalyticsTransmissionTarget *parent = [grandParent transmissionTargetForToken:@"parent"];
   MSAnalyticsTransmissionTarget *child = [parent transmissionTargetForToken:@"child"];
-  
+
   // Set properties to grand parent.
   [grandParent.propertyConfigurator setEventPropertyString:@"1" forKey:@"a"];
   [grandParent.propertyConfigurator setEventPropertyDouble:2.0 forKey:@"b"];
   [grandParent.propertyConfigurator setEventPropertyString:@"3" forKey:@"c"];
-  
+
   // Override some properties.
   [parent.propertyConfigurator setEventPropertyInt64:11 forKey:@"a"];
   [parent.propertyConfigurator setEventPropertyString:@"22" forKey:@"b"];
-  
+
   // Set a new property in parent.
   [parent.propertyConfigurator setEventPropertyInt64:44 forKey:@"d"];
-  
+
   // Just to show we still get value from parent which is inherited from grand parent, if we remove an override.
   [parent.propertyConfigurator setEventPropertyString:@"33" forKey:@"c"];
   [parent.propertyConfigurator removeEventPropertyForKey:@"c"];
-  
+
   // Override a property.
   [child.propertyConfigurator setEventPropertyBool:YES forKey:@"d"];
-  
+
   // Set new properties in child.
   [child.propertyConfigurator setEventPropertyDouble:55.5 forKey:@"e"];
   [child.propertyConfigurator setEventPropertyString:@"666" forKey:@"f"];
-  
+
   // Track event in child. Override some properties in trackEvent.
   MSEventProperties *properties = [MSEventProperties new];
-  [properties setDate: [NSDate dateWithTimeIntervalSince1970:6666] forKey:@"f"];
+  [properties setDate:[NSDate dateWithTimeIntervalSince1970:6666] forKey:@"f"];
   [properties setString:@"7777" forKey:@"g"];
-  
+
   // Mock channel group.
   __block MSEventLog *eventLog;
   OCMStub([channelUnitMock enqueueItem:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
@@ -611,10 +611,10 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
     [invocation getArgument:&log atIndex:2];
     eventLog = (MSEventLog *)log;
   });
-  
+
   // When
   [child trackEvent:@"eventName" withTypedProperties:properties];
-  
+
   // Then
   XCTAssertNotNil(eventLog);
   XCTAssertEqual([eventLog.typedProperties.properties count], 7);
@@ -623,7 +623,8 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   XCTAssertEqualObjects(((MSStringTypedProperty *)eventLog.typedProperties.properties[@"c"]).value, @"3");
   XCTAssertEqual(((MSBooleanTypedProperty *)eventLog.typedProperties.properties[@"d"]).value, YES);
   XCTAssertEqual(((MSDoubleTypedProperty *)eventLog.typedProperties.properties[@"e"]).value, 55.5);
-  XCTAssertEqualObjects(((MSDateTimeTypedProperty *)eventLog.typedProperties.properties[@"f"]).value, [NSDate dateWithTimeIntervalSince1970:6666]);
+  XCTAssertEqualObjects(((MSDateTimeTypedProperty *)eventLog.typedProperties.properties[@"f"]).value,
+                        [NSDate dateWithTimeIntervalSince1970:6666]);
   XCTAssertEqualObjects(((MSStringTypedProperty *)eventLog.typedProperties.properties[@"g"]).value, @"7777");
 }
 
