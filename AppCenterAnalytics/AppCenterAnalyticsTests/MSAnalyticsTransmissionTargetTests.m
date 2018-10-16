@@ -5,12 +5,14 @@
 #import "MSAnalyticsTransmissionTargetPrivate.h"
 #import "MSAppCenterInternal.h"
 #import "MSAppExtension.h"
+#import "MSBooleanTypedProperty.h"
 #import "MSChannelUnitDefault.h"
 #import "MSCSExtensions.h"
 #import "MSDateTimeTypedProperty.h"
 #import "MSDoubleTypedProperty.h"
 #import "MSEventLog.h"
 #import "MSEventPropertiesInternal.h"
+#import "MSLongTypedProperty.h"
 #import "MSMockUserDefaults.h"
 #import "MSPropertyConfiguratorInternal.h"
 #import "MSPropertyConfiguratorPrivate.h"
@@ -518,8 +520,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   // Set a new property in parent.
   [parent.propertyConfigurator setEventPropertyString:@"44" forKey:@"d"];
 
-  // Just to show we still get value from parent which is inherited from grand
-  // parent, if we remove an override. */
+  // Just to show we still get value from parent which is inherited from grand parent, if we remove an override.
   [parent.propertyConfigurator setEventPropertyString:@"33" forKey:@"c"];
   [parent.propertyConfigurator removeEventPropertyForKey:@"c"];
 
@@ -555,6 +556,74 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   XCTAssertEqualObjects(((MSStringTypedProperty *)eventLog.typedProperties.properties[@"d"]).value, @"444");
   XCTAssertEqualObjects(((MSStringTypedProperty *)eventLog.typedProperties.properties[@"e"]).value, @"555");
   XCTAssertEqualObjects(((MSStringTypedProperty *)eventLog.typedProperties.properties[@"f"]).value, @"6666");
+  XCTAssertEqualObjects(((MSStringTypedProperty *)eventLog.typedProperties.properties[@"g"]).value, @"7777");
+}
+
+- (void)testEventPropertiesCascadingWithTypes {
+  
+  // If
+  [MSAnalytics resetSharedInstance];
+  id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub([self.channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  [MSAppCenter sharedInstance].sdkConfigured = YES;
+  [[MSAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
+                                            appSecret:@"appsecret"
+                              transmissionTargetToken:@"token"
+                                      fromApplication:YES];
+  
+  // Prepare target instances.
+  MSAnalyticsTransmissionTarget *grandParent = [MSAnalytics transmissionTargetForToken:@"grand-parent"];
+  MSAnalyticsTransmissionTarget *parent = [grandParent transmissionTargetForToken:@"parent"];
+  MSAnalyticsTransmissionTarget *child = [parent transmissionTargetForToken:@"child"];
+  
+  // Set properties to grand parent.
+  [grandParent.propertyConfigurator setEventPropertyString:@"1" forKey:@"a"];
+  [grandParent.propertyConfigurator setEventPropertyDouble:2.0 forKey:@"b"];
+  [grandParent.propertyConfigurator setEventPropertyString:@"3" forKey:@"c"];
+  
+  // Override some properties.
+  [parent.propertyConfigurator setEventPropertyInt64:11 forKey:@"a"];
+  [parent.propertyConfigurator setEventPropertyString:@"22" forKey:@"b"];
+  
+  // Set a new property in parent.
+  [parent.propertyConfigurator setEventPropertyInt64:44 forKey:@"d"];
+  
+  // Just to show we still get value from parent which is inherited from grand parent, if we remove an override.
+  [parent.propertyConfigurator setEventPropertyString:@"33" forKey:@"c"];
+  [parent.propertyConfigurator removeEventPropertyForKey:@"c"];
+  
+  // Override a property.
+  [child.propertyConfigurator setEventPropertyBool:YES forKey:@"d"];
+  
+  // Set new properties in child.
+  [child.propertyConfigurator setEventPropertyDouble:55.5 forKey:@"e"];
+  [child.propertyConfigurator setEventPropertyString:@"666" forKey:@"f"];
+  
+  // Track event in child. Override some properties in trackEvent.
+  MSEventProperties *properties = [MSEventProperties new];
+  [properties setDate: [NSDate dateWithTimeIntervalSince1970:6666] forKey:@"f"];
+  [properties setString:@"7777" forKey:@"g"];
+  
+  // Mock channel group.
+  __block MSEventLog *eventLog;
+  OCMStub([channelUnitMock enqueueItem:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    id<MSLog> log = nil;
+    [invocation getArgument:&log atIndex:2];
+    eventLog = (MSEventLog *)log;
+  });
+  
+  // When
+  [child trackEvent:@"eventName" withTypedProperties:properties];
+  
+  // Then
+  XCTAssertNotNil(eventLog);
+  XCTAssertEqual([eventLog.typedProperties.properties count], 7);
+  XCTAssertEqual(((MSLongTypedProperty *)eventLog.typedProperties.properties[@"a"]).value, 11);
+  XCTAssertEqualObjects(((MSStringTypedProperty *)eventLog.typedProperties.properties[@"b"]).value, @"22");
+  XCTAssertEqualObjects(((MSStringTypedProperty *)eventLog.typedProperties.properties[@"c"]).value, @"3");
+  XCTAssertEqual(((MSBooleanTypedProperty *)eventLog.typedProperties.properties[@"d"]).value, YES);
+  XCTAssertEqual(((MSDoubleTypedProperty *)eventLog.typedProperties.properties[@"e"]).value, 55.5);
+  XCTAssertEqualObjects(((MSDateTimeTypedProperty *)eventLog.typedProperties.properties[@"f"]).value, [NSDate dateWithTimeIntervalSince1970:6666]);
   XCTAssertEqualObjects(((MSStringTypedProperty *)eventLog.typedProperties.properties[@"g"]).value, @"7777");
 }
 
