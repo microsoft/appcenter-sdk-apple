@@ -9,7 +9,7 @@ The App Center team -->
 
 Things to consider before you submit the PR:
 
-* [x] Has `CHANGELOG.md` been updated?
+* [] Has `CHANGELOG.md` been updated?
 * [] Are tests passing locally?
 * [] Are the files formatted correctly?
 * [] Did you add unit tests?
