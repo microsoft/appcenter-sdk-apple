@@ -25,14 +25,11 @@ static NSString *const kMSTypedProperties = @"typedProperties";
 - (instancetype)init {
   if ((self = [super init])) {
     self.type = kMSTypeEvent;
-    _metadataTypeIdMapping =
-        @{
-            kMSLongTypedPropertyType: @(kMSLongMetadataTypeId),
-            kMSDoubleTypedPropertyType: @(kMSDoubleMetadataTypeId),
-            kMSDateTimeTypedPropertyType: @(kMSDateTimeMetadataTypeId)
-        };
-
-
+    _metadataTypeIdMapping = @{
+      kMSLongTypedPropertyType : @(kMSLongMetadataTypeId),
+      kMSDoubleTypedPropertyType : @(kMSDoubleMetadataTypeId),
+      kMSDateTimeTypedPropertyType : @(kMSDateTimeMetadataTypeId)
+    };
   }
   return self;
 }
