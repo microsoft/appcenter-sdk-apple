@@ -6,8 +6,9 @@
 #pragma mark - MSSerializableObject
 
 - (NSMutableDictionary *)serializeToDictionary {
-  NSMutableDictionary *dict = [NSMutableDictionary new];
+  NSMutableDictionary *dict;
   if (self.locale) {
+    dict = [NSMutableDictionary new];
     dict[kMSUserLocale] = self.locale;
   }
   return dict;
