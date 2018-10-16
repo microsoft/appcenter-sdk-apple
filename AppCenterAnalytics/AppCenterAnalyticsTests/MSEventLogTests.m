@@ -479,10 +479,12 @@
   [eventProperties setString:@"hello" forKey:@"aStringValue"];
   [eventProperties setInt64:1234567890l forKey:@"aLongValue"];
   [eventProperties setDouble:3.14 forKey:@"aDoubleValue"];
-  [eventProperties setDate:[NSDate dateWithTimeIntervalSince1970:10000] forKey:@"aDateTimeValue"];
+  NSDate *date = [NSDate dateWithTimeIntervalSince1970:10000];
+  NSString *dateString = [MSUtility dateToISO8601:date];
+  [eventProperties setDate:date forKey:@"aDateTimeValue"];
   [eventProperties setBool:YES forKey:@"aBooleanValue"];
   NSDictionary *expectedProperties = @{ @"aStringValue" : @"hello", @"aLongValue" : @1234567890, @"aDoubleValue" : @3.14, @"aDateTimeValue" :
-      @"2018-10-15T22:16:22Z", @"aBooleanValue" : @YES};
+      dateString, @"aBooleanValue" : @YES};
   NSDictionary *expectedMetadata = @{ @"f": @{@"aLongValue" : @4, @"aDoubleValue" : @6, @"aDateTimeValue" : @9}};
   NSDate *timestamp = [NSDate date];
   MSDevice *device = [MSDevice new];
@@ -533,7 +535,6 @@
   XCTAssertEqualObjects(csLog.ext.locExt.tz, @"-07:00");
   XCTAssertEqualObjects(csLog.data.properties, expectedProperties);
   XCTAssertEqualObjects(csLog.ext.metadataExt.metadata, expectedMetadata);
-  XCTAssertNil(csLog.data.properties);
 }
 
 @end
