@@ -6,6 +6,7 @@
 #import "MSPropertyConfiguratorInternal.h"
 #import "MSPropertyConfiguratorPrivate.h"
 #import "MSTestFrameworks.h"
+#import "MSStringTypedProperty.h"
 
 @interface MSPropertyConfiguratorTests : XCTestCase
 
@@ -20,37 +21,36 @@
 
 - (void)setUp {
   [super setUp];
-  self.sut = [MSPropertyConfigurator new];
-
   // Mock the init so that self.sut can be injected into the target.
-  self.configuratorClassMock = OCMClassMock([MSPropertyConfigurator class]);
-  OCMStub([self.configuratorClassMock alloc]).andReturn(self.configuratorClassMock);
+//TODO why do we need this self.configuratorClassMock?  self.configuratorClassMock = OCMClassMock([MSPropertyConfigurator class]);
+//  OCMStub([self.configuratorClassMock alloc]).andReturn(self.configuratorClassMock);
   id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
 
   /*
    * Need to stub this twice with OCMOCK_ANY, because passing self.parentTarget won't work until the targets have been initialized, but the
    * stub must be invoked inside the "init" method.
    */
-  OCMStub([self.configuratorClassMock initWithTransmissionTarget:OCMOCK_ANY]).andReturn([MSPropertyConfigurator new]);
+  //OCMStub([self.configuratorClassMock initWithTransmissionTarget:OCMOCK_ANY]).andReturn([MSPropertyConfigurator new]);
   self.parentTarget = OCMPartialMock(
       [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:@"456" parentTarget:nil channelGroup:channelGroupMock]);
 
   // Need to reset the class mock.
-  [self.configuratorClassMock stopMocking];
-  self.configuratorClassMock = OCMClassMock([MSPropertyConfigurator class]);
-  OCMStub([self.configuratorClassMock alloc]).andReturn(self.configuratorClassMock);
-  OCMStub([self.configuratorClassMock initWithTransmissionTarget:OCMOCK_ANY]).andReturn(self.sut);
+//  [self.configuratorClassMock stopMocking];
+//  self.configuratorClassMock = OCMClassMock([MSPropertyConfigurator class]);
+//  OCMStub([self.configuratorClassMock alloc]).andReturn(self.configuratorClassMock);
+//  OCMStub([self.configuratorClassMock initWithTransmissionTarget:OCMOCK_ANY]).andReturn(self.sut);
   self.transmissionTarget = OCMPartialMock([[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:@"123"
                                                                                                      parentTarget:self.parentTarget
                                                                                                      channelGroup:channelGroupMock]);
   OCMStub([self.transmissionTarget isEnabled]).andReturn(YES);
-  self.sut.transmissionTarget = self.transmissionTarget;
+  //self.sut.transmissionTarget = self.transmissionTarget;
+  self.sut = [[MSPropertyConfigurator alloc] initWithTransmissionTarget:self.transmissionTarget];
 }
 
 - (void)tearDown {
   [super tearDown];
   self.sut = nil;
-  [self.configuratorClassMock stopMocking];
+  //[self.configuratorClassMock stopMocking];
 }
 
 - (void)testInitializationWorks {
@@ -101,6 +101,66 @@
 
   // Then
   XCTAssertNil(self.sut.deviceId);
+}
+
+- (void)testSetAndRemoveEventProperty {
+
+  // If
+  NSString *prop1Key = @"prop1";
+  NSString *prop1Value = @"val1";
+
+  // When
+  [self.sut removeEventPropertyForKey:prop1Key];
+
+  // Then
+  XCTAssertTrue([self.sut.eventProperties isEmpty]);
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
+  // When
+  [self.sut removeEventPropertyForKey:nil];
+
+  // Then
+  XCTAssertTrue([self.sut.eventProperties isEmpty]);
+
+  // When
+  [self.sut setEventPropertyString:nil forKey:prop1Key];
+
+  // Then
+  XCTAssertTrue([self.sut.eventProperties isEmpty]);
+
+  // When
+  [self.sut setEventPropertyString:prop1Value forKey:nil];
+
+  // Then
+  XCTAssertTrue([self.sut.eventProperties isEmpty]);
+#pragma clang diagnostic pop
+
+  // When
+  [self.sut setEventPropertyString:prop1Value forKey:prop1Key];
+
+  // Then
+  XCTAssertEqual([self.sut.eventProperties.properties count], 1);
+  XCTAssertEqual(((MSStringTypedProperty *)(self.sut.eventProperties.properties[prop1Key])).value, prop1Value);
+
+  // If
+  NSString *prop2Key = @"prop2";
+  NSString *prop2Value = @"val2";
+
+  // When
+  [self.sut setEventPropertyString:prop2Value forKey:prop2Key];
+
+  // Then
+  XCTAssertEqual([self.sut.eventProperties.properties count], 2);
+  XCTAssertEqual(((MSStringTypedProperty *)(self.sut.eventProperties.properties[prop1Key])).value, prop1Value);
+  XCTAssertEqual(((MSStringTypedProperty *)(self.sut.eventProperties.properties[prop2Key])).value, prop2Value);
+
+  // When
+  [self.sut removeEventPropertyForKey:prop1Key];
+
+  // Then
+  XCTAssertEqual([self.sut.eventProperties.properties count], 1);
+  XCTAssertEqual(((MSStringTypedProperty *)(self.sut.eventProperties.properties[prop2Key])).value, prop2Value);
 }
 
 @end
