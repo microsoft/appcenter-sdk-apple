@@ -13,7 +13,6 @@
 @property(nonatomic) MSPropertyConfigurator *sut;
 @property(nonatomic) MSAnalyticsTransmissionTarget *transmissionTarget;
 @property(nonatomic) MSAnalyticsTransmissionTarget *parentTarget;
-@property(nonatomic) id configuratorClassMock;
 
 @end
 
@@ -21,36 +20,19 @@
 
 - (void)setUp {
   [super setUp];
-  // Mock the init so that self.sut can be injected into the target.
-//TODO why do we need this self.configuratorClassMock?  self.configuratorClassMock = OCMClassMock([MSPropertyConfigurator class]);
-//  OCMStub([self.configuratorClassMock alloc]).andReturn(self.configuratorClassMock);
   id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
-
-  /*
-   * Need to stub this twice with OCMOCK_ANY, because passing self.parentTarget won't work until the targets have been initialized, but the
-   * stub must be invoked inside the "init" method.
-   */
-  //OCMStub([self.configuratorClassMock initWithTransmissionTarget:OCMOCK_ANY]).andReturn([MSPropertyConfigurator new]);
   self.parentTarget = OCMPartialMock(
       [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:@"456" parentTarget:nil channelGroup:channelGroupMock]);
-
-  // Need to reset the class mock.
-//  [self.configuratorClassMock stopMocking];
-//  self.configuratorClassMock = OCMClassMock([MSPropertyConfigurator class]);
-//  OCMStub([self.configuratorClassMock alloc]).andReturn(self.configuratorClassMock);
-//  OCMStub([self.configuratorClassMock initWithTransmissionTarget:OCMOCK_ANY]).andReturn(self.sut);
   self.transmissionTarget = OCMPartialMock([[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:@"123"
                                                                                                      parentTarget:self.parentTarget
                                                                                                      channelGroup:channelGroupMock]);
   OCMStub([self.transmissionTarget isEnabled]).andReturn(YES);
-  //self.sut.transmissionTarget = self.transmissionTarget;
   self.sut = [[MSPropertyConfigurator alloc] initWithTransmissionTarget:self.transmissionTarget];
 }
 
 - (void)tearDown {
   [super tearDown];
   self.sut = nil;
-  //[self.configuratorClassMock stopMocking];
 }
 
 - (void)testInitializationWorks {
