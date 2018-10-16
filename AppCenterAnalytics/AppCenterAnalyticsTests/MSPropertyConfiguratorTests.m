@@ -7,6 +7,11 @@
 #import "MSPropertyConfiguratorPrivate.h"
 #import "MSTestFrameworks.h"
 #import "MSStringTypedProperty.h"
+#import "MSDateTimeTypedProperty.h"
+#import "MSDoubleTypedProperty.h"
+#import "MSLongTypedProperty.h"
+#import "MSBooleanTypedProperty.h"
+
 
 @interface MSPropertyConfiguratorTests : XCTestCase
 
@@ -85,64 +90,102 @@
   XCTAssertNil(self.sut.deviceId);
 }
 
-- (void)testSetAndRemoveEventProperty {
-
-  // If
-  NSString *prop1Key = @"prop1";
-  NSString *prop1Value = @"val1";
-
+- (void)testRemoveNonExistingEventProperty {
+  
   // When
-  [self.sut removeEventPropertyForKey:prop1Key];
-
+  [self.sut removeEventPropertyForKey:@"APropKey"];
+  
   // Then
   XCTAssertTrue([self.sut.eventProperties isEmpty]);
+}
 
+- (void)testSetAndRemoveEventPropertiesWithNilKeys {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wnonnull"
   // When
   [self.sut removeEventPropertyForKey:nil];
-
+  
   // Then
   XCTAssertTrue([self.sut.eventProperties isEmpty]);
-
+  
   // When
-  [self.sut setEventPropertyString:nil forKey:prop1Key];
-
-  // Then
-  XCTAssertTrue([self.sut.eventProperties isEmpty]);
-
-  // When
-  [self.sut setEventPropertyString:prop1Value forKey:nil];
-
-  // Then
-  XCTAssertTrue([self.sut.eventProperties isEmpty]);
+  [self.sut setEventPropertyString:@"val1" forKey:nil];
+  [self.sut setEventPropertyDouble:234 forKey:nil];
+  [self.sut setEventPropertyInt64:23 forKey:nil];
+  [self.sut setEventPropertyBool:YES forKey:nil];
+  [self.sut setEventPropertyDate:[NSDate new] forKey:nil];
 #pragma clang diagnostic pop
-
-  // When
-  [self.sut setEventPropertyString:prop1Value forKey:prop1Key];
-
+  
   // Then
-  XCTAssertEqual([self.sut.eventProperties.properties count], 1);
-  XCTAssertEqual(((MSStringTypedProperty *)(self.sut.eventProperties.properties[prop1Key])).value, prop1Value);
+  XCTAssertTrue([self.sut.eventProperties isEmpty]);
+}
+
+- (void)testSetEventPropertiesWithInvalidValues {
+  
+  // If
+  NSString *propStringKey = @"propString";
+  NSString *propDateKey = @"propDate";
+  NSString *propNanKey = @"propNan";
+  NSString *propInfinityKey = @"propInfinity";
+  
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
+  // When
+  [self.sut removeEventPropertyForKey:nil];
+  
+  // Then
+  XCTAssertTrue([self.sut.eventProperties isEmpty]);
+  
+  // When
+  [self.sut setEventPropertyString:nil forKey:propStringKey];
+  [self.sut setEventPropertyDate:nil forKey:propDateKey];
+#pragma clang diagnostic pop
+  [self.sut setEventPropertyDouble:INFINITY forKey:propInfinityKey];
+  [self.sut setEventPropertyDouble:NAN forKey:propNanKey];
+  
+  // Then
+  XCTAssertTrue([self.sut.eventProperties isEmpty]);
+}
+
+- (void)testSetAndRemoveEventProperty {
 
   // If
-  NSString *prop2Key = @"prop2";
-  NSString *prop2Value = @"val2";
+  NSString *propStringKey = @"propString";
+  NSString *propStringValue = @"val1";
+  NSString *propDateKey = @"propDate";
+  NSDate *propDateValue = [NSDate date];
+  NSString *propDoubleKey = @"propDouble";
+  double propDoubleValue = 927398.82939;
+  NSString *propInt64Key = @"propInt64";
+  int64_t propInt64Value = 5000000000;
+  NSString *propBoolKey = @"propBool";
+  BOOL propBoolValue = YES;
 
   // When
-  [self.sut setEventPropertyString:prop2Value forKey:prop2Key];
+  // Set properties of all types.
+  [self.sut setEventPropertyString:propStringValue forKey:propStringKey];
+  [self.sut setEventPropertyDate:propDateValue forKey:propDateKey];
+  [self.sut setEventPropertyDouble:propDoubleValue forKey:propDoubleKey];
+  [self.sut setEventPropertyInt64:propInt64Value forKey:propInt64Key];
+  [self.sut setEventPropertyBool:propBoolValue forKey:propBoolKey];
 
   // Then
-  XCTAssertEqual([self.sut.eventProperties.properties count], 2);
-  XCTAssertEqual(((MSStringTypedProperty *)(self.sut.eventProperties.properties[prop1Key])).value, prop1Value);
-  XCTAssertEqual(((MSStringTypedProperty *)(self.sut.eventProperties.properties[prop2Key])).value, prop2Value);
+  XCTAssertEqual([self.sut.eventProperties.properties count], 5);
+  XCTAssertEqualObjects(((MSStringTypedProperty *)(self.sut.eventProperties.properties[propStringKey])).value, propStringValue);
+  XCTAssertEqualObjects(((MSDateTimeTypedProperty *)(self.sut.eventProperties.properties[propDateKey])).value, propDateValue);
+  XCTAssertEqual(((MSDoubleTypedProperty *)(self.sut.eventProperties.properties[propDoubleKey])).value, propDoubleValue);
+  XCTAssertEqual(((MSLongTypedProperty *)(self.sut.eventProperties.properties[propInt64Key])).value, propInt64Value);
+  XCTAssertEqual(((MSBooleanTypedProperty *)(self.sut.eventProperties.properties[propBoolKey])).value, propBoolValue);
 
   // When
-  [self.sut removeEventPropertyForKey:prop1Key];
+  [self.sut removeEventPropertyForKey:propStringKey];
 
   // Then
-  XCTAssertEqual([self.sut.eventProperties.properties count], 1);
-  XCTAssertEqual(((MSStringTypedProperty *)(self.sut.eventProperties.properties[prop2Key])).value, prop2Value);
+  XCTAssertEqual([self.sut.eventProperties.properties count], 4);
+  XCTAssertEqualObjects(((MSDateTimeTypedProperty *)(self.sut.eventProperties.properties[propDateKey])).value, propDateValue);
+  XCTAssertEqual(((MSDoubleTypedProperty *)(self.sut.eventProperties.properties[propDoubleKey])).value, propDoubleValue);
+  XCTAssertEqual(((MSLongTypedProperty *)(self.sut.eventProperties.properties[propInt64Key])).value, propInt64Value);
+  XCTAssertEqual(((MSBooleanTypedProperty *)(self.sut.eventProperties.properties[propBoolKey])).value, propBoolValue);
 }
 
 @end

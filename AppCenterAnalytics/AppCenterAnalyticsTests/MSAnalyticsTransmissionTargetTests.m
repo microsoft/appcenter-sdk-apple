@@ -7,6 +7,8 @@
 #import "MSAppExtension.h"
 #import "MSChannelUnitDefault.h"
 #import "MSCSExtensions.h"
+#import "MSDateTimeTypedProperty.h"
+#import "MSDoubleTypedProperty.h"
 #import "MSEventLog.h"
 #import "MSEventPropertiesInternal.h"
 #import "MSMockUserDefaults.h"
@@ -374,7 +376,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   }
 }
 
-- (void)testMergingEventProperties {
+- (void)testMergingEventPropertiesWithCommonPropertiesOnly {
 
   // If
 
@@ -385,32 +387,55 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   NSString *eventName = @"event";
   NSString *propCommonKey = @"propCommonKey";
   NSString *propCommonValue = @"propCommonValue";
+  NSString *propCommonDoubleKey = @"propCommonDoubleKey";
+  double propCommonDoubleValue = 298374;
   NSString *propCommonKey2 = @"sharedPropKey";
-  NSString *propCommonValue2 = @"propCommonValue2";
+  NSDate *propCommonValue2 = [NSDate date];
+
   [target.propertyConfigurator setEventPropertyString:propCommonValue forKey:propCommonKey];
-  [target.propertyConfigurator setEventPropertyString:propCommonValue2 forKey:propCommonKey2];
+  [target.propertyConfigurator setEventPropertyDouble:propCommonDoubleValue forKey:propCommonDoubleKey];
+  [target.propertyConfigurator setEventPropertyDate:propCommonValue2 forKey:propCommonKey2];
   MSEventProperties *expectedProperties = [MSEventProperties new];
   [expectedProperties setString:propCommonValue forKey:propCommonKey];
-  [expectedProperties setString:propCommonValue2 forKey:propCommonKey2];
+  [expectedProperties setDate:propCommonValue2 forKey:propCommonKey2];
+  [expectedProperties setDouble:propCommonDoubleValue forKey:propCommonDoubleKey];
 
   // When
   [target trackEvent:eventName];
 
   // Then
-  XCTAssertEqual([target.propertyConfigurator.eventProperties.properties count], 2);
-  XCTAssertEqual(((MSStringTypedProperty *)(target.propertyConfigurator.eventProperties.properties[propCommonKey])).value, propCommonValue);
-  XCTAssertEqual(((MSStringTypedProperty *)(target.propertyConfigurator.eventProperties.properties[propCommonKey2])).value,
-                 propCommonValue2);
   OCMVerify(
       ClassMethod([self.analyticsClassMock trackEvent:eventName withTypedProperties:expectedProperties forTransmissionTarget:target]));
+}
+
+- (void)testMergingEventPropertiesWithCommonAndTrackEventProperties {
 
   // If
-
-  // Both common properties and track event properties.
+  MSAnalyticsTransmissionTarget *target = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
+                                                                                                    parentTarget:nil
+                                                                                                    channelGroup:self.channelGroupMock];
+  
+  // Common properties.
+  NSString *eventName = @"event";
+  NSString *propCommonKey = @"propCommonKey";
+  NSString *propCommonValue = @"propCommonValue";
+  NSString *propCommonDoubleKey = @"propCommonDoubleKey";
+  double propCommonDoubleValue = 298374;
+  NSString *propCommonKey2 = @"sharedPropKey";
+  NSDate *propCommonValue2 = [NSDate date];
+  [target.propertyConfigurator setEventPropertyString:propCommonValue forKey:propCommonKey];
+  [target.propertyConfigurator setEventPropertyDouble:propCommonDoubleValue forKey:propCommonDoubleKey];
+  [target.propertyConfigurator setEventPropertyDate:propCommonValue2 forKey:propCommonKey2];
+  
+  // Track event properties.
   NSString *propTrackKey = @"propTrackKey";
   NSString *propTrackValue = @"propTrackValue";
   NSString *propTrackKey2 = @"sharedPropKey";
   NSString *propTrackValue2 = @"propTrackValue2";
+  MSEventProperties *expectedProperties = [MSEventProperties new];
+  [expectedProperties setString:propCommonValue forKey:propCommonKey];
+  [expectedProperties setDate:propCommonValue2 forKey:propCommonKey2];
+  [expectedProperties setDouble:propCommonDoubleValue forKey:propCommonDoubleKey];
   [expectedProperties setString:propTrackValue forKey:propTrackKey];
   [expectedProperties setString:propTrackValue2 forKey:propTrackKey2];
 
@@ -418,12 +443,50 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   [target trackEvent:eventName withProperties:@{propTrackKey : propTrackValue, propTrackKey2 : propTrackValue2}];
 
   // Then
-  XCTAssertEqual([target.propertyConfigurator.eventProperties.properties count], 2);
-  XCTAssertEqual(((MSStringTypedProperty *)(target.propertyConfigurator.eventProperties.properties[propCommonKey])).value, propCommonValue);
-  XCTAssertEqual(((MSStringTypedProperty *)(target.propertyConfigurator.eventProperties.properties[propCommonKey2])).value,
-                 propCommonValue2);
   OCMVerify(
       ClassMethod([self.analyticsClassMock trackEvent:eventName withTypedProperties:expectedProperties forTransmissionTarget:target]));
+}
+
+- (void)testMergingEventPropertiesWithCommonAndTrackEventTypedProperties {
+  
+  // If
+  MSAnalyticsTransmissionTarget *target = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
+                                                                                                    parentTarget:nil
+                                                                                                    channelGroup:self.channelGroupMock];
+  
+  // Common properties.
+  NSString *eventName = @"event";
+  NSString *propCommonKey = @"propCommonKey";
+  NSString *propCommonValue = @"propCommonValue";
+  NSString *propCommonDoubleKey = @"propCommonDoubleKey";
+  double propCommonDoubleValue = 298374;
+  NSString *propCommonKey2 = @"sharedPropKey";
+  NSDate *propCommonValue2 = [NSDate date];
+  [target.propertyConfigurator setEventPropertyString:propCommonValue forKey:propCommonKey];
+  [target.propertyConfigurator setEventPropertyDouble:propCommonDoubleValue forKey:propCommonDoubleKey];
+  [target.propertyConfigurator setEventPropertyDate:propCommonValue2 forKey:propCommonKey2];
+  
+  // Track event properties.
+  NSString *propTrackKey = @"propTrackKey";
+  NSString *propTrackValue = @"propTrackValue";
+  NSString *propTrackKey2 = @"sharedPropKey";
+  BOOL propTrackValue2 = YES;
+  MSEventProperties *expectedProperties = [MSEventProperties new];
+  [expectedProperties setString:propCommonValue forKey:propCommonKey];
+  [expectedProperties setDate:propCommonValue2 forKey:propCommonKey2];
+  [expectedProperties setDouble:propCommonDoubleValue forKey:propCommonDoubleKey];
+  [expectedProperties setString:propTrackValue forKey:propTrackKey];
+  [expectedProperties setBool:propTrackValue2 forKey:propTrackKey2];
+  MSEventProperties *trackEventProperties = [MSEventProperties new];
+  [trackEventProperties setString:propTrackValue forKey:propTrackKey];
+  [trackEventProperties setBool:propTrackValue2 forKey:propTrackKey2];
+  
+  // When
+  [target trackEvent:eventName withTypedProperties:trackEventProperties];
+  
+  // Then
+  OCMVerify(
+            ClassMethod([self.analyticsClassMock trackEvent:eventName withTypedProperties:expectedProperties forTransmissionTarget:target]));
 }
 
 - (void)testEventPropertiesCascading {
