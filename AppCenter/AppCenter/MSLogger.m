@@ -33,8 +33,7 @@ MSLogHandler const msDefaultLogHandler = ^(MSLogMessageProvider messageProvider,
       level = @"ASSERT";
       break;
     case MSLogLevelNone:
-      level = @"";
-      break;
+      return;
     }
     NSLog(@"[%@] %@: %@/%d %@", tag, level, [NSString stringWithCString:function encoding:NSUTF8StringEncoding], line, messageProvider());
   }
