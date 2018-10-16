@@ -6,8 +6,9 @@
 #pragma mark - MSSerializableObject
 
 - (NSMutableDictionary *)serializeToDictionary {
-  NSMutableDictionary *dict = [NSMutableDictionary new];
+  NSMutableDictionary *dict;
   if (self.localId) {
+    dict = [NSMutableDictionary new];
     dict[kMSDeviceLocalId] = self.localId;
   }
   return dict;

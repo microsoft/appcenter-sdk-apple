@@ -2,8 +2,6 @@
 
 #import "MSSerializableObject.h"
 
-static NSString *const kMSTypedPropertyValue = @"value";
-
 @interface MSTypedProperty : NSObject <MSSerializableObject>
 
 /**

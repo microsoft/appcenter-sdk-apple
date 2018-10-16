@@ -3,13 +3,6 @@
 @class MSEventProperties;
 @class MSMetadataExtension;
 
-//TODO move these into a constants file
-static const int kMSLongMetadataTypeId = 4;
-
-static const int kMSDoubleMetadataTypeId = 6;
-
-static const int kMSDateTimeMetadataTypeId = 9;
-
 @interface MSEventLog : MSLogWithNameAndProperties
 
 /**

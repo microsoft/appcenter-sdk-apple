@@ -362,6 +362,7 @@
 		266ED07D29C2A2CC67AD1F60 /* MSEventPropertiesInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSEventPropertiesInternal.h; sourceTree = "<group>"; };
 		266ED289BE3D9562F1F61348 /* MSEventProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSEventProperties.h; sourceTree = "<group>"; };
 		266EDBD8487DA42DAB601DD9 /* MSEventProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSEventProperties.m; sourceTree = "<group>"; };
+		2DA03D5D8EA1FEA1DC687CEF /* MSAnalyticsConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsConstants.h; sourceTree = "<group>"; };
 		3513432F205704A100E6DC7D /* MSAnalyticsTransmissionTarget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsTransmissionTarget.h; sourceTree = "<group>"; };
 		35134330205704C100E6DC7D /* MSAnalyticsTransmissionTarget.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSAnalyticsTransmissionTarget.m; sourceTree = "<group>"; };
 		351343352057093600E6DC7D /* MSAnalyticsTransmissionTargetInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsTransmissionTargetInternal.h; sourceTree = "<group>"; };
@@ -513,6 +514,7 @@
 			children = (
 				0485AF8D1EAA852A00C10CAF /* MSAnalyticsCategory.h */,
 				0485AF8E1EAA852A00C10CAF /* MSAnalyticsCategory.m */,
+				2DA03D5D8EA1FEA1DC687CEF /* MSAnalyticsConstants.h */,
 			);
 			path = Util;
 			sourceTree = "<group>";

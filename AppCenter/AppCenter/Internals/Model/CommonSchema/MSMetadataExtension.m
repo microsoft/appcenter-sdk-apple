@@ -5,8 +5,9 @@
 #pragma mark - MSSerializableObject
 
 - (NSMutableDictionary *)serializeToDictionary {
-  NSMutableDictionary *dict = [NSMutableDictionary new];
+  NSMutableDictionary *dict;
   if (self.metadata) {
+    dict = [NSMutableDictionary new];
     [dict addEntriesFromDictionary:self.metadata];
   }
   return dict;
