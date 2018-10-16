@@ -9,11 +9,11 @@ The App Center team -->
 
 Things to consider before you submit the PR:
 
-* [x] Has `CHANGELOG.md` been updated?
-* [] Are tests passing locally?
-* [] Are the files formatted correctly?
-* [] Did you add unit tests?
-* [] Did you test your change with either the sample apps that are included in the repository or with a blank app that uses your change?
+* [ ] Has `CHANGELOG.md` been updated?
+* [ ] Are tests passing locally?
+* [ ] Are the files formatted correctly?
+* [ ] Did you add unit tests?
+* [ ] Did you test your change with either the sample apps that are included in the repository or with a blank app that uses your change?
 
 ## Description
 
