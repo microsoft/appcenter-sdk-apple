@@ -127,7 +127,11 @@ static NSString *const kMSTypedProperties = @"typedProperties";
         if ([(NSObject *) propertyTree[csKeys[i]] isKindOfClass:[NSMutableDictionary class]]) {
           propertySubtree = propertyTree[csKeys[i]];
           if (typeId) {
-            metadataSubtree = metadataTree[kMSFieldDelimiter][csKeys[i]];
+            if (!metadataTree[kMSFieldDelimiter][csKeys[i]]) {
+              metadataSubtree = [NSMutableDictionary new];
+              metadataTree[kMSFieldDelimiter][csKeys[i]] = metadataSubtree;
+            }
+            metadataSubtree = metadataSubtree ?: metadataTree[kMSFieldDelimiter][csKeys[i]];
           }
         }
         if (!propertySubtree) {

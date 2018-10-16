@@ -562,6 +562,43 @@
   }
 }
 
+- (void)testConversionWhenSiblingsHaveDifferentTypesAndOnlyOneNeedsMetadataAndTheyAreOneLevelDeep {
+
+  // If
+  MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
+  csLog.data = [MSCSData new];
+  csLog.ext = [MSCSExtensions new];
+  csLog.ext.metadataExt = [MSMetadataExtension new];
+  MSEventProperties *acProperties = [MSEventProperties new];
+  [acProperties setString:@"hello" forKey:@"a.b"];
+  [acProperties setInt64:123 forKey:@"a.c"];
+  [acProperties setString:@"hello" forKey:@"a.e"];
+
+  self.sut.typedProperties = acProperties;
+  NSDictionary *expectedProperties = @{@"a": @{@"c": @123, @"b": @"hello", @"e": @"hello" }};
+  NSDictionary *expectedMetadata =
+      @{
+          @"f":
+          @{
+              @"a":
+              @{
+                  @"f":
+                  @{
+                      @"c": @(kMSLongMetadataTypeId)
+                  }
+              }
+          }
+      };
+
+  // When
+  [self.sut setPropertiesAndMetadataForCSLog:csLog];
+
+  // Then
+  XCTAssertEqual([csLog.data.properties count], 1);
+  XCTAssertEqualObjects(csLog.data.properties, expectedProperties);
+  XCTAssertEqualObjects(csLog.ext.metadataExt.metadata, expectedMetadata);
+}
+
 - (void)testToCommonSchemaLogForTargetToken {
 
   // If
