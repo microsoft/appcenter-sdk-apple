@@ -4,6 +4,7 @@
 #import "MSBooleanTypedProperty.h"
 #import "MSConstants+Internal.h"
 #import "MSCSData.h"
+#import "MSCSExtensions.h"
 #import "MSCSModelConstants.h"
 #import "MSDateTimeTypedProperty.h"
 #import "MSDoubleTypedProperty.h"
@@ -12,7 +13,6 @@
 #import "MSMetadataExtension.h"
 #import "MSLongTypedProperty.h"
 #import "MSStringTypedProperty.h"
-#import "MSCSExtensions.h"
 
 static NSString *const kMSTypeEvent = @"event";
 
