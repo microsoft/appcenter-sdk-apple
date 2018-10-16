@@ -15,7 +15,6 @@
 #import "MSTestFrameworks.h"
 #import "MSUtility+Date.h"
 
-
 @interface MSEventLogTests : XCTestCase
 
 @property(nonatomic) MSEventLog *sut;
@@ -141,6 +140,7 @@
   // If
   MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
   csLog.data = [MSCSData new];
+  csLog.ext = [MSCSExtensions new];
   csLog.ext.metadataExt = [MSMetadataExtension new];
 
   // When
@@ -156,6 +156,7 @@
   // If
   MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
   csLog.data = [MSCSData new];
+  csLog.ext = [MSCSExtensions new];
   csLog.ext.metadataExt = [MSMetadataExtension new];
   MSEventProperties *acProperties = [MSEventProperties new];
   NSDate *date = [NSDate dateWithTimeIntervalSince1970:10000];
@@ -175,6 +176,7 @@
   // If
   MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
   csLog.data = [MSCSData new];
+  csLog.ext = [MSCSExtensions new];
   csLog.ext.metadataExt = [MSMetadataExtension new];
   MSEventProperties *acProperties = [MSEventProperties new];
   int64_t largeNumber = 1234567890;
@@ -194,6 +196,7 @@
   // If
   MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
   csLog.data = [MSCSData new];
+  csLog.ext = [MSCSExtensions new];
   csLog.ext.metadataExt = [MSMetadataExtension new];
   MSEventProperties *acProperties = [MSEventProperties new];
   double pi = 3.1415926;
@@ -213,6 +216,7 @@
   // If
   MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
   csLog.data = [MSCSData new];
+  csLog.ext = [MSCSExtensions new];
   csLog.ext.metadataExt = [MSMetadataExtension new];
   MSEventProperties *acProperties = [MSEventProperties new];
   NSString *stringValue = @"hello";
@@ -232,6 +236,7 @@
   // If
   MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
   csLog.data = [MSCSData new];
+  csLog.ext = [MSCSExtensions new];
   csLog.ext.metadataExt = [MSMetadataExtension new];
   MSEventProperties *acProperties = [MSEventProperties new];
   BOOL boolValue = YES;
@@ -251,6 +256,7 @@
   // If
   MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
   csLog.data = [MSCSData new];
+  csLog.ext = [MSCSExtensions new];
   csLog.ext.metadataExt = [MSMetadataExtension new];
   MSEventProperties *acProperties = [MSEventProperties new];
   [acProperties setString:@"value" forKey:@"key"];
@@ -270,6 +276,7 @@
   // If
   MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
   csLog.data = [MSCSData new];
+  csLog.ext = [MSCSExtensions new];
   csLog.ext.metadataExt = [MSMetadataExtension new];
   MSEventProperties *acProperties = [MSEventProperties new];
   [acProperties setInt64:1 forKey:@"p.a"];
@@ -303,6 +310,7 @@
   // If
   MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
   csLog.data = [MSCSData new];
+  csLog.ext = [MSCSExtensions new];
   csLog.ext.metadataExt = [MSMetadataExtension new];
   MSEventProperties *acProperties = [MSEventProperties new];
   [acProperties setString:@"value" forKey:@"key"];
@@ -325,6 +333,7 @@
   // If
   MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
   csLog.data = [MSCSData new];
+  csLog.ext = [MSCSExtensions new];
   csLog.ext.metadataExt = [MSMetadataExtension new];
   MSEventProperties *acProperties = [MSEventProperties new];
   [acProperties setInt64:1 forKey:@"a.b"];
@@ -339,14 +348,14 @@
               @{
                   @"f":
                   @{
-                      @"b": @1
+                      @"b": @(kMSLongMetadataTypeId)
                   }
               },
               @"b":
               @{
                   @"f":
                   @{
-                      @"c": @2.2
+                      @"c": @(kMSDoubleMetadataTypeId)
                   }
               }
           }
@@ -365,6 +374,7 @@
   // If
   MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
   csLog.data = [MSCSData new];
+  csLog.ext = [MSCSExtensions new];
   csLog.ext.metadataExt = [MSMetadataExtension new];
   MSEventProperties *acProperties = [MSEventProperties new];
   [acProperties setInt64:1 forKey:@"a.b"];
@@ -379,7 +389,7 @@
               @{
                   @"f":
                   @{
-                      @"b": @1
+                      @"b": @(kMSLongMetadataTypeId)
                   }
               },
           }
@@ -398,6 +408,7 @@
   // If
   MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
   csLog.data = [MSCSData new];
+  csLog.ext = [MSCSExtensions new];
   csLog.ext.metadataExt = [MSMetadataExtension new];
   MSEventProperties *acProperties = [MSEventProperties new];
   [acProperties setString:@"1" forKey: @"a.b"];
@@ -419,6 +430,7 @@
   // If
   MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
   csLog.data = [MSCSData new];
+  csLog.ext = [MSCSExtensions new];
   csLog.ext.metadataExt = [MSMetadataExtension new];
   MSEventProperties *acProperties = [MSEventProperties new];
   [acProperties setString:@"1" forKey:@"a.b.c.d"];
@@ -440,6 +452,7 @@
   // If
   MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
   csLog.data = [MSCSData new];
+  csLog.ext = [MSCSExtensions new];
   csLog.ext.metadataExt = [MSMetadataExtension new];
   MSEventProperties *acProperties = [MSEventProperties new];
   [acProperties setString:@"1" forKey:@"a.b"];
@@ -461,7 +474,14 @@
   // If
   NSString *targetToken = @"aTarget-Token";
   NSString *name = @"SolarEclipse";
-  NSDictionary *properties = @{ @"aStringValue" : @"hello", @"aLongValue" : @1234567890, @"aDoubleValue" : @3.14, @"aDateTimeValue" : @"2018-10-15T22:16:22Z", @"aBooleanValue" : @YES};
+  MSEventProperties *eventProperties = [MSEventProperties new];
+  [eventProperties setString:@"hello" forKey:@"aStringValue"];
+  [eventProperties setInt64:1234567890l forKey:@"aLongValue"];
+  [eventProperties setDouble:3.14 forKey:@"aDoubleValue"];
+  [eventProperties setDate:[NSDate dateWithTimeIntervalSince1970:10000] forKey:@"aDateTimeValue"];
+  [eventProperties setBool:YES forKey:@"aBooleanValue"];
+  NSDictionary *expectedProperties = @{ @"aStringValue" : @"hello", @"aLongValue" : @1234567890, @"aDoubleValue" : @3.14, @"aDateTimeValue" :
+      @"2018-10-15T22:16:22Z", @"aBooleanValue" : @YES};
   NSDictionary *expectedMetadata = @{ @"f": @{@"aLongValue" : @4, @"aDoubleValue" : @6, @"aDateTimeValue" : @9}};
   NSDate *timestamp = [NSDate date];
   MSDevice *device = [MSDevice new];
@@ -490,7 +510,7 @@
   self.sut.device = device;
   self.sut.timestamp = timestamp;
   self.sut.name = name;
-  self.sut.properties = properties;
+  self.sut.typedProperties = eventProperties;
 
   // When
   MSCommonSchemaLog *csLog = [self.sut toCommonSchemaLogForTargetToken:targetToken];
@@ -510,8 +530,9 @@
   XCTAssertEqualObjects(csLog.ext.netExt.provider, carrierName);
   XCTAssertEqualObjects(csLog.ext.sdkExt.libVer, @"appcenter.ios-1.0.0");
   XCTAssertEqualObjects(csLog.ext.locExt.tz, @"-07:00");
-  XCTAssertEqualObjects(csLog.data.properties, properties);
+  XCTAssertEqualObjects(csLog.data.properties, expectedProperties);
   XCTAssertEqualObjects(csLog.ext.metadataExt.metadata, expectedMetadata);
+  XCTAssertNil(csLog.data.properties);
 }
 
 @end
