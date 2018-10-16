@@ -573,7 +573,6 @@
   [acProperties setString:@"hello" forKey:@"a.b"];
   [acProperties setInt64:123 forKey:@"a.c"];
   [acProperties setString:@"hello" forKey:@"a.e"];
-
   self.sut.typedProperties = acProperties;
   NSDictionary *expectedProperties = @{@"a": @{@"c": @123, @"b": @"hello", @"e": @"hello" }};
   NSDictionary *expectedMetadata =
