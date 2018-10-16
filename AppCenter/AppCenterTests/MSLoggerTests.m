@@ -58,7 +58,7 @@
 
   // When
   [MSLogger setCurrentLogLevel:MSLogLevelNone];
-  [MSLogger logMessage:messageProvider level:MSLogLevelInfo tag:@"TAG" file:nil function:nil line:0];
+  [MSLogger logMessage:messageProvider level:MSLogLevelNone tag:@"TAG" file:nil function:nil line:0];
 }
 
 @end
