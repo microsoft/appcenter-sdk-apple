@@ -6,11 +6,15 @@
 #pragma mark - MSSerializableObject
 
 - (NSMutableDictionary *)serializeToDictionary {
-  NSMutableDictionary *dict = [NSMutableDictionary new];
+  NSMutableDictionary *dict;
   if (self.ver) {
+    dict = [NSMutableDictionary new];
     dict[kMSOSVer] = self.ver;
   }
   if (self.name) {
+    if (!dict) {
+      dict = [NSMutableDictionary new];
+    }
     dict[kMSOSName] = self.name;
   }
   return dict;

@@ -6,8 +6,9 @@
 #pragma mark - MSSerializableObject
 
 - (NSMutableDictionary *)serializeToDictionary {
-  NSMutableDictionary *dict = [NSMutableDictionary new];
+  NSMutableDictionary *dict;
   if (self.tz) {
+    dict = [NSMutableDictionary new];
     dict[kMSTimezone] = self.tz;
   }
   return dict;

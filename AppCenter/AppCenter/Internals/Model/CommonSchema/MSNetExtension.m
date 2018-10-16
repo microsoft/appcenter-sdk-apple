@@ -6,8 +6,9 @@
 #pragma mark - MSSerializableObject
 
 - (NSMutableDictionary *)serializeToDictionary {
-  NSMutableDictionary *dict = [NSMutableDictionary new];
+  NSMutableDictionary *dict;
   if (self.provider) {
+    dict = [NSMutableDictionary new];
     dict[kMSNetProvider] = self.provider;
   }
   return dict;
