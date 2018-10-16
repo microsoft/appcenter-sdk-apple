@@ -12,13 +12,18 @@
 #import "MSLongTypedProperty.h"
 #import "MSMetadataExtension.h"
 #import "MSStringTypedProperty.h"
-#import "MSUtility+Date.h"
 
 static NSString *const kMSTypeEvent = @"event";
 
 static NSString *const kMSId = @"id";
 
 static NSString *const kMSTypedProperties = @"typedProperties";
+
+static const int kMSLongMetadataTypeId = 4;
+
+static const int kMSDoubleMetadataTypeId = 6;
+
+static const int kMSDateTimeMetadataTypeId = 9;
 
 @implementation MSEventLog
 
