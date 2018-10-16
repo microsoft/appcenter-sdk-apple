@@ -1,8 +1,7 @@
+#import "MSConstants+Internal.h"
 #import "MSStringTypedProperty.h"
 
 @implementation MSStringTypedProperty
-
-static NSString *const kMSStringTypedPropertyType = @"string";
 
 - (instancetype)init {
     if ((self = [super init])) {

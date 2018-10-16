@@ -1,6 +1,5 @@
+#import "MSConstants+Internal.h"
 #import "MSLongTypedProperty.h"
-
-static NSString *const kMSLongTypedPropertyType = @"long";
 
 @implementation MSLongTypedProperty
 

@@ -1,6 +1,7 @@
 #import "AppCenter+Internal.h"
 #import "MSAnalyticsInternal.h"
 #import "MSBooleanTypedProperty.h"
+#import "MSConstants+Internal.h"
 #import "MSCSData.h"
 #import "MSCSModelConstants.h"
 #import "MSDateTimeTypedProperty.h"
@@ -23,9 +24,14 @@ static NSString *const kMSTypedProperties = @"typedProperties";
 - (instancetype)init {
   if ((self = [super init])) {
     self.type = kMSTypeEvent;
+    _metadataTypeIdMapping =
+        @{
+            kMSLongTypedPropertyType: @(kMSLongMetadataTypeId),
+            kMSDoubleTypedPropertyType: @(kMSDoubleMetadataTypeId),
+            kMSDateTimeTypedPropertyType: @(kMSDateTimeMetadataTypeId)
+        };
 
-    //TODO use constants here
-    _metadataTypeIdMapping = @{@"long" : @(kMSLongMetadataTypeId), @"double": @(kMSDoubleMetadataTypeId), @"dateTime":@(kMSDateTimeMetadataTypeId) };
+
   }
   return self;
 }
