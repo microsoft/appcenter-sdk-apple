@@ -8,8 +8,10 @@
 #import "MSChannelUnitDefault.h"
 #import "MSCSExtensions.h"
 #import "MSEventLog.h"
+#import "MSEventPropertiesInternal.h"
 #import "MSMockUserDefaults.h"
 #import "MSPropertyConfiguratorPrivate.h"
+#import "MSStringTypedProperty.h"
 #import "MSTestFrameworks.h"
 
 static NSString *const kMSTestTransmissionToken = @"TestTransmissionToken";
@@ -490,14 +492,14 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // Then
   XCTAssertNotNil(eventLog);
-  XCTAssertEqual([eventLog.properties count], (unsigned long)7);
-  XCTAssertEqual(eventLog.properties[@"a"], @"11");
-  XCTAssertEqual(eventLog.properties[@"b"], @"22");
-  XCTAssertEqual(eventLog.properties[@"c"], @"3");
-  XCTAssertEqual(eventLog.properties[@"d"], @"444");
-  XCTAssertEqual(eventLog.properties[@"e"], @"555");
-  XCTAssertEqual(eventLog.properties[@"f"], @"6666");
-  XCTAssertEqual(eventLog.properties[@"g"], @"7777");
+  XCTAssertEqual([eventLog.typedProperties.properties count], 7);
+  XCTAssertEqualObjects(((MSStringTypedProperty *)eventLog.typedProperties.properties[@"a"]).value, @"11");
+  XCTAssertEqualObjects(((MSStringTypedProperty *)eventLog.typedProperties.properties[@"b"]).value, @"22");
+  XCTAssertEqualObjects(((MSStringTypedProperty *)eventLog.typedProperties.properties[@"c"]).value, @"3");
+  XCTAssertEqualObjects(((MSStringTypedProperty *)eventLog.typedProperties.properties[@"d"]).value, @"444");
+  XCTAssertEqualObjects(((MSStringTypedProperty *)eventLog.typedProperties.properties[@"e"]).value, @"555");
+  XCTAssertEqualObjects(((MSStringTypedProperty *)eventLog.typedProperties.properties[@"f"]).value, @"6666");
+  XCTAssertEqualObjects(((MSStringTypedProperty *)eventLog.typedProperties.properties[@"g"]).value, @"7777");
 }
 
 - (void)testAppExtensionCommonSchemaPropertiesWithoutOverriding {

@@ -8,12 +8,17 @@
 
 ### AppCenterAnalytics
 
+* **[Feature]** Adding support for typed properties. Note that these APIs still convert properties back to strings on the App Center backend. More work is needed to store and display typed properties in the App Center portal. Using the new APIs now will enable future scenarios, but for now the behavior will be the same as it is for current event properties.
 * **[Feature]** Preparation work for a future change in transmission protocol and endpoint for Analytics data. There is no impact on your current workflow when using App Center.
 * **[Fix]** Fix an bug where nested custom properties for an event would not pass validation.
 
 ### AppCenterCrashes
 
 * **[Fix]** Fix the list of binary images in crash reports for arm64e-based devices.
+
+### AppCenterDistribute
+
+* **[Fix]** Fix translation of closing a dialog in Portuguese.
 
 ___
 

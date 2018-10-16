@@ -2,23 +2,19 @@ import UIKit
 
 class MSEnumPicker<E: RawRepresentable & Equatable> : NSObject, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate where E.RawValue == String {
   
-  let textField: UITextField!
-  let allValues: [E]
-  let onChange: (Int) -> Void
+  private let textField: UITextField!
+  private let allValues: [E]
+  private let onChange: (Int) -> Void
   
-  init(textField: UITextField!, initialValue: E, allValues: [E], onChange: @escaping (Int) -> Void) {
+  init(textField: UITextField!, allValues: [E], onChange: @escaping (Int) -> Void) {
     self.textField = textField
     self.allValues = allValues
     self.onChange = onChange
     super.init()
-    
-    self.textField.delegate = self
-    self.textField.text = initialValue.rawValue
-    self.textField.tintColor = UIColor.clear
   }
   
   func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-    showStartupModePicker()
+    showEnumPicker()
     return true
   }
   
@@ -43,7 +39,7 @@ class MSEnumPicker<E: RawRepresentable & Equatable> : NSObject, UIPickerViewData
     self.onChange(row)
   }
   
-  func showStartupModePicker() {
+  func showEnumPicker() {
     let startupModePickerView = UIPickerView()
     startupModePickerView.backgroundColor = UIColor.white
     startupModePickerView.showsSelectionIndicator = true

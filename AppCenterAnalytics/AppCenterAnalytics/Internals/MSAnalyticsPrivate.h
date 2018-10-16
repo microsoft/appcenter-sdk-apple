@@ -36,8 +36,8 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Track an event.
  *
- * @param eventName  event name.
- * @param properties dictionary of properties.
+ * @param eventName  Event name.
+ * @param properties Dictionary of properties.
  * @param transmissionTarget Transmission target to associate with the event.
  */
 - (void)trackEvent:(NSString *)eventName
@@ -45,10 +45,21 @@ NS_ASSUME_NONNULL_BEGIN
     forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarget;
 
 /**
+ * Track an event with typed properties.
+ *
+ * @param eventName  Event name.
+ * @param properties Typed properties.
+ * @param transmissionTarget Transmission target to associate with the event.
+ */
+- (void)trackEvent:(NSString *)eventName
+      withTypedProperties:(nullable MSEventProperties *)properties
+    forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarget;
+
+/**
  * Track a page.
  *
- * @param pageName  page name.
- * @param properties dictionary of properties.
+ * @param pageName  Page name.
+ * @param properties Dictionary of properties.
  */
 - (void)trackPage:(NSString *)pageName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties;
 

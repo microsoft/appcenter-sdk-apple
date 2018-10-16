@@ -18,6 +18,8 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   override func viewDidLoad() {
     eventPropertiesSection = EventPropertiesTableSection(tableSection: kEventPropertiesSectionIndex, tableView: tableView)
     super.viewDidLoad()
+    tableView.estimatedRowHeight = tableView.rowHeight
+    tableView.rowHeight = UITableViewAutomaticDimension
     tableView.setEditing(true, animated: false)
     
     // Disable results page.
@@ -40,14 +42,20 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     guard let name = eventName.text else {
       return
     }
-    let eventPropertiesDictionary = eventPropertiesSection.eventPropertiesDictionary()
+    let eventProperties = eventPropertiesSection.eventProperties()
     if (MSTransmissionTargets.shared.defaultTargetShouldSendAnalyticsEvents()) {
-      appCenter.trackEvent(name, withProperties: eventPropertiesDictionary)
+      if let properties = eventProperties as? MSEventProperties {
+        appCenter.trackEvent(name, withTypedProperties: properties)
+      } else if let dictionary = eventProperties as? [String: String] {
+        appCenter.trackEvent(name, withProperties: dictionary)
+      } else {
+        appCenter.trackEvent(name)
+      }
     }
     for targetToken in MSTransmissionTargets.shared.transmissionTargets.keys {
       if MSTransmissionTargets.shared.targetShouldSendAnalyticsEvents(targetToken: targetToken) {
         let target = MSTransmissionTargets.shared.transmissionTargets[targetToken]
-        target!.trackEvent(name, withProperties: eventPropertiesDictionary)
+        target!.trackEvent(name/*, withProperties: eventPropertiesDictionary*/)
       }
     }
   }
@@ -109,10 +117,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   }
 
   override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    if indexPath.section == kEventPropertiesSectionIndex {
-      return super.tableView(tableView, heightForRowAt: IndexPath(row: 0, section: indexPath.section))
-    }
-    return super.tableView(tableView, heightForRowAt: indexPath)
+    return UITableViewAutomaticDimension
   }
 
   /**

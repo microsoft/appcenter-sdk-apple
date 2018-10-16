@@ -1,17 +1,19 @@
 import UIKit
 
 class TargetPropertiesTableSection : PropertiesTableSection {
-  var targetProperties: [String: [(String, String)]]!
-  var transmissionTargetSelectorCell: MSAnalyticsTransmissionTargetSelectorViewCell?
+  typealias EventPropertyType = MSAnalyticsTypedPropertyTableViewCell.EventPropertyType
+  typealias PropertyState = MSAnalyticsTypedPropertyTableViewCell.PropertyState
+
+  private var targetProperties = [String: [PropertyState]]()
+  private var transmissionTargetSelectorCell: MSAnalyticsTransmissionTargetSelectorViewCell?
 
   override init(tableSection: Int, tableView: UITableView) {
     super.init(tableSection: tableSection, tableView: tableView)
-    targetProperties = [String: [(String, String)]]()
     let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
     let parentTargetToken = appName.contains("SasquatchSwift") ? kMSSwiftRuntimeTargetToken : kMSObjCRuntimeTargetToken
-    targetProperties[parentTargetToken] = [(String, String)]()
-    targetProperties[kMSTargetToken1] = [(String, String)]()
-    targetProperties[kMSTargetToken2] = [(String, String)]()
+    targetProperties[parentTargetToken] = [PropertyState]()
+    targetProperties[kMSTargetToken1] = [PropertyState]()
+    targetProperties[kMSTargetToken2] = [PropertyState]()
     transmissionTargetSelectorCell = loadCellFromNib()
     transmissionTargetSelectorCell?.didSelectTransmissionTarget = reloadSection
   }
@@ -24,33 +26,24 @@ class TargetPropertiesTableSection : PropertiesTableSection {
     }
   }
 
-  override func numberOfCustomHeaderCells() -> Int {
-    return 1
+  override var numberOfCustomHeaderCells: Int {
+    get { return 1 }
   }
 
-  override func propertyKeyChanged(sender: UITextField!) {
+  override func loadCell(row: Int) -> UITableViewCell {
+    guard let cell: MSAnalyticsTypedPropertyTableViewCell = loadCellFromNib() else {
+      preconditionFailure("Cannot load table view cell")
+    }
+    let arrayIndex = row - self.propertyCellOffset
     let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
-    let arrayIndex = getCellRow(forTextField: sender) - propertyCellOffset()
-    let currentPropertyKey = targetProperties[selectedTarget!]![arrayIndex].0
-    let currentPropertyValue = targetProperties[selectedTarget!]![arrayIndex].1
     let target = MSTransmissionTargets.shared.transmissionTargets[selectedTarget!]!
-    target.propertyConfigurator.removeEventProperty(forKey: currentPropertyKey)
-    target.propertyConfigurator.setEventPropertyString(currentPropertyValue, forKey: sender.text!)
-    targetProperties[selectedTarget!]![arrayIndex].0 = sender.text!
-  }
-
-  override func propertyValueChanged(sender: UITextField!) {
-    let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
-    let arrayIndex = getCellRow(forTextField: sender) - propertyCellOffset()
-    let currentPropertyKey = targetProperties[selectedTarget!]![arrayIndex].0
-    let target = MSTransmissionTargets.shared.transmissionTargets[selectedTarget!]!
-    target.propertyConfigurator.setEventPropertyString(sender.text!, forKey: currentPropertyKey)
-    targetProperties[selectedTarget!]![arrayIndex].1 = sender.text!
-  }
-
-  override func propertyAtRow(row: Int) -> (String, String) {
-    let selectedTarget = transmissionTargetSelectorCell!.selectedTransmissionTarget()
-    return targetProperties[selectedTarget!]![row - propertyCellOffset()]
+    cell.state = targetProperties[selectedTarget!]![arrayIndex]
+    cell.onChange = { state in
+      self.targetProperties[selectedTarget!]![arrayIndex] = state
+      target.propertyConfigurator.removeEventProperty(forKey: state.key)
+      self.setEventPropertyState(state, forTarget: target)
+    }
+    return cell
   }
 
   override func getPropertyCount() -> Int {
@@ -58,20 +51,33 @@ class TargetPropertiesTableSection : PropertiesTableSection {
     return (targetProperties[selectedTarget!]!.count)
   }
 
+  override func addProperty() {
+    let count = getPropertyCount()
+    let state: PropertyState = ("key\(count)", EventPropertyType.String, "value\(count)")
+    let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
+    targetProperties[selectedTarget!]!.insert(state, at: 0)
+    let target = MSTransmissionTargets.shared.transmissionTargets[selectedTarget!]!
+    setEventPropertyState(state, forTarget: target)
+  }
+
   override func removeProperty(atRow row: Int) {
     let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
-    let arrayIndex = row - propertyCellOffset()
-    let key = targetProperties[selectedTarget!]![arrayIndex].0
+    let arrayIndex = row - self.propertyCellOffset
+    let key = targetProperties[selectedTarget!]![arrayIndex].key
     let target = MSTransmissionTargets.shared.transmissionTargets[selectedTarget!]!
     target.propertyConfigurator.removeEventProperty(forKey: key)
     targetProperties[selectedTarget!]!.remove(at: arrayIndex)
   }
 
-  override func addProperty(property: (String, String)) {
-    let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
-    targetProperties[selectedTarget!]!.insert(property, at: 0)
-    let target = MSTransmissionTargets.shared.transmissionTargets[selectedTarget!]!
-    target.propertyConfigurator.setEventPropertyString(property.1, forKey: property.0)
+  func setEventPropertyState(_ state: PropertyState, forTarget target: MSAnalyticsTransmissionTarget) {
+
+    // TODO Add missing cases once new APIs available
+    switch state.type {
+    case .String:
+      target.propertyConfigurator.setEventPropertyString(state.value as! String, forKey: state.key)
+    default:
+      NSLog("There is no API for event property with type \"\(state.type)\"")
+    }
   }
 
   func isHeaderCell(_ indexPath: IndexPath) -> Bool {

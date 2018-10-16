@@ -5,11 +5,18 @@
 #import "MSAppCenter.h"
 #import "MSAppCenterInternal.h"
 #import "MSAppCenterPrivate.h"
+#import "MSBooleanTypedProperty.h"
 #import "MSChannelUnitDefault.h"
+#import "MSConstants+Internal.h"
+#import "MSDateTimeTypedProperty.h"
+#import "MSDoubleTypedProperty.h"
 #import "MSEventLog.h"
+#import "MSEventPropertiesInternal.h"
+#import "MSLongTypedProperty.h"
 #import "MSMockUserDefaults.h"
 #import "MSPageLog.h"
 #import "MSSessionTrackerPrivate.h"
+#import "MSStringTypedProperty.h"
 #import "MSTestFrameworks.h"
 
 static NSString *const kMSTypeEvent = @"event";
@@ -275,9 +282,6 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                               transmissionTargetToken:nil
                                       fromApplication:YES];
 
-  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
-  [[MSAnalytics sharedInstance].sessionTracker stop];
-
   // When
   [MSAnalytics trackEvent:expectedName];
 
@@ -286,7 +290,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   assertThat(name, is(expectedName));
 }
 
-- (void)testTrackEventWhenAnalyticsDisabled {
+- (void)testTrackEventWithPropertiesNilWhenAnalyticsDisabled {
 
   // If
   id analyticsMock = OCMPartialMock([MSAnalytics sharedInstance]);
@@ -300,9 +304,6 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                               transmissionTargetToken:nil
                                       fromApplication:YES];
 
-  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
-  [[MSAnalytics sharedInstance].sessionTracker stop];
-
   // When
   OCMReject([channelUnitMock enqueueItem:OCMOCK_ANY]);
   [[MSAnalytics sharedInstance] trackEvent:@"Some event" withProperties:nil forTransmissionTarget:nil];
@@ -311,7 +312,29 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   OCMVerifyAll(channelUnitMock);
 }
 
-- (void)testTrackEventWhenTransmissionTargetDisabled {
+- (void)testTrackEventWithTypedPropertiesNilWhenAnalyticsDisabled {
+
+  // If
+  id analyticsMock = OCMPartialMock([MSAnalytics sharedInstance]);
+  OCMStub([analyticsMock isEnabled]).andReturn(NO);
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
+                                            appSecret:kMSTestAppSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
+
+  // When
+  OCMReject([channelUnitMock enqueueItem:OCMOCK_ANY]);
+  [[MSAnalytics sharedInstance] trackEvent:@"Some event" withTypedProperties:nil forTransmissionTarget:nil];
+
+  // Then
+  OCMVerifyAll(channelUnitMock);
+}
+
+- (void)testTrackEventWithPropertiesNilWhenTransmissionTargetDisabled {
 
   // If
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
@@ -333,7 +356,29 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   OCMVerifyAll(channelUnitMock);
 }
 
-- (void)testTrackEventWithInvalidName {
+- (void)testTrackEventWithTypedPropertiesNilWhenTransmissionTargetDisabled {
+
+  // If
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
+                                            appSecret:kMSTestAppSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
+
+  // When
+  OCMReject([channelUnitMock enqueueItem:OCMOCK_ANY]);
+  MSAnalyticsTransmissionTarget *target = [MSAnalytics transmissionTargetForToken:@"test"];
+  [target setEnabled:NO];
+  [[MSAnalytics sharedInstance] trackEvent:@"Some event" withTypedProperties:nil forTransmissionTarget:target];
+
+  // Then
+  OCMVerifyAll(channelUnitMock);
+}
+
+- (void)testTrackEventWithPropertiesNilAndInvalidName {
 
   // If
   NSString *invalidEventName = nil;
@@ -346,9 +391,6 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                                             appSecret:kMSTestAppSecret
                               transmissionTargetToken:nil
                                       fromApplication:YES];
-
-  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
-  [[MSAnalytics sharedInstance].sessionTracker stop];
 
   // When
   OCMExpect([channelUnitMock enqueueItem:OCMOCK_ANY]);
@@ -363,23 +405,50 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   OCMVerifyAll(analyticsMock);
 }
 
+- (void)testTrackEventWithTypedPropertiesNilAndInvalidName {
+
+  // If
+  NSString *invalidEventName = nil;
+  id analyticsMock = OCMPartialMock([MSAnalytics sharedInstance]);
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
+                                            appSecret:kMSTestAppSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
+
+  // When
+  OCMExpect([channelUnitMock enqueueItem:OCMOCK_ANY]);
+
+  // Will be validated in shouldFilterLog callback instead.
+  OCMReject([analyticsMock validateEventName:OCMOCK_ANY forLogType:OCMOCK_ANY]);
+  OCMReject([analyticsMock validateProperties:OCMOCK_ANY forLogName:OCMOCK_ANY andType:OCMOCK_ANY]);
+  [[MSAnalytics sharedInstance] trackEvent:invalidEventName withTypedProperties:nil forTransmissionTarget:nil];
+
+  // Then
+  OCMVerifyAll(channelUnitMock);
+  OCMVerifyAll(analyticsMock);
+}
+
 - (void)testTrackEventWithProperties {
 
   // If
   __block NSString *type;
   __block NSString *name;
-  __block NSDictionary<NSString *, NSString *> *properties;
+  __block MSEventProperties *eventProperties;
   NSString *expectedName = @"gotACoffee";
   NSDictionary *expectedProperties = @{ @"milk" : @"yes", @"cookie" : @"of course" };
   id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
   OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
-  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSLogWithProperties class]]]).andDo(^(NSInvocation *invocation) {
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]]]).andDo(^(NSInvocation *invocation) {
     MSEventLog *log;
     [invocation getArgument:&log atIndex:2];
     type = log.type;
     name = log.name;
-    properties = log.properties;
+    eventProperties = log.typedProperties;
   });
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
   [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
@@ -387,16 +456,83 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                               transmissionTargetToken:nil
                                       fromApplication:YES];
 
-  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
-  [[MSAnalytics sharedInstance].sessionTracker stop];
-
   // When
   [MSAnalytics trackEvent:expectedName withProperties:expectedProperties];
 
   // Then
   assertThat(type, is(kMSTypeEvent));
   assertThat(name, is(expectedName));
-  assertThat(properties, is(expectedProperties));
+  for (MSTypedProperty *typedProperty in [eventProperties.properties objectEnumerator]) {
+    assertThat(typedProperty, isA([MSStringTypedProperty class]));
+    MSStringTypedProperty *stringTypedProperty = (MSStringTypedProperty*)typedProperty;
+    assertThat(stringTypedProperty.value, equalTo(expectedProperties[stringTypedProperty.name]));
+  }
+  XCTAssertEqual([expectedProperties count], [eventProperties.properties count]);
+}
+
+- (void)testTrackEventWithTypedProperties {
+
+  // If
+  __block NSString *type;
+  __block NSString *name;
+  __block MSEventProperties *eventProperties;
+  MSEventProperties *expectedProperties = [MSEventProperties new];
+  [expectedProperties setString:@"string" forKey:@"stringKey"];
+  [expectedProperties setBool:YES forKey:@"boolKey"];
+  [expectedProperties setDate:[NSDate new] forKey:@"dateKey"];
+  [expectedProperties setInt64:123 forKey:@"longKey"];
+  [expectedProperties setDouble:1.23e2 forKey:@"doubleKey"];
+  NSString *expectedName = @"gotACoffee";
+  id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]]]).andDo(^(NSInvocation *invocation) {
+    MSEventLog *log;
+    [invocation getArgument:&log atIndex:2];
+    type = log.type;
+    name = log.name;
+    eventProperties = log.typedProperties;
+  });
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
+                                            appSecret:kMSTestAppSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
+
+  // When
+  [MSAnalytics trackEvent:expectedName withTypedProperties:expectedProperties];
+
+  // Then
+  assertThat(type, is(kMSTypeEvent));
+  assertThat(name, is(expectedName));
+
+  for (NSString *propertyKey in eventProperties.properties) {
+    MSTypedProperty *typedProperty = eventProperties.properties[propertyKey];
+    XCTAssertEqual(typedProperty.name, propertyKey);
+    if ([typedProperty isKindOfClass:[MSBooleanTypedProperty class]]) {
+      MSBooleanTypedProperty *expectedProperty = (MSBooleanTypedProperty *)expectedProperties.properties[propertyKey];
+      MSBooleanTypedProperty *property = (MSBooleanTypedProperty *)eventProperties.properties[propertyKey];
+      XCTAssertEqual(property.value, expectedProperty.value);
+    } else if ([typedProperty isKindOfClass:[MSDoubleTypedProperty class]]) {
+      MSDoubleTypedProperty *expectedProperty = (MSDoubleTypedProperty *)expectedProperties.properties[propertyKey];
+      MSDoubleTypedProperty *property = (MSDoubleTypedProperty *)eventProperties.properties[propertyKey];
+      XCTAssertEqual(property.value, expectedProperty.value);
+    } else if ([typedProperty isKindOfClass:[MSLongTypedProperty class]]) {
+      MSLongTypedProperty *expectedProperty = (MSLongTypedProperty *)expectedProperties.properties[propertyKey];
+      MSLongTypedProperty *property = (MSLongTypedProperty *)eventProperties.properties[propertyKey];
+      XCTAssertEqual(property.value, expectedProperty.value);
+    } else if ([typedProperty isKindOfClass:[MSStringTypedProperty class]]) {
+      MSStringTypedProperty *expectedProperty = (MSStringTypedProperty *)expectedProperties.properties[propertyKey];
+      MSStringTypedProperty *property = (MSStringTypedProperty *)eventProperties.properties[propertyKey];
+      XCTAssertEqualObjects(property.value, expectedProperty.value);
+    } else if ([typedProperty isKindOfClass:[MSDateTimeTypedProperty class]]) {
+      MSDateTimeTypedProperty *expectedProperty = (MSDateTimeTypedProperty *)expectedProperties.properties[propertyKey];
+      MSDateTimeTypedProperty *property = (MSDateTimeTypedProperty *)eventProperties.properties[propertyKey];
+      XCTAssertEqual(property.value, expectedProperty.value);
+    }
+    [expectedProperties.properties removeObjectForKey:propertyKey];
+  }
+  XCTAssertEqual([expectedProperties.properties count], 0);
 }
 
 - (void)testTrackPageWithoutProperties {
@@ -419,9 +555,6 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                                             appSecret:kMSTestAppSecret
                               transmissionTargetToken:nil
                                       fromApplication:YES];
-
-  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
-  [[MSAnalytics sharedInstance].sessionTracker stop];
 
   // When
   [MSAnalytics trackPage:expectedName];
@@ -455,9 +588,6 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                               transmissionTargetToken:nil
                                       fromApplication:YES];
 
-  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
-  [[MSAnalytics sharedInstance].sessionTracker stop];
-
   // When
   [MSAnalytics trackPage:expectedName withProperties:expectedProperties];
 
@@ -482,9 +612,6 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                               transmissionTargetToken:nil
                                       fromApplication:YES];
 
-  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
-  [[MSAnalytics sharedInstance].sessionTracker stop];
-
   // When
   OCMReject([channelUnitMock enqueueItem:OCMOCK_ANY]);
   [[MSAnalytics sharedInstance] trackPage:@"Some page" withProperties:nil];
@@ -506,9 +633,6 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                                             appSecret:kMSTestAppSecret
                               transmissionTargetToken:nil
                                       fromApplication:YES];
-
-  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
-  [[MSAnalytics sharedInstance].sessionTracker stop];
 
   // When
   OCMExpect([channelUnitMock enqueueItem:OCMOCK_ANY]);
@@ -561,9 +685,6 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                               transmissionTargetToken:nil
                                       fromApplication:YES];
 
-  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
-  [[MSAnalytics sharedInstance].sessionTracker stop];
-
 // When
 #if TARGET_OS_OSX
   NSViewController *viewController = [[NSViewController alloc] init];
@@ -595,9 +716,6 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                               transmissionTargetToken:nil
                                       fromApplication:YES];
 
-  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
-  [[MSAnalytics sharedInstance].sessionTracker stop];
-
 // When
 #if TARGET_OS_OSX
   NSViewController *viewController = [[NSViewController alloc] init];
@@ -626,9 +744,6 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                                             appSecret:kMSTestAppSecret
                               transmissionTargetToken:nil
                                       fromApplication:YES];
-
-  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
-  [[MSAnalytics sharedInstance].sessionTracker stop];
 
   // When
   OCMExpect([analyticsMock isAutoPageTrackingEnabled]).andReturn(YES);
@@ -784,10 +899,6 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
   // Then
   XCTAssertTrue([MSAnalytics sharedInstance].sessionTracker.started);
-
-  // FIXME: logManager holds session tracker somehow and it causes other test
-  // failures. Stop it for hack.
-  [[MSAnalytics sharedInstance].sessionTracker stop];
 }
 
 - (void)testAutoPageTrackingWhenStartedFromLibrary {
@@ -927,6 +1038,61 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
   // Then
   XCTAssertEqualObjects(result, properties);
+}
+
+- (void)testPropertyNameIsTruncatedInACopyWhenValidatingForAppCenter {
+
+  // If
+  MSEventProperties *properties = [MSEventProperties new];
+  NSString *longKey = [@"" stringByPaddingToLength:kMSMaxPropertyKeyLength + 2 withString:@"hi" startingAtIndex:0];
+  NSString *truncatedKey = [longKey substringToIndex:kMSMaxPropertyKeyLength - 1];
+  [properties setString:@"test" forKey:longKey];
+  MSStringTypedProperty *originalProperty = (MSStringTypedProperty *)properties.properties[longKey];
+
+  // When
+  MSEventProperties *validProperties = [[MSAnalytics sharedInstance] validateAppCenterEventProperties:properties];
+
+  // Then
+  MSStringTypedProperty *validProperty = (MSStringTypedProperty *)validProperties.properties[truncatedKey];
+  XCTAssertNotNil(validProperty);
+  XCTAssertEqualObjects(validProperty.name, truncatedKey);
+  XCTAssertNotEqual(originalProperty, validProperty);
+  XCTAssertEqualObjects(originalProperty.name, longKey);
+}
+
+- (void)testPropertyValueIsTruncatedInACopyWhenValidatingForAppCenter {
+
+  // If
+  MSEventProperties *properties = [MSEventProperties new];
+  NSString *key = @"key";
+  NSString *longValue = [@"" stringByPaddingToLength:kMSMaxPropertyValueLength + 2 withString:@"hi" startingAtIndex:0];
+  NSString *truncatedValue = [longValue substringToIndex:kMSMaxPropertyValueLength - 1];
+  [properties setString:longValue forKey:key];
+  MSStringTypedProperty *originalProperty = (MSStringTypedProperty *)properties.properties[key];
+
+  // When
+  MSEventProperties *validProperties = [[MSAnalytics sharedInstance] validateAppCenterEventProperties:properties];
+
+  // Then
+  MSStringTypedProperty *validProperty = (MSStringTypedProperty *)validProperties.properties[key];
+  XCTAssertEqualObjects(validProperty.value, truncatedValue);
+  XCTAssertNotEqual(originalProperty, validProperty);
+  XCTAssertEqualObjects(originalProperty.value, longValue);
+}
+
+- (void)testAppCenterCopyHas20PropertiesWhenSelfHasMoreThan20 {
+
+  // If
+  MSEventProperties *properties = [MSEventProperties new];
+
+  // When
+  for (int i = 0; i < kMSMaxPropertiesPerLog + 5; i++) {
+    [properties setBool:YES forKey:[@(i) stringValue]];
+  }
+  MSEventProperties *validProperties = [[MSAnalytics sharedInstance] validateAppCenterEventProperties:properties];
+
+  // Then
+  XCTAssertEqual([validProperties.properties count], kMSMaxPropertiesPerLog);
 }
 
 - (void)testPause {

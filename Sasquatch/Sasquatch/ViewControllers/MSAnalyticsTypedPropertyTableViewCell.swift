@@ -1,24 +1,25 @@
 import UIKit
 
-@objc(MSCustomPropertyTableViewCell) class MSCustomPropertyTableViewCell: UITableViewCell {
-  
-  enum CustomPropertyType : String {
-    case Clear = "Clear"
+@objc(MSAnalyticsTypedPropertyTableViewCell) class MSAnalyticsTypedPropertyTableViewCell: UITableViewCell {
+  typealias PropertyState = (key: String, type: EventPropertyType, value: Any)
+
+  enum EventPropertyType : String {
     case String = "String"
-    case Number = "Number"
+    case Double = "Double"
+    case Long = "Long"
     case Boolean = "Boolean"
     case DateTime = "DateTime"
-    
-    static let allValues = [Clear, String, Number, Boolean, DateTime]
+
+    static let allValues = [String, Double, Long, Boolean, DateTime]
   }
-  
+
   @IBOutlet weak var valueLabel: UILabel!
   @IBOutlet weak var keyTextField: UITextField!
   @IBOutlet weak var typeTextField: UITextField!
   @IBOutlet weak var valueTextField: UITextField!
   @IBOutlet weak var boolValue: UISwitch!
   @IBOutlet var valueBottomConstraint: NSLayoutConstraint!
-  private var typePickerView: MSEnumPicker<CustomPropertyType>?
+  private var typePickerView: MSEnumPicker<EventPropertyType>?
   private var datePickerView: MSDatePicker?
 
   public var key: String {
@@ -26,22 +27,24 @@ import UIKit
     set(key) { self.keyTextField.text = key }
   }
 
-  public var type: CustomPropertyType {
-    get { return CustomPropertyType(rawValue: typeTextField.text!)! }
+  public var type: EventPropertyType {
+    get { return EventPropertyType(rawValue: typeTextField.text!)! }
     set(type) { self.onChangeType(type) }
   }
 
-  public var value: Any? {
+  public var value: Any {
     get {
       switch type {
-      case .Clear:
-        return nil
       case .String:
         return valueTextField.text!
-      case .Number:
+      case .Double:
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
-        return formatter.number(from: valueTextField.text ?? "") ?? 0
+        return formatter.number(from: valueTextField.text ?? "")?.doubleValue ?? 0
+      case .Long:
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        return formatter.number(from: valueTextField.text ?? "")?.int64Value ?? 0
       case .Boolean:
         return boolValue.isOn
       case .DateTime:
@@ -50,9 +53,7 @@ import UIKit
     }
     set(value) {
       switch type {
-      case .Clear:
-        break
-      case .String, .Number:
+      case .String, .Double, .Long:
         valueTextField.text = value as? String
       case .Boolean:
         boolValue.isOn = value as! Bool
@@ -62,7 +63,7 @@ import UIKit
     }
   }
 
-  public var state: (key: String, type: CustomPropertyType, value: Any?) {
+  public var state: PropertyState {
     get { return (key, type, value) }
     set(state) {
       key = state.key
@@ -71,15 +72,15 @@ import UIKit
     }
   }
 
-  public var onChange: (((key: String, type: CustomPropertyType, value: Any?)) -> Void)?
+  public var onChange: ((PropertyState) -> Void)?
 
   override func awakeFromNib() {
     super.awakeFromNib()
-    self.typePickerView = MSEnumPicker<CustomPropertyType>(
+    self.typePickerView = MSEnumPicker<EventPropertyType>(
       textField: self.typeTextField,
-      allValues: CustomPropertyType.allValues,
+      allValues: EventPropertyType.allValues,
       onChange: { index in
-        self.type = CustomPropertyType.allValues[index]
+        self.type = EventPropertyType.allValues[index]
         self.onChange?(self.state)
       }
     )
@@ -91,19 +92,19 @@ import UIKit
     self.boolValue.addTarget(self, action: #selector(onChangeValue), for: .valueChanged)
     prepareForReuse()
   }
-  
+
   override func prepareForReuse() {
     super.prepareForReuse()
-    state = ("", CustomPropertyType.String, "")
+    state = ("", EventPropertyType.String, "")
   }
 
   func onChangeKey() {
     self.onChange?(self.state)
   }
 
-  func onChangeType(_ type: CustomPropertyType) {
+  func onChangeType(_ type: EventPropertyType) {
     typeTextField.text = type.rawValue
-    
+
     // Reset to default values.
     valueTextField.text = ""
     valueTextField.keyboardType = .default
@@ -112,18 +113,13 @@ import UIKit
     valueTextField.inputView = nil
     valueTextField.inputAccessoryView = nil
     switch type {
-    case .Clear:
-      valueBottomConstraint.isActive = false
-      valueLabel.isHidden = true
-      valueTextField.isHidden = true
-      boolValue.isHidden = true
     case .String:
       valueBottomConstraint.isActive = true
       valueLabel.isHidden = false
       valueTextField.isHidden = false
       valueTextField.keyboardType = .asciiCapable
       boolValue.isHidden = true
-    case .Number:
+    case .Double, .Long:
       valueBottomConstraint.isActive = true
       valueLabel.isHidden = false
       valueTextField.isHidden = false
@@ -143,25 +139,9 @@ import UIKit
       boolValue.isHidden = true
       self.datePickerView?.showDatePicker()
     }
-    
-    // Apply constraints.
-    contentView.layoutIfNeeded()
-    
-    // Animate table.
-    let tableView: UITableView? = self.tableView()
-    tableView?.beginUpdates()
-    tableView?.endUpdates()
   }
 
   func onChangeValue() {
     self.onChange?(self.state)
-  }
-
-  func tableView() -> UITableView? {
-    var view = superview
-    while view != nil && (view is UITableView) == false {
-      view = view?.superview
-    }
-    return view as? UITableView
   }
 }

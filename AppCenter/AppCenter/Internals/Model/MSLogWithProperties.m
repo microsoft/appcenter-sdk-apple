@@ -10,7 +10,7 @@ static NSString *const kMSProperties = @"properties";
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [super serializeToDictionary];
 
-  if (self.properties) {
+  if (self.properties && [self.properties count] != 0) {
     dict[kMSProperties] = self.properties;
   }
   return dict;
