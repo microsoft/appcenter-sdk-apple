@@ -39,8 +39,9 @@ class TargetPropertiesTableSection : PropertiesTableSection {
     let target = MSTransmissionTargets.shared.transmissionTargets[selectedTarget!]!
     cell.state = targetProperties[selectedTarget!]![arrayIndex]
     cell.onChange = { state in
+      let key = self.targetProperties[selectedTarget!]![arrayIndex].key
       self.targetProperties[selectedTarget!]![arrayIndex] = state
-      target.propertyConfigurator.removeEventProperty(forKey: state.key)
+      target.propertyConfigurator.removeEventProperty(forKey: key)
       self.setEventPropertyState(state, forTarget: target)
     }
     return cell
