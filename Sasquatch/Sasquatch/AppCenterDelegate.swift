@@ -18,6 +18,7 @@ import AppCenter
   func logUrl() -> String
   func sdkVersion() -> String
   func isDebuggerAttached() -> Bool
+  func startAnalyticsFromLibrary()
   
   // Modules section.
   func isAnalyticsEnabled() -> Bool
@@ -32,8 +33,11 @@ import AppCenter
   // MSAnalytics section.
   func trackEvent(_ eventName: String)
   func trackEvent(_ eventName: String, withProperties: Dictionary<String, String>)
+  func trackEvent(_ eventName: String, withTypedProperties: MSEventProperties)
   func trackPage(_ pageName: String)
   func trackPage(_ pageName: String, withProperties: Dictionary<String, String>)
+  func resume()
+  func pause()
   
   // MSCrashes section.
   func hasCrashedInLastSession() -> Bool

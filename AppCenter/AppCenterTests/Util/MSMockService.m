@@ -1,6 +1,6 @@
-#import "MSMockService.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitConfiguration.h"
+#import "MSMockService.h"
 
 static NSString *const kMSServiceName = @"MSMockService";
 static NSString *const kMSGroupId = @"MSMock";
@@ -8,17 +8,17 @@ static MSMockService *sharedInstance = nil;
 
 @implementation MSMockService
 
-@synthesize appSecret;
-@synthesize initializationPriority;
-@synthesize channelUnit;
-@synthesize channelUnitConfiguration;
-@synthesize defaultTransmissionTargetToken;
+@synthesize channelGroup = _channelGroup;
+@synthesize channelUnit = _channelUnit;
+@synthesize channelUnitConfiguration = _channelUnitConfiguration;
+@synthesize appSecret = _appSecret;
+@synthesize defaultTransmissionTargetToken = _defaultTransmissionTargetToken;
 
 - (instancetype)init {
   if ((self = [super init])) {
+
     // Init channel configuration.
-    channelUnitConfiguration = [[MSChannelUnitConfiguration alloc]
-        initDefaultConfigurationWithGroupId:[self groupId]];
+    _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
   }
   return self;
 }
@@ -50,18 +50,23 @@ static MSMockService *sharedInstance = nil;
                     appSecret:(nullable NSString *)appSecret
       transmissionTargetToken:(nullable NSString *)token
               fromApplication:(BOOL)fromApplication {
-  [channelGroup addDelegate:self];
-  self.channelUnit = [channelGroup
-      addChannelUnitWithConfiguration:
-          [[MSChannelUnitConfiguration alloc]
-              initDefaultConfigurationWithGroupId:[self groupId]]];
+  self.startedFromApplication = fromApplication;
+  self.channelGroup = channelGroup;
   self.appSecret = appSecret;
   self.defaultTransmissionTargetToken = token;
-  self.startedFromApplication = fromApplication;
-  [self setStarted:YES];
+  self.started = YES;
+  self.channelUnit = [self.channelGroup addChannelUnitWithConfiguration:self.channelUnitConfiguration];
 }
 
 - (void)applyEnabledState:(BOOL)__unused isEnabled {
+}
+
+- (BOOL)isAvailable {
+  return self.started;
+}
+
+- (MSInitializationPriority)initializationPriority {
+  return MSInitializationPriorityDefault;
 }
 
 @end

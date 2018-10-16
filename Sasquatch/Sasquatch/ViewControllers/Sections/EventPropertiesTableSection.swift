@@ -1,41 +1,62 @@
 import UIKit
 
 class EventPropertiesTableSection : PropertiesTableSection {
+  typealias EventPropertyType = MSAnalyticsTypedPropertyTableViewCell.EventPropertyType
+  typealias PropertyState = MSAnalyticsTypedPropertyTableViewCell.PropertyState
 
-  var eventProperties: [(String, String)]! = [(String, String)]()
+  private var typedProperties = [PropertyState]()
 
-  override func propertyKeyChanged(sender: UITextField!) {
-    let arrayIndex = getCellRow(forTextField: sender) - propertyCellOffset()
-    eventProperties[arrayIndex].0 = sender.text!
-  }
-
-  override func propertyValueChanged(sender: UITextField!) {
-    let arrayIndex = getCellRow(forTextField: sender) - propertyCellOffset()
-    eventProperties[arrayIndex].1 = sender.text!
-  }
-
-  override func propertyAtRow(row: Int) -> (String, String) {
-    return eventProperties[row - propertyCellOffset()]
+  override func loadCell(row: Int) -> UITableViewCell {
+    guard let cell: MSAnalyticsTypedPropertyTableViewCell = loadCellFromNib() else {
+      preconditionFailure("Cannot load table view cell")
+    }
+    cell.state = typedProperties[row - self.propertyCellOffset]
+    cell.onChange = { state in
+      self.typedProperties[row - self.propertyCellOffset] = state
+    }
+    return cell
   }
 
   override func getPropertyCount() -> Int {
-    return eventProperties!.count
+    return typedProperties.count
+  }
+
+  override func addProperty() {
+    let count = getPropertyCount()
+    typedProperties.insert(("key\(count)", EventPropertyType.String, "value\(count)"), at: 0)
   }
 
   override func removeProperty(atRow row: Int) {
-    eventProperties!.remove(at: row - propertyCellOffset())
+    typedProperties.remove(at: row - self.propertyCellOffset)
   }
 
-  override func addProperty(property: (String, String)) {
-    eventProperties!.insert(property, at: 0)
-  }
-
-  func eventPropertiesDictionary() -> [String: String] {
-    var propertyDictionary = [String: String]()
-    for pair in eventProperties {
-      propertyDictionary[pair.0] = pair.1
+  func eventProperties() -> Any? {
+    if typedProperties.count < 1 {
+      return nil
     }
-    return propertyDictionary
+    var onlyStrings = true
+    var propertyDictionary = [String: String]()
+    let eventProperties = MSEventProperties()
+    for property in typedProperties {
+      switch property.type {
+      case .String:
+        eventProperties.setString(property.value as! String, forKey:property.key)
+        propertyDictionary[property.key] = (property.value as! String)
+      case .Double:
+        eventProperties.setDouble(property.value as! Double, forKey:property.key)
+        onlyStrings = false
+      case .Long:
+        eventProperties.setInt64(property.value as! Int64, forKey:property.key)
+        onlyStrings = false
+      case .Boolean:
+        eventProperties.setBool(property.value as! Bool, forKey:property.key)
+        onlyStrings = false
+      case .DateTime:
+        eventProperties.setDate(property.value as! Date, forKey:property.key)
+        onlyStrings = false
+      }
+    }
+    return onlyStrings ? propertyDictionary : eventProperties
   }
 }
 

@@ -1,5 +1,5 @@
-#import "MSMockSecondService.h"
 #import "MSChannelUnitConfiguration.h"
+#import "MSMockSecondService.h"
 
 static NSString *const kMSServiceName = @"MSMockSecondService";
 static NSString *const kMSGroupId = @"MSSecondMock";
@@ -7,19 +7,17 @@ static MSMockSecondService *sharedInstance = nil;
 
 @implementation MSMockSecondService
 
-@synthesize appSecret;
-@synthesize initializationPriority;
-@synthesize channelGroup;
-@synthesize channelUnit;
-@synthesize channelUnitConfiguration;
-@synthesize defaultTransmissionTargetToken;
+@synthesize channelGroup = _channelGroup;
+@synthesize channelUnit = _channelUnit;
+@synthesize channelUnitConfiguration = _channelUnitConfiguration;
+@synthesize appSecret = _appSecret;
+@synthesize defaultTransmissionTargetToken = _defaultTransmissionTargetToken;
 
 - (instancetype)init {
   if ((self = [super init])) {
 
     // Init channel configuration.
-    channelUnitConfiguration = [[MSChannelUnitConfiguration alloc]
-        initDefaultConfigurationWithGroupId:[self groupId]];
+    _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
   }
   return self;
 }
@@ -47,9 +45,8 @@ static MSMockSecondService *sharedInstance = nil;
   return kMSGroupId;
 }
 
-- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)__unused logManager
-                    appSecret:(NSString *)__unused appSecret {
-  [self setStarted:YES];
+- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)__unused logManager appSecret:(NSString *)__unused appSecret {
+  self.started = YES;
 }
 
 - (void)applyEnabledState:(BOOL)__unused isEnabled {
@@ -57,6 +54,14 @@ static MSMockSecondService *sharedInstance = nil;
 
 - (BOOL)isAppSecretRequired {
   return NO;
+}
+
+- (BOOL)isAvailable {
+  return self.started;
+}
+
+- (MSInitializationPriority)initializationPriority {
+  return MSInitializationPriorityDefault;
 }
 
 @end

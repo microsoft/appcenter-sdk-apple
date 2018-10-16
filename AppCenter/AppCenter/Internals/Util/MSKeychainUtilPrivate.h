@@ -1,5 +1,3 @@
-
-
 #import "MSKeychainUtil.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -23,9 +21,7 @@ static NSString *const kMSServiceSuffix = @"AppCenter";
  *
  * @return YES if stored successfully, NO otherwise.
  */
-+ (BOOL)storeString:(NSString *)string
-             forKey:(NSString *)key
-    withServiceName:(NSString *)serviceName;
++ (BOOL)storeString:(NSString *)string forKey:(NSString *)key withServiceName:(NSString *)serviceName;
 
 /**
  * Delete a string from Keychain with the given key.
@@ -35,8 +31,7 @@ static NSString *const kMSServiceSuffix = @"AppCenter";
  *
  * @return A string data that was deleted.
  */
-+ (NSString *_Nullable)deleteStringForKey:(NSString *)key
-                          withServiceName:(NSString *)serviceName;
++ (NSString *_Nullable)deleteStringForKey:(NSString *)key withServiceName:(NSString *)serviceName;
 
 /**
  * Get a string from Keychain with the given key.
@@ -46,8 +41,7 @@ static NSString *const kMSServiceSuffix = @"AppCenter";
  *
  * @return A string data if exists.
  */
-+ (NSString *_Nullable)stringForKey:(NSString *)key
-                    withServiceName:(NSString *)serviceName;
++ (NSString *_Nullable)stringForKey:(NSString *)key withServiceName:(NSString *)serviceName;
 
 /**
  * Deletes items that match a search query.
@@ -75,8 +69,8 @@ static NSString *const kMSServiceSuffix = @"AppCenter";
  *
  * @return A result code for the addition.
  */
-+ (OSStatus)secItemCopyMatchingQuery:(NSMutableDictionary *)query
-                              result:(CFTypeRef *__nullable CF_RETURNS_RETAINED)result;
++ (OSStatus)secItemCopyMatchingQuery:(NSMutableDictionary *)query result:(CFTypeRef *__nullable CF_RETURNS_RETAINED)result;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -1,5 +1,5 @@
-#import "MSLocExtension.h"
 #import "MSCSModelConstants.h"
+#import "MSLocExtension.h"
 
 @implementation MSLocExtension
 

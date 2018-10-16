@@ -15,9 +15,7 @@ NSString const *kMSACLogInvalidContainerErrorDesc = @"Invalid log container";
 
 // Error descriptions
 NSString const *kMSACConnectionHttpErrorDesc = @"An HTTP error occured.";
-NSString const *kMSACConnectionSuspendedErrorDesc =
-    @"Cancelled, connection suspended with log deletion.";
+NSString const *kMSACConnectionPausedErrorDesc = @"Cancelled, connection paused with log deletion.";
 
 // Error user info keys
-NSString const *kMSACConnectionHttpCodeErrorKey =
-    MS_APP_CENTER_BASE_DOMAIN "HttpCodeKey";
+NSString const *kMSACConnectionHttpCodeErrorKey = MS_APP_CENTER_BASE_DOMAIN "HttpCodeKey";

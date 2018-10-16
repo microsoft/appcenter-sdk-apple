@@ -7,24 +7,19 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MSIngestionCall : NSObject
 
 /**
- *  Call delegate.
+ * Call delegate.
  */
 @property(nonatomic, weak) id<MSIngestionCallDelegate> delegate;
 
 /**
- *  Whether the request to send data has been submitted or not.
+ * Whether the request to send data has been submitted or not.
  */
 @property(nonatomic) BOOL submitted;
 
 /**
- *  Data object to be placed in request body.
+ * Data object to be placed in request body.
  */
 @property(nonatomic) NSObject *data;
-
-/**
- * The app secret.
- */
-@property(nonatomic, copy) NSString *appSecret;
 
 /**
  * Unique call ID.
@@ -32,13 +27,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSString *callId;
 
 /**
- *  Call completion handler used for communicating with calling component.
+ * Call completion handler used for communicating with calling component.
  */
 @property(nonatomic) MSSendAsyncCompletionHandler completionHandler;
 
 /**
- * A timer source which is used to flush the queue after a certain amount of
- * time.
+ * A timer source which is used to flush the queue after a certain amount of time.
  */
 @property(nonatomic) dispatch_source_t timerSource;
 
@@ -74,12 +68,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)resetRetry;
 
 /**
- *  Call completed with error/success.
+ * Call completed with error/success.
  *
- *  @param ingestion     ingestion object.
- *  @param statusCode status code.
- *  @param data       response data.
- *  @param error      call error.
+ * @param ingestion ingestion object.
+ * @param statusCode status code.
+ * @param data response data.
+ * @param error call error.
  */
 - (void)ingestion:(id<MSIngestionProtocol>)ingestion
     callCompletedWithStatus:(NSUInteger)statusCode

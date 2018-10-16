@@ -1,5 +1,5 @@
-#import "MSNetExtension.h"
 #import "MSCSModelConstants.h"
+#import "MSNetExtension.h"
 
 @implementation MSNetExtension
 
@@ -28,8 +28,7 @@
     return NO;
   }
   MSNetExtension *netExt = (MSNetExtension *)object;
-  return ((!self.provider && !netExt.provider) ||
-          [self.provider isEqualToString:netExt.provider]);
+  return ((!self.provider && !netExt.provider) || [self.provider isEqualToString:netExt.provider]);
 }
 
 #pragma mark - NSCoding

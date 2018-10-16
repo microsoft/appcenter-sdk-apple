@@ -23,7 +23,7 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate, MSAnalytic
   let authorizeEndpoint = "authorize.srf"
   let tokenEndpoint = "token.srf"
   let signOutEndpoint = "logout.srf"
-  let clientIdParam = "&client_id=000000004C1D3F6C"
+  let clientIdParam = "&client_id=06181c2a-2403-437f-a490-9bcb06f85281"
   let redirectParam = "redirect_uri=https://login.live.com/oauth20_desktop.srf".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
   let refreshParam = "&grant_type=refresh_token&refresh_token="
   let refreshTokenParam = "refresh_token"

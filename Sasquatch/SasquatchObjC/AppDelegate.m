@@ -1,9 +1,11 @@
+#import <MobileCoreServices/MobileCoreServices.h>
+#import <Photos/Photos.h>
+#import <UserNotifications/UserNotifications.h>
+
 #import "AppDelegate.h"
 #import "AppCenterDelegateObjC.h"
 #import "Constants.h"
 #import "Sasquatch-Swift.h"
-#import <MobileCoreServices/MobileCoreServices.h>
-#import <Photos/Photos.h>
 
 #if GCC_PREPROCESSOR_MACRO_PUPPET
 #import "AppCenter.h"
@@ -15,90 +17,97 @@
 // Internal ones
 #import "MSAnalyticsInternal.h"
 
+#define APP_SECRET_VALUE "7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7"
 #else
 @import AppCenter;
 @import AppCenterAnalytics;
 @import AppCenterCrashes;
 @import AppCenterDistribute;
 @import AppCenterPush;
+
+#define APP_SECRET_VALUE "3ccfe7f5-ec01-4de5-883c-f563bbbe147a"
 #endif
 
-enum { START_FROM_APP = 0, START_FROM_LIBRARY, START_FROM_BOTH };
+enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 
 @interface AppDelegate () <
 #if GCC_PREPROCESSOR_MACRO_PUPPET
     MSAnalyticsDelegate,
 #endif
-    MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate>
+    MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate, UNUserNotificationCenterDelegate>
 
 @property(nonatomic) MSAnalyticsResult *analyticsResult;
+
+@property(nonatomic) BOOL didTapNotification;
 
 @end
 
 @implementation AppDelegate
 
-- (BOOL)application:(UIApplication *)application
-    didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
 #if GCC_PREPROCESSOR_MACRO_PUPPET
   self.analyticsResult = [MSAnalyticsResult new];
   [MSAnalytics setDelegate:self];
 
-  for (UIViewController *controller in
-       [(UITabBarController *)self.window.rootViewController viewControllers]) {
+  for (UIViewController *controller in [(UITabBarController *)self.window.rootViewController viewControllers]) {
     if ([controller isKindOfClass:[MSAnalyticsViewController class]]) {
-      [(MSAnalyticsViewController *)controller
-          setAnalyticsResult:self.analyticsResult];
+      [(MSAnalyticsViewController *)controller setAnalyticsResult:self.analyticsResult];
     }
   }
 #endif
 
-  // Cusomize App Center SDK.
-  [MSDistribute setDelegate:self];
+// Customize App Center SDK.
+#pragma clang diagnostic ignored "-Wpartial-availability"
+  if ([[NSProcessInfo processInfo] operatingSystemVersion].majorVersion >= 10) {
+    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+    center.delegate = self;
+  }
+#pragma clang diagnostic pop
   [MSPush setDelegate:self];
+  [MSDistribute setDelegate:self];
   [MSAppCenter setLogLevel:MSLogLevelVerbose];
 
-  // Start App Center SDK.
-  BOOL useOneCollector = [[NSUserDefaults standardUserDefaults]
-      boolForKey:kMSOneCollectorEnabledKey];
-  long startTarget =
-      [[NSUserDefaults standardUserDefaults] integerForKey:kMSStartTargetKey];
+  // Set max storage size.
+  NSNumber *storageMaxSize = [[NSUserDefaults standardUserDefaults] objectForKey:kMSStorageMaxSizeKey];
+  if (storageMaxSize) {
+    [MSAppCenter setMaxStorageSize:storageMaxSize.integerValue
+                 completionHandler:^(BOOL success) {
+                   if (!success) {
+                     dispatch_async(dispatch_get_main_queue(), ^{
 
-#if GCC_PREPROCESSOR_MACRO_PUPPET
-  NSString *secretString =
-      useOneCollector
-          ? @"target=09855e8251634d618c1d8ef3325e3530-8c17b252-f3c1-41e1-af64-"
-            @"78a72d13ac22-6684;appsecret=7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7"
-          : @"7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7";
-#else
-  NSString *secretString =
-      useOneCollector
-          ? @"target=5a06bf4972a44a059d59c757e6d0b595-cb71af5d-2d79-4fb4-b969-"
-            @"01840f1543e9-6845;appsecret=3ccfe7f5-ec01-4de5-883c-f563bbbe147a"
-          : @"3ccfe7f5-ec01-4de5-883c-f563bbbe147a";
-#endif
+                       // Remove invalid value.
+                       [[NSUserDefaults standardUserDefaults] removeObjectForKey:kMSStorageMaxSizeKey];
 
-  switch (startTarget) {
-  case START_FROM_LIBRARY:
-    [MSAppCenter startFromLibraryWithServices:@[ [MSAnalytics class] ]];
-    break;
-  case START_FROM_APP:
-    [MSAppCenter start:secretString
-          withServices:@[
-            [MSAnalytics class], [MSCrashes class], [MSDistribute class],
-            [MSPush class]
-          ]];
-    break;
-  case START_FROM_BOTH:
-    [MSAppCenter startFromLibraryWithServices:@[ [MSAnalytics class] ]];
-    [MSAppCenter start:secretString
-          withServices:@[
-            [MSAnalytics class], [MSCrashes class], [MSDistribute class],
-            [MSPush class]
-          ]];
-    break;
+                       // Show alert.
+                       UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Warning!"
+                                                                                                message:@"The maximum size of the internal "
+                                                                                                        @"storage could not be set."
+                                                                                         preferredStyle:UIAlertControllerStyleAlert];
+                       [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+                       [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
+                     });
+                   }
+                 }];
   }
 
+  // Start App Center SDK.
+  NSArray<Class> *services = @[ [MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class] ];
+  NSInteger startTarget = [[NSUserDefaults standardUserDefaults] integerForKey:kMSStartTargetKey];
+  switch (startTarget) {
+  case APPCENTER:
+    [MSAppCenter start:[NSString stringWithUTF8String:APP_SECRET_VALUE] withServices:services];
+    break;
+  case ONECOLLECTOR:
+    [MSAppCenter start:[NSString stringWithFormat:@"target=%@", kMSObjCTargetToken] withServices:services];
+    break;
+  case BOTH:
+    [MSAppCenter start:[NSString stringWithFormat:@"appsecret=%s;target=%@", APP_SECRET_VALUE, kMSObjCTargetToken] withServices:services];
+    break;
+  case NONE:
+    [MSAppCenter startWithServices:services];
+    break;
+  }
   [self crashes];
   [self setAppCenterDelegate];
   return YES;
@@ -137,64 +146,46 @@ enum { START_FROM_APP = 0, START_FROM_LIBRARY, START_FROM_BOTH };
   }
 
   [MSCrashes setDelegate:self];
-  [MSCrashes
-      setUserConfirmationHandler:(^(NSArray<MSErrorReport *> *errorReports) {
+  [MSCrashes setUserConfirmationHandler:(^(NSArray<MSErrorReport *> *errorReports) {
 
-        // Use MSAlertViewController to show a dialog to the user where they can
-        // choose if they want to provide a crash report.
-        UIAlertController *alertController = [UIAlertController
-            alertControllerWithTitle:@"Sorry about that!"
-                             message:@"Do you want to send an anonymous crash "
-                                     @"report so we can fix the issue?"
-                      preferredStyle:UIAlertControllerStyleAlert];
+               // Use MSAlertViewController to show a dialog to the user where they can choose if they want to provide a crash report.
+               UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Sorry about that!"
+                                                                                        message:@"Do you want to send an anonymous crash "
+                                                                                                @"report so we can fix the issue?"
+                                                                                 preferredStyle:UIAlertControllerStyleAlert];
 
-        // Add a "Don't send"-Button and call the
-        // notifyWithUserConfirmation-callback with MSUserConfirmationDontSend
-        [alertController
-            addAction:[UIAlertAction
-                          actionWithTitle:@"Don't send"
-                                    style:UIAlertActionStyleCancel
-                                  handler:^(UIAlertAction *action) {
-                                    [MSCrashes notifyWithUserConfirmation:
-                                                   MSUserConfirmationDontSend];
-                                  }]];
+               // Add a "Don't send"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationDontSend
+               [alertController addAction:[UIAlertAction actionWithTitle:@"Don't send"
+                                                                   style:UIAlertActionStyleCancel
+                                                                 handler:^(UIAlertAction *action) {
+                                                                   [MSCrashes notifyWithUserConfirmation:MSUserConfirmationDontSend];
+                                                                 }]];
 
-        // Add a "Send"-Button and call the notifyWithUserConfirmation-callback
-        // with MSUserConfirmationSend
-        [alertController
-            addAction:[UIAlertAction actionWithTitle:@"Send"
-                                               style:UIAlertActionStyleDefault
-                                             handler:^(UIAlertAction *action) {
-                                               [MSCrashes
-                                                   notifyWithUserConfirmation:
-                                                       MSUserConfirmationSend];
-                                             }]];
+               // Add a "Send"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationSend
+               [alertController addAction:[UIAlertAction actionWithTitle:@"Send"
+                                                                   style:UIAlertActionStyleDefault
+                                                                 handler:^(UIAlertAction *action) {
+                                                                   [MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
+                                                                 }]];
 
-        // Add a "Always send"-Button and call the
-        // notifyWithUserConfirmation-callback with MSUserConfirmationAlways
-        [alertController
-            addAction:[UIAlertAction
-                          actionWithTitle:@"Always send"
-                                    style:UIAlertActionStyleDefault
-                                  handler:^(UIAlertAction *action) {
-                                    [MSCrashes notifyWithUserConfirmation:
-                                                   MSUserConfirmationAlways];
-                                  }]];
-        // Show the alert controller.
-        [self.window.rootViewController presentViewController:alertController
-                                                     animated:YES
-                                                   completion:nil];
+               // Add a "Always send"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationAlways
+               [alertController addAction:[UIAlertAction actionWithTitle:@"Always send"
+                                                                   style:UIAlertActionStyleDefault
+                                                                 handler:^(UIAlertAction *action) {
+                                                                   [MSCrashes notifyWithUserConfirmation:MSUserConfirmationAlways];
+                                                                 }]];
 
-        return YES;
-      })];
+               // Show the alert controller.
+               [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
+
+               return YES;
+             })];
 }
 
 - (void)setAppCenterDelegate {
   AppCenterDelegateObjC *appCenterDel = [[AppCenterDelegateObjC alloc] init];
-  for (UIViewController *controller in
-       [(UITabBarController *)self.window.rootViewController viewControllers]) {
-    id<AppCenterProtocol> sasquatchController =
-        (id<AppCenterProtocol>)controller;
+  for (UIViewController *controller in [(UITabBarController *)self.window.rootViewController viewControllers]) {
+    id<AppCenterProtocol> sasquatchController = (id<AppCenterProtocol>)controller;
     sasquatchController.appCenter = appCenterDel;
   }
 }
@@ -202,102 +193,71 @@ enum { START_FROM_APP = 0, START_FROM_LIBRARY, START_FROM_BOTH };
 #if GCC_PREPROCESSOR_MACRO_PUPPET
 #pragma mark - MSAnalyticsDelegate
 
-- (void)analytics:(MSAnalytics *)analytics
-    willSendEventLog:(MSEventLog *)eventLog {
+- (void)analytics:(MSAnalytics *)analytics willSendEventLog:(MSEventLog *)eventLog {
   [self.analyticsResult willSendWithEventLog:eventLog];
-  [NSNotificationCenter.defaultCenter
-      postNotificationName:kUpdateAnalyticsResultNotification
-                    object:self.analyticsResult];
+  [NSNotificationCenter.defaultCenter postNotificationName:kUpdateAnalyticsResultNotification object:self.analyticsResult];
 }
 
-- (void)analytics:(MSAnalytics *)analytics
-    didSucceedSendingEventLog:(MSEventLog *)eventLog {
+- (void)analytics:(MSAnalytics *)analytics didSucceedSendingEventLog:(MSEventLog *)eventLog {
   [self.analyticsResult didSucceedSendingWithEventLog:eventLog];
-  [NSNotificationCenter.defaultCenter
-      postNotificationName:kUpdateAnalyticsResultNotification
-                    object:self.analyticsResult];
+  [NSNotificationCenter.defaultCenter postNotificationName:kUpdateAnalyticsResultNotification object:self.analyticsResult];
 }
 
-- (void)analytics:(MSAnalytics *)analytics
-    didFailSendingEventLog:(MSEventLog *)eventLog
-                 withError:(NSError *)error {
+- (void)analytics:(MSAnalytics *)analytics didFailSendingEventLog:(MSEventLog *)eventLog withError:(NSError *)error {
   [self.analyticsResult didFailSendingWithEventLog:eventLog withError:error];
-  [NSNotificationCenter.defaultCenter
-      postNotificationName:kUpdateAnalyticsResultNotification
-                    object:self.analyticsResult];
+  [NSNotificationCenter.defaultCenter postNotificationName:kUpdateAnalyticsResultNotification object:self.analyticsResult];
 }
 #endif
 
 #pragma mark - MSCrashesDelegate
 
-- (BOOL)crashes:(MSCrashes *)crashes
-    shouldProcessErrorReport:(MSErrorReport *)errorReport {
+- (BOOL)crashes:(MSCrashes *)crashes shouldProcessErrorReport:(MSErrorReport *)errorReport {
   NSLog(@"Should process error report with: %@", errorReport.exceptionReason);
   return YES;
 }
 
-- (void)crashes:(MSCrashes *)crashes
-    willSendErrorReport:(MSErrorReport *)errorReport {
+- (void)crashes:(MSCrashes *)crashes willSendErrorReport:(MSErrorReport *)errorReport {
   NSLog(@"Will send error report with: %@", errorReport.exceptionReason);
 }
 
-- (void)crashes:(MSCrashes *)crashes
-    didSucceedSendingErrorReport:(MSErrorReport *)errorReport {
-  NSLog(@"Did succeed error report sending with: %@",
-        errorReport.exceptionReason);
+- (void)crashes:(MSCrashes *)crashes didSucceedSendingErrorReport:(MSErrorReport *)errorReport {
+  NSLog(@"Did succeed error report sending with: %@", errorReport.exceptionReason);
 }
 
-- (void)crashes:(MSCrashes *)crashes
-    didFailSendingErrorReport:(MSErrorReport *)errorReport
-                    withError:(NSError *)error {
-  NSLog(@"Did fail sending report with: %@, and error: %@",
-        errorReport.exceptionReason, error.localizedDescription);
+- (void)crashes:(MSCrashes *)crashes didFailSendingErrorReport:(MSErrorReport *)errorReport withError:(NSError *)error {
+  NSLog(@"Did fail sending report with: %@, and error: %@", errorReport.exceptionReason, error.localizedDescription);
 }
 
-- (NSArray<MSErrorAttachmentLog *> *)attachmentsWithCrashes:(MSCrashes *)crashes
-                                             forErrorReport:
-                                                 (MSErrorReport *)errorReport {
+- (NSArray<MSErrorAttachmentLog *> *)attachmentsWithCrashes:(MSCrashes *)crashes forErrorReport:(MSErrorReport *)errorReport {
   NSMutableArray *attachments = [[NSMutableArray alloc] init];
 
   // Text attachment.
-  NSString *text =
-      [[NSUserDefaults standardUserDefaults] objectForKey:@"textAttachment"];
+  NSString *text = [[NSUserDefaults standardUserDefaults] objectForKey:@"textAttachment"];
   if (text != nil && text.length > 0) {
-    MSErrorAttachmentLog *textAttachment =
-        [MSErrorAttachmentLog attachmentWithText:text filename:@"user.log"];
+    MSErrorAttachmentLog *textAttachment = [MSErrorAttachmentLog attachmentWithText:text filename:@"user.log"];
     [attachments addObject:textAttachment];
   }
 
   // Binary attachment.
-  NSURL *referenceUrl =
-      [[NSUserDefaults standardUserDefaults] URLForKey:@"fileAttachment"];
+  NSURL *referenceUrl = [[NSUserDefaults standardUserDefaults] URLForKey:@"fileAttachment"];
   if (referenceUrl) {
-    PHAsset *asset = [[PHAsset fetchAssetsWithALAssetURLs:@[ referenceUrl ]
-                                                  options:nil] lastObject];
+    PHAsset *asset = [[PHAsset fetchAssetsWithALAssetURLs:@[ referenceUrl ] options:nil] lastObject];
     if (asset) {
       PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
       options.synchronous = YES;
       [[PHImageManager defaultManager]
           requestImageDataForAsset:asset
                            options:options
-                     resultHandler:^(NSData *_Nullable imageData,
-                                     NSString *_Nullable dataUTI,
-                                     __unused UIImageOrientation orientation,
+                     resultHandler:^(NSData *_Nullable imageData, NSString *_Nullable dataUTI, __unused UIImageOrientation orientation,
                                      __unused NSDictionary *_Nullable info) {
-                       CFStringRef UTI = UTTypeCreatePreferredIdentifierForTag(
-                           kUTTagClassFilenameExtension,
-                           (__bridge CFStringRef)[dataUTI pathExtension], nil);
-                       NSString *MIMEType = (__bridge_transfer NSString *)
-                           UTTypeCopyPreferredTagWithClass(UTI,
-                                                           kUTTagClassMIMEType);
+                       CFStringRef UTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension,
+                                                                               (__bridge CFStringRef)[dataUTI pathExtension], nil);
+                       NSString *MIMEType = (__bridge_transfer NSString *)UTTypeCopyPreferredTagWithClass(UTI, kUTTagClassMIMEType);
                        CFRelease(UTI);
                        MSErrorAttachmentLog *binaryAttachment =
-                           [MSErrorAttachmentLog attachmentWithBinary:imageData
-                                                             filename:dataUTI
-                                                          contentType:MIMEType];
+                           [MSErrorAttachmentLog attachmentWithBinary:imageData filename:dataUTI contentType:MIMEType];
                        [attachments addObject:binaryAttachment];
-                       NSLog(@"Add binary attachment with %tu bytes",
-                             [imageData length]);
+                       NSLog(@"Add binary attachment with %tu bytes", [imageData length]);
                      }];
     }
   }
@@ -306,94 +266,101 @@ enum { START_FROM_APP = 0, START_FROM_LIBRARY, START_FROM_BOTH };
 
 #pragma mark - MSDistributeDelegate
 
-- (BOOL)distribute:(MSDistribute *)distribute
-    releaseAvailableWithDetails:(MSReleaseDetails *)details {
+- (BOOL)distribute:(MSDistribute *)distribute releaseAvailableWithDetails:(MSReleaseDetails *)details {
 
-  if ([[[NSUserDefaults new] objectForKey:kSASCustomizedUpdateAlertKey]
-          isEqual:@1]) {
+  if ([[[NSUserDefaults new] objectForKey:kSASCustomizedUpdateAlertKey] isEqual:@1]) {
 
     // Show a dialog to the user where they can choose if they want to update.
-    UIAlertController *alertController = [UIAlertController
-        alertControllerWithTitle:NSLocalizedStringFromTable(
-                                     @"distribute_alert_title", @"Sasquatch",
-                                     @"")
-                         message:NSLocalizedStringFromTable(
-                                     @"distribute_alert_message", @"Sasquatch",
-                                     @"")
-                  preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertController =
+        [UIAlertController alertControllerWithTitle:NSLocalizedStringFromTable(@"distribute_alert_title", @"Sasquatch", @"")
+                                            message:NSLocalizedStringFromTable(@"distribute_alert_message", @"Sasquatch", @"")
+                                     preferredStyle:UIAlertControllerStyleAlert];
 
-    // Add a "Yes"-Button and call the notifyUpdateAction-callback with
-    // MSUpdateActionUpdate
-    [alertController
-        addAction:[UIAlertAction
-                      actionWithTitle:NSLocalizedStringFromTable(
-                                          @"distribute_alert_yes", @"Sasquatch",
-                                          @"")
-                                style:UIAlertActionStyleCancel
-                              handler:^(UIAlertAction *action) {
-                                [MSDistribute
-                                    notifyUpdateAction:MSUpdateActionUpdate];
-                              }]];
+    // Add a "Yes"-Button and call the notifyUpdateAction-callback with MSUpdateActionUpdate
+    [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedStringFromTable(@"distribute_alert_yes", @"Sasquatch", @"")
+                                                        style:UIAlertActionStyleCancel
+                                                      handler:^(UIAlertAction *action) {
+                                                        [MSDistribute notifyUpdateAction:MSUpdateActionUpdate];
+                                                      }]];
 
-    // Add a "No"-Button and call the notifyUpdateAction-callback with
-    // MSUpdateActionPostpone
-    [alertController
-        addAction:[UIAlertAction
-                      actionWithTitle:NSLocalizedStringFromTable(
-                                          @"distribute_alert_no", @"Sasquatch",
-                                          @"")
-                                style:UIAlertActionStyleDefault
-                              handler:^(UIAlertAction *action) {
-                                [MSDistribute
-                                    notifyUpdateAction:MSUpdateActionPostpone];
-                              }]];
+    // Add a "No"-Button and call the notifyUpdateAction-callback with MSUpdateActionPostpone
+    [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedStringFromTable(@"distribute_alert_no", @"Sasquatch", @"")
+                                                        style:UIAlertActionStyleDefault
+                                                      handler:^(UIAlertAction *action) {
+                                                        [MSDistribute notifyUpdateAction:MSUpdateActionPostpone];
+                                                      }]];
 
     // Show the alert controller.
-    [self.window.rootViewController presentViewController:alertController
-                                                 animated:YES
-                                               completion:nil];
+    [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
     return YES;
   }
   return NO;
 }
 
-#pragma mark - MSPushDelegate
+#pragma mark - Push callbacks
 
-- (void)push:(MSPush *)push
-    didReceivePushNotification:(MSPushNotification *)pushNotification {
+// iOS 10 and later, called when a notification is delivered to an app that is in the foreground.
+// When this callback is called, this disables the other callback that MSPush handles.
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center
+       willPresentNotification:(UNNotification *)notification
+         withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler API_AVAILABLE(ios(10.0)) {
+  id appCenter = notification.request.content.userInfo[@"mobile_center"];
+  id presentation = [appCenter isKindOfClass:[NSDictionary class]] ? appCenter[@"presentation"] : nil;
+  if ([presentation isKindOfClass:[NSString class]] && [presentation isEqualToString:@"alert"]) {
+
+    // Show alert if custom data enabled it.
+    // Note that if silent push is enabled, we'll get both dialog and notification, doing it on purpose.
+    completionHandler(UNNotificationPresentationOptionAlert);
+  } else {
+    [MSPush didReceiveRemoteNotification:notification.request.content.userInfo];
+    completionHandler(UNNotificationPresentationOptionNone);
+  }
+}
+
+// iOS 10 and later, asks the delegate to process the user's response to a delivered notification.
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center
+    didReceiveNotificationResponse:(UNNotificationResponse *)response
+             withCompletionHandler:(void (^)(void))completionHandler API_AVAILABLE(ios(10.0)) {
+  if ([[response actionIdentifier] isEqualToString:UNNotificationDefaultActionIdentifier]) {
+    self.didTapNotification = YES;
+  }
+  [MSPush didReceiveRemoteNotification:response.notification.request.content.userInfo];
+  completionHandler();
+}
+
+- (void)push:(MSPush *)push didReceivePushNotification:(MSPushNotification *)pushNotification {
   NSString *title = pushNotification.title ?: @"";
   NSString *message = pushNotification.message;
   NSMutableString *customData = nil;
   for (NSString *key in pushNotification.customData) {
-    ([customData length] == 0) ? customData = [NSMutableString new]
-                               : [customData appendString:@", "];
-    [customData appendFormat:@"%@: %@", key,
-                             [pushNotification.customData objectForKey:key]];
+    ([customData length] == 0) ? customData = [NSMutableString new] : [customData appendString:@", "];
+    [customData appendFormat:@"%@: %@", key, pushNotification.customData[key]];
   }
-  if (UIApplication.sharedApplication.applicationState ==
-      UIApplicationStateBackground) {
-    NSLog(@"Notification received in background, title: \"%@\", message: "
+  if (UIApplication.sharedApplication.applicationState == UIApplicationStateBackground) {
+    NSLog(@"Notification received in background (silent push), title: \"%@\", "
+          @"message: "
           @"\"%@\", custom data: \"%@\"",
           title, message, customData);
   } else {
-    message = [NSString stringWithFormat:@"%@%@%@", (message ? message : @""),
-                                         (message && customData ? @"\n" : @""),
-                                         (customData ? customData : @"")];
+    NSString *stateMessage;
+    if ([[NSProcessInfo processInfo] operatingSystemVersion].majorVersion < 10) {
+      stateMessage = @"";
+    } else if (self.didTapNotification) {
+      stateMessage = @"Tapped notification\n";
+    } else {
+      stateMessage = @"Received in foreground\n";
+    }
+    message = [NSString stringWithFormat:@"%@%@%@%@", stateMessage, (message ? message : @""), (message && customData ? @"\n" : @""),
+                                         (customData ? customData : [@"" mutableCopy])];
 
-    UIAlertController *alertController = [UIAlertController
-        alertControllerWithTitle:title
-                         message:message
-                  preferredStyle:UIAlertControllerStyleAlert];
-    [alertController
-        addAction:[UIAlertAction actionWithTitle:@"OK"
-                                           style:UIAlertActionStyleCancel
-                                         handler:nil]];
+    UIAlertController *alertController =
+        [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
 
     // Show the alert controller.
-    [self.window.rootViewController presentViewController:alertController
-                                                 animated:YES
-                                               completion:nil];
+    [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
   }
+  self.didTapNotification = NO;
 }
 
 @end

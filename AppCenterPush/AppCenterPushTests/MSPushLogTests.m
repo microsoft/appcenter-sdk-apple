@@ -48,8 +48,7 @@
   self.sut.pushToken = pushToken;
 
   // When
-  NSData *serializedEvent =
-      [NSKeyedArchiver archivedDataWithRootObject:self.sut];
+  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.sut];
   id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
 
   // Then

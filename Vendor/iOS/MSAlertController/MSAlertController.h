@@ -11,8 +11,8 @@
 @end
 
 /**
- * A custom subclass of UIAlertcontroller that can be called from other classes than a UIViewController subclass, e.g.
- * from an app's appication delegate.
+ * A custom subclass of UIAlertcontroller that can be called from other classes than a UIViewController subclass, e.g. from an app's
+ * appication delegate.
  */
 @interface MSAlertController : UIAlertController
 

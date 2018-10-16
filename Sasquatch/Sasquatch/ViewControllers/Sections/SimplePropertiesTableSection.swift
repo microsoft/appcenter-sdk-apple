@@ -1,0 +1,48 @@
+import UIKit
+
+class SimplePropertiesTableSection : PropertiesTableSection {
+
+  override func loadCell(row: Int) -> UITableViewCell {
+    guard let cell: MSAnalyticsPropertyTableViewCell = loadCellFromNib() else {
+      preconditionFailure("Cannot load table view cell")
+    }
+
+    // Set cell text.
+    let property = propertyAtRow(row: row)
+    cell.keyField.text = property.key
+    cell.valueField.text = property.value
+
+    // Set cell to respond to being edited.
+    cell.keyField.addTarget(self, action: #selector(propertyKeyChanged), for: .editingChanged)
+    cell.keyField.addTarget(self, action: #selector(dismissKeyboard), for: .editingDidEndOnExit)
+    cell.valueField.addTarget(self, action: #selector(propertyValueChanged), for: .editingChanged)
+    cell.valueField.addTarget(self, action: #selector(dismissKeyboard), for: .editingDidEndOnExit)
+
+    return cell
+  }
+
+  override func addProperty() {
+    let count = getPropertyCount()
+    addProperty(property: ("key\(count)", "value\(count)"))
+  }
+
+  func addProperty(property: (key: String, value: String)) {
+    preconditionFailure("This method is abstract")
+  }
+
+  func propertyAtRow(row: Int) -> (key: String, value: String) {
+    preconditionFailure("This method is abstract")
+  }
+
+  func propertyKeyChanged(sender: UITextField!) {
+    preconditionFailure("This method is abstract")
+  }
+
+  func propertyValueChanged(sender: UITextField!) {
+    preconditionFailure("This method is abstract")
+  }
+
+  func dismissKeyboard(sender: UITextField!) {
+    sender.resignFirstResponder()
+  }
+}

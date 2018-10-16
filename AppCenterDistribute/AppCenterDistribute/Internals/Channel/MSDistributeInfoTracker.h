@@ -12,8 +12,7 @@
 /**
  * Update the distribution group ID value that is added to logs.
  *
- * @param distributionGroupId The distribution group ID value that is added to
- * logs.
+ * @param distributionGroupId The distribution group ID value that is added to logs.
  */
 - (void)updateDistributionGroupId:(NSString *)distributionGroupId;
 

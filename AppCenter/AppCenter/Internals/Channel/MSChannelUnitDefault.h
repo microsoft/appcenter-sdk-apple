@@ -6,17 +6,16 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class MSChannelUnitConfiguration;
+
 @protocol MSIngestionProtocol;
 @protocol MSStorage;
 
-@interface MSChannelUnitDefault
-    : NSObject <MSChannelUnitProtocol, MSIngestionDelegate>
+@interface MSChannelUnitDefault : NSObject <MSChannelUnitProtocol, MSIngestionDelegate>
 
 /**
  * Initializes a new `MSChannelUnitDefault` instance.
  *
- * @param ingestion An ingestion instance that is used to send batches of log
- * items to the backend.
+ * @param ingestion An ingestion instance that is used to send batches of log items to the backend.
  * @param storage A storage instance to store and read enqueued log items.
  * @param configuration The configuration used by this channel.
  * @param logsDispatchQueue Queue used to process logs.
@@ -50,8 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) id<MSStorage> storage;
 
 /**
- * A timer source which is used to flush the queue after a certain amount of
- * time.
+ * A timer source which is used to flush the queue after a certain amount of time.
  */
 @property(nonatomic) dispatch_source_t timerSource;
 
@@ -61,14 +59,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, assign) NSUInteger itemsCount;
 
 /**
- * A list used to keep track of batches that have been forwarded to the
- * ingestion component.
+ * A list used to keep track of batches that have been forwarded to the ingestion component.
  */
 @property(nonatomic, strong) NSMutableArray *pendingBatchIds;
 
 /**
- * A boolean value set to YES if there is at least one available batch from the
- * storage.
+ * A boolean value set to YES if there is at least one available batch from the storage.
  */
 @property(nonatomic) BOOL availableBatchFromStorage;
 
@@ -79,31 +75,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * A boolean value set to YES if the channel is enabled or NO otherwise.
- * Enable/disable does resume/suspend the channel as needed under the hood.
- * When a channel is disabled with data deletion it deletes persisted logs and
- * discards incoming logs.
+ * Enable/disable does resume/pause the channel as needed under the hood. When a channel is disabled with data deletion it deletes persisted
+ * logs and discards incoming logs.
  */
 @property(nonatomic) BOOL enabled;
 
 /**
- * A boolean value set to YES if the channel is suspended or NO otherwise.
- * A channel is suspended when it becomes disabled or when its ingestion becomes
- * suspended itself. A suspended channel doesn't forward logs to the ingestion.
- * A suspended state doesn't impact the current enabled state.
+ * A boolean value set to YES if the channel is paused or NO otherwise. A paused channel doesn't forward logs to the ingestion. A paused
+ * state doesn't impact the current enabled state.
  */
-@property(nonatomic) BOOL suspended;
+@property(nonatomic) BOOL paused;
 
 /**
- * A boolean value set to YES if logs are discarded (not persisted) or NO
- * otherwise. Logs are discarded when the related service is disabled or an
- * unrecoverable error happened.
+ * A boolean value set to YES if logs are discarded (not persisted) or NO otherwise. Logs are discarded when the related service is disabled
+ * or an unrecoverable error happened.
  */
 @property(nonatomic) BOOL discardLogs;
-
-/**
- * The app secret.
- */
-@property(nonatomic, copy) NSString *appSecret;
 
 @end
 

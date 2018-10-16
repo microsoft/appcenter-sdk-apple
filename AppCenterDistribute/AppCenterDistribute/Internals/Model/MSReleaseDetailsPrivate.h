@@ -10,9 +10,8 @@
 @interface MSReleaseDetails ()
 
 /**
- * OBSOLETE. Will be removed in next version. The availability concept is now
- * replaced with distributed. Any 'available' associated with the default
- * distribution group of an app. enum: available unavailable
+ * OBSOLETE. Will be removed in next version. The availability concept is now replaced with distributed. Any 'available' associated with the
+ * default distribution group of an app. enum: available unavailable
  */
 @property(nonatomic, copy) NSString *status;
 

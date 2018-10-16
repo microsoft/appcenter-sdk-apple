@@ -1,6 +1,6 @@
-#import "MSDistributeAppDelegate.h"
 #import "MSAppDelegateForwarder.h"
 #import "MSDistribute.h"
+#import "MSDistributeAppDelegate.h"
 
 @implementation MSDistributeAppDelegate
 
@@ -16,8 +16,7 @@
 
 - (BOOL)application:(__attribute__((unused))UIApplication *)application
             openURL:(NSURL *)url
-            options:(__attribute__((unused))
-                     NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options
+            options:(__attribute__((unused))NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options
       returnedValue:(BOOL)returnedValue {
   return [self openURL:url returnedValue:returnedValue];
 }
@@ -39,11 +38,9 @@
 
 + (void)load {
 
-  // Register selectors to swizzle for Ditribute.
-  [self
-      addAppDelegateSelectorToSwizzle:@selector(application:openURL:options:)];
-  [self addAppDelegateSelectorToSwizzle:@selector
-        (application:openURL:sourceApplication:annotation:)];
+  // Register selectors to swizzle for Distribute.
+  [self addAppDelegateSelectorToSwizzle:@selector(application:openURL:options:)];
+  [self addAppDelegateSelectorToSwizzle:@selector(application:openURL:sourceApplication:annotation:)];
 }
 
 @end

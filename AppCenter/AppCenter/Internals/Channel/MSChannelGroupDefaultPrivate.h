@@ -1,19 +1,19 @@
+#import "MSChannelDelegate.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
-@class MSHttpIngestion;
-@protocol MSStorage;
+@class MSAppCenterIngestion;
 
-@interface MSChannelGroupDefault ()
+@interface MSChannelGroupDefault () <MSChannelDelegate>
 
 /**
  * Initializes a new `MSChannelGroupDefault` instance.
  *
- * @param ingestion An HTTP ingestion instance that is used to send batches of
- * log items to the backend.
+ * @param ingestion An HTTP ingestion instance that is used to send batches of log items to the backend.
  *
  * @return A new `MSChannelGroupDefault` instance.
  */
-- (instancetype)initWithIngestion:(nullable MSHttpIngestion *)ingestion;
+- (instancetype)initWithIngestion:(nullable MSAppCenterIngestion *)ingestion;
 
 @end
 

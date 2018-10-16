@@ -11,25 +11,23 @@ typedef struct {
   const uintptr_t *__nonnull exception_frames;
 } MSCrashesUncaughtCXXExceptionInfo;
 
-typedef void (*MSCrashesUncaughtCXXExceptionHandler)(
-    const MSCrashesUncaughtCXXExceptionInfo *__nonnull info);
+typedef void (*MSCrashesUncaughtCXXExceptionHandler)(const MSCrashesUncaughtCXXExceptionInfo *__nonnull info);
 
 @interface MSCrashesUncaughtCXXExceptionHandlerManager : NSObject
 
 /**
- * Add a XCXX exceptionhandler.
+ * Add a XCXX exceptionHandler.
+ *
  * @param handler The MSCrashesUncaughtCXXExceptionHandler that should be added.
  */
-+ (void)addCXXExceptionHandler:
-    (nonnull MSCrashesUncaughtCXXExceptionHandler)handler;
++ (void)addCXXExceptionHandler:(nonnull MSCrashesUncaughtCXXExceptionHandler)handler;
 
 /**
- * Remove a XCXX exceptionhandler.
- * @param handler The MSCrashesUncaughtCXXExceptionHandler that should be
- * removed.
+ * Remove a XCXX exceptionHandler.
+ *
+ * @param handler The MSCrashesUncaughtCXXExceptionHandler that should be removed.
  */
-+ (void)removeCXXExceptionHandler:
-    (nonnull MSCrashesUncaughtCXXExceptionHandler)handler;
++ (void)removeCXXExceptionHandler:(nonnull MSCrashesUncaughtCXXExceptionHandler)handler;
 
 /**
  * Handlers count

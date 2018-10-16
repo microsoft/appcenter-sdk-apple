@@ -3,10 +3,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /*
- * FIXME: We need ordered columns so we can't just use an `NSDictionary` to
- * store them. A workaround is to use an array of dictionaries instead, still
- * works fine as literals. But, we should use an array of tuples when we'll
- * switch to Swift.
+ * FIXME: We need ordered columns so we can't just use an `NSDictionary` to store them. A workaround is to use an array of dictionaries
+ * instead, still works fine as literals. But, we should use an array of tuples when we'll switch to Swift.
  *
  * Database schema example:
  *
@@ -18,9 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
  *           ...
  *        };
  */
-typedef NSDictionary<
-    NSString *, NSArray<NSDictionary<NSString *, NSArray<NSString *> *> *> *>
-    MSDBSchema;
+typedef NSDictionary<NSString *, NSArray<NSDictionary<NSString *, NSArray<NSString *> *> *> *> MSDBSchema;
 
 // SQLite types
 static NSString *const kMSSQLiteTypeText = @"TEXT";
@@ -34,6 +30,11 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
 @interface MSDBStorage : NSObject
 
 /**
+ * Maximum number of pages allowed in the database.
+ */
+@property(nonatomic) int maxPageCount;
+
+/**
  * Initialize this database with a schema and a filename for its creation.
  *
  * @param schema Schema describing the database.
@@ -42,38 +43,33 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
  *
  * @return An instance of a database.
  */
-- (instancetype)initWithSchema:(MSDBSchema *)schema
-                       version:(NSUInteger)version
-                      filename:(NSString *)filename;
+- (instancetype)initWithSchema:(MSDBSchema *)schema version:(NSUInteger)version filename:(NSString *)filename;
 
 /**
- * Count entries on a given table using the given SQLite "WHERE" clause's
- * condition.
+ * Count entries on a given table using the given SQLite "WHERE" clause's condition.
  *
  * @param tableName Name of the table to inspect.
  * @param condition The SQLite "WHERE" clause's condition.
  *
  * @return The count of entries for this query.
  */
-- (NSUInteger)countEntriesForTable:(NSString *)tableName
-                         condition:(nullable NSString *)condition;
+- (NSUInteger)countEntriesForTable:(NSString *)tableName condition:(nullable NSString *)condition;
 
 /**
- * Execute a non selection SQLite query on the database (i.e.: "CREATE",
- * "INSERTE", "UPDATE"... but not "SELECT").
+ * Execute a non selection SQLite query on the database (i.e.: "CREATE", "INSERT", "UPDATE"... but not "SELECT").
  *
  * @param query An SQLite query to execute.
  *
- * @return `YES` if the query executed successfully, otherwise `NO`.
+ * @return The SQLite return code.
  */
-- (BOOL)executeNonSelectionQuery:(NSString *)query;
+- (int)executeNonSelectionQuery:(NSString *)query;
 
 /**
  * Execute a "SELECT" SQLite query on the database.
  *
  * @param query An SQLite "SELECT" query to execute.
  *
- * @return The selectioned entries.
+ * @return The selected entries.
  */
 - (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query;
 
@@ -85,6 +81,19 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
  * @return Database tables columns indexes.
  */
 + (NSDictionary *)columnsIndexes:(MSDBSchema *)schema;
+
+/**
+ * Set the maximum size of the internal storage. This method must be called before App Center is started.
+ *
+ * @param sizeInBytes Maximum size of in bytes. This will be rounded up to the nearest multiple of 4096. Values below 20,480 (20 KiB) will
+ * be ignored.
+ * @param completionHandler Callback that is invoked when the database size has been set. The `BOOL` parameter is `YES` if changing the size
+ * is successful, and `NO` otherwise.
+ *
+ * @discussion This only sets the maximum size of the database, but App Center modules might store additional data.
+ * The value passed to this method is not persisted on disk. The default maximum database size is 10485760 bytes (10 MiB).
+ */
+- (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(nullable void (^)(BOOL))completionHandler;
 
 @end
 

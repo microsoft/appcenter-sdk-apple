@@ -11,8 +11,7 @@
 
   // If
   NSString *idString = nil;
-  MSSemVerPreReleaseId *preReleaseId =
-      [MSSemVerPreReleaseId identifierWithString:idString];
+  MSSemVerPreReleaseId *preReleaseId = [MSSemVerPreReleaseId identifierWithString:idString];
 
   // Then
   assertThat(preReleaseId, nilValue());
@@ -35,10 +34,8 @@
 
   // If
   // Equal pre-releases ids.
-  MSSemVerPreReleaseId *preReleaseIdA =
-      [MSSemVerPreReleaseId identifierWithString:@"alpha"];
-  MSSemVerPreReleaseId *preReleaseIdB =
-      [MSSemVerPreReleaseId identifierWithString:@"alpha"];
+  MSSemVerPreReleaseId *preReleaseIdA = [MSSemVerPreReleaseId identifierWithString:@"alpha"];
+  MSSemVerPreReleaseId *preReleaseIdB = [MSSemVerPreReleaseId identifierWithString:@"alpha"];
 
   // When
   NSComparisonResult result = [preReleaseIdA compare:preReleaseIdB];
@@ -47,7 +44,7 @@
   assertThatInt(result, equalToInt(NSOrderedSame));
 
   // If
-  // Numerical identifiers in pre-release are compared as numeric valules.
+  // Numerical identifiers in pre-release are compared as numeric values.
   preReleaseIdA = [MSSemVerPreReleaseId identifierWithString:@"12"];
   preReleaseIdB = [MSSemVerPreReleaseId identifierWithString:@"13"];
 
@@ -58,7 +55,7 @@
   assertThatInt(result, equalToInt(NSOrderedAscending));
 
   // If
-  // Numerical identifiers in pre-release are compared as numeric valules.
+  // Numerical identifiers in pre-release are compared as numeric values.
   preReleaseIdA = [MSSemVerPreReleaseId identifierWithString:@"13"];
   preReleaseIdB = [MSSemVerPreReleaseId identifierWithString:@"12"];
 
@@ -124,4 +121,5 @@
   // Then
   assertThatInt(result, equalToInt(NSOrderedDescending));
 }
+
 @end

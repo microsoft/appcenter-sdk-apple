@@ -6,8 +6,7 @@
 @interface MSDevice () <MSSerializableObject>
 
 /*
- * Name of the SDK. Consists of the name of the SDK and the platform, e.g.
- * "appcenter.ios", "appcenter.android"
+ * Name of the SDK. Consists of the name of the SDK and the platform, e.g. "appcenter.ios", "appcenter.android"
  */
 @property(nonatomic, copy) NSString *sdkName;
 
@@ -37,12 +36,12 @@
 @property(nonatomic, copy) NSString *osVersion;
 
 /*
- * OS build code (example: LMY47X).  [optional]
+ * OS build code (example: LMY47X). [optional]
  */
 @property(nonatomic, copy) NSString *osBuild;
 
 /*
- * API level when applicable like in Android (example: 15).  [optional]
+ * API level when applicable like in Android (example: 15). [optional]
  */
 @property(nonatomic, copy) NSNumber *osApiLevel;
 
@@ -52,8 +51,7 @@
 @property(nonatomic, copy) NSString *locale;
 
 /*
- * The offset in minutes from UTC for the device time zone, including daylight
- * savings time.
+ * The offset in minutes from UTC for the device time zone, including daylight savings time.
  */
 @property(nonatomic) NSNumber *timeZoneOffset;
 
@@ -68,12 +66,12 @@
 @property(nonatomic, copy) NSString *appVersion;
 
 /*
- * Carrier name (for mobile devices).  [optional]
+ * Carrier name (for mobile devices). [optional]
  */
 @property(nonatomic, copy) NSString *carrierName;
 
 /*
- * Carrier country code (for mobile devices).  [optional]
+ * Carrier country code (for mobile devices). [optional]
  */
 @property(nonatomic, copy) NSString *carrierCountry;
 
@@ -83,8 +81,8 @@
 @property(nonatomic, copy) NSString *appBuild;
 
 /*
- * The bundle identifier, package identifier, or namespace, depending on what
- * the individual plattforms use, .e.g com.microsoft.example.  [optional]
+ * The bundle identifier, package identifier, or namespace, depending on what the individual plattforms use, .e.g com.microsoft.example.
+ * [optional]
  */
 @property(nonatomic, copy) NSString *appNamespace;
 

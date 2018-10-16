@@ -1,4 +1,3 @@
-
 #import <Foundation/Foundation.h>
 
 #pragma mark - MSCommonSchemaLog
@@ -21,9 +20,9 @@ extern NSString *const kMSCSVerValue;
 
 extern NSString *const kMSUserLocale;
 
-#pragma mark - MSLocExtension
+#pragma mark - MSDeviceExtension
 
-extern NSString *const kMSTimezone;
+extern NSString *const kMSDeviceLocalId;
 
 #pragma mark - MSOsExtension
 
@@ -54,6 +53,10 @@ extern NSString *const kMSSDKEpoch;
 extern NSString *const kMSSDKSeq;
 extern NSString *const kMSSDKInstallId;
 
+#pragma mark - MSLocExtension
+
+extern NSString *const kMSTimezone;
+
 #pragma mark - MSCSData
 
 extern NSString *const kMSDataBaseDataType;
@@ -63,6 +66,7 @@ extern NSString *const kMSDataBaseData;
 
 extern NSString *const kMSCSProtocolExt;
 extern NSString *const kMSCSUserExt;
+extern NSString *const kMSCSDeviceExt;
 extern NSString *const kMSCSOSExt;
 extern NSString *const kMSCSAppExt;
 extern NSString *const kMSCSNetExt;

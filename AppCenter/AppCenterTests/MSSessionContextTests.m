@@ -41,9 +41,7 @@
   // Then
   NSData *data = [self.settingsMock objectForKey:@"SessionIdHistory"];
   XCTAssertNotNil(data);
-  XCTAssertEqualObjects(
-      [[NSKeyedUnarchiver unarchiveObjectWithData:data][0] sessionId],
-      expectedSessionId);
+  XCTAssertEqualObjects([[NSKeyedUnarchiver unarchiveObjectWithData:data][0] sessionId], expectedSessionId);
 }
 
 - (void)testClearSessionHistory {
@@ -78,8 +76,7 @@
   [[MSSessionContext sharedInstance] setSessionId:expectedSessionId];
 
   // Then
-  XCTAssertEqualObjects(expectedSessionId,
-                        [[MSSessionContext sharedInstance] sessionId]);
+  XCTAssertEqualObjects(expectedSessionId, [[MSSessionContext sharedInstance] sessionId]);
 }
 
 - (void)testSessionIdAt {
@@ -105,18 +102,10 @@
   [[MSSessionContext sharedInstance] setSessionId:@"Session5"];
 
   // Then
-  // resetSharedInstance will also call [NSDate date] so timestamp 5500 should
-  // return "Session3"
-  XCTAssertNil([[MSSessionContext sharedInstance]
-      sessionIdAt:[[NSDate alloc] initWithTimeIntervalSince1970:0]]);
-  XCTAssertEqualObjects(
-      @"Session3",
-      [[MSSessionContext sharedInstance]
-          sessionIdAt:[[NSDate alloc] initWithTimeIntervalSince1970:5500]]);
-  XCTAssertEqualObjects(
-      @"Session5",
-      [[MSSessionContext sharedInstance]
-          sessionIdAt:[[NSDate alloc] initWithTimeIntervalSince1970:10000]]);
+  // resetSharedInstance will also call [NSDate date] so timestamp 5500 should return "Session3"
+  XCTAssertNil([[MSSessionContext sharedInstance] sessionIdAt:[[NSDate alloc] initWithTimeIntervalSince1970:0]]);
+  XCTAssertEqualObjects(@"Session3", [[MSSessionContext sharedInstance] sessionIdAt:[[NSDate alloc] initWithTimeIntervalSince1970:5500]]);
+  XCTAssertEqualObjects(@"Session5", [[MSSessionContext sharedInstance] sessionIdAt:[[NSDate alloc] initWithTimeIntervalSince1970:10000]]);
 
   [dateMock stopMocking];
 }

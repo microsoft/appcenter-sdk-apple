@@ -8,8 +8,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MSLog;
 
 /**
- * `MSChannelUnitProtocol` represents a kind of channel that is able
- * to actually store/send logs (as opposed to a channel group, which
+ * `MSChannelUnitProtocol` represents a kind of channel that is able to actually store/send logs (as opposed to a channel group, which
  * simply contains a collection of channel units).
  */
 @protocol MSChannelUnitProtocol <MSChannelProtocol>
@@ -25,18 +24,32 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) dispatch_queue_t logsDispatchQueue;
 
 /**
- * Enqueues a new log item.
+ * Enqueue a new log item.
  *
  * @param item The log item that should be enqueued.
  */
 - (void)enqueueItem:(id<MSLog>)item;
 
 /**
- * Set the app secret.
+ * Pause sending logs with the given transmission target token.
  *
- * @param appSecret The app secret.
+ * @param token The transmission target token.
+ *
+ * @discussion The logs with the given token will continue to be persisted in the storage but they will only be sent once it resumes sending
+ * logs.
+ *
+ * @see resumeSendingLogsWithToken:
  */
-- (void)setAppSecret:(NSString *)appSecret;
+- (void)pauseSendingLogsWithToken:(NSString *)token;
+
+/**
+ * Resume sending logs with the given transmission target token.
+ *
+ * @param token The transmission target token.
+ *
+ * @see pauseSendingLogsWithToken:
+ */
+- (void)resumeSendingLogsWithToken:(NSString *)token;
 
 @end
 

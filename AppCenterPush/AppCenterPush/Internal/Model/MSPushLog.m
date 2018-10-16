@@ -28,13 +28,11 @@ static NSString *const kMSPushToken = @"pushToken";
 }
 
 - (BOOL)isEqual:(id)object {
-  if (![(NSObject *)object isKindOfClass:[MSPushLog class]] ||
-      ![super isEqual:object]) {
+  if (![(NSObject *)object isKindOfClass:[MSPushLog class]] || ![super isEqual:object]) {
     return NO;
   }
   MSPushLog *log = (MSPushLog *)object;
-  return ((!self.pushToken && !log.pushToken) ||
-          [self.pushToken isEqualToString:log.pushToken]);
+  return ((!self.pushToken && !log.pushToken) || [self.pushToken isEqualToString:log.pushToken]);
 }
 
 #pragma mark - NSCoding

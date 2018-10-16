@@ -1,6 +1,6 @@
 import UIKit
 
-@objc(MSCustomPropertyTableViewCell) class MSCustomPropertyTableViewCell: UITableViewCell, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate {
+@objc(MSCustomPropertyTableViewCell) class MSCustomPropertyTableViewCell: UITableViewCell {
   
   enum CustomPropertyType : String {
     case Clear = "Clear"
@@ -18,94 +18,90 @@ import UIKit
   @IBOutlet weak var valueTextField: UITextField!
   @IBOutlet weak var boolValue: UISwitch!
   @IBOutlet var valueBottomConstraint: NSLayoutConstraint!
-  var typePickerView: UIPickerView?
-  var datePickerView: UIDatePicker?
+  private var typePickerView: MSEnumPicker<CustomPropertyType>?
+  private var datePickerView: MSDatePicker?
+
+  public var key: String {
+    get { return self.keyTextField.text! }
+    set(key) { self.keyTextField.text = key }
+  }
+
+  public var type: CustomPropertyType {
+    get { return CustomPropertyType(rawValue: typeTextField.text!)! }
+    set(type) { self.onChangeType(type) }
+  }
+
+  public var value: Any? {
+    get {
+      switch type {
+      case .Clear:
+        return nil
+      case .String:
+        return valueTextField.text!
+      case .Number:
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        return formatter.number(from: valueTextField.text ?? "") ?? 0
+      case .Boolean:
+        return boolValue.isOn
+      case .DateTime:
+        return datePickerView!.date!
+      }
+    }
+    set(value) {
+      switch type {
+      case .Clear:
+        break
+      case .String, .Number:
+        valueTextField.text = value as? String
+      case .Boolean:
+        boolValue.isOn = value as! Bool
+      case .DateTime:
+        datePickerView!.date = value as? Date
+      }
+    }
+  }
+
+  public var state: (key: String, type: CustomPropertyType, value: Any?) {
+    get { return (key, type, value) }
+    set(state) {
+      key = state.key
+      type = state.type
+      value = state.value
+    }
+  }
+
+  public var onChange: (((key: String, type: CustomPropertyType, value: Any?)) -> Void)?
 
   override func awakeFromNib() {
     super.awakeFromNib()
-    typeTextField.delegate = self
+    self.typePickerView = MSEnumPicker<CustomPropertyType>(
+      textField: self.typeTextField,
+      allValues: CustomPropertyType.allValues,
+      onChange: { index in
+        self.type = CustomPropertyType.allValues[index]
+        self.onChange?(self.state)
+      }
+    )
+    self.typeTextField.delegate = self.typePickerView
+    self.typeTextField.tintColor = UIColor.clear
+    self.datePickerView = MSDatePicker(textField: self.valueTextField)
+    self.keyTextField.addTarget(self, action: #selector(onChangeKey), for: .editingChanged)
+    self.valueTextField.addTarget(self, action: #selector(onChangeValue), for: .editingChanged)
+    self.boolValue.addTarget(self, action: #selector(onChangeValue), for: .valueChanged)
     prepareForReuse()
   }
   
   override func prepareForReuse() {
     super.prepareForReuse()
-    keyTextField.text = ""
-    typeTextField.text = CustomPropertyType.Clear.rawValue
-    typeTextField.tintColor = UIColor.clear
-    pickerView(typePickerView ?? UIPickerView(), didSelectRow: 0, inComponent: 0)
+    state = ("", CustomPropertyType.String, "")
   }
-  
-  func showTypePicker() {
-    typePickerView = UIPickerView()
-    typePickerView?.backgroundColor = UIColor.white
-    typePickerView?.showsSelectionIndicator = true
-    typePickerView?.dataSource = self
-    typePickerView?.delegate = self
-    
-    // Select current type.
-    let type = CustomPropertyType(rawValue: typeTextField.text!)!
-    typePickerView?.selectRow(CustomPropertyType.allValues.index(of: type)!, inComponent: 0, animated: false)
-    
-    let toolbar: UIToolbar? = toolBarForPicker()
-    typeTextField.inputView = typePickerView
-    typeTextField.inputAccessoryView = toolbar
+
+  func onChangeKey() {
+    self.onChange?(self.state)
   }
-  
-  func showDatePicker() {
-    datePickerView = UIDatePicker()
-    datePickerView?.backgroundColor = UIColor.white
-    datePickerView?.datePickerMode = .dateAndTime
-    datePickerView?.date = Date()
-    // Update label.
-    datePickerView?.addTarget(self, action: #selector(self.datePickerChanged), for: .valueChanged)
-    datePickerChanged()
-    let toolbar: UIToolbar? = toolBarForPicker()
-    valueTextField.inputView = datePickerView
-    valueTextField.inputAccessoryView = toolbar
-  }
-  
-  func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-    if textField == typeTextField {
-      showTypePicker()
-      return true
-    } else if textField == valueTextField {
-      return true
-    }
-    return false
-  }
-  
-  func toolBarForPicker() -> UIToolbar {
-    let toolbar = UIToolbar()
-    toolbar.sizeToFit()
-    let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-    let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.doneClicked))
-    toolbar.items = [flexibleSpace, doneButton]
-    return toolbar
-  }
-  
-  func doneClicked() {
-    typeTextField.resignFirstResponder()
-    valueTextField.resignFirstResponder()
-  }
-  
-  func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-    return false
-  }
-  
-  func numberOfComponents(in pickerView: UIPickerView) -> Int {
-    return 1
-  }
-  
-  func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-    return CustomPropertyType.allValues.count
-  }
-  
-  func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-    return CustomPropertyType.allValues[row].rawValue
-  }
-  
-  func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-    let type = CustomPropertyType.allValues[row]
+
+  func onChangeType(_ type: CustomPropertyType) {
     typeTextField.text = type.rawValue
     
     // Reset to default values.
@@ -143,9 +139,9 @@ import UIKit
       valueLabel.isHidden = false
       valueTextField.isHidden = false
       valueTextField.tintColor = UIColor.clear
-      valueTextField.delegate = self
+      valueTextField.delegate = self.datePickerView
       boolValue.isHidden = true
-      showDatePicker()
+      self.datePickerView?.showDatePicker()
     }
     
     // Apply constraints.
@@ -156,15 +152,9 @@ import UIKit
     tableView?.beginUpdates()
     tableView?.endUpdates()
   }
-  
-  func datePickerChanged() {
-    var dateFormatter: DateFormatter? = nil
-    if dateFormatter == nil {
-      dateFormatter = DateFormatter()
-      dateFormatter?.dateStyle = .long
-      dateFormatter?.timeStyle = .medium
-    }
-    valueTextField.text = dateFormatter?.string(from: (datePickerView?.date)!)
+
+  func onChangeValue() {
+    self.onChange?(self.state)
   }
 
   func tableView() -> UITableView? {
@@ -173,23 +163,5 @@ import UIKit
       view = view?.superview
     }
     return view as? UITableView
-  }
-  
-  func setPropertyTo(_ properties: MSCustomProperties) {
-    let type = CustomPropertyType(rawValue: typeTextField.text!)!
-    switch type {
-    case .Clear:
-      properties.clearProperty(forKey: keyTextField.text)
-    case .String:
-      properties.setString(valueTextField.text, forKey: keyTextField.text)
-    case .Number:
-      let formatter = NumberFormatter()
-      formatter.numberStyle = .decimal
-      properties.setNumber(formatter.number(from: valueTextField.text ?? ""), forKey: keyTextField.text)
-    case .Boolean:
-      properties.setBool(boolValue.isOn, forKey: keyTextField.text)
-    case .DateTime:
-      properties.setDate(datePickerView?.date, forKey: keyTextField.text)
-    }
   }
 }

@@ -1,29 +1,27 @@
 import Foundation
 
-class MSTransmissionTargets {
+private let kDefaultTargetKey = "defaultTargetKey"
 
+class MSTransmissionTargets {
   static let shared = MSTransmissionTargets.init()
-  var transmissionTargets: [String: MSAnalyticsTransmissionTarget]!
-  private var sendsAnalyticsEvents: [String: Bool]!
-  private let defaultTargetKey = "defaultTargetKey"
+
+  var transmissionTargets = [String: MSAnalyticsTransmissionTarget]()
+  let defaultTransmissionTargetIsEnabled: Bool
+  private var sendsAnalyticsEvents = [String: Bool]()
 
   private init() {
 
-    // Set up all transmission targets and associated mappings. The three targets and their tokens are hard coded.
-    transmissionTargets = [String: MSAnalyticsTransmissionTarget]()
-    sendsAnalyticsEvents = [String: Bool]()
-
     // Default target.
-    sendsAnalyticsEvents[defaultTargetKey] = true
+    let startTarget = UserDefaults.standard.integer(forKey: kMSStartTargetKey)
+    let startMode = MSMainViewController.StartupMode.allValues[startTarget]
+    defaultTransmissionTargetIsEnabled =
+      startMode == MSMainViewController.StartupMode.OneCollector ||
+      startMode == MSMainViewController.StartupMode.Both
+    sendsAnalyticsEvents[kDefaultTargetKey] = true
 
     // Parent target.
     let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
-    #if ACTIVE_COMPILATION_CONDITION_PUPPET
-    let objCRuntimeToken = kMSPuppetRuntimeTargetToken
-    #else
-    let objCRuntimeToken = kMSObjCRuntimeTargetToken
-    #endif
-    let parentTargetToken = appName == "SasquatchSwift" ? kMSSwiftRuntimeTargetToken : objCRuntimeToken
+    let parentTargetToken = appName.contains("SasquatchSwift") ? kMSSwiftRuntimeTargetToken : kMSObjCRuntimeTargetToken
     let parentTarget = MSAnalytics.transmissionTarget(forToken: parentTargetToken)
     transmissionTargets[parentTargetToken] = parentTarget
     sendsAnalyticsEvents[parentTargetToken] = true
@@ -48,10 +46,10 @@ class MSTransmissionTargets {
   }
 
   func setShouldDefaultTargetSendAnalyticsEvents(enabledState: Bool) {
-    sendsAnalyticsEvents[defaultTargetKey] = enabledState
+    sendsAnalyticsEvents[kDefaultTargetKey] = enabledState
   }
 
   func defaultTargetShouldSendAnalyticsEvents() -> Bool {
-    return sendsAnalyticsEvents[defaultTargetKey]!
+    return sendsAnalyticsEvents[kDefaultTargetKey]!
   }
 }

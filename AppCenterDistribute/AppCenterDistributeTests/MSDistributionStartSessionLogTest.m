@@ -1,9 +1,7 @@
 #import "MSAbstractLogInternal.h"
 #import "MSDevice.h"
 #import "MSDistributionStartSessionLog.h"
-#import "MSLogWithProperties.h"
 #import "MSTestFrameworks.h"
-#import "MSUtility.h"
 
 @interface MSDistributionStartSessionLogTests : XCTestCase
 
@@ -61,8 +59,7 @@
   self.startSessionLog.sid = sessionId;
 
   // When
-  NSData *serializedEvent =
-      [NSKeyedArchiver archivedDataWithRootObject:self.startSessionLog];
+  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.startSessionLog];
   id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
 
   // Then

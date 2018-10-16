@@ -8,16 +8,15 @@
  * @param timestamp Timestamp
  * @param sessionId Session Id
  */
-- (instancetype)initWithTimestamp:(NSDate *)timestamp
-                     andSessionId:(NSString *)sessionId;
+- (instancetype)initWithTimestamp:(NSDate *)timestamp andSessionId:(NSString *)sessionId;
 
 /**
- *  Session Id.
+ * Session Id.
  */
 @property(nonatomic, copy) NSString *sessionId;
 
 /**
- *  Timestamp.
+ * Timestamp.
  */
 @property(nonatomic) NSDate *timestamp;
 

@@ -5,7 +5,9 @@ static NSMutableDictionary<NSString *, NSMutableDictionary<NSString *, NSString 
 static NSString *kMSDefaultServiceName = @"DefaultServiceName";
 
 @interface MSMockKeychainUtil ()
+
 @property(nonatomic) id mockKeychainUtil;
+
 @end
 
 @implementation MSMockKeychainUtil
@@ -20,8 +22,7 @@ static NSString *kMSDefaultServiceName = @"DefaultServiceName";
 
     // Mock MSUserDefaults shared method to return this instance.
     _mockKeychainUtil = OCMClassMock([MSKeychainUtil class]);
-    OCMStub([_mockKeychainUtil storeString:[OCMArg any] forKey:[OCMArg any]])
-        .andCall([self class], @selector(storeString:forKey:));
+    OCMStub([_mockKeychainUtil storeString:[OCMArg any] forKey:[OCMArg any]]).andCall([self class], @selector(storeString:forKey:));
     OCMStub([_mockKeychainUtil storeString:[OCMArg any] forKey:[OCMArg any] withServiceName:[OCMArg any]])
         .andCall([self class], @selector(storeString:forKey:withServiceName:));
     OCMStub([_mockKeychainUtil deleteStringForKey:[OCMArg any]]).andCall([self class], @selector(deleteStringForKey:));

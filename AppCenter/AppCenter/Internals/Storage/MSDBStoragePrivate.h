@@ -4,17 +4,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef int (^MSDBStorageQueryBlock)(void *);
 
+// 4 KiB.
+static const long kMSDefaultPageSizeInBytes = 4 * 1024;
+
+// 10 MiB.
+static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
+
 @interface MSDBStorage ()
 
 /**
  * Database file name.
  */
 @property(nonatomic, readonly, nullable) NSURL *dbFileURL;
-
-/**
- * Delete the database file, this can't be undone. Only used while testing.
- */
-- (void)deleteDatabase;
 
 /**
  * Called when migration is needed. Override to customize.
@@ -29,7 +30,7 @@ typedef int (^MSDBStorageQueryBlock)(void *);
  *
  * @param block Actions to perform in query.
  */
-- (BOOL)executeQueryUsingBlock:(MSDBStorageQueryBlock)block;
+- (int)executeQueryUsingBlock:(MSDBStorageQueryBlock)block;
 
 /**
  * Check if a table exists in this database.
@@ -57,7 +58,7 @@ typedef int (^MSDBStorageQueryBlock)(void *);
 
 /**
  * Execute a non selection SQLite query on the database (i.e.: "CREATE",
- * "INSERTE", "UPDATE"... but not "SELECT").
+ * "INSERT", "UPDATE"... but not "SELECT").
  *
  * @param query An SQLite query to execute.
  * @param db Database handle.
@@ -72,10 +73,9 @@ typedef int (^MSDBStorageQueryBlock)(void *);
  * @param query An SQLite "SELECT" query to execute.
  * @param db Database handle.
  *
- * @return The selectioned entries.
+ * @return The selected entries.
  */
-+ (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query
-                             inOpenedDatabase:(void *)db;
++ (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query inOpenedDatabase:(void *)db;
 
 @end
 

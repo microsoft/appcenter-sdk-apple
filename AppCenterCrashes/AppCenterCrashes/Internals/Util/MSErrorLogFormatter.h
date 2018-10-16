@@ -8,14 +8,17 @@
  *  Error logging error domain
  */
 typedef NS_ENUM(NSInteger, MSBinaryImageType) {
+
   /**
    *  App binary
    */
   MSBinaryImageTypeAppBinary,
+
   /**
    *  App provided framework
    */
   MSBinaryImageTypeAppFramework,
+
   /**
    *  Image not related to the app
    */

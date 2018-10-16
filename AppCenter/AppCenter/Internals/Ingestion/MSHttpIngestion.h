@@ -7,8 +7,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MSHttpIngestion : NSObject <MSIngestionProtocol>
 
 /**
- * Base URL (schema + authority + port only) used to communicate with the
- * server.
+ * Base URL (schema + authority + port only) used to communicate with the server.
  */
 @property(nonatomic, copy) NSString *baseURL;
 
@@ -33,16 +32,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property NSMutableDictionary<NSString *, MSIngestionCall *> *pendingCalls;
 
 /**
- *  Send data to backend
+ * Send data to backend
+ *
  * @param data A data instance that will be transformed request body.
- * @param appSecret The appSecret.
  * @param callId A unique ID that identify a request.
  * @param handler Completion handler
  */
-- (void)sendAsync:(NSObject *)data
-            appSecret:(NSString *)appSecret
-               callId:(NSString *)callId
-    completionHandler:(MSSendAsyncCompletionHandler)handler;
+- (void)sendAsync:(NSObject *)data callId:(NSString *)callId completionHandler:(MSSendAsyncCompletionHandler)handler;
 
 @end
 
