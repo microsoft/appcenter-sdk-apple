@@ -6,21 +6,14 @@
 #pragma mark - MSSerializableObject
 
 - (NSMutableDictionary *)serializeToDictionary {
-  NSMutableDictionary *dict;
+  NSMutableDictionary *dict = [NSMutableDictionary new];
   if (self.libVer) {
-    dict = [NSMutableDictionary new];
     dict[kMSSDKLibVer] = self.libVer;
   }
   if (self.epoch) {
-    if (!dict) {
-      dict = [NSMutableDictionary new];
-    }
     dict[kMSSDKEpoch] = self.epoch;
   }
   if (self.installId) {
-    if (!dict) {
-      dict = [NSMutableDictionary new];
-    }
     dict[kMSSDKInstallId] = [self.installId UUIDString];
   }
 
@@ -28,7 +21,7 @@
   if (self.seq) {
     dict[kMSSDKSeq] = @(self.seq);
   }
-  return dict;
+  return dict.count == 0 ? nil : dict;
 }
 
 #pragma mark - MSModel

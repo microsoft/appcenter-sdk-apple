@@ -6,24 +6,17 @@
 #pragma mark - MSSerializableObject
 
 - (NSMutableDictionary *)serializeToDictionary {
-  NSMutableDictionary *dict;
+  NSMutableDictionary *dict = [NSMutableDictionary new];
   if (self.ticketKeys) {
-    dict = [NSMutableDictionary new];
     dict[kMSTicketKeys] = self.ticketKeys;
   }
   if (self.devMake) {
-    if (!dict) {
-      dict = [NSMutableDictionary new];
-    }
     dict[kMSDevMake] = self.devMake;
   }
   if (self.devModel) {
-    if (!dict) {
-      dict = [NSMutableDictionary new];
-    }
     dict[kMSDevModel] = self.devModel;
   }
-  return dict;
+  return dict.count == 0 ? nil : dict;
 }
 
 #pragma mark - MSModel

@@ -6,30 +6,20 @@
 #pragma mark - MSSerializableObject
 
 - (NSMutableDictionary *)serializeToDictionary {
-  NSMutableDictionary *dict;
+  NSMutableDictionary *dict = [NSMutableDictionary new];
   if (self.appId) {
-    dict = [NSMutableDictionary new];
     dict[kMSAppId] = self.appId;
   }
   if (self.ver) {
-    if (!dict) {
-      dict = [NSMutableDictionary new];
-    }
     dict[kMSAppVer] = self.ver;
   }
   if (self.name) {
-    if (!dict) {
-      dict = [NSMutableDictionary new];
-    }
     dict[kMSAppName] = self.name;
   }
   if (self.locale) {
-    if (!dict) {
-      dict = [NSMutableDictionary new];
-    }
     dict[kMSAppLocale] = self.locale;
   }
-  return dict;
+  return dict.count == 0 ? nil : dict;
 }
 
 #pragma mark - MSModel
