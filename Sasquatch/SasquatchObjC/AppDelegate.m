@@ -73,9 +73,8 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   if (storageMaxSize) {
     [MSAppCenter setMaxStorageSize:storageMaxSize.integerValue
                  completionHandler:^(BOOL success) {
-                   if (!success) {
-                     dispatch_async(dispatch_get_main_queue(), ^{
-
+                   dispatch_async(dispatch_get_main_queue(), ^{
+                     if (!success) {
                        // Remove invalid value.
                        [[NSUserDefaults standardUserDefaults] removeObjectForKey:kMSStorageMaxSizeKey];
 
@@ -86,8 +85,11 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
                                                                                          preferredStyle:UIAlertControllerStyleAlert];
                        [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
                        [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
-                     });
-                   }
+                     } else {
+                       long realStorageSize = (long)(ceil([storageMaxSize doubleValue] / kMSStoragePageSize) * kMSStoragePageSize);
+                       [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithLong:realStorageSize] forKey:kMSStorageMaxSizeKey];
+                     }
+                   });
                  }];
   }
 

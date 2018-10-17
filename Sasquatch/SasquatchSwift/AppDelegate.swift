@@ -38,18 +38,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     let storageMaxSize = UserDefaults.standard.object(forKey: kMSStorageMaxSizeKey) as? Int
     if storageMaxSize != nil {
       MSAppCenter.setMaxStorageSize(storageMaxSize!, completionHandler: { success in
-        if !success {
-          DispatchQueue.main.async {
-
+        DispatchQueue.main.async {
+          if !success {
             // Remove invalid value.
             UserDefaults.standard.removeObject(forKey: kMSStorageMaxSizeKey)
 
             // Show alert.
             let alertController = UIAlertController(title: "Warning!",
-                    message: "The maximum size of the internal storage could not be set.",
-                    preferredStyle: .alert)
+                                                    message: "The maximum size of the internal storage could not be set.",
+                                                    preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: "OK", style: .default))
             self.window?.rootViewController?.present(alertController, animated: true)
+          } else {
+            let realSize = Int64((ceil(Double(storageMaxSize!) / Double(kMSStoragePageSize)))) * Int64(kMSStoragePageSize)
+            UserDefaults.standard.set(realSize, forKey: kMSStorageMaxSizeKey)
           }
         }
       })
