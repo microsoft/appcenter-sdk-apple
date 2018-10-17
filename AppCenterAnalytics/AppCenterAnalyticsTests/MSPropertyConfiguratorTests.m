@@ -99,9 +99,10 @@
 }
 
 - (void)testSetAndRemoveEventPropertiesWithNilKeys {
+  
+  // When
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wnonnull"
-  // When
   [self.sut removeEventPropertyForKey:nil];
 
   // Then
@@ -127,9 +128,9 @@
   NSString *propNanKey = @"propNan";
   NSString *propInfinityKey = @"propInfinity";
 
+  // When
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wnonnull"
-  // When
   [self.sut removeEventPropertyForKey:nil];
 
   // Then
