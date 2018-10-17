@@ -84,8 +84,6 @@ static NSString *const kMSTypedProperties = @"typedProperties";
 
   // Metadata extension must accompany data.
   // Event properties goes to part C.
-  csLog.data = [MSCSData new];
-  csLog.ext.metadataExt = [MSMetadataExtension new];
   [self setPropertiesAndMetadataForCSLog:csLog];
   return csLog;
 }
@@ -109,9 +107,11 @@ static NSString *const kMSTypedProperties = @"typedProperties";
     }
   }
   if (csProperties.count != 0) {
+    csLog.data = [MSCSData new];
     csLog.data.properties = csProperties;
   }
   if (metadata.count != 0) {
+    csLog.ext.metadataExt = [MSMetadataExtension new];
     csLog.ext.metadataExt.metadata = metadata;
   }
 }
