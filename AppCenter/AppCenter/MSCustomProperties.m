@@ -97,7 +97,9 @@ static const int maxPropertyValueLength = 128;
 }
 
 - (NSDictionary<NSString *, NSObject *> *)propertiesImmutableCopy {
-  return [[NSDictionary alloc] initWithDictionary:self.properties];
+  @synchronized (self.properties) {
+    return [[NSDictionary alloc] initWithDictionary:self.properties];
+  }
 }
 
 @end
