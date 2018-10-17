@@ -39,7 +39,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
     if storageMaxSize != nil {
       MSAppCenter.setMaxStorageSize(storageMaxSize!, completionHandler: { success in
         DispatchQueue.main.async {
-          if !success {
+          if success {
+            let realSize = Int64(ceil(Double(storageMaxSize!) / Double(kMSStoragePageSize))) * Int64(kMSStoragePageSize)
+            UserDefaults.standard.set(realSize, forKey: kMSStorageMaxSizeKey)
+          } else {
+
             // Remove invalid value.
             UserDefaults.standard.removeObject(forKey: kMSStorageMaxSizeKey)
 
@@ -49,9 +53,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
                                                     preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: "OK", style: .default))
             self.window?.rootViewController?.present(alertController, animated: true)
-          } else {
-            let realSize = Int64((ceil(Double(storageMaxSize!) / Double(kMSStoragePageSize)))) * Int64(kMSStoragePageSize)
-            UserDefaults.standard.set(realSize, forKey: kMSStorageMaxSizeKey)
           }
         }
       })
