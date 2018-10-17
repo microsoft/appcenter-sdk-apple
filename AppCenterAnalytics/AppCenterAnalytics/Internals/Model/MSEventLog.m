@@ -103,7 +103,7 @@ static NSString *const kMSTypedProperties = @"typedProperties";
         MSLogWarning(MSAnalytics.logTag, @"Cannot use %@ in properties, skipping that property.", typedProperty.name);
         continue;
       }
-      [self addTypedProperty:typedProperty toCSMetadata:metadata AndCSProperties:csProperties];
+      [self addTypedProperty:typedProperty toCSMetadata:metadata andCSProperties:csProperties];
     }
   }
   if (csProperties.count != 0) {
@@ -116,7 +116,7 @@ static NSString *const kMSTypedProperties = @"typedProperties";
   }
 }
 
-- (void)addTypedProperty:(MSTypedProperty *)typedProperty toCSMetadata:(NSMutableDictionary *)csMetadata AndCSProperties:(NSMutableDictionary *)csProperties {
+- (void)addTypedProperty:(MSTypedProperty *)typedProperty toCSMetadata:(NSMutableDictionary *)csMetadata andCSProperties:(NSMutableDictionary *)csProperties {
   NSNumber *typeId = self.metadataTypeIdMapping[typedProperty.type];
 
   // If the key contains a '.' then it's nested objects (i.e: "a.b":"value" => {"a":{"b":"value"}}).
@@ -131,7 +131,7 @@ static NSString *const kMSTypedProperties = @"typedProperties";
    */
   NSMutableDictionary *metadataSubtreeParent = nil;
   for (NSUInteger i = 0; i < csKeys.count - 1; i++) {
-    
+
     // If there is no field delimiter for this level in the metadata tree, create one.
     if (typeId && !metadataTree[kMSFieldDelimiter]) {
       metadataSubtreeParent = metadataSubtreeParent?: metadataTree;
