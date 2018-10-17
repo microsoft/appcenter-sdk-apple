@@ -1347,6 +1347,7 @@
 				6E0401441D1C99AC0051BCFA /* MSAppCenterInternal.h */,
 				38E1B6791DDE3FDF000EFED1 /* MSAppCenterPrivate.h */,
 				F803BBF51E8E383E004B1E7A /* MSCustomPropertiesInternal.h */,
+				266ED9D2BA796BA0329F4FC7 /* MSCustomPropertiesPrivate.h */,
 				3592ABA51DC90E3600EF4592 /* MSLoggerInternal.h */,
 				387C757F1D6270A300D68CC1 /* MSServiceAbstractInternal.h */,
 				385AD9211D95898D008B354A /* MSServiceAbstractProtected.h */,
@@ -1361,7 +1362,6 @@
 				E84B8E231D234EC1006FD231 /* Storage */,
 				6E0401481D1C99AC0051BCFA /* Util */,
 				E83283C21D46C62E000B029E /* Vendor */,
-				266ED9D2BA796BA0329F4FC7 /* MSCustomPropertiesPrivate.h */,
 			);
 			path = Internals;
 			sourceTree = "<group>";
