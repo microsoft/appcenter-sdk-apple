@@ -1,5 +1,13 @@
 # App Center SDK for iOS and macOS Change Log
 
+## Version 1.10.1
+
+### AppCenter
+
+* **[Fix]** Fix an issue where concurrent modification of custom properties was not thread safe.
+
+___
+
 ## Version 1.10.0
 
 ### AppCenter
