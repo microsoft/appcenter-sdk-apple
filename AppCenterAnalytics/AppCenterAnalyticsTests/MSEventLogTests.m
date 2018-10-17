@@ -405,19 +405,38 @@
   XCTAssertEqualObjects(csLog.ext.metadataExt.metadata, expectedMetadata);
 }
 
-- (void)testOverrideValueToObjectProperties {
-
-  // If
+- (void)testOverridePropertiesWhenStringPropertyIsDeeper {
   MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
   csLog.data = [MSCSData new];
   csLog.ext = [MSCSExtensions new];
   csLog.ext.metadataExt = [MSMetadataExtension new];
   MSEventProperties *acProperties = [MSEventProperties new];
+
+  // set "a.b" property first, "a.b.c.d" property later.
   [acProperties setDouble:1.4 forKey:@"a.b"];
-  [acProperties setString:@"2" forKey:@"a.b.c.d"];
+  [acProperties setString:@"hello" forKey:@"a.b.c.d"];
   self.sut.typedProperties = acProperties;
+  [self setupAndAssert:csLog];
+
+  // reset
+  csLog = [MSCommonSchemaLog new];
+  csLog.data = [MSCSData new];
+  csLog.ext = [MSCSExtensions new];
+  csLog.ext.metadataExt = [MSMetadataExtension new];
+  acProperties = [MSEventProperties new];
+
+  // set "a.b.c.d" property first, "a.b" property later.
+  [acProperties setString:@"hello" forKey:@"a.b.c.d"];
+  [acProperties setDouble:1.4 forKey:@"a.b"];
+  self.sut.typedProperties = acProperties;
+  [self setupAndAssert:csLog];
+}
+
+- (void)setupAndAssert:(MSCommonSchemaLog *)csLog {
+
+  // If
   NSDictionary *possibleProperties1 = @{@"a": @{@"b": @1.4}};
-  NSDictionary *possibleProperties2 = @{@"a": @{@"b": @{@"c": @{@"d": @"2"}}}};
+  NSDictionary *possibleProperties2 = @{@"a": @{@"b": @{@"c": @{@"d": @"hello"}}}};
   NSDictionary *possibleMetadata1 =
       @{
           @"f":
@@ -429,9 +448,7 @@
                       @"b": @(kMSDoubleMetadataTypeId)
                   }
               }
-
           }
-
       };
   NSDictionary *possibleMetadata2 = nil;
 
@@ -451,18 +468,37 @@
   }
 }
 
-- (void)testOverrideObjectToValueProperties {
-
-  // If
+- (void)testOverridePropertiesWhenLongPropertyIsDeeper {
   MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
   csLog.data = [MSCSData new];
   csLog.ext = [MSCSExtensions new];
   csLog.ext.metadataExt = [MSMetadataExtension new];
   MSEventProperties *acProperties = [MSEventProperties new];
+
+  // set "a.b" property first, "a.b.c.d" property later.
+  [acProperties setString:@"hello" forKey:@"a.b"];
   [acProperties setInt64:249 forKey:@"a.b.c.d"];
-  [acProperties setString:@"2" forKey:@"a.b"];
   self.sut.typedProperties = acProperties;
-  NSDictionary *possibleProperties1 =  @{ @"a" : @{@"b" : @"2"} };
+  [self setupPropertiesAndAssert:csLog];
+
+  // reset
+  csLog = [MSCommonSchemaLog new];
+  csLog.data = [MSCSData new];
+  csLog.ext = [MSCSExtensions new];
+  csLog.ext.metadataExt = [MSMetadataExtension new];
+  acProperties = [MSEventProperties new];
+
+  // set "a.b.c.d" property first, "a.b" property later.
+  [acProperties setInt64:249 forKey:@"a.b.c.d"];
+  [acProperties setString:@"hello" forKey:@"a.b"];
+  self.sut.typedProperties = acProperties;
+  [self setupPropertiesAndAssert:csLog];
+}
+
+- (void)setupPropertiesAndAssert:(MSCommonSchemaLog *)csLog {
+
+  // If
+  NSDictionary *possibleProperties1 =  @{ @"a" : @{@"b" : @"hello"} };
   NSDictionary *possibleProperties2 =  @{ @"a" : @{@"b" : @{@"c" : @{@"d" : @249}}} };
   NSDictionary *possibleMetadata1 = nil;
   NSDictionary *possibleMetadata2 =
