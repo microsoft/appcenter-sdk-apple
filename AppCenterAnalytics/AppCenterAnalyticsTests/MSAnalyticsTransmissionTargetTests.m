@@ -202,6 +202,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   NSString *event4 = @"event4";
   MSAnalyticsTransmissionTarget *transmissionTarget, *transmissionTarget2;
   OCMStub([self.analyticsClassMock canBeUsed]).andReturn(YES);
+
   // Events tracked when disabled mustn't be sent.
   OCMReject(ClassMethod([self.analyticsClassMock trackEvent:event2 withProperties:properties forTransmissionTarget:transmissionTarget]));
   OCMReject(ClassMethod([self.analyticsClassMock trackEvent:event3 withProperties:properties forTransmissionTarget:transmissionTarget2]));

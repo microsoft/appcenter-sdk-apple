@@ -95,8 +95,8 @@ static MSAnalyticsAuthenticationProvider *_authenticationProvider;
 
   // Override properties.
   if (properties) {
-    [mergedProperties.properties addEntriesFromDictionary:(NSDictionary<NSString *, MSTypedProperty *> *)properties.properties];
-  } else if ([mergedProperties.properties count] == 0) {
+    [mergedProperties mergeEventProperties:properties];
+  } else if ([mergedProperties isEmpty]) {
 
     // Set nil for the properties to pass nil to trackEvent.
     mergedProperties = nil;

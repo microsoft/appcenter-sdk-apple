@@ -154,4 +154,8 @@
   return YES;
 }
 
+- (void)mergeEventProperties:(MSEventProperties *)eventProperties {
+  [self.properties addEntriesFromDictionary:(NSDictionary<NSString *, MSTypedProperty *> *)properties.properties];
+}
+
 @end

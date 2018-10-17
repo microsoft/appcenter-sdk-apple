@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * String and date properties.
  */
-@property (nonatomic) NSMutableDictionary<NSString *, MSTypedProperty *> *properties;
+@property(nonatomic) NSMutableDictionary<NSString *, MSTypedProperty *> *properties;
 
 /**
  * Creates an instance of EventProperties with a string-string properties dictionary.
@@ -38,6 +38,13 @@ NS_ASSUME_NONNULL_BEGIN
  * @return `YES` if there are no properties in the collection, `NO` otherwise.
  */
 - (BOOL)isEmpty;
+
+/**
+ * Merge event properties.
+ *
+ * @param eventProperties The new properites to be merged.
+ */
+- (void)mergeEventProperties:(MSEventProperties *)eventProperties;
 
 @end
 
