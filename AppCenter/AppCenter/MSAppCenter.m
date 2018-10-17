@@ -15,8 +15,8 @@
 #import "MSUtility+StringFormatting.h"
 
 #if !TARGET_OS_TV
+#import "MSCustomPropertiesInternal.h"
 #import "MSCustomPropertiesLog.h"
-#import "MSCustomPropertiesPrivate.h"
 #endif
 
 /**
@@ -443,11 +443,12 @@ static const long kMSMinUpperSizeLimitInBytes = 20 * 1024;
 
 #if !TARGET_OS_TV
 - (void)setCustomProperties:(MSCustomProperties *)customProperties {
-  if (!customProperties || (customProperties.properties.count == 0)) {
+  NSDictionary<NSString *, NSObject *> *propertiesCopy = [customProperties propertiesImmutableCopy];
+  if (!customProperties || (propertiesCopy.count == 0)) {
     MSLogError([MSAppCenter logTag], @"Custom properties may not be null or empty");
     return;
   }
-  [self sendCustomPropertiesLog:customProperties.properties];
+  [self sendCustomPropertiesLog:propertiesCopy];
 }
 #endif
 

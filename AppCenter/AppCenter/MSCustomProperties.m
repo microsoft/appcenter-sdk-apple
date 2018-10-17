@@ -35,15 +35,19 @@ static const int maxPropertyValueLength = 128;
 }
 
 - (instancetype)setObject:(NSObject *)value forKey:(NSString *)key {
-  if ([self isValidKey:key] && [self isValidValue:value]) {
-    [self.properties setObject:value forKey:key];
+  @synchronized(self.properties) {
+    if ([self isValidKey:key] && [self isValidValue:value]) {
+      [self.properties setObject:value forKey:key];
+    }
   }
   return self;
 }
 
 - (instancetype)clearPropertyForKey:(NSString *)key {
-  if ([self isValidKey:key]) {
-    [self.properties setObject:[NSNull null] forKey:key];
+  @synchronized(self.properties) {
+    if ([self isValidKey:key]) {
+      [self.properties setObject:[NSNull null] forKey:key];
+    }
   }
   return self;
 }

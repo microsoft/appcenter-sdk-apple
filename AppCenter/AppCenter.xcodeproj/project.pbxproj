@@ -314,6 +314,7 @@
 		04F3613E1FE1A95600A5A6D2 /* MSNoAutoAssignSessionIdLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 04F3613C1FE1A92000A5A6D2 /* MSNoAutoAssignSessionIdLog.h */; };
 		04F3613F1FE1A95700A5A6D2 /* MSNoAutoAssignSessionIdLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 04F3613C1FE1A92000A5A6D2 /* MSNoAutoAssignSessionIdLog.h */; };
 		04FD126B1E4103CC007ABFE7 /* MSKeychainUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FD126A1E4103CC007ABFE7 /* MSKeychainUtilTests.m */; };
+		266EDC94C8B60B195B13BF40 /* MSCustomPropertiesPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 266ED9D2BA796BA0329F4FC7 /* MSCustomPropertiesPrivate.h */; };
 		2DA0322920F747CAB5668AAA /* MSChannelUnitDefaultPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DA030B94CD3D38725671A79 /* MSChannelUnitDefaultPrivate.h */; };
 		2DA034555E2CB013B268C82C /* MSChannelUnitDefaultPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DA030B94CD3D38725671A79 /* MSChannelUnitDefaultPrivate.h */; };
 		2DA03DF6ADD26CAC19463B5C /* MSChannelUnitDefaultPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DA030B94CD3D38725671A79 /* MSChannelUnitDefaultPrivate.h */; };
@@ -851,6 +852,7 @@
 		04F21A041ECB73EE0074978D /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = ../../macOS/OHHTTPStubs/OHHTTPStubs.framework; sourceTree = "<group>"; };
 		04F3613C1FE1A92000A5A6D2 /* MSNoAutoAssignSessionIdLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSNoAutoAssignSessionIdLog.h; sourceTree = "<group>"; };
 		04FD126A1E4103CC007ABFE7 /* MSKeychainUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSKeychainUtilTests.m; sourceTree = "<group>"; };
+		266ED9D2BA796BA0329F4FC7 /* MSCustomPropertiesPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCustomPropertiesPrivate.h; sourceTree = "<group>"; };
 		2DA030B94CD3D38725671A79 /* MSChannelUnitDefaultPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSChannelUnitDefaultPrivate.h; sourceTree = "<group>"; };
 		3511AE7C20C5FF150056A739 /* MSMockLogWithConversion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSMockLogWithConversion.h; sourceTree = "<group>"; };
 		3513432D2056FF9000E6DC7D /* MSAbstractLogPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAbstractLogPrivate.h; sourceTree = "<group>"; };
@@ -1063,7 +1065,7 @@
 		E8E48F941D50FF4300A8C1B0 /* MSIngestionCallDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSIngestionCallDelegate.h; sourceTree = "<group>"; };
 		F803BBF11E8E3677004B1E7A /* MSCustomProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCustomProperties.h; sourceTree = "<group>"; };
 		F803BBF21E8E3677004B1E7A /* MSCustomProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCustomProperties.m; sourceTree = "<group>"; };
-		F803BBF51E8E383E004B1E7A /* MSCustomPropertiesPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSCustomPropertiesPrivate.h; sourceTree = "<group>"; };
+		F803BBF51E8E383E004B1E7A /* MSCustomPropertiesInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSCustomPropertiesInternal.h; sourceTree = "<group>"; };
 		F803BBF81E8E3989004B1E7A /* MSCustomPropertiesLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCustomPropertiesLog.m; sourceTree = "<group>"; };
 		F803BBFA1E8E39AB004B1E7A /* MSCustomPropertiesLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSCustomPropertiesLog.h; sourceTree = "<group>"; };
 		F803BC371E8E6927004B1E7A /* MSCustomPropertiesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCustomPropertiesTests.m; sourceTree = "<group>"; };
@@ -1344,7 +1346,7 @@
 				6E0401581D1C9CFB0051BCFA /* AppCenter+Internal.h */,
 				6E0401441D1C99AC0051BCFA /* MSAppCenterInternal.h */,
 				38E1B6791DDE3FDF000EFED1 /* MSAppCenterPrivate.h */,
-				F803BBF51E8E383E004B1E7A /* MSCustomPropertiesPrivate.h */,
+				F803BBF51E8E383E004B1E7A /* MSCustomPropertiesInternal.h */,
 				3592ABA51DC90E3600EF4592 /* MSLoggerInternal.h */,
 				387C757F1D6270A300D68CC1 /* MSServiceAbstractInternal.h */,
 				385AD9211D95898D008B354A /* MSServiceAbstractProtected.h */,
@@ -1359,6 +1361,7 @@
 				E84B8E231D234EC1006FD231 /* Storage */,
 				6E0401481D1C99AC0051BCFA /* Util */,
 				E83283C21D46C62E000B029E /* Vendor */,
+				266ED9D2BA796BA0329F4FC7 /* MSCustomPropertiesPrivate.h */,
 			);
 			path = Internals;
 			sourceTree = "<group>";
@@ -2023,6 +2026,7 @@
 				38FD798F1EB7B0B800DE2FB3 /* MSAppCenter.h in Headers */,
 				049378391FE44539000ADBAF /* MSSessionContextPrivate.h in Headers */,
 				2DA034555E2CB013B268C82C /* MSChannelUnitDefaultPrivate.h in Headers */,
+				266EDC94C8B60B195B13BF40 /* MSCustomPropertiesPrivate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

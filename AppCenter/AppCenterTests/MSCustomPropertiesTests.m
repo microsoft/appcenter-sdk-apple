@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 
 #import "MSCustomProperties.h"
-#import "MSCustomPropertiesPrivate.h"
+#import "MSCustomPropertiesInternal.h"
 #import "MSTestFrameworks.h"
 
 @interface MSCustomPropertiesTests : XCTestCase
@@ -22,7 +22,7 @@
   MSCustomProperties *customProperties = [MSCustomProperties new];
 
   // Then
-  assertThat([customProperties properties], hasCountOf(0));
+  assertThat([customProperties propertiesImmutableCopy], hasCountOf(0));
 
   // Null key.
   // When
@@ -34,7 +34,7 @@
   [customProperties clearPropertyForKey:nullKey];
 
   // Then
-  assertThat([customProperties properties], hasCountOf(0));
+  assertThat([customProperties propertiesImmutableCopy], hasCountOf(0));
 
   // Invalid key.
   // When
@@ -46,7 +46,7 @@
   [customProperties clearPropertyForKey:invalidKey];
 
   // Then
-  assertThat([customProperties properties], hasCountOf(0));
+  assertThat([customProperties propertiesImmutableCopy], hasCountOf(0));
 
   // Too long key.
   // When
@@ -58,7 +58,7 @@
   [customProperties clearPropertyForKey:tooLongKey];
 
   // Then
-  assertThat([customProperties properties], hasCountOf(0));
+  assertThat([customProperties propertiesImmutableCopy], hasCountOf(0));
 
   // Normal keys.
   // When
@@ -71,7 +71,7 @@
   [customProperties setString:string forKey:maxLongKey];
 
   // Then
-  assertThat([customProperties properties], hasCountOf(6));
+  assertThat([customProperties propertiesImmutableCopy], hasCountOf(6));
 
   // Already contains keys.
   // When
@@ -83,7 +83,7 @@
   [customProperties setString:string forKey:maxLongKey];
 
   // Then
-  assertThat([customProperties properties], hasCountOf(6));
+  assertThat([customProperties propertiesImmutableCopy], hasCountOf(6));
 }
 
 - (void)testMaxPropertiesCount {
@@ -99,20 +99,20 @@
   }
 
   // Then
-  assertThat([customProperties properties], hasCountOf(maxPropertiesCount));
+  assertThat([customProperties propertiesImmutableCopy], hasCountOf(maxPropertiesCount));
 
   // Exceeding maximum properties count.
   // When
   [customProperties setNumber:@(1) forKey:@"extra1"];
 
   // Then
-  assertThat([customProperties properties], hasCountOf(maxPropertiesCount));
+  assertThat([customProperties propertiesImmutableCopy], hasCountOf(maxPropertiesCount));
 
   // When
   [customProperties setNumber:@(1) forKey:@"extra2"];
 
   // Then
-  assertThat([customProperties properties], hasCountOf(maxPropertiesCount));
+  assertThat([customProperties propertiesImmutableCopy], hasCountOf(maxPropertiesCount));
 }
 
 - (void)testSetString {
@@ -124,7 +124,7 @@
   MSCustomProperties *customProperties = [MSCustomProperties new];
 
   // Then
-  assertThat([customProperties properties], hasCountOf(0));
+  assertThat([customProperties propertiesImmutableCopy], hasCountOf(0));
 
   // Null value.
   // When
@@ -132,7 +132,7 @@
   [customProperties setString:nullValue forKey:key];
 
   // Then
-  assertThat([customProperties properties], hasCountOf(0));
+  assertThat([customProperties propertiesImmutableCopy], hasCountOf(0));
 
   // Too long value.
   // When
@@ -140,7 +140,7 @@
   [customProperties setString:tooLongValue forKey:key];
 
   // Then
-  assertThat([customProperties properties], hasCountOf(0));
+  assertThat([customProperties propertiesImmutableCopy], hasCountOf(0));
 
   // Empty value.
   // When
@@ -148,8 +148,8 @@
   [customProperties setString:emptyValue forKey:key];
 
   // Then
-  assertThat([customProperties properties], hasCountOf(1));
-  assertThat([customProperties properties][key], is(emptyValue));
+  assertThat([customProperties propertiesImmutableCopy], hasCountOf(1));
+  assertThat([customProperties propertiesImmutableCopy][key], is(emptyValue));
 
   // Normal value.
   // When
@@ -157,8 +157,8 @@
   [customProperties setString:normalValue forKey:key];
 
   // Then
-  assertThat([customProperties properties], hasCountOf(1));
-  assertThat([customProperties properties][key], is(normalValue));
+  assertThat([customProperties propertiesImmutableCopy], hasCountOf(1));
+  assertThat([customProperties propertiesImmutableCopy][key], is(normalValue));
 
   // Normal value with maximum length.
   // When
@@ -166,8 +166,8 @@
   [customProperties setString:maxLongValue forKey:key];
 
   // Then
-  assertThat([customProperties properties], hasCountOf(1));
-  assertThat([customProperties properties][key], is(maxLongValue));
+  assertThat([customProperties propertiesImmutableCopy], hasCountOf(1));
+  assertThat([customProperties propertiesImmutableCopy][key], is(maxLongValue));
 }
 
 - (void)testSetDate {
@@ -179,13 +179,13 @@
   MSCustomProperties *customProperties = [MSCustomProperties new];
 
   // Then
-  assertThat([customProperties properties], hasCountOf(0));
+  assertThat([customProperties propertiesImmutableCopy], hasCountOf(0));
 
   // Null value.
   // When
   NSDate *nullValue = nil;
   [customProperties setDate:nullValue forKey:key];
-  assertThat([customProperties properties], hasCountOf(0));
+  assertThat([customProperties propertiesImmutableCopy], hasCountOf(0));
 
   // Normal value.
   // When
@@ -193,8 +193,8 @@
   [customProperties setDate:normalValue forKey:key];
 
   // Then
-  assertThat([customProperties properties], hasCountOf(1));
-  assertThat([customProperties properties][key], is(normalValue));
+  assertThat([customProperties propertiesImmutableCopy], hasCountOf(1));
+  assertThat([customProperties propertiesImmutableCopy][key], is(normalValue));
 }
 
 - (void)testSetNumber {
@@ -206,7 +206,7 @@
   MSCustomProperties *customProperties = [MSCustomProperties new];
 
   // Then
-  assertThat([customProperties properties], hasCountOf(0));
+  assertThat([customProperties propertiesImmutableCopy], hasCountOf(0));
 
   // Null value.
   // When
@@ -214,7 +214,7 @@
   [customProperties setNumber:nullValue forKey:key];
 
   // Then
-  assertThat([customProperties properties], hasCountOf(0));
+  assertThat([customProperties propertiesImmutableCopy], hasCountOf(0));
 
   // Normal value.
   // When
@@ -222,8 +222,8 @@
   [customProperties setNumber:normalValue forKey:key];
 
   // Then
-  assertThat([customProperties properties], hasCountOf(1));
-  assertThat([customProperties properties][key], is(normalValue));
+  assertThat([customProperties propertiesImmutableCopy], hasCountOf(1));
+  assertThat([customProperties propertiesImmutableCopy][key], is(normalValue));
 }
 
 - (void)testSetBool {
@@ -235,7 +235,7 @@
   MSCustomProperties *customProperties = [MSCustomProperties new];
 
   // Then
-  assertThat([customProperties properties], hasCountOf(0));
+  assertThat([customProperties propertiesImmutableCopy], hasCountOf(0));
 
   // Normal value.
   // When
@@ -243,8 +243,8 @@
   [customProperties setBool:normalValue forKey:key];
 
   // Then
-  assertThat([customProperties properties], hasCountOf(1));
-  assertThat([customProperties properties][key], is(@(normalValue)));
+  assertThat([customProperties propertiesImmutableCopy], hasCountOf(1));
+  assertThat([customProperties propertiesImmutableCopy][key], is(@(normalValue)));
 }
 
 - (void)testClear {
@@ -256,14 +256,14 @@
   MSCustomProperties *customProperties = [MSCustomProperties new];
 
   // Then
-  assertThat([customProperties properties], hasCountOf(0));
+  assertThat([customProperties propertiesImmutableCopy], hasCountOf(0));
 
   // When
   [customProperties clearPropertyForKey:key];
 
   // Then
-  assertThat([customProperties properties], hasCountOf(1));
-  assertThat([customProperties properties][key], is([NSNull null]));
+  assertThat([customProperties propertiesImmutableCopy], hasCountOf(1));
+  assertThat([customProperties propertiesImmutableCopy][key], is([NSNull null]));
 }
 
 @end
