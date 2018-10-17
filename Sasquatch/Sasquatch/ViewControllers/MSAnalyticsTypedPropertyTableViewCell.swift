@@ -40,11 +40,11 @@ import UIKit
       case .Double:
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
-        return formatter.number(from: valueTextField.text ?? "")?.doubleValue ?? 0
+        return formatter.number(from: valueTextField.text ?? "")?.doubleValue ?? Double(0)
       case .Long:
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
-        return formatter.number(from: valueTextField.text ?? "")?.int64Value ?? 0
+        return formatter.number(from: valueTextField.text ?? "")?.int64Value ?? Int64(0)
       case .Boolean:
         return boolValue.isOn
       case .DateTime:
@@ -106,7 +106,6 @@ import UIKit
     typeTextField.text = type.rawValue
 
     // Reset to default values.
-    valueTextField.text = ""
     valueTextField.keyboardType = .default
     valueTextField.tintColor = keyTextField.tintColor
     valueTextField.delegate = nil
@@ -114,12 +113,14 @@ import UIKit
     valueTextField.inputAccessoryView = nil
     switch type {
     case .String:
+      valueTextField.text = ""
       valueBottomConstraint.isActive = true
       valueLabel.isHidden = false
       valueTextField.isHidden = false
       valueTextField.keyboardType = .asciiCapable
       boolValue.isHidden = true
     case .Double, .Long:
+      valueTextField.text = "0"
       valueBottomConstraint.isActive = true
       valueLabel.isHidden = false
       valueTextField.isHidden = false

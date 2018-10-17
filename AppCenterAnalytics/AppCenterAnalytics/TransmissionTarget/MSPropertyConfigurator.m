@@ -17,7 +17,6 @@
 #import "MSLogger.h"
 #import "MSPropertyConfiguratorPrivate.h"
 #import "MSStringTypedProperty.h"
-#import "MSTypedProperty.h"
 
 @implementation MSPropertyConfigurator
 
@@ -49,11 +48,31 @@ static const char deviceIdPrefix = 'i';
 
 - (void)setEventPropertyString:(NSString *)propertyValue forKey:(NSString *)propertyKey {
   @synchronized([MSAnalytics sharedInstance]) {
-    if (!propertyValue || !propertyKey) {
-      MSLogError([MSAnalytics logTag], @"Event property keys and values cannot be nil.");
-      return;
-    }
     [self.eventProperties setString:propertyValue forKey:propertyKey];
+  }
+}
+
+- (void)setEventPropertyDouble:(double)propertyValue forKey:(NSString *)propertyKey {
+  @synchronized([MSAnalytics sharedInstance]) {
+    [self.eventProperties setDouble:propertyValue forKey:propertyKey];
+  }
+}
+
+- (void)setEventPropertyInt64:(int64_t)propertyValue forKey:(NSString *)propertyKey {
+  @synchronized([MSAnalytics sharedInstance]) {
+    [self.eventProperties setInt64:propertyValue forKey:propertyKey];
+  }
+}
+
+- (void)setEventPropertyBool:(BOOL)propertyValue forKey:(NSString *)propertyKey {
+  @synchronized([MSAnalytics sharedInstance]) {
+    [self.eventProperties setBool:propertyValue forKey:propertyKey];
+  }
+}
+
+- (void)setEventPropertyDate:(NSDate *)propertyValue forKey:(NSString *)propertyKey {
+  @synchronized([MSAnalytics sharedInstance]) {
+    [self.eventProperties setDate:propertyValue forKey:propertyKey];
   }
 }
 
@@ -76,8 +95,6 @@ static const char deviceIdPrefix = 'i';
 - (void)channel:(id<MSChannelProtocol>)__unused channel prepareLog:(id<MSLog>)log {
   MSAnalyticsTransmissionTarget *target = self.transmissionTarget;
   if (target && [log isKindOfClass:[MSCommonSchemaLog class]] && [target isEnabled]) {
-
-    // TODO Find a better way to override properties.
 
     // Only override properties for owned target.
     if (![log.transmissionTargetTokens containsObject:target.transmissionTargetToken]) {
@@ -151,9 +168,8 @@ static const char deviceIdPrefix = 'i';
 - (void)mergeTypedPropertiesWith:(MSEventProperties *)mergedEventProperties {
   @synchronized([MSAnalytics sharedInstance]) {
     for (NSString *key in self.eventProperties.properties) {
-      if (mergedEventProperties.properties[key] == nil) {
-        MSTypedProperty *value = self.eventProperties.properties[key];
-        mergedEventProperties.properties[key] = value;
+      if (!mergedEventProperties.properties[key]) {
+        mergedEventProperties.properties[key] = self.eventProperties.properties[key];
       }
     }
   }
