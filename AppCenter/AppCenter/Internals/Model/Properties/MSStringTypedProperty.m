@@ -1,4 +1,4 @@
-#import "MSConstants+Internal.h"
+#import "MSACModelConstants.h"
 #import "MSStringTypedProperty.h"
 
 @implementation MSStringTypedProperty
