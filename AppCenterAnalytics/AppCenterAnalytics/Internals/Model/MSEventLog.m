@@ -154,8 +154,6 @@ static NSString *const kMSTypedProperties = @"typedProperties";
   id lastKey = csKeys.lastObject;
   BOOL didAddTypedProperty = [self addTypedProperty:typedProperty toPropertyTree:propertyTree withKey:lastKey];
   if (typeId && didAddTypedProperty) {
-
-    // If there is no field delimiter for this level in the metadata tree, create one.
     if (!metadataTree[kMSFieldDelimiter]) {
       metadataTree[kMSFieldDelimiter] = [NSMutableDictionary new];
     }
