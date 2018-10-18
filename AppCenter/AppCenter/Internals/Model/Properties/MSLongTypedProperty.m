@@ -29,4 +29,12 @@
   return dict;
 }
 
+- (BOOL)isEqual:(id)object {
+  if (![(NSObject *)object isKindOfClass:[MSLongTypedProperty class]] || ![super isEqual:object]) {
+    return NO;
+  }
+  MSLongTypedProperty *property = (MSLongTypedProperty *)object;
+  return (self.value == property.value);
+}
+
 @end

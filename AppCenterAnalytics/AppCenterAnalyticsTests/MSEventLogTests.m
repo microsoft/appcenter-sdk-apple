@@ -13,6 +13,7 @@
 #import "MSOSExtension.h"
 #import "MSProtocolExtension.h"
 #import "MSSDKExtension.h"
+#import "MSStringTypedProperty.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+Date.h"
 

@@ -6,6 +6,7 @@
 #import "MSCSData.h"
 #import "MSCSExtensions.h"
 #import "MSCSModelConstants.h"
+#import "MSConstants+Internal.h"
 #import "MSDateTimeTypedProperty.h"
 #import "MSDoubleTypedProperty.h"
 #import "MSEventLogPrivate.h"

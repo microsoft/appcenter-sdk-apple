@@ -29,4 +29,12 @@
   return dict;
 }
 
+- (BOOL)isEqual:(id)object {
+  if (![(NSObject *)object isKindOfClass:[MSStringTypedProperty class]] || ![super isEqual:object]) {
+    return NO;
+  }
+  MSStringTypedProperty *property = (MSStringTypedProperty *)object;
+  return ((!self.value && !property.value) || [self.value isEqualToString:property.value]);
+}
+
 @end

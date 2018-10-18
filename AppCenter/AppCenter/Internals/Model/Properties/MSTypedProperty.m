@@ -28,4 +28,12 @@ static NSString *const kMSTypedPropertyName = @"name";
   return dict;
 }
 
+- (BOOL)isEqual:(id)object {
+  if (![(NSObject *)object isKindOfClass:[MSTypedProperty class]]) {
+    return NO;
+  }
+  MSTypedProperty *property = (MSTypedProperty *)object;
+  return ((!self.type && !property.type) || [self.type isEqualToString:property.type]);
+}
+
 @end

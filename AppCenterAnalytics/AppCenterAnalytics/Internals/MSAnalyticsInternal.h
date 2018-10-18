@@ -9,14 +9,14 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MSAnalytics () <MSServiceInternal, MSChannelDelegate>
 
 /**
- * Track an event.
+ * Track an event with typed properties.
  *
  * @param eventName  Event name.
- * @param properties Dictionary of properties.
+ * @param properties The typed event properties.
  * @param transmissionTarget  The transmission target to associate to this event.
  */
 + (void)trackEvent:(NSString *)eventName
-           withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
+      withTypedProperties:(nullable MSEventProperties *)properties
     forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarget;
 
 // Temporarily hiding tracking page feature.
@@ -49,6 +49,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (BOOL)isAutoPageTrackingEnabled;
 
+/**
+ * Set the MSAnalyticsDelegate object.
+ *
+ * @param delegate The delegate to be set.
+ */
 + (void)setDelegate:(nullable id<MSAnalyticsDelegate>)delegate;
 
 /**

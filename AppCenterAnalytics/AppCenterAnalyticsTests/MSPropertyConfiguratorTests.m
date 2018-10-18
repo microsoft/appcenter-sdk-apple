@@ -1,9 +1,15 @@
 #import "MSAnalyticsTransmissionTargetInternal.h"
+#import "MSBooleanTypedProperty.h"
+#import "MSCSExtensions.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSCommonSchemaLog.h"
-#import "MSCSExtensions.h"
+#import "MSDateTimeTypedProperty.h"
 #import "MSDeviceExtension.h"
+#import "MSDoubleTypedProperty.h"
+#import "MSLongTypedProperty.h"
+#import "MSPropertyConfiguratorInternal.h"
 #import "MSPropertyConfiguratorPrivate.h"
+#import "MSStringTypedProperty.h"
 #import "MSTestFrameworks.h"
 
 @interface MSPropertyConfiguratorTests : XCTestCase
@@ -11,7 +17,6 @@
 @property(nonatomic) MSPropertyConfigurator *sut;
 @property(nonatomic) MSAnalyticsTransmissionTarget *transmissionTarget;
 @property(nonatomic) MSAnalyticsTransmissionTarget *parentTarget;
-@property(nonatomic) id configuratorClassMock;
 
 @end
 
@@ -19,37 +24,19 @@
 
 - (void)setUp {
   [super setUp];
-  self.sut = [MSPropertyConfigurator new];
-
-  // Mock the init so that self.sut can be injected into the target.
-  self.configuratorClassMock = OCMClassMock([MSPropertyConfigurator class]);
-  OCMStub([self.configuratorClassMock alloc]).andReturn(self.configuratorClassMock);
   id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
-
-  /*
-   * Need to stub this twice with OCMOCK_ANY, because passing self.parentTarget won't work until the targets have been initialized, but the
-   * stub must be invoked inside the "init" method.
-   */
-  OCMStub([self.configuratorClassMock initWithTransmissionTarget:OCMOCK_ANY]).andReturn([MSPropertyConfigurator new]);
   self.parentTarget = OCMPartialMock(
       [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:@"456" parentTarget:nil channelGroup:channelGroupMock]);
-
-  // Need to reset the class mock.
-  [self.configuratorClassMock stopMocking];
-  self.configuratorClassMock = OCMClassMock([MSPropertyConfigurator class]);
-  OCMStub([self.configuratorClassMock alloc]).andReturn(self.configuratorClassMock);
-  OCMStub([self.configuratorClassMock initWithTransmissionTarget:OCMOCK_ANY]).andReturn(self.sut);
   self.transmissionTarget = OCMPartialMock([[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:@"123"
                                                                                                      parentTarget:self.parentTarget
                                                                                                      channelGroup:channelGroupMock]);
   OCMStub([self.transmissionTarget isEnabled]).andReturn(YES);
-  self.sut.transmissionTarget = self.transmissionTarget;
+  self.sut = [[MSPropertyConfigurator alloc] initWithTransmissionTarget:self.transmissionTarget];
 }
 
 - (void)tearDown {
   [super tearDown];
   self.sut = nil;
-  [self.configuratorClassMock stopMocking];
 }
 
 - (void)testInitializationWorks {
@@ -100,6 +87,106 @@
 
   // Then
   XCTAssertNil(self.sut.deviceId);
+}
+
+- (void)testRemoveNonExistingEventProperty {
+
+  // When
+  [self.sut removeEventPropertyForKey:@"APropKey"];
+
+  // Then
+  XCTAssertTrue([self.sut.eventProperties isEmpty]);
+}
+
+- (void)testSetAndRemoveEventPropertiesWithNilKeys {
+
+// When
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
+  [self.sut removeEventPropertyForKey:nil];
+
+  // Then
+  XCTAssertTrue([self.sut.eventProperties isEmpty]);
+
+  // When
+  [self.sut setEventPropertyString:@"val1" forKey:nil];
+  [self.sut setEventPropertyDouble:234 forKey:nil];
+  [self.sut setEventPropertyInt64:23 forKey:nil];
+  [self.sut setEventPropertyBool:YES forKey:nil];
+  [self.sut setEventPropertyDate:[NSDate new] forKey:nil];
+#pragma clang diagnostic pop
+
+  // Then
+  XCTAssertTrue([self.sut.eventProperties isEmpty]);
+}
+
+- (void)testSetEventPropertiesWithInvalidValues {
+
+  // If
+  NSString *propStringKey = @"propString";
+  NSString *propDateKey = @"propDate";
+  NSString *propNanKey = @"propNan";
+  NSString *propInfinityKey = @"propInfinity";
+
+// When
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
+  [self.sut removeEventPropertyForKey:nil];
+
+  // Then
+  XCTAssertTrue([self.sut.eventProperties isEmpty]);
+
+  // When
+  [self.sut setEventPropertyString:nil forKey:propStringKey];
+  [self.sut setEventPropertyDate:nil forKey:propDateKey];
+#pragma clang diagnostic pop
+  [self.sut setEventPropertyDouble:INFINITY forKey:propInfinityKey];
+  [self.sut setEventPropertyDouble:-INFINITY forKey:propInfinityKey];
+  [self.sut setEventPropertyDouble:NAN forKey:propNanKey];
+
+  // Then
+  XCTAssertTrue([self.sut.eventProperties isEmpty]);
+}
+
+- (void)testSetAndRemoveEventProperty {
+
+  // If
+  NSString *propStringKey = @"propString";
+  NSString *propStringValue = @"val1";
+  NSString *propDateKey = @"propDate";
+  NSDate *propDateValue = [NSDate date];
+  NSString *propDoubleKey = @"propDouble";
+  double propDoubleValue = 927398.82939;
+  NSString *propInt64Key = @"propInt64";
+  int64_t propInt64Value = 5000000000;
+  NSString *propBoolKey = @"propBool";
+  BOOL propBoolValue = YES;
+
+  // When
+  // Set properties of all types.
+  [self.sut setEventPropertyString:propStringValue forKey:propStringKey];
+  [self.sut setEventPropertyDate:propDateValue forKey:propDateKey];
+  [self.sut setEventPropertyDouble:propDoubleValue forKey:propDoubleKey];
+  [self.sut setEventPropertyInt64:propInt64Value forKey:propInt64Key];
+  [self.sut setEventPropertyBool:propBoolValue forKey:propBoolKey];
+
+  // Then
+  XCTAssertEqual([self.sut.eventProperties.properties count], 5);
+  XCTAssertEqualObjects(((MSStringTypedProperty *)(self.sut.eventProperties.properties[propStringKey])).value, propStringValue);
+  XCTAssertEqualObjects(((MSDateTimeTypedProperty *)(self.sut.eventProperties.properties[propDateKey])).value, propDateValue);
+  XCTAssertEqual(((MSDoubleTypedProperty *)(self.sut.eventProperties.properties[propDoubleKey])).value, propDoubleValue);
+  XCTAssertEqual(((MSLongTypedProperty *)(self.sut.eventProperties.properties[propInt64Key])).value, propInt64Value);
+  XCTAssertEqual(((MSBooleanTypedProperty *)(self.sut.eventProperties.properties[propBoolKey])).value, propBoolValue);
+
+  // When
+  [self.sut removeEventPropertyForKey:propStringKey];
+
+  // Then
+  XCTAssertEqual([self.sut.eventProperties.properties count], 4);
+  XCTAssertEqualObjects(((MSDateTimeTypedProperty *)(self.sut.eventProperties.properties[propDateKey])).value, propDateValue);
+  XCTAssertEqual(((MSDoubleTypedProperty *)(self.sut.eventProperties.properties[propDoubleKey])).value, propDoubleValue);
+  XCTAssertEqual(((MSLongTypedProperty *)(self.sut.eventProperties.properties[propInt64Key])).value, propInt64Value);
+  XCTAssertEqual(((MSBooleanTypedProperty *)(self.sut.eventProperties.properties[propBoolKey])).value, propBoolValue);
 }
 
 @end

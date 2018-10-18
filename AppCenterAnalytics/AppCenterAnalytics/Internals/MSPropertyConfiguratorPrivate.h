@@ -1,11 +1,12 @@
 #import <Foundation/Foundation.h>
 
 #import "MSAnalyticsTransmissionTarget.h"
-#import "MSChannelDelegate.h"
+
+@class MSTypedProperty;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MSPropertyConfigurator () <MSChannelDelegate>
+@interface MSPropertyConfigurator ()
 
 /**
  * The application version to be overwritten.
@@ -30,17 +31,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Event properties attached to events tracked by this target.
  */
-@property(nonatomic, nullable) NSMutableDictionary<NSString *, NSString *> *eventProperties;
+@property(nonatomic) MSEventProperties *eventProperties;
 
 /**
  * The device id to send with common schema logs. If nil, nothing is sent.
  */
 @property(nonatomic, copy) NSString *deviceId;
-
-/**
- * Initialize property configurator with a transmission target.
- */
-- (instancetype)initWithTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget;
 
 @end
 
