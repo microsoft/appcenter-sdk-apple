@@ -6,6 +6,7 @@
 @class MSAppExtension;
 @class MSDeviceExtension;
 @class MSLocExtension;
+@class MSMetadataExtension;
 @class MSNetExtension;
 @class MSOSExtension;
 @class MSProtocolExtension;
@@ -16,6 +17,11 @@
  * Part A extensions.
  */
 @interface MSCSExtensions : NSObject <MSSerializableObject, MSModel>
+
+/**
+ * The Metadata extension.
+ */
+@property(nonatomic) MSMetadataExtension *metadataExt;
 
 /**
  * The Protocol extension.

@@ -288,21 +288,6 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   }
   log.typedProperties = [properties isEmpty] ? nil : properties;
 
-  //TODO Remove the workaround below once transmission targets support EventProperties.
-  /*
-   * If there are any target tokens, the typed properties must be moved into the old "properties" field. This can be removed once the One Collector
-   * logic is able to deal with the EventProperties object. Until then, this workaround prevents One Collector logs from breaking.
-   */
-  if (log.typedProperties && [log.transmissionTargetTokens count] != 0) {
-    NSMutableDictionary *oldStyleStringProperties = [NSMutableDictionary new];
-    for (MSTypedProperty *property in [log.typedProperties.properties objectEnumerator]) {
-      if ([property isKindOfClass:[MSStringTypedProperty class]]) {
-        oldStyleStringProperties[property.name] = ((MSStringTypedProperty *)property).value;
-      }
-    }
-    log.properties = oldStyleStringProperties;
-  }
-
   // Send log to channel.
   [self sendLog:log];
 }
@@ -455,8 +440,8 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   if ([logObject isKindOfClass:[MSEventLog class]] && [self.delegate respondsToSelector:@selector(analytics:didSucceedSendingEventLog:)]) {
     MSEventLog *eventLog = (MSEventLog *)log;
     [self.delegate analytics:self didSucceedSendingEventLog:eventLog];
-  } else if ([logObject isKindOfClass:[MSPageLog class]] &&
-             [self.delegate respondsToSelector:@selector(analytics:didSucceedSendingPageLog:)]) {
+  } else if ([logObject isKindOfClass:[MSPageLog class]] && [self.delegate respondsToSelector:@selector(analytics:
+                                                                                                  didSucceedSendingPageLog:)]) {
     MSPageLog *pageLog = (MSPageLog *)log;
     [self.delegate analytics:self didSucceedSendingPageLog:pageLog];
   }
@@ -468,12 +453,12 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
     return;
   }
   NSObject *logObject = (NSObject *)log;
-  if ([logObject isKindOfClass:[MSEventLog class]] &&
-      [self.delegate respondsToSelector:@selector(analytics:didFailSendingEventLog:withError:)]) {
+  if ([logObject isKindOfClass:[MSEventLog class]] && [self.delegate respondsToSelector:@selector(analytics:
+                                                                                            didFailSendingEventLog:withError:)]) {
     MSEventLog *eventLog = (MSEventLog *)log;
     [self.delegate analytics:self didFailSendingEventLog:eventLog withError:error];
-  } else if ([logObject isKindOfClass:[MSPageLog class]] &&
-             [self.delegate respondsToSelector:@selector(analytics:didFailSendingPageLog:withError:)]) {
+  } else if ([logObject isKindOfClass:[MSPageLog class]] && [self.delegate respondsToSelector:@selector(analytics:
+                                                                                                  didFailSendingPageLog:withError:)]) {
     MSPageLog *pageLog = (MSPageLog *)log;
     [self.delegate analytics:self didFailSendingPageLog:pageLog withError:error];
   }

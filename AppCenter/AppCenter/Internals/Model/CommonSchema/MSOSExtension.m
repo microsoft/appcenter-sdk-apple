@@ -1,5 +1,5 @@
-#import "MSCSModelConstants.h"
 #import "MSOSExtension.h"
+#import "MSCSModelConstants.h"
 
 @implementation MSOSExtension
 
@@ -13,7 +13,7 @@
   if (self.name) {
     dict[kMSOSName] = self.name;
   }
-  return dict;
+  return dict.count == 0 ? nil : dict;
 }
 
 #pragma mark - MSModel

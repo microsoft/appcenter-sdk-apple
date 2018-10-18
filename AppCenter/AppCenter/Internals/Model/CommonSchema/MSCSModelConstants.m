@@ -16,6 +16,10 @@ NSString *const kMSCSExt = @"ext";
 // Values
 NSString *const kMSCSVerValue = @"3.0";
 
+#pragma mark - MSMetadataExtension
+
+NSString *const kMSFieldDelimiter = @"f";
+
 #pragma mark - MSUserExtension
 
 NSString *const kMSUserLocale = @"locale";
@@ -64,6 +68,7 @@ NSString *const kMSDataBaseDataType = @"baseDataType";
 
 #pragma mark - MSCSExtensions
 
+NSString *const kMSCSMetadataExt = @"metadata";
 NSString *const kMSCSProtocolExt = @"protocol";
 NSString *const kMSCSUserExt = @"user";
 NSString *const kMSCSDeviceExt = @"device";

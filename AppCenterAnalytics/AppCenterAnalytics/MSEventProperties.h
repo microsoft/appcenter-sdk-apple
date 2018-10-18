@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)setBool:(BOOL)value forKey:(NSString *)key;
 
 /**
- * Set a Date property.
+ * Set a date property.
  *
  * @param value Property value.
  * @param key Property key.

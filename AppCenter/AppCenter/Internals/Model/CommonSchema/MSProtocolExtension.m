@@ -1,5 +1,5 @@
-#import "MSCSModelConstants.h"
 #import "MSProtocolExtension.h"
+#import "MSCSModelConstants.h"
 
 @implementation MSProtocolExtension
 
@@ -16,7 +16,7 @@
   if (self.devModel) {
     dict[kMSDevModel] = self.devModel;
   }
-  return dict;
+  return dict.count == 0 ? nil : dict;
 }
 
 #pragma mark - MSModel
