@@ -1,5 +1,5 @@
-#import "MSConstants+Internal.h"
 #import "MSLongTypedProperty.h"
+#import "MSACModelConstants.h"
 
 @implementation MSLongTypedProperty
 

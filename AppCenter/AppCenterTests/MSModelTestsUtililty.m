@@ -1,3 +1,4 @@
+#import "MSModelTestsUtililty.h"
 #import "MSACModelConstants.h"
 #import "MSAppExtension.h"
 #import "MSCSData.h"
@@ -7,7 +8,6 @@
 #import "MSDeviceInternal.h"
 #import "MSLocExtension.h"
 #import "MSMetadataExtension.h"
-#import "MSModelTestsUtililty.h"
 #import "MSNetExtension.h"
 #import "MSOSExtension.h"
 #import "MSProtocolExtension.h"
@@ -79,43 +79,43 @@
 }
 
 + (NSDictionary *)metadataExtensionDummies {
-  return @{ kMSFieldDelimiter : @{ @"baseData" : @{ kMSFieldDelimiter : @{@"screenSize" : @2 } } } };
+  return @{kMSFieldDelimiter : @{@"baseData" : @{kMSFieldDelimiter : @{@"screenSize" : @2}}}};
 }
 
 + (NSDictionary *)userExtensionDummies {
-  return @{ kMSUserLocale : @"en-us" };
+  return @{kMSUserLocale : @"en-us"};
 }
 
 + (NSDictionary *)locExtensionDummies {
-  return @{ kMSTimezone : @"-03:00" };
+  return @{kMSTimezone : @"-03:00"};
 }
 
 + (NSDictionary *)osExtensionDummies {
-  return @{ kMSOSName : @"iOS", kMSOSVer : @"9.0" };
+  return @{kMSOSName : @"iOS", kMSOSVer : @"9.0"};
 }
 
 + (NSDictionary *)appExtensionDummies {
-  return @{ kMSAppId : @"com.some.bundle.id", kMSAppVer : @"3.4.1", kMSAppLocale : @"en-us" };
+  return @{kMSAppId : @"com.some.bundle.id", kMSAppVer : @"3.4.1", kMSAppLocale : @"en-us"};
 }
 
 + (NSDictionary *)protocolExtensionDummies {
-  return @{ kMSTicketKeys : @[ @"ticketKey1", @"ticketKey2" ], kMSDevMake : @"Apple", kMSDevModel : @"iPhone X" };
+  return @{kMSTicketKeys : @[ @"ticketKey1", @"ticketKey2" ], kMSDevMake : @"Apple", kMSDevModel : @"iPhone X"};
 }
 
 + (NSDictionary *)netExtensionDummies {
-  return @{ kMSNetProvider : @"Verizon" };
+  return @{kMSNetProvider : @"Verizon"};
 }
 
 + (NSMutableDictionary *)sdkExtensionDummies {
-  return [@{ kMSSDKLibVer : @"1.2.0", kMSSDKEpoch : MS_UUID_STRING, kMSSDKSeq : @1, kMSSDKInstallId : [NSUUID new] } mutableCopy];
+  return [@{kMSSDKLibVer : @"1.2.0", kMSSDKEpoch : MS_UUID_STRING, kMSSDKSeq : @1, kMSSDKInstallId : [NSUUID new]} mutableCopy];
 }
 
 + (NSMutableDictionary *)deviceExtensionDummies {
-  return [@{ kMSDeviceLocalId : @"00000000-0000-0000-0000-000000000000" } mutableCopy];
+  return [@{kMSDeviceLocalId : @"00000000-0000-0000-0000-000000000000"} mutableCopy];
 }
 
 + (NSDictionary *)dataDummies {
-  return @{ @"akey" : @"avalue", @"anested.key" : @"anothervalue", @"anotherkey" : @"yetanothervalue" };
+  return @{@"akey" : @"avalue", @"anested.key" : @"anothervalue", @"anotherkey" : @"yetanothervalue"};
 }
 
 + (MSDevice *)dummyDevice {

@@ -619,7 +619,7 @@
   NSMutableDictionary *dict = [self.sdkExt serializeToDictionary];
 
   // Then
-  self.sdkExtDummyValues[kMSSDKInstallId] = [((NSUUID *)self.sdkExtDummyValues[kMSSDKInstallId])UUIDString];
+  self.sdkExtDummyValues[kMSSDKInstallId] = [((NSUUID *)self.sdkExtDummyValues[kMSSDKInstallId]) UUIDString];
   XCTAssertNotNil(dict);
   XCTAssertEqualObjects(dict, self.sdkExtDummyValues);
 }
@@ -795,7 +795,7 @@
   XCTAssertEqualObjects(anotherData, self.data);
 
   // If
-  anotherData.properties = [@{ @"part.c.key" : @"part.c.value" } mutableCopy];
+  anotherData.properties = [@{@"part.c.key" : @"part.c.value"} mutableCopy];
 
   // Then
   XCTAssertNotEqualObjects(anotherData, self.data);

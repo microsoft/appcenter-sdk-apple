@@ -1,8 +1,8 @@
 #import "AppCenter+Internal.h"
+#import "MSACModelConstants.h"
 #import "MSAnalyticsConstants.h"
 #import "MSAnalyticsInternal.h"
 #import "MSBooleanTypedProperty.h"
-#import "MSConstants+Internal.h"
 #import "MSCSData.h"
 #import "MSCSExtensions.h"
 #import "MSCSModelConstants.h"
@@ -85,8 +85,6 @@ static NSString *const kMSTypedProperties = @"typedProperties";
 
   // Metadata extension must accompany data.
   // Event properties goes to part C.
-  csLog.data = [MSCSData new];
-  csLog.ext.metadataExt = [MSMetadataExtension new];
   [self setPropertiesAndMetadataForCSLog:csLog];
   return csLog;
 }
@@ -106,18 +104,22 @@ static NSString *const kMSTypedProperties = @"typedProperties";
         MSLogWarning(MSAnalytics.logTag, @"Cannot use %@ in properties, skipping that property.", typedProperty.name);
         continue;
       }
-      [self addTypedProperty:typedProperty toCSMetadata:metadata AndCSProperties:csProperties];
+      [self addTypedProperty:typedProperty toCSMetadata:metadata andCSProperties:csProperties];
     }
   }
   if (csProperties.count != 0) {
+    csLog.data = [MSCSData new];
     csLog.data.properties = csProperties;
   }
   if (metadata.count != 0) {
+    csLog.ext.metadataExt = [MSMetadataExtension new];
     csLog.ext.metadataExt.metadata = metadata;
   }
 }
 
-- (void)addTypedProperty:(MSTypedProperty *)typedProperty toCSMetadata:(NSMutableDictionary *)csMetadata AndCSProperties:(NSMutableDictionary *)csProperties {
+- (void)addTypedProperty:(MSTypedProperty *)typedProperty
+            toCSMetadata:(NSMutableDictionary *)csMetadata
+         andCSProperties:(NSMutableDictionary *)csProperties {
   NSNumber *typeId = self.metadataTypeIdMapping[typedProperty.type];
 
   // If the key contains a '.' then it's nested objects (i.e: "a.b":"value" => {"a":{"b":"value"}}).
@@ -132,43 +134,29 @@ static NSString *const kMSTypedProperties = @"typedProperties";
    */
   NSMutableDictionary *metadataSubtreeParent = nil;
   for (NSUInteger i = 0; i < csKeys.count - 1; i++) {
-    
-    // If there is no field delimiter for this level in the metadata tree, create one.
-    if (typeId && !metadataTree[kMSFieldDelimiter]) {
-      metadataSubtreeParent = metadataSubtreeParent?: metadataTree;
-      metadataTree[kMSFieldDelimiter] = [NSMutableDictionary new];
-    }
-    NSMutableDictionary *propertySubtree = nil;
-    NSMutableDictionary *metadataSubtree = nil;
     id key = csKeys[i];
-    if ([(NSObject *) propertyTree[key] isKindOfClass:[NSMutableDictionary class]]) {
-      propertySubtree = propertyTree[key];
-      metadataSubtree = metadataTree[kMSFieldDelimiter][key];
-      if (typeId && !metadataSubtree) {
-        metadataSubtree = [NSMutableDictionary new];
-        metadataTree[kMSFieldDelimiter][key] = metadataSubtree;
-      }
-    }
-    if (!propertySubtree) {
+    if (![(NSObject *)propertyTree[key] isKindOfClass:[NSMutableDictionary class]]) {
       if (propertyTree[key]) {
         propertyTree = nil;
         break;
       }
-      propertySubtree = [NSMutableDictionary new];
-      propertyTree[key] = propertySubtree;
-      if (typeId) {
-        metadataSubtree = [NSMutableDictionary new];
-        metadataTree[kMSFieldDelimiter][key] = metadataSubtree;
-      }
+      propertyTree[key] = [NSMutableDictionary new];
     }
-    propertyTree = propertySubtree;
-    metadataTree = metadataSubtree;
+    propertyTree = propertyTree[key];
+    if (typeId) {
+      if (!metadataTree[kMSFieldDelimiter]) {
+        metadataTree[kMSFieldDelimiter] = [NSMutableDictionary new];
+        metadataSubtreeParent = metadataSubtreeParent ?: metadataTree;
+      }
+      if (!metadataTree[kMSFieldDelimiter][key]) {
+        metadataTree[kMSFieldDelimiter][key] = [NSMutableDictionary new];
+      }
+      metadataTree = metadataTree[kMSFieldDelimiter][key];
+    }
   }
   id lastKey = csKeys.lastObject;
   BOOL didAddTypedProperty = [self addTypedProperty:typedProperty toPropertyTree:propertyTree withKey:lastKey];
   if (typeId && didAddTypedProperty) {
-
-    // If there is no field delimiter for this level in the metadata tree, create one.
     if (!metadataTree[kMSFieldDelimiter]) {
       metadataTree[kMSFieldDelimiter] = [NSMutableDictionary new];
     }
@@ -184,19 +172,19 @@ static NSString *const kMSTypedProperties = @"typedProperties";
     return NO;
   }
   if ([typedProperty isKindOfClass:[MSStringTypedProperty class]]) {
-    MSStringTypedProperty *stringProperty = (MSStringTypedProperty *) typedProperty;
+    MSStringTypedProperty *stringProperty = (MSStringTypedProperty *)typedProperty;
     propertyTree[key] = stringProperty.value;
   } else if ([typedProperty isKindOfClass:[MSBooleanTypedProperty class]]) {
-    MSBooleanTypedProperty *boolProperty = (MSBooleanTypedProperty *) typedProperty;
+    MSBooleanTypedProperty *boolProperty = (MSBooleanTypedProperty *)typedProperty;
     propertyTree[key] = @(boolProperty.value);
   } else if ([typedProperty isKindOfClass:[MSLongTypedProperty class]]) {
-    MSLongTypedProperty *longProperty = (MSLongTypedProperty *) typedProperty;
+    MSLongTypedProperty *longProperty = (MSLongTypedProperty *)typedProperty;
     propertyTree[key] = @(longProperty.value);
   } else if ([typedProperty isKindOfClass:[MSDoubleTypedProperty class]]) {
-    MSDoubleTypedProperty *doubleProperty = (MSDoubleTypedProperty *) typedProperty;
+    MSDoubleTypedProperty *doubleProperty = (MSDoubleTypedProperty *)typedProperty;
     propertyTree[key] = @(doubleProperty.value);
   } else if ([typedProperty isKindOfClass:[MSDateTimeTypedProperty class]]) {
-    MSDateTimeTypedProperty *dateProperty = (MSDateTimeTypedProperty *) typedProperty;
+    MSDateTimeTypedProperty *dateProperty = (MSDateTimeTypedProperty *)typedProperty;
     propertyTree[key] = [MSUtility dateToISO8601:dateProperty.value];
   }
   return YES;
