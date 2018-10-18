@@ -1,5 +1,17 @@
 # App Center SDK for iOS and macOS Change Log
 
+## Version 1.10.1 (Under active development)
+
+### AppCenterCrashes
+
+* **[Fix]** Do not force crash macOS application on exception. If you need this behavior you can set the special flag yourself:
+
+    ```objc
+    [[NSUserDefaults standardUserDefaults] registerDefaults:@{ @"NSApplicationCrashOnExceptions" : @YES }];
+    ```
+
+___
+
 ## Version 1.10.0
 
 ### AppCenter
