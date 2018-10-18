@@ -35,15 +35,19 @@ static const int maxPropertyValueLength = 128;
 }
 
 - (instancetype)setObject:(NSObject *)value forKey:(NSString *)key {
-  if ([self isValidKey:key] && [self isValidValue:value]) {
-    [self.properties setObject:value forKey:key];
+  @synchronized(self.properties) {
+    if ([self isValidKey:key] && [self isValidValue:value]) {
+      [self.properties setObject:value forKey:key];
+    }
   }
   return self;
 }
 
 - (instancetype)clearPropertyForKey:(NSString *)key {
-  if ([self isValidKey:key]) {
-    [self.properties setObject:[NSNull null] forKey:key];
+  @synchronized(self.properties) {
+    if ([self isValidKey:key]) {
+      [self.properties setObject:[NSNull null] forKey:key];
+    }
   }
   return self;
 }
@@ -90,6 +94,12 @@ static const int maxPropertyValueLength = 128;
     return NO;
   }
   return YES;
+}
+
+- (NSDictionary<NSString *, NSObject *> *)propertiesImmutableCopy {
+  @synchronized (self.properties) {
+    return [[NSDictionary alloc] initWithDictionary:self.properties];
+  }
 }
 
 @end
