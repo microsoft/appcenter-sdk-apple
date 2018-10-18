@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param eventProperties The new properites to be merged.
  */
-- (void)mergeEventProperties:(MSEventProperties *)eventProperties;
+- (void)mergeEventProperties:(MSEventProperties *__nonnull)eventProperties;
 
 @end
 
