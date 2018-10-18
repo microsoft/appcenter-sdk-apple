@@ -7,7 +7,6 @@
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [NSMutableDictionary new];
-  ;
   if (self.ver) {
     dict[kMSOSVer] = self.ver;
   }
