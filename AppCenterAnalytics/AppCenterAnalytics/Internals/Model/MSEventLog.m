@@ -131,37 +131,25 @@ static NSString *const kMSTypedProperties = @"typedProperties";
    */
   NSMutableDictionary *metadataSubtreeParent = nil;
   for (NSUInteger i = 0; i < csKeys.count - 1; i++) {
-
-    // If there is no field delimiter for this level in the metadata tree, create one.
-    if (typeId && !metadataTree[kMSFieldDelimiter]) {
-      metadataSubtreeParent = metadataSubtreeParent?: metadataTree;
-      metadataTree[kMSFieldDelimiter] = [NSMutableDictionary new];
-    }
-    NSMutableDictionary *propertySubtree = nil;
-    NSMutableDictionary *metadataSubtree = nil;
     id key = csKeys[i];
-    if ([(NSObject *) propertyTree[key] isKindOfClass:[NSMutableDictionary class]]) {
-      propertySubtree = propertyTree[key];
-      metadataSubtree = metadataTree[kMSFieldDelimiter][key];
-      if (typeId && !metadataSubtree) {
-        metadataSubtree = [NSMutableDictionary new];
-        metadataTree[kMSFieldDelimiter][key] = metadataSubtree;
-      }
-    }
-    if (!propertySubtree) {
+    if (![(NSObject *) propertyTree[key] isKindOfClass:[NSMutableDictionary class]]) {
       if (propertyTree[key]) {
         propertyTree = nil;
         break;
       }
-      propertySubtree = [NSMutableDictionary new];
-      propertyTree[key] = propertySubtree;
-      if (typeId) {
-        metadataSubtree = [NSMutableDictionary new];
-        metadataTree[kMSFieldDelimiter][key] = metadataSubtree;
-      }
+      propertyTree[key] = [NSMutableDictionary new];
     }
-    propertyTree = propertySubtree;
-    metadataTree = metadataSubtree;
+    propertyTree = propertyTree[key];
+    if (typeId) {
+      if (!metadataTree[kMSFieldDelimiter]) {
+        metadataTree[kMSFieldDelimiter] = [NSMutableDictionary new];
+        metadataSubtreeParent = metadataSubtreeParent?: metadataTree;
+      }
+      if (!metadataTree[kMSFieldDelimiter][key]) {
+        metadataTree[kMSFieldDelimiter][key] = [NSMutableDictionary new];
+      }
+      metadataTree = metadataTree[kMSFieldDelimiter][key];
+    }
   }
   id lastKey = csKeys.lastObject;
   BOOL didAddTypedProperty = [self addTypedProperty:typedProperty toPropertyTree:propertyTree withKey:lastKey];
