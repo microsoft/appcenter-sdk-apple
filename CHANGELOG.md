@@ -5,6 +5,7 @@
 ### AppCenter
 
 * **[Fix]** Fix an issue where concurrent modification of custom properties was not thread safe.
+* **[Fix]** Fix validating and discarding Not a Number (NaN) and infinite double values for custom properties.
 
 ___
 

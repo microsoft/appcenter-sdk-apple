@@ -226,6 +226,42 @@
   assertThat([customProperties propertiesImmutableCopy][key], is(normalValue));
 }
 
+- (void)testSetInvalidNumber {
+
+  // If
+  NSString *key = @"test";
+
+  // When
+  MSCustomProperties *customProperties = [MSCustomProperties new];
+
+  // Then
+  assertThat([customProperties propertiesImmutableCopy], hasCountOf(0));
+
+  // NaN value.
+  // When
+  NSNumber *nanValue = [NSNumber numberWithDouble:NAN];
+  [customProperties setNumber:nanValue forKey:key];
+
+  // Then
+  assertThat([customProperties propertiesImmutableCopy], hasCountOf(0));
+
+  // Positive infinite value.
+  // When
+  NSNumber *positiveInfiniteValue = [NSNumber numberWithDouble:INFINITY];
+  [customProperties setNumber:positiveInfiniteValue forKey:key];
+
+  // Then
+  assertThat([customProperties propertiesImmutableCopy], hasCountOf(0));
+
+  // Negative infinite value.
+  // When
+  NSNumber *negativeInfiniteValue = [NSNumber numberWithDouble:-INFINITY];
+  [customProperties setNumber:negativeInfiniteValue forKey:key];
+
+  // Then
+  assertThat([customProperties propertiesImmutableCopy], hasCountOf(0));
+}
+
 - (void)testSetBool {
 
   // If
