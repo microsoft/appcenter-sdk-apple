@@ -45,7 +45,7 @@
   NSString *eventName = @"eventName";
   MSDevice *device = [MSDevice new];
   NSString *sessionId = @"1234567890";
-  NSDictionary *properties = @{ @"Key" : @"Value" };
+  NSDictionary *properties = @{@"Key" : @"Value"};
   NSDate *timestamp = [NSDate date];
 
   self.sut.eventId = eventId;
@@ -79,7 +79,7 @@
   MSDevice *device = [MSDevice new];
   NSString *sessionId = @"1234567890";
   NSDate *timestamp = [NSDate date];
-  NSDictionary *properties = @{ @"Key" : @"Value" };
+  NSDictionary *properties = @{@"Key" : @"Value"};
 
   self.sut.eventId = eventId;
   self.sut.name = eventName;
@@ -263,7 +263,7 @@
   [acProperties setString:@"value" forKey:@"key"];
   [acProperties setString:@"value2" forKey:@"key2"];
   self.sut.typedProperties = acProperties;
-  NSDictionary *expectedProperties = @{@"key": @"value", @"key2": @"value2"};
+  NSDictionary *expectedProperties = @{@"key" : @"value", @"key2" : @"value2"};
 
   // When
   [self.sut setPropertiesAndMetadataForCSLog:csLog];
@@ -284,19 +284,8 @@
   [acProperties setDouble:2.0 forKey:@"p.b"];
   [acProperties setBool:YES forKey:@"p.c"];
   self.sut.typedProperties = acProperties;
-  NSDictionary *expectedProperties = @{@"p": @{@"a": @1, @"b": @2.0, @"c": @YES}};
-  NSDictionary *expectedMetadata = @{
-      @"f":
-      @{
-          @"p":
-          @{
-              @"f":
-              @{
-                  @"a": @(kMSLongMetadataTypeId),
-                  @"b": @(kMSDoubleMetadataTypeId)
-              }
-          }
-      }};
+  NSDictionary *expectedProperties = @{@"p" : @{@"a" : @1, @"b" : @2.0, @"c" : @YES}};
+  NSDictionary *expectedMetadata = @{@"f" : @{@"p" : @{@"f" : @{@"a" : @(kMSLongMetadataTypeId), @"b" : @(kMSDoubleMetadataTypeId)}}}};
 
   // When
   [self.sut setPropertiesAndMetadataForCSLog:csLog];
@@ -320,7 +309,7 @@
   [acProperties setString:@"3" forKey:@"nes.t.ed2"];
   [acProperties setString:@"value2" forKey:@"key2"];
   self.sut.typedProperties = acProperties;
-  NSDictionary *expectedResult = @{@"key": @"value", @"nes": @{@"a": @"1", @"t": @{@"ed": @"2", @"ed2": @"3"}}, @"key2": @"value2"};
+  NSDictionary *expectedResult = @{@"key" : @"value", @"nes" : @{@"a" : @"1", @"t" : @{@"ed" : @"2", @"ed2" : @"3"}}, @"key2" : @"value2"};
 
   // When
   [self.sut setPropertiesAndMetadataForCSLog:csLog];
@@ -340,27 +329,9 @@
   [acProperties setInt64:1 forKey:@"a.b"];
   [acProperties setDouble:2.2 forKey:@"b.c"];
   self.sut.typedProperties = acProperties;
-  NSDictionary *expectedProperties = @{@"a": @{@"b": @1}, @"b": @{@"c": @2.2} };
+  NSDictionary *expectedProperties = @{@"a" : @{@"b" : @1}, @"b" : @{@"c" : @2.2}};
   NSDictionary *expectedMetadata =
-      @{
-          @"f":
-          @{
-              @"a":
-              @{
-                  @"f":
-                  @{
-                      @"b": @(kMSLongMetadataTypeId)
-                  }
-              },
-              @"b":
-              @{
-                  @"f":
-                  @{
-                      @"c": @(kMSDoubleMetadataTypeId)
-                  }
-              }
-          }
-      };
+      @{@"f" : @{@"a" : @{@"f" : @{@"b" : @(kMSLongMetadataTypeId)}}, @"b" : @{@"f" : @{@"c" : @(kMSDoubleMetadataTypeId)}}}};
 
   // When
   [self.sut setPropertiesAndMetadataForCSLog:csLog];
@@ -381,20 +352,12 @@
   [acProperties setInt64:1 forKey:@"a.b"];
   [acProperties setString:@"2.2" forKey:@"b.c"];
   self.sut.typedProperties = acProperties;
-  NSDictionary *expectedProperties = @{@"a": @{@"b": @1}, @"b": @{@"c": @"2.2"} };
-  NSDictionary *expectedMetadata =
-      @{
-          @"f":
-          @{
-              @"a":
-              @{
-                  @"f":
-                  @{
-                      @"b": @(kMSLongMetadataTypeId)
-                  }
-              },
-          }
-      };
+  NSDictionary *expectedProperties = @{@"a" : @{@"b" : @1}, @"b" : @{@"c" : @"2.2"}};
+  NSDictionary *expectedMetadata = @{
+    @"f" : @{
+      @"a" : @{@"f" : @{@"b" : @(kMSLongMetadataTypeId)}},
+    }
+  };
 
   // When
   [self.sut setPropertiesAndMetadataForCSLog:csLog];
@@ -434,21 +397,9 @@
 - (void)setupAndAssert:(MSCommonSchemaLog *)csLog {
 
   // If
-  NSDictionary *possibleProperties1 = @{@"a": @{@"b": @1.4}};
-  NSDictionary *possibleProperties2 = @{@"a": @{@"b": @{@"c": @{@"d": @"hello"}}}};
-  NSDictionary *possibleMetadata1 =
-      @{
-          @"f":
-          @{
-              @"a":
-              @{
-                  @"f":
-                  @{
-                      @"b": @(kMSDoubleMetadataTypeId)
-                  }
-              }
-          }
-      };
+  NSDictionary *possibleProperties1 = @{@"a" : @{@"b" : @1.4}};
+  NSDictionary *possibleProperties2 = @{@"a" : @{@"b" : @{@"c" : @{@"d" : @"hello"}}}};
+  NSDictionary *possibleMetadata1 = @{@"f" : @{@"a" : @{@"f" : @{@"b" : @(kMSDoubleMetadataTypeId)}}}};
   NSDictionary *possibleMetadata2 = nil;
 
   // When
@@ -497,34 +448,11 @@
 - (void)setupPropertiesAndAssert:(MSCommonSchemaLog *)csLog {
 
   // If
-  NSDictionary *possibleProperties1 =  @{ @"a" : @{@"b" : @"hello"} };
-  NSDictionary *possibleProperties2 =  @{ @"a" : @{@"b" : @{@"c" : @{@"d" : @249}}} };
+  NSDictionary *possibleProperties1 = @{@"a" : @{@"b" : @"hello"}};
+  NSDictionary *possibleProperties2 = @{@"a" : @{@"b" : @{@"c" : @{@"d" : @249}}}};
   NSDictionary *possibleMetadata1 = nil;
   NSDictionary *possibleMetadata2 =
-      @{
-          @"f":
-          @{
-              @"a":
-              @{
-                  @"f":
-                  @{
-                      @"b":
-                      @{
-                          @"f":
-                          @{
-                              @"c":
-                              @{
-                                  @"f":
-                                  @{
-                                      @"d": @(kMSLongMetadataTypeId)
-                                  }
-                              }
-                          }
-                      }
-                  }
-              }
-          }
-      };
+      @{@"f" : @{@"a" : @{@"f" : @{@"b" : @{@"f" : @{@"c" : @{@"f" : @{@"d" : @(kMSLongMetadataTypeId)}}}}}}}};
 
   // When
   [self.sut setPropertiesAndMetadataForCSLog:csLog];
@@ -553,34 +481,10 @@
   [acProperties setInt64:123 forKey:@"a.b"];
   [acProperties setDouble:2.43 forKey:@"a.b"];
   self.sut.typedProperties = acProperties;
-  NSDictionary *possibleProperties1 = @{@"a": @{@"b": @123}};
-  NSDictionary *possibleProperties2 = @{@"a": @{@"b": @2.43}};
-  NSDictionary *possibleMetadata1 =
-      @{
-          @"f":
-          @{
-              @"a":
-              @{
-                  @"f":
-                  @{
-                      @"b": @(kMSLongMetadataTypeId)
-                  }
-              }
-          }
-      };
-  NSDictionary *possibleMetadata2 =
-      @{
-          @"f":
-          @{
-              @"a":
-              @{
-                  @"f":
-                  @{
-                      @"b": @(kMSDoubleMetadataTypeId)
-                  }
-              }
-          }
-      };
+  NSDictionary *possibleProperties1 = @{@"a" : @{@"b" : @123}};
+  NSDictionary *possibleProperties2 = @{@"a" : @{@"b" : @2.43}};
+  NSDictionary *possibleMetadata1 = @{@"f" : @{@"a" : @{@"f" : @{@"b" : @(kMSLongMetadataTypeId)}}}};
+  NSDictionary *possibleMetadata2 = @{@"f" : @{@"a" : @{@"f" : @{@"b" : @(kMSDoubleMetadataTypeId)}}}};
 
   // When
   [self.sut setPropertiesAndMetadataForCSLog:csLog];
@@ -610,20 +514,8 @@
   [acProperties setInt64:123 forKey:@"a.c"];
   [acProperties setString:@"hello" forKey:@"a.e"];
   self.sut.typedProperties = acProperties;
-  NSDictionary *expectedProperties = @{@"a": @{@"c": @123, @"b": @"hello", @"e": @"hello" }};
-  NSDictionary *expectedMetadata =
-      @{
-          @"f":
-          @{
-              @"a":
-              @{
-                  @"f":
-                  @{
-                      @"c": @(kMSLongMetadataTypeId)
-                  }
-              }
-          }
-      };
+  NSDictionary *expectedProperties = @{@"a" : @{@"c" : @123, @"b" : @"hello", @"e" : @"hello"}};
+  NSDictionary *expectedMetadata = @{@"f" : @{@"a" : @{@"f" : @{@"c" : @(kMSLongMetadataTypeId)}}}};
 
   // When
   [self.sut setPropertiesAndMetadataForCSLog:csLog];
@@ -647,9 +539,14 @@
   NSString *dateString = [MSUtility dateToISO8601:date];
   [eventProperties setDate:date forKey:@"aDateTimeValue"];
   [eventProperties setBool:YES forKey:@"aBooleanValue"];
-  NSDictionary *expectedProperties = @{ @"aStringValue" : @"hello", @"aLongValue" : @1234567890, @"aDoubleValue" : @3.14, @"aDateTimeValue" :
-      dateString, @"aBooleanValue" : @YES};
-  NSDictionary *expectedMetadata = @{ @"f": @{@"aLongValue" : @4, @"aDoubleValue" : @6, @"aDateTimeValue" : @9}};
+  NSDictionary *expectedProperties = @{
+    @"aStringValue" : @"hello",
+    @"aLongValue" : @1234567890,
+    @"aDoubleValue" : @3.14,
+    @"aDateTimeValue" : dateString,
+    @"aBooleanValue" : @YES
+  };
+  NSDictionary *expectedMetadata = @{@"f" : @{@"aLongValue" : @4, @"aDoubleValue" : @6, @"aDateTimeValue" : @9}};
   NSDate *timestamp = [NSDate date];
   MSDevice *device = [MSDevice new];
   NSString *oemName = @"Peach";

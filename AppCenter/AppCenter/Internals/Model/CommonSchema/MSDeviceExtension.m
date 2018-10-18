@@ -1,5 +1,5 @@
-#import "MSCSModelConstants.h"
 #import "MSDeviceExtension.h"
+#import "MSCSModelConstants.h"
 
 @implementation MSDeviceExtension
 

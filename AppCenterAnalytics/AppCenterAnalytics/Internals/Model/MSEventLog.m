@@ -10,8 +10,8 @@
 #import "MSDoubleTypedProperty.h"
 #import "MSEventLogPrivate.h"
 #import "MSEventPropertiesInternal.h"
-#import "MSMetadataExtension.h"
 #import "MSLongTypedProperty.h"
+#import "MSMetadataExtension.h"
 #import "MSStringTypedProperty.h"
 
 static NSString *const kMSTypeEvent = @"event";
@@ -116,7 +116,9 @@ static NSString *const kMSTypedProperties = @"typedProperties";
   }
 }
 
-- (void)addTypedProperty:(MSTypedProperty *)typedProperty toCSMetadata:(NSMutableDictionary *)csMetadata andCSProperties:(NSMutableDictionary *)csProperties {
+- (void)addTypedProperty:(MSTypedProperty *)typedProperty
+            toCSMetadata:(NSMutableDictionary *)csMetadata
+         andCSProperties:(NSMutableDictionary *)csProperties {
   NSNumber *typeId = self.metadataTypeIdMapping[typedProperty.type];
 
   // If the key contains a '.' then it's nested objects (i.e: "a.b":"value" => {"a":{"b":"value"}}).
@@ -132,7 +134,7 @@ static NSString *const kMSTypedProperties = @"typedProperties";
   NSMutableDictionary *metadataSubtreeParent = nil;
   for (NSUInteger i = 0; i < csKeys.count - 1; i++) {
     id key = csKeys[i];
-    if (![(NSObject *) propertyTree[key] isKindOfClass:[NSMutableDictionary class]]) {
+    if (![(NSObject *)propertyTree[key] isKindOfClass:[NSMutableDictionary class]]) {
       if (propertyTree[key]) {
         propertyTree = nil;
         break;
@@ -143,7 +145,7 @@ static NSString *const kMSTypedProperties = @"typedProperties";
     if (typeId) {
       if (!metadataTree[kMSFieldDelimiter]) {
         metadataTree[kMSFieldDelimiter] = [NSMutableDictionary new];
-        metadataSubtreeParent = metadataSubtreeParent?: metadataTree;
+        metadataSubtreeParent = metadataSubtreeParent ?: metadataTree;
       }
       if (!metadataTree[kMSFieldDelimiter][key]) {
         metadataTree[kMSFieldDelimiter][key] = [NSMutableDictionary new];
@@ -169,19 +171,19 @@ static NSString *const kMSTypedProperties = @"typedProperties";
     return NO;
   }
   if ([typedProperty isKindOfClass:[MSStringTypedProperty class]]) {
-    MSStringTypedProperty *stringProperty = (MSStringTypedProperty *) typedProperty;
+    MSStringTypedProperty *stringProperty = (MSStringTypedProperty *)typedProperty;
     propertyTree[key] = stringProperty.value;
   } else if ([typedProperty isKindOfClass:[MSBooleanTypedProperty class]]) {
-    MSBooleanTypedProperty *boolProperty = (MSBooleanTypedProperty *) typedProperty;
+    MSBooleanTypedProperty *boolProperty = (MSBooleanTypedProperty *)typedProperty;
     propertyTree[key] = @(boolProperty.value);
   } else if ([typedProperty isKindOfClass:[MSLongTypedProperty class]]) {
-    MSLongTypedProperty *longProperty = (MSLongTypedProperty *) typedProperty;
+    MSLongTypedProperty *longProperty = (MSLongTypedProperty *)typedProperty;
     propertyTree[key] = @(longProperty.value);
   } else if ([typedProperty isKindOfClass:[MSDoubleTypedProperty class]]) {
-    MSDoubleTypedProperty *doubleProperty = (MSDoubleTypedProperty *) typedProperty;
+    MSDoubleTypedProperty *doubleProperty = (MSDoubleTypedProperty *)typedProperty;
     propertyTree[key] = @(doubleProperty.value);
   } else if ([typedProperty isKindOfClass:[MSDateTimeTypedProperty class]]) {
-    MSDateTimeTypedProperty *dateProperty = (MSDateTimeTypedProperty *) typedProperty;
+    MSDateTimeTypedProperty *dateProperty = (MSDateTimeTypedProperty *)typedProperty;
     propertyTree[key] = [MSUtility dateToISO8601:dateProperty.value];
   }
   return YES;

@@ -1,5 +1,5 @@
-#import "MSACModelConstants.h"
 #import "MSDateTimeTypedProperty.h"
+#import "MSACModelConstants.h"
 #import "MSUtility+Date.h"
 
 @implementation MSDateTimeTypedProperty

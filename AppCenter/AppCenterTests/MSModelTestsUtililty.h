@@ -122,7 +122,6 @@
  */
 + (MSCSExtensions *)extensionsWithDummyValues:(NSDictionary *)dummyValues;
 
-
 /**
  * Populate a dummy common schema user extension.
  *

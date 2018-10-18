@@ -1,5 +1,5 @@
-#import "MSCSModelConstants.h"
 #import "MSNetExtension.h"
+#import "MSCSModelConstants.h"
 
 @implementation MSNetExtension
 

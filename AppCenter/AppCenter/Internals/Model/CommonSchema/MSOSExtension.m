@@ -1,12 +1,13 @@
-#import "MSCSModelConstants.h"
 #import "MSOSExtension.h"
+#import "MSCSModelConstants.h"
 
 @implementation MSOSExtension
 
 #pragma mark - MSSerializableObject
 
 - (NSMutableDictionary *)serializeToDictionary {
-  NSMutableDictionary *dict = [NSMutableDictionary new];;
+  NSMutableDictionary *dict = [NSMutableDictionary new];
+  ;
   if (self.ver) {
     dict[kMSOSVer] = self.ver;
   }

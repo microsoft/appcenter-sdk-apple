@@ -1,32 +1,32 @@
-#import "MSACModelConstants.h"
 #import "MSLongTypedProperty.h"
+#import "MSACModelConstants.h"
 
 @implementation MSLongTypedProperty
 
 - (instancetype)init {
-    if ((self = [super init])) {
-        self.type = kMSLongTypedPropertyType;
-    }
-    return self;
+  if ((self = [super init])) {
+    self.type = kMSLongTypedPropertyType;
+  }
+  return self;
 }
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
-    self = [super initWithCoder:coder];
-    if (self) {
-        _value = [coder decodeInt64ForKey:kMSTypedPropertyValue];
-    }
-    return self;
+  self = [super initWithCoder:coder];
+  if (self) {
+    _value = [coder decodeInt64ForKey:kMSTypedPropertyValue];
+  }
+  return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
-    [super encodeWithCoder:coder];
-    [coder encodeInt64:self.value forKey:kMSTypedPropertyValue];
+  [super encodeWithCoder:coder];
+  [coder encodeInt64:self.value forKey:kMSTypedPropertyValue];
 }
 
 - (NSMutableDictionary *)serializeToDictionary {
-    NSMutableDictionary *dict = [super serializeToDictionary];
-    dict[kMSTypedPropertyValue] = @(self.value);
-    return dict;
+  NSMutableDictionary *dict = [super serializeToDictionary];
+  dict[kMSTypedPropertyValue] = @(self.value);
+  return dict;
 }
 
 @end

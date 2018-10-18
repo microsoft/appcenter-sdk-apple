@@ -1,5 +1,5 @@
-#import "MSACModelConstants.h"
 #import "MSBooleanTypedProperty.h"
+#import "MSACModelConstants.h"
 
 @implementation MSBooleanTypedProperty
 
