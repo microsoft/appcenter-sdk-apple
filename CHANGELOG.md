@@ -9,7 +9,7 @@
 
 ### AppCenterCrashes
 
-* **[Fix]** Do not force crash macOS application on exception. If you need this behavior you can set the special flag yourself:
+* **[Fix]** Do not force crash macOS application on uncaught exception. If you need this behavior you can set the special flag yourself:
 
     ```objc
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{ @"NSApplicationCrashOnExceptions" : @YES }];
