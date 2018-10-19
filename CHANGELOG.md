@@ -14,9 +14,11 @@ ___
 ### AppCenter
 
 * **[Fix]** Add missing network request error logging.
+* **[Feature]** Add a `setMaxStorageSize` API which allows setting a maximum size limit on the local SQLite storage.
 
 ### AppCenterAnalytics
 
+* **[Feature]** Add `pause`/`resume` APIs which pause/resume sending Analytics logs to App Center.
 * **[Feature]** Adding support for typed properties. Note that these APIs still convert properties back to strings on the App Center backend. More work is needed to store and display typed properties in the App Center portal. Using the new APIs now will enable future scenarios, but for now the behavior will be the same as it is for current event properties.
 * **[Feature]** Preparation work for a future change in transmission protocol and endpoint for Analytics data. There is no impact on your current workflow when using App Center.
 * **[Fix]** Fix an bug where nested custom properties for an event would not pass validation.
