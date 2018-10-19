@@ -54,7 +54,7 @@ import UIKit
     set(value) {
       switch type {
       case .String, .Double, .Long:
-        valueTextField.text = value as? String
+        valueTextField.text = "\(value)"
       case .Boolean:
         boolValue.isOn = value as! Bool
       case .DateTime:
