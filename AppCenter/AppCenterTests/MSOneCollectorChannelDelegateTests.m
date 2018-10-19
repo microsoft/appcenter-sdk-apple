@@ -266,13 +266,13 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
   id<MSMockLogWithConversion> mockLog = OCMProtocolMock(@protocol(MSMockLogWithConversion));
   OCMStub([mockLog toCommonSchemaLogs]).andReturn(@[ commonSchemaLog ]);
   OCMStub(mockLog.transmissionTargetTokens).andReturn(transmissionTargetTokens);
-
+  dispatch_semaphore_t sem = dispatch_semaphore_create(0);
   /*
    * Make sure that the common schema log is enqueued synchronously by putting a task on the log queue that won't return
    * by the time verify is called.
    */
   dispatch_async(oneCollectorChannelUnitMock.logsDispatchQueue, ^{
-    sleep(1);
+    dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
   });
 
   // When
@@ -281,6 +281,7 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
 
   // Then
   OCMVerify([oneCollectorChannelUnitMock enqueueItem:commonSchemaLog]);
+  dispatch_semaphore_signal(sem);
 }
 
 - (void)testDidNotEnqueueLogToOneCollectorChannelWhenLogDoesNotConformToMSLogConversionProtocol {
