@@ -1,15 +1,14 @@
-#import "MSNetExtension.h"
-#import "MSCSModelConstants.h"
+#import "MSMetadataExtension.h"
 
-@implementation MSNetExtension
+@implementation MSMetadataExtension
 
 #pragma mark - MSSerializableObject
 
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict;
-  if (self.provider) {
+  if (self.metadata) {
     dict = [NSMutableDictionary new];
-    dict[kMSNetProvider] = self.provider;
+    [dict addEntriesFromDictionary:self.metadata];
   }
   return dict;
 }
@@ -25,24 +24,24 @@
 #pragma mark - NSObject
 
 - (BOOL)isEqual:(id)object {
-  if (![(NSObject *)object isKindOfClass:[MSNetExtension class]]) {
+  if (![(NSObject *)object isKindOfClass:[MSMetadataExtension class]]) {
     return NO;
   }
-  MSNetExtension *netExt = (MSNetExtension *)object;
-  return ((!self.provider && !netExt.provider) || [self.provider isEqualToString:netExt.provider]);
+  MSMetadataExtension *csMetadata = (MSMetadataExtension *)object;
+  return (!self.metadata && !csMetadata) || [self.metadata isEqualToDictionary:csMetadata.metadata];
 }
 
 #pragma mark - NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
   if ((self = [super init])) {
-    _provider = [coder decodeObjectForKey:kMSNetProvider];
+    _metadata = [coder decodeObject];
   }
   return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
-  [coder encodeObject:self.provider forKey:kMSNetProvider];
+  [coder encodeRootObject:self.metadata];
 }
 
 @end

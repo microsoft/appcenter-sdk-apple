@@ -16,6 +16,10 @@ extern NSString *const kMSCSExt;
 // Values
 extern NSString *const kMSCSVerValue;
 
+#pragma mark - MSMetadataExtension
+
+extern NSString *const kMSFieldDelimiter;
+
 #pragma mark - MSUserExtension
 
 extern NSString *const kMSUserLocale;
@@ -64,6 +68,7 @@ extern NSString *const kMSDataBaseData;
 
 #pragma mark - MSCSExtensions
 
+extern NSString *const kMSCSMetadataExt;
 extern NSString *const kMSCSProtocolExt;
 extern NSString *const kMSCSUserExt;
 extern NSString *const kMSCSDeviceExt;

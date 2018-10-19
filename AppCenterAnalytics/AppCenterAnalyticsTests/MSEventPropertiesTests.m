@@ -17,7 +17,7 @@
 - (void)testInitWithStringDictionaryWhenStringDictionaryHasValues {
 
   // If
-  NSDictionary *stringProperties = @{ @"key1":@"val1", @"key2":@"val2" };
+  NSDictionary *stringProperties = @{ @"key1" : @"val1", @"key2" : @"val2" };
 
   // When
   MSEventProperties *sut = [[MSEventProperties alloc] initWithStringDictionary:stringProperties];
@@ -42,7 +42,7 @@
   [sut setBool:value forKey:key];
 
   // Then
-  MSBooleanTypedProperty *property = (MSBooleanTypedProperty*)sut.properties[key];
+  MSBooleanTypedProperty *property = (MSBooleanTypedProperty *)sut.properties[key];
   XCTAssertEqual(property.name, key);
   XCTAssertEqual(property.value, value);
 }
@@ -58,7 +58,7 @@
   [sut setInt64:value forKey:key];
 
   // Then
-  MSLongTypedProperty *property = (MSLongTypedProperty*)sut.properties[key];
+  MSLongTypedProperty *property = (MSLongTypedProperty *)sut.properties[key];
   XCTAssertEqual(property.name, key);
   XCTAssertEqual(property.value, value);
 }
@@ -74,7 +74,7 @@
   [sut setDouble:value forKey:key];
 
   // Then
-  MSDoubleTypedProperty *property = (MSDoubleTypedProperty*)sut.properties[key];
+  MSDoubleTypedProperty *property = (MSDoubleTypedProperty *)sut.properties[key];
   XCTAssertEqual(property.name, key);
   XCTAssertEqual(property.value, value);
 }
@@ -86,6 +86,12 @@
 
   // When
   [sut setDouble:INFINITY forKey:@"key"];
+
+  // Then
+  XCTAssertEqual([sut.properties count], 0);
+
+  // When
+  [sut setDouble:-INFINITY forKey:@"key"];
 
   // Then
   XCTAssertEqual([sut.properties count], 0);
@@ -114,7 +120,7 @@
   [sut setString:value forKey:key];
 
   // Then
-  MSStringTypedProperty *property = (MSStringTypedProperty*)sut.properties[key];
+  MSStringTypedProperty *property = (MSStringTypedProperty *)sut.properties[key];
   XCTAssertEqual(property.name, key);
   XCTAssertEqual(property.value, value);
 }
@@ -130,7 +136,7 @@
   [sut setDate:value forKey:key];
 
   // Then
-  MSDateTimeTypedProperty *property = (MSDateTimeTypedProperty*)sut.properties[key];
+  MSDateTimeTypedProperty *property = (MSDateTimeTypedProperty *)sut.properties[key];
   XCTAssertEqual(property.name, key);
   XCTAssertEqual(property.value, value);
 }

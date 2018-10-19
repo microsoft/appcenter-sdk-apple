@@ -12,7 +12,8 @@ class EventPropertiesTableSection : PropertiesTableSection {
     }
     cell.state = typedProperties[row - self.propertyCellOffset]
     cell.onChange = { state in
-      self.typedProperties[row - self.propertyCellOffset] = state
+      let cellRow = self.tableView.indexPath(for: cell)!.row;
+      self.typedProperties[cellRow - self.propertyCellOffset] = state
     }
     return cell
   }

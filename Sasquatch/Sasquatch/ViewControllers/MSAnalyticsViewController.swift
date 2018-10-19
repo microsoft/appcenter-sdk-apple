@@ -55,7 +55,13 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     for targetToken in MSTransmissionTargets.shared.transmissionTargets.keys {
       if MSTransmissionTargets.shared.targetShouldSendAnalyticsEvents(targetToken: targetToken) {
         let target = MSTransmissionTargets.shared.transmissionTargets[targetToken]
-        target!.trackEvent(name/*, withProperties: eventPropertiesDictionary*/)
+        if let properties = eventProperties as? MSEventProperties {
+          target!.trackEvent(name, withTypedProperties: properties)
+        } else if let dictionary = eventProperties as? [String: String] {
+          target!.trackEvent(name, withProperties: dictionary)
+        } else {
+          target!.trackEvent(name)
+        }
       }
     }
   }

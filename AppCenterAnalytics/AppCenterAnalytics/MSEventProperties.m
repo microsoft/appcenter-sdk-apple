@@ -1,6 +1,5 @@
 #import "MSAnalyticsInternal.h"
 #import "MSBooleanTypedProperty.h"
-#import "MSConstants+Internal.h"
 #import "MSDateTimeTypedProperty.h"
 #import "MSDoubleTypedProperty.h"
 #import "MSEventProperties.h"
@@ -33,7 +32,7 @@
 #pragma mark - NSCoding
 
 - (void)encodeWithCoder:(NSCoder *)coder {
-  @synchronized (self.properties) {
+  @synchronized(self.properties) {
     [coder encodeObject:self.properties];
   }
 }
@@ -48,29 +47,29 @@
 #pragma mark - Public methods
 
 - (instancetype)setString:(NSString *)value forKey:(NSString *)key {
-    if ([MSEventProperties validateKey:key] && [MSEventProperties validateValue:value]) {
-      MSStringTypedProperty *stringProperty = [MSStringTypedProperty new];
-      stringProperty.name = key;
-      stringProperty.value = value;
-      @synchronized (self.properties) {
-        self.properties[key] = stringProperty;
-      }
+  if ([MSEventProperties validateKey:key] && [MSEventProperties validateValue:value]) {
+    MSStringTypedProperty *stringProperty = [MSStringTypedProperty new];
+    stringProperty.name = key;
+    stringProperty.value = value;
+    @synchronized(self.properties) {
+      self.properties[key] = stringProperty;
     }
-    return self;
+  }
+  return self;
 }
 
 - (instancetype)setDouble:(double)value forKey:(NSString *)key {
   if ([MSEventProperties validateKey:key]) {
 
     // NaN returns false for all statements, so the only way to check if value is NaN is by value != value.
-    if (value == (double)INFINITY || value != value) {
+    if (value == (double)INFINITY || value == -(double)INFINITY || value != value) {
       MSLogError([MSAnalytics logTag], @"Double value for property '%@' must be finite (cannot be INFINITY or NAN).", key);
       return self;
     }
     MSDoubleTypedProperty *doubleProperty = [MSDoubleTypedProperty new];
     doubleProperty.name = key;
     doubleProperty.value = value;
-    @synchronized (self.properties) {
+    @synchronized(self.properties) {
       self.properties[key] = doubleProperty;
     }
   }
@@ -82,7 +81,7 @@
     MSLongTypedProperty *longProperty = [MSLongTypedProperty new];
     longProperty.name = key;
     longProperty.value = value;
-    @synchronized (self.properties) {
+    @synchronized(self.properties) {
       self.properties[key] = longProperty;
     }
   }
@@ -94,7 +93,7 @@
     MSBooleanTypedProperty *boolProperty = [MSBooleanTypedProperty new];
     boolProperty.name = key;
     boolProperty.value = value;
-    @synchronized (self.properties) {
+    @synchronized(self.properties) {
       self.properties[key] = boolProperty;
     }
   }
@@ -106,7 +105,7 @@
     MSDateTimeTypedProperty *dateTimeProperty = [MSDateTimeTypedProperty new];
     dateTimeProperty.name = key;
     dateTimeProperty.value = value;
-    @synchronized (self.properties) {
+    @synchronized(self.properties) {
       self.properties[key] = dateTimeProperty;
     }
   }
@@ -117,16 +116,24 @@
 
 - (NSMutableArray *)serializeToArray {
   NSMutableArray *propertiesArray = [NSMutableArray new];
-  @synchronized (self.properties) {
-      for (MSTypedProperty *typedProperty in [self.properties objectEnumerator]) {
-        [propertiesArray addObject:[typedProperty serializeToDictionary]];
-      }
+  @synchronized(self.properties) {
+    for (MSTypedProperty *typedProperty in [self.properties objectEnumerator]) {
+      [propertiesArray addObject:[typedProperty serializeToDictionary]];
+    }
   }
   return propertiesArray;
 }
 
-- (BOOL) isEmpty {
+- (BOOL)isEmpty {
   return [self.properties count] == 0;
+}
+
+- (BOOL)isEqual:(id)object {
+  if (![(NSObject *)object isKindOfClass:[MSEventProperties class]]) {
+    return NO;
+  }
+  MSEventProperties *properties = (MSEventProperties *)object;
+  return ((!self.properties && !properties.properties) || [self.properties isEqualToDictionary:properties.properties]);
 }
 
 #pragma mark - Helper methods
@@ -145,6 +152,10 @@
     return NO;
   }
   return YES;
+}
+
+- (void)mergeEventProperties:(MSEventProperties *__nonnull)eventProperties {
+  [self.properties addEntriesFromDictionary:(NSDictionary<NSString *, MSTypedProperty *> *)eventProperties.properties];
 }
 
 @end

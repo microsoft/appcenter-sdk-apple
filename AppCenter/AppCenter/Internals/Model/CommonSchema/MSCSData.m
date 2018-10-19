@@ -1,13 +1,13 @@
 #import "MSCSData.h"
-#import "MSCSModelConstants.h"
 
 @implementation MSCSData
 
 #pragma mark - MSSerializableObject
 
 - (NSMutableDictionary *)serializeToDictionary {
-  NSMutableDictionary *dict = [NSMutableDictionary new];
+  NSMutableDictionary *dict;
   if (self.properties) {
+    dict = [NSMutableDictionary new];
     [dict addEntriesFromDictionary:self.properties];
   }
   return dict;

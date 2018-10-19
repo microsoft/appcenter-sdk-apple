@@ -88,6 +88,12 @@ static const int maxPropertyValueLength = 128;
         MSLogError([MSAppCenter logTag], @"Custom property value length cannot be longer than \"%d\" characters.", maxPropertyValueLength);
         return NO;
       }
+    } else if ([value isKindOfClass:[NSNumber class]]) {
+      double number = [(NSNumber *)value doubleValue];
+      if (number == (double)INFINITY || number == -(double)INFINITY || number != number) {
+        MSLogError([MSAppCenter logTag], @"Custom property value cannot be NaN or infinite.");
+        return NO;
+      }
     }
   } else {
     MSLogError([MSAppCenter logTag], @"Custom property value cannot be null, did you mean to call clear?");
@@ -97,7 +103,7 @@ static const int maxPropertyValueLength = 128;
 }
 
 - (NSDictionary<NSString *, NSObject *> *)propertiesImmutableCopy {
-  @synchronized (self.properties) {
+  @synchronized(self.properties) {
     return [[NSDictionary alloc] initWithDictionary:self.properties];
   }
 }

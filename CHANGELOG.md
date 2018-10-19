@@ -1,10 +1,19 @@
 # App Center SDK for iOS and macOS Change Log
 
-## Version 1.10.1
+## Version 1.10.1 (Under active development)
 
 ### AppCenter
 
 * **[Fix]** Fix an issue where concurrent modification of custom properties was not thread safe.
+* **[Fix]** Fix validating and discarding Not a Number (NaN) and infinite double values for custom properties.
+
+### AppCenterCrashes
+
+* **[Fix]** Do not force crash macOS application on uncaught exception. If you need this behavior you can set the special flag yourself:
+
+    ```objc
+    [[NSUserDefaults standardUserDefaults] registerDefaults:@{ @"NSApplicationCrashOnExceptions" : @YES }];
+    ```
 
 ___
 
@@ -13,9 +22,11 @@ ___
 ### AppCenter
 
 * **[Fix]** Add missing network request error logging.
+* **[Feature]** Add a `setMaxStorageSize` API which allows setting a maximum size limit on the local SQLite storage.
 
 ### AppCenterAnalytics
 
+* **[Feature]** Add `pause`/`resume` APIs which pause/resume sending Analytics logs to App Center.
 * **[Feature]** Adding support for typed properties. Note that these APIs still convert properties back to strings on the App Center backend. More work is needed to store and display typed properties in the App Center portal. Using the new APIs now will enable future scenarios, but for now the behavior will be the same as it is for current event properties.
 * **[Feature]** Preparation work for a future change in transmission protocol and endpoint for Analytics data. There is no impact on your current workflow when using App Center.
 * **[Fix]** Fix an bug where nested custom properties for an event would not pass validation.
