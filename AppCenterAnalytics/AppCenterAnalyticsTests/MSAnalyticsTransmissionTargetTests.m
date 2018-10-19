@@ -5,14 +5,19 @@
 #import "MSAnalyticsTransmissionTargetPrivate.h"
 #import "MSAppCenterInternal.h"
 #import "MSAppExtension.h"
-#import "MSChannelUnitDefault.h"
 #import "MSCSExtensions.h"
+#import "MSChannelGroupDefault.h"
+#import "MSChannelGroupDefaultPrivate.h"
+#import "MSChannelUnitDefault.h"
 #import "MSEventLog.h"
 #import "MSEventPropertiesInternal.h"
 #import "MSMockUserDefaults.h"
 #import "MSPropertyConfiguratorPrivate.h"
+#import "MSProtocolExtension.h"
 #import "MSStringTypedProperty.h"
 #import "MSTestFrameworks.h"
+#import "MSAppCenterIngestion.h"
+#import "MSOneCollectorChannelDelegate.h"
 
 static NSString *const kMSTestTransmissionToken = @"TestTransmissionToken";
 static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
@@ -88,7 +93,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
                                                                                                  parentTarget:nil
                                                                                                  channelGroup:self.channelGroupMock];
   NSString *eventName = @"event";
-  NSDictionary *properties = @{ @"prop1" : @"val1", @"prop2" : @"val2" };
+  NSDictionary *properties = @{@"prop1" : @"val1", @"prop2" : @"val2"};
 
   // When
   [sut trackEvent:eventName withProperties:properties];
@@ -135,18 +140,21 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   // Then
   XCTAssertNotEqualObjects(parentTransmissionTarget, childTransmissionTarget3);
   XCTAssertEqualObjects(childTransmissionTarget3, parentTransmissionTarget.childTransmissionTargets[kMSTestTransmissionToken]);
-  OCMVerify(
-      ClassMethod([self.analyticsClassMock trackEvent:event1 withProperties:properties forTransmissionTarget:childTransmissionTarget]));
-  OCMVerify(
-      ClassMethod([self.analyticsClassMock trackEvent:event2 withProperties:properties forTransmissionTarget:childTransmissionTarget2]));
-  OCMVerify(
-      ClassMethod([self.analyticsClassMock trackEvent:event3 withProperties:properties forTransmissionTarget:childTransmissionTarget3]));
+  OCMVerify(ClassMethod([self.analyticsClassMock trackEvent:event1
+                                             withProperties:properties
+                                      forTransmissionTarget:childTransmissionTarget]));
+  OCMVerify(ClassMethod([self.analyticsClassMock trackEvent:event2
+                                             withProperties:properties
+                                      forTransmissionTarget:childTransmissionTarget2]));
+  OCMVerify(ClassMethod([self.analyticsClassMock trackEvent:event3
+                                             withProperties:properties
+                                      forTransmissionTarget:childTransmissionTarget3]));
 }
 
 - (void)testTransmissionTargetEnabledState {
 
   // If
-  NSDictionary *properties = @{ @"prop1" : @"val1", @"prop2" : @"val2" };
+  NSDictionary *properties = @{@"prop1" : @"val1", @"prop2" : @"val2"};
   NSString *event1 = @"event1";
   NSString *event2 = @"event2";
   NSString *event3 = @"event3";
@@ -428,8 +436,8 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   // Then
   XCTAssertEqualObjects(target.propertyConfigurator.eventProperties, commonProperties);
   OCMVerify(ClassMethod([self.analyticsClassMock
-                 trackEvent:eventName
-             withProperties:(@{propCommonKey : propCommonValue, propTrackKey : propTrackValue, propTrackKey2 : propTrackValue2})
+          trackEvent:eventName
+      withProperties:(@{propCommonKey : propCommonValue, propTrackKey : propTrackValue, propTrackKey2 : propTrackValue2})
       forTransmissionTarget:target]));
 }
 
@@ -799,6 +807,72 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // Then
   XCTAssertEqual(provider, MSAnalyticsTransmissionTarget.authenticationProvider);
+}
+
+- (void)testTicketKeysDontApplyRetroactively {
+
+  // If
+  __block NSArray<NSString *> *ticketKeysEvent1;
+  __block NSArray<NSString *> *ticketKeysEvent2;
+  MSAnalyticsTransmissionTarget *sut = [MSAnalytics transmissionTargetForToken:kMSTestTransmissionToken];
+  id deviceMock = OCMPartialMock([MSDevice new]);
+  OCMStub([deviceMock isValid]).andReturn(YES);
+  id deviceTrackerMock = OCMClassMock([MSDeviceTracker class]);
+  OCMStub([deviceTrackerMock sharedInstance]).andReturn(deviceTrackerMock);
+  OCMStub([deviceTrackerMock device]).andReturn(deviceMock);
+  id appCenterMock = OCMClassMock([MSAppCenter class]);
+  OCMStub([appCenterMock sharedInstance]).andReturn(appCenterMock);
+  OCMStub([appCenterMock sdkConfigured]).andReturn(YES);
+  OCMStub(ClassMethod([appCenterMock isEnabled])).andReturn(YES);
+  MSChannelGroupDefault *channelGroupMock = [[MSChannelGroupDefault alloc] initWithIngestion:OCMPartialMock([MSAppCenterIngestion new])];
+  id<MSChannelUnitProtocol> oneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  MSOneCollectorChannelDelegate *oneCollectorChannelDelegate = [[MSOneCollectorChannelDelegate alloc] initWithInstallId:[NSUUID new]];
+  [channelGroupMock addDelegate:oneCollectorChannelDelegate];
+  OCMStub([channelGroupMock channelUnitForGroupId:@"Analytics/one"]).andReturn(oneCollectorChannelUnitMock);
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
+                                            appSecret:nil
+                              transmissionTargetToken:kMSTestTransmissionToken
+                                      fromApplication:NO];
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Enqueue log is called twice"];
+  OCMStub([oneCollectorChannelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSCommonSchemaLog class]]]).andDo(^(NSInvocation *invocation) {
+    MSCommonSchemaLog *log;
+    static int count = 0;
+    [invocation getArgument:&log atIndex:2];
+    if ([log.name isEqualToString:@"testEvent1"]) {
+      ticketKeysEvent1 = [log.ext.protocolExt ticketKeys];
+      count++;
+    } else if ([log.name isEqualToString:@"testEvent2"]) {
+      ticketKeysEvent2 = [log.ext.protocolExt ticketKeys];
+      count++;
+    }
+    if (count == 2) {
+      [expectation fulfill];
+    }
+  });
+  MSAnalyticsAuthenticationProvider *provider1 = OCMPartialMock([MSAnalyticsAuthenticationProvider new]);
+  OCMStub(provider1.ticketKey).andReturn(@"ticketKey1");
+  MSAnalyticsAuthenticationProvider *provider2 = OCMPartialMock([MSAnalyticsAuthenticationProvider new]);
+  OCMStub(provider2.ticketKey).andReturn(@"ticketKey2");
+
+  // When
+  [sut trackEvent:@"testEvent1"];
+  [MSAnalyticsTransmissionTarget addAuthenticationProvider:provider1];
+  [sut trackEvent:@"testEvent2"];
+  [MSAnalyticsTransmissionTarget addAuthenticationProvider:provider2];
+
+  // Then
+  [self waitForExpectationsWithTimeout:5
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+
+                                 // Then
+                                 XCTAssertNotNil(ticketKeysEvent1);
+                                 XCTAssertNotNil(ticketKeysEvent2);
+                               }];
+  [appCenterMock stopMocking];
+  [deviceTrackerMock stopMocking];
 }
 
 - (void)testPauseSucceedsWhenTargetIsEnabled {
