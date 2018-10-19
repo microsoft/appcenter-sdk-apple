@@ -1,11 +1,19 @@
 # App Center SDK for iOS and macOS Change Log
 
-## Version 1.10.1
+## Version 1.10.1 (Under active development)
 
 ### AppCenter
 
 * **[Fix]** Fix an issue where concurrent modification of custom properties was not thread safe.
 * **[Fix]** Fix validating and discarding Not a Number (NaN) and infinite double values for custom properties.
+
+### AppCenterCrashes
+
+* **[Fix]** Do not force crash macOS application on uncaught exception. If you need this behavior you can set the special flag yourself:
+
+    ```objc
+    [[NSUserDefaults standardUserDefaults] registerDefaults:@{ @"NSApplicationCrashOnExceptions" : @YES }];
+    ```
 
 ___
 

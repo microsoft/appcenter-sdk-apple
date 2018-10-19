@@ -260,14 +260,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                                                                 pendingBatchesLimit:3];
     _targetTokenEncrypter = [[MSEncrypter alloc] initWithDefaultKey];
 
-#if TARGET_OS_OSX
-    /*
-     * AppKit is preventing applications from crashing on macOS so PLCrashReport cannot catch any crashes.
-     * Setting this flag will let application crash on uncaught exceptions.
-     */
-    [[NSUserDefaults standardUserDefaults] registerDefaults:@{ @"NSApplicationCrashOnExceptions" : @YES }];
-#endif
-
     /*
      * Using our own queue with high priority as the default main queue is slower and we want the files to be created as quickly as possible
      * in case the app is crashing fast.
