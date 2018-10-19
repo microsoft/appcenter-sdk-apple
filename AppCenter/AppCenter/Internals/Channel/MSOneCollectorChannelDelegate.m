@@ -1,11 +1,11 @@
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenterInternal.h"
-#import "MSChannelUnitConfiguration.h"
-#import "MSChannelUnitProtocol.h"
-#import "MSConstants+Internal.h"
 #import "MSCSData.h"
 #import "MSCSEpochAndSeq.h"
 #import "MSCSExtensions.h"
+#import "MSChannelUnitConfiguration.h"
+#import "MSChannelUnitProtocol.h"
+#import "MSConstants+Internal.h"
 #import "MSOneCollectorChannelDelegatePrivate.h"
 #import "MSOneCollectorIngestion.h"
 #import "MSSDKExtension.h"
@@ -46,8 +46,8 @@ NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){
     NSString *oneCollectorGroupId = [NSString stringWithFormat:@"%@%@", channel.configuration.groupId, kMSOneCollectorGroupIdSuffix];
     MSChannelUnitConfiguration *channelUnitConfiguration =
         [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:oneCollectorGroupId];
-    id<MSChannelUnitProtocol> channelUnit =
-        [channelGroup addChannelUnitWithConfiguration:channelUnitConfiguration withIngestion:self.oneCollectorIngestion];
+    id<MSChannelUnitProtocol> channelUnit = [channelGroup addChannelUnitWithConfiguration:channelUnitConfiguration
+                                                                            withIngestion:self.oneCollectorIngestion];
     self.oneCollectorChannels[groupId] = channelUnit;
   }
 }
@@ -85,7 +85,7 @@ NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){
   if ([(NSObject *)log isKindOfClass:[MSCommonSchemaLog class]] && ![self isOneCollectorGroup:groupId]) {
     oneCollectorChannelUnit = self.oneCollectorChannels[groupId];
     if (oneCollectorChannelUnit) {
-        [oneCollectorChannelUnit enqueueItem:log];
+      [oneCollectorChannelUnit enqueueItem:log];
     }
     return;
   }
@@ -99,7 +99,7 @@ NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){
   id<MSLogConversion> logConversion = (id<MSLogConversion>)log;
   NSArray<MSCommonSchemaLog *> *commonSchemaLogs = [logConversion toCommonSchemaLogs];
   for (MSCommonSchemaLog *commonSchemaLog in commonSchemaLogs) {
-      [oneCollectorChannelUnit enqueueItem:commonSchemaLog];
+    [oneCollectorChannelUnit enqueueItem:commonSchemaLog];
   }
 }
 

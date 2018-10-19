@@ -7,8 +7,8 @@
 #import "MSIngestionProtocol.h"
 #import "MSMockLogObject.h"
 #import "MSMockLogWithConversion.h"
-#import "MSOneCollectorIngestion.h"
 #import "MSOneCollectorChannelDelegatePrivate.h"
+#import "MSOneCollectorIngestion.h"
 #import "MSSDKExtension.h"
 #import "MSStorage.h"
 #import "MSTestFrameworks.h"
@@ -345,7 +345,7 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
   NSMutableSet *transmissionTargetTokens = [NSMutableSet new];
   id<MSMockLogWithConversion> mockLog = OCMProtocolMock(@protocol(MSMockLogWithConversion));
   OCMStub(mockLog.transmissionTargetTokens).andReturn(transmissionTargetTokens);
-  OCMStub([mockLog toCommonSchemaLogs]).andReturn(@[ [MSCommonSchemaLog new] ]);
+  OCMStub([mockLog toCommonSchemaLogs]).andReturn(@ [[MSCommonSchemaLog new]]);
   OCMStub([mockLog isKindOfClass:[MSCommonSchemaLog class]]).andReturn(NO);
 
   // Then
@@ -367,7 +367,7 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
   id<MSMockLogWithConversion> mockLog = OCMProtocolMock(@protocol(MSMockLogWithConversion));
   OCMStub([mockLog isKindOfClass:[MSCommonSchemaLog class]]).andReturn(NO);
   OCMStub(mockLog.transmissionTargetTokens).andReturn(nil);
-  OCMStub([mockLog toCommonSchemaLogs]).andReturn(@[ [MSCommonSchemaLog new] ]);
+  OCMStub([mockLog toCommonSchemaLogs]).andReturn(@ [[MSCommonSchemaLog new]]);
 
   // Then
   OCMReject([oneCollectorChannelUnitMock enqueueItem:OCMOCK_ANY]);
@@ -481,7 +481,7 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
   // Valid data.
   log.name = @"valid.CS.event.name";
   log.data = [MSCSData new];
-  log.data.properties = @{ @"validkey" : @"validvalue" };
+  log.data.properties = @{@"validkey" : @"validvalue"};
 
   // Then
   XCTAssertTrue([self.sut validateLog:log]);
