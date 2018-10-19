@@ -1,13 +1,14 @@
-#import "MSCSModelConstants.h"
 #import "MSUserExtension.h"
+#import "MSCSModelConstants.h"
 
 @implementation MSUserExtension
 
 #pragma mark - MSSerializableObject
 
 - (NSMutableDictionary *)serializeToDictionary {
-  NSMutableDictionary *dict = [NSMutableDictionary new];
+  NSMutableDictionary *dict;
   if (self.locale) {
+    dict = [NSMutableDictionary new];
     dict[kMSUserLocale] = self.locale;
   }
   return dict;

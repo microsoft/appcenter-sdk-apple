@@ -1,13 +1,14 @@
-#import "MSCSModelConstants.h"
 #import "MSLocExtension.h"
+#import "MSCSModelConstants.h"
 
 @implementation MSLocExtension
 
 #pragma mark - MSSerializableObject
 
 - (NSMutableDictionary *)serializeToDictionary {
-  NSMutableDictionary *dict = [NSMutableDictionary new];
+  NSMutableDictionary *dict;
   if (self.tz) {
+    dict = [NSMutableDictionary new];
     dict[kMSTimezone] = self.tz;
   }
   return dict;

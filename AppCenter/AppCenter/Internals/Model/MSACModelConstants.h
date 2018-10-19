@@ -35,3 +35,12 @@ extern NSString *const kMSDistributionGroupId;
 extern NSString *const kMSTimestamp;
 extern NSString *const kMSDevice;
 extern NSString *const kMSType;
+
+#pragma mark - MSAbstractLog
+
+extern NSString *const kMSBooleanTypedPropertyType;
+extern NSString *const kMSDateTimeTypedPropertyType;
+extern NSString *const kMSDoubleTypedPropertyType;
+extern NSString *const kMSLongTypedPropertyType;
+extern NSString *const kMSStringTypedPropertyType;
+extern NSString *const kMSTypedPropertyValue;
