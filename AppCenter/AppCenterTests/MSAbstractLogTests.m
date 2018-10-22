@@ -223,7 +223,6 @@
   NSArray *expectedIKeys = @[ @"o:iKey1", @"o:iKey2" ];
   NSSet *expectedTokens = [NSSet setWithArray:@[ @"iKey1-dummytoken", @"iKey2-dummytoken" ]];
   self.sut.transmissionTargetTokens = expectedTokens;
-  self.sut.tag = [NSObject new];
   OCMStub(self.sut.device.oemName).andReturn(@"fakeOem");
   OCMStub(self.sut.device.model).andReturn(@"fakeModel");
   OCMStub(self.sut.device.locale).andReturn(@"en_US");
@@ -260,7 +259,6 @@
     XCTAssertEqualObjects(log.ver, @"3.0");
     XCTAssertEqualObjects(self.sut.timestamp, log.timestamp);
     XCTAssertTrue([expectedIKeys containsObject:log.iKey]);
-    XCTAssertEqualObjects(log.tag, self.sut.tag);
 
     // Extension.
     XCTAssertNotNil(log.ext);
