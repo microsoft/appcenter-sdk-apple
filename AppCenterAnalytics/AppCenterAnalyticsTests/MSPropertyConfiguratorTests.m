@@ -64,6 +64,7 @@
   extensions.deviceExt = OCMPartialMock([MSDeviceExtension new]);
   MSCommonSchemaLog *mockLog = OCMPartialMock([MSCommonSchemaLog new]);
   mockLog.ext = extensions;
+  mockLog.tag = self.transmissionTarget;
   [mockLog addTransmissionTargetToken:self.transmissionTarget.transmissionTargetToken];
 
   // When

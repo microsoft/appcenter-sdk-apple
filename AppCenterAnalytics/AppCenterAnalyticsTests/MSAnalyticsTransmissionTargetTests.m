@@ -671,6 +671,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // Set a log with default values.
   MSCommonSchemaLog *log = [MSCommonSchemaLog new];
+  log.tag = child;
   log.ext = [MSCSExtensions new];
   log.ext.appExt = [MSAppExtension new];
   [log addTransmissionTargetToken:@"parent"];
@@ -699,6 +700,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // Set a log.
   MSCommonSchemaLog *log = [MSCommonSchemaLog new];
+  log.tag = target;
   [log addTransmissionTargetToken:@"target"];
   log.ext = [MSCSExtensions new];
   log.ext.appExt = [MSAppExtension new];
@@ -730,6 +732,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // Set a log.
   MSCommonSchemaLog *log = [MSCommonSchemaLog new];
+  log.tag = child;
   log.ext = [MSCSExtensions new];
   log.ext.appExt = [MSAppExtension new];
   log.ext.appExt.ver = @"0.0.1";
@@ -742,9 +745,9 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   [child.propertyConfigurator channel:nil prepareLog:log];
 
   // Then
-  XCTAssertEqual(log.ext.appExt.ver, parent.propertyConfigurator.appVersion);
-  XCTAssertEqual(log.ext.appExt.name, parent.propertyConfigurator.appName);
-  XCTAssertEqual(log.ext.appExt.locale, parent.propertyConfigurator.appLocale);
+  XCTAssertEqualObjects(log.ext.appExt.ver, parent.propertyConfigurator.appVersion);
+  XCTAssertEqualObjects(log.ext.appExt.name, parent.propertyConfigurator.appName);
+  XCTAssertEqualObjects(log.ext.appExt.locale, parent.propertyConfigurator.appLocale);
 }
 
 - (void)testOverridingCommonSchemaPropertiesDoNothingWhenTargetIsDisabled {
@@ -768,6 +771,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // Set a log.
   MSCommonSchemaLog *log = [MSCommonSchemaLog new];
+  log.tag = child;
   log.ext = [MSCSExtensions new];
   log.ext.appExt = [MSAppExtension new];
   log.ext.appExt.ver = @"0.0.1";
@@ -802,6 +806,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // Reset a log.
   log = [MSCommonSchemaLog new];
+  log.tag = child;
   log.ext = [MSCSExtensions new];
   log.ext.appExt = [MSAppExtension new];
   log.ext.appExt.ver = @"0.0.1";
@@ -840,6 +845,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // Set log1.
   MSCommonSchemaLog *log1 = [MSCommonSchemaLog new];
+  log1.tag = child1;
   log1.ext = [MSCSExtensions new];
   log1.ext.appExt = [MSAppExtension new];
   log1.ext.appExt.ver = @"0.0.1";
@@ -850,29 +856,22 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   [log1 addTransmissionTargetToken:@"child2"];
 
   // When
-  [parent.propertyConfigurator channel:nil prepareLog:log1];
-
-  // Then
-  XCTAssertEqual(log1.ext.appExt.ver, parent.propertyConfigurator.appVersion);
-  XCTAssertEqual(log1.ext.appExt.name, parent.propertyConfigurator.appName);
-  XCTAssertEqual(log1.ext.appExt.locale, parent.propertyConfigurator.appLocale);
-
-  // When
   [child1.propertyConfigurator channel:nil prepareLog:log1];
 
   // Then
-  XCTAssertEqual(log1.ext.appExt.ver, child1.propertyConfigurator.appVersion);
-  XCTAssertEqual(log1.ext.appExt.name, child1.propertyConfigurator.appName);
-  XCTAssertEqual(log1.ext.appExt.locale, child1.propertyConfigurator.appLocale);
-  XCTAssertNotEqual(log1.ext.appExt.ver, parent.propertyConfigurator.appVersion);
-  XCTAssertNotEqual(log1.ext.appExt.name, parent.propertyConfigurator.appName);
-  XCTAssertNotEqual(log1.ext.appExt.locale, parent.propertyConfigurator.appLocale);
+  XCTAssertEqualObjects(log1.ext.appExt.ver, child1.propertyConfigurator.appVersion);
+  XCTAssertEqualObjects(log1.ext.appExt.name, child1.propertyConfigurator.appName);
+  XCTAssertEqualObjects(log1.ext.appExt.locale, child1.propertyConfigurator.appLocale);
+  XCTAssertNotEqualObjects(log1.ext.appExt.ver, parent.propertyConfigurator.appVersion);
+  XCTAssertNotEqualObjects(log1.ext.appExt.name, parent.propertyConfigurator.appName);
+  XCTAssertNotEqualObjects(log1.ext.appExt.locale, parent.propertyConfigurator.appLocale);
   XCTAssertNil(child2.propertyConfigurator.appVersion);
   XCTAssertNil(child2.propertyConfigurator.appName);
   XCTAssertNil(child2.propertyConfigurator.appLocale);
 
   // If
   MSCommonSchemaLog *log2 = [MSCommonSchemaLog new];
+  log2.tag = child2;
   log2.ext = [MSCSExtensions new];
   log2.ext.appExt = [MSAppExtension new];
   log2.ext.appExt.ver = @"0.0.2";
@@ -886,12 +885,12 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   [child2.propertyConfigurator channel:nil prepareLog:log2];
 
   // Then
-  XCTAssertEqual(log2.ext.appExt.ver, parent.propertyConfigurator.appVersion);
-  XCTAssertEqual(log2.ext.appExt.name, parent.propertyConfigurator.appName);
-  XCTAssertEqual(log2.ext.appExt.locale, parent.propertyConfigurator.appLocale);
-  XCTAssertNotEqual(log2.ext.appExt.ver, child1.propertyConfigurator.appVersion);
-  XCTAssertNotEqual(log2.ext.appExt.name, child1.propertyConfigurator.appName);
-  XCTAssertNotEqual(log2.ext.appExt.locale, child1.propertyConfigurator.appLocale);
+  XCTAssertEqualObjects(log2.ext.appExt.ver, parent.propertyConfigurator.appVersion);
+  XCTAssertEqualObjects(log2.ext.appExt.name, parent.propertyConfigurator.appName);
+  XCTAssertEqualObjects(log2.ext.appExt.locale, parent.propertyConfigurator.appLocale);
+  XCTAssertNotEqualObjects(log2.ext.appExt.ver, child1.propertyConfigurator.appVersion);
+  XCTAssertNotEqualObjects(log2.ext.appExt.name, child1.propertyConfigurator.appName);
+  XCTAssertNotEqualObjects(log2.ext.appExt.locale, child1.propertyConfigurator.appLocale);
 }
 
 - (void)testAddAuthenticationProvider {
