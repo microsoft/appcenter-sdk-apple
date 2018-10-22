@@ -23,6 +23,7 @@
 @synthesize sid = _sid;
 @synthesize distributionGroupId = _distributionGroupId;
 @synthesize device = _device;
+@synthesize tag = _tag;
 
 - (instancetype)init {
   self = [super init];

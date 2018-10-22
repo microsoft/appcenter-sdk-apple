@@ -119,27 +119,37 @@
   self.sut.sid = sid;
   self.sut.distributionGroupId = distributionGroupId;
   self.sut.device = device;
-
-  // When
-  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.sut];
-  id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
-  MSAbstractLog *actualLog = actual;
+  self.sut.tag = [NSObject new];
+  MSAbstractLog *log = [MSAbstractLog new];
+  log.type = self.sut.type;
+  log.timestamp = self.sut.timestamp;
+  log.sid = self.sut.sid;
+  log.distributionGroupId = self.sut.distributionGroupId;
+  log.device = self.sut.device;
+  log.tag = self.sut.tag;
 
   // Then
-  XCTAssertTrue([self.sut isEqual:actualLog]);
+  XCTAssertTrue([self.sut isEqual:log]);
 
   // When
   self.sut.type = @"new-fake";
 
   // Then
-  XCTAssertFalse([self.sut isEqual:actualLog]);
+  XCTAssertFalse([self.sut isEqual:log]);
+
+  // When
+  self.sut.tag = [NSObject new];
+
+  // Then
+  XCTAssertFalse([self.sut isEqual:log]);
 
   // When
   self.sut.type = @"fake";
   self.sut.distributionGroupId = @"FAKE-NEW-GROUP-ID";
+  self.sut.tag = [NSObject new];
 
   // Then
-  XCTAssertFalse([self.sut isEqual:actualLog]);
+  XCTAssertFalse([self.sut isEqual:log]);
 }
 
 - (void)testSerializingToJsonWorks {
@@ -213,6 +223,7 @@
   NSArray *expectedIKeys = @[ @"o:iKey1", @"o:iKey2" ];
   NSSet *expectedTokens = [NSSet setWithArray:@[ @"iKey1-dummytoken", @"iKey2-dummytoken" ]];
   self.sut.transmissionTargetTokens = expectedTokens;
+  self.sut.tag = [NSObject new];
   OCMStub(self.sut.device.oemName).andReturn(@"fakeOem");
   OCMStub(self.sut.device.model).andReturn(@"fakeModel");
   OCMStub(self.sut.device.locale).andReturn(@"en_US");
@@ -249,6 +260,7 @@
     XCTAssertEqualObjects(log.ver, @"3.0");
     XCTAssertEqualObjects(self.sut.timestamp, log.timestamp);
     XCTAssertTrue([expectedIKeys containsObject:log.iKey]);
+    XCTAssertEqualObjects(log.tag, self.sut.tag);
 
     // Extension.
     XCTAssertNotNil(log.ext);
