@@ -356,6 +356,32 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   OCMVerifyAll(channelUnitMock);
 }
 
+- (void)testTrackEventSetsTagWhenTransmissionTargetProvided {
+
+  // If
+  __block NSObject *tag;
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
+                                            appSecret:kMSTestAppSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]]]).andDo(^(NSInvocation *invocation) {
+    MSEventLog *log;
+    [invocation getArgument:&log atIndex:2];
+    tag = log.tag;
+  });
+
+  // When
+  MSAnalyticsTransmissionTarget *target = [MSAnalytics transmissionTargetForToken:@"test"];
+  [[MSAnalytics sharedInstance] trackEvent:@"Some event" withProperties:nil forTransmissionTarget:target];
+
+  // Then
+  XCTAssertEqualObjects(tag, target);
+}
+
 - (void)testTrackEventWithTypedPropertiesNilWhenTransmissionTargetDisabled {
 
   // If
