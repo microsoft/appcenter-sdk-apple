@@ -6,6 +6,7 @@
 
 * **[Fix]** Fix an issue where concurrent modification of custom properties was not thread safe.
 * **[Fix]** Fix validating and discarding Not a Number (NaN) and infinite double values for custom properties.
+* **[Fix]** Do not use non-standard SQL syntax to avoid affect users with custom SQLite library.
 
 ### AppCenterCrashes
 
