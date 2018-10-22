@@ -31,6 +31,11 @@
 @property(nonatomic) MSDevice *device;
 
 /**
+ * Transient object tag.
+ */
+@property(nonatomic) NSObject *tag;
+
+/**
  * Checks if the object's values are valid.
  *
  * @return YES, if the object is valid.
