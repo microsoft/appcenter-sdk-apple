@@ -7,8 +7,8 @@
 #import "MSIngestionProtocol.h"
 #import "MSMockLogObject.h"
 #import "MSMockLogWithConversion.h"
-#import "MSOneCollectorIngestion.h"
 #import "MSOneCollectorChannelDelegatePrivate.h"
+#import "MSOneCollectorIngestion.h"
 #import "MSSDKExtension.h"
 #import "MSStorage.h"
 #import "MSTestFrameworks.h"
@@ -251,6 +251,40 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
                                }];
 }
 
+- (void)testDidEnqueueLogToOneCollectorChannelSynchronously {
+
+  // If
+  id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub([channelUnitMock configuration]).andReturn(self.baseUnitConfig);
+  id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  id<MSChannelUnitProtocol> oneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub(oneCollectorChannelUnitMock.logsDispatchQueue).andReturn(self.logsDispatchQueue);
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY withIngestion:OCMOCK_ANY]).andReturn(oneCollectorChannelUnitMock);
+  NSMutableSet *transmissionTargetTokens = [NSMutableSet new];
+  [transmissionTargetTokens addObject:@"fake-transmission-target-token"];
+  MSCommonSchemaLog *commonSchemaLog = [MSCommonSchemaLog new];
+  id<MSMockLogWithConversion> mockLog = OCMProtocolMock(@protocol(MSMockLogWithConversion));
+  OCMStub([mockLog toCommonSchemaLogs]).andReturn(@[ commonSchemaLog ]);
+  OCMStub(mockLog.transmissionTargetTokens).andReturn(transmissionTargetTokens);
+  dispatch_semaphore_t sem = dispatch_semaphore_create(0);
+  
+  /*
+   * Make sure that the common schema log is enqueued synchronously by putting a task on the log queue that won't return
+   * by the time verify is called.
+   */
+  dispatch_async(oneCollectorChannelUnitMock.logsDispatchQueue, ^{
+    dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER);
+  });
+
+  // When
+  [self.sut channelGroup:channelGroupMock didAddChannelUnit:channelUnitMock];
+  [self.sut channel:channelUnitMock didPrepareLog:mockLog withInternalId:@"fake-id"];
+
+  // Then
+  OCMVerify([oneCollectorChannelUnitMock enqueueItem:commonSchemaLog]);
+  dispatch_semaphore_signal(sem);
+}
+
 - (void)testDidNotEnqueueLogToOneCollectorChannelWhenLogDoesNotConformToMSLogConversionProtocol {
 
   // If
@@ -313,7 +347,7 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
   NSMutableSet *transmissionTargetTokens = [NSMutableSet new];
   id<MSMockLogWithConversion> mockLog = OCMProtocolMock(@protocol(MSMockLogWithConversion));
   OCMStub(mockLog.transmissionTargetTokens).andReturn(transmissionTargetTokens);
-  OCMStub([mockLog toCommonSchemaLogs]).andReturn(@[ [MSCommonSchemaLog new] ]);
+  OCMStub([mockLog toCommonSchemaLogs]).andReturn(@ [[MSCommonSchemaLog new]]);
   OCMStub([mockLog isKindOfClass:[MSCommonSchemaLog class]]).andReturn(NO);
 
   // Then
@@ -335,7 +369,7 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
   id<MSMockLogWithConversion> mockLog = OCMProtocolMock(@protocol(MSMockLogWithConversion));
   OCMStub([mockLog isKindOfClass:[MSCommonSchemaLog class]]).andReturn(NO);
   OCMStub(mockLog.transmissionTargetTokens).andReturn(nil);
-  OCMStub([mockLog toCommonSchemaLogs]).andReturn(@[ [MSCommonSchemaLog new] ]);
+  OCMStub([mockLog toCommonSchemaLogs]).andReturn(@ [[MSCommonSchemaLog new]]);
 
   // Then
   OCMReject([oneCollectorChannelUnitMock enqueueItem:OCMOCK_ANY]);
@@ -449,7 +483,7 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
   // Valid data.
   log.name = @"valid.CS.event.name";
   log.data = [MSCSData new];
-  log.data.properties = @{ @"validkey" : @"validvalue" };
+  log.data.properties = @{@"validkey" : @"validvalue"};
 
   // Then
   XCTAssertTrue([self.sut validateLog:log]);
