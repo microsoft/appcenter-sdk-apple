@@ -832,6 +832,23 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   XCTAssertEqual(transmissionTarget1, transmissionTarget2);
 }
 
+- (void)testGetTransmissionTargetNeverReturnsDefault {
+
+  // If
+  [[MSAnalytics sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                                            appSecret:nil
+                              transmissionTargetToken:kMSTestTransmissionToken
+                                      fromApplication:NO];
+
+  // When
+  MSAnalyticsTransmissionTarget *transmissionTarget = [MSAnalytics transmissionTargetForToken:kMSTestTransmissionToken];
+
+  // Then
+  XCTAssertNotNil([MSAnalytics sharedInstance].defaultTransmissionTarget);
+  XCTAssertNotNil(transmissionTarget);
+  XCTAssertNotEqual([MSAnalytics sharedInstance].defaultTransmissionTarget, transmissionTarget);
+}
+
 - (void)testEnableStatePropagateToTransmissionTargets {
 
   // If

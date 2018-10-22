@@ -189,4 +189,8 @@
   XCTAssertEqual(((MSBooleanTypedProperty *)(self.sut.eventProperties.properties[propBoolKey])).value, propBoolValue);
 }
 
+- (void)testPropertiesAreNotAppliedToLogsOfDifferentTargetWithSameToken {
+  XCTFail();
+}
+
 @end
