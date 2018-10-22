@@ -5,7 +5,7 @@
 upstream=$(git remote -v | grep "Microsoft/" | awk '{print $1}' | uniq)
 git fetch $upstream
 i=0
-for modified_file in $(git diff $upstream/develop --name-only *.h *.m *.mm)
+for modified_file in $(git diff $upstream/develop --name-only -- *.h *.m *.mm)
 do 
   clang-format -i -style=file $modified_file
   exit_code=$?
