@@ -1,6 +1,6 @@
+#import "MSACModelConstants.h"
 #import "MSAbstractLogInternal.h"
 #import "MSAbstractLogPrivate.h"
-#import "MSACModelConstants.h"
 #import "MSAppExtension.h"
 #import "MSCSExtensions.h"
 #import "MSCSModelConstants.h"
@@ -62,8 +62,7 @@
     return NO;
   }
   MSAbstractLog *log = (MSAbstractLog *)object;
-  return ((!self.tag && !log.tag) || [self.tag isEqual:log.tag]) &&
-         ((!self.type && !log.type) || [self.type isEqualToString:log.type]) &&
+  return ((!self.tag && !log.tag) || [self.tag isEqual:log.tag]) && ((!self.type && !log.type) || [self.type isEqualToString:log.type]) &&
          ((!self.timestamp && !log.timestamp) || [self.timestamp isEqualToDate:log.timestamp]) &&
          ((!self.sid && !log.sid) || [self.sid isEqualToString:log.sid]) &&
          ((!self.distributionGroupId && !log.distributionGroupId) || [self.distributionGroupId isEqualToString:log.distributionGroupId]) &&

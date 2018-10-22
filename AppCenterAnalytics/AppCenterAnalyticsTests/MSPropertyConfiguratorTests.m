@@ -1,4 +1,5 @@
 #import "MSAnalyticsTransmissionTargetInternal.h"
+#import "MSAppExtension.h"
 #import "MSBooleanTypedProperty.h"
 #import "MSCSExtensions.h"
 #import "MSChannelGroupProtocol.h"
@@ -11,7 +12,6 @@
 #import "MSPropertyConfiguratorPrivate.h"
 #import "MSStringTypedProperty.h"
 #import "MSTestFrameworks.h"
-#import "MSAppExtension.h"
 
 @interface MSPropertyConfiguratorTests : XCTestCase
 
@@ -28,8 +28,9 @@
   [super setUp];
   id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
   self.targetToken = @"123";
-  self.parentTarget = OCMPartialMock(
-      [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:@"456" parentTarget:nil channelGroup:channelGroupMock]);
+  self.parentTarget = OCMPartialMock([[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:@"456"
+                                                                                               parentTarget:nil
+                                                                                               channelGroup:channelGroupMock]);
   self.transmissionTarget = OCMPartialMock([[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:self.targetToken
                                                                                                      parentTarget:self.parentTarget
                                                                                                      channelGroup:channelGroupMock]);

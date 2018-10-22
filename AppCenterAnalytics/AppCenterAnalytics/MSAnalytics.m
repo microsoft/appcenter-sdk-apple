@@ -82,7 +82,10 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
   if (token) {
 
-    // Don't use [self transmissionTargetForToken] because that will add the default transmission target to the cache, but it should be separate.
+    /*
+     * Don't use [self transmissionTargetForToken] because that will add the default transmission target to the cache, but it should be
+     * separate.
+     */
     self.defaultTransmissionTarget = [self createTransmissionTargetForToken:token];
   }
 
@@ -156,8 +159,11 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   // Create the default target if not already created in start.
   if (token && !self.defaultTransmissionTarget) {
 
-    // Don't use [self transmissionTargetForToken] because that will add the default transmission target to the cache, but it should be separate.
-    self.defaultTransmissionTarget =  [self createTransmissionTargetForToken:token];
+    /*
+     * Don't use [self transmissionTargetForToken] because that will add the default transmission target to the cache, but it should be
+     * separate.
+     */
+    self.defaultTransmissionTarget = [self createTransmissionTargetForToken:token];
   }
 }
 
@@ -379,8 +385,8 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 
 - (MSAnalyticsTransmissionTarget *)createTransmissionTargetForToken:(NSString *)transmissionTargetToken {
   MSAnalyticsTransmissionTarget *target = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:transmissionTargetToken
-                                                                                 parentTarget:nil
-                                                                                 channelGroup:self.channelGroup];
+                                                                                                    parentTarget:nil
+                                                                                                    channelGroup:self.channelGroup];
   MSLogDebug([MSAnalytics logTag], @"Created transmission target with id %@.",
              [MSUtility targetKeyFromTargetToken:transmissionTargetToken]);
   return target;
