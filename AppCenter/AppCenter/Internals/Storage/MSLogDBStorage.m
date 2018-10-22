@@ -272,8 +272,10 @@ static const NSUInteger kMSSchemaVersion = 2;
 }
 
 - (void)deleteOldestLogsWithCount:(NSInteger)count {
-  NSString *deleteLogQuery =
-      [NSString stringWithFormat:@"DELETE FROM \"%@\" ORDER BY \"%@\" ASC LIMIT %ld", kMSLogTableName, kMSIdColumnName, (long)count];
+  NSString *selectOldestQuery = [NSString stringWithFormat: @"SELECT \"%@\" FROM \"%@\" ORDER BY \"%@\" ASC LIMIT %ld",
+                                 kMSIdColumnName, kMSLogTableName, kMSIdColumnName, (long)count];
+  NSString *deleteLogQuery = [NSString stringWithFormat: @"DELETE FROM \"%@\" WHERE \"%@\" IN (%@)",
+                              kMSLogTableName, kMSIdColumnName, selectOldestQuery];
   [self executeNonSelectionQuery:deleteLogQuery];
 }
 
