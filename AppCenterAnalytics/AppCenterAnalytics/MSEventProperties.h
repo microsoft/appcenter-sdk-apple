@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param key Property key.
  */
 - (instancetype)setString:(NSString *)value forKey:(NSString *)key NS_SWIFT_NAME(setEventProperty(_:forKey:));
+
 /**
  * Set a double property.
  *
