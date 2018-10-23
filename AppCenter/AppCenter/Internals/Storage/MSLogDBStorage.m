@@ -62,27 +62,27 @@ static const NSUInteger kMSSchemaVersion = 2;
                                              kMSTargetKeyColumnName, groupId, base64Data, encryptedToken,
                                              targetKey ? [NSString stringWithFormat:@"'%@'", targetKey] : @"NULL"];
   }
-  return [self executeQueryUsingBlock:^int(void * db) {
-    int result = [MSDBStorage executeNonSelectionQuery:addLogQuery inOpenedDatabase:db];
+  return [self executeQueryUsingBlock:^int(void *db) {
+           int result = [MSDBStorage executeNonSelectionQuery:addLogQuery inOpenedDatabase:db];
 
-    // If the database is full, delete logs until there is room to add the log.
-    long countOfLogsDeleted = 0;
-    while (result == SQLITE_FULL) {
-      result = [MSLogDBStorage deleteOldestLogsWithCount:1 inOpenedDatabase:db];
-      if (result != SQLITE_OK) {
-        break;
-      }
-      ++countOfLogsDeleted;
-      result = [MSDBStorage executeNonSelectionQuery:addLogQuery inOpenedDatabase:db];
-    }
-    if (countOfLogsDeleted > 0) {
-      MSLogDebug([MSAppCenter logTag], @"Log storage was over capacity, %ld oldest log(s) deleted.", (long)countOfLogsDeleted);
-    }
-    if (result == SQLITE_OK) {
-      MSLogVerbose([MSAppCenter logTag], @"Log is stored with id: '%ld'", (long)sqlite3_last_insert_rowid(db));
-    }
-    return result;
-  }] == SQLITE_OK;
+           // If the database is full, delete logs until there is room to add the log.
+           long countOfLogsDeleted = 0;
+           while (result == SQLITE_FULL) {
+             result = [MSLogDBStorage deleteOldestLogsWithCount:1 inOpenedDatabase:db];
+             if (result != SQLITE_OK) {
+               break;
+             }
+             ++countOfLogsDeleted;
+             result = [MSDBStorage executeNonSelectionQuery:addLogQuery inOpenedDatabase:db];
+           }
+           if (countOfLogsDeleted > 0) {
+             MSLogDebug([MSAppCenter logTag], @"Log storage was over capacity, %ld oldest log(s) deleted.", (long)countOfLogsDeleted);
+           }
+           if (result == SQLITE_OK) {
+             MSLogVerbose([MSAppCenter logTag], @"Log is stored with id: '%ld'", (long)sqlite3_last_insert_rowid(db));
+           }
+           return result;
+         }] == SQLITE_OK;
 }
 
 #pragma mark - Load logs
@@ -263,7 +263,7 @@ static const NSUInteger kMSSchemaVersion = 2;
 
 - (void)deleteLogsFromDBWithColumnValues:(NSArray *)columnValues columnName:(NSString *)columnName {
   [self executeQueryUsingBlock:^int(void *db) {
-     return [MSLogDBStorage deleteLogsFromDBWithColumnValues:columnValues columnName:columnName inOpenedDatabase:db];
+    return [MSLogDBStorage deleteLogsFromDBWithColumnValues:columnValues columnName:columnName inOpenedDatabase:db];
   }];
 }
 
