@@ -1,28 +1,28 @@
-#import "MSAppDelegateForwarder.h"
+#import "MSDelegateForwarder.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MSAppDelegateForwarder ()
+@interface MSDelegateForwarder ()
 
 /**
  * Hash table containing all the delegates as weak references.
  */
-@property(nonatomic, class) NSHashTable<id<MSCustomApplicationDelegate>> *delegates;
+@property(nonatomic) NSHashTable<id<MSCustomDelegate>> *delegates;
 
 /**
  * Keep track of original selectors to swizzle.
  */
-@property(nonatomic, class, readonly) NSMutableSet<NSString *> *selectorsToSwizzle;
+@property(nonatomic, readonly) NSMutableSet<NSString *> *selectorsToSwizzle;
 
 /**
  * Dictionary of deprecated original selectors indexed by their new equivalent.
  */
-@property(nonatomic, class, readonly) NSDictionary<NSString *, NSString *> *deprecatedSelectors;
+@property(nonatomic, readonly) NSDictionary<NSString *, NSString *> *deprecatedSelectors;
 
 /**
  * Keep track of the original delegate's method implementations.
  */
-@property(nonatomic, class, readonly) NSMutableDictionary<NSString *, NSValue *> *originalImplementations;
+@property(nonatomic, readonly) NSMutableDictionary<NSString *, NSValue *> *originalImplementations;
 
 #if TARGET_OS_OSX
 /**
@@ -33,25 +33,21 @@ NS_ASSUME_NONNULL_BEGIN
  * Hold the original @see UIApplication#setDelegate: implementation.
  */
 #endif
-@property(nonatomic, class) IMP originalSetDelegateImp;
-
-/**
- * Returns the singleton instance of MSAppDelegateForwarder.
- */
-+ (instancetype)sharedInstance;
+@property(nonatomic) IMP originalSetDelegateImp;
 
 /**
  * Register swizzling for the given original application delegate.
  *
  * @param originalDelegate The original application delegate.
  */
-+ (void)swizzleOriginalDelegate:(id<MSApplicationDelegate>)originalDelegate;
+- (void)swizzleOriginalDelegate:(NSObject *)originalDelegate;
 
 /**
  * Reset the app delegate forwarder, used for testing only.
  */
-+ (void)reset;
+- (void)reset;
 
 @end
 
 NS_ASSUME_NONNULL_END
+

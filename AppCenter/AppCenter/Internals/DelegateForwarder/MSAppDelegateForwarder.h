@@ -15,11 +15,6 @@ typedef NS_OPTIONS(NSUInteger, MSCompletionExecutor) {
 @interface MSAppDelegateForwarder : NSObject <MSCustomApplicationDelegate>
 
 /**
- * Enable/Disable Application forwarding.
- */
-@property(nonatomic, class) BOOL enabled;
-
-/**
  * Add a delegate. This method is thread safe.
  *
  * @param delegate A delegate.
