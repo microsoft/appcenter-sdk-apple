@@ -67,7 +67,10 @@ static const NSUInteger kMSSchemaVersion = 2;
   // If the database is full, delete logs until there is room to add the log.
   long countOfLogsDeleted = 0;
   while (result == SQLITE_FULL) {
-    [self deleteOldestLogsWithCount:1];
+    result = [self deleteOldestLogsWithCount:1];
+    if (result != SQLITE_OK) {
+      break;
+    }
     ++countOfLogsDeleted;
     result = [self executeNonSelectionQuery:addLogQuery];
   }
@@ -271,12 +274,12 @@ static const NSUInteger kMSSchemaVersion = 2;
   }
 }
 
-- (void)deleteOldestLogsWithCount:(NSInteger)count {
+- (int)deleteOldestLogsWithCount:(NSInteger)count {
   NSString *selectOldestQuery = [NSString stringWithFormat:@"SELECT \"%@\" FROM \"%@\" ORDER BY \"%@\" ASC LIMIT %ld", kMSIdColumnName,
                                                            kMSLogTableName, kMSIdColumnName, (long)count];
   NSString *deleteLogQuery =
       [NSString stringWithFormat:@"DELETE FROM \"%@\" WHERE \"%@\" IN (%@)", kMSLogTableName, kMSIdColumnName, selectOldestQuery];
-  [self executeNonSelectionQuery:deleteLogQuery];
+  return [self executeNonSelectionQuery:deleteLogQuery];
 }
 
 #pragma mark - DB count
