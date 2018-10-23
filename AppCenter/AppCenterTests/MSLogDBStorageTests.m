@@ -24,12 +24,18 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
 @implementation MSLogDBStorageTests
 
 #pragma mark - Setup
+
 - (void)setUp {
   [super setUp];
   self.storageTestUtil = [[MSStorageTestUtil alloc] initWithDbFileName:kMSDBFileName];
   [self.storageTestUtil deleteDatabase];
   XCTAssertEqual([self.storageTestUtil getDataLengthInBytes], 0);
-  self.sut = [MSLogDBStorage new];
+  self.sut = OCMPartialMock([MSLogDBStorage new]);
+  OCMStub([self.sut executeNonSelectionQuery:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    NSString *query;
+    [invocation getArgument:&query atIndex:2];
+    [self validateQuery:query];
+  }).andForwardToRealObject();
 }
 
 - (void)tearDown {
@@ -778,6 +784,15 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
     }
   }
   return NO;
+}
+
+- (void)validateQuery:(NSString *)query {
+  sqlite3 *db = [self.storageTestUtil openDatabase];
+  NSString *statement = [NSString stringWithFormat:@"EXPLAIN %@", query];
+  char *error;
+  int result = sqlite3_exec(db, [statement UTF8String], NULL, NULL, &error);
+  XCTAssert(result == SQLITE_OK, "%s", error);
+  sqlite3_close(db);
 }
 
 @end
