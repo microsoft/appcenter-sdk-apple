@@ -13,15 +13,14 @@ NS_ASSUME_NONNULL_BEGIN
  * @param value Property value.
  * @param key Property key.
  */
-- (instancetype)setString:(NSString *)value forKey:(NSString *)key;
-
+- (instancetype)setString:(NSString *)value forKey:(NSString *)key NS_SWIFT_NAME(setEventProperty(_:forKey:));
 /**
  * Set a double property.
  *
  * @param value Property value. Must be finite (`NAN` and `INFINITY` not allowed).
  * @param key Property key.
  */
-- (instancetype)setDouble:(double)value forKey:(NSString *)key;
+- (instancetype)setDouble:(double)value forKey:(NSString *)key NS_SWIFT_NAME(setEventProperty(_:forKey:));
 
 /**
  * Set a 64-bit integer property.
@@ -29,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param value Property value.
  * @param key Property key.
  */
-- (instancetype)setInt64:(int64_t)value forKey:(NSString *)key;
+- (instancetype)setInt64:(int64_t)value forKey:(NSString *)key NS_SWIFT_NAME(setEventProperty(_:forKey:));
 
 /**
  * Set a boolean property.
@@ -37,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param value Property value.
  * @param key Property key.
  */
-- (instancetype)setBool:(BOOL)value forKey:(NSString *)key;
+- (instancetype)setBool:(BOOL)value forKey:(NSString *)key NS_SWIFT_NAME(setEventProperty(_:forKey:));
 
 /**
  * Set a date property.
@@ -45,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param value Property value.
  * @param key Property key.
  */
-- (instancetype)setDate:(NSDate *)value forKey:(NSString *)key;
+- (instancetype)setDate:(NSDate *)value forKey:(NSString *)key NS_SWIFT_NAME(setEventProperty(_:forKey:));
 
 @end
 

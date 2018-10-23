@@ -103,7 +103,7 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   }
 
   func trackEvent(_ eventName: String, withTypedProperties properties: MSEventProperties) {
-    MSAnalytics.trackEvent(eventName, withTypedProperties: properties)
+    MSAnalytics.trackEvent(eventName, withProperties: properties)
   }
 
   func trackPage(_ pageName: String) {
