@@ -1,7 +1,7 @@
 #include "./Tests.xcconfig"
 #include "./iOS.xcconfig"
 
-OTHER_LDFLAGS = $(inherited) -framework UIKit -ObjC -lsqlite3 -framework CrashReporter -lz
+OTHER_LDFLAGS = $(inherited) -framework UIKit -ObjC -framework CrashReporter -lz
 
 LD_RUNPATH_SEARCH_PATHS = @executable_path/Frameworks @loader_path/Frameworks "$(SRCROOT)/../Vendor/iOS/OCMock" "$(SRCROOT)/../Vendor/iOS/OCHamcrest" "$(SRCROOT)/../Vendor/iOS/OHHTTPStubs"
 
