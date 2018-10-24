@@ -31,7 +31,8 @@
 @property(nonatomic) MSDevice *device;
 
 /**
- * Transient object tag.
+ * Transient object tag. For example, a log can be tagged with a transmission target. We do this currently to prevent properties being
+ * applied retroactively to previous logs by comparing their tags.
  */
 @property(nonatomic) NSObject *tag;
 
