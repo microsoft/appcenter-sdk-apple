@@ -1,5 +1,4 @@
 #include <Foundation/Foundation.h>
-#import <OCMock/OCMock.h>
 
 #if !TARGET_OS_TV
 #import "MSCustomProperties.h"

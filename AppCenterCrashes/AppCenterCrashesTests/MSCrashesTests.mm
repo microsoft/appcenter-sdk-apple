@@ -18,7 +18,6 @@
 #import "MSTestFrameworks.h"
 #import "MSUtility+File.h"
 #import "MSWrapperCrashesHelper.h"
-#import <OCMock/OCMock.h>
 
 @class MSMockCrashesDelegate;
 

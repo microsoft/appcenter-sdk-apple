@@ -1,5 +1,4 @@
 #import <Foundation/Foundation.h>
-#import <OCMock/OCMock.h>
 
 #import "MSAbstractLogInternal.h"
 #import "MSChannelDelegate.h"

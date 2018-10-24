@@ -18,7 +18,6 @@
 #import "MSSessionTrackerPrivate.h"
 #import "MSStringTypedProperty.h"
 #import "MSTestFrameworks.h"
-#import <OCMock/OCMock.h>
 
 static NSString *const kMSTypeEvent = @"event";
 static NSString *const kMSTypePage = @"page";

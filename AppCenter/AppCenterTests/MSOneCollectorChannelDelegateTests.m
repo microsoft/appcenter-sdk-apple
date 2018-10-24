@@ -12,7 +12,6 @@
 #import "MSSDKExtension.h"
 #import "MSStorage.h"
 #import "MSTestFrameworks.h"
-#import <OCMock/OCMock.h>
 
 static NSString *const kMSBaseGroupId = @"baseGroupId";
 static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";

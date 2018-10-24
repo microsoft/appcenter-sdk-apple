@@ -18,7 +18,6 @@
 #import "MSPropertyConfiguratorPrivate.h"
 #import "MSStringTypedProperty.h"
 #import "MSTestFrameworks.h"
-#import <OCMock/OCMock.h>
 
 static NSString *const kMSTestTransmissionToken = @"TestTransmissionToken";
 static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
