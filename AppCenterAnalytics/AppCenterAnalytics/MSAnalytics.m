@@ -387,7 +387,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   MSAnalyticsTransmissionTarget *target = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:transmissionTargetToken
                                                                                                     parentTarget:nil
                                                                                                     channelGroup:self.channelGroup];
-  MSLogDebug([MSAnalytics logTag], @"Created transmission target with id %@.",
+  MSLogDebug([MSAnalytics logTag], @"Created transmission target with target key %@.",
              [MSUtility targetKeyFromTargetToken:transmissionTargetToken]);
   return target;
 }
