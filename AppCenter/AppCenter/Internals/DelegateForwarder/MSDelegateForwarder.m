@@ -1,6 +1,6 @@
+#import "MSDelegateForwarder.h"
 #import "MSAppCenterInternal.h"
 #import "MSCustomDelegate.h"
-#import "MSDelegateForwarder.h"
 #import "MSDelegateForwarderPrivate.h"
 #import "MSLogger.h"
 
@@ -9,40 +9,41 @@
 static NSString *const kMSCustomSelectorPrefix = @"custom_";
 static NSString *const kMSReturnedValueSelectorPart = @"returnedValue:";
 
-static NSHashTable<id<MSCustomDelegate>> *_delegates = nil;
-static NSMutableSet<NSString *> *_selectorsToSwizzle = nil;
-static NSMutableDictionary<NSString *, NSValue *> *_originalImplementations = nil;
-static NSMutableArray<dispatch_block_t> *traceBuffer = nil;
-static IMP _originalSetDelegateImp = NULL;
-static BOOL _enabled = YES;
-
 // TODO fix class methods and properties needs to be at instance level.
 @implementation MSDelegateForwarder
 
-+ (void)initialize {
-  traceBuffer = [NSMutableArray new];
-}
-
-- (instancetype)init
-{
+- (instancetype)init {
   if ((self = [super init])) {
-    //TODO init properties
+    _delegates = [NSHashTable weakObjectsHashTable];
+    _selectorsToSwizzle = [NSMutableSet new];
+    _originalImplementations = [NSMutableDictionary new];
+    _traceBuffer = [NSMutableArray new];
   }
   return self;
+}
+
++ (instancetype)sharedInstance {
+  // This is an empty method and expect to be overridden in sub classes.
+  return nil;
+}
+
+- (Class)originalClass {
+  // This is an empty method and expect to be overridden in sub classes.
+  return nil;
 }
 
 #pragma mark - Logging
 
 - (void)addTraceBlock:(void (^)(void))block {
-  @synchronized(traceBuffer) {
-    if (traceBuffer) {
+  @synchronized(self.traceBuffer) {
+    if (self.traceBuffer) {
       static dispatch_once_t onceToken = 0;
       dispatch_once(&onceToken, ^{
-        [traceBuffer addObject:^{
+        [self.traceBuffer addObject:^{
           MSLogVerbose([MSAppCenter logTag], @"Start buffering traces.");
         }];
       });
-      [traceBuffer addObject:block];
+      [self.traceBuffer addObject:block];
     } else {
       block();
     }
@@ -50,13 +51,13 @@ static BOOL _enabled = YES;
 }
 
 - (void)flushTraceBuffer {
-  if (traceBuffer) {
-    @synchronized(traceBuffer) {
-      for (dispatch_block_t traceBlock in traceBuffer) {
+  if (self.traceBuffer) {
+    @synchronized(self.traceBuffer) {
+      for (dispatch_block_t traceBlock in self.traceBuffer) {
         traceBlock();
       }
-      [traceBuffer removeAllObjects];
-      traceBuffer = nil;
+      [self.traceBuffer removeAllObjects];
+      self.traceBuffer = nil;
       MSLogVerbose([MSAppCenter logTag], @"Stop buffering traces, flushed.");
     }
   }
@@ -68,32 +69,31 @@ static BOOL _enabled = YES;
   IMP originalImp = NULL;
   Class delegateClass = [originalDelegate class];
   SEL originalSelector, customSelector;
-  
+
   // Swizzle all registered selectors.
   for (NSString *selectorString in self.selectorsToSwizzle) {
     originalSelector = NSSelectorFromString(selectorString);
     customSelector = NSSelectorFromString([kMSCustomSelectorPrefix stringByAppendingString:selectorString]);
     originalImp = [self swizzleOriginalSelector:originalSelector withCustomSelector:customSelector originalClass:delegateClass];
     if (originalImp) {
-      
+
       // Save the original implementation for later use.
       self.originalImplementations[selectorString] = [NSValue valueWithBytes:&originalImp objCType:@encode(IMP)];
     }
   }
   [self.selectorsToSwizzle removeAllObjects];
 }
-
 - (void)addAppDelegateSelectorToSwizzle:(SEL)selector {
   if (self.enabled) {
-    
+
     // Swizzle only once and only if needed. No selector to swizzle then no swizzling at all.
     static dispatch_once_t appSwizzleOnceToken;
     dispatch_once(&appSwizzleOnceToken, ^{
       self.originalSetDelegateImp = [self swizzleOriginalSelector:@selector(setDelegate:)
-                                                                                   withCustomSelector:@selector(custom_setDelegate:)
-                                                                                        originalClass:[MSApplication class]];
+                                               withCustomSelector:@selector(custom_setDelegate:)
+                                                    originalClass:[self originalClass]];
     });
-    
+
     /*
      * TODO: We could register custom delegate classes and then query those classes if they responds to selector. If so just add that
      * selector to be swizzled. Just make sure it doesn't have an heavy impact on performances.
@@ -103,11 +103,11 @@ static BOOL _enabled = YES;
 }
 
 - (IMP)swizzleOriginalSelector:(SEL)originalSelector withCustomSelector:(SEL)customSelector originalClass:(Class)originalClass {
-  
+
   // Replace original implementation
   NSString *originalSelectorStr = NSStringFromSelector(originalSelector);
   Method originalMethod = class_getInstanceMethod(originalClass, originalSelector);
-  
+
   // TODO see what's [self class] is returning here.
   IMP customImp = class_getMethodImplementation([self class], customSelector);
   IMP originalImp = NULL;
@@ -115,27 +115,27 @@ static BOOL _enabled = YES;
   BOOL skipped = NO;
   NSString *warningMsg;
   NSString *remediationMsg = @"You need to explicitly call the App Center API from your app delegate implementation.";
-  
+
   // Replace original implementation by the custom one.
   if (originalMethod) {
     originalImp = method_setImplementation(originalMethod, customImp);
   } else if (![originalClass instancesRespondToSelector:originalSelector]) {
-    
+
     // Check for deprecation.
     NSString *deprecatedSelectorStr = self.deprecatedSelectors[originalSelectorStr];
     if (deprecatedSelectorStr && [originalClass instancesRespondToSelector:NSSelectorFromString(deprecatedSelectorStr)]) {
-      
+
       // An implementation for the deprecated selector exists. Don't add the new method, it might eclipse the original implementation.
       warningMsg = [NSString
-                    stringWithFormat:@"No implementation found for this selector, though an implementation of its deprecated API '%@' exists.",
-                    deprecatedSelectorStr];
+          stringWithFormat:@"No implementation found for this selector, though an implementation of its deprecated API '%@' exists.",
+                           deprecatedSelectorStr];
     } else {
-      
+
       // Skip this selector if it's deprecated and doesn't have an implementation.
       if ([self.deprecatedSelectors.allValues containsObject:originalSelectorStr]) {
         skipped = YES;
       } else {
-        
+
         /*
          * The original class may not implement the selector (e.g.: optional method from protocol), add the method to the original class and
          * associate it with the custom implementation.
@@ -146,12 +146,12 @@ static BOOL _enabled = YES;
       }
     }
   }
-  
+
   /*
    * If class instances respond to the selector but no implementation is found it's likely that the original class is doing message
    * forwarding, in this case we can't add our implementation to the class or we will break the forwarding.
    */
-  
+
   // Validate swizzling.
   if (!skipped) {
     if (!originalImp && !methodAdded) {
@@ -174,22 +174,17 @@ static BOOL _enabled = YES;
 
 #pragma mark - Custom Application
 
-- (void)custom_setDelegate:(id<NSObject>)delegate {
-  //TODO We are executing inside the delegate here, the delegate doasn't know about which forwarder to call since we are in the base class.
-  
-  // Swizzle only once.
-  static dispatch_once_t delegateSwizzleOnceToken;
-  dispatch_once(&delegateSwizzleOnceToken, ^{
-    
-    // Swizzle the delegate object before it's actually set.
-    [MSAppDelegateForwarder swizzleOriginalDelegate:delegate];
-  });
-  
-  // Forward to the original `setDelegate:` implementation.
-  IMP originalImp = MSAppDelegateForwarder.originalSetDelegateImp;
-  if (originalImp) {
-    ((void (*)(id, SEL, id<MSApplicationDelegate>))originalImp)(self, _cmd, delegate);
-  }
+// TODO Test see if swizzling selects subclass implementation or this one.
+/**
+ * Custom implementation of the setDelegate: method.
+ *
+ * @param delegate The delegate to be swizzled, its type here is @c id<NSObject> to be generic but your implementation will have to declare
+ * the exact type of the expected delegate (i.e.: @c MSApplicationDelegate).
+ *
+ * @discussion Beware, @c self in this method is not the current class but the swizzled class.
+ */
+- (void)custom_setDelegate:(__unused id<NSObject>)delegate {
+  // This is an empty method and expect to be overridden in sub classes.
 }
 
 #pragma mark - Forwarding
@@ -200,20 +195,20 @@ static BOOL _enabled = YES;
     BOOL hasReturnedValue = ([NSStringFromSelector(invocation.selector) hasSuffix:kMSReturnedValueSelectorPart]);
     NSUInteger returnedValueIdx = 0;
     void *returnedValuePtr = NULL;
-    
+
     // Prepare returned value if any.
     if (hasReturnedValue) {
-      
+
       // Returned value argument is always the last one.
       returnedValueIdx = invocation.methodSignature.numberOfArguments - 1;
       returnedValuePtr = malloc(invocation.methodSignature.methodReturnLength);
     }
-    
+
     // Forward to delegates executing a custom method.
-    for (id<MSCustomApplicationDelegate> delegate in self.delegates) {
+    for (id<MSCustomDelegate> delegate in self.delegates) {
       if ([delegate respondsToSelector:invocation.selector]) {
         [invocation invokeWithTarget:delegate];
-        
+
         // Chaining return values.
         if (hasReturnedValue) {
           [invocation getReturnValue:returnedValuePtr];
@@ -222,7 +217,7 @@ static BOOL _enabled = YES;
         forwarded = YES;
       }
     }
-    
+
     // Forward back the original return value if no delegates to receive the message.
     if (hasReturnedValue && !forwarded) {
       [invocation getArgument:returnedValuePtr atIndex:returnedValueIdx];
@@ -254,13 +249,13 @@ static BOOL _enabled = YES;
 
 - (BOOL)enabled {
   @synchronized(self) {
-    return _enabled;
+    return self.enabled;
   }
 }
 
 - (void)setEnabled:(BOOL)enabled {
   @synchronized(self) {
-    _enabled = enabled;
+    self.enabled = enabled;
     if (!enabled) {
       [self.delegates removeAllObjects];
     }

@@ -1,4 +1,5 @@
 #import "MSCustomApplicationDelegate.h"
+#import "MSDelegateForwarder.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -12,36 +13,7 @@ typedef NS_OPTIONS(NSUInteger, MSCompletionExecutor) {
   MSCompletionExecutorForwarder = (1 << 3)
 };
 
-@interface MSAppDelegateForwarder : NSObject <MSCustomApplicationDelegate>
-
-/**
- * Add a delegate. This method is thread safe.
- *
- * @param delegate A delegate.
- */
-+ (void)addDelegate:(id<MSCustomApplicationDelegate>)delegate;
-
-/**
- * Remove a delegate. This method is thread safe.
- *
- * @param delegate A delegate.
- */
-+ (void)removeDelegate:(id<MSCustomApplicationDelegate>)delegate;
-
-/**
- * Add an app delegate selector to swizzle.
- *
- * @param selector An app delegate selector to swizzle.
- *
- * @discussion Due to the early registration of swizzling on the original app delegate each custom delegate must sign up for selectors to
- * swizzle within the `load` method of a category over the @see MSAppDelegateForwarder class.
- */
-+ (void)addAppDelegateSelectorToSwizzle:(SEL)selector;
-
-/**
- * Flush debugging traces accumulated until now.
- */
-+ (void)flushTraceBuffer;
+@interface MSAppDelegateForwarder : MSDelegateForwarder <MSCustomApplicationDelegate>
 
 @end
 

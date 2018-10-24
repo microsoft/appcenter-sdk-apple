@@ -12,6 +12,15 @@ static NSDictionary<NSString *, NSString *> *_deprecatedSelectors = nil;
 
 @implementation MSAppDelegateForwarder
 
+- (instancetype)init {
+  if ((self = [super init])) {
+#if !TARGET_OS_OSX
+    _deprecatedSelectors = @{kMSOpenURLOptions : kMSOpenURLSourceApplicationAnnotation};
+#endif
+  }
+  return self;
+}
+
 + (instancetype)sharedInstance {
   static MSAppDelegateForwarder *sharedInstance = nil;
   static dispatch_once_t onceToken;
@@ -21,43 +30,30 @@ static NSDictionary<NSString *, NSString *> *_deprecatedSelectors = nil;
   return sharedInstance;
 }
 
-// TODO initialize the instance properties in each subclasses.
-//#pragma mark - Accessors
-//
-//+ (NSHashTable<id<MSCustomApplicationDelegate>> *)delegates {
-//  return _delegates ?: (_delegates = [NSHashTable weakObjectsHashTable]);
-//}
-//
-//+ (void)setDelegates:(NSHashTable<id<MSCustomApplicationDelegate>> *)delegates {
-//  _delegates = delegates;
-//}
-//
-//+ (NSMutableSet<NSString *> *)selectorsToSwizzle {
-//  return _selectorsToSwizzle ?: (_selectorsToSwizzle = [NSMutableSet new]);
-//}
-//
-//+ (NSDictionary<NSString *, NSString *> *)deprecatedSelectors {
-//  if (!_deprecatedSelectors) {
-//#if TARGET_OS_OSX
-//    _deprecatedSelectors = @{};
-//#else
-//    _deprecatedSelectors = @{kMSOpenURLOptions : kMSOpenURLSourceApplicationAnnotation};
-//#endif
-//  }
-//  return _deprecatedSelectors;
-//}
-//
-//+ (NSMutableDictionary<NSString *, NSValue *> *)originalImplementations {
-//  return _originalImplementations ?: (_originalImplementations = [NSMutableDictionary new]);
-//}
-//
-//+ (IMP)originalSetDelegateImp {
-//  return _originalSetDelegateImp;
-//}
-//
-//+ (void)setOriginalSetDelegateImp:(IMP)originalSetDelegateImp {
-//  _originalSetDelegateImp = originalSetDelegateImp;
-//}
+// TODO make it a property?
+- (Class)originalClass {
+  return [MSApplication class];
+}
+
+#pragma mark - Custom Application
+
+// TODO See if we can avoid duplicate this code in DelegateForwarder subclasses.
+- (void)custom_setDelegate:(id<MSApplicationDelegate>)delegate {
+  // TODO We are executing inside the delegate here, the delegate doasn't know about which forwarder to call since we are in the base class.
+
+  // Swizzle only once.
+  static dispatch_once_t delegateSwizzleOnceToken;
+  dispatch_once(&delegateSwizzleOnceToken, ^{
+    // Swizzle the delegate object before it's actually set.
+    [[MSAppDelegateForwarder sharedInstance] swizzleOriginalDelegate:delegate];
+  });
+
+  // Forward to the original `setDelegate:` implementation.
+  IMP originalImp = [MSAppDelegateForwarder sharedInstance].originalSetDelegateImp;
+  if (originalImp) {
+    ((void (*)(id, SEL, id<MSApplicationDelegate>))originalImp)(self, _cmd, delegate);
+  }
+}
 
 #pragma mark - Custom UIApplicationDelegate
 
@@ -75,7 +71,7 @@ static NSDictionary<NSString *, NSString *> *_deprecatedSelectors = nil;
   IMP originalImp = NULL;
 
   // Forward to the original delegate.
-  [MSAppDelegateForwarder.originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
+  [[MSAppDelegateForwarder sharedInstance].originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
   if (originalImp) {
     result = ((BOOL(*)(id, SEL, UIApplication *, NSURL *, NSString *, id))originalImp)(self, _cmd, application, url, sourceApplication,
                                                                                        annotation);
@@ -96,7 +92,7 @@ static NSDictionary<NSString *, NSString *> *_deprecatedSelectors = nil;
   IMP originalImp = NULL;
 
   // Forward to the original delegate.
-  [MSAppDelegateForwarder.originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
+  [[MSAppDelegateForwarder sharedInstance].originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
   if (originalImp) {
     result = ((BOOL(*)(id, SEL, UIApplication *, NSURL *, NSDictionary<UIApplicationOpenURLOptionsKey, id> *))originalImp)(
         self, _cmd, application, url, options);
