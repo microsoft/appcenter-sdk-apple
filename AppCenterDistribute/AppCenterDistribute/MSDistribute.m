@@ -225,7 +225,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   MSDistributionStartSessionLog *log = [[MSDistributionStartSessionLog alloc] init];
 
   // Send log to log manager.
-  [self.channelUnit enqueueItem:log];
+  [self.channelUnit enqueueItem:log critical:NO];
 }
 
 - (void)startUpdate {

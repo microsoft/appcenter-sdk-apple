@@ -49,6 +49,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   self.configMock = OCMClassMock([MSChannelUnitConfiguration class]);
   self.storageMock = OCMProtocolMock(@protocol(MSStorage));
   OCMStub([self.storageMock saveLog:OCMOCK_ANY withGroupId:OCMOCK_ANY critical:NO]).andReturn(YES);
+  OCMStub([self.storageMock saveLog:OCMOCK_ANY withGroupId:OCMOCK_ANY critical:YES]).andReturn(YES);
   self.ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
   OCMStub([self.ingestionMock isReadyToSend]).andReturn(YES);
   self.sut = [[MSChannelUnitDefault alloc] initWithIngestion:self.ingestionMock
@@ -132,7 +133,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // When
   dispatch_async(self.logsDispatchQueue, ^{
     // Enqueue now that the delegate is set.
-    [sut enqueueItem:enqueuedLog];
+    [sut enqueueItem:enqueuedLog critical:NO];
 
     // Try to release one batch.
     dispatch_async(self.logsDispatchQueue, ^{
@@ -221,7 +222,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // When
   dispatch_async(self.logsDispatchQueue, ^{
     // Enqueue now that the delegate is set.
-    [sut enqueueItem:enqueuedLog];
+    [sut enqueueItem:enqueuedLog critical:NO];
 
     // Try to release one batch.
     dispatch_async(self.logsDispatchQueue, ^{
@@ -265,7 +266,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // When
   for (int i = 1; i <= itemsToAdd; i++) {
-    [self.sut enqueueItem:[self getValidMockLog]];
+    [self.sut enqueueItem:[self getValidMockLog] critical:NO];
   }
   [self enqueueChannelEndJobExpectation];
 
@@ -273,6 +274,46 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
                                  assertThatUnsignedLong(self.sut.itemsCount, equalToInt(itemsToAdd));
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)testEnqueueCriticalItem {
+
+  // If
+  [self initChannelEndJobExpectation];
+  id<MSLog> mockLog = [self getValidMockLog];
+
+  // When
+  [self.sut enqueueItem:mockLog critical:YES];
+  [self enqueueChannelEndJobExpectation];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 OCMVerify([self.storageMock saveLog:mockLog withGroupId:OCMOCK_ANY critical:YES]);
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)testEnqueueNonCriticalItem {
+
+  // If
+  [self initChannelEndJobExpectation];
+  id<MSLog> mockLog = [self getValidMockLog];
+
+  // When
+  [self.sut enqueueItem:mockLog critical:NO];
+  [self enqueueChannelEndJobExpectation];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 OCMVerify([self.storageMock saveLog:mockLog withGroupId:OCMOCK_ANY critical:NO]);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
@@ -309,7 +350,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // When
   for (int i = 0; i < itemsToAdd; ++i) {
-    [sut enqueueItem:mockLog];
+    [sut enqueueItem:mockLog critical:NO];
   }
   [self enqueueChannelEndJobExpectation];
 
@@ -364,7 +405,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // When
   for (NSUInteger i = 1; i <= expectedMaxPendingBatched + 1; i++) {
-    [sut enqueueItem:[self getValidMockLog]];
+    [sut enqueueItem:[self getValidMockLog] critical:NO];
   }
   [self enqueueChannelEndJobExpectation];
 
@@ -428,7 +469,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                                             logsDispatchQueue:dispatch_get_main_queue()];
 
   // When
-  [sut enqueueItem:[self getValidMockLog]];
+  [sut enqueueItem:[self getValidMockLog] critical:NO];
 
   // Try to release one batch.
   dispatch_async(self.logsDispatchQueue, ^{
@@ -446,7 +487,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
       // When
       // Send another batch.
       currentBatchId++;
-      [sut enqueueItem:[self getValidMockLog]];
+      [sut enqueueItem:[self getValidMockLog] critical:NO];
       [self enqueueChannelEndJobExpectation];
     });
   });
@@ -488,7 +529,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                                             logsDispatchQueue:dispatch_get_main_queue()];
   // When
   [sut setEnabled:NO andDeleteDataOnDisabled:NO];
-  [sut enqueueItem:mockLog];
+  [sut enqueueItem:mockLog critical:NO];
   [self enqueueChannelEndJobExpectation];
 
   // Then
@@ -525,7 +566,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   self.sut.configuration = config;
 
   // When
-  [sut enqueueItem:mockLog];
+  [sut enqueueItem:mockLog critical:NO];
   [sut setEnabled:NO andDeleteDataOnDisabled:YES];
   [self enqueueChannelEndJobExpectation];
 
@@ -557,7 +598,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // When
   [sut setEnabled:NO andDeleteDataOnDisabled:YES];
-  [sut enqueueItem:mockLog];
+  [sut enqueueItem:mockLog critical:NO];
 
   // Then
   [self waitForExpectationsWithTimeout:1
@@ -585,7 +626,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // When
   [sut setEnabled:YES andDeleteDataOnDisabled:NO];
-  [sut enqueueItem:mockLog];
+  [sut enqueueItem:mockLog critical:NO];
 
   // Then
   [self waitForExpectationsWithTimeout:1
@@ -608,7 +649,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // When
   [sut setEnabled:YES andDeleteDataOnDisabled:NO];
-  [sut enqueueItem:otherMockLog];
+  [sut enqueueItem:otherMockLog critical:NO];
 
   // Then
   [self waitForExpectationsWithTimeout:1
@@ -699,7 +740,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // Enqueue now that the delegate is set.
   dispatch_async(self.logsDispatchQueue, ^{
-    [sut enqueueItem:mockLog];
+    [sut enqueueItem:mockLog critical:NO];
     [self enqueueChannelEndJobExpectation];
   });
 
@@ -788,7 +829,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   MSChannelUnitDefault *sut = [self createChannelUnit];
 
   // When
-  [sut enqueueItem:mockLog];
+  [sut enqueueItem:mockLog critical:NO];
 
   // Then
   XCTAssertNotNil(mockLog.device);
@@ -804,7 +845,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   MSChannelUnitDefault *sut = [self createChannelUnit];
 
   // When
-  [sut enqueueItem:mockLog];
+  [sut enqueueItem:mockLog critical:NO];
 
   // Then
   XCTAssertEqual(mockLog.device, device);
@@ -838,7 +879,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // When
   dispatch_async(self.logsDispatchQueue, ^{
     // Enqueue now that the delegate is set.
-    [sut enqueueItem:log];
+    [sut enqueueItem:log critical:NO];
     [self enqueueChannelEndJobExpectation];
   });
 
@@ -875,7 +916,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // When
   dispatch_async(self.logsDispatchQueue, ^{
     // Enqueue now that the delegate is set.
-    [sut enqueueItem:log];
+    [sut enqueueItem:log critical:NO];
     [self enqueueChannelEndJobExpectation];
   });
 
@@ -1125,7 +1166,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   log.iKey = targetKey;
 
   // When
-  [self.sut enqueueItem:log];
+  [self.sut enqueueItem:log critical:NO];
 
   // Then
   [self enqueueChannelEndJobExpectation];

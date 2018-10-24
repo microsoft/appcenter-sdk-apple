@@ -772,7 +772,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
           // Buffered logs are used sending their own channel. It will never contain more than 50 logs.
           MSLogDebug([MSCrashes logTag], @"Re-enqueueing buffered log, type: %@.", item.type);
-          [self.bufferChannelUnit enqueueItem:item];
+          [self.bufferChannelUnit enqueueItem:item critical:NO];
         }
       }
 
@@ -847,7 +847,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       MSLogError([MSCrashes logTag], @"Not all required fields are present in MSErrorAttachmentLog.");
       continue;
     }
-    [self.channelUnit enqueueItem:attachment];
+    [self.channelUnit enqueueItem:attachment critical:NO];
     ++totalProcessedAttachments;
   }
   if (totalProcessedAttachments > kMaxAttachmentsPerCrashReport) {
@@ -1126,7 +1126,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     log.sid = [[MSSessionContext sharedInstance] sessionIdAt:log.timestamp];
 
     // Then, enqueue crash log.
-    [self.channelUnit enqueueItem:log];
+    [self.channelUnit enqueueItem:log critical:NO];
 
     // Send error attachments.
     [self sendErrorAttachments:attachments withIncidentIdentifier:report.incidentIdentifier];
@@ -1166,7 +1166,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   }
 
   // Enqueue log.
-  [self.channelUnit enqueueItem:log];
+  [self.channelUnit enqueueItem:log critical:NO];
 }
 
 @end

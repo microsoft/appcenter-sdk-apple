@@ -1,3 +1,4 @@
+#import <OCMock/OCMock.h>
 #import "MSAppCenterInternal.h"
 #import "MSAppleErrorLog.h"
 #import "MSChannelUnitConfiguration.h"
@@ -308,7 +309,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
                             }]])
       .andReturn(channelUnitMock);
   for (NSUInteger i = 0; i < invalidLogs.count; i++) {
-    OCMReject([channelUnitMock enqueueItem:invalidLogs[i]]);
+    OCMReject([channelUnitMock enqueueItem:invalidLogs[i] critical:NO]);
   }
   MSErrorAttachmentLog *validLog = [self attachmentWithAttachmentId:validString attachmentData:validData contentType:validString];
   NSMutableArray *logs = invalidLogs.mutableCopy;
@@ -320,7 +321,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   [self.sut setDelegate:crashesDelegateMock];
 
   // Then
-  OCMExpect([channelUnitMock enqueueItem:validLog]);
+  OCMExpect([channelUnitMock enqueueItem:validLog critical:NO]);
   [self.sut startCrashProcessing];
   OCMVerifyAll(channelUnitMock);
 }
@@ -548,7 +549,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
                               return [configuration.groupId isEqualToString:@"CrashesBuffer"];
                             }]])
       .andReturn(channelUnitMock);
-  OCMStub([channelUnitMock enqueueItem:OCMOCK_ANY]).andDo(^(__unused NSInvocation *invocation) {
+  OCMStub([channelUnitMock enqueueItem:OCMOCK_ANY critical:NO]).andDo(^(__unused NSInvocation *invocation) {
     numInvocations++;
   });
 
@@ -690,7 +691,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
                               return [configuration.groupId isEqualToString:@"Crashes"];
                             }]])
       .andReturn(channelUnitMock);
-  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSLogWithProperties class]]]).andDo(^(NSInvocation *invocation) {
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSLogWithProperties class]] critical:NO]).andDo(^(NSInvocation *invocation) {
     MSHandledErrorLog *log;
     [invocation getArgument:&log atIndex:2];
     type = log.type;
@@ -730,7 +731,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
                               return [configuration.groupId isEqualToString:@"Crashes"];
                             }]])
       .andReturn(channelUnitMock);
-  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSAbstractLog class]]]).andDo(^(NSInvocation *invocation) {
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSAbstractLog class]] critical:NO]).andDo(^(NSInvocation *invocation) {
     MSHandledErrorLog *log;
     [invocation getArgument:&log atIndex:2];
     type = log.type;
@@ -777,7 +778,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
                               return [configuration.groupId isEqualToString:@"Crashes"];
                             }]])
       .andReturn(channelUnitMock);
-  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSLogWithProperties class]]]).andDo(^(NSInvocation *invocation) {
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSLogWithProperties class]] critical:NO]).andDo(^(NSInvocation *invocation) {
     (void)invocation;
     numInvocations++;
   });
@@ -808,7 +809,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
                               return [configuration.groupId isEqualToString:@"Crashes"];
                             }]])
       .andReturn(channelUnitMock);
-  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSLogWithProperties class]]]).andDo(^(NSInvocation *invocation) {
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSLogWithProperties class]] critical:NO]).andDo(^(NSInvocation *invocation) {
     (void)invocation;
     numInvocations++;
   });
@@ -845,7 +846,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
                               return [configuration.groupId isEqualToString:@"Crashes"];
                             }]])
       .andReturn(channelUnitMock);
-  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSLogWithProperties class]]]).andDo(^(NSInvocation *invocation) {
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSLogWithProperties class]] critical:NO]).andDo(^(NSInvocation *invocation) {
     (void)invocation;
     numInvocations++;
   });
@@ -883,7 +884,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
                               return [configuration.groupId isEqualToString:@"Crashes"];
                             }]])
       .andReturn(channelUnitMock);
-  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSLogWithProperties class]]]).andDo(^(NSInvocation *invocation) {
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSLogWithProperties class]] critical:NO]).andDo(^(NSInvocation *invocation) {
     (void)invocation;
     numInvocations++;
   });
@@ -935,7 +936,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
                               return [configuration.groupId isEqualToString:@"Crashes"];
                             }]])
       .andReturn(channelUnitMock);
-  OCMStub([channelUnitMock enqueueItem:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+  OCMStub([channelUnitMock enqueueItem:OCMOCK_ANY critical:NO]).andDo(^(NSInvocation *invocation) {
     numInvocations++;
     MSErrorAttachmentLog *attachmentLog;
     [invocation getArgument:&attachmentLog atIndex:2];

@@ -85,7 +85,7 @@ NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){
   if ([(NSObject *)log isKindOfClass:[MSCommonSchemaLog class]] && ![self isOneCollectorGroup:groupId]) {
     oneCollectorChannelUnit = self.oneCollectorChannels[groupId];
     if (oneCollectorChannelUnit) {
-      [oneCollectorChannelUnit enqueueItem:log];
+      [oneCollectorChannelUnit enqueueItem:log critical:NO];
     }
     return;
   }
@@ -99,7 +99,7 @@ NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){
   id<MSLogConversion> logConversion = (id<MSLogConversion>)log;
   NSArray<MSCommonSchemaLog *> *commonSchemaLogs = [logConversion toCommonSchemaLogs];
   for (MSCommonSchemaLog *commonSchemaLog in commonSchemaLogs) {
-    [oneCollectorChannelUnit enqueueItem:commonSchemaLog];
+    [oneCollectorChannelUnit enqueueItem:commonSchemaLog critical:NO];
   }
 }
 

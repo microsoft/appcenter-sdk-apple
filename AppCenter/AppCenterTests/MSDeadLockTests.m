@@ -56,7 +56,7 @@ static MSDummyService2 *sharedInstanceService2 = nil;
   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 
     // Log enqueued from background thread (i.e. crash logs).
-    [self.channelUnit enqueueItem:mockLog];
+    [self.channelUnit enqueueItem:mockLog critical:NO];
   });
 }
 

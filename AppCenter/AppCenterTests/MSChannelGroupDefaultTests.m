@@ -113,7 +113,7 @@
   // When
   void (^block)(void) = ^{
     for (int i = 0; i < 10; i++) {
-      [addedChannel enqueueItem:log];
+      [addedChannel enqueueItem:log critical:NO];
     }
     for (int i = 0; i < 100; i++) {
       [sut addDelegate:OCMProtocolMock(@protocol(MSChannelDelegate))];

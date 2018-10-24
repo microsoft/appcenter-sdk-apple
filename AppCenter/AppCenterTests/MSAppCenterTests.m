@@ -1,4 +1,5 @@
 #include <Foundation/Foundation.h>
+#import <OCMock/OCMock.h>
 
 #if !TARGET_OS_TV
 #import "MSCustomProperties.h"
@@ -406,11 +407,11 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   // If
   [MSAppCenter start:MS_UUID_STRING withServices:nil];
   id channelUnit = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
-  OCMStub([channelUnit enqueueItem:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]]]).andDo(nil);
+  OCMStub([channelUnit enqueueItem:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]] critical:NO]).andDo(nil);
   [MSAppCenter sharedInstance].channelUnit = channelUnit;
 
   // When
-  OCMReject([channelUnit enqueueItem:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]]]);
+  OCMReject([channelUnit enqueueItem:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]] critical:NO]);
   MSCustomProperties *customProperties = [MSCustomProperties new];
   [MSAppCenter setCustomProperties:customProperties];
 
@@ -423,7 +424,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   // If
   [MSAppCenter start:MS_UUID_STRING withServices:nil];
   id channelUnit = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
-  OCMStub([channelUnit enqueueItem:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]]]).andDo(nil);
+  OCMStub([channelUnit enqueueItem:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]] critical:NO]).andDo(nil);
   [MSAppCenter sharedInstance].channelUnit = channelUnit;
 
   // When
@@ -432,11 +433,11 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   [MSAppCenter setCustomProperties:customProperties];
 
   // Then
-  OCMVerify([channelUnit enqueueItem:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]]]);
+  OCMVerify([channelUnit enqueueItem:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]] critical:NO]);
 
   // When
   // Not allow processLog more
-  OCMReject([channelUnit enqueueItem:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]]]);
+  OCMReject([channelUnit enqueueItem:[OCMArg isKindOfClass:[MSCustomPropertiesLog class]] critical:NO]);
   [MSAppCenter setCustomProperties:nil];
   [MSAppCenter setCustomProperties:[MSCustomProperties new]];
 
@@ -492,7 +493,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   OCMStub([channelGroup addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnit);
 
   // Not allow processLog.
-  OCMReject([channelUnit enqueueItem:[OCMArg isKindOfClass:[MSStartServiceLog class]]]);
+  OCMReject([channelUnit enqueueItem:[OCMArg isKindOfClass:[MSStartServiceLog class]] critical:NO]);
 
   // When
   [MSAppCenter start:MS_UUID_STRING withServices:nil];
@@ -509,14 +510,14 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   // If
   [MSAppCenter start:MS_UUID_STRING withServices:nil];
   id channelUnit = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
-  OCMStub([channelUnit enqueueItem:[OCMArg isKindOfClass:[MSStartServiceLog class]]]).andDo(nil);
+  OCMStub([channelUnit enqueueItem:[OCMArg isKindOfClass:[MSStartServiceLog class]] critical:NO]).andDo(nil);
   [MSAppCenter sharedInstance].channelUnit = channelUnit;
 
   // When
   [MSAppCenter startService:MSMockService.class];
 
   // Then
-  OCMVerify([channelUnit enqueueItem:[OCMArg isKindOfClass:[MSStartServiceLog class]]]);
+  OCMVerify([channelUnit enqueueItem:[OCMArg isKindOfClass:[MSStartServiceLog class]] critical:NO]);
 }
 
 - (void)testDisabledCoreStatus {
@@ -555,7 +556,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   OCMStub([channelGroup addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnit);
   __block NSInteger logsProcessed = 0;
   __block MSStartServiceLog *log = nil;
-  OCMStub([channelUnit enqueueItem:[OCMArg isKindOfClass:[MSStartServiceLog class]]]).andDo(^(NSInvocation *invocation) {
+  OCMStub([channelUnit enqueueItem:[OCMArg isKindOfClass:[MSStartServiceLog class]] critical:NO]).andDo(^(NSInvocation *invocation) {
     [invocation getArgument:&log atIndex:2];
     logsProcessed++;
   });

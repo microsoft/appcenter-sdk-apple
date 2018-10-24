@@ -1,3 +1,4 @@
+#import <OCMock/OCMock.h>
 #import "MSAnalyticsAuthenticationProviderInternal.h"
 #import "MSAnalyticsInternal.h"
 #import "MSAnalyticsPrivate.h"
@@ -539,7 +540,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // Mock channel group.
   __block MSEventLog *eventLog;
-  OCMStub([channelUnitMock enqueueItem:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+  OCMStub([channelUnitMock enqueueItem:OCMOCK_ANY critical:NO]).andDo(^(NSInvocation *invocation) {
     id<MSLog> log = nil;
     [invocation getArgument:&log atIndex:2];
     eventLog = (MSEventLog *)log;
@@ -607,7 +608,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // Mock channel group.
   __block MSEventLog *eventLog;
-  OCMStub([channelUnitMock enqueueItem:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+  OCMStub([channelUnitMock enqueueItem:OCMOCK_ANY critical:NO]).andDo(^(NSInvocation *invocation) {
     id<MSLog> log = nil;
     [invocation getArgument:&log atIndex:2];
     eventLog = (MSEventLog *)log;

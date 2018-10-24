@@ -90,7 +90,7 @@
 
 #pragma mark - Managing queue
 
-- (void)enqueueItem:(id<MSLog>)item {
+- (void)enqueueItem:(id <MSLog>)item critical:(BOOL)critical {
 
   /*
    * Set common log info.
@@ -168,7 +168,7 @@
       MSLogDebug([MSAppCenter logTag], @"Saving log, type: %@.", item.type);
 
       // TODO: use correct priority for the log.
-      [self.storage saveLog:item withGroupId:self.configuration.groupId critical:NO];
+      [self.storage saveLog:item withGroupId:self.configuration.groupId critical:critical];
       self.itemsCount += 1;
       [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:withInternalId:)
                                 withBlock:^(id<MSChannelDelegate> delegate) {
