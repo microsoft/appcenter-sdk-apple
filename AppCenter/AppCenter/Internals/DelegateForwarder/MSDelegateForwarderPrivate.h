@@ -9,11 +9,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic, readonly) NSMutableSet<NSString *> *selectorsToSwizzle;
 
-/**
- * Dictionary of deprecated original selectors indexed by their new equivalent.
- */
-@property(nonatomic, readonly) NSDictionary<NSString *, NSString *> *deprecatedSelectors;
-
 // TODO doc.
 @property(nonatomic, nullable) NSMutableArray<dispatch_block_t> *traceBuffer;
 

@@ -9,7 +9,6 @@
 static NSString *const kMSCustomSelectorPrefix = @"custom_";
 static NSString *const kMSReturnedValueSelectorPart = @"returnedValue:";
 
-// TODO fix class methods and properties needs to be at instance level.
 @implementation MSDelegateForwarder
 
 - (instancetype)init {
@@ -23,13 +22,31 @@ static NSString *const kMSReturnedValueSelectorPart = @"returnedValue:";
 }
 
 + (instancetype)sharedInstance {
+
   // This is an empty method and expect to be overridden in sub classes.
   return nil;
 }
 
-- (Class)originalClass {
+- (Class)originalClassForSetDelegate {
+
   // This is an empty method and expect to be overridden in sub classes.
   return nil;
+}
+
+#pragma mark - Custom Application
+
+// TODO Test see if swizzling selects subclass implementation or this one.
+/**
+ * Custom implementation of the setDelegate: method.
+ *
+ * @param delegate The delegate to be swizzled, its type here is @c id<NSObject> to be generic but your implementation will have to declare
+ * the exact type of the expected delegate (i.e.: @c MSApplicationDelegate).
+ *
+ * @discussion Beware, @c self in this method is not the current class but the swizzled class.
+ */
+- (void)custom_setDelegate:(__unused id<NSObject>)delegate {
+
+  // This is an empty method and expect to be overridden in sub classes.
 }
 
 #pragma mark - Logging
@@ -91,7 +108,7 @@ static NSString *const kMSReturnedValueSelectorPart = @"returnedValue:";
     dispatch_once(&appSwizzleOnceToken, ^{
       self.originalSetDelegateImp = [self swizzleOriginalSelector:@selector(setDelegate:)
                                                withCustomSelector:@selector(custom_setDelegate:)
-                                                    originalClass:[self originalClass]];
+                                                    originalClass:[self originalClassForSetDelegate]];
     });
 
     /*
@@ -170,21 +187,6 @@ static NSString *const kMSReturnedValueSelectorPart = @"returnedValue:";
     }
   }
   return originalImp;
-}
-
-#pragma mark - Custom Application
-
-// TODO Test see if swizzling selects subclass implementation or this one.
-/**
- * Custom implementation of the setDelegate: method.
- *
- * @param delegate The delegate to be swizzled, its type here is @c id<NSObject> to be generic but your implementation will have to declare
- * the exact type of the expected delegate (i.e.: @c MSApplicationDelegate).
- *
- * @discussion Beware, @c self in this method is not the current class but the swizzled class.
- */
-- (void)custom_setDelegate:(__unused id<NSObject>)delegate {
-  // This is an empty method and expect to be overridden in sub classes.
 }
 
 #pragma mark - Forwarding

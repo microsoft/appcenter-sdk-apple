@@ -8,14 +8,12 @@ static NSString *const kMSIsAppDelegateForwarderEnabledKey = @"AppCenterAppDeleg
 static NSString *const kMSOpenURLSourceApplicationAnnotation = @"application:openURL:sourceApplication:annotation:";
 static NSString *const kMSOpenURLOptions = @"application:openURL:options:";
 
-static NSDictionary<NSString *, NSString *> *_deprecatedSelectors = nil;
-
 @implementation MSAppDelegateForwarder
 
 - (instancetype)init {
   if ((self = [super init])) {
 #if !TARGET_OS_OSX
-    _deprecatedSelectors = @{kMSOpenURLOptions : kMSOpenURLSourceApplicationAnnotation};
+    self.deprecatedSelectors = @{kMSOpenURLOptions : kMSOpenURLSourceApplicationAnnotation};
 #endif
   }
   return self;
@@ -31,7 +29,7 @@ static NSDictionary<NSString *, NSString *> *_deprecatedSelectors = nil;
 }
 
 // TODO make it a property?
-- (Class)originalClass {
+- (Class)originalClassForSetDelegate {
   return [MSApplication class];
 }
 

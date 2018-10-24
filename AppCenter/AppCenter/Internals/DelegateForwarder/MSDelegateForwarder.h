@@ -24,6 +24,11 @@
 @property(nonatomic, readonly) NSMutableDictionary<NSString *, NSValue *> *originalImplementations;
 
 /**
+ * Dictionary of deprecated original selectors indexed by their new equivalent.
+ */
+@property(nonatomic) NSDictionary<NSString *, NSString *> *deprecatedSelectors;
+
+/**
  * Returns the singleton instance of MSAppDelegateForwarder.
  */
 + (instancetype)sharedInstance;
