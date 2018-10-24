@@ -1,13 +1,16 @@
 #import <Foundation/Foundation.h>
 
-#import "MSAppDelegateForwarderPrivate.h"
+#import "MSAppDelegateForwarder.h"
 #import "MSAppDelegateUtil.h"
+#import "MSDelegateForwarderPrivate.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+Application.h"
 
 @interface MSAppDelegateForwarderTest : XCTestCase
 
 @property(nonatomic) MSApplication *appMock;
+
+@property(nonatomic) MSAppDelegateForwarder *sut;
 
 @end
 
@@ -28,19 +31,13 @@
 
 - (void)setUp {
   [super setUp];
-
-  // The app delegate forwarder is already set via the load method, reset it for testing.
-  [MSAppDelegateForwarder reset];
+  self.sut = [MSAppDelegateForwarder new];
 
   // Mock app delegate.
   self.appMock = OCMClassMock([MSApplication class]);
 }
 
-- (void)tearDown {
-  [MSAppDelegateForwarder reset];
-  [super tearDown];
-}
-
+// TODO add a test to check sharedInstance.
 - (void)testAddAppDelegateSelectorToSwizzle {
 
   // If
