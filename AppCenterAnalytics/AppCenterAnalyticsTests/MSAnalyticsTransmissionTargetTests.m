@@ -43,6 +43,11 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   self.analyticsClassMock = OCMPartialMock([MSAnalytics sharedInstance]);
   OCMStub([analyticsClassMock sharedInstance]).andReturn(self.analyticsClassMock);
   self.channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  [MSAppCenter sharedInstance].sdkConfigured = YES;
+  [[MSAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
+                                            appSecret:@"appsecret"
+                              transmissionTargetToken:@"token"
+                                      fromApplication:YES];
 }
 
 - (void)tearDown {
