@@ -4,14 +4,19 @@
 @interface MSDelegateForwarder : NSObject
 
 /**
- * Hold the original setDelegate implementation.
- */
-@property(nonatomic) IMP originalSetDelegateImp;
-
-/**
  * Enable/Disable Application forwarding.
  */
 @property(nonatomic) BOOL enabled;
+
+/**
+ * Hash table containing all the delegates as weak references.
+ */
+@property(nonatomic) NSHashTable<id<MSCustomDelegate>> *delegates;
+
+/**
+ * Hold the original setDelegate implementation.
+ */
+@property(nonatomic) IMP originalSetDelegateImp;
 
 /**
  * Keep track of the original delegate's method implementations.

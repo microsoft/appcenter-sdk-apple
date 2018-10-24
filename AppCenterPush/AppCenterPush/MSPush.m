@@ -170,7 +170,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
                                    name:NSApplicationDidFinishLaunchingNotification
                                  object:nil];
 #endif
-    [MSAppDelegateForwarder addDelegate:self.appDelegate];
+    [[MSAppDelegateForwarder sharedInstance] addDelegate:self.appDelegate];
     if (!self.pushToken) {
       [self registerForRemoteNotifications];
     }
@@ -179,7 +179,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 #if TARGET_OS_OSX
     [MS_NOTIFICATION_CENTER removeObserver:self name:NSApplicationDidFinishLaunchingNotification object:nil];
 #endif
-    [MSAppDelegateForwarder removeDelegate:self.appDelegate];
+    [[MSAppDelegateForwarder sharedInstance] removeDelegate:self.appDelegate];
     MSLogInfo([MSPush logTag], @"Push service has been disabled.");
   }
 }
@@ -220,9 +220,10 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
                               MSLogVerbose([MSPush logTag], @"Push notifications authorization was denied.");
                             }
                             if (error) {
-                              MSLogWarning([MSPush logTag], @"Push notifications authorization "
-                                                            @"request has been finished with "
-                                                            @"error: %@",
+                              MSLogWarning([MSPush logTag],
+                                           @"Push notifications authorization "
+                                           @"request has been finished with "
+                                           @"error: %@",
                                            error.localizedDescription);
                             }
                           }];

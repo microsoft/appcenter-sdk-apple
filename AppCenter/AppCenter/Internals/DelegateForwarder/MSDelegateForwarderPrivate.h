@@ -5,11 +5,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MSDelegateForwarder ()
 
 /**
- * Hash table containing all the delegates as weak references.
- */
-@property(nonatomic) NSHashTable<id<MSCustomDelegate>> *delegates;
-
-/**
  * Keep track of original selectors to swizzle.
  */
 @property(nonatomic, readonly) NSMutableSet<NSString *> *selectorsToSwizzle;

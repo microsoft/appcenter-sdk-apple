@@ -1,6 +1,6 @@
+#import "MSDistributeAppDelegate.h"
 #import "MSAppDelegateForwarder.h"
 #import "MSDistribute.h"
-#import "MSDistributeAppDelegate.h"
 
 @implementation MSDistributeAppDelegate
 
@@ -39,8 +39,8 @@
 + (void)load {
 
   // Register selectors to swizzle for Distribute.
-  [self addAppDelegateSelectorToSwizzle:@selector(application:openURL:options:)];
-  [self addAppDelegateSelectorToSwizzle:@selector(application:openURL:sourceApplication:annotation:)];
+  [[self sharedInstance] addAppDelegateSelectorToSwizzle:@selector(application:openURL:options:)];
+  [[self sharedInstance] addAppDelegateSelectorToSwizzle:@selector(application:openURL:sourceApplication:annotation:)];
 }
 
 @end

@@ -1,6 +1,6 @@
-#import "MSAppDelegateForwarderPrivate.h"
-#import "MSPush.h"
 #import "MSPushAppDelegate.h"
+#import "MSAppDelegateForwarder.h"
+#import "MSPush.h"
 
 @implementation MSPushAppDelegate
 
@@ -45,11 +45,11 @@
 + (void)load {
 
   // Register selectors to swizzle for Push.
-  [self addAppDelegateSelectorToSwizzle:@selector(application:didRegisterForRemoteNotificationsWithDeviceToken:)];
-  [self addAppDelegateSelectorToSwizzle:@selector(application:didFailToRegisterForRemoteNotificationsWithError:)];
-  [self addAppDelegateSelectorToSwizzle:@selector(application:didReceiveRemoteNotification:)];
+  [[self sharedInstance] addAppDelegateSelectorToSwizzle:@selector(application:didRegisterForRemoteNotificationsWithDeviceToken:)];
+  [[self sharedInstance] addAppDelegateSelectorToSwizzle:@selector(application:didFailToRegisterForRemoteNotificationsWithError:)];
+  [[self sharedInstance] addAppDelegateSelectorToSwizzle:@selector(application:didReceiveRemoteNotification:)];
 #if !TARGET_OS_OSX
-  [self addAppDelegateSelectorToSwizzle:@selector(application:didReceiveRemoteNotification:fetchCompletionHandler:)];
+  [[self sharedInstance] addAppDelegateSelectorToSwizzle:@selector(application:didReceiveRemoteNotification:fetchCompletionHandler:)];
 #endif
 }
 
@@ -57,7 +57,7 @@
   IMP originalImp = NULL;
 
   // Forward to the original delegate.
-  [MSAppDelegateForwarder.originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
+  [[MSAppDelegateForwarder sharedInstance].originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
   if (originalImp) {
     ((void (*)(id, SEL, MSApplication *, NSData *))originalImp)(self, _cmd, application, deviceToken);
   }
@@ -70,7 +70,7 @@
   IMP originalImp = NULL;
 
   // Forward to the original delegate.
-  [MSAppDelegateForwarder.originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
+  [[MSAppDelegateForwarder sharedInstance].originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
   if (originalImp) {
     ((void (*)(id, SEL, MSApplication *, NSError *))originalImp)(self, _cmd, application, error);
   }
@@ -83,7 +83,7 @@
   IMP originalImp = NULL;
 
   // Forward to the original delegate.
-  [MSAppDelegateForwarder.originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
+  [[MSAppDelegateForwarder sharedInstance].originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
   if (originalImp) {
     ((void (*)(id, SEL, MSApplication *, NSDictionary *))originalImp)(self, _cmd, application, userInfo);
   }
@@ -106,7 +106,6 @@
   // This handler will be used by all the delegates, it unifies the results and execute the real handler at the end.
   void (^commonCompletionHandler)(UIBackgroundFetchResult, MSCompletionExecutor) =
       ^(UIBackgroundFetchResult fetchResult, MSCompletionExecutor executor) {
-
         /*
          * As per the Apple documentation:
          * https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623013-application
@@ -147,14 +146,14 @@
   @synchronized([MSAppDelegateForwarder class]) {
 
     // Count how many custom delegates will respond to the selector.
-    for (id<MSCustomApplicationDelegate> delegate in MSAppDelegateForwarder.delegates) {
+    for (id<MSCustomApplicationDelegate> delegate in [MSAppDelegateForwarder sharedInstance].delegates) {
       if ([delegate respondsToSelector:_cmd]) {
         customDelegateToCallCount++;
       }
     }
 
     // Forward to the original delegate.
-    [MSAppDelegateForwarder.originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
+    [[MSAppDelegateForwarder sharedInstance].originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
     if (originalImp) {
 
       // Completion handler dedicated to the original delegate.
