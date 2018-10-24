@@ -166,8 +166,6 @@
 
       // Save the log first.
       MSLogDebug([MSAppCenter logTag], @"Saving log, type: %@.", item.type);
-
-      // TODO: use correct priority for the log.
       [self.storage saveLog:item withGroupId:self.configuration.groupId critical:critical];
       self.itemsCount += 1;
       [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:withInternalId:)
