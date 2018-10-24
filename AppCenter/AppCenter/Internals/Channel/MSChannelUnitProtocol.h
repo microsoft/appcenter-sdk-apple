@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param item The log item that should be enqueued.
  */
-- (void)enqueueItem:(id <MSLog>)item critical:(BOOL)critical;
+- (void)enqueueItem:(id<MSLog>)item critical:(BOOL)critical;
 
 /**
  * Pause sending logs with the given transmission target token.

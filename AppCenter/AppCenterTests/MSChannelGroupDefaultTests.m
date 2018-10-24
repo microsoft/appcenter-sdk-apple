@@ -91,8 +91,8 @@
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMockDefault];
 
   // When
-  MSChannelUnitDefault *channelUnit =
-      (MSChannelUnitDefault *)[sut addChannelUnitWithConfiguration:[MSChannelUnitConfiguration new] withIngestion:ingestionMockCustom];
+  MSChannelUnitDefault *channelUnit = (MSChannelUnitDefault *)[sut addChannelUnitWithConfiguration:[MSChannelUnitConfiguration new]
+                                                                                     withIngestion:ingestionMockCustom];
 
   // Then
   XCTAssertNotEqual(ingestionMockDefault, channelUnit.ingestion);

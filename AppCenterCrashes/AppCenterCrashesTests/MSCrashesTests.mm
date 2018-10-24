@@ -1,13 +1,12 @@
-#import <OCMock/OCMock.h>
 #import "MSAppCenterInternal.h"
 #import "MSAppleErrorLog.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
+#import "MSCrashHandlerSetupDelegate.h"
 #import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
 #import "MSCrashesTestUtil.h"
 #import "MSCrashesUtil.h"
-#import "MSCrashHandlerSetupDelegate.h"
 #import "MSErrorAttachmentLogInternal.h"
 #import "MSErrorLogFormatter.h"
 #import "MSException.h"
@@ -19,6 +18,7 @@
 #import "MSTestFrameworks.h"
 #import "MSUtility+File.h"
 #import "MSWrapperCrashesHelper.h"
+#import <OCMock/OCMock.h>
 
 @class MSMockCrashesDelegate;
 
@@ -130,7 +130,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   // If
   id<MSCrashesDelegate> delegateMock = OCMProtocolMock(@protocol(MSCrashesDelegate));
   [MSAppCenter sharedInstance].sdkConfigured = NO;
-  [MSAppCenter start:kMSTestAppSecret withServices:@[ [MSCrashes class] ]];
+  [MSAppCenter start:kMSTestAppSecret withServices:@ [[MSCrashes class]]];
   MSAppleErrorLog *errorLog = OCMClassMock([MSAppleErrorLog class]);
   MSErrorReport *errorReport = OCMClassMock([MSErrorReport class]);
   id errorLogFormatterMock = OCMClassMock([MSErrorLogFormatter class]);
@@ -750,7 +750,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   expectedException.message = @"Oh this is wrong...";
   expectedException.stackTrace = @"mock stacktrace";
   expectedException.type = @"Some.Exception";
-  NSDictionary *expectedProperties = @{ @"milk" : @"yes", @"cookie" : @"of course" };
+  NSDictionary *expectedProperties = @{@"milk" : @"yes", @"cookie" : @"of course"};
   [MSCrashes trackModelException:expectedException withProperties:expectedProperties];
 
   // Then

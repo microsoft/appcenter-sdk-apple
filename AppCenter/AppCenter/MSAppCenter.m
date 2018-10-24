@@ -268,8 +268,9 @@ static const long kMSMinUpperSizeLimitInBytes = 20 * 1024;
   @synchronized(self) {
     NSString *appSecret = [MSUtility appSecretFrom:secretString];
     NSString *transmissionTargetToken = [MSUtility transmissionTargetTokenFrom:secretString];
-    BOOL configured =
-        [self configureWithAppSecret:appSecret transmissionTargetToken:transmissionTargetToken fromApplication:fromApplication];
+    BOOL configured = [self configureWithAppSecret:appSecret
+                           transmissionTargetToken:transmissionTargetToken
+                                   fromApplication:fromApplication];
     if (configured && services) {
       NSArray *sortedServices = [self sortServices:services];
       MSLogVerbose([MSAppCenter logTag], @"Start services %@ from %@", [sortedServices componentsJoinedByString:@", "],

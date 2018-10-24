@@ -414,14 +414,15 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
                     // Failure can deliver non-JSON format of payload.
                     if (!jsonError) {
-                      NSData *jsonData =
-                          [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&jsonError];
+                      NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictionary
+                                                                         options:NSJSONWritingPrettyPrinted
+                                                                           error:&jsonError];
                       if (jsonData && !jsonError) {
 
                         // NSJSONSerialization escapes paths by default so we replace them.
-                        jsonString = [[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]
-                            stringByReplacingOccurrencesOfString:@"\\/"
-                                                      withString:@"/"];
+                        jsonString = [[[NSString alloc] initWithData:jsonData
+                                                            encoding:NSUTF8StringEncoding] stringByReplacingOccurrencesOfString:@"\\/"
+                                                                                                                     withString:@"/"];
                       }
                     }
                   }
@@ -765,8 +766,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   [MS_USER_DEFAULTS setObject:groupId forKey:kMSDownloadedDistributionGroupIdKey];
   [MS_USER_DEFAULTS setObject:releaseId forKey:kMSDownloadedReleaseIdKey];
   [MS_USER_DEFAULTS setObject:releaseHashes forKey:kMSDownloadedReleaseHashKey];
-  MSLogDebug([MSDistribute logTag], @"Stored downloaded release hash(es) (%@) and id (%@) for later "
-                                    @"reporting.",
+  MSLogDebug([MSDistribute logTag],
+             @"Stored downloaded release hash(es) (%@) and id (%@) for later "
+             @"reporting.",
              releaseHashes, releaseId);
 }
 
@@ -776,8 +778,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     return;
   }
   if ([lastDownloadedReleaseHashes rangeOfString:currentInstalledReleaseHash].location == NSNotFound) {
-    MSLogDebug([MSDistribute logTag], @"Stored release hash(es) (%@) doesn't match current installation hash (%@), "
-                                      @"probably downloaded but not installed yet, keep in store.",
+    MSLogDebug([MSDistribute logTag],
+               @"Stored release hash(es) (%@) doesn't match current installation hash (%@), "
+               @"probably downloaded but not installed yet, keep in store.",
                lastDownloadedReleaseHashes, currentInstalledReleaseHash);
     return;
   }
@@ -836,8 +839,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   if ((storedDistributionGroupId == nil) || ([updatedReleaseDistributionGroupId isEqualToString:storedDistributionGroupId] == NO)) {
 
     // Set group ID from downloaded release details if an updated release was downloaded from another distribution group.
-    MSLogDebug([MSDistribute logTag], @"Stored group ID doesn't match the group ID of the updated "
-                                      @"release, updating group id: %@",
+    MSLogDebug([MSDistribute logTag],
+               @"Stored group ID doesn't match the group ID of the updated "
+               @"release, updating group id: %@",
                updatedReleaseDistributionGroupId);
     [MS_USER_DEFAULTS setObject:updatedReleaseDistributionGroupId forKey:kMSDistributionGroupIdKey];
   }
@@ -850,7 +854,6 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
   // Displaying alert dialog. Running on main thread.
   dispatch_async(dispatch_get_main_queue(), ^{
-
     // Init the alert controller.
     NSString *messageFormat = details.mandatoryUpdate ? MSDistributeLocalizedString(@"MSDistributeAppUpdateAvailableMandatoryUpdateMessage")
                                                       : MSDistributeLocalizedString(@"MSDistributeAppUpdateAvailableOptionalUpdateMessage");
@@ -945,8 +948,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
                                * Add a flag to the install url to indicate that the update setup failed, to show a help page
                                */
                               NSURLComponents *components = [[NSURLComponents alloc] initWithURL:installUrl resolvingAgainstBaseURL:NO];
-                              NSURLQueryItem *newQueryItem =
-                                  [[NSURLQueryItem alloc] initWithName:kMSURLQueryUpdateSetupFailedKey value:@"true"];
+                              NSURLQueryItem *newQueryItem = [[NSURLQueryItem alloc] initWithName:kMSURLQueryUpdateSetupFailedKey
+                                                                                            value:@"true"];
                               NSMutableArray *newQueryItems = [NSMutableArray arrayWithCapacity:[components.queryItems count] + 1];
                               for (NSURLQueryItem *qi in components.queryItems) {
                                 if (![qi.name isEqual:newQueryItem.name]) {
@@ -970,8 +973,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 }
 
 - (void)startDownload:(nullable MSReleaseDetails *)details {
-  [MSUtility sharedAppOpenUrl:details.installUrl
-      options:@{}
+  [MSUtility
+       sharedAppOpenUrl:details.installUrl
+                options:@{}
       completionHandler:^(MSOpenURLState state) {
         switch (state) {
         case MSOpenURLStateSucceed:

@@ -90,7 +90,7 @@
 
 #pragma mark - Managing queue
 
-- (void)enqueueItem:(id <MSLog>)item critical:(BOOL)critical {
+- (void)enqueueItem:(id<MSLog>)item critical:(BOOL)critical {
 
   /*
    * Set common log info.

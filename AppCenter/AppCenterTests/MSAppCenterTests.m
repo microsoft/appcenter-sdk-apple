@@ -678,7 +678,6 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   // When
   [MSAppCenter setMaxStorageSize:dbSize
                completionHandler:^(BOOL success) {
-
                  // Then
                  XCTAssertFalse(success);
                }];
@@ -709,7 +708,6 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   // When
   [MSAppCenter setMaxStorageSize:10
                completionHandler:^(BOOL success) {
-
                  // Then
                  XCTAssertFalse(success);
                  [expectation fulfill];

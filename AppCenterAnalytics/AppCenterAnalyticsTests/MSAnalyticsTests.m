@@ -1,4 +1,3 @@
-#import <OCMock/OCMock.h>
 #import "MSAnalytics+Validation.h"
 #import "MSAnalyticsCategory.h"
 #import "MSAnalyticsPrivate.h"
@@ -19,6 +18,7 @@
 #import "MSSessionTrackerPrivate.h"
 #import "MSStringTypedProperty.h"
 #import "MSTestFrameworks.h"
+#import <OCMock/OCMock.h>
 
 static NSString *const kMSTypeEvent = @"event";
 static NSString *const kMSTypePage = @"page";
@@ -181,7 +181,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   OCMReject([delegateMock analytics:[MSAnalytics sharedInstance] didFailSendingEventLog:eventLog withError:nil]);
   [MSAppCenter sharedInstance].sdkConfigured = NO;
   [MSAppCenter sharedInstance].configuredFromApplication = NO;
-  [MSAppCenter start:kMSTestAppSecret withServices:@[ [MSAnalytics class] ]];
+  [MSAppCenter start:kMSTestAppSecret withServices:@ [[MSAnalytics class]]];
   MSChannelUnitDefault *channelMock = OCMPartialMock([MSAnalytics sharedInstance].channelUnit);
   [MSAnalytics sharedInstance].channelUnit = channelMock;
   OCMStub([channelMock enqueueItem:OCMOCK_ANY critical:NO]).andDo(^(NSInvocation *invocation) {
@@ -210,7 +210,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   id<MSAnalyticsDelegate> delegateMock = OCMProtocolMock(@protocol(MSAnalyticsDelegate));
   [MSAppCenter sharedInstance].sdkConfigured = NO;
   [MSAppCenter sharedInstance].configuredFromApplication = NO;
-  [MSAppCenter start:kMSTestAppSecret withServices:@[ [MSAnalytics class] ]];
+  [MSAppCenter start:kMSTestAppSecret withServices:@ [[MSAnalytics class]]];
   MSChannelUnitDefault *channelMock = OCMPartialMock([MSAnalytics sharedInstance].channelUnit);
   [MSAnalytics sharedInstance].channelUnit = channelMock;
   OCMStub([channelMock enqueueItem:OCMOCK_ANY critical:NO]).andDo(^(NSInvocation *invocation) {
@@ -241,7 +241,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   // If
   MSEventLog *eventLog = [MSEventLog new];
   eventLog.name = @"test";
-  eventLog.properties = @{ @"test" : @"test" };
+  eventLog.properties = @{@"test" : @"test"};
   MSPageLog *pageLog = [MSPageLog new];
   MSLogWithNameAndProperties *analyticsLog = [MSLogWithNameAndProperties new];
   id analyticsMock = OCMPartialMock([MSAnalytics sharedInstance]);
@@ -440,7 +440,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   __block NSString *name;
   __block MSEventProperties *eventProperties;
   NSString *expectedName = @"gotACoffee";
-  NSDictionary *expectedProperties = @{ @"milk" : @"yes", @"cookie" : @"of course" };
+  NSDictionary *expectedProperties = @{@"milk" : @"yes", @"cookie" : @"of course"};
   id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
   OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
@@ -465,7 +465,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   assertThat(name, is(expectedName));
   for (MSTypedProperty *typedProperty in [eventProperties.properties objectEnumerator]) {
     assertThat(typedProperty, isA([MSStringTypedProperty class]));
-    MSStringTypedProperty *stringTypedProperty = (MSStringTypedProperty*)typedProperty;
+    MSStringTypedProperty *stringTypedProperty = (MSStringTypedProperty *)typedProperty;
     assertThat(stringTypedProperty.value, equalTo(expectedProperties[stringTypedProperty.name]));
   }
   XCTAssertEqual([expectedProperties count], [eventProperties.properties count]);
@@ -572,7 +572,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   __block NSString *name;
   __block NSDictionary<NSString *, NSString *> *properties;
   NSString *expectedName = @"HomeSweetHome";
-  NSDictionary *expectedProperties = @{ @"Sofa" : @"yes", @"TV" : @"of course" };
+  NSDictionary *expectedProperties = @{@"Sofa" : @"yes", @"TV" : @"of course"};
   id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
   OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
@@ -890,13 +890,13 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [MSAppCenter resetSharedInstance];
 
   // When
-  [MSAppCenter startFromLibraryWithServices:@[ [MSAnalytics class] ]];
+  [MSAppCenter startFromLibraryWithServices:@ [[MSAnalytics class]]];
 
   // Then
   XCTAssertFalse([MSAnalytics sharedInstance].sessionTracker.started);
 
   // When
-  [MSAppCenter start:MS_UUID_STRING withServices:@[ [MSAnalytics class] ]];
+  [MSAppCenter start:MS_UUID_STRING withServices:@ [[MSAnalytics class]]];
 
   // Then
   XCTAssertTrue([MSAnalytics sharedInstance].sessionTracker.started);
@@ -941,7 +941,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 - (void)testRemoveInvalidPropertiesWithEmptyValue {
 
   // If
-  NSDictionary *emptyValueProperties = @{ @"aValidKey" : @"" };
+  NSDictionary *emptyValueProperties = @{@"aValidKey" : @""};
 
   // When
   NSDictionary *result = [[MSAnalytics sharedInstance] removeInvalidProperties:emptyValueProperties];
@@ -954,7 +954,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 - (void)testRemoveInvalidPropertiesWithEmptyKey {
 
   // If
-  NSDictionary *emptyKeyProperties = @{ @"" : @"aValidValue" };
+  NSDictionary *emptyKeyProperties = @{@"" : @"aValidValue"};
 
   // When
   NSDictionary *result = [[MSAnalytics sharedInstance] removeInvalidProperties:emptyKeyProperties];
@@ -966,7 +966,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 - (void)testremoveInvalidPropertiesWithNonStringKey {
 
   // If
-  NSDictionary *numberAsKeyProperties = @{ @(42) : @"aValidValue" };
+  NSDictionary *numberAsKeyProperties = @{@(42) : @"aValidValue"};
 
   // When
   NSDictionary *result = [[MSAnalytics sharedInstance] removeInvalidProperties:numberAsKeyProperties];
@@ -978,7 +978,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 - (void)testValidateLogDataWithNonStringValue {
 
   // If
-  NSDictionary *numberAsValueProperties = @{ @"aValidKey" : @(42) };
+  NSDictionary *numberAsValueProperties = @{@"aValidKey" : @(42)};
 
   // When
   NSDictionary *result = [[MSAnalytics sharedInstance] removeInvalidProperties:numberAsValueProperties];
@@ -990,7 +990,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 - (void)testValidateLogDataWithCorrectNestedProperties {
 
   // If
-  NSDictionary *correctlyNestedProperties = @{ @"aValidKey1" : @"aValidValue1", @"aValidKey2.aValidKey2" : @"aValidValue3" };
+  NSDictionary *correctlyNestedProperties = @{@"aValidKey1" : @"aValidValue1", @"aValidKey2.aValidKey2" : @"aValidValue3"};
 
   // When
   NSDictionary *result = [[MSAnalytics sharedInstance] removeInvalidProperties:correctlyNestedProperties];
@@ -1022,7 +1022,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 - (void)testDictionaryContainsInvalidPropertiesKey {
 
   // If
-  NSDictionary *incorrectNestedProperties = @{ @1 : @"aValidValue1", @"aValidKey2" : @"aValidValue2" };
+  NSDictionary *incorrectNestedProperties = @{@1 : @"aValidValue1", @"aValidKey2" : @"aValidValue2"};
 
   // When
   NSDictionary *result = [[MSAnalytics sharedInstance] removeInvalidProperties:incorrectNestedProperties];
@@ -1033,7 +1033,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 }
 
 - (void)testDictionaryContainsValidNestedProperties {
-  NSDictionary *properties = @{ @"aValidKey2" : @"aValidValue1", @"aValidKey1.avalidKey2" : @"aValidValue1" };
+  NSDictionary *properties = @{@"aValidKey2" : @"aValidValue1", @"aValidKey1.avalidKey2" : @"aValidValue1"};
   // When
   NSDictionary *result = [[MSAnalytics sharedInstance] removeInvalidProperties:properties];
 

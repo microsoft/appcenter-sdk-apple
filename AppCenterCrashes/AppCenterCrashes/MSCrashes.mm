@@ -2,12 +2,12 @@
 #import "MSAppleErrorLog.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
+#import "MSCrashHandlerSetupDelegate.h"
 #import "MSCrashesCXXExceptionWrapperException.h"
 #import "MSCrashesDelegate.h"
 #import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
 #import "MSCrashesUtil.h"
-#import "MSCrashHandlerSetupDelegate.h"
 #import "MSEncrypter.h"
 #import "MSErrorAttachmentLog.h"
 #import "MSErrorAttachmentLogInternal.h"
@@ -16,8 +16,8 @@
 #import "MSServiceAbstractProtected.h"
 #import "MSSessionContext.h"
 #import "MSUtility+File.h"
-#import "MSWrapperExceptionManagerInternal.h"
 #import "MSWrapperCrashesHelper.h"
+#import "MSWrapperExceptionManagerInternal.h"
 
 /**
  * Service name for initialization.
@@ -748,8 +748,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                                                                                          pendingBatchesLimit:1]];
 
   // Iterate over each file in it with the kMSLogBufferFileExtension and send the log if a log can be deserialized.
-  NSArray<NSURL *> *files =
-      [MSUtility contentsOfDirectory:[NSString stringWithFormat:@"%@", self.logBufferPathComponent] propertiesForKeys:nil];
+  NSArray<NSURL *> *files = [MSUtility contentsOfDirectory:[NSString stringWithFormat:@"%@", self.logBufferPathComponent]
+                                         propertiesForKeys:nil];
   for (NSURL *fileURL in files) {
     if ([[fileURL pathExtension] isEqualToString:kMSLogBufferFileExtension]) {
       NSData *serializedLog = [NSData dataWithContentsOfURL:fileURL];
@@ -758,8 +758,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
         if (item) {
 
           // Try to set target token.
-          NSString *targetTokenFilePath =
-              [fileURL.path stringByReplacingOccurrencesOfString:kMSLogBufferFileExtension withString:kMSTargetTokenFileExtension];
+          NSString *targetTokenFilePath = [fileURL.path stringByReplacingOccurrencesOfString:kMSLogBufferFileExtension
+                                                                                  withString:kMSTargetTokenFileExtension];
           NSURL *targetTokenFileURL = [NSURL fileURLWithPath:targetTokenFilePath];
           NSString *targetToken = [NSString stringWithContentsOfURL:targetTokenFileURL encoding:NSUTF8StringEncoding error:nil];
           if (targetToken != nil) {
@@ -932,8 +932,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 }
 
 - (void)createAnalyzerFile {
-  NSURL *analyzerURL =
-      [MSUtility createFileAtPathComponent:self.analyzerInProgressFilePathComponent withData:nil atomically:NO forceOverwrite:NO];
+  NSURL *analyzerURL = [MSUtility createFileAtPathComponent:self.analyzerInProgressFilePathComponent
+                                                   withData:nil
+                                                 atomically:NO
+                                             forceOverwrite:NO];
   if (!analyzerURL) {
     MSLogError([MSCrashes logTag], @"Couldn't create crash analyzer file.");
   }
@@ -975,8 +977,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       msCrashesLogBuffer[i] = MSCrashesBufferedLog(path, nil);
 
       // Save target token path as well to avoid memory allocation when saving.
-      NSString *targetTokenPath =
-          [path stringByReplacingOccurrencesOfString:kMSLogBufferFileExtension withString:kMSTargetTokenFileExtension];
+      NSString *targetTokenPath = [path stringByReplacingOccurrencesOfString:kMSLogBufferFileExtension
+                                                                  withString:kMSTargetTokenFileExtension];
       msCrashesLogBuffer[i].targetTokenPath = targetTokenPath.UTF8String;
     }
   }
@@ -1161,8 +1163,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   if (properties && properties.count > 0) {
 
     // Send only valid properties.
-    log.properties =
-        [MSUtility validateProperties:properties forLogName:[NSString stringWithFormat:@"ErrorLog: %@", log.errorId] type:log.type];
+    log.properties = [MSUtility validateProperties:properties
+                                        forLogName:[NSString stringWithFormat:@"ErrorLog: %@", log.errorId]
+                                              type:log.type];
   }
 
   // Enqueue log.

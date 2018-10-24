@@ -54,7 +54,6 @@ static MSDummyService2 *sharedInstanceService2 = nil;
   id mockLog = OCMPartialMock([MSAbstractLog new]);
   OCMStub([mockLog isValid]).andReturn(YES);
   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-
     // Log enqueued from background thread (i.e. crash logs).
     [self.channelUnit enqueueItem:mockLog critical:NO];
   });
@@ -98,9 +97,8 @@ static MSDummyService2 *sharedInstanceService2 = nil;
 
   // When
   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-
     // Start the SDK with interlocking sensible services.
-    [MSAppCenter start:@"AppSecret" withServices:@[ [MSDummyService1 class], [MSDummyService2 class] ]];
+    [MSAppCenter start:@"AppSecret" withServices:@ [[MSDummyService1 class], [MSDummyService2 class]]];
     [expectation fulfill];
   });
 

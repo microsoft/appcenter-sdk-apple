@@ -1,4 +1,3 @@
-#import <OCMock/OCMock.h>
 #import "MSCSData.h"
 #import "MSCSExtensions.h"
 #import "MSChannelGroupProtocol.h"
@@ -13,6 +12,7 @@
 #import "MSSDKExtension.h"
 #import "MSStorage.h"
 #import "MSTestFrameworks.h"
+#import <OCMock/OCMock.h>
 
 static NSString *const kMSBaseGroupId = @"baseGroupId";
 static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
@@ -268,7 +268,7 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
   OCMStub([mockLog toCommonSchemaLogs]).andReturn(@[ commonSchemaLog ]);
   OCMStub(mockLog.transmissionTargetTokens).andReturn(transmissionTargetTokens);
   dispatch_semaphore_t sem = dispatch_semaphore_create(0);
-  
+
   /*
    * Make sure that the common schema log is enqueued synchronously by putting a task on the log queue that won't return
    * by the time verify is called.
