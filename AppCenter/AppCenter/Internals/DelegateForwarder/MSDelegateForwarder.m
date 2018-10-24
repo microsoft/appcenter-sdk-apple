@@ -17,6 +17,7 @@ static NSString *const kMSReturnedValueSelectorPart = @"returnedValue:";
     _selectorsToSwizzle = [NSMutableSet new];
     _originalImplementations = [NSMutableDictionary new];
     _traceBuffer = [NSMutableArray new];
+    _enabled = YES;
   }
   return self;
 }
@@ -35,7 +36,6 @@ static NSString *const kMSReturnedValueSelectorPart = @"returnedValue:";
 
 #pragma mark - Custom Application
 
-// TODO Test see if swizzling selects subclass implementation or this one.
 /**
  * Custom implementation of the setDelegate: method.
  *
@@ -82,24 +82,6 @@ static NSString *const kMSReturnedValueSelectorPart = @"returnedValue:";
 
 #pragma mark - Swizzling
 
-- (void)swizzleOriginalDelegate:(NSObject *)originalDelegate {
-  IMP originalImp = NULL;
-  Class delegateClass = [originalDelegate class];
-  SEL originalSelector, customSelector;
-
-  // Swizzle all registered selectors.
-  for (NSString *selectorString in self.selectorsToSwizzle) {
-    originalSelector = NSSelectorFromString(selectorString);
-    customSelector = NSSelectorFromString([kMSCustomSelectorPrefix stringByAppendingString:selectorString]);
-    originalImp = [self swizzleOriginalSelector:originalSelector withCustomSelector:customSelector originalClass:delegateClass];
-    if (originalImp) {
-
-      // Save the original implementation for later use.
-      self.originalImplementations[selectorString] = [NSValue valueWithBytes:&originalImp objCType:@encode(IMP)];
-    }
-  }
-  [self.selectorsToSwizzle removeAllObjects];
-}
 - (void)addAppDelegateSelectorToSwizzle:(SEL)selector {
   if (self.enabled) {
 
@@ -117,6 +99,25 @@ static NSString *const kMSReturnedValueSelectorPart = @"returnedValue:";
      */
     [self.selectorsToSwizzle addObject:NSStringFromSelector(selector)];
   }
+}
+
+- (void)swizzleOriginalDelegate:(NSObject *)originalDelegate {
+  IMP originalImp = NULL;
+  Class delegateClass = [originalDelegate class];
+  SEL originalSelector, customSelector;
+
+  // Swizzle all registered selectors.
+  for (NSString *selectorString in self.selectorsToSwizzle) {
+    originalSelector = NSSelectorFromString(selectorString);
+    customSelector = NSSelectorFromString([kMSCustomSelectorPrefix stringByAppendingString:selectorString]);
+    originalImp = [self swizzleOriginalSelector:originalSelector withCustomSelector:customSelector originalClass:delegateClass];
+    if (originalImp) {
+
+      // Save the original implementation for later use.
+      self.originalImplementations[selectorString] = [NSValue valueWithBytes:&originalImp objCType:@encode(IMP)];
+    }
+  }
+  [self.selectorsToSwizzle removeAllObjects];
 }
 
 - (IMP)swizzleOriginalSelector:(SEL)originalSelector withCustomSelector:(SEL)customSelector originalClass:(Class)originalClass {
@@ -157,7 +158,6 @@ static NSString *const kMSReturnedValueSelectorPart = @"returnedValue:";
          * The original class may not implement the selector (e.g.: optional method from protocol), add the method to the original class and
          * associate it with the custom implementation.
          */
-        // TODO see what's [self class] is returning here.
         Method customMethod = class_getInstanceMethod([self class], customSelector);
         methodAdded = class_addMethod(originalClass, originalSelector, customImp, method_getTypeEncoding(customMethod));
       }
@@ -249,27 +249,13 @@ static NSString *const kMSReturnedValueSelectorPart = @"returnedValue:";
 
 #pragma mark - Other
 
-- (BOOL)enabled {
-  @synchronized(self) {
-    return self.enabled;
-  }
-}
-
 - (void)setEnabled:(BOOL)enabled {
   @synchronized(self) {
-    self.enabled = enabled;
+    _enabled = enabled;
     if (!enabled) {
       [self.delegates removeAllObjects];
     }
   }
-}
-
-#pragma mark - Testing
-
-- (void)reset {
-  [self.delegates removeAllObjects];
-  [self.originalImplementations removeAllObjects];
-  [self.selectorsToSwizzle removeAllObjects];
 }
 
 @end
