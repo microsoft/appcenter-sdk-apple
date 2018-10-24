@@ -1,9 +1,9 @@
+#import "MSChannelUnitDefault.h"
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterIngestion.h"
 #import "MSAppCenterInternal.h"
 #import "MSChannelUnitConfiguration.h"
-#import "MSChannelUnitDefault.h"
 #import "MSChannelUnitDefaultPrivate.h"
 #import "MSDeviceTracker.h"
 #import "MSIngestionProtocol.h"
@@ -125,7 +125,6 @@
 
   // Return fast in case our item is empty or we are discarding logs right now.
   dispatch_async(self.logsDispatchQueue, ^{
-
     // Use separate autorelease pool for enqueuing logs.
     @autoreleasepool {
 
@@ -169,7 +168,7 @@
       MSLogDebug([MSAppCenter logTag], @"Saving log, type: %@.", item.type);
 
       // TODO: use correct priority for the log.
-      [self.storage saveLog:item withGroupId:self.configuration.groupId persistencePriority:@"DEFAULT"];
+      [self.storage saveLog:item withGroupId:self.configuration.groupId critical:NO];
       self.itemsCount += 1;
       [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:withInternalId:)
                                 withBlock:^(id<MSChannelDelegate> delegate) {
@@ -220,7 +219,6 @@
                     limit:self.configuration.batchSizeLimit
        excludedTargetKeys:[self.pausedTargetKeys allObjects]
         completionHandler:^(NSArray<MSLog> *_Nonnull logArray, NSString *batchId) {
-
           // Logs may be deleted from storage before this flush.
           if (batchId.length > 0) {
             [self.pendingBatchIds addObject:batchId];

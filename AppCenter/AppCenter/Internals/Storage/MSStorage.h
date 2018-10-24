@@ -25,11 +25,11 @@ typedef void (^MSLoadDataCompletionHandler)(NSArray<id<MSLog>> *_Nullable logArr
  *
  * @param log The log to be stored.
  * @param groupId The key used for grouping logs.
- * @param priority The priority that is used for persisting logs.
+ * @param critical A flag that indicates if the log has critical persistence priority.
  *
  * @return BOOL that indicates if the log was saved successfully.
  */
-- (BOOL)saveLog:(id <MSLog>)log withGroupId:(NSString *)groupId persistencePriority:(NSString *)priority;
+- (BOOL)saveLog:(id<MSLog>)log withGroupId:(NSString *)groupId critical:(BOOL)critical;
 
 /**
  * Get the number of logs stored in the storage.
