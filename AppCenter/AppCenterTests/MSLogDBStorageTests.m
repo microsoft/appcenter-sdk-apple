@@ -140,31 +140,31 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   MSCommonSchemaLog *log1 = [MSCommonSchemaLog new];
   [log1 addTransmissionTargetToken:@"1-t"];
   log1.iKey = @"o:1";
-  [self.sut saveLog:log1 withGroupId:kMSTestGroupId];
+  [self.sut saveLog:log1 withGroupId:kMSTestGroupId persistencePriority:nil];
 
   // Key: 2, group: A.
   MSCommonSchemaLog *log2 = [MSCommonSchemaLog new];
   [log2 addTransmissionTargetToken:@"2-t"];
   log2.iKey = @"o:2";
-  [self.sut saveLog:log2 withGroupId:kMSTestGroupId];
+  [self.sut saveLog:log2 withGroupId:kMSTestGroupId persistencePriority:nil];
 
   // Key: 2, group: B.
   MSCommonSchemaLog *log3 = [MSCommonSchemaLog new];
   [log3 addTransmissionTargetToken:@"2-t"];
   log3.iKey = @"o:2";
-  [self.sut saveLog:log3 withGroupId:kMSAnotherTestGroupId];
+  [self.sut saveLog:log3 withGroupId:kMSAnotherTestGroupId persistencePriority:nil];
 
   // Key: 1, group: A.
   MSCommonSchemaLog *log4 = [MSCommonSchemaLog new];
   [log4 addTransmissionTargetToken:@"1-t"];
   log4.iKey = @"o:1";
-  [self.sut saveLog:log4 withGroupId:kMSTestGroupId];
+  [self.sut saveLog:log4 withGroupId:kMSTestGroupId persistencePriority:nil];
 
   // Key: 2, group: A.
   MSCommonSchemaLog *log5 = [MSCommonSchemaLog new];
   [log5 addTransmissionTargetToken:@"2-t"];
   log5.iKey = @"o:2";
-  [self.sut saveLog:log5 withGroupId:kMSTestGroupId];
+  [self.sut saveLog:log5 withGroupId:kMSTestGroupId persistencePriority:nil];
 
   // When
   [self.sut loadLogsWithGroupId:kMSTestGroupId
@@ -212,7 +212,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
       NSString *targetToken = [targetKey stringByAppendingString:@"-secret"];
       [log addTransmissionTargetToken:targetToken];
     }
-    [self.sut saveLog:log withGroupId:kMSTestGroupId];
+    [self.sut saveLog:log withGroupId:kMSTestGroupId persistencePriority:nil];
   }
 
   // Then
@@ -237,7 +237,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
       [log addTransmissionTargetToken:targetToken];
       log.iKey = targetKey;
     }
-    [self.sut saveLog:log withGroupId:kMSTestGroupId];
+    [self.sut saveLog:log withGroupId:kMSTestGroupId persistencePriority:nil];
   }
 
   // Then
@@ -487,7 +487,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   [log addTransmissionTargetToken:testTargetToken];
 
   // When
-  [self.sut saveLog:log withGroupId:kMSTestGroupId];
+  [self.sut saveLog:log withGroupId:kMSTestGroupId persistencePriority:nil];
 
   // Then
   [self.sut loadLogsWithGroupId:kMSTestGroupId
@@ -509,7 +509,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   [log addTransmissionTargetToken:testTargetToken];
 
   // When
-  [self.sut saveLog:log withGroupId:kMSTestGroupId];
+  [self.sut saveLog:log withGroupId:kMSTestGroupId persistencePriority:nil];
 
   // Then
   [self.sut loadLogsWithGroupId:kMSTestGroupId
@@ -549,7 +549,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
             }];
 
   // Then
-  BOOL logSavedSuccessfully = [self.sut saveLog:additionalLog withGroupId:kMSAnotherTestGroupId];
+  BOOL logSavedSuccessfully = [self.sut saveLog:additionalLog withGroupId:kMSAnotherTestGroupId persistencePriority:nil];
 
   // Then
   XCTAssertTrue(logSavedSuccessfully);
@@ -575,7 +575,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   while (additionalLogs <= 50) {
     MSAbstractLog *additionalLog = [MSAbstractLog new];
     additionalLog.sid = MS_UUID_STRING;
-    BOOL logSavedSuccessfully = [self.sut saveLog:additionalLog withGroupId:kMSTestGroupId];
+    BOOL logSavedSuccessfully = [self.sut saveLog:additionalLog withGroupId:kMSTestGroupId persistencePriority:nil];
     ++additionalLogs;
 
     // Then
@@ -600,7 +600,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   while (originalLogsCount < initialLogCount) {
     MSAbstractLog *additionalLog = [MSAbstractLog new];
     additionalLog.sid = MS_UUID_STRING;
-    BOOL logSavedSuccessfully = [self.sut saveLog:additionalLog withGroupId:kMSAnotherTestGroupId];
+    BOOL logSavedSuccessfully = [self.sut saveLog:additionalLog withGroupId:kMSAnotherTestGroupId persistencePriority:nil];
     NSString *originalLogsFilter = [NSString stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, kMSTestGroupId];
     NSArray<id<MSLog>> *originalLogs = [self loadLogsWhere:originalLogsFilter];
     originalLogsCount = (int)[originalLogs count];
