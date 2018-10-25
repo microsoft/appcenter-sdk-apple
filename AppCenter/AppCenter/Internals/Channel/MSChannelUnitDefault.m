@@ -90,7 +90,7 @@
 
 #pragma mark - Managing queue
 
-- (void)enqueueItem:(id<MSLog>)item critical:(BOOL)critical {
+- (void)enqueueItem:(id <MSLog>)item flags:(MSFlags)flags {
 
   /*
    * Set common log info.
@@ -118,9 +118,9 @@
   NSString *internalLogId = MS_UUID_STRING;
 
   // Notify delegate about enqueuing as fast as possible on the current thread.
-  [self enumerateDelegatesForSelector:@selector(channel:didPrepareLog:withInternalId:)
+  [self enumerateDelegatesForSelector:@selector(channel:didPrepareLog:internalId:flags:)
                             withBlock:^(id<MSChannelDelegate> delegate) {
-                              [delegate channel:self didPrepareLog:item withInternalId:internalLogId];
+                              [delegate channel:self didPrepareLog:item internalId:internalLogId flags:MSFlagsNone];
                             }];
 
   // Return fast in case our item is empty or we are discarding logs right now.
@@ -166,6 +166,7 @@
 
       // Save the log first.
       MSLogDebug([MSAppCenter logTag], @"Saving log, type: %@.", item.type);
+      BOOL critical = flags & MSEventFlagsPersistenceCritical;
       [self.storage saveLog:item withGroupId:self.configuration.groupId critical:critical];
       self.itemsCount += 1;
       [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:withInternalId:)

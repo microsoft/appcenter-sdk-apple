@@ -409,7 +409,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
  * This means the Crashes module can't message any other module. All logic related to the buffer needs to happen before the crash and then,
  * at crash time, crashes has all info in place to save the buffer safely from the main thread (other threads are killed at crash time).
  */
-- (void)channel:(id<MSChannelProtocol>)__unused channel didPrepareLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
+- (void)channel:(id <MSChannelProtocol>)channel didPrepareLog:(id <MSLog>)log internalId:(NSString *)internalId flags:(MSFlags)flags {
 
   // Don't buffer event if log is empty, crashes module is disabled or the log is related to crash.
   NSObject *logObject = static_cast<NSObject *>(log);
@@ -772,7 +772,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
           // Buffered logs are used sending their own channel. It will never contain more than 50 logs.
           MSLogDebug([MSCrashes logTag], @"Re-enqueueing buffered log, type: %@.", item.type);
-          [self.bufferChannelUnit enqueueItem:item critical:NO];
+          [self.bufferChannelUnit enqueueItem:item flags:NO];
         }
       }
 
@@ -847,7 +847,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       MSLogError([MSCrashes logTag], @"Not all required fields are present in MSErrorAttachmentLog.");
       continue;
     }
-    [self.channelUnit enqueueItem:attachment critical:NO];
+    [self.channelUnit enqueueItem:attachment flags:NO];
     ++totalProcessedAttachments;
   }
   if (totalProcessedAttachments > kMaxAttachmentsPerCrashReport) {
@@ -1128,7 +1128,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     log.sid = [[MSSessionContext sharedInstance] sessionIdAt:log.timestamp];
 
     // Then, enqueue crash log.
-    [self.channelUnit enqueueItem:log critical:YES];
+    [self.channelUnit enqueueItem:log flags:YES];
 
     // Send error attachments.
     [self sendErrorAttachments:attachments withIncidentIdentifier:report.incidentIdentifier];
@@ -1169,7 +1169,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   }
 
   // Enqueue log.
-  [self.channelUnit enqueueItem:log critical:NO];
+  [self.channelUnit enqueueItem:log flags:NO];
 }
 
 @end

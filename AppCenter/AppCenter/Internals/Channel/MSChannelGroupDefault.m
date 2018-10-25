@@ -100,10 +100,10 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
                             }];
 }
 
-- (void)channel:(id<MSChannelProtocol>)channel didPrepareLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
-  [self enumerateDelegatesForSelector:@selector(channel:didPrepareLog:withInternalId:)
+- (void)channel:(id <MSChannelProtocol>)channel didPrepareLog:(id <MSLog>)log internalId:(NSString *)internalId flags:(MSFlags)flags {
+  [self enumerateDelegatesForSelector:@selector(channel:didPrepareLog:internalId:flags:)
                             withBlock:^(id<MSChannelDelegate> delegate) {
-                              [delegate channel:channel didPrepareLog:log withInternalId:internalId];
+                              [delegate channel:channel didPrepareLog:log internalId:internalId flags:MSFlagsNone];
                             }];
 }
 

@@ -248,7 +248,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 - (void)sendPushToken:(NSString *)token {
   MSPushLog *log = [MSPushLog new];
   log.pushToken = token;
-  [self.channelUnit enqueueItem:log critical:NO];
+  [self.channelUnit enqueueItem:log flags:NO];
 }
 
 #pragma mark - Register callbacks

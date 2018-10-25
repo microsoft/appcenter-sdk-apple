@@ -29,11 +29,12 @@
  *
  * @param log The log.
  * @param internalId An internal Id to keep track of logs.
+ * @param flags Options for the log.
  */
-- (void)channel:(id<MSChannelProtocol>)channel didPrepareLog:(id<MSLog>)log withInternalId:(NSString *)internalId;
+- (void)channel:(id <MSChannelProtocol>)channel didPrepareLog:(id <MSLog>)log internalId:(NSString *)internalId flags:(MSFlags)flags;
 
 /**
- * A callback that is called after a log completed the enqueueing process weither it was successfull or not.
+ * A callback that is called after a log completed the enqueueing process whether it was successful or not.
  *
  * @param log The log.
  * @param internalId An internal Id to keep track of logs.

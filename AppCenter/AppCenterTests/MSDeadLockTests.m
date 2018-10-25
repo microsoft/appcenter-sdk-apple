@@ -39,9 +39,7 @@ static MSDummyService2 *sharedInstanceService2 = nil;
   return @"service1";
 }
 
-- (void)channel:(id<MSChannelProtocol>)__unused channel
-     didPrepareLog:(id<MSLog>)__unused log
-    withInternalId:(NSString *)__unused internalId {
+- (void)channel:(id <MSChannelProtocol>)channel didPrepareLog:(id <MSLog>)log internalId:(NSString *)internalId flags:(MSFlags)flags {
 
   // Operation locking AC while in ChannelDelegate.
   NSUUID *__unused deviceId = [MSAppCenter installId];
@@ -55,7 +53,7 @@ static MSDummyService2 *sharedInstanceService2 = nil;
   OCMStub([mockLog isValid]).andReturn(YES);
   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     // Log enqueued from background thread (i.e. crash logs).
-    [self.channelUnit enqueueItem:mockLog critical:NO];
+    [self.channelUnit enqueueItem:mockLog flags:NO];
   });
 }
 

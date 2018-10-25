@@ -238,13 +238,13 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
 
   // When
   [self.sut channelGroup:channelGroupMock didAddChannelUnit:channelUnitMock];
-  [self.sut channel:channelUnitMock didPrepareLog:mockLog withInternalId:@"fake-id"];
+  [self.sut channel:channelUnitMock didPrepareLog:mockLog internalId:@"fake-id" flags:MSFlagsNone];
 
   // Then
   [self enqueueChannelEndJobExpectation];
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
-                                 OCMVerify([oneCollectorChannelUnitMock enqueueItem:commonSchemaLog critical:NO]);
+                                 OCMVerify([oneCollectorChannelUnitMock enqueueItem:commonSchemaLog flags:NO]);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
@@ -278,10 +278,10 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
 
   // When
   [self.sut channelGroup:channelGroupMock didAddChannelUnit:channelUnitMock];
-  [self.sut channel:channelUnitMock didPrepareLog:mockLog withInternalId:@"fake-id"];
+  [self.sut channel:channelUnitMock didPrepareLog:mockLog internalId:@"fake-id" flags:MSFlagsNone];
 
   // Then
-  OCMVerify([oneCollectorChannelUnitMock enqueueItem:commonSchemaLog critical:NO]);
+  OCMVerify([oneCollectorChannelUnitMock enqueueItem:commonSchemaLog flags:NO]);
   dispatch_semaphore_signal(sem);
 }
 
@@ -300,11 +300,11 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
   OCMStub(mockLog.transmissionTargetTokens).andReturn(transmissionTargetTokens);
 
   // Then
-  OCMReject([oneCollectorChannelUnitMock enqueueItem:commonSchemaLog critical:NO]);
+  OCMReject([oneCollectorChannelUnitMock enqueueItem:commonSchemaLog flags:NO]);
 
   // When
   [self.sut channelGroup:channelGroupMock didAddChannelUnit:channelUnitMock];
-  [self.sut channel:channelUnitMock didPrepareLog:mockLog withInternalId:@"fake-id"];
+  [self.sut channel:channelUnitMock didPrepareLog:mockLog internalId:@"fake-id" flags:MSFlagsNone];
 }
 
 - (void)testReEnqueueLogWhenCommonSchemaLogIsPrepared {
@@ -323,13 +323,13 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
 
   // When
   [self.sut channelGroup:channelGroupMock didAddChannelUnit:channelUnitMock];
-  [self.sut channel:channelUnitMock didPrepareLog:commonSchemaLog withInternalId:@"fake-id"];
+  [self.sut channel:channelUnitMock didPrepareLog:commonSchemaLog internalId:@"fake-id" flags:MSFlagsNone];
 
   // Then
   [self enqueueChannelEndJobExpectation];
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
-                                 OCMVerify([oneCollectorChannelUnitMock enqueueItem:commonSchemaLog critical:NO]);
+                                 OCMVerify([oneCollectorChannelUnitMock enqueueItem:commonSchemaLog flags:NO]);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
@@ -351,11 +351,11 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
   OCMStub([mockLog isKindOfClass:[MSCommonSchemaLog class]]).andReturn(NO);
 
   // Then
-  OCMReject([oneCollectorChannelUnitMock enqueueItem:OCMOCK_ANY critical:NO]);
+  OCMReject([oneCollectorChannelUnitMock enqueueItem:OCMOCK_ANY flags:NO]);
 
   // When
   [self.sut channelGroup:channelGroupMock didAddChannelUnit:channelUnitMock];
-  [self.sut channel:channelUnitMock didPrepareLog:mockLog withInternalId:@"fake-id"];
+  [self.sut channel:channelUnitMock didPrepareLog:mockLog internalId:@"fake-id" flags:MSFlagsNone];
 }
 
 - (void)testDidNotEnqueueLogWhenLogHasNilTargetTokens {
@@ -372,11 +372,11 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
   OCMStub([mockLog toCommonSchemaLogsWithFlags:0]).andReturn(@ [[MSCommonSchemaLog new]]);
 
   // Then
-  OCMReject([oneCollectorChannelUnitMock enqueueItem:OCMOCK_ANY critical:NO]);
+  OCMReject([oneCollectorChannelUnitMock enqueueItem:OCMOCK_ANY flags:NO]);
 
   // When
   [self.sut channelGroup:channelGroupMock didAddChannelUnit:channelUnitMock];
-  [self.sut channel:channelUnitMock didPrepareLog:mockLog withInternalId:@"fake-id"];
+  [self.sut channel:channelUnitMock didPrepareLog:mockLog internalId:@"fake-id" flags:MSFlagsNone];
 }
 
 - (void)testDoesNotFilterValidCommonSchemaLogs {

@@ -353,7 +353,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 - (void)sendLog:(id<MSLog>)log {
 
   // Send log to log manager.
-  [self.channelUnit enqueueItem:log critical:NO];
+  [self.channelUnit enqueueItem:log flags:NO];
 }
 
 - (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:(NSString *)transmissionTargetToken {
