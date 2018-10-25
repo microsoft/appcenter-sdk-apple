@@ -340,7 +340,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                }];
 }
 
-
 - (void)testQueueFlushedAfterBatchSizeReached {
 
   // If
