@@ -29,7 +29,7 @@
 @property(nonatomic) NSDictionary<NSString *, NSString *> *deprecatedSelectors;
 
 /**
- * Returns the singleton instance of MSAppDelegateForwarder.
+ * Returns the singleton instance of MSDelegateForwarder.
  */
 + (instancetype)sharedInstance;
 
