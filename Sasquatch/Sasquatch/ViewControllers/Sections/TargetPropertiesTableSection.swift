@@ -73,15 +73,15 @@ class TargetPropertiesTableSection : PropertiesTableSection {
   func setEventPropertyState(_ state: PropertyState, forTarget target: MSAnalyticsTransmissionTarget) {
     switch state.type {
     case .String:
-      target.propertyConfigurator.setEventPropertyString(state.value as! String, forKey: state.key)
+      target.propertyConfigurator.setEventProperty(state.value as! String, forKey: state.key)
     case .Boolean:
-      target.propertyConfigurator.setEventPropertyBool(state.value as! Bool, forKey: state.key)
+      target.propertyConfigurator.setEventProperty(state.value as! Bool, forKey: state.key)
     case .Double:
-      target.propertyConfigurator.setEventPropertyDouble(state.value as! Double, forKey: state.key)
+      target.propertyConfigurator.setEventProperty(state.value as! Double, forKey: state.key)
     case .Long:
-      target.propertyConfigurator.setEventPropertyInt64(state.value as! Int64, forKey: state.key)
+      target.propertyConfigurator.setEventProperty(state.value as! Int64, forKey: state.key)
     case .DateTime:
-      target.propertyConfigurator.setEventPropertyDate(state.value as! Date, forKey: state.key)
+      target.propertyConfigurator.setEventProperty(state.value as! Date, forKey: state.key)
     }
   }
 

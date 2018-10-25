@@ -1,4 +1,5 @@
 #import "MSAnalyticsTransmissionTargetInternal.h"
+#import "MSAppExtension.h"
 #import "MSBooleanTypedProperty.h"
 #import "MSCSExtensions.h"
 #import "MSChannelGroupProtocol.h"
@@ -17,6 +18,7 @@
 @property(nonatomic) MSPropertyConfigurator *sut;
 @property(nonatomic) MSAnalyticsTransmissionTarget *transmissionTarget;
 @property(nonatomic) MSAnalyticsTransmissionTarget *parentTarget;
+@property(nonatomic) NSString *targetToken;
 
 @end
 
@@ -25,14 +27,16 @@
 - (void)setUp {
   [super setUp];
   id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  self.targetToken = @"123";
   self.parentTarget = OCMPartialMock([[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:@"456"
                                                                                                parentTarget:nil
                                                                                                channelGroup:channelGroupMock]);
-  self.transmissionTarget = OCMPartialMock([[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:@"123"
+  self.transmissionTarget = OCMPartialMock([[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:self.targetToken
                                                                                                      parentTarget:self.parentTarget
                                                                                                      channelGroup:channelGroupMock]);
   OCMStub([self.transmissionTarget isEnabled]).andReturn(YES);
   self.sut = [[MSPropertyConfigurator alloc] initWithTransmissionTarget:self.transmissionTarget];
+  OCMStub(self.transmissionTarget.propertyConfigurator).andReturn(self.sut);
 }
 
 - (void)tearDown {
@@ -60,6 +64,7 @@
   extensions.deviceExt = OCMPartialMock([MSDeviceExtension new]);
   MSCommonSchemaLog *mockLog = OCMPartialMock([MSCommonSchemaLog new]);
   mockLog.ext = extensions;
+  mockLog.tag = self.transmissionTarget;
   [mockLog addTransmissionTargetToken:self.transmissionTarget.transmissionTargetToken];
 
   // When
@@ -188,6 +193,27 @@
   XCTAssertEqual(((MSDoubleTypedProperty *)(self.sut.eventProperties.properties[propDoubleKey])).value, propDoubleValue);
   XCTAssertEqual(((MSLongTypedProperty *)(self.sut.eventProperties.properties[propInt64Key])).value, propInt64Value);
   XCTAssertEqual(((MSBooleanTypedProperty *)(self.sut.eventProperties.properties[propBoolKey])).value, propBoolValue);
+}
+
+- (void)testPropertiesAreNotAppliedToLogsOfDifferentTagWithSameToken {
+
+  // If
+  id<MSChannelProtocol> channelMock = OCMProtocolMock(@protocol(MSChannelProtocol));
+  MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
+  csLog.ext = [MSCSExtensions new];
+  csLog.ext.appExt = [MSAppExtension new];
+  [csLog addTransmissionTargetToken:self.targetToken];
+  [self.sut setAppLocale:@"en-US"];
+  [self.sut setAppVersion:@"1.0.0"];
+  [self.sut setAppName:@"tim"];
+
+  // When
+  [self.sut channel:channelMock prepareLog:csLog];
+
+  // Then
+  XCTAssertNil(csLog.ext.appExt.ver);
+  XCTAssertNil(csLog.ext.appExt.locale);
+  XCTAssertNil(csLog.ext.appExt.name);
 }
 
 @end

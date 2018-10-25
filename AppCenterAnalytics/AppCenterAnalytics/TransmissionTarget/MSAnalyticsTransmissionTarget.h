@@ -54,7 +54,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * - The full event size when encoded as a JSON string cannot be larger than 1.9MB.
  */
-- (void)trackEvent:(NSString *)eventName withTypedProperties:(nullable MSEventProperties *)properties;
+- (void)trackEvent:(NSString *)eventName
+    withTypedProperties:(nullable MSEventProperties *)properties NS_SWIFT_NAME(trackEvent(_:withProperties:));
 
 /**
  * Get a nested transmission target.

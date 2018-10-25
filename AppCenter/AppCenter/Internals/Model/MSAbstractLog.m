@@ -23,6 +23,7 @@
 @synthesize sid = _sid;
 @synthesize distributionGroupId = _distributionGroupId;
 @synthesize device = _device;
+@synthesize tag = _tag;
 
 - (instancetype)init {
   self = [super init];
@@ -61,7 +62,7 @@
     return NO;
   }
   MSAbstractLog *log = (MSAbstractLog *)object;
-  return ((!self.type && !log.type) || [self.type isEqualToString:log.type]) &&
+  return ((!self.tag && !log.tag) || [self.tag isEqual:log.tag]) && ((!self.type && !log.type) || [self.type isEqualToString:log.type]) &&
          ((!self.timestamp && !log.timestamp) || [self.timestamp isEqualToDate:log.timestamp]) &&
          ((!self.sid && !log.sid) || [self.sid isEqualToString:log.sid]) &&
          ((!self.distributionGroupId && !log.distributionGroupId) || [self.distributionGroupId isEqualToString:log.distributionGroupId]) &&
