@@ -128,7 +128,7 @@
 - (NSArray<MSCommonSchemaLog *> *)toCommonSchemaLogsWithFlags:(int64_t)flags {
   NSMutableArray<MSCommonSchemaLog *> *csLogs = [NSMutableArray new];
   for (NSString *token in self.transmissionTargetTokens) {
-    MSCommonSchemaLog *csLog = [self toCommonSchemaLogForTargetToken:token flags:flags];
+    MSCommonSchemaLog *csLog = [self toCommonSchemaLogForTargetToken:token flags:(MSFlags)flags];
     if (csLog) {
       [csLogs addObject:csLog];
     }

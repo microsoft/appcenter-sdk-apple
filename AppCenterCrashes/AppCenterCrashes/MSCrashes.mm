@@ -409,7 +409,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
  * This means the Crashes module can't message any other module. All logic related to the buffer needs to happen before the crash and then,
  * at crash time, crashes has all info in place to save the buffer safely from the main thread (other threads are killed at crash time).
  */
-- (void)channel:(id<MSChannelProtocol>)channel didPrepareLog:(id<MSLog>)log internalId:(NSString *)internalId flags:(MSFlags)flags {
+- (void)channel:(id<MSChannelProtocol>)__unused channel didPrepareLog:(id<MSLog>)log internalId:(NSString *)internalId flags:(MSFlags)__unused flags {
 
   // Don't buffer event if log is empty, crashes module is disabled or the log is related to crash.
   NSObject *logObject = static_cast<NSObject *>(log);
