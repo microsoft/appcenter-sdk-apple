@@ -45,11 +45,14 @@
 + (void)load {
 
   // Register selectors to swizzle for Push.
-  [[MSAppDelegateForwarder sharedInstance] addAppDelegateSelectorToSwizzle:@selector(application:didRegisterForRemoteNotificationsWithDeviceToken:)];
-  [[MSAppDelegateForwarder sharedInstance] addAppDelegateSelectorToSwizzle:@selector(application:didFailToRegisterForRemoteNotificationsWithError:)];
+  [[MSAppDelegateForwarder sharedInstance] addAppDelegateSelectorToSwizzle:@selector(application:
+                                                                               didRegisterForRemoteNotificationsWithDeviceToken:)];
+  [[MSAppDelegateForwarder sharedInstance] addAppDelegateSelectorToSwizzle:@selector(application:
+                                                                               didFailToRegisterForRemoteNotificationsWithError:)];
   [[MSAppDelegateForwarder sharedInstance] addAppDelegateSelectorToSwizzle:@selector(application:didReceiveRemoteNotification:)];
 #if !TARGET_OS_OSX
-  [[MSAppDelegateForwarder sharedInstance] addAppDelegateSelectorToSwizzle:@selector(application:didReceiveRemoteNotification:fetchCompletionHandler:)];
+  [[MSAppDelegateForwarder sharedInstance] addAppDelegateSelectorToSwizzle:@selector(application:
+                                                                               didReceiveRemoteNotification:fetchCompletionHandler:)];
 #endif
 }
 
