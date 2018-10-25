@@ -94,12 +94,7 @@ static const char deviceIdPrefix = 'i';
 
 - (void)channel:(id<MSChannelProtocol>)__unused channel prepareLog:(id<MSLog>)log {
   MSAnalyticsTransmissionTarget *target = self.transmissionTarget;
-  if (target && [log isKindOfClass:[MSCommonSchemaLog class]] && [target isEnabled]) {
-
-    // Only override properties for owned target.
-    if (![log.transmissionTargetTokens containsObject:target.transmissionTargetToken]) {
-      return;
-    }
+  if (target && [log isKindOfClass:[MSCommonSchemaLog class]] && [target isEnabled] && [log.tag isEqual:target]) {
 
     // Override the application version.
     while (target) {
