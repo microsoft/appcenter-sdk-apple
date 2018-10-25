@@ -133,7 +133,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // When
   dispatch_async(self.logsDispatchQueue, ^{
     // Enqueue now that the delegate is set.
-    [sut enqueueItem:enqueuedLog flags:NO];
+    [sut enqueueItem:enqueuedLog flags:MSFlagsNone];
 
     // Try to release one batch.
     dispatch_async(self.logsDispatchQueue, ^{
@@ -222,7 +222,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // When
   dispatch_async(self.logsDispatchQueue, ^{
     // Enqueue now that the delegate is set.
-    [sut enqueueItem:enqueuedLog flags:NO];
+    [sut enqueueItem:enqueuedLog flags:MSFlagsNone];
 
     // Try to release one batch.
     dispatch_async(self.logsDispatchQueue, ^{
@@ -266,7 +266,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // When
   for (int i = 1; i <= itemsToAdd; i++) {
-    [self.sut enqueueItem:[self getValidMockLog] flags:NO];
+    [self.sut enqueueItem:[self getValidMockLog] flags:MSFlagsNone];
   }
   [self enqueueChannelEndJobExpectation];
 
@@ -287,7 +287,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   id<MSLog> mockLog = [self getValidMockLog];
 
   // When
-  [self.sut enqueueItem:mockLog flags:YES];
+  [self.sut enqueueItem:mockLog flags:MSEventFlagsPersistenceCritical];
   [self enqueueChannelEndJobExpectation];
 
   // Then
@@ -307,7 +307,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   id<MSLog> mockLog = [self getValidMockLog];
 
   // When
-  [self.sut enqueueItem:mockLog flags:NO];
+  [self.sut enqueueItem:mockLog flags:MSEventFlagsPersistenceNormal];
   [self enqueueChannelEndJobExpectation];
 
   // Then
@@ -319,6 +319,27 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  }
                                }];
 }
+
+- (void)testEnqueueItemWithFlagsNone {
+
+  // If
+  [self initChannelEndJobExpectation];
+  id<MSLog> mockLog = [self getValidMockLog];
+
+  // When
+  [self.sut enqueueItem:mockLog flags:MSFlagsNone];
+  [self enqueueChannelEndJobExpectation];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 OCMVerify([self.storageMock saveLog:mockLog withGroupId:OCMOCK_ANY critical:NO]);
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
 
 - (void)testQueueFlushedAfterBatchSizeReached {
 
@@ -350,7 +371,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // When
   for (int i = 0; i < itemsToAdd; ++i) {
-    [sut enqueueItem:mockLog flags:NO];
+    [sut enqueueItem:mockLog flags:MSEventFlagsPersistenceCritical];
   }
   [self enqueueChannelEndJobExpectation];
 
@@ -405,7 +426,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // When
   for (NSUInteger i = 1; i <= expectedMaxPendingBatched + 1; i++) {
-    [sut enqueueItem:[self getValidMockLog] flags:NO];
+    [sut enqueueItem:[self getValidMockLog] flags:MSFlagsNone];
   }
   [self enqueueChannelEndJobExpectation];
 
@@ -469,7 +490,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                                             logsDispatchQueue:dispatch_get_main_queue()];
 
   // When
-  [sut enqueueItem:[self getValidMockLog] flags:NO];
+  [sut enqueueItem:[self getValidMockLog] flags:MSFlagsNone];
 
   // Try to release one batch.
   dispatch_async(self.logsDispatchQueue, ^{
@@ -487,7 +508,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
       // When
       // Send another batch.
       currentBatchId++;
-      [sut enqueueItem:[self getValidMockLog] flags:NO];
+      [sut enqueueItem:[self getValidMockLog] flags:MSFlagsNone];
       [self enqueueChannelEndJobExpectation];
     });
   });
@@ -529,7 +550,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                                             logsDispatchQueue:dispatch_get_main_queue()];
   // When
   [sut setEnabled:NO andDeleteDataOnDisabled:NO];
-  [sut enqueueItem:mockLog flags:NO];
+  [sut enqueueItem:mockLog flags:MSFlagsNone];
   [self enqueueChannelEndJobExpectation];
 
   // Then
@@ -566,7 +587,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   self.sut.configuration = config;
 
   // When
-  [sut enqueueItem:mockLog flags:NO];
+  [sut enqueueItem:mockLog flags:MSFlagsNone];
   [sut setEnabled:NO andDeleteDataOnDisabled:YES];
   [self enqueueChannelEndJobExpectation];
 
@@ -598,7 +619,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // When
   [sut setEnabled:NO andDeleteDataOnDisabled:YES];
-  [sut enqueueItem:mockLog flags:NO];
+  [sut enqueueItem:mockLog flags:MSFlagsNone];
 
   // Then
   [self waitForExpectationsWithTimeout:1
@@ -626,7 +647,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // When
   [sut setEnabled:YES andDeleteDataOnDisabled:NO];
-  [sut enqueueItem:mockLog flags:NO];
+  [sut enqueueItem:mockLog flags:MSFlagsNone];
 
   // Then
   [self waitForExpectationsWithTimeout:1
@@ -649,7 +670,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // When
   [sut setEnabled:YES andDeleteDataOnDisabled:NO];
-  [sut enqueueItem:otherMockLog flags:NO];
+  [sut enqueueItem:otherMockLog flags:MSFlagsNone];
 
   // Then
   [self waitForExpectationsWithTimeout:1
@@ -740,7 +761,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // Enqueue now that the delegate is set.
   dispatch_async(self.logsDispatchQueue, ^{
-    [sut enqueueItem:mockLog flags:NO];
+    [sut enqueueItem:mockLog flags:MSFlagsNone];
     [self enqueueChannelEndJobExpectation];
   });
 
@@ -829,7 +850,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   MSChannelUnitDefault *sut = [self createChannelUnit];
 
   // When
-  [sut enqueueItem:mockLog flags:NO];
+  [sut enqueueItem:mockLog flags:MSFlagsNone];
 
   // Then
   XCTAssertNotNil(mockLog.device);
@@ -845,7 +866,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   MSChannelUnitDefault *sut = [self createChannelUnit];
 
   // When
-  [sut enqueueItem:mockLog flags:NO];
+  [sut enqueueItem:mockLog flags:MSFlagsNone];
 
   // Then
   XCTAssertEqual(mockLog.device, device);
@@ -879,7 +900,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // When
   dispatch_async(self.logsDispatchQueue, ^{
     // Enqueue now that the delegate is set.
-    [sut enqueueItem:log flags:NO];
+    [sut enqueueItem:log flags:MSFlagsNone];
     [self enqueueChannelEndJobExpectation];
   });
 
@@ -916,7 +937,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // When
   dispatch_async(self.logsDispatchQueue, ^{
     // Enqueue now that the delegate is set.
-    [sut enqueueItem:log flags:NO];
+    [sut enqueueItem:log flags:MSFlagsNone];
     [self enqueueChannelEndJobExpectation];
   });
 
@@ -1166,7 +1187,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   log.iKey = targetKey;
 
   // When
-  [self.sut enqueueItem:log flags:NO];
+  [self.sut enqueueItem:log flags:MSFlagsNone];
 
   // Then
   [self enqueueChannelEndJobExpectation];
