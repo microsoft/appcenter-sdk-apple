@@ -97,11 +97,6 @@ static NSString *const kMSReturnedValueSelectorPart = @"returnedValue:";
                                                withCustomSelector:@selector(custom_setDelegate:)
                                                     originalClass:[self originalClassForSetDelegate]];
     });
-
-    /*
-     * TODO: We could register custom delegate classes and then query those classes if they responds to selector. If so just add that
-     * selector to be swizzled. Just make sure it doesn't have an heavy impact on performances.
-     */
     [self.selectorsToSwizzle addObject:NSStringFromSelector(selector)];
   }
 }
@@ -130,8 +125,6 @@ static NSString *const kMSReturnedValueSelectorPart = @"returnedValue:";
   // Replace original implementation
   NSString *originalSelectorStr = NSStringFromSelector(originalSelector);
   Method originalMethod = class_getInstanceMethod(originalClass, originalSelector);
-
-  // TODO see what's [self class] is returning here.
   IMP customImp = class_getMethodImplementation([self class], customSelector);
   IMP originalImp = NULL;
   BOOL methodAdded = NO;

@@ -34,16 +34,13 @@ static MSAppDelegateForwarder *sharedInstance = nil;
   sharedInstance = [self new];
 }
 
-// TODO make it a property?
 - (Class)originalClassForSetDelegate {
   return [MSApplication class];
 }
 
 #pragma mark - Custom Application
 
-// TODO See if we can avoid duplicate this code in DelegateForwarder subclasses.
 - (void)custom_setDelegate:(id<MSApplicationDelegate>)delegate {
-  // TODO We are executing inside the delegate here, the delegate doasn't know about which forwarder to call since we are in the base class.
 
   // Swizzle only once.
   static dispatch_once_t delegateSwizzleOnceToken;
