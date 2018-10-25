@@ -578,7 +578,7 @@
   self.sut.typedProperties = eventProperties;
 
   // When
-  MSCommonSchemaLog *csLog = [self.sut toCommonSchemaLogForTargetToken:targetToken];
+  MSCommonSchemaLog *csLog = [self.sut toCommonSchemaLogForTargetToken:targetToken flags:0];
 
   // Then
   XCTAssertEqualObjects(csLog.ver, kMSCSVerValue);

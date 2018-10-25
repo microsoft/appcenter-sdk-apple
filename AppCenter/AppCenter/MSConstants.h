@@ -63,3 +63,10 @@ typedef NS_ENUM(NSInteger, MSInitializationPriority) {
   MSInitializationPriorityHigh = 750,
   MSInitializationPriorityMax = 999
 };
+
+
+typedef NS_OPTIONS(NSUInteger, MSEventFlags) {
+  MSEventFlagsEventPersistenceNone = (0 << 0), // => 00000000
+  MSEventFlagsEventPersistenceNormal = (1 << 0), // => 00000001
+  MSEventFlagsEventPersistenceCritical   = (1 << 1), // => 00000010
+};

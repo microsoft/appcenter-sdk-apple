@@ -189,7 +189,7 @@
   self.sut.transmissionTargetTokens = nil;
 
   // When
-  NSArray<MSCommonSchemaLog *> *csLogs = [self.sut toCommonSchemaLogs];
+  NSArray<MSCommonSchemaLog *> *csLogs = [self.sut toCommonSchemaLogsWithFlags:0];
 
   // Then
   XCTAssertNil(csLogs);
@@ -201,7 +201,7 @@
   self.sut.transmissionTargetTokens = [@[] mutableCopy];
 
   // When
-  NSArray<MSCommonSchemaLog *> *csLogs = [self.sut toCommonSchemaLogs];
+  NSArray<MSCommonSchemaLog *> *csLogs = [self.sut toCommonSchemaLogsWithFlags:0];
 
   // Then
   XCTAssertNil(csLogs);
@@ -236,7 +236,7 @@
   OCMStub([bundleMock preferredLocalizations]).andReturn(@[ expectedAppLocale ]);
 
   // When
-  NSArray<MSCommonSchemaLog *> *csLogs = [self.sut toCommonSchemaLogs];
+  NSArray<MSCommonSchemaLog *> *csLogs = [self.sut toCommonSchemaLogsWithFlags:0];
 
   // Then
   XCTAssertEqual(csLogs.count, expectedTokens.count);

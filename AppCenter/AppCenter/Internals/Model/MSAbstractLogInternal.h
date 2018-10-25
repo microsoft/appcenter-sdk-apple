@@ -22,5 +22,5 @@
  *
  * @return A common schema log.
  */
-- (MSCommonSchemaLog *)toCommonSchemaLogForTargetToken:(NSString *)token;
+- (MSCommonSchemaLog *)toCommonSchemaLogForTargetToken:(NSString *)token flags:(int64_t)flags;
 @end

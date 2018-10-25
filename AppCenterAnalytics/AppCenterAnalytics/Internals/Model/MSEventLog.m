@@ -14,6 +14,7 @@
 #import "MSLongTypedProperty.h"
 #import "MSMetadataExtension.h"
 #import "MSStringTypedProperty.h"
+#import "../../../../../../../../../Applications/Xcode.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk/System/Library/Frameworks/Security.framework/Headers/Security.h"
 
 static NSString *const kMSTypeEvent = @"event";
 
@@ -77,8 +78,8 @@ static NSString *const kMSTypedProperties = @"typedProperties";
 
 #pragma mark - MSAbstractLog
 
-- (MSCommonSchemaLog *)toCommonSchemaLogForTargetToken:(NSString *)token {
-  MSCommonSchemaLog *csLog = [super toCommonSchemaLogForTargetToken:token];
+- (MSCommonSchemaLog *)toCommonSchemaLogForTargetToken:(NSString *)token flags:(int64_t)flags {
+  MSCommonSchemaLog *csLog = [super toCommonSchemaLogForTargetToken:token flags:flags];
 
   // Event name goes to part A.
   csLog.name = self.name;

@@ -97,9 +97,10 @@ NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){
     return;
   }
   id<MSLogConversion> logConversion = (id<MSLogConversion>)log;
-  NSArray<MSCommonSchemaLog *> *commonSchemaLogs = [logConversion toCommonSchemaLogs];
+  NSArray<MSCommonSchemaLog *> *commonSchemaLogs = [logConversion toCommonSchemaLogsWithFlags:0]; //TODO: add flag to channel API
   for (MSCommonSchemaLog *commonSchemaLog in commonSchemaLogs) {
-    [oneCollectorChannelUnit enqueueItem:commonSchemaLog critical:NO];
+    BOOL isCritical = ((commonSchemaLog.flags & FileNotDownloaded) != 0) ? YES : NO;
+    [oneCollectorChannelUnit enqueueItem:commonSchemaLog critical:isCritical];
   }
 }
 

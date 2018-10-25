@@ -125,10 +125,10 @@
 
 #pragma mark - MSLogConversion
 
-- (NSArray<MSCommonSchemaLog *> *)toCommonSchemaLogs {
+- (NSArray<MSCommonSchemaLog *> *)toCommonSchemaLogsWithFlags:(int64_t)flags {
   NSMutableArray<MSCommonSchemaLog *> *csLogs = [NSMutableArray new];
   for (NSString *token in self.transmissionTargetTokens) {
-    MSCommonSchemaLog *csLog = [self toCommonSchemaLogForTargetToken:token];
+    MSCommonSchemaLog *csLog = [self toCommonSchemaLogForTargetToken:token flags:flags];
     if (csLog) {
       [csLogs addObject:csLog];
     }
@@ -140,7 +140,7 @@
 
 #pragma mark - Helper
 
-- (MSCommonSchemaLog *)toCommonSchemaLogForTargetToken:(NSString *)token {
+- (MSCommonSchemaLog *)toCommonSchemaLogForTargetToken:(NSString *)token flags:(int64_t)flags {
   MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
   csLog.transmissionTargetTokens = [NSSet setWithObject:token];
   csLog.ver = kMSCSVerValue;
@@ -150,8 +150,8 @@
 
   // Calculate iKey based on the target token.
   csLog.iKey = [MSUtility iKeyFromTargetToken:token];
+  csLog.flags = flags;
 
-  // TODO flags not supported at this time.
   // TODO cV not supported at this time.
 
   // Setup extensions.

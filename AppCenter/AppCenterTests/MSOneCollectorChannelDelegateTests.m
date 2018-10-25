@@ -233,7 +233,7 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
   [transmissionTargetTokens addObject:@"fake-transmission-target-token"];
   MSCommonSchemaLog *commonSchemaLog = [MSCommonSchemaLog new];
   id<MSMockLogWithConversion> mockLog = OCMProtocolMock(@protocol(MSMockLogWithConversion));
-  OCMStub([mockLog toCommonSchemaLogs]).andReturn(@[ commonSchemaLog ]);
+  OCMStub([mockLog toCommonSchemaLogsWithFlags:0]).andReturn(@[ commonSchemaLog ]);
   OCMStub(mockLog.transmissionTargetTokens).andReturn(transmissionTargetTokens);
 
   // When
@@ -264,7 +264,7 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
   [transmissionTargetTokens addObject:@"fake-transmission-target-token"];
   MSCommonSchemaLog *commonSchemaLog = [MSCommonSchemaLog new];
   id<MSMockLogWithConversion> mockLog = OCMProtocolMock(@protocol(MSMockLogWithConversion));
-  OCMStub([mockLog toCommonSchemaLogs]).andReturn(@[ commonSchemaLog ]);
+  OCMStub([mockLog toCommonSchemaLogsWithFlags:0]).andReturn(@[ commonSchemaLog ]);
   OCMStub(mockLog.transmissionTargetTokens).andReturn(transmissionTargetTokens);
   dispatch_semaphore_t sem = dispatch_semaphore_create(0);
 
@@ -347,7 +347,7 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
   NSMutableSet *transmissionTargetTokens = [NSMutableSet new];
   id<MSMockLogWithConversion> mockLog = OCMProtocolMock(@protocol(MSMockLogWithConversion));
   OCMStub(mockLog.transmissionTargetTokens).andReturn(transmissionTargetTokens);
-  OCMStub([mockLog toCommonSchemaLogs]).andReturn(@ [[MSCommonSchemaLog new]]);
+  OCMStub([mockLog toCommonSchemaLogsWithFlags:0]).andReturn(@ [[MSCommonSchemaLog new]]);
   OCMStub([mockLog isKindOfClass:[MSCommonSchemaLog class]]).andReturn(NO);
 
   // Then
@@ -369,7 +369,7 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
   id<MSMockLogWithConversion> mockLog = OCMProtocolMock(@protocol(MSMockLogWithConversion));
   OCMStub([mockLog isKindOfClass:[MSCommonSchemaLog class]]).andReturn(NO);
   OCMStub(mockLog.transmissionTargetTokens).andReturn(nil);
-  OCMStub([mockLog toCommonSchemaLogs]).andReturn(@ [[MSCommonSchemaLog new]]);
+  OCMStub([mockLog toCommonSchemaLogsWithFlags:0]).andReturn(@ [[MSCommonSchemaLog new]]);
 
   // Then
   OCMReject([oneCollectorChannelUnitMock enqueueItem:OCMOCK_ANY critical:NO]);
@@ -452,7 +452,7 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
   [transmissionTargetTokens addObject:@"fake-transmission-target-token"];
   MSCommonSchemaLog *commonSchemaLog = [MSCommonSchemaLog new];
   id<MSMockLogWithConversion> mockLog = OCMProtocolMock(@protocol(MSMockLogWithConversion));
-  OCMStub([mockLog toCommonSchemaLogs]).andReturn(@[ commonSchemaLog ]);
+  OCMStub([mockLog toCommonSchemaLogsWithFlags:0]).andReturn(@[ commonSchemaLog ]);
   OCMStub(mockLog.transmissionTargetTokens).andReturn(transmissionTargetTokens);
 
   // When
