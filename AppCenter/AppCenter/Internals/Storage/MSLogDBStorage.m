@@ -22,7 +22,7 @@ static const NSUInteger kMSSchemaVersion = 3;
       @{kMSIdColumnName : @[ kMSSQLiteTypeInteger, kMSSQLiteConstraintPrimaryKey, kMSSQLiteConstraintAutoincrement ]},
       @{kMSGroupIdColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]},
       @{kMSLogColumnName : @[ kMSSQLiteTypeText, kMSSQLiteConstraintNotNull ]}, @{kMSTargetTokenColumnName : @[ kMSSQLiteTypeText ]},
-      @{kMSTargetKeyColumnName : @[ kMSSQLiteTypeText ]}, @{kMSLogPersistencePriorityColumnName : @[ kMSSQLiteTypeInteger ]}
+      @{kMSTargetKeyColumnName : @[ kMSSQLiteTypeText ]}, @{kMSPriorityColumnName : @[ kMSSQLiteTypeInteger ]}
     ]
   };
   self = [super initWithSchema:schema version:kMSSchemaVersion filename:kMSDBFileName];
@@ -50,7 +50,7 @@ static const NSUInteger kMSSchemaVersion = 3;
   NSString *base64Data = [logData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
   NSString *addLogQuery = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") VALUES ('%@', '%@', '%i')",
                                                      kMSLogTableName, kMSGroupIdColumnName, kMSLogColumnName,
-                                                     kMSLogPersistencePriorityColumnName, groupId, base64Data, critical];
+                                                     kMSPriorityColumnName, groupId, base64Data, critical];
 
   // Serialize target token.
   if ([(NSObject *)log isKindOfClass:[MSCommonSchemaLog class]]) {
@@ -61,7 +61,7 @@ static const NSUInteger kMSSchemaVersion = 3;
         [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", "
                                    @"\"%@\", \"%@\", \"%@\") VALUES ('%@', '%@', '%@', %@, '%i')",
                                    kMSLogTableName, kMSGroupIdColumnName, kMSLogColumnName, kMSTargetTokenColumnName,
-                                   kMSTargetKeyColumnName, kMSLogPersistencePriorityColumnName, groupId, base64Data, encryptedToken,
+                                   kMSTargetKeyColumnName, kMSPriorityColumnName, groupId, base64Data, encryptedToken,
                                    targetKey ? [NSString stringWithFormat:@"'%@'", targetKey] : @"NULL", critical];
   }
   return [self executeQueryUsingBlock:^int(void *db) {
@@ -326,7 +326,7 @@ static const NSUInteger kMSSchemaVersion = 3;
   }
   if (version < kMSLogPersistencePriorityVersion) {
     NSString *migrationQuery = [NSString stringWithFormat:@"ALTER TABLE \"%@\" ADD COLUMN \"%@\" %@", kMSLogTableName,
-                                                          kMSLogPersistencePriorityColumnName, kMSSQLiteTypeInteger];
+                                                          kMSPriorityColumnName, kMSSQLiteTypeInteger];
     [MSDBStorage executeNonSelectionQuery:migrationQuery inOpenedDatabase:db];
   }
 }
