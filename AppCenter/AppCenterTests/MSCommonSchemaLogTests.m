@@ -14,6 +14,7 @@
 #import "MSTestFrameworks.h"
 #import "MSUserExtension.h"
 #import "MSUtility+Date.h"
+#import "MSConstants.h"
 
 @interface MSCommonSchemaLogTests : XCTestCase
 @property(nonatomic) MSCommonSchemaLog *commonSchemaLog;
@@ -32,6 +33,7 @@
     kMSCSName : @"1DS",
     kMSCSTime : abstractDummies[kMSTimestamp],
     kMSCSIKey : @"o:60cd0b94-6060-11e8-9c2d-fa7ae01bbebc",
+    kMSCSFlags : @(MSFlagsPersistenceNormal),
     kMSCSExt : [self extWithDummyValues],
     kMSCSData : [self dataWithDummyValues]
   } mutableCopy];
@@ -47,20 +49,23 @@
 
 - (void)testCSLogJSONSerializingToDictionary {
 
+  // If
+  NSDictionary *expectedSerializedLog = @{
+    kMSCSTime : [MSUtility dateToISO8601:self.csLogDummyValues[kMSCSTime]],
+    kMSCSData : [self.csLogDummyValues[kMSCSData] serializeToDictionary],
+    kMSCSExt  : [self.csLogDummyValues[kMSCSExt] serializeToDictionary],
+    kMSCSIKey : @"o:60cd0b94-6060-11e8-9c2d-fa7ae01bbebc",
+    kMSCSVer : @"3.0",
+    kMSCSName : @"1DS",
+    kMSCSFlags : @(MSFlagsPersistenceNormal)
+  };
+
   // When
-  NSMutableDictionary *dict = [self.commonSchemaLog serializeToDictionary];
+  NSMutableDictionary *serializedLog = [self.commonSchemaLog serializeToDictionary];
 
   // Then
-  self.csLogDummyValues[kMSCSTime] = [MSUtility dateToISO8601:self.csLogDummyValues[kMSCSTime]];
-  self.csLogDummyValues[kMSCSData] = [self.csLogDummyValues[kMSCSData] serializeToDictionary];
-  self.csLogDummyValues[kMSCSExt] = [self.csLogDummyValues[kMSCSExt] serializeToDictionary];
-  [self.csLogDummyValues removeObjectForKey:kMSDevice];
-  [self.csLogDummyValues removeObjectForKey:kMSDistributionGroupId];
-  [self.csLogDummyValues removeObjectForKey:kMSTimestamp];
-  [self.csLogDummyValues removeObjectForKey:kMSType];
-  [self.csLogDummyValues removeObjectForKey:kMSSId];
-  XCTAssertNotNil(dict);
-  XCTAssertEqualObjects(dict, self.csLogDummyValues);
+  XCTAssertNotNil(serializedLog);
+  XCTAssertEqualObjects(serializedLog, expectedSerializedLog);
 }
 
 - (void)testCSLogNSCodingSerializationAndDeserialization {
@@ -195,6 +200,13 @@
 
   // If
   anotherCommonSchemaLog.data = self.csLogDummyValues[kMSCSData];
+  anotherCommonSchemaLog.flags = -1;
+
+  // Then
+  XCTAssertNotEqualObjects(anotherCommonSchemaLog, self.commonSchemaLog);
+
+  // If
+  anotherCommonSchemaLog.flags = [self.csLogDummyValues[kMSCSFlags] longLongValue];
 
   // Then
   XCTAssertEqualObjects(anotherCommonSchemaLog, self.commonSchemaLog);
@@ -275,6 +287,7 @@
   csLog.name = dummyValues[kMSCSName];
   csLog.timestamp = dummyValues[kMSCSTime];
   csLog.iKey = dummyValues[kMSCSIKey];
+  csLog.flags = [dummyValues[kMSCSFlags] longLongValue];
   csLog.ext = dummyValues[kMSCSExt];
   csLog.data = dummyValues[kMSCSData];
   [MSModelTestsUtililty populateAbstractLogWithDummies:csLog];

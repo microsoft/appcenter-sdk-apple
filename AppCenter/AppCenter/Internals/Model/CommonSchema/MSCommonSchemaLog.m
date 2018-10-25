@@ -19,9 +19,6 @@
   if (self.name) {
     dict[kMSCSName] = self.name;
   }
-  if (self.flags) {
-    dict[kMSCSFlags] = @(self.flags);
-  }
 
   // Timestamp already exists in the parent implementation but the serialized key is different.
   if (self.timestamp) {
@@ -31,6 +28,9 @@
   // TODO: Not supporting popSample and cV today.
   if (self.iKey) {
     dict[kMSCSIKey] = self.iKey;
+  }
+  if (self.flags) {
+    dict[kMSCSFlags] = @(self.flags);
   }
   if (self.ext) {
     dict[kMSCSExt] = [self.ext serializeToDictionary];
