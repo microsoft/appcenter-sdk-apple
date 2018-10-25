@@ -368,7 +368,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                                             appSecret:kMSTestAppSecret
                               transmissionTargetToken:nil
                                       fromApplication:YES];
-  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]]]).andDo(^(NSInvocation *invocation) {
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]] flags:MSFlagsNone]).andDo(^(NSInvocation *invocation) {
     MSEventLog *log;
     [invocation getArgument:&log atIndex:2];
     tag = log.tag;
