@@ -24,12 +24,18 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
 @implementation MSLogDBStorageTests
 
 #pragma mark - Setup
+
 - (void)setUp {
   [super setUp];
   self.storageTestUtil = [[MSStorageTestUtil alloc] initWithDbFileName:kMSDBFileName];
   [self.storageTestUtil deleteDatabase];
   XCTAssertEqual([self.storageTestUtil getDataLengthInBytes], 0);
-  self.sut = [MSLogDBStorage new];
+  self.sut = OCMPartialMock([MSLogDBStorage new]);
+  OCMStub([self.sut executeNonSelectionQuery:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    NSString *query;
+    [invocation getArgument:&query atIndex:2];
+    [self validateQuerySyntax:query];
+  }).andForwardToRealObject();
 }
 
 - (void)tearDown {
@@ -556,8 +562,8 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   // If
   MSAbstractLog *aLog = [MSAbstractLog new];
   aLog.sid = MS_UUID_STRING;
-  NSString *criticalLogsFilter = [NSString stringWithFormat:@"\"%@\" = '%i'", kMSLogPersistencePriorityColumnName, YES];
-  NSString *normalLogsFilter = [NSString stringWithFormat:@"\"%@\" = '%i'", kMSLogPersistencePriorityColumnName, NO];
+  NSString *criticalLogsFilter = [NSString stringWithFormat:@"\"%@\" = '%i'", kMSPriorityColumnName, YES];
+  NSString *normalLogsFilter = [NSString stringWithFormat:@"\"%@\" = '%i'", kMSPriorityColumnName, NO];
 
   // When
   [self.sut saveLog:aLog withGroupId:kMSTestGroupId critical:YES];
@@ -575,8 +581,8 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   // If
   MSAbstractLog *aLog = [MSAbstractLog new];
   aLog.sid = MS_UUID_STRING;
-  NSString *criticalLogsFilter = [NSString stringWithFormat:@"\"%@\" = '%i'", kMSLogPersistencePriorityColumnName, YES];
-  NSString *normalLogsFilter = [NSString stringWithFormat:@"\"%@\" = '%i'", kMSLogPersistencePriorityColumnName, NO];
+  NSString *criticalLogsFilter = [NSString stringWithFormat:@"\"%@\" = '%i'", kMSPriorityColumnName, YES];
+  NSString *normalLogsFilter = [NSString stringWithFormat:@"\"%@\" = '%i'", kMSPriorityColumnName, NO];
 
   // When
   [self.sut saveLog:aLog withGroupId:kMSTestGroupId critical:NO];
@@ -642,6 +648,25 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
     XCTAssertTrue([self.storageTestUtil getDataLengthInBytes] <= maxCapacityInBytes);
     XCTAssertTrue(logSavedSuccessfully);
   }
+}
+
+- (void)testErrorDeletingOldestLog {
+
+  // If
+  id classMock = OCMClassMock([MSDBStorage class]);
+  OCMStub([classMock executeNonSelectionQuery:startsWith(@"INSERT") inOpenedDatabase:[OCMArg anyPointer]])
+    .andReturn(SQLITE_FULL);
+  OCMStub([classMock executeNonSelectionQuery:startsWith(@"DELETE") inOpenedDatabase:[OCMArg anyPointer]])
+    .andReturn(SQLITE_ERROR);
+
+  // When
+  MSAbstractLog *additionalLog = [MSAbstractLog new];
+  additionalLog.sid = MS_UUID_STRING;
+  BOOL logSavedSuccessfully = [self.sut saveLog:additionalLog withGroupId:kMSAnotherTestGroupId];
+
+  // Then
+  XCTAssertFalse(logSavedSuccessfully);
+  [classMock stopMocking];
 }
 
 - (void)testMigrationFromSchema0to3 {
@@ -840,6 +865,15 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
     }
   }
   return NO;
+}
+
+- (void)validateQuerySyntax:(NSString *)query {
+  sqlite3 *db = [self.storageTestUtil openDatabase];
+  NSString *statement = [NSString stringWithFormat:@"EXPLAIN %@", query];
+  char *error;
+  int result = sqlite3_exec(db, [statement UTF8String], NULL, NULL, &error);
+  XCTAssert(result == SQLITE_OK, "%s", error);
+  sqlite3_close(db);
 }
 
 @end

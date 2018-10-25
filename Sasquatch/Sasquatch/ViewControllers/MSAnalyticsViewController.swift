@@ -45,6 +45,8 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     let eventProperties = eventPropertiesSection.eventProperties()
     if (MSTransmissionTargets.shared.defaultTargetShouldSendAnalyticsEvents()) {
       if let properties = eventProperties as? MSEventProperties {
+
+        // The AppCenterDelegate uses the argument label "withTypedProperties," but the underlying swift API simply uses "withProperties."
         appCenter.trackEvent(name, withTypedProperties: properties)
       } else if let dictionary = eventProperties as? [String: String] {
         appCenter.trackEvent(name, withProperties: dictionary)
@@ -56,7 +58,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
       if MSTransmissionTargets.shared.targetShouldSendAnalyticsEvents(targetToken: targetToken) {
         let target = MSTransmissionTargets.shared.transmissionTargets[targetToken]
         if let properties = eventProperties as? MSEventProperties {
-          target!.trackEvent(name, withTypedProperties: properties)
+          target!.trackEvent(name, withProperties: properties)
         } else if let dictionary = eventProperties as? [String: String] {
           target!.trackEvent(name, withProperties: dictionary)
         } else {

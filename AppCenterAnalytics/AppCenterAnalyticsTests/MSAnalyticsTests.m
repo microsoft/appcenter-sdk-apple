@@ -357,6 +357,32 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   OCMVerifyAll(channelUnitMock);
 }
 
+- (void)testTrackEventSetsTagWhenTransmissionTargetProvided {
+
+  // If
+  __block NSObject *tag;
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
+                                            appSecret:kMSTestAppSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]]]).andDo(^(NSInvocation *invocation) {
+    MSEventLog *log;
+    [invocation getArgument:&log atIndex:2];
+    tag = log.tag;
+  });
+
+  // When
+  MSAnalyticsTransmissionTarget *target = [MSAnalytics transmissionTargetForToken:@"test"];
+  [[MSAnalytics sharedInstance] trackEvent:@"Some event" withProperties:nil forTransmissionTarget:target];
+
+  // Then
+  XCTAssertEqualObjects(tag, target);
+}
+
 - (void)testTrackEventWithTypedPropertiesNilWhenTransmissionTargetDisabled {
 
   // If
@@ -831,6 +857,23 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   // Then
   XCTAssertNotNil(transmissionTarget1);
   XCTAssertEqual(transmissionTarget1, transmissionTarget2);
+}
+
+- (void)testGetTransmissionTargetNeverReturnsDefault {
+
+  // If
+  [[MSAnalytics sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                                            appSecret:nil
+                              transmissionTargetToken:kMSTestTransmissionToken
+                                      fromApplication:NO];
+
+  // When
+  MSAnalyticsTransmissionTarget *transmissionTarget = [MSAnalytics transmissionTargetForToken:kMSTestTransmissionToken];
+
+  // Then
+  XCTAssertNotNil([MSAnalytics sharedInstance].defaultTransmissionTarget);
+  XCTAssertNotNil(transmissionTarget);
+  XCTAssertNotEqual([MSAnalytics sharedInstance].defaultTransmissionTarget, transmissionTarget);
 }
 
 - (void)testEnableStatePropagateToTransmissionTargets {

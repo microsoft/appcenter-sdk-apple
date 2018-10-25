@@ -1,7 +1,7 @@
 #include "./Tests.xcconfig"
 #include "./macOS.xcconfig"
 
-OTHER_LDFLAGS = $(inherited) -framework AppKit -ObjC -lsqlite3 -lz
+OTHER_LDFLAGS = $(inherited) -framework AppKit -ObjC -lz
 
 LD_RUNPATH_SEARCH_PATHS = @executable_path/Frameworks @loader_path/Frameworks $(TOOLCHAIN_DIR)/usr/lib/swift/macosx "$(SRCROOT)/../Vendor/macOS/OCMock" "$(SRCROOT)/../Vendor/macOS/OCHamcrest" "$(SRCROOT)/../Vendor/macOS/OHHTTPStubs"
 
