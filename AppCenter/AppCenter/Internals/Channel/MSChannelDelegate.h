@@ -1,5 +1,7 @@
 #import <Foundation/Foundation.h>
 
+#import "MSConstants.h"
+
 @protocol MSChannelUnitProtocol;
 @protocol MSChannelGroupProtocol;
 @protocol MSChannelProtocol;
