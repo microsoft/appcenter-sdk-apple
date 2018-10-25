@@ -11,7 +11,7 @@ static NSString *const kMSGroupIdColumnName = @"groupId";
 static NSString *const kMSLogColumnName = @"log";
 static NSString *const kMSTargetTokenColumnName = @"targetToken";
 static NSString *const kMSTargetKeyColumnName = @"targetKey";
-static NSString *const kMSLogPersistencePriorityColumnName = @"logPersistencePriority";
+static NSString *const kMSPriorityColumnName = @"priority";
 
 @protocol MSDatabaseConnection;
 

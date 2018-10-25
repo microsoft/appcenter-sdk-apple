@@ -562,8 +562,8 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   // If
   MSAbstractLog *aLog = [MSAbstractLog new];
   aLog.sid = MS_UUID_STRING;
-  NSString *criticalLogsFilter = [NSString stringWithFormat:@"\"%@\" = '%i'", kMSLogPersistencePriorityColumnName, YES];
-  NSString *normalLogsFilter = [NSString stringWithFormat:@"\"%@\" = '%i'", kMSLogPersistencePriorityColumnName, NO];
+  NSString *criticalLogsFilter = [NSString stringWithFormat:@"\"%@\" = '%i'", kMSPriorityColumnName, YES];
+  NSString *normalLogsFilter = [NSString stringWithFormat:@"\"%@\" = '%i'", kMSPriorityColumnName, NO];
 
   // When
   [self.sut saveLog:aLog withGroupId:kMSTestGroupId critical:YES];
@@ -581,8 +581,8 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   // If
   MSAbstractLog *aLog = [MSAbstractLog new];
   aLog.sid = MS_UUID_STRING;
-  NSString *criticalLogsFilter = [NSString stringWithFormat:@"\"%@\" = '%i'", kMSLogPersistencePriorityColumnName, YES];
-  NSString *normalLogsFilter = [NSString stringWithFormat:@"\"%@\" = '%i'", kMSLogPersistencePriorityColumnName, NO];
+  NSString *criticalLogsFilter = [NSString stringWithFormat:@"\"%@\" = '%i'", kMSPriorityColumnName, YES];
+  NSString *normalLogsFilter = [NSString stringWithFormat:@"\"%@\" = '%i'", kMSPriorityColumnName, NO];
 
   // When
   [self.sut saveLog:aLog withGroupId:kMSTestGroupId critical:NO];
