@@ -697,7 +697,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
                               @"\"log\" TEXT NOT NULL, "
                               @"\"targetToken\" TEXT, "
                               @"\"targetKey\" TEXT, "
-                              @"\"logPersistencePriority\" INTEGER)"));
+                              @"\"priority\" INTEGER)"));
 }
 
 - (void)testMigrationFromSchema1to3 {
@@ -728,7 +728,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
                               @"\"log\" TEXT NOT NULL, "
                               @"\"targetToken\" TEXT, "
                               @"\"targetKey\" TEXT, "
-                              @"\"logPersistencePriority\" INTEGER)"));
+                              @"\"priority\" INTEGER)"));
 }
 
 - (void)testMigrationFromSchema2to3 {
@@ -760,7 +760,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
                               @"\"log\" TEXT NOT NULL, "
                               @"\"targetToken\" TEXT, "
                               @"\"targetKey\" TEXT, "
-                              @"\"logPersistencePriority\" INTEGER)"));
+                              @"\"priority\" INTEGER)"));
 }
 
 #pragma mark - Helper methods
