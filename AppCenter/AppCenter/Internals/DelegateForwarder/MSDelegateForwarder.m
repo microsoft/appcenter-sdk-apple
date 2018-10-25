@@ -28,6 +28,11 @@ static NSString *const kMSReturnedValueSelectorPart = @"returnedValue:";
   return nil;
 }
 
++ (void)resetSharedInstance {
+
+  // This is an empty method and expect to be overridden in sub classes.
+}
+
 - (Class)originalClassForSetDelegate {
 
   // This is an empty method and expect to be overridden in sub classes.

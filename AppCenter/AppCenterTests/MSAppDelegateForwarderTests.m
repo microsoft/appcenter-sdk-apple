@@ -9,7 +9,6 @@
 @interface MSAppDelegateForwarderTest : XCTestCase
 
 @property(nonatomic) MSApplication *appMock;
-
 @property(nonatomic) MSAppDelegateForwarder *sut;
 
 @end
@@ -31,37 +30,44 @@
 
 - (void)setUp {
   [super setUp];
-  self.sut = [MSAppDelegateForwarder new];
+
+  // The app delegate forwarder is already set via the load method, reset it for testing.
+  [MSAppDelegateForwarder resetSharedInstance];
+  self.sut = [MSAppDelegateForwarder sharedInstance];
 
   // Mock app delegate.
   self.appMock = OCMClassMock([MSApplication class]);
 }
 
-// TODO add a test to check sharedInstance.
+- (void)tearDown {
+  [super tearDown];
+  [MSAppDelegateForwarder resetSharedInstance];
+}
+
 - (void)testAddAppDelegateSelectorToSwizzle {
 
   // If
-  NSUInteger currentCount = MSAppDelegateForwarder.selectorsToSwizzle.count;
+  NSUInteger currentCount = self.sut.selectorsToSwizzle.count;
   SEL expectedSelector = @selector(testAddAppDelegateSelectorToSwizzle);
   NSString *expectedSelectorStr = NSStringFromSelector(expectedSelector);
 
   // Then
-  assertThatBool([MSAppDelegateForwarder.selectorsToSwizzle containsObject:expectedSelectorStr], isFalse());
+  assertThatBool([self.sut.selectorsToSwizzle containsObject:expectedSelectorStr], isFalse());
 
   // When
-  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:expectedSelector];
+  [self.sut addAppDelegateSelectorToSwizzle:expectedSelector];
 
   // Then
-  assertThatInteger(MSAppDelegateForwarder.selectorsToSwizzle.count, equalToUnsignedInteger(currentCount + 1));
-  assertThatBool([MSAppDelegateForwarder.selectorsToSwizzle containsObject:expectedSelectorStr], isTrue());
+  assertThatInteger(self.sut.selectorsToSwizzle.count, equalToUnsignedInteger(currentCount + 1));
+  assertThatBool([self.sut.selectorsToSwizzle containsObject:expectedSelectorStr], isTrue());
 
   // When
-  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:expectedSelector];
+  [self.sut addAppDelegateSelectorToSwizzle:expectedSelector];
 
   // Then
-  assertThatInteger(MSAppDelegateForwarder.selectorsToSwizzle.count, equalToUnsignedInteger(currentCount + 1));
-  assertThatBool([MSAppDelegateForwarder.selectorsToSwizzle containsObject:expectedSelectorStr], isTrue());
-  [MSAppDelegateForwarder.selectorsToSwizzle removeObject:expectedSelectorStr];
+  assertThatInteger(self.sut.selectorsToSwizzle.count, equalToUnsignedInteger(currentCount + 1));
+  assertThatBool([self.sut.selectorsToSwizzle containsObject:expectedSelectorStr], isTrue());
+  [self.sut.selectorsToSwizzle removeObject:expectedSelectorStr];
 }
 
 #if !TARGET_OS_OSX
@@ -73,17 +79,17 @@
 
   // Mock a custom app delegate.
   id<MSCustomApplicationDelegate> customDelegate = OCMProtocolMock(@protocol(MSCustomApplicationDelegate));
-  [MSAppDelegateForwarder addDelegate:customDelegate];
+  [self.sut addDelegate:customDelegate];
   NSURL *expectedURL = [NSURL URLWithString:@"https://www.contoso.com/sending-positive-waves"];
   NSDictionary *expectedOptions = @{};
 
   // App delegate not implementing any selector.
   id<MSApplicationDelegate> originalAppDelegate = [self createOriginalAppDelegateInstance];
   SEL selectorToSwizzle = @selector(application:openURL:options:);
-  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:selectorToSwizzle];
+  [self.sut addAppDelegateSelectorToSwizzle:selectorToSwizzle];
 
   // When
-  [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
+  [self.sut swizzleOriginalDelegate:originalAppDelegate];
   [originalAppDelegate application:self.appMock openURL:expectedURL options:expectedOptions];
 
   // Then
@@ -99,10 +105,10 @@
     return YES;
   };
   [self addSelector:selectorToSwizzle implementation:selectorImp toInstance:originalAppDelegate];
-  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:selectorToSwizzle];
+  [self.sut addAppDelegateSelectorToSwizzle:selectorToSwizzle];
 
   // When
-  [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
+  [self.sut swizzleOriginalDelegate:originalAppDelegate];
   [originalAppDelegate application:self.appMock openURL:expectedURL options:expectedOptions];
 
   // Then
@@ -116,10 +122,10 @@
   [self addSelector:selectorToSwizzle implementation:selectorImp toInstance:originalBaseAppDelegate];
   originalAppDelegate = [self createInstanceWithBaseClass:[originalBaseAppDelegate class] andConformItToProtocol:nil];
   wasCalled = NO;
-  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:selectorToSwizzle];
+  [self.sut addAppDelegateSelectorToSwizzle:selectorToSwizzle];
 
   // When
-  [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
+  [self.sut swizzleOriginalDelegate:originalAppDelegate];
   [originalAppDelegate application:self.appMock openURL:expectedURL options:expectedOptions];
 
   // Then
@@ -138,10 +144,10 @@
   [self addSelector:selectorToSwizzle implementation:baseSelectorImp toInstance:originalBaseAppDelegate];
   originalAppDelegate = [self createInstanceWithBaseClass:[originalBaseAppDelegate class] andConformItToProtocol:nil];
   [self addSelector:selectorToSwizzle implementation:selectorImp toInstance:originalAppDelegate];
-  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:selectorToSwizzle];
+  [self.sut addAppDelegateSelectorToSwizzle:selectorToSwizzle];
 
   // When
-  [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
+  [self.sut swizzleOriginalDelegate:originalAppDelegate];
   [originalAppDelegate application:self.appMock openURL:expectedURL options:expectedOptions];
 
   // Then
@@ -162,10 +168,10 @@
   [self addSelector:instancesRespondToSelector
       implementation:instancesRespondToSelectorImp
              toClass:object_getClass([originalAppDelegate class])];
-  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:selectorToSwizzle];
+  [self.sut addAppDelegateSelectorToSwizzle:selectorToSwizzle];
 
   // When
-  [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
+  [self.sut swizzleOriginalDelegate:originalAppDelegate];
 
   // Then
   // Original delegate still responding to selector.
@@ -184,7 +190,7 @@
 
   // When
   @try {
-    [[MSAppDelegateForwarder new] performSelector:@selector(testForwardUnknownSelector)];
+    [self.sut performSelector:@selector(testForwardUnknownSelector)];
   } @catch (NSException *ex) {
 
     // Then
@@ -205,7 +211,7 @@
   MSApplication *appMock = self.appMock;
   XCTestExpectation *originalCalledExpectation = [self expectationWithDescription:@"Original delegate called."];
   SEL originalOpenURLSel = @selector(application:openURL:options:);
-  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:originalOpenURLSel];
+  [self.sut addAppDelegateSelectorToSwizzle:originalOpenURLSel];
   id<MSApplicationDelegate> originalAppDelegate = [self createOriginalAppDelegateInstance];
   id originalOpenURLImp = ^(__attribute__((unused)) id itSelf, MSApplication *application, NSURL *url, id options) {
     // Then
@@ -221,7 +227,7 @@
   BOOL returnedValue = [originalAppDelegate application:self.appMock openURL:expectedURL options:expectedOptions];
 
   // Then
-  assertThatUnsignedLong(MSAppDelegateForwarder.delegates.count, equalToUnsignedLong(0));
+  assertThatUnsignedLong(self.sut.delegates.count, equalToUnsignedLong(0));
   assertThatBool(returnedValue, is(@(expectedReturnedValue)));
   [self waitForExpectations:@[ originalCalledExpectation ] timeout:1];
 }
@@ -235,7 +241,7 @@
   XCTestExpectation *originalCalledExpectation = [self expectationWithDescription:@"Original delegate called."];
   SEL originalDidRegisterForRemoteNotificationsWithDeviceTokenSel = @selector(application:
                                          didRegisterForRemoteNotificationsWithDeviceToken:);
-  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:originalDidRegisterForRemoteNotificationsWithDeviceTokenSel];
+  [self.sut addAppDelegateSelectorToSwizzle:originalDidRegisterForRemoteNotificationsWithDeviceTokenSel];
   id<MSApplicationDelegate> originalAppDelegate = [self createOriginalAppDelegateInstance];
   id originalDidRegisterForRemoteNotificationsWithDeviceTokenImp =
       ^(__attribute__((unused)) id itSelf, MSApplication *application, NSData *deviceToken) {
@@ -252,7 +258,7 @@
   [originalAppDelegate application:self.appMock didRegisterForRemoteNotificationsWithDeviceToken:expectedToken];
 
   // Then
-  assertThatUnsignedLong(MSAppDelegateForwarder.delegates.count, equalToUnsignedLong(0));
+  assertThatUnsignedLong(self.sut.delegates.count, equalToUnsignedLong(0));
   [self waitForExpectations:@[ originalCalledExpectation ] timeout:1];
 }
 
@@ -267,7 +273,7 @@
   XCTestExpectation *originalCalledExpectation = [self expectationWithDescription:@"Original delegate called."];
   XCTestExpectation *customCalledExpectation = [self expectationWithDescription:@"Custom delegate called."];
   SEL originalOpenURLiOS90Sel = @selector(application:openURL:options:);
-  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:originalOpenURLiOS90Sel];
+  [self.sut addAppDelegateSelectorToSwizzle:originalOpenURLiOS90Sel];
   id<MSApplicationDelegate> originalAppDelegate = [self createOriginalAppDelegateInstance];
   id originalOpenURLiOS90Imp = ^(__attribute__((unused)) id itSelf, MSApplication *application, NSURL *url, id options) {
     // Then
@@ -290,8 +296,8 @@
     return expectedReturnedValue;
   };
   [self addSelector:customOpenURLiOS90Sel implementation:customOpenURLiOS90Imp toInstance:customAppDelegate];
-  [MSAppDelegateForwarder addDelegate:customAppDelegate];
-  [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
+  [self.sut addDelegate:customAppDelegate];
+  [self.sut swizzleOriginalDelegate:originalAppDelegate];
 
   // When
   BOOL returnedValue = [originalAppDelegate application:self.appMock openURL:expectedURL options:expectedOptions];
@@ -314,7 +320,7 @@
   XCTestExpectation *customCalledExpectation2 = [self expectationWithDescription:@"Custom delegate 2 called."];
   MSApplication *appMock = self.appMock;
   SEL originalOpenURLiOS90Sel = @selector(application:openURL:options:);
-  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:originalOpenURLiOS90Sel];
+  [self.sut addAppDelegateSelectorToSwizzle:originalOpenURLiOS90Sel];
   id<MSApplicationDelegate> originalAppDelegate = [self createOriginalAppDelegateInstance];
   id originalOpenURLiOS90Imp = ^(__attribute__((unused)) id itSelf, MSApplication *application, NSURL *url, id options) {
     // Then
@@ -348,9 +354,9 @@
     return expectedReturnedValue;
   };
   [self addSelector:customOpenURLiOS90Sel implementation:customOpenURLiOS90Imp2 toInstance:customAppDelegate2];
-  [MSAppDelegateForwarder addDelegate:customAppDelegate1];
-  [MSAppDelegateForwarder addDelegate:customAppDelegate2];
-  [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
+  [self.sut addDelegate:customAppDelegate1];
+  [self.sut addDelegate:customAppDelegate2];
+  [self.sut swizzleOriginalDelegate:originalAppDelegate];
 
   // When
   BOOL returnedValue = [originalAppDelegate application:self.appMock openURL:expectedURL options:expectedOptions];
@@ -371,7 +377,7 @@
   MSApplication *appMock = self.appMock;
   XCTestExpectation *originalCalledExpectation = [self expectationWithDescription:@"Original delegate called."];
   SEL originalOpenURLiOS42Sel = @selector(application:openURL:sourceApplication:annotation:);
-  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:originalOpenURLiOS42Sel];
+  [self.sut addAppDelegateSelectorToSwizzle:originalOpenURLiOS42Sel];
   id<MSApplicationDelegate> originalAppDelegate = [self createOriginalAppDelegateInstance];
   id originalOpenURLiOS42Imp =
       ^(__attribute__((unused)) id itSelf, MSApplication *application, NSURL *url, NSString *sApplication, id annotation) {
@@ -394,8 +400,8 @@
         return expectedReturnedValue;
       };
   [self addSelector:customOpenURLiOS42Sel implementation:customOpenURLiOS42Imp toInstance:customAppDelegate];
-  [MSAppDelegateForwarder addDelegate:customAppDelegate];
-  [MSAppDelegateForwarder removeDelegate:customAppDelegate];
+  [self.sut addDelegate:customAppDelegate];
+  [self.sut removeDelegate:customAppDelegate];
 
   // When
   BOOL returnedValue = [originalAppDelegate application:self.appMock
@@ -419,7 +425,7 @@
   MSApplication *appMock = self.appMock;
   XCTestExpectation *originalCalledExpectation = [self expectationWithDescription:@"Original delegate called."];
   SEL originalOpenURLiOS42Sel = @selector(application:openURL:sourceApplication:annotation:);
-  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:originalOpenURLiOS42Sel];
+  [self.sut addAppDelegateSelectorToSwizzle:originalOpenURLiOS42Sel];
   id<MSApplicationDelegate> originalAppDelegate = [self createOriginalAppDelegateInstance];
   id originalOpenURLiOS42Imp =
       ^(__attribute__((unused)) id itSelf, MSApplication *application, NSURL *url, NSString *sApplication, id annotation) {
@@ -442,8 +448,8 @@
         return expectedReturnedValue;
       };
   [self addSelector:customOpenURLiOS42Sel implementation:customOpenURLiOS42Imp toInstance:customAppDelegate];
-  [MSAppDelegateForwarder addDelegate:customAppDelegate];
-  MSAppDelegateForwarder.enabled = NO;
+  [self.sut addDelegate:customAppDelegate];
+  self.sut.enabled = NO;
 
   // When
   BOOL returnedValue = [originalAppDelegate application:self.appMock
@@ -454,7 +460,7 @@
   // Then
   assertThatBool(returnedValue, is(@(expectedReturnedValue)));
   [self waitForExpectations:@[ originalCalledExpectation ] timeout:1];
-  MSAppDelegateForwarder.enabled = YES;
+  self.sut.enabled = YES;
 }
 #endif
 
@@ -471,7 +477,7 @@
   XCTestExpectation *customCalledExpectation2 = [self expectationWithDescription:@"Custom delegate 2 called."];
   MSApplication *appMock = self.appMock;
   SEL originalOpenURLiOS42Sel = @selector(application:openURL:sourceApplication:annotation:);
-  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:originalOpenURLiOS42Sel];
+  [self.sut addAppDelegateSelectorToSwizzle:originalOpenURLiOS42Sel];
   id<MSApplicationDelegate> originalAppDelegate = [self createOriginalAppDelegateInstance];
   id originalOpenURLiOS42Imp =
       ^(__attribute__((unused)) id itSelf, MSApplication *application, NSURL *url, NSString *sApplication, id annotation) {
@@ -514,9 +520,9 @@
     return expectedReturnedValue;
   };
   [self addSelector:customOpenURLiOS42Sel implementation:customOpenURLiOS42Imp2 toInstance:customAppDelegate2];
-  [MSAppDelegateForwarder addDelegate:customAppDelegate1];
-  [MSAppDelegateForwarder addDelegate:customAppDelegate2];
-  [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
+  [self.sut addDelegate:customAppDelegate1];
+  [self.sut addDelegate:customAppDelegate2];
+  [self.sut swizzleOriginalDelegate:originalAppDelegate];
 
   // When
   BOOL returnedValue = [originalAppDelegate application:self.appMock
@@ -538,7 +544,7 @@
   MSApplication *appMock = self.appMock;
   XCTestExpectation *customCalledExpectation = [self expectationWithDescription:@"Custom delegate called."];
   SEL originalOpenURLiOS90Sel = @selector(application:openURL:options:);
-  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:originalOpenURLiOS90Sel];
+  [self.sut addAppDelegateSelectorToSwizzle:originalOpenURLiOS90Sel];
   id<MSApplicationDelegate> originalAppDelegate = [self createOriginalAppDelegateInstance];
   SEL customOpenURLiOS90Sel = @selector(application:openURL:options:returnedValue:);
   id<MSCustomApplicationDelegate> customAppDelegate = [self createCustomAppDelegateInstance];
@@ -552,8 +558,8 @@
     return expectedReturnedValue;
   };
   [self addSelector:customOpenURLiOS90Sel implementation:customOpenURLiOS90Imp toInstance:customAppDelegate];
-  [MSAppDelegateForwarder addDelegate:customAppDelegate];
-  [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
+  [self.sut addDelegate:customAppDelegate];
+  [self.sut swizzleOriginalDelegate:originalAppDelegate];
 
   // When
   BOOL returnedValue = [originalAppDelegate application:self.appMock openURL:expectedURL options:expectedOptions];
@@ -568,7 +574,7 @@
   // If
   // Mock a custom app delegate.
   id<MSCustomApplicationDelegate> customDelegate = OCMProtocolMock(@protocol(MSCustomApplicationDelegate));
-  [MSAppDelegateForwarder addDelegate:customDelegate];
+  [self.sut addDelegate:customDelegate];
   NSURL *expectedURL = [NSURL URLWithString:@"https://www.contoso.com/sending-positive-waves"];
   id expectedOptions = @{};
   OCMExpect([customDelegate application:self.appMock openURL:expectedURL options:expectedOptions returnedValue:NO]);
@@ -577,11 +583,11 @@
   SEL deprecatedSelector = @selector(application:openURL:sourceApplication:annotation:);
   SEL newSelector = @selector(application:openURL:options:);
   id<MSApplicationDelegate> originalAppDelegate = [self createOriginalAppDelegateInstance];
-  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:deprecatedSelector];
-  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:newSelector];
+  [self.sut addAppDelegateSelectorToSwizzle:deprecatedSelector];
+  [self.sut addAppDelegateSelectorToSwizzle:newSelector];
 
   // When
-  [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
+  [self.sut swizzleOriginalDelegate:originalAppDelegate];
   [originalAppDelegate application:self.appMock openURL:expectedURL options:expectedOptions];
 
   // Then
@@ -595,7 +601,7 @@
   // If
   // Mock a custom app delegate.
   id<MSCustomApplicationDelegate> customDelegate = OCMProtocolMock(@protocol(MSCustomApplicationDelegate));
-  [MSAppDelegateForwarder addDelegate:customDelegate];
+  [self.sut addDelegate:customDelegate];
   NSURL *expectedURL = [NSURL URLWithString:@"https://www.contoso.com/sending-positive-waves"];
   id expectedAnotation = @{};
   OCMExpect([customDelegate application:self.appMock
@@ -614,11 +620,11 @@
     return YES;
   };
   [self addSelector:deprecatedSelector implementation:selectorImp toInstance:originalAppDelegate];
-  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:deprecatedSelector];
-  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:newSelector];
+  [self.sut addAppDelegateSelectorToSwizzle:deprecatedSelector];
+  [self.sut addAppDelegateSelectorToSwizzle:newSelector];
 
   // When
-  [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
+  [self.sut swizzleOriginalDelegate:originalAppDelegate];
   [originalAppDelegate application:self.appMock openURL:expectedURL sourceApplication:nil annotation:expectedAnotation];
 
   // Then
@@ -637,7 +643,7 @@
   // If
   // Mock a custom app delegate.
   id<MSCustomApplicationDelegate> customDelegate = OCMProtocolMock(@protocol(MSCustomApplicationDelegate));
-  [MSAppDelegateForwarder addDelegate:customDelegate];
+  [self.sut addDelegate:customDelegate];
   NSURL *expectedURL = [NSURL URLWithString:@"https://www.contoso.com/sending-positive-waves"];
   id expectedOptions = @{};
   OCMExpect([customDelegate application:self.appMock openURL:expectedURL options:expectedOptions returnedValue:YES]);
@@ -652,11 +658,11 @@
     return YES;
   };
   [self addSelector:newSelector implementation:selectorImp toInstance:originalAppDelegate];
-  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:deprecatedSelector];
-  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:newSelector];
+  [self.sut addAppDelegateSelectorToSwizzle:deprecatedSelector];
+  [self.sut addAppDelegateSelectorToSwizzle:newSelector];
 
   // When
-  [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
+  [self.sut swizzleOriginalDelegate:originalAppDelegate];
   [originalAppDelegate application:self.appMock openURL:expectedURL options:expectedOptions];
 
   // Then
@@ -671,7 +677,7 @@
   // If
   // Mock a custom app delegate.
   id<MSCustomApplicationDelegate> customDelegate = OCMProtocolMock(@protocol(MSCustomApplicationDelegate));
-  [MSAppDelegateForwarder addDelegate:customDelegate];
+  [self.sut addDelegate:customDelegate];
   NSURL *expectedURL = [NSURL URLWithString:@"https://www.contoso.com/sending-positive-waves"];
   id expectedAnotation = @{};
   id expectedOptions = @{};
@@ -698,11 +704,11 @@
   };
   [self addSelector:deprecatedSelector implementation:deprecatedSelectorImp toInstance:originalAppDelegate];
   [self addSelector:newSelector implementation:newSelectorImp toInstance:originalAppDelegate];
-  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:deprecatedSelector];
-  [MSAppDelegateForwarder addAppDelegateSelectorToSwizzle:newSelector];
+  [self.sut addAppDelegateSelectorToSwizzle:deprecatedSelector];
+  [self.sut addAppDelegateSelectorToSwizzle:newSelector];
 
   // When
-  [MSAppDelegateForwarder swizzleOriginalDelegate:originalAppDelegate];
+  [self.sut swizzleOriginalDelegate:originalAppDelegate];
   [originalAppDelegate application:self.appMock openURL:expectedURL sourceApplication:nil annotation:expectedAnotation];
   [originalAppDelegate application:self.appMock openURL:expectedURL options:expectedOptions];
 

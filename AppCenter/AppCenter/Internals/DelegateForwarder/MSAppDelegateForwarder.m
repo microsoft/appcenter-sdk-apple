@@ -8,6 +8,9 @@ static NSString *const kMSIsAppDelegateForwarderEnabledKey = @"AppCenterAppDeleg
 static NSString *const kMSOpenURLSourceApplicationAnnotation = @"application:openURL:sourceApplication:annotation:";
 static NSString *const kMSOpenURLOptions = @"application:openURL:options:";
 
+// Singleton instance.
+static MSAppDelegateForwarder *sharedInstance = nil;
+
 @implementation MSAppDelegateForwarder
 
 - (instancetype)init {
@@ -20,12 +23,15 @@ static NSString *const kMSOpenURLOptions = @"application:openURL:options:";
 }
 
 + (instancetype)sharedInstance {
-  static MSAppDelegateForwarder *sharedInstance = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     sharedInstance = [self new];
   });
   return sharedInstance;
+}
+
++ (void)resetSharedInstance {
+  sharedInstance = [self new];
 }
 
 // TODO make it a property?

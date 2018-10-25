@@ -13,9 +13,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, nullable) NSMutableArray<dispatch_block_t> *traceBuffer;
 
 /**
- * Reset the app delegate forwarder, used for testing only.
+ * Only used by tests to reset the singleton instance.
  */
-- (void)reset;
++ (void)resetSharedInstance;
 
 @end
 
