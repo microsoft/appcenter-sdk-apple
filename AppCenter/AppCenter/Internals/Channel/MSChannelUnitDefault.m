@@ -90,7 +90,7 @@
 
 #pragma mark - Managing queue
 
-- (void)enqueueItem:(id <MSLog>)item flags:(MSFlags)flags {
+- (void)enqueueItem:(id<MSLog>)item flags:(MSFlags)flags {
 
   /*
    * Set common log info.

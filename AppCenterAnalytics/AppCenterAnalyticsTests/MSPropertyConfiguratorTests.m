@@ -25,8 +25,9 @@
 - (void)setUp {
   [super setUp];
   id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
-  self.parentTarget = OCMPartialMock(
-      [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:@"456" parentTarget:nil channelGroup:channelGroupMock]);
+  self.parentTarget = OCMPartialMock([[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:@"456"
+                                                                                               parentTarget:nil
+                                                                                               channelGroup:channelGroupMock]);
   self.transmissionTarget = OCMPartialMock([[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:@"123"
                                                                                                      parentTarget:self.parentTarget
                                                                                                      channelGroup:channelGroupMock]);

@@ -4,6 +4,7 @@
 #import "MSCSExtensions.h"
 #import "MSCSModelConstants.h"
 #import "MSCommonSchemaLog.h"
+#import "MSConstants.h"
 #import "MSDevice.h"
 #import "MSLocExtension.h"
 #import "MSModelTestsUtililty.h"
@@ -14,7 +15,6 @@
 #import "MSTestFrameworks.h"
 #import "MSUserExtension.h"
 #import "MSUtility+Date.h"
-#import "MSConstants.h"
 
 @interface MSCommonSchemaLogTests : XCTestCase
 @property(nonatomic) MSCommonSchemaLog *commonSchemaLog;
@@ -53,7 +53,7 @@
   NSDictionary *expectedSerializedLog = @{
     kMSCSTime : [MSUtility dateToISO8601:self.csLogDummyValues[kMSCSTime]],
     kMSCSData : [self.csLogDummyValues[kMSCSData] serializeToDictionary],
-    kMSCSExt  : [self.csLogDummyValues[kMSCSExt] serializeToDictionary],
+    kMSCSExt : [self.csLogDummyValues[kMSCSExt] serializeToDictionary],
     kMSCSIKey : @"o:60cd0b94-6060-11e8-9c2d-fa7ae01bbebc",
     kMSCSVer : @"3.0",
     kMSCSName : @"1DS",
@@ -277,7 +277,7 @@
 
 - (MSCSData *)dataWithDummyValues {
   MSCSData *data = [MSCSData new];
-  data.properties = @{ @"Jan" : @"1", @"feb" : @"2", @"Mar" : @"3" };
+  data.properties = @{@"Jan" : @"1", @"feb" : @"2", @"Mar" : @"3"};
   return data;
 }
 

@@ -1,9 +1,9 @@
 #import "MSAbstractLog.h"
 #import "MSCommonSchemaLog.h"
+#import "MSConstants.h"
 #import "MSLog.h"
 #import "MSLogConversion.h"
 #import "MSSerializableObject.h"
-#import "MSConstants.h"
 
 @interface MSAbstractLog () <MSLog, MSSerializableObject, MSLogConversion>
 

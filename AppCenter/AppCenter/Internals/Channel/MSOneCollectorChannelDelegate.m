@@ -73,7 +73,10 @@ NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){
   }
 }
 
-- (void)channel:(id <MSChannelProtocol>)channel didPrepareLog:(id <MSLog>)log internalId:(NSString *)__unused internalId flags:(MSFlags)flags {
+- (void)channel:(id<MSChannelProtocol>)channel
+    didPrepareLog:(id<MSLog>)log
+       internalId:(NSString *)__unused internalId
+            flags:(MSFlags)flags {
   id<MSChannelUnitProtocol> channelUnit = (id<MSChannelUnitProtocol>)channel;
   id<MSChannelUnitProtocol> oneCollectorChannelUnit = nil;
   NSString *groupId = channelUnit.configuration.groupId;
