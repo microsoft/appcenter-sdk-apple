@@ -18,6 +18,7 @@
  */
 @property(nonatomic) IMP originalSetDelegateImp;
 
+// TODO SEL can be stored as NSValue in dictionaries for a better efficiency.
 /**
  * Keep track of the original delegate's method implementations.
  */
@@ -29,7 +30,11 @@
 @property(nonatomic) NSDictionary<NSString *, NSString *> *deprecatedSelectors;
 
 /**
- * Returns the singleton instance of MSDelegateForwarder.
+ * Return the singleton instance of a delegate forwarder.
+ *
+ * @return The delegate forwarder instance.
+ *
+ * @discussion This method is abstract and needs to be overwritten by subclasses.
  */
 + (instancetype)sharedInstance;
 
