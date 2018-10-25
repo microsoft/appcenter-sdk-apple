@@ -662,7 +662,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   // When
   MSAbstractLog *additionalLog = [MSAbstractLog new];
   additionalLog.sid = MS_UUID_STRING;
-  BOOL logSavedSuccessfully = [self.sut saveLog:additionalLog withGroupId:kMSAnotherTestGroupId];
+  BOOL logSavedSuccessfully = [self.sut saveLog:additionalLog withGroupId:kMSAnotherTestGroupId critical:NO];
 
   // Then
   XCTAssertFalse(logSavedSuccessfully);
