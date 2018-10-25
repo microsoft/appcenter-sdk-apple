@@ -66,6 +66,6 @@ typedef NS_ENUM(NSInteger, MSInitializationPriority) {
 
 typedef NS_OPTIONS(NSUInteger, MSFlags) {
   MSFlagsNone = (0 << 0), // => 00000000
-  MSEventFlagsPersistenceNormal = (1 << 0), // => 00000001
-  MSEventFlagsPersistenceCritical   = (1 << 1), // => 00000010
+  MSFlagsPersistenceNormal = (1 << 0), // => 00000001
+  MSFlagsPersistenceCritical   = (1 << 1), // => 00000010
 };

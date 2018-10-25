@@ -287,7 +287,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   id<MSLog> mockLog = [self getValidMockLog];
 
   // When
-  [self.sut enqueueItem:mockLog flags:MSEventFlagsPersistenceCritical];
+  [self.sut enqueueItem:mockLog flags:MSFlagsPersistenceCritical];
   [self enqueueChannelEndJobExpectation];
 
   // Then
@@ -307,7 +307,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   id<MSLog> mockLog = [self getValidMockLog];
 
   // When
-  [self.sut enqueueItem:mockLog flags:MSEventFlagsPersistenceNormal];
+  [self.sut enqueueItem:mockLog flags:MSFlagsPersistenceNormal];
   [self enqueueChannelEndJobExpectation];
 
   // Then
@@ -371,7 +371,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // When
   for (int i = 0; i < itemsToAdd; ++i) {
-    [sut enqueueItem:mockLog flags:MSEventFlagsPersistenceCritical];
+    [sut enqueueItem:mockLog flags:MSFlagsPersistenceCritical];
   }
   [self enqueueChannelEndJobExpectation];
 
