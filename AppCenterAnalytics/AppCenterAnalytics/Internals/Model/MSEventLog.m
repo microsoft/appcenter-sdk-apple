@@ -14,7 +14,6 @@
 #import "MSLongTypedProperty.h"
 #import "MSMetadataExtension.h"
 #import "MSStringTypedProperty.h"
-#import "../../../../../../../../../Applications/Xcode.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk/System/Library/Frameworks/Security.framework/Headers/Security.h"
 
 static NSString *const kMSTypeEvent = @"event";
 
