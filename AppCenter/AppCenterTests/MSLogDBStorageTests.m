@@ -24,12 +24,18 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
 @implementation MSLogDBStorageTests
 
 #pragma mark - Setup
+
 - (void)setUp {
   [super setUp];
   self.storageTestUtil = [[MSStorageTestUtil alloc] initWithDbFileName:kMSDBFileName];
   [self.storageTestUtil deleteDatabase];
   XCTAssertEqual([self.storageTestUtil getDataLengthInBytes], 0);
-  self.sut = [MSLogDBStorage new];
+  self.sut = OCMPartialMock([MSLogDBStorage new]);
+  OCMStub([self.sut executeNonSelectionQuery:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    NSString *query;
+    [invocation getArgument:&query atIndex:2];
+    [self validateQuerySyntax:query];
+  }).andForwardToRealObject();
 }
 
 - (void)tearDown {
@@ -644,6 +650,25 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   }
 }
 
+- (void)testErrorDeletingOldestLog {
+
+  // If
+  id classMock = OCMClassMock([MSDBStorage class]);
+  OCMStub([classMock executeNonSelectionQuery:startsWith(@"INSERT") inOpenedDatabase:[OCMArg anyPointer]])
+    .andReturn(SQLITE_FULL);
+  OCMStub([classMock executeNonSelectionQuery:startsWith(@"DELETE") inOpenedDatabase:[OCMArg anyPointer]])
+    .andReturn(SQLITE_ERROR);
+
+  // When
+  MSAbstractLog *additionalLog = [MSAbstractLog new];
+  additionalLog.sid = MS_UUID_STRING;
+  BOOL logSavedSuccessfully = [self.sut saveLog:additionalLog withGroupId:kMSAnotherTestGroupId];
+
+  // Then
+  XCTAssertFalse(logSavedSuccessfully);
+  [classMock stopMocking];
+}
+
 - (void)testMigrationFromSchema0to3 {
 
   // If
@@ -840,6 +865,15 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
     }
   }
   return NO;
+}
+
+- (void)validateQuerySyntax:(NSString *)query {
+  sqlite3 *db = [self.storageTestUtil openDatabase];
+  NSString *statement = [NSString stringWithFormat:@"EXPLAIN %@", query];
+  char *error;
+  int result = sqlite3_exec(db, [statement UTF8String], NULL, NULL, &error);
+  XCTAssert(result == SQLITE_OK, "%s", error);
+  sqlite3_close(db);
 }
 
 @end
