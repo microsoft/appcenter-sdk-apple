@@ -576,6 +576,7 @@
   self.sut.timestamp = timestamp;
   self.sut.name = name;
   self.sut.typedProperties = eventProperties;
+  self.sut.tag = [NSObject new];
 
   // When
   MSCommonSchemaLog *csLog = [self.sut toCommonSchemaLogForTargetToken:targetToken];
@@ -597,6 +598,7 @@
   XCTAssertEqualObjects(csLog.ext.locExt.tz, @"-07:00");
   XCTAssertEqualObjects(csLog.data.properties, expectedProperties);
   XCTAssertEqualObjects(csLog.ext.metadataExt.metadata, expectedMetadata);
+  XCTAssertEqualObjects(csLog.tag, self.sut.tag);
 }
 
 @end
