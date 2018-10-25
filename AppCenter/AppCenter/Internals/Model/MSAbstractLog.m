@@ -139,7 +139,7 @@
 
 #pragma mark - Helper
 
-- (MSCommonSchemaLog *)toCommonSchemaLogForTargetToken:(NSString *)token flags:(int64_t)flags {
+- (MSCommonSchemaLog *)toCommonSchemaLogForTargetToken:(NSString *)token flags:(MSFlags)flags {
   MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
   csLog.transmissionTargetTokens = [NSSet setWithObject:token];
   csLog.ver = kMSCSVerValue;

@@ -1,5 +1,6 @@
 #import <Foundation/Foundation.h>
 
+#import "MSConstants.h"
 #import "MSChannelProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN

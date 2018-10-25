@@ -3,6 +3,7 @@
 #import "MSLog.h"
 #import "MSLogConversion.h"
 #import "MSSerializableObject.h"
+#import "MSConstants.h"
 
 @interface MSAbstractLog () <MSLog, MSSerializableObject, MSLogConversion>
 
@@ -19,8 +20,10 @@
  * Convert an AppCenter log to the Common Schema 3.0 event log per tenant token.
  *
  * @param token The tenant token.
+ * @param flags Flags to set for the common schema log.
  *
  * @return A common schema log.
  */
-- (MSCommonSchemaLog *)toCommonSchemaLogForTargetToken:(NSString *)token flags:(int64_t)flags;
+- (MSCommonSchemaLog *)toCommonSchemaLogForTargetToken:(NSString *)token flags:(MSFlags)flags;
+
 @end
