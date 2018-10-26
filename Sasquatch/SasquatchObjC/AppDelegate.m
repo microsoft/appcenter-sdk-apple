@@ -2,8 +2,8 @@
 #import <Photos/Photos.h>
 #import <UserNotifications/UserNotifications.h>
 
-#import "AppDelegate.h"
 #import "AppCenterDelegateObjC.h"
+#import "AppDelegate.h"
 #import "Constants.h"
 #import "Sasquatch-Swift.h"
 
@@ -37,8 +37,8 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
     MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate, UNUserNotificationCenterDelegate>
 
 @property(nonatomic) MSAnalyticsResult *analyticsResult;
-
-@property(nonatomic) BOOL didTapNotification;
+@property(nonatomic) API_AVAILABLE(ios(10.0)) void (^notificationPresentationCompletionHandler)(UNNotificationPresentationOptions options);
+@property(nonatomic) void (^notificationResponseCompletionHandler)(void);
 
 @end
 
@@ -76,7 +76,8 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
                    dispatch_async(dispatch_get_main_queue(), ^{
                      if (success) {
                        long realStorageSize = (long)(ceil([storageMaxSize doubleValue] / kMSStoragePageSize) * kMSStoragePageSize);
-                       [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithLong:realStorageSize] forKey:kMSStorageMaxSizeKey];
+                       [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithLong:realStorageSize]
+                                                                 forKey:kMSStorageMaxSizeKey];
                      } else {
 
                        // Remove invalid value.
@@ -95,7 +96,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   }
 
   // Start App Center SDK.
-  NSArray<Class> *services = @[ [MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class] ];
+  NSArray<Class> *services = @ [[MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class]];
   NSInteger startTarget = [[NSUserDefaults standardUserDefaults] integerForKey:kMSStartTargetKey];
   switch (startTarget) {
   case APPCENTER:
@@ -150,7 +151,6 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 
   [MSCrashes setDelegate:self];
   [MSCrashes setUserConfirmationHandler:(^(NSArray<MSErrorReport *> *errorReports) {
-
                // Use MSAlertViewController to show a dialog to the user where they can choose if they want to provide a crash report.
                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Sorry about that!"
                                                                                         message:@"Do you want to send an anonymous crash "
@@ -257,8 +257,9 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
                                                                                (__bridge CFStringRef)[dataUTI pathExtension], nil);
                        NSString *MIMEType = (__bridge_transfer NSString *)UTTypeCopyPreferredTagWithClass(UTI, kUTTagClassMIMEType);
                        CFRelease(UTI);
-                       MSErrorAttachmentLog *binaryAttachment =
-                           [MSErrorAttachmentLog attachmentWithBinary:imageData filename:dataUTI contentType:MIMEType];
+                       MSErrorAttachmentLog *binaryAttachment = [MSErrorAttachmentLog attachmentWithBinary:imageData
+                                                                                                  filename:dataUTI
+                                                                                               contentType:MIMEType];
                        [attachments addObject:binaryAttachment];
                        NSLog(@"Add binary attachment with %tu bytes", [imageData length]);
                      }];
@@ -307,31 +308,29 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center
        willPresentNotification:(UNNotification *)notification
          withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler API_AVAILABLE(ios(10.0)) {
-  id appCenter = notification.request.content.userInfo[@"mobile_center"];
-  id presentation = [appCenter isKindOfClass:[NSDictionary class]] ? appCenter[@"presentation"] : nil;
-  if ([presentation isKindOfClass:[NSString class]] && [presentation isEqualToString:@"alert"]) {
-
-    // Show alert if custom data enabled it.
-    // Note that if silent push is enabled, we'll get both dialog and notification, doing it on purpose.
-    completionHandler(UNNotificationPresentationOptionAlert);
-  } else {
-    [MSPush didReceiveRemoteNotification:notification.request.content.userInfo];
-    completionHandler(UNNotificationPresentationOptionNone);
-  }
+  self.notificationPresentationCompletionHandler = completionHandler;
 }
 
 // iOS 10 and later, asks the delegate to process the user's response to a delivered notification.
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center
     didReceiveNotificationResponse:(UNNotificationResponse *)response
              withCompletionHandler:(void (^)(void))completionHandler API_AVAILABLE(ios(10.0)) {
-  if ([[response actionIdentifier] isEqualToString:UNNotificationDefaultActionIdentifier]) {
-    self.didTapNotification = YES;
-  }
-  [MSPush didReceiveRemoteNotification:response.notification.request.content.userInfo];
-  completionHandler();
+  self.notificationResponseCompletionHandler = completionHandler;
 }
 
 - (void)push:(MSPush *)push didReceivePushNotification:(MSPushNotification *)pushNotification {
+
+  // Alert in foreground if requested.
+  if (self.notificationPresentationCompletionHandler) {
+    UNNotificationPresentationOptions options = [pushNotification.customData[@"presentation"] isEqual:@"alert"]
+                                                    ? UNNotificationPresentationOptionAlert
+                                                    : UNNotificationPresentationOptionNone;
+    self.notificationPresentationCompletionHandler(options);
+    self.notificationPresentationCompletionHandler = nil;
+    return;
+  }
+
+  // Create and show a popup from the notification payload.
   NSString *title = pushNotification.title ?: @"";
   NSString *message = pushNotification.message;
   NSMutableString *customData = nil;
@@ -348,22 +347,25 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
     NSString *stateMessage;
     if ([[NSProcessInfo processInfo] operatingSystemVersion].majorVersion < 10) {
       stateMessage = @"";
-    } else if (self.didTapNotification) {
+    } else if (self.notificationResponseCompletionHandler) {
       stateMessage = @"Tapped notification\n";
     } else {
       stateMessage = @"Received in foreground\n";
     }
     message = [NSString stringWithFormat:@"%@%@%@%@", stateMessage, (message ? message : @""), (message && customData ? @"\n" : @""),
                                          (customData ? customData : [@"" mutableCopy])];
-
-    UIAlertController *alertController =
-        [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title
+                                                                             message:message
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
     [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
-
-    // Show the alert controller.
     [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
   }
-  self.didTapNotification = NO;
+
+  // Call notification response completion handlers.
+  if (self.notificationResponseCompletionHandler) {
+    self.notificationResponseCompletionHandler();
+    self.notificationResponseCompletionHandler = nil;
+  }
 }
 
 @end
