@@ -249,6 +249,9 @@
 		E8E48F9F1D515C3900A8C1B0 /* MSSessionTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = E8E48F9D1D515C3900A8C1B0 /* MSSessionTracker.m */; };
 		E8E48FA21D51670100A8C1B0 /* MSStartSessionLog.h in Headers */ = {isa = PBXBuildFile; fileRef = E8E48FA01D51670100A8C1B0 /* MSStartSessionLog.h */; };
 		E8E48FA31D51670100A8C1B0 /* MSStartSessionLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E8E48FA11D51670100A8C1B0 /* MSStartSessionLog.m */; };
+		F82E4C71217F1FA600EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C70217F1FA600EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		F82E4C72217F1FA600EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C70217F1FA600EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		F82E4C73217F1FA600EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C70217F1FA600EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		F834E37320AC8E25003CB54D /* MSLogWithNameAndProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = F834E37020AC8E25003CB54D /* MSLogWithNameAndProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F834E37420AC8E25003CB54D /* MSLogWithNameAndProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = F834E37020AC8E25003CB54D /* MSLogWithNameAndProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F834E37520AC8E25003CB54D /* MSLogWithNameAndProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = F834E37120AC8E25003CB54D /* MSLogWithNameAndProperties.m */; };
@@ -418,6 +421,7 @@
 		E8E48F9D1D515C3900A8C1B0 /* MSSessionTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSSessionTracker.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		E8E48FA01D51670100A8C1B0 /* MSStartSessionLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSStartSessionLog.h; sourceTree = "<group>"; };
 		E8E48FA11D51670100A8C1B0 /* MSStartSessionLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSStartSessionLog.m; sourceTree = "<group>"; };
+		F82E4C70217F1FA600EDAB34 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = ../../Vendor/SQLite3/sqlite3.c; sourceTree = "<group>"; };
 		F834E37020AC8E25003CB54D /* MSLogWithNameAndProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSLogWithNameAndProperties.h; sourceTree = "<group>"; };
 		F834E37120AC8E25003CB54D /* MSLogWithNameAndProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSLogWithNameAndProperties.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -597,6 +601,7 @@
 		6E0684361D35A39300A8CC6C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F82E4C70217F1FA600EDAB34 /* sqlite3.c */,
 				0446DF631F3B95F200C8E338 /* libAppCenter.a */,
 				0446DF611F3B95EB00C8E338 /* libAppCenter.a */,
 				0446DF5E1F3B8FBA00C8E338 /* libAppCenter.a */,
@@ -1198,6 +1203,7 @@
 				0446DF441F3B8E6300C8E338 /* MSEventLogTests.m in Sources */,
 				35A204C1216C1CCF00FEBADA /* MSEventPropertiesTests.m in Sources */,
 				B26D4E19212240F400AB4E28 /* MSAnalyticsAuthenticationProviderTests.m in Sources */,
+				F82E4C73217F1FA600EDAB34 /* sqlite3.c in Sources */,
 				0446DF451F3B8E6300C8E338 /* MSPageLogTests.m in Sources */,
 				38C215E320E692C700191F3C /* MSMockUserDefaults.m in Sources */,
 				0446DF461F3B8E6300C8E338 /* MSSessionTrackerTests.m in Sources */,
@@ -1218,6 +1224,7 @@
 				046AEAB91ECA51AF00CBE511 /* MSEventLogTests.m in Sources */,
 				B26D4E18212240EB00AB4E28 /* MSAnalyticsAuthenticationProviderTests.m in Sources */,
 				046AEABA1ECA51AF00CBE511 /* MSPageLogTests.m in Sources */,
+				F82E4C72217F1FA600EDAB34 /* sqlite3.c in Sources */,
 				38C215E220E692C700191F3C /* MSMockUserDefaults.m in Sources */,
 				046AEABB1ECA51AF00CBE511 /* MSSessionTrackerTests.m in Sources */,
 				046AEABC1ECA51AF00CBE511 /* MSStartSessionLogTests.m in Sources */,
@@ -1275,6 +1282,7 @@
 				6E3E2CD31D359F3300B1EE50 /* MSEventLogTests.m in Sources */,
 				6E3E2CD41D359F3300B1EE50 /* MSPageLogTests.m in Sources */,
 				B26D4DDF211BA99E00AB4E28 /* MSAnalyticsAuthenticationProviderTests.m in Sources */,
+				F82E4C71217F1FA600EDAB34 /* sqlite3.c in Sources */,
 				38C215E120E692C700191F3C /* MSMockUserDefaults.m in Sources */,
 				E815912C1D526A09003D5F3C /* MSSessionTrackerTests.m in Sources */,
 				E815912A1D526956003D5F3C /* MSStartSessionLogTests.m in Sources */,
