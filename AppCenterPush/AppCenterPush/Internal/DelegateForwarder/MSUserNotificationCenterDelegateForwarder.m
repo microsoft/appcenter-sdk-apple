@@ -8,6 +8,17 @@ static dispatch_once_t swizzlingOnceToken;
 
 @implementation MSUserNotificationCenterDelegateForwarder
 
++ (void)load {
+
+  // Register selectors to swizzle (iOS 10+).
+  if ([[MSUserNotificationCenterDelegateForwarder sharedInstance] originalClassForSetDelegate]) {
+    [[MSUserNotificationCenterDelegateForwarder sharedInstance]
+        addAppDelegateSelectorToSwizzle:@selector(userNotificationCenter:willPresentNotification:withCompletionHandler:)];
+    [[MSUserNotificationCenterDelegateForwarder sharedInstance]
+        addAppDelegateSelectorToSwizzle:@selector(userNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:)];
+  }
+}
+
 + (instancetype)sharedInstance {
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
@@ -90,14 +101,6 @@ static dispatch_once_t swizzlingOnceToken;
 
   // TODO handle completion
   completionHandler();
-}
-
-// Register selectors to swizzle for Push.
-+ (void)load {
-  [[MSUserNotificationCenterDelegateForwarder sharedInstance]
-      addAppDelegateSelectorToSwizzle:@selector(userNotificationCenter:willPresentNotification:withCompletionHandler:)];
-  [[MSUserNotificationCenterDelegateForwarder sharedInstance]
-      addAppDelegateSelectorToSwizzle:@selector(userNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:)];
 }
 
 #pragma clang diagnostic pop
