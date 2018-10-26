@@ -76,13 +76,14 @@ static dispatch_once_t swizzlingOnceToken;
   if (originalImp) {
     ((void (*)(id, SEL, UNUserNotificationCenter *, UNNotification *, void (^)(UNNotificationPresentationOptions options)))originalImp)(
         self, _cmd, center, notification, completionHandler);
+  } else {
+
+    // Call the completion handler with the default behavior.
+    completionHandler(UNNotificationPresentationOptionNone);
   }
 
   // Forward to Push.
   [MSPush didReceiveRemoteNotification:notification.request.content.userInfo];
-
-  // TODO handle completion
-  completionHandler(0);
 }
 
 - (void)custom_userNotificationCenter:(UNUserNotificationCenter *)center
@@ -95,12 +96,14 @@ static dispatch_once_t swizzlingOnceToken;
   if (originalImp) {
     ((void (*)(id, SEL, UNUserNotificationCenter *, UNNotificationResponse *, void (^)(void)))originalImp)(self, _cmd, center, response,
                                                                                                            completionHandler);
+  } else {
+
+    // Still need to call the completion Handler.
+    completionHandler();
   }
 
+  // Forward to Push.
   [MSPush didReceiveRemoteNotification:response.notification.request.content.userInfo];
-
-  // TODO handle completion
-  completionHandler();
 }
 
 #pragma clang diagnostic pop
