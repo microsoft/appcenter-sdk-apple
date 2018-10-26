@@ -16,6 +16,7 @@
 #import "MSPushLog.h"
 #import "MSPushNotificationInternal.h"
 #import "MSPushPrivate.h"
+#import "MSUserNotificationCenterDelegateForwarder.h"
 
 /**
  * Service storage key name.
@@ -60,6 +61,9 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
     // Init channel configuration.
     _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
     _appDelegate = [MSPushAppDelegate new];
+
+    // TODO see where to put this.
+    [MSUserNotificationCenterDelegateForwarder sharedInstance];
 
 #if TARGET_OS_OSX
     NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];

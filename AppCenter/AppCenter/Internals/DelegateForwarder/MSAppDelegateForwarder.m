@@ -10,6 +10,7 @@ static NSString *const kMSOpenURLOptions = @"application:openURL:options:";
 
 // Singleton instance.
 static MSAppDelegateForwarder *sharedInstance = nil;
+static dispatch_once_t swizzlingOnceToken;
 
 @implementation MSAppDelegateForwarder
 
@@ -36,6 +37,10 @@ static MSAppDelegateForwarder *sharedInstance = nil;
 
 - (Class)originalClassForSetDelegate {
   return [MSApplication class];
+}
+
+- (dispatch_once_t *)swizzlingOnceToken {
+  return &swizzlingOnceToken;
 }
 
 #pragma mark - Custom Application

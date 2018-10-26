@@ -72,6 +72,6 @@
 /**
  * Flush debugging traces accumulated until now.
  */
-- (void)flushTraceBuffer;
++ (void)flushTraceBuffer;
 
 @end

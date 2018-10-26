@@ -9,14 +9,20 @@
 static NSString *const kMSCustomSelectorPrefix = @"custom_";
 static NSString *const kMSReturnedValueSelectorPart = @"returnedValue:";
 
+// A buffer containing all the console logs that couldn't be printed yet.
+static NSMutableArray<dispatch_block_t> *traceBuffer = nil;
+
 @implementation MSDelegateForwarder
+
++ (void)load {
+  traceBuffer = [NSMutableArray new];
+}
 
 - (instancetype)init {
   if ((self = [super init])) {
     _delegates = [NSHashTable weakObjectsHashTable];
     _selectorsToSwizzle = [NSMutableSet new];
     _originalImplementations = [NSMutableDictionary new];
-    _traceBuffer = [NSMutableArray new];
     _enabled = YES;
   }
   return self;
@@ -34,6 +40,12 @@ static NSString *const kMSReturnedValueSelectorPart = @"returnedValue:";
 }
 
 - (Class)originalClassForSetDelegate {
+
+  // This is an empty method and expect to be overridden in sub classes.
+  return nil;
+}
+
+- (dispatch_once_t *)swizzlingOnceToken {
 
   // This is an empty method and expect to be overridden in sub classes.
   return nil;
@@ -57,29 +69,29 @@ static NSString *const kMSReturnedValueSelectorPart = @"returnedValue:";
 #pragma mark - Logging
 
 - (void)addTraceBlock:(void (^)(void))block {
-  @synchronized(self.traceBuffer) {
-    if (self.traceBuffer) {
+  @synchronized(traceBuffer) {
+    if (traceBuffer) {
       static dispatch_once_t onceToken = 0;
       dispatch_once(&onceToken, ^{
-        [self.traceBuffer addObject:^{
+        [traceBuffer addObject:^{
           MSLogVerbose([MSAppCenter logTag], @"Start buffering traces.");
         }];
       });
-      [self.traceBuffer addObject:block];
+      [traceBuffer addObject:block];
     } else {
       block();
     }
   }
 }
 
-- (void)flushTraceBuffer {
-  if (self.traceBuffer) {
-    @synchronized(self.traceBuffer) {
-      for (dispatch_block_t traceBlock in self.traceBuffer) {
++ (void)flushTraceBuffer {
+  if (traceBuffer) {
+    @synchronized(traceBuffer) {
+      for (dispatch_block_t traceBlock in traceBuffer) {
         traceBlock();
       }
-      [self.traceBuffer removeAllObjects];
-      self.traceBuffer = nil;
+      [traceBuffer removeAllObjects];
+      traceBuffer = nil;
       MSLogVerbose([MSAppCenter logTag], @"Stop buffering traces, flushed.");
     }
   }
@@ -91,8 +103,7 @@ static NSString *const kMSReturnedValueSelectorPart = @"returnedValue:";
   if (self.enabled) {
 
     // Swizzle only once and only if needed. No selector to swizzle then no swizzling at all.
-    static dispatch_once_t appSwizzleOnceToken;
-    dispatch_once(&appSwizzleOnceToken, ^{
+    dispatch_once([self swizzlingOnceToken], ^{
       self.originalSetDelegateImp = [self swizzleOriginalSelector:@selector(setDelegate:)
                                                withCustomSelector:@selector(custom_setDelegate:)
                                                     originalClass:[self originalClassForSetDelegate]];
