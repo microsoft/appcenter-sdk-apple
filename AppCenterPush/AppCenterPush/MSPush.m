@@ -62,9 +62,8 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
     _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
     _appDelegate = [MSPushAppDelegate new];
 
-    // TODO see where to put this.
+    // This call is used to force load the MSUserNotificationCenterDelegateForwarder class so it can register the swizzling.
     [MSUserNotificationCenterDelegateForwarder sharedInstance];
-
 #if TARGET_OS_OSX
     NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
 
