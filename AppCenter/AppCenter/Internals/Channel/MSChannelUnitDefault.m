@@ -222,7 +222,7 @@
           if (batchId.length > 0) {
             [self.pendingBatchIds addObject:batchId];
             if (self.pendingBatchIds.count >= self.configuration.pendingBatchesLimit) {
-              self.pendingBatchQ fueueFull = YES;
+              self.pendingBatchQueueFull = YES;
             }
             MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:batchId andLogs:logArray];
 
