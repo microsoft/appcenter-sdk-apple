@@ -166,7 +166,7 @@
 
       // Save the log first.
       MSLogDebug([MSAppCenter logTag], @"Saving log, type: %@.", item.type);
-      BOOL critical = flags & MSFlagsPersistenceCritical;
+      BOOL critical = (flags & MSFlagsPersistenceCritical) != 0;
       [self.storage saveLog:item withGroupId:self.configuration.groupId critical:critical];
       self.itemsCount += 1;
       [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:withInternalId:)
@@ -222,7 +222,7 @@
           if (batchId.length > 0) {
             [self.pendingBatchIds addObject:batchId];
             if (self.pendingBatchIds.count >= self.configuration.pendingBatchesLimit) {
-              self.pendingBatchQueueFull = YES;
+              self.pendingBatchQ fueueFull = YES;
             }
             MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:batchId andLogs:logArray];
 
