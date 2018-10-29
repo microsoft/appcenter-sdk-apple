@@ -552,7 +552,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // Mock channel group.
   __block MSEventLog *eventLog;
-  OCMStub([channelUnitMock enqueueItem:OCMOCK_ANY flags:NO]).andDo(^(NSInvocation *invocation) {
+  OCMStub([channelUnitMock enqueueItem:OCMOCK_ANY flags:MSFlagsNone]).andDo(^(NSInvocation *invocation) {
     id<MSLog> log = nil;
     [invocation getArgument:&log atIndex:2];
     eventLog = (MSEventLog *)log;
@@ -620,7 +620,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // Mock channel group.
   __block MSEventLog *eventLog;
-  OCMStub([channelUnitMock enqueueItem:OCMOCK_ANY flags:NO]).andDo(^(NSInvocation *invocation) {
+  OCMStub([channelUnitMock enqueueItem:OCMOCK_ANY flags:MSFlagsNone]).andDo(^(NSInvocation *invocation) {
     id<MSLog> log = nil;
     [invocation getArgument:&log atIndex:2];
     eventLog = (MSEventLog *)log;

@@ -31,11 +31,13 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   [self.storageTestUtil deleteDatabase];
   XCTAssertEqual([self.storageTestUtil getDataLengthInBytes], 0);
   self.sut = OCMPartialMock([MSLogDBStorage new]);
-  OCMStub([self.sut executeNonSelectionQuery:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
-    NSString *query;
-    [invocation getArgument:&query atIndex:2];
-    [self validateQuerySyntax:query];
-  }).andForwardToRealObject();
+  OCMStub([self.sut executeNonSelectionQuery:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        NSString *query;
+        [invocation getArgument:&query atIndex:2];
+        [self validateQuerySyntax:query];
+      })
+      .andForwardToRealObject();
 }
 
 - (void)tearDown {
@@ -654,10 +656,8 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
 
   // If
   id classMock = OCMClassMock([MSDBStorage class]);
-  OCMStub([classMock executeNonSelectionQuery:startsWith(@"INSERT") inOpenedDatabase:[OCMArg anyPointer]])
-    .andReturn(SQLITE_FULL);
-  OCMStub([classMock executeNonSelectionQuery:startsWith(@"DELETE") inOpenedDatabase:[OCMArg anyPointer]])
-    .andReturn(SQLITE_ERROR);
+  OCMStub([classMock executeNonSelectionQuery:startsWith(@"INSERT") inOpenedDatabase:[OCMArg anyPointer]]).andReturn(SQLITE_FULL);
+  OCMStub([classMock executeNonSelectionQuery:startsWith(@"DELETE") inOpenedDatabase:[OCMArg anyPointer]]).andReturn(SQLITE_ERROR);
 
   // When
   MSAbstractLog *additionalLog = [MSAbstractLog new];

@@ -364,7 +364,8 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 - (void)sendLog:(id<MSLog>)log {
 
   // Send log to log manager.
-  [self.channelUnit enqueueItem:log flags:NO];
+  // TODO use the flags that are passed into this method as a parameter (and make the parameter).
+  [self.channelUnit enqueueItem:log flags:MSFlagsNone];
 }
 
 - (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:(NSString *)transmissionTargetToken {

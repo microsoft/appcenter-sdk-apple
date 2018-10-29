@@ -244,7 +244,7 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
   [self enqueueChannelEndJobExpectation];
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
-                                 OCMVerify([oneCollectorChannelUnitMock enqueueItem:commonSchemaLog flags:NO]);
+                                 OCMVerify([oneCollectorChannelUnitMock enqueueItem:commonSchemaLog flags:MSFlagsNone]);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
@@ -281,7 +281,7 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
   [self.sut channel:channelUnitMock didPrepareLog:mockLog internalId:@"fake-id" flags:MSFlagsNone];
 
   // Then
-  OCMVerify([oneCollectorChannelUnitMock enqueueItem:commonSchemaLog flags:NO]);
+  OCMVerify([oneCollectorChannelUnitMock enqueueItem:commonSchemaLog flags:MSFlagsNone]);
   dispatch_semaphore_signal(sem);
 }
 
@@ -300,7 +300,7 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
   OCMStub(mockLog.transmissionTargetTokens).andReturn(transmissionTargetTokens);
 
   // Then
-  OCMReject([oneCollectorChannelUnitMock enqueueItem:commonSchemaLog flags:NO]);
+  OCMReject([oneCollectorChannelUnitMock enqueueItem:commonSchemaLog flags:MSFlagsNone]);
 
   // When
   [self.sut channelGroup:channelGroupMock didAddChannelUnit:channelUnitMock];
@@ -329,7 +329,7 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
   [self enqueueChannelEndJobExpectation];
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
-                                 OCMVerify([oneCollectorChannelUnitMock enqueueItem:commonSchemaLog flags:NO]);
+                                 OCMVerify([oneCollectorChannelUnitMock enqueueItem:commonSchemaLog flags:MSFlagsNone]);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
@@ -351,7 +351,7 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
   OCMStub([mockLog isKindOfClass:[MSCommonSchemaLog class]]).andReturn(NO);
 
   // Then
-  OCMReject([oneCollectorChannelUnitMock enqueueItem:OCMOCK_ANY flags:NO]);
+  OCMReject([oneCollectorChannelUnitMock enqueueItem:OCMOCK_ANY flags:MSFlagsNone]);
 
   // When
   [self.sut channelGroup:channelGroupMock didAddChannelUnit:channelUnitMock];
@@ -372,7 +372,7 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
   OCMStub([mockLog toCommonSchemaLogsWithFlags:0]).andReturn(@ [[MSCommonSchemaLog new]]);
 
   // Then
-  OCMReject([oneCollectorChannelUnitMock enqueueItem:OCMOCK_ANY flags:NO]);
+  OCMReject([oneCollectorChannelUnitMock enqueueItem:OCMOCK_ANY flags:MSFlagsNone]);
 
   // When
   [self.sut channelGroup:channelGroupMock didAddChannelUnit:channelUnitMock];
