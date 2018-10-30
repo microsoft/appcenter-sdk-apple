@@ -347,10 +347,10 @@
   [sut addDelegate:delegateMock];
 
   // When
-  [sut channel:channelUnitMock didCompleteEnqueueingLog:mockLog withInternalId:internalId];
+  [sut channel:channelUnitMock didCompleteEnqueueingLog:mockLog internalId:internalId];
 
   // Then
-  OCMVerify([delegateMock channel:channelUnitMock didCompleteEnqueueingLog:mockLog withInternalId:internalId]);
+  OCMVerify([delegateMock channel:channelUnitMock didCompleteEnqueueingLog:mockLog internalId:internalId]);
 
   // Clear
   [channelUnitMock stopMocking];

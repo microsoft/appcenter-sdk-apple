@@ -136,18 +136,18 @@
                                 }];
       if (shouldFilter) {
         MSLogDebug([MSAppCenter logTag], @"Log of type '%@' was filtered out by delegate(s)", item.type);
-        [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:withInternalId:)
+        [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:internalId:)
                                   withBlock:^(id<MSChannelDelegate> delegate) {
-                                    [delegate channel:self didCompleteEnqueueingLog:item withInternalId:internalLogId];
+                                    [delegate channel:self didCompleteEnqueueingLog:item internalId:internalLogId];
                                   }];
         return;
       }
       if (!self.ingestion.isReadyToSend) {
         MSLogDebug([MSAppCenter logTag], @"Log of type '%@' was not filtered out by delegate(s) but ingestion is not ready to send it.",
                    item.type);
-        [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:withInternalId:)
+        [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:internalId:)
                                   withBlock:^(id<MSChannelDelegate> delegate) {
-                                    [delegate channel:self didCompleteEnqueueingLog:item withInternalId:internalLogId];
+                                    [delegate channel:self didCompleteEnqueueingLog:item internalId:internalLogId];
                                   }];
         return;
       }
@@ -157,9 +157,9 @@
                                              code:kMSACConnectionPausedErrorCode
                                          userInfo:@{NSLocalizedDescriptionKey : kMSACConnectionPausedErrorDesc}];
         [self notifyFailureBeforeSendingForItem:item withError:error];
-        [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:withInternalId:)
+        [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:internalId:)
                                   withBlock:^(id<MSChannelDelegate> delegate) {
-                                    [delegate channel:self didCompleteEnqueueingLog:item withInternalId:internalLogId];
+                                    [delegate channel:self didCompleteEnqueueingLog:item internalId:internalLogId];
                                   }];
         return;
       }
@@ -168,9 +168,9 @@
       MSLogDebug([MSAppCenter logTag], @"Saving log, type: %@.", item.type);
       [self.storage saveLog:item withGroupId:self.configuration.groupId flags:flags];
       self.itemsCount += 1;
-      [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:withInternalId:)
+      [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:internalId:)
                                 withBlock:^(id<MSChannelDelegate> delegate) {
-                                  [delegate channel:self didCompleteEnqueueingLog:item withInternalId:internalLogId];
+                                  [delegate channel:self didCompleteEnqueueingLog:item internalId:internalLogId];
                                 }];
       [self checkPendingLogs];
     }

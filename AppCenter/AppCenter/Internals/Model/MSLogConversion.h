@@ -12,6 +12,6 @@
  *
  * @return An array of MCSCommonSchemaLog objects.
  */
-- (NSArray<MSCommonSchemaLog *> *)toCommonSchemaLogsWithFlags:(NSUInteger)flags;
+- (NSArray<MSCommonSchemaLog *> *)toCommonSchemaLogsWithFlags:(MSFlags)flags;
 
 @end

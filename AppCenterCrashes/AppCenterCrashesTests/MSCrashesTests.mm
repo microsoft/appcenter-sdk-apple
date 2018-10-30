@@ -520,19 +520,19 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   assertThatLong([self crashesLogBufferCount], equalToLong(2));
 
   // When
-  [self.sut channel:nil didCompleteEnqueueingLog:nil withInternalId:uuid3];
+  [self.sut channel:nil didCompleteEnqueueingLog:nil internalId:uuid3];
 
   // Then
   assertThatLong([self crashesLogBufferCount], equalToLong(2));
 
   // When
-  [self.sut channel:nil didCompleteEnqueueingLog:nil withInternalId:uuid2];
+  [self.sut channel:nil didCompleteEnqueueingLog:nil internalId:uuid2];
 
   // Then
   assertThatLong([self crashesLogBufferCount], equalToLong(1));
 
   // When
-  [self.sut channel:nil didCompleteEnqueueingLog:nil withInternalId:uuid1];
+  [self.sut channel:nil didCompleteEnqueueingLog:nil internalId:uuid1];
 
   // Then
   assertThatLong([self crashesLogBufferCount], equalToLong(0));

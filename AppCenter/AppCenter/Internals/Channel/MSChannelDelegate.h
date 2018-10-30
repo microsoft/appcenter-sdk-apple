@@ -41,7 +41,7 @@
  * @param log The log.
  * @param internalId An internal Id to keep track of logs.
  */
-- (void)channel:(id<MSChannelProtocol>)channel didCompleteEnqueueingLog:(id<MSLog>)log withInternalId:(NSString *)internalId;
+- (void)channel:(id<MSChannelProtocol>)channel didCompleteEnqueueingLog:(id<MSLog>)log internalId:(NSString *)internalId;
 
 /**
  * Callback method that will be called before each log will be send to the server.
