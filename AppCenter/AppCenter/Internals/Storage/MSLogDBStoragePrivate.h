@@ -3,7 +3,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString *const kMSLogEntityName = @"MSDBLog";
 static NSString *const kMSDBFileName = @"Logs.sqlite";
 static NSString *const kMSLogTableName = @"logs";
 static NSString *const kMSIdColumnName = @"id";
@@ -11,7 +10,7 @@ static NSString *const kMSGroupIdColumnName = @"groupId";
 static NSString *const kMSLogColumnName = @"log";
 static NSString *const kMSTargetTokenColumnName = @"targetToken";
 static NSString *const kMSTargetKeyColumnName = @"targetKey";
-static NSString *const kMSLogPersistencePriorityColumnName = @"logPersistencePriority";
+static NSString *const kMSPriorityColumnName = @"priority";
 
 @protocol MSDatabaseConnection;
 
