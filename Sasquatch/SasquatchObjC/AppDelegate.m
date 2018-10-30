@@ -320,12 +320,9 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 
 - (void)push:(MSPush *)push didReceivePushNotification:(MSPushNotification *)pushNotification {
 
-  // Alert in foreground if requested.
-  if (self.notificationPresentationCompletionHandler) {
-    UNNotificationPresentationOptions options = [pushNotification.customData[@"presentation"] isEqual:@"alert"]
-                                                    ? UNNotificationPresentationOptionAlert
-                                                    : UNNotificationPresentationOptionNone;
-    self.notificationPresentationCompletionHandler(options);
+  // Alert in foreground if requested from custom data.
+  if (self.notificationPresentationCompletionHandler && [pushNotification.customData[@"presentation"] isEqual:@"alert"]) {
+    self.notificationPresentationCompletionHandler(UNNotificationPresentationOptionAlert);
     self.notificationPresentationCompletionHandler = nil;
     return;
   }
@@ -361,10 +358,14 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
     [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
   }
 
-  // Call notification response completion handlers.
+  // Call notification completion handlers.
   if (self.notificationResponseCompletionHandler) {
     self.notificationResponseCompletionHandler();
     self.notificationResponseCompletionHandler = nil;
+  }
+  if (self.notificationPresentationCompletionHandler) {
+    self.notificationPresentationCompletionHandler(UNNotificationPresentationOptionNone);
+    self.notificationPresentationCompletionHandler = nil;
   }
 }
 

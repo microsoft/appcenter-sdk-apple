@@ -16,6 +16,8 @@ static NSMutableArray<dispatch_block_t> *traceBuffer = nil;
 
 + (void)load {
   traceBuffer = [NSMutableArray new];
+  
+  // TODO Fix BOOL to dizable swizzling + add unit tests for it.
 }
 
 - (instancetype)init {
