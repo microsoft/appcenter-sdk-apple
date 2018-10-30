@@ -120,7 +120,7 @@
   // Notify delegate about enqueuing as fast as possible on the current thread.
   [self enumerateDelegatesForSelector:@selector(channel:didPrepareLog:internalId:flags:)
                             withBlock:^(id<MSChannelDelegate> delegate) {
-                              [delegate channel:self didPrepareLog:item internalId:internalLogId flags:MSFlagsNone];
+                              [delegate channel:self didPrepareLog:item internalId:internalLogId flags:flags];
                             }];
 
   // Return fast in case our item is empty or we are discarding logs right now.

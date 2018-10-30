@@ -125,7 +125,7 @@
 
 #pragma mark - MSLogConversion
 
-- (NSArray<MSCommonSchemaLog *> *)toCommonSchemaLogsWithFlags:(int64_t)flags {
+- (NSArray<MSCommonSchemaLog *> *)toCommonSchemaLogsWithFlags:(NSUInteger)flags {
   NSMutableArray<MSCommonSchemaLog *> *csLogs = [NSMutableArray new];
   for (NSString *token in self.transmissionTargetTokens) {
     MSCommonSchemaLog *csLog = [self toCommonSchemaLogForTargetToken:token flags:(MSFlags)flags];

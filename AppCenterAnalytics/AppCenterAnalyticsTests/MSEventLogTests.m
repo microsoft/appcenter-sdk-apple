@@ -579,7 +579,7 @@
   self.sut.tag = [NSObject new];
 
   // When
-  MSCommonSchemaLog *csLog = [self.sut toCommonSchemaLogForTargetToken:targetToken flags:0];
+  MSCommonSchemaLog *csLog = [self.sut toCommonSchemaLogForTargetToken:targetToken flags:MSFlagsDefault];
 
   // Then
   XCTAssertEqualObjects(csLog.ver, kMSCSVerValue);

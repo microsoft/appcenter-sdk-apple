@@ -199,7 +199,7 @@
   self.sut.transmissionTargetTokens = nil;
 
   // When
-  NSArray<MSCommonSchemaLog *> *csLogs = [self.sut toCommonSchemaLogsWithFlags:0];
+  NSArray<MSCommonSchemaLog *> *csLogs = [self.sut toCommonSchemaLogsWithFlags:MSFlagsDefault];
 
   // Then
   XCTAssertNil(csLogs);
@@ -211,7 +211,7 @@
   self.sut.transmissionTargetTokens = [@[] mutableCopy];
 
   // When
-  NSArray<MSCommonSchemaLog *> *csLogs = [self.sut toCommonSchemaLogsWithFlags:0];
+  NSArray<MSCommonSchemaLog *> *csLogs = [self.sut toCommonSchemaLogsWithFlags:MSFlagsDefault];
 
   // Then
   XCTAssertNil(csLogs);

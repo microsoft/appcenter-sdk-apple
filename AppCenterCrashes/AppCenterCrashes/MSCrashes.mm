@@ -775,7 +775,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
           // Buffered logs are used sending their own channel. It will never contain more than 50 logs.
           MSLogDebug([MSCrashes logTag], @"Re-enqueueing buffered log, type: %@.", item.type);
-          [self.bufferChannelUnit enqueueItem:item flags:MSFlagsNone];
+          // TODO Must read log priority and serialize to be able to enqueue with proper criticality
+          [self.bufferChannelUnit enqueueItem:item flags:MSFlagsDefault];
         }
       }
 
@@ -850,7 +851,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       MSLogError([MSCrashes logTag], @"Not all required fields are present in MSErrorAttachmentLog.");
       continue;
     }
-    [self.channelUnit enqueueItem:attachment flags:MSFlagsNone];
+    [self.channelUnit enqueueItem:attachment flags:MSFlagsDefault];
     ++totalProcessedAttachments;
   }
   if (totalProcessedAttachments > kMaxAttachmentsPerCrashReport) {
@@ -1172,7 +1173,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   }
 
   // Enqueue log.
-  [self.channelUnit enqueueItem:log flags:MSFlagsNone];
+  [self.channelUnit enqueueItem:log flags:MSFlagsDefault];
 }
 
 @end

@@ -113,7 +113,7 @@
   // When
   void (^block)(void) = ^{
     for (int i = 0; i < 10; i++) {
-      [addedChannel enqueueItem:log flags:MSFlagsNone];
+      [addedChannel enqueueItem:log flags:MSFlagsDefault];
     }
     for (int i = 0; i < 100; i++) {
       [sut addDelegate:OCMProtocolMock(@protocol(MSChannelDelegate))];
@@ -322,10 +322,10 @@
   [sut addDelegate:delegateMock];
 
   // When
-  [sut channel:channelUnitMock didPrepareLog:mockLog internalId:internalId flags:MSFlagsNone];
+  [sut channel:channelUnitMock didPrepareLog:mockLog internalId:internalId flags:MSFlagsDefault];
 
   // Then
-  OCMVerify([delegateMock channel:channelUnitMock didPrepareLog:mockLog internalId:internalId flags:MSFlagsNone]);
+  OCMVerify([delegateMock channel:channelUnitMock didPrepareLog:mockLog internalId:internalId flags:MSFlagsDefault]);
 
   // Clear
   [channelUnitMock stopMocking];

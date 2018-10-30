@@ -324,8 +324,8 @@ static const NSUInteger kMSSchemaVersion = 3;
     [MSDBStorage executeNonSelectionQuery:migrationQuery inOpenedDatabase:db];
   }
   if (version < kMSLogPersistencePriorityVersion) {
-    NSString *migrationQuery = [NSString
-        stringWithFormat:@"ALTER TABLE \"%@\" ADD COLUMN \"%@\" %@", kMSLogTableName, kMSPriorityColumnName, kMSSQLiteTypeInteger];
+    NSString *migrationQuery = [NSString stringWithFormat:@"ALTER TABLE \"%@\" ADD COLUMN \"%@\" %@ DEFAULT %d", kMSLogTableName,
+                                                          kMSPriorityColumnName, kMSSQLiteTypeInteger, MSFlagsPersistenceNormal];
     [MSDBStorage executeNonSelectionQuery:migrationQuery inOpenedDatabase:db];
   }
 }
