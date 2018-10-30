@@ -143,31 +143,31 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   MSCommonSchemaLog *log1 = [MSCommonSchemaLog new];
   [log1 addTransmissionTargetToken:@"1-t"];
   log1.iKey = @"o:1";
-  [self.sut saveLog:log1 withGroupId:kMSTestGroupId critical:NO];
+  [self.sut saveLog:log1 withGroupId:kMSTestGroupId flags:MSFlagsDefault];
 
   // Key: 2, group: A.
   MSCommonSchemaLog *log2 = [MSCommonSchemaLog new];
   [log2 addTransmissionTargetToken:@"2-t"];
   log2.iKey = @"o:2";
-  [self.sut saveLog:log2 withGroupId:kMSTestGroupId critical:NO];
+  [self.sut saveLog:log2 withGroupId:kMSTestGroupId flags:MSFlagsDefault];
 
   // Key: 2, group: B.
   MSCommonSchemaLog *log3 = [MSCommonSchemaLog new];
   [log3 addTransmissionTargetToken:@"2-t"];
   log3.iKey = @"o:2";
-  [self.sut saveLog:log3 withGroupId:kMSAnotherTestGroupId critical:NO];
+  [self.sut saveLog:log3 withGroupId:kMSAnotherTestGroupId flags:MSFlagsDefault];
 
   // Key: 1, group: A.
   MSCommonSchemaLog *log4 = [MSCommonSchemaLog new];
   [log4 addTransmissionTargetToken:@"1-t"];
   log4.iKey = @"o:1";
-  [self.sut saveLog:log4 withGroupId:kMSTestGroupId critical:NO];
+  [self.sut saveLog:log4 withGroupId:kMSTestGroupId flags:MSFlagsDefault];
 
   // Key: 2, group: A.
   MSCommonSchemaLog *log5 = [MSCommonSchemaLog new];
   [log5 addTransmissionTargetToken:@"2-t"];
   log5.iKey = @"o:2";
-  [self.sut saveLog:log5 withGroupId:kMSTestGroupId critical:NO];
+  [self.sut saveLog:log5 withGroupId:kMSTestGroupId flags:MSFlagsDefault];
 
   // When
   [self.sut loadLogsWithGroupId:kMSTestGroupId
@@ -212,7 +212,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
       NSString *targetToken = [targetKey stringByAppendingString:@"-secret"];
       [log addTransmissionTargetToken:targetToken];
     }
-    [self.sut saveLog:log withGroupId:kMSTestGroupId critical:NO];
+    [self.sut saveLog:log withGroupId:kMSTestGroupId flags:MSFlagsDefault];
   }
 
   // Then
@@ -237,7 +237,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
       [log addTransmissionTargetToken:targetToken];
       log.iKey = targetKey;
     }
-    [self.sut saveLog:log withGroupId:kMSTestGroupId critical:NO];
+    [self.sut saveLog:log withGroupId:kMSTestGroupId flags:MSFlagsDefault];
   }
 
   // Then
@@ -485,7 +485,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   [log addTransmissionTargetToken:testTargetToken];
 
   // When
-  [self.sut saveLog:log withGroupId:kMSTestGroupId critical:NO];
+  [self.sut saveLog:log withGroupId:kMSTestGroupId flags:MSFlagsDefault];
 
   // Then
   [self.sut loadLogsWithGroupId:kMSTestGroupId
@@ -507,7 +507,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   [log addTransmissionTargetToken:testTargetToken];
 
   // When
-  [self.sut saveLog:log withGroupId:kMSTestGroupId critical:NO];
+  [self.sut saveLog:log withGroupId:kMSTestGroupId flags:MSFlagsDefault];
 
   // Then
   [self.sut loadLogsWithGroupId:kMSTestGroupId
@@ -547,7 +547,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
             }];
 
   // Then
-  BOOL logSavedSuccessfully = [self.sut saveLog:additionalLog withGroupId:kMSAnotherTestGroupId critical:NO];
+  BOOL logSavedSuccessfully = [self.sut saveLog:additionalLog withGroupId:kMSAnotherTestGroupId flags:MSFlagsDefault];
 
   // Then
   XCTAssertTrue(logSavedSuccessfully);
@@ -568,7 +568,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   NSString *normalLogsFilter = [NSString stringWithFormat:@"\"%@\" = '%i'", kMSPriorityColumnName, NO];
 
   // When
-  [self.sut saveLog:aLog withGroupId:kMSTestGroupId critical:YES];
+  [self.sut saveLog:aLog withGroupId:kMSTestGroupId flags:MSFlagsPersistenceCritical];
 
   // Then
   NSArray<id<MSLog>> *criticalLogs = [self loadLogsWhere:criticalLogsFilter];
@@ -587,7 +587,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   NSString *normalLogsFilter = [NSString stringWithFormat:@"\"%@\" = '%i'", kMSPriorityColumnName, NO];
 
   // When
-  [self.sut saveLog:aLog withGroupId:kMSTestGroupId critical:NO];
+  [self.sut saveLog:aLog withGroupId:kMSTestGroupId flags:MSFlagsPersistenceNormal];
 
   // Then
   NSArray<id<MSLog>> *criticalLogs = [self loadLogsWhere:criticalLogsFilter];
@@ -611,7 +611,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   while (additionalLogs <= 50) {
     MSAbstractLog *additionalLog = [MSAbstractLog new];
     additionalLog.sid = MS_UUID_STRING;
-    BOOL logSavedSuccessfully = [self.sut saveLog:additionalLog withGroupId:kMSTestGroupId critical:NO];
+    BOOL logSavedSuccessfully = [self.sut saveLog:additionalLog withGroupId:kMSTestGroupId flags:MSFlagsDefault];
     ++additionalLogs;
 
     // Then
@@ -636,7 +636,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   while (originalLogsCount < initialLogCount) {
     MSAbstractLog *additionalLog = [MSAbstractLog new];
     additionalLog.sid = MS_UUID_STRING;
-    BOOL logSavedSuccessfully = [self.sut saveLog:additionalLog withGroupId:kMSAnotherTestGroupId critical:NO];
+    BOOL logSavedSuccessfully = [self.sut saveLog:additionalLog withGroupId:kMSAnotherTestGroupId flags:MSFlagsDefault];
     NSString *originalLogsFilter = [NSString stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, kMSTestGroupId];
     NSArray<id<MSLog>> *originalLogs = [self loadLogsWhere:originalLogsFilter];
     originalLogsCount = (int)[originalLogs count];
@@ -662,7 +662,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   // When
   MSAbstractLog *additionalLog = [MSAbstractLog new];
   additionalLog.sid = MS_UUID_STRING;
-  BOOL logSavedSuccessfully = [self.sut saveLog:additionalLog withGroupId:kMSAnotherTestGroupId critical:NO];
+  BOOL logSavedSuccessfully = [self.sut saveLog:additionalLog withGroupId:kMSAnotherTestGroupId flags:MSFlagsDefault];
 
   // Then
   XCTAssertFalse(logSavedSuccessfully);

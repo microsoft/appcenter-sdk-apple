@@ -40,7 +40,7 @@ static const NSUInteger kMSSchemaVersion = 3;
 
 #pragma mark - Save logs
 
-- (BOOL)saveLog:(id<MSLog>)log withGroupId:(NSString *)groupId critical:(BOOL)critical {
+- (BOOL)saveLog:(id<MSLog>)log withGroupId:(NSString *)groupId flags:(MSFlags)flags {
   if (!log) {
     return NO;
   }
@@ -50,7 +50,7 @@ static const NSUInteger kMSSchemaVersion = 3;
   NSString *base64Data = [logData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
   NSString *addLogQuery =
       [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") VALUES ('%@', '%@', '%i')", kMSLogTableName,
-                                 kMSGroupIdColumnName, kMSLogColumnName, kMSPriorityColumnName, groupId, base64Data, critical];
+                                 kMSGroupIdColumnName, kMSLogColumnName, kMSPriorityColumnName, groupId, base64Data, flags];
 
   // Serialize target token.
   if ([(NSObject *)log isKindOfClass:[MSCommonSchemaLog class]]) {
@@ -61,7 +61,7 @@ static const NSUInteger kMSSchemaVersion = 3;
                                              @"\"%@\", \"%@\", \"%@\") VALUES ('%@', '%@', '%@', %@, '%i')",
                                              kMSLogTableName, kMSGroupIdColumnName, kMSLogColumnName, kMSTargetTokenColumnName,
                                              kMSTargetKeyColumnName, kMSPriorityColumnName, groupId, base64Data, encryptedToken,
-                                             targetKey ? [NSString stringWithFormat:@"'%@'", targetKey] : @"NULL", critical];
+                                             targetKey ? [NSString stringWithFormat:@"'%@'", targetKey] : @"NULL", flags];
   }
   return [self executeQueryUsingBlock:^int(void *db) {
            int result = [MSDBStorage executeNonSelectionQuery:addLogQuery inOpenedDatabase:db];

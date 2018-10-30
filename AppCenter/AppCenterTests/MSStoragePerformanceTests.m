@@ -35,7 +35,7 @@ static NSString *const kMSTestGroupId = @"TestGroupId";
   NSArray<MSStartServiceLog *> *arrayOfLogs = [self generateLogsWithShortServicesNames:kMSNumLogs withNumService:kMSNumServices];
   [self measureBlock:^{
     for (MSStartServiceLog *log in arrayOfLogs) {
-      [self.dbStorage saveLog:log withGroupId:kMSTestGroupId critical:NO];
+      [self.dbStorage saveLog:log withGroupId:kMSTestGroupId flags:MSFlagsDefault];
     }
   }];
 }
@@ -44,7 +44,7 @@ static NSString *const kMSTestGroupId = @"TestGroupId";
   NSArray<MSStartServiceLog *> *arrayOfLogs = [self generateLogsWithLongServicesNames:kMSNumLogs withNumService:kMSNumServices];
   [self measureBlock:^{
     for (MSStartServiceLog *log in arrayOfLogs) {
-      [self.dbStorage saveLog:log withGroupId:kMSTestGroupId critical:NO];
+      [self.dbStorage saveLog:log withGroupId:kMSTestGroupId flags:MSFlagsDefault];
     }
   }];
 }
@@ -53,7 +53,7 @@ static NSString *const kMSTestGroupId = @"TestGroupId";
   NSArray<MSStartServiceLog *> *arrayOfLogs = [self generateLogsWithVeryLongServicesNames:kMSNumLogs withNumService:kMSNumServices];
   [self measureBlock:^{
     for (MSStartServiceLog *log in arrayOfLogs) {
-      [self.dbStorage saveLog:log withGroupId:kMSTestGroupId critical:NO];
+      [self.dbStorage saveLog:log withGroupId:kMSTestGroupId flags:MSFlagsDefault];
     }
   }];
 }
@@ -64,7 +64,7 @@ static NSString *const kMSTestGroupId = @"TestGroupId";
   NSArray<MSStartServiceLog *> *arrayOfLogs = [self generateLogsWithShortServicesNames:kMSNumLogs withNumService:kMSNumServices];
   [self measureBlock:^{
     for (MSStartServiceLog *log in arrayOfLogs) {
-      [self.dbStorage saveLog:log withGroupId:kMSTestGroupId critical:NO];
+      [self.dbStorage saveLog:log withGroupId:kMSTestGroupId flags:MSFlagsDefault];
     }
   }];
 }
@@ -73,7 +73,7 @@ static NSString *const kMSTestGroupId = @"TestGroupId";
   NSArray<MSStartServiceLog *> *arrayOfLogs = [self generateLogsWithLongServicesNames:kMSNumLogs withNumService:kMSNumServices];
   [self measureBlock:^{
     for (MSStartServiceLog *log in arrayOfLogs) {
-      [self.dbStorage saveLog:log withGroupId:kMSTestGroupId critical:NO];
+      [self.dbStorage saveLog:log withGroupId:kMSTestGroupId flags:MSFlagsDefault];
     }
   }];
 }
@@ -82,7 +82,7 @@ static NSString *const kMSTestGroupId = @"TestGroupId";
   NSArray<MSStartServiceLog *> *arrayOfLogs = [self generateLogsWithVeryLongServicesNames:kMSNumLogs withNumService:kMSNumServices];
   [self measureBlock:^{
     for (MSStartServiceLog *log in arrayOfLogs) {
-      [self.dbStorage saveLog:log withGroupId:kMSTestGroupId critical:NO];
+      [self.dbStorage saveLog:log withGroupId:kMSTestGroupId flags:MSFlagsDefault];
     }
   }];
 }
