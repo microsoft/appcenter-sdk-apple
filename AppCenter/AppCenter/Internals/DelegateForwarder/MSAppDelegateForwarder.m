@@ -2,8 +2,6 @@
 #import "MSCustomApplicationDelegate.h"
 #import "MSUtility+Application.h"
 
-static NSString *const kMSIsAppDelegateForwarderEnabledKey = @"AppCenterAppDelegateForwarderEnabled";
-
 // Original selectors with special handling.
 static NSString *const kMSOpenURLSourceApplicationAnnotation = @"application:openURL:sourceApplication:annotation:";
 static NSString *const kMSOpenURLOptions = @"application:openURL:options:";
@@ -13,6 +11,17 @@ static MSAppDelegateForwarder *sharedInstance = nil;
 static dispatch_once_t swizzlingOnceToken;
 
 @implementation MSAppDelegateForwarder
+
++(void)load{
+  
+  /*
+   * The application starts querying its delegate for its implementation as soon as it is set then may never query again. It means that if
+   * the application delegate doesn't implement an optional method of the `UIApplicationDelegate` protocol at that time then that method may
+   * never be called even if added later via swizzling. This is why the application delegate swizzling should happen at the time it is set
+   * to the application object.
+   */
+  [[self sharedInstance] setEnabledFromPlistForKey:kMSAppDelegateForwarderEnabledKey];
+}
 
 - (instancetype)init {
   if ((self = [super init])) {

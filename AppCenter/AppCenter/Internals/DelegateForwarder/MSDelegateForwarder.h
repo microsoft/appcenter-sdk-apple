@@ -87,6 +87,13 @@ typedef NS_OPTIONS(NSUInteger, MSCompletionExecutor) {
  */
 + (void)flushTraceBuffer;
 
+/**
+ * Set the enabled state from the application plist file.
+ *
+ * @param plistKey plist key for the forwarder enabled state.
+ */
+- (void)setEnabledFromPlistForKey:(NSString*)plistKey;
+
 @end
 
 NS_ASSUME_NONNULL_END

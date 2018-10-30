@@ -2,14 +2,17 @@
 #import "MSPush.h"
 #import <UserNotifications/UserNotifications.h>
 
+static dispatch_once_t swizzlingOnceToken;
+
 // Singleton instance.
 static MSUserNotificationCenterDelegateForwarder *sharedInstance = nil;
-static dispatch_once_t swizzlingOnceToken;
 
 @implementation MSUserNotificationCenterDelegateForwarder
 
 + (void)load {
+  [[self sharedInstance] setEnabledFromPlistForKey:kMSUserNotificationCenterDelegateForwarderEnabledKey];
 
+  // TODO disable for macOS.
   // Register selectors to swizzle (iOS 10+).
   if ([[MSUserNotificationCenterDelegateForwarder sharedInstance] originalClassForSetDelegate]) {
     [[MSUserNotificationCenterDelegateForwarder sharedInstance]

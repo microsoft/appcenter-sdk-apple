@@ -5,6 +5,7 @@
 #import "MSDelegateForwarderPrivate.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+Application.h"
+#import "MSDelegateForwarderTestUtil.h"
 
 @interface MSAppDelegateForwarderTest : XCTestCase
 
@@ -42,6 +43,48 @@
 - (void)tearDown {
   [super tearDown];
   [MSAppDelegateForwarder resetSharedInstance];
+}
+
+-(void)testSetEnabledYesFromPlist {
+  
+  // If
+  id bundleMock = OCMClassMock([NSBundle class]);
+  OCMStub([bundleMock objectForInfoDictionaryKey:kMSAppDelegateForwarderEnabledKey]).andReturn(@YES);
+  OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
+  
+  // When
+  [[self.sut class] load];
+
+  // Then
+  assertThatBool(self.sut.enabled, isTrue());
+}
+
+-(void)testSetEnabledNoFromPlist {
+  
+  // If
+  id bundleMock = OCMClassMock([NSBundle class]);
+  OCMStub([bundleMock objectForInfoDictionaryKey:kMSAppDelegateForwarderEnabledKey]).andReturn(@NO);
+  OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
+  
+  // When
+  [[self.sut class] load];
+
+  // Then
+  assertThatBool(self.sut.enabled, isFalse());
+}
+
+-(void)testSetEnabledNoneFromPlist {
+  
+  // If
+  id bundleMock = OCMClassMock([NSBundle class]);
+  OCMStub([bundleMock objectForInfoDictionaryKey:kMSAppDelegateForwarderEnabledKey]).andReturn(nil);
+  OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
+  
+  // When
+  [[self.sut class] load];
+  
+  // Then
+  assertThatBool(self.sut.enabled, isTrue());
 }
 
 - (void)testAddAppDelegateSelectorToSwizzle {
@@ -104,7 +147,7 @@
     wasCalled = YES;
     return YES;
   };
-  [self addSelector:selectorToSwizzle implementation:selectorImp toInstance:originalAppDelegate];
+  [MSDelegateForwarderTestUtil addSelector:selectorToSwizzle implementation:selectorImp toInstance:originalAppDelegate];
   [self.sut addAppDelegateSelectorToSwizzle:selectorToSwizzle];
 
   // When
@@ -119,8 +162,8 @@
   // If
   // App delegate implementing the selector indirectly.
   id originalBaseAppDelegate = [self createOriginalAppDelegateInstance];
-  [self addSelector:selectorToSwizzle implementation:selectorImp toInstance:originalBaseAppDelegate];
-  originalAppDelegate = [self createInstanceWithBaseClass:[originalBaseAppDelegate class] andConformItToProtocol:nil];
+  [MSDelegateForwarderTestUtil addSelector:selectorToSwizzle implementation:selectorImp toInstance:originalBaseAppDelegate];
+  originalAppDelegate = [MSDelegateForwarderTestUtil createInstanceWithBaseClass:[originalBaseAppDelegate class] andConformItToProtocol:nil];
   wasCalled = NO;
   [self.sut addAppDelegateSelectorToSwizzle:selectorToSwizzle];
 
@@ -141,9 +184,9 @@
     baseWasCalled = YES;
   };
   originalBaseAppDelegate = [self createOriginalAppDelegateInstance];
-  [self addSelector:selectorToSwizzle implementation:baseSelectorImp toInstance:originalBaseAppDelegate];
-  originalAppDelegate = [self createInstanceWithBaseClass:[originalBaseAppDelegate class] andConformItToProtocol:nil];
-  [self addSelector:selectorToSwizzle implementation:selectorImp toInstance:originalAppDelegate];
+  [MSDelegateForwarderTestUtil addSelector:selectorToSwizzle implementation:baseSelectorImp toInstance:originalBaseAppDelegate];
+  originalAppDelegate = [MSDelegateForwarderTestUtil createInstanceWithBaseClass:[originalBaseAppDelegate class] andConformItToProtocol:nil];
+  [MSDelegateForwarderTestUtil addSelector:selectorToSwizzle implementation:selectorImp toInstance:originalAppDelegate];
   [self.sut addAppDelegateSelectorToSwizzle:selectorToSwizzle];
 
   // When
@@ -165,7 +208,7 @@
   };
 
   // Adding a class method to a class requires its meta class.
-  [self addSelector:instancesRespondToSelector
+  [MSDelegateForwarderTestUtil addSelector:instancesRespondToSelector
       implementation:instancesRespondToSelectorImp
              toClass:object_getClass([originalAppDelegate class])];
   [self.sut addAppDelegateSelectorToSwizzle:selectorToSwizzle];
@@ -221,7 +264,7 @@
     [originalCalledExpectation fulfill];
     return expectedReturnedValue;
   };
-  [self addSelector:originalOpenURLSel implementation:originalOpenURLImp toInstance:originalAppDelegate];
+  [MSDelegateForwarderTestUtil addSelector:originalOpenURLSel implementation:originalOpenURLImp toInstance:originalAppDelegate];
 
   // When
   BOOL returnedValue = [originalAppDelegate application:self.appMock openURL:expectedURL options:expectedOptions];
@@ -250,7 +293,7 @@
         assertThat(deviceToken, is(expectedToken));
         [originalCalledExpectation fulfill];
       };
-  [self addSelector:originalDidRegisterForRemoteNotificationsWithDeviceTokenSel
+  [MSDelegateForwarderTestUtil addSelector:originalDidRegisterForRemoteNotificationsWithDeviceTokenSel
       implementation:originalDidRegisterForRemoteNotificationsWithDeviceTokenImp
           toInstance:originalAppDelegate];
 
@@ -283,7 +326,7 @@
     [originalCalledExpectation fulfill];
     return expectedReturnedValue;
   };
-  [self addSelector:originalOpenURLiOS90Sel implementation:originalOpenURLiOS90Imp toInstance:originalAppDelegate];
+  [MSDelegateForwarderTestUtil addSelector:originalOpenURLiOS90Sel implementation:originalOpenURLiOS90Imp toInstance:originalAppDelegate];
   SEL customOpenURLiOS90Sel = @selector(application:openURL:options:returnedValue:);
   id<MSCustomApplicationDelegate> customAppDelegate = [self createCustomAppDelegateInstance];
   id customOpenURLiOS90Imp = ^(__attribute__((unused)) id itSelf, MSApplication *application, NSURL *url, id options, BOOL returnedValue) {
@@ -295,7 +338,7 @@
     [customCalledExpectation fulfill];
     return expectedReturnedValue;
   };
-  [self addSelector:customOpenURLiOS90Sel implementation:customOpenURLiOS90Imp toInstance:customAppDelegate];
+  [MSDelegateForwarderTestUtil addSelector:customOpenURLiOS90Sel implementation:customOpenURLiOS90Imp toInstance:customAppDelegate];
   [self.sut addDelegate:customAppDelegate];
   [self.sut swizzleOriginalDelegate:originalAppDelegate];
 
@@ -330,7 +373,7 @@
     [originalCalledExpectation fulfill];
     return expectedReturnedValue;
   };
-  [self addSelector:originalOpenURLiOS90Sel implementation:originalOpenURLiOS90Imp toInstance:originalAppDelegate];
+  [MSDelegateForwarderTestUtil addSelector:originalOpenURLiOS90Sel implementation:originalOpenURLiOS90Imp toInstance:originalAppDelegate];
   SEL customOpenURLiOS90Sel = @selector(application:openURL:options:returnedValue:);
   id<MSCustomApplicationDelegate> customAppDelegate1 = [self createCustomAppDelegateInstance];
   id customOpenURLiOS90Imp1 = ^(__attribute__((unused)) id itSelf, MSApplication *application, NSURL *url, id options, BOOL returnedValue) {
@@ -342,7 +385,7 @@
     [customCalledExpectation1 fulfill];
     return expectedReturnedValue;
   };
-  [self addSelector:customOpenURLiOS90Sel implementation:customOpenURLiOS90Imp1 toInstance:customAppDelegate1];
+  [MSDelegateForwarderTestUtil addSelector:customOpenURLiOS90Sel implementation:customOpenURLiOS90Imp1 toInstance:customAppDelegate1];
   id<MSCustomApplicationDelegate> customAppDelegate2 = [self createCustomAppDelegateInstance];
   id customOpenURLiOS90Imp2 = ^(__attribute__((unused)) id itSelf, MSApplication *application, NSURL *url, id options, BOOL returnedValue) {
     // Then
@@ -353,7 +396,7 @@
     [customCalledExpectation2 fulfill];
     return expectedReturnedValue;
   };
-  [self addSelector:customOpenURLiOS90Sel implementation:customOpenURLiOS90Imp2 toInstance:customAppDelegate2];
+  [MSDelegateForwarderTestUtil addSelector:customOpenURLiOS90Sel implementation:customOpenURLiOS90Imp2 toInstance:customAppDelegate2];
   [self.sut addDelegate:customAppDelegate1];
   [self.sut addDelegate:customAppDelegate2];
   [self.sut swizzleOriginalDelegate:originalAppDelegate];
@@ -389,7 +432,7 @@
         [originalCalledExpectation fulfill];
         return expectedReturnedValue;
       };
-  [self addSelector:originalOpenURLiOS42Sel implementation:originalOpenURLiOS42Imp toInstance:originalAppDelegate];
+  [MSDelegateForwarderTestUtil addSelector:originalOpenURLiOS42Sel implementation:originalOpenURLiOS42Imp toInstance:originalAppDelegate];
   SEL customOpenURLiOS42Sel = @selector(application:openURL:sourceApplication:annotation:returnedValue:);
   id<MSCustomApplicationDelegate> customAppDelegate = [self createCustomAppDelegateInstance];
   id customOpenURLiOS42Imp =
@@ -399,7 +442,7 @@
         XCTFail(@"Custom delegate got called but is removed.");
         return expectedReturnedValue;
       };
-  [self addSelector:customOpenURLiOS42Sel implementation:customOpenURLiOS42Imp toInstance:customAppDelegate];
+  [MSDelegateForwarderTestUtil addSelector:customOpenURLiOS42Sel implementation:customOpenURLiOS42Imp toInstance:customAppDelegate];
   [self.sut addDelegate:customAppDelegate];
   [self.sut removeDelegate:customAppDelegate];
 
@@ -437,7 +480,7 @@
         [originalCalledExpectation fulfill];
         return expectedReturnedValue;
       };
-  [self addSelector:originalOpenURLiOS42Sel implementation:originalOpenURLiOS42Imp toInstance:originalAppDelegate];
+  [MSDelegateForwarderTestUtil addSelector:originalOpenURLiOS42Sel implementation:originalOpenURLiOS42Imp toInstance:originalAppDelegate];
   SEL customOpenURLiOS42Sel = @selector(application:openURL:sourceApplication:annotation:returnedValue:);
   id<MSCustomApplicationDelegate> customAppDelegate = [self createCustomAppDelegateInstance];
   id customOpenURLiOS42Imp =
@@ -447,7 +490,7 @@
         XCTFail(@"Custom delegate got called but is removed.");
         return expectedReturnedValue;
       };
-  [self addSelector:customOpenURLiOS42Sel implementation:customOpenURLiOS42Imp toInstance:customAppDelegate];
+  [MSDelegateForwarderTestUtil addSelector:customOpenURLiOS42Sel implementation:customOpenURLiOS42Imp toInstance:customAppDelegate];
   [self.sut addDelegate:customAppDelegate];
   self.sut.enabled = NO;
 
@@ -490,7 +533,7 @@
         expectedReturnedValue = initialReturnValue;
         return expectedReturnedValue;
       };
-  [self addSelector:originalOpenURLiOS42Sel implementation:originalOpenURLiOS42Imp toInstance:originalAppDelegate];
+  [MSDelegateForwarderTestUtil addSelector:originalOpenURLiOS42Sel implementation:originalOpenURLiOS42Imp toInstance:originalAppDelegate];
   SEL customOpenURLiOS42Sel = @selector(application:openURL:sourceApplication:annotation:returnedValue:);
   id<MSCustomApplicationDelegate> customAppDelegate1 = [self createCustomAppDelegateInstance];
   id customOpenURLiOS42Imp1 = ^(__attribute__((unused)) id itSelf, MSApplication *application, NSURL *url, NSString *sApplication,
@@ -505,7 +548,7 @@
     [customCalledExpectation1 fulfill];
     return expectedReturnedValue;
   };
-  [self addSelector:customOpenURLiOS42Sel implementation:customOpenURLiOS42Imp1 toInstance:customAppDelegate1];
+  [MSDelegateForwarderTestUtil addSelector:customOpenURLiOS42Sel implementation:customOpenURLiOS42Imp1 toInstance:customAppDelegate1];
   id<MSCustomApplicationDelegate> customAppDelegate2 = [self createCustomAppDelegateInstance];
   id customOpenURLiOS42Imp2 = ^(__attribute__((unused)) id itSelf, MSApplication *application, NSURL *url, NSString *sApplication,
                                 id annotation, BOOL returnedValue) {
@@ -519,7 +562,7 @@
     [customCalledExpectation2 fulfill];
     return expectedReturnedValue;
   };
-  [self addSelector:customOpenURLiOS42Sel implementation:customOpenURLiOS42Imp2 toInstance:customAppDelegate2];
+  [MSDelegateForwarderTestUtil addSelector:customOpenURLiOS42Sel implementation:customOpenURLiOS42Imp2 toInstance:customAppDelegate2];
   [self.sut addDelegate:customAppDelegate1];
   [self.sut addDelegate:customAppDelegate2];
   [self.sut swizzleOriginalDelegate:originalAppDelegate];
@@ -557,7 +600,7 @@
     [customCalledExpectation fulfill];
     return expectedReturnedValue;
   };
-  [self addSelector:customOpenURLiOS90Sel implementation:customOpenURLiOS90Imp toInstance:customAppDelegate];
+  [MSDelegateForwarderTestUtil addSelector:customOpenURLiOS90Sel implementation:customOpenURLiOS90Imp toInstance:customAppDelegate];
   [self.sut addDelegate:customAppDelegate];
   [self.sut swizzleOriginalDelegate:originalAppDelegate];
 
@@ -619,7 +662,7 @@
     nbCalls++;
     return YES;
   };
-  [self addSelector:deprecatedSelector implementation:selectorImp toInstance:originalAppDelegate];
+  [MSDelegateForwarderTestUtil addSelector:deprecatedSelector implementation:selectorImp toInstance:originalAppDelegate];
   [self.sut addAppDelegateSelectorToSwizzle:deprecatedSelector];
   [self.sut addAppDelegateSelectorToSwizzle:newSelector];
 
@@ -657,7 +700,7 @@
     nbCalls++;
     return YES;
   };
-  [self addSelector:newSelector implementation:selectorImp toInstance:originalAppDelegate];
+  [MSDelegateForwarderTestUtil addSelector:newSelector implementation:selectorImp toInstance:originalAppDelegate];
   [self.sut addAppDelegateSelectorToSwizzle:deprecatedSelector];
   [self.sut addAppDelegateSelectorToSwizzle:newSelector];
 
@@ -702,8 +745,8 @@
     newSelectorNbCalls++;
     return YES;
   };
-  [self addSelector:deprecatedSelector implementation:deprecatedSelectorImp toInstance:originalAppDelegate];
-  [self addSelector:newSelector implementation:newSelectorImp toInstance:originalAppDelegate];
+  [MSDelegateForwarderTestUtil addSelector:deprecatedSelector implementation:deprecatedSelectorImp toInstance:originalAppDelegate];
+  [MSDelegateForwarderTestUtil addSelector:newSelector implementation:newSelectorImp toInstance:originalAppDelegate];
   [self.sut addAppDelegateSelectorToSwizzle:deprecatedSelector];
   [self.sut addAppDelegateSelectorToSwizzle:newSelector];
 
@@ -727,45 +770,14 @@
 
 #endif
 
-#pragma mark - Private
-
-- (NSString *)generateClassName {
-  return [@"C" stringByAppendingString:MS_UUID_STRING];
-}
-
-- (id)createInstanceConformingToProtocol:(Protocol *)protocol {
-  return [self createInstanceWithBaseClass:[NSObject class] andConformItToProtocol:protocol];
-}
-
-- (id)createInstanceWithBaseClass:(Class)class andConformItToProtocol:(Protocol *)protocol {
-
-  // Generate class name to prevent conflicts in runtime added classes.
-  const char *name = [[self generateClassName] UTF8String];
-  Class newClass = objc_allocateClassPair(class, name, 0);
-  if (protocol) {
-    class_addProtocol(newClass, protocol);
-  }
-  objc_registerClassPair(newClass);
-  return [newClass new];
-}
+#pragma mark - helper
 
 - (id<MSApplicationDelegate>)createOriginalAppDelegateInstance {
-  return [self createInstanceConformingToProtocol:@protocol(MSApplicationDelegate)];
+  return [MSDelegateForwarderTestUtil createInstanceConformingToProtocol:@protocol(MSApplicationDelegate)];
 }
 
 - (id<MSCustomApplicationDelegate>)createCustomAppDelegateInstance {
-  return [self createInstanceConformingToProtocol:@protocol(MSCustomApplicationDelegate)];
-}
-
-- (void)addSelector:(SEL)selector implementation:(id)block toInstance:(id)instance {
-  [self addSelector:selector implementation:block toClass:[instance class]];
-}
-
-- (void)addSelector:(SEL)selector implementation:(id)block toClass:(id)class {
-  Method method = class_getInstanceMethod(class, selector);
-  const char *types = method_getTypeEncoding(method);
-  IMP imp = imp_implementationWithBlock(block);
-  class_addMethod(class, selector, imp, types);
+  return [MSDelegateForwarderTestUtil createInstanceConformingToProtocol:@protocol(MSCustomApplicationDelegate)];
 }
 
 @end

@@ -3,6 +3,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+static NSString *const kMSAppDelegateForwarderEnabledKey = @"AppCenterAppDelegateForwarderEnabled";
+
 @interface MSAppDelegateForwarder : MSDelegateForwarder <MSCustomApplicationDelegate>
 
 @end

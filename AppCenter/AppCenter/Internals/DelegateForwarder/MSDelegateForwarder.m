@@ -16,8 +16,6 @@ static NSMutableArray<dispatch_block_t> *traceBuffer = nil;
 
 + (void)load {
   traceBuffer = [NSMutableArray new];
-  
-  // TODO Fix BOOL to dizable swizzling + add unit tests for it.
 }
 
 - (instancetype)init {
@@ -39,6 +37,12 @@ static NSMutableArray<dispatch_block_t> *traceBuffer = nil;
 + (void)resetSharedInstance {
 
   // This is an empty method and expect to be overridden in sub classes.
+}
+
++ (NSString *)enabledKey {
+  
+  // This is an empty method and expect to be overridden in sub classes.
+  return nil;
 }
 
 - (Class)originalClassForSetDelegate {
@@ -259,6 +263,21 @@ static NSMutableArray<dispatch_block_t> *traceBuffer = nil;
 }
 
 #pragma mark - Other
+
+- (void)setEnabledFromPlistForKey:(NSString *)plistKey{
+  NSNumber *appForwarderEnabledNum = [NSBundle.mainBundle objectForInfoDictionaryKey:plistKey];
+  BOOL appForwarderEnabled = appForwarderEnabledNum ? [appForwarderEnabledNum boolValue] : YES;
+  self.enabled = appForwarderEnabled;
+  if (self.enabled) {
+    [self addTraceBlock:^{
+      MSLogDebug([MSAppCenter logTag], @"Application delegate forwarder is enabled. It may use swizzling.");
+    }];
+  } else {
+    [self addTraceBlock:^{
+      MSLogDebug([MSAppCenter logTag], @"Application delegate forwarder is disabled. It won't use swizzling.");
+    }];
+  }
+}
 
 - (void)setEnabled:(BOOL)enabled {
   @synchronized(self) {
