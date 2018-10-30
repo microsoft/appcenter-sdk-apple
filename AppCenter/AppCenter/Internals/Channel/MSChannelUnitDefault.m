@@ -166,8 +166,7 @@
 
       // Save the log first.
       MSLogDebug([MSAppCenter logTag], @"Saving log, type: %@.", item.type);
-      BOOL critical = (flags & MSFlagsPersistenceCritical) != 0;
-      [self.storage saveLog:item withGroupId:self.configuration.groupId flags:critical];
+      [self.storage saveLog:item withGroupId:self.configuration.groupId flags:flags];
       self.itemsCount += 1;
       [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:withInternalId:)
                                 withBlock:^(id<MSChannelDelegate> delegate) {
