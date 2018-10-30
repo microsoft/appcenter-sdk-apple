@@ -1,6 +1,8 @@
 #import "MSUserNotificationCenterDelegateForwarder.h"
 #import "MSPush.h"
+#if !TARGET_OS_OSX
 #import <UserNotifications/UserNotifications.h>
+#endif
 
 static dispatch_once_t swizzlingOnceToken;
 
@@ -12,14 +14,16 @@ static MSUserNotificationCenterDelegateForwarder *sharedInstance = nil;
 + (void)load {
   [[self sharedInstance] setEnabledFromPlistForKey:kMSUserNotificationCenterDelegateForwarderEnabledKey];
 
-  // TODO disable for macOS.
+  // TODO test the forwarder on macOS.
   // Register selectors to swizzle (iOS 10+).
+#if !TARGET_OS_OSX
   if ([[MSUserNotificationCenterDelegateForwarder sharedInstance] originalClassForSetDelegate]) {
     [[MSUserNotificationCenterDelegateForwarder sharedInstance]
         addAppDelegateSelectorToSwizzle:@selector(userNotificationCenter:willPresentNotification:withCompletionHandler:)];
     [[MSUserNotificationCenterDelegateForwarder sharedInstance]
         addAppDelegateSelectorToSwizzle:@selector(userNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:)];
   }
+#endif
 }
 
 + (instancetype)sharedInstance {
@@ -47,6 +51,8 @@ static MSUserNotificationCenterDelegateForwarder *sharedInstance = nil;
 #pragma mark - Custom Application
 
 #pragma clang diagnostic push
+
+#if !TARGET_OS_OSX
 
 // TODO Use @available API and availability attribute when deprecating Xcode 8 then we can try removing these pragma.
 #pragma clang diagnostic ignored "-Wpartial-availability"
@@ -110,5 +116,7 @@ static MSUserNotificationCenterDelegateForwarder *sharedInstance = nil;
 }
 
 #pragma clang diagnostic pop
+
+#endif
 
 @end
