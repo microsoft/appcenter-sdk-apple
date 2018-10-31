@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+
 @protocol MSCustomDelegate;
 
 @interface MSDelegateForwarder : NSObject

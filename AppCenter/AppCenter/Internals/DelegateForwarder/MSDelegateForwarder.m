@@ -1,10 +1,10 @@
-#import "MSDelegateForwarder.h"
+#import <objc/runtime.h>
+
 #import "MSAppCenterInternal.h"
 #import "MSCustomDelegate.h"
+#import "MSDelegateForwarder.h"
 #import "MSDelegateForwarderPrivate.h"
 #import "MSLogger.h"
-
-#import <objc/runtime.h>
 
 static NSString *const kMSCustomSelectorPrefix = @"custom_";
 static NSString *const kMSReturnedValueSelectorPart = @"returnedValue:";
