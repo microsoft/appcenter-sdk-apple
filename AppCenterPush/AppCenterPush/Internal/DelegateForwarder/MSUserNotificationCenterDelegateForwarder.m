@@ -80,19 +80,23 @@ static MSUserNotificationCenterDelegateForwarder *sharedInstance = nil;
                 withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler {
   IMP originalImp = NULL;
 
-  // Forward to the original delegate.
+  /*
+   * First, forward to the original delegate, customers can leverage the completion handler later in their Push callback.
+   * It's now a responsability of the original delegate to call the completion handler.
+   */
   [[MSUserNotificationCenterDelegateForwarder sharedInstance].originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
   if (originalImp) {
     ((void (*)(id, SEL, UNUserNotificationCenter *, UNNotification *, void (^)(UNNotificationPresentationOptions options)))originalImp)(
         self, _cmd, center, notification, completionHandler);
-  } else {
-
-    // Call the completion handler with the default behavior.
-    completionHandler(UNNotificationPresentationOptionNone);
   }
 
-  // Forward to Push.
+  // Then, forward to Push.
   [MSPush didReceiveRemoteNotification:notification.request.content.userInfo];
+  if (!originalImp) {
+    
+    // No original implementation, we have to call the completion handler ourselves with the default behavior.
+    completionHandler(UNNotificationPresentationOptionNone);
+  }
 }
 
 - (void)custom_userNotificationCenter:(UNUserNotificationCenter *)center
@@ -100,19 +104,23 @@ static MSUserNotificationCenterDelegateForwarder *sharedInstance = nil;
                 withCompletionHandler:(void (^)(void))completionHandler {
   IMP originalImp = NULL;
 
-  // Forward to the original delegate.
+  /*
+   * First, forward to the original delegate, customers can leverage the completion handler later in their Push callback. 
+   * It's now a responsability of the original delegate to call the completion handler.
+   */
   [[MSUserNotificationCenterDelegateForwarder sharedInstance].originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
   if (originalImp) {
     ((void (*)(id, SEL, UNUserNotificationCenter *, UNNotificationResponse *, void (^)(void)))originalImp)(self, _cmd, center, response,
                                                                                                            completionHandler);
-  } else {
-
-    // Still need to call the completion Handler.
-    completionHandler();
   }
 
-  // Forward to Push.
+  // Then, forward to Push.
   [MSPush didReceiveRemoteNotification:response.notification.request.content.userInfo];
+  if (!originalImp) {
+    
+    // No original implementation, we have to call the completion handler ourselves.
+    completionHandler();
+  }
 }
 
 #pragma clang diagnostic pop
