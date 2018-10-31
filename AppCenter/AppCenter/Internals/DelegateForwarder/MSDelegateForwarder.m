@@ -40,7 +40,7 @@ static NSMutableArray<dispatch_block_t> *traceBuffer = nil;
 }
 
 + (NSString *)enabledKey {
-  
+
   // This is an empty method and expect to be overridden in sub classes.
   return nil;
 }
@@ -264,7 +264,7 @@ static NSMutableArray<dispatch_block_t> *traceBuffer = nil;
 
 #pragma mark - Other
 
-- (void)setEnabledFromPlistForKey:(NSString *)plistKey{
+- (void)setEnabledFromPlistForKey:(NSString *)plistKey {
   NSNumber *appForwarderEnabledNum = [NSBundle.mainBundle objectForInfoDictionaryKey:plistKey];
   BOOL appForwarderEnabled = appForwarderEnabledNum ? [appForwarderEnabledNum boolValue] : YES;
   self.enabled = appForwarderEnabled;

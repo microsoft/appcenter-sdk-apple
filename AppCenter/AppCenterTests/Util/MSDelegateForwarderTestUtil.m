@@ -13,7 +13,7 @@
 }
 
 + (id)createInstanceWithBaseClass:(Class)class andConformItToProtocol:(Protocol *)protocol {
-  
+
   // Generate class name to prevent conflicts in runtime added classes.
   const char *name = [[self generateClassName] UTF8String];
   Class newClass = objc_allocateClassPair(class, name, 0);

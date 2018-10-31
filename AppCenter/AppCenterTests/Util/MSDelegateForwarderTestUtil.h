@@ -46,5 +46,4 @@
  */
 + (void)addSelector:(SEL)selector implementation:(id)block toClass:(id)class;
 
-
 @end

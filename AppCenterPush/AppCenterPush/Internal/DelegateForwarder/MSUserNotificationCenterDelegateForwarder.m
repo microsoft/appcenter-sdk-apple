@@ -93,7 +93,7 @@ static MSUserNotificationCenterDelegateForwarder *sharedInstance = nil;
   // Then, forward to Push.
   [MSPush didReceiveRemoteNotification:notification.request.content.userInfo];
   if (!originalImp) {
-    
+
     // No original implementation, we have to call the completion handler ourselves with the default behavior.
     completionHandler(UNNotificationPresentationOptionNone);
   }
@@ -105,7 +105,7 @@ static MSUserNotificationCenterDelegateForwarder *sharedInstance = nil;
   IMP originalImp = NULL;
 
   /*
-   * First, forward to the original delegate, customers can leverage the completion handler later in their Push callback. 
+   * First, forward to the original delegate, customers can leverage the completion handler later in their Push callback.
    * It's now a responsability of the original delegate to call the completion handler.
    */
   [[MSUserNotificationCenterDelegateForwarder sharedInstance].originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
@@ -117,7 +117,7 @@ static MSUserNotificationCenterDelegateForwarder *sharedInstance = nil;
   // Then, forward to Push.
   [MSPush didReceiveRemoteNotification:response.notification.request.content.userInfo];
   if (!originalImp) {
-    
+
     // No original implementation, we have to call the completion handler ourselves.
     completionHandler();
   }

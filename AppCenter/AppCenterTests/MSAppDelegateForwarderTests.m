@@ -3,9 +3,9 @@
 #import "MSAppDelegateForwarder.h"
 #import "MSAppDelegateUtil.h"
 #import "MSDelegateForwarderPrivate.h"
+#import "MSDelegateForwarderTestUtil.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+Application.h"
-#import "MSDelegateForwarderTestUtil.h"
 
 @interface MSAppDelegateForwarderTest : XCTestCase
 
@@ -45,13 +45,13 @@
   [MSAppDelegateForwarder resetSharedInstance];
 }
 
--(void)testSetEnabledYesFromPlist {
-  
+- (void)testSetEnabledYesFromPlist {
+
   // If
   id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock objectForInfoDictionaryKey:kMSAppDelegateForwarderEnabledKey]).andReturn(@YES);
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
-  
+
   // When
   [[self.sut class] load];
 
@@ -59,13 +59,13 @@
   assertThatBool(self.sut.enabled, isTrue());
 }
 
--(void)testSetEnabledNoFromPlist {
-  
+- (void)testSetEnabledNoFromPlist {
+
   // If
   id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock objectForInfoDictionaryKey:kMSAppDelegateForwarderEnabledKey]).andReturn(@NO);
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
-  
+
   // When
   [[self.sut class] load];
 
@@ -73,16 +73,16 @@
   assertThatBool(self.sut.enabled, isFalse());
 }
 
--(void)testSetEnabledNoneFromPlist {
-  
+- (void)testSetEnabledNoneFromPlist {
+
   // If
   id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock objectForInfoDictionaryKey:kMSAppDelegateForwarderEnabledKey]).andReturn(nil);
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
-  
+
   // When
   [[self.sut class] load];
-  
+
   // Then
   assertThatBool(self.sut.enabled, isTrue());
 }
@@ -163,7 +163,8 @@
   // App delegate implementing the selector indirectly.
   id originalBaseAppDelegate = [self createOriginalAppDelegateInstance];
   [MSDelegateForwarderTestUtil addSelector:selectorToSwizzle implementation:selectorImp toInstance:originalBaseAppDelegate];
-  originalAppDelegate = [MSDelegateForwarderTestUtil createInstanceWithBaseClass:[originalBaseAppDelegate class] andConformItToProtocol:nil];
+  originalAppDelegate = [MSDelegateForwarderTestUtil createInstanceWithBaseClass:[originalBaseAppDelegate class]
+                                                          andConformItToProtocol:nil];
   wasCalled = NO;
   [self.sut addAppDelegateSelectorToSwizzle:selectorToSwizzle];
 
@@ -185,7 +186,8 @@
   };
   originalBaseAppDelegate = [self createOriginalAppDelegateInstance];
   [MSDelegateForwarderTestUtil addSelector:selectorToSwizzle implementation:baseSelectorImp toInstance:originalBaseAppDelegate];
-  originalAppDelegate = [MSDelegateForwarderTestUtil createInstanceWithBaseClass:[originalBaseAppDelegate class] andConformItToProtocol:nil];
+  originalAppDelegate = [MSDelegateForwarderTestUtil createInstanceWithBaseClass:[originalBaseAppDelegate class]
+                                                          andConformItToProtocol:nil];
   [MSDelegateForwarderTestUtil addSelector:selectorToSwizzle implementation:selectorImp toInstance:originalAppDelegate];
   [self.sut addAppDelegateSelectorToSwizzle:selectorToSwizzle];
 
@@ -209,8 +211,8 @@
 
   // Adding a class method to a class requires its meta class.
   [MSDelegateForwarderTestUtil addSelector:instancesRespondToSelector
-      implementation:instancesRespondToSelectorImp
-             toClass:object_getClass([originalAppDelegate class])];
+                            implementation:instancesRespondToSelectorImp
+                                   toClass:object_getClass([originalAppDelegate class])];
   [self.sut addAppDelegateSelectorToSwizzle:selectorToSwizzle];
 
   // When
@@ -294,8 +296,8 @@
         [originalCalledExpectation fulfill];
       };
   [MSDelegateForwarderTestUtil addSelector:originalDidRegisterForRemoteNotificationsWithDeviceTokenSel
-      implementation:originalDidRegisterForRemoteNotificationsWithDeviceTokenImp
-          toInstance:originalAppDelegate];
+                            implementation:originalDidRegisterForRemoteNotificationsWithDeviceTokenImp
+                                toInstance:originalAppDelegate];
 
   // When
   [originalAppDelegate application:self.appMock didRegisterForRemoteNotificationsWithDeviceToken:expectedToken];

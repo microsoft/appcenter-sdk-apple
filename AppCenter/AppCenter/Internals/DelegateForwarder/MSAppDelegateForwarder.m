@@ -12,8 +12,8 @@ static dispatch_once_t swizzlingOnceToken;
 
 @implementation MSAppDelegateForwarder
 
-+(void)load{
-  
++ (void)load {
+
   /*
    * The application starts querying its delegate for its implementation as soon as it is set then may never query again. It means that if
    * the application delegate doesn't implement an optional method of the `UIApplicationDelegate` protocol at that time then that method may
