@@ -54,13 +54,14 @@
 + (MSPLCrashReportThreadInfo *)findCrashedThreadInReport:(MSPLCrashReport *)report;
 
 /**
- * Normalize an address. This is intended to be used for arm64 addresses.
+ * Normalize an address.
  *
  * @param address The address to normalize.
+ * @param is64bit A flag that indicates if this is a 64bit architecture.
  *
  * @return The normalized address.
  */
-+ (uint64_t)normalizeAddress:(uint64_t)address;
++ (uint64_t)normalizeAddress:(uint64_t)address is64bit:(BOOL)is64bit;
 
 /**
  * Extract binary images from a crash report. This only extracts the binary images that we "care" about, meaning those that are contained
