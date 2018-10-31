@@ -347,6 +347,7 @@
 		B266B750216FECB500C9E322 /* live_report_arm64e.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = B266B74F216FEC8E00C9E322 /* live_report_arm64e.plcrash */; };
 		B266B751216FECBB00C9E322 /* live_report_arm64e.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = B266B74F216FEC8E00C9E322 /* live_report_arm64e.plcrash */; };
 		B266B752216FECBD00C9E322 /* live_report_arm64e.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = B266B74F216FEC8E00C9E322 /* live_report_arm64e.plcrash */; };
+		B26A310C21891A7800F09AE1 /* macOS_report_pthread_lock.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = B26A310B21891A7800F09AE1 /* macOS_report_pthread_lock.plcrash */; };
 		B2A0A71C1D9C2AE700729A58 /* MSCrashesTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = B2A0A71B1D9C2AE700729A58 /* MSCrashesTestUtil.m */; };
 		B2CD3BF91D80EE49000A8A91 /* MSAbstractErrorLog.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD3BF71D80EE49000A8A91 /* MSAbstractErrorLog.h */; };
 		B2CD3BFA1D80EE49000A8A91 /* MSAbstractErrorLog.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD3BF81D80EE49000A8A91 /* MSAbstractErrorLog.m */; };
@@ -361,6 +362,9 @@
 		B2FF130C1DD12F61003DC677 /* MSAppleErrorLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FF130B1DD12F61003DC677 /* MSAppleErrorLogTests.m */; };
 		BA682CFA6F4C5A8841507CF7 /* MSMockCrashesDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BA68266A68B7F21A86A093B0 /* MSMockCrashesDelegate.m */; };
 		C2A4A26F1EE76B970080FD22 /* libCrashReporter-MacOSX-Static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 049327B11ECA19FD00D0187A /* libCrashReporter-MacOSX-Static.a */; };
+		F82E4C75217F1FD700EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C74217F1FD600EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		F82E4C76217F1FD700EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C74217F1FD600EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		F82E4C77217F1FD700EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C74217F1FD600EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		F851DAED1E81867D00525570 /* MSCrashesCXXExceptionTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = F851DAEC1E81867D00525570 /* MSCrashesCXXExceptionTests.mm */; };
 		F859D1051E549B45008B2D8E /* live_report_bad_ptr.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0F41E549B45008B2D8E /* live_report_bad_ptr.plcrash */; };
 		F859D1061E549B45008B2D8E /* live_report_call_abort.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D0F51E549B45008B2D8E /* live_report_call_abort.plcrash */; };
@@ -577,6 +581,7 @@
 		B24F3F0E1D93368F00827213 /* MSErrorLogFormatterTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MSErrorLogFormatterTests.mm; sourceTree = "<group>"; };
 		B24F3F101D93417B00827213 /* MSErrorLogFormatterPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorLogFormatterPrivate.h; sourceTree = "<group>"; };
 		B266B74F216FEC8E00C9E322 /* live_report_arm64e.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_arm64e.plcrash; sourceTree = "<group>"; };
+		B26A310B21891A7800F09AE1 /* macOS_report_pthread_lock.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = macOS_report_pthread_lock.plcrash; sourceTree = "<group>"; };
 		B2A0A71A1D9C2AE700729A58 /* MSCrashesTestUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashesTestUtil.h; sourceTree = "<group>"; };
 		B2A0A71B1D9C2AE700729A58 /* MSCrashesTestUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCrashesTestUtil.m; sourceTree = "<group>"; };
 		B2CD3BF71D80EE49000A8A91 /* MSAbstractErrorLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAbstractErrorLog.h; sourceTree = "<group>"; };
@@ -592,6 +597,7 @@
 		B2FF130B1DD12F61003DC677 /* MSAppleErrorLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAppleErrorLogTests.m; sourceTree = "<group>"; };
 		BA68266A68B7F21A86A093B0 /* MSMockCrashesDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMockCrashesDelegate.m; sourceTree = "<group>"; };
 		BA6829F386854E39B92F77C4 /* MSMockCrashesDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSMockCrashesDelegate.h; sourceTree = "<group>"; };
+		F82E4C74217F1FD600EDAB34 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = ../../Vendor/SQLite3/sqlite3.c; sourceTree = "<group>"; };
 		F851DAEC1E81867D00525570 /* MSCrashesCXXExceptionTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MSCrashesCXXExceptionTests.mm; sourceTree = "<group>"; };
 		F859D0F41E549B45008B2D8E /* live_report_bad_ptr.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_bad_ptr.plcrash; sourceTree = "<group>"; };
 		F859D0F51E549B45008B2D8E /* live_report_call_abort.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_call_abort.plcrash; sourceTree = "<group>"; };
@@ -951,6 +957,7 @@
 		6E171AEC1D22F7AB000DC480 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F82E4C74217F1FD600EDAB34 /* sqlite3.c */,
 				0446DFA91F3B98A300C8E338 /* libAppCenter.a */,
 				0446DFAB1F3B98A800C8E338 /* libAppCenter.a */,
 				0446DFA41F3B986B00C8E338 /* libAppCenter.a */,
@@ -1026,6 +1033,7 @@
 		6EC99A2F1D416CCF0016C325 /* Fixtures */ = {
 			isa = PBXGroup;
 			children = (
+				B26A310A2189185B00F09AE1 /* CrashProbeMacOS */,
 				F859D0F31E549B45008B2D8E /* CrashProbe */,
 				B266B74F216FEC8E00C9E322 /* live_report_arm64e.plcrash */,
 				6EC99A301D416CCF0016C325 /* live_report_empty.plcrash */,
@@ -1037,6 +1045,14 @@
 				6EC99A361D416CCF0016C325 /* log_report_xamarin */,
 			);
 			path = Fixtures;
+			sourceTree = "<group>";
+		};
+		B26A310A2189185B00F09AE1 /* CrashProbeMacOS */ = {
+			isa = PBXGroup;
+			children = (
+				B26A310B21891A7800F09AE1 /* macOS_report_pthread_lock.plcrash */,
+			);
+			path = CrashProbeMacOS;
 			sourceTree = "<group>";
 		};
 		D38024001E7125F500466558 /* Model */ = {
@@ -1389,6 +1405,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B26A310C21891A7800F09AE1 /* macOS_report_pthread_lock.plcrash in Resources */,
 				0493277A1ECA170D00D0187A /* live_report_objc_exception.plcrash in Resources */,
 				0493277B1ECA170D00D0187A /* live_report_call_abort.plcrash in Resources */,
 				0493277C1ECA170D00D0187A /* live_report_smash_bottom.plcrash in Resources */,
@@ -1594,6 +1611,7 @@
 				0446DF6C1F3B977100C8E338 /* MSExceptionTests.m in Sources */,
 				0446DF6D1F3B977100C8E338 /* MSErrorReportTests.m in Sources */,
 				0446DF6E1F3B977100C8E338 /* MSWrapperCrashesHelperTests.m in Sources */,
+				F82E4C77217F1FD700EDAB34 /* sqlite3.c in Sources */,
 				043281671F74A677002F7205 /* MSMockUserDefaults.m in Sources */,
 				0446DF6F1F3B977100C8E338 /* MSStackFrameTests.m in Sources */,
 				0446DF701F3B977100C8E338 /* MSCrashesCXXExceptionTests.mm in Sources */,
@@ -1644,6 +1662,7 @@
 				049327671ECA170D00D0187A /* MSExceptionTests.m in Sources */,
 				049327681ECA170D00D0187A /* MSErrorReportTests.m in Sources */,
 				04CC3B8A1F3528E200F7D92A /* MSWrapperCrashesHelperTests.m in Sources */,
+				F82E4C76217F1FD700EDAB34 /* sqlite3.c in Sources */,
 				043281661F74A675002F7205 /* MSMockUserDefaults.m in Sources */,
 				049327691ECA170D00D0187A /* MSStackFrameTests.m in Sources */,
 				0493276A1ECA170D00D0187A /* MSCrashesCXXExceptionTests.mm in Sources */,
@@ -1719,6 +1738,7 @@
 				6E7D5C8A1D3EC504009EC9AC /* MSExceptionTests.m in Sources */,
 				B2F120D71D65469D0060DED7 /* MSErrorReportTests.m in Sources */,
 				352B1D6F1F27C36300684A7F /* MSWrapperCrashesHelperTests.m in Sources */,
+				F82E4C75217F1FD700EDAB34 /* sqlite3.c in Sources */,
 				043281651F74A673002F7205 /* MSMockUserDefaults.m in Sources */,
 				6E7D5C871D3EC332009EC9AC /* MSStackFrameTests.m in Sources */,
 				F851DAED1E81867D00525570 /* MSCrashesCXXExceptionTests.mm in Sources */,

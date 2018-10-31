@@ -462,6 +462,7 @@
   assertThat(errorLog.registers, hasCountOf([crashedThread.registers count]));
 }
 
+#if !TARGET_OS_OSX
 - (void)testNormalize32BitAddress {
 
   // If
@@ -474,7 +475,9 @@
   // Then
   XCTAssertEqualObjects(expected, actual);
 }
+#endif
 
+#if !TARGET_OS_OSX
 - (void)testNormalize64BitAddress {
 
   // If
@@ -488,7 +491,39 @@
   // Then
   XCTAssertEqualObjects(expected, actual);
 }
+#endif
 
+#if TARGET_OS_OSX
+- (void)testNormalize32BitAddressOnMacOs {
+
+  // If
+  uint64_t address32Bit = 0x123456789;
+
+  // When
+  NSString *actual = [MSErrorLogFormatter formatAddress:address32Bit is64bit:NO];
+  NSString *expected = [NSString stringWithFormat:@"0x%0*" PRIx64, 8 << NO, address32Bit];
+
+  // Then
+  XCTAssertEqualObjects(expected, actual);
+}
+#endif
+
+#if TARGET_OS_OSX
+- (void)testNormalize64BitAddressMacOs {
+
+  // If
+  uint64_t address64Bit = 0x1234567890abcdef;
+
+  // When
+  NSString *actual = [MSErrorLogFormatter formatAddress:address64Bit is64bit:YES];
+  NSString *expected = [NSString stringWithFormat:@"0x%0*" PRIx64, 8 << YES, address64Bit];
+
+  // Then
+  XCTAssertEqualObjects(expected, actual);
+}
+#endif
+
+#if !TARGET_OS_OSX
 - (void)testBinaryImageCountFromReportIsCorrect {
 
   // If
@@ -503,5 +538,23 @@
   // Then
   XCTAssertEqual(expectedCount, binaryImages.count);
 }
+#endif
+
+#if TARGET_OS_OSX
+- (void)testBinaryImageCountFromMacOSReportIsCorrect {
+
+  // If
+  NSData *crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:@"macOS_report_pthread_lock"];
+  NSError *error = nil;
+  MSPLCrashReport *crashReport = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
+  NSUInteger expectedCount = 10;
+
+  // When
+  NSArray *binaryImages = [MSErrorLogFormatter extractBinaryImagesFromReport:crashReport codeType:@(CPU_TYPE_ARM64) is64bit:YES];
+
+  // Then
+  XCTAssertEqual(expectedCount, binaryImages.count);
+}
+#endif
 
 @end
