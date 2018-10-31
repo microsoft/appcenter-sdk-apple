@@ -1,6 +1,10 @@
+#import <UserNotifications/UserNotifications.h>
+
 #import "MSTestFrameworks.h"
 #import "MSUserNotificationCenterDelegateForwarder.h"
 #import "MSDelegateForwarderPrivate.h"
+#import "MSDelegateForwarderTestUtil.h"
+#import "MSPush.h"
 
 @interface MSUserNotificationCenterDelegateForwarderTest : XCTestCase
 
@@ -63,6 +67,130 @@
   
   // Then
   assertThatBool(self.sut.enabled, isTrue());
+}
+
+-(void)testAllRequiredDelegateSwizzledWhenNoOriginalImplementation {
+  
+  // If
+  id pushMock = OCMClassMock([MSPush class]);
+  NSDictionary *expectedUserInfo = @{@"aps":@{@"alert":@"message"}};
+  id expectedNotificationCenter = OCMClassMock([UNUserNotificationCenter class]);
+  UNNotificationContent *expectedNotificationContent = OCMClassMock([UNNotificationContent class]);
+  UNNotificationRequest *expectedNotificationRequest = OCMClassMock([UNNotificationRequest class]);
+  UNNotificationResponse *expectedNotificationResponse = OCMClassMock([UNNotificationResponse class]);
+  UNNotification *expectedNotification = OCMClassMock([UNNotification class]);
+  OCMStub([expectedNotification request]).andReturn(expectedNotificationRequest);
+  OCMStub([expectedNotificationRequest content]).andReturn(expectedNotificationContent);
+  OCMStub([expectedNotificationContent userInfo]).andReturn(expectedUserInfo);
+  OCMStub([expectedNotificationResponse notification]).andReturn(expectedNotification);
+  XCTestExpectation *presentationCompletionHandlerExpectation = [self expectationWithDescription:@"Presentation completion handler called."];
+  XCTestExpectation *responseCompletionHandlerExpectation = [self expectationWithDescription:@"Response completion handler called."];
+  void (^presentationCompletionHandler)(UNNotificationPresentationOptions) = ^void(UNNotificationPresentationOptions options){
+    assertThatInt(options, equalToInt(UNNotificationPresentationOptionNone));
+    [presentationCompletionHandlerExpectation fulfill];
+  };
+  void (^responseCompletionHandler)(void) = ^void(){
+    [responseCompletionHandlerExpectation fulfill];
+  };
+  
+  // Original delegate doesn't implement anything.
+  id<UNUserNotificationCenterDelegate> originalUserNotificationCenterDelegate = [self createOriginalUserNotificationCenterDelegateInstance];
+  
+  // When
+  [[self.sut class] load];
+  [self.sut swizzleOriginalDelegate:originalUserNotificationCenterDelegate];
+  [originalUserNotificationCenterDelegate userNotificationCenter:expectedNotificationCenter willPresentNotification:expectedNotification withCompletionHandler:presentationCompletionHandler];
+  [originalUserNotificationCenterDelegate userNotificationCenter:expectedNotificationCenter didReceiveNotificationResponse:expectedNotificationResponse withCompletionHandler:responseCompletionHandler];
+  
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(__unused NSError *error) {
+                                 
+                                 // In the end the completion handler must be
+                                 // called with the forwarded value.
+                                 if (error) {
+                                   XCTFail(@"Failed to complete all delegate "
+                                           @"invocations with error: %@",
+                                           error.localizedDescription);
+                                 } else {
+                                   OCMVerify([pushMock didReceiveRemoteNotification:expectedUserInfo]);
+                                 }
+                               }];
+
+}
+
+-(void)testAllRequiredDelegateSwizzledWhenOriginalImplementations {
+  
+  // If
+  id pushMock = OCMClassMock([MSPush class]);
+  NSDictionary *expectedUserInfo = @{@"aps":@{@"alert":@"message"}};
+  id expectedNotificationCenter = OCMClassMock([UNUserNotificationCenter class]);
+  UNNotificationContent *expectedNotificationContent = OCMClassMock([UNNotificationContent class]);
+  UNNotificationRequest *expectedNotificationRequest = OCMClassMock([UNNotificationRequest class]);
+  UNNotificationResponse *expectedNotificationResponse = OCMClassMock([UNNotificationResponse class]);
+  UNNotification *expectedNotification = OCMClassMock([UNNotification class]);
+  OCMStub([expectedNotification request]).andReturn(expectedNotificationRequest);
+  OCMStub([expectedNotificationRequest content]).andReturn(expectedNotificationContent);
+  OCMStub([expectedNotificationContent userInfo]).andReturn(expectedUserInfo);
+  OCMStub([expectedNotificationResponse notification]).andReturn(expectedNotification);
+  XCTestExpectation *presentationCompletionHandlerExpectation = [self expectationWithDescription:@"Presentation completion handler called."];
+  XCTestExpectation *responseCompletionHandlerExpectation = [self expectationWithDescription:@"Response completion handler called."];
+  void (^presentationCompletionHandler)(UNNotificationPresentationOptions) = ^void(UNNotificationPresentationOptions options){
+    assertThatInt(options, equalToInt(UNNotificationPresentationOptionAlert));
+    [presentationCompletionHandlerExpectation fulfill];
+  };
+  void (^responseCompletionHandler)(void) = ^void(){
+    [responseCompletionHandlerExpectation fulfill];
+  };
+  
+  // Original delegate implements the callbacks.
+  id<UNUserNotificationCenterDelegate> originalUserNotificationCenterDelegate = [self createOriginalUserNotificationCenterDelegateInstance];
+  SEL willPresentNotificationSel = @selector(userNotificationCenter:willPresentNotification:withCompletionHandler:);
+  id originalWillPresentNotificationImp =
+  ^(__attribute__((unused)) id itSelf, __attribute__((unused)) UNUserNotificationCenter *notificationCenter,
+    __attribute__((unused)) UNNotification *notification, void (^handler)(UNNotificationPresentationOptions)) {
+    assertThat(notification, is(expectedNotification));
+    assertThat(notificationCenter, is(expectedNotificationCenter));
+    handler(UNNotificationPresentationOptionAlert);
+  };
+  [MSDelegateForwarderTestUtil addSelector:willPresentNotificationSel implementation:originalWillPresentNotificationImp toInstance:originalUserNotificationCenterDelegate];
+  SEL didReceiveNotificationResponseSel = @selector(userNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:);
+  id originalDidReceiveNotificationResponseImp =
+  ^(__attribute__((unused)) id itSelf, __attribute__((unused)) UNUserNotificationCenter *notificationCenter,
+    __attribute__((unused)) UNNotificationResponse *notificationResponse, void (^handler)(void)) {
+    assertThat(notificationResponse, is(expectedNotificationResponse));
+    assertThat(notificationCenter, is(expectedNotificationCenter));
+    handler();
+  };
+  [MSDelegateForwarderTestUtil addSelector:didReceiveNotificationResponseSel implementation:originalDidReceiveNotificationResponseImp toInstance:originalUserNotificationCenterDelegate];
+
+  // When
+  [[self.sut class] load];
+  [self.sut swizzleOriginalDelegate:originalUserNotificationCenterDelegate];
+  [originalUserNotificationCenterDelegate userNotificationCenter:expectedNotificationCenter willPresentNotification:expectedNotification withCompletionHandler:presentationCompletionHandler];
+  [originalUserNotificationCenterDelegate userNotificationCenter:expectedNotificationCenter didReceiveNotificationResponse:expectedNotificationResponse withCompletionHandler:responseCompletionHandler];
+  
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(__unused NSError *error) {
+                                 
+                                 // In the end the completion handler must be
+                                 // called with the forwarded value.
+                                 if (error) {
+                                   XCTFail(@"Failed to complete all delegate "
+                                           @"invocations with error: %@",
+                                           error.localizedDescription);
+                                 } else {
+                                   OCMVerify([pushMock didReceiveRemoteNotification:expectedUserInfo]);
+                                 }
+                               }];
+  
+}
+
+#pragma mark - Helper
+
+- (id<UNUserNotificationCenterDelegate>)createOriginalUserNotificationCenterDelegateInstance {
+  return [MSDelegateForwarderTestUtil createInstanceConformingToProtocol:@protocol(UNUserNotificationCenterDelegate)];
 }
 
 @end
