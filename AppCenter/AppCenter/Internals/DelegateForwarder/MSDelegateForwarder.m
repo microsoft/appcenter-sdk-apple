@@ -1,10 +1,10 @@
-#import "MSDelegateForwarder.h"
+#import <objc/runtime.h>
+
 #import "MSAppCenterInternal.h"
 #import "MSCustomDelegate.h"
+#import "MSDelegateForwarder.h"
 #import "MSDelegateForwarderPrivate.h"
 #import "MSLogger.h"
-
-#import <objc/runtime.h>
 
 static NSString *const kMSCustomSelectorPrefix = @"custom_";
 static NSString *const kMSReturnedValueSelectorPart = @"returnedValue:";
@@ -30,13 +30,13 @@ static NSMutableArray<dispatch_block_t> *traceBuffer = nil;
 
 + (instancetype)sharedInstance {
 
-  // This is an empty method and expect to be overridden in sub classes.
+  // This is an empty method and is expected to be overridden in sub classes.
   return nil;
 }
 
 + (void)resetSharedInstance {
 
-  // This is an empty method and expect to be overridden in sub classes.
+  // This is an empty method and is expected to be overridden in sub classes.
 }
 
 + (NSString *)enabledKey {
@@ -47,7 +47,7 @@ static NSMutableArray<dispatch_block_t> *traceBuffer = nil;
 
 - (Class)originalClassForSetDelegate {
 
-  // This is an empty method and expect to be overridden in sub classes.
+  // This is an empty method and is expected to be overridden in sub classes.
   return nil;
 }
 
@@ -69,7 +69,7 @@ static NSMutableArray<dispatch_block_t> *traceBuffer = nil;
  */
 - (void)custom_setDelegate:(__unused id<NSObject>)delegate {
 
-  // This is an empty method and expect to be overridden in sub classes.
+  // This is an empty method and is expected to be overridden in sub classes.
 }
 
 #pragma mark - Logging

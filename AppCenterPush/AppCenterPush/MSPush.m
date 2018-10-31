@@ -223,10 +223,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
                               MSLogVerbose([MSPush logTag], @"Push notifications authorization was denied.");
                             }
                             if (error) {
-                              MSLogWarning([MSPush logTag],
-                                           @"Push notifications authorization "
-                                           @"request has been finished with "
-                                           @"error: %@",
+                              MSLogWarning([MSPush logTag], @"Push notifications authorization request has been finished with error: %@",
                                            error.localizedDescription);
                             }
                           }];
