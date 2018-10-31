@@ -766,10 +766,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   [MS_USER_DEFAULTS setObject:groupId forKey:kMSDownloadedDistributionGroupIdKey];
   [MS_USER_DEFAULTS setObject:releaseId forKey:kMSDownloadedReleaseIdKey];
   [MS_USER_DEFAULTS setObject:releaseHashes forKey:kMSDownloadedReleaseHashKey];
-  MSLogDebug([MSDistribute logTag],
-             @"Stored downloaded release hash(es) (%@) and id (%@) for later "
-             @"reporting.",
-             releaseHashes, releaseId);
+  MSLogDebug([MSDistribute logTag], @"Stored downloaded release hash(es) (%@) and id (%@) for later reporting.", releaseHashes, releaseId);
 }
 
 - (void)removeDownloadedReleaseDetailsIfUpdated:(NSString *)currentInstalledReleaseHash {
@@ -839,9 +836,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   if ((storedDistributionGroupId == nil) || ([updatedReleaseDistributionGroupId isEqualToString:storedDistributionGroupId] == NO)) {
 
     // Set group ID from downloaded release details if an updated release was downloaded from another distribution group.
-    MSLogDebug([MSDistribute logTag],
-               @"Stored group ID doesn't match the group ID of the updated "
-               @"release, updating group id: %@",
+    MSLogDebug([MSDistribute logTag], @"Stored group ID doesn't match the group ID of the updated release, updating group id: %@",
                updatedReleaseDistributionGroupId);
     [MS_USER_DEFAULTS setObject:updatedReleaseDistributionGroupId forKey:kMSDistributionGroupIdKey];
   }
