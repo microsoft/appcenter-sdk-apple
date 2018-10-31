@@ -347,6 +347,7 @@
 		B266B750216FECB500C9E322 /* live_report_arm64e.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = B266B74F216FEC8E00C9E322 /* live_report_arm64e.plcrash */; };
 		B266B751216FECBB00C9E322 /* live_report_arm64e.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = B266B74F216FEC8E00C9E322 /* live_report_arm64e.plcrash */; };
 		B266B752216FECBD00C9E322 /* live_report_arm64e.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = B266B74F216FEC8E00C9E322 /* live_report_arm64e.plcrash */; };
+		B26A310C21891A7800F09AE1 /* macOS_report_pthread_lock.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = B26A310B21891A7800F09AE1 /* macOS_report_pthread_lock.plcrash */; };
 		B2A0A71C1D9C2AE700729A58 /* MSCrashesTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = B2A0A71B1D9C2AE700729A58 /* MSCrashesTestUtil.m */; };
 		B2CD3BF91D80EE49000A8A91 /* MSAbstractErrorLog.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD3BF71D80EE49000A8A91 /* MSAbstractErrorLog.h */; };
 		B2CD3BFA1D80EE49000A8A91 /* MSAbstractErrorLog.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD3BF81D80EE49000A8A91 /* MSAbstractErrorLog.m */; };
@@ -577,6 +578,7 @@
 		B24F3F0E1D93368F00827213 /* MSErrorLogFormatterTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MSErrorLogFormatterTests.mm; sourceTree = "<group>"; };
 		B24F3F101D93417B00827213 /* MSErrorLogFormatterPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorLogFormatterPrivate.h; sourceTree = "<group>"; };
 		B266B74F216FEC8E00C9E322 /* live_report_arm64e.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_arm64e.plcrash; sourceTree = "<group>"; };
+		B26A310B21891A7800F09AE1 /* macOS_report_pthread_lock.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = macOS_report_pthread_lock.plcrash; sourceTree = "<group>"; };
 		B2A0A71A1D9C2AE700729A58 /* MSCrashesTestUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashesTestUtil.h; sourceTree = "<group>"; };
 		B2A0A71B1D9C2AE700729A58 /* MSCrashesTestUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCrashesTestUtil.m; sourceTree = "<group>"; };
 		B2CD3BF71D80EE49000A8A91 /* MSAbstractErrorLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAbstractErrorLog.h; sourceTree = "<group>"; };
@@ -1026,6 +1028,7 @@
 		6EC99A2F1D416CCF0016C325 /* Fixtures */ = {
 			isa = PBXGroup;
 			children = (
+				B26A310A2189185B00F09AE1 /* CrashProbeMacOS */,
 				F859D0F31E549B45008B2D8E /* CrashProbe */,
 				B266B74F216FEC8E00C9E322 /* live_report_arm64e.plcrash */,
 				6EC99A301D416CCF0016C325 /* live_report_empty.plcrash */,
@@ -1037,6 +1040,14 @@
 				6EC99A361D416CCF0016C325 /* log_report_xamarin */,
 			);
 			path = Fixtures;
+			sourceTree = "<group>";
+		};
+		B26A310A2189185B00F09AE1 /* CrashProbeMacOS */ = {
+			isa = PBXGroup;
+			children = (
+				B26A310B21891A7800F09AE1 /* macOS_report_pthread_lock.plcrash */,
+			);
+			path = CrashProbeMacOS;
 			sourceTree = "<group>";
 		};
 		D38024001E7125F500466558 /* Model */ = {
@@ -1389,6 +1400,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B26A310C21891A7800F09AE1 /* macOS_report_pthread_lock.plcrash in Resources */,
 				0493277A1ECA170D00D0187A /* live_report_objc_exception.plcrash in Resources */,
 				0493277B1ECA170D00D0187A /* live_report_call_abort.plcrash in Resources */,
 				0493277C1ECA170D00D0187A /* live_report_smash_bottom.plcrash in Resources */,

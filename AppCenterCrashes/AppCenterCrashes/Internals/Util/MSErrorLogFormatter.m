@@ -786,32 +786,23 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
     for (MSPLCrashReportStackFrameInfo *frameInfo in exception.stackFrames) {
 
       // When on an ARM64 architecture, normalize the address to remove possible pointer signatures
-      uint64_t normalizedAddress = frameInfo.instructionPointer;
-      if (is64bit) {
-        normalizedAddress = [self normalizeAddress:normalizedAddress];
-      }
+      uint64_t normalizedAddress = [self normalizeAddress:frameInfo.instructionPointer is64bit:is64bit];
       [addresses addObject:@(normalizedAddress)];
     }
   }
 
   for (MSPLCrashReportThreadInfo *plCrashReporterThread in report.threads) {
-    for (MSPLCrashReportStackFrameInfo *plCrashReporterFrameInfo in plCrashReporterThread.stackFrames) {
+    for (MSPLCrashReportStackFrameInfo *frameInfo in plCrashReporterThread.stackFrames) {
 
       // When on an ARM64 architecture, normalize the address to remove possible pointer signatures
-      uint64_t normalizedAddress = plCrashReporterFrameInfo.instructionPointer;
-      if (is64bit) {
-        normalizedAddress = [self normalizeAddress:normalizedAddress];
-      }
+      uint64_t normalizedAddress = [self normalizeAddress:frameInfo.instructionPointer is64bit:is64bit];
       [addresses addObject:@(normalizedAddress)];
     }
 
     for (MSPLCrashReportRegisterInfo *registerInfo in plCrashReporterThread.registers) {
 
       // When on an ARM64 architecture, normalize the address to remove possible pointer signatures
-      uint64_t normalizedAddress = registerInfo.registerValue;
-      if (is64bit) {
-        normalizedAddress = [self normalizeAddress:normalizedAddress];
-      }
+      uint64_t normalizedAddress = [self normalizeAddress:registerInfo.registerValue is64bit:is64bit];
       [addresses addObject:@(normalizedAddress)];
     }
   }
@@ -827,14 +818,19 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   return (__bridge_transfer NSString *)uuidStringRef;
 }
 
-+ (uint64_t)normalizeAddress:(uint64_t)address {
-  return address & 0x0000000fffffffff;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
++ (uint64_t)normalizeAddress:(uint64_t)address is64bit:(BOOL)is64bit {
+#if TARGET_OS_OSX
+  return address;
+#else
+  return is64bit ? address & 0x0000000fffffffff : address;
+#endif
 }
+#pragma clang diagnostic pop
 
 + (NSString *)formatAddress:(uint64_t)address is64bit:(BOOL)is64bit {
-  if (is64bit) {
-    address = [MSErrorLogFormatter normalizeAddress:address];
-  }
+  address = [MSErrorLogFormatter normalizeAddress:address is64bit:is64bit];
   return [NSString stringWithFormat:@"0x%0*" PRIx64, 8 << is64bit, address];
 }
 
