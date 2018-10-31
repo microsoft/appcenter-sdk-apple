@@ -199,7 +199,7 @@
   self.sut.transmissionTargetTokens = nil;
 
   // When
-  NSArray<MSCommonSchemaLog *> *csLogs = [self.sut toCommonSchemaLogs];
+  NSArray<MSCommonSchemaLog *> *csLogs = [self.sut toCommonSchemaLogsWithFlags:MSFlagsDefault];
 
   // Then
   XCTAssertNil(csLogs);
@@ -211,7 +211,7 @@
   self.sut.transmissionTargetTokens = [@[] mutableCopy];
 
   // When
-  NSArray<MSCommonSchemaLog *> *csLogs = [self.sut toCommonSchemaLogs];
+  NSArray<MSCommonSchemaLog *> *csLogs = [self.sut toCommonSchemaLogsWithFlags:MSFlagsDefault];
 
   // Then
   XCTAssertNil(csLogs);
@@ -244,9 +244,10 @@
   NSString *expectedAppLocale = @"fr_DE";
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
   OCMStub([bundleMock preferredLocalizations]).andReturn(@[ expectedAppLocale ]);
+  MSFlags expectedFlags = MSFlagsPersistenceNormal;
 
   // When
-  NSArray<MSCommonSchemaLog *> *csLogs = [self.sut toCommonSchemaLogs];
+  NSArray<MSCommonSchemaLog *> *csLogs = [self.sut toCommonSchemaLogsWithFlags:MSFlagsPersistenceNormal];
 
   // Then
   XCTAssertEqual(csLogs.count, expectedTokens.count);
@@ -259,6 +260,7 @@
     XCTAssertEqualObjects(log.ver, @"3.0");
     XCTAssertEqualObjects(self.sut.timestamp, log.timestamp);
     XCTAssertTrue([expectedIKeys containsObject:log.iKey]);
+    XCTAssertEqual(expectedFlags, log.flags);
 
     // Extension.
     XCTAssertNotNil(log.ext);

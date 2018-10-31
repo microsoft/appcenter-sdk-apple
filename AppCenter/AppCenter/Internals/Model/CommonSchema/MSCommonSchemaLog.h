@@ -32,7 +32,7 @@
 @property(nonatomic, copy) NSString *iKey;
 
 /**
- * Event Property flags contain a collection of bits that describe how the event should be processed by the Asimov pipeline.
+ * Event Property flags contain a collection of bits that describe how the event should be processed by the One Collector pipeline.
  */
 @property(nonatomic) int64_t flags;
 
