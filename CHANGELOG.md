@@ -1,6 +1,6 @@
 # App Center SDK for iOS and macOS Change Log
 
-## Version 1.10.1 (Under active development)
+## Version 1.11.0 (Under active development)
 
 ### AppCenter
 
@@ -15,6 +15,16 @@
     ```objc
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{ @"NSApplicationCrashOnExceptions" : @YES }];
     ```
+
+___
+
+## Version 1.10.1
+
+This version contains a bug fix for macOS.
+
+### AppCenterCrashes
+
+* **[Fix]** Fix a regression that was introduced in 1.10.0 on macOS. It caused crash reports to contain an incomplete list of loaded binary images.
 
 ___
 
