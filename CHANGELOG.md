@@ -6,7 +6,7 @@ This version contains a bug fix for macOS.
 
 ### AppCenterCrashes
 
-* **[Fix]** Fix a regression with incomplete list of binary images in crash reports for macOS that was introduced in 1.10.0.
+* **[Fix]** Fix a regression that was introduced in 1.10.0 on macOS. It caused crash reports to contain an incomplete list of loaded binary images.
 
 ## Version 1.10.0
 
