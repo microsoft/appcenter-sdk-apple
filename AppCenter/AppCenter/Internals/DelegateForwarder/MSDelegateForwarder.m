@@ -24,18 +24,18 @@ static NSString *const kMSReturnedValueSelectorPart = @"returnedValue:";
 
 + (instancetype)sharedInstance {
 
-  // This is an empty method and expect to be overridden in sub classes.
+  // This is an empty method and is expected to be overridden in sub classes.
   return nil;
 }
 
 + (void)resetSharedInstance {
 
-  // This is an empty method and expect to be overridden in sub classes.
+  // This is an empty method and is expected to be overridden in sub classes.
 }
 
 - (Class)originalClassForSetDelegate {
 
-  // This is an empty method and expect to be overridden in sub classes.
+  // This is an empty method and is expected to be overridden in sub classes.
   return nil;
 }
 
@@ -51,7 +51,7 @@ static NSString *const kMSReturnedValueSelectorPart = @"returnedValue:";
  */
 - (void)custom_setDelegate:(__unused id<NSObject>)delegate {
 
-  // This is an empty method and expect to be overridden in sub classes.
+  // This is an empty method and is expected to be overridden in sub classes.
 }
 
 #pragma mark - Logging
