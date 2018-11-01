@@ -1,8 +1,10 @@
-#import "MSUserNotificationCenterDelegateForwarder.h"
-#import "MSPush.h"
+#import <Foundation/Foundation.h>
 #if !TARGET_OS_OSX
 #import <UserNotifications/UserNotifications.h>
 #endif
+
+#import "MSUserNotificationCenterDelegateForwarder.h"
+#import "MSPush.h"
 
 static dispatch_once_t swizzlingOnceToken;
 

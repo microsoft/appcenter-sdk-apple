@@ -1,4 +1,7 @@
+#import <Foundation/Foundation.h>
+#if !TARGET_OS_OSX
 #import <UserNotifications/UserNotifications.h>
+#endif
 
 #import "MSDelegateForwarderPrivate.h"
 #import "MSDelegateForwarderTestUtil.h"
@@ -68,6 +71,8 @@
   // Then
   assertThatBool(self.sut.enabled, isTrue());
 }
+
+#if !TARGET_OS_OSX
 
 - (void)testAllRequiredDelegateSwizzledWhenNoOriginalImplementation {
 
@@ -202,5 +207,7 @@
 - (id<UNUserNotificationCenterDelegate>)createOriginalUserNotificationCenterDelegateInstance {
   return [MSDelegateForwarderTestUtil createInstanceConformingToProtocol:@protocol(UNUserNotificationCenterDelegate)];
 }
+
+#endif
 
 @end
