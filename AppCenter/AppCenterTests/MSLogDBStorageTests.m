@@ -539,7 +539,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   long initialDataLengthInBytes = maxCapacityInBytes - 3 * kMSDefaultPageSizeInBytes;
   MSAbstractLog *additionalLog = [MSAbstractLog new];
   additionalLog.sid = MS_UUID_STRING;
-  NSArray *addedLogs = [self fillDatabaseWithLogsOfSizeInBytes:initialDataLengthInBytes];
+  NSArray *addedDbIds = [self fillDatabaseWithLogsOfSizeInBytes:initialDataLengthInBytes ofPriority:MSFlagsPersistenceNormal];
 
   // When
   [self.sut setMaxStorageSize:maxCapacityInBytes
@@ -556,7 +556,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   NSArray<id<MSLog>> *allLogs = [self loadLogsWhere:nil];
   XCTAssertEqual(loadedLogs.count, 1);
   XCTAssertEqualObjects(loadedLogs[0].sid, additionalLog.sid);
-  XCTAssertEqual(addedLogs.count + 1, allLogs.count);
+  XCTAssertEqual(addedDbIds.count + 1, allLogs.count);
 }
 
 - (void)testAddCriticalLog {
@@ -603,7 +603,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
 
   // If
   long maxCapacityInBytes = kMSTestStorageSizeMinimumUpperLimitInBytes;
-  [self fillDatabaseWithLogsOfSizeInBytes:maxCapacityInBytes];
+  [self fillDatabaseWithLogsOfSizeInBytes:maxCapacityInBytes ofPriority:MSFlagsPersistenceNormal];
   [self.sut setMaxStorageSize:maxCapacityInBytes
             completionHandler:^(__unused BOOL success){
             }];
@@ -612,7 +612,6 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   int additionalLogs = 0;
   while (additionalLogs <= 50) {
     MSAbstractLog *additionalLog = [MSAbstractLog new];
-    additionalLog.sid = MS_UUID_STRING;
     BOOL logSavedSuccessfully = [self.sut saveLog:additionalLog withGroupId:kMSTestGroupId flags:MSFlagsDefault];
     ++additionalLogs;
 
@@ -622,36 +621,113 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   }
 }
 
-- (void)testOldestLogsAreDeletedFirstWhenCapacityIsReached {
+- (void)testOldestNormalPriorityLogsAreDeletedFirstWhenCapacityIsReachedAndNewNormalPriorityLogComes {
 
   // If
   long maxCapacityInBytes = kMSTestStorageSizeMinimumUpperLimitInBytes + kMSDefaultPageSizeInBytes;
-  NSArray *addedLogs = [self fillDatabaseWithLogsOfSizeInBytes:maxCapacityInBytes];
-  MSAbstractLog *firstLog = addedLogs[0];
-  int initialLogCount = (int)[addedLogs count];
-  __block int originalLogsCount = initialLogCount;
+  NSArray *addedDbIds = [self fillDatabaseWithLogsOfSizeInBytes:maxCapacityInBytes ofPriority:MSFlagsPersistenceNormal];
+  NSNumber *firstLogDbId = addedDbIds[0];
 
   // When
   [self.sut setMaxStorageSize:maxCapacityInBytes
             completionHandler:^(__unused BOOL success){
             }];
-  while (originalLogsCount < initialLogCount) {
-    MSAbstractLog *additionalLog = [MSAbstractLog new];
-    additionalLog.sid = MS_UUID_STRING;
-    BOOL logSavedSuccessfully = [self.sut saveLog:additionalLog withGroupId:kMSAnotherTestGroupId flags:MSFlagsDefault];
-    NSString *originalLogsFilter = [NSString stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, kMSTestGroupId];
-    NSArray<id<MSLog>> *originalLogs = [self loadLogsWhere:originalLogsFilter];
-    originalLogsCount = (int)[originalLogs count];
-    if (originalLogsCount < initialLogCount) {
-      XCTAssertEqual(originalLogsCount, initialLogCount - 1);
-      BOOL containsFirstLog = [self logs:originalLogs containLogWithSessionId:firstLog.sid];
-      XCTAssertFalse(containsFirstLog);
-    }
+  MSAbstractLog *additionalLog = [MSAbstractLog new];
+  BOOL logSavedSuccessfully = [self.sut saveLog:additionalLog withGroupId:kMSAnotherTestGroupId flags:MSFlagsPersistenceNormal];
 
-    // Then
-    XCTAssertTrue([self.storageTestUtil getDataLengthInBytes] <= maxCapacityInBytes);
-    XCTAssertTrue(logSavedSuccessfully);
+  // Then
+  XCTAssertTrue([self.storageTestUtil getDataLengthInBytes] <= maxCapacityInBytes);
+  XCTAssertTrue(logSavedSuccessfully);
+  XCTAssertFalse([self containsLogWithDbId:firstLogDbId]);
+
+  NSString *whereCondition = [NSString stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, kMSAnotherTestGroupId];
+  NSArray<id<MSLog>> *loadedLogs = [self loadLogsWhere:whereCondition];
+  XCTAssertEqual(loadedLogs.count, 1);
+  XCTAssertEqualObjects(loadedLogs[0].sid, additionalLog.sid);
+  XCTAssertEqual(1, [[self findUnknownDBIdsFromKnownIdList:addedDbIds] count]);
+}
+
+- (void)testOldestNormalPriorityLogsAreDeletedFirstWhenCapacityIsReachedAndNewCriticalPriorityLogComes {
+
+  // If
+  long maxCapacityInBytes = kMSTestStorageSizeMinimumUpperLimitInBytes + kMSDefaultPageSizeInBytes;
+  NSArray *addedDbIds = [self fillDatabaseWithLogsOfSizeInBytes:maxCapacityInBytes ofPriority:MSFlagsPersistenceNormal];
+  NSNumber *firstLogDbId = addedDbIds[0];
+
+  // When
+  [self.sut setMaxStorageSize:maxCapacityInBytes
+            completionHandler:^(__unused BOOL success){
+            }];
+  MSAbstractLog *additionalLog = [MSAbstractLog new];
+  BOOL logSavedSuccessfully = [self.sut saveLog:additionalLog withGroupId:kMSAnotherTestGroupId flags:MSFlagsPersistenceCritical];
+
+  // Then
+  XCTAssertTrue([self.storageTestUtil getDataLengthInBytes] <= maxCapacityInBytes);
+  XCTAssertTrue(logSavedSuccessfully);
+  XCTAssertFalse([self containsLogWithDbId:firstLogDbId]);
+
+  NSString *whereCondition = [NSString stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, kMSAnotherTestGroupId];
+  NSArray<id<MSLog>> *loadedLogs = [self loadLogsWhere:whereCondition];
+  XCTAssertEqual(loadedLogs.count, 1);
+  XCTAssertEqualObjects(loadedLogs[0].sid, additionalLog.sid);
+  XCTAssertEqual(1, [[self findUnknownDBIdsFromKnownIdList:addedDbIds] count]);
+}
+
+- (void)testNewNormalPriorityLogIsDiscardedWhenCapacityIsReachedWithAllCriticalPriorityLogs {
+
+  // If
+  long maxCapacityInBytes = kMSTestStorageSizeMinimumUpperLimitInBytes + kMSDefaultPageSizeInBytes;
+  NSArray *addedDbIds = [self fillDatabaseWithLogsOfSizeInBytes:maxCapacityInBytes ofPriority:MSFlagsPersistenceCritical];
+
+  // When
+  [self.sut setMaxStorageSize:maxCapacityInBytes
+            completionHandler:^(__unused BOOL success){
+            }];
+  MSAbstractLog *additionalLog = [MSAbstractLog new];
+  BOOL logSavedSuccessfully = [self.sut saveLog:additionalLog withGroupId:kMSAnotherTestGroupId flags:MSFlagsPersistenceNormal];
+
+  // Then
+  XCTAssertTrue([self.storageTestUtil getDataLengthInBytes] <= maxCapacityInBytes);
+  XCTAssertTrue(logSavedSuccessfully);
+  for (NSNumber *dbId in addedDbIds) {
+    XCTAssertTrue([self containsLogWithDbId:dbId]);
   }
+
+  NSString *whereCondition = [NSString stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, kMSAnotherTestGroupId];
+  NSArray<id<MSLog>> *loadedLogs = [self loadLogsWhere:whereCondition];
+  XCTAssertEqual(loadedLogs.count, 0);
+  XCTAssertEqual(0, [[self findUnknownDBIdsFromKnownIdList:addedDbIds] count]);
+}
+
+- (void)testNormalPriorityLogIsDeletedWhenCapacityIsReachedWithMixedPriorityLogs {
+
+  // If
+  long maxCapacityInBytes = kMSTestStorageSizeMinimumUpperLimitInBytes + kMSDefaultPageSizeInBytes;
+  NSDictionary *addedDbIds = [self fillDatabaseWithMixedPriorityLogsOfSizeInBytesAndReturnDbIds:maxCapacityInBytes];
+  NSNumber *oldestCriticalDbId = [((NSArray *)[addedDbIds objectForKey:[NSNumber numberWithInt:MSFlagsPersistenceCritical]]) firstObject];
+  NSNumber *oldestNormalDbId = [((NSArray *)[addedDbIds objectForKey:[NSNumber numberWithInt:MSFlagsPersistenceNormal]]) firstObject];
+
+  // When
+  [self.sut setMaxStorageSize:maxCapacityInBytes
+            completionHandler:^(__unused BOOL success){
+            }];
+  MSAbstractLog *additionalLog = [MSAbstractLog new];
+  BOOL logSavedSuccessfully = [self.sut saveLog:additionalLog withGroupId:kMSAnotherTestGroupId flags:MSFlagsPersistenceNormal];
+
+  // Then
+  XCTAssertTrue([self.storageTestUtil getDataLengthInBytes] <= maxCapacityInBytes);
+  XCTAssertTrue(logSavedSuccessfully);
+  XCTAssertFalse([self containsLogWithDbId:oldestNormalDbId]);
+  XCTAssertTrue([self containsLogWithDbId:oldestCriticalDbId]);
+  NSString *whereCondition = [NSString stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, kMSAnotherTestGroupId];
+  NSArray<id<MSLog>> *loadedLogs = [self loadLogsWhere:whereCondition];
+  XCTAssertEqual(loadedLogs.count, 1);
+  XCTAssertEqualObjects(loadedLogs[0].sid, additionalLog.sid);
+  NSArray *knownIds = [NSArray new];
+  for (NSArray<NSNumber *> *ids in [addedDbIds allValues]) {
+    knownIds = [knownIds arrayByAddingObjectsFromArray:ids];
+  }
+  XCTAssertEqual(1, [[self findUnknownDBIdsFromKnownIdList:knownIds] count]);
 }
 
 - (void)testErrorDeletingOldestLog {
@@ -663,7 +739,6 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
 
   // When
   MSAbstractLog *additionalLog = [MSAbstractLog new];
-  additionalLog.sid = MS_UUID_STRING;
   BOOL logSavedSuccessfully = [self.sut saveLog:additionalLog withGroupId:kMSAnotherTestGroupId flags:MSFlagsDefault];
 
   // Then
@@ -836,37 +911,91 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   return logs;
 }
 
-- (NSArray<id<MSLog>> *)fillDatabaseWithLogsOfSizeInBytes:(long)sizeInBytes {
-  NSMutableArray *logsAdded = [NSMutableArray new];
+- (NSArray<NSNumber *> *)fillDatabaseWithLogsOfSizeInBytes:(long)sizeInBytes ofPriority:(MSFlags)priority {
   int result = 0;
   int maxPageCount = (int)(sizeInBytes / kMSDefaultPageSizeInBytes);
+  sqlite3 *db = [self.storageTestUtil openDatabase];
+  NSString *statement = [NSString stringWithFormat:@"PRAGMA max_page_count = %i;", maxPageCount];
+  sqlite3_exec(db, [statement UTF8String], NULL, NULL, NULL);
   do {
-    sqlite3 *db = [self.storageTestUtil openDatabase];
-    NSString *statement = [NSString stringWithFormat:@"PRAGMA max_page_count = %i;", maxPageCount];
-    sqlite3_exec(db, [statement UTF8String], NULL, NULL, NULL);
     MSAbstractLog *log = [MSAbstractLog new];
-    log.sid = MS_UUID_STRING;
     NSData *logData = [NSKeyedArchiver archivedDataWithRootObject:log];
     NSString *base64Data = [logData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
-    NSString *addLogQuery = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\") VALUES ('%@', '%@')", kMSLogTableName,
-                                                       kMSGroupIdColumnName, kMSLogColumnName, kMSTestGroupId, base64Data];
+    NSString *addLogQuery = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") VALUES ('%@', '%@', %u)",
+                                                       kMSLogTableName, kMSGroupIdColumnName, kMSLogColumnName, kMSPriorityColumnName,
+                                                       kMSTestGroupId, base64Data, (unsigned int)priority];
     result = sqlite3_exec(db, [addLogQuery UTF8String], NULL, NULL, NULL);
-    sqlite3_close(db);
-    if (result == SQLITE_OK) {
-      [logsAdded addObject:log];
-    }
   } while (result == SQLITE_OK);
-  return logsAdded;
+
+  // Get DB IDs for logs
+  NSString *selectLogQuery =
+      [NSString stringWithFormat:@"SELECT \"%@\" FROM \"%@\" ORDER BY \"%@\" ASC", kMSIdColumnName, kMSLogTableName, kMSIdColumnName];
+  NSArray<NSArray *> *entries = [MSDBStorage executeSelectionQuery:selectLogQuery inOpenedDatabase:db];
+  NSMutableArray *ids = [NSMutableArray new];
+  for (NSMutableArray *row in entries) {
+    [ids addObject:row[0]];
+  }
+  sqlite3_close(db);
+
+  return ids;
 }
 
-- (BOOL)logs:(NSArray<id<MSLog>> *)logs containLogWithSessionId:(NSString *)sessionId {
-  for (MSAbstractLog *log in logs) {
-    if ([log.sid isEqualToString:sessionId]) {
-      return YES;
-      break;
+- (NSDictionary<NSNumber *, NSArray<NSNumber *> *> *)fillDatabaseWithMixedPriorityLogsOfSizeInBytesAndReturnDbIds:(long)sizeInBytes {
+  int result = 0;
+  int maxPageCount = (int)(sizeInBytes / kMSDefaultPageSizeInBytes);
+  int count = 0;
+  sqlite3 *db = [self.storageTestUtil openDatabase];
+  NSString *statement = [NSString stringWithFormat:@"PRAGMA max_page_count = %i;", maxPageCount];
+  sqlite3_exec(db, [statement UTF8String], NULL, NULL, NULL);
+  do {
+    MSAbstractLog *log = [MSAbstractLog new];
+    NSData *logData = [NSKeyedArchiver archivedDataWithRootObject:log];
+    NSString *base64Data = [logData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
+    NSString *addLogQuery =
+        [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") VALUES ('%@', '%@', %u)", kMSLogTableName,
+                                   kMSGroupIdColumnName, kMSLogColumnName, kMSPriorityColumnName, kMSTestGroupId, base64Data,
+                                   (unsigned int)(count++ % 2 == 0 ? MSFlagsPersistenceCritical : MSFlagsPersistenceNormal)];
+    result = sqlite3_exec(db, [addLogQuery UTF8String], NULL, NULL, NULL);
+  } while (result == SQLITE_OK);
+
+  // Get DB IDs for logs
+  NSMutableDictionary *ids = [NSMutableDictionary new];
+  for (NSNumber *flag in @[ [NSNumber numberWithInt:MSFlagsPersistenceNormal], [NSNumber numberWithInt:MSFlagsPersistenceCritical] ]) {
+    NSString *selectLogQuery =
+        [NSString stringWithFormat:@"SELECT \"%@\" FROM \"%@\" WHERE \"%@\" = %u ORDER BY \"%@\" ASC", kMSIdColumnName, kMSLogTableName,
+                                   kMSPriorityColumnName, (unsigned int)[flag unsignedIntegerValue], kMSIdColumnName];
+    NSArray<NSArray *> *entries = [MSDBStorage executeSelectionQuery:selectLogQuery inOpenedDatabase:db];
+    NSMutableArray *priorityIds = [NSMutableArray new];
+    for (NSMutableArray *row in entries) {
+      [priorityIds addObject:row[0]];
     }
+    [ids setObject:priorityIds forKey:flag];
+  }
+  sqlite3_close(db);
+
+  return ids;
+}
+
+- (BOOL)containsLogWithDbId:(NSNumber *)dbId {
+  sqlite3 *db = [self.storageTestUtil openDatabase];
+  NSString *selectLogQuery =
+      [NSString stringWithFormat:@"SELECT COUNT(*) FROM \"%@\" WHERE \"%@\" = %@", kMSLogTableName, kMSIdColumnName, dbId];
+  NSArray<NSArray<NSNumber *> *> *entries = [MSDBStorage executeSelectionQuery:selectLogQuery inOpenedDatabase:db];
+  if (entries.count > 0) {
+    return entries[0][0].unsignedIntegerValue > 0;
   }
   return NO;
+}
+
+- (NSArray<NSNumber *> *)findUnknownDBIdsFromKnownIdList:(NSArray<NSNumber *> *)idList {
+  sqlite3 *db = [self.storageTestUtil openDatabase];
+  NSString *selectLogQuery = [NSString stringWithFormat:@"SELECT \"%@\" FROM \"%@\" WHERE \"%@\" NOT IN (%@)", kMSIdColumnName,
+                                                        kMSLogTableName, kMSIdColumnName, [idList componentsJoinedByString:@","]];
+  NSArray<NSArray<NSNumber *> *> *entries = [MSDBStorage executeSelectionQuery:selectLogQuery inOpenedDatabase:db];
+  if (entries.count > 0) {
+    return entries[0];
+  }
+  return nil;
 }
 
 - (void)validateQuerySyntax:(NSString *)query {
