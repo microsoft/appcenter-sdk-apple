@@ -9,6 +9,11 @@
 #import "MSTestFrameworks.h"
 #import "MSUserNotificationCenterDelegateForwarder.h"
 
+#define MS_RETURN_IF_USER_NOTIFICATION_CENTER_NOT_SUPPORTED                                                                                \
+  if (!NSClassFromString(@"UNUserNotificationCenter")) {                                                                                   \
+    return;                                                                                                                                \
+  }
+
 @interface MSUserNotificationCenterDelegateForwarderTest : XCTestCase
 
 @property(nonatomic) MSUserNotificationCenterDelegateForwarder *sut;
@@ -75,6 +80,7 @@
 #if !TARGET_OS_OSX
 
 - (void)testAllRequiredDelegateSwizzledWhenNoOriginalImplementation {
+  MS_RETURN_IF_USER_NOTIFICATION_CENTER_NOT_SUPPORTED
 
   // If
   id pushMock = OCMClassMock([MSPush class]);
@@ -128,6 +134,7 @@
 }
 
 - (void)testAllRequiredDelegateSwizzledWhenOriginalImplementations {
+  MS_RETURN_IF_USER_NOTIFICATION_CENTER_NOT_SUPPORTED
 
   // If
   id pushMock = OCMClassMock([MSPush class]);

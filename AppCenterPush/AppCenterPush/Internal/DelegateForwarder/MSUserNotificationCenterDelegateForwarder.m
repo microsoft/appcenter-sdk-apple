@@ -3,8 +3,8 @@
 #import <UserNotifications/UserNotifications.h>
 #endif
 
-#import "MSUserNotificationCenterDelegateForwarder.h"
 #import "MSPush.h"
+#import "MSUserNotificationCenterDelegateForwarder.h"
 
 static dispatch_once_t swizzlingOnceToken;
 
