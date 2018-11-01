@@ -30,30 +30,30 @@ static NSMutableArray<dispatch_block_t> *traceBuffer = nil;
 
 + (instancetype)sharedInstance {
 
-  // This is an empty method and is expected to be overridden in sub classes.
+  // This is an empty method expected to be overridden in sub classes.
   return nil;
 }
 
 + (void)resetSharedInstance {
 
-  // This is an empty method and is expected to be overridden in sub classes.
+  // This is an empty method expected to be overridden in sub classes.
 }
 
 + (NSString *)enabledKey {
 
-  // This is an empty method and expect to be overridden in sub classes.
+  // This is an empty method expected to be overridden in sub classes.
   return nil;
 }
 
 - (Class)originalClassForSetDelegate {
 
-  // This is an empty method and is expected to be overridden in sub classes.
+  // This is an empty method expected to be overridden in sub classes.
   return nil;
 }
 
 - (dispatch_once_t *)swizzlingOnceToken {
 
-  // This is an empty method and expect to be overridden in sub classes.
+  // This is an empty method expected to be overridden in sub classes.
   return nil;
 }
 
@@ -69,7 +69,7 @@ static NSMutableArray<dispatch_block_t> *traceBuffer = nil;
  */
 - (void)custom_setDelegate:(__unused id<NSObject>)delegate {
 
-  // This is an empty method and is expected to be overridden in sub classes.
+  // This is an empty method expected to be overridden in sub classes.
 }
 
 #pragma mark - Logging

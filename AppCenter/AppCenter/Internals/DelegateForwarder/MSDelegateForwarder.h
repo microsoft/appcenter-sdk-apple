@@ -90,7 +90,7 @@ typedef NS_OPTIONS(NSUInteger, MSCompletionExecutor) {
 /**
  * Set the enabled state from the application plist file.
  *
- * @param plistKey plist key for the forwarder enabled state.
+ * @param plistKey Plist key for the forwarder enabled state.
  */
 - (void)setEnabledFromPlistForKey:(NSString *)plistKey;
 
