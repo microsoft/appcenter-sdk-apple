@@ -83,13 +83,13 @@ static const NSUInteger kMSSchemaVersion = 3;
              result = [MSDBStorage executeNonSelectionQuery:addLogQuery inOpenedDatabase:db];
            }
            if (countOfLogsDeleted > 0) {
-             MSLogDebug([MSAppCenter logTag], @"Log storage was over capacity, %ld oldest log(s) with lower priority deleted.",
+             MSLogDebug([MSAppCenter logTag], @"Log storage was over capacity, %ld oldest log(s) with equal or lower priority deleted.",
                         (long)countOfLogsDeleted);
            }
            if (result == SQLITE_OK) {
              MSLogVerbose([MSAppCenter logTag], @"Log is stored with id: '%ld'", (long)sqlite3_last_insert_rowid(db));
            } else if (result == SQLITE_FULL && index == [ids count]) {
-             MSLogDebug([MSAppCenter logTag], @"No logs with lower priority found and storage already full; discarding log.");
+             MSLogDebug([MSAppCenter logTag], @"No logs with equal or lower priority found and storage already full; discarding log.");
            }
            return result;
          }] == SQLITE_OK;
