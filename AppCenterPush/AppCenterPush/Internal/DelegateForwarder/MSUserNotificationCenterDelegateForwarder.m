@@ -84,7 +84,7 @@ static MSUserNotificationCenterDelegateForwarder *sharedInstance = nil;
 
   /*
    * First, forward to the original delegate, customers can leverage the completion handler later in their Push callback.
-   * It's now a responsability of the original delegate to call the completion handler.
+   * It's now a responsibility of the original delegate to call the completion handler.
    */
   [[MSUserNotificationCenterDelegateForwarder sharedInstance].originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
   if (originalImp) {
