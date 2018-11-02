@@ -2,7 +2,6 @@
 #if !TARGET_OS_OSX
 #import <UserNotifications/UserNotifications.h>
 #endif
-
 #import "MSDelegateForwarderPrivate.h"
 #import "MSDelegateForwarderTestUtil.h"
 #import "MSPush.h"
@@ -14,6 +13,7 @@
     return;                                                                                                                                \
   }
 
+#if !TARGET_OS_OSX
 @interface MSUserNotificationCenterDelegateForwarderTest : XCTestCase
 
 @property(nonatomic) MSUserNotificationCenterDelegateForwarder *sut;
@@ -94,8 +94,6 @@
   // Then
   assertThatBool(self.sut.enabled, isTrue());
 }
-
-#if !TARGET_OS_OSX
 
 - (void)testWillPresentNotificationSwizzledWhenNoOriginalImplementation {
   MS_RETURN_IF_USER_NOTIFICATION_CENTER_NOT_SUPPORTED
@@ -279,12 +277,9 @@
                                }];
 }
 
-#pragma mark - Helper
-
 - (id<UNUserNotificationCenterDelegate>)createOriginalUserNotificationCenterDelegateInstance {
   return [MSDelegateForwarderTestUtil createInstanceConformingToProtocol:@protocol(UNUserNotificationCenterDelegate)];
 }
 
-#endif
-
 @end
+#endif
