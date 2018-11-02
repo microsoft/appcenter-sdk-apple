@@ -67,15 +67,28 @@ static const NSUInteger kMSSchemaVersion = 3;
                                    targetKey ? [NSString stringWithFormat:@"'%@'", targetKey] : @"NULL", (unsigned int)persistenceFlags];
   }
   return [self executeQueryUsingBlock:^int(void *db) {
-           // Selecting logs with equal or lower priority and ordering by priority then age.
            int result = [MSDBStorage executeNonSelectionQuery:addLogQuery inOpenedDatabase:db];
+           NSMutableArray<NSNumber *> *logsCanBeDeleted = nil;
+           if (result == SQLITE_FULL) {
+
+             // Selecting logs with equal or lower priority and ordering by priority then age.
+             NSString *query = [NSString stringWithFormat:@"SELECT \"%@\" FROM \"%@\" WHERE \"%@\" <= %u ORDER BY \"%@\" ASC, \"%@\" ASC",
+                                                          kMSIdColumnName, kMSLogTableName, kMSPriorityColumnName, (unsigned int)flags,
+                                                          kMSPriorityColumnName, kMSIdColumnName];
+             NSArray<NSArray *> *entries = [MSDBStorage executeSelectionQuery:query inOpenedDatabase:db];
+             logsCanBeDeleted = [NSMutableArray new];
+             for (NSMutableArray *row in entries) {
+               [logsCanBeDeleted addObject:row[0]];
+             }
+           }
 
            // If the database is full, delete logs until there is room to add the log.
            long countOfLogsDeleted = 0;
-           NSArray<NSNumber *> *ids = [self logsWithPriorityLowerThan:persistenceFlags inOpenedDatabase:db];
            NSUInteger index = 0;
-           while (result == SQLITE_FULL && index < [ids count]) {
-             result = [MSLogDBStorage deleteLogsFromDBWithColumnValues:@[ ids[index++] ] columnName:kMSIdColumnName inOpenedDatabase:db];
+           while (result == SQLITE_FULL && index < [logsCanBeDeleted count]) {
+             result = [MSLogDBStorage deleteLogsFromDBWithColumnValues:@[ logsCanBeDeleted[index++] ]
+                                                            columnName:kMSIdColumnName
+                                                      inOpenedDatabase:db];
              if (result != SQLITE_OK) {
                break;
              }
@@ -88,8 +101,8 @@ static const NSUInteger kMSSchemaVersion = 3;
            }
            if (result == SQLITE_OK) {
              MSLogVerbose([MSAppCenter logTag], @"Log is stored with id: '%ld'", (long)sqlite3_last_insert_rowid(db));
-           } else if (result == SQLITE_FULL && index == [ids count]) {
-             MSLogDebug([MSAppCenter logTag], @"No logs with equal or lower priority found and storage already full; discarding log.");
+           } else if (result == SQLITE_FULL && index == [logsCanBeDeleted count]) {
+             MSLogDebug([MSAppCenter logTag], @"No logs with equal or lower priority found and storage already full; discarding the log.");
            }
            return result;
          }] == SQLITE_OK;
@@ -302,18 +315,6 @@ static const NSUInteger kMSSchemaVersion = 3;
 
 - (NSUInteger)countLogs {
   return [self countEntriesForTable:kMSLogTableName condition:nil];
-}
-
-- (NSArray<NSNumber *> *)logsWithPriorityLowerThan:(MSFlags)flags inOpenedDatabase:(void *)db {
-  NSString *query =
-      [NSString stringWithFormat:@"SELECT \"%@\" FROM \"%@\" WHERE \"%@\" <= %u ORDER BY \"%@\" ASC, \"%@\" ASC", kMSIdColumnName,
-                                 kMSLogTableName, kMSPriorityColumnName, (unsigned int)flags, kMSPriorityColumnName, kMSIdColumnName];
-  NSArray<NSArray *> *entries = [MSDBStorage executeSelectionQuery:query inOpenedDatabase:db];
-  NSMutableArray *ids = [NSMutableArray new];
-  for (NSMutableArray *row in entries) {
-    [ids addObject:row[0]];
-  }
-  return ids;
 }
 
 #pragma mark - DB migration

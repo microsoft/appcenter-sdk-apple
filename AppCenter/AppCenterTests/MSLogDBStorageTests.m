@@ -625,7 +625,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   }
 }
 
-- (void)testOldestNormalPriorityLogsAreDeletedFirstWhenCapacityIsReachedAndNewNormalPriorityLogComes {
+- (void)testSaveNormalPriorityLogPurgesOldestNormalPriorityLogsWhenStorageFull {
 
   // If
   long maxCapacityInBytes = kMSTestStorageSizeMinimumUpperLimitInBytes + kMSDefaultPageSizeInBytes;
@@ -651,7 +651,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   XCTAssertEqual(1, [self findUnknownDBIdsFromKnownIdList:addedDbIds].count);
 }
 
-- (void)testOldestNormalPriorityLogsAreDeletedFirstWhenCapacityIsReachedAndNewCriticalPriorityLogComes {
+- (void)testSaveCriticalPriorityLogPurgesOldestNormalPriorityLogsWhenStorageFull {
 
   // If
   long maxCapacityInBytes = kMSTestStorageSizeMinimumUpperLimitInBytes + kMSDefaultPageSizeInBytes;
@@ -677,7 +677,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   XCTAssertEqual(1, [self findUnknownDBIdsFromKnownIdList:addedDbIds].count);
 }
 
-- (void)testNewNormalPriorityLogIsDiscardedWhenCapacityIsReachedWithAllCriticalPriorityLogs {
+- (void)testSaveNormalPriorityLogDiscardsLogWhenStorageFullWithCriticalPriorityLogs {
 
   // If
   long maxCapacityInBytes = kMSTestStorageSizeMinimumUpperLimitInBytes + kMSDefaultPageSizeInBytes;
@@ -703,7 +703,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   XCTAssertEqual(0, [self findUnknownDBIdsFromKnownIdList:addedDbIds].count);
 }
 
-- (void)testNormalPriorityLogIsDeletedWhenCapacityIsReachedWithMixedPriorityLogs {
+- (void)testSaveLogPurgesNormalPriorityLogWhenStorageFullWithMixedPriorityLogs {
 
   // If
   long maxCapacityInBytes = kMSTestStorageSizeMinimumUpperLimitInBytes + kMSDefaultPageSizeInBytes;
@@ -734,7 +734,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   XCTAssertEqual(1, [self findUnknownDBIdsFromKnownIdList:knownIds].count);
 }
 
-- (void)testAllNormalPriorityLogsAreDeletedWhenAddingNewLargeNormalPriorityLogButCriticalLogsNotDeleted {
+- (void)testSaveLargeNormalPriorityLogPurgesAllNormalPriorityLogs {
 
   // If
   long maxCapacityInBytes = kMSTestStorageSizeMinimumUpperLimitInBytes + kMSDefaultPageSizeInBytes;
@@ -769,15 +769,14 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   XCTAssertTrue([self containsLogWithDbId:[criticalDbIds firstObject]]);
 }
 
-- (void)testAllMixedPriorityLogsAreDeletedWhenAddingNewLargeCriticalPriorityLog {
+- (void)testSaveLargeCriticalPriorityLogPurgesAllLogs {
 
   // If
   long maxCapacityInBytes = kMSTestStorageSizeMinimumUpperLimitInBytes + kMSDefaultPageSizeInBytes;
   [self.sut setMaxStorageSize:maxCapacityInBytes
             completionHandler:^(__unused BOOL success){
             }];
-  NSDictionary<NSNumber *, NSArray<NSNumber *> *> *addedDbIds =
-      [self fillDatabaseWithMixedPriorityLogsOfSizeInBytesAndReturnDbIds:maxCapacityInBytes];
+  [self fillDatabaseWithMixedPriorityLogsOfSizeInBytesAndReturnDbIds:maxCapacityInBytes];
   id<MSLog> largeLog = [self generateLogWithSize:@(maxCapacityInBytes)];
 
   // When
