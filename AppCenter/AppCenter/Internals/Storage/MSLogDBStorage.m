@@ -86,13 +86,15 @@ static const NSUInteger kMSSchemaVersion = 3;
            long countOfLogsDeleted = 0;
            NSUInteger index = 0;
            while (result == SQLITE_FULL && index < [logsCanBeDeleted count]) {
-             result = [MSLogDBStorage deleteLogsFromDBWithColumnValues:@[ logsCanBeDeleted[index++] ]
+             result = [MSLogDBStorage deleteLogsFromDBWithColumnValues:@[ logsCanBeDeleted[index] ]
                                                             columnName:kMSIdColumnName
                                                       inOpenedDatabase:db];
              if (result != SQLITE_OK) {
                break;
              }
+             MSLogDebug([MSAppCenter logTag], @"Deleted a log with id %@ to store a new log.", logsCanBeDeleted[index]);
              ++countOfLogsDeleted;
+             ++index;
              result = [MSDBStorage executeNonSelectionQuery:addLogQuery inOpenedDatabase:db];
            }
            if (countOfLogsDeleted > 0) {
