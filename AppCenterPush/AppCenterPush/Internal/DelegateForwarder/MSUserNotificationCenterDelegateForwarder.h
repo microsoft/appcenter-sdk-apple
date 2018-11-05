@@ -11,6 +11,11 @@ static NSString *const kMSUserNotificationCenterDelegateForwarderEnabledKey = @"
  */
 @interface MSUserNotificationCenterDelegateForwarder : MSDelegateForwarder
 
+/**
+ * This is an empty method to be used to force load this class into the runtime.
+ */
++(void)doNothingButForceLoadTheClass;
+
 @end
 
 NS_ASSUME_NONNULL_END

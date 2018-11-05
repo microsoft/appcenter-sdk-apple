@@ -63,7 +63,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
     _appDelegate = [MSPushAppDelegate new];
 
     // This call is used to force load the MSUserNotificationCenterDelegateForwarder class to register the swizzling.
-    [MSUserNotificationCenterDelegateForwarder sharedInstance];
+    [MSUserNotificationCenterDelegateForwarder doNothingButForceLoadTheClass];
 #if TARGET_OS_OSX
     NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
 

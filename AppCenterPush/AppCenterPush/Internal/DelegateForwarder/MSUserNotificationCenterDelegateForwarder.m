@@ -28,6 +28,10 @@ static MSUserNotificationCenterDelegateForwarder *sharedInstance = nil;
 #endif
 }
 
++ (void)doNothingButForceLoadTheClass{
+  // This method doesn't need to do anything it's purpose is just to force load this class into the runtime.
+}
+
 + (instancetype)sharedInstance {
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
