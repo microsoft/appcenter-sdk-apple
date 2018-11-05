@@ -21,9 +21,9 @@ static MSUserNotificationCenterDelegateForwarder *sharedInstance = nil;
 #if !TARGET_OS_OSX
   if ([[MSUserNotificationCenterDelegateForwarder sharedInstance] originalClassForSetDelegate]) {
     [[MSUserNotificationCenterDelegateForwarder sharedInstance]
-        addAppDelegateSelectorToSwizzle:@selector(userNotificationCenter:willPresentNotification:withCompletionHandler:)];
+        addDelegateSelectorToSwizzle:@selector(userNotificationCenter:willPresentNotification:withCompletionHandler:)];
     [[MSUserNotificationCenterDelegateForwarder sharedInstance]
-        addAppDelegateSelectorToSwizzle:@selector(userNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:)];
+        addDelegateSelectorToSwizzle:@selector(userNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:)];
   }
 #endif
 }

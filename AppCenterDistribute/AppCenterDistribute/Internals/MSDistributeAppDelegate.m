@@ -39,8 +39,8 @@
 + (void)load {
 
   // Register selectors to swizzle for Distribute.
-  [[MSAppDelegateForwarder sharedInstance] addAppDelegateSelectorToSwizzle:@selector(application:openURL:options:)];
-  [[MSAppDelegateForwarder sharedInstance] addAppDelegateSelectorToSwizzle:@selector(application:openURL:sourceApplication:annotation:)];
+  [[MSAppDelegateForwarder sharedInstance] addDelegateSelectorToSwizzle:@selector(application:openURL:options:)];
+  [[MSAppDelegateForwarder sharedInstance] addDelegateSelectorToSwizzle:@selector(application:openURL:sourceApplication:annotation:)];
 }
 
 @end

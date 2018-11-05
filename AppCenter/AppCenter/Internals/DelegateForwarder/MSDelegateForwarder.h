@@ -80,7 +80,7 @@ typedef NS_OPTIONS(NSUInteger, MSCompletionExecutor) {
  * @discussion Due to the early registration of swizzling on the original app delegate each custom delegate must sign up for selectors to
  * swizzle within the @c load method of a category over the @see MSAppDelegateForwarder class.
  */
-- (void)addAppDelegateSelectorToSwizzle:(SEL)selector;
+- (void)addDelegateSelectorToSwizzle:(SEL)selector;
 
 /**
  * Flush debugging traces accumulated until now.

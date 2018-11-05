@@ -105,7 +105,7 @@ static NSMutableArray<dispatch_block_t> *traceBuffer = nil;
 
 #pragma mark - Swizzling
 
-- (void)addAppDelegateSelectorToSwizzle:(SEL)selector {
+- (void)addDelegateSelectorToSwizzle:(SEL)selector {
   if (self.enabled) {
 
     // Swizzle only once and only if needed. No selector to swizzle then no swizzling at all.
@@ -265,16 +265,16 @@ static NSMutableArray<dispatch_block_t> *traceBuffer = nil;
 #pragma mark - Other
 
 - (void)setEnabledFromPlistForKey:(NSString *)plistKey {
-  NSNumber *appForwarderEnabledNum = [NSBundle.mainBundle objectForInfoDictionaryKey:plistKey];
-  BOOL appForwarderEnabled = appForwarderEnabledNum ? [appForwarderEnabledNum boolValue] : YES;
-  self.enabled = appForwarderEnabled;
+  NSNumber *forwarderEnabledNum = [NSBundle.mainBundle objectForInfoDictionaryKey:plistKey];
+  BOOL forwarderEnabled = forwarderEnabledNum ? [forwarderEnabledNum boolValue] : YES;
+  self.enabled = forwarderEnabled;
   if (self.enabled) {
     [self addTraceBlock:^{
-      MSLogDebug([MSAppCenter logTag], @"Application delegate forwarder is enabled. It may use swizzling.");
+      MSLogDebug([MSAppCenter logTag], @"Delegate forwarder for info.plist key '%@' enabled. It may use swizzling.", plistKey);
     }];
   } else {
     [self addTraceBlock:^{
-      MSLogDebug([MSAppCenter logTag], @"Application delegate forwarder is disabled. It won't use swizzling.");
+      MSLogDebug([MSAppCenter logTag], @"Delegate forwarder for info.plist key '%@' disabled. It won't use swizzling.", plistKey);
     }];
   }
 }
