@@ -18,7 +18,7 @@
 
 ### AppCenterPush
 
-* **[Fix]** Fix `push:didReceivePushNotification:` callback not triggered on notification tapped or received in foreground when a `UNUserNotificationCenterDelegate` is set. This fix introduces the user notification delegate forwarder component in the SDK. It is using method swizzling, you can deactivate it by adding the `AppCenterNotificationCenterDelegateForwarderEnabled` tag to your Info.plist file and set it to `0`.
+* **[Fix]** Fix `push:didReceivePushNotification:` callback not triggered on notification tapped or received in foreground when a `UNUserNotificationCenterDelegate` is set.  If you have implemented this delegate please remove any call to the `MSPush#didReceiveRemoteNotification:` method as it's now handled by the new [User Notification Center Delegate Forwarder](https://docs.microsoft.com/appcenter/sdk/push/ios).
 
 ___
 
