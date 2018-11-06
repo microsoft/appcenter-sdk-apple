@@ -1,6 +1,7 @@
+#import <objc/runtime.h>
+
 #import "MSDelegateForwarderTestUtil.h"
 #import "MSUtility.h"
-#import <objc/runtime.h>
 
 @implementation MSDelegateForwarderTestUtil
 
