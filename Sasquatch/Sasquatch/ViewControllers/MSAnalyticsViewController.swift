@@ -1,16 +1,28 @@
 import UIKit
 
 class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
+  
+  enum Priority: String {
+    case Default = "Default"
+    case Critical = "Critical"
+
+    static let allValues = [Default, Critical]
+  }
 
   @IBOutlet weak var enabled: UISwitch!
   @IBOutlet weak var eventName: UITextField!
   @IBOutlet weak var pageName: UITextField!
   @IBOutlet weak var pause: UIButton!
   @IBOutlet weak var resume: UIButton!
+  @IBOutlet weak var priorityField: UITextField!
+  @IBOutlet weak var countLabel: UILabel!
+  @IBOutlet weak var countSlider: UISlider!
 
   var appCenter: AppCenterDelegate!
   var eventPropertiesSection: EventPropertiesTableSection!
   @objc(analyticsResult) var analyticsResult: MSAnalyticsResult? = nil
+  private var priorityPicker: MSEnumPicker<Priority>?
+  private var priority = Priority.Default
 
   private var kEventPropertiesSectionIndex: Int = 2
   private var kResultsPageIndex: Int = 2
@@ -21,6 +33,15 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     tableView.estimatedRowHeight = tableView.rowHeight
     tableView.rowHeight = UITableViewAutomaticDimension
     tableView.setEditing(true, animated: false)
+
+    self.priorityPicker = MSEnumPicker<Priority>(
+      textField: self.priorityField,
+      allValues: Priority.allValues,
+      onChange: {(index) in self.priority = Priority.allValues[index] })
+    self.priorityField.delegate = self.priorityPicker
+    self.priorityField.text = self.priority.rawValue
+    self.priorityField.tintColor = UIColor.clear
+    self.countLabel.text = "Count: \(Int(countSlider.value))"
     
     // Disable results page.
     #if !ACTIVE_COMPILATION_CONDITION_PUPPET
@@ -43,26 +64,31 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
       return
     }
     let eventProperties = eventPropertiesSection.eventProperties()
-    if (MSTransmissionTargets.shared.defaultTargetShouldSendAnalyticsEvents()) {
-      if let properties = eventProperties as? MSEventProperties {
+    for _ in 0..<Int(countSlider.value) {
 
-        // The AppCenterDelegate uses the argument label "withTypedProperties," but the underlying swift API simply uses "withProperties."
-        appCenter.trackEvent(name, withTypedProperties: properties)
-      } else if let dictionary = eventProperties as? [String: String] {
-        appCenter.trackEvent(name, withProperties: dictionary)
-      } else {
-        appCenter.trackEvent(name)
-      }
-    }
-    for targetToken in MSTransmissionTargets.shared.transmissionTargets.keys {
-      if MSTransmissionTargets.shared.targetShouldSendAnalyticsEvents(targetToken: targetToken) {
-        let target = MSTransmissionTargets.shared.transmissionTargets[targetToken]
+      // TODO Apply priority.
+
+      if (MSTransmissionTargets.shared.defaultTargetShouldSendAnalyticsEvents()) {
         if let properties = eventProperties as? MSEventProperties {
-          target!.trackEvent(name, withProperties: properties)
+
+          // The AppCenterDelegate uses the argument label "withTypedProperties," but the underlying swift API simply uses "withProperties."
+          appCenter.trackEvent(name, withTypedProperties: properties)
         } else if let dictionary = eventProperties as? [String: String] {
-          target!.trackEvent(name, withProperties: dictionary)
+          appCenter.trackEvent(name, withProperties: dictionary)
         } else {
-          target!.trackEvent(name)
+          appCenter.trackEvent(name)
+        }
+      }
+      for targetToken in MSTransmissionTargets.shared.transmissionTargets.keys {
+        if MSTransmissionTargets.shared.targetShouldSendAnalyticsEvents(targetToken: targetToken) {
+          let target = MSTransmissionTargets.shared.transmissionTargets[targetToken]
+          if let properties = eventProperties as? MSEventProperties {
+            target!.trackEvent(name, withProperties: properties)
+          } else if let dictionary = eventProperties as? [String: String] {
+            target!.trackEvent(name, withProperties: dictionary)
+          } else {
+            target!.trackEvent(name)
+          }
         }
       }
     }
@@ -86,6 +112,10 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
 
   @IBAction func resume(_ sender: UIButton) {
     appCenter.resume()
+  }
+
+  @IBAction func countChanged(_ sender: Any) {
+    self.countLabel.text = "Count: \(Int(countSlider.value))"
   }
 
   func enablePauseResume(enable: Bool) {
