@@ -104,7 +104,8 @@ static const NSUInteger kMSSchemaVersion = 3;
            if (result == SQLITE_OK) {
              MSLogVerbose([MSAppCenter logTag], @"Log is stored with id: '%ld'", (long)sqlite3_last_insert_rowid(db));
            } else if (result == SQLITE_FULL && index == [logsCanBeDeleted count]) {
-             MSLogDebug([MSAppCenter logTag], @"No logs with equal or lower priority found and storage already full; discarding the log.");
+             MSLogDebug([MSAppCenter logTag],
+                        @"No logs with equal or lower priority found and the storage is already full; discarding the log.");
            }
            return result;
          }] == SQLITE_OK;
