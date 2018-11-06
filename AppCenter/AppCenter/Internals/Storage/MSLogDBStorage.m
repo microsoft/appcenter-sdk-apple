@@ -63,6 +63,18 @@ static const NSUInteger kMSSchemaVersion = 2;
                                              targetKey ? [NSString stringWithFormat:@"'%@'", targetKey] : @"NULL"];
   }
   return [self executeQueryUsingBlock:^int(void *db) {
+
+           // Check maximum size.
+           NSArray<NSArray *> *rows = [MSDBStorage executeSelectionQuery:@"PRAGMA max_page_count;" inOpenedDatabase:db];
+           NSUInteger maxSize = [(NSNumber *)rows[0][0] intValue] * kMSDefaultPageSizeInBytes;
+           if (base64Data.length > maxSize) {
+             MSLogError([MSAppCenter logTag],
+                          @"Log is too large (%tu bytes) to store in database. Current maximum database size is %tu bytes.",
+                          base64Data.length, maxSize);
+             return SQLITE_ERROR;
+           }
+
+           // Try to insert.
            int result = [MSDBStorage executeNonSelectionQuery:addLogQuery inOpenedDatabase:db];
 
            // If the database is full, delete logs until there is room to add the log.
@@ -292,6 +304,10 @@ static const NSUInteger kMSSchemaVersion = 2;
   NSString *selectOldestQuery = [NSString stringWithFormat:@"SELECT \"%@\" FROM \"%@\" ORDER BY \"%@\" ASC LIMIT %ld", kMSIdColumnName,
                                                            kMSLogTableName, kMSIdColumnName, (long)count];
   NSArray<NSArray *> *entries = [MSDBStorage executeSelectionQuery:selectOldestQuery inOpenedDatabase:db];
+  if (entries.count == 0) {
+    MSLogError([MSAppCenter logTag], @"There are no logs to delete.");
+    return SQLITE_ERROR;
+  }
   NSMutableArray *ids = [NSMutableArray new];
   for (NSMutableArray *row in entries) {
     [ids addObject:row[0]];
