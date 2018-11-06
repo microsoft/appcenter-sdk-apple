@@ -622,6 +622,26 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   }
 }
 
+- (void)testAddLargeLog {
+
+  // If
+  long maxCapacityInBytes = kMSTestStorageSizeMinimumUpperLimitInBytes + kMSDefaultPageSizeInBytes;
+  NSArray *addedLogs = [self fillDatabaseWithLogsOfSizeInBytes:maxCapacityInBytes];
+  int initialLogCount = (int)[addedLogs count];
+
+  // When
+  [self.sut setMaxStorageSize:maxCapacityInBytes
+            completionHandler:^(__unused BOOL success){
+            }];
+  MSAbstractLog *additionalLog = [MSAbstractLog new];
+  additionalLog.sid = [@"" stringByPaddingToLength:(NSUInteger)maxCapacityInBytes withString:@"test" startingAtIndex:0];
+  BOOL logSavedSuccessfully = [self.sut saveLog:additionalLog withGroupId:kMSAnotherTestGroupId];
+
+  // Then
+  XCTAssertFalse(logSavedSuccessfully);
+  XCTAssertEqual(initialLogCount, (int)[addedLogs count]);
+}
+
 - (void)testErrorDeletingOldestLog {
 
   // If
