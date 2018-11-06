@@ -45,7 +45,7 @@ static const NSUInteger kMSSchemaVersion = 3;
   if (!log) {
     return NO;
   }
-  NSUInteger persistenceFlags = flags & kMSPersistenceFlagsMask;
+  MSFlags persistenceFlags = flags & kMSPersistenceFlagsMask;
 
   // Insert this log to the DB.
   NSData *logData = [NSKeyedArchiver archivedDataWithRootObject:log];
@@ -68,22 +68,44 @@ static const NSUInteger kMSSchemaVersion = 3;
   }
   return [self executeQueryUsingBlock:^int(void *db) {
            int result = [MSDBStorage executeNonSelectionQuery:addLogQuery inOpenedDatabase:db];
+           NSMutableArray<NSNumber *> *logsCanBeDeleted = nil;
+           if (result == SQLITE_FULL) {
+
+             // Selecting logs with equal or lower priority and ordering by priority then age.
+             NSString *query = [NSString stringWithFormat:@"SELECT \"%@\" FROM \"%@\" WHERE \"%@\" <= %u ORDER BY \"%@\" ASC, \"%@\" ASC",
+                                                          kMSIdColumnName, kMSLogTableName, kMSPriorityColumnName, (unsigned int)flags,
+                                                          kMSPriorityColumnName, kMSIdColumnName];
+             NSArray<NSArray *> *entries = [MSDBStorage executeSelectionQuery:query inOpenedDatabase:db];
+             logsCanBeDeleted = [NSMutableArray new];
+             for (NSMutableArray *row in entries) {
+               [logsCanBeDeleted addObject:row[0]];
+             }
+           }
 
            // If the database is full, delete logs until there is room to add the log.
            long countOfLogsDeleted = 0;
-           while (result == SQLITE_FULL) {
-             result = [MSLogDBStorage deleteOldestLogsWithCount:1 inOpenedDatabase:db];
+           NSUInteger index = 0;
+           while (result == SQLITE_FULL && index < [logsCanBeDeleted count]) {
+             result = [MSLogDBStorage deleteLogsFromDBWithColumnValues:@[ logsCanBeDeleted[index] ]
+                                                            columnName:kMSIdColumnName
+                                                      inOpenedDatabase:db];
              if (result != SQLITE_OK) {
                break;
              }
+             MSLogDebug([MSAppCenter logTag], @"Deleted a log with id %@ to store a new log.", logsCanBeDeleted[index]);
              ++countOfLogsDeleted;
+             ++index;
              result = [MSDBStorage executeNonSelectionQuery:addLogQuery inOpenedDatabase:db];
            }
            if (countOfLogsDeleted > 0) {
-             MSLogDebug([MSAppCenter logTag], @"Log storage was over capacity, %ld oldest log(s) deleted.", (long)countOfLogsDeleted);
+             MSLogDebug([MSAppCenter logTag], @"Log storage was over capacity, %ld oldest log(s) with equal or lower priority deleted.",
+                        (long)countOfLogsDeleted);
            }
            if (result == SQLITE_OK) {
              MSLogVerbose([MSAppCenter logTag], @"Log is stored with id: '%ld'", (long)sqlite3_last_insert_rowid(db));
+           } else if (result == SQLITE_FULL && index == [logsCanBeDeleted count]) {
+             MSLogDebug([MSAppCenter logTag],
+                        @"No logs with equal or lower priority found and the storage is already full; discarding the log.");
            }
            return result;
          }] == SQLITE_OK;
@@ -110,7 +132,7 @@ static const NSUInteger kMSSchemaVersion = 3;
     }
   }
 
-  // Build the "WHERE" clause's condition.
+  // Build the "WHERE" clause's conditions.
   NSMutableString *condition = [NSMutableString stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, groupId];
 
   // Filter out paused target keys.
@@ -122,6 +144,9 @@ static const NSUInteger kMSSchemaVersion = 3;
   if (idsInBatches.count > 0) {
     [condition appendFormat:@" AND \"%@\" NOT IN (%@)", kMSIdColumnName, [idsInBatches componentsJoinedByString:@", "]];
   }
+
+  // Build the "ORDER BY" clause's conditions.
+  [condition appendFormat:@" ORDER BY \"%@\" DESC, \"%@\" ASC", kMSPriorityColumnName, kMSIdColumnName];
 
   /*
    * There is a need to determine if there will be more logs available than those under the limit. This is just about knowing if there is at
@@ -290,17 +315,6 @@ static const NSUInteger kMSSchemaVersion = 3;
     MSLogError([MSAppCenter logTag], @"%@ %@", deletionTrace, @"failed.");
   }
   return result;
-}
-
-+ (int)deleteOldestLogsWithCount:(NSInteger)count inOpenedDatabase:(void *)db {
-  NSString *selectOldestQuery = [NSString stringWithFormat:@"SELECT \"%@\" FROM \"%@\" ORDER BY \"%@\" ASC LIMIT %ld", kMSIdColumnName,
-                                                           kMSLogTableName, kMSIdColumnName, (long)count];
-  NSArray<NSArray *> *entries = [MSDBStorage executeSelectionQuery:selectOldestQuery inOpenedDatabase:db];
-  NSMutableArray *ids = [NSMutableArray new];
-  for (NSMutableArray *row in entries) {
-    [ids addObject:row[0]];
-  }
-  return [MSLogDBStorage deleteLogsFromDBWithColumnValues:ids columnName:kMSIdColumnName inOpenedDatabase:db];
 }
 
 #pragma mark - DB count
