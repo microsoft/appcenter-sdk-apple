@@ -122,7 +122,7 @@ static const long kMSMinUpperSizeLimitInBytes = 20 * 1024;
 
 + (BOOL)isAppDelegateForwarderEnabled {
   @synchronized([MSAppCenter sharedInstance]) {
-    return MSAppDelegateForwarder.enabled;
+    return [MSAppDelegateForwarder sharedInstance].enabled;
   }
 }
 
@@ -138,7 +138,7 @@ static const long kMSMinUpperSizeLimitInBytes = 20 * 1024;
   MSLogger.currentLogLevel = logLevel;
 
   // The logger is not set at the time of swizzling but now may be a good time to flush the traces.
-  [MSAppDelegateForwarder flushTraceBuffer];
+  [MSDelegateForwarder flushTraceBuffer];
 }
 
 + (void)setLogHandler:(MSLogHandler)logHandler {
@@ -268,8 +268,9 @@ static const long kMSMinUpperSizeLimitInBytes = 20 * 1024;
   @synchronized(self) {
     NSString *appSecret = [MSUtility appSecretFrom:secretString];
     NSString *transmissionTargetToken = [MSUtility transmissionTargetTokenFrom:secretString];
-    BOOL configured =
-        [self configureWithAppSecret:appSecret transmissionTargetToken:transmissionTargetToken fromApplication:fromApplication];
+    BOOL configured = [self configureWithAppSecret:appSecret
+                           transmissionTargetToken:transmissionTargetToken
+                                   fromApplication:fromApplication];
     if (configured && services) {
       NSArray *sortedServices = [self sortServices:services];
       MSLogVerbose([MSAppCenter logTag], @"Start services %@ from %@", [sortedServices componentsJoinedByString:@", "],
