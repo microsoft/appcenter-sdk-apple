@@ -16,6 +16,7 @@
 #import "MSPushLog.h"
 #import "MSPushNotificationInternal.h"
 #import "MSPushPrivate.h"
+#import "MSUserNotificationCenterDelegateForwarder.h"
 
 /**
  * Service storage key name.
@@ -61,6 +62,8 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
     _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
     _appDelegate = [MSPushAppDelegate new];
 
+    // This call is used to force load the MSUserNotificationCenterDelegateForwarder class to register the swizzling.
+    [MSUserNotificationCenterDelegateForwarder doNothingButForceLoadTheClass];
 #if TARGET_OS_OSX
     NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
 

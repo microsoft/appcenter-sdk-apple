@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
 
 #import "MSDelegateForwarderPrivate.h"
+#import "MSDelegateForwarderTestUtil.h"
 #import "MSPushAppDelegate.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+Application.h"
@@ -51,7 +52,7 @@
   // App delegate not implementing any selector.
   id<MSApplicationDelegate> originalAppDelegate = [self createOriginalAppDelegateInstance];
   SEL selectorToSwizzle = @selector(application:didFailToRegisterForRemoteNotificationsWithError:);
-  [self.sut addAppDelegateSelectorToSwizzle:selectorToSwizzle];
+  [self.sut addDelegateSelectorToSwizzle:selectorToSwizzle];
 
   // When
   [self.sut swizzleOriginalDelegate:originalAppDelegate];
@@ -68,8 +69,8 @@
   id selectorImp = ^{
     wasCalled = YES;
   };
-  [self addSelector:selectorToSwizzle implementation:selectorImp toInstance:originalAppDelegate];
-  [self.sut addAppDelegateSelectorToSwizzle:selectorToSwizzle];
+  [MSDelegateForwarderTestUtil addSelector:selectorToSwizzle implementation:selectorImp toInstance:originalAppDelegate];
+  [self.sut addDelegateSelectorToSwizzle:selectorToSwizzle];
 
   // When
   [self.sut swizzleOriginalDelegate:originalAppDelegate];
@@ -83,10 +84,11 @@
   // If
   // App delegate implementing the selector indirectly.
   id originalBaseAppDelegate = [self createOriginalAppDelegateInstance];
-  [self addSelector:selectorToSwizzle implementation:selectorImp toInstance:originalBaseAppDelegate];
-  originalAppDelegate = [self createInstanceWithBaseClass:[originalBaseAppDelegate class] andConformItToProtocol:nil];
+  [MSDelegateForwarderTestUtil addSelector:selectorToSwizzle implementation:selectorImp toInstance:originalBaseAppDelegate];
+  originalAppDelegate = [MSDelegateForwarderTestUtil createInstanceWithBaseClass:[originalBaseAppDelegate class]
+                                                          andConformItToProtocol:nil];
   wasCalled = NO;
-  [self.sut addAppDelegateSelectorToSwizzle:selectorToSwizzle];
+  [self.sut addDelegateSelectorToSwizzle:selectorToSwizzle];
 
   // When
   [self.sut swizzleOriginalDelegate:originalAppDelegate];
@@ -105,10 +107,11 @@
     baseWasCalled = YES;
   };
   originalBaseAppDelegate = [self createOriginalAppDelegateInstance];
-  [self addSelector:selectorToSwizzle implementation:baseSelectorImp toInstance:originalBaseAppDelegate];
-  originalAppDelegate = [self createInstanceWithBaseClass:[originalBaseAppDelegate class] andConformItToProtocol:nil];
-  [self addSelector:selectorToSwizzle implementation:selectorImp toInstance:originalAppDelegate];
-  [self.sut addAppDelegateSelectorToSwizzle:selectorToSwizzle];
+  [MSDelegateForwarderTestUtil addSelector:selectorToSwizzle implementation:baseSelectorImp toInstance:originalBaseAppDelegate];
+  originalAppDelegate = [MSDelegateForwarderTestUtil createInstanceWithBaseClass:[originalBaseAppDelegate class]
+                                                          andConformItToProtocol:nil];
+  [MSDelegateForwarderTestUtil addSelector:selectorToSwizzle implementation:selectorImp toInstance:originalAppDelegate];
+  [self.sut addDelegateSelectorToSwizzle:selectorToSwizzle];
 
   // When
   [self.sut swizzleOriginalDelegate:originalAppDelegate];
@@ -130,10 +133,10 @@
 
   // Adding a class method to a class requires its meta class. A meta class is
   // the superclass of a class.
-  [self addSelector:instancesRespondToSelector
-      implementation:instancesRespondToSelectorImp
-             toClass:object_getClass([originalAppDelegate class])];
-  [self.sut addAppDelegateSelectorToSwizzle:selectorToSwizzle];
+  [MSDelegateForwarderTestUtil addSelector:instancesRespondToSelector
+                            implementation:instancesRespondToSelectorImp
+                                   toClass:object_getClass([originalAppDelegate class])];
+  [self.sut addDelegateSelectorToSwizzle:selectorToSwizzle];
 
   // When
   [self.sut swizzleOriginalDelegate:originalAppDelegate];
@@ -155,7 +158,7 @@
   XCTestExpectation *customCalledExpectation2 = [self expectationWithDescription:@"Custom delegate 2 called."];
   MSApplication *appMock = self.appMock;
   SEL originalDidRegisterForRemoteNotificationWithDeviceTokenSel = @selector(application:didRegisterForRemoteNotificationsWithDeviceToken:);
-  [self.sut addAppDelegateSelectorToSwizzle:originalDidRegisterForRemoteNotificationWithDeviceTokenSel];
+  [self.sut addDelegateSelectorToSwizzle:originalDidRegisterForRemoteNotificationWithDeviceTokenSel];
   id<MSApplicationDelegate> originalAppDelegate = [self createOriginalAppDelegateInstance];
   id originalDidRegisterForRemoteNotificationWithDeviceTokenImp =
       ^(__attribute__((unused)) id itSelf, MSApplication *application, NSData *deviceToken) {
@@ -164,9 +167,9 @@
         assertThat(deviceToken, is(expectedToken));
         [originalCalledExpectation fulfill];
       };
-  [self addSelector:originalDidRegisterForRemoteNotificationWithDeviceTokenSel
-      implementation:originalDidRegisterForRemoteNotificationWithDeviceTokenImp
-          toInstance:originalAppDelegate];
+  [MSDelegateForwarderTestUtil addSelector:originalDidRegisterForRemoteNotificationWithDeviceTokenSel
+                            implementation:originalDidRegisterForRemoteNotificationWithDeviceTokenImp
+                                toInstance:originalAppDelegate];
   SEL customDidRegisterForRemoteNotificationWithDeviceTokenSel = @selector(application:didRegisterForRemoteNotificationsWithDeviceToken:);
   id<MSCustomApplicationDelegate> customAppDelegate1 = [self createCustomAppDelegateInstance];
   id customDidRegisterForRemoteNotificationWithDeviceTokenImp1 =
@@ -176,9 +179,9 @@
         assertThat(deviceToken, is(expectedToken));
         [customCalledExpectation1 fulfill];
       };
-  [self addSelector:customDidRegisterForRemoteNotificationWithDeviceTokenSel
-      implementation:customDidRegisterForRemoteNotificationWithDeviceTokenImp1
-          toInstance:customAppDelegate1];
+  [MSDelegateForwarderTestUtil addSelector:customDidRegisterForRemoteNotificationWithDeviceTokenSel
+                            implementation:customDidRegisterForRemoteNotificationWithDeviceTokenImp1
+                                toInstance:customAppDelegate1];
   id<MSCustomApplicationDelegate> customAppDelegate2 = [self createCustomAppDelegateInstance];
   id customDidRegisterForRemoteNotificationWithDeviceTokenImp2 =
       ^(__attribute__((unused)) id itSelf, MSApplication *application, NSData *deviceToken) {
@@ -187,9 +190,9 @@
         assertThat(deviceToken, is(expectedToken));
         [customCalledExpectation2 fulfill];
       };
-  [self addSelector:customDidRegisterForRemoteNotificationWithDeviceTokenSel
-      implementation:customDidRegisterForRemoteNotificationWithDeviceTokenImp2
-          toInstance:customAppDelegate2];
+  [MSDelegateForwarderTestUtil addSelector:customDidRegisterForRemoteNotificationWithDeviceTokenSel
+                            implementation:customDidRegisterForRemoteNotificationWithDeviceTokenImp2
+                                toInstance:customAppDelegate2];
   [self.sut addDelegate:customAppDelegate1];
   [self.sut addDelegate:customAppDelegate2];
   [self.sut swizzleOriginalDelegate:originalAppDelegate];
@@ -208,7 +211,7 @@
   MSApplication *appMock = self.appMock;
   XCTestExpectation *originalCalledExpectation = [self expectationWithDescription:@"Original delegate called."];
   SEL originalDidRegisterForRemoteNotificationWithDeviceTokenSel = @selector(application:didRegisterForRemoteNotificationsWithDeviceToken:);
-  [self.sut addAppDelegateSelectorToSwizzle:originalDidRegisterForRemoteNotificationWithDeviceTokenSel];
+  [self.sut addDelegateSelectorToSwizzle:originalDidRegisterForRemoteNotificationWithDeviceTokenSel];
   id<MSApplicationDelegate> originalAppDelegate = [self createOriginalAppDelegateInstance];
   id originalDidRegisterForRemoteNotificationWithDeviceTokenImp =
       ^(__attribute__((unused)) id itSelf, MSApplication *application, NSData *deviceToken) {
@@ -217,9 +220,9 @@
         assertThat(deviceToken, is(expectedToken));
         [originalCalledExpectation fulfill];
       };
-  [self addSelector:originalDidRegisterForRemoteNotificationWithDeviceTokenSel
-      implementation:originalDidRegisterForRemoteNotificationWithDeviceTokenImp
-          toInstance:originalAppDelegate];
+  [MSDelegateForwarderTestUtil addSelector:originalDidRegisterForRemoteNotificationWithDeviceTokenSel
+                            implementation:originalDidRegisterForRemoteNotificationWithDeviceTokenImp
+                                toInstance:originalAppDelegate];
   SEL customDidRegisterForRemoteNotificationWithDeviceTokenSel = @selector(application:didRegisterForRemoteNotificationsWithDeviceToken:);
   id<MSCustomApplicationDelegate> customAppDelegate = [self createCustomAppDelegateInstance];
   id customDidRegisterForRemoteNotificationWithDeviceTokenImp = ^(
@@ -227,9 +230,9 @@
     // Then
     XCTFail(@"Custom delegate got called but is removed.");
   };
-  [self addSelector:customDidRegisterForRemoteNotificationWithDeviceTokenSel
-      implementation:customDidRegisterForRemoteNotificationWithDeviceTokenImp
-          toInstance:customAppDelegate];
+  [MSDelegateForwarderTestUtil addSelector:customDidRegisterForRemoteNotificationWithDeviceTokenSel
+                            implementation:customDidRegisterForRemoteNotificationWithDeviceTokenImp
+                                toInstance:customAppDelegate];
   [self.sut addDelegate:customAppDelegate];
   [self.sut removeDelegate:customAppDelegate];
 
@@ -247,7 +250,7 @@
   MSApplication *appMock = self.appMock;
   XCTestExpectation *originalCalledExpectation = [self expectationWithDescription:@"Original delegate called."];
   SEL originalDidRegisterForRemoteNotificationWithDeviceTokenSel = @selector(application:didRegisterForRemoteNotificationsWithDeviceToken:);
-  [self.sut addAppDelegateSelectorToSwizzle:originalDidRegisterForRemoteNotificationWithDeviceTokenSel];
+  [self.sut addDelegateSelectorToSwizzle:originalDidRegisterForRemoteNotificationWithDeviceTokenSel];
   id<MSApplicationDelegate> originalAppDelegate = [self createOriginalAppDelegateInstance];
   id originalDidRegisterForRemoteNotificationWithDeviceTokenImp =
       ^(__attribute__((unused)) id itSelf, MSApplication *application, NSData *deviceToken) {
@@ -256,9 +259,9 @@
         assertThat(deviceToken, is(expectedToken));
         [originalCalledExpectation fulfill];
       };
-  [self addSelector:originalDidRegisterForRemoteNotificationWithDeviceTokenSel
-      implementation:originalDidRegisterForRemoteNotificationWithDeviceTokenImp
-          toInstance:originalAppDelegate];
+  [MSDelegateForwarderTestUtil addSelector:originalDidRegisterForRemoteNotificationWithDeviceTokenSel
+                            implementation:originalDidRegisterForRemoteNotificationWithDeviceTokenImp
+                                toInstance:originalAppDelegate];
   SEL customDidRegisterForRemoteNotificationWithDeviceTokenSel = @selector(application:didRegisterForRemoteNotificationsWithDeviceToken:);
   id<MSCustomApplicationDelegate> customAppDelegate = [self createCustomAppDelegateInstance];
   id customDidRegisterForRemoteNotificationWithDeviceTokenImp = ^(
@@ -266,9 +269,9 @@
     // Then
     XCTFail(@"Custom delegate got called but is removed.");
   };
-  [self addSelector:customDidRegisterForRemoteNotificationWithDeviceTokenSel
-      implementation:customDidRegisterForRemoteNotificationWithDeviceTokenImp
-          toInstance:customAppDelegate];
+  [MSDelegateForwarderTestUtil addSelector:customDidRegisterForRemoteNotificationWithDeviceTokenSel
+                            implementation:customDidRegisterForRemoteNotificationWithDeviceTokenImp
+                                toInstance:customAppDelegate];
   [self.sut addDelegate:customAppDelegate];
   self.sut.enabled = NO;
 
@@ -302,8 +305,8 @@
   id<MSApplicationDelegate> originalAppDelegate = [self createOriginalAppDelegateInstance];
   SEL didReceiveRemoteNotificationSel1 = @selector(application:didReceiveRemoteNotification:);
   SEL didReceiveRemoteNotificationSel2 = @selector(application:didReceiveRemoteNotification:fetchCompletionHandler:);
-  [self.sut addAppDelegateSelectorToSwizzle:didReceiveRemoteNotificationSel1];
-  [self.sut addAppDelegateSelectorToSwizzle:didReceiveRemoteNotificationSel2];
+  [self.sut addDelegateSelectorToSwizzle:didReceiveRemoteNotificationSel1];
+  [self.sut addDelegateSelectorToSwizzle:didReceiveRemoteNotificationSel2];
 
   // Setup a custom delegate.
   id<MSCustomApplicationDelegate> customAppDelegate = [self createCustomAppDelegateInstance];
@@ -312,7 +315,9 @@
     assertThat(application, is(appMock));
     assertThat(userInfo, is(expectedUserInfo));
   };
-  [self addSelector:didReceiveRemoteNotificationSel1 implementation:didReceiveRemoteNotificationImp1 toInstance:customAppDelegate];
+  [MSDelegateForwarderTestUtil addSelector:didReceiveRemoteNotificationSel1
+                            implementation:didReceiveRemoteNotificationImp1
+                                toInstance:customAppDelegate];
   id didReceiveRemoteNotificationImp2 = ^(__attribute__((unused)) id itSelf, MSApplication *application, NSDictionary *userInfo,
                                           void (^fetchHandler)(UIBackgroundFetchResult)) {
     // Then
@@ -326,7 +331,9 @@
     fetchHandler(expectedFetchResult);
     [customCalledExpectation fulfill];
   };
-  [self addSelector:didReceiveRemoteNotificationSel2 implementation:didReceiveRemoteNotificationImp2 toInstance:customAppDelegate];
+  [MSDelegateForwarderTestUtil addSelector:didReceiveRemoteNotificationSel2
+                            implementation:didReceiveRemoteNotificationImp2
+                                toInstance:customAppDelegate];
   [self.sut swizzleOriginalDelegate:originalAppDelegate];
   [self.sut addDelegate:customAppDelegate];
 
@@ -366,8 +373,10 @@
         fetchHandler(expectedFetchResult);
         [originalCalledExpectation fulfill];
       };
-  [self addSelector:didReceiveRemoteNotificationSel implementation:originalDidReceiveRemoteNotificationImp toInstance:originalAppDelegate];
-  [self.sut addAppDelegateSelectorToSwizzle:didReceiveRemoteNotificationSel];
+  [MSDelegateForwarderTestUtil addSelector:didReceiveRemoteNotificationSel
+                            implementation:originalDidReceiveRemoteNotificationImp
+                                toInstance:originalAppDelegate];
+  [self.sut addDelegateSelectorToSwizzle:didReceiveRemoteNotificationSel];
 
   // Setup a custom delegate.
   id<MSCustomApplicationDelegate> customAppDelegate = [self createCustomAppDelegateInstance];
@@ -379,7 +388,9 @@
         fetchHandler(expectedFetchResult);
         [customCalledExpectation fulfill];
       };
-  [self addSelector:didReceiveRemoteNotificationSel implementation:customDidReceiveRemoteNotificationImp toInstance:customAppDelegate];
+  [MSDelegateForwarderTestUtil addSelector:didReceiveRemoteNotificationSel
+                            implementation:customDidReceiveRemoteNotificationImp
+                                toInstance:customAppDelegate];
   [self.sut swizzleOriginalDelegate:originalAppDelegate];
   [self.sut addDelegate:customAppDelegate];
 
@@ -417,8 +428,10 @@
         fetchHandler(expectedFetchResult);
         [originalCalledExpectation fulfill];
       };
-  [self addSelector:didReceiveRemoteNotificationSel implementation:originalDidReceiveRemoteNotificationImp toInstance:originalAppDelegate];
-  [self.sut addAppDelegateSelectorToSwizzle:didReceiveRemoteNotificationSel];
+  [MSDelegateForwarderTestUtil addSelector:didReceiveRemoteNotificationSel
+                            implementation:originalDidReceiveRemoteNotificationImp
+                                toInstance:originalAppDelegate];
+  [self.sut addDelegateSelectorToSwizzle:didReceiveRemoteNotificationSel];
 
   // Setup a custom delegate.
   id<MSCustomApplicationDelegate> customAppDelegate = [self createCustomAppDelegateInstance];
@@ -450,7 +463,7 @@
   // Setup the original delegate.
   id<MSApplicationDelegate> originalAppDelegate = [self createOriginalAppDelegateInstance];
   SEL didReceiveRemoteNotificationSel = @selector(application:didReceiveRemoteNotification:fetchCompletionHandler:);
-  [self.sut addAppDelegateSelectorToSwizzle:didReceiveRemoteNotificationSel];
+  [self.sut addDelegateSelectorToSwizzle:didReceiveRemoteNotificationSel];
 
   // Setup a custom delegate.
   id<MSCustomApplicationDelegate> customAppDelegate = [self createCustomAppDelegateInstance];
@@ -492,8 +505,10 @@
         fetchHandler(originalFetchResult);
         isOriginalHandlerCalled = YES;
       };
-  [self addSelector:didReceiveRemoteNotificationSel implementation:originalDidReceiveRemoteNotificationImp toInstance:originalAppDelegate];
-  [self.sut addAppDelegateSelectorToSwizzle:didReceiveRemoteNotificationSel];
+  [MSDelegateForwarderTestUtil addSelector:didReceiveRemoteNotificationSel
+                            implementation:originalDidReceiveRemoteNotificationImp
+                                toInstance:originalAppDelegate];
+  [self.sut addDelegateSelectorToSwizzle:didReceiveRemoteNotificationSel];
 
   // Setup a custom delegate.
   id<MSCustomApplicationDelegate> customAppDelegate = [self createCustomAppDelegateInstance];
@@ -505,7 +520,9 @@
         fetchHandler(customFetchResult);
         isCustomHandlerCalled = YES;
       };
-  [self addSelector:didReceiveRemoteNotificationSel implementation:customDidReceiveRemoteNotificationImp toInstance:customAppDelegate];
+  [MSDelegateForwarderTestUtil addSelector:didReceiveRemoteNotificationSel
+                            implementation:customDidReceiveRemoteNotificationImp
+                                toInstance:customAppDelegate];
   [self.sut swizzleOriginalDelegate:originalAppDelegate];
   [self.sut addDelegate:customAppDelegate];
 
@@ -634,8 +651,10 @@
           [originalCalledExpectation fulfill];
         });
       };
-  [self addSelector:didReceiveRemoteNotificationSel implementation:originalDidReceiveRemoteNotificationImp toInstance:originalAppDelegate];
-  [self.sut addAppDelegateSelectorToSwizzle:didReceiveRemoteNotificationSel];
+  [MSDelegateForwarderTestUtil addSelector:didReceiveRemoteNotificationSel
+                            implementation:originalDidReceiveRemoteNotificationImp
+                                toInstance:originalAppDelegate];
+  [self.sut addDelegateSelectorToSwizzle:didReceiveRemoteNotificationSel];
 
   // Setup a custom delegate.
   id<MSCustomApplicationDelegate> customAppDelegate = [self createCustomAppDelegateInstance];
@@ -651,7 +670,9 @@
           [customCalledExpectation fulfill];
         });
       };
-  [self addSelector:didReceiveRemoteNotificationSel implementation:customDidReceiveRemoteNotificationImp toInstance:customAppDelegate];
+  [MSDelegateForwarderTestUtil addSelector:didReceiveRemoteNotificationSel
+                            implementation:customDidReceiveRemoteNotificationImp
+                                toInstance:customAppDelegate];
   [self.sut swizzleOriginalDelegate:originalAppDelegate];
   [self.sut addDelegate:customAppDelegate];
 
@@ -696,8 +717,10 @@
           [originalCalledExpectation fulfill];
         });
       };
-  [self addSelector:didReceiveRemoteNotificationSel implementation:originalDidReceiveRemoteNotificationImp toInstance:originalAppDelegate];
-  [self.sut addAppDelegateSelectorToSwizzle:didReceiveRemoteNotificationSel];
+  [MSDelegateForwarderTestUtil addSelector:didReceiveRemoteNotificationSel
+                            implementation:originalDidReceiveRemoteNotificationImp
+                                toInstance:originalAppDelegate];
+  [self.sut addDelegateSelectorToSwizzle:didReceiveRemoteNotificationSel];
 
   // Setup a custom delegate.
   id<MSCustomApplicationDelegate> customAppDelegate = [self createCustomAppDelegateInstance];
@@ -713,7 +736,9 @@
           [customCalledExpectation fulfill];
         });
       };
-  [self addSelector:didReceiveRemoteNotificationSel implementation:customDidReceiveRemoteNotificationImp toInstance:customAppDelegate];
+  [MSDelegateForwarderTestUtil addSelector:didReceiveRemoteNotificationSel
+                            implementation:customDidReceiveRemoteNotificationImp
+                                toInstance:customAppDelegate];
   [self.sut swizzleOriginalDelegate:originalAppDelegate];
   [self.sut addDelegate:customAppDelegate];
 
@@ -761,8 +786,10 @@
           [originalCalledExpectation fulfill];
         });
       };
-  [self addSelector:didReceiveRemoteNotificationSel implementation:originalDidReceiveRemoteNotificationImp toInstance:originalAppDelegate];
-  [self.sut addAppDelegateSelectorToSwizzle:didReceiveRemoteNotificationSel];
+  [MSDelegateForwarderTestUtil addSelector:didReceiveRemoteNotificationSel
+                            implementation:originalDidReceiveRemoteNotificationImp
+                                toInstance:originalAppDelegate];
+  [self.sut addDelegateSelectorToSwizzle:didReceiveRemoteNotificationSel];
 
   // Setup custom delegates.
   id<MSCustomApplicationDelegate> customAppDelegate1 = [self createCustomAppDelegateInstance];
@@ -793,8 +820,12 @@
           [customCalledExpectation2 fulfill];
         });
       };
-  [self addSelector:didReceiveRemoteNotificationSel implementation:customDidReceiveRemoteNotificationImp1 toInstance:customAppDelegate1];
-  [self addSelector:didReceiveRemoteNotificationSel implementation:customDidReceiveRemoteNotificationImp2 toInstance:customAppDelegate2];
+  [MSDelegateForwarderTestUtil addSelector:didReceiveRemoteNotificationSel
+                            implementation:customDidReceiveRemoteNotificationImp1
+                                toInstance:customAppDelegate1];
+  [MSDelegateForwarderTestUtil addSelector:didReceiveRemoteNotificationSel
+                            implementation:customDidReceiveRemoteNotificationImp2
+                                toInstance:customAppDelegate2];
   [self.sut swizzleOriginalDelegate:originalAppDelegate];
   [self.sut addDelegate:customAppDelegate1];
   [self.sut addDelegate:customAppDelegate2];
@@ -803,7 +834,7 @@
   [originalAppDelegate application:self.appMock didReceiveRemoteNotification:@{} fetchCompletionHandler:expectedFetchHandler];
 
   // Then
-  [self waitForExpectationsWithTimeout:1000
+  [self waitForExpectationsWithTimeout:1
                                handler:^(__unused NSError *error) {
                                  // In the end the completion handler must be
                                  // called with the forwarded value.
@@ -821,45 +852,14 @@
 
 #endif
 
-#pragma mark - Private
-
-- (NSString *)generateClassName {
-  return [@"C" stringByAppendingString:MS_UUID_STRING];
-}
-
-- (id)createInstanceConformingToProtocol:(Protocol *)protocol {
-  return [self createInstanceWithBaseClass:[NSObject class] andConformItToProtocol:protocol];
-}
-
-- (id)createInstanceWithBaseClass:(Class)class andConformItToProtocol:(Protocol *)protocol {
-
-  // Generate class name to prevent conflicts in runtime added classes.
-  const char *name = [[self generateClassName] UTF8String];
-  Class newClass = objc_allocateClassPair(class, name, 0);
-  if (protocol) {
-    class_addProtocol(newClass, protocol);
-  }
-  objc_registerClassPair(newClass);
-  return [newClass new];
-}
+#pragma mark - Helper
 
 - (id<MSApplicationDelegate>)createOriginalAppDelegateInstance {
-  return [self createInstanceConformingToProtocol:@protocol(MSApplicationDelegate)];
+  return [MSDelegateForwarderTestUtil createInstanceConformingToProtocol:@protocol(MSApplicationDelegate)];
 }
 
 - (id<MSCustomApplicationDelegate>)createCustomAppDelegateInstance {
-  return [self createInstanceConformingToProtocol:@protocol(MSCustomApplicationDelegate)];
-}
-
-- (void)addSelector:(SEL)selector implementation:(id)block toInstance:(id)instance {
-  [self addSelector:selector implementation:block toClass:[instance class]];
-}
-
-- (void)addSelector:(SEL)selector implementation:(id)block toClass:(id)class {
-  Method method = class_getInstanceMethod(class, selector);
-  const char *types = method_getTypeEncoding(method);
-  IMP imp = imp_implementationWithBlock(block);
-  class_addMethod(class, selector, imp, types);
+  return [MSDelegateForwarderTestUtil createInstanceConformingToProtocol:@protocol(MSCustomApplicationDelegate)];
 }
 
 @end

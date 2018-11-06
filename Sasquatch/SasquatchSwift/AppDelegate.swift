@@ -20,7 +20,8 @@ enum StartupMode: Int {
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate, UNUserNotificationCenterDelegate {
 
-  private var didTapNotification = false
+  private var notificationPresentationCompletionHandler: Any?
+  private var notificationResponseCompletionHandler: Any?
 
   var window: UIWindow?
 
@@ -258,35 +259,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
 
   @available(iOS 10.0, *)
   func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-    let appCenterRaw = notification.request.content.userInfo["mobile_center"]
-    var presentation: String? = nil
-    if let appCenter = appCenterRaw as? Dictionary<String, String> {
-      presentation = appCenter["presentation"];
-    }
-    if (presentation == "alert") {
-
-      // Show alert if custom data enabled it.
-      // Note that if silent push is enabled, we'll get both dialog and
-      // notification, doing it on purpose.
-      completionHandler(.alert)
-    } else {
-      MSPush.didReceiveRemoteNotification(notification.request.content.userInfo)
-      completionHandler([])
-    }
+    notificationPresentationCompletionHandler = completionHandler;
+    MSPush.didReceiveRemoteNotification(notification.request.content.userInfo)
   }
 
   @available(iOS 10.0, *)
   func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-    if (response.actionIdentifier == UNNotificationDefaultActionIdentifier) {
-      didTapNotification = true
-    }
+    notificationResponseCompletionHandler = completionHandler;
     MSPush.didReceiveRemoteNotification(response.notification.request.content.userInfo)
-    completionHandler()
   }
 
   // AppCenter Push Delegate
-
   func push(_ push: MSPush!, didReceive pushNotification: MSPushNotification!) {
+    
+    // Alert in foreground if requested from custom data.
+    if #available(iOS 10.0, *), notificationPresentationCompletionHandler != nil && pushNotification.customData["presentation"] == "alert" {
+      (notificationPresentationCompletionHandler as! (UNNotificationPresentationOptions) -> Void)(.alert)
+      notificationPresentationCompletionHandler = nil
+      return;
+    }
+    
+    // Create and show a popup from the notification payload.
     let title: String = pushNotification.title ?? ""
     var message: String = pushNotification.message ?? ""
     var customData: String = ""
@@ -300,7 +293,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
         if (!message.isEmpty) {
           message += "\n"
         }
-        if didTapNotification {
+        if notificationResponseCompletionHandler != nil {
           message += "Tapped notification"
         } else {
           message += "Received in foreground"
@@ -314,7 +307,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
       // Show the alert controller.
       self.window?.rootViewController?.present(alertController, animated: true)
     }
-    self.didTapNotification = false
+    
+    // Call notification completion handlers.
+    if #available(iOS 10.0, *) {
+      if (notificationResponseCompletionHandler != nil){
+        (notificationResponseCompletionHandler as! () -> Void)()
+        notificationResponseCompletionHandler = nil
+      }
+      if (notificationPresentationCompletionHandler != nil){
+        (notificationPresentationCompletionHandler as! (UNNotificationPresentationOptions) -> Void)([])
+        notificationPresentationCompletionHandler = nil
+      }
+    }
   }
 }
 
