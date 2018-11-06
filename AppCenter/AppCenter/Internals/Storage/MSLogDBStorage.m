@@ -292,6 +292,10 @@ static const NSUInteger kMSSchemaVersion = 2;
   NSString *selectOldestQuery = [NSString stringWithFormat:@"SELECT \"%@\" FROM \"%@\" ORDER BY \"%@\" ASC LIMIT %ld", kMSIdColumnName,
                                                            kMSLogTableName, kMSIdColumnName, (long)count];
   NSArray<NSArray *> *entries = [MSDBStorage executeSelectionQuery:selectOldestQuery inOpenedDatabase:db];
+  if (entries.count == 0) {
+    MSLogError([MSAppCenter logTag], @"There are no logs to delete.");
+    return SQLITE_ERROR;
+  }
   NSMutableArray *ids = [NSMutableArray new];
   for (NSMutableArray *row in entries) {
     [ids addObject:row[0]];
