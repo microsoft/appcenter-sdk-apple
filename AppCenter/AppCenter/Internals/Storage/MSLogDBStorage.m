@@ -132,7 +132,7 @@ static const NSUInteger kMSSchemaVersion = 3;
     }
   }
 
-  // Build the "WHERE" clause's condition.
+  // Build the "WHERE" clause's conditions.
   NSMutableString *condition = [NSMutableString stringWithFormat:@"\"%@\" = '%@'", kMSGroupIdColumnName, groupId];
 
   // Filter out paused target keys.
@@ -144,6 +144,9 @@ static const NSUInteger kMSSchemaVersion = 3;
   if (idsInBatches.count > 0) {
     [condition appendFormat:@" AND \"%@\" NOT IN (%@)", kMSIdColumnName, [idsInBatches componentsJoinedByString:@", "]];
   }
+
+  // Build the "ORDER BY" clause's conditions.
+  [condition appendFormat:@" ORDER BY \"%@\" DESC, \"%@\" ASC", kMSPriorityColumnName, kMSIdColumnName];
 
   /*
    * There is a need to determine if there will be more logs available than those under the limit. This is just about knowing if there is at
