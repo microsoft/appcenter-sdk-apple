@@ -7,6 +7,7 @@
 * **[Fix]** Fix an issue where concurrent modification of custom properties was not thread safe.
 * **[Fix]** Fix validating and discarding Not a Number (NaN) and infinite double values for custom properties.
 * **[Fix]** Use standard SQL syntax to avoid affecting users with custom SQLite libraries.
+* **[Fix]** Do not delete old logs on try to add a log larger than the maximum storage capacity.
 
 ### AppCenterCrashes
 
