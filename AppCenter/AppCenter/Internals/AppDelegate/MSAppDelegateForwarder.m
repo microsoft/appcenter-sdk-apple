@@ -265,7 +265,6 @@ static BOOL _enabled = YES;
   // Swizzle only once.
   static dispatch_once_t delegateSwizzleOnceToken;
   dispatch_once(&delegateSwizzleOnceToken, ^{
-
     // Swizzle the app delegate before it's actually set.
     [MSAppDelegateForwarder swizzleOriginalDelegate:delegate];
   });

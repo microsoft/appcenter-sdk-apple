@@ -157,7 +157,6 @@
   id<MSApplicationDelegate> originalAppDelegate = [self createOriginalAppDelegateInstance];
   id originalDidRegisterForRemoteNotificationWithDeviceTokenImp =
       ^(__attribute__((unused)) id itSelf, MSApplication *application, NSData *deviceToken) {
-
         // Then
         assertThat(application, is(appMock));
         assertThat(deviceToken, is(expectedToken));
@@ -170,7 +169,6 @@
   id<MSCustomApplicationDelegate> customAppDelegate1 = [self createCustomAppDelegateInstance];
   id customDidRegisterForRemoteNotificationWithDeviceTokenImp1 =
       ^(__attribute__((unused)) id itSelf, MSApplication *application, NSData *deviceToken) {
-
         // Then
         assertThat(application, is(appMock));
         assertThat(deviceToken, is(expectedToken));
@@ -182,7 +180,6 @@
   id<MSCustomApplicationDelegate> customAppDelegate2 = [self createCustomAppDelegateInstance];
   id customDidRegisterForRemoteNotificationWithDeviceTokenImp2 =
       ^(__attribute__((unused)) id itSelf, MSApplication *application, NSData *deviceToken) {
-
         // Then
         assertThat(application, is(appMock));
         assertThat(deviceToken, is(expectedToken));
@@ -213,7 +210,6 @@
   id<MSApplicationDelegate> originalAppDelegate = [self createOriginalAppDelegateInstance];
   id originalDidRegisterForRemoteNotificationWithDeviceTokenImp =
       ^(__attribute__((unused)) id itSelf, MSApplication *application, NSData *deviceToken) {
-
         // Then
         assertThat(application, is(appMock));
         assertThat(deviceToken, is(expectedToken));
@@ -226,7 +222,6 @@
   id<MSCustomApplicationDelegate> customAppDelegate = [self createCustomAppDelegateInstance];
   id customDidRegisterForRemoteNotificationWithDeviceTokenImp = ^(
       __attribute__((unused)) id itSelf, __attribute__((unused)) MSApplication *application, __attribute__((unused)) NSData *deviceToken) {
-
     // Then
     XCTFail(@"Custom delegate got called but is removed.");
   };
@@ -254,7 +249,6 @@
   id<MSApplicationDelegate> originalAppDelegate = [self createOriginalAppDelegateInstance];
   id originalDidRegisterForRemoteNotificationWithDeviceTokenImp =
       ^(__attribute__((unused)) id itSelf, MSApplication *application, NSData *deviceToken) {
-
         // Then
         assertThat(application, is(appMock));
         assertThat(deviceToken, is(expectedToken));
@@ -267,7 +261,6 @@
   id<MSCustomApplicationDelegate> customAppDelegate = [self createCustomAppDelegateInstance];
   id customDidRegisterForRemoteNotificationWithDeviceTokenImp = ^(
       __attribute__((unused)) id itSelf, __attribute__((unused)) MSApplication *application, __attribute__((unused)) NSData *deviceToken) {
-
     // Then
     XCTFail(@"Custom delegate got called but is removed.");
   };
@@ -299,7 +292,7 @@
     forwardedFetchResult = fetchResult;
     isExpectedHandlerCalled = YES;
   };
-  NSDictionary *expectedUserInfo = @{ @"aKey" : @"aThingBehindADoor" };
+  NSDictionary *expectedUserInfo = @{@"aKey" : @"aThingBehindADoor"};
   MSApplication *appMock = self.appMock;
   XCTestExpectation *customCalledExpectation = [self expectationWithDescription:@"Custom delegate called."];
 
@@ -313,7 +306,6 @@
   // Setup a custom delegate.
   id<MSCustomApplicationDelegate> customAppDelegate = [self createCustomAppDelegateInstance];
   id didReceiveRemoteNotificationImp1 = ^(__attribute__((unused)) id itSelf, MSApplication *application, NSDictionary *userInfo) {
-
     // Then
     assertThat(application, is(appMock));
     assertThat(userInfo, is(expectedUserInfo));
@@ -321,7 +313,6 @@
   [self addSelector:didReceiveRemoteNotificationSel1 implementation:didReceiveRemoteNotificationImp1 toInstance:customAppDelegate];
   id didReceiveRemoteNotificationImp2 = ^(__attribute__((unused)) id itSelf, MSApplication *application, NSDictionary *userInfo,
                                           void (^fetchHandler)(UIBackgroundFetchResult)) {
-
     // Then
     assertThat(application, is(appMock));
     assertThat(userInfo, is(expectedUserInfo));
@@ -368,7 +359,6 @@
   id originalDidReceiveRemoteNotificationImp =
       ^(__attribute__((unused)) id itSelf, __attribute__((unused)) MSApplication *application,
         __attribute__((unused)) NSDictionary *userInfo, void (^fetchHandler)(UIBackgroundFetchResult)) {
-
         // Then
         assertThatBool(isExpectedHandlerCalled, isFalse());
         fetchHandler(expectedFetchResult);
@@ -382,7 +372,6 @@
   id customDidReceiveRemoteNotificationImp =
       ^(__attribute__((unused)) id itSelf, __attribute__((unused)) MSApplication *application,
         __attribute__((unused)) NSDictionary *userInfo, void (^fetchHandler)(UIBackgroundFetchResult)) {
-
         // Then
         assertThatBool(isExpectedHandlerCalled, isFalse());
         fetchHandler(expectedFetchResult);
@@ -421,7 +410,6 @@
   id originalDidReceiveRemoteNotificationImp =
       ^(__attribute__((unused)) id itSelf, __attribute__((unused)) MSApplication *application,
         __attribute__((unused)) NSDictionary *userInfo, void (^fetchHandler)(UIBackgroundFetchResult)) {
-
         // Then
         assertThatBool(isExpectedHandlerCalled, isFalse());
         fetchHandler(expectedFetchResult);
@@ -497,7 +485,6 @@
   id originalDidReceiveRemoteNotificationImp =
       ^(__attribute__((unused)) id itSelf, __attribute__((unused)) MSApplication *application,
         __attribute__((unused)) NSDictionary *userInfo, void (^fetchHandler)(UIBackgroundFetchResult)) {
-
         // Then
         assertThatBool(isExpectedHandlerCalled, isFalse());
         fetchHandler(originalFetchResult);
@@ -511,7 +498,6 @@
   id customDidReceiveRemoteNotificationImp =
       ^(__attribute__((unused)) id itSelf, __attribute__((unused)) MSApplication *application,
         __attribute__((unused)) NSDictionary *userInfo, void (^fetchHandler)(UIBackgroundFetchResult)) {
-
         // Then
         assertThatBool(isExpectedHandlerCalled, isFalse());
         fetchHandler(customFetchResult);
@@ -635,7 +621,6 @@
   id originalDidReceiveRemoteNotificationImp =
       ^(__attribute__((unused)) id itSelf, __attribute__((unused)) MSApplication *application,
         __attribute__((unused)) NSDictionary *userInfo, void (^fetchHandler)(UIBackgroundFetchResult)) {
-
         // Then
         assertThatBool(isExpectedHandlerCalled, isFalse());
 
@@ -657,7 +642,6 @@
         __attribute__((unused)) NSDictionary *userInfo, void (^fetchHandler)(UIBackgroundFetchResult)) {
         // Simulate a background download.
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-
           // Then
           [NSThread sleepForTimeInterval:0.003];
           assertThatBool(isExpectedHandlerCalled, isFalse());
@@ -699,7 +683,6 @@
   id originalDidReceiveRemoteNotificationImp =
       ^(__attribute__((unused)) id itSelf, __attribute__((unused)) MSApplication *application,
         __attribute__((unused)) NSDictionary *userInfo, void (^fetchHandler)(UIBackgroundFetchResult)) {
-
         // Then
         assertThatBool(isExpectedHandlerCalled, isFalse());
 
@@ -721,7 +704,6 @@
         __attribute__((unused)) NSDictionary *userInfo, void (^fetchHandler)(UIBackgroundFetchResult)) {
         // Simulate a background download.
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-
           // Then
           [NSThread sleepForTimeInterval:0.001];
           assertThatBool(isExpectedHandlerCalled, isFalse());
@@ -765,7 +747,6 @@
   id originalDidReceiveRemoteNotificationImp =
       ^(__attribute__((unused)) id itSelf, __attribute__((unused)) MSApplication *application,
         __attribute__((unused)) NSDictionary *userInfo, void (^fetchHandler)(UIBackgroundFetchResult)) {
-
         // Then
         assertThatBool(isExpectedHandlerCalled, isFalse());
 
@@ -789,7 +770,6 @@
         __attribute__((unused)) NSDictionary *userInfo, void (^fetchHandler)(UIBackgroundFetchResult)) {
         // Simulate a background download.
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-
           // Then
           [NSThread sleepForTimeInterval:arc4random_uniform(2) / 100];
           assertThatBool(isExpectedHandlerCalled, isFalse());
@@ -803,7 +783,6 @@
         __attribute__((unused)) NSDictionary *userInfo, void (^fetchHandler)(UIBackgroundFetchResult)) {
         // Simulate a background download.
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-
           // Then
           [NSThread sleepForTimeInterval:arc4random_uniform(2) / 100];
           assertThatBool(isExpectedHandlerCalled, isFalse());
@@ -824,7 +803,6 @@
   // Then
   [self waitForExpectationsWithTimeout:1000
                                handler:^(__unused NSError *error) {
-
                                  // In the end the completion handler must be
                                  // called with the forwarded value.
                                  if (error) {
@@ -851,7 +829,7 @@
   return [self createInstanceWithBaseClass:[NSObject class] andConformItToProtocol:protocol];
 }
 
-- (id)createInstanceWithBaseClass:(Class) class andConformItToProtocol:(Protocol *)protocol {
+- (id)createInstanceWithBaseClass:(Class)class andConformItToProtocol:(Protocol *)protocol {
 
   // Generate class name to prevent conflicts in runtime added classes.
   const char *name = [[self generateClassName] UTF8String];
@@ -863,7 +841,7 @@
   return [newClass new];
 }
 
-    - (id<MSApplicationDelegate>)createOriginalAppDelegateInstance {
+- (id<MSApplicationDelegate>)createOriginalAppDelegateInstance {
   return [self createInstanceConformingToProtocol:@protocol(MSCustomApplicationDelegate)];
 }
 
@@ -875,7 +853,7 @@
   [self addSelector:selector implementation:block toClass:[instance class]];
 }
 
-- (void)addSelector:(SEL)selector implementation:(id)block toClass:(id) class {
+- (void)addSelector:(SEL)selector implementation:(id)block toClass:(id)class {
   Method method = class_getInstanceMethod(class, selector);
   const char *types = method_getTypeEncoding(method);
   IMP imp = imp_implementationWithBlock(block);

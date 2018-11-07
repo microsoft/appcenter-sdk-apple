@@ -314,7 +314,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 
       // Update full URL.
       if (components.URL) {
-        self.sendURL = (NSURL * _Nonnull)components.URL;
+        self.sendURL = (NSURL * _Nonnull) components.URL;
         success = true;
       }
     }

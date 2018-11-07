@@ -325,6 +325,16 @@ static const NSUInteger kMSSchemaVersion = 3;
 
 #pragma mark - DB migration
 
+- (void)createPriorityIndex:(void *)db {
+  NSString *indexStatement = [NSString stringWithFormat:@"CREATE INDEX \"ix_%@_%@\" ON \"%@\" (\"%@\")", kMSLogTableName,
+                                                        kMSPriorityColumnName, kMSLogTableName, kMSPriorityColumnName];
+  [MSDBStorage executeNonSelectionQuery:indexStatement inOpenedDatabase:db];
+}
+
+- (void)customizeDatabase:(void *)db {
+  [self createPriorityIndex:db];
+}
+
 /*
  * Migration process is implemented through database versioning.
  * After altering current schema, database version should be bumped and actions for migration should be implemented in this method.
@@ -347,6 +357,7 @@ static const NSUInteger kMSSchemaVersion = 3;
         [NSString stringWithFormat:@"ALTER TABLE \"%@\" ADD COLUMN \"%@\" %@ DEFAULT %u", kMSLogTableName, kMSPriorityColumnName,
                                    kMSSQLiteTypeInteger, (unsigned int)MSFlagsPersistenceNormal];
     [MSDBStorage executeNonSelectionQuery:migrationQuery inOpenedDatabase:db];
+    [self createPriorityIndex:db];
   }
 }
 
