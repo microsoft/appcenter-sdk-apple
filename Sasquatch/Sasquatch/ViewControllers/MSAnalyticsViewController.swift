@@ -4,9 +4,11 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   
   enum Priority: String {
     case Default = "Default"
+    case Normal = "Normal"
     case Critical = "Critical"
+    case Invalid = "Invalid"
 
-    static let allValues = [Default, Critical]
+    static let allValues = [Default, Normal, Critical, Invalid]
   }
 
   @IBOutlet weak var enabled: UISwitch!
