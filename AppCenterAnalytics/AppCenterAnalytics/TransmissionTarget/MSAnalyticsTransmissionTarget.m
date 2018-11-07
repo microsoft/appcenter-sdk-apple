@@ -84,6 +84,10 @@ static MSAnalyticsAuthenticationProvider *_authenticationProvider;
 }
 
 - (void)trackEvent:(NSString *)eventName withTypedProperties:(nullable MSEventProperties *)properties {
+  [self trackEvent:eventName withTypedProperties:properties flags:MSFlagsDefault];
+}
+
+- (void)trackEvent:(NSString *)eventName withTypedProperties:(nullable MSEventProperties *)properties flags:(MSFlags)flags {
   MSEventProperties *mergedProperties = [MSEventProperties new];
 
   // Merge properties in its ancestors.
@@ -101,7 +105,7 @@ static MSAnalyticsAuthenticationProvider *_authenticationProvider;
     // Set nil for the properties to pass nil to trackEvent.
     mergedProperties = nil;
   }
-  [MSAnalytics trackEvent:eventName withTypedProperties:mergedProperties forTransmissionTarget:self];
+  [MSAnalytics trackEvent:eventName withTypedProperties:mergedProperties forTransmissionTarget:self flags:flags];
 }
 
 - (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:(NSString *)token {
