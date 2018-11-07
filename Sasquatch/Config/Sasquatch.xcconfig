@@ -3,9 +3,9 @@
 ARCHS[sdk=iphoneos*] = armv7 armv7s arm64 arm64e
 ARCHS[sdk=watchos*] = armv7k arm64_32
 ARCHS[sdk=iphonesimulator*] = x86_64 i386
-VALID_ARCHS[sdk=iphoneos] = ARCHS[sdk=iphoneos*]
-VALID_ARCHS[sdk=watchos] = ARCHS[sdk=watchos*]
-VALID_ARCHS[sdk=iphonesimulator*] = ARCHS[sdk=iphonesimulator*]
+VALID_ARCHS[sdk=iphoneos*] = $(ARCHS)
+VALID_ARCHS[sdk=watchos*] = $(ARCHS)
+VALID_ARCHS[sdk=iphonesimulator*] = $(ARCHS)
 
 ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES
 ALWAYS_SEARCH_USER_PATHS = NO
