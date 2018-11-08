@@ -57,9 +57,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param eventName  Event name. Cannot be `nil` or empty.
  * @param properties Dictionary of properties. Keys and values must not be `nil`.
- * @param flags      Optional flags. Events with MSFlagsPersistenceCritical will be considered as a higher priority than events with
- * MSFlagsPersistenceNormal or MSFlagsDefault, will be removed at the latest when the storage is full and sent prior to lower priority
- * events.
+ * @param flags      Optional flags. Events tracked with the MSFlagsPersistenceCritical flag will take precedence over all other events in
+ * storage. An event tracked with this option will only be dropped if storage must make room for a newer event that is also marked with the
+ * MSFlagsPersistenceCritical flag.
  *
  * @discussion Additional validation rules apply depending on the configured secret.
  *
@@ -128,9 +128,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param eventName  Event name.
  * @param properties Typed properties.
- * @param flags      Optional flags. Events with MSFlagsPersistenceCritical will be considered as a higher priority than events with
- * MSFlagsPersistenceNormal or MSFlagsDefault, will be removed at the latest when the storage is full and sent prior to lower priority
- * events.
+ * @param flags      Optional flags. Events tracked with the MSFlagsPersistenceCritical flag will take precedence over all other events in
+ * storage. An event tracked with this option will only be dropped if storage must make room for a newer event that is also marked with the
+ * MSFlagsPersistenceCritical flag.
  *
  * @discussion The following validation rules are applied:
  *
