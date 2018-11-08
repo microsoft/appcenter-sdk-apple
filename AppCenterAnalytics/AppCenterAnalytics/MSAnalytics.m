@@ -286,6 +286,13 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
     transmissionTarget = self.defaultTransmissionTarget;
   }
 
+  // Validate flags.
+  MSFlags persistenceFlag = flags & kMSPersistenceFlagsMask;
+  if (persistenceFlag != MSFlagsPersistenceNormal && persistenceFlag != MSFlagsPersistenceCritical) {
+    MSLogWarning([MSAnalytics logTag], @"Invalid flags (%u) received, using normal as a default.", (unsigned int)persistenceFlag);
+    persistenceFlag = MSFlagsPersistenceNormal;
+  }
+
   // Create an event log.
   MSEventLog *log = [MSEventLog new];
 
@@ -309,7 +316,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   log.typedProperties = [properties isEmpty] ? nil : properties;
 
   // Send log to channel.
-  [self sendLog:log flags:flags];
+  [self sendLog:log flags:persistenceFlag];
 }
 
 - (void)pause {
