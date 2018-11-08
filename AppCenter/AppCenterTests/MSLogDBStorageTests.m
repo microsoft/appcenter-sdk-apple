@@ -808,11 +808,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   [self.sut setMaxStorageSize:maxCapacityInBytes
             completionHandler:^(__unused BOOL success){
             }];
-  [self generateAndSaveLogsWithCount:1
-                                size:@(maxCapacityInBytes / 2)
-                             groupId:kMSTestGroupId
-                               flags:MSFlagsPersistenceCritical
-              andVerifyLogGeneration:YES];
+  [self generateAndSaveLogsWithCount:1 groupId:kMSTestGroupId flags:MSFlagsPersistenceCritical andVerifyLogGeneration:YES];
   [self generateAndSaveLogsWithCount:2 groupId:kMSTestGroupId flags:MSFlagsPersistenceNormal andVerifyLogGeneration:YES];
   id<MSLog> largeLog = [self generateLogWithSize:@(maxCapacityInBytes)];
   sqlite3 *db = [self.storageTestUtil openDatabase];
@@ -875,6 +871,27 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
   [classMock stopMocking];
 }
 
+- (void)testCreateFromLatestSchema {
+
+  // When
+  self.sut = [MSLogDBStorage new];
+
+  // Then
+  NSString *currentTable =
+      [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='%@'", kMSLogTableName]][0][0];
+  assertThat(currentTable, is(@"CREATE TABLE \"logs\" ("
+                              @"\"id\" INTEGER PRIMARY KEY AUTOINCREMENT, "
+                              @"\"groupId\" TEXT NOT NULL, "
+                              @"\"log\" TEXT NOT NULL, "
+                              @"\"targetToken\" TEXT, "
+                              @"\"targetKey\" TEXT, "
+                              @"\"priority\" INTEGER)"));
+  NSString *priorityIndex =
+      [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='ix_%@_%@'", kMSLogTableName,
+                                                                 kMSPriorityColumnName]][0][0];
+  assertThat(priorityIndex, is(@"CREATE INDEX \"ix_logs_priority\" ON \"logs\" (\"priority\")"));
+}
+
 - (void)testMigrationFromSchema0to3 {
 
   // If
@@ -904,6 +921,10 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
                               @"\"targetToken\" TEXT, "
                               @"\"targetKey\" TEXT, "
                               @"\"priority\" INTEGER)"));
+  NSString *priorityIndex =
+      [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='ix_%@_%@'", kMSLogTableName,
+                                                                 kMSPriorityColumnName]][0][0];
+  assertThat(priorityIndex, is(@"CREATE INDEX \"ix_logs_priority\" ON \"logs\" (\"priority\")"));
 }
 
 - (void)testMigrationFromSchema1to3 {
@@ -935,6 +956,10 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
                               @"\"targetToken\" TEXT, "
                               @"\"targetKey\" TEXT, "
                               @"\"priority\" INTEGER)"));
+  NSString *priorityIndex =
+      [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='ix_%@_%@'", kMSLogTableName,
+                                                                 kMSPriorityColumnName]][0][0];
+  assertThat(priorityIndex, is(@"CREATE INDEX \"ix_logs_priority\" ON \"logs\" (\"priority\")"));
 }
 
 - (void)testMigrationFromSchema2to3 {
@@ -967,6 +992,10 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 10 * kMSDefaultPa
                               @"\"targetToken\" TEXT, "
                               @"\"targetKey\" TEXT, "
                               @"\"priority\" INTEGER)"));
+  NSString *priorityIndex =
+      [self.sut executeSelectionQuery:[NSString stringWithFormat:@"SELECT sql FROM sqlite_master WHERE name='ix_%@_%@'", kMSLogTableName,
+                                                                 kMSPriorityColumnName]][0][0];
+  assertThat(priorityIndex, is(@"CREATE INDEX \"ix_logs_priority\" ON \"logs\" (\"priority\")"));
 }
 
 #pragma mark - Helper methods

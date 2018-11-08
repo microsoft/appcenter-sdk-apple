@@ -16,12 +16,14 @@
 
     // Execute all initialize operation with one database instance.
     [self executeQueryUsingBlock:^int(void *db) {
-
       // Create tables based on schema.
       NSUInteger tablesCreated = [MSDBStorage createTablesWithSchema:schema inOpenedDatabase:db];
       BOOL newDatabase = tablesCreated == schema.count;
       NSUInteger databaseVersion = [MSDBStorage versionInOpenedDatabase:db];
-      if (databaseVersion < version && !newDatabase) {
+      if (newDatabase) {
+        MSLogInfo([MSAppCenter logTag], @"Created \"%@\" database with %lu version.", filename, (unsigned long)version);
+        [self customizeDatabase:db];
+      } else if (databaseVersion < version) {
         MSLogInfo([MSAppCenter logTag], @"Migrate \"%@\" database from %lu to %lu version.", filename, (unsigned long)databaseVersion,
                   (unsigned long)version);
         [self migrateDatabase:db fromVersion:databaseVersion];
@@ -204,6 +206,9 @@
   return entries;
 }
 
+- (void)customizeDatabase:(void *)__unused db {
+}
+
 - (void)migrateDatabase:(void *)__unused db fromVersion:(NSUInteger)__unused version {
 }
 
@@ -215,8 +220,9 @@
   MSLogDebug([MSAppCenter logTag], @"Found %i pages in the database.", currentPageCount);
   int requestedMaxPageCount = [MSDBStorage numberOfPagesInBytes:sizeInBytes];
   if (currentPageCount > requestedMaxPageCount) {
-    MSLogWarning([MSAppCenter logTag], @"Cannot change database size to %ld bytes as it would cause a loss of data. "
-                                        "Maximum database size will not be changed.",
+    MSLogWarning([MSAppCenter logTag],
+                 @"Cannot change database size to %ld bytes as it would cause a loss of data. "
+                  "Maximum database size will not be changed.",
                  sizeInBytes);
     if (completionHandler) {
       completionHandler(NO);

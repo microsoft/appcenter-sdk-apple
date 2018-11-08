@@ -1,6 +1,6 @@
+#import "MSPushAppDelegate.h"
 #import "MSAppDelegateForwarderPrivate.h"
 #import "MSPush.h"
-#import "MSPushAppDelegate.h"
 
 @implementation MSPushAppDelegate
 
@@ -106,7 +106,6 @@
   // This handler will be used by all the delegates, it unifies the results and execute the real handler at the end.
   void (^commonCompletionHandler)(UIBackgroundFetchResult, MSCompletionExecutor) =
       ^(UIBackgroundFetchResult fetchResult, MSCompletionExecutor executor) {
-
         /*
          * As per the Apple documentation:
          * https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623013-application
