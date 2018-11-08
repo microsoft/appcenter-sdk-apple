@@ -92,7 +92,7 @@ static MSAnalyticsAuthenticationProvider *_authenticationProvider;
 
   // Override properties.
   if (properties) {
-    [mergedProperties mergeEventProperties:(MSEventProperties * __nonnull)properties];
+    [mergedProperties mergeEventProperties:(MSEventProperties * __nonnull) properties];
   } else if ([mergedProperties isEmpty]) {
 
     // Set nil for the properties to pass nil to trackEvent.
