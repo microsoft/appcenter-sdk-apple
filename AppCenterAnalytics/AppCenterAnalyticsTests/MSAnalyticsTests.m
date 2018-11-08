@@ -307,7 +307,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
   // When
   OCMReject([channelUnitMock enqueueItem:OCMOCK_ANY flags:MSFlagsDefault]);
-  [[MSAnalytics sharedInstance] trackEvent:@"Some event" withProperties:nil forTransmissionTarget:nil];
+  [[MSAnalytics sharedInstance] trackEvent:@"Some event" withProperties:nil forTransmissionTarget:nil flags:MSFlagsDefault];
 
   // Then
   OCMVerifyAll(channelUnitMock);
@@ -351,7 +351,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   OCMReject([channelUnitMock enqueueItem:OCMOCK_ANY flags:MSFlagsDefault]);
   MSAnalyticsTransmissionTarget *target = [MSAnalytics transmissionTargetForToken:@"test"];
   [target setEnabled:NO];
-  [[MSAnalytics sharedInstance] trackEvent:@"Some event" withProperties:nil forTransmissionTarget:target];
+  [[MSAnalytics sharedInstance] trackEvent:@"Some event" withProperties:nil forTransmissionTarget:target flags:MSFlagsDefault];
 
   // Then
   OCMVerifyAll(channelUnitMock);
@@ -377,7 +377,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
   // When
   MSAnalyticsTransmissionTarget *target = [MSAnalytics transmissionTargetForToken:@"test"];
-  [[MSAnalytics sharedInstance] trackEvent:@"Some event" withProperties:nil forTransmissionTarget:target];
+  [[MSAnalytics sharedInstance] trackEvent:@"Some event" withProperties:nil forTransmissionTarget:target flags:MSFlagsDefault];
 
   // Then
   XCTAssertEqualObjects(tag, target);
@@ -425,7 +425,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   // Will be validated in shouldFilterLog callback instead.
   OCMReject([analyticsMock validateEventName:OCMOCK_ANY forLogType:OCMOCK_ANY]);
   OCMReject([analyticsMock validateProperties:OCMOCK_ANY forLogName:OCMOCK_ANY andType:OCMOCK_ANY]);
-  [[MSAnalytics sharedInstance] trackEvent:invalidEventName withProperties:nil forTransmissionTarget:nil];
+  [[MSAnalytics sharedInstance] trackEvent:invalidEventName withProperties:nil forTransmissionTarget:nil flags:MSFlagsDefault];
 
   // Then
   OCMVerifyAll(channelUnitMock);
@@ -562,7 +562,96 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   XCTAssertEqual([expectedProperties.properties count], 0);
 }
 
-- (void)testTrackEventWithNormalPersistenceFlag {
+- (void)testTrackEventWithPropertiesWithNormalPersistenceFlag {
+
+  // If
+  __block NSString *type;
+  __block NSString *name;
+  NSString *expectedName = @"gotACoffee";
+  id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]] flags:MSFlagsPersistenceNormal])
+      .andDo(^(NSInvocation *invocation) {
+        MSEventLog *log;
+        [invocation getArgument:&log atIndex:2];
+        type = log.type;
+        name = log.name;
+      });
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
+                                            appSecret:kMSTestAppSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
+
+  // When
+  [MSAnalytics trackEvent:expectedName withProperties:nil flags:MSFlagsPersistenceNormal];
+
+  // Then
+  assertThat(type, is(kMSTypeEvent));
+  assertThat(name, is(expectedName));
+}
+
+- (void)testTrackEventWithPropertiesWithCriticalPersistenceFlag {
+
+  // If
+  __block NSString *type;
+  __block NSString *name;
+  NSString *expectedName = @"gotACoffee";
+  id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]] flags:MSFlagsPersistenceCritical])
+      .andDo(^(NSInvocation *invocation) {
+        MSEventLog *log;
+        [invocation getArgument:&log atIndex:2];
+        type = log.type;
+        name = log.name;
+      });
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
+                                            appSecret:kMSTestAppSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
+
+  // When
+  [MSAnalytics trackEvent:expectedName withProperties:nil flags:MSFlagsPersistenceCritical];
+
+  // Then
+  assertThat(type, is(kMSTypeEvent));
+  assertThat(name, is(expectedName));
+}
+
+- (void)testTrackEventWithPropertiesWithInvalidFlag {
+
+  // If
+  __block NSString *type;
+  __block NSString *name;
+  NSString *expectedName = @"gotACoffee";
+  id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]] flags:MSFlagsDefault]).andDo(^(NSInvocation *invocation) {
+    MSEventLog *log;
+    [invocation getArgument:&log atIndex:2];
+    type = log.type;
+    name = log.name;
+  });
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
+                                            appSecret:kMSTestAppSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
+
+  // When
+  [MSAnalytics trackEvent:expectedName withProperties:nil flags:42];
+
+  // Then
+  assertThat(type, is(kMSTypeEvent));
+  assertThat(name, is(expectedName));
+}
+
+- (void)testTrackEventWithTypedPropertiesWithNormalPersistenceFlag {
 
   // If
   __block NSString *type;
@@ -592,7 +681,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   assertThat(name, is(expectedName));
 }
 
-- (void)testTrackEventWithCriticalPersistenceFlag {
+- (void)testTrackEventWithTypedPropertiesWithCriticalPersistenceFlag {
 
   // If
   __block NSString *type;
@@ -622,7 +711,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   assertThat(name, is(expectedName));
 }
 
-- (void)testTrackEventWithInvalidFlag {
+- (void)testTrackEventWithTypedPropertiesWithInvalidFlag {
 
   // If
   __block NSString *type;
