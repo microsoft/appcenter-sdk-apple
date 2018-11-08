@@ -8,6 +8,19 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     case Critical = "Critical"
     case Invalid = "Invalid"
 
+    var flags: MSFlags {
+      switch self {
+      case .Normal:
+        return [.persistenceNormal]
+      case .Critical:
+        return [.persistenceCritical]
+      case .Invalid:
+        return MSFlags.init(rawValue: 42)
+      default:
+        return []
+      }
+    }
+
     static let allValues = [Default, Normal, Critical, Invalid]
   }
 
@@ -67,29 +80,42 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     }
     let eventProperties = eventPropertiesSection.eventProperties()
     for _ in 0..<Int(countSlider.value) {
-
-      // TODO Apply priority.
-
       if (MSTransmissionTargets.shared.defaultTargetShouldSendAnalyticsEvents()) {
         if let properties = eventProperties as? MSEventProperties {
 
-          // The AppCenterDelegate uses the argument label "withTypedProperties," but the underlying swift API simply uses "withProperties."
-          appCenter.trackEvent(name, withTypedProperties: properties)
+          // The AppCenterDelegate uses the argument label "withTypedProperties", but the underlying swift API simply uses "withProperties".
+          if priority != .Default {
+            appCenter.trackEvent(name, withTypedProperties: properties, flags: priority.flags)
+          } else {
+            appCenter.trackEvent(name, withTypedProperties: properties)
+          }
         } else if let dictionary = eventProperties as? [String: String] {
-          appCenter.trackEvent(name, withProperties: dictionary)
+          if priority != .Default {
+            appCenter.trackEvent(name, withProperties: dictionary, flags: priority.flags)
+          } else {
+            appCenter.trackEvent(name, withProperties: dictionary)
+          }
         } else {
           appCenter.trackEvent(name)
         }
       }
       for targetToken in MSTransmissionTargets.shared.transmissionTargets.keys {
         if MSTransmissionTargets.shared.targetShouldSendAnalyticsEvents(targetToken: targetToken) {
-          let target = MSTransmissionTargets.shared.transmissionTargets[targetToken]
+          let target = MSTransmissionTargets.shared.transmissionTargets[targetToken]!
           if let properties = eventProperties as? MSEventProperties {
-            target!.trackEvent(name, withProperties: properties)
+            if priority != .Default {
+              target.trackEvent(name, withProperties: properties, flags: priority.flags)
+            } else {
+              target.trackEvent(name, withProperties: properties)
+            }
           } else if let dictionary = eventProperties as? [String: String] {
-            target!.trackEvent(name, withProperties: dictionary)
+            if priority != .Default {
+              target.trackEvent(name, withProperties: dictionary, flags: priority.flags)
+            } else {
+              target.trackEvent(name, withProperties: dictionary)
+            }
           } else {
-            target!.trackEvent(name)
+            target.trackEvent(name)
           }
         }
       }
