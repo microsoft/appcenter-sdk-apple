@@ -14,10 +14,14 @@ NS_ASSUME_NONNULL_BEGIN
  * @param eventName  Event name.
  * @param properties The typed event properties.
  * @param transmissionTarget  The transmission target to associate to this event.
+ * @param flags      Optional flags. Events with MSFlagsPersistenceCritical will be considered as a higher priority than events with
+ * MSFlagsPersistenceNormal or MSFlagsDefault, will be removed at the latest when the storage is full and sent prior to lower priority
+ * events.
  */
 + (void)trackEvent:(NSString *)eventName
       withTypedProperties:(nullable MSEventProperties *)properties
-    forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarget;
+    forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarget
+                    flags:(MSFlags)flags;
 
 // Temporarily hiding tracking page feature.
 /**
