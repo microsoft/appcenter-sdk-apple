@@ -161,15 +161,15 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   OCMStub([self.channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
   OCMStub([[channelUnitMock ignoringNonObjectArgs] enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]] flags:(MSFlags)0])
-  .andDo(^(NSInvocation *invocation) {
-    MSEventLog *log;
-    [invocation getArgument:&log atIndex:2];
-    actualType = log.type;
-    actualName = log.name;
-    MSFlags flags;
-    [invocation getArgument:&flags atIndex:3];
-    actualFlags = flags;
-  });
+      .andDo(^(NSInvocation *invocation) {
+        MSEventLog *log;
+        [invocation getArgument:&log atIndex:2];
+        actualType = log.type;
+        actualName = log.name;
+        MSFlags flags;
+        [invocation getArgument:&flags atIndex:3];
+        actualFlags = flags;
+      });
   MSAnalyticsTransmissionTarget *sut = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
                                                                                                  parentTarget:nil
                                                                                                  channelGroup:self.channelGroupMock];
@@ -199,15 +199,15 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   OCMStub([self.channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
   OCMStub([[channelUnitMock ignoringNonObjectArgs] enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]] flags:(MSFlags)0])
-  .andDo(^(NSInvocation *invocation) {
-    MSEventLog *log;
-    [invocation getArgument:&log atIndex:2];
-    actualType = log.type;
-    actualName = log.name;
-    MSFlags flags;
-    [invocation getArgument:&flags atIndex:3];
-    actualFlags = flags;
-  });
+      .andDo(^(NSInvocation *invocation) {
+        MSEventLog *log;
+        [invocation getArgument:&log atIndex:2];
+        actualType = log.type;
+        actualName = log.name;
+        MSFlags flags;
+        [invocation getArgument:&flags atIndex:3];
+        actualFlags = flags;
+      });
   MSAnalyticsTransmissionTarget *sut = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
                                                                                                  parentTarget:nil
                                                                                                  channelGroup:self.channelGroupMock];
@@ -237,15 +237,15 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   OCMStub([self.channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
   OCMStub([[channelUnitMock ignoringNonObjectArgs] enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]] flags:(MSFlags)0])
-  .andDo(^(NSInvocation *invocation) {
-    MSEventLog *log;
-    [invocation getArgument:&log atIndex:2];
-    actualType = log.type;
-    actualName = log.name;
-    MSFlags flags;
-    [invocation getArgument:&flags atIndex:3];
-    actualFlags = flags;
-  });
+      .andDo(^(NSInvocation *invocation) {
+        MSEventLog *log;
+        [invocation getArgument:&log atIndex:2];
+        actualType = log.type;
+        actualName = log.name;
+        MSFlags flags;
+        [invocation getArgument:&flags atIndex:3];
+        actualFlags = flags;
+      });
   MSAnalyticsTransmissionTarget *sut = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
                                                                                                  parentTarget:nil
                                                                                                  channelGroup:self.channelGroupMock];
@@ -275,15 +275,15 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   OCMStub([self.channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
   OCMStub([[channelUnitMock ignoringNonObjectArgs] enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]] flags:(MSFlags)0])
-  .andDo(^(NSInvocation *invocation) {
-    MSEventLog *log;
-    [invocation getArgument:&log atIndex:2];
-    actualType = log.type;
-    actualName = log.name;
-    MSFlags flags;
-    [invocation getArgument:&flags atIndex:3];
-    actualFlags = flags;
-  });
+      .andDo(^(NSInvocation *invocation) {
+        MSEventLog *log;
+        [invocation getArgument:&log atIndex:2];
+        actualType = log.type;
+        actualName = log.name;
+        MSFlags flags;
+        [invocation getArgument:&flags atIndex:3];
+        actualFlags = flags;
+      });
   MSAnalyticsTransmissionTarget *sut = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
                                                                                                  parentTarget:nil
                                                                                                  channelGroup:self.channelGroupMock];
@@ -313,15 +313,15 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   OCMStub([self.channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
   OCMStub([[channelUnitMock ignoringNonObjectArgs] enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]] flags:(MSFlags)0])
-  .andDo(^(NSInvocation *invocation) {
-    MSEventLog *log;
-    [invocation getArgument:&log atIndex:2];
-    actualType = log.type;
-    actualName = log.name;
-    MSFlags flags;
-    [invocation getArgument:&flags atIndex:3];
-    actualFlags = flags;
-  });
+      .andDo(^(NSInvocation *invocation) {
+        MSEventLog *log;
+        [invocation getArgument:&log atIndex:2];
+        actualType = log.type;
+        actualName = log.name;
+        MSFlags flags;
+        [invocation getArgument:&flags atIndex:3];
+        actualFlags = flags;
+      });
   MSAnalyticsTransmissionTarget *sut = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
                                                                                                  parentTarget:nil
                                                                                                  channelGroup:self.channelGroupMock];
@@ -351,15 +351,15 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   OCMStub([self.channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
   OCMStub([[channelUnitMock ignoringNonObjectArgs] enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]] flags:(MSFlags)0])
-  .andDo(^(NSInvocation *invocation) {
-    MSEventLog *log;
-    [invocation getArgument:&log atIndex:2];
-    actualType = log.type;
-    actualName = log.name;
-    MSFlags flags;
-    [invocation getArgument:&flags atIndex:3];
-    actualFlags = flags;
-  });
+      .andDo(^(NSInvocation *invocation) {
+        MSEventLog *log;
+        [invocation getArgument:&log atIndex:2];
+        actualType = log.type;
+        actualName = log.name;
+        MSFlags flags;
+        [invocation getArgument:&flags atIndex:3];
+        actualFlags = flags;
+      });
   MSAnalyticsTransmissionTarget *sut = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
                                                                                                  parentTarget:nil
                                                                                                  channelGroup:self.channelGroupMock];
