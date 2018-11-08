@@ -90,8 +90,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // Then
   XCTAssertTrue(sut.propertyConfigurator.eventProperties.properties.count == 0);
-  OCMVerify(
-      ClassMethod([self.analyticsClassMock trackEvent:eventName withTypedProperties:nil forTransmissionTarget:sut flags:MSFlagsDefault]));
+  OCMVerify([self.analyticsClassMock trackEvent:eventName withTypedProperties:nil forTransmissionTarget:sut flags:MSFlagsDefault]);
 }
 
 - (void)testTrackEventWithProperties {
@@ -101,7 +100,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
                                                                                                  parentTarget:nil
                                                                                                  channelGroup:self.channelGroupMock];
   NSString *eventName = @"event";
-  NSDictionary *properties = @{ @"prop1" : @"val1", @"prop2" : @"val2" };
+  NSDictionary *properties = @{@"prop1" : @"val1", @"prop2" : @"val2"};
   MSEventProperties *expectedProperties = [MSEventProperties new];
   for (NSString *key in properties.allKeys) {
     [expectedProperties setString:properties[key] forKey:key];
@@ -112,10 +111,10 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // Then
   XCTAssertTrue(sut.propertyConfigurator.eventProperties.properties.count == 0);
-  OCMVerify(ClassMethod([self.analyticsClassMock trackEvent:eventName
-                                        withTypedProperties:expectedProperties
-                                      forTransmissionTarget:sut
-                                                      flags:MSFlagsDefault]));
+  OCMVerify([self.analyticsClassMock trackEvent:eventName
+                            withTypedProperties:expectedProperties
+                          forTransmissionTarget:sut
+                                          flags:MSFlagsDefault]);
 }
 
 - (void)testTrackEventWithNilDictionaryProperties {
@@ -132,8 +131,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // Then
   XCTAssertTrue(sut.propertyConfigurator.eventProperties.properties.count == 0);
-  OCMVerify(
-      ClassMethod([self.analyticsClassMock trackEvent:eventName withTypedProperties:nil forTransmissionTarget:sut flags:MSFlagsDefault]));
+  OCMVerify([self.analyticsClassMock trackEvent:eventName withTypedProperties:nil forTransmissionTarget:sut flags:MSFlagsDefault]);
 }
 
 - (void)testTrackEventWithNilEventProperties {
@@ -150,8 +148,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // Then
   XCTAssertTrue(sut.propertyConfigurator.eventProperties.properties.count == 0);
-  OCMVerify(
-      ClassMethod([self.analyticsClassMock trackEvent:eventName withTypedProperties:nil forTransmissionTarget:sut flags:MSFlagsDefault]));
+  OCMVerify([self.analyticsClassMock trackEvent:eventName withTypedProperties:nil forTransmissionTarget:sut flags:MSFlagsDefault]);
 }
 
 - (void)testTrackEventWithPropertiesWithNormalPersistenceFlag {
@@ -388,24 +385,24 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   // Then
   XCTAssertNotEqualObjects(parentTransmissionTarget, childTransmissionTarget3);
   XCTAssertEqualObjects(childTransmissionTarget3, parentTransmissionTarget.childTransmissionTargets[kMSTestTransmissionToken]);
-  OCMVerify(ClassMethod([self.analyticsClassMock trackEvent:event1
-                                        withTypedProperties:emptyProperties
-                                      forTransmissionTarget:childTransmissionTarget
-                                                      flags:MSFlagsDefault]));
-  OCMVerify(ClassMethod([self.analyticsClassMock trackEvent:event2
-                                        withTypedProperties:emptyProperties
-                                      forTransmissionTarget:childTransmissionTarget2
-                                                      flags:MSFlagsDefault]));
-  OCMVerify(ClassMethod([self.analyticsClassMock trackEvent:event3
-                                        withTypedProperties:emptyProperties
-                                      forTransmissionTarget:childTransmissionTarget3
-                                                      flags:MSFlagsDefault]));
+  OCMVerify([self.analyticsClassMock trackEvent:event1
+                            withTypedProperties:emptyProperties
+                          forTransmissionTarget:childTransmissionTarget
+                                          flags:MSFlagsDefault]);
+  OCMVerify([self.analyticsClassMock trackEvent:event2
+                            withTypedProperties:emptyProperties
+                          forTransmissionTarget:childTransmissionTarget2
+                                          flags:MSFlagsDefault]);
+  OCMVerify([self.analyticsClassMock trackEvent:event3
+                            withTypedProperties:emptyProperties
+                          forTransmissionTarget:childTransmissionTarget3
+                                          flags:MSFlagsDefault]);
 }
 
 - (void)testTransmissionTargetEnabledState {
 
   // If
-  NSDictionary *properties = @{ @"prop1" : @"val1", @"prop2" : @"val2" };
+  NSDictionary *properties = @{@"prop1" : @"val1", @"prop2" : @"val2"};
   MSEventProperties *expectedProperties = [MSEventProperties new];
   for (NSString *key in properties.allKeys) {
     [expectedProperties setString:properties[key] forKey:key];
@@ -418,8 +415,14 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   OCMStub([self.analyticsClassMock canBeUsed]).andReturn(YES);
 
   // Events tracked when disabled mustn't be sent.
-  OCMReject(ClassMethod([self.analyticsClassMock trackEvent:event2 withProperties:properties forTransmissionTarget:transmissionTarget flags:MSFlagsDefault]));
-  OCMReject(ClassMethod([self.analyticsClassMock trackEvent:event3 withProperties:properties forTransmissionTarget:transmissionTarget2 flags:MSFlagsDefault]));
+  OCMReject([self.analyticsClassMock trackEvent:event2
+                                 withProperties:properties
+                          forTransmissionTarget:transmissionTarget
+                                          flags:MSFlagsDefault]);
+  OCMReject([self.analyticsClassMock trackEvent:event3
+                                 withProperties:properties
+                          forTransmissionTarget:transmissionTarget2
+                                          flags:MSFlagsDefault]);
 
   // When
 
@@ -462,14 +465,14 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // Then
   XCTAssertTrue([transmissionTarget2 isEnabled]);
-  OCMVerify(ClassMethod([self.analyticsClassMock trackEvent:event1
-                                        withTypedProperties:expectedProperties
-                                      forTransmissionTarget:transmissionTarget
-                                                      flags:MSFlagsDefault]));
-  OCMVerify(ClassMethod([self.analyticsClassMock trackEvent:event4
-                                        withTypedProperties:expectedProperties
-                                      forTransmissionTarget:transmissionTarget2
-                                                      flags:MSFlagsDefault]));
+  OCMVerify([self.analyticsClassMock trackEvent:event1
+                            withTypedProperties:expectedProperties
+                          forTransmissionTarget:transmissionTarget
+                                          flags:MSFlagsDefault]);
+  OCMVerify([self.analyticsClassMock trackEvent:event4
+                            withTypedProperties:expectedProperties
+                          forTransmissionTarget:transmissionTarget2
+                                          flags:MSFlagsDefault]);
 }
 
 - (void)testTransmissionTargetNestedEnabledState {
@@ -625,10 +628,10 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   [target trackEvent:eventName];
 
   // Then
-  OCMVerify(ClassMethod([self.analyticsClassMock trackEvent:eventName
-                                        withTypedProperties:expectedProperties
-                                      forTransmissionTarget:target
-                                                      flags:MSFlagsDefault]));
+  OCMVerify([self.analyticsClassMock trackEvent:eventName
+                            withTypedProperties:expectedProperties
+                          forTransmissionTarget:target
+                                          flags:MSFlagsDefault]);
 }
 
 - (void)testMergingEventPropertiesWithCommonAndTrackEventProperties {
@@ -666,10 +669,10 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   [target trackEvent:eventName withProperties:@{propTrackKey : propTrackValue, propTrackKey2 : propTrackValue2}];
 
   // Then
-  OCMVerify(ClassMethod([self.analyticsClassMock trackEvent:eventName
-                                        withTypedProperties:expectedProperties
-                                      forTransmissionTarget:target
-                                                      flags:MSFlagsDefault]));
+  OCMVerify([self.analyticsClassMock trackEvent:eventName
+                            withTypedProperties:expectedProperties
+                          forTransmissionTarget:target
+                                          flags:MSFlagsDefault]);
 }
 
 - (void)testMergingEventPropertiesWithCommonAndTrackEventTypedProperties {
@@ -710,10 +713,10 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   [target trackEvent:eventName withTypedProperties:trackEventProperties];
 
   // Then
-  OCMVerify(ClassMethod([self.analyticsClassMock trackEvent:eventName
-                                        withTypedProperties:expectedProperties
-                                      forTransmissionTarget:target
-                                                      flags:MSFlagsDefault]));
+  OCMVerify([self.analyticsClassMock trackEvent:eventName
+                            withTypedProperties:expectedProperties
+                          forTransmissionTarget:target
+                                          flags:MSFlagsDefault]);
 }
 
 - (void)testEventPropertiesCascading {
