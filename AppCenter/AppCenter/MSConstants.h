@@ -1,3 +1,6 @@
+#ifndef MSAPPCENTER_CONSTANTS_H
+#define MSAPPCENTER_CONSTANTS_H
+
 #import <Foundation/Foundation.h>
 
 /**
@@ -70,3 +73,5 @@ typedef NS_OPTIONS(NSUInteger, MSFlags) {
   MSFlagsPersistenceCritical = (1 << 1), // => 00000010
   MSFlagsDefault = MSFlagsPersistenceNormal
 };
+
+#endif
