@@ -1,6 +1,3 @@
-#ifndef MSAPPCENTER_CONSTANTS_H
-#define MSAPPCENTER_CONSTANTS_H
-
 #import <Foundation/Foundation.h>
 
 /**
@@ -66,12 +63,3 @@ typedef NS_ENUM(NSInteger, MSInitializationPriority) {
   MSInitializationPriorityHigh = 750,
   MSInitializationPriorityMax = 999
 };
-
-typedef NS_OPTIONS(NSUInteger, MSFlags) {
-  MSFlagsNone = (0 << 0),                // => 00000000
-  MSFlagsPersistenceNormal = (1 << 0),   // => 00000001
-  MSFlagsPersistenceCritical = (1 << 1), // => 00000010
-  MSFlagsDefault = MSFlagsPersistenceNormal
-};
-
-#endif

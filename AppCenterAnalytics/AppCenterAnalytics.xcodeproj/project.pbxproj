@@ -148,6 +148,9 @@
 		04A082071F74BB8C00DC776D /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A082051F74BB8600DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04A1409D1ECE728B001CEE94 /* MSAnalyticsCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = 0485AF8D1EAA852A00C10CAF /* MSAnalyticsCategory.h */; };
 		04A1409E1ECE7316001CEE94 /* MSAnalyticsCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 0485AF8E1EAA852A00C10CAF /* MSAnalyticsCategory.m */; };
+		04B525BD2194D49C00FA37FD /* MSConstants+Flags.h in Headers */ = {isa = PBXBuildFile; fileRef = 04B525BC2194D49C00FA37FD /* MSConstants+Flags.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04B525BE2194D4CF00FA37FD /* MSConstants+Flags.h in Headers */ = {isa = PBXBuildFile; fileRef = 04B525BC2194D49C00FA37FD /* MSConstants+Flags.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04B525BF2194D4D000FA37FD /* MSConstants+Flags.h in Headers */ = {isa = PBXBuildFile; fileRef = 04B525BC2194D49C00FA37FD /* MSConstants+Flags.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04BED7181ECB64FB00E20975 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BED7161ECB64CE00E20975 /* OCHamcrest.framework */; };
 		266ED8969C431B7DADB1F57A /* MSEventPropertiesInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 266ED07D29C2A2CC67AD1F60 /* MSEventPropertiesInternal.h */; };
 		266ED99A87F6251A106F7945 /* MSEventProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 266ED289BE3D9562F1F61348 /* MSEventProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -257,9 +260,6 @@
 		F834E37520AC8E25003CB54D /* MSLogWithNameAndProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = F834E37120AC8E25003CB54D /* MSLogWithNameAndProperties.m */; };
 		F834E37620AC8E25003CB54D /* MSLogWithNameAndProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = F834E37120AC8E25003CB54D /* MSLogWithNameAndProperties.m */; };
 		F834E37720AC8E25003CB54D /* MSLogWithNameAndProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = F834E37120AC8E25003CB54D /* MSLogWithNameAndProperties.m */; };
-		F8752DCF21945747006FB672 /* MSConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = F8752DCE21945747006FB672 /* MSConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F8752DD021945747006FB672 /* MSConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = F8752DCE21945747006FB672 /* MSConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F8752DD121945747006FB672 /* MSConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = F8752DCE21945747006FB672 /* MSConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8A10EBD20AD89010082014E /* MSLogWithNameAndProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = F834E37020AC8E25003CB54D /* MSLogWithNameAndProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
@@ -365,6 +365,7 @@
 		049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		049BC82C1ECE3CF000FB6719 /* Tests macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests macOS.xcconfig"; path = "../../Config/Tests macOS.xcconfig"; sourceTree = "<group>"; };
 		04A082051F74BB8600DC776D /* MSService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSService.h; path = ../AppCenter/AppCenter/MSService.h; sourceTree = "<group>"; };
+		04B525BC2194D49C00FA37FD /* MSConstants+Flags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MSConstants+Flags.h"; path = "../AppCenter/AppCenter/MSConstants+Flags.h"; sourceTree = "<group>"; };
 		04BED7161ECB64CE00E20975 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../../Vendor/macOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
 		04ED31E91EAAD32B0033BAAE /* macOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = macOS.modulemap; sourceTree = "<group>"; };
 		04ED31EB1EAAD3390033BAAE /* iOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = iOS.modulemap; sourceTree = "<group>"; };
@@ -427,7 +428,6 @@
 		F82E4C70217F1FA600EDAB34 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = ../../Vendor/SQLite3/sqlite3.c; sourceTree = "<group>"; };
 		F834E37020AC8E25003CB54D /* MSLogWithNameAndProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSLogWithNameAndProperties.h; sourceTree = "<group>"; };
 		F834E37120AC8E25003CB54D /* MSLogWithNameAndProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSLogWithNameAndProperties.m; sourceTree = "<group>"; };
-		F8752DCE21945747006FB672 /* MSConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSConstants.h; path = ../AppCenter/AppCenter/MSConstants.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -647,7 +647,7 @@
 			isa = PBXGroup;
 			children = (
 				358F9BC72019596400B9E22C /* MSAbstractLog.h */,
-				F8752DCE21945747006FB672 /* MSConstants.h */,
+				04B525BC2194D49C00FA37FD /* MSConstants+Flags.h */,
 				358F9BC52019590100B9E22C /* MSLogWithProperties.h */,
 				04A082051F74BB8600DC776D /* MSService.h */,
 				387C77041D6CC39400D68CC1 /* MSServiceAbstract.h */,
@@ -759,7 +759,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8752DD121945747006FB672 /* MSConstants.h in Headers */,
 				0431215A1EE0C20A007054C5 /* MSSessionTrackerDelegate.h in Headers */,
 				0431215B1EE0C20A007054C5 /* AppCenter+Internal.h in Headers */,
 				0431215C1EE0C20A007054C5 /* MSPageLog.h in Headers */,
@@ -790,6 +789,7 @@
 				043121681EE0C20A007054C5 /* MSSessionTracker.h in Headers */,
 				99B8D3C9216BCED70021C47D /* MSEventPropertiesInternal.h in Headers */,
 				99B8D3C7216BCECA0021C47D /* MSEventProperties.h in Headers */,
+				04B525BF2194D4D000FA37FD /* MSConstants+Flags.h in Headers */,
 				042B1D2C1FE3516200D6E04A /* MSSessionTrackerPrivate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -798,7 +798,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8752DD021945747006FB672 /* MSConstants.h in Headers */,
 				0485AF731EAA79E300C10CAF /* MSSessionTrackerDelegate.h in Headers */,
 				04A1409D1ECE728B001CEE94 /* MSAnalyticsCategory.h in Headers */,
 				F834E37320AC8E25003CB54D /* MSLogWithNameAndProperties.h in Headers */,
@@ -829,6 +828,7 @@
 				0485AF811EAA79E300C10CAF /* MSSessionTracker.h in Headers */,
 				99B8D3C8216BCED60021C47D /* MSEventPropertiesInternal.h in Headers */,
 				99B8D3C6216BCEC90021C47D /* MSEventProperties.h in Headers */,
+				04B525BE2194D4CF00FA37FD /* MSConstants+Flags.h in Headers */,
 				042B1D2B1FE3516000D6E04A /* MSSessionTrackerPrivate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -837,7 +837,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8752DCF21945747006FB672 /* MSConstants.h in Headers */,
 				358F9BC82019596500B9E22C /* MSAbstractLog.h in Headers */,
 				E89B33EC1D5A8F3500FDE8FB /* MSSessionTrackerDelegate.h in Headers */,
 				04A082061F74BB8600DC776D /* MSService.h in Headers */,
@@ -868,6 +867,7 @@
 				E8E48F9E1D515C3900A8C1B0 /* MSSessionTracker.h in Headers */,
 				042B1D2A1FE3508100D6E04A /* MSSessionTrackerPrivate.h in Headers */,
 				266ED99A87F6251A106F7945 /* MSEventProperties.h in Headers */,
+				04B525BD2194D49C00FA37FD /* MSConstants+Flags.h in Headers */,
 				266ED8969C431B7DADB1F57A /* MSEventPropertiesInternal.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

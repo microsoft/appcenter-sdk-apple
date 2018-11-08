@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 
 #import "MSAnalyticsAuthenticationProvider.h"
-#import "MSConstants.h"
+#import "MSConstants+Flags.h"
 #import "MSPropertyConfigurator.h"
 
 @class MSEventProperties;

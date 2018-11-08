@@ -1,5 +1,7 @@
 #import <Foundation/Foundation.h>
 
+#import "MSConstants+Flags.h"
+
 @class MSCommonSchemaLog;
 
 @protocol MSLogConversion
