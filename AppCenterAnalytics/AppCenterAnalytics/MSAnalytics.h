@@ -53,6 +53,38 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties;
 
 /**
+ * Track a custom event with optional string properties.
+ *
+ * @param eventName  Event name. Cannot be `nil` or empty.
+ * @param properties Dictionary of properties. Keys and values must not be `nil`.
+ * @param flags      Optional flags. Events with MSFlagsPersistenceCritical will be considered as a higher priority than events with
+ * MSFlagsPersistenceNormal or MSFlagsDefault, will be removed at the latest when the storage is full and sent prior to lower priority
+ * events.
+ *
+ * @discussion Additional validation rules apply depending on the configured secret.
+ *
+ * For App Center:
+ *
+ * - The event name cannot be longer than 256 and is truncated otherwise.
+ *
+ * - The property names cannot be empty.
+ *
+ * - The property names and values are limited to 125 characters each (truncated).
+ *
+ * - The number of properties per event is limited to 20 (truncated).
+ *
+ *
+ * For One Collector:
+ *
+ * - The event name needs to match the `[a-zA-Z0-9]((\.(?!(\.|$)))|[_a-zA-Z0-9]){3,99}` regular expression.
+ *
+ * - The `baseData` and `baseDataType` properties are reserved and thus discarded.
+ *
+ * - The full event size when encoded as a JSON string cannot be larger than 1.9MB.
+ */
++ (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties flags:(MSFlags)flags;
+
+/**
  * Track a custom event with name and optional typed properties.
  *
  * @param eventName  Event name.

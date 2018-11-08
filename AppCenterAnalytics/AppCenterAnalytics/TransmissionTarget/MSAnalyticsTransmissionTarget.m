@@ -56,22 +56,15 @@ static MSAnalyticsAuthenticationProvider *_authenticationProvider;
   }
 }
 
-/**
- * Track an event.
- *
- * @param eventName  event name.
- */
 - (void)trackEvent:(NSString *)eventName {
   [self trackEvent:eventName withProperties:nil];
 }
 
-/**
- * Track an event.
- *
- * @param eventName  event name.
- * @param properties dictionary of properties.
- */
 - (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties {
+  [self trackEvent:eventName withProperties:properties flags:MSFlagsDefault];
+}
+
+- (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties flags:(MSFlags)flags {
   MSEventProperties *eventProperties;
   if (properties) {
     eventProperties = [MSEventProperties new];
@@ -80,7 +73,7 @@ static MSAnalyticsAuthenticationProvider *_authenticationProvider;
       [eventProperties setString:value forKey:key];
     }
   }
-  [self trackEvent:eventName withTypedProperties:eventProperties];
+  [self trackEvent:eventName withTypedProperties:eventProperties flags:flags];
 }
 
 - (void)trackEvent:(NSString *)eventName withTypedProperties:(nullable MSEventProperties *)properties {

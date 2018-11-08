@@ -34,6 +34,17 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties;
 
 /**
+ * Track an event.
+ *
+ * @param eventName  event name.
+ * @param properties dictionary of properties.
+ * @param flags      Optional flags. Events with MSFlagsPersistenceCritical will be considered as a higher priority than events with
+ * MSFlagsPersistenceNormal or MSFlagsDefault, will be removed at the latest when the storage is full and sent prior to lower priority
+ * events.
+ */
+- (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties flags:(MSFlags)flags;
+
+/**
  * Track a custom event with name and optional typed properties.
  *
  * @param eventName  Event name.

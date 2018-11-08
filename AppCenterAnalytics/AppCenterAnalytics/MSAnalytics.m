@@ -174,7 +174,11 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 }
 
 + (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties {
-  [self trackEvent:eventName withProperties:properties forTransmissionTarget:nil];
+  [self trackEvent:eventName withProperties:properties flags:MSFlagsDefault];
+}
+
++ (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties flags:(MSFlags)flags {
+  [self trackEvent:eventName withProperties:properties forTransmissionTarget:nil flags:flags];
 }
 
 + (void)trackEvent:(NSString *)eventName withTypedProperties:(nullable MSEventProperties *)properties {
@@ -187,10 +191,11 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 
 + (void)trackEvent:(NSString *)eventName
            withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
-    forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarget {
+    forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarget
+                    flags:(MSFlags)flags {
   @synchronized(self) {
     if ([[MSAnalytics sharedInstance] canBeUsed]) {
-      [[MSAnalytics sharedInstance] trackEvent:eventName withProperties:properties forTransmissionTarget:transmissionTarget];
+      [[MSAnalytics sharedInstance] trackEvent:eventName withProperties:properties forTransmissionTarget:transmissionTarget flags:flags];
     }
   }
 }
@@ -267,10 +272,11 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 
 - (void)trackEvent:(NSString *)eventName
            withProperties:(NSDictionary<NSString *, NSString *> *)properties
-    forTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget {
+    forTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget
+                    flags:(MSFlags)flags {
   NSDictionary *validProperties = [self removeInvalidProperties:properties];
   MSEventProperties *eventProperties = [[MSEventProperties alloc] initWithStringDictionary:validProperties];
-  [self trackEvent:eventName withTypedProperties:eventProperties forTransmissionTarget:transmissionTarget flags:MSFlagsDefault];
+  [self trackEvent:eventName withTypedProperties:eventProperties forTransmissionTarget:transmissionTarget flags:flags];
 }
 
 - (void)trackEvent:(NSString *)eventName
