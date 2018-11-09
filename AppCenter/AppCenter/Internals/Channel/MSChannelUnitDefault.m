@@ -165,7 +165,7 @@
       }
 
       // Save the log first.
-      MSLogDebug([MSAppCenter logTag], @"Saving log, type: %@.", item.type);
+      MSLogDebug([MSAppCenter logTag], @"Saving log, type: %@, flags: %u.", item.type, (unsigned int)flags);
       [self.storage saveLog:item withGroupId:self.configuration.groupId flags:flags];
       self.itemsCount += 1;
       [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:internalId:)
