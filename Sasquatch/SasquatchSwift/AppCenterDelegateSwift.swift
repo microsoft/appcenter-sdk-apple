@@ -110,7 +110,7 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     MSAnalytics.trackEvent(eventName, withProperties: properties)
   }
 
-  func trackEvent(_ eventName: String, withTypedProperties properties: MSEventProperties, flags: MSFlags) {
+  func trackEvent(_ eventName: String, withTypedProperties properties: MSEventProperties?, flags: MSFlags) {
     MSAnalytics.trackEvent(eventName, withProperties: properties, flags: flags)
   }
 
