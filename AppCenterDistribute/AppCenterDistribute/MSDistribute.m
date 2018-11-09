@@ -124,7 +124,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     MSLogInfo([MSDistribute logTag], @"Distribute service has been enabled.");
     self.releaseDetails = nil;
     [self startUpdate];
-    [MSAppDelegateForwarder addDelegate:self.appDelegate];
+    [[MSAppDelegateForwarder sharedInstance] addDelegate:self.appDelegate];
 
     // Enable the distribute info tracker.
     [self.channelGroup addDelegate:self.distributeInfoTracker];
@@ -138,7 +138,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   } else {
     [self dismissEmbeddedSafari];
     [self.channelGroup removeDelegate:self.distributeInfoTracker];
-    [MSAppDelegateForwarder removeDelegate:self.appDelegate];
+    [[MSAppDelegateForwarder sharedInstance] removeDelegate:self.appDelegate];
     [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
     [MS_USER_DEFAULTS removeObjectForKey:kMSPostponedTimestampKey];
     [MS_USER_DEFAULTS removeObjectForKey:kMSMandatoryReleaseKey];
@@ -251,8 +251,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
     // Check if the device has internet connection to get update token.
     if ([MS_Reachability reachabilityForInternetConnection].currentReachabilityStatus == NotReachable) {
-      MSLogWarning([MSDistribute logTag], @"The device lost its internet connection. The SDK will "
-                                          @"retry to get an update token in the next launch.");
+      MSLogWarning([MSDistribute logTag],
+                   @"The device lost its internet connection. The SDK will retry to get an update token in the next launch.");
       return;
     }
 
@@ -263,14 +263,10 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     NSString *updateSetupFailedPackageHash = [MS_USER_DEFAULTS objectForKey:kMSUpdateSetupFailedPackageHashKey];
     if (updateSetupFailedPackageHash) {
       if ([updateSetupFailedPackageHash isEqualToString:releaseHash]) {
-        MSLogDebug([MSDistribute logTag], @"Skipping in-app updates setup, "
-                                          @"because it already failed on this "
-                                          @"release before.");
+        MSLogDebug([MSDistribute logTag], @"Skipping in-app updates setup, because it already failed on this release before.");
         return;
       } else {
-        MSLogDebug([MSDistribute logTag], @"Re-attempting in-app updates setup "
-                                          @"and cleaning up failure info from "
-                                          @"storage.");
+        MSLogDebug([MSDistribute logTag], @"Re-attempting in-app updates setup and cleaning up failure info from storage.");
         [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateSetupFailedPackageHashKey];
         [MS_USER_DEFAULTS removeObjectForKey:kMSTesterAppUpdateSetupFailedKey];
       }
@@ -294,13 +290,9 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
         if (testerAppUrl) {
           testerAppOpened = [self openUrlUsingSharedApp:testerAppUrl];
           if (testerAppOpened) {
-            MSLogInfo([MSDistribute logTag], @"Tester app was successfully "
-                                             @"opened to enable in-app "
-                                             @"updates.");
+            MSLogInfo([MSDistribute logTag], @"Tester app was successfully opened to enable in-app updates.");
           } else {
-            MSLogInfo([MSDistribute logTag], @"Tester app could not be opened "
-                                             @"to enable in-app updates (not "
-                                             @"installed?)");
+            MSLogInfo([MSDistribute logTag], @"Tester app could not be opened to enable in-app updates (not installed?)");
           }
         }
       }
@@ -684,8 +676,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
     long long duration = (long long)[MSUtility nowInMilliseconds] - [postponedTimestamp longLongValue];
     if (duration >= 0 && duration < kMSDayInMillisecond) {
       if (details.mandatoryUpdate) {
-        MSLogDebug([MSDistribute logTag], @"The update was postponed within a day ago but the update is a mandatory update. "
-                                          @"The SDK will proceed update for the release.");
+        MSLogDebug([MSDistribute logTag], @"The update was postponed within a day ago but the update is a mandatory update. The SDK will "
+                                          @"proceed update for the release.");
       } else {
         MSLogDebug([MSDistribute logTag], @"The update was postponed within a day ago, skip update.");
         return NO;
@@ -879,10 +871,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
       // Add a "View release notes"-Button.
       [alertController addDefaultActionWithTitle:MSDistributeLocalizedString(@"MSDistributeViewReleaseNotes")
                                          handler:^(__attribute__((unused)) UIAlertAction *action) {
-                                           MSLogDebug([MSDistribute logTag], @"'View release notes' is selected. "
-                                                                             @"Open a browser and show release "
-                                                                             @"notes.");
-
+                                           MSLogDebug([MSDistribute logTag],
+                                                      @"'View release notes' is selected. Open a browser and show release notes.");
                                            [MSUtility sharedAppOpenUrl:details.releaseNotesUrl options:@{} completionHandler:nil];
 
                                            /*
@@ -1057,9 +1047,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
 
     // Store distribution group ID.
     if (queryDistributionGroupId) {
-      MSLogDebug([MSDistribute logTag], @"Distribution group ID has been "
-                                        @"successfully retrieved. Store the "
-                                        @"ID to storage.");
+      MSLogDebug([MSDistribute logTag], @"Distribution group ID has been successfully retrieved. Store the ID to storage.");
 
       // Storing the distribution group ID to storage.
       [MS_USER_DEFAULTS setObject:queryDistributionGroupId forKey:kMSDistributionGroupIdKey];
@@ -1081,9 +1069,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
      * Update token is used only for private distribution. If the query parameters don't include update token, it is public distribution.
      */
     if (queryUpdateToken) {
-      MSLogDebug([MSDistribute logTag], @"Update token has been successfully "
-                                        @"retrieved. Store the token to "
-                                        @"secure storage.");
+      MSLogDebug([MSDistribute logTag], @"Update token has been successfully retrieved. Store the token to secure storage.");
 
       // Storing the update token to keychain since the update token is considered as a sensitive information.
       [MSKeychainUtil storeString:queryUpdateToken forKey:kMSUpdateTokenKey];

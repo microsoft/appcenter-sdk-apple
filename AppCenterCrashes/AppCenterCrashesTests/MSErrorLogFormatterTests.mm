@@ -12,6 +12,35 @@
 #import "MSTestFrameworks.h"
 #import "MSThread.h"
 
+static NSString *kFixture = @"fixtureName";
+static NSString *kThreadNumber = @"crashedThreadNumber";
+static NSString *kFramesCount = @"crashedThreadStackFrames";
+static NSString *kBinariesCount = @"binariesCount";
+
+static NSArray *kMacOSCrashReportsParameters = @[
+  @{ kThreadNumber:@0, kFramesCount:@21,  kBinariesCount:@10, kFixture:@"macOS_report_abort" },
+  @{ kThreadNumber:@0, kFramesCount:@19,  kBinariesCount:@9,  kFixture:@"macOS_report_builtin_trap" },
+  @{ kThreadNumber:@0, kFramesCount:@30,  kBinariesCount:@11, kFixture:@"macOS_report_corrupt_malloc_internal_info" },
+  @{ kThreadNumber:@0, kFramesCount:@21,  kBinariesCount:@10, kFixture:@"macOS_report_corrupt_objc_runtime_structure" },
+  @{ kThreadNumber:@0, kFramesCount:@19,  kBinariesCount:@9,  kFixture:@"macOS_report_dereference_bad_pointer" },
+  @{ kThreadNumber:@0, kFramesCount:@19,  kBinariesCount:@9,  kFixture:@"macOS_report_dereference_null_pointer" },
+  @{ kThreadNumber:@0, kFramesCount:@21,  kBinariesCount:@9,  kFixture:@"macOS_report_dwarf_unwinding" },
+  @{ kThreadNumber:@0, kFramesCount:@19,  kBinariesCount:@9,  kFixture:@"macOS_report_execute_privileged_instruction" },
+  @{ kThreadNumber:@0, kFramesCount:@19,  kBinariesCount:@9,  kFixture:@"macOS_report_execute_undefined_instruction" },
+  @{ kThreadNumber:@0, kFramesCount:@20,  kBinariesCount:@9,  kFixture:@"macOS_report_jump_into_nx_page" },
+  @{ kThreadNumber:@0, kFramesCount:@26,  kBinariesCount:@13, kFixture:@"macOS_report_objc_access_non_object_as_object" },
+  @{ kThreadNumber:@0, kFramesCount:@20,  kBinariesCount:@12, kFixture:@"macOS_report_objc_crash_inside_msgsend" },
+  @{ kThreadNumber:@0, kFramesCount:@21,  kBinariesCount:@12, kFixture:@"macOS_report_objc_message_released_object" },
+  @{ kThreadNumber:@0, kFramesCount:@19,  kBinariesCount:@11, kFixture:@"macOS_report_overwrite_link_register" },
+  @{ kThreadNumber:@0, kFramesCount:@21,  kBinariesCount:@10, kFixture:@"macOS_report_pthread_lock" },
+  @{ kThreadNumber:@0, kFramesCount:@1,   kBinariesCount:@9,  kFixture:@"macOS_report_smash_the_bottom_of_the_stack" },
+  @{ kThreadNumber:@0, kFramesCount:@1,   kBinariesCount:@10, kFixture:@"macOS_report_smash_the_top_of_the_stack" },
+  @{ kThreadNumber:@0, kFramesCount:@512, kBinariesCount:@8,  kFixture:@"macOS_report_stack_overflow" },
+  @{ kThreadNumber:@0, kFramesCount:@19,  kBinariesCount:@9,  kFixture:@"macOS_report_swift" },
+  @{ kThreadNumber:@0, kFramesCount:@19,  kBinariesCount:@13, kFixture:@"macOS_report_throw_cpp_exception" },
+  @{ kThreadNumber:@0, kFramesCount:@19,  kBinariesCount:@9,  kFixture:@"macOS_report_write_to_readonly_page" }
+];
+
 @interface MSErrorLogFormatter ()
 
 + (NSString *)selectorForRegisterWithName:(NSString *)regName ofThread:(MSPLCrashReportThreadInfo *)thread report:(MSPLCrashReport *)report;
@@ -462,6 +491,7 @@
   assertThat(errorLog.registers, hasCountOf([crashedThread.registers count]));
 }
 
+#if !TARGET_OS_OSX
 - (void)testNormalize32BitAddress {
 
   // If
@@ -474,7 +504,9 @@
   // Then
   XCTAssertEqualObjects(expected, actual);
 }
+#endif
 
+#if !TARGET_OS_OSX
 - (void)testNormalize64BitAddress {
 
   // If
@@ -488,7 +520,39 @@
   // Then
   XCTAssertEqualObjects(expected, actual);
 }
+#endif
 
+#if TARGET_OS_OSX
+- (void)testNormalize32BitAddressOnMacOs {
+
+  // If
+  uint64_t address32Bit = 0x123456789;
+
+  // When
+  NSString *actual = [MSErrorLogFormatter formatAddress:address32Bit is64bit:NO];
+  NSString *expected = [NSString stringWithFormat:@"0x%0*" PRIx64, 8 << NO, address32Bit];
+
+  // Then
+  XCTAssertEqualObjects(expected, actual);
+}
+#endif
+
+#if TARGET_OS_OSX
+- (void)testNormalize64BitAddressMacOs {
+
+  // If
+  uint64_t address64Bit = 0x1234567890abcdef;
+
+  // When
+  NSString *actual = [MSErrorLogFormatter formatAddress:address64Bit is64bit:YES];
+  NSString *expected = [NSString stringWithFormat:@"0x%0*" PRIx64, 8 << YES, address64Bit];
+
+  // Then
+  XCTAssertEqualObjects(expected, actual);
+}
+#endif
+
+#if !TARGET_OS_OSX
 - (void)testBinaryImageCountFromReportIsCorrect {
 
   // If
@@ -503,5 +567,30 @@
   // Then
   XCTAssertEqual(expectedCount, binaryImages.count);
 }
+#endif
+
+#if TARGET_OS_OSX
+- (void)testCrashReportsParametersFromMacOSReport {
+  for (unsigned long i = 0; i < kMacOSCrashReportsParameters.count; i++) {
+
+    // If
+    NSData *crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:kMacOSCrashReportsParameters[i][kFixture]];
+    NSError *error = nil;
+    MSPLCrashReport *crashReport = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
+
+    // When
+    NSArray *binaryImages = [MSErrorLogFormatter extractBinaryImagesFromReport:crashReport codeType:@(CPU_TYPE_ARM64) is64bit:YES];
+    MSPLCrashReportThreadInfo *crashedThread = [MSErrorLogFormatter findCrashedThreadInReport:crashReport];
+
+    // Then
+    int expectedBinariesCount = [kMacOSCrashReportsParameters[i][kBinariesCount] intValue];
+    int expectedThreadNumber = [kMacOSCrashReportsParameters[i][kThreadNumber] intValue];
+    int expectedFramesCount = [kMacOSCrashReportsParameters[i][kFramesCount] intValue];
+    XCTAssertEqual(expectedBinariesCount, binaryImages.count);
+    XCTAssertEqual(expectedThreadNumber, crashedThread.threadNumber);
+    XCTAssertEqual(expectedFramesCount, crashedThread.stackFrames.count);
+  }
+}
+#endif
 
 @end

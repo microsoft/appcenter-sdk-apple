@@ -337,7 +337,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 }
 
 /**
- * This is an empty method and expect to be overridden in sub classes.
+ * This is an empty method expected to be overridden in sub classes.
  */
 - (NSURLRequest *)createRequest:(NSObject *)__unused data {
   return nil;
