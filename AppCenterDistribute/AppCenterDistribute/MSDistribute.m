@@ -225,7 +225,7 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   MSDistributionStartSessionLog *log = [[MSDistributionStartSessionLog alloc] init];
 
   // Send log to log manager.
-  [self.channelUnit enqueueItem:log];
+  [self.channelUnit enqueueItem:log flags:MSFlagsDefault];
 }
 
 - (void)startUpdate {
@@ -768,8 +768,8 @@ static NSString *const kMSUpdateTokenURLInvalidErrorDescFormat = @"Invalid updat
   }
   if ([lastDownloadedReleaseHashes rangeOfString:currentInstalledReleaseHash].location == NSNotFound) {
     MSLogDebug([MSDistribute logTag],
-               @"Stored release hash(es) (%@) doesn't match current installation hash (%@), probably downloaded but not installed yet, "
-               @"keep in store.",
+               @"Stored release hash(es) (%@) doesn't match current installation hash (%@), "
+               @"probably downloaded but not installed yet, keep in store.",
                lastDownloadedReleaseHashes, currentInstalledReleaseHash);
     return;
   }

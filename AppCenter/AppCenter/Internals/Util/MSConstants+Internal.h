@@ -152,3 +152,8 @@ static const long kMSMaximumCommonSchemaLogSizeInBytes = 2 * 1024 * 1024;
  * Suffix for One Collector group ID.
  */
 static NSString *const kMSOneCollectorGroupIdSuffix = @"/one";
+
+/**
+ * Bit mask for persistence flags.
+ */
+static const NSUInteger kMSPersistenceFlagsMask = 0xFF;

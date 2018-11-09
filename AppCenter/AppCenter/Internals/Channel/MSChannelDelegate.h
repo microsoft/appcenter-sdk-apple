@@ -1,5 +1,7 @@
 #import <Foundation/Foundation.h>
 
+#import "MSConstants+Flags.h"
+
 @protocol MSChannelUnitProtocol;
 @protocol MSChannelGroupProtocol;
 @protocol MSChannelProtocol;
@@ -29,16 +31,17 @@
  *
  * @param log The log.
  * @param internalId An internal Id to keep track of logs.
+ * @param flags Options for the log.
  */
-- (void)channel:(id<MSChannelProtocol>)channel didPrepareLog:(id<MSLog>)log withInternalId:(NSString *)internalId;
+- (void)channel:(id<MSChannelProtocol>)channel didPrepareLog:(id<MSLog>)log internalId:(NSString *)internalId flags:(MSFlags)flags;
 
 /**
- * A callback that is called after a log completed the enqueueing process weither it was successfull or not.
+ * A callback that is called after a log completed the enqueueing process whether it was successful or not.
  *
  * @param log The log.
  * @param internalId An internal Id to keep track of logs.
  */
-- (void)channel:(id<MSChannelProtocol>)channel didCompleteEnqueueingLog:(id<MSLog>)log withInternalId:(NSString *)internalId;
+- (void)channel:(id<MSChannelProtocol>)channel didCompleteEnqueueingLog:(id<MSLog>)log internalId:(NSString *)internalId;
 
 /**
  * Callback method that will be called before each log will be send to the server.
