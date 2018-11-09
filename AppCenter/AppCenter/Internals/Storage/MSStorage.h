@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 
-#import "MSConstants.h"
+#import "MSConstants+Flags.h"
 #import "MSLog.h"
 #import "MSLogContainer.h"
 
