@@ -122,7 +122,7 @@ static const long kMSMinUpperSizeLimitInBytes = 20 * 1024;
 
 + (BOOL)isAppDelegateForwarderEnabled {
   @synchronized([MSAppCenter sharedInstance]) {
-    return MSAppDelegateForwarder.enabled;
+    return [MSAppDelegateForwarder sharedInstance].enabled;
   }
 }
 
@@ -138,7 +138,7 @@ static const long kMSMinUpperSizeLimitInBytes = 20 * 1024;
   MSLogger.currentLogLevel = logLevel;
 
   // The logger is not set at the time of swizzling but now may be a good time to flush the traces.
-  [MSAppDelegateForwarder flushTraceBuffer];
+  [MSDelegateForwarder flushTraceBuffer];
 }
 
 + (void)setLogHandler:(MSLogHandler)logHandler {
