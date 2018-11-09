@@ -147,7 +147,10 @@
 + (int)executeNonSelectionQuery:(NSString *)query inOpenedDatabase:(void *)db {
   char *errMsg;
   int result = sqlite3_exec(db, [query UTF8String], NULL, NULL, &errMsg);
-  if (result != SQLITE_OK) {
+  if (result == SQLITE_FULL) {
+    MSLogDebug([MSAppCenter logTag], @"Query failed with error: %d - %@", result, [[NSString alloc] initWithUTF8String:errMsg]);
+  }
+  else if (result != SQLITE_OK) {
     MSLogError([MSAppCenter logTag], @"Query \"%@\" failed with error: %d - %@", query, result,
                [[NSString alloc] initWithUTF8String:errMsg]);
   }
