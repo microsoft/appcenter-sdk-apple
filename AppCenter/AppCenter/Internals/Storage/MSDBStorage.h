@@ -30,11 +30,6 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
 @interface MSDBStorage : NSObject
 
 /**
- * Maximum number of pages allowed in the database.
- */
-@property(nonatomic) int maxPageCount;
-
-/**
  * Initialize this database with a schema and a filename for its creation.
  *
  * @param schema Schema describing the database.
@@ -85,8 +80,8 @@ static NSString *const kMSSQLiteConstraintAutoincrement = @"AUTOINCREMENT";
 /**
  * Set the maximum size of the internal storage. This method must be called before App Center is started.
  *
- * @param sizeInBytes Maximum size of in bytes. This will be rounded up to the nearest multiple of 4096. Values below 20,480 (20 KiB) will
- * be ignored.
+ * @param sizeInBytes Maximum size of the internal storage in bytes. This will be rounded up to the nearest multiple of page size (default
+ * is 4096 bytes). Values below 20,480 bytes (20 KiB) will be ignored.
  * @param completionHandler Callback that is invoked when the database size has been set. The `BOOL` parameter is `YES` if changing the size
  * is successful, and `NO` otherwise.
  *

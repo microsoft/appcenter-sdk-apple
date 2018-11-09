@@ -9,13 +9,16 @@
 - (instancetype)initWithSchema:(MSDBSchema *)schema version:(NSUInteger)version filename:(NSString *)filename {
   if ((self = [super init])) {
     _dbFileURL = [MSUtility createFileAtPathComponent:filename withData:nil atomically:NO forceOverwrite:NO];
-    _maxPageCount = [MSDBStorage numberOfPagesInBytes:kMSDefaultDatabaseSizeInBytes];
+    _maxSizeInBytes = kMSDefaultDatabaseSizeInBytes;
 
     // If it is custom SQLite library we need to turn on URI filename capability.
     sqlite3_config(SQLITE_CONFIG_URI, 1);
 
     // Execute all initialize operation with one database instance.
-    [self executeQueryUsingBlock:^int(void *db) {
+    int result;
+    sqlite3 *db = [MSDBStorage openDatabaseAtFileURL:self.dbFileURL withResult:&result];
+    if (db) {
+      _pageSize = [MSDBStorage getPageSizeInOpenedDatabase:db];
 
       // Create tables based on schema.
       NSUInteger tablesCreated = [MSDBStorage createTablesWithSchema:schema inOpenedDatabase:db];
@@ -28,18 +31,22 @@
       }
       [MSDBStorage enableAutoVacuumInOpenedDatabase:db];
       [MSDBStorage setVersion:version inOpenedDatabase:db];
-      return SQLITE_OK;
-    }];
+      sqlite3_close(db);
+    };
   }
   return self;
 }
 
 - (int)executeQueryUsingBlock:(MSDBStorageQueryBlock)callback {
   int result;
-  sqlite3 *db = [self openDatabaseAtFileURL:self.dbFileURL withMaxPageCount:self.maxPageCount withResult:&result];
+  sqlite3 *db = [MSDBStorage openDatabaseAtFileURL:self.dbFileURL withResult:&result];
   if (!db) {
     return result;
   }
+
+  // The value is stored as part of the database connection and must be reset every time the database is opened.
+  long maxPageCount = self.maxSizeInBytes / self.pageSize;
+  [MSDBStorage setMaxPageCount:maxPageCount inOpenedDatabase:db];
   result = callback(db);
   sqlite3_close(db);
   return result;
@@ -208,74 +215,87 @@
 }
 
 - (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(nullable void (^)(BOOL))completionHandler {
+  int result;
+  BOOL success;
+  sqlite3 *db = [MSDBStorage openDatabaseAtFileURL:self.dbFileURL withResult:&result];
+  if (!db) {
+    return;
+  }
 
   // Check the current number of pages in the database to determine whether the requested size will shrink the database.
-  NSArray<NSArray *> *rows = [self executeSelectionQuery:@"PRAGMA page_count;"];
-  int currentPageCount = [(NSNumber *)rows[0][0] intValue];
-  MSLogDebug([MSAppCenter logTag], @"Found %i pages in the database.", currentPageCount);
-  int requestedMaxPageCount = [MSDBStorage numberOfPagesInBytes:sizeInBytes];
+  long currentPageCount = [MSDBStorage getPageCountInOpenedDatabase:db];
+  MSLogDebug([MSAppCenter logTag], @"Found %ld pages in the database.", currentPageCount);
+  long requestedMaxPageCount = sizeInBytes % self.pageSize ? sizeInBytes / self.pageSize + 1 : sizeInBytes / self.pageSize;
   if (currentPageCount > requestedMaxPageCount) {
     MSLogWarning([MSAppCenter logTag], @"Cannot change database size to %ld bytes as it would cause a loss of data. "
                                         "Maximum database size will not be changed.",
                  sizeInBytes);
-    if (completionHandler) {
-      completionHandler(NO);
-    }
-    return;
-  }
-
-  // Attempt to open the database with the given limit and check the page count to make sure the given limit works.
-  int result;
-  BOOL success;
-  sqlite3 *db = [self openDatabaseAtFileURL:self.dbFileURL withMaxPageCount:requestedMaxPageCount withResult:&result];
-  if (result != SQLITE_OK) {
-    MSLogError([MSAppCenter logTag], @"Could not change maximum database size to %ld bytes. SQLite error code: %i", sizeInBytes, result);
     success = NO;
   } else {
-    rows = [MSDBStorage executeSelectionQuery:@"PRAGMA max_page_count;" inOpenedDatabase:db];
-    int currentMaxPageCount = [(NSNumber *)rows[0][0] intValue];
-    long actualSize = requestedMaxPageCount * kMSDefaultPageSizeInBytes;
-    if (requestedMaxPageCount != currentMaxPageCount) {
-      MSLogError([MSAppCenter logTag], @"Could not change maximum database size to %ld bytes, current maximum size is %ld bytes.",
-                 sizeInBytes, actualSize);
+
+    // Attempt to set the limit and check the page count to make sure the given limit works.
+    result = [MSDBStorage setMaxPageCount:requestedMaxPageCount inOpenedDatabase:db];
+    if (result != SQLITE_OK) {
+      MSLogError([MSAppCenter logTag], @"Could not change maximum database size to %ld bytes. SQLite error code: %i", sizeInBytes, result);
       success = NO;
     } else {
-      if (sizeInBytes == actualSize) {
-        MSLogInfo([MSAppCenter logTag], @"Changed maximum database size to %ld bytes.", actualSize);
+      long currentMaxPageCount = [MSDBStorage getMaxPageCountInOpenedDatabase:db];
+      long actualMaxSize = currentMaxPageCount * self.pageSize;
+      if (requestedMaxPageCount != currentMaxPageCount) {
+        MSLogError([MSAppCenter logTag], @"Could not change maximum database size to %ld bytes, current maximum size is %ld bytes.",
+                   sizeInBytes, actualMaxSize);
+        success = NO;
       } else {
-        MSLogInfo([MSAppCenter logTag], @"Changed maximum database size to %ld bytes (next multiple of 4KiB).", actualSize);
+        if (sizeInBytes == actualMaxSize) {
+          MSLogInfo([MSAppCenter logTag], @"Changed maximum database size to %ld bytes.", actualMaxSize);
+        } else {
+          MSLogInfo([MSAppCenter logTag], @"Changed maximum database size to %ld bytes (next multiple of 4KiB).", actualMaxSize);
+        }
+        self.maxSizeInBytes = actualMaxSize;
+        success = YES;
       }
-      self.maxPageCount = requestedMaxPageCount;
-      success = YES;
     }
   }
+  sqlite3_close(db);
   if (completionHandler) {
     completionHandler(success);
   }
-  sqlite3_close(db);
 }
 
-- (sqlite3 *)openDatabaseAtFileURL:(NSURL *)fileURL withMaxPageCount:(int)maxPageCount withResult:(int *)result {
++ (sqlite3 *)openDatabaseAtFileURL:(NSURL *)fileURL withResult:(int *)result {
   sqlite3 *db = NULL;
   *result = sqlite3_open_v2([[fileURL absoluteString] UTF8String], &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_URI, NULL);
   if (*result != SQLITE_OK) {
     MSLogError([MSAppCenter logTag], @"Failed to open database with result: %d.", *result);
     return NULL;
   }
-  NSString *statement = [NSString stringWithFormat:@"PRAGMA max_page_count = %i;", maxPageCount];
-  char *errorMessage;
-  *result = sqlite3_exec(db, [statement UTF8String], NULL, NULL, &errorMessage);
-  if (*result != SQLITE_OK) {
-    errorMessage = errorMessage ? errorMessage : "(nil)";
-    NSString *printableErrorMessage = [NSString stringWithCString:errorMessage encoding:NSUTF8StringEncoding];
-    MSLogError([MSAppCenter logTag], @"Failed to open database with specified maximum size constraint. Error message: %@",
-               printableErrorMessage);
-  }
   return db;
 }
 
-+ (int)numberOfPagesInBytes:(long)bytes {
-  return (int)(ceil((double)bytes / (double)kMSDefaultPageSizeInBytes));
++ (long)getPageSizeInOpenedDatabase:(void *)db {
+  NSArray<NSArray *> *rows = [MSDBStorage executeSelectionQuery:@"PRAGMA page_size;" inOpenedDatabase:db];
+  return [(NSNumber *)rows[0][0] longValue];
+}
+
++ (long)getPageCountInOpenedDatabase:(void *)db {
+  NSArray<NSArray *> *rows = [MSDBStorage executeSelectionQuery:@"PRAGMA page_count;" inOpenedDatabase:db];
+  return [(NSNumber *)rows[0][0] longValue];
+}
+
++ (long)getMaxPageCountInOpenedDatabase:(void *)db {
+  NSArray<NSArray *> *rows = [MSDBStorage executeSelectionQuery:@"PRAGMA max_page_count;" inOpenedDatabase:db];
+  return [(NSNumber *)rows[0][0] longValue];
+}
+
++ (int)setMaxPageCount:(long)maxPageCount inOpenedDatabase:(void *)db {
+  NSString *statement = [NSString stringWithFormat:@"PRAGMA max_page_count = %ld;", maxPageCount];
+  char *errorMessage;
+  int result = sqlite3_exec(db, [statement UTF8String], NULL, NULL, &errorMessage);
+  if (result != SQLITE_OK) {
+    MSLogError([MSAppCenter logTag], @"Failed to open database with specified maximum size constraint. Error message: %@",
+               [NSString stringWithCString:errorMessage ? errorMessage : "(nil)" encoding:NSUTF8StringEncoding]);
+  }
+  return result;
 }
 
 @end
