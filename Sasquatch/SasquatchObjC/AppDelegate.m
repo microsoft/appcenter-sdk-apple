@@ -46,24 +46,6 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-  [MSAppCenter start:@"target=8dfa00f19c154b2ba1308ea49929bc4e-a0715669-ea1e-47d8-928a-dd33841333c5-6753"
-        withServices:@ [[MSAnalytics class]]];
-  [MSAppCenter startFromLibraryWithServices:@ [[MSAnalytics class]]];
-  MSAnalyticsTransmissionTarget *libTarget =
-      [MSAnalytics transmissionTargetForToken:@"0eb5f1d491e546558d10a923a19e3427-19f54434-5e0e-4c08-945f-5ac121f873ef-6556"];
-  MSAnalyticsTransmissionTarget *childLibTarget =
-      [libTarget transmissionTargetForToken:@"0eb5f1d491e546558d10a923a19e3427-19f54434-5e0e-4c08-945f-5ac121f873ef-6556"];
-
-  NSDictionary *stringProperties = @{@"Info" : @"Override Part A test"};
-  [NSThread sleepForTimeInterval:0.2f];
-
-  [childLibTarget.propertyConfigurator setAppName:@"Test Lib"];
-  [childLibTarget.propertyConfigurator setAppVersion:@"0.0.0"];
-  [childLibTarget.propertyConfigurator setAppLocale:@"en-US"];
-
-  [libTarget trackEvent:@"libevent" withProperties:stringProperties];
-  [childLibTarget trackEvent:@"child" withProperties:stringProperties];
-
 #if GCC_PREPROCESSOR_MACRO_PUPPET
   self.analyticsResult = [MSAnalyticsResult new];
   [MSAnalytics setDelegate:self];

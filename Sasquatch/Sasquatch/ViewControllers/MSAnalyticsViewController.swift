@@ -80,21 +80,23 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     }
     let eventProperties = eventPropertiesSection.eventProperties()
     for _ in 0..<Int(countSlider.value) {
-      if (MSTransmissionTargets.shared.defaultTargetShouldSendAnalyticsEvents()) {
-        if let properties = eventProperties as? MSEventProperties {
+      if let properties = eventProperties as? MSEventProperties {
 
-          // The AppCenterDelegate uses the argument label "withTypedProperties", but the underlying swift API simply uses "withProperties".
-          if priority != .Default {
-            appCenter.trackEvent(name, withTypedProperties: properties, flags: priority.flags)
-          } else {
-            appCenter.trackEvent(name, withTypedProperties: properties)
-          }
-        } else if let dictionary = eventProperties as? [String: String] {
-          if priority != .Default {
-            appCenter.trackEvent(name, withProperties: dictionary, flags: priority.flags)
-          } else {
-            appCenter.trackEvent(name, withProperties: dictionary)
-          }
+        // The AppCenterDelegate uses the argument label "withTypedProperties", but the underlying swift API simply uses "withProperties".
+        if priority != .Default {
+          appCenter.trackEvent(name, withTypedProperties: properties, flags: priority.flags)
+        } else {
+          appCenter.trackEvent(name, withTypedProperties: properties)
+        }
+      } else if let dictionary = eventProperties as? [String: String] {
+        if priority != .Default {
+          appCenter.trackEvent(name, withProperties: dictionary, flags: priority.flags)
+        } else {
+          appCenter.trackEvent(name, withProperties: dictionary)
+        }
+      } else {
+        if priority != .Default {
+          appCenter.trackEvent(name, withTypedProperties: nil, flags: priority.flags)
         } else {
           appCenter.trackEvent(name)
         }
@@ -115,7 +117,11 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
               target.trackEvent(name, withProperties: dictionary)
             }
           } else {
-            target.trackEvent(name)
+            if priority != .Default {
+              target.trackEvent(name, withProperties: [:], flags: priority.flags)
+            } else {
+              target.trackEvent(name)
+            }
           }
         }
       }
