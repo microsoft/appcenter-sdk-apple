@@ -1,6 +1,6 @@
+#import "MSDistributeAppDelegate.h"
 #import "MSAppDelegateForwarder.h"
 #import "MSDistribute.h"
-#import "MSDistributeAppDelegate.h"
 
 @implementation MSDistributeAppDelegate
 

@@ -5,5 +5,6 @@
 #import "MSAnalyticsTransmissionTarget.h"
 #import "MSAnalyticsAuthenticationProvider.h"
 #import "MSAnalyticsAuthenticationProviderDelegate.h"
+#import "MSConstants+Flags.h"
 #import "MSEventLog.h"
 #import "MSEventProperties.h"
