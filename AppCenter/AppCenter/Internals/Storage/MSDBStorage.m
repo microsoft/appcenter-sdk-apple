@@ -49,7 +49,10 @@
 
   // The value is stored as part of the database connection and must be reset every time the database is opened.
   long maxPageCount = self.maxSizeInBytes / self.pageSize;
-  [MSDBStorage setMaxPageCount:maxPageCount inOpenedDatabase:db];
+  result = [MSDBStorage setMaxPageCount:maxPageCount inOpenedDatabase:db];
+  if (result != SQLITE_OK) {
+    MSLogError([MSAppCenter logTag], @"Failed to open database with specified maximum size constraint.");
+  }
   result = callback(db);
   sqlite3_close(db);
   return result;
@@ -299,13 +302,7 @@
 
 + (int)setMaxPageCount:(long)maxPageCount inOpenedDatabase:(void *)db {
   NSString *statement = [NSString stringWithFormat:@"PRAGMA max_page_count = %ld;", maxPageCount];
-  char *errorMessage;
-  int result = sqlite3_exec(db, [statement UTF8String], NULL, NULL, &errorMessage);
-  if (result != SQLITE_OK) {
-    MSLogError([MSAppCenter logTag], @"Failed to open database with specified maximum size constraint. Error message: %@",
-               [NSString stringWithCString:errorMessage ? errorMessage : "(nil)" encoding:NSUTF8StringEncoding]);
-  }
-  return result;
+  return [MSDBStorage executeNonSelectionQuery:statement inOpenedDatabase:db];
 }
 
 @end
