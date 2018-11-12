@@ -98,7 +98,6 @@
 		B20AE43E210281F800A1A195 /* libAppCenterCrashes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B20AE4022102818B00A1A195 /* libAppCenterCrashes.a */; };
 		B20AE43F210281FF00A1A195 /* libAppCenterDistribute.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B20AE4162102819C00A1A195 /* libAppCenterDistribute.a */; };
 		B20AE4402102820300A1A195 /* libAppCenterPush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B20AE435210281C400A1A195 /* libAppCenterPush.a */; };
-		B20AE48621028E2A00A1A195 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B20AE48521028E2A00A1A195 /* libsqlite3.tbd */; };
 		B20AE48821028E3300A1A195 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B20AE48721028E3300A1A195 /* libc++.tbd */; };
 		B20AE48A21028E3C00A1A195 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B20AE48921028E3C00A1A195 /* libz.tbd */; };
 		B23DF4FF2109382200F1CAD7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C1C1E88FEFC00798417 /* Assets.xcassets */; };
@@ -225,6 +224,7 @@
 		D31EF9721E9517C600450162 /* SasquatchWatchSwift.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = D31EF9541E9517C500450162 /* SasquatchWatchSwift.app */; };
 		F809D5041FC6DA2B005E0F83 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F809D5021FC6DA2B005E0F83 /* LaunchScreen.storyboard */; };
 		F809D5051FC6DD80005E0F83 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F809D5021FC6DA2B005E0F83 /* LaunchScreen.storyboard */; };
+		F8669FB82195B6A2003933A8 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F8669FB72195B6A2003933A8 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		F89D79091E93DA3A0094521F /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F89D79081E93DA3A0094521F /* CrashLibIOS.framework */; };
 		F89D790A1E93DA3A0094521F /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F89D79081E93DA3A0094521F /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F89D790C1E93DA500094521F /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F89D79081E93DA3A0094521F /* CrashLibIOS.framework */; };
@@ -763,6 +763,7 @@
 		F849248A2112FA3400E14DBE /* Watch Extension.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Watch Extension.xcconfig"; sourceTree = "<group>"; };
 		F84BA0D6211342620020F13B /* Puppet UITests.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Puppet UITests.xcconfig"; sourceTree = "<group>"; };
 		F84BA102211342620020F13B /* UITests.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = UITests.xcconfig; sourceTree = "<group>"; };
+		F8669FB72195B6A2003933A8 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = ../Vendor/SQLite3/sqlite3.c; sourceTree = "<group>"; };
 		F89D79081E93DA3A0094521F /* CrashLibIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8A502252149339100872B3B /* MSEnumPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSEnumPicker.swift; sourceTree = "<group>"; };
 		F8AA9F052164F91B009104E3 /* MSAnalyticsTypedPropertyTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MSAnalyticsTypedPropertyTableViewCell.xib; sourceTree = "<group>"; };
@@ -817,7 +818,6 @@
 				B20AE48A21028E3C00A1A195 /* libz.tbd in Frameworks */,
 				B20AE48821028E3300A1A195 /* libc++.tbd in Frameworks */,
 				B2A888A62102A44B001ACFDF /* SafariServices.framework in Frameworks */,
-				B20AE48621028E2A00A1A195 /* libsqlite3.tbd in Frameworks */,
 				B20AE39521027D6200A1A195 /* CrashLibIOS.framework in Frameworks */,
 				B20AE4402102820300A1A195 /* libAppCenterPush.a in Frameworks */,
 				F8FE732F210730A8005C6A74 /* CrashReporter.framework in Frameworks */,
@@ -1247,6 +1247,7 @@
 		F8FE732D21073042005C6A74 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				F8669FB72195B6A2003933A8 /* sqlite3.c */,
 				F8FE732E210730A8005C6A74 /* CrashReporter.framework */,
 			);
 			name = Vendor;
@@ -2178,6 +2179,7 @@
 				B2E011F721091EF6003F4A5B /* MSAnalyticsPropertyTableViewCell.swift in Sources */,
 				B20AE38121027D6200A1A195 /* MSTransmissionTargets.swift in Sources */,
 				B2586C87210A47A800664A43 /* MSAnalyticsResult.swift in Sources */,
+				F8669FB82195B6A2003933A8 /* sqlite3.c in Sources */,
 				B2E011FB21091F04003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.swift in Sources */,
 				B20AE38321027D6200A1A195 /* MSEventFilter.m in Sources */,
 				B20AE38521027D6200A1A195 /* TargetPropertiesTableSection.swift in Sources */,
