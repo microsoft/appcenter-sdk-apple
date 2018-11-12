@@ -721,7 +721,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 - (void)testSaveCriticalPriorityLogPurgesOldestNormalPriorityLogsWhenStorageFull {
 
   // If
-  long maxCapacityInBytes = kMSTestStorageSizeMinimumUpperLimitInBytes + kMSDefaultPageSizeInBytes;
+  long maxCapacityInBytes = kMSTestStorageSizeMinimumUpperLimitInBytes + 4 * 1024;
   NSArray *addedDbIds = [self fillDatabaseWithLogsOfSizeInBytes:maxCapacityInBytes ofPriority:MSFlagsPersistenceNormal];
   NSNumber *firstLogDbId = addedDbIds[0];
 
@@ -747,7 +747,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 - (void)testSaveNormalPriorityLogDiscardsLogWhenStorageFullWithCriticalPriorityLogs {
 
   // If
-  long maxCapacityInBytes = kMSTestStorageSizeMinimumUpperLimitInBytes + kMSDefaultPageSizeInBytes;
+  long maxCapacityInBytes = kMSTestStorageSizeMinimumUpperLimitInBytes + 4 * 1024;
   NSArray *addedDbIds = [self fillDatabaseWithLogsOfSizeInBytes:maxCapacityInBytes ofPriority:MSFlagsPersistenceCritical];
 
   // When
@@ -773,7 +773,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 - (void)testSaveLogPurgesNormalPriorityLogWhenStorageFullWithMixedPriorityLogs {
 
   // If
-  long maxCapacityInBytes = kMSTestStorageSizeMinimumUpperLimitInBytes + kMSDefaultPageSizeInBytes;
+  long maxCapacityInBytes = kMSTestStorageSizeMinimumUpperLimitInBytes + 4 * 1024;
   NSDictionary *addedDbIds = [self fillDatabaseWithMixedPriorityLogsOfSizeInBytesAndReturnDbIds:maxCapacityInBytes];
   NSNumber *oldestCriticalDbId = [((NSArray *)[addedDbIds objectForKey:[NSNumber numberWithInt:MSFlagsPersistenceCritical]]) firstObject];
   NSNumber *oldestNormalDbId = [((NSArray *)[addedDbIds objectForKey:[NSNumber numberWithInt:MSFlagsPersistenceNormal]]) firstObject];
@@ -804,7 +804,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 - (void)testSaveLargeNormalPriorityLogPurgesAllNormalPriorityLogs {
 
   // If
-  long maxCapacityInBytes = kMSTestStorageSizeMinimumUpperLimitInBytes + kMSDefaultPageSizeInBytes;
+  long maxCapacityInBytes = kMSTestStorageSizeMinimumUpperLimitInBytes + 4 * 1024;
   [self.sut setMaxStorageSize:maxCapacityInBytes
             completionHandler:^(__unused BOOL success){
             }];
@@ -839,7 +839,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 - (void)testSaveLargeCriticalPriorityLogPurgesAllLogs {
 
   // If
-  long maxCapacityInBytes = kMSTestStorageSizeMinimumUpperLimitInBytes + kMSDefaultPageSizeInBytes;
+  long maxCapacityInBytes = kMSTestStorageSizeMinimumUpperLimitInBytes + 4 * 1024;
   [self.sut setMaxStorageSize:maxCapacityInBytes
             completionHandler:^(__unused BOOL success){
             }];
@@ -1145,12 +1145,15 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 }
 
 - (NSDictionary<NSNumber *, NSArray<NSNumber *> *> *)fillDatabaseWithMixedPriorityLogsOfSizeInBytesAndReturnDbIds:(long)sizeInBytes {
-  int result = 0;
-  int maxPageCount = (int)(sizeInBytes / kMSDefaultPageSizeInBytes);
-  int count = 0;
+  int result = 0, count = 0;
   sqlite3 *db = [self.storageTestUtil openDatabase];
-  NSString *statement = [NSString stringWithFormat:@"PRAGMA max_page_count = %i;", maxPageCount];
-  sqlite3_exec(db, [statement UTF8String], NULL, NULL, NULL);
+  sqlite3_stmt *statement = NULL;
+  sqlite3_prepare_v2(db, "PRAGMA page_size;", -1, &statement, NULL);
+  sqlite3_step(statement);
+  int pageSize = sqlite3_column_int(statement, 0);
+  sqlite3_finalize(statement);
+  long maxPageCount = sizeInBytes / pageSize;
+  sqlite3_exec(db, [[NSString stringWithFormat:@"PRAGMA max_page_count = %ld;", maxPageCount] UTF8String], NULL, NULL, NULL);
   do {
     MSAbstractLog *log = [MSAbstractLog new];
     NSData *logData = [NSKeyedArchiver archivedDataWithRootObject:log];
