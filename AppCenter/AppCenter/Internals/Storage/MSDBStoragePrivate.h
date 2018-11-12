@@ -26,6 +26,13 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
 @property(nonatomic, readonly) long pageSize;
 
 /**
+ * Called after the database is created. Override to customize the database.
+ *
+ * @param db Database handle.
+ */
+- (void)customizeDatabase:(void *)db;
+
+/**
  * Called when migration is needed. Override to customize.
  *
  * @param db Database handle.

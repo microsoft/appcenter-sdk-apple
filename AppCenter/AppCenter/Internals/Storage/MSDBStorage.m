@@ -24,7 +24,10 @@
       NSUInteger tablesCreated = [MSDBStorage createTablesWithSchema:schema inOpenedDatabase:db];
       BOOL newDatabase = tablesCreated == schema.count;
       NSUInteger databaseVersion = [MSDBStorage versionInOpenedDatabase:db];
-      if (databaseVersion < version && !newDatabase) {
+      if (newDatabase) {
+        MSLogInfo([MSAppCenter logTag], @"Created \"%@\" database with %lu version.", filename, (unsigned long)version);
+        [self customizeDatabase:db];
+      } else if (databaseVersion < version) {
         MSLogInfo([MSAppCenter logTag], @"Migrate \"%@\" database from %lu to %lu version.", filename, (unsigned long)databaseVersion,
                   (unsigned long)version);
         [self migrateDatabase:db fromVersion:databaseVersion];
@@ -152,7 +155,10 @@
 + (int)executeNonSelectionQuery:(NSString *)query inOpenedDatabase:(void *)db {
   char *errMsg;
   int result = sqlite3_exec(db, [query UTF8String], NULL, NULL, &errMsg);
-  if (result != SQLITE_OK) {
+  if (result == SQLITE_FULL) {
+    MSLogDebug([MSAppCenter logTag], @"Query failed with error: %d - %@", result, [[NSString alloc] initWithUTF8String:errMsg]);
+  }
+  else if (result != SQLITE_OK) {
     MSLogError([MSAppCenter logTag], @"Query \"%@\" failed with error: %d - %@", query, result,
                [[NSString alloc] initWithUTF8String:errMsg]);
   }
@@ -211,6 +217,9 @@
   return entries;
 }
 
+- (void)customizeDatabase:(void *)__unused db {
+}
+
 - (void)migrateDatabase:(void *)__unused db fromVersion:(NSUInteger)__unused version {
 }
 
@@ -227,8 +236,9 @@
   MSLogDebug([MSAppCenter logTag], @"Found %ld pages in the database.", currentPageCount);
   long requestedMaxPageCount = sizeInBytes % self.pageSize ? sizeInBytes / self.pageSize + 1 : sizeInBytes / self.pageSize;
   if (currentPageCount > requestedMaxPageCount) {
-    MSLogWarning([MSAppCenter logTag], @"Cannot change database size to %ld bytes as it would cause a loss of data. "
-                                        "Maximum database size will not be changed.",
+    MSLogWarning([MSAppCenter logTag],
+                 @"Cannot change database size to %ld bytes as it would cause a loss of data. "
+                  "Maximum database size will not be changed.",
                  sizeInBytes);
     success = NO;
   } else {

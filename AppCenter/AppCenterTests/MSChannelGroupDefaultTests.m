@@ -91,8 +91,8 @@
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMockDefault];
 
   // When
-  MSChannelUnitDefault *channelUnit =
-      (MSChannelUnitDefault *)[sut addChannelUnitWithConfiguration:[MSChannelUnitConfiguration new] withIngestion:ingestionMockCustom];
+  MSChannelUnitDefault *channelUnit = (MSChannelUnitDefault *)[sut addChannelUnitWithConfiguration:[MSChannelUnitConfiguration new]
+                                                                                     withIngestion:ingestionMockCustom];
 
   // Then
   XCTAssertNotEqual(ingestionMockDefault, channelUnit.ingestion);
@@ -113,7 +113,7 @@
   // When
   void (^block)(void) = ^{
     for (int i = 0; i < 10; i++) {
-      [addedChannel enqueueItem:log];
+      [addedChannel enqueueItem:log flags:MSFlagsDefault];
     }
     for (int i = 0; i < 100; i++) {
       [sut addDelegate:OCMProtocolMock(@protocol(MSChannelDelegate))];
@@ -322,10 +322,10 @@
   [sut addDelegate:delegateMock];
 
   // When
-  [sut channel:channelUnitMock didPrepareLog:mockLog withInternalId:internalId];
+  [sut channel:channelUnitMock didPrepareLog:mockLog internalId:internalId flags:MSFlagsDefault];
 
   // Then
-  OCMVerify([delegateMock channel:channelUnitMock didPrepareLog:mockLog withInternalId:internalId]);
+  OCMVerify([delegateMock channel:channelUnitMock didPrepareLog:mockLog internalId:internalId flags:MSFlagsDefault]);
 
   // Clear
   [channelUnitMock stopMocking];
@@ -347,10 +347,10 @@
   [sut addDelegate:delegateMock];
 
   // When
-  [sut channel:channelUnitMock didCompleteEnqueueingLog:mockLog withInternalId:internalId];
+  [sut channel:channelUnitMock didCompleteEnqueueingLog:mockLog internalId:internalId];
 
   // Then
-  OCMVerify([delegateMock channel:channelUnitMock didCompleteEnqueueingLog:mockLog withInternalId:internalId]);
+  OCMVerify([delegateMock channel:channelUnitMock didCompleteEnqueueingLog:mockLog internalId:internalId]);
 
   // Clear
   [channelUnitMock stopMocking];

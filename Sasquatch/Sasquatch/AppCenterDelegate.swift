@@ -33,7 +33,9 @@ import AppCenter
   // MSAnalytics section.
   func trackEvent(_ eventName: String)
   func trackEvent(_ eventName: String, withProperties: Dictionary<String, String>)
+  func trackEvent(_ eventName: String, withProperties: Dictionary<String, String>, flags: MSFlags)
   func trackEvent(_ eventName: String, withTypedProperties: MSEventProperties)
+  func trackEvent(_ eventName: String, withTypedProperties: MSEventProperties?, flags: MSFlags)
   func trackPage(_ pageName: String)
   func trackPage(_ pageName: String, withProperties: Dictionary<String, String>)
   func resume()
