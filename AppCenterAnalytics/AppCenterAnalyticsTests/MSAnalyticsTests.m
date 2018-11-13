@@ -180,10 +180,10 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   OCMReject([delegateMock analytics:[MSAnalytics sharedInstance] didFailSendingEventLog:eventLog withError:nil]);
   [MSAppCenter sharedInstance].sdkConfigured = NO;
   [MSAppCenter sharedInstance].configuredFromApplication = NO;
-  [MSAppCenter start:kMSTestAppSecret withServices:@[ [MSAnalytics class] ]];
+  [MSAppCenter start:kMSTestAppSecret withServices:@ [[MSAnalytics class]]];
   MSChannelUnitDefault *channelMock = OCMPartialMock([MSAnalytics sharedInstance].channelUnit);
   [MSAnalytics sharedInstance].channelUnit = channelMock;
-  OCMStub([channelMock enqueueItem:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+  OCMStub([channelMock enqueueItem:OCMOCK_ANY flags:MSFlagsDefault]).andDo(^(NSInvocation *invocation) {
     id<MSLog> log = nil;
     [invocation getArgument:&log atIndex:2];
     for (id<MSChannelDelegate> delegate in channelMock.delegates) {
@@ -196,7 +196,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   });
 
   // When
-  [[MSAnalytics sharedInstance].channelUnit enqueueItem:eventLog];
+  [[MSAnalytics sharedInstance].channelUnit enqueueItem:eventLog flags:MSFlagsDefault];
 
   // Then
   OCMVerifyAll(delegateMock);
@@ -209,10 +209,10 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   id<MSAnalyticsDelegate> delegateMock = OCMProtocolMock(@protocol(MSAnalyticsDelegate));
   [MSAppCenter sharedInstance].sdkConfigured = NO;
   [MSAppCenter sharedInstance].configuredFromApplication = NO;
-  [MSAppCenter start:kMSTestAppSecret withServices:@[ [MSAnalytics class] ]];
+  [MSAppCenter start:kMSTestAppSecret withServices:@ [[MSAnalytics class]]];
   MSChannelUnitDefault *channelMock = OCMPartialMock([MSAnalytics sharedInstance].channelUnit);
   [MSAnalytics sharedInstance].channelUnit = channelMock;
-  OCMStub([channelMock enqueueItem:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+  OCMStub([channelMock enqueueItem:OCMOCK_ANY flags:MSFlagsDefault]).andDo(^(NSInvocation *invocation) {
     id<MSLog> log = nil;
     [invocation getArgument:&log atIndex:2];
     for (id<MSChannelDelegate> delegate in channelMock.delegates) {
@@ -227,7 +227,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   // When
   [[MSAnalytics sharedInstance] setDelegate:delegateMock];
   MSEventLog *eventLog = OCMClassMock([MSEventLog class]);
-  [[MSAnalytics sharedInstance].channelUnit enqueueItem:eventLog];
+  [[MSAnalytics sharedInstance].channelUnit enqueueItem:eventLog flags:MSFlagsDefault];
 
   // Then
   OCMVerify([delegateMock analytics:[MSAnalytics sharedInstance] willSendEventLog:eventLog]);
@@ -240,7 +240,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   // If
   MSEventLog *eventLog = [MSEventLog new];
   eventLog.name = @"test";
-  eventLog.properties = @{ @"test" : @"test" };
+  eventLog.properties = @{@"test" : @"test"};
   MSPageLog *pageLog = [MSPageLog new];
   MSLogWithNameAndProperties *analyticsLog = [MSLogWithNameAndProperties new];
   id analyticsMock = OCMPartialMock([MSAnalytics sharedInstance]);
@@ -270,12 +270,13 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
   OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
-  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSLogWithProperties class]]]).andDo(^(NSInvocation *invocation) {
-    MSEventLog *log;
-    [invocation getArgument:&log atIndex:2];
-    type = log.type;
-    name = log.name;
-  });
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSLogWithProperties class]] flags:MSFlagsDefault])
+      .andDo(^(NSInvocation *invocation) {
+        MSEventLog *log;
+        [invocation getArgument:&log atIndex:2];
+        type = log.type;
+        name = log.name;
+      });
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
   [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
                                             appSecret:kMSTestAppSecret
@@ -305,8 +306,8 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                                       fromApplication:YES];
 
   // When
-  OCMReject([channelUnitMock enqueueItem:OCMOCK_ANY]);
-  [[MSAnalytics sharedInstance] trackEvent:@"Some event" withProperties:nil forTransmissionTarget:nil];
+  OCMReject([channelUnitMock enqueueItem:OCMOCK_ANY flags:MSFlagsDefault]);
+  [[MSAnalytics sharedInstance] trackEvent:@"Some event" withProperties:nil forTransmissionTarget:nil flags:MSFlagsDefault];
 
   // Then
   OCMVerifyAll(channelUnitMock);
@@ -327,8 +328,8 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                                       fromApplication:YES];
 
   // When
-  OCMReject([channelUnitMock enqueueItem:OCMOCK_ANY]);
-  [[MSAnalytics sharedInstance] trackEvent:@"Some event" withTypedProperties:nil forTransmissionTarget:nil];
+  OCMReject([channelUnitMock enqueueItem:OCMOCK_ANY flags:MSFlagsDefault]);
+  [[MSAnalytics sharedInstance] trackEvent:@"Some event" withTypedProperties:nil forTransmissionTarget:nil flags:MSFlagsDefault];
 
   // Then
   OCMVerifyAll(channelUnitMock);
@@ -347,13 +348,39 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                                       fromApplication:YES];
 
   // When
-  OCMReject([channelUnitMock enqueueItem:OCMOCK_ANY]);
+  OCMReject([channelUnitMock enqueueItem:OCMOCK_ANY flags:MSFlagsDefault]);
   MSAnalyticsTransmissionTarget *target = [MSAnalytics transmissionTargetForToken:@"test"];
   [target setEnabled:NO];
-  [[MSAnalytics sharedInstance] trackEvent:@"Some event" withProperties:nil forTransmissionTarget:target];
+  [[MSAnalytics sharedInstance] trackEvent:@"Some event" withProperties:nil forTransmissionTarget:target flags:MSFlagsDefault];
 
   // Then
   OCMVerifyAll(channelUnitMock);
+}
+
+- (void)testTrackEventSetsTagWhenTransmissionTargetProvided {
+
+  // If
+  __block NSObject *tag;
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
+                                            appSecret:kMSTestAppSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]] flags:MSFlagsDefault]).andDo(^(NSInvocation *invocation) {
+    MSEventLog *log;
+    [invocation getArgument:&log atIndex:2];
+    tag = log.tag;
+  });
+
+  // When
+  MSAnalyticsTransmissionTarget *target = [MSAnalytics transmissionTargetForToken:@"test"];
+  [[MSAnalytics sharedInstance] trackEvent:@"Some event" withProperties:nil forTransmissionTarget:target flags:MSFlagsDefault];
+
+  // Then
+  XCTAssertEqualObjects(tag, target);
 }
 
 - (void)testTrackEventWithTypedPropertiesNilWhenTransmissionTargetDisabled {
@@ -369,10 +396,10 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                                       fromApplication:YES];
 
   // When
-  OCMReject([channelUnitMock enqueueItem:OCMOCK_ANY]);
+  OCMReject([channelUnitMock enqueueItem:OCMOCK_ANY flags:MSFlagsDefault]);
   MSAnalyticsTransmissionTarget *target = [MSAnalytics transmissionTargetForToken:@"test"];
   [target setEnabled:NO];
-  [[MSAnalytics sharedInstance] trackEvent:@"Some event" withTypedProperties:nil forTransmissionTarget:target];
+  [[MSAnalytics sharedInstance] trackEvent:@"Some event" withTypedProperties:nil forTransmissionTarget:target flags:MSFlagsDefault];
 
   // Then
   OCMVerifyAll(channelUnitMock);
@@ -393,12 +420,12 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                                       fromApplication:YES];
 
   // When
-  OCMExpect([channelUnitMock enqueueItem:OCMOCK_ANY]);
+  OCMExpect([channelUnitMock enqueueItem:OCMOCK_ANY flags:MSFlagsDefault]);
 
   // Will be validated in shouldFilterLog callback instead.
   OCMReject([analyticsMock validateEventName:OCMOCK_ANY forLogType:OCMOCK_ANY]);
   OCMReject([analyticsMock validateProperties:OCMOCK_ANY forLogName:OCMOCK_ANY andType:OCMOCK_ANY]);
-  [[MSAnalytics sharedInstance] trackEvent:invalidEventName withProperties:nil forTransmissionTarget:nil];
+  [[MSAnalytics sharedInstance] trackEvent:invalidEventName withProperties:nil forTransmissionTarget:nil flags:MSFlagsDefault];
 
   // Then
   OCMVerifyAll(channelUnitMock);
@@ -420,12 +447,12 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                                       fromApplication:YES];
 
   // When
-  OCMExpect([channelUnitMock enqueueItem:OCMOCK_ANY]);
+  OCMExpect([channelUnitMock enqueueItem:OCMOCK_ANY flags:MSFlagsDefault]);
 
   // Will be validated in shouldFilterLog callback instead.
   OCMReject([analyticsMock validateEventName:OCMOCK_ANY forLogType:OCMOCK_ANY]);
   OCMReject([analyticsMock validateProperties:OCMOCK_ANY forLogName:OCMOCK_ANY andType:OCMOCK_ANY]);
-  [[MSAnalytics sharedInstance] trackEvent:invalidEventName withTypedProperties:nil forTransmissionTarget:nil];
+  [[MSAnalytics sharedInstance] trackEvent:invalidEventName withTypedProperties:nil forTransmissionTarget:nil flags:MSFlagsDefault];
 
   // Then
   OCMVerifyAll(channelUnitMock);
@@ -439,11 +466,11 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   __block NSString *name;
   __block MSEventProperties *eventProperties;
   NSString *expectedName = @"gotACoffee";
-  NSDictionary *expectedProperties = @{ @"milk" : @"yes", @"cookie" : @"of course" };
+  NSDictionary *expectedProperties = @{@"milk" : @"yes", @"cookie" : @"of course"};
   id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
   OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
-  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]]]).andDo(^(NSInvocation *invocation) {
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]] flags:MSFlagsDefault]).andDo(^(NSInvocation *invocation) {
     MSEventLog *log;
     [invocation getArgument:&log atIndex:2];
     type = log.type;
@@ -464,7 +491,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   assertThat(name, is(expectedName));
   for (MSTypedProperty *typedProperty in [eventProperties.properties objectEnumerator]) {
     assertThat(typedProperty, isA([MSStringTypedProperty class]));
-    MSStringTypedProperty *stringTypedProperty = (MSStringTypedProperty*)typedProperty;
+    MSStringTypedProperty *stringTypedProperty = (MSStringTypedProperty *)typedProperty;
     assertThat(stringTypedProperty.value, equalTo(expectedProperties[stringTypedProperty.name]));
   }
   XCTAssertEqual([expectedProperties count], [eventProperties.properties count]);
@@ -486,7 +513,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
   OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
-  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]]]).andDo(^(NSInvocation *invocation) {
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]] flags:MSFlagsDefault]).andDo(^(NSInvocation *invocation) {
     MSEventLog *log;
     [invocation getArgument:&log atIndex:2];
     type = log.type;
@@ -535,6 +562,216 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   XCTAssertEqual([expectedProperties.properties count], 0);
 }
 
+- (void)testTrackEventWithPropertiesWithNormalPersistenceFlag {
+
+  // If
+  __block NSString *actualType;
+  __block NSString *actualName;
+  __block MSFlags actualFlags;
+  NSString *expectedName = @"gotACoffee";
+  id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  OCMStub([[channelUnitMock ignoringNonObjectArgs] enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]] flags:(MSFlags)0])
+      .andDo(^(NSInvocation *invocation) {
+        MSEventLog *log;
+        [invocation getArgument:&log atIndex:2];
+        actualType = log.type;
+        actualName = log.name;
+        MSFlags flags;
+        [invocation getArgument:&flags atIndex:3];
+        actualFlags = flags;
+      });
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
+                                            appSecret:kMSTestAppSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
+
+  // When
+  [MSAnalytics trackEvent:expectedName withProperties:nil flags:MSFlagsPersistenceNormal];
+
+  // Then
+  XCTAssertEqual(actualType, kMSTypeEvent);
+  XCTAssertEqual(actualName, expectedName);
+  XCTAssertEqual(actualFlags, MSFlagsPersistenceNormal);
+}
+
+- (void)testTrackEventWithPropertiesWithCriticalPersistenceFlag {
+
+  // If
+  __block NSString *actualType;
+  __block NSString *actualName;
+  __block MSFlags actualFlags;
+  NSString *expectedName = @"gotACoffee";
+  id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  OCMStub([[channelUnitMock ignoringNonObjectArgs] enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]] flags:(MSFlags)0])
+      .andDo(^(NSInvocation *invocation) {
+        MSEventLog *log;
+        [invocation getArgument:&log atIndex:2];
+        actualType = log.type;
+        actualName = log.name;
+        MSFlags flags;
+        [invocation getArgument:&flags atIndex:3];
+        actualFlags = flags;
+      });
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
+                                            appSecret:kMSTestAppSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
+
+  // When
+  [MSAnalytics trackEvent:expectedName withProperties:nil flags:MSFlagsPersistenceCritical];
+
+  // Then
+  XCTAssertEqual(actualType, kMSTypeEvent);
+  XCTAssertEqual(actualName, expectedName);
+  XCTAssertEqual(actualFlags, MSFlagsPersistenceCritical);
+}
+
+- (void)testTrackEventWithPropertiesWithInvalidFlag {
+
+  // If
+  __block NSString *actualType;
+  __block NSString *actualName;
+  __block MSFlags actualFlags;
+  NSString *expectedName = @"gotACoffee";
+  id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  OCMStub([[channelUnitMock ignoringNonObjectArgs] enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]] flags:(MSFlags)0])
+      .andDo(^(NSInvocation *invocation) {
+        MSEventLog *log;
+        [invocation getArgument:&log atIndex:2];
+        actualType = log.type;
+        actualName = log.name;
+        MSFlags flags;
+        [invocation getArgument:&flags atIndex:3];
+        actualFlags = flags;
+      });
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
+                                            appSecret:kMSTestAppSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
+
+  // When
+  [MSAnalytics trackEvent:expectedName withProperties:nil flags:42];
+
+  // Then
+  XCTAssertEqual(actualType, kMSTypeEvent);
+  XCTAssertEqual(actualName, expectedName);
+  XCTAssertEqual(actualFlags, MSFlagsPersistenceNormal);
+}
+
+- (void)testTrackEventWithTypedPropertiesWithNormalPersistenceFlag {
+
+  // If
+  __block NSString *actualType;
+  __block NSString *actualName;
+  __block MSFlags actualFlags;
+  NSString *expectedName = @"gotACoffee";
+  id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  OCMStub([[channelUnitMock ignoringNonObjectArgs] enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]] flags:(MSFlags)0])
+      .andDo(^(NSInvocation *invocation) {
+        MSEventLog *log;
+        [invocation getArgument:&log atIndex:2];
+        actualType = log.type;
+        actualName = log.name;
+        MSFlags flags;
+        [invocation getArgument:&flags atIndex:3];
+        actualFlags = flags;
+      });
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
+                                            appSecret:kMSTestAppSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
+
+  // When
+  [MSAnalytics trackEvent:expectedName withTypedProperties:nil flags:MSFlagsPersistenceNormal];
+
+  // Then
+  XCTAssertEqual(actualType, kMSTypeEvent);
+  XCTAssertEqual(actualName, expectedName);
+  XCTAssertEqual(actualFlags, MSFlagsPersistenceNormal);
+}
+
+- (void)testTrackEventWithTypedPropertiesWithCriticalPersistenceFlag {
+
+  // If
+  __block NSString *actualType;
+  __block NSString *actualName;
+  __block MSFlags actualFlags;
+  NSString *expectedName = @"gotACoffee";
+  id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  OCMStub([[channelUnitMock ignoringNonObjectArgs] enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]] flags:(MSFlags)0])
+      .andDo(^(NSInvocation *invocation) {
+        MSEventLog *log;
+        [invocation getArgument:&log atIndex:2];
+        actualType = log.type;
+        actualName = log.name;
+        MSFlags flags;
+        [invocation getArgument:&flags atIndex:3];
+        actualFlags = flags;
+      });
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
+                                            appSecret:kMSTestAppSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
+
+  // When
+  [MSAnalytics trackEvent:expectedName withTypedProperties:nil flags:MSFlagsPersistenceCritical];
+
+  // Then
+  XCTAssertEqual(actualType, kMSTypeEvent);
+  XCTAssertEqual(actualName, expectedName);
+  XCTAssertEqual(actualFlags, MSFlagsPersistenceCritical);
+}
+
+- (void)testTrackEventWithTypedPropertiesWithInvalidFlag {
+
+  // If
+  __block NSString *actualType;
+  __block NSString *actualName;
+  __block MSFlags actualFlags;
+  NSString *expectedName = @"gotACoffee";
+  id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  OCMStub([[channelUnitMock ignoringNonObjectArgs] enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]] flags:(MSFlags)0])
+      .andDo(^(NSInvocation *invocation) {
+        MSEventLog *log;
+        [invocation getArgument:&log atIndex:2];
+        actualType = log.type;
+        actualName = log.name;
+        MSFlags flags;
+        [invocation getArgument:&flags atIndex:3];
+        actualFlags = flags;
+      });
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
+                                            appSecret:kMSTestAppSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
+
+  // When
+  [MSAnalytics trackEvent:expectedName withTypedProperties:nil flags:42];
+
+  // Then
+  XCTAssertEqual(actualType, kMSTypeEvent);
+  XCTAssertEqual(actualName, expectedName);
+  XCTAssertEqual(actualFlags, MSFlagsPersistenceNormal);
+}
+
 - (void)testTrackPageWithoutProperties {
 
   // If
@@ -544,12 +781,13 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
   OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
-  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSLogWithProperties class]]]).andDo(^(NSInvocation *invocation) {
-    MSEventLog *log;
-    [invocation getArgument:&log atIndex:2];
-    type = log.type;
-    name = log.name;
-  });
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSLogWithProperties class]] flags:MSFlagsDefault])
+      .andDo(^(NSInvocation *invocation) {
+        MSEventLog *log;
+        [invocation getArgument:&log atIndex:2];
+        type = log.type;
+        name = log.name;
+      });
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
   [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
                                             appSecret:kMSTestAppSecret
@@ -571,17 +809,18 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   __block NSString *name;
   __block NSDictionary<NSString *, NSString *> *properties;
   NSString *expectedName = @"HomeSweetHome";
-  NSDictionary *expectedProperties = @{ @"Sofa" : @"yes", @"TV" : @"of course" };
+  NSDictionary *expectedProperties = @{@"Sofa" : @"yes", @"TV" : @"of course"};
   id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
   OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
-  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSLogWithProperties class]]]).andDo(^(NSInvocation *invocation) {
-    MSEventLog *log;
-    [invocation getArgument:&log atIndex:2];
-    type = log.type;
-    name = log.name;
-    properties = log.properties;
-  });
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSLogWithProperties class]] flags:MSFlagsDefault])
+      .andDo(^(NSInvocation *invocation) {
+        MSEventLog *log;
+        [invocation getArgument:&log atIndex:2];
+        type = log.type;
+        name = log.name;
+        properties = log.properties;
+      });
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
   [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
                                             appSecret:kMSTestAppSecret
@@ -613,7 +852,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                                       fromApplication:YES];
 
   // When
-  OCMReject([channelUnitMock enqueueItem:OCMOCK_ANY]);
+  OCMReject([channelUnitMock enqueueItem:OCMOCK_ANY flags:MSFlagsDefault]);
   [[MSAnalytics sharedInstance] trackPage:@"Some page" withProperties:nil];
 
   // Then
@@ -635,7 +874,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
                                       fromApplication:YES];
 
   // When
-  OCMExpect([channelUnitMock enqueueItem:OCMOCK_ANY]);
+  OCMExpect([channelUnitMock enqueueItem:OCMOCK_ANY flags:MSFlagsDefault]);
 
   // Will be validated in shouldFilterLog callback instead.
   OCMReject([analyticsMock validateEventName:OCMOCK_ANY forLogType:OCMOCK_ANY]);
@@ -774,10 +1013,11 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   __block MSEventLog *log;
   __block int invocations = 0;
   OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
-  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSLogWithProperties class]]]).andDo(^(NSInvocation *invocation) {
-    ++invocations;
-    [invocation getArgument:&log atIndex:2];
-  });
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSLogWithProperties class]] flags:MSFlagsDefault])
+      .andDo(^(NSInvocation *invocation) {
+        ++invocations;
+        [invocation getArgument:&log atIndex:2];
+      });
   [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
                                             appSecret:kMSTestAppSecret
                               transmissionTargetToken:kMSTestTransmissionToken
@@ -787,7 +1027,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [MSAnalytics trackEvent:@"eventName"];
 
   // Then
-  OCMVerify([channelUnitMock enqueueItem:log]);
+  OCMVerify([channelUnitMock enqueueItem:log flags:MSFlagsDefault]);
   XCTAssertTrue([[log transmissionTargetTokens] containsObject:kMSTestTransmissionToken]);
   XCTAssertEqual([[log transmissionTargetTokens] count], (unsigned long)1);
   XCTAssertEqual(invocations, 1);
@@ -802,10 +1042,11 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   __block MSEventLog *log;
   __block int invocations = 0;
   OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
-  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSLogWithProperties class]]]).andDo(^(NSInvocation *invocation) {
-    ++invocations;
-    [invocation getArgument:&log atIndex:2];
-  });
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSLogWithProperties class]] flags:MSFlagsDefault])
+      .andDo(^(NSInvocation *invocation) {
+        ++invocations;
+        [invocation getArgument:&log atIndex:2];
+      });
   [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
                                             appSecret:nil
                               transmissionTargetToken:kMSTestTransmissionToken
@@ -815,7 +1056,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [MSAnalytics trackEvent:@"eventName"];
 
   // Then
-  OCMVerify([channelUnitMock enqueueItem:log]);
+  OCMVerify([channelUnitMock enqueueItem:log flags:MSFlagsDefault]);
   XCTAssertTrue([[log transmissionTargetTokens] containsObject:kMSTestTransmissionToken]);
   XCTAssertEqual([[log transmissionTargetTokens] count], (unsigned long)1);
   XCTAssertEqual(invocations, 1);
@@ -830,6 +1071,23 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   // Then
   XCTAssertNotNil(transmissionTarget1);
   XCTAssertEqual(transmissionTarget1, transmissionTarget2);
+}
+
+- (void)testGetTransmissionTargetNeverReturnsDefault {
+
+  // If
+  [[MSAnalytics sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                                            appSecret:nil
+                              transmissionTargetToken:kMSTestTransmissionToken
+                                      fromApplication:NO];
+
+  // When
+  MSAnalyticsTransmissionTarget *transmissionTarget = [MSAnalytics transmissionTargetForToken:kMSTestTransmissionToken];
+
+  // Then
+  XCTAssertNotNil([MSAnalytics sharedInstance].defaultTransmissionTarget);
+  XCTAssertNotNil(transmissionTarget);
+  XCTAssertNotEqual([MSAnalytics sharedInstance].defaultTransmissionTarget, transmissionTarget);
 }
 
 - (void)testEnableStatePropagateToTransmissionTargets {
@@ -889,13 +1147,13 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   [MSAppCenter resetSharedInstance];
 
   // When
-  [MSAppCenter startFromLibraryWithServices:@[ [MSAnalytics class] ]];
+  [MSAppCenter startFromLibraryWithServices:@ [[MSAnalytics class]]];
 
   // Then
   XCTAssertFalse([MSAnalytics sharedInstance].sessionTracker.started);
 
   // When
-  [MSAppCenter start:MS_UUID_STRING withServices:@[ [MSAnalytics class] ]];
+  [MSAppCenter start:MS_UUID_STRING withServices:@ [[MSAnalytics class]]];
 
   // Then
   XCTAssertTrue([MSAnalytics sharedInstance].sessionTracker.started);
@@ -940,7 +1198,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 - (void)testRemoveInvalidPropertiesWithEmptyValue {
 
   // If
-  NSDictionary *emptyValueProperties = @{ @"aValidKey" : @"" };
+  NSDictionary *emptyValueProperties = @{@"aValidKey" : @""};
 
   // When
   NSDictionary *result = [[MSAnalytics sharedInstance] removeInvalidProperties:emptyValueProperties];
@@ -953,7 +1211,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 - (void)testRemoveInvalidPropertiesWithEmptyKey {
 
   // If
-  NSDictionary *emptyKeyProperties = @{ @"" : @"aValidValue" };
+  NSDictionary *emptyKeyProperties = @{@"" : @"aValidValue"};
 
   // When
   NSDictionary *result = [[MSAnalytics sharedInstance] removeInvalidProperties:emptyKeyProperties];
@@ -965,7 +1223,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 - (void)testremoveInvalidPropertiesWithNonStringKey {
 
   // If
-  NSDictionary *numberAsKeyProperties = @{ @(42) : @"aValidValue" };
+  NSDictionary *numberAsKeyProperties = @{@(42) : @"aValidValue"};
 
   // When
   NSDictionary *result = [[MSAnalytics sharedInstance] removeInvalidProperties:numberAsKeyProperties];
@@ -977,7 +1235,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 - (void)testValidateLogDataWithNonStringValue {
 
   // If
-  NSDictionary *numberAsValueProperties = @{ @"aValidKey" : @(42) };
+  NSDictionary *numberAsValueProperties = @{@"aValidKey" : @(42)};
 
   // When
   NSDictionary *result = [[MSAnalytics sharedInstance] removeInvalidProperties:numberAsValueProperties];
@@ -989,7 +1247,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 - (void)testValidateLogDataWithCorrectNestedProperties {
 
   // If
-  NSDictionary *correctlyNestedProperties = @{ @"aValidKey1" : @"aValidValue1", @"aValidKey2.aValidKey2" : @"aValidValue3" };
+  NSDictionary *correctlyNestedProperties = @{@"aValidKey1" : @"aValidValue1", @"aValidKey2.aValidKey2" : @"aValidValue3"};
 
   // When
   NSDictionary *result = [[MSAnalytics sharedInstance] removeInvalidProperties:correctlyNestedProperties];
@@ -1021,7 +1279,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 - (void)testDictionaryContainsInvalidPropertiesKey {
 
   // If
-  NSDictionary *incorrectNestedProperties = @{ @1 : @"aValidValue1", @"aValidKey2" : @"aValidValue2" };
+  NSDictionary *incorrectNestedProperties = @{@1 : @"aValidValue1", @"aValidKey2" : @"aValidValue2"};
 
   // When
   NSDictionary *result = [[MSAnalytics sharedInstance] removeInvalidProperties:incorrectNestedProperties];
@@ -1032,7 +1290,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 }
 
 - (void)testDictionaryContainsValidNestedProperties {
-  NSDictionary *properties = @{ @"aValidKey2" : @"aValidValue1", @"aValidKey1.avalidKey2" : @"aValidValue1" };
+  NSDictionary *properties = @{@"aValidKey2" : @"aValidValue1", @"aValidKey1.avalidKey2" : @"aValidValue1"};
   // When
   NSDictionary *result = [[MSAnalytics sharedInstance] removeInvalidProperties:properties];
 

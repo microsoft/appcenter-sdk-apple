@@ -1,5 +1,32 @@
 # App Center SDK for iOS and macOS Change Log
 
+## Version 1.11.0
+
+### AppCenter
+
+* **[Fix]** Fix an issue where concurrent modification of custom properties was not thread safe.
+* **[Fix]** Fix validating and discarding Not a Number (NaN) and infinite double values for custom properties.
+* **[Fix]** Use standard SQL syntax to avoid affecting users with custom SQLite libraries.
+* **[Fix]** Get database page size dynamically to support custom values.
+
+### AppCenterAnalytics
+
+* **[Feature]** Add new trackEvent APIs that take priority (normal or critical) of event logs. Events tracked with critical flag will take precedence over all other logs except crash logs (when AppCenterCrashes is enabled), and only be dropped if storage is full and must make room for newer critical events or crashes logs.
+
+### AppCenterCrashes
+
+* **[Fix]** Do not force crash macOS application on uncaught exception. If you need this behavior you can set the special flag yourself:
+
+    ```objc
+    [[NSUserDefaults standardUserDefaults] registerDefaults:@{ @"NSApplicationCrashOnExceptions" : @YES }];
+    ```
+
+### AppCenterPush
+
+* **[Fix]** Fix `push:didReceivePushNotification:` callback not triggered on notification tapped or received in foreground when a `UNUserNotificationCenterDelegate` is set.  If you have implemented this delegate please remove any call to the `MSPush#didReceiveRemoteNotification:` method as it's now handled by the new [User Notification Center Delegate Forwarder](https://docs.microsoft.com/appcenter/sdk/push/ios).
+
+___
+
 ## Version 1.10.1
 
 This version contains a bug fix for macOS.

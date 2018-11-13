@@ -1,6 +1,6 @@
+#import "MSACModelConstants.h"
 #import "MSAbstractLogInternal.h"
 #import "MSAbstractLogPrivate.h"
-#import "MSACModelConstants.h"
 #import "MSAppExtension.h"
 #import "MSCSExtensions.h"
 #import "MSCSModelConstants.h"
@@ -23,6 +23,7 @@
 @synthesize sid = _sid;
 @synthesize distributionGroupId = _distributionGroupId;
 @synthesize device = _device;
+@synthesize tag = _tag;
 
 - (instancetype)init {
   self = [super init];
@@ -61,7 +62,7 @@
     return NO;
   }
   MSAbstractLog *log = (MSAbstractLog *)object;
-  return ((!self.type && !log.type) || [self.type isEqualToString:log.type]) &&
+  return ((!self.tag && !log.tag) || [self.tag isEqual:log.tag]) && ((!self.type && !log.type) || [self.type isEqualToString:log.type]) &&
          ((!self.timestamp && !log.timestamp) || [self.timestamp isEqualToDate:log.timestamp]) &&
          ((!self.sid && !log.sid) || [self.sid isEqualToString:log.sid]) &&
          ((!self.distributionGroupId && !log.distributionGroupId) || [self.distributionGroupId isEqualToString:log.distributionGroupId]) &&
@@ -96,7 +97,6 @@
   NSString *jsonString;
   NSJSONWritingOptions printOptions = prettyPrint ? NSJSONWritingPrettyPrinted : (NSJSONWritingOptions)0;
   NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[self serializeToDictionary] options:printOptions error:nil];
-
   if (jsonData) {
     jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     jsonString = [jsonString stringByReplacingOccurrencesOfString:@"\\/" withString:@"/"];
@@ -125,10 +125,10 @@
 
 #pragma mark - MSLogConversion
 
-- (NSArray<MSCommonSchemaLog *> *)toCommonSchemaLogs {
+- (NSArray<MSCommonSchemaLog *> *)toCommonSchemaLogsWithFlags:(MSFlags)flags {
   NSMutableArray<MSCommonSchemaLog *> *csLogs = [NSMutableArray new];
   for (NSString *token in self.transmissionTargetTokens) {
-    MSCommonSchemaLog *csLog = [self toCommonSchemaLogForTargetToken:token];
+    MSCommonSchemaLog *csLog = [self toCommonSchemaLogForTargetToken:token flags:(MSFlags)flags];
     if (csLog) {
       [csLogs addObject:csLog];
     }
@@ -140,7 +140,7 @@
 
 #pragma mark - Helper
 
-- (MSCommonSchemaLog *)toCommonSchemaLogForTargetToken:(NSString *)token {
+- (MSCommonSchemaLog *)toCommonSchemaLogForTargetToken:(NSString *)token flags:(MSFlags)flags {
   MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
   csLog.transmissionTargetTokens = [NSSet setWithObject:token];
   csLog.ver = kMSCSVerValue;
@@ -150,8 +150,8 @@
 
   // Calculate iKey based on the target token.
   csLog.iKey = [MSUtility iKeyFromTargetToken:token];
+  csLog.flags = flags;
 
-  // TODO flags not supported at this time.
   // TODO cV not supported at this time.
 
   // Setup extensions.

@@ -119,27 +119,37 @@
   self.sut.sid = sid;
   self.sut.distributionGroupId = distributionGroupId;
   self.sut.device = device;
-
-  // When
-  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.sut];
-  id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
-  MSAbstractLog *actualLog = actual;
+  self.sut.tag = [NSObject new];
+  MSAbstractLog *log = [MSAbstractLog new];
+  log.type = self.sut.type;
+  log.timestamp = self.sut.timestamp;
+  log.sid = self.sut.sid;
+  log.distributionGroupId = self.sut.distributionGroupId;
+  log.device = self.sut.device;
+  log.tag = self.sut.tag;
 
   // Then
-  XCTAssertTrue([self.sut isEqual:actualLog]);
+  XCTAssertTrue([self.sut isEqual:log]);
 
   // When
   self.sut.type = @"new-fake";
 
   // Then
-  XCTAssertFalse([self.sut isEqual:actualLog]);
+  XCTAssertFalse([self.sut isEqual:log]);
+
+  // When
+  self.sut.tag = [NSObject new];
+
+  // Then
+  XCTAssertFalse([self.sut isEqual:log]);
 
   // When
   self.sut.type = @"fake";
   self.sut.distributionGroupId = @"FAKE-NEW-GROUP-ID";
+  self.sut.tag = [NSObject new];
 
   // Then
-  XCTAssertFalse([self.sut isEqual:actualLog]);
+  XCTAssertFalse([self.sut isEqual:log]);
 }
 
 - (void)testSerializingToJsonWorks {
@@ -189,7 +199,7 @@
   self.sut.transmissionTargetTokens = nil;
 
   // When
-  NSArray<MSCommonSchemaLog *> *csLogs = [self.sut toCommonSchemaLogs];
+  NSArray<MSCommonSchemaLog *> *csLogs = [self.sut toCommonSchemaLogsWithFlags:MSFlagsDefault];
 
   // Then
   XCTAssertNil(csLogs);
@@ -201,7 +211,7 @@
   self.sut.transmissionTargetTokens = [@[] mutableCopy];
 
   // When
-  NSArray<MSCommonSchemaLog *> *csLogs = [self.sut toCommonSchemaLogs];
+  NSArray<MSCommonSchemaLog *> *csLogs = [self.sut toCommonSchemaLogsWithFlags:MSFlagsDefault];
 
   // Then
   XCTAssertNil(csLogs);
@@ -234,9 +244,10 @@
   NSString *expectedAppLocale = @"fr_DE";
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
   OCMStub([bundleMock preferredLocalizations]).andReturn(@[ expectedAppLocale ]);
+  MSFlags expectedFlags = MSFlagsPersistenceNormal;
 
   // When
-  NSArray<MSCommonSchemaLog *> *csLogs = [self.sut toCommonSchemaLogs];
+  NSArray<MSCommonSchemaLog *> *csLogs = [self.sut toCommonSchemaLogsWithFlags:MSFlagsPersistenceNormal];
 
   // Then
   XCTAssertEqual(csLogs.count, expectedTokens.count);
@@ -249,6 +260,7 @@
     XCTAssertEqualObjects(log.ver, @"3.0");
     XCTAssertEqualObjects(self.sut.timestamp, log.timestamp);
     XCTAssertTrue([expectedIKeys containsObject:log.iKey]);
+    XCTAssertEqual(expectedFlags, log.flags);
 
     // Extension.
     XCTAssertNotNil(log.ext);

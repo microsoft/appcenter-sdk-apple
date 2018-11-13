@@ -39,8 +39,9 @@ class TargetPropertiesTableSection : PropertiesTableSection {
     let target = MSTransmissionTargets.shared.transmissionTargets[selectedTarget!]!
     cell.state = targetProperties[selectedTarget!]![arrayIndex]
     cell.onChange = { state in
+      let key = self.targetProperties[selectedTarget!]![arrayIndex].key
       self.targetProperties[selectedTarget!]![arrayIndex] = state
-      target.propertyConfigurator.removeEventProperty(forKey: state.key)
+      target.propertyConfigurator.removeEventProperty(forKey: key)
       self.setEventPropertyState(state, forTarget: target)
     }
     return cell
@@ -70,13 +71,17 @@ class TargetPropertiesTableSection : PropertiesTableSection {
   }
 
   func setEventPropertyState(_ state: PropertyState, forTarget target: MSAnalyticsTransmissionTarget) {
-
-    // TODO Add missing cases once new APIs available
     switch state.type {
     case .String:
-      target.propertyConfigurator.setEventPropertyString(state.value as! String, forKey: state.key)
-    default:
-      NSLog("There is no API for event property with type \"\(state.type)\"")
+      target.propertyConfigurator.setEventProperty(state.value as! String, forKey: state.key)
+    case .Boolean:
+      target.propertyConfigurator.setEventProperty(state.value as! Bool, forKey: state.key)
+    case .Double:
+      target.propertyConfigurator.setEventProperty(state.value as! Double, forKey: state.key)
+    case .Long:
+      target.propertyConfigurator.setEventProperty(state.value as! Int64, forKey: state.key)
+    case .DateTime:
+      target.propertyConfigurator.setEventProperty(state.value as! Date, forKey: state.key)
     }
   }
 

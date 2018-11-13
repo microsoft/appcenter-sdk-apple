@@ -95,6 +95,7 @@
 		B2C070C51E5E6A200076D6A9 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B2C070B81E5E68540076D6A9 /* AppCenterDistributeResources.bundle */; };
 		BA682AC831677E0806CA2359 /* MSErrorDetails.h in Headers */ = {isa = PBXBuildFile; fileRef = BA6820A043C816916AF34A04 /* MSErrorDetails.h */; };
 		BA682C81BA750CA5FCB63A51 /* MSErrorDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = BA6826E3C58372A269A6B43A /* MSErrorDetails.m */; };
+		F82E4C83217F217F00EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C82217F217F00EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		F8BEA3CA1FBB0A6E00D4DE37 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8BEA3C81FBB0A5900D4DE37 /* OHHTTPStubs.framework */; };
 		F8BEA3CF1FBB0BE400D4DE37 /* MSHttpTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = F8BEA3CB1FBB0BDE00D4DE37 /* MSHttpTestUtil.m */; };
 /* End PBXBuildFile section */
@@ -228,6 +229,7 @@
 		B2C070BA1E5E68540076D6A9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BA6820A043C816916AF34A04 /* MSErrorDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorDetails.h; sourceTree = "<group>"; };
 		BA6826E3C58372A269A6B43A /* MSErrorDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSErrorDetails.m; sourceTree = "<group>"; };
+		F82E4C82217F217F00EDAB34 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = ../../Vendor/SQLite3/sqlite3.c; sourceTree = "<group>"; };
 		F8646E651F349C6D006080AC /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = Resources/ru.lproj/AppCenterDistribute.strings; sourceTree = "<group>"; };
 		F8B8EAE621106436004BCECB /* Resources.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Resources.xcconfig; sourceTree = "<group>"; };
 		F8BEA3C81FBB0A5900D4DE37 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OHHTTPStubs.framework; sourceTree = "<group>"; };
@@ -437,6 +439,7 @@
 		04FD4A491E453930009B4468 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F82E4C82217F217F00EDAB34 /* sqlite3.c */,
 				04FD4A4A1E453930009B4468 /* libAppCenter.a */,
 				380304401E7B007E006A55FB /* OCHamcrest */,
 				380304321E7B007E006A55FB /* OCMock */,
@@ -782,6 +785,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				040AF0251E523B80005C1174 /* MSReleaseDetailsTests.m in Sources */,
+				F82E4C83217F217F00EDAB34 /* sqlite3.c in Sources */,
 				B20DE7B71E5F97330023075C /* MSDistributeUtilTests.m in Sources */,
 				9E8E3A39203E68B4001A23FD /* MSDistributionStartSessionLogTest.m in Sources */,
 				387CC631210A9D9C002BA068 /* MSMockKeychainUtil.m in Sources */,

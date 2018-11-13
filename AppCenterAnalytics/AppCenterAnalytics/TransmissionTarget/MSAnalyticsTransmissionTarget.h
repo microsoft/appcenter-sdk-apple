@@ -1,7 +1,10 @@
 #import <Foundation/Foundation.h>
 
 #import "MSAnalyticsAuthenticationProvider.h"
+#import "MSConstants+Flags.h"
 #import "MSPropertyConfigurator.h"
+
+@class MSEventProperties;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -29,6 +32,71 @@ NS_ASSUME_NONNULL_BEGIN
  * @param properties dictionary of properties.
  */
 - (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties;
+
+/**
+ * Track an event.
+ *
+ * @param eventName  event name.
+ * @param properties dictionary of properties.
+ * @param flags      Optional flags. Events tracked with the MSFlagsPersistenceCritical flag will take precedence over all other events in
+ * storage. An event tracked with this option will only be dropped if storage must make room for a newer event that is also marked with the
+ * MSFlagsPersistenceCritical flag.
+ */
+- (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties flags:(MSFlags)flags;
+
+/**
+ * Track a custom event with name and optional typed properties.
+ *
+ * @param eventName  Event name.
+ * @param properties Typed properties.
+ *
+ * @discussion The following validation rules are applied:
+ *
+ * The name cannot be null or empty.
+ *
+ * The property names or values cannot be null.
+ *
+ * Double values must be finite (NaN or Infinite values are discarded).
+ *
+ * Additional validation rules apply depending on the configured secret.
+ *
+ * - The event name needs to match the `[a-zA-Z0-9]((\.(?!(\.|$)))|[_a-zA-Z0-9]){3,99}` regular expression.
+ *
+ * - The `baseData` and `baseDataType` properties are reserved and thus discarded.
+ *
+ * - The full event size when encoded as a JSON string cannot be larger than 1.9MB.
+ */
+- (void)trackEvent:(NSString *)eventName
+    withTypedProperties:(nullable MSEventProperties *)properties NS_SWIFT_NAME(trackEvent(_:withProperties:));
+
+/**
+ * Track a custom event with name and optional typed properties.
+ *
+ * @param eventName  Event name.
+ * @param properties Typed properties.
+ * @param flags      Optional flags. Events tracked with the MSFlagsPersistenceCritical flag will take precedence over all other events in
+ * storage. An event tracked with this option will only be dropped if storage must make room for a newer event that is also marked with the
+ * MSFlagsPersistenceCritical flag.
+ *
+ * @discussion The following validation rules are applied:
+ *
+ * The name cannot be null or empty.
+ *
+ * The property names or values cannot be null.
+ *
+ * Double values must be finite (NaN or Infinite values are discarded).
+ *
+ * Additional validation rules apply depending on the configured secret.
+ *
+ * - The event name needs to match the `[a-zA-Z0-9]((\.(?!(\.|$)))|[_a-zA-Z0-9]){3,99}` regular expression.
+ *
+ * - The `baseData` and `baseDataType` properties are reserved and thus discarded.
+ *
+ * - The full event size when encoded as a JSON string cannot be larger than 1.9MB.
+ */
+- (void)trackEvent:(NSString *)eventName
+    withTypedProperties:(nullable MSEventProperties *)properties
+                  flags:(MSFlags)flags NS_SWIFT_NAME(trackEvent(_:withProperties:flags:));
 
 /**
  * Get a nested transmission target.

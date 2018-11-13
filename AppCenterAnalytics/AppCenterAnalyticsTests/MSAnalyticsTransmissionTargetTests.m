@@ -5,15 +5,21 @@
 #import "MSAnalyticsTransmissionTargetPrivate.h"
 #import "MSAppCenterInternal.h"
 #import "MSAppExtension.h"
-#import "MSChannelUnitDefault.h"
+#import "MSBooleanTypedProperty.h"
 #import "MSCSExtensions.h"
+#import "MSChannelUnitDefault.h"
+#import "MSDateTimeTypedProperty.h"
+#import "MSDoubleTypedProperty.h"
 #import "MSEventLog.h"
 #import "MSEventPropertiesInternal.h"
+#import "MSLongTypedProperty.h"
 #import "MSMockUserDefaults.h"
+#import "MSPropertyConfiguratorInternal.h"
 #import "MSPropertyConfiguratorPrivate.h"
 #import "MSStringTypedProperty.h"
 #import "MSTestFrameworks.h"
 
+static NSString *const kMSTypeEvent = @"event";
 static NSString *const kMSTestTransmissionToken = @"TestTransmissionToken";
 static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
@@ -34,9 +40,15 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   self.settingsMock = [MSMockUserDefaults new];
 
   // Analytics enabled state can prevent targets from tracking events.
-  self.analyticsClassMock = OCMClassMock([MSAnalytics class]);
-  OCMStub(ClassMethod([self.analyticsClassMock isEnabled])).andReturn(YES);
+  id analyticsClassMock = OCMClassMock([MSAnalytics class]);
+  self.analyticsClassMock = OCMPartialMock([MSAnalytics sharedInstance]);
+  OCMStub([analyticsClassMock sharedInstance]).andReturn(self.analyticsClassMock);
   self.channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  [MSAppCenter sharedInstance].sdkConfigured = YES;
+  [[MSAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
+                                            appSecret:@"appsecret"
+                              transmissionTargetToken:@"token"
+                                      fromApplication:YES];
 }
 
 - (void)tearDown {
@@ -61,7 +73,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   // Then
   XCTAssertNotNil(sut);
   XCTAssertEqual(kMSTestTransmissionToken, sut.transmissionTargetToken);
-  XCTAssertEqualObjects(sut.propertyConfigurator.eventProperties, @{});
+  XCTAssertTrue([sut.propertyConfigurator.eventProperties isEmpty]);
   XCTAssertNil(MSAnalyticsTransmissionTarget.authenticationProvider);
 }
 
@@ -77,8 +89,8 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   [sut trackEvent:eventName];
 
   // Then
-  XCTAssertTrue(sut.propertyConfigurator.eventProperties.count == 0);
-  OCMVerify(ClassMethod([self.analyticsClassMock trackEvent:eventName withProperties:nil forTransmissionTarget:sut]));
+  XCTAssertTrue(sut.propertyConfigurator.eventProperties.properties.count == 0);
+  OCMVerify([self.analyticsClassMock trackEvent:eventName withTypedProperties:nil forTransmissionTarget:sut flags:MSFlagsDefault]);
 }
 
 - (void)testTrackEventWithProperties {
@@ -88,20 +100,290 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
                                                                                                  parentTarget:nil
                                                                                                  channelGroup:self.channelGroupMock];
   NSString *eventName = @"event";
-  NSDictionary *properties = @{ @"prop1" : @"val1", @"prop2" : @"val2" };
+  NSDictionary *properties = @{@"prop1" : @"val1", @"prop2" : @"val2"};
+  MSEventProperties *expectedProperties = [MSEventProperties new];
+  for (NSString *key in properties.allKeys) {
+    [expectedProperties setString:properties[key] forKey:key];
+  }
 
   // When
   [sut trackEvent:eventName withProperties:properties];
 
   // Then
-  XCTAssertTrue(sut.propertyConfigurator.eventProperties.count == 0);
-  OCMVerify(ClassMethod([self.analyticsClassMock trackEvent:eventName withProperties:properties forTransmissionTarget:sut]));
+  XCTAssertTrue(sut.propertyConfigurator.eventProperties.properties.count == 0);
+  OCMVerify([self.analyticsClassMock trackEvent:eventName
+                            withTypedProperties:expectedProperties
+                          forTransmissionTarget:sut
+                                          flags:MSFlagsDefault]);
+}
+
+- (void)testTrackEventWithNilDictionaryProperties {
+
+  // If
+  MSAnalyticsTransmissionTarget *sut = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
+                                                                                                 parentTarget:nil
+                                                                                                 channelGroup:self.channelGroupMock];
+  NSString *eventName = @"event";
+  OCMStub([self.analyticsClassMock canBeUsed]).andReturn(YES);
+
+  // When
+  [sut trackEvent:eventName withProperties:nil];
+
+  // Then
+  XCTAssertTrue(sut.propertyConfigurator.eventProperties.properties.count == 0);
+  OCMVerify([self.analyticsClassMock trackEvent:eventName withTypedProperties:nil forTransmissionTarget:sut flags:MSFlagsDefault]);
+}
+
+- (void)testTrackEventWithNilEventProperties {
+
+  // If
+  MSAnalyticsTransmissionTarget *sut = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
+                                                                                                 parentTarget:nil
+                                                                                                 channelGroup:self.channelGroupMock];
+  NSString *eventName = @"event";
+  OCMStub([self.analyticsClassMock canBeUsed]).andReturn(YES);
+
+  // When
+  [sut trackEvent:eventName withTypedProperties:nil];
+
+  // Then
+  XCTAssertTrue(sut.propertyConfigurator.eventProperties.properties.count == 0);
+  OCMVerify([self.analyticsClassMock trackEvent:eventName withTypedProperties:nil forTransmissionTarget:sut flags:MSFlagsDefault]);
+}
+
+- (void)testTrackEventWithPropertiesWithNormalPersistenceFlag {
+
+  // If
+  __block NSString *actualType;
+  __block NSString *actualName;
+  __block MSFlags actualFlags;
+  NSString *expectedName = @"event";
+  id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub([self.channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  OCMStub([[channelUnitMock ignoringNonObjectArgs] enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]] flags:(MSFlags)0])
+      .andDo(^(NSInvocation *invocation) {
+        MSEventLog *log;
+        [invocation getArgument:&log atIndex:2];
+        actualType = log.type;
+        actualName = log.name;
+        MSFlags flags;
+        [invocation getArgument:&flags atIndex:3];
+        actualFlags = flags;
+      });
+  MSAnalyticsTransmissionTarget *sut = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
+                                                                                                 parentTarget:nil
+                                                                                                 channelGroup:self.channelGroupMock];
+  NSString *appSecret = MS_UUID_STRING;
+  [MSAppCenter configureWithAppSecret:appSecret];
+  [[MSAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
+                                            appSecret:appSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
+
+  // When
+  [sut trackEvent:expectedName withProperties:nil flags:MSFlagsPersistenceNormal];
+
+  // Then
+  XCTAssertEqual(actualType, kMSTypeEvent);
+  XCTAssertEqual(actualName, expectedName);
+  XCTAssertEqual(actualFlags, MSFlagsPersistenceNormal);
+}
+
+- (void)testTrackEventWithPropertiesWithCriticalPersistenceFlag {
+
+  // If
+  __block NSString *actualType;
+  __block NSString *actualName;
+  __block MSFlags actualFlags;
+  NSString *expectedName = @"event";
+  id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub([self.channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  OCMStub([[channelUnitMock ignoringNonObjectArgs] enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]] flags:(MSFlags)0])
+      .andDo(^(NSInvocation *invocation) {
+        MSEventLog *log;
+        [invocation getArgument:&log atIndex:2];
+        actualType = log.type;
+        actualName = log.name;
+        MSFlags flags;
+        [invocation getArgument:&flags atIndex:3];
+        actualFlags = flags;
+      });
+  MSAnalyticsTransmissionTarget *sut = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
+                                                                                                 parentTarget:nil
+                                                                                                 channelGroup:self.channelGroupMock];
+  NSString *appSecret = MS_UUID_STRING;
+  [MSAppCenter configureWithAppSecret:appSecret];
+  [[MSAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
+                                            appSecret:appSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
+
+  // When
+  [sut trackEvent:expectedName withProperties:nil flags:MSFlagsPersistenceCritical];
+
+  // Then
+  XCTAssertEqual(actualType, kMSTypeEvent);
+  XCTAssertEqual(actualName, expectedName);
+  XCTAssertEqual(actualFlags, MSFlagsPersistenceCritical);
+}
+
+- (void)testTrackEventWithPropertiesWithInvalidFlag {
+
+  // If
+  __block NSString *actualType;
+  __block NSString *actualName;
+  __block MSFlags actualFlags;
+  NSString *expectedName = @"event";
+  id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub([self.channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  OCMStub([[channelUnitMock ignoringNonObjectArgs] enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]] flags:(MSFlags)0])
+      .andDo(^(NSInvocation *invocation) {
+        MSEventLog *log;
+        [invocation getArgument:&log atIndex:2];
+        actualType = log.type;
+        actualName = log.name;
+        MSFlags flags;
+        [invocation getArgument:&flags atIndex:3];
+        actualFlags = flags;
+      });
+  MSAnalyticsTransmissionTarget *sut = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
+                                                                                                 parentTarget:nil
+                                                                                                 channelGroup:self.channelGroupMock];
+  NSString *appSecret = MS_UUID_STRING;
+  [MSAppCenter configureWithAppSecret:appSecret];
+  [[MSAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
+                                            appSecret:appSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
+
+  // When
+  [sut trackEvent:expectedName withProperties:nil flags:42];
+
+  // Then
+  XCTAssertEqual(actualType, kMSTypeEvent);
+  XCTAssertEqual(actualName, expectedName);
+  XCTAssertEqual(actualFlags, MSFlagsPersistenceNormal);
+}
+
+- (void)testTrackEventWithTypedPropertiesWithNormalPersistenceFlag {
+
+  // If
+  __block NSString *actualType;
+  __block NSString *actualName;
+  __block MSFlags actualFlags;
+  NSString *expectedName = @"event";
+  id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub([self.channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  OCMStub([[channelUnitMock ignoringNonObjectArgs] enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]] flags:(MSFlags)0])
+      .andDo(^(NSInvocation *invocation) {
+        MSEventLog *log;
+        [invocation getArgument:&log atIndex:2];
+        actualType = log.type;
+        actualName = log.name;
+        MSFlags flags;
+        [invocation getArgument:&flags atIndex:3];
+        actualFlags = flags;
+      });
+  MSAnalyticsTransmissionTarget *sut = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
+                                                                                                 parentTarget:nil
+                                                                                                 channelGroup:self.channelGroupMock];
+  NSString *appSecret = MS_UUID_STRING;
+  [MSAppCenter configureWithAppSecret:appSecret];
+  [[MSAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
+                                            appSecret:appSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
+
+  // When
+  [sut trackEvent:expectedName withTypedProperties:nil flags:MSFlagsPersistenceNormal];
+
+  // Then
+  XCTAssertEqual(actualType, kMSTypeEvent);
+  XCTAssertEqual(actualName, expectedName);
+  XCTAssertEqual(actualFlags, MSFlagsPersistenceNormal);
+}
+
+- (void)testTrackEventWithTypedPropertiesWithCriticalPersistenceFlag {
+
+  // If
+  __block NSString *actualType;
+  __block NSString *actualName;
+  __block MSFlags actualFlags;
+  NSString *expectedName = @"event";
+  id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub([self.channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  OCMStub([[channelUnitMock ignoringNonObjectArgs] enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]] flags:(MSFlags)0])
+      .andDo(^(NSInvocation *invocation) {
+        MSEventLog *log;
+        [invocation getArgument:&log atIndex:2];
+        actualType = log.type;
+        actualName = log.name;
+        MSFlags flags;
+        [invocation getArgument:&flags atIndex:3];
+        actualFlags = flags;
+      });
+  MSAnalyticsTransmissionTarget *sut = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
+                                                                                                 parentTarget:nil
+                                                                                                 channelGroup:self.channelGroupMock];
+  NSString *appSecret = MS_UUID_STRING;
+  [MSAppCenter configureWithAppSecret:appSecret];
+  [[MSAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
+                                            appSecret:appSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
+
+  // When
+  [sut trackEvent:expectedName withTypedProperties:nil flags:MSFlagsPersistenceCritical];
+
+  // Then
+  XCTAssertEqual(actualType, kMSTypeEvent);
+  XCTAssertEqual(actualName, expectedName);
+  XCTAssertEqual(actualFlags, MSFlagsPersistenceCritical);
+}
+
+- (void)testTrackEventWithTypedPropertiesWithInvalidFlag {
+
+  // If
+  __block NSString *actualType;
+  __block NSString *actualName;
+  __block MSFlags actualFlags;
+  NSString *expectedName = @"event";
+  id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub([self.channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  OCMStub([[channelUnitMock ignoringNonObjectArgs] enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]] flags:(MSFlags)0])
+      .andDo(^(NSInvocation *invocation) {
+        MSEventLog *log;
+        [invocation getArgument:&log atIndex:2];
+        actualType = log.type;
+        actualName = log.name;
+        MSFlags flags;
+        [invocation getArgument:&flags atIndex:3];
+        actualFlags = flags;
+      });
+  MSAnalyticsTransmissionTarget *sut = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
+                                                                                                 parentTarget:nil
+                                                                                                 channelGroup:self.channelGroupMock];
+  NSString *appSecret = MS_UUID_STRING;
+  [MSAppCenter configureWithAppSecret:appSecret];
+  [[MSAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
+                                            appSecret:appSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
+
+  // When
+  [sut trackEvent:expectedName withTypedProperties:nil flags:42];
+
+  // Then
+  XCTAssertEqual(actualType, kMSTypeEvent);
+  XCTAssertEqual(actualName, expectedName);
+  XCTAssertEqual(actualFlags, MSFlagsPersistenceNormal);
 }
 
 - (void)testTransmissionTargetForToken {
 
   // If
   NSDictionary *properties = [NSDictionary new];
+  MSEventProperties *emptyProperties = [MSEventProperties new];
   NSString *event1 = @"event1";
   NSString *event2 = @"event2";
   NSString *event3 = @"event3";
@@ -135,28 +417,44 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   // Then
   XCTAssertNotEqualObjects(parentTransmissionTarget, childTransmissionTarget3);
   XCTAssertEqualObjects(childTransmissionTarget3, parentTransmissionTarget.childTransmissionTargets[kMSTestTransmissionToken]);
-  OCMVerify(
-      ClassMethod([self.analyticsClassMock trackEvent:event1 withProperties:properties forTransmissionTarget:childTransmissionTarget]));
-  OCMVerify(
-      ClassMethod([self.analyticsClassMock trackEvent:event2 withProperties:properties forTransmissionTarget:childTransmissionTarget2]));
-  OCMVerify(
-      ClassMethod([self.analyticsClassMock trackEvent:event3 withProperties:properties forTransmissionTarget:childTransmissionTarget3]));
+  OCMVerify([self.analyticsClassMock trackEvent:event1
+                            withTypedProperties:emptyProperties
+                          forTransmissionTarget:childTransmissionTarget
+                                          flags:MSFlagsDefault]);
+  OCMVerify([self.analyticsClassMock trackEvent:event2
+                            withTypedProperties:emptyProperties
+                          forTransmissionTarget:childTransmissionTarget2
+                                          flags:MSFlagsDefault]);
+  OCMVerify([self.analyticsClassMock trackEvent:event3
+                            withTypedProperties:emptyProperties
+                          forTransmissionTarget:childTransmissionTarget3
+                                          flags:MSFlagsDefault]);
 }
 
 - (void)testTransmissionTargetEnabledState {
 
   // If
-  NSDictionary *properties = @{ @"prop1" : @"val1", @"prop2" : @"val2" };
+  NSDictionary *properties = @{@"prop1" : @"val1", @"prop2" : @"val2"};
+  MSEventProperties *expectedProperties = [MSEventProperties new];
+  for (NSString *key in properties.allKeys) {
+    [expectedProperties setString:properties[key] forKey:key];
+  }
   NSString *event1 = @"event1";
   NSString *event2 = @"event2";
   NSString *event3 = @"event3";
   NSString *event4 = @"event4";
-
   MSAnalyticsTransmissionTarget *transmissionTarget, *transmissionTarget2;
+  OCMStub([self.analyticsClassMock canBeUsed]).andReturn(YES);
 
   // Events tracked when disabled mustn't be sent.
-  OCMReject(ClassMethod([self.analyticsClassMock trackEvent:event2 withProperties:properties forTransmissionTarget:transmissionTarget]));
-  OCMReject(ClassMethod([self.analyticsClassMock trackEvent:event3 withProperties:properties forTransmissionTarget:transmissionTarget2]));
+  OCMReject([self.analyticsClassMock trackEvent:event2
+                                 withProperties:properties
+                          forTransmissionTarget:transmissionTarget
+                                          flags:MSFlagsDefault]);
+  OCMReject([self.analyticsClassMock trackEvent:event3
+                                 withProperties:properties
+                          forTransmissionTarget:transmissionTarget2
+                                          flags:MSFlagsDefault]);
 
   // When
 
@@ -199,8 +497,14 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // Then
   XCTAssertTrue([transmissionTarget2 isEnabled]);
-  OCMVerify(ClassMethod([self.analyticsClassMock trackEvent:event1 withProperties:properties forTransmissionTarget:transmissionTarget]));
-  OCMVerify(ClassMethod([self.analyticsClassMock trackEvent:event4 withProperties:properties forTransmissionTarget:transmissionTarget2]));
+  OCMVerify([self.analyticsClassMock trackEvent:event1
+                            withTypedProperties:expectedProperties
+                          forTransmissionTarget:transmissionTarget
+                                          flags:MSFlagsDefault]);
+  OCMVerify([self.analyticsClassMock trackEvent:event4
+                            withTypedProperties:expectedProperties
+                          forTransmissionTarget:transmissionTarget2
+                                          flags:MSFlagsDefault]);
 }
 
 - (void)testTransmissionTargetNestedEnabledState {
@@ -328,69 +632,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   }
 }
 
-- (void)testSetAndRemoveEventProperty {
-
-  // If
-  MSAnalyticsTransmissionTarget *targetMock =
-      [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
-                                                                parentTarget:nil
-                                                                channelGroup:self.channelGroupMock];
-  MSPropertyConfigurator *configurator = [[MSPropertyConfigurator alloc] initWithTransmissionTarget:targetMock];
-
-  NSString *prop1Key = @"prop1";
-  NSString *prop1Value = @"val1";
-
-  // When
-  [configurator removeEventPropertyForKey:prop1Key];
-
-  // Then
-  XCTAssertEqualObjects(configurator.eventProperties, @{});
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wnonnull"
-  // When
-  [configurator removeEventPropertyForKey:nil];
-
-  // Then
-  XCTAssertEqualObjects(configurator.eventProperties, @{});
-
-  // When
-  [configurator setEventPropertyString:nil forKey:prop1Key];
-
-  // Then
-  XCTAssertEqualObjects(configurator.eventProperties, @{});
-
-  // When
-  [configurator setEventPropertyString:prop1Value forKey:nil];
-
-  // Then
-  XCTAssertEqualObjects(configurator.eventProperties, @{});
-#pragma clang diagnostic pop
-
-  // When
-  [configurator setEventPropertyString:prop1Value forKey:prop1Key];
-
-  // Then
-  XCTAssertEqualObjects(configurator.eventProperties, @{prop1Key : prop1Value});
-
-  // If
-  NSString *prop2Key = @"prop2";
-  NSString *prop2Value = @"val2";
-
-  // When
-  [configurator setEventPropertyString:prop2Value forKey:prop2Key];
-
-  // Then
-  XCTAssertEqualObjects(configurator.eventProperties, (@{prop1Key : prop1Value, prop2Key : prop2Value}));
-
-  // When
-  [configurator removeEventPropertyForKey:prop1Key];
-
-  // Then
-  XCTAssertEqualObjects(configurator.eventProperties, @{prop2Key : prop2Value});
-}
-
-- (void)testMergingEventProperties {
+- (void)testMergingEventPropertiesWithCommonPropertiesOnly {
 
   // If
 
@@ -401,36 +643,112 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   NSString *eventName = @"event";
   NSString *propCommonKey = @"propCommonKey";
   NSString *propCommonValue = @"propCommonValue";
+  NSString *propCommonDoubleKey = @"propCommonDoubleKey";
+  double propCommonDoubleValue = 298374;
   NSString *propCommonKey2 = @"sharedPropKey";
-  NSString *propCommonValue2 = @"propCommonValue2";
+  NSDate *propCommonValue2 = [NSDate date];
+
   [target.propertyConfigurator setEventPropertyString:propCommonValue forKey:propCommonKey];
-  [target.propertyConfigurator setEventPropertyString:propCommonValue2 forKey:propCommonKey2];
+  [target.propertyConfigurator setEventPropertyDouble:propCommonDoubleValue forKey:propCommonDoubleKey];
+  [target.propertyConfigurator setEventPropertyDate:propCommonValue2 forKey:propCommonKey2];
+  MSEventProperties *expectedProperties = [MSEventProperties new];
+  [expectedProperties setString:propCommonValue forKey:propCommonKey];
+  [expectedProperties setDate:propCommonValue2 forKey:propCommonKey2];
+  [expectedProperties setDouble:propCommonDoubleValue forKey:propCommonDoubleKey];
 
   // When
   [target trackEvent:eventName];
 
   // Then
-  id commonProperties = @{propCommonKey : propCommonValue, propCommonKey2 : propCommonValue2};
-  XCTAssertEqualObjects(target.propertyConfigurator.eventProperties, commonProperties);
-  OCMVerify(ClassMethod([self.analyticsClassMock trackEvent:eventName withProperties:commonProperties forTransmissionTarget:target]));
+  OCMVerify([self.analyticsClassMock trackEvent:eventName
+                            withTypedProperties:expectedProperties
+                          forTransmissionTarget:target
+                                          flags:MSFlagsDefault]);
+}
+
+- (void)testMergingEventPropertiesWithCommonAndTrackEventProperties {
 
   // If
+  MSAnalyticsTransmissionTarget *target = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
+                                                                                                    parentTarget:nil
+                                                                                                    channelGroup:self.channelGroupMock];
 
-  // Both common properties and track event properties.
+  // Common properties.
+  NSString *eventName = @"event";
+  NSString *propCommonKey = @"propCommonKey";
+  NSString *propCommonValue = @"propCommonValue";
+  NSString *propCommonDoubleKey = @"propCommonDoubleKey";
+  double propCommonDoubleValue = 298374;
+  NSString *propCommonKey2 = @"sharedPropKey";
+  NSDate *propCommonValue2 = [NSDate date];
+  [target.propertyConfigurator setEventPropertyString:propCommonValue forKey:propCommonKey];
+  [target.propertyConfigurator setEventPropertyDouble:propCommonDoubleValue forKey:propCommonDoubleKey];
+  [target.propertyConfigurator setEventPropertyDate:propCommonValue2 forKey:propCommonKey2];
+
+  // Track event properties.
   NSString *propTrackKey = @"propTrackKey";
   NSString *propTrackValue = @"propTrackValue";
   NSString *propTrackKey2 = @"sharedPropKey";
   NSString *propTrackValue2 = @"propTrackValue2";
+  MSEventProperties *expectedProperties = [MSEventProperties new];
+  [expectedProperties setString:propCommonValue forKey:propCommonKey];
+  [expectedProperties setDate:propCommonValue2 forKey:propCommonKey2];
+  [expectedProperties setDouble:propCommonDoubleValue forKey:propCommonDoubleKey];
+  [expectedProperties setString:propTrackValue forKey:propTrackKey];
+  [expectedProperties setString:propTrackValue2 forKey:propTrackKey2];
 
   // When
   [target trackEvent:eventName withProperties:@{propTrackKey : propTrackValue, propTrackKey2 : propTrackValue2}];
 
   // Then
-  XCTAssertEqualObjects(target.propertyConfigurator.eventProperties, commonProperties);
-  OCMVerify(ClassMethod([self.analyticsClassMock
-                 trackEvent:eventName
-             withProperties:(@{propCommonKey : propCommonValue, propTrackKey : propTrackValue, propTrackKey2 : propTrackValue2})
-      forTransmissionTarget:target]));
+  OCMVerify([self.analyticsClassMock trackEvent:eventName
+                            withTypedProperties:expectedProperties
+                          forTransmissionTarget:target
+                                          flags:MSFlagsDefault]);
+}
+
+- (void)testMergingEventPropertiesWithCommonAndTrackEventTypedProperties {
+
+  // If
+  MSAnalyticsTransmissionTarget *target = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSTestTransmissionToken
+                                                                                                    parentTarget:nil
+                                                                                                    channelGroup:self.channelGroupMock];
+
+  // Common properties.
+  NSString *eventName = @"event";
+  NSString *propCommonKey = @"propCommonKey";
+  NSString *propCommonValue = @"propCommonValue";
+  NSString *propCommonDoubleKey = @"propCommonDoubleKey";
+  double propCommonDoubleValue = 298374;
+  NSString *propCommonKey2 = @"sharedPropKey";
+  NSDate *propCommonValue2 = [NSDate date];
+  [target.propertyConfigurator setEventPropertyString:propCommonValue forKey:propCommonKey];
+  [target.propertyConfigurator setEventPropertyDouble:propCommonDoubleValue forKey:propCommonDoubleKey];
+  [target.propertyConfigurator setEventPropertyDate:propCommonValue2 forKey:propCommonKey2];
+
+  // Track event properties.
+  NSString *propTrackKey = @"propTrackKey";
+  NSString *propTrackValue = @"propTrackValue";
+  NSString *propTrackKey2 = @"sharedPropKey";
+  BOOL propTrackValue2 = YES;
+  MSEventProperties *expectedProperties = [MSEventProperties new];
+  [expectedProperties setString:propCommonValue forKey:propCommonKey];
+  [expectedProperties setDate:propCommonValue2 forKey:propCommonKey2];
+  [expectedProperties setDouble:propCommonDoubleValue forKey:propCommonDoubleKey];
+  [expectedProperties setString:propTrackValue forKey:propTrackKey];
+  [expectedProperties setBool:propTrackValue2 forKey:propTrackKey2];
+  MSEventProperties *trackEventProperties = [MSEventProperties new];
+  [trackEventProperties setString:propTrackValue forKey:propTrackKey];
+  [trackEventProperties setBool:propTrackValue2 forKey:propTrackKey2];
+
+  // When
+  [target trackEvent:eventName withTypedProperties:trackEventProperties];
+
+  // Then
+  OCMVerify([self.analyticsClassMock trackEvent:eventName
+                            withTypedProperties:expectedProperties
+                          forTransmissionTarget:target
+                                          flags:MSFlagsDefault]);
 }
 
 - (void)testEventPropertiesCascading {
@@ -462,8 +780,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   // Set a new property in parent.
   [parent.propertyConfigurator setEventPropertyString:@"44" forKey:@"d"];
 
-  // Just to show we still get value from parent which is inherited from grand
-  // parent, if we remove an override. */
+  // Just to show we still get value from parent which is inherited from grand parent, if we remove an override.
   [parent.propertyConfigurator setEventPropertyString:@"33" forKey:@"c"];
   [parent.propertyConfigurator removeEventPropertyForKey:@"c"];
 
@@ -481,7 +798,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // Mock channel group.
   __block MSEventLog *eventLog;
-  OCMStub([channelUnitMock enqueueItem:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+  OCMStub([channelUnitMock enqueueItem:OCMOCK_ANY flags:MSFlagsDefault]).andDo(^(NSInvocation *invocation) {
     id<MSLog> log = nil;
     [invocation getArgument:&log atIndex:2];
     eventLog = (MSEventLog *)log;
@@ -499,6 +816,75 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   XCTAssertEqualObjects(((MSStringTypedProperty *)eventLog.typedProperties.properties[@"d"]).value, @"444");
   XCTAssertEqualObjects(((MSStringTypedProperty *)eventLog.typedProperties.properties[@"e"]).value, @"555");
   XCTAssertEqualObjects(((MSStringTypedProperty *)eventLog.typedProperties.properties[@"f"]).value, @"6666");
+  XCTAssertEqualObjects(((MSStringTypedProperty *)eventLog.typedProperties.properties[@"g"]).value, @"7777");
+}
+
+- (void)testEventPropertiesCascadingWithTypes {
+
+  // If
+  [MSAnalytics resetSharedInstance];
+  id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub([self.channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  [MSAppCenter sharedInstance].sdkConfigured = YES;
+  [[MSAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
+                                            appSecret:@"appsecret"
+                              transmissionTargetToken:@"token"
+                                      fromApplication:YES];
+
+  // Prepare target instances.
+  MSAnalyticsTransmissionTarget *grandParent = [MSAnalytics transmissionTargetForToken:@"grand-parent"];
+  MSAnalyticsTransmissionTarget *parent = [grandParent transmissionTargetForToken:@"parent"];
+  MSAnalyticsTransmissionTarget *child = [parent transmissionTargetForToken:@"child"];
+
+  // Set properties to grand parent.
+  [grandParent.propertyConfigurator setEventPropertyString:@"1" forKey:@"a"];
+  [grandParent.propertyConfigurator setEventPropertyDouble:2.0 forKey:@"b"];
+  [grandParent.propertyConfigurator setEventPropertyString:@"3" forKey:@"c"];
+
+  // Override some properties.
+  [parent.propertyConfigurator setEventPropertyInt64:11 forKey:@"a"];
+  [parent.propertyConfigurator setEventPropertyString:@"22" forKey:@"b"];
+
+  // Set a new property in parent.
+  [parent.propertyConfigurator setEventPropertyInt64:44 forKey:@"d"];
+
+  // Just to show we still get value from parent which is inherited from grand parent, if we remove an override.
+  [parent.propertyConfigurator setEventPropertyString:@"33" forKey:@"c"];
+  [parent.propertyConfigurator removeEventPropertyForKey:@"c"];
+
+  // Override a property.
+  [child.propertyConfigurator setEventPropertyBool:YES forKey:@"d"];
+
+  // Set new properties in child.
+  [child.propertyConfigurator setEventPropertyDouble:55.5 forKey:@"e"];
+  [child.propertyConfigurator setEventPropertyString:@"666" forKey:@"f"];
+
+  // Track event in child. Override some properties in trackEvent.
+  MSEventProperties *properties = [MSEventProperties new];
+  [properties setDate:[NSDate dateWithTimeIntervalSince1970:6666] forKey:@"f"];
+  [properties setString:@"7777" forKey:@"g"];
+
+  // Mock channel group.
+  __block MSEventLog *eventLog;
+  OCMStub([channelUnitMock enqueueItem:OCMOCK_ANY flags:MSFlagsDefault]).andDo(^(NSInvocation *invocation) {
+    id<MSLog> log = nil;
+    [invocation getArgument:&log atIndex:2];
+    eventLog = (MSEventLog *)log;
+  });
+
+  // When
+  [child trackEvent:@"eventName" withTypedProperties:properties];
+
+  // Then
+  XCTAssertNotNil(eventLog);
+  XCTAssertEqual([eventLog.typedProperties.properties count], 7);
+  XCTAssertEqual(((MSLongTypedProperty *)eventLog.typedProperties.properties[@"a"]).value, 11);
+  XCTAssertEqualObjects(((MSStringTypedProperty *)eventLog.typedProperties.properties[@"b"]).value, @"22");
+  XCTAssertEqualObjects(((MSStringTypedProperty *)eventLog.typedProperties.properties[@"c"]).value, @"3");
+  XCTAssertEqual(((MSBooleanTypedProperty *)eventLog.typedProperties.properties[@"d"]).value, YES);
+  XCTAssertEqual(((MSDoubleTypedProperty *)eventLog.typedProperties.properties[@"e"]).value, 55.5);
+  XCTAssertEqualObjects(((MSDateTimeTypedProperty *)eventLog.typedProperties.properties[@"f"]).value,
+                        [NSDate dateWithTimeIntervalSince1970:6666]);
   XCTAssertEqualObjects(((MSStringTypedProperty *)eventLog.typedProperties.properties[@"g"]).value, @"7777");
 }
 
@@ -544,6 +930,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // Set a log with default values.
   MSCommonSchemaLog *log = [MSCommonSchemaLog new];
+  log.tag = child;
   log.ext = [MSCSExtensions new];
   log.ext.appExt = [MSAppExtension new];
   [log addTransmissionTargetToken:@"parent"];
@@ -572,6 +959,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // Set a log.
   MSCommonSchemaLog *log = [MSCommonSchemaLog new];
+  log.tag = target;
   [log addTransmissionTargetToken:@"target"];
   log.ext = [MSCSExtensions new];
   log.ext.appExt = [MSAppExtension new];
@@ -603,6 +991,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // Set a log.
   MSCommonSchemaLog *log = [MSCommonSchemaLog new];
+  log.tag = child;
   log.ext = [MSCSExtensions new];
   log.ext.appExt = [MSAppExtension new];
   log.ext.appExt.ver = @"0.0.1";
@@ -615,9 +1004,9 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   [child.propertyConfigurator channel:nil prepareLog:log];
 
   // Then
-  XCTAssertEqual(log.ext.appExt.ver, parent.propertyConfigurator.appVersion);
-  XCTAssertEqual(log.ext.appExt.name, parent.propertyConfigurator.appName);
-  XCTAssertEqual(log.ext.appExt.locale, parent.propertyConfigurator.appLocale);
+  XCTAssertEqualObjects(log.ext.appExt.ver, parent.propertyConfigurator.appVersion);
+  XCTAssertEqualObjects(log.ext.appExt.name, parent.propertyConfigurator.appName);
+  XCTAssertEqualObjects(log.ext.appExt.locale, parent.propertyConfigurator.appLocale);
 }
 
 - (void)testOverridingCommonSchemaPropertiesDoNothingWhenTargetIsDisabled {
@@ -641,6 +1030,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // Set a log.
   MSCommonSchemaLog *log = [MSCommonSchemaLog new];
+  log.tag = child;
   log.ext = [MSCSExtensions new];
   log.ext.appExt = [MSAppExtension new];
   log.ext.appExt.ver = @"0.0.1";
@@ -675,6 +1065,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // Reset a log.
   log = [MSCommonSchemaLog new];
+  log.tag = child;
   log.ext = [MSCSExtensions new];
   log.ext.appExt = [MSAppExtension new];
   log.ext.appExt.ver = @"0.0.1";
@@ -696,7 +1087,6 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 - (void)testOverridingCommonSchemaPropertiesWithTwoChildrenUnderTheSameParent {
 
   // If
-  // Prepare target instances.
   MSAnalyticsTransmissionTarget *parent = [MSAnalytics transmissionTargetForToken:@"parent"];
   MSAnalyticsTransmissionTarget *child1 = [parent transmissionTargetForToken:@"child1"];
   MSAnalyticsTransmissionTarget *child2 = [parent transmissionTargetForToken:@"child2"];
@@ -711,60 +1101,54 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   [child1.propertyConfigurator setAppName:@"Child1AppName"];
   [child1.propertyConfigurator setAppLocale:@"fr-ca"];
 
-  // Set log1.
-  MSCommonSchemaLog *log1 = [MSCommonSchemaLog new];
-  log1.ext = [MSCSExtensions new];
-  log1.ext.appExt = [MSAppExtension new];
-  log1.ext.appExt.ver = @"0.0.1";
-  log1.ext.appExt.name = @"base1AppName";
-  log1.ext.appExt.locale = @"zh-cn";
-  [log1 addTransmissionTargetToken:@"parent"];
-  [log1 addTransmissionTargetToken:@"child1"];
-  [log1 addTransmissionTargetToken:@"child2"];
+  // Parent log.
+  MSCommonSchemaLog *parentLog = [MSCommonSchemaLog new];
+  parentLog.tag = parent;
+  parentLog.ext = [MSCSExtensions new];
+  parentLog.ext.appExt = [MSAppExtension new];
+  parentLog.ext.appExt.ver = @"0.0.1";
+  parentLog.ext.appExt.name = @"base1AppName";
+  parentLog.ext.appExt.locale = @"zh-cn";
+  [parentLog addTransmissionTargetToken:@"parent"];
+
+  // Child1 log.
+  MSCommonSchemaLog *child1Log = [MSCommonSchemaLog new];
+  child1Log.tag = child1;
+  child1Log.ext = [MSCSExtensions new];
+  child1Log.ext.appExt = [MSAppExtension new];
+  child1Log.ext.appExt.ver = @"0.0.1";
+  child1Log.ext.appExt.name = @"base1AppName";
+  child1Log.ext.appExt.locale = @"zh-cn";
+  [child1Log addTransmissionTargetToken:@"child1"];
+
+  // Child2 log.
+  MSCommonSchemaLog *child2Log = [MSCommonSchemaLog new];
+  child2Log.tag = child2;
+  child2Log.ext = [MSCSExtensions new];
+  child2Log.ext.appExt = [MSAppExtension new];
+  child2Log.ext.appExt.ver = @"0.0.2";
+  child2Log.ext.appExt.name = @"base2AppName";
+  child2Log.ext.appExt.locale = @"en-us";
+  [child2Log addTransmissionTargetToken:@"child2"];
 
   // When
-  [parent.propertyConfigurator channel:nil prepareLog:log1];
+  [parent.propertyConfigurator channel:nil prepareLog:parentLog];
+  [child1.propertyConfigurator channel:nil prepareLog:child1Log];
+  [child2.propertyConfigurator channel:nil prepareLog:child2Log];
 
   // Then
-  XCTAssertEqual(log1.ext.appExt.ver, parent.propertyConfigurator.appVersion);
-  XCTAssertEqual(log1.ext.appExt.name, parent.propertyConfigurator.appName);
-  XCTAssertEqual(log1.ext.appExt.locale, parent.propertyConfigurator.appLocale);
-
-  // When
-  [child1.propertyConfigurator channel:nil prepareLog:log1];
-
-  // Then
-  XCTAssertEqual(log1.ext.appExt.ver, child1.propertyConfigurator.appVersion);
-  XCTAssertEqual(log1.ext.appExt.name, child1.propertyConfigurator.appName);
-  XCTAssertEqual(log1.ext.appExt.locale, child1.propertyConfigurator.appLocale);
-  XCTAssertNotEqual(log1.ext.appExt.ver, parent.propertyConfigurator.appVersion);
-  XCTAssertNotEqual(log1.ext.appExt.name, parent.propertyConfigurator.appName);
-  XCTAssertNotEqual(log1.ext.appExt.locale, parent.propertyConfigurator.appLocale);
+  XCTAssertEqualObjects(parentLog.ext.appExt.ver, parent.propertyConfigurator.appVersion);
+  XCTAssertEqualObjects(parentLog.ext.appExt.name, parent.propertyConfigurator.appName);
+  XCTAssertEqualObjects(parentLog.ext.appExt.locale, parent.propertyConfigurator.appLocale);
+  XCTAssertEqualObjects(child1Log.ext.appExt.ver, child1.propertyConfigurator.appVersion);
+  XCTAssertEqualObjects(child1Log.ext.appExt.name, child1.propertyConfigurator.appName);
+  XCTAssertEqualObjects(child1Log.ext.appExt.locale, child1.propertyConfigurator.appLocale);
+  XCTAssertEqualObjects(child2Log.ext.appExt.ver, parent.propertyConfigurator.appVersion);
+  XCTAssertEqualObjects(child2Log.ext.appExt.name, parent.propertyConfigurator.appName);
+  XCTAssertEqualObjects(child2Log.ext.appExt.locale, parent.propertyConfigurator.appLocale);
   XCTAssertNil(child2.propertyConfigurator.appVersion);
   XCTAssertNil(child2.propertyConfigurator.appName);
   XCTAssertNil(child2.propertyConfigurator.appLocale);
-
-  // If
-  MSCommonSchemaLog *log2 = [MSCommonSchemaLog new];
-  log2.ext = [MSCSExtensions new];
-  log2.ext.appExt = [MSAppExtension new];
-  log2.ext.appExt.ver = @"0.0.2";
-  log2.ext.appExt.name = @"base2AppName";
-  log2.ext.appExt.locale = @"en-us";
-  [log2 addTransmissionTargetToken:@"parent"];
-  [log2 addTransmissionTargetToken:@"child1"];
-  [log2 addTransmissionTargetToken:@"child2"];
-
-  // When
-  [child2.propertyConfigurator channel:nil prepareLog:log2];
-
-  // Then
-  XCTAssertEqual(log2.ext.appExt.ver, parent.propertyConfigurator.appVersion);
-  XCTAssertEqual(log2.ext.appExt.name, parent.propertyConfigurator.appName);
-  XCTAssertEqual(log2.ext.appExt.locale, parent.propertyConfigurator.appLocale);
-  XCTAssertNotEqual(log2.ext.appExt.ver, child1.propertyConfigurator.appVersion);
-  XCTAssertNotEqual(log2.ext.appExt.name, child1.propertyConfigurator.appName);
-  XCTAssertNotEqual(log2.ext.appExt.locale, child1.propertyConfigurator.appLocale);
 }
 
 - (void)testAddAuthenticationProvider {
@@ -804,37 +1188,35 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 - (void)testPauseSucceedsWhenTargetIsEnabled {
 
   // If
-  id analyticsMock = OCMPartialMock([MSAnalytics sharedInstance]);
   MSAnalyticsTransmissionTarget *sut = [MSAnalytics transmissionTargetForToken:kMSTestTransmissionToken];
 
   // When
   [sut pause];
 
   // Then
-  OCMVerify([analyticsMock pauseTransmissionTargetForToken:kMSTestTransmissionToken]);
+  OCMVerify([self.analyticsClassMock pauseTransmissionTargetForToken:kMSTestTransmissionToken]);
 }
 
 - (void)testResumeSucceedsWhenTargetIsEnabled {
 
   // If
-  id analyticsMock = OCMPartialMock([MSAnalytics sharedInstance]);
   MSAnalyticsTransmissionTarget *sut = [MSAnalytics transmissionTargetForToken:kMSTestTransmissionToken];
 
   // When
   [sut resume];
 
   // Then
-  OCMVerify([analyticsMock resumeTransmissionTargetForToken:kMSTestTransmissionToken]);
+  OCMVerify([self.analyticsClassMock resumeTransmissionTargetForToken:kMSTestTransmissionToken]);
 }
 
 - (void)testPauseDoesNotPauseWhenTargetIsDisabled {
 
   // If
-  id analyticsMock = OCMPartialMock([MSAnalytics sharedInstance]);
   MSAnalyticsTransmissionTarget *sut = [MSAnalytics transmissionTargetForToken:kMSTestTransmissionToken];
+  OCMStub([self.analyticsClassMock canBeUsed]).andReturn(YES);
 
   // Then
-  OCMReject([analyticsMock pauseTransmissionTargetForToken:kMSTestTransmissionToken]);
+  OCMReject([self.analyticsClassMock pauseTransmissionTargetForToken:kMSTestTransmissionToken]);
 
   // When
   [MSAnalytics setEnabled:NO];
@@ -844,12 +1226,11 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 - (void)testResumeDoesNotResumeWhenTargetIsDisabled {
 
   // If
-  id analyticsMock = OCMPartialMock([MSAnalytics sharedInstance]);
-  OCMStub([analyticsMock canBeUsed]).andReturn(YES);
   MSAnalyticsTransmissionTarget *sut = [MSAnalytics transmissionTargetForToken:kMSTestTransmissionToken];
+  OCMStub([self.analyticsClassMock canBeUsed]).andReturn(YES);
 
   // Then
-  OCMReject([analyticsMock resumeTransmissionTargetForToken:kMSTestTransmissionToken]);
+  OCMReject([self.analyticsClassMock resumeTransmissionTargetForToken:kMSTestTransmissionToken]);
 
   // When
   [sut setEnabled:NO];
@@ -859,8 +1240,6 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 - (void)testPausedAndDisabledTargetIsResumedWhenEnabled {
 
   // If
-  id analyticsMock = OCMPartialMock([MSAnalytics sharedInstance]);
-  OCMStub([analyticsMock canBeUsed]).andReturn(YES);
   MSAnalyticsTransmissionTarget *sut = [MSAnalytics transmissionTargetForToken:kMSTestTransmissionToken];
   [sut pause];
   [sut setEnabled:NO];
@@ -869,7 +1248,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   [sut setEnabled:YES];
 
   // Then
-  OCMVerify([analyticsMock resumeTransmissionTargetForToken:kMSTestTransmissionToken]);
+  OCMVerify([self.analyticsClassMock resumeTransmissionTargetForToken:kMSTestTransmissionToken]);
 }
 
 @end

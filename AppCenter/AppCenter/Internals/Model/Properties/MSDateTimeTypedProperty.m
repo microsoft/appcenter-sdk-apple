@@ -1,7 +1,6 @@
 #import "MSDateTimeTypedProperty.h"
+#import "MSACModelConstants.h"
 #import "MSUtility+Date.h"
-
-static NSString *const kMSDateTimeTypedPropertyType = @"dateTime";
 
 @implementation MSDateTimeTypedProperty
 
@@ -29,6 +28,14 @@ static NSString *const kMSDateTimeTypedPropertyType = @"dateTime";
   NSMutableDictionary *dict = [super serializeToDictionary];
   dict[kMSTypedPropertyValue] = [MSUtility dateToISO8601:self.value];
   return dict;
+}
+
+- (BOOL)isEqual:(id)object {
+  if (![(NSObject *)object isKindOfClass:[MSDateTimeTypedProperty class]] || ![super isEqual:object]) {
+    return NO;
+  }
+  MSDateTimeTypedProperty *property = (MSDateTimeTypedProperty *)object;
+  return ((!self.value && !property.value) || [self.value isEqualToDate:property.value]);
 }
 
 @end

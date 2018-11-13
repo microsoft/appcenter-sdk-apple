@@ -1,11 +1,11 @@
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenterInternal.h"
-#import "MSChannelUnitConfiguration.h"
-#import "MSChannelUnitProtocol.h"
-#import "MSConstants+Internal.h"
 #import "MSCSData.h"
 #import "MSCSEpochAndSeq.h"
 #import "MSCSExtensions.h"
+#import "MSChannelUnitConfiguration.h"
+#import "MSChannelUnitProtocol.h"
+#import "MSConstants+Internal.h"
 #import "MSOneCollectorChannelDelegatePrivate.h"
 #import "MSOneCollectorIngestion.h"
 #import "MSSDKExtension.h"
@@ -46,8 +46,8 @@ NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){
     NSString *oneCollectorGroupId = [NSString stringWithFormat:@"%@%@", channel.configuration.groupId, kMSOneCollectorGroupIdSuffix];
     MSChannelUnitConfiguration *channelUnitConfiguration =
         [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:oneCollectorGroupId];
-    id<MSChannelUnitProtocol> channelUnit =
-        [channelGroup addChannelUnitWithConfiguration:channelUnitConfiguration withIngestion:self.oneCollectorIngestion];
+    id<MSChannelUnitProtocol> channelUnit = [channelGroup addChannelUnitWithConfiguration:channelUnitConfiguration
+                                                                            withIngestion:self.oneCollectorIngestion];
     self.oneCollectorChannels[groupId] = channelUnit;
   }
 }
@@ -73,7 +73,10 @@ NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){
   }
 }
 
-- (void)channel:(id<MSChannelProtocol>)channel didPrepareLog:(id<MSLog>)log withInternalId:(NSString *)__unused internalId {
+- (void)channel:(id<MSChannelProtocol>)channel
+    didPrepareLog:(id<MSLog>)log
+       internalId:(NSString *)__unused internalId
+            flags:(MSFlags)flags {
   id<MSChannelUnitProtocol> channelUnit = (id<MSChannelUnitProtocol>)channel;
   id<MSChannelUnitProtocol> oneCollectorChannelUnit = nil;
   NSString *groupId = channelUnit.configuration.groupId;
@@ -85,9 +88,7 @@ NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){
   if ([(NSObject *)log isKindOfClass:[MSCommonSchemaLog class]] && ![self isOneCollectorGroup:groupId]) {
     oneCollectorChannelUnit = self.oneCollectorChannels[groupId];
     if (oneCollectorChannelUnit) {
-      dispatch_async(oneCollectorChannelUnit.logsDispatchQueue, ^{
-        [oneCollectorChannelUnit enqueueItem:log];
-      });
+      [oneCollectorChannelUnit enqueueItem:log flags:flags];
     }
     return;
   }
@@ -99,11 +100,9 @@ NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){
     return;
   }
   id<MSLogConversion> logConversion = (id<MSLogConversion>)log;
-  NSArray<MSCommonSchemaLog *> *commonSchemaLogs = [logConversion toCommonSchemaLogs];
+  NSArray<MSCommonSchemaLog *> *commonSchemaLogs = [logConversion toCommonSchemaLogsWithFlags:flags];
   for (MSCommonSchemaLog *commonSchemaLog in commonSchemaLogs) {
-    dispatch_async(oneCollectorChannelUnit.logsDispatchQueue, ^{
-      [oneCollectorChannelUnit enqueueItem:commonSchemaLog];
-    });
+    [oneCollectorChannelUnit enqueueItem:commonSchemaLog flags:flags];
   }
 }
 

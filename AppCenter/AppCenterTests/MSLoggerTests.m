@@ -35,7 +35,7 @@
   XCTAssertTrue([MSLogger currentLogLevel] == MSLogLevelWarning);
 }
 
-- (void)testLoglevels {
+- (void)testSetLoglevels {
 
   // Check isUserDefinedLogLevel
   XCTAssertFalse([MSLogger isUserDefinedLogLevel]);
@@ -46,6 +46,21 @@
 - (void)testSetCurrentLoglevelWorks {
   [MSLogger setCurrentLogLevel:MSLogLevelWarning];
   XCTAssertTrue([MSLogger currentLogLevel] == MSLogLevelWarning);
+}
+
+- (void)testLoglevelNoneDoesNotLogMessages {
+
+  // If
+  MSLogMessageProvider messageProvider = ^() {
+
+    // Then
+    XCTFail(@"Log shouldn't be printed.");
+    return @"";
+  };
+
+  // When
+  [MSLogger setCurrentLogLevel:MSLogLevelNone];
+  [MSLogger logMessage:messageProvider level:MSLogLevelNone tag:@"TAG" file:nil function:nil line:0];
 }
 
 @end

@@ -2,10 +2,11 @@
 #import "MSAnalyticsInternal.h"
 #import "MSAnalyticsTransmissionTargetInternal.h"
 #import "MSAnalyticsTransmissionTargetPrivate.h"
-#import "MSCommonSchemaLog.h"
 #import "MSCSExtensions.h"
+#import "MSCommonSchemaLog.h"
+#import "MSEventPropertiesInternal.h"
 #import "MSLogger.h"
-#import "MSPropertyConfiguratorPrivate.h"
+#import "MSPropertyConfiguratorInternal.h"
 #import "MSProtocolExtension.h"
 #import "MSServiceAbstractInternal.h"
 #import "MSUtility+StringFormatting.h"
@@ -55,40 +56,49 @@ static MSAnalyticsAuthenticationProvider *_authenticationProvider;
   }
 }
 
-/**
- * Track an event.
- *
- * @param eventName  event name.
- */
 - (void)trackEvent:(NSString *)eventName {
   [self trackEvent:eventName withProperties:nil];
 }
 
-/**
- * Track an event.
- *
- * @param eventName  event name.
- * @param properties dictionary of properties.
- */
 - (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties {
-  NSMutableDictionary *mergedProperties = [NSMutableDictionary new];
+  [self trackEvent:eventName withProperties:properties flags:MSFlagsDefault];
+}
+
+- (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties flags:(MSFlags)flags {
+  MSEventProperties *eventProperties;
+  if (properties) {
+    eventProperties = [MSEventProperties new];
+    for (NSString *key in properties.allKeys) {
+      NSString *value = properties[key];
+      [eventProperties setString:value forKey:key];
+    }
+  }
+  [self trackEvent:eventName withTypedProperties:eventProperties flags:flags];
+}
+
+- (void)trackEvent:(NSString *)eventName withTypedProperties:(nullable MSEventProperties *)properties {
+  [self trackEvent:eventName withTypedProperties:properties flags:MSFlagsDefault];
+}
+
+- (void)trackEvent:(NSString *)eventName withTypedProperties:(nullable MSEventProperties *)properties flags:(MSFlags)flags {
+  MSEventProperties *mergedProperties = [MSEventProperties new];
 
   // Merge properties in its ancestors.
   MSAnalyticsTransmissionTarget *target = self;
   while (target != nil) {
-    [target mergeEventPropertiesWith:mergedProperties];
+    [target.propertyConfigurator mergeTypedPropertiesWith:mergedProperties];
     target = target.parentTarget;
   }
 
   // Override properties.
   if (properties) {
-    [mergedProperties addEntriesFromDictionary:(NSDictionary * _Nonnull)properties];
-  } else if ([mergedProperties count] == 0) {
+    [mergedProperties mergeEventProperties:(MSEventProperties * __nonnull) properties];
+  } else if ([mergedProperties isEmpty]) {
 
     // Set nil for the properties to pass nil to trackEvent.
     mergedProperties = nil;
   }
-  [MSAnalytics trackEvent:eventName withProperties:mergedProperties forTransmissionTarget:self];
+  [MSAnalytics trackEvent:eventName withTypedProperties:mergedProperties forTransmissionTarget:self flags:flags];
 }
 
 - (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:(NSString *)token {
@@ -186,17 +196,6 @@ static MSAnalyticsAuthenticationProvider *_authenticationProvider;
 + (void)setAuthenticationProvider:(MSAnalyticsAuthenticationProvider *)authenticationProvider {
   @synchronized(self) {
     _authenticationProvider = authenticationProvider;
-  }
-}
-
-- (void)mergeEventPropertiesWith:(NSMutableDictionary<NSString *, NSString *> *)mergedProperties {
-  @synchronized([MSAnalytics sharedInstance]) {
-    for (NSString *key in self.propertyConfigurator.eventProperties) {
-      if (mergedProperties[key] == nil) {
-        NSString *value = self.propertyConfigurator.eventProperties[key];
-        mergedProperties[key] = value;
-      }
-    }
   }
 }
 

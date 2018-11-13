@@ -10,11 +10,13 @@
 #import "MSAnalyticsTransmissionTargetInternal.h"
 #import "MSAnalyticsTransmissionTargetPrivate.h"
 #import "MSAppExtension.h"
-#import "MSCommonSchemaLog.h"
 #import "MSCSExtensions.h"
+#import "MSCommonSchemaLog.h"
 #import "MSDeviceExtension.h"
+#import "MSEventPropertiesInternal.h"
 #import "MSLogger.h"
 #import "MSPropertyConfiguratorPrivate.h"
+#import "MSStringTypedProperty.h"
 
 @implementation MSPropertyConfigurator
 
@@ -27,7 +29,7 @@ static const char deviceIdPrefix = 'i';
 - (instancetype)initWithTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget {
   if ((self = [super init])) {
     _transmissionTarget = transmissionTarget;
-    _eventProperties = [NSMutableDictionary<NSString *, NSString *> new];
+    _eventProperties = [MSEventProperties new];
   }
   return self;
 }
@@ -46,11 +48,31 @@ static const char deviceIdPrefix = 'i';
 
 - (void)setEventPropertyString:(NSString *)propertyValue forKey:(NSString *)propertyKey {
   @synchronized([MSAnalytics sharedInstance]) {
-    if (!propertyValue || !propertyKey) {
-      MSLogError([MSAnalytics logTag], @"Event property keys and values cannot be nil.");
-      return;
-    }
-    self.eventProperties[propertyKey] = propertyValue;
+    [self.eventProperties setString:propertyValue forKey:propertyKey];
+  }
+}
+
+- (void)setEventPropertyDouble:(double)propertyValue forKey:(NSString *)propertyKey {
+  @synchronized([MSAnalytics sharedInstance]) {
+    [self.eventProperties setDouble:propertyValue forKey:propertyKey];
+  }
+}
+
+- (void)setEventPropertyInt64:(int64_t)propertyValue forKey:(NSString *)propertyKey {
+  @synchronized([MSAnalytics sharedInstance]) {
+    [self.eventProperties setInt64:propertyValue forKey:propertyKey];
+  }
+}
+
+- (void)setEventPropertyBool:(BOOL)propertyValue forKey:(NSString *)propertyKey {
+  @synchronized([MSAnalytics sharedInstance]) {
+    [self.eventProperties setBool:propertyValue forKey:propertyKey];
+  }
+}
+
+- (void)setEventPropertyDate:(NSDate *)propertyValue forKey:(NSString *)propertyKey {
+  @synchronized([MSAnalytics sharedInstance]) {
+    [self.eventProperties setDate:propertyValue forKey:propertyKey];
   }
 }
 
@@ -60,7 +82,7 @@ static const char deviceIdPrefix = 'i';
       MSLogError([MSAnalytics logTag], @"Event property key to remove cannot be nil.");
       return;
     }
-    [self.eventProperties removeObjectForKey:propertyKey];
+    [self.eventProperties.properties removeObjectForKey:propertyKey];
   }
 }
 
@@ -72,14 +94,7 @@ static const char deviceIdPrefix = 'i';
 
 - (void)channel:(id<MSChannelProtocol>)__unused channel prepareLog:(id<MSLog>)log {
   MSAnalyticsTransmissionTarget *target = self.transmissionTarget;
-  if (target && [log isKindOfClass:[MSCommonSchemaLog class]] && [target isEnabled]) {
-
-    // TODO Find a better way to override properties.
-
-    // Only override properties for owned target.
-    if (![log.transmissionTargetTokens containsObject:target.transmissionTargetToken]) {
-      return;
-    }
+  if (target && [log isKindOfClass:[MSCommonSchemaLog class]] && [target isEnabled] && [log.tag isEqual:target]) {
 
     // Override the application version.
     while (target) {
@@ -111,7 +126,7 @@ static const char deviceIdPrefix = 'i';
     }
 
     // The device ID must not be inherited from parent transmission targets.
-    [((MSCommonSchemaLog *)log)ext].deviceExt.localId = self.deviceId;
+    [((MSCommonSchemaLog *)log) ext].deviceExt.localId = self.deviceId;
   }
 }
 
@@ -143,6 +158,16 @@ static const char deviceIdPrefix = 'i';
   baseIdentifier = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
 #endif
   return [NSString stringWithFormat:@"%c:%@", deviceIdPrefix, baseIdentifier];
+}
+
+- (void)mergeTypedPropertiesWith:(MSEventProperties *)mergedEventProperties {
+  @synchronized([MSAnalytics sharedInstance]) {
+    for (NSString *key in self.eventProperties.properties) {
+      if (!mergedEventProperties.properties[key]) {
+        mergedEventProperties.properties[key] = self.eventProperties.properties[key];
+      }
+    }
+  }
 }
 
 @end

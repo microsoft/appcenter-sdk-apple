@@ -15,8 +15,8 @@
 #import "MSUtility+StringFormatting.h"
 
 #if !TARGET_OS_TV
+#import "MSCustomPropertiesInternal.h"
 #import "MSCustomPropertiesLog.h"
-#import "MSCustomPropertiesPrivate.h"
 #endif
 
 /**
@@ -122,7 +122,7 @@ static const long kMSMinUpperSizeLimitInBytes = 20 * 1024;
 
 + (BOOL)isAppDelegateForwarderEnabled {
   @synchronized([MSAppCenter sharedInstance]) {
-    return MSAppDelegateForwarder.enabled;
+    return [MSAppDelegateForwarder sharedInstance].enabled;
   }
 }
 
@@ -138,7 +138,7 @@ static const long kMSMinUpperSizeLimitInBytes = 20 * 1024;
   MSLogger.currentLogLevel = logLevel;
 
   // The logger is not set at the time of swizzling but now may be a good time to flush the traces.
-  [MSAppDelegateForwarder flushTraceBuffer];
+  [MSDelegateForwarder flushTraceBuffer];
 }
 
 + (void)setLogHandler:(MSLogHandler)logHandler {
@@ -268,8 +268,9 @@ static const long kMSMinUpperSizeLimitInBytes = 20 * 1024;
   @synchronized(self) {
     NSString *appSecret = [MSUtility appSecretFrom:secretString];
     NSString *transmissionTargetToken = [MSUtility transmissionTargetTokenFrom:secretString];
-    BOOL configured =
-        [self configureWithAppSecret:appSecret transmissionTargetToken:transmissionTargetToken fromApplication:fromApplication];
+    BOOL configured = [self configureWithAppSecret:appSecret
+                           transmissionTargetToken:transmissionTargetToken
+                                   fromApplication:fromApplication];
     if (configured && services) {
       NSArray *sortedServices = [self sortServices:services];
       MSLogVerbose([MSAppCenter logTag], @"Start services %@ from %@", [sortedServices componentsJoinedByString:@", "],
@@ -443,11 +444,12 @@ static const long kMSMinUpperSizeLimitInBytes = 20 * 1024;
 
 #if !TARGET_OS_TV
 - (void)setCustomProperties:(MSCustomProperties *)customProperties {
-  if (!customProperties || (customProperties.properties.count == 0)) {
+  NSDictionary<NSString *, NSObject *> *propertiesCopy = [customProperties propertiesImmutableCopy];
+  if (!customProperties || (propertiesCopy.count == 0)) {
     MSLogError([MSAppCenter logTag], @"Custom properties may not be null or empty");
     return;
   }
-  [self sendCustomPropertiesLog:customProperties.properties];
+  [self sendCustomPropertiesLog:propertiesCopy];
 }
 #endif
 
@@ -576,7 +578,7 @@ static const long kMSMinUpperSizeLimitInBytes = 20 * 1024;
   if (self.isEnabled) {
     MSStartServiceLog *serviceLog = [MSStartServiceLog new];
     serviceLog.services = servicesNames;
-    [self.channelUnit enqueueItem:serviceLog];
+    [self.channelUnit enqueueItem:serviceLog flags:MSFlagsDefault];
   } else {
     if (self.startedServiceNames == nil) {
       self.startedServiceNames = [NSMutableArray new];
@@ -589,7 +591,7 @@ static const long kMSMinUpperSizeLimitInBytes = 20 * 1024;
 - (void)sendCustomPropertiesLog:(NSDictionary<NSString *, NSObject *> *)properties {
   MSCustomPropertiesLog *customPropertiesLog = [MSCustomPropertiesLog new];
   customPropertiesLog.properties = properties;
-  [self.channelUnit enqueueItem:customPropertiesLog];
+  [self.channelUnit enqueueItem:customPropertiesLog flags:MSFlagsDefault];
 }
 #endif
 

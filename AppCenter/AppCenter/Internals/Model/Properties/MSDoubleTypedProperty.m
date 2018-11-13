@@ -1,6 +1,5 @@
 #import "MSDoubleTypedProperty.h"
-
-static NSString *const kMSDoubleTypedPropertyType = @"double";
+#import "MSACModelConstants.h"
 
 @implementation MSDoubleTypedProperty
 
@@ -28,6 +27,14 @@ static NSString *const kMSDoubleTypedPropertyType = @"double";
   NSMutableDictionary *dict = [super serializeToDictionary];
   dict[kMSTypedPropertyValue] = @(self.value);
   return dict;
+}
+
+- (BOOL)isEqual:(id)object {
+  if (![(NSObject *)object isKindOfClass:[MSDoubleTypedProperty class]] || ![super isEqual:object]) {
+    return NO;
+  }
+  MSDoubleTypedProperty *property = (MSDoubleTypedProperty *)object;
+  return (self.value == property.value);
 }
 
 @end

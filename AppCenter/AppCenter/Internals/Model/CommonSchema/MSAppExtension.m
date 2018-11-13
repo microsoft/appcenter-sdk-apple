@@ -19,7 +19,7 @@
   if (self.locale) {
     dict[kMSAppLocale] = self.locale;
   }
-  return dict;
+  return dict.count == 0 ? nil : dict;
 }
 
 #pragma mark - MSModel

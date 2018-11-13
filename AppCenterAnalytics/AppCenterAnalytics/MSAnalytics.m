@@ -81,7 +81,12 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
               fromApplication:(BOOL)fromApplication {
   [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
   if (token) {
-    self.defaultTransmissionTarget = [self transmissionTargetForToken:(NSString *)token];
+
+    /*
+     * Don't use [self transmissionTargetForToken] because that will add the default transmission target to the cache, but it should be
+     * separate.
+     */
+    self.defaultTransmissionTarget = [self createTransmissionTargetForToken:token];
   }
 
   // Set up swizzling for auto page tracking.
@@ -153,7 +158,12 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 
   // Create the default target if not already created in start.
   if (token && !self.defaultTransmissionTarget) {
-    self.defaultTransmissionTarget = [self transmissionTargetForToken:token];
+
+    /*
+     * Don't use [self transmissionTargetForToken] because that will add the default transmission target to the cache, but it should be
+     * separate.
+     */
+    self.defaultTransmissionTarget = [self createTransmissionTargetForToken:token];
   }
 }
 
@@ -164,29 +174,42 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 }
 
 + (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties {
-  [self trackEvent:eventName withProperties:properties forTransmissionTarget:nil];
+  [self trackEvent:eventName withProperties:properties flags:MSFlagsDefault];
+}
+
++ (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties flags:(MSFlags)flags {
+  [self trackEvent:eventName withProperties:properties forTransmissionTarget:nil flags:flags];
 }
 
 + (void)trackEvent:(NSString *)eventName withTypedProperties:(nullable MSEventProperties *)properties {
-  [self trackEvent:eventName withTypedProperties:properties forTransmissionTarget:nil];
+  [self trackEvent:eventName withTypedProperties:properties flags:MSFlagsDefault];
+}
+
++ (void)trackEvent:(NSString *)eventName withTypedProperties:(nullable MSEventProperties *)properties flags:(MSFlags)flags {
+  [self trackEvent:eventName withTypedProperties:properties forTransmissionTarget:nil flags:flags];
 }
 
 + (void)trackEvent:(NSString *)eventName
            withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
-    forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarget {
+    forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarget
+                    flags:(MSFlags)flags {
   @synchronized(self) {
     if ([[MSAnalytics sharedInstance] canBeUsed]) {
-      [[MSAnalytics sharedInstance] trackEvent:eventName withProperties:properties forTransmissionTarget:transmissionTarget];
+      [[MSAnalytics sharedInstance] trackEvent:eventName withProperties:properties forTransmissionTarget:transmissionTarget flags:flags];
     }
   }
 }
 
 + (void)trackEvent:(NSString *)eventName
       withTypedProperties:(nullable MSEventProperties *)properties
-    forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarget {
+    forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarget
+                    flags:(MSFlags)flags {
   @synchronized(self) {
     if ([[MSAnalytics sharedInstance] canBeUsed]) {
-      [[MSAnalytics sharedInstance] trackEvent:eventName withTypedProperties:properties forTransmissionTarget:transmissionTarget];
+      [[MSAnalytics sharedInstance] trackEvent:eventName
+                           withTypedProperties:properties
+                         forTransmissionTarget:transmissionTarget
+                                         flags:flags];
     }
   }
 }
@@ -249,15 +272,17 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 
 - (void)trackEvent:(NSString *)eventName
            withProperties:(NSDictionary<NSString *, NSString *> *)properties
-    forTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget {
+    forTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget
+                    flags:(MSFlags)flags {
   NSDictionary *validProperties = [self removeInvalidProperties:properties];
   MSEventProperties *eventProperties = [[MSEventProperties alloc] initWithStringDictionary:validProperties];
-  [self trackEvent:eventName withTypedProperties:eventProperties forTransmissionTarget:transmissionTarget];
+  [self trackEvent:eventName withTypedProperties:eventProperties forTransmissionTarget:transmissionTarget flags:flags];
 }
 
 - (void)trackEvent:(NSString *)eventName
       withTypedProperties:(MSEventProperties *)properties
-    forTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget {
+    forTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget
+                    flags:(MSFlags)flags {
   if (![self isEnabled]) {
     return;
   }
@@ -267,6 +292,13 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
     transmissionTarget = self.defaultTransmissionTarget;
   }
 
+  // Validate flags.
+  MSFlags persistenceFlag = flags & kMSPersistenceFlagsMask;
+  if (persistenceFlag != MSFlagsPersistenceNormal && persistenceFlag != MSFlagsPersistenceCritical) {
+    MSLogWarning([MSAnalytics logTag], @"Invalid flags (%u) received, using normal as a default.", (unsigned int)persistenceFlag);
+    persistenceFlag = MSFlagsPersistenceNormal;
+  }
+
   // Create an event log.
   MSEventLog *log = [MSEventLog new];
 
@@ -274,6 +306,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   if (transmissionTarget) {
     if (transmissionTarget.isEnabled) {
       [log addTransmissionTargetToken:[transmissionTarget transmissionTargetToken]];
+      log.tag = transmissionTarget;
     } else {
       MSLogError([MSAnalytics logTag], @"This transmission target is disabled.");
       return;
@@ -288,23 +321,8 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   }
   log.typedProperties = [properties isEmpty] ? nil : properties;
 
-  //TODO Remove the workaround below once transmission targets support EventProperties.
-  /*
-   * If there are any target tokens, the typed properties must be moved into the old "properties" field. This can be removed once the One Collector
-   * logic is able to deal with the EventProperties object. Until then, this workaround prevents One Collector logs from breaking.
-   */
-  if (log.typedProperties && [log.transmissionTargetTokens count] != 0) {
-    NSMutableDictionary *oldStyleStringProperties = [NSMutableDictionary new];
-    for (MSTypedProperty *property in [log.typedProperties.properties objectEnumerator]) {
-      if ([property isKindOfClass:[MSStringTypedProperty class]]) {
-        oldStyleStringProperties[property.name] = ((MSStringTypedProperty *)property).value;
-      }
-    }
-    log.properties = oldStyleStringProperties;
-  }
-
   // Send log to channel.
-  [self sendLog:log];
+  [self sendLog:log flags:persistenceFlag];
 }
 
 - (void)pause {
@@ -354,7 +372,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   }
 
   // Send log to log manager.
-  [self sendLog:log];
+  [self sendLog:log flags:MSFlagsDefault];
 }
 
 - (void)setAutoPageTrackingEnabled:(BOOL)isEnabled {
@@ -365,10 +383,10 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   return self.autoPageTrackingEnabled;
 }
 
-- (void)sendLog:(id<MSLog>)log {
+- (void)sendLog:(id<MSLog>)log flags:(MSFlags)flags {
 
   // Send log to log manager.
-  [self.channelUnit enqueueItem:log];
+  [self.channelUnit enqueueItem:log flags:flags];
 }
 
 - (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:(NSString *)transmissionTargetToken {
@@ -378,17 +396,22 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
                [MSUtility targetKeyFromTargetToken:transmissionTargetToken]);
     return transmissionTarget;
   }
-  transmissionTarget = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:transmissionTargetToken
-                                                                                 parentTarget:nil
-                                                                                 channelGroup:self.channelGroup];
-  MSLogDebug([MSAnalytics logTag], @"Created transmission target with id %@.",
-             [MSUtility targetKeyFromTargetToken:transmissionTargetToken]);
+  transmissionTarget = [self createTransmissionTargetForToken:transmissionTargetToken];
   self.transmissionTargets[transmissionTargetToken] = transmissionTarget;
 
   // TODO: Start service if not already.
   // Scenario: getTransmissionTarget gets called before App Center has an app
   // secret or transmission target but start has been called for this service.
   return transmissionTarget;
+}
+
+- (MSAnalyticsTransmissionTarget *)createTransmissionTargetForToken:(NSString *)transmissionTargetToken {
+  MSAnalyticsTransmissionTarget *target = [[MSAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:transmissionTargetToken
+                                                                                                    parentTarget:nil
+                                                                                                    channelGroup:self.channelGroup];
+  MSLogDebug([MSAnalytics logTag], @"Created transmission target with target key %@.",
+             [MSUtility targetKeyFromTargetToken:transmissionTargetToken]);
+  return target;
 }
 
 - (void)pauseTransmissionTargetForToken:(NSString *)token {
@@ -422,7 +445,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 
 - (void)sessionTracker:(id)sessionTracker processLog:(id<MSLog>)log {
   (void)sessionTracker;
-  [self sendLog:log];
+  [self sendLog:log flags:MSFlagsDefault];
 }
 
 + (void)setDelegate:(nullable id<MSAnalyticsDelegate>)delegate {
@@ -455,8 +478,8 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   if ([logObject isKindOfClass:[MSEventLog class]] && [self.delegate respondsToSelector:@selector(analytics:didSucceedSendingEventLog:)]) {
     MSEventLog *eventLog = (MSEventLog *)log;
     [self.delegate analytics:self didSucceedSendingEventLog:eventLog];
-  } else if ([logObject isKindOfClass:[MSPageLog class]] &&
-             [self.delegate respondsToSelector:@selector(analytics:didSucceedSendingPageLog:)]) {
+  } else if ([logObject isKindOfClass:[MSPageLog class]] && [self.delegate respondsToSelector:@selector(analytics:
+                                                                                                  didSucceedSendingPageLog:)]) {
     MSPageLog *pageLog = (MSPageLog *)log;
     [self.delegate analytics:self didSucceedSendingPageLog:pageLog];
   }
@@ -468,12 +491,12 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
     return;
   }
   NSObject *logObject = (NSObject *)log;
-  if ([logObject isKindOfClass:[MSEventLog class]] &&
-      [self.delegate respondsToSelector:@selector(analytics:didFailSendingEventLog:withError:)]) {
+  if ([logObject isKindOfClass:[MSEventLog class]] && [self.delegate respondsToSelector:@selector(analytics:
+                                                                                            didFailSendingEventLog:withError:)]) {
     MSEventLog *eventLog = (MSEventLog *)log;
     [self.delegate analytics:self didFailSendingEventLog:eventLog withError:error];
-  } else if ([logObject isKindOfClass:[MSPageLog class]] &&
-             [self.delegate respondsToSelector:@selector(analytics:didFailSendingPageLog:withError:)]) {
+  } else if ([logObject isKindOfClass:[MSPageLog class]] && [self.delegate respondsToSelector:@selector(analytics:
+                                                                                                  didFailSendingPageLog:withError:)]) {
     MSPageLog *pageLog = (MSPageLog *)log;
     [self.delegate analytics:self didFailSendingPageLog:pageLog withError:error];
   }

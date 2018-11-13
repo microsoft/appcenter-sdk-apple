@@ -35,15 +35,19 @@ static const int maxPropertyValueLength = 128;
 }
 
 - (instancetype)setObject:(NSObject *)value forKey:(NSString *)key {
-  if ([self isValidKey:key] && [self isValidValue:value]) {
-    [self.properties setObject:value forKey:key];
+  @synchronized(self.properties) {
+    if ([self isValidKey:key] && [self isValidValue:value]) {
+      [self.properties setObject:value forKey:key];
+    }
   }
   return self;
 }
 
 - (instancetype)clearPropertyForKey:(NSString *)key {
-  if ([self isValidKey:key]) {
-    [self.properties setObject:[NSNull null] forKey:key];
+  @synchronized(self.properties) {
+    if ([self isValidKey:key]) {
+      [self.properties setObject:[NSNull null] forKey:key];
+    }
   }
   return self;
 }
@@ -84,12 +88,24 @@ static const int maxPropertyValueLength = 128;
         MSLogError([MSAppCenter logTag], @"Custom property value length cannot be longer than \"%d\" characters.", maxPropertyValueLength);
         return NO;
       }
+    } else if ([value isKindOfClass:[NSNumber class]]) {
+      double number = [(NSNumber *)value doubleValue];
+      if (number == (double)INFINITY || number == -(double)INFINITY || number != number) {
+        MSLogError([MSAppCenter logTag], @"Custom property value cannot be NaN or infinite.");
+        return NO;
+      }
     }
   } else {
     MSLogError([MSAppCenter logTag], @"Custom property value cannot be null, did you mean to call clear?");
     return NO;
   }
   return YES;
+}
+
+- (NSDictionary<NSString *, NSObject *> *)propertiesImmutableCopy {
+  @synchronized(self.properties) {
+    return [[NSDictionary alloc] initWithDictionary:self.properties];
+  }
 }
 
 @end

@@ -3,12 +3,13 @@
 @interface MSEventLog ()
 
 /**
- * Convert AppCenter properties to Common Schema 3.0 Part C properties.
- *
- * @param acProperties The AppCenter properties.
- *
- * @return A dictionary of key-value pairs.
+ * Maps each typed property string identifier to a CS type identifier.
  */
-- (NSDictionary<NSString *, NSObject *> *)convertACPropertiesToCSproperties:(NSDictionary<NSString *, NSString *> *)acProperties;
+@property(nonatomic) NSDictionary *metadataTypeIdMapping;
+
+/**
+ * Convert AppCenter properties to Common Schema 3.0 Part C properties.
+ */
+- (void)setPropertiesAndMetadataForCSLog:(MSCommonSchemaLog *)csLog;
 
 @end

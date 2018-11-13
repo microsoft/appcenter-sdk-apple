@@ -1,5 +1,5 @@
-#import "MSCSModelConstants.h"
 #import "MSSDKExtension.h"
+#import "MSCSModelConstants.h"
 
 @implementation MSSDKExtension
 
@@ -21,7 +21,7 @@
   if (self.seq) {
     dict[kMSSDKSeq] = @(self.seq);
   }
-  return dict;
+  return dict.count == 0 ? nil : dict;
 }
 
 #pragma mark - MSModel
