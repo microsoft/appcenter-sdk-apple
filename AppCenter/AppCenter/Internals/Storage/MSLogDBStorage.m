@@ -67,14 +67,13 @@ static const NSUInteger kMSSchemaVersion = 3;
                                    targetKey ? [NSString stringWithFormat:@"'%@'", targetKey] : @"NULL", (unsigned int)persistenceFlags];
   }
   return [self executeQueryUsingBlock:^int(void *db) {
-
            // Check maximum size.
            NSArray<NSArray *> *rows = [MSDBStorage executeSelectionQuery:@"PRAGMA max_page_count;" inOpenedDatabase:db];
            NSUInteger maxSize = [(NSNumber *)rows[0][0] intValue] * kMSDefaultDatabaseSizeInBytes;
            if (base64Data.length > maxSize) {
              MSLogError([MSAppCenter logTag],
-                          @"Log is too large (%tu bytes) to store in database. Current maximum database size is %tu bytes.",
-                          base64Data.length, maxSize);
+                        @"Log is too large (%tu bytes) to store in database. Current maximum database size is %tu bytes.",
+                        base64Data.length, maxSize);
              return SQLITE_ERROR;
            }
 
