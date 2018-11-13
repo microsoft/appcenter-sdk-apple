@@ -282,30 +282,30 @@ static NSString *const kMSTestGroupId = @"GroupId";
 }
 
 - (void)testNotCheckingPendingLogsOnEnqueueFailure {
-  
+
   // If
   [self initChannelEndJobExpectation];
-  MSChannelUnitConfiguration *config = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
-                                                                                  priority:MSPriorityDefault
-                                                                             flushInterval:5
-                                                                            batchSizeLimit:10
-                                                                       pendingBatchesLimit:3];
-  self.sut.configuration = config;
+  self.configMock = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
+                                                               priority:MSPriorityDefault
+                                                          flushInterval:5
+                                                         batchSizeLimit:10
+                                                    pendingBatchesLimit:3];
   self.storageMock = OCMProtocolMock(@protocol(MSStorage));
   OCMStub([self.storageMock saveLog:OCMOCK_ANY withGroupId:OCMOCK_ANY flags:MSFlagsDefault]).andReturn(NO);
   self.sut = [[MSChannelUnitDefault alloc] initWithIngestion:self.ingestionMock
                                                      storage:self.storageMock
                                                configuration:self.configMock
                                            logsDispatchQueue:self.logsDispatchQueue];
+  id channelUnitMock = OCMPartialMock(self.sut);
+  OCMReject([channelUnitMock checkPendingLogs]);
   int itemsToAdd = 3;
-  OCMReject([self.sut checkPendingLogs]);
-  
+
   // When
   for (int i = 1; i <= itemsToAdd; i++) {
     [self.sut enqueueItem:[self getValidMockLog] flags:MSFlagsDefault];
   }
   [self enqueueChannelEndJobExpectation];
-  
+
   // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
