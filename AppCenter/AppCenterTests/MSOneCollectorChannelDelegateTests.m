@@ -233,18 +233,18 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
   [transmissionTargetTokens addObject:@"fake-transmission-target-token"];
   MSCommonSchemaLog *commonSchemaLog = [MSCommonSchemaLog new];
   id<MSMockLogWithConversion> mockLog = OCMProtocolMock(@protocol(MSMockLogWithConversion));
-  OCMStub([mockLog toCommonSchemaLogs]).andReturn(@[ commonSchemaLog ]);
+  OCMStub([mockLog toCommonSchemaLogsWithFlags:MSFlagsDefault]).andReturn(@[ commonSchemaLog ]);
   OCMStub(mockLog.transmissionTargetTokens).andReturn(transmissionTargetTokens);
 
   // When
   [self.sut channelGroup:channelGroupMock didAddChannelUnit:channelUnitMock];
-  [self.sut channel:channelUnitMock didPrepareLog:mockLog withInternalId:@"fake-id"];
+  [self.sut channel:channelUnitMock didPrepareLog:mockLog internalId:@"fake-id" flags:MSFlagsDefault];
 
   // Then
   [self enqueueChannelEndJobExpectation];
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
-                                 OCMVerify([oneCollectorChannelUnitMock enqueueItem:commonSchemaLog]);
+                                 OCMVerify([oneCollectorChannelUnitMock enqueueItem:commonSchemaLog flags:MSFlagsDefault]);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
@@ -264,10 +264,10 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
   [transmissionTargetTokens addObject:@"fake-transmission-target-token"];
   MSCommonSchemaLog *commonSchemaLog = [MSCommonSchemaLog new];
   id<MSMockLogWithConversion> mockLog = OCMProtocolMock(@protocol(MSMockLogWithConversion));
-  OCMStub([mockLog toCommonSchemaLogs]).andReturn(@[ commonSchemaLog ]);
+  OCMStub([mockLog toCommonSchemaLogsWithFlags:MSFlagsDefault]).andReturn(@[ commonSchemaLog ]);
   OCMStub(mockLog.transmissionTargetTokens).andReturn(transmissionTargetTokens);
   dispatch_semaphore_t sem = dispatch_semaphore_create(0);
-  
+
   /*
    * Make sure that the common schema log is enqueued synchronously by putting a task on the log queue that won't return
    * by the time verify is called.
@@ -278,10 +278,10 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
 
   // When
   [self.sut channelGroup:channelGroupMock didAddChannelUnit:channelUnitMock];
-  [self.sut channel:channelUnitMock didPrepareLog:mockLog withInternalId:@"fake-id"];
+  [self.sut channel:channelUnitMock didPrepareLog:mockLog internalId:@"fake-id" flags:MSFlagsDefault];
 
   // Then
-  OCMVerify([oneCollectorChannelUnitMock enqueueItem:commonSchemaLog]);
+  OCMVerify([oneCollectorChannelUnitMock enqueueItem:commonSchemaLog flags:MSFlagsDefault]);
   dispatch_semaphore_signal(sem);
 }
 
@@ -300,11 +300,11 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
   OCMStub(mockLog.transmissionTargetTokens).andReturn(transmissionTargetTokens);
 
   // Then
-  OCMReject([oneCollectorChannelUnitMock enqueueItem:commonSchemaLog]);
+  OCMReject([oneCollectorChannelUnitMock enqueueItem:commonSchemaLog flags:MSFlagsDefault]);
 
   // When
   [self.sut channelGroup:channelGroupMock didAddChannelUnit:channelUnitMock];
-  [self.sut channel:channelUnitMock didPrepareLog:mockLog withInternalId:@"fake-id"];
+  [self.sut channel:channelUnitMock didPrepareLog:mockLog internalId:@"fake-id" flags:MSFlagsDefault];
 }
 
 - (void)testReEnqueueLogWhenCommonSchemaLogIsPrepared {
@@ -323,13 +323,13 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
 
   // When
   [self.sut channelGroup:channelGroupMock didAddChannelUnit:channelUnitMock];
-  [self.sut channel:channelUnitMock didPrepareLog:commonSchemaLog withInternalId:@"fake-id"];
+  [self.sut channel:channelUnitMock didPrepareLog:commonSchemaLog internalId:@"fake-id" flags:MSFlagsDefault];
 
   // Then
   [self enqueueChannelEndJobExpectation];
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
-                                 OCMVerify([oneCollectorChannelUnitMock enqueueItem:commonSchemaLog]);
+                                 OCMVerify([oneCollectorChannelUnitMock enqueueItem:commonSchemaLog flags:MSFlagsDefault]);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
@@ -347,15 +347,15 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
   NSMutableSet *transmissionTargetTokens = [NSMutableSet new];
   id<MSMockLogWithConversion> mockLog = OCMProtocolMock(@protocol(MSMockLogWithConversion));
   OCMStub(mockLog.transmissionTargetTokens).andReturn(transmissionTargetTokens);
-  OCMStub([mockLog toCommonSchemaLogs]).andReturn(@ [[MSCommonSchemaLog new]]);
+  OCMStub([mockLog toCommonSchemaLogsWithFlags:MSFlagsDefault]).andReturn(@ [[MSCommonSchemaLog new]]);
   OCMStub([mockLog isKindOfClass:[MSCommonSchemaLog class]]).andReturn(NO);
 
   // Then
-  OCMReject([oneCollectorChannelUnitMock enqueueItem:OCMOCK_ANY]);
+  OCMReject([oneCollectorChannelUnitMock enqueueItem:OCMOCK_ANY flags:MSFlagsDefault]);
 
   // When
   [self.sut channelGroup:channelGroupMock didAddChannelUnit:channelUnitMock];
-  [self.sut channel:channelUnitMock didPrepareLog:mockLog withInternalId:@"fake-id"];
+  [self.sut channel:channelUnitMock didPrepareLog:mockLog internalId:@"fake-id" flags:MSFlagsDefault];
 }
 
 - (void)testDidNotEnqueueLogWhenLogHasNilTargetTokens {
@@ -369,14 +369,14 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
   id<MSMockLogWithConversion> mockLog = OCMProtocolMock(@protocol(MSMockLogWithConversion));
   OCMStub([mockLog isKindOfClass:[MSCommonSchemaLog class]]).andReturn(NO);
   OCMStub(mockLog.transmissionTargetTokens).andReturn(nil);
-  OCMStub([mockLog toCommonSchemaLogs]).andReturn(@ [[MSCommonSchemaLog new]]);
+  OCMStub([mockLog toCommonSchemaLogsWithFlags:MSFlagsDefault]).andReturn(@ [[MSCommonSchemaLog new]]);
 
   // Then
-  OCMReject([oneCollectorChannelUnitMock enqueueItem:OCMOCK_ANY]);
+  OCMReject([oneCollectorChannelUnitMock enqueueItem:OCMOCK_ANY flags:MSFlagsDefault]);
 
   // When
   [self.sut channelGroup:channelGroupMock didAddChannelUnit:channelUnitMock];
-  [self.sut channel:channelUnitMock didPrepareLog:mockLog withInternalId:@"fake-id"];
+  [self.sut channel:channelUnitMock didPrepareLog:mockLog internalId:@"fake-id" flags:MSFlagsDefault];
 }
 
 - (void)testDoesNotFilterValidCommonSchemaLogs {
@@ -452,7 +452,7 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
   [transmissionTargetTokens addObject:@"fake-transmission-target-token"];
   MSCommonSchemaLog *commonSchemaLog = [MSCommonSchemaLog new];
   id<MSMockLogWithConversion> mockLog = OCMProtocolMock(@protocol(MSMockLogWithConversion));
-  OCMStub([mockLog toCommonSchemaLogs]).andReturn(@[ commonSchemaLog ]);
+  OCMStub([mockLog toCommonSchemaLogsWithFlags:MSFlagsDefault]).andReturn(@[ commonSchemaLog ]);
   OCMStub(mockLog.transmissionTargetTokens).andReturn(transmissionTargetTokens);
 
   // When

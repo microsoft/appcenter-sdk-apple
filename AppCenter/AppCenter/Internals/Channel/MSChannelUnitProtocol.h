@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
 
 #import "MSChannelProtocol.h"
+#import "MSConstants+Flags.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -27,8 +28,9 @@ NS_ASSUME_NONNULL_BEGIN
  * Enqueue a new log item.
  *
  * @param item The log item that should be enqueued.
+ * @param flags Options for the item being enqueued.
  */
-- (void)enqueueItem:(id<MSLog>)item;
+- (void)enqueueItem:(id<MSLog>)item flags:(MSFlags)flags;
 
 /**
  * Pause sending logs with the given transmission target token.

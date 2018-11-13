@@ -11,6 +11,9 @@ static NSString *const kMSTestHungrinessColName = @"hungriness";
 static NSString *const kMSTestMealColName = @"meal";
 static NSString *const kMSTestDBFileName = @"Test.sqlite";
 
+// 40 KiB (10 pages by 4 KiB).
+static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
+
 @interface MSDBStorageTests : XCTestCase
 
 @property(nonatomic) MSDBStorage *sut;
@@ -300,15 +303,14 @@ static NSString *const kMSTestDBFileName = @"Test.sqlite";
 - (void)testSetStorageSizeFailsWhenShrinkingDatabaseIsAttempted {
 
   // If
-  long initialSizeInBytes = kMSDefaultPageSizeInBytes * 10;
   XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler invoked."];
 
   // Fill the database with data to reach the desired initial size.
-  while ([self.storageTestUtil getDataLengthInBytes] < initialSizeInBytes) {
+  while ([self.storageTestUtil getDataLengthInBytes] < kMSTestStorageSizeMinimumUpperLimitInBytes) {
     [self addGuysToTheTableWithCount:1000];
   }
   long bytesOfData = [self.storageTestUtil getDataLengthInBytes];
-  long shrunkenSizeInBytes = bytesOfData - kMSDefaultPageSizeInBytes * 3;
+  long shrunkenSizeInBytes = bytesOfData - 12 * 1024;
 
   // When
   __weak typeof(self) weakSelf = self;
@@ -332,16 +334,15 @@ static NSString *const kMSTestDBFileName = @"Test.sqlite";
 - (void)testSetStorageSizePassesWhenSizeIsGreaterThanCurrentBytesOfActualData {
 
   // If
-  long initialSizeInBytes = kMSDefaultPageSizeInBytes * 10;
   XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler invoked."];
 
   // Fill the database with data to reach the desired initial size.
-  while ([self.storageTestUtil getDataLengthInBytes] < initialSizeInBytes) {
+  while ([self.storageTestUtil getDataLengthInBytes] < kMSTestStorageSizeMinimumUpperLimitInBytes) {
     [self addGuysToTheTableWithCount:1000];
   }
   long bytesOfData = [self.storageTestUtil getDataLengthInBytes];
   NSLog(@"bytes of data: %ld", bytesOfData);
-  long expandedSizeInBytes = bytesOfData + kMSDefaultPageSizeInBytes * 3;
+  long expandedSizeInBytes = bytesOfData + 12 * 1024;
 
   // When
   [self.sut setMaxStorageSize:expandedSizeInBytes
@@ -369,16 +370,15 @@ static NSString *const kMSTestDBFileName = @"Test.sqlite";
 - (void)testMaximumPageCountDoesNotChangeWhenShrinkingDatabaseIsAttempted {
 
   // If
-  __block const int initialMaxPageCount = self.sut.maxPageCount;
-  long initialSizeInBytes = kMSDefaultPageSizeInBytes * 10;
+  const long initialMaxSize = self.sut.maxSizeInBytes;
   XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler invoked."];
 
   // Fill the database with data to reach the desired initial size.
-  while ([self.storageTestUtil getDataLengthInBytes] < initialSizeInBytes) {
+  while ([self.storageTestUtil getDataLengthInBytes] < kMSTestStorageSizeMinimumUpperLimitInBytes) {
     [self addGuysToTheTableWithCount:1000];
   }
   long bytesOfData = [self.storageTestUtil getDataLengthInBytes];
-  long shrunkenSizeInBytes = bytesOfData - kMSDefaultPageSizeInBytes * 3;
+  long shrunkenSizeInBytes = bytesOfData - 12 * 1024;
 
   // When
   __weak typeof(self) weakSelf = self;
@@ -387,7 +387,7 @@ static NSString *const kMSTestDBFileName = @"Test.sqlite";
 
                   // Then
                   typeof(self) strongSelf = weakSelf;
-                  XCTAssertEqual(initialMaxPageCount, strongSelf.sut.maxPageCount);
+                  XCTAssertEqual(initialMaxSize, strongSelf.sut.maxSizeInBytes);
                   [expectation fulfill];
                 }];
 
@@ -403,20 +403,11 @@ static NSString *const kMSTestDBFileName = @"Test.sqlite";
 - (void)testCompletionHandlerCanBeNil {
 
   // When
-  [self.sut setMaxStorageSize:kMSDefaultPageSizeInBytes completionHandler:nil];
+  [self.sut setMaxStorageSize:4 * 1024 completionHandler:nil];
   [self addGuysToTheTableWithCount:100];
 
   // Then
   // Didn't crash.
-}
-
-- (void)testDefaultDatabaseSize {
-
-  // If
-  long expectedPageCount = kMSDefaultDatabaseSizeInBytes / kMSDefaultPageSizeInBytes;
-
-  // Then
-  XCTAssertEqual(self.sut.maxPageCount, expectedPageCount);
 }
 
 - (void)testNewDatabaseIsAutoVacuumed {

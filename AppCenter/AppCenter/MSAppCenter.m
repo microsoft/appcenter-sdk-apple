@@ -578,7 +578,7 @@ static const long kMSMinUpperSizeLimitInBytes = 20 * 1024;
   if (self.isEnabled) {
     MSStartServiceLog *serviceLog = [MSStartServiceLog new];
     serviceLog.services = servicesNames;
-    [self.channelUnit enqueueItem:serviceLog];
+    [self.channelUnit enqueueItem:serviceLog flags:MSFlagsDefault];
   } else {
     if (self.startedServiceNames == nil) {
       self.startedServiceNames = [NSMutableArray new];
@@ -591,7 +591,7 @@ static const long kMSMinUpperSizeLimitInBytes = 20 * 1024;
 - (void)sendCustomPropertiesLog:(NSDictionary<NSString *, NSObject *> *)properties {
   MSCustomPropertiesLog *customPropertiesLog = [MSCustomPropertiesLog new];
   customPropertiesLog.properties = properties;
-  [self.channelUnit enqueueItem:customPropertiesLog];
+  [self.channelUnit enqueueItem:customPropertiesLog flags:MSFlagsDefault];
 }
 #endif
 

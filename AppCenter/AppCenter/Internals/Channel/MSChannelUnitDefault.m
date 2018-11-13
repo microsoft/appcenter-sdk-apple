@@ -1,9 +1,9 @@
+#import "MSChannelUnitDefault.h"
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterIngestion.h"
 #import "MSAppCenterInternal.h"
 #import "MSChannelUnitConfiguration.h"
-#import "MSChannelUnitDefault.h"
 #import "MSChannelUnitDefaultPrivate.h"
 #import "MSDeviceTracker.h"
 #import "MSIngestionProtocol.h"
@@ -90,7 +90,7 @@
 
 #pragma mark - Managing queue
 
-- (void)enqueueItem:(id<MSLog>)item {
+- (void)enqueueItem:(id<MSLog>)item flags:(MSFlags)flags {
 
   /*
    * Set common log info.
@@ -118,14 +118,13 @@
   NSString *internalLogId = MS_UUID_STRING;
 
   // Notify delegate about enqueuing as fast as possible on the current thread.
-  [self enumerateDelegatesForSelector:@selector(channel:didPrepareLog:withInternalId:)
+  [self enumerateDelegatesForSelector:@selector(channel:didPrepareLog:internalId:flags:)
                             withBlock:^(id<MSChannelDelegate> delegate) {
-                              [delegate channel:self didPrepareLog:item withInternalId:internalLogId];
+                              [delegate channel:self didPrepareLog:item internalId:internalLogId flags:flags];
                             }];
 
   // Return fast in case our item is empty or we are discarding logs right now.
   dispatch_async(self.logsDispatchQueue, ^{
-
     // Use separate autorelease pool for enqueuing logs.
     @autoreleasepool {
 
@@ -137,18 +136,18 @@
                                 }];
       if (shouldFilter) {
         MSLogDebug([MSAppCenter logTag], @"Log of type '%@' was filtered out by delegate(s)", item.type);
-        [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:withInternalId:)
+        [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:internalId:)
                                   withBlock:^(id<MSChannelDelegate> delegate) {
-                                    [delegate channel:self didCompleteEnqueueingLog:item withInternalId:internalLogId];
+                                    [delegate channel:self didCompleteEnqueueingLog:item internalId:internalLogId];
                                   }];
         return;
       }
       if (!self.ingestion.isReadyToSend) {
         MSLogDebug([MSAppCenter logTag], @"Log of type '%@' was not filtered out by delegate(s) but ingestion is not ready to send it.",
                    item.type);
-        [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:withInternalId:)
+        [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:internalId:)
                                   withBlock:^(id<MSChannelDelegate> delegate) {
-                                    [delegate channel:self didCompleteEnqueueingLog:item withInternalId:internalLogId];
+                                    [delegate channel:self didCompleteEnqueueingLog:item internalId:internalLogId];
                                   }];
         return;
       }
@@ -158,22 +157,28 @@
                                              code:kMSACConnectionPausedErrorCode
                                          userInfo:@{NSLocalizedDescriptionKey : kMSACConnectionPausedErrorDesc}];
         [self notifyFailureBeforeSendingForItem:item withError:error];
-        [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:withInternalId:)
+        [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:internalId:)
                                   withBlock:^(id<MSChannelDelegate> delegate) {
-                                    [delegate channel:self didCompleteEnqueueingLog:item withInternalId:internalLogId];
+                                    [delegate channel:self didCompleteEnqueueingLog:item internalId:internalLogId];
                                   }];
         return;
       }
 
       // Save the log first.
-      MSLogDebug([MSAppCenter logTag], @"Saving log, type: %@.", item.type);
-      [self.storage saveLog:item withGroupId:self.configuration.groupId];
-      self.itemsCount += 1;
-      [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:withInternalId:)
+      MSLogDebug([MSAppCenter logTag], @"Saving log, type: %@, flags: %u.", item.type, (unsigned int)flags);
+      bool success = [self.storage saveLog:item withGroupId:self.configuration.groupId flags:flags];
+
+      // Notify delegates of completion (whatever the result is).
+      [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:internalId:)
                                 withBlock:^(id<MSChannelDelegate> delegate) {
-                                  [delegate channel:self didCompleteEnqueueingLog:item withInternalId:internalLogId];
+                                  [delegate channel:self didCompleteEnqueueingLog:item internalId:internalLogId];
                                 }];
-      [self checkPendingLogs];
+
+      // If successful, check if logs can be sent now.
+      if (success) {
+        self.itemsCount += 1;
+        [self checkPendingLogs];
+      }
     }
   });
 }
@@ -218,7 +223,6 @@
                     limit:self.configuration.batchSizeLimit
        excludedTargetKeys:[self.pausedTargetKeys allObjects]
         completionHandler:^(NSArray<MSLog> *_Nonnull logArray, NSString *batchId) {
-
           // Logs may be deleted from storage before this flush.
           if (batchId.length > 0) {
             [self.pendingBatchIds addObject:batchId];

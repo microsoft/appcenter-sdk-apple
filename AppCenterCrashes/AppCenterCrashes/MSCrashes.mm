@@ -2,12 +2,12 @@
 #import "MSAppleErrorLog.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
+#import "MSCrashHandlerSetupDelegate.h"
 #import "MSCrashesCXXExceptionWrapperException.h"
 #import "MSCrashesDelegate.h"
 #import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
 #import "MSCrashesUtil.h"
-#import "MSCrashHandlerSetupDelegate.h"
 #import "MSEncrypter.h"
 #import "MSErrorAttachmentLog.h"
 #import "MSErrorAttachmentLogInternal.h"
@@ -16,8 +16,8 @@
 #import "MSServiceAbstractProtected.h"
 #import "MSSessionContext.h"
 #import "MSUtility+File.h"
-#import "MSWrapperExceptionManagerInternal.h"
 #import "MSWrapperCrashesHelper.h"
+#import "MSWrapperExceptionManagerInternal.h"
 
 /**
  * Service name for initialization.
@@ -409,7 +409,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
  * This means the Crashes module can't message any other module. All logic related to the buffer needs to happen before the crash and then,
  * at crash time, crashes has all info in place to save the buffer safely from the main thread (other threads are killed at crash time).
  */
-- (void)channel:(id<MSChannelProtocol>)__unused channel didPrepareLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
+- (void)channel:(id<MSChannelProtocol>)__unused channel
+    didPrepareLog:(id<MSLog>)log
+       internalId:(NSString *)internalId
+            flags:(MSFlags)__unused flags {
 
   // Don't buffer event if log is empty, crashes module is disabled or the log is related to crash.
   NSObject *logObject = static_cast<NSObject *>(log);
@@ -478,7 +481,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   }
 }
 
-- (void)channel:(id<MSChannelProtocol>)__unused channel didCompleteEnqueueingLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
+- (void)channel:(id<MSChannelProtocol>)__unused channel didCompleteEnqueueingLog:(id<MSLog>)log internalId:(NSString *)internalId {
   @synchronized(self) {
     for (auto it = msCrashesLogBuffer.begin(), end = msCrashesLogBuffer.end(); it != end; ++it) {
       NSString *bufferId = [NSString stringWithCString:it->internalId.c_str() encoding:NSUTF8StringEncoding];
@@ -748,8 +751,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                                                                                          pendingBatchesLimit:1]];
 
   // Iterate over each file in it with the kMSLogBufferFileExtension and send the log if a log can be deserialized.
-  NSArray<NSURL *> *files =
-      [MSUtility contentsOfDirectory:[NSString stringWithFormat:@"%@", self.logBufferPathComponent] propertiesForKeys:nil];
+  NSArray<NSURL *> *files = [MSUtility contentsOfDirectory:[NSString stringWithFormat:@"%@", self.logBufferPathComponent]
+                                         propertiesForKeys:nil];
   for (NSURL *fileURL in files) {
     if ([[fileURL pathExtension] isEqualToString:kMSLogBufferFileExtension]) {
       NSData *serializedLog = [NSData dataWithContentsOfURL:fileURL];
@@ -758,8 +761,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
         if (item) {
 
           // Try to set target token.
-          NSString *targetTokenFilePath =
-              [fileURL.path stringByReplacingOccurrencesOfString:kMSLogBufferFileExtension withString:kMSTargetTokenFileExtension];
+          NSString *targetTokenFilePath = [fileURL.path stringByReplacingOccurrencesOfString:kMSLogBufferFileExtension
+                                                                                  withString:kMSTargetTokenFileExtension];
           NSURL *targetTokenFileURL = [NSURL fileURLWithPath:targetTokenFilePath];
           NSString *targetToken = [NSString stringWithContentsOfURL:targetTokenFileURL encoding:NSUTF8StringEncoding error:nil];
           if (targetToken != nil) {
@@ -772,7 +775,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
           // Buffered logs are used sending their own channel. It will never contain more than 50 logs.
           MSLogDebug([MSCrashes logTag], @"Re-enqueueing buffered log, type: %@.", item.type);
-          [self.bufferChannelUnit enqueueItem:item];
+          // TODO Must read log priority and serialize to be able to enqueue with proper criticality
+          [self.bufferChannelUnit enqueueItem:item flags:MSFlagsDefault];
         }
       }
 
@@ -847,7 +851,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       MSLogError([MSCrashes logTag], @"Not all required fields are present in MSErrorAttachmentLog.");
       continue;
     }
-    [self.channelUnit enqueueItem:attachment];
+    [self.channelUnit enqueueItem:attachment flags:MSFlagsDefault];
     ++totalProcessedAttachments;
   }
   if (totalProcessedAttachments > kMaxAttachmentsPerCrashReport) {
@@ -932,8 +936,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 }
 
 - (void)createAnalyzerFile {
-  NSURL *analyzerURL =
-      [MSUtility createFileAtPathComponent:self.analyzerInProgressFilePathComponent withData:nil atomically:NO forceOverwrite:NO];
+  NSURL *analyzerURL = [MSUtility createFileAtPathComponent:self.analyzerInProgressFilePathComponent
+                                                   withData:nil
+                                                 atomically:NO
+                                             forceOverwrite:NO];
   if (!analyzerURL) {
     MSLogError([MSCrashes logTag], @"Couldn't create crash analyzer file.");
   }
@@ -975,8 +981,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       msCrashesLogBuffer[i] = MSCrashesBufferedLog(path, nil);
 
       // Save target token path as well to avoid memory allocation when saving.
-      NSString *targetTokenPath =
-          [path stringByReplacingOccurrencesOfString:kMSLogBufferFileExtension withString:kMSTargetTokenFileExtension];
+      NSString *targetTokenPath = [path stringByReplacingOccurrencesOfString:kMSLogBufferFileExtension
+                                                                  withString:kMSTargetTokenFileExtension];
       msCrashesLogBuffer[i].targetTokenPath = targetTokenPath.UTF8String;
     }
   }
@@ -1126,7 +1132,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     log.sid = [[MSSessionContext sharedInstance] sessionIdAt:log.timestamp];
 
     // Then, enqueue crash log.
-    [self.channelUnit enqueueItem:log];
+    [self.channelUnit enqueueItem:log flags:MSFlagsPersistenceCritical];
 
     // Send error attachments.
     [self sendErrorAttachments:attachments withIncidentIdentifier:report.incidentIdentifier];
@@ -1161,12 +1167,13 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   if (properties && properties.count > 0) {
 
     // Send only valid properties.
-    log.properties =
-        [MSUtility validateProperties:properties forLogName:[NSString stringWithFormat:@"ErrorLog: %@", log.errorId] type:log.type];
+    log.properties = [MSUtility validateProperties:properties
+                                        forLogName:[NSString stringWithFormat:@"ErrorLog: %@", log.errorId]
+                                              type:log.type];
   }
 
   // Enqueue log.
-  [self.channelUnit enqueueItem:log];
+  [self.channelUnit enqueueItem:log flags:MSFlagsDefault];
 }
 
 @end

@@ -1,5 +1,6 @@
 #import <Foundation/Foundation.h>
 
+#import "MSConstants+Flags.h"
 #import "MSLog.h"
 #import "MSLogContainer.h"
 
@@ -25,10 +26,11 @@ typedef void (^MSLoadDataCompletionHandler)(NSArray<id<MSLog>> *_Nullable logArr
  *
  * @param log The log to be stored.
  * @param groupId The key used for grouping logs.
+ * @param flags A flag that indicates if the log has critical persistence priority.
  *
  * @return BOOL that indicates if the log was saved successfully.
  */
-- (BOOL)saveLog:(id<MSLog>)log withGroupId:(NSString *)groupId;
+- (BOOL)saveLog:(id<MSLog>)log withGroupId:(NSString *)groupId flags:(MSFlags)flags;
 
 /**
  * Get the number of logs stored in the storage.
@@ -72,8 +74,8 @@ typedef void (^MSLoadDataCompletionHandler)(NSArray<id<MSLog>> *_Nullable logArr
 /**
  * Set the maximum size of the internal storage. This method must be called before App Center is started.
  *
- * @param sizeInBytes Maximum size of in bytes. This will be rounded up to the nearest multiple of 4096. Values below 20480 (20 KiB) will be
- * ignored.
+ * @param sizeInBytes Maximum size of the internal storage in bytes. This will be rounded up to the nearest multiple of a SQLite page size
+ * (default is 4096 bytes). Values below 20480 bytes (20 KiB) will be ignored.
  * @param completionHandler Callback that is invoked when the database size has been set. The `BOOL` parameter is `YES` if changing the size
  * is successful, and `NO` otherwise.
  *
