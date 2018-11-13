@@ -166,13 +166,19 @@
 
       // Save the log first.
       MSLogDebug([MSAppCenter logTag], @"Saving log, type: %@, flags: %u.", item.type, (unsigned int)flags);
-      [self.storage saveLog:item withGroupId:self.configuration.groupId flags:flags];
-      self.itemsCount += 1;
+      bool success = [self.storage saveLog:item withGroupId:self.configuration.groupId flags:flags];
+
+      // Notify delegates of completion (whatever the result is).
       [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:internalId:)
                                 withBlock:^(id<MSChannelDelegate> delegate) {
                                   [delegate channel:self didCompleteEnqueueingLog:item internalId:internalLogId];
                                 }];
-      [self checkPendingLogs];
+
+      // If successful, check if logs can be sent now.
+      if (success) {
+        self.itemsCount += 1;
+        [self checkPendingLogs];
+      }
     }
   });
 }
