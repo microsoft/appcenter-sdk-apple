@@ -1,6 +1,5 @@
 #import <sqlite3.h>
 
-#import "MSDBStoragePrivate.h"
 #import "MSStorageTestUtil.h"
 #import "MSUtility+File.h"
 
@@ -24,10 +23,14 @@
   sqlite3_stmt *statement = NULL;
   sqlite3_prepare_v2(db, "PRAGMA page_count;", -1, &statement, NULL);
   sqlite3_step(statement);
-  NSNumber *pageCount = @(sqlite3_column_int(statement, 0));
+  int pageCount = sqlite3_column_int(statement, 0);
+  sqlite3_finalize(statement);
+  sqlite3_prepare_v2(db, "PRAGMA page_size;", -1, &statement, NULL);
+  sqlite3_step(statement);
+  int pageSize = sqlite3_column_int(statement, 0);
   sqlite3_finalize(statement);
   sqlite3_close(db);
-  return [pageCount longValue] * kMSDefaultPageSizeInBytes;
+  return (long)pageCount * pageSize;
 }
 
 - (sqlite3 *)openDatabase {

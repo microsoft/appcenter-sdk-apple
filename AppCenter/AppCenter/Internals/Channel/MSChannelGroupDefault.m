@@ -1,6 +1,6 @@
+#import "MSChannelGroupDefault.h"
 #import "AppCenter+Internal.h"
 #import "MSAppCenterIngestion.h"
-#import "MSChannelGroupDefault.h"
 #import "MSChannelGroupDefaultPrivate.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
@@ -100,17 +100,17 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
                             }];
 }
 
-- (void)channel:(id<MSChannelProtocol>)channel didPrepareLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
-  [self enumerateDelegatesForSelector:@selector(channel:didPrepareLog:withInternalId:)
+- (void)channel:(id<MSChannelProtocol>)channel didPrepareLog:(id<MSLog>)log internalId:(NSString *)internalId flags:(MSFlags)flags {
+  [self enumerateDelegatesForSelector:@selector(channel:didPrepareLog:internalId:flags:)
                             withBlock:^(id<MSChannelDelegate> delegate) {
-                              [delegate channel:channel didPrepareLog:log withInternalId:internalId];
+                              [delegate channel:channel didPrepareLog:log internalId:internalId flags:flags];
                             }];
 }
 
-- (void)channel:(id<MSChannelProtocol>)channel didCompleteEnqueueingLog:(id<MSLog>)log withInternalId:(NSString *)internalId {
-  [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:withInternalId:)
+- (void)channel:(id<MSChannelProtocol>)channel didCompleteEnqueueingLog:(id<MSLog>)log internalId:(NSString *)internalId {
+  [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:internalId:)
                             withBlock:^(id<MSChannelDelegate> delegate) {
-                              [delegate channel:channel didCompleteEnqueueingLog:log withInternalId:internalId];
+                              [delegate channel:channel didCompleteEnqueueingLog:log internalId:internalId];
                             }];
 }
 

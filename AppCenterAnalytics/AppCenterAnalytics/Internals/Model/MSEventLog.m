@@ -77,8 +77,8 @@ static NSString *const kMSTypedProperties = @"typedProperties";
 
 #pragma mark - MSAbstractLog
 
-- (MSCommonSchemaLog *)toCommonSchemaLogForTargetToken:(NSString *)token {
-  MSCommonSchemaLog *csLog = [super toCommonSchemaLogForTargetToken:token];
+- (MSCommonSchemaLog *)toCommonSchemaLogForTargetToken:(NSString *)token flags:(MSFlags)flags {
+  MSCommonSchemaLog *csLog = [super toCommonSchemaLogForTargetToken:token flags:flags];
 
   // Event name goes to part A.
   csLog.name = self.name;

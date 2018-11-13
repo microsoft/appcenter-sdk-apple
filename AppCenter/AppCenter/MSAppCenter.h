@@ -177,8 +177,8 @@
  * Set the maximum size of the internal storage. This method must be called before App Center is started. This method is only intended for
  * applications.
  *
- * @param sizeInBytes Maximum size in bytes. This will be rounded up to the nearest multiple of 4096. Values below 20,480 (20 KiB) will be
- * ignored.
+ * @param sizeInBytes Maximum size of the internal storage in bytes. This will be rounded up to the nearest multiple of a SQLite page size
+ * (default is 4096 bytes). Values below 20,480 bytes (20 KiB) will be ignored.
  *
  * @param completionHandler Callback that is invoked when the database size has been set. The `BOOL` parameter is `YES` if changing the size
  * is successful, and `NO` otherwise. This parameter can be null.

@@ -174,29 +174,42 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 }
 
 + (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties {
-  [self trackEvent:eventName withProperties:properties forTransmissionTarget:nil];
+  [self trackEvent:eventName withProperties:properties flags:MSFlagsDefault];
+}
+
++ (void)trackEvent:(NSString *)eventName withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties flags:(MSFlags)flags {
+  [self trackEvent:eventName withProperties:properties forTransmissionTarget:nil flags:flags];
 }
 
 + (void)trackEvent:(NSString *)eventName withTypedProperties:(nullable MSEventProperties *)properties {
-  [self trackEvent:eventName withTypedProperties:properties forTransmissionTarget:nil];
+  [self trackEvent:eventName withTypedProperties:properties flags:MSFlagsDefault];
+}
+
++ (void)trackEvent:(NSString *)eventName withTypedProperties:(nullable MSEventProperties *)properties flags:(MSFlags)flags {
+  [self trackEvent:eventName withTypedProperties:properties forTransmissionTarget:nil flags:flags];
 }
 
 + (void)trackEvent:(NSString *)eventName
            withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
-    forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarget {
+    forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarget
+                    flags:(MSFlags)flags {
   @synchronized(self) {
     if ([[MSAnalytics sharedInstance] canBeUsed]) {
-      [[MSAnalytics sharedInstance] trackEvent:eventName withProperties:properties forTransmissionTarget:transmissionTarget];
+      [[MSAnalytics sharedInstance] trackEvent:eventName withProperties:properties forTransmissionTarget:transmissionTarget flags:flags];
     }
   }
 }
 
 + (void)trackEvent:(NSString *)eventName
       withTypedProperties:(nullable MSEventProperties *)properties
-    forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarget {
+    forTransmissionTarget:(nullable MSAnalyticsTransmissionTarget *)transmissionTarget
+                    flags:(MSFlags)flags {
   @synchronized(self) {
     if ([[MSAnalytics sharedInstance] canBeUsed]) {
-      [[MSAnalytics sharedInstance] trackEvent:eventName withTypedProperties:properties forTransmissionTarget:transmissionTarget];
+      [[MSAnalytics sharedInstance] trackEvent:eventName
+                           withTypedProperties:properties
+                         forTransmissionTarget:transmissionTarget
+                                         flags:flags];
     }
   }
 }
@@ -259,15 +272,17 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 
 - (void)trackEvent:(NSString *)eventName
            withProperties:(NSDictionary<NSString *, NSString *> *)properties
-    forTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget {
+    forTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget
+                    flags:(MSFlags)flags {
   NSDictionary *validProperties = [self removeInvalidProperties:properties];
   MSEventProperties *eventProperties = [[MSEventProperties alloc] initWithStringDictionary:validProperties];
-  [self trackEvent:eventName withTypedProperties:eventProperties forTransmissionTarget:transmissionTarget];
+  [self trackEvent:eventName withTypedProperties:eventProperties forTransmissionTarget:transmissionTarget flags:flags];
 }
 
 - (void)trackEvent:(NSString *)eventName
       withTypedProperties:(MSEventProperties *)properties
-    forTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget {
+    forTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget
+                    flags:(MSFlags)flags {
   if (![self isEnabled]) {
     return;
   }
@@ -275,6 +290,13 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   // Use default transmission target if no transmission target was provided.
   if (transmissionTarget == nil) {
     transmissionTarget = self.defaultTransmissionTarget;
+  }
+
+  // Validate flags.
+  MSFlags persistenceFlag = flags & kMSPersistenceFlagsMask;
+  if (persistenceFlag != MSFlagsPersistenceNormal && persistenceFlag != MSFlagsPersistenceCritical) {
+    MSLogWarning([MSAnalytics logTag], @"Invalid flags (%u) received, using normal as a default.", (unsigned int)persistenceFlag);
+    persistenceFlag = MSFlagsPersistenceNormal;
   }
 
   // Create an event log.
@@ -300,7 +322,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   log.typedProperties = [properties isEmpty] ? nil : properties;
 
   // Send log to channel.
-  [self sendLog:log];
+  [self sendLog:log flags:persistenceFlag];
 }
 
 - (void)pause {
@@ -350,7 +372,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   }
 
   // Send log to log manager.
-  [self sendLog:log];
+  [self sendLog:log flags:MSFlagsDefault];
 }
 
 - (void)setAutoPageTrackingEnabled:(BOOL)isEnabled {
@@ -361,10 +383,10 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   return self.autoPageTrackingEnabled;
 }
 
-- (void)sendLog:(id<MSLog>)log {
+- (void)sendLog:(id<MSLog>)log flags:(MSFlags)flags {
 
   // Send log to log manager.
-  [self.channelUnit enqueueItem:log];
+  [self.channelUnit enqueueItem:log flags:flags];
 }
 
 - (MSAnalyticsTransmissionTarget *)transmissionTargetForToken:(NSString *)transmissionTargetToken {
@@ -423,7 +445,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 
 - (void)sessionTracker:(id)sessionTracker processLog:(id<MSLog>)log {
   (void)sessionTracker;
-  [self sendLog:log];
+  [self sendLog:log flags:MSFlagsDefault];
 }
 
 + (void)setDelegate:(nullable id<MSAnalyticsDelegate>)delegate {

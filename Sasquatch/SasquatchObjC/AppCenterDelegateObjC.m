@@ -112,8 +112,16 @@
   [MSAnalytics trackEvent:eventName withProperties:properties];
 }
 
+- (void)trackEvent:(NSString *)eventName withProperties:(NSDictionary<NSString *, NSString *> *)properties flags:(MSFlags)flags {
+  [MSAnalytics trackEvent:eventName withProperties:properties flags:flags];
+}
+
 - (void)trackEvent:(NSString *)eventName withTypedProperties:(MSEventProperties *)properties {
   [MSAnalytics trackEvent:eventName withTypedProperties:properties];
+}
+
+- (void)trackEvent:(NSString *)eventName withTypedProperties:(MSEventProperties *)properties flags:(MSFlags)flags {
+  [MSAnalytics trackEvent:eventName withTypedProperties:properties flags:flags];
 }
 
 - (void)trackPage:(NSString *)pageName {
