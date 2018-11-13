@@ -190,6 +190,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // Stub the storage load for that log.
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
+  OCMStub([storageMock saveLog:OCMOCK_ANY withGroupId:OCMOCK_ANY flags:MSFlagsDefault]).andReturn(YES);
   OCMStub([storageMock loadLogsWithGroupId:kMSTestGroupId limit:batchSizeLimit excludedTargetKeys:OCMOCK_ANY completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSLoadDataCompletionHandler loadCallback;
@@ -274,6 +275,41 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
                                  assertThatUnsignedLong(self.sut.itemsCount, equalToInt(itemsToAdd));
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)testNotCheckingPendingLogsOnEnqueueFailure {
+  
+  // If
+  [self initChannelEndJobExpectation];
+  MSChannelUnitConfiguration *config = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
+                                                                                  priority:MSPriorityDefault
+                                                                             flushInterval:5
+                                                                            batchSizeLimit:10
+                                                                       pendingBatchesLimit:3];
+  self.sut.configuration = config;
+  self.storageMock = OCMProtocolMock(@protocol(MSStorage));
+  OCMStub([self.storageMock saveLog:OCMOCK_ANY withGroupId:OCMOCK_ANY flags:MSFlagsDefault]).andReturn(NO);
+  self.sut = [[MSChannelUnitDefault alloc] initWithIngestion:self.ingestionMock
+                                                     storage:self.storageMock
+                                               configuration:self.configMock
+                                           logsDispatchQueue:self.logsDispatchQueue];
+  int itemsToAdd = 3;
+  OCMReject([self.sut checkPendingLogs]);
+  
+  // When
+  for (int i = 1; i <= itemsToAdd; i++) {
+    [self.sut enqueueItem:[self getValidMockLog] flags:MSFlagsDefault];
+  }
+  [self enqueueChannelEndJobExpectation];
+  
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 assertThatUnsignedLong(self.sut.itemsCount, equalToInt(0));
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
@@ -403,6 +439,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
     }
   });
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
+  OCMStub([storageMock saveLog:OCMOCK_ANY withGroupId:OCMOCK_ANY flags:MSFlagsDefault]).andReturn(YES);
   OCMStub([storageMock loadLogsWithGroupId:kMSTestGroupId limit:batchSizeLimit excludedTargetKeys:OCMOCK_ANY completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSLoadDataCompletionHandler loadCallback;
@@ -464,6 +501,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
   // Stub the storage load for that log.
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
+  OCMStub([storageMock saveLog:OCMOCK_ANY withGroupId:OCMOCK_ANY flags:MSFlagsDefault]).andReturn(YES);
   OCMStub([storageMock loadLogsWithGroupId:kMSTestGroupId limit:batchSizeLimit excludedTargetKeys:OCMOCK_ANY completionHandler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSLoadDataCompletionHandler loadCallback;
