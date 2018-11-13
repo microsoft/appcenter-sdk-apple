@@ -802,14 +802,14 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 }
 
 - (void)testSaveLargeNormalPriorityLogDoesNotPurgeOldLogs {
-  [self saveLargeLogExceedsCapacityDoesNotPurgeOldLogsWithPriority:MSFlagsPersistenceNormal];
+  [self DoNotPurgeOldLogsWhenSavingLargeLogExceedsCapacityWithPriority:MSFlagsPersistenceNormal];
 }
 
 - (void)testSaveLargeCriticalPriorityLogDoesNotPurgeOldLogs {
-  [self saveLargeLogExceedsCapacityDoesNotPurgeOldLogsWithPriority:MSFlagsPersistenceCritical];
+  [self DoNotPurgeOldLogsWhenSavingLargeLogExceedsCapacityWithPriority:MSFlagsPersistenceCritical];
 }
 
-- (void)saveLargeLogExceedsCapacityDoesNotPurgeOldLogsWithPriority:(MSFlags)priority {
+- (void)DoNotPurgeOldLogsWhenSavingLargeLogExceedsCapacityWithPriority:(MSFlags)priority {
 
   // If
   long maxCapacityInBytes = kMSTestStorageSizeMinimumUpperLimitInBytes + 4 * 1024;
