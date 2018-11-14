@@ -137,6 +137,8 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
         break;
       }
     }
+    
+    // Use the old API as fallback if new one isn't work.
     if (carrier == nil) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
