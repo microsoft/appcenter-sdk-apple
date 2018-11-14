@@ -111,9 +111,25 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
  */
 - (MSDevice *)updatedDevice {
   @synchronized(self) {
-    MSDevice *newDevice = [[MSDevice alloc] init];
+    MSDevice *newDevice = [MSDevice new];
 #if TARGET_OS_IOS
-    CTCarrier *carrier = [[[CTTelephonyNetworkInfo alloc] init] subscriberCellularProvider];
+    CTTelephonyNetworkInfo *telephonyNetworkInfo = [CTTelephonyNetworkInfo new];
+    CTCarrier *carrier;
+    if ([telephonyNetworkInfo respondsToSelector:@selector(serviceSubscriberCellularProviders)]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpartial-availability"
+      id carriers = [telephonyNetworkInfo serviceSubscriberCellularProviders];
+      for (NSString *key in carriers) {
+        carrier = carriers[key];
+        break;
+      }
+#pragma clang diagnostic pop
+    } else {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+      carrier = [telephonyNetworkInfo subscriberCellularProvider];
+#pragma clang diagnostic pop
+    }
 #endif
 
     // Collect device properties.
