@@ -136,7 +136,8 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
         carrier = carriers[key];
         break;
       }
-    } else {
+    }
+    if (carrier == nil) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
       carrier = [telephonyNetworkInfo subscriberCellularProvider];
