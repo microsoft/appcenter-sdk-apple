@@ -116,11 +116,8 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
     CTTelephonyNetworkInfo *telephonyNetworkInfo = [CTTelephonyNetworkInfo new];
     CTCarrier *carrier;
 
-// TODO Use @available API and availability attribute when deprecating Xcode 8 then we can try removing these pragma.
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundeclared-selector"
-   SEL serviceSubscriberCellularProviders = @selector(serviceSubscriberCellularProviders);
-#pragma clang diagnostic pop
+    // TODO Use @available API and availability attribute when deprecating Xcode 8.
+    SEL serviceSubscriberCellularProviders = NSSelectorFromString(@"serviceSubscriberCellularProviders");
     if ([telephonyNetworkInfo respondsToSelector:serviceSubscriberCellularProviders]) {
         
       // Call serviceSubscriberCellularProviders.
@@ -138,7 +135,7 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
       }
     }
     
-    // Use the old API as fallback if new one isn't work.
+    // Use the old API as fallback if new one doesn't work.
     if (carrier == nil) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
