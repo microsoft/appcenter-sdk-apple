@@ -120,6 +120,7 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
     if ([telephonyNetworkInfo respondsToSelector:NSSelectorFromString(@"serviceSubscriberCellularProviders")]) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wpartial-availability"
+#pragma clang diagnostic ignored "-Wundeclared-selector"
       id carriers = [telephonyNetworkInfo serviceSubscriberCellularProviders];
 #pragma clang diagnostic pop
       for (NSString *key in carriers) {
