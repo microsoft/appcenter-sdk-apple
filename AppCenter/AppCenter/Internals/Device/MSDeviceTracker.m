@@ -115,21 +115,22 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
 #if TARGET_OS_IOS
     CTTelephonyNetworkInfo *telephonyNetworkInfo = [CTTelephonyNetworkInfo new];
     CTCarrier *carrier;
-    if ([telephonyNetworkInfo respondsToSelector:@selector(serviceSubscriberCellularProviders)]) {
+
+// TODO Use @available API and availability attribute when deprecating Xcode 8 then we can try removing these pragma.
 #pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+    if ([telephonyNetworkInfo respondsToSelector:@selector(serviceSubscriberCellularProviders)]) {
 #pragma clang diagnostic ignored "-Wpartial-availability"
       id carriers = [telephonyNetworkInfo serviceSubscriberCellularProviders];
       for (NSString *key in carriers) {
         carrier = carriers[key];
         break;
       }
-#pragma clang diagnostic pop
     } else {
-#pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
       carrier = [telephonyNetworkInfo subscriberCellularProvider];
-#pragma clang diagnostic pop
     }
+#pragma clang diagnostic pop
 #endif
 
     // Collect device properties.
