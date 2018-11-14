@@ -14,7 +14,6 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
  */
 @property(nonatomic, readonly, nullable) NSURL *dbFileURL;
 
-
 /**
  * Maximum size of the database.
  */
