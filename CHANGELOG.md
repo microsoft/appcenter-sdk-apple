@@ -1,10 +1,10 @@
 # App Center SDK for iOS and macOS Change Log
 
-## Version 1.12.0 (Under active development)
+## Version 1.11.1 (Under active development)
 
 ### AppCenter
 
-* **[Fix]** Do not delete old logs on try to add a log larger than the maximum storage capacity.
+* **[Fix]** Do not delete old logs when trying to add a log larger than the maximum storage capacity.
 
 ___
 
