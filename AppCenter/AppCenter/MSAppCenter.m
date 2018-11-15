@@ -41,8 +41,8 @@ static NSString *const kMSServiceName = @"AppCenter";
 static NSString *const kMSGroupId = @"AppCenter";
 
 /**
- * The minimum storage size.
- * 24 KiB to be able send default logs (start service, start session, push installation), limited by SQLite.
+ * The minimum storage size, limited by SQLite.
+ * 24 KiB to be able to send the default logs (start service, start session, push installation).
  */
 static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 
