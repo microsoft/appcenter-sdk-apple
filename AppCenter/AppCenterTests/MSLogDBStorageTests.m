@@ -801,7 +801,15 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   XCTAssertEqual(1, [self findUnknownDBIdsFromKnownIdList:knownIds].count);
 }
 
-- (void)testSaveLargeNormalPriorityLogPurgesAllNormalPriorityLogs {
+- (void)testSaveLargeNormalPriorityLogDoesNotPurgeOldLogs {
+  [self DoNotPurgeOldLogsWhenSavingLargeLogExceedsCapacityWithPriority:MSFlagsPersistenceNormal];
+}
+
+- (void)testSaveLargeCriticalPriorityLogDoesNotPurgeOldLogs {
+  [self DoNotPurgeOldLogsWhenSavingLargeLogExceedsCapacityWithPriority:MSFlagsPersistenceCritical];
+}
+
+- (void)DoNotPurgeOldLogsWhenSavingLargeLogExceedsCapacityWithPriority:(MSFlags)priority {
 
   // If
   long maxCapacityInBytes = kMSTestStorageSizeMinimumUpperLimitInBytes + 4 * 1024;
@@ -817,7 +825,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   sqlite3_close(db);
 
   // When
-  BOOL logSavedSuccessfully = [self.sut saveLog:largeLog withGroupId:kMSAnotherTestGroupId flags:MSFlagsPersistenceNormal];
+  BOOL logSavedSuccessfully = [self.sut saveLog:largeLog withGroupId:kMSAnotherTestGroupId flags:priority];
 
   // Then
   XCTAssertTrue([self.storageTestUtil getDataLengthInBytes] <= maxCapacityInBytes);
@@ -831,28 +839,9 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   }
   XCTAssertEqual(0, [self findUnknownDBIdsFromKnownIdList:knownIds].count);
   for (NSNumber *dbId in normalDbIds) {
-    XCTAssertFalse([self containsLogWithDbId:dbId]);
+    XCTAssertTrue([self containsLogWithDbId:dbId]);
   }
   XCTAssertTrue([self containsLogWithDbId:[criticalDbIds firstObject]]);
-}
-
-- (void)testSaveLargeCriticalPriorityLogPurgesAllLogs {
-
-  // If
-  long maxCapacityInBytes = kMSTestStorageSizeMinimumUpperLimitInBytes + 4 * 1024;
-  [self.sut setMaxStorageSize:maxCapacityInBytes
-            completionHandler:^(__unused BOOL success){
-            }];
-  [self fillDatabaseWithMixedPriorityLogsOfSizeInBytesAndReturnDbIds:maxCapacityInBytes];
-  id<MSLog> largeLog = [self generateLogWithSize:@(maxCapacityInBytes)];
-
-  // When
-  BOOL logSavedSuccessfully = [self.sut saveLog:largeLog withGroupId:kMSAnotherTestGroupId flags:MSFlagsPersistenceCritical];
-
-  // Then
-  XCTAssertTrue([self.storageTestUtil getDataLengthInBytes] <= maxCapacityInBytes);
-  XCTAssertFalse(logSavedSuccessfully);
-  XCTAssertEqual(0, [self loadLogsWhere:nil].count);
 }
 
 - (void)testErrorDeletingOldestLog {

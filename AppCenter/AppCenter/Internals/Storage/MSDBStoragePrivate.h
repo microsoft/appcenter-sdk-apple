@@ -14,7 +14,6 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
  */
 @property(nonatomic, readonly, nullable) NSURL *dbFileURL;
 
-
 /**
  * Maximum size of the database.
  */
@@ -91,6 +90,15 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
  * @return The selected entries.
  */
 + (NSArray<NSArray *> *)executeSelectionQuery:(NSString *)query inOpenedDatabase:(void *)db;
+
+/**
+ * Query the maximum number of pages (i.e.: SQLite "max_page_count") of the database.
+ *
+ * @param db Database handle.
+ *
+ * @return The maximum number of pages.
+ */
++ (long)getMaxPageCountInOpenedDatabase:(void *)db;
 
 @end
 
