@@ -42,9 +42,9 @@ static NSString *const kMSGroupId = @"AppCenter";
 
 /**
  * The minimum storage size.
- * 20 KiB to be consistent with Android SDK, limited by SQLite.
+ * 24 KiB to be able send default logs (start service, start session, push installation), limited by SQLite.
  */
-static const long kMSMinUpperSizeLimitInBytes = 20 * 1024;
+static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 
 @implementation MSAppCenter
 
