@@ -2343,7 +2343,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd ${SRCROOT}/../Scripts/AppCenter\n./build-appcenter-ios-framework.sh";
+			shellScript = "cd ${SRCROOT}/../Scripts/AppCenter\n./build-appcenter-ios-framework.sh\n";
 		};
 		F8B8EAD021105B37004BCECB /* Verify no buildSettings */ = {
 			isa = PBXShellScriptBuildPhase;
