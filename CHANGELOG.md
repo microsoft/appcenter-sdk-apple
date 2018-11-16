@@ -4,7 +4,7 @@
 
 ### AppCenter
 
-* **[Fix]** Fix minimum storage size verification to match actual value.
+* **[Fix]** Fix minimum storage size verification to match minimum possible value.
 
 ___
 
