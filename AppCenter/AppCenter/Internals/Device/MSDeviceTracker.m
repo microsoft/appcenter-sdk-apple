@@ -111,9 +111,37 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
  */
 - (MSDevice *)updatedDevice {
   @synchronized(self) {
-    MSDevice *newDevice = [[MSDevice alloc] init];
+    MSDevice *newDevice = [MSDevice new];
 #if TARGET_OS_IOS
-    CTCarrier *carrier = [[[CTTelephonyNetworkInfo alloc] init] subscriberCellularProvider];
+    CTTelephonyNetworkInfo *telephonyNetworkInfo = [CTTelephonyNetworkInfo new];
+    CTCarrier *carrier;
+
+    // TODO Use @available API and availability attribute when deprecating Xcode 8.
+    SEL serviceSubscriberCellularProviders = NSSelectorFromString(@"serviceSubscriberCellularProviders");
+    if ([telephonyNetworkInfo respondsToSelector:serviceSubscriberCellularProviders]) {
+        
+      // Call serviceSubscriberCellularProviders.
+      NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:
+                                  [telephonyNetworkInfo methodSignatureForSelector:serviceSubscriberCellularProviders]];
+      [invocation setSelector:serviceSubscriberCellularProviders];
+      [invocation setTarget:telephonyNetworkInfo];
+      [invocation invoke];
+      void *returnValue;
+      [invocation getReturnValue:&returnValue];
+      NSDictionary<NSString *, CTCarrier *> *carriers = (__bridge NSDictionary<NSString *, CTCarrier *> *)returnValue;
+      for (NSString *key in carriers) {
+        carrier = carriers[key];
+        break;
+      }
+    }
+    
+    // Use the old API as fallback if new one doesn't work.
+    if (carrier == nil) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+      carrier = [telephonyNetworkInfo subscriberCellularProvider];
+#pragma clang diagnostic pop
+    }
 #endif
 
     // Collect device properties.

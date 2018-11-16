@@ -4,7 +4,9 @@
 
 ### AppCenter
 
+* **[Fix]** Do not delete old logs when trying to add a log larger than the maximum storage capacity.
 * **[Fix]** Fix minimum storage size verification to match minimum possible value.
+* **[Fix]** Fix reporting carrier information using new iOS 12 APIs when running on iOS 12+.
 
 ___
 
