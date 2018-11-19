@@ -157,3 +157,8 @@ static NSString *const kMSOneCollectorGroupIdSuffix = @"/one";
  * Bit mask for persistence flags.
  */
 static const NSUInteger kMSPersistenceFlagsMask = 0xFF;
+
+/**
+ * Maximum userId length.
+ */
+static const int kMSMaxUserIdLength = 256;
