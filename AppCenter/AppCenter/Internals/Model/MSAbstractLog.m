@@ -22,6 +22,7 @@
 @synthesize timestamp = _timestamp;
 @synthesize sid = _sid;
 @synthesize distributionGroupId = _distributionGroupId;
+@synthesize userId = _userId;
 @synthesize device = _device;
 @synthesize tag = _tag;
 
@@ -47,6 +48,9 @@
   if (self.distributionGroupId) {
     dict[kMSDistributionGroupId] = self.distributionGroupId;
   }
+  if (self.userId) {
+    dict[kMSUserId] = self.userId;
+  }
   if (self.device) {
     dict[kMSDevice] = [self.device serializeToDictionary];
   }
@@ -66,6 +70,7 @@
          ((!self.timestamp && !log.timestamp) || [self.timestamp isEqualToDate:log.timestamp]) &&
          ((!self.sid && !log.sid) || [self.sid isEqualToString:log.sid]) &&
          ((!self.distributionGroupId && !log.distributionGroupId) || [self.distributionGroupId isEqualToString:log.distributionGroupId]) &&
+         ((!self.userId && !log.userId) || [self.userId isEqualToString:log.userId]) &&
          ((!self.device && !log.device) || [self.device isEqual:log.device]);
 }
 
@@ -78,6 +83,7 @@
     _timestamp = [coder decodeObjectForKey:kMSTimestamp];
     _sid = [coder decodeObjectForKey:kMSSId];
     _distributionGroupId = [coder decodeObjectForKey:kMSDistributionGroupId];
+    _userId = [coder decodeObjectForKey:kMSUserId];
     _device = [coder decodeObjectForKey:kMSDevice];
   }
   return self;
@@ -88,6 +94,7 @@
   [coder encodeObject:self.timestamp forKey:kMSTimestamp];
   [coder encodeObject:self.sid forKey:kMSSId];
   [coder encodeObject:self.distributionGroupId forKey:kMSDistributionGroupId];
+  [coder encodeObject:self.userId forKey:kMSUserId];
   [coder encodeObject:self.device forKey:kMSDevice];
 }
 
