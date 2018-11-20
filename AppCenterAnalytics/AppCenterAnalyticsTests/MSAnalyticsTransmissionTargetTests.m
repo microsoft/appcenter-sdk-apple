@@ -1178,7 +1178,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 - (void)testOverridingInvalidAppUserId {
 
   // If
-  MSAnalyticsTransmissionTarget *target = [MSAnalytics transmissionTargetForToken:@"target"];
+  MSAnalyticsTransmissionTarget *target = [MSAnalytics transmissionTargetForToken:@"invalidUserAppIdTest"];
 
   // Set invalid user identifier (no prefix).
   [target.propertyConfigurator setAppUserId:@"invalid"];
@@ -1186,7 +1186,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   // Set a log.
   MSCommonSchemaLog *log = [MSCommonSchemaLog new];
   log.tag = target;
-  [log addTransmissionTargetToken:@"target"];
+  [log addTransmissionTargetToken:@"invalidUserAppIdTest"];
   log.ext = [MSCSExtensions new];
   log.ext.appExt = [MSAppExtension new];
 
@@ -1200,7 +1200,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 - (void)testOverridingValidAppUserIdThenUnset {
 
   // If
-  MSAnalyticsTransmissionTarget *target = [MSAnalytics transmissionTargetForToken:@"target"];
+  MSAnalyticsTransmissionTarget *target = [MSAnalytics transmissionTargetForToken:@"unsetUserIdTest"];
 
   // Set properties to the target.
   [target.propertyConfigurator setAppUserId:@"c:alice"];
@@ -1208,7 +1208,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   // Set a log.
   MSCommonSchemaLog *log = [MSCommonSchemaLog new];
   log.tag = target;
-  [log addTransmissionTargetToken:@"target"];
+  [log addTransmissionTargetToken:@"unsetUserIdTest"];
   log.ext = [MSCSExtensions new];
   log.ext.appExt = [MSAppExtension new];
 
