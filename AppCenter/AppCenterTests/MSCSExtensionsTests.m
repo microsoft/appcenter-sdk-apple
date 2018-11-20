@@ -490,6 +490,13 @@
 
   // Then
   XCTAssertNotEqualObjects(anotherAppExt, self.appExt);
+
+  // If
+  anotherAppExt.locale = self.appExtDummyValues[kMSAppLocale];
+  anotherAppExt.userId = @"c:charlie";
+
+  // Then
+  XCTAssertNotEqualObjects(anotherAppExt, self.appExt);
 }
 
 #pragma mark - MSProtocolExtension
