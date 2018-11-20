@@ -95,7 +95,7 @@
 }
 
 + (NSDictionary *)appExtensionDummies {
-  return @{kMSAppId : @"com.some.bundle.id", kMSAppVer : @"3.4.1", kMSAppLocale : @"en-us"};
+  return @{kMSAppId : @"com.some.bundle.id", kMSAppVer : @"3.4.1", kMSAppLocale : @"en-us", kMSAppUserId : @"c:alice"};
 }
 
 + (NSDictionary *)protocolExtensionDummies {
