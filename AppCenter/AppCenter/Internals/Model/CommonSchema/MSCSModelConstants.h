@@ -39,6 +39,7 @@ extern NSString *const kMSAppId;
 extern NSString *const kMSAppVer;
 extern NSString *const kMSAppName;
 extern NSString *const kMSAppLocale;
+extern NSString *const kMSAppUserId;
 
 #pragma mark - MSProtocolExtension
 
