@@ -8,6 +8,7 @@
 #import "MSDeviceTracker.h"
 #import "MSIngestionProtocol.h"
 #import "MSStorage.h"
+#import "MSUserIdContext.h"
 #import "MSUtility+StringFormatting.h"
 
 @implementation MSChannelUnitDefault
@@ -102,6 +103,9 @@
   }
   if (item && !item.device) {
     item.device = [[MSDeviceTracker sharedInstance] device];
+  }
+  if (item && !item.userId) {
+    item.userId = [[MSUserIdContext sharedInstance] userId];
   }
   if (!item || ![item isValid]) {
     MSLogWarning([MSAppCenter logTag], @"Log is not valid.");

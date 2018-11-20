@@ -1375,6 +1375,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  }
                                  XCTAssertEqual(actualUserId, expectedUserId);
                                }];
+  [userIdContextMock stopMocking];
 }
 
 - (void)testEnqueueItemDoesNotSetUserIdWhenItAlreadyHasOne {
@@ -1413,6 +1414,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  }
                                  XCTAssertEqual(actualUserId, expectedUserId);
                                }];
+  [userIdContextMock stopMocking];
 }
 
 #pragma mark - Helper
