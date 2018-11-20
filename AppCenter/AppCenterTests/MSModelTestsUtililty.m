@@ -205,6 +205,7 @@
   appExt.appId = dummyValues[kMSAppId];
   appExt.ver = dummyValues[kMSAppVer];
   appExt.locale = dummyValues[kMSAppLocale];
+  appExt.userId = dummyValues[kMSAppUserId];
   return appExt;
 }
 

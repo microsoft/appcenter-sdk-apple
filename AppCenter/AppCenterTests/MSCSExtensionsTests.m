@@ -446,6 +446,7 @@
   XCTAssertEqualObjects(actualAppExt.appId, self.appExtDummyValues[kMSAppId]);
   XCTAssertEqualObjects(actualAppExt.ver, self.appExtDummyValues[kMSAppVer]);
   XCTAssertEqualObjects(actualAppExt.locale, self.appExtDummyValues[kMSAppLocale]);
+  XCTAssertEqualObjects(actualAppExt.userId, self.appExtDummyValues[kMSAppUserId]);
 }
 
 - (void)testAppExtIsValid {
