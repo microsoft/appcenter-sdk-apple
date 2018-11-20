@@ -206,6 +206,7 @@
   [self.sut setAppLocale:@"en-US"];
   [self.sut setAppVersion:@"1.0.0"];
   [self.sut setAppName:@"tim"];
+  [self.sut setAppUserId:@"c:alice"];
 
   // When
   [self.sut channel:channelMock prepareLog:csLog];
@@ -214,6 +215,7 @@
   XCTAssertNil(csLog.ext.appExt.ver);
   XCTAssertNil(csLog.ext.appExt.locale);
   XCTAssertNil(csLog.ext.appExt.name);
+  XCTAssertNil(csLog.ext.appExt.userId);
 }
 
 @end

@@ -12,6 +12,7 @@
 #import "MSAppExtension.h"
 #import "MSCSExtensions.h"
 #import "MSCommonSchemaLog.h"
+#import "MSConstants+Internal.h"
 #import "MSDeviceExtension.h"
 #import "MSEventPropertiesInternal.h"
 #import "MSLogger.h"
@@ -44,6 +45,26 @@ static const char deviceIdPrefix = 'i';
 
 - (void)setAppLocale:(NSString *)appLocale {
   _appLocale = appLocale;
+}
+
+- (void)setAppUserId:(NSString *)appUserId {
+  @synchronized([MSAnalytics sharedInstance]) {
+    static NSRegularExpression *regex = nil;
+    if (!regex) {
+      NSError *error = nil;
+      regex = [NSRegularExpression regularExpressionWithPattern:kAppUserIdPattern options:(NSRegularExpressionOptions)0 error:&error];
+      if (!regex) {
+        MSLogError([MSAnalytics logTag], @"Couldn't create regular expression with pattern\"%@\": %@", kAppUserIdPattern,
+                   error.localizedDescription);
+        return;
+      }
+    }
+    if (appUserId && ![regex matchesInString:appUserId options:(NSMatchingOptions)0 range:NSMakeRange(0, appUserId.length)].count) {
+      MSLogError([MSAnalytics logTag], @"appUserId must match the %@ regular expression.", kAppUserIdPattern);
+      return;
+    }
+    _appUserId = appUserId;
+  }
 }
 
 - (void)setEventPropertyString:(NSString *)propertyValue forKey:(NSString *)propertyKey {
@@ -120,6 +141,16 @@ static const char deviceIdPrefix = 'i';
     while (target) {
       if (target.propertyConfigurator.appLocale) {
         ((MSCommonSchemaLog *)log).ext.appExt.locale = target.propertyConfigurator.appLocale;
+        break;
+      }
+      target = target.parentTarget;
+    }
+
+    // Override the application userId.
+    target = self.transmissionTarget;
+    while (target) {
+      if (target.propertyConfigurator.appUserId) {
+        ((MSCommonSchemaLog *)log).ext.appExt.userId = target.propertyConfigurator.appUserId;
         break;
       }
       target = target.parentTarget;
