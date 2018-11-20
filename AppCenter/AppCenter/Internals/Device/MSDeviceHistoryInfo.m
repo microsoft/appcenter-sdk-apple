@@ -1,13 +1,15 @@
 #import "MSDeviceHistoryInfo.h"
 
 static NSString *const kMSDeviceKey = @"deviceKey";
-static NSString *const kMSTimestampKey = @"timestampKey";
 
+/**
+ * This class is used to associate device properties with the timestamp that it was created.
+ */
 @implementation MSDeviceHistoryInfo
 
 - (instancetype)initWithTimestamp:(NSDate *)timestamp andDevice:(MSDevice *)device {
-  if ((self = [super init])) {
-    _timestamp = timestamp;
+  self = [super initWithTimestamp:timestamp];
+  if (self) {
     _device = device;
   }
   return self;
@@ -16,17 +18,15 @@ static NSString *const kMSTimestampKey = @"timestampKey";
 #pragma mark - NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
-  self = [super init];
+  self = [super initWithCoder:corder];
   if (self) {
-    self.timestamp = [coder decodeObjectForKey:kMSTimestampKey];
     self.device = [coder decodeObjectForKey:kMSDeviceKey];
   }
-
   return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
-  [coder encodeObject:self.timestamp forKey:kMSTimestampKey];
+  [super encodeWithCoder:coder];
   [coder encodeObject:self.device forKey:kMSDeviceKey];
 }
 

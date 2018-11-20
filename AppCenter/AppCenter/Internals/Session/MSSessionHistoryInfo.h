@@ -1,14 +1,9 @@
-#import <Foundation/Foundation.h>
-
-@interface MSSessionHistoryInfo : NSObject <NSCoding>
+#import "MSHistoryInfo.h"
 
 /**
- * Initializes a new `MSSessionHistoryInfo` instance.
- *
- * @param timestamp Timestamp
- * @param sessionId Session Id
+ * Model class that is intended to be used to correlate sessionId to a crash at app relaunch.
  */
-- (instancetype)initWithTimestamp:(NSDate *)timestamp andSessionId:(NSString *)sessionId;
+@interface MSSessionHistoryInfo : MSHistoryInfo
 
 /**
  * Session Id.
@@ -16,8 +11,11 @@
 @property(nonatomic, copy) NSString *sessionId;
 
 /**
- * Timestamp.
+ * Initializes a new `MSSessionHistoryInfo` instance.
+ *
+ * @param timestamp Timestamp.
+ * @param sessionId Session Id.
  */
-@property(nonatomic) NSDate *timestamp;
+- (instancetype)initWithTimestamp:(NSDate *)timestamp andSessionId:(NSString *)sessionId;
 
 @end
