@@ -1180,7 +1180,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   // If
   MSAnalyticsTransmissionTarget *target = [MSAnalytics transmissionTargetForToken:@"target"];
 
-  // Set properties to the target.
+  // Set invalid user identifier (no prefix).
   [target.propertyConfigurator setAppUserId:@"invalid"];
 
   // Set a log.
@@ -1189,13 +1189,12 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   [log addTransmissionTargetToken:@"target"];
   log.ext = [MSCSExtensions new];
   log.ext.appExt = [MSAppExtension new];
-  log.ext.appExt.userId = @"c:alice";
 
   // When
   [target.propertyConfigurator channel:nil prepareLog:log];
 
   // Then
-  XCTAssertNotEqual(log.ext.appExt.userId, target.propertyConfigurator.appUserId);
+  XCTAssertNil(log.ext.appExt.userId);
 }
 
 - (void)testOverridingValidAppUserIdThenUnset {
