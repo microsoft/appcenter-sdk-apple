@@ -123,12 +123,16 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     updateViewState()
   }
 
+  @IBAction func userIdChanged(_ sender: UITextField) {
+    appCenter.setUserId(sender.text ?? "")
+  }
+
   func storageMaxSizeUpdated(_ sender: UITextField) {
     let maxSize = Int(sender.text ?? "0") ?? 0
     sender.text = "\(maxSize)"
     UserDefaults.standard.set(maxSize * 1024, forKey: kMSStorageMaxSizeKey)
   }
-
+  
   func toolBarForKeyboard() -> UIToolbar {
     let toolbar = UIToolbar()
     toolbar.sizeToFit()
