@@ -745,16 +745,17 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 }
 
 - (void)testSetInvalidUserId {
-  
+
   // If
   NSString *userId = @"";
   for (int i = 0; i < kMSMaxUserIdLength + 1; i++) {
     userId = [userId stringByAppendingString:@"x"];
   }
-  
+  [MSAppCenter configureWithAppSecret:@"AppSecret"];
+
   // When
   [MSAppCenter setUserId:userId];
-  
+
   // Then
   XCTAssertNil([[MSUserIdContext sharedInstance] userId]);
 }

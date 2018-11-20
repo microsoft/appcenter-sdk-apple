@@ -12,6 +12,7 @@
 #import "MSOneCollectorChannelDelegate.h"
 #import "MSSessionContext.h"
 #import "MSStartServiceLog.h"
+#import "MSUserIdContext.h"
 #import "MSUtility+StringFormatting.h"
 
 #if !TARGET_OS_TV
@@ -446,8 +447,12 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
   }
 }
 
-- (void)setUserId:(NSString *)__unused userId {
-  // TODO implement setUserId
+- (void)setUserId:(NSString *)userId {
+  if (self.appSecret && [userId length] > kMSMaxUserIdLength) {
+    MSLogError([MSAppCenter logTag], @"userId is limited to %d characters.", kMSMaxUserIdLength);
+  } else {
+    [[MSUserIdContext sharedInstance] setUserId:userId];
+  }
 }
 
 #if !TARGET_OS_TV
