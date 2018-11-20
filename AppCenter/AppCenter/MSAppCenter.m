@@ -207,6 +207,10 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
   [[MSAppCenter sharedInstance] setMaxStorageSize:sizeInBytes completionHandler:completionHandler];
 }
 
++ (void)setUserId:(NSString *)userId {
+  [[MSAppCenter sharedInstance] setUserId:userId];
+}
+
 #pragma mark - private
 
 - (instancetype)init {
@@ -440,6 +444,10 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
   if (setMaxSizeFailed && completionHandler) {
     completionHandler(NO);
   }
+}
+
+- (void)setUserId:(NSString *)__unused userId {
+  // TODO implement setUserId
 }
 
 #if !TARGET_OS_TV
