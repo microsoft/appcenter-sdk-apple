@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
 #import <OCMock/OCMock.h>
 
+#import "MSAppCenter.h"
 #import "MSAbstractLogInternal.h"
 #import "MSChannelDelegate.h"
 #import "MSChannelUnitConfiguration.h"
@@ -1335,6 +1336,65 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                  XCTAssertTrue([self.sut.pausedTargetKeys count] == 0);
+                               }];
+}
+
+- (void)testEnqueueItemSetUserIdToLog {
+
+  // If
+  id<MSLog> enqueuedLog = [self getValidMockLog];
+  NSString *expectedUserId = @"Fake-UserId";
+  __block NSString *actualUserId;
+  id appCenterMock = OCMClassMock([MSAppCenter class]);
+  OCMStub([appCenterMock sharedInstance]).andReturn(appCenterMock);
+  OCMStub([appCenterMock getUserId]).andReturn(expectedUserId);
+  OCMStub([self.storageMock saveLog:OCMOCK_ANY withGroupId:OCMOCK_ANY flags:MSFlagsDefault]).andDo(^(NSInvocation *invocation) {
+    MSAbstractLog *log;
+    [invocation getArgument:&log atIndex:2];
+    actualUserId = log.userId;
+    [self enqueueChannelEndJobExpectation];
+  });
+
+  // When
+  [self.sut enqueueItem:enqueuedLog flags:MSFlagsDefault];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                                 XCTAssertEqual(actualUserId, expectedUserId);
+                               }];
+}
+
+- (void)testEnqueueItemDoesNotSetUserIdWhenItAlreadyHasOne {
+
+  // If
+  id<MSLog> enqueuedLog = [self getValidMockLog];
+  NSString *expectedUserId = @"Fake-UserId";
+  __block NSString *actualUserId;
+  id appCenterMock = OCMClassMock([MSAppCenter class]);
+  OCMStub([appCenterMock sharedInstance]).andReturn(appCenterMock);
+  OCMStub([appCenterMock getUserId]).andReturn(@"SomethingElse");
+  OCMStub([self.storageMock saveLog:OCMOCK_ANY withGroupId:OCMOCK_ANY flags:MSFlagsDefault]).andDo(^(NSInvocation *invocation) {
+    MSAbstractLog *log;
+    [invocation getArgument:&log atIndex:2];
+    actualUserId = log.userId;
+    [self enqueueChannelEndJobExpectation];
+  });
+
+  // When
+  enqueuedLog.userId = expectedUserId;
+  [self.sut enqueueItem:enqueuedLog flags:MSFlagsDefault];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                                 XCTAssertEqual(actualUserId, expectedUserId);
                                }];
 }
 
