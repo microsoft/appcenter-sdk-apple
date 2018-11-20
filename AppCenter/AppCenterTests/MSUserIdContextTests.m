@@ -54,7 +54,7 @@
   // Then
   NSData *data = [self.settingsMock objectForKey:@"UserIdHistory"];
   XCTAssertNotNil(data);
-  XCTAssertTrue([[NSKeyedUnarchiver unarchiveObjectWithData:data] count] == 2);
+  XCTAssertEqual([[NSKeyedUnarchiver unarchiveObjectWithData:data] count], 2);
 
   // When
   [[MSUserIdContext sharedInstance] clearUserIdHistory];
@@ -64,7 +64,7 @@
   XCTAssertNotNil(data);
 
   // Should keep the current userId.
-  XCTAssertTrue([[NSKeyedUnarchiver unarchiveObjectWithData:data] count] == 1);
+  XCTAssertEqual([[NSKeyedUnarchiver unarchiveObjectWithData:data] count], 1);
 }
 
 - (void)testUserId {
@@ -102,7 +102,7 @@
   [[MSUserIdContext sharedInstance] setUserId:@"UserId5"];
 
   // Then
-  // resetSharedInstance will also call [NSDate date] so timestamp 5500 should return "UserId3"
+  // sharedInstance will also call [NSDate date] so timestamp 5500 should return "UserId3"
   XCTAssertNil([[MSUserIdContext sharedInstance] userIdAt:[[NSDate alloc] initWithTimeIntervalSince1970:0]]);
   XCTAssertEqualObjects(@"UserId3", [[MSUserIdContext sharedInstance] userIdAt:[[NSDate alloc] initWithTimeIntervalSince1970:5500]]);
   XCTAssertEqualObjects(@"UserId5", [[MSUserIdContext sharedInstance] userIdAt:[[NSDate alloc] initWithTimeIntervalSince1970:10000]]);
