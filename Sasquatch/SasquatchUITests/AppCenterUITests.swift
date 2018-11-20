@@ -139,13 +139,13 @@ class AppCenterUITests: XCTestCase {
     
     // Add clear property.
     customPropertiesTable.staticTexts["Add Property"].tap()
-    let clearPropertyCell = customPropertiesTable.cells.element(boundBy: 0)
+    let clearPropertyCell = customPropertiesTable.cells.element(boundBy: 1)
     XCTAssertEqual("Clear", clearPropertyCell.textFields["Type"].value as! String)
     clearPropertyCell.textFields["Key"].clearAndTypeText("key0")
     
     // Add string property.
     customPropertiesTable.staticTexts["Add Property"].tap()
-    let stringPropertyCell = customPropertiesTable.cells.element(boundBy: 1)
+    let stringPropertyCell = customPropertiesTable.cells.element(boundBy: 2)
     stringPropertyCell.textFields["Type"].tap()
     app.pickerWheels.element.adjust(toPickerWheelValue: "String")
     app.toolbars.buttons["Done"].tap()
@@ -155,7 +155,7 @@ class AppCenterUITests: XCTestCase {
     
     // Add number property.
     customPropertiesTable.staticTexts["Add Property"].tap()
-    let numbarPropertyCell = customPropertiesTable.cells.element(boundBy: 2)
+    let numbarPropertyCell = customPropertiesTable.cells.element(boundBy: 3)
     numbarPropertyCell.textFields["Type"].tap()
     app.pickerWheels.element.adjust(toPickerWheelValue: "Number")
     app.toolbars.buttons["Done"].tap()

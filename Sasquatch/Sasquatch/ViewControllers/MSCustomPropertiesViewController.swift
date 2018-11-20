@@ -132,7 +132,7 @@ class MSCustomPropertiesViewController : UITableViewController, AppCenterProtoco
       tableView.deleteRows(at: [indexPath], with: .automatic)
     } else if editingStyle == .insert {
       let count = properties.count
-      properties.insert(("key\(count)", CustomPropertyType.String, "value\(count)"), at: 0)
+      properties.insert(("key\(count)", CustomPropertyType.Clear, "value\(count)"), at: 0)
       tableView.insertRows(at: [IndexPath(row: indexPath.row + 1, section: indexPath.section)], with: .automatic)
     }
   }
