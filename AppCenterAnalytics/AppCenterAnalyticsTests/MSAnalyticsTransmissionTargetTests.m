@@ -1237,6 +1237,46 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   XCTAssertNil(log.ext.appExt.userId);
 }
 
+- (void)testOverridingValidAppUserIdWithInvalidOne {
+
+  // If
+  MSAnalyticsTransmissionTarget *target = [MSAnalytics transmissionTargetForToken:@"target"];
+
+  // Set valid userId.
+  [target.propertyConfigurator setAppUserId:@"c:alice"];
+
+  // Set a log.
+  MSCommonSchemaLog *log = [MSCommonSchemaLog new];
+  log.tag = target;
+  [log addTransmissionTargetToken:@"target"];
+  log.ext = [MSCSExtensions new];
+  log.ext.appExt = [MSAppExtension new];
+
+  // When
+  [target.propertyConfigurator channel:nil prepareLog:log];
+
+  // Then
+  XCTAssertEqual(log.ext.appExt.userId, @"c:alice");
+
+  // If
+
+  // Set invalid userId on existing target having a valid userId.
+  [target.propertyConfigurator setAppUserId:@"invalid"];
+
+  // Reset a log.
+  log = [MSCommonSchemaLog new];
+  log.tag = target;
+  [log addTransmissionTargetToken:@"target"];
+  log.ext = [MSCSExtensions new];
+  log.ext.appExt = [MSAppExtension new];
+
+  // When
+  [target.propertyConfigurator channel:nil prepareLog:log];
+
+  // Then the value did not change.
+  XCTAssertEqual(log.ext.appExt.userId, @"c:alice");
+}
+
 - (void)testAddAuthenticationProvider {
 
   // If
