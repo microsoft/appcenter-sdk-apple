@@ -18,7 +18,7 @@ static NSString *const kMSDeviceKey = @"deviceKey";
 #pragma mark - NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
-  self = [super initWithCoder:corder];
+  self = [super initWithCoder:coder];
   if (self) {
     self.device = [coder decodeObjectForKey:kMSDeviceKey];
   }
