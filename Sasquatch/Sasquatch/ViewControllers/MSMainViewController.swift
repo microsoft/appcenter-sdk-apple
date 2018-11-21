@@ -127,12 +127,16 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     appCenter.setUserId(sender.text ?? "")
   }
 
+  @IBAction func dismissKeyboard(_ sender: UITextField!) {
+    sender.resignFirstResponder()
+  }
+
   func storageMaxSizeUpdated(_ sender: UITextField) {
     let maxSize = Int(sender.text ?? "0") ?? 0
     sender.text = "\(maxSize)"
     UserDefaults.standard.set(maxSize * 1024, forKey: kMSStorageMaxSizeKey)
   }
-  
+
   func toolBarForKeyboard() -> UIToolbar {
     let toolbar = UIToolbar()
     toolbar.sizeToFit()
@@ -143,7 +147,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   }
 
   func doneClicked() {
-    self.storageMaxSizeField.resignFirstResponder()
+    dismissKeyboard(self.storageMaxSizeField)
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

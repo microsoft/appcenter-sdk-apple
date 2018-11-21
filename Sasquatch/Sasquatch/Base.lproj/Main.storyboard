@@ -131,6 +131,9 @@
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits"/>
+                                                    <connections>
+                                                        <action selector="dismissKeyboard:" destination="GhP-bn-tCW" eventType="editingDidEndOnExit" id="17E-jP-qzV"/>
+                                                    </connections>
                                                 </textField>
                                             </subviews>
                                         </tableViewCellContentView>
@@ -237,6 +240,9 @@
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits"/>
+                                                    <connections>
+                                                        <action selector="dismissKeyboard:" destination="GhP-bn-tCW" eventType="editingDidEndOnExit" id="8I6-nn-T87"/>
+                                                    </connections>
                                                 </textField>
                                             </subviews>
                                         </tableViewCellContentView>
@@ -1074,6 +1080,7 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                                     <connections>
+                                                        <action selector="dismissKeyboard:" destination="9Ck-4D-Ozb" eventType="editingDidEndOnExit" id="ZFL-NZ-9Bu"/>
                                                         <action selector="userIdChanged:" destination="9Ck-4D-Ozb" eventType="valueChanged" id="Q7J-OT-Rsf"/>
                                                     </connections>
                                                 </textField>
@@ -1296,6 +1303,10 @@
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="Key"/>
                                             </userDefinedRuntimeAttributes>
+                                            <connections>
+                                                <action selector="dismissKeyboard:" destination="yaD-Sv-ZyN" eventType="editingDidEndOnExit" id="q46-rb-HA3"/>
+                                                <action selector="onChangeKey" destination="yaD-Sv-ZyN" eventType="editingChanged" id="Xeq-Ro-fj2"/>
+                                            </connections>
                                         </textField>
                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Value" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="P9T-hT-d4t" userLabel="Value Text Field">
                                             <rect key="frame" x="80" y="88" width="279" height="44"/>
@@ -1308,9 +1319,16 @@
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="Value"/>
                                             </userDefinedRuntimeAttributes>
+                                            <connections>
+                                                <action selector="dismissKeyboard:" destination="yaD-Sv-ZyN" eventType="editingDidEndOnExit" id="DzE-7M-fX2"/>
+                                                <action selector="onChangeValue" destination="yaD-Sv-ZyN" eventType="editingChanged" id="eTI-aP-SZd"/>
+                                            </connections>
                                         </textField>
                                         <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2bT-1N-qFu">
                                             <rect key="frame" x="310" y="94.5" width="51" height="31"/>
+                                            <connections>
+                                                <action selector="onChangeValue" destination="yaD-Sv-ZyN" eventType="valueChanged" id="3vJ-aN-8ic"/>
+                                            </connections>
                                         </switch>
                                     </subviews>
                                     <constraints>
