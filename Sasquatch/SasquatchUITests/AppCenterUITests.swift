@@ -96,12 +96,12 @@ class AppCenterUITests: XCTestCase {
     XCTAssertFalse(appCenterButton.boolValue)
     
     // Several attempts for sure.
-    for i in 0..<10 {
+    for i in 0..<3 {
       
       // Restart application.
-      sleep(1)
+      sleep(5)
       XCUIDevice().press(.home)
-      sleep(1)
+      sleep(5)
       app.launch()
       
       appCenterButton = app.tables["App Center"].switches["Set Enabled"]
@@ -113,9 +113,9 @@ class AppCenterUITests: XCTestCase {
       XCTAssertTrue(appCenterButton.boolValue)
       
       // Restart application.
-      sleep(1)
+      sleep(5)
       XCUIDevice().press(XCUIDeviceButton.home)
-      sleep(1)
+      sleep(5)
       app.launch()
       
       appCenterButton = app.tables["App Center"].switches["Set Enabled"]
