@@ -17,6 +17,7 @@
 #import "MSOneCollectorChannelDelegate.h"
 #import "MSStartServiceLog.h"
 #import "MSTestFrameworks.h"
+#import "MSUserIdContext.h"
 
 static NSString *const kMSInstallIdStringExample = @"F18499DA-5C3D-4F05-B4E8-D8C9C06A6F09";
 
@@ -720,6 +721,43 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
+}
+
+- (void)testSetValidUserId {
+
+  // If
+  NSString *userId = @"user123";
+
+  // When
+  [MSAppCenter setUserId:userId];
+
+  // Then
+  XCTAssertEqual([[MSUserIdContext sharedInstance] userId], userId);
+}
+
+- (void)testSetNilUserId {
+
+  // When
+  [MSAppCenter setUserId:nil];
+
+  // Then
+  XCTAssertNil([[MSUserIdContext sharedInstance] userId]);
+}
+
+- (void)testSetInvalidUserId {
+
+  // If
+  NSString *userId = @"";
+  for (int i = 0; i < kMSMaxUserIdLength + 1; i++) {
+    userId = [userId stringByAppendingString:@"x"];
+  }
+  [MSAppCenter configureWithAppSecret:@"AppSecret"];
+
+  // When
+  [MSAppCenter setUserId:userId];
+
+  // Then
+  XCTAssertNil([[MSUserIdContext sharedInstance] userId]);
 }
 
 @end

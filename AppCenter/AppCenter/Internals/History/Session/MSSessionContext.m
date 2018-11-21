@@ -4,7 +4,7 @@
 #import "MSUtility.h"
 
 /**
- * Base URL for HTTP Ingestion backend API calls.
+ * Session Id key.
  */
 static NSString *const kMSSessionIdHistoryKey = @"SessionIdHistory";
 

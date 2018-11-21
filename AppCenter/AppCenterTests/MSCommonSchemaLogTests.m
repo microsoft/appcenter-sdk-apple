@@ -250,6 +250,7 @@
   appExt.appId = @"com.mamamia.bundle.id";
   appExt.ver = @"1.0.0";
   appExt.locale = @"fr-ca";
+  appExt.userId = @"c:alice";
   return appExt;
 }
 

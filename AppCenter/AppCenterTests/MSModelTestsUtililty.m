@@ -95,7 +95,7 @@
 }
 
 + (NSDictionary *)appExtensionDummies {
-  return @{kMSAppId : @"com.some.bundle.id", kMSAppVer : @"3.4.1", kMSAppLocale : @"en-us"};
+  return @{kMSAppId : @"com.some.bundle.id", kMSAppVer : @"3.4.1", kMSAppLocale : @"en-us", kMSAppUserId : @"c:alice"};
 }
 
 + (NSDictionary *)protocolExtensionDummies {
@@ -205,6 +205,7 @@
   appExt.appId = dummyValues[kMSAppId];
   appExt.ver = dummyValues[kMSAppVer];
   appExt.locale = dummyValues[kMSAppLocale];
+  appExt.userId = dummyValues[kMSAppUserId];
   return appExt;
 }
 

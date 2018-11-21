@@ -1,8 +1,8 @@
 #import <Foundation/Foundation.h>
 #import <OCMock/OCMock.h>
 
-#import "MSAppCenter.h"
 #import "MSAbstractLogInternal.h"
+#import "MSAppCenter.h"
 #import "MSChannelDelegate.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
@@ -12,6 +12,7 @@
 #import "MSLogContainer.h"
 #import "MSStorage.h"
 #import "MSTestFrameworks.h"
+#import "MSUserIdContext.h"
 #import "MSUtility.h"
 
 static NSString *const kMSTestGroupId = @"GroupId";
@@ -1342,18 +1343,26 @@ static NSString *const kMSTestGroupId = @"GroupId";
 - (void)testEnqueueItemSetUserIdToLog {
 
   // If
+  [self initChannelEndJobExpectation];
   id<MSLog> enqueuedLog = [self getValidMockLog];
   NSString *expectedUserId = @"Fake-UserId";
   __block NSString *actualUserId;
-  id appCenterMock = OCMClassMock([MSAppCenter class]);
-  OCMStub([appCenterMock sharedInstance]).andReturn(appCenterMock);
-  OCMStub([appCenterMock getUserId]).andReturn(expectedUserId);
-  OCMStub([self.storageMock saveLog:OCMOCK_ANY withGroupId:OCMOCK_ANY flags:MSFlagsDefault]).andDo(^(NSInvocation *invocation) {
-    MSAbstractLog *log;
-    [invocation getArgument:&log atIndex:2];
-    actualUserId = log.userId;
-    [self enqueueChannelEndJobExpectation];
-  });
+  id userIdContextMock = OCMClassMock([MSUserIdContext class]);
+  OCMStub([userIdContextMock sharedInstance]).andReturn(userIdContextMock);
+  OCMStub([userIdContextMock userId]).andReturn(expectedUserId);
+  self.storageMock = OCMProtocolMock(@protocol(MSStorage));
+  OCMStub([self.storageMock saveLog:OCMOCK_ANY withGroupId:OCMOCK_ANY flags:MSFlagsPersistenceNormal])
+      .andDo(^(NSInvocation *invocation) {
+        MSAbstractLog *log;
+        [invocation getArgument:&log atIndex:2];
+        actualUserId = log.userId;
+        [self enqueueChannelEndJobExpectation];
+      })
+      .andReturn(YES);
+  self.sut = [[MSChannelUnitDefault alloc] initWithIngestion:self.ingestionMock
+                                                     storage:self.storageMock
+                                               configuration:self.configMock
+                                           logsDispatchQueue:self.logsDispatchQueue];
 
   // When
   [self.sut enqueueItem:enqueuedLog flags:MSFlagsDefault];
@@ -1366,23 +1375,32 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  }
                                  XCTAssertEqual(actualUserId, expectedUserId);
                                }];
+  [userIdContextMock stopMocking];
 }
 
 - (void)testEnqueueItemDoesNotSetUserIdWhenItAlreadyHasOne {
 
   // If
+  [self initChannelEndJobExpectation];
   id<MSLog> enqueuedLog = [self getValidMockLog];
   NSString *expectedUserId = @"Fake-UserId";
   __block NSString *actualUserId;
-  id appCenterMock = OCMClassMock([MSAppCenter class]);
-  OCMStub([appCenterMock sharedInstance]).andReturn(appCenterMock);
-  OCMStub([appCenterMock getUserId]).andReturn(@"SomethingElse");
-  OCMStub([self.storageMock saveLog:OCMOCK_ANY withGroupId:OCMOCK_ANY flags:MSFlagsDefault]).andDo(^(NSInvocation *invocation) {
-    MSAbstractLog *log;
-    [invocation getArgument:&log atIndex:2];
-    actualUserId = log.userId;
-    [self enqueueChannelEndJobExpectation];
-  });
+  id userIdContextMock = OCMClassMock([MSUserIdContext class]);
+  OCMStub([userIdContextMock sharedInstance]).andReturn(userIdContextMock);
+  OCMStub([userIdContextMock userId]).andReturn(@"SomethingElse");
+  self.storageMock = OCMProtocolMock(@protocol(MSStorage));
+  OCMStub([self.storageMock saveLog:OCMOCK_ANY withGroupId:OCMOCK_ANY flags:MSFlagsPersistenceNormal])
+      .andDo(^(NSInvocation *invocation) {
+        MSAbstractLog *log;
+        [invocation getArgument:&log atIndex:2];
+        actualUserId = log.userId;
+        [self enqueueChannelEndJobExpectation];
+      })
+      .andReturn(YES);
+  self.sut = [[MSChannelUnitDefault alloc] initWithIngestion:self.ingestionMock
+                                                     storage:self.storageMock
+                                               configuration:self.configMock
+                                           logsDispatchQueue:self.logsDispatchQueue];
 
   // When
   enqueuedLog.userId = expectedUserId;
@@ -1396,6 +1414,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  }
                                  XCTAssertEqual(actualUserId, expectedUserId);
                                }];
+  [userIdContextMock stopMocking];
 }
 
 #pragma mark - Helper

@@ -15,6 +15,7 @@
 #import "MSHandledErrorLog.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSSessionContext.h"
+#import "MSUserIdContext.h"
 #import "MSUtility+File.h"
 #import "MSWrapperCrashesHelper.h"
 #import "MSWrapperExceptionManagerInternal.h"
@@ -1130,6 +1131,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
     // First, get correlated session Id.
     log.sid = [[MSSessionContext sharedInstance] sessionIdAt:log.timestamp];
+
+    // Second, get correlated user Id.
+    log.userId = [[MSUserIdContext sharedInstance] userIdAt:log.timestamp];
 
     // Then, enqueue crash log.
     [self.channelUnit enqueueItem:log flags:MSFlagsPersistenceCritical];
