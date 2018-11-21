@@ -71,7 +71,7 @@
 }
 
 - (void)setUserId:(NSString *)userId {
-  // TODO
+  [MSAppCenter setUserId:userId];
 }
 
 #pragma mark - Modules section.

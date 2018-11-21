@@ -61,7 +61,7 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   }
 
   func setUserId(_ usedId: String) {
-    // TODO
+    MSAppCenter.setUserId(usedId);
   }
 
   // Modules section.
