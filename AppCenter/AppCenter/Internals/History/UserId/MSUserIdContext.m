@@ -6,7 +6,7 @@
 /**
  * User Id history key.
  */
-static NSString *const kMSUesrIdHistoryKey = @"UserIdHistory";
+static NSString *const kMSUserIdHistoryKey = @"UserIdHistory";
 
 /**
  * Singleton.
@@ -28,7 +28,7 @@ static dispatch_once_t onceToken;
 - (instancetype)init {
   self = [super init];
   if (self) {
-    NSData *data = [MS_USER_DEFAULTS objectForKey:kMSUesrIdHistoryKey];
+    NSData *data = [MS_USER_DEFAULTS objectForKey:kMSUserIdHistoryKey];
     if (data != nil) {
       _userIdHistory = (NSMutableArray *)[(NSObject *)[NSKeyedUnarchiver unarchiveObjectWithData:data] mutableCopy];
     }
@@ -58,7 +58,7 @@ static dispatch_once_t onceToken;
     self.currentUserIdInfo.userId = userId;
     self.currentUserIdInfo.timestamp = [NSDate date];
     [self.userIdHistory addObject:self.currentUserIdInfo];
-    [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.userIdHistory] forKey:kMSUesrIdHistoryKey];
+    [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.userIdHistory] forKey:kMSUserIdHistoryKey];
     MSLogVerbose([MSAppCenter logTag], @"Stored new userId:%@ and timestamp: %@.", self.currentUserIdInfo.userId,
                  self.currentUserIdInfo.timestamp);
   }
@@ -79,7 +79,7 @@ static dispatch_once_t onceToken;
   @synchronized(self) {
     [self.userIdHistory removeAllObjects];
     [self.userIdHistory addObject:self.currentUserIdInfo];
-    [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.userIdHistory] forKey:kMSUesrIdHistoryKey];
+    [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.userIdHistory] forKey:kMSUserIdHistoryKey];
     MSLogVerbose([MSAppCenter logTag], @"Cleared old userIds.");
   }
 }
