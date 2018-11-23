@@ -9,6 +9,7 @@
   NSMutableDictionary *dict;
   if (self.locale) {
     dict = [NSMutableDictionary new];
+    dict[kMSUserLocalId] = self.localId;
     dict[kMSUserLocale] = self.locale;
   }
   return dict;
@@ -29,19 +30,22 @@
     return NO;
   }
   MSUserExtension *userExt = (MSUserExtension *)object;
-  return (!self.locale && !userExt.locale) || [self.locale isEqualToString:userExt.locale];
+  return ((!self.localId && !userExt.localId) || [self.localId isEqualToString:userExt.localId]) &&
+         ((!self.locale && !userExt.locale) || [self.locale isEqualToString:userExt.locale]);
 }
 
 #pragma mark - NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
   if ((self = [super init])) {
+    _localId = [coder decodeObjectForKey:kMSUserLocalId];
     _locale = [coder decodeObjectForKey:kMSUserLocale];
   }
   return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
+  [coder encodeObject:self.localId forKey:kMSUserLocalId];
   [coder encodeObject:self.locale forKey:kMSUserLocale];
 }
 

@@ -186,6 +186,7 @@
   csLog.ext.appExt.appId = [NSString stringWithFormat:@"I:%@", self.device.appNamespace];
   csLog.ext.appExt.ver = self.device.appVersion;
   csLog.ext.appExt.locale = [[[NSBundle mainBundle] preferredLocalizations] firstObject];
+  csLog.ext.appExt.userId = self.userId;
 
   // Network extension.
   csLog.ext.netExt = [MSNetExtension new];

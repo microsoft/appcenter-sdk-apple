@@ -448,11 +448,36 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 }
 
 - (void)setUserId:(NSString *)userId {
-  if (self.appSecret && [userId length] > kMSMaxUserIdLength) {
-    MSLogError([MSAppCenter logTag], @"userId is limited to %d characters.", kMSMaxUserIdLength);
-  } else {
-    [[MSUserIdContext sharedInstance] setUserId:userId];
+  if (!self.configuredFromApplication) {
+    MSLogError([MSAppCenter logTag], @"AppCenter must be configured from application, libraries cannot use call setUserId.");
+    return;
   }
+  if (!self.appSecret && !self.defaultTransmissionTargetToken) {
+    MSLogError([MSAppCenter logTag], @"AppCenter must be configured with a secret from application to call setUserId.");
+    return;
+  }
+  if (userId) {
+    if (self.appSecret && [userId length] > kMSMaxUserIdLength) {
+      MSLogError([MSAppCenter logTag], @"userId is limited to %d characters.", kMSMaxUserIdLength);
+      return;
+    }
+    static NSRegularExpression *regex = nil;
+    if (!regex) {
+      NSError *error = nil;
+      regex = [NSRegularExpression regularExpressionWithPattern:kAppUserIdPattern options:(NSRegularExpressionOptions)0 error:&error];
+      if (!regex) {
+        MSLogError([MSAppCenter logTag], @"Couldn't create regular expression with pattern\"%@\": %@", kAppUserIdPattern,
+                   error.localizedDescription);
+        return;
+      }
+    }
+    if (self.defaultTransmissionTargetToken &&
+        ![regex matchesInString:userId options:(NSMatchingOptions)0 range:NSMakeRange(0, userId.length)].count) {
+      MSLogError([MSAppCenter logTag], @"userId must match the %@ regular expression.", kAppUserIdPattern);
+      return;
+    }
+  }
+  [[MSUserIdContext sharedInstance] setUserId:userId];
 }
 
 #if !TARGET_OS_TV
