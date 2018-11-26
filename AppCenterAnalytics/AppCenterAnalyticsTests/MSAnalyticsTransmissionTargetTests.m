@@ -18,6 +18,7 @@
 #import "MSPropertyConfiguratorPrivate.h"
 #import "MSStringTypedProperty.h"
 #import "MSTestFrameworks.h"
+#import "MSUserIdContextPrivate.h"
 
 static NSString *const kMSTypeEvent = @"event";
 static NSString *const kMSTestTransmissionToken = @"TestTransmissionToken";
@@ -35,6 +36,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
 - (void)setUp {
   [super setUp];
+  [MSUserIdContext resetSharedInstance];
 
   // Mock NSUserDefaults
   self.settingsMock = [MSMockUserDefaults new];
@@ -383,10 +385,10 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // If
   __block MSEventLog *log;
-  [MSAppCenter setUserId:@"c:test"];
-  id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
-  id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
-  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  [[MSUserIdContext sharedInstance] setUserId:@"c:test"];
+  [MSAnalytics resetSharedInstance];
+  id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub([self.channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
   [[MSAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
                                             appSecret:@"appsecret"
                               transmissionTargetToken:@"token"

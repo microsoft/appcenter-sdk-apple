@@ -17,7 +17,7 @@
 #import "MSOneCollectorChannelDelegate.h"
 #import "MSStartServiceLog.h"
 #import "MSTestFrameworks.h"
-#import "MSUserIdContext.h"
+#import "MSUserIdContextPrivate.h"
 
 static NSString *const kMSInstallIdStringExample = @"F18499DA-5C3D-4F05-B4E8-D8C9C06A6F09";
 
@@ -37,6 +37,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 - (void)setUp {
   [super setUp];
   [MSAppCenter resetSharedInstance];
+  [MSUserIdContext resetSharedInstance];
 
   // System Under Test.
   self.sut = [[MSAppCenter alloc] init];
