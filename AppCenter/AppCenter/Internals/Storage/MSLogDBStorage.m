@@ -67,6 +67,16 @@ static const NSUInteger kMSSchemaVersion = 3;
                                    targetKey ? [NSString stringWithFormat:@"'%@'", targetKey] : @"NULL", (unsigned int)persistenceFlags];
   }
   return [self executeQueryUsingBlock:^int(void *db) {
+           // Check maximum size.
+           NSUInteger maxSize = [MSDBStorage getMaxPageCountInOpenedDatabase:db] * self.pageSize;
+           if (base64Data.length >= maxSize) {
+             MSLogError([MSAppCenter logTag],
+                        @"Log is too large (%tu bytes) to store in database. Current maximum database size is %tu bytes.",
+                        base64Data.length, maxSize);
+             return SQLITE_ERROR;
+           }
+
+           // Try to insert.
            int result = [MSDBStorage executeNonSelectionQuery:addLogQuery inOpenedDatabase:db];
            NSMutableArray<NSNumber *> *logsCanBeDeleted = nil;
            if (result == SQLITE_FULL) {
@@ -104,8 +114,7 @@ static const NSUInteger kMSSchemaVersion = 3;
            if (result == SQLITE_OK) {
              MSLogVerbose([MSAppCenter logTag], @"Log is stored with id: '%ld'", (long)sqlite3_last_insert_rowid(db));
            } else if (result == SQLITE_FULL && index == [logsCanBeDeleted count]) {
-             MSLogDebug([MSAppCenter logTag],
-                        @"No logs with equal or lower priority found and the storage is already full; discarding the log.");
+             MSLogError([MSAppCenter logTag], @"Storage is full and no logs with equal or lower priority exist; discarding the log.");
            }
            return result;
          }] == SQLITE_OK;
