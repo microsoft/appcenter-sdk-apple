@@ -379,6 +379,30 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   XCTAssertEqual(actualFlags, MSFlagsPersistenceNormal);
 }
 
+- (void)testTrackEventSetsUserIdForTransmissionTarget {
+
+  // If
+  __block MSEventLog *log;
+  [MSAppCenter setUserId:@"c:test"];
+  id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  [[MSAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
+                                            appSecret:@"appsecret"
+                              transmissionTargetToken:@"token"
+                                      fromApplication:YES];
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]] flags:MSFlagsDefault]).andDo(^(NSInvocation *invocation) {
+    [invocation getArgument:&log atIndex:2];
+  });
+
+  // When
+  [MSAnalytics trackEvent:@"Some event"];
+
+  // Then
+  XCTAssertNotNil(log);
+  XCTAssertEqual(log.userId, @"c:test");
+}
+
 - (void)testTransmissionTargetForToken {
 
   // If

@@ -257,6 +257,7 @@
 
   // Then
   XCTAssertNotNil(dict);
+  XCTAssertEqualObjects(dict[kMSUserLocalId], self.userExtDummyValues[kMSUserLocalId]);
   XCTAssertEqualObjects(dict[kMSUserLocale], self.userExtDummyValues[kMSUserLocale]);
 }
 
@@ -270,6 +271,7 @@
   XCTAssertNotNil(actualUserExt);
   XCTAssertEqualObjects(self.userExt, actualUserExt);
   XCTAssertTrue([actualUserExt isMemberOfClass:[MSUserExtension class]]);
+  XCTAssertEqualObjects(actualUserExt.localId, self.userExtDummyValues[kMSUserLocalId]);
   XCTAssertEqualObjects(actualUserExt.locale, self.userExtDummyValues[kMSUserLocale]);
 }
 
@@ -298,6 +300,13 @@
 
   // If
   anotherUserExt.locale = @"fr-fr";
+
+  // Then
+  XCTAssertNotEqualObjects(anotherUserExt, self.userExt);
+
+  // If
+  anotherUserExt.locale = self.userExtDummyValues[kMSUserLocale];
+  anotherUserExt.localId = @"42";
 
   // Then
   XCTAssertNotEqualObjects(anotherUserExt, self.userExt);

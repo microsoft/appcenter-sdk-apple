@@ -732,10 +732,21 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   [MSAppCenter setUserId:userId];
 
   // Then
-  XCTAssertEqual([[MSUserIdContext sharedInstance] userId], userId);
-}
+  XCTAssertNil([[MSUserIdContext sharedInstance] userId]);
 
-- (void)testSetNilUserId {
+  // When
+  [MSAppCenter startFromLibraryWithServices:@[ MSMockService.class ]];
+  [MSAppCenter setUserId:userId];
+
+  // Then
+  XCTAssertNil([[MSUserIdContext sharedInstance] userId]);
+
+  // When
+  [MSAppCenter configureWithAppSecret:@"AppSecret"];
+  [MSAppCenter setUserId:userId];
+
+  // Then
+  XCTAssertEqual([[MSUserIdContext sharedInstance] userId], userId);
 
   // When
   [MSAppCenter setUserId:nil];
@@ -744,7 +755,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   XCTAssertNil([[MSUserIdContext sharedInstance] userId]);
 }
 
-- (void)testSetInvalidUserId {
+- (void)testSetInvalidUserIdForAppCenter {
 
   // If
   NSString *userId = @"";
@@ -758,6 +769,54 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // Then
   XCTAssertNil([[MSUserIdContext sharedInstance] userId]);
+}
+
+- (void)testSetInvalidUserIdForTransmissionTarget {
+
+  // If
+  [MSAppCenter configureWithAppSecret:@"target=transmissionTargetToken"];
+
+  // When
+  [MSAppCenter setUserId:@""];
+
+  // Then
+  XCTAssertNil([[MSUserIdContext sharedInstance] userId]);
+
+  // When
+  [MSAppCenter setUserId:@"alice"];
+
+  // Then
+  XCTAssertNil([[MSUserIdContext sharedInstance] userId]);
+
+  // When
+  [MSAppCenter setUserId:@"p:test"];
+
+  // Then
+  XCTAssertNil([[MSUserIdContext sharedInstance] userId]);
+
+  // When
+  [MSAppCenter setUserId:@"c:alice"];
+
+  // Then
+  XCTAssertEqual([[MSUserIdContext sharedInstance] userId], @"c:alice");
+
+  // When
+  [MSAppCenter setUserId:@"i:user@microsoft.com"];
+
+  // Then
+  XCTAssertEqual([[MSUserIdContext sharedInstance] userId], @"i:user@microsoft.com");
+
+  // When
+  [MSAppCenter setUserId:@"d:adc44f2dc6915cc8823711a90dbe802a93845625cc3ad75bab6c033a230855c1"];
+
+  // Then
+  XCTAssertEqual([[MSUserIdContext sharedInstance] userId], @"d:adc44f2dc6915cc8823711a90dbe802a93845625cc3ad75bab6c033a230855c1");
+
+  // When
+  [MSAppCenter setUserId:@"w:1BD8FC6E-98CE-E03D-B19D-BFD5A9BA712D"];
+
+  // Then
+  XCTAssertEqual([[MSUserIdContext sharedInstance] userId], @"w:1BD8FC6E-98CE-E03D-B19D-BFD5A9BA712D");
 }
 
 @end

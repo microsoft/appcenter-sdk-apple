@@ -6,13 +6,14 @@
 #pragma mark - MSSerializableObject
 
 - (NSMutableDictionary *)serializeToDictionary {
-  NSMutableDictionary *dict;
-  if (self.locale) {
-    dict = [NSMutableDictionary new];
+  NSMutableDictionary *dict = [NSMutableDictionary new];
+  if (self.localId) {
     dict[kMSUserLocalId] = self.localId;
+  }
+  if (self.locale) {
     dict[kMSUserLocale] = self.locale;
   }
-  return dict;
+  return dict.count == 0 ? nil : dict;
 }
 
 #pragma mark - MSModel

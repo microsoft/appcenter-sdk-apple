@@ -383,6 +383,31 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   XCTAssertEqualObjects(tag, target);
 }
 
+- (void)testTrackEventDoesNotSetUserIdForAppCenter {
+
+  // If
+  __block MSEventLog *log;
+  [MSAppCenter setUserId:@"c:test"];
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
+                                            appSecret:kMSTestAppSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]] flags:MSFlagsDefault]).andDo(^(NSInvocation *invocation) {
+    [invocation getArgument:&log atIndex:2];
+  });
+
+  // When
+  [MSAnalytics trackEvent:@"Some event"];
+
+  // Then
+  XCTAssertNotNil(log);
+  XCTAssertNil(log.userId);
+}
+
 - (void)testTrackEventWithTypedPropertiesNilWhenTransmissionTargetDisabled {
 
   // If

@@ -308,7 +308,9 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
     if (transmissionTarget.isEnabled) {
       [log addTransmissionTargetToken:[transmissionTarget transmissionTargetToken]];
       log.tag = transmissionTarget;
-      log.userId = [[MSUserIdContext sharedInstance] userId];
+      if (transmissionTarget == self.defaultTransmissionTarget) {
+        log.userId = [[MSUserIdContext sharedInstance] userId];
+      }
     } else {
       MSLogError([MSAnalytics logTag], @"This transmission target is disabled.");
       return;

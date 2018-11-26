@@ -83,7 +83,7 @@
 }
 
 + (NSDictionary *)userExtensionDummies {
-  return @{kMSUserLocale : @"en-us"};
+  return @{kMSUserLocalId : @"bob", kMSUserLocale : @"en-us"};
 }
 
 + (NSDictionary *)locExtensionDummies {
@@ -183,6 +183,7 @@
 
 + (MSUserExtension *)userExtensionWithDummyValues:(NSDictionary *)dummyValues {
   MSUserExtension *userExt = [MSUserExtension new];
+  userExt.localId = dummyValues[kMSUserLocalId];
   userExt.locale = dummyValues[kMSUserLocale];
   return userExt;
 }
