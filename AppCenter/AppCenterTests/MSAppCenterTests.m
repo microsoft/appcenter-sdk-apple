@@ -801,7 +801,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // If
   NSString *userId = @"";
-  for (int i = 0; i < kMSMaxUserIdLength + 1; i++) {
+  for (int i = 0; i < 257; i++) {
     userId = [userId stringByAppendingString:@"x"];
   }
   [MSAppCenter configureWithAppSecret:@"AppSecret"];

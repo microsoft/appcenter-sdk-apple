@@ -4,6 +4,16 @@
 #import "MSUtility.h"
 
 /**
+ * Maximum allowed length for user identifier for App Center server.
+ */
+static const int kMSMaxUserIdLength = 256;
+
+/*
+ * Custom App User ID prefix for Common Schema.
+ */
+static NSString *const kMSUserIdCustomPrefix = @"c";
+
+/**
  * User Id history key.
  */
 static NSString *const kMSUserIdHistoryKey = @"UserIdHistory";
@@ -96,6 +106,33 @@ static dispatch_once_t onceToken;
     [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.userIdHistory] forKey:kMSUserIdHistoryKey];
     MSLogVerbose([MSAppCenter logTag], @"Cleared old userIds while keeping current userId.");
   }
+}
+
++ (BOOL)checkUserIdValidForAppCenter:(nullable NSString *)userId {
+  if (userId && userId.length > kMSMaxUserIdLength) {
+    MSLogError([MSAppCenter logTag], @"userId is limited to %d characters.", kMSMaxUserIdLength);
+    return NO;
+  }
+  return YES;
+}
+
++ (BOOL)checkUserIdValidForOneCollector:(nullable NSString *)userId {
+  if (!userId) {
+    return YES;
+  }
+  NSRange separator = [userId rangeOfString:@":"];
+  if (separator.location == userId.length - 1) {
+    MSLogError([MSAppCenter logTag], @"userId must not be empty.");
+    return NO;
+  }
+  if (separator.location != NSNotFound) {
+    NSString *prefix = [userId substringToIndex:separator.location];
+    if (![prefix isEqualToString:kMSUserIdCustomPrefix]) {
+      MSLogError([MSAppCenter logTag], @"userId prefix must be '%@', '%@' is not supported.", kMSUserIdCustomPrefix, prefix);
+      return NO;
+    }
+  }
+  return YES;
 }
 
 @end

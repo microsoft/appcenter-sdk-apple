@@ -49,6 +49,24 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)clearUserIdHistory;
 
+/**
+ * Check if userId is valid for App Center.
+ *
+ * @param userId The user Id.
+ *
+ * @return YES if valid, NO otherwise.
+ */
++ (BOOL)checkUserIdValidForAppCenter:(nullable NSString *)userId;
+
+/**
+ * Check if userId is valid for One Collector.
+ *
+ * @param userId The user Id.
+ *
+ * @return YES if valid, NO otherwise.
+ */
++ (BOOL)checkUserIdValidForOneCollector:(nullable NSString *)userId;
+
 @end
 
 NS_ASSUME_NONNULL_END

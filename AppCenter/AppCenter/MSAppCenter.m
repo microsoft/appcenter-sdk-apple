@@ -464,20 +464,10 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
     return;
   }
   if (userId) {
-    if (self.appSecret && [userId length] > kMSMaxUserIdLength) {
-      MSLogError([MSAppCenter logTag], @"userId is limited to %d characters.", kMSMaxUserIdLength);
+    if (self.appSecret && ![MSUserIdContext checkUserIdValidForAppCenter:userId]) {
       return;
     }
-    NSError *error = nil;
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:kAppUserIdPattern options:(NSRegularExpressionOptions)0 error:&error];
-    if (!regex) {
-      MSLogError([MSAppCenter logTag], @"Couldn't create regular expression with pattern\"%@\": %@", kAppUserIdPattern,
-                 error.localizedDescription);
-      return;
-    }
-    if (self.defaultTransmissionTargetToken &&
-        ![regex matchesInString:userId options:(NSMatchingOptions)0 range:NSMakeRange(0, userId.length)].count) {
-      MSLogError([MSAppCenter logTag], @"userId must match the %@ regular expression.", kAppUserIdPattern);
+    if (self.defaultTransmissionTargetToken && ![MSUserIdContext checkUserIdValidForOneCollector:userId]) {
       return;
     }
   }
