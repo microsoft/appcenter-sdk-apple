@@ -37,8 +37,15 @@ static dispatch_once_t onceToken;
     }
     NSUInteger count = [_userIdHistory count];
     MSLogDebug([MSAppCenter logTag], @"%tu userId(s) in the history.", count);
+
+    // Set nil to current userId so that it can return nil for the userId between App Center start and setUserId call.
     _currentUserIdInfo = [[MSUserIdHistoryInfo alloc] initWithTimestamp:[NSDate date] andUserId:nil];
     [_userIdHistory addObject:_currentUserIdInfo];
+
+    /*
+     * Persist nil userId as a current userId to NSUserDefaults so that Crashes can retrieve a correct userId when apps crash between App
+     * Center start and setUserId call.
+     */
     [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.userIdHistory] forKey:kMSUserIdHistoryKey];
   }
   return self;

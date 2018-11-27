@@ -245,7 +245,11 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
         self.defaultTransmissionTargetToken = transmissionTargetToken;
       }
 
-      // Instantiate MSUserIdContext as early as possible.
+      /*
+       * Instantiate MSUserIdContext as early as possible to prevent Crashes from using older userId when a newer version of app removes
+       * setUserId call from older version of app. MSUserIdContext will handle this one in intializer so we need to make sure
+       * MSUserIdContext is initialized before Crashes service processes logs.
+       */
       [MSUserIdContext sharedInstance];
 
       // Init the main pipeline.
