@@ -55,6 +55,12 @@ static dispatch_once_t onceToken;
 
 - (void)setUserId:(nullable NSString *)userId {
   @synchronized(self) {
+
+    /*
+     * Replacing the last userId from history because the userId has changed within a same lifecycle without crashes.
+     * The userId history is only used to correlate a crashes log with a userId, previous userId won't be used at all since there is no
+     * crashes on apps between previous userId and current userId.
+     */
     [self.userIdHistory removeLastObject];
     self.currentUserIdInfo.userId = userId;
     self.currentUserIdInfo.timestamp = [NSDate date];
