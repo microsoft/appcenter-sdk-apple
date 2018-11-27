@@ -82,7 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
 
     // Set user id.
     let userId = UserDefaults.standard.string(forKey: kMSUserIdKey)
-    if userId {
+    if userId != nil {
       MSAppCenter.setUserId(userId);
     }
 
