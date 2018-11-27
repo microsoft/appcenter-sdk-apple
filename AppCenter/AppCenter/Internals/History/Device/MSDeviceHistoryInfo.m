@@ -3,7 +3,7 @@
 static NSString *const kMSDeviceKey = @"deviceKey";
 
 /**
- * This class is used to associate device properties with the timestamp that it was created.
+ * This class is used to associate device properties with the timestamp that it was created with.
  */
 @implementation MSDeviceHistoryInfo
 
