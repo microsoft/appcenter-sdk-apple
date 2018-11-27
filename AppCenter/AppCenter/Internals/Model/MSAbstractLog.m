@@ -4,6 +4,7 @@
 #import "MSAppExtension.h"
 #import "MSCSExtensions.h"
 #import "MSCSModelConstants.h"
+#import "MSConstants+Internal.h"
 #import "MSDevice.h"
 #import "MSDeviceExtension.h"
 #import "MSDeviceInternal.h"
@@ -13,8 +14,14 @@
 #import "MSProtocolExtension.h"
 #import "MSSDKExtension.h"
 #import "MSUserExtension.h"
+#import "MSUserIdContext.h"
 #import "MSUtility+Date.h"
 #import "MSUtility+StringFormatting.h"
+
+/**
+ * App namespace prefix for common schema.
+ */
+static NSString *const kMSAppNamespacePrefix = @"I";
 
 @implementation MSAbstractLog
 
@@ -171,7 +178,7 @@
 
   // User extension.
   csLog.ext.userExt = [MSUserExtension new];
-  csLog.ext.userExt.localId = self.userId;
+  csLog.ext.userExt.localId = [MSUserIdContext toPrefixUserIdFromUserId:self.userId];
 
   // FIXME Country code can be wrong if the locale doesn't correspond to the region in the setting (i.e.:fr_US). Convert user local to use
   // dash (-) as the separator as described in RFC 4646.  E.g., zh-Hans-CN.
@@ -184,7 +191,8 @@
 
   // App extension.
   csLog.ext.appExt = [MSAppExtension new];
-  csLog.ext.appExt.appId = [NSString stringWithFormat:@"I:%@", self.device.appNamespace];
+  csLog.ext.appExt.appId =
+      [NSString stringWithFormat:@"%@%@%@", kMSAppNamespacePrefix, kMSCommonSchemaPrefixSeparator, self.device.appNamespace];
   csLog.ext.appExt.ver = self.device.appVersion;
   csLog.ext.appExt.locale = [[[NSBundle mainBundle] preferredLocalizations] firstObject];
 

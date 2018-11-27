@@ -1,4 +1,5 @@
 #import "MSAppCenterInternal.h"
+#import "MSConstants+Internal.h"
 #import "MSLogger.h"
 #import "MSUserIdContextPrivate.h"
 #import "MSUtility.h"
@@ -120,7 +121,7 @@ static dispatch_once_t onceToken;
   if (!userId) {
     return YES;
   }
-  NSRange separator = [userId rangeOfString:@":"];
+  NSRange separator = [userId rangeOfString:kMSCommonSchemaPrefixSeparator];
   if (userId.length == 0 || separator.location == userId.length - 1) {
     MSLogError([MSAppCenter logTag], @"userId must not be empty.");
     return NO;
@@ -133,6 +134,13 @@ static dispatch_once_t onceToken;
     }
   }
   return YES;
+}
+
++ (nullable NSString *)toPrefixUserIdFromUserId:(nullable NSString *)userId {
+  if (userId && ![userId containsString:kMSCommonSchemaPrefixSeparator]) {
+    return [NSString stringWithFormat:@"%@%@%@", kMSUserIdCustomPrefix, kMSCommonSchemaPrefixSeparator, userId];
+  }
+  return userId;
 }
 
 @end

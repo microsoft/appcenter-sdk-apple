@@ -67,6 +67,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (BOOL)checkUserIdValidForOneCollector:(nullable NSString *)userId;
 
+/**
+ * Add 'c:' prefix to userId if the userId has no prefix.
+ *
+ * @param userId userId.
+ *
+ * @return prefixed userId or null if the userId was null.
+ */
++ (nullable NSString *)toPrefixUserIdFromUserId:(nullable NSString *)userId;
+
 @end
 
 NS_ASSUME_NONNULL_END
