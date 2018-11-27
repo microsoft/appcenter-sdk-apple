@@ -461,15 +461,12 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
       MSLogError([MSAppCenter logTag], @"userId is limited to %d characters.", kMSMaxUserIdLength);
       return;
     }
-    static NSRegularExpression *regex = nil;
+    NSError *error = nil;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:kAppUserIdPattern options:(NSRegularExpressionOptions)0 error:&error];
     if (!regex) {
-      NSError *error = nil;
-      regex = [NSRegularExpression regularExpressionWithPattern:kAppUserIdPattern options:(NSRegularExpressionOptions)0 error:&error];
-      if (!regex) {
-        MSLogError([MSAppCenter logTag], @"Couldn't create regular expression with pattern\"%@\": %@", kAppUserIdPattern,
-                   error.localizedDescription);
-        return;
-      }
+      MSLogError([MSAppCenter logTag], @"Couldn't create regular expression with pattern\"%@\": %@", kAppUserIdPattern,
+                 error.localizedDescription);
+      return;
     }
     if (self.defaultTransmissionTargetToken &&
         ![regex matchesInString:userId options:(NSMatchingOptions)0 range:NSMakeRange(0, userId.length)].count) {
