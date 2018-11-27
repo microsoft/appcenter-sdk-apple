@@ -12,6 +12,7 @@
 #import "MSOneCollectorChannelDelegate.h"
 #import "MSSessionContext.h"
 #import "MSStartServiceLog.h"
+#import "MSUserIdContext.h"
 #import "MSUtility+StringFormatting.h"
 
 #if !TARGET_OS_TV
@@ -207,6 +208,10 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
   [[MSAppCenter sharedInstance] setMaxStorageSize:sizeInBytes completionHandler:completionHandler];
 }
 
++ (void)setUserId:(NSString *)userId {
+  [[MSAppCenter sharedInstance] setUserId:userId];
+}
+
 #pragma mark - private
 
 - (instancetype)init {
@@ -239,6 +244,13 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
       if (!self.defaultTransmissionTargetToken) {
         self.defaultTransmissionTargetToken = transmissionTargetToken;
       }
+
+      /*
+       * Instantiate MSUserIdContext as early as possible to prevent Crashes from using older userId when a newer version of app removes
+       * setUserId call from older version of app. MSUserIdContext will handle this one in intializer so we need to make sure
+       * MSUserIdContext is initialized before Crashes service processes logs.
+       */
+      [MSUserIdContext sharedInstance];
 
       // Init the main pipeline.
       [self initializeChannelGroup];
@@ -442,6 +454,14 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
   }
 }
 
+- (void)setUserId:(NSString *)userId {
+  if (self.appSecret && [userId length] > kMSMaxUserIdLength) {
+    MSLogError([MSAppCenter logTag], @"userId is limited to %d characters.", kMSMaxUserIdLength);
+  } else {
+    [[MSUserIdContext sharedInstance] setUserId:userId];
+  }
+}
+
 #if !TARGET_OS_TV
 - (void)setCustomProperties:(MSCustomProperties *)customProperties {
   NSDictionary<NSString *, NSObject *> *propertiesCopy = [customProperties propertiesImmutableCopy];
@@ -503,8 +523,11 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 #endif
   } else {
 
-    // Clean device history in case we are disabled.
+    // Clean up device history when App Center is disabled.
     [[MSDeviceTracker sharedInstance] clearDevices];
+
+    // Clean up userId history when App Center is disabled.
+    [[MSUserIdContext sharedInstance] clearUserIdHistory];
   }
 
   // Propagate to channel group.

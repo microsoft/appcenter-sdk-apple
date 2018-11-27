@@ -159,6 +159,11 @@ static NSString *const kMSOneCollectorGroupIdSuffix = @"/one";
 static const NSUInteger kMSPersistenceFlagsMask = 0xFF;
 
 /**
+ * Maximum userId length.
+ */
+static const int kMSMaxUserIdLength = 256;
+
+/*
  * Valid application userId for One Collector.
  */
 static NSString *const kAppUserIdPattern = @"^[cidw]:.*$";

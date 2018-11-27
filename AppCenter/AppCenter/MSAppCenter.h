@@ -188,4 +188,21 @@
  */
 + (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))completionHandler;
 
+/**
+ * Set the user identifier.
+ *
+ * @param userId User identifier.
+ *
+ * @discussion Set the user identifier for logs sent for the default target token when the secret passed in @c
+ * MSAppCenter:start:withServices: contains "target={targetToken}".
+ *
+ * The App Center backend currently do not yet use the user identifier so this API doesn't have a use case yet when the secret passed to @c
+ * MSAppCenter:start:withServices: contains an App Center application secret.
+ *
+ * For App Center backend the user identifier maximum length is 256 characters.
+ *
+ * AppCenter must be configured or started before this API can be used.
+ */
++ (void)setUserId:(NSString *)userId;
+
 @end
