@@ -39,6 +39,7 @@ static dispatch_once_t onceToken;
     MSLogDebug([MSAppCenter logTag], @"%tu userId(s) in the history.", count);
     _currentUserIdInfo = [[MSUserIdHistoryInfo alloc] initWithTimestamp:[NSDate date] andUserId:nil];
     [_userIdHistory addObject:_currentUserIdInfo];
+    [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.userIdHistory] forKey:kMSUserIdHistoryKey];
   }
   return self;
 }

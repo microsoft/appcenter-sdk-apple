@@ -245,6 +245,9 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
         self.defaultTransmissionTargetToken = transmissionTargetToken;
       }
 
+      // Instantiate MSUserIdContext as early as possible.
+      [MSUserIdContext sharedInstance];
+
       // Init the main pipeline.
       [self initializeChannelGroup];
       [self applyPipelineEnabledState:self.isEnabled];
@@ -516,8 +519,11 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 #endif
   } else {
 
-    // Clean device history in case we are disabled.
+    // Clean up device history when App Center is disabled.
     [[MSDeviceTracker sharedInstance] clearDevices];
+
+    // Clean up userId history when App Center is disabled.
+    [[MSUserIdContext sharedInstance] clearUserIdHistory];
   }
 
   // Propagate to channel group.

@@ -82,32 +82,62 @@
 - (void)testUserIdAt {
 
   // If
-  __block int counter = 0;
   __block NSDate *date;
   id dateMock = OCMClassMock([NSDate class]);
-  OCMStub(ClassMethod([dateMock date])).andDo(^(NSInvocation *invocation) {
-    date = [[NSDate alloc] initWithTimeIntervalSince1970:1000 * ++counter];
-    [invocation setReturnValue:&date];
-  });
 
   // When
+  OCMStub(ClassMethod([dateMock date])).andDo(^(NSInvocation *invocation) {
+    date = [[NSDate alloc] initWithTimeIntervalSince1970:0];
+    [invocation setReturnValue:&date];
+  });
   [[MSUserIdContext sharedInstance] setUserId:@"UserId1"];
+  [dateMock stopMocking];
+
   [MSUserIdContext resetSharedInstance];
+
+  dateMock = OCMClassMock([NSDate class]);
+  OCMStub(ClassMethod([dateMock date])).andDo(^(NSInvocation *invocation) {
+    date = [[NSDate alloc] initWithTimeIntervalSince1970:1000];
+    [invocation setReturnValue:&date];
+  });
   [[MSUserIdContext sharedInstance] setUserId:@"UserId2"];
+  [dateMock stopMocking];
+
   [MSUserIdContext resetSharedInstance];
+
+  dateMock = OCMClassMock([NSDate class]);
+  OCMStub(ClassMethod([dateMock date])).andDo(^(NSInvocation *invocation) {
+    date = [[NSDate alloc] initWithTimeIntervalSince1970:2000];
+    [invocation setReturnValue:&date];
+  });
   [[MSUserIdContext sharedInstance] setUserId:@"UserId3"];
+  [dateMock stopMocking];
+
   [MSUserIdContext resetSharedInstance];
+
+  dateMock = OCMClassMock([NSDate class]);
+  OCMStub(ClassMethod([dateMock date])).andDo(^(NSInvocation *invocation) {
+    date = [[NSDate alloc] initWithTimeIntervalSince1970:3000];
+    [invocation setReturnValue:&date];
+  });
   [[MSUserIdContext sharedInstance] setUserId:@"UserId4"];
+  [dateMock stopMocking];
+
   [MSUserIdContext resetSharedInstance];
+
+  dateMock = OCMClassMock([NSDate class]);
+  OCMStub(ClassMethod([dateMock date])).andDo(^(NSInvocation *invocation) {
+    date = [[NSDate alloc] initWithTimeIntervalSince1970:4000];
+    [invocation setReturnValue:&date];
+  });
   [[MSUserIdContext sharedInstance] setUserId:@"UserId5"];
+  [dateMock stopMocking];
 
   // Then
   // sharedInstance will also call [NSDate date] so timestamp 5500 should return "UserId3"
   XCTAssertNil([[MSUserIdContext sharedInstance] userIdAt:[[NSDate alloc] initWithTimeIntervalSince1970:0]]);
-  XCTAssertEqualObjects(@"UserId3", [[MSUserIdContext sharedInstance] userIdAt:[[NSDate alloc] initWithTimeIntervalSince1970:5500]]);
-  XCTAssertEqualObjects(@"UserId5", [[MSUserIdContext sharedInstance] userIdAt:[[NSDate alloc] initWithTimeIntervalSince1970:10000]]);
-
-  [dateMock stopMocking];
+  XCTAssertEqualObjects(@"UserId3", [[MSUserIdContext sharedInstance] userIdAt:[[NSDate alloc] initWithTimeIntervalSince1970:2500]]);
+  XCTAssertEqualObjects(@"UserId5", [[MSUserIdContext sharedInstance] userIdAt:[[NSDate alloc] initWithTimeIntervalSince1970:5000]]);
 }
 
 @end
