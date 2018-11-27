@@ -245,6 +245,13 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
         self.defaultTransmissionTargetToken = transmissionTargetToken;
       }
 
+      /*
+       * Instantiate MSUserIdContext as early as possible to prevent Crashes from using older userId when a newer version of app removes
+       * setUserId call from older version of app. MSUserIdContext will handle this one in intializer so we need to make sure
+       * MSUserIdContext is initialized before Crashes service processes logs.
+       */
+      [MSUserIdContext sharedInstance];
+
       // Init the main pipeline.
       [self initializeChannelGroup];
       [self applyPipelineEnabledState:self.isEnabled];
@@ -516,8 +523,11 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 #endif
   } else {
 
-    // Clean device history in case we are disabled.
+    // Clean up device history when App Center is disabled.
     [[MSDeviceTracker sharedInstance] clearDevices];
+
+    // Clean up userId history when App Center is disabled.
+    [[MSUserIdContext sharedInstance] clearUserIdHistory];
   }
 
   // Propagate to channel group.

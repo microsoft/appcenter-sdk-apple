@@ -196,7 +196,7 @@
  * @discussion Set the user identifier for logs sent for the default target token when the secret passed in @c
  * MSAppCenter:start:withServices: contains "target={targetToken}".
  *
- * The App Center backend currently do not yet use the user identifier so this API has not yet a use case when the secret passed to @c
+ * The App Center backend currently do not yet use the user identifier so this API doesn't have a use case yet when the secret passed to @c
  * MSAppCenter:start:withServices: contains an App Center application secret.
  *
  * For App Center backend the user identifier maximum length is 256 characters.

@@ -3,7 +3,7 @@
 @class MSDevice;
 
 /**
- * Model class that is intended to be used to correlate MSDevice to a crash at app relaunch.
+ * Model class that correlates MSDevice to a crash at app relaunch.
  */
 @interface MSDeviceHistoryInfo : MSHistoryInfo
 
