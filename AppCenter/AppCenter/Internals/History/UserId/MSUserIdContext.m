@@ -37,8 +37,16 @@ static dispatch_once_t onceToken;
     }
     NSUInteger count = [_userIdHistory count];
     MSLogDebug([MSAppCenter logTag], @"%tu userId(s) in the history.", count);
+
+    // Set nil to current userId so that it can return nil for the userId between App Center start and setUserId call.
     _currentUserIdInfo = [[MSUserIdHistoryInfo alloc] initWithTimestamp:[NSDate date] andUserId:nil];
     [_userIdHistory addObject:_currentUserIdInfo];
+
+    /*
+     * Persist nil userId as a current userId to NSUserDefaults so that Crashes can retrieve a correct userId when apps crash between App
+     * Center start and setUserId call.
+     */
+    [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.userIdHistory] forKey:kMSUserIdHistoryKey];
   }
   return self;
 }
@@ -54,6 +62,12 @@ static dispatch_once_t onceToken;
 
 - (void)setUserId:(nullable NSString *)userId {
   @synchronized(self) {
+
+    /*
+     * Replacing the last userId from history because the userId has changed within a same lifecycle without crashes.
+     * The userId history is only used to correlate a crashes log with a userId, previous userId won't be used at all since there is no
+     * crashes on apps between previous userId and current userId.
+     */
     [self.userIdHistory removeLastObject];
     self.currentUserIdInfo.userId = userId;
     self.currentUserIdInfo.timestamp = [NSDate date];
@@ -80,7 +94,7 @@ static dispatch_once_t onceToken;
     [self.userIdHistory removeAllObjects];
     [self.userIdHistory addObject:self.currentUserIdInfo];
     [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.userIdHistory] forKey:kMSUserIdHistoryKey];
-    MSLogVerbose([MSAppCenter logTag], @"Cleared old userIds.");
+    MSLogVerbose([MSAppCenter logTag], @"Cleared old userIds while keeping current userId.");
   }
 }
 

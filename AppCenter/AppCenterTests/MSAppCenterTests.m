@@ -10,6 +10,7 @@
 #import "MSAppCenterInternal.h"
 #import "MSAppCenterPrivate.h"
 #import "MSChannelGroupDefault.h"
+#import "MSDeviceTrackerPrivate.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSMockSecondService.h"
 #import "MSMockService.h"
@@ -320,6 +321,46 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   XCTAssertTrue([MSAppCenter isEnabled]);
   XCTAssertTrue([MSMockService isEnabled]);
   XCTAssertTrue(((NSNumber *)[self.settingsMock objectForKey:kMSAppCenterIsEnabledKey]).boolValue);
+}
+
+- (void)testClearDeviceHistoryWhenAppCenterIsDisabled {
+
+  // If
+  [MSAppCenter start:MS_UUID_STRING withServices:@[ MSMockService.class ]];
+  [[MSDeviceTracker sharedInstance] device];
+  [MSDeviceTracker refreshDeviceNextTime];
+  [[MSDeviceTracker sharedInstance] device];
+
+  // Then
+  XCTAssertEqual(2, [[MSDeviceTracker sharedInstance].deviceHistory count]);
+
+  // When
+  [MSAppCenter setEnabled:NO];
+
+  // Then
+  XCTAssertFalse([MSAppCenter isEnabled]);
+  XCTAssertEqual(0, [[MSDeviceTracker sharedInstance].deviceHistory count]);
+}
+
+- (void)testClearUserIdHistoryWhenAppCenterIsDisabled {
+
+  // If
+  [MSAppCenter start:MS_UUID_STRING withServices:@[ MSMockService.class ]];
+  [[MSUserIdContext sharedInstance] setUserId:@"alice"];
+  [MSUserIdContext resetSharedInstance];
+  [[MSUserIdContext sharedInstance] setUserId:@"bob"];
+
+  // Then
+  XCTAssertEqual(2, [[MSUserIdContext sharedInstance].userIdHistory count]);
+
+  // When
+  [MSAppCenter setEnabled:NO];
+
+  // Then
+  XCTAssertFalse([MSAppCenter isEnabled]);
+
+  // Clearing history won't remove the most recent userId.
+  XCTAssertEqual(1, [[MSUserIdContext sharedInstance].userIdHistory count]);
 }
 
 - (void)testSetLogUrl {
@@ -818,6 +859,45 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // Then
   XCTAssertEqual([[MSUserIdContext sharedInstance] userId], @"w:1BD8FC6E-98CE-E03D-B19D-BFD5A9BA712D");
+}
+
+- (void)testNoUserIdWhenSetUserIdIsNotCalledInNextVersion {
+
+  // If
+  // An app calls setUserId in version 1.
+  __block NSDate *date;
+  NSMutableArray *history = [NSMutableArray new];
+  [history addObject:[[MSUserIdHistoryInfo alloc] initWithTimestamp:[NSDate dateWithTimeIntervalSince1970:0] andUserId:@"alice"]];
+  [history addObject:[[MSUserIdHistoryInfo alloc] initWithTimestamp:[NSDate dateWithTimeIntervalSince1970:3000] andUserId:@"bob"]];
+  [self.settingsMock setObject:[NSKeyedArchiver archivedDataWithRootObject:history] forKey:@"UserIdHistory"];
+  [MSUserIdContext resetSharedInstance];
+
+  // When
+  // setUserId call is removed in version 2.
+  id dateMock = OCMClassMock([NSDate class]);
+  OCMStub(ClassMethod([dateMock date])).andDo(^(NSInvocation *invocation) {
+    date = [[NSDate alloc] initWithTimeIntervalSince1970:4000];
+    [invocation setReturnValue:&date];
+  });
+  [MSAppCenter configureWithAppSecret:@"AppSecret"];
+  [dateMock stopMocking];
+
+  // Then
+  XCTAssertNil([[MSUserIdContext sharedInstance] userIdAt:[NSDate dateWithTimeIntervalSince1970:5000]]);
+
+  // When
+  // Version 2 app launched again.
+  [MSUserIdContext resetSharedInstance];
+  dateMock = OCMClassMock([NSDate class]);
+  OCMStub(ClassMethod([dateMock date])).andDo(^(NSInvocation *invocation) {
+    date = [[NSDate alloc] initWithTimeIntervalSince1970:7000];
+    [invocation setReturnValue:&date];
+  });
+  [MSAppCenter configureWithAppSecret:@"AppSecret"];
+  [dateMock stopMocking];
+
+  // Then
+  XCTAssertNil([[MSUserIdContext sharedInstance] userIdAt:[NSDate dateWithTimeIntervalSince1970:5000]]);
 }
 
 @end

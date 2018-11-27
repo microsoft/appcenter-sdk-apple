@@ -82,32 +82,61 @@
 - (void)testSessionIdAt {
 
   // If
-  __block int counter = 0;
   __block NSDate *date;
   id dateMock = OCMClassMock([NSDate class]);
-  OCMStub(ClassMethod([dateMock date])).andDo(^(NSInvocation *invocation) {
-    date = [[NSDate alloc] initWithTimeIntervalSince1970:1000 * ++counter];
-    [invocation setReturnValue:&date];
-  });
 
   // When
+  OCMStub(ClassMethod([dateMock date])).andDo(^(NSInvocation *invocation) {
+    date = [[NSDate alloc] initWithTimeIntervalSince1970:0];
+    [invocation setReturnValue:&date];
+  });
   [[MSSessionContext sharedInstance] setSessionId:@"Session1"];
+  [dateMock stopMocking];
+
   [MSSessionContext resetSharedInstance];
+
+  dateMock = OCMClassMock([NSDate class]);
+  OCMStub(ClassMethod([dateMock date])).andDo(^(NSInvocation *invocation) {
+    date = [[NSDate alloc] initWithTimeIntervalSince1970:1000];
+    [invocation setReturnValue:&date];
+  });
   [[MSSessionContext sharedInstance] setSessionId:@"Session2"];
+  [dateMock stopMocking];
+
   [MSSessionContext resetSharedInstance];
+
+  dateMock = OCMClassMock([NSDate class]);
+  OCMStub(ClassMethod([dateMock date])).andDo(^(NSInvocation *invocation) {
+    date = [[NSDate alloc] initWithTimeIntervalSince1970:2000];
+    [invocation setReturnValue:&date];
+  });
   [[MSSessionContext sharedInstance] setSessionId:@"Session3"];
+  [dateMock stopMocking];
+
   [MSSessionContext resetSharedInstance];
+
+  dateMock = OCMClassMock([NSDate class]);
+  OCMStub(ClassMethod([dateMock date])).andDo(^(NSInvocation *invocation) {
+    date = [[NSDate alloc] initWithTimeIntervalSince1970:3000];
+    [invocation setReturnValue:&date];
+  });
   [[MSSessionContext sharedInstance] setSessionId:@"Session4"];
+  [dateMock stopMocking];
+
   [MSSessionContext resetSharedInstance];
+
+  dateMock = OCMClassMock([NSDate class]);
+  OCMStub(ClassMethod([dateMock date])).andDo(^(NSInvocation *invocation) {
+    date = [[NSDate alloc] initWithTimeIntervalSince1970:4000];
+    [invocation setReturnValue:&date];
+  });
   [[MSSessionContext sharedInstance] setSessionId:@"Session5"];
+  [dateMock stopMocking];
 
   // Then
-  // resetSharedInstance will also call [NSDate date] so timestamp 5500 should return "Session3"
   XCTAssertNil([[MSSessionContext sharedInstance] sessionIdAt:[[NSDate alloc] initWithTimeIntervalSince1970:0]]);
-  XCTAssertEqualObjects(@"Session3", [[MSSessionContext sharedInstance] sessionIdAt:[[NSDate alloc] initWithTimeIntervalSince1970:5500]]);
-  XCTAssertEqualObjects(@"Session5", [[MSSessionContext sharedInstance] sessionIdAt:[[NSDate alloc] initWithTimeIntervalSince1970:10000]]);
-
-  [dateMock stopMocking];
+  XCTAssertEqualObjects(@"Session3", [[MSSessionContext sharedInstance] sessionIdAt:[[NSDate alloc] initWithTimeIntervalSince1970:2500]]);
+  XCTAssertEqualObjects(@"Session5", [[MSSessionContext sharedInstance] sessionIdAt:[[NSDate alloc] initWithTimeIntervalSince1970:5000]]);
 }
 
 @end
