@@ -94,7 +94,7 @@ static dispatch_once_t onceToken;
     [self.userIdHistory removeAllObjects];
     [self.userIdHistory addObject:self.currentUserIdInfo];
     [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.userIdHistory] forKey:kMSUserIdHistoryKey];
-    MSLogVerbose([MSAppCenter logTag], @"Cleared old userIds.");
+    MSLogVerbose([MSAppCenter logTag], @"Cleared old userIds while keeping current userId.");
   }
 }
 
