@@ -29,9 +29,9 @@ NS_ASSUME_NONNULL_BEGIN
  * Set the user identifier.
  * The user identifier needs to start with c: or i: or d: or w: prefixes.
  *
- * @param appUserId user identifier.
+ * @param userId user identifier.
  */
-- (void)setAppUserId:(nullable NSString *)appUserId;
+- (void)setUserId:(nullable NSString *)userId;
 
 /**
  * Set a string event property to be attached to events tracked by this transmission target and its child transmission targets.

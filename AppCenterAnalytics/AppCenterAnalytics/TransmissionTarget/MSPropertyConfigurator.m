@@ -18,6 +18,7 @@
 #import "MSLogger.h"
 #import "MSPropertyConfiguratorPrivate.h"
 #import "MSStringTypedProperty.h"
+#import "MSUserExtension.h"
 #import "MSUserIdContext.h"
 
 @implementation MSPropertyConfigurator
@@ -48,9 +49,9 @@ static const char deviceIdPrefix = 'i';
   _appLocale = appLocale;
 }
 
-- (void)setAppUserId:(NSString *)appUserId {
-  if ([MSUserIdContext checkUserIdValidForOneCollector:appUserId]) {
-    _appUserId = appUserId;
+- (void)setUserId:(NSString *)userId {
+  if ([MSUserIdContext checkUserIdValidForOneCollector:userId]) {
+    _userId = userId;
   }
 }
 
@@ -133,11 +134,11 @@ static const char deviceIdPrefix = 'i';
       target = target.parentTarget;
     }
 
-    // Override the application userId.
+    // Override the userId.
     target = self.transmissionTarget;
     while (target) {
-      if (target.propertyConfigurator.appUserId) {
-        ((MSCommonSchemaLog *)log).ext.appExt.userId = target.propertyConfigurator.appUserId;
+      if (target.propertyConfigurator.userId) {
+        ((MSCommonSchemaLog *)log).ext.userExt.localId = target.propertyConfigurator.userId;
         break;
       }
       target = target.parentTarget;

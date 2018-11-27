@@ -9,7 +9,7 @@
 static const int kMSMaxUserIdLength = 256;
 
 /*
- * Custom App User ID prefix for Common Schema.
+ * Custom User ID prefix for Common Schema.
  */
 static NSString *const kMSUserIdCustomPrefix = @"c";
 
