@@ -325,6 +325,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     } else {
       dispatch_semaphore_signal(self.delayedProcessingSemaphore);
       [[MSSessionContext sharedInstance] clearSessionHistory];
+      [[MSUserIdContext sharedInstance] clearUserIdHistory];
     }
 
     // More details on log if a debugger is attached.
@@ -344,6 +345,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     [self removeAnalyzerFile];
     [self.plCrashReporter purgePendingCrashReport];
     [[MSSessionContext sharedInstance] clearSessionHistory];
+    [[MSUserIdContext sharedInstance] clearUserIdHistory];
     MSLogInfo([MSCrashes logTag], @"Crashes service has been disabled.");
   }
 }
@@ -1106,6 +1108,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
     // Return and do not continue with crash processing.
     [[MSSessionContext sharedInstance] clearSessionHistory];
+    [[MSUserIdContext sharedInstance] clearUserIdHistory];
     return;
   } else if (userConfirmation == MSUserConfirmationAlways) {
 
@@ -1147,6 +1150,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     [self.crashFiles removeObject:fileURL];
   }
   [[MSSessionContext sharedInstance] clearSessionHistory];
+  [[MSUserIdContext sharedInstance] clearUserIdHistory];
 }
 
 + (void)resetSharedInstance {
