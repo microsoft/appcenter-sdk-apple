@@ -171,6 +171,7 @@
 
   // User extension.
   csLog.ext.userExt = [MSUserExtension new];
+  csLog.ext.userExt.localId = self.userId;
 
   // FIXME Country code can be wrong if the locale doesn't correspond to the region in the setting (i.e.:fr_US). Convert user local to use
   // dash (-) as the separator as described in RFC 4646.  E.g., zh-Hans-CN.
@@ -186,7 +187,6 @@
   csLog.ext.appExt.appId = [NSString stringWithFormat:@"I:%@", self.device.appNamespace];
   csLog.ext.appExt.ver = self.device.appVersion;
   csLog.ext.appExt.locale = [[[NSBundle mainBundle] preferredLocalizations] firstObject];
-  csLog.ext.appExt.userId = self.userId;
 
   // Network extension.
   csLog.ext.netExt = [MSNetExtension new];

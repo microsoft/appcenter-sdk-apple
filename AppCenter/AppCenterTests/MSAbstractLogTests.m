@@ -267,6 +267,7 @@
 
     // User extension.
     XCTAssertNotNil(log.ext.userExt);
+    XCTAssertEqualObjects(log.ext.userExt.localId, self.sut.userId);
     XCTAssertEqualObjects(log.ext.userExt.locale, expectedLocale);
 
     // OS extension.
@@ -279,7 +280,6 @@
     XCTAssertEqualObjects(log.ext.appExt.appId, expectedAppId);
     XCTAssertEqualObjects(log.ext.appExt.ver, self.sut.device.appVersion);
     XCTAssertEqualObjects(log.ext.appExt.locale, expectedAppLocale);
-    XCTAssertEqualObjects(log.ext.appExt.userId, self.sut.userId);
 
     // Network extension.
     XCTAssertNotNil(log.ext.netExt);

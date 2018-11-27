@@ -228,6 +228,7 @@
 
 - (MSUserExtension *)userExtWithDummyValues {
   MSUserExtension *userExt = [MSUserExtension new];
+  userExt.localId = @"c:alice";
   userExt.locale = @"en-us";
   return userExt;
 }
