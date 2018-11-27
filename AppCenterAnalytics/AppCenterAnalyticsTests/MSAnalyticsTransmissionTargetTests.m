@@ -1206,8 +1206,8 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   // If
   MSAnalyticsTransmissionTarget *target = [MSAnalytics transmissionTargetForToken:@"invalidUserAppIdTest"];
 
-  // Set invalid user identifier (no prefix).
-  [target.propertyConfigurator setAppUserId:@"invalid"];
+  // Set invalid user identifier.
+  [target.propertyConfigurator setAppUserId:@"invalid:invalid"];
 
   // Set a log.
   MSCommonSchemaLog *log = [MSCommonSchemaLog new];
@@ -1287,7 +1287,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   // If
 
   // Set invalid userId on existing target having a valid userId.
-  [target.propertyConfigurator setAppUserId:@"invalid"];
+  [target.propertyConfigurator setAppUserId:@"invalid:invalid"];
 
   // Reset a log.
   log = [MSCommonSchemaLog new];
