@@ -134,7 +134,6 @@
   [dateMock stopMocking];
 
   // Then
-  // sharedInstance will also call [NSDate date] so timestamp 5500 should return "UserId3"
   XCTAssertNil([[MSUserIdContext sharedInstance] userIdAt:[[NSDate alloc] initWithTimeIntervalSince1970:0]]);
   XCTAssertEqualObjects(@"UserId3", [[MSUserIdContext sharedInstance] userIdAt:[[NSDate alloc] initWithTimeIntervalSince1970:2500]]);
   XCTAssertEqualObjects(@"UserId5", [[MSUserIdContext sharedInstance] userIdAt:[[NSDate alloc] initWithTimeIntervalSince1970:5000]]);
