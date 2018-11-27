@@ -14,6 +14,7 @@
 #import "MSServiceAbstractProtected.h"
 #import "MSStringTypedProperty.h"
 #import "MSTypedProperty.h"
+#import "MSUserIdContext.h"
 #import "MSUtility+StringFormatting.h"
 
 // Service name for initialization.
@@ -307,6 +308,9 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
     if (transmissionTarget.isEnabled) {
       [log addTransmissionTargetToken:[transmissionTarget transmissionTargetToken]];
       log.tag = transmissionTarget;
+      if (transmissionTarget == self.defaultTransmissionTarget) {
+        log.userId = [[MSUserIdContext sharedInstance] userId];
+      }
     } else {
       MSLogError([MSAnalytics logTag], @"This transmission target is disabled.");
       return;

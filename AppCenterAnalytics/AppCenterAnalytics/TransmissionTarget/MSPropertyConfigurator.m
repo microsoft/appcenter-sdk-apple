@@ -18,6 +18,7 @@
 #import "MSLogger.h"
 #import "MSPropertyConfiguratorPrivate.h"
 #import "MSStringTypedProperty.h"
+#import "MSUserIdContext.h"
 
 @implementation MSPropertyConfigurator
 
@@ -48,21 +49,7 @@ static const char deviceIdPrefix = 'i';
 }
 
 - (void)setAppUserId:(NSString *)appUserId {
-  @synchronized([MSAnalytics sharedInstance]) {
-    static NSRegularExpression *regex = nil;
-    if (!regex) {
-      NSError *error = nil;
-      regex = [NSRegularExpression regularExpressionWithPattern:kAppUserIdPattern options:(NSRegularExpressionOptions)0 error:&error];
-      if (!regex) {
-        MSLogError([MSAnalytics logTag], @"Couldn't create regular expression with pattern\"%@\": %@", kAppUserIdPattern,
-                   error.localizedDescription);
-        return;
-      }
-    }
-    if (appUserId && ![regex matchesInString:appUserId options:(NSMatchingOptions)0 range:NSMakeRange(0, appUserId.length)].count) {
-      MSLogError([MSAnalytics logTag], @"appUserId must match the %@ regular expression.", kAppUserIdPattern);
-      return;
-    }
+  if ([MSUserIdContext checkUserIdValidForOneCollector:appUserId]) {
     _appUserId = appUserId;
   }
 }

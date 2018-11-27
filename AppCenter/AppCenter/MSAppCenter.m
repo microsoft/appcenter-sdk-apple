@@ -455,11 +455,23 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 }
 
 - (void)setUserId:(NSString *)userId {
-  if (self.appSecret && [userId length] > kMSMaxUserIdLength) {
-    MSLogError([MSAppCenter logTag], @"userId is limited to %d characters.", kMSMaxUserIdLength);
-  } else {
-    [[MSUserIdContext sharedInstance] setUserId:userId];
+  if (!self.configuredFromApplication) {
+    MSLogError([MSAppCenter logTag], @"AppCenter must be configured from application, libraries cannot use call setUserId.");
+    return;
   }
+  if (!self.appSecret && !self.defaultTransmissionTargetToken) {
+    MSLogError([MSAppCenter logTag], @"AppCenter must be configured with a secret from application to call setUserId.");
+    return;
+  }
+  if (userId) {
+    if (self.appSecret && ![MSUserIdContext checkUserIdValidForAppCenter:userId]) {
+      return;
+    }
+    if (self.defaultTransmissionTargetToken && ![MSUserIdContext checkUserIdValidForOneCollector:userId]) {
+      return;
+    }
+  }
+  [[MSUserIdContext sharedInstance] setUserId:userId];
 }
 
 #if !TARGET_OS_TV

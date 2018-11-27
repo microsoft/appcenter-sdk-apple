@@ -279,6 +279,7 @@
     XCTAssertEqualObjects(log.ext.appExt.appId, expectedAppId);
     XCTAssertEqualObjects(log.ext.appExt.ver, self.sut.device.appVersion);
     XCTAssertEqualObjects(log.ext.appExt.locale, expectedAppLocale);
+    XCTAssertEqualObjects(log.ext.appExt.userId, self.sut.userId);
 
     // Network extension.
     XCTAssertNotNil(log.ext.netExt);

@@ -18,6 +18,7 @@
 #import "MSPropertyConfiguratorPrivate.h"
 #import "MSStringTypedProperty.h"
 #import "MSTestFrameworks.h"
+#import "MSUserIdContextPrivate.h"
 
 static NSString *const kMSTypeEvent = @"event";
 static NSString *const kMSTestTransmissionToken = @"TestTransmissionToken";
@@ -35,6 +36,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
 - (void)setUp {
   [super setUp];
+  [MSUserIdContext resetSharedInstance];
 
   // Mock NSUserDefaults
   self.settingsMock = [MSMockUserDefaults new];
@@ -377,6 +379,30 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   XCTAssertEqual(actualType, kMSTypeEvent);
   XCTAssertEqual(actualName, expectedName);
   XCTAssertEqual(actualFlags, MSFlagsPersistenceNormal);
+}
+
+- (void)testTrackEventSetsUserIdForTransmissionTarget {
+
+  // If
+  __block MSEventLog *log;
+  [[MSUserIdContext sharedInstance] setUserId:@"c:test"];
+  [MSAnalytics resetSharedInstance];
+  id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub([self.channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  [[MSAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
+                                            appSecret:@"appsecret"
+                              transmissionTargetToken:@"token"
+                                      fromApplication:YES];
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]] flags:MSFlagsDefault]).andDo(^(NSInvocation *invocation) {
+    [invocation getArgument:&log atIndex:2];
+  });
+
+  // When
+  [MSAnalytics trackEvent:@"Some event"];
+
+  // Then
+  XCTAssertNotNil(log);
+  XCTAssertEqual(log.userId, @"c:test");
 }
 
 - (void)testTransmissionTargetForToken {
@@ -1180,8 +1206,8 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   // If
   MSAnalyticsTransmissionTarget *target = [MSAnalytics transmissionTargetForToken:@"invalidUserAppIdTest"];
 
-  // Set invalid user identifier (no prefix).
-  [target.propertyConfigurator setAppUserId:@"invalid"];
+  // Set invalid user identifier.
+  [target.propertyConfigurator setAppUserId:@"invalid:invalid"];
 
   // Set a log.
   MSCommonSchemaLog *log = [MSCommonSchemaLog new];
@@ -1261,7 +1287,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   // If
 
   // Set invalid userId on existing target having a valid userId.
-  [target.propertyConfigurator setAppUserId:@"invalid"];
+  [target.propertyConfigurator setAppUserId:@"invalid:invalid"];
 
   // Reset a log.
   log = [MSCommonSchemaLog new];

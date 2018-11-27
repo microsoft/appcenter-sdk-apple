@@ -38,6 +38,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 - (void)setUp {
   [super setUp];
   [MSAppCenter resetSharedInstance];
+  [MSUserIdContext resetSharedInstance];
 
   // System Under Test.
   self.sut = [[MSAppCenter alloc] init];
@@ -773,10 +774,21 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   [MSAppCenter setUserId:userId];
 
   // Then
-  XCTAssertEqual([[MSUserIdContext sharedInstance] userId], userId);
-}
+  XCTAssertNil([[MSUserIdContext sharedInstance] userId]);
 
-- (void)testSetNilUserId {
+  // When
+  [MSAppCenter startFromLibraryWithServices:@[ MSMockService.class ]];
+  [MSAppCenter setUserId:userId];
+
+  // Then
+  XCTAssertNil([[MSUserIdContext sharedInstance] userId]);
+
+  // When
+  [MSAppCenter configureWithAppSecret:@"AppSecret"];
+  [MSAppCenter setUserId:userId];
+
+  // Then
+  XCTAssertEqual([[MSUserIdContext sharedInstance] userId], userId);
 
   // When
   [MSAppCenter setUserId:nil];
@@ -785,11 +797,24 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   XCTAssertNil([[MSUserIdContext sharedInstance] userId]);
 }
 
-- (void)testSetInvalidUserId {
+
+- (void)testSetUserIdWithoutSecret {
+  // If
+  NSString *userId = @"user123";
+
+  // When
+  [MSAppCenter configure];
+  [MSAppCenter setUserId:userId];
+
+  // Then
+  XCTAssertNil([[MSUserIdContext sharedInstance] userId]);
+}
+
+- (void)testSetInvalidUserIdForAppCenter {
 
   // If
   NSString *userId = @"";
-  for (int i = 0; i < kMSMaxUserIdLength + 1; i++) {
+  for (int i = 0; i < 257; i++) {
     userId = [userId stringByAppendingString:@"x"];
   }
   [MSAppCenter configureWithAppSecret:@"AppSecret"];
@@ -799,6 +824,30 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // Then
   XCTAssertNil([[MSUserIdContext sharedInstance] userId]);
+}
+
+- (void)testSetInvalidUserIdForTransmissionTarget {
+
+  // If
+  [MSAppCenter configureWithAppSecret:@"target=transmissionTargetToken"];
+
+  // When
+  [MSAppCenter setUserId:@""];
+
+  // Then
+  XCTAssertNil([[MSUserIdContext sharedInstance] userId]);
+
+  // When
+  [MSAppCenter setUserId:@"alice"];
+
+  // Then
+  XCTAssertEqual([[MSUserIdContext sharedInstance] userId], @"alice");
+
+  // When
+  [MSAppCenter setUserId:@"c:alice"];
+
+  // Then
+  XCTAssertEqual([[MSUserIdContext sharedInstance] userId], @"c:alice");
 }
 
 - (void)testNoUserIdWhenSetUserIdIsNotCalledInNextVersion {
