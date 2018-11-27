@@ -60,8 +60,8 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     MSAppCenter.startFromLibrary(withServices: [MSAnalytics.self])
   }
 
-  func setUserId(_ usedId: String) {
-    MSAppCenter.setUserId(usedId);
+  func setUserId(_ userId: String?) {
+    MSAppCenter.setUserId(userId);
   }
 
   // Modules section.

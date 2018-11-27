@@ -1081,7 +1081,7 @@
                                                     <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                                     <connections>
                                                         <action selector="dismissKeyboard:" destination="9Ck-4D-Ozb" eventType="editingDidEndOnExit" id="ZFL-NZ-9Bu"/>
-                                                        <action selector="userIdChanged:" destination="9Ck-4D-Ozb" eventType="valueChanged" id="Q7J-OT-Rsf"/>
+                                                        <action selector="userIdChanged:" destination="9Ck-4D-Ozb" eventType="editingChanged" id="BB2-Wi-ISZ"/>
                                                     </connections>
                                                 </textField>
                                             </subviews>
@@ -1112,6 +1112,7 @@
                         <outlet property="startupModeField" destination="Bhw-pL-N3b" id="NPK-6P-kMz"/>
                         <outlet property="storageFileSizeLabel" destination="HhZ-ld-Iod" id="pCM-dY-dBX"/>
                         <outlet property="storageMaxSizeField" destination="SgN-YL-d30" id="bIj-9D-rGE"/>
+                        <outlet property="userIdField" destination="NHU-md-dvc" id="Mqv-mQ-Pcv"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G4r-se-P85" userLabel="First Responder" sceneMemberID="firstResponder"/>

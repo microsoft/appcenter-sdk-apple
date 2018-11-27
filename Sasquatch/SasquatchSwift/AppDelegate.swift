@@ -80,6 +80,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
       break
     }
 
+    // Set user id.
+    let userId = UserDefaults.standard.string(forKey: kMSUserIdKey)
+    if userId {
+      MSAppCenter.setUserId(userId);
+    }
+
     // Crashes Delegate.
     MSCrashes.setUserConfirmationHandler({ (errorReports: [MSErrorReport]) in
 
