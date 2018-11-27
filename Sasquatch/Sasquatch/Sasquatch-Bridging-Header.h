@@ -6,3 +6,7 @@
 #import "Constants.h"
 #import "CrashLib.h"
 #import "MSEventFilter.h"
+
+#if GCC_PREPROCESSOR_MACRO_PUPPET
+#import "MSEventPropertiesInternal.h"
+#endif
