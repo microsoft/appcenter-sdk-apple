@@ -4,6 +4,7 @@
 
 ### AppCenter
 
+* **[Feature]** Allow users to set userId for crashes and error logs. This feature adds an API, but is not yet supported on the App Center backend.
 * **[Fix]** Do not delete old logs when trying to add a log larger than the maximum storage capacity.
 * **[Fix]** Fix minimum storage size verification to match minimum possible value.
 * **[Fix]** Fix reporting carrier information using new iOS 12 APIs when running on iOS 12+.
