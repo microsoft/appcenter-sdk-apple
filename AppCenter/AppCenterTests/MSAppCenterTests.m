@@ -765,7 +765,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
                                }];
 }
 
-- (void)testSetValidUserId {
+- (void)testSetValidUserIdForAppCenter {
 
   // If
   NSString *userId = @"user123";
@@ -798,6 +798,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 }
 
 - (void)testSetUserIdWithoutSecret {
+
   // If
   NSString *userId = @"user123";
 
@@ -870,7 +871,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   [MSAppCenter setUserId:@"foobar:alice"];
 
   // Then
-  // Current userId shouldn't be overridden by invliad one.
+  // Current userId shouldn't be overridden by the invalid one.
   XCTAssertEqual([[MSUserIdContext sharedInstance] userId], @"c:alice");
 }
 
