@@ -122,7 +122,7 @@ static dispatch_once_t onceToken;
     return YES;
   }
   NSRange separator = [userId rangeOfString:kMSCommonSchemaPrefixSeparator];
-  if (userId.length == 0 || separator.location == userId.length - 1) {
+  if (userId.length == 0) {
     MSLogError([MSAppCenter logTag], @"userId must not be empty.");
     return NO;
   }
@@ -130,6 +130,9 @@ static dispatch_once_t onceToken;
     NSString *prefix = [userId substringToIndex:separator.location];
     if (![prefix isEqualToString:kMSUserIdCustomPrefix]) {
       MSLogError([MSAppCenter logTag], @"userId prefix must be '%@', '%@' is not supported.", kMSUserIdCustomPrefix, prefix);
+      return NO;
+    } else if (separator.location == userId.length - 1) {
+      MSLogError([MSAppCenter logTag], @"userId must not be empty.");
       return NO;
     }
   }
