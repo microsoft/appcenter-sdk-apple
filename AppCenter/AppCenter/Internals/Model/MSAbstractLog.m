@@ -178,7 +178,7 @@ static NSString *const kMSAppNamespacePrefix = @"I";
 
   // User extension.
   csLog.ext.userExt = [MSUserExtension new];
-  csLog.ext.userExt.localId = [MSUserIdContext prefixUserIdFromUserId:self.userId];
+  csLog.ext.userExt.localId = [MSUserIdContext prefixedUserIdFromUserId:self.userId];
 
   // FIXME Country code can be wrong if the locale doesn't correspond to the region in the setting (i.e.:fr_US). Convert user local to use
   // dash (-) as the separator as described in RFC 4646.  E.g., zh-Hans-CN.

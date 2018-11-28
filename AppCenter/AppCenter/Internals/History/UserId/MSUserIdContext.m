@@ -139,7 +139,7 @@ static dispatch_once_t onceToken;
   return YES;
 }
 
-+ (nullable NSString *)prefixUserIdFromUserId:(nullable NSString *)userId {
++ (nullable NSString *)prefixedUserIdFromUserId:(nullable NSString *)userId {
   if (userId && [userId rangeOfString:kMSCommonSchemaPrefixSeparator].location == NSNotFound) {
     return [NSString stringWithFormat:@"%@%@%@", kMSUserIdCustomPrefix, kMSCommonSchemaPrefixSeparator, userId];
   }

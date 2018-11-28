@@ -139,13 +139,13 @@
   XCTAssertEqualObjects(@"UserId5", [[MSUserIdContext sharedInstance] userIdAt:[[NSDate alloc] initWithTimeIntervalSince1970:5000]]);
 }
 
-- (void)testToPrefixUserIdFromUserId {
+- (void)testPrefixedUserIdFromUserId {
 
   // Then
-  XCTAssertEqualObjects([MSUserIdContext prefixUserIdFromUserId:@"c:alice"], @"c:alice");
-  XCTAssertEqualObjects([MSUserIdContext prefixUserIdFromUserId:@"alice"], @"c:alice");
-  XCTAssertEqualObjects([MSUserIdContext prefixUserIdFromUserId:@":"], @":");
-  XCTAssertNil([MSUserIdContext prefixUserIdFromUserId:nil]);
+  XCTAssertEqualObjects([MSUserIdContext prefixedUserIdFromUserId:@"c:alice"], @"c:alice");
+  XCTAssertEqualObjects([MSUserIdContext prefixedUserIdFromUserId:@"alice"], @"c:alice");
+  XCTAssertEqualObjects([MSUserIdContext prefixedUserIdFromUserId:@":"], @":");
+  XCTAssertNil([MSUserIdContext prefixedUserIdFromUserId:nil]);
 }
 
 @end

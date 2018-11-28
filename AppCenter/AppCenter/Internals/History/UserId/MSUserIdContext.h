@@ -74,7 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return prefixed userId or null if the userId was null.
  */
-+ (nullable NSString *)prefixUserIdFromUserId:(nullable NSString *)userId;
++ (nullable NSString *)prefixedUserIdFromUserId:(nullable NSString *)userId;
 
 @end
 
