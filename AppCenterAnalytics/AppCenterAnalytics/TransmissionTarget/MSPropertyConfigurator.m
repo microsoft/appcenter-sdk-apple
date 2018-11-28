@@ -50,7 +50,7 @@ static const char deviceIdPrefix = 'i';
 }
 
 - (void)setUserId:(NSString *)userId {
-  if ([MSUserIdContext checkUserIdValidForOneCollector:userId]) {
+  if ([MSUserIdContext isUserIdValidForOneCollector:userId]) {
     _userId = userId;
   }
 }

@@ -142,10 +142,10 @@
 - (void)testToPrefixUserIdFromUserId {
 
   // Then
-  XCTAssertEqualObjects([MSUserIdContext toPrefixUserIdFromUserId:@"c:alice"], @"c:alice");
-  XCTAssertEqualObjects([MSUserIdContext toPrefixUserIdFromUserId:@"alice"], @"c:alice");
-  XCTAssertEqualObjects([MSUserIdContext toPrefixUserIdFromUserId:@":"], @":");
-  XCTAssertNil([MSUserIdContext toPrefixUserIdFromUserId:nil]);
+  XCTAssertEqualObjects([MSUserIdContext prefixUserIdFromUserId:@"c:alice"], @"c:alice");
+  XCTAssertEqualObjects([MSUserIdContext prefixUserIdFromUserId:@"alice"], @"c:alice");
+  XCTAssertEqualObjects([MSUserIdContext prefixUserIdFromUserId:@":"], @":");
+  XCTAssertNil([MSUserIdContext prefixUserIdFromUserId:nil]);
 }
 
 @end

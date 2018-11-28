@@ -109,7 +109,7 @@ static dispatch_once_t onceToken;
   }
 }
 
-+ (BOOL)checkUserIdValidForAppCenter:(nullable NSString *)userId {
++ (BOOL)isUserIdValidForAppCenter:(nullable NSString *)userId {
   if (userId && userId.length > kMSMaxUserIdLength) {
     MSLogError([MSAppCenter logTag], @"userId is limited to %d characters.", kMSMaxUserIdLength);
     return NO;
@@ -117,7 +117,7 @@ static dispatch_once_t onceToken;
   return YES;
 }
 
-+ (BOOL)checkUserIdValidForOneCollector:(nullable NSString *)userId {
++ (BOOL)isUserIdValidForOneCollector:(nullable NSString *)userId {
   if (!userId) {
     return YES;
   }
@@ -139,7 +139,7 @@ static dispatch_once_t onceToken;
   return YES;
 }
 
-+ (nullable NSString *)toPrefixUserIdFromUserId:(nullable NSString *)userId {
++ (nullable NSString *)prefixUserIdFromUserId:(nullable NSString *)userId {
   if (userId && [userId rangeOfString:kMSCommonSchemaPrefixSeparator].location == NSNotFound) {
     return [NSString stringWithFormat:@"%@%@%@", kMSUserIdCustomPrefix, kMSCommonSchemaPrefixSeparator, userId];
   }
