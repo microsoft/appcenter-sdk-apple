@@ -131,6 +131,9 @@
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits"/>
+                                                    <connections>
+                                                        <action selector="dismissKeyboard:" destination="GhP-bn-tCW" eventType="editingDidEndOnExit" id="17E-jP-qzV"/>
+                                                    </connections>
                                                 </textField>
                                             </subviews>
                                         </tableViewCellContentView>
@@ -237,6 +240,9 @@
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits"/>
+                                                    <connections>
+                                                        <action selector="dismissKeyboard:" destination="GhP-bn-tCW" eventType="editingDidEndOnExit" id="8I6-nn-T87"/>
+                                                    </connections>
                                                 </textField>
                                             </subviews>
                                         </tableViewCellContentView>
@@ -714,7 +720,7 @@
         <scene sceneID="0ay-6B-23o">
             <objects>
                 <tableViewController storyboardIdentifier="main" id="9Ck-4D-Ozb" customClass="MSMainViewController" customModule="SasquatchObjC" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="Xq0-wR-0nE">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="Xq0-wR-0nE">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
@@ -989,14 +995,14 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Log URL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Q0g-6H-vrt">
-                                                    <rect key="frame" x="15" y="12" width="65.5" height="20.5"/>
+                                                    <rect key="frame" x="16" y="12" width="65.5" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="?" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" id="XnS-uI-vJv" userLabel="Log URL">
-                                                    <rect key="frame" x="351.5" y="12" width="8.5" height="20.5"/>
+                                                    <rect key="frame" x="350.5" y="12" width="8.5" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -1013,14 +1019,14 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="SDK Version" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="d0B-bb-lji" userLabel="SDK Version">
-                                                    <rect key="frame" x="15" y="12" width="95" height="20.5"/>
+                                                    <rect key="frame" x="16" y="12" width="95" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="?" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" id="mii-om-0Af" userLabel="SDK Version">
-                                                    <rect key="frame" x="351.5" y="12" width="8.5" height="20.5"/>
+                                                    <rect key="frame" x="350.5" y="12" width="8.5" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -1037,19 +1043,47 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Device ID" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="PKd-yJ-AWH" userLabel="Device ID">
-                                                    <rect key="frame" x="15" y="12" width="73" height="20.5"/>
+                                                    <rect key="frame" x="16" y="12" width="73" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="?" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" id="eS2-cR-m6j" userLabel="Device ID">
-                                                    <rect key="frame" x="351.5" y="12" width="8.5" height="20.5"/>
+                                                    <rect key="frame" x="350.5" y="12" width="8.5" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="zqx-TR-m3U" style="IBUITableViewCellStyleDefault" id="cac-de-Hgp">
+                                        <rect key="frame" x="0.0" y="803" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cac-de-Hgp" id="NyA-Ky-Uyq">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="User ID" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zqx-TR-m3U">
+                                                    <rect key="frame" x="16" y="0.0" width="343" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NHU-md-dvc" userLabel="User ID Field">
+                                                    <rect key="frame" x="139" y="7" width="220" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                    <nil key="textColor"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no"/>
+                                                    <connections>
+                                                        <action selector="dismissKeyboard:" destination="9Ck-4D-Ozb" eventType="editingDidEndOnExit" id="ZFL-NZ-9Bu"/>
+                                                        <action selector="userIdChanged:" destination="9Ck-4D-Ozb" eventType="editingChanged" id="BB2-Wi-ISZ"/>
+                                                    </connections>
+                                                </textField>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -1078,6 +1112,7 @@
                         <outlet property="startupModeField" destination="Bhw-pL-N3b" id="NPK-6P-kMz"/>
                         <outlet property="storageFileSizeLabel" destination="HhZ-ld-Iod" id="pCM-dY-dBX"/>
                         <outlet property="storageMaxSizeField" destination="SgN-YL-d30" id="bIj-9D-rGE"/>
+                        <outlet property="userIdField" destination="NHU-md-dvc" id="Mqv-mQ-Pcv"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G4r-se-P85" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1269,6 +1304,10 @@
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="Key"/>
                                             </userDefinedRuntimeAttributes>
+                                            <connections>
+                                                <action selector="dismissKeyboard:" destination="yaD-Sv-ZyN" eventType="editingDidEndOnExit" id="q46-rb-HA3"/>
+                                                <action selector="onChangeKey" destination="yaD-Sv-ZyN" eventType="editingChanged" id="Xeq-Ro-fj2"/>
+                                            </connections>
                                         </textField>
                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Value" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="P9T-hT-d4t" userLabel="Value Text Field">
                                             <rect key="frame" x="80" y="88" width="279" height="44"/>
@@ -1281,9 +1320,16 @@
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="Value"/>
                                             </userDefinedRuntimeAttributes>
+                                            <connections>
+                                                <action selector="dismissKeyboard:" destination="yaD-Sv-ZyN" eventType="editingDidEndOnExit" id="DzE-7M-fX2"/>
+                                                <action selector="onChangeValue" destination="yaD-Sv-ZyN" eventType="editingChanged" id="eTI-aP-SZd"/>
+                                            </connections>
                                         </textField>
                                         <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2bT-1N-qFu">
                                             <rect key="frame" x="310" y="94.5" width="51" height="31"/>
+                                            <connections>
+                                                <action selector="onChangeValue" destination="yaD-Sv-ZyN" eventType="valueChanged" id="3vJ-aN-8ic"/>
+                                            </connections>
                                         </switch>
                                     </subviews>
                                     <constraints>

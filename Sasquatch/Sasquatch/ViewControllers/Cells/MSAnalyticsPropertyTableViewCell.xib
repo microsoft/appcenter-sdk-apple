@@ -29,6 +29,9 @@
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="Key"/>
                         </userDefinedRuntimeAttributes>
+                        <connections>
+                            <action selector="dismissKeyboard:" destination="VGz-Vf-G1h" eventType="editingDidEndOnExit" id="tdW-Zx-LeK"/>
+                        </connections>
                     </textField>
                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Value" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="j3d-U5-snv">
                         <rect key="frame" x="195.5" y="0.0" width="159.5" height="44"/>
@@ -41,6 +44,9 @@
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="Value"/>
                         </userDefinedRuntimeAttributes>
+                        <connections>
+                            <action selector="dismissKeyboard:" destination="VGz-Vf-G1h" eventType="editingDidEndOnExit" id="Faj-UP-bUt"/>
+                        </connections>
                     </textField>
                 </subviews>
                 <constraints>
