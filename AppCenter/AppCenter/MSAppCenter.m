@@ -464,10 +464,10 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
     return;
   }
   if (userId) {
-    if (self.appSecret && ![MSUserIdContext checkUserIdValidForAppCenter:userId]) {
+    if (self.appSecret && ![MSUserIdContext isUserIdValidForAppCenter:userId]) {
       return;
     }
-    if (self.defaultTransmissionTargetToken && ![MSUserIdContext checkUserIdValidForOneCollector:userId]) {
+    if (self.defaultTransmissionTargetToken && ![MSUserIdContext isUserIdValidForOneCollector:userId]) {
       return;
     }
   }
