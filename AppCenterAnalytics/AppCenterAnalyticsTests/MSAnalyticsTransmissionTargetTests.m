@@ -18,8 +18,8 @@
 #import "MSPropertyConfiguratorPrivate.h"
 #import "MSStringTypedProperty.h"
 #import "MSTestFrameworks.h"
-#import "MSUserIdContextPrivate.h"
 #import "MSUserExtension.h"
+#import "MSUserIdContextPrivate.h"
 
 static NSString *const kMSTypeEvent = @"event";
 static NSString *const kMSTestTransmissionToken = @"TestTransmissionToken";
