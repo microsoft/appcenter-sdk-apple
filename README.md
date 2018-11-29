@@ -25,7 +25,12 @@ It is super easy to use App Center. Have a look at our [get started documentatio
 
 We are looking forward to your contributions via pull requests.
 
-To contribute to the SDK, you need a machine that runs macOS and the latest stable Xcode release. In addition, the SDK workspace requires [Jazzy](https://github.com/realm/jazzy) to generate documentation. 
+To contribute to the SDK, please
+
+* install Xcode 10.1 and Xcode 8.3.3 in parallel (information on how to do that can be found [in this blogpost](https://medium.com/@hacknicity/working-with-multiple-versions-of-xcode-e331c01aa6bc)).
+* make sure you are using the old version of Xcode by running `xcode-select -p`. It should point to Xcode 8.3.3. If it points to a newer version, e.g. Xcode 10.1, use `sudo xcode-select -s PATH_TO_OLD_XCODE` to switch to the old Xcode version.
+* set the environment variable `MS_ARM64E_XCODE_PATH` in your `.bash_profile` and point it to your Xcode 10.1 installation, e.g. `export MS_ARM64E_XCODE_PATH=/Applications/Xcode.app`.
+* install [Jazzy](https://github.com/realm/jazzy) to be able to generate documentation.
 
 ### 2.1 Code of Conduct
 
@@ -46,4 +51,5 @@ All Objective-C files follow LLVM coding style (with a few exceptions) and are f
 If you have further questions, want to provide feedback or you are running into issues, log in to the [App Center portal](https://appcenter.ms) and use the blue Intercom button on the bottom right to start a conversation with us.
 
 ### 3.2 Twitter
+
 We're on Twitter as [@vsappcenter](https://www.twitter.com/vsappcenter).

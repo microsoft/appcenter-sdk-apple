@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Load local .bash_profile to have access to MS_ARM64E_XCODE_PATH
+source ~/.bash_profile
+
 # Sets the target folders and the final framework product.
 FMK_NAME=AppCenterDistribute
 TGT_NAME=${FMK_NAME}IOS
@@ -45,17 +48,21 @@ cp -R "${SRCROOT}/${WRK_DIR}/Release-iphoneos/${FMK_RESOURCE_BUNDLE}.bundle" "${
 
 # Create the arm64e slice in Xcode 10.1 and lipo it with the device binary that was created with oldest supported Xcode version.
 # Move binary that was create with old Xcode to temp location.
+LIB_IPHONEOS_FINAL="${DEVICE_DIR}/lib${FMK_NAME}.a"
+if [ -z "$MS_ARM64E_XCODE_PATH" ] || [ ! -d "$MS_ARM64E_XCODE_PATH" ] ; then
+echo "Environment variable MS_ARM64E_XCODE_PATH not set or not a valid path."
+else
+echo "Building the arm64e slice."
 LIB_IPHONEOS_TEMP_DIR="${DEVICE_DIR}/temp"
 mkdir -p "${LIB_IPHONEOS_TEMP_DIR}"
 mv "${DEVICE_DIR}/lib${FMK_NAME}.a" "${LIB_IPHONEOS_TEMP_DIR}/lib${FMK_NAME}.a"
 
-LIB_IPHONEOS_FINAL="${DEVICE_DIR}/lib${FMK_NAME}.a"
-
 # Build with the Xcode version that supports arm64e.
-env DEVELOPER_DIR="/Applications/Xcode.app" /usr/bin/xcodebuild ARCHS="arm64e" -project "${FMK_NAME}.xcodeproj" -configuration "Release" -target "${TGT_NAME}"
+env DEVELOPER_DIR="${MS_ARM64E_XCODE_PATH}" /usr/bin/xcodebuild ARCHS="arm64e" -project "${FMK_NAME}.xcodeproj" -configuration "Release" -target "${TGT_NAME}"
 
 # Lipo the binaries that were built from various Xcode versions.
 lipo -create "${LIB_IPHONEOS_FINAL}" "${LIB_IPHONEOS_TEMP_DIR}/lib${FMK_NAME}.a"  -output "${LIB_IPHONEOS_FINAL}"
+fi
 
 # Uses the Lipo tool to merge both binary files (i386/x86_64 + armv7/armv7s/arm64/arm64e) into one universal final product.
 lipo -create "${LIB_IPHONEOS_FINAL}" "${SIMULATOR_DIR}/lib${FMK_NAME}.a" -output "${INSTALL_DIR}/${FMK_NAME}"
