@@ -61,7 +61,7 @@ lipo -create "${LIB_IPHONEOS_FINAL}" "${SIMULATOR_DIR}/lib${FMK_NAME}.a" -output
 # Add PLCrashReporter.
 if [ -z $(otool -L "${INSTALL_DIR}/${FMK_NAME}" | grep 'libCrashReporter') ]
 then
-libtool -static -o "${INSTALL_DIR}/${FMK_NAME}" "${INSTALL_DIR}/${FMK_NAME}" "${SRCROOT}/../Vendor/iOS/PLCrashReporter/CrashReporter.framework/Versions/A/CrashReporter"
+env DEVELOPER_DIR="/Applications/Xcode.app" /usr/bin/libtool -static  "${INSTALL_DIR}/${FMK_NAME}" "${SRCROOT}/../Vendor/iOS/PLCrashReporter/CrashReporter.framework/Versions/A/CrashReporter" -o "${INSTALL_DIR}/${FMK_NAME}"
 fi
 
 rm -r "${WRK_DIR}"
