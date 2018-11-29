@@ -7,6 +7,7 @@
 #import "MSCrashesPrivate.h"
 #import "MSCrashesTestUtil.h"
 #import "MSCrashesUtil.h"
+#import "MSDeviceTrackerPrivate.h"
 #import "MSErrorAttachmentLogInternal.h"
 #import "MSErrorLogFormatter.h"
 #import "MSException.h"
@@ -15,6 +16,7 @@
 #import "MSMockCrashesDelegate.h"
 #import "MSMockUserDefaults.h"
 #import "MSServiceAbstractProtected.h"
+#import "MSSessionContextPrivate.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+File.h"
 #import "MSWrapperCrashesHelper.h"
@@ -42,6 +44,10 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
 @property(nonatomic) MSCrashes *sut;
 
+@property(nonatomic) id deviceTrackerMock;
+
+@property(nonatomic) id sessionContextMock;
+
 @end
 
 @implementation MSCrashesTests
@@ -51,10 +57,22 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 - (void)setUp {
   [super setUp];
   self.sut = [MSCrashes new];
+  [MSDeviceTracker resetSharedInstance];
+  self.deviceTrackerMock = OCMClassMock([MSDeviceTracker class]);
+  OCMStub(ClassMethod([self.deviceTrackerMock sharedInstance])).andReturn(self.deviceTrackerMock);
+  [MSSessionContext resetSharedInstance];
+  self.sessionContextMock = OCMClassMock([MSSessionContext class]);
+  OCMStub(ClassMethod([self.sessionContextMock sharedInstance])).andReturn(self.sessionContextMock);
 }
 
 - (void)tearDown {
   [super tearDown];
+
+  // Reset mocked shared instances and stop mocking them.
+  [MSDeviceTracker resetSharedInstance];
+  [self.deviceTrackerMock stopMocking];
+  [MSSessionContext resetSharedInstance];
+  [self.sessionContextMock stopMocking];
 
   // Make sure sessionTracker removes all observers.
   [MSCrashes resetSharedInstance];
@@ -277,6 +295,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   // Then
   assertThat(self.sut.crashFiles, hasCountOf(0));
   assertThatLong([MSUtility contentsOfDirectory:self.sut.crashesPathComponent propertiesForKeys:nil].count, equalToLong(0));
+  OCMVerify([self.deviceTrackerMock clearDevices]);
+  OCMVerify([self.sessionContextMock clearSessionHistory]);
 }
 
 - (void)testProcessCrashesWithErrorAttachments {
@@ -323,6 +343,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   OCMExpect([channelUnitMock enqueueItem:validLog flags:MSFlagsDefault]);
   [self.sut startCrashProcessing];
   OCMVerifyAll(channelUnitMock);
+  OCMVerify([self.deviceTrackerMock clearDevices]);
+  OCMVerify([self.sessionContextMock clearSessionHistory]);
 }
 
 - (void)testDeleteAllFromCrashesDirectory {
@@ -364,6 +386,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   assertThat(self.sut.crashFiles, hasCountOf(0));
   assertThatLong([MSUtility contentsOfDirectory:self.sut.crashesPathComponent propertiesForKeys:nil].count, equalToLong(0));
   [settings stopMocking];
+  OCMVerify([self.deviceTrackerMock clearDevices]);
+  OCMVerify([self.sessionContextMock clearSessionHistory]);
 }
 
 - (void)testDeleteCrashReportsFromDisabledToEnabled {
@@ -793,6 +817,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   // Then
   XCTAssertEqual([reportIds count], numInvocations);
   XCTAssertTrue(alwaysSendVal);
+  OCMVerify([self.deviceTrackerMock clearDevices]);
+  OCMVerify([self.sessionContextMock clearSessionHistory]);
 }
 
 - (void)testSendOrAwaitWhenAlwaysSendIsFalseAndNotifyAlwaysSend {
@@ -831,6 +857,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // Then
   XCTAssertEqual([reports count], numInvocations);
+  OCMVerify([self.deviceTrackerMock clearDevices]);
+  OCMVerify([self.sessionContextMock clearSessionHistory]);
 }
 
 - (void)testSendOrAwaitWhenAlwaysSendIsFalseAndNotifySend {
@@ -869,6 +897,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // Then
   XCTAssertEqual([reportIds count], numInvocations);
+  OCMVerify([self.deviceTrackerMock clearDevices]);
+  OCMVerify([self.sessionContextMock clearSessionHistory]);
 }
 
 - (void)testSendOrAwaitWhenAlwaysSendIsFalseAndNotifyDontSend {
@@ -902,6 +932,8 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   // Then
   XCTAssertFalse(alwaysSendVal);
   XCTAssertEqual(0, numInvocations);
+  OCMVerify([self.deviceTrackerMock clearDevices]);
+  OCMVerify([self.sessionContextMock clearSessionHistory]);
 }
 
 - (void)testGetUnprocessedCrashReportsWhenThereAreNone {

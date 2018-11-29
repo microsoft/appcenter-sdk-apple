@@ -8,6 +8,7 @@
 #import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
 #import "MSCrashesUtil.h"
+#import "MSDeviceTracker.h"
 #import "MSEncrypter.h"
 #import "MSErrorAttachmentLog.h"
 #import "MSErrorAttachmentLogInternal.h"
@@ -323,7 +324,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       [self startDelayedCrashProcessing];
     } else {
       dispatch_semaphore_signal(self.delayedProcessingSemaphore);
-      [[MSSessionContext sharedInstance] clearSessionHistory];
+      [self clearContextHistory];
     }
 
     // More details on log if a debugger is attached.
@@ -342,9 +343,14 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     [self emptyLogBufferFiles];
     [self removeAnalyzerFile];
     [self.plCrashReporter purgePendingCrashReport];
-    [[MSSessionContext sharedInstance] clearSessionHistory];
+    [self clearContextHistory];
     MSLogInfo([MSCrashes logTag], @"Crashes service has been disabled.");
   }
+}
+
+- (void)clearContextHistory {
+  [[MSDeviceTracker sharedInstance] clearDevices];
+  [[MSSessionContext sharedInstance] clearSessionHistory];
 }
 
 #pragma mark - MSServiceInternal
@@ -1104,7 +1110,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     }
 
     // Return and do not continue with crash processing.
-    [[MSSessionContext sharedInstance] clearSessionHistory];
+    [self clearContextHistory];
     return;
   } else if (userConfirmation == MSUserConfirmationAlways) {
 
@@ -1142,7 +1148,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     [MSWrapperExceptionManager deleteWrapperExceptionWithUUIDString:report.incidentIdentifier];
     [self.crashFiles removeObject:fileURL];
   }
-  [[MSSessionContext sharedInstance] clearSessionHistory];
+  [self clearContextHistory];
 }
 
 + (void)resetSharedInstance {

@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Get session Id at specific time.
  *
- * @param date The timestamp for the ssession.
+ * @param date The timestamp for the session.
  *
  * @return The session Id at the given time.
  */
