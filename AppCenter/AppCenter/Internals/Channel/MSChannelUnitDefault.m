@@ -104,9 +104,6 @@
   if (item && !item.device) {
     item.device = [[MSDeviceTracker sharedInstance] device];
   }
-  if (item && !item.userId) {
-    item.userId = [[MSUserIdContext sharedInstance] userId];
-  }
   if (!item || ![item isValid]) {
     MSLogWarning([MSAppCenter logTag], @"Log is not valid.");
     return;
