@@ -240,6 +240,7 @@
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
   OCMStub([bundleMock preferredLocalizations]).andReturn(@[ expectedAppLocale ]);
   MSFlags expectedFlags = MSFlagsPersistenceNormal;
+  NSString *prefixedUserId = [NSString stringWithFormat:@"c:%@", self.sut.userId];
 
   // When
   NSArray<MSCommonSchemaLog *> *csLogs = [self.sut toCommonSchemaLogsWithFlags:MSFlagsPersistenceNormal];
@@ -267,6 +268,7 @@
 
     // User extension.
     XCTAssertNotNil(log.ext.userExt);
+    XCTAssertEqualObjects(log.ext.userExt.localId, prefixedUserId);
     XCTAssertEqualObjects(log.ext.userExt.locale, expectedLocale);
 
     // OS extension.
@@ -279,7 +281,6 @@
     XCTAssertEqualObjects(log.ext.appExt.appId, expectedAppId);
     XCTAssertEqualObjects(log.ext.appExt.ver, self.sut.device.appVersion);
     XCTAssertEqualObjects(log.ext.appExt.locale, expectedAppLocale);
-    XCTAssertEqualObjects(log.ext.appExt.userId, self.sut.userId);
 
     // Network extension.
     XCTAssertNotNil(log.ext.netExt);

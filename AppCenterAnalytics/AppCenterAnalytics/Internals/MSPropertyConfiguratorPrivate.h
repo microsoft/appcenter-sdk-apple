@@ -24,9 +24,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSString *appLocale;
 
 /**
- * The application userId to be overwritten.
+ * The userId to be overwritten.
  */
-@property(nonatomic, copy) NSString *appUserId;
+@property(nonatomic, copy) NSString *userId;
 
 /**
  * The transmission target which will have overwritten properties.

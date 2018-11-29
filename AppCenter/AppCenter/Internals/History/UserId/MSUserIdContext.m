@@ -1,4 +1,5 @@
 #import "MSAppCenterInternal.h"
+#import "MSConstants+Internal.h"
 #import "MSLogger.h"
 #import "MSUserIdContextPrivate.h"
 #import "MSUtility.h"
@@ -9,7 +10,7 @@
 static const int kMSMaxUserIdLength = 256;
 
 /*
- * Custom App User ID prefix for Common Schema.
+ * Custom User ID prefix for Common Schema.
  */
 static NSString *const kMSUserIdCustomPrefix = @"c";
 
@@ -108,7 +109,7 @@ static dispatch_once_t onceToken;
   }
 }
 
-+ (BOOL)checkUserIdValidForAppCenter:(nullable NSString *)userId {
++ (BOOL)isUserIdValidForAppCenter:(nullable NSString *)userId {
   if (userId && userId.length > kMSMaxUserIdLength) {
     MSLogError([MSAppCenter logTag], @"userId is limited to %d characters.", kMSMaxUserIdLength);
     return NO;
@@ -116,12 +117,12 @@ static dispatch_once_t onceToken;
   return YES;
 }
 
-+ (BOOL)checkUserIdValidForOneCollector:(nullable NSString *)userId {
++ (BOOL)isUserIdValidForOneCollector:(nullable NSString *)userId {
   if (!userId) {
     return YES;
   }
-  NSRange separator = [userId rangeOfString:@":"];
-  if (userId.length == 0 || separator.location == userId.length - 1) {
+  NSRange separator = [userId rangeOfString:kMSCommonSchemaPrefixSeparator];
+  if (userId.length == 0) {
     MSLogError([MSAppCenter logTag], @"userId must not be empty.");
     return NO;
   }
@@ -130,9 +131,19 @@ static dispatch_once_t onceToken;
     if (![prefix isEqualToString:kMSUserIdCustomPrefix]) {
       MSLogError([MSAppCenter logTag], @"userId prefix must be '%@', '%@' is not supported.", kMSUserIdCustomPrefix, prefix);
       return NO;
+    } else if (separator.location == userId.length - 1) {
+      MSLogError([MSAppCenter logTag], @"userId must not be empty.");
+      return NO;
     }
   }
   return YES;
+}
+
++ (nullable NSString *)prefixedUserIdFromUserId:(nullable NSString *)userId {
+  if (userId && [userId rangeOfString:kMSCommonSchemaPrefixSeparator].location == NSNotFound) {
+    return [NSString stringWithFormat:@"%@%@%@", kMSUserIdCustomPrefix, kMSCommonSchemaPrefixSeparator, userId];
+  }
+  return userId;
 }
 
 @end

@@ -6,7 +6,7 @@ class CommonSchemaPropertiesTableSection : SimplePropertiesTableSection {
   let kDeviceIdRow = 1
   let kNumberOfHeaderCells = 2
   let switchCellIdentifier = "collectdeviceidswitchcell"
-  let propertyKeys = ["App Name", "App Version", "App Locale", "App User Id"]
+  let propertyKeys = ["App Name", "App Version", "App Locale", "User Id"]
   var propertyValues: [String: [String]]!
   var transmissionTargetSelectorCell: MSAnalyticsTransmissionTargetSelectorViewCell?
   var collectDeviceIdStates: [String: Bool]!
@@ -15,7 +15,7 @@ class CommonSchemaPropertiesTableSection : SimplePropertiesTableSection {
     case AppName = 0
     case AppVersion
     case AppLocale
-    case AppUserId
+    case UserId
   }
 
   override var numberOfCustomHeaderCells: Int {
@@ -75,8 +75,8 @@ class CommonSchemaPropertiesTableSection : SimplePropertiesTableSection {
     case .AppLocale:
       target.propertyConfigurator.setAppLocale(sender.text!)
       break
-    case .AppUserId:
-      target.propertyConfigurator.setAppUserId(sender.text!)
+    case .UserId:
+      target.propertyConfigurator.setUserId(sender.text!)
       break
     }
   }

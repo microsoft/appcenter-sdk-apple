@@ -765,7 +765,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
                                }];
 }
 
-- (void)testSetValidUserId {
+- (void)testSetValidUserIdForAppCenter {
 
   // If
   NSString *userId = @"user123";
@@ -797,8 +797,8 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   XCTAssertNil([[MSUserIdContext sharedInstance] userId]);
 }
 
-
 - (void)testSetUserIdWithoutSecret {
+
   // If
   NSString *userId = @"user123";
 
@@ -832,21 +832,46 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   [MSAppCenter configureWithAppSecret:@"target=transmissionTargetToken"];
 
   // When
+  // Set an empty userId
   [MSAppCenter setUserId:@""];
 
   // Then
   XCTAssertNil([[MSUserIdContext sharedInstance] userId]);
 
   // When
+  // Set another empty userId
+  [MSAppCenter setUserId:@"c:"];
+
+  // Then
+  XCTAssertNil([[MSUserIdContext sharedInstance] userId]);
+
+  // When
+  // Set a userId with invalid prefix
+  [MSAppCenter setUserId:@"foobar:alice"];
+
+  // Then
+  XCTAssertNil([[MSUserIdContext sharedInstance] userId]);
+
+  // When
+  // Set a valid userId without prefix
   [MSAppCenter setUserId:@"alice"];
 
   // Then
   XCTAssertEqual([[MSUserIdContext sharedInstance] userId], @"alice");
 
   // When
+  // Set a valid userId with prefix c:
   [MSAppCenter setUserId:@"c:alice"];
 
   // Then
+  XCTAssertEqual([[MSUserIdContext sharedInstance] userId], @"c:alice");
+
+  // When
+  // Set a userId with invalid prefix again
+  [MSAppCenter setUserId:@"foobar:alice"];
+
+  // Then
+  // Current userId shouldn't be overridden by the invalid one.
   XCTAssertEqual([[MSUserIdContext sharedInstance] userId], @"c:alice");
 }
 

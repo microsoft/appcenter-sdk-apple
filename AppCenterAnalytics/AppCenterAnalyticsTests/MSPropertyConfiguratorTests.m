@@ -206,7 +206,7 @@
   [self.sut setAppLocale:@"en-US"];
   [self.sut setAppVersion:@"1.0.0"];
   [self.sut setAppName:@"tim"];
-  [self.sut setAppUserId:@"c:alice"];
+  [self.sut setUserId:@"c:alice"];
 
   // When
   [self.sut channel:channelMock prepareLog:csLog];

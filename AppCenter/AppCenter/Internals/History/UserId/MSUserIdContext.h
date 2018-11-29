@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return YES if valid, NO otherwise.
  */
-+ (BOOL)checkUserIdValidForAppCenter:(nullable NSString *)userId;
++ (BOOL)isUserIdValidForAppCenter:(nullable NSString *)userId;
 
 /**
  * Check if userId is valid for One Collector.
@@ -65,7 +65,16 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return YES if valid, NO otherwise.
  */
-+ (BOOL)checkUserIdValidForOneCollector:(nullable NSString *)userId;
++ (BOOL)isUserIdValidForOneCollector:(nullable NSString *)userId;
+
+/**
+ * Add 'c:' prefix to userId if the userId has no prefix.
+ *
+ * @param userId userId.
+ *
+ * @return prefixed userId or null if the userId was null.
+ */
++ (nullable NSString *)prefixedUserIdFromUserId:(nullable NSString *)userId;
 
 @end
 

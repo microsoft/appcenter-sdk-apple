@@ -83,7 +83,7 @@
 }
 
 + (NSDictionary *)userExtensionDummies {
-  return @{kMSUserLocalId : @"bob", kMSUserLocale : @"en-us"};
+  return @{kMSUserLocalId : @"c:bob", kMSUserLocale : @"en-us"};
 }
 
 + (NSDictionary *)locExtensionDummies {
