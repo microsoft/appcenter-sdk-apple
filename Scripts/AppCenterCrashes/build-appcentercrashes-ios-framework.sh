@@ -41,9 +41,24 @@ cp -f "${SRCROOT}/${FMK_NAME}/Support/iOS.modulemap" "${INSTALL_DIR}/Modules/mod
 # Copies the headers and resources files to the final product folder.
 cp -R "${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/" "${INSTALL_DIR}/Headers/"
 
-# Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.
-lipo -create "${DEVICE_DIR}/lib${FMK_NAME}.a" "${SIMULATOR_DIR}/lib${FMK_NAME}.a" -output "${INSTALL_DIR}/${FMK_NAME}"
+# Create the arm64e slice in Xcode 10.1 and lipo it with the device binary that was created with oldest supported Xcode version.
+# Move binary that was create with old Xcode to temp location.
+LIB_IPHONEOS_TEMP_DIR="${DEVICE_DIR}/temp"
+mkdir -p "${LIB_IPHONEOS_TEMP_DIR}"
+mv "${DEVICE_DIR}/lib${FMK_NAME}.a" "${LIB_IPHONEOS_TEMP_DIR}/lib${FMK_NAME}.a"
 
+LIB_IPHONEOS_FINAL="${DEVICE_DIR}/lib${FMK_NAME}.a"
+
+# Build with the Xcode version that supports arm64e.
+env DEVELOPER_DIR="/Applications/Xcode.app" /usr/bin/xcodebuild ARCHS="arm64e" -project "${FMK_NAME}.xcodeproj" -configuration "Release" -target "${TGT_NAME}"
+
+# Lipo the binaries that were built from various Xcode versions.
+lipo -create "${LIB_IPHONEOS_FINAL}" "${LIB_IPHONEOS_TEMP_DIR}/lib${FMK_NAME}.a"  -output "${LIB_IPHONEOS_FINAL}"
+
+# Uses the Lipo tool to merge both binary files (i386/x86_64 + armv7/armv7s/arm64/arm64e) into one universal final product.
+lipo -create "${LIB_IPHONEOS_FINAL}" "${SIMULATOR_DIR}/lib${FMK_NAME}.a" -output "${INSTALL_DIR}/${FMK_NAME}"
+
+# Add PLCrashReporter.
 if [ -z $(otool -L "${INSTALL_DIR}/${FMK_NAME}" | grep 'libCrashReporter') ]
 then
 libtool -static -o "${INSTALL_DIR}/${FMK_NAME}" "${INSTALL_DIR}/${FMK_NAME}" "${SRCROOT}/../Vendor/iOS/PLCrashReporter/CrashReporter.framework/Versions/A/CrashReporter"
