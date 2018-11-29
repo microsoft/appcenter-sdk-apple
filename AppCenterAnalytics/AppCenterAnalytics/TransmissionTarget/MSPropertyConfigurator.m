@@ -51,7 +51,8 @@ static const char deviceIdPrefix = 'i';
 
 - (void)setUserId:(NSString *)userId {
   if ([MSUserIdContext isUserIdValidForOneCollector:userId]) {
-    _userId = userId;
+    NSString *prefixedUserId = [MSUserIdContext prefixedUserIdFromUserId:userId];
+    _userId = prefixedUserId;
   }
 }
 
