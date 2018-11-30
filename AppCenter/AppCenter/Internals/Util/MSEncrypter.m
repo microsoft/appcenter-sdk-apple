@@ -40,8 +40,6 @@ static NSString *kMSEncryptionKeyTag = @"kMSEncryptionKeyTag";
   // Load a key with keyTag.
   NSData *key = [MSEncrypter loadKeyFromKeychainWithTag:keyTag];
   if (!key) {
-
-    // Generate a new one if it doesn't exist.
     key = [MSEncrypter generateKeyWithTag:keyTag];
   }
 
