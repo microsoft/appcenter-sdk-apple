@@ -9,6 +9,10 @@
 * **[Fix]** Fix reporting carrier information using new iOS 12 APIs when running on iOS 12+.
 * **[Fix]** Fix a memory leak issue during executing SQL queries.
 
+### AppCenterCrashes
+
+* **[Fix]** Add preview support for arm64e CPU architectures by using PLCrashReporter 1.2.3-rc1.
+
 ___
 
 ## Version 1.11.0
