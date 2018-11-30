@@ -1340,44 +1340,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                }];
 }
 
-- (void)testEnqueueItemSetUserIdToLog {
-
-  // If
-  [self initChannelEndJobExpectation];
-  id<MSLog> enqueuedLog = [self getValidMockLog];
-  NSString *expectedUserId = @"Fake-UserId";
-  __block NSString *actualUserId;
-  id userIdContextMock = OCMClassMock([MSUserIdContext class]);
-  OCMStub([userIdContextMock sharedInstance]).andReturn(userIdContextMock);
-  OCMStub([userIdContextMock userId]).andReturn(expectedUserId);
-  self.storageMock = OCMProtocolMock(@protocol(MSStorage));
-  OCMStub([self.storageMock saveLog:OCMOCK_ANY withGroupId:OCMOCK_ANY flags:MSFlagsPersistenceNormal])
-      .andDo(^(NSInvocation *invocation) {
-        MSAbstractLog *log;
-        [invocation getArgument:&log atIndex:2];
-        actualUserId = log.userId;
-        [self enqueueChannelEndJobExpectation];
-      })
-      .andReturn(YES);
-  self.sut = [[MSChannelUnitDefault alloc] initWithIngestion:self.ingestionMock
-                                                     storage:self.storageMock
-                                               configuration:self.configMock
-                                           logsDispatchQueue:self.logsDispatchQueue];
-
-  // When
-  [self.sut enqueueItem:enqueuedLog flags:MSFlagsDefault];
-
-  // Then
-  [self waitForExpectationsWithTimeout:1
-                               handler:^(NSError *_Nullable error) {
-                                 if (error) {
-                                   XCTFail(@"Expectation Failed with error: %@", error);
-                                 }
-                                 XCTAssertEqual(actualUserId, expectedUserId);
-                               }];
-  [userIdContextMock stopMocking];
-}
-
 - (void)testEnqueueItemDoesNotSetUserIdWhenItAlreadyHasOne {
 
   // If

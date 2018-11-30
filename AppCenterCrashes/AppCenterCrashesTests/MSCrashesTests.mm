@@ -682,8 +682,10 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // If
   __block NSString *type;
+  __block NSString *userId;
   __block NSString *errorId;
   __block MSException *exception;
+  NSString *expectedUserId = @"alice";
   id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
   OCMStub([channelGroupMock addChannelUnitWithConfiguration:[OCMArg checkWithBlock:^BOOL(MSChannelUnitConfiguration *configuration) {
@@ -695,11 +697,12 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
         MSHandledErrorLog *log;
         [invocation getArgument:&log atIndex:2];
         type = log.type;
+        userId = log.userId;
         errorId = log.errorId;
         exception = log.exception;
       });
-
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  [MSAppCenter setUserId:expectedUserId];
   [[MSCrashes sharedInstance] startWithChannelGroup:channelGroupMock
                                           appSecret:kMSTestAppSecret
                             transmissionTargetToken:nil
@@ -714,6 +717,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // Then
   assertThat(type, is(kMSTypeHandledError));
+  assertThat(userId, is(expectedUserId));
   assertThat(errorId, notNilValue());
   assertThat(exception, is(expectedException));
 }
@@ -722,9 +726,11 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // If
   __block NSString *type;
+  __block NSString *userId;
   __block NSString *errorId;
   __block MSException *exception;
   __block NSDictionary<NSString *, NSString *> *properties;
+  NSString *expectedUserId = @"alice";
   id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
   OCMStub([channelGroupMock addChannelUnitWithConfiguration:[OCMArg checkWithBlock:^BOOL(MSChannelUnitConfiguration *configuration) {
@@ -736,10 +742,12 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
         MSHandledErrorLog *log;
         [invocation getArgument:&log atIndex:2];
         type = log.type;
+        userId = log.userId;
         errorId = log.errorId;
         exception = log.exception;
         properties = log.properties;
       });
+  [MSAppCenter setUserId:expectedUserId];
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
   [[MSCrashes sharedInstance] startWithChannelGroup:channelGroupMock
                                           appSecret:kMSTestAppSecret
@@ -756,6 +764,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // Then
   assertThat(type, is(kMSTypeHandledError));
+  assertThat(userId, is(expectedUserId));
   assertThat(errorId, notNilValue());
   assertThat(exception, is(expectedException));
   assertThat(properties, is(expectedProperties));
