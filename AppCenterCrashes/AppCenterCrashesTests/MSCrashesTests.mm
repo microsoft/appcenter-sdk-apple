@@ -59,10 +59,10 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   self.sut = [MSCrashes new];
   [MSDeviceTracker resetSharedInstance];
   self.deviceTrackerMock = OCMClassMock([MSDeviceTracker class]);
-  OCMStub(ClassMethod([self.deviceTrackerMock sharedInstance])).andReturn(self.deviceTrackerMock);
+  OCMStub([self.deviceTrackerMock sharedInstance]).andReturn(self.deviceTrackerMock);
   [MSSessionContext resetSharedInstance];
   self.sessionContextMock = OCMClassMock([MSSessionContext class]);
-  OCMStub(ClassMethod([self.sessionContextMock sharedInstance])).andReturn(self.sessionContextMock);
+  OCMStub([self.sessionContextMock sharedInstance]).andReturn(self.sessionContextMock);
 }
 
 - (void)tearDown {
@@ -387,7 +387,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   assertThatLong([MSUtility contentsOfDirectory:self.sut.crashesPathComponent propertiesForKeys:nil].count, equalToLong(0));
   [settings stopMocking];
   OCMVerify([self.deviceTrackerMock clearDevices]);
-  OCMVerify([self.sessionContextMock clearSessionHistoryAndKeepCurrentSession:NO]);
+  OCMVerify([self.sessionContextMock clearSessionHistoryAndKeepCurrentSession:YES]);
 }
 
 - (void)testDeleteCrashReportsFromDisabledToEnabled {
