@@ -75,10 +75,12 @@ static dispatch_once_t onceToken;
   }
 }
 
-- (void)clearSessionHistory {
+- (void)clearSessionHistoryAndKeepCurrentSession:(BOOL)keepCurrentSession {
   @synchronized(self) {
     [self.sessionHistory removeAllObjects];
-    [self.sessionHistory addObject:self.currentSessionInfo];
+    if (keepCurrentSession) {
+      [self.sessionHistory addObject:self.currentSessionInfo];
+    }
     [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.sessionHistory] forKey:kMSSessionIdHistoryKey];
     MSLogVerbose([MSAppCenter logTag], @"Cleared old sessions.");
   }

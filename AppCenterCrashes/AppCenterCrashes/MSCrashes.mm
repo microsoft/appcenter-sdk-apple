@@ -324,7 +324,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       [self startDelayedCrashProcessing];
     } else {
       dispatch_semaphore_signal(self.delayedProcessingSemaphore);
-      [self clearContextHistory];
+      [self clearContextHistoryAndKeepCurrentSession:YES];
     }
 
     // More details on log if a debugger is attached.
@@ -343,14 +343,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     [self emptyLogBufferFiles];
     [self removeAnalyzerFile];
     [self.plCrashReporter purgePendingCrashReport];
-    [self clearContextHistory];
+    [self clearContextHistoryAndKeepCurrentSession:NO];
     MSLogInfo([MSCrashes logTag], @"Crashes service has been disabled.");
   }
-}
-
-- (void)clearContextHistory {
-  [[MSDeviceTracker sharedInstance] clearDevices];
-  [[MSSessionContext sharedInstance] clearSessionHistory];
 }
 
 #pragma mark - MSServiceInternal
@@ -402,6 +397,11 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 - (void)setEnableMachExceptionHandler:(BOOL)enableMachExceptionHandler {
   _enableMachExceptionHandler = enableMachExceptionHandler;
+}
+
+- (void)clearContextHistoryAndKeepCurrentSession:(BOOL)keepCurrentSession {
+  [[MSDeviceTracker sharedInstance] clearDevices];
+  [[MSSessionContext sharedInstance] clearSessionHistoryAndKeepCurrentSession:keepCurrentSession];
 }
 
 #pragma mark - Channel Delegate
@@ -1110,7 +1110,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     }
 
     // Return and do not continue with crash processing.
-    [self clearContextHistory];
+    [self clearContextHistoryAndKeepCurrentSession:YES];
     return;
   } else if (userConfirmation == MSUserConfirmationAlways) {
 
@@ -1148,7 +1148,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     [MSWrapperExceptionManager deleteWrapperExceptionWithUUIDString:report.incidentIdentifier];
     [self.crashFiles removeObject:fileURL];
   }
-  [self clearContextHistory];
+  [self clearContextHistoryAndKeepCurrentSession:YES];
 }
 
 + (void)resetSharedInstance {

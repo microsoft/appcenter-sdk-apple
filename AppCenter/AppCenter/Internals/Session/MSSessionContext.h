@@ -46,8 +46,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Clear all session Id history.
+ *
+ * @param keepCurrentSession YES to keep current session, NO to delete every entry.
  */
-- (void)clearSessionHistory;
+- (void)clearSessionHistoryAndKeepCurrentSession:(BOOL)keepCurrentSession;
 
 @end
 

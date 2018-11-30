@@ -296,7 +296,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   assertThat(self.sut.crashFiles, hasCountOf(0));
   assertThatLong([MSUtility contentsOfDirectory:self.sut.crashesPathComponent propertiesForKeys:nil].count, equalToLong(0));
   OCMVerify([self.deviceTrackerMock clearDevices]);
-  OCMVerify([self.sessionContextMock clearSessionHistory]);
+  OCMVerify([self.sessionContextMock clearSessionHistoryAndKeepCurrentSession:YES]);
 }
 
 - (void)testProcessCrashesWithErrorAttachments {
@@ -344,7 +344,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   [self.sut startCrashProcessing];
   OCMVerifyAll(channelUnitMock);
   OCMVerify([self.deviceTrackerMock clearDevices]);
-  OCMVerify([self.sessionContextMock clearSessionHistory]);
+  OCMVerify([self.sessionContextMock clearSessionHistoryAndKeepCurrentSession:YES]);
 }
 
 - (void)testDeleteAllFromCrashesDirectory {
@@ -387,7 +387,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   assertThatLong([MSUtility contentsOfDirectory:self.sut.crashesPathComponent propertiesForKeys:nil].count, equalToLong(0));
   [settings stopMocking];
   OCMVerify([self.deviceTrackerMock clearDevices]);
-  OCMVerify([self.sessionContextMock clearSessionHistory]);
+  OCMVerify([self.sessionContextMock clearSessionHistoryAndKeepCurrentSession:NO]);
 }
 
 - (void)testDeleteCrashReportsFromDisabledToEnabled {
@@ -818,7 +818,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   XCTAssertEqual([reportIds count], numInvocations);
   XCTAssertTrue(alwaysSendVal);
   OCMVerify([self.deviceTrackerMock clearDevices]);
-  OCMVerify([self.sessionContextMock clearSessionHistory]);
+  OCMVerify([self.sessionContextMock clearSessionHistoryAndKeepCurrentSession:YES]);
 }
 
 - (void)testSendOrAwaitWhenAlwaysSendIsFalseAndNotifyAlwaysSend {
@@ -858,7 +858,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   // Then
   XCTAssertEqual([reports count], numInvocations);
   OCMVerify([self.deviceTrackerMock clearDevices]);
-  OCMVerify([self.sessionContextMock clearSessionHistory]);
+  OCMVerify([self.sessionContextMock clearSessionHistoryAndKeepCurrentSession:YES]);
 }
 
 - (void)testSendOrAwaitWhenAlwaysSendIsFalseAndNotifySend {
@@ -898,7 +898,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   // Then
   XCTAssertEqual([reportIds count], numInvocations);
   OCMVerify([self.deviceTrackerMock clearDevices]);
-  OCMVerify([self.sessionContextMock clearSessionHistory]);
+  OCMVerify([self.sessionContextMock clearSessionHistoryAndKeepCurrentSession:YES]);
 }
 
 - (void)testSendOrAwaitWhenAlwaysSendIsFalseAndNotifyDontSend {
@@ -933,7 +933,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   XCTAssertFalse(alwaysSendVal);
   XCTAssertEqual(0, numInvocations);
   OCMVerify([self.deviceTrackerMock clearDevices]);
-  OCMVerify([self.sessionContextMock clearSessionHistory]);
+  OCMVerify([self.sessionContextMock clearSessionHistoryAndKeepCurrentSession:YES]);
 }
 
 - (void)testGetUnprocessedCrashReportsWhenThereAreNone {
