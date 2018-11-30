@@ -8,6 +8,7 @@
 #import "MSDeviceTracker.h"
 #import "MSIngestionProtocol.h"
 #import "MSStorage.h"
+#import "MSUserIdContext.h"
 #import "MSUtility+StringFormatting.h"
 
 @implementation MSChannelUnitDefault

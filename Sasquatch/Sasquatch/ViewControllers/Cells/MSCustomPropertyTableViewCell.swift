@@ -86,9 +86,6 @@ import UIKit
     self.typeTextField.delegate = self.typePickerView
     self.typeTextField.tintColor = UIColor.clear
     self.datePickerView = MSDatePicker(textField: self.valueTextField)
-    self.keyTextField.addTarget(self, action: #selector(onChangeKey), for: .editingChanged)
-    self.valueTextField.addTarget(self, action: #selector(onChangeValue), for: .editingChanged)
-    self.boolValue.addTarget(self, action: #selector(onChangeValue), for: .valueChanged)
     prepareForReuse()
   }
   
@@ -97,7 +94,11 @@ import UIKit
     state = ("", CustomPropertyType.String, "")
   }
 
-  func onChangeKey() {
+  @IBAction func dismissKeyboard(_ sender: UITextField!) {
+    sender.resignFirstResponder()
+  }
+
+  @IBAction func onChangeKey() {
     self.onChange?(self.state)
   }
 
@@ -153,7 +154,7 @@ import UIKit
     tableView?.endUpdates()
   }
 
-  func onChangeValue() {
+  @IBAction func onChangeValue() {
     self.onChange?(self.state)
   }
 

@@ -26,6 +26,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   @IBOutlet weak var deviceIdLabel: UILabel!
   @IBOutlet weak var storageMaxSizeField: UITextField!
   @IBOutlet weak var storageFileSizeLabel: UILabel!
+  @IBOutlet weak var userIdField: UITextField!
 
   var appCenter: AppCenterDelegate!
   private var startupModePicker: MSEnumPicker<StartupMode>?
@@ -83,6 +84,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     self.logUrl.text = appCenter.logUrl()
     self.sdkVersion.text = appCenter.sdkVersion()
     self.deviceIdLabel.text = UIDevice.current.identifierForVendor?.uuidString
+    self.userIdField.text = UserDefaults.standard.string(forKey: kMSUserIdKey)
 
     // Make sure the UITabBarController does not cut off the last cell.
     self.edgesForExtendedLayout = []
@@ -123,6 +125,16 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     updateViewState()
   }
 
+  @IBAction func userIdChanged(_ sender: UITextField) {
+    let userId = sender.text
+    UserDefaults.standard.set(userId, forKey: kMSUserIdKey)
+    appCenter.setUserId(userId)
+  }
+
+  @IBAction func dismissKeyboard(_ sender: UITextField!) {
+    sender.resignFirstResponder()
+  }
+
   func storageMaxSizeUpdated(_ sender: UITextField) {
     let maxSize = Int(sender.text ?? "0") ?? 0
     sender.text = "\(maxSize)"
@@ -139,7 +151,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   }
 
   func doneClicked() {
-    self.storageMaxSizeField.resignFirstResponder()
+    dismissKeyboard(self.storageMaxSizeField)
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

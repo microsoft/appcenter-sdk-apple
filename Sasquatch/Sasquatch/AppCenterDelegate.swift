@@ -19,7 +19,8 @@ import AppCenter
   func sdkVersion() -> String
   func isDebuggerAttached() -> Bool
   func startAnalyticsFromLibrary()
-  
+  func setUserId(_ userId: String?)
+
   // Modules section.
   func isAnalyticsEnabled() -> Bool
   func isCrashesEnabled() -> Bool

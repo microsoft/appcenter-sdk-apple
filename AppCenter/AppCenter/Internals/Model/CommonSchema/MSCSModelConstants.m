@@ -22,6 +22,7 @@ NSString *const kMSFieldDelimiter = @"f";
 
 #pragma mark - MSUserExtension
 
+NSString *const kMSUserLocalId = @"localId";
 NSString *const kMSUserLocale = @"locale";
 
 #pragma mark - MSDeviceExtension

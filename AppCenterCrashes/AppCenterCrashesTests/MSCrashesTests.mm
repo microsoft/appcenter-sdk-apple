@@ -18,6 +18,7 @@
 #import "MSServiceAbstractProtected.h"
 #import "MSSessionContextPrivate.h"
 #import "MSTestFrameworks.h"
+#import "MSUserIdContextPrivate.h"
 #import "MSUtility+File.h"
 #import "MSWrapperCrashesHelper.h"
 
@@ -228,7 +229,6 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   // When
   OCMStub([self.sut shouldAlwaysSend]).andReturn(YES);
   [self.sut startCrashProcessing];
-  OCMStub([self.sut shouldAlwaysSend]).andReturn(NO);
 
   // Then
   assertThat(self.sut.crashFiles, hasCountOf(0));
@@ -706,8 +706,10 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // If
   __block NSString *type;
+  __block NSString *userId;
   __block NSString *errorId;
   __block MSException *exception;
+  NSString *expectedUserId = @"alice";
   id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
   OCMStub([channelGroupMock addChannelUnitWithConfiguration:[OCMArg checkWithBlock:^BOOL(MSChannelUnitConfiguration *configuration) {
@@ -719,11 +721,12 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
         MSHandledErrorLog *log;
         [invocation getArgument:&log atIndex:2];
         type = log.type;
+        userId = log.userId;
         errorId = log.errorId;
         exception = log.exception;
       });
-
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  [MSAppCenter setUserId:expectedUserId];
   [[MSCrashes sharedInstance] startWithChannelGroup:channelGroupMock
                                           appSecret:kMSTestAppSecret
                             transmissionTargetToken:nil
@@ -738,6 +741,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // Then
   assertThat(type, is(kMSTypeHandledError));
+  assertThat(userId, is(expectedUserId));
   assertThat(errorId, notNilValue());
   assertThat(exception, is(expectedException));
 }
@@ -746,9 +750,11 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // If
   __block NSString *type;
+  __block NSString *userId;
   __block NSString *errorId;
   __block MSException *exception;
   __block NSDictionary<NSString *, NSString *> *properties;
+  NSString *expectedUserId = @"alice";
   id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
   id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
   OCMStub([channelGroupMock addChannelUnitWithConfiguration:[OCMArg checkWithBlock:^BOOL(MSChannelUnitConfiguration *configuration) {
@@ -760,10 +766,12 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
         MSHandledErrorLog *log;
         [invocation getArgument:&log atIndex:2];
         type = log.type;
+        userId = log.userId;
         errorId = log.errorId;
         exception = log.exception;
         properties = log.properties;
       });
+  [MSAppCenter setUserId:expectedUserId];
   [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
   [[MSCrashes sharedInstance] startWithChannelGroup:channelGroupMock
                                           appSecret:kMSTestAppSecret
@@ -780,6 +788,7 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
 
   // Then
   assertThat(type, is(kMSTypeHandledError));
+  assertThat(userId, is(expectedUserId));
   assertThat(errorId, notNilValue());
   assertThat(exception, is(expectedException));
   assertThat(properties, is(expectedProperties));
@@ -1048,6 +1057,105 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
     }
     XCTAssertTrue(foundReport);
   }
+}
+
+- (void)testCrashesSetCorrectUserIdToLogs {
+
+  // Wait for creation of buffers to avoid corruption on OCMPartialMock.
+  dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
+
+  // If
+  __block XCTestExpectation *expectation = [self expectationWithDescription:@"Channel received a log"];
+  __block NSString *expectedUserId = @"bob";
+  __block NSString *actualUserId;
+  self.sut = OCMPartialMock(self.sut);
+  OCMStub([self.sut startDelayedCrashProcessing]).andDo(nil);
+  id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  assertThatBool([MSCrashesTestUtil copyFixtureCrashReportWithFileName:@"live_report_exception"], isTrue());
+  id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:[OCMArg checkWithBlock:^BOOL(MSChannelUnitConfiguration *configuration) {
+                              return [configuration.groupId isEqualToString:@"Crashes"];
+                            }]])
+      .andReturn(channelUnitMock);
+  OCMStub([channelUnitMock enqueueItem:OCMOCK_ANY flags:MSFlagsPersistenceCritical]).andDo(^(NSInvocation *invocation) {
+    MSAbstractLog *log;
+    [invocation getArgument:&log atIndex:2];
+    actualUserId = log.userId;
+    [expectation fulfill];
+  });
+  [self.sut startWithChannelGroup:channelGroupMock appSecret:kMSTestAppSecret transmissionTargetToken:nil fromApplication:YES];
+
+  // Mock history
+  MSMockUserDefaults *settings = [MSMockUserDefaults new];
+  __block NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+  __block NSDate *date;
+
+  // When
+  id dateMock = OCMClassMock([NSDate class]);
+  OCMStub(ClassMethod([dateMock date])).andDo(^(NSInvocation *invocation) {
+    // 5 mins ago.
+    NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
+    [dateComponents setYear:2013];
+    [dateComponents setMonth:9];
+    [dateComponents setDay:25];
+    [dateComponents setHour:10];
+    [dateComponents setMinute:50];
+    [dateComponents setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
+    date = [calendar dateFromComponents:dateComponents];
+    [invocation setReturnValue:&date];
+  });
+  [[MSUserIdContext sharedInstance] setUserId:@"alice"];
+  [dateMock stopMocking];
+
+  [MSUserIdContext resetSharedInstance];
+  dateMock = OCMClassMock([NSDate class]);
+  OCMStub(ClassMethod([dateMock date])).andDo(^(NSInvocation *invocation) {
+    // 1 mins ago.
+    NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
+    [dateComponents setYear:2013];
+    [dateComponents setMonth:9];
+    [dateComponents setDay:25];
+    [dateComponents setHour:10];
+    [dateComponents setMinute:54];
+    [dateComponents setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
+    date = [calendar dateFromComponents:dateComponents];
+    [invocation setReturnValue:&date];
+  });
+  [[MSUserIdContext sharedInstance] setUserId:expectedUserId];
+  [dateMock stopMocking];
+
+  [MSUserIdContext resetSharedInstance];
+  dateMock = OCMClassMock([NSDate class]);
+  OCMStub(ClassMethod([dateMock date])).andDo(^(NSInvocation *invocation) {
+    // 5 mins after.
+    NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
+    [dateComponents setYear:2013];
+    [dateComponents setMonth:9];
+    [dateComponents setDay:25];
+    [dateComponents setHour:11];
+    [dateComponents setMinute:0];
+    [dateComponents setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
+    date = [calendar dateFromComponents:dateComponents];
+    [invocation setReturnValue:&date];
+  });
+  [[MSUserIdContext sharedInstance] setUserId:@"charlie"];
+  [dateMock stopMocking];
+
+  // Process crash.
+  [self.sut startCrashProcessing];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+
+                                 // The fixture's timestamp is 2013-09-25 10:55:49
+                                 XCTAssertEqualObjects(actualUserId, expectedUserId);
+                               }];
+
+  [settings stopMocking];
 }
 
 #pragma mark Helper

@@ -4,6 +4,7 @@
 #import "MSAppExtension.h"
 #import "MSCSExtensions.h"
 #import "MSCSModelConstants.h"
+#import "MSConstants+Internal.h"
 #import "MSDevice.h"
 #import "MSDeviceExtension.h"
 #import "MSDeviceInternal.h"
@@ -13,8 +14,14 @@
 #import "MSProtocolExtension.h"
 #import "MSSDKExtension.h"
 #import "MSUserExtension.h"
+#import "MSUserIdContext.h"
 #import "MSUtility+Date.h"
 #import "MSUtility+StringFormatting.h"
+
+/**
+ * App namespace prefix for common schema.
+ */
+static NSString *const kMSAppNamespacePrefix = @"I";
 
 @implementation MSAbstractLog
 
@@ -22,6 +29,7 @@
 @synthesize timestamp = _timestamp;
 @synthesize sid = _sid;
 @synthesize distributionGroupId = _distributionGroupId;
+@synthesize userId = _userId;
 @synthesize device = _device;
 @synthesize tag = _tag;
 
@@ -47,6 +55,9 @@
   if (self.distributionGroupId) {
     dict[kMSDistributionGroupId] = self.distributionGroupId;
   }
+  if (self.userId) {
+    dict[kMSUserId] = self.userId;
+  }
   if (self.device) {
     dict[kMSDevice] = [self.device serializeToDictionary];
   }
@@ -66,6 +77,7 @@
          ((!self.timestamp && !log.timestamp) || [self.timestamp isEqualToDate:log.timestamp]) &&
          ((!self.sid && !log.sid) || [self.sid isEqualToString:log.sid]) &&
          ((!self.distributionGroupId && !log.distributionGroupId) || [self.distributionGroupId isEqualToString:log.distributionGroupId]) &&
+         ((!self.userId && !log.userId) || [self.userId isEqualToString:log.userId]) &&
          ((!self.device && !log.device) || [self.device isEqual:log.device]);
 }
 
@@ -78,6 +90,7 @@
     _timestamp = [coder decodeObjectForKey:kMSTimestamp];
     _sid = [coder decodeObjectForKey:kMSSId];
     _distributionGroupId = [coder decodeObjectForKey:kMSDistributionGroupId];
+    _userId = [coder decodeObjectForKey:kMSUserId];
     _device = [coder decodeObjectForKey:kMSDevice];
   }
   return self;
@@ -88,6 +101,7 @@
   [coder encodeObject:self.timestamp forKey:kMSTimestamp];
   [coder encodeObject:self.sid forKey:kMSSId];
   [coder encodeObject:self.distributionGroupId forKey:kMSDistributionGroupId];
+  [coder encodeObject:self.userId forKey:kMSUserId];
   [coder encodeObject:self.device forKey:kMSDevice];
 }
 
@@ -164,6 +178,7 @@
 
   // User extension.
   csLog.ext.userExt = [MSUserExtension new];
+  csLog.ext.userExt.localId = [MSUserIdContext prefixedUserIdFromUserId:self.userId];
 
   // FIXME Country code can be wrong if the locale doesn't correspond to the region in the setting (i.e.:fr_US). Convert user local to use
   // dash (-) as the separator as described in RFC 4646.  E.g., zh-Hans-CN.
@@ -176,7 +191,8 @@
 
   // App extension.
   csLog.ext.appExt = [MSAppExtension new];
-  csLog.ext.appExt.appId = [NSString stringWithFormat:@"I:%@", self.device.appNamespace];
+  csLog.ext.appExt.appId =
+      [NSString stringWithFormat:@"%@%@%@", kMSAppNamespacePrefix, kMSCommonSchemaPrefixSeparator, self.device.appNamespace];
   csLog.ext.appExt.ver = self.device.appVersion;
   csLog.ext.appExt.locale = [[[NSBundle mainBundle] preferredLocalizations] firstObject];
 

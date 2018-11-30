@@ -6,7 +6,7 @@ class CommonSchemaPropertiesTableSection : SimplePropertiesTableSection {
   let kDeviceIdRow = 1
   let kNumberOfHeaderCells = 2
   let switchCellIdentifier = "collectdeviceidswitchcell"
-  let propertyKeys = ["App Name", "App Version", "App Locale"]
+  let propertyKeys = ["App Name", "App Version", "App Locale", "User Id"]
   var propertyValues: [String: [String]]!
   var transmissionTargetSelectorCell: MSAnalyticsTransmissionTargetSelectorViewCell?
   var collectDeviceIdStates: [String: Bool]!
@@ -15,6 +15,7 @@ class CommonSchemaPropertiesTableSection : SimplePropertiesTableSection {
     case AppName = 0
     case AppVersion
     case AppLocale
+    case UserId
   }
 
   override var numberOfCustomHeaderCells: Int {
@@ -64,17 +65,18 @@ class CommonSchemaPropertiesTableSection : SimplePropertiesTableSection {
     let propertyIndex = getCellRow(forTextField: sender) - self.propertyCellOffset
     let target = MSTransmissionTargets.shared.transmissionTargets[selectedTarget!]!
     propertyValues[selectedTarget!]![propertyIndex] = sender.text!
-    switch propertyIndex {
-    case CommonSchemaPropertyRow.AppName.rawValue:
+    switch CommonSchemaPropertyRow(rawValue: propertyIndex)! {
+    case .AppName:
       target.propertyConfigurator.setAppName(sender.text!)
       break
-    case CommonSchemaPropertyRow.AppVersion.rawValue:
+    case .AppVersion:
       target.propertyConfigurator.setAppVersion(sender.text!)
       break
-    case CommonSchemaPropertyRow.AppLocale.rawValue:
+    case .AppLocale:
       target.propertyConfigurator.setAppLocale(sender.text!)
       break
-    default:
+    case .UserId:
+      target.propertyConfigurator.setUserId(sender.text!)
       break
     }
   }
