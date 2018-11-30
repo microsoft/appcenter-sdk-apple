@@ -66,7 +66,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   // Mock session context
   [MSSessionContext resetSharedInstance];
   self.sessionContextMock = OCMClassMock([MSSessionContext class]);
-  OCMStub(ClassMethod([self.sessionContextMock sharedInstance])).andReturn(self.sessionContextMock);
+  OCMStub([self.sessionContextMock sharedInstance]).andReturn(self.sessionContextMock);
 }
 
 - (void)tearDown {

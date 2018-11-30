@@ -324,7 +324,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       [self startDelayedCrashProcessing];
     } else {
       dispatch_semaphore_signal(self.delayedProcessingSemaphore);
-      [self clearContextHistoryAndKeepCurrentSession:YES];
+      [self clearContextHistoryAndKeepCurrentSession];
     }
 
     // More details on log if a debugger is attached.
@@ -343,7 +343,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     [self emptyLogBufferFiles];
     [self removeAnalyzerFile];
     [self.plCrashReporter purgePendingCrashReport];
-    [self clearContextHistoryAndKeepCurrentSession:YES];
+    [self clearContextHistoryAndKeepCurrentSession];
     MSLogInfo([MSCrashes logTag], @"Crashes service has been disabled.");
   }
 }
@@ -399,9 +399,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   _enableMachExceptionHandler = enableMachExceptionHandler;
 }
 
-- (void)clearContextHistoryAndKeepCurrentSession:(BOOL)keepCurrentSession {
+- (void)clearContextHistoryAndKeepCurrentSession {
   [[MSDeviceTracker sharedInstance] clearDevices];
-  [[MSSessionContext sharedInstance] clearSessionHistoryAndKeepCurrentSession:keepCurrentSession];
+  [[MSSessionContext sharedInstance] clearSessionHistoryAndKeepCurrentSession:YES];
 }
 
 #pragma mark - Channel Delegate
@@ -1110,7 +1110,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     }
 
     // Return and do not continue with crash processing.
-    [self clearContextHistoryAndKeepCurrentSession:YES];
+    [self clearContextHistoryAndKeepCurrentSession];
     return;
   } else if (userConfirmation == MSUserConfirmationAlways) {
 
@@ -1148,7 +1148,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     [MSWrapperExceptionManager deleteWrapperExceptionWithUUIDString:report.incidentIdentifier];
     [self.crashFiles removeObject:fileURL];
   }
-  [self clearContextHistoryAndKeepCurrentSession:YES];
+  [self clearContextHistoryAndKeepCurrentSession];
 }
 
 + (void)resetSharedInstance {

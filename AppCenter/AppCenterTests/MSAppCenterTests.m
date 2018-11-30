@@ -47,10 +47,10 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   self.settingsMock = [MSMockUserDefaults new];
   [MSDeviceTracker resetSharedInstance];
   self.deviceTrackerMock = OCMClassMock([MSDeviceTracker class]);
-  OCMStub(ClassMethod([self.deviceTrackerMock sharedInstance])).andReturn(self.deviceTrackerMock);
+  OCMStub([self.deviceTrackerMock sharedInstance]).andReturn(self.deviceTrackerMock);
   [MSSessionContext resetSharedInstance];
   self.sessionContextMock = OCMClassMock([MSSessionContext class]);
-  OCMStub(ClassMethod([self.sessionContextMock sharedInstance])).andReturn(self.sessionContextMock);
+  OCMStub([self.sessionContextMock sharedInstance]).andReturn(self.sessionContextMock);
 }
 
 - (void)tearDown {
