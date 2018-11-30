@@ -1,6 +1,6 @@
+#import "MSDeviceTracker.h"
 #import "MSConstants+Internal.h"
 #import "MSDeviceHistoryInfo.h"
-#import "MSDeviceTracker.h"
 #import "MSDeviceTrackerPrivate.h"
 #import "MSUserDefaults.h"
 #import "MSUtility+Application.h"
@@ -22,15 +22,24 @@ static NSUInteger const kMSMaxDevicesHistoryCount = 5;
 static BOOL needRefresh = YES;
 static MSWrapperSdk *wrapperSdkInformation = nil;
 
+/**
+ * Singleton.
+ */
+static dispatch_once_t onceToken;
+static MSDeviceTracker *sharedInstance = nil;
+
 #pragma mark - Initialisation
 
 + (instancetype)sharedInstance {
-  static MSDeviceTracker *sharedInstance = nil;
-  static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     sharedInstance = [[MSDeviceTracker alloc] init];
   });
   return sharedInstance;
+}
+
++ (void)resetSharedInstance {
+  onceToken = 0;
+  sharedInstance = nil;
 }
 
 - (instancetype)init {
@@ -87,11 +96,11 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
 
       // Insert new MSDeviceHistoryInfo at the proper index to keep self.deviceHistory sorted.
       NSUInteger newIndex = [self.deviceHistory indexOfObject:deviceHistoryInfo
-          inSortedRange:(NSRange) { 0, [self.deviceHistory count] }
-          options:NSBinarySearchingInsertionIndex
-          usingComparator:^(MSDeviceHistoryInfo *a, MSDeviceHistoryInfo *b) {
-            return [a.timestamp compare:b.timestamp];
-          }];
+                                                inSortedRange:(NSRange){0, [self.deviceHistory count]}
+                                                      options:NSBinarySearchingInsertionIndex
+                                              usingComparator:^(MSDeviceHistoryInfo *a, MSDeviceHistoryInfo *b) {
+                                                return [a.timestamp compare:b.timestamp];
+                                              }];
       [self.deviceHistory insertObject:deviceHistoryInfo atIndex:newIndex];
 
       // Remove first (the oldest) item if reached max limit.
@@ -119,10 +128,10 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
     // TODO Use @available API and availability attribute when deprecating Xcode 8.
     SEL serviceSubscriberCellularProviders = NSSelectorFromString(@"serviceSubscriberCellularProviders");
     if ([telephonyNetworkInfo respondsToSelector:serviceSubscriberCellularProviders]) {
-        
+
       // Call serviceSubscriberCellularProviders.
-      NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:
-                                  [telephonyNetworkInfo methodSignatureForSelector:serviceSubscriberCellularProviders]];
+      NSInvocation *invocation =
+          [NSInvocation invocationWithMethodSignature:[telephonyNetworkInfo methodSignatureForSelector:serviceSubscriberCellularProviders]];
       [invocation setSelector:serviceSubscriberCellularProviders];
       [invocation setTarget:telephonyNetworkInfo];
       [invocation invoke];
@@ -134,7 +143,7 @@ static MSWrapperSdk *wrapperSdkInformation = nil;
         break;
       }
     }
-    
+
     // Use the old API as fallback if new one doesn't work.
     if (carrier == nil) {
 #pragma clang diagnostic push

@@ -503,8 +503,9 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 #endif
   } else {
 
-    // Clean device history in case we are disabled.
+    // Clean session and device history in case we are disabled.
     [[MSDeviceTracker sharedInstance] clearDevices];
+    [[MSSessionContext sharedInstance] clearSessionHistoryAndKeepCurrentSession:NO];
   }
 
   // Propagate to channel group.
