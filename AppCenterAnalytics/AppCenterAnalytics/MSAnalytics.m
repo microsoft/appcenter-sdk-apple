@@ -12,6 +12,7 @@
 #import "MSEventPropertiesInternal.h"
 #import "MSPageLog.h"
 #import "MSServiceAbstractProtected.h"
+#import "MSSessionContext.h"
 #import "MSStringTypedProperty.h"
 #import "MSTypedProperty.h"
 #import "MSUtility+StringFormatting.h"
@@ -144,6 +145,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
       [self.channelGroup removeDelegate:self.sessionTracker];
       [self.channelGroup removeDelegate:self];
       [self.sessionTracker stop];
+      [[MSSessionContext sharedInstance] clearSessionHistoryAndKeepCurrentSession:NO];
     }
     MSLogInfo([MSAnalytics logTag], @"Analytics service has been disabled.");
   }

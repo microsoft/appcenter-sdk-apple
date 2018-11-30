@@ -30,15 +30,15 @@ static NSString *const kMSPastDevicesKey = @"pastDevicesKey";
 @property(nonatomic) NSMutableArray<MSDeviceHistoryInfo *> *deviceHistory;
 
 /**
+ * Reset singleton instance.
+ */
++ (void)resetSharedInstance;
+
+/**
  * Sets a flag that will cause MSDeviceTracker to update it's device info the next time the device property is accessed. Mostly intended for
  * Unit Testing.
  */
 + (void)refreshDeviceNextTime;
-
-/**
- * Clears the device history in memory and in NSUserDefaults as well as the current device.
- */
-- (void)clearDevices;
 
 /**
  * Get device model.

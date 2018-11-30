@@ -10,11 +10,13 @@
 #import "MSAppCenterInternal.h"
 #import "MSAppCenterPrivate.h"
 #import "MSChannelGroupDefault.h"
+#import "MSDeviceTrackerPrivate.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSMockSecondService.h"
 #import "MSMockService.h"
 #import "MSMockUserDefaults.h"
 #import "MSOneCollectorChannelDelegate.h"
+#import "MSSessionContextPrivate.h"
 #import "MSStartServiceLog.h"
 #import "MSTestFrameworks.h"
 
@@ -28,6 +30,8 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 @property(nonatomic) MSAppCenter *sut;
 @property(nonatomic) MSMockUserDefaults *settingsMock;
 @property(nonatomic) NSString *installId;
+@property(nonatomic) id deviceTrackerMock;
+@property(nonatomic) id sessionContextMock;
 
 @end
 
@@ -41,12 +45,22 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   self.sut = [[MSAppCenter alloc] init];
 
   self.settingsMock = [MSMockUserDefaults new];
+  [MSDeviceTracker resetSharedInstance];
+  self.deviceTrackerMock = OCMClassMock([MSDeviceTracker class]);
+  OCMStub([self.deviceTrackerMock sharedInstance]).andReturn(self.deviceTrackerMock);
+  [MSSessionContext resetSharedInstance];
+  self.sessionContextMock = OCMClassMock([MSSessionContext class]);
+  OCMStub([self.sessionContextMock sharedInstance]).andReturn(self.sessionContextMock);
 }
 
 - (void)tearDown {
   [self.settingsMock stopMocking];
   [MSMockService resetSharedInstance];
   [MSMockSecondService resetSharedInstance];
+  [self.deviceTrackerMock stopMocking];
+  [self.sessionContextMock stopMocking];
+  [MSDeviceTracker resetSharedInstance];
+  [MSSessionContext resetSharedInstance];
   [super tearDown];
 }
 
@@ -310,6 +324,8 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   XCTAssertFalse([MSAppCenter isEnabled]);
   XCTAssertFalse([MSMockService isEnabled]);
   XCTAssertFalse(((NSNumber *)[self.settingsMock objectForKey:kMSAppCenterIsEnabledKey]).boolValue);
+  OCMVerify([self.deviceTrackerMock clearDevices]);
+  OCMVerify([self.sessionContextMock clearSessionHistoryAndKeepCurrentSession:NO]);
 
   // When
   [MSAppCenter setEnabled:YES];
