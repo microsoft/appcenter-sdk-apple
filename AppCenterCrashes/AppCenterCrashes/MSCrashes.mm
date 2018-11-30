@@ -1169,6 +1169,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   // Create an error log.
   MSHandledErrorLog *log = [MSHandledErrorLog new];
 
+  // Set userId to the error log.
+  log.userId = [[MSUserIdContext sharedInstance] userId];
+
   // Set properties of the error log.
   log.errorId = MS_UUID_STRING;
   log.exception = exception;
