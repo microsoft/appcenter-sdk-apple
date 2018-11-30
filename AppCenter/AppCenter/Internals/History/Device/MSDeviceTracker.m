@@ -22,15 +22,24 @@ static NSUInteger const kMSMaxDevicesHistoryCount = 5;
 static BOOL needRefresh = YES;
 static MSWrapperSdk *wrapperSdkInformation = nil;
 
+/**
+ * Singleton.
+ */
+static dispatch_once_t onceToken;
+static MSDeviceTracker *sharedInstance = nil;
+
 #pragma mark - Initialisation
 
 + (instancetype)sharedInstance {
-  static MSDeviceTracker *sharedInstance = nil;
-  static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     sharedInstance = [[MSDeviceTracker alloc] init];
   });
   return sharedInstance;
+}
+
++ (void)resetSharedInstance {
+  onceToken = 0;
+  sharedInstance = nil;
 }
 
 - (instancetype)init {

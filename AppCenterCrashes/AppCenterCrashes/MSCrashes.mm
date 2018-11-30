@@ -8,6 +8,7 @@
 #import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
 #import "MSCrashesUtil.h"
+#import "MSDeviceTracker.h"
 #import "MSEncrypter.h"
 #import "MSErrorAttachmentLog.h"
 #import "MSErrorAttachmentLogInternal.h"
@@ -324,8 +325,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       [self startDelayedCrashProcessing];
     } else {
       dispatch_semaphore_signal(self.delayedProcessingSemaphore);
-      [[MSSessionContext sharedInstance] clearSessionHistory];
-      [[MSUserIdContext sharedInstance] clearUserIdHistory];
+      [self clearContextHistoryAndKeepCurrentSession];
     }
 
     // More details on log if a debugger is attached.
@@ -344,8 +344,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     [self emptyLogBufferFiles];
     [self removeAnalyzerFile];
     [self.plCrashReporter purgePendingCrashReport];
-    [[MSSessionContext sharedInstance] clearSessionHistory];
-    [[MSUserIdContext sharedInstance] clearUserIdHistory];
+    [self clearContextHistoryAndKeepCurrentSession];
     MSLogInfo([MSCrashes logTag], @"Crashes service has been disabled.");
   }
 }
@@ -399,6 +398,12 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 - (void)setEnableMachExceptionHandler:(BOOL)enableMachExceptionHandler {
   _enableMachExceptionHandler = enableMachExceptionHandler;
+}
+
+- (void)clearContextHistoryAndKeepCurrentSession {
+  [[MSDeviceTracker sharedInstance] clearDevices];
+  [[MSSessionContext sharedInstance] clearSessionHistoryAndKeepCurrentSession:YES];
+  [[MSUserIdContext sharedInstance] clearUserIdHistory];
 }
 
 #pragma mark - Channel Delegate
@@ -1107,8 +1112,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     }
 
     // Return and do not continue with crash processing.
-    [[MSSessionContext sharedInstance] clearSessionHistory];
-    [[MSUserIdContext sharedInstance] clearUserIdHistory];
+    [self clearContextHistoryAndKeepCurrentSession];
     return;
   } else if (userConfirmation == MSUserConfirmationAlways) {
 
@@ -1149,8 +1153,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     [MSWrapperExceptionManager deleteWrapperExceptionWithUUIDString:report.incidentIdentifier];
     [self.crashFiles removeObject:fileURL];
   }
-  [[MSSessionContext sharedInstance] clearSessionHistory];
-  [[MSUserIdContext sharedInstance] clearUserIdHistory];
+  [self clearContextHistoryAndKeepCurrentSession];
 }
 
 + (void)resetSharedInstance {

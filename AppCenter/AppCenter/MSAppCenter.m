@@ -538,6 +538,9 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
     // Clean up device history when App Center is disabled.
     [[MSDeviceTracker sharedInstance] clearDevices];
 
+    // Clean up session history when App Center is disabled.
+    [[MSSessionContext sharedInstance] clearSessionHistoryAndKeepCurrentSession:NO];
+
     // Clean up userId history when App Center is disabled.
     [[MSUserIdContext sharedInstance] clearUserIdHistory];
   }
