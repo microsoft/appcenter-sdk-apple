@@ -58,18 +58,26 @@ mv "${DEVICE_DIR}/lib${FMK_NAME}.a" "${LIB_IPHONEOS_TEMP_DIR}/lib${FMK_NAME}.a"
 env DEVELOPER_DIR="${MS_ARM64E_XCODE_PATH}" /usr/bin/xcodebuild ARCHS="arm64e" -project "${FMK_NAME}.xcodeproj" -configuration "Release" -target "${TGT_NAME}"
 
 # Lipo the binaries that were built from various Xcode versions.
-lipo -create "${LIB_IPHONEOS_FINAL}" "${LIB_IPHONEOS_TEMP_DIR}/lib${FMK_NAME}.a"  -output "${LIB_IPHONEOS_FINAL}"
+env DEVELOPER_DIR="${MS_ARM64E_XCODE_PATH}" /usr/bin/lipo -create "${LIB_IPHONEOS_TEMP_DIR}/lib${FMK_NAME}.a" "${LIB_IPHONEOS_FINAL}" -output "${LIB_IPHONEOS_FINAL}"
 fi
 
 # Uses the Lipo tool to merge both binary files (i386/x86_64 + armv7/armv7s/arm64/arm64e) into one universal final product.
+if [ -z "$MS_ARM64E_XCODE_PATH" ] || [ ! -d "$MS_ARM64E_XCODE_PATH" ] ; then
+echo "Use legacy Xcode and lipo -create the fat binary."
 lipo -create "${LIB_IPHONEOS_FINAL}" "${SIMULATOR_DIR}/lib${FMK_NAME}.a" -output "${INSTALL_DIR}/${FMK_NAME}"
+else
+echo "Use arm64e Xcode and lipo -create the fat binary."
+env DEVELOPER_DIR="$MS_ARM64E_XCODE_PATH" /usr/bin/lipo -create "${LIB_IPHONEOS_FINAL}" "${SIMULATOR_DIR}/lib${FMK_NAME}.a" -output "${INSTALL_DIR}/${FMK_NAME}"
+fi
 
 # Add PLCrashReporter.
 if [ -z $(otool -L "${INSTALL_DIR}/${FMK_NAME}" | grep 'libCrashReporter') ]
 then
 if [ -z "$MS_ARM64E_XCODE_PATH" ] || [ ! -d "$MS_ARM64E_XCODE_PATH" ] ; then
+echo "Use legacy Xcode and link PLCR via libtool."
 libtool -static  "${INSTALL_DIR}/${FMK_NAME}" "${SRCROOT}/../Vendor/iOS/PLCrashReporter/CrashReporter.framework/Versions/A/CrashReporter" -o "${INSTALL_DIR}/${FMK_NAME}"
 else
+echo "Use arm64e Xcode and link PLCR via libtool."
 env DEVELOPER_DIR="$MS_ARM64E_XCODE_PATH" /usr/bin/libtool -static  "${INSTALL_DIR}/${FMK_NAME}" "${SRCROOT}/../Vendor/iOS/PLCrashReporter/CrashReporter.framework/Versions/A/CrashReporter" -o "${INSTALL_DIR}/${FMK_NAME}"
 fi
 
