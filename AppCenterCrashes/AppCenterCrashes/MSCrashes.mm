@@ -258,7 +258,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                                                                       flushInterval:1.0
                                                                      batchSizeLimit:1
                                                                 pendingBatchesLimit:3];
-    _targetTokenEncrypter = [[MSEncrypter alloc] initWithDefaultKey];
+    _targetTokenEncrypter = [[MSEncrypter alloc] init];
 
     /*
      * Using our own queue with high priority as the default main queue is slower and we want the files to be created as quickly as possible
