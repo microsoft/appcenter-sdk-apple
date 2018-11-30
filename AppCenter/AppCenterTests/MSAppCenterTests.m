@@ -338,25 +338,6 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   XCTAssertTrue(((NSNumber *)[self.settingsMock objectForKey:kMSAppCenterIsEnabledKey]).boolValue);
 }
 
-- (void)testClearDeviceHistoryWhenAppCenterIsDisabled {
-
-  // If
-  [MSAppCenter start:MS_UUID_STRING withServices:@[ MSMockService.class ]];
-  [[MSDeviceTracker sharedInstance] device];
-  [MSDeviceTracker refreshDeviceNextTime];
-  [[MSDeviceTracker sharedInstance] device];
-
-  // Then
-  XCTAssertEqual(2, [[MSDeviceTracker sharedInstance].deviceHistory count]);
-
-  // When
-  [MSAppCenter setEnabled:NO];
-
-  // Then
-  XCTAssertFalse([MSAppCenter isEnabled]);
-  XCTAssertEqual(0, [[MSDeviceTracker sharedInstance].deviceHistory count]);
-}
-
 - (void)testClearUserIdHistoryWhenAppCenterIsDisabled {
 
   // If
