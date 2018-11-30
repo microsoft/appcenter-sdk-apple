@@ -1,6 +1,6 @@
+#import "MSSessionTracker.h"
 #import "MSAnalyticsInternal.h"
 #import "MSSessionContext.h"
-#import "MSSessionTracker.h"
 #import "MSSessionTrackerPrivate.h"
 #import "MSStartServiceLog.h"
 #import "MSStartSessionLog.h"
@@ -26,7 +26,7 @@ static NSString *const kMSPastSessionsKey = @"pastSessionsKey";
     _sessionTimeout = kMSSessionTimeOut;
     _context = [MSSessionContext sharedInstance];
 
-    // Remove old session history.
+    // Remove old session history from previous SDK versions.
     [MS_USER_DEFAULTS removeObjectForKey:kMSPastSessionsKey];
 
     // Session tracking is not started by default.
