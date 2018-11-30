@@ -19,6 +19,7 @@ The App Center SDK uses a modular architecture so you can use any or all of the 
 4. **App Center Push**: App Center Push enables you to send push notifications to users of your app from the App Center portal. You can also segment your user base based on a set of properties and send them targeted notifications.
 
 ## 1. Get started
+
 It is super easy to use App Center. Have a look at our [get started documentation](https://docs.microsoft.com/en-us/appcenter/sdk/getting-started/ios) and onboard your app within minutes. Our [detailed documentation](https://docs.microsoft.com/en-us/appcenter/sdk/) is available as well.
 
 ## 2. Contributing
@@ -27,10 +28,9 @@ We are looking forward to your contributions via pull requests.
 
 To contribute to the SDK, please
 
-* install Xcode 10.1 and Xcode 8.3.3 in parallel (information on how to do that can be found [in this blogpost](https://medium.com/@hacknicity/working-with-multiple-versions-of-xcode-e331c01aa6bc)).
-* make sure you are using the old version of Xcode by running `xcode-select -p`. It should point to Xcode 8.3.3. If it points to a newer version, e.g. Xcode 10.1, use `sudo xcode-select -s PATH_TO_OLD_XCODE` to switch to the old Xcode version.
-* set the environment variable `MS_ARM64E_XCODE_PATH` in your `.bash_profile` and point it to your Xcode 10.1 installation, e.g. `export MS_ARM64E_XCODE_PATH=/Applications/Xcode.app`.
+* install Xcode 10.1 on your Mac.
 * install [Jazzy](https://github.com/realm/jazzy) to be able to generate documentation.
+* install `clang-format` for code formatting via [Homebrew](https://brew.sh) using the command `brew install clang-format`.
 
 ### 2.1 Code of Conduct
 
