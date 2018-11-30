@@ -70,7 +70,7 @@ then
 if [ -z "$MS_ARM64E_XCODE_PATH" ] || [ ! -d "$MS_ARM64E_XCODE_PATH" ] ; then
 libtool -static  "${INSTALL_DIR}/${FMK_NAME}" "${SRCROOT}/../Vendor/iOS/PLCrashReporter/CrashReporter.framework/Versions/A/CrashReporter" -o "${INSTALL_DIR}/${FMK_NAME}"
 else
-env DEVELOPER_DIR="$MS_ARM64E_XCODE_PATH" /usr/bin/libtool -static  "${INSTALL_DIR}/${FMK_NAME}" "${SRCROOT}/../Vendor/iOS/PLCrashReporter/CrashReporter.framework/Versions/A/CrashReporter" -o "${INSTALL_DIR}/${FMK_NAME}"
+libtool -v -static  "${INSTALL_DIR}/${FMK_NAME}" "${SRCROOT}/../Vendor/iOS/PLCrashReporter/CrashReporter.framework/Versions/A/CrashReporter" -o "${INSTALL_DIR}/${FMK_NAME}"
 fi
 
 fi
