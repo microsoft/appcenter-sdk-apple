@@ -85,7 +85,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
 #pragma mark - Tests
 
-- (void)testvalidateEventName {
+- (void)testValidateEventName {
   const int maxEventNameLength = 256;
 
   // If
@@ -378,6 +378,9 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
   // Then
   OCMVerifyAll(channelUnitMock);
+
+  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
+  [[MSAnalytics sharedInstance].sessionTracker stop];
 }
 
 - (void)testTrackEventSetsTagWhenTransmissionTargetProvided {
@@ -426,6 +429,9 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
   // Then
   OCMVerifyAll(channelUnitMock);
+
+  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
+  [[MSAnalytics sharedInstance].sessionTracker stop];
 }
 
 - (void)testTrackEventWithPropertiesNilAndInvalidName {
