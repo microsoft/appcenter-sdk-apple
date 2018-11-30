@@ -69,10 +69,10 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   [super tearDown];
 
   // Reset mocked shared instances and stop mocking them.
-  [MSDeviceTracker resetSharedInstance];
   [self.deviceTrackerMock stopMocking];
-  [MSSessionContext resetSharedInstance];
   [self.sessionContextMock stopMocking];
+  [MSDeviceTracker resetSharedInstance];
+  [MSSessionContext resetSharedInstance];
 
   // Make sure sessionTracker removes all observers.
   [MSCrashes resetSharedInstance];
