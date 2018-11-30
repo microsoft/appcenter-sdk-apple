@@ -46,7 +46,11 @@ class MSAnalyticsResultViewController: UITableViewController {
     
     self.eventNameLabel.text = analyticsResult.lastEvent?.name ?? " "
     self.eventIdentifierLabel.text = analyticsResult.lastEvent?.eventId ?? " "
-    self.eventPropertiesCountLabel.text = "\(analyticsResult.lastEvent?.properties?.count ?? 0)"
+    #if ACTIVE_COMPILATION_CONDITION_PUPPET
+    self.eventPropertiesCountLabel.text = "\(analyticsResult.lastEvent?.typedProperties?.properties.count ?? 0)"
+    #else
+    self.eventPropertiesCountLabel.text = "0"
+    #endif
     self.eventStatusLabel.text = analyticsResult.lastEventState ?? " "
   }
   
