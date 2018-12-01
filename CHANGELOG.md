@@ -9,6 +9,7 @@
 * **[Fix]** Fix minimum storage size verification to match minimum possible value.
 * **[Fix]** Fix reporting carrier information using new iOS 12 APIs when running on iOS 12+.
 * **[Fix]** Fix a memory leak issue during executing SQL queries.
+* **[Fix]** Fix a keychain permission issue on macOS applications.
 
 ___
 

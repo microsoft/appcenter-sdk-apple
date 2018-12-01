@@ -8,10 +8,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface MSEncrypter : NSObject
 
-- (instancetype)initWithDefaultKey;
-
-- (instancetype)initWithKey:(NSData *)key;
-
 - (NSString *_Nullable)encryptString:(NSString *)string;
 
 - (NSString *_Nullable)decryptString:(NSString *)string;
