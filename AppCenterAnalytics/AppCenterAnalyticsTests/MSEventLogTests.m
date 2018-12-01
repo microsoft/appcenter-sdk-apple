@@ -15,6 +15,8 @@
 #import "MSSDKExtension.h"
 #import "MSStringTypedProperty.h"
 #import "MSTestFrameworks.h"
+#import "MSUserExtension.h"
+#import "MSUserIdContext.h"
 #import "MSUtility+Date.h"
 
 @interface MSEventLogTests : XCTestCase
@@ -549,6 +551,7 @@
   };
   NSDictionary *expectedMetadata = @{@"f" : @{@"aLongValue" : @4, @"aDoubleValue" : @6, @"aDateTimeValue" : @9}};
   NSDate *timestamp = [NSDate date];
+  NSString *userId = @"alice";
   MSDevice *device = [MSDevice new];
   NSString *oemName = @"Peach";
   NSString *model = @"pPhone1,6";
@@ -577,6 +580,7 @@
   self.sut.name = name;
   self.sut.typedProperties = eventProperties;
   self.sut.tag = [NSObject new];
+  self.sut.userId = userId;
 
   // When
   MSCommonSchemaLog *csLog = [self.sut toCommonSchemaLogForTargetToken:targetToken flags:MSFlagsDefault];
@@ -588,6 +592,7 @@
   XCTAssertEqualObjects(csLog.iKey, @"o:aTarget");
   XCTAssertEqualObjects(csLog.ext.protocolExt.devMake, oemName);
   XCTAssertEqualObjects(csLog.ext.protocolExt.devModel, model);
+  XCTAssertEqualObjects(csLog.ext.userExt.localId, [MSUserIdContext prefixedUserIdFromUserId:userId]);
   XCTAssertEqualObjects(csLog.ext.appExt.locale, [[[NSBundle mainBundle] preferredLocalizations] firstObject]);
   XCTAssertEqualObjects(csLog.ext.osExt.name, osName);
   XCTAssertEqualObjects(csLog.ext.osExt.ver, @"Version 1.2.4 (Build 2342EEWF)");

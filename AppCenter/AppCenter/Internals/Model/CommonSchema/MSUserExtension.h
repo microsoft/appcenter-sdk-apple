@@ -9,6 +9,11 @@
 @interface MSUserExtension : NSObject <MSSerializableObject, MSModel>
 
 /**
+ * Local Id.
+ */
+@property(nonatomic, copy) NSString *localId;
+
+/**
  * User's locale.
  */
 @property(nonatomic, copy) NSString *locale;

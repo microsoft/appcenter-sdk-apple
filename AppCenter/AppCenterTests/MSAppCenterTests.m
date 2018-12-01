@@ -19,6 +19,7 @@
 #import "MSSessionContextPrivate.h"
 #import "MSStartServiceLog.h"
 #import "MSTestFrameworks.h"
+#import "MSUserIdContextPrivate.h"
 
 static NSString *const kMSInstallIdStringExample = @"F18499DA-5C3D-4F05-B4E8-D8C9C06A6F09";
 
@@ -40,6 +41,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 - (void)setUp {
   [super setUp];
   [MSAppCenter resetSharedInstance];
+  [MSUserIdContext resetSharedInstance];
 
   // System Under Test.
   self.sut = [[MSAppCenter alloc] init];
@@ -334,6 +336,27 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   XCTAssertTrue([MSAppCenter isEnabled]);
   XCTAssertTrue([MSMockService isEnabled]);
   XCTAssertTrue(((NSNumber *)[self.settingsMock objectForKey:kMSAppCenterIsEnabledKey]).boolValue);
+}
+
+- (void)testClearUserIdHistoryWhenAppCenterIsDisabled {
+
+  // If
+  [MSAppCenter start:MS_UUID_STRING withServices:@[ MSMockService.class ]];
+  [[MSUserIdContext sharedInstance] setUserId:@"alice"];
+  [MSUserIdContext resetSharedInstance];
+  [[MSUserIdContext sharedInstance] setUserId:@"bob"];
+
+  // Then
+  XCTAssertEqual(2, [[MSUserIdContext sharedInstance].userIdHistory count]);
+
+  // When
+  [MSAppCenter setEnabled:NO];
+
+  // Then
+  XCTAssertFalse([MSAppCenter isEnabled]);
+
+  // Clearing history won't remove the most recent userId.
+  XCTAssertEqual(1, [[MSUserIdContext sharedInstance].userIdHistory count]);
 }
 
 - (void)testSetLogUrl {
@@ -736,6 +759,155 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
+}
+
+- (void)testSetValidUserIdForAppCenter {
+
+  // If
+  NSString *userId = @"user123";
+
+  // When
+  [MSAppCenter setUserId:userId];
+
+  // Then
+  XCTAssertNil([[MSUserIdContext sharedInstance] userId]);
+
+  // When
+  [MSAppCenter startFromLibraryWithServices:@[ MSMockService.class ]];
+  [MSAppCenter setUserId:userId];
+
+  // Then
+  XCTAssertNil([[MSUserIdContext sharedInstance] userId]);
+
+  // When
+  [MSAppCenter configureWithAppSecret:@"AppSecret"];
+  [MSAppCenter setUserId:userId];
+
+  // Then
+  XCTAssertEqual([[MSUserIdContext sharedInstance] userId], userId);
+
+  // When
+  [MSAppCenter setUserId:nil];
+
+  // Then
+  XCTAssertNil([[MSUserIdContext sharedInstance] userId]);
+}
+
+- (void)testSetUserIdWithoutSecret {
+
+  // If
+  NSString *userId = @"user123";
+
+  // When
+  [MSAppCenter configure];
+  [MSAppCenter setUserId:userId];
+
+  // Then
+  XCTAssertNil([[MSUserIdContext sharedInstance] userId]);
+}
+
+- (void)testSetInvalidUserIdForAppCenter {
+
+  // If
+  NSString *userId = @"";
+  for (int i = 0; i < 257; i++) {
+    userId = [userId stringByAppendingString:@"x"];
+  }
+  [MSAppCenter configureWithAppSecret:@"AppSecret"];
+
+  // When
+  [MSAppCenter setUserId:userId];
+
+  // Then
+  XCTAssertNil([[MSUserIdContext sharedInstance] userId]);
+}
+
+- (void)testSetInvalidUserIdForTransmissionTarget {
+
+  // If
+  [MSAppCenter configureWithAppSecret:@"target=transmissionTargetToken"];
+
+  // When
+  // Set an empty userId
+  [MSAppCenter setUserId:@""];
+
+  // Then
+  XCTAssertNil([[MSUserIdContext sharedInstance] userId]);
+
+  // When
+  // Set another empty userId
+  [MSAppCenter setUserId:@"c:"];
+
+  // Then
+  XCTAssertNil([[MSUserIdContext sharedInstance] userId]);
+
+  // When
+  // Set a userId with invalid prefix
+  [MSAppCenter setUserId:@"foobar:alice"];
+
+  // Then
+  XCTAssertNil([[MSUserIdContext sharedInstance] userId]);
+
+  // When
+  // Set a valid userId without prefix
+  [MSAppCenter setUserId:@"alice"];
+
+  // Then
+  XCTAssertEqual([[MSUserIdContext sharedInstance] userId], @"alice");
+
+  // When
+  // Set a valid userId with prefix c:
+  [MSAppCenter setUserId:@"c:alice"];
+
+  // Then
+  XCTAssertEqual([[MSUserIdContext sharedInstance] userId], @"c:alice");
+
+  // When
+  // Set a userId with invalid prefix again
+  [MSAppCenter setUserId:@"foobar:alice"];
+
+  // Then
+  // Current userId shouldn't be overridden by the invalid one.
+  XCTAssertEqual([[MSUserIdContext sharedInstance] userId], @"c:alice");
+}
+
+- (void)testNoUserIdWhenSetUserIdIsNotCalledInNextVersion {
+
+  // If
+  // An app calls setUserId in version 1.
+  __block NSDate *date;
+  NSMutableArray *history = [NSMutableArray new];
+  [history addObject:[[MSUserIdHistoryInfo alloc] initWithTimestamp:[NSDate dateWithTimeIntervalSince1970:0] andUserId:@"alice"]];
+  [history addObject:[[MSUserIdHistoryInfo alloc] initWithTimestamp:[NSDate dateWithTimeIntervalSince1970:3000] andUserId:@"bob"]];
+  [self.settingsMock setObject:[NSKeyedArchiver archivedDataWithRootObject:history] forKey:@"UserIdHistory"];
+  [MSUserIdContext resetSharedInstance];
+
+  // When
+  // setUserId call is removed in version 2.
+  id dateMock = OCMClassMock([NSDate class]);
+  OCMStub(ClassMethod([dateMock date])).andDo(^(NSInvocation *invocation) {
+    date = [[NSDate alloc] initWithTimeIntervalSince1970:4000];
+    [invocation setReturnValue:&date];
+  });
+  [MSAppCenter configureWithAppSecret:@"AppSecret"];
+  [dateMock stopMocking];
+
+  // Then
+  XCTAssertNil([[MSUserIdContext sharedInstance] userIdAt:[NSDate dateWithTimeIntervalSince1970:5000]]);
+
+  // When
+  // Version 2 app launched again.
+  [MSUserIdContext resetSharedInstance];
+  dateMock = OCMClassMock([NSDate class]);
+  OCMStub(ClassMethod([dateMock date])).andDo(^(NSInvocation *invocation) {
+    date = [[NSDate alloc] initWithTimeIntervalSince1970:7000];
+    [invocation setReturnValue:&date];
+  });
+  [MSAppCenter configureWithAppSecret:@"AppSecret"];
+  [dateMock stopMocking];
+
+  // Then
+  XCTAssertNil([[MSUserIdContext sharedInstance] userIdAt:[NSDate dateWithTimeIntervalSince1970:5000]]);
 }
 
 @end

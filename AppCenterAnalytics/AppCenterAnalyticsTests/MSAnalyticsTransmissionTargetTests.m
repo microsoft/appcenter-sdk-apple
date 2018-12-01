@@ -18,6 +18,8 @@
 #import "MSPropertyConfiguratorPrivate.h"
 #import "MSStringTypedProperty.h"
 #import "MSTestFrameworks.h"
+#import "MSUserExtension.h"
+#import "MSUserIdContextPrivate.h"
 
 static NSString *const kMSTypeEvent = @"event";
 static NSString *const kMSTestTransmissionToken = @"TestTransmissionToken";
@@ -35,6 +37,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
 
 - (void)setUp {
   [super setUp];
+  [MSUserIdContext resetSharedInstance];
 
   // Mock NSUserDefaults
   self.settingsMock = [MSMockUserDefaults new];
@@ -377,6 +380,55 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   XCTAssertEqual(actualType, kMSTypeEvent);
   XCTAssertEqual(actualName, expectedName);
   XCTAssertEqual(actualFlags, MSFlagsPersistenceNormal);
+}
+
+- (void)testTrackEventSetsUserIdForDefaultTransmissionTarget {
+
+  // If
+  __block MSEventLog *log;
+  [[MSUserIdContext sharedInstance] setUserId:@"c:test"];
+  [MSAnalytics resetSharedInstance];
+  id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub([self.channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  [[MSAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
+                                            appSecret:@"appsecret"
+                              transmissionTargetToken:@"token"
+                                      fromApplication:YES];
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]] flags:MSFlagsDefault]).andDo(^(NSInvocation *invocation) {
+    [invocation getArgument:&log atIndex:2];
+  });
+
+  // When
+  [MSAnalytics trackEvent:@"Some event"];
+
+  // Then
+  XCTAssertNotNil(log);
+  XCTAssertEqual(log.userId, @"c:test");
+}
+
+- (void)testTrackEventDoesNotOverrideUserIdOfDefaultTransmissionTarget {
+
+  // If
+  __block MSEventLog *log;
+  [[MSUserIdContext sharedInstance] setUserId:@"c:alice"];
+  [MSAnalytics resetSharedInstance];
+  id<MSChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  OCMStub([self.channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  [[MSAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
+                                            appSecret:@"appsecret"
+                              transmissionTargetToken:@"defaultToken"
+                                      fromApplication:YES];
+  MSAnalyticsTransmissionTarget *target = [MSAnalytics transmissionTargetForToken:@"anotherToken"];
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]] flags:MSFlagsDefault]).andDo(^(NSInvocation *invocation) {
+    [invocation getArgument:&log atIndex:2];
+  });
+
+  // When
+  [MSAnalytics trackEvent:@"Some event" withTypedProperties:nil forTransmissionTarget:target flags:MSFlagsDefault];
+
+  // Then
+  XCTAssertNotNil(log);
+  XCTAssertNil(log.userId);
 }
 
 - (void)testTransmissionTargetForToken {
@@ -927,12 +979,14 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   [parent.propertyConfigurator setAppVersion:@"8.4.1"];
   [parent.propertyConfigurator setAppName:@"ParentAppName"];
   [parent.propertyConfigurator setAppLocale:@"en-us"];
+  [parent.propertyConfigurator setUserId:@"c:bob"];
 
   // Set a log with default values.
   MSCommonSchemaLog *log = [MSCommonSchemaLog new];
   log.tag = child;
   log.ext = [MSCSExtensions new];
   log.ext.appExt = [MSAppExtension new];
+  log.ext.userExt = [MSUserExtension new];
   [log addTransmissionTargetToken:@"parent"];
   [log addTransmissionTargetToken:@"child"];
 
@@ -943,6 +997,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   XCTAssertEqual(log.ext.appExt.ver, parent.propertyConfigurator.appVersion);
   XCTAssertEqual(log.ext.appExt.name, parent.propertyConfigurator.appName);
   XCTAssertEqual(log.ext.appExt.locale, parent.propertyConfigurator.appLocale);
+  XCTAssertEqual(log.ext.userExt.localId, parent.propertyConfigurator.userId);
 }
 
 - (void)testOverridingCommonSchemaProperties {
@@ -956,6 +1011,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   [target.propertyConfigurator setAppVersion:@"8.4.1"];
   [target.propertyConfigurator setAppName:@"NewAppName"];
   [target.propertyConfigurator setAppLocale:@"en-us"];
+  [target.propertyConfigurator setUserId:@"c:bob"];
 
   // Set a log.
   MSCommonSchemaLog *log = [MSCommonSchemaLog new];
@@ -966,6 +1022,8 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   log.ext.appExt.ver = @"0.0.1";
   log.ext.appExt.name = @"baseAppName";
   log.ext.appExt.locale = @"zh-cn";
+  log.ext.userExt = [MSUserExtension new];
+  log.ext.userExt.localId = @"c:alice";
 
   // When
   [target.propertyConfigurator channel:nil prepareLog:log];
@@ -974,6 +1032,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   XCTAssertEqual(log.ext.appExt.ver, target.propertyConfigurator.appVersion);
   XCTAssertEqual(log.ext.appExt.name, target.propertyConfigurator.appName);
   XCTAssertEqual(log.ext.appExt.locale, target.propertyConfigurator.appLocale);
+  XCTAssertEqual(log.ext.userExt.localId, target.propertyConfigurator.userId);
 }
 
 - (void)testOverridingCommonSchemaPropertiesFromParent {
@@ -988,6 +1047,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   [parent.propertyConfigurator setAppVersion:@"8.4.1"];
   [parent.propertyConfigurator setAppName:@"ParentAppName"];
   [parent.propertyConfigurator setAppLocale:@"en-us"];
+  [parent.propertyConfigurator setUserId:@"c:bob"];
 
   // Set a log.
   MSCommonSchemaLog *log = [MSCommonSchemaLog new];
@@ -997,6 +1057,8 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   log.ext.appExt.ver = @"0.0.1";
   log.ext.appExt.name = @"baseAppName";
   log.ext.appExt.locale = @"zh-cn";
+  log.ext.userExt = [MSUserExtension new];
+  log.ext.userExt.localId = @"c:alice";
   [log addTransmissionTargetToken:@"parent"];
   [log addTransmissionTargetToken:@"child"];
 
@@ -1007,6 +1069,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   XCTAssertEqualObjects(log.ext.appExt.ver, parent.propertyConfigurator.appVersion);
   XCTAssertEqualObjects(log.ext.appExt.name, parent.propertyConfigurator.appName);
   XCTAssertEqualObjects(log.ext.appExt.locale, parent.propertyConfigurator.appLocale);
+  XCTAssertEqualObjects(log.ext.userExt.localId, parent.propertyConfigurator.userId);
 }
 
 - (void)testOverridingCommonSchemaPropertiesDoNothingWhenTargetIsDisabled {
@@ -1022,11 +1085,13 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   [grandParent.propertyConfigurator setAppVersion:@"8.4.1"];
   [grandParent.propertyConfigurator setAppName:@"GrandParentAppName"];
   [grandParent.propertyConfigurator setAppLocale:@"en-us"];
+  [grandParent.propertyConfigurator setUserId:@"c:alice"];
 
   // Set common properties to child.
   [child.propertyConfigurator setAppVersion:@"1.4.8"];
   [child.propertyConfigurator setAppName:@"ChildAppName"];
   [child.propertyConfigurator setAppLocale:@"fr-ca"];
+  [child.propertyConfigurator setUserId:@"c:bob"];
 
   // Set a log.
   MSCommonSchemaLog *log = [MSCommonSchemaLog new];
@@ -1036,6 +1101,8 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   log.ext.appExt.ver = @"0.0.1";
   log.ext.appExt.name = @"baseAppName";
   log.ext.appExt.locale = @"zh-cn";
+  log.ext.userExt = [MSUserExtension new];
+  log.ext.userExt.localId = @"c:charlie";
   [log addTransmissionTargetToken:@"parent"];
   [log addTransmissionTargetToken:@"child"];
   [log addTransmissionTargetToken:@"grand-parent"];
@@ -1049,6 +1116,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   XCTAssertEqual(log.ext.appExt.ver, @"0.0.1");
   XCTAssertEqual(log.ext.appExt.name, @"baseAppName");
   XCTAssertEqual(log.ext.appExt.locale, @"zh-cn");
+  XCTAssertEqual(log.ext.userExt.localId, @"c:charlie");
 
   // If
   [child setEnabled:NO];
@@ -1060,6 +1128,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   XCTAssertNotEqual(log.ext.appExt.ver, child.propertyConfigurator.appVersion);
   XCTAssertNotEqual(log.ext.appExt.name, child.propertyConfigurator.appName);
   XCTAssertNotEqual(log.ext.appExt.locale, child.propertyConfigurator.appLocale);
+  XCTAssertNotEqual(log.ext.userExt.localId, child.propertyConfigurator.userId);
 
   // If
 
@@ -1071,6 +1140,8 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   log.ext.appExt.ver = @"0.0.1";
   log.ext.appExt.name = @"baseAppName";
   log.ext.appExt.locale = @"zh-cn";
+  log.ext.userExt = [MSUserExtension new];
+  log.ext.userExt.localId = @"c:charlie";
   [log addTransmissionTargetToken:@"parent"];
   [log addTransmissionTargetToken:@"child"];
   [log addTransmissionTargetToken:@"grand-parent"];
@@ -1082,6 +1153,7 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   XCTAssertEqual(log.ext.appExt.ver, @"0.0.1");
   XCTAssertEqual(log.ext.appExt.name, @"baseAppName");
   XCTAssertEqual(log.ext.appExt.locale, @"zh-cn");
+  XCTAssertEqual(log.ext.userExt.localId, @"c:charlie");
 }
 
 - (void)testOverridingCommonSchemaPropertiesWithTwoChildrenUnderTheSameParent {
@@ -1095,11 +1167,13 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   [parent.propertyConfigurator setAppVersion:@"8.4.1"];
   [parent.propertyConfigurator setAppName:@"ParentAppName"];
   [parent.propertyConfigurator setAppLocale:@"en-us"];
+  [parent.propertyConfigurator setUserId:@"c:alice"];
 
   // Set common properties to child1.
   [child1.propertyConfigurator setAppVersion:@"1.4.8"];
   [child1.propertyConfigurator setAppName:@"Child1AppName"];
   [child1.propertyConfigurator setAppLocale:@"fr-ca"];
+  [child1.propertyConfigurator setUserId:@"c:bob"];
 
   // Parent log.
   MSCommonSchemaLog *parentLog = [MSCommonSchemaLog new];
@@ -1109,6 +1183,8 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   parentLog.ext.appExt.ver = @"0.0.1";
   parentLog.ext.appExt.name = @"base1AppName";
   parentLog.ext.appExt.locale = @"zh-cn";
+  parentLog.ext.userExt = [MSUserExtension new];
+  parentLog.ext.userExt.localId = @"c:charlie";
   [parentLog addTransmissionTargetToken:@"parent"];
 
   // Child1 log.
@@ -1119,6 +1195,8 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   child1Log.ext.appExt.ver = @"0.0.1";
   child1Log.ext.appExt.name = @"base1AppName";
   child1Log.ext.appExt.locale = @"zh-cn";
+  child1Log.ext.userExt = [MSUserExtension new];
+  child1Log.ext.userExt.localId = @"c:charlie";
   [child1Log addTransmissionTargetToken:@"child1"];
 
   // Child2 log.
@@ -1129,6 +1207,8 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   child2Log.ext.appExt.ver = @"0.0.2";
   child2Log.ext.appExt.name = @"base2AppName";
   child2Log.ext.appExt.locale = @"en-us";
+  child2Log.ext.userExt = [MSUserExtension new];
+  child2Log.ext.userExt.localId = @"c:charlie";
   [child2Log addTransmissionTargetToken:@"child2"];
 
   // When
@@ -1140,15 +1220,121 @@ static NSString *const kMSTestTransmissionToken2 = @"TestTransmissionToken2";
   XCTAssertEqualObjects(parentLog.ext.appExt.ver, parent.propertyConfigurator.appVersion);
   XCTAssertEqualObjects(parentLog.ext.appExt.name, parent.propertyConfigurator.appName);
   XCTAssertEqualObjects(parentLog.ext.appExt.locale, parent.propertyConfigurator.appLocale);
+  XCTAssertEqualObjects(parentLog.ext.userExt.localId, parent.propertyConfigurator.userId);
   XCTAssertEqualObjects(child1Log.ext.appExt.ver, child1.propertyConfigurator.appVersion);
   XCTAssertEqualObjects(child1Log.ext.appExt.name, child1.propertyConfigurator.appName);
   XCTAssertEqualObjects(child1Log.ext.appExt.locale, child1.propertyConfigurator.appLocale);
+  XCTAssertEqualObjects(child1Log.ext.userExt.localId, child1.propertyConfigurator.userId);
   XCTAssertEqualObjects(child2Log.ext.appExt.ver, parent.propertyConfigurator.appVersion);
   XCTAssertEqualObjects(child2Log.ext.appExt.name, parent.propertyConfigurator.appName);
   XCTAssertEqualObjects(child2Log.ext.appExt.locale, parent.propertyConfigurator.appLocale);
+  XCTAssertEqualObjects(child2Log.ext.userExt.localId, parent.propertyConfigurator.userId);
   XCTAssertNil(child2.propertyConfigurator.appVersion);
   XCTAssertNil(child2.propertyConfigurator.appName);
   XCTAssertNil(child2.propertyConfigurator.appLocale);
+  XCTAssertNil(child2.propertyConfigurator.userId);
+}
+
+- (void)testOverridingInvalidUserId {
+
+  // If
+  MSAnalyticsTransmissionTarget *target = [MSAnalytics transmissionTargetForToken:@"invalidUserAppIdTest"];
+
+  // Set invalid user identifier.
+  [target.propertyConfigurator setUserId:@"invalid:invalid"];
+
+  // Set a log.
+  MSCommonSchemaLog *log = [MSCommonSchemaLog new];
+  log.tag = target;
+  [log addTransmissionTargetToken:@"invalidUserAppIdTest"];
+  log.ext = [MSCSExtensions new];
+  log.ext.userExt = [MSUserExtension new];
+
+  // When
+  [target.propertyConfigurator channel:nil prepareLog:log];
+
+  // Then
+  XCTAssertNil(log.ext.userExt.localId);
+}
+
+- (void)testOverridingValidUserIdThenUnset {
+
+  // If
+  MSAnalyticsTransmissionTarget *target = [MSAnalytics transmissionTargetForToken:@"unsetUserIdTest"];
+
+  // Set properties to the target.
+  [target.propertyConfigurator setUserId:@"c:alice"];
+
+  // Set a log.
+  MSCommonSchemaLog *log = [MSCommonSchemaLog new];
+  log.tag = target;
+  [log addTransmissionTargetToken:@"unsetUserIdTest"];
+  log.ext = [MSCSExtensions new];
+  log.ext.userExt = [MSUserExtension new];
+
+  // When
+  [target.propertyConfigurator channel:nil prepareLog:log];
+
+  // Then
+  XCTAssertEqual(log.ext.userExt.localId, @"c:alice");
+
+  // If
+
+  // Unset userId.
+  [target.propertyConfigurator setUserId:nil];
+
+  // Reset a log.
+  log = [MSCommonSchemaLog new];
+  log.tag = target;
+  [log addTransmissionTargetToken:@"target"];
+  log.ext = [MSCSExtensions new];
+  log.ext.userExt = [MSUserExtension new];
+
+  // When
+  [target.propertyConfigurator channel:nil prepareLog:log];
+
+  // Then
+  XCTAssertNil(log.ext.userExt.localId);
+}
+
+- (void)testOverridingValidUserIdWithInvalidOne {
+
+  // If
+  MSAnalyticsTransmissionTarget *target = [MSAnalytics transmissionTargetForToken:@"target"];
+
+  // Set valid userId.
+  [target.propertyConfigurator setUserId:@"c:alice"];
+
+  // Set a log.
+  MSCommonSchemaLog *log = [MSCommonSchemaLog new];
+  log.tag = target;
+  [log addTransmissionTargetToken:@"target"];
+  log.ext = [MSCSExtensions new];
+  log.ext.userExt = [MSUserExtension new];
+
+  // When
+  [target.propertyConfigurator channel:nil prepareLog:log];
+
+  // Then
+  XCTAssertEqual(log.ext.userExt.localId, @"c:alice");
+
+  // If
+
+  // Set invalid userId on existing target having a valid userId.
+  [target.propertyConfigurator setUserId:@"invalid:invalid"];
+
+  // Reset a log.
+  log = [MSCommonSchemaLog new];
+  log.tag = target;
+  [log addTransmissionTargetToken:@"target"];
+  log.ext = [MSCSExtensions new];
+  log.ext.userExt = [MSUserExtension new];
+
+  // When
+  [target.propertyConfigurator channel:nil prepareLog:log];
+
+  // Then the value did not change.
+  XCTAssertEqual(log.ext.userExt.localId, @"c:alice");
 }
 
 - (void)testAddAuthenticationProvider {

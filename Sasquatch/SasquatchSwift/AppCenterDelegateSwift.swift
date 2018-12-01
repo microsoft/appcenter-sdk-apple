@@ -60,6 +60,10 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     MSAppCenter.startFromLibrary(withServices: [MSAnalytics.self])
   }
 
+  func setUserId(_ userId: String?) {
+    MSAppCenter.setUserId(userId);
+  }
+
   // Modules section.
   func isAnalyticsEnabled() -> Bool {
     return MSAnalytics.isEnabled()

@@ -31,7 +31,7 @@
 }
 
 - (void)setAppCenterEnabled:(BOOL)isEnabled {
-  return [MSAppCenter setEnabled:isEnabled];
+  [MSAppCenter setEnabled:isEnabled];
 }
 
 - (NSString *)installId {
@@ -67,7 +67,11 @@
 }
 
 - (void)startAnalyticsFromLibrary {
-  [MSAppCenter startFromLibraryWithServices:@[ [MSAnalytics class] ]];
+  [MSAppCenter startFromLibraryWithServices:@ [[MSAnalytics class]]];
+}
+
+- (void)setUserId:(NSString *)userId {
+  [MSAppCenter setUserId:userId];
 }
 
 #pragma mark - Modules section.

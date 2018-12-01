@@ -12,6 +12,7 @@
 #import "MSPropertyConfiguratorPrivate.h"
 #import "MSStringTypedProperty.h"
 #import "MSTestFrameworks.h"
+#import "MSUserExtension.h"
 
 @interface MSPropertyConfiguratorTests : XCTestCase
 
@@ -202,10 +203,12 @@
   MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
   csLog.ext = [MSCSExtensions new];
   csLog.ext.appExt = [MSAppExtension new];
+  csLog.ext.userExt = [MSUserExtension new];
   [csLog addTransmissionTargetToken:self.targetToken];
   [self.sut setAppLocale:@"en-US"];
   [self.sut setAppVersion:@"1.0.0"];
   [self.sut setAppName:@"tim"];
+  [self.sut setUserId:@"c:alice"];
 
   // When
   [self.sut channel:channelMock prepareLog:csLog];
@@ -214,6 +217,22 @@
   XCTAssertNil(csLog.ext.appExt.ver);
   XCTAssertNil(csLog.ext.appExt.locale);
   XCTAssertNil(csLog.ext.appExt.name);
+  XCTAssertNil(csLog.ext.userExt.localId);
+}
+
+- (void)testSetUserId {
+
+  // When
+  [self.sut setUserId:@"alice"];
+
+  // Then
+  XCTAssertEqualObjects(self.sut.userId, @"c:alice");
+
+  // When
+  [self.sut setUserId:@"c:bob"];
+
+  // Then
+  XCTAssertEqualObjects(self.sut.userId, @"c:bob");
 }
 
 @end

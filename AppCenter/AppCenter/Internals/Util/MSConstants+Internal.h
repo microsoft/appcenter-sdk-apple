@@ -159,6 +159,6 @@ static NSString *const kMSOneCollectorGroupIdSuffix = @"/one";
 static const NSUInteger kMSPersistenceFlagsMask = 0xFF;
 
 /**
- * Valid application userId for One Collector.
+ * Common schema prefix separator used in various field values.
  */
-static NSString *const kAppUserIdPattern = @"^[cidw]:.*$";
+static NSString *const kMSCommonSchemaPrefixSeparator = @":";
