@@ -47,19 +47,30 @@ cp -R "${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/" "${INSTALL_D
 # Create the arm64e slice in Xcode 10.1 and lipo it with the device binary that was created with oldest supported Xcode version.
 # Move binary that was create with old Xcode to temp location.
 LIB_IPHONEOS_FINAL="${DEVICE_DIR}/lib${FMK_NAME}.a"
+
 if [ -z "$MS_ARM64E_XCODE_PATH" ] || [ ! -d "$MS_ARM64E_XCODE_PATH" ] ; then
 echo "Environment variable MS_ARM64E_XCODE_PATH not set or not a valid path."
 else
+
+# Grep the output of `lipo -archs` if it contains "arm64e". If it does, don't build for arm64e again.
+DOES_CONTAIN_ARM64E=`env DEVELOPER_DIR="$MS_ARM64E_XCODE_PATH" /usr/bin/lipo -archs "${LIB_IPHONEOS_FINAL}" | grep arm64e`
+if [ ! -z "${DOES_CONTAIN_ARM64E}" ] ; then
+echo "The binary already contains an arm64e slice."
+else
+
 echo "Building the arm64e slice."
 LIB_IPHONEOS_TEMP_DIR="${DEVICE_DIR}/temp"
 mkdir -p "${LIB_IPHONEOS_TEMP_DIR}"
-mv "${DEVICE_DIR}/lib${FMK_NAME}.a" "${LIB_IPHONEOS_TEMP_DIR}/lib${FMK_NAME}.a"
+mv "${LIB_IPHONEOS_FINAL}" "${LIB_IPHONEOS_TEMP_DIR}/lib${FMK_NAME}.a"
 
 # Build with the Xcode version that supports arm64e.
 env DEVELOPER_DIR="${MS_ARM64E_XCODE_PATH}" /usr/bin/xcodebuild ARCHS="arm64e" -project "${FMK_NAME}.xcodeproj" -configuration "Release" -target "${TGT_NAME}"
 
-# Lipo the binaries that were built from various Xcode versions.
+# Lipo the binaries that were built with various Xcode versions.
 env DEVELOPER_DIR="${MS_ARM64E_XCODE_PATH}" /usr/bin/lipo -create "${LIB_IPHONEOS_TEMP_DIR}/lib${FMK_NAME}.a" "${LIB_IPHONEOS_FINAL}" -output "${LIB_IPHONEOS_FINAL}"
+fi
+
+#End of arm64e code block.
 fi
 
 # Uses the Lipo tool to merge both binary files (i386/x86_64 + armv7/armv7s/arm64/arm64e) into one universal final product.
