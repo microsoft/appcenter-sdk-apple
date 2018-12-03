@@ -13,8 +13,8 @@ class SimplePropertiesTableSection : PropertiesTableSection {
     cell.valueField.text = property.value
 
     // Set cell to respond to being edited.
-    cell.keyField.addTarget(self, action: #selector(propertyKeyChanged), for: .editingChanged)
-    cell.valueField.addTarget(self, action: #selector(propertyValueChanged), for: .editingChanged)
+    cell.keyField.addTarget(self, action: #selector(propertyKeyChanged), for: .editingDidEnd)
+    cell.valueField.addTarget(self, action: #selector(propertyValueChanged), for: .editingDidEnd)
 
     return cell
   }

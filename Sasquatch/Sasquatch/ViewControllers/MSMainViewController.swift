@@ -126,7 +126,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   }
 
   @IBAction func userIdChanged(_ sender: UITextField) {
-    let userId = sender.text
+    let userId = sender.text?.count ?? 0 > 0 ? sender.text : nil
     UserDefaults.standard.set(userId, forKey: kMSUserIdKey)
     appCenter.setUserId(userId)
   }
