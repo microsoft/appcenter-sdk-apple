@@ -1081,7 +1081,7 @@
                                                     <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                                     <connections>
                                                         <action selector="dismissKeyboard:" destination="9Ck-4D-Ozb" eventType="editingDidEndOnExit" id="ZFL-NZ-9Bu"/>
-                                                        <action selector="userIdChanged:" destination="9Ck-4D-Ozb" eventType="editingChanged" id="BB2-Wi-ISZ"/>
+                                                        <action selector="userIdChanged:" destination="9Ck-4D-Ozb" eventType="editingDidEnd" id="sOz-Yn-aJX"/>
                                                     </connections>
                                                 </textField>
                                             </subviews>
