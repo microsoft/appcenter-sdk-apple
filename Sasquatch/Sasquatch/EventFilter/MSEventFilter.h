@@ -1,10 +1,8 @@
-#ifdef GCC_PREPROCESSOR_MACRO_PUPPET
 #import "AppCenter.h"
 #import "AppCenterAnalytics.h"
-#else
-@import AppCenter;
-@import AppCenterAnalytics;
-#endif
+
+// Internal
+#import "MSAnalyticsInternal.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

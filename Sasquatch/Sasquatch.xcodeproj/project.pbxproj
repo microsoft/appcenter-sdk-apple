@@ -16,8 +16,6 @@
 		352A3E7520F80C8600D09CF0 /* EventPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */; };
 		35396A7820F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35396A7720F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift */; };
 		35396A7920F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35396A7720F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift */; };
-		354273ED20126A3E00BE766F /* MSEventFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 354273DE20126A3E00BE766F /* MSEventFilter.m */; };
-		354273EE20126A3E00BE766F /* MSEventFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 354273DE20126A3E00BE766F /* MSEventFilter.m */; };
 		359171F720F7F80800F3DDE6 /* PropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359171F620F7F80800F3DDE6 /* PropertiesTableSection.swift */; };
 		359171F820F7F80800F3DDE6 /* PropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359171F620F7F80800F3DDE6 /* PropertiesTableSection.swift */; };
 		359171FA20F8001A00F3DDE6 /* TargetPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359171F920F8001A00F3DDE6 /* TargetPropertiesTableSection.swift */; };
@@ -114,7 +112,6 @@
 		B27424851EF2193E00F591E5 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 047D13711EAFBDBE00D699BA /* AppCenterDistributeResources.bundle */; };
 		B27D54A4210A5E7E004E82C9 /* EventPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */; };
 		B27D54A5210A5E7E004E82C9 /* MSTransmissionTargets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FBE78020FD095200F7B05C /* MSTransmissionTargets.swift */; };
-		B27D54A6210A5E7E004E82C9 /* MSEventFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 354273DE20126A3E00BE766F /* MSEventFilter.m */; };
 		B27D54A7210A5E7E004E82C9 /* MSAnalyticsResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2586C84210A47A800664A43 /* MSAnalyticsResult.swift */; };
 		B27D54A8210A5E7E004E82C9 /* TargetPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359171F920F8001A00F3DDE6 /* TargetPropertiesTableSection.swift */; };
 		B27D54A9210A5E7E004E82C9 /* AppCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849A3E711E8A9922008711CB /* AppCenterProtocol.swift */; };
@@ -154,7 +151,6 @@
 		B2A4CF8A210A6E6900199B4F /* AppCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849A3E711E8A9922008711CB /* AppCenterProtocol.swift */; };
 		B2A4CF8B210A6E6900199B4F /* MSCrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */; };
 		B2A4CF8C210A6E6900199B4F /* EventPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */; };
-		B2A4CF8D210A6E6900199B4F /* MSEventFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 354273DE20126A3E00BE766F /* MSEventFilter.m */; };
 		B2A4CF8E210A6E6900199B4F /* MSAnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */; };
 		B2A4CF8F210A6E6900199B4F /* MSTransmissionTargetsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35396A7720F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift */; };
 		B2A4CF90210A6E6900199B4F /* MSAnalyticsTransmissionTargetSelectorViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E011EC21091EF1003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.swift */; };
@@ -2103,7 +2099,6 @@
 				F8AA9F3E2164FD1C009104E3 /* MSDatePicker.swift in Sources */,
 				352A3E7420F801A900D09CF0 /* EventPropertiesTableSection.swift in Sources */,
 				35FBE78120FD095200F7B05C /* MSTransmissionTargets.swift in Sources */,
-				354273ED20126A3E00BE766F /* MSEventFilter.m in Sources */,
 				B2586C85210A47A800664A43 /* MSAnalyticsResult.swift in Sources */,
 				359171FA20F8001A00F3DDE6 /* TargetPropertiesTableSection.swift in Sources */,
 				849A3E721E8A9922008711CB /* AppCenterProtocol.swift in Sources */,
@@ -2142,7 +2137,6 @@
 				84A0FF671E8A87B4000E7A28 /* MSCrashesViewController.swift in Sources */,
 				F8AA9F362164F994009104E3 /* MSAnalyticsTypedPropertyTableViewCell.swift in Sources */,
 				352A3E7520F80C8600D09CF0 /* EventPropertiesTableSection.swift in Sources */,
-				354273EE20126A3E00BE766F /* MSEventFilter.m in Sources */,
 				35CAA2272143229300A8BED2 /* MSTableViewCellExtension.swift in Sources */,
 				84A0FF6A1E8A87C9000E7A28 /* MSAnalyticsViewController.swift in Sources */,
 				807DB555212164E000F35E03 /* MSSignInViewController.swift in Sources */,
@@ -2214,7 +2208,6 @@
 				F8AA9F3D2164FD1C009104E3 /* MSDatePicker.swift in Sources */,
 				B27D54A4210A5E7E004E82C9 /* EventPropertiesTableSection.swift in Sources */,
 				B27D54A5210A5E7E004E82C9 /* MSTransmissionTargets.swift in Sources */,
-				B27D54A6210A5E7E004E82C9 /* MSEventFilter.m in Sources */,
 				B27D54A7210A5E7E004E82C9 /* MSAnalyticsResult.swift in Sources */,
 				B27D54A8210A5E7E004E82C9 /* TargetPropertiesTableSection.swift in Sources */,
 				B27D54A9210A5E7E004E82C9 /* AppCenterProtocol.swift in Sources */,
@@ -2253,7 +2246,6 @@
 				B2A4CF8B210A6E6900199B4F /* MSCrashesViewController.swift in Sources */,
 				F8AA9F352164F994009104E3 /* MSAnalyticsTypedPropertyTableViewCell.swift in Sources */,
 				B2A4CF8C210A6E6900199B4F /* EventPropertiesTableSection.swift in Sources */,
-				B2A4CF8D210A6E6900199B4F /* MSEventFilter.m in Sources */,
 				35CAA2252143229300A8BED2 /* MSTableViewCellExtension.swift in Sources */,
 				B2A4CF8E210A6E6900199B4F /* MSAnalyticsViewController.swift in Sources */,
 				807DB554212164E000F35E03 /* MSSignInViewController.swift in Sources */,
