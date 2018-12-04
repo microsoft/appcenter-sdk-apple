@@ -9,4 +9,7 @@
 #if GCC_PREPROCESSOR_MACRO_PUPPET
 #import "MSEventFilter.h"
 #import "MSEventPropertiesInternal.h"
+#else
+@import AppCenter;
+@import AppCenterAnalytics;
 #endif

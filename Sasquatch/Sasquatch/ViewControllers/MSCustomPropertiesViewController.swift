@@ -1,5 +1,4 @@
 import UIKit
-import AppCenter
 
 private let kPropertiesSection: Int = 0
 private let kEstimatedRowHeight: CGFloat = 88.0

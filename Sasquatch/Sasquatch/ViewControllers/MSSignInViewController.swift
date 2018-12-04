@@ -1,6 +1,5 @@
 import UIKit
 import WebKit
-import AppCenterAnalytics
 
 extension URL {
   func valueOf(_ queryParamaterName: String) -> String? {

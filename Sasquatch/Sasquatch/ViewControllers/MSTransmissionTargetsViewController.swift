@@ -1,5 +1,4 @@
 import UIKit
-import AppCenterAnalytics
 
 class MSTransmissionTargetsViewController: UITableViewController, AppCenterProtocol {
   var appCenter: AppCenterDelegate!

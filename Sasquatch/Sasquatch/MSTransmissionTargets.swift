@@ -1,5 +1,4 @@
 import Foundation
-import AppCenterAnalytics
 
 private let kDefaultTargetKey = "defaultTargetKey"
 

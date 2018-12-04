@@ -1,5 +1,4 @@
 import UIKit
-import AppCenterAnalytics
 
 class TargetPropertiesTableSection : PropertiesTableSection {
   typealias EventPropertyType = MSAnalyticsTypedPropertyTableViewCell.EventPropertyType
