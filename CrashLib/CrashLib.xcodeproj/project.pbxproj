@@ -934,6 +934,11 @@
 		B21A71E41DD2A38C0044BB1C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					"$(ARCHS_STANDARD)",
+					armv7s,
+					arm64e,
+				);
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_OBJC_RECEIVER_WEAK = YES;
 				DEFINES_MODULE = YES;
@@ -959,6 +964,11 @@
 		B21A71E51DD2A38C0044BB1C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					"$(ARCHS_STANDARD)",
+					armv7s,
+					arm64e,
+				);
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_OBJC_RECEIVER_WEAK = YES;
 				DEFINES_MODULE = YES;
