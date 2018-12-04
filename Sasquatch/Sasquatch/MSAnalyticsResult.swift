@@ -1,3 +1,5 @@
+import AppCenterAnalytics
+
 @objc class MSAnalyticsResult : NSObject {
 
   var sendingEvents = [String: MSEventLog]()

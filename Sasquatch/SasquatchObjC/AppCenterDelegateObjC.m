@@ -1,5 +1,4 @@
 #import "AppCenterDelegateObjC.h"
-#import "MSEventFilter.h"
 
 #if GCC_PREPROCESSOR_MACRO_PUPPET
 #import "AppCenter.h"
@@ -280,19 +279,6 @@
 
 - (NSString *)lastCrashReportDeviceCarrierCountry {
   return [[[MSCrashes lastSessionCrashReport] device] carrierCountry];
-}
-
-// MSEventFilter section.
-- (BOOL)isEventFilterEnabled {
-  return [MSEventFilter isEnabled];
-}
-
-- (void)setEventFilterEnabled:(BOOL)isEnabled {
-  [MSEventFilter setEnabled:isEnabled];
-}
-
-- (void)startEventFilterService {
-  [MSAppCenter startService:[MSEventFilter class]];
 }
 
 @end

@@ -1,4 +1,5 @@
 import UIKit
+import AppCenterAnalytics
 
 class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   
