@@ -5,7 +5,7 @@
 #import "MSCrashFramelessDWARF.h"
 
 /* Our assembly implemented test function */
-extern void MSFramelessDWARF_test();
+extern void MSFramelessDWARF_test(void);
 
 /* Called by the assembly code paths to trigger the actual NULL dereference */
 extern void MSFramelessDWARF_test_crash(void);
