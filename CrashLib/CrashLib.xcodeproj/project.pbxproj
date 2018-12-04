@@ -441,6 +441,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8065B57F1F4C3FF4004FF622 /* Build configuration list for PBXNativeTarget "CrashLibMac" */;
 			buildPhases = (
+				C2B2102B21B6C31C00F116BD /* Verify no buildSettings */,
 				8065B5731F4C3FF4004FF622 /* Sources */,
 				8065B5741F4C3FF4004FF622 /* Frameworks */,
 				8065B5751F4C3FF4004FF622 /* Headers */,
@@ -459,6 +460,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 80F991261F0265070040FAD7 /* Build configuration list for PBXNativeTarget "CrashLibTV" */;
 			buildPhases = (
+				C2B2102A21B6C30B00F116BD /* Verify no buildSettings */,
 				80F9911C1F0265070040FAD7 /* Sources */,
 				80F9911D1F0265070040FAD7 /* Frameworks */,
 				80F9911E1F0265070040FAD7 /* Headers */,
@@ -477,6 +479,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B21A71E31DD2A38C0044BB1C /* Build configuration list for PBXNativeTarget "CrashLibIOS" */;
 			buildPhases = (
+				C2B2102921B6C2DC00F116BD /* Verify no buildSettings */,
 				B21A71D61DD2A38C0044BB1C /* Sources */,
 				B21A71D71DD2A38C0044BB1C /* Frameworks */,
 				B21A71D81DD2A38C0044BB1C /* Headers */,
@@ -557,6 +560,66 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		C2B2102921B6C2DC00F116BD /* Verify no buildSettings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Verify no buildSettings";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
+			showEnvVarsInLog = 0;
+		};
+		C2B2102A21B6C30B00F116BD /* Verify no buildSettings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Verify no buildSettings";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
+			showEnvVarsInLog = 0;
+		};
+		C2B2102B21B6C31C00F116BD /* Verify no buildSettings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Verify no buildSettings";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8065B5731F4C3FF4004FF622 /* Sources */ = {
@@ -670,7 +733,6 @@
 			buildSettings = {
 				INFOPLIST_FILE = CrashLib/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.CrashLibMac;
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
@@ -680,7 +742,6 @@
 			buildSettings = {
 				INFOPLIST_FILE = CrashLib/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.CrashLibMac;
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
@@ -690,7 +751,6 @@
 			buildSettings = {
 				INFOPLIST_FILE = CrashLib/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.CrashLibTV;
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
@@ -700,7 +760,6 @@
 			buildSettings = {
 				INFOPLIST_FILE = CrashLib/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.CrashLibTV;
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
@@ -724,7 +783,6 @@
 			buildSettings = {
 				INFOPLIST_FILE = CrashLib/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.CrashLibIOS;
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
@@ -734,7 +792,6 @@
 			buildSettings = {
 				INFOPLIST_FILE = CrashLib/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.CrashLibIOS;
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
