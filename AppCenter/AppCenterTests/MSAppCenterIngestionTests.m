@@ -74,7 +74,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   MSLogContainer *container = [self createLogContainerWithId:containerId];
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Response 200"];
   [self.sut sendAsync:container
-      completionHandler:^(NSString *batchId, NSUInteger statusCode, __attribute__((unused)) NSData *data, NSError *error) {
+      completionHandler:^(NSString *batchId, NSUInteger statusCode, __unused NSData *data, NSError *error) {
 
         XCTAssertNil(error);
         XCTAssertEqual(containerId, batchId);
@@ -145,7 +145,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // Set a delegate for pause event.
   id delegateMock = OCMProtocolMock(@protocol(MSIngestionDelegate));
-  OCMStub([delegateMock ingestionDidPause:self.sut]).andDo(^(__attribute__((unused)) NSInvocation *invocation) {
+  OCMStub([delegateMock ingestionDidPause:self.sut]).andDo(^(__unused NSInvocation *invocation) {
     [requestCompletedExcpectation fulfill];
   });
   [self.sut addDelegate:delegateMock];
@@ -186,12 +186,11 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // Set a delegate for pause/resume event.
   id delegateMock = OCMProtocolMock(@protocol(MSIngestionDelegate));
   [self.sut addDelegate:delegateMock];
-  OCMStub([delegateMock ingestionDidPause:self.sut]).andDo(^(__attribute__((unused)) NSInvocation *invocation) {
+  OCMStub([delegateMock ingestionDidPause:self.sut]).andDo(^(__unused NSInvocation *invocation) {
 
     // Send one batch now that the ingestion is paused.
     [self.sut sendAsync:container
-        completionHandler:^(__attribute__((unused)) NSString *batchId, NSUInteger statusCode, __attribute__((unused)) NSData *data,
-                            NSError *error) {
+        completionHandler:^(__unused NSString *batchId, NSUInteger statusCode, __unused NSData *data, NSError *error) {
           forwardedStatus = statusCode;
           forwardedError = error;
           [requestCompletedExcpectation fulfill];
@@ -226,134 +225,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 }
 
 // TODO: Move this to base MSHttpIngestion test.
-- (void)testTasksSuspendedOnIngestionPaused {
-
-  // If
-  XCTestExpectation *tasksListedExpectation = [self expectationWithDescription:@"URL Session tasks listed."];
-  __block NSArray<NSURLSessionDataTask *> *tasks;
-  __block BOOL testFinished = NO;
-  [MSHttpTestUtil stubLongTimeOutResponse];
-  NSArray<MSLogContainer *> *containers = @[ [self createLogContainerWithId:@"1"], [self createLogContainerWithId:@"2"] ];
-
-  // Send logs
-  for (NSUInteger i = 0; i < [containers count]; i++) {
-    [self.sut sendAsync:containers[i]
-        completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
-                            __attribute__((unused)) NSData *data, __attribute__((unused)) NSError *error) {
-          @synchronized(tasks) {
-            if (!testFinished) {
-              XCTFail(@"Completion handler shouldn't be called as test will finish before the response timeout.");
-            }
-          }
-        }];
-  }
-
-  // When
-  [self.sut pause];
-  [self.sut.session getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> *_Nonnull dataTasks,
-                                                    __attribute__((unused)) NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
-                                                    __attribute__((unused)) NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
-    tasks = dataTasks;
-    [tasksListedExpectation fulfill];
-  }];
-
-  // Then
-  [self waitForExpectationsWithTimeout:kMSTestTimeout
-                               handler:^(NSError *error) {
-                                 @synchronized(tasks) {
-
-                                   // Must be only two tasks
-                                   assertThatInteger(tasks.count, equalToInteger(2));
-
-                                   // Tasks must be paused.
-                                   [tasks enumerateObjectsUsingBlock:^(__kindof NSURLSessionTask *_Nonnull task,
-                                                                       __attribute__((unused)) NSUInteger idx,
-                                                                       __attribute__((unused)) BOOL *_Nonnull stop) {
-                                     assertThatInteger(task.state, equalToInteger(NSURLSessionTaskStateSuspended));
-                                   }];
-
-                                   // Ingestion must be paused.
-                                   assertThatBool(self.sut.paused, isTrue());
-
-                                   // Calls must still be in the pending calls, intended to be resumed later.
-                                   assertThatUnsignedLong(self.sut.pendingCalls.count, equalToInt(2));
-
-                                   if (error) {
-                                     XCTFail(@"Expectation Failed with error: %@", error);
-                                   }
-                                   testFinished = YES;
-                                 }
-                               }];
-}
-
-// TODO: Move this to base MSHttpIngestion test.
-- (void)testTasksRunningOnIngestionResumed {
-
-  // If
-  XCTestExpectation *tasksListedExpectation = [self expectationWithDescription:@"Container 1 sent."];
-  __block NSArray<NSURLSessionDataTask *> *tasks;
-  __block BOOL testFinished = NO;
-  [MSHttpTestUtil stubLongTimeOutResponse];
-  NSArray<MSLogContainer *> *containers = @[ [self createLogContainerWithId:@"1"], [self createLogContainerWithId:@"2"] ];
-
-  // Send logs
-  for (NSUInteger i = 0; i < [containers count]; i++) {
-    [self.sut sendAsync:containers[i]
-        completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
-                            __attribute__((unused)) NSData *data, __attribute__((unused)) NSError *error) {
-          @synchronized(tasks) {
-            if (!testFinished) {
-              XCTFail(@"Completion handler shouldn't be called as test will finish before the response timeout.");
-            }
-          }
-        }];
-  }
-
-  // Make sure all log containers are enqueued before pausing ingestion.
-  [NSThread sleepForTimeInterval:0.5];
-  [self.sut pause];
-
-  // When
-  [self.sut resume];
-  [self.sut.session getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> *_Nonnull dataTasks,
-                                                    __attribute__((unused)) NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
-                                                    __attribute__((unused)) NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
-
-    // Capture tasks state.
-    tasks = dataTasks;
-    [tasksListedExpectation fulfill];
-  }];
-
-  // Then
-  [self waitForExpectationsWithTimeout:kMSTestTimeout
-                               handler:^(NSError *error) {
-                                 @synchronized(tasks) {
-                                   if (error) {
-                                     XCTFail(@"Expectation Failed with error: %@", error);
-                                   }
-
-                                   // Must be only two tasks
-                                   assertThatInteger(tasks.count, equalToInteger(2));
-
-                                   // Tasks must have been resumed.
-                                   [tasks enumerateObjectsUsingBlock:^(__kindof NSURLSessionDataTask *_Nonnull task,
-                                                                       __attribute__((unused)) NSUInteger idx,
-                                                                       __attribute__((unused)) BOOL *_Nonnull stop) {
-                                     assertThatInteger(task.state, equalToInteger(NSURLSessionTaskStateRunning));
-                                   }];
-
-                                   // Ingestion must be paused.
-                                   assertThatBool(self.sut.paused, isFalse());
-
-                                   // Calls must still be in the pending calls, not yet timed out.
-                                   assertThatUnsignedLong(self.sut.pendingCalls.count, equalToInt(2));
-
-                                   testFinished = YES;
-                                 }
-                               }];
-}
-
-// TODO: Move this to base MSHttpIngestion test.
 - (void)testPausedWhenAllRetriesUsed {
 
   // If
@@ -375,7 +246,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   OCMStub([mockedCall ingestion:self.sut callCompletedWithStatus:MSHTTPCodesNo500InternalServerError data:OCMOCK_ANY error:OCMOCK_ANY])
       .andForwardToRealObject()
-      .andDo(^(__attribute__((unused)) NSInvocation *invocation) {
+      .andDo(^(__unused NSInvocation *invocation) {
 
         /*
          * Don't fulfill the expectation immediately as the ingestion won't be paused yet. Instead of using a delay to wait for the retries,
@@ -425,7 +296,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   OCMStub([mockedCall ingestion:self.sut callCompletedWithStatus:MSHTTPCodesNo500InternalServerError data:OCMOCK_ANY error:OCMOCK_ANY])
       .andForwardToRealObject()
-      .andDo(^(__attribute__((unused)) NSInvocation *invocation) {
+      .andDo(^(__unused NSInvocation *invocation) {
         [responseReceivedExcpectation fulfill];
       });
   self.sut.pendingCalls[containerId] = mockedCall;
@@ -470,9 +341,8 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   MSLogContainer *container = [[MSLogContainer alloc] initWithBatchId:@"1" andLogs:(NSArray<id<MSLog>> *)@[ log ]];
 
   [self.sut sendAsync:container
-      completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
-                          __attribute__((unused)) NSData *data, NSError *error) {
-
+      completionHandler:^(__unused NSString *batchId, __unused NSUInteger statusCode,
+                          __unused NSData *data, NSError *error) {
         XCTAssertEqual(error.domain, kMSACErrorDomain);
         XCTAssertEqual(error.code, kMSACLogInvalidContainerErrorCode);
       }];
@@ -486,12 +356,10 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Network Down"];
   [self.sut sendAsync:container
-      completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
-                          __attribute__((unused)) NSData *data, NSError *error) {
-
+      completionHandler:^(__unused NSString *batchId, __unused NSUInteger statusCode,
+                          __unused NSData *data, NSError *error) {
         XCTAssertNotNil(error);
         [expectation fulfill];
-
       }];
 
   [self waitForExpectationsWithTimeout:kMSTestTimeout

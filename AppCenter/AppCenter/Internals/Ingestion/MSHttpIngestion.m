@@ -58,7 +58,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 
     // Set query parameter.
     [queryStrings
-        enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id _Nonnull queryString, __attribute__((unused)) BOOL *_Nonnull stop) {
+        enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id _Nonnull queryString, __unused BOOL *_Nonnull stop) {
           [queryStringForEncoding
               appendString:[NSString stringWithFormat:@"%@%@=%@", [queryStringForEncoding length] > 0 ? @"&" : @"", key, queryString]];
         }];
@@ -138,19 +138,9 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
       MSLogInfo([MSAppCenter logTag], @"Pause ingestion.");
       self.paused = YES;
 
-      // Suspend all tasks.
-      [self.session getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> *_Nonnull dataTasks,
-                                                    __attribute__((unused)) NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
-                                                    __attribute__((unused)) NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
-        [dataTasks enumerateObjectsUsingBlock:^(__kindof NSURLSessionTask *_Nonnull call, __attribute__((unused)) NSUInteger idx,
-                                                __attribute__((unused)) BOOL *_Nonnull stop) {
-          [call suspend];
-        }];
-      }];
-
       // Suspend current calls' retry.
-      [self.pendingCalls.allValues enumerateObjectsUsingBlock:^(MSIngestionCall *_Nonnull call, __attribute__((unused)) NSUInteger idx,
-                                                                __attribute__((unused)) BOOL *_Nonnull stop) {
+      [self.pendingCalls.allValues enumerateObjectsUsingBlock:^(MSIngestionCall *_Nonnull call, __unused NSUInteger idx,
+                                                                __unused BOOL *_Nonnull stop) {
         if (!call.submitted) {
           [call resetRetry];
         }
@@ -173,19 +163,10 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
       MSLogInfo([MSAppCenter logTag], @"Resume ingestion.");
       self.paused = NO;
 
-      // Resume existing calls.
-      [self.session getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> *_Nonnull dataTasks,
-                                                    __attribute__((unused)) NSArray<NSURLSessionUploadTask *> *_Nonnull uploadTasks,
-                                                    __attribute__((unused)) NSArray<NSURLSessionDownloadTask *> *_Nonnull downloadTasks) {
-        [dataTasks enumerateObjectsUsingBlock:^(__kindof NSURLSessionTask *_Nonnull call, __attribute__((unused)) NSUInteger idx,
-                                                __attribute__((unused)) BOOL *_Nonnull stop) {
-          [call resume];
-        }];
-      }];
 
       // Resume calls.
-      [self.pendingCalls.allValues enumerateObjectsUsingBlock:^(MSIngestionCall *_Nonnull call, __attribute__((unused)) NSUInteger idx,
-                                                                __attribute__((unused)) BOOL *_Nonnull stop) {
+      [self.pendingCalls.allValues enumerateObjectsUsingBlock:^(MSIngestionCall *_Nonnull call, __unused NSUInteger idx,
+                                                                __unused BOOL *_Nonnull stop) {
         if (!call.submitted) {
           [self sendCallAsync:call];
         }
