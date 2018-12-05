@@ -103,7 +103,14 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   func updateViewState() {
     self.appCenterEnabledSwitch.isOn = appCenter.isAppCenterEnabled()
     self.pushEnabledSwitch.isOn = appCenter.isPushEnabled()
-    self.logFilterSwitch.isOn = appCenter.isEventFilterEnabled()
+    #if ACTIVE_COMPILATION_CONDITION_PUPPET
+    self.logFilterSwitch.isOn = MSEventFilter.isEnabled()
+    #else
+    self.logFilterSwitch.isOn = false
+    let cell = self.logFilterSwitch.superview!.superview as! UITableViewCell
+    cell.isUserInteractionEnabled = false
+    cell.contentView.alpha = 0.5
+    #endif
   }
 
   @IBAction func enabledSwitchUpdated(_ sender: UISwitch) {
@@ -117,12 +124,14 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   }
 
   @IBAction func logFilterSwitchChanged(_ sender: UISwitch) {
+    #if ACTIVE_COMPILATION_CONDITION_PUPPET
     if !eventFilterStarted {
-      appCenter.startEventFilterService()
+      MSAppCenter.startService(MSEventFilter.self)
       eventFilterStarted = true
     }
-    appCenter.setEventFilterEnabled(sender.isOn)
+    MSEventFilter.setEnabled(sender.isOn)
     updateViewState()
+    #endif
   }
 
   @IBAction func userIdChanged(_ sender: UITextField) {
