@@ -1,7 +1,13 @@
 #!/bin/sh
 
-# Load local .bash_profile to have access to MS_ARM64E_XCODE_PATH.
-source ~/.bash_profile
+# Load custom build config.
+config_file=`find ${SRCROOT} -name .build_config`
+if [ -z $config_file ]; then
+echo "Couldn't find custom build config"
+else
+source "${SRCROOT}/.build_config"
+echo "MS_ARM64E_XCODE_PATH: " $MS_ARM64E_XCODE_PATH
+fi
 
 # Sets the target folders and the final framework product.
 FMK_NAME=$1
