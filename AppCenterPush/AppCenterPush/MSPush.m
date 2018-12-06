@@ -16,6 +16,7 @@
 #import "MSPushLog.h"
 #import "MSPushNotificationInternal.h"
 #import "MSPushPrivate.h"
+#import "MSUserIdContext.h"
 #import "MSUserNotificationCenterDelegateForwarder.h"
 
 /**
@@ -248,6 +249,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 - (void)sendPushToken:(NSString *)token {
   MSPushLog *log = [MSPushLog new];
   log.pushToken = token;
+  log.userId = [[MSUserIdContext sharedInstance] userId];
   [self.channelUnit enqueueItem:log flags:MSFlagsDefault];
 }
 
