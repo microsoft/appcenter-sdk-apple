@@ -65,7 +65,7 @@ extern NSString *const kMSTimezone;
 
 #pragma mark - MSCSData
 
-extern NSString *const kMSDataBaseDataType;
+extern NSString *const kMSDataBaseType;
 extern NSString *const kMSDataBaseData;
 
 #pragma mark - MSCSExtensions

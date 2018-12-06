@@ -397,6 +397,38 @@
   [self setupAndAssert:csLog];
 }
 
+- (void)testConvertACPropertiesToCSPropertiesWithPartBData {
+
+  // If
+  MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
+  csLog.data = [MSCSData new];
+  csLog.ext = [MSCSExtensions new];
+  csLog.ext.metadataExt = [MSMetadataExtension new];
+  MSEventProperties *acProperties = [MSEventProperties new];
+  [acProperties setInt64:1 forKey:@"p.a"];
+  [acProperties setDouble:2.0 forKey:@"p.b"];
+  [acProperties setBool:YES forKey:@"p.c"];
+  [acProperties setInt64:6 forKey:@"baseData.long"];
+  [acProperties setString:@"hello" forKey:@"baseData.string"];
+  [acProperties setString:@"type" forKey:@"baseType"];
+  self.sut.typedProperties = acProperties;
+  NSDictionary *expectedProperties =
+      @{@"p" : @{@"a" : @1, @"b" : @2.0, @"c" : @YES}, @"baseData" : @{@"long" : @6, @"string" : @"hello"}, @"baseType" : @"type"};
+  NSDictionary *expectedMetadata = @{
+    @"f" : @{
+      @"p" : @{@"f" : @{@"a" : @(kMSLongMetadataTypeId), @"b" : @(kMSDoubleMetadataTypeId)}},
+      @"baseData" : @{@"f" : @{@"long" : @(kMSLongMetadataTypeId)}}
+    }
+  };
+
+  // When
+  [self.sut setPropertiesAndMetadataForCSLog:csLog];
+
+  // Then
+  XCTAssertEqualObjects(csLog.data.properties, expectedProperties);
+  XCTAssertEqualObjects(csLog.ext.metadataExt.metadata, expectedMetadata);
+}
+
 - (void)setupAndAssert:(MSCommonSchemaLog *)csLog {
 
   // If
@@ -604,6 +636,82 @@
   XCTAssertEqualObjects(csLog.data.properties, expectedProperties);
   XCTAssertEqualObjects(csLog.ext.metadataExt.metadata, expectedMetadata);
   XCTAssertEqualObjects(csLog.tag, self.sut.tag);
+}
+
+- (void)testInvalidBaseType {
+
+  // If
+  MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
+  csLog.data = [MSCSData new];
+  csLog.ext = [MSCSExtensions new];
+  csLog.ext.metadataExt = [MSMetadataExtension new];
+  MSEventProperties *properties = [MSEventProperties new];
+  [properties setInt64:1 forKey:@"baseType"];
+  self.sut.typedProperties = properties;
+
+  // When
+  [self.sut setPropertiesAndMetadataForCSLog:csLog];
+
+  // Then
+  XCTAssertEqual(0, csLog.data.properties.count);
+  XCTAssertNil(csLog.ext.metadataExt.metadata);
+}
+
+- (void)testInvalidBaseData {
+
+  // If
+  MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
+  csLog.data = [MSCSData new];
+  csLog.ext = [MSCSExtensions new];
+  csLog.ext.metadataExt = [MSMetadataExtension new];
+  MSEventProperties *properties = [MSEventProperties new];
+  [properties setInt64:1 forKey:@"baseData"];
+  self.sut.typedProperties = properties;
+
+  // When
+  [self.sut setPropertiesAndMetadataForCSLog:csLog];
+
+  // Then
+  XCTAssertEqual(0, csLog.data.properties.count);
+  XCTAssertNil(csLog.ext.metadataExt.metadata);
+}
+
+- (void)testBaseDataMissing {
+
+  // If
+  MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
+  csLog.data = [MSCSData new];
+  csLog.ext = [MSCSExtensions new];
+  csLog.ext.metadataExt = [MSMetadataExtension new];
+  MSEventProperties *properties = [MSEventProperties new];
+  [properties setString:@"type" forKey:@"baseType"];
+  self.sut.typedProperties = properties;
+
+  // When
+  [self.sut setPropertiesAndMetadataForCSLog:csLog];
+
+  // Then
+  XCTAssertEqual(0, csLog.data.properties.count);
+  XCTAssertNil(csLog.ext.metadataExt.metadata);
+}
+
+- (void)testBaseTypeMissing {
+
+  // If
+  MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
+  csLog.data = [MSCSData new];
+  csLog.ext = [MSCSExtensions new];
+  csLog.ext.metadataExt = [MSMetadataExtension new];
+  MSEventProperties *properties = [MSEventProperties new];
+  [properties setString:@"test" forKey:@"baseData.test"];
+  self.sut.typedProperties = properties;
+
+  // When
+  [self.sut setPropertiesAndMetadataForCSLog:csLog];
+
+  // Then
+  XCTAssertEqual(0, csLog.data.properties.count);
+  XCTAssertNil(csLog.ext.metadataExt.metadata);
 }
 
 @end

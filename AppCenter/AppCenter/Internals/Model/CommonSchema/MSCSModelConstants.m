@@ -66,7 +66,7 @@ NSString *const kMSTimezone = @"tz";
 #pragma mark - MSCSData
 
 NSString *const kMSDataBaseData = @"baseData";
-NSString *const kMSDataBaseDataType = @"baseDataType";
+NSString *const kMSDataBaseType = @"baseType";
 
 #pragma mark - MSCSExtensions
 

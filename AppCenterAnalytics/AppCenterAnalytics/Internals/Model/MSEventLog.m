@@ -98,11 +98,49 @@ static NSString *const kMSTypedProperties = @"typedProperties";
   if (self.typedProperties) {
     csProperties = [NSMutableDictionary new];
     metadata = [NSMutableDictionary new];
+    NSString *baseDataPrefix = [NSString stringWithFormat:@"%@.", kMSDataBaseData];
+
+    // If there is a "baseType" property, there must be accompanying "baseData.*" properties.
+    if (!self.typedProperties.properties[kMSDataBaseType]) {
+      BOOL removedBaseData = NO;
+      for (NSString *key in [self.typedProperties.properties allKeys]) {
+        if ([key hasPrefix:baseDataPrefix]) {
+          [self.typedProperties.properties removeObjectForKey:key];
+          removedBaseData = YES;
+        }
+      }
+      if (removedBaseData) {
+        MSLogWarning([MSAnalytics logTag], @"baseData was set but baseType is missing.");
+      }
+    }
+
+    // If there are "baseData.*" properties, there must be an accompanying "baseType" property.
+    else {
+      BOOL foundBaseData = NO;
+      for (NSString *key in [self.typedProperties.properties allKeys]) {
+        if ([key hasPrefix:baseDataPrefix]) {
+          foundBaseData = YES;
+          break;
+        }
+      }
+      if (!foundBaseData) {
+        MSLogWarning([MSAnalytics logTag], @"baseType was set but baseData is missing.");
+        [self.typedProperties.properties removeObjectForKey:kMSDataBaseType];
+      }
+    }
+
+    // Add typed properties and metadata to the common schema log fields.
     for (MSTypedProperty *typedProperty in [self.typedProperties.properties objectEnumerator]) {
 
-      // Properties keys are mixed up with other keys from Data, make sure they don't conflict.
-      if ([typedProperty.name isEqualToString:kMSDataBaseData] || [typedProperty.name isEqualToString:kMSDataBaseDataType]) {
-        MSLogWarning(MSAnalytics.logTag, @"Cannot use %@ in properties, skipping that property.", typedProperty.name);
+      // Validate baseType.
+      if ([[typedProperty name] isEqualToString:kMSDataBaseType] && ![typedProperty isKindOfClass:[MSStringTypedProperty class]]) {
+        MSLogWarning([MSAnalytics logTag], @"baseType must be a string.");
+        continue;
+      }
+
+      // Validate baseData is an object, meaning it has at least 1 dot.
+      if ([[typedProperty name] isEqualToString:kMSDataBaseData]) {
+        MSLogWarning([MSAnalytics logTag], @"baseData must be an object.");
         continue;
       }
       [self addTypedProperty:typedProperty toCSMetadata:metadata andCSProperties:csProperties];
