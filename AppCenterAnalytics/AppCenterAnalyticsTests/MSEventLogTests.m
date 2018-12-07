@@ -714,4 +714,44 @@
   XCTAssertNil(csLog.ext.metadataExt.metadata);
 }
 
+- (void)testInvalidBaseTypeRemovesBaseData {
+
+  // If
+  MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
+  csLog.data = [MSCSData new];
+  csLog.ext = [MSCSExtensions new];
+  csLog.ext.metadataExt = [MSMetadataExtension new];
+  MSEventProperties *properties = [MSEventProperties new];
+  [properties setString:@"test" forKey:@"baseData.test"];
+  [properties setInt64:23 forKey:@"baseType"];
+  self.sut.typedProperties = properties;
+
+  // When
+  [self.sut setPropertiesAndMetadataForCSLog:csLog];
+
+  // Then
+  XCTAssertEqual(0, csLog.data.properties.count);
+  XCTAssertNil(csLog.ext.metadataExt.metadata);
+}
+
+- (void)testInvalidBaseDataRemovesBaseType {
+
+  // If
+  MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
+  csLog.data = [MSCSData new];
+  csLog.ext = [MSCSExtensions new];
+  csLog.ext.metadataExt = [MSMetadataExtension new];
+  MSEventProperties *properties = [MSEventProperties new];
+  [properties setString:@"test" forKey:@"baseData"];
+  [properties setString:@"type" forKey:@"baseType"];
+  self.sut.typedProperties = properties;
+
+  // When
+  [self.sut setPropertiesAndMetadataForCSLog:csLog];
+
+  // Then
+  XCTAssertEqual(0, csLog.data.properties.count);
+  XCTAssertNil(csLog.ext.metadataExt.metadata);
+}
+
 @end

@@ -100,8 +100,8 @@ static NSString *const kMSTypedProperties = @"typedProperties";
     metadata = [NSMutableDictionary new];
     NSString *baseDataPrefix = [NSString stringWithFormat:@"%@.", kMSDataBaseData];
 
-    // If there is a "baseType" property, there must be accompanying "baseData.*" properties.
-    if (!self.typedProperties.properties[kMSDataBaseType]) {
+    // If there is no valid "baseType" property, there must not be "baseData.*" properties.
+    if (![self.typedProperties.properties[kMSDataBaseType] isKindOfClass:[MSStringTypedProperty class]]) {
       BOOL removedBaseData = NO;
       for (NSString *key in [self.typedProperties.properties allKeys]) {
         if ([key hasPrefix:baseDataPrefix]) {
@@ -110,11 +110,14 @@ static NSString *const kMSTypedProperties = @"typedProperties";
         }
       }
       if (removedBaseData) {
-        MSLogWarning([MSAnalytics logTag], @"baseData was set but baseType is missing.");
+        MSLogWarning([MSAnalytics logTag], @"baseData was set but baseType is missing or invalid.");
       }
+
+      // Base type might be set but invalid, so remove it.
+      [self.typedProperties.properties removeObjectForKey:kMSDataBaseType];
     }
 
-    // If there are "baseData.*" properties, there must be an accompanying "baseType" property.
+    // If there are no "baseData.*" properties, there must not be a "baseType" property.
     else {
       BOOL foundBaseData = NO;
       for (NSString *key in [self.typedProperties.properties allKeys]) {
@@ -131,12 +134,6 @@ static NSString *const kMSTypedProperties = @"typedProperties";
 
     // Add typed properties and metadata to the common schema log fields.
     for (MSTypedProperty *typedProperty in [self.typedProperties.properties objectEnumerator]) {
-
-      // Validate baseType.
-      if ([[typedProperty name] isEqualToString:kMSDataBaseType] && ![typedProperty isKindOfClass:[MSStringTypedProperty class]]) {
-        MSLogWarning([MSAnalytics logTag], @"baseType must be a string.");
-        continue;
-      }
 
       // Validate baseData is an object, meaning it has at least 1 dot.
       if ([[typedProperty name] isEqualToString:kMSDataBaseData]) {
