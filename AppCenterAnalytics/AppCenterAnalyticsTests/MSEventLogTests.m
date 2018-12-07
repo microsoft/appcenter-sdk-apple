@@ -754,4 +754,26 @@
   XCTAssertNil(csLog.ext.metadataExt.metadata);
 }
 
+- (void)testInvalidBaseTypeAsObjectOverridingValidBaseType {
+
+  // If
+  MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
+  csLog.data = [MSCSData new];
+  csLog.ext = [MSCSExtensions new];
+  csLog.ext.metadataExt = [MSMetadataExtension new];
+  MSEventProperties *properties = [MSEventProperties new];
+  [properties setString:@"Some.Type" forKey:@"baseType"];
+  [properties setString:@"invalid" forKey:@"baseType.something"];
+  [properties setString:@"valid" forKey:@"baseData.something"];
+  self.sut.typedProperties = properties;
+  NSDictionary *expectedProperties = @{@"baseType" : @"Some.Type", @"baseData" : @{@"something" : @"valid"}};
+
+  // When
+  [self.sut setPropertiesAndMetadataForCSLog:csLog];
+
+  // Then
+  XCTAssertEqualObjects(csLog.data.properties, expectedProperties);
+  XCTAssertNil(csLog.ext.metadataExt.metadata);
+}
+
 @end

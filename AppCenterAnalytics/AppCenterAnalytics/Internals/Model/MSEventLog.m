@@ -98,6 +98,7 @@ static NSString *const kMSTypedProperties = @"typedProperties";
   if (self.typedProperties) {
     csProperties = [NSMutableDictionary new];
     metadata = [NSMutableDictionary new];
+    NSString *baseTypePrefix = [NSString stringWithFormat:@"%@.", kMSDataBaseType];
     NSString *baseDataPrefix = [NSString stringWithFormat:@"%@.", kMSDataBaseData];
 
     // If baseType is set and valid, make sure it's paired with at least 1 "baseData.*" property.
@@ -115,7 +116,7 @@ static NSString *const kMSTypedProperties = @"typedProperties";
       }
     }
 
-    // If there is no valid "baseType" property (could be set but invalid type), there must not be any "baseData.*" properties.
+    // If there is no valid "baseType" property, there must not be any "baseData.*" property.
     else {
       BOOL removedBaseData = NO;
       for (NSString *key in [self.typedProperties.properties allKeys]) {
@@ -135,11 +136,19 @@ static NSString *const kMSTypedProperties = @"typedProperties";
     // Add typed properties and metadata to the common schema log fields.
     for (MSTypedProperty *typedProperty in [self.typedProperties.properties objectEnumerator]) {
 
+      // Validate baseType is not an object, meaning it should not have dot.
+      if ([[typedProperty name] hasPrefix:baseTypePrefix]) {
+        MSLogWarning([MSAnalytics logTag], @"baseType must not be an object.");
+        continue;
+      }
+
       // Validate baseData is an object, meaning it has at least 1 dot.
       if ([[typedProperty name] isEqualToString:kMSDataBaseData]) {
         MSLogWarning([MSAnalytics logTag], @"baseData must be an object.");
         continue;
       }
+
+      // Convert property.
       [self addTypedProperty:typedProperty toCSMetadata:metadata andCSProperties:csProperties];
     }
   }
