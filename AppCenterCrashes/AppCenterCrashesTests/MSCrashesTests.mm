@@ -1059,6 +1059,23 @@ static unsigned int kMaxAttachmentsPerCrashReport = 2;
   }
 }
 
+- (void)testStartingCrashesWithAutomaticProcessing {
+
+  // Wait for creation of buffers to avoid corruption on OCMPartialMock.
+  dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
+
+  // If
+  self.sut = OCMPartialMock(self.sut);
+  id<MSChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  [self startCrashes:self.sut withReports:YES withChannelGroup:channelGroupMock];
+
+  // When
+  NSArray *retrievedReports = [self.sut unprocessedCrashReports];
+
+  // Then
+  XCTAssertEqual([retrievedReports count], 0U);
+}
+
 - (void)testCrashesSetCorrectUserIdToLogs {
 
   // Wait for creation of buffers to avoid corruption on OCMPartialMock.
