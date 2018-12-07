@@ -1153,7 +1153,14 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     [MSWrapperExceptionManager deleteWrapperExceptionWithUUIDString:report.incidentIdentifier];
     [self.crashFiles removeObject:fileURL];
   }
+  [self clearUnprocessedReports];
   [self clearContextHistoryAndKeepCurrentSession];
+}
+
+- (void)clearUnprocessedReports {
+  [self.unprocessedReports removeAllObjects];
+  [self.unprocessedLogs removeAllObjects];
+  [self.unprocessedFilePaths removeAllObjects];
 }
 
 + (void)resetSharedInstance {
