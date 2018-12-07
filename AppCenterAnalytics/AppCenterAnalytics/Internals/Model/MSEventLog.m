@@ -100,8 +100,23 @@ static NSString *const kMSTypedProperties = @"typedProperties";
     metadata = [NSMutableDictionary new];
     NSString *baseDataPrefix = [NSString stringWithFormat:@"%@.", kMSDataBaseData];
 
-    // If there is no valid "baseType" property, there must not be "baseData.*" properties.
-    if (![self.typedProperties.properties[kMSDataBaseType] isKindOfClass:[MSStringTypedProperty class]]) {
+    // If baseType is set and valid, make sure it's paired with at least 1 "baseData.*" property.
+    if ([self.typedProperties.properties[kMSDataBaseType] isKindOfClass:[MSStringTypedProperty class]]) {
+      BOOL foundBaseData = NO;
+      for (NSString *key in [self.typedProperties.properties allKeys]) {
+        if ([key hasPrefix:baseDataPrefix]) {
+          foundBaseData = YES;
+          break;
+        }
+      }
+      if (!foundBaseData) {
+        MSLogWarning([MSAnalytics logTag], @"baseType was set but baseData is missing.");
+        [self.typedProperties.properties removeObjectForKey:kMSDataBaseType];
+      }
+    }
+
+    // If there is no valid "baseType" property (could be set but invalid type), there must not be any "baseData.*" properties.
+    else {
       BOOL removedBaseData = NO;
       for (NSString *key in [self.typedProperties.properties allKeys]) {
         if ([key hasPrefix:baseDataPrefix]) {
@@ -115,21 +130,6 @@ static NSString *const kMSTypedProperties = @"typedProperties";
 
       // Base type might be set but invalid, so remove it.
       [self.typedProperties.properties removeObjectForKey:kMSDataBaseType];
-    }
-
-    // If there are no "baseData.*" properties, there must not be a "baseType" property.
-    else {
-      BOOL foundBaseData = NO;
-      for (NSString *key in [self.typedProperties.properties allKeys]) {
-        if ([key hasPrefix:baseDataPrefix]) {
-          foundBaseData = YES;
-          break;
-        }
-      }
-      if (!foundBaseData) {
-        MSLogWarning([MSAnalytics logTag], @"baseType was set but baseData is missing.");
-        [self.typedProperties.properties removeObjectForKey:kMSDataBaseType];
-      }
     }
 
     // Add typed properties and metadata to the common schema log fields.
