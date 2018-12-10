@@ -14,7 +14,8 @@
 }
 
 + (BOOL)isNoInternetConnectionError:(NSError *)error {
-  return ([error.domain isEqualToString:NSURLErrorDomain] && (error.code == NSURLErrorNotConnectedToInternet));
+  return ([error.domain isEqualToString:NSURLErrorDomain] &&
+          ((error.code == NSURLErrorNotConnectedToInternet) || (error.code == NSURLErrorNetworkConnectionLost)));
 }
 
 + (BOOL)isSSLConnectionError:(NSError *)error {
