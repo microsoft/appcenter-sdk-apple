@@ -49,7 +49,14 @@ cp -f "${SRCROOT}/${FMK_NAME}/Support/iOS.modulemap" "${INSTALL_DIR}/Modules/mod
 
 # Copies the headers and resources files to the final product folder.
 cp -R "${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/" "${INSTALL_DIR}/Headers/"
+
+# Copy the resource bundle for App Center Distribute.
+if [[ "$FMK_NAME" == "AppCenterDistribute" ]]; then
+echo "Copying resource bundle for $FMK_NAME."
 cp -R "${SRCROOT}/${WRK_DIR}/Release-iphoneos/${FMK_RESOURCE_BUNDLE}.bundle" "${PRODUCTS_DIR}" || true
+else
+echo "No need to copy a resource bundle for $FMK_NAME."
+fi
 
 # Create the arm64e slice in Xcode 10.1 and lipo it with the device binary that was created with oldest supported Xcode version.
 LIB_IPHONEOS_FINAL="${DEVICE_DIR}/lib${FMK_NAME}.a"
