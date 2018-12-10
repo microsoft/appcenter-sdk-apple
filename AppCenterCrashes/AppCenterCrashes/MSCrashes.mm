@@ -1112,6 +1112,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     }
 
     // Return and do not continue with crash processing.
+    [self clearUnprocessedReports];
     [self clearContextHistoryAndKeepCurrentSession];
     return;
   } else if (userConfirmation == MSUserConfirmationAlways) {
