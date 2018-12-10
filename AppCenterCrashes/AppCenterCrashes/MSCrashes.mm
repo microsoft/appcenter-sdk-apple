@@ -344,6 +344,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     [self emptyLogBufferFiles];
     [self removeAnalyzerFile];
     [self.plCrashReporter purgePendingCrashReport];
+    [self clearUnprocessedReports];
     [self clearContextHistoryAndKeepCurrentSession];
     MSLogInfo([MSCrashes logTag], @"Crashes service has been disabled.");
   }
