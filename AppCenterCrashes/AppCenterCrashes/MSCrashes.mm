@@ -344,6 +344,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     [self emptyLogBufferFiles];
     [self removeAnalyzerFile];
     [self.plCrashReporter purgePendingCrashReport];
+    [self clearUnprocessedReports];
     [self clearContextHistoryAndKeepCurrentSession];
     MSLogInfo([MSCrashes logTag], @"Crashes service has been disabled.");
   }
@@ -1112,6 +1113,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     }
 
     // Return and do not continue with crash processing.
+    [self clearUnprocessedReports];
     [self clearContextHistoryAndKeepCurrentSession];
     return;
   } else if (userConfirmation == MSUserConfirmationAlways) {
@@ -1153,7 +1155,14 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     [MSWrapperExceptionManager deleteWrapperExceptionWithUUIDString:report.incidentIdentifier];
     [self.crashFiles removeObject:fileURL];
   }
+  [self clearUnprocessedReports];
   [self clearContextHistoryAndKeepCurrentSession];
+}
+
+- (void)clearUnprocessedReports {
+  [self.unprocessedReports removeAllObjects];
+  [self.unprocessedLogs removeAllObjects];
+  [self.unprocessedFilePaths removeAllObjects];
 }
 
 + (void)resetSharedInstance {
