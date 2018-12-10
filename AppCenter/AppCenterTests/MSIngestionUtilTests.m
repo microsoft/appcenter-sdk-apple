@@ -50,6 +50,12 @@
   XCTAssertTrue([MSIngestionUtil isNoInternetConnectionError:error]);
 
   // When
+  error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:NSURLErrorNetworkConnectionLost userInfo:nil];
+
+  // Then
+  XCTAssertTrue([MSIngestionUtil isNoInternetConnectionError:error]);
+
+  // When
   error = [[NSError alloc] initWithDomain:NSURLErrorDomain code:NSURLErrorServerCertificateHasBadDate userInfo:nil];
 
   // Then
