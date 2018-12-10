@@ -141,32 +141,38 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // If
   [MSHttpTestUtil stubNetworkDownResponse];
   XCTestExpectation *requestCompletedExcpectation = [self expectationWithDescription:@"Request completed."];
-  MSLogContainer *container = [self createLogContainerWithId:@"1"];
+  NSString *containerId = @"1";
+  MSLogContainer *container = [self createLogContainerWithId:containerId];
 
-  // Set a delegate for pause event.
-  id delegateMock = OCMProtocolMock(@protocol(MSIngestionDelegate));
-  OCMStub([delegateMock ingestionDidPause:self.sut]).andDo(^(__unused NSInvocation *invocation) {
-    [requestCompletedExcpectation fulfill];
-  });
-  [self.sut addDelegate:delegateMock];
+  // Mock the call to intercept the retry.
+  NSArray *intervals = @[ @(0.5), @(1) ];
+  MSIngestionCall *mockedCall = OCMPartialMock([[MSIngestionCall alloc] initWithRetryIntervals:intervals]);
+  mockedCall.delegate = self.sut;
+  mockedCall.data = container;
+  mockedCall.callId = container.batchId;
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnonnull"
+  mockedCall.completionHandler = nil;
+#pragma clang diagnostic pop
+
+  OCMStub([mockedCall ingestion:self.sut callCompletedWithStatus:0 data:OCMOCK_ANY error:OCMOCK_ANY])
+    .andForwardToRealObject()
+    .andDo(^(__unused NSInvocation *invocation) {
+      [requestCompletedExcpectation fulfill];
+    });
+  self.sut.pendingCalls[containerId] = mockedCall;
 
   // When
-  [self.sut sendAsync:container
-      completionHandler:^(__unused NSString *batchId, __unused NSUInteger statusCode, __unused NSData *data, __unused NSError *error) {
-
-        // This should not be happening.
-        XCTFail(@"Completion handler should'nt be called on recoverable errors.");
-      }];
+  [self.sut sendCallAsync:mockedCall];
 
   // Then
   [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
 
                                  // The call must still be in the pending calls, intended to be retried later.
-                                 assertThatUnsignedLong(self.sut.pendingCalls.count, equalToInt(1));
-
-                                 // Ingestion must be paused when network is down.
-                                 assertThatBool(self.sut.paused, isTrue());
+                                 assertThatUnsignedLong(self.sut.pendingCalls.count, equalToUnsignedLong(1));
+                                 assertThatUnsignedLong(mockedCall.retryCount, equalToUnsignedLong(0));
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
