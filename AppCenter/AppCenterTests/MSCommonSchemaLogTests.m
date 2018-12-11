@@ -228,6 +228,7 @@
 
 - (MSUserExtension *)userExtWithDummyValues {
   MSUserExtension *userExt = [MSUserExtension new];
+  userExt.localId = @"c:alice";
   userExt.locale = @"en-us";
   return userExt;
 }
@@ -250,6 +251,7 @@
   appExt.appId = @"com.mamamia.bundle.id";
   appExt.ver = @"1.0.0";
   appExt.locale = @"fr-ca";
+  appExt.userId = @"c:alice";
   return appExt;
 }
 

@@ -26,6 +26,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   @IBOutlet weak var deviceIdLabel: UILabel!
   @IBOutlet weak var storageMaxSizeField: UITextField!
   @IBOutlet weak var storageFileSizeLabel: UILabel!
+  @IBOutlet weak var userIdField: UITextField!
 
   var appCenter: AppCenterDelegate!
   private var startupModePicker: MSEnumPicker<StartupMode>?
@@ -83,6 +84,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     self.logUrl.text = appCenter.logUrl()
     self.sdkVersion.text = appCenter.sdkVersion()
     self.deviceIdLabel.text = UIDevice.current.identifierForVendor?.uuidString
+    self.userIdField.text = UserDefaults.standard.string(forKey: kMSUserIdKey)
 
     // Make sure the UITabBarController does not cut off the last cell.
     self.edgesForExtendedLayout = []
@@ -101,7 +103,14 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   func updateViewState() {
     self.appCenterEnabledSwitch.isOn = appCenter.isAppCenterEnabled()
     self.pushEnabledSwitch.isOn = appCenter.isPushEnabled()
-    self.logFilterSwitch.isOn = appCenter.isEventFilterEnabled()
+    #if ACTIVE_COMPILATION_CONDITION_PUPPET
+    self.logFilterSwitch.isOn = MSEventFilter.isEnabled()
+    #else
+    self.logFilterSwitch.isOn = false
+    let cell = self.logFilterSwitch.superview!.superview as! UITableViewCell
+    cell.isUserInteractionEnabled = false
+    cell.contentView.alpha = 0.5
+    #endif
   }
 
   @IBAction func enabledSwitchUpdated(_ sender: UISwitch) {
@@ -115,12 +124,25 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   }
 
   @IBAction func logFilterSwitchChanged(_ sender: UISwitch) {
+    #if ACTIVE_COMPILATION_CONDITION_PUPPET
     if !eventFilterStarted {
-      appCenter.startEventFilterService()
+      MSAppCenter.startService(MSEventFilter.self)
       eventFilterStarted = true
     }
-    appCenter.setEventFilterEnabled(sender.isOn)
+    MSEventFilter.setEnabled(sender.isOn)
     updateViewState()
+    #endif
+  }
+
+  @IBAction func userIdChanged(_ sender: UITextField) {
+    let text = sender.text ?? ""
+    let userId = !text.isEmpty ? text : nil
+    UserDefaults.standard.set(userId, forKey: kMSUserIdKey)
+    appCenter.setUserId(userId)
+  }
+
+  @IBAction func dismissKeyboard(_ sender: UITextField!) {
+    sender.resignFirstResponder()
   }
 
   func storageMaxSizeUpdated(_ sender: UITextField) {
@@ -139,7 +161,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   }
 
   func doneClicked() {
-    self.storageMaxSizeField.resignFirstResponder()
+    dismissKeyboard(self.storageMaxSizeField)
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

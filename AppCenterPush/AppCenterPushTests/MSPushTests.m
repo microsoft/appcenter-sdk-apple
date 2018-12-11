@@ -6,7 +6,8 @@
 #import <UserNotifications/UserNotifications.h>
 #endif
 
-#import "MSChannelGroupDefault.h"
+#import "MSChannelGroupProtocol.h"
+#import "MSChannelUnitProtocol.h"
 #import "MSPush.h"
 #import "MSPushAppDelegate.h"
 #import "MSPushLog.h"
@@ -14,6 +15,7 @@
 #import "MSPushPrivate.h"
 #import "MSPushTestUtil.h"
 #import "MSTestFrameworks.h"
+#import "MSUserIdContextPrivate.h"
 
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
 static NSString *const kMSTestPushToken = @"TestPushToken";
@@ -57,6 +59,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 
 - (void)setUp {
   [super setUp];
+  [MSUserIdContext resetSharedInstance];
   self.sut = [MSPush new];
 
 // Mock UNUserNotificationCenter since it not supported during tests.
@@ -140,11 +143,22 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   NSData *deviceToken = [@"deviceToken" dataUsingEncoding:NSUTF8StringEncoding];
   NSString *pushToken = @"ConvertedPushToken";
   OCMStub([pushMock convertTokenToString:deviceToken]).andReturn(pushToken);
+  __block MSPushLog *log;
+  id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSPushLog class]] flags:MSFlagsDefault]).andDo(^(NSInvocation *invocation) {
+    [invocation getArgument:&log atIndex:2];
+  });
 
   // Then
   XCTAssertNil(self.sut.pushToken);
 
   // When
+  [[MSPush sharedInstance] startWithChannelGroup:channelGroupMock
+                                       appSecret:kMSTestAppSecret
+                         transmissionTargetToken:nil
+                                 fromApplication:YES];
   [MSPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 
   // Then
@@ -152,11 +166,15 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   OCMVerify([pushMock didRegisterForRemoteNotificationsWithDeviceToken:deviceToken]);
   OCMVerify([pushMock convertTokenToString:deviceToken]);
   OCMVerify([pushMock sendPushToken:pushToken]);
+  XCTAssertNotNil(log);
+  XCTAssertEqual(pushToken, log.pushToken);
+  XCTAssertNil(log.userId);
 
   // When
   deviceToken = [@"otherToken" dataUsingEncoding:NSUTF8StringEncoding];
   pushToken = @"ConvertedOtherToken";
   OCMStub([pushMock convertTokenToString:deviceToken]).andReturn(pushToken);
+  [[MSUserIdContext sharedInstance] setUserId:@"alice"];
   [MSPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 
   // Then
@@ -164,6 +182,9 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   OCMVerify([pushMock didRegisterForRemoteNotificationsWithDeviceToken:deviceToken]);
   OCMVerify([pushMock convertTokenToString:deviceToken]);
   OCMVerify([pushMock sendPushToken:pushToken]);
+  XCTAssertNotNil(log);
+  XCTAssertEqual(pushToken, log.pushToken);
+  XCTAssertEqual(@"alice", log.userId);
 
   // When
   OCMReject([pushMock sendPushToken:OCMOCK_ANY]);
@@ -206,7 +227,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   [MSPush setDelegate:pushDelegateMock];
   __block NSString *title = @"notification title";
   __block NSString *message = @"notification message";
-  __block NSDictionary *customData = @{ @"key" : @"value" };
+  __block NSDictionary *customData = @{@"key" : @"value"};
   NSDictionary *userInfo = @{
     kMSPushNotificationApsKey :
         @{kMSPushNotificationAlertKey : @{kMSPushNotificationTitleKey : title, kMSPushNotificationMessageKey : message}},
@@ -269,7 +290,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   [MSPush setDelegate:pushDelegateMock];
   __block NSString *title = @"notification title";
   __block NSString *message = @"notification message";
-  __block NSDictionary *customData = @{ @"key" : @"value" };
+  __block NSDictionary *customData = @{@"key" : @"value"};
   NSDictionary *userInfo = @{
     kMSPushNotificationApsKey :
         @{kMSPushNotificationAlertKey : @{kMSPushNotificationTitleKey : title, kMSPushNotificationMessageKey : message}},
@@ -393,10 +414,9 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   });
   [MSPush setDelegate:pushDelegateMock];
   __block NSString *message = @"notification message";
-  __block NSDictionary *customData = @{ @"key" : @"value" };
+  __block NSDictionary *customData = @{@"key" : @"value"};
   NSDictionary *userInfo =
-      @{ kMSPushNotificationApsKey : @{kMSPushNotificationAlertKey : message},
-         kMSPushNotificationCustomDataKey : customData };
+      @{kMSPushNotificationApsKey : @{kMSPushNotificationAlertKey : message}, kMSPushNotificationCustomDataKey : customData};
 #if TARGET_OS_OSX
   id userNotificationUserInfoMock = OCMClassMock([NSUserNotification class]);
   id notificationMock = OCMClassMock([NSNotification class]);
@@ -480,7 +500,6 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
-
                                  // Then
                                  OCMVerifyAll(pushDelegateMock);
                                  XCTAssertNil(pushNotification);
@@ -561,8 +580,8 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 
   // Then
   OCMVerify([pushMock didReceiveUserNotification:userNotificationMock]);
-  OCMVerify(
-      [userNotificationCenterDelegateMock userNotificationCenter:userNotificationCenterMock didActivateNotification:userNotificationMock]);
+  OCMVerify([userNotificationCenterDelegateMock userNotificationCenter:userNotificationCenterMock
+                                               didActivateNotification:userNotificationMock]);
 
   [pushMock stopMocking];
 }
@@ -586,16 +605,14 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   // When
   [pushMock observeValueForKeyPath:@"delegate"
                           ofObject:nil
-                            change:@{
-                              @"new" : userNotificationCenterDelegateMock
-                            }
+                            change:@{@"new" : userNotificationCenterDelegateMock}
                            context:[MSPush userNotificationCenterDelegateContext]];
   [pushMock userNotificationCenter:userNotificationCenterMock didActivateNotification:userNotificationMock];
 
   // Then
   OCMVerify([pushMock didReceiveUserNotification:userNotificationMock]);
-  OCMVerify(
-      [userNotificationCenterDelegateMock userNotificationCenter:userNotificationCenterMock didActivateNotification:userNotificationMock]);
+  OCMVerify([userNotificationCenterDelegateMock userNotificationCenter:userNotificationCenterMock
+                                               didActivateNotification:userNotificationMock]);
 
   [pushMock stopMocking];
 }

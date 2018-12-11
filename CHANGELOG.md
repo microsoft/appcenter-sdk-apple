@@ -1,5 +1,35 @@
 # App Center SDK for iOS and macOS Change Log
 
+## Version 1.12.0
+
+### AppCenter
+
+* **[Feature]** Allow users to set userId that applies to crashes, error and push logs. This feature adds an API, but is not yet supported on the App Center backend.
+* **[Fix]** Do not delete old logs when trying to add a log larger than the maximum storage capacity.
+* **[Fix]** Fix minimum storage size verification to match minimum possible value.
+* **[Fix]** Fix reporting carrier information using new iOS 12 APIs when running on iOS 12+.
+* **[Fix]** Fix a memory leak issue during executing SQL queries.
+* **[Fix]** Fix a keychain permission issue on macOS applications.
+* **[Feature]** Add preview support for arm64e CPU architecture.
+
+### AppCenterAnalytics
+
+* **[Feature]** Add preview support for arm64e CPU architecture.
+
+### AppCenterCrashes
+
+* **[Feature]** Add preview support for arm64e CPU architecture by using PLCrashReporter 1.2.3-rc1. PLCrashReporter 1.2.3-rc1 is a fork of the official repository and can be found at [https://github.com/Microsoft/PLCrashReporter](https://github.com/Microsoft/PLCrashReporter). It is based on version It is maintained by the [App Center](https://appcenter.ms) team and based on PLCrashReporter 1.2.1 (commit [fda23306](https://github.com/Microsoft/PLCrashReporter/tree/fda233062b5586f5d01cc527af643168665226c0)) with additional fixes and changes.
+
+### AppCenterDistribute
+
+* **[Feature]** Add preview support for arm64e CPU architecture.
+
+### AppCenterPush
+
+* **[Feature]** Add preview support for arm64e CPU architecture.
+
+___
+
 ## Version 1.11.0
 
 ### AppCenter

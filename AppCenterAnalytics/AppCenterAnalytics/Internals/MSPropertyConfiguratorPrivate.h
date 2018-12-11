@@ -24,6 +24,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSString *appLocale;
 
 /**
+ * The userId to be overwritten.
+ */
+@property(nonatomic, copy) NSString *userId;
+
+/**
  * The transmission target which will have overwritten properties.
  */
 @property(nonatomic, weak) MSAnalyticsTransmissionTarget *transmissionTarget;

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <development version="8000" identifier="xcode"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -20,30 +21,40 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Key" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0w8-gH-9IR">
-                        <rect key="frame" x="20" y="0.0" width="160" height="44"/>
+                        <rect key="frame" x="20" y="0.0" width="159.5" height="44"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="44" id="NVg-Vu-rsz"/>
+                        </constraints>
                         <nil key="textColor"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="Key"/>
                         </userDefinedRuntimeAttributes>
+                        <connections>
+                            <action selector="dismissKeyboard:" destination="VGz-Vf-G1h" eventType="editingDidEndOnExit" id="tdW-Zx-LeK"/>
+                        </connections>
                     </textField>
                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Value" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="j3d-U5-snv">
-                        <rect key="frame" x="195.5" y="0.0" width="159.5" height="43"/>
+                        <rect key="frame" x="195.5" y="0.0" width="159.5" height="44"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="44" id="c0q-HM-hNS"/>
+                        </constraints>
                         <nil key="textColor"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="Value"/>
                         </userDefinedRuntimeAttributes>
+                        <connections>
+                            <action selector="dismissKeyboard:" destination="VGz-Vf-G1h" eventType="editingDidEndOnExit" id="Faj-UP-bUt"/>
+                        </connections>
                     </textField>
                 </subviews>
                 <constraints>
                     <constraint firstItem="0w8-gH-9IR" firstAttribute="leading" secondItem="roe-Sg-weR" secondAttribute="leading" constant="20" symbolic="YES" id="39f-HS-ceK"/>
                     <constraint firstAttribute="trailing" secondItem="j3d-U5-snv" secondAttribute="trailing" constant="20" symbolic="YES" id="PMF-we-y0G"/>
-                    <constraint firstAttribute="bottom" secondItem="j3d-U5-snv" secondAttribute="bottom" id="Q0Z-9P-wgm"/>
                     <constraint firstAttribute="centerX" secondItem="0w8-gH-9IR" secondAttribute="trailing" constant="8" id="WQe-2J-GJU"/>
-                    <constraint firstAttribute="bottom" secondItem="0w8-gH-9IR" secondAttribute="bottom" id="bbI-E6-TmC"/>
                     <constraint firstItem="j3d-U5-snv" firstAttribute="top" secondItem="roe-Sg-weR" secondAttribute="top" id="p1N-Up-5s1"/>
                     <constraint firstItem="0w8-gH-9IR" firstAttribute="top" secondItem="roe-Sg-weR" secondAttribute="top" id="w4X-t3-Bbl"/>
                     <constraint firstItem="j3d-U5-snv" firstAttribute="leading" secondItem="roe-Sg-weR" secondAttribute="centerX" constant="8" id="wzr-by-Wt4"/>

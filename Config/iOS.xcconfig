@@ -1,8 +1,17 @@
 SDK_NAME = appcenter.ios
 SDKROOT = iphoneos
-ARCHS = armv7 armv7s arm64
+PRE_XCODE_10_1_ARCHS = armv7 armv7s arm64
+ARCHS[sdk=iphoneos*] = $(PRE_XCODE_10_1_ARCHS) arm64e
+ARCHS[sdk=iphoneos9.*] = $(PRE_XCODE_10_1_ARCHS)
+ARCHS[sdk=iphoneos10.*] = $(PRE_XCODE_10_1_ARCHS)
+ARCHS[sdk=iphoneos11.*] = $(PRE_XCODE_10_1_ARCHS)
+ARCHS[sdk=iphoneos12.0] = $(PRE_XCODE_10_1_ARCHS)
 ARCHS[sdk=iphonesimulator*] = $(MS_SIM_ARCHS)
-VALID_ARCHS = $(ARCHS)
+VALID_ARCHS[sdk=iphoneos*] = $(ARCHS)
+VALID_ARCHS[sdk=iphoneos9.*] = $(ARCHS)
+VALID_ARCHS[sdk=iphoneos10.*] = $(ARCHS)
+VALID_ARCHS[sdk=iphoneos11.*] = $(ARCHS)
+VALID_ARCHS[sdk=iphoneos12.0] = $(ARCHS)
 VALID_ARCHS[sdk=iphonesimulator*] = $(MS_SIM_ARCHS)
 SKIP_INSTALL = YES
 

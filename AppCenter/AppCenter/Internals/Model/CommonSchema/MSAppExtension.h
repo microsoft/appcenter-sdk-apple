@@ -28,4 +28,9 @@
  */
 @property(nonatomic, copy) NSString *locale;
 
+/**
+ * The application's userId.
+ */
+@property(nonatomic, copy) NSString *userId;
+
 @end

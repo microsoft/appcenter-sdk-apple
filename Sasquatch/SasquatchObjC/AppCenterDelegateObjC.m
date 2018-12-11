@@ -1,5 +1,4 @@
 #import "AppCenterDelegateObjC.h"
-#import "MSEventFilter.h"
 
 #if GCC_PREPROCESSOR_MACRO_PUPPET
 #import "AppCenter.h"
@@ -31,7 +30,7 @@
 }
 
 - (void)setAppCenterEnabled:(BOOL)isEnabled {
-  return [MSAppCenter setEnabled:isEnabled];
+  [MSAppCenter setEnabled:isEnabled];
 }
 
 - (NSString *)installId {
@@ -67,7 +66,11 @@
 }
 
 - (void)startAnalyticsFromLibrary {
-  [MSAppCenter startFromLibraryWithServices:@[ [MSAnalytics class] ]];
+  [MSAppCenter startFromLibraryWithServices:@ [[MSAnalytics class]]];
+}
+
+- (void)setUserId:(NSString *)userId {
+  [MSAppCenter setUserId:userId];
 }
 
 #pragma mark - Modules section.
@@ -276,19 +279,6 @@
 
 - (NSString *)lastCrashReportDeviceCarrierCountry {
   return [[[MSCrashes lastSessionCrashReport] device] carrierCountry];
-}
-
-// MSEventFilter section.
-- (BOOL)isEventFilterEnabled {
-  return [MSEventFilter isEnabled];
-}
-
-- (void)setEventFilterEnabled:(BOOL)isEnabled {
-  [MSEventFilter setEnabled:isEnabled];
-}
-
-- (void)startEventFilterService {
-  [MSAppCenter startService:[MSEventFilter class]];
 }
 
 @end

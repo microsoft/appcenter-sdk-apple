@@ -83,7 +83,7 @@
 }
 
 + (NSDictionary *)userExtensionDummies {
-  return @{kMSUserLocale : @"en-us"};
+  return @{kMSUserLocalId : @"c:bob", kMSUserLocale : @"en-us"};
 }
 
 + (NSDictionary *)locExtensionDummies {
@@ -95,7 +95,7 @@
 }
 
 + (NSDictionary *)appExtensionDummies {
-  return @{kMSAppId : @"com.some.bundle.id", kMSAppVer : @"3.4.1", kMSAppLocale : @"en-us"};
+  return @{kMSAppId : @"com.some.bundle.id", kMSAppVer : @"3.4.1", kMSAppLocale : @"en-us", kMSAppUserId : @"c:alice"};
 }
 
 + (NSDictionary *)protocolExtensionDummies {
@@ -183,6 +183,7 @@
 
 + (MSUserExtension *)userExtensionWithDummyValues:(NSDictionary *)dummyValues {
   MSUserExtension *userExt = [MSUserExtension new];
+  userExt.localId = dummyValues[kMSUserLocalId];
   userExt.locale = dummyValues[kMSUserLocale];
   return userExt;
 }
@@ -205,6 +206,7 @@
   appExt.appId = dummyValues[kMSAppId];
   appExt.ver = dummyValues[kMSAppVer];
   appExt.locale = dummyValues[kMSAppLocale];
+  appExt.userId = dummyValues[kMSAppUserId];
   return appExt;
 }
 

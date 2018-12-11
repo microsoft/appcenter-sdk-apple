@@ -15,6 +15,7 @@
 #import "MSLongTypedProperty.h"
 #import "MSMockUserDefaults.h"
 #import "MSPageLog.h"
+#import "MSSessionContextPrivate.h"
 #import "MSSessionTrackerPrivate.h"
 #import "MSStringTypedProperty.h"
 #import "MSTestFrameworks.h"
@@ -31,6 +32,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 @interface MSAnalyticsTests : XCTestCase <MSAnalyticsDelegate>
 
 @property(nonatomic) MSMockUserDefaults *settingsMock;
+@property(nonatomic) id sessionContextMock;
 
 @end
 
@@ -60,11 +62,18 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
   // Mock NSUserDefaults
   self.settingsMock = [MSMockUserDefaults new];
+
+  // Mock session context
+  [MSSessionContext resetSharedInstance];
+  self.sessionContextMock = OCMClassMock([MSSessionContext class]);
+  OCMStub([self.sessionContextMock sharedInstance]).andReturn(self.sessionContextMock);
 }
 
 - (void)tearDown {
   [super tearDown];
   [self.settingsMock stopMocking];
+  [self.sessionContextMock stopMocking];
+  [MSSessionContext resetSharedInstance];
 
 // Make sure sessionTracker removes all observers.
 #pragma clang diagnostic push
@@ -76,7 +85,7 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
 #pragma mark - Tests
 
-- (void)testvalidateEventName {
+- (void)testValidateEventName {
   const int maxEventNameLength = 256;
 
   // If
@@ -124,6 +133,20 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
   // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
   [[MSAnalytics sharedInstance].sessionTracker stop];
+}
+
+- (void)testDisablingAnalyticsClearsSessionHistory {
+  [[MSAnalytics sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
+                                            appSecret:kMSTestAppSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
+
+  MSServiceAbstract *service = [MSAnalytics sharedInstance];
+
+  [service setEnabled:NO];
+  XCTAssertFalse([service isEnabled]);
+
+  OCMVerify([self.sessionContextMock clearSessionHistoryAndKeepCurrentSession:NO]);
 }
 
 - (void)testTrackPageCalledWhenAutoPageTrackingEnabled {
@@ -355,6 +378,9 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
   // Then
   OCMVerifyAll(channelUnitMock);
+
+  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
+  [[MSAnalytics sharedInstance].sessionTracker stop];
 }
 
 - (void)testTrackEventSetsTagWhenTransmissionTargetProvided {
@@ -383,6 +409,31 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
   XCTAssertEqualObjects(tag, target);
 }
 
+- (void)testTrackEventDoesNotSetUserIdForAppCenter {
+
+  // If
+  __block MSEventLog *log;
+  [MSAppCenter setUserId:@"c:test"];
+  [MSAppCenter configureWithAppSecret:kMSTestAppSecret];
+  id channelUnitMock = OCMProtocolMock(@protocol(MSChannelUnitProtocol));
+  id channelGroupMock = OCMProtocolMock(@protocol(MSChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
+  [[MSAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
+                                            appSecret:kMSTestAppSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSEventLog class]] flags:MSFlagsDefault]).andDo(^(NSInvocation *invocation) {
+    [invocation getArgument:&log atIndex:2];
+  });
+
+  // When
+  [MSAnalytics trackEvent:@"Some event"];
+
+  // Then
+  XCTAssertNotNil(log);
+  XCTAssertNil(log.userId);
+}
+
 - (void)testTrackEventWithTypedPropertiesNilWhenTransmissionTargetDisabled {
 
   // If
@@ -403,6 +454,9 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 
   // Then
   OCMVerifyAll(channelUnitMock);
+
+  // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
+  [[MSAnalytics sharedInstance].sessionTracker stop];
 }
 
 - (void)testTrackEventWithPropertiesNilAndInvalidName {

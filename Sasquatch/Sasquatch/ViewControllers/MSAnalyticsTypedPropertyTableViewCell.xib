@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <development version="8000" identifier="xcode"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -71,6 +73,10 @@
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="Key"/>
                         </userDefinedRuntimeAttributes>
+                        <connections>
+                            <action selector="dismissKeyboard:" destination="uhP-de-EHW" eventType="editingDidEndOnExit" id="a3F-Mg-uEp"/>
+                            <action selector="onChangeKey" destination="uhP-de-EHW" eventType="editingChanged" id="VXP-kj-H0d"/>
+                        </connections>
                     </textField>
                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Value" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tcD-MA-efd" userLabel="Value Text Field">
                         <rect key="frame" x="80" y="88" width="279" height="44"/>
@@ -83,9 +89,16 @@
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="Value"/>
                         </userDefinedRuntimeAttributes>
+                        <connections>
+                            <action selector="dismissKeyboard:" destination="uhP-de-EHW" eventType="editingDidEndOnExit" id="cM7-rp-uD7"/>
+                            <action selector="onChangeValue" destination="uhP-de-EHW" eventType="editingChanged" id="IAQ-oi-3xM"/>
+                        </connections>
                     </textField>
                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6iA-KY-Ra3">
                         <rect key="frame" x="310" y="94.5" width="51" height="31"/>
+                        <connections>
+                            <action selector="onChangeValue" destination="uhP-de-EHW" eventType="valueChanged" id="R7x-Lh-x9M"/>
+                        </connections>
                     </switch>
                 </subviews>
                 <constraints>

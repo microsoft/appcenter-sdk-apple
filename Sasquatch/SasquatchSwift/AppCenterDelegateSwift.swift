@@ -60,6 +60,10 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     MSAppCenter.startFromLibrary(withServices: [MSAnalytics.self])
   }
 
+  func setUserId(_ userId: String?) {
+    MSAppCenter.setUserId(userId);
+  }
+
   // Modules section.
   func isAnalyticsEnabled() -> Bool {
     return MSAnalytics.isEnabled()
@@ -267,18 +271,5 @@ class AppCenterDelegateSwift: AppCenterDelegate {
 
   func lastCrashReportDeviceAppNamespace() -> String? {
     return MSCrashes.lastSessionCrashReport()?.device.appNamespace
-  }
-
-  // MSEventFilter section.
-  func isEventFilterEnabled() -> Bool {
-    return MSEventFilter.isEnabled();
-  }
-
-  func setEventFilterEnabled(_ isEnabled: Bool) {
-    MSEventFilter.setEnabled(isEnabled);
-  }
-
-  func startEventFilterService() {
-    MSAppCenter.startService(MSEventFilter.self)
   }
 }

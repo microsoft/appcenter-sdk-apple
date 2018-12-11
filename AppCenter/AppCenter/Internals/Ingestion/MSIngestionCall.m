@@ -80,8 +80,7 @@
     // Reset the retry count, will retry once the (secure) connection is established again.
     [self resetRetry];
     NSString *logMessage = internetIsDown ? @"Internet connection is down." : @"Could not establish secure connection.";
-    MSLogInfo([MSAppCenter logTag], logMessage);
-    [ingestion pause];
+    MSLogInfo([MSAppCenter logTag], @"Ingestion call failed with error: %@", logMessage);
   }
 
   // Retry.
@@ -93,6 +92,7 @@
   else {
 
     // Wrap the status code in an error whenever the call failed.
+    // TODO: Handle 2xx codes.
     if (!error && statusCode != MSHTTPCodesNo200OK) {
       NSDictionary *userInfo =
           @{ NSLocalizedDescriptionKey : kMSACConnectionHttpErrorDesc,

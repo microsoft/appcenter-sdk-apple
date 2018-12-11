@@ -30,11 +30,12 @@ extern NSString *const kMSLiveUpdatePackageHash;
 
 #pragma mark - MSAbstractLog
 
+extern NSString *const kMSType;
+extern NSString *const kMSTimestamp;
 extern NSString *const kMSSId;
 extern NSString *const kMSDistributionGroupId;
-extern NSString *const kMSTimestamp;
+extern NSString *const kMSUserId;
 extern NSString *const kMSDevice;
-extern NSString *const kMSType;
 
 #pragma mark - MSAbstractLog
 

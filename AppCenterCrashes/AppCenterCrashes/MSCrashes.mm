@@ -8,6 +8,7 @@
 #import "MSCrashesInternal.h"
 #import "MSCrashesPrivate.h"
 #import "MSCrashesUtil.h"
+#import "MSDeviceTracker.h"
 #import "MSEncrypter.h"
 #import "MSErrorAttachmentLog.h"
 #import "MSErrorAttachmentLogInternal.h"
@@ -15,6 +16,7 @@
 #import "MSHandledErrorLog.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSSessionContext.h"
+#import "MSUserIdContext.h"
 #import "MSUtility+File.h"
 #import "MSWrapperCrashesHelper.h"
 #import "MSWrapperExceptionManagerInternal.h"
@@ -241,7 +243,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 - (instancetype)init {
   if ((self = [super init])) {
-    _crashFiles = [[NSMutableArray alloc] init];
+    _crashFiles = [NSMutableArray new];
     _crashesPathComponent = [MSCrashesUtil crashesDir];
     _logBufferPathComponent = [MSCrashesUtil logBufferDir];
     _analyzerInProgressFilePathComponent = [NSString stringWithFormat:@"%@/%@", [MSCrashesUtil crashesDir], kMSAnalyzerFilename];
@@ -258,7 +260,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                                                                       flushInterval:1.0
                                                                      batchSizeLimit:1
                                                                 pendingBatchesLimit:3];
-    _targetTokenEncrypter = [[MSEncrypter alloc] initWithDefaultKey];
+    _targetTokenEncrypter = [MSEncrypter new];
 
     /*
      * Using our own queue with high priority as the default main queue is slower and we want the files to be created as quickly as possible
@@ -323,7 +325,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
       [self startDelayedCrashProcessing];
     } else {
       dispatch_semaphore_signal(self.delayedProcessingSemaphore);
-      [[MSSessionContext sharedInstance] clearSessionHistory];
+      [self clearContextHistoryAndKeepCurrentSession];
     }
 
     // More details on log if a debugger is attached.
@@ -342,7 +344,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     [self emptyLogBufferFiles];
     [self removeAnalyzerFile];
     [self.plCrashReporter purgePendingCrashReport];
-    [[MSSessionContext sharedInstance] clearSessionHistory];
+    [self clearUnprocessedReports];
+    [self clearContextHistoryAndKeepCurrentSession];
     MSLogInfo([MSCrashes logTag], @"Crashes service has been disabled.");
   }
 }
@@ -352,7 +355,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 + (instancetype)sharedInstance {
   dispatch_once(&onceToken, ^{
     if (sharedInstance == nil) {
-      sharedInstance = [[MSCrashes alloc] init];
+      sharedInstance = [MSCrashes new];
     }
   });
   return sharedInstance;
@@ -396,6 +399,12 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 - (void)setEnableMachExceptionHandler:(BOOL)enableMachExceptionHandler {
   _enableMachExceptionHandler = enableMachExceptionHandler;
+}
+
+- (void)clearContextHistoryAndKeepCurrentSession {
+  [[MSDeviceTracker sharedInstance] clearDevices];
+  [[MSSessionContext sharedInstance] clearSessionHistoryAndKeepCurrentSession:YES];
+  [[MSUserIdContext sharedInstance] clearUserIdHistory];
 }
 
 #pragma mark - Channel Delegate
@@ -681,13 +690,13 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     return;
   }
   NSError *error = nil;
-  self.unprocessedReports = [[NSMutableArray alloc] init];
-  self.unprocessedLogs = [[NSMutableArray alloc] init];
-  self.unprocessedFilePaths = [[NSMutableArray alloc] init];
+  self.unprocessedReports = [NSMutableArray new];
+  self.unprocessedLogs = [NSMutableArray new];
+  self.unprocessedFilePaths = [NSMutableArray new];
 
   // First save all found crash reports for use in correlation step.
-  NSMutableDictionary *foundCrashReports = [[NSMutableDictionary alloc] init];
-  NSMutableDictionary *foundErrorReports = [[NSMutableDictionary alloc] init];
+  NSMutableDictionary *foundCrashReports = [NSMutableDictionary new];
+  NSMutableDictionary *foundErrorReports = [NSMutableDictionary new];
   for (NSURL *fileURL in self.crashFiles) {
     NSData *crashFileData = [NSData dataWithContentsOfURL:fileURL];
     if ([crashFileData length] > 0) {
@@ -799,9 +808,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
  * Resumes processing for a given subset of the unprocessed reports. Returns YES if should "AlwaysSend".
  */
 - (BOOL)sendCrashReportsOrAwaitUserConfirmationForFilteredIds:(NSArray<NSString *> *)filteredIds {
-  NSMutableArray *filteredOutLogs = [[NSMutableArray alloc] init];
-  NSMutableArray *filteredOutReports = [[NSMutableArray alloc] init];
-  NSMutableArray *filteredOutFilePaths = [[NSMutableArray alloc] init];
+  NSMutableArray *filteredOutLogs = [NSMutableArray new];
+  NSMutableArray *filteredOutReports = [NSMutableArray new];
+  NSMutableArray *filteredOutFilePaths = [NSMutableArray new];
   for (NSUInteger i = 0; i < [self.unprocessedReports count]; i++) {
     MSErrorReport *report = self.unprocessedReports[i];
     MSErrorReport *foundReport = nil;
@@ -1104,7 +1113,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     }
 
     // Return and do not continue with crash processing.
-    [[MSSessionContext sharedInstance] clearSessionHistory];
+    [self clearUnprocessedReports];
+    [self clearContextHistoryAndKeepCurrentSession];
     return;
   } else if (userConfirmation == MSUserConfirmationAlways) {
 
@@ -1131,6 +1141,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     // First, get correlated session Id.
     log.sid = [[MSSessionContext sharedInstance] sessionIdAt:log.timestamp];
 
+    // Second, get correlated user Id.
+    log.userId = [[MSUserIdContext sharedInstance] userIdAt:log.timestamp];
+
     // Then, enqueue crash log.
     [self.channelUnit enqueueItem:log flags:MSFlagsPersistenceCritical];
 
@@ -1142,7 +1155,14 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     [MSWrapperExceptionManager deleteWrapperExceptionWithUUIDString:report.incidentIdentifier];
     [self.crashFiles removeObject:fileURL];
   }
-  [[MSSessionContext sharedInstance] clearSessionHistory];
+  [self clearUnprocessedReports];
+  [self clearContextHistoryAndKeepCurrentSession];
+}
+
+- (void)clearUnprocessedReports {
+  [self.unprocessedReports removeAllObjects];
+  [self.unprocessedLogs removeAllObjects];
+  [self.unprocessedFilePaths removeAllObjects];
 }
 
 + (void)resetSharedInstance {
@@ -1160,6 +1180,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
   // Create an error log.
   MSHandledErrorLog *log = [MSHandledErrorLog new];
+
+  // Set userId to the error log.
+  log.userId = [[MSUserIdContext sharedInstance] userId];
 
   // Set properties of the error log.
   log.errorId = MS_UUID_STRING;

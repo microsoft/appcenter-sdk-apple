@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Get session Id at specific time.
  *
- * @param date The timestamp for the ssession.
+ * @param date The timestamp for the session.
  *
  * @return The session Id at the given time.
  */
@@ -46,8 +46,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Clear all session Id history.
+ *
+ * @param keepCurrentSession YES to keep current session, NO to delete every entry.
  */
-- (void)clearSessionHistory;
+- (void)clearSessionHistoryAndKeepCurrentSession:(BOOL)keepCurrentSession;
 
 @end
 

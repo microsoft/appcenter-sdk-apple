@@ -2,6 +2,7 @@
 #import <OCMock/OCMock.h>
 
 #import "MSAbstractLogInternal.h"
+#import "MSAppCenter.h"
 #import "MSChannelDelegate.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
@@ -11,6 +12,7 @@
 #import "MSLogContainer.h"
 #import "MSStorage.h"
 #import "MSTestFrameworks.h"
+#import "MSUserIdContext.h"
 #import "MSUtility.h"
 
 static NSString *const kMSTestGroupId = @"GroupId";
@@ -1336,6 +1338,45 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                  }
                                  XCTAssertTrue([self.sut.pausedTargetKeys count] == 0);
                                }];
+}
+
+- (void)testEnqueueItemDoesNotSetUserIdWhenItAlreadyHasOne {
+
+  // If
+  [self initChannelEndJobExpectation];
+  id<MSLog> enqueuedLog = [self getValidMockLog];
+  NSString *expectedUserId = @"Fake-UserId";
+  __block NSString *actualUserId;
+  id userIdContextMock = OCMClassMock([MSUserIdContext class]);
+  OCMStub([userIdContextMock sharedInstance]).andReturn(userIdContextMock);
+  OCMStub([userIdContextMock userId]).andReturn(@"SomethingElse");
+  self.storageMock = OCMProtocolMock(@protocol(MSStorage));
+  OCMStub([self.storageMock saveLog:OCMOCK_ANY withGroupId:OCMOCK_ANY flags:MSFlagsPersistenceNormal])
+      .andDo(^(NSInvocation *invocation) {
+        MSAbstractLog *log;
+        [invocation getArgument:&log atIndex:2];
+        actualUserId = log.userId;
+        [self enqueueChannelEndJobExpectation];
+      })
+      .andReturn(YES);
+  self.sut = [[MSChannelUnitDefault alloc] initWithIngestion:self.ingestionMock
+                                                     storage:self.storageMock
+                                               configuration:self.configMock
+                                           logsDispatchQueue:self.logsDispatchQueue];
+
+  // When
+  enqueuedLog.userId = expectedUserId;
+  [self.sut enqueueItem:enqueuedLog flags:MSFlagsDefault];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                                 XCTAssertEqual(actualUserId, expectedUserId);
+                               }];
+  [userIdContextMock stopMocking];
 }
 
 #pragma mark - Helper

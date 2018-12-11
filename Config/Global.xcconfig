@@ -1,7 +1,7 @@
 #include "./Version.xcconfig"
 
 // :Mark: Architectures
-MS_WATCH_ARCHS = armv7k
+MS_WATCH_ARCHS = armv7k arm64_32
 MS_SIM_ARCHS = x86_64 i386
 SDKROOT = iphoneos
 

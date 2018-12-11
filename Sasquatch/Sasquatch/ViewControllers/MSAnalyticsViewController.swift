@@ -152,6 +152,10 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     self.countLabel.text = "Count: \(Int(countSlider.value))"
   }
 
+  @IBAction func dismissKeyboard(_ sender: UITextField!) {
+    sender.resignFirstResponder()
+  }
+
   func enablePauseResume(enable: Bool) {
     pause.isEnabled = enable
     resume.isEnabled = enable

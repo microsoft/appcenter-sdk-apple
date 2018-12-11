@@ -12,11 +12,14 @@
 #import "MSAppExtension.h"
 #import "MSCSExtensions.h"
 #import "MSCommonSchemaLog.h"
+#import "MSConstants+Internal.h"
 #import "MSDeviceExtension.h"
 #import "MSEventPropertiesInternal.h"
 #import "MSLogger.h"
 #import "MSPropertyConfiguratorPrivate.h"
 #import "MSStringTypedProperty.h"
+#import "MSUserExtension.h"
+#import "MSUserIdContext.h"
 
 @implementation MSPropertyConfigurator
 
@@ -44,6 +47,13 @@ static const char deviceIdPrefix = 'i';
 
 - (void)setAppLocale:(NSString *)appLocale {
   _appLocale = appLocale;
+}
+
+- (void)setUserId:(NSString *)userId {
+  if ([MSUserIdContext isUserIdValidForOneCollector:userId]) {
+    NSString *prefixedUserId = [MSUserIdContext prefixedUserIdFromUserId:userId];
+    _userId = prefixedUserId;
+  }
 }
 
 - (void)setEventPropertyString:(NSString *)propertyValue forKey:(NSString *)propertyKey {
@@ -120,6 +130,16 @@ static const char deviceIdPrefix = 'i';
     while (target) {
       if (target.propertyConfigurator.appLocale) {
         ((MSCommonSchemaLog *)log).ext.appExt.locale = target.propertyConfigurator.appLocale;
+        break;
+      }
+      target = target.parentTarget;
+    }
+
+    // Override the userId.
+    target = self.transmissionTarget;
+    while (target) {
+      if (target.propertyConfigurator.userId) {
+        ((MSCommonSchemaLog *)log).ext.userExt.localId = target.propertyConfigurator.userId;
         break;
       }
       target = target.parentTarget;

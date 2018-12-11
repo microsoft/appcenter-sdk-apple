@@ -19,7 +19,7 @@ SWIFT_COMPILATION_MODE = wholemodule
 
 HEADER_SEARCH_PATHS = $(SRCROOT)/../CrashLib/CrashLib
 FRAMEWORK_SEARCH_PATHS = $(PROJECT_DIR)/../AppCenter-SDK-Apple/tvOS/**
-LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/../Frameworks
+LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/../Frameworks @loader_path/Frameworks
 
 SDKROOT = appletvos
 TARGETED_DEVICE_FAMILY = 3
