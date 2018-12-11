@@ -33,7 +33,7 @@ while getopts 'a:t:r:' flag; do
   esac
 done
 
-if [ "$user_account" == "" ] || [ "$access_token" == "" ] || [ "$repo_name" == "" ]; then
+if [ "$mode" != "external" ] && ( [ "$user_account" == "" ] || [ "$access_token" == "" ] || [ "$repo_name" == "" ] ); then
   help
   exit 1
 fi
@@ -42,6 +42,9 @@ fi
 
 if [ "$mode" == "test" ]; then
   resp="$(pod repo add $repo_name https://$user_account:$access_token@msmobilecenter.visualstudio.com/SDK/_git/$repo_name)"
+elif [ "$mode" == "external" ]; then
+  ## No ops for external option since this option will use public pod repo.
+  resp=""
 else
   resp="$(pod repo add $repo_name https://$user_account:$access_token@github.com/$GITHUB_ORG_NAME/$repo_name.git)"
 fi
