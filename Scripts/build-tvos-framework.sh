@@ -4,6 +4,8 @@
 FMK_NAME=$1
 TGT_NAME=${FMK_NAME}TVOS
 
+echo "Building ${FMK_NAME} tvOS framework."
+
 # Install dir will be the final output to the framework.
 # The following line create it in the root folder of the current project.
 PRODUCTS_DIR=${SRCROOT}/../AppCenter-SDK-Apple/tvOS

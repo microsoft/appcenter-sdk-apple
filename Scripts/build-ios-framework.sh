@@ -13,6 +13,8 @@ FMK_NAME=$1
 TGT_NAME=${FMK_NAME}IOS
 FMK_RESOURCE_BUNDLE=${FMK_NAME}Resources
 
+echo "Building ${FMK_NAME} iOS framework."
+
 # Install dir will be the final output to the framework.
 # The following line create it in the root folder of the current project.
 PRODUCTS_DIR=${SRCROOT}/../AppCenter-SDK-Apple/iOS
@@ -51,16 +53,14 @@ cp -f "${SRCROOT}/${FMK_NAME}/Support/iOS.modulemap" "${INSTALL_DIR}/Modules/mod
 cp -R "${SRCROOT}/${WRK_DIR}/Release-iphoneos/include/${FMK_NAME}/" "${INSTALL_DIR}/Headers/"
 
 # Copy the resource bundle for App Center Distribute.
-if [[ "$FMK_NAME" == "AppCenterDistribute" ]]; then
-echo "Copying resource bundle for $FMK_NAME."
+if [ -d "${SRCROOT}/${WRK_DIR}/Release-iphoneos/${FMK_RESOURCE_BUNDLE}.bundle" ]; then
+echo "Copying resource bundle."
 cp -R "${SRCROOT}/${WRK_DIR}/Release-iphoneos/${FMK_RESOURCE_BUNDLE}.bundle" "${PRODUCTS_DIR}" || true
-else
-echo "No need to copy a resource bundle for $FMK_NAME."
 fi
 
 # Create the arm64e slice in Xcode 10.1 and lipo it with the device binary that was created with oldest supported Xcode version.
 LIB_IPHONEOS_FINAL="${DEVICE_DIR}/lib${FMK_NAME}.a"
-if [ -z "$MS_ARM64E_XCODE_PATH" ] || [ ! -d "$MS_ARM64E_XCODE_PATH" ] ; then
+if [ -z "$MS_ARM64E_XCODE_PATH" ] || [ ! -d "$MS_ARM64E_XCODE_PATH" ]; then
 echo "Environment variable MS_ARM64E_XCODE_PATH not set or not a valid path."
 
 echo "Use current Xcode version and lipo -create the fat binary."
@@ -70,7 +70,7 @@ else
 
 # Grep the output of `lipo -archs` if it contains "arm64e". If it does, don't build for arm64e again.
 DOES_CONTAIN_ARM64E=`env DEVELOPER_DIR="$MS_ARM64E_XCODE_PATH" /usr/bin/lipo -archs "${LIB_IPHONEOS_FINAL}" | grep arm64e`
-if [ ! -z "${DOES_CONTAIN_ARM64E}" ] ; then
+if [ ! -z "${DOES_CONTAIN_ARM64E}" ]; then
 echo "The binary already contains an arm64e slice."
 else
 
