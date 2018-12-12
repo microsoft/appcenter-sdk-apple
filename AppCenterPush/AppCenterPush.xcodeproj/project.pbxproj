@@ -657,7 +657,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd ${SRCROOT}/../Scripts/AppCenterPush\n./build-appcenterpush-macos-docs.sh";
+			shellScript = "cd ${SRCROOT}/../Scripts\n./build-docs.sh macOS AppCenterPush\n";
+			showEnvVarsInLog = 0;
 		};
 		D3AD5F261E5C9588001627AB /* Build framework */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -685,7 +686,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd ${SRCROOT}/../Scripts/AppCenterPush\n./build-appcenterpush-ios-docs.sh";
+			shellScript = "cd ${SRCROOT}/../Scripts\n./build-docs.sh iOS AppCenterPush\n";
+			showEnvVarsInLog = 0;
 		};
 		F8B8EAE221105C11004BCECB /* Verify no buildSettings */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -699,7 +701,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift ${PROJECT_NAME}.xcodeproj/project.pbxproj";
+			shellScript = "${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
 			showEnvVarsInLog = 0;
 		};
 		F8B8EAE421105C1D004BCECB /* Verify no buildSettings */ = {
