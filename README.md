@@ -46,9 +46,9 @@ All Objective-C files follow LLVM coding style (with a few exceptions) and are f
 
 ## 3. Contact
 
-### 3.1 Intercom
+### 3.1 Support
 
-If you have further questions, want to provide feedback or you are running into issues, log in to the [App Center portal](https://appcenter.ms) and use the blue Intercom button on the bottom right to start a conversation with us.
+App Center SDK support is provided directly within the App Center portal. Any time you need help, just log in to [App Center](https://appcenter.ms), then click the blue chat button in the lower-right corner of any page and our dedicated support team will respond to your questions and feedback. For additional information, see the [App Center Help Center](https://intercom.help/appcenter/getting-started/welcome-to-app-center-support).
 
 ### 3.2 Twitter
 
