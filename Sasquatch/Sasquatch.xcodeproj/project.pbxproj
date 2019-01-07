@@ -1972,7 +1972,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift ${PROJECT_NAME}.xcodeproj/project.pbxproj";
+			shellScript = "\"${SRCROOT}\"/../Scripts/VerifyNoBuildSettings.swift \"${PROJECT_NAME}.xcodeproj\"/project.pbxproj";
 			showEnvVarsInLog = 0;
 		};
 		8099A5D62112198F008E1466 /* Verify no build settings */ = {
@@ -1987,7 +1987,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift ${PROJECT_NAME}.xcodeproj/project.pbxproj";
+			shellScript = "\"${SRCROOT}\"/../Scripts/VerifyNoBuildSettings.swift \"${PROJECT_NAME}.xcodeproj\"/project.pbxproj";
 			showEnvVarsInLog = 0;
 		};
 		F84923BB21119AE100E14DBE /* Verify no buildSettings */ = {
@@ -2002,7 +2002,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift ${PROJECT_NAME}.xcodeproj/project.pbxproj";
+			shellScript = "\"${SRCROOT}\"/../Scripts/VerifyNoBuildSettings.swift \"${PROJECT_NAME}.xcodeproj\"/project.pbxproj";
 			showEnvVarsInLog = 0;
 		};
 		F84923E72111C28C00E14DBE /* Verify no buildSettings */ = {
@@ -2017,7 +2017,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift ${PROJECT_NAME}.xcodeproj/project.pbxproj";
+			shellScript = "\"${SRCROOT}\"/../Scripts/VerifyNoBuildSettings.swift \"${PROJECT_NAME}.xcodeproj\"/project.pbxproj";
 			showEnvVarsInLog = 0;
 		};
 		F84923E92111C2AD00E14DBE /* Verify no buildSettings */ = {
@@ -2032,7 +2032,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift ${PROJECT_NAME}.xcodeproj/project.pbxproj";
+			shellScript = "\"${SRCROOT}\"/../Scripts/VerifyNoBuildSettings.swift \"${PROJECT_NAME}.xcodeproj\"/project.pbxproj";
 			showEnvVarsInLog = 0;
 		};
 		F84923EA2111C2C100E14DBE /* Verify no buildSettings */ = {
@@ -2047,7 +2047,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift ${PROJECT_NAME}.xcodeproj/project.pbxproj";
+			shellScript = "\"${SRCROOT}\"/../Scripts/VerifyNoBuildSettings.swift \"${PROJECT_NAME}.xcodeproj\"/project.pbxproj";
 			showEnvVarsInLog = 0;
 		};
 		F84923EB2111C2C800E14DBE /* Verify no buildSettings */ = {
@@ -2062,7 +2062,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift ${PROJECT_NAME}.xcodeproj/project.pbxproj";
+			shellScript = "\"${SRCROOT}\"/../Scripts/VerifyNoBuildSettings.swift \"${PROJECT_NAME}.xcodeproj\"/project.pbxproj";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
