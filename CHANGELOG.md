@@ -1,5 +1,13 @@
 # App Center SDK for iOS and macOS Change Log
 
+## Version 1.12.1
+
+### AppCenter
+
+* **[Fix]** Fix issue where the SDK source could not be built in a directory that contains escaped characters (applies to all modules).
+
+___
+
 ## Version 1.12.0
 
 ### AppCenter
