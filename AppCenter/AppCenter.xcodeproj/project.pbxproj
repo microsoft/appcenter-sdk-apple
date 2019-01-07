@@ -336,7 +336,16 @@
 		04F3613E1FE1A95600A5A6D2 /* MSNoAutoAssignSessionIdLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 04F3613C1FE1A92000A5A6D2 /* MSNoAutoAssignSessionIdLog.h */; };
 		04F3613F1FE1A95700A5A6D2 /* MSNoAutoAssignSessionIdLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 04F3613C1FE1A92000A5A6D2 /* MSNoAutoAssignSessionIdLog.h */; };
 		04FD126B1E4103CC007ABFE7 /* MSKeychainUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FD126A1E4103CC007ABFE7 /* MSKeychainUtilTests.m */; };
+		266ED0CAAE57B6686FA62DBA /* MSOrderedDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 266ED56D72C1731F3BDA958E /* MSOrderedDictionary.h */; };
+		266ED21FE2904507DA8082FC /* MSOrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 266EDBB9CD6834855B9222D5 /* MSOrderedDictionary.m */; };
+		266ED4C5FEBAE009660AC8D8 /* MSOrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 266EDBB9CD6834855B9222D5 /* MSOrderedDictionary.m */; };
+		266ED4E98F3985EB68A62106 /* MSOrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 266EDBB9CD6834855B9222D5 /* MSOrderedDictionary.m */; };
+		266ED8CBEB69538781E67672 /* MSOrderedDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 266ED56D72C1731F3BDA958E /* MSOrderedDictionary.h */; };
+		266EDBDF0FD853693BC7B012 /* MSOrderedDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 266ED56D72C1731F3BDA958E /* MSOrderedDictionary.h */; };
 		266EDC94C8B60B195B13BF40 /* MSCustomPropertiesPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 266ED9D2BA796BA0329F4FC7 /* MSCustomPropertiesPrivate.h */; };
+		266EDCB88BD1F0509479F366 /* MSOrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 266EDBB9CD6834855B9222D5 /* MSOrderedDictionary.m */; };
+		266EDDCDBF9025E39C10A27F /* MSOrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 266EDBB9CD6834855B9222D5 /* MSOrderedDictionary.m */; };
+		266EDE0575F42F13D466BB3E /* MSOrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 266EDBB9CD6834855B9222D5 /* MSOrderedDictionary.m */; };
 		2DA0322920F747CAB5668AAA /* MSChannelUnitDefaultPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DA030B94CD3D38725671A79 /* MSChannelUnitDefaultPrivate.h */; };
 		2DA033F72EB5B6AA6990DA39 /* MSMetadataExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DA038EE68EEE1414A270ADA /* MSMetadataExtension.h */; };
 		2DA03417C2DCD4BF8D03D3EF /* MSMetadataExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DA038EE68EEE1414A270ADA /* MSMetadataExtension.h */; };
@@ -908,7 +917,9 @@
 		04F21A041ECB73EE0074978D /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = ../../macOS/OHHTTPStubs/OHHTTPStubs.framework; sourceTree = "<group>"; };
 		04F3613C1FE1A92000A5A6D2 /* MSNoAutoAssignSessionIdLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSNoAutoAssignSessionIdLog.h; sourceTree = "<group>"; };
 		04FD126A1E4103CC007ABFE7 /* MSKeychainUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSKeychainUtilTests.m; sourceTree = "<group>"; };
+		266ED56D72C1731F3BDA958E /* MSOrderedDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSOrderedDictionary.h; sourceTree = "<group>"; };
 		266ED9D2BA796BA0329F4FC7 /* MSCustomPropertiesPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCustomPropertiesPrivate.h; sourceTree = "<group>"; };
+		266EDBB9CD6834855B9222D5 /* MSOrderedDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSOrderedDictionary.m; sourceTree = "<group>"; };
 		2DA030746930EE3DCB6A21B3 /* MSMetadataExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMetadataExtension.m; sourceTree = "<group>"; };
 		2DA030B94CD3D38725671A79 /* MSChannelUnitDefaultPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSChannelUnitDefaultPrivate.h; sourceTree = "<group>"; };
 		2DA038EE68EEE1414A270ADA /* MSMetadataExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSMetadataExtension.h; sourceTree = "<group>"; };
@@ -1484,6 +1495,8 @@
 				B2CD749C1F22BE270070E7DF /* MSUtility+StringFormatting.m */,
 				38148D8420D07FB70046257E /* MSCompression.h */,
 				38148D8520D07FB70046257E /* MSCompression.m */,
+				266EDBB9CD6834855B9222D5 /* MSOrderedDictionary.m */,
+				266ED56D72C1731F3BDA958E /* MSOrderedDictionary.h */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -1903,6 +1916,7 @@
 				047FEE0B21A488DD00ED77CD /* MSHistoryInfo.h in Headers */,
 				35DFC1E32170030C00455589 /* MSDateTimeTypedProperty.h in Headers */,
 				2DA033F72EB5B6AA6990DA39 /* MSMetadataExtension.h in Headers */,
+				266ED8CBEB69538781E67672 /* MSOrderedDictionary.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2025,6 +2039,7 @@
 				2DA03DF6ADD26CAC19463B5C /* MSChannelUnitDefaultPrivate.h in Headers */,
 				2DA03F97D9D7591A1473C5B6 /* MSMetadataExtension.h in Headers */,
 				047FEE2721A4968E00ED77CD /* MSUserIdContextPrivate.h in Headers */,
+				266ED0CAAE57B6686FA62DBA /* MSOrderedDictionary.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2148,6 +2163,7 @@
 				2DA034555E2CB013B268C82C /* MSChannelUnitDefaultPrivate.h in Headers */,
 				2DA03417C2DCD4BF8D03D3EF /* MSMetadataExtension.h in Headers */,
 				266EDC94C8B60B195B13BF40 /* MSCustomPropertiesPrivate.h in Headers */,
+				266EDBDF0FD853693BC7B012 /* MSOrderedDictionary.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2534,6 +2550,7 @@
 				043120911EE0BCF9007054C5 /* MSDeviceTracker.m in Sources */,
 				043120951EE0BCF9007054C5 /* MSAppCenterIngestion.m in Sources */,
 				2DA035A646596E34DAD3E440 /* MSMetadataExtension.m in Sources */,
+				266EDCB88BD1F0509479F366 /* MSOrderedDictionary.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2586,6 +2603,7 @@
 				0446DF1C1F3B864600C8E338 /* MSMockLog.m in Sources */,
 				35DFC23E2170052D00455589 /* MSTypedPropertyTests.m in Sources */,
 				0446DF1D1F3B864600C8E338 /* MSChannelGroupDefaultTests.m in Sources */,
+				266EDDCDBF9025E39C10A27F /* MSOrderedDictionary.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2641,6 +2659,7 @@
 				049378421FE4914D000ADBAF /* MSSessionContextTests.m in Sources */,
 				046AEAEC1ECA562A00CBE511 /* MSChannelGroupDefaultTests.m in Sources */,
 				58603633B718B7A2702C23CB /* MSAbstractLogTests.m in Sources */,
+				266ED21FE2904507DA8082FC /* MSOrderedDictionary.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2716,6 +2735,7 @@
 				B2CD74891F22BD910070E7DF /* MSLogDBStorage.m in Sources */,
 				B2CD74AA1F22BE270070E7DF /* MSUtility+Application.m in Sources */,
 				2DA03E86D60D8AC11B345613 /* MSMetadataExtension.m in Sources */,
+				266ED4C5FEBAE009660AC8D8 /* MSOrderedDictionary.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2791,6 +2811,7 @@
 				38148D8720D07FB70046257E /* MSCompression.m in Sources */,
 				B2CD74A91F22BE270070E7DF /* MSUtility+Application.m in Sources */,
 				2DA03EFBAD1AC21D07F02509 /* MSMetadataExtension.m in Sources */,
+				266EDE0575F42F13D466BB3E /* MSOrderedDictionary.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2847,6 +2868,7 @@
 				58603867BA3B4B1CB87D0E5D /* MSAbstractLogTests.m in Sources */,
 				35DFC2312170044A00455589 /* MSBooleanTypedPropertyTests.m in Sources */,
 				B26D4DBA211B5BE300AB4E28 /* MSMockCommonSchemaLog.m in Sources */,
+				266ED4E98F3985EB68A62106 /* MSOrderedDictionary.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
