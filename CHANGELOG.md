@@ -1,6 +1,6 @@
 # App Center SDK for iOS and macOS Change Log
 
-## Version 1.12.1
+## Version 1.12.1 (Under active development)
 
 ### AppCenter
 
