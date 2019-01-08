@@ -42,6 +42,10 @@
   return [dictionary count];
 }
 
+- (void)removeAllObjects {
+  [dictionary removeAllObjects];
+}
+
 #pragma clang diagnostic pop
 
 @end

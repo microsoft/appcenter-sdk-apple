@@ -30,8 +30,8 @@
   // Then
   NSEnumerator *keyEnumerator = [self.sut keyEnumerator];
   XCTAssertTrue(self.sut.count == 2);
-  XCTAssertTrue([[keyEnumerator nextObject] isEqualToString:@"value1"]);
-  XCTAssertTrue([[keyEnumerator nextObject] isEqualToString:@"value2"]);
+  XCTAssertTrue([[keyEnumerator nextObject] isEqualToString:@"key1"]);
+  XCTAssertTrue([[keyEnumerator nextObject] isEqualToString:@"key2"]);
   XCTAssertNil([keyEnumerator nextObject]);
   XCTAssertEqual([self.sut objectForKey:@"key1"], @"value1");
   XCTAssertEqual([self.sut objectForKey:@"key2"], @"value2");
