@@ -46,12 +46,12 @@
   [dictionary removeAllObjects];
 }
 
-- (BOOL)isEqual:(id)object {
-  if (![(NSObject *)object isKindOfClass:[MSOrderedDictionary class]] ||
-      ![super isEqual:object]) {
+- (BOOL)isEqualToDictionary:(NSDictionary *)otherDictionary {
+  if (![(NSObject *)otherDictionary isKindOfClass:[MSOrderedDictionary class]] ||
+      ![super isEqualToDictionary:otherDictionary]) {
     return NO;
   }
-  MSOrderedDictionary *dict = (MSOrderedDictionary*)object;
+  MSOrderedDictionary *dict = (MSOrderedDictionary*)otherDictionary;
   if ([dict count] != [dictionary count]) {
     return NO;
   }
@@ -63,7 +63,7 @@
     return YES;
   }
   while (nextKeyMine != nil && nextKeyTheirs != nil) {
-    if (nextKeyMine != nextKeyTheirs || dictionary[nextKeyMine] != object[nextKeyTheirs]) {
+    if (nextKeyMine != nextKeyTheirs || dictionary[nextKeyMine] != otherDictionary[nextKeyTheirs]) {
       return NO;
     }
     nextKeyMine = [keyEnumeratorMine nextObject];
