@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
 
 #import "MSModel.h"
+#import "MSOrderedDictionary.h"
 #import "MSSerializableObject.h"
 
 /**
@@ -8,6 +9,6 @@
  */
 @interface MSCSData : NSObject <MSSerializableObject, MSModel>
 
-@property(atomic, copy) NSDictionary *properties;
+@property(atomic) MSOrderedDictionary *properties;
 
 @end

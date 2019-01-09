@@ -46,6 +46,32 @@
   [dictionary removeAllObjects];
 }
 
+- (BOOL)isEqual:(id)object {
+  if (![(NSObject *)object isKindOfClass:[MSOrderedDictionary class]] ||
+      ![super isEqual:object]) {
+    return NO;
+  }
+  MSOrderedDictionary *dict = (MSOrderedDictionary*)object;
+  if ([dict count] != [dictionary count]) {
+    return NO;
+  }
+  NSEnumerator *keyEnumeratorMine = [self keyEnumerator];
+  NSEnumerator *keyEnumeratorTheirs = [dict keyEnumerator];
+  NSObject *nextKeyMine = [keyEnumeratorMine nextObject];
+  NSObject *nextKeyTheirs = [keyEnumeratorTheirs nextObject];
+  if (nextKeyMine == nil && nextKeyTheirs == nil) {
+    return YES;
+  }
+  while (nextKeyMine != nil && nextKeyTheirs != nil) {
+    if (nextKeyMine != nextKeyTheirs || dictionary[nextKeyMine] != object[nextKeyTheirs]) {
+      return NO;
+    }
+    nextKeyMine = [keyEnumeratorMine nextObject];
+    nextKeyTheirs = [keyEnumeratorTheirs nextObject];
+  }
+  return YES;
+}
+
 #pragma clang diagnostic pop
 
 @end
