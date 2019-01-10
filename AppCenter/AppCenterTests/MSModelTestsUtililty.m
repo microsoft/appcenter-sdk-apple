@@ -247,7 +247,7 @@
 
 + (MSCSData *)dataWithDummyValues:(NSDictionary *)dummyValues {
   MSCSData *data = [MSCSData new];
-  data.properties = dummyValues;
+  data.properties = [dummyValues mutableCopy];
   return data;
 }
 

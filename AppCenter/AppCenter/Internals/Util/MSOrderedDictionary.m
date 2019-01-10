@@ -57,13 +57,26 @@
     return YES;
   }
   while (nextKeyMine != nil && nextKeyTheirs != nil) {
-    if (nextKeyMine != nextKeyTheirs || self.dictionary[nextKeyMine] != otherDictionary[nextKeyTheirs]) {
+    if (nextKeyMine != nextKeyTheirs || ![((NSObject *)self.dictionary[nextKeyMine]) isEqual:otherDictionary[nextKeyTheirs]]) {
       return NO;
     }
     nextKeyMine = [keyEnumeratorMine nextObject];
     nextKeyTheirs = [keyEnumeratorTheirs nextObject];
   }
   return YES;
+}
+
+// TODO Remove?
+- (NSString *)description {
+  NSMutableString *ret = [NSMutableString new];
+  NSEnumerator *enumerator = self.keyEnumerator;
+  NSString* nextKey = [enumerator nextObject];
+  while (nextKey != nil) {
+    [ret appendString:nextKey];
+    [ret appendString:@";"];
+    nextKey = [enumerator nextObject];
+  }
+  return ret;
 }
 
 @end
