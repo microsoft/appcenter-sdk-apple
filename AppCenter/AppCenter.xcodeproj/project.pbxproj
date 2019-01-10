@@ -505,6 +505,9 @@
 		38C447231ECE5352002E1B11 /* MSAppDelegateForwarder.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C4471F1ECE5352002E1B11 /* MSAppDelegateForwarder.m */; };
 		38C633C71FDF15DD005F40C9 /* MSCustomApplicationDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C633C61FDF15DD005F40C9 /* MSCustomApplicationDelegate.h */; };
 		38C633C91FDF163D005F40C9 /* MSAppDelegateUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 38C633C81FDF163D005F40C9 /* MSAppDelegateUtil.h */; };
+		38DABD7C21E7B7E900B90CB4 /* MSOrderedDictionaryPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38DABD7B21E7B7E800B90CB4 /* MSOrderedDictionaryPrivate.h */; };
+		38DABD7D21E7B7E900B90CB4 /* MSOrderedDictionaryPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38DABD7B21E7B7E800B90CB4 /* MSOrderedDictionaryPrivate.h */; };
+		38DABD7E21E7B7E900B90CB4 /* MSOrderedDictionaryPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38DABD7B21E7B7E800B90CB4 /* MSOrderedDictionaryPrivate.h */; };
 		38E1B67A1DDE3FDF000EFED1 /* MSAppCenterPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38E1B6791DDE3FDF000EFED1 /* MSAppCenterPrivate.h */; };
 		38EDBCBD212CBB4B00C39B1E /* MSDeadLockTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A3891B212B6E3C00F1C0D8 /* MSDeadLockTests.m */; };
 		38EDBCBE212CBB4D00C39B1E /* MSDeadLockTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A3891B212B6E3C00F1C0D8 /* MSDeadLockTests.m */; };
@@ -1005,6 +1008,7 @@
 		38C4471F1ECE5352002E1B11 /* MSAppDelegateForwarder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAppDelegateForwarder.m; sourceTree = "<group>"; };
 		38C633C61FDF15DD005F40C9 /* MSCustomApplicationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCustomApplicationDelegate.h; sourceTree = "<group>"; };
 		38C633C81FDF163D005F40C9 /* MSAppDelegateUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAppDelegateUtil.h; sourceTree = "<group>"; };
+		38DABD7B21E7B7E800B90CB4 /* MSOrderedDictionaryPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSOrderedDictionaryPrivate.h; sourceTree = "<group>"; };
 		38E1B6791DDE3FDF000EFED1 /* MSAppCenterPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAppCenterPrivate.h; sourceTree = "<group>"; };
 		38F1944D1DADB93100D3E0FE /* MSHttpIngestionPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSHttpIngestionPrivate.h; sourceTree = "<group>"; };
 		38FDFF682109409900E17269 /* MSMockKeychainUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSMockKeychainUtil.h; sourceTree = "<group>"; };
@@ -1496,8 +1500,9 @@
 				B2CD749C1F22BE270070E7DF /* MSUtility+StringFormatting.m */,
 				38148D8420D07FB70046257E /* MSCompression.h */,
 				38148D8520D07FB70046257E /* MSCompression.m */,
-				266EDBB9CD6834855B9222D5 /* MSOrderedDictionary.m */,
 				266ED56D72C1731F3BDA958E /* MSOrderedDictionary.h */,
+				38DABD7B21E7B7E800B90CB4 /* MSOrderedDictionaryPrivate.h */,
+				266EDBB9CD6834855B9222D5 /* MSOrderedDictionary.m */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -1902,6 +1907,7 @@
 				043120CA1EE0BCF9007054C5 /* MSServiceInternal.h in Headers */,
 				043120CC1EE0BCF9007054C5 /* MSAppCenterErrors.h in Headers */,
 				35DFC1D72170030C00455589 /* MSLongTypedProperty.h in Headers */,
+				38DABD7E21E7B7E900B90CB4 /* MSOrderedDictionaryPrivate.h in Headers */,
 				B2CD749F1F22BE270070E7DF /* MSConstants+Internal.h in Headers */,
 				043120CE1EE0BCF9007054C5 /* MSServiceAbstractProtected.h in Headers */,
 				B2CD74BD1F22BE270070E7DF /* MSUtility+File.h in Headers */,
@@ -1993,6 +1999,7 @@
 				04754F841EA98182002CBA46 /* MSServiceAbstract.h in Headers */,
 				0499F8571EDF979D00C3EDDA /* MSDevice.h in Headers */,
 				E74B14C320B36C66002C0183 /* MSAppExtension.h in Headers */,
+				38DABD7D21E7B7E900B90CB4 /* MSOrderedDictionaryPrivate.h in Headers */,
 				047FEE1D21A48CE400ED77CD /* MSUserIdHistoryInfo.h in Headers */,
 				04754F8A1EA98182002CBA46 /* MSStorage.h in Headers */,
 				047EBBA11FE3086C009BB1C8 /* MSSessionHistoryInfo.h in Headers */,
@@ -2085,6 +2092,7 @@
 				046658B8215AD59D0079DCC7 /* MSLogDBStorageVersion.h in Headers */,
 				3542741F2016769C00BE766F /* MSChannelUnitProtocol.h in Headers */,
 				35DFC1D52170030C00455589 /* MSLongTypedProperty.h in Headers */,
+				38DABD7C21E7B7E900B90CB4 /* MSOrderedDictionaryPrivate.h in Headers */,
 				3542741D2016769C00BE766F /* MSChannelUnitDefault.h in Headers */,
 				38E1B67A1DDE3FDF000EFED1 /* MSAppCenterPrivate.h in Headers */,
 				387C75811D6270A300D68CC1 /* MSServiceAbstractInternal.h in Headers */,

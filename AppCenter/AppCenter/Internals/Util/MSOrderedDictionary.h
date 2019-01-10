@@ -1,10 +1,6 @@
 #import <Foundation/Foundation.h>
 
-@interface MSOrderedDictionary : NSMutableDictionary {
-  NSMutableDictionary *dictionary;
-}
-
-@property(nonatomic) NSMutableArray *order;
+@interface MSOrderedDictionary : NSMutableDictionary
 
 - (instancetype)initWithCapacity:(NSUInteger)numItems;
 

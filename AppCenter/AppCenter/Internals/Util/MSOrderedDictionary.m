@@ -1,13 +1,10 @@
-#import "MSOrderedDictionary.h"
+#import "MSOrderedDictionaryPrivate.h"
 
 @implementation MSOrderedDictionary
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdirect-ivar-access"
-
 - (instancetype)init {
   if ((self = [super init])) {
-    dictionary = [NSMutableDictionary new];
+    _dictionary = [NSMutableDictionary new];
     _order = [NSMutableArray new];
   }
   return self;
@@ -17,17 +14,17 @@
   self = [super init];
   if (self != nil)
   {
-    dictionary = [[NSMutableDictionary alloc] initWithCapacity:numItems];
+    _dictionary = [[NSMutableDictionary alloc] initWithCapacity:numItems];
     _order = [NSMutableArray new];
   }
   return self;
 }
 
 - (void)setObject:(id)anObject forKey:(id<NSCopying>)aKey {
-  if(!dictionary[aKey]) {
+  if(!self.dictionary[aKey]) {
     [self.order addObject:aKey];
   }
-  dictionary[aKey] = anObject;
+  self.dictionary[aKey] = anObject;
 }
 
 - (NSEnumerator *)keyEnumerator {
@@ -35,15 +32,15 @@
 }
 
 - (id)objectForKey:(id)key {
-  return dictionary[key];
+  return self.dictionary[key];
 }
 
 - (NSUInteger)count {
-  return [dictionary count];
+  return [self.dictionary count];
 }
 
 - (void)removeAllObjects {
-  [dictionary removeAllObjects];
+  [self.dictionary removeAllObjects];
 }
 
 - (BOOL)isEqualToDictionary:(NSDictionary *)otherDictionary {
@@ -52,7 +49,7 @@
     return NO;
   }
   MSOrderedDictionary *dict = (MSOrderedDictionary*)otherDictionary;
-  if ([dict count] != [dictionary count]) {
+  if ([dict count] != [self.dictionary count]) {
     return NO;
   }
   NSEnumerator *keyEnumeratorMine = [self keyEnumerator];
@@ -63,7 +60,7 @@
     return YES;
   }
   while (nextKeyMine != nil && nextKeyTheirs != nil) {
-    if (nextKeyMine != nextKeyTheirs || dictionary[nextKeyMine] != otherDictionary[nextKeyTheirs]) {
+    if (nextKeyMine != nextKeyTheirs ||self. dictionary[nextKeyMine] != otherDictionary[nextKeyTheirs]) {
       return NO;
     }
     nextKeyMine = [keyEnumeratorMine nextObject];
@@ -71,7 +68,5 @@
   }
   return YES;
 }
-
-#pragma clang diagnostic pop
 
 @end
