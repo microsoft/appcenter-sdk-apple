@@ -12,8 +12,7 @@
 
 - (instancetype)initWithCapacity:(NSUInteger)numItems {
   self = [super init];
-  if (self != nil)
-  {
+  if (self != nil) {
     _dictionary = [[NSMutableDictionary alloc] initWithCapacity:numItems];
     _order = [NSMutableArray new];
   }
@@ -21,7 +20,7 @@
 }
 
 - (void)setObject:(id)anObject forKey:(id<NSCopying>)aKey {
-  if(!self.dictionary[aKey]) {
+  if (!self.dictionary[aKey]) {
     [self.order addObject:aKey];
   }
   self.dictionary[aKey] = anObject;
@@ -44,11 +43,10 @@
 }
 
 - (BOOL)isEqualToDictionary:(NSDictionary *)otherDictionary {
-  if (![(NSObject *)otherDictionary isKindOfClass:[MSOrderedDictionary class]] ||
-      ![super isEqualToDictionary:otherDictionary]) {
+  if (![(NSObject *)otherDictionary isKindOfClass:[MSOrderedDictionary class]] || ![super isEqualToDictionary:otherDictionary]) {
     return NO;
   }
-  MSOrderedDictionary *dict = (MSOrderedDictionary*)otherDictionary;
+  MSOrderedDictionary *dict = (MSOrderedDictionary *)otherDictionary;
   if ([dict count] != [self.dictionary count]) {
     return NO;
   }
@@ -60,7 +58,7 @@
     return YES;
   }
   while (nextKeyMine != nil && nextKeyTheirs != nil) {
-    if (nextKeyMine != nextKeyTheirs ||self. dictionary[nextKeyMine] != otherDictionary[nextKeyTheirs]) {
+    if (nextKeyMine != nextKeyTheirs || self.dictionary[nextKeyMine] != otherDictionary[nextKeyTheirs]) {
       return NO;
     }
     nextKeyMine = [keyEnumeratorMine nextObject];

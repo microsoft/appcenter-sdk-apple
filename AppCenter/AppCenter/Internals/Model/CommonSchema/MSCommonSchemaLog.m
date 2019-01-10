@@ -3,8 +3,8 @@
 #import "MSCSExtensions.h"
 #import "MSCSModelConstants.h"
 #import "MSModel.h"
-#import "MSUtility+Date.h"
 #import "MSOrderedDictionary.h"
+#import "MSUtility+Date.h"
 
 @implementation MSCommonSchemaLog
 
