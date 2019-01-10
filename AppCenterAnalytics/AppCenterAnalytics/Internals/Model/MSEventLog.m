@@ -13,7 +13,6 @@
 #import "MSEventPropertiesInternal.h"
 #import "MSLongTypedProperty.h"
 #import "MSMetadataExtension.h"
-#import "MSOrderedDictionary.h"
 #import "MSStringTypedProperty.h"
 
 static NSString *const kMSTypeEvent = @"event";
@@ -94,10 +93,10 @@ static NSString *const kMSTypedProperties = @"typedProperties";
 #pragma mark - Helper
 
 - (void)setPropertiesAndMetadataForCSLog:(MSCommonSchemaLog *)csLog {
-  MSOrderedDictionary *csProperties;
+  NSMutableDictionary *csProperties;
   NSMutableDictionary *metadata;
   if (self.typedProperties) {
-    csProperties = [MSOrderedDictionary new];
+    csProperties = [NSMutableDictionary new];
     metadata = [NSMutableDictionary new];
     NSString *baseTypePrefix = [NSString stringWithFormat:@"%@.", kMSDataBaseType];
     NSString *baseDataPrefix = [NSString stringWithFormat:@"%@.", kMSDataBaseData];
@@ -165,12 +164,12 @@ static NSString *const kMSTypedProperties = @"typedProperties";
 
 - (void)addTypedProperty:(MSTypedProperty *)typedProperty
             toCSMetadata:(NSMutableDictionary *)csMetadata
-         andCSProperties:(MSOrderedDictionary *)csProperties {
+         andCSProperties:(NSMutableDictionary *)csProperties {
   NSNumber *typeId = self.metadataTypeIdMapping[typedProperty.type];
 
   // If the key contains a '.' then it's nested objects (i.e: "a.b":"value" => {"a":{"b":"value"}}).
   NSArray *csKeys = [typedProperty.name componentsSeparatedByString:@"."];
-  MSOrderedDictionary *propertyTree = csProperties;
+  NSMutableDictionary *propertyTree = csProperties;
   NSMutableDictionary *metadataTree = csMetadata;
 
   /*
@@ -181,12 +180,12 @@ static NSString *const kMSTypedProperties = @"typedProperties";
   NSMutableDictionary *metadataSubtreeParent = nil;
   for (NSUInteger i = 0; i < csKeys.count - 1; i++) {
     id key = csKeys[i];
-    if (![(NSObject *)propertyTree[key] isKindOfClass:[MSOrderedDictionary class]]) {
+    if (![(NSObject *)propertyTree[key] isKindOfClass:[NSMutableDictionary class]]) {
       if (propertyTree[key]) {
         propertyTree = nil;
         break;
       }
-      propertyTree[key] = [MSOrderedDictionary new];
+      propertyTree[key] = [NSMutableDictionary new];
     }
     propertyTree = propertyTree[key];
     if (typeId) {
@@ -212,7 +211,7 @@ static NSString *const kMSTypedProperties = @"typedProperties";
   }
 }
 
-- (BOOL)addTypedProperty:(MSTypedProperty *)typedProperty toPropertyTree:(MSOrderedDictionary *)propertyTree withKey:(NSString *)key {
+- (BOOL)addTypedProperty:(MSTypedProperty *)typedProperty toPropertyTree:(NSMutableDictionary *)propertyTree withKey:(NSString *)key {
   if (!propertyTree || propertyTree[key]) {
     MSLogWarning(MSAnalytics.logTag, @"Property key '%@' already has a value, choosing one.", key);
     return NO;
