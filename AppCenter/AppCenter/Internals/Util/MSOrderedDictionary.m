@@ -43,15 +43,14 @@
 }
 
 - (BOOL)isEqualToDictionary:(NSDictionary *)otherDictionary {
-  if (![(NSObject *)otherDictionary isKindOfClass:[MSOrderedDictionary class]] || ![super isEqualToDictionary:otherDictionary]) {
+  if (![(NSObject *)otherDictionary isKindOfClass:[NSDictionary class]] || ![super isEqualToDictionary:otherDictionary]) {
     return NO;
   }
-  MSOrderedDictionary *dict = (MSOrderedDictionary *)otherDictionary;
-  if ([dict count] != [self.dictionary count]) {
+  if ([otherDictionary count] != [self.dictionary count]) {
     return NO;
   }
   NSEnumerator *keyEnumeratorMine = [self keyEnumerator];
-  NSEnumerator *keyEnumeratorTheirs = [dict keyEnumerator];
+  NSEnumerator *keyEnumeratorTheirs = [otherDictionary keyEnumerator];
   NSObject *nextKeyMine = [keyEnumeratorMine nextObject];
   NSObject *nextKeyTheirs = [keyEnumeratorTheirs nextObject];
   if (nextKeyMine == nil && nextKeyTheirs == nil) {

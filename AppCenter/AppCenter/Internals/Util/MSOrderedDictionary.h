@@ -6,4 +6,6 @@
 
 - (void)setObject:(id)anObject forKey:(id<NSCopying>)aKey;
 
+- (BOOL)isEqualToDictionary:(NSDictionary *)otherDictionary;
+
 @end

@@ -11,7 +11,6 @@
 #import "MSMetadataExtension.h"
 #import "MSNetExtension.h"
 #import "MSOSExtension.h"
-#import "MSOrderedDictionary.h"
 #import "MSProtocolExtension.h"
 #import "MSSDKExtension.h"
 #import "MSStringTypedProperty.h"
@@ -413,10 +412,8 @@
   [acProperties setString:@"hello" forKey:@"baseData.string"];
   [acProperties setString:@"type" forKey:@"baseType"];
   self.sut.typedProperties = acProperties;
-  MSOrderedDictionary *expectedProperties = [MSOrderedDictionary new];
-  [expectedProperties setObject:@"type" forKey:@"baseType"];
-  [expectedProperties setObject:@{@"long" : @6, @"string" : @"hello"} forKey:@"baseData"];
-  [expectedProperties setObject:@{@"a" : @1, @"b" : @2.0, @"c" : @YES} forKey:@"p"];
+  NSDictionary *expectedProperties =
+      @{@"p" : @{@"a" : @1, @"b" : @2.0, @"c" : @YES}, @"baseData" : @{@"long" : @6, @"string" : @"hello"}, @"baseType" : @"type"};
   NSDictionary *expectedMetadata = @{
     @"f" : @{
       @"p" : @{@"f" : @{@"a" : @(kMSLongMetadataTypeId), @"b" : @(kMSDoubleMetadataTypeId)}},
