@@ -11,7 +11,7 @@
   if (self.properties) {
     dict = [MSOrderedDictionary new];
 
-    // Make sure baseType and baseData appear first in part B
+    // ORDER MATTERS: Make sure baseType and baseData appear first in part B
     if (self.properties[kMSDataBaseType]) {
       dict[kMSDataBaseType] = self.properties[kMSDataBaseType];
     }
