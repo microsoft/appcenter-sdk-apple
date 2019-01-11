@@ -291,7 +291,7 @@
 
 - (MSCSData *)dataWithDummyValues {
   MSCSData *data = [MSCSData new];
-  data.properties = [[MSModelTestsUtililty dataDummies] copy];
+  data.properties = [[MSModelTestsUtililty unorderedDataDummies] copy];
   return data;
 }
 
