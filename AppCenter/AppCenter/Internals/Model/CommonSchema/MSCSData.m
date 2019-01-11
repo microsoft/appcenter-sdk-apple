@@ -1,13 +1,23 @@
 #import "MSCSData.h"
+#import "MSCSModelConstants.h"
+#import "MSOrderedDictionary.h"
 
 @implementation MSCSData
 
 #pragma mark - MSSerializableObject
 
 - (NSMutableDictionary *)serializeToDictionary {
-  NSMutableDictionary *dict;
+  MSOrderedDictionary *dict;
   if (self.properties) {
-    dict = [NSMutableDictionary new];
+    dict = [MSOrderedDictionary new];
+
+    // ORDER MATTERS: Make sure baseType and baseData appear first in part B
+    if (self.properties[kMSDataBaseType]) {
+      dict[kMSDataBaseType] = self.properties[kMSDataBaseType];
+    }
+    if (self.properties[kMSDataBaseData]) {
+      dict[kMSDataBaseData] = self.properties[kMSDataBaseData];
+    }
     [dict addEntriesFromDictionary:self.properties];
   }
   return dict;
