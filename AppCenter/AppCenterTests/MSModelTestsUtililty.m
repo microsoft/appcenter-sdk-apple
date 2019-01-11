@@ -115,14 +115,14 @@
 }
 
 + (MSOrderedDictionary *)dataDummies {
-  NSDictionary *data = @{
-    @"baseType" : @"aBaseType",
-    @"baseData.someData" : @"someValue",
-    @"aKey" : @"aValue",
-    @"anested.key" : @"anothervalue",
-    @"anotherkey" : @"yetanothervalue"
-  };
-  return [MSOrderedDictionary dictionaryWithDictionary:data];
+  MSOrderedDictionary * data = [MSOrderedDictionary new];
+  [data setObject: @"aBaseType" forKey:@"baseType"];
+  [data setObject: @"someValue" forKey:@"baseData.someData"];
+  [data setObject: @"anothervalue" forKey:@"anested.key"];
+  [data setObject: @"aValue" forKey:@"aKey"];
+  [data setObject: @"yetanothervalue" forKey:@"anotherkey"];
+  
+  return data;
 }
 
 + (MSDevice *)dummyDevice {

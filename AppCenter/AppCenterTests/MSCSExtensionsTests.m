@@ -765,14 +765,20 @@
 
 #pragma mark - MSCSData
 
-- (void)testDataJSONSerializingToDictionary {
-
+- (void)testDataJSONSerializingToDictionaryIsOrdered {
+  
   // When
   NSMutableDictionary *dict = [self.data serializeToDictionary];
 
   // Then
-  XCTAssertNotNil(dict);
-  XCTAssertEqualObjects(dict, self.dataDummyValues);
+  XCTAssertNotNil([self.data serializeToDictionary]);
+  
+  // Only verify the order for baseType and baseData fields.
+  XCTAssertTrue([[dict allKeys][0] isEqualToString:@"baseType"]);
+  XCTAssertTrue([[dict allKeys][1] isEqualToString:@"baseData.someData"]);
+  XCTAssertEqualObjects(dict[@"aKey"], @"aValue");
+  XCTAssertEqualObjects(dict[@"anested.key"], @"anothervalue");
+  XCTAssertEqualObjects(dict[@"anotherkey"], @"yetanothervalue");
 }
 
 - (void)testDataNSCodingSerializationAndDeserialization {
@@ -816,17 +822,6 @@
 
   // Then
   XCTAssertNotEqualObjects(anotherData, self.data);
-}
-
-- (void)testDataIsOrdered {
-  
-  // Whenn
-  NSDictionary *serializedData = [self.data serializeToDictionary];
-  NSArray *keys = [serializedData allKeys];
-  
-  // Then
-  XCTAssertTrue([keys[0] isEqualToString:@"baseType"]);
-  XCTAssertTrue([keys[1] isEqualToString:@"baseData.someData"]);
 }
 
 @end
