@@ -84,6 +84,7 @@
 		0496A67B1F3128CE005AE1DB /* MSPushTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD5EC21E5C4F6A001627AB /* MSPushTests.m */; };
 		04A0820C1F74BBCA00DC776D /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A0820B1F74BBCA00DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04A0820D1F74BBCF00DC776D /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A0820B1F74BBCA00DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04B45C5C21E9123100FE6746 /* MSAppDelegateForwarderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D3B01D1FF3D2A400E5FAF2 /* MSAppDelegateForwarderTests.m */; };
 		38437AD61FF3FF47006964AE /* MSCustomPushApplicationDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38437AD51FF3FF47006964AE /* MSCustomPushApplicationDelegate.h */; };
 		38437AD71FF3FF47006964AE /* MSCustomPushApplicationDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38437AD51FF3FF47006964AE /* MSCustomPushApplicationDelegate.h */; };
 		384A925D2188B94F0099BE70 /* MSUserNotificationCenterDelegateForwarderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 384A925C2188B94F0099BE70 /* MSUserNotificationCenterDelegateForwarderTest.m */; };
@@ -738,6 +739,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04B45C5C21E9123100FE6746 /* MSAppDelegateForwarderTests.m in Sources */,
 				046964501F2A5D4F00F9D31F /* MSPushLogTests.m in Sources */,
 				046964511F2A5D8D00F9D31F /* MSPushTestUtil.m in Sources */,
 				0469644F1F2A5D4A00F9D31F /* MSPushTests.m in Sources */,
