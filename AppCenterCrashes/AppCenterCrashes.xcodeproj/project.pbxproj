@@ -218,6 +218,9 @@
 		04A082021F74BB6100DC776D /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A082011F74BB6100DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04A082031F74BB6C00DC776D /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A082011F74BB6100DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04A082041F74BB6F00DC776D /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A082011F74BB6100DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04B45C5821E9107800FE6746 /* MSHandledErrorLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 922446821F621D4500E4034A /* MSHandledErrorLog.h */; };
+		04B45C5921E9107900FE6746 /* MSHandledErrorLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 922446821F621D4500E4034A /* MSHandledErrorLog.h */; };
+		04B45C5A21E9107A00FE6746 /* MSHandledErrorLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 922446821F621D4500E4034A /* MSHandledErrorLog.h */; };
 		04BED7231ECB65E100E20975 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BED7211ECB65DD00E20975 /* OCHamcrest.framework */; };
 		04CC3B7B1F35282F00F7D92A /* MSWrapperCrashesHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 350B29F11F1D67EE009B91CF /* MSWrapperCrashesHelper.m */; };
 		04CC3B7C1F35283000F7D92A /* MSWrapperCrashesHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 350B29F11F1D67EE009B91CF /* MSWrapperCrashesHelper.m */; };
@@ -1173,6 +1176,7 @@
 				0485AFC01EAA887500C10CAF /* MSAppleErrorLog.h in Headers */,
 				0485AFC11EAA887500C10CAF /* MSThread.h in Headers */,
 				0499F8761EDFAE3000C3EDDA /* MSLogWithProperties.h in Headers */,
+				04B45C5921E9107900FE6746 /* MSHandledErrorLog.h in Headers */,
 				0485AFC21EAA887500C10CAF /* MSCrashesUtil.h in Headers */,
 				0485AFC41EAA887500C10CAF /* MSAbstractErrorLog.h in Headers */,
 				0485AFC51EAA887500C10CAF /* MSCrashesInternal.h in Headers */,
@@ -1214,6 +1218,7 @@
 				04EBBED11F01C0C90006B8AE /* MSAppleErrorLog.h in Headers */,
 				04EBBED21F01C0C90006B8AE /* MSThread.h in Headers */,
 				04EBBED31F01C0C90006B8AE /* MSLogWithProperties.h in Headers */,
+				04B45C5A21E9107A00FE6746 /* MSHandledErrorLog.h in Headers */,
 				04EBBED41F01C0C90006B8AE /* MSCrashesUtil.h in Headers */,
 				04EBBED51F01C0C90006B8AE /* MSAbstractErrorLog.h in Headers */,
 				04EBBED61F01C0C90006B8AE /* MSCrashesInternal.h in Headers */,
@@ -1255,6 +1260,7 @@
 				B2F120E71D657F4F0060DED7 /* MSErrorReportPrivate.h in Headers */,
 				353FD1631F29209000E1DF78 /* MSWrapperExceptionInternal.h in Headers */,
 				380B81341E8C565E001C76C9 /* MSAbstractLog.h in Headers */,
+				04B45C5821E9107800FE6746 /* MSHandledErrorLog.h in Headers */,
 				049553061EF19FB50097E071 /* MSCrashesUtilPrivate.h in Headers */,
 				6E7D5C6B1D3E9332009EC9AC /* MSAppleErrorLog.h in Headers */,
 				6E7D5C731D3E9381009EC9AC /* MSThread.h in Headers */,
