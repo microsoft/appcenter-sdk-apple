@@ -114,8 +114,15 @@
   return [@{kMSDeviceLocalId : @"00000000-0000-0000-0000-000000000000"} mutableCopy];
 }
 
-+ (NSDictionary *)dataDummies {
-  return @{@"akey" : @"avalue", @"anested.key" : @"anothervalue", @"anotherkey" : @"yetanothervalue"};
++ (MSOrderedDictionary *)dataDummies {
+  NSDictionary *data = @{
+    @"baseType" : @"aBaseType",
+    @"baseData.someData" : @"someValue",
+    @"aKey" : @"aValue",
+    @"anested.key" : @"anothervalue",
+    @"anotherkey" : @"yetanothervalue"
+  };
+  return [MSOrderedDictionary dictionaryWithDictionary:data];
 }
 
 + (MSDevice *)dummyDevice {

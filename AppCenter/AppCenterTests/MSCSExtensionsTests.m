@@ -818,4 +818,15 @@
   XCTAssertNotEqualObjects(anotherData, self.data);
 }
 
+- (void)testDataIsOrdered {
+  
+  // Whenn
+  NSDictionary *serializedData = [self.data serializeToDictionary];
+  NSArray *keys = [serializedData allKeys];
+  
+  // Then
+  XCTAssertTrue([keys[0] isEqualToString:@"baseType"]);
+  XCTAssertTrue([keys[1] isEqualToString:@"baseData.someData"]);
+}
+
 @end

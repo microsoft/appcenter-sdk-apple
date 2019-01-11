@@ -284,7 +284,7 @@
 
 - (MSCommonSchemaLog *)csLogWithDummyValues:(NSDictionary *)dummyValues {
   MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
-  
+
   /*
    * These are deliberately out of order to verify that they are reordered properly when serialized.
    * Correct order is ver, name, timestamp, (popSample), iKey, flags.

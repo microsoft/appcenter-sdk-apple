@@ -66,17 +66,4 @@
   return YES;
 }
 
-// TODO Remove?
-- (NSString *)description {
-  NSMutableString *ret = [NSMutableString new];
-  NSEnumerator *enumerator = self.keyEnumerator;
-  NSString* nextKey = [enumerator nextObject];
-  while (nextKey != nil) {
-    [ret appendString:nextKey];
-    [ret appendString:@";"];
-    nextKey = [enumerator nextObject];
-  }
-  return ret;
-}
-
 @end
