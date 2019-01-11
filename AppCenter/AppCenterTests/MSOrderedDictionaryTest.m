@@ -1,4 +1,4 @@
-#import "MSOrderedDictionary.h"
+#import "MSOrderedDictionaryPrivate.h"
 #import "MSTestFrameworks.h"
 
 @interface MSOrderedDictionaryTests : XCTestCase
@@ -19,6 +19,39 @@
   [super tearDown];
 
   [self.sut removeAllObjects];
+}
+
+- (void)testInitWithCapacity {
+
+  // When
+  self.sut = [[MSOrderedDictionary alloc] initWithCapacity:10];
+
+  // Then
+  XCTAssertNotNil(self.sut.order);
+  XCTAssertNotNil(self.sut.dictionary);
+}
+
+- (void)testCount {
+
+  // When
+  [self.sut setObject:@"value1" forKey:@"key1"];
+  [self.sut setObject:@"value2" forKey:@"key2"];
+
+  // Then
+  XCTAssertTrue(self.sut.count == 2);
+}
+
+- (void)testRemoveAll {
+
+  // If
+  [self.sut setObject:@"value1" forKey:@"key1"];
+  [self.sut setObject:@"value2" forKey:@"key2"];
+
+  // When
+  [self.sut removeAllObjects];
+
+  // Then
+  XCTAssertTrue(self.sut.count == 0);
 }
 
 - (void)testAddingOrderedObjects {

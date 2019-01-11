@@ -7,6 +7,7 @@
 #import "MSConstants.h"
 #import "MSDevice.h"
 #import "MSLocExtension.h"
+#import "MSLogContainer.h"
 #import "MSModelTestsUtililty.h"
 #import "MSNetExtension.h"
 #import "MSOSExtension.h"
@@ -15,7 +16,6 @@
 #import "MSTestFrameworks.h"
 #import "MSUserExtension.h"
 #import "MSUtility+Date.h"
-#import "MSLogContainer.h"
 
 @interface MSCommonSchemaLogTests : XCTestCase
 @property(nonatomic) MSCommonSchemaLog *commonSchemaLog;
@@ -214,7 +214,7 @@
 
 - (void)testOrderedDictionaryPerformance {
   NSMutableArray *logs = [NSMutableArray new];
-  for(int i= 0; i < 10000; i++) {
+  for (int i = 0; i < 10000; i++) {
     [logs addObject:self.commonSchemaLog];
   }
   MSLogContainer *logContainer = [MSLogContainer new];
@@ -312,6 +312,5 @@
   [MSModelTestsUtililty populateAbstractLogWithDummies:csLog];
   return csLog;
 }
-
 
 @end
