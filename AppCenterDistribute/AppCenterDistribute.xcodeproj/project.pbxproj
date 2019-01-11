@@ -57,6 +57,7 @@
 		048BB3081E60A40D009D92C2 /* MSDistributeIngestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 048BB3021E60A40D009D92C2 /* MSDistributeIngestion.m */; };
 		04A0820A1F74BBB100DC776D /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A082091F74BBB100DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04A140C91ECE89BD001CEE94 /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A140C61ECE89B2001CEE94 /* MSMockUserDefaults.m */; };
+		04B45C5B21E9119800FE6746 /* MSBasicMachOParserPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 807432C31EE20731003295BA /* MSBasicMachOParserPrivate.h */; };
 		04DC2EC91E78A3B4003F23B5 /* error_details.json in Resources */ = {isa = PBXBuildFile; fileRef = 04DC2EC81E78A3B4003F23B5 /* error_details.json */; };
 		04DC2ECB1E78A3E3003F23B5 /* MSErrorDetailsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DC2ECA1E78A3E3003F23B5 /* MSErrorDetailsTests.m */; };
 		04FD4A341E453531009B4468 /* MSDistributeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FD4A331E453531009B4468 /* MSDistributeTests.m */; };
@@ -386,7 +387,6 @@
 				B2C070B91E5E68540076D6A9 /* Resources */,
 				04FD4A1D1E451E12009B4468 /* Products */,
 				046FDBD51E56830400AF9DD1 /* Vendor */,
-				F8BEA3C01FBB08BF00D4DE37 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -533,13 +533,6 @@
 			path = ../../Vendor/iOS/OHHTTPStubs;
 			sourceTree = "<group>";
 		};
-		F8BEA3C01FBB08BF00D4DE37 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		F8BEA3C71FBB0A5900D4DE37 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -576,6 +569,7 @@
 				04A0820A1F74BBB100DC776D /* MSService.h in Headers */,
 				BA682AC831677E0806CA2359 /* MSErrorDetails.h in Headers */,
 				5860330D3F7DC07BC2E141A2 /* MSDistributeInfoTracker.h in Headers */,
+				04B45C5B21E9119800FE6746 /* MSBasicMachOParserPrivate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
