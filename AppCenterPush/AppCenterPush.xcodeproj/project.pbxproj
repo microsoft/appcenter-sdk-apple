@@ -643,7 +643,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd ${SRCROOT}/../Scripts/AppCenterPush\n./build-appcenterpush-macos-framework.sh";
+			shellScript = "cd \"${SRCROOT}/../Scripts/AppCenterPush\"\n./build-appcenterpush-macos-framework.sh\n";
 		};
 		0469642A1F2A55A600F9D31F /* Build docs */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -657,7 +657,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd ${SRCROOT}/../Scripts\n./build-docs.sh macOS AppCenterPush\n";
+			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh macOS AppCenterPush\n";
 			showEnvVarsInLog = 0;
 		};
 		D3AD5F261E5C9588001627AB /* Build framework */ = {
@@ -672,7 +672,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd ${SRCROOT}/../Scripts/AppCenterPush\n./build-appcenterpush-ios-framework.sh";
+			shellScript = "cd \"${SRCROOT}/../Scripts/AppCenterPush\"\n./build-appcenterpush-ios-framework.sh\n";
 		};
 		D3AD5F2B1E5C9636001627AB /* Build docs */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -686,7 +686,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd ${SRCROOT}/../Scripts\n./build-docs.sh iOS AppCenterPush\n";
+			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh iOS AppCenterPush\n";
 			showEnvVarsInLog = 0;
 		};
 		F8B8EAE221105C11004BCECB /* Verify no buildSettings */ = {
@@ -701,7 +701,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
+			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
 			showEnvVarsInLog = 0;
 		};
 		F8B8EAE421105C1D004BCECB /* Verify no buildSettings */ = {
@@ -716,7 +716,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift ${PROJECT_NAME}.xcodeproj/project.pbxproj";
+			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

@@ -1061,7 +1061,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd ${SRCROOT}/../Scripts/AppCenterAnalytics\n./build-appcenteranalytics-tvos-framework.sh";
+			shellScript = "cd \"${SRCROOT}/../Scripts/AppCenterAnalytics\"\n./build-appcenteranalytics-tvos-framework.sh";
 		};
 		0485AFF01EAAADAC00C10CAF /* Build framework */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1075,7 +1075,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd ${SRCROOT}/../Scripts/AppCenterAnalytics\n./build-appcenteranalytics-macos-framework.sh";
+			shellScript = "cd \"${SRCROOT}/../Scripts/AppCenterAnalytics\"\n./build-appcenteranalytics-macos-framework.sh";
 		};
 		04FD11581EF2F818000C5A5C /* Build docs */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1089,7 +1089,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd ${SRCROOT}/../Scripts\n./build-docs.sh macOS AppCenterAnalytics\n";
+			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh macOS AppCenterAnalytics\n";
 			showEnvVarsInLog = 0;
 		};
 		04FD11731EF2FE43000C5A5C /* Build docs */ = {
@@ -1104,7 +1104,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd ${SRCROOT}/../Scripts\n./build-docs.sh tvOS AppCenterAnalytics\n";
+			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh tvOS AppCenterAnalytics\n";
 			showEnvVarsInLog = 0;
 		};
 		E85547E81D2D6827002DF6E2 /* Build framework */ = {
@@ -1119,7 +1119,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd ${SRCROOT}/../Scripts/AppCenterAnalytics\n./build-appcenteranalytics-ios-framework.sh";
+			shellScript = "cd \"${SRCROOT}/../Scripts/AppCenterAnalytics\"\n./build-appcenteranalytics-ios-framework.sh";
 		};
 		E85547ED1D2D68CF002DF6E2 /* Build docs */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1133,7 +1133,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd ${SRCROOT}/../Scripts\n./build-docs.sh iOS AppCenterAnalytics\n";
+			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh iOS AppCenterAnalytics\n";
 			showEnvVarsInLog = 0;
 		};
 		F8B8EAD421105B77004BCECB /* Verify no buildSettings */ = {
@@ -1148,7 +1148,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift ${PROJECT_NAME}.xcodeproj/project.pbxproj";
+			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj";
 			showEnvVarsInLog = 0;
 		};
 		F8B8EAD621105B84004BCECB /* Verify no buildSettings */ = {
@@ -1163,7 +1163,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift ${PROJECT_NAME}.xcodeproj/project.pbxproj";
+			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj";
 			showEnvVarsInLog = 0;
 		};
 		F8B8EAD821105B95004BCECB /* Verify no buildSettings */ = {
@@ -1178,7 +1178,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift ${PROJECT_NAME}.xcodeproj/project.pbxproj";
+			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

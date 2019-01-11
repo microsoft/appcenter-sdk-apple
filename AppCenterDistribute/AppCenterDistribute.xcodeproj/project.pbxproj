@@ -725,7 +725,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd ${SRCROOT}/../Scripts/AppCenterDistribute\n./build-appcenterdistribute-ios-framework.sh";
+			shellScript = "cd \"${SRCROOT}/../Scripts/AppCenterDistribute\"\n./build-appcenterdistribute-ios-framework.sh";
 		};
 		04FD4A401E4536B0009B4468 /* Build docs */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -739,7 +739,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd ${SRCROOT}/../Scripts\n./build-docs.sh iOS AppCenterDistribute\n";
+			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh iOS AppCenterDistribute\n";
 			showEnvVarsInLog = 0;
 		};
 		F8B8EAE021105BD3004BCECB /* Verify no buildSettings */ = {
@@ -754,7 +754,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift ${PROJECT_NAME}.xcodeproj/project.pbxproj";
+			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
