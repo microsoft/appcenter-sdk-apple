@@ -115,13 +115,13 @@
 }
 
 + (MSOrderedDictionary *)dataDummies {
-  MSOrderedDictionary * data = [MSOrderedDictionary new];
-  [data setObject: @"aBaseType" forKey:@"baseType"];
-  [data setObject: @"someValue" forKey:@"baseData.someData"];
-  [data setObject: @"anothervalue" forKey:@"anested.key"];
-  [data setObject: @"aValue" forKey:@"aKey"];
-  [data setObject: @"yetanothervalue" forKey:@"anotherkey"];
-  
+  MSOrderedDictionary *data = [MSOrderedDictionary new];
+  [data setObject:@"aBaseType" forKey:@"baseType"];
+  [data setObject:@"someValue" forKey:@"baseData.someData"];
+  [data setObject:@"anothervalue" forKey:@"anested.key"];
+  [data setObject:@"aValue" forKey:@"aKey"];
+  [data setObject:@"yetanothervalue" forKey:@"anotherkey"];
+
   return data;
 }
 

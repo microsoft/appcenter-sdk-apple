@@ -766,13 +766,13 @@
 #pragma mark - MSCSData
 
 - (void)testDataJSONSerializingToDictionaryIsOrdered {
-  
+
   // When
   NSMutableDictionary *dict = [self.data serializeToDictionary];
 
   // Then
   XCTAssertNotNil([self.data serializeToDictionary]);
-  
+
   // Only verify the order for baseType and baseData fields.
   XCTAssertTrue([[dict allKeys][0] isEqualToString:@"baseType"]);
   XCTAssertTrue([[dict allKeys][1] isEqualToString:@"baseData.someData"]);
