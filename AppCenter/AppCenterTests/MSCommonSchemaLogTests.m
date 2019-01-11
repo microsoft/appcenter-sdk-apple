@@ -15,6 +15,7 @@
 #import "MSTestFrameworks.h"
 #import "MSUserExtension.h"
 #import "MSUtility+Date.h"
+#import "MSLogContainer.h"
 
 @interface MSCommonSchemaLogTests : XCTestCase
 @property(nonatomic) MSCommonSchemaLog *commonSchemaLog;
@@ -211,6 +212,18 @@
   XCTAssertEqualObjects(anotherCommonSchemaLog, self.commonSchemaLog);
 }
 
+- (void)testOrderedDictionaryPerformance {
+  NSMutableArray *logs = [NSMutableArray new];
+  for(int i= 0; i < 10000; i++) {
+    [logs addObject:self.commonSchemaLog];
+  }
+  MSLogContainer *logContainer = [MSLogContainer new];
+  [logContainer setLogs:logs];
+  [self measureBlock:^{
+    [logContainer serializeLog];
+  }];
+}
+
 #pragma mark - Helper
 
 - (MSCSExtensions *)extWithDummyValues {
@@ -278,7 +291,7 @@
 
 - (MSCSData *)dataWithDummyValues {
   MSCSData *data = [MSCSData new];
-  data.properties = @{@"Jan" : @"1", @"feb" : @"2", @"Mar" : @"3"};
+  data.properties = [[MSModelTestsUtililty dataDummies] copy];
   return data;
 }
 
@@ -299,5 +312,6 @@
   [MSModelTestsUtililty populateAbstractLogWithDummies:csLog];
   return csLog;
 }
+
 
 @end
