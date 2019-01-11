@@ -28,7 +28,7 @@
 
   // Then
   XCTAssertNotNil(self.sut.order);
-  XCTAssertNotNil(self.sut.dictionary);
+  XCTAssertNotNil(self.sut);
 }
 
 - (void)testCount {
@@ -74,15 +74,6 @@
 
   // If
   MSOrderedDictionary *other = [MSOrderedDictionary new];
-
-  // Then
-  XCTAssertTrue([self.sut isEqualToDictionary:other]);
-}
-
-- (void)testEqualDictionariesOfDifferentTypesAreEqual {
-
-  // If
-  NSDictionary *other = [NSDictionary new];
 
   // Then
   XCTAssertTrue([self.sut isEqualToDictionary:other]);

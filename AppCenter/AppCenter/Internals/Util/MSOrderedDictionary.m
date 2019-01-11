@@ -2,6 +2,15 @@
 
 @implementation MSOrderedDictionary
 
+/*
+ * Why are we implementing methods that are defined in our parent class?
+ * From Apple's documentation at
+ * https://developer.apple.com/library/archive/documentation/General/Conceptual/DevPedia-CocoaCore/ClassCluster.html
+ * "You create and interact with instances of the cluster just as you would any other class. Behind the scenes, though, when you
+ * create an instance of the public class, the class returns an object of the appropriate subclass based on the creation method that
+ * you invoke. (You don’t, and can’t, choose the actual class of the instance.)"
+ */
+
 - (instancetype)init {
   if ((self = [super init])) {
     _dictionary = [NSMutableDictionary new];
@@ -42,28 +51,18 @@
   [self.dictionary removeAllObjects];
 }
 
+- (NSMutableDictionary *)mutableCopy {
+  MSOrderedDictionary *copy = [MSOrderedDictionary new];
+  copy.dictionary = [self.dictionary mutableCopy];
+  copy.order = [self.order mutableCopy];
+  return copy;
+}
+
 - (BOOL)isEqualToDictionary:(NSDictionary *)otherDictionary {
-  if (![(NSObject *)otherDictionary isKindOfClass:[NSDictionary class]] || ![super isEqualToDictionary:otherDictionary]) {
+  if (![(NSObject *)otherDictionary isKindOfClass:[MSOrderedDictionary class]] || ![self.dictionary isEqualToDictionary:otherDictionary]) {
     return NO;
   }
-  if ([otherDictionary count] != [self.dictionary count]) {
-    return NO;
-  }
-  NSEnumerator *keyEnumeratorMine = [self keyEnumerator];
-  NSEnumerator *keyEnumeratorTheirs = [otherDictionary keyEnumerator];
-  NSObject *nextKeyMine = [keyEnumeratorMine nextObject];
-  NSObject *nextKeyTheirs = [keyEnumeratorTheirs nextObject];
-  if (nextKeyMine == nil && nextKeyTheirs == nil) {
-    return YES;
-  }
-  while (nextKeyMine != nil && nextKeyTheirs != nil) {
-    if (nextKeyMine != nextKeyTheirs || ![((NSObject *)self.dictionary[nextKeyMine]) isEqual:otherDictionary[nextKeyTheirs]]) {
-      return NO;
-    }
-    nextKeyMine = [keyEnumeratorMine nextObject];
-    nextKeyTheirs = [keyEnumeratorTheirs nextObject];
-  }
-  return YES;
+  return [self.order isEqualToArray:((MSOrderedDictionary *)otherDictionary).order];
 }
 
 @end
