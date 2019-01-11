@@ -71,7 +71,7 @@
 		0469644A1F2A5B6000F9D31F /* MSPushDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 047919B41EBA3B1B004834A6 /* MSPushDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0469644B1F2A5BC900F9D31F /* MSPush.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F001E5C7F56001627AB /* MSPush.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0469644C1F2A5C9200F9D31F /* MSPush.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD5F011E5C7F68001627AB /* MSPush.m */; };
-		0469644D1F2A5D1200F9D31F /* MSPushPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F081E5C8156001627AB /* MSPushPrivate.h */; };
+		0469644D1F2A5D1200F9D31F /* MSPushPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F081E5C8156001627AB /* MSPushPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		0469644E1F2A5D2800F9D31F /* AppCenterPush.h in Headers */ = {isa = PBXBuildFile; fileRef = D33A94541E5B11BB003966DB /* AppCenterPush.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0469644F1F2A5D4A00F9D31F /* MSPushTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD5EC21E5C4F6A001627AB /* MSPushTests.m */; };
 		046964501F2A5D4F00F9D31F /* MSPushLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04849D781E9E913A0093ECA6 /* MSPushLogTests.m */; };
@@ -108,7 +108,7 @@
 		D3AD5F0F1E5C845B001627AB /* AppCenterPush.h in Headers */ = {isa = PBXBuildFile; fileRef = D33A94541E5B11BB003966DB /* AppCenterPush.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D3AD5F101E5C8466001627AB /* MSPush.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F001E5C7F56001627AB /* MSPush.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D3AD5F111E5C846E001627AB /* MSPush.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD5F011E5C7F68001627AB /* MSPush.m */; };
-		D3AD5F121E5C847B001627AB /* MSPushPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F081E5C8156001627AB /* MSPushPrivate.h */; };
+		D3AD5F121E5C847B001627AB /* MSPushPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F081E5C8156001627AB /* MSPushPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		D3AD5F6C1E5D7464001627AB /* MSPushLog.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F6A1E5D7464001627AB /* MSPushLog.h */; };
 		D3AD5F6D1E5D7464001627AB /* MSPushLog.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD5F6B1E5D7464001627AB /* MSPushLog.m */; };
 		D3AD5FDA1E5DDF72001627AB /* libAppCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D3AD5FD91E5DDF72001627AB /* libAppCenter.a */; };
