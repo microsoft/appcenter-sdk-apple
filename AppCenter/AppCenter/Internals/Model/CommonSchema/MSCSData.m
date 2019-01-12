@@ -7,7 +7,7 @@
 #pragma mark - MSSerializableObject
 
 - (NSMutableDictionary *)serializeToDictionary {
-  MSOrderedDictionary *dict;
+  NSMutableDictionary *dict;
   if (self.properties) {
     dict = [MSOrderedDictionary new];
 

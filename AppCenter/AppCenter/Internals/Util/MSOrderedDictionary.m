@@ -23,7 +23,7 @@
   self = [super init];
   if (self != nil) {
     _dictionary = [[NSMutableDictionary alloc] initWithCapacity:numItems];
-    _order = [NSMutableArray new];
+    _order = [[NSMutableArray alloc] initWithCapacity:numItems];
   }
   return self;
 }

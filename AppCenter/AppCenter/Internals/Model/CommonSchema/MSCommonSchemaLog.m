@@ -14,7 +14,7 @@
 
   // ORDER MATTERS: Make sure ver, name, timestamp, popSample, iKey and flags appear first in part A.
   // No call to super here, it already contains everything needed for CS JSON serialization.
-  MSOrderedDictionary *dict = [MSOrderedDictionary new];
+  NSMutableDictionary *dict = [MSOrderedDictionary new];
   if (self.ver) {
     dict[kMSCSVer] = self.ver;
   }
