@@ -1,11 +1,8 @@
 #import <Foundation/Foundation.h>
 
+/**
+ * A simple ordered dictionary implementation that orders its content only when inserting.
+ */
 @interface MSOrderedDictionary : NSMutableDictionary
-
-- (instancetype)initWithCapacity:(NSUInteger)numItems;
-
-- (void)setObject:(id)anObject forKey:(id<NSCopying>)aKey;
-
-- (BOOL)isEqualToDictionary:(NSDictionary *)otherDictionary;
 
 @end
