@@ -8,12 +8,12 @@
 #import "MSModelTestsUtililty.h"
 #import "MSNetExtension.h"
 #import "MSOSExtension.h"
+#import "MSOrderedDictionaryPrivate.h"
 #import "MSProtocolExtension.h"
 #import "MSSDKExtension.h"
 #import "MSTestFrameworks.h"
 #import "MSUserExtension.h"
 #import "MSUtility.h"
-#import "MSOrderedDictionaryPrivate.h"
 
 @interface MSCSExtensionsTests : XCTestCase
 @property(nonatomic) MSCSExtensions *ext;
