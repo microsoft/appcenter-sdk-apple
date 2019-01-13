@@ -43,8 +43,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
     // Push Delegate.
     MSPush.setDelegate(self);
 
-    // Start AppCenter.
     MSAppCenter.setLogLevel(MSLogLevel.verbose)
+    // Set user id.
+    let userId = UserDefaults.standard.string(forKey: "userId")
+    if userId != nil {
+      MSAppCenter.setUserId(userId)
+    }
+
+    // Start AppCenter.
     MSAppCenter.start("7e873482-108f-4609-8ef2-c4cebd7418c0", withServices : [ MSAnalytics.self, MSCrashes.self, MSPush.self ])
 
     AppCenterProvider.shared().appCenter = AppCenterDelegateSwift()
@@ -88,14 +94,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
 
   func attachments(with crashes: MSCrashes, for errorReport: MSErrorReport) -> [MSErrorAttachmentLog] {
     var attachments = [MSErrorAttachmentLog]()
-    
+
     // Text attachment.
     let text = UserDefaults.standard.string(forKey: "textAttachment") ?? ""
     if !text.isEmpty {
       let textAttachment = MSErrorAttachmentLog.attachment(withText: text, filename: "user.log")!
       attachments.append(textAttachment)
     }
-    
+
     // Binary attachment.
     let referenceUrl = UserDefaults.standard.url(forKey: "fileAttachment")
     if referenceUrl != nil {
