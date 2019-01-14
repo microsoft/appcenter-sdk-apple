@@ -134,4 +134,16 @@
   XCTAssertTrue([self.sut isEqualToDictionary:other]);
 }
 
+- (void)testCopiedDictionariesEqual {
+  
+  // When
+  [self.sut setObject:@"value1" forKey:@"key1"];
+  [self.sut setObject:@"value2" forKey:@"key2"];
+  MSOrderedDictionary *other = [self.sut mutableCopy];
+  
+  // Then
+  XCTAssertTrue([self.sut isEqualToDictionary:other]);
+}
+
+
 @end
