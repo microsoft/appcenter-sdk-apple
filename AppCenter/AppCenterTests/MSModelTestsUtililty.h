@@ -93,11 +93,18 @@
 + (NSMutableDictionary *)deviceExtensionDummies;
 
 /**
- * Get dummy values data, e.g. properties.
+ * Get ordered dummy values data, e.g. properties.
  *
- * @return Dummy values data, e.g. properties.
+ * @return Ordered dummy values data, e.g. properties.
  */
-+ (NSDictionary *)dataDummies;
++ (NSDictionary *)orderedDataDummies;
+
+/**
+ * Get unordered dummy values data, e.g. properties.
+ *
+ * @return Unordered dummy values data, e.g. properties.
+ */
++ (NSDictionary *)unorderedDataDummies;
 
 /**
  * Get dummy values for abstract log.

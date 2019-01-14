@@ -114,8 +114,26 @@
   return [@{kMSDeviceLocalId : @"00000000-0000-0000-0000-000000000000"} mutableCopy];
 }
 
-+ (NSDictionary *)dataDummies {
-  return @{@"akey" : @"avalue", @"anested.key" : @"anothervalue", @"anotherkey" : @"yetanothervalue"};
++ (MSOrderedDictionary *)orderedDataDummies {
+  MSOrderedDictionary *data = [MSOrderedDictionary new];
+  [data setObject:@"aBaseType" forKey:@"baseType"];
+  [data setObject:@"someValue" forKey:@"baseData"];
+  [data setObject:@"anothervalue" forKey:@"anested.key"];
+  [data setObject:@"aValue" forKey:@"aKey"];
+  [data setObject:@"yetanothervalue" forKey:@"anotherkey"];
+  return data;
+}
+
++ (NSDictionary *)unorderedDataDummies {
+  NSDictionary *data = @{
+    @"baseType" : @"aBaseType",
+    @"baseData" : @"someValue",
+    @"anested.key" : @"anothervalue",
+    @"aKey" : @"aValue",
+    @"anotherkey" : @"yetanothervalue"
+  };
+
+  return data;
 }
 
 + (MSDevice *)dummyDevice {
@@ -247,7 +265,7 @@
 
 + (MSCSData *)dataWithDummyValues:(NSDictionary *)dummyValues {
   MSCSData *data = [MSCSData new];
-  data.properties = dummyValues;
+  data.properties = [dummyValues mutableCopy];
   return data;
 }
 
