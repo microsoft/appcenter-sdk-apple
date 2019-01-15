@@ -11,6 +11,7 @@ class SimplePropertiesTableSection : PropertiesTableSection {
     let property = propertyAtRow(row: row)
     cell.keyField.text = property.key
     cell.valueField.text = property.value
+    cell.tag = row
 
     // Set cell to respond to being edited.
     cell.keyField.addTarget(self, action: #selector(propertyKeyChanged), for: .editingDidEnd)
@@ -38,5 +39,10 @@ class SimplePropertiesTableSection : PropertiesTableSection {
 
   func propertyValueChanged(sender: UITextField!) {
     preconditionFailure("This method is abstract")
+  }
+
+  func getCellRow(forTextField textField: UITextField!) -> Int {
+    let cell = textField.superview!.superview as! UITableViewCell
+    return cell.tag
   }
 }

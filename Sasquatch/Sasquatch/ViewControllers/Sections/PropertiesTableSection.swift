@@ -87,12 +87,6 @@ class PropertiesTableSection : NSObject {
   func loadCellFromNib<T: UITableViewCell>() -> T? {
     return Bundle.main.loadNibNamed(String(describing: T.self), owner: self, options: nil)?.first as? T
   }
-
-  func getCellRow(forTextField textField: UITextField) -> Int {
-    let cell = textField.superview!.superview as! UITableViewCell
-    let indexPath = tableView.indexPath(for: cell)!
-    return indexPath.row
-  }
   
   func reloadSection() {
     tableView.reloadSections([tableSection], with: .none)
