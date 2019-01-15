@@ -19,6 +19,12 @@ static NSString *const kSMLogTag = @"[SasquatchMac]";
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
   [MSAppCenter setLogLevel:MSLogLevelVerbose];
 
+  // Set user id.
+  NSString *userId = [[NSUserDefaults standardUserDefaults] objectForKey:@"userId"];
+  if (userId) {
+    [MSAppCenter setUserId:userId];
+  }
+
   // Customize services.
   [self setupCrashes];
   [self setupPush];
