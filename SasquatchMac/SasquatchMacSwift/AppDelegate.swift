@@ -53,7 +53,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
   }
 
   func initUI() {
-    let mainStoryboard = NSStoryboard.init(name: "SasquatchMac", bundle: nil)
+    let mainStoryboard = NSStoryboard.init(name: kMSMainStoryboardName, bundle: nil)
     rootController = mainStoryboard.instantiateController(withIdentifier: "rootController") as! NSWindowController
     rootController.showWindow(self)
     rootController.window?.makeKeyAndOrderFront(self)
@@ -88,14 +88,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
 
   func attachments(with crashes: MSCrashes, for errorReport: MSErrorReport) -> [MSErrorAttachmentLog] {
     var attachments = [MSErrorAttachmentLog]()
-    
+
     // Text attachment.
     let text = UserDefaults.standard.string(forKey: "textAttachment") ?? ""
     if !text.isEmpty {
       let textAttachment = MSErrorAttachmentLog.attachment(withText: text, filename: "user.log")!
       attachments.append(textAttachment)
     }
-    
+
     // Binary attachment.
     let referenceUrl = UserDefaults.standard.url(forKey: "fileAttachment")
     if referenceUrl != nil {
