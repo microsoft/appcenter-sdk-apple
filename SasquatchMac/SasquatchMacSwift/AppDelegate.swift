@@ -44,6 +44,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
     MSPush.setDelegate(self);
 
     MSAppCenter.setLogLevel(MSLogLevel.verbose)
+
     // Set user id.
     let userId = UserDefaults.standard.string(forKey: "userId")
     if userId != nil {
