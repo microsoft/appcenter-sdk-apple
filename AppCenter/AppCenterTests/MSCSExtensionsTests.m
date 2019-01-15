@@ -8,6 +8,7 @@
 #import "MSModelTestsUtililty.h"
 #import "MSNetExtension.h"
 #import "MSOSExtension.h"
+#import "MSOrderedDictionaryPrivate.h"
 #import "MSProtocolExtension.h"
 #import "MSSDKExtension.h"
 #import "MSTestFrameworks.h"
@@ -36,7 +37,9 @@
 @property(nonatomic) MSMetadataExtension *metadataExt;
 @property(nonatomic) NSDictionary *metadataExtDummyValues;
 @property(nonatomic) MSCSData *data;
-@property(nonatomic) NSDictionary *dataDummyValues;
+@property(nonatomic) NSDictionary *orderedDummyValues;
+@property(nonatomic) NSDictionary *unorderedDummyValues;
+
 @end
 
 @implementation MSCSExtensionsTests
@@ -64,8 +67,9 @@
   self.deviceExt = [MSModelTestsUtililty deviceExtensionWithDummyValues:self.deviceExtDummyValues];
   self.metadataExtDummyValues = [MSModelTestsUtililty metadataExtensionDummies];
   self.metadataExt = [MSModelTestsUtililty metadataExtensionWithDummyValues:self.metadataExtDummyValues];
-  self.dataDummyValues = [MSModelTestsUtililty dataDummies];
-  self.data = [MSModelTestsUtililty dataWithDummyValues:self.dataDummyValues];
+  self.orderedDummyValues = [MSModelTestsUtililty orderedDataDummies];
+  self.unorderedDummyValues = [MSModelTestsUtililty unorderedDataDummies];
+  self.data = [MSModelTestsUtililty dataWithDummyValues:self.unorderedDummyValues];
   self.extDummyValues = [MSModelTestsUtililty extensionDummies];
   self.ext = [MSModelTestsUtililty extensionsWithDummyValues:self.extDummyValues];
 }
@@ -765,14 +769,20 @@
 
 #pragma mark - MSCSData
 
-- (void)testDataJSONSerializingToDictionary {
+- (void)testDataJSONSerializingToDictionaryIsOrdered {
 
   // When
-  NSMutableDictionary *dict = [self.data serializeToDictionary];
+  MSOrderedDictionary *dict = (MSOrderedDictionary *)[self.data serializeToDictionary];
 
   // Then
   XCTAssertNotNil(dict);
-  XCTAssertEqualObjects(dict, self.dataDummyValues);
+
+  // Only verify the order for baseType and baseData fields.
+  XCTAssertTrue([dict.order[0] isEqualToString:@"baseType"]);
+  XCTAssertTrue([dict.order[1] isEqualToString:@"baseData"]);
+  XCTAssertEqualObjects(dict[@"aKey"], @"aValue");
+  XCTAssertEqualObjects(dict[@"anested.key"], @"anothervalue");
+  XCTAssertEqualObjects(dict[@"anotherkey"], @"yetanothervalue");
 }
 
 - (void)testDataNSCodingSerializationAndDeserialization {
@@ -785,7 +795,7 @@
   XCTAssertNotNil(actualData);
   XCTAssertEqualObjects(self.data, actualData);
   XCTAssertTrue([actualData isMemberOfClass:[MSCSData class]]);
-  XCTAssertEqualObjects(actualData.properties, self.dataDummyValues);
+  XCTAssertEqualObjects(actualData.properties, self.orderedDummyValues);
 }
 
 - (void)testDataIsValid {
@@ -806,7 +816,7 @@
   XCTAssertNotEqualObjects(anotherData, self.data);
 
   // If
-  anotherData = [MSModelTestsUtililty dataWithDummyValues:self.dataDummyValues];
+  anotherData = [MSModelTestsUtililty dataWithDummyValues:self.unorderedDummyValues];
 
   // Then
   XCTAssertEqualObjects(anotherData, self.data);

@@ -3,6 +3,7 @@
 #import "MSCSExtensions.h"
 #import "MSCSModelConstants.h"
 #import "MSModel.h"
+#import "MSOrderedDictionary.h"
 #import "MSUtility+Date.h"
 
 @implementation MSCommonSchemaLog
@@ -11,8 +12,9 @@
 
 - (NSMutableDictionary *)serializeToDictionary {
 
+  // ORDER MATTERS: Make sure ver, name, timestamp, popSample, iKey and flags appear first in part A.
   // No call to super here, it already contains everything needed for CS JSON serialization.
-  NSMutableDictionary *dict = [NSMutableDictionary new];
+  NSMutableDictionary *dict = [MSOrderedDictionary new];
   if (self.ver) {
     dict[kMSCSVer] = self.ver;
   }
@@ -25,7 +27,7 @@
     dict[kMSCSTime] = [MSUtility dateToISO8601:self.timestamp];
   }
 
-  // TODO: Not supporting popSample and cV today.
+  // TODO: Not supporting popSample and cV today. When added, popSample needs to be ordered between timestamp and iKey.
   if (self.iKey) {
     dict[kMSCSIKey] = self.iKey;
   }

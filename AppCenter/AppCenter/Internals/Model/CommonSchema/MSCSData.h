@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
 
 #import "MSModel.h"
+#import "MSOrderedDictionary.h"
 #import "MSSerializableObject.h"
 
 /**

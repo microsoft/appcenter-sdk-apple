@@ -25,6 +25,7 @@ Documentation/**/Generated
 xcuserdata/
 
 ## Other
+.build_config
 *.moved-aside
 *.xcuserstate
 

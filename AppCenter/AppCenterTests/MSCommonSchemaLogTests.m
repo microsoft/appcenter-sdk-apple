@@ -7,6 +7,7 @@
 #import "MSConstants.h"
 #import "MSDevice.h"
 #import "MSLocExtension.h"
+#import "MSLogContainer.h"
 #import "MSModelTestsUtililty.h"
 #import "MSNetExtension.h"
 #import "MSOSExtension.h"
@@ -50,22 +51,21 @@
 - (void)testCSLogJSONSerializingToDictionary {
 
   // If
-  NSDictionary *expectedSerializedLog = @{
-    kMSCSTime : [MSUtility dateToISO8601:self.csLogDummyValues[kMSCSTime]],
-    kMSCSData : [self.csLogDummyValues[kMSCSData] serializeToDictionary],
-    kMSCSExt : [self.csLogDummyValues[kMSCSExt] serializeToDictionary],
-    kMSCSIKey : @"o:60cd0b94-6060-11e8-9c2d-fa7ae01bbebc",
-    kMSCSVer : @"3.0",
-    kMSCSName : @"1DS",
-    kMSCSFlags : @(MSFlagsPersistenceNormal)
-  };
+  MSOrderedDictionary *expectedSerializedLog = [MSOrderedDictionary new];
+  [expectedSerializedLog setObject:@"3.0" forKey:kMSCSVer];
+  [expectedSerializedLog setObject:@"1DS" forKey:kMSCSName];
+  [expectedSerializedLog setObject:[MSUtility dateToISO8601:self.csLogDummyValues[kMSCSTime]] forKey:kMSCSTime];
+  [expectedSerializedLog setObject:@"o:60cd0b94-6060-11e8-9c2d-fa7ae01bbebc" forKey:kMSCSIKey];
+  [expectedSerializedLog setObject:@(MSFlagsPersistenceNormal) forKey:kMSCSFlags];
+  [expectedSerializedLog setObject:[self.csLogDummyValues[kMSCSExt] serializeToDictionary] forKey:kMSCSExt];
+  [expectedSerializedLog setObject:[self.csLogDummyValues[kMSCSData] serializeToDictionary] forKey:kMSCSData];
 
   // When
   NSMutableDictionary *serializedLog = [self.commonSchemaLog serializeToDictionary];
 
   // Then
   XCTAssertNotNil(serializedLog);
-  XCTAssertEqualObjects(serializedLog, expectedSerializedLog);
+  XCTAssertTrue([expectedSerializedLog isEqualToDictionary:serializedLog]);
 }
 
 - (void)testCSLogNSCodingSerializationAndDeserialization {
@@ -212,6 +212,18 @@
   XCTAssertEqualObjects(anotherCommonSchemaLog, self.commonSchemaLog);
 }
 
+- (void)testOrderedDictionaryPerformance {
+  NSMutableArray *logs = [NSMutableArray new];
+  for (int i = 0; i < 10000; i++) {
+    [logs addObject:self.commonSchemaLog];
+  }
+  MSLogContainer *logContainer = [MSLogContainer new];
+  [logContainer setLogs:logs];
+  [self measureBlock:^{
+    [logContainer serializeLog];
+  }];
+}
+
 #pragma mark - Helper
 
 - (MSCSExtensions *)extWithDummyValues {
@@ -279,15 +291,20 @@
 
 - (MSCSData *)dataWithDummyValues {
   MSCSData *data = [MSCSData new];
-  data.properties = @{@"Jan" : @"1", @"feb" : @"2", @"Mar" : @"3"};
+  data.properties = [[MSModelTestsUtililty unorderedDataDummies] copy];
   return data;
 }
 
 - (MSCommonSchemaLog *)csLogWithDummyValues:(NSDictionary *)dummyValues {
   MSCommonSchemaLog *csLog = [MSCommonSchemaLog new];
-  csLog.ver = dummyValues[kMSCSVer];
+
+  /*
+   * These are deliberately out of order to verify that they are reordered properly when serialized.
+   * Correct order is ver, name, timestamp, (popSample), iKey, flags.
+   */
   csLog.name = dummyValues[kMSCSName];
   csLog.timestamp = dummyValues[kMSCSTime];
+  csLog.ver = dummyValues[kMSCSVer];
   csLog.iKey = dummyValues[kMSCSIKey];
   csLog.flags = [dummyValues[kMSCSFlags] longLongValue];
   csLog.ext = dummyValues[kMSCSExt];
