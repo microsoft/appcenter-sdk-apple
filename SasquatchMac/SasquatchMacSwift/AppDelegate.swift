@@ -60,7 +60,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
   }
 
   func initUI() {
-    let mainStoryboard = NSStoryboard.init(name: "SasquatchMac", bundle: nil)
+    let mainStoryboard = NSStoryboard.init(name: kMSMainStoryboardName, bundle: nil)
     rootController = mainStoryboard.instantiateController(withIdentifier: "rootController") as! NSWindowController
     rootController.showWindow(self)
     rootController.window?.makeKeyAndOrderFront(self)
