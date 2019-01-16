@@ -71,7 +71,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E85547BF1D2D6253002DF6E2"
-               BuildableName = "lib.a"
+               BuildableName = "libAppCenterIdentity.a"
                BlueprintName = "AppCenterIdentityIOS"
                ReferencedContainer = "container:AppCenterIdentity/AppCenterIdentity.xcodeproj">
             </BuildableReference>
@@ -141,7 +141,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E85547D41D2D6723002DF6E2"
-               BuildableName = ".xctest"
+               BuildableName = "AppCenterIdentity.xctest"
                BlueprintName = "AppCenterIdentityIOSTests"
                ReferencedContainer = "container:AppCenterIdentity/AppCenterIdentity.xcodeproj">
             </BuildableReference>
@@ -210,7 +210,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E85547D41D2D6723002DF6E2"
-               BuildableName = ".xctest"
+               BuildableName = "AppCenterIdentity.xctest"
                BlueprintName = "AppCenterIdentityIOSTests"
                ReferencedContainer = "container:AppCenterIdentity/AppCenterIdentity.xcodeproj">
             </BuildableReference>

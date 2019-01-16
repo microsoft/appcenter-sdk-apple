@@ -81,10 +81,10 @@
 /* Begin PBXBuildFile section */
 		0420A6871ECA7A4B00915619 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420A6861ECA7A4B00915619 /* OCMock.framework */; };
 		0420A6931ECA7B1100915619 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420A6921ECA7B1100915619 /* OCMock.framework */; };
-		043121511EE0C20A007054C5 /* MSAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E85547C51D2D6253002DF6E2 /* MSAnalytics.m */; };
+		043121511EE0C20A007054C5 /* MSIdentity.m in Sources */ = {isa = PBXBuildFile; fileRef = E85547C51D2D6253002DF6E2 /* MSIdentity.m */; };
 		0431215F1EE0C20A007054C5 /* AppCenterIdentity.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CC1D2D63EF002DF6E2 /* AppCenterIdentity.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		043121601EE0C20A007054C5 /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C77041D6CC39400D68CC1 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		043121651EE0C20A007054C5 /* MSAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547C31D2D6253002DF6E2 /* MSAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		043121651EE0C20A007054C5 /* MSIdentity.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547C31D2D6253002DF6E2 /* MSIdentity.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0446DF561F3B8EAC00C8E338 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0484DD201F39096E0092B777 /* OCHamcrest.framework */; };
 		0446DF571F3B8EBD00C8E338 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0484DD231F39098B0092B777 /* OCMock.framework */; };
 		0446DF581F3B8ED000C8E338 /* libAppCenterIdentity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0431216C1EE0C20A007054C5 /* libAppCenterIdentity.a */; };
@@ -92,9 +92,9 @@
 		0446DF621F3B95EB00C8E338 /* libAppCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0446DF611F3B95EB00C8E338 /* libAppCenter.a */; };
 		0446DF641F3B95F200C8E338 /* libAppCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0446DF631F3B95F200C8E338 /* libAppCenter.a */; };
 		046AEACB1ECA554600CBE511 /* libAppCenterIdentity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0485AF851EAA79E300C10CAF /* libAppCenterIdentity.a */; };
-		0485AF6A1EAA79E300C10CAF /* MSAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E85547C51D2D6253002DF6E2 /* MSAnalytics.m */; };
+		0485AF6A1EAA79E300C10CAF /* MSIdentity.m in Sources */ = {isa = PBXBuildFile; fileRef = E85547C51D2D6253002DF6E2 /* MSIdentity.m */; };
 		0485AF781EAA79E300C10CAF /* AppCenterIdentity.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CC1D2D63EF002DF6E2 /* AppCenterIdentity.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0485AF7E1EAA79E300C10CAF /* MSAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547C31D2D6253002DF6E2 /* MSAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0485AF7E1EAA79E300C10CAF /* MSIdentity.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547C31D2D6253002DF6E2 /* MSIdentity.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04A082061F74BB8600DC776D /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A082051F74BB8600DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04A082071F74BB8C00DC776D /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A082051F74BB8600DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04BED7181ECB64FB00E20975 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BED7161ECB64CE00E20975 /* OCHamcrest.framework */; };
@@ -108,10 +108,10 @@
 		358F9BC82019596500B9E22C /* MSAbstractLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 358F9BC72019596400B9E22C /* MSAbstractLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		387C77051D6CC39400D68CC1 /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C77041D6CC39400D68CC1 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E0684381D35A3B900A8CC6C /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E0684371D35A3B900A8CC6C /* OCHamcrestIOS.framework */; };
-		E85547C61D2D6253002DF6E2 /* MSAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E85547C51D2D6253002DF6E2 /* MSAnalytics.m */; };
+		E85547C61D2D6253002DF6E2 /* MSIdentity.m in Sources */ = {isa = PBXBuildFile; fileRef = E85547C51D2D6253002DF6E2 /* MSIdentity.m */; };
 		E85547DA1D2D6723002DF6E2 /* libAppCenterIdentity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E85547C01D2D6253002DF6E2 /* libAppCenterIdentity.a */; };
 		E85547F71D2D6A7D002DF6E2 /* AppCenterIdentity.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CC1D2D63EF002DF6E2 /* AppCenterIdentity.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E85547F81D2D6A7D002DF6E2 /* MSAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547C31D2D6253002DF6E2 /* MSAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E85547F81D2D6A7D002DF6E2 /* MSIdentity.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547C31D2D6253002DF6E2 /* MSIdentity.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F82E4C71217F1FA600EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C70217F1FA600EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		F82E4C72217F1FA600EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C70217F1FA600EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		F82E4C73217F1FA600EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C70217F1FA600EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -222,8 +222,8 @@
 		6E0684371D35A3B900A8CC6C /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../../Vendor/iOS/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
 		B2812EF21DA3148000307DCE /* AppCenterIdentity Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "AppCenterIdentity Debug.xcconfig"; sourceTree = "<group>"; };
 		E85547C01D2D6253002DF6E2 /* libAppCenterIdentity.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppCenterIdentity.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		E85547C31D2D6253002DF6E2 /* MSAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAnalytics.h; sourceTree = "<group>"; };
-		E85547C51D2D6253002DF6E2 /* MSAnalytics.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSAnalytics.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		E85547C31D2D6253002DF6E2 /* MSIdentity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSIdentity.h; sourceTree = "<group>"; };
+		E85547C51D2D6253002DF6E2 /* MSIdentity.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSIdentity.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		E85547CC1D2D63EF002DF6E2 /* AppCenterIdentity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppCenterIdentity.h; sourceTree = "<group>"; };
 		E85547D51D2D6723002DF6E2 /* AppCenterIdentity.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterIdentity.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E85547D91D2D6723002DF6E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -410,8 +410,8 @@
 			isa = PBXGroup;
 			children = (
 				E85547CC1D2D63EF002DF6E2 /* AppCenterIdentity.h */,
-				E85547C31D2D6253002DF6E2 /* MSAnalytics.h */,
-				E85547C51D2D6253002DF6E2 /* MSAnalytics.m */,
+				E85547C31D2D6253002DF6E2 /* MSIdentity.h */,
+				E85547C51D2D6253002DF6E2 /* MSIdentity.m */,
 				E85547D01D2D65AF002DF6E2 /* Support */,
 			);
 			path = AppCenterIdentity;
@@ -453,7 +453,7 @@
 				3568A7E1201A71D000F3B860 /* MSLogWithProperties.h in Headers */,
 				0431215F1EE0C20A007054C5 /* AppCenterIdentity.h in Headers */,
 				043121601EE0C20A007054C5 /* MSServiceAbstract.h in Headers */,
-				043121651EE0C20A007054C5 /* MSAnalytics.h in Headers */,
+				043121651EE0C20A007054C5 /* MSIdentity.h in Headers */,
 				04A082071F74BB8C00DC776D /* MSService.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -467,7 +467,7 @@
 				3568A7EF201A9BBB00F3B860 /* MSService.h in Headers */,
 				3568A7F0201A9BBB00F3B860 /* MSServiceAbstract.h in Headers */,
 				0485AF781EAA79E300C10CAF /* AppCenterIdentity.h in Headers */,
-				0485AF7E1EAA79E300C10CAF /* MSAnalytics.h in Headers */,
+				0485AF7E1EAA79E300C10CAF /* MSIdentity.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -480,7 +480,7 @@
 				358F9BC62019590200B9E22C /* MSLogWithProperties.h in Headers */,
 				387C77051D6CC39400D68CC1 /* MSServiceAbstract.h in Headers */,
 				E85547F71D2D6A7D002DF6E2 /* AppCenterIdentity.h in Headers */,
-				E85547F81D2D6A7D002DF6E2 /* MSAnalytics.h in Headers */,
+				E85547F81D2D6A7D002DF6E2 /* MSIdentity.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -800,7 +800,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				043121511EE0C20A007054C5 /* MSAnalytics.m in Sources */,
+				043121511EE0C20A007054C5 /* MSIdentity.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -824,7 +824,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0485AF6A1EAA79E300C10CAF /* MSAnalytics.m in Sources */,
+				0485AF6A1EAA79E300C10CAF /* MSIdentity.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -832,7 +832,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E85547C61D2D6253002DF6E2 /* MSAnalytics.m in Sources */,
+				E85547C61D2D6253002DF6E2 /* MSIdentity.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
