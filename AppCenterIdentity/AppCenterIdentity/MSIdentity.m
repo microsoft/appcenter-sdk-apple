@@ -4,6 +4,7 @@
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
 #import "MSConstants+Internal.h"
+#import "MSIdentityInternal.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSServiceInternal.h"
 
