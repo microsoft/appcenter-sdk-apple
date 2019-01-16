@@ -1,0 +1,1188 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		0431216D1EE0C213007054C5 /* AppCenterIdentityTVOSFramework */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 0431216F1EE0C213007054C5 /* Build configuration list for PBXAggregateTarget "AppCenterIdentityTVOSFramework" */;
+			buildPhases = (
+				0431216E1EE0C213007054C5 /* Build framework */,
+			);
+			dependencies = (
+			);
+			name = AppCenterIdentityTVOSFramework;
+			productName = "Fat Framework";
+		};
+		0485AFEF1EAAADAC00C10CAF /* AppCenterIdentityMacOSFramework */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 0485AFF11EAAADAC00C10CAF /* Build configuration list for PBXAggregateTarget "AppCenterIdentityMacOSFramework" */;
+			buildPhases = (
+				0485AFF01EAAADAC00C10CAF /* Build framework */,
+			);
+			dependencies = (
+			);
+			name = AppCenterIdentityMacOSFramework;
+			productName = "Fat Framework";
+		};
+		04FD11551EF2F818000C5A5C /* AppCenterIdentityMacOSDoc */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 04FD11591EF2F818000C5A5C /* Build configuration list for PBXAggregateTarget "AppCenterIdentityMacOSDoc" */;
+			buildPhases = (
+				04FD11581EF2F818000C5A5C /* Build docs */,
+			);
+			dependencies = (
+				04FD115D1EF2F849000C5A5C /* PBXTargetDependency */,
+			);
+			name = AppCenterIdentityMacOSDoc;
+			productName = "Jazzy Docs";
+		};
+		04FD11701EF2FE43000C5A5C /* AppCenterIdentityTVOSDoc */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 04FD11741EF2FE43000C5A5C /* Build configuration list for PBXAggregateTarget "AppCenterIdentityTVOSDoc" */;
+			buildPhases = (
+				04FD11731EF2FE43000C5A5C /* Build docs */,
+			);
+			dependencies = (
+				04FD11781EF2FE5B000C5A5C /* PBXTargetDependency */,
+			);
+			name = AppCenterIdentityTVOSDoc;
+			productName = "Jazzy Docs";
+		};
+		E85547E41D2D681F002DF6E2 /* AppCenterIdentityIOSFramework */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E85547E51D2D681F002DF6E2 /* Build configuration list for PBXAggregateTarget "AppCenterIdentityIOSFramework" */;
+			buildPhases = (
+				E85547E81D2D6827002DF6E2 /* Build framework */,
+			);
+			dependencies = (
+			);
+			name = AppCenterIdentityIOSFramework;
+			productName = "Fat Framework";
+		};
+		E85547E91D2D68C5002DF6E2 /* AppCenterIdentityIOSDoc */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E85547EA1D2D68C5002DF6E2 /* Build configuration list for PBXAggregateTarget "AppCenterIdentityIOSDoc" */;
+			buildPhases = (
+				E85547ED1D2D68CF002DF6E2 /* Build docs */,
+			);
+			dependencies = (
+				386352E41D51047400D0D450 /* PBXTargetDependency */,
+			);
+			name = AppCenterIdentityIOSDoc;
+			productName = "Jazzy Docs";
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		0420A6871ECA7A4B00915619 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420A6861ECA7A4B00915619 /* OCMock.framework */; };
+		0420A6931ECA7B1100915619 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420A6921ECA7B1100915619 /* OCMock.framework */; };
+		043121511EE0C20A007054C5 /* MSAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E85547C51D2D6253002DF6E2 /* MSAnalytics.m */; };
+		0431215F1EE0C20A007054C5 /* AppCenterIdentity.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CC1D2D63EF002DF6E2 /* AppCenterIdentity.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		043121601EE0C20A007054C5 /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C77041D6CC39400D68CC1 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		043121651EE0C20A007054C5 /* MSAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547C31D2D6253002DF6E2 /* MSAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0446DF561F3B8EAC00C8E338 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0484DD201F39096E0092B777 /* OCHamcrest.framework */; };
+		0446DF571F3B8EBD00C8E338 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0484DD231F39098B0092B777 /* OCMock.framework */; };
+		0446DF581F3B8ED000C8E338 /* libAppCenterIdentity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0431216C1EE0C20A007054C5 /* libAppCenterIdentity.a */; };
+		0446DF5F1F3B8FBA00C8E338 /* libAppCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0446DF5E1F3B8FBA00C8E338 /* libAppCenter.a */; };
+		0446DF621F3B95EB00C8E338 /* libAppCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0446DF611F3B95EB00C8E338 /* libAppCenter.a */; };
+		0446DF641F3B95F200C8E338 /* libAppCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0446DF631F3B95F200C8E338 /* libAppCenter.a */; };
+		046AEACB1ECA554600CBE511 /* libAppCenterIdentity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0485AF851EAA79E300C10CAF /* libAppCenterIdentity.a */; };
+		0485AF6A1EAA79E300C10CAF /* MSAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E85547C51D2D6253002DF6E2 /* MSAnalytics.m */; };
+		0485AF781EAA79E300C10CAF /* AppCenterIdentity.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CC1D2D63EF002DF6E2 /* AppCenterIdentity.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0485AF7E1EAA79E300C10CAF /* MSAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547C31D2D6253002DF6E2 /* MSAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04A082061F74BB8600DC776D /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A082051F74BB8600DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04A082071F74BB8C00DC776D /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A082051F74BB8600DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04BED7181ECB64FB00E20975 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BED7161ECB64CE00E20975 /* OCHamcrest.framework */; };
+		3568A7E0201A71D000F3B860 /* MSAbstractLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 358F9BC72019596400B9E22C /* MSAbstractLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3568A7E1201A71D000F3B860 /* MSLogWithProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 358F9BC52019590100B9E22C /* MSLogWithProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3568A7ED201A9BBB00F3B860 /* MSAbstractLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 358F9BC72019596400B9E22C /* MSAbstractLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3568A7EE201A9BBB00F3B860 /* MSLogWithProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 358F9BC52019590100B9E22C /* MSLogWithProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3568A7EF201A9BBB00F3B860 /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A082051F74BB8600DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3568A7F0201A9BBB00F3B860 /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C77041D6CC39400D68CC1 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		358F9BC62019590200B9E22C /* MSLogWithProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 358F9BC52019590100B9E22C /* MSLogWithProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		358F9BC82019596500B9E22C /* MSAbstractLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 358F9BC72019596400B9E22C /* MSAbstractLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		387C77051D6CC39400D68CC1 /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C77041D6CC39400D68CC1 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6E0684381D35A3B900A8CC6C /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E0684371D35A3B900A8CC6C /* OCHamcrestIOS.framework */; };
+		E85547C61D2D6253002DF6E2 /* MSAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E85547C51D2D6253002DF6E2 /* MSAnalytics.m */; };
+		E85547DA1D2D6723002DF6E2 /* libAppCenterIdentity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E85547C01D2D6253002DF6E2 /* libAppCenterIdentity.a */; };
+		E85547F71D2D6A7D002DF6E2 /* AppCenterIdentity.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CC1D2D63EF002DF6E2 /* AppCenterIdentity.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E85547F81D2D6A7D002DF6E2 /* MSAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547C31D2D6253002DF6E2 /* MSAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F82E4C71217F1FA600EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C70217F1FA600EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		F82E4C72217F1FA600EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C70217F1FA600EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		F82E4C73217F1FA600EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C70217F1FA600EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0446DF591F3B8EFA00C8E338 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0431214E1EE0C20A007054C5;
+			remoteInfo = AppCenterIdentityTVOS;
+		};
+		046AEACD1ECA55BC00CBE511 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0485AF671EAA79E300C10CAF;
+			remoteInfo = AppCenterIdentityMacOS;
+		};
+		04FD115C1EF2F849000C5A5C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0485AFEF1EAAADAC00C10CAF;
+			remoteInfo = "Fat Framework";
+		};
+		04FD11771EF2FE5B000C5A5C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0431216D1EE0C213007054C5;
+			remoteInfo = "Fat Framework";
+		};
+		386352E31D51047400D0D450 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E85547E41D2D681F002DF6E2;
+			remoteInfo = "Fat Framework";
+		};
+		E85547DB1D2D6723002DF6E2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E85547BF1D2D6253002DF6E2;
+			remoteInfo = AppCenterIdentityIOS;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		043121581EE0C20A007054C5 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0485AF711EAA79E300C10CAF /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E85547BE1D2D6253002DF6E2 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		041CFF8B1ECCFF6700B4654B /* Tests iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests iOS.xcconfig"; path = "../../Config/Tests iOS.xcconfig"; sourceTree = "<group>"; };
+		0420A6861ECA7A4B00915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../macOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
+		0420A6921ECA7B1100915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../iOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
+		0431216C1EE0C20A007054C5 /* libAppCenterIdentity.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppCenterIdentity.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		043121721EE0C248007054C5 /* tvOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = tvOS.modulemap; sourceTree = "<group>"; };
+		043121731EE0C248007054C5 /* tvOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = tvOS.xcconfig; sourceTree = "<group>"; };
+		0446DF541F3B8E6300C8E338 /* AppCenterIdentity.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterIdentity.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0446DF5E1F3B8FBA00C8E338 /* libAppCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAppCenter.a; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-atgozldoovnqvrcmynluxwlivwkq/Build/Products/Debug-appletvsimulator/libAppCenter.a"; sourceTree = "<group>"; };
+		0446DF611F3B95EB00C8E338 /* libAppCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAppCenter.a; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-atgozldoovnqvrcmynluxwlivwkq/Build/Products/Debug/libAppCenter.a"; sourceTree = "<group>"; };
+		0446DF631F3B95F200C8E338 /* libAppCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAppCenter.a; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-atgozldoovnqvrcmynluxwlivwkq/Build/Products/Debug-iphonesimulator/libAppCenter.a"; sourceTree = "<group>"; };
+		0469D1B21F4DFE4C00A43A8E /* AppCenterIdentity Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "AppCenterIdentity Release.xcconfig"; sourceTree = "<group>"; };
+		046AEAC61ECA51AF00CBE511 /* AppCenterIdentity.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterIdentity.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0484DD201F39096E0092B777 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../../Vendor/tvOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
+		0484DD231F39098B0092B777 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../tvOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
+		0484DD601F3910FF0092B777 /* Tests tvOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests tvOS.xcconfig"; path = "../../Config/Tests tvOS.xcconfig"; sourceTree = "<group>"; };
+		0485AF851EAA79E300C10CAF /* libAppCenterIdentity.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppCenterIdentity.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
+		049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
+		049BC82C1ECE3CF000FB6719 /* Tests macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests macOS.xcconfig"; path = "../../Config/Tests macOS.xcconfig"; sourceTree = "<group>"; };
+		04A082051F74BB8600DC776D /* MSService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSService.h; path = ../AppCenter/AppCenter/MSService.h; sourceTree = "<group>"; };
+		04BED7161ECB64CE00E20975 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../../Vendor/macOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
+		04ED31E91EAAD32B0033BAAE /* macOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = macOS.modulemap; sourceTree = "<group>"; };
+		04ED31EB1EAAD3390033BAAE /* iOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = iOS.modulemap; sourceTree = "<group>"; };
+		358F9BC52019590100B9E22C /* MSLogWithProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSLogWithProperties.h; path = ../AppCenter/AppCenter/Model/MSLogWithProperties.h; sourceTree = "<group>"; };
+		358F9BC72019596400B9E22C /* MSAbstractLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAbstractLog.h; path = ../AppCenter/AppCenter/Model/MSAbstractLog.h; sourceTree = "<group>"; };
+		387C77041D6CC39400D68CC1 /* MSServiceAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSServiceAbstract.h; path = ../AppCenter/AppCenter/MSServiceAbstract.h; sourceTree = "<group>"; };
+		6E0684371D35A3B900A8CC6C /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../../Vendor/iOS/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
+		B2812EF21DA3148000307DCE /* AppCenterIdentity Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "AppCenterIdentity Debug.xcconfig"; sourceTree = "<group>"; };
+		E85547C01D2D6253002DF6E2 /* libAppCenterIdentity.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppCenterIdentity.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		E85547C31D2D6253002DF6E2 /* MSAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAnalytics.h; sourceTree = "<group>"; };
+		E85547C51D2D6253002DF6E2 /* MSAnalytics.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSAnalytics.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		E85547CC1D2D63EF002DF6E2 /* AppCenterIdentity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppCenterIdentity.h; sourceTree = "<group>"; };
+		E85547D51D2D6723002DF6E2 /* AppCenterIdentity.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterIdentity.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E85547D91D2D6723002DF6E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F82E4C70217F1FA600EDAB34 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = ../../Vendor/SQLite3/sqlite3.c; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		043121571EE0C20A007054C5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0446DF481F3B8E6300C8E338 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0446DF5F1F3B8FBA00C8E338 /* libAppCenter.a in Frameworks */,
+				0446DF581F3B8ED000C8E338 /* libAppCenterIdentity.a in Frameworks */,
+				0446DF571F3B8EBD00C8E338 /* OCMock.framework in Frameworks */,
+				0446DF561F3B8EAC00C8E338 /* OCHamcrest.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		046AEABD1ECA51AF00CBE511 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0446DF621F3B95EB00C8E338 /* libAppCenter.a in Frameworks */,
+				046AEACB1ECA554600CBE511 /* libAppCenterIdentity.a in Frameworks */,
+				04BED7181ECB64FB00E20975 /* OCHamcrest.framework in Frameworks */,
+				0420A6871ECA7A4B00915619 /* OCMock.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0485AF701EAA79E300C10CAF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E85547BD1D2D6253002DF6E2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E85547D21D2D6723002DF6E2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0446DF641F3B95F200C8E338 /* libAppCenter.a in Frameworks */,
+				E85547DA1D2D6723002DF6E2 /* libAppCenterIdentity.a in Frameworks */,
+				6E0684381D35A3B900A8CC6C /* OCHamcrestIOS.framework in Frameworks */,
+				0420A6931ECA7B1100915619 /* OCMock.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0420A68F1ECA7ACD00915619 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				0420A6921ECA7B1100915619 /* OCMock.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		0420A6901ECA7AD400915619 /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+				0420A6861ECA7A4B00915619 /* OCMock.framework */,
+			);
+			name = macOS;
+			sourceTree = "<group>";
+		};
+		0484DD1E1F3909470092B777 /* tvOS */ = {
+			isa = PBXGroup;
+			children = (
+				0484DD231F39098B0092B777 /* OCMock.framework */,
+			);
+			name = tvOS;
+			sourceTree = "<group>";
+		};
+		0484DD1F1F3909580092B777 /* tvOS */ = {
+			isa = PBXGroup;
+			children = (
+				0484DD201F39096E0092B777 /* OCHamcrest.framework */,
+			);
+			name = tvOS;
+			sourceTree = "<group>";
+		};
+		04A140AE1ECE806B001CEE94 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				041CFF8B1ECCFF6700B4654B /* Tests iOS.xcconfig */,
+				049BC82C1ECE3CF000FB6719 /* Tests macOS.xcconfig */,
+				0484DD601F3910FF0092B777 /* Tests tvOS.xcconfig */,
+			);
+			name = Support;
+			sourceTree = "<group>";
+		};
+		04BED7131ECB64B100E20975 /* OCHamcrest */ = {
+			isa = PBXGroup;
+			children = (
+				04BED7151ECB64C000E20975 /* iOS */,
+				04BED7141ECB64BB00E20975 /* macOS */,
+				0484DD1F1F3909580092B777 /* tvOS */,
+			);
+			name = OCHamcrest;
+			sourceTree = "<group>";
+		};
+		04BED7141ECB64BB00E20975 /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+				04BED7161ECB64CE00E20975 /* OCHamcrest.framework */,
+			);
+			name = macOS;
+			sourceTree = "<group>";
+		};
+		04BED7151ECB64C000E20975 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				6E0684371D35A3B900A8CC6C /* OCHamcrestIOS.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		6E0684361D35A39300A8CC6C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F82E4C70217F1FA600EDAB34 /* sqlite3.c */,
+				0446DF631F3B95F200C8E338 /* libAppCenter.a */,
+				0446DF611F3B95EB00C8E338 /* libAppCenter.a */,
+				0446DF5E1F3B8FBA00C8E338 /* libAppCenter.a */,
+				04BED7131ECB64B100E20975 /* OCHamcrest */,
+				6E0684391D35A3C800A8CC6C /* OCMock */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6E0684391D35A3C800A8CC6C /* OCMock */ = {
+			isa = PBXGroup;
+			children = (
+				0420A68F1ECA7ACD00915619 /* iOS */,
+				0420A6901ECA7AD400915619 /* macOS */,
+				0484DD1E1F3909470092B777 /* tvOS */,
+			);
+			name = OCMock;
+			path = ../../Vendor/Common/OCMock;
+			sourceTree = "<group>";
+		};
+		E85547B71D2D6253002DF6E2 = {
+			isa = PBXGroup;
+			children = (
+				358F9BC72019596400B9E22C /* MSAbstractLog.h */,
+				358F9BC52019590100B9E22C /* MSLogWithProperties.h */,
+				04A082051F74BB8600DC776D /* MSService.h */,
+				387C77041D6CC39400D68CC1 /* MSServiceAbstract.h */,
+				E85547C21D2D6253002DF6E2 /* AppCenterIdentity */,
+				E85547D61D2D6723002DF6E2 /* AppCenterIdentityTests */,
+				E85547C11D2D6253002DF6E2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E85547C11D2D6253002DF6E2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E85547C01D2D6253002DF6E2 /* libAppCenterIdentity.a */,
+				E85547D51D2D6723002DF6E2 /* AppCenterIdentity.xctest */,
+				0485AF851EAA79E300C10CAF /* libAppCenterIdentity.a */,
+				046AEAC61ECA51AF00CBE511 /* AppCenterIdentity.xctest */,
+				0431216C1EE0C20A007054C5 /* libAppCenterIdentity.a */,
+				0446DF541F3B8E6300C8E338 /* AppCenterIdentity.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E85547C21D2D6253002DF6E2 /* AppCenterIdentity */ = {
+			isa = PBXGroup;
+			children = (
+				E85547CC1D2D63EF002DF6E2 /* AppCenterIdentity.h */,
+				E85547C31D2D6253002DF6E2 /* MSAnalytics.h */,
+				E85547C51D2D6253002DF6E2 /* MSAnalytics.m */,
+				E85547D01D2D65AF002DF6E2 /* Support */,
+			);
+			path = AppCenterIdentity;
+			sourceTree = "<group>";
+		};
+		E85547D01D2D65AF002DF6E2 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				B2812EF21DA3148000307DCE /* AppCenterIdentity Debug.xcconfig */,
+				0469D1B21F4DFE4C00A43A8E /* AppCenterIdentity Release.xcconfig */,
+				049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */,
+				04ED31EB1EAAD3390033BAAE /* iOS.modulemap */,
+				049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */,
+				04ED31E91EAAD32B0033BAAE /* macOS.modulemap */,
+				043121731EE0C248007054C5 /* tvOS.xcconfig */,
+				043121721EE0C248007054C5 /* tvOS.modulemap */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		E85547D61D2D6723002DF6E2 /* AppCenterIdentityTests */ = {
+			isa = PBXGroup;
+			children = (
+				E85547D91D2D6723002DF6E2 /* Info.plist */,
+				6E0684361D35A39300A8CC6C /* Frameworks */,
+				04A140AE1ECE806B001CEE94 /* Support */,
+			);
+			path = AppCenterIdentityTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		043121591EE0C20A007054C5 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3568A7E0201A71D000F3B860 /* MSAbstractLog.h in Headers */,
+				3568A7E1201A71D000F3B860 /* MSLogWithProperties.h in Headers */,
+				0431215F1EE0C20A007054C5 /* AppCenterIdentity.h in Headers */,
+				043121601EE0C20A007054C5 /* MSServiceAbstract.h in Headers */,
+				043121651EE0C20A007054C5 /* MSAnalytics.h in Headers */,
+				04A082071F74BB8C00DC776D /* MSService.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0485AF721EAA79E300C10CAF /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3568A7ED201A9BBB00F3B860 /* MSAbstractLog.h in Headers */,
+				3568A7EE201A9BBB00F3B860 /* MSLogWithProperties.h in Headers */,
+				3568A7EF201A9BBB00F3B860 /* MSService.h in Headers */,
+				3568A7F0201A9BBB00F3B860 /* MSServiceAbstract.h in Headers */,
+				0485AF781EAA79E300C10CAF /* AppCenterIdentity.h in Headers */,
+				0485AF7E1EAA79E300C10CAF /* MSAnalytics.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E85547F61D2D6A73002DF6E2 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				358F9BC82019596500B9E22C /* MSAbstractLog.h in Headers */,
+				04A082061F74BB8600DC776D /* MSService.h in Headers */,
+				358F9BC62019590200B9E22C /* MSLogWithProperties.h in Headers */,
+				387C77051D6CC39400D68CC1 /* MSServiceAbstract.h in Headers */,
+				E85547F71D2D6A7D002DF6E2 /* AppCenterIdentity.h in Headers */,
+				E85547F81D2D6A7D002DF6E2 /* MSAnalytics.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		0431214E1EE0C20A007054C5 /* AppCenterIdentityTVOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 043121691EE0C20A007054C5 /* Build configuration list for PBXNativeTarget "AppCenterIdentityTVOS" */;
+			buildPhases = (
+				F8B8EAD821105B95004BCECB /* Verify no buildSettings */,
+				0431214F1EE0C20A007054C5 /* Sources */,
+				043121571EE0C20A007054C5 /* Frameworks */,
+				043121581EE0C20A007054C5 /* CopyFiles */,
+				043121591EE0C20A007054C5 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AppCenterIdentityTVOS;
+			productName = AppCenterIdentity;
+			productReference = 0431216C1EE0C20A007054C5 /* libAppCenterIdentity.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		0446DF3D1F3B8E6300C8E338 /* AppCenterIdentityTVOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0446DF511F3B8E6300C8E338 /* Build configuration list for PBXNativeTarget "AppCenterIdentityTVOSTests" */;
+			buildPhases = (
+				0446DF401F3B8E6300C8E338 /* Sources */,
+				0446DF481F3B8E6300C8E338 /* Frameworks */,
+				0446DF4D1F3B8E6300C8E338 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0446DF5A1F3B8EFA00C8E338 /* PBXTargetDependency */,
+			);
+			name = AppCenterIdentityTVOSTests;
+			productName = AppCenterIdentityTests;
+			productReference = 0446DF541F3B8E6300C8E338 /* AppCenterIdentity.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		046AEAB21ECA51AF00CBE511 /* AppCenterIdentityMacOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 046AEAC31ECA51AF00CBE511 /* Build configuration list for PBXNativeTarget "AppCenterIdentityMacOSTests" */;
+			buildPhases = (
+				046AEAB51ECA51AF00CBE511 /* Sources */,
+				046AEABD1ECA51AF00CBE511 /* Frameworks */,
+				046AEAC21ECA51AF00CBE511 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				046AEACE1ECA55BC00CBE511 /* PBXTargetDependency */,
+			);
+			name = AppCenterIdentityMacOSTests;
+			productName = AppCenterIdentityTests;
+			productReference = 046AEAC61ECA51AF00CBE511 /* AppCenterIdentity.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		0485AF671EAA79E300C10CAF /* AppCenterIdentityMacOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0485AF821EAA79E300C10CAF /* Build configuration list for PBXNativeTarget "AppCenterIdentityMacOS" */;
+			buildPhases = (
+				F8B8EAD621105B84004BCECB /* Verify no buildSettings */,
+				0485AF681EAA79E300C10CAF /* Sources */,
+				0485AF701EAA79E300C10CAF /* Frameworks */,
+				0485AF711EAA79E300C10CAF /* CopyFiles */,
+				0485AF721EAA79E300C10CAF /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AppCenterIdentityMacOS;
+			productName = AppCenterIdentity;
+			productReference = 0485AF851EAA79E300C10CAF /* libAppCenterIdentity.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		E85547BF1D2D6253002DF6E2 /* AppCenterIdentityIOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E85547C91D2D6253002DF6E2 /* Build configuration list for PBXNativeTarget "AppCenterIdentityIOS" */;
+			buildPhases = (
+				F8B8EAD421105B77004BCECB /* Verify no buildSettings */,
+				E85547BC1D2D6253002DF6E2 /* Sources */,
+				E85547BD1D2D6253002DF6E2 /* Frameworks */,
+				E85547BE1D2D6253002DF6E2 /* CopyFiles */,
+				E85547F61D2D6A73002DF6E2 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AppCenterIdentityIOS;
+			productName = AppCenterIdentity;
+			productReference = E85547C01D2D6253002DF6E2 /* libAppCenterIdentity.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		E85547D41D2D6723002DF6E2 /* AppCenterIdentityIOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E85547DD1D2D6723002DF6E2 /* Build configuration list for PBXNativeTarget "AppCenterIdentityIOSTests" */;
+			buildPhases = (
+				E85547D11D2D6723002DF6E2 /* Sources */,
+				E85547D21D2D6723002DF6E2 /* Frameworks */,
+				E85547D31D2D6723002DF6E2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E85547DC1D2D6723002DF6E2 /* PBXTargetDependency */,
+			);
+			name = AppCenterIdentityIOSTests;
+			productName = AppCenterIdentityTests;
+			productReference = E85547D51D2D6723002DF6E2 /* AppCenterIdentity.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E85547B81D2D6253002DF6E2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = MS;
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = Microsoft;
+			};
+			buildConfigurationList = E85547BB1D2D6253002DF6E2 /* Build configuration list for PBXProject "AppCenterIdentity" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = E85547B71D2D6253002DF6E2;
+			productRefGroup = E85547C11D2D6253002DF6E2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E85547BF1D2D6253002DF6E2 /* AppCenterIdentityIOS */,
+				E85547E41D2D681F002DF6E2 /* AppCenterIdentityIOSFramework */,
+				E85547D41D2D6723002DF6E2 /* AppCenterIdentityIOSTests */,
+				E85547E91D2D68C5002DF6E2 /* AppCenterIdentityIOSDoc */,
+				0485AF671EAA79E300C10CAF /* AppCenterIdentityMacOS */,
+				0485AFEF1EAAADAC00C10CAF /* AppCenterIdentityMacOSFramework */,
+				046AEAB21ECA51AF00CBE511 /* AppCenterIdentityMacOSTests */,
+				04FD11551EF2F818000C5A5C /* AppCenterIdentityMacOSDoc */,
+				0431214E1EE0C20A007054C5 /* AppCenterIdentityTVOS */,
+				0431216D1EE0C213007054C5 /* AppCenterIdentityTVOSFramework */,
+				0446DF3D1F3B8E6300C8E338 /* AppCenterIdentityTVOSTests */,
+				04FD11701EF2FE43000C5A5C /* AppCenterIdentityTVOSDoc */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0446DF4D1F3B8E6300C8E338 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		046AEAC21ECA51AF00CBE511 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E85547D31D2D6723002DF6E2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0431216E1EE0C213007054C5 /* Build framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Build framework";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd \"${SRCROOT}/../Scripts/AppCenterIdentity\"\n./build-AppCenterIdentity-tvos-framework.sh";
+		};
+		0485AFF01EAAADAC00C10CAF /* Build framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Build framework";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd \"${SRCROOT}/../Scripts/AppCenterIdentity\"\n./build-AppCenterIdentity-macos-framework.sh";
+		};
+		04FD11581EF2F818000C5A5C /* Build docs */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Build docs";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh macOS AppCenterIdentity\n";
+			showEnvVarsInLog = 0;
+		};
+		04FD11731EF2FE43000C5A5C /* Build docs */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Build docs";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh tvOS AppCenterIdentity\n";
+			showEnvVarsInLog = 0;
+		};
+		E85547E81D2D6827002DF6E2 /* Build framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Build framework";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd \"${SRCROOT}/../Scripts/AppCenterIdentity\"\n./build-AppCenterIdentity-ios-framework.sh";
+		};
+		E85547ED1D2D68CF002DF6E2 /* Build docs */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Build docs";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh iOS AppCenterIdentity\n";
+			showEnvVarsInLog = 0;
+		};
+		F8B8EAD421105B77004BCECB /* Verify no buildSettings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Verify no buildSettings";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj";
+			showEnvVarsInLog = 0;
+		};
+		F8B8EAD621105B84004BCECB /* Verify no buildSettings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Verify no buildSettings";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj";
+			showEnvVarsInLog = 0;
+		};
+		F8B8EAD821105B95004BCECB /* Verify no buildSettings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Verify no buildSettings";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0431214F1EE0C20A007054C5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				043121511EE0C20A007054C5 /* MSAnalytics.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0446DF401F3B8E6300C8E338 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F82E4C73217F1FA600EDAB34 /* sqlite3.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		046AEAB51ECA51AF00CBE511 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F82E4C72217F1FA600EDAB34 /* sqlite3.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0485AF681EAA79E300C10CAF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0485AF6A1EAA79E300C10CAF /* MSAnalytics.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E85547BC1D2D6253002DF6E2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E85547C61D2D6253002DF6E2 /* MSAnalytics.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E85547D11D2D6723002DF6E2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F82E4C71217F1FA600EDAB34 /* sqlite3.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0446DF5A1F3B8EFA00C8E338 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0431214E1EE0C20A007054C5 /* AppCenterIdentityTVOS */;
+			targetProxy = 0446DF591F3B8EFA00C8E338 /* PBXContainerItemProxy */;
+		};
+		046AEACE1ECA55BC00CBE511 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0485AF671EAA79E300C10CAF /* AppCenterIdentityMacOS */;
+			targetProxy = 046AEACD1ECA55BC00CBE511 /* PBXContainerItemProxy */;
+		};
+		04FD115D1EF2F849000C5A5C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0485AFEF1EAAADAC00C10CAF /* AppCenterIdentityMacOSFramework */;
+			targetProxy = 04FD115C1EF2F849000C5A5C /* PBXContainerItemProxy */;
+		};
+		04FD11781EF2FE5B000C5A5C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0431216D1EE0C213007054C5 /* AppCenterIdentityTVOSFramework */;
+			targetProxy = 04FD11771EF2FE5B000C5A5C /* PBXContainerItemProxy */;
+		};
+		386352E41D51047400D0D450 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E85547E41D2D681F002DF6E2 /* AppCenterIdentityIOSFramework */;
+			targetProxy = 386352E31D51047400D0D450 /* PBXContainerItemProxy */;
+		};
+		E85547DC1D2D6723002DF6E2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E85547BF1D2D6253002DF6E2 /* AppCenterIdentityIOS */;
+			targetProxy = E85547DB1D2D6723002DF6E2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0431216A1EE0C20A007054C5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 043121731EE0C248007054C5 /* tvOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		0431216B1EE0C20A007054C5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 043121731EE0C248007054C5 /* tvOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		043121701EE0C213007054C5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 043121731EE0C248007054C5 /* tvOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		043121711EE0C213007054C5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 043121731EE0C248007054C5 /* tvOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		0446DF521F3B8E6300C8E338 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0484DD601F3910FF0092B777 /* Tests tvOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		0446DF531F3B8E6300C8E338 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0484DD601F3910FF0092B777 /* Tests tvOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		046AEAC41ECA51AF00CBE511 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC82C1ECE3CF000FB6719 /* Tests macOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		046AEAC51ECA51AF00CBE511 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC82C1ECE3CF000FB6719 /* Tests macOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		0485AF831EAA79E300C10CAF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		0485AF841EAA79E300C10CAF /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		0485AFF21EAAADAC00C10CAF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		0485AFF31EAAADAC00C10CAF /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		04FD115A1EF2F818000C5A5C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		04FD115B1EF2F818000C5A5C /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		04FD11751EF2FE43000C5A5C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 043121731EE0C248007054C5 /* tvOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		04FD11761EF2FE43000C5A5C /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 043121731EE0C248007054C5 /* tvOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		E85547C71D2D6253002DF6E2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B2812EF21DA3148000307DCE /* AppCenterIdentity Debug.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		E85547C81D2D6253002DF6E2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0469D1B21F4DFE4C00A43A8E /* AppCenterIdentity Release.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		E85547CA1D2D6253002DF6E2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		E85547CB1D2D6253002DF6E2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		E85547DE1D2D6723002DF6E2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 041CFF8B1ECCFF6700B4654B /* Tests iOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		E85547DF1D2D6723002DF6E2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 041CFF8B1ECCFF6700B4654B /* Tests iOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		E85547E61D2D681F002DF6E2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		E85547E71D2D681F002DF6E2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		E85547EB1D2D68C5002DF6E2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		E85547EC1D2D68C5002DF6E2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		043121691EE0C20A007054C5 /* Build configuration list for PBXNativeTarget "AppCenterIdentityTVOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0431216A1EE0C20A007054C5 /* Debug */,
+				0431216B1EE0C20A007054C5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0431216F1EE0C213007054C5 /* Build configuration list for PBXAggregateTarget "AppCenterIdentityTVOSFramework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				043121701EE0C213007054C5 /* Debug */,
+				043121711EE0C213007054C5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0446DF511F3B8E6300C8E338 /* Build configuration list for PBXNativeTarget "AppCenterIdentityTVOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0446DF521F3B8E6300C8E338 /* Debug */,
+				0446DF531F3B8E6300C8E338 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		046AEAC31ECA51AF00CBE511 /* Build configuration list for PBXNativeTarget "AppCenterIdentityMacOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				046AEAC41ECA51AF00CBE511 /* Debug */,
+				046AEAC51ECA51AF00CBE511 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0485AF821EAA79E300C10CAF /* Build configuration list for PBXNativeTarget "AppCenterIdentityMacOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0485AF831EAA79E300C10CAF /* Debug */,
+				0485AF841EAA79E300C10CAF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0485AFF11EAAADAC00C10CAF /* Build configuration list for PBXAggregateTarget "AppCenterIdentityMacOSFramework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0485AFF21EAAADAC00C10CAF /* Debug */,
+				0485AFF31EAAADAC00C10CAF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		04FD11591EF2F818000C5A5C /* Build configuration list for PBXAggregateTarget "AppCenterIdentityMacOSDoc" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04FD115A1EF2F818000C5A5C /* Debug */,
+				04FD115B1EF2F818000C5A5C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		04FD11741EF2FE43000C5A5C /* Build configuration list for PBXAggregateTarget "AppCenterIdentityTVOSDoc" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04FD11751EF2FE43000C5A5C /* Debug */,
+				04FD11761EF2FE43000C5A5C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E85547BB1D2D6253002DF6E2 /* Build configuration list for PBXProject "AppCenterIdentity" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E85547C71D2D6253002DF6E2 /* Debug */,
+				E85547C81D2D6253002DF6E2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E85547C91D2D6253002DF6E2 /* Build configuration list for PBXNativeTarget "AppCenterIdentityIOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E85547CA1D2D6253002DF6E2 /* Debug */,
+				E85547CB1D2D6253002DF6E2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E85547DD1D2D6723002DF6E2 /* Build configuration list for PBXNativeTarget "AppCenterIdentityIOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E85547DE1D2D6723002DF6E2 /* Debug */,
+				E85547DF1D2D6723002DF6E2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E85547E51D2D681F002DF6E2 /* Build configuration list for PBXAggregateTarget "AppCenterIdentityIOSFramework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E85547E61D2D681F002DF6E2 /* Debug */,
+				E85547E71D2D681F002DF6E2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E85547EA1D2D68C5002DF6E2 /* Build configuration list for PBXAggregateTarget "AppCenterIdentityIOSDoc" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E85547EB1D2D68C5002DF6E2 /* Debug */,
+				E85547EC1D2D68C5002DF6E2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E85547B81D2D6253002DF6E2 /* Project object */;
+}

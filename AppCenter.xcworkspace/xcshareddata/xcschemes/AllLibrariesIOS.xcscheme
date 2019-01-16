@@ -70,6 +70,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "E85547BF1D2D6253002DF6E2"
+               BuildableName = "lib.a"
+               BlueprintName = "AppCenterIdentityIOS"
+               ReferencedContainer = "container:AppCenterIdentity/AppCenterIdentity.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "D33A94501E5B11BB003966DB"
                BuildableName = "libAppCenterPush.a"
                BlueprintName = "AppCenterPushIOS"
@@ -118,14 +132,28 @@
                ReferencedContainer = "container:AppCenterPush/AppCenterPush.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "E85547D41D2D6723002DF6E2"
+               BuildableName = ".xctest"
+               BlueprintName = "AppCenterIdentityIOSTests"
+               ReferencedContainer = "container:AppCenterIdentity/AppCenterIdentity.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES"
-      codeCoverageEnabled = "YES">
+      codeCoverageEnabled = "YES"
+      shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
          <TestableReference
             skipped = "NO">
@@ -175,6 +203,16 @@
                BuildableName = "AppCenterPush.xctest"
                BlueprintName = "AppCenterPushIOSTests"
                ReferencedContainer = "container:AppCenterPush/AppCenterPush.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "E85547D41D2D6723002DF6E2"
+               BuildableName = ".xctest"
+               BlueprintName = "AppCenterIdentityIOSTests"
+               ReferencedContainer = "container:AppCenterIdentity/AppCenterIdentity.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
