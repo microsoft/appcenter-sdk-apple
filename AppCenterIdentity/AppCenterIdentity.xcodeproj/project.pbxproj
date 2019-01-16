@@ -108,6 +108,9 @@
 		358F9BC82019596500B9E22C /* MSAbstractLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 358F9BC72019596400B9E22C /* MSAbstractLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		387C77051D6CC39400D68CC1 /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C77041D6CC39400D68CC1 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E0684381D35A3B900A8CC6C /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E0684371D35A3B900A8CC6C /* OCHamcrestIOS.framework */; };
+		995BA5D321EFEF6D000E3212 /* AppCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 995BA5D221EFEF6D000E3212 /* AppCenter+Internal.h */; };
+		995BA5D421EFEF6D000E3212 /* AppCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 995BA5D221EFEF6D000E3212 /* AppCenter+Internal.h */; };
+		995BA5D521EFEF6D000E3212 /* AppCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 995BA5D221EFEF6D000E3212 /* AppCenter+Internal.h */; };
 		E85547C61D2D6253002DF6E2 /* MSIdentity.m in Sources */ = {isa = PBXBuildFile; fileRef = E85547C51D2D6253002DF6E2 /* MSIdentity.m */; };
 		E85547DA1D2D6723002DF6E2 /* libAppCenterIdentity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E85547C01D2D6253002DF6E2 /* libAppCenterIdentity.a */; };
 		E85547F71D2D6A7D002DF6E2 /* AppCenterIdentity.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CC1D2D63EF002DF6E2 /* AppCenterIdentity.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -220,6 +223,7 @@
 		358F9BC72019596400B9E22C /* MSAbstractLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAbstractLog.h; path = ../AppCenter/AppCenter/Model/MSAbstractLog.h; sourceTree = "<group>"; };
 		387C77041D6CC39400D68CC1 /* MSServiceAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSServiceAbstract.h; path = ../AppCenter/AppCenter/MSServiceAbstract.h; sourceTree = "<group>"; };
 		6E0684371D35A3B900A8CC6C /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../../Vendor/iOS/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
+		995BA5D221EFEF6D000E3212 /* AppCenter+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppCenter+Internal.h"; sourceTree = "<group>"; };
 		B2812EF21DA3148000307DCE /* AppCenterIdentity Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "AppCenterIdentity Debug.xcconfig"; sourceTree = "<group>"; };
 		E85547C01D2D6253002DF6E2 /* libAppCenterIdentity.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppCenterIdentity.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E85547C31D2D6253002DF6E2 /* MSIdentity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSIdentity.h; sourceTree = "<group>"; };
@@ -380,6 +384,14 @@
 			path = ../../Vendor/Common/OCMock;
 			sourceTree = "<group>";
 		};
+		995BA5D621EFF01F000E3212 /* Internals */ = {
+			isa = PBXGroup;
+			children = (
+				995BA5D221EFEF6D000E3212 /* AppCenter+Internal.h */,
+			);
+			path = Internals;
+			sourceTree = "<group>";
+		};
 		E85547B71D2D6253002DF6E2 = {
 			isa = PBXGroup;
 			children = (
@@ -412,6 +424,7 @@
 				E85547CC1D2D63EF002DF6E2 /* AppCenterIdentity.h */,
 				E85547C31D2D6253002DF6E2 /* MSIdentity.h */,
 				E85547C51D2D6253002DF6E2 /* MSIdentity.m */,
+				995BA5D621EFF01F000E3212 /* Internals */,
 				E85547D01D2D65AF002DF6E2 /* Support */,
 			);
 			path = AppCenterIdentity;
@@ -450,6 +463,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3568A7E0201A71D000F3B860 /* MSAbstractLog.h in Headers */,
+				995BA5D521EFEF6D000E3212 /* AppCenter+Internal.h in Headers */,
 				3568A7E1201A71D000F3B860 /* MSLogWithProperties.h in Headers */,
 				0431215F1EE0C20A007054C5 /* AppCenterIdentity.h in Headers */,
 				043121601EE0C20A007054C5 /* MSServiceAbstract.h in Headers */,
@@ -463,6 +477,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3568A7ED201A9BBB00F3B860 /* MSAbstractLog.h in Headers */,
+				995BA5D421EFEF6D000E3212 /* AppCenter+Internal.h in Headers */,
 				3568A7EE201A9BBB00F3B860 /* MSLogWithProperties.h in Headers */,
 				3568A7EF201A9BBB00F3B860 /* MSService.h in Headers */,
 				3568A7F0201A9BBB00F3B860 /* MSServiceAbstract.h in Headers */,
@@ -476,6 +491,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				358F9BC82019596500B9E22C /* MSAbstractLog.h in Headers */,
+				995BA5D321EFEF6D000E3212 /* AppCenter+Internal.h in Headers */,
 				04A082061F74BB8600DC776D /* MSService.h in Headers */,
 				358F9BC62019590200B9E22C /* MSLogWithProperties.h in Headers */,
 				387C77051D6CC39400D68CC1 /* MSServiceAbstract.h in Headers */,
@@ -731,7 +747,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts/AppCenterIdentity\"\n./build-AppCenterIdentity-ios-framework.sh";
+			shellScript = "cd \"${SRCROOT}/../Scripts/AppCenterIdentity\"\n./build-AppCenterIdentity-ios-framework.sh\n";
 		};
 		E85547ED1D2D68CF002DF6E2 /* Build docs */ = {
 			isa = PBXShellScriptBuildPhase;

@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0431216D1EE0C213007054C5"
-               BuildableName = "AppCenterAnalyticsTVOSFramework"
-               BlueprintName = "AppCenterAnalyticsTVOSFramework"
-               ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
+               BlueprintIdentifier = "0485AFEF1EAAADAC00C10CAF"
+               BuildableName = "AppCenterIdentityMacOSFramework"
+               BlueprintName = "AppCenterIdentityMacOSFramework"
+               ReferencedContainer = "container:AppCenterIdentity.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,10 +45,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0431216D1EE0C213007054C5"
-            BuildableName = "AppCenterAnalyticsTVOSFramework"
-            BlueprintName = "AppCenterAnalyticsTVOSFramework"
-            ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
+            BlueprintIdentifier = "0485AFEF1EAAADAC00C10CAF"
+            BuildableName = "AppCenterIdentityMacOSFramework"
+            BlueprintName = "AppCenterIdentityMacOSFramework"
+            ReferencedContainer = "container:AppCenterIdentity.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -63,10 +63,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0431216D1EE0C213007054C5"
-            BuildableName = "AppCenterAnalyticsTVOSFramework"
-            BlueprintName = "AppCenterAnalyticsTVOSFramework"
-            ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
+            BlueprintIdentifier = "0485AFEF1EAAADAC00C10CAF"
+            BuildableName = "AppCenterIdentityMacOSFramework"
+            BlueprintName = "AppCenterIdentityMacOSFramework"
+            ReferencedContainer = "container:AppCenterIdentity.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

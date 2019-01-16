@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E85547BF1D2D6253002DF6E2"
-               BuildableName = "libAppCenterAnalytics.a"
-               BlueprintName = "AppCenterAnalyticsIOS"
-               ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
+               BlueprintIdentifier = "0431214E1EE0C20A007054C5"
+               BuildableName = "libAppCenterIdentity.a"
+               BlueprintName = "AppCenterIdentityTVOS"
+               ReferencedContainer = "container:AppCenterIdentity.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,20 +33,20 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E85547D41D2D6723002DF6E2"
-               BuildableName = "AppCenterAnalytics.xctest"
-               BlueprintName = "AppCenterAnalyticsIOSTests"
-               ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
+               BlueprintIdentifier = "0446DF3D1F3B8E6300C8E338"
+               BuildableName = "AppCenterIdentity.xctest"
+               BlueprintName = "AppCenterIdentityTVOSTests"
+               ReferencedContainer = "container:AppCenterIdentity.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E85547BF1D2D6253002DF6E2"
-            BuildableName = "libAppCenterAnalytics.a"
-            BlueprintName = "AppCenterAnalyticsIOS"
-            ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
+            BlueprintIdentifier = "0431214E1EE0C20A007054C5"
+            BuildableName = "libAppCenterIdentity.a"
+            BlueprintName = "AppCenterIdentityTVOS"
+            ReferencedContainer = "container:AppCenterIdentity.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -65,10 +65,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E85547BF1D2D6253002DF6E2"
-            BuildableName = "libAppCenterAnalytics.a"
-            BlueprintName = "AppCenterAnalyticsIOS"
-            ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
+            BlueprintIdentifier = "0431214E1EE0C20A007054C5"
+            BuildableName = "libAppCenterIdentity.a"
+            BlueprintName = "AppCenterIdentityTVOS"
+            ReferencedContainer = "container:AppCenterIdentity.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -83,10 +83,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E85547BF1D2D6253002DF6E2"
-            BuildableName = "libAppCenterAnalytics.a"
-            BlueprintName = "AppCenterAnalyticsIOS"
-            ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
+            BlueprintIdentifier = "0431214E1EE0C20A007054C5"
+            BuildableName = "libAppCenterIdentity.a"
+            BlueprintName = "AppCenterIdentityTVOS"
+            ReferencedContainer = "container:AppCenterIdentity.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

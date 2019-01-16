@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "04FD11551EF2F818000C5A5C"
-               BuildableName = "AppCenterAnalyticsMacOSDoc"
-               BlueprintName = "AppCenterAnalyticsMacOSDoc"
-               ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
+               BuildableName = "AppCenterIdentityMacOSDoc"
+               BlueprintName = "AppCenterIdentityMacOSDoc"
+               ReferencedContainer = "container:AppCenterIdentity.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -46,9 +46,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "04FD11551EF2F818000C5A5C"
-            BuildableName = "AppCenterAnalyticsMacOSDoc"
-            BlueprintName = "AppCenterAnalyticsMacOSDoc"
-            ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
+            BuildableName = "AppCenterIdentityMacOSDoc"
+            BlueprintName = "AppCenterIdentityMacOSDoc"
+            ReferencedContainer = "container:AppCenterIdentity.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -64,9 +64,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "04FD11551EF2F818000C5A5C"
-            BuildableName = "AppCenterAnalyticsMacOSDoc"
-            BlueprintName = "AppCenterAnalyticsMacOSDoc"
-            ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
+            BuildableName = "AppCenterIdentityMacOSDoc"
+            BlueprintName = "AppCenterIdentityMacOSDoc"
+            ReferencedContainer = "container:AppCenterIdentity.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

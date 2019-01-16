@@ -1,11 +1,11 @@
 #import "MSIdentity.h"
-#import "MSServiceAbstract.h"
+#import "MSAppCenterInternal.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
 #import "MSConstants+Internal.h"
 #import "MSServiceAbstractProtected.h"
-#import "MSSessionContext.h"
+#import "MSServiceInternal.h"
 
 // Service name for initialization.
 static NSString *const kMSServiceName = @"Identity";
@@ -25,7 +25,7 @@ static dispatch_once_t onceToken;
  * See article
  * https://medium.com/ios-os-x-development/categories-in-static-libraries-78e41f8ddb96#.aedfl1kl0
  */
-__attribute__((used)) static void importCategories() { [NSString stringWithFormat:@"%@", MSAnalyticsValidationCategory]; }
+__attribute__((used)) static void importCategories() { [NSString stringWithFormat:@"%@", @""]; }
 
 @synthesize channelUnitConfiguration = _channelUnitConfiguration;
 
@@ -81,27 +81,16 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 - (void)applyEnabledState:(BOOL)isEnabled {
   [super applyEnabledState:isEnabled];
   if (isEnabled) {
-
+    [self.channelGroup addDelegate:self];
     MSLogInfo([MSIdentity logTag], @"Identity service has been enabled.");
   } else {
-    if (self.startedFromApplication) {
-      [self.channelGroup removeDelegate:self];
-    }
+    [self.channelGroup removeDelegate:self];
     MSLogInfo([MSIdentity logTag], @"Identity service has been disabled.");
   }
 }
 
 - (void)updateConfigurationWithAppSecret:(NSString *)appSecret transmissionTargetToken:(NSString *)token {
   [super updateConfigurationWithAppSecret:appSecret transmissionTargetToken:token];
-}
-
-#pragma mark - Service methods
-
-+ (void)resetSharedInstance {
-
-  // resets the once_token so dispatch_once will run again.
-  onceToken = 0;
-  sharedInstance = nil;
 }
 
 #pragma mark - MSChannelDelegate
@@ -113,35 +102,22 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 
 - (void)channel:(id<MSChannelProtocol>)channel didSucceedSendingLog:(id<MSLog>)log {
   (void)channel;
-  if (!self.delegate) {
-    return;
-  }
-  NSObject *logObject = (NSObject *)log;
-  if ([logObject isKindOfClass:[MSEventLog class]] && [self.delegate respondsToSelector:@selector(analytics:didSucceedSendingEventLog:)]) {
-    MSEventLog *eventLog = (MSEventLog *)log;
-    [self.delegate analytics:self didSucceedSendingEventLog:eventLog];
-  } else if ([logObject isKindOfClass:[MSPageLog class]] && [self.delegate respondsToSelector:@selector(analytics:
-                                                                                                  didSucceedSendingPageLog:)]) {
-    MSPageLog *pageLog = (MSPageLog *)log;
-    [self.delegate analytics:self didSucceedSendingPageLog:pageLog];
-  }
+  (void)log;
 }
 
 - (void)channel:(id<MSChannelProtocol>)channel didFailSendingLog:(id<MSLog>)log withError:(NSError *)error {
   (void)channel;
-  if (!self.delegate) {
-    return;
-  }
-  NSObject *logObject = (NSObject *)log;
-  if ([logObject isKindOfClass:[MSEventLog class]] && [self.delegate respondsToSelector:@selector(analytics:
-                                                                                            didFailSendingEventLog:withError:)]) {
-    MSEventLog *eventLog = (MSEventLog *)log;
-    [self.delegate analytics:self didFailSendingEventLog:eventLog withError:error];
-  } else if ([logObject isKindOfClass:[MSPageLog class]] && [self.delegate respondsToSelector:@selector(analytics:
-                                                                                                  didFailSendingPageLog:withError:)]) {
-    MSPageLog *pageLog = (MSPageLog *)log;
-    [self.delegate analytics:self didFailSendingPageLog:pageLog withError:error];
-  }
+  (void)log;
+  (void)error;
+}
+
+#pragma mark - Service methods
+
++ (void)resetSharedInstance {
+
+  // resets the once_token so dispatch_once will run again.
+  onceToken = 0;
+  sharedInstance = nil;
 }
 
 @end
