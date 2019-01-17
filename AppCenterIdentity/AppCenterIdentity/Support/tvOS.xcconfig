@@ -1,3 +1,0 @@
-#include "../../../Config/tvOS.xcconfig"
-
-OTHER_LDFLAGS=$(inherited) -framework UIKit
