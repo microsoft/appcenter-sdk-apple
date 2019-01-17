@@ -61,8 +61,8 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
       transmissionTargetToken:(nullable NSString *)token
               fromApplication:(BOOL)fromApplication {
   [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
-    
-    MSLogVerbose([MSIdentity logTag], @"Started Identity service.");
+
+  MSLogVerbose([MSIdentity logTag], @"Started Identity service.");
 }
 
 + (NSString *)logTag {
