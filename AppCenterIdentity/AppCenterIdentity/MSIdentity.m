@@ -53,7 +53,6 @@ static dispatch_once_t onceToken;
       transmissionTargetToken:(nullable NSString *)token
               fromApplication:(BOOL)fromApplication {
   [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
-
   MSLogVerbose([MSIdentity logTag], @"Started Identity service.");
 }
 
