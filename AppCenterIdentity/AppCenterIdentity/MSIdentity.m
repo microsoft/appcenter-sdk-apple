@@ -82,10 +82,6 @@ static dispatch_once_t onceToken;
   }
 }
 
-- (void)updateConfigurationWithAppSecret:(NSString *)appSecret transmissionTargetToken:(NSString *)token {
-  [super updateConfigurationWithAppSecret:appSecret transmissionTargetToken:token];
-}
-
 #pragma mark - MSChannelDelegate
 
 - (void)channel:(id<MSChannelProtocol>)channel willSendLog:(id<MSLog>)log {

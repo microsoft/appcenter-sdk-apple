@@ -66,6 +66,8 @@
 		0485AF7E1EAA79E300C10CAF /* MSIdentity.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547C31D2D6253002DF6E2 /* MSIdentity.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04A082061F74BB8600DC776D /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A082051F74BB8600DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04BED7181ECB64FB00E20975 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BED7161ECB64CE00E20975 /* OCHamcrest.framework */; };
+		1A15692421F11B09001E9452 /* MSIdentityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A15692321F11B09001E9452 /* MSIdentityTests.m */; };
+		1A15692521F11B09001E9452 /* MSIdentityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A15692321F11B09001E9452 /* MSIdentityTests.m */; };
 		3568A7ED201A9BBB00F3B860 /* MSAbstractLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 358F9BC72019596400B9E22C /* MSAbstractLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3568A7EE201A9BBB00F3B860 /* MSLogWithProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 358F9BC52019590100B9E22C /* MSLogWithProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3568A7EF201A9BBB00F3B860 /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A082051F74BB8600DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -155,6 +157,8 @@
 		04BED7161ECB64CE00E20975 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../../Vendor/macOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
 		04ED31E91EAAD32B0033BAAE /* macOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = macOS.modulemap; sourceTree = "<group>"; };
 		04ED31EB1EAAD3390033BAAE /* iOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = iOS.modulemap; sourceTree = "<group>"; };
+		1A15692221F11AB8001E9452 /* MSTestFrameworks.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MSTestFrameworks.h; path = ../../../AppCenter/AppCenterTests/Util/MSTestFrameworks.h; sourceTree = "<group>"; };
+		1A15692321F11B09001E9452 /* MSIdentityTests.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = MSIdentityTests.m; sourceTree = "<group>"; tabWidth = 2; };
 		358F9BC52019590100B9E22C /* MSLogWithProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSLogWithProperties.h; path = ../AppCenter/AppCenter/Model/MSLogWithProperties.h; sourceTree = "<group>"; };
 		358F9BC72019596400B9E22C /* MSAbstractLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAbstractLog.h; path = ../AppCenter/AppCenter/Model/MSAbstractLog.h; sourceTree = "<group>"; };
 		387C77041D6CC39400D68CC1 /* MSServiceAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSServiceAbstract.h; path = ../AppCenter/AppCenter/MSServiceAbstract.h; sourceTree = "<group>"; };
@@ -261,6 +265,14 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
+		1A15692121F11A98001E9452 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				1A15692221F11AB8001E9452 /* MSTestFrameworks.h */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
 		6E0684361D35A39300A8CC6C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -346,8 +358,10 @@
 			isa = PBXGroup;
 			children = (
 				E85547D91D2D6723002DF6E2 /* Info.plist */,
+				1A15692321F11B09001E9452 /* MSIdentityTests.m */,
 				6E0684361D35A39300A8CC6C /* Frameworks */,
 				04A140AE1ECE806B001CEE94 /* Support */,
+				1A15692121F11A98001E9452 /* Util */,
 			);
 			path = AppCenterIdentityTests;
 			sourceTree = "<group>";
@@ -610,6 +624,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F82E4C72217F1FA600EDAB34 /* sqlite3.c in Sources */,
+				1A15692521F11B09001E9452 /* MSIdentityTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -634,6 +649,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F82E4C71217F1FA600EDAB34 /* sqlite3.c in Sources */,
+				1A15692421F11B09001E9452 /* MSIdentityTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
