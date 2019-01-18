@@ -16,6 +16,11 @@
 		046790431E8DA7E90033FDEC /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046790411E8DA7D80033FDEC /* AppCenterPush.framework */; };
 		047D13721EAFBDBE00D699BA /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 047D13711EAFBDBE00D699BA /* AppCenterDistributeResources.bundle */; };
 		048933631F8D395A00C38A87 /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
+		048C07C421F11ED200769A85 /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048C079121F11ED200769A85 /* MSAL.framework */; };
+		048C07C521F11ED200769A85 /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048C079121F11ED200769A85 /* MSAL.framework */; };
+		048C07C621F11ED200769A85 /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048C079121F11ED200769A85 /* MSAL.framework */; };
+		048C07C721F11ED200769A85 /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048C079121F11ED200769A85 /* MSAL.framework */; };
+		048C07CB21F1210000769A85 /* MSAL.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 048C079121F11ED200769A85 /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		352A3E7420F801A900D09CF0 /* EventPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */; };
 		352A3E7520F80C8600D09CF0 /* EventPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */; };
 		35396A7820F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35396A7720F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift */; };
@@ -317,20 +322,6 @@
 			remoteGlobalIDString = 046AEAC61ECA51AF00CBE511;
 			remoteInfo = AppCenterIdentityMacOSTests;
 		};
-		995BA62321EFFA93000E3212 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 995BA60C21EFFA93000E3212 /* AppCenterIdentity.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0431216C1EE0C20A007054C5;
-			remoteInfo = AppCenterIdentityTVOS;
-		};
-		995BA62521EFFA93000E3212 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 995BA60C21EFFA93000E3212 /* AppCenterIdentity.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0446DF541F3B8E6300C8E338;
-			remoteInfo = AppCenterIdentityTVOSTests;
-		};
 		995BA64321EFFC13000E3212 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 995BA60C21EFFA93000E3212 /* AppCenterIdentity.xcodeproj */;
@@ -600,6 +591,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				B20AE3A521027D6200A1A195 /* CrashLibIOS.framework in Embed Frameworks */,
+				048C07CB21F1210000769A85 /* MSAL.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -715,6 +707,7 @@
 		046790451E8DA8DD0033FDEC /* SasquatchObjC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchObjC.entitlements; sourceTree = "<group>"; };
 		047D13711EAFBDBE00D699BA /* AppCenterDistributeResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AppCenterDistributeResources.bundle; path = "../AppCenter-SDK-Apple/iOS/AppCenterDistributeResources.bundle"; sourceTree = "<group>"; };
 		0482105C1FD0B611006824F7 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Sasquatch.strings; sourceTree = "<group>"; };
+		048C079121F11ED200769A85 /* MSAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MSAL.framework; path = ../Vendor/iOS/MSAL/MSAL.framework; sourceTree = "<group>"; };
 		352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventPropertiesTableSection.swift; sourceTree = "<group>"; };
 		35396A7720F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTransmissionTargetsViewController.swift; sourceTree = "<group>"; };
 		354273DE20126A3E00BE766F /* MSEventFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSEventFilter.m; sourceTree = "<group>"; };
@@ -848,6 +841,7 @@
 				84226D391E89302900798417 /* AppCenterDistribute.framework in Frameworks */,
 				0459920F21F0042300BD3F82 /* AppCenterIdentity.framework in Frameworks */,
 				046790421E8DA7D80033FDEC /* AppCenterPush.framework in Frameworks */,
+				048C07C521F11ED200769A85 /* MSAL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -862,6 +856,7 @@
 				84226D341E89301B00798417 /* AppCenterCrashes.framework in Frameworks */,
 				84226D351E89301B00798417 /* AppCenterDistribute.framework in Frameworks */,
 				046790431E8DA7E90033FDEC /* AppCenterPush.framework in Frameworks */,
+				048C07C721F11ED200769A85 /* MSAL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -894,6 +889,7 @@
 				B27D54BF210A5E7E004E82C9 /* AppCenterCrashes.framework in Frameworks */,
 				B27D54C0210A5E7E004E82C9 /* AppCenterDistribute.framework in Frameworks */,
 				B27D54C1210A5E7E004E82C9 /* AppCenterPush.framework in Frameworks */,
+				048C07C421F11ED200769A85 /* MSAL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -908,6 +904,7 @@
 				B2A4CFA3210A6E6900199B4F /* AppCenterCrashes.framework in Frameworks */,
 				B2A4CFA4210A6E6900199B4F /* AppCenterDistribute.framework in Frameworks */,
 				B2A4CFA5210A6E6900199B4F /* AppCenterPush.framework in Frameworks */,
+				048C07C621F11ED200769A85 /* MSAL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1113,6 +1110,7 @@
 				84226D301E89301B00798417 /* AppCenterCrashes.framework */,
 				84226D311E89301B00798417 /* AppCenterDistribute.framework */,
 				0459920E21F0042300BD3F82 /* AppCenterIdentity.framework */,
+				048C079121F11ED200769A85 /* MSAL.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1133,8 +1131,6 @@
 				995BA61E21EFFA93000E3212 /* AppCenterIdentity.xctest */,
 				995BA62021EFFA93000E3212 /* libAppCenterIdentity.a */,
 				995BA62221EFFA93000E3212 /* AppCenterIdentity.xctest */,
-				995BA62421EFFA93000E3212 /* libAppCenterIdentity.a */,
-				995BA62621EFFA93000E3212 /* AppCenterIdentity.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1608,6 +1604,11 @@
 					B20AE37C21027D6200A1A195 = {
 						DevelopmentTeam = 5Z97G9NZQ6;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 					B27D54A0210A5E7E004E82C9 = {
 						DevelopmentTeam = 5Z97G9NZQ6;
@@ -1751,20 +1752,6 @@
 			fileType = wrapper.cfbundle;
 			path = AppCenterIdentity.xctest;
 			remoteRef = 995BA62121EFFA93000E3212 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		995BA62421EFFA93000E3212 /* libAppCenterIdentity.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libAppCenterIdentity.a;
-			remoteRef = 995BA62321EFFA93000E3212 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		995BA62621EFFA93000E3212 /* AppCenterIdentity.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = AppCenterIdentity.xctest;
-			remoteRef = 995BA62521EFFA93000E3212 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		B20AE3C92102812300A1A195 /* libAppCenter.a */ = {
