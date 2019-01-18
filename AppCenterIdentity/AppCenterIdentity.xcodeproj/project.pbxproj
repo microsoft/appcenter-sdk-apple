@@ -64,6 +64,8 @@
 		0485AF6A1EAA79E300C10CAF /* MSIdentity.m in Sources */ = {isa = PBXBuildFile; fileRef = E85547C51D2D6253002DF6E2 /* MSIdentity.m */; };
 		0485AF781EAA79E300C10CAF /* AppCenterIdentity.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CC1D2D63EF002DF6E2 /* AppCenterIdentity.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0485AF7E1EAA79E300C10CAF /* MSIdentity.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547C31D2D6253002DF6E2 /* MSIdentity.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		048C07D421F1630A00769A85 /* MSAL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04C6EC7921F10D8300A6FDAF /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		048C07D621F1634700769A85 /* MSAL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 04C6EC7C21F10D9D00A6FDAF /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		04A082061F74BB8600DC776D /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A082051F74BB8600DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04BED7181ECB64FB00E20975 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BED7161ECB64CE00E20975 /* OCHamcrest.framework */; };
 		04C6EC7E21F10DCA00A6FDAF /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C6EC7921F10D8300A6FDAF /* MSAL.framework */; };
@@ -131,6 +133,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		048C07D321F162FD00769A85 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				048C07D421F1630A00769A85 /* MSAL.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		048C07D521F1633E00769A85 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				048C07D621F1634700769A85 /* MSAL.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E85547BE1D2D6253002DF6E2 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
@@ -152,6 +174,7 @@
 		0469D1B21F4DFE4C00A43A8E /* AppCenterIdentity Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "AppCenterIdentity Release.xcconfig"; sourceTree = "<group>"; };
 		046AEAC61ECA51AF00CBE511 /* AppCenterIdentity.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterIdentity.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0485AF851EAA79E300C10CAF /* libAppCenterIdentity.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAppCenterIdentity.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		048C07CC21F1619500769A85 /* MSTestFrameworks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSTestFrameworks.h; path = ../../../AppCenter/AppCenterTests/Util/MSTestFrameworks.h; sourceTree = "<group>"; };
 		049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
 		049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		049BC82C1ECE3CF000FB6719 /* Tests macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests macOS.xcconfig"; path = "../../Config/Tests macOS.xcconfig"; sourceTree = "<group>"; };
@@ -161,7 +184,6 @@
 		04C6EC7C21F10D9D00A6FDAF /* MSAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MSAL.framework; path = ../Vendor/macOS/MSAL/MSAL.framework; sourceTree = "<group>"; };
 		04ED31E91EAAD32B0033BAAE /* macOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = macOS.modulemap; sourceTree = "<group>"; };
 		04ED31EB1EAAD3390033BAAE /* iOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = iOS.modulemap; sourceTree = "<group>"; };
-		1A15692221F11AB8001E9452 /* MSTestFrameworks.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MSTestFrameworks.h; path = ../../../AppCenter/AppCenterTests/Util/MSTestFrameworks.h; sourceTree = "<group>"; };
 		1A15692321F11B09001E9452 /* MSIdentityTests.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = MSIdentityTests.m; sourceTree = "<group>"; tabWidth = 2; };
 		358F9BC52019590100B9E22C /* MSLogWithProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSLogWithProperties.h; path = ../AppCenter/AppCenter/Model/MSLogWithProperties.h; sourceTree = "<group>"; };
 		358F9BC72019596400B9E22C /* MSAbstractLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAbstractLog.h; path = ../AppCenter/AppCenter/Model/MSAbstractLog.h; sourceTree = "<group>"; };
@@ -299,7 +321,7 @@
 		1A15692121F11A98001E9452 /* Util */ = {
 			isa = PBXGroup;
 			children = (
-				1A15692221F11AB8001E9452 /* MSTestFrameworks.h */,
+				048C07CC21F1619500769A85 /* MSTestFrameworks.h */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -441,6 +463,7 @@
 				046AEAB51ECA51AF00CBE511 /* Sources */,
 				046AEABD1ECA51AF00CBE511 /* Frameworks */,
 				046AEAC21ECA51AF00CBE511 /* Resources */,
+				048C07D521F1633E00769A85 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -497,6 +520,7 @@
 				E85547D11D2D6723002DF6E2 /* Sources */,
 				E85547D21D2D6723002DF6E2 /* Frameworks */,
 				E85547D31D2D6723002DF6E2 /* Resources */,
+				048C07D321F162FD00769A85 /* CopyFiles */,
 			);
 			buildRules = (
 			);
