@@ -294,6 +294,8 @@
 				04C6EC7C21F10D9D00A6FDAF /* MSAL.framework */,
 			);
 			name = macOS;
+			sourceTree = "<group>";
+		};
 		1A15692121F11A98001E9452 /* Util */ = {
 			isa = PBXGroup;
 			children = (
