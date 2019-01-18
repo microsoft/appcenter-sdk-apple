@@ -11,6 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic, nullable) NSString *accessToken;
 
++ (void)resetSharedInstance;
+
 @end
 
 NS_ASSUME_NONNULL_END

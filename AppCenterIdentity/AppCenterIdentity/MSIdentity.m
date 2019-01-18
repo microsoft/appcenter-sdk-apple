@@ -70,7 +70,6 @@ static NSString *const kMSClientId = @"";
       transmissionTargetToken:(nullable NSString *)token
               fromApplication:(BOOL)fromApplication {
   [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
-
   MSLogVerbose([MSIdentity logTag], @"Started Identity service.");
 }
 
@@ -99,10 +98,6 @@ static NSString *const kMSClientId = @"";
     [self.channelGroup removeDelegate:self];
     MSLogInfo([MSIdentity logTag], @"Identity service has been disabled.");
   }
-}
-
-- (void)updateConfigurationWithAppSecret:(NSString *)appSecret transmissionTargetToken:(NSString *)token {
-  [super updateConfigurationWithAppSecret:appSecret transmissionTargetToken:token];
 }
 
 #pragma mark - MSChannelDelegate
