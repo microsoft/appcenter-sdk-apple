@@ -18,6 +18,16 @@ static NSString *const kMSGroupId = @"Identity";
 static MSIdentity *sharedInstance = nil;
 static dispatch_once_t onceToken;
 
+// Authentication URL formats.
+static NSString *const kMSAuthorityFormat = @"https://login.microsoftonline.com/tfp/%@.onmicrosoft.com/%@";
+static NSString *const kMSAuthScopeFormat = @"https://%@.onmicrosoft.com/%@/user_impersonation";
+
+// Configuration (Temporary). Fill constant values for your backend.
+static NSString *const kMSTenantName = @"";
+static NSString *const kMSPolicyName = @"";
+static NSString *const kMSAPIIdentifier = @"";
+static NSString *const kMSClientId = @"";
+
 @implementation MSIdentity
 
 @synthesize channelUnitConfiguration = _channelUnitConfiguration;
@@ -29,6 +39,13 @@ static dispatch_once_t onceToken;
 
     // Init channel configuration.
     _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
+
+    // Init client application.
+    NSError *error;
+    _clientApplication = [[MSALPublicClientApplication alloc] initWithClientId:kMSClientId error:&error];
+    if (error != nil) {
+      MSLogError([MSIdentity logTag], @"Failed to initialize client application.");
+    }
   }
   return self;
 }
@@ -75,8 +92,10 @@ static dispatch_once_t onceToken;
   [super applyEnabledState:isEnabled];
   if (isEnabled) {
     [self.channelGroup addDelegate:self];
+    [self acquireToken];
     MSLogInfo([MSIdentity logTag], @"Identity service has been enabled.");
   } else {
+    self.accessToken = nil;
     [self.channelGroup removeDelegate:self];
     MSLogInfo([MSIdentity logTag], @"Identity service has been disabled.");
   }
@@ -113,4 +132,30 @@ static dispatch_once_t onceToken;
   sharedInstance = nil;
 }
 
++ (void)handleUrlResponse:(NSURL *)url {
+  [MSALPublicClientApplication handleMSALResponse:url];
+}
+
+- (void)acquireToken {
+  if (self.clientApplication == nil) {
+    return;
+  }
+  NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:kMSAuthorityFormat, kMSTenantName, kMSPolicyName]];
+  MSALAuthority *authority = [MSALAuthority authorityWithURL:url error:nil];
+  [self.clientApplication acquireTokenForScopes:@[ [NSString stringWithFormat:kMSAuthScopeFormat, kMSTenantName, kMSAPIIdentifier] ]
+                           extraScopesToConsent:nil
+                                      loginHint:nil
+                                     uiBehavior:MSALUIBehaviorDefault
+                           extraQueryParameters:nil
+                                      authority:authority
+                                  correlationId:nil
+                                completionBlock:^(MSALResult *result, NSError *e) {
+                                  if (e) {
+
+                                  } else {
+                                    NSString __unused *accountIdentifier = result.account.homeAccountId.identifier;
+                                    self.accessToken = result.accessToken;
+                                  }
+                                }];
+}
 @end
