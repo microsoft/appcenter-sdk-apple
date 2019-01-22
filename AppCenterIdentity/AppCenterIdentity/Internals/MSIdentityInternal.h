@@ -2,7 +2,7 @@
 #import "MSIdentity.h"
 #import "MSServiceInternal.h"
 
-@import MSAL;
+@class MSALPublicClientApplication;
 
 NS_ASSUME_NONNULL_BEGIN
 

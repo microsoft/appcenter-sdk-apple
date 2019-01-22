@@ -6,6 +6,7 @@
 #import "MSIdentityInternal.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSServiceInternal.h"
+#import <MSAL/MSALPublicClientApplication.h>
 
 // Service name for initialization.
 static NSString *const kMSServiceName = @"Identity";
