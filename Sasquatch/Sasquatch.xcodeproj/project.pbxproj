@@ -22,6 +22,10 @@
 		048C07C721F11ED200769A85 /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048C079121F11ED200769A85 /* MSAL.framework */; };
 		04CCE78421F79348000AD84C /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048C079121F11ED200769A85 /* MSAL.framework */; };
 		04CCE78D21F7A148000AD84C /* MSAL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 048C079121F11ED200769A85 /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		04CCE78F21F7A4EB000AD84C /* MSAL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 048C079121F11ED200769A85 /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		04CCE79121F7A4FF000AD84C /* MSAL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 048C079121F11ED200769A85 /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		04CCE79321F7A50D000AD84C /* MSAL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 048C079121F11ED200769A85 /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		04CCE79521F7A51A000AD84C /* MSAL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 048C079121F11ED200769A85 /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		352A3E7420F801A900D09CF0 /* EventPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */; };
 		352A3E7520F80C8600D09CF0 /* EventPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */; };
 		35396A7820F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35396A7720F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift */; };
@@ -592,6 +596,46 @@
 			dstSubfolderSpec = 10;
 			files = (
 				04CCE78D21F7A148000AD84C /* MSAL.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04CCE78E21F7A4E4000AD84C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				04CCE78F21F7A4EB000AD84C /* MSAL.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04CCE79021F7A4F3000AD84C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				04CCE79121F7A4FF000AD84C /* MSAL.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04CCE79221F7A505000AD84C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				04CCE79321F7A50D000AD84C /* MSAL.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04CCE79421F7A511000AD84C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				04CCE79521F7A51A000AD84C /* MSAL.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1380,6 +1424,7 @@
 				84226C451E88FF4A00798417 /* Resources */,
 				F89D790B1E93DA3B0094521F /* Embed Frameworks */,
 				D36AD6EE1E94FF6B003D34E7 /* Embed Watch Content */,
+				04CCE79021F7A4F3000AD84C /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1401,6 +1446,7 @@
 				84226C7E1E8908C900798417 /* Resources */,
 				F89D790E1E93DA500094521F /* Embed Frameworks */,
 				D36AD7171E94FF98003D34E7 /* Embed Watch Content */,
+				04CCE79421F7A511000AD84C /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1448,6 +1494,7 @@
 				B27D54BB210A5E7E004E82C9 /* Frameworks */,
 				B27D54C2210A5E7E004E82C9 /* Resources */,
 				B27D54CB210A5E7E004E82C9 /* Embed Frameworks */,
+				04CCE78E21F7A4E4000AD84C /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1467,6 +1514,7 @@
 				B2A4CF9F210A6E6900199B4F /* Frameworks */,
 				B2A4CFA6210A6E6900199B4F /* Resources */,
 				B2A4CFAF210A6E6900199B4F /* Embed Frameworks */,
+				04CCE79221F7A505000AD84C /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1629,6 +1677,11 @@
 					B2A4CF85210A6E6900199B4F = {
 						DevelopmentTeam = 5Z97G9NZQ6;
 						ProvisioningStyle = Manual;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 					B2A888B42102B1E7001ACFDF = {
 						CreatedOnToolsVersion = 9.4.1;
