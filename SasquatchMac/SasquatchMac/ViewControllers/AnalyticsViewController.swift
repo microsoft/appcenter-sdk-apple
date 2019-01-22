@@ -8,15 +8,43 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
     static let valueCellId = "valueCellId"
   }
 
+    enum Priority: String {
+        case Default = "Default"
+        case Normal = "Normal"
+        case Critical = "Critical"
+        case Invalid = "Invalid"
+
+        var flags: MSFlags {
+            switch self {
+            case .Normal:
+                return [.persistenceNormal]
+            case .Critical:
+                return [.persistenceCritical]
+            case .Invalid:
+                return MSFlags.init(rawValue: 42)
+            default:
+                return []
+            }
+        }
+
+        static let allValues = [Default, Normal, Critical, Invalid]
+    }
+
   var appCenter: AppCenterDelegate = AppCenterProvider.shared().appCenter!
 
   @IBOutlet weak var name: NSTextField!
   @IBOutlet var setEnabledButton : NSButton?
   @IBOutlet var table : NSTableView?
+  @IBOutlet weak var pause: NSButton!
+  @IBOutlet weak var resume: NSButton!
+  @IBOutlet weak var priorityValue: NSComboBox!
+  @IBOutlet weak var countLabel: NSTextField!
+  @IBOutlet weak var countSlider: NSSlider!
 
   private var properties : [String : String] = [String : String]()
   private var textBeforeEditing : String = ""
   private var totalPropsCounter : Int = 0
+  private var priority = Priority.Default
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -25,7 +53,8 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
     table?.dataSource = self
     NotificationCenter.default.addObserver(self, selector: #selector(self.editingDidBegin), name: .NSControlTextDidBeginEditing, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(self.editingDidEnd), name: .NSControlTextDidEndEditing, object: nil)
-  }
+    self.countLabel.stringValue = "Count: \(Int(countSlider.intValue))"
+    }
 
   override func viewWillAppear() {
     setEnabledButton?.state = appCenter.isAnalyticsEnabled() ? 1 : 0;
@@ -37,7 +66,39 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
   }
 
   @IBAction func trackEvent(_ : AnyObject) {
-    appCenter.trackEvent(name.stringValue, withProperties: properties)
+    let eventName = name.stringValue
+    for _ in 0..<Int(countSlider.intValue) {
+            if priority != .Default {
+                appCenter.trackEvent(eventName, withProperties: properties, flags: priority.flags)
+            } else {
+                appCenter.trackEvent(eventName, withProperties: properties)
+            }
+    }
+  }
+  @IBAction func resume(_ sender: NSButton) {
+    appCenter.resume()
+    }
+
+  @IBAction func pause(_ sender: NSButton) {
+    appCenter.pause()
+    }
+
+  @IBAction func countChanged(_ sender: Any) {
+    self.countLabel.stringValue = "Count: \(Int(countSlider.intValue))"
+    }
+
+  @IBAction func priorityChanged(_ sender: NSComboBox) {
+    switch(self.priorityValue.stringValue)
+    {
+    case "Normal":
+        self.priority=Priority.Normal
+    case "Critical":
+        self.priority=Priority.Critical
+    case "Invalid":
+        self.priority=Priority.Invalid
+    default:
+        self.priority=Priority.Default
+    }
   }
 
   @IBAction func trackPage(_ : AnyObject) {
