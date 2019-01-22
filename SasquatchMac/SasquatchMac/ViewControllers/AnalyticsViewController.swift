@@ -54,7 +54,7 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
     NotificationCenter.default.addObserver(self, selector: #selector(self.editingDidBegin), name: .NSControlTextDidBeginEditing, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(self.editingDidEnd), name: .NSControlTextDidEndEditing, object: nil)
     self.countLabel.stringValue = "Count: \(Int(countSlider.intValue))"
-    }
+  }
 
   override func viewWillAppear() {
     setEnabledButton?.state = appCenter.isAnalyticsEnabled() ? 1 : 0;
@@ -68,24 +68,25 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
   @IBAction func trackEvent(_ : AnyObject) {
     let eventName = name.stringValue
     for _ in 0..<Int(countSlider.intValue) {
-            if priority != .Default {
-                appCenter.trackEvent(eventName, withProperties: properties, flags: priority.flags)
-            } else {
-                appCenter.trackEvent(eventName, withProperties: properties)
-            }
+      if priority != .Default {
+        appCenter.trackEvent(eventName, withProperties: properties, flags: priority.flags)
+      } else {
+        appCenter.trackEvent(eventName, withProperties: properties)
+      }
     }
   }
+
   @IBAction func resume(_ sender: NSButton) {
     appCenter.resume()
-    }
+  }
 
   @IBAction func pause(_ sender: NSButton) {
     appCenter.pause()
-    }
+  }
 
   @IBAction func countChanged(_ sender: Any) {
     self.countLabel.stringValue = "Count: \(Int(countSlider.intValue))"
-    }
+  }
 
   @IBAction func priorityChanged(_ sender: NSComboBox) {
     switch(self.priorityValue.stringValue)
