@@ -20,7 +20,8 @@
 		048C07C521F11ED200769A85 /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048C079121F11ED200769A85 /* MSAL.framework */; };
 		048C07C621F11ED200769A85 /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048C079121F11ED200769A85 /* MSAL.framework */; };
 		048C07C721F11ED200769A85 /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048C079121F11ED200769A85 /* MSAL.framework */; };
-		048C07CB21F1210000769A85 /* MSAL.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 048C079121F11ED200769A85 /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		04CCE78421F79348000AD84C /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 048C079121F11ED200769A85 /* MSAL.framework */; };
+		04CCE78D21F7A148000AD84C /* MSAL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 048C079121F11ED200769A85 /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		352A3E7420F801A900D09CF0 /* EventPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */; };
 		352A3E7520F80C8600D09CF0 /* EventPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */; };
 		35396A7820F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35396A7720F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift */; };
@@ -584,6 +585,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		04CCE78C21F7A138000AD84C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				04CCE78D21F7A148000AD84C /* MSAL.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B20AE3A421027D6200A1A195 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -591,7 +602,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				B20AE3A521027D6200A1A195 /* CrashLibIOS.framework in Embed Frameworks */,
-				048C07CB21F1210000769A85 /* MSAL.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -864,6 +874,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04CCE78421F79348000AD84C /* MSAL.framework in Frameworks */,
 				B20AE48A21028E3C00A1A195 /* libz.tbd in Frameworks */,
 				B20AE48821028E3300A1A195 /* libc++.tbd in Frameworks */,
 				B2A888A62102A44B001ACFDF /* SafariServices.framework in Frameworks */,
@@ -1410,6 +1421,7 @@
 				B20AE39421027D6200A1A195 /* Frameworks */,
 				B20AE39B21027D6200A1A195 /* Resources */,
 				B20AE3A421027D6200A1A195 /* Embed Frameworks */,
+				04CCE78C21F7A138000AD84C /* CopyFiles */,
 			);
 			buildRules = (
 			);
