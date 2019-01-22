@@ -2,9 +2,9 @@
 
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitProtocol.h"
-#import "MSTestFrameworks.h"
 #import "MSIdentity.h"
 #import "MSIdentityInternal.h"
+#import "MSTestFrameworks.h"
 
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
@@ -30,39 +30,39 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 @implementation MSIdentityTests
 
 - (void)setUp {
-    [super setUp];
-    self.sut = [MSIdentity new];
+  [super setUp];
+  self.sut = [MSIdentity new];
 }
 
 - (void)tearDown {
-    [super tearDown];
-    [MSIdentity resetSharedInstance];
+  [super tearDown];
+  [MSIdentity resetSharedInstance];
 }
 
 - (void)testApplyEnabledStateWorks {
-  
+
   // If
   [[MSIdentity sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSChannelGroupProtocol))
-                                       appSecret:kMSTestAppSecret
-                         transmissionTargetToken:nil
-                                 fromApplication:YES];
+                                           appSecret:kMSTestAppSecret
+                             transmissionTargetToken:nil
+                                     fromApplication:YES];
   MSServiceAbstract *service = (MSServiceAbstract *)[MSIdentity sharedInstance];
-  
+
   // When
   [service setEnabled:YES];
-  
+
   // Then
   XCTAssertTrue([service isEnabled]);
-  
+
   // When
   [service setEnabled:NO];
-  
+
   // Then
   XCTAssertFalse([service isEnabled]);
-  
+
   // When
   [service setEnabled:YES];
-  
+
   // Then
   XCTAssertTrue([service isEnabled]);
 }
