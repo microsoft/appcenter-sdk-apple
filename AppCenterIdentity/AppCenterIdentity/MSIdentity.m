@@ -1,4 +1,3 @@
-#import "MSIdentity.h"
 #import "MSAppCenterInternal.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitConfiguration.h"
@@ -122,7 +121,7 @@ static NSString *const kMSClientId = @"";
 
 + (void)resetSharedInstance {
 
-  // resets the once_token so dispatch_once will run again.
+  // Resets the once_token so dispatch_once will run again.
   onceToken = 0;
   sharedInstance = nil;
 }
@@ -145,8 +144,8 @@ static NSString *const kMSClientId = @"";
                                       authority:authority
                                   correlationId:nil
                                 completionBlock:^(MSALResult *result, NSError *e) {
+                                  // TODO: Implement error handling.
                                   if (e) {
-
                                   } else {
                                     NSString __unused *accountIdentifier = result.account.homeAccountId.identifier;
                                     self.accessToken = result.accessToken;

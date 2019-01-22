@@ -1,4 +1,5 @@
 #import "MSChannelDelegate.h"
+#import "MSIdentity.h"
 #import "MSServiceInternal.h"
 
 @import MSAL;
