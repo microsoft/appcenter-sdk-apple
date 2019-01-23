@@ -12,6 +12,7 @@
 #import "AppCenterAnalytics.h"
 #import "AppCenterCrashes.h"
 #import "AppCenterDistribute.h"
+#import "AppCenterIdentity.h"
 #import "AppCenterPush.h"
 
 // Internal ones
@@ -23,6 +24,7 @@
 @import AppCenterAnalytics;
 @import AppCenterCrashes;
 @import AppCenterDistribute;
+@import AppCenterIdentity;
 @import AppCenterPush;
 
 #define APP_SECRET_VALUE "3ccfe7f5-ec01-4de5-883c-f563bbbe147a"
@@ -96,7 +98,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   }
 
   // Start App Center SDK.
-  NSArray<Class> *services = @ [[MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class]];
+  NSArray<Class> *services = @ [[MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSIdentity class], [MSPush class]];
   NSInteger startTarget = [[NSUserDefaults standardUserDefaults] integerForKey:kMSStartTargetKey];
   switch (startTarget) {
   case APPCENTER:
@@ -307,6 +309,15 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
     return YES;
   }
   return NO;
+}
+
+#pragma mark - Temporary Identity callbacks
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(nonnull NSURL *)url
+            options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
+  [MSIdentity handleUrlResponse:url];
+  return YES;
 }
 
 #pragma mark - Push callbacks
