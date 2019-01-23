@@ -8,27 +8,27 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
     static let valueCellId = "valueCellId"
   }
 
-    enum Priority: String {
-        case Default = "Default"
-        case Normal = "Normal"
-        case Critical = "Critical"
-        case Invalid = "Invalid"
+  enum Priority: String {
+    case Default = "Default"
+    case Normal = "Normal"
+    case Critical = "Critical"
+    case Invalid = "Invalid"
 
-        var flags: MSFlags {
-            switch self {
-            case .Normal:
-                return [.persistenceNormal]
-            case .Critical:
-                return [.persistenceCritical]
-            case .Invalid:
-                return MSFlags.init(rawValue: 42)
-            default:
-                return []
-            }
-        }
-
-        static let allValues = [Default, Normal, Critical, Invalid]
+    var flags: MSFlags {
+      switch self {
+      case .Normal:
+        return [.persistenceNormal]
+      case .Critical:
+        return [.persistenceCritical]
+      case .Invalid:
+        return MSFlags.init(rawValue: 42)
+      default:
+        return []
+      }
     }
+
+    static let allValues = [Default, Normal, Critical, Invalid]
+  }
 
   var appCenter: AppCenterDelegate = AppCenterProvider.shared().appCenter!
 
@@ -89,16 +89,15 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
   }
 
   @IBAction func priorityChanged(_ sender: NSComboBox) {
-    switch(self.priorityValue.stringValue)
-    {
-    case "Normal":
-        self.priority=Priority.Normal
-    case "Critical":
-        self.priority=Priority.Critical
-    case "Invalid":
-        self.priority=Priority.Invalid
+    switch (self.priorityValue.stringValue) {
+    case Priority.Normal.rawValue:
+      self.priority = Priority.Normal
+    case Priority.Critical.rawValue:
+      self.priority = Priority.Critical
+    case Priority.Invalid.rawValue:
+      self.priority = Priority.Invalid
     default:
-        self.priority=Priority.Default
+      self.priority = Priority.Default
     }
   }
 
