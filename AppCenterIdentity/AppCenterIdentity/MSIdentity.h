@@ -9,6 +9,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)handleUrlResponse:(NSURL *)url;
 
++ (void)login;
+
 @end
 
 NS_ASSUME_NONNULL_END

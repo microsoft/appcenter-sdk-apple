@@ -1,5 +1,6 @@
 #import "MSChannelDelegate.h"
 #import "MSIdentity.h"
+#import "MSIdentityConfig.h"
 #import "MSServiceInternal.h"
 
 @class MSALPublicClientApplication;
@@ -11,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, nullable) MSALPublicClientApplication *clientApplication;
 
 @property(nonatomic, nullable) NSString *accessToken;
+
+@property(nonatomic, nullable) MSIdentityConfig *identityConfig;
 
 + (void)resetSharedInstance;
 
