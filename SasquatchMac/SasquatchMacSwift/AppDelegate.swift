@@ -5,6 +5,14 @@ import AppCenterAnalytics
 import AppCenterCrashes
 import AppCenterPush
 
+enum StartupMode: Int {
+    case APPCENTER
+    case ONECOLLECTOR
+    case BOTH
+    case NONE
+    case SKIP
+}
+
 @NSApplicationMain
 @objc(AppDelegate)
 class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDelegate {
@@ -52,7 +60,25 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
     }
 
     // Start AppCenter.
-    MSAppCenter.start("7e873482-108f-4609-8ef2-c4cebd7418c0", withServices : [ MSAnalytics.self, MSCrashes.self, MSPush.self ])
+    let appSecret = "7e873482-108f-4609-8ef2-c4cebd7418c0"
+    let services = [MSAnalytics.self, MSCrashes.self, MSPush.self]
+    let startTarget = StartupMode(rawValue: UserDefaults.standard.integer(forKey: kMSStartTargetKey))!
+    switch startTarget {
+    case .APPCENTER:
+        MSAppCenter.start(appSecret, withServices: services)
+        break
+    case .ONECOLLECTOR:
+        MSAppCenter.start("target=\(kMSSwiftTargetToken)", withServices: services)
+        break
+    case .BOTH:
+        MSAppCenter.start("appsecret=\(appSecret);target=\(kMSSwiftTargetToken)", withServices: services)
+        break
+    case .NONE:
+        MSAppCenter.start(withServices: services)
+        break
+    case .SKIP:
+        break
+    }
 
     AppCenterProvider.shared().appCenter = AppCenterDelegateSwift()
 
