@@ -5,6 +5,7 @@
 #import "AppCenterAnalytics.h"
 #import "AppCenterCrashes.h"
 #import "AppCenterDistribute.h"
+#import "AppCenterIdentity.h"
 #import "AppCenterPush.h"
 
 // Internal
@@ -16,6 +17,7 @@
 @import AppCenterAnalytics;
 @import AppCenterCrashes;
 @import AppCenterDistribute;
+@import AppCenterIdentity;
 @import AppCenterPush;
 #endif
 
@@ -279,6 +281,10 @@
 
 - (NSString *)lastCrashReportDeviceCarrierCountry {
   return [[[MSCrashes lastSessionCrashReport] device] carrierCountry];
+}
+
+- (void)login {
+  [MSIdentity login];
 }
 
 @end
