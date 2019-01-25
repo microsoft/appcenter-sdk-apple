@@ -3,9 +3,24 @@ import Cocoa
 // FIXME: trackPage has been hidden in MSAnalytics temporarily. Use internal until the feature comes back.
 class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTableViewDelegate {
 
-  private enum CellIdentifiers {
-    static let keyCellId = "keyCellId"
-    static let valueCellId = "valueCellId"
+  class EventProperty : NSObject {
+    var key: String = ""
+    var type: String = EventPropertyType.String.rawValue
+    var string: String = ""
+    var double: NSNumber = 0
+    var long: NSNumber = 0
+    var boolean: Bool = false
+    var dateTime: Date = Date.init()
+  }
+
+  enum EventPropertyType : String {
+    case String = "String"
+    case Double = "Double"
+    case Long = "Long"
+    case Boolean = "Boolean"
+    case DateTime = "DateTime"
+
+    static let allValues = [String, Double, Long, Boolean, DateTime]
   }
 
   enum Priority: String {
@@ -40,19 +55,17 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
   @IBOutlet weak var priorityValue: NSComboBox!
   @IBOutlet weak var countLabel: NSTextField!
   @IBOutlet weak var countSlider: NSSlider!
+  @IBOutlet var arrayController: NSArrayController!
 
-  private var properties : [String : String] = [String : String]()
   private var textBeforeEditing : String = ""
   private var totalPropsCounter : Int = 0
   private var priority = Priority.Default
+  dynamic var eventProperties = [EventProperty]()
 
   override func viewDidLoad() {
     super.viewDidLoad()
     setEnabledButton?.state = appCenter.isAnalyticsEnabled() ? 1 : 0
     table?.delegate = self
-    table?.dataSource = self
-    NotificationCenter.default.addObserver(self, selector: #selector(self.editingDidBegin), name: .NSControlTextDidBeginEditing, object: nil)
-    NotificationCenter.default.addObserver(self, selector: #selector(self.editingDidEnd), name: .NSControlTextDidEndEditing, object: nil)
     self.countLabel.stringValue = "Count: \(Int(countSlider.intValue))"
   }
 
@@ -66,12 +79,27 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
   }
 
   @IBAction func trackEvent(_ : AnyObject) {
+    let eventProperties = eventPropertiesSet()
     let eventName = name.stringValue
     for _ in 0..<Int(countSlider.intValue) {
-      if priority != .Default {
-        appCenter.trackEvent(eventName, withProperties: properties, flags: priority.flags)
+      if let properties = eventProperties as? MSEventProperties {
+        if priority != .Default {
+          appCenter.trackEvent(eventName, withTypedProperties: properties, flags: priority.flags)
+        } else {
+          appCenter.trackEvent(eventName, withTypedProperties: properties)
+        }
+      } else if let dictionary = eventProperties as? [String: String] {
+        if priority != .Default {
+          appCenter.trackEvent(eventName, withProperties: dictionary, flags: priority.flags)
+        } else {
+          appCenter.trackEvent(eventName, withProperties: dictionary)
+        }
       } else {
-        appCenter.trackEvent(eventName, withProperties: properties)
+        if priority != .Default {
+          appCenter.trackEvent(eventName, withTypedProperties: nil, flags: priority.flags)
+        } else {
+          appCenter.trackEvent(eventName)
+        }
       }
     }
   }
@@ -102,109 +130,97 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
   }
 
   @IBAction func trackPage(_ : AnyObject) {
-    NSLog("trackPageWithProperties: %d", properties.count)
+    NSLog("trackPageWithProperties: %d", eventProperties.count)
   }
 
   @IBAction func addProperty(_ : AnyObject) {
-    let newKey = String(format:"key%d",totalPropsCounter)
-    let newValue = String(format:"value%d",totalPropsCounter)
-
-    self.properties.updateValue(newValue, forKey: newKey)
-    table?.reloadData()
-
-    totalPropsCounter+=1
+    let property = EventProperty()
+    property.addObserver(self, forKeyPath: #keyPath(EventProperty.type), options: .new, context: nil)
+    arrayController.addObject(property)
   }
 
   @IBAction func deleteProperty(_ : AnyObject) {
-    if properties.isEmpty {
-      return
+    if let selectedProperty = arrayController.selectedObjects.first as? EventProperty {
+      arrayController.removeObject(selectedProperty)
+      selectedProperty.removeObserver(self, forKeyPath: #keyPath(EventProperty.type), context: nil)
     }
-    guard let `table` = table else {
-      return
-    }
-    if (table.selectedRow < 0) {
-      _ = properties.popFirst()
-    } else {
-      let key : String = Array(properties.keys)[table.selectedRow]
-      _ = properties.removeValue(forKey: key)
-    }
-    table.reloadData()
   }
 
   @IBAction func setEnabled(sender : NSButton) {
     appCenter.setAnalyticsEnabled(sender.state == 1)
     sender.state = appCenter.isAnalyticsEnabled() ? 1 : 0
   }
-
-  //MARK: Table view source delegate
-
-  func numberOfRows(in tableView: NSTableView) -> Int {
-    return properties.count
-  }
-
-  //MARK: Table view delegate
   
   func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-    guard let `tableColumn` = tableColumn else {
+    guard let identifier = tableColumn?.identifier else {
       return nil
     }
-
-    var cellValue : String = ""
-    var cellId : String = ""
-    let key : String = Array(properties.keys)[row]
-
-    if (tableColumn == tableView.tableColumns[0]) {
-      cellValue = key
-      cellId = CellIdentifiers.keyCellId
-    } else if (tableColumn == tableView.tableColumns[1]) {
-      cellValue = properties[key]!
-      cellId = CellIdentifiers.valueCellId
+    let view = tableView.make(withIdentifier: identifier, owner: self)
+    if (identifier == "value") {
+      updateValue(property: eventProperties[row], cell: view as! NSTableCellView)
     }
-
-    if let cell = tableView.make(withIdentifier: cellId, owner: nil) as? NSTableCellView {
-      cell.textField?.stringValue = cellValue
-      cell.textField?.isEditable = true
-      return cell
-    }
-
-    return nil
+    return view
   }
 
-  //MARK: Text field events
-
-  func editingDidBegin(notification : NSNotification) {
-    guard let textField = notification.object as? NSTextField else {
+  override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    guard let property = object as? EventProperty else {
       return
     }
-    textBeforeEditing = textField.stringValue
+    guard let row = eventProperties.index(of: property) else {
+      return
+    }
+    let column = table?.column(withIdentifier: "value")
+    guard let cell = table?.view(atColumn: column!, row: row, makeIfNecessary: false) as? NSTableCellView else {
+      return
+    }
+    updateValue(property: property, cell: cell)
   }
 
-  func editingDidEnd(notification : NSNotification) {
-    guard let textField = notification.object as? NSTextField else {
+  func updateValue(property: EventProperty, cell: NSTableCellView) {
+    cell.isHidden = false
+    for subview in cell.subviews {
+      subview.isHidden = true
+    }
+    guard let type = EventPropertyType(rawValue: property.type) else {
       return
     }
+    if let view = cell.viewWithTag(EventPropertyType.allValues.index(of: type)!) {
+      view.isHidden = false
+    } else {
+      cell.isHidden = true
+    }
+  }
 
-    // If key
-    if (properties.keys.contains(textBeforeEditing)) {
-      let oldKey : String = textBeforeEditing
-      let newKey : String = textField.stringValue
-      if let value = properties.removeValue(forKey: oldKey) {
-        properties.updateValue(value, forKey: newKey)
+  func eventPropertiesSet() -> Any? {
+    if eventProperties.count < 1 {
+      return nil
+    }
+    var onlyStrings = true
+    var propertyDictionary = [String: String]()
+    let properties = MSEventProperties()
+    for property in eventProperties {
+      let key = property.key
+      guard let type = EventPropertyType(rawValue: property.type) else {
+        continue
+      }
+      switch type {
+      case .String:
+        properties.setEventProperty(property.string, forKey: key);
+        propertyDictionary[property.key] = (property.string )
+      case .Double:
+        properties.setEventProperty(property.double.doubleValue, forKey: key)
+        onlyStrings = false
+      case .Long:
+        properties.setEventProperty(property.long.int64Value, forKey: key)
+        onlyStrings = false
+      case .Boolean:
+        properties.setEventProperty(property.boolean, forKey: key)
+        onlyStrings = false
+      case .DateTime:
+        properties.setEventProperty(property.dateTime, forKey: key)
+        onlyStrings = false
       }
     }
-
-    // If value
-    else {
-      guard let row = table?.row(for: textField) else {
-        return
-      }
-      if row < 0 {
-        return
-      }
-      let key : String = Array(properties.keys)[row]
-      properties.updateValue(textField.stringValue, forKey: key)
-    }
-
-    table?.reloadData()
+    return onlyStrings ? propertyDictionary : properties
   }
 }
