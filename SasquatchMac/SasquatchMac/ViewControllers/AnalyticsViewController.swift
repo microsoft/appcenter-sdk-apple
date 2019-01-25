@@ -206,7 +206,7 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
       switch type {
       case .String:
         properties.setEventProperty(property.string, forKey: key);
-        propertyDictionary[property.key] = (property.string )
+        propertyDictionary[property.key] = property.string
       case .Double:
         properties.setEventProperty(property.double.doubleValue, forKey: key)
         onlyStrings = false
