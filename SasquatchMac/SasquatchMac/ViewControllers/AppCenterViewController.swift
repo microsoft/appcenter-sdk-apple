@@ -34,9 +34,10 @@ class AppCenterViewController : NSViewController {
   @IBAction func userIdChanged(sender: NSTextField) {
     let text = sender.stringValue
     let userId = !text.isEmpty ? text : nil
-    UserDefaults.standard.set(userId, forKey: "userId")
+    UserDefaults.standard.set(userId, forKey: kMSUserIdKey)
     appCenter.setUserId(userId)
   }
+
   // DeviceID
   class func getDeviceIdentifier() -> String? {
     let platformExpert = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("IOPlatformExpertDevice"))
@@ -45,6 +46,7 @@ class AppCenterViewController : NSViewController {
         IOObjectRelease(platformExpert)
     return baseIdentifier
   }
+
   // Startup Mode
   @IBAction func startupModeChanged(_ sender: NSComboBox) {
     let indexNumber = startupModeField.indexOfItem(withObjectValue: startupModeField.stringValue)
