@@ -4,9 +4,11 @@
 #import "MSChannelUnitProtocol.h"
 #import "MSConstants+Internal.h"
 #import "MSIdentityConfig.h"
+#import "MSIdentityConfigIngestion.h"
 #import "MSIdentityPrivate.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSServiceInternal.h"
+#import "MSUtility+File.h"
 #import <MSAL/MSALPublicClientApplication.h>
 
 // Service name for initialization.
@@ -14,6 +16,12 @@ static NSString *const kMSServiceName = @"Identity";
 
 // The group Id for storage.
 static NSString *const kMSGroupId = @"Identity";
+
+// The path component of Identity for configuration.
+static NSString *const kMSIdentityPathComponent = @"identity";
+
+// The Identity config file name.
+static NSString *const kMSIdentityConfigFilename = @"config.json";
 
 // Singleton
 static MSIdentity *sharedInstance = nil;
@@ -28,6 +36,9 @@ static NSString *const kMSPolicyName = @"";
 static NSString *const kMSAPIIdentifier = @"";
 static NSString *const kMSClientId = @"";
 
+// Lock object for synchronization.
+static NSObject *const lock = @"lock";
+
 @implementation MSIdentity
 
 @synthesize channelUnitConfiguration = _channelUnitConfiguration;
@@ -39,6 +50,9 @@ static NSString *const kMSClientId = @"";
 
     // Init channel configuration.
     _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
+
+    // Create a path component for Identity.
+    [MSUtility createDirectoryForPathComponent:kMSIdentityPathComponent];
   }
   return self;
 }
@@ -63,7 +77,7 @@ static NSString *const kMSClientId = @"";
       transmissionTargetToken:(nullable NSString *)token
               fromApplication:(BOOL)fromApplication {
   [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
-  
+
   MSLogVerbose([MSIdentity logTag], @"Started Identity service.");
 }
 
@@ -85,20 +99,57 @@ static NSString *const kMSClientId = @"";
   [super applyEnabledState:isEnabled];
   if (isEnabled) {
     [self.channelGroup addDelegate:self];
-    // TODO download the config file.
-    self.identityConfig = [self downloadConfig];
-    NSError *error;
-    MSALAuthority *auth = [MSALAuthority authorityWithURL:(NSURL* _Nonnull)self.identityConfig.authorities[0].authorityUrl error:nil];
-    
-    // Init client application.
-    self.clientApplication = [[MSALPublicClientApplication alloc] initWithClientId:(NSString* _Nonnull)self.identityConfig.clientId authority:auth redirectUri:self.identityConfig.redirectUri error:&error];
-    if (error != nil) {
-      MSLogError([MSIdentity logTag], @"Failed to initialize client application.");
+
+    // Read Identity config file.
+    if ([self readIdentityConfig]) {
+
+      [self configMsalClient];
+
+      // TODO: Reag eTag from NSUserDefaults and add If-None-Match to header.
+    } else {
+      MSLogError([MSIdentity logTag], @"Identity config file doesn't exist or invalid.");
     }
+
+    // Download the config file.
+    MSIdentityConfigIngestion *ingestion =
+        [[MSIdentityConfigIngestion alloc] initWithBaseUrl:@"https://mobilecentersdkdev.blob.core.windows.net" appSecret:self.appSecret];
+    [ingestion sendAsync:nil
+        completionHandler:^(__unused NSString *callId, NSUInteger statusCode, NSData *data, __unused NSError *error) {
+          MSIdentityConfig *config = nil;
+          if (statusCode == MSHTTPCodesNo304NotModified) {
+
+            // TODO: Log debug message.
+            return;
+          } else if (statusCode == MSHTTPCodesNo200OK) {
+            config = [self deserializeData:data];
+            if (config) {
+              NSURL *configUrl = [MSUtility createFileAtPathComponent:[self identityConfigFilePath]
+                                                             withData:data
+                                                           atomically:YES
+                                                       forceOverwrite:YES];
+              if (configUrl) {
+
+                // TODO: Store eTag.
+              } else {
+                MSLogWarning([MSIdentity logTag], @"Couldn't create Identity config file.");
+              }
+              self.identityConfig = config;
+
+              // Reinitialize client application.
+              [self configMsalClient];
+            } else {
+
+              // TODO: Update log message, it finally failed to initialize.
+              MSLogError([MSIdentity logTag], @"Identity config file doesn't exist or invalid.");
+            }
+          }
+        }];
+
+    // TODO: Update log message. It has been enabled but might not ready to login.
     MSLogInfo([MSIdentity logTag], @"Identity service has been enabled.");
   } else {
-    
-    //TODO delete config file, eTag;
+
+    // TODO delete config file, eTag;
     self.clientApplication = nil;
     self.accessToken = nil;
     [self.channelGroup removeDelegate:self];
@@ -138,32 +189,72 @@ static NSString *const kMSClientId = @"";
 }
 
 + (void)login {
-  
+
   // TODO protect with canBeUsed.
   [[MSIdentity sharedInstance] login];
 }
 
 - (void)login {
-  
-  // TODO wait for the identity config.
-  if (self.clientApplication == nil && self.identityConfig == nil) {
-    return;
+
+  @synchronized(lock) {
+    if (self.clientApplication == nil && self.identityConfig == nil) {
+      return;
+    }
+    [self.clientApplication acquireTokenForScopes:@[ (NSString * _Nonnull) self.identityConfig.scope ]
+                                  completionBlock:^(MSALResult *result, NSError *e) {
+                                    // TODO: Implement error handling.
+                                    if (e) {
+                                    } else {
+                                      NSString __unused *accountIdentifier = result.account.homeAccountId.identifier;
+                                      self.accessToken = result.accessToken;
+                                    }
+                                  }];
   }
-  [self.clientApplication acquireTokenForScopes:@[ (NSString* _Nonnull)self.identityConfig.scope ]
-                                completionBlock:^(MSALResult *result, NSError *e) {
-                                  // TODO: Implement error handling.
-                                  if (e) {
-                                  } else {
-                                    NSString __unused *accountIdentifier = result.account.homeAccountId.identifier;
-                                    self.accessToken = result.accessToken;
-                                  }
-                                }];
 }
 
 #pragma mark - Private methods
 
--(MSIdentityConfig*)downloadConfig {
-  MSIdentityConfig *config = [MSIdentityConfig new];
+- (NSString *)identityConfigFilePath {
+  return [NSString stringWithFormat:@"%@/%@", kMSIdentityPathComponent, kMSIdentityConfigFilename];
+}
+
+- (BOOL)readIdentityConfig {
+  NSData *configData = [MSUtility loadDataForPathComponent:[self identityConfigFilePath]];
+  self.identityConfig = [self deserializeData:configData];
+  if (self.identityConfig == nil) {
+
+    // TODO: Clean up file and eTag.
+    return NO;
+  }
+  return YES;
+}
+
+- (void)configMsalClient {
+
+  // Init MSAL client application.
+  NSError *error;
+  MSALAuthority *auth = [MSALAuthority authorityWithURL:(NSURL * _Nonnull) self.identityConfig.authorities[0].authorityUrl error:nil];
+  @synchronized(lock) {
+    self.clientApplication = [[MSALPublicClientApplication alloc] initWithClientId:(NSString * _Nonnull) self.identityConfig.clientId
+                                                                         authority:auth
+                                                                       redirectUri:self.identityConfig.redirectUri
+                                                                             error:&error];
+  }
+  if (error != nil) {
+    MSLogError([MSIdentity logTag], @"Failed to initialize client application.");
+  }
+}
+
+- (MSIdentityConfig *)deserializeData:(NSData *)data {
+  NSError *error;
+  MSIdentityConfig *config;
+  if (data) {
+    id dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+    if (error) {
+      MSLogError([MSIdentity logTag], @"Couldn't parse json data: %@", error.localizedDescription);
+    }
+    config = [[MSIdentityConfig alloc] initWithDictionary:dictionary];
+  }
   return config;
 }
 
