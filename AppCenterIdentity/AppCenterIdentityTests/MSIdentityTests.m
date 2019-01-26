@@ -3,7 +3,7 @@
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitProtocol.h"
 #import "MSIdentity.h"
-#import "MSIdentityInternal.h"
+#import "MSIdentityPrivate.h"
 #import "MSTestFrameworks.h"
 
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
