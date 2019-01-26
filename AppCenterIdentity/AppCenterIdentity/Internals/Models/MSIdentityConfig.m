@@ -10,13 +10,15 @@ static NSString *const kMSRedirectUri = @"redirect_uri";
 
 static NSString *const kMSAuthorities = @"authorities";
 
+static NSString *const kMSAuthorityTypeB2C = @"B2C";
+
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
   if (!dictionary) {
     return nil;
   }
   if ((self = [super init])) {
     if (dictionary[kMSIdentityScope]) {
-      self.scope = (NSString * _Nonnull) dictionary[kMSIdentityScope];
+      self.identityScope = (NSString * _Nonnull) dictionary[kMSIdentityScope];
     }
     if (dictionary[kMSClientId]) {
       self.clientId = (NSString * _Nonnull) dictionary[kMSClientId];
@@ -33,6 +35,23 @@ static NSString *const kMSAuthorities = @"authorities";
     }
   }
   return self;
+}
+
+- (BOOL)isValid {
+  return self.identityScope && self.clientId && self.redirectUri && [self areAuthoritiesValid];
+}
+
+- (BOOL)areAuthoritiesValid {
+  BOOL seenDefault = NO;
+  for (MSIdentityAuthority *authority in self.authorities) {
+    if (![authority isValid]) {
+      return NO;
+    }
+    if (authority.defaultAuthority && [authority.type isEqualToString:kMSAuthorityTypeB2C]) {
+      seenDefault = YES;
+    }
+  }
+  return seenDefault;
 }
 
 @end

@@ -27,15 +27,6 @@ static NSString *const kMSIdentityConfigFilename = @"config.json";
 static MSIdentity *sharedInstance = nil;
 static dispatch_once_t onceToken;
 
-// Authentication URL formats.
-static NSString *const kMSConfigUrlFormat = @"https://mobilecentersdkdev.blob.core.windows.net/identity/%@.json";
-
-// Configuration (Temporary). Fill constant values for your backend.
-static NSString *const kMSTenantName = @"";
-static NSString *const kMSPolicyName = @"";
-static NSString *const kMSAPIIdentifier = @"";
-static NSString *const kMSClientId = @"";
-
 // Lock object for synchronization.
 static NSObject *const lock = @"lock";
 
@@ -122,7 +113,7 @@ static NSObject *const lock = @"lock";
             return;
           } else if (statusCode == MSHTTPCodesNo200OK) {
             config = [self deserializeData:data];
-            if (config) {
+            if ([config isValid]) {
               NSURL *configUrl = [MSUtility createFileAtPathComponent:[self identityConfigFilePath]
                                                              withData:data
                                                            atomically:YES
@@ -200,7 +191,7 @@ static NSObject *const lock = @"lock";
     if (self.clientApplication == nil && self.identityConfig == nil) {
       return;
     }
-    [self.clientApplication acquireTokenForScopes:@[ (NSString * _Nonnull) self.identityConfig.scope ]
+    [self.clientApplication acquireTokenForScopes:@[ (NSString * _Nonnull) self.identityConfig.identityScope ]
                                   completionBlock:^(MSALResult *result, NSError *e) {
                                     // TODO: Implement error handling.
                                     if (e) {

@@ -6,7 +6,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MSIdentityConfig : NSObject
 
-@property(nonatomic, copy) NSString *scope;
+@property(nonatomic, copy) NSString *identityScope;
 
 @property(nonatomic, copy) NSString *clientId;
 
@@ -22,6 +22,13 @@ NS_ASSUME_NONNULL_BEGIN
  * @return  A new instance.
  */
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
+
+/**
+ * Checks if the object's values are valid.
+ *
+ * @return YES, if the object is valid.
+ */
+- (BOOL)isValid;
 
 @end
 

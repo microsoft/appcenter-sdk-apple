@@ -19,6 +19,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
+/**
+ * Checks if the object's values are valid.
+ *
+ * @return YES, if the object is valid.
+ */
+- (BOOL)isValid;
+
 @end
 
 NS_ASSUME_NONNULL_END
