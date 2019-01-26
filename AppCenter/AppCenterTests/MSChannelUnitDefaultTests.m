@@ -9,6 +9,7 @@
 #import "MSChannelUnitDefaultPrivate.h"
 #import "MSDevice.h"
 #import "MSHttpIngestion.h"
+#import "MSHttpTestUtil.h"
 #import "MSLogContainer.h"
 #import "MSStorage.h"
 #import "MSTestFrameworks.h"
@@ -141,7 +142,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
     dispatch_async(self.logsDispatchQueue, ^{
       XCTAssertNotNil(ingestionBlock);
       if (ingestionBlock) {
-        ingestionBlock([@(1) stringValue], 200, nil, nil);
+        ingestionBlock([@(1) stringValue], [MSHttpTestUtil createMockResponseForStatusCode:200], nil, nil);
       }
 
       // Then
@@ -231,7 +232,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
     dispatch_async(self.logsDispatchQueue, ^{
       XCTAssertNotNil(ingestionBlock);
       if (ingestionBlock) {
-        ingestionBlock([@(1) stringValue], 300, nil, nil);
+        ingestionBlock([@(1) stringValue], [MSHttpTestUtil createMockResponseForStatusCode:300], nil, nil);
       }
 
       // Then
@@ -534,7 +535,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   dispatch_async(self.logsDispatchQueue, ^{
     XCTAssertNotNil(ingestionBlock);
     if (ingestionBlock) {
-      ingestionBlock([@(1) stringValue], 200, nil, nil);
+      ingestionBlock([@(1) stringValue], [MSHttpTestUtil createMockResponseForStatusCode:200], nil, nil);
     }
 
     // Then

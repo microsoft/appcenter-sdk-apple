@@ -105,13 +105,13 @@ static NSObject *const lock = @"lock";
     MSIdentityConfigIngestion *ingestion =
         [[MSIdentityConfigIngestion alloc] initWithBaseUrl:@"https://mobilecentersdkdev.blob.core.windows.net" appSecret:self.appSecret];
     [ingestion sendAsync:nil
-        completionHandler:^(__unused NSString *callId, NSUInteger statusCode, NSData *data, __unused NSError *error) {
+        completionHandler:^(__unused NSString *callId, NSHTTPURLResponse *response, NSData *data, __unused NSError *error) {
           MSIdentityConfig *config = nil;
-          if (statusCode == MSHTTPCodesNo304NotModified) {
+          if (response.statusCode == MSHTTPCodesNo304NotModified) {
 
             // TODO: Log debug message.
             return;
-          } else if (statusCode == MSHTTPCodesNo200OK) {
+          } else if (response.statusCode == MSHTTPCodesNo200OK) {
             config = [self deserializeData:data];
             if ([config isValid]) {
               NSURL *configUrl = [MSUtility createFileAtPathComponent:[self identityConfigFilePath]
@@ -121,6 +121,7 @@ static NSObject *const lock = @"lock";
               if (configUrl) {
 
                 // TODO: Store eTag.
+
               } else {
                 MSLogWarning([MSIdentity logTag], @"Couldn't create Identity config file.");
               }

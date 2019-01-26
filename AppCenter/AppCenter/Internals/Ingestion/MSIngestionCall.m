@@ -1,6 +1,6 @@
+#import "MSIngestionCall.h"
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterInternal.h"
-#import "MSIngestionCall.h"
 
 @implementation MSIngestionCall
 
@@ -69,7 +69,7 @@
 }
 
 - (void)ingestion:(id<MSIngestionProtocol>)ingestion
-    callCompletedWithStatus:(NSUInteger)statusCode
+    callCompletedWithStatus:(NSHTTPURLResponse *)response
                        data:(nullable NSData *)data
                       error:(NSError *)error {
   BOOL internetIsDown = [MSIngestionUtil isNoInternetConnectionError:error];
@@ -84,8 +84,8 @@
   }
 
   // Retry.
-  else if ([MSIngestionUtil isRecoverableError:statusCode] && ![self hasReachedMaxRetries]) {
-    [self startRetryTimerWithStatusCode:statusCode];
+  else if ([MSIngestionUtil isRecoverableError:response.statusCode] && ![self hasReachedMaxRetries]) {
+    [self startRetryTimerWithStatusCode:response.statusCode];
   }
 
   // Call was a) successful, b) we exhausted retries for a recoverable error or c) have an unrecoverable error.
@@ -93,21 +93,20 @@
 
     // Wrap the status code in an error whenever the call failed.
     // TODO: Handle 2xx codes.
-    if (!error && statusCode != MSHTTPCodesNo200OK) {
+    if (!error && response.statusCode != MSHTTPCodesNo200OK) {
       NSDictionary *userInfo =
-          @{ NSLocalizedDescriptionKey : kMSACConnectionHttpErrorDesc,
-             kMSACConnectionHttpCodeErrorKey : @(statusCode) };
+          @{NSLocalizedDescriptionKey : kMSACConnectionHttpErrorDesc, kMSACConnectionHttpCodeErrorKey : @(response.statusCode)};
       error = [NSError errorWithDomain:kMSACErrorDomain code:kMSACConnectionHttpErrorCode userInfo:userInfo];
     }
 
     // Check for error.
-    BOOL recoverableError = ([MSIngestionUtil isRecoverableError:statusCode] && [self hasReachedMaxRetries]);
+    BOOL recoverableError = ([MSIngestionUtil isRecoverableError:response.statusCode] && [self hasReachedMaxRetries]);
     BOOL fatalError;
     fatalError = recoverableError ? NO : (error && error.code != NSURLErrorCancelled);
 
     // Call completion handler.
     if (self.completionHandler) {
-      self.completionHandler(self.callId, statusCode, data, error);
+      self.completionHandler(self.callId, response, data, error);
     }
 
     // Handle recoverable error.

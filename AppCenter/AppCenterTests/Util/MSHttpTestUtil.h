@@ -14,4 +14,6 @@
 
 + (void)removeAllStubs;
 
++ (NSHTTPURLResponse *)createMockResponseForStatusCode:(int)statusCode;
+
 @end

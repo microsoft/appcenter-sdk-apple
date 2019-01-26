@@ -71,12 +71,12 @@ NS_ASSUME_NONNULL_BEGIN
  * Call completed with error/success.
  *
  * @param ingestion ingestion object.
- * @param statusCode status code.
+ * @param response HTTP response.
  * @param data response data.
  * @param error call error.
  */
 - (void)ingestion:(id<MSIngestionProtocol>)ingestion
-    callCompletedWithStatus:(NSUInteger)statusCode
+    callCompletedWithStatus:(NSHTTPURLResponse *)response
                        data:(nullable NSData *)data
                       error:(NSError *)error;
 
