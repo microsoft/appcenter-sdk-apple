@@ -6,11 +6,11 @@ import AppCenterCrashes
 import AppCenterPush
 
 enum StartupMode: Int {
-    case APPCENTER
-    case ONECOLLECTOR
-    case BOTH
-    case NONE
-    case SKIP
+    case appCenter
+    case oneCollector
+    case both
+    case none
+    case skip
 }
 
 @NSApplicationMain
@@ -63,19 +63,19 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
     let services = [MSAnalytics.self, MSCrashes.self, MSPush.self]
     let startTarget = StartupMode(rawValue: UserDefaults.standard.integer(forKey: kMSStartTargetKey))!
     switch startTarget {
-    case .APPCENTER:
+    case .appCenter:
         MSAppCenter.start(kMSSwiftAppSecret, withServices: services)
         break
-    case .ONECOLLECTOR:
+    case .oneCollector:
         MSAppCenter.start("target=\(kMSSwiftTargetToken)", withServices: services)
         break
-    case .BOTH:
+    case .both:
         MSAppCenter.start("appsecret=\(kMSSwiftAppSecret);target=\(kMSSwiftTargetToken)", withServices: services)
         break
-    case .NONE:
+    case .none:
         MSAppCenter.start(withServices: services)
         break
-    case .SKIP:
+    case .skip:
         break
     }
 
