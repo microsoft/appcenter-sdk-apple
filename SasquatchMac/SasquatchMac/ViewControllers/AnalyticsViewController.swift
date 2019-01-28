@@ -5,7 +5,7 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
 
   class EventProperty : NSObject {
     var key: String = ""
-    var type: String = EventPropertyType.String.rawValue
+    var type: String = EventPropertyType.string.rawValue
     var string: String = ""
     var double: NSNumber = 0
     var long: NSNumber = 0
@@ -14,35 +14,35 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
   }
 
   enum EventPropertyType : String {
-    case String = "String"
-    case Double = "Double"
-    case Long = "Long"
-    case Boolean = "Boolean"
-    case DateTime = "DateTime"
+    case string = "String"
+    case double = "Double"
+    case long = "Long"
+    case boolean = "Boolean"
+    case dateTime = "DateTime"
 
-    static let allValues = [String, Double, Long, Boolean, DateTime]
+    static let allValues = [string, double, long, boolean, dateTime]
   }
 
   enum Priority: String {
-    case Default = "Default"
-    case Normal = "Normal"
-    case Critical = "Critical"
-    case Invalid = "Invalid"
+    case defaultType = "Default"
+    case normal = "Normal"
+    case critical = "Critical"
+    case invalid = "Invalid"
 
     var flags: MSFlags {
       switch self {
-      case .Normal:
+      case .normal:
         return [.persistenceNormal]
-      case .Critical:
+      case .critical:
         return [.persistenceCritical]
-      case .Invalid:
+      case .invalid:
         return MSFlags.init(rawValue: 42)
       default:
         return []
       }
     }
 
-    static let allValues = [Default, Normal, Critical, Invalid]
+    static let allValues = [defaultType, normal, critical, invalid]
   }
 
   var appCenter: AppCenterDelegate = AppCenterProvider.shared().appCenter!
@@ -59,7 +59,7 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
 
   private var textBeforeEditing : String = ""
   private var totalPropsCounter : Int = 0
-  private var priority = Priority.Default
+  private var priority = Priority.defaultType
   dynamic var eventProperties = [EventProperty]()
 
   override func viewDidLoad() {
@@ -83,19 +83,19 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
     let eventName = name.stringValue
     for _ in 0..<Int(countSlider.intValue) {
       if let properties = eventProperties as? MSEventProperties {
-        if priority != .Default {
+        if priority != .defaultType {
           appCenter.trackEvent(eventName, withTypedProperties: properties, flags: priority.flags)
         } else {
           appCenter.trackEvent(eventName, withTypedProperties: properties)
         }
       } else if let dictionary = eventProperties as? [String: String] {
-        if priority != .Default {
+        if priority != .defaultType {
           appCenter.trackEvent(eventName, withProperties: dictionary, flags: priority.flags)
         } else {
           appCenter.trackEvent(eventName, withProperties: dictionary)
         }
       } else {
-        if priority != .Default {
+        if priority != .defaultType {
           appCenter.trackEvent(eventName, withTypedProperties: nil, flags: priority.flags)
         } else {
           appCenter.trackEvent(eventName)
@@ -118,14 +118,14 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
 
   @IBAction func priorityChanged(_ sender: NSComboBox) {
     switch (self.priorityValue.stringValue) {
-    case Priority.Normal.rawValue:
-      self.priority = Priority.Normal
-    case Priority.Critical.rawValue:
-      self.priority = Priority.Critical
-    case Priority.Invalid.rawValue:
-      self.priority = Priority.Invalid
+    case Priority.normal.rawValue:
+      self.priority = Priority.normal
+    case Priority.critical.rawValue:
+      self.priority = Priority.critical
+    case Priority.invalid.rawValue:
+      self.priority = Priority.invalid
     default:
-      self.priority = Priority.Default
+      self.priority = Priority.defaultType
     }
   }
 
@@ -204,19 +204,19 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
         continue
       }
       switch type {
-      case .String:
+      case .string:
         properties.setEventProperty(property.string, forKey: key);
         propertyDictionary[property.key] = property.string
-      case .Double:
+      case .double:
         properties.setEventProperty(property.double.doubleValue, forKey: key)
         onlyStrings = false
-      case .Long:
+      case .long:
         properties.setEventProperty(property.long.int64Value, forKey: key)
         onlyStrings = false
-      case .Boolean:
+      case .boolean:
         properties.setEventProperty(property.boolean, forKey: key)
         onlyStrings = false
-      case .DateTime:
+      case .dateTime:
         properties.setEventProperty(property.dateTime, forKey: key)
         onlyStrings = false
       }
