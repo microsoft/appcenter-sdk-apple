@@ -7,11 +7,11 @@
 
 @implementation MSIdentityConfigIngestion
 
-- (id)initWithBaseUrl:(NSString *)baseUrl appSecret:(NSString *)appSecret {
+- (id)initWithBaseUrl:(NSString *)baseUrl appSecret:(NSString *)appSecret headers:(NSDictionary *)headers {
   NSString *apiPath = [NSString stringWithFormat:@"/identity/%@.json", appSecret];
   if ((self = [super initWithBaseUrl:baseUrl
                              apiPath:apiPath
-                             headers:nil
+                             headers:headers
                         queryStrings:nil
                         reachability:[MS_Reachability reachabilityForInternetConnection]
                       retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]])) {
