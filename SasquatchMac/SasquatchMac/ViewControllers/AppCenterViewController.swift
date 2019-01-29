@@ -18,7 +18,7 @@ class AppCenterViewController : NSViewController {
     installIdLabel?.stringValue = appCenter.installId()
     appSecretLabel?.stringValue = appCenter.appSecret()
     logURLLabel?.stringValue = appCenter.logUrl()
-    userIdLabel?.stringValue = UserDefaults.standard.string(forKey: "userId") ?? ""
+    userIdLabel?.stringValue = UserDefaults.standard.string(forKey: kMSUserIdKey) ?? ""
     setEnabledButton?.state = appCenter.isAppCenterEnabled() ? 1 : 0
 
     deviceIdField?.stringValue = AppCenterViewController.getDeviceIdentifier()!
@@ -38,7 +38,7 @@ class AppCenterViewController : NSViewController {
     appCenter.setUserId(userId)
   }
 
-  // DeviceID
+  // Get device identifier.
   class func getDeviceIdentifier() -> String? {
     let platformExpert = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("IOPlatformExpertDevice"))
     let serialNumberAsCFString = IORegistryEntryCreateCFProperty(platformExpert, kIOPlatformSerialNumberKey as CFString, kCFAllocatorDefault, 0)
@@ -47,7 +47,7 @@ class AppCenterViewController : NSViewController {
     return baseIdentifier
   }
 
-  // Startup Mode
+  // Startup Mode.
   @IBAction func startupModeChanged(_ sender: NSComboBox) {
     let indexNumber = startupModeField.indexOfItem(withObjectValue: startupModeField.stringValue)
     UserDefaults.standard.set(indexNumber, forKey: kMSStartTargetKey)
