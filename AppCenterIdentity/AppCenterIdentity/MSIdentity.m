@@ -112,7 +112,7 @@ static NSObject *const lock = @"lock";
     MSLogInfo([MSIdentity logTag], @"Identity service has been enabled.");
   } else {
 
-    // TODO delete config file, eTag;
+    // TODO delete eTag;
     self.clientApplication = nil;
     self.accessToken = nil;
     [self clearConfigurationCache];
@@ -260,8 +260,7 @@ static NSObject *const lock = @"lock";
 }
 
 - (void)clearConfigurationCache {
-
-  // TODO: Delete the file
+  [MSUtility deleteItemForPathComponent:[self identityConfigFilePath]];
   // TODO: Delete the eTag
 }
 
