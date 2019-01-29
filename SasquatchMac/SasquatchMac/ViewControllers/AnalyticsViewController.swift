@@ -117,12 +117,12 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
   }
 
   @IBAction func priorityChanged(_ sender: NSComboBox) {
-    switch (self.priorityValue.stringValue) {
-    case Priority.normal.rawValue:
+    switch (Priority(rawValue: self.priorityValue.stringValue)!) {
+    case Priority.normal:
       self.priority = Priority.normal
-    case Priority.critical.rawValue:
+    case Priority.critical:
       self.priority = Priority.critical
-    case Priority.invalid.rawValue:
+    case Priority.invalid:
       self.priority = Priority.invalid
     default:
       self.priority = Priority.defaultType
