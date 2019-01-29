@@ -23,6 +23,13 @@ static NSString *const kMSIdentityPathComponent = @"identity";
 // The Identity config file name.
 static NSString *const kMSIdentityConfigFilename = @"config.json";
 
+// The eTag key to store the eTag of current configuration.
+static NSString *const kMSIdentityETagKey = @"MSIdentityETagKey";
+
+// HTTP request/response headers for eTag.
+static NSString *const kMSETagRequestHeader = @"If-None-Match";
+static NSString *const kMSETagResponseHeader = @"etag";
+
 // Singleton
 static MSIdentity *sharedInstance = nil;
 static dispatch_once_t onceToken;
@@ -92,58 +99,21 @@ static NSObject *const lock = @"lock";
     [self.channelGroup addDelegate:self];
 
     // Read Identity config file.
-    if ([self readIdentityConfig]) {
-
-      [self configMsalClient];
-
-      // TODO: Reag eTag from NSUserDefaults and add If-None-Match to header.
+    NSString *eTag = nil;
+    if ([self loadConfigurationFromCache]) {
+      [self configAuthenticationClient];
+      eTag = [MS_USER_DEFAULTS objectForKey:kMSIdentityETagKey];
     } else {
       MSLogError([MSIdentity logTag], @"Identity config file doesn't exist or invalid.");
     }
 
-    // Download the config file.
-    MSIdentityConfigIngestion *ingestion =
-        [[MSIdentityConfigIngestion alloc] initWithBaseUrl:@"https://mobilecentersdkdev.blob.core.windows.net" appSecret:self.appSecret];
-    [ingestion sendAsync:nil
-        completionHandler:^(__unused NSString *callId, NSHTTPURLResponse *response, NSData *data, __unused NSError *error) {
-          MSIdentityConfig *config = nil;
-          if (response.statusCode == MSHTTPCodesNo304NotModified) {
-
-            // TODO: Log debug message.
-            return;
-          } else if (response.statusCode == MSHTTPCodesNo200OK) {
-            config = [self deserializeData:data];
-            if ([config isValid]) {
-              NSURL *configUrl = [MSUtility createFileAtPathComponent:[self identityConfigFilePath]
-                                                             withData:data
-                                                           atomically:YES
-                                                       forceOverwrite:YES];
-              if (configUrl) {
-
-                // TODO: Store eTag.
-
-              } else {
-                MSLogWarning([MSIdentity logTag], @"Couldn't create Identity config file.");
-              }
-              self.identityConfig = config;
-
-              // Reinitialize client application.
-              [self configMsalClient];
-            } else {
-
-              // TODO: Update log message, it finally failed to initialize.
-              MSLogError([MSIdentity logTag], @"Identity config file doesn't exist or invalid.");
-            }
-          }
-        }];
-
-    // TODO: Update log message. It has been enabled but might not ready to login.
+    // Dowload identity configuration.
+    [self downloadConfigurationWithETag:eTag];
     MSLogInfo([MSIdentity logTag], @"Identity service has been enabled.");
   } else {
-
-    // TODO delete config file, eTag;
     self.clientApplication = nil;
     self.accessToken = nil;
+    [self clearConfigurationCache];
     [self.channelGroup removeDelegate:self];
     MSLogInfo([MSIdentity logTag], @"Identity service has been disabled.");
   }
@@ -190,8 +160,10 @@ static NSObject *const lock = @"lock";
 
   @synchronized(lock) {
     if (self.clientApplication == nil && self.identityConfig == nil) {
+      self.loginDelayed = YES;
       return;
     }
+    self.loginDelayed = NO;
     [self.clientApplication acquireTokenForScopes:@[ (NSString * _Nonnull) self.identityConfig.identityScope ]
                                   completionBlock:^(MSALResult *result, NSError *e) {
                                     // TODO: Implement error handling.
@@ -210,18 +182,74 @@ static NSObject *const lock = @"lock";
   return [NSString stringWithFormat:@"%@/%@", kMSIdentityPathComponent, kMSIdentityConfigFilename];
 }
 
-- (BOOL)readIdentityConfig {
+- (BOOL)loadConfigurationFromCache {
   NSData *configData = [MSUtility loadDataForPathComponent:[self identityConfigFilePath]];
   self.identityConfig = [self deserializeData:configData];
   if (self.identityConfig == nil) {
-
-    // TODO: Clean up file and eTag.
+    [self clearConfigurationCache];
     return NO;
   }
   return YES;
 }
 
-- (void)configMsalClient {
+- (void)downloadConfigurationWithETag:(NSString *)eTag {
+
+  // Build HTTP header for eTag.
+  NSDictionary *headers = nil;
+  if (eTag != nil) {
+    headers = @{kMSETagRequestHeader : eTag};
+  }
+
+  // Download configuration.
+  MSIdentityConfigIngestion *ingestion =
+      [[MSIdentityConfigIngestion alloc] initWithBaseUrl:@"https://mobilecentersdkdev.blob.core.windows.net"
+                                               appSecret:self.appSecret
+                                                 headers:headers];
+  [ingestion sendAsync:nil
+      completionHandler:^(__unused NSString *callId, NSHTTPURLResponse *response, NSData *data, __unused NSError *error) {
+        MSIdentityConfig *config = nil;
+        if (response.statusCode == MSHTTPCodesNo304NotModified) {
+          MSLogInfo([MSIdentity logTag], @"Identity configuration hasn't changed.");
+        } else if (response.statusCode == MSHTTPCodesNo200OK) {
+          config = [self deserializeData:data];
+          if ([config isValid]) {
+            NSURL *configUrl = [MSUtility createFileAtPathComponent:[self identityConfigFilePath]
+                                                           withData:data
+                                                         atomically:YES
+                                                     forceOverwrite:YES];
+
+            // Store eTag only when the configuration file is created successfully.
+            if (configUrl) {
+
+              // Response header keys are case-insensitive but NSHTTPURLResponse contains case sensitive keys in Dictionary.
+              for (NSString *key in response.allHeaderFields.allKeys) {
+                if ([[key lowercaseString] isEqualToString:kMSETagResponseHeader]) {
+                  [MS_USER_DEFAULTS setObject:(_Nonnull id)response.allHeaderFields[key] forKey:kMSIdentityETagKey];
+                  break;
+                }
+              }
+            } else {
+              MSLogWarning([MSIdentity logTag], @"Couldn't create Identity config file.");
+            }
+            self.identityConfig = config;
+
+            // Reinitialize client application.
+            [self configAuthenticationClient];
+
+            // Login if it is delayed.
+            if (self.loginDelayed) {
+              [self login];
+            }
+          } else {
+            MSLogError([MSIdentity logTag], @"Downloaded identity configuration is not valid.");
+          }
+        } else {
+          MSLogError([MSIdentity logTag], @"Failed to download identity configuration. Status code received: %ld",
+                     (long)response.statusCode);
+        }
+      }];
+}
+- (void)configAuthenticationClient {
 
   // Init MSAL client application.
   NSError *error;
@@ -235,6 +263,11 @@ static NSObject *const lock = @"lock";
   if (error != nil) {
     MSLogError([MSIdentity logTag], @"Failed to initialize client application.");
   }
+}
+
+- (void)clearConfigurationCache {
+  [MSUtility deleteItemForPathComponent:[self identityConfigFilePath]];
+  [MS_USER_DEFAULTS removeObjectForKey:kMSIdentityETagKey];
 }
 
 - (MSIdentityConfig *)deserializeData:(NSData *)data {

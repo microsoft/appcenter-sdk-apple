@@ -7,11 +7,11 @@
 
 @implementation MSIdentityConfigIngestion
 
-- (id)initWithBaseUrl:(NSString *)baseUrl appSecret:(NSString *)appSecret {
+- (id)initWithBaseUrl:(NSString *)baseUrl appSecret:(NSString *)appSecret headers:(NSDictionary *)headers {
   NSString *apiPath = [NSString stringWithFormat:@"/identity/%@.json", appSecret];
   if ((self = [super initWithBaseUrl:baseUrl
                              apiPath:apiPath
-                             headers:nil
+                             headers:headers
                         queryStrings:nil
                         reachability:[MS_Reachability reachabilityForInternetConnection]
                       retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]])) {
@@ -22,10 +22,15 @@
 }
 
 - (NSURLRequest *)createRequest:(NSObject *)__unused data {
-  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.sendURL];
+
+  // Ignoring local cache data to receive 304 when configuration hasn't changed since last download.
+  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.sendURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:0];
 
   // Set method.
   request.HTTPMethod = @"GET";
+
+  // Set Header params.
+  request.allHTTPHeaderFields = self.httpHeaders;
 
   // Always disable cookies.
   [request setHTTPShouldHandleCookies:NO];

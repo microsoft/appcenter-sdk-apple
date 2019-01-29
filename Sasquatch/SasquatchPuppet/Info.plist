@@ -25,7 +25,7 @@
 			<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>appcenter-3ccfe7f5-ec01-4de5-883c-f563bbbe147a</string>
+				<string>appcenter-7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7</string>
 			</array>
 		</dict>
 		<dict>
@@ -35,7 +35,7 @@
 			<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>msal3ccfe7f5-ec01-4de5-883c-f563bbbe147a</string>
+				<string>msal7dfb022a-17b5-4d4a-9c75-12bc3ef5e6b7</string>
 			</array>
 		</dict>
 	</array>

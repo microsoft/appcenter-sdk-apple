@@ -17,10 +17,11 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param baseUrl Base url.
  * @param appSecret A unique and secret key used to identify the application.
+ * @param headers Http headers.
  *
  * @return An ingestion instance.
  */
-- (id)initWithBaseUrl:(nullable NSString *)baseUrl appSecret:(NSString *)appSecret;
+- (id)initWithBaseUrl:(nullable NSString *)baseUrl appSecret:(NSString *)appSecret headers:(NSDictionary *)headers;
 
 @end
 
