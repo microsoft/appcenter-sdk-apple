@@ -28,7 +28,7 @@ static NSString *const kMSIdentityETagKey = @"MSIdentityETagKey";
 
 // HTTP request/response headers for eTag.
 static NSString *const kMSETagRequestHeader = @"If-None-Match";
-static NSString *const kMSETagResponseHeader = @"ETag";
+static NSString *const kMSETagResponseHeader = @"etag";
 
 // Singleton
 static MSIdentity *sharedInstance = nil;
@@ -220,7 +220,14 @@ static NSObject *const lock = @"lock";
 
             // Store eTag only when the configuration file is created successfully.
             if (configUrl) {
-              [MS_USER_DEFAULTS setObject:(_Nonnull id)response.allHeaderFields[kMSETagResponseHeader] forKey:kMSIdentityETagKey];
+
+              // Response header keys are case-insensitive but NSHTTPURLResponse contains case sensitive keys in Dictionary.
+              for (NSString *key in response.allHeaderFields.allKeys) {
+                if ([[key lowercaseString] isEqualToString:kMSETagResponseHeader]) {
+                  [MS_USER_DEFAULTS setObject:(_Nonnull id)response.allHeaderFields[key] forKey:kMSIdentityETagKey];
+                  break;
+                }
+              }
             } else {
               MSLogWarning([MSIdentity logTag], @"Couldn't create Identity config file.");
             }
