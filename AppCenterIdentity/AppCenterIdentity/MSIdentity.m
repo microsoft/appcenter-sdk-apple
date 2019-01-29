@@ -100,14 +100,15 @@ static NSObject *const lock = @"lock";
     } else {
       MSLogError([MSIdentity logTag], @"Identity config file doesn't exist or invalid.");
     }
-    
+
     [self downloadConfiguration];
 
     // TODO: Update log message. It has been enabled but might not ready to login.
     MSLogInfo([MSIdentity logTag], @"Identity service has been enabled.");
   } else {
 
-    // TODO delete config file, eTag;
+    // TODO delete eTag;
+    [MSUtility deleteItemForPathComponent:[self identityConfigFilePath]];
     self.clientApplication = nil;
     self.accessToken = nil;
     [self clearConfigurationCache];
@@ -192,41 +193,41 @@ static NSObject *const lock = @"lock";
 
 - (void)downloadConfiguration {
   MSIdentityConfigIngestion *ingestion =
-  [[MSIdentityConfigIngestion alloc] initWithBaseUrl:@"https://mobilecentersdkdev.blob.core.windows.net" appSecret:self.appSecret];
+      [[MSIdentityConfigIngestion alloc] initWithBaseUrl:@"https://mobilecentersdkdev.blob.core.windows.net" appSecret:self.appSecret];
   [ingestion sendAsync:nil
-     completionHandler:^(__unused NSString *callId, NSHTTPURLResponse *response, NSData *data, __unused NSError *error) {
-       MSIdentityConfig *config = nil;
-       if (response.statusCode == MSHTTPCodesNo304NotModified) {
-         
-         // TODO: Log debug message.
-         return;
-       } else if (response.statusCode == MSHTTPCodesNo200OK) {
-         config = [self deserializeData:data];
-         if ([config isValid]) {
-           NSURL *configUrl = [MSUtility createFileAtPathComponent:[self identityConfigFilePath]
-                                                          withData:data
-                                                        atomically:YES
-                                                    forceOverwrite:YES];
-           if (configUrl) {
-             
-             // TODO: Store eTag.
-             
-           } else {
-             MSLogWarning([MSIdentity logTag], @"Couldn't create Identity config file.");
-           }
-           self.identityConfig = config;
-           
-           // Reinitialize client application.
-           [self configAuthenticationClient];
-           
-           // TODO: Should we login here?
-         } else {
-           
-           // TODO: Update log message, it finally failed to initialize.
-           MSLogError([MSIdentity logTag], @"Identity config file doesn't exist or invalid.");
-         }
-       }
-     }];
+      completionHandler:^(__unused NSString *callId, NSHTTPURLResponse *response, NSData *data, __unused NSError *error) {
+        MSIdentityConfig *config = nil;
+        if (response.statusCode == MSHTTPCodesNo304NotModified) {
+
+          // TODO: Log debug message.
+          return;
+        } else if (response.statusCode == MSHTTPCodesNo200OK) {
+          config = [self deserializeData:data];
+          if ([config isValid]) {
+            NSURL *configUrl = [MSUtility createFileAtPathComponent:[self identityConfigFilePath]
+                                                           withData:data
+                                                         atomically:YES
+                                                     forceOverwrite:YES];
+            if (configUrl) {
+
+              // TODO: Store eTag.
+
+            } else {
+              MSLogWarning([MSIdentity logTag], @"Couldn't create Identity config file.");
+            }
+            self.identityConfig = config;
+
+            // Reinitialize client application.
+            [self configAuthenticationClient];
+
+            // TODO: Should we login here?
+          } else {
+
+            // TODO: Update log message, it finally failed to initialize.
+            MSLogError([MSIdentity logTag], @"Identity config file doesn't exist or invalid.");
+          }
+        }
+      }];
 }
 - (void)configAuthenticationClient {
 
