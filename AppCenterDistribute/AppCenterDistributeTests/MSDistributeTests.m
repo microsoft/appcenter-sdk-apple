@@ -758,7 +758,9 @@ static NSURL *sfURL;
   OCMStub([ingestionCallMock alloc]).andReturn(ingestionCallMock);
   OCMReject([ingestionCallMock startRetryTimerWithStatusCode:404]);
   OCMStub([ingestionCallMock ingestion:OCMOCK_ANY
-               callCompletedWithStatus:[MSHttpTestUtil createMockResponseForStatusCode:404]
+               callCompletedWithStatus:[OCMArg checkWithBlock:^BOOL(NSHTTPURLResponse *response) {
+                 return response.statusCode == 404;
+               }]
                                   data:OCMOCK_ANY
                                  error:OCMOCK_ANY])
       .andForwardToRealObject()
@@ -814,7 +816,9 @@ static NSURL *sfURL;
   OCMStub([ingestionCallMock alloc]).andReturn(ingestionCallMock);
   OCMStub([ingestionCallMock startRetryTimerWithStatusCode:500]).andDo(nil);
   OCMStub([ingestionCallMock ingestion:OCMOCK_ANY
-               callCompletedWithStatus:[MSHttpTestUtil createMockResponseForStatusCode:500]
+               callCompletedWithStatus:[OCMArg checkWithBlock:^BOOL(NSHTTPURLResponse *response) {
+                 return response.statusCode == 500;
+               }]
                                   data:OCMOCK_ANY
                                  error:OCMOCK_ANY])
       .andForwardToRealObject()
@@ -2085,7 +2089,9 @@ static NSURL *sfURL;
   OCMStub([ingestionCallMock alloc]).andReturn(ingestionCallMock);
   OCMReject([ingestionCallMock startRetryTimerWithStatusCode:404]);
   OCMStub([ingestionCallMock ingestion:OCMOCK_ANY
-               callCompletedWithStatus:[MSHttpTestUtil createMockResponseForStatusCode:404]
+               callCompletedWithStatus:[OCMArg checkWithBlock:^BOOL(NSHTTPURLResponse *response) {
+                 return response.statusCode == 404;
+               }]
                                   data:OCMOCK_ANY
                                  error:OCMOCK_ANY])
       .andForwardToRealObject()

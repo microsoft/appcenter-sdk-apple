@@ -246,7 +246,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 #pragma clang diagnostic pop
 
   OCMStub([mockedCall ingestion:self.sut
-              callCompletedWithStatus:[MSHttpTestUtil createMockResponseForStatusCode:500]
+              callCompletedWithStatus:[OCMArg checkWithBlock:^BOOL(NSHTTPURLResponse *response) {
+                return response.statusCode == 500;
+              }]
                                  data:OCMOCK_ANY
                                 error:OCMOCK_ANY])
       .andForwardToRealObject()
@@ -298,7 +300,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 #pragma clang diagnostic pop
 
   OCMStub([mockedCall ingestion:self.sut
-              callCompletedWithStatus:[MSHttpTestUtil createMockResponseForStatusCode:500]
+              callCompletedWithStatus:[OCMArg checkWithBlock:^BOOL(NSHTTPURLResponse *response) {
+                return response.statusCode == 500;
+              }]
                                  data:OCMOCK_ANY
                                 error:OCMOCK_ANY])
       .andForwardToRealObject()

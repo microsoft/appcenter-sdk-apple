@@ -99,6 +99,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
     [invocation getArgument:&ingestionBlock atIndex:3];
     [invocation getArgument:&logContainer atIndex:2];
   });
+  __block id responseMock = [MSHttpTestUtil createMockResponseForStatusCode:200];
 
   // Stub the storage load for that log.
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
@@ -142,7 +143,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
     dispatch_async(self.logsDispatchQueue, ^{
       XCTAssertNotNil(ingestionBlock);
       if (ingestionBlock) {
-        ingestionBlock([@(1) stringValue], [MSHttpTestUtil createMockResponseForStatusCode:200], nil, nil);
+        ingestionBlock([@(1) stringValue], responseMock, nil, nil);
       }
 
       // Then
@@ -166,6 +167,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
+  [responseMock stopMocking];
 }
 
 - (void)testLogsSentWithFailure {
@@ -190,6 +192,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
     [invocation getArgument:&ingestionBlock atIndex:3];
     [invocation getArgument:&logContainer atIndex:2];
   });
+  __block id responseMock = [MSHttpTestUtil createMockResponseForStatusCode:300];
 
   // Stub the storage load for that log.
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
@@ -232,7 +235,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
     dispatch_async(self.logsDispatchQueue, ^{
       XCTAssertNotNil(ingestionBlock);
       if (ingestionBlock) {
-        ingestionBlock([@(1) stringValue], [MSHttpTestUtil createMockResponseForStatusCode:300], nil, nil);
+        ingestionBlock([@(1) stringValue], responseMock, nil, nil);
       }
 
       // Then
@@ -254,6 +257,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
+  [responseMock stopMocking];
 }
 
 - (void)testEnqueuingItemsWillIncreaseCounter {
@@ -501,6 +505,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
     [invocation getArgument:&ingestionBlock atIndex:3];
     [invocation getArgument:&lastBatchLogContainer atIndex:2];
   });
+  __block id responseMock = [MSHttpTestUtil createMockResponseForStatusCode:200];
 
   // Stub the storage load for that log.
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
@@ -535,7 +540,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   dispatch_async(self.logsDispatchQueue, ^{
     XCTAssertNotNil(ingestionBlock);
     if (ingestionBlock) {
-      ingestionBlock([@(1) stringValue], [MSHttpTestUtil createMockResponseForStatusCode:200], nil, nil);
+      ingestionBlock([@(1) stringValue], responseMock, nil, nil);
     }
 
     // Then
@@ -561,6 +566,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
+  [responseMock stopMocking];
 }
 
 - (void)testDontForwardLogsToIngestionOnDisabled {
