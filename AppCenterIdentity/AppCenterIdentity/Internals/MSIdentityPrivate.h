@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic, nullable) MSIdentityConfig *identityConfig;
 
+@property(nonatomic) BOOL loginDelayed;
+
 + (void)resetSharedInstance;
 
 @end
