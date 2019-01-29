@@ -108,7 +108,6 @@ static NSObject *const lock = @"lock";
   } else {
 
     // TODO delete eTag;
-    [MSUtility deleteItemForPathComponent:[self identityConfigFilePath]];
     self.clientApplication = nil;
     self.accessToken = nil;
     [self clearConfigurationCache];
@@ -246,8 +245,7 @@ static NSObject *const lock = @"lock";
 }
 
 - (void)clearConfigurationCache {
-
-  // TODO: Delete the file
+  [MSUtility deleteItemForPathComponent:[self identityConfigFilePath]];
   // TODO: Delete the eTag
 }
 
