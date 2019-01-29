@@ -24,7 +24,9 @@
 - (NSURLRequest *)createRequest:(NSObject *)__unused data {
 
   // Ignoring local cache data to receive 304 when configuration hasn't changed since last download.
-  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.sendURL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:0];
+  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.sendURL
+                                                         cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
+                                                     timeoutInterval:0];
 
   // Set method.
   request.HTTPMethod = @"GET";

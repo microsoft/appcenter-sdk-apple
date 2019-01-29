@@ -12,7 +12,45 @@
 
 #pragma mark - Tests
 
+- (void)testConfigInitWithNilDictionary {
+
+  // When
+  MSIdentityConfig *config = [[MSIdentityConfig alloc] initWithDictionary:(_Nonnull id)nil];
+
+  // Then
+  XCTAssertNil(config);
+}
+
+- (void)testConfigInitWithDictionary {
+
+  // If
+  NSDictionary *dic = @{
+    @"identity_scope" : @"scope",
+    @"client_id" : @"clientId",
+    @"redirect_uri" : @"https://contoso.com/identity/path",
+    @"authorities" : @[
+      @{@"type" : @"B2C", @"default" : @YES, @"authority_url" : @"https://contoso.com/identity/path1"},
+      @{@"type" : @"RandomType", @"default" : @NO, @"authority_url" : @"https://contoso.com/identity/path2"}
+    ]
+  };
+
+  // When
+  MSIdentityConfig *config = [[MSIdentityConfig alloc] initWithDictionary:dic];
+
+  // Then
+  XCTAssertEqualObjects(dic[@"identity_scope"], config.identityScope);
+  XCTAssertEqualObjects(dic[@"client_id"], config.clientId);
+  XCTAssertEqualObjects(dic[@"redirect_uri"], config.redirectUri);
+  for (NSUInteger i = 0; i < config.authorities.count; i++) {
+    NSDictionary *authority = dic[@"authorities"][i];
+    XCTAssertEqualObjects(authority[@"type"], config.authorities[i].type);
+    XCTAssertEqual([authority[@"default"] boolValue], ((MSIdentityAuthority *)config.authorities[i]).defaultAuthority);
+    XCTAssertEqualObjects([NSURL URLWithString:authority[@"authority_url"]], config.authorities[i].authorityUrl);
+  }
+}
+
 - (void)testConfigIsValid {
+
   // If
   MSIdentityConfig *config = [MSIdentityConfig new];
 
@@ -56,6 +94,7 @@
 }
 
 - (void)testMultipleAuthorities {
+
   // If
   MSIdentityConfig *config = [MSIdentityConfig new];
   config.identityScope = @"scope";
@@ -64,7 +103,7 @@
 
   MSIdentityAuthority *auth1 = [MSIdentityAuthority new];
   auth1.type = @"RandomType";
-  auth1.defaultAuthority = false;
+  auth1.defaultAuthority = NO;
   NSURL *URL1 = [NSURL URLWithString:@"https://contoso.com/identity/path"];
   auth1.authorityUrl = URL1;
 
@@ -77,7 +116,7 @@
   // When
   MSIdentityAuthority *auth2 = [MSIdentityAuthority new];
   auth2.type = @"B2C";
-  auth2.defaultAuthority = true;
+  auth2.defaultAuthority = YES;
   NSURL *URL2 = [NSURL URLWithString:@"https://contoso.com/identity/path"];
   auth2.authorityUrl = URL2;
 
