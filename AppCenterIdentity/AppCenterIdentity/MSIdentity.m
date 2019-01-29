@@ -111,8 +111,6 @@ static NSObject *const lock = @"lock";
     [self downloadConfigurationWithETag:eTag];
     MSLogInfo([MSIdentity logTag], @"Identity service has been enabled.");
   } else {
-
-    // TODO delete eTag;
     self.clientApplication = nil;
     self.accessToken = nil;
     [self clearConfigurationCache];
@@ -188,8 +186,7 @@ static NSObject *const lock = @"lock";
   NSData *configData = [MSUtility loadDataForPathComponent:[self identityConfigFilePath]];
   self.identityConfig = [self deserializeData:configData];
   if (self.identityConfig == nil) {
-
-    // TODO: Clean up file and eTag.
+    [self clearConfigurationCache];
     return NO;
   }
   return YES;
@@ -205,7 +202,9 @@ static NSObject *const lock = @"lock";
 
   // Download configuration.
   MSIdentityConfigIngestion *ingestion =
-  [[MSIdentityConfigIngestion alloc] initWithBaseUrl:@"https://mobilecentersdkdev.blob.core.windows.net" appSecret:self.appSecret headers:headers];
+      [[MSIdentityConfigIngestion alloc] initWithBaseUrl:@"https://mobilecentersdkdev.blob.core.windows.net"
+                                               appSecret:self.appSecret
+                                                 headers:headers];
   [ingestion sendAsync:nil
       completionHandler:^(__unused NSString *callId, NSHTTPURLResponse *response, NSData *data, __unused NSError *error) {
         MSIdentityConfig *config = nil;
@@ -261,7 +260,7 @@ static NSObject *const lock = @"lock";
 
 - (void)clearConfigurationCache {
   [MSUtility deleteItemForPathComponent:[self identityConfigFilePath]];
-  // TODO: Delete the eTag
+  [MS_USER_DEFAULTS removeObjectForKey:kMSIdentityETagKey];
 }
 
 - (MSIdentityConfig *)deserializeData:(NSData *)data {
