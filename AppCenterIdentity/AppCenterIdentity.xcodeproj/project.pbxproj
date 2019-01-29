@@ -61,6 +61,8 @@
 		0446DF621F3B95EB00C8E338 /* libAppCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0446DF611F3B95EB00C8E338 /* libAppCenter.a */; };
 		0446DF641F3B95F200C8E338 /* libAppCenter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0446DF631F3B95F200C8E338 /* libAppCenter.a */; };
 		046AEACB1ECA554600CBE511 /* libAppCenterIdentity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0485AF851EAA79E300C10CAF /* libAppCenterIdentity.a */; };
+		04774644220112450045504A /* MSIdentityAuthorityTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A0D73FD2200CD540085FDE3 /* MSIdentityAuthorityTest.m */; };
+		04774645220112480045504A /* MSIdentityConfigTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A0D74022200EB400085FDE3 /* MSIdentityConfigTest.m */; };
 		0481A54B21FA511C001FA9D8 /* MSIdentityConfigIngestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 0481A54921FA511C001FA9D8 /* MSIdentityConfigIngestion.m */; };
 		0481A54C21FA511C001FA9D8 /* MSIdentityConfigIngestion.h in Headers */ = {isa = PBXBuildFile; fileRef = 0481A54A21FA511C001FA9D8 /* MSIdentityConfigIngestion.h */; };
 		0481A54D21FA51D4001FA9D8 /* MSIdentityConfigIngestion.h in Headers */ = {isa = PBXBuildFile; fileRef = 0481A54A21FA511C001FA9D8 /* MSIdentityConfigIngestion.h */; };
@@ -732,7 +734,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				F82E4C72217F1FA600EDAB34 /* sqlite3.c in Sources */,
+				04774645220112480045504A /* MSIdentityConfigTest.m in Sources */,
 				1A15692521F11B09001E9452 /* MSIdentityTests.m in Sources */,
+				04774644220112450045504A /* MSIdentityAuthorityTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
