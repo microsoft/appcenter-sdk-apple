@@ -76,9 +76,9 @@ NS_ASSUME_NONNULL_BEGIN
  * @param error call error.
  */
 - (void)ingestion:(id<MSIngestionProtocol>)ingestion
-    callCompletedWithStatus:(NSHTTPURLResponse *)response
-                       data:(nullable NSData *)data
-                      error:(NSError *)error;
+    callCompletedWithResponse:(NSHTTPURLResponse *)response
+                         data:(nullable NSData *)data
+                        error:(NSError *)error;
 
 @end
 

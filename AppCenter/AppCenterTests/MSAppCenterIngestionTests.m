@@ -154,7 +154,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   mockedCall.completionHandler = nil;
 #pragma clang diagnostic pop
 
-  OCMStub([mockedCall ingestion:self.sut callCompletedWithStatus:0 data:OCMOCK_ANY error:OCMOCK_ANY])
+  OCMStub([mockedCall ingestion:self.sut callCompletedWithResponse:[OCMArg isNil] data:OCMOCK_ANY error:OCMOCK_ANY])
       .andForwardToRealObject()
       .andDo(^(__unused NSInvocation *invocation) {
         [requestCompletedExcpectation fulfill];
@@ -246,11 +246,11 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 #pragma clang diagnostic pop
 
   OCMStub([mockedCall ingestion:self.sut
-              callCompletedWithStatus:[OCMArg checkWithBlock:^BOOL(NSHTTPURLResponse *response) {
+              callCompletedWithResponse:[OCMArg checkWithBlock:^BOOL(NSHTTPURLResponse *response) {
                 return response.statusCode == 500;
               }]
-                                 data:OCMOCK_ANY
-                                error:OCMOCK_ANY])
+                                   data:OCMOCK_ANY
+                                  error:OCMOCK_ANY])
       .andForwardToRealObject()
       .andDo(^(__unused NSInvocation *invocation) {
         /*
@@ -300,11 +300,11 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 #pragma clang diagnostic pop
 
   OCMStub([mockedCall ingestion:self.sut
-              callCompletedWithStatus:[OCMArg checkWithBlock:^BOOL(NSHTTPURLResponse *response) {
+              callCompletedWithResponse:[OCMArg checkWithBlock:^BOOL(NSHTTPURLResponse *response) {
                 return response.statusCode == 500;
               }]
-                                 data:OCMOCK_ANY
-                                error:OCMOCK_ANY])
+                                   data:OCMOCK_ANY
+                                  error:OCMOCK_ANY])
       .andForwardToRealObject()
       .andDo(^(__unused NSInvocation *invocation) {
         [responseReceivedExcpectation fulfill];

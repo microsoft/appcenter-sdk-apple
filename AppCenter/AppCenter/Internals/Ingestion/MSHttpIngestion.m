@@ -217,7 +217,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
                             // Call handles the completion.
                             if (call) {
                               call.submitted = NO;
-                              [call ingestion:self callCompletedWithStatus:httpResponse data:data error:error];
+                              [call ingestion:self callCompletedWithResponse:httpResponse data:data error:error];
                             }
                           }
                         }];

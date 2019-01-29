@@ -69,9 +69,9 @@
 }
 
 - (void)ingestion:(id<MSIngestionProtocol>)ingestion
-    callCompletedWithStatus:(NSHTTPURLResponse *)response
-                       data:(nullable NSData *)data
-                      error:(NSError *)error {
+    callCompletedWithResponse:(NSHTTPURLResponse *)response
+                         data:(nullable NSData *)data
+                        error:(NSError *)error {
   BOOL internetIsDown = [MSIngestionUtil isNoInternetConnectionError:error];
   BOOL couldNotEstablishSecureConnection = [MSIngestionUtil isSSLConnectionError:error];
 
