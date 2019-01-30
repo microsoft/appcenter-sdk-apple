@@ -3,6 +3,9 @@
 #import "MSIdentityConfig.h"
 #import "MSServiceInternal.h"
 
+// The eTag key to store the eTag of current configuration.
+static NSString *const kMSIdentityETagKey = @"MSIdentityETagKey";
+
 @class MSALPublicClientApplication;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -18,6 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) BOOL loginDelayed;
 
 + (void)resetSharedInstance;
+
+- (NSString *)identityConfigFilePath;
 
 @end
 

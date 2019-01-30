@@ -23,9 +23,6 @@ static NSString *const kMSIdentityPathComponent = @"identity";
 // The Identity config file name.
 static NSString *const kMSIdentityConfigFilename = @"config.json";
 
-// The eTag key to store the eTag of current configuration.
-static NSString *const kMSIdentityETagKey = @"MSIdentityETagKey";
-
 // HTTP request/response headers for eTag.
 static NSString *const kMSETagRequestHeader = @"If-None-Match";
 static NSString *const kMSETagResponseHeader = @"etag";
