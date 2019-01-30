@@ -554,7 +554,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   NSData *httpBody = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
 
   // When
-  NSURLRequest *request = [self.sut createRequest:logContainer];
+  NSURLRequest *request = [self.sut createRequest:logContainer eTag:nil];
 
   // Then
   XCTAssertEqualObjects(request.HTTPBody, httpBody);
@@ -568,7 +568,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   httpBody = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
 
   // When
-  request = [self.sut createRequest:logContainer];
+  request = [self.sut createRequest:logContainer eTag:nil];
 
   // Then
   XCTAssertTrue(request.HTTPBody.length < httpBody.length);

@@ -62,7 +62,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   // When
   NSString *containerId = @"1";
   MSLogContainer *container = [self createLogContainerWithId:containerId];
-  NSURLRequest *request = [self.sut createRequest:container];
+  NSURLRequest *request = [self.sut createRequest:container eTag:nil];
   NSArray *keys = [request.allHTTPHeaderFields allKeys];
 
   // Then
@@ -135,7 +135,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   MSLogContainer *logContainer = [[MSLogContainer alloc] initWithBatchId:containerId andLogs:(NSArray<id<MSLog>> *)@[ log1, log2 ]];
 
   // When
-  NSURLRequest *request = [self.sut createRequest:logContainer];
+  NSURLRequest *request = [self.sut createRequest:logContainer eTag:nil];
 
   // Then
   XCTAssertNotNil(request);
@@ -269,7 +269,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   NSData *httpBody = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
 
   // When
-  NSURLRequest *request = [self.sut createRequest:logContainer];
+  NSURLRequest *request = [self.sut createRequest:logContainer eTag:nil];
 
   // Then
   XCTAssertNil(request.allHTTPHeaderFields[kMSHeaderContentEncodingKey]);
@@ -298,7 +298,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   NSData *httpBody = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
 
   // When
-  NSURLRequest *request = [self.sut createRequest:logContainer];
+  NSURLRequest *request = [self.sut createRequest:logContainer eTag:nil];
 
   // Then
   XCTAssertEqual(request.allHTTPHeaderFields[kMSHeaderContentEncodingKey], kMSHeaderContentEncoding);
