@@ -189,10 +189,9 @@ static NSObject *const lock = @"lock";
 
   // Download configuration.
   MSIdentityConfigIngestion *ingestion =
-      [[MSIdentityConfigIngestion alloc] initWithBaseUrl:@"https://mobilecentersdkdev.blob.core.windows.net"
-                                               appSecret:self.appSecret];
+      [[MSIdentityConfigIngestion alloc] initWithBaseUrl:@"https://mobilecentersdkdev.blob.core.windows.net" appSecret:self.appSecret];
   [ingestion sendAsync:nil
-                  eTag:eTag
+                   eTag:eTag
       completionHandler:^(__unused NSString *callId, NSHTTPURLResponse *response, NSData *data, __unused NSError *error) {
         MSIdentityConfig *config = nil;
         if (response.statusCode == MSHTTPCodesNo304NotModified) {

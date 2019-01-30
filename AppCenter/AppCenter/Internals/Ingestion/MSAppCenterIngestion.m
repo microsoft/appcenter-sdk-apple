@@ -15,16 +15,11 @@ static NSString *const kMSApiPath = @"/logs";
 
 - (id)initWithBaseUrl:(NSString *)baseUrl installId:(NSString *)installId {
   self = [super initWithBaseUrl:baseUrl
-      apiPath:kMSApiPath
-      headers:@{
-        kMSHeaderContentTypeKey : kMSAppCenterContentType,
-        kMSHeaderInstallIDKey : installId
-      }
-      queryStrings:@{
-        kMSAPIVersionKey : kMSAPIVersion
-      }
-      reachability:[MS_Reachability reachabilityForInternetConnection]
-      retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]];
+                        apiPath:kMSApiPath
+                        headers:@{kMSHeaderContentTypeKey : kMSAppCenterContentType, kMSHeaderInstallIDKey : installId}
+                   queryStrings:@{kMSAPIVersionKey : kMSAPIVersion}
+                   reachability:[MS_Reachability reachabilityForInternetConnection]
+                 retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]];
   return self;
 }
 
@@ -53,7 +48,7 @@ static NSString *const kMSApiPath = @"/logs";
   [super sendAsync:container eTag:nil callId:container.batchId completionHandler:handler];
 }
 
-- (NSURLRequest *)createRequest:(NSObject *)data eTag:(NSString *)__unused eTag{
+- (NSURLRequest *)createRequest:(NSObject *)data eTag:(NSString *)__unused eTag {
   if (!self.appSecret) {
     MSLogError([MSAppCenter logTag], @"AppCenter ingestion is used without app secret.");
     return nil;

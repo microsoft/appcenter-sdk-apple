@@ -1,6 +1,6 @@
+#import "MSDistributeIngestion.h"
 #import "MSAppCenter.h"
 #import "MSAppCenterInternal.h"
-#import "MSDistributeIngestion.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSLoggerInternal.h"
 
@@ -37,7 +37,7 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat = @"/public/sdk/apps/
   return self;
 }
 
-- (NSURLRequest *)createRequest:(NSObject *)__unused data eTag:(NSString *)__unused eTag{
+- (NSURLRequest *)createRequest:(NSObject *)__unused data eTag:(NSString *)__unused eTag {
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.sendURL];
 
   // Set method.

@@ -43,7 +43,10 @@ static NSString *const kMSETagRequestHeader = @"If-None-Match";
  * @param callId A unique ID that identify a request.
  * @param handler Completion handler
  */
-- (void)sendAsync:(NSObject *)data eTag:(nullable NSString*)eTag callId:(NSString *)callId completionHandler:(MSSendAsyncCompletionHandler)handler;
+- (void)sendAsync:(NSObject *)data
+                 eTag:(nullable NSString *)eTag
+               callId:(NSString *)callId
+    completionHandler:(MSSendAsyncCompletionHandler)handler;
 
 /**
  * Create a request based on data. Must override this method in sub classes.
@@ -53,7 +56,7 @@ static NSString *const kMSETagRequestHeader = @"If-None-Match";
  *
  * @return A URL request.
  */
-- (NSURLRequest *)createRequest:(NSObject *)data eTag:(nullable NSString*)eTag;
+- (NSURLRequest *)createRequest:(NSObject *)data eTag:(nullable NSString *)eTag;
 
 @end
 

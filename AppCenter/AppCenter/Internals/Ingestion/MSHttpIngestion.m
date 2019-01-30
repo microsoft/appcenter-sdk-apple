@@ -323,7 +323,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 /**
  * This is an empty method expected to be overridden in sub classes.
  */
-- (NSURLRequest *)createRequest:(NSObject *)__unused data eTag:(NSString *)__unused eTag{
+- (NSURLRequest *)createRequest:(NSObject *)__unused data eTag:(NSString *)__unused eTag {
   return nil;
 }
 
@@ -368,7 +368,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 
 - (void)sendAsync:(NSObject *)data eTag:(NSString *)eTag callId:(NSString *)callId completionHandler:(MSSendAsyncCompletionHandler)handler {
   @synchronized(self) {
-    
+
     // Check if call has already been created(retry scenario).
     MSIngestionCall *call = self.pendingCalls[callId];
     if (call == nil) {
@@ -378,7 +378,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
       call.eTag = eTag;
       call.callId = callId;
       call.completionHandler = handler;
-      
+
       // Store call in calls array.
       self.pendingCalls[callId] = call;
     }

@@ -1,9 +1,9 @@
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterInternal.h"
+#import "MSCSExtensions.h"
 #import "MSCompression.h"
 #import "MSConstants+Internal.h"
-#import "MSCSExtensions.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSLoggerInternal.h"
 #import "MSOneCollectorIngestionPrivate.h"
@@ -57,7 +57,7 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
   [super sendAsync:container eTag:nil callId:container.batchId completionHandler:handler];
 }
 
-- (NSURLRequest *)createRequest:(NSObject *)data eTag:(NSString *)__unused eTag{
+- (NSURLRequest *)createRequest:(NSObject *)data eTag:(NSString *)__unused eTag {
   MSLogContainer *container = (MSLogContainer *)data;
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.sendURL];
 

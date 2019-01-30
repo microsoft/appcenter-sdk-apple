@@ -4,9 +4,9 @@
 #import "MSChannelUnitProtocol.h"
 #import "MSIdentity.h"
 #import "MSIdentityPrivate.h"
+#import "MSMockUserDefaults.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSTestFrameworks.h"
-#import "MSMockUserDefaults.h"
 #import "MSUtility+File.h"
 
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
@@ -27,15 +27,15 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   self.settingsMock = [MSMockUserDefaults new];
   self.utilityMock = OCMClassMock([MSUtility class]);
   self.dummyConfigDic = @{
-                        @"identity_scope" : @"scope",
-                        @"client_id" : @"clientId",
-                        @"redirect_uri" : @"https://contoso.com/identity/path",
-                        @"authorities" : @[
-                            @{@"type" : @"B2C", @"default" : @YES, @"authority_url" : @"https://contoso.com/identity/path1"},
-                            @{@"type" : @"RandomType", @"default" : @NO, @"authority_url" : @"https://contoso.com/identity/path2"}
-                            ]
-                        };
-  
+    @"identity_scope" : @"scope",
+    @"client_id" : @"clientId",
+    @"redirect_uri" : @"https://contoso.com/identity/path",
+    @"authorities" : @[
+      @{@"type" : @"B2C", @"default" : @YES, @"authority_url" : @"https://contoso.com/identity/path1"},
+      @{@"type" : @"RandomType", @"default" : @NO, @"authority_url" : @"https://contoso.com/identity/path2"}
+    ]
+  };
+
   // When
   self.sut = [MSIdentity new];
 }
@@ -76,7 +76,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 }
 
 - (void)testCleanUpOnDisabling {
-  
+
   // If
   MSIdentity *service = (MSIdentity *)[MSIdentity sharedInstance];
   NSData *serializedConfig = [NSJSONSerialization dataWithJSONObject:self.dummyConfigDic options:(NSJSONWritingOptions)0 error:nil];
@@ -87,7 +87,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                              transmissionTargetToken:nil
                                      fromApplication:YES];
   [service setEnabled:YES];
-  
+
   // When
   [service setEnabled:NO];
 

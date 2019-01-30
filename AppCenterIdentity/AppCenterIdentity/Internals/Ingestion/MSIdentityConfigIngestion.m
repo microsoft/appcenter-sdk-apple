@@ -21,7 +21,7 @@
   return self;
 }
 
-- (NSURLRequest *)createRequest:(NSObject *)__unused data eTag:(NSString *)eTag{
+- (NSURLRequest *)createRequest:(NSObject *)__unused data eTag:(NSString *)eTag {
 
   // Ignoring local cache data to receive 304 when configuration hasn't changed since last download.
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.sendURL
@@ -45,7 +45,7 @@
     NSString *url = [request.URL.absoluteString stringByReplacingOccurrencesOfString:self.appSecret
                                                                           withString:[MSIngestionUtil hideSecret:self.appSecret]];
     MSLogVerbose([MSIdentity logTag], @"URL: %@", url);
-    if (request.allHTTPHeaderFields){
+    if (request.allHTTPHeaderFields) {
       MSLogVerbose([MSIdentity logTag], @"Headers: %@", [super prettyPrintHeaders:request.allHTTPHeaderFields]);
     }
   }
@@ -53,7 +53,7 @@
 }
 
 - (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)__unused key {
-  
+
   // No secrets in headers at the moment.
   return value;
 }
