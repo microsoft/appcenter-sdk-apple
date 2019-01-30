@@ -96,7 +96,5 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   XCTAssertNil(service.accessToken);
   OCMVerify([self.utilityMock deleteItemForPathComponent:[service identityConfigFilePath]]);
   XCTAssertNil([self.settingsMock objectForKey:kMSIdentityETagKey]);
-  //TODO
-  //[self clearConfigurationCache];
 }
 @end
