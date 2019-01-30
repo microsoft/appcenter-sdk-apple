@@ -4,6 +4,7 @@
 #import "MSChannelUnitProtocol.h"
 #import "MSIdentity.h"
 #import "MSIdentityPrivate.h"
+#import "MSServiceAbstractProtected.h"
 #import "MSTestFrameworks.h"
 
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
@@ -12,18 +13,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
 @property(nonatomic) MSIdentity *sut;
 @property(nonatomic) id settingsMock;
-
-@end
-
-@interface MSIdentity ()
-
-@end
-
-@interface MSServiceAbstract ()
-
-- (BOOL)isEnabled;
-
-- (void)setEnabled:(BOOL)enabled;
 
 @end
 
