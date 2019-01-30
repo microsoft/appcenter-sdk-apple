@@ -31,7 +31,6 @@ static NSString *const kMSAuthorityUrl = @"authority_url";
   return self;
 }
 
-// bug?
 - (BOOL)isValid {
   return self.type && self.authorityUrl;
 }
