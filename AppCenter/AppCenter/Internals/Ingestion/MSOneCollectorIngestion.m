@@ -54,10 +54,10 @@ NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
     handler(batchId, 0, nil, error);
     return;
   }
-  [super sendAsync:container callId:container.batchId completionHandler:handler];
+  [super sendAsync:container eTag:nil callId:container.batchId completionHandler:handler];
 }
 
-- (NSURLRequest *)createRequest:(NSObject *)data {
+- (NSURLRequest *)createRequest:(NSObject *)data eTag:(NSString *)__unused eTag{
   MSLogContainer *container = (MSLogContainer *)data;
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.sendURL];
 

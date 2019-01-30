@@ -22,6 +22,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) NSObject *data;
 
 /**
+ * Entity tag of the request.
+ */
+@property(nonatomic, nullable) NSString *eTag;
+
+/**
  * Unique call ID.
  */
 @property(nonatomic, copy) NSString *callId;

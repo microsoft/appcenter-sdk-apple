@@ -37,7 +37,7 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat = @"/public/sdk/apps/
   return self;
 }
 
-- (NSURLRequest *)createRequest:(NSObject *)__unused data {
+- (NSURLRequest *)createRequest:(NSObject *)__unused data eTag:(NSString *)__unused eTag{
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.sendURL];
 
   // Set method.

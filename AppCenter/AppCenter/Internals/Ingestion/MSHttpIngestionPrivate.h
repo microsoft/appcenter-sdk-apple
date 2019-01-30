@@ -67,15 +67,6 @@
     maxNumberOfConnections:(NSInteger)maxNumberOfConnections;
 
 /**
- * Create a request based on data. Must override this method in sub classes.
- *
- * @param data A data instance that will be transformed to request body.
- *
- * @return A URL request.
- */
-- (NSURLRequest *)createRequest:(NSObject *)data;
-
-/**
  * Convert key/value pairs for headers to a string.
  *
  * @param headers A dictionary that contains header as key/value pair.

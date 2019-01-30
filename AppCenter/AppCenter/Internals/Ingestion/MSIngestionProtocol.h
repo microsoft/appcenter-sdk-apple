@@ -26,6 +26,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic, readonly, getter=isReadyToSend) BOOL readyToSend;
 
+/*
+ * TODO We use sendAsync for both GET and POST but it doesn't really makes sense for a GET to send data.
+ * Might want to separate methods for POST and GET and find a better naming.
+ */
+
 /**
  * Send data.
  *
@@ -33,6 +38,15 @@ NS_ASSUME_NONNULL_BEGIN
  * @param handler Completion handler.
  */
 - (void)sendAsync:(nullable NSObject *)data completionHandler:(MSSendAsyncCompletionHandler)handler;
+
+/**
+ * Send data.
+ *
+ * @param data Instance that will be transformed to request body.
+ * @param eTag Identity tag.
+ * @param handler Completion handler.
+ */
+- (void)sendAsync:(nullable NSObject *)data eTag:(NSString*)eTag completionHandler:(MSSendAsyncCompletionHandler)handler;
 
 /**
  * Add the given delegate to the ingestion.

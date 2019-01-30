@@ -86,7 +86,11 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 }
 
 - (void)sendAsync:(NSObject *)data completionHandler:(MSSendAsyncCompletionHandler)handler {
-  [self sendAsync:data callId:MS_UUID_STRING completionHandler:handler];
+  [self sendAsync:data eTag:nil callId:MS_UUID_STRING completionHandler:handler];
+}
+
+- (void)sendAsync:(NSObject *)data eTag:(NSString *)eTag completionHandler:(MSSendAsyncCompletionHandler)handler {
+  [self sendAsync:data eTag:eTag callId:MS_UUID_STRING completionHandler:handler];
 }
 
 - (void)addDelegate:(id<MSIngestionDelegate>)delegate {
@@ -191,7 +195,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     }
 
     // Create the request.
-    NSURLRequest *request = [self createRequest:call.data];
+    NSURLRequest *request = [self createRequest:call.data eTag:call.eTag];
     if (!request) {
       return;
     }
@@ -319,7 +323,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 /**
  * This is an empty method expected to be overridden in sub classes.
  */
-- (NSURLRequest *)createRequest:(NSObject *)__unused data {
+- (NSURLRequest *)createRequest:(NSObject *)__unused data eTag:(NSString *)__unused eTag{
   return nil;
 }
 
@@ -362,18 +366,19 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   return [flattenedHeaders componentsJoinedByString:@", "];
 }
 
-- (void)sendAsync:(NSObject *)data callId:(NSString *)callId completionHandler:(MSSendAsyncCompletionHandler)handler {
+- (void)sendAsync:(NSObject *)data eTag:(NSString *)eTag callId:(NSString *)callId completionHandler:(MSSendAsyncCompletionHandler)handler {
   @synchronized(self) {
-
+    
     // Check if call has already been created(retry scenario).
     MSIngestionCall *call = self.pendingCalls[callId];
     if (call == nil) {
       call = [[MSIngestionCall alloc] initWithRetryIntervals:self.callsRetryIntervals];
       call.delegate = self;
       call.data = data;
+      call.eTag = eTag;
       call.callId = callId;
       call.completionHandler = handler;
-
+      
       // Store call in calls array.
       self.pendingCalls[callId] = call;
     }

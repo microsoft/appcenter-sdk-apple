@@ -23,10 +23,6 @@ static NSString *const kMSIdentityPathComponent = @"identity";
 // The Identity config file name.
 static NSString *const kMSIdentityConfigFilename = @"config.json";
 
-// HTTP request/response headers for eTag.
-static NSString *const kMSETagRequestHeader = @"If-None-Match";
-static NSString *const kMSETagResponseHeader = @"etag";
-
 // Singleton
 static MSIdentity *sharedInstance = nil;
 static dispatch_once_t onceToken;
@@ -191,18 +187,12 @@ static NSObject *const lock = @"lock";
 
 - (void)downloadConfigurationWithETag:(NSString *)eTag {
 
-  // Build HTTP header for eTag.
-  NSDictionary *headers = nil;
-  if (eTag != nil) {
-    headers = @{kMSETagRequestHeader : eTag};
-  }
-
   // Download configuration.
   MSIdentityConfigIngestion *ingestion =
       [[MSIdentityConfigIngestion alloc] initWithBaseUrl:@"https://mobilecentersdkdev.blob.core.windows.net"
-                                               appSecret:self.appSecret
-                                                 headers:headers];
+                                               appSecret:self.appSecret];
   [ingestion sendAsync:nil
+                  eTag:eTag
       completionHandler:^(__unused NSString *callId, NSHTTPURLResponse *response, NSData *data, __unused NSError *error) {
         MSIdentityConfig *config = nil;
         if (response.statusCode == MSHTTPCodesNo304NotModified) {
