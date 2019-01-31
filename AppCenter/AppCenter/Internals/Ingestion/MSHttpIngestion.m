@@ -89,7 +89,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   [self sendAsync:data eTag:nil callId:MS_UUID_STRING completionHandler:handler];
 }
 
-- (void)sendAsync:(NSObject *)data eTag:(NSString *)eTag completionHandler:(MSSendAsyncCompletionHandler)handler {
+- (void)sendAsync:(NSObject *)data eTag:(nullable NSString *)eTag completionHandler:(MSSendAsyncCompletionHandler)handler {
   [self sendAsync:data eTag:eTag callId:MS_UUID_STRING completionHandler:handler];
 }
 
@@ -366,7 +366,10 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   return [flattenedHeaders componentsJoinedByString:@", "];
 }
 
-- (void)sendAsync:(NSObject *)data eTag:(NSString *)eTag callId:(NSString *)callId completionHandler:(MSSendAsyncCompletionHandler)handler {
+- (void)sendAsync:(NSObject *)data
+                 eTag:(nullable NSString *)eTag
+               callId:(NSString *)callId
+    completionHandler:(MSSendAsyncCompletionHandler)handler {
   @synchronized(self) {
 
     // Check if call has already been created(retry scenario).

@@ -185,7 +185,7 @@ static NSObject *const lock = @"lock";
   return YES;
 }
 
-- (void)downloadConfigurationWithETag:(NSString *)eTag {
+- (void)downloadConfigurationWithETag:(nullable NSString *)eTag {
 
   // Download configuration.
   MSIdentityConfigIngestion *ingestion =

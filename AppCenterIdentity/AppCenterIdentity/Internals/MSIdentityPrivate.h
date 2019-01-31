@@ -24,7 +24,7 @@ static NSString *const kMSIdentityETagKey = @"MSIdentityETagKey";
 
 - (NSString *)identityConfigFilePath;
 
-- (void)downloadConfigurationWithETag:(NSString *)eTag;
+- (void)downloadConfigurationWithETag:(nullable NSString *)eTag;
 
 @end
 
