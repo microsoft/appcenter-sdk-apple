@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param eTag Identity tag.
  * @param handler Completion handler.
  */
-- (void)sendAsync:(nullable NSObject *)data eTag:(NSString *)eTag completionHandler:(MSSendAsyncCompletionHandler)handler;
+- (void)sendAsync:(nullable NSObject *)data eTag:(nullable NSString *)eTag completionHandler:(MSSendAsyncCompletionHandler)handler;
 
 /**
  * Add the given delegate to the ingestion.

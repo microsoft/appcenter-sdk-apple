@@ -178,14 +178,15 @@ static NSObject *const lock = @"lock";
 - (BOOL)loadConfigurationFromCache {
   NSData *configData = [MSUtility loadDataForPathComponent:[self identityConfigFilePath]];
   self.identityConfig = [self deserializeData:configData];
-  if (self.identityConfig == nil) {
+  if (self.identityConfig == nil || ![self.identityConfig isValid]) {
     [self clearConfigurationCache];
+    self.identityConfig = nil;
     return NO;
   }
   return YES;
 }
 
-- (void)downloadConfigurationWithETag:(NSString *)eTag {
+- (void)downloadConfigurationWithETag:(nullable NSString *)eTag {
 
   // Download configuration.
   MSIdentityConfigIngestion *ingestion =
@@ -264,8 +265,9 @@ static NSObject *const lock = @"lock";
     id dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
     if (error) {
       MSLogError([MSIdentity logTag], @"Couldn't parse json data: %@", error.localizedDescription);
+    } else {
+      config = [[MSIdentityConfig alloc] initWithDictionary:dictionary];
     }
-    config = [[MSIdentityConfig alloc] initWithDictionary:dictionary];
   }
   return config;
 }

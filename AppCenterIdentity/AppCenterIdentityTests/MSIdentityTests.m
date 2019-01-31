@@ -10,6 +10,7 @@
 #import "MSServiceAbstractProtected.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+File.h"
+#import <MSAL/MSALPublicClientApplication.h>
 
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
@@ -77,10 +78,29 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   XCTAssertTrue([service isEnabled]);
 }
 
+- (void)testLoadAndDownloadOnEnabling {
+
+  // If
+  MSIdentity *service = [MSIdentity sharedInstance];
+  NSString *expectedETag = @"eTag";
+  [self.settingsMock setObject:expectedETag forKey:kMSIdentityETagKey];
+  NSData *serializedConfig = [NSJSONSerialization dataWithJSONObject:self.dummyConfigDic options:(NSJSONWritingOptions)0 error:nil];
+  OCMStub([self.utilityMock loadDataForPathComponent:[service identityConfigFilePath]]).andReturn(serializedConfig);
+  id ingestionMock = OCMPartialMock([MSIdentityConfigIngestion alloc]);
+  OCMStub([ingestionMock alloc]).andReturn(ingestionMock);
+
+  // When
+  [service applyEnabledState:YES];
+
+  // Then
+  XCTAssertTrue([service.identityConfig isValid]);
+  OCMVerify([ingestionMock sendAsync:nil eTag:expectedETag completionHandler:OCMOCK_ANY]);
+}
+
 - (void)testCleanUpOnDisabling {
 
   // If
-  MSIdentity *service = (MSIdentity *)[MSIdentity sharedInstance];
+  MSIdentity *service = [MSIdentity sharedInstance];
   NSData *serializedConfig = [NSJSONSerialization dataWithJSONObject:self.dummyConfigDic options:(NSJSONWritingOptions)0 error:nil];
   OCMStub([self.utilityMock loadDataForPathComponent:[service identityConfigFilePath]]).andReturn(serializedConfig);
   [self.settingsMock setObject:@"eTag" forKey:kMSIdentityETagKey];
@@ -108,15 +128,15 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   NSData *newConfig = [NSJSONSerialization dataWithJSONObject:self.dummyConfigDic options:(NSJSONWritingOptions)0 error:nil];
   id ingestionMock = OCMPartialMock([MSIdentityConfigIngestion alloc]);
   OCMStub([ingestionMock alloc]).andReturn(ingestionMock);
-  OCMStub([ingestionMock sendAsync:nil eTag:expectedETag completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+  OCMStub([ingestionMock sendAsync:nil eTag:nil completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     // Get ingestion block for later call.
     [invocation retainArguments];
     [invocation getArgument:&ingestionBlock atIndex:4];
   });
-  MSIdentity *service = (MSIdentity *)[MSIdentity sharedInstance];
+  MSIdentity *service = [MSIdentity sharedInstance];
 
   // When
-  [service downloadConfigurationWithETag:expectedETag];
+  [service downloadConfigurationWithETag:nil];
   ingestionBlock(@"callId", [MSHttpTestUtil createMockResponseForStatusCode:200 headers:@{kMSETagResponseHeader : expectedETag}], newConfig,
                  nil);
 
@@ -133,20 +153,21 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // If
   __block MSSendAsyncCompletionHandler ingestionBlock;
-  [self.settingsMock setObject:@"oldETag" forKey:kMSIdentityETagKey];
+  NSString *oldETag = @"oldETag";
   NSString *expectedETag = @"newETag";
+  [self.settingsMock setObject:oldETag forKey:kMSIdentityETagKey];
   NSData *newConfig = [NSJSONSerialization dataWithJSONObject:self.dummyConfigDic options:(NSJSONWritingOptions)0 error:nil];
   id ingestionMock = OCMPartialMock([MSIdentityConfigIngestion alloc]);
   OCMStub([ingestionMock alloc]).andReturn(ingestionMock);
-  OCMStub([ingestionMock sendAsync:nil eTag:expectedETag completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+  OCMStub([ingestionMock sendAsync:nil eTag:oldETag completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
     // Get ingestion block for later call.
     [invocation retainArguments];
     [invocation getArgument:&ingestionBlock atIndex:4];
   });
-  MSIdentity *service = (MSIdentity *)[MSIdentity sharedInstance];
+  MSIdentity *service = [MSIdentity sharedInstance];
 
   // When
-  [service downloadConfigurationWithETag:expectedETag];
+  [service downloadConfigurationWithETag:oldETag];
   ingestionBlock(@"callId", [MSHttpTestUtil createMockResponseForStatusCode:200 headers:@{kMSETagResponseHeader : expectedETag}], newConfig,
                  nil);
 
@@ -164,7 +185,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // If
   __block MSSendAsyncCompletionHandler ingestionBlock;
   NSString *expectedETag = @"eTag";
-  [self.settingsMock setObject:expectedETag forKey:kMSIdentityETagKey];
   NSData *expectedConfig = [NSJSONSerialization dataWithJSONObject:self.dummyConfigDic options:(NSJSONWritingOptions)0 error:nil];
   id ingestionMock = OCMPartialMock([MSIdentityConfigIngestion alloc]);
   OCMStub([ingestionMock alloc]).andReturn(ingestionMock);
@@ -173,7 +193,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
     [invocation retainArguments];
     [invocation getArgument:&ingestionBlock atIndex:4];
   });
-  MSIdentity *service = (MSIdentity *)[MSIdentity sharedInstance];
+  MSIdentity *service = [MSIdentity sharedInstance];
   OCMReject([self.utilityMock createFileAtPathComponent:[service identityConfigFilePath]
                                                withData:OCMOCK_ANY
                                              atomically:OCMOCK_ANY
@@ -189,16 +209,17 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 }
 
 - (void)testForwardRedirectURLToMSAL {
-  // handleUrlResponse
-  XCTFail();
-}
 
-- (void)testLoadCacheConfigOnEnabling {
-  XCTFail();
-}
+  // If
+  NSURL *expectedURL = [NSURL URLWithString:@"scheme://test"];
+  id msalMock = OCMClassMock([MSALPublicClientApplication class]);
 
-- (void)testDownloadConfigOnEnabling {
-  XCTFail();
+  // When
+  [MSIdentity handleUrlResponse:expectedURL];
+
+  // Then
+  OCMVerify([msalMock handleMSALResponse:expectedURL]);
+  [msalMock stopMocking];
 }
 
 - (void)testConfigureMSALWithInvalidConfig {
@@ -209,12 +230,84 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   XCTFail();
 }
 
-- (void)testDeserializeConfigWithInvalidData {
-  XCTFail();
+- (void)testLoadInvalidConfigurationFromCache {
+
+  // If
+  NSDictionary *invalidData = @{@"invalid" : @"data"};
+  NSData *serializedConfig = [NSJSONSerialization dataWithJSONObject:invalidData options:(NSJSONWritingOptions)0 error:nil];
+  MSIdentity *service = [MSIdentity sharedInstance];
+  OCMStub([self.utilityMock loadDataForPathComponent:[service identityConfigFilePath]]).andReturn(serializedConfig);
+  [self.settingsMock setObject:@"eTag" forKey:kMSIdentityETagKey];
+
+  // When
+  BOOL loaded = [service loadConfigurationFromCache];
+
+  // Then
+  XCTAssertFalse(loaded);
+  OCMVerify([self.utilityMock deleteItemForPathComponent:[service identityConfigFilePath]]);
+  XCTAssertNil([self.settingsMock objectForKey:kMSIdentityETagKey]);
 }
 
-- (void)testDeserializeConfigWithValidData {
-  XCTFail();
+- (void)testNotCacheInvalidConfig {
+
+  // If
+  __block MSSendAsyncCompletionHandler ingestionBlock;
+  NSString *oldETag = @"oldETag";
+  NSString *expectedETag = @"newETag";
+  [self.settingsMock setObject:oldETag forKey:kMSIdentityETagKey];
+  NSData *invalidConfig = [NSJSONSerialization dataWithJSONObject:@{} options:(NSJSONWritingOptions)0 error:nil];
+  id ingestionMock = OCMPartialMock([MSIdentityConfigIngestion alloc]);
+  OCMStub([ingestionMock alloc]).andReturn(ingestionMock);
+  OCMStub([ingestionMock sendAsync:nil eTag:oldETag completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    // Get ingestion block for later call.
+    [invocation retainArguments];
+    [invocation getArgument:&ingestionBlock atIndex:4];
+  });
+  MSIdentity *service = (MSIdentity *)[MSIdentity sharedInstance];
+
+  // When
+  [service downloadConfigurationWithETag:oldETag];
+  ingestionBlock(@"callId", [MSHttpTestUtil createMockResponseForStatusCode:200 headers:@{kMSETagResponseHeader : expectedETag}],
+                 invalidConfig, nil);
+
+  // Then
+  OCMReject([self.utilityMock createFileAtPathComponent:[service identityConfigFilePath]
+                                               withData:OCMOCK_ANY
+                                             atomically:YES
+                                         forceOverwrite:YES]);
+  XCTAssertEqualObjects(oldETag, [self.settingsMock objectForKey:kMSIdentityETagKey]);
+  [ingestionMock stopMocking];
+}
+
+- (void)testNotCacheInvalidData {
+
+  // If
+  __block MSSendAsyncCompletionHandler ingestionBlock;
+  NSString *oldETag = @"oldETag";
+  NSString *expectedETag = @"newETag";
+  [self.settingsMock setObject:oldETag forKey:kMSIdentityETagKey];
+  NSData *invalidData = [@"InvalidData" dataUsingEncoding:NSUTF8StringEncoding];
+  id ingestionMock = OCMPartialMock([MSIdentityConfigIngestion alloc]);
+  OCMStub([ingestionMock alloc]).andReturn(ingestionMock);
+  OCMStub([ingestionMock sendAsync:nil eTag:oldETag completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    // Get ingestion block for later call.
+    [invocation retainArguments];
+    [invocation getArgument:&ingestionBlock atIndex:4];
+  });
+  MSIdentity *service = (MSIdentity *)[MSIdentity sharedInstance];
+
+  // When
+  [service downloadConfigurationWithETag:oldETag];
+  ingestionBlock(@"callId", [MSHttpTestUtil createMockResponseForStatusCode:200 headers:@{kMSETagResponseHeader : expectedETag}],
+                 invalidData, nil);
+
+  // Then
+  OCMReject([self.utilityMock createFileAtPathComponent:[service identityConfigFilePath]
+                                               withData:OCMOCK_ANY
+                                             atomically:YES
+                                         forceOverwrite:YES]);
+  XCTAssertEqualObjects(oldETag, [self.settingsMock objectForKey:kMSIdentityETagKey]);
+  [ingestionMock stopMocking];
 }
 
 // TODO add tests to cover login.
