@@ -76,9 +76,10 @@ static NSString *const kMSStubLongResponseTimeOutName = @"httpStub_LongResponseT
       .name = name;
 }
 
-+ (NSHTTPURLResponse *)createMockResponseForStatusCode:(int)statusCode {
++ (NSHTTPURLResponse *)createMockResponseForStatusCode:(int)statusCode headers:(NSDictionary *)headers {
   NSHTTPURLResponse *mockedResponse = OCMClassMock([NSHTTPURLResponse class]);
   OCMStub([mockedResponse statusCode]).andReturn(statusCode);
+  OCMStub([mockedResponse allHeaderFields]).andReturn(headers);
   return mockedResponse;
 }
 

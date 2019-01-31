@@ -234,6 +234,7 @@ static NSObject *const lock = @"lock";
                      (long)response.statusCode);
         }
       }];
+  // TODO we probably want to expose the finishAndInvalidate method from NSURLSession to use it here so we don't leak memory.
 }
 - (void)configAuthenticationClient {
 

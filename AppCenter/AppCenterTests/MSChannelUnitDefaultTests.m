@@ -99,7 +99,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
     [invocation getArgument:&ingestionBlock atIndex:3];
     [invocation getArgument:&logContainer atIndex:2];
   });
-  __block id responseMock = [MSHttpTestUtil createMockResponseForStatusCode:200];
+  __block id responseMock = [MSHttpTestUtil createMockResponseForStatusCode:200 headers:nil];
 
   // Stub the storage load for that log.
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
@@ -192,7 +192,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
     [invocation getArgument:&ingestionBlock atIndex:3];
     [invocation getArgument:&logContainer atIndex:2];
   });
-  __block id responseMock = [MSHttpTestUtil createMockResponseForStatusCode:300];
+  __block id responseMock = [MSHttpTestUtil createMockResponseForStatusCode:300 headers:nil];
 
   // Stub the storage load for that log.
   id storageMock = OCMProtocolMock(@protocol(MSStorage));
@@ -505,7 +505,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
     [invocation getArgument:&ingestionBlock atIndex:3];
     [invocation getArgument:&lastBatchLogContainer atIndex:2];
   });
-  __block id responseMock = [MSHttpTestUtil createMockResponseForStatusCode:200];
+  __block id responseMock = [MSHttpTestUtil createMockResponseForStatusCode:200 headers:nil];
 
   // Stub the storage load for that log.
   id storageMock = OCMProtocolMock(@protocol(MSStorage));

@@ -86,6 +86,8 @@
 		3568A7F0201A9BBB00F3B860 /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C77041D6CC39400D68CC1 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		358F9BC62019590200B9E22C /* MSLogWithProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 358F9BC52019590100B9E22C /* MSLogWithProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		358F9BC82019596500B9E22C /* MSAbstractLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 358F9BC72019596400B9E22C /* MSAbstractLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3847ABE622028E3D008BC281 /* MSHttpTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3847ABE522028E3D008BC281 /* MSHttpTestUtil.m */; };
+		3847ABE722028E3D008BC281 /* MSHttpTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 3847ABE522028E3D008BC281 /* MSHttpTestUtil.m */; };
 		387C77051D6CC39400D68CC1 /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C77041D6CC39400D68CC1 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		38D4204D22012E65006ECF44 /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D4204722012E1E006ECF44 /* MSMockUserDefaults.m */; };
 		38D4204E22012E66006ECF44 /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D4204722012E1E006ECF44 /* MSMockUserDefaults.m */; };
@@ -208,6 +210,8 @@
 		1A15692321F11B09001E9452 /* MSIdentityTests.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = MSIdentityTests.m; sourceTree = "<group>"; tabWidth = 2; };
 		358F9BC52019590100B9E22C /* MSLogWithProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSLogWithProperties.h; path = ../AppCenter/AppCenter/Model/MSLogWithProperties.h; sourceTree = "<group>"; };
 		358F9BC72019596400B9E22C /* MSAbstractLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSAbstractLog.h; path = ../AppCenter/AppCenter/Model/MSAbstractLog.h; sourceTree = "<group>"; };
+		3847ABE422028E3D008BC281 /* MSHttpTestUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSHttpTestUtil.h; path = ../../../AppCenter/AppCenterTests/Util/MSHttpTestUtil.h; sourceTree = "<group>"; };
+		3847ABE522028E3D008BC281 /* MSHttpTestUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSHttpTestUtil.m; path = ../../../AppCenter/AppCenterTests/Util/MSHttpTestUtil.m; sourceTree = "<group>"; };
 		387C77041D6CC39400D68CC1 /* MSServiceAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSServiceAbstract.h; path = ../AppCenter/AppCenter/MSServiceAbstract.h; sourceTree = "<group>"; };
 		38D4204422012DAC006ECF44 /* MSTestFrameworks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSTestFrameworks.h; path = ../../../AppCenter/AppCenterTests/Util/MSTestFrameworks.h; sourceTree = "<group>"; };
 		38D4204722012E1E006ECF44 /* MSMockUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSMockUserDefaults.m; path = ../../../AppCenter/AppCenterTests/Util/MSMockUserDefaults.m; sourceTree = "<group>"; };
@@ -358,6 +362,8 @@
 		38D4204322012D7B006ECF44 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				3847ABE422028E3D008BC281 /* MSHttpTestUtil.h */,
+				3847ABE522028E3D008BC281 /* MSHttpTestUtil.m */,
 				38D4204F22012F0B006ECF44 /* MSMockUserDefaults.h */,
 				38D4204722012E1E006ECF44 /* MSMockUserDefaults.m */,
 				38D4204422012DAC006ECF44 /* MSTestFrameworks.h */,
@@ -744,6 +750,7 @@
 				1A15692521F11B09001E9452 /* MSIdentityTests.m in Sources */,
 				38D4204E22012E66006ECF44 /* MSMockUserDefaults.m in Sources */,
 				04774644220112450045504A /* MSIdentityAuthorityTest.m in Sources */,
+				3847ABE722028E3D008BC281 /* MSHttpTestUtil.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -778,6 +785,7 @@
 				1A15692421F11B09001E9452 /* MSIdentityTests.m in Sources */,
 				38D4204D22012E65006ECF44 /* MSMockUserDefaults.m in Sources */,
 				1A0D73FE2200CD540085FDE3 /* MSIdentityAuthorityTest.m in Sources */,
+				3847ABE622028E3D008BC281 /* MSHttpTestUtil.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
