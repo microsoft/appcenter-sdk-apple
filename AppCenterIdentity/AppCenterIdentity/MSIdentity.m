@@ -97,6 +97,7 @@ static NSObject *const lock = @"lock";
       [self configAuthenticationClient];
       eTag = [MS_USER_DEFAULTS objectForKey:kMSIdentityETagKey];
     } else {
+      // TODO review log level for the message maybe split by config doesn't exist and is invalid.
       MSLogError([MSIdentity logTag], @"Identity config file doesn't exist or invalid.");
     }
 
@@ -150,7 +151,6 @@ static NSObject *const lock = @"lock";
 }
 
 - (void)login {
-
   @synchronized(lock) {
     if (self.clientApplication == nil && self.identityConfig == nil) {
       self.loginDelayed = YES;

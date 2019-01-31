@@ -188,4 +188,35 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [ingestionMock stopMocking];
 }
 
+- (void)testForwardRedirectURLToMSAL {
+  // handleUrlResponse
+  XCTFail();
+}
+
+- (void)testLoadCacheConfigOnEnabling {
+  XCTFail();
+}
+
+- (void)testDownloadConfigOnEnabling {
+  XCTFail();
+}
+
+- (void)testConfigureMSALWithInvalidConfig {
+  XCTFail();
+}
+
+- (void)testConfigureMSALWithValidConfig {
+  XCTFail();
+}
+
+- (void)testDeserializeConfigWithInvalidData {
+  XCTFail();
+}
+
+- (void)testDeserializeConfigWithValidData {
+  XCTFail();
+}
+
+// TODO add tests to cover login.
+
 @end
