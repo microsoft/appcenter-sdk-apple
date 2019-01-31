@@ -95,6 +95,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // Then
   XCTAssertTrue([service.identityConfig isValid]);
   OCMVerify([ingestionMock sendAsync:nil eTag:expectedETag completionHandler:OCMOCK_ANY]);
+  [ingestionMock stopMocking];
 }
 
 - (void)testCleanUpOnDisabling {
