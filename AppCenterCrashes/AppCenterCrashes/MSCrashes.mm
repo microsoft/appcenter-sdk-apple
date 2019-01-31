@@ -281,6 +281,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   // Enabling.
   if (isEnabled) {
     id<MSCrashHandlerSetupDelegate> crashSetupDelegate = [MSWrapperCrashesHelper getCrashHandlerSetupDelegate];
+    MSLogDebug([MSCrashes logTag], @"Crashes setup delegate object=%@", crashSetupDelegate);
 
     // Check if a wrapper SDK has a preference for uncaught exception handling.
     BOOL enableUncaughtExceptionHandler = YES;

@@ -1,9 +1,15 @@
-#import "MSCrashesInternal.h"
 #import "MSWrapperCrashesHelper.h"
+#import "MSCrashesInternal.h"
+#import "MSLogger.h"
 
 @interface MSWrapperCrashesHelper ()
 
-@property(weak, nonatomic) id<MSCrashHandlerSetupDelegate> crashHandlerSetupDelegate;
+/**
+ * Crash handler setup delegate.
+ * If weak and setting it in background thread, the reference is freed too early when we need it at start time.
+ * Since this can be read/write from different threads we also set it atomic.
+ */
+@property(strong, atomic) id<MSCrashHandlerSetupDelegate> crashHandlerSetupDelegate;
 
 @end
 
@@ -22,6 +28,7 @@
 }
 
 + (void)setCrashHandlerSetupDelegate:(id<MSCrashHandlerSetupDelegate>)delegate {
+  MSLogDebug([MSCrashes logTag], @"setCrashHandlerSetupDelegate:%@", delegate);
   [[MSWrapperCrashesHelper sharedInstance] setCrashHandlerSetupDelegate:delegate];
 }
 
