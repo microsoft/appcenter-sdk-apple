@@ -1,5 +1,11 @@
 # App Center SDK for iOS and macOS Change Log
 
+## Version 1.13.1 (Not yet released)
+
+### AppCenterCrashes
+
+* **[Fix]** Fix an issue where the crash setup handler could be freed before it could be used, this affects the Xamarin SDK.
+
 ## Version 1.13.0
 
 ### AppCenter
