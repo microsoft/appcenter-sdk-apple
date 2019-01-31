@@ -76,6 +76,8 @@
 		04BED7181ECB64FB00E20975 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BED7161ECB64CE00E20975 /* OCHamcrest.framework */; };
 		04C6EC7E21F10DCA00A6FDAF /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C6EC7921F10D8300A6FDAF /* MSAL.framework */; };
 		04C6EC8021F10DDB00A6FDAF /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C6EC7C21F10D9D00A6FDAF /* MSAL.framework */; };
+		04C802E9220399A30039E9BC /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C802E72203999E0039E9BC /* OHHTTPStubs.framework */; };
+		04C802EA220399A80039E9BC /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C802E5220399860039E9BC /* OHHTTPStubs.framework */; };
 		1A0D73FE2200CD540085FDE3 /* MSIdentityAuthorityTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A0D73FD2200CD540085FDE3 /* MSIdentityAuthorityTest.m */; };
 		1A0D74032200EB400085FDE3 /* MSIdentityConfigTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A0D74022200EB400085FDE3 /* MSIdentityConfigTest.m */; };
 		1A15692421F11B09001E9452 /* MSIdentityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A15692321F11B09001E9452 /* MSIdentityTests.m */; };
@@ -205,6 +207,8 @@
 		04BED7161ECB64CE00E20975 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../../Vendor/macOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
 		04C6EC7921F10D8300A6FDAF /* MSAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MSAL.framework; path = ../Vendor/iOS/MSAL/MSAL.framework; sourceTree = "<group>"; };
 		04C6EC7C21F10D9D00A6FDAF /* MSAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MSAL.framework; path = ../Vendor/macOS/MSAL/MSAL.framework; sourceTree = "<group>"; };
+		04C802E5220399860039E9BC /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = ../../Vendor/iOS/OHHTTPStubs/OHHTTPStubs.framework; sourceTree = "<group>"; };
+		04C802E72203999E0039E9BC /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = ../../Vendor/macOS/OHHTTPStubs/OHHTTPStubs.framework; sourceTree = "<group>"; };
 		04ED31E91EAAD32B0033BAAE /* macOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = macOS.modulemap; sourceTree = "<group>"; };
 		04ED31EB1EAAD3390033BAAE /* iOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = iOS.modulemap; sourceTree = "<group>"; };
 		1A0D73FD2200CD540085FDE3 /* MSIdentityAuthorityTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSIdentityAuthorityTest.m; sourceTree = "<group>"; };
@@ -243,6 +247,7 @@
 			files = (
 				0446DF621F3B95EB00C8E338 /* libAppCenter.a in Frameworks */,
 				046AEACB1ECA554600CBE511 /* libAppCenterIdentity.a in Frameworks */,
+				04C802E9220399A30039E9BC /* OHHTTPStubs.framework in Frameworks */,
 				04BED7181ECB64FB00E20975 /* OCHamcrest.framework in Frameworks */,
 				0420A6871ECA7A4B00915619 /* OCMock.framework in Frameworks */,
 			);
@@ -270,6 +275,7 @@
 			files = (
 				0446DF641F3B95F200C8E338 /* libAppCenter.a in Frameworks */,
 				E85547DA1D2D6723002DF6E2 /* libAppCenterIdentity.a in Frameworks */,
+				04C802EA220399A80039E9BC /* OHHTTPStubs.framework in Frameworks */,
 				6E0684381D35A3B900A8CC6C /* OCHamcrestIOS.framework in Frameworks */,
 				0420A6931ECA7B1100915619 /* OCMock.framework in Frameworks */,
 			);
@@ -362,6 +368,31 @@
 			name = macOS;
 			sourceTree = "<group>";
 		};
+		04C802E2220399340039E9BC /* OHHTTPStubs */ = {
+			isa = PBXGroup;
+			children = (
+				04C802E32203996D0039E9BC /* iOS */,
+				04C802E4220399720039E9BC /* macOS */,
+			);
+			name = OHHTTPStubs;
+			sourceTree = "<group>";
+		};
+		04C802E32203996D0039E9BC /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				04C802E5220399860039E9BC /* OHHTTPStubs.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		04C802E4220399720039E9BC /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+				04C802E72203999E0039E9BC /* OHHTTPStubs.framework */,
+			);
+			name = macOS;
+			sourceTree = "<group>";
+		};
 		38D4204322012D7B006ECF44 /* Util */ = {
 			isa = PBXGroup;
 			children = (
@@ -394,6 +425,7 @@
 				0446DF5E1F3B8FBA00C8E338 /* libAppCenter.a */,
 				04BED7131ECB64B100E20975 /* OCHamcrest */,
 				6E0684391D35A3C800A8CC6C /* OCMock */,
+				04C802E2220399340039E9BC /* OHHTTPStubs */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
