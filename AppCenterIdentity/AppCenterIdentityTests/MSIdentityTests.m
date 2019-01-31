@@ -190,14 +190,14 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 }
 
 - (void)testForwardRedirectURLToMSAL {
-  
+
   // If
-  NSURL* expectedURL = [NSURL URLWithString:@"scheme://test"];
+  NSURL *expectedURL = [NSURL URLWithString:@"scheme://test"];
   id msalMock = OCMClassMock([MSALPublicClientApplication class]);
-  
+
   // When
   [MSIdentity handleUrlResponse:expectedURL];
-  
+
   // Then
   OCMVerify([msalMock handleMSALResponse:expectedURL]);
   [msalMock stopMocking];
@@ -219,8 +219,25 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   XCTFail();
 }
 
+- (void)testLoadInvalidConfigurationFromCache {
+
+  // If
+  NSDictionary *invalidData = @{@"invalid" : @"data"};
+  NSData *serializedConfig = [NSJSONSerialization dataWithJSONObject:invalidData options:(NSJSONWritingOptions)0 error:nil];
+  MSIdentity *service = (MSIdentity *)[MSIdentity sharedInstance];
+  OCMStub([self.utilityMock loadDataForPathComponent:[service identityConfigFilePath]]).andReturn(serializedConfig);
+  [self.settingsMock setObject:@"eTag" forKey:kMSIdentityETagKey];
+
+  // When
+  BOOL loaded = [service loadConfigurationFromCache];
+
+  // Then
+  XCTAssertFalse(loaded);
+  OCMVerify([self.utilityMock deleteItemForPathComponent:[service identityConfigFilePath]]);
+  XCTAssertNil([self.settingsMock objectForKey:kMSIdentityETagKey]);
+}
+
 - (void)testDeserializeConfigWithInvalidData {
-  XCTFail();
 }
 
 // TODO add tests to cover login.

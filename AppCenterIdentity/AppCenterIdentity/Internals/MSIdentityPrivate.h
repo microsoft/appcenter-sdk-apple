@@ -26,6 +26,8 @@ static NSString *const kMSIdentityETagKey = @"MSIdentityETagKey";
 
 - (void)downloadConfigurationWithETag:(nullable NSString *)eTag;
 
+- (BOOL)loadConfigurationFromCache;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -178,8 +178,9 @@ static NSObject *const lock = @"lock";
 - (BOOL)loadConfigurationFromCache {
   NSData *configData = [MSUtility loadDataForPathComponent:[self identityConfigFilePath]];
   self.identityConfig = [self deserializeData:configData];
-  if (self.identityConfig == nil) {
+  if (self.identityConfig == nil || ![self.identityConfig isValid]) {
     [self clearConfigurationCache];
+    self.identityConfig = nil;
     return NO;
   }
   return YES;
