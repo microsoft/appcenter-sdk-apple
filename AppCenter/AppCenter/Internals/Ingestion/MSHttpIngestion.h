@@ -43,7 +43,7 @@ static NSString *const kMSETagRequestHeader = @"If-None-Match";
  * @param callId A unique ID that identify a request.
  * @param handler Completion handler
  */
-- (void)sendAsync:(NSObject *)data
+- (void)sendAsync:(nullable NSObject *)data
                  eTag:(nullable NSString *)eTag
                callId:(NSString *)callId
     completionHandler:(MSSendAsyncCompletionHandler)handler;
