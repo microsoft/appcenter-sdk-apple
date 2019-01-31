@@ -10,6 +10,7 @@
 #import "MSServiceAbstractProtected.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+File.h"
+#import <MSAL/MSALPublicClientApplication.h>
 
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
@@ -189,8 +190,17 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 }
 
 - (void)testForwardRedirectURLToMSAL {
-  // handleUrlResponse
-  XCTFail();
+  
+  // If
+  NSURL* expectedURL = [NSURL URLWithString:@"scheme://test"];
+  id msalMock = OCMClassMock([MSALPublicClientApplication class]);
+  
+  // When
+  [MSIdentity handleUrlResponse:expectedURL];
+  
+  // Then
+  OCMVerify([msalMock handleMSALResponse:expectedURL]);
+  [msalMock stopMocking];
 }
 
 - (void)testLoadCacheConfigOnEnabling {
