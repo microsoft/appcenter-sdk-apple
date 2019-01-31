@@ -6,6 +6,8 @@
 
 * **[Fix]** Fix an issue where the crash setup handler could be freed before it could be used, this affects the Xamarin SDK.
 
+___
+
 ## Version 1.13.0
 
 ### AppCenter
