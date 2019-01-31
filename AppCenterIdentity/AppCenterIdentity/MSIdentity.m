@@ -265,8 +265,9 @@ static NSObject *const lock = @"lock";
     id dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
     if (error) {
       MSLogError([MSIdentity logTag], @"Couldn't parse json data: %@", error.localizedDescription);
+    } else {
+      config = [[MSIdentityConfig alloc] initWithDictionary:dictionary];
     }
-    config = [[MSIdentityConfig alloc] initWithDictionary:dictionary];
   }
   return config;
 }
