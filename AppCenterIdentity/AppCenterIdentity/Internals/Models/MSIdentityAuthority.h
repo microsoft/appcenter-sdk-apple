@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Initialize an object from dictionary.
  *
- * @param dictionary A dictionary that contains key/value pairs.
+ * @param dictionary A dictionary that contains the key/value pairs for an authority.
  *
  * @return  A new instance.
  */

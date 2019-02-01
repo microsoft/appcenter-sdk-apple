@@ -28,7 +28,7 @@ static MSIdentity *sharedInstance = nil;
 static dispatch_once_t onceToken;
 
 // Lock object for synchronization.
-static NSObject *const lock = @"lock";
+static NSObject *sLock = @"lock";
 
 @implementation MSIdentity
 
@@ -149,7 +149,7 @@ static NSObject *const lock = @"lock";
 }
 
 - (void)login {
-  @synchronized(lock) {
+  @synchronized(sLock) {
     if (self.clientApplication == nil && self.identityConfig == nil) {
       self.loginDelayed = YES;
       return;
@@ -158,6 +158,7 @@ static NSObject *const lock = @"lock";
     [self.clientApplication acquireTokenForScopes:@[ (NSString * _Nonnull) self.identityConfig.identityScope ]
                                   completionBlock:^(MSALResult *result, NSError *e) {
                                     // TODO: Implement error handling.
+                                    // TODO: synchronize accessToken assignment if it has threading issues
                                     if (e) {
                                     } else {
                                       NSString __unused *accountIdentifier = result.account.homeAccountId.identifier;
@@ -206,7 +207,7 @@ static NSObject *const lock = @"lock";
             // Store eTag only when the configuration file is created successfully.
             if (configUrl) {
 
-              // Response header keys are case-insensitive but NSHTTPURLResponse contains case sensitive keys in Dictionary.
+              // Response header keys are case-insensitive but NSHTTPURLResponse contains case-sensitive keys in Dictionary.
               for (NSString *key in response.allHeaderFields.allKeys) {
                 if ([[key lowercaseString] isEqualToString:kMSETagResponseHeader]) {
                   [MS_USER_DEFAULTS setObject:(_Nonnull id)response.allHeaderFields[key] forKey:kMSIdentityETagKey];
@@ -217,9 +218,6 @@ static NSObject *const lock = @"lock";
               MSLogWarning([MSIdentity logTag], @"Couldn't create Identity config file.");
             }
             self.identityConfig = config;
-
-            // Reinitialize client application.
-            [self configAuthenticationClient];
 
             // Login if it is delayed.
             /*
@@ -244,7 +242,7 @@ static NSObject *const lock = @"lock";
   // Init MSAL client application.
   NSError *error;
   MSALAuthority *auth = [MSALAuthority authorityWithURL:(NSURL * _Nonnull) self.identityConfig.authorities[0].authorityUrl error:nil];
-  @synchronized(lock) {
+  @synchronized(sLock) {
     self.clientApplication = [[MSALPublicClientApplication alloc] initWithClientId:(NSString * _Nonnull) self.identityConfig.clientId
                                                                          authority:auth
                                                                        redirectUri:self.identityConfig.redirectUri

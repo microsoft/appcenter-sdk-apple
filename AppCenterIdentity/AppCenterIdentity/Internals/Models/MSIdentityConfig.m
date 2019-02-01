@@ -42,16 +42,16 @@ static NSString *const kMSAuthorityTypeB2C = @"B2C";
 }
 
 - (BOOL)areAuthoritiesValid {
-  BOOL seenDefault = NO;
+  BOOL foundDefault = NO;
   for (MSIdentityAuthority *authority in self.authorities) {
     if (![authority isValid]) {
       return NO;
     }
     if (authority.defaultAuthority && [authority.type isEqualToString:kMSAuthorityTypeB2C]) {
-      seenDefault = YES;
+      foundDefault = YES;
     }
   }
-  return seenDefault;
+  return foundDefault;
 }
 
 @end

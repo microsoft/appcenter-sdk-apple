@@ -759,7 +759,7 @@ static NSURL *sfURL;
   OCMReject([ingestionCallMock startRetryTimerWithStatusCode:404]);
   OCMStub([ingestionCallMock ingestion:OCMOCK_ANY
               callCompletedWithResponse:[OCMArg checkWithBlock:^BOOL(NSHTTPURLResponse *response) {
-                return response.statusCode == 404;
+                return response.statusCode == MSHTTPCodesNo404NotFound;
               }]
                                    data:OCMOCK_ANY
                                   error:OCMOCK_ANY])
@@ -817,7 +817,7 @@ static NSURL *sfURL;
   OCMStub([ingestionCallMock startRetryTimerWithStatusCode:500]).andDo(nil);
   OCMStub([ingestionCallMock ingestion:OCMOCK_ANY
               callCompletedWithResponse:[OCMArg checkWithBlock:^BOOL(NSHTTPURLResponse *response) {
-                return response.statusCode == 500;
+                return response.statusCode == MSHTTPCodesNo500InternalServerError;
               }]
                                    data:OCMOCK_ANY
                                   error:OCMOCK_ANY])
@@ -2090,7 +2090,7 @@ static NSURL *sfURL;
   OCMReject([ingestionCallMock startRetryTimerWithStatusCode:404]);
   OCMStub([ingestionCallMock ingestion:OCMOCK_ANY
               callCompletedWithResponse:[OCMArg checkWithBlock:^BOOL(NSHTTPURLResponse *response) {
-                return response.statusCode == 404;
+                return response.statusCode == MSHTTPCodesNo404NotFound;
               }]
                                    data:OCMOCK_ANY
                                   error:OCMOCK_ANY])
