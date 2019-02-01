@@ -88,6 +88,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([self.utilityMock loadDataForPathComponent:[service identityConfigFilePath]]).andReturn(serializedConfig);
   id ingestionMock = OCMPartialMock([MSIdentityConfigIngestion alloc]);
   OCMStub([ingestionMock alloc]).andReturn(ingestionMock);
+  OCMStub([ingestionMock sendAsync:OCMOCK_ANY eTag:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
 
   // When
   [service applyEnabledState:YES];
