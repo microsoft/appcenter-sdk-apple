@@ -210,13 +210,9 @@ static NSObject *lock = @"lock";
 
             // Store eTag only when the configuration file is created successfully.
             if (configUrl) {
-
-              // Response header keys are case-insensitive but NSHTTPURLResponse contains case-sensitive keys in Dictionary.
-              for (NSString *key in response.allHeaderFields.allKeys) {
-                if ([[key lowercaseString] isEqualToString:kMSETagResponseHeader]) {
-                  [MS_USER_DEFAULTS setObject:(_Nonnull id)response.allHeaderFields[key] forKey:kMSIdentityETagKey];
-                  break;
-                }
+              NSString *newETag = [MSHttpIngestion eTagFromResponse:response];
+              if (newETag) {
+                [MS_USER_DEFAULTS setObject:newETag forKey:kMSIdentityETagKey];
               }
             } else {
               MSLogWarning([MSIdentity logTag], @"Couldn't create Identity config file.");

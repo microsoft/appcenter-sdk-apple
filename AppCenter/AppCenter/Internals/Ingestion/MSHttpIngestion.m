@@ -408,4 +408,17 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
   [self.session finishTasksAndInvalidate];
 }
 
+#pragma mark - Helper
+
++ (nullable NSString *)eTagFromResponse:(NSHTTPURLResponse *)response {
+
+  // Response header keys are case-insensitive but NSHTTPURLResponse contains case-sensitive keys in Dictionary.
+  for (NSString *key in response.allHeaderFields.allKeys) {
+    if ([[key lowercaseString] isEqualToString:kMSETagResponseHeader]) {
+      return response.allHeaderFields[key];
+    }
+  }
+  return nil;
+}
+
 @end

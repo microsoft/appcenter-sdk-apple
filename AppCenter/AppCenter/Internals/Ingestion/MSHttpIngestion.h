@@ -58,6 +58,15 @@ static NSString *const kMSETagRequestHeader = @"If-None-Match";
  */
 - (NSURLRequest *)createRequest:(NSObject *)data eTag:(nullable NSString *)eTag;
 
+/**
+ * Get eTag from the given response.
+ *
+ * @param response HTTP response with eTag header.
+ *
+ * @return An eTag or `nil` if not found.
+ */
++ (nullable NSString *)eTagFromResponse:(NSHTTPURLResponse *)response;
+
 @end
 
 NS_ASSUME_NONNULL_END
