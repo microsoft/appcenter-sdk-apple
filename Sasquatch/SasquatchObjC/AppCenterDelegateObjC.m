@@ -5,8 +5,8 @@
 #import "AppCenterAnalytics.h"
 #import "AppCenterCrashes.h"
 #import "AppCenterDistribute.h"
-#import "AppCenterPush.h"
 #import "AppCenterIdentity.h"
+#import "AppCenterPush.h"
 
 // Internal
 #import "MSAnalyticsInternal.h"
@@ -17,8 +17,8 @@
 @import AppCenterAnalytics;
 @import AppCenterCrashes;
 @import AppCenterDistribute;
-@import AppCenterPush;
 @import AppCenterIdentity;
+@import AppCenterPush;
 #endif
 
 /**
@@ -88,12 +88,12 @@
   return [MSDistribute isEnabled];
 }
 
-- (BOOL)isPushEnabled {
-  return [MSPush isEnabled];
-}
-
 - (BOOL)isIdentityEnabled {
   return [MSIdentity isEnabled];
+}
+
+- (BOOL)isPushEnabled {
+  return [MSPush isEnabled];
 }
 
 - (void)setAnalyticsEnabled:(BOOL)isEnabled {
@@ -108,12 +108,12 @@
   return [MSDistribute setEnabled:isEnabled];
 }
 
-- (void)setPushEnabled:(BOOL)isEnabled {
-  return [MSPush setEnabled:isEnabled];
-}
-
 - (void)setIdentityEnabled:(BOOL)isEnabled {
   return [MSIdentity setEnabled:isEnabled];
+}
+
+- (void)setPushEnabled:(BOOL)isEnabled {
+  return [MSPush setEnabled:isEnabled];
 }
 
 #pragma mark - MSAnalytics section.

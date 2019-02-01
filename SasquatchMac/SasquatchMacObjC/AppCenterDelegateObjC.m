@@ -5,7 +5,6 @@
 @import AppCenterAnalytics;
 @import AppCenterCrashes;
 @import AppCenterPush;
-@import AppCenterIdentity;
 
 /**
  * AppCenterDelegate implementation in Objective C.
@@ -66,10 +65,6 @@
   return [MSPush isEnabled];
 }
 
--(BOOL)isIdentityEnabled {
-  return [MSIdentity isEnabled];
-}
-
 - (void)setAnalyticsEnabled:(BOOL)isEnabled {
   return [MSAnalytics setEnabled:isEnabled];
 }
@@ -80,10 +75,6 @@
 
 - (void)setPushEnabled:(BOOL)isEnabled {
   return [MSPush setEnabled:isEnabled];
-}
-
-- (void)setIdentityEnabled:(BOOL)isEnabled {
-  return [MSIdentity setEnabled:isEnabled];
 }
 
 #pragma mark - MSAnalytics section.
