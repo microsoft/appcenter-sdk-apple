@@ -209,6 +209,34 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [ingestionMock stopMocking];
 }
 
+- (void)testDontCacheConfigWhenReceivedUnexpectedStatusCode {
+
+  // If
+  __block MSSendAsyncCompletionHandler ingestionBlock;
+  NSString *expectedETag = @"eTag";
+  NSData *expectedConfig = [NSJSONSerialization dataWithJSONObject:self.dummyConfigDic options:(NSJSONWritingOptions)0 error:nil];
+  id ingestionMock = OCMPartialMock([MSIdentityConfigIngestion alloc]);
+  OCMStub([ingestionMock alloc]).andReturn(ingestionMock);
+  OCMStub([ingestionMock sendAsync:nil eTag:expectedETag completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    // Get ingestion block for later call.
+    [invocation retainArguments];
+    [invocation getArgument:&ingestionBlock atIndex:4];
+  });
+  MSIdentity *service = [MSIdentity sharedInstance];
+  OCMReject([self.utilityMock createFileAtPathComponent:[service identityConfigFilePath]
+                                               withData:OCMOCK_ANY
+                                             atomically:OCMOCK_ANY
+                                         forceOverwrite:OCMOCK_ANY]);
+  OCMReject([self.settingsMock setObject:OCMOCK_ANY forKey:kMSIdentityETagKey]);
+
+  // When
+  [service downloadConfigurationWithETag:expectedETag];
+  ingestionBlock(@"callId", [MSHttpTestUtil createMockResponseForStatusCode:500 headers:nil], expectedConfig, nil);
+
+  // Then
+  [ingestionMock stopMocking];
+}
+
 - (void)testForwardRedirectURLToMSAL {
 
   // If
@@ -224,11 +252,16 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 }
 
 - (void)testConfigureMSALWithInvalidConfig {
-  XCTFail();
-}
 
-- (void)testConfigureMSALWithValidConfig {
-  XCTFail();
+  // If
+  MSIdentity *service = [MSIdentity sharedInstance];
+  service.identityConfig = [MSIdentityConfig new];
+
+  // When
+  [service configAuthenticationClient];
+
+  // Then
+  XCTAssertNil(service.clientApplication);
 }
 
 - (void)testLoadInvalidConfigurationFromCache {

@@ -28,6 +28,8 @@ static NSString *const kMSIdentityETagKey = @"MSIdentityETagKey";
 
 - (BOOL)loadConfigurationFromCache;
 
+- (void)configAuthenticationClient;
+
 @end
 
 NS_ASSUME_NONNULL_END
