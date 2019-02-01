@@ -155,9 +155,9 @@ static NSObject *lock = @"lock";
     self.loginDelayed = NO;
     [self.clientApplication acquireTokenForScopes:@[ (NSString * _Nonnull) self.identityConfig.identityScope ]
                                   completionBlock:^(MSALResult *result, NSError *e) {
-                                    // TODO: Implement error handling.
                                     // TODO: synchronize accessToken assignment if it has threading issues
                                     if (e) {
+                                      MSLogError([MSIdentity logTag], @"Couldn't initialize authentication client. Error: %@", e);
                                     } else {
                                       NSString __unused *accountIdentifier = result.account.homeAccountId.identifier;
                                       self.accessToken = result.accessToken;
