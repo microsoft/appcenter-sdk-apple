@@ -5,6 +5,7 @@
 #import "AppCenterAnalytics.h"
 #import "AppCenterCrashes.h"
 #import "AppCenterDistribute.h"
+#import "AppCenterIdentity.h"
 #import "AppCenterPush.h"
 
 // Internal
@@ -16,6 +17,7 @@
 @import AppCenterAnalytics;
 @import AppCenterCrashes;
 @import AppCenterDistribute;
+@import AppCenterIdentity;
 @import AppCenterPush;
 #endif
 
@@ -86,6 +88,10 @@
   return [MSDistribute isEnabled];
 }
 
+- (BOOL)isIdentityEnabled {
+  return [MSIdentity isEnabled];
+}
+
 - (BOOL)isPushEnabled {
   return [MSPush isEnabled];
 }
@@ -100,6 +106,10 @@
 
 - (void)setDistributeEnabled:(BOOL)isEnabled {
   return [MSDistribute setEnabled:isEnabled];
+}
+
+- (void)setIdentityEnabled:(BOOL)isEnabled {
+  return [MSIdentity setEnabled:isEnabled];
 }
 
 - (void)setPushEnabled:(BOOL)isEnabled {
