@@ -18,8 +18,7 @@ static NSString *const kMSApiPath = @"/logs";
                         apiPath:kMSApiPath
                         headers:@{kMSHeaderContentTypeKey : kMSAppCenterContentType, kMSHeaderInstallIDKey : installId}
                    queryStrings:@{kMSAPIVersionKey : kMSAPIVersion}
-                   reachability:[MS_Reachability reachabilityForInternetConnection]
-                 retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]];
+                   reachability:[MS_Reachability reachabilityForInternetConnection]];
   return self;
 }
 

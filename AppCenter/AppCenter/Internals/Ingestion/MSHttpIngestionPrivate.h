@@ -31,6 +31,21 @@
 @property(nonatomic) BOOL enabled;
 
 /**
+ * Initialize the Ingestion with default retry intervals.
+ *
+ * @param baseUrl Base url.
+ * @param apiPath Base API path.
+ * @param headers Http headers.
+ * @param queryStrings An array of query strings.
+ * @param reachability Network reachability helper.
+ */
+- (id)initWithBaseUrl:(NSString *)baseUrl
+              apiPath:(NSString *)apiPath
+              headers:(NSDictionary *)headers
+         queryStrings:(NSDictionary *)queryStrings
+         reachability:(MS_Reachability *)reachability;
+
+/**
  * Initialize the Ingestion.
  *
  * @param baseUrl Base url.

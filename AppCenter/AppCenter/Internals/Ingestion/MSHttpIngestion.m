@@ -23,6 +23,19 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
               apiPath:(NSString *)apiPath
               headers:(NSDictionary *)headers
          queryStrings:(NSDictionary *)queryStrings
+         reachability:(MS_Reachability *)reachability {
+  return [self initWithBaseUrl:baseUrl
+                       apiPath:apiPath
+                       headers:headers
+                  queryStrings:queryStrings
+                  reachability:reachability
+                retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]];
+}
+
+- (id)initWithBaseUrl:(NSString *)baseUrl
+              apiPath:(NSString *)apiPath
+              headers:(NSDictionary *)headers
+         queryStrings:(NSDictionary *)queryStrings
          reachability:(MS_Reachability *)reachability
        retryIntervals:(NSArray *)retryIntervals {
   return [self initWithBaseUrl:baseUrl

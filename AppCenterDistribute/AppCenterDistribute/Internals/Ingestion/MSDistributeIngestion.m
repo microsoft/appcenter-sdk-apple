@@ -29,8 +29,7 @@ static NSString *const kMSLatestPublicReleaseApiPathFormat = @"/public/sdk/apps/
                              apiPath:apiPath
                              headers:header
                         queryStrings:queryStrings
-                        reachability:[MS_Reachability reachabilityForInternetConnection]
-                      retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]])) {
+                        reachability:[MS_Reachability reachabilityForInternetConnection]])) {
     _appSecret = appSecret;
   }
 

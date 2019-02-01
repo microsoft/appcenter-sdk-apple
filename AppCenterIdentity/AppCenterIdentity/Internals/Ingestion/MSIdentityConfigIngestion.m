@@ -13,8 +13,7 @@
                              apiPath:apiPath
                              headers:nil
                         queryStrings:nil
-                        reachability:[MS_Reachability reachabilityForInternetConnection]
-               retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]])) {
+                        reachability:[MS_Reachability reachabilityForInternetConnection]])) {
     _appSecret = appSecret;
   }
 
