@@ -75,7 +75,4 @@ import AppCenterAnalytics
   func lastCrashReportDeviceCarrierName() -> String?
   func lastCrashReportDeviceCarrierCountry() -> String?
   func lastCrashReportDeviceAppNamespace() -> String?
-
-  // Identity action
-  func login()
 }

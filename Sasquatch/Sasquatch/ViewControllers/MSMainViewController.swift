@@ -150,7 +150,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     sender.text = "\(maxSize)"
     UserDefaults.standard.set(maxSize * 1024, forKey: kMSStorageMaxSizeKey)
   }
-  
+
   func toolBarForKeyboard() -> UIToolbar {
     let toolbar = UIToolbar()
     toolbar.sizeToFit()
@@ -169,9 +169,4 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
       destination.appCenter = appCenter
     }
   }
-  
-  @IBAction func login(_ sender: Any) {
-    appCenter.login()
-  }
-
 }

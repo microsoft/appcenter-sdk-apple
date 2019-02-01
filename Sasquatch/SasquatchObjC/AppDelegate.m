@@ -114,7 +114,8 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
     [MSAppCenter startWithServices:services];
     break;
   }
-
+  [MSIdentity login];
+  
   // Set user id.
   NSString *userId = [[NSUserDefaults standardUserDefaults] objectForKey:kMSUserIdKey];
   if (userId) {
