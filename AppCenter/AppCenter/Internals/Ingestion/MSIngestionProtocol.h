@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Send data.
  *
  * @param data Instance that will be transformed to request body.
- * @param eTag Identity tag.
+ * @param eTag HTTP entity tag.
  * @param handler Completion handler.
  */
 - (void)sendAsync:(nullable NSObject *)data eTag:(nullable NSString *)eTag completionHandler:(MSSendAsyncCompletionHandler)handler;

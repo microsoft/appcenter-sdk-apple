@@ -99,7 +99,7 @@ static NSObject *const lock = @"lock";
       MSLogError([MSIdentity logTag], @"Identity config file doesn't exist or invalid.");
     }
 
-    // Dowload identity configuration.
+    // Download identity configuration.
     [self downloadConfigurationWithETag:eTag];
     MSLogInfo([MSIdentity logTag], @"Identity service has been enabled.");
   } else {

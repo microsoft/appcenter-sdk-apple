@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param dictionary A dictionary that contains key/value pairs.
  *
- * @return  A new instance.
+ * @return A new instance.
  */
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 

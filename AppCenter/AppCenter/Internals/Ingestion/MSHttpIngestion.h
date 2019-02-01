@@ -39,7 +39,7 @@ static NSString *const kMSETagRequestHeader = @"If-None-Match";
  * Send data to backend
  *
  * @param data A data instance that will be transformed request body.
- * @param eTag Identity tag.
+ * @param eTag HTTP entity tag.
  * @param callId A unique ID that identify a request.
  * @param handler Completion handler
  */
@@ -52,7 +52,7 @@ static NSString *const kMSETagRequestHeader = @"If-None-Match";
  * Create a request based on data. Must override this method in sub classes.
  *
  * @param data A data instance that will be transformed to request body.
- * @param eTag Identity tag.
+ * @param eTag HTTP entity tag.
  *
  * @return A URL request.
  */
