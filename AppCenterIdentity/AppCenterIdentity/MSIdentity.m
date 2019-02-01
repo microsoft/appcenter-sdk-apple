@@ -28,7 +28,7 @@ static MSIdentity *sharedInstance = nil;
 static dispatch_once_t onceToken;
 
 // Lock object for synchronization.
-static NSObject *sLock = @"lock";
+static NSObject *lock = @"lock";
 
 @implementation MSIdentity
 
@@ -149,7 +149,7 @@ static NSObject *sLock = @"lock";
 }
 
 - (void)login {
-  @synchronized(sLock) {
+  @synchronized(lock) {
     if (self.clientApplication == nil && self.identityConfig == nil) {
       self.loginDelayed = YES;
       return;
@@ -242,7 +242,7 @@ static NSObject *sLock = @"lock";
   // Init MSAL client application.
   NSError *error;
   MSALAuthority *auth = [MSALAuthority authorityWithURL:(NSURL * _Nonnull) self.identityConfig.authorities[0].authorityUrl error:nil];
-  @synchronized(sLock) {
+  @synchronized(lock) {
     self.clientApplication = [[MSALPublicClientApplication alloc] initWithClientId:(NSString * _Nonnull) self.identityConfig.clientId
                                                                          authority:auth
                                                                        redirectUri:self.identityConfig.redirectUri
