@@ -14,7 +14,7 @@
                              headers:nil
                         queryStrings:nil
                         reachability:[MS_Reachability reachabilityForInternetConnection]
-                      retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]])) {
+               retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]])) {
     _appSecret = appSecret;
   }
 

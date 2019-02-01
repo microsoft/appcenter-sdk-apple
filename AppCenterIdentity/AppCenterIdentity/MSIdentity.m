@@ -95,8 +95,6 @@ static NSObject *lock = @"lock";
     if ([self loadConfigurationFromCache]) {
       [self configAuthenticationClient];
       eTag = [MS_USER_DEFAULTS objectForKey:kMSIdentityETagKey];
-    } else {
-      MSLogError([MSIdentity logTag], @"Identity config file doesn't exist or invalid.");
     }
 
     // Download identity configuration.
@@ -176,13 +174,19 @@ static NSObject *lock = @"lock";
 
 - (BOOL)loadConfigurationFromCache {
   NSData *configData = [MSUtility loadDataForPathComponent:[self identityConfigFilePath]];
-  self.identityConfig = [self deserializeData:configData];
-  if (self.identityConfig == nil || ![self.identityConfig isValid]) {
-    [self clearConfigurationCache];
-    self.identityConfig = nil;
-    return NO;
+  if (configData == nil) {
+    MSLogWarning([MSIdentity logTag], @"Identity config file doesn't exist.");
+  } else {
+    self.identityConfig = [self deserializeData:configData];
+    if (self.identityConfig == nil || ![self.identityConfig isValid]) {
+      [self clearConfigurationCache];
+      self.identityConfig = nil;
+      MSLogError([MSIdentity logTag], @"Identity config file is not valid.");
+    } else {
+      return YES;
+    }
   }
-  return YES;
+  return NO;
 }
 
 - (void)downloadConfigurationWithETag:(nullable NSString *)eTag {
@@ -218,6 +222,9 @@ static NSObject *lock = @"lock";
               MSLogWarning([MSIdentity logTag], @"Couldn't create Identity config file.");
             }
             self.identityConfig = config;
+
+            // Reinitialize client application.
+            [self configAuthenticationClient];
 
             // Login if it is delayed.
             /*
