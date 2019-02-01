@@ -392,6 +392,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
 - (void)dealloc {
   [self.reachability stopNotifier];
   [MS_NOTIFICATION_CENTER removeObserver:self name:kMSReachabilityChangedNotification object:nil];
+  [self.session finishTasksAndInvalidate];
 }
 
 @end
