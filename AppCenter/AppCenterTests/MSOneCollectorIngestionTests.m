@@ -62,7 +62,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   // When
   NSString *containerId = @"1";
   MSLogContainer *container = [self createLogContainerWithId:containerId];
-  NSURLRequest *request = [self.sut createRequest:container];
+  NSURLRequest *request = [self.sut createRequest:container eTag:nil];
   NSArray *keys = [request.allHTTPHeaderFields allKeys];
 
   // Then
@@ -135,7 +135,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   MSLogContainer *logContainer = [[MSLogContainer alloc] initWithBatchId:containerId andLogs:(NSArray<id<MSLog>> *)@[ log1, log2 ]];
 
   // When
-  NSURLRequest *request = [self.sut createRequest:logContainer];
+  NSURLRequest *request = [self.sut createRequest:logContainer eTag:nil];
 
   // Then
   XCTAssertNotNil(request);
@@ -155,10 +155,10 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   MSLogContainer *container = [self createLogContainerWithId:containerId];
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Response 200"];
   [self.sut sendAsync:container
-      completionHandler:^(NSString *batchId, NSUInteger statusCode, __attribute__((unused)) NSData *data, NSError *error) {
+      completionHandler:^(NSString *batchId, NSHTTPURLResponse *response, __attribute__((unused)) NSData *data, NSError *error) {
         XCTAssertNil(error);
         XCTAssertEqual(containerId, batchId);
-        XCTAssertEqual((MSHTTPCodesNo)statusCode, MSHTTPCodesNo200OK);
+        XCTAssertEqual((MSHTTPCodesNo)response.statusCode, MSHTTPCodesNo200OK);
         [expectation fulfill];
       }];
 
@@ -183,9 +183,8 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 
   // When
   [self.sut sendAsync:container
-      completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
+      completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSHTTPURLResponse *response,
                           __attribute__((unused)) NSData *data, NSError *error) {
-
         // Then
         XCTAssertEqual(error.domain, kMSACErrorDomain);
         XCTAssertEqual(error.code, kMSACLogInvalidContainerErrorCode);
@@ -203,9 +202,8 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   // When
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Network Down"];
   [self.sut sendAsync:container
-      completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
+      completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSHTTPURLResponse *response,
                           __attribute__((unused)) NSData *data, NSError *error) {
-
         // Then
         XCTAssertNotNil(error);
         [expectation fulfill];
@@ -235,7 +233,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 
   // Then
   XCTAssertNil(query);
-  XCTAssertTrue([[self.sut.sendURL absoluteString] isEqualToString:(NSString * _Nonnull)expectedURL.absoluteString]);
+  XCTAssertTrue([[self.sut.sendURL absoluteString] isEqualToString:(NSString * _Nonnull) expectedURL.absoluteString]);
 }
 
 - (void)testSetInvalidBaseURL {
@@ -271,7 +269,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   NSData *httpBody = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
 
   // When
-  NSURLRequest *request = [self.sut createRequest:logContainer];
+  NSURLRequest *request = [self.sut createRequest:logContainer eTag:nil];
 
   // Then
   XCTAssertNil(request.allHTTPHeaderFields[kMSHeaderContentEncodingKey]);
@@ -300,7 +298,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   NSData *httpBody = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
 
   // When
-  NSURLRequest *request = [self.sut createRequest:logContainer];
+  NSURLRequest *request = [self.sut createRequest:logContainer eTag:nil];
 
   // Then
   XCTAssertEqual(request.allHTTPHeaderFields[kMSHeaderContentEncodingKey], kMSHeaderContentEncoding);

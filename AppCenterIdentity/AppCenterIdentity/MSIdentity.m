@@ -3,9 +3,12 @@
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
 #import "MSConstants+Internal.h"
-#import "MSIdentityInternal.h"
+#import "MSIdentityConfig.h"
+#import "MSIdentityConfigIngestion.h"
+#import "MSIdentityPrivate.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSServiceInternal.h"
+#import "MSUtility+File.h"
 #import <MSAL/MSALPublicClientApplication.h>
 
 // Service name for initialization.
@@ -14,19 +17,18 @@ static NSString *const kMSServiceName = @"Identity";
 // The group Id for storage.
 static NSString *const kMSGroupId = @"Identity";
 
+// The path component of Identity for configuration.
+static NSString *const kMSIdentityPathComponent = @"identity";
+
+// The Identity config file name.
+static NSString *const kMSIdentityConfigFilename = @"config.json";
+
 // Singleton
 static MSIdentity *sharedInstance = nil;
 static dispatch_once_t onceToken;
 
-// Authentication URL formats.
-static NSString *const kMSAuthorityFormat = @"https://login.microsoftonline.com/tfp/%@.onmicrosoft.com/%@";
-static NSString *const kMSAuthScopeFormat = @"https://%@.onmicrosoft.com/%@/user_impersonation";
-
-// Configuration (Temporary). Fill constant values for your backend.
-static NSString *const kMSTenantName = @"";
-static NSString *const kMSPolicyName = @"";
-static NSString *const kMSAPIIdentifier = @"";
-static NSString *const kMSClientId = @"";
+// Lock object for synchronization.
+static NSObject *lock = @"lock";
 
 @implementation MSIdentity
 
@@ -40,12 +42,8 @@ static NSString *const kMSClientId = @"";
     // Init channel configuration.
     _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
 
-    // Init client application.
-    NSError *error;
-    _clientApplication = [[MSALPublicClientApplication alloc] initWithClientId:kMSClientId error:&error];
-    if (error != nil) {
-      MSLogError([MSIdentity logTag], @"Failed to initialize client application.");
-    }
+    // Create a path component for Identity.
+    [MSUtility createDirectoryForPathComponent:kMSIdentityPathComponent];
   }
   return self;
 }
@@ -91,10 +89,21 @@ static NSString *const kMSClientId = @"";
   [super applyEnabledState:isEnabled];
   if (isEnabled) {
     [self.channelGroup addDelegate:self];
-    [self acquireToken];
+
+    // Read Identity config file.
+    NSString *eTag = nil;
+    if ([self loadConfigurationFromCache]) {
+      [self configAuthenticationClient];
+      eTag = [MS_USER_DEFAULTS objectForKey:kMSIdentityETagKey];
+    }
+
+    // Download identity configuration.
+    [self downloadConfigurationWithETag:eTag];
     MSLogInfo([MSIdentity logTag], @"Identity service has been enabled.");
   } else {
+    self.clientApplication = nil;
     self.accessToken = nil;
+    [self clearConfigurationCache];
     [self.channelGroup removeDelegate:self];
     MSLogInfo([MSIdentity logTag], @"Identity service has been disabled.");
   }
@@ -131,26 +140,143 @@ static NSString *const kMSClientId = @"";
   [MSALPublicClientApplication handleMSALResponse:url];
 }
 
-- (void)acquireToken {
-  if (self.clientApplication == nil) {
-    return;
-  }
-  NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:kMSAuthorityFormat, kMSTenantName, kMSPolicyName]];
-  MSALAuthority *authority = [MSALAuthority authorityWithURL:url error:nil];
-  [self.clientApplication acquireTokenForScopes:@[ [NSString stringWithFormat:kMSAuthScopeFormat, kMSTenantName, kMSAPIIdentifier] ]
-                           extraScopesToConsent:nil
-                                      loginHint:nil
-                                     uiBehavior:MSALUIBehaviorDefault
-                           extraQueryParameters:nil
-                                      authority:authority
-                                  correlationId:nil
-                                completionBlock:^(MSALResult *result, NSError *e) {
-                                  // TODO: Implement error handling.
-                                  if (e) {
-                                  } else {
-                                    NSString __unused *accountIdentifier = result.account.homeAccountId.identifier;
-                                    self.accessToken = result.accessToken;
-                                  }
-                                }];
++ (void)login {
+
+  // TODO protect with canBeUsed.
+  [[MSIdentity sharedInstance] login];
 }
+
+- (void)login {
+  @synchronized(lock) {
+    if (self.clientApplication == nil && self.identityConfig == nil) {
+      self.loginDelayed = YES;
+      return;
+    }
+    self.loginDelayed = NO;
+    [self.clientApplication acquireTokenForScopes:@[ (NSString * _Nonnull) self.identityConfig.identityScope ]
+                                  completionBlock:^(MSALResult *result, NSError *e) {
+                                    // TODO: Implement error handling.
+                                    // TODO: synchronize accessToken assignment if it has threading issues
+                                    if (e) {
+                                    } else {
+                                      NSString __unused *accountIdentifier = result.account.homeAccountId.identifier;
+                                      self.accessToken = result.accessToken;
+                                    }
+                                  }];
+  }
+}
+
+#pragma mark - Private methods
+
+- (NSString *)identityConfigFilePath {
+  return [NSString stringWithFormat:@"%@/%@", kMSIdentityPathComponent, kMSIdentityConfigFilename];
+}
+
+- (BOOL)loadConfigurationFromCache {
+  NSData *configData = [MSUtility loadDataForPathComponent:[self identityConfigFilePath]];
+  if (configData == nil) {
+    MSLogWarning([MSIdentity logTag], @"Identity config file doesn't exist.");
+  } else {
+    self.identityConfig = [self deserializeData:configData];
+    if (self.identityConfig == nil || ![self.identityConfig isValid]) {
+      [self clearConfigurationCache];
+      self.identityConfig = nil;
+      MSLogError([MSIdentity logTag], @"Identity config file is not valid.");
+    } else {
+      return YES;
+    }
+  }
+  return NO;
+}
+
+- (void)downloadConfigurationWithETag:(nullable NSString *)eTag {
+
+  // Download configuration.
+  MSIdentityConfigIngestion *ingestion =
+      [[MSIdentityConfigIngestion alloc] initWithBaseUrl:@"https://mobilecentersdkdev.blob.core.windows.net" appSecret:self.appSecret];
+  [ingestion sendAsync:nil
+                   eTag:eTag
+      completionHandler:^(__unused NSString *callId, NSHTTPURLResponse *response, NSData *data, __unused NSError *error) {
+        MSIdentityConfig *config = nil;
+        if (response.statusCode == MSHTTPCodesNo304NotModified) {
+          MSLogInfo([MSIdentity logTag], @"Identity configuration hasn't changed.");
+        } else if (response.statusCode == MSHTTPCodesNo200OK) {
+          config = [self deserializeData:data];
+          if ([config isValid]) {
+            NSURL *configUrl = [MSUtility createFileAtPathComponent:[self identityConfigFilePath]
+                                                           withData:data
+                                                         atomically:YES
+                                                     forceOverwrite:YES];
+
+            // Store eTag only when the configuration file is created successfully.
+            if (configUrl) {
+
+              // Response header keys are case-insensitive but NSHTTPURLResponse contains case-sensitive keys in Dictionary.
+              for (NSString *key in response.allHeaderFields.allKeys) {
+                if ([[key lowercaseString] isEqualToString:kMSETagResponseHeader]) {
+                  [MS_USER_DEFAULTS setObject:(_Nonnull id)response.allHeaderFields[key] forKey:kMSIdentityETagKey];
+                  break;
+                }
+              }
+            } else {
+              MSLogWarning([MSIdentity logTag], @"Couldn't create Identity config file.");
+            }
+            self.identityConfig = config;
+
+            // Reinitialize client application.
+            [self configAuthenticationClient];
+
+            // Login if it is delayed.
+            /*
+             * TODO: Login can be called when the app is in background. Make sure the SDK doesn't display browser with login screen when the
+             * app is in background. Only display in foreground.
+             */
+            if (self.loginDelayed) {
+              [self login];
+            }
+          } else {
+            MSLogError([MSIdentity logTag], @"Downloaded identity configuration is not valid.");
+          }
+        } else {
+          MSLogError([MSIdentity logTag], @"Failed to download identity configuration. Status code received: %ld",
+                     (long)response.statusCode);
+        }
+      }];
+}
+
+- (void)configAuthenticationClient {
+
+  // Init MSAL client application.
+  NSError *error;
+  MSALAuthority *auth = [MSALAuthority authorityWithURL:(NSURL * _Nonnull) self.identityConfig.authorities[0].authorityUrl error:nil];
+  @synchronized(lock) {
+    self.clientApplication = [[MSALPublicClientApplication alloc] initWithClientId:(NSString * _Nonnull) self.identityConfig.clientId
+                                                                         authority:auth
+                                                                       redirectUri:self.identityConfig.redirectUri
+                                                                             error:&error];
+  }
+  if (error != nil) {
+    MSLogError([MSIdentity logTag], @"Failed to initialize client application.");
+  }
+}
+
+- (void)clearConfigurationCache {
+  [MSUtility deleteItemForPathComponent:[self identityConfigFilePath]];
+  [MS_USER_DEFAULTS removeObjectForKey:kMSIdentityETagKey];
+}
+
+- (MSIdentityConfig *)deserializeData:(NSData *)data {
+  NSError *error;
+  MSIdentityConfig *config;
+  if (data) {
+    id dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+    if (error) {
+      MSLogError([MSIdentity logTag], @"Couldn't parse json data: %@", error.localizedDescription);
+    } else {
+      config = [[MSIdentityConfig alloc] initWithDictionary:dictionary];
+    }
+  }
+  return config;
+}
+
 @end

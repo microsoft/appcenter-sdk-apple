@@ -35,6 +35,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sendAsync:(nullable NSObject *)data completionHandler:(MSSendAsyncCompletionHandler)handler;
 
 /**
+ * Send data.
+ *
+ * @param data Instance that will be transformed to request body.
+ * @param eTag HTTP entity tag.
+ * @param handler Completion handler.
+ */
+- (void)sendAsync:(nullable NSObject *)data eTag:(nullable NSString *)eTag completionHandler:(MSSendAsyncCompletionHandler)handler;
+
+/**
  * Add the given delegate to the ingestion.
  *
  * @param delegate Ingestion's delegate.

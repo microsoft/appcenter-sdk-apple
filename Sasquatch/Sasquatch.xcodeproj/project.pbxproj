@@ -759,6 +759,7 @@
 		046790411E8DA7D80033FDEC /* AppCenterPush.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterPush.framework; path = "../AppCenter-SDK-Apple/iOS/AppCenterPush.framework"; sourceTree = "<group>"; };
 		046790441E8DA8D50033FDEC /* SasquatchSwift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchSwift.entitlements; sourceTree = "<group>"; };
 		046790451E8DA8DD0033FDEC /* SasquatchObjC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchObjC.entitlements; sourceTree = "<group>"; };
+		047746422201000B0045504A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		047D13711EAFBDBE00D699BA /* AppCenterDistributeResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AppCenterDistributeResources.bundle; path = "../AppCenter-SDK-Apple/iOS/AppCenterDistributeResources.bundle"; sourceTree = "<group>"; };
 		0482105C1FD0B611006824F7 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Sasquatch.strings; sourceTree = "<group>"; };
 		048C079121F11ED200769A85 /* MSAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MSAL.framework; path = ../Vendor/iOS/MSAL/MSAL.framework; sourceTree = "<group>"; };
@@ -987,6 +988,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0477460F2200FFED0045504A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				047746422201000B0045504A /* Info.plist */,
+				B2C97B8A2106535500042A03 /* Assets.xcassets */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		354273DD20126A3E00BE766F /* EventFilter */ = {
 			isa = PBXGroup;
 			children = (
@@ -1266,7 +1276,7 @@
 		B2C97B5A21064A5300042A03 /* SasquatchPuppet */ = {
 			isa = PBXGroup;
 			children = (
-				B2C97B8A2106535500042A03 /* Assets.xcassets */,
+				0477460F2200FFED0045504A /* Supporting Files */,
 			);
 			path = SasquatchPuppet;
 			sourceTree = "<group>";
@@ -2725,7 +2735,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = "$(SRCROOT)/SasquatchObjC/Info.plist";
+				INFOPLIST_FILE = SasquatchPuppet/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchpuppet;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -2739,7 +2749,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = "$(SRCROOT)/SasquatchObjC/Info.plist";
+				INFOPLIST_FILE = SasquatchPuppet/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchpuppet;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
