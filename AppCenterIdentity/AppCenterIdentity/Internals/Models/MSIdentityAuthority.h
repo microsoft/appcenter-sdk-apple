@@ -4,10 +4,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MSIdentityAuthority : NSObject
 
+/**
+ * The type of the authority
+ */
 @property(nonatomic, copy) NSString *type;
 
+/**
+ * The flag that indicates whether the authority is default or not.
+ */
 @property(nonatomic) BOOL defaultAuthority;
 
+/**
+ * The authority URL of user flow.
+ */
 @property(nonatomic, copy) NSURL *authorityUrl;
 
 /**

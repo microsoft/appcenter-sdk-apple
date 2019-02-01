@@ -6,12 +6,24 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MSIdentityConfig : NSObject
 
+/**
+ * The identity scope to be used for user authentication.
+ */
 @property(nonatomic, copy) NSString *identityScope;
 
+/**
+ * The client ID (aka application ID) of Azure AD B2C application.
+ */
 @property(nonatomic, copy) NSString *clientId;
 
+/**
+ * The redirect URI to get back to an application after authentication.
+ */
 @property(nonatomic, copy) NSString *redirectUri;
 
+/**
+ * The authorities that contain URLs for user flows.
+ */
 @property(nonatomic, copy) NSArray<MSIdentityAuthority *> *authorities;
 
 /**

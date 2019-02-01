@@ -12,22 +12,53 @@ static NSString *const kMSIdentityETagKey = @"MSIdentityETagKey";
 
 @interface MSIdentity () <MSServiceInternal, MSChannelDelegate>
 
+/**
+ * The MSAL client for authentication.
+ */
 @property(nonatomic, nullable) MSALPublicClientApplication *clientApplication;
 
+/**
+ * The user access token to be used for user identifier.
+ */
 @property(nonatomic, nullable) NSString *accessToken;
 
+/**
+ * The configuration for the Identity service.
+ */
 @property(nonatomic, nullable) MSIdentityConfig *identityConfig;
 
+/**
+ * The flag that indicates a user requested login before it is configured.
+ */
 @property(nonatomic) BOOL loginDelayed;
 
+/**
+ * Rest singleton instance.
+ */
 + (void)resetSharedInstance;
 
+/**
+ * Get a file path of identity config.
+ *
+ * @return The config file path.
+ */
 - (NSString *)identityConfigFilePath;
 
+/**
+ * Download identity configuration with an eTag.
+ */
 - (void)downloadConfigurationWithETag:(nullable NSString *)eTag;
 
+/**
+ * Load identity configuration from cache file.
+ *
+ * @return `YES` if the configuration loaded successfully, otherwise `NO`.
+ */
 - (BOOL)loadConfigurationFromCache;
 
+/**
+ * Config MSAL client.
+ */
 - (void)configAuthenticationClient;
 
 @end
