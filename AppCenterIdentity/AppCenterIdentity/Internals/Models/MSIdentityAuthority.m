@@ -17,7 +17,7 @@ static NSString *const kMSAuthorityUrl = @"authority_url";
       self.type = (NSString * _Nonnull) dictionary[kMSType];
     }
     if (dictionary[kMSDefault]) {
-      self.defaultAuthority = [(NSObject *)dictionary[kMSDefault] isEqual:@YES];
+      self.defaultAuthority = [(NSNumber *)dictionary[kMSDefault] boolValue];
     }
     if (dictionary[kMSAuthorityUrl]) {
       if (![(NSObject *)dictionary[kMSAuthorityUrl] isKindOfClass:[NSNull class]]) {

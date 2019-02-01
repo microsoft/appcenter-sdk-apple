@@ -24,7 +24,7 @@
 - (void)testAuthorityInitWithDictionary {
 
   // If
-  NSDictionary *dic = @{@"type" : @"B2C", @"default" : @YES, @"authority_url" : @"https://contoso.com/identity/path"};
+  NSMutableDictionary *dic = [@{@"type" : @"B2C", @"default" : @YES, @"authority_url" : @"https://contoso.com/identity/path"} mutableCopy];
 
   // When
   MSIdentityAuthority *authority = [[MSIdentityAuthority alloc] initWithDictionary:dic];
@@ -33,6 +33,15 @@
   XCTAssertEqualObjects(dic[@"type"], authority.type);
   XCTAssertEqual([dic[@"default"] boolValue], authority.defaultAuthority);
   XCTAssertEqualObjects([NSURL URLWithString:dic[@"authority_url"]], authority.authorityUrl);
+
+  // If
+  dic[@"default"] = @NO;
+
+  // When
+  authority = [[MSIdentityAuthority alloc] initWithDictionary:dic];
+
+  // Then
+  XCTAssertEqual([dic[@"default"] boolValue], authority.defaultAuthority);
 }
 
 - (void)testAuthorityIsValid {
@@ -50,7 +59,7 @@
   XCTAssertFalse([auth isValid]);
 
   // When
-  auth.defaultAuthority = true;
+  auth.defaultAuthority = YES;
 
   // Then
   XCTAssertFalse([auth isValid]);
