@@ -65,7 +65,7 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target,
 #pragma mark - Reachability implementation
 
 /*
- * Instantiation, deallocation and starting/stopping notifier for reachability
+ * Starting and stopping notifier for reachability
  * instance are enforced to run in main thread. MS_Reachability is not
  * thread-safe so stopNotifier doesn't properly unschedule jobs from the loop
  * when it is called from a different thread, and this generates unexpected
@@ -81,17 +81,11 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target,
 #pragma clang diagnostic ignored "-Wnullable-to-nonnull-conversion"
 
 + (instancetype)reachabilityWithHostName:(NSString *)hostName {
-  __block MS_Reachability *returnValue = NULL;
+  MS_Reachability *returnValue = NULL;
   SCNetworkReachabilityRef reachability =
       SCNetworkReachabilityCreateWithName(NULL, [hostName UTF8String]);
   if (reachability != NULL) {
-    if ([NSThread isMainThread]) {
-      returnValue = [[MS_Reachability alloc] init];
-    } else {
-      dispatch_sync(dispatch_get_main_queue(), ^{
-        returnValue = [[MS_Reachability alloc] init];
-      });
-    }
+    returnValue = [[MS_Reachability alloc] init];
     if (returnValue != NULL) {
       returnValue.reachabilityRef = reachability;
     } else {
@@ -104,17 +98,11 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target,
 #pragma clang diagnostic pop
 
 + (instancetype)reachabilityWithAddress:(const struct sockaddr *)hostAddress {
-  __block MS_Reachability *returnValue = NULL;
+  MS_Reachability *returnValue = NULL;
   SCNetworkReachabilityRef reachability =
       SCNetworkReachabilityCreateWithAddress(kCFAllocatorDefault, hostAddress);
   if (reachability != NULL) {
-    if ([NSThread isMainThread]) {
-      returnValue = [[MS_Reachability alloc] init];
-    } else {
-      dispatch_sync(dispatch_get_main_queue(), ^{
-        returnValue = [[MS_Reachability alloc] init];
-      });
-    }
+    returnValue = [[MS_Reachability alloc] init];
     if (returnValue != NULL) {
       returnValue.reachabilityRef = reachability;
     } else {
