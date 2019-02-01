@@ -121,15 +121,9 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target,
   return [self reachabilityWithAddress:(const struct sockaddr *)&zeroAddress];
 }
 
-#pragma mark reachabilityForLocalWiFi
-// reachabilityForLocalWiFi has been removed from the sample.  See ReadMe.md for
-// more information.
-//+ (instancetype)reachabilityForLocalWiFi
-
 #pragma mark - Start and stop notifier
 
-- (BOOL)startNotifier {
-  __block BOOL returnValue = NO;
+- (void)startNotifier {
   dispatch_block_t block = ^{
     SCNetworkReachabilityContext context = {0, (__bridge void *)(self), NULL,
                                             NULL, NULL};
@@ -138,16 +132,16 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target,
       if (SCNetworkReachabilityScheduleWithRunLoop(self.reachabilityRef,
                                                    CFRunLoopGetCurrent(),
                                                    kCFRunLoopDefaultMode)) {
-        returnValue = YES;
+        [[NSNotificationCenter defaultCenter] postNotificationName:kMSReachabilityChangedNotification
+                                                            object:self];
       }
     }
   };
   if ([NSThread isMainThread]) {
     block();
   } else {
-    dispatch_sync(dispatch_get_main_queue(), block);
+    dispatch_async(dispatch_get_main_queue(), block);
   }
-  return returnValue;
 }
 
 - (void)stopNotifier {
@@ -160,7 +154,7 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target,
   if ([NSThread isMainThread]) {
     block();
   } else {
-    dispatch_sync(dispatch_get_main_queue(), block);
+    dispatch_async(dispatch_get_main_queue(), block);
   }
 }
 
