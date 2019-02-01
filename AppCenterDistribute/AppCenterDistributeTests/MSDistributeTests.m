@@ -599,6 +599,7 @@ static NSURL *sfURL;
 - (void)testShowConfirmationAlertForMandatoryUpdateWhileNoNetwork {
 
   // If
+  self.sut.appSecret = kMSTestAppSecret;
   XCTestExpectation *expectation = [self expectationWithDescription:@"Confirmation alert for private distribution has been displayed"];
 
   // Mock alert.
@@ -692,6 +693,7 @@ static NSURL *sfURL;
 - (void)testDontShowConfirmationAlertIfNoMandatoryReleaseWhileNoNetwork {
 
   // If
+  self.sut.appSecret = kMSTestAppSecret;
   XCTestExpectation *expectation = [self expectationWithDescription:@"Confirmation alert for private distribution has been displayed"];
 
   // Mock alert.
