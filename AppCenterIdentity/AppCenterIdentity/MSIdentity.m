@@ -68,7 +68,6 @@ static NSObject *const lock = @"lock";
       transmissionTargetToken:(nullable NSString *)token
               fromApplication:(BOOL)fromApplication {
   [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
-
   MSLogVerbose([MSIdentity logTag], @"Started Identity service.");
 }
 
@@ -97,7 +96,6 @@ static NSObject *const lock = @"lock";
       [self configAuthenticationClient];
       eTag = [MS_USER_DEFAULTS objectForKey:kMSIdentityETagKey];
     } else {
-      // TODO review log level for the message maybe split by config doesn't exist and is invalid.
       MSLogError([MSIdentity logTag], @"Identity config file doesn't exist or invalid.");
     }
 
@@ -224,6 +222,10 @@ static NSObject *const lock = @"lock";
             [self configAuthenticationClient];
 
             // Login if it is delayed.
+            /*
+             * TODO: Login can be called when the app is in background. Make sure the SDK doesn't display browser with login screen when the
+             * app is in background. Only display in foreground.
+             */
             if (self.loginDelayed) {
               [self login];
             }

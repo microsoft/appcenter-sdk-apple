@@ -17,9 +17,7 @@ static NSString *const kMSAuthorityUrl = @"authority_url";
       self.type = (NSString * _Nonnull) dictionary[kMSType];
     }
     if (dictionary[kMSDefault]) {
-
-      // TODO: Revisit here and find simpler way to parse BOOL value.
-      self.defaultAuthority = [(NSObject *)dictionary[kMSDefault] isEqual:@YES] ? YES : NO;
+      self.defaultAuthority = [(NSObject *)dictionary[kMSDefault] isEqual:@YES];
     }
     if (dictionary[kMSAuthorityUrl]) {
       if (![(NSObject *)dictionary[kMSAuthorityUrl] isKindOfClass:[NSNull class]]) {
