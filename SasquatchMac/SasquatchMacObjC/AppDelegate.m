@@ -31,6 +31,24 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
   [self setupCrashes];
   [self setupPush];
 
+  // Set max storage size.
+  NSNumber *storageMaxSize = [[NSUserDefaults standardUserDefaults] objectForKey:kMSStorageMaxSizeKey];
+  if (storageMaxSize) {
+      [MSAppCenter setMaxStorageSize:storageMaxSize.integerValue
+                   completionHandler:^(BOOL success) {
+                       dispatch_async(dispatch_get_main_queue(), ^{
+                           if (success) {
+                               long realStorageSize = (long)(ceil([storageMaxSize doubleValue] / kMSStoragePageSize) * kMSStoragePageSize);
+                               [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithLong:realStorageSize]
+                                                                  forKey:kMSStorageMaxSizeKey];
+                           } else {
+                               // Remove invalid value.
+                               [[NSUserDefaults standardUserDefaults] removeObjectForKey:kMSStorageMaxSizeKey];
+                           }
+                       });
+                   }];
+  }
+
   // Start AppCenter.
   NSArray<Class> *services = @ [[MSAnalytics class], [MSCrashes class], [MSPush class]];
   NSInteger startTarget = [[NSUserDefaults standardUserDefaults] integerForKey:kMSStartTargetKey];

@@ -990,6 +990,8 @@
                         <outlet property="logURLLabel" destination="ktO-VZ-RCE" id="FrS-qE-UaM"/>
                         <outlet property="setEnabledButton" destination="rUG-7Y-zgX" id="GbW-bg-fMF"/>
                         <outlet property="startupModeField" destination="QHt-Sf-WnZ" id="CqZ-68-n7c"/>
+                        <outlet property="storageFileSizeField" destination="ufS-r3-0uH" id="bKb-dx-kB7"/>
+                        <outlet property="storageMaxSizeField" destination="t5v-V3-aso" id="1hm-yv-eiq"/>
                         <outlet property="userIdLabel" destination="VA4-N7-8nZ" id="mMQ-ai-7wv"/>
                     </connections>
                 </viewController>
