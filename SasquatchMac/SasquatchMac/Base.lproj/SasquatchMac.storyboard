@@ -882,6 +882,9 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="loginClicked:" target="O3Z-WH-pbf" id="mGT-i3-aRm"/>
+                                </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9qE-Q3-fww">
                                 <rect key="frame" x="302" y="251" width="93" height="32"/>
@@ -889,6 +892,9 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="singOutClicked:" target="O3Z-WH-pbf" id="wCu-qR-GD6"/>
+                                </connections>
                             </button>
                             <comboBox verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QHt-Sf-WnZ">
                                 <rect key="frame" x="138" y="345" width="148" height="26"/>
@@ -988,16 +994,32 @@
                         <outlet property="deviceIdField" destination="7dF-GM-Y0D" id="FEY-bl-hqc"/>
                         <outlet property="installIdLabel" destination="Ih6-MC-nUR" id="X6a-Ru-i1f"/>
                         <outlet property="logURLLabel" destination="ktO-VZ-RCE" id="FrS-qE-UaM"/>
+                        <outlet property="loginButton" destination="rm3-tN-rQO" id="xbE-Fo-Hu6"/>
                         <outlet property="setEnabledButton" destination="rUG-7Y-zgX" id="GbW-bg-fMF"/>
+                        <outlet property="signOutButton" destination="9qE-Q3-fww" id="ueX-Zo-hgU"/>
                         <outlet property="startupModeField" destination="QHt-Sf-WnZ" id="CqZ-68-n7c"/>
                         <outlet property="storageFileSizeField" destination="ufS-r3-0uH" id="bKb-dx-kB7"/>
                         <outlet property="storageMaxSizeField" destination="t5v-V3-aso" id="1hm-yv-eiq"/>
                         <outlet property="userIdLabel" destination="VA4-N7-8nZ" id="mMQ-ai-7wv"/>
+                        <segue destination="R44-kq-Jtw" kind="show" identifier="ShowSignIn" id="mzV-VC-P6l"/>
                     </connections>
                 </viewController>
                 <customObject id="Dsf-ic-m1f" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="74" y="1269"/>
+        </scene>
+        <!--Authentication View Controller-->
+        <scene sceneID="YYg-TV-gYM">
+            <objects>
+                <viewController id="R44-kq-Jtw" customClass="AuthenticationViewController" customModule="SasquatchMacObjC" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="JUc-Sh-x6o">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </viewController>
+                <customObject id="vLk-6U-B4n" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="90" y="1871"/>
         </scene>
         <!--Push View Controller-->
         <scene sceneID="K2h-f4-aYX">

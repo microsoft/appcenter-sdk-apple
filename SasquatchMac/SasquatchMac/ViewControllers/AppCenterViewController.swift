@@ -6,6 +6,7 @@ let kMSDefaultDatabaseSize = 100 * 1024 * 1024
 class AppCenterViewController : NSViewController, NSTextFieldDelegate {
 
   var appCenter: AppCenterDelegate = AppCenterProvider.shared().appCenter!
+  var currentAction = AuthenticationViewController.AuthAction.login
 
   @IBOutlet var installIdLabel : NSTextField?
   @IBOutlet var appSecretLabel : NSTextField?
@@ -17,6 +18,8 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate {
   @IBOutlet weak var startupModeField: NSComboBox!
   @IBOutlet weak var storageMaxSizeField: NSTextField!
   @IBOutlet weak var storageFileSizeField: NSTextField!
+  @IBOutlet weak var loginButton: NSButton!
+  @IBOutlet weak var signOutButton: NSButton!
 
   private var dbFileDescriptor: CInt = 0
   private var dbFileSource: DispatchSourceProtocol?
@@ -103,5 +106,25 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate {
           UserDefaults.standard.set(maxSize * 1024, forKey: kMSStorageMaxSizeKey)
       }
   }
+
+    // Authentication
+    func showSignInController(action: AuthenticationViewController.AuthAction) {
+        currentAction = action
+        self.performSegue(withIdentifier: "ShowSignIn", sender: self)
+    }
+
+    @IBAction func loginClicked(_ sender: NSButton) {
+        showSignInController(action: AuthenticationViewController.AuthAction.login)
+    }
+
+    @IBAction func singOutClicked(_ sender: NSButton) {
+        showSignInController(action: AuthenticationViewController.AuthAction.signout)
+    }
+
+    override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
+        if let signInController = segue.destinationController as? AuthenticationViewController {
+            signInController.action = currentAction
+        }
+    }
 
 }
