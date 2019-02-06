@@ -245,10 +245,11 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   id msalMock = OCMClassMock([MSALPublicClientApplication class]);
 
   // When
-  [MSIdentity handleUrlResponse:expectedURL];
+  BOOL result = [MSIdentity openURL:expectedURL]; // TODO add more tests
 
   // Then
   OCMVerify([msalMock handleMSALResponse:expectedURL]);
+  XCTAssertFalse(result);
   [msalMock stopMocking];
 }
 

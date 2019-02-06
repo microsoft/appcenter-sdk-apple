@@ -314,13 +314,6 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 
 #pragma mark - Temporary Identity callbacks
 
-- (BOOL)application:(UIApplication *)application
-            openURL:(nonnull NSURL *)url
-            options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
-  [MSIdentity handleUrlResponse:url];
-  return YES;
-}
-
 #pragma mark - Push callbacks
 
 // iOS 10 and later, called when a notification is delivered to an app that is in the foreground.

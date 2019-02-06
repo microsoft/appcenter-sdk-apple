@@ -8,11 +8,15 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MSIdentity : MSServiceAbstract
 
 /**
- * The callback method to be called when the app receives openURL response.
+ * Process URL request for the service.
  *
- * @param url URL from your application delegate's openURL handler into AppCenterIdentitiy for web authentication sessions
+ * @param url  The url with parameters.
+ *
+ * @return `YES` if the URL is intended for App Center Idenntity and your application, `NO` otherwise.
+ *
+ * @discussion Place this method call into your app delegate's openURL method.
  */
-+ (void)handleUrlResponse:(NSURL *)url;
++ (BOOL)openURL:(NSURL *)url;
 
 /**
  * Login to get user information.
