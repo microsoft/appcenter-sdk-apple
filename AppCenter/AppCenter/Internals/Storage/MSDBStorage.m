@@ -126,7 +126,10 @@
 
 + (void)enableAutoVacuumInOpenedDatabase:(void *)db {
   NSArray<NSArray *> *result = [MSDBStorage executeSelectionQuery:@"PRAGMA auto_vacuum" inOpenedDatabase:db];
-  int vacuumMode = [(NSNumber *)result[0][0] intValue];
+  int vacuumMode = 0;
+  if ([result count] != 0){
+    vacuumMode = [(NSNumber *)result[0][0] intValue];
+  }
   BOOL autoVacuumDisabled = vacuumMode != 1;
 
   /*
@@ -289,17 +292,17 @@
 
 + (long)getPageSizeInOpenedDatabase:(void *)db {
   NSArray<NSArray *> *rows = [MSDBStorage executeSelectionQuery:@"PRAGMA page_size;" inOpenedDatabase:db];
-  return [(NSNumber *)rows[0][0] longValue];
+  return rows.count != 0 ? [(NSNumber *)rows[0][0] longValue] : 0;
 }
 
 + (long)getPageCountInOpenedDatabase:(void *)db {
   NSArray<NSArray *> *rows = [MSDBStorage executeSelectionQuery:@"PRAGMA page_count;" inOpenedDatabase:db];
-  return [(NSNumber *)rows[0][0] longValue];
+  return rows.count != 0 ? [(NSNumber *)rows[0][0] longValue] : 0;
 }
 
 + (long)getMaxPageCountInOpenedDatabase:(void *)db {
   NSArray<NSArray *> *rows = [MSDBStorage executeSelectionQuery:@"PRAGMA max_page_count;" inOpenedDatabase:db];
-  return [(NSNumber *)rows[0][0] longValue];
+  return rows.count != 0 ? [(NSNumber *)rows[0][0] longValue] : 0;
 }
 
 + (int)setMaxPageCount:(long)maxPageCount inOpenedDatabase:(void *)db {
