@@ -312,8 +312,6 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   return NO;
 }
 
-#pragma mark - Temporary Identity callbacks
-
 #pragma mark - Push callbacks
 
 // iOS 10 and later, called when a notification is delivered to an app that is in the foreground.
