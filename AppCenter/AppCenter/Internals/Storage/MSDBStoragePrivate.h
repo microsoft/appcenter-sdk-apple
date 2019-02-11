@@ -47,6 +47,31 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
 - (int)executeQueryUsingBlock:(MSDBStorageQueryBlock)block;
 
 /**
+ * Query the number of pages (i.e.: SQLite "page_count") of the database.
+ *
+ * @param db Database handle.
+ *
+ * @return The number of pages.
+ */
++ (long)getPageCountInOpenedDatabase:(void *)db;
+
+/**
+ * Query the number of pages (i.e.: SQLite "page_size") of the database.
+ *
+ * @param db Database handle.
+ *
+ * @return The number of pages.
+ */
++ (long)getPageSizeInOpenedDatabase:(void *)db;
+
+/**
+ * Set the auto vacuum (i.e.: SQLite "auto_vacuum") of the database.
+ *
+ * @param db Database handle.
+ */
++ (void)enableAutoVacuumInOpenedDatabase:(void *)db;
+
+/**
  * Check if a table exists in this database.
  *
  * @param tableName Table name.

@@ -5,6 +5,7 @@
 ### AppCenter
 
 * **[Fix]** Fix a possible deadlock if the SDK is started from a background thread.
+* **[FIX]** Fix possible crash if database query failed. 
 
 ___
 
