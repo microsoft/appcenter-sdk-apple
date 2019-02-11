@@ -56,11 +56,11 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
 + (long)getPageCountInOpenedDatabase:(void *)db;
 
 /**
- * Query the number of pages (i.e.: SQLite "page_size") of the database.
+ * Query the size of pages (i.e.: SQLite "page_size") of the database.
  *
  * @param db Database handle.
  *
- * @return The number of pages.
+ * @return The size of pages.
  */
 + (long)getPageSizeInOpenedDatabase:(void *)db;
 

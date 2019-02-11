@@ -224,6 +224,7 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 }
 
 - (void)testGetPageSizeInOpenedDatabaseReturnsZeroWhenQueryFails {
+  
   // If
   // Query returns empty array.
   id dbStorageMock = OCMClassMock([MSDBStorage class]);
@@ -276,7 +277,6 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   // Then
   OCMVerify([dbStorageMock executeNonSelectionQuery:[OCMArg any] inOpenedDatabase:db]);
 }
-
 
 - (void)testExecuteQuery {
 
