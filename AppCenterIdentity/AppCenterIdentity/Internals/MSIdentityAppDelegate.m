@@ -7,17 +7,17 @@
 
 #pragma mark - MSAppDelegate
 
-- (BOOL)application:(__attribute__((unused))UIApplication *)application
+- (BOOL)application:(__unused UIApplication *)application
               openURL:(NSURL *)url
-    sourceApplication:(__attribute__((unused))NSString *)sourceApplication
-           annotation:(__attribute__((unused))id)annotation
+    sourceApplication:(__unused NSString *)sourceApplication
+           annotation:(__unused id)annotation
         returnedValue:(BOOL)returnedValue {
   return [self openURL:url returnedValue:returnedValue];
 }
 
-- (BOOL)application:(__attribute__((unused))UIApplication *)application
+- (BOOL)application:(__unused UIApplication *)application
             openURL:(NSURL *)url
-            options:(__attribute__((unused))NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options
+            options:(__unused NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options
       returnedValue:(BOOL)returnedValue {
   return [self openURL:url returnedValue:returnedValue];
 }
@@ -26,7 +26,7 @@
 
 - (BOOL)openURL:(NSURL *)url returnedValue:(BOOL)returnedValue {
 
-  MSLogDebug([MSIdentity logTag], @"Using swizzled opennURL:returnedValue: method.");
+  MSLogDebug([MSIdentity logTag], @"Using swizzled openURL:returnedValue: method.");
   BOOL returnValue = [MSIdentity openURL:url];
 
   // Return original value if url not handled by the SDK.
