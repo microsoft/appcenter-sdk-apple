@@ -1,6 +1,6 @@
 # App Center SDK for iOS and macOS Change Log
 
-## Version 1.13.2
+## Version 1.13.2 (Not yet released)
 
 * **[Fix]** Fix a crash if database query failed. 
 
