@@ -1,5 +1,13 @@
 # App Center SDK for iOS and macOS Change Log
 
+## Version 1.13.1
+
+### AppCenter
+
+* **[Fix]** Fix a possible deadlock if the SDK is started from a background thread.
+
+___
+
 ## Version 1.13.0
 
 ### AppCenter
