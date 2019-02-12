@@ -42,6 +42,7 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
                                [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithLong:realStorageSize]
                                                                   forKey:kMSStorageMaxSizeKey];
                            } else {
+
                                // Remove invalid value.
                                [[NSUserDefaults standardUserDefaults] removeObjectForKey:kMSStorageMaxSizeKey];
                            }

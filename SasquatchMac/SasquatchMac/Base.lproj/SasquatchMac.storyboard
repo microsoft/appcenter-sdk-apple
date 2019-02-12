@@ -878,12 +878,12 @@
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rm3-tN-rQO">
                                 <rect key="frame" x="207" y="251" width="74" height="32"/>
-                                <buttonCell key="cell" type="push" title="Login" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="9oP-al-TRM">
+                                <buttonCell key="cell" type="push" title="Sign In" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="9oP-al-TRM">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="loginClicked:" target="O3Z-WH-pbf" id="mGT-i3-aRm"/>
+                                    <action selector="signInClicked:" target="O3Z-WH-pbf" id="LsC-PE-BdR"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9qE-Q3-fww">
@@ -925,11 +925,20 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qDp-Yr-DOK">
+                                <rect key="frame" x="292" y="293" width="25" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="KiB" id="Idb-5c-psG">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <constraints>
                             <constraint firstItem="QHt-Sf-WnZ" firstAttribute="leading" secondItem="t5v-V3-aso" secondAttribute="leading" id="0Ig-la-AVj"/>
                             <constraint firstItem="4qO-Fe-RWA" firstAttribute="leading" secondItem="t5v-V3-aso" secondAttribute="trailing" constant="8" symbolic="YES" id="2ht-6f-jrh"/>
                             <constraint firstItem="AJ3-cu-c5f" firstAttribute="leading" secondItem="k9u-4S-Pzy" secondAttribute="leading" constant="20" id="3jD-62-KTb"/>
+                            <constraint firstItem="qDp-Yr-DOK" firstAttribute="bottom" secondItem="ufS-r3-0uH" secondAttribute="bottom" id="4Ob-7k-Qwy"/>
                             <constraint firstItem="9qE-Q3-fww" firstAttribute="leading" secondItem="rm3-tN-rQO" secondAttribute="trailing" constant="33" id="4cQ-Fa-CZJ"/>
                             <constraint firstItem="QHt-Sf-WnZ" firstAttribute="trailing" secondItem="rUG-7Y-zgX" secondAttribute="trailing" constant="-3" id="5ke-Px-hnk"/>
                             <constraint firstItem="rm3-tN-rQO" firstAttribute="leading" secondItem="EJZ-Wn-7Tz" secondAttribute="trailing" constant="40" id="73E-Va-xnI"/>
@@ -939,6 +948,7 @@
                             <constraint firstItem="ktO-VZ-RCE" firstAttribute="width" secondItem="XCk-4w-Cy6" secondAttribute="width" id="9DL-N4-s9v"/>
                             <constraint firstItem="QHt-Sf-WnZ" firstAttribute="baseline" secondItem="N1B-nD-gUu" secondAttribute="baseline" constant="3" id="AXK-nR-3fe"/>
                             <constraint firstItem="6ga-1T-9ly" firstAttribute="leading" secondItem="k9u-4S-Pzy" secondAttribute="leading" constant="20" id="AZP-6e-vBZ"/>
+                            <constraint firstItem="qDp-Yr-DOK" firstAttribute="leading" secondItem="4qO-Fe-RWA" secondAttribute="leading" id="BJA-ho-mm0"/>
                             <constraint firstItem="mid-Fe-HHm" firstAttribute="leading" secondItem="k9u-4S-Pzy" secondAttribute="leading" constant="20" id="Cn2-ak-gAO"/>
                             <constraint firstItem="FL1-7e-JUq" firstAttribute="top" secondItem="6ga-1T-9ly" secondAttribute="bottom" constant="8" id="Dnc-ik-Hoy"/>
                             <constraint firstItem="EJZ-Wn-7Tz" firstAttribute="top" secondItem="ufS-r3-0uH" secondAttribute="bottom" constant="15" id="E7K-Wa-Jhc"/>
@@ -996,6 +1006,7 @@
                         <outlet property="logURLLabel" destination="ktO-VZ-RCE" id="FrS-qE-UaM"/>
                         <outlet property="loginButton" destination="rm3-tN-rQO" id="xbE-Fo-Hu6"/>
                         <outlet property="setEnabledButton" destination="rUG-7Y-zgX" id="GbW-bg-fMF"/>
+                        <outlet property="signInButton" destination="rm3-tN-rQO" id="IYi-Aw-fbA"/>
                         <outlet property="signOutButton" destination="9qE-Q3-fww" id="ueX-Zo-hgU"/>
                         <outlet property="startupModeField" destination="QHt-Sf-WnZ" id="CqZ-68-n7c"/>
                         <outlet property="storageFileSizeField" destination="ufS-r3-0uH" id="bKb-dx-kB7"/>

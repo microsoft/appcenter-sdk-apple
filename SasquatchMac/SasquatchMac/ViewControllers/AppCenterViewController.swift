@@ -1,12 +1,14 @@
 import Cocoa
 
-// 100 MiB.
-let kMSDefaultDatabaseSize = 100 * 1024 * 1024
+// 10 MiB.
+let kMSDefaultDatabaseSize = 10 * 1024 * 1024
 
 class AppCenterViewController : NSViewController, NSTextFieldDelegate {
 
   var appCenter: AppCenterDelegate = AppCenterProvider.shared().appCenter!
-  var currentAction = AuthenticationViewController.AuthAction.login
+  var currentAction = AuthenticationViewController.AuthAction.signin
+
+  let kMSAppCenterBundleIdentifier = "com.microsoft.appcenter";
 
   @IBOutlet var installIdLabel : NSTextField?
   @IBOutlet var appSecretLabel : NSTextField?
@@ -18,7 +20,7 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate {
   @IBOutlet weak var startupModeField: NSComboBox!
   @IBOutlet weak var storageMaxSizeField: NSTextField!
   @IBOutlet weak var storageFileSizeField: NSTextField!
-  @IBOutlet weak var loginButton: NSButton!
+  @IBOutlet weak var signInButton: NSButton!
   @IBOutlet weak var signOutButton: NSButton!
 
   private var dbFileDescriptor: CInt = 0
@@ -49,7 +51,7 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate {
     self.storageMaxSizeField?.stringValue = "\(storageMaxSize / 1024)"
 
     if let supportDirectory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
-        let dbFile = supportDirectory.appendingPathComponent("com.microsoft.appcenter").appendingPathComponent("Logs.sqlite")
+        let dbFile = supportDirectory.appendingPathComponent(Bundle.main.bundleIdentifier!).appendingPathComponent(kMSAppCenterBundleIdentifier).appendingPathComponent("Logs.sqlite")
         func getFileSize(_ file: URL) -> Int {
             return (try? file.resourceValues(forKeys:[.fileSizeKey]))?.fileSize ?? 0
         }
@@ -58,10 +60,10 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate {
         }
         self.dbFileSource = DispatchSource.makeFileSystemObjectSource(fileDescriptor: self.dbFileDescriptor, eventMask: [.write], queue: DispatchQueue.main)
         self.dbFileSource!.setEventHandler {
-            self.storageFileSizeField.stringValue = "\(getFileSize(dbFile) / 1024) KiB"
+            self.storageFileSizeField.stringValue = "\(getFileSize(dbFile) / 1024)"
         }
         self.dbFileSource!.resume()
-        self.storageFileSizeField.stringValue = "\(getFileSize(dbFile) / 1024) KiB"
+        self.storageFileSizeField.stringValue = "\(getFileSize(dbFile) / 1024)"
     }
 
   }
@@ -93,38 +95,38 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate {
     UserDefaults.standard.set(indexNumber, forKey: kMSStartTargetKey)
   }
 
-  //Storage Max Size
+  // Storage Max Size
   override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-      let storageMaxSize = UserDefaults.standard.object(forKey: kMSStorageMaxSizeKey) as? Int ?? kMSDefaultDatabaseSize
-      self.storageMaxSizeField?.stringValue = "\(storageMaxSize / 1024)"
+    let storageMaxSize = UserDefaults.standard.object(forKey: kMSStorageMaxSizeKey) as? Int ?? kMSDefaultDatabaseSize
+    self.storageMaxSizeField?.stringValue = "\(storageMaxSize / 1024)"
   }
 
   override func controlTextDidChange(_ obj: Notification) {
-      let text = obj.object as? NSTextField
-      if text == self.storageMaxSizeField{
-          let maxSize = Int(self.storageMaxSizeField.stringValue) ?? 0
-          UserDefaults.standard.set(maxSize * 1024, forKey: kMSStorageMaxSizeKey)
-      }
+    let text = obj.object as? NSTextField
+    if text == self.storageMaxSizeField{
+        let maxSize = Int(self.storageMaxSizeField.stringValue) ?? 0
+        UserDefaults.standard.set(maxSize * 1024, forKey: kMSStorageMaxSizeKey)
+    }
   }
 
-    // Authentication
-    func showSignInController(action: AuthenticationViewController.AuthAction) {
-        currentAction = action
-        self.performSegue(withIdentifier: "ShowSignIn", sender: self)
-    }
+  // Authentication
+  func showSignInController(action: AuthenticationViewController.AuthAction) {
+    currentAction = action
+    self.performSegue(withIdentifier: "ShowSignIn", sender: self)
+  }
 
-    @IBAction func loginClicked(_ sender: NSButton) {
-        showSignInController(action: AuthenticationViewController.AuthAction.login)
-    }
+  @IBAction func signInClicked(_ sender: NSButton) {
+    showSignInController(action: AuthenticationViewController.AuthAction.signin)
+  }
 
-    @IBAction func singOutClicked(_ sender: NSButton) {
-        showSignInController(action: AuthenticationViewController.AuthAction.signout)
-    }
+  @IBAction func singOutClicked(_ sender: NSButton) {
+    showSignInController(action: AuthenticationViewController.AuthAction.signout)
+  }
 
-    override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
-        if let signInController = segue.destinationController as? AuthenticationViewController {
-            signInController.action = currentAction
-        }
+  override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
+    if let signInController = segue.destinationController as? AuthenticationViewController {
+        signInController.action = currentAction
     }
+  }
 
 }

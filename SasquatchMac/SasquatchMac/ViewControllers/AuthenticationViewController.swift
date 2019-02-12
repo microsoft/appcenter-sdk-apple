@@ -13,10 +13,11 @@ class AuthenticationViewController: NSViewController, WKNavigationDelegate, MSAn
     var onAuthDataReceived: ((_ token: String, _ userId: String, _ expiresAt: Date) -> Void)?
 
     enum AuthAction {
-        case login, signout
+        case signin, signout
     }
 
     var webView: WKWebView!
+    var window: NSWindow?
 
     let baseUrl = "https://login.live.com/oauth20_"
     let redirectEndpoint = "desktop.srf"
@@ -30,7 +31,7 @@ class AuthenticationViewController: NSViewController, WKNavigationDelegate, MSAn
     let scopeParam = "&scope=service::events.data.microsoft.com::MBI_SSL"
     var refreshToken = ""
 
-    var action: AuthAction = .login
+    var action: AuthAction = .signin
 
     enum JSONError: String, Error {
         case NoData = "No data"
@@ -43,12 +44,14 @@ class AuthenticationViewController: NSViewController, WKNavigationDelegate, MSAn
         configuration.preferences.javaScriptEnabled = true
         if #available(OSX 10.11, *) {
             configuration.websiteDataStore = WKWebsiteDataStore.nonPersistent()
-        } else {
-            // Fallback on earlier versions
         }
         self.webView = WKWebView(frame: self.view.frame, configuration: configuration)
         self.webView.navigationDelegate = self
         view = self.webView
+    }
+
+    override func viewDidAppear() {
+        window = self.view.window!
     }
 
     override func viewDidLoad() {
@@ -58,15 +61,15 @@ class AuthenticationViewController: NSViewController, WKNavigationDelegate, MSAn
 
     func process() {
         switch self.action {
-        case .login:
-            self.login()
+        case .signin:
+            self.signinAction()
         case .signout:
             self.signOut()
         }
     }
 
-    func login() {
-        NSLog("Started login process")
+    func signinAction() {
+        NSLog("Started signin process")
         if let signInUrl = URL(string: self.baseUrl + self.authorizeEndpoint + "?" + redirectParam + clientIdParam + "&response_type=token" + scopeParam) {
             self.webView.load(URLRequest(url: signInUrl))
         }
@@ -85,17 +88,19 @@ class AuthenticationViewController: NSViewController, WKNavigationDelegate, MSAn
             if let newUrl = URL(string: self.baseUrl + self.redirectEndpoint + "?" + url.fragment!) {
                 if let error = newUrl.valueOf("error") {
                     NSLog("Error while signing in: %@", error)
-                    self.close()
+                    self.window?.performClose(nil)
                 } else {
                     let refreshToken = newUrl.valueOf(self.refreshTokenParam)!
                     if(!refreshToken.isEmpty) {
                         self.refreshToken = refreshToken
                         NSLog("Successfully signed in with user_id: %@", newUrl.valueOf("user_id")!)
+
                         // Create a MSAnalyticsAuthenticationProvider and register as an MSAnalyticsAuthenticationProvider.
                         let provider = MSAnalyticsAuthenticationProvider(authenticationType: .msaCompact, ticketKey: newUrl.valueOf("user_id")!, delegate: self)
                         MSAnalyticsTransmissionTarget.addAuthenticationProvider(authenticationProvider:provider)
                     }
                 }
+                self.window?.performClose(nil)
             }
         }
     }
@@ -107,17 +112,13 @@ class AuthenticationViewController: NSViewController, WKNavigationDelegate, MSAn
             } else {
                 NSLog("Successfully signed out")
             }
-            close()
+            self.window?.performClose(nil)
         }
-    }
-
-    func close() {
-        //self.dismiss(animated: true, completion: nil)
     }
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         switch action {
-        case .login:
+        case .signin:
             signIn(url: webView.url!)
         case .signout:
             signOut(url: webView.url!)
@@ -137,21 +138,24 @@ class AuthenticationViewController: NSViewController, WKNavigationDelegate, MSAn
             NSLog("Started refresh process")
             session.uploadTask(with: request as URLRequest, from: data) { (data, response, error) in
                 defer {
-                    self.close()
+                    self.window?.performClose(nil)
                 }
                 do {
                     guard let data = data else {
+
                         // Call the completion handler in the error case to send anonymous logs.
                         completionHandler(nil, nil)
                         throw JSONError.NoData
                     }
                     guard let json = try JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary else {
+
                         // Call the completion handler in the error case to send anonymous logs.
                         completionHandler(nil, nil)
                         throw JSONError.ConversionFailed
                     }
                     if let error = json["error"] as? String, let errorDescription = json["error_description"] as? String {
                         NSLog("Refresh token error: \"\(error)\": \(errorDescription)")
+
                         // Call the completion handler in the error case to send anonymous logs.
                         completionHandler(nil, nil)
                         return
@@ -160,6 +164,7 @@ class AuthenticationViewController: NSViewController, WKNavigationDelegate, MSAn
                     let expiresIn = json["expires_in"]! as! Int64
                     let userId = json["user_id"]! as! String
                     NSLog("Successfully refreshed token for user: %@", userId)
+
                     // Call the completion handler and pass in the updated token and expiryDate.
                     completionHandler(token, Date().addingTimeInterval(Double(expiresIn)))
                 } catch let error as JSONError {
@@ -167,7 +172,7 @@ class AuthenticationViewController: NSViewController, WKNavigationDelegate, MSAn
                 } catch let error as NSError {
                     NSLog("Error while preforming refresh request: %@", error.localizedDescription)
                 }
-                }.resume()
+            }.resume()
         }
     }
 }
