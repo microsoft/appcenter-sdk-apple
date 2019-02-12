@@ -141,9 +141,9 @@ static NSObject *lock = @"lock";
 }
 
 + (void)login {
-
-  // TODO protect with canBeUsed.
-  [[MSIdentity sharedInstance] login];
+  if ([[MSIdentity sharedInstance] canBeUsed]) {
+    [[MSIdentity sharedInstance] login];
+  }
 }
 
 - (void)login {
