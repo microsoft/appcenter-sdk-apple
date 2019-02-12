@@ -1,11 +1,16 @@
 # App Center SDK for iOS and macOS Change Log
 
+## Version 1.13.2
+
+* **[Fix]** Fix a crash if database query failed. 
+
+___
+
 ## Version 1.13.1
 
 ### AppCenter
 
 * **[Fix]** Fix a possible deadlock if the SDK is started from a background thread.
-* **[FIX]** Fix possible crash if database query failed. 
 
 ___
 

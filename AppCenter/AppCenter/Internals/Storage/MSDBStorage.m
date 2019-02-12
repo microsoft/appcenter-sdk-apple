@@ -291,17 +291,19 @@
 }
 
 + (long)getPageSizeInOpenedDatabase:(void *)db {
-  NSArray<NSArray *> *rows = [MSDBStorage executeSelectionQuery:@"PRAGMA page_size;" inOpenedDatabase:db];
-  return rows.count > 0 && rows[0].count > 0 ? [(NSNumber *)rows[0][0] longValue] : 0;
+  return [MSDBStorage querySingleValue:@"PRAGMA page_size;" inOpenedDatabase:db];
 }
 
 + (long)getPageCountInOpenedDatabase:(void *)db {
-  NSArray<NSArray *> *rows = [MSDBStorage executeSelectionQuery:@"PRAGMA page_count;" inOpenedDatabase:db];
-  return rows.count > 0 && rows[0].count > 0 ? [(NSNumber *)rows[0][0] longValue] : 0;
+  return [MSDBStorage querySingleValue:@"PRAGMA page_count;" inOpenedDatabase:db];
 }
 
 + (long)getMaxPageCountInOpenedDatabase:(void *)db {
-  NSArray<NSArray *> *rows = [MSDBStorage executeSelectionQuery:@"PRAGMA max_page_count;" inOpenedDatabase:db];
+  return [MSDBStorage querySingleValue:@"PRAGMA max_page_count;" inOpenedDatabase:db];
+}
+
++ (long)querySingleValue:(NSString *)query inOpenedDatabase:(void *)db {
+  NSArray<NSArray *> *rows = [MSDBStorage executeSelectionQuery:query inOpenedDatabase:db];
   return rows.count > 0 && rows[0].count > 0 ? [(NSNumber *)rows[0][0] longValue] : 0;
 }
 
