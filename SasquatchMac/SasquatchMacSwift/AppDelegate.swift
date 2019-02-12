@@ -68,6 +68,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
                     let realSize = Int64(ceil(Double(storageMaxSize!) / Double(kMSStoragePageSize))) * Int64(kMSStoragePageSize)
                     UserDefaults.standard.set(realSize, forKey: kMSStorageMaxSizeKey)
                 } else {
+                    
                     // Remove invalid value.
                     UserDefaults.standard.removeObject(forKey: kMSStorageMaxSizeKey)
                 }
