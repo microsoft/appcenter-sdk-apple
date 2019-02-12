@@ -73,9 +73,6 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
     // Hookup to reachability.
     [MS_NOTIFICATION_CENTER addObserver:self selector:@selector(networkStateChanged:) name:kMSReachabilityChangedNotification object:nil];
     [self.reachability startNotifier];
-
-    // Apply current network state.
-    [self networkStateChanged];
   }
   return self;
 }
@@ -110,9 +107,6 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
       self.enabled = isEnabled;
       if (isEnabled) {
         [self.reachability startNotifier];
-
-        // Apply current network state, this will resume if network state allows it.
-        [self networkStateChanged];
       } else {
         [self.reachability stopNotifier];
         [self pause];

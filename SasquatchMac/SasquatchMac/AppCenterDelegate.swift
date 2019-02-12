@@ -15,7 +15,8 @@ import AppCenter
   func appSecret() -> String
   func logUrl() -> String
   func isDebuggerAttached() -> Bool
-  
+  func setUserId(_ userId: String?)
+
   // Modules section.
   func isAnalyticsEnabled() -> Bool
   func isCrashesEnabled() -> Bool
@@ -23,17 +24,17 @@ import AppCenter
   func setAnalyticsEnabled(_ isEnabled: Bool)
   func setCrashesEnabled(_ isEnabled: Bool)
   func setPushEnabled(_ isEnabled: Bool)
-  
+
   // MSAnalytics section.
   func trackEvent(_ eventName: String)
   func trackEvent(_ eventName: String, withProperties: Dictionary<String, String>)
   func trackPage(_ pageName: String)
   func trackPage(_ pageName: String, withProperties: Dictionary<String, String>)
-  
+
   // MSCrashes section.
   func hasCrashedInLastSession() -> Bool
   func generateTestCrash()
-  
+
   // Last crash report section.
   func lastCrashReportIncidentIdentifier() -> String?
   func lastCrashReportReporterKey() -> String?

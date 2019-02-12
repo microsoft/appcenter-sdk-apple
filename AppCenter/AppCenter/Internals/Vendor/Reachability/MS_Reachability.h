@@ -39,15 +39,10 @@ extern NSString *kMSReachabilityChangedNotification;
  */
 + (instancetype)reachabilityForInternetConnection;
 
-#pragma mark reachabilityForLocalWiFi
-// reachabilityForLocalWiFi has been removed from the sample.  See ReadMe.md for
-// more information.
-//+ (instancetype)reachabilityForLocalWiFi;
-
 /*!
  * Start listening for reachability notifications on the current run loop.
  */
-- (BOOL)startNotifier;
+- (void)startNotifier;
 - (void)stopNotifier;
 
 - (NetworkStatus)currentReachabilityStatus;

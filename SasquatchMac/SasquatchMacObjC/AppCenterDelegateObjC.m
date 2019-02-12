@@ -47,6 +47,10 @@
   return [MSAppCenter isDebuggerAttached];
 }
 
+- (void)setUserId:(NSString *)userId {
+  [MSAppCenter setUserId:userId];
+}
+
 #pragma mark - Modules section.
 
 - (BOOL)isAnalyticsEnabled {
