@@ -141,29 +141,29 @@ static NSObject *lock = @"lock";
 }
 
 + (void)login {
-  if ([[MSIdentity sharedInstance] canBeUsed]) {
-    [[MSIdentity sharedInstance] login];
+  @synchronized(lock) {
+    if ([[MSIdentity sharedInstance] canBeUsed]) {
+      [[MSIdentity sharedInstance] login];
+    }
   }
 }
 
 - (void)login {
-  @synchronized(lock) {
-    if (self.clientApplication == nil && self.identityConfig == nil) {
-      self.loginDelayed = YES;
-      return;
-    }
-    self.loginDelayed = NO;
-    [self.clientApplication acquireTokenForScopes:@[ (NSString * _Nonnull) self.identityConfig.identityScope ]
-                                  completionBlock:^(MSALResult *result, NSError *e) {
-                                    // TODO: synchronize accessToken assignment if it has threading issues
-                                    if (e) {
-                                      MSLogError([MSIdentity logTag], @"Couldn't initialize authentication client. Error: %@", e);
-                                    } else {
-                                      NSString __unused *accountIdentifier = result.account.homeAccountId.identifier;
-                                      self.accessToken = result.accessToken;
-                                    }
-                                  }];
+  if (self.clientApplication == nil && self.identityConfig == nil) {
+    self.loginDelayed = YES;
+    return;
   }
+  self.loginDelayed = NO;
+  [self.clientApplication acquireTokenForScopes:@[ (NSString * _Nonnull) self.identityConfig.identityScope ]
+                                completionBlock:^(MSALResult *result, NSError *e) {
+                                  // TODO: synchronize accessToken assignment if it has threading issues
+                                  if (e) {
+                                    MSLogError([MSIdentity logTag], @"Couldn't initialize authentication client. Error: %@", e);
+                                  } else {
+                                    NSString __unused *accountIdentifier = result.account.homeAccountId.identifier;
+                                    self.accessToken = result.accessToken;
+                                  }
+                                }];
 }
 
 #pragma mark - Private methods
