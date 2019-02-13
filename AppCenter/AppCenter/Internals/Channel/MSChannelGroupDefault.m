@@ -25,6 +25,8 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
     _delegates = [NSHashTable weakObjectsHashTable];
     _ingestion = ingestion;
     _storage = [MSLogDBStorage new];
+
+    //TODO: add listener for auth token context, and change ingestion header on new token received
   }
   return self;
 }

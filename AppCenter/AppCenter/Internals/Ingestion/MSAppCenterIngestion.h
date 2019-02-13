@@ -12,6 +12,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSString *appSecret;
 
 /**
+ * The authorization token. If unavailable, this is nil.
+ */
+@property (nonatomic, copy, nullable) NSString *authToken;
+
+/**
  * Initialize the Ingestion.
  *
  * @param baseUrl Base url.

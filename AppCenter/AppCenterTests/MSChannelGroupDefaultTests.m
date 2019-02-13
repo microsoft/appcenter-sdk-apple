@@ -9,6 +9,7 @@
 #import "MSMockLog.h"
 #import "MSStorage.h"
 #import "MSTestFrameworks.h"
+#import "MSAuthTokenContext.h"
 
 @interface MSChannelGroupDefaultTests : XCTestCase
 
@@ -29,6 +30,7 @@
                                                               flushInterval:flushInterval
                                                              batchSizeLimit:batchSizeLimit
                                                         pendingBatchesLimit:pendingBatchesLimit];
+  [MSAuthTokenContext sharedInstance].authToken = nil;
 }
 
 #pragma mark - Tests
@@ -474,6 +476,34 @@
 
   // Clear
   [channelUnitMock stopMocking];
+}
+
+- (void)testUpdatesIngestionAuthTokenWhenAuthTokenIsReceived {
+
+  // If
+  MSAppCenterIngestion *ingestionMock = [[MSAppCenterIngestion alloc] initWithBaseUrl:@"baseurl" installId:@"5"];
+  __unused MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
+  NSString *expectedAuthToken = @"auth token";
+
+  // When
+  [MSAuthTokenContext sharedInstance].authToken = expectedAuthToken;
+
+  // Then
+  XCTAssertEqualObjects(expectedAuthToken, ingestionMock.authToken);
+}
+
+- (void)testInitUpdatesIngestionAuthTokenWhenAuthTokenAlreadyExists {
+
+  // If
+  MSAppCenterIngestion *ingestionMock = [[MSAppCenterIngestion alloc] initWithBaseUrl:@"baseurl" installId:@"5"];
+  NSString *expectedAuthToken = @"auth token";
+  [MSAuthTokenContext sharedInstance].authToken = expectedAuthToken;
+
+  // When
+  (void)[[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
+
+  // Then
+  XCTAssertEqualObjects(expectedAuthToken, ingestionMock.authToken);
 }
 
 @end
