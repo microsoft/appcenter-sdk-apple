@@ -205,4 +205,11 @@
  */
 + (void)setUserId:(NSString *)userId;
 
+/**
+ * Sets the two-letter ISO country code to send to the backend.
+ *
+ * @param countryCode The two-letter ISO country code. See https://www.iso.org/obp/ui/#search for more information.
+ */
++ (void)setCountryCode:(NSString *)countryCode;
+
 @end
