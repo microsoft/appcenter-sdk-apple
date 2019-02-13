@@ -149,7 +149,7 @@ static NSObject *lock = @"lock";
 }
 
 - (void)login {
-  if (self.clientApplication == nil && self.identityConfig == nil) {
+  if (self.clientApplication == nil || self.identityConfig == nil) {
     self.loginDelayed = YES;
     return;
   }
