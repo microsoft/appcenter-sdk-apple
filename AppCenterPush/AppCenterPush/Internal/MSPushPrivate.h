@@ -1,6 +1,7 @@
 #import "MSPush.h"
 #import "MSPushDelegate.h"
 #import "MSServiceInternal.h"
+#import "MSAuthTokenContextDelegate.h"
 
 /**
  * Keys for payload in push notification.
@@ -17,9 +18,9 @@ static NSString *const kMSPushNotificationOldCustomDataKey = @"mobile_center";
 @protocol MSCustomApplicationDelegate;
 
 #if TARGET_OS_OSX
-@interface MSPush () <NSUserNotificationCenterDelegate>
+@interface MSPush () <NSUserNotificationCenterDelegate, MSAuthTokenContextDelegate>
 #else
-@interface MSPush ()
+@interface MSPush () <MSAuthTokenContextDelegate>
 #endif
 
 @property(nonatomic) id<MSPushDelegate> delegate;

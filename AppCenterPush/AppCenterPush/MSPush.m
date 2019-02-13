@@ -18,6 +18,7 @@
 #import "MSPushPrivate.h"
 #import "MSUserIdContext.h"
 #import "MSUserNotificationCenterDelegateForwarder.h"
+#import "MSAuthTokenContext.h"
 
 /**
  * Service storage key name.
@@ -65,6 +66,8 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 
     // This call is used to force load the MSUserNotificationCenterDelegateForwarder class to register the swizzling.
     [MSUserNotificationCenterDelegateForwarder doNothingButForceLoadTheClass];
+    [[MSAuthTokenContext sharedInstance] addDelegate:self];
+    
 #if TARGET_OS_OSX
     NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
 
@@ -387,6 +390,10 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
     return YES;
   }
   return NO;
+}
+
+- (void)authTokenContext:(__unused MSAuthTokenContext *)authTokenContext didReceiveAuthToken:(__unused NSString *)authToken {
+  [self sendPushToken:self.pushToken];
 }
 
 @end

@@ -16,6 +16,7 @@
 #import "MSPushTestUtil.h"
 #import "MSTestFrameworks.h"
 #import "MSUserIdContextPrivate.h"
+#import "MSAuthTokenContext.h"
 
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
 static NSString *const kMSTestPushToken = @"TestPushToken";
@@ -192,6 +193,24 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 
   // Then
   [pushMock verify];
+  [pushMock stopMocking];
+}
+
+- (void)testSendsPushTokenWhenNewAuthTokenReceived {
+
+  // If
+  id pushMock = OCMPartialMock(self.sut);
+  OCMStub([pushMock sharedInstance]).andReturn(pushMock);
+  [MSPush resetSharedInstance];
+  NSData *deviceToken = [@"deviceToken" dataUsingEncoding:NSUTF8StringEncoding];
+  NSString *pushToken = @"ConvertedPushToken";
+  OCMStub([pushMock convertTokenToString:deviceToken]).andReturn(pushToken);
+
+  // When
+  [MSAuthTokenContext sharedInstance].authToken = @"something";
+
+  // Then
+  OCMVerify([self.sut sendPushToken:pushToken]);
   [pushMock stopMocking];
 }
 
