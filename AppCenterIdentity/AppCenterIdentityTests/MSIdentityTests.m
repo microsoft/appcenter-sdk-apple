@@ -346,6 +346,46 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [ingestionMock stopMocking];
 }
 
-// TODO add tests to cover login.
+// TODO add more tests to cover login.
+/* TODO fix mocks
+- (void)testLoginAcquiresToken {
+
+  // If
+  MSIdentity *service = [MSIdentity sharedInstance];
+  id clientApplicationMock = OCMPartialMock([MSALPublicClientApplication alloc]);
+  service.clientApplication = clientApplicationMock;
+  service.identityConfig = [MSIdentityConfig new];
+  id identityMock = OCMPartialMock(service);
+  OCMStub([identityMock sharedInstance]).andReturn(identityMock);
+  OCMStub([identityMock canBeUsed]).andReturn(YES);
+  // id msalMock = OCMClassMock([MSALPublicClientApplication class]);
+  OCMStub([clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock: OCMOCK_ANY]).andDo(nil);
+
+  // When
+  [MSIdentity login];
+
+  // Then
+  OCMVerify([clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock: OCMOCK_ANY]);
+  [clientApplicationMock stopMocking];
+}
+ */
+
+- (void)testLoginDoesntAcquireTokenWhenDisabled {
+
+  // If
+  id identityMock = OCMPartialMock(self.sut);
+  OCMStub([identityMock sharedInstance]).andReturn(identityMock);
+  OCMStub([identityMock canBeUsed]).andReturn(NO);
+  id msalMock = OCMClassMock([MSALPublicClientApplication class]);
+  OCMStub([msalMock acquireTokenForScopes:OCMOCK_ANY completionBlock: OCMOCK_ANY]).andDo(nil);
+
+  // When
+  [MSIdentity login];
+           
+  // Then
+  OCMReject([msalMock acquireTokenForScopes:OCMOCK_ANY completionBlock: OCMOCK_ANY]);
+  [msalMock stopMocking];
+}
+
 
 @end
