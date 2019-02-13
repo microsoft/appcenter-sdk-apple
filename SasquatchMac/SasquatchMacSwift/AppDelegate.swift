@@ -59,6 +59,23 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
       MSAppCenter.setUserId(userId)
     }
 
+    // Set max storage size.
+    let storageMaxSize = UserDefaults.standard.object(forKey: kMSStorageMaxSizeKey) as? Int
+    if storageMaxSize != nil {
+        MSAppCenter.setMaxStorageSize(storageMaxSize!, completionHandler: { success in
+            DispatchQueue.main.async {
+                if success {
+                    let realSize = Int64(ceil(Double(storageMaxSize!) / Double(kMSStoragePageSize))) * Int64(kMSStoragePageSize)
+                    UserDefaults.standard.set(realSize, forKey: kMSStorageMaxSizeKey)
+                } else {
+                    
+                    // Remove invalid value.
+                    UserDefaults.standard.removeObject(forKey: kMSStorageMaxSizeKey)
+                }
+            }
+        })
+    }
+
     // Start AppCenter.
     let services = [MSAnalytics.self, MSCrashes.self, MSPush.self]
     let startTarget = StartupMode(rawValue: UserDefaults.standard.integer(forKey: kMSStartTargetKey))!

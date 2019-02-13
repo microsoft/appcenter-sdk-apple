@@ -22,3 +22,10 @@ static NSString *const kMSObjCTargetToken = @"5a06bf4972a44a059d59c757e6d0b595-"
 static NSString *const kMSObjCRuntimeTargetToken = @"1aa046cfdc8f49bdbd64190290caf7dd-ba041023-af4d-4432-a87e-eb2431150797-"
                                                    @"7361";
 #endif
+
+static NSString *const kMSStorageMaxSizeKey = @"storageMaxSize";
+#ifdef SQLITE_DEFAULT_PAGE_SIZE
+static int const kMSStoragePageSize = SQLITE_DEFAULT_PAGE_SIZE;
+#else
+static int const kMSStoragePageSize = 4096;
+#endif
