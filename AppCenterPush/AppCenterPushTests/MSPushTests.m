@@ -6,6 +6,7 @@
 #import <UserNotifications/UserNotifications.h>
 #endif
 
+#import "MSAuthTokenContext.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitProtocol.h"
 #import "MSPush.h"
@@ -16,7 +17,6 @@
 #import "MSPushTestUtil.h"
 #import "MSTestFrameworks.h"
 #import "MSUserIdContextPrivate.h"
-#import "MSAuthTokenContext.h"
 
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
 static NSString *const kMSTestPushToken = @"TestPushToken";

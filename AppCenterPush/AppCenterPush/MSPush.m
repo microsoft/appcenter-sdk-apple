@@ -9,6 +9,7 @@
 
 #import "MSAppCenterInternal.h"
 #import "MSAppDelegateForwarder.h"
+#import "MSAuthTokenContext.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
 #import "MSPush.h"
@@ -18,7 +19,6 @@
 #import "MSPushPrivate.h"
 #import "MSUserIdContext.h"
 #import "MSUserNotificationCenterDelegateForwarder.h"
-#import "MSAuthTokenContext.h"
 
 /**
  * Service storage key name.
@@ -67,7 +67,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
     // This call is used to force load the MSUserNotificationCenterDelegateForwarder class to register the swizzling.
     [MSUserNotificationCenterDelegateForwarder doNothingButForceLoadTheClass];
     [[MSAuthTokenContext sharedInstance] addDelegate:self];
-    
+
 #if TARGET_OS_OSX
     NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
 

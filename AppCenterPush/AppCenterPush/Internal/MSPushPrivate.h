@@ -1,7 +1,7 @@
+#import "MSAuthTokenContextDelegate.h"
 #import "MSPush.h"
 #import "MSPushDelegate.h"
 #import "MSServiceInternal.h"
-#import "MSAuthTokenContextDelegate.h"
 
 /**
  * Keys for payload in push notification.
