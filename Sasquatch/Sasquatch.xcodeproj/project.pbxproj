@@ -225,6 +225,8 @@
 		E820CFED2214B6DC008C7D03 /* AppCenterDataStorage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E820CFE72214B6DB008C7D03 /* AppCenterDataStorage.framework */; };
 		E820CFEE2214B6DC008C7D03 /* AppCenterDataStorage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E820CFE72214B6DB008C7D03 /* AppCenterDataStorage.framework */; };
 		E820CFF02214B6DC008C7D03 /* AppCenterDataStorage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E820CFE72214B6DB008C7D03 /* AppCenterDataStorage.framework */; };
+		E8F4E9072214D01D0080D19F /* libAppCenterAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B20AE3E42102813300A1A195 /* libAppCenterAnalytics.a */; };
+		E8F4E9082214D01D0080D19F /* libAppCenterDataStorage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E820CFD52214ABB4008C7D03 /* libAppCenterDataStorage.a */; };
 		F809D5041FC6DA2B005E0F83 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F809D5021FC6DA2B005E0F83 /* LaunchScreen.storyboard */; };
 		F809D5051FC6DD80005E0F83 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F809D5021FC6DA2B005E0F83 /* LaunchScreen.storyboard */; };
 		F8669FB82195B6A2003933A8 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F8669FB72195B6A2003933A8 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -859,6 +861,8 @@
 				F8FE732F210730A8005C6A74 /* CrashReporter.framework in Frameworks */,
 				B20AE43F210281FF00A1A195 /* libAppCenterDistribute.a in Frameworks */,
 				B20AE43E210281F800A1A195 /* libAppCenterCrashes.a in Frameworks */,
+				E8F4E9072214D01D0080D19F /* libAppCenterAnalytics.a in Frameworks */,
+				E8F4E9082214D01D0080D19F /* libAppCenterDataStorage.a in Frameworks */,
 				B20AE43C210281EB00A1A195 /* libAppCenter.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
