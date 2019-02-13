@@ -580,7 +580,7 @@ static NSString *const kMSBearerTokenHeaderFormat = @"Bearer %@";
 
   // If
   NSString *expectedToken = @"auth token";
-  MSLogContainer *logContainer = [[MSLogContainer alloc] initWithBatchId:@"whatever" andLogs:(NSArray<id<MSLog>> *)@[[MSMockLog new]]];
+  MSLogContainer *logContainer = [[MSLogContainer alloc] initWithBatchId:@"whatever" andLogs:(NSArray<id<MSLog>> *)@ [[MSMockLog new]]];
   self.sut.authToken = expectedToken;
 
   // When
@@ -595,7 +595,7 @@ static NSString *const kMSBearerTokenHeaderFormat = @"Bearer %@";
 - (void)testDoesNotSendAuthHeaderWithNilAuthToken {
 
   // If
-  MSLogContainer *logContainer = [[MSLogContainer alloc] initWithBatchId:@"whatever" andLogs:(NSArray<id<MSLog>> *)@[[MSMockLog new]]];
+  MSLogContainer *logContainer = [[MSLogContainer alloc] initWithBatchId:@"whatever" andLogs:(NSArray<id<MSLog>> *)@ [[MSMockLog new]]];
 
   // When
   NSURLRequest *request = [self.sut createRequest:logContainer eTag:nil];

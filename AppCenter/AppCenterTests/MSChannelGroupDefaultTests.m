@@ -1,5 +1,6 @@
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenterIngestion.h"
+#import "MSAuthTokenContext.h"
 #import "MSChannelDelegate.h"
 #import "MSChannelGroupDefault.h"
 #import "MSChannelGroupDefaultPrivate.h"
@@ -9,7 +10,6 @@
 #import "MSMockLog.h"
 #import "MSStorage.h"
 #import "MSTestFrameworks.h"
-#import "MSAuthTokenContext.h"
 
 @interface MSChannelGroupDefaultTests : XCTestCase
 

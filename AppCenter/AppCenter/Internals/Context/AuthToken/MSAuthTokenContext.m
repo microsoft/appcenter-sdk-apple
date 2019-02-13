@@ -43,7 +43,7 @@ static dispatch_once_t onceToken;
 }
 
 - (NSString *)authToken {
-  @synchronized (self) {
+  @synchronized(self) {
     return _authToken;
   }
 }
@@ -52,7 +52,7 @@ static dispatch_once_t onceToken;
   NSArray *synchronizedDelegates;
   @synchronized(self) {
     _authToken = authToken;
-    
+
     // Don't invoke the delegate while locking; it might be locking too and deadlock ourselves.
     synchronizedDelegates = [self.delegates allObjects];
   }
@@ -62,7 +62,7 @@ static dispatch_once_t onceToken;
 }
 
 - (void)addDelegate:(id<MSAuthTokenContextDelegate>)delegate {
-  @synchronized (self) {
+  @synchronized(self) {
     [self.delegates addObject:delegate];
   }
 }

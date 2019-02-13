@@ -394,7 +394,7 @@ static NSString *const kMSPartialURLComponentsName[] = {@"scheme", @"user", @"pa
       call.eTag = eTag;
       call.callId = callId;
       call.completionHandler = handler;
-      
+
       // Store call in calls array.
       self.pendingCalls[callId] = call;
     }

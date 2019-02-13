@@ -92,7 +92,6 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 
 - (void)testTableExists {
   [self.sut executeQueryUsingBlock:^int(void *db) {
-
     // When
     BOOL tableExists = [MSDBStorage tableExists:kMSTestTableName inOpenedDatabase:db];
 
@@ -115,7 +114,6 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 
 - (void)testVersion {
   [self.sut executeQueryUsingBlock:^int(void *db) {
-
     // When
     NSUInteger version = [MSDBStorage versionInOpenedDatabase:db];
 
@@ -134,7 +132,6 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 
   // After re-open.
   [self.sut executeQueryUsingBlock:^int(void *db) {
-
     // When
     NSUInteger version = [MSDBStorage versionInOpenedDatabase:db];
 
@@ -316,7 +313,6 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   __weak typeof(self) weakSelf = self;
   [weakSelf.sut setMaxStorageSize:shrunkenSizeInBytes
                 completionHandler:^(BOOL success) {
-
                   // Then
                   XCTAssertFalse(success);
                   [expectation fulfill];
@@ -347,7 +343,6 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   // When
   [self.sut setMaxStorageSize:expandedSizeInBytes
             completionHandler:^(BOOL success) {
-
               // Then
               XCTAssertTrue(success);
               [expectation fulfill];
@@ -384,7 +379,6 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   __weak typeof(self) weakSelf = self;
   [weakSelf.sut setMaxStorageSize:shrunkenSizeInBytes
                 completionHandler:^(__unused BOOL success) {
-
                   // Then
                   typeof(self) strongSelf = weakSelf;
                   XCTAssertEqual(initialMaxSize, strongSelf.sut.maxSizeInBytes);

@@ -1,8 +1,8 @@
 #import <Foundation/Foundation.h>
 
-#import "MSTestFrameworks.h"
 #import "MSAuthTokenContext.h"
 #import "MSAuthTokenContextDelegate.h"
+#import "MSTestFrameworks.h"
 
 @interface MSAuthTokenContext ()
 
@@ -33,15 +33,15 @@
 #pragma mark - Tests
 
 - (void)testSetAuthToken {
-  
+
   // If
   NSString *expectedAuthToken = @"authToken1";
   id<MSAuthTokenContextDelegate> delegateMock = OCMProtocolMock(@protocol(MSAuthTokenContextDelegate));
   [self.sut addDelegate:delegateMock];
-  
+
   // When
   self.sut.authToken = expectedAuthToken;
-  
+
   // Then
   XCTAssertEqualObjects(self.sut.authToken, expectedAuthToken);
   OCMVerify([delegateMock authTokenContext:self.sut didReceiveAuthToken:expectedAuthToken]);
