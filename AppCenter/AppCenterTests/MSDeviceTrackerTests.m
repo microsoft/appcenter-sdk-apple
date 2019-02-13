@@ -351,6 +351,39 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   XCTAssertEqual(device.wrapperSdkVersion, wrapperSdk.wrapperSdkVersion);
 }
 
+- (void)testCountryCode {
+  // When
+  [[MSDeviceTracker sharedInstance] setCountryCode:@"AU"];
+  MSDevice *device = self.sut.device;
+
+  // Then
+  XCTAssertEqual(device.carrierCountry, @"AU");
+
+  // When
+  [[MSDeviceTracker sharedInstance] setCountryCode:@"GB"];
+
+  // Then
+  XCTAssertNotEqual(device.carrierCountry, @"GB");
+
+  // When
+  device = self.sut.device;
+
+  // Then
+  XCTAssertEqual(device.carrierCountry, @"GB");
+
+  // When
+  [[MSDeviceTracker sharedInstance] setCountryCode:nil];
+
+  // Then
+  XCTAssertNotEqual(device.carrierCountry, @"GB");
+
+  // When
+  device = self.sut.device;
+
+  // Then
+  XCTAssertNil(device.carrierCountry);
+}
+
 - (void)testCreationOfNewDeviceWorks {
 
   // When
