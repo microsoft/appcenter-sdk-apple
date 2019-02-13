@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The authorization token. If unavailable, this is nil.
  */
-@property (nonatomic, copy, nullable) NSString *authToken;
+@property (atomic, copy, nullable) NSString *authToken;
 
 /**
  * Initialize the Ingestion.

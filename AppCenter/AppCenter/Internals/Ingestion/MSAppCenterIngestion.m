@@ -64,6 +64,13 @@ static NSString *const kMSBearerTokenHeaderFormat = @"Bearer %@";
   request.allHTTPHeaderFields = self.httpHeaders;
   [request setValue:self.appSecret forHTTPHeaderField:kMSHeaderAppSecretKey];
 
+  // Copy self.authToken into a local variable to avoid a race condition.
+  NSString *authTokenCopy = self.authToken;
+  if (authTokenCopy) {
+    NSString *bearerTokenHeader = [NSString stringWithFormat:kMSBearerTokenHeaderFormat, authTokenCopy];
+    [request setValue:bearerTokenHeader forHTTPHeaderField:kMSAuthorizationHeaderKey];
+  }
+
   // Set body.
   NSString *jsonString = [container serializeLog];
   NSData *httpBody = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
