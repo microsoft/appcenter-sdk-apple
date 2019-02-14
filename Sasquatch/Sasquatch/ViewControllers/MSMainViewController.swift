@@ -101,6 +101,9 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     updateViewState()
   }
 
+  @IBAction func identityLogin(_ sender: UIButton) {
+  }
+  
   func updateViewState() {
     self.appCenterEnabledSwitch.isOn = appCenter.isAppCenterEnabled()
     self.pushEnabledSwitch.isOn = appCenter.isPushEnabled()
