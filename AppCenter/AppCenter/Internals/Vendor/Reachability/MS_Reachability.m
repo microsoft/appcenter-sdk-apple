@@ -159,9 +159,12 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target,
 }
 
 - (void)dealloc {
-  [self stopNotifier];
-  if (self.reachabilityRef != NULL) {
-    CFRelease(self.reachabilityRef);
+  __block SCNetworkReachabilityRef reachabilityRef = self.reachabilityRef;
+  if (reachabilityRef != NULL) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+      SCNetworkReachabilityUnscheduleFromRunLoop(reachabilityRef, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
+      CFRelease(reachabilityRef);
+    });
   }
 }
 
