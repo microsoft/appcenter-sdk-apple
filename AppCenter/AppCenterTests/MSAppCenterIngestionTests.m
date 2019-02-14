@@ -608,7 +608,7 @@ static NSString *const kMSBearerTokenHeaderFormat = @"Bearer %@";
 
   // If
   MSLogContainer *logContainer = [[MSLogContainer alloc] initWithBatchId:@"whatever" andLogs:(NSArray<id<MSLog>> *)@ [[MSMockLog new]]];
-  self.sut.authToken  = @"";
+  self.sut.authToken = @"";
   
   // When
   NSURLRequest *request = [self.sut createRequest:logContainer eTag:nil];
