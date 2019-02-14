@@ -211,7 +211,22 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 
   // Then
   OCMVerify([self.sut sendPushToken:pushToken]);
-  [pushMock stopMocking];
+}
+
+- (void)testDoesNotSendPushLogWhenLogInBeforePushRegistration {
+
+  // If
+  id pushMock = OCMPartialMock(self.sut);
+  OCMStub([pushMock sharedInstance]).andReturn(pushMock);
+  [MSPush resetSharedInstance];
+  NSData *deviceToken = [@"deviceToken" dataUsingEncoding:NSUTF8StringEncoding];
+  OCMStub([pushMock convertTokenToString:deviceToken]).andReturn(nil);
+
+  // Then
+  OCMReject([self.sut sendPushToken:OCMOCK_ANY]);
+
+  // When
+  [MSAuthTokenContext sharedInstance].authToken = @"something";
 }
 
 - (void)testDidFailToRegisterForRemoteNotificationsWithError {

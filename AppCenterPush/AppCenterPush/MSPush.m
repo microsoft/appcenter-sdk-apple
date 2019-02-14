@@ -393,7 +393,9 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 }
 
 - (void)authTokenContext:(__unused MSAuthTokenContext *)authTokenContext didReceiveAuthToken:(__unused NSString *)authToken {
-  [self sendPushToken:self.pushToken];
+  if (self.pushToken) {
+    [self sendPushToken:self.pushToken];
+  }
 }
 
 @end
