@@ -123,13 +123,13 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     updateViewState()
   }
 
-  @IBAction func pushSwitchStateUpdated(_ sender: UISwitch) {
-    appCenter.setPushEnabled(sender.isOn)
+  @IBAction func identitySwitchStateUpdated(_ sender: UISwitch){
+    appCenter.setIdentityEnabled(sender.isOn)
     updateViewState()
   }
   
-  @IBAction func identitySwitchStateUpdated(_ sender: UISwitch){
-    appCenter.setIdentityEnabled(sender.isOn)
+  @IBAction func pushSwitchStateUpdated(_ sender: UISwitch) {
+    appCenter.setPushEnabled(sender.isOn)
     updateViewState()
   }
 
