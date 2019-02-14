@@ -64,6 +64,7 @@
 - (void)testKeyIsNull {
 
   // If
+  [MSEncrypter deleteKeyWithTag:self.keyTag];
   id encrypterMock = OCMClassMock([MSEncrypter class]);
   OCMStub([encrypterMock generateKeyWithTag:[OCMArg any]]).andReturn(nil);
   MSEncrypter *encrypter = [[MSEncrypter alloc] initWitKeyTag:self.keyTag];
