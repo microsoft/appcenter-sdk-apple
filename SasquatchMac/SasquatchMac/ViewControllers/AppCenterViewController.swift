@@ -83,8 +83,8 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate {
   // Get device identifier.
   class func getDeviceIdentifier() -> String? {
     let platformExpert = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("IOPlatformExpertDevice"))
-    let serialNumberAsCFString = IORegistryEntryCreateCFProperty(platformExpert, kIOPlatformSerialNumberKey as CFString, kCFAllocatorDefault, 0)
-    let baseIdentifier = serialNumberAsCFString?.takeRetainedValue() as! String
+    let platformUUIDAsCFString = IORegistryEntryCreateCFProperty(platformExpert, kIOPlatformUUIDKey as CFString, kCFAllocatorDefault, 0)
+    let baseIdentifier = platformUUIDAsCFString?.takeRetainedValue() as! String
         IOObjectRelease(platformExpert)
     return baseIdentifier
   }

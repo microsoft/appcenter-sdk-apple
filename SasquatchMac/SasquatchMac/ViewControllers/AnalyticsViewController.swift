@@ -101,6 +101,30 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
           appCenter.trackEvent(eventName)
         }
       }
+      for targetToken in TransmissionTargets.shared.transmissionTargets.keys {
+          if TransmissionTargets.shared.targetShouldSendAnalyticsEvents(targetToken: targetToken) {
+              let target = TransmissionTargets.shared.transmissionTargets[targetToken]!
+              if let properties = eventProperties as? MSEventProperties {
+                  if priority != .defaultType {
+                      target.trackEvent(eventName, withProperties: properties, flags: priority.flags)
+                  } else {
+                      target.trackEvent(eventName, withProperties: properties)
+                  }
+              } else if let dictionary = eventProperties as? [String: String] {
+                  if priority != .defaultType {
+                      target.trackEvent(eventName, withProperties: dictionary, flags: priority.flags)
+                  } else {
+                      target.trackEvent(eventName, withProperties: dictionary)
+                  }
+              } else {
+                  if priority != .defaultType {
+                      target.trackEvent(eventName, withProperties: [:], flags: priority.flags)
+                  } else {
+                      target.trackEvent(eventName)
+                  }
+              }
+          }
+      }
     }
   }
 
