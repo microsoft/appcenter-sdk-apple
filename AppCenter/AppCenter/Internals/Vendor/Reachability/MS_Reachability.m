@@ -54,6 +54,15 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target,
                     object:noteObject];
 }
 
+
+static void RunOnMainThread(dispatch_block_t block) {
+  if ([NSThread isMainThread]) {
+    block();
+  } else {
+    dispatch_async(dispatch_get_main_queue(), block);
+  }
+}
+
 #pragma mark - Reachability extension
 
 @interface MS_Reachability ()
@@ -124,7 +133,7 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target,
 #pragma mark - Start and stop notifier
 
 - (void)startNotifier {
-  dispatch_block_t block = ^{
+  RunOnMainThread(^{
     SCNetworkReachabilityContext context = {0, (__bridge void *)(self), NULL,
                                             NULL, NULL};
     if (SCNetworkReachabilitySetCallback(self.reachabilityRef,
@@ -136,32 +145,22 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target,
                                                             object:self];
       }
     }
-  };
-  if ([NSThread isMainThread]) {
-    block();
-  } else {
-    dispatch_async(dispatch_get_main_queue(), block);
-  }
+  });
 }
 
 - (void)stopNotifier {
-  dispatch_block_t block = ^{
+  RunOnMainThread(^{
     if (self.reachabilityRef != NULL) {
       SCNetworkReachabilityUnscheduleFromRunLoop(
           self.reachabilityRef, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
     }
-  };
-  if ([NSThread isMainThread]) {
-    block();
-  } else {
-    dispatch_async(dispatch_get_main_queue(), block);
-  }
+  });
 }
 
 - (void)dealloc {
   __block SCNetworkReachabilityRef reachabilityRef = self.reachabilityRef;
   if (reachabilityRef != NULL) {
-    dispatch_async(dispatch_get_main_queue(), ^{
+    RunOnMainThread(^{
       SCNetworkReachabilityUnscheduleFromRunLoop(reachabilityRef, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
       CFRelease(reachabilityRef);
     });
