@@ -346,7 +346,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [ingestionMock stopMocking];
 }
 
-// TODO add more tests to cover login.
 - (void)testLoginAcquiresToken {
 
   // If
@@ -386,6 +385,43 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMReject([msalMock acquireTokenForScopes:OCMOCK_ANY completionBlock: OCMOCK_ANY]);
   [identityMock stopMocking];
   [msalMock stopMocking];
+}
+
+- (void)testLoginDelayedWhenNoClientApplication {
+
+  // If
+  MSIdentity *service = [MSIdentity sharedInstance];
+  service.identityConfig = [MSIdentityConfig new];
+  service.identityConfig.identityScope = @"fake";
+  id identityMock = OCMPartialMock(service);
+  OCMStub([identityMock sharedInstance]).andReturn(identityMock);
+  OCMStub([identityMock canBeUsed]).andReturn(YES);
+
+  // When
+  [MSIdentity login];
+
+  // Then
+  XCTAssertTrue(service.loginDelayed);
+  [identityMock stopMocking];
+}
+
+- (void)testLoginDelayedWhenNoIdentityConfig {
+
+  // If
+  MSIdentity *service = [MSIdentity sharedInstance];
+  id clientApplicationMock = OCMPartialMock([MSALPublicClientApplication alloc]);
+  service.clientApplication = clientApplicationMock;
+  id identityMock = OCMPartialMock(service);
+  OCMStub([identityMock sharedInstance]).andReturn(identityMock);
+  OCMStub([identityMock canBeUsed]).andReturn(YES);
+
+  // When
+  [MSIdentity login];
+
+  // Then
+  XCTAssertTrue(service.loginDelayed);
+  [identityMock stopMocking];
+  [clientApplicationMock stopMocking];
 }
 
 @end
