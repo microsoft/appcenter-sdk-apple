@@ -2,7 +2,8 @@
 
 ## Version 1.13.2 (Not yet released)
 
-* **[Fix]** Fix a crash if database query failed. 
+* **[Fix]** Fix a crash if database query failed.
+* **[Fix]** Fix a crash on simulator that was introduced in 1.13.1.
 
 ___
 
