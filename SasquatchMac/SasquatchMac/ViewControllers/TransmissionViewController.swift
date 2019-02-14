@@ -12,7 +12,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
     case CommonSchemaProperties = 5
   }
 
-  //Transmission Target Sections
+  //Transmission target section
   private var transmissionTargetSections: [TransmissionTargetSection]?
   private let kEnabledCellRowIndex = 0
   private let kAnalyticsCellRowIndex = 1
@@ -72,7 +72,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
     }
   }
 
-  //target properties section
+  //Target properties section
   class EventProperty : NSObject {
     var key: String = ""
     var type: String = EventPropertyType.string.rawValue
@@ -94,7 +94,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
   }
   dynamic var eventProperties = [EventProperty]()
 
-  //Common Schema Properties section
+  //Common schema properties section
   let kDeviceIdRow = 0
   let kAppNameRow = 1
   let kAppVersionRow = 2
@@ -157,7 +157,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
 
     transmissionTargetSections = [defaultTargetSection, runtimeTargetSection, child1TargetSection, child2TargetSection]
 
-    //Common Schema Properties section
+    //Common schema properties section
     propertyValues = [String: [String]]()
     collectDeviceIdStates = [String: Bool]()
     let parentTargetToken = appName.contains("SasquatchMacSwift") ? kMSSwiftRuntimeTargetToken : kMSObjCRuntimeTargetToken
@@ -182,7 +182,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
   func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
     tableView.headerView=nil
 
-    // Common Schema Properties section
+    // Common schema properties section
     if(tableView.tag == Section.CommonSchemaProperties.rawValue) {
       if let cell = tableView.make(withIdentifier: "property", owner: nil) as? NSTableCellView {
         let property = propertyAtRow(row: row)
@@ -232,7 +232,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
       return nil
     }
 
-    //Transmission Target Sections
+    //Transmission target section
     if let cell = tableView.make(withIdentifier: "target", owner: nil) as? NSTableCellView {
       let section = transmissionTargetSections![tableView.tag]
       switch (row) {
@@ -297,7 +297,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
     }
   }
 
-  //Transmission Target Sections
+  //Transmission target section
   func targetEnabledSwitchValueChanged(sender: NSButton!) {
     let sectionIndex = getCellSection(forView: sender)
     let section = transmissionTargetSections![sectionIndex]
@@ -354,7 +354,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
     section.resume()
   }
 
-  // Common Schema Properties section
+  // Common schema properties section
   @objc func collectDeviceIdSwitchCellEnabled(sender: NSButton?) {
     sender!.isEnabled = false
 
