@@ -66,7 +66,7 @@ static NSString *const kMSBearerTokenHeaderFormat = @"Bearer %@";
 
   // Copy self.authToken into a local variable to avoid a race condition.
   NSString *authTokenCopy = self.authToken;
-  if (authTokenCopy) {
+  if (authTokenCopy && ![authTokenCopy isEqualToString:@""]) {
     NSString *bearerTokenHeader = [NSString stringWithFormat:kMSBearerTokenHeaderFormat, authTokenCopy];
     [request setValue:bearerTokenHeader forHTTPHeaderField:kMSAuthorizationHeaderKey];
   }

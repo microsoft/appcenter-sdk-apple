@@ -604,6 +604,19 @@ static NSString *const kMSBearerTokenHeaderFormat = @"Bearer %@";
   XCTAssertNil([request.allHTTPHeaderFields valueForKey:kMSAuthorizationHeaderKey]);
 }
 
+- (void)testDoesNotSendAuthHeaderWithEmptyAuthToken {
+
+  // If
+  MSLogContainer *logContainer = [[MSLogContainer alloc] initWithBatchId:@"whatever" andLogs:(NSArray<id<MSLog>> *)@ [[MSMockLog new]]];
+  self.sut.authToken  = @"";
+  
+  // When
+  NSURLRequest *request = [self.sut createRequest:logContainer eTag:nil];
+
+  // Then
+  XCTAssertNil([request.allHTTPHeaderFields valueForKey:kMSAuthorizationHeaderKey]);
+}
+
 #pragma mark - Test Helpers
 
 // TODO: Move this to base MSHttpIngestion test.

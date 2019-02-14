@@ -1,5 +1,3 @@
-#import <Foundation/Foundation.h>
-
 #import "MSAuthTokenContext.h"
 #import "MSAuthTokenContextDelegate.h"
 #import "MSTestFrameworks.h"
