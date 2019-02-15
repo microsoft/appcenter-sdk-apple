@@ -357,32 +357,31 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   id identityMock = OCMPartialMock(service);
   OCMStub([identityMock sharedInstance]).andReturn(identityMock);
   OCMStub([identityMock canBeUsed]).andReturn(YES);
-  OCMStub([clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock: OCMOCK_ANY]).andDo(nil);
+  OCMStub([clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]).andDo(nil);
 
   // When
   [MSIdentity login];
 
   // Then
-  OCMVerify([clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock: OCMOCK_ANY]);
+  OCMVerify([clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
   [identityMock stopMocking];
   [clientApplicationMock stopMocking];
 }
 
-
-- (void)testLoginDoesntAcquireTokenWhenDisabled {
+- (void)testLoginDoesNotAcquireTokenWhenDisabled {
 
   // If
   id identityMock = OCMPartialMock([MSIdentity sharedInstance]);
   OCMStub([identityMock sharedInstance]).andReturn(identityMock);
   OCMStub([identityMock canBeUsed]).andReturn(NO);
   id msalMock = OCMClassMock([MSALPublicClientApplication class]);
-  OCMStub([msalMock acquireTokenForScopes:OCMOCK_ANY completionBlock: OCMOCK_ANY]).andDo(nil);
+  OCMStub([msalMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]).andDo(nil);
 
   // When
   [MSIdentity login];
-           
+
   // Then
-  OCMReject([msalMock acquireTokenForScopes:OCMOCK_ANY completionBlock: OCMOCK_ANY]);
+  OCMReject([msalMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
   [identityMock stopMocking];
   [msalMock stopMocking];
 }
