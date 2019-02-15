@@ -111,6 +111,10 @@
 - (void)setIdentityEnabled:(BOOL)isEnabled {
   return [MSIdentity setEnabled:isEnabled];
 }
+  
+- (void)login {
+  [MSIdentity login];
+}
 
 - (void)setPushEnabled:(BOOL)isEnabled {
   return [MSPush setEnabled:isEnabled];

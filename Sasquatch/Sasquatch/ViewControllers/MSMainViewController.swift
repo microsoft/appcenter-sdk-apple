@@ -102,6 +102,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   }
 
   @IBAction func identityLogin(_ sender: UIButton) {
+    appCenter.login()
   }
   
   func updateViewState() {
