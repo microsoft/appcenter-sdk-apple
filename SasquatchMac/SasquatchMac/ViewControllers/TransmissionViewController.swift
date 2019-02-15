@@ -120,6 +120,14 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
     case userId
   }
 
+  enum cellSubviews : Int {
+    case key = 0
+    case valueCheck = 1
+    case valueText = 2
+    case pause = 3
+    case resume = 4
+  }
+
   override func viewDidLoad() {
     super.viewDidLoad()
     defaultTable.delegate = self
@@ -185,47 +193,44 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
     if(tableView.tag == Section.CommonSchemaProperties.rawValue) {
       if let cell = tableView.make(withIdentifier: "property", owner: nil) as? NSTableCellView {
         let property = propertyAtRow(row: row)
-        let keyIndex = 0;
-        let valueCheckIndex = 1;
-        let valueTextIndex = 2;
         switch (row) {
         case kDeviceIdRow:
-          let key: NSTextField = cell.subviews[keyIndex] as! NSTextField
+          let key: NSTextField = cell.subviews[cellSubviews.key.rawValue] as! NSTextField
           key.stringValue=property.key
-          let value: NSButton = cell.subviews[valueCheckIndex] as! NSButton
+          let value: NSButton = cell.subviews[cellSubviews.valueCheck.rawValue] as! NSButton
           let selectedTarget = selectedTransmissionTarget(commonSelector)
           value.state = (collectDeviceIdStates[selectedTarget!]?.hashValue)!
           value.isEnabled = !((value.state as NSNumber).boolValue)
           value.action = #selector(collectDeviceIdSwitchCellEnabled)
-          cell.subviews[valueTextIndex].isHidden = true
+          cell.subviews[cellSubviews.valueText.rawValue].isHidden = true
           return cell   
         case kAppNameRow:
-          let key: NSTextField = cell.subviews[keyIndex] as! NSTextField
+          let key: NSTextField = cell.subviews[cellSubviews.key.rawValue] as! NSTextField
           key.stringValue = property.key
-          let value: NSTextField = cell.subviews[valueTextIndex] as! NSTextField
+          let value: NSTextField = cell.subviews[cellSubviews.valueText.rawValue] as! NSTextField
           value.stringValue = property.value
-          cell.subviews[valueCheckIndex].isHidden = true
+          cell.subviews[cellSubviews.valueCheck.rawValue].isHidden = true
           return cell
         case kAppVersionRow:
-          let key: NSTextField = cell.subviews[keyIndex] as! NSTextField
+          let key: NSTextField = cell.subviews[cellSubviews.key.rawValue] as! NSTextField
           key.stringValue = property.key
-          let value: NSTextField = cell.subviews[valueTextIndex] as! NSTextField
+          let value: NSTextField = cell.subviews[cellSubviews.valueText.rawValue] as! NSTextField
           value.stringValue = property.value
-          cell.subviews[valueCheckIndex].isHidden = true
+          cell.subviews[cellSubviews.valueCheck.rawValue].isHidden = true
           return cell
         case kAppLocaleRow:
-          let key: NSTextField = cell.subviews[keyIndex] as! NSTextField
+          let key: NSTextField = cell.subviews[cellSubviews.key.rawValue] as! NSTextField
           key.stringValue = property.key
-          let value: NSTextField = cell.subviews[valueTextIndex] as! NSTextField
+          let value: NSTextField = cell.subviews[cellSubviews.valueText.rawValue] as! NSTextField
           value.stringValue = property.value
-          cell.subviews[valueCheckIndex].isHidden = true
+          cell.subviews[cellSubviews.valueCheck.rawValue].isHidden = true
           return cell
         case kUserIdRow:
-          let key: NSTextField = cell.subviews[keyIndex] as! NSTextField
+          let key: NSTextField = cell.subviews[cellSubviews.key.rawValue] as! NSTextField
           key.stringValue = property.key
-          let value: NSTextField = cell.subviews[valueTextIndex] as! NSTextField
+          let value: NSTextField = cell.subviews[cellSubviews.valueText.rawValue] as! NSTextField
           value.stringValue = property.value
-          cell.subviews[valueCheckIndex].isHidden = true
+          cell.subviews[cellSubviews.valueCheck.rawValue].isHidden = true
           return cell
         default:
            return nil
@@ -237,46 +242,41 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
     //Transmission target section
     if let cell = tableView.make(withIdentifier: "target", owner: nil) as? NSTableCellView {
       let section = transmissionTargetSections![tableView.tag]
-      let keyIndex = 0;
-      let valueCheckIndex = 1;
-      let valueTextIndex = 2;
-      let pauseIndex = 3;
-      let resumeIndex = 4;
       switch (row) {
       case kEnabledCellRowIndex:
-        let key: NSTextField = cell.subviews[keyIndex] as! NSTextField
+        let key: NSTextField = cell.subviews[cellSubviews.key.rawValue] as! NSTextField
         key.stringValue = "Set Enabled"
-        let value: NSButton = cell.subviews[valueCheckIndex] as! NSButton
+        let value: NSButton = cell.subviews[cellSubviews.valueCheck.rawValue] as! NSButton
         value.state = section.isTransmissionTargetEnabled().hashValue
         value.isEnabled = tableView.tag != Section.Default.rawValue
         value.target = self
         value.action = #selector(targetEnabledSwitchValueChanged)
-        cell.subviews[valueTextIndex].isHidden = true
+        cell.subviews[cellSubviews.valueText.rawValue].isHidden = true
         return cell     
       case kAnalyticsCellRowIndex:
-        let key: NSTextField = cell.subviews[keyIndex] as! NSTextField
+        let key: NSTextField = cell.subviews[cellSubviews.key.rawValue] as! NSTextField
         key.stringValue = "Analytics Events"
-        let value: NSButton = cell.subviews[valueCheckIndex] as! NSButton
+        let value: NSButton = cell.subviews[cellSubviews.valueCheck.rawValue] as! NSButton
         value.state = section.shouldSendAnalytics().hashValue
         value.target = self
         value.action = #selector(targetShouldSendAnalyticsSwitchValueChanged)
-        cell.subviews[valueTextIndex].isHidden = true
+        cell.subviews[cellSubviews.valueText.rawValue].isHidden = true
         return cell
       case kTokenCellRowIndex:
-        let key: NSTextField = cell.subviews[keyIndex] as! NSTextField
+        let key: NSTextField = cell.subviews[cellSubviews.key.rawValue] as! NSTextField
         key.stringValue = "Token"
-        let value: NSTextField = cell.subviews[valueTextIndex] as! NSTextField
+        let value: NSTextField = cell.subviews[cellSubviews.valueText.rawValue] as! NSTextField
         value.stringValue = section.token!
-        cell.subviews[valueCheckIndex].isHidden = true
+        cell.subviews[cellSubviews.valueCheck.rawValue].isHidden = true
         return cell
       case kPauseCellRowIndex:
-        cell.subviews[keyIndex].isHidden = true
-        cell.subviews[valueCheckIndex].isHidden = true
-        cell.subviews[valueTextIndex].isHidden = true
-        let pause: NSButton = cell.subviews[pauseIndex] as! NSButton
+        cell.subviews[cellSubviews.key.rawValue].isHidden = true
+        cell.subviews[cellSubviews.valueCheck.rawValue].isHidden = true
+        cell.subviews[cellSubviews.valueText.rawValue].isHidden = true
+        let pause: NSButton = cell.subviews[cellSubviews.pause.rawValue] as! NSButton
         pause.isHidden = false
         pause.action = #selector(TransmissionViewController.pause)
-        let resume: NSButton = cell.subviews[resumeIndex] as! NSButton
+        let resume: NSButton = cell.subviews[cellSubviews.resume.rawValue] as! NSButton
         resume.isHidden = false
         resume.action = #selector(TransmissionViewController.resume)
         return cell
@@ -323,7 +323,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
         guard let childCell = tableView?.view(atColumn: 0, row: kEnabledCellRowIndex, makeIfNecessary: false) as? NSTableCellView else {
           continue
         }
-        let childSwitch: NSButton? = childCell.subviews[1] as? NSButton
+        let childSwitch: NSButton? = childCell.subviews[cellSubviews.valueCheck.rawValue] as? NSButton
         let childTarget = transmissionTargetSections![childSectionIndex].getTransmissionTarget()
         childSwitch!.state = (childTarget?.isEnabled().hashValue)!
         childSwitch!.isEnabled = state
@@ -387,7 +387,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
 
   func getCellRow(forTextField textField: NSTextField!) -> Int {
     let cell = textField.superview as! NSTableCellView
-    let key:NSTextField  =  cell.subviews[0] as! NSTextField
+    let key:NSTextField  =  cell.subviews[cellSubviews.key.rawValue] as! NSTextField
     switch key.stringValue {
     case propertyKeys[1]:
       return kAppNameRow
