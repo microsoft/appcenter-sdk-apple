@@ -141,7 +141,7 @@ static NSObject *lock = @"lock";
 }
 
 + (void)login {
-  @synchronized(lock) {
+  @synchronized(self) {
     if ([[MSIdentity sharedInstance] canBeUsed]) {
       [[MSIdentity sharedInstance] login];
     }
