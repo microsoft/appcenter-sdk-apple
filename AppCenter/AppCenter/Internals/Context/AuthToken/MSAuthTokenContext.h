@@ -4,6 +4,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol MSAuthTokenContextDelegate;
 
+/**
+ * MSAuthTokenContext is a singleton responsible for keeping an in-memory reference to an auth token that the Identity service provides.
+ * This enables all App Center modules to access the token, and receive a notification when the token changes.
+ */
 @interface MSAuthTokenContext : NSObject
 
 /**

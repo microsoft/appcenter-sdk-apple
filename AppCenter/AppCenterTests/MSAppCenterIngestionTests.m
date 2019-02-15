@@ -13,8 +13,6 @@
 static NSTimeInterval const kMSTestTimeout = 5.0;
 static NSString *const kMSBaseUrl = @"https://test.com";
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
-static NSString *const kMSAuthorizationHeaderKey = @"Authorization";
-static NSString *const kMSBearerTokenHeaderFormat = @"Bearer %@";
 
 @interface MSAppCenterIngestionTests : XCTestCase
 
@@ -608,8 +606,8 @@ static NSString *const kMSBearerTokenHeaderFormat = @"Bearer %@";
 
   // If
   MSLogContainer *logContainer = [[MSLogContainer alloc] initWithBatchId:@"whatever" andLogs:(NSArray<id<MSLog>> *)@ [[MSMockLog new]]];
-  self.sut.authToken  = @"";
-  
+  self.sut.authToken = @"";
+
   // When
   NSURLRequest *request = [self.sut createRequest:logContainer eTag:nil];
 
