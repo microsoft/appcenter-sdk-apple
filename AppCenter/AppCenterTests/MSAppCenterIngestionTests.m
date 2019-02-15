@@ -574,6 +574,47 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   XCTAssertTrue(request.HTTPBody.length < httpBody.length);
 }
 
+- (void)testSendsAuthHeaderWhenAuthTokenIsNotNil {
+
+  // If
+  NSString *expectedToken = @"auth token";
+  MSLogContainer *logContainer = [[MSLogContainer alloc] initWithBatchId:@"whatever" andLogs:(NSArray<id<MSLog>> *)@ [[MSMockLog new]]];
+  self.sut.authToken = expectedToken;
+
+  // When
+  NSURLRequest *request = [self.sut createRequest:logContainer eTag:nil];
+
+  // Then
+  NSString *expectedHeader = [NSString stringWithFormat:kMSBearerTokenHeaderFormat, expectedToken];
+  NSString *actualHeader = request.allHTTPHeaderFields[kMSAuthorizationHeaderKey];
+  XCTAssertEqualObjects(expectedHeader, actualHeader);
+}
+
+- (void)testDoesNotSendAuthHeaderWithNilAuthToken {
+
+  // If
+  MSLogContainer *logContainer = [[MSLogContainer alloc] initWithBatchId:@"whatever" andLogs:(NSArray<id<MSLog>> *)@ [[MSMockLog new]]];
+
+  // When
+  NSURLRequest *request = [self.sut createRequest:logContainer eTag:nil];
+
+  // Then
+  XCTAssertNil([request.allHTTPHeaderFields valueForKey:kMSAuthorizationHeaderKey]);
+}
+
+- (void)testDoesNotSendAuthHeaderWithEmptyAuthToken {
+
+  // If
+  MSLogContainer *logContainer = [[MSLogContainer alloc] initWithBatchId:@"whatever" andLogs:(NSArray<id<MSLog>> *)@ [[MSMockLog new]]];
+  self.sut.authToken = @"";
+
+  // When
+  NSURLRequest *request = [self.sut createRequest:logContainer eTag:nil];
+
+  // Then
+  XCTAssertNil([request.allHTTPHeaderFields valueForKey:kMSAuthorizationHeaderKey]);
+}
+
 #pragma mark - Test Helpers
 
 // TODO: Move this to base MSHttpIngestion test.

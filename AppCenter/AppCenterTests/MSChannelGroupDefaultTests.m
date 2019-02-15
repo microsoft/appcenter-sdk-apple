@@ -1,5 +1,6 @@
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenterIngestion.h"
+#import "MSAuthTokenContext.h"
 #import "MSChannelDelegate.h"
 #import "MSChannelGroupDefault.h"
 #import "MSChannelGroupDefaultPrivate.h"
@@ -29,6 +30,7 @@
                                                               flushInterval:flushInterval
                                                              batchSizeLimit:batchSizeLimit
                                                         pendingBatchesLimit:pendingBatchesLimit];
+  [MSAuthTokenContext sharedInstance].authToken = nil;
 }
 
 #pragma mark - Tests
@@ -36,7 +38,7 @@
 - (void)testNewInstanceWasInitialisedCorrectly {
 
   // If
-  id ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
+  MSAppCenterIngestion *ingestionMock = OCMPartialMock([MSAppCenterIngestion new]);
 
   // When
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
@@ -52,7 +54,7 @@
 - (void)testAddNewChannel {
 
   // If
-  id<MSIngestionProtocol> ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
+  MSAppCenterIngestion *ingestionMock = OCMPartialMock([MSAppCenterIngestion new]);
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
 
   // Then
@@ -73,7 +75,7 @@
 - (void)testAddNewChannelWithDefaultIngestion {
 
   // If
-  id<MSIngestionProtocol> ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
+  MSAppCenterIngestion *ingestionMock = OCMPartialMock([MSAppCenterIngestion new]);
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
 
   // When
@@ -86,8 +88,8 @@
 - (void)testAddChannelWithCustomIngestion {
 
   // If
-  id<MSIngestionProtocol> ingestionMockDefault = OCMProtocolMock(@protocol(MSIngestionProtocol));
-  id<MSIngestionProtocol> ingestionMockCustom = OCMProtocolMock(@protocol(MSIngestionProtocol));
+  id<MSIngestionProtocol> ingestionMockDefault = OCMPartialMock([MSAppCenterIngestion new]);
+  id<MSIngestionProtocol> ingestionMockCustom = OCMPartialMock([MSAppCenterIngestion new]);
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMockDefault];
 
   // When
@@ -102,7 +104,7 @@
 - (void)testDelegatesConcurrentAccess {
 
   // If
-  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:OCMProtocolMock(@protocol(MSIngestionProtocol))];
+  MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:OCMPartialMock([MSAppCenterIngestion new])];
   MSAbstractLog *log = [MSAbstractLog new];
   for (int j = 0; j < 10; j++) {
     id mockDelegate = OCMProtocolMock(@protocol(MSChannelDelegate));
@@ -184,7 +186,7 @@
 - (void)testChannelUnitIsCorrectlyInitialized {
 
   // If
-  id ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
+  MSAppCenterIngestion *ingestionMock = OCMPartialMock([MSAppCenterIngestion new]);
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
@@ -210,7 +212,7 @@
   // channel group.
 
   // If
-  id ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
+  MSAppCenterIngestion *ingestionMock = OCMPartialMock([MSAppCenterIngestion new]);
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
@@ -238,7 +240,7 @@
 
   // If
   NSObject *identifyingObject = [NSObject new];
-  id ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
+  MSAppCenterIngestion *ingestionMock = OCMPartialMock([MSAppCenterIngestion new]);
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
@@ -262,7 +264,7 @@
 
   // If
   NSObject *identifyingObject = [NSObject new];
-  id ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
+  MSAppCenterIngestion *ingestionMock = OCMPartialMock([MSAppCenterIngestion new]);
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
@@ -286,7 +288,7 @@
 
   // If
   id<MSLog> mockLog = [MSMockLog new];
-  id ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
+  MSAppCenterIngestion *ingestionMock = OCMPartialMock([MSAppCenterIngestion new]);
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
@@ -311,7 +313,7 @@
   // If
   id<MSLog> mockLog = [MSMockLog new];
   NSString *internalId = @"mockId";
-  id ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
+  MSAppCenterIngestion *ingestionMock = OCMPartialMock([MSAppCenterIngestion new]);
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
@@ -336,7 +338,7 @@
   // If
   id<MSLog> mockLog = [MSMockLog new];
   NSString *internalId = @"mockId";
-  id ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
+  MSAppCenterIngestion *ingestionMock = OCMPartialMock([MSAppCenterIngestion new]);
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
@@ -360,7 +362,7 @@
 
   // If
   id<MSLog> mockLog = [MSMockLog new];
-  id ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
+  MSAppCenterIngestion *ingestionMock = OCMPartialMock([MSAppCenterIngestion new]);
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
@@ -384,7 +386,7 @@
 
   // If
   id<MSLog> mockLog = [MSMockLog new];
-  id ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
+  MSAppCenterIngestion *ingestionMock = OCMPartialMock([MSAppCenterIngestion new]);
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
@@ -407,7 +409,7 @@
 - (void)testDelegateCalledWhenChannelUnitDidSetEnabled {
 
   // If
-  id ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
+  MSAppCenterIngestion *ingestionMock = OCMPartialMock([MSAppCenterIngestion new]);
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
@@ -432,7 +434,7 @@
   // If
   id<MSLog> mockLog = [MSMockLog new];
   NSError *error = [NSError new];
-  id ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
+  MSAppCenterIngestion *ingestionMock = OCMPartialMock([MSAppCenterIngestion new]);
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
@@ -456,7 +458,7 @@
 
   // If
   id<MSLog> mockLog = [MSMockLog new];
-  id ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
+  MSAppCenterIngestion *ingestionMock = OCMPartialMock([MSAppCenterIngestion new]);
   MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
   id channelUnitMock = OCMClassMock([MSChannelUnitDefault class]);
   OCMStub([channelUnitMock alloc]).andReturn(channelUnitMock);
@@ -474,6 +476,34 @@
 
   // Clear
   [channelUnitMock stopMocking];
+}
+
+- (void)testUpdatesIngestionAuthTokenWhenAuthTokenIsReceived {
+
+  // If
+  MSAppCenterIngestion *ingestionMock = [[MSAppCenterIngestion alloc] initWithBaseUrl:@"baseurl" installId:@"5"];
+  __unused MSChannelGroupDefault *sut = [[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
+  NSString *expectedAuthToken = @"auth token";
+
+  // When
+  [MSAuthTokenContext sharedInstance].authToken = expectedAuthToken;
+
+  // Then
+  XCTAssertEqualObjects(expectedAuthToken, ingestionMock.authToken);
+}
+
+- (void)testInitUpdatesIngestionAuthTokenWhenAuthTokenAlreadyExists {
+
+  // If
+  MSAppCenterIngestion *ingestionMock = [[MSAppCenterIngestion alloc] initWithBaseUrl:@"baseurl" installId:@"5"];
+  NSString *expectedAuthToken = @"auth token";
+  [MSAuthTokenContext sharedInstance].authToken = expectedAuthToken;
+
+  // When
+  (void)[[MSChannelGroupDefault alloc] initWithIngestion:ingestionMock];
+
+  // Then
+  XCTAssertEqualObjects(expectedAuthToken, ingestionMock.authToken);
 }
 
 @end

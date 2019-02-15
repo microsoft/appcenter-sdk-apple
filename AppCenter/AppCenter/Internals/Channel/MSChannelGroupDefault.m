@@ -1,6 +1,7 @@
 #import "MSChannelGroupDefault.h"
 #import "AppCenter+Internal.h"
 #import "MSAppCenterIngestion.h"
+#import "MSAuthTokenContext.h"
 #import "MSChannelGroupDefaultPrivate.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
@@ -23,8 +24,12 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
     _logsDispatchQueue = serialQueue;
     _channels = [NSMutableArray<id<MSChannelUnitProtocol>> new];
     _delegates = [NSHashTable weakObjectsHashTable];
-    _ingestion = ingestion;
     _storage = [MSLogDBStorage new];
+    if (ingestion) {
+      _ingestion = ingestion;
+      _ingestion.authToken = [MSAuthTokenContext sharedInstance].authToken;
+    }
+    [[MSAuthTokenContext sharedInstance] addDelegate:self];
   }
   return self;
 }
@@ -229,6 +234,12 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
   dispatch_async(self.logsDispatchQueue, ^{
     [self.storage setMaxStorageSize:sizeInBytes completionHandler:completionHandler];
   });
+}
+
+- (void)authTokenContext:(__unused MSAuthTokenContext *)authTokenContext didReceiveAuthToken:(NSString *)authToken {
+  if (self.ingestion) {
+    self.ingestion.authToken = authToken;
+  }
 }
 
 @end

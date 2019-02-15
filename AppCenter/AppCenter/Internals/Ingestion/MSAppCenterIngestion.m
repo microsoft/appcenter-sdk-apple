@@ -12,6 +12,8 @@
 static NSString *const kMSAPIVersion = @"1.0.0";
 static NSString *const kMSAPIVersionKey = @"api-version";
 static NSString *const kMSApiPath = @"/logs";
+NSString *const kMSAuthorizationHeaderKey = @"Authorization";
+NSString *const kMSBearerTokenHeaderFormat = @"Bearer %@";
 
 - (id)initWithBaseUrl:(NSString *)baseUrl installId:(NSString *)installId {
   self = [super initWithBaseUrl:baseUrl
@@ -62,6 +64,13 @@ static NSString *const kMSApiPath = @"/logs";
   request.allHTTPHeaderFields = self.httpHeaders;
   [request setValue:self.appSecret forHTTPHeaderField:kMSHeaderAppSecretKey];
 
+  // Copy self.authToken into a local variable to avoid a race condition.
+  NSString *authTokenCopy = self.authToken;
+  if ([authTokenCopy length] > 0) {
+    NSString *bearerTokenHeader = [NSString stringWithFormat:kMSBearerTokenHeaderFormat, authTokenCopy];
+    [request setValue:bearerTokenHeader forHTTPHeaderField:kMSAuthorizationHeaderKey];
+  }
+
   // Set body.
   NSString *jsonString = [container serializeLog];
   NSData *httpBody = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
@@ -88,7 +97,9 @@ static NSString *const kMSApiPath = @"/logs";
 }
 
 - (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {
-  return [key isEqualToString:kMSHeaderAppSecretKey] ? [MSIngestionUtil hideSecret:value] : value;
+  return ([key isEqualToString:kMSHeaderAppSecretKey] || [key isEqualToString:kMSAuthorizationHeaderKey])
+             ? [MSIngestionUtil hideSecret:value]
+             : value;
 }
 
 @end
