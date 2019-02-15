@@ -37,7 +37,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   NSDictionary *queryStrings = @{ @"api-version" : @"1.0.0" };
 
   // Mock reachability.
-  self.reachabilityMock = OCMClassMock([MS_Reachability class]);
+  self.reachabilityMock = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
   self.currentNetworkStatus = ReachableViaWiFi;
   OCMStub([self.reachabilityMock currentReachabilityStatus]).andDo(^(NSInvocation *invocation) {
     NetworkStatus test = self.currentNetworkStatus;
@@ -64,6 +64,8 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
    * method is not disposed and still listening to network changes in other tests.
    */
   self.sut = nil;
+  [self.reachabilityMock stopMocking];
+  self.reachabilityMock = nil;
 }
 
 - (void)testSendBatchLogs {
