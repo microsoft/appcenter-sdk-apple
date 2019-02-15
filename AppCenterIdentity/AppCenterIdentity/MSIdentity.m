@@ -1,13 +1,14 @@
 #import "MSAppCenterInternal.h"
+#import "MSAppDelegateForwarder.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
 #import "MSConstants+Internal.h"
+#import "MSIdentityAppDelegate.h"
 #import "MSIdentityConfig.h"
 #import "MSIdentityConfigIngestion.h"
 #import "MSIdentityPrivate.h"
 #import "MSServiceAbstractProtected.h"
-#import "MSServiceInternal.h"
 #import "MSUtility+File.h"
 #import <MSAL/MSALPublicClientApplication.h>
 
@@ -38,11 +39,8 @@ static NSObject *lock = @"lock";
 
 - (instancetype)init {
   if ((self = [super init])) {
-
-    // Init channel configuration.
     _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
-
-    // Create a path component for Identity.
+    _appDelegate = [MSIdentityAppDelegate new];
     [MSUtility createDirectoryForPathComponent:kMSIdentityPathComponent];
   }
   return self;
@@ -89,6 +87,7 @@ static NSObject *lock = @"lock";
   [super applyEnabledState:isEnabled];
   if (isEnabled) {
     [self.channelGroup addDelegate:self];
+    [[MSAppDelegateForwarder sharedInstance] addDelegate:self.appDelegate];
 
     // Read Identity config file.
     NSString *eTag = nil;
@@ -101,6 +100,7 @@ static NSObject *lock = @"lock";
     [self downloadConfigurationWithETag:eTag];
     MSLogInfo([MSIdentity logTag], @"Identity service has been enabled.");
   } else {
+    [[MSAppDelegateForwarder sharedInstance] removeDelegate:self.appDelegate];
     self.clientApplication = nil;
     self.accessToken = nil;
     [self clearConfigurationCache];
@@ -136,34 +136,34 @@ static NSObject *lock = @"lock";
   sharedInstance = nil;
 }
 
-+ (void)handleUrlResponse:(NSURL *)url {
-  [MSALPublicClientApplication handleMSALResponse:url];
++ (BOOL)openURL:(NSURL *)url {
+  return [MSALPublicClientApplication handleMSALResponse:url];
 }
 
 + (void)login {
-
-  // TODO protect with canBeUsed.
-  [[MSIdentity sharedInstance] login];
+  @synchronized(lock) {
+    if ([[MSIdentity sharedInstance] canBeUsed]) {
+      [[MSIdentity sharedInstance] login];
+    }
+  }
 }
 
 - (void)login {
-  @synchronized(lock) {
-    if (self.clientApplication == nil && self.identityConfig == nil) {
-      self.loginDelayed = YES;
-      return;
-    }
-    self.loginDelayed = NO;
-    [self.clientApplication acquireTokenForScopes:@[ (NSString * _Nonnull) self.identityConfig.identityScope ]
-                                  completionBlock:^(MSALResult *result, NSError *e) {
-                                    // TODO: synchronize accessToken assignment if it has threading issues
-                                    if (e) {
-                                      MSLogError([MSIdentity logTag], @"Couldn't initialize authentication client. Error: %@", e);
-                                    } else {
-                                      NSString __unused *accountIdentifier = result.account.homeAccountId.identifier;
-                                      self.accessToken = result.accessToken;
-                                    }
-                                  }];
+  if (self.clientApplication == nil || self.identityConfig == nil) {
+    self.loginDelayed = YES;
+    return;
   }
+  self.loginDelayed = NO;
+  [self.clientApplication acquireTokenForScopes:@[ (NSString * _Nonnull) self.identityConfig.identityScope ]
+                                completionBlock:^(MSALResult *result, NSError *e) {
+                                  // TODO: synchronize accessToken assignment if it has threading issues
+                                  if (e) {
+                                    MSLogError([MSIdentity logTag], @"Couldn't initialize authentication client. Error: %@", e);
+                                  } else {
+                                    NSString __unused *accountIdentifier = result.account.homeAccountId.identifier;
+                                    self.accessToken = result.accessToken;
+                                  }
+                                }];
 }
 
 #pragma mark - Private methods

@@ -1,4 +1,5 @@
 #import "MSChannelDelegate.h"
+#import "MSCustomApplicationDelegate.h"
 #import "MSIdentity.h"
 #import "MSIdentityConfig.h"
 #import "MSServiceInternal.h"
@@ -31,6 +32,11 @@ static NSString *const kMSIdentityETagKey = @"MSIdentityETagKey";
  * The flag that indicates a user requested login before it is configured.
  */
 @property(nonatomic) BOOL loginDelayed;
+
+/**
+ * Custom application delegate dedicated to Identity.
+ */
+@property(nonatomic) id<MSCustomApplicationDelegate> appDelegate;
 
 /**
  * Rest singleton instance.

@@ -245,10 +245,11 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   id msalMock = OCMClassMock([MSALPublicClientApplication class]);
 
   // When
-  [MSIdentity handleUrlResponse:expectedURL];
+  BOOL result = [MSIdentity openURL:expectedURL]; // TODO add more tests
 
   // Then
   OCMVerify([msalMock handleMSALResponse:expectedURL]);
+  XCTAssertFalse(result);
   [msalMock stopMocking];
 }
 
@@ -345,6 +346,82 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [ingestionMock stopMocking];
 }
 
-// TODO add tests to cover login.
+- (void)testLoginAcquiresToken {
+
+  // If
+  MSIdentity *service = [MSIdentity sharedInstance];
+  id clientApplicationMock = OCMPartialMock([MSALPublicClientApplication alloc]);
+  service.clientApplication = clientApplicationMock;
+  service.identityConfig = [MSIdentityConfig new];
+  service.identityConfig.identityScope = @"fake";
+  id identityMock = OCMPartialMock(service);
+  OCMStub([identityMock sharedInstance]).andReturn(identityMock);
+  OCMStub([identityMock canBeUsed]).andReturn(YES);
+  OCMStub([clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock: OCMOCK_ANY]).andDo(nil);
+
+  // When
+  [MSIdentity login];
+
+  // Then
+  OCMVerify([clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock: OCMOCK_ANY]);
+  [identityMock stopMocking];
+  [clientApplicationMock stopMocking];
+}
+
+
+- (void)testLoginDoesntAcquireTokenWhenDisabled {
+
+  // If
+  id identityMock = OCMPartialMock([MSIdentity sharedInstance]);
+  OCMStub([identityMock sharedInstance]).andReturn(identityMock);
+  OCMStub([identityMock canBeUsed]).andReturn(NO);
+  id msalMock = OCMClassMock([MSALPublicClientApplication class]);
+  OCMStub([msalMock acquireTokenForScopes:OCMOCK_ANY completionBlock: OCMOCK_ANY]).andDo(nil);
+
+  // When
+  [MSIdentity login];
+           
+  // Then
+  OCMReject([msalMock acquireTokenForScopes:OCMOCK_ANY completionBlock: OCMOCK_ANY]);
+  [identityMock stopMocking];
+  [msalMock stopMocking];
+}
+
+- (void)testLoginDelayedWhenNoClientApplication {
+
+  // If
+  MSIdentity *service = [MSIdentity sharedInstance];
+  service.identityConfig = [MSIdentityConfig new];
+  service.identityConfig.identityScope = @"fake";
+  id identityMock = OCMPartialMock(service);
+  OCMStub([identityMock sharedInstance]).andReturn(identityMock);
+  OCMStub([identityMock canBeUsed]).andReturn(YES);
+
+  // When
+  [MSIdentity login];
+
+  // Then
+  XCTAssertTrue(service.loginDelayed);
+  [identityMock stopMocking];
+}
+
+- (void)testLoginDelayedWhenNoIdentityConfig {
+
+  // If
+  MSIdentity *service = [MSIdentity sharedInstance];
+  id clientApplicationMock = OCMPartialMock([MSALPublicClientApplication alloc]);
+  service.clientApplication = clientApplicationMock;
+  id identityMock = OCMPartialMock(service);
+  OCMStub([identityMock sharedInstance]).andReturn(identityMock);
+  OCMStub([identityMock canBeUsed]).andReturn(YES);
+
+  // When
+  [MSIdentity login];
+
+  // Then
+  XCTAssertTrue(service.loginDelayed);
+  [identityMock stopMocking];
+  [clientApplicationMock stopMocking];
+}
 
 @end
