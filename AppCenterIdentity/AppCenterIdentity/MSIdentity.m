@@ -8,6 +8,7 @@
 #import "MSIdentityConfig.h"
 #import "MSIdentityConfigIngestion.h"
 #import "MSIdentityPrivate.h"
+#import "MSKeychainUtil.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSUtility+File.h"
 #import <MSAL/MSALPublicClientApplication.h>
@@ -23,6 +24,9 @@ static NSString *const kMSIdentityPathComponent = @"identity";
 
 // The Identity config file name.
 static NSString *const kMSIdentityConfigFilename = @"config.json";
+
+// The key for Identity auth token stored in keychain.
+static NSString *const kMSIdentityAuthTokenKey = @"MSIdentityAuthToken";
 
 // Singleton
 static MSIdentity *sharedInstance = nil;
@@ -273,6 +277,34 @@ static NSObject *lock = @"lock";
     }
   }
   return config;
+}
+
+- (void)saveAuthToken:(NSString *)authToken {
+  BOOL success = [MSKeychainUtil storeString:authToken forKey:kMSIdentityAuthTokenKey];
+  if (success) {
+    MSLogDebug([MSIdentity logTag], @"Saved auth token in keychain.");
+  } else {
+    MSLogWarning([MSIdentity logTag], @"Failed to save auth token in keychain.");
+  }
+}
+
+- (NSString *)retrieveAuthToken {
+  NSString *authToken = [MSKeychainUtil stringForKey:kMSIdentityAuthTokenKey];
+  if (authToken) {
+    MSLogDebug([MSIdentity logTag], @"Retrieved auth token from keychain.");
+  } else {
+    MSLogWarning([MSIdentity logTag], @"Failed to retrieve auth token from keychain or none was found.");
+  }
+  return authToken;
+}
+
+- (void)removeAuthToken {
+  NSString *authToken = [MSKeychainUtil deleteStringForKey:kMSIdentityAuthTokenKey];
+  if (authToken) {
+    MSLogDebug([MSIdentity logTag], @"Removed auth token from keychain.");
+  } else {
+    MSLogWarning([MSIdentity logTag], @"Failed to remove auth token from keychain or none was found.");
+  }
 }
 
 @end
