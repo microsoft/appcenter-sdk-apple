@@ -217,6 +217,22 @@
 		B2E011FD21091F0A003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2E011EE21091EF1003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.xib */; };
 		B2E011FE21091F0E003F4A5B /* MSCustomPropertyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E011ED21091EF1003F4A5B /* MSCustomPropertyTableViewCell.swift */; };
 		B2E011FF21091F0F003F4A5B /* MSCustomPropertyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E011ED21091EF1003F4A5B /* MSCustomPropertyTableViewCell.swift */; };
+		D31EF92D1E9517B600450162 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D31EF92B1E9517B600450162 /* Interface.storyboard */; };
+		D31EF92F1E9517B600450162 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D31EF92E1E9517B600450162 /* Assets.xcassets */; };
+		D31EF9361E9517B600450162 /* SasquatchWatchObjC Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = D31EF9351E9517B600450162 /* SasquatchWatchObjC Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		D31EF93E1E9517B600450162 /* InterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = D31EF93D1E9517B600450162 /* InterfaceController.m */; };
+		D31EF9411E9517B600450162 /* ExtensionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D31EF9401E9517B600450162 /* ExtensionDelegate.m */; };
+		D31EF9441E9517B600450162 /* NotificationController.m in Sources */ = {isa = PBXBuildFile; fileRef = D31EF9431E9517B600450162 /* NotificationController.m */; };
+		D31EF9461E9517B600450162 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D31EF9451E9517B600450162 /* Assets.xcassets */; };
+		D31EF94A1E9517B600450162 /* SasquatchWatchObjC.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = D31EF9291E9517B500450162 /* SasquatchWatchObjC.app */; };
+		D31EF9581E9517C500450162 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D31EF9561E9517C500450162 /* Interface.storyboard */; };
+		D31EF95A1E9517C500450162 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D31EF9591E9517C500450162 /* Assets.xcassets */; };
+		D31EF9611E9517C600450162 /* SasquatchWatchSwift Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = D31EF9601E9517C600450162 /* SasquatchWatchSwift Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		D31EF9681E9517C600450162 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31EF9671E9517C600450162 /* InterfaceController.swift */; };
+		D31EF96A1E9517C600450162 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31EF9691E9517C600450162 /* ExtensionDelegate.swift */; };
+		D31EF96C1E9517C600450162 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31EF96B1E9517C600450162 /* NotificationController.swift */; };
+		D31EF96E1E9517C600450162 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D31EF96D1E9517C600450162 /* Assets.xcassets */; };
+		D31EF9721E9517C600450162 /* SasquatchWatchSwift.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = D31EF9541E9517C500450162 /* SasquatchWatchSwift.app */; };
 		F809D5041FC6DA2B005E0F83 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F809D5021FC6DA2B005E0F83 /* LaunchScreen.storyboard */; };
 		F809D5051FC6DD80005E0F83 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F809D5021FC6DA2B005E0F83 /* LaunchScreen.storyboard */; };
 		F8669FB82195B6A2003933A8 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F8669FB72195B6A2003933A8 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -542,6 +558,34 @@
 			remoteGlobalIDString = B20AE37C21027D6200A1A195;
 			remoteInfo = SasquatchPuppet;
 		};
+		D31EF9371E9517B600450162 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 84226C0A1E88FEFC00798417 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D31EF9341E9517B600450162;
+			remoteInfo = "SasquatchWatchObjC Extension";
+		};
+		D31EF9481E9517B600450162 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 84226C0A1E88FEFC00798417 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D31EF9281E9517B500450162;
+			remoteInfo = SasquatchWatchObjC;
+		};
+		D31EF9621E9517C600450162 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 84226C0A1E88FEFC00798417 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D31EF95F1E9517C600450162;
+			remoteInfo = "SasquatchWatchSwift Extension";
+		};
+		D31EF9701E9517C600450162 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 84226C0A1E88FEFC00798417 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D31EF9531E9517C500450162;
+			remoteInfo = SasquatchWatchSwift;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -628,12 +672,35 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D31EF94E1E9517B600450162 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				D31EF9361E9517B600450162 /* SasquatchWatchObjC Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D31EF9761E9517C600450162 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				D31EF9611E9517C600450162 /* SasquatchWatchSwift Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D36AD6EE1E94FF6B003D34E7 /* Embed Watch Content */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
 			dstSubfolderSpec = 16;
 			files = (
+				D31EF94A1E9517B600450162 /* SasquatchWatchObjC.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -644,6 +711,7 @@
 			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
 			dstSubfolderSpec = 16;
 			files = (
+				D31EF9721E9517C600450162 /* SasquatchWatchSwift.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -765,9 +833,11 @@
 		B2E011EE21091EF1003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MSAnalyticsTransmissionTargetSelectorViewCell.xib; path = Cells/MSAnalyticsTransmissionTargetSelectorViewCell.xib; sourceTree = "<group>"; };
 		B2E011EF21091EF2003F4A5B /* MSAnalyticsPropertyTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MSAnalyticsPropertyTableViewCell.xib; path = Cells/MSAnalyticsPropertyTableViewCell.xib; sourceTree = "<group>"; };
 		B2E011F021091EF2003F4A5B /* MSAnalyticsPropertyTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MSAnalyticsPropertyTableViewCell.swift; path = Cells/MSAnalyticsPropertyTableViewCell.swift; sourceTree = "<group>"; };
+		D31EF9291E9517B500450162 /* SasquatchWatchObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchWatchObjC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D31EF92C1E9517B600450162 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		D31EF92E1E9517B600450162 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D31EF9301E9517B600450162 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D31EF9351E9517B600450162 /* SasquatchWatchObjC Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "SasquatchWatchObjC Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D31EF93B1E9517B600450162 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
 		D31EF93C1E9517B600450162 /* InterfaceController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InterfaceController.h; sourceTree = "<group>"; };
 		D31EF93D1E9517B600450162 /* InterfaceController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InterfaceController.m; sourceTree = "<group>"; };
@@ -777,9 +847,11 @@
 		D31EF9431E9517B600450162 /* NotificationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationController.m; sourceTree = "<group>"; };
 		D31EF9451E9517B600450162 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D31EF9471E9517B600450162 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D31EF9541E9517C500450162 /* SasquatchWatchSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchWatchSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D31EF9571E9517C500450162 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		D31EF9591E9517C500450162 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D31EF95B1E9517C500450162 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D31EF9601E9517C600450162 /* SasquatchWatchSwift Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "SasquatchWatchSwift Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D31EF9661E9517C600450162 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
 		D31EF9671E9517C600450162 /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
 		D31EF9691E9517C600450162 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
@@ -899,6 +971,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D31EF9321E9517B600450162 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D31EF95D1E9517C600450162 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -970,6 +1056,10 @@
 			children = (
 				84226C471E88FF4A00798417 /* SasquatchObjC.app */,
 				84226C801E8908C900798417 /* SasquatchSwift.app */,
+				D31EF9291E9517B500450162 /* SasquatchWatchObjC.app */,
+				D31EF9351E9517B600450162 /* SasquatchWatchObjC Extension.appex */,
+				D31EF9541E9517C500450162 /* SasquatchWatchSwift.app */,
+				D31EF9601E9517C600450162 /* SasquatchWatchSwift Extension.appex */,
 				5CD700E51EA4B74500FC5D12 /* SasquatchSwiftUITests.xctest */,
 				5CE258871EA5F62400DA8FB9 /* SasquatchObjCUITests.xctest */,
 				B20AE3AB21027D6200A1A195 /* SasquatchPuppet.app */,
@@ -1349,6 +1439,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				D31EF9491E9517B600450162 /* PBXTargetDependency */,
 			);
 			name = SasquatchObjC;
 			productName = SasquatchObjC;
@@ -1370,6 +1461,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				D31EF9711E9517C600450162 /* PBXTargetDependency */,
 			);
 			name = SasquatchSwift;
 			productName = SasquatchSwift;
@@ -1461,6 +1553,76 @@
 			productReference = B2A888B52102B1E7001ACFDF /* SasquatchPuppetUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		D31EF9281E9517B500450162 /* SasquatchWatchObjC */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D31EF94F1E9517B600450162 /* Build configuration list for PBXNativeTarget "SasquatchWatchObjC" */;
+			buildPhases = (
+				8099A54F21121501008E1466 /* Verify no build settings */,
+				D31EF9271E9517B500450162 /* Resources */,
+				D31EF94E1E9517B600450162 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D31EF9381E9517B600450162 /* PBXTargetDependency */,
+			);
+			name = SasquatchWatchObjC;
+			productName = SasquatchWatchObjC;
+			productReference = D31EF9291E9517B500450162 /* SasquatchWatchObjC.app */;
+			productType = "com.apple.product-type.application.watchapp2";
+		};
+		D31EF9341E9517B600450162 /* SasquatchWatchObjC Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D31EF94B1E9517B600450162 /* Build configuration list for PBXNativeTarget "SasquatchWatchObjC Extension" */;
+			buildPhases = (
+				D31EF9311E9517B600450162 /* Sources */,
+				D31EF9321E9517B600450162 /* Frameworks */,
+				D31EF9331E9517B600450162 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "SasquatchWatchObjC Extension";
+			productName = "SasquatchWatchObjC Extension";
+			productReference = D31EF9351E9517B600450162 /* SasquatchWatchObjC Extension.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
+		};
+		D31EF9531E9517C500450162 /* SasquatchWatchSwift */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D31EF9771E9517C600450162 /* Build configuration list for PBXNativeTarget "SasquatchWatchSwift" */;
+			buildPhases = (
+				8099A5D62112198F008E1466 /* Verify no build settings */,
+				D31EF9521E9517C500450162 /* Resources */,
+				D31EF9761E9517C600450162 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D31EF9631E9517C600450162 /* PBXTargetDependency */,
+			);
+			name = SasquatchWatchSwift;
+			productName = SasquatchWatchSwift;
+			productReference = D31EF9541E9517C500450162 /* SasquatchWatchSwift.app */;
+			productType = "com.apple.product-type.application.watchapp2";
+		};
+		D31EF95F1E9517C600450162 /* SasquatchWatchSwift Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D31EF9731E9517C600450162 /* Build configuration list for PBXNativeTarget "SasquatchWatchSwift Extension" */;
+			buildPhases = (
+				D31EF95C1E9517C600450162 /* Sources */,
+				D31EF95D1E9517C600450162 /* Frameworks */,
+				D31EF95E1E9517C600450162 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "SasquatchWatchSwift Extension";
+			productName = "SasquatchWatchSwift Extension";
+			productReference = D31EF9601E9517C600450162 /* SasquatchWatchSwift Extension.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1485,7 +1647,7 @@
 					};
 					84226C461E88FF4A00798417 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 285W24646W;
+						DevelopmentTeam = 5Z97G9NZQ6;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -1498,7 +1660,7 @@
 					};
 					84226C7F1E8908C900798417 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 285W24646W;
+						DevelopmentTeam = 5Z97G9NZQ6;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -1510,7 +1672,7 @@
 						};
 					};
 					B20AE37C21027D6200A1A195 = {
-						DevelopmentTeam = 285W24646W;
+						DevelopmentTeam = 5Z97G9NZQ6;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Keychain = {
@@ -1537,6 +1699,36 @@
 						LastSwiftMigration = 0940;
 						ProvisioningStyle = Automatic;
 						TestTargetID = B20AE37C21027D6200A1A195;
+					};
+					D31EF9281E9517B500450162 = {
+						CreatedOnToolsVersion = 8.3;
+						DevelopmentTeam = 5Z97G9NZQ6;
+						ProvisioningStyle = Automatic;
+					};
+					D31EF9341E9517B600450162 = {
+						CreatedOnToolsVersion = 8.3;
+						DevelopmentTeam = 5Z97G9NZQ6;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
+					};
+					D31EF9531E9517C500450162 = {
+						CreatedOnToolsVersion = 8.3;
+						DevelopmentTeam = 5Z97G9NZQ6;
+						ProvisioningStyle = Automatic;
+					};
+					D31EF95F1E9517C600450162 = {
+						CreatedOnToolsVersion = 8.3;
+						DevelopmentTeam = 5Z97G9NZQ6;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -1594,8 +1786,12 @@
 			targets = (
 				B27D54A0210A5E7E004E82C9 /* SasquatchObjC-Preview */,
 				84226C461E88FF4A00798417 /* SasquatchObjC */,
+				D31EF9281E9517B500450162 /* SasquatchWatchObjC */,
+				D31EF9341E9517B600450162 /* SasquatchWatchObjC Extension */,
 				B2A4CF85210A6E6900199B4F /* SasquatchSwift-Preview */,
 				84226C7F1E8908C900798417 /* SasquatchSwift */,
+				D31EF9531E9517C500450162 /* SasquatchWatchSwift */,
+				D31EF95F1E9517C600450162 /* SasquatchWatchSwift Extension */,
 				5CD700E41EA4B74500FC5D12 /* SasquatchSwiftUITests */,
 				5CE258861EA5F62400DA8FB9 /* SasquatchObjCUITests */,
 				B20AE37C21027D6200A1A195 /* SasquatchPuppet */,
@@ -1912,9 +2108,73 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D31EF9271E9517B500450162 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D31EF92F1E9517B600450162 /* Assets.xcassets in Resources */,
+				D31EF92D1E9517B600450162 /* Interface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D31EF9331E9517B600450162 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D31EF9461E9517B600450162 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D31EF9521E9517C500450162 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D31EF95A1E9517C500450162 /* Assets.xcassets in Resources */,
+				D31EF9581E9517C500450162 /* Interface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D31EF95E1E9517C600450162 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D31EF96E1E9517C600450162 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		8099A54F21121501008E1466 /* Verify no build settings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Verify no build settings";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
+			showEnvVarsInLog = 0;
+		};
+		8099A5D62112198F008E1466 /* Verify no build settings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Verify no build settings";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
+			showEnvVarsInLog = 0;
+		};
 		F84923BB21119AE100E14DBE /* Verify no buildSettings */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2209,6 +2469,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D31EF9311E9517B600450162 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D31EF9411E9517B600450162 /* ExtensionDelegate.m in Sources */,
+				D31EF93E1E9517B600450162 /* InterfaceController.m in Sources */,
+				D31EF9441E9517B600450162 /* NotificationController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D31EF95C1E9517C600450162 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D31EF96C1E9517C600450162 /* NotificationController.swift in Sources */,
+				D31EF96A1E9517C600450162 /* ExtensionDelegate.swift in Sources */,
+				D31EF9681E9517C600450162 /* InterfaceController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -2261,6 +2541,26 @@
 			isa = PBXTargetDependency;
 			target = B20AE37C21027D6200A1A195 /* SasquatchPuppet */;
 			targetProxy = B2A888BA2102B1E7001ACFDF /* PBXContainerItemProxy */;
+		};
+		D31EF9381E9517B600450162 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D31EF9341E9517B600450162 /* SasquatchWatchObjC Extension */;
+			targetProxy = D31EF9371E9517B600450162 /* PBXContainerItemProxy */;
+		};
+		D31EF9491E9517B600450162 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D31EF9281E9517B500450162 /* SasquatchWatchObjC */;
+			targetProxy = D31EF9481E9517B600450162 /* PBXContainerItemProxy */;
+		};
+		D31EF9631E9517C600450162 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D31EF95F1E9517C600450162 /* SasquatchWatchSwift Extension */;
+			targetProxy = D31EF9621E9517C600450162 /* PBXContainerItemProxy */;
+		};
+		D31EF9711E9517C600450162 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D31EF9531E9517C500450162 /* SasquatchWatchSwift */;
+			targetProxy = D31EF9701E9517C600450162 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2381,9 +2681,9 @@
 				CODE_SIGN_ENTITLEMENTS = SasquatchObjC/SasquatchObjC.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 285W24646W;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = SasquatchObjC/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.akvelon.appcenter.sasquatchobjc;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
@@ -2394,9 +2694,9 @@
 				CODE_SIGN_ENTITLEMENTS = SasquatchObjC/SasquatchObjC.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 285W24646W;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = SasquatchObjC/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.akvelon.appcenter.sasquatchobjc;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
@@ -2407,9 +2707,9 @@
 				CODE_SIGN_ENTITLEMENTS = SasquatchSwift/SasquatchSwift.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 285W24646W;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = SasquatchSwift/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.akvelon.appcenter.sasquatchswift;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
@@ -2420,9 +2720,9 @@
 				CODE_SIGN_ENTITLEMENTS = SasquatchSwift/SasquatchSwift.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 285W24646W;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = SasquatchSwift/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.akvelon.appcenter.sasquatchswift;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
@@ -2434,9 +2734,9 @@
 				CODE_SIGN_ENTITLEMENTS = SasquatchObjC/SasquatchObjC.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 285W24646W;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = SasquatchPuppet/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.akvelon.appcenter.sasquatchpuppet;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchpuppet;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
@@ -2448,9 +2748,9 @@
 				CODE_SIGN_ENTITLEMENTS = SasquatchObjC/SasquatchObjC.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 285W24646W;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = SasquatchPuppet/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.akvelon.appcenter.sasquatchpuppet;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchpuppet;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
@@ -2528,6 +2828,86 @@
 				INFOPLIST_FILE = SasquatchUITests/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.SasquatchPuppetUITests;
 				TEST_TARGET_NAME = SasquatchPuppet;
+			};
+			name = Release;
+		};
+		D31EF94C1E9517B600450162 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F849248A2112FA3400E14DBE /* Watch Extension.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "SasquatchWatchObjC Extension.entitlements";
+				INFOPLIST_FILE = "SasquatchWatchObjC Extension/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc.watchkitapp.watchkitextension;
+			};
+			name = Debug;
+		};
+		D31EF94D1E9517B600450162 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F849248A2112FA3400E14DBE /* Watch Extension.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "SasquatchWatchObjC Extension.entitlements";
+				INFOPLIST_FILE = "SasquatchWatchObjC Extension/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc.watchkitapp.watchkitextension;
+			};
+			name = Release;
+		};
+		D31EF9501E9517B600450162 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F84924542111C83000E14DBE /* Watch.xcconfig */;
+			buildSettings = {
+				IBSC_MODULE = SasquatchWatchObjC_Extension;
+				INFOPLIST_FILE = SasquatchWatchObjC/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc.watchkitapp;
+			};
+			name = Debug;
+		};
+		D31EF9511E9517B600450162 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F84924542111C83000E14DBE /* Watch.xcconfig */;
+			buildSettings = {
+				IBSC_MODULE = SasquatchWatchObjC_Extension;
+				INFOPLIST_FILE = SasquatchWatchObjC/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchobjc.watchkitapp;
+			};
+			name = Release;
+		};
+		D31EF9741E9517C600450162 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F849248A2112FA3400E14DBE /* Watch Extension.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "SasquatchWatchSwift Extension.entitlements";
+				INFOPLIST_FILE = "SasquatchWatchSwift Extension/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.watchkitapp.watchkitextension;
+			};
+			name = Debug;
+		};
+		D31EF9751E9517C600450162 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F849248A2112FA3400E14DBE /* Watch Extension.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "SasquatchWatchSwift Extension.entitlements";
+				INFOPLIST_FILE = "SasquatchWatchSwift Extension/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.watchkitapp.watchkitextension;
+			};
+			name = Release;
+		};
+		D31EF9781E9517C600450162 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F84924542111C83000E14DBE /* Watch.xcconfig */;
+			buildSettings = {
+				IBSC_MODULE = SasquatchWatchSwift_Extension;
+				INFOPLIST_FILE = SasquatchWatchSwift/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.watchkitapp;
+			};
+			name = Debug;
+		};
+		D31EF9791E9517C600450162 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F84924542111C83000E14DBE /* Watch.xcconfig */;
+			buildSettings = {
+				IBSC_MODULE = SasquatchWatchSwift_Extension;
+				INFOPLIST_FILE = SasquatchWatchSwift/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.sasquatchswift.watchkitapp;
 			};
 			name = Release;
 		};
@@ -2611,6 +2991,42 @@
 			buildConfigurations = (
 				B2A888BC2102B1E7001ACFDF /* Debug */,
 				B2A888BD2102B1E7001ACFDF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D31EF94B1E9517B600450162 /* Build configuration list for PBXNativeTarget "SasquatchWatchObjC Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D31EF94C1E9517B600450162 /* Debug */,
+				D31EF94D1E9517B600450162 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D31EF94F1E9517B600450162 /* Build configuration list for PBXNativeTarget "SasquatchWatchObjC" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D31EF9501E9517B600450162 /* Debug */,
+				D31EF9511E9517B600450162 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D31EF9731E9517C600450162 /* Build configuration list for PBXNativeTarget "SasquatchWatchSwift Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D31EF9741E9517C600450162 /* Debug */,
+				D31EF9751E9517C600450162 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D31EF9771E9517C600450162 /* Build configuration list for PBXNativeTarget "SasquatchWatchSwift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D31EF9781E9517C600450162 /* Debug */,
+				D31EF9791E9517C600450162 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
