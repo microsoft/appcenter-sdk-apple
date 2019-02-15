@@ -8,12 +8,19 @@ class TransmissionTargets {
   var transmissionTargets = [String: MSAnalyticsTransmissionTarget]()
   let defaultTransmissionTargetIsEnabled: Bool
   private var sendsAnalyticsEvents = [String: Bool]()
+  enum StartupMode: Int {
+    case appCenter
+    case oneCollector
+    case both
+    case none
+    case skip
+}
 
   private init() {
 
     // Default target.
     let startTarget = UserDefaults.standard.integer(forKey: kMSStartTargetKey)
-    defaultTransmissionTargetIsEnabled = startTarget == 1 || startTarget == 2
+    defaultTransmissionTargetIsEnabled = startTarget == StartupMode.oneCollector.rawValue || startTarget == StartupMode.both.rawValue
     sendsAnalyticsEvents[kDefaultTargetKey] = true
 
     // Parent target.
