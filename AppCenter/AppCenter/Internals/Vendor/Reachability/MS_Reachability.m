@@ -20,10 +20,8 @@ NSString *kMSReachabilityChangedNotification =
 
 #define kShouldPrintReachabilityFlags 0
 
-static void PrintReachabilityFlags(__attribute__((unused))
-                                   SCNetworkReachabilityFlags flags,
-                                   __attribute__((unused))
-                                   const char *comment) {
+static void PrintReachabilityFlags(__unused SCNetworkReachabilityFlags flags,
+                                   __unused const char *comment) {
 #if kShouldPrintReachabilityFlags
 
   NSLog(@"Reachability Flag Status: %c%c %c%c%c%c%c%c%c %s\n",
@@ -53,7 +51,6 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target,
       postNotificationName:kMSReachabilityChangedNotification
                     object:noteObject];
 }
-
 
 static void RunOnMainThread(dispatch_block_t block) {
   if ([NSThread isMainThread]) {
