@@ -63,7 +63,6 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   [super setUp];
   [MSUserIdContext resetSharedInstance];
 
-  // Need to reset defaults because enabled state gets persisted on disk otherwise, causing test inconsistencies.
   self.settingsMock = [MSMockUserDefaults new];
   self.sut = [MSPush new];
 
