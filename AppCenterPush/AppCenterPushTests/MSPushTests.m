@@ -249,12 +249,12 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
     [invocation getArgument:&log atIndex:2];
   });
   [[MSPush sharedInstance] startWithChannelGroup:channelGroupMock
-                                            appSecret:kMSTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                       appSecret:kMSTestAppSecret
+                         transmissionTargetToken:nil
+                                 fromApplication:YES];
   [MSPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
   [pushMock setEnabled:NO];
-  
+
   // Then
   OCMReject([pushMock sendPushToken:pushToken]);
 
