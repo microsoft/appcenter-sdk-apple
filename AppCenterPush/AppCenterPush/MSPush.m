@@ -66,8 +66,6 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 
     // This call is used to force load the MSUserNotificationCenterDelegateForwarder class to register the swizzling.
     [MSUserNotificationCenterDelegateForwarder doNothingButForceLoadTheClass];
-    [[MSAuthTokenContext sharedInstance] addDelegate:self];
-
 #if TARGET_OS_OSX
     NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
 
@@ -178,6 +176,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
                                  object:nil];
 #endif
     [[MSAppDelegateForwarder sharedInstance] addDelegate:self.appDelegate];
+    [[MSAuthTokenContext sharedInstance] addDelegate:self];
     if (!self.pushToken) {
       [self registerForRemoteNotifications];
     }
@@ -187,6 +186,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
     [MS_NOTIFICATION_CENTER removeObserver:self name:NSApplicationDidFinishLaunchingNotification object:nil];
 #endif
     [[MSAppDelegateForwarder sharedInstance] removeDelegate:self.appDelegate];
+    [[MSAuthTokenContext sharedInstance] removeDelegate:self];
     MSLogInfo([MSPush logTag], @"Push service has been disabled.");
   }
 }
