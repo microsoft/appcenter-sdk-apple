@@ -7,7 +7,7 @@
 
 /**
  * Enable/disable this service.
- * The state is stored on disk, so it won't change in following app launches.
+ * The state is persisted in the device's storage across application launches.
  *
  * @param isEnabled whether this service is enabled or not.
  *
