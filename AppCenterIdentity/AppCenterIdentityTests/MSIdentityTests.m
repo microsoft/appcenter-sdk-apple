@@ -10,6 +10,7 @@
 #import "MSServiceAbstractProtected.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+File.h"
+#import <MSAL/MSAL.h>
 #import <MSAL/MSALPublicClientApplication.h>
 
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
@@ -349,6 +350,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 - (void)testLoginAcquiresToken {
 
   // If
+  NSString *idToken = @"fake";
+  id msalResultMock = OCMPartialMock([MSALResult new]);
+  OCMStub([msalResultMock idToken]).andReturn(idToken);
   MSIdentity *service = [MSIdentity sharedInstance];
   id clientApplicationMock = OCMPartialMock([MSALPublicClientApplication alloc]);
   service.clientApplication = clientApplicationMock;
@@ -357,13 +361,18 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   id identityMock = OCMPartialMock(service);
   OCMStub([identityMock sharedInstance]).andReturn(identityMock);
   OCMStub([identityMock canBeUsed]).andReturn(YES);
-  OCMStub([clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]).andDo(nil);
+  OCMStub([clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    __block MSALCompletionBlock completionBlock;
+    [invocation getArgument:&completionBlock atIndex:3];
+    completionBlock(msalResultMock, nil);
+  });
 
   // When
   [MSIdentity login];
 
   // Then
   OCMVerify([clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
+  XCTAssertEqual(idToken, service.idToken);
   [identityMock stopMocking];
   [clientApplicationMock stopMocking];
 }
