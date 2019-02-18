@@ -102,7 +102,7 @@ static NSObject *lock = @"lock";
   } else {
     [[MSAppDelegateForwarder sharedInstance] removeDelegate:self.appDelegate];
     self.clientApplication = nil;
-    self.accessToken = nil;
+    self.idToken = nil;
     [self clearConfigurationCache];
     [self.channelGroup removeDelegate:self];
     MSLogInfo([MSIdentity logTag], @"Identity service has been disabled.");
@@ -156,12 +156,12 @@ static NSObject *lock = @"lock";
   self.loginDelayed = NO;
   [self.clientApplication acquireTokenForScopes:@[ (NSString * _Nonnull) self.identityConfig.identityScope ]
                                 completionBlock:^(MSALResult *result, NSError *e) {
-                                  // TODO: synchronize accessToken assignment if it has threading issues
+                                  // TODO: synchronize idToken assignment if it has threading issues
                                   if (e) {
                                     MSLogError([MSIdentity logTag], @"Couldn't initialize authentication client. Error: %@", e);
                                   } else {
-                                    NSString __unused *accountIdentifier = result.account.homeAccountId.identifier;
-                                    self.accessToken = result.accessToken;
+                                    // NSString __unused *accountIdentifier = result.account.homeAccountId.identifier;
+                                    self.idToken = result.idToken;
                                   }
                                 }];
 }

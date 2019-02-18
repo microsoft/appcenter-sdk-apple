@@ -21,7 +21,7 @@ static NSString *const kMSIdentityETagKey = @"MSIdentityETagKey";
 /**
  * The user access token to be used for user identifier.
  */
-@property(nonatomic, nullable) NSString *accessToken;
+@property(nonatomic, nullable) NSString *idToken;
 
 /**
  * The configuration for the Identity service.
