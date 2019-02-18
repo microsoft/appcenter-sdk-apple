@@ -128,6 +128,10 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
     case resume = 4
   }
 
+  override func viewWillAppear() {
+    appCenter.startAnalyticsFromLibrary()
+  }
+
   override func viewDidLoad() {
     super.viewDidLoad()
     defaultTable.delegate = self
@@ -141,6 +145,8 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
     propertiesTable.delegate = self
     commonTable.delegate = self
     commonTable.dataSource = self
+    commonSelector.selectedSegment = 0
+    propertySelector.selectedSegment = 0
 
     NotificationCenter.default.addObserver(self, selector: #selector(self.editingDidEnd), name: .NSControlTextDidEndEditing, object: nil)
     let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
@@ -173,21 +179,22 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
       collectDeviceIdStates[token] = false
     }
     transmissionTargetMapping = [kMSTargetToken1, kMSTargetToken2, parentTargetToken]
+    commonSelector.target = self
     commonSelector.action = #selector(onSegmentSelected)
   }
 
   func numberOfRows(in tableView: NSTableView) -> Int {
-    if(tableView == defaultTable) {
+    if tableView == defaultTable {
       return 3
     }
-    else if(tableView == commonTable) {
+    else if tableView == commonTable {
       return 5
     }
     return 4
   }
 
   func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-    tableView.headerView=nil
+    tableView.headerView = nil
 
     // Common schema properties section
     if(tableView.tag == Section.CommonSchemaProperties.rawValue) {
@@ -196,11 +203,12 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
         switch (row) {
         case kDeviceIdRow:
           let key: NSTextField = cell.subviews[cellSubviews.key.rawValue] as! NSTextField
-          key.stringValue=property.key
+          key.stringValue = property.key
           let value: NSButton = cell.subviews[cellSubviews.valueCheck.rawValue] as! NSButton
           let selectedTarget = selectedTransmissionTarget(commonSelector)
           value.state = (collectDeviceIdStates[selectedTarget!]?.hashValue)!
           value.isEnabled = !((value.state as NSNumber).boolValue)
+          value.target = self
           value.action = #selector(collectDeviceIdSwitchCellEnabled)
           cell.subviews[cellSubviews.valueText.rawValue].isHidden = true
           return cell   
@@ -275,9 +283,11 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
         cell.subviews[cellSubviews.valueText.rawValue].isHidden = true
         let pause: NSButton = cell.subviews[cellSubviews.pause.rawValue] as! NSButton
         pause.isHidden = false
+        pause.target = self
         pause.action = #selector(TransmissionViewController.pause)
         let resume: NSButton = cell.subviews[cellSubviews.resume.rawValue] as! NSButton
         resume.isHidden = false
+        resume.target = self
         resume.action = #selector(TransmissionViewController.resume)
         return cell
       default:

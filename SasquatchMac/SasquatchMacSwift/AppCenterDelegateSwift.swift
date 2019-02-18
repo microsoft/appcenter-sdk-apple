@@ -34,6 +34,9 @@ class AppCenterDelegateSwift : AppCenterDelegate {
   func isDebuggerAttached() -> Bool {
     return MSAppCenter.isDebuggerAttached()
   }
+  func startAnalyticsFromLibrary() {
+    MSAppCenter.startFromLibrary(withServices: [MSAnalytics.self])
+  }
   func setUserId(_ userId: String?) {
     MSAppCenter.setUserId(userId);
   }

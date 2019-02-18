@@ -14,7 +14,7 @@ class TransmissionTargets {
     case both
     case none
     case skip
-}
+  }
 
   private init() {
 

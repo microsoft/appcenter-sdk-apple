@@ -32,6 +32,10 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate {
       UserDefaults.standard.removeObserver(self, forKeyPath: kMSStorageMaxSizeKey)
   }
 
+  override func viewWillAppear() {
+    setEnabledButton?.state = appCenter.isAppCenterEnabled() ? 1 : 0
+  }
+
   override func viewDidLoad() {
     super.viewDidLoad()
     installIdLabel?.stringValue = appCenter.installId()
