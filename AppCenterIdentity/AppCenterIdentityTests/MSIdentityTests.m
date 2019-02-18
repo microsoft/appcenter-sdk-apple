@@ -354,7 +354,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   id msalResultMock = OCMPartialMock([MSALResult new]);
   OCMStub([msalResultMock idToken]).andReturn(idToken);
   MSIdentity *service = [MSIdentity sharedInstance];
-  id clientApplicationMock = OCMPartialMock([MSALPublicClientApplication alloc]);
+  id clientApplicationMock = OCMClassMock([MSALPublicClientApplication class]);
   service.clientApplication = clientApplicationMock;
   service.identityConfig = [MSIdentityConfig new];
   service.identityConfig.identityScope = @"fake";
