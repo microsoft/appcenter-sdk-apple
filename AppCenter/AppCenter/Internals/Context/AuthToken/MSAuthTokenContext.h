@@ -27,6 +27,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)addDelegate:(id<MSAuthTokenContextDelegate>)delegate;
 
+/**
+ * Remove delegate.
+ *
+ * @param delegate Delegate.
+ */
+- (void)removeDelegate:(id<MSAuthTokenContextDelegate>)delegate;
+
 @end
 
 NS_ASSUME_NONNULL_END

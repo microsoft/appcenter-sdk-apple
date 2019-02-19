@@ -85,6 +85,8 @@
 		04A0820C1F74BBCA00DC776D /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A0820B1F74BBCA00DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04A0820D1F74BBCF00DC776D /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A0820B1F74BBCA00DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04B45C5C21E9123100FE6746 /* MSAppDelegateForwarderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D3B01D1FF3D2A400E5FAF2 /* MSAppDelegateForwarderTests.m */; };
+		35BDA9CF2217900E003BFAC9 /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 35BDA9CD2217900E003BFAC9 /* MSMockUserDefaults.m */; };
+		35BDA9D02217900E003BFAC9 /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 35BDA9CD2217900E003BFAC9 /* MSMockUserDefaults.m */; };
 		38437AD61FF3FF47006964AE /* MSCustomPushApplicationDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38437AD51FF3FF47006964AE /* MSCustomPushApplicationDelegate.h */; };
 		38437AD71FF3FF47006964AE /* MSCustomPushApplicationDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38437AD51FF3FF47006964AE /* MSCustomPushApplicationDelegate.h */; };
 		384A925D2188B94F0099BE70 /* MSUserNotificationCenterDelegateForwarderTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 384A925C2188B94F0099BE70 /* MSUserNotificationCenterDelegateForwarderTest.m */; };
@@ -189,6 +191,8 @@
 		04849D781E9E913A0093ECA6 /* MSPushLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSPushLogTests.m; sourceTree = "<group>"; };
 		049BC81E1ECE333700FB6719 /* iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
 		04A0820B1F74BBCA00DC776D /* MSService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSService.h; path = ../AppCenter/AppCenter/MSService.h; sourceTree = "<group>"; };
+		35BDA9CD2217900E003BFAC9 /* MSMockUserDefaults.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSMockUserDefaults.m; sourceTree = "<group>"; };
+		35BDA9CE2217900E003BFAC9 /* MSMockUserDefaults.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSMockUserDefaults.h; sourceTree = "<group>"; };
 		38437AD51FF3FF47006964AE /* MSCustomPushApplicationDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSCustomPushApplicationDelegate.h; sourceTree = "<group>"; };
 		384A925C2188B94F0099BE70 /* MSUserNotificationCenterDelegateForwarderTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSUserNotificationCenterDelegateForwarderTest.m; sourceTree = "<group>"; };
 		384A92642188C65C0099BE70 /* MSDelegateForwarderTestUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSDelegateForwarderTestUtil.h; path = ../../../AppCenter/AppCenterTests/Util/MSDelegateForwarderTestUtil.h; sourceTree = "<group>"; };
@@ -380,6 +384,8 @@
 			children = (
 				384A92642188C65C0099BE70 /* MSDelegateForwarderTestUtil.h */,
 				384A92652188C65C0099BE70 /* MSDelegateForwarderTestUtil.m */,
+				35BDA9CE2217900E003BFAC9 /* MSMockUserDefaults.h */,
+				35BDA9CD2217900E003BFAC9 /* MSMockUserDefaults.m */,
 				D39B04E21E66FBC60048E397 /* MSPushTestUtil.h */,
 				D39B04E31E66FBD50048E397 /* MSPushTestUtil.m */,
 				04311FF91EE08772007054C5 /* MSTestFrameworks.h */,
@@ -739,6 +745,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35BDA9CF2217900E003BFAC9 /* MSMockUserDefaults.m in Sources */,
 				04B45C5C21E9123100FE6746 /* MSAppDelegateForwarderTests.m in Sources */,
 				046964501F2A5D4F00F9D31F /* MSPushLogTests.m in Sources */,
 				046964511F2A5D8D00F9D31F /* MSPushTestUtil.m in Sources */,
@@ -765,6 +772,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35BDA9D02217900E003BFAC9 /* MSMockUserDefaults.m in Sources */,
 				384A925D2188B94F0099BE70 /* MSUserNotificationCenterDelegateForwarderTest.m in Sources */,
 				0496A67B1F3128CE005AE1DB /* MSPushTests.m in Sources */,
 				04849D791E9E913A0093ECA6 /* MSPushLogTests.m in Sources */,

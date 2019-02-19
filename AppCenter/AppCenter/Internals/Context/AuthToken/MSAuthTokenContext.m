@@ -67,4 +67,10 @@ static dispatch_once_t onceToken;
   }
 }
 
+- (void)removeDelegate:(id<MSAuthTokenContextDelegate>)delegate {
+  @synchronized(self) {
+    [self.delegates removeObject:delegate];
+  }
+}
+
 @end
