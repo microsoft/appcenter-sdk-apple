@@ -172,14 +172,14 @@ static dispatch_once_t onceToken;
   if (configData == nil) {
     MSLogWarning([MSIdentity logTag], @"Identity config file doesn't exist.");
   } else {
-    self.identityConfig = [self deserializeData:configData];
-    if (self.identityConfig == nil || ![self.identityConfig isValid]) {
-      [self clearConfigurationCache];
-      self.identityConfig = nil;
-      MSLogError([MSIdentity logTag], @"Identity config file is not valid.");
-    } else {
+    MSIdentityConfig *config = [self deserializeData:configData];
+    if (config && [config isValid]) {
+      self.identityConfig = config;
       return YES;
     }
+    [self clearConfigurationCache];
+    self.identityConfig = nil;
+    MSLogError([MSIdentity logTag], @"Identity config file is not valid.");
   }
   return NO;
 }
