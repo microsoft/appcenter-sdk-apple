@@ -14,7 +14,7 @@
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
 static NSString *const kMSTestPushToken = @"TestPushToken";
 
-@interface MSPushTests : XCTestCase
+@interface MSDataStorageTests : XCTestCase
 
 
 @property(nonatomic) id settingsMock;

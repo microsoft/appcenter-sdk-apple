@@ -1,13 +1,58 @@
 #import "MSServiceAbstract.h"
+#import "MSDocument.h"
+#import "MSDocuments.h"
+#import "MSCompareAndSwapResolutionCallback.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * App Center push service.
+ * App Data Storage service.
  */
-@interface MSDataStorage : MSServiceAbstract
+
+@class MSDocument;
+@class MSDocuments;
+
+// Default partitions
+
+// User partition
+// An authenticated user can read/write documents in this partition
+static NSString *const MSDataSourceUserPartition =  @"user-%@";
+
+// Readonly partition
+// Everyone can read documents in this partition
+// Writes is not allowed via the SDK
+static NSString *const MSDataSourceReadOnlyPartition = @"readonly";
+
+@interface MSDataStorage<T : id<NSCoding>> : MSServiceAbstract
 
 
 NS_ASSUME_NONNULL_END
+
+typedef void (^MSDownloadDocumentCompletionHandler)(MSDocument<T>* document);
+typedef void (^MSDownloadDocumentsCompletionHandler)(MSDocuments<T>* documents);
+
+
+// Read a document
+// The document type (T) must be JSON deserializable
++ (void)readWithPartition:(NSString *)partition documentId:(NSString *)documentId documentType:(Class)documentType completionHandler:(MSDownloadDocumentCompletionHandler)completionHandler;
+
+// List (need optional signature to configure page size)
+// The document type (T) must be JSON deserializable
++ (void)readWithPartition:(NSString *)partition documentType:(Class)documentType completionHandler:(MSDownloadDocumentsCompletionHandler)completionHandler;
+
+// Create a document
+// The document instance (T) must be JSON serializable
++ (void)createWithPartition:(NSString *)partition documentId:(NSString *)documentId document:(T)document completionHandler:(MSDownloadDocumentCompletionHandler)completionHandler;
+
++ (void)createWithPartition:(NSString *)partition documentId:(NSString *)documentId document:(T)document conflictResolutionPolicy:(MSCompareAndSwapResolutionCallback *)policy completionHandler:(void (^)(MSDocument<T>* document))completionHandler;
+
+// Replace a document
+// The document instance (T) must be JSON serializable
++ (void)replaceWithPartition:(NSString *)partition documentId:(NSString *)documentId document:(T)document completionHandler:(void (^)(MSDocument<T>* document))completionHandler;
+
++ (void)replaceWithPartition:(NSString *)partition documentId:(NSString *)documentId document:(T)document conflictResolutionPolicy:(MSCompareAndSwapResolutionCallback<T> *)policy completionHandler:(void (^)(MSDocument<T>* document))completionHandler;
+
+// Delete a document
++ (void)deleteDocumentWithPartition:(NSString *)partition documentId:(NSString *)documentId completionHandler:(void (^)(MSDataSourceError* error))completionHandler;
 
 @end

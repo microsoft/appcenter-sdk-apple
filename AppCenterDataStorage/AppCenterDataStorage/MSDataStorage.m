@@ -42,10 +42,67 @@ static dispatch_once_t onceToken;
   }
   return self;
 }
+#pragma mark - Service methods
+
+
++ (void)readWithPartition:(NSString *)partition documentId:(NSString *)documentId documentType:(Class)documentType completionHandler:(MSDownloadDocumentCompletionHandler)completionHandler {
+  (void)partition;
+  (void)documentId;
+  (void)documentType;
+  (void)completionHandler;
+}
+
+// List (need optional signature to configure page size)
+// The document type (T) must be JSON deserializable
++ (void)readWithPartition:(NSString *)partition documentType:(Class)documentType completionHandler:(MSDownloadDocumentsCompletionHandler)completionHandler {
+  (void)partition;
+  (void)documentType;
+  (void)completionHandler;
+}
+
+// Create a document
+// The document instance (T) must be JSON serializable
++ (void)createWithPartition:(NSString *)partition documentId:(NSString *)documentId document:(id<NSCoding>)document completionHandler:(MSDownloadDocumentCompletionHandler)completionHandler {
+  (void)partition;
+  (void)documentId;
+  (void)document;
+  (void)completionHandler;
+}
+
++ (void)createWithPartition:(NSString *)partition documentId:(NSString *)documentId document:(id<NSCoding>)document conflictResolutionPolicy:(MSCompareAndSwapResolutionCallback *)callback completionHandler:(MSDownloadDocumentCompletionHandler)completionHandler {
+  (void)partition;
+  (void)documentId;
+  (void)document;
+  (void)callback;
+  (void)completionHandler;
+}
+
+// Replace a document
+// The document instance (T) must be JSON serializable
++ (void)replaceWithPartition:(NSString *)partition documentId:(NSString *)documentId document:(id<NSCoding>)document completionHandler:(MSDownloadDocumentCompletionHandler)completionHandler {
+  (void)partition;
+  (void)documentId;
+  (void)document;
+  (void)completionHandler;
+}
+
++ (void)replaceWithPartition:(NSString *)partition documentId:(NSString *)documentId document:(id<NSCoding>)document conflictResolutionPolicy:(MSCompareAndSwapResolutionCallback *)callback completionHandler:(MSDownloadDocumentCompletionHandler)completionHandler {
+  (void)partition;
+  (void)documentId;
+  (void)document;
+  (void)callback;
+  (void)completionHandler;
+}
+
+// Delete a document
++ (void)deleteDocumentWithPartition:(NSString *)partition documentId:(NSString *)documentId completionHandler:(void (^)(MSDataSourceError* error))completionHandler {
+  (void)partition;
+  (void)documentId;
+  (void)completionHandler;
+}
 
 #if TARGET_OS_OSX
 - (void)dealloc {
- 
 }
 
 #endif
