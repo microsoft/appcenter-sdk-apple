@@ -1,5 +1,6 @@
 #import <Foundation/Foundation.h>
 
+#import "MSAuthTokenContext.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitProtocol.h"
 #import "MSHttpTestUtil.h"
@@ -118,7 +119,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // Then
   XCTAssertNil(service.clientApplication);
-  XCTAssertNil(service.idToken);
+  XCTAssertNil([MSAuthTokenContext sharedInstance].authToken);
   OCMVerify([self.utilityMock deleteItemForPathComponent:[service identityConfigFilePath]]);
   XCTAssertNil([self.settingsMock objectForKey:kMSIdentityETagKey]);
 }
@@ -372,7 +373,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // Then
   OCMVerify([clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
-  XCTAssertEqual(idToken, service.idToken);
+  XCTAssertEqual(idToken, [MSAuthTokenContext sharedInstance].authToken);
   [identityMock stopMocking];
   [clientApplicationMock stopMocking];
 }

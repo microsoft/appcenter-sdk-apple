@@ -1,5 +1,6 @@
 #import "MSAppCenterInternal.h"
 #import "MSAppDelegateForwarder.h"
+#import "MSAuthTokenContext.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
@@ -103,7 +104,7 @@ static dispatch_once_t onceToken;
   } else {
     [[MSAppDelegateForwarder sharedInstance] removeDelegate:self.appDelegate];
     self.clientApplication = nil;
-    self.idToken = nil;
+    [MSAuthTokenContext sharedInstance].authToken = nil;
     [self clearConfigurationCache];
     [self.channelGroup removeDelegate:self];
     MSLogInfo([MSIdentity logTag], @"Identity service has been disabled.");
@@ -160,7 +161,7 @@ static dispatch_once_t onceToken;
                                   if (e) {
                                     MSLogError([MSIdentity logTag], @"User login failed. Error: %@", e);
                                   } else {
-                                    self.idToken = result.idToken;
+                                    [MSAuthTokenContext sharedInstance].authToken = result.idToken;
                                   }
                                 }];
 }
