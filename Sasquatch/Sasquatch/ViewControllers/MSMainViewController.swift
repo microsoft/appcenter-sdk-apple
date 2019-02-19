@@ -101,6 +101,10 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     updateViewState()
   }
 
+  @IBAction func identityLogin(_ sender: UIButton) {
+    appCenter.login()
+  }
+  
   func updateViewState() {
     self.appCenterEnabledSwitch.isOn = appCenter.isAppCenterEnabled()
     self.pushEnabledSwitch.isOn = appCenter.isPushEnabled()
@@ -120,13 +124,13 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     updateViewState()
   }
 
-  @IBAction func pushSwitchStateUpdated(_ sender: UISwitch) {
-    appCenter.setPushEnabled(sender.isOn)
+  @IBAction func identitySwitchStateUpdated(_ sender: UISwitch){
+    appCenter.setIdentityEnabled(sender.isOn)
     updateViewState()
   }
   
-  @IBAction func identitySwitchStateUpdated(_ sender: UISwitch){
-    appCenter.setIdentityEnabled(sender.isOn)
+  @IBAction func pushSwitchStateUpdated(_ sender: UISwitch) {
+    appCenter.setPushEnabled(sender.isOn)
     updateViewState()
   }
 

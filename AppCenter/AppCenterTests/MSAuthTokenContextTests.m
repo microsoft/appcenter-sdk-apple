@@ -45,4 +45,18 @@
   OCMVerify([delegateMock authTokenContext:self.sut didReceiveAuthToken:expectedAuthToken]);
 }
 
+- (void)testRemoveDelegate {
+
+  // If
+  id<MSAuthTokenContextDelegate> delegateMock = OCMProtocolMock(@protocol(MSAuthTokenContextDelegate));
+  [self.sut addDelegate:delegateMock];
+
+  // Then
+  OCMReject([delegateMock authTokenContext:self.sut didReceiveAuthToken:OCMOCK_ANY]);
+
+  // When
+  [self.sut removeDelegate:delegateMock];
+  self.sut.authToken = @"something";
+}
+
 @end

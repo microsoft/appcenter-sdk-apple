@@ -12,8 +12,8 @@
 static NSString *const kMSAPIVersion = @"1.0.0";
 static NSString *const kMSAPIVersionKey = @"api-version";
 static NSString *const kMSApiPath = @"/logs";
-static NSString *const kMSAuthorizationHeaderKey = @"Authorization";
-static NSString *const kMSBearerTokenHeaderFormat = @"Bearer %@";
+NSString *const kMSAuthorizationHeaderKey = @"Authorization";
+NSString *const kMSBearerTokenHeaderFormat = @"Bearer %@";
 
 - (id)initWithBaseUrl:(NSString *)baseUrl installId:(NSString *)installId {
   self = [super initWithBaseUrl:baseUrl
@@ -66,7 +66,7 @@ static NSString *const kMSBearerTokenHeaderFormat = @"Bearer %@";
 
   // Copy self.authToken into a local variable to avoid a race condition.
   NSString *authTokenCopy = self.authToken;
-  if (authTokenCopy && ![authTokenCopy isEqualToString:@""]) {
+  if ([authTokenCopy length] > 0) {
     NSString *bearerTokenHeader = [NSString stringWithFormat:kMSBearerTokenHeaderFormat, authTokenCopy];
     [request setValue:bearerTokenHeader forHTTPHeaderField:kMSAuthorizationHeaderKey];
   }

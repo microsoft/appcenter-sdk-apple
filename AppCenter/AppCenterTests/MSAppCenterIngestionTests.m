@@ -13,8 +13,6 @@
 static NSTimeInterval const kMSTestTimeout = 5.0;
 static NSString *const kMSBaseUrl = @"https://test.com";
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
-static NSString *const kMSAuthorizationHeaderKey = @"Authorization";
-static NSString *const kMSBearerTokenHeaderFormat = @"Bearer %@";
 
 @interface MSAppCenterIngestionTests : XCTestCase
 
