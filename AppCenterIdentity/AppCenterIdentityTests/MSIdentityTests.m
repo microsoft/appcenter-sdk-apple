@@ -10,6 +10,7 @@
 #import "MSServiceAbstractProtected.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+File.h"
+#import <MSAL/MSAL.h>
 #import <MSAL/MSALPublicClientApplication.h>
 
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
@@ -117,7 +118,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // Then
   XCTAssertNil(service.clientApplication);
-  XCTAssertNil(service.accessToken);
+  XCTAssertNil(service.idToken);
   OCMVerify([self.utilityMock deleteItemForPathComponent:[service identityConfigFilePath]]);
   XCTAssertNil([self.settingsMock objectForKey:kMSIdentityETagKey]);
 }
@@ -349,40 +350,47 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 - (void)testLoginAcquiresToken {
 
   // If
+  NSString *idToken = @"fake";
+  id msalResultMock = OCMPartialMock([MSALResult new]);
+  OCMStub([msalResultMock idToken]).andReturn(idToken);
   MSIdentity *service = [MSIdentity sharedInstance];
-  id clientApplicationMock = OCMPartialMock([MSALPublicClientApplication alloc]);
+  id clientApplicationMock = OCMClassMock([MSALPublicClientApplication class]);
   service.clientApplication = clientApplicationMock;
   service.identityConfig = [MSIdentityConfig new];
   service.identityConfig.identityScope = @"fake";
   id identityMock = OCMPartialMock(service);
   OCMStub([identityMock sharedInstance]).andReturn(identityMock);
   OCMStub([identityMock canBeUsed]).andReturn(YES);
-  OCMStub([clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock: OCMOCK_ANY]).andDo(nil);
+  OCMStub([clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    __block MSALCompletionBlock completionBlock;
+    [invocation getArgument:&completionBlock atIndex:3];
+    completionBlock(msalResultMock, nil);
+  });
 
   // When
   [MSIdentity login];
 
   // Then
-  OCMVerify([clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock: OCMOCK_ANY]);
+  OCMVerify([clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
+  XCTAssertEqual(idToken, service.idToken);
   [identityMock stopMocking];
   [clientApplicationMock stopMocking];
 }
 
-
-- (void)testLoginDoesntAcquireTokenWhenDisabled {
+- (void)testLoginDoesNotAcquireTokenWhenDisabled {
 
   // If
   id identityMock = OCMPartialMock([MSIdentity sharedInstance]);
   OCMStub([identityMock sharedInstance]).andReturn(identityMock);
   OCMStub([identityMock canBeUsed]).andReturn(NO);
   id msalMock = OCMClassMock([MSALPublicClientApplication class]);
-  OCMStub([msalMock acquireTokenForScopes:OCMOCK_ANY completionBlock: OCMOCK_ANY]).andDo(nil);
+  OCMStub([msalMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]).andDo(nil);
 
   // When
   [MSIdentity login];
-           
+
   // Then
-  OCMReject([msalMock acquireTokenForScopes:OCMOCK_ANY completionBlock: OCMOCK_ANY]);
+  OCMReject([msalMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
   [identityMock stopMocking];
   [msalMock stopMocking];
 }
