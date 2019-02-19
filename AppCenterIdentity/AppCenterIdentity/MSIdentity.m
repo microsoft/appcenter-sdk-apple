@@ -28,9 +28,6 @@ static NSString *const kMSIdentityConfigFilename = @"config.json";
 static MSIdentity *sharedInstance = nil;
 static dispatch_once_t onceToken;
 
-// Lock object for synchronization.
-static NSObject *lock = @"lock";
-
 @implementation MSIdentity
 
 @synthesize channelUnitConfiguration = _channelUnitConfiguration;
@@ -102,7 +99,7 @@ static NSObject *lock = @"lock";
   } else {
     [[MSAppDelegateForwarder sharedInstance] removeDelegate:self.appDelegate];
     self.clientApplication = nil;
-    self.accessToken = nil;
+    self.idToken = nil;
     [self clearConfigurationCache];
     [self.channelGroup removeDelegate:self];
     MSLogInfo([MSIdentity logTag], @"Identity service has been disabled.");
@@ -141,29 +138,27 @@ static NSObject *lock = @"lock";
 }
 
 + (void)login {
-
-  // TODO protect with canBeUsed.
-  [[MSIdentity sharedInstance] login];
+  @synchronized([MSIdentity sharedInstance]) {
+    if ([[MSIdentity sharedInstance] canBeUsed]) {
+      [[MSIdentity sharedInstance] login];
+    }
+  }
 }
 
 - (void)login {
-  @synchronized(lock) {
-    if (self.clientApplication == nil && self.identityConfig == nil) {
-      self.loginDelayed = YES;
-      return;
-    }
-    self.loginDelayed = NO;
-    [self.clientApplication acquireTokenForScopes:@[ (NSString * _Nonnull) self.identityConfig.identityScope ]
-                                  completionBlock:^(MSALResult *result, NSError *e) {
-                                    // TODO: synchronize accessToken assignment if it has threading issues
-                                    if (e) {
-                                      MSLogError([MSIdentity logTag], @"Couldn't initialize authentication client. Error: %@", e);
-                                    } else {
-                                      NSString __unused *accountIdentifier = result.account.homeAccountId.identifier;
-                                      self.accessToken = result.accessToken;
-                                    }
-                                  }];
+  if (self.clientApplication == nil || self.identityConfig == nil) {
+    self.loginDelayed = YES;
+    return;
   }
+  self.loginDelayed = NO;
+  [self.clientApplication acquireTokenForScopes:@[ (NSString * _Nonnull) self.identityConfig.identityScope ]
+                                completionBlock:^(MSALResult *result, NSError *e) {
+                                  if (e) {
+                                    MSLogError([MSIdentity logTag], @"User login failed. Error: %@", e);
+                                  } else {
+                                    self.idToken = result.idToken;
+                                  }
+                                }];
 }
 
 #pragma mark - Private methods
@@ -177,14 +172,14 @@ static NSObject *lock = @"lock";
   if (configData == nil) {
     MSLogWarning([MSIdentity logTag], @"Identity config file doesn't exist.");
   } else {
-    self.identityConfig = [self deserializeData:configData];
-    if (self.identityConfig == nil || ![self.identityConfig isValid]) {
-      [self clearConfigurationCache];
-      self.identityConfig = nil;
-      MSLogError([MSIdentity logTag], @"Identity config file is not valid.");
-    } else {
+    MSIdentityConfig *config = [self deserializeData:configData];
+    if ([config isValid]) {
+      self.identityConfig = config;
       return YES;
     }
+    [self clearConfigurationCache];
+    self.identityConfig = nil;
+    MSLogError([MSIdentity logTag], @"Identity config file is not valid.");
   }
   return NO;
 }
@@ -217,18 +212,20 @@ static NSObject *lock = @"lock";
             } else {
               MSLogWarning([MSIdentity logTag], @"Couldn't create Identity config file.");
             }
-            self.identityConfig = config;
+            @synchronized (self) {
+              self.identityConfig = config;
 
-            // Reinitialize client application.
-            [self configAuthenticationClient];
+              // Reinitialize client application.
+              [self configAuthenticationClient];
 
-            // Login if it is delayed.
-            /*
-             * TODO: Login can be called when the app is in background. Make sure the SDK doesn't display browser with login screen when the
-             * app is in background. Only display in foreground.
-             */
-            if (self.loginDelayed) {
-              [self login];
+              // Login if it is delayed.
+              /*
+               * TODO: Login can be called when the app is in background. Make sure the SDK doesn't display browser with login screen when the
+               * app is in background. Only display in foreground.
+               */
+              if (self.loginDelayed) {
+                [self login];
+              }
             }
           } else {
             MSLogError([MSIdentity logTag], @"Downloaded identity configuration is not valid.");
@@ -245,12 +242,10 @@ static NSObject *lock = @"lock";
   // Init MSAL client application.
   NSError *error;
   MSALAuthority *auth = [MSALAuthority authorityWithURL:(NSURL * _Nonnull) self.identityConfig.authorities[0].authorityUrl error:nil];
-  @synchronized(lock) {
     self.clientApplication = [[MSALPublicClientApplication alloc] initWithClientId:(NSString * _Nonnull) self.identityConfig.clientId
                                                                          authority:auth
                                                                        redirectUri:self.identityConfig.redirectUri
                                                                              error:&error];
-  }
   if (error != nil) {
     MSLogError([MSIdentity logTag], @"Failed to initialize client application.");
   }
