@@ -62,7 +62,6 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 - (void)setUp {
   [super setUp];
   [MSUserIdContext resetSharedInstance];
-
   self.settingsMock = [MSMockUserDefaults new];
   self.sut = [MSPush new];
 
