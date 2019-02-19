@@ -28,9 +28,6 @@ static NSString *const kMSIdentityConfigFilename = @"config.json";
 static MSIdentity *sharedInstance = nil;
 static dispatch_once_t onceToken;
 
-// Lock object for synchronization.
-static NSObject *lock = @"lock";
-
 @implementation MSIdentity
 
 @synthesize channelUnitConfiguration = _channelUnitConfiguration;
@@ -141,7 +138,7 @@ static NSObject *lock = @"lock";
 }
 
 + (void)login {
-  @synchronized(self) {
+  @synchronized([MSIdentity sharedInstance]) {
     if ([[MSIdentity sharedInstance] canBeUsed]) {
       [[MSIdentity sharedInstance] login];
     }
@@ -215,18 +212,20 @@ static NSObject *lock = @"lock";
             } else {
               MSLogWarning([MSIdentity logTag], @"Couldn't create Identity config file.");
             }
-            self.identityConfig = config;
+            @synchronized (self) {
+              self.identityConfig = config;
 
-            // Reinitialize client application.
-            [self configAuthenticationClient];
+              // Reinitialize client application.
+              [self configAuthenticationClient];
 
-            // Login if it is delayed.
-            /*
-             * TODO: Login can be called when the app is in background. Make sure the SDK doesn't display browser with login screen when the
-             * app is in background. Only display in foreground.
-             */
-            if (self.loginDelayed) {
-              [self login];
+              // Login if it is delayed.
+              /*
+               * TODO: Login can be called when the app is in background. Make sure the SDK doesn't display browser with login screen when the
+               * app is in background. Only display in foreground.
+               */
+              if (self.loginDelayed) {
+                [self login];
+              }
             }
           } else {
             MSLogError([MSIdentity logTag], @"Downloaded identity configuration is not valid.");
@@ -243,12 +242,10 @@ static NSObject *lock = @"lock";
   // Init MSAL client application.
   NSError *error;
   MSALAuthority *auth = [MSALAuthority authorityWithURL:(NSURL * _Nonnull) self.identityConfig.authorities[0].authorityUrl error:nil];
-  @synchronized(lock) {
     self.clientApplication = [[MSALPublicClientApplication alloc] initWithClientId:(NSString * _Nonnull) self.identityConfig.clientId
                                                                          authority:auth
                                                                        redirectUri:self.identityConfig.redirectUri
                                                                              error:&error];
-  }
   if (error != nil) {
     MSLogError([MSIdentity logTag], @"Failed to initialize client application.");
   }
