@@ -173,7 +173,7 @@ static dispatch_once_t onceToken;
     MSLogWarning([MSIdentity logTag], @"Identity config file doesn't exist.");
   } else {
     MSIdentityConfig *config = [self deserializeData:configData];
-    if (config && [config isValid]) {
+    if ([config isValid]) {
       self.identityConfig = config;
       return YES;
     }
