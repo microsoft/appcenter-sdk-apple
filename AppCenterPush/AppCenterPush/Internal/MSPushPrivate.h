@@ -25,7 +25,7 @@ static NSString *const kMSPushNotificationOldCustomDataKey = @"mobile_center";
 
 @property(nonatomic) id<MSPushDelegate> delegate;
 
-@property(atomic) NSString *pushToken;
+@property(atomic, copy) NSString *pushToken;
 
 #if TARGET_OS_OSX
 @property(nonatomic) id<NSUserNotificationCenterDelegate> originalUserNotificationCenterDelegate;
