@@ -2599,7 +2599,7 @@
                                                                                 <subviews>
                                                                                     <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PxT-QD-NyY">
                                                                                         <rect key="frame" x="0.0" y="-4" width="160" height="26"/>
-                                                                                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="GcR-3h-Gd4">
+                                                                                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="GcR-3h-Gd4">
                                                                                             <font key="font" metaFont="system"/>
                                                                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -2643,7 +2643,7 @@
                                                                                 <subviews>
                                                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="6Pk-cx-Q4K">
                                                                                         <rect key="frame" x="0.0" y="0.0" width="201" height="17"/>
-                                                                                        <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" placeholderString="Key" id="mAi-HI-cfz">
+                                                                                        <textFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" placeholderString="Key" id="mAi-HI-cfz">
                                                                                             <font key="font" metaFont="system"/>
                                                                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -2683,7 +2683,7 @@
                                                                                 <subviews>
                                                                                     <textField identifier="String" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Yu3-wN-JmZ" userLabel="String">
                                                                                         <rect key="frame" x="0.0" y="0.0" width="210" height="17"/>
-                                                                                        <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" placeholderString="Value" id="R52-rf-p5j">
+                                                                                        <textFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" placeholderString="Value" id="R52-rf-p5j">
                                                                                             <font key="font" metaFont="system"/>
                                                                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -2711,7 +2711,7 @@
                                                                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                         </textFieldCell>
                                                                                         <connections>
-                                                                                            <binding destination="jtv-sS-WdI" name="value" keyPath="objectValue" id="uLC-r9-WiN"/>
+                                                                                            <binding destination="jtv-sS-WdI" name="value" keyPath="objectValue.long" id="I5I-Jk-lBi"/>
                                                                                         </connections>
                                                                                     </textField>
                                                                                     <button verticalHuggingPriority="750" tag="3" translatesAutoresizingMaskIntoConstraints="NO" id="ygu-OP-xAe" userLabel="Boolean">
@@ -2719,7 +2719,7 @@
                                                                                         <constraints>
                                                                                             <constraint firstAttribute="width" constant="56" id="q8E-gM-OPY"/>
                                                                                         </constraints>
-                                                                                        <buttonCell key="cell" type="check" title="Check" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="pzp-sI-EEp">
+                                                                                        <buttonCell key="cell" type="check" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="pzp-sI-EEp">
                                                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                                             <font key="font" metaFont="system"/>
                                                                                         </buttonCell>
@@ -2736,6 +2736,7 @@
                                                                                             </date>
                                                                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                                            <datePickerElements key="datePickerElements" year="YES" month="YES" day="YES" hour="YES" minute="YES" second="YES"/>
                                                                                         </datePickerCell>
                                                                                         <connections>
                                                                                             <binding destination="jtv-sS-WdI" name="value" keyPath="objectValue.dateTime" id="bMd-Pb-nKi"/>
@@ -2767,7 +2768,6 @@
                                                                 </tableColumns>
                                                                 <connections>
                                                                     <binding destination="L2K-wB-dIn" name="content" keyPath="arrangedObjects" id="zLd-hI-b23"/>
-                                                                    <binding destination="L2K-wB-dIn" name="selectionIndexes" keyPath="selectionIndexes" previousBinding="zLd-hI-b23" id="cb8-3H-A81"/>
                                                                 </connections>
                                                             </tableView>
                                                         </subviews>
@@ -3002,7 +3002,7 @@
                                     <rect key="frame" x="1" y="795" width="625" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="0.2649572649572649" horizontal="NO" id="a4H-Ug-sbD">
+                                <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="0.90598290598290598" horizontal="NO" id="a4H-Ug-sbD">
                                     <rect key="frame" x="626" y="1" width="15" height="794"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
@@ -3034,7 +3034,7 @@
                 <customObject id="CaH-jK-TdM" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <arrayController id="L2K-wB-dIn" userLabel="Target Properties Array Controller">
                     <connections>
-                        <binding destination="V1C-fe-ot3" name="contentArray" keyPath="self.eventProperties" id="Mgv-zS-K13"/>
+                        <binding destination="V1C-fe-ot3" name="contentArray" keyPath="self.child1Properties" id="JRs-iX-j2z"/>
                     </connections>
                 </arrayController>
             </objects>

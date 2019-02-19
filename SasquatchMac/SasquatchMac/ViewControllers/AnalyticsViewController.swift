@@ -150,6 +150,10 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
 
   @IBAction func addProperty(_ : AnyObject) {
     let property = EventProperty()
+    let eventProperties = arrayController.content as! [EventProperty]
+    let count = eventProperties.count
+    property.key = "key\(count)"
+    property.string = "value\(count)"
     property.addObserver(self, forKeyPath: #keyPath(EventProperty.type), options: .new, context: nil)
     arrayController.addObject(property)
   }

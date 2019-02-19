@@ -29,7 +29,12 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
   private let kAnalyticsCellRowIndex = 1
   private let kTokenCellRowIndex = 2
   private let kPauseCellRowIndex = 3
-  dynamic var eventProperties = [EventProperty]()
+  private var runtimePreProperties = [EventProperty]()
+  private var child1PreProperties = [EventProperty]()
+  private var child2PreProperties = [EventProperty]()
+  dynamic var runtimeProperties = [EventProperty]()
+  dynamic var child1Properties = [EventProperty]()
+  dynamic var child2Properties = [EventProperty]()
 
   private class TransmissionTargetSection: NSObject {
     static var defaultTransmissionTargetIsEnabled: Bool?
@@ -128,6 +133,12 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
     case resume = 4
   }
 
+  enum TransmissionTarget : Int {
+    case child1
+    case child2
+    case runTime
+  }
+
   override func viewWillAppear() {
     appCenter.startAnalyticsFromLibrary()
   }
@@ -181,6 +192,10 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
     transmissionTargetMapping = [kMSTargetToken1, kMSTargetToken2, parentTargetToken]
     commonSelector.target = self
     commonSelector.action = #selector(onSegmentSelected)
+
+    //Target properties section
+    propertySelector.target = self
+    propertySelector.action = #selector(onSegmentSelected)
   }
 
   func numberOfRows(in tableView: NSTableView) -> Int {
@@ -194,6 +209,19 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
   }
 
   func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+    //Target properties section
+    if(tableView.tag == Section.TargetProperties.rawValue) {
+      guard let identifier = tableColumn?.identifier else {
+        return nil
+      }
+      let view = tableView.make(withIdentifier: identifier, owner: nil)
+      if (identifier == "value") {
+        let eventProperties = arrayController.content as! [EventProperty]
+        updateValue(property: eventProperties[row], cell: view as! NSTableCellView)
+      }
+      return view
+    }
+
     tableView.headerView = nil
 
     // Common schema properties section
@@ -311,6 +339,21 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
   func onSegmentSelected(_ sender: NSSegmentedControl) {
     if(sender == commonSelector) {
       commonTable.reloadData()
+    }
+    else if(sender == propertySelector) {
+      switch propertySelector.selectedSegment {
+      case TransmissionTarget.child1.rawValue:
+        arrayController.bind("contentArray", to: self, withKeyPath:"child1Properties", options: nil)
+        break
+      case TransmissionTarget.child2.rawValue:
+        arrayController.bind("contentArray", to: self, withKeyPath:"child2Properties", options: nil)
+        break
+      case TransmissionTarget.runTime.rawValue:
+        arrayController.bind("contentArray", to: self, withKeyPath:"runtimeProperties", options: nil)
+        break
+      default:
+        break
+      }
     }
   }
 
@@ -437,5 +480,141 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
     let selectedTarget = selectedTransmissionTarget(commonSelector)
     let value = propertyValues[selectedTarget!]![row]
     return (propertyKeys[row], value)
+  }
+
+  // Target properties section
+  func updateValue(property: EventProperty, cell: NSTableCellView) {
+    cell.isHidden = false
+    for subview in cell.subviews {
+      subview.isHidden = true
+    }
+    guard let type = EventPropertyType(rawValue: property.type) else {
+      return
+    }
+    if let view = cell.viewWithTag(EventPropertyType.allValues.index(of: type)!) {
+      view.isHidden = false
+    } else {
+      cell.isHidden = true
+    }
+  }
+
+  @IBAction func addProperty(_ sender: NSButton) {
+    let property = EventProperty()
+    let targetEventProperties = arrayController.content as! [EventProperty]
+    let count = targetEventProperties.count
+    property.key = "key\(count)"
+    property.string = "value\(count)"
+    property.addObserver(self, forKeyPath: #keyPath(EventProperty.type), options: .new, context: nil)
+    property.addObserver(self, forKeyPath: #keyPath(EventProperty.key), options: .new, context: nil)
+    property.addObserver(self, forKeyPath: #keyPath(EventProperty.string), options: .new, context: nil)
+    property.addObserver(self, forKeyPath: #keyPath(EventProperty.double), options: .new, context: nil)
+    property.addObserver(self, forKeyPath: #keyPath(EventProperty.long), options: .new, context: nil)
+    property.addObserver(self, forKeyPath: #keyPath(EventProperty.boolean), options: .new, context: nil)
+    property.addObserver(self, forKeyPath: #keyPath(EventProperty.dateTime), options: .new, context: nil)
+    arrayController.addObject(property)
+    let selectedTarget = selectedTransmissionTarget(propertySelector)
+    let target = TransmissionTargets.shared.transmissionTargets[selectedTarget!]!
+    setEventPropertyState(property, forTarget: target)
+
+    let propertyNoObserver = EventProperty()
+    propertyNoObserver.key = "key\(count)"
+    propertyNoObserver.string = "value\(count)"
+    switch propertySelector.selectedSegment {
+    case TransmissionTarget.child1.rawValue:
+      child1PreProperties.append(propertyNoObserver)
+      break
+    case TransmissionTarget.child2.rawValue:
+      child2PreProperties.append(propertyNoObserver)
+      break
+    case TransmissionTarget.runTime.rawValue:
+      runtimePreProperties.append(propertyNoObserver)
+      break
+    default:
+      break
+    }
+  }
+
+  @IBAction func deleteProperty(_ sender: NSButton) {
+    if let selectedProperty = arrayController.selectedObjects.first as? EventProperty {
+      let index = arrayController.selectionIndex
+      switch propertySelector.selectedSegment {
+      case TransmissionTarget.child1.rawValue:
+        child1PreProperties.remove(at: index)
+        break
+      case TransmissionTarget.child2.rawValue:
+        child2PreProperties.remove(at: index)
+        break
+      case TransmissionTarget.runTime.rawValue:
+        runtimePreProperties.remove(at: index)
+        break
+      default:
+        break
+      }
+      arrayController.removeObject(selectedProperty)
+      selectedProperty.removeObserver(self, forKeyPath: #keyPath(EventProperty.type), context: nil)
+      let selectedTarget = selectedTransmissionTarget(propertySelector)
+      let target = TransmissionTargets.shared.transmissionTargets[selectedTarget!]!
+      target.propertyConfigurator.removeEventProperty(forKey: selectedProperty.key)
+    }
+  }
+
+  override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    guard let property = object as? EventProperty else {
+      return
+    }
+    let targetEventProperties = arrayController.content as! [EventProperty]
+    guard let row = targetEventProperties.index(of: property) else {
+      return
+    }
+    let column = propertiesTable?.column(withIdentifier: "value")
+    guard let cell = propertiesTable?.view(atColumn: column!, row: row, makeIfNecessary: false) as? NSTableCellView else {
+      return
+    }
+    updateValue(property: property, cell: cell)
+    var key = ""
+    let propertyNoObserver = EventProperty()
+    propertyNoObserver.key = property.key
+    propertyNoObserver.type = property.type
+    propertyNoObserver.string = property.string
+    propertyNoObserver.double = property.double
+    propertyNoObserver.long = property.long
+    propertyNoObserver.boolean = property.boolean
+    propertyNoObserver.dateTime = property.dateTime
+    switch propertySelector.selectedSegment {
+    case TransmissionTarget.child1.rawValue:
+      key = child1PreProperties[row].key
+      child1PreProperties[row] = propertyNoObserver
+      break
+    case TransmissionTarget.child2.rawValue:
+      key = child2PreProperties[row].key
+      child2PreProperties[row] = propertyNoObserver
+      break
+    case TransmissionTarget.runTime.rawValue:
+      key = runtimePreProperties[row].key
+      runtimePreProperties[row] = propertyNoObserver
+      break
+    default:
+      break
+    }
+    let selectedTarget = selectedTransmissionTarget(propertySelector)
+    let target = TransmissionTargets.shared.transmissionTargets[selectedTarget!]!
+    target.propertyConfigurator.removeEventProperty(forKey: key)
+    setEventPropertyState(property, forTarget: target)
+  }
+
+  func setEventPropertyState(_ property: EventProperty, forTarget target: MSAnalyticsTransmissionTarget) {
+    let type = EventPropertyType(rawValue: property.type)!
+    switch type {
+    case .string:
+      target.propertyConfigurator.setEventProperty(property.string , forKey: property.key)
+    case .boolean:
+      target.propertyConfigurator.setEventProperty(property.boolean , forKey: property.key)
+    case .double:
+      target.propertyConfigurator.setEventProperty(property.double.doubleValue, forKey: property.key)
+    case .long:
+      target.propertyConfigurator.setEventProperty(property.long.int64Value, forKey: property.key)
+    case .dateTime:
+      target.propertyConfigurator.setEventProperty(property.dateTime , forKey: property.key)
+    }
   }
 }
