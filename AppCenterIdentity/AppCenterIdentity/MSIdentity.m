@@ -157,7 +157,7 @@ static NSObject *lock = @"lock";
   [self.clientApplication acquireTokenForScopes:@[ (NSString * _Nonnull) self.identityConfig.identityScope ]
                                 completionBlock:^(MSALResult *result, NSError *e) {
                                   if (e) {
-                                    MSLogError([MSIdentity logTag], @"Couldn't initialize authentication client. Error: %@", e);
+                                    MSLogError([MSIdentity logTag], @"User login failed. Error: %@", e);
                                   } else {
                                     self.idToken = result.idToken;
                                   }
