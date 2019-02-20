@@ -218,7 +218,7 @@ static dispatch_once_t onceToken;
             } else {
               MSLogWarning([MSIdentity logTag], @"Couldn't create Identity config file.");
             }
-            @synchronized (self) {
+            @synchronized(self) {
               self.identityConfig = config;
 
               // Reinitialize client application.
@@ -226,8 +226,8 @@ static dispatch_once_t onceToken;
 
               // Login if it is delayed.
               /*
-               * TODO: Login can be called when the app is in background. Make sure the SDK doesn't display browser with login screen when the
-               * app is in background. Only display in foreground.
+               * TODO: Login can be called when the app is in background. Make sure the SDK doesn't display browser with login screen when
+               * the app is in background. Only display in foreground.
                */
               if (self.loginDelayed) {
                 [self login];
@@ -248,10 +248,10 @@ static dispatch_once_t onceToken;
   // Init MSAL client application.
   NSError *error;
   MSALAuthority *auth = [MSALAuthority authorityWithURL:(NSURL * _Nonnull) self.identityConfig.authorities[0].authorityUrl error:nil];
-    self.clientApplication = [[MSALPublicClientApplication alloc] initWithClientId:(NSString * _Nonnull) self.identityConfig.clientId
-                                                                         authority:auth
-                                                                       redirectUri:self.identityConfig.redirectUri
-                                                                             error:&error];
+  self.clientApplication = [[MSALPublicClientApplication alloc] initWithClientId:(NSString * _Nonnull) self.identityConfig.clientId
+                                                                       authority:auth
+                                                                     redirectUri:self.identityConfig.redirectUri
+                                                                           error:&error];
   if (error != nil) {
     MSLogError([MSIdentity logTag], @"Failed to initialize client application.");
   }
