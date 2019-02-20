@@ -7,6 +7,7 @@
 #import "MSIdentity.h"
 #import "MSIdentityConfigIngestion.h"
 #import "MSIdentityPrivate.h"
+#import "MSMockKeychainUtil.h"
 #import "MSMockUserDefaults.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSTestFrameworks.h"
@@ -22,6 +23,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 @property(nonatomic) MSMockUserDefaults *settingsMock;
 @property(nonatomic) NSDictionary *dummyConfigDic;
 @property(nonatomic) id utilityMock;
+@property(nonatomic) id keychainUtilMock;
 
 @end
 
@@ -40,9 +42,8 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
       @{@"type" : @"RandomType", @"default" : @NO, @"authority_url" : @"https://contoso.com/identity/path2"}
     ]
   };
-
-  // When
   self.sut = [MSIdentity new];
+  self.keychainUtilMock = [MSMockKeychainUtil new];
 }
 
 - (void)tearDown {
@@ -50,6 +51,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [MSIdentity resetSharedInstance];
   [self.settingsMock stopMocking];
   [self.utilityMock stopMocking];
+  [self.keychainUtilMock stopMocking];
 }
 
 - (void)testApplyEnabledStateWorks {
@@ -112,6 +114,8 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                            appSecret:kMSTestAppSecret
                              transmissionTargetToken:nil
                                      fromApplication:YES];
+  [MSMockKeychainUtil storeString:@"foobar" forKey:kMSIdentityAuthTokenKey];
+  [MSAuthTokenContext sharedInstance].authToken = @"some token";
   [service setEnabled:YES];
 
   // When
@@ -120,6 +124,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // Then
   XCTAssertNil(service.clientApplication);
   XCTAssertNil([MSAuthTokenContext sharedInstance].authToken);
+  XCTAssertNil([MSMockKeychainUtil stringForKey:kMSIdentityAuthTokenKey]);
   OCMVerify([self.utilityMock deleteItemForPathComponent:[service identityConfigFilePath]]);
   XCTAssertNil([self.settingsMock objectForKey:kMSIdentityETagKey]);
 }

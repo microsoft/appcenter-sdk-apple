@@ -9,6 +9,9 @@ NS_ASSUME_NONNULL_BEGIN
 // The eTag key to store the eTag of current configuration.
 static NSString *const kMSIdentityETagKey = @"MSIdentityETagKey";
 
+// The key for Identity auth token stored in keychain.
+static NSString *const kMSIdentityAuthTokenKey = @"MSIdentityAuthToken";
+
 @class MSALPublicClientApplication;
 
 @interface MSIdentity () <MSServiceInternal, MSChannelDelegate>

@@ -26,9 +26,6 @@ static NSString *const kMSIdentityPathComponent = @"identity";
 // The Identity config file name.
 static NSString *const kMSIdentityConfigFilename = @"config.json";
 
-// The key for Identity auth token stored in keychain.
-static NSString *const kMSIdentityAuthTokenKey = @"MSIdentityAuthToken";
-
 // Singleton
 static MSIdentity *sharedInstance = nil;
 static dispatch_once_t onceToken;
@@ -105,6 +102,7 @@ static dispatch_once_t onceToken;
     [[MSAppDelegateForwarder sharedInstance] removeDelegate:self.appDelegate];
     self.clientApplication = nil;
     [MSAuthTokenContext sharedInstance].authToken = nil;
+    [self removeAuthToken];
     [self clearConfigurationCache];
     [self.channelGroup removeDelegate:self];
     MSLogInfo([MSIdentity logTag], @"Identity service has been disabled.");
@@ -156,12 +154,15 @@ static dispatch_once_t onceToken;
     return;
   }
   self.loginDelayed = NO;
+  __weak typeof(self) weakSelf = self;
   [self.clientApplication acquireTokenForScopes:@[ (NSString * _Nonnull) self.identityConfig.identityScope ]
                                 completionBlock:^(MSALResult *result, NSError *e) {
                                   if (e) {
                                     MSLogError([MSIdentity logTag], @"User login failed. Error: %@", e);
                                   } else {
+                                    typeof(self) strongSelf = weakSelf;
                                     [MSAuthTokenContext sharedInstance].authToken = result.idToken;
+                                    [strongSelf saveAuthToken:result.idToken];
                                   }
                                 }];
 }
