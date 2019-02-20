@@ -9,6 +9,7 @@
 #import "MSIdentityConfig.h"
 #import "MSIdentityConfigIngestion.h"
 #import "MSIdentityPrivate.h"
+#import "MSKeychainUtil.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSUtility+File.h"
 #import <MSAL/MSALPublicClientApplication.h>
@@ -93,6 +94,12 @@ static dispatch_once_t onceToken;
       [self configAuthenticationClient];
       eTag = [MS_USER_DEFAULTS objectForKey:kMSIdentityETagKey];
     }
+    NSString *authToken = [self retrieveAuthToken];
+
+    // Only set the auth token if it is not nil to avoid triggering callbacks.
+    if (authToken) {
+      [MSAuthTokenContext sharedInstance].authToken = authToken;
+    }
 
     // Download identity configuration.
     [self downloadConfigurationWithETag:eTag];
@@ -101,6 +108,7 @@ static dispatch_once_t onceToken;
     [[MSAppDelegateForwarder sharedInstance] removeDelegate:self.appDelegate];
     self.clientApplication = nil;
     [MSAuthTokenContext sharedInstance].authToken = nil;
+    [self removeAuthToken];
     [self clearConfigurationCache];
     [self.channelGroup removeDelegate:self];
     MSLogInfo([MSIdentity logTag], @"Identity service has been disabled.");
@@ -152,12 +160,15 @@ static dispatch_once_t onceToken;
     return;
   }
   self.loginDelayed = NO;
+  __weak typeof(self) weakSelf = self;
   [self.clientApplication acquireTokenForScopes:@[ (NSString * _Nonnull) self.identityConfig.identityScope ]
                                 completionBlock:^(MSALResult *result, NSError *e) {
                                   if (e) {
                                     MSLogError([MSIdentity logTag], @"User login failed. Error: %@", e);
                                   } else {
+                                    typeof(self) strongSelf = weakSelf;
                                     [MSAuthTokenContext sharedInstance].authToken = result.idToken;
+                                    [strongSelf saveAuthToken:result.idToken];
                                   }
                                 }];
 }
@@ -213,7 +224,7 @@ static dispatch_once_t onceToken;
             } else {
               MSLogWarning([MSIdentity logTag], @"Couldn't create Identity config file.");
             }
-            @synchronized (self) {
+            @synchronized(self) {
               self.identityConfig = config;
 
               // Reinitialize client application.
@@ -221,8 +232,8 @@ static dispatch_once_t onceToken;
 
               // Login if it is delayed.
               /*
-               * TODO: Login can be called when the app is in background. Make sure the SDK doesn't display browser with login screen when the
-               * app is in background. Only display in foreground.
+               * TODO: Login can be called when the app is in background. Make sure the SDK doesn't display browser with login screen when
+               * the app is in background. Only display in foreground.
                */
               if (self.loginDelayed) {
                 [self login];
@@ -243,10 +254,10 @@ static dispatch_once_t onceToken;
   // Init MSAL client application.
   NSError *error;
   MSALAuthority *auth = [MSALAuthority authorityWithURL:(NSURL * _Nonnull) self.identityConfig.authorities[0].authorityUrl error:nil];
-    self.clientApplication = [[MSALPublicClientApplication alloc] initWithClientId:(NSString * _Nonnull) self.identityConfig.clientId
-                                                                         authority:auth
-                                                                       redirectUri:self.identityConfig.redirectUri
-                                                                             error:&error];
+  self.clientApplication = [[MSALPublicClientApplication alloc] initWithClientId:(NSString * _Nonnull) self.identityConfig.clientId
+                                                                       authority:auth
+                                                                     redirectUri:self.identityConfig.redirectUri
+                                                                           error:&error];
   if (error != nil) {
     MSLogError([MSIdentity logTag], @"Failed to initialize client application.");
   }
@@ -269,6 +280,34 @@ static dispatch_once_t onceToken;
     }
   }
   return config;
+}
+
+- (void)saveAuthToken:(NSString *)authToken {
+  BOOL success = [MSKeychainUtil storeString:authToken forKey:kMSIdentityAuthTokenKey];
+  if (success) {
+    MSLogDebug([MSIdentity logTag], @"Saved auth token in keychain.");
+  } else {
+    MSLogWarning([MSIdentity logTag], @"Failed to save auth token in keychain.");
+  }
+}
+
+- (NSString *)retrieveAuthToken {
+  NSString *authToken = [MSKeychainUtil stringForKey:kMSIdentityAuthTokenKey];
+  if (authToken) {
+    MSLogDebug([MSIdentity logTag], @"Retrieved auth token from keychain.");
+  } else {
+    MSLogWarning([MSIdentity logTag], @"Failed to retrieve auth token from keychain or none was found.");
+  }
+  return authToken;
+}
+
+- (void)removeAuthToken {
+  NSString *authToken = [MSKeychainUtil deleteStringForKey:kMSIdentityAuthTokenKey];
+  if (authToken) {
+    MSLogDebug([MSIdentity logTag], @"Removed auth token from keychain.");
+  } else {
+    MSLogWarning([MSIdentity logTag], @"Failed to remove auth token from keychain or none was found.");
+  }
 }
 
 @end

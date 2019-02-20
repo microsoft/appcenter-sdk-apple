@@ -111,7 +111,7 @@
 - (void)setIdentityEnabled:(BOOL)isEnabled {
   return [MSIdentity setEnabled:isEnabled];
 }
-  
+
 - (void)login {
   [MSIdentity login];
 }
