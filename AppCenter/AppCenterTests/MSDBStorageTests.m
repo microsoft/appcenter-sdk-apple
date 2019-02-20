@@ -169,6 +169,115 @@ static const long kMSTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   OCMVerifyAll(dbStorage);
 }
 
+- (void)testGetMaxPageCountInOpenedDatabaseReturnsZeroWhenQueryFails {
+  
+  // If
+  // Query returns empty array.
+  id dbStorageMock = OCMClassMock([MSDBStorage class]);
+  sqlite3 *db = [self.storageTestUtil openDatabase];
+  NSMutableArray<NSMutableArray *> *entries = [NSMutableArray<NSMutableArray *> new];
+  OCMStub([dbStorageMock executeSelectionQuery:[OCMArg any] inOpenedDatabase:db]).andReturn(entries);
+  
+  // When
+  long counter = [MSDBStorage getMaxPageCountInOpenedDatabase:db];
+  
+  // Then
+  assertThatLong(counter, equalToLong(0));
+  
+  // If
+  // Query returns an array with empty array.
+  [entries addObject:[NSMutableArray new]];
+  OCMStub([dbStorageMock executeSelectionQuery:[OCMArg any] inOpenedDatabase:db]).andReturn(entries);
+  
+  // When
+  counter = [MSDBStorage getMaxPageCountInOpenedDatabase:db];
+  
+  // Then
+  assertThatLong(counter, equalToLong(0));
+}
+
+- (void)testGetPageCountInOpenedDatabaseReturnsZeroWhenQueryFails {
+  
+  // If
+  // Query returns empty array.
+  id dbStorageMock = OCMClassMock([MSDBStorage class]);
+  sqlite3 *db = [self.storageTestUtil openDatabase];
+  NSMutableArray<NSMutableArray *> *entries = [NSMutableArray<NSMutableArray *> new];
+  OCMStub([dbStorageMock executeSelectionQuery:[OCMArg any] inOpenedDatabase:db]).andReturn(entries);
+  
+  // When
+  long counter = [MSDBStorage getPageCountInOpenedDatabase:db];
+  
+  // Then
+  assertThatLong(counter, equalToLong(0));
+  
+  // If
+  // Query returns an array with empty array.
+  [entries addObject:[NSMutableArray new]];
+  OCMStub([dbStorageMock executeSelectionQuery:[OCMArg any] inOpenedDatabase:db]).andReturn(entries);
+  
+  // When
+  counter = [MSDBStorage getPageCountInOpenedDatabase:db];
+  
+  // Then
+  assertThatLong(counter, equalToLong(0));
+}
+
+- (void)testGetPageSizeInOpenedDatabaseReturnsZeroWhenQueryFails {
+  
+  // If
+  // Query returns empty array.
+  id dbStorageMock = OCMClassMock([MSDBStorage class]);
+  sqlite3 *db = [self.storageTestUtil openDatabase];
+  NSMutableArray<NSMutableArray *> *entries = [NSMutableArray<NSMutableArray *> new];
+  OCMStub([dbStorageMock executeSelectionQuery:[OCMArg any] inOpenedDatabase:db]).andReturn(entries);
+  
+  // When
+  long counter = [MSDBStorage getPageSizeInOpenedDatabase:db];
+  
+  // Then
+  assertThatLong(counter, equalToLong(0));
+  
+  // If
+  // Query returns an array with empty array.
+  [entries addObject:[NSMutableArray new]];
+  OCMStub([dbStorageMock executeSelectionQuery:[OCMArg any] inOpenedDatabase:db]).andReturn(entries);
+  
+  // When
+  counter = [MSDBStorage getPageSizeInOpenedDatabase:db];
+  
+  // Then
+  assertThatLong(counter, equalToLong(0));
+}
+
+- (void)testEnableAutoVacuumInOpenedDatabaseWhenQueryFails {
+  
+  // If
+  // Query returns empty array.
+  id dbStorageMock = OCMClassMock([MSDBStorage class]);
+  sqlite3 *db = [self.storageTestUtil openDatabase];
+  NSMutableArray<NSMutableArray *> *entries = [NSMutableArray<NSMutableArray *> new];
+  OCMStub([dbStorageMock executeSelectionQuery:[OCMArg any] inOpenedDatabase:db]).andReturn(entries);
+  OCMStub([dbStorageMock executeNonSelectionQuery:[OCMArg any] inOpenedDatabase:db]);
+  
+  // When
+  [MSDBStorage enableAutoVacuumInOpenedDatabase:db];
+  
+  // Then
+  OCMVerify([dbStorageMock executeNonSelectionQuery:[OCMArg any] inOpenedDatabase:db]);
+  
+  // If
+  // Query returns an array with empty array.
+  [entries addObject:[NSMutableArray new]];
+  OCMStub([dbStorageMock executeSelectionQuery:[OCMArg any] inOpenedDatabase:db]).andReturn(entries);
+  
+  // When
+  [MSDBStorage enableAutoVacuumInOpenedDatabase:db];
+  
+  // Then
+  OCMVerify([dbStorageMock executeNonSelectionQuery:[OCMArg any] inOpenedDatabase:db]);
+}
+
 - (void)testExecuteQuery {
 
   // If
