@@ -83,6 +83,7 @@
 
 /**
  * Enable or disable the SDK as a whole. In addition to AppCenter resources, it will also enable or disable all registered services.
+ * The state is persisted in the device's storage across application launches.
  *
  * @param isEnabled YES to enable, NO to disable.
  *
