@@ -94,6 +94,12 @@ static dispatch_once_t onceToken;
       [self configAuthenticationClient];
       eTag = [MS_USER_DEFAULTS objectForKey:kMSIdentityETagKey];
     }
+    NSString *authToken = [self retrieveAuthToken];
+    
+    // Only set the auth token if it is not nil to avoid triggering callbacks.
+    if (authToken) {
+      [MSAuthTokenContext sharedInstance].authToken = authToken;
+    }
 
     // Download identity configuration.
     [self downloadConfigurationWithETag:eTag];

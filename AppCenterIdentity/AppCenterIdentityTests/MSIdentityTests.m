@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
 
 #import "MSAuthTokenContext.h"
+#import "MSAuthTokenContextDelegate.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitProtocol.h"
 #import "MSHttpTestUtil.h"
@@ -49,6 +50,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 - (void)tearDown {
   [super tearDown];
   [MSIdentity resetSharedInstance];
+  [MSAuthTokenContext resetSharedInstance];
   [self.settingsMock stopMocking];
   [self.utilityMock stopMocking];
   [self.keychainUtilMock stopMocking];
@@ -100,6 +102,50 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // Then
   XCTAssertTrue([service.identityConfig isValid]);
   OCMVerify([ingestionMock sendAsync:nil eTag:expectedETag completionHandler:OCMOCK_ANY]);
+  [ingestionMock stopMocking];
+}
+
+- (void)testEnablingReadsAuthTokenFromKeychainAndSetsAuthContext {
+  
+  // If
+  MSIdentity *service = [MSIdentity sharedInstance];
+  NSString *expectedToken = @"expected";
+  [MSMockKeychainUtil storeString: expectedToken forKey:kMSIdentityAuthTokenKey];
+  NSString *expectedETag = @"eTag";
+  [self.settingsMock setObject:expectedETag forKey:kMSIdentityETagKey];
+  NSData *serializedConfig = [NSJSONSerialization dataWithJSONObject:self.dummyConfigDic options:(NSJSONWritingOptions)0 error:nil];
+  OCMStub([self.utilityMock loadDataForPathComponent:[service identityConfigFilePath]]).andReturn(serializedConfig);
+  id ingestionMock = OCMPartialMock([MSIdentityConfigIngestion alloc]);
+  OCMStub([ingestionMock alloc]).andReturn(ingestionMock);
+  OCMStub([ingestionMock sendAsync:OCMOCK_ANY eTag:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  
+  // When
+  [service applyEnabledState:YES];
+  
+  // Then
+  XCTAssertEqual([MSAuthTokenContext sharedInstance].authToken, expectedToken);
+  [ingestionMock stopMocking];
+}
+
+- (void)testEnablingReadsAuthTokenFromKeychainAndDoesNotSetAuthContextIfNil {
+
+  // If
+  MSIdentity *service = [MSIdentity sharedInstance];
+  NSString *expectedETag = @"eTag";
+  [self.settingsMock setObject:expectedETag forKey:kMSIdentityETagKey];
+  NSData *serializedConfig = [NSJSONSerialization dataWithJSONObject:self.dummyConfigDic options:(NSJSONWritingOptions)0 error:nil];
+  OCMStub([self.utilityMock loadDataForPathComponent:[service identityConfigFilePath]]).andReturn(serializedConfig);
+  id<MSAuthTokenContextDelegate> mockDelegate = OCMProtocolMock(@protocol(MSAuthTokenContextDelegate));
+  [[MSAuthTokenContext sharedInstance] addDelegate:mockDelegate];
+  id ingestionMock = OCMPartialMock([MSIdentityConfigIngestion alloc]);
+  OCMStub([ingestionMock alloc]).andReturn(ingestionMock);
+  OCMStub([ingestionMock sendAsync:OCMOCK_ANY eTag:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+  
+  // Then
+  OCMReject([mockDelegate authTokenContext:OCMOCK_ANY didReceiveAuthToken:OCMOCK_ANY]);
+
+  // When
+  [service applyEnabledState:YES];
   [ingestionMock stopMocking];
 }
 

@@ -34,6 +34,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)removeDelegate:(id<MSAuthTokenContextDelegate>)delegate;
 
+/**
+ * Reset singleton instance.
+ */
++ (void)resetSharedInstance;
+
 @end
 
 NS_ASSUME_NONNULL_END
