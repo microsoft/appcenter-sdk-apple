@@ -95,7 +95,7 @@ static dispatch_once_t onceToken;
       eTag = [MS_USER_DEFAULTS objectForKey:kMSIdentityETagKey];
     }
     NSString *authToken = [self retrieveAuthToken];
-    
+
     // Only set the auth token if it is not nil to avoid triggering callbacks.
     if (authToken) {
       [MSAuthTokenContext sharedInstance].authToken = authToken;
