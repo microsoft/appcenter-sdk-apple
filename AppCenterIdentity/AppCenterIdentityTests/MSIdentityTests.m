@@ -353,7 +353,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [ingestionMock stopMocking];
 }
 
-- (void)testLoginAcquiresToken {
+- (void)testLoginAcquiresAndSavesToken {
 
   // If
   NSString *idToken = @"fake";
@@ -379,6 +379,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // Then
   OCMVerify([clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
   XCTAssertEqual(idToken, [MSAuthTokenContext sharedInstance].authToken);
+  XCTAssertEqual(idToken, [MSMockKeychainUtil stringForKey:kMSIdentityAuthTokenKey]);
   [identityMock stopMocking];
   [clientApplicationMock stopMocking];
 }
