@@ -19,11 +19,6 @@ static NSString *const kMSIdentityETagKey = @"MSIdentityETagKey";
 @property(nonatomic, nullable) MSALPublicClientApplication *clientApplication;
 
 /**
- * The ID token to be used as a user identifier.
- */
-@property(atomic, nullable, copy) NSString *idToken;
-
-/**
  * The configuration for the Identity service.
  */
 @property(nonatomic, nullable) MSIdentityConfig *identityConfig;
