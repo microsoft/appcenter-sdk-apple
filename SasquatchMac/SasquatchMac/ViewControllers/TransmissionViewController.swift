@@ -181,7 +181,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
 
     transmissionTargetSections = [defaultTargetSection, runtimeTargetSection, child1TargetSection, child2TargetSection]
 
-    //Common schema properties section
+    // Common schema properties section
     propertyValues = [String: [String]]()
     collectDeviceIdStates = [String: Bool]()
     let parentTargetToken = appName.contains("SasquatchMacSwift") ? kMSSwiftRuntimeTargetToken : kMSObjCRuntimeTargetToken
@@ -193,7 +193,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
     commonSelector.target = self
     commonSelector.action = #selector(onSegmentSelected)
 
-    //Target properties section
+    // Target properties section
     propertySelector.target = self
     propertySelector.action = #selector(onSegmentSelected)
   }
@@ -209,7 +209,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
   }
 
   func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-    //Target properties section
+    // Target properties section
     if(tableView.tag == Section.TargetProperties.rawValue) {
       guard let identifier = tableColumn?.identifier else {
         return nil
@@ -275,7 +275,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
       return nil
     }
 
-    //Transmission target section
+    // Transmission target section
     if let cell = tableView.make(withIdentifier: "target", owner: nil) as? NSTableCellView {
       let section = transmissionTargetSections![tableView.tag]
       switch (row) {
@@ -357,7 +357,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
     }
   }
 
-  //Transmission target section
+  // Transmission target section
   func targetEnabledSwitchValueChanged(sender: NSButton!) {
     let sectionIndex = getCellSection(forView: sender)
     let section = transmissionTargetSections![sectionIndex]
