@@ -1,9 +1,10 @@
 import UIKit
+import CoreLocation
 
 // 10 MiB.
 let kMSDefaultDatabaseSize = 10 * 1024 * 1024
 
-class MSMainViewController: UITableViewController, AppCenterProtocol {
+class MSMainViewController: UITableViewController, AppCenterProtocol, CLLocationManagerDelegate {
   
   enum StartupMode: String {
     case AppCenter = "AppCenter"
@@ -27,12 +28,14 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   @IBOutlet weak var storageMaxSizeField: UITextField!
   @IBOutlet weak var storageFileSizeLabel: UILabel!
   @IBOutlet weak var userIdField: UITextField!
-
+  @IBOutlet weak var countryCodeEnabledSwitch: UISwitch!
+  
   var appCenter: AppCenterDelegate!
   private var startupModePicker: MSEnumPicker<StartupMode>?
   private var eventFilterStarted = false
   private var dbFileDescriptor: CInt = 0
   private var dbFileSource: DispatchSourceProtocol?
+  private var locationManager: CLLocationManager = CLLocationManager()
 
   deinit {
     self.dbFileSource?.cancel()
@@ -97,6 +100,10 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
 
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
+    self.locationManager.delegate = self
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
+    self.locationManager.requestWhenInUseAuthorization()
+    self.countryCodeEnabledSwitch.isOn = false
     updateViewState()
   }
 
@@ -112,6 +119,21 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     cell.contentView.alpha = 0.5
     #endif
   }
+    
+  func startDetermineLocation() {
+    if CLLocationManager.locationServicesEnabled() {
+      self.locationManager.startUpdatingLocation()
+    }
+  }
+    
+  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    let userLocation:CLLocation = locations[0] as CLLocation
+    CLGeocoder().reverseGeocodeLocation( userLocation) { (placemarks, error) in
+      if error == nil {
+        self.appCenter.setCountryCode( placemarks?.first?.isoCountryCode)
+      }
+    }
+  }
 
   @IBAction func enabledSwitchUpdated(_ sender: UISwitch) {
     appCenter.setAppCenterEnabled(sender.isOn)
@@ -122,7 +144,16 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     appCenter.setPushEnabled(sender.isOn)
     updateViewState()
   }
-
+  
+  @IBAction func countryCodeSwitchChanged(_ sender: UISwitch) {
+    if sender.isOn {
+      self.startDetermineLocation()
+    }
+    else {
+      self.locationManager.stopUpdatingLocation()
+    }
+  }
+  
   @IBAction func logFilterSwitchChanged(_ sender: UISwitch) {
     #if ACTIVE_COMPILATION_CONDITION_PUPPET
     if !eventFilterStarted {

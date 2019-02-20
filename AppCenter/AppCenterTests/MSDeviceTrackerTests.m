@@ -268,6 +268,35 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 }
 #endif
 
+#if TARGET_OS_IOS
+- (void)testCarrierCountryNotOverridden {
+    
+    // If
+    NSString *expected = @"US";
+    CTCarrier *carrierMock = OCMClassMock([CTCarrier class]);
+    OCMStub([carrierMock isoCountryCode]).andReturn(expected);
+    
+    // When
+    NSString *carrierCountry = [self.sut carrierCountry:carrierMock];
+    
+    // Then
+    assertThat(carrierCountry, is(expected));
+    
+    // If
+    [[MSDeviceTracker sharedInstance] setCountryCode:@"AU"];
+    MSDevice *device = self.sut.device;
+    
+    // Then
+    XCTAssertEqual(device.carrierCountry, @"AU");
+    
+    // When
+    carrierCountry = [self.sut carrierCountry:carrierMock];
+    
+    // Then
+    assertThat(carrierCountry, is(expected));
+}
+#endif
+
 - (void)testAppVersion {
 
   // If
@@ -349,6 +378,39 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
   // Then
   XCTAssertEqual(device.wrapperSdkVersion, wrapperSdk.wrapperSdkVersion);
+}
+
+- (void)testCountryCode {
+    // When
+    [[MSDeviceTracker sharedInstance] setCountryCode:@"AU"];
+    MSDevice *device = self.sut.device;
+    
+    // Then
+    XCTAssertEqual(device.carrierCountry, @"AU");
+    
+    // When
+    [[MSDeviceTracker sharedInstance] setCountryCode:@"GB"];
+    
+    // Then
+    XCTAssertNotEqual(device.carrierCountry, @"GB");
+    
+    // When
+    device = self.sut.device;
+    
+    // Then
+    XCTAssertEqual(device.carrierCountry, @"GB");
+    
+    // When
+    [[MSDeviceTracker sharedInstance] setCountryCode:nil];
+    
+    // Then
+    XCTAssertEqual(device.carrierCountry, @"GB");
+    
+    // When
+    device = self.sut.device;
+    
+    // Then
+    XCTAssertNil(device.carrierCountry);
 }
 
 - (void)testCreationOfNewDeviceWorks {

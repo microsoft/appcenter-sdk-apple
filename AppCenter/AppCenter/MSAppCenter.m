@@ -212,6 +212,10 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
   [[MSAppCenter sharedInstance] setUserId:userId];
 }
 
++ (void)setCountryCode:(NSString *)countryCode {
+  [[MSDeviceTracker sharedInstance] setCountryCode:countryCode];
+}
+
 #pragma mark - private
 
 - (instancetype)init {

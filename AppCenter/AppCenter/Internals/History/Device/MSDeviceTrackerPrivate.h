@@ -163,6 +163,13 @@ static NSString *const kMSPastDevicesKey = @"pastDevicesKey";
 - (void)setWrapperSdk:(MSWrapperSdk *)wrapperSdk;
 
 /**
+ * Set country code to use when building device properties.
+ *
+ * @param countryCode The two-letter ISO country code. @see https://www.iso.org/obp/ui/#search for more information.
+ */
+- (void)setCountryCode:(NSString *)countryCode;
+
+/**
  * Return a new Instance of MSDevice.
  *
  * @returns A new Instance of MSDevice. @see MSDevice

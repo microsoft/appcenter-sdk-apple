@@ -63,6 +63,10 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   func setUserId(_ userId: String?) {
     MSAppCenter.setUserId(userId);
   }
+  
+  func setCountryCode(_ countryCode: String?) {
+    MSAppCenter.setCountryCode(countryCode);
+  }
 
   // Modules section.
   func isAnalyticsEnabled() -> Bool {
