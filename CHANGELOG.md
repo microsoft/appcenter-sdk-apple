@@ -17,6 +17,7 @@ ___
 ### AppCenter
 
 * **[Fix]** Fix a possible deadlock if the SDK is started from a background thread.
+* **[Feature]** Add class method  `+ [MSAppCenter setCountryCode:]` that allows manually setting the country code on platforms where there is no carrier information available. 
 
 ___
 
