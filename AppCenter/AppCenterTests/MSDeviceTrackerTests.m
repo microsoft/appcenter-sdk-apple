@@ -381,7 +381,6 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 }
 
 - (void)testCountryCode {
-  
   // When
   [[MSDeviceTracker sharedInstance] setCountryCode:@"AU"];
   MSDevice *device = self.sut.device;
