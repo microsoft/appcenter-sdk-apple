@@ -35,11 +35,11 @@
 	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Select photo for attachment</string>
-    <key>NSLocationAlwaysUsageDescription</key>
-    <string>Will you allow this app to always know your location?</string>
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string>Do you allow this app to know your current location?</string>
-    <key>UIBackgroundModes</key>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>The app needs to know your location to override the country code.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>The app needs to know your location to override the country code.</string>
+	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
 	</array>
