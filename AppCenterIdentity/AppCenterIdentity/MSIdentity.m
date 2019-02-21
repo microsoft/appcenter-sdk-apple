@@ -341,7 +341,7 @@ static dispatch_once_t onceToken;
 }
 
 - (MSALAccount *)retrieveAccount {
-  NSString *homeAccountId = [MSUserDefaults valueForKey:kMSIdentityMSALAccountHomeAccountKey];
+  NSString *homeAccountId = [[MSUserDefaults shared] objectForKey:kMSIdentityMSALAccountHomeAccountKey];
   if (homeAccountId) {
     NSError *error;
     MSALAccount *account = [self.clientApplication accountForHomeAccountId:homeAccountId error:&error];
