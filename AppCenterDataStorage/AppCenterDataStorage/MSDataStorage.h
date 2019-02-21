@@ -1,7 +1,7 @@
 #import "MSServiceAbstract.h"
 #import "MSDocument.h"
 #import "MSDocuments.h"
-#import "MSCompareAndSwapResolutionCallback.h"
+#import "MSSerializableDocument.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -23,7 +23,7 @@ static NSString *const MSDataSourceUserPartition =  @"user-%@";
 // Writes is not allowed via the SDK
 static NSString *const MSDataSourceReadOnlyPartition = @"readonly";
 
-@interface MSDataStorage<T : id<NSCoding>> : MSServiceAbstract
+@interface MSDataStorage<T : id<MSSerializableDocument>> : MSServiceAbstract
 
 
 NS_ASSUME_NONNULL_END
@@ -38,19 +38,15 @@ typedef void (^MSDownloadDocumentsCompletionHandler)(MSDocuments<T>* documents);
 
 // List (need optional signature to configure page size)
 // The document type (T) must be JSON deserializable
-+ (void)readWithPartition:(NSString *)partition documentType:(Class)documentType completionHandler:(MSDownloadDocumentsCompletionHandler)completionHandler;
++ (void)readWithPartition:(NSString *)partition documentType:(Class)documentType completionHandler: (MSDownloadDocumentsCompletionHandler)completionHandler;
 
 // Create a document
 // The document instance (T) must be JSON serializable
 + (void)createWithPartition:(NSString *)partition documentId:(NSString *)documentId document:(T)document completionHandler:(MSDownloadDocumentCompletionHandler)completionHandler;
 
-+ (void)createWithPartition:(NSString *)partition documentId:(NSString *)documentId document:(T)document conflictResolutionPolicy:(MSCompareAndSwapResolutionCallback *)policy completionHandler:(void (^)(MSDocument<T>* document))completionHandler;
-
 // Replace a document
 // The document instance (T) must be JSON serializable
-+ (void)replaceWithPartition:(NSString *)partition documentId:(NSString *)documentId document:(T)document completionHandler:(void (^)(MSDocument<T>* document))completionHandler;
-
-+ (void)replaceWithPartition:(NSString *)partition documentId:(NSString *)documentId document:(T)document conflictResolutionPolicy:(MSCompareAndSwapResolutionCallback<T> *)policy completionHandler:(void (^)(MSDocument<T>* document))completionHandler;
++ (void)replaceWithPartition:(NSString *)partition documentId:(NSString *)documentId document:(T)document completionHandler:(MSDownloadDocumentCompletionHandler)completionHandler;
 
 // Delete a document
 + (void)deleteDocumentWithPartition:(NSString *)partition documentId:(NSString *)documentId completionHandler:(void (^)(MSDataSourceError* error))completionHandler;

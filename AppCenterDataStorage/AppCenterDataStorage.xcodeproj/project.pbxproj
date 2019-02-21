@@ -86,19 +86,14 @@
 		E8B0BA8B22177B6600103F26 /* MSDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = E8B0BA8A22177B6600103F26 /* MSDocument.m */; };
 		E8B0BA8E22177C5700103F26 /* MSDocuments.m in Sources */ = {isa = PBXBuildFile; fileRef = E8B0BA8C22177C5700103F26 /* MSDocuments.m */; };
 		E8B0BA8F22177C5700103F26 /* MSDocuments.h in Headers */ = {isa = PBXBuildFile; fileRef = E8B0BA8D22177C5700103F26 /* MSDocuments.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E8B0BA9222178BBD00103F26 /* MSConflictResolutionDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E8B0BA9122178BBD00103F26 /* MSConflictResolutionDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E8B0BA9422178EA700103F26 /* MSCompareAndSwapResolutionCallback.m in Sources */ = {isa = PBXBuildFile; fileRef = E8B0BA9322178EA700103F26 /* MSCompareAndSwapResolutionCallback.m */; };
-		E8B0BA9622178EDA00103F26 /* MSCompareAndSwapResolutionCallback.h in Headers */ = {isa = PBXBuildFile; fileRef = E8B0BA9522178EDA00103F26 /* MSCompareAndSwapResolutionCallback.h */; };
 		E8FE51A7221C9408005FB52B /* MSDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = E8048E322216328600F84E9D /* MSDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E8FE51A8221C9416005FB52B /* MSDataSourceError.h in Headers */ = {isa = PBXBuildFile; fileRef = E8048E35221633D100F84E9D /* MSDataSourceError.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E8FE51A9221C941E005FB52B /* MSDocuments.h in Headers */ = {isa = PBXBuildFile; fileRef = E8B0BA8D22177C5700103F26 /* MSDocuments.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E8FE51AA221C9424005FB52B /* MSConflictResolutionDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E8B0BA9122178BBD00103F26 /* MSConflictResolutionDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E8FE51AB221C9427005FB52B /* MSCompareAndSwapResolutionCallback.h in Headers */ = {isa = PBXBuildFile; fileRef = E8B0BA9522178EDA00103F26 /* MSCompareAndSwapResolutionCallback.h */; };
 		E8FE51AC221C9442005FB52B /* MSDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = E8B0BA8A22177B6600103F26 /* MSDocument.m */; };
 		E8FE51AD221C9443005FB52B /* MSDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = E8B0BA8A22177B6600103F26 /* MSDocument.m */; };
 		E8FE51AE221C9446005FB52B /* MSDocuments.m in Sources */ = {isa = PBXBuildFile; fileRef = E8B0BA8C22177C5700103F26 /* MSDocuments.m */; };
 		E8FE51AF221C9447005FB52B /* MSDocuments.m in Sources */ = {isa = PBXBuildFile; fileRef = E8B0BA8C22177C5700103F26 /* MSDocuments.m */; };
-		E8FE51B0221C944F005FB52B /* MSCompareAndSwapResolutionCallback.m in Sources */ = {isa = PBXBuildFile; fileRef = E8B0BA9322178EA700103F26 /* MSCompareAndSwapResolutionCallback.m */; };
+		E8FE51EA221CBF87005FB52B /* MSSerializableDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = E8FE51E9221CBF87005FB52B /* MSSerializableDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F82E4C85217F218D00EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C84217F218D00EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		F82E4C86217F218D00EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C84217F218D00EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 /* End PBXBuildFile section */
@@ -189,10 +184,8 @@
 		E8B0BA8A22177B6600103F26 /* MSDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDocument.m; sourceTree = "<group>"; };
 		E8B0BA8C22177C5700103F26 /* MSDocuments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDocuments.m; sourceTree = "<group>"; };
 		E8B0BA8D22177C5700103F26 /* MSDocuments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDocuments.h; sourceTree = "<group>"; };
-		E8B0BA9122178BBD00103F26 /* MSConflictResolutionDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSConflictResolutionDelegate.h; sourceTree = "<group>"; };
-		E8B0BA9322178EA700103F26 /* MSCompareAndSwapResolutionCallback.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSCompareAndSwapResolutionCallback.m; sourceTree = "<group>"; };
-		E8B0BA9522178EDA00103F26 /* MSCompareAndSwapResolutionCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCompareAndSwapResolutionCallback.h; sourceTree = "<group>"; };
 		E8FE51A5221C8C6E005FB52B /* MSTestFrameworks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSTestFrameworks.h; path = ../../AppCenter/AppCenterTests/Util/MSTestFrameworks.h; sourceTree = "<group>"; };
+		E8FE51E9221CBF87005FB52B /* MSSerializableDocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSSerializableDocument.h; sourceTree = "<group>"; };
 		F82E4C84217F218D00EDAB34 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = ../Vendor/SQLite3/sqlite3.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -320,9 +313,7 @@
 				E8B0BA8A22177B6600103F26 /* MSDocument.m */,
 				E8B0BA8D22177C5700103F26 /* MSDocuments.h */,
 				E8B0BA8C22177C5700103F26 /* MSDocuments.m */,
-				E8B0BA9122178BBD00103F26 /* MSConflictResolutionDelegate.h */,
-				E8B0BA9522178EDA00103F26 /* MSCompareAndSwapResolutionCallback.h */,
-				E8B0BA9322178EA700103F26 /* MSCompareAndSwapResolutionCallback.m */,
+				E8FE51E9221CBF87005FB52B /* MSSerializableDocument.h */,
 				D3AD5F071E5C8136001627AB /* Internal */,
 				D3AD5F031E5C7FC9001627AB /* Support */,
 			);
@@ -415,10 +406,8 @@
 				E8FE51A9221C941E005FB52B /* MSDocuments.h in Headers */,
 				0469644D1F2A5D1200F9D31F /* MSDataStoragePrivate.h in Headers */,
 				0469644E1F2A5D2800F9D31F /* AppCenterDataStorage.h in Headers */,
-				E8FE51AB221C9427005FB52B /* MSCompareAndSwapResolutionCallback.h in Headers */,
 				E8FE51A8221C9416005FB52B /* MSDataSourceError.h in Headers */,
 				04A0820D1F74BBCF00DC776D /* MSService.h in Headers */,
-				E8FE51AA221C9424005FB52B /* MSConflictResolutionDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -426,6 +415,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E8FE51EA221CBF87005FB52B /* MSSerializableDocument.h in Headers */,
 				D3AD5F0F1E5C845B001627AB /* AppCenterDataStorage.h in Headers */,
 				D3AD5F0D1E5C844B001627AB /* MSServiceAbstract.h in Headers */,
 				E8048E332216328600F84E9D /* MSDocument.h in Headers */,
@@ -433,10 +423,8 @@
 				E8B0BA8F22177C5700103F26 /* MSDocuments.h in Headers */,
 				D3AD5F101E5C8466001627AB /* MSDataStorage.h in Headers */,
 				D3AD5F121E5C847B001627AB /* MSDataStoragePrivate.h in Headers */,
-				E8B0BA9622178EDA00103F26 /* MSCompareAndSwapResolutionCallback.h in Headers */,
 				E8048E37221633D100F84E9D /* MSDataSourceError.h in Headers */,
 				04A0820C1F74BBCA00DC776D /* MSService.h in Headers */,
-				E8B0BA9222178BBD00103F26 /* MSConflictResolutionDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -665,7 +653,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E8FE51AC221C9442005FB52B /* MSDocument.m in Sources */,
-				E8FE51B0221C944F005FB52B /* MSCompareAndSwapResolutionCallback.m in Sources */,
 				E8FE51AF221C9447005FB52B /* MSDocuments.m in Sources */,
 				0469644C1F2A5C9200F9D31F /* MSDataStorage.m in Sources */,
 			);
@@ -688,7 +675,6 @@
 			files = (
 				E8048E36221633D100F84E9D /* MSDataSourceError.m in Sources */,
 				D3AD5F111E5C846E001627AB /* MSDataStorage.m in Sources */,
-				E8B0BA9422178EA700103F26 /* MSCompareAndSwapResolutionCallback.m in Sources */,
 				E8B0BA8E22177C5700103F26 /* MSDocuments.m in Sources */,
 				E8B0BA8B22177B6600103F26 /* MSDocument.m in Sources */,
 			);

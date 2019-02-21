@@ -1,12 +1,4 @@
 #import <Foundation/Foundation.h>
-
-#if TARGET_OS_OSX
-#import <AppKit/AppKit.h>
-#import <objc/runtime.h>
-#else
-#import <UserNotifications/UserNotifications.h>
-#endif
-
 #import "MSAppCenterInternal.h"
 #import "MSAppDelegateForwarder.h"
 #import "MSChannelUnitConfiguration.h"
@@ -62,35 +54,25 @@ static dispatch_once_t onceToken;
 
 // Create a document
 // The document instance (T) must be JSON serializable
-+ (void)createWithPartition:(NSString *)partition documentId:(NSString *)documentId document:(id<NSCoding>)document completionHandler:(MSDownloadDocumentCompletionHandler)completionHandler {
++ (void)createWithPartition:(NSString *)partition documentId:(NSString *)documentId document:(id<MSSerializableDocument>)document completionHandler:(MSDownloadDocumentCompletionHandler)completionHandler {
+  
   (void)partition;
   (void)documentId;
   (void)document;
-  (void)completionHandler;
-}
-
-+ (void)createWithPartition:(NSString *)partition documentId:(NSString *)documentId document:(id<NSCoding>)document conflictResolutionPolicy:(MSCompareAndSwapResolutionCallback *)callback completionHandler:(MSDownloadDocumentCompletionHandler)completionHandler {
-  (void)partition;
-  (void)documentId;
-  (void)document;
-  (void)callback;
-  (void)completionHandler;
+  
+  // Jump back on the MAIN THREAD to update the UI
+  dispatch_async(dispatch_get_main_queue(), ^ {
+    MSDocument *doc = [[MSDocument alloc] initWithDocument:document];
+    completionHandler(doc);
+   });
 }
 
 // Replace a document
 // The document instance (T) must be JSON serializable
-+ (void)replaceWithPartition:(NSString *)partition documentId:(NSString *)documentId document:(id<NSCoding>)document completionHandler:(MSDownloadDocumentCompletionHandler)completionHandler {
++ (void)replaceWithPartition:(NSString *)partition documentId:(NSString *)documentId document:(id<MSSerializableDocument>)document completionHandler:(MSDownloadDocumentCompletionHandler)completionHandler {
   (void)partition;
   (void)documentId;
   (void)document;
-  (void)completionHandler;
-}
-
-+ (void)replaceWithPartition:(NSString *)partition documentId:(NSString *)documentId document:(id<NSCoding>)document conflictResolutionPolicy:(MSCompareAndSwapResolutionCallback *)callback completionHandler:(MSDownloadDocumentCompletionHandler)completionHandler {
-  (void)partition;
-  (void)documentId;
-  (void)document;
-  (void)callback;
   (void)completionHandler;
 }
 

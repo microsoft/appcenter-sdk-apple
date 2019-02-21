@@ -9,7 +9,7 @@
 - (instancetype)initWithDocument:(id)document {
   
   if ((self = [super init])) {
-    self.document = document;
+    _document = document;
   }
   return self;
 }

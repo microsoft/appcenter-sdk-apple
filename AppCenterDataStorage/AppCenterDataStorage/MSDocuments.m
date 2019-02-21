@@ -2,11 +2,12 @@
 #import <Foundation/Foundation.h>
 #import "MSDocuments.h"
 #import "MSSerializableObject.h"
+#import "MSSerializableDocument.h"
 
 @implementation MSDocuments
 
 // List of documents in the current page (or null)
-- (NSArray<MSDocument<id<NSCoding>> *> *)documents {
+- (NSArray<MSDocument<id<MSSerializableDocument>> *> *)documents {
   return nil;
 }
 
@@ -28,7 +29,7 @@
   return NO;
 }
 
-- (MSDocument<id<NSCoding>> *)next
+- (MSDocument<id<MSSerializableDocument>> *)next
 {
   return nil;
 }

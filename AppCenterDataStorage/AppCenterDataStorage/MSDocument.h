@@ -1,7 +1,8 @@
 #import <Foundation/Foundation.h>
 #import "MSDataSourceError.h"
+#import "MSSerializableDocument.h"
 
-@interface MSDocument<T : id<NSCoding>> : NSObject
+@interface MSDocument<T : id<MSSerializableDocument>> : NSObject
 
 // Non-serialized document (or null)
 @property(nonatomic, strong, readonly) NSString *jsonDocument;
