@@ -161,24 +161,9 @@ static dispatch_once_t onceToken;
     return;
   }
   self.loginDelayed = NO;
-  __weak typeof(self) weakSelf = self;
   MSALAccount *account = [self retrieveAccount];
   if (account) {
-    [self.clientApplication
-        acquireTokenSilentForScopes:@[ (NSString * _Nonnull) self.identityConfig.identityScope ]
-                            account:account
-                    completionBlock:^(MSALResult *result, NSError *e) {
-                      typeof(self) strongSelf = weakSelf;
-                      if (e) {
-                        MSLogWarning([MSIdentity logTag],
-                                     @"Silent acquisition of token failed with error: %@. Triggering interactive acquisition", e);
-                        [strongSelf acquireTokenInteractively];
-                      } else {
-                        [MSAuthTokenContext sharedInstance].authToken = result.idToken;
-                        [strongSelf saveAuthToken:result.idToken];
-                        [strongSelf saveAccountId:(NSString * _Nonnull) result.account.homeAccountId];
-                      }
-                    }];
+    [self acquireTokenSilentlyWithMSALAccount:account];
   } else {
     [self acquireTokenInteractively];
   }
@@ -319,6 +304,25 @@ static dispatch_once_t onceToken;
   } else {
     MSLogWarning([MSIdentity logTag], @"Failed to remove auth token from keychain or none was found.");
   }
+}
+
+- (void)acquireTokenSilentlyWithMSALAccount:(MSALAccount *)account {
+  __weak typeof(self) weakSelf = self;
+  [self.clientApplication
+      acquireTokenSilentForScopes:@[ (NSString * _Nonnull) self.identityConfig.identityScope ]
+                          account:account
+                  completionBlock:^(MSALResult *result, NSError *e) {
+                    typeof(self) strongSelf = weakSelf;
+                    if (e) {
+                      MSLogWarning([MSIdentity logTag],
+                                   @"Silent acquisition of token failed with error: %@. Triggering interactive acquisition", e);
+                      [strongSelf acquireTokenInteractively];
+                    } else {
+                      [MSAuthTokenContext sharedInstance].authToken = result.idToken;
+                      [strongSelf saveAuthToken:result.idToken];
+                      [strongSelf saveAccountId:(NSString * _Nonnull) result.account.homeAccountId];
+                    }
+                  }];
 }
 
 - (void)acquireTokenInteractively {
