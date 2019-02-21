@@ -105,26 +105,20 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 }
 
 + (void)setEnabled:(BOOL)isEnabled {
-  @synchronized([MSAppCenter sharedInstance]) {
-    if ([[MSAppCenter sharedInstance] canBeUsed]) {
-      [[MSAppCenter sharedInstance] setEnabled:isEnabled];
-    }
+  if ([[MSAppCenter sharedInstance] canBeUsed]) {
+    [[MSAppCenter sharedInstance] setEnabled:isEnabled];
   }
 }
 
 + (BOOL)isEnabled {
-  @synchronized([MSAppCenter sharedInstance]) {
-    if ([[MSAppCenter sharedInstance] canBeUsed]) {
-      return [[MSAppCenter sharedInstance] isEnabled];
-    }
+  if ([[MSAppCenter sharedInstance] canBeUsed]) {
+    return [[MSAppCenter sharedInstance] isEnabled];
   }
   return NO;
 }
 
 + (BOOL)isAppDelegateForwarderEnabled {
-  @synchronized([MSAppCenter sharedInstance]) {
-    return [MSAppDelegateForwarder sharedInstance].enabled;
-  }
+  return [MSAppDelegateForwarder sharedInstance].enabled;
 }
 
 + (NSUUID *)installId {
@@ -229,7 +223,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 - (BOOL)configureWithAppSecret:(NSString *)appSecret
        transmissionTargetToken:(NSString *)transmissionTargetToken
                fromApplication:(BOOL)fromApplication {
-  @synchronized(self) {
+  @synchronized([MSAppCenter sharedInstance]) {
     BOOL success = false;
     if (self.configuredFromApplication && fromApplication) {
       MSLogAssert([MSAppCenter logTag], @"App Center SDK has already been configured.");
@@ -277,7 +271,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 }
 
 - (void)start:(NSString *)secretString withServices:(NSArray<Class> *)services fromApplication:(BOOL)fromApplication {
-  @synchronized(self) {
+  @synchronized([MSAppCenter sharedInstance]) {
     NSString *appSecret = [MSUtility appSecretFrom:secretString];
     NSString *transmissionTargetToken = [MSUtility transmissionTargetTokenFrom:secretString];
     BOOL configured = [self configureWithAppSecret:appSecret
@@ -344,7 +338,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
     transmissionTargetToken:(NSString *)transmissionTargetToken
                  andSendLog:(BOOL)sendLog
             fromApplication:(BOOL)fromApplication {
-  @synchronized(self) {
+  @synchronized([MSAppCenter sharedInstance]) {
 
     // Check if clazz is valid class
     if (![clazz conformsToProtocol:@protocol(MSServiceCommon)]) {
@@ -409,7 +403,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 }
 
 - (void)setLogUrl:(NSString *)logUrl {
-  @synchronized(self) {
+  @synchronized([MSAppCenter sharedInstance]) {
     _logUrl = logUrl;
     if (self.channelGroup) {
       [self.channelGroup setLogUrl:logUrl];
@@ -431,7 +425,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 
   // Change the max storage size.
   BOOL setMaxSizeFailed = NO;
-  @synchronized(self) {
+  @synchronized([MSAppCenter sharedInstance]) {
     if (self.setMaxStorageSizeHasBeenCalled) {
       MSLogWarning([MSAppCenter logTag], @"setMaxStorageSize:completionHandler: may only be called once per app launch");
       setMaxSizeFailed = YES;
@@ -486,34 +480,38 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 #endif
 
 - (void)setEnabled:(BOOL)isEnabled {
-  self.enabledStateUpdating = YES;
-  if ([self isEnabled] != isEnabled) {
+  @synchronized ([MSAppCenter sharedInstance]) {
+    self.enabledStateUpdating = YES;
+    if ([self isEnabled] != isEnabled) {
 
-    // Persist the enabled status.
-    [MS_USER_DEFAULTS setObject:@(isEnabled) forKey:kMSAppCenterIsEnabledKey];
+      // Persist the enabled status.
+      [MS_USER_DEFAULTS setObject:@(isEnabled) forKey:kMSAppCenterIsEnabledKey];
 
-    // Enable/disable pipeline.
-    [self applyPipelineEnabledState:isEnabled];
+      // Enable/disable pipeline.
+      [self applyPipelineEnabledState:isEnabled];
+    }
+
+    // Propagate enable/disable on all services.
+    for (id <MSServiceInternal> service in self.services) {
+      [[service class] setEnabled:isEnabled];
+    }
+    self.enabledStateUpdating = NO;
+    MSLogInfo([MSAppCenter logTag], @"App Center SDK %@.", isEnabled ? @"enabled" : @"disabled");
   }
-
-  // Propagate enable/disable on all services.
-  for (id<MSServiceInternal> service in self.services) {
-    [[service class] setEnabled:isEnabled];
-  }
-  self.enabledStateUpdating = NO;
-  MSLogInfo([MSAppCenter logTag], @"App Center SDK %@.", isEnabled ? @"enabled" : @"disabled");
 }
 
 - (BOOL)isEnabled {
+  @synchronized ([MSAppCenter sharedInstance]) {
 
-  /*
-   * Get isEnabled value from persistence.
-   * No need to cache the value in a property, user settings already have their cache mechanism.
-   */
-  NSNumber *isEnabledNumber = [MS_USER_DEFAULTS objectForKey:kMSAppCenterIsEnabledKey];
+    /*
+     * Get isEnabled value from persistence.
+     * No need to cache the value in a property, user settings already have their cache mechanism.
+     */
+    NSNumber *isEnabledNumber = [MS_USER_DEFAULTS objectForKey:kMSAppCenterIsEnabledKey];
 
-  // Return the persisted value otherwise it's enabled by default.
-  return (isEnabledNumber) ? [isEnabledNumber boolValue] : YES;
+    // Return the persisted value otherwise it's enabled by default.
+    return (isEnabledNumber) ? [isEnabledNumber boolValue] : YES;
+  }
 }
 
 - (void)applyPipelineEnabledState:(BOOL)isEnabled {
@@ -578,7 +576,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 }
 
 - (NSUUID *)installId {
-  @synchronized(self) {
+  @synchronized([MSAppCenter sharedInstance]) {
     if (!_installId) {
 
       // Check if install Id has already been persisted.
