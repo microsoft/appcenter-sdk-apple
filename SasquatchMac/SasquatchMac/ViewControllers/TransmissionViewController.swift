@@ -90,6 +90,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
   }
 
   class EventProperty : NSObject {
+    var target: Int = TransmissionTarget.child1.rawValue
     var key: String = ""
     var type: String = EventPropertyType.string.rawValue
     var string: String = ""
@@ -502,6 +503,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
     let property = EventProperty()
     let targetEventProperties = arrayController.content as! [EventProperty]
     let count = targetEventProperties.count
+    property.target = propertySelector.selectedSegment
     property.key = "key\(count)"
     property.string = "value\(count)"
     property.addObserver(self, forKeyPath: #keyPath(EventProperty.type), options: .new, context: nil)
@@ -562,17 +564,35 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
     guard let property = object as? EventProperty else {
       return
     }
-    let targetEventProperties = arrayController.content as! [EventProperty]
+    var targetEventProperties = [EventProperty]()
+    let currentTarget = property.target
+    switch currentTarget {
+    case TransmissionTarget.child1.rawValue:
+      targetEventProperties = child1Properties
+      break
+    case TransmissionTarget.child2.rawValue:
+      targetEventProperties = child2Properties
+      break
+    case TransmissionTarget.runTime.rawValue:
+      targetEventProperties = runtimeProperties
+      break
+    default:
+      break
+    }
+
     guard let row = targetEventProperties.index(of: property) else {
       return
     }
-    let column = propertiesTable?.column(withIdentifier: "value")
-    guard let cell = propertiesTable?.view(atColumn: column!, row: row, makeIfNecessary: false) as? NSTableCellView else {
-      return
+    if(keyPath == #keyPath(EventProperty.type)) {
+      let column = propertiesTable?.column(withIdentifier: "value")
+      guard let cell = propertiesTable?.view(atColumn: column!, row: row, makeIfNecessary: false) as? NSTableCellView else {
+        return
+      }
+      updateValue(property: property, cell: cell)
     }
-    updateValue(property: property, cell: cell)
     var key = ""
     let propertyNoObserver = EventProperty()
+    propertyNoObserver.target = property.target
     propertyNoObserver.key = property.key
     propertyNoObserver.type = property.type
     propertyNoObserver.string = property.string
@@ -580,7 +600,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
     propertyNoObserver.long = property.long
     propertyNoObserver.boolean = property.boolean
     propertyNoObserver.dateTime = property.dateTime
-    switch propertySelector.selectedSegment {
+    switch currentTarget {
     case TransmissionTarget.child1.rawValue:
       key = child1PreProperties[row].key
       child1PreProperties[row] = propertyNoObserver
@@ -596,10 +616,14 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
     default:
       break
     }
-    let selectedTarget = selectedTransmissionTarget(propertySelector)
-    let target = TransmissionTargets.shared.transmissionTargets[selectedTarget!]!
+    let selectedTarget = transmissionTargetMapping![currentTarget]
+    let target = TransmissionTargets.shared.transmissionTargets[selectedTarget]!
     target.propertyConfigurator.removeEventProperty(forKey: key)
     setEventPropertyState(property, forTarget: target)
+
+    if(currentTarget != propertySelector.selectedSegment) {
+      onSegmentSelected(propertySelector)
+    }
   }
 
   func setEventPropertyState(_ property: EventProperty, forTarget target: MSAnalyticsTransmissionTarget) {

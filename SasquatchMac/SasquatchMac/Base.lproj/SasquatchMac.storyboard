@@ -2169,7 +2169,7 @@
                                                                         </textFieldCell>
                                                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                         <prototypeCellViews>
-                                                                            <tableCellView id="wTw-e4-yLO">
+                                                                            <tableCellView wantsLayer="YES" id="wTw-e4-yLO">
                                                                                 <rect key="frame" x="1" y="1" width="580" height="20"/>
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                 <subviews>
@@ -2189,6 +2189,9 @@
                                                                                         <constraints>
                                                                                             <constraint firstAttribute="width" constant="16" id="bYQ-WD-hr3"/>
                                                                                         </constraints>
+                                                                                        <shadow key="shadow" blurRadius="2">
+                                                                                            <color key="color" name="keyboardFocusIndicatorColor" catalog="System" colorSpace="catalog"/>
+                                                                                        </shadow>
                                                                                         <buttonCell key="cell" type="check" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="ZW2-xk-pEA">
                                                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                                             <font key="font" metaFont="system"/>
@@ -2385,7 +2388,7 @@
                                                                         </textFieldCell>
                                                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                         <prototypeCellViews>
-                                                                            <tableCellView id="ChQ-Nb-OiO">
+                                                                            <tableCellView wantsLayer="YES" id="ChQ-Nb-OiO">
                                                                                 <rect key="frame" x="1" y="1" width="580" height="18"/>
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                 <subviews>
@@ -2406,6 +2409,9 @@
                                                                                         <constraints>
                                                                                             <constraint firstAttribute="width" constant="16" id="fk1-Q3-Kdd"/>
                                                                                         </constraints>
+                                                                                        <shadow key="shadow" blurRadius="2">
+                                                                                            <color key="color" name="keyboardFocusIndicatorColor" catalog="System" colorSpace="catalog"/>
+                                                                                        </shadow>
                                                                                         <buttonCell key="cell" type="check" title="Check" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="HiI-ob-IuR">
                                                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                                             <font key="font" metaFont="system"/>
@@ -2927,8 +2933,8 @@
                                                     </connections>
                                                 </segmentedControl>
                                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Fj1-v3-I01">
-                                                    <rect key="frame" x="484" y="111" width="119" height="23"/>
-                                                    <buttonCell key="cell" type="smallSquare" title="Delete Property" bezelStyle="smallSquare" image="NSRemoveTemplate" imagePosition="left" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="szD-Op-h5W">
+                                                    <rect key="frame" x="477" y="111" width="126" height="23"/>
+                                                    <buttonCell key="cell" type="smallSquare" title="  Delete Property" bezelStyle="smallSquare" image="NSRemoveTemplate" imagePosition="left" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="szD-Op-h5W">
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                         <font key="font" metaFont="system"/>
                                                     </buttonCell>
