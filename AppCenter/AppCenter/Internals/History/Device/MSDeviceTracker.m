@@ -74,13 +74,13 @@ static MSDeviceTracker *sharedInstance = nil;
   }
 }
 
-- (void)setCountryCode:(NSString *)countryCode{
-  @synchronized (self) {
+- (void)setCountryCode:(NSString *)countryCode {
+  @synchronized(self) {
     overrideCountryCode = countryCode;
     needRefresh = YES;
   }
 }
-  
+
 + (void)refreshDeviceNextTime {
   @synchronized(self) {
     needRefresh = YES;
