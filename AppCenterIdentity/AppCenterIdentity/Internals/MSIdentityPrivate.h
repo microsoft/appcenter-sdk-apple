@@ -12,6 +12,12 @@ static NSString *const kMSIdentityETagKey = @"MSIdentityETagKey";
 // The key for Identity auth token stored in keychain.
 static NSString *const kMSIdentityAuthTokenKey = @"MSIdentityAuthToken";
 
+// The key for the MSALAccount homeAccountId stored in user defaults.
+static NSString *const kMSIdentityMSALAccountHomeAccountKey = @"MSIdentityMSALAccountHomeAccount";
+
+// The key for the MSALAccount environment stored in user defaults.
+static NSString *const kMSIdentityMSALAccountEnvironmentKey = @"MSIdentityMSALAccountEnvironment";
+
 @class MSALPublicClientApplication;
 
 @interface MSIdentity () <MSServiceInternal, MSChannelDelegate>

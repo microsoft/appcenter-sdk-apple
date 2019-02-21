@@ -109,6 +109,7 @@ static dispatch_once_t onceToken;
     self.clientApplication = nil;
     [MSAuthTokenContext sharedInstance].authToken = nil;
     [self removeAuthToken];
+    [self removeAccountId];
     [self clearConfigurationCache];
     [self.channelGroup removeDelegate:self];
     MSLogInfo([MSIdentity logTag], @"Identity service has been disabled.");
@@ -161,16 +162,26 @@ static dispatch_once_t onceToken;
   }
   self.loginDelayed = NO;
   __weak typeof(self) weakSelf = self;
-  [self.clientApplication acquireTokenForScopes:@[ (NSString * _Nonnull) self.identityConfig.identityScope ]
-                                completionBlock:^(MSALResult *result, NSError *e) {
-                                  if (e) {
-                                    MSLogError([MSIdentity logTag], @"User login failed. Error: %@", e);
-                                  } else {
-                                    typeof(self) strongSelf = weakSelf;
-                                    [MSAuthTokenContext sharedInstance].authToken = result.idToken;
-                                    [strongSelf saveAuthToken:result.idToken];
-                                  }
-                                }];
+  MSALAccount *account = [self retrieveAccount];
+  if (account) {
+    [self.clientApplication
+        acquireTokenSilentForScopes:@[ (NSString * _Nonnull) self.identityConfig.identityScope ]
+                            account:account
+                    completionBlock:^(MSALResult *result, NSError *e) {
+                      typeof(self) strongSelf = weakSelf;
+                      if (e) {
+                        MSLogWarning([MSIdentity logTag],
+                                     @"Silent acquisition of token failed with error: %@. Triggering interactive acquisition", e);
+                        [strongSelf acquireTokenInteractively];
+                      } else {
+                        [MSAuthTokenContext sharedInstance].authToken = result.idToken;
+                        [strongSelf saveAuthToken:result.idToken];
+                        [strongSelf saveAccountId:(NSString * _Nonnull) result.account.homeAccountId];
+                      }
+                    }];
+  } else {
+    [self acquireTokenInteractively];
+  }
 }
 
 #pragma mark - Private methods
@@ -308,6 +319,43 @@ static dispatch_once_t onceToken;
   } else {
     MSLogWarning([MSIdentity logTag], @"Failed to remove auth token from keychain or none was found.");
   }
+}
+
+- (void)acquireTokenInteractively {
+  __weak typeof(self) weakSelf = self;
+  [self.clientApplication acquireTokenForScopes:@[ (NSString * _Nonnull) self.identityConfig.identityScope ]
+                                completionBlock:^(MSALResult *result, NSError *e) {
+                                  if (e) {
+                                    MSLogError([MSIdentity logTag], @"User login failed. Error: %@", e);
+                                  } else {
+                                    typeof(self) strongSelf = weakSelf;
+                                    [MSAuthTokenContext sharedInstance].authToken = result.idToken;
+                                    [strongSelf saveAuthToken:result.idToken];
+                                    [strongSelf saveAccountId:(NSString * _Nonnull) result.account.homeAccountId];
+                                  }
+                                }];
+}
+
+- (MSALAccount *)retrieveAccount {
+  NSString *homeAccountId = [MSUserDefaults valueForKey:kMSIdentityMSALAccountHomeAccountKey];
+  if (homeAccountId) {
+    NSError *error;
+    MSALAccount *account = [self.clientApplication accountForHomeAccountId:homeAccountId error:&error];
+    if (error) {
+      MSLogWarning([MSIdentity logTag], @"Could not get MSALAccount for homeAccountId.");
+    }
+    return account;
+  } else {
+    return nil;
+  }
+}
+
+- (void)saveAccountId:(NSString *)accountId {
+  [[MSUserDefaults shared] setObject:accountId forKey:kMSIdentityMSALAccountHomeAccountKey];
+}
+
+- (void)removeAccountId {
+  [[MSUserDefaults shared] removeObjectForKey:kMSIdentityMSALAccountHomeAccountKey];
 }
 
 @end
