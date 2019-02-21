@@ -1,5 +1,5 @@
-import UIKit
 import CoreLocation
+import UIKit
 
 // 10 MiB.
 let kMSDefaultDatabaseSize = 10 * 1024 * 1024
