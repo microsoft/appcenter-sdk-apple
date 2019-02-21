@@ -232,10 +232,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
  * This API is not public and is used by wrapper SDKs.
  */
 + (void)trackModelException:(MSException *)exception withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties {
-  @synchronized(self) {
-    if ([[MSCrashes sharedInstance] canBeUsed]) {
-      [[MSCrashes sharedInstance] trackModelException:exception withProperties:properties];
-    }
+  if ([[MSCrashes sharedInstance] canBeUsed]) {
+    [[MSCrashes sharedInstance] trackModelException:exception withProperties:properties];
   }
 }
 
@@ -431,7 +429,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   }
 
   // The callback can be called from any thread, making sure we make this thread-safe.
-  @synchronized(self) {
+  @synchronized([MSCrashes sharedInstance]) {
     NSData *serializedLog = [NSKeyedArchiver archivedDataWithRootObject:log];
     if (serializedLog && (serializedLog.length > 0)) {
 
@@ -491,7 +489,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 }
 
 - (void)channel:(id<MSChannelProtocol>)__unused channel didCompleteEnqueueingLog:(id<MSLog>)log internalId:(NSString *)internalId {
-  @synchronized(self) {
+  @synchronized([MSCrashes sharedInstance]) {
     for (auto it = msCrashesLogBuffer.begin(), end = msCrashesLogBuffer.end(); it != end; ++it) {
       NSString *bufferId = [NSString stringWithCString:it->internalId.c_str() encoding:NSUTF8StringEncoding];
       if (bufferId && bufferId.length > 0 && [bufferId isEqualToString:internalId]) {
@@ -637,7 +635,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     [self startCrashProcessing];
 
     // Only release once to avoid releasing an unbounded number of times.
-    @synchronized(self) {
+    @synchronized([MSCrashes sharedInstance]) {
       if (self.shouldReleaseProcessingSemaphore) {
         dispatch_semaphore_signal(self.delayedProcessingSemaphore);
         self.shouldReleaseProcessingSemaphore = NO;
@@ -957,7 +955,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 - (void)setupLogBuffer {
 
   // We need to make this @synchronized here as we're setting up msCrashesLogBuffer.
-  @synchronized(self) {
+  @synchronized([MSCrashes sharedInstance]) {
 
     // Setup asynchronously.
     NSMutableArray<NSURL *> *files = [NSMutableArray arrayWithCapacity:ms_crashes_log_buffer_size];
@@ -1175,28 +1173,30 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 #pragma mark - Handled exceptions
 
 - (void)trackModelException:(MSException *)exception withProperties:(NSDictionary<NSString *, NSString *> *)properties {
-  if (![self isEnabled])
-    return;
+  @synchronized([MSCrashes sharedInstance]) {
+    if (![self isEnabled])
+      return;
 
-  // Create an error log.
-  MSHandledErrorLog *log = [MSHandledErrorLog new];
+    // Create an error log.
+    MSHandledErrorLog *log = [MSHandledErrorLog new];
 
-  // Set userId to the error log.
-  log.userId = [[MSUserIdContext sharedInstance] userId];
+    // Set userId to the error log.
+    log.userId = [[MSUserIdContext sharedInstance] userId];
 
-  // Set properties of the error log.
-  log.errorId = MS_UUID_STRING;
-  log.exception = exception;
-  if (properties && properties.count > 0) {
+    // Set properties of the error log.
+    log.errorId = MS_UUID_STRING;
+    log.exception = exception;
+    if (properties && properties.count > 0) {
 
-    // Send only valid properties.
-    log.properties = [MSUtility validateProperties:properties
-                                        forLogName:[NSString stringWithFormat:@"ErrorLog: %@", log.errorId]
-                                              type:log.type];
+      // Send only valid properties.
+      log.properties = [MSUtility validateProperties:properties
+                                          forLogName:[NSString stringWithFormat:@"ErrorLog: %@", log.errorId]
+                                                type:log.type];
+    }
+
+    // Enqueue log.
+    [self.channelUnit enqueueItem:log flags:MSFlagsDefault];
   }
-
-  // Enqueue log.
-  [self.channelUnit enqueueItem:log flags:MSFlagsDefault];
 }
 
 @end
