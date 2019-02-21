@@ -59,17 +59,15 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
     func getTransmissionTarget() -> MSAnalyticsTransmissionTarget? {
       if isDefault {
         return nil
-      } else {
-        return TransmissionTargets.shared.transmissionTargets[token!]
       }
+      return TransmissionTargets.shared.transmissionTargets[token!]
     }
 
     func shouldSendAnalytics() -> Bool {
       if isDefault {
         return TransmissionTargets.shared.defaultTargetShouldSendAnalyticsEvents()
-      } else {
-        return TransmissionTargets.shared.targetShouldSendAnalyticsEvents(targetToken: token!)
       }
+      return TransmissionTargets.shared.targetShouldSendAnalyticsEvents(targetToken: token!)
     }
 
     func setShouldSendAnalytics(enabledState: Bool) {
@@ -210,6 +208,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
   }
 
   func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+    
     // Target properties section
     if(tableView.tag == Section.TargetProperties.rawValue) {
       guard let identifier = tableColumn?.identifier else {
