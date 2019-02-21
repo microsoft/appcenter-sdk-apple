@@ -620,10 +620,6 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
     let target = TransmissionTargets.shared.transmissionTargets[selectedTarget]!
     target.propertyConfigurator.removeEventProperty(forKey: key)
     setEventPropertyState(property, forTarget: target)
-
-    if(currentTarget != propertySelector.selectedSegment) {
-      onSegmentSelected(propertySelector)
-    }
   }
 
   func setEventPropertyState(_ property: EventProperty, forTarget target: MSAnalyticsTransmissionTarget) {
