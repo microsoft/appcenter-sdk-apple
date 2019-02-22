@@ -27,9 +27,9 @@ static NSString *const kMSIdentityAuthTokenKey = @"MSIdentityAuthToken";
 @property(nonatomic, nullable) MSIdentityConfig *identityConfig;
 
 /**
- * The flag that indicates a user requested login before it is configured.
+ * The flag that indicates a user requested signIn before it is configured.
  */
-@property(nonatomic) BOOL loginDelayed;
+@property(nonatomic) BOOL signInDelayed;
 
 /**
  * Custom application delegate dedicated to Identity.

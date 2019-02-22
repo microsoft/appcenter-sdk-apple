@@ -146,25 +146,25 @@ static dispatch_once_t onceToken;
   return [MSALPublicClientApplication handleMSALResponse:url];
 }
 
-+ (void)login {
++ (void)signIn {
   @synchronized([MSIdentity sharedInstance]) {
     if ([[MSIdentity sharedInstance] canBeUsed]) {
-      [[MSIdentity sharedInstance] login];
+      [[MSIdentity sharedInstance] signIn];
     }
   }
 }
 
-- (void)login {
+- (void)signIn {
   if (self.clientApplication == nil || self.identityConfig == nil) {
-    self.loginDelayed = YES;
+    self.signInDelayed = YES;
     return;
   }
-  self.loginDelayed = NO;
+  self.signInDelayed = NO;
   __weak typeof(self) weakSelf = self;
   [self.clientApplication acquireTokenForScopes:@[ (NSString * _Nonnull) self.identityConfig.identityScope ]
                                 completionBlock:^(MSALResult *result, NSError *e) {
                                   if (e) {
-                                    MSLogError([MSIdentity logTag], @"User login failed. Error: %@", e);
+                                    MSLogError([MSIdentity logTag], @"User signIn failed. Error: %@", e);
                                   } else {
                                     typeof(self) strongSelf = weakSelf;
                                     [MSAuthTokenContext sharedInstance].authToken = result.idToken;
@@ -230,13 +230,13 @@ static dispatch_once_t onceToken;
               // Reinitialize client application.
               [self configAuthenticationClient];
 
-              // Login if it is delayed.
+              // SignIn if it is delayed.
               /*
-               * TODO: Login can be called when the app is in background. Make sure the SDK doesn't display browser with login screen when
+               * TODO: SignIn can be called when the app is in background. Make sure the SDK doesn't display browser with signIn screen when
                * the app is in background. Only display in foreground.
                */
-              if (self.loginDelayed) {
-                [self login];
+              if (self.signInDelayed) {
+                [self signIn];
               }
             }
           } else {
