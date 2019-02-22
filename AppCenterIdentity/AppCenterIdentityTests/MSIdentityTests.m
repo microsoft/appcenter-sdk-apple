@@ -155,6 +155,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                                      fromApplication:YES];
   [MSMockKeychainUtil storeString:@"foobar" forKey:kMSIdentityAuthTokenKey];
   [MSAuthTokenContext sharedInstance].authToken = @"some token";
+  [self.settingsMock setObject:@"fakeHomeAccountId" forKey:kMSIdentityMSALAccountHomeAccountKey];
   [self.sut setEnabled:YES];
 
   // When
@@ -166,6 +167,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   XCTAssertNil([MSMockKeychainUtil stringForKey:kMSIdentityAuthTokenKey]);
   OCMVerify([self.utilityMock deleteItemForPathComponent:[self.sut identityConfigFilePath]]);
   XCTAssertNil([self.settingsMock objectForKey:kMSIdentityETagKey]);
+  XCTAssertNil([self.settingsMock objectForKey:kMSIdentityMSALAccountHomeAccountKey]);
 }
 
 - (void)testCacheNewConfigWhenNoConfig {
