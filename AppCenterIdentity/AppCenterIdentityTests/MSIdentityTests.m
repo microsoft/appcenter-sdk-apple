@@ -551,7 +551,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // When
   [MSIdentity signIn];
 
-  //  // Then
+  // Then
   OCMVerify([self.clientApplicationMock acquireTokenSilentForScopes:OCMOCK_ANY account:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
   [identityMock stopMocking];
 }
