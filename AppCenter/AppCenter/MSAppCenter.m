@@ -118,7 +118,9 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 }
 
 + (BOOL)isAppDelegateForwarderEnabled {
-  return [MSAppDelegateForwarder sharedInstance].enabled;
+  @synchronized([MSAppCenter sharedInstance]) {
+    return [MSAppDelegateForwarder sharedInstance].enabled;
+  }
 }
 
 + (NSUUID *)installId {
