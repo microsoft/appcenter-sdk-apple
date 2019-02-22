@@ -25,6 +25,10 @@
   [MSAppCenter setCustomProperties:customProperties];
 }
 
+- (void)startAnalyticsFromLibrary {
+  [MSAppCenter startFromLibraryWithServices:@ [[MSAnalytics class]]];
+}
+
 - (NSString *)installId {
   return [[MSAppCenter installId] UUIDString];
 }

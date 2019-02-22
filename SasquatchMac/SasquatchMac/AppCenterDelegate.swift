@@ -15,6 +15,7 @@ import AppCenter
   func appSecret() -> String
   func logUrl() -> String
   func isDebuggerAttached() -> Bool
+  func startAnalyticsFromLibrary()
   func setUserId(_ userId: String?)
 
   // Modules section.

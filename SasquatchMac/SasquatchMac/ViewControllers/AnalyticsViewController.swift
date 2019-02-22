@@ -101,6 +101,30 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
           appCenter.trackEvent(eventName)
         }
       }
+      for targetToken in TransmissionTargets.shared.transmissionTargets.keys {
+        if TransmissionTargets.shared.targetShouldSendAnalyticsEvents(targetToken: targetToken) {
+          let target = TransmissionTargets.shared.transmissionTargets[targetToken]!
+          if let properties = eventProperties as? MSEventProperties {
+            if priority != .defaultType {
+              target.trackEvent(eventName, withProperties: properties, flags: priority.flags)
+            } else {
+              target.trackEvent(eventName, withProperties: properties)
+            }
+          } else if let dictionary = eventProperties as? [String: String] {
+            if priority != .defaultType {
+              target.trackEvent(eventName, withProperties: dictionary, flags: priority.flags)
+            } else {
+              target.trackEvent(eventName, withProperties: dictionary)
+            }
+          } else {
+            if priority != .defaultType {
+              target.trackEvent(eventName, withProperties: [:], flags: priority.flags)
+            } else {
+              target.trackEvent(eventName)
+            }
+          }
+        }
+      }
     }
   }
 
@@ -126,6 +150,10 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
 
   @IBAction func addProperty(_ : AnyObject) {
     let property = EventProperty()
+    let eventProperties = arrayController.content as! [EventProperty]
+    let count = eventProperties.count
+    property.key = "key\(count)"
+    property.string = "value\(count)"
     property.addObserver(self, forKeyPath: #keyPath(EventProperty.type), options: .new, context: nil)
     arrayController.addObject(property)
   }

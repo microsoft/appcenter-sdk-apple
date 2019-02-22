@@ -32,6 +32,10 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate {
       UserDefaults.standard.removeObserver(self, forKeyPath: kMSStorageMaxSizeKey)
   }
 
+  override func viewWillAppear() {
+    setEnabledButton?.state = appCenter.isAppCenterEnabled() ? 1 : 0
+  }
+
   override func viewDidLoad() {
     super.viewDidLoad()
     installIdLabel?.stringValue = appCenter.installId()
@@ -83,8 +87,8 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate {
   // Get device identifier.
   class func getDeviceIdentifier() -> String? {
     let platformExpert = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("IOPlatformExpertDevice"))
-    let serialNumberAsCFString = IORegistryEntryCreateCFProperty(platformExpert, kIOPlatformSerialNumberKey as CFString, kCFAllocatorDefault, 0)
-    let baseIdentifier = serialNumberAsCFString?.takeRetainedValue() as! String
+    let platformUUIDAsCFString = IORegistryEntryCreateCFProperty(platformExpert, kIOPlatformUUIDKey as CFString, kCFAllocatorDefault, 0)
+    let baseIdentifier = platformUUIDAsCFString?.takeRetainedValue() as! String
         IOObjectRelease(platformExpert)
     return baseIdentifier
   }
