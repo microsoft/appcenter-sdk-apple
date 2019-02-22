@@ -79,5 +79,5 @@ import AppCenterAnalytics
   func lastCrashReportDeviceAppNamespace() -> String?
   
   // MSIdentity section.
-  func login()
+  func signIn()
 }

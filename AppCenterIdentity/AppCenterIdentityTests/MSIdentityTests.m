@@ -365,7 +365,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   XCTAssertEqualObjects(oldETag, [self.settingsMock objectForKey:kMSIdentityETagKey]);
 }
 
-- (void)testLoginAcquiresAndSavesToken {
+- (void)testSignInAcquiresAndSavesToken {
 
   // If
   NSString *idToken = @"fake";
@@ -384,7 +384,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   });
 
   // When
-  [MSIdentity login];
+  [MSIdentity signIn];
 
   // Then
   OCMVerify([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
@@ -393,7 +393,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [identityMock stopMocking];
 }
 
-- (void)testLoginDoesNotAcquireTokenWhenDisabled {
+- (void)testSignInDoesNotAcquireTokenWhenDisabled {
 
   // If
   self.sut.clientApplication = self.clientApplicationMock;
@@ -404,13 +404,13 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // When
   OCMReject([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
-  [MSIdentity login];
+  [MSIdentity signIn];
 
   // Then
   [identityMock stopMocking];
 }
 
-- (void)testLoginDelayedWhenNoClientApplication {
+- (void)testSignInDelayedWhenNoClientApplication {
 
   // If
   self.sut.identityConfig = [MSIdentityConfig new];
@@ -420,14 +420,14 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([identityMock canBeUsed]).andReturn(YES);
 
   // When
-  [MSIdentity login];
+  [MSIdentity signIn];
 
   // Then
-  XCTAssertTrue(self.sut.loginDelayed);
+  XCTAssertTrue(service.signInDelayed);
   [identityMock stopMocking];
 }
 
-- (void)testLoginDelayedWhenNoIdentityConfig {
+- (void)testSignInDelayedWhenNoIdentityConfig {
 
   // If
   self.sut.clientApplication = self.clientApplicationMock;
@@ -436,10 +436,10 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([identityMock canBeUsed]).andReturn(YES);
 
   // When
-  [MSIdentity login];
+  [MSIdentity signIn];
 
   // Then
-  XCTAssertTrue(self.sut.loginDelayed);
+  XCTAssertTrue(service.signInDelayed);
   [identityMock stopMocking];
 }
 
