@@ -28,7 +28,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol, CLLocation
   @IBOutlet weak var storageMaxSizeField: UITextField!
   @IBOutlet weak var storageFileSizeLabel: UILabel!
   @IBOutlet weak var userIdField: UITextField!
-  @IBOutlet weak var countryCodeEnabledSwitch: UISwitch!
+  @IBOutlet weak var overrideCountryCodeButton: UIButton!
   
   var appCenter: AppCenterDelegate!
   private var startupModePicker: MSEnumPicker<StartupMode>?
@@ -103,7 +103,6 @@ class MSMainViewController: UITableViewController, AppCenterProtocol, CLLocation
     self.locationManager.delegate = self
     self.locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
     self.locationManager.requestWhenInUseAuthorization()
-    self.countryCodeEnabledSwitch.isOn = false
     updateViewState()
   }
 
@@ -130,7 +129,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol, CLLocation
     let userLocation:CLLocation = locations[0] as CLLocation
     CLGeocoder().reverseGeocodeLocation( userLocation) { (placemarks, error) in
       if error == nil {
-        self.appCenter.setCountryCode( placemarks?.first?.isoCountryCode)
+        self.appCenter.setCountryCode(placemarks?.first?.isoCountryCode)
       }
     }
   }
@@ -149,13 +148,8 @@ class MSMainViewController: UITableViewController, AppCenterProtocol, CLLocation
     updateViewState()
   }
   
-  @IBAction func countryCodeSwitchChanged(_ sender: UISwitch) {
-    if sender.isOn {
-      self.requestLocation()
-    }
-    else {
-      self.locationManager.stopUpdatingLocation()
-    }
+  @IBAction func overrideCountryCode(_ sender: UIButton) {
+    self.requestLocation();
   }
   
   @IBAction func logFilterSwitchChanged(_ sender: UISwitch) {
