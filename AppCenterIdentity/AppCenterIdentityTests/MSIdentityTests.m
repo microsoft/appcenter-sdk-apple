@@ -532,7 +532,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   NSString *fakeAccountId = @"fakeHomeAccountId";
   [self.settingsMock setObject:fakeAccountId forKey:kMSIdentityMSALAccountHomeAccountKey];
   id account = [MSALAccount new];
-  
+
   /*
    * `accountForHomeAccountId:error:` takes a double pointer (NSError * _Nullable __autoreleasing * _Nullable) so we need to pass in
    * `[OCMArg anyObjectRef]`. Passing in `OCMOCK_ANY` or `nil` will cause the OCMStub to not work.
