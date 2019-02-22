@@ -234,7 +234,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
           key.stringValue = property.key
           let value: NSButton = cell.subviews[cellSubviews.valueCheck.rawValue] as! NSButton
           let selectedTarget = selectedTransmissionTarget(commonSelector)
-          value.state = (collectDeviceIdStates[selectedTarget!]?.hashValue)!
+          value.state = collectDeviceIdStates[selectedTarget!]! ? 1 : 0
           value.isEnabled = !((value.state as NSNumber).boolValue)
           value.target = self
           value.action = #selector(collectDeviceIdSwitchCellEnabled)
@@ -283,7 +283,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
         let key: NSTextField = cell.subviews[cellSubviews.key.rawValue] as! NSTextField
         key.stringValue = "Set Enabled"
         let value: NSButton = cell.subviews[cellSubviews.valueCheck.rawValue] as! NSButton
-        value.state = section.isTransmissionTargetEnabled().hashValue
+        value.state = section.isTransmissionTargetEnabled() ? 1 : 0
         value.isEnabled = tableView.tag != Section.Default.rawValue
         value.target = self
         value.action = #selector(targetEnabledSwitchValueChanged)
@@ -293,7 +293,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
         let key: NSTextField = cell.subviews[cellSubviews.key.rawValue] as! NSTextField
         key.stringValue = "Analytics Events"
         let value: NSButton = cell.subviews[cellSubviews.valueCheck.rawValue] as! NSButton
-        value.state = section.shouldSendAnalytics().hashValue
+        value.state = section.shouldSendAnalytics() ? 1 : 0
         value.target = self
         value.action = #selector(targetShouldSendAnalyticsSwitchValueChanged)
         cell.subviews[cellSubviews.valueText.rawValue].isHidden = true
@@ -378,7 +378,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
         }
         let childSwitch: NSButton? = childCell.subviews[cellSubviews.valueCheck.rawValue] as? NSButton
         let childTarget = transmissionTargetSections![childSectionIndex].getTransmissionTarget()
-        childSwitch!.state = (childTarget?.isEnabled().hashValue)!
+        childSwitch!.state = (childTarget?.isEnabled())! ? 1 : 0
         childSwitch!.isEnabled = state
       }
     }
