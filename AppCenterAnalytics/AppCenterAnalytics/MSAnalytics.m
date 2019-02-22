@@ -249,7 +249,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   return [[MSAnalytics sharedInstance] transmissionTargetForToken:token];
 }
 
-+ (void)pauseTransmissionTargetForTokenf:(NSString *)token {
++ (void)pauseTransmissionTargetForToken:(NSString *)token {
   [[MSAnalytics sharedInstance] pauseTransmissionTargetForToken:token];
 }
 
