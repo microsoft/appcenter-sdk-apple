@@ -107,6 +107,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   
   func updateViewState() {
     self.appCenterEnabledSwitch.isOn = appCenter.isAppCenterEnabled()
+    //test commit
     self.pushEnabledSwitch.isOn = appCenter.isPushEnabled()
     self.identitySwitch.isOn = appCenter.isIdentityEnabled()
     #if ACTIVE_COMPILATION_CONDITION_PUPPET
