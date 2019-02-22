@@ -101,7 +101,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol, CLLocation
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     self.locationManager.delegate = self
-    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
     self.locationManager.requestWhenInUseAuthorization()
     self.countryCodeEnabledSwitch.isOn = false
     updateViewState()
@@ -120,9 +120,9 @@ class MSMainViewController: UITableViewController, AppCenterProtocol, CLLocation
     #endif
   }
     
-  func startDetermineLocation() {
+  func requestLocation() {
     if CLLocationManager.locationServicesEnabled() {
-      self.locationManager.startUpdatingLocation()
+      self.locationManager.requestLocation()
     }
   }
     
@@ -133,6 +133,10 @@ class MSMainViewController: UITableViewController, AppCenterProtocol, CLLocation
         self.appCenter.setCountryCode( placemarks?.first?.isoCountryCode)
       }
     }
+  }
+  
+  func locationManager(_ Manager: CLLocationManager, didFailWithError error: Error){
+    print("Failed to find user's location: \(error.localizedDescription)")
   }
 
   @IBAction func enabledSwitchUpdated(_ sender: UISwitch) {
@@ -147,7 +151,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol, CLLocation
   
   @IBAction func countryCodeSwitchChanged(_ sender: UISwitch) {
     if sender.isOn {
-      self.startDetermineLocation()
+      self.requestLocation()
     }
     else {
       self.locationManager.stopUpdatingLocation()

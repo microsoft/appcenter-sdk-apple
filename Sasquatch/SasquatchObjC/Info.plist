@@ -35,8 +35,6 @@
 	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Select photo for attachment</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>The app needs to know your location to override the country code.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>The app needs to know your location to override the country code.</string>
 	<key>UIBackgroundModes</key>
