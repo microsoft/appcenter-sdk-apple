@@ -19,9 +19,9 @@ NS_ASSUME_NONNULL_BEGIN
 + (BOOL)openURL:(NSURL *)url;
 
 /**
- * Login to get user information.
+ * SignIn to get user information.
  */
-+ (void)login;
++ (void)signIn;
 
 @end
 

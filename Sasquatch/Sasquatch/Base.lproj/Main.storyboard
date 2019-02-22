@@ -879,9 +879,9 @@
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lTr-Ec-UOq">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                                    <state key="normal" title="Login"/>
+                                                    <state key="normal" title="Sign In"/>
                                                     <connections>
-                                                        <action selector="identityLogin:" destination="9Ck-4D-Ozb" eventType="touchUpInside" id="X5b-TR-Uhv"/>
+                                                        <action selector="identitySignIn:" destination="9Ck-4D-Ozb" eventType="touchUpInside" id="L17-0B-kzO"/>
                                                         <action selector="login" destination="utj-Ji-UwU" eventType="touchUpInside" id="YpM-bE-QnO"/>
                                                     </connections>
                                                 </button>

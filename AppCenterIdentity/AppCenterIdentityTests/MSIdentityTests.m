@@ -372,7 +372,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   XCTAssertEqualObjects(oldETag, [self.settingsMock objectForKey:kMSIdentityETagKey]);
 }
 
-- (void)testLoginAcquiresAndSavesToken {
+- (void)testSignInAcquiresAndSavesToken {
 
   // If
   NSString *idToken = @"fake";
@@ -393,7 +393,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   });
 
   // When
-  [MSIdentity login];
+  [MSIdentity signIn];
 
   // Then
   OCMVerify([clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
@@ -403,7 +403,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [clientApplicationMock stopMocking];
 }
 
-- (void)testLoginDoesNotAcquireTokenWhenDisabled {
+- (void)testSignInDoesNotAcquireTokenWhenDisabled {
 
   // If
   id identityMock = OCMPartialMock([MSIdentity sharedInstance]);
@@ -413,7 +413,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([msalMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]).andDo(nil);
 
   // When
-  [MSIdentity login];
+  [MSIdentity signIn];
 
   // Then
   OCMReject([msalMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
@@ -421,7 +421,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [msalMock stopMocking];
 }
 
-- (void)testLoginDelayedWhenNoClientApplication {
+- (void)testSignInDelayedWhenNoClientApplication {
 
   // If
   MSIdentity *service = [MSIdentity sharedInstance];
@@ -432,14 +432,14 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([identityMock canBeUsed]).andReturn(YES);
 
   // When
-  [MSIdentity login];
+  [MSIdentity signIn];
 
   // Then
-  XCTAssertTrue(service.loginDelayed);
+  XCTAssertTrue(service.signInDelayed);
   [identityMock stopMocking];
 }
 
-- (void)testLoginDelayedWhenNoIdentityConfig {
+- (void)testSignInDelayedWhenNoIdentityConfig {
 
   // If
   MSIdentity *service = [MSIdentity sharedInstance];
@@ -450,10 +450,10 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([identityMock canBeUsed]).andReturn(YES);
 
   // When
-  [MSIdentity login];
+  [MSIdentity signIn];
 
   // Then
-  XCTAssertTrue(service.loginDelayed);
+  XCTAssertTrue(service.signInDelayed);
   [identityMock stopMocking];
   [clientApplicationMock stopMocking];
 }
