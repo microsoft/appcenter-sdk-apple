@@ -460,7 +460,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
     let propertyIndex = getCellRow(forTextField: sender)
     let target = TransmissionTargets.shared.transmissionTargets[selectedTarget!]!
     propertyValues[selectedTarget!]![propertyIndex] = sender.stringValue
-    let value = sender.stringValue.isEmpty ? nil : sender.stringValue
+    let value = sender.stringValue.isEmpty ? nil as String! : sender.stringValue
     switch CommonSchemaPropertyRow(rawValue: propertyIndex - 1)! {
     case .appName:
       target.propertyConfigurator.setAppName(value)
