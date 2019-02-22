@@ -423,7 +423,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [MSIdentity signIn];
 
   // Then
-  XCTAssertTrue(service.signInDelayed);
+  XCTAssertTrue(self.sut.signInDelayed);
   [identityMock stopMocking];
 }
 
@@ -439,11 +439,11 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [MSIdentity signIn];
 
   // Then
-  XCTAssertTrue(service.signInDelayed);
+  XCTAssertTrue(self.sut.signInDelayed);
   [identityMock stopMocking];
 }
 
-- (void)testSilentLoginSavesAuthTokenAndHomeAccountId {
+- (void)testSilentSignInSavesAuthTokenAndHomeAccountId {
 
   // If
   NSString *expectedHomeAccountId = @"fakeHomeAccountId";
@@ -478,7 +478,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [msalResultMock stopMocking];
 }
 
-- (void)testSilentLoginFailureTriggersInteractiveLogin {
+- (void)testSilentSignInFailureTriggersInteractiveSignIn {
 
   // If
   self.sut.clientApplication = self.clientApplicationMock;
@@ -505,7 +505,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [identityMock stopMocking];
 }
 
-- (void)testLoginTriggersInteractiveAuthentication {
+- (void)testSignInTriggersInteractiveAuthentication {
 
   // If
   self.sut.clientApplication = self.clientApplicationMock;
@@ -519,14 +519,14 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMReject([self.clientApplicationMock acquireTokenSilentForScopes:OCMOCK_ANY account:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
 
   // When
-  [MSIdentity login];
+  [MSIdentity signIn];
 
   // Then
   OCMVerify([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
   [identityMock stopMocking];
 }
 
-- (void)testLoginTriggersSilentAuthentication {
+- (void)testSignInTriggersSilentAuthentication {
 
   // If
   NSString *fakeAccountId = @"fakeHomeAccountId";
@@ -549,7 +549,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMReject([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
 
   // When
-  [MSIdentity login];
+  [MSIdentity signIn];
 
   //  // Then
   OCMVerify([self.clientApplicationMock acquireTokenSilentForScopes:OCMOCK_ANY account:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
