@@ -12,7 +12,6 @@
 #import "MSKeychainUtil.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSUtility+File.h"
-#import <MSAL/MSALPublicClientApplication.h>
 
 // Service name for initialization.
 static NSString *const kMSServiceName = @"Identity";

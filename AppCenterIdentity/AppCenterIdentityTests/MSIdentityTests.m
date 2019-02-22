@@ -391,7 +391,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
     [invocation getArgument:&completionBlock atIndex:3];
     completionBlock(msalResultMock, nil);
   });
-
+  
   // When
   [MSIdentity login];
 
@@ -456,6 +456,122 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   XCTAssertTrue(service.loginDelayed);
   [identityMock stopMocking];
   [clientApplicationMock stopMocking];
+}
+
+- (void)testSilentLoginSavesAuthTokenAndHomeAccountId {
+
+  // If
+  NSString *expectedHomeAccountId = @"fakeHomeAccountId";
+  NSString *expectedAuthToken = @"fakeAuthToken";
+  id clientApplicationMock = OCMClassMock([MSALPublicClientApplication class]);
+  MSIdentity *service = [MSIdentity sharedInstance];
+  service.clientApplication = clientApplicationMock;
+  service.identityConfig = [MSIdentityConfig new];
+  service.identityConfig.identityScope = @"fake";
+  id identityMock = OCMPartialMock(service);
+  OCMStub([identityMock sharedInstance]).andReturn(identityMock);
+  OCMStub([identityMock canBeUsed]).andReturn(YES);
+  id accountMock = OCMPartialMock([MSALAccount new]);
+  OCMStub([accountMock homeAccountId]).andReturn(expectedHomeAccountId);
+  id msalResultMock = OCMPartialMock([MSALResult new]);
+  OCMStub([msalResultMock account]).andReturn(accountMock);
+  OCMStub([msalResultMock idToken]).andReturn(expectedAuthToken);
+  OCMStub([clientApplicationMock acquireTokenSilentForScopes:OCMOCK_ANY account:accountMock completionBlock:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    __block MSALCompletionBlock completionBlock;
+    [invocation getArgument:&completionBlock atIndex:4];
+    completionBlock(msalResultMock, nil);
+  });
+
+  // When
+  [service acquireTokenSilentlyWithMSALAccount:accountMock];
+
+  // Then
+  XCTAssertEqual([MSMockKeychainUtil stringForKey:kMSIdentityAuthTokenKey], expectedAuthToken);
+  XCTAssertEqual([MSAuthTokenContext sharedInstance].authToken, expectedAuthToken);
+  XCTAssertEqual([self.settingsMock valueForKey:kMSIdentityMSALAccountHomeAccountKey], expectedHomeAccountId);
+  [accountMock stopMocking];
+  [identityMock stopMocking];
+  [clientApplicationMock stopMocking];
+  [msalResultMock stopMocking];
+}
+
+- (void)testSilentLoginFailureTriggersInteractiveLogin {
+  
+  // If
+  MSIdentity *service = [MSIdentity sharedInstance];
+  id clientApplicationMock = OCMClassMock([MSALPublicClientApplication class]);
+  service.clientApplication = clientApplicationMock;
+  service.identityConfig = [MSIdentityConfig new];
+  service.identityConfig.identityScope = @"fake";
+  id identityMock = OCMPartialMock(service);
+  OCMStub([identityMock sharedInstance]).andReturn(identityMock);
+  OCMStub([identityMock canBeUsed]).andReturn(YES);
+  __block NSError *error = [NSError new];
+  OCMStub([clientApplicationMock acquireTokenSilentForScopes:OCMOCK_ANY account:OCMOCK_ANY completionBlock:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    __block MSALCompletionBlock completionBlock;
+    [invocation getArgument:&completionBlock atIndex:4];
+    completionBlock(OCMOCK_ANY, error);
+  });
+
+  // When
+  [service acquireTokenSilentlyWithMSALAccount:OCMOCK_ANY];
+  
+  // Then
+  OCMVerify([clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
+  [identityMock stopMocking];
+  [clientApplicationMock stopMocking];
+}
+
+- (void)testLoginTriggersInteractiveAuthentication {
+  
+  // If
+  MSIdentity *service = [MSIdentity sharedInstance];
+  id clientApplicationMock = OCMClassMock([MSALPublicClientApplication class]);
+  service.clientApplication = clientApplicationMock;
+  service.identityConfig = [MSIdentityConfig new];
+  service.identityConfig.identityScope = @"fake";
+  id identityMock = OCMPartialMock(service);
+  OCMStub([identityMock sharedInstance]).andReturn(identityMock);
+  OCMStub([identityMock canBeUsed]).andReturn(YES);
+  
+  // Then
+  OCMReject([clientApplicationMock acquireTokenSilentForScopes:OCMOCK_ANY account:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
+
+  // When
+  [MSIdentity login];
+
+  // Then
+  OCMVerify([clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
+  [clientApplicationMock stopMocking];
+  [identityMock stopMocking];
+}
+
+- (void)testLoginTriggersSilentAuthentication {
+  
+  // If
+  NSString *fakeAccountId = @"fakeHomeAccountId";
+  [self.settingsMock setObject:fakeAccountId forKey:kMSIdentityMSALAccountHomeAccountKey];
+  MSIdentity *service = [MSIdentity sharedInstance];
+  id account = [MSALAccount new];
+  id clientApplicationMock = OCMClassMock([MSALPublicClientApplication class]);
+  OCMStub([clientApplicationMock accountForHomeAccountId:fakeAccountId error:nil]).andReturn(account);
+  service.clientApplication = clientApplicationMock;
+  service.identityConfig = [MSIdentityConfig new];
+  service.identityConfig.identityScope = @"fake";
+  id identityMock = OCMPartialMock(service);
+  OCMStub([identityMock sharedInstance]).andReturn(identityMock);
+  OCMStub([identityMock canBeUsed]).andReturn(YES);
+  
+  // Then
+  OCMReject([clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
+
+  // When
+  [MSIdentity login];
+  
+  // Then
+  OCMVerify([clientApplicationMock acquireTokenSilentForScopes:OCMOCK_ANY account:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
+  [clientApplicationMock stopMocking];
+  [identityMock stopMocking];
 }
 
 @end

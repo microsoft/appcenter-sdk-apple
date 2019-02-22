@@ -1,3 +1,5 @@
+#import <MSAL/MSALPublicClientApplication.h>
+
 #import "MSChannelDelegate.h"
 #import "MSCustomApplicationDelegate.h"
 #import "MSIdentity.h"
@@ -70,6 +72,18 @@ static NSString *const kMSIdentityMSALAccountEnvironmentKey = @"MSIdentityMSALAc
  * Config MSAL client.
  */
 - (void)configAuthenticationClient;
+
+/**
+ * Retrieve an updated token without user interaction.
+ *
+ * @param account The MSALAccount that is used to retrieve an authentication token.
+ */
+- (void)acquireTokenSilentlyWithMSALAccount:(MSALAccount *)account;
+
+/**
+ * Retrieve an updated token with user interaction.
+ */
+- (void)acquireTokenInteractively;
 
 @end
 
