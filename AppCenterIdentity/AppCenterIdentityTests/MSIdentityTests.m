@@ -532,7 +532,12 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   NSString *fakeAccountId = @"fakeHomeAccountId";
   [self.settingsMock setObject:fakeAccountId forKey:kMSIdentityMSALAccountHomeAccountKey];
   id account = [MSALAccount new];
-  OCMStub([self.clientApplicationMock accountForHomeAccountId:fakeAccountId error:nil]).andReturn(account);
+  
+  /*
+   * `accountForHomeAccountId:error:` takes a double pointer (NSError * _Nullable __autoreleasing * _Nullable) so we need to pass in
+   * `[OCMArg anyObjectRef]`. Passing in `OCMOCK_ANY` or `nil` will cause the OCMStub to not work.
+   */
+  OCMStub([self.clientApplicationMock accountForHomeAccountId:fakeAccountId error:[OCMArg anyObjectRef]]).andReturn(account);
   self.sut.clientApplication = self.clientApplicationMock;
   self.sut.identityConfig = [MSIdentityConfig new];
   self.sut.identityConfig.identityScope = @"fake";
@@ -541,8 +546,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([identityMock canBeUsed]).andReturn(YES);
 
   // Then
-  //  OCMReject([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]); //This causes other tests to
-  //  fail. Why?!
+  OCMReject([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
 
   // When
   [MSIdentity login];
