@@ -37,7 +37,7 @@ static NSString *const kMSIdentityMSALAccountEnvironmentKey = @"MSIdentityMSALAc
 /**
  * The flag that indicates a user requested signIn before it is configured.
  */
-@property(nonatomic) BOOL signInDelayed;
+@property(nonatomic) BOOL signInDelayedAndRetryLater;
 
 /**
  * Custom application delegate dedicated to Identity.

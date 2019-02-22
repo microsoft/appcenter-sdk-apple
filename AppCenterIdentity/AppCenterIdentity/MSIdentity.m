@@ -156,10 +156,10 @@ static dispatch_once_t onceToken;
 
 - (void)signIn {
   if (self.clientApplication == nil || self.identityConfig == nil) {
-    self.signInDelayed = YES;
+    self.signInDelayedAndRetryLater = YES;
     return;
   }
-  self.signInDelayed = NO;
+  self.signInDelayedAndRetryLater = NO;
   MSALAccount *account = [self retrieveAccount];
   if (account) {
     [self acquireTokenSilentlyWithMSALAccount:account];
@@ -230,7 +230,7 @@ static dispatch_once_t onceToken;
                * TODO: SignIn can be called when the app is in background. Make sure the SDK doesn't display browser with signIn screen when
                * the app is in background. Only display in foreground.
                */
-              if (self.signInDelayed) {
+              if (self.signInDelayedAndRetryLater) {
                 [self signIn];
               }
             }

@@ -423,7 +423,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [MSIdentity signIn];
 
   // Then
-  XCTAssertTrue(self.sut.signInDelayed);
+  XCTAssertTrue(self.sut.signInDelayedAndRetryLater);
   [identityMock stopMocking];
 }
 
@@ -439,7 +439,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [MSIdentity signIn];
 
   // Then
-  XCTAssertTrue(self.sut.signInDelayed);
+  XCTAssertTrue(self.sut.signInDelayedAndRetryLater);
   [identityMock stopMocking];
 }
 
