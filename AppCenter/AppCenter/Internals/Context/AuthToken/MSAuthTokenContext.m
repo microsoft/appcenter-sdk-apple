@@ -10,6 +10,16 @@ static dispatch_once_t onceToken;
 @interface MSAuthTokenContext ()
 
 /**
+ * Authorization token cached value.
+ */
+@property(nonatomic) NSString *authToken;
+
+/**
+ * The last value of user account id.
+ */
+@property(nonatomic) NSString *lastHomeAccountId;
+
+/**
  * Collection of channel delegates.
  */
 @property(nonatomic) NSHashTable<id<MSAuthTokenContextDelegate>> *delegates;
@@ -17,8 +27,6 @@ static dispatch_once_t onceToken;
 @end
 
 @implementation MSAuthTokenContext
-
-@synthesize authToken = _authToken;
 
 - (instancetype)init {
   self = [super init];
@@ -42,22 +50,39 @@ static dispatch_once_t onceToken;
   sharedInstance = nil;
 }
 
-- (NSString *)authToken {
+- (NSString *)getAuthToken {
   @synchronized(self) {
-    return _authToken;
+    return self.authToken;
   }
 }
 
-- (void)setAuthToken:(NSString *)authToken {
+- (void)setAuthToken:(NSString *)authToken withAccountId:(NSString *_Nonnull)accountId {
+  NSArray *synchronizedDelegates;
+  BOOL isNewUser = NO;
+  @synchronized(self) {
+    self.authToken = authToken;
+    isNewUser = self.lastHomeAccountId == nil || ![self.lastHomeAccountId isEqualToString:accountId];
+    self.lastHomeAccountId = accountId;
+    
+      // Don't invoke the delegate while locking; it might be locking too and deadlock ourselves.
+    synchronizedDelegates = [self.delegates allObjects];
+  }
+  for (id<MSAuthTokenContextDelegate> delegate in synchronizedDelegates) {
+    [delegate authTokenContext:self didReceiveAuthToken:authToken forNewUser:isNewUser];
+  }
+}
+
+- (void)clearAuthToken {
   NSArray *synchronizedDelegates;
   @synchronized(self) {
-    _authToken = authToken;
-
+    self.authToken = nil;
+    self.lastHomeAccountId = nil;
+    
     // Don't invoke the delegate while locking; it might be locking too and deadlock ourselves.
     synchronizedDelegates = [self.delegates allObjects];
   }
   for (id<MSAuthTokenContextDelegate> delegate in synchronizedDelegates) {
-    [delegate authTokenContext:self didReceiveAuthToken:authToken];
+    [delegate authTokenContext:self didReceiveAuthToken:nil forNewUser:YES];
   }
 }
 

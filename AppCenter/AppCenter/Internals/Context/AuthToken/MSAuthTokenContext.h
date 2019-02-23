@@ -1,7 +1,5 @@
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @protocol MSAuthTokenContextDelegate;
 
 /**
@@ -9,11 +7,6 @@ NS_ASSUME_NONNULL_BEGIN
  * This enables all App Center modules to access the token, and receive a notification when the token changes.
  */
 @interface MSAuthTokenContext : NSObject
-
-/**
- * Auth token.
- */
-@property(nonatomic, nullable) NSString *authToken;
 
 /**
  * Get singleton instance.
@@ -35,10 +28,23 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)removeDelegate:(id<MSAuthTokenContextDelegate>)delegate;
 
 /**
+ * Clears cached token and account id.
+ */
+- (void)clearAuthToken;
+
+/**
+ * Sets current auth token and account id.
+ */
+- (void)setAuthToken:(NSString *)authToken withAccountId:(NSString *_Nonnull)accountId;
+
+/**
+ * Retrieves auth token.
+ */
+- (NSString *)getAuthToken;
+
+/**
  * Reset singleton instance.
  */
 + (void)resetSharedInstance;
 
 @end
-
-NS_ASSUME_NONNULL_END
