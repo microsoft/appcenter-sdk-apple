@@ -127,7 +127,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol, CLLocation
     
   func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     let userLocation:CLLocation = locations[0] as CLLocation
-    CLGeocoder().reverseGeocodeLocation( userLocation) { (placemarks, error) in
+    CLGeocoder().reverseGeocodeLocation(userLocation) { (placemarks, error) in
       if error == nil {
         self.appCenter.setCountryCode(placemarks?.first?.isoCountryCode)
       }
