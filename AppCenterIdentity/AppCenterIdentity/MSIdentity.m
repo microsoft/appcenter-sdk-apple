@@ -258,6 +258,7 @@ static dispatch_once_t onceToken;
                                                                        authority:auth
                                                                      redirectUri:self.identityConfig.redirectUri
                                                                            error:&error];
+  self.clientApplication.validateAuthority = NO;
   if (error != nil) {
     MSLogError([MSIdentity logTag], @"Failed to initialize client application.");
   }
