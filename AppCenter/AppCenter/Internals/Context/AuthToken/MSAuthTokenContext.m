@@ -56,7 +56,7 @@ static dispatch_once_t onceToken;
   }
 }
 
-- (void)setAuthToken:(NSString *)authToken withAccountId:(NSString *_Nonnull)accountId {
+- (void)setAuthToken:(NSString *_Nonnull)authToken withAccountId:(NSString *_Nonnull)accountId {
   NSArray *synchronizedDelegates;
   BOOL isNewUser = NO;
   @synchronized(self) {
@@ -86,7 +86,7 @@ static dispatch_once_t onceToken;
   }
 }
 
-- (void)addDelegate:(id<MSAuthTokenContextDelegate>)delegate {
+- (void)addDelegate:(id<MSAuthTokenContextDelegate> _Nonnull)delegate {
   @synchronized(self) {
     [self.delegates addObject:delegate];
   }

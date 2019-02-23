@@ -320,9 +320,9 @@ static dispatch_once_t onceToken;
                       [strongSelf acquireTokenInteractively];
                     } else {
                       MSALAccountId *accountId = (MSALAccountId *_Nonnull)result.account.homeAccountId;
-                      [[MSAuthTokenContext sharedInstance] setAuthToken:result.idToken withAccountId: (NSString * _Nonnull) accountId.identifier];
+                      [[MSAuthTokenContext sharedInstance] setAuthToken: (NSString * _Nonnull) result.idToken withAccountId: (NSString * _Nonnull) accountId.identifier];
                       [strongSelf saveAuthToken:result.idToken];
-                      [strongSelf saveAccountId:(NSString * _Nonnull) result.account.homeAccountId];
+                      [strongSelf saveAccountId:(NSString * _Nonnull) result.account.homeAccountId.identifier];
                     }
                   }];
 }
@@ -336,9 +336,9 @@ static dispatch_once_t onceToken;
                                   } else {
                                     typeof(self) strongSelf = weakSelf;
                                      MSALAccountId *accountId = (MSALAccountId *_Nonnull)result.account.homeAccountId;
-                                     [[MSAuthTokenContext sharedInstance] setAuthToken:result.idToken withAccountId: (NSString * _Nonnull) accountId.identifier];
+                                     [[MSAuthTokenContext sharedInstance] setAuthToken: (NSString * _Nonnull) result.idToken withAccountId: (NSString * _Nonnull) accountId.identifier];
                                     [strongSelf saveAuthToken:result.idToken];
-                                    [strongSelf saveAccountId:(NSString * _Nonnull) result.account.homeAccountId];
+                                    [strongSelf saveAccountId:(NSString * _Nonnull) result.account.homeAccountId.identifier];
                                   }
                                 }];
 }

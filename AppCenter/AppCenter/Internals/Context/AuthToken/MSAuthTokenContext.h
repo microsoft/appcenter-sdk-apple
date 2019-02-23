@@ -18,7 +18,7 @@
  *
  * @param delegate Delegate.
  */
-- (void)addDelegate:(id<MSAuthTokenContextDelegate>)delegate;
+- (void)addDelegate:(id<MSAuthTokenContextDelegate> _Nonnull)delegate;
 
 /**
  * Remove delegate.
@@ -35,7 +35,7 @@
 /**
  * Sets current auth token and account id.
  */
-- (void)setAuthToken:(NSString *)authToken withAccountId:(NSString *_Nonnull)accountId;
+- (void)setAuthToken:(NSString *_Nonnull)authToken withAccountId:(NSString *_Nonnull)accountId;
 
 /**
  * Retrieves auth token.
