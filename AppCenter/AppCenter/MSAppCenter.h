@@ -207,9 +207,9 @@
 + (void)setUserId:(NSString *)userId;
 
 /**
- * Sets the two-letter ISO country code to send to the backend.
+ * Set country code to use when building device properties.
  *
- * @param countryCode The two-letter ISO country code. See https://www.iso.org/obp/ui/#search for more information.
+ * @param countryCode The two-letter ISO country code. @see https://www.iso.org/obp/ui/#search for more information.
  */
 + (void)setCountryCode:(NSString *)countryCode;
 
