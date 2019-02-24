@@ -117,17 +117,17 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // If
   NSString *expectedToken = @"expected";
-  MSALAccountId *mockAccountId = OCMPartialMock([MSALAccountId new]);
   NSString *expectedHomeAccountId = @"fakeHomeAccountId";
+  MSALAccountId *mockAccountId = OCMPartialMock([MSALAccountId new]);
   OCMStub(mockAccountId.identifier).andReturn(expectedHomeAccountId);
   id accountMock = OCMPartialMock([MSALAccount new]);
   OCMStub([accountMock homeAccountId]).andReturn(mockAccountId);
+  [self.settingsMock setObject:expectedHomeAccountId forKey:kMSIdentityMSALAccountHomeAccountKey];
+  [MSMockKeychainUtil storeString:expectedToken forKey:kMSIdentityAuthTokenKey];
   OCMStub([self.clientApplicationMock accountForHomeAccountId:expectedHomeAccountId error:[ OCMArg setTo: nil]]).andReturn(accountMock);
   MSIdentity *identityMock = OCMPartialMock(self.sut);
   OCMStub([identityMock configAuthenticationClient]).andReturn(nil);
-  [self.settingsMock setObject:expectedHomeAccountId forKey:kMSIdentityMSALAccountHomeAccountKey];
   identityMock.clientApplication = self.clientApplicationMock;
-  [MSMockKeychainUtil storeString:expectedToken forKey:kMSIdentityAuthTokenKey];
   NSString *expectedETag = @"eTag";
   [self.settingsMock setObject:expectedETag forKey:kMSIdentityETagKey];
   NSData *serializedConfig = [NSJSONSerialization dataWithJSONObject:self.dummyConfigDic options:(NSJSONWritingOptions)0 error:nil];
@@ -430,83 +430,83 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 }
 
 - (void)testSignInDoesNotAcquireTokenWhenDisabled {
-
+  
   // If
   self.sut.clientApplication = self.clientApplicationMock;
   id identityMock = OCMPartialMock([MSIdentity sharedInstance]);
   OCMStub([identityMock sharedInstance]).andReturn(identityMock);
   OCMStub([identityMock canBeUsed]).andReturn(NO);
   OCMStub([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]).andDo(nil);
-
+  
   // When
   OCMReject([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
   [MSIdentity signIn];
-
+  
   // Then
   [identityMock stopMocking];
 }
 
 - (void)testSignInDelayedWhenNoClientApplication {
-
+  
   // If
   self.sut.identityConfig = [MSIdentityConfig new];
   self.sut.identityConfig.identityScope = @"fake";
   id identityMock = OCMPartialMock(self.sut);
   OCMStub([identityMock sharedInstance]).andReturn(identityMock);
   OCMStub([identityMock canBeUsed]).andReturn(YES);
-
+  
   // When
   [MSIdentity signIn];
-
+  
   // Then
   XCTAssertTrue(self.sut.signInDelayedAndRetryLater);
   [identityMock stopMocking];
 }
 
 - (void)testSignInDelayedWhenNoIdentityConfig {
-
+  
   // If
   self.sut.clientApplication = self.clientApplicationMock;
   id identityMock = OCMPartialMock(self.sut);
   OCMStub([identityMock sharedInstance]).andReturn(identityMock);
   OCMStub([identityMock canBeUsed]).andReturn(YES);
-
+  
   // When
   [MSIdentity signIn];
-
+  
   // Then
   XCTAssertTrue(self.sut.signInDelayedAndRetryLater);
   [identityMock stopMocking];
 }
 
 - (void)testSilentSignInSavesAuthTokenAndHomeAccountId {
-
+  
   // If
-  MSALAccountId *mockAccountId = OCMPartialMock([MSALAccountId new]);
   NSString *expectedHomeAccountId = @"fakeHomeAccountId";
-  OCMStub(mockAccountId.identifier).andReturn(expectedHomeAccountId);
   NSString *expectedAuthToken = @"fakeAuthToken";
+  MSALAccountId *mockAccountId = OCMPartialMock([MSALAccountId new]);
+  OCMStub(mockAccountId.identifier).andReturn(expectedHomeAccountId);
   id accountMock = OCMPartialMock([MSALAccount new]);
   OCMStub([accountMock homeAccountId]).andReturn(mockAccountId);
   id msalResultMock = OCMPartialMock([MSALResult new]);
   OCMStub([msalResultMock account]).andReturn(accountMock);
   OCMStub([msalResultMock idToken]).andReturn(expectedAuthToken);
   OCMStub([self.clientApplicationMock acquireTokenSilentForScopes:OCMOCK_ANY account:accountMock completionBlock:OCMOCK_ANY])
-      .andDo(^(NSInvocation *invocation) {
-        __block MSALCompletionBlock completionBlock;
-        [invocation getArgument:&completionBlock atIndex:4];
-        completionBlock(msalResultMock, nil);
-      });
+  .andDo(^(NSInvocation *invocation) {
+    __block MSALCompletionBlock completionBlock;
+    [invocation getArgument:&completionBlock atIndex:4];
+    completionBlock(msalResultMock, nil);
+  });
   self.sut.clientApplication = self.clientApplicationMock;
   self.sut.identityConfig = [MSIdentityConfig new];
   self.sut.identityConfig.identityScope = @"fake";
   id identityMock = OCMPartialMock(self.sut);
   OCMStub([identityMock sharedInstance]).andReturn(identityMock);
   OCMStub([identityMock canBeUsed]).andReturn(YES);
-
+  
   // When
   [self.sut acquireTokenSilentlyWithMSALAccount:accountMock];
-
+  
   // Then
   XCTAssertEqual([MSMockKeychainUtil stringForKey:kMSIdentityAuthTokenKey], expectedAuthToken);
   XCTAssertEqual([[MSAuthTokenContext sharedInstance] getAuthToken], expectedAuthToken);
