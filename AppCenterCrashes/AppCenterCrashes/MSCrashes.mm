@@ -1172,7 +1172,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 - (void)trackModelException:(MSException *)exception withProperties:(NSDictionary<NSString *, NSString *> *)properties {
   @synchronized(self) {
-    if (![[MSCrashes sharedInstance] canBeUsed] || ![self isEnabled]) {
+    if (![self canBeUsed] || ![self isEnabled]) {
       return;
     }
 

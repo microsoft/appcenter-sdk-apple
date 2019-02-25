@@ -260,7 +260,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
     forTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget
                     flags:(MSFlags)flags {
   @synchronized(self) {
-    if (![[MSAnalytics sharedInstance] canBeUsed] || ![self isEnabled]) {
+    if (![self canBeUsed] || ![self isEnabled]) {
       return;
     }
 
@@ -308,7 +308,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 
 - (void)pause {
   @synchronized(self) {
-    if ([[MSAnalytics sharedInstance] canBeUsed]) {
+    if ([self canBeUsed]) {
       [self.channelUnit pauseWithIdentifyingObject:self];
     }
   }
@@ -316,7 +316,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 
 - (void)resume {
   @synchronized(self) {
-    if ([[MSAnalytics sharedInstance] canBeUsed]) {
+    if ([self canBeUsed]) {
       [self.channelUnit resumeWithIdentifyingObject:self];
     }
   }
@@ -348,7 +348,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 
 - (void)trackPage:(NSString *)pageName withProperties:(NSDictionary<NSString *, NSString *> *)properties {
   @synchronized(self) {
-    if (![[MSAnalytics sharedInstance] canBeUsed] || ![self isEnabled]) {
+    if (![self canBeUsed] || ![self isEnabled]) {
       return;
     }
 

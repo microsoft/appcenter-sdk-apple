@@ -478,7 +478,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 
 - (void)setEnabled:(BOOL)isEnabled {
   @synchronized(self) {
-    if (![[MSAppCenter sharedInstance] canBeUsed]) {
+    if (![self canBeUsed]) {
       return;
     }
     self.enabledStateUpdating = YES;
@@ -502,7 +502,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 
 - (BOOL)isEnabled {
   @synchronized(self) {
-    if (![[MSAppCenter sharedInstance] canBeUsed]) {
+    if (![self canBeUsed]) {
       return NO;
     }
 
