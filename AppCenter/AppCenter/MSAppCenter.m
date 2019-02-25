@@ -109,7 +109,16 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 }
 
 + (BOOL)isEnabled {
-  return [[MSAppCenter sharedInstance] isEnabled];
+  @synchronized([MSAppCenter sharedInstance]) {
+
+    /*
+     * This method is different from the instance one and also checks canBeUsed.
+     */
+    if ([[MSAppCenter sharedInstance] canBeUsed]) {
+      return [[MSAppCenter sharedInstance] isEnabled];
+    }
+  }
+  return NO;
 }
 
 + (BOOL)isAppDelegateForwarderEnabled {
@@ -501,20 +510,15 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 }
 
 - (BOOL)isEnabled {
-  @synchronized(self) {
-    if (![self canBeUsed]) {
-      return NO;
-    }
 
-    /*
-     * Get isEnabled value from persistence.
-     * No need to cache the value in a property, user settings already have their cache mechanism.
-     */
-    NSNumber *isEnabledNumber = [MS_USER_DEFAULTS objectForKey:kMSAppCenterIsEnabledKey];
+  /*
+   * Get isEnabled value from persistence.
+   * No need to cache the value in a property, user settings already have their cache mechanism.
+   */
+  NSNumber *isEnabledNumber = [MS_USER_DEFAULTS objectForKey:kMSAppCenterIsEnabledKey];
 
-    // Return the persisted value otherwise it's enabled by default.
-    return (isEnabledNumber) ? [isEnabledNumber boolValue] : YES;
-  }
+  // Return the persisted value otherwise it's enabled by default.
+  return (isEnabledNumber) ? [isEnabledNumber boolValue] : YES;
 }
 
 - (void)applyPipelineEnabledState:(BOOL)isEnabled {
