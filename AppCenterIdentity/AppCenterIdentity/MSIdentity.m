@@ -160,7 +160,7 @@ static dispatch_once_t onceToken;
     return;
   }
   self.signInDelayedAndRetryLater = NO;
-  MSALAccount *account = [self retrieveAccount];
+  MSALAccount *account = [self retrieveAccountWithAccountId:[self getAccountId]];
   if (account) {
     [self acquireTokenSilentlyWithMSALAccount:account];
   } else {
@@ -319,7 +319,7 @@ static dispatch_once_t onceToken;
                     } else {
                       [MSAuthTokenContext sharedInstance].authToken = result.idToken;
                       [strongSelf saveAuthToken:result.idToken];
-                      [strongSelf saveAccountId:(NSString * _Nonnull) result.account.homeAccountId];
+                      [strongSelf saveAccountId:(NSString * _Nonnull) result.account.homeAccountId.identifier];
                     }
                   }];
 }
@@ -334,13 +334,12 @@ static dispatch_once_t onceToken;
                                     typeof(self) strongSelf = weakSelf;
                                     [MSAuthTokenContext sharedInstance].authToken = result.idToken;
                                     [strongSelf saveAuthToken:result.idToken];
-                                    [strongSelf saveAccountId:(NSString * _Nonnull) result.account.homeAccountId];
+                                    [strongSelf saveAccountId:(NSString * _Nonnull) result.account.homeAccountId.identifier];
                                   }
                                 }];
 }
 
-- (MSALAccount *)retrieveAccount {
-  NSString *homeAccountId = [[MSUserDefaults shared] objectForKey:kMSIdentityMSALAccountHomeAccountKey];
+- (MSALAccount *)retrieveAccountWithAccountId:(NSString *)homeAccountId {
   if (homeAccountId) {
     NSError *error;
     MSALAccount *account = [self.clientApplication accountForHomeAccountId:homeAccountId error:&error];
@@ -351,6 +350,10 @@ static dispatch_once_t onceToken;
   } else {
     return nil;
   }
+}
+
+- (NSString *)getAccountId {
+  return [[MSUserDefaults shared] objectForKey:kMSIdentityMSALAccountHomeAccountKey];
 }
 
 - (void)saveAccountId:(NSString *)accountId {
