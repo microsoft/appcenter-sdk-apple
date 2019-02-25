@@ -346,7 +346,7 @@ static dispatch_once_t onceToken;
   NSError *error;
   MSALAccount *account = [self.clientApplication accountForHomeAccountId:homeAccountId error:&error];
   if (error) {
-    MSLogWarning([MSIdentity logTag], @"Could not get MSALAccount for homeAccountId.");
+    MSLogWarning([MSIdentity logTag], @"Could not get MSALAccount for homeAccountId. Error: %@", error);
   }
   return account;
 }
