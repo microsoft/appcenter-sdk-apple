@@ -160,7 +160,7 @@ static dispatch_once_t onceToken;
     return;
   }
   self.signInDelayedAndRetryLater = NO;
-  MSALAccount *account = [self retrieveAccountWithAccountId:[self getAccountId]];
+  MSALAccount *account = [self retrieveAccountWithAccountId:[self retrieveAccountId]];
   if (account) {
     [self acquireTokenSilentlyWithMSALAccount:account];
   } else {
@@ -340,19 +340,18 @@ static dispatch_once_t onceToken;
 }
 
 - (MSALAccount *)retrieveAccountWithAccountId:(NSString *)homeAccountId {
-  if (homeAccountId) {
-    NSError *error;
-    MSALAccount *account = [self.clientApplication accountForHomeAccountId:homeAccountId error:&error];
-    if (error) {
-      MSLogWarning([MSIdentity logTag], @"Could not get MSALAccount for homeAccountId.");
-    }
-    return account;
-  } else {
+  if (!homeAccountId) {
     return nil;
   }
+  NSError *error;
+  MSALAccount *account = [self.clientApplication accountForHomeAccountId:homeAccountId error:&error];
+  if (error) {
+    MSLogWarning([MSIdentity logTag], @"Could not get MSALAccount for homeAccountId.");
+  }
+  return account;
 }
 
-- (NSString *)getAccountId {
+- (NSString *)retrieveAccountId {
   return [[MSUserDefaults shared] objectForKey:kMSIdentityMSALAccountHomeAccountKey];
 }
 

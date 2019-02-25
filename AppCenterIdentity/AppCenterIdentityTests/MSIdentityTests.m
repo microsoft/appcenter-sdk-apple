@@ -118,7 +118,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([accountMock homeAccountId]).andReturn(mockAccountId);
   [self.settingsMock setObject:expectedHomeAccountId forKey:kMSIdentityMSALAccountHomeAccountKey];
   [MSMockKeychainUtil storeString:expectedToken forKey:kMSIdentityAuthTokenKey];
-  OCMStub([self.clientApplicationMock accountForHomeAccountId:expectedHomeAccountId error:[ OCMArg setTo: nil]]).andReturn(accountMock);
+  OCMStub([self.clientApplicationMock accountForHomeAccountId:expectedHomeAccountId error:[OCMArg setTo:nil]]).andReturn(accountMock);
   MSIdentity *identityMock = OCMPartialMock(self.sut);
   OCMStub([identityMock configAuthenticationClient]).andReturn(nil);
   identityMock.clientApplication = self.clientApplicationMock;
@@ -127,7 +127,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   NSData *serializedConfig = [NSJSONSerialization dataWithJSONObject:self.dummyConfigDic options:(NSJSONWritingOptions)0 error:nil];
   OCMStub([self.utilityMock loadDataForPathComponent:[identityMock identityConfigFilePath]]).andReturn(serializedConfig);
   OCMStub([self.ingestionMock sendAsync:OCMOCK_ANY eTag:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
-  
+
   // When
   [identityMock applyEnabledState:YES];
 
@@ -466,11 +466,11 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([msalResultMock account]).andReturn(accountMock);
   OCMStub([msalResultMock idToken]).andReturn(expectedAuthToken);
   OCMStub([self.clientApplicationMock acquireTokenSilentForScopes:OCMOCK_ANY account:accountMock completionBlock:OCMOCK_ANY])
-  .andDo(^(NSInvocation *invocation) {
-    __block MSALCompletionBlock completionBlock;
-    [invocation getArgument:&completionBlock atIndex:4];
-    completionBlock(msalResultMock, nil);
-  });
+      .andDo(^(NSInvocation *invocation) {
+        __block MSALCompletionBlock completionBlock;
+        [invocation getArgument:&completionBlock atIndex:4];
+        completionBlock(msalResultMock, nil);
+      });
   self.sut.clientApplication = self.clientApplicationMock;
   self.sut.identityConfig = [MSIdentityConfig new];
   self.sut.identityConfig.identityScope = @"fake";
@@ -547,7 +547,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   id accountMock = OCMPartialMock([MSALAccount new]);
   OCMStub([accountMock homeAccountId]).andReturn(fakeAccountId);
   [self.settingsMock setObject:fakeAccountId forKey:kMSIdentityMSALAccountHomeAccountKey];
-  
+
   /*
    * `accountForHomeAccountId:error:` takes a double pointer (NSError * _Nullable __autoreleasing * _Nullable) so we need to pass in
    * `[OCMArg anyObjectRef]`. Passing in `OCMOCK_ANY` or `nil` will cause the OCMStub to not work.
