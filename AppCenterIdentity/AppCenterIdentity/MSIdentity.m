@@ -12,7 +12,6 @@
 #import "MSKeychainUtil.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSUtility+File.h"
-#import <MSAL/MSALPublicClientApplication.h>
 
 // Service name for initialization.
 static NSString *const kMSServiceName = @"Identity";
@@ -109,6 +108,7 @@ static dispatch_once_t onceToken;
     self.clientApplication = nil;
     [MSAuthTokenContext sharedInstance].authToken = nil;
     [self removeAuthToken];
+    [self removeAccountId];
     [self clearConfigurationCache];
     [self.channelGroup removeDelegate:self];
     MSLogInfo([MSIdentity logTag], @"Identity service has been disabled.");
@@ -156,21 +156,16 @@ static dispatch_once_t onceToken;
 
 - (void)signIn {
   if (self.clientApplication == nil || self.identityConfig == nil) {
-    self.signInDelayed = YES;
+    self.signInDelayedAndRetryLater = YES;
     return;
   }
-  self.signInDelayed = NO;
-  __weak typeof(self) weakSelf = self;
-  [self.clientApplication acquireTokenForScopes:@[ (NSString * _Nonnull) self.identityConfig.identityScope ]
-                                completionBlock:^(MSALResult *result, NSError *e) {
-                                  if (e) {
-                                    MSLogError([MSIdentity logTag], @"User signIn failed. Error: %@", e);
-                                  } else {
-                                    typeof(self) strongSelf = weakSelf;
-                                    [MSAuthTokenContext sharedInstance].authToken = result.idToken;
-                                    [strongSelf saveAuthToken:result.idToken];
-                                  }
-                                }];
+  self.signInDelayedAndRetryLater = NO;
+  MSALAccount *account = [self retrieveAccountWithAccountId:[self retrieveAccountId]];
+  if (account) {
+    [self acquireTokenSilentlyWithMSALAccount:account];
+  } else {
+    [self acquireTokenInteractively];
+  }
 }
 
 #pragma mark - Private methods
@@ -235,7 +230,7 @@ static dispatch_once_t onceToken;
                * TODO: SignIn can be called when the app is in background. Make sure the SDK doesn't display browser with signIn screen when
                * the app is in background. Only display in foreground.
                */
-              if (self.signInDelayed) {
+              if (self.signInDelayedAndRetryLater) {
                 [self signIn];
               }
             }
@@ -308,6 +303,64 @@ static dispatch_once_t onceToken;
   } else {
     MSLogWarning([MSIdentity logTag], @"Failed to remove auth token from keychain or none was found.");
   }
+}
+
+- (void)acquireTokenSilentlyWithMSALAccount:(MSALAccount *)account {
+  __weak typeof(self) weakSelf = self;
+  [self.clientApplication
+      acquireTokenSilentForScopes:@[ (NSString * _Nonnull) self.identityConfig.identityScope ]
+                          account:account
+                  completionBlock:^(MSALResult *result, NSError *e) {
+                    typeof(self) strongSelf = weakSelf;
+                    if (e) {
+                      MSLogWarning([MSIdentity logTag],
+                                   @"Silent acquisition of token failed with error: %@. Triggering interactive acquisition", e);
+                      [strongSelf acquireTokenInteractively];
+                    } else {
+                      [MSAuthTokenContext sharedInstance].authToken = result.idToken;
+                      [strongSelf saveAuthToken:result.idToken];
+                      [strongSelf saveAccountId:(NSString * _Nonnull) result.account.homeAccountId.identifier];
+                    }
+                  }];
+}
+
+- (void)acquireTokenInteractively {
+  __weak typeof(self) weakSelf = self;
+  [self.clientApplication acquireTokenForScopes:@[ (NSString * _Nonnull) self.identityConfig.identityScope ]
+                                completionBlock:^(MSALResult *result, NSError *e) {
+                                  if (e) {
+                                    MSLogError([MSIdentity logTag], @"User sign-in failed. Error: %@", e);
+                                  } else {
+                                    typeof(self) strongSelf = weakSelf;
+                                    [MSAuthTokenContext sharedInstance].authToken = result.idToken;
+                                    [strongSelf saveAuthToken:result.idToken];
+                                    [strongSelf saveAccountId:(NSString * _Nonnull) result.account.homeAccountId.identifier];
+                                  }
+                                }];
+}
+
+- (MSALAccount *)retrieveAccountWithAccountId:(NSString *)homeAccountId {
+  if (!homeAccountId) {
+    return nil;
+  }
+  NSError *error;
+  MSALAccount *account = [self.clientApplication accountForHomeAccountId:homeAccountId error:&error];
+  if (error) {
+    MSLogWarning([MSIdentity logTag], @"Could not get MSALAccount for homeAccountId. Error: %@", error);
+  }
+  return account;
+}
+
+- (NSString *)retrieveAccountId {
+  return [[MSUserDefaults shared] objectForKey:kMSIdentityMSALAccountHomeAccountKey];
+}
+
+- (void)saveAccountId:(NSString *)accountId {
+  [[MSUserDefaults shared] setObject:accountId forKey:kMSIdentityMSALAccountHomeAccountKey];
+}
+
+- (void)removeAccountId {
+  [[MSUserDefaults shared] removeObjectForKey:kMSIdentityMSALAccountHomeAccountKey];
 }
 
 @end
