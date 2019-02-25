@@ -478,45 +478,42 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 
 - (void)setEnabled:(BOOL)isEnabled {
   @synchronized(self) {
-
-    // TODO: Refactor using guard pattern
-    if ([[MSAppCenter sharedInstance] canBeUsed]) {
-      self.enabledStateUpdating = YES;
-      if ([self isEnabled] != isEnabled) {
-
-        // Persist the enabled status.
-        [MS_USER_DEFAULTS setObject:@(isEnabled) forKey:kMSAppCenterIsEnabledKey];
-
-        // Enable/disable pipeline.
-        [self applyPipelineEnabledState:isEnabled];
-      }
-
-      // Propagate enable/disable on all services.
-      for (id<MSServiceInternal> service in self.services) {
-        [[service class] setEnabled:isEnabled];
-      }
-      self.enabledStateUpdating = NO;
-      MSLogInfo([MSAppCenter logTag], @"App Center SDK %@.", isEnabled ? @"enabled" : @"disabled");
+    if (![[MSAppCenter sharedInstance] canBeUsed]) {
+      return;
     }
+    self.enabledStateUpdating = YES;
+    if ([self isEnabled] != isEnabled) {
+
+      // Persist the enabled status.
+      [MS_USER_DEFAULTS setObject:@(isEnabled) forKey:kMSAppCenterIsEnabledKey];
+
+      // Enable/disable pipeline.
+      [self applyPipelineEnabledState:isEnabled];
+    }
+
+    // Propagate enable/disable on all services.
+    for (id<MSServiceInternal> service in self.services) {
+      [[service class] setEnabled:isEnabled];
+    }
+    self.enabledStateUpdating = NO;
+    MSLogInfo([MSAppCenter logTag], @"App Center SDK %@.", isEnabled ? @"enabled" : @"disabled");
   }
 }
 
 - (BOOL)isEnabled {
   @synchronized(self) {
-
-    // TODO: Refactor using guard pattern
-    if ([[MSAppCenter sharedInstance] canBeUsed]) {
-
-      /*
-       * Get isEnabled value from persistence.
-       * No need to cache the value in a property, user settings already have their cache mechanism.
-       */
-      NSNumber *isEnabledNumber = [MS_USER_DEFAULTS objectForKey:kMSAppCenterIsEnabledKey];
-
-      // Return the persisted value otherwise it's enabled by default.
-      return (isEnabledNumber) ? [isEnabledNumber boolValue] : YES;
+    if (![[MSAppCenter sharedInstance] canBeUsed]) {
+      return NO;
     }
-    return NO;
+
+    /*
+     * Get isEnabled value from persistence.
+     * No need to cache the value in a property, user settings already have their cache mechanism.
+     */
+    NSNumber *isEnabledNumber = [MS_USER_DEFAULTS objectForKey:kMSAppCenterIsEnabledKey];
+
+    // Return the persisted value otherwise it's enabled by default.
+    return (isEnabledNumber) ? [isEnabledNumber boolValue] : YES;
   }
 }
 

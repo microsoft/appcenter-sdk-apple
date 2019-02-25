@@ -260,53 +260,49 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
     forTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget
                     flags:(MSFlags)flags {
   @synchronized(self) {
+    if (![[MSAnalytics sharedInstance] canBeUsed] || ![self isEnabled]) {
+      return;
+    }
 
-    // TODO: Refactor in the same way as ![self isEnabled] below
-    if ([[MSAnalytics sharedInstance] canBeUsed]) {
-      if (![self isEnabled]) {
+    // Use default transmission target if no transmission target was provided.
+    if (transmissionTarget == nil) {
+      transmissionTarget = self.defaultTransmissionTarget;
+    }
+
+    // Validate flags.
+    MSFlags persistenceFlag = flags & kMSPersistenceFlagsMask;
+    if (persistenceFlag != MSFlagsPersistenceNormal && persistenceFlag != MSFlagsPersistenceCritical) {
+      MSLogWarning([MSAnalytics logTag], @"Invalid flags (%u) received, using normal as a default.", (unsigned int)persistenceFlag);
+      persistenceFlag = MSFlagsPersistenceNormal;
+    }
+
+    // Create an event log.
+    MSEventLog *log = [MSEventLog new];
+
+    // Add transmission target token.
+    if (transmissionTarget) {
+      if (transmissionTarget.isEnabled) {
+        [log addTransmissionTargetToken:[transmissionTarget transmissionTargetToken]];
+        log.tag = transmissionTarget;
+        if (transmissionTarget == self.defaultTransmissionTarget) {
+          log.userId = [[MSUserIdContext sharedInstance] userId];
+        }
+      } else {
+        MSLogError([MSAnalytics logTag], @"This transmission target is disabled.");
         return;
       }
-
-      // Use default transmission target if no transmission target was provided.
-      if (transmissionTarget == nil) {
-        transmissionTarget = self.defaultTransmissionTarget;
-      }
-
-      // Validate flags.
-      MSFlags persistenceFlag = flags & kMSPersistenceFlagsMask;
-      if (persistenceFlag != MSFlagsPersistenceNormal && persistenceFlag != MSFlagsPersistenceCritical) {
-        MSLogWarning([MSAnalytics logTag], @"Invalid flags (%u) received, using normal as a default.", (unsigned int)persistenceFlag);
-        persistenceFlag = MSFlagsPersistenceNormal;
-      }
-
-      // Create an event log.
-      MSEventLog *log = [MSEventLog new];
-
-      // Add transmission target token.
-      if (transmissionTarget) {
-        if (transmissionTarget.isEnabled) {
-          [log addTransmissionTargetToken:[transmissionTarget transmissionTargetToken]];
-          log.tag = transmissionTarget;
-          if (transmissionTarget == self.defaultTransmissionTarget) {
-            log.userId = [[MSUserIdContext sharedInstance] userId];
-          }
-        } else {
-          MSLogError([MSAnalytics logTag], @"This transmission target is disabled.");
-          return;
-        }
-      }
-
-      // Set properties of the event log.
-      log.name = eventName;
-      log.eventId = MS_UUID_STRING;
-      if (!self.defaultTransmissionTarget) {
-        properties = [self validateAppCenterEventProperties:properties];
-      }
-      log.typedProperties = [properties isEmpty] ? nil : properties;
-
-      // Send log to channel.
-      [self sendLog:log flags:persistenceFlag];
     }
+
+    // Set properties of the event log.
+    log.name = eventName;
+    log.eventId = MS_UUID_STRING;
+    if (!self.defaultTransmissionTarget) {
+      properties = [self validateAppCenterEventProperties:properties];
+    }
+    log.typedProperties = [properties isEmpty] ? nil : properties;
+
+    // Send log to channel.
+    [self sendLog:log flags:persistenceFlag];
   }
 }
 
@@ -352,25 +348,21 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 
 - (void)trackPage:(NSString *)pageName withProperties:(NSDictionary<NSString *, NSString *> *)properties {
   @synchronized(self) {
-
-    // TODO: Refactor in the same way as ![self isEnabled] below
-    if ([[MSAnalytics sharedInstance] canBeUsed]) {
-      if (![self isEnabled]) {
-        return;
-      }
-
-      // Create an event log.
-      MSPageLog *log = [MSPageLog new];
-
-      // Set properties of the event log.
-      log.name = pageName;
-      if (properties && properties.count > 0) {
-        log.properties = [self removeInvalidProperties:properties];
-      }
-
-      // Send log to log manager.
-      [self sendLog:log flags:MSFlagsDefault];
+    if (![[MSAnalytics sharedInstance] canBeUsed] || ![self isEnabled]) {
+      return;
     }
+
+    // Create an event log.
+    MSPageLog *log = [MSPageLog new];
+
+    // Set properties of the event log.
+    log.name = pageName;
+    if (properties && properties.count > 0) {
+      log.properties = [self removeInvalidProperties:properties];
+    }
+
+    // Send log to log manager.
+    [self sendLog:log flags:MSFlagsDefault];
   }
 }
 
