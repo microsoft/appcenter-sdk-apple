@@ -237,7 +237,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 }
 
 - (void)authTokenContext:(__unused MSAuthTokenContext *)authTokenContext didReceiveAuthToken:(NSString *)authToken
-               forNewUser:(__unused BOOL)isNewUser {
+              forNewUser:(__unused BOOL)isNewUser {
   if (self.ingestion) {
     self.ingestion.authToken = authToken;
   }

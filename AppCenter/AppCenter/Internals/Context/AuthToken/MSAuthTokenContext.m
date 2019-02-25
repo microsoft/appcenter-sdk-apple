@@ -50,13 +50,13 @@ static dispatch_once_t onceToken;
   sharedInstance = nil;
 }
 
-- (NSString *)getAuthToken {
+- (nullable NSString *)getAuthToken {
   @synchronized(self) {
     return self.authToken;
   }
 }
 
-- (void)setAuthToken:(NSString *_Nonnull)authToken withAccountId:(NSString *_Nonnull)accountId {
+- (void)setAuthToken:(NSString *)authToken withAccountId:(NSString *)accountId {
   NSArray *synchronizedDelegates;
   BOOL isNewUser = NO;
   @synchronized(self) {
@@ -64,7 +64,7 @@ static dispatch_once_t onceToken;
     isNewUser = self.lastHomeAccountId == nil || ![self.lastHomeAccountId isEqualToString:accountId];
     self.lastHomeAccountId = accountId;
     
-      // Don't invoke the delegate while locking; it might be locking too and deadlock ourselves.
+    // Don't invoke the delegate while locking; it might be locking too and deadlock ourselves.
     synchronizedDelegates = [self.delegates allObjects];
   }
   for (id<MSAuthTokenContextDelegate> delegate in synchronizedDelegates) {
@@ -86,7 +86,7 @@ static dispatch_once_t onceToken;
   }
 }
 
-- (void)addDelegate:(id<MSAuthTokenContextDelegate> _Nonnull)delegate {
+- (void)addDelegate:(id<MSAuthTokenContextDelegate>)delegate {
   @synchronized(self) {
     [self.delegates addObject:delegate];
   }

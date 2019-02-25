@@ -1,5 +1,7 @@
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol MSAuthTokenContextDelegate;
 
 /**
@@ -18,7 +20,7 @@
  *
  * @param delegate Delegate.
  */
-- (void)addDelegate:(id<MSAuthTokenContextDelegate> _Nonnull)delegate;
+- (void)addDelegate:(id<MSAuthTokenContextDelegate>)delegate;
 
 /**
  * Remove delegate.
@@ -35,12 +37,12 @@
 /**
  * Sets current auth token and account id.
  */
-- (void)setAuthToken:(NSString *_Nonnull)authToken withAccountId:(NSString *_Nonnull)accountId;
+- (void)setAuthToken:(NSString *)authToken withAccountId:(NSString *)accountId;
 
 /**
  * Retrieves auth token.
  */
-- (NSString *)getAuthToken;
+- (nullable NSString *)getAuthToken;
 
 /**
  * Reset singleton instance.
@@ -48,3 +50,5 @@
 + (void)resetSharedInstance;
 
 @end
+
+NS_ASSUME_NONNULL_END
