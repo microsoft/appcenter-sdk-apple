@@ -225,7 +225,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 - (BOOL)configureWithAppSecret:(NSString *)appSecret
        transmissionTargetToken:(NSString *)transmissionTargetToken
                fromApplication:(BOOL)fromApplication {
-  @synchronized([MSAppCenter sharedInstance]) {
+  @synchronized(self) {
     BOOL success = false;
     if (self.configuredFromApplication && fromApplication) {
       MSLogAssert([MSAppCenter logTag], @"App Center SDK has already been configured.");
@@ -273,7 +273,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 }
 
 - (void)start:(NSString *)secretString withServices:(NSArray<Class> *)services fromApplication:(BOOL)fromApplication {
-  @synchronized([MSAppCenter sharedInstance]) {
+  @synchronized(self) {
     NSString *appSecret = [MSUtility appSecretFrom:secretString];
     NSString *transmissionTargetToken = [MSUtility transmissionTargetTokenFrom:secretString];
     BOOL configured = [self configureWithAppSecret:appSecret
@@ -340,7 +340,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
     transmissionTargetToken:(NSString *)transmissionTargetToken
                  andSendLog:(BOOL)sendLog
             fromApplication:(BOOL)fromApplication {
-  @synchronized([MSAppCenter sharedInstance]) {
+  @synchronized(self) {
 
     // Check if clazz is valid class
     if (![clazz conformsToProtocol:@protocol(MSServiceCommon)]) {
@@ -405,7 +405,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 }
 
 - (void)setLogUrl:(NSString *)logUrl {
-  @synchronized([MSAppCenter sharedInstance]) {
+  @synchronized(self) {
     _logUrl = logUrl;
     if (self.channelGroup) {
       [self.channelGroup setLogUrl:logUrl];
@@ -427,7 +427,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 
   // Change the max storage size.
   BOOL setMaxSizeFailed = NO;
-  @synchronized([MSAppCenter sharedInstance]) {
+  @synchronized(self) {
     if (self.setMaxStorageSizeHasBeenCalled) {
       MSLogWarning([MSAppCenter logTag], @"setMaxStorageSize:completionHandler: may only be called once per app launch");
       setMaxSizeFailed = YES;
@@ -482,7 +482,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 #endif
 
 - (void)setEnabled:(BOOL)isEnabled {
-  @synchronized ([MSAppCenter sharedInstance]) {
+  @synchronized(self) {
     self.enabledStateUpdating = YES;
     if ([self isEnabled] != isEnabled) {
 
@@ -494,7 +494,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
     }
 
     // Propagate enable/disable on all services.
-    for (id <MSServiceInternal> service in self.services) {
+    for (id<MSServiceInternal> service in self.services) {
       [[service class] setEnabled:isEnabled];
     }
     self.enabledStateUpdating = NO;
@@ -503,7 +503,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 }
 
 - (BOOL)isEnabled {
-  @synchronized ([MSAppCenter sharedInstance]) {
+  @synchronized(self) {
 
     /*
      * Get isEnabled value from persistence.
@@ -578,7 +578,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 }
 
 - (NSUUID *)installId {
-  @synchronized([MSAppCenter sharedInstance]) {
+  @synchronized(self) {
     if (!_installId) {
 
       // Check if install Id has already been persisted.

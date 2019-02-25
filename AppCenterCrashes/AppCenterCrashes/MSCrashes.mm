@@ -429,7 +429,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   }
 
   // The callback can be called from any thread, making sure we make this thread-safe.
-  @synchronized([MSCrashes sharedInstance]) {
+  @synchronized(self) {
     NSData *serializedLog = [NSKeyedArchiver archivedDataWithRootObject:log];
     if (serializedLog && (serializedLog.length > 0)) {
 
@@ -489,7 +489,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 }
 
 - (void)channel:(id<MSChannelProtocol>)__unused channel didCompleteEnqueueingLog:(id<MSLog>)log internalId:(NSString *)internalId {
-  @synchronized([MSCrashes sharedInstance]) {
+  @synchronized(self) {
     for (auto it = msCrashesLogBuffer.begin(), end = msCrashesLogBuffer.end(); it != end; ++it) {
       NSString *bufferId = [NSString stringWithCString:it->internalId.c_str() encoding:NSUTF8StringEncoding];
       if (bufferId && bufferId.length > 0 && [bufferId isEqualToString:internalId]) {
@@ -635,7 +635,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     [self startCrashProcessing];
 
     // Only release once to avoid releasing an unbounded number of times.
-    @synchronized([MSCrashes sharedInstance]) {
+    @synchronized(self) {
       if (self.shouldReleaseProcessingSemaphore) {
         dispatch_semaphore_signal(self.delayedProcessingSemaphore);
         self.shouldReleaseProcessingSemaphore = NO;
@@ -955,7 +955,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 - (void)setupLogBuffer {
 
   // We need to make this @synchronized here as we're setting up msCrashesLogBuffer.
-  @synchronized([MSCrashes sharedInstance]) {
+  @synchronized(self) {
 
     // Setup asynchronously.
     NSMutableArray<NSURL *> *files = [NSMutableArray arrayWithCapacity:ms_crashes_log_buffer_size];
@@ -1173,7 +1173,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 #pragma mark - Handled exceptions
 
 - (void)trackModelException:(MSException *)exception withProperties:(NSDictionary<NSString *, NSString *> *)properties {
-  @synchronized([MSCrashes sharedInstance]) {
+  @synchronized(self) {
     if (![self isEnabled])
       return;
 

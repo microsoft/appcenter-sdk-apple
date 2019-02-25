@@ -53,7 +53,7 @@ static dispatch_once_t onceToken;
 }
 
 - (void)setSessionId:(nullable NSString *)sessionId {
-  @synchronized([MSSessionContext sharedInstance]) {
+  @synchronized(self) {
     [self.sessionHistory removeLastObject];
     self.currentSessionInfo.sessionId = sessionId;
     self.currentSessionInfo.timestamp = [NSDate date];
@@ -65,7 +65,7 @@ static dispatch_once_t onceToken;
 }
 
 - (nullable NSString *)sessionIdAt:(NSDate *)date {
-  @synchronized([MSSessionContext sharedInstance]) {
+  @synchronized(self) {
     for (MSSessionHistoryInfo *info in [self.sessionHistory reverseObjectEnumerator]) {
       if ([info.timestamp compare:date] == NSOrderedAscending) {
         return info.sessionId;
@@ -76,7 +76,7 @@ static dispatch_once_t onceToken;
 }
 
 - (void)clearSessionHistoryAndKeepCurrentSession:(BOOL)keepCurrentSession {
-  @synchronized([MSSessionContext sharedInstance]) {
+  @synchronized(self) {
     [self.sessionHistory removeAllObjects];
     if (keepCurrentSession) {
       [self.sessionHistory addObject:self.currentSessionInfo];

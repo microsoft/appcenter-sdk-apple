@@ -72,7 +72,7 @@ static dispatch_once_t onceToken;
 }
 
 - (void)setUserId:(nullable NSString *)userId {
-  @synchronized([MSUserIdContext sharedInstance]) {
+  @synchronized(self) {
 
     /*
      * Replacing the last userId from history because the userId has changed within a same lifecycle without crashes.
@@ -90,7 +90,7 @@ static dispatch_once_t onceToken;
 }
 
 - (nullable NSString *)userIdAt:(NSDate *)date {
-  @synchronized([MSUserIdContext sharedInstance]) {
+  @synchronized(self) {
     for (MSUserIdHistoryInfo *info in [self.userIdHistory reverseObjectEnumerator]) {
       if ([info.timestamp compare:date] == NSOrderedAscending) {
         return info.userId;
@@ -101,7 +101,7 @@ static dispatch_once_t onceToken;
 }
 
 - (void)clearUserIdHistory {
-  @synchronized([MSUserIdContext sharedInstance]) {
+  @synchronized(self) {
     [self.userIdHistory removeAllObjects];
     [self.userIdHistory addObject:self.currentUserIdInfo];
     [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.userIdHistory] forKey:kMSUserIdHistoryKey];

@@ -272,7 +272,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
       withTypedProperties:(MSEventProperties *)properties
     forTransmissionTarget:(MSAnalyticsTransmissionTarget *)transmissionTarget
                     flags:(MSFlags)flags {
-  @synchronized([MSAnalytics sharedInstance]) {
+  @synchronized(self) {
     if (![self isEnabled]) {
       return;
     }
@@ -285,7 +285,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
     // Validate flags.
     MSFlags persistenceFlag = flags & kMSPersistenceFlagsMask;
     if (persistenceFlag != MSFlagsPersistenceNormal && persistenceFlag != MSFlagsPersistenceCritical) {
-      MSLogWarning([MSAnalytics logTag], @"Invalid flags (%u) received, using normal as a default.", (unsigned int) persistenceFlag);
+      MSLogWarning([MSAnalytics logTag], @"Invalid flags (%u) received, using normal as a default.", (unsigned int)persistenceFlag);
       persistenceFlag = MSFlagsPersistenceNormal;
     }
 
@@ -320,13 +320,13 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 }
 
 - (void)pause {
-  @synchronized([MSAnalytics sharedInstance]) {
+  @synchronized(self) {
     [self.channelUnit pauseWithIdentifyingObject:self];
   }
 }
 
 - (void)resume {
-  @synchronized([MSAnalytics sharedInstance]) {
+  @synchronized(self) {
     [self.channelUnit resumeWithIdentifyingObject:self];
   }
 }
@@ -356,7 +356,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 }
 
 - (void)trackPage:(NSString *)pageName withProperties:(NSDictionary<NSString *, NSString *> *)properties {
-  @synchronized([MSAnalytics sharedInstance]) {
+  @synchronized(self) {
     if (![self isEnabled]) {
       return;
     }
@@ -376,13 +376,13 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 }
 
 - (void)setAutoPageTrackingEnabled:(BOOL)isEnabled {
-  @synchronized([MSAnalytics sharedInstance]) {
+  @synchronized(self) {
     _autoPageTrackingEnabled = isEnabled;
   }
 }
 
 - (BOOL)isAutoPageTrackingEnabled {
-  @synchronized([MSAnalytics sharedInstance]) {
+  @synchronized(self) {
     return self.autoPageTrackingEnabled;
   }
 }

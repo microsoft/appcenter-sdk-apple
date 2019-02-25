@@ -67,7 +67,7 @@ static MSDeviceTracker *sharedInstance = nil;
 }
 
 - (void)setWrapperSdk:(MSWrapperSdk *)wrapperSdk {
-  @synchronized([MSDeviceTracker sharedInstance]) {
+  @synchronized(self) {
     wrapperSdkInformation = wrapperSdk;
     needRefresh = YES;
   }
@@ -83,7 +83,7 @@ static MSDeviceTracker *sharedInstance = nil;
  *  Get the current device log.
  */
 - (MSDevice *)device {
-  @synchronized([MSDeviceTracker sharedInstance]) {
+  @synchronized(self) {
 
     // Lazy creation in case the property hasn't been set yet.
     if (!_device || needRefresh) {
@@ -119,7 +119,7 @@ static MSDeviceTracker *sharedInstance = nil;
  * Refresh device properties.
  */
 - (MSDevice *)updatedDevice {
-  @synchronized([MSDeviceTracker sharedInstance]) {
+  @synchronized(self) {
     MSDevice *newDevice = [MSDevice new];
 #if TARGET_OS_IOS
     CTTelephonyNetworkInfo *telephonyNetworkInfo = [CTTelephonyNetworkInfo new];
@@ -244,7 +244,7 @@ static MSDeviceTracker *sharedInstance = nil;
 }
 
 - (void)clearDevices {
-  @synchronized([MSDeviceTracker sharedInstance]) {
+  @synchronized(self) {
 
     // Clear persistence.
     [MS_USER_DEFAULTS removeObjectForKey:kMSPastDevicesKey];
