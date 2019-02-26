@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param authTokenContext The auth token context.
  * @param authToken The auth token.
  */
-- (void)authTokenContext:(MSAuthTokenContext *)authTokenContext didReceiveAuthToken:(NSString *)authToken;
+- (void)authTokenContext:(MSAuthTokenContext *)authTokenContext didReceiveAuthToken:(nullable NSString *)authToken;
 
 @end
 
