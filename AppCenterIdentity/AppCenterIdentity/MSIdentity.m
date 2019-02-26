@@ -161,7 +161,7 @@ static dispatch_once_t onceToken;
     return;
   }
   self.signInDelayedAndRetryLater = NO;
-  MSALAccount *account = [self retrieveAccountWithAccountId:[self accountId]];
+  MSALAccount *account = [self retrieveAccountWithAccountId:[self retrieveAccountId]];
   if (account) {
     [self acquireTokenSilentlyWithMSALAccount:account];
   } else {
@@ -254,6 +254,7 @@ static dispatch_once_t onceToken;
                                                                        authority:auth
                                                                      redirectUri:self.identityConfig.redirectUri
                                                                            error:&error];
+  self.clientApplication.validateAuthority = NO;
   if (error != nil) {
     MSLogError([MSIdentity logTag], @"Failed to initialize client application.");
   }
@@ -343,19 +344,22 @@ static dispatch_once_t onceToken;
 }
 
 - (MSALAccount *)retrieveAccountWithAccountId:(NSString *)homeAccountId {
-  if (homeAccountId) {
-    NSError *error;
-    MSALAccount *account = [self.clientApplication accountForHomeAccountId:homeAccountId error:&error];
-    if (error) {
-      MSLogWarning([MSIdentity logTag], @"Could not get MSALAccount for homeAccountId.");
-    }
-    return account;
-  } else {
+  if (!homeAccountId) {
     return nil;
   }
+  NSError *error;
+  MSALAccount *account = [self.clientApplication accountForHomeAccountId:homeAccountId error:&error];
+  if (error) {
+    MSLogWarning([MSIdentity logTag], @"Could not get MSALAccount for homeAccountId. Error: %@", error);
+  }
+  return account;
 }
 
+<<<<<<< HEAD
 - (nullable NSString *)accountId {
+=======
+- (NSString *)retrieveAccountId {
+>>>>>>> feature/identity
   return [[MSUserDefaults shared] objectForKey:kMSIdentityMSALAccountHomeAccountKey];
 }
 
