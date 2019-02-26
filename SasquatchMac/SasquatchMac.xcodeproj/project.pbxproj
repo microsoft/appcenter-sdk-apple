@@ -23,6 +23,18 @@
 		353332F820126200009B0946 /* EventFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353332F620126200009B0946 /* EventFilterViewController.swift */; };
 		358F9BCC2019639100B9E22C /* MSEventFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 358F9BCA2019639100B9E22C /* MSEventFilter.m */; };
 		358F9BCD2019639100B9E22C /* MSEventFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 358F9BCA2019639100B9E22C /* MSEventFilter.m */; };
+		4A0A7081220449C7007565A6 /* TransmissionTargets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0A7080220449C7007565A6 /* TransmissionTargets.swift */; };
+		4A0A7082220449C7007565A6 /* TransmissionTargets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0A7080220449C7007565A6 /* TransmissionTargets.swift */; };
+		4A0A7083220449C7007565A6 /* TransmissionTargets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0A7080220449C7007565A6 /* TransmissionTargets.swift */; };
+		4A0A7084220449C7007565A6 /* TransmissionTargets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0A7080220449C7007565A6 /* TransmissionTargets.swift */; };
+		4A0A708622044A37007565A6 /* TransmissionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0A708522044A37007565A6 /* TransmissionViewController.swift */; };
+		4A0A708722044A37007565A6 /* TransmissionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0A708522044A37007565A6 /* TransmissionViewController.swift */; };
+		4A0A708822044A37007565A6 /* TransmissionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0A708522044A37007565A6 /* TransmissionViewController.swift */; };
+		4A0A708922044A37007565A6 /* TransmissionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0A708522044A37007565A6 /* TransmissionViewController.swift */; };
+		4A3147522206896100B0FC8A /* AuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3147512206896100B0FC8A /* AuthenticationViewController.swift */; };
+		4A3147532206897800B0FC8A /* AuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3147512206896100B0FC8A /* AuthenticationViewController.swift */; };
+		4A3147542206897900B0FC8A /* AuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3147512206896100B0FC8A /* AuthenticationViewController.swift */; };
+		4A3147552206897900B0FC8A /* AuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3147512206896100B0FC8A /* AuthenticationViewController.swift */; };
 		5C6F9BAD1EB8B730009E52D8 /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F9BAC1EB8B730009E52D8 /* AnalyticsViewController.swift */; };
 		5C6F9BB61EB8EEFC009E52D8 /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F9BAC1EB8B730009E52D8 /* AnalyticsViewController.swift */; };
 		5C6F9BB81EB8F2E9009E52D8 /* CrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F9BB71EB8F2E9009E52D8 /* CrashesViewController.swift */; };
@@ -148,6 +160,9 @@
 		353332F620126200009B0946 /* EventFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventFilterViewController.swift; sourceTree = "<group>"; };
 		358F9BCA2019639100B9E22C /* MSEventFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSEventFilter.m; sourceTree = "<group>"; };
 		358F9BCB2019639100B9E22C /* MSEventFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSEventFilter.h; sourceTree = "<group>"; };
+		4A0A7080220449C7007565A6 /* TransmissionTargets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransmissionTargets.swift; sourceTree = "<group>"; };
+		4A0A708522044A37007565A6 /* TransmissionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransmissionViewController.swift; sourceTree = "<group>"; };
+		4A3147512206896100B0FC8A /* AuthenticationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewController.swift; sourceTree = "<group>"; };
 		5C6F9BAC1EB8B730009E52D8 /* AnalyticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsViewController.swift; sourceTree = "<group>"; };
 		5C6F9BB71EB8F2E9009E52D8 /* CrashesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashesViewController.swift; sourceTree = "<group>"; };
 		5C9BBC801EC4829200CA77A3 /* AppCenterDelegateSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCenterDelegateSwift.swift; sourceTree = "<group>"; };
@@ -265,6 +280,7 @@
 				3577093D2017FA5D00E465B6 /* EventFilter */,
 				042496831EC3CE2F00502B62 /* AppCenterDelegate.swift */,
 				042496841EC3CE2F00502B62 /* AppCenterProvider.swift */,
+				4A0A7080220449C7007565A6 /* TransmissionTargets.swift */,
 				D3C31C6F1E8E772E00B288CE /* Storyboards */,
 				D3C31C701E8E774000B288CE /* Supporting Files */,
 				D3C31C711E8E775100B288CE /* ViewControllers */,
@@ -332,6 +348,8 @@
 				F8B8EC721FD853E800445BD4 /* CustomPropertiesViewControler.swift */,
 				353332F620126200009B0946 /* EventFilterViewController.swift */,
 				803CFF371F6A87180072B9BA /* PushViewController.swift */,
+				4A3147512206896100B0FC8A /* AuthenticationViewController.swift */,
+				4A0A708522044A37007565A6 /* TransmissionViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -616,6 +634,7 @@
 			files = (
 				B2A4CFBA210A716E00199B4F /* AppCenterProvider.swift in Sources */,
 				B2A4CFBB210A716E00199B4F /* EventFilterViewController.swift in Sources */,
+				4A0A708722044A37007565A6 /* TransmissionViewController.swift in Sources */,
 				B2A4CFBC210A716E00199B4F /* MSEventFilter.m in Sources */,
 				B2A4CFBD210A716E00199B4F /* CustomPropertiesViewControler.swift in Sources */,
 				B2A4CFBE210A716E00199B4F /* CrashesViewController.swift in Sources */,
@@ -624,8 +643,10 @@
 				B2A4CFC1210A716E00199B4F /* AppDelegate.m in Sources */,
 				B2A4CFC2210A716E00199B4F /* AppCenterViewController.swift in Sources */,
 				B2A4CFC3210A716E00199B4F /* AnalyticsViewController.swift in Sources */,
+				4A3147532206897800B0FC8A /* AuthenticationViewController.swift in Sources */,
 				B2A4CFC4210A716E00199B4F /* PushViewController.swift in Sources */,
 				B2A4CFC5210A716E00199B4F /* AppCenterDelegateObjC.m in Sources */,
+				4A0A7082220449C7007565A6 /* TransmissionTargets.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -633,16 +654,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A0A7084220449C7007565A6 /* TransmissionTargets.swift in Sources */,
 				B2A4CFD8210A77D400199B4F /* AppCenterDelegateSwift.swift in Sources */,
 				B2A4CFD9210A77D400199B4F /* MSEventFilter.m in Sources */,
 				B2A4CFDA210A77D400199B4F /* AppCenterViewController.swift in Sources */,
 				B2A4CFDB210A77D400199B4F /* CustomPropertiesViewControler.swift in Sources */,
+				4A3147552206897900B0FC8A /* AuthenticationViewController.swift in Sources */,
 				B2A4CFDC210A77D400199B4F /* AppCenterProvider.swift in Sources */,
 				B2A4CFDD210A77D400199B4F /* EventFilterViewController.swift in Sources */,
 				B2A4CFDE210A77D400199B4F /* AppDelegate.swift in Sources */,
 				B2A4CFDF210A77D400199B4F /* CrashesViewController.swift in Sources */,
 				B2A4CFE0210A77D400199B4F /* PushViewController.swift in Sources */,
 				B2A4CFE1210A77D400199B4F /* AnalyticsViewController.swift in Sources */,
+				4A0A708922044A37007565A6 /* TransmissionViewController.swift in Sources */,
 				B2A4CFE2210A77D400199B4F /* AppCenterDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -653,6 +677,7 @@
 			files = (
 				042496861EC3CE2F00502B62 /* AppCenterProvider.swift in Sources */,
 				353332F820126200009B0946 /* EventFilterViewController.swift in Sources */,
+				4A0A708622044A37007565A6 /* TransmissionViewController.swift in Sources */,
 				358F9BCC2019639100B9E22C /* MSEventFilter.m in Sources */,
 				F8B8EC731FD853E800445BD4 /* CustomPropertiesViewControler.swift in Sources */,
 				5C6F9BB81EB8F2E9009E52D8 /* CrashesViewController.swift in Sources */,
@@ -661,8 +686,10 @@
 				D3C31C261E8E75B300B288CE /* AppDelegate.m in Sources */,
 				5CD6257A1ECDA4280053DC6C /* AppCenterViewController.swift in Sources */,
 				5C6F9BAD1EB8B730009E52D8 /* AnalyticsViewController.swift in Sources */,
+				4A3147522206896100B0FC8A /* AuthenticationViewController.swift in Sources */,
 				803CFF381F6A87180072B9BA /* PushViewController.swift in Sources */,
 				0424968B1EC3D29900502B62 /* AppCenterDelegateObjC.m in Sources */,
+				4A0A7081220449C7007565A6 /* TransmissionTargets.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -670,16 +697,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A0A7083220449C7007565A6 /* TransmissionTargets.swift in Sources */,
 				5C9BBC811EC4829200CA77A3 /* AppCenterDelegateSwift.swift in Sources */,
 				358F9BCD2019639100B9E22C /* MSEventFilter.m in Sources */,
 				C2A4A2691EE7684A0080FD22 /* AppCenterViewController.swift in Sources */,
 				F8B8EC741FD853E800445BD4 /* CustomPropertiesViewControler.swift in Sources */,
+				4A3147542206897900B0FC8A /* AuthenticationViewController.swift in Sources */,
 				042496881EC3CE3700502B62 /* AppCenterProvider.swift in Sources */,
 				353332F720126200009B0946 /* EventFilterViewController.swift in Sources */,
 				D3C31C631E8E763600B288CE /* AppDelegate.swift in Sources */,
 				5C6F9BB91EB8F2E9009E52D8 /* CrashesViewController.swift in Sources */,
 				803CFF391F6A87180072B9BA /* PushViewController.swift in Sources */,
 				5C6F9BB61EB8EEFC009E52D8 /* AnalyticsViewController.swift in Sources */,
+				4A0A708822044A37007565A6 /* TransmissionViewController.swift in Sources */,
 				042496871EC3CE3500502B62 /* AppCenterDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
