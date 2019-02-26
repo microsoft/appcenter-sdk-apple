@@ -109,7 +109,7 @@ static NSString *kMSEncryptionKeyTag = @"kMSEncryptionKeyTag";
     CCCryptorStatus status = CCCrypt(kCCDecrypt, kMSEncryptionAlgorithm, kCCOptionPKCS7Padding, [self.key bytes], kMSCipherKeySize, nil,
                                      [dataToDecrypt bytes], dataToDecrypt.length, cipherBuffer, cipherBufferSize, &numBytesDecrypted);
     if (status != kCCSuccess) {
-      MSLogError([MSAppCenter logTag], @"Error performing decryption with CCCryptorStatus: %d", status);
+      MSLogError([MSAppCenter logTag], @"Error performing decryption with CCCryptorStatus: %d.", status);
     } else {
       NSData *decryptedBytes = [NSData dataWithBytes:cipherBuffer length:numBytesDecrypted];
       if (decryptedBytes) {
