@@ -108,12 +108,15 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
   [[MSAppCenter sharedInstance] setEnabled:isEnabled];
 }
 
+/**
+ * Checks if SDK is enabled and initialized.
+ *
+ * NOTE: This method is different from the instance one and in addition checks canBeUsed.
+ *
+ * @return `YES` if SDK is enabled and initialized, `NO` otherwise
+ */
 + (BOOL)isEnabled {
   @synchronized([MSAppCenter sharedInstance]) {
-
-    /*
-     * This method is different from the instance one and also checks canBeUsed.
-     */
     if ([[MSAppCenter sharedInstance] canBeUsed]) {
       return [[MSAppCenter sharedInstance] isEnabled];
     }
