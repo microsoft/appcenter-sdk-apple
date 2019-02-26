@@ -60,8 +60,24 @@ class CommonSchemaPropertiesTableSection : SimplePropertiesTableSection {
     }
   }
   
+  // Note down current target for using in End edit events
+  override func recordCurrentTarget(sender: UITextField!){
+    let curCell = sender.superview!.superview as! MSAnalyticsPropertyTableViewCell
+    curCell.curTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget() ?? ""
+    }
+    
+  // Add below method since tap out of the key textField will crash the app, that's a bad experience
+  override func propertyKeyChanged(sender: UITextField!){    
+    }
+    
   override func propertyValueChanged(sender: UITextField!) {
-    let selectedTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
+    // when user changed value inside textfield by using virtual keyboard, then click a different target like 'Child 2'
+    // the textfield's events always happen after the switch target event, this will lead to set values to wrong target error
+    // Add below lines to check out whether the target have been changed, if so, change to use original target
+    let curCell = sender.superview!.superview as! MSAnalyticsPropertyTableViewCell
+    let curTarget = transmissionTargetSelectorCell?.selectedTransmissionTarget()
+    let selectedTarget = curCell.curTarget != curTarget ? curCell.curTarget : curTarget
+    
     let propertyIndex = getCellRow(forTextField: sender) - self.propertyCellOffset
     let target = MSTransmissionTargets.shared.transmissionTargets[selectedTarget!]!
     propertyValues[selectedTarget!]![propertyIndex] = sender.text!
@@ -79,6 +95,7 @@ class CommonSchemaPropertiesTableSection : SimplePropertiesTableSection {
       target.propertyConfigurator.setUserId(sender.text!)
       break
     }
+    sender.resignFirstResponder()
   }
 
   override func propertyAtRow(row: Int) -> (String, String) {

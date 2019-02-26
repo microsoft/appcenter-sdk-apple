@@ -7,4 +7,7 @@ import UIKit
   @IBAction func dismissKeyboard(_ sender: UITextField!) {
     sender.resignFirstResponder()
   }
+    
+    // MARK:variable
+    var curTarget: String = "Child 1"
 }
