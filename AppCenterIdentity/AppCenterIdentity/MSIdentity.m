@@ -94,7 +94,7 @@ static dispatch_once_t onceToken;
       eTag = [MS_USER_DEFAULTS objectForKey:kMSIdentityETagKey];
     }
     NSString *authToken = [self retrieveAuthToken];
-    NSString *accountId = [self accountId];
+    NSString *accountId = [self retrieveAccountId];
 
     // Only set the auth token if it is not nil to avoid triggering callbacks.
     if (authToken && accountId) {
@@ -355,11 +355,7 @@ static dispatch_once_t onceToken;
   return account;
 }
 
-<<<<<<< HEAD
-- (nullable NSString *)accountId {
-=======
-- (NSString *)retrieveAccountId {
->>>>>>> feature/identity
+- (nullable NSString *)retrieveAccountId {
   return [[MSUserDefaults shared] objectForKey:kMSIdentityMSALAccountHomeAccountKey];
 }
 
