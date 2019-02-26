@@ -233,7 +233,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   [pushMock verify];
 }
 
-- (void)testSendsPushTokenAnonimouslyWhenClearsAuthToken {
+- (void)testSendsPushTokenAnonymouslyWhenClearsAuthToken {
   
   // If
   id pushMock = OCMPartialMock(self.sut);

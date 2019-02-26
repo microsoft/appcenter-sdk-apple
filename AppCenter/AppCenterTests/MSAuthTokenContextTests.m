@@ -35,7 +35,7 @@
   // If
   NSString *expectedAuthToken = @"authToken1";
   NSString *expectedAccountId = @"account1";
-  NSString *expectedAccountId1 = @"account2";
+  NSString *expectedAccountId2 = @"account2";
   id<MSAuthTokenContextDelegate> delegateMock = OCMProtocolMock(@protocol(MSAuthTokenContextDelegate));
   [self.sut addDelegate:delegateMock];
 
@@ -43,20 +43,20 @@
   [self.sut setAuthToken:expectedAuthToken withAccountId:expectedAccountId];
 
   // Then
-  XCTAssertEqualObjects([self.sut getAuthToken], expectedAuthToken);
-  OCMVerify([delegateMock authTokenContext:self.sut didReceiveAuthToken:expectedAuthToken forNewUser:YES]);
+  XCTAssertEqualObjects([self.sut authToken], expectedAuthToken);
+  OCMVerify([delegateMock authTokenContext:self.sut didUpdateUserWithAuthToken:expectedAuthToken]);
   
   // When
   [self.sut setAuthToken:expectedAuthToken withAccountId:expectedAccountId];
   
   //Then
-  OCMVerify([delegateMock authTokenContext:self.sut didReceiveAuthToken:expectedAuthToken forNewUser:NO]);
+  OCMVerify([delegateMock authTokenContext:self.sut didReceiveAuthToken:expectedAuthToken]);
   
   // When
-  [self.sut setAuthToken:expectedAuthToken withAccountId:expectedAccountId1];
+  [self.sut setAuthToken:expectedAuthToken withAccountId:expectedAccountId2];
   
   //Then
-  OCMVerify([delegateMock authTokenContext:self.sut didReceiveAuthToken:expectedAuthToken forNewUser:YES]);
+  OCMVerify([delegateMock authTokenContext:self.sut didUpdateUserWithAuthToken:expectedAuthToken]);
 }
 
 - (void)testClearAuthToken {
@@ -69,8 +69,9 @@
   [self.sut clearAuthToken];
   
   // Then
-  XCTAssertNil([self.sut getAuthToken]);
-  OCMVerify([delegateMock authTokenContext:self.sut didReceiveAuthToken:nil forNewUser:YES]);
+  XCTAssertNil([self.sut authToken]);
+  OCMVerify([delegateMock authTokenContext:self.sut didReceiveAuthToken:nil]);
+  OCMVerify([delegateMock authTokenContext:self.sut didUpdateUserWithAuthToken:nil]);
 }
 
 - (void)testRemoveDelegate {
@@ -80,7 +81,7 @@
   [self.sut addDelegate:delegateMock];
 
   // Then
-  OCMReject([delegateMock authTokenContext:self.sut didReceiveAuthToken:OCMOCK_ANY forNewUser:OCMOCK_ANY]);
+  OCMReject([delegateMock authTokenContext:self.sut didReceiveAuthToken:OCMOCK_ANY]);
 
   // When
   [self.sut removeDelegate:delegateMock];

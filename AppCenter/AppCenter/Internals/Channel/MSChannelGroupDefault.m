@@ -27,7 +27,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
     _storage = [MSLogDBStorage new];
     if (ingestion) {
       _ingestion = ingestion;
-      _ingestion.authToken = [[MSAuthTokenContext sharedInstance] getAuthToken];
+      _ingestion.authToken = [[MSAuthTokenContext sharedInstance] authToken];
     }
     [[MSAuthTokenContext sharedInstance] addDelegate:self];
   }

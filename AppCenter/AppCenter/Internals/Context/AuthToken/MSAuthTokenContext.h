@@ -30,19 +30,19 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)removeDelegate:(id<MSAuthTokenContextDelegate>)delegate;
 
 /**
- * Clears cached token and account id.
+ * Clear cached token and account id.
  */
 - (void)clearAuthToken;
 
 /**
- * Sets current auth token and account id.
+ * Set current auth token and account id.
  */
 - (void)setAuthToken:(NSString *)authToken withAccountId:(NSString *)accountId;
 
 /**
- * Retrieves auth token.
+ * Retrieve auth token.
  */
-- (nullable NSString *)getAuthToken;
+- (nullable NSString *)authToken;
 
 /**
  * Reset singleton instance.

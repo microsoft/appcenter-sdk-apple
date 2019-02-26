@@ -94,12 +94,11 @@ static dispatch_once_t onceToken;
       eTag = [MS_USER_DEFAULTS objectForKey:kMSIdentityETagKey];
     }
     NSString *authToken = [self retrieveAuthToken];
-    MSALAccountId *accountId = (MSALAccountId *_Nonnull)[self retrieveAccount].homeAccountId;
-    NSString *lastAccountId = accountId.identifier;
+    NSString *accountId = [self accountId];
 
     // Only set the auth token if it is not nil to avoid triggering callbacks.
-    if (authToken && lastAccountId) {
-      [[MSAuthTokenContext sharedInstance] setAuthToken:authToken withAccountId:lastAccountId];
+    if (authToken && accountId) {
+      [[MSAuthTokenContext sharedInstance] setAuthToken:authToken withAccountId:accountId];
     }
 
     // Download identity configuration.
@@ -162,7 +161,7 @@ static dispatch_once_t onceToken;
     return;
   }
   self.signInDelayedAndRetryLater = NO;
-  MSALAccount *account = [self retrieveAccountWithAccountId:[self getAccountId]];
+  MSALAccount *account = [self retrieveAccountWithAccountId:[self accountId]];
   if (account) {
     [self acquireTokenSilentlyWithMSALAccount:account];
   } else {
@@ -356,7 +355,7 @@ static dispatch_once_t onceToken;
   }
 }
 
-- (NSString *)getAccountId {
+- (nullable NSString *)accountId {
   return [[MSUserDefaults shared] objectForKey:kMSIdentityMSALAccountHomeAccountKey];
 }
 
