@@ -113,9 +113,9 @@ static NSString *kMSEncryptionKeyTag = @"kMSEncryptionKeyTag";
     } else {
       NSData *decryptedBytes = [NSData dataWithBytes:cipherBuffer length:numBytesDecrypted];
       if(decryptedBytes) {
-        result = [[NSString alloc] initWithData:unencryptedBytes encoding:NSUTF8StringEncoding];
+        result = [[NSString alloc] initWithData:decryptedBytes encoding:NSUTF8StringEncoding];
         if(!result) {
-          MSLogWarning([MSAppCenter logTag], @"Converting unencrypted NSData to NSString failed.");
+          MSLogWarning([MSAppCenter logTag], @"Converting decrypted NSData to NSString failed.");
         }
       }
       else {
