@@ -68,8 +68,10 @@ static dispatch_once_t onceToken;
     synchronizedDelegates = [self.delegates allObjects];
   }
   for (id<MSAuthTokenContextDelegate> delegate in synchronizedDelegates) {
-    [delegate authTokenContext:self didReceiveAuthToken:authToken];
-    if (isNewUser) {
+    if ([delegate respondsToSelector:@selector(authTokenContext:didReceiveAuthToken:)]) {
+      [delegate authTokenContext:self didReceiveAuthToken:authToken];
+    }
+    if (isNewUser && [delegate respondsToSelector:@selector(authTokenContext:didUpdateUserWithAuthToken:)]) {
       [delegate authTokenContext:self didUpdateUserWithAuthToken:authToken];
     }
   }
@@ -85,8 +87,12 @@ static dispatch_once_t onceToken;
     synchronizedDelegates = [self.delegates allObjects];
   }
   for (id<MSAuthTokenContextDelegate> delegate in synchronizedDelegates) {
-    [delegate authTokenContext:self didReceiveAuthToken:nil];
-    [delegate authTokenContext:self didUpdateUserWithAuthToken:nil];
+    if ([delegate respondsToSelector:@selector(authTokenContext:didReceiveAuthToken:)]) {
+      [delegate authTokenContext:self didReceiveAuthToken:nil];
+    }
+    if ([delegate respondsToSelector:@selector(authTokenContext:didUpdateUserWithAuthToken:)]) {
+      [delegate authTokenContext:self didUpdateUserWithAuthToken:nil];
+    }
   }
 }
 
