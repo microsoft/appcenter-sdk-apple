@@ -1,5 +1,11 @@
 # App Center SDK for iOS and macOS Change Log
 
+## Version 1.14.0 [under active development]
+
+### AppCenter
+
+* **[Fix]** Fix a crash in case decrypting a value failed.
+
 ## Version 1.13.2
 
 ### AppCenter

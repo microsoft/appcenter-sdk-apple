@@ -102,7 +102,7 @@ static NSString *kMSEncryptionKeyTag = @"kMSEncryptionKeyTag";
   }
   NSString *result = nil;
   NSData *dataToDecrypt = [[NSData alloc] initWithBase64EncodedString:string options:0];
-  if(dataToDecrypt) {
+  if (dataToDecrypt) {
     size_t cipherBufferSize = CCCryptorGetOutputLength(self.decryptorObject, dataToDecrypt.length, true);
     uint8_t *cipherBuffer = malloc(cipherBufferSize * sizeof(uint8_t));
     size_t numBytesDecrypted = 0;
@@ -112,19 +112,17 @@ static NSString *kMSEncryptionKeyTag = @"kMSEncryptionKeyTag";
       MSLogError([MSAppCenter logTag], @"Error performing decryption with CCCryptorStatus: %d", status);
     } else {
       NSData *decryptedBytes = [NSData dataWithBytes:cipherBuffer length:numBytesDecrypted];
-      if(decryptedBytes) {
+      if (decryptedBytes) {
         result = [[NSString alloc] initWithData:decryptedBytes encoding:NSUTF8StringEncoding];
-        if(!result) {
+        if (!result) {
           MSLogWarning([MSAppCenter logTag], @"Converting decrypted NSData to NSString failed.");
         }
-      }
-      else {
+      } else {
         MSLogWarning([MSAppCenter logTag], @"Could not create NSData object from decrypted bytes.");
       }
     }
     free(cipherBuffer);
-  }
-  else {
+  } else {
     MSLogWarning([MSAppCenter logTag], @"Conversion of encrypted string to NSData failed.");
   }
   return result;
