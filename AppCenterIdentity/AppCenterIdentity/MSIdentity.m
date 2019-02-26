@@ -177,10 +177,14 @@ static dispatch_once_t onceToken;
 }
 
 - (void)signOut {
-  [self removeAuthToken];
-  [self removeAccountId];
-
-  // TODO reise the event
+  if ([MSAuthTokenContext sharedInstance].authToken != nil) {
+    MSLogInfo([MSIdentity logTag], @"User sign-out succeeded.");
+    [MSAuthTokenContext sharedInstance].authToken = nil;
+    [self removeAuthToken];
+    [self removeAccountId];
+  } else {
+    MSLogWarning([MSIdentity logTag], @"Couldn't sign-out: authToken isn't exists.");
+  }
 }
 
 #pragma mark - Private methods
@@ -336,6 +340,7 @@ static dispatch_once_t onceToken;
                       [MSAuthTokenContext sharedInstance].authToken = result.idToken;
                       [strongSelf saveAuthToken:result.idToken];
                       [strongSelf saveAccountId:(NSString * _Nonnull) result.account.homeAccountId.identifier];
+                      MSLogInfo([MSIdentity logTag], @"User sign-in succeeded.");
                     }
                   }];
 }
@@ -351,6 +356,7 @@ static dispatch_once_t onceToken;
                                     [MSAuthTokenContext sharedInstance].authToken = result.idToken;
                                     [strongSelf saveAuthToken:result.idToken];
                                     [strongSelf saveAccountId:(NSString * _Nonnull) result.account.homeAccountId.identifier];
+                                    MSLogInfo([MSIdentity logTag], @"User sign-in succeeded.");
                                   }
                                 }];
 }
