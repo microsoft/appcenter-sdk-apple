@@ -1,6 +1,6 @@
 import Cocoa
 
-class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
+class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate, NSTextFieldDelegate {
 
   var appCenter: AppCenterDelegate = AppCenterProvider.shared().appCenter!
   var transmissionTargetMapping: [String]?
@@ -158,7 +158,6 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
     commonSelector.selectedSegment = 0
     propertySelector.selectedSegment = 0
 
-    NotificationCenter.default.addObserver(self, selector: #selector(self.editingDidEnd), name: .NSControlTextDidEndEditing, object: nil)
     let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
 
     // Default target section.
@@ -245,6 +244,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
           key.stringValue = property.key
           let value: NSTextField = cell.subviews[cellSubviews.valueText.rawValue] as! NSTextField
           value.stringValue = property.value
+          value.delegate = self
           cell.subviews[cellSubviews.valueCheck.rawValue].isHidden = true
           return cell
         case kAppVersionRow:
@@ -252,6 +252,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
           key.stringValue = property.key
           let value: NSTextField = cell.subviews[cellSubviews.valueText.rawValue] as! NSTextField
           value.stringValue = property.value
+          value.delegate = self
           cell.subviews[cellSubviews.valueCheck.rawValue].isHidden = true
           return cell
         case kAppLocaleRow:
@@ -259,6 +260,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
           key.stringValue = property.key
           let value: NSTextField = cell.subviews[cellSubviews.valueText.rawValue] as! NSTextField
           value.stringValue = property.value
+          value.delegate = self
           cell.subviews[cellSubviews.valueCheck.rawValue].isHidden = true
           return cell
         case kUserIdRow:
@@ -266,6 +268,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
           key.stringValue = property.key
           let value: NSTextField = cell.subviews[cellSubviews.valueText.rawValue] as! NSTextField
           value.stringValue = property.value
+          value.delegate = self
           cell.subviews[cellSubviews.valueCheck.rawValue].isHidden = true
           return cell
         default:
@@ -427,15 +430,12 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
     collectDeviceIdStates[selectedTarget!] = true
   }
 
-  @objc func editingDidEnd(notification : NSNotification) {
-    guard let textField = notification.object as? NSTextField else {
-      return
+  override func controlTextDidChange(_ obj: Notification) {
+    let text = obj.object as? NSTextField
+    let tag = getCellSection(forView: text!)
+    if(tag == Section.CommonSchemaProperties.rawValue) {
+      propertyValueChanged(sender: text)
     }
-    let tag = getCellSection(forView: textField)
-    if(tag == Section.CommonSchemaProperties.rawValue){
-      propertyValueChanged(sender: textField)
-    }
-    return
   }
 
   func getCellRow(forTextField textField: NSTextField!) -> Int {

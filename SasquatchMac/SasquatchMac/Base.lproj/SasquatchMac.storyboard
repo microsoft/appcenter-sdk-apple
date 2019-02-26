@@ -2418,7 +2418,7 @@
                                                                                         </buttonCell>
                                                                                     </button>
                                                                                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Jmc-cp-GZi">
-                                                                                        <rect key="frame" x="130" y="-4" width="440" height="20"/>
+                                                                                        <rect key="frame" x="130" y="-2" width="440" height="20"/>
                                                                                         <constraints>
                                                                                             <constraint firstAttribute="width" constant="440" id="sGu-KY-hHS"/>
                                                                                         </constraints>
@@ -2430,14 +2430,14 @@
                                                                                     </textField>
                                                                                 </subviews>
                                                                                 <constraints>
-                                                                                    <constraint firstItem="kGd-fj-i8S" firstAttribute="baseline" secondItem="Jmc-cp-GZi" secondAttribute="baseline" id="0JF-dq-5Wa"/>
+                                                                                    <constraint firstItem="kGd-fj-i8S" firstAttribute="baseline" secondItem="Jmc-cp-GZi" secondAttribute="baseline" constant="2" id="0JF-dq-5Wa"/>
                                                                                     <constraint firstAttribute="trailing" secondItem="Jmc-cp-GZi" secondAttribute="trailing" constant="25" id="M1s-mT-lxb"/>
                                                                                     <constraint firstItem="pz2-tc-7Rv" firstAttribute="top" secondItem="ChQ-Nb-OiO" secondAttribute="top" constant="2" id="MZc-HV-AAA"/>
                                                                                     <constraint firstAttribute="trailing" secondItem="pz2-tc-7Rv" secondAttribute="trailing" constant="67" id="XQp-8z-M9f"/>
                                                                                     <constraint firstItem="kGd-fj-i8S" firstAttribute="leading" secondItem="ChQ-Nb-OiO" secondAttribute="leading" constant="2" id="koG-ic-le3"/>
-                                                                                    <constraint firstItem="Jmc-cp-GZi" firstAttribute="top" secondItem="ChQ-Nb-OiO" secondAttribute="top" constant="2" id="oJz-44-ajP"/>
-                                                                                    <constraint firstItem="Jmc-cp-GZi" firstAttribute="centerY" secondItem="pz2-tc-7Rv" secondAttribute="centerY" constant="2" id="xAO-pL-7yY"/>
-                                                                                    <constraint firstItem="kGd-fj-i8S" firstAttribute="firstBaseline" secondItem="Jmc-cp-GZi" secondAttribute="firstBaseline" id="zMD-AD-840"/>
+                                                                                    <constraint firstItem="Jmc-cp-GZi" firstAttribute="top" secondItem="ChQ-Nb-OiO" secondAttribute="top" id="oJz-44-ajP"/>
+                                                                                    <constraint firstItem="Jmc-cp-GZi" firstAttribute="centerY" secondItem="pz2-tc-7Rv" secondAttribute="centerY" id="xAO-pL-7yY"/>
+                                                                                    <constraint firstItem="kGd-fj-i8S" firstAttribute="firstBaseline" secondItem="Jmc-cp-GZi" secondAttribute="firstBaseline" constant="2" id="zMD-AD-840"/>
                                                                                 </constraints>
                                                                             </tableCellView>
                                                                         </prototypeCellViews>
