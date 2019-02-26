@@ -23,6 +23,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (void)signIn;
 
+/**
+ * SignOut to clear user information.
+ */
++ (void)signOut;
+
 @end
 
 NS_ASSUME_NONNULL_END
