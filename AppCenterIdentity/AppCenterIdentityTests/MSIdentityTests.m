@@ -120,6 +120,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [MSMockKeychainUtil storeString:expectedToken forKey:kMSIdentityAuthTokenKey];
   NSString *expectedETag = @"eTag";
   [self.settingsMock setObject:expectedETag forKey:kMSIdentityETagKey];
+  [self.settingsMock setObject:@"fakeHomeAccountId" forKey:kMSIdentityMSALAccountHomeAccountKey];
   NSData *serializedConfig = [NSJSONSerialization dataWithJSONObject:self.dummyConfigDic options:(NSJSONWritingOptions)0 error:nil];
   OCMStub([self.utilityMock loadDataForPathComponent:[self.sut identityConfigFilePath]]).andReturn(serializedConfig);
   OCMStub([self.ingestionMock sendAsync:OCMOCK_ANY eTag:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
