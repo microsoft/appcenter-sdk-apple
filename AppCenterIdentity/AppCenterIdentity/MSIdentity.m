@@ -154,6 +154,14 @@ static dispatch_once_t onceToken;
   }
 }
 
++ (void)signOut {
+  @synchronized([MSIdentity sharedInstance]) {
+    if ([[MSIdentity sharedInstance] canBeUsed]) {
+      [[MSIdentity sharedInstance] signOut];
+    }
+  }
+}
+
 - (void)signIn {
   if (self.clientApplication == nil || self.identityConfig == nil) {
     self.signInDelayedAndRetryLater = YES;
@@ -166,6 +174,13 @@ static dispatch_once_t onceToken;
   } else {
     [self acquireTokenInteractively];
   }
+}
+
+- (void)signOut {
+  [self removeAuthToken];
+  [self removeAccountId];
+
+  // TODO reise the event
 }
 
 #pragma mark - Private methods
