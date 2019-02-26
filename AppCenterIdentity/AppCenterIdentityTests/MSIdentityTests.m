@@ -1,5 +1,6 @@
 #import <Foundation/Foundation.h>
 
+#import "MSAppDelegateUtil.h"
 #import "MSAuthTokenContext.h"
 #import "MSAuthTokenContextDelegate.h"
 #import "MSChannelGroupProtocol.h"
@@ -559,6 +560,22 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // Then
   OCMVerify([self.clientApplicationMock acquireTokenSilentForScopes:OCMOCK_ANY account:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
   [identityMock stopMocking];
+}
+
+- (void)testSignOutInvokesDelegatesWithNilToken {
+  // If
+  [MSAuthTokenContext sharedInstance].authToken = @"fake";
+  id<MSAuthTokenContextDelegate> mockDelegate = OCMProtocolMock(@protocol(MSAuthTokenContextDelegate));
+  [[MSAuthTokenContext sharedInstance] addDelegate:mockDelegate];
+  id identityMock = OCMPartialMock(self.sut);
+  OCMStub([identityMock sharedInstance]).andReturn(identityMock);
+  OCMStub([identityMock canBeUsed]).andReturn(YES);
+
+  // When
+  [MSIdentity signOut];
+
+  // Then
+  OCMVerify([mockDelegate authTokenContext:OCMOCK_ANY didReceiveAuthToken:nil]);
 }
 
 @end
