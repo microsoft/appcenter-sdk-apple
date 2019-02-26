@@ -277,9 +277,17 @@ static const NSUInteger kMSSchemaVersion = 3;
 
     // Deserialize target token.
     NSString *encryptedToken = row[self.targetTokenColumnIndex];
-    if (![encryptedToken isKindOfClass:[NSNull class]]) {
+    if (![encryptedToken isKindOfClass:[NSNull class]] && (encryptedToken.length > 0)) {
       NSString *targetToken = [self.targetTokenEncrypter decryptString:encryptedToken];
-      [log addTransmissionTargetToken:targetToken];
+      if(targetToken) {
+        [log addTransmissionTargetToken:targetToken];
+      }
+      else {
+        MSLogWarning([MSAppCenter logTag], @"Failed to decrypt the target token.");
+      }
+    }
+    else {
+      MSLogWarning([MSAppCenter logTag], @"Encrypted token was NSNull or an empty string");
     }
 
     // Update with deserialized log.

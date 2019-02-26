@@ -102,17 +102,31 @@ static NSString *kMSEncryptionKeyTag = @"kMSEncryptionKeyTag";
   }
   NSString *result = nil;
   NSData *dataToDecrypt = [[NSData alloc] initWithBase64EncodedString:string options:0];
-  size_t cipherBufferSize = CCCryptorGetOutputLength(self.decryptorObject, dataToDecrypt.length, true);
-  uint8_t *cipherBuffer = malloc(cipherBufferSize * sizeof(uint8_t));
-  size_t numBytesDecrypted = 0;
-  CCCryptorStatus status = CCCrypt(kCCDecrypt, kMSEncryptionAlgorithm, kCCOptionPKCS7Padding, [self.key bytes], kMSCipherKeySize, nil,
-                                   [dataToDecrypt bytes], dataToDecrypt.length, cipherBuffer, cipherBufferSize, &numBytesDecrypted);
-  if (status != kCCSuccess) {
-    MSLogError([MSAppCenter logTag], @"Error performing decryption.");
-  } else {
-    result = [[NSString alloc] initWithData:[NSData dataWithBytes:cipherBuffer length:numBytesDecrypted] encoding:NSUTF8StringEncoding];
+  if(dataToDecrypt) {
+    size_t cipherBufferSize = CCCryptorGetOutputLength(self.decryptorObject, dataToDecrypt.length, true);
+    uint8_t *cipherBuffer = malloc(cipherBufferSize * sizeof(uint8_t));
+    size_t numBytesDecrypted = 0;
+    CCCryptorStatus status = CCCrypt(kCCDecrypt, kMSEncryptionAlgorithm, kCCOptionPKCS7Padding, [self.key bytes], kMSCipherKeySize, nil,
+                                     [dataToDecrypt bytes], dataToDecrypt.length, cipherBuffer, cipherBufferSize, &numBytesDecrypted);
+    if (status != kCCSuccess) {
+      MSLogError([MSAppCenter logTag], @"Error performing decryption with CCCryptorStatus: %d", status);
+    } else {
+      NSData *decryptedBytes = [NSData dataWithBytes:cipherBuffer length:numBytesDecrypted];
+      if(decryptedBytes) {
+        result = [[NSString alloc] initWithData:unencryptedBytes encoding:NSUTF8StringEncoding];
+        if(!result) {
+          MSLogWarning([MSAppCenter logTag], @"Converting unencrypted NSData to NSString failed.");
+        }
+      }
+      else {
+        MSLogWarning([MSAppCenter logTag], @"Could not create NSData object from decrypted bytes.");
+      }
+    }
+    free(cipherBuffer);
   }
-  free(cipherBuffer);
+  else {
+    MSLogWarning([MSAppCenter logTag], @"Conversion of encrypted string to NSData failed.");
+  }
   return result;
 }
 
