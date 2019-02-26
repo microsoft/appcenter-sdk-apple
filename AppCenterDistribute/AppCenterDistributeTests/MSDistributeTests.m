@@ -48,6 +48,7 @@ static NSURL *sfURL;
   }
   return self;
 }
+
 + (NSURL *)url {
   return sfURL;
 }
@@ -81,6 +82,8 @@ static NSURL *sfURL;
 @property(nonatomic) id bundleMock;
 @property(nonatomic) id alertControllerMock;
 @property(nonatomic) id distributeInfoTrackerMock;
+@property(nonatomic) id reachabilityMock;
+@property(nonatomic) NetworkStatus currentNetworkStatus;
 
 @end
 
@@ -117,6 +120,19 @@ static NSURL *sfURL;
   self.distributeInfoTrackerMock = OCMClassMock([MSDistributeInfoTracker class]);
   self.sut.distributeInfoTracker = self.distributeInfoTrackerMock;
 
+  // Mock reachability.
+  self.reachabilityMock = OCMClassMock([MS_Reachability class]);
+  self.currentNetworkStatus = ReachableViaWiFi;
+  OCMStub([self.reachabilityMock reachabilityForInternetConnection]).andReturn(self.reachabilityMock);
+  OCMStub([self.reachabilityMock currentReachabilityStatus]).andDo(^(NSInvocation *invocation) {
+    NetworkStatus test = self.currentNetworkStatus;
+    [invocation setReturnValue:&test];
+  });
+  OCMStub([self.reachabilityMock startNotifier]).andDo(^(__unused NSInvocation *invocation) {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"kMSNetworkReachabilityChangedNotification"
+                                                        object:self.reachabilityMock];
+  });
+
   // Clear all previous sessions
   [MSSessionContext resetSharedInstance];
 }
@@ -139,6 +155,7 @@ static NSURL *sfURL;
   [self.bundleMock stopMocking];
   [self.alertControllerMock stopMocking];
   [self.distributeInfoTrackerMock stopMocking];
+  [self.reachabilityMock stopMocking];
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
 }
 
@@ -599,6 +616,8 @@ static NSURL *sfURL;
 - (void)testShowConfirmationAlertForMandatoryUpdateWhileNoNetwork {
 
   // If
+  self.currentNetworkStatus = NotReachable;
+  self.sut.appSecret = kMSTestAppSecret;
   XCTestExpectation *expectation = [self expectationWithDescription:@"Confirmation alert for private distribution has been displayed"];
 
   // Mock alert.
@@ -631,13 +650,10 @@ static NSURL *sfURL;
   id distributeMock = OCMPartialMock(self.sut);
   OCMStub([distributeMock isNewerVersion:OCMOCK_ANY]).andReturn(YES);
 
-  // Mock reachability.
-  id reachabilityMock = OCMClassMock([MS_Reachability class]);
-  OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
-  OCMStub([reachabilityMock currentReachabilityStatus]).andDo(^(NSInvocation *invocation) {
-    NetworkStatus test = NotReachable;
-    [invocation setReturnValue:&test];
-  });
+  // Reject submitting calls.
+  id ingestionCallMock = OCMPartialMock([MSIngestionCall alloc]);
+  OCMStub([ingestionCallMock alloc]).andReturn(ingestionCallMock);
+  OCMReject([ingestionCallMock setSubmitted:YES]);
 
   // Persist release to be picked up.
   [MS_USER_DEFAULTS setObject:[details serializeToDictionary] forKey:kMSMandatoryReleaseKey];
@@ -686,12 +702,14 @@ static NSURL *sfURL;
                                }];
 
   [distributeMock stopMocking];
-  [reachabilityMock stopMocking];
+  [ingestionCallMock stopMocking];
 }
 
 - (void)testDontShowConfirmationAlertIfNoMandatoryReleaseWhileNoNetwork {
 
   // If
+  self.currentNetworkStatus = NotReachable;
+  self.sut.appSecret = kMSTestAppSecret;
   XCTestExpectation *expectation = [self expectationWithDescription:@"Confirmation alert for private distribution has been displayed"];
 
   // Mock alert.
@@ -699,13 +717,10 @@ static NSURL *sfURL;
   OCMReject([self.alertControllerMock addDefaultActionWithTitle:OCMOCK_ANY handler:OCMOCK_ANY]);
   OCMReject([self.alertControllerMock addCancelActionWithTitle:OCMOCK_ANY handler:OCMOCK_ANY]);
 
-  // Mock reachability.
-  id reachabilityMock = OCMClassMock([MS_Reachability class]);
-  OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
-  OCMStub([reachabilityMock currentReachabilityStatus]).andDo(^(NSInvocation *invocation) {
-    NetworkStatus test = NotReachable;
-    [invocation setReturnValue:&test];
-  });
+  // Reject submitting calls.
+  id ingestionCallMock = OCMPartialMock([MSIngestionCall alloc]);
+  OCMStub([ingestionCallMock alloc]).andReturn(ingestionCallMock);
+  OCMReject([ingestionCallMock setSubmitted:YES]);
 
   // When
   [self.sut checkLatestRelease:@"whateverToken" distributionGroupId:@"whateverGroupId" releaseHash:@"whateverReleaseHash"];
@@ -719,6 +734,7 @@ static NSURL *sfURL;
 
                                  // Then
                                  OCMVerifyAll(self.alertControllerMock);
+                                 OCMVerifyAll(ingestionCallMock);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
@@ -743,7 +759,7 @@ static NSURL *sfURL;
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
                                }];
-  [reachabilityMock stopMocking];
+  [ingestionCallMock stopMocking];
 }
 
 - (void)testCheckLatestReleaseRemoveKeysOnNonRecoverableError {
@@ -752,9 +768,6 @@ static NSURL *sfURL;
   id distributeMock = OCMPartialMock(self.sut);
   OCMReject([distributeMock handleUpdate:OCMOCK_ANY]);
   self.sut.appSecret = kMSTestAppSecret;
-  id reachabilityMock = OCMClassMock([MS_Reachability class]);
-  OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
-  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
   XCTestExpectation *expectation = [self expectationWithDescription:@"Request completed."];
   id ingestionCallMock = OCMPartialMock([MSIngestionCall alloc]);
   OCMStub([ingestionCallMock alloc]).andReturn(ingestionCallMock);
@@ -795,7 +808,6 @@ static NSURL *sfURL;
 
   // Clear
   [distributeMock stopMocking];
-  [reachabilityMock stopMocking];
   [ingestionCallMock stopMocking];
 }
 
@@ -806,9 +818,6 @@ static NSURL *sfURL;
   id distributeMock = OCMPartialMock(self.sut);
   OCMReject([distributeMock handleUpdate:OCMOCK_ANY]);
   self.sut.appSecret = kMSTestAppSecret;
-  id reachabilityMock = OCMClassMock([MS_Reachability class]);
-  OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
-  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
   XCTestExpectation *expectation = [self expectationWithDescription:@"Request completed."];
   id ingestionCallMock = OCMPartialMock([MSIngestionCall alloc]);
   OCMStub([ingestionCallMock alloc]).andReturn(ingestionCallMock);
@@ -849,7 +858,6 @@ static NSURL *sfURL;
 
   // Clear
   [distributeMock stopMocking];
-  [reachabilityMock stopMocking];
   [ingestionCallMock stopMocking];
 }
 
@@ -1337,9 +1345,6 @@ static NSURL *sfURL;
 - (void)testSetupUpdatesWithPreviousFailureOnDifferentPackageHash {
 
   // If
-  id reachabilityMock = OCMClassMock([MS_Reachability class]);
-  OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
-  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
   id appCenterMock = OCMClassMock([MSAppCenter class]);
   id distributeMock = OCMPartialMock(self.sut);
@@ -1377,9 +1382,6 @@ static NSURL *sfURL;
 - (void)testBrowserNotOpenedWhenTesterAppUsedForUpdateSetup {
 
   // If
-  id reachabilityMock = OCMClassMock([MS_Reachability class]);
-  OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
-  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
   [MSDistributeTestUtil unMockUpdatesAllowedConditions];
   id appCenterMock = OCMClassMock([MSAppCenter class]);
   id distributeMock = OCMPartialMock(self.sut);
@@ -1459,11 +1461,14 @@ static NSURL *sfURL;
 - (void)testWithoutNetwork {
 
   // If
-  id reachabilityMock = OCMClassMock([MS_Reachability class]);
-  OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
-  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(NotReachable);
+  self.currentNetworkStatus = NotReachable;
   id distributeMock = OCMPartialMock(self.sut);
   OCMReject([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:kMSTestReleaseHash isTesterApp:false]);
+
+  // Reject submitting calls.
+  id ingestionCallMock = OCMPartialMock([MSIngestionCall alloc]);
+  OCMStub([ingestionCallMock alloc]).andReturn(ingestionCallMock);
+  OCMReject([ingestionCallMock setSubmitted:YES]);
 
   // We should not touch UI in a unit testing environment.
   OCMStub([distributeMock openURLInSafariViewControllerWith:OCMOCK_ANY fromClass:OCMOCK_ANY]).andDo(nil);
@@ -1473,7 +1478,7 @@ static NSURL *sfURL;
 
   // Clear
   [distributeMock stopMocking];
-  [reachabilityMock stopMocking];
+  [ingestionCallMock stopMocking];
 }
 
 - (void)testPackageHash {
@@ -2082,9 +2087,6 @@ static NSURL *sfURL;
   OCMReject([distributeMock handleUpdate:OCMOCK_ANY]);
   self.sut.appSecret = kMSTestAppSecret;
   id keychainMock = OCMClassMock([MSKeychainUtil class]);
-  id reachabilityMock = OCMClassMock([MS_Reachability class]);
-  OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
-  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
   XCTestExpectation *expectation = [self expectationWithDescription:@"Request completed."];
   id ingestionCallMock = OCMPartialMock([MSIngestionCall alloc]);
   OCMStub([ingestionCallMock alloc]).andReturn(ingestionCallMock);
@@ -2117,7 +2119,6 @@ static NSURL *sfURL;
   // Clear
   [distributeMock stopMocking];
   [keychainMock stopMocking];
-  [reachabilityMock stopMocking];
   [ingestionCallMock stopMocking];
 }
 
@@ -2216,6 +2217,7 @@ static NSURL *sfURL;
   [distributeMock stopMocking];
   [utilityMock stopMocking];
 }
+
 - (void)testShouldNotChangeDistributionGroupIdIfStoredIdIsNil {
 
   // If

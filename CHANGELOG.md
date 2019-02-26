@@ -1,5 +1,33 @@
 # App Center SDK for iOS and macOS Change Log
 
+## Version 1.14.0 (not yet released)
+
+### AppCenterAnalytics
+
+* **[Feature]** Preparation work for a future change in transmission protocol and endpoint for Analytics data on macOS. There is no impact on your current workflow when using App Center.
+
+___
+
+## Version 1.13.2
+
+### AppCenter
+
+* **[Fix]** Fix a crash if database query failed.
+
+### AppCenterDistribute
+
+* **[Fix]** Fix a race condition crash on upgrading the application to newer version.
+
+___
+
+## Version 1.13.1
+
+### AppCenter
+
+* **[Fix]** Fix a possible deadlock if the SDK is started from a background thread.
+
+___
+
 ## Version 1.13.0
 
 ### AppCenter
