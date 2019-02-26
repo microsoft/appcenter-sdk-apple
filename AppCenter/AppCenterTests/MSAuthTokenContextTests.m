@@ -55,7 +55,7 @@
   // When
   [self.sut setAuthToken:expectedAuthToken withAccountId:expectedAccountId2];
   
-  //Then
+  // Then
   OCMVerify([delegateMock authTokenContext:self.sut didUpdateUserWithAuthToken:expectedAuthToken]);
 }
 

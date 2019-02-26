@@ -421,57 +421,57 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 }
 
 - (void)testSignInDoesNotAcquireTokenWhenDisabled {
-  
+
   // If
   self.sut.clientApplication = self.clientApplicationMock;
   id identityMock = OCMPartialMock([MSIdentity sharedInstance]);
   OCMStub([identityMock sharedInstance]).andReturn(identityMock);
   OCMStub([identityMock canBeUsed]).andReturn(NO);
   OCMStub([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]).andDo(nil);
-  
+
   // When
   OCMReject([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
   [MSIdentity signIn];
-  
+
   // Then
   [identityMock stopMocking];
 }
 
 - (void)testSignInDelayedWhenNoClientApplication {
-  
+
   // If
   self.sut.identityConfig = [MSIdentityConfig new];
   self.sut.identityConfig.identityScope = @"fake";
   id identityMock = OCMPartialMock(self.sut);
   OCMStub([identityMock sharedInstance]).andReturn(identityMock);
   OCMStub([identityMock canBeUsed]).andReturn(YES);
-  
+
   // When
   [MSIdentity signIn];
-  
+
   // Then
   XCTAssertTrue(self.sut.signInDelayedAndRetryLater);
   [identityMock stopMocking];
 }
 
 - (void)testSignInDelayedWhenNoIdentityConfig {
-  
+
   // If
   self.sut.clientApplication = self.clientApplicationMock;
   id identityMock = OCMPartialMock(self.sut);
   OCMStub([identityMock sharedInstance]).andReturn(identityMock);
   OCMStub([identityMock canBeUsed]).andReturn(YES);
-  
+
   // When
   [MSIdentity signIn];
-  
+
   // Then
   XCTAssertTrue(self.sut.signInDelayedAndRetryLater);
   [identityMock stopMocking];
 }
 
 - (void)testSilentSignInSavesAuthTokenAndHomeAccountId {
-  
+
   // If
   NSString *expectedHomeAccountId = @"fakeHomeAccountId";
   NSString *expectedAuthToken = @"fakeAuthToken";
@@ -494,10 +494,10 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   id identityMock = OCMPartialMock(self.sut);
   OCMStub([identityMock sharedInstance]).andReturn(identityMock);
   OCMStub([identityMock canBeUsed]).andReturn(YES);
-  
+
   // When
   [self.sut acquireTokenSilentlyWithMSALAccount:accountMock];
-  
+
   // Then
   XCTAssertEqual([MSMockKeychainUtil stringForKey:kMSIdentityAuthTokenKey], expectedAuthToken);
   XCTAssertEqual([[MSAuthTokenContext sharedInstance] authToken], expectedAuthToken);
