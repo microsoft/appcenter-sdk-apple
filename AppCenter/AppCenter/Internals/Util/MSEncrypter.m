@@ -104,7 +104,7 @@ static NSString *kMSEncryptionKeyTag = @"kMSEncryptionKeyTag";
   NSData *dataToDecrypt = [[NSData alloc] initWithBase64EncodedString:string options:0];
   if (dataToDecrypt) {
     size_t cipherBufferSize = CCCryptorGetOutputLength(self.decryptorObject, dataToDecrypt.length, true);
-    uint8_t *cipherBuffer = malloc(cipherBufferSize * sizeof(uint8_t));
+    uint8_t *cipherBuffer = malloc(cipherBufferSize);
     size_t numBytesDecrypted = 0;
     CCCryptorStatus status = CCCrypt(kCCDecrypt, kMSEncryptionAlgorithm, kCCOptionPKCS7Padding, [self.key bytes], kMSCipherKeySize, nil,
                                      [dataToDecrypt bytes], dataToDecrypt.length, cipherBuffer, cipherBufferSize, &numBytesDecrypted);
