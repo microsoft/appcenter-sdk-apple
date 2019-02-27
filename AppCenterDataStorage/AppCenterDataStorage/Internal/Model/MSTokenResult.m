@@ -10,11 +10,11 @@
 @synthesize status = _status;
 
 - (instancetype)initWithPartition:(NSString *)partition
-                     andDbAccount:(NSString *)dbAccount
-                        andDbName:(NSString *)dbName
-              andDbCollectionName:(NSString *)dbCollectionName
-                         andToken:(NSString *)token
-                        andStatus:(NSString *)status {
+                        dbAccount:(NSString *)dbAccount
+                           dbName:(NSString *)dbName
+                 dbCollectionName:(NSString *)dbCollectionName
+                            token:(NSString *)token
+                           status:(NSString *)status {
   self = [super init];
   if (self) {
     _partition = partition;
