@@ -183,7 +183,7 @@ static dispatch_once_t onceToken;
     [self removeAuthToken];
     [self removeAccountId];
   } else {
-    MSLogWarning([MSIdentity logTag], @"Couldn't sign-out: authToken isn't exists.");
+    MSLogWarning([MSIdentity logTag], @"Couldn't sign-out: authToken doesn't exist.");
   }
 }
 
@@ -340,7 +340,7 @@ static dispatch_once_t onceToken;
                       [MSAuthTokenContext sharedInstance].authToken = result.idToken;
                       [strongSelf saveAuthToken:result.idToken];
                       [strongSelf saveAccountId:(NSString * _Nonnull) result.account.homeAccountId.identifier];
-                      MSLogInfo([MSIdentity logTag], @"User sign-in succeeded.");
+                      MSLogInfo([MSIdentity logTag], @"Silent acquisition of token succeeded.");
                     }
                   }];
 }
