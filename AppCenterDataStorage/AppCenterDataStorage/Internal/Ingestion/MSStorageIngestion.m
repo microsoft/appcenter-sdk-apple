@@ -1,8 +1,8 @@
 #import "MSAppCenter.h"
 #import "MSAppCenterInternal.h"
-#import "MSStorageIngestion.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSLoggerInternal.h"
+#import "MSStorageIngestion.h"
 
 @implementation MSStorageIngestion
 

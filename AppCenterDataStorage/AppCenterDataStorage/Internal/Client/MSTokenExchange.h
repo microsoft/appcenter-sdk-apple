@@ -1,4 +1,3 @@
-#import <Foundation/Foundation.h>
 #import "MSHttpIngestion.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -14,7 +13,7 @@ typedef void (^MSGetTokenAsyncCompletionHandler)(NSData *data, NSError *error);
  * @param completion callback that gets the token.
  *
  */
-+ (void)getTokenAsync:(MSHttpIngestion *)httpIngestion completionHandler:(MSGetTokenAsyncCompletionHandler)completion;
++ (void)tokenAsync:(MSHttpIngestion *)httpIngestion completionHandler:(MSGetTokenAsyncCompletionHandler)completion;
 
 @end
 

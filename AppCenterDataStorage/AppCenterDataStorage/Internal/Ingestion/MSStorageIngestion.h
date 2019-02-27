@@ -15,7 +15,6 @@ static NSString *const kMSHeaderUpdateApiToken = @"x-api-token";
  */
 @property(nonatomic) NSString *appSecret;
 
-
 /**
  * Initialize the Ingestion.
  *
