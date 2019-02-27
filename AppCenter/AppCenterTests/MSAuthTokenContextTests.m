@@ -45,29 +45,29 @@
   // Then
   XCTAssertEqualObjects([self.sut authToken], expectedAuthToken);
   OCMVerify([delegateMock authTokenContext:self.sut didUpdateUserWithAuthToken:expectedAuthToken]);
-  
+
   // When
   [self.sut setAuthToken:expectedAuthToken withAccountId:expectedAccountId];
-  
-  //Then
+
+  // Then
   OCMVerify([delegateMock authTokenContext:self.sut didReceiveAuthToken:expectedAuthToken]);
-  
+
   // When
   [self.sut setAuthToken:expectedAuthToken withAccountId:expectedAccountId2];
-  
+
   // Then
   OCMVerify([delegateMock authTokenContext:self.sut didUpdateUserWithAuthToken:expectedAuthToken]);
 }
 
 - (void)testClearAuthToken {
-  
+
   // If
   id<MSAuthTokenContextDelegate> delegateMock = OCMProtocolMock(@protocol(MSAuthTokenContextDelegate));
   [self.sut addDelegate:delegateMock];
-  
+
   // When
   [self.sut clearAuthToken];
-  
+
   // Then
   XCTAssertNil([self.sut authToken]);
   OCMVerify([delegateMock authTokenContext:self.sut didReceiveAuthToken:nil]);
