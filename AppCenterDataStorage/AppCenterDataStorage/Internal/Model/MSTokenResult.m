@@ -15,16 +15,16 @@
               andDbCollectionName:(NSString *)dbCollectionName
                          andToken:(NSString *)token
                         andStatus:(NSString *)status {
-    self = [super init];
-    if (self) {
-        _partition = partition;
-        _dbAccount = dbAccount;
-        _dbName = dbName;
-        _dbCollectionName = dbCollectionName;
-        _token = token;
-        _status = status;
-    }
-    return self;
+  self = [super init];
+  if (self) {
+    _partition = partition;
+    _dbAccount = dbAccount;
+    _dbName = dbName;
+    _dbCollectionName = dbCollectionName;
+    _token = token;
+    _status = status;
+  }
+  return self;
 }
 
 @end
