@@ -153,7 +153,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 }
 
 - (void)testEnablingReadsAuthTokenFromKeychainAndDoesNotSetAuthContextIfNil {
-  
+
   // If
   NSString *expectedETag = @"eTag";
   [self.settingsMock setObject:expectedETag forKey:kMSIdentityETagKey];
@@ -162,10 +162,10 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   id<MSAuthTokenContextDelegate> mockDelegate = OCMProtocolMock(@protocol(MSAuthTokenContextDelegate));
   [[MSAuthTokenContext sharedInstance] addDelegate:mockDelegate];
   OCMStub([self.ingestionMock sendAsync:OCMOCK_ANY eTag:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
-  
+
   // Then
   OCMReject([mockDelegate authTokenContext:OCMOCK_ANY didReceiveAuthToken:OCMOCK_ANY]);
-  
+
   // When
   [self.sut applyEnabledState:YES];
 }

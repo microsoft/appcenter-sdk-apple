@@ -319,8 +319,9 @@ static dispatch_once_t onceToken;
                                    @"Silent acquisition of token failed with error: %@. Triggering interactive acquisition", e);
                       [strongSelf acquireTokenInteractively];
                     } else {
-                      MSALAccountId *accountId = (MSALAccountId *_Nonnull)result.account.homeAccountId;
-                      [[MSAuthTokenContext sharedInstance] setAuthToken: (NSString * _Nonnull) result.idToken withAccountId: (NSString * _Nonnull) accountId.identifier];
+                      MSALAccountId *accountId = (MSALAccountId * _Nonnull) result.account.homeAccountId;
+                      [[MSAuthTokenContext sharedInstance] setAuthToken:(NSString * _Nonnull) result.idToken
+                                                          withAccountId:(NSString * _Nonnull) accountId.identifier];
                       [strongSelf saveAuthToken:result.idToken];
                       [strongSelf saveAccountId:(NSString * _Nonnull) result.account.homeAccountId.identifier];
                     }
@@ -335,8 +336,9 @@ static dispatch_once_t onceToken;
                                     MSLogError([MSIdentity logTag], @"User sign-in failed. Error: %@", e);
                                   } else {
                                     typeof(self) strongSelf = weakSelf;
-                                     MSALAccountId *accountId = (MSALAccountId *_Nonnull)result.account.homeAccountId;
-                                     [[MSAuthTokenContext sharedInstance] setAuthToken: (NSString * _Nonnull) result.idToken withAccountId: (NSString * _Nonnull) accountId.identifier];
+                                    MSALAccountId *accountId = (MSALAccountId * _Nonnull) result.account.homeAccountId;
+                                    [[MSAuthTokenContext sharedInstance] setAuthToken:(NSString * _Nonnull) result.idToken
+                                                                        withAccountId:(NSString * _Nonnull) accountId.identifier];
                                     [strongSelf saveAuthToken:result.idToken];
                                     [strongSelf saveAccountId:(NSString * _Nonnull) result.account.homeAccountId.identifier];
                                   }

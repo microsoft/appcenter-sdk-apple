@@ -63,7 +63,7 @@ static dispatch_once_t onceToken;
     self.authToken = authToken;
     isNewUser = self.homeAccountId == nil || ![self.homeAccountId isEqualToString:accountId];
     self.homeAccountId = accountId;
-    
+
     // Don't invoke the delegate while locking; it might be locking too and deadlock ourselves.
     synchronizedDelegates = [self.delegates allObjects];
   }
@@ -82,7 +82,7 @@ static dispatch_once_t onceToken;
   @synchronized(self) {
     self.authToken = nil;
     self.homeAccountId = nil;
-    
+
     // Don't invoke the delegate while locking; it might be locking too and deadlock ourselves.
     synchronizedDelegates = [self.delegates allObjects];
   }

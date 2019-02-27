@@ -234,7 +234,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 }
 
 - (void)testSendsPushTokenAnonymouslyWhenClearsAuthToken {
-  
+
   // If
   id pushMock = OCMPartialMock(self.sut);
   OCMStub([pushMock sharedInstance]).andReturn(pushMock);
@@ -255,10 +255,10 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
                          transmissionTargetToken:nil
                                  fromApplication:YES];
   [MSPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
-  
+
   // When
   [[MSAuthTokenContext sharedInstance] clearAuthToken];
-  
+
   // Then
   [pushMock verify];
 }
