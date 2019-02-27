@@ -603,6 +603,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // Then
   OCMVerify([mockDelegate authTokenContext:OCMOCK_ANY didReceiveAuthToken:nil]);
+  OCMVerify([mockDelegate authTokenContext:OCMOCK_ANY didUpdateUserWithAuthToken:nil]);
 }
 
 - (void)testSignOutClearsAuthTokenAndAccountId {
