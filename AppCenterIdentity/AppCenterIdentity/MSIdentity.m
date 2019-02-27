@@ -96,7 +96,7 @@ static dispatch_once_t onceToken;
     NSString *authToken = [self retrieveAuthToken];
     NSString *accountId = [self retrieveAccountId];
 
-    // Only set the auth token if it and account id are not nil to avoid triggering callbacks.
+    // Only set the auth token if auth token and account id are not nil to avoid triggering callbacks.
     if (authToken && accountId) {
       [[MSAuthTokenContext sharedInstance] setAuthToken:authToken withAccountId:accountId];
     }
