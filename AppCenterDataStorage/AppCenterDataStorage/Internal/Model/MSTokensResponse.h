@@ -1,4 +1,6 @@
-#import "MSTokenResult.h"
+#import <Foundation/Foundation.h>
+
+@class MSTokenResult;
 
 @interface MSTokensResponse : NSObject
 
