@@ -156,11 +156,7 @@ static dispatch_once_t onceToken;
 }
 
 + (void)signOut {
-  @synchronized([MSIdentity sharedInstance]) {
-    if ([[MSIdentity sharedInstance] canBeUsed]) {
-      [[MSIdentity sharedInstance] signOut];
-    }
-  }
+  [[MSIdentity sharedInstance] signOut];
 }
 
 - (void)signIn {
@@ -178,13 +174,18 @@ static dispatch_once_t onceToken;
 }
 
 - (void)signOut {
-  if ([MSAuthTokenContext sharedInstance].authToken != nil) {
-    MSLogInfo([MSIdentity logTag], @"User sign-out succeeded.");
-    [[MSAuthTokenContext sharedInstance] clearAuthToken];
-    [self removeAuthToken];
-    [self removeAccountId];
-  } else {
-    MSLogWarning([MSIdentity logTag], @"Couldn't sign-out: authToken doesn't exist.");
+  @synchronized(self) {
+    if (![self canBeUsed]) {
+      return;
+    }
+    if ([MSAuthTokenContext sharedInstance].authToken != nil) {
+      MSLogInfo([MSIdentity logTag], @"User sign-out succeeded.");
+      [[MSAuthTokenContext sharedInstance] clearAuthToken];
+      [self removeAuthToken];
+      [self removeAccountId];
+    } else {
+      MSLogWarning([MSIdentity logTag], @"Couldn't sign-out: authToken doesn't exist.");
+    }
   }
 }
 
