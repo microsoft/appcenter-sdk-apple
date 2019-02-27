@@ -2,7 +2,6 @@
 #import "MSDocument.h"
 #import "MSDocuments.h"
 #import "MSSerializableDocument.h"
-#import "MSDataStorageInternal.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
