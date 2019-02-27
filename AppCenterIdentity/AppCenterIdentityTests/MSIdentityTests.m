@@ -1,6 +1,5 @@
 #import <Foundation/Foundation.h>
 
-#import "MSAppDelegateUtil.h"
 #import "MSAuthTokenContext.h"
 #import "MSAuthTokenContextDelegate.h"
 #import "MSChannelGroupProtocol.h"
@@ -590,8 +589,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 }
 
 - (void)testSignOutInvokesDelegatesWithNilToken {
+
   // If
-  [[MSAuthTokenContext sharedInstance] setAuthToken:@"fake-auth-token" withAccountId:@"fake-account-id"];
+  [[MSAuthTokenContext sharedInstance] setAuthToken:@"someToken" withAccountId:@"someAccount"];
   id<MSAuthTokenContextDelegate> mockDelegate = OCMProtocolMock(@protocol(MSAuthTokenContextDelegate));
   [[MSAuthTokenContext sharedInstance] addDelegate:mockDelegate];
   id identityMock = OCMPartialMock(self.sut);
@@ -608,7 +608,11 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 }
 
 - (void)testSignOutClearsAuthTokenAndAccountId {
+
   // If
+  [[MSAuthTokenContext sharedInstance] setAuthToken:@"someToken" withAccountId:@"someAccount"];
+  [MSMockKeychainUtil storeString:@"someToken" forKey:kMSIdentityAuthTokenKey];
+  [self.settingsMock setObject:@"someAccount" forKey:kMSIdentityMSALAccountHomeAccountKey];
   id identityMock = OCMPartialMock(self.sut);
   OCMStub([identityMock sharedInstance]).andReturn(identityMock);
   OCMStub([identityMock canBeUsed]).andReturn(YES);
@@ -619,6 +623,48 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // Then
   XCTAssertNil([MSMockKeychainUtil stringForKey:kMSIdentityAuthTokenKey]);
   XCTAssertNil([self.settingsMock objectForKey:kMSIdentityMSALAccountHomeAccountKey]);
+  [identityMock stopMocking];
+}
+
+- (void)testSignOutDoesNothingWhenNotSignedIn {
+
+  // If
+  id<MSAuthTokenContextDelegate> mockDelegate = OCMProtocolMock(@protocol(MSAuthTokenContextDelegate));
+  [[MSAuthTokenContext sharedInstance] addDelegate:mockDelegate];
+  id identityMock = OCMPartialMock(self.sut);
+  OCMStub([identityMock sharedInstance]).andReturn(identityMock);
+  OCMStub([identityMock canBeUsed]).andReturn(YES);
+
+  // Then
+  OCMReject([mockDelegate authTokenContext:OCMOCK_ANY didReceiveAuthToken:OCMOCK_ANY]);
+
+  // When
+  [MSIdentity signOut];
+
+  // Then
+  XCTAssertNil([[MSAuthTokenContext sharedInstance] authToken]);
+  [identityMock stopMocking];
+}
+
+- (void)testSignOutDoesNothingWhenDisabled {
+
+  // If
+  NSString *authToken = @"someToken";
+  NSString *accountId = @"someAccount";
+  [[MSAuthTokenContext sharedInstance] setAuthToken:authToken withAccountId:accountId];
+  [MSMockKeychainUtil storeString:authToken forKey:kMSIdentityAuthTokenKey];
+  [self.settingsMock setObject:accountId forKey:kMSIdentityMSALAccountHomeAccountKey];
+  id identityMock = OCMPartialMock(self.sut);
+  OCMStub([identityMock sharedInstance]).andReturn(identityMock);
+  OCMStub([identityMock canBeUsed]).andReturn(NO);
+
+  // When
+  [MSIdentity signOut];
+
+  // Then
+  XCTAssertEqual([[MSAuthTokenContext sharedInstance] authToken], authToken);
+  XCTAssertEqual([MSMockKeychainUtil stringForKey:kMSIdentityAuthTokenKey], authToken);
+  XCTAssertEqual([self.settingsMock objectForKey:kMSIdentityMSALAccountHomeAccountKey], accountId);
   [identityMock stopMocking];
 }
 
