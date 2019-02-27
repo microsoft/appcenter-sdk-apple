@@ -181,6 +181,16 @@ static dispatch_once_t onceToken;
     if ([MSAuthTokenContext sharedInstance].authToken != nil) {
       MSLogInfo([MSIdentity logTag], @"User sign-out succeeded.");
       [[MSAuthTokenContext sharedInstance] clearAuthToken];
+      if (self.clientApplication != nil) {
+        MSALAccount *account = [self retrieveAccountWithAccountId:[self retrieveAccountId]];
+        if (account != nil) {
+          NSError *error;
+          [self.clientApplication removeAccount:account error:&error];
+          if (error) {
+            MSLogError([MSIdentity logTag], @"Couldn't remove account: %@", error.localizedDescription);
+          }
+        }
+      }
       [self removeAuthToken];
       [self removeAccountId];
     } else {
