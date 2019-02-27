@@ -8,6 +8,7 @@
 #import "MSHttpIngestion.h"
 #import "MSStorageIngestion.h"
 #import "MSDataStorageInternal.h"
+#import "MSTokenExchange.h"
 
 /**
  * Service storage key name.
@@ -33,7 +34,7 @@ static dispatch_once_t onceToken;
 
 - (instancetype)init {
   if ((self = [super init])) {
-
+    _apiUrl = kMSDefaultApiUrl;
   }
   return self;
 }
@@ -110,7 +111,6 @@ static dispatch_once_t onceToken;
   [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
   MSLogVerbose([MSDataStorage logTag], @"Started Data Storage service.");
   
-  self.apiUrl = kMSDefaultApiUrl;
   self.ingestion = [[MSStorageIngestion alloc] initWithBaseUrl:self.apiUrl appSecret:(NSString *)appSecret];
 }
 
@@ -130,6 +130,12 @@ static dispatch_once_t onceToken;
 
 - (void)applyEnabledState:(BOOL)isEnabled {
   [super applyEnabledState:isEnabled];
+}
+
+#pragma mark - Public
+
++ (void)setApiUrl:(NSString *)apiUrl {
+  [[MSDataStorage sharedInstance] setApiUrl:apiUrl];
 }
 
 @end

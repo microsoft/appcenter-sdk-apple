@@ -50,5 +50,12 @@ typedef void (^MSDownloadDocumentsCompletionHandler)(MSDocuments<T>* documents);
 // Delete a document
 + (void)deleteDocumentWithPartition:(NSString *)partition documentId:(NSString *)documentId completionHandler:(void (^)(MSDataSourceError* error))completionHandler;
 
+/**
+ * Change The URL that will be used for generic update related tasks.
+ *
+ * @param apiUrl The new URL.
+ */
++ (void)setApiUrl:(NSString *)apiUrl;
+
 @end
 NS_ASSUME_NONNULL_END

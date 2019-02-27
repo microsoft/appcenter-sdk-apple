@@ -11,14 +11,15 @@
  */
 static NSString *const kMSAppSecrectHeader = @"App-Secret";
 static NSString *const kMSGetTokenPath = @"/data/tokens";
-static NSString *const kMSPartitions = @"partitions";
 
 - (id)initWithBaseUrl:(NSString *)baseUrl
               appSecret:(NSString *)appSecret {
 
   if ((self = [super initWithBaseUrl:baseUrl
                              apiPath:kMSGetTokenPath
-                             headers:@{kMSAppSecrectHeader : appSecret}
+                             headers:@{
+                                       kMSAppSecrectHeader : appSecret,
+                                       kMSHeaderContentTypeKey : kMSAppCenterContentType }
                         queryStrings:nil
                         reachability:[MS_Reachability reachabilityForInternetConnection]
                       retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]])) {
@@ -38,8 +39,7 @@ static NSString *const kMSPartitions = @"partitions";
   request.allHTTPHeaderFields = self.httpHeaders;
   
   // Set body.
-  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:@{kMSPartitions : data} options:0 error:NULL];
-  request.HTTPBody = jsonData;
+  request.HTTPBody = (NSData *)data;
 
   // Always disable cookies.
   [request setHTTPShouldHandleCookies:NO];
