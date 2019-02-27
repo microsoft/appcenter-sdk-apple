@@ -604,6 +604,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // Then
   OCMVerify([mockDelegate authTokenContext:OCMOCK_ANY didReceiveAuthToken:nil]);
   OCMVerify([mockDelegate authTokenContext:OCMOCK_ANY didUpdateUserWithAuthToken:nil]);
+  [identityMock stopMocking];
 }
 
 - (void)testSignOutClearsAuthTokenAndAccountId {
@@ -618,6 +619,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // Then
   XCTAssertNil([MSMockKeychainUtil stringForKey:kMSIdentityAuthTokenKey]);
   XCTAssertNil([self.settingsMock objectForKey:kMSIdentityMSALAccountHomeAccountKey]);
+  [identityMock stopMocking];
 }
 
 @end
