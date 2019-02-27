@@ -5,6 +5,8 @@
 #import "MSChannelUnitProtocol.h"
 #import "MSDataStorage.h"
 #import "MSDataStoragePrivate.h"
+#import "MSHttpIngestion.h"
+#import "MSStorageIngestion.h"
 
 /**
  * Service storage key name.
@@ -106,6 +108,10 @@ static dispatch_once_t onceToken;
               fromApplication:(BOOL)fromApplication {
   [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
   MSLogVerbose([MSDataStorage logTag], @"Started Data Storage service.");
+  
+  // @TODO move apiUrl to Internal class
+  self.apiUrl = kMSDefaultApiUrl;
+  self.ingestion = [[MSStorageIngestion alloc] initWithBaseUrl:self.apiUrl appSecret:(NSString *)appSecret];
 }
 
 + (NSString *)serviceName {

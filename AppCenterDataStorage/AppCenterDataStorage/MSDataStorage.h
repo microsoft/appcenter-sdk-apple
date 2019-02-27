@@ -2,6 +2,7 @@
 #import "MSDocument.h"
 #import "MSDocuments.h"
 #import "MSSerializableDocument.h"
+#import "MSDataStorageInternal.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -26,7 +27,6 @@ static NSString *const MSDataSourceReadOnlyPartition = @"readonly";
 @interface MSDataStorage<T : id<MSSerializableDocument>> : MSServiceAbstract
 
 
-NS_ASSUME_NONNULL_END
 
 typedef void (^MSDownloadDocumentCompletionHandler)(MSDocument<T>* document);
 typedef void (^MSDownloadDocumentsCompletionHandler)(MSDocuments<T>* documents);
@@ -52,3 +52,4 @@ typedef void (^MSDownloadDocumentsCompletionHandler)(MSDocuments<T>* documents);
 + (void)deleteDocumentWithPartition:(NSString *)partition documentId:(NSString *)documentId completionHandler:(void (^)(MSDataSourceError* error))completionHandler;
 
 @end
+NS_ASSUME_NONNULL_END
