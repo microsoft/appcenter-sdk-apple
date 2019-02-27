@@ -285,7 +285,7 @@ static const NSUInteger kMSSchemaVersion = 3;
         MSLogWarning([MSAppCenter logTag], @"Failed to decrypt the target token.");
       }
     } else {
-      MSLogWarning([MSAppCenter logTag], @"Encrypted token was NSNull or an empty string.");
+      MSLogVerbose([MSAppCenter logTag], @"Encrypted token was NSNull or an empty string (this is not a 1DS log).");
     }
 
     // Update with deserialized log.
