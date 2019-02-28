@@ -9,7 +9,7 @@ module_version: 1.13.1
 author: Microsoft Corp
 author_url: http://www.microsoft.com
 
-readme: Guides/Push.md
+readme: Guides/DataStorage.md
 documentation: ../../Guides/[^index]*.md
 custom_categories:
   - name: Guides
