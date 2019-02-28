@@ -1,6 +1,7 @@
 #import "MSDataStorage.h"
 #import "MSAppCenterInternal.h"
 #import "MSAppDelegateForwarder.h"
+#import "MSAuthTokenContext.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
 #import "MSDataStorageInternal.h"
@@ -143,6 +144,19 @@ static dispatch_once_t onceToken;
 
 - (void)applyEnabledState:(BOOL)isEnabled {
   [super applyEnabledState:isEnabled];
+  if (isEnabled) {
+    [[MSAuthTokenContext sharedInstance] addDelegate:self];
+  } else {
+    [[MSAuthTokenContext sharedInstance] removeDelegate:self];
+  }
+}
+
+#pragma mark - MSAuthTokenContextDelegate
+
+- (void)authTokenContext:(MSAuthTokenContext *) __unused authTokenContext didReceiveAuthToken:(/* nullable (changed in #1328) */NSString *)authToken {
+  if (authToken == nil) {
+    // TODO: delete the Cosmos tokens associated with the user.
+  }
 }
 
 #pragma mark - Public
