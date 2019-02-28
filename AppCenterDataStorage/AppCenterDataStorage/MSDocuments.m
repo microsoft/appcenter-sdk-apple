@@ -1,8 +1,8 @@
 
-#import <Foundation/Foundation.h>
 #import "MSDocuments.h"
-#import "MSSerializableObject.h"
 #import "MSSerializableDocument.h"
+#import "MSSerializableObject.h"
+#import <Foundation/Foundation.h>
 
 @implementation MSDocuments
 
@@ -12,25 +12,21 @@
 }
 
 // List of documents (deserialized) in the current page (or null)
-- (NSArray<id> *)asList
-{
+- (NSArray<id> *)asList {
   return nil;
 }
 
 // Error (or null)
-- (MSDataSourceError *)error
-{
+- (MSDataSourceError *)error {
   return nil;
 }
 
 // Flag indicating if an extra page can be fetched
-- (BOOL)hasNext
-{
+- (BOOL)hasNext {
   return NO;
 }
 
-- (MSDocument<id<MSSerializableDocument>> *)next
-{
+- (MSDocument<id<MSSerializableDocument>> *)next {
   return nil;
 }
 

@@ -1,10 +1,14 @@
-#import <Foundation/Foundation.h>
+#import "MSDataStorage.h"
 #import "MSAppCenterInternal.h"
 #import "MSAppDelegateForwarder.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
-#import "MSDataStorage.h"
+#import "MSDataStorageInternal.h"
 #import "MSDataStoragePrivate.h"
+#import "MSHttpIngestion.h"
+#import "MSStorageIngestion.h"
+#import "MSTokenExchange.h"
+#import <Foundation/Foundation.h>
 
 /**
  * Service storage key name.
@@ -30,14 +34,16 @@ static dispatch_once_t onceToken;
 
 - (instancetype)init {
   if ((self = [super init])) {
-
+    _tokenExchangeUrl = kMSDefaultApiUrl;
   }
   return self;
 }
 #pragma mark - Service methods
 
-
-+ (void)readWithPartition:(NSString *)partition documentId:(NSString *)documentId documentType:(Class)documentType completionHandler:(MSDownloadDocumentCompletionHandler)completionHandler {
++ (void)readWithPartition:(NSString *)partition
+               documentId:(NSString *)documentId
+             documentType:(Class)documentType
+        completionHandler:(MSDownloadDocumentCompletionHandler)completionHandler {
   (void)partition;
   (void)documentId;
   (void)documentType;
@@ -46,7 +52,9 @@ static dispatch_once_t onceToken;
 
 // List (need optional signature to configure page size)
 // The document type (T) must be JSON deserializable
-+ (void)readWithPartition:(NSString *)partition documentType:(Class)documentType completionHandler:(MSDownloadDocumentsCompletionHandler)completionHandler {
++ (void)readWithPartition:(NSString *)partition
+             documentType:(Class)documentType
+        completionHandler:(MSDownloadDocumentsCompletionHandler)completionHandler {
   (void)partition;
   (void)documentType;
   (void)completionHandler;
@@ -54,22 +62,28 @@ static dispatch_once_t onceToken;
 
 // Create a document
 // The document instance (T) must be JSON serializable
-+ (void)createWithPartition:(NSString *)partition documentId:(NSString *)documentId document:(id<MSSerializableDocument>)document completionHandler:(MSDownloadDocumentCompletionHandler)completionHandler {
-  
++ (void)createWithPartition:(NSString *)partition
+                 documentId:(NSString *)documentId
+                   document:(id<MSSerializableDocument>)document
+          completionHandler:(MSDownloadDocumentCompletionHandler)completionHandler {
+
   (void)partition;
   (void)documentId;
   (void)document;
-  
+
   // Jump back on the MAIN THREAD to update the UI
-  dispatch_async(dispatch_get_main_queue(), ^ {
+  dispatch_async(dispatch_get_main_queue(), ^{
     MSDocument *doc = [[MSDocument alloc] initWithDocument:document];
     completionHandler(doc);
-   });
+  });
 }
 
 // Replace a document
 // The document instance (T) must be JSON serializable
-+ (void)replaceWithPartition:(NSString *)partition documentId:(NSString *)documentId document:(id<MSSerializableDocument>)document completionHandler:(MSDownloadDocumentCompletionHandler)completionHandler {
++ (void)replaceWithPartition:(NSString *)partition
+                  documentId:(NSString *)documentId
+                    document:(id<MSSerializableDocument>)document
+           completionHandler:(MSDownloadDocumentCompletionHandler)completionHandler {
   (void)partition;
   (void)documentId;
   (void)document;
@@ -77,7 +91,9 @@ static dispatch_once_t onceToken;
 }
 
 // Delete a document
-+ (void)deleteDocumentWithPartition:(NSString *)partition documentId:(NSString *)documentId completionHandler:(void (^)(MSDataSourceError* error))completionHandler {
++ (void)deleteDocumentWithPartition:(NSString *)partition
+                         documentId:(NSString *)documentId
+                  completionHandler:(void (^)(MSDataSourceError *error))completionHandler {
   (void)partition;
   (void)documentId;
   (void)completionHandler;
@@ -105,6 +121,9 @@ static dispatch_once_t onceToken;
       transmissionTargetToken:(nullable NSString *)token
               fromApplication:(BOOL)fromApplication {
   [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
+  if (appSecret) {
+      self.ingestion = [[MSStorageIngestion alloc] initWithBaseUrl:self.tokenExchangeUrl appSecret:(NSString *)appSecret];
+  }
   MSLogVerbose([MSDataStorage logTag], @"Started Data Storage service.");
 }
 
@@ -124,6 +143,12 @@ static dispatch_once_t onceToken;
 
 - (void)applyEnabledState:(BOOL)isEnabled {
   [super applyEnabledState:isEnabled];
+}
+
+#pragma mark - Public
+
++ (void)setTokenExchangeUrl:(NSString *)tokenExchangeUrl {
+  [[MSDataStorage sharedInstance] setTokenExchangeUrl:tokenExchangeUrl];
 }
 
 @end
