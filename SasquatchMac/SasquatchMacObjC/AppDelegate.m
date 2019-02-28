@@ -1,5 +1,5 @@
-#import "AppCenterDelegateObjC.h"
 #import "AppDelegate.h"
+#import "AppCenterDelegateObjC.h"
 #import "Constants.h"
 
 @import AppCenter;
@@ -29,7 +29,7 @@
   [self setupPush];
 
   // Start AppCenter.
-  [MSAppCenter start:@"d80aae71-af34-4e0c-af61-2381391c4a7a" withServices:@[ [MSAnalytics class], [MSCrashes class], [MSPush class] ]];
+  [MSAppCenter start:@"d80aae71-af34-4e0c-af61-2381391c4a7a" withServices:@ [[MSAnalytics class], [MSCrashes class], [MSPush class]]];
   [AppCenterProvider shared].appCenter = [[AppCenterDelegateObjC alloc] init];
 
   [self initUI];
@@ -59,7 +59,6 @@
 
   [MSCrashes setDelegate:self];
   [MSCrashes setUserConfirmationHandler:(^(NSArray<MSErrorReport *> *errorReports) {
-
                // Use MSAlertViewController to show a dialog to the user where they can choose if they want to provide a crash report.
                NSAlert *alert = [[NSAlert alloc] init];
                [alert setMessageText:@"Sorry about that!"];
@@ -132,8 +131,9 @@
           UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef)[referenceUrl pathExtension], nil);
       NSString *MIMEType = (__bridge_transfer NSString *)UTTypeCopyPreferredTagWithClass(UTI, kUTTagClassMIMEType);
       CFRelease(UTI);
-      MSErrorAttachmentLog *binaryAttachment =
-          [MSErrorAttachmentLog attachmentWithBinary:data filename:referenceUrl.lastPathComponent contentType:MIMEType];
+      MSErrorAttachmentLog *binaryAttachment = [MSErrorAttachmentLog attachmentWithBinary:data
+                                                                                 filename:referenceUrl.lastPathComponent
+                                                                              contentType:MIMEType];
       [attachments addObject:binaryAttachment];
       NSLog(@"Add binary attachment with %tu bytes", [data length]);
     } else {

@@ -1,10 +1,10 @@
-#import <Foundation/Foundation.h>
 #import "MSDataSourceError.h"
 #import "MSDocument.h"
 #import "MSSerializableDocument.h"
+#import <Foundation/Foundation.h>
 
 // A (paginated) list of documents from CosmosDB
-@interface MSDocuments<T : id<MSSerializableDocument>> : NSObject
+@interface MSDocuments<T : id <MSSerializableDocument>> : NSObject
 
 // List of documents in the current page (or null)
 - (NSArray<MSDocument<T> *> *)documents;

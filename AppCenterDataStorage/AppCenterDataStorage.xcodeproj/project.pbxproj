@@ -65,7 +65,6 @@
 		046964491F2A5B4D00F9D31F /* AppCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F0B1E5C819A001627AB /* AppCenter+Internal.h */; };
 		0469644B1F2A5BC900F9D31F /* MSDataStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F001E5C7F56001627AB /* MSDataStorage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0469644C1F2A5C9200F9D31F /* MSDataStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD5F011E5C7F68001627AB /* MSDataStorage.m */; };
-		0469644D1F2A5D1200F9D31F /* MSDataStoragePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F081E5C8156001627AB /* MSDataStoragePrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		0469644E1F2A5D2800F9D31F /* AppCenterDataStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = D33A94541E5B11BB003966DB /* AppCenterDataStorage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0469644F1F2A5D4A00F9D31F /* MSDataStorageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD5EC21E5C4F6A001627AB /* MSDataStorageTests.m */; };
 		0496A67B1F3128CE005AE1DB /* MSDataStorageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD5EC21E5C4F6A001627AB /* MSDataStorageTests.m */; };
@@ -83,6 +82,19 @@
 		E8048E332216328600F84E9D /* MSDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = E8048E322216328600F84E9D /* MSDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E8048E36221633D100F84E9D /* MSDataSourceError.m in Sources */ = {isa = PBXBuildFile; fileRef = E8048E34221633D100F84E9D /* MSDataSourceError.m */; };
 		E8048E37221633D100F84E9D /* MSDataSourceError.h in Headers */ = {isa = PBXBuildFile; fileRef = E8048E35221633D100F84E9D /* MSDataSourceError.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E820F1A0222767AA009EFA5D /* MSDataSourceError.m in Sources */ = {isa = PBXBuildFile; fileRef = E8048E34221633D100F84E9D /* MSDataSourceError.m */; };
+		E820F1A1222767B8009EFA5D /* MSSerializableDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = E8FE51E9221CBF87005FB52B /* MSSerializableDocument.h */; };
+		E820F1A2222767C0009EFA5D /* MSStorageIngestion.h in Headers */ = {isa = PBXBuildFile; fileRef = E824A53E2225E80E005B69B5 /* MSStorageIngestion.h */; };
+		E820F1A3222767C2009EFA5D /* MSStorageIngestion.m in Sources */ = {isa = PBXBuildFile; fileRef = E824A53D2225E80E005B69B5 /* MSStorageIngestion.m */; };
+		E820F1A4222767C5009EFA5D /* MSTokenExchange.h in Headers */ = {isa = PBXBuildFile; fileRef = E86B95D72224B5F60062E552 /* MSTokenExchange.h */; };
+		E820F1A5222767C8009EFA5D /* MSTokenExchange.m in Sources */ = {isa = PBXBuildFile; fileRef = E86B95D92224B6310062E552 /* MSTokenExchange.m */; };
+		E824A5412225E80E005B69B5 /* MSStorageIngestion.m in Sources */ = {isa = PBXBuildFile; fileRef = E824A53D2225E80E005B69B5 /* MSStorageIngestion.m */; };
+		E824A5422225E80E005B69B5 /* MSStorageIngestion.h in Headers */ = {isa = PBXBuildFile; fileRef = E824A53E2225E80E005B69B5 /* MSStorageIngestion.h */; };
+		E824A5482225FDAC005B69B5 /* MSDataStorageInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = E824A5472225FDAC005B69B5 /* MSDataStorageInternal.h */; };
+		E824A549222600C3005B69B5 /* MSDataStoragePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F081E5C8156001627AB /* MSDataStoragePrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		E824A54A222600C6005B69B5 /* MSDataStorageInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = E824A5472225FDAC005B69B5 /* MSDataStorageInternal.h */; };
+		E86B95D82224B5F60062E552 /* MSTokenExchange.h in Headers */ = {isa = PBXBuildFile; fileRef = E86B95D72224B5F60062E552 /* MSTokenExchange.h */; };
+		E86B95DA2224B6310062E552 /* MSTokenExchange.m in Sources */ = {isa = PBXBuildFile; fileRef = E86B95D92224B6310062E552 /* MSTokenExchange.m */; };
 		E8B0BA8B22177B6600103F26 /* MSDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = E8B0BA8A22177B6600103F26 /* MSDocument.m */; };
 		E8B0BA8E22177C5700103F26 /* MSDocuments.m in Sources */ = {isa = PBXBuildFile; fileRef = E8B0BA8C22177C5700103F26 /* MSDocuments.m */; };
 		E8B0BA8F22177C5700103F26 /* MSDocuments.h in Headers */ = {isa = PBXBuildFile; fileRef = E8B0BA8D22177C5700103F26 /* MSDocuments.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -90,8 +102,6 @@
 		E8FE51A8221C9416005FB52B /* MSDataSourceError.h in Headers */ = {isa = PBXBuildFile; fileRef = E8048E35221633D100F84E9D /* MSDataSourceError.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E8FE51A9221C941E005FB52B /* MSDocuments.h in Headers */ = {isa = PBXBuildFile; fileRef = E8B0BA8D22177C5700103F26 /* MSDocuments.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E8FE51AC221C9442005FB52B /* MSDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = E8B0BA8A22177B6600103F26 /* MSDocument.m */; };
-		E8FE51AD221C9443005FB52B /* MSDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = E8B0BA8A22177B6600103F26 /* MSDocument.m */; };
-		E8FE51AE221C9446005FB52B /* MSDocuments.m in Sources */ = {isa = PBXBuildFile; fileRef = E8B0BA8C22177C5700103F26 /* MSDocuments.m */; };
 		E8FE51AF221C9447005FB52B /* MSDocuments.m in Sources */ = {isa = PBXBuildFile; fileRef = E8B0BA8C22177C5700103F26 /* MSDocuments.m */; };
 		E8FE51EA221CBF87005FB52B /* MSSerializableDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = E8FE51E9221CBF87005FB52B /* MSSerializableDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F82E4C85217F218D00EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C84217F218D00EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -181,6 +191,11 @@
 		E8048E322216328600F84E9D /* MSDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDocument.h; sourceTree = "<group>"; };
 		E8048E34221633D100F84E9D /* MSDataSourceError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDataSourceError.m; sourceTree = "<group>"; };
 		E8048E35221633D100F84E9D /* MSDataSourceError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDataSourceError.h; sourceTree = "<group>"; };
+		E824A53D2225E80E005B69B5 /* MSStorageIngestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSStorageIngestion.m; sourceTree = "<group>"; };
+		E824A53E2225E80E005B69B5 /* MSStorageIngestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSStorageIngestion.h; sourceTree = "<group>"; };
+		E824A5472225FDAC005B69B5 /* MSDataStorageInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDataStorageInternal.h; sourceTree = "<group>"; };
+		E86B95D72224B5F60062E552 /* MSTokenExchange.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MSTokenExchange.h; path = AppCenterDataStorage/Internal/Client/MSTokenExchange.h; sourceTree = SOURCE_ROOT; };
+		E86B95D92224B6310062E552 /* MSTokenExchange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSTokenExchange.m; path = AppCenterDataStorage/Internal/Client/MSTokenExchange.m; sourceTree = SOURCE_ROOT; };
 		E8B0BA8A22177B6600103F26 /* MSDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDocument.m; sourceTree = "<group>"; };
 		E8B0BA8C22177C5700103F26 /* MSDocuments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDocuments.m; sourceTree = "<group>"; };
 		E8B0BA8D22177C5700103F26 /* MSDocuments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDocuments.h; sourceTree = "<group>"; };
@@ -357,9 +372,11 @@
 		D3AD5F071E5C8136001627AB /* Internal */ = {
 			isa = PBXGroup;
 			children = (
-				E8B0BA8722176C6700103F26 /* Model */,
-				D3AD5F0B1E5C819A001627AB /* AppCenter+Internal.h */,
+				E824A53C2225E7C6005B69B5 /* Ingestion */,
+				E86B95D62224B54E0062E552 /* Client */,
+				E824A5472225FDAC005B69B5 /* MSDataStorageInternal.h */,
 				D3AD5F081E5C8156001627AB /* MSDataStoragePrivate.h */,
+				D3AD5F0B1E5C819A001627AB /* AppCenter+Internal.h */,
 			);
 			path = Internal;
 			sourceTree = "<group>";
@@ -377,11 +394,22 @@
 			path = ..;
 			sourceTree = "<group>";
 		};
-		E8B0BA8722176C6700103F26 /* Model */ = {
+		E824A53C2225E7C6005B69B5 /* Ingestion */ = {
 			isa = PBXGroup;
 			children = (
+				E824A53E2225E80E005B69B5 /* MSStorageIngestion.h */,
+				E824A53D2225E80E005B69B5 /* MSStorageIngestion.m */,
 			);
-			path = Model;
+			path = Ingestion;
+			sourceTree = "<group>";
+		};
+		E86B95D62224B54E0062E552 /* Client */ = {
+			isa = PBXGroup;
+			children = (
+				E86B95D72224B5F60062E552 /* MSTokenExchange.h */,
+				E86B95D92224B6310062E552 /* MSTokenExchange.m */,
+			);
+			path = Client;
 			sourceTree = "<group>";
 		};
 		E8FE51A4221C8C41005FB52B /* Util */ = {
@@ -400,14 +428,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				046964421F2A5B2E00F9D31F /* MSServiceAbstract.h in Headers */,
+				E824A54A222600C6005B69B5 /* MSDataStorageInternal.h in Headers */,
 				046964491F2A5B4D00F9D31F /* AppCenter+Internal.h in Headers */,
+				E820F1A2222767C0009EFA5D /* MSStorageIngestion.h in Headers */,
 				E8FE51A7221C9408005FB52B /* MSDocument.h in Headers */,
 				0469644B1F2A5BC900F9D31F /* MSDataStorage.h in Headers */,
 				E8FE51A9221C941E005FB52B /* MSDocuments.h in Headers */,
-				0469644D1F2A5D1200F9D31F /* MSDataStoragePrivate.h in Headers */,
 				0469644E1F2A5D2800F9D31F /* AppCenterDataStorage.h in Headers */,
+				E820F1A1222767B8009EFA5D /* MSSerializableDocument.h in Headers */,
+				E820F1A4222767C5009EFA5D /* MSTokenExchange.h in Headers */,
 				E8FE51A8221C9416005FB52B /* MSDataSourceError.h in Headers */,
 				04A0820D1F74BBCF00DC776D /* MSService.h in Headers */,
+				E824A549222600C3005B69B5 /* MSDataStoragePrivate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -418,13 +450,16 @@
 				E8FE51EA221CBF87005FB52B /* MSSerializableDocument.h in Headers */,
 				D3AD5F0F1E5C845B001627AB /* AppCenterDataStorage.h in Headers */,
 				D3AD5F0D1E5C844B001627AB /* MSServiceAbstract.h in Headers */,
+				E824A5422225E80E005B69B5 /* MSStorageIngestion.h in Headers */,
 				E8048E332216328600F84E9D /* MSDocument.h in Headers */,
 				D3AD5F0C1E5C819A001627AB /* AppCenter+Internal.h in Headers */,
+				E824A5482225FDAC005B69B5 /* MSDataStorageInternal.h in Headers */,
 				E8B0BA8F22177C5700103F26 /* MSDocuments.h in Headers */,
 				D3AD5F101E5C8466001627AB /* MSDataStorage.h in Headers */,
 				D3AD5F121E5C847B001627AB /* MSDataStoragePrivate.h in Headers */,
 				E8048E37221633D100F84E9D /* MSDataSourceError.h in Headers */,
 				04A0820C1F74BBCA00DC776D /* MSService.h in Headers */,
+				E86B95D82224B5F60062E552 /* MSTokenExchange.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -654,7 +689,10 @@
 			files = (
 				E8FE51AC221C9442005FB52B /* MSDocument.m in Sources */,
 				E8FE51AF221C9447005FB52B /* MSDocuments.m in Sources */,
+				E820F1A5222767C8009EFA5D /* MSTokenExchange.m in Sources */,
 				0469644C1F2A5C9200F9D31F /* MSDataStorage.m in Sources */,
+				E820F1A0222767AA009EFA5D /* MSDataSourceError.m in Sources */,
+				E820F1A3222767C2009EFA5D /* MSStorageIngestion.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -664,8 +702,6 @@
 			files = (
 				0469644F1F2A5D4A00F9D31F /* MSDataStorageTests.m in Sources */,
 				F82E4C86217F218D00EDAB34 /* sqlite3.c in Sources */,
-				E8FE51AE221C9446005FB52B /* MSDocuments.m in Sources */,
-				E8FE51AD221C9443005FB52B /* MSDocument.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -674,8 +710,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				E8048E36221633D100F84E9D /* MSDataSourceError.m in Sources */,
+				E86B95DA2224B6310062E552 /* MSTokenExchange.m in Sources */,
 				D3AD5F111E5C846E001627AB /* MSDataStorage.m in Sources */,
 				E8B0BA8E22177C5700103F26 /* MSDocuments.m in Sources */,
+				E824A5412225E80E005B69B5 /* MSStorageIngestion.m in Sources */,
 				E8B0BA8B22177B6600103F26 /* MSDocument.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

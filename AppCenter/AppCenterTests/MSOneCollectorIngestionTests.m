@@ -185,7 +185,6 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   [self.sut sendAsync:container
       completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
                           __attribute__((unused)) NSData *data, NSError *error) {
-
         // Then
         XCTAssertEqual(error.domain, kMSACErrorDomain);
         XCTAssertEqual(error.code, kMSACLogInvalidContainerErrorCode);
@@ -205,7 +204,6 @@ static NSString *const kMSBaseUrl = @"https://test.com";
   [self.sut sendAsync:container
       completionHandler:^(__attribute__((unused)) NSString *batchId, __attribute__((unused)) NSUInteger statusCode,
                           __attribute__((unused)) NSData *data, NSError *error) {
-
         // Then
         XCTAssertNotNil(error);
         [expectation fulfill];
@@ -235,7 +233,7 @@ static NSString *const kMSBaseUrl = @"https://test.com";
 
   // Then
   XCTAssertNil(query);
-  XCTAssertTrue([[self.sut.sendURL absoluteString] isEqualToString:(NSString * _Nonnull)expectedURL.absoluteString]);
+  XCTAssertTrue([[self.sut.sendURL absoluteString] isEqualToString:(NSString * _Nonnull) expectedURL.absoluteString]);
 }
 
 - (void)testSetInvalidBaseURL {

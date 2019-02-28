@@ -1,13 +1,12 @@
 
-#import <Foundation/Foundation.h>
 #import "MSDocument.h"
 #import "MSSerializableObject.h"
+#import <Foundation/Foundation.h>
 
 @implementation MSDocument
 
-
 - (instancetype)initWithDocument:(id)document {
-  
+
   if ((self = [super init])) {
     _document = document;
   }
@@ -26,36 +25,30 @@
 //}
 
 // set Deserialized document (or null)
-- (void)setDocument:(id<NSCoding>)document
-{
+- (void)setDocument:(id<NSCoding>)document {
   if (document)
     document = nil;
 }
 
 // Error (or null)
-- (MSDataSourceError *)error
-{
+- (MSDataSourceError *)error {
   return nil;
 }
 
 // ID + document metadata
-- (NSString *)partition
-{
+- (NSString *)partition {
   return @"";
 }
 
-- (NSString *)documentId
-{
+- (NSString *)documentId {
   return nil;
 }
 
-- (NSString *)etag
-{
+- (NSString *)etag {
   return nil;
 }
 
-- (NSDate *)timestamp
-{
+- (NSDate *)timestamp {
   return nil;
 }
 

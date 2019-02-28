@@ -16,11 +16,9 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 
 @interface MSDataStorageTests : XCTestCase
 
-
 @property(nonatomic) id settingsMock;
 
 @end
-
 
 @interface MSServiceAbstract ()
 
@@ -38,7 +36,6 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 
 - (void)tearDown {
   [super tearDown];
-
 }
 
 @end
