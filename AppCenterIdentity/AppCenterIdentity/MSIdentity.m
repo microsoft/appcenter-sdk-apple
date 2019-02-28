@@ -187,7 +187,7 @@ static dispatch_once_t onceToken;
           NSError *error;
           [self.clientApplication removeAccount:account error:&error];
           if (error) {
-            MSLogError([MSIdentity logTag], @"Couldn't remove account: %@", error.localizedDescription);
+            MSLogWarning([MSIdentity logTag], @"Couldn't remove account: %@", error.localizedDescription);
           }
         }
       }
