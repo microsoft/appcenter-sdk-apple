@@ -20,10 +20,8 @@ NSString *kMSReachabilityChangedNotification =
 
 #define kShouldPrintReachabilityFlags 0
 
-static void PrintReachabilityFlags(__attribute__((unused))
-                                   SCNetworkReachabilityFlags flags,
-                                   __attribute__((unused))
-                                   const char *comment) {
+static void PrintReachabilityFlags(__unused SCNetworkReachabilityFlags flags,
+                                   __unused const char *comment) {
 #if kShouldPrintReachabilityFlags
 
   NSLog(@"Reachability Flag Status: %c%c %c%c%c%c%c%c%c %s\n",
@@ -52,6 +50,14 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target,
   [[NSNotificationCenter defaultCenter]
       postNotificationName:kMSReachabilityChangedNotification
                     object:noteObject];
+}
+
+static void RunOnMainThread(dispatch_block_t block) {
+  if ([NSThread isMainThread]) {
+    block();
+  } else {
+    dispatch_async(dispatch_get_main_queue(), block);
+  }
 }
 
 #pragma mark - Reachability extension
@@ -124,7 +130,7 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target,
 #pragma mark - Start and stop notifier
 
 - (void)startNotifier {
-  dispatch_block_t block = ^{
+  RunOnMainThread(^{
     SCNetworkReachabilityContext context = {0, (__bridge void *)(self), NULL,
                                             NULL, NULL};
     if (SCNetworkReachabilitySetCallback(self.reachabilityRef,
@@ -136,32 +142,25 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target,
                                                             object:self];
       }
     }
-  };
-  if ([NSThread isMainThread]) {
-    block();
-  } else {
-    dispatch_async(dispatch_get_main_queue(), block);
-  }
+  });
 }
 
 - (void)stopNotifier {
-  dispatch_block_t block = ^{
+  RunOnMainThread(^{
     if (self.reachabilityRef != NULL) {
       SCNetworkReachabilityUnscheduleFromRunLoop(
           self.reachabilityRef, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
     }
-  };
-  if ([NSThread isMainThread]) {
-    block();
-  } else {
-    dispatch_async(dispatch_get_main_queue(), block);
-  }
+  });
 }
 
 - (void)dealloc {
-  [self stopNotifier];
-  if (self.reachabilityRef != NULL) {
-    CFRelease(self.reachabilityRef);
+  __block SCNetworkReachabilityRef reachabilityRef = self.reachabilityRef;
+  if (reachabilityRef != NULL) {
+    RunOnMainThread(^{
+      SCNetworkReachabilityUnscheduleFromRunLoop(reachabilityRef, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
+      CFRelease(reachabilityRef);
+    });
   }
 }
 
