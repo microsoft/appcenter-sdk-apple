@@ -1,7 +1,10 @@
 #import "MS_Reachability.h"
+#import <Foundation/NSObject.h>
 
-@interface MSMockReachabilityUtil : MS_Reachability
+@interface MSMockReachabilityUtil : NSObject
 
 @property(nonatomic) NetworkStatus currentNetworkStatus;
+
+- (void)mockMSReachability;
 
 @end

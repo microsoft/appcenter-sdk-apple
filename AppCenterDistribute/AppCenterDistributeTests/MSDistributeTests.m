@@ -122,6 +122,7 @@ static NSURL *sfURL;
   // Mock reachability.
   self.reachabilityMock = [MSMockReachabilityUtil new];
   [self.reachabilityMock setCurrentNetworkStatus:ReachableViaWiFi];
+  [self.reachabilityMock mockMSReachability];
 
   // Clear all previous sessions
   [MSSessionContext resetSharedInstance];
