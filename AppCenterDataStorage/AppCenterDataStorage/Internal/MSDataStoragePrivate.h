@@ -1,4 +1,4 @@
-#import "MSDataStorage.h"
+#import "MSAuthTokenContextDelegate.h"
 #import "MSServiceInternal.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -8,7 +8,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 static NSString *const kMSDefaultApiUrl = @"https://api.appcenter.ms/v0.1";
 
-@interface MSDataStorage ()
+@interface MSDataStorage () <MSAuthTokenContextDelegate>
 
 @end
 
