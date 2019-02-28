@@ -275,11 +275,19 @@ static const NSUInteger kMSSchemaVersion = 3;
       continue;
     }
 
-    // Deserialize target token.
+    // Deserialize target token. A token value from the row dictionary can't be `nil` but can be of class `NSNull`.
     NSString *encryptedToken = row[self.targetTokenColumnIndex];
-    if (![encryptedToken isKindOfClass:[NSNull class]]) {
-      NSString *targetToken = [self.targetTokenEncrypter decryptString:encryptedToken];
-      [log addTransmissionTargetToken:targetToken];
+    if ([encryptedToken isKindOfClass:[NSString class]]) {
+      if (encryptedToken.length > 0) {
+        NSString *targetToken = [self.targetTokenEncrypter decryptString:encryptedToken];
+        if (targetToken) {
+          [log addTransmissionTargetToken:targetToken];
+        } else {
+          MSLogError([MSAppCenter logTag], @"Failed to decrypt the target token for log with Id %@.", dbId);
+        }
+      } else {
+        MSLogError([MSAppCenter logTag], @"Unexpected empty target token for log with Id %@.", dbId);
+      }
     }
 
     // Update with deserialized log.
