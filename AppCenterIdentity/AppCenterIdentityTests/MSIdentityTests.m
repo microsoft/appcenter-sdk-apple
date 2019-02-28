@@ -500,7 +500,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // Then
   XCTAssertEqual([MSMockKeychainUtil stringForKey:kMSIdentityAuthTokenKey], expectedAuthToken);
-  XCTAssertEqual([MSAuthTokenContext sharedInstance].authToke], expectedAuthToken);
+  XCTAssertEqual([MSAuthTokenContext sharedInstance].authToken, expectedAuthToken);
   XCTAssertEqual([self.settingsMock valueForKey:kMSIdentityMSALAccountHomeAccountKey], expectedHomeAccountId);
   [accountMock stopMocking];
   [identityMock stopMocking];
