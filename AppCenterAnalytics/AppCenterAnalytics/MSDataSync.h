@@ -38,7 +38,7 @@
 //
 // typedef void (^MSConflictResolutionAsyncCompletionHandler)(Document<T> *local, NSError* error);
 //+ (ConflictResolutionPolicy<T> *)firstWriteWinsPolicy:(Document<T> *)localDocument
-//withCompletionHandler:(MSConflictResolutionAsyncCompletionHandler)completionHandler;
+// withCompletionHandler:(MSConflictResolutionAsyncCompletionHandler)completionHandler;
 
 @protocol MSConflictResolutionDelegate <MSSerializableObject>
 

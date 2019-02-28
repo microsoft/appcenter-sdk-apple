@@ -380,6 +380,7 @@
 		D3AD5F071E5C8136001627AB /* Internal */ = {
 			isa = PBXGroup;
 			children = (
+				E8DADEF0222864C800587E15 /* Model */,
 				E824A53C2225E7C6005B69B5 /* Ingestion */,
 				E86B95D62224B54E0062E552 /* Client */,
 				E824A5472225FDAC005B69B5 /* MSDataStorageInternal.h */,
@@ -414,14 +415,21 @@
 		E86B95D62224B54E0062E552 /* Client */ = {
 			isa = PBXGroup;
 			children = (
-				2600123B22273E94007F4D3A /* MSTokenResult.h */,
-				2600123D22273E94007F4D3A /* MSTokenResult.m */,
-				2600123C22273E94007F4D3A /* MSTokensResponse.h */,
-				2600123E22273E94007F4D3A /* MSTokensResponse.m */,
 				E86B95D72224B5F60062E552 /* MSTokenExchange.h */,
 				E86B95D92224B6310062E552 /* MSTokenExchange.m */,
 			);
 			path = Client;
+			sourceTree = "<group>";
+		};
+		E8DADEF0222864C800587E15 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2600123B22273E94007F4D3A /* MSTokenResult.h */,
+				2600123D22273E94007F4D3A /* MSTokenResult.m */,
+				2600123C22273E94007F4D3A /* MSTokensResponse.h */,
+				2600123E22273E94007F4D3A /* MSTokensResponse.m */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		E8FE51A4221C8C41005FB52B /* Util */ = {

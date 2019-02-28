@@ -11,9 +11,9 @@
 #import "AppCenter.h"
 #import "AppCenterAnalytics.h"
 #import "AppCenterCrashes.h"
+#import "AppCenterDataStorage.h"
 #import "AppCenterDistribute.h"
 #import "AppCenterPush.h"
-#import "AppCenterDataStorage.h"
 
 // Internal ones
 #import "MSAnalyticsInternal.h"
