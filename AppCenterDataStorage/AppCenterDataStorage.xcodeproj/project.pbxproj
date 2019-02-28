@@ -102,6 +102,10 @@
 		E8B0BA8B22177B6600103F26 /* MSDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = E8B0BA8A22177B6600103F26 /* MSDocument.m */; };
 		E8B0BA8E22177C5700103F26 /* MSDocuments.m in Sources */ = {isa = PBXBuildFile; fileRef = E8B0BA8C22177C5700103F26 /* MSDocuments.m */; };
 		E8B0BA8F22177C5700103F26 /* MSDocuments.h in Headers */ = {isa = PBXBuildFile; fileRef = E8B0BA8D22177C5700103F26 /* MSDocuments.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E8DADEF122286D1A00587E15 /* MSTokenResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 2600123B22273E94007F4D3A /* MSTokenResult.h */; };
+		E8DADEF222286D2100587E15 /* MSTokensResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 2600123E22273E94007F4D3A /* MSTokensResponse.m */; };
+		E8DADEF322286D2300587E15 /* MSTokensResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 2600123C22273E94007F4D3A /* MSTokensResponse.h */; };
+		E8DADEF422286D2500587E15 /* MSTokenResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 2600123D22273E94007F4D3A /* MSTokenResult.m */; };
 		E8FE51A7221C9408005FB52B /* MSDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = E8048E322216328600F84E9D /* MSDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E8FE51A8221C9416005FB52B /* MSDataSourceError.h in Headers */ = {isa = PBXBuildFile; fileRef = E8048E35221633D100F84E9D /* MSDataSourceError.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E8FE51A9221C941E005FB52B /* MSDocuments.h in Headers */ = {isa = PBXBuildFile; fileRef = E8B0BA8D22177C5700103F26 /* MSDocuments.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -448,6 +452,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				046964421F2A5B2E00F9D31F /* MSServiceAbstract.h in Headers */,
+				E8DADEF322286D2300587E15 /* MSTokensResponse.h in Headers */,
 				E824A54A222600C6005B69B5 /* MSDataStorageInternal.h in Headers */,
 				046964491F2A5B4D00F9D31F /* AppCenter+Internal.h in Headers */,
 				E820F1A2222767C0009EFA5D /* MSStorageIngestion.h in Headers */,
@@ -460,6 +465,7 @@
 				E8FE51A8221C9416005FB52B /* MSDataSourceError.h in Headers */,
 				04A0820D1F74BBCF00DC776D /* MSService.h in Headers */,
 				E824A549222600C3005B69B5 /* MSDataStoragePrivate.h in Headers */,
+				E8DADEF122286D1A00587E15 /* MSTokenResult.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -711,7 +717,9 @@
 			files = (
 				E8FE51AC221C9442005FB52B /* MSDocument.m in Sources */,
 				E8FE51AF221C9447005FB52B /* MSDocuments.m in Sources */,
+				E8DADEF422286D2500587E15 /* MSTokenResult.m in Sources */,
 				E820F1A5222767C8009EFA5D /* MSTokenExchange.m in Sources */,
+				E8DADEF222286D2100587E15 /* MSTokensResponse.m in Sources */,
 				0469644C1F2A5C9200F9D31F /* MSDataStorage.m in Sources */,
 				E820F1A0222767AA009EFA5D /* MSDataSourceError.m in Sources */,
 				E820F1A3222767C2009EFA5D /* MSStorageIngestion.m in Sources */,

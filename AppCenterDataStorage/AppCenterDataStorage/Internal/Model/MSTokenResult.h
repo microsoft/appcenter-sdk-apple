@@ -36,11 +36,11 @@
  * Initialize the Token result object
  *
  * @param partition Databade partition
- * @param tokens Database account.
- * @param tokens Database name.
- * @param tokens Database collection name.
- * @param tokens Database token.
- * @param tokens Token sataus.
+ * @param dbAccount Database account.
+ * @param dbName Database name.
+ * @param dbCollectionName Database collection name.
+ * @param token Database token.
+ * @param status Token sataus.
  *
  * @return An token response instance.
  */
