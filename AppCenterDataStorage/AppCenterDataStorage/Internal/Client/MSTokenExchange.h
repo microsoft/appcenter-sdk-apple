@@ -9,7 +9,7 @@ typedef void (^MSGetTokenAsyncCompletionHandler)(NSData *data, NSError *error);
 @interface MSTokenExchange : NSObject 
 
 /**
- * Get token from token exchnge.
+ * Get token from token exchange.
  *
  * @param httpIngestion http client.
  * @param completion callback that gets the token.

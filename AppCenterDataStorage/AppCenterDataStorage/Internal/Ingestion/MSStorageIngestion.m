@@ -7,9 +7,13 @@
 @implementation MSStorageIngestion
 
 /**
- * The API paths for latest release requests.
+ * Http header app-secret value.
  */
 static NSString *const kMSAppSecrectHeader = @"App-Secret";
+
+/**
+ * The API paths for cosmosDb token.
+ */
 static NSString *const kMSGetTokenPath = @"/data/tokens";
 
 - (id)initWithBaseUrl:(NSString *)baseUrl
@@ -56,7 +60,7 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
 }
 
 - (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {
-  return [key isEqualToString:kMSHeaderUpdateApiToken] ? [MSIngestionUtil hideSecret:value] : value;
+  return [key isEqualToString:kMSAppSecrectHeader] ? [MSIngestionUtil hideSecret:value] : value;
 }
 
 @end

@@ -12,16 +12,24 @@ NS_ASSUME_NONNULL_BEGIN
 @class MSDocument;
 @class MSDocuments;
 
-// Default partitions
 
-// User partition
+
+// User documents
 // An authenticated user can read/write documents in this partition
-static NSString *const MSDataSourceUserPartition =  @"user-%@";
+static NSString *const MSDataStoreUserDocumentsPartition = @"user-{userid}";
 
-// Readonly partition
+// Application partition
 // Everyone can read documents in this partition
 // Writes is not allowed via the SDK
-static NSString *const MSDataSourceReadOnlyPartition = @"readonly";
+static NSString *const MSDataStoreAppDocumentsPartition = @"readonly";
+
+
+//
+// Time to live constants
+//
+static int const MSDataStoreTimeToLiveInfinite = -1;
+static int const MSDataStoreTimeToLiveNoCache = 0;
+static int const MSDataStoreTimeToLiveDefaultOneHour = 60 * 60;
 
 @interface MSDataStorage<T : id<MSSerializableDocument>> : MSServiceAbstract
 

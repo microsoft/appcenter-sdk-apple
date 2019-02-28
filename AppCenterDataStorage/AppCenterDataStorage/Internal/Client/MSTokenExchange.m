@@ -8,7 +8,7 @@ static NSString *const kMSPartitions = @"partitions";
 @implementation MSTokenExchange : NSObject
 
 + (void)tokenAsync:(MSStorageIngestion *)httpClient partitions:(NSArray *)partitions completionHandler:(MSGetTokenAsyncCompletionHandler) completion {
-  
+
   // Payload
   NSError *jsonError;
   NSData* payloadData = [NSJSONSerialization dataWithJSONObject:@{kMSPartitions : partitions} options:0 error:&jsonError];
