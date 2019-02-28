@@ -11,24 +11,13 @@
 #import "MSTestFrameworks.h"
 #import "MSUserIdContextPrivate.h"
 
-static NSString *const kMSTestAppSecret = @"TestAppSecret";
-static NSString *const kMSTestPushToken = @"TestPushToken";
-
 @interface MSDataStorageTests : XCTestCase
 
 @property(nonatomic) id settingsMock;
 
 @end
 
-@interface MSServiceAbstract ()
-
-- (BOOL)isEnabled;
-
-- (void)setEnabled:(BOOL)enabled;
-
-@end
-
-@implementation MSPushTests
+@implementation MSDataStorageTests
 
 - (void)setUp {
   [super setUp];
