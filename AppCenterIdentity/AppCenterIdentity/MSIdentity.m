@@ -179,7 +179,6 @@ static dispatch_once_t onceToken;
       return;
     }
     if ([MSAuthTokenContext sharedInstance].authToken != nil) {
-      MSLogInfo([MSIdentity logTag], @"User sign-out succeeded.");
       [[MSAuthTokenContext sharedInstance] clearAuthToken];
       if (self.clientApplication != nil) {
         MSALAccount *account = [self retrieveAccountWithAccountId:[self retrieveAccountId]];
@@ -193,6 +192,7 @@ static dispatch_once_t onceToken;
       }
       [self removeAuthToken];
       [self removeAccountId];
+      MSLogInfo([MSIdentity logTag], @"User sign-out succeeded.");
     } else {
       MSLogWarning([MSIdentity logTag], @"Couldn't sign-out: authToken doesn't exist.");
     }
