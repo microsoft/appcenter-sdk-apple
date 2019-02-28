@@ -15,6 +15,7 @@
 #import "MSUtility+File.h"
 #import <MSAL/MSAL.h>
 #import <MSAL/MSALPublicClientApplication.h>
+#import <OCMock/OCMock.h>
 
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
@@ -604,6 +605,68 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // Then
   OCMVerify([mockDelegate authTokenContext:OCMOCK_ANY didReceiveAuthToken:nil]);
   OCMVerify([mockDelegate authTokenContext:OCMOCK_ANY didUpdateUserWithAuthToken:nil]);
+  [identityMock stopMocking];
+}
+
+- (void)testSignOutRemovesAccountFromMSAL {
+
+  // If
+  NSString *accountId = @"someAccount";
+  [[MSAuthTokenContext sharedInstance] setAuthToken:@"someToken" withAccountId:accountId];
+  [self.settingsMock setObject:accountId forKey:kMSIdentityMSALAccountHomeAccountKey];
+  id accountMock = OCMPartialMock([MSALAccount new]);
+  self.sut.clientApplication = self.clientApplicationMock;
+  OCMStub([self.clientApplicationMock accountForHomeAccountId:accountId error:[OCMArg anyObjectRef]]).andReturn(accountMock);
+  id identityMock = OCMPartialMock(self.sut);
+  OCMStub([identityMock sharedInstance]).andReturn(identityMock);
+  OCMStub([identityMock canBeUsed]).andReturn(YES);
+
+  // When
+  [MSIdentity signOut];
+
+  // Then
+  OCMVerify([self.clientApplicationMock removeAccount:OCMOCK_ANY error:[OCMArg anyObjectRef]]);
+  [identityMock stopMocking];
+}
+
+- (void)testSignOutShouldNotRemoveAccountFromMSALIfNotConfigured {
+
+  // If
+  NSString *accountId = @"someAccount";
+  [[MSAuthTokenContext sharedInstance] setAuthToken:@"someToken" withAccountId:accountId];
+  id identityMock = OCMPartialMock(self.sut);
+  OCMStub([identityMock sharedInstance]).andReturn(identityMock);
+  OCMStub([identityMock canBeUsed]).andReturn(YES);
+
+  // Then
+  OCMReject([self.clientApplicationMock removeAccount:OCMOCK_ANY error:[OCMArg anyObjectRef]]);
+
+  // When
+  [MSIdentity signOut];
+
+  // Then
+  XCTAssertNil(self.sut.clientApplication);
+  [identityMock stopMocking];
+}
+
+- (void)testSignOutShouldNotRemoveAccountFromMSALIfNoAccount {
+
+  // If
+  NSString *accountId = @"someAccount";
+  [[MSAuthTokenContext sharedInstance] setAuthToken:@"someToken" withAccountId:accountId];
+  self.sut.clientApplication = self.clientApplicationMock;
+  id identityMock = OCMPartialMock(self.sut);
+  OCMStub([identityMock sharedInstance]).andReturn(identityMock);
+  OCMStub([identityMock canBeUsed]).andReturn(YES);
+
+  // Then
+  OCMReject([self.clientApplicationMock removeAccount:OCMOCK_ANY error:[OCMArg anyObjectRef]]);
+
+  // When
+  [MSIdentity signOut];
+
+  // Then
+  XCTAssertNil([self.settingsMock objectForKey:kMSIdentityMSALAccountHomeAccountKey]);
   [identityMock stopMocking];
 }
 
