@@ -9,7 +9,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return Dictionary representing the object.
  */
--(NSDictionary *)serilizeToDictionary;
+- (NSDictionary *)serilizeToDictionary;
 
 /**
  * Track an event.
@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return An instance of the object
  */
--(instancetype)initFromDictionary:(NSDictionary *)dictionary;
+- (instancetype)initFromDictionary:(NSDictionary *)dictionary;
 
 @end
 

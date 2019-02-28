@@ -1,8 +1,8 @@
+#import "MSStorageIngestion.h"
 #import "MSAppCenter.h"
 #import "MSAppCenterInternal.h"
 #import "MSHttpIngestionPrivate.h"
 #import "MSLoggerInternal.h"
-#import "MSStorageIngestion.h"
 
 @implementation MSStorageIngestion
 
@@ -16,14 +16,11 @@ static NSString *const kMSAppSecrectHeader = @"App-Secret";
  */
 static NSString *const kMSGetTokenPath = @"/data/tokens";
 
-- (id)initWithBaseUrl:(NSString *)baseUrl
-              appSecret:(NSString *)appSecret {
+- (id)initWithBaseUrl:(NSString *)baseUrl appSecret:(NSString *)appSecret {
 
   if ((self = [super initWithBaseUrl:baseUrl
                              apiPath:kMSGetTokenPath
-                             headers:@{
-                                       kMSAppSecrectHeader : appSecret,
-                                       kMSHeaderContentTypeKey : kMSAppCenterContentType }
+                             headers:@{kMSAppSecrectHeader : appSecret, kMSHeaderContentTypeKey : kMSAppCenterContentType}
                         queryStrings:nil
                         reachability:[MS_Reachability reachabilityForInternetConnection]
                       retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]])) {
@@ -41,7 +38,7 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
 
   // Set header params.
   request.allHTTPHeaderFields = self.httpHeaders;
-  
+
   // Set body.
   request.HTTPBody = (NSData *)data;
 

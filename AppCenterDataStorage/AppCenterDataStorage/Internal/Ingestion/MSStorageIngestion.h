@@ -1,5 +1,5 @@
-#import <Foundation/Foundation.h>
 #import "MSHttpIngestion.h"
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,8 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return An ingestion instance.
  */
-- (id)initWithBaseUrl:(nullable NSString *)baseUrl
-            appSecret:(NSString *)appSecret;
+- (id)initWithBaseUrl:(nullable NSString *)baseUrl appSecret:(NSString *)appSecret;
 
 @end
 

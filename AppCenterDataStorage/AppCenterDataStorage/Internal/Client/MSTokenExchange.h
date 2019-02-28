@@ -6,7 +6,7 @@ typedef void (^MSGetTokenAsyncCompletionHandler)(NSData *data, NSError *error);
 
 @class MSStorageIngestion;
 
-@interface MSTokenExchange : NSObject 
+@interface MSTokenExchange : NSObject
 
 /**
  * Get token from token exchange.
@@ -15,7 +15,9 @@ typedef void (^MSGetTokenAsyncCompletionHandler)(NSData *data, NSError *error);
  * @param completion callback that gets the token.
  *
  */
-+ (void)tokenAsync:(MSStorageIngestion *)httpIngestion partitions:(NSArray *) partitions completionHandler:(MSGetTokenAsyncCompletionHandler)completion;
++ (void)tokenAsync:(MSStorageIngestion *)httpIngestion
+           partitions:(NSArray *)partitions
+    completionHandler:(MSGetTokenAsyncCompletionHandler)completion;
 
 @end
 
