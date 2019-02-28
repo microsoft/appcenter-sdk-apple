@@ -34,7 +34,7 @@ static dispatch_once_t onceToken;
 
 - (instancetype)init {
   if ((self = [super init])) {
-    _apiUrl = kMSDefaultApiUrl;
+    _tokenExchangeUrl = kMSDefaultApiUrl;
   }
   return self;
 }
@@ -123,7 +123,7 @@ static dispatch_once_t onceToken;
   [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
   MSLogVerbose([MSDataStorage logTag], @"Started Data Storage service.");
 
-  self.ingestion = [[MSStorageIngestion alloc] initWithBaseUrl:self.apiUrl appSecret:(NSString *)appSecret];
+  self.ingestion = [[MSStorageIngestion alloc] initWithBaseUrl:self.tokenExchangeUrl appSecret:(NSString *)appSecret];
 }
 
 + (NSString *)serviceName {
@@ -146,8 +146,8 @@ static dispatch_once_t onceToken;
 
 #pragma mark - Public
 
-+ (void)setApiUrl:(NSString *)apiUrl {
-  [[MSDataStorage sharedInstance] setApiUrl:apiUrl];
++ (void)setTokenExchangeUrl:(NSString *)tokenExchangeUrl {
+  [[MSDataStorage sharedInstance] setTokenExchangeUrl:tokenExchangeUrl];
 }
 
 @end

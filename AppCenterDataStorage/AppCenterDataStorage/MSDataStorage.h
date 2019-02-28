@@ -66,11 +66,11 @@ typedef void (^MSDownloadDocumentsCompletionHandler)(MSDocuments<T> *documents);
                   completionHandler:(void (^)(MSDataSourceError *error))completionHandler;
 
 /**
- * Change The URL that will be used for generic update related tasks.
+ * Change The URL that will be used for getting token.
  *
- * @param apiUrl The new URL.
+ * @param tokenExchangeUrl The new URL.
  */
-+ (void)setApiUrl:(NSString *)apiUrl;
++ (void)setTokenExchangeUrl:(NSString *)tokenExchangeUrl;
 
 @end
 NS_ASSUME_NONNULL_END

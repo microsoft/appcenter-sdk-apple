@@ -11,14 +11,14 @@ static NSString *const kMSPartitions = @"partitions";
            partitions:(NSArray *)partitions
     completionHandler:(MSGetTokenAsyncCompletionHandler)completion {
 
-  // Payload
+  // Payload.
   NSError *jsonError;
   NSData *payloadData = [NSJSONSerialization dataWithJSONObject:@{kMSPartitions : partitions} options:0 error:&jsonError];
 
+  // Http call.
   [httpClient sendAsync:payloadData
       completionHandler:^(NSString *callId, NSUInteger statusCode, NSData *data, NSError *error) {
         NSLog(@"Get token callback, request Id %@ with status code: %lu", callId, (unsigned long)statusCode);
-
         completion(data, error);
       }];
 }

@@ -4,7 +4,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * Base URL for HTTP Distribute update API calls.
+ * Base URL for HTTP for token exchange.
  */
 static NSString *const kMSDefaultApiUrl = @"https://api.appcenter.ms/v0.1";
 

@@ -17,7 +17,6 @@ static NSString *const kMSAppSecrectHeader = @"App-Secret";
 static NSString *const kMSGetTokenPath = @"/data/tokens";
 
 - (id)initWithBaseUrl:(NSString *)baseUrl appSecret:(NSString *)appSecret {
-
   if ((self = [super initWithBaseUrl:baseUrl
                              apiPath:kMSGetTokenPath
                              headers:@{kMSAppSecrectHeader : appSecret, kMSHeaderContentTypeKey : kMSAppCenterContentType}
@@ -26,7 +25,6 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
                       retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]])) {
     _appSecret = appSecret;
   }
-
   return self;
 }
 
@@ -52,7 +50,6 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
     MSLogVerbose([MSAppCenter logTag], @"URL: %@", url);
     MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [super prettyPrintHeaders:request.allHTTPHeaderFields]);
   }
-
   return request;
 }
 
