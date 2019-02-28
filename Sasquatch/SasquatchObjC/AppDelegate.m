@@ -11,6 +11,7 @@
 #import "AppCenter.h"
 #import "AppCenterAnalytics.h"
 #import "AppCenterCrashes.h"
+#import "AppCenterDataStorage.h"
 #import "AppCenterDistribute.h"
 #import "AppCenterIdentity.h"
 #import "AppCenterPush.h"
@@ -23,6 +24,7 @@
 @import AppCenter;
 @import AppCenterAnalytics;
 @import AppCenterCrashes;
+@import AppCenterDataStorage;
 @import AppCenterDistribute;
 @import AppCenterIdentity;
 @import AppCenterPush;
@@ -98,7 +100,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   }
 
   // Start App Center SDK.
-  NSArray<Class> *services = @ [[MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSIdentity class], [MSPush class]];
+  NSArray<Class> *services = @ [[MSAnalytics class], [MSCrashes class], [MSDataStorage class], [MSDistribute class], [MSIdentity class], [MSPush class]];
   NSInteger startTarget = [[NSUserDefaults standardUserDefaults] integerForKey:kMSStartTargetKey];
   switch (startTarget) {
   case APPCENTER:
@@ -114,7 +116,6 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
     [MSAppCenter startWithServices:services];
     break;
   }
-  [MSIdentity signIn];
 
   // Set user id.
   NSString *userId = [[NSUserDefaults standardUserDefaults] objectForKey:kMSUserIdKey];
