@@ -181,6 +181,9 @@
       location = "group:AppCenterDistribute/AppCenterDistribute.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:AppCenterIdentity/AppCenterIdentity.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:AppCenterPush/AppCenterPush.xcodeproj">
    </FileRef>
    <FileRef

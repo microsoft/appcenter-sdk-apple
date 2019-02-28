@@ -1,10 +1,11 @@
+#import "MSAuthTokenContextDelegate.h"
 #import "MSChannelDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class MSAppCenterIngestion;
 
-@interface MSChannelGroupDefault () <MSChannelDelegate>
+@interface MSChannelGroupDefault () <MSAuthTokenContextDelegate, MSChannelDelegate>
 
 /**
  * Initializes a new `MSChannelGroupDefault` instance.

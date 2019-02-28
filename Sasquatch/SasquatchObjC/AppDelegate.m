@@ -11,9 +11,10 @@
 #import "AppCenter.h"
 #import "AppCenterAnalytics.h"
 #import "AppCenterCrashes.h"
-#import "AppCenterDistribute.h"
-#import "AppCenterPush.h"
 #import "AppCenterDataStorage.h"
+#import "AppCenterDistribute.h"
+#import "AppCenterIdentity.h"
+#import "AppCenterPush.h"
 
 // Internal ones
 #import "MSAnalyticsInternal.h"
@@ -23,9 +24,10 @@
 @import AppCenter;
 @import AppCenterAnalytics;
 @import AppCenterCrashes;
-@import AppCenterDistribute;
-@import AppCenterPush;
 @import AppCenterDataStorage;
+@import AppCenterDistribute;
+@import AppCenterIdentity;
+@import AppCenterPush;
 
 #define APP_SECRET_VALUE "3ccfe7f5-ec01-4de5-883c-f563bbbe147a"
 #endif
@@ -98,7 +100,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   }
 
   // Start App Center SDK.
-  NSArray<Class> *services = @ [[MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class], [MSDataStorage class]];
+  NSArray<Class> *services = @ [[MSAnalytics class], [MSCrashes class], [MSDataStorage class], [MSDistribute class], [MSIdentity class], [MSPush class]];
   NSInteger startTarget = [[NSUserDefaults standardUserDefaults] integerForKey:kMSStartTargetKey];
   switch (startTarget) {
   case APPCENTER:

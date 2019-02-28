@@ -17,8 +17,8 @@ static NSString *const kMSPartitions = @"partitions";
 
   // Http call.
   [httpClient sendAsync:payloadData
-      completionHandler:^(NSString *callId, NSUInteger statusCode, NSData *data, NSError *error) {
-        NSLog(@"Get token callback, request Id %@ with status code: %lu", callId, (unsigned long)statusCode);
+      completionHandler:^(NSString *callId, NSHTTPURLResponse *response, NSData *data, NSError *error) {
+        NSLog(@"Get token callback, request Id %@ with status code: %lu", callId, (unsigned long)response.statusCode);
         completion(data, error);
       }];
 }

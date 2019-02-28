@@ -5,7 +5,9 @@ import UIKit
 import AppCenter
 import AppCenterAnalytics
 import AppCenterCrashes
+import AppCenterDataStorage
 import AppCenterDistribute
+import AppCenterIdentity
 import AppCenterPush
 import UserNotifications
 
@@ -61,7 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
 
     // Start App Center SDK.
     let appSecret = "0dbca56b-b9ae-4d53-856a-7c2856137d85"
-    let services = [MSAnalytics.self, MSCrashes.self, MSDistribute.self, MSPush.self]
+    let services = [MSAnalytics.self, MSCrashes.self, MSDataStorage<MSSerializableDocument>.self, MSDistribute.self, MSIdentity.self, MSPush.self]
     let startTarget = StartupMode(rawValue: UserDefaults.standard.integer(forKey: kMSStartTargetKey))!
     switch startTarget {
     case .APPCENTER:
@@ -144,7 +146,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
    */
   func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any] = [:]) -> Bool {
     // Forward the URL.
-    return MSDistribute.open(url)
+    return MSDistribute.open(url) && MSIdentity.open(url)
   }
 
   func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
@@ -163,7 +165,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, MSDist
       completionHandler(.noData)
     }
   }
-
+  
   func applicationWillResignActive(_ application: UIApplication) {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.

@@ -759,7 +759,12 @@ static NSURL *sfURL;
   id ingestionCallMock = OCMPartialMock([MSIngestionCall alloc]);
   OCMStub([ingestionCallMock alloc]).andReturn(ingestionCallMock);
   OCMReject([ingestionCallMock startRetryTimerWithStatusCode:404]);
-  OCMStub([ingestionCallMock ingestion:OCMOCK_ANY callCompletedWithStatus:MSHTTPCodesNo404NotFound data:OCMOCK_ANY error:OCMOCK_ANY])
+  OCMStub([ingestionCallMock ingestion:OCMOCK_ANY
+              callCompletedWithResponse:[OCMArg checkWithBlock:^BOOL(NSHTTPURLResponse *response) {
+                return response.statusCode == MSHTTPCodesNo404NotFound;
+              }]
+                                   data:OCMOCK_ANY
+                                  error:OCMOCK_ANY])
       .andForwardToRealObject()
       .andDo(^(__unused NSInvocation *invocation) {
         [expectation fulfill];
@@ -813,9 +818,11 @@ static NSURL *sfURL;
   OCMStub([ingestionCallMock alloc]).andReturn(ingestionCallMock);
   OCMStub([ingestionCallMock startRetryTimerWithStatusCode:500]).andDo(nil);
   OCMStub([ingestionCallMock ingestion:OCMOCK_ANY
-               callCompletedWithStatus:MSHTTPCodesNo500InternalServerError
-                                  data:OCMOCK_ANY
-                                 error:OCMOCK_ANY])
+              callCompletedWithResponse:[OCMArg checkWithBlock:^BOOL(NSHTTPURLResponse *response) {
+                return response.statusCode == MSHTTPCodesNo500InternalServerError;
+              }]
+                                   data:OCMOCK_ANY
+                                  error:OCMOCK_ANY])
       .andForwardToRealObject()
       .andDo(^(__unused NSInvocation *invocation) {
         [expectation fulfill];
@@ -2083,7 +2090,12 @@ static NSURL *sfURL;
   id ingestionCallMock = OCMPartialMock([MSIngestionCall alloc]);
   OCMStub([ingestionCallMock alloc]).andReturn(ingestionCallMock);
   OCMReject([ingestionCallMock startRetryTimerWithStatusCode:404]);
-  OCMStub([ingestionCallMock ingestion:OCMOCK_ANY callCompletedWithStatus:MSHTTPCodesNo404NotFound data:OCMOCK_ANY error:OCMOCK_ANY])
+  OCMStub([ingestionCallMock ingestion:OCMOCK_ANY
+              callCompletedWithResponse:[OCMArg checkWithBlock:^BOOL(NSHTTPURLResponse *response) {
+                return response.statusCode == MSHTTPCodesNo404NotFound;
+              }]
+                                   data:OCMOCK_ANY
+                                  error:OCMOCK_ANY])
       .andForwardToRealObject()
       .andDo(^(__unused NSInvocation *invocation) {
         [expectation fulfill];
