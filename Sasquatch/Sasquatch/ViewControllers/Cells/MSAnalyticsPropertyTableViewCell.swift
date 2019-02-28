@@ -8,6 +8,6 @@ import UIKit
     sender.resignFirstResponder()
   }
     
-    // MARK:variable
-    var curTarget: String = "Child 1"
+  // MARK:variable
+  var curTarget: String = ""
 }

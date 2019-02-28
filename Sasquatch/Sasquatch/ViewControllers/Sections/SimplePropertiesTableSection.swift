@@ -43,7 +43,7 @@ class SimplePropertiesTableSection : PropertiesTableSection {
     preconditionFailure("This method is abstract")
   }
     
-  func recordCurrentTarget(sender: UITextField!) {
+ func recordCurrentTarget(sender: UITextField!) {
     preconditionFailure("This method is abstract")
   }
 
