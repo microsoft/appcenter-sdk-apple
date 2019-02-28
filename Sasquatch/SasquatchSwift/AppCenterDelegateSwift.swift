@@ -2,6 +2,7 @@ import AppCenter
 import AppCenterAnalytics
 import AppCenterCrashes
 import AppCenterDistribute
+import AppCenterIdentity
 import AppCenterPush
 
 /**
@@ -77,6 +78,10 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     return MSDistribute.isEnabled()
   }
 
+  func isIdentityEnabled() -> Bool {
+    return MSIdentity.isEnabled()
+  }
+
   func isPushEnabled() -> Bool {
     return MSPush.isEnabled()
   }
@@ -91,6 +96,10 @@ class AppCenterDelegateSwift: AppCenterDelegate {
 
   func setDistributeEnabled(_ isEnabled: Bool) {
     MSDistribute.setEnabled(isEnabled)
+  }
+
+  func setIdentityEnabled(_ isEnabled: Bool) {
+    MSIdentity.setEnabled(isEnabled)
   }
 
   func setPushEnabled(_ isEnabled: Bool) {
@@ -271,5 +280,9 @@ class AppCenterDelegateSwift: AppCenterDelegate {
 
   func lastCrashReportDeviceAppNamespace() -> String? {
     return MSCrashes.lastSessionCrashReport()?.device.appNamespace
+  }
+  
+  func login() {
+    MSIdentity.login()
   }
 }

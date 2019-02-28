@@ -50,18 +50,20 @@ static NSString *kMSEncryptionKeyTag = @"kMSEncryptionKeyTag";
   CCCryptorRef encObj;
   CCCryptorStatus encStatus =
       CCCryptorCreate(kCCEncrypt, kMSEncryptionAlgorithm, kCCOptionPKCS7Padding, [self.key bytes], kMSCipherKeySize, NULL, &encObj);
-  self.encryptorObject = encObj;
 
   // Create Cryptorgraphics context for descryption.
   CCCryptorRef decObj;
   CCCryptorStatus decStatus =
       CCCryptorCreate(kCCDecrypt, kMSEncryptionAlgorithm, kCCOptionPKCS7Padding, [self.key bytes], kMSCipherKeySize, NULL, &decObj);
-  self.decryptorObject = decObj;
 
   // Log if it failed to create cryptorgraphics contexts.
   if (encStatus != kCCSuccess || decStatus != kCCSuccess) {
     MSLogError([MSAppCenter logTag], @"Could not create cryptor object.");
+    self.cryptorCreated = NO;
+    return;
   }
+  self.encryptorObject = encObj;
+  self.decryptorObject = decObj;
   self.cryptorCreated = YES;
 }
 

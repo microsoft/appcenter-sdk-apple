@@ -416,17 +416,17 @@
 		04FD4A321E453531009B4468 /* AppCenterDistributeTests */ = {
 			isa = PBXGroup;
 			children = (
-				9E8E3A38203E68B4001A23FD /* MSDistributionStartSessionLogTest.m */,
-				04FD4A351E453531009B4468 /* Info.plist */,
 				848860441E6EC32B003A9B96 /* MSBasicMachOParserTests.m */,
+				80324E2F1F4DC81E005F4E11 /* MSDistributeAppDelegateTests.m */,
 				386A69EF1FD88A9B0057B316 /* MSDistributeDataMigrationTests.m */,
+				586030B2AAEEE6A568D37CE9 /* MSDistributeInfoTrackerTests.m */,
+				040AF0291E52748D005C1174 /* MSDistributeIngestionTests.m */,
+				9E8E3A38203E68B4001A23FD /* MSDistributionStartSessionLogTest.m */,
 				04FD4A331E453531009B4468 /* MSDistributeTests.m */,
 				B20DE7B61E5F97330023075C /* MSDistributeUtilTests.m */,
-				040AF0291E52748D005C1174 /* MSDistributeIngestionTests.m */,
 				38A683631E774DCE00A63BC8 /* MSSemVerPreReleaseIdTest.m */,
 				38A683621E774DCE00A63BC8 /* MSSemVerTests.m */,
-				80324E2F1F4DC81E005F4E11 /* MSDistributeAppDelegateTests.m */,
-				586030B2AAEEE6A568D37CE9 /* MSDistributeInfoTrackerTests.m */,
+				04FD4A351E453531009B4468 /* Info.plist */,
 				040AF0101E523AC2005C1174 /* Fixtures */,
 				04FD4A491E453930009B4468 /* Frameworks */,
 				04A140BE1ECE84B7001CEE94 /* Model */,

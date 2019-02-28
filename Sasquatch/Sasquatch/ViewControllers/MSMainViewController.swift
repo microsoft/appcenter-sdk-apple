@@ -22,6 +22,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   @IBOutlet weak var logUrl: UILabel!
   @IBOutlet weak var sdkVersion: UILabel!
   @IBOutlet weak var pushEnabledSwitch: UISwitch!
+  @IBOutlet weak var identitySwitch: UISwitch!
   @IBOutlet weak var logFilterSwitch: UISwitch!
   @IBOutlet weak var deviceIdLabel: UILabel!
   @IBOutlet weak var storageMaxSizeField: UITextField!
@@ -100,9 +101,14 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     updateViewState()
   }
 
+  @IBAction func identitySignIn(_ sender: UIButton) {
+    appCenter.signIn()
+  }
+  
   func updateViewState() {
     self.appCenterEnabledSwitch.isOn = appCenter.isAppCenterEnabled()
     self.pushEnabledSwitch.isOn = appCenter.isPushEnabled()
+    self.identitySwitch.isOn = appCenter.isIdentityEnabled()
     #if ACTIVE_COMPILATION_CONDITION_PUPPET
     self.logFilterSwitch.isOn = MSEventFilter.isEnabled()
     #else
@@ -118,6 +124,11 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     updateViewState()
   }
 
+  @IBAction func identitySwitchStateUpdated(_ sender: UISwitch){
+    appCenter.setIdentityEnabled(sender.isOn)
+    updateViewState()
+  }
+  
   @IBAction func pushSwitchStateUpdated(_ sender: UISwitch) {
     appCenter.setPushEnabled(sender.isOn)
     updateViewState()
