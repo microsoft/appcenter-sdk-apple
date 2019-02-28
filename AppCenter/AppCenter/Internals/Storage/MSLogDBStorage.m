@@ -275,7 +275,7 @@ static const NSUInteger kMSSchemaVersion = 3;
       continue;
     }
 
-    // Deserialize target token.
+    // Deserialize target token. A token value from the row dictionary can't be `nil` but can be of class `NSNull`.
     NSString *encryptedToken = row[self.targetTokenColumnIndex];
     if ([encryptedToken isKindOfClass:[NSString class]]) {
       if (encryptedToken.length > 0) {
