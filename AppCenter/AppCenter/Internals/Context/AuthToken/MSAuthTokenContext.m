@@ -1,4 +1,5 @@
 #import "MSAuthTokenContext.h"
+#import "MSAuthTokenContextPrivate.h"
 #import "MSAuthTokenContextDelegate.h"
 
 /**
@@ -6,25 +7,6 @@
  */
 static MSAuthTokenContext *sharedInstance;
 static dispatch_once_t onceToken;
-
-@interface MSAuthTokenContext ()
-
-/**
- * Authorization token cached value.
- */
-@property(nullable, nonatomic, copy) NSString *authToken;
-
-/**
- * The last value of user account id.
- */
-@property(nullable, nonatomic, copy) NSString *homeAccountId;
-
-/**
- * Collection of channel delegates.
- */
-@property(nonatomic) NSHashTable<id<MSAuthTokenContextDelegate>> *delegates;
-
-@end
 
 @implementation MSAuthTokenContext
 
@@ -50,31 +32,18 @@ static dispatch_once_t onceToken;
   sharedInstance = nil;
 }
 
-- (nullable NSString *)authToken {
-  @synchronized(self) {
-    return _authToken;
-  }
-}
-
 - (void)setAuthToken:(NSString *)authToken withAccountId:(NSString *)accountId {
   NSArray *synchronizedDelegates;
   BOOL isNewUser = NO;
   @synchronized(self) {
     self.authToken = authToken;
-    isNewUser = self.homeAccountId == nil || ![self.homeAccountId isEqualToString:accountId];
+    isNewUser = ![self.homeAccountId isEqualToString:accountId];
     self.homeAccountId = accountId;
 
     // Don't invoke the delegate while locking; it might be locking too and deadlock ourselves.
     synchronizedDelegates = [self.delegates allObjects];
   }
-  for (id<MSAuthTokenContextDelegate> delegate in synchronizedDelegates) {
-    if ([delegate respondsToSelector:@selector(authTokenContext:didReceiveAuthToken:)]) {
-      [delegate authTokenContext:self didReceiveAuthToken:authToken];
-    }
-    if (isNewUser && [delegate respondsToSelector:@selector(authTokenContext:didUpdateUserWithAuthToken:)]) {
-      [delegate authTokenContext:self didUpdateUserWithAuthToken:authToken];
-    }
-  }
+  [self invokeAuthTokenEvents:synchronizedDelegates withToken:authToken isNewUser:isNewUser];
 }
 
 - (void)clearAuthToken {
@@ -86,12 +55,16 @@ static dispatch_once_t onceToken;
     // Don't invoke the delegate while locking; it might be locking too and deadlock ourselves.
     synchronizedDelegates = [self.delegates allObjects];
   }
-  for (id<MSAuthTokenContextDelegate> delegate in synchronizedDelegates) {
+  [self invokeAuthTokenEvents:synchronizedDelegates withToken:nil isNewUser:YES];
+}
+
+- (void)invokeAuthTokenEvents:(NSArray *)delegates withToken:(NSString *)token isNewUser:(BOOL)newUser {
+  for (id<MSAuthTokenContextDelegate> delegate in delegates) {
     if ([delegate respondsToSelector:@selector(authTokenContext:didReceiveAuthToken:)]) {
-      [delegate authTokenContext:self didReceiveAuthToken:nil];
+      [delegate authTokenContext:self didReceiveAuthToken:token];
     }
-    if ([delegate respondsToSelector:@selector(authTokenContext:didUpdateUserWithAuthToken:)]) {
-      [delegate authTokenContext:self didUpdateUserWithAuthToken:nil];
+    if (newUser && [delegate respondsToSelector:@selector(authTokenContext:didUpdateUserWithAuthToken:)]) {
+      [delegate authTokenContext:self didUpdateUserWithAuthToken:token];
     }
   }
 }
