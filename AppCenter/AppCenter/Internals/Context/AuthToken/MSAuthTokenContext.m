@@ -1,5 +1,4 @@
 #import "MSAuthTokenContext.h"
-#import "MSAuthTokenContextPrivate.h"
 #import "MSAuthTokenContextDelegate.h"
 
 /**
@@ -7,6 +6,25 @@
  */
 static MSAuthTokenContext *sharedInstance;
 static dispatch_once_t onceToken;
+
+@interface MSAuthTokenContext ()
+
+/**
+ * Authorization token cached value.
+ */
+@property(nullable, atomic, copy) NSString *authToken;
+
+/**
+ * The last value of user account id.
+ */
+@property(nullable, nonatomic, copy) NSString *homeAccountId;
+
+/**
+ * Collection of channel delegates.
+ */
+@property(nonatomic) NSHashTable<id<MSAuthTokenContextDelegate>> *delegates;
+
+@end
 
 @implementation MSAuthTokenContext
 
