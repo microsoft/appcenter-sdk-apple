@@ -78,14 +78,14 @@
 }
 
 - (void)testPassingInEmptyString {
-  
+
   // If
   MSEncrypter *encrypter = [[MSEncrypter alloc] initWitKeyTag:self.keyTag];
   NSString *expected = @"";
   NSString *emptyString = @"";
   // When
-  NSString *decryptedString = [encrypter decryptString: emptyString];
-  
+  NSString *decryptedString = [encrypter decryptString:emptyString];
+
   // Then
   XCTAssertEqualObjects(expected, decryptedString);
 }
