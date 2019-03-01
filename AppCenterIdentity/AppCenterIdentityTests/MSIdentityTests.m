@@ -184,7 +184,11 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [MSMockKeychainUtil storeString:@"foobar" forKey:kMSIdentityAuthTokenKey];
   [[MSAuthTokenContext sharedInstance] setAuthToken:@"someToken" withAccountId:@"someAccount"];
   [self.settingsMock setObject:@"fakeHomeAccountId" forKey:kMSIdentityMSALAccountHomeAccountKey];
+  self.sut.signInDelayedAndRetryLater = YES;
   [self.sut setEnabled:YES];
+  id accountMock = OCMPartialMock([MSALAccount new]);
+  self.sut.clientApplication = self.clientApplicationMock;
+  OCMStub([self.clientApplicationMock accountForHomeAccountId:OCMOCK_ANY error:[OCMArg anyObjectRef]]).andReturn(accountMock);
 
   // When
   [self.sut setEnabled:NO];
@@ -196,6 +200,8 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMVerify([self.utilityMock deleteItemForPathComponent:[self.sut identityConfigFilePath]]);
   XCTAssertNil([self.settingsMock objectForKey:kMSIdentityETagKey]);
   XCTAssertNil([self.settingsMock objectForKey:kMSIdentityMSALAccountHomeAccountKey]);
+  XCTAssertFalse(self.sut.signInDelayedAndRetryLater);
+  OCMVerify([self.clientApplicationMock removeAccount:OCMOCK_ANY error:[OCMArg anyObjectRef]]);
 }
 
 - (void)testCacheNewConfigWhenNoConfig {
