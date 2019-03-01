@@ -15,7 +15,7 @@
 #import "MSLoggerInternal.h"
 #import "MSMockKeychainUtil.h"
 #import "MSMockUserDefaults.h"
-#import "MSMockReachabilityUtil.h"
+#import "MSMockReachability.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSSessionContext.h"
 #import "MSSessionContextPrivate.h"
@@ -120,9 +120,8 @@ static NSURL *sfURL;
   self.sut.distributeInfoTracker = self.distributeInfoTrackerMock;
 
   // Mock reachability.
-  self.reachabilityMock = [MSMockReachabilityUtil new];
-  [self.reachabilityMock setCurrentNetworkStatus:ReachableViaWiFi];
-  [self.reachabilityMock mockMSReachability];
+  [MSMockReachability setCurrentNetworkStatus:ReachableViaWiFi];
+  self.reachabilityMock = [MSMockReachability startMocking];
 
   // Clear all previous sessions
   [MSSessionContext resetSharedInstance];
@@ -607,7 +606,7 @@ static NSURL *sfURL;
 - (void)testShowConfirmationAlertForMandatoryUpdateWhileNoNetwork {
 
   // If
-  [self.reachabilityMock setCurrentNetworkStatus:NotReachable];
+  [MSMockReachability setCurrentNetworkStatus:NotReachable];
   self.sut.appSecret = kMSTestAppSecret;
   XCTestExpectation *expectation = [self expectationWithDescription:@"Confirmation alert for private distribution has been displayed"];
 
@@ -699,7 +698,7 @@ static NSURL *sfURL;
 - (void)testDontShowConfirmationAlertIfNoMandatoryReleaseWhileNoNetwork {
 
   // If
-  [self.reachabilityMock setCurrentNetworkStatus:NotReachable];
+  [MSMockReachability setCurrentNetworkStatus:NotReachable];
   self.sut.appSecret = kMSTestAppSecret;
   XCTestExpectation *expectation = [self expectationWithDescription:@"Confirmation alert for private distribution has been displayed"];
 
@@ -1452,7 +1451,7 @@ static NSURL *sfURL;
 - (void)testWithoutNetwork {
 
   // If
-  [self.reachabilityMock setCurrentNetworkStatus:NotReachable];
+  [MSMockReachability setCurrentNetworkStatus:NotReachable];
   id distributeMock = OCMPartialMock(self.sut);
   OCMReject([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:kMSTestReleaseHash isTesterApp:false]);
 
