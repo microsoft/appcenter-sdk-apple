@@ -106,8 +106,8 @@ static dispatch_once_t onceToken;
     MSLogInfo([MSIdentity logTag], @"Identity service has been enabled.");
   } else {
     [[MSAppDelegateForwarder sharedInstance] removeDelegate:self.appDelegate];
-    self.clientApplication = nil;
     [self clearAuthData];
+    self.clientApplication = nil;
     [self clearConfigurationCache];
     [self.channelGroup removeDelegate:self];
     MSLogInfo([MSIdentity logTag], @"Identity service has been disabled.");
