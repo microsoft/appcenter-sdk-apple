@@ -108,6 +108,7 @@ static dispatch_once_t onceToken;
     [[MSAppDelegateForwarder sharedInstance] removeDelegate:self.appDelegate];
     [self clearAuthData];
     self.clientApplication = nil;
+    self.signInDelayedAndRetryLater = NO;
     [self clearConfigurationCache];
     [self.channelGroup removeDelegate:self];
     MSLogInfo([MSIdentity logTag], @"Identity service has been disabled.");
@@ -159,6 +160,7 @@ static dispatch_once_t onceToken;
 
 - (void)signIn {
   if (self.clientApplication == nil || self.identityConfig == nil) {
+    MSLogDebug([MSIdentity logTag], @"signIn is called while it's not configured or not in the foreground, waiting.");
     self.signInDelayedAndRetryLater = YES;
     return;
   }
@@ -178,6 +180,7 @@ static dispatch_once_t onceToken;
     }
     if ([MSAuthTokenContext sharedInstance].authToken != nil) {
       [self clearAuthData];
+      self.signInDelayedAndRetryLater = NO;
       MSLogInfo([MSIdentity logTag], @"User sign-out succeeded.");
     } else {
       MSLogWarning([MSIdentity logTag], @"Couldn't sign out: authToken doesn't exist.");
@@ -296,7 +299,6 @@ static dispatch_once_t onceToken;
 }
 
 - (void)clearAuthData {
-  self.signInDelayedAndRetryLater = NO;
   [[MSAuthTokenContext sharedInstance] clearAuthToken];
   [self removeAccount];
   [self removeAuthToken];
