@@ -5,6 +5,14 @@ import AppCenterAnalytics
 import AppCenterCrashes
 import AppCenterPush
 
+enum StartupMode: Int {
+    case appCenter
+    case oneCollector
+    case both
+    case none
+    case skip
+}
+
 @NSApplicationMain
 @objc(AppDelegate)
 class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDelegate {
@@ -46,13 +54,47 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
     MSAppCenter.setLogLevel(MSLogLevel.verbose)
 
     // Set user id.
-    let userId = UserDefaults.standard.string(forKey: "userId")
+    let userId = UserDefaults.standard.string(forKey: kMSUserIdKey)
     if userId != nil {
       MSAppCenter.setUserId(userId)
     }
 
+    // Set max storage size.
+    let storageMaxSize = UserDefaults.standard.object(forKey: kMSStorageMaxSizeKey) as? Int
+    if storageMaxSize != nil {
+        MSAppCenter.setMaxStorageSize(storageMaxSize!, completionHandler: { success in
+            DispatchQueue.main.async {
+                if success {
+                    let realSize = Int64(ceil(Double(storageMaxSize!) / Double(kMSStoragePageSize))) * Int64(kMSStoragePageSize)
+                    UserDefaults.standard.set(realSize, forKey: kMSStorageMaxSizeKey)
+                } else {
+                    
+                    // Remove invalid value.
+                    UserDefaults.standard.removeObject(forKey: kMSStorageMaxSizeKey)
+                }
+            }
+        })
+    }
+
     // Start AppCenter.
-    MSAppCenter.start("7e873482-108f-4609-8ef2-c4cebd7418c0", withServices : [ MSAnalytics.self, MSCrashes.self, MSPush.self ])
+    let services = [MSAnalytics.self, MSCrashes.self, MSPush.self]
+    let startTarget = StartupMode(rawValue: UserDefaults.standard.integer(forKey: kMSStartTargetKey))!
+    switch startTarget {
+    case .appCenter:
+        MSAppCenter.start(kMSSwiftAppSecret, withServices: services)
+        break
+    case .oneCollector:
+        MSAppCenter.start("target=\(kMSSwiftTargetToken)", withServices: services)
+        break
+    case .both:
+        MSAppCenter.start("appsecret=\(kMSSwiftAppSecret);target=\(kMSSwiftTargetToken)", withServices: services)
+        break
+    case .none:
+        MSAppCenter.start(withServices: services)
+        break
+    case .skip:
+        break
+    }
 
     AppCenterProvider.shared().appCenter = AppCenterDelegateSwift()
 
