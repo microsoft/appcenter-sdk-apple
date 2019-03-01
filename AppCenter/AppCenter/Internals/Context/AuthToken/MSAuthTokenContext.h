@@ -11,6 +11,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MSAuthTokenContext : NSObject
 
 /**
+ * Authorization token cached value.
+ */
+@property(nullable, atomic, readonly) NSString *authToken;
+
+/**
  * Get singleton instance.
  */
 + (instancetype)sharedInstance;
@@ -38,11 +43,6 @@ NS_ASSUME_NONNULL_BEGIN
  * Set current auth token and account id.
  */
 - (void)setAuthToken:(NSString *)authToken withAccountId:(NSString *)accountId;
-
-/**
- * Retrieve auth token.
- */
-- (nullable NSString *)authToken;
 
 /**
  * Reset singleton instance.
