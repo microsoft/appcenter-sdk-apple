@@ -108,6 +108,7 @@ static dispatch_once_t onceToken;
     [[MSAppDelegateForwarder sharedInstance] removeDelegate:self.appDelegate];
     self.clientApplication = nil;
     [[MSAuthTokenContext sharedInstance] clearAuthToken];
+    [self removeAccount];
     [self removeAuthToken];
     [self removeAccountId];
     [self clearConfigurationCache];
@@ -180,21 +181,12 @@ static dispatch_once_t onceToken;
     }
     if ([MSAuthTokenContext sharedInstance].authToken != nil) {
       [[MSAuthTokenContext sharedInstance] clearAuthToken];
-      if (self.clientApplication != nil) {
-        MSALAccount *account = [self retrieveAccountWithAccountId:[self retrieveAccountId]];
-        if (account != nil) {
-          NSError *error;
-          [self.clientApplication removeAccount:account error:&error];
-          if (error) {
-            MSLogWarning([MSIdentity logTag], @"Couldn't remove account: %@", error.localizedDescription);
-          }
-        }
-      }
+      [self removeAccount];
       [self removeAuthToken];
       [self removeAccountId];
       MSLogInfo([MSIdentity logTag], @"User sign-out succeeded.");
     } else {
-      MSLogWarning([MSIdentity logTag], @"Couldn't sign-out: authToken doesn't exist.");
+      MSLogWarning([MSIdentity logTag], @"Couldn't sign out: authToken doesn't exist.");
     }
   }
 }
@@ -307,6 +299,20 @@ static dispatch_once_t onceToken;
     }
   }
   return config;
+}
+
+- (void)removeAccount {
+  if (self.clientApplication == nil) {
+    return;
+  }
+  MSALAccount *account = [self retrieveAccountWithAccountId:[self retrieveAccountId]];
+  if (account != nil) {
+    NSError *error;
+    [self.clientApplication removeAccount:account error:&error];
+    if (error) {
+      MSLogWarning([MSIdentity logTag], @"Failed to remove account: %@", error.localizedDescription);
+    }
+  }
 }
 
 - (void)saveAuthToken:(NSString *)authToken {
