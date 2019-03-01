@@ -113,7 +113,10 @@
 }
 
 - (void)signIn {
-  [MSIdentity signIn];
+  [MSIdentity signInWithCompletionHandler:^(MSUserInformation *_Nullable userInformation, NSError *_Nullable error){
+
+      // TODO: Add UI messages or log messages for result.
+  }];
 }
 
 - (void)setPushEnabled:(BOOL)isEnabled {
