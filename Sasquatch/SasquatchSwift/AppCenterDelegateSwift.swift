@@ -282,7 +282,7 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     return MSCrashes.lastSessionCrashReport()?.device.appNamespace
   }
   
-  func login() {
-    MSIdentity.login()
+  func signIn() {
+    MSIdentity.signIn()
   }
 }
