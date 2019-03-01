@@ -107,10 +107,7 @@ static dispatch_once_t onceToken;
   } else {
     [[MSAppDelegateForwarder sharedInstance] removeDelegate:self.appDelegate];
     self.clientApplication = nil;
-    [[MSAuthTokenContext sharedInstance] clearAuthToken];
-    [self removeAccount];
-    [self removeAuthToken];
-    [self removeAccountId];
+    [self clearAuthData];
     [self clearConfigurationCache];
     [self.channelGroup removeDelegate:self];
     MSLogInfo([MSIdentity logTag], @"Identity service has been disabled.");
@@ -180,10 +177,7 @@ static dispatch_once_t onceToken;
       return;
     }
     if ([MSAuthTokenContext sharedInstance].authToken != nil) {
-      [[MSAuthTokenContext sharedInstance] clearAuthToken];
-      [self removeAccount];
-      [self removeAuthToken];
-      [self removeAccountId];
+      [self clearAuthData];
       MSLogInfo([MSIdentity logTag], @"User sign-out succeeded.");
     } else {
       MSLogWarning([MSIdentity logTag], @"Couldn't sign out: authToken doesn't exist.");
@@ -299,6 +293,14 @@ static dispatch_once_t onceToken;
     }
   }
   return config;
+}
+
+- (void)clearAuthData {
+  self.signInDelayedAndRetryLater = NO;
+  [[MSAuthTokenContext sharedInstance] clearAuthToken];
+  [self removeAccount];
+  [self removeAuthToken];
+  [self removeAccountId];
 }
 
 - (void)removeAccount {
