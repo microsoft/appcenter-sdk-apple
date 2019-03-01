@@ -11,7 +11,7 @@ NetworkStatus currentNetworkStatus;
 
 @implementation MSMockReachability
 
-+ (void)setCurrentNetworkStatus: (NetworkStatus)networkStatus {
++ (void)setCurrentNetworkStatus:(NetworkStatus)networkStatus {
   currentNetworkStatus = networkStatus;
 }
 
@@ -23,8 +23,7 @@ NetworkStatus currentNetworkStatus;
     [invocation setReturnValue:&status];
   });
   OCMStub([mockReachability startNotifier]).andDo(^(__unused NSInvocation *invocation) {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kMSNetworkReachabilityChangedNotificationName
-                                                        object:mockReachability];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kMSNetworkReachabilityChangedNotificationName object:mockReachability];
   });
   return mockReachability;
 }

@@ -3,7 +3,7 @@
 
 @interface MSMockReachability : NSObject
 
-+ (void)setCurrentNetworkStatus: (NetworkStatus)networkStatus;
++ (void)setCurrentNetworkStatus:(NetworkStatus)networkStatus;
 
 + (id)startMocking;
 
