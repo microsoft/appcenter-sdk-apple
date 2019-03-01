@@ -25,6 +25,10 @@
   [MSAppCenter setCustomProperties:customProperties];
 }
 
+- (void)startAnalyticsFromLibrary {
+  [MSAppCenter startFromLibraryWithServices:@ [[MSAnalytics class]]];
+}
+
 - (NSString *)installId {
   return [[MSAppCenter installId] UUIDString];
 }
@@ -87,6 +91,18 @@
   [MSAnalytics trackEvent:eventName withProperties:properties];
 }
 
+- (void)trackEvent:(NSString *)eventName withProperties:(NSDictionary<NSString *, NSString *> *)properties flags:(MSFlags)flags {
+    [MSAnalytics trackEvent:eventName withProperties:properties flags:flags];
+}
+
+- (void)trackEvent:(NSString *)eventName withTypedProperties:(MSEventProperties *)properties {
+    [MSAnalytics trackEvent:eventName withTypedProperties:properties];
+}
+
+- (void)trackEvent:(NSString *)eventName withTypedProperties:(MSEventProperties *)properties flags:(MSFlags)flags {
+    [MSAnalytics trackEvent:eventName withTypedProperties:properties flags:flags];
+}
+
 - (void)trackPage:(NSString *)pageName {
 
   // TODO: Uncomment when trackPage is moved from internal to public module
@@ -97,6 +113,14 @@
 
   // TODO: Uncomment when trackPage is moved from internal to public module
   // [MSAnalytics trackPage:pageName withProperties:properties];
+}
+
+- (void)resume {
+    [MSAnalytics resume];
+}
+
+- (void)pause {
+    [MSAnalytics pause];
 }
 
 #pragma mark - MSCrashes section.
