@@ -61,28 +61,35 @@ static dispatch_once_t onceToken;
     // Don't invoke the delegate while locking; it might be locking too and deadlock ourselves.
     synchronizedDelegates = [self.delegates allObjects];
   }
-  [self invokeAuthTokenEvents:synchronizedDelegates withToken:authToken isNewUser:isNewUser];
+  for (id<MSAuthTokenContextDelegate> delegate in synchronizedDelegates) {
+    if ([delegate respondsToSelector:@selector(authTokenContext:didReceiveAuthToken:)]) {
+      [delegate authTokenContext:self didReceiveAuthToken:authToken];
+    }
+    if (isNewUser && [delegate respondsToSelector:@selector(authTokenContext:didUpdateUserWithAuthToken:)]) {
+      [delegate authTokenContext:self didUpdateUserWithAuthToken:authToken];
+    }
+  }
 }
 
 - (void)clearAuthToken {
   NSArray *synchronizedDelegates;
+  BOOL clearedExistingUser = NO;
   @synchronized(self) {
+    if (self.authToken != nil && self.homeAccountId != nil) {
+      clearedExistingUser = YES;
+    }
     self.authToken = nil;
     self.homeAccountId = nil;
 
     // Don't invoke the delegate while locking; it might be locking too and deadlock ourselves.
     synchronizedDelegates = [self.delegates allObjects];
   }
-  [self invokeAuthTokenEvents:synchronizedDelegates withToken:nil isNewUser:YES];
-}
-
-- (void)invokeAuthTokenEvents:(NSArray *)delegates withToken:(NSString *)token isNewUser:(BOOL)newUser {
-  for (id<MSAuthTokenContextDelegate> delegate in delegates) {
+  for (id<MSAuthTokenContextDelegate> delegate in synchronizedDelegates) {
     if ([delegate respondsToSelector:@selector(authTokenContext:didReceiveAuthToken:)]) {
-      [delegate authTokenContext:self didReceiveAuthToken:token];
+      [delegate authTokenContext:self didReceiveAuthToken:nil];
     }
-    if (newUser && [delegate respondsToSelector:@selector(authTokenContext:didUpdateUserWithAuthToken:)]) {
-      [delegate authTokenContext:self didUpdateUserWithAuthToken:token];
+    if (clearedExistingUser && [delegate respondsToSelector:@selector(authTokenContext:didUpdateUserWithAuthToken:)]) {
+      [delegate authTokenContext:self didUpdateUserWithAuthToken:nil];
     }
   }
 }

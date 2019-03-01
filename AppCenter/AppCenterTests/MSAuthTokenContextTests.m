@@ -66,6 +66,7 @@
   [self.sut addDelegate:delegateMock];
 
   // When
+  [self.sut setAuthToken:@"some-token" withAccountId:@"some-id"];
   [self.sut clearAuthToken];
 
   // Then
