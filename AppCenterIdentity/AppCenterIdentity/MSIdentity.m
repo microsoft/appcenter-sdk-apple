@@ -111,6 +111,10 @@ static dispatch_once_t onceToken;
     [self removeAccountId];
     [self clearConfigurationCache];
     [self.channelGroup removeDelegate:self];
+    NSError *error = [NSError new];
+
+    // TODO: Build an error instance.
+    [self completeAcquireTokenRequestForResult:nil withError:error];
     MSLogInfo([MSIdentity logTag], @"Identity service has been disabled.");
   }
 }
@@ -146,10 +150,24 @@ static dispatch_once_t onceToken;
   return [MSALPublicClientApplication handleMSALResponse:url];
 }
 
-+ (void)signIn {
++ (void)signInWithCompletionHandler:(MSSignInCompletionHandler)completionHandler {
   @synchronized([MSIdentity sharedInstance]) {
-    if ([[MSIdentity sharedInstance] canBeUsed]) {
+    if ([[MSIdentity sharedInstance] canBeUsed] && [[MSIdentity sharedInstance] isEnabled]) {
+      if ([MSIdentity sharedInstance].signInCompletionHandler) {
+        NSError *error = [NSError new];
+
+        // TODO: Build an error object.
+        // TODO: Add an error log. Sign-in requested before completing previous request.
+        completionHandler(nil, error);
+        return;
+      }
+      [MSIdentity sharedInstance].signInCompletionHandler = completionHandler;
       [[MSIdentity sharedInstance] signIn];
+    } else {
+      NSError *error = [NSError new];
+
+      // TODO: Build an error object.
+      completionHandler(nil, error);
     }
   }
 }
@@ -321,6 +339,7 @@ static dispatch_once_t onceToken;
                       [MSAuthTokenContext sharedInstance].authToken = result.idToken;
                       [strongSelf saveAuthToken:result.idToken];
                       [strongSelf saveAccountId:(NSString * _Nonnull) result.account.homeAccountId.identifier];
+                      [strongSelf completeAcquireTokenRequestForResult:result withError:nil];
                     }
                   }];
 }
@@ -329,15 +348,39 @@ static dispatch_once_t onceToken;
   __weak typeof(self) weakSelf = self;
   [self.clientApplication acquireTokenForScopes:@[ (NSString * _Nonnull) self.identityConfig.identityScope ]
                                 completionBlock:^(MSALResult *result, NSError *e) {
+                                  typeof(self) strongSelf = weakSelf;
                                   if (e) {
-                                    MSLogError([MSIdentity logTag], @"User sign-in failed. Error: %@", e);
+                                    if (e.code == MSALErrorUserCanceled) {
+                                      MSLogWarning([MSIdentity logTag], @"User canceled sign-in.");
+                                    } else {
+                                      MSLogError([MSIdentity logTag], @"User sign-in failed. Error: %@", e);
+                                    }
                                   } else {
-                                    typeof(self) strongSelf = weakSelf;
                                     [MSAuthTokenContext sharedInstance].authToken = result.idToken;
                                     [strongSelf saveAuthToken:result.idToken];
                                     [strongSelf saveAccountId:(NSString * _Nonnull) result.account.homeAccountId.identifier];
                                   }
+                                  [strongSelf completeAcquireTokenRequestForResult:result withError:e];
                                 }];
+}
+
+- (void)completeAcquireTokenRequestForResult:(MSALResult *)result withError:(NSError *)error {
+  @synchronized(self) {
+    if (!self.signInCompletionHandler) {
+      return;
+    }
+    if (error) {
+      self.signInCompletionHandler(nil, error);
+    } else {
+      MSUserInformation *userInformation = [MSUserInformation new];
+
+      // TODO: localAccountId is in internal header and invisible. We need to either extract localAccountId from homeAccountId or change it
+      // in MSAL library userInformation.accountId = result.account.localAccountId.identifier;
+      userInformation.accountId = (NSString * _Nonnull) result.account.homeAccountId.identifier;
+      self.signInCompletionHandler(userInformation, nil);
+    }
+    self.signInCompletionHandler = nil;
+  }
 }
 
 - (MSALAccount *)retrieveAccountWithAccountId:(NSString *)homeAccountId {
