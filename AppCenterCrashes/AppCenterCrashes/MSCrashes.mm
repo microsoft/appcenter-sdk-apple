@@ -173,7 +173,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 + (void)generateTestCrash {
   @synchronized([MSCrashes sharedInstance]) {
     if ([[MSCrashes sharedInstance] canBeUsed]) {
-      if ([MSUtility currentAppEnvironment] != MSEnvironmentAppStore) {
+      if ([MSUtility currentAppEnvironment] == MSEnvironmentAppStore) {
+          MSLogWarning([MSCrashes logTag], @"GenerateTestCrash was just called in an App Store environment. The call will be ignored");
+      } else {
         if ([MSAppCenter isDebuggerAttached]) {
           MSLogWarning([MSCrashes logTag], @"The debugger is attached. The following crash cannot be detected by the SDK!");
         }
@@ -181,8 +183,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
         // Crashing the app here!
         __builtin_trap();
       }
-    } else {
-      MSLogWarning([MSCrashes logTag], @"GenerateTestCrash was just called in an App Store environment. The call will be ignored");
     }
   }
 }

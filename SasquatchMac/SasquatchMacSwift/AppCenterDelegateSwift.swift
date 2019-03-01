@@ -34,6 +34,9 @@ class AppCenterDelegateSwift : AppCenterDelegate {
   func isDebuggerAttached() -> Bool {
     return MSAppCenter.isDebuggerAttached()
   }
+  func startAnalyticsFromLibrary() {
+    MSAppCenter.startFromLibrary(withServices: [MSAnalytics.self])
+  }
   func setUserId(_ userId: String?) {
     MSAppCenter.setUserId(userId);
   }
@@ -64,6 +67,21 @@ class AppCenterDelegateSwift : AppCenterDelegate {
   }
   func trackEvent(_ eventName: String, withProperties properties: Dictionary<String, String>) {
     MSAnalytics.trackEvent(eventName, withProperties: properties)
+  }
+  func trackEvent(_ eventName: String, withProperties properties: Dictionary<String, String>, flags: MSFlags) {
+    MSAnalytics.trackEvent(eventName, withProperties: properties, flags:flags)
+  }
+  func trackEvent(_ eventName: String, withTypedProperties properties: MSEventProperties) {
+    MSAnalytics.trackEvent(eventName, withProperties: properties)
+  }
+  func trackEvent(_ eventName: String, withTypedProperties properties: MSEventProperties?, flags: MSFlags) {
+    MSAnalytics.trackEvent(eventName, withProperties: properties, flags: flags)
+  }
+  func resume() {
+    MSAnalytics.resume()
+  }
+  func pause() {
+    MSAnalytics.pause()
   }
   func trackPage(_ pageName: String) {
     // TODO: Uncomment when trackPage is moved from internal to public
