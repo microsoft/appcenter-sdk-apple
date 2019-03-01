@@ -689,6 +689,23 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [identityMock stopMocking];
 }
 
+- (void)testSignOutResetsDelayedLoginFlag {
+
+  // If
+  self.sut.signInDelayedAndRetryLater = YES;
+  [[MSAuthTokenContext sharedInstance] setAuthToken:@"someToken" withAccountId:@"someAccount"];
+  id identityMock = OCMPartialMock(self.sut);
+  OCMStub([identityMock sharedInstance]).andReturn(identityMock);
+  OCMStub([identityMock canBeUsed]).andReturn(YES);
+
+  // When
+  [MSIdentity signOut];
+
+  // Then
+  XCTAssertFalse(self.sut.signInDelayedAndRetryLater);
+  [identityMock stopMocking];
+}
+
 - (void)testSignOutDoesNothingWhenNotSignedIn {
 
   // If
