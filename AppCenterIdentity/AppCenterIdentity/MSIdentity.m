@@ -111,9 +111,9 @@ static dispatch_once_t onceToken;
     [self removeAccountId];
     [self clearConfigurationCache];
     [self.channelGroup removeDelegate:self];
-    NSError *error = [NSError new];
-
-    // TODO: Build an error instance.
+    NSError *error = [[NSError alloc] initWithDomain:MSIdentityErrorDomain
+                                                code:MSIdentityErrorServiceDisabled
+                                            userInfo:@{MSIdentityErrorDescriptionKey : @"Identity is disabled."}];
     [self completeAcquireTokenRequestForResult:nil withError:error];
     MSLogInfo([MSIdentity logTag], @"Identity service has been disabled.");
   }
@@ -154,19 +154,19 @@ static dispatch_once_t onceToken;
   @synchronized([MSIdentity sharedInstance]) {
     if ([[MSIdentity sharedInstance] canBeUsed] && [[MSIdentity sharedInstance] isEnabled]) {
       if ([MSIdentity sharedInstance].signInCompletionHandler) {
-        NSError *error = [NSError new];
-
-        // TODO: Build an error object.
-        // TODO: Add an error log. Sign-in requested before completing previous request.
+        MSLogError([MSIdentity logTag], @"signIn already in progress.");
+        NSError *error = [[NSError alloc] initWithDomain:MSIdentityErrorDomain
+                                                    code:MSIdentityErrorPreviousSignInRequestNotCompleted
+                                                userInfo:@{MSIdentityErrorDescriptionKey : @"signIn already in progress."}];
         completionHandler(nil, error);
         return;
       }
       [MSIdentity sharedInstance].signInCompletionHandler = completionHandler;
       [[MSIdentity sharedInstance] signIn];
     } else {
-      NSError *error = [NSError new];
-
-      // TODO: Build an error object.
+      NSError *error = [[NSError alloc] initWithDomain:MSIdentityErrorDomain
+                                                  code:MSIdentityErrorServiceDisabled
+                                              userInfo:@{MSIdentityErrorDescriptionKey : @"Identity is disabled."}];
       completionHandler(nil, error);
     }
   }
@@ -373,10 +373,7 @@ static dispatch_once_t onceToken;
       self.signInCompletionHandler(nil, error);
     } else {
       MSUserInformation *userInformation = [MSUserInformation new];
-
-      // TODO: localAccountId is in internal header and invisible. We need to either extract localAccountId from homeAccountId or change it
-      // in MSAL library userInformation.accountId = result.account.localAccountId.identifier;
-      userInformation.accountId = (NSString * _Nonnull) result.account.homeAccountId.identifier;
+      userInformation.accountId = (NSString * _Nonnull) result.uniqueId;
       self.signInCompletionHandler(userInformation, nil);
     }
     self.signInCompletionHandler = nil;

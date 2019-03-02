@@ -12,6 +12,25 @@ NS_ASSUME_NONNULL_BEGIN
 typedef void (^MSSignInCompletionHandler)(MSUserInformation *_Nullable userInformation, NSError *_Nullable error);
 
 /**
+ * Error code for Identity.
+ */
+typedef NS_ENUM(NSInteger, MSIdentityErrorCode) {
+  MSIdentityErrorServiceDisabled = -420000,
+
+  MSIdentityErrorPreviousSignInRequestNotCompleted = -420001
+};
+
+/**
+ * Error domain for Identity.
+ */
+static NSString *const MSIdentityErrorDomain = @"MSIdentityErrorDomain";
+
+/**
+ * Error description key for Identity.
+ */
+static NSString *const MSIdentityErrorDescriptionKey = @"MSIdentityErrorDescriptionKey";
+
+/**
  * App Center Identity service.
  */
 @interface MSIdentity : MSServiceAbstract
