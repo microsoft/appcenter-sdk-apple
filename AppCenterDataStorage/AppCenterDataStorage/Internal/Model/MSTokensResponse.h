@@ -18,4 +18,13 @@
  */
 - (instancetype)initWithTokens:(NSArray<MSTokenResult *> *)tokens;
 
+/**
+ * Initialize the Token response object with dictionary of tokens.
+ *
+ * @param tokens Dictionary of tokens
+ *
+ * @return An token response instance.
+ */
+- (instancetype)initWithDictionary:(NSDictionary *)tokens;
+
 @end

@@ -2,7 +2,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^MSGetTokenAsyncCompletionHandler)(NSData *data, NSError *error);
+@class MSTokensResponse;
+typedef void (^MSGetTokenAsyncCompletionHandler)(MSTokensResponse *tokenResponses, NSError *error);
 
 @class MSStorageIngestion;
 
