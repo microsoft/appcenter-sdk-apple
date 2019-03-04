@@ -609,8 +609,8 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [MSIdentity signOut];
 
   // Then
-  OCMVerify([mockDelegate authTokenContext:OCMOCK_ANY didReceiveAuthToken:nil]);
-  OCMVerify([mockDelegate authTokenContext:OCMOCK_ANY didUpdateUserWithAuthToken:nil]);
+  OCMVerify([mockDelegate authTokenContext:OCMOCK_ANY didSetNewAuthToken:nil]);
+  OCMVerify([mockDelegate authTokenContext:OCMOCK_ANY didSetNewAccountIdWithAuthToken:nil]);
   [identityMock stopMocking];
 }
 
@@ -722,7 +722,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([identityMock canBeUsed]).andReturn(YES);
 
   // Then
-  OCMReject([mockDelegate authTokenContext:OCMOCK_ANY didReceiveAuthToken:OCMOCK_ANY]);
+  OCMReject([mockDelegate authTokenContext:OCMOCK_ANY didSetNewAuthToken:OCMOCK_ANY]);
 
   // When
   [MSIdentity signOut];
