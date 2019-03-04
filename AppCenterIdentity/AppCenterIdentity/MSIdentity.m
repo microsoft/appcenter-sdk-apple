@@ -178,7 +178,7 @@ static dispatch_once_t onceToken;
     if (![self canBeUsed]) {
       return;
     }
-    if ([MSAuthTokenContext sharedInstance].authToken != nil) {
+    if ([MSAuthTokenContext sharedInstance].authToken) {
       [self clearAuthData];
       self.signInDelayedAndRetryLater = NO;
       MSLogInfo([MSIdentity logTag], @"User sign-out succeeded.");
@@ -298,19 +298,22 @@ static dispatch_once_t onceToken;
   return config;
 }
 
-- (void)clearAuthData {
-  [[MSAuthTokenContext sharedInstance] clearAuthToken];
+- (BOOL)clearAuthData {
+  if (![[MSAuthTokenContext sharedInstance] clearAuthToken]) {
+    return NO;
+  }
   [self removeAccount];
   [self removeAuthToken];
   [self removeAccountId];
+  return YES;
 }
 
 - (void)removeAccount {
-  if (self.clientApplication == nil) {
+  if (!self.clientApplication) {
     return;
   }
   MSALAccount *account = [self retrieveAccountWithAccountId:[self retrieveAccountId]];
-  if (account != nil) {
+  if (account) {
     NSError *error;
     [self.clientApplication removeAccount:account error:&error];
     if (error) {

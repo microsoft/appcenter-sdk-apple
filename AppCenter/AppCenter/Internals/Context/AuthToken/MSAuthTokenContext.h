@@ -36,8 +36,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Clear cached token and account id.
+ *
+ * @return `YES` if the auth token is cleared, `NO` otherwise.
  */
-- (void)clearAuthToken;
+- (BOOL)clearAuthToken;
 
 /**
  * Set current auth token and account id.

@@ -65,9 +65,12 @@
   id<MSAuthTokenContextDelegate> delegateMock = OCMProtocolMock(@protocol(MSAuthTokenContextDelegate));
   [self.sut addDelegate:delegateMock];
 
+  // Then
+  XCTAssertFalse([self.sut clearAuthToken]);
+
   // When
   [self.sut setAuthToken:@"some-token" withAccountId:@"some-id"];
-  [self.sut clearAuthToken];
+  XCTAssertTrue([self.sut clearAuthToken]);
 
   // Then
   XCTAssertNil([self.sut authToken]);
