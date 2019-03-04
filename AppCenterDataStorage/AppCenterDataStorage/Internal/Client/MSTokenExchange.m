@@ -26,6 +26,7 @@ static NSString *const kMSPartitions = @"partitions";
 
         // If comletion is provided.
         if (completion) {
+
           // Read tokens.
           NSError *tokenResponsejsonError;
           NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&tokenResponsejsonError];
@@ -33,7 +34,8 @@ static NSString *const kMSPartitions = @"partitions";
             MSLogError([MSDataStorage logTag], @"Can't deserialize tokens with error: %@", [tokenResponsejsonError description]);
             completion([[MSTokensResponse alloc] initWithTokens:nil], error);
           }
-          // Create token result object
+
+          // Create token result object.
           MSTokensResponse *tokens = [[MSTokensResponse alloc] initWithDictionary:jsonDictionary];
           completion(tokens, error);
         }
