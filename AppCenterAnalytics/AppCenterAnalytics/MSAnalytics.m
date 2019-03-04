@@ -223,11 +223,11 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 }
 
 + (void)setAutoPageTrackingEnabled:(BOOL)isEnabled {
-  [[MSAnalytics sharedInstance] setAutoPageTrackingEnabled:isEnabled];
+  [MSAnalytics sharedInstance].autoPageTrackingEnabled = isEnabled;
 }
 
 + (BOOL)isAutoPageTrackingEnabled {
-  return [[MSAnalytics sharedInstance] isAutoPageTrackingEnabled];
+  return [MSAnalytics sharedInstance].autoPageTrackingEnabled;
 }
 
 #pragma mark - Transmission Target
@@ -363,18 +363,6 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 
     // Send log to log manager.
     [self sendLog:log flags:MSFlagsDefault];
-  }
-}
-
-- (void)setAutoPageTrackingEnabled:(BOOL)isEnabled {
-  @synchronized(self) {
-    _autoPageTrackingEnabled = isEnabled;
-  }
-}
-
-- (BOOL)isAutoPageTrackingEnabled {
-  @synchronized(self) {
-    return self.autoPageTrackingEnabled;
   }
 }
 
