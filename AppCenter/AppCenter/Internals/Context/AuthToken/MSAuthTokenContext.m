@@ -10,7 +10,7 @@ static dispatch_once_t onceToken;
 @interface MSAuthTokenContext ()
 
 /**
- * Authorization token cached value.
+ * Cached authorization token.
  */
 @property(nullable, atomic, copy) NSString *authToken;
 
