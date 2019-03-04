@@ -105,13 +105,16 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 }
 
 + (void)setEnabled:(BOOL)isEnabled {
-  @synchronized([MSAppCenter sharedInstance]) {
-    if ([[MSAppCenter sharedInstance] canBeUsed]) {
-      [[MSAppCenter sharedInstance] setEnabled:isEnabled];
-    }
-  }
+  [[MSAppCenter sharedInstance] setEnabled:isEnabled];
 }
 
+/**
+ * Checks if SDK is enabled and initialized.
+ *
+ * @discussion This method is different from the instance one and in addition checks canBeUsed.
+ *
+ * @return `YES` if SDK is enabled and initialized, `NO` otherwise
+ */
 + (BOOL)isEnabled {
   @synchronized([MSAppCenter sharedInstance]) {
     if ([[MSAppCenter sharedInstance] canBeUsed]) {
@@ -456,7 +459,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 
 - (void)setUserId:(NSString *)userId {
   if (!self.configuredFromApplication) {
-    MSLogError([MSAppCenter logTag], @"AppCenter must be configured from application, libraries cannot use call setUserId.");
+    MSLogError([MSAppCenter logTag], @"AppCenter must be configured from application, libraries cannot call setUserId.");
     return;
   }
   if (!self.appSecret && !self.defaultTransmissionTargetToken) {
@@ -486,22 +489,27 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 #endif
 
 - (void)setEnabled:(BOOL)isEnabled {
-  self.enabledStateUpdating = YES;
-  if ([self isEnabled] != isEnabled) {
+  @synchronized(self) {
+    if (![self canBeUsed]) {
+      return;
+    }
+    self.enabledStateUpdating = YES;
+    if ([self isEnabled] != isEnabled) {
 
-    // Persist the enabled status.
-    [MS_USER_DEFAULTS setObject:@(isEnabled) forKey:kMSAppCenterIsEnabledKey];
+      // Persist the enabled status.
+      [MS_USER_DEFAULTS setObject:@(isEnabled) forKey:kMSAppCenterIsEnabledKey];
 
-    // Enable/disable pipeline.
-    [self applyPipelineEnabledState:isEnabled];
+      // Enable/disable pipeline.
+      [self applyPipelineEnabledState:isEnabled];
+    }
+
+    // Propagate enable/disable on all services.
+    for (id<MSServiceInternal> service in self.services) {
+      [[service class] setEnabled:isEnabled];
+    }
+    self.enabledStateUpdating = NO;
+    MSLogInfo([MSAppCenter logTag], @"App Center SDK %@.", isEnabled ? @"enabled" : @"disabled");
   }
-
-  // Propagate enable/disable on all services.
-  for (id<MSServiceInternal> service in self.services) {
-    [[service class] setEnabled:isEnabled];
-  }
-  self.enabledStateUpdating = NO;
-  MSLogInfo([MSAppCenter logTag], @"App Center SDK %@.", isEnabled ? @"enabled" : @"disabled");
 }
 
 - (BOOL)isEnabled {

@@ -232,11 +232,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
  * This API is not public and is used by wrapper SDKs.
  */
 + (void)trackModelException:(MSException *)exception withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties {
-  @synchronized(self) {
-    if ([[MSCrashes sharedInstance] canBeUsed]) {
-      [[MSCrashes sharedInstance] trackModelException:exception withProperties:properties];
-    }
-  }
+  [[MSCrashes sharedInstance] trackModelException:exception withProperties:properties];
 }
 
 #pragma mark - Service initialization
@@ -1175,28 +1171,31 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 #pragma mark - Handled exceptions
 
 - (void)trackModelException:(MSException *)exception withProperties:(NSDictionary<NSString *, NSString *> *)properties {
-  if (![self isEnabled])
-    return;
+  @synchronized(self) {
+    if (![self canBeUsed] || ![self isEnabled]) {
+      return;
+    }
 
-  // Create an error log.
-  MSHandledErrorLog *log = [MSHandledErrorLog new];
+    // Create an error log.
+    MSHandledErrorLog *log = [MSHandledErrorLog new];
 
-  // Set userId to the error log.
-  log.userId = [[MSUserIdContext sharedInstance] userId];
+    // Set userId to the error log.
+    log.userId = [[MSUserIdContext sharedInstance] userId];
 
-  // Set properties of the error log.
-  log.errorId = MS_UUID_STRING;
-  log.exception = exception;
-  if (properties && properties.count > 0) {
+    // Set properties of the error log.
+    log.errorId = MS_UUID_STRING;
+    log.exception = exception;
+    if (properties && properties.count > 0) {
 
-    // Send only valid properties.
-    log.properties = [MSUtility validateProperties:properties
-                                        forLogName:[NSString stringWithFormat:@"ErrorLog: %@", log.errorId]
-                                              type:log.type];
+      // Send only valid properties.
+      log.properties = [MSUtility validateProperties:properties
+                                          forLogName:[NSString stringWithFormat:@"ErrorLog: %@", log.errorId]
+                                                type:log.type];
+    }
+
+    // Enqueue log.
+    [self.channelUnit enqueueItem:log flags:MSFlagsDefault];
   }
-
-  // Enqueue log.
-  [self.channelUnit enqueueItem:log flags:MSFlagsDefault];
 }
 
 @end
