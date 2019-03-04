@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MSAuthTokenContext : NSObject
 
 /**
- * Authorization token cached value.
+ * Cached authorization token.
  */
 @property(nullable, atomic, readonly) NSString *authToken;
 
