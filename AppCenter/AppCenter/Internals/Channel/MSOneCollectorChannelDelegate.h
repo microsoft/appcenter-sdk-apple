@@ -14,6 +14,13 @@
  *
  * @return A `MSOneCollectorChannelDelegate` instance.
  */
-- (instancetype)initWithInstallId:(NSUUID *)installId;
+- (instancetype)initWithInstallId:(NSUUID *)installId oneCollectorBaseUrl:(NSString *)baseUrl;
+
+/**
+ * Change the base URL (schema + authority + port only) used to communicate with the backend.
+ *
+ * @param logUrl base URL to use for backend communication.
+ */
+- (void)setLogUrl:(NSString *)logUrl;
 
 @end

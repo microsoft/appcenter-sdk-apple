@@ -25,6 +25,11 @@ extern NSString *const kMSLogNameRegex;
 @property(nonatomic) MSOneCollectorIngestion *oneCollectorIngestion;
 
 /**
+ * Base Url for One Collector endpoint.
+ */
+@property(nonatomic) NSString *oneCollectorBaseUrl;
+
+/**
  * Keep track of epoch and sequence per tenant token.
  */
 @property(nonatomic) NSMutableDictionary<NSString *, MSCSEpochAndSeq *> *epochsAndSeqsByIKey;

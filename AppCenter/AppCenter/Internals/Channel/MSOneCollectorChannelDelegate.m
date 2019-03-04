@@ -24,16 +24,17 @@ NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){
   self = [super init];
   if (self) {
     _oneCollectorChannels = [NSMutableDictionary new];
-    _oneCollectorIngestion = [[MSOneCollectorIngestion alloc] initWithBaseUrl:kMSOneCollectorBaseUrl];
+    _oneCollectorIngestion = [[MSOneCollectorIngestion alloc] initWithBaseUrl:self.oneCollectorBaseUrl];
     _epochsAndSeqsByIKey = [NSMutableDictionary new];
   }
   return self;
 }
 
-- (instancetype)initWithInstallId:(NSUUID *)installId {
+- (instancetype)initWithInstallId:(NSUUID *)installId oneCollectorBaseUrl:(nullable NSString *)baseUrl {
   self = [self init];
   if (self) {
     _installId = installId;
+    _oneCollectorBaseUrl = baseUrl ?: kMSOneCollectorBaseUrl;
   }
   return self;
 }
@@ -189,6 +190,10 @@ NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){
     return NO;
   }
   return YES;
+}
+
+- (void)setLogUrl:(NSString *)logUrl {
+  self.oneCollectorIngestion.baseURL = logUrl;
 }
 
 @end

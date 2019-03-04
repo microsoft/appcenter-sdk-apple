@@ -31,7 +31,7 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
 
 - (void)setUp {
   [super setUp];
-  self.sut = [[MSOneCollectorChannelDelegate alloc] initWithInstallId:[NSUUID new]];
+  self.sut = [[MSOneCollectorChannelDelegate alloc] initWithInstallId:[NSUUID new] oneCollectorBaseUrl:nil];
   self.ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
   self.storageMock = OCMProtocolMock(@protocol(MSStorage));
   self.logsDispatchQueue = dispatch_get_main_queue();
@@ -538,7 +538,7 @@ static NSString *const kMSOneCollectorGroupId = @"baseGroupId/one";
 
   // If
   NSUUID *installId = [NSUUID new];
-  self.sut = [[MSOneCollectorChannelDelegate alloc] initWithInstallId:installId];
+  self.sut = [[MSOneCollectorChannelDelegate alloc] initWithInstallId:installId oneCollectorBaseUrl:nil];
   id channelMock = OCMProtocolMock(@protocol(MSChannelProtocol));
   MSCommonSchemaLog *csLogMock = OCMPartialMock([MSCommonSchemaLog new]);
   csLogMock.iKey = @"o:81439696f7164d7599d543f9bf37abb7";
