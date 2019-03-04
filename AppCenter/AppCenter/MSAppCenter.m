@@ -111,7 +111,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 /**
  * Checks if SDK is enabled and initialized.
  *
- * NOTE: This method is different from the instance one and in addition checks canBeUsed.
+ * @discussion This method is different from the instance one and in addition checks canBeUsed.
  *
  * @return `YES` if SDK is enabled and initialized, `NO` otherwise
  */
