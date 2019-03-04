@@ -113,9 +113,12 @@
 }
 
 - (void)signIn {
-  [MSIdentity signInWithCompletionHandler:^(MSUserInformation *_Nullable userInformation, NSError *_Nullable error){
-
-      // TODO: Add UI messages or log messages for result.
+  [MSIdentity signInWithCompletionHandler:^(MSUserInformation *_Nullable userInformation, NSError *_Nullable error) {
+    if (!error) {
+      NSLog(@"Identity.signIn succeeded, accountId=%@", userInformation.accountId);
+    } else {
+      NSLog(@"Identity.signIn failed, error=%@", error);
+    }
   }];
 }
 

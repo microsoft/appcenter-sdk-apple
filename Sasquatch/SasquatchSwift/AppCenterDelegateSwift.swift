@@ -283,6 +283,13 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   }
   
   func signIn() {
-    MSIdentity.signIn()
+    MSIdentity.signIn { userInformation, error in
+      if error == nil {
+        print("Identity.signIn succeeded, accountId=\(userInformation!.accountId)")
+      }
+      else {
+        print("Identity.signIn failed, error=\(String(describing: error))")
+      }
+    }
   }
 }
