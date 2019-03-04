@@ -47,35 +47,35 @@
 }
 
 - (void)testSetAuthTokenDoesNotTriggerNewUserOnSameAccount {
-  
+
   // If
   NSString *expectedAuthToken = @"authToken1";
   NSString *expectedAccountId = @"account1";
   id<MSAuthTokenContextDelegate> delegateMock = OCMProtocolMock(@protocol(MSAuthTokenContextDelegate));
   [self.sut addDelegate:delegateMock];
-  
+
   // When
   [self.sut setAuthToken:expectedAuthToken withAccountId:expectedAccountId];
   [self.sut setAuthToken:expectedAuthToken withAccountId:expectedAccountId];
-  
+
   // Then
   OCMVerify([delegateMock authTokenContext:self.sut didSetNewAccountIdWithAuthToken:expectedAuthToken]);
   OCMVerify([delegateMock authTokenContext:self.sut didSetNewAuthToken:expectedAuthToken]);
 }
 
 - (void)testSetAuthTokenDoesTriggerNewUserOnNewAccount {
-  
+
   // If
   NSString *expectedAuthToken = @"authToken1";
   NSString *expectedAccountId = @"account1";
   NSString *expectedAccountId2 = @"account2";
   id<MSAuthTokenContextDelegate> delegateMock = OCMProtocolMock(@protocol(MSAuthTokenContextDelegate));
   [self.sut addDelegate:delegateMock];
-  
+
   // When
   [self.sut setAuthToken:expectedAuthToken withAccountId:expectedAccountId];
   [self.sut setAuthToken:expectedAuthToken withAccountId:expectedAccountId2];
-  
+
   // Then
   OCMVerify([delegateMock authTokenContext:self.sut didSetNewAccountIdWithAuthToken:expectedAuthToken]);
   OCMVerify([delegateMock authTokenContext:self.sut didSetNewAccountIdWithAuthToken:expectedAuthToken]);

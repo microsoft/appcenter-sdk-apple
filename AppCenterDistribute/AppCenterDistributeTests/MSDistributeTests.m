@@ -129,8 +129,7 @@ static NSURL *sfURL;
     [invocation setReturnValue:&test];
   });
   OCMStub([self.reachabilityMock startNotifier]).andDo(^(__unused NSInvocation *invocation) {
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"kMSNetworkReachabilityChangedNotification"
-                                                        object:self.reachabilityMock];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"kMSNetworkReachabilityChangedNotification" object:self.reachabilityMock];
   });
 
   // Clear all previous sessions
