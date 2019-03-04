@@ -28,7 +28,7 @@ static NSString *const kMSGetTokenPath = @"/data/tokens";
   return self;
 }
 
-- (NSURLRequest *)createRequest:(NSObject *)data {
+- (NSURLRequest *)createRequest:(NSObject *)data eTag:(NSString *)__unused eTag {
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.sendURL];
 
   // Set method.
