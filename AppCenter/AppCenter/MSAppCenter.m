@@ -562,6 +562,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
   // Construct channel group.
   if (self.oneCollectorChannelDelegate) {
     if (!self.appSecret) {
+      MSLogInfo([MSAppCenter logTag], @"The log url of One Collector endpoint is changed as %@", self.logUrl);
       [self.oneCollectorChannelDelegate setLogUrl:self.logUrl];
     }
   } else {
