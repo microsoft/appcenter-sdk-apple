@@ -18,6 +18,12 @@
 
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
+@interface MSIdentity (Test)
+
+- (void)configAuthenticationClient;
+
+@end
+
 @interface MSIdentityTests : XCTestCase
 
 @property(nonatomic) MSIdentity *sut;
@@ -114,6 +120,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [MSMockKeychainUtil storeString:expectedToken forKey:kMSIdentityAuthTokenKey];
   NSString *expectedETag = @"eTag";
   [self.settingsMock setObject:expectedETag forKey:kMSIdentityETagKey];
+  [self.settingsMock setObject:@"fakeHomeAccountId" forKey:kMSIdentityMSALAccountHomeAccountKey];
   NSData *serializedConfig = [NSJSONSerialization dataWithJSONObject:self.dummyConfigDic options:(NSJSONWritingOptions)0 error:nil];
   OCMStub([self.utilityMock loadDataForPathComponent:[self.sut identityConfigFilePath]]).andReturn(serializedConfig);
   OCMStub([self.ingestionMock sendAsync:OCMOCK_ANY eTag:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
@@ -123,6 +130,26 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // Then
   XCTAssertEqual([MSAuthTokenContext sharedInstance].authToken, expectedToken);
+}
+
+- (void)testEnablingReadsAuthTokenFromKeychainAndDoesNotSetAuthContextIfNilAccount {
+
+  // If
+  NSString *expectedToken = @"expected";
+  [MSMockKeychainUtil storeString:expectedToken forKey:kMSIdentityAuthTokenKey];
+  NSString *expectedETag = @"eTag";
+  [self.settingsMock setObject:expectedETag forKey:kMSIdentityETagKey];
+  NSData *serializedConfig = [NSJSONSerialization dataWithJSONObject:self.dummyConfigDic options:(NSJSONWritingOptions)0 error:nil];
+  OCMStub([self.utilityMock loadDataForPathComponent:[self.sut identityConfigFilePath]]).andReturn(serializedConfig);
+  id<MSAuthTokenContextDelegate> mockDelegate = OCMProtocolMock(@protocol(MSAuthTokenContextDelegate));
+  [[MSAuthTokenContext sharedInstance] addDelegate:mockDelegate];
+  OCMStub([self.ingestionMock sendAsync:OCMOCK_ANY eTag:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
+
+  // Then
+  OCMReject([mockDelegate authTokenContext:OCMOCK_ANY didSetNewAuthToken:OCMOCK_ANY]);
+
+  // When
+  [self.sut applyEnabledState:YES];
 }
 
 - (void)testEnablingReadsAuthTokenFromKeychainAndDoesNotSetAuthContextIfNil {
@@ -137,7 +164,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([self.ingestionMock sendAsync:OCMOCK_ANY eTag:OCMOCK_ANY completionHandler:OCMOCK_ANY]);
 
   // Then
-  OCMReject([mockDelegate authTokenContext:OCMOCK_ANY didReceiveAuthToken:OCMOCK_ANY]);
+  OCMReject([mockDelegate authTokenContext:OCMOCK_ANY didSetNewAuthToken:OCMOCK_ANY]);
 
   // When
   [self.sut applyEnabledState:YES];
@@ -154,7 +181,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
                              transmissionTargetToken:nil
                                      fromApplication:YES];
   [MSMockKeychainUtil storeString:@"foobar" forKey:kMSIdentityAuthTokenKey];
-  [MSAuthTokenContext sharedInstance].authToken = @"some token";
+  [[MSAuthTokenContext sharedInstance] setAuthToken:@"someToken" withAccountId:@"someAccount"];
   [self.settingsMock setObject:@"fakeHomeAccountId" forKey:kMSIdentityMSALAccountHomeAccountKey];
   [self.sut setEnabled:YES];
 

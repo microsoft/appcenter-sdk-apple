@@ -94,10 +94,11 @@ static dispatch_once_t onceToken;
       eTag = [MS_USER_DEFAULTS objectForKey:kMSIdentityETagKey];
     }
     NSString *authToken = [self retrieveAuthToken];
+    NSString *accountId = [self retrieveAccountId];
 
-    // Only set the auth token if it is not nil to avoid triggering callbacks.
-    if (authToken) {
-      [MSAuthTokenContext sharedInstance].authToken = authToken;
+    // Only set the auth token if auth token and account id are not nil to avoid triggering callbacks.
+    if (authToken && accountId) {
+      [[MSAuthTokenContext sharedInstance] setAuthToken:authToken withAccountId:accountId];
     }
 
     // Download identity configuration.
@@ -106,7 +107,7 @@ static dispatch_once_t onceToken;
   } else {
     [[MSAppDelegateForwarder sharedInstance] removeDelegate:self.appDelegate];
     self.clientApplication = nil;
-    [MSAuthTokenContext sharedInstance].authToken = nil;
+    [[MSAuthTokenContext sharedInstance] clearAuthToken];
     [self removeAuthToken];
     [self removeAccountId];
     [self clearConfigurationCache];
@@ -318,7 +319,9 @@ static dispatch_once_t onceToken;
                                    @"Silent acquisition of token failed with error: %@. Triggering interactive acquisition", e);
                       [strongSelf acquireTokenInteractively];
                     } else {
-                      [MSAuthTokenContext sharedInstance].authToken = result.idToken;
+                      MSALAccountId *accountId = (MSALAccountId * _Nonnull) result.account.homeAccountId;
+                      [[MSAuthTokenContext sharedInstance] setAuthToken:(NSString * _Nonnull) result.idToken
+                                                          withAccountId:(NSString * _Nonnull) accountId.identifier];
                       [strongSelf saveAuthToken:result.idToken];
                       [strongSelf saveAccountId:(NSString * _Nonnull) result.account.homeAccountId.identifier];
                     }
@@ -333,7 +336,9 @@ static dispatch_once_t onceToken;
                                     MSLogError([MSIdentity logTag], @"User sign-in failed. Error: %@", e);
                                   } else {
                                     typeof(self) strongSelf = weakSelf;
-                                    [MSAuthTokenContext sharedInstance].authToken = result.idToken;
+                                    MSALAccountId *accountId = (MSALAccountId * _Nonnull) result.account.homeAccountId;
+                                    [[MSAuthTokenContext sharedInstance] setAuthToken:(NSString * _Nonnull) result.idToken
+                                                                        withAccountId:(NSString * _Nonnull) accountId.identifier];
                                     [strongSelf saveAuthToken:result.idToken];
                                     [strongSelf saveAccountId:(NSString * _Nonnull) result.account.homeAccountId.identifier];
                                   }
@@ -352,7 +357,7 @@ static dispatch_once_t onceToken;
   return account;
 }
 
-- (NSString *)retrieveAccountId {
+- (nullable NSString *)retrieveAccountId {
   return [[MSUserDefaults shared] objectForKey:kMSIdentityMSALAccountHomeAccountKey];
 }
 
