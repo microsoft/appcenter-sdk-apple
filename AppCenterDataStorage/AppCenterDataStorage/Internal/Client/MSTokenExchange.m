@@ -26,6 +26,7 @@ static NSString *const kMSPartitions = @"partitions";
 
         // If comletion is provided.
         if (completion) {
+
           // Read tokens.
           NSError *tokenResponsejsonError;
           NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&tokenResponsejsonError];
