@@ -459,7 +459,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 
 - (void)setUserId:(NSString *)userId {
   if (!self.configuredFromApplication) {
-    MSLogError([MSAppCenter logTag], @"AppCenter must be configured from application, libraries cannot use call setUserId.");
+    MSLogError([MSAppCenter logTag], @"AppCenter must be configured from application, libraries cannot call setUserId.");
     return;
   }
   if (!self.appSecret && !self.defaultTransmissionTargetToken) {
