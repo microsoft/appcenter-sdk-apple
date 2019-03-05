@@ -82,7 +82,7 @@
 		586032CABA2AC5DAA00BAB53 /* MSDistributeInfoTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 586031A5F44AF875F6226F45 /* MSDistributeInfoTracker.m */; };
 		5860330D3F7DC07BC2E141A2 /* MSDistributeInfoTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 5860311B1C15B2BE9ED430A1 /* MSDistributeInfoTracker.h */; };
 		58603D3986EEE50CBFAFD4BC /* MSDistributeInfoTrackerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 586030B2AAEEE6A568D37CE9 /* MSDistributeInfoTrackerTests.m */; };
-		7F05DB872226674F008207E1 /* MSMockReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F05DB8522265A94008207E1 /* MSMockReachability.m */; };
+		7FB7054E222E59A000D93258 /* MSMockReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FB70539222E574200D93258 /* MSMockReachability.m */; };
 		80324E301F4DC81F005F4E11 /* MSDistributeAppDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 80324E2F1F4DC81E005F4E11 /* MSDistributeAppDelegateTests.m */; };
 		848860451E6EC32B003A9B96 /* MSBasicMachOParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 848860441E6EC32B003A9B96 /* MSBasicMachOParserTests.m */; };
 		9E4ADB16203D37FB00172256 /* MSDistributionStartSessionLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E4ADB15203D37FB00172256 /* MSDistributionStartSessionLog.m */; };
@@ -214,8 +214,8 @@
 		586030B2AAEEE6A568D37CE9 /* MSDistributeInfoTrackerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistributeInfoTrackerTests.m; sourceTree = "<group>"; };
 		5860311B1C15B2BE9ED430A1 /* MSDistributeInfoTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDistributeInfoTracker.h; sourceTree = "<group>"; };
 		586031A5F44AF875F6226F45 /* MSDistributeInfoTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistributeInfoTracker.m; sourceTree = "<group>"; };
-		7F05DB8422265975008207E1 /* MSMockReachability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSMockReachability.h; sourceTree = "<group>"; };
-		7F05DB8522265A94008207E1 /* MSMockReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = MSMockReachability.m; sourceTree = "<group>"; usesTabs = 0; };
+		7FB70537222E572100D93258 /* MSMockReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSMockReachability.h; path = ../../../AppCenter/AppCenterTests/Util/MSMockReachability.h; sourceTree = "<group>"; };
+		7FB70539222E574200D93258 /* MSMockReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSMockReachability.m; path = ../../../AppCenter/AppCenterTests/Util/MSMockReachability.m; sourceTree = "<group>"; };
 		80324E2F1F4DC81E005F4E11 /* MSDistributeAppDelegateTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistributeAppDelegateTests.m; sourceTree = "<group>"; };
 		807432C31EE20731003295BA /* MSBasicMachOParserPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MSBasicMachOParserPrivate.h; path = ../MSBasicMachOParserPrivate.h; sourceTree = "<group>"; };
 		848860441E6EC32B003A9B96 /* MSBasicMachOParserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSBasicMachOParserTests.m; sourceTree = "<group>"; };
@@ -472,6 +472,8 @@
 		389638A21E79F557007C3809 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				7FB70539222E574200D93258 /* MSMockReachability.m */,
+				7FB70537222E572100D93258 /* MSMockReachability.h */,
 				387CC62F210A9D9C002BA068 /* MSMockKeychainUtil.h */,
 				387CC630210A9D9C002BA068 /* MSMockKeychainUtil.m */,
 				F8BEA3CC1FBB0BDE00D4DE37 /* MSHttpTestUtil.h */,
@@ -481,8 +483,6 @@
 				04A140C51ECE89B2001CEE94 /* MSMockUserDefaults.h */,
 				04A140C61ECE89B2001CEE94 /* MSMockUserDefaults.m */,
 				04311FF71EE0871D007054C5 /* MSTestFrameworks.h */,
-				7F05DB8422265975008207E1 /* MSMockReachability.h */,
-				7F05DB8522265A94008207E1 /* MSMockReachability.m */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -787,10 +787,10 @@
 				040AF0251E523B80005C1174 /* MSReleaseDetailsTests.m in Sources */,
 				F82E4C83217F217F00EDAB34 /* sqlite3.c in Sources */,
 				B20DE7B71E5F97330023075C /* MSDistributeUtilTests.m in Sources */,
-				7F05DB872226674F008207E1 /* MSMockReachability.m in Sources */,
 				9E8E3A39203E68B4001A23FD /* MSDistributionStartSessionLogTest.m in Sources */,
 				387CC631210A9D9C002BA068 /* MSMockKeychainUtil.m in Sources */,
 				040AF02A1E52748D005C1174 /* MSDistributeIngestionTests.m in Sources */,
+				7FB7054E222E59A000D93258 /* MSMockReachability.m in Sources */,
 				F8BEA3CF1FBB0BE400D4DE37 /* MSHttpTestUtil.m in Sources */,
 				04DC2ECB1E78A3E3003F23B5 /* MSErrorDetailsTests.m in Sources */,
 				04FD4A341E453531009B4468 /* MSDistributeTests.m in Sources */,
