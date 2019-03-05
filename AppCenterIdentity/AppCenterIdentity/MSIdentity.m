@@ -219,7 +219,7 @@ static dispatch_once_t onceToken;
 }
 
 - (MSIdentityConfigIngestion *)ingestion {
-  if (_ingestion == nil) {
+  if (!_ingestion) {
     _ingestion = [[MSIdentityConfigIngestion alloc] initWithBaseUrl:@"https://mobilecentersdkdev.blob.core.windows.net" appSecret:self.appSecret];
   }
   return _ingestion;
