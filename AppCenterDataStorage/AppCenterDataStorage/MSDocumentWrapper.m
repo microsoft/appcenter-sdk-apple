@@ -1,28 +1,19 @@
-
-#import "MSDocument.h"
+#import "MSDocumentWrapper.h"
+#import "MSDataStoreError.h"
 #import "MSSerializableObject.h"
 #import <Foundation/Foundation.h>
 
-@implementation MSDocument
+@implementation MSDocumentWrapper
 
-- (instancetype)initWithDocument:(id)document {
+@synthesize jsonValue = _jsonValue;
+@synthesize deserializedValue = _deserializedValue;
 
+- (instancetype)initWithDeserializedValue:(id<MSSerializableDocument>)deserializedValue {
   if ((self = [super init])) {
-    _document = document;
+    _deserializedValue = deserializedValue;
   }
   return self;
 }
-
-// Non-serialized document (or null)
-- (NSString *)jsonDocument {
-  return @"";
-}
-
-//// get Deserialized document (or null)
-//- (id)document {
-//  MSDocument *doc = [[MSDocument alloc] init];
-//  return doc;
-//}
 
 // set Deserialized document (or null)
 - (void)setDocument:(id<NSCoding>)document {
@@ -33,6 +24,10 @@
 // Error (or null)
 - (MSDataSourceError *)error {
   return nil;
+}
+
+- (BOOL)fromDeviceCache {
+  return false;
 }
 
 // ID + document metadata
@@ -48,7 +43,7 @@
   return nil;
 }
 
-- (NSDate *)timestamp {
+- (NSDate *)lastUpdatedDate {
   return nil;
 }
 

@@ -1,5 +1,5 @@
 #import <Foundation/Foundation.h>
 
-#import "MSDataStorage.h"
-#import "MSDocument.h"
-#import "MSDocuments.h"
+#import "MSDataStore.h"
+#import "MSDocumentWrapper.h"
+#import "MSPaginatedDocuments.h"
