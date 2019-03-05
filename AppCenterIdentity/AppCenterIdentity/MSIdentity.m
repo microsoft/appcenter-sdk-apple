@@ -178,8 +178,7 @@ static dispatch_once_t onceToken;
     if (![self canBeUsed]) {
       return;
     }
-    if ([MSAuthTokenContext sharedInstance].authToken) {
-      [self clearAuthData];
+    if ([self clearAuthData]) {
       self.signInDelayedAndRetryLater = NO;
       MSLogInfo([MSIdentity logTag], @"User sign-out succeeded.");
     } else {
