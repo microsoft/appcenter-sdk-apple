@@ -453,7 +453,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   id reachabilityMock = OCMClassMock([MS_Reachability class]);
   OCMStub(ClassMethod([reachabilityMock reachabilityForInternetConnection])).andReturn(reachability);
   OCMStub([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]).andDo(nil);
-  
   id identityMock = OCMPartialMock(self.sut);
   OCMStub([identityMock sharedInstance]).andReturn(identityMock);
   OCMStub([identityMock canBeUsed]).andReturn(YES);
