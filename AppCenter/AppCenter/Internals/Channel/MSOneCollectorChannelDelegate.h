@@ -11,10 +11,11 @@
  * Init a `MSOneCollectorChannelDelegate` with an install Id.
  *
  * @param installId A device install Id.
+ * @param baseUrl base url to use for backend communication.
  *
  * @return A `MSOneCollectorChannelDelegate` instance.
  */
-- (instancetype)initWithInstallId:(NSUUID *)installId oneCollectorBaseUrl:(NSString *)baseUrl;
+- (instancetype)initWithInstallId:(NSUUID *)installId baseUrl:(NSString *)baseUrl;
 
 /**
  * Change the base URL (schema + authority + port only) that is used to communicate with the backend.

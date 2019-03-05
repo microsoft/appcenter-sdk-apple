@@ -24,17 +24,17 @@ NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){
   self = [super init];
   if (self) {
     _oneCollectorChannels = [NSMutableDictionary new];
-    _oneCollectorIngestion = [[MSOneCollectorIngestion alloc] initWithBaseUrl:self.oneCollectorBaseUrl];
+    _oneCollectorIngestion = [[MSOneCollectorIngestion alloc] initWithBaseUrl:self.baseUrl];
     _epochsAndSeqsByIKey = [NSMutableDictionary new];
   }
   return self;
 }
 
-- (instancetype)initWithInstallId:(NSUUID *)installId oneCollectorBaseUrl:(nullable NSString *)baseUrl {
+- (instancetype)initWithInstallId:(NSUUID *)installId baseUrl:(nullable NSString *)baseUrl {
   self = [self init];
   if (self) {
     _installId = installId;
-    _oneCollectorBaseUrl = baseUrl ?: kMSOneCollectorBaseUrl;
+    _baseUrl = baseUrl ?: kMSOneCollectorBaseUrl;
   }
   return self;
 }
