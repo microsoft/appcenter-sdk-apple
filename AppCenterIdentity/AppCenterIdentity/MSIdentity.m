@@ -163,7 +163,7 @@ static dispatch_once_t onceToken;
       if ([MSIdentity sharedInstance].signInCompletionHandler) {
         MSLogError([MSIdentity logTag], @"signIn already in progress.");
         NSError *error = [[NSError alloc] initWithDomain:MSIdentityErrorDomain
-                                                    code:MSIdentityErrorPreviousSignInRequestNotCompleted
+                                                    code:MSIdentityErrorPreviousSignInRequestInProgress
                                                 userInfo:@{MSIdentityErrorDescriptionKey : @"signIn already in progress."}];
         completionHandler(nil, error);
         return;

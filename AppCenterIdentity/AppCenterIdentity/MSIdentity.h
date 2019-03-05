@@ -17,7 +17,7 @@ typedef void (^MSSignInCompletionHandler)(MSUserInformation *_Nullable userInfor
 typedef NS_ENUM(NSInteger, MSIdentityErrorCode) {
   MSIdentityErrorServiceDisabled = -420000,
 
-  MSIdentityErrorPreviousSignInRequestNotCompleted = -420001
+  MSIdentityErrorPreviousSignInRequestInProgress = -420001
 };
 
 /**
