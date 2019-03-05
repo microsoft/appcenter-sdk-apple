@@ -74,7 +74,7 @@ static MSDeviceTracker *sharedInstance = nil;
 }
 
 + (void)refreshDeviceNextTime {
-  @synchronized(self) {
+  @synchronized([MSDeviceTracker sharedInstance]) {
     needRefresh = YES;
   }
 }
