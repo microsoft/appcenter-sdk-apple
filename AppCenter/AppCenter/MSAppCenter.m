@@ -413,8 +413,11 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 
 - (void)setLogUrl:(NSString *)logUrl {
   _logUrl = logUrl;
-  if (self.channelGroup) {
-    [self.channelGroup setLogUrl:logUrl];
+
+  // Retain using a local var just in case to ensure it is not set to `nil` in between checking for `nil` & the call to `setLogUrl:`.
+  id<MSChannelGroupProtocol> localChannelGroup = self.channelGroup;
+  if (localChannelGroup) {
+    [localChannelGroup setLogUrl:logUrl];
   }
 }
 
