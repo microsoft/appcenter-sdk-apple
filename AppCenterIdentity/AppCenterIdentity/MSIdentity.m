@@ -214,9 +214,9 @@ static dispatch_once_t onceToken;
 - (void)downloadConfigurationWithETag:(nullable NSString *)eTag {
 
   // Download configuration.
-  MSIdentityConfigIngestion *ingestion =
+  self.ingestion =
       [[MSIdentityConfigIngestion alloc] initWithBaseUrl:@"https://mobilecentersdkdev.blob.core.windows.net" appSecret:self.appSecret];
-  [ingestion sendAsync:nil
+  [self.ingestion sendAsync:nil
                    eTag:eTag
       completionHandler:^(__unused NSString *callId, NSHTTPURLResponse *response, NSData *data, __unused NSError *error) {
         MSIdentityConfig *config = nil;

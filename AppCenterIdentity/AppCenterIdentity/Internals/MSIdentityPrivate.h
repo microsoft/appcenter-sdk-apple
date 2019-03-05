@@ -5,6 +5,7 @@
 #import "MSIdentity.h"
 #import "MSIdentityConfig.h"
 #import "MSServiceInternal.h"
+#import "MSIdentityConfigIngestion.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -30,6 +31,11 @@ static NSString *const kMSIdentityMSALAccountHomeAccountKey = @"MSIdentityMSALAc
  * The configuration for the Identity service.
  */
 @property(nonatomic, nullable) MSIdentityConfig *identityConfig;
+
+/**
+ * Ingestion instance (should not be deallocated).
+ */
+@property(nonatomic, nullable) MSIdentityConfigIngestion *ingestion;
 
 /**
  * The flag that indicates a user requested signIn before it is configured.
