@@ -226,7 +226,7 @@ static dispatch_once_t onceToken;
 }
 
 - (void)downloadConfigurationWithETag:(nullable NSString *)eTag {
-  if (self.ingestion == nil) {
+  if (!self.ingestion) {
     return;
   }
   
