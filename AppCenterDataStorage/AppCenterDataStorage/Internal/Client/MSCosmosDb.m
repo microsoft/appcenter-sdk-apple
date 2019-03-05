@@ -1,49 +1,63 @@
 #import "MSCosmosDb.h"
+#import "AppCenter+Internal.h"
 #import "MSCosmosDbIngestion.h"
+#import "MSDataStorageInternal.h"
 #import "MSTokenResult.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * Document DB base endpoint
+ * Document DB base endpoint.
  */
 static NSString *const kMSDocumentDbEndpoint = @"https://%@.documents.azure.com";
 
 /**
- * Document DB database URL suffix
+ * Document DB database URL suffix.
  */
 static NSString *const kMSDocumentDbDatabaseUrlSuffix = @ "dbs/%@";
 
 /**
- * Document DB collection URL suffix
+ * Document DB collection URL suffix.
  */
 static NSString *const kMSDocumentDbCollectionUrlSuffix = @"colls/%@";
 
 /**
- * Document DB document URL suffix
+ * Document DB document URL prefix.
  */
 static NSString *const kMSDocumentDbDocumentUrlPrefix = @"docs";
 
 /**
- * Document DB document URL suffix
+ * Document DB document URL suffix.
  */
 static NSString *const kMSDocumentDbDocumentUrlSuffix = @"docs/%@";
+
+/**
+ * Document DB document partition key format.
+ */
+static NSString *const kMSHeaderDocumentDbPartitionKeyFormat = @"[\"%@\"]";
 
 /**
  * Document DB authorization header format
  * TODO : Change the "type" to be "resource" instead of "master"
  */
 static NSString *const kMSDocumentDbAuthorizationHeaderFormat = @"type=master&ver=1.0&sig=%@";
-;
 
+/**
+ * Headers.
+ */
+static NSString *const kMSHeaderAuthorization = @"Authorization";
 static NSString *const kMSHeaderDocumentDbPartitionKey = @"x-ms-documentdb-partitionkey";
-
 static NSString *const kMSHeaderMsVesionValue = @"2018-06-18";
 static NSString *const kMSHeaderMsVesion = @"x-ms-version";
-static NSString *const kMSHeaderMsDate = @"x-ms-documentdb-partitionkey";
-static NSString *const kMSHeaderAuthorization = @"Authorization";
+static NSString *const kMSHeaderMsDate = @"x-ms-date";
 
 @implementation MSCosmosDb : NSObject
+
++ (NSString *)encodeUrl:(NSString *)string {
+  NSString *charactersToEscape = @"!*'();:@&=+$,/?%#[]";
+  NSCharacterSet *allowedCharacters = [[NSCharacterSet characterSetWithCharactersInString:charactersToEscape] invertedSet];
+  return (NSString *)[string stringByAddingPercentEncodingWithAllowedCharacters:allowedCharacters];
+}
 
 + (NSString *)rfc1123String:(NSDate *)date {
   static NSDateFormatter *df = nil;
@@ -61,11 +75,11 @@ static NSString *const kMSHeaderAuthorization = @"Authorization";
 
 + (NSDictionary *)defaultHeaderWithPartition:(NSString *)partition dbToken:(NSString *)dbToken {
   return @{
-    kMSHeaderDocumentDbPartitionKey : partition,
+    kMSHeaderDocumentDbPartitionKey : [NSString stringWithFormat:kMSHeaderDocumentDbPartitionKeyFormat, partition],
     kMSHeaderMsVesion : kMSHeaderMsVesionValue,
     kMSHeaderMsDate : [MSCosmosDb rfc1123String:[NSDate date]],
-    kMSHeaderContentTypeKey : kMSHeaderContentTypeKey,
-    kMSHeaderAuthorization : dbToken
+    kMSHeaderContentTypeKey : kMSAppCenterContentType,
+    kMSHeaderAuthorization : [MSCosmosDb encodeUrl:dbToken]
   };
 }
 
@@ -80,7 +94,6 @@ static NSString *const kMSHeaderAuthorization = @"Authorization";
   NSString *dbUrlSuffix = [NSString stringWithFormat:kMSDocumentDbDatabaseUrlSuffix, databaseName];
   NSString *dbCollectionUrlSuffix = [NSString stringWithFormat:kMSDocumentDbCollectionUrlSuffix, collectionName];
   NSString *dbDocumentId = documentId ? [NSString stringWithFormat:@"/%@", documentId] : @"";
-
   return [NSString stringWithFormat:@"%@/%@/%@%@", dbUrlSuffix, dbCollectionUrlSuffix, kMSDocumentDbDocumentUrlPrefix, dbDocumentId];
 }
 
@@ -88,7 +101,7 @@ static NSString *const kMSHeaderAuthorization = @"Authorization";
   NSString *documentResourceIdPrefix = [MSCosmosDb documentBaseUrlWithDatabaseName:tokenResult.dbName
                                                                     collectionName:tokenResult.dbCollectionName
                                                                         documentId:documentId];
-  return [MSCosmosDb documentDbEndpointWithDbAccount:tokenResult.dbCollectionName documentResourceId:documentResourceIdPrefix];
+  return [MSCosmosDb documentDbEndpointWithDbAccount:tokenResult.dbAccount documentResourceId:documentResourceIdPrefix];
 }
 
 + (void)cosmosDbAsync:(MSCosmosDbIngestion *)httpIngestion
@@ -97,6 +110,8 @@ static NSString *const kMSHeaderAuthorization = @"Authorization";
              httpVerb:(NSString *)httpVerb
                  body:(NSString *)body
     completionHandler:(MSCosmosDbCompletionHandler)completion {
+
+  // Configure http client.
   httpIngestion.httpVerb = httpVerb;
   httpIngestion.httpHeaders = [MSCosmosDb defaultHeaderWithPartition:tokenResult.partition dbToken:tokenResult.token];
   httpIngestion.sendURL = (NSURL *)[NSURL URLWithString:[MSCosmosDb documentUrlWithTokenResult:tokenResult documentId:documentId]];
@@ -104,7 +119,14 @@ static NSString *const kMSHeaderAuthorization = @"Authorization";
   // Payload.
   NSData *payloadData = [body dataUsingEncoding:NSUTF8StringEncoding];
   [httpIngestion sendAsync:payloadData
-         completionHandler:^(NSString __unused *callId, NSHTTPURLResponse __unused *response, NSData *data, NSError *error) {
+         completionHandler:^(NSString *callId, NSHTTPURLResponse *response, NSData *data, NSError *error) {
+           MSLogVerbose([MSDataStorage logTag], @"Cosmodb HttpClient callback, request Id %@ with status code: %lu", callId,
+                        (unsigned long)response.statusCode);
+           if (error) {
+             MSLogError([MSDataStorage logTag], @"Cosmodb HttpClient callback, request Id %@ with error: %@", callId, [error description]);
+           }
+
+           // Completion handler.
            completion(data, error);
          }];
 }
