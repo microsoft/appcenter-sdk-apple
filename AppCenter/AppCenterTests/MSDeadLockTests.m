@@ -44,7 +44,7 @@ static MSDummyService2 *sharedInstanceService2 = nil;
   (void)log;
   (void)internalId;
   (void)flags;
-  
+
   // Operation locking AC while in ChannelDelegate.
   NSUUID *__unused deviceId = [MSAppCenter installId];
 }

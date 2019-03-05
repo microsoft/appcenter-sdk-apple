@@ -160,11 +160,11 @@
 
   // When
   [MSUtility sharedAppOpenUrl:[NSURL URLWithString:@""]
-      options:@{}
-      completionHandler:^(MSOpenURLState status) {
-        handlerHasBeenCalled = YES;
-        XCTAssertEqual(status, MSOpenURLStateFailed);
-      }];
+                      options:@{}
+            completionHandler:^(MSOpenURLState status) {
+              handlerHasBeenCalled = YES;
+              XCTAssertEqual(status, MSOpenURLStateFailed);
+            }];
   dispatch_async(dispatch_get_main_queue(), ^{
     [openURLCalledExpectation fulfill];
   });
@@ -451,11 +451,7 @@
   // Test valid properties
   // If
   NSDictionary *validProperties =
-      @{ @"Key1" : @"Value1",
-         stringValue125 : @"Value2",
-         @"Key3" : stringValue125,
-         @"Key4" : @"Value4",
-         @"Key5" : @"" };
+      @{@"Key1" : @"Value1", stringValue125 : @"Value2", @"Key3" : stringValue125, @"Key4" : @"Value4", @"Key5" : @""};
 
   // When
   NSDictionary *validatedProperties = [MSUtility validateProperties:validProperties forLogName:testLogTypeString type:testLogTypeString];
@@ -498,7 +494,7 @@
 
   // Test invalid properties
   // If
-  NSDictionary *invalidKeysInProperties = @{ @"Key1" : @"Value1", @(2) : @"Value2", @"" : @"Value4" };
+  NSDictionary *invalidKeysInProperties = @{@"Key1" : @"Value1", @(2) : @"Value2", @"" : @"Value4"};
 
   // When
   validatedProperties = [MSUtility validateProperties:invalidKeysInProperties forLogName:testLogTypeString type:testLogTypeString];
@@ -508,7 +504,7 @@
 
   // Test invalid values
   // If
-  NSDictionary *invalidValuesInProperties = @{ @"Key1" : @"Value1", @"Key2" : @(2) };
+  NSDictionary *invalidValuesInProperties = @{@"Key1" : @"Value1", @"Key2" : @(2)};
 
   // When
   validatedProperties = [MSUtility validateProperties:invalidValuesInProperties forLogName:testLogTypeString type:testLogTypeString];
@@ -842,7 +838,7 @@
 #pragma clang diagnostic ignored "-Wnonnull"
   NSString *targetId = [MSUtility targetKeyFromTargetToken:nil];
 #pragma clang diagnostic pop
-  
+
   // Then
   XCTAssertNil(targetId);
 
