@@ -12,16 +12,21 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param url  The url with parameters.
  *
- * @return `YES` if the URL is intended for App Center Idenntity and your application, `NO` otherwise.
+ * @return `YES` if the URL is intended for App Center Identity and your application, `NO` otherwise.
  *
  * @discussion Place this method call into your app delegate's openURL method.
  */
 + (BOOL)openURL:(NSURL *)url;
 
 /**
- * SignIn to get user information.
+ * Sign in to get user information.
  */
 + (void)signIn;
+
+/**
+ * Sign out to clear user information.
+ */
++ (void)signOut;
 
 @end
 
