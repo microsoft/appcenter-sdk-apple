@@ -4,9 +4,9 @@
 @interface MSMockReachability : NSObject
 
 /**
- * Set current network status for mock MS_Reachability.
+ * A property indicating the current status of the network.
  */
-+ (void)setCurrentNetworkStatus:(NetworkStatus)networkStatus;
+@property (class) NetworkStatus currentNetworkStatus;
 
 /**
  * Start to mock the MS_Reachability.

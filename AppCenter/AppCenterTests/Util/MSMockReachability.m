@@ -3,23 +3,23 @@
 
 static NSString *kMSNetworkReachabilityChangedNotificationName = @"kMSNetworkReachabilityChangedNotification";
 
-NetworkStatus currentNetworkStatus;
-
-@interface MSMockReachability ()
-
-@end
-
 @implementation MSMockReachability
 
+static NetworkStatus _currentNetworkStatus;
+
 + (void)setCurrentNetworkStatus:(NetworkStatus)networkStatus {
-  currentNetworkStatus = networkStatus;
+  _currentNetworkStatus = networkStatus;
+}
+
++ (NetworkStatus)currentNetworkStatus {
+  return _currentNetworkStatus;
 }
 
 + (id)startMocking {
   id mockReachability = OCMClassMock([MS_Reachability class]);
   OCMStub([mockReachability reachabilityForInternetConnection]).andReturn(mockReachability);
   OCMStub([mockReachability currentReachabilityStatus]).andDo(^(NSInvocation *invocation) {
-    NetworkStatus status = currentNetworkStatus;
+    NetworkStatus status = self.currentNetworkStatus;
     [invocation setReturnValue:&status];
   });
   OCMStub([mockReachability startNotifier]).andDo(^(__unused NSInvocation *invocation) {
