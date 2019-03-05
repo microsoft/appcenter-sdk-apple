@@ -1,7 +1,7 @@
 #import "MSMockReachability.h"
 #import "MSTestFrameworks.h"
 
-static NSString *kMSNetworkReachabilityChangedNotificationName = @"kMSNetworkReachabilityChangedNotification";
+static NSString *const kMSNetworkReachabilityChangedNotificationName = @"kMSNetworkReachabilityChangedNotification";
 
 @implementation MSMockReachability
 
