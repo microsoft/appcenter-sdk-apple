@@ -106,10 +106,9 @@ static dispatch_once_t onceToken;
     MSLogInfo([MSIdentity logTag], @"Identity service has been enabled.");
   } else {
     [[MSAppDelegateForwarder sharedInstance] removeDelegate:self.appDelegate];
+    [self clearAuthData];
     self.clientApplication = nil;
-    [[MSAuthTokenContext sharedInstance] clearAuthToken];
-    [self removeAuthToken];
-    [self removeAccountId];
+    self.signInDelayedAndRetryLater = NO;
     [self clearConfigurationCache];
     [self.channelGroup removeDelegate:self];
     NSError *error = [[NSError alloc] initWithDomain:MSIdentityErrorDomain
@@ -179,8 +178,13 @@ static dispatch_once_t onceToken;
   }
 }
 
++ (void)signOut {
+  [[MSIdentity sharedInstance] signOut];
+}
+
 - (void)signIn {
   if (self.clientApplication == nil || self.identityConfig == nil) {
+    MSLogDebug([MSIdentity logTag], @"signIn is called while it's not configured or not in the foreground, waiting.");
     self.signInDelayedAndRetryLater = YES;
     return;
   }
@@ -190,6 +194,20 @@ static dispatch_once_t onceToken;
     [self acquireTokenSilentlyWithMSALAccount:account];
   } else {
     [self acquireTokenInteractively];
+  }
+}
+
+- (void)signOut {
+  @synchronized(self) {
+    if (![self canBeUsed]) {
+      return;
+    }
+    if ([self clearAuthData]) {
+      self.signInDelayedAndRetryLater = NO;
+      MSLogInfo([MSIdentity logTag], @"User sign-out succeeded.");
+    } else {
+      MSLogWarning([MSIdentity logTag], @"Couldn't sign out: authToken doesn't exist.");
+    }
   }
 }
 
@@ -303,6 +321,30 @@ static dispatch_once_t onceToken;
   return config;
 }
 
+- (BOOL)clearAuthData {
+  if (![[MSAuthTokenContext sharedInstance] clearAuthToken]) {
+    return NO;
+  }
+  [self removeAccount];
+  [self removeAuthToken];
+  [self removeAccountId];
+  return YES;
+}
+
+- (void)removeAccount {
+  if (!self.clientApplication) {
+    return;
+  }
+  MSALAccount *account = [self retrieveAccountWithAccountId:[self retrieveAccountId]];
+  if (account) {
+    NSError *error;
+    [self.clientApplication removeAccount:account error:&error];
+    if (error) {
+      MSLogWarning([MSIdentity logTag], @"Failed to remove account: %@", error.localizedDescription);
+    }
+  }
+}
+
 - (void)saveAuthToken:(NSString *)authToken {
   BOOL success = [MSKeychainUtil storeString:authToken forKey:kMSIdentityAuthTokenKey];
   if (success) {
@@ -349,6 +391,7 @@ static dispatch_once_t onceToken;
                       [strongSelf saveAuthToken:result.idToken];
                       [strongSelf saveAccountId:(NSString * _Nonnull) result.account.homeAccountId.identifier];
                       [strongSelf completeAcquireTokenRequestForResult:result withError:nil];
+                      MSLogInfo([MSIdentity logTag], @"Silent acquisition of token succeeded.");
                     }
                   }];
 }
@@ -370,6 +413,7 @@ static dispatch_once_t onceToken;
                                                                         withAccountId:(NSString * _Nonnull) accountId.identifier];
                                     [strongSelf saveAuthToken:result.idToken];
                                     [strongSelf saveAccountId:(NSString * _Nonnull) result.account.homeAccountId.identifier];
+                                    MSLogInfo([MSIdentity logTag], @"User sign-in succeeded.");
                                   }
                                   [strongSelf completeAcquireTokenRequestForResult:result withError:e];
                                 }];

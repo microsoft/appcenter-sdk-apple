@@ -71,11 +71,13 @@ static dispatch_once_t onceToken;
   }
 }
 
-- (void)clearAuthToken {
+- (BOOL)clearAuthToken {
   NSArray *synchronizedDelegates;
   BOOL clearedExistingUser = NO;
   @synchronized(self) {
-    if (self.authToken != nil && self.homeAccountId != nil) {
+    if (!self.authToken) {
+      return NO;
+    } else if (self.homeAccountId) {
       clearedExistingUser = YES;
     }
     self.authToken = nil;
@@ -92,6 +94,7 @@ static dispatch_once_t onceToken;
       [delegate authTokenContext:self didSetNewAccountIdWithAuthToken:nil];
     }
   }
+  return YES;
 }
 
 - (void)addDelegate:(id<MSAuthTokenContextDelegate>)delegate {

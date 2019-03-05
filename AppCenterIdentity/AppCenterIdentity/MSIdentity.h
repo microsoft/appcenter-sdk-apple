@@ -40,7 +40,7 @@ static NSString *const MSIdentityErrorDescriptionKey = @"MSIdentityErrorDescript
  *
  * @param url  The url with parameters.
  *
- * @return `YES` if the URL is intended for App Center Idenntity and your application, `NO` otherwise.
+ * @return `YES` if the URL is intended for App Center Identity and your application, `NO` otherwise.
  *
  * @discussion Place this method call into your app delegate's openURL method.
  */
@@ -52,6 +52,11 @@ static NSString *const MSIdentityErrorDescriptionKey = @"MSIdentityErrorDescript
  * @param completionHandler Callback that is invoked after sign-in completed. @c `MSSignInCompletionHandler`.
  */
 + (void)signInWithCompletionHandler:(MSSignInCompletionHandler _Nullable)completionHandler;
+
+/**
+ * Sign out to clear user information.
+ */
++ (void)signOut;
 
 @end
 
