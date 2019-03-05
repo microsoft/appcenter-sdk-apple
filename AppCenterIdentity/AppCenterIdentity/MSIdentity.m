@@ -33,6 +33,8 @@ static dispatch_once_t onceToken;
 
 @synthesize channelUnitConfiguration = _channelUnitConfiguration;
 
+@synthesize ingestion = _ingestion;
+
 #pragma mark - Service initialization
 
 - (instancetype)init {
@@ -111,6 +113,7 @@ static dispatch_once_t onceToken;
     self.signInDelayedAndRetryLater = NO;
     [self clearConfigurationCache];
     [self.channelGroup removeDelegate:self];
+    self.ingestion = nil;
     MSLogInfo([MSIdentity logTag], @"Identity service has been disabled.");
   }
 }
@@ -160,6 +163,10 @@ static dispatch_once_t onceToken;
 
 - (void)signIn {
   if (self.clientApplication == nil || self.identityConfig == nil) {
+    if ([[MS_Reachability reachabilityForInternetConnection] currentReachabilityStatus] == NotReachable) {
+      MSLogError([MSIdentity logTag], @"User sign-in failed. Internet connection is down.");
+      return;
+    }
     MSLogDebug([MSIdentity logTag], @"signIn is called while it's not configured or not in the foreground, waiting.");
     self.signInDelayedAndRetryLater = YES;
     return;
@@ -211,11 +218,19 @@ static dispatch_once_t onceToken;
   return NO;
 }
 
-- (void)downloadConfigurationWithETag:(nullable NSString *)eTag {
+- (MSIdentityConfigIngestion *)ingestion {
+  if (_ingestion == nil) {
+    _ingestion = [[MSIdentityConfigIngestion alloc] initWithBaseUrl:@"https://mobilecentersdkdev.blob.core.windows.net" appSecret:self.appSecret];
+  }
+  return _ingestion;
+}
 
+- (void)downloadConfigurationWithETag:(nullable NSString *)eTag {
+  if (self.ingestion == nil) {
+    return;
+  }
+  
   // Download configuration.
-  self.ingestion =
-      [[MSIdentityConfigIngestion alloc] initWithBaseUrl:@"https://mobilecentersdkdev.blob.core.windows.net" appSecret:self.appSecret];
   [self.ingestion sendAsync:nil
                    eTag:eTag
       completionHandler:^(__unused NSString *callId, NSHTTPURLResponse *response, NSData *data, __unused NSError *error) {
