@@ -6,7 +6,7 @@
 /**
  * A property indicating the current status of the network.
  */
-@property (class) NetworkStatus currentNetworkStatus;
+@property(class) NetworkStatus currentNetworkStatus;
 
 /**
  * Start to mock the MS_Reachability.
