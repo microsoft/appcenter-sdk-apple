@@ -3,7 +3,7 @@
 #import "MSChannelDelegate.h"
 
 /**
- * One Collector channel delegate used to redirect selected traffic to One Collector.
+ * One Collector channel delegate that is used to redirect selected traffic to One Collector.
  */
 @interface MSOneCollectorChannelDelegate : NSObject <MSChannelDelegate>
 
@@ -17,7 +17,7 @@
 - (instancetype)initWithInstallId:(NSUUID *)installId oneCollectorBaseUrl:(NSString *)baseUrl;
 
 /**
- * Change the base URL (schema + authority + port only) used to communicate with the backend.
+ * Change the base URL (schema + authority + port only) that is used to communicate with the backend.
  *
  * @param logUrl base URL to use for backend communication.
  */
