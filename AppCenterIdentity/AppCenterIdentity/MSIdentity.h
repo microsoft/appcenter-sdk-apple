@@ -51,7 +51,7 @@ static NSString *const MSIdentityErrorDescriptionKey = @"MSIdentityErrorDescript
  *
  * @param completionHandler Callback that is invoked after sign-in completed. @c `MSSignInCompletionHandler`.
  */
-+ (void)signInWithCompletionHandler:(MSSignInCompletionHandler)completionHandler;
++ (void)signInWithCompletionHandler:(MSSignInCompletionHandler _Nullable)completionHandler;
 
 @end
 

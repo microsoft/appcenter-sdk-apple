@@ -150,7 +150,13 @@ static dispatch_once_t onceToken;
   return [MSALPublicClientApplication handleMSALResponse:url];
 }
 
-+ (void)signInWithCompletionHandler:(MSSignInCompletionHandler)completionHandler {
++ (void)signInWithCompletionHandler:(MSSignInCompletionHandler _Nullable)completionHandler {
+
+  // We allow completion handler to be optional but we need a non nil one to track operation progress internally.
+  if (!completionHandler) {
+    completionHandler = ^(MSUserInformation *_Nullable __unused userInformation, NSError *_Nullable __unused error) {
+    };
+  }
   @synchronized([MSIdentity sharedInstance]) {
     if ([[MSIdentity sharedInstance] canBeUsed] && [[MSIdentity sharedInstance] isEnabled]) {
       if ([MSIdentity sharedInstance].signInCompletionHandler) {

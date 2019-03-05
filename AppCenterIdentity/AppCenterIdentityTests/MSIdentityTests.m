@@ -384,7 +384,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   });
 
   // When
-  [MSIdentity signIn];
+  [MSIdentity signInWithCompletionHandler:nil];
 
   // Then
   OCMVerify([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
@@ -404,7 +404,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // When
   OCMReject([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
-  [MSIdentity signIn];
+  [MSIdentity signInWithCompletionHandler:nil];
 
   // Then
   [identityMock stopMocking];
@@ -420,7 +420,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([identityMock canBeUsed]).andReturn(YES);
 
   // When
-  [MSIdentity signIn];
+  [MSIdentity signInWithCompletionHandler:nil];
 
   // Then
   XCTAssertTrue(self.sut.signInDelayedAndRetryLater);
@@ -436,7 +436,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([identityMock canBeUsed]).andReturn(YES);
 
   // When
-  [MSIdentity signIn];
+  [MSIdentity signInWithCompletionHandler:nil];
 
   // Then
   XCTAssertTrue(self.sut.signInDelayedAndRetryLater);
@@ -521,7 +521,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMReject([self.clientApplicationMock acquireTokenSilentForScopes:OCMOCK_ANY account:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
 
   // When
-  [MSIdentity signIn];
+  [MSIdentity signInWithCompletionHandler:nil];
 
   // Then
   OCMVerify([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
@@ -554,7 +554,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMReject([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
 
   // When
-  [MSIdentity signIn];
+  [MSIdentity signInWithCompletionHandler:nil];
 
   // Then
   OCMVerify([self.clientApplicationMock acquireTokenSilentForScopes:OCMOCK_ANY account:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
