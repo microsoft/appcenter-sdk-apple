@@ -413,10 +413,10 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
     _logUrl = logUrl;
     if (self.channelGroup) {
       if (!self.appSecret) {
-        MSLogInfo([MSAppCenter logTag], @"The log url of One Collector endpoint is changed as %@", self.logUrl);
+        MSLogInfo([MSAppCenter logTag], @"The log url of One Collector endpoint was changed to %@", self.logUrl);
         [self.oneCollectorChannelDelegate setLogUrl:logUrl];
       } else {
-        MSLogInfo([MSAppCenter logTag], @"The log url of App Center endpoint is changed as %@", self.logUrl);
+        MSLogInfo([MSAppCenter logTag], @"The log url of App Center endpoint was changed to %@", self.logUrl);
         [self.channelGroup setLogUrl:logUrl];
       }
     }
