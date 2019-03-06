@@ -1,6 +1,6 @@
 #import "MSDateTimeTypedProperty.h"
-#import "MSACModelConstants.h"
 #import "MSUtility+Date.h"
+#import "MSSerializableObject.h"
 
 @implementation MSDateTimeTypedProperty
 

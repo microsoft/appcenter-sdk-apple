@@ -3,6 +3,8 @@
 #import "MSModel.h"
 #import "MSSerializableObject.h"
 
+static NSString *const kMSNetProvider = @"provider";
+
 /**
  * The network extension contains network properties.
  */

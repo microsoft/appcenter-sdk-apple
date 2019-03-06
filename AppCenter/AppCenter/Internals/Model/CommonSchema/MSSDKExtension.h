@@ -3,6 +3,11 @@
 #import "MSModel.h"
 #import "MSSerializableObject.h"
 
+static NSString *const kMSSDKLibVer = @"libVer";
+static NSString *const kMSSDKEpoch = @"epoch";
+static NSString *const kMSSDKSeq = @"seq";
+static NSString *const kMSSDKInstallId = @"installId";
+
 /**
  * The SDK extension is used by platform specific library to record field that are specifically required for a specific SDK.
  */

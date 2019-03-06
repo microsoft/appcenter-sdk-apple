@@ -3,6 +3,9 @@
 #import "MSModel.h"
 #import "MSSerializableObject.h"
 
+static NSString *const kMSUserLocalId = @"localId";
+static NSString *const kMSUserLocale = @"locale";
+
 /**
  * The “user” extension tracks common user elements that are not available in the core envelope.
  */

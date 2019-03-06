@@ -3,6 +3,9 @@
 #import "MSModel.h"
 #import "MSSerializableObject.h"
 
+static NSString *const kMSOSVer = @"ver";
+static NSString *const kMSOSName = @"name";
+
 /**
  * The OS extension tracks common os elements that are not available in the core envelope.
  */

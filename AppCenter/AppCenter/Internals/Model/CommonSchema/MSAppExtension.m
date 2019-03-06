@@ -1,5 +1,4 @@
 #import "MSAppExtension.h"
-#import "MSCSModelConstants.h"
 
 @implementation MSAppExtension
 

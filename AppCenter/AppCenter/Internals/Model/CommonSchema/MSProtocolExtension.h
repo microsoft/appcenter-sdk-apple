@@ -3,6 +3,10 @@
 #import "MSModel.h"
 #import "MSSerializableObject.h"
 
+static NSString *const kMSTicketKeys = @"ticketKeys";
+static NSString *const kMSDevMake = @"devMake";
+static NSString *const kMSDevModel = @"devModel";
+
 /**
  * The Protocol extension contains device specific information.
  */
