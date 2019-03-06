@@ -571,19 +571,14 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 
 - (void)initializeChannelGroup {
   @synchronized(self) {
-  
+
     // Construct channel group.
-    if (self.oneCollectorChannelDelegate) {
-      if (!self.appSecret) {
-        MSLogInfo([MSAppCenter logTag], @"The log url of One Collector endpoint was changed to %@", self.logUrl);
-        [self.oneCollectorChannelDelegate setLogUrl:self.logUrl];
-      }
+    if (self.appSecret) {
+      self.oneCollectorChannelDelegate =
+          self.oneCollectorChannelDelegate ?: [[MSOneCollectorChannelDelegate alloc] initWithInstallId:self.installId baseUrl:nil];
     } else {
-      if (self.appSecret) {
-        self.oneCollectorChannelDelegate = [[MSOneCollectorChannelDelegate alloc] initWithInstallId:self.installId baseUrl:nil];
-      } else {
-        self.oneCollectorChannelDelegate = [[MSOneCollectorChannelDelegate alloc] initWithInstallId:self.installId baseUrl:self.logUrl];
-      }
+      self.oneCollectorChannelDelegate =
+          self.oneCollectorChannelDelegate ?: [[MSOneCollectorChannelDelegate alloc] initWithInstallId:self.installId baseUrl:self.logUrl];
     }
     if (!self.channelGroup) {
       self.channelGroup = [[MSChannelGroupDefault alloc] initWithInstallId:self.installId logUrl:self.logUrl];
