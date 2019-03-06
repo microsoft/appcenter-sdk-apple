@@ -14,7 +14,7 @@ static NSString *const kMSDocumentDbEndpoint = @"https://%@.documents.azure.com"
 /**
  * Document DB database URL suffix.
  */
-static NSString *const kMSDocumentDbDatabaseUrlSuffix = @ "dbs/%@";
+static NSString *const kMSDocumentDbDatabaseUrlFormat = @ "dbs/%@";
 
 /**
  * Document DB collection URL suffix.
