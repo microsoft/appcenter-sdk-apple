@@ -40,7 +40,7 @@ static NSString *const kMSAppSecrectHeader = @"Authorization";
   // Log.
   if ([MSLogger currentLogLevel] <= MSLogLevelVerbose) {
     MSLogVerbose([MSAppCenter logTag], @"Creating CosmosDB request with URL: %@", request.URL.absoluteString);
-    MSLogVerbose([MSAppCenter logTag], @"Headers: %@", [super prettyPrintHeaders:request.allHTTPHeaderFields]);
+    MSLogVerbose([MSAppCenter logTag], @"CosmosDB request headers: %@", [super prettyPrintHeaders:request.allHTTPHeaderFields]);
   }
   return request;
 }
