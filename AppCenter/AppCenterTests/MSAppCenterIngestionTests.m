@@ -624,7 +624,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   NSString *result = [self.sut obfuscateHeaderValue:testString forKey:kMSAuthorizationHeaderKey];
 
   // Then
-  XCTAssertTrue([result isEqualToString:@"***"]);
+  XCTAssertTrue([result isEqualToString:@"Bearer ***"]);
 }
 
 #pragma mark - Test Helpers
