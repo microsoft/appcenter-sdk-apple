@@ -12,14 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 static NSString *const kMSDocumentDbEndpoint = @"https://%@.documents.azure.com";
 
 /**
- * Document DB database URL format.
+ * Document DB collection URL suffix format.
  */
-static NSString *const kMSDocumentDbDatabaseUrlFormat = @ "dbs/%@";
-
-/**
- * Document DB collection URL format.
- */
-static NSString *const kMSDocumentDbCollectionUrlFormat = @"colls/%@";
+static NSString *const kMSDocumentDbCollectionUrlSuffix = @"colls/%@";
 
 /**
  * Document DB document URL prefix.
@@ -27,9 +22,9 @@ static NSString *const kMSDocumentDbCollectionUrlFormat = @"colls/%@";
 static NSString *const kMSDocumentDbDocumentUrlPrefix = @"docs";
 
 /**
- * Document DB document URL format.
+ * Document DB document URL suffix format.
  */
-static NSString *const kMSDocumentDbDocumentUrlFormat = @"docs/%@";
+static NSString *const kMSDocumentDbDatabaseUrlSuffix = @"dbs/%@";
 
 /**
  * Document DB document partition key format.
@@ -122,7 +117,7 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
   return [MSCosmosDb documentDbEndpointWithDbAccount:tokenResult.dbAccount documentResourceId:documentResourceIdPrefix];
 }
 
-+ (void)cosmosDbAsync:(MSCosmosDbIngestion *)httpIngestion
++ (void)performCosmosDbAsyncOperationWithHttpClient:(MSCosmosDbIngestion *)httpClient
           tokenResult:(MSTokenResult *)tokenResult
            documentId:(NSString *)documentId
              httpVerb:(NSString *)httpVerb
@@ -130,19 +125,16 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
     completionHandler:(MSCosmosDbCompletionHandler)completion {
 
   // Configure http client.
-  httpIngestion.httpVerb = httpVerb;
-  httpIngestion.httpHeaders = [MSCosmosDb defaultHeaderWithPartition:tokenResult.partition dbToken:tokenResult.token];
-  httpIngestion.sendURL = (NSURL *)[NSURL URLWithString:[MSCosmosDb documentUrlWithTokenResult:tokenResult documentId:documentId]];
+  httpClient.httpVerb = httpVerb;
+  httpClient.httpHeaders = [MSCosmosDb defaultHeaderWithPartition:tokenResult.partition dbToken:tokenResult.token];
+  httpClient.sendURL = (NSURL *)[NSURL URLWithString:[MSCosmosDb documentUrlWithTokenResult:tokenResult documentId:documentId]];
 
   // Payload.
   NSData *payloadData = [body dataUsingEncoding:NSUTF8StringEncoding];
-  [httpIngestion sendAsync:payloadData
+  [httpClient sendAsync:payloadData
          completionHandler:^(NSString *callId, NSHTTPURLResponse *response, NSData *data, NSError *error) {
-           MSLogVerbose([MSDataStorage logTag], @"Cosmodb HttpClient callback, request Id %@ with status code: %lu", callId,
-                        (unsigned long)response.statusCode);
-           if (error) {
-             MSLogError([MSDataStorage logTag], @"Cosmodb HttpClient callback, request Id %@ with error: %@", callId, [error description]);
-           }
+           MSLogVerbose([MSDataStorage logTag], @"Cosmodb HttpClient callback, request Id %@ with status code: %lu and description: %@", callId,
+                        (unsigned long)response.statusCode, [error description]);
 
            // Completion handler.
            completion(data, error);
