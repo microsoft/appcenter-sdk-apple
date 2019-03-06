@@ -6,15 +6,15 @@
 @class MSCSData;
 
 // Keys
-static NSString *const kMSCSVer = @"ver";
-static NSString *const kMSCSName = @"name";
-static NSString *const kMSCSTime = @"time";
-static NSString *const kMSCSPopSample = @"popSample";
-static NSString *const kMSCSIKey = @"iKey";
-static NSString *const kMSCSFlags = @"flags";
 static NSString *const kMSCSCV = @"cV";
 static NSString *const kMSCSData = @"data";
 static NSString *const kMSCSExt = @"ext";
+static NSString *const kMSCSFlags = @"flags";
+static NSString *const kMSCSIKey = @"iKey";
+static NSString *const kMSCSName = @"name";
+static NSString *const kMSCSPopSample = @"popSample";
+static NSString *const kMSCSTime = @"time";
+static NSString *const kMSCSVer = @"ver";
 
 // Values
 static NSString *const kMSCSVerValue = @"3.0";

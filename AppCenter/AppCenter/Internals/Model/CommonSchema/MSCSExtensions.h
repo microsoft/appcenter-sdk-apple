@@ -13,15 +13,15 @@
 @class MSSDKExtension;
 @class MSUserExtension;
 
+static NSString *const kMSCSAppExt = @"app";
+static NSString *const kMSCSDeviceExt = @"device";
+static NSString *const kMSCSLocExt = @"loc";
 static NSString *const kMSCSMetadataExt = @"metadata";
+static NSString *const kMSCSNetExt = @"net";
+static NSString *const kMSCSOSExt = @"os";
 static NSString *const kMSCSProtocolExt = @"protocol";
 static NSString *const kMSCSUserExt = @"user";
-static NSString *const kMSCSDeviceExt = @"device";
-static NSString *const kMSCSOSExt = @"os";
-static NSString *const kMSCSAppExt = @"app";
-static NSString *const kMSCSNetExt = @"net";
 static NSString *const kMSCSSDKExt = @"sdk";
-static NSString *const kMSCSLocExt = @"loc";
 
 /**
  * Part A extensions.

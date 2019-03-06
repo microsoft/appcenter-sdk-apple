@@ -1,5 +1,5 @@
-#import "MSTypedProperty.h"
 #import "MSSerializableObject.h"
+#import "MSTypedProperty.h"
 
 static NSString *const kMSTypedPropertyType = @"type";
 static NSString *const kMSTypedPropertyName = @"name";
