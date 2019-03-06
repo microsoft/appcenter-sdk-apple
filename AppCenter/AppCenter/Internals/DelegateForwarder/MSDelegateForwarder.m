@@ -14,6 +14,8 @@ static NSMutableArray<dispatch_block_t> *traceBuffer = nil;
 
 @implementation MSDelegateForwarder
 
+@synthesize enabled = _enabled;
+
 + (void)load {
   traceBuffer = [NSMutableArray new];
 }
@@ -277,6 +279,10 @@ static NSMutableArray<dispatch_block_t> *traceBuffer = nil;
       MSLogDebug([MSAppCenter logTag], @"Delegate forwarder for info.plist key '%@' disabled. It won't use swizzling.", plistKey);
     }];
   }
+}
+
+- (BOOL)enabled {
+  return _enabled;
 }
 
 - (void)setEnabled:(BOOL)enabled {
