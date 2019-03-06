@@ -53,6 +53,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
 
     MSAppCenter.setLogLevel(MSLogLevel.verbose)
 
+    // Set custom log URL
+    let logUrl = UserDefaults.standard.string(forKey: kMSLogUrl)
+    if logUrl != nil {
+      MSAppCenter.setLogUrl(logUrl)
+    }
+
     // Set user id.
     let userId = UserDefaults.standard.string(forKey: kMSUserIdKey)
     if userId != nil {

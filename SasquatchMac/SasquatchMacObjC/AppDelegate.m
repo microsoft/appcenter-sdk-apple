@@ -21,6 +21,12 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
   [MSAppCenter setLogLevel:MSLogLevelVerbose];
 
+  // Set custom log URL.
+  NSString *logUrl = [[NSUserDefaults standardUserDefaults] objectForKey:kMSLogUrl];
+  if (logUrl) {
+    [MSAppCenter setLogUrl:logUrl];
+  }
+
   // Set user id.
   NSString *userId = [[NSUserDefaults standardUserDefaults] objectForKey:@"userId"];
   if (userId) {

@@ -3,12 +3,13 @@ import Cocoa
 // 10 MiB.
 let kMSDefaultDatabaseSize = 10 * 1024 * 1024
 
-class AppCenterViewController : NSViewController, NSTextFieldDelegate {
+class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextViewDelegate {
 
   var appCenter: AppCenterDelegate = AppCenterProvider.shared().appCenter!
   var currentAction = AuthenticationViewController.AuthAction.signin
 
   let kMSAppCenterBundleIdentifier = "com.microsoft.appcenter";
+  let prodLogUrl = "https://in.appcenter.ms"
 
   @IBOutlet var installIdLabel : NSTextField?
   @IBOutlet var appSecretLabel : NSTextField?
@@ -22,6 +23,7 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate {
   @IBOutlet weak var storageFileSizeField: NSTextField!
   @IBOutlet weak var signInButton: NSButton!
   @IBOutlet weak var signOutButton: NSButton!
+  @IBOutlet weak var setLogURLButton: NSButton!
 
   private var dbFileDescriptor: CInt = 0
   private var dbFileSource: DispatchSourceProtocol?
@@ -130,6 +132,36 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate {
   override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
     if let signInController = segue.destinationController as? AuthenticationViewController {
         signInController.action = currentAction
+    }
+  }
+
+  @IBAction func setLogURL(_ sender: NSButton) {
+    let alert: NSAlert = NSAlert()
+    alert.messageText = "Log URL"
+    alert.addButton(withTitle: "Reset")
+    alert.addButton(withTitle: "Save")
+    alert.addButton(withTitle: "Cancel")
+    let scrollView: NSScrollView = NSScrollView(frame: NSRect(x: 0, y: 0, width: 300, height: 40))
+    let textView: NSTextView = NSTextView(frame: NSRect(x: 0, y: 0, width: 290, height: 40))
+    textView.string = UserDefaults.standard.string(forKey: kMSLogUrl) ?? prodLogUrl
+    scrollView.documentView = textView
+    scrollView.hasVerticalScroller = true
+    scrollView.contentView.scroll(NSPoint(x: 0, y: textView.frame.size.height))
+    alert.accessoryView = scrollView
+    alert.alertStyle = NSWarningAlertStyle
+    switch(alert.runModal()) {
+    case NSAlertFirstButtonReturn:
+      UserDefaults.standard.set(prodLogUrl, forKey: kMSLogUrl)
+      break
+    case NSAlertSecondButtonReturn:
+      let text = textView.string ?? ""
+      let logUrl = !text.isEmpty ? text : nil
+      UserDefaults.standard.set(logUrl, forKey: kMSLogUrl)
+      break
+    case NSAlertThirdButtonReturn:
+      break
+    default:
+      break
     }
   }
 
