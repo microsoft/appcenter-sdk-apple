@@ -29,7 +29,7 @@ static NSString *const kMSDocumentDbDocumentUrlPrefix = @"docs";
 /**
  * Document DB document URL format.
  */
-static NSString *const kMSDocumentDbDocumentUrlSuffix = @"docs/%@";
+static NSString *const kMSDocumentDbDocumentUrlFormat = @"docs/%@";
 
 /**
  * Document DB document partition key format.
