@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 static NSString *const kMSDocumentDbEndpoint = @"https://%@.documents.azure.com";
 
 /**
- * Document DB database URL suffix.
+ * Document DB database URL format.
  */
 static NSString *const kMSDocumentDbDatabaseUrlFormat = @ "dbs/%@";
 
