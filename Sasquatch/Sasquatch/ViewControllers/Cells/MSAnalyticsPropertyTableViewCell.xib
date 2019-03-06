@@ -5,9 +5,7 @@
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <development version="8000" identifier="xcode"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
-        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -46,9 +44,6 @@
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="Value"/>
                         </userDefinedRuntimeAttributes>
-                        <connections>
-                            <action selector="dismissKeyboard:" destination="VGz-Vf-G1h" eventType="editingDidEndOnExit" id="Faj-UP-bUt"/>
-                        </connections>
                     </textField>
                 </subviews>
                 <constraints>
@@ -64,6 +59,7 @@
                 <outlet property="keyField" destination="0w8-gH-9IR" id="tfg-PA-wxs"/>
                 <outlet property="valueField" destination="j3d-U5-snv" id="bJJ-Fe-A1Q"/>
             </connections>
+            <point key="canvasLocation" x="132" y="154.72263868065968"/>
         </tableViewCell>
     </objects>
 </document>

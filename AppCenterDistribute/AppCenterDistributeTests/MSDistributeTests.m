@@ -14,6 +14,7 @@
 #import "MSIngestionCall.h"
 #import "MSLoggerInternal.h"
 #import "MSMockKeychainUtil.h"
+#import "MSMockReachability.h"
 #import "MSMockUserDefaults.h"
 #import "MSServiceAbstractProtected.h"
 #import "MSSessionContext.h"
@@ -83,7 +84,6 @@ static NSURL *sfURL;
 @property(nonatomic) id alertControllerMock;
 @property(nonatomic) id distributeInfoTrackerMock;
 @property(nonatomic) id reachabilityMock;
-@property(nonatomic) NetworkStatus currentNetworkStatus;
 
 @end
 
@@ -121,16 +121,8 @@ static NSURL *sfURL;
   self.sut.distributeInfoTracker = self.distributeInfoTrackerMock;
 
   // Mock reachability.
-  self.reachabilityMock = OCMClassMock([MS_Reachability class]);
-  self.currentNetworkStatus = ReachableViaWiFi;
-  OCMStub([self.reachabilityMock reachabilityForInternetConnection]).andReturn(self.reachabilityMock);
-  OCMStub([self.reachabilityMock currentReachabilityStatus]).andDo(^(NSInvocation *invocation) {
-    NetworkStatus test = self.currentNetworkStatus;
-    [invocation setReturnValue:&test];
-  });
-  OCMStub([self.reachabilityMock startNotifier]).andDo(^(__unused NSInvocation *invocation) {
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"kMSNetworkReachabilityChangedNotification" object:self.reachabilityMock];
-  });
+  [MSMockReachability setCurrentNetworkStatus:ReachableViaWiFi];
+  self.reachabilityMock = [MSMockReachability startMocking];
 
   // Clear all previous sessions
   [MSSessionContext resetSharedInstance];
@@ -615,7 +607,7 @@ static NSURL *sfURL;
 - (void)testShowConfirmationAlertForMandatoryUpdateWhileNoNetwork {
 
   // If
-  self.currentNetworkStatus = NotReachable;
+  [MSMockReachability setCurrentNetworkStatus:NotReachable];
   self.sut.appSecret = kMSTestAppSecret;
   XCTestExpectation *expectation = [self expectationWithDescription:@"Confirmation alert for private distribution has been displayed"];
 
@@ -707,7 +699,7 @@ static NSURL *sfURL;
 - (void)testDontShowConfirmationAlertIfNoMandatoryReleaseWhileNoNetwork {
 
   // If
-  self.currentNetworkStatus = NotReachable;
+  [MSMockReachability setCurrentNetworkStatus:NotReachable];
   self.sut.appSecret = kMSTestAppSecret;
   XCTestExpectation *expectation = [self expectationWithDescription:@"Confirmation alert for private distribution has been displayed"];
 
@@ -1464,7 +1456,7 @@ static NSURL *sfURL;
 - (void)testWithoutNetwork {
 
   // If
-  self.currentNetworkStatus = NotReachable;
+  [MSMockReachability setCurrentNetworkStatus:NotReachable];
   id distributeMock = OCMPartialMock(self.sut);
   OCMReject([distributeMock buildTokenRequestURLWithAppSecret:OCMOCK_ANY releaseHash:kMSTestReleaseHash isTesterApp:false]);
 

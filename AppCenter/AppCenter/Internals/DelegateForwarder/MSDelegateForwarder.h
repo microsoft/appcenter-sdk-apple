@@ -19,7 +19,7 @@ typedef NS_OPTIONS(NSUInteger, MSCompletionExecutor) {
 /**
  * Enable/Disable Application forwarding.
  */
-@property(nonatomic) BOOL enabled;
+@property(atomic) BOOL enabled;
 
 /**
  * Hash table containing all the delegates as weak references.

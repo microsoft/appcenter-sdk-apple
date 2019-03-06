@@ -34,6 +34,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 @property(nonatomic) id keychainUtilMock;
 @property(nonatomic) id ingestionMock;
 @property(nonatomic) id clientApplicationMock;
+@property(nonatomic) MSUserInformation *signInUserInformation;
+@property(nonatomic) NSError *signInError;
+@property(nonatomic) MSALCompletionBlock msalCompletionBlock;
 
 @end
 
@@ -402,9 +405,11 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 - (void)testSignInAcquiresAndSavesToken {
 
   // If
-  NSString *idToken = @"fake";
+  NSString *idToken = @"idToken";
+  NSString *accountId = @"94c82516-cbee-44aa-8a6a-19f8d20322be";
   id msalResultMock = OCMPartialMock([MSALResult new]);
   OCMStub([msalResultMock idToken]).andReturn(idToken);
+  OCMStub([msalResultMock uniqueId]).andReturn(accountId);
   self.sut.clientApplication = self.clientApplicationMock;
   self.sut.identityConfig = [MSIdentityConfig new];
   self.sut.identityConfig.identityScope = @"fake";
@@ -418,12 +423,19 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   });
 
   // When
-  [MSIdentity signIn];
+  MSSignInCompletionHandler handler = ^(MSUserInformation *_Nullable userInformation, NSError *_Nullable error) {
+    self.signInUserInformation = userInformation;
+    self.signInError = error;
+  };
+  [MSIdentity signInWithCompletionHandler:handler];
 
   // Then
   OCMVerify([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
   XCTAssertEqual(idToken, [MSAuthTokenContext sharedInstance].authToken);
   XCTAssertEqual(idToken, [MSMockKeychainUtil stringForKey:kMSIdentityAuthTokenKey]);
+  XCTAssertNotNil(self.signInUserInformation);
+  XCTAssertEqual(accountId, self.signInUserInformation.accountId);
+  XCTAssertNil(self.signInError);
   [identityMock stopMocking];
 }
 
@@ -438,9 +450,18 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // When
   OCMReject([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
-  [MSIdentity signIn];
+  MSSignInCompletionHandler handler = ^(MSUserInformation *_Nullable userInformation, NSError *_Nullable error) {
+    self.signInUserInformation = userInformation;
+    self.signInError = error;
+  };
+  [MSIdentity signInWithCompletionHandler:handler];
 
   // Then
+  XCTAssertNil(self.signInUserInformation);
+  XCTAssertNotNil(self.signInError);
+  XCTAssertEqual(MSIdentityErrorDomain, self.signInError.domain);
+  XCTAssertEqual(MSIdentityErrorServiceDisabled, self.signInError.code);
+  XCTAssertNotNil(self.signInError.userInfo[MSIdentityErrorDescriptionKey]);
   [identityMock stopMocking];
 }
 
@@ -475,7 +496,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([identityMock canBeUsed]).andReturn(YES);
 
   // When
-  [MSIdentity signIn];
+  [MSIdentity signInWithCompletionHandler:nil];
 
   // Then
   XCTAssertTrue(self.sut.signInDelayedAndRetryLater);
@@ -491,7 +512,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([identityMock canBeUsed]).andReturn(YES);
 
   // When
-  [MSIdentity signIn];
+  [MSIdentity signInWithCompletionHandler:nil];
 
   // Then
   XCTAssertTrue(self.sut.signInDelayedAndRetryLater);
@@ -576,7 +597,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMReject([self.clientApplicationMock acquireTokenSilentForScopes:OCMOCK_ANY account:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
 
   // When
-  [MSIdentity signIn];
+  [MSIdentity signInWithCompletionHandler:nil];
 
   // Then
   OCMVerify([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
@@ -609,10 +630,173 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMReject([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
 
   // When
-  [MSIdentity signIn];
+  [MSIdentity signInWithCompletionHandler:nil];
 
   // Then
   OCMVerify([self.clientApplicationMock acquireTokenSilentForScopes:OCMOCK_ANY account:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
+  [identityMock stopMocking];
+}
+
+- (void)testSignInAlreadyInProgress {
+
+  // If
+  NSString *idToken = @"idToken";
+  NSString *accountId = @"94c82516-cbee-44aa-8a6a-19f8d20322be";
+  id msalResultMock = OCMPartialMock([MSALResult new]);
+  OCMStub([msalResultMock idToken]).andReturn(idToken);
+  OCMStub([msalResultMock uniqueId]).andReturn(accountId);
+  self.sut.clientApplication = self.clientApplicationMock;
+  self.sut.identityConfig = [MSIdentityConfig new];
+  self.sut.identityConfig.identityScope = @"fake";
+  id identityMock = OCMPartialMock(self.sut);
+  OCMStub([identityMock sharedInstance]).andReturn(identityMock);
+  OCMStub([identityMock canBeUsed]).andReturn(YES);
+  OCMStub([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    __block MSALCompletionBlock completionBlock;
+    [invocation getArgument:&completionBlock atIndex:3];
+    self.msalCompletionBlock = completionBlock;
+  });
+
+  // When we make a first call
+  MSSignInCompletionHandler handler1 = ^(MSUserInformation *_Nullable userInformation, NSError *_Nullable error) {
+    self.signInUserInformation = userInformation;
+    self.signInError = error;
+  };
+  [MSIdentity signInWithCompletionHandler:handler1];
+
+  // And we make a second call before the first complete
+  MSSignInCompletionHandler handler2 = ^(MSUserInformation *_Nullable userInformation, NSError *_Nullable error) {
+    self.signInUserInformation = userInformation;
+    self.signInError = error;
+  };
+  [MSIdentity signInWithCompletionHandler:handler2];
+
+  // Then second call immediately fails
+  XCTAssertNil(self.signInUserInformation);
+  XCTAssertNotNil(self.signInError);
+  XCTAssertEqual(MSIdentityErrorDomain, self.signInError.domain);
+  XCTAssertEqual(MSIdentityErrorPreviousSignInRequestInProgress, self.signInError.code);
+  XCTAssertNotNil(self.signInError.userInfo[MSIdentityErrorDescriptionKey]);
+
+  // When we complete first call
+  self.msalCompletionBlock(msalResultMock, nil);
+
+  // Then
+  OCMVerify([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
+  XCTAssertEqual(idToken, [MSAuthTokenContext sharedInstance].authToken);
+  XCTAssertEqual(idToken, [MSMockKeychainUtil stringForKey:kMSIdentityAuthTokenKey]);
+  XCTAssertNotNil(self.signInUserInformation);
+  XCTAssertEqual(accountId, self.signInUserInformation.accountId);
+  XCTAssertNil(self.signInError);
+  [identityMock stopMocking];
+}
+
+- (void)testSignInError {
+
+  // If
+  NSError *signInError = [[NSError alloc] initWithDomain:MSALErrorDomain
+                                                    code:MSALErrorAuthorizationFailed
+                                                userInfo:@{MSALErrorDescriptionKey : @"failed"}];
+  self.sut.clientApplication = self.clientApplicationMock;
+  self.sut.identityConfig = [MSIdentityConfig new];
+  self.sut.identityConfig.identityScope = @"fake";
+  id identityMock = OCMPartialMock(self.sut);
+  OCMStub([identityMock sharedInstance]).andReturn(identityMock);
+  OCMStub([identityMock canBeUsed]).andReturn(YES);
+  OCMStub([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    __block MSALCompletionBlock completionBlock;
+    [invocation getArgument:&completionBlock atIndex:3];
+    completionBlock(nil, signInError);
+  });
+
+  // When
+  MSSignInCompletionHandler handler = ^(MSUserInformation *_Nullable userInformation, NSError *_Nullable error) {
+    self.signInUserInformation = userInformation;
+    self.signInError = error;
+  };
+  [MSIdentity signInWithCompletionHandler:handler];
+
+  // Then
+  OCMVerify([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
+  XCTAssertNil(self.signInUserInformation);
+  XCTAssertNotNil(self.signInError);
+  XCTAssertEqual(MSALErrorDomain, self.signInError.domain);
+  XCTAssertEqual(MSALErrorAuthorizationFailed, self.signInError.code);
+  XCTAssertNotNil(self.signInError.userInfo[MSALErrorDescriptionKey]);
+  [identityMock stopMocking];
+}
+
+- (void)testSignInCancelled {
+
+  // If
+  NSError *signInError = [[NSError alloc] initWithDomain:MSALErrorDomain
+                                                    code:MSALErrorUserCanceled
+                                                userInfo:@{MSALErrorDescriptionKey : @"cancelled"}];
+  self.sut.clientApplication = self.clientApplicationMock;
+  self.sut.identityConfig = [MSIdentityConfig new];
+  self.sut.identityConfig.identityScope = @"fake";
+  id identityMock = OCMPartialMock(self.sut);
+  OCMStub([identityMock sharedInstance]).andReturn(identityMock);
+  OCMStub([identityMock canBeUsed]).andReturn(YES);
+  OCMStub([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    __block MSALCompletionBlock completionBlock;
+    [invocation getArgument:&completionBlock atIndex:3];
+    completionBlock(nil, signInError);
+  });
+
+  // When
+  MSSignInCompletionHandler handler = ^(MSUserInformation *_Nullable userInformation, NSError *_Nullable error) {
+    self.signInUserInformation = userInformation;
+    self.signInError = error;
+  };
+  [MSIdentity signInWithCompletionHandler:handler];
+
+  // Then
+  OCMVerify([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
+  XCTAssertNil(self.signInUserInformation);
+  XCTAssertNotNil(self.signInError);
+  XCTAssertEqual(MSALErrorDomain, self.signInError.domain);
+  XCTAssertEqual(MSALErrorUserCanceled, self.signInError.code);
+  XCTAssertNotNil(self.signInError.userInfo[MSALErrorDescriptionKey]);
+  [identityMock stopMocking];
+}
+
+- (void)testSignInFailsAfterDisablingEvenIfBrowserWasOpenedAndSignInSucceeds {
+
+  // If
+  NSString *idToken = @"idToken";
+  NSString *accountId = @"94c82516-cbee-44aa-8a6a-19f8d20322be";
+  id msalResultMock = OCMPartialMock([MSALResult new]);
+  OCMStub([msalResultMock idToken]).andReturn(idToken);
+  OCMStub([msalResultMock uniqueId]).andReturn(accountId);
+  self.sut.clientApplication = self.clientApplicationMock;
+  self.sut.identityConfig = [MSIdentityConfig new];
+  self.sut.identityConfig.identityScope = @"fake";
+  id identityMock = OCMPartialMock(self.sut);
+  OCMStub([identityMock sharedInstance]).andReturn(identityMock);
+  OCMStub([identityMock canBeUsed]).andReturn(YES);
+  OCMStub([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    __block MSALCompletionBlock completionBlock;
+    [invocation getArgument:&completionBlock atIndex:3];
+    self.msalCompletionBlock = completionBlock;
+  });
+
+  // When
+  MSSignInCompletionHandler handler = ^(MSUserInformation *_Nullable userInformation, NSError *_Nullable error) {
+    self.signInUserInformation = userInformation;
+    self.signInError = error;
+  };
+  [MSIdentity signInWithCompletionHandler:handler];
+  [self.sut setEnabled:NO];
+  self.msalCompletionBlock(msalResultMock, nil);
+
+  // Then
+  OCMVerify([self.clientApplicationMock acquireTokenForScopes:OCMOCK_ANY completionBlock:OCMOCK_ANY]);
+  XCTAssertNil(self.signInUserInformation);
+  XCTAssertNotNil(self.signInError);
+  XCTAssertEqual(MSIdentityErrorDomain, self.signInError.domain);
+  XCTAssertEqual(MSIdentityErrorServiceDisabled, self.signInError.code);
+  XCTAssertNotNil(self.signInError.userInfo[MSIdentityErrorDescriptionKey]);
   [identityMock stopMocking];
 }
 

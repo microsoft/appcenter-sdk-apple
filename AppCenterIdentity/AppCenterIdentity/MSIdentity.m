@@ -114,6 +114,10 @@ static dispatch_once_t onceToken;
     [self clearConfigurationCache];
     [self.channelGroup removeDelegate:self];
     self.ingestion = nil;
+    NSError *error = [[NSError alloc] initWithDomain:MSIdentityErrorDomain
+                                                code:MSIdentityErrorServiceDisabled
+                                            userInfo:@{MSIdentityErrorDescriptionKey : @"Identity is disabled."}];
+    [self completeAcquireTokenRequestForResult:nil withError:error];
     MSLogInfo([MSIdentity logTag], @"Identity service has been disabled.");
   }
 }
@@ -149,10 +153,30 @@ static dispatch_once_t onceToken;
   return [MSALPublicClientApplication handleMSALResponse:url];
 }
 
-+ (void)signIn {
++ (void)signInWithCompletionHandler:(MSSignInCompletionHandler _Nullable)completionHandler {
+
+  // We allow completion handler to be optional but we need a non nil one to track operation progress internally.
+  if (!completionHandler) {
+    completionHandler = ^(MSUserInformation *_Nullable __unused userInformation, NSError *_Nullable __unused error) {
+    };
+  }
   @synchronized([MSIdentity sharedInstance]) {
-    if ([[MSIdentity sharedInstance] canBeUsed]) {
+    if ([[MSIdentity sharedInstance] canBeUsed] && [[MSIdentity sharedInstance] isEnabled]) {
+      if ([MSIdentity sharedInstance].signInCompletionHandler) {
+        MSLogError([MSIdentity logTag], @"signIn already in progress.");
+        NSError *error = [[NSError alloc] initWithDomain:MSIdentityErrorDomain
+                                                    code:MSIdentityErrorPreviousSignInRequestInProgress
+                                                userInfo:@{MSIdentityErrorDescriptionKey : @"signIn already in progress."}];
+        completionHandler(nil, error);
+        return;
+      }
+      [MSIdentity sharedInstance].signInCompletionHandler = completionHandler;
       [[MSIdentity sharedInstance] signIn];
+    } else {
+      NSError *error = [[NSError alloc] initWithDomain:MSIdentityErrorDomain
+                                                  code:MSIdentityErrorServiceDisabled
+                                              userInfo:@{MSIdentityErrorDescriptionKey : @"Identity is disabled."}];
+      completionHandler(nil, error);
     }
   }
 }
@@ -185,8 +209,7 @@ static dispatch_once_t onceToken;
     if (![self canBeUsed]) {
       return;
     }
-    if ([MSAuthTokenContext sharedInstance].authToken) {
-      [self clearAuthData];
+    if ([self clearAuthData]) {
       self.signInDelayedAndRetryLater = NO;
       MSLogInfo([MSIdentity logTag], @"User sign-out succeeded.");
     } else {
@@ -382,6 +405,7 @@ static dispatch_once_t onceToken;
                                                           withAccountId:(NSString * _Nonnull) accountId.identifier];
                       [strongSelf saveAuthToken:result.idToken];
                       [strongSelf saveAccountId:(NSString * _Nonnull) result.account.homeAccountId.identifier];
+                      [strongSelf completeAcquireTokenRequestForResult:result withError:nil];
                       MSLogInfo([MSIdentity logTag], @"Silent acquisition of token succeeded.");
                     }
                   }];
@@ -391,10 +415,14 @@ static dispatch_once_t onceToken;
   __weak typeof(self) weakSelf = self;
   [self.clientApplication acquireTokenForScopes:@[ (NSString * _Nonnull) self.identityConfig.identityScope ]
                                 completionBlock:^(MSALResult *result, NSError *e) {
+                                  typeof(self) strongSelf = weakSelf;
                                   if (e) {
-                                    MSLogError([MSIdentity logTag], @"User sign-in failed. Error: %@", e);
+                                    if (e.code == MSALErrorUserCanceled) {
+                                      MSLogWarning([MSIdentity logTag], @"User canceled sign-in.");
+                                    } else {
+                                      MSLogError([MSIdentity logTag], @"User sign-in failed. Error: %@", e);
+                                    }
                                   } else {
-                                    typeof(self) strongSelf = weakSelf;
                                     MSALAccountId *accountId = (MSALAccountId * _Nonnull) result.account.homeAccountId;
                                     [[MSAuthTokenContext sharedInstance] setAuthToken:(NSString * _Nonnull) result.idToken
                                                                         withAccountId:(NSString * _Nonnull) accountId.identifier];
@@ -402,7 +430,24 @@ static dispatch_once_t onceToken;
                                     [strongSelf saveAccountId:(NSString * _Nonnull) result.account.homeAccountId.identifier];
                                     MSLogInfo([MSIdentity logTag], @"User sign-in succeeded.");
                                   }
+                                  [strongSelf completeAcquireTokenRequestForResult:result withError:e];
                                 }];
+}
+
+- (void)completeAcquireTokenRequestForResult:(MSALResult *)result withError:(NSError *)error {
+  @synchronized(self) {
+    if (!self.signInCompletionHandler) {
+      return;
+    }
+    if (error) {
+      self.signInCompletionHandler(nil, error);
+    } else {
+      MSUserInformation *userInformation = [MSUserInformation new];
+      userInformation.accountId = (NSString * _Nonnull) result.uniqueId;
+      self.signInCompletionHandler(userInformation, nil);
+    }
+    self.signInCompletionHandler = nil;
+  }
 }
 
 - (MSALAccount *)retrieveAccountWithAccountId:(NSString *)homeAccountId {

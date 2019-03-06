@@ -49,10 +49,14 @@ import AppCenterAnalytics
   func hasCrashedInLastSession() -> Bool
   func generateTestCrash()
   
-  // MSDistribute section
+  // MSDistribute section.
   func showConfirmationAlert()
   func showDistributeDisabledAlert()
   func showCustomConfirmationAlert()
+
+  // MSIdentity section.
+  func signIn()
+  func signOut()
   
   // Last crash report section.
   func lastCrashReportIncidentIdentifier() -> String?
@@ -77,7 +81,4 @@ import AppCenterAnalytics
   func lastCrashReportDeviceCarrierName() -> String?
   func lastCrashReportDeviceCarrierCountry() -> String?
   func lastCrashReportDeviceAppNamespace() -> String?
-  
-  // MSIdentity section.
-  func signIn()
 }
