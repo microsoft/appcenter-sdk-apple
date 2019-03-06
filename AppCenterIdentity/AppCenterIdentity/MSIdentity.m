@@ -110,7 +110,6 @@ static dispatch_once_t onceToken;
     [[MSAppDelegateForwarder sharedInstance] removeDelegate:self.appDelegate];
     [self clearAuthData];
     self.clientApplication = nil;
-    self.signInDelayedAndRetryLater = NO;
     [self clearConfigurationCache];
     [self.channelGroup removeDelegate:self];
     self.ingestion = nil;
@@ -188,14 +187,19 @@ static dispatch_once_t onceToken;
 - (void)signIn {
   if (self.clientApplication == nil || self.identityConfig == nil) {
     if ([[MS_Reachability reachabilityForInternetConnection] currentReachabilityStatus] == NotReachable) {
-      MSLogError([MSIdentity logTag], @"User sign-in failed. Internet connection is down.");
+      NSError *error = [[NSError alloc] initWithDomain:MSIdentityErrorDomain
+                                                  code:MSIdentityErrorSignInWhenNoConnection
+                                              userInfo:@{MSIdentityErrorDescriptionKey : @"User sign-in failed. Internet connection is down."}];
+      self.signInCompletionHandler(nil, error);
       return;
     }
-    MSLogDebug([MSIdentity logTag], @"signIn is called while it's not configured or not in the foreground, waiting.");
-    self.signInDelayedAndRetryLater = YES;
+    
+    NSError *error = [[NSError alloc] initWithDomain:MSIdentityErrorDomain
+                                                code:MSIdentityErrorSignInBackgroundOrNotConfigured
+                                            userInfo:@{MSIdentityErrorDescriptionKey : @"signIn is called while it's not configured or not in the foreground."}];
+    self.signInCompletionHandler(nil, error);
     return;
   }
-  self.signInDelayedAndRetryLater = NO;
   MSALAccount *account = [self retrieveAccountWithAccountId:[self retrieveAccountId]];
   if (account) {
     [self acquireTokenSilentlyWithMSALAccount:account];
@@ -210,7 +214,6 @@ static dispatch_once_t onceToken;
       return;
     }
     if ([self clearAuthData]) {
-      self.signInDelayedAndRetryLater = NO;
       MSLogInfo([MSIdentity logTag], @"User sign-out succeeded.");
     } else {
       MSLogWarning([MSIdentity logTag], @"Couldn't sign out: authToken doesn't exist.");
@@ -249,9 +252,6 @@ static dispatch_once_t onceToken;
 }
 
 - (void)downloadConfigurationWithETag:(nullable NSString *)eTag {
-  if (!self.ingestion) {
-    return;
-  }
   
   // Download configuration.
   [self.ingestion sendAsync:nil
@@ -282,15 +282,6 @@ static dispatch_once_t onceToken;
 
               // Reinitialize client application.
               [self configAuthenticationClient];
-
-              // SignIn if it is delayed.
-              /*
-               * TODO: SignIn can be called when the app is in background. Make sure the SDK doesn't display browser with signIn screen when
-               * the app is in background. Only display in foreground.
-               */
-              if (self.signInDelayedAndRetryLater) {
-                [self signIn];
-              }
             }
           } else {
             MSLogError([MSIdentity logTag], @"Downloaded identity configuration is not valid.");

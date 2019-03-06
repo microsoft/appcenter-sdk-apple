@@ -187,7 +187,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [MSMockKeychainUtil storeString:@"foobar" forKey:kMSIdentityAuthTokenKey];
   [[MSAuthTokenContext sharedInstance] setAuthToken:@"someToken" withAccountId:@"someAccount"];
   [self.settingsMock setObject:@"fakeHomeAccountId" forKey:kMSIdentityMSALAccountHomeAccountKey];
-  self.sut.signInDelayedAndRetryLater = YES;
   [self.sut setEnabled:YES];
   id accountMock = OCMPartialMock([MSALAccount new]);
   self.sut.clientApplication = self.clientApplicationMock;
@@ -203,7 +202,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMVerify([self.utilityMock deleteItemForPathComponent:[self.sut identityConfigFilePath]]);
   XCTAssertNil([self.settingsMock objectForKey:kMSIdentityETagKey]);
   XCTAssertNil([self.settingsMock objectForKey:kMSIdentityMSALAccountHomeAccountKey]);
-  XCTAssertFalse(self.sut.signInDelayedAndRetryLater);
   OCMVerify([self.clientApplicationMock removeAccount:OCMOCK_ANY error:[OCMArg anyObjectRef]]);
 }
 
@@ -465,7 +463,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [identityMock stopMocking];
 }
 
-- (void)testSignInIsNotDelayedWhenNoInternet {
+- (void)testSignInFailsWhenNoInternet {
   
   // If
   self.sut.clientApplication = self.clientApplicationMock;
@@ -479,10 +477,18 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   OCMStub([identityMock canBeUsed]).andReturn(YES);
   
   // When
-  [MSIdentity signIn];
+  MSSignInCompletionHandler handler = ^(MSUserInformation *_Nullable userInformation, NSError *_Nullable error) {
+    self.signInUserInformation = userInformation;
+    self.signInError = error;
+  };
+  [MSIdentity signInWithCompletionHandler:handler];
   
   // Then
-  XCTAssertFalse([identityMock signInDelayedAndRetryLater]);
+  XCTAssertNil(self.signInUserInformation);
+  XCTAssertNotNil(self.signInError);
+  XCTAssertEqual(MSIdentityErrorDomain, self.signInError.domain);
+  XCTAssertEqual(MSIdentityErrorSignInWhenNoConnection, self.signInError.code);
+  XCTAssertNotNil(self.signInError.userInfo[MSIdentityErrorDescriptionKey]);
   [identityMock stopMocking];
 }
 
@@ -494,28 +500,44 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   id identityMock = OCMPartialMock(self.sut);
   OCMStub([identityMock sharedInstance]).andReturn(identityMock);
   OCMStub([identityMock canBeUsed]).andReturn(YES);
-
+  
   // When
-  [MSIdentity signInWithCompletionHandler:nil];
-
+  MSSignInCompletionHandler handler = ^(MSUserInformation *_Nullable userInformation, NSError *_Nullable error) {
+    self.signInUserInformation = userInformation;
+    self.signInError = error;
+  };
+  [MSIdentity signInWithCompletionHandler:handler];
+  
   // Then
-  XCTAssertTrue(self.sut.signInDelayedAndRetryLater);
+  XCTAssertNil(self.signInUserInformation);
+  XCTAssertNotNil(self.signInError);
+  XCTAssertEqual(MSIdentityErrorDomain, self.signInError.domain);
+  XCTAssertEqual(MSIdentityErrorSignInBackgroundOrNotConfigured, self.signInError.code);
+  XCTAssertNotNil(self.signInError.userInfo[MSIdentityErrorDescriptionKey]);
   [identityMock stopMocking];
 }
 
-- (void)testSignInDelayedWhenNoIdentityConfig {
+- (void)testSignInFailsWhenNoIdentityConfig {
 
   // If
   self.sut.clientApplication = self.clientApplicationMock;
   id identityMock = OCMPartialMock(self.sut);
   OCMStub([identityMock sharedInstance]).andReturn(identityMock);
   OCMStub([identityMock canBeUsed]).andReturn(YES);
-
+  
   // When
-  [MSIdentity signInWithCompletionHandler:nil];
+  MSSignInCompletionHandler handler = ^(MSUserInformation *_Nullable userInformation, NSError *_Nullable error) {
+    self.signInUserInformation = userInformation;
+    self.signInError = error;
+  };
+  [MSIdentity signInWithCompletionHandler:handler];
 
   // Then
-  XCTAssertTrue(self.sut.signInDelayedAndRetryLater);
+  XCTAssertNil(self.signInUserInformation);
+  XCTAssertNotNil(self.signInError);
+  XCTAssertEqual(MSIdentityErrorDomain, self.signInError.domain);
+  XCTAssertEqual(MSIdentityErrorSignInBackgroundOrNotConfigured, self.signInError.code);
+  XCTAssertNotNil(self.signInError.userInfo[MSIdentityErrorDescriptionKey]);
   [identityMock stopMocking];
 }
 
@@ -897,23 +919,6 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   // Then
   XCTAssertNil([MSMockKeychainUtil stringForKey:kMSIdentityAuthTokenKey]);
   XCTAssertNil([self.settingsMock objectForKey:kMSIdentityMSALAccountHomeAccountKey]);
-  [identityMock stopMocking];
-}
-
-- (void)testSignOutResetsDelayedLoginFlag {
-
-  // If
-  self.sut.signInDelayedAndRetryLater = YES;
-  [[MSAuthTokenContext sharedInstance] setAuthToken:@"someToken" withAccountId:@"someAccount"];
-  id identityMock = OCMPartialMock(self.sut);
-  OCMStub([identityMock sharedInstance]).andReturn(identityMock);
-  OCMStub([identityMock canBeUsed]).andReturn(YES);
-
-  // When
-  [MSIdentity signOut];
-
-  // Then
-  XCTAssertFalse(self.sut.signInDelayedAndRetryLater);
   [identityMock stopMocking];
 }
 

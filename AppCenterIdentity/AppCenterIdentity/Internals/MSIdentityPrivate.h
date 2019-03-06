@@ -38,11 +38,6 @@ static NSString *const kMSIdentityMSALAccountHomeAccountKey = @"MSIdentityMSALAc
 @property(nonatomic, nullable) MSIdentityConfigIngestion *ingestion;
 
 /**
- * The flag that indicates a user requested signIn before it is configured.
- */
-@property(nonatomic) BOOL signInDelayedAndRetryLater;
-
-/**
  * Custom application delegate dedicated to Identity.
  */
 @property(nonatomic) id<MSCustomApplicationDelegate> appDelegate;
