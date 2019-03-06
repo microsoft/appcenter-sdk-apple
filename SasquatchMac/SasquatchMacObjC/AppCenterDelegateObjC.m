@@ -22,7 +22,7 @@
 }
 
 - (void)setCountryCode:(NSString *)countryCode {
-    return [MSAppCenter setCountryCode:countryCode];
+  return [MSAppCenter setCountryCode:countryCode];
 }
 
 - (void)setCustomProperties:(MSCustomProperties *)customProperties {
