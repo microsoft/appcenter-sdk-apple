@@ -43,9 +43,28 @@ static NSString *const kMSHeaderDocumentDbPartitionKeyFormat = @"[\"%@\"]";
 static NSString *const kMSDocumentDbAuthorizationHeaderFormat = @"type=master&ver=1.0&sig=%@";
 
 /**
+ * Url character set to skip(utf8 encoding).
+ */
+static NSString *const kMSUrlCharactersToEscape = @"!*'();:@&=+$,/?%#[]";
+
+/**
+ * RFC1123 locale.
+ */
+static NSString *const kMSRfc1123Locale = @"en_US";
+
+/**
+ * RFC1123 timezone.
+ */
+static NSString *const kMSRfc1123Timezone = @"GMT";
+
+/**
+ * RFC1123 format.
+ */
+static NSString *const kMSRfc1123Format = @"EEE',' dd MMM yyyy HH':'mm':'ss 'GMT'";
+
+/**
  * Headers.
  */
-static NSString *const kMSHeaderAuthorization = @"Authorization";
 static NSString *const kMSHeaderDocumentDbPartitionKey = @"x-ms-documentdb-partitionkey";
 static NSString *const kMSHeaderMsVesionValue = @"2018-06-18";
 static NSString *const kMSHeaderMsVesion = @"x-ms-version";
@@ -54,8 +73,7 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
 @implementation MSCosmosDb : NSObject
 
 + (NSString *)encodeUrl:(NSString *)string {
-  NSString *charactersToEscape = @"!*'();:@&=+$,/?%#[]";
-  NSCharacterSet *allowedCharacters = [[NSCharacterSet characterSetWithCharactersInString:charactersToEscape] invertedSet];
+  NSCharacterSet *allowedCharacters = [[NSCharacterSet characterSetWithCharactersInString:kMSUrlCharactersToEscape] invertedSet];
   return (NSString *)[string stringByAddingPercentEncodingWithAllowedCharacters:allowedCharacters];
 }
 
@@ -65,9 +83,9 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
     static dispatch_once_t oncePredicate;
     dispatch_once(&oncePredicate, ^{
       df = [[NSDateFormatter alloc] init];
-      df.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
-      df.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"GMT"];
-      df.dateFormat = @"EEE',' dd MMM yyyy HH':'mm':'ss 'GMT'";
+      df.locale = [[NSLocale alloc] initWithLocaleIdentifier:kMSRfc1123Locale];
+      df.timeZone = [NSTimeZone timeZoneWithAbbreviation:kMSRfc1123Timezone];
+      df.dateFormat = kMSRfc1123Format;
     });
   }
   return [df stringFromDate:date];
@@ -79,7 +97,7 @@ static NSString *const kMSHeaderMsDate = @"x-ms-date";
     kMSHeaderMsVesion : kMSHeaderMsVesionValue,
     kMSHeaderMsDate : [MSCosmosDb rfc1123String:[NSDate date]],
     kMSHeaderContentTypeKey : kMSAppCenterContentType,
-    kMSHeaderAuthorization : [MSCosmosDb encodeUrl:dbToken]
+    kMSAuthorizationHeaderKey : [MSCosmosDb encodeUrl:dbToken]
   };
 }
 

@@ -10,6 +10,7 @@ static NSString *const kMSHeaderContentTypeKey = @"Content-Type";
 static NSString *const kMSAppCenterContentType = @"application/json";
 static NSString *const kMSHeaderContentEncodingKey = @"Content-Encoding";
 static NSString *const kMSHeaderContentEncoding = @"gzip";
+static NSString *const kMSAuthorizationHeaderKey = @"Authorization";
 
 // HTTP constants.
 static short const kMSHTTPMinGZipLength = 1400;

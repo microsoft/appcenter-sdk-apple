@@ -6,12 +6,8 @@
 
 @implementation MSCosmosDbIngestion
 
-/**
- * Http header Authorization value.
- */
-static NSString *const kMSAppSecrectHeader = @"Authorization";
-
 - (instancetype)init {
+  // @TODO: clean up once the MSHttpIngestion is refactored to take generic requests.
   if ((self = [super initWithBaseUrl:@""
                              apiPath:@""
                              headers:@{}
@@ -46,7 +42,7 @@ static NSString *const kMSAppSecrectHeader = @"Authorization";
 }
 
 - (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {
-  return [key isEqualToString:kMSAppSecrectHeader] ? [MSIngestionUtil hideSecret:value] : value;
+  return [key isEqualToString:kMSAuthorizationHeaderKey] ? [MSIngestionUtil hideSecret:value] : value;
 }
 
 @end
