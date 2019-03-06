@@ -209,7 +209,13 @@
 #pragma mark - MSIdentity section.
 
 - (void)signIn {
-  [MSIdentity signIn];
+  [MSIdentity signInWithCompletionHandler:^(MSUserInformation *_Nullable userInformation, NSError *_Nullable error) {
+    if (!error) {
+      NSLog(@"Identity.signIn succeeded, accountId=%@", userInformation.accountId);
+    } else {
+      NSLog(@"Identity.signIn failed, error=%@", error);
+    }
+  }];
 }
 
 - (void)signOut {
