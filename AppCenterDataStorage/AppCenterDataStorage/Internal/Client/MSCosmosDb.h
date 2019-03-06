@@ -25,7 +25,7 @@ typedef void (^MSCosmosDbCompletionHandler)(NSData *data, NSError *error);
            documentId:(NSString *)documentId
              httpVerb:(NSString *)httpVerb
                  body:(NSString *)body
-    completionHandler:(MSCosmosDbCompletionHandler)completion;
+    completionHandler:(MSCosmosDbCompletionHandler)completionHandler;
 
 @end
 
