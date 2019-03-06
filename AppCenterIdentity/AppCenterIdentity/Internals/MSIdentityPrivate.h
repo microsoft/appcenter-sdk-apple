@@ -42,6 +42,11 @@ static NSString *const kMSIdentityMSALAccountHomeAccountKey = @"MSIdentityMSALAc
 @property(nonatomic) id<MSCustomApplicationDelegate> appDelegate;
 
 /**
+ * Completion handler for sign-in.
+ */
+@property(atomic, nullable) MSSignInCompletionHandler signInCompletionHandler;
+
+/**
  * Rest singleton instance.
  */
 + (void)resetSharedInstance;
