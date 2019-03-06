@@ -615,6 +615,18 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   XCTAssertNil([request.allHTTPHeaderFields valueForKey:kMSAuthorizationHeaderKey]);
 }
 
+- (void)testObfuscateHeaderValue {
+
+  // If
+  NSString *testString = @"Bearer testtesttest";
+
+  // When
+  NSString *result = [self.sut obfuscateHeaderValue:testString forKey:kMSAuthorizationHeaderKey];
+
+  // Then
+  XCTAssertTrue([result isEqualToString:@"***"]);
+}
+
 #pragma mark - Test Helpers
 
 // TODO: Move this to base MSHttpIngestion test.
