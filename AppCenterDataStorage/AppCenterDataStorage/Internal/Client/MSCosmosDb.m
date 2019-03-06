@@ -27,7 +27,7 @@ static NSString *const kMSDocumentDbCollectionUrlFormat = @"colls/%@";
 static NSString *const kMSDocumentDbDocumentUrlPrefix = @"docs";
 
 /**
- * Document DB document URL suffix.
+ * Document DB document URL format.
  */
 static NSString *const kMSDocumentDbDocumentUrlSuffix = @"docs/%@";
 
