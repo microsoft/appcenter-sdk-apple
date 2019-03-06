@@ -21,6 +21,10 @@
   return [MSAppCenter setEnabled:isEnabled];
 }
 
+- (void)setCountryCode:(NSString *)countryCode {
+    return [MSAppCenter setCountryCode:countryCode];
+}
+
 - (void)setCustomProperties:(MSCustomProperties *)customProperties {
   [MSAppCenter setCustomProperties:customProperties];
 }

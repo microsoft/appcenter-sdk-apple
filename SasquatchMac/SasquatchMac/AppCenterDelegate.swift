@@ -16,6 +16,7 @@ import AppCenter
   func logUrl() -> String
   func isDebuggerAttached() -> Bool
   func setUserId(_ userId: String?)
+  func setCountryCode(_ countryCode: String?)
 
   // Modules section.
   func isAnalyticsEnabled() -> Bool
