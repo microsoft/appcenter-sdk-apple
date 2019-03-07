@@ -9,7 +9,6 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
   var currentAction = AuthenticationViewController.AuthAction.signin
 
   let kMSAppCenterBundleIdentifier = "com.microsoft.appcenter";
-  let prodLogUrl = "https://in.appcenter.ms"
 
   @IBOutlet var installIdLabel : NSTextField?
   @IBOutlet var appSecretLabel : NSTextField?
@@ -143,7 +142,8 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
     alert.addButton(withTitle: "Cancel")
     let scrollView: NSScrollView = NSScrollView(frame: NSRect(x: 0, y: 0, width: 300, height: 40))
     let textView: NSTextView = NSTextView(frame: NSRect(x: 0, y: 0, width: 290, height: 40))
-    textView.string = UserDefaults.standard.string(forKey: kMSLogUrl) ?? prodLogUrl
+    let defaultText = "Log URL currently set to the production"
+    textView.string = UserDefaults.standard.string(forKey: kMSLogUrl) ?? defaultText
     scrollView.documentView = textView
     scrollView.hasVerticalScroller = true
     scrollView.contentView.scroll(NSPoint(x: 0, y: textView.frame.size.height))
@@ -151,7 +151,7 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
     alert.alertStyle = NSWarningAlertStyle
     switch(alert.runModal()) {
     case NSAlertFirstButtonReturn:
-      UserDefaults.standard.set(prodLogUrl, forKey: kMSLogUrl)
+      UserDefaults.standard.set(nil, forKey: kMSLogUrl)
       break
     case NSAlertSecondButtonReturn:
       let text = textView.string ?? ""
