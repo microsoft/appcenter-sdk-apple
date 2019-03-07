@@ -1,4 +1,5 @@
 #import "MSIngestionUtil.h"
+#import "MSAppCenterIngestion.h"
 
 @implementation MSIngestionUtil
 
@@ -37,9 +38,9 @@
 
 + (NSString *)hideAuthToken:(NSString *)token {
 
-  // Hide token value.
-  return [token stringByReplacingOccurrencesOfString:token
-                                            withString:@"***"];
+  // Hide token value
+  NSRange range = [kMSBearerTokenHeaderFormat rangeOfString:@"%@"];
+  return [token stringByReplacingCharactersInRange:NSMakeRange(range.location, token.length) withString:@"***"];
 }
 
 @end
