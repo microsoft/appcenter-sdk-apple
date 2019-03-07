@@ -10,14 +10,14 @@
 #import "MSProtocolExtension.h"
 #import "MSTicketCache.h"
 
-NSString *const kMSOneCollectorApiKey = @"apikey";
+/*NSString *const kMSOneCollectorApiKey = @"apikey";
 NSString *const kMSOneCollectorApiPath = @"/OneCollector";
 NSString *const kMSOneCollectorApiVersion = @"1.0";
 NSString *const kMSOneCollectorClientVersionKey = @"Client-Version";
 NSString *const kMSOneCollectorContentType = @"application/x-json-stream; charset=utf-8";
 NSString *const kMSOneCollectorLogSeparator = @"\n";
 NSString *const kMSOneCollectorTicketsKey = @"Tickets";
-NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";
+NSString *const kMSOneCollectorUploadTimeKey = @"Upload-Time";*/
 
 @implementation MSOneCollectorIngestion
 

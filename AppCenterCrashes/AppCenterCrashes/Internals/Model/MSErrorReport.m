@@ -1,7 +1,7 @@
 #import "MSErrorReport.h"
 #import "MSErrorReportPrivate.h"
 
-NSString *const kMSErrorReportKillSignal = @"SIGKILL";
+//NSString *const kMSErrorReportKillSignal = @"SIGKILL";
 
 @interface MSErrorReport ()
 
