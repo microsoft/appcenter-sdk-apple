@@ -390,7 +390,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 - (void)didReceivePushNotification:(MSPushNotification *)pushNotification {
   dispatch_async(dispatch_get_main_queue(), ^{
     id<MSPushDelegate> delegate = self.delegate;
-    if (delegate && [delegate respondsToSelector:@selector(push:didReceivePushNotification:)]) {
+    if ([delegate respondsToSelector:@selector(push:didReceivePushNotification:)]) {
       [delegate push:self didReceivePushNotification:pushNotification];
     }
   });
