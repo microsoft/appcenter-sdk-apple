@@ -228,7 +228,7 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   };
 #if TARGET_OS_OSX
   id userNotificationUserInfoMock = OCMClassMock([NSUserNotification class]);
-  id notificationMock = ;OCMClassMock([NSNotification class])
+  id notificationMock = OCMClassMock([NSNotification class]);
   NSDictionary *notificationUserInfo = @{NSApplicationLaunchUserNotificationKey : userNotificationUserInfoMock};
   OCMStub([notificationMock userInfo]).andReturn(notificationUserInfo);
   OCMStub([userNotificationUserInfoMock userInfo]).andReturn(userInfo);
