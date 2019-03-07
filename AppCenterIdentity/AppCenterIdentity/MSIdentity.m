@@ -205,8 +205,6 @@ static dispatch_once_t onceToken;
     if ([self clearAuthData]) {
       self.signInDelayedAndRetryLater = NO;
       MSLogInfo([MSIdentity logTag], @"User sign-out succeeded.");
-    } else {
-      MSLogWarning([MSIdentity logTag], @"Couldn't sign out: authToken doesn't exist.");
     }
   }
 }
@@ -323,17 +321,19 @@ static dispatch_once_t onceToken;
 
 - (BOOL)clearAuthData {
   if (![[MSAuthTokenContext sharedInstance] clearAuthToken]) {
+    MSLogWarning([MSIdentity logTag], @"Couldn't clear authToken: it doesn't exist.");
     return NO;
   }
-  [self removeAccount];
-  [self removeAuthToken];
+  BOOL result = YES;
+  result &= [self removeAccount];
+  result &= [self removeAuthToken];
   [self removeAccountId];
-  return YES;
+  return result;
 }
 
-- (void)removeAccount {
+- (BOOL)removeAccount {
   if (!self.clientApplication) {
-    return;
+    return NO;
   }
   MSALAccount *account = [self retrieveAccountWithAccountId:[self retrieveAccountId]];
   if (account) {
@@ -341,8 +341,10 @@ static dispatch_once_t onceToken;
     [self.clientApplication removeAccount:account error:&error];
     if (error) {
       MSLogWarning([MSIdentity logTag], @"Failed to remove account: %@", error.localizedDescription);
+      return NO;
     }
   }
+  return YES;
 }
 
 - (void)saveAuthToken:(NSString *)authToken {
@@ -364,13 +366,14 @@ static dispatch_once_t onceToken;
   return authToken;
 }
 
-- (void)removeAuthToken {
+- (BOOL)removeAuthToken {
   NSString *authToken = [MSKeychainUtil deleteStringForKey:kMSIdentityAuthTokenKey];
   if (authToken) {
     MSLogDebug([MSIdentity logTag], @"Removed auth token from keychain.");
   } else {
     MSLogWarning([MSIdentity logTag], @"Failed to remove auth token from keychain or none was found.");
   }
+  return authToken != nil;
 }
 
 - (void)acquireTokenSilentlyWithMSALAccount:(MSALAccount *)account {
