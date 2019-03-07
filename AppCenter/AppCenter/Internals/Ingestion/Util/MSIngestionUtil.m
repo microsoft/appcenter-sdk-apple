@@ -35,4 +35,10 @@
   return [secret stringByReplacingCharactersInRange:NSMakeRange(0, appSecretHiddenPart.length) withString:appSecretHiddenPart];
 }
 
++ (NSString *)hideAuthToken:(NSString *)token withBearerTokenHeaderFormat:(NSString *)format {
+
+  // Hide token value leaving Bearer prefix.
+  return [NSString stringWithFormat:format, "***"];
+}
+
 @end
