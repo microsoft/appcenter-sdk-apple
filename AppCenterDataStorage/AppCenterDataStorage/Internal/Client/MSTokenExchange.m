@@ -1,7 +1,7 @@
+#import "MSTokenExchange.h"
 #import "AppCenter+Internal.h"
 #import "MSDataStorageInternal.h"
 #import "MSStorageIngestion.h"
-#import "MSTokenExchange.h"
 #import "MSTokensResponse.h"
 
 NS_ASSUME_NONNULL_BEGIN
