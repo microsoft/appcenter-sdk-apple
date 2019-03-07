@@ -38,7 +38,7 @@
 
 + (NSString *)hideAuthToken:(NSString *)token {
 
-  // Hide token value
+  // Hide token value.
   NSRange range = [kMSBearerTokenHeaderFormat rangeOfString:@"%@"];
   return [token stringByReplacingCharactersInRange:NSMakeRange(range.location, token.length) withString:@"***"];
 }
