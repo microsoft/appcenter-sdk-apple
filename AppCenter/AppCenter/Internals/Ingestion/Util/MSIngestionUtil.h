@@ -58,10 +58,8 @@ static NSString *const kMSHidingStringForAppSecret = @"*";
  *
  * @param token the token string.
  *
- * @param format the format for bearer header.
- *
  * @return token by hiding some characters.
  */
- + (NSString *)hideAuthToken:(NSString *)token withBearerTokenHeaderFormat:(NSString *)format;
+ + (NSString *)hideAuthToken:(NSString *)token;
 
 @end

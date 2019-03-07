@@ -47,7 +47,7 @@
   NSString *token = @"jwttoken";
 
   // When
-  NSString *hiddenToken = [MSIngestionUtil hideAuthToken:token withBearerTokenHeaderFormat:@"%@"];
+  NSString *hiddenToken = [MSIngestionUtil hideAuthToken:token];
 
   // Then
   assertThat(hiddenToken, is(@"***"));
