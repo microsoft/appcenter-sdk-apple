@@ -1,15 +1,19 @@
-#import "MSDataStorage.h"
+#import "MSDataStore.h"
 #import "MSAppCenterInternal.h"
 #import "MSAppDelegateForwarder.h"
 #import "MSAuthTokenContext.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitProtocol.h"
-#import "MSDataStorageInternal.h"
-#import "MSDataStoragePrivate.h"
+#import "MSDataStoreInternal.h"
+#import "MSDataStorePrivate.h"
+#import "MSDataStoreError.h"
+#import "MSDocumentWrapper.h"
 #import "MSHttpIngestion.h"
+#import "MSPaginatedDocuments.h"
+#import "MSReadOptions.h"
 #import "MSStorageIngestion.h"
 #import "MSTokenExchange.h"
-#import <Foundation/Foundation.h>
+#import "MSWriteOptions.h"
 
 /**
  * Service storage key name.
@@ -24,10 +28,10 @@ static NSString *const kMSGroupId = @"DataStorage";
 /**
  * Singleton.
  */
-static MSDataStorage *sharedInstance = nil;
+static MSDataStore *sharedInstance = nil;
 static dispatch_once_t onceToken;
 
-@implementation MSDataStorage
+@implementation MSDataStore
 
 @synthesize channelUnitConfiguration = _channelUnitConfiguration;
 
@@ -44,59 +48,113 @@ static dispatch_once_t onceToken;
 + (void)readWithPartition:(NSString *)partition
                documentId:(NSString *)documentId
              documentType:(Class)documentType
-        completionHandler:(MSDownloadDocumentCompletionHandler)completionHandler {
+        completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
+  // @todo
   (void)partition;
   (void)documentId;
   (void)documentType;
   (void)completionHandler;
 }
 
-// List (need optional signature to configure page size)
-// The document type (T) must be JSON deserializable
 + (void)readWithPartition:(NSString *)partition
+               documentId:(NSString *)documentId
              documentType:(Class)documentType
-        completionHandler:(MSDownloadDocumentsCompletionHandler)completionHandler {
+              readOptions:(MSReadOptions *)readOptions
+        completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
+  // @todo
+  (void)partition;
+  (void)documentId;
+  (void)documentType;
+  (void)readOptions;
+  (void)completionHandler;
+}
+
++ (void)listWithPartition:(NSString *)partition
+             documentType:(Class)documentType
+        completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
+  // @todo
   (void)partition;
   (void)documentType;
   (void)completionHandler;
 }
 
-// Create a document
-// The document instance (T) must be JSON serializable
++ (void)listWithPartition:(NSString *)partition
+             documentType:(Class)documentType
+              readOptions:(MSReadOptions *)readOptions
+        completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
+  // @todo
+  (void)partition;
+  (void)documentType;
+  (void)readOptions;
+  (void)completionHandler;
+}
+
 + (void)createWithPartition:(NSString *)partition
                  documentId:(NSString *)documentId
                    document:(id<MSSerializableDocument>)document
-          completionHandler:(MSDownloadDocumentCompletionHandler)completionHandler {
+          completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
+  // @todo
 
-  (void)partition;
-  (void)documentId;
-  (void)document;
-
-  // Jump back on the MAIN THREAD to update the UI
-  dispatch_async(dispatch_get_main_queue(), ^{
-    MSDocument *doc = [[MSDocument alloc] initWithDocument:document];
-    completionHandler(doc);
-  });
-}
-
-// Replace a document
-// The document instance (T) must be JSON serializable
-+ (void)replaceWithPartition:(NSString *)partition
-                  documentId:(NSString *)documentId
-                    document:(id<MSSerializableDocument>)document
-           completionHandler:(MSDownloadDocumentCompletionHandler)completionHandler {
   (void)partition;
   (void)documentId;
   (void)document;
   (void)completionHandler;
 }
 
-// Delete a document
-+ (void)deleteDocumentWithPartition:(NSString *)partition
-                         documentId:(NSString *)documentId
-                  completionHandler:(void (^)(MSDataSourceError *error))completionHandler {
++ (void)createWithPartition:(NSString *)partition
+                 documentId:(NSString *)documentId
+                   document:(id<MSSerializableDocument>)document
+               writeOptions:(MSWriteOptions *)writeOptions
+          completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
+  // @todo
   (void)partition;
   (void)documentId;
+  (void)writeOptions;
+  (void)document;
+  (void)completionHandler;
+}
+
++ (void)replaceWithPartition:(NSString *)partition
+                  documentId:(NSString *)documentId
+                    document:(id<MSSerializableDocument>)document
+           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
+  // @todo
+  (void)partition;
+  (void)documentId;
+  (void)document;
+  (void)completionHandler;
+}
+
++ (void)replaceWithPartition:(NSString *)partition
+                  documentId:(NSString *)documentId
+                    document:(id<MSSerializableDocument>)document
+                writeOptions:(MSWriteOptions *)writeOptions
+           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
+  // @todo
+  (void)partition;
+  (void)documentId;
+  (void)document;
+  (void)writeOptions;
+  (void)completionHandler;
+}
+
++ (void)deleteDocumentWithPartition:(NSString *)partition
+                         documentId:(NSString *)documentId
+                  completionHandler:(MSDataStoreErrorCompletionHandler)completionHandler {
+  // @todo
+  (void)partition;
+  (void)documentId;
+  (void)completionHandler;
+}
+
++ (void)deleteDocumentWithPartition:(NSString *)partition
+                         documentId:(NSString *)documentId
+                       writeOptions:(MSWriteOptions *)writeOptions
+                  completionHandler:(MSDataStoreErrorCompletionHandler)completionHandler {
+  // @todo
+  (void)partition;
+  (void)documentId;
+  (void)writeOptions;
   (void)completionHandler;
 }
 
@@ -127,7 +185,7 @@ static dispatch_once_t onceToken;
   if (appSecret && !self.ingestion) {
     self.ingestion = [[MSStorageIngestion alloc] initWithBaseUrl:self.tokenExchangeUrl appSecret:(NSString *)appSecret];
   }
-  MSLogVerbose([MSDataStorage logTag], @"Started Data Storage service.");
+  MSLogVerbose([MSDataStore logTag], @"Started Data Storage service.");
 }
 
 + (NSString *)serviceName {
@@ -155,7 +213,8 @@ static dispatch_once_t onceToken;
 
 #pragma mark - MSAuthTokenContextDelegate
 
-- (void)authTokenContext:(MSAuthTokenContext *) __unused authTokenContext didReceiveAuthToken:(/* nullable (changed in #1328) */NSString *)authToken {
+- (void)authTokenContext:(MSAuthTokenContext *)__unused authTokenContext
+     didReceiveAuthToken:(/* nullable (changed in #1328) */ NSString *)authToken {
   if (authToken == nil) {
     // TODO: delete the Cosmos tokens associated with the user.
   }
@@ -164,7 +223,7 @@ static dispatch_once_t onceToken;
 #pragma mark - Public
 
 + (void)setTokenExchangeUrl:(NSString *)tokenExchangeUrl {
-  [[MSDataStorage sharedInstance] setTokenExchangeUrl:tokenExchangeUrl];
+  [[MSDataStore sharedInstance] setTokenExchangeUrl:tokenExchangeUrl];
 }
 
 @end

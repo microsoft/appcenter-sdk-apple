@@ -9,7 +9,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return Dictionary representing the object.
  */
-- (NSDictionary *)serilizeToDictionary;
+- (NSDictionary *)serializeToDictionary;
 
 /**
  * Track an event.

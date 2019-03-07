@@ -1,6 +1,6 @@
 #import "MSTokenExchange.h"
 #import "AppCenter+Internal.h"
-#import "MSDataStorageInternal.h"
+#import "MSDataStoreInternal.h"
 #import "MSStorageIngestion.h"
 #import "MSTokensResponse.h"
 
@@ -21,7 +21,7 @@ static NSString *const kMSPartitions = @"partitions";
   // Http call.
   [httpClient sendAsync:payloadData
       completionHandler:^(NSString *callId, NSHTTPURLResponse *response, NSData *data, NSError *error) {
-        MSLogVerbose([MSDataStorage logTag], @"Get token callback, request Id %@ with status code: %lu", callId,
+        MSLogVerbose([MSDataStore logTag], @"Get token callback, request Id %@ with status code: %lu", callId,
                      (unsigned long)response.statusCode);
 
         // If comletion is provided.
@@ -31,7 +31,7 @@ static NSString *const kMSPartitions = @"partitions";
           NSError *tokenResponsejsonError;
           NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&tokenResponsejsonError];
           if (tokenResponsejsonError) {
-            MSLogError([MSDataStorage logTag], @"Can't deserialize tokens with error: %@", [tokenResponsejsonError description]);
+            MSLogError([MSDataStore logTag], @"Can't deserialize tokens with error: %@", [tokenResponsejsonError description]);
             completion([[MSTokensResponse alloc] initWithTokens:nil], error);
           }
 
