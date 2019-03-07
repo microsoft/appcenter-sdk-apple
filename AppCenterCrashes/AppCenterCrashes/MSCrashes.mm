@@ -770,9 +770,13 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
                                                                                   withString:kMSTargetTokenFileExtension];
           NSURL *targetTokenFileURL = [NSURL fileURLWithPath:targetTokenFilePath];
           NSString *targetToken = [NSString stringWithContentsOfURL:targetTokenFileURL encoding:NSUTF8StringEncoding error:nil];
-          if (targetToken != nil) {
+          if (targetToken) {
             targetToken = [self.targetTokenEncrypter decryptString:targetToken];
-            [item addTransmissionTargetToken:targetToken];
+            if (targetToken) {
+              [item addTransmissionTargetToken:targetToken];
+            } else {
+              MSLogError([MSAppCenter logTag], @"Failed to decrypt the target token.");
+            }
 
             // Delete target token file.
             [MSUtility deleteFileAtURL:targetTokenFileURL];
