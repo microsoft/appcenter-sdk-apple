@@ -2,6 +2,6 @@
 
 @interface MSDataStoreError : NSObject
 
-// TBD
+// @todo
 
 @end

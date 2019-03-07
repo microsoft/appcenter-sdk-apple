@@ -49,6 +49,7 @@ static dispatch_once_t onceToken;
                documentId:(NSString *)documentId
              documentType:(Class)documentType
         completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
+  // @todo
   (void)partition;
   (void)documentId;
   (void)documentType;
@@ -60,6 +61,7 @@ static dispatch_once_t onceToken;
              documentType:(Class)documentType
               readOptions:(MSReadOptions *)readOptions
         completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
+  // @todo
   (void)partition;
   (void)documentId;
   (void)documentType;
@@ -67,11 +69,10 @@ static dispatch_once_t onceToken;
   (void)completionHandler;
 }
 
-// List (need optional signature to configure page size)
-// The document type (T) must be JSON deserializable
 + (void)listWithPartition:(NSString *)partition
              documentType:(Class)documentType
         completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
+  // @todo
   (void)partition;
   (void)documentType;
   (void)completionHandler;
@@ -81,28 +82,23 @@ static dispatch_once_t onceToken;
              documentType:(Class)documentType
               readOptions:(MSReadOptions *)readOptions
         completionHandler:(MSPaginatedDocumentsCompletionHandler)completionHandler {
+  // @todo
   (void)partition;
   (void)documentType;
   (void)readOptions;
   (void)completionHandler;
 }
 
-// Create a document
-// The document instance (T) must be JSON serializable
 + (void)createWithPartition:(NSString *)partition
                  documentId:(NSString *)documentId
                    document:(id<MSSerializableDocument>)document
           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
+  // @todo
 
   (void)partition;
   (void)documentId;
   (void)document;
-
-  // Jump back on the MAIN THREAD to update the UI
-  dispatch_async(dispatch_get_main_queue(), ^{
-    MSDocumentWrapper *doc = [[MSDocumentWrapper alloc] initWithDeserializedValue:document];
-    completionHandler(doc);
-  });
+  (void)completionHandler;
 }
 
 + (void)createWithPartition:(NSString *)partition
@@ -110,24 +106,19 @@ static dispatch_once_t onceToken;
                    document:(id<MSSerializableDocument>)document
                writeOptions:(MSWriteOptions *)writeOptions
           completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
+  // @todo
   (void)partition;
   (void)documentId;
   (void)writeOptions;
   (void)document;
-
-  // Jump back on the MAIN THREAD to update the UI
-  dispatch_async(dispatch_get_main_queue(), ^{
-    MSDocumentWrapper *doc = [[MSDocumentWrapper alloc] initWithDeserializedValue:document];
-    completionHandler(doc);
-  });
+  (void)completionHandler;
 }
 
-// Replace a document
-// The document instance (T) must be JSON serializable
 + (void)replaceWithPartition:(NSString *)partition
                   documentId:(NSString *)documentId
                     document:(id<MSSerializableDocument>)document
            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
+  // @todo
   (void)partition;
   (void)documentId;
   (void)document;
@@ -139,6 +130,7 @@ static dispatch_once_t onceToken;
                     document:(id<MSSerializableDocument>)document
                 writeOptions:(MSWriteOptions *)writeOptions
            completionHandler:(MSDocumentWrapperCompletionHandler)completionHandler {
+  // @todo
   (void)partition;
   (void)documentId;
   (void)document;
@@ -146,10 +138,10 @@ static dispatch_once_t onceToken;
   (void)completionHandler;
 }
 
-// Delete a document
 + (void)deleteDocumentWithPartition:(NSString *)partition
                          documentId:(NSString *)documentId
                   completionHandler:(MSDataStoreErrorCompletionHandler)completionHandler {
+  // @todo
   (void)partition;
   (void)documentId;
   (void)completionHandler;
@@ -159,17 +151,10 @@ static dispatch_once_t onceToken;
                          documentId:(NSString *)documentId
                        writeOptions:(MSWriteOptions *)writeOptions
                   completionHandler:(MSDataStoreErrorCompletionHandler)completionHandler {
+  // @todo
   (void)partition;
   (void)documentId;
   (void)writeOptions;
-  (void)completionHandler;
-}
-
-+ (void)disableNetworkWithCompletionHandler:(void (^)(void))completionHandler {
-  (void)completionHandler;
-}
-
-+ (void)enableNetworkWithCompletionHandler:(void (^)(void))completionHandler {
   (void)completionHandler;
 }
 

@@ -1,7 +1,6 @@
 #import "MSDocumentWrapper.h"
 #import "MSDataStoreError.h"
 #import "MSSerializableObject.h"
-#import <Foundation/Foundation.h>
 
 @implementation MSDocumentWrapper
 
@@ -15,35 +14,34 @@
   return self;
 }
 
-// set Deserialized document (or null)
-- (void)setDocument:(id<NSCoding>)document {
-  if (document)
-    document = nil;
-}
-
-// Error (or null)
 - (MSDataSourceError *)error {
+  // @todo
   return nil;
 }
 
 - (BOOL)fromDeviceCache {
+  // @todo
   return false;
 }
 
 // ID + document metadata
 - (NSString *)partition {
+  // @todo
   return @"";
 }
 
 - (NSString *)documentId {
+  // @todo
   return nil;
 }
 
 - (NSString *)etag {
+  // @todo
   return nil;
 }
 
 - (NSDate *)lastUpdatedDate {
+  // @todo
   return nil;
 }
 

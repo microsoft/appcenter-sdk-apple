@@ -1,7 +1,6 @@
 #import "MSDataStoreError.h"
 #import "MSPage.h"
 #import "MSSerializableDocument.h"
-#import <Foundation/Foundation.h>
 
 // A (paginated) list of documents from CosmosDB
 @interface MSPaginatedDocuments<T : id <MSSerializableDocument>> : NSObject
@@ -12,12 +11,18 @@
 - (BOOL)hasNextPage;
 
 /**
- * Return the current page
+ * Return the current page.
+ *
+ * @return The current page of documents.
  */
 - (MSPage<T> *)currentPage;
 
 /**
- * Asynchronously fetch the next page
+ * Asynchronously fetch the next page.
+ *
+ * @param completionHandler Callback to accept the next page of documents.
+ *
+ * @return The next page of documents.
  */
 - (MSPage<T> *)nextPageWithCompletionHandler:(void (^)(MSPage<T> *page))completionHandler;
 

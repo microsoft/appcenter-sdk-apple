@@ -10,7 +10,7 @@
 /**
  * Initialize a BaseOptions object.
  *
- * @param deviceTimeToLive - device document time to live in seconds
+ * @param deviceTimeToLive Device document time to live in seconds.
  *
  * @return A BaseOptions instance.
  */

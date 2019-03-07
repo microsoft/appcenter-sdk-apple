@@ -35,7 +35,7 @@
 /**
  * Initialize the Token result object
  *
- * @param partition Databade partition
+ * @param partition Database partition
  * @param dbAccount Database account.
  * @param dbName Database name.
  * @param dbCollectionName Database collection name.

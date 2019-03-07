@@ -1,7 +1,6 @@
 #import "MSDataStoreError.h"
 #import "MSDocumentWrapper.h"
 #import "MSSerializableDocument.h"
-#import <Foundation/Foundation.h>
 
 @interface MSPage<T : id <MSSerializableDocument>> : NSObject
 
