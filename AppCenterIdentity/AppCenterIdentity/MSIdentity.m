@@ -249,51 +249,52 @@ static dispatch_once_t onceToken;
 
 - (MSIdentityConfigIngestion *)ingestion {
   if (!_ingestion) {
-    _ingestion = [[MSIdentityConfigIngestion alloc] initWithBaseUrl:@"https://mobilecentersdkdev.blob.core.windows.net" appSecret:self.appSecret];
+    _ingestion = [[MSIdentityConfigIngestion alloc] initWithBaseUrl:@"https://mobilecentersdkdev.blob.core.windows.net"
+                                                          appSecret:self.appSecret];
   }
   return _ingestion;
 }
 
 - (void)downloadConfigurationWithETag:(nullable NSString *)eTag {
-  
+
   // Download configuration.
   [self.ingestion sendAsync:nil
-                   eTag:eTag
-      completionHandler:^(__unused NSString *callId, NSHTTPURLResponse *response, NSData *data, __unused NSError *error) {
-        MSIdentityConfig *config = nil;
-        if (response.statusCode == MSHTTPCodesNo304NotModified) {
-          MSLogInfo([MSIdentity logTag], @"Identity configuration hasn't changed.");
-        } else if (response.statusCode == MSHTTPCodesNo200OK) {
-          config = [self deserializeData:data];
-          if ([config isValid]) {
-            NSURL *configUrl = [MSUtility createFileAtPathComponent:[self identityConfigFilePath]
-                                                           withData:data
-                                                         atomically:YES
-                                                     forceOverwrite:YES];
+                       eTag:eTag
+          completionHandler:^(__unused NSString *callId, NSHTTPURLResponse *response, NSData *data, __unused NSError *error) {
+            MSIdentityConfig *config = nil;
+            if (response.statusCode == MSHTTPCodesNo304NotModified) {
+              MSLogInfo([MSIdentity logTag], @"Identity configuration hasn't changed.");
+            } else if (response.statusCode == MSHTTPCodesNo200OK) {
+              config = [self deserializeData:data];
+              if ([config isValid]) {
+                NSURL *configUrl = [MSUtility createFileAtPathComponent:[self identityConfigFilePath]
+                                                               withData:data
+                                                             atomically:YES
+                                                         forceOverwrite:YES];
 
-            // Store eTag only when the configuration file is created successfully.
-            if (configUrl) {
-              NSString *newETag = [MSHttpIngestion eTagFromResponse:response];
-              if (newETag) {
-                [MS_USER_DEFAULTS setObject:newETag forKey:kMSIdentityETagKey];
+                // Store eTag only when the configuration file is created successfully.
+                if (configUrl) {
+                  NSString *newETag = [MSHttpIngestion eTagFromResponse:response];
+                  if (newETag) {
+                    [MS_USER_DEFAULTS setObject:newETag forKey:kMSIdentityETagKey];
+                  }
+                } else {
+                  MSLogWarning([MSIdentity logTag], @"Couldn't create Identity config file.");
+                }
+                @synchronized(self) {
+                  self.identityConfig = config;
+
+                  // Reinitialize client application.
+                  [self configAuthenticationClient];
+                }
+              } else {
+                MSLogError([MSIdentity logTag], @"Downloaded identity configuration is not valid.");
               }
             } else {
-              MSLogWarning([MSIdentity logTag], @"Couldn't create Identity config file.");
+              MSLogError([MSIdentity logTag], @"Failed to download identity configuration. Status code received: %ld",
+                         (long)response.statusCode);
             }
-            @synchronized(self) {
-              self.identityConfig = config;
-
-              // Reinitialize client application.
-              [self configAuthenticationClient];
-            }
-          } else {
-            MSLogError([MSIdentity logTag], @"Downloaded identity configuration is not valid.");
-          }
-        } else {
-          MSLogError([MSIdentity logTag], @"Failed to download identity configuration. Status code received: %ld",
-                     (long)response.statusCode);
-        }
-      }];
+          }];
 }
 
 - (void)configAuthenticationClient {

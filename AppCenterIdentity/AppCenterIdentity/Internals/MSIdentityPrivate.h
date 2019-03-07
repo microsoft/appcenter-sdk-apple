@@ -4,8 +4,8 @@
 #import "MSCustomApplicationDelegate.h"
 #import "MSIdentity.h"
 #import "MSIdentityConfig.h"
-#import "MSServiceInternal.h"
 #import "MSIdentityConfigIngestion.h"
+#import "MSServiceInternal.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

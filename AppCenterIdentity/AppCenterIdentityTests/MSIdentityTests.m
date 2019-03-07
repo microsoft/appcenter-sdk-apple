@@ -464,7 +464,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 }
 
 - (void)testSignInFailsWhenNoInternet {
-  
+
   // If
   self.sut.clientApplication = self.clientApplicationMock;
   id reachability = OCMPartialMock([MS_Reachability reachabilityForInternetConnection]);
@@ -475,14 +475,14 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   id identityMock = OCMPartialMock(self.sut);
   OCMStub([identityMock sharedInstance]).andReturn(identityMock);
   OCMStub([identityMock canBeUsed]).andReturn(YES);
-  
+
   // When
   MSSignInCompletionHandler handler = ^(MSUserInformation *_Nullable userInformation, NSError *_Nullable error) {
     self.signInUserInformation = userInformation;
     self.signInError = error;
   };
   [MSIdentity signInWithCompletionHandler:handler];
-  
+
   // Then
   XCTAssertNil(self.signInUserInformation);
   XCTAssertNotNil(self.signInError);
@@ -500,14 +500,14 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   id identityMock = OCMPartialMock(self.sut);
   OCMStub([identityMock sharedInstance]).andReturn(identityMock);
   OCMStub([identityMock canBeUsed]).andReturn(YES);
-  
+
   // When
   MSSignInCompletionHandler handler = ^(MSUserInformation *_Nullable userInformation, NSError *_Nullable error) {
     self.signInUserInformation = userInformation;
     self.signInError = error;
   };
   [MSIdentity signInWithCompletionHandler:handler];
-  
+
   // Then
   XCTAssertNil(self.signInUserInformation);
   XCTAssertNotNil(self.signInError);
@@ -524,7 +524,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   id identityMock = OCMPartialMock(self.sut);
   OCMStub([identityMock sharedInstance]).andReturn(identityMock);
   OCMStub([identityMock canBeUsed]).andReturn(YES);
-  
+
   // When
   MSSignInCompletionHandler handler = ^(MSUserInformation *_Nullable userInformation, NSError *_Nullable error) {
     self.signInUserInformation = userInformation;
