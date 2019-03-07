@@ -11,13 +11,13 @@
 #import "MSTestFrameworks.h"
 #import "MSUserIdContextPrivate.h"
 
-@interface MSDataStorageTests : XCTestCase
+@interface MSDataStoreTests : XCTestCase
 
 @property(nonatomic) id settingsMock;
 
 @end
 
-@implementation MSDataStorageTests
+@implementation MSDataStoreTests
 
 - (void)setUp {
   [super setUp];

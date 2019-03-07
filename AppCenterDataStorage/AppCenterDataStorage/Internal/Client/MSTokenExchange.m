@@ -1,6 +1,6 @@
 #import "MSTokenExchange.h"
 #import "AppCenter+Internal.h"
-#import "MSDataStorageInternal.h"
+#import "MSDataStoreInternal.h"
 #import "MSStorageIngestion.h"
 #import "MSTokensResponse.h"
 
