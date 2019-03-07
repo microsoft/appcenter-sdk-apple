@@ -185,19 +185,12 @@ static dispatch_once_t onceToken;
 }
 
 - (void)signIn {
+  if ([[MS_Reachability reachabilityForInternetConnection] currentReachabilityStatus] == NotReachable) {
+    [self completeSignInWithErrorCode:MSIdentityErrorSignInWhenNoConnection andMessage:@"User sign-in failed. Internet connection is down."];
+    return;
+  }
   if (self.clientApplication == nil || self.identityConfig == nil) {
-    if ([[MS_Reachability reachabilityForInternetConnection] currentReachabilityStatus] == NotReachable) {
-      NSError *error = [[NSError alloc] initWithDomain:MSIdentityErrorDomain
-                                                  code:MSIdentityErrorSignInWhenNoConnection
-                                              userInfo:@{MSIdentityErrorDescriptionKey : @"User sign-in failed. Internet connection is down."}];
-      self.signInCompletionHandler(nil, error);
-      return;
-    }
-    
-    NSError *error = [[NSError alloc] initWithDomain:MSIdentityErrorDomain
-                                                code:MSIdentityErrorSignInBackgroundOrNotConfigured
-                                            userInfo:@{MSIdentityErrorDescriptionKey : @"signIn is called while it's not configured or not in the foreground."}];
-    self.signInCompletionHandler(nil, error);
+    [self completeSignInWithErrorCode:MSIdentityErrorSignInBackgroundOrNotConfigured andMessage:@"signIn is called while it's not configured or not in the foreground."];
     return;
   }
   MSALAccount *account = [self retrieveAccountWithAccountId:[self retrieveAccountId]];
@@ -206,6 +199,16 @@ static dispatch_once_t onceToken;
   } else {
     [self acquireTokenInteractively];
   }
+}
+
+- (void)completeSignInWithErrorCode:(NSInteger)errorCode andMessage:(NSString *)errorMessage {
+  if (!self.signInCompletionHandler){
+    return;
+  }
+  NSError *error = [[NSError alloc] initWithDomain:MSIdentityErrorDomain
+                                              code:errorCode
+                                          userInfo:@{MSIdentityErrorDescriptionKey : errorMessage}];
+  self.signInCompletionHandler(nil, error);
 }
 
 - (void)signOut {
