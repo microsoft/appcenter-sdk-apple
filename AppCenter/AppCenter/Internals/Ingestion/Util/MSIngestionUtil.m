@@ -38,7 +38,7 @@
 + (NSString *)hideAuthToken:(NSString *)token {
 
   // Hide token value.
-  return [token stringByReplacingOccurencesOfString:token
+  return [token stringByReplacingOccurrencesOfString:token
                                             withString:@"***"];
 }
 
