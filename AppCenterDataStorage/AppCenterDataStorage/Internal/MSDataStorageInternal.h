@@ -1,5 +1,6 @@
 #import <Foundation/Foundation.h>
 
+#import "MSCosmosDbIngestion.h"
 #import "MSDataStorage.h"
 #import "MSServiceInternal.h"
 #import "MSStorageIngestion.h"
@@ -14,9 +15,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSString *tokenExchangeUrl;
 
 /**
- * An ingestion instance that is used to send a request for new token exchange service
+ * An ingestion instance that is used to send a request for new token exchange service.
  */
 @property(nonatomic, nullable) MSStorageIngestion *ingestion;
+
+/**
+ * An ingestion instance that is used to send a request to CosmosDb.
+ */
+@property(nonatomic, nullable) MSCosmosDbIngestion *cosmosHttpClient;
 
 @end
 

@@ -7,6 +7,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef void (^MSGetTokenAsyncCompletionHandler)(MSTokensResponse *tokenResponses, NSError *error);
 
+/**
+ * This class retrieves and caches Cosmosdb access token.
+ */
 @interface MSTokenExchange : NSObject
 
 /**
