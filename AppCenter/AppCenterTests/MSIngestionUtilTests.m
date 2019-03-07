@@ -44,13 +44,13 @@
 - (void)testHideAuthToken {
 
   // If
-  NSString *token = @"jwttoken";
+  NSString *token = @"Bearer jwttoken";
 
   // When
   NSString *hiddenToken = [MSIngestionUtil hideAuthToken:token];
 
   // Then
-  assertThat(hiddenToken, is(@"***"));
+  assertThat(hiddenToken, is(@"Bearer ***"));
 }
 
 - (void)testIsNoInternetConnectionError {
