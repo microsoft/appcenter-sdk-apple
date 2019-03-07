@@ -860,7 +860,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // When
   [MSIdentity signOut];
-  XCTAssertFalse([self.sut removeAccount]);
+  XCTAssertTrue([self.sut removeAccount]);
 
   // Then
   XCTAssertNil([self.settingsMock objectForKey:kMSIdentityMSALAccountHomeAccountKey]);
