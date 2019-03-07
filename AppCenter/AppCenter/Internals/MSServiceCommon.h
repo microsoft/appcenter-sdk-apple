@@ -41,6 +41,23 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic, nonnull) NSString *defaultTransmissionTargetToken;
 
+@optional
+
+/**
+ * Service unique key for storage purpose.
+ *
+ * @discussion: IMPORTANT, This string is used to point to the right storage value for this service. Changing this string results in data
+ * lost if previous data is not migrated.
+ */
+@property(nonatomic, copy, readonly) NSString *groupId;
+
+/**
+ * The channel configuration for this service.
+ */
+@property(nonatomic, readonly) MSChannelUnitConfiguration *channelUnitConfiguration;
+
+@required
+
 /**
  * Apply the enabled state to the service.
  *
@@ -103,19 +120,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)isStartedFromApplication;
 
 @optional
-
-/**
- * Service unique key for storage purpose.
- *
- * @discussion: IMPORTANT, This string is used to point to the right storage value for this service. Changing this string results in data
- * lost if previous data is not migrated.
- */
-@property(nonatomic, copy, readonly) NSString *groupId;
-
-/**
- * The channel configuration for this service.
- */
-@property(nonatomic, readonly) MSChannelUnitConfiguration *channelUnitConfiguration;
 
 /**
  * Get the unique instance.
