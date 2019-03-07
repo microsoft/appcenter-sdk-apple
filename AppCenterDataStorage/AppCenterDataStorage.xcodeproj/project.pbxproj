@@ -105,8 +105,16 @@
 		E824A5482225FDAC005B69B5 /* MSDataStorageInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = E824A5472225FDAC005B69B5 /* MSDataStorageInternal.h */; };
 		E824A549222600C3005B69B5 /* MSDataStoragePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = D3AD5F081E5C8156001627AB /* MSDataStoragePrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		E824A54A222600C6005B69B5 /* MSDataStorageInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = E824A5472225FDAC005B69B5 /* MSDataStorageInternal.h */; };
+		E8593A16222B91B20001F87E /* MSCosmosDb.h in Headers */ = {isa = PBXBuildFile; fileRef = E8593A14222B91B20001F87E /* MSCosmosDb.h */; };
+		E8593A17222B91B20001F87E /* MSCosmosDb.m in Sources */ = {isa = PBXBuildFile; fileRef = E8593A15222B91B20001F87E /* MSCosmosDb.m */; };
+		E8593A18222B91C60001F87E /* MSCosmosDb.m in Sources */ = {isa = PBXBuildFile; fileRef = E8593A15222B91B20001F87E /* MSCosmosDb.m */; };
+		E8593A19222B91C90001F87E /* MSCosmosDb.h in Headers */ = {isa = PBXBuildFile; fileRef = E8593A14222B91B20001F87E /* MSCosmosDb.h */; };
+		E8593A1C222BA37B0001F87E /* MSCosmosDbIngestion.m in Sources */ = {isa = PBXBuildFile; fileRef = E8593A1A222BA37B0001F87E /* MSCosmosDbIngestion.m */; };
+		E8593A1D222BA37B0001F87E /* MSCosmosDbIngestion.h in Headers */ = {isa = PBXBuildFile; fileRef = E8593A1B222BA37B0001F87E /* MSCosmosDbIngestion.h */; };
 		E86B95D82224B5F60062E552 /* MSTokenExchange.h in Headers */ = {isa = PBXBuildFile; fileRef = E86B95D72224B5F60062E552 /* MSTokenExchange.h */; };
 		E86B95DA2224B6310062E552 /* MSTokenExchange.m in Sources */ = {isa = PBXBuildFile; fileRef = E86B95D92224B6310062E552 /* MSTokenExchange.m */; };
+		E877CEB3223057E400259BA0 /* MSCosmosDbIngestion.h in Headers */ = {isa = PBXBuildFile; fileRef = E8593A1B222BA37B0001F87E /* MSCosmosDbIngestion.h */; };
+		E877CEB4223057E700259BA0 /* MSCosmosDbIngestion.m in Sources */ = {isa = PBXBuildFile; fileRef = E8593A1A222BA37B0001F87E /* MSCosmosDbIngestion.m */; };
 		E8DADEF122286D1A00587E15 /* MSTokenResult.h in Headers */ = {isa = PBXBuildFile; fileRef = 2600123B22273E94007F4D3A /* MSTokenResult.h */; };
 		E8DADEF222286D2100587E15 /* MSTokensResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 2600123E22273E94007F4D3A /* MSTokensResponse.m */; };
 		E8DADEF322286D2300587E15 /* MSTokensResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 2600123C22273E94007F4D3A /* MSTokensResponse.h */; };
@@ -217,6 +225,10 @@
 		E824A53D2225E80E005B69B5 /* MSStorageIngestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSStorageIngestion.m; sourceTree = "<group>"; };
 		E824A53E2225E80E005B69B5 /* MSStorageIngestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSStorageIngestion.h; sourceTree = "<group>"; };
 		E824A5472225FDAC005B69B5 /* MSDataStorageInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDataStorageInternal.h; sourceTree = "<group>"; };
+		E8593A14222B91B20001F87E /* MSCosmosDb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCosmosDb.h; sourceTree = "<group>"; };
+		E8593A15222B91B20001F87E /* MSCosmosDb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCosmosDb.m; sourceTree = "<group>"; };
+		E8593A1A222BA37B0001F87E /* MSCosmosDbIngestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCosmosDbIngestion.m; sourceTree = "<group>"; };
+		E8593A1B222BA37B0001F87E /* MSCosmosDbIngestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCosmosDbIngestion.h; sourceTree = "<group>"; };
 		E86B95D72224B5F60062E552 /* MSTokenExchange.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MSTokenExchange.h; path = AppCenterDataStorage/Internal/Client/MSTokenExchange.h; sourceTree = SOURCE_ROOT; };
 		E86B95D92224B6310062E552 /* MSTokenExchange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSTokenExchange.m; path = AppCenterDataStorage/Internal/Client/MSTokenExchange.m; sourceTree = SOURCE_ROOT; };
 		E8FE51A5221C8C6E005FB52B /* MSTestFrameworks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSTestFrameworks.h; path = ../../AppCenter/AppCenterTests/Util/MSTestFrameworks.h; sourceTree = "<group>"; };
@@ -426,6 +438,8 @@
 		E824A53C2225E7C6005B69B5 /* Ingestion */ = {
 			isa = PBXGroup;
 			children = (
+				E8593A1B222BA37B0001F87E /* MSCosmosDbIngestion.h */,
+				E8593A1A222BA37B0001F87E /* MSCosmosDbIngestion.m */,
 				E824A53E2225E80E005B69B5 /* MSStorageIngestion.h */,
 				E824A53D2225E80E005B69B5 /* MSStorageIngestion.m */,
 			);
@@ -435,6 +449,8 @@
 		E86B95D62224B54E0062E552 /* Client */ = {
 			isa = PBXGroup;
 			children = (
+				E8593A14222B91B20001F87E /* MSCosmosDb.h */,
+				E8593A15222B91B20001F87E /* MSCosmosDb.m */,
 				E86B95D72224B5F60062E552 /* MSTokenExchange.h */,
 				E86B95D92224B6310062E552 /* MSTokenExchange.m */,
 			);
@@ -475,6 +491,8 @@
 				0469644E1F2A5D2800F9D31F /* AppCenterDataStorage.h in Headers */,
 				E820F1A1222767B8009EFA5D /* MSSerializableDocument.h in Headers */,
 				E820F1A4222767C5009EFA5D /* MSTokenExchange.h in Headers */,
+				E877CEB3223057E400259BA0 /* MSCosmosDbIngestion.h in Headers */,
+				E8593A19222B91C90001F87E /* MSCosmosDb.h in Headers */,
 				04A0820D1F74BBCF00DC776D /* MSService.h in Headers */,
 				E824A549222600C3005B69B5 /* MSDataStoragePrivate.h in Headers */,
 				E8DADEF122286D1A00587E15 /* MSTokenResult.h in Headers */,
@@ -502,6 +520,8 @@
 				267464ED222F28A300EC1FF3 /* MSPage.h in Headers */,
 				267464F0222F28A300EC1FF3 /* MSPaginatedDocuments.h in Headers */,
 				D3AD5F121E5C847B001627AB /* MSDataStoragePrivate.h in Headers */,
+				E8593A16222B91B20001F87E /* MSCosmosDb.h in Headers */,
+				E8593A1D222BA37B0001F87E /* MSCosmosDbIngestion.h in Headers */,
 				04A0820C1F74BBCA00DC776D /* MSService.h in Headers */,
 				E86B95D82224B5F60062E552 /* MSTokenExchange.h in Headers */,
 			);
@@ -733,6 +753,7 @@
 			files = (
 				E8DADEF422286D2500587E15 /* MSTokenResult.m in Sources */,
 				E820F1A5222767C8009EFA5D /* MSTokenExchange.m in Sources */,
+				E877CEB4223057E700259BA0 /* MSCosmosDbIngestion.m in Sources */,
 				E8DADEF222286D2100587E15 /* MSTokensResponse.m in Sources */,
 				E820F1A3222767C2009EFA5D /* MSStorageIngestion.m in Sources */,
 			);
@@ -759,6 +780,9 @@
 				2600124122273E94007F4D3A /* MSTokenResult.m in Sources */,
 				267464F3222F28A300EC1FF3 /* MSDataStore.m in Sources */,
 				267464F7222F28A300EC1FF3 /* MSReadOptions.m in Sources */,
+				E8593A1C222BA37B0001F87E /* MSCosmosDbIngestion.m in Sources */,
+				2600124122273E94007F4D3A /* MSTokenResult.m in Sources */,
+				E8593A17222B91B20001F87E /* MSCosmosDb.m in Sources */,
 				E824A5412225E80E005B69B5 /* MSStorageIngestion.m in Sources */,
 				267464F4222F28A300EC1FF3 /* MSDocumentWrapper.m in Sources */,
 				267464F8222F28A300EC1FF3 /* MSPaginatedDocuments.m in Sources */,
