@@ -48,32 +48,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)applyEnabledState:(BOOL)isEnabled;
 
-@optional
-
-/**
- * Service unique key for storage purpose.
- *
- * @discussion: IMPORTANT, This string is used to point to the right storage value for this service. Changing this string results in data
- * lost if previous data is not migrated.
- */
-@property(nonatomic, copy, readonly) NSString *groupId;
-
-/**
- * The channel configuration for this service.
- */
-@property(nonatomic, readonly) MSChannelUnitConfiguration *channelUnitConfiguration;
-
 /**
  * The initialization priority for this service.
  */
 @property(nonatomic, readonly) MSInitializationPriority initializationPriority;
-
-/**
- * Get the unique instance.
- *
- * @return unique instance.
- */
-+ (instancetype)sharedInstance;
 
 /**
  * Check if the SDK has been properly initialized and the service can be used. Logs an error in case it wasn't.
@@ -123,6 +101,28 @@ NS_ASSUME_NONNULL_BEGIN
  * @return `YES` if the service is started from an application, `NO` otherwise.
  */
 - (BOOL)isStartedFromApplication;
+
+@optional
+
+/**
+ * Service unique key for storage purpose.
+ *
+ * @discussion: IMPORTANT, This string is used to point to the right storage value for this service. Changing this string results in data
+ * lost if previous data is not migrated.
+ */
+@property(nonatomic, copy, readonly) NSString *groupId;
+
+/**
+ * The channel configuration for this service.
+ */
+@property(nonatomic, readonly) MSChannelUnitConfiguration *channelUnitConfiguration;
+
+/**
+ * Get the unique instance.
+ *
+ * @return unique instance.
+ */
++ (instancetype)sharedInstance;
 
 @end
 
