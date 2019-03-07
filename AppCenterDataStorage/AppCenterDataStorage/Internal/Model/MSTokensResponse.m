@@ -1,15 +1,6 @@
 #import "MSTokensResponse.h"
 #import "MSTokenResult.h"
 
-static NSString *const kMSTokens = @"tokens";
-static NSString *const kMSDbName = @"dbName";
-static NSString *const kMSStatus = @"status";
-static NSString *const kMSPartition = @"partition";
-static NSString *const kMSDbAccount = @"dbAccount";
-static NSString *const kMSDbCollectionName = @"dbCollectionName";
-static NSString *const kMSExpiresOn = @"expiresOn";
-static NSString *const kMSToken = @"token";
-
 @implementation MSTokensResponse
 
 @synthesize tokens = _tokens;
@@ -35,7 +26,8 @@ static NSString *const kMSToken = @"token";
                                                                   dbName:dic[kMSDbName]
                                                         dbCollectionName:dic[kMSDbCollectionName]
                                                                    token:dic[kMSToken]
-                                                                  status:dic[kMSStatus]];
+                                                                  status:dic[kMSStatus]
+                                                               expiresOn:dic[kMSExpiresOn]];
         [tokenArray addObject:result];
       }
       _tokens = tokenArray;

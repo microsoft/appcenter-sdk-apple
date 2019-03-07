@@ -17,7 +17,7 @@ typedef void (^MSGetTokenAsyncCompletionHandler)(MSTokensResponse *tokenResponse
  *
  */
 + (void)tokenAsync:(MSStorageIngestion *)httpIngestion
-           partitions:(NSArray *)partitions
+           partitions:(NSMutableArray *)partitions
     completionHandler:(MSGetTokenAsyncCompletionHandler)completion;
 
 @end

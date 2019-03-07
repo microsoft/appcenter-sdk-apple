@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+#import "MSConstants.h"
 
 @interface MSTokenResult : NSObject
 
@@ -33,6 +34,11 @@
 @property(nonatomic, readonly) NSString *status;
 
 /**
+ * Token status.
+ */
+@property(nonatomic, readonly) NSString *expiresOn;
+
+/**
  * Initialize the Token result object
  *
  * @param partition Databade partition
@@ -49,5 +55,11 @@
                            dbName:(NSString *)dbName
                  dbCollectionName:(NSString *)dbCollectionName
                             token:(NSString *)token
-                           status:(NSString *)status;
+                           status:(NSString *)status
+                        expiresOn:(NSString *)expiresOn;
+
+- (instancetype)initWithString:(NSString *)tokenString;
+
+-(NSString *) serializeToString;
+
 @end
