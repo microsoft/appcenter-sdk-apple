@@ -1,5 +1,4 @@
 #import "MSMockCrashesDelegate.h"
 
-@implementation MSMockCrashesDelegate {
-}
+@implementation MSMockCrashesDelegate
 @end
