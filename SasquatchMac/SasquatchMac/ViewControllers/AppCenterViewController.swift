@@ -10,7 +10,7 @@ class AppCenterViewController : NSViewController, CLLocationManagerDelegate {
   @IBOutlet var logURLLabel : NSTextField?
   @IBOutlet var userIdLabel : NSTextField?
   @IBOutlet var setEnabledButton : NSButton?
-  @IBOutlet weak var overrideCountryCodeButton: NSButton!
+  @IBOutlet var overrideCountryCodeButton: NSButton!
 
   private var locationManager: CLLocationManager = CLLocationManager()
     
@@ -55,6 +55,13 @@ class AppCenterViewController : NSViewController, CLLocationManagerDelegate {
   @IBAction func overrideCountryCode(_ sender: NSButton) {
     if CLLocationManager.locationServicesEnabled() {
       self.locationManager.startUpdatingLocation()
+    }
+    else {
+      let alert : NSAlert = NSAlert()
+      alert.messageText = "Location service is disabled"
+      alert.informativeText = "Please enable location service on your Mac."
+      alert.addButton(withTitle: "OK")
+      alert.runModal()
     }
   }
 }
