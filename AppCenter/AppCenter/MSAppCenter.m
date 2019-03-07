@@ -573,12 +573,12 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
   @synchronized(self) {
 
     // Construct channel group.
-    if (!self.appSecret && self.logUrl != kMSAppCenterBaseUrl) {
-      self.oneCollectorChannelDelegate =
-          self.oneCollectorChannelDelegate ?: [[MSOneCollectorChannelDelegate alloc] initWithInstallId:self.installId baseUrl:self.logUrl];
-    } else {
+    if (self.appSecret) {
       self.oneCollectorChannelDelegate =
           self.oneCollectorChannelDelegate ?: [[MSOneCollectorChannelDelegate alloc] initWithInstallId:self.installId baseUrl:nil];
+    } else {
+      self.oneCollectorChannelDelegate =
+          self.oneCollectorChannelDelegate ?: [[MSOneCollectorChannelDelegate alloc] initWithInstallId:self.installId baseUrl:self.logUrl];
     }
     if (!self.channelGroup) {
       self.channelGroup = [[MSChannelGroupDefault alloc] initWithInstallId:self.installId logUrl:self.logUrl];
