@@ -25,6 +25,8 @@ static NSString *const kMSIdentityPathComponent = @"identity";
 // The Identity config file name.
 static NSString *const kMSIdentityConfigFilename = @"config.json";
 
+static NSString *const kMSIdentityBaseUrl = @"https://mobilecentersdkdev.blob.core.windows.net";
+
 // Singleton
 static MSIdentity *sharedInstance = nil;
 static dispatch_once_t onceToken;
@@ -249,7 +251,7 @@ static dispatch_once_t onceToken;
 
 - (MSIdentityConfigIngestion *)ingestion {
   if (!_ingestion) {
-    _ingestion = [[MSIdentityConfigIngestion alloc] initWithBaseUrl:@"https://mobilecentersdkdev.blob.core.windows.net"
+    _ingestion = [[MSIdentityConfigIngestion alloc] initWithBaseUrl:kMSIdentityBaseUrl
                                                           appSecret:self.appSecret];
   }
   return _ingestion;
