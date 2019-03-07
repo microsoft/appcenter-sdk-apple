@@ -202,8 +202,8 @@ static dispatch_once_t onceToken;
     if (![self canBeUsed]) {
       return;
     }
-    self.signInDelayedAndRetryLater = NO;
     if ([self clearAuthData]) {
+      self.signInDelayedAndRetryLater = NO;
       MSLogInfo([MSIdentity logTag], @"User sign-out succeeded.");
     }
   }
@@ -370,11 +370,10 @@ static dispatch_once_t onceToken;
   NSString *authToken = [MSKeychainUtil deleteStringForKey:kMSIdentityAuthTokenKey];
   if (authToken) {
     MSLogDebug([MSIdentity logTag], @"Removed auth token from keychain.");
-    return YES;
   } else {
     MSLogWarning([MSIdentity logTag], @"Failed to remove auth token from keychain or none was found.");
-    return NO;
   }
+  return authToken != nil;
 }
 
 - (void)acquireTokenSilentlyWithMSALAccount:(MSALAccount *)account {
