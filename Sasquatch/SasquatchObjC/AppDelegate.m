@@ -94,6 +94,11 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
                    });
                  }];
   }
+    
+  NSString *logUrl = [[NSUserDefaults standardUserDefaults] stringForKey:kMSLogUrl];
+  if(logUrl){
+    [MSAppCenter setLogUrl:logUrl];
+  }
 
   // Start App Center SDK.
   NSArray<Class> *services = @ [[MSAnalytics class], [MSCrashes class], [MSDistribute class], [MSPush class]];

@@ -63,6 +63,10 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   func setUserId(_ userId: String?) {
     MSAppCenter.setUserId(userId);
   }
+  
+  func setLogUrl(_ logUrl: String?) {
+    MSAppCenter.setLogUrl(logUrl());
+  }
 
   // Modules section.
   func isAnalyticsEnabled() -> Bool {

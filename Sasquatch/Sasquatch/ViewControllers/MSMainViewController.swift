@@ -14,7 +14,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     
     static let allValues = [AppCenter, OneCollector, Both, None, Skip]
   }
-
+  
   @IBOutlet weak var appCenterEnabledSwitch: UISwitch!
   @IBOutlet weak var startupModeField: UITextField!
   @IBOutlet weak var installId: UILabel!
@@ -27,7 +27,8 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   @IBOutlet weak var storageMaxSizeField: UITextField!
   @IBOutlet weak var storageFileSizeLabel: UILabel!
   @IBOutlet weak var userIdField: UITextField!
-
+  @IBOutlet weak var setLogUrlButton: UIButton!
+  
   var appCenter: AppCenterDelegate!
   private var startupModePicker: MSEnumPicker<StartupMode>?
   private var eventFilterStarted = false
@@ -134,6 +135,36 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     #endif
   }
 
+  @IBAction func changeLogUrl(_ sender: UIButton) {
+    let defaultUrl = "Log url currently set to production"
+    let alertController = UIAlertController(title: "Log Url",
+                                            message: nil,
+                                            preferredStyle:.alert)
+    
+    alertController.addTextField { (logUrlTextField) in
+      logUrlTextField.text = UserDefaults.standard.string(forKey: kMSLogUrl) ?? defaultUrl
+    }
+    
+    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+    
+    let saveAction = UIAlertAction(title: "Save", style: .default, handler:{
+      (_ action : UIAlertAction) -> Void in
+      let text = alertController.textFields?[0].text ?? ""
+      UserDefaults.standard.set(text, forKey: kMSLogUrl)
+      self.appCenter.setLogUrl(text)
+    })
+    
+    let resetAction = UIAlertAction(title: "Reset", style: .destructive, handler:{
+      (_ action : UIAlertAction) -> Void in
+      UserDefaults.standard.set(nil, forKey: kMSLogUrl)
+    })
+    
+    alertController.addAction(cancelAction)
+    alertController.addAction(saveAction)
+    alertController.addAction(resetAction)
+    
+    self.present(alertController, animated: true, completion: nil)
+  }
   @IBAction func userIdChanged(_ sender: UITextField) {
     let text = sender.text ?? ""
     let userId = !text.isEmpty ? text : nil
@@ -144,6 +175,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   @IBAction func dismissKeyboard(_ sender: UITextField!) {
     sender.resignFirstResponder()
   }
+  
 
   func storageMaxSizeUpdated(_ sender: UITextField) {
     let maxSize = Int(sender.text ?? "0") ?? 0
