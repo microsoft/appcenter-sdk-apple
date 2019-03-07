@@ -99,7 +99,7 @@ NSString *const kMSBearerTokenHeaderFormat = @"Bearer %@";
 - (NSString *)obfuscateHeaderValue:(NSString *)value forKey:(NSString *)key {
   if ([key isEqualToString:kMSAuthorizationHeaderKey]) {
     return [MSIngestionUtil hideAuthToken:value];
-  }  else if ([key isEqualToString:kMSHeaderAppSecretKey]) {
+  } else if ([key isEqualToString:kMSHeaderAppSecretKey]) {
     return [MSIngestionUtil hideSecret:value];
   }
   return value;
