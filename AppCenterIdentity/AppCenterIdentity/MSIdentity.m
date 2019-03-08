@@ -35,8 +35,6 @@ static dispatch_once_t onceToken;
 
 @synthesize channelUnitConfiguration = _channelUnitConfiguration;
 
-@synthesize ingestion = _ingestion;
-
 #pragma mark - Service initialization
 
 - (instancetype)init {
