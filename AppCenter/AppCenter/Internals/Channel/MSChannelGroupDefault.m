@@ -85,7 +85,7 @@ static char *const kMSlogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
     synchronizedDelegates = [self.delegates allObjects];
   }
   for (id<MSChannelDelegate> delegate in synchronizedDelegates) {
-    if (delegate && [delegate respondsToSelector:selector]) {
+    if ([delegate respondsToSelector:selector]) {
       block(delegate);
     }
   }

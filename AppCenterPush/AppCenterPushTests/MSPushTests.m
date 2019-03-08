@@ -8,6 +8,7 @@
 
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitProtocol.h"
+#import "MSMockPushDelegate.h"
 #import "MSPush.h"
 #import "MSPushAppDelegate.h"
 #import "MSPushLog.h"
@@ -208,6 +209,51 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 
   // Then
   OCMVerify([pushMock didFailToRegisterForRemoteNotificationsWithError:errorMock]);
+  [pushMock stopMocking];
+}
+
+- (void)testNotificationReceivedWithoutCallback {
+
+  // If
+  XCTestExpectation *notificationReceived = [self expectationWithDescription:@"Valid notification received."];
+  id pushMock = OCMPartialMock(self.sut);
+  OCMStub([pushMock sharedInstance]).andReturn(pushMock);
+  OCMStub([pushMock canBeUsed]).andReturn(YES);
+  [MSPush resetSharedInstance];
+  [MSPush setDelegate:[MSMockPushDelegate new]];
+  __block NSString *message = @"notification message";
+  __block NSDictionary *customData = @{@"key" : @"value"};
+  NSDictionary *userInfo = @{
+    kMSPushNotificationApsKey : @{kMSPushNotificationAlertKey : message}, kMSPushNotificationCustomDataKey : customData
+  };
+#if TARGET_OS_OSX
+  id userNotificationUserInfoMock = OCMClassMock([NSUserNotification class]);
+  id notificationMock = OCMClassMock([NSNotification class]);
+  NSDictionary *notificationUserInfo = @{NSApplicationLaunchUserNotificationKey : userNotificationUserInfoMock};
+  OCMStub([notificationMock userInfo]).andReturn(notificationUserInfo);
+  OCMStub([userNotificationUserInfoMock userInfo]).andReturn(userInfo);
+#endif
+
+  // When
+#if TARGET_OS_OSX
+  [self.sut applicationDidFinishLaunching:notificationMock];
+#else
+  BOOL result = [MSPush didReceiveRemoteNotification:userInfo];
+#endif
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [notificationReceived fulfill];
+  });
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+#if !TARGET_OS_OSX
+  XCTAssertTrue(result);
+#endif
   [pushMock stopMocking];
 }
 
