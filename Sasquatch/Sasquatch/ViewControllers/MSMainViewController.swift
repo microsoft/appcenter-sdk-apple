@@ -153,23 +153,19 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     }
     
     let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-    
     let saveAction = UIAlertAction(title: "Save", style: .default, handler:{
       (_ action : UIAlertAction) -> Void in
       let text = alertController.textFields?[0].text ?? ""
       UserDefaults.standard.set(text, forKey: kMSLogUrl)
       self.appCenter.setLogUrl(text)
     })
-    
     let resetAction = UIAlertAction(title: "Reset", style: .destructive, handler:{
       (_ action : UIAlertAction) -> Void in
       UserDefaults.standard.set(nil, forKey: kMSLogUrl)
     })
-    
     alertController.addAction(cancelAction)
     alertController.addAction(saveAction)
     alertController.addAction(resetAction)
-    
     self.present(alertController, animated: true, completion: nil)
   }
 
