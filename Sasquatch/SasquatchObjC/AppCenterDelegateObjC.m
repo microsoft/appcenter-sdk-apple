@@ -73,8 +73,8 @@
   [MSAppCenter setUserId:userId];
 }
 
-- (void)setLogUrl:(NSString *)logUrl{
-    [MSAppCenter setLogUrl:logUrl];
+- (void)setLogUrl:(NSString *)logUrl {
+  [MSAppCenter setLogUrl:logUrl];
 }
 
 #pragma mark - Modules section.
