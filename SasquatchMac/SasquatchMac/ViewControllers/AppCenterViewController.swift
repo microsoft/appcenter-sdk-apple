@@ -9,7 +9,9 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
   var currentAction = AuthenticationViewController.AuthAction.signin
 
   let kMSAppCenterBundleIdentifier = "com.microsoft.appcenter";
-  let prodLogUrl = "https://in.appcenter.ms"
+  let acProdLogUrl = "https://in.appcenter.ms"
+  let ocProdLogUrl = "https://mobile.events.data.microsoft.com";
+  let startUpModeForCurrentSession: NSInteger = (UserDefaults.standard.object(forKey: kMSStartTargetKey) ?? 0) as! NSInteger
 
   @IBOutlet var installIdLabel : NSTextField?
   @IBOutlet var appSecretLabel : NSTextField?
@@ -42,7 +44,7 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
     super.viewDidLoad()
     installIdLabel?.stringValue = appCenter.installId()
     appSecretLabel?.stringValue = appCenter.appSecret()
-    logURLLabel?.stringValue = appCenter.logUrl()
+    logURLLabel?.stringValue = (UserDefaults.standard.object(forKey: kMSLogUrl) ?? prodLogUrl()) as! String
     userIdLabel?.stringValue = UserDefaults.standard.string(forKey: kMSUserIdKey) ?? ""
     setEnabledButton?.state = appCenter.isAppCenterEnabled() ? 1 : 0
 
@@ -143,7 +145,7 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
     alert.addButton(withTitle: "Cancel")
     let scrollView: NSScrollView = NSScrollView(frame: NSRect(x: 0, y: 0, width: 300, height: 40))
     let textView: NSTextView = NSTextView(frame: NSRect(x: 0, y: 0, width: 290, height: 40))
-    textView.string = UserDefaults.standard.string(forKey: kMSLogUrl) ?? prodLogUrl
+    textView.string = UserDefaults.standard.string(forKey: kMSLogUrl) ?? prodLogUrl()
     scrollView.documentView = textView
     scrollView.hasVerticalScroller = true
     scrollView.contentView.scroll(NSPoint(x: 0, y: textView.frame.size.height))
@@ -151,8 +153,8 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
     alert.alertStyle = NSWarningAlertStyle
     switch(alert.runModal()) {
     case NSAlertFirstButtonReturn:
-      UserDefaults.standard.set(prodLogUrl, forKey: kMSLogUrl)
-      appCenter.setLogUrl(prodLogUrl)
+      UserDefaults.standard.removeObject(forKey: kMSLogUrl)
+      appCenter.setLogUrl(prodLogUrl())
       break
     case NSAlertSecondButtonReturn:
       let text = textView.string ?? ""
@@ -165,6 +167,10 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
     default:
       break
     }
+    logURLLabel?.stringValue = (UserDefaults.standard.object(forKey: kMSLogUrl) ?? prodLogUrl()) as! String
   }
 
+  private func prodLogUrl() -> String {
+    return startUpModeForCurrentSession == 1 ? ocProdLogUrl : acProdLogUrl
+  }
 }

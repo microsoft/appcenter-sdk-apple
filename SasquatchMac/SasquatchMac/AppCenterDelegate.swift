@@ -13,7 +13,6 @@ import AppCenter
   func setCustomProperties(_ customProperties: MSCustomProperties)
   func installId() -> String
   func appSecret() -> String
-  func logUrl() -> String
   func isDebuggerAttached() -> Bool
   func startAnalyticsFromLibrary()
   func setUserId(_ userId: String?)
