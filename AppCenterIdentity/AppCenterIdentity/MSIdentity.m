@@ -204,7 +204,7 @@ static dispatch_once_t onceToken;
 }
 
 - (void)completeSignInWithErrorCode:(NSInteger)errorCode andMessage:(NSString *)errorMessage {
-  if (!self.signInCompletionHandler){
+  if (!self.signInCompletionHandler) {
     return;
   }
   NSError *error = [[NSError alloc] initWithDomain:MSIdentityErrorDomain
