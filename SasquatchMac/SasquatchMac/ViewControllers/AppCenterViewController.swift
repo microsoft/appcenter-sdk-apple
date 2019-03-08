@@ -50,21 +50,7 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, CLLocatio
     
     self.locationManager.delegate = self
     self.locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
-  }
   
-  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-    self.locationManager.stopUpdatingLocation()
-    let userLocation:CLLocation = locations[0] as CLLocation
-    CLGeocoder().reverseGeocodeLocation(userLocation) { (placemarks, error) in
-      if error == nil {
-        self.appCenter.setCountryCode(placemarks?.first?.isoCountryCode)
-      }
-    }
-  }
-  
-  func locationManager(_ Manager: CLLocationManager, didFailWithError error: Error) {
-    print("Failed to find user's location: \(error.localizedDescription)")
-
     deviceIdField?.stringValue = AppCenterViewController.getDeviceIdentifier()!
     let indexNumber = UserDefaults.standard.integer(forKey: kMSStartTargetKey)
     startupModeField.selectItem(at: indexNumber)
@@ -90,7 +76,20 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, CLLocatio
         self.dbFileSource!.resume()
         self.storageFileSizeField.stringValue = "\(getFileSize(dbFile) / 1024)"
     }
-
+  }
+  
+  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    self.locationManager.stopUpdatingLocation()
+    let userLocation:CLLocation = locations[0] as CLLocation
+    CLGeocoder().reverseGeocodeLocation(userLocation) { (placemarks, error) in
+      if error == nil {
+        self.appCenter.setCountryCode(placemarks?.first?.isoCountryCode)
+      }
+    }
+  }
+  
+  func locationManager(_ Manager: CLLocationManager, didFailWithError error: Error) {
+    print("Failed to find user's location: \(error.localizedDescription)")
   }
 
   @IBAction func setEnabled(sender : NSButton) {
@@ -166,5 +165,4 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, CLLocatio
         signInController.action = currentAction
     }
   }
-
 }
