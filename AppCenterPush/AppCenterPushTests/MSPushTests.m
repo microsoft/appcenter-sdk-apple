@@ -245,9 +245,8 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
   [MSPush setDelegate:[MSMockPushDelegate new]];
   __block NSString *message = @"notification message";
   __block NSDictionary *customData = @{@"key" : @"value"};
-  NSDictionary *userInfo = @{
-    kMSPushNotificationApsKey : @{kMSPushNotificationAlertKey : message}, kMSPushNotificationCustomDataKey : customData
-  };
+  NSDictionary *userInfo =
+      @{kMSPushNotificationApsKey : @{kMSPushNotificationAlertKey : message}, kMSPushNotificationCustomDataKey : customData};
 #if TARGET_OS_OSX
   id userNotificationUserInfoMock = OCMClassMock([NSUserNotification class]);
   id notificationMock = OCMClassMock([NSNotification class]);
@@ -278,7 +277,6 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 #endif
   [pushMock stopMocking];
 }
-
 
 - (void)testSendsPushTokenAnonymouslyWhenClearsAuthToken {
 
@@ -342,21 +340,21 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 }
 
 - (void)testDidFailToRegisterForRemoteNotificationsWithError {
-  
+
   // If
   id pushMock = OCMPartialMock(self.sut);
   OCMStub([pushMock sharedInstance]).andReturn(pushMock);
   [MSPush resetSharedInstance];
   NSError *errorMock = OCMClassMock([NSError class]);
-  
+
   // When
   [MSPush didFailToRegisterForRemoteNotificationsWithError:errorMock];
-  
+
   // Then
   OCMVerify([pushMock didFailToRegisterForRemoteNotificationsWithError:errorMock]);
   [pushMock stopMocking];
 }
-  
+
 - (void)testNotificationReceivedWithMobileCenterCustomData {
 
   // If
