@@ -186,11 +186,13 @@ static dispatch_once_t onceToken;
 
 - (void)signIn {
   if ([[MS_Reachability reachabilityForInternetConnection] currentReachabilityStatus] == NotReachable) {
-    [self completeSignInWithErrorCode:MSIdentityErrorSignInWhenNoConnection andMessage:@"User sign-in failed. Internet connection is down."];
+    [self completeSignInWithErrorCode:MSIdentityErrorSignInWhenNoConnection
+                           andMessage:@"User sign-in failed. Internet connection is down."];
     return;
   }
   if (self.clientApplication == nil || self.identityConfig == nil) {
-    [self completeSignInWithErrorCode:MSIdentityErrorSignInBackgroundOrNotConfigured andMessage:@"signIn is called while it's not configured or not in the foreground."];
+    [self completeSignInWithErrorCode:MSIdentityErrorSignInBackgroundOrNotConfigured
+                           andMessage:@"signIn is called while it's not configured or not in the foreground."];
     return;
   }
   MSALAccount *account = [self retrieveAccountWithAccountId:[self retrieveAccountId]];
@@ -247,8 +249,7 @@ static dispatch_once_t onceToken;
 
 - (MSIdentityConfigIngestion *)ingestion {
   if (!_ingestion) {
-    _ingestion = [[MSIdentityConfigIngestion alloc] initWithBaseUrl:kMSIdentityBaseUrl
-                                                          appSecret:self.appSecret];
+    _ingestion = [[MSIdentityConfigIngestion alloc] initWithBaseUrl:kMSIdentityBaseUrl appSecret:self.appSecret];
   }
   return _ingestion;
 }
