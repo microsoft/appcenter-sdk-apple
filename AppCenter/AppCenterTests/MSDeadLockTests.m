@@ -39,11 +39,15 @@ static MSDummyService2 *sharedInstanceService2 = nil;
   return @"service1";
 }
 
-- (void)channel:(id<MSChannelProtocol>)channel didPrepareLog:(id<MSLog>)log internalId:(NSString *)internalId flags:(MSFlags)flags {
+- (void)channel:(__unused id<MSChannelProtocol>)channel
+    didPrepareLog:(__unused id<MSLog>)log
+       internalId:(__unused NSString *)internalId
+            flags:(__unused MSFlags)flags {
 
   // Operation locking AC while in ChannelDelegate.
   NSUUID *__unused deviceId = [MSAppCenter installId];
 }
+
 - (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup
                     appSecret:(nullable NSString *)appSecret
       transmissionTargetToken:(nullable NSString *)token

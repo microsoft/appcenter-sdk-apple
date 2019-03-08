@@ -508,7 +508,7 @@
 - (void)enumerateDelegatesForSelector:(SEL)selector withBlock:(void (^)(id<MSChannelDelegate> delegate))block {
   @synchronized(self.delegates) {
     for (id<MSChannelDelegate> delegate in self.delegates) {
-      if (delegate && [delegate respondsToSelector:selector]) {
+      if ([delegate respondsToSelector:selector]) {
         block(delegate);
       }
     }
@@ -520,11 +520,11 @@
     for (id<MSChannelDelegate> delegate in self.delegates) {
 
       // Call willSendLog before didFailSendingLog
-      if (delegate && [delegate respondsToSelector:@selector(channel:willSendLog:)])
+      if ([delegate respondsToSelector:@selector(channel:willSendLog:)])
         [delegate channel:self willSendLog:item];
 
       // Call didFailSendingLog
-      if (delegate && [delegate respondsToSelector:@selector(channel:didFailSendingLog:withError:)])
+      if ([delegate respondsToSelector:@selector(channel:didFailSendingLog:withError:)])
         [delegate channel:self didFailSendingLog:item withError:error];
     }
   }

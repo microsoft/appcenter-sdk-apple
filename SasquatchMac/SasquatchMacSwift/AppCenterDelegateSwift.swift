@@ -15,6 +15,9 @@ class AppCenterDelegateSwift : AppCenterDelegate {
   func setAppCenterEnabled(_ isEnabled: Bool) {
     MSAppCenter.setEnabled(isEnabled)
   }
+  func setCountryCode(_ countryCode: String?) {
+    MSAppCenter.setCountryCode(countryCode)
+  }
   func setCustomProperties(_ customProperties: MSCustomProperties){
     MSAppCenter.setCustomProperties(customProperties)
   }

@@ -443,12 +443,13 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
     return;
   }
   NSObject *logObject = (NSObject *)log;
-  if ([logObject isKindOfClass:[MSEventLog class]] && [self.delegate respondsToSelector:@selector(analytics:willSendEventLog:)]) {
+  id<MSAnalyticsDelegate> delegate = self.delegate;
+  if ([logObject isKindOfClass:[MSEventLog class]] && [delegate respondsToSelector:@selector(analytics:willSendEventLog:)]) {
     MSEventLog *eventLog = (MSEventLog *)log;
-    [self.delegate analytics:self willSendEventLog:eventLog];
-  } else if ([logObject isKindOfClass:[MSPageLog class]] && [self.delegate respondsToSelector:@selector(analytics:willSendPageLog:)]) {
+    [delegate analytics:self willSendEventLog:eventLog];
+  } else if ([logObject isKindOfClass:[MSPageLog class]] && [delegate respondsToSelector:@selector(analytics:willSendPageLog:)]) {
     MSPageLog *pageLog = (MSPageLog *)log;
-    [self.delegate analytics:self willSendPageLog:pageLog];
+    [delegate analytics:self willSendPageLog:pageLog];
   }
 }
 
@@ -474,14 +475,15 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
     return;
   }
   NSObject *logObject = (NSObject *)log;
-  if ([logObject isKindOfClass:[MSEventLog class]] && [self.delegate respondsToSelector:@selector(analytics:
+  id<MSAnalyticsDelegate> delegate = self.delegate;
+  if ([logObject isKindOfClass:[MSEventLog class]] && [delegate respondsToSelector:@selector(analytics:
                                                                                             didFailSendingEventLog:withError:)]) {
     MSEventLog *eventLog = (MSEventLog *)log;
-    [self.delegate analytics:self didFailSendingEventLog:eventLog withError:error];
-  } else if ([logObject isKindOfClass:[MSPageLog class]] && [self.delegate respondsToSelector:@selector(analytics:
+    [delegate analytics:self didFailSendingEventLog:eventLog withError:error];
+  } else if ([logObject isKindOfClass:[MSPageLog class]] && [delegate respondsToSelector:@selector(analytics:
                                                                                                   didFailSendingPageLog:withError:)]) {
     MSPageLog *pageLog = (MSPageLog *)log;
-    [self.delegate analytics:self didFailSendingPageLog:pageLog withError:error];
+    [delegate analytics:self didFailSendingPageLog:pageLog withError:error];
   }
 }
 

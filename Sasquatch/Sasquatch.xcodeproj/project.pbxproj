@@ -741,6 +741,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		040856192231C87000977E8F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		041A4BB01F8C28A3009E1B6C /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Sasquatch.strings; sourceTree = "<group>"; };
 		041A4BB21F8C29E7009E1B6C /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Sasquatch.strings; sourceTree = "<group>"; };
 		041A4BB31F8C2A33009E1B6C /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Sasquatch.strings; sourceTree = "<group>"; };
