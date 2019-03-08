@@ -14,7 +14,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     
     static let allValues = [AppCenter, OneCollector, Both, None, Skip]
   }
-  
+
   @IBOutlet weak var appCenterEnabledSwitch: UISwitch!
   @IBOutlet weak var startupModeField: UITextField!
   @IBOutlet weak var installId: UILabel!
@@ -175,7 +175,6 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   @IBAction func dismissKeyboard(_ sender: UITextField!) {
     sender.resignFirstResponder()
   }
-  
 
   func storageMaxSizeUpdated(_ sender: UITextField) {
     let maxSize = Int(sender.text ?? "0") ?? 0

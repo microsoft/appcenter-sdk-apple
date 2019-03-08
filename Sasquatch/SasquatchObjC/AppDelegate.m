@@ -94,9 +94,9 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
                    });
                  }];
   }
-    
+
   NSString *logUrl = [[NSUserDefaults standardUserDefaults] stringForKey:kMSLogUrl];
-  if(logUrl){
+  if (logUrl) {
     [MSAppCenter setLogUrl:logUrl];
   }
 
