@@ -33,7 +33,7 @@ static NSString *const kMSDisableAll = @"All";
 
 @property(nonatomic, copy) NSString *defaultTransmissionTargetToken;
 
-@property(nonatomic, copy) NSString *logUrl;
+@property(atomic, copy) NSString *logUrl;
 
 @property(nonatomic, readonly) NSUUID *installId;
 
