@@ -31,10 +31,10 @@ NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){
 }
 
 - (instancetype)initWithInstallId:(NSUUID *)installId baseUrl:(nullable NSString *)baseUrl {
+  _baseUrl = baseUrl ?: kMSOneCollectorBaseUrl;
   self = [self init];
   if (self) {
     _installId = installId;
-    _baseUrl = baseUrl ?: kMSOneCollectorBaseUrl;
   }
   return self;
 }
