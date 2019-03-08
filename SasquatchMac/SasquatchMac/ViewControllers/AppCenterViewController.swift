@@ -152,13 +152,13 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
     switch(alert.runModal()) {
     case NSAlertFirstButtonReturn:
       UserDefaults.standard.set(prodLogUrl, forKey: kMSLogUrl)
-      MSAppCenter.setLogUrl(prodLogUrl)
+      appCenter.setLogUrl(prodLogUrl)
       break
     case NSAlertSecondButtonReturn:
       let text = textView.string ?? ""
       let logUrl = !text.isEmpty ? text : nil
       UserDefaults.standard.set(logUrl, forKey: kMSLogUrl)
-      MSAppCenter.setLogUrl(logUrl)
+      appCenter.setLogUrl(logUrl)
       break
     case NSAlertThirdButtonReturn:
       break
