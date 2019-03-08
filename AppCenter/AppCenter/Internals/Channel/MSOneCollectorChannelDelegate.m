@@ -20,21 +20,14 @@ NSString *const kMSLogNameRegex = @"^[a-zA-Z0-9]((\\.(?!(\\.|$)))|[_a-zA-Z0-9]){
 
 @implementation MSOneCollectorChannelDelegate
 
-- (instancetype)init {
-  self = [super init];
-  if (self) {
-    _oneCollectorChannels = [NSMutableDictionary new];
-    _oneCollectorIngestion = [[MSOneCollectorIngestion alloc] initWithBaseUrl:self.baseUrl];
-    _epochsAndSeqsByIKey = [NSMutableDictionary new];
-  }
-  return self;
-}
-
 - (instancetype)initWithInstallId:(NSUUID *)installId baseUrl:(nullable NSString *)baseUrl {
-  _baseUrl = baseUrl ?: kMSOneCollectorBaseUrl;
   self = [self init];
   if (self) {
     _installId = installId;
+    _baseUrl = baseUrl ?: kMSOneCollectorBaseUrl;
+    _oneCollectorChannels = [NSMutableDictionary new];
+    _oneCollectorIngestion = [[MSOneCollectorIngestion alloc] initWithBaseUrl:_baseUrl];
+    _epochsAndSeqsByIKey = [NSMutableDictionary new];
   }
   return self;
 }
