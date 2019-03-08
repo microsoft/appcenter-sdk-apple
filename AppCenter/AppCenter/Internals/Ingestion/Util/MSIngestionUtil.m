@@ -35,4 +35,11 @@
   return [secret stringByReplacingCharactersInRange:NSMakeRange(0, appSecretHiddenPart.length) withString:appSecretHiddenPart];
 }
 
++ (NSString *)hideAuthToken:(NSString *)token {
+
+  // Hide token value.
+  NSString *prefix = [[token componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] firstObject];
+  return [prefix stringByAppendingString:@" ***"];
+}
+
 @end

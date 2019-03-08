@@ -22,6 +22,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 @interface MSIdentity (Test)
 
 - (void)configAuthenticationClient;
+- (BOOL)removeAccount;
+- (BOOL)removeAuthToken;
+- (void)removeAccountId;
 
 @end
 
@@ -382,6 +385,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [self.settingsMock setObject:oldETag forKey:kMSIdentityETagKey];
   NSData *invalidData = [@"InvalidData" dataUsingEncoding:NSUTF8StringEncoding];
   OCMStub([self.ingestionMock sendAsync:nil eTag:oldETag completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+
     // Get ingestion block for later call.
     [invocation retainArguments];
     [invocation getArgument:&ingestionBlock atIndex:4];
@@ -858,6 +862,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [MSIdentity signOut];
 
   // Then
+  OCMVerify([identityMock removeAccount]);
   OCMVerify([self.clientApplicationMock removeAccount:OCMOCK_ANY error:[OCMArg anyObjectRef]]);
   [identityMock stopMocking];
 }
@@ -876,6 +881,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // When
   [MSIdentity signOut];
+  XCTAssertFalse([self.sut removeAccount]);
 
   // Then
   XCTAssertNil(self.sut.clientApplication);
@@ -897,6 +903,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // When
   [MSIdentity signOut];
+  XCTAssertTrue([self.sut removeAccount]);
 
   // Then
   XCTAssertNil([self.settingsMock objectForKey:kMSIdentityMSALAccountHomeAccountKey]);
@@ -917,8 +924,43 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [MSIdentity signOut];
 
   // Then
+  OCMVerify([identityMock removeAuthToken]);
+  OCMVerify([identityMock removeAccountId]);
   XCTAssertNil([MSMockKeychainUtil stringForKey:kMSIdentityAuthTokenKey]);
   XCTAssertNil([self.settingsMock objectForKey:kMSIdentityMSALAccountHomeAccountKey]);
+  [identityMock stopMocking];
+}
+
+- (void)testRemoveAuthToken {
+
+  // If
+  [MSMockKeychainUtil storeString:@"someToken" forKey:kMSIdentityAuthTokenKey];
+
+  // When
+  XCTAssertTrue([self.sut removeAuthToken]);
+  XCTAssertFalse([self.sut removeAuthToken]);
+}
+
+- (void)testSignOutResetsDelayedLoginFlag {
+
+  // If
+  self.sut.signInDelayedAndRetryLater = YES;
+  NSString *accountId = @"someAccount";
+  [[MSAuthTokenContext sharedInstance] setAuthToken:@"someToken" withAccountId:accountId];
+  [MSMockKeychainUtil storeString:@"someToken" forKey:kMSIdentityAuthTokenKey];
+  [self.settingsMock setObject:accountId forKey:kMSIdentityMSALAccountHomeAccountKey];
+  id accountMock = OCMPartialMock([MSALAccount new]);
+  self.sut.clientApplication = self.clientApplicationMock;
+  OCMStub([self.clientApplicationMock accountForHomeAccountId:accountId error:[OCMArg anyObjectRef]]).andReturn(accountMock);
+  id identityMock = OCMPartialMock(self.sut);
+  OCMStub([identityMock sharedInstance]).andReturn(identityMock);
+  OCMStub([identityMock canBeUsed]).andReturn(YES);
+
+  // When
+  [MSIdentity signOut];
+
+  // Then
+  XCTAssertFalse(self.sut.signInDelayedAndRetryLater);
   [identityMock stopMocking];
 }
 
@@ -933,6 +975,9 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
 
   // Then
   OCMReject([mockDelegate authTokenContext:OCMOCK_ANY didSetNewAuthToken:OCMOCK_ANY]);
+  OCMReject([identityMock removeAccount]);
+  OCMReject([identityMock removeAuthToken]);
+  OCMReject([identityMock removeAccountId]);
 
   // When
   [MSIdentity signOut];
