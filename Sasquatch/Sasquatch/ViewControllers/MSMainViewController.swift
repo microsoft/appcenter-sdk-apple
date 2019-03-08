@@ -147,11 +147,9 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     let alertController = UIAlertController(title: "Log Url",
                                             message: nil,
                                             preferredStyle:.alert)
-    
     alertController.addTextField { (logUrlTextField) in
       logUrlTextField.text = UserDefaults.standard.string(forKey: kMSLogUrl) ?? defaultUrl
     }
-    
     let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
     let saveAction = UIAlertAction(title: "Save", style: .default, handler:{
       (_ action : UIAlertAction) -> Void in
